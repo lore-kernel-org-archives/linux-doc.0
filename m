@@ -2,128 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A6CC6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 08:23:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 278EEC76195
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 08:56:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbjCQIXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 04:23:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57040 "EHLO
+        id S230016AbjCQI4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 04:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230091AbjCQIXI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 04:23:08 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E11A5E4;
-        Fri, 17 Mar 2023 01:22:35 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id q189so2429925pga.9;
-        Fri, 17 Mar 2023 01:22:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679041352;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CvZiznDb8feEQFPyw13u7jzCgvHCPleXRdMTnsLV7lw=;
-        b=C8TyryX7x0nOZ97prNCZujblQ48n0MKZf+xrMx4QaLu0I/EHiQXEr9P1ACNGDKEGMl
-         AwaKjtQUhL2sK4kCKib3CImwYzmS8e+Ew83YM5u/6gghKH1lTImrrwiTnWoCSy42BVIk
-         nfT0kyS9bwedBVEzkf9jffVgYxAktc2x4tLFUEDR+gr6QSRcIfrHCbqRELGn+UsgrljO
-         VFsvNInVq0rQocz9c1jqHK/fiAhYib6Lf4T4mi0UxtvmqVm/2catXHsNRqlHB9qaKEkA
-         E7BT0U359ir9fFvyLffQa3FuWq9IMF/7rPCHlDzavP8nVh0XdNEzLO7kfO4FBlzLIHAN
-         qy+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679041352;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CvZiznDb8feEQFPyw13u7jzCgvHCPleXRdMTnsLV7lw=;
-        b=CjviwO4+vc8fGfOdGsE/NFTooJunLfsxAxL9/T/6McAXNfWALyiCJSKJuvos9UAxdv
-         XmwiXFBKIzBCmnkVVZgbI5ZU2p/9jcavHKQehXMPFO7XVsYN8yIZ8XGhgAqAerx/BBGw
-         XsKOY9RW1LjIZOfiPRQ98M96PP9zfSNs6thNwvsX3p/a3ubjtuDBNcxIFOPrZnUCPHHJ
-         wgcoWrRlFxZaji8BHKMrdm/k/iv+Wy9BpweHbaYGEkTjmo2ki5Qnd+Frjwi3N19kTerl
-         ku7eZnH/qgUdrr/fNAR0wPFypWbXDvF1YDmEJvT2QAXIdL88a1SKldC+5ddnqkUAzMED
-         anRg==
-X-Gm-Message-State: AO0yUKVWpYCw9T1i72nfaxyc3bVFSlC3Zs7Ac0OIS2/mLVssCQXSVoy3
-        d/UEeDMgiOGkixtycO5y6ho=
-X-Google-Smtp-Source: AK7set/FA59a7uWFIVnTi0ZBQn89n77yG+1RamBNmOtXukjVceklC42Q/lvsQUOox1U2EBkHEC24vg==
-X-Received: by 2002:aa7:9830:0:b0:625:55e5:afe4 with SMTP id q16-20020aa79830000000b0062555e5afe4mr6021026pfl.26.1679041352007;
-        Fri, 17 Mar 2023 01:22:32 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-2.three.co.id. [180.214.232.2])
-        by smtp.gmail.com with ESMTPSA id s24-20020aa78298000000b005d4360ed2bbsm964214pfm.197.2023.03.17.01.22.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 01:22:31 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 9737C106581; Fri, 17 Mar 2023 15:22:28 +0700 (WIB)
-Date:   Fri, 17 Mar 2023 15:22:28 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        akpm@linux-foundation.org
-Cc:     linux-kernel@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] ELF: document some de-facto PT_* ABI quirks
-Message-ID: <ZBQjRLiXOwfmoIs+@debian.me>
-References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
- <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
+        with ESMTP id S231240AbjCQI4p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 04:56:45 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5617C69206
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 01:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679043376; x=1710579376;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZulOP3t7LVO+tymMsNlteIrer0a8d7gcp6PEELWfYGc=;
+  b=FrShi1f8hyUnd5U1cdavhoal97OuCnGm37kEO1y3TelS8JcJE/yU0I9f
+   anRAnh7uX+Y0xdXTEtgJE8Z5DIsg+HUmG4MO2q9KCYAwxsEaPeqojHmnC
+   exzG+B72VfTSo/asIpyW/xbjwd7bZUnx1704AowgF/pnNV4LLl9UCyKkk
+   DFAhQbJ0SpIy8JFz2wAV1QMGcANi1EYioaDlpZdaEVYiaKh3PDXCXYmvN
+   kQnEcEdJcy3YznhqCcvg20oGZwPG2XaPU7CDzHDz2xK7ApSZ98VIllmO4
+   5Vw+OxOkCT4Og0KG7zzxGD63+so9xKVam2B2WdIE6FZuAUhhrn33oIKOE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="317869973"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="317869973"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 01:56:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="769293413"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="769293413"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Mar 2023 01:56:03 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pd5sY-0009F0-0k;
+        Fri, 17 Mar 2023 08:56:02 +0000
+Date:   Fri, 17 Mar 2023 16:55:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Gaurav Jain <gaurav.jain@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        linux-doc@vger.kernel.org
+Subject: [linux-next:master 4213/4413] htmldocs: Warning:
+ Documentation/devicetree/bindings/input/snvs-pwrkey.txt references a file
+ that doesn't exist: Documentation/devicetree/bindings/crypto/fsl-sec4.txt
+Message-ID: <202303171606.xoYwr7Lj-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xx//7xiLGuGFtrC6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f08c1de13a9403341c18b66638a05588b2663ce
+commit: 0a4ca303ece25a84a92eda476cf8944d81e8e2c7 [4213/4413] dt-bindings: crypto: fsl,sec-v4.0: Convert to DT schema
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=0a4ca303ece25a84a92eda476cf8944d81e8e2c7
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 0a4ca303ece25a84a92eda476cf8944d81e8e2c7
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
---xx//7xiLGuGFtrC6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171606.xoYwr7Lj-lkp@intel.com/
 
-On Tue, Mar 14, 2023 at 07:34:11PM -0700, Randy Dunlap wrote:
-> Hi,
->=20
-> [adding linux-doc for other interested parties]
+All warnings (new ones prefixed by >>):
 
-Unfortunately akpm had already applied this doc as 60b38b7cbb295d ("ELF:
-document some de-facto PT_* ABI quirks") while it being reviewed and
-doesn't have any consensus yet.
+>> Warning: Documentation/devicetree/bindings/input/snvs-pwrkey.txt references a file that doesn't exist: Documentation/devicetree/bindings/crypto/fsl-sec4.txt
+>> Warning: Documentation/devicetree/bindings/rtc/snvs-rtc.txt references a file that doesn't exist: Documentation/devicetree/bindings/crypto/fsl-sec4.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/crypto/fsl-sec4.txt
 
-> And could the document have a title, like:
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> ELF header usage in Linux
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-
-The current doc path is Documentation/ELF/ELF.rst, which means that
-readers expect to find general info about the executable format, not
-some sort of trivia/niche like this.
-
->=20
-> (I just made that up. Feel free to change it. :)
->=20
-> Also, the .rst file should be added to some chapter in the current
-> documentation tree, such as under "Other documentation", so add this file=
- name
-> to Documentation/staging/index.rst. In fact this file could live in
-> Documentation/staging instead of in Documentation/ELF/ (IMO of course).
-
-If there are more ELF docs there then a separate directory may be
-warranted.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---xx//7xiLGuGFtrC6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBQjPwAKCRD2uYlJVVFO
-owcuAP4lDPdQVO6AVHUCej5SAiOUSoMlyrGjiEIDl26TaprLNgD+K4PvtF55ZbCc
-XjJzxMW1l5SXOEdmoWt8jltxCwrvWAg=
-=eLk5
------END PGP SIGNATURE-----
-
---xx//7xiLGuGFtrC6--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
