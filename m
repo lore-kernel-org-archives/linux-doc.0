@@ -2,563 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CE58C7619A
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Mar 2023 04:58:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E23C74A5B
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Mar 2023 11:55:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbjCRE6j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Mar 2023 00:58:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41620 "EHLO
+        id S229733AbjCRLzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Mar 2023 07:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjCRE6i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Mar 2023 00:58:38 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5700F1CF65;
-        Fri, 17 Mar 2023 21:58:35 -0700 (PDT)
+        with ESMTP id S229473AbjCRLzI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Mar 2023 07:55:08 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2050.outbound.protection.outlook.com [40.107.6.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3000CF8;
+        Sat, 18 Mar 2023 04:55:06 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k0nILEAmA6+Ws99g4xaWB3emTMPmYGN2BAephPVIoIZZ38JN1lN6cyJeHHB7umnDaHvipXh55BN/i5scy8SPZ1kJ6S2BNXkQ5gk5/HI7/ooltZFPECYMMnjWciPcg/hRURg3e48XKLfoKpXcRjdx50dzMqQs9S5yrg6SpTHhCA/RoD/YW5nkh5TnRnWYLhxb/S8zOwwu4TIHBuy++Ruk7rRoZV9CWNkbtB0lZvfdedyKmau3T5+LC5DHKnx5K4VH7rqlQhQmuHAenISjlC/xV5Lf87carfyKRIDmdS/tYsnAuvTi2zCAs0bunKYeOnLhLUEFwmSKKvXV9wn5FiuLlg==
+ b=n/dWuCL2BmN+rV89TVVZ6G2zft+K8fk6i9wIxElEbfLGGo0Am90mskhOVqZZInNJ90sQgg/KVoy21V9eU3yWKZtzJZikhRZUKeyhZX7TVaJW0XXFNs+XpexURnwU0nZzjrzjmhz6K2rMtU6aRzvVd/JV5zkbIIHex1cmshGl1usomZO3brndlSnvdclk5lGkJy72ZALu/fHZ0ygwFwpqL5IZBTLC4F+LLRnLVrFiik2yPdIjy4JUspBRI8rg58lI1McpCAU9jtuX8DO4pRTg5spCiy6awDh8egud0n2iMhOVe1uIZN798ZFZ3qTYLnyGRdRDypJMYb8GOgDfSNj/pg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y3uvbtdAg2tIajBnu73kMlQWQrcZeo/AVtmJGn/a7KM=;
- b=aP1LnwONVRKIbNtw/B/PKG1bETzThnQQ5bQSvzCAsP5uevC/QiP4mTLchwmDRq7z0spzkFImlRDEi9oxxpbqUvNSofcCqkhW2QwezNMQR7i4LV2BjPSXMw2rmytWRYwFBc89w65BEHY4yyBPAOdheWL7hIlCPhHP7j36SUs8Mq/cGMrk90uJeYGM9qrNQeM/kNWIicRaLavNxP10SUnsZbbpgqRu3+dEhhl89FWtwCJ822ukkLlMXar0jZoenJ5NUFHXjaYZ2YL5U+hQDY1ZXkxnCCg6h3NJXc1hIMnSy3kxuKsBcEdAXFVIevix7x/IJvo0ZODlEIK9ZIg8HT9mqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=hP7pK2hgKL4eGGpIoQtbBVlFL/iTyog1C5fpkJ7H9t8=;
+ b=ltn5AGnRikR/RofuKHi+walt/mzJ7T8qmMnAQowTFTKntETZlHyTbNxULQ1VyLFlSQN/y5vOXotFdUD3MYoMcHpq3aQ+MC75Rhai5Fa3lnuhnIdNfVZFGDRGZr6kjdQPzSfmYKFot1QJ4qwFaCePUY/ktagnrKGpGlZzglxyfqrLtJX3pAA+oh/gd8poit20wCYdaugZ95/ij9ALsYhuCjamqhr9rkBHc5RuXWZy3YXzKh2g2jxo7aJE5D20VklCJ60Q2qai2gm3hCZI6AiKSjZY+32Qj28NNIkRLYjfC8IkKjUUk6sgmQlB3scn7RX6TN96kzvfwAAh2aH7rnoEkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y3uvbtdAg2tIajBnu73kMlQWQrcZeo/AVtmJGn/a7KM=;
- b=HZNkPjtW6eq1dciSDL84+ui5sngElOzsZZSArNyYmTjO1Ix5jq0hRO0ssFpBAoCb+k4oaxnUG9B7q3ddMHcaqb5I11Zc7YTF2G8mvI0VT41XWc0v8gf5tzGjgRZuQCdY0gy3j0qSnj3RCnu/y4RShZ8oNWisB2Vl+F/l9/iYLta7rChdRptEtIUARKomWuwmJJkWlOh57LWe7g0yurSXOtv4UZB95tTD1ln5w1XW1wuw1Y5yersoAna2Xp7rdeDzuAm9JU+fUa/Oe2B8XaHVP75l0A2/e4Ea74dkn4iX5FA0d+mGuegMXh0F1DEYJMTL/Yb1AnqsUJeCRM84MewoBA==
-Received: from BN9P223CA0012.NAMP223.PROD.OUTLOOK.COM (2603:10b6:408:10b::17)
- by SJ1PR12MB6146.namprd12.prod.outlook.com (2603:10b6:a03:45b::6) with
+ bh=hP7pK2hgKL4eGGpIoQtbBVlFL/iTyog1C5fpkJ7H9t8=;
+ b=oHJJL+3tjJjbdg5t5zoiwLqszLyDQGrCJkTYveu8qcL/6copmlZNEeyS5HU6m6kIh40pZtK7iFhbzCCB/XEYEf31eQ6rZaXDUVjiHUl3qdTb69DjF05MhdZ9fHmQ0m/gHvlmByJfMspgfY+T2MKDR5+X4iRSfz5q7Ykpwd3SZ3s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
+ by PR3PR04MB7404.eurprd04.prod.outlook.com (2603:10a6:102:8f::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.36; Sat, 18 Mar
- 2023 04:58:31 +0000
-Received: from BN8NAM11FT112.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10b:cafe::16) by BN9P223CA0012.outlook.office365.com
- (2603:10b6:408:10b::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.36 via Frontend
- Transport; Sat, 18 Mar 2023 04:58:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN8NAM11FT112.mail.protection.outlook.com (10.13.176.210) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6222.11 via Frontend Transport; Sat, 18 Mar 2023 04:58:30 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Fri, 17 Mar 2023
- 21:58:16 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Fri, 17 Mar
- 2023 21:58:16 -0700
-Received: from SDONTHINENI-DESKTOP.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.986.5 via Frontend
- Transport; Fri, 17 Mar 2023 21:58:15 -0700
-From:   Shanker Donthineni <sdonthineni@nvidia.com>
-To:     Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
+ 2023 11:55:03 +0000
+Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::29a3:120c:7d42:3ca8]) by AM0PR04MB6452.eurprd04.prod.outlook.com
+ ([fe80::29a3:120c:7d42:3ca8%7]) with mapi id 15.20.6178.036; Sat, 18 Mar 2023
+ 11:55:02 +0000
+Date:   Sat, 18 Mar 2023 13:54:57 +0200
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Richard Cochran <richardcochran@gmail.com>,
+        =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Michael Walle <michael@walle.cc>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        "Sudeep Holla" <sudeep.holla@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Shanker Donthineni <sdonthineni@nvidia.com>,
-        Vikram Sethi <vsethi@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: [PATCH v4] irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
-Date:   Fri, 17 Mar 2023 23:58:12 -0500
-Message-ID: <20230318045812.2043117-1-sdonthineni@nvidia.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-X-NVConfidentiality: public
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
+        Jie Wang <wangjie125@huawei.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Sean Anderson <sean.anderson@seco.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Marco Bonelli <marco@mebeim.net>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <20230318115457.gtfvq6gom3jew2qc@skbuf>
+References: <20230310114852.3cef643d@kmaincent-XPS-13-7390>
+ <20230310113533.l7flaoli7y3bmlnr@skbuf>
+ <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
+ <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
+ <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
+ <20230313084059.GA11063@pengutronix.de>
+ <20230316160920.53737d1c@kmaincent-XPS-13-7390>
+ <20230317152150.qahrr6w5x4o3eysz@skbuf>
+ <ZBUyST3kDP1ZE1lF@hoboy.vegasvil.org>
+ <20230317210306.346e80ea@kernel.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
+In-Reply-To: <20230317210306.346e80ea@kernel.org>
+X-ClientProxiedBy: VI1PR08CA0130.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::32) To AM0PR04MB6452.eurprd04.prod.outlook.com
+ (2603:10a6:208:16d::21)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT112:EE_|SJ1PR12MB6146:EE_
-X-MS-Office365-Filtering-Correlation-Id: a960a982-f6aa-4608-b862-08db276d6b2d
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|PR3PR04MB7404:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f962c2f-a98f-4cab-1fa4-08db27a79b5b
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ni4NVflvHIAYMHPIgS2S3M3Mtle+uvKmA+mU+xa2TcYjhlbIGVXPX1ZVCEEIoH7Eab1QDuljSHwMFYhAZPLqogG6jwwyxTkYxrbkTjgfPVR5zzftyQHvSRIXFWPcwakA8Oy6danhQIFEwscijy7lV1aU617obKYUHCD6u+hJY0n9i/CkaTALZKe8c/3iB9V2VA3VnU+LpdIpDgnN2AzYcdhit46LrSqHBmC4g3xcyRR4S9uw8Z3teqDI6JL6/ATQsBRFDR/ko4pILeXZwa9dbygA3CLT1UnVTM6dbodEq+Pc11A0L9BGI+kHYbc1y5TdM4mV/N7cJ/99SZMMaBwnrwB/muSuttlqSdjuYe6hn0iFDm7ZROgwplsxDRJp2iTc6tmk+TQrJv//MalScwyRObr6azUnnrfEREOXBa25BIQtH7bP4jc7JAw2kO6Crgy/qQfmCQ1NsbC4Nfjj0aIjrx8j6B3WoFfdNQGQNjVRJMVZeiKtJpJeyXIGSVpZ2S/BN6iuqD9kiS8PqigpeOyz71CWU85IKQhjWdQANzMHxig9O5ZALze6G90mmetCk6RRRpVg+91e9kp96PW16aAQ05C4zoRtkdTHFl7x8HKcbL01+TN5a/IGJkFjuuBG2+g0lgWg6nzNFaSf3EDbMxGoPkW0hdr5P6tkPrS0XgAY1Do5byzHa4pJ51Q2PHXOswGs6rezbpv5uLlmIW9RHNkKPJSYoL3Mtx7gtWkJrz/ga/W5erZesDpaZJDnRWiZYEtRpNeGVcHDfwAunqt7EsVSOMqdNl8rQM+RFeaSyyEUhF44RCuYIH/zt6u83i7Z7JSGCOhEOSuK6m2GYE45KKY4XGhTzyy3wqNw17X3Mr/CTn8=
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(376002)(396003)(346002)(136003)(39860400002)(451199018)(40470700004)(36840700001)(46966006)(86362001)(82310400005)(40460700003)(36756003)(40480700001)(7696005)(83380400001)(316002)(8676002)(4326008)(70586007)(70206006)(478600001)(110136005)(54906003)(186003)(26005)(1076003)(336012)(2616005)(966005)(426003)(47076005)(107886003)(6666004)(356005)(921005)(7416002)(30864003)(36860700001)(8936002)(5660300002)(7636003)(2906002)(41300700001)(82740400003)(83996005)(2101003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2023 04:58:30.4103
+X-Microsoft-Antispam-Message-Info: kIYL4oMnWQcD0Ds8IBtZlb7WeJX3o7aZmr/8fbTDbTshbo/RPEGytjNe92aGbWUbyTD4iHwlXfr80zOox7pm8bvxUeGG/jzhEACP+OckRbWurKL3e6mjYoif6mEpzqd6kfOiW8C0yRzGesPSMhX5AUQ7PnHTyG5m9I4yDK6qhnWSkVAA6vfOwYzpu5FYnwur2M0LJ9TbIFEwDWfa42RrX2QKbGRJJh3z41o75uGEsbMZQY+YwvEIDtHx5dgXnHLwOmvz0lfB5YwoBs6ipLDnNuj4VVpbAYh4rUQnVdT78BBJ6po8aCEhrjb8BqW6mjHnjwRGue780Sw/g07mkyUL3WRhg4Fel6Q/RibbZZc5O0Y4To8kUqSnnY/hm2xapvkE9h5xpsflvlAPzT2VCTtHMKQVJNGi1m5YZQpEV0n3FqWjO9vqh74QB4NorUg0oSAz4shPA/nOIXcvXJpLW+inh2G9kYcXQqqglG49sGxEZhJlJUmfFmgoLfKmZanJxoJ8FBAU1hxWXINhkmxTAQHdEheF9mXtyrDz6FCJnFbA7FmZeVQBCxeQgnTMB1/C7lhHw67B4q8wWhU71hhuDRVsoUUmnVt5Pr998jOQJ6L/5mUkF4Sh44sUb1nrDsFuGE3DCnOGF/mSdHZgp58dxQdtPQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(7916004)(136003)(366004)(346002)(376002)(39860400002)(396003)(451199018)(6666004)(186003)(6506007)(1076003)(26005)(6512007)(66574015)(6486002)(316002)(9686003)(6916009)(4326008)(66556008)(66946007)(66476007)(54906003)(478600001)(83380400001)(8936002)(7416002)(7406005)(5660300002)(2906002)(44832011)(41300700001)(8676002)(38100700002)(86362001)(33716001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?Ku6jfbNHWNj86RRzwn0CeXWmU6810N/ZyKnu6W7gfkotsUEpi+MMjMPx6A?=
+ =?iso-8859-1?Q?+mfK3gabkQCspfg6h80/Gfd0gPsK13xMrHSEimkQvWwXhREMOPcwETVO/f?=
+ =?iso-8859-1?Q?1mF2kjlCV2NBiC6f6yMP2BIwYju4oa5+b9J2Vtkgxds46G/SR3mH2N9pHT?=
+ =?iso-8859-1?Q?kjSn1eAHwCJe7liTIr2UtHPJliSHHZPYMEBLkY1aTssu8wFk8zwPxM+KrY?=
+ =?iso-8859-1?Q?Tqkih30YOfYyZuGA9fjjnVIxtsbxGeASOIhcTz0lekZztkICn4dakphU9Y?=
+ =?iso-8859-1?Q?0Da34PrB2dNbegfPp424JmviR0JZsf4qgSWskovBkNCTXgcdXP2bzT6dnX?=
+ =?iso-8859-1?Q?fzPQ5NJO1fiQmk1ycWTcRfTHCbF1rlwwRK8Cm+Mft7VRwj5CXf8jVgqdU6?=
+ =?iso-8859-1?Q?y/c9vrrE0NXbSr9R+pXgdBuPEvLxbErs8rrNPahH69EXHSfGyY2P4cKUte?=
+ =?iso-8859-1?Q?JQdGhVNFXerkmRhxtv1J3b/88EAJhRTb+XcFs84Hk2Mwkny+UyDdoyMTGi?=
+ =?iso-8859-1?Q?M8A+xTlOYyuRryuWeMibyavaRpexir14p0Zcv8U77ajN8U08oOC8b7vqZd?=
+ =?iso-8859-1?Q?CLnn7Y16HpIbOET7844fNUJqeTz1oluudVwAJ5U4ipp/NrdQW8KjoO1Hzn?=
+ =?iso-8859-1?Q?/8XZs3Si2tulisP+qLkX6jJ556oW21anHIBJdp2VpZZehCXAYDN1dHm55J?=
+ =?iso-8859-1?Q?EYZXHMJaTEkRXd9zGecJy9ziZhtXs7C4IpNrAmE+H+duO2Lwo+4/mmldKs?=
+ =?iso-8859-1?Q?6h75QeJ4PihViodeiTkjnt7T9fLGth2HIn4C/ocZqW1szXdIL3/BTLJCOk?=
+ =?iso-8859-1?Q?4KeaXcUa4DQ/TXrfLQfghZkDpaUnBGIqy9gBDBttYMpNn/boDmUaFe94tC?=
+ =?iso-8859-1?Q?qGYYkrBVEThvZmRxNlaQdg3R35Ce/mr1wt3Upb6PzA8LQiB+XupUFH1gSV?=
+ =?iso-8859-1?Q?Uxf38NJD3wPp2PijLJTAG/gxUR/wEf3pJaj4nnHVgZQhd/pUdJdItFhUiP?=
+ =?iso-8859-1?Q?JKl2DWeT/v/4DQfempWOj2F72oq2ddW0cy2kLCbAmr0l1ZEPwYJewN3i38?=
+ =?iso-8859-1?Q?M1NLPUy4dEWqKJ9PBAPx2iLSMLf4FhPFgTI5EdVYa605sDZftMIQwQHJLH?=
+ =?iso-8859-1?Q?ulIZqJxElVdEekH02eg8EkOd90CMCNr3E7Ar3dh1KYAkjdyfoQGvmB4bG6?=
+ =?iso-8859-1?Q?Er+4rdd7RvoexgjROEdJ6FqFK1Q+0WE4fJIv9Fz03WywIE8bF5V17QPIdo?=
+ =?iso-8859-1?Q?klygkL7yiO24yoZ4+LGCORfY7TFi6fdblabSaNaNX+ZDx2CsWtjdQrbbzF?=
+ =?iso-8859-1?Q?bi0hwHMqORxKt6v9b2/8uCnAkFMCAKBY6YVMbUPwSyn1gHt6jmFez5TR/o?=
+ =?iso-8859-1?Q?K/1ZPPz+JncBsopWRABBKRTGNRSUlIx7Wb3B4efCtK/RdPXURUC6PxdJeW?=
+ =?iso-8859-1?Q?epWs6uqJSiJkSn9rsuFa+vMeY/k67xwpeMiAODT9pFJzdZitiA+XNYUdlX?=
+ =?iso-8859-1?Q?vfGGH2itdUb5Ssjp6vsN2uZXZFWKOJuaM4/U/blBJE+lFUmxwBmUmU4E1n?=
+ =?iso-8859-1?Q?8YNH5u7wx9cmvT3mUgdHDQeeLMX0smurAYxPf/ymKYVVqLu9Qr3Pcpr/uG?=
+ =?iso-8859-1?Q?jxHOJGWfU69oa6qBZj2AYqmGdQhKv6GV4uaj8z5k/FtLwSp5I+BPB8Qw?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f962c2f-a98f-4cab-1fa4-08db27a79b5b
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2023 11:55:02.5331
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a960a982-f6aa-4608-b862-08db276d6b2d
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT112.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6146
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BjlVDcEWMJUXDr/QiQHB/5F2UJN5Qq9TEtKB0Paqxw+UoztMF9ASFsKW8iucwTYitNQNmduDJY2kZgl4DlQcPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7404
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The T241 platform suffers from the T241-FABRIC-4 erratum which causes
-unexpected behavior in the GIC when multiple transactions are received
-simultaneously from different sources. This hardware issue impacts
-NVIDIA server platforms that use more than two T241 chips
-interconnected. Each chip has support for 320 {E}SPIs.
+On Fri, Mar 17, 2023 at 09:03:06PM -0700, Jakub Kicinski wrote:
+> On Fri, 17 Mar 2023 20:38:49 -0700 Richard Cochran wrote:
+> > On Fri, Mar 17, 2023 at 05:21:50PM +0200, Vladimir Oltean wrote:
+> > > On Thu, Mar 16, 2023 at 04:09:20PM +0100, Köry Maincent wrote:  
+> > > > Was there any useful work that could be continued on managing timestamp through
+> > > > NDOs. As it seem we will made some change to the timestamp API, maybe it is a
+> > > > good time to also take care of this.  
+> > > 
+> > > Not to my knowledge. Yes, I agree that it would be a good time to add an
+> > > NDO for hwtimestamping (while keeping the ioctl fallback), then
+> > > transitioning as many devices as we can, and removing the fallback when
+> > > the transition is complete.  
+> > 
+> > Um, user space ABI cannot be removed.
+> 
+> NDO meaning a dedicated callback in struct net_device_ops, so at least
+> for netdevs we can copy the data from user space, validate in the core
+> and then call the driver with a normal kernel pointer. So just an
+> internal refactoring, no uAPI changes.
 
-This issue occurs when multiple packets from different GICs are
-incorrectly interleaved at the target chip. The erratum text below
-specifies exactly what can cause multiple transfer packets susceptible
-to interleaving and GIC state corruption. GIC state corruption can
-lead to a range of problems, including kernel panics, and unexpected
-behavior.
+Yes, I was talking about the current handling via net_device_ops :: ndo_eth_ioctl()
+(internal driver-facing kernel API) that should eventually get removed.
+The new ndo_hwtstamp_get() and ndo_hwtstamp_set() should also have
+slightly different (clearer) semantics IMO, like for example they should
+only get called if the selected timestamping layer is the MAC. The MAC
+driver would no longer be concerned with marshalling these calls down to
+the PHY for PHY timestamping with this new API.
 
-From the erratum text:
-  "In some cases, inter-socket AXI4 Stream packets with multiple
-  transfers, may be interleaved by the fabric when presented to ARM
-  Generic Interrupt Controller. GIC expects all transfers of a packet
-  to be delivered without any interleaving.
+This is also the reason why the conversion can't be realistically done
+all at once, because in some cases, as pointed out by Horatiu, simply
+marshalling the ndo_eth_ioctl() to phy_mii_ioctl() isn't the only thing
+that's necessary - sometimes the MAC driver may need to add filters or
+traps for PTP frames itself, even if it doesn't provide the timestamps
+per se. That will be solved not via the ndo_hwtstamp_set(), but via a
+new (listen-only) NETDEV_HWTSTAMP_SET notifier, where interested drivers
+can figure out that timestamping was enabled somewhere along the data
+path of their netdev (not necessarily at their MAC layer) and program
+those filters or traps accordingly, so that either MAC, or PHY,
+timestamping works properly e.g. on a switch.
 
-  The following GICv3 commands may result in multiple transfer packets
-  over inter-socket AXI4 Stream interface:
-   - Register reads from GICD_I* and GICD_N*
-   - Register writes to 64-bit GICD registers other than GICD_IROUTERn*
-   - ITS command MOVALL
-
-  Multiple commands in GICv4+ utilize multiple transfer packets,
-  including VMOVP, VMOVI, VMAPP, and 64-bit register accesses."
-
-  This issue impacts system configurations with more than 2 sockets,
-  that require multi-transfer packets to be sent over inter-socket
-  AXI4 Stream interface between GIC instances on different sockets.
-  GICv4 cannot be supported. GICv3 SW model can only be supported
-  with the workaround. Single and Dual socket configurations are not
-  impacted by this issue and support GICv3 and GICv4."
-
-Link: https://developer.nvidia.com/docs/t241-fabric-4/nvidia-t241-fabric-4-errata.pdf
-
-Writing to the chip alias region of the GICD_In{E} registers except
-GICD_ICENABLERn has an equivalent effect as writing to the global
-distributor. The SPI interrupt deactivate path is not impacted by
-the erratum.
-
-To fix this problem, implement a workaround that ensures read accesses
-to the GICD_In{E} registers are directed to the chip that owns the
-SPI, and disables GICv4.x features for KVM. To simplify code changes,
-the gic_configure_irq() function uses the same alias region for both
-read and write operations to GICD_ICFGR.
-
-Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
-Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
-Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
----
-Changes since v2:
- - Fix the build issue for the 32bit arch
-Changes since v2:
- - Add accessors for the SOC-ID version & revision
- - Include "linux/bitfield.h" and "linux/bits.h" in irq-gic-v3.c
-Changes since v1:
- - Use SMCCC SOC-ID API for detecting the T241 chip
- - Implement Marc's suggestions
- - Edit commit text
-
- Documentation/arm64/silicon-errata.rst |   2 +
- drivers/firmware/smccc/smccc.c         |  26 ++++++
- drivers/firmware/smccc/soc_id.c        |  28 ++----
- drivers/irqchip/Kconfig                |   1 +
- drivers/irqchip/irq-gic-v3.c           | 115 +++++++++++++++++++++++--
- include/linux/arm-smccc.h              |  18 ++++
- 6 files changed, 158 insertions(+), 32 deletions(-)
-
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 808ade4cc008..55492fea4427 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -170,6 +170,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
- +----------------+-----------------+-----------------+-----------------------------+
-+| NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smccc.c
-index 60ccf3e90d7d..db818f9dcb8e 100644
---- a/drivers/firmware/smccc/smccc.c
-+++ b/drivers/firmware/smccc/smccc.c
-@@ -17,9 +17,13 @@ static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
- 
- bool __ro_after_init smccc_trng_available = false;
- u64 __ro_after_init smccc_has_sve_hint = false;
-+s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
-+s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
- 
- void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
- {
-+	struct arm_smccc_res res;
-+
- 	smccc_version = version;
- 	smccc_conduit = conduit;
- 
-@@ -27,6 +31,18 @@ void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
- 	if (IS_ENABLED(CONFIG_ARM64_SVE) &&
- 	    smccc_version >= ARM_SMCCC_VERSION_1_3)
- 		smccc_has_sve_hint = true;
-+
-+	if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
-+	    (smccc_conduit != SMCCC_CONDUIT_NONE)) {
-+		arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
-+				     ARM_SMCCC_ARCH_SOC_ID, &res);
-+		if ((s32)res.a0 >= 0) {
-+			arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
-+			smccc_soc_id_version = (s32)res.a0;
-+			arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
-+			smccc_soc_id_revision = (s32)res.a0;
-+		}
-+	}
- }
- 
- enum arm_smccc_conduit arm_smccc_1_1_get_conduit(void)
-@@ -44,6 +60,16 @@ u32 arm_smccc_get_version(void)
- }
- EXPORT_SYMBOL_GPL(arm_smccc_get_version);
- 
-+s32 arm_smccc_get_soc_id_version(void)
-+{
-+	return smccc_soc_id_version;
-+}
-+
-+s32 arm_smccc_get_soc_id_revision(void)
-+{
-+	return smccc_soc_id_revision;
-+}
-+
- static int __init smccc_devices_init(void)
- {
- 	struct platform_device *pdev;
-diff --git a/drivers/firmware/smccc/soc_id.c b/drivers/firmware/smccc/soc_id.c
-index dd7c3d5e8b0b..890eb454599a 100644
---- a/drivers/firmware/smccc/soc_id.c
-+++ b/drivers/firmware/smccc/soc_id.c
-@@ -42,41 +42,23 @@ static int __init smccc_soc_init(void)
- 	if (arm_smccc_get_version() < ARM_SMCCC_VERSION_1_2)
- 		return 0;
- 
--	if (arm_smccc_1_1_get_conduit() == SMCCC_CONDUIT_NONE) {
--		pr_err("%s: invalid SMCCC conduit\n", __func__);
--		return -EOPNOTSUPP;
--	}
--
--	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
--			     ARM_SMCCC_ARCH_SOC_ID, &res);
--
--	if ((int)res.a0 == SMCCC_RET_NOT_SUPPORTED) {
-+	soc_id_version = arm_smccc_get_soc_id_version();
-+	if (soc_id_version == SMCCC_RET_NOT_SUPPORTED) {
- 		pr_info("ARCH_SOC_ID not implemented, skipping ....\n");
- 		return 0;
- 	}
- 
--	if ((int)res.a0 < 0) {
--		pr_info("ARCH_FEATURES(ARCH_SOC_ID) returned error: %lx\n",
--			res.a0);
--		return -EINVAL;
--	}
--
--	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
--	if ((int)res.a0 < 0) {
-+	if (soc_id_version < 0) {
- 		pr_err("ARCH_SOC_ID(0) returned error: %lx\n", res.a0);
- 		return -EINVAL;
- 	}
- 
--	soc_id_version = res.a0;
--
--	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
--	if ((int)res.a0 < 0) {
-+	soc_id_rev = arm_smccc_get_soc_id_revision();
-+	if (soc_id_rev < 0) {
- 		pr_err("ARCH_SOC_ID(1) returned error: %lx\n", res.a0);
- 		return -EINVAL;
- 	}
- 
--	soc_id_rev = res.a0;
--
- 	soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
- 	if (!soc_dev_attr)
- 		return -ENOMEM;
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index caa952c40ff9..08505fdf890c 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -35,6 +35,7 @@ config ARM_GIC_V3
- 	select IRQ_DOMAIN_HIERARCHY
- 	select PARTITION_PERCPU
- 	select GENERIC_IRQ_EFFECTIVE_AFF_MASK if SMP
-+	select HAVE_ARM_SMCCC_DISCOVERY
- 
- config ARM_GIC_V3_ITS
- 	bool
-diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-index 3779836737c8..93003fca9cac 100644
---- a/drivers/irqchip/irq-gic-v3.c
-+++ b/drivers/irqchip/irq-gic-v3.c
-@@ -24,6 +24,9 @@
- #include <linux/irqchip/arm-gic-common.h>
- #include <linux/irqchip/arm-gic-v3.h>
- #include <linux/irqchip/irq-partition-percpu.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/arm-smccc.h>
- 
- #include <asm/cputype.h>
- #include <asm/exception.h>
-@@ -57,8 +60,13 @@ struct gic_chip_data {
- 	bool			has_rss;
- 	unsigned int		ppi_nr;
- 	struct partition_desc	**ppi_descs;
-+	phys_addr_t		dist_phys_base;
- };
- 
-+#define T241_CHIPS_MAX		4
-+static void __iomem *t241_dist_base_alias[T241_CHIPS_MAX];
-+static DEFINE_STATIC_KEY_FALSE(gic_nvidia_t241_erratum);
-+
- static struct gic_chip_data gic_data __read_mostly;
- static DEFINE_STATIC_KEY_TRUE(supports_deactivate_key);
- 
-@@ -179,6 +187,34 @@ static inline bool gic_irq_in_rdist(struct irq_data *d)
- 	}
- }
- 
-+static inline void __iomem *gic_dist_base_alias(irq_hw_number_t intid)
-+{
-+	u32 chip;
-+
-+	if (static_branch_unlikely(&gic_nvidia_t241_erratum)) {
-+		/**
-+		 *  {E}SPI mappings for all 4 chips
-+		 *    Chip0 = 32-351
-+		 *    Chip1 = 352-671
-+		 *    Chip2 = 672-991
-+		 *    Chip3 = 4096-4415
-+		 */
-+		switch (__get_intid_range(intid)) {
-+		case SPI_RANGE:
-+			chip = (intid - 32) / 320;
-+			break;
-+		case ESPI_RANGE:
-+			chip = 3;
-+			break;
-+		default:
-+			unreachable();
-+		}
-+		return t241_dist_base_alias[chip];
-+	}
-+
-+	return gic_data.dist_base;
-+}
-+
- static inline void __iomem *gic_dist_base(struct irq_data *d)
- {
- 	switch (get_intid_range(d)) {
-@@ -334,10 +370,14 @@ static int gic_peek_irq(struct irq_data *d, u32 offset)
- 	offset = convert_offset_index(d, offset, &index);
- 	mask = 1 << (index % 32);
- 
-+	/**
-+	 * For the erratum T241-FABRIC-4, read accesses to the GICD_In{E}
-+	 * registers are directed to the chip that owns the SPI.
-+	 */
- 	if (gic_irq_in_rdist(d))
- 		base = gic_data_rdist_sgi_base();
- 	else
--		base = gic_data.dist_base;
-+		base = gic_dist_base_alias(irqd_to_hwirq(d));
- 
- 	return !!(readl_relaxed(base + offset + (index / 32) * 4) & mask);
- }
-@@ -585,13 +625,17 @@ static int gic_set_type(struct irq_data *d, unsigned int type)
- 	    type != IRQ_TYPE_LEVEL_HIGH && type != IRQ_TYPE_EDGE_RISING)
- 		return -EINVAL;
- 
-+	/**
-+	 * For the erratum T241-FABRIC-4, read accesses to the GICD_In{E}
-+	 * registers are directed to the chip that owns the SPI. Use the
-+	 * same alias region for GICD_ICFGR writes to simplify code.
-+	 */
- 	if (gic_irq_in_rdist(d))
- 		base = gic_data_rdist_sgi_base();
- 	else
--		base = gic_data.dist_base;
-+		base = gic_dist_base_alias(irqd_to_hwirq(d));
- 
- 	offset = convert_offset_index(d, GICD_ICFGR, &index);
--
- 	ret = gic_configure_irq(index, type, base + offset, NULL);
- 	if (ret && (range == PPI_RANGE || range == EPPI_RANGE)) {
- 		/* Misconfigured PPIs are usually not fatal */
-@@ -1710,6 +1754,43 @@ static bool gic_enable_quirk_hip06_07(void *data)
- 	return false;
- }
- 
-+#define T241_CHIPN_MASK		GENMASK_ULL(45, 44)
-+#define T241_CHIP_GICDA_OFFSET	0x1580000
-+#define SMCCC_SOC_ID_T241	0x036b0241
-+
-+static bool gic_enable_quirk_nvidia_t241(void *data)
-+{
-+	s32 soc_id = arm_smccc_get_soc_id_version();
-+	unsigned long chip_bmask = 0;
-+	phys_addr_t phys;
-+	u32 i;
-+
-+	/* Check JEP106 code for NVIDIA T241 chip (036b:0241) */
-+	if ((soc_id < 0) || (soc_id != SMCCC_SOC_ID_T241))
-+		return false;
-+
-+	/* Find the chips based on GICR regions PHYS addr */
-+	for (i = 0; i < gic_data.nr_redist_regions; i++) {
-+		chip_bmask |= BIT(FIELD_GET(T241_CHIPN_MASK,
-+				  (u64)gic_data.redist_regions[i].phys_base));
-+	}
-+
-+	if (hweight32(chip_bmask) < 3)
-+		return false;
-+
-+	/* Setup GICD alias regions */
-+	for (i = 0; i < ARRAY_SIZE(t241_dist_base_alias); i++) {
-+		if (chip_bmask & BIT(i)) {
-+			phys = gic_data.dist_phys_base + T241_CHIP_GICDA_OFFSET;
-+			phys |= FIELD_PREP(T241_CHIPN_MASK, i);
-+			t241_dist_base_alias[i] = ioremap(phys, SZ_64K);
-+			WARN_ON_ONCE(!t241_dist_base_alias[i]);
-+		}
-+	}
-+	static_branch_enable(&gic_nvidia_t241_erratum);
-+	return true;
-+}
-+
- static const struct gic_quirk gic_quirks[] = {
- 	{
- 		.desc	= "GICv3: Qualcomm MSM8996 broken firmware",
-@@ -1741,6 +1822,12 @@ static const struct gic_quirk gic_quirks[] = {
- 		.mask	= 0xe8f00fff,
- 		.init	= gic_enable_quirk_cavium_38539,
- 	},
-+	{
-+		.desc	= "GICv3: NVIDIA erratum T241-FABRIC-4",
-+		.iidr	= 0x0402043b,
-+		.mask	= 0xffffffff,
-+		.init	= gic_enable_quirk_nvidia_t241,
-+	},
- 	{
- 	}
- };
-@@ -1804,7 +1891,8 @@ static int __init gic_init_bases(void __iomem *dist_base,
- 				 struct redist_region *rdist_regs,
- 				 u32 nr_redist_regions,
- 				 u64 redist_stride,
--				 struct fwnode_handle *handle)
-+				 struct fwnode_handle *handle,
-+				 phys_addr_t dist_phys_base)
- {
- 	u32 typer;
- 	int err;
-@@ -1817,6 +1905,7 @@ static int __init gic_init_bases(void __iomem *dist_base,
- 
- 	gic_data.fwnode = handle;
- 	gic_data.dist_base = dist_base;
-+	gic_data.dist_phys_base = dist_phys_base;
- 	gic_data.redist_regions = rdist_regs;
- 	gic_data.nr_redist_regions = nr_redist_regions;
- 	gic_data.redist_stride = redist_stride;
-@@ -2055,11 +2144,12 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
- 	void __iomem *dist_base;
- 	struct redist_region *rdist_regs;
- 	struct resource res;
-+	struct resource dist_res;
- 	u64 redist_stride;
- 	u32 nr_redist_regions;
- 	int err, i;
- 
--	dist_base = gic_of_iomap(node, 0, "GICD", &res);
-+	dist_base = gic_of_iomap(node, 0, "GICD", &dist_res);
- 	if (IS_ERR(dist_base)) {
- 		pr_err("%pOF: unable to map gic dist registers\n", node);
- 		return PTR_ERR(dist_base);
-@@ -2097,7 +2187,7 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
- 	gic_enable_of_quirks(node, gic_quirks, &gic_data);
- 
- 	err = gic_init_bases(dist_base, rdist_regs, nr_redist_regions,
--			     redist_stride, &node->fwnode);
-+			     redist_stride, &node->fwnode, dist_res.start);
- 	if (err)
- 		goto out_unmap_rdist;
- 
-@@ -2360,8 +2450,14 @@ static void __init gic_acpi_setup_kvm_info(void)
- 		vcpu->end = vcpu->start + ACPI_GICV2_VCPU_MEM_SIZE - 1;
- 	}
- 
--	gic_v3_kvm_info.has_v4 = gic_data.rdists.has_vlpis;
--	gic_v3_kvm_info.has_v4_1 = gic_data.rdists.has_rvpeid;
-+	/* Disable GICv4.x features for the erratum T241-FABRIC-4 */
-+	if (static_branch_unlikely(&gic_nvidia_t241_erratum)) {
-+		gic_v3_kvm_info.has_v4 = false;
-+		gic_v3_kvm_info.has_v4_1 = false;
-+	} else {
-+		gic_v3_kvm_info.has_v4 = gic_data.rdists.has_vlpis;
-+		gic_v3_kvm_info.has_v4_1 = gic_data.rdists.has_rvpeid;
-+	}
- 	vgic_set_kvm_info(&gic_v3_kvm_info);
- }
- 
-@@ -2414,7 +2510,8 @@ gic_acpi_init(union acpi_subtable_headers *header, const unsigned long end)
- 	}
- 
- 	err = gic_init_bases(acpi_data.dist_base, acpi_data.redist_regs,
--			     acpi_data.nr_redist_regions, 0, gsi_domain_handle);
-+			     acpi_data.nr_redist_regions, 0, gsi_domain_handle,
-+			     dist->base_address);
- 	if (err)
- 		goto out_fwhandle_free;
- 
-diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
-index 220c8c60e021..f196c19f8e55 100644
---- a/include/linux/arm-smccc.h
-+++ b/include/linux/arm-smccc.h
-@@ -226,6 +226,24 @@ void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit);
- 
- extern u64 smccc_has_sve_hint;
- 
-+/**
-+ * arm_smccc_get_soc_id_version()
-+ *
-+ * Returns the SOC ID version.
-+ *
-+ * When ARM_SMCCC_ARCH_SOC_ID is not present, returns SMCCC_RET_NOT_SUPPORTED.
-+ */
-+s32 arm_smccc_get_soc_id_version(void);
-+
-+/**
-+ * arm_smccc_get_soc_id_revision()
-+ *
-+ * Returns the SOC ID revision.
-+ *
-+ * When ARM_SMCCC_ARCH_SOC_ID is not present, returns SMCCC_RET_NOT_SUPPORTED.
-+ */
-+s32 arm_smccc_get_soc_id_revision(void);
-+
- /**
-  * struct arm_smccc_res - Result from SMC/HVC call
-  * @a0-a3 result values from registers 0 to 3
--- 
-2.25.1
-
+Also, the ndo_hwtstamp_get() and ndo_hwtstamp_set() API should not need
+to explicitly call copy_from_user() and copy_to_user(), those are
+especially error-prone w.r.t. their error code - non-zero means "bytes
+left to copy IIRC", but -EFAULT should be returned to user space,
+instead of blindly propagating what copy_from_user() has returned.
