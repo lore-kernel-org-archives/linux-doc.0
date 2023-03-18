@@ -2,193 +2,435 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E23C74A5B
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Mar 2023 11:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C069DC74A5B
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Mar 2023 12:02:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbjCRLzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Mar 2023 07:55:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39116 "EHLO
+        id S229517AbjCRMCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Mar 2023 08:02:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjCRLzI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Mar 2023 07:55:08 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2050.outbound.protection.outlook.com [40.107.6.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3000CF8;
-        Sat, 18 Mar 2023 04:55:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n/dWuCL2BmN+rV89TVVZ6G2zft+K8fk6i9wIxElEbfLGGo0Am90mskhOVqZZInNJ90sQgg/KVoy21V9eU3yWKZtzJZikhRZUKeyhZX7TVaJW0XXFNs+XpexURnwU0nZzjrzjmhz6K2rMtU6aRzvVd/JV5zkbIIHex1cmshGl1usomZO3brndlSnvdclk5lGkJy72ZALu/fHZ0ygwFwpqL5IZBTLC4F+LLRnLVrFiik2yPdIjy4JUspBRI8rg58lI1McpCAU9jtuX8DO4pRTg5spCiy6awDh8egud0n2iMhOVe1uIZN798ZFZ3qTYLnyGRdRDypJMYb8GOgDfSNj/pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hP7pK2hgKL4eGGpIoQtbBVlFL/iTyog1C5fpkJ7H9t8=;
- b=ltn5AGnRikR/RofuKHi+walt/mzJ7T8qmMnAQowTFTKntETZlHyTbNxULQ1VyLFlSQN/y5vOXotFdUD3MYoMcHpq3aQ+MC75Rhai5Fa3lnuhnIdNfVZFGDRGZr6kjdQPzSfmYKFot1QJ4qwFaCePUY/ktagnrKGpGlZzglxyfqrLtJX3pAA+oh/gd8poit20wCYdaugZ95/ij9ALsYhuCjamqhr9rkBHc5RuXWZy3YXzKh2g2jxo7aJE5D20VklCJ60Q2qai2gm3hCZI6AiKSjZY+32Qj28NNIkRLYjfC8IkKjUUk6sgmQlB3scn7RX6TN96kzvfwAAh2aH7rnoEkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hP7pK2hgKL4eGGpIoQtbBVlFL/iTyog1C5fpkJ7H9t8=;
- b=oHJJL+3tjJjbdg5t5zoiwLqszLyDQGrCJkTYveu8qcL/6copmlZNEeyS5HU6m6kIh40pZtK7iFhbzCCB/XEYEf31eQ6rZaXDUVjiHUl3qdTb69DjF05MhdZ9fHmQ0m/gHvlmByJfMspgfY+T2MKDR5+X4iRSfz5q7Ykpwd3SZ3s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by PR3PR04MB7404.eurprd04.prod.outlook.com (2603:10a6:102:8f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.36; Sat, 18 Mar
- 2023 11:55:03 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::29a3:120c:7d42:3ca8]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::29a3:120c:7d42:3ca8%7]) with mapi id 15.20.6178.036; Sat, 18 Mar 2023
- 11:55:02 +0000
-Date:   Sat, 18 Mar 2023 13:54:57 +0200
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Richard Cochran <richardcochran@gmail.com>,
-        =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Michael Walle <michael@walle.cc>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S229488AbjCRMCu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Mar 2023 08:02:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8BFCA1A;
+        Sat, 18 Mar 2023 05:02:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EACEC60C05;
+        Sat, 18 Mar 2023 12:02:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B48C433D2;
+        Sat, 18 Mar 2023 12:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679140964;
+        bh=1/kpsMfIhTJzo7DrQ5GgKD8mz006Yq3R7wnVhqWIcgg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Xwde4tjFBCAh+CHYUqZOT27gav/7/dJnt1YL9R4AF9WrDqzA5ayhhuSND0uGXFvQA
+         4pVKHeZRjBcgb4Xb/5Dlc2G1DCzREg8UYHBv8Pl4NTfffqsSS2jQrpTwwvrUgQKQuk
+         iMorhEADbcHaWrjWuXMYRbRtYrdt8XuBIrQFZt6yalQ9kpLFwgfuoB3t8cPU4LXD3M
+         cm30juQvQB51SmqPONbwcqvPrXsmk5hQZ6QkKJ4qaWM4WNRPzHaGJdDUcfiBPxErpp
+         GO8xb1fJGw2wg1aiQ1Cp8Oaj9Mqkb/bHYiqk8RWfIwkk7Mh883tbLoSJwbqKCPhbeT
+         /AI4KQSNNzoHA==
+Date:   Sat, 18 Mar 2023 12:02:37 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Evan Green <evan@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>, slewis@rivosinc.com,
+        heiko@sntech.de, vineetg@rivosinc.com,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
-        Jie Wang <wangjie125@huawei.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Marco Bonelli <marco@mebeim.net>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <20230318115457.gtfvq6gom3jew2qc@skbuf>
-References: <20230310114852.3cef643d@kmaincent-XPS-13-7390>
- <20230310113533.l7flaoli7y3bmlnr@skbuf>
- <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
- <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
- <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
- <20230313084059.GA11063@pengutronix.de>
- <20230316160920.53737d1c@kmaincent-XPS-13-7390>
- <20230317152150.qahrr6w5x4o3eysz@skbuf>
- <ZBUyST3kDP1ZE1lF@hoboy.vegasvil.org>
- <20230317210306.346e80ea@kernel.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230317210306.346e80ea@kernel.org>
-X-ClientProxiedBy: VI1PR08CA0130.eurprd08.prod.outlook.com
- (2603:10a6:800:d4::32) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tsukasa OI <research_trasio@irq.a4lg.com>,
+        Wei Fu <wefu@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 4/6] RISC-V: hwprobe: Support probing of misaligned
+ access performance
+Message-ID: <95e82276-063a-4dad-b57d-8d938e0974de@spud>
+References: <20230314183220.513101-1-evan@rivosinc.com>
+ <20230314183220.513101-5-evan@rivosinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|PR3PR04MB7404:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f962c2f-a98f-4cab-1fa4-08db27a79b5b
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kIYL4oMnWQcD0Ds8IBtZlb7WeJX3o7aZmr/8fbTDbTshbo/RPEGytjNe92aGbWUbyTD4iHwlXfr80zOox7pm8bvxUeGG/jzhEACP+OckRbWurKL3e6mjYoif6mEpzqd6kfOiW8C0yRzGesPSMhX5AUQ7PnHTyG5m9I4yDK6qhnWSkVAA6vfOwYzpu5FYnwur2M0LJ9TbIFEwDWfa42RrX2QKbGRJJh3z41o75uGEsbMZQY+YwvEIDtHx5dgXnHLwOmvz0lfB5YwoBs6ipLDnNuj4VVpbAYh4rUQnVdT78BBJ6po8aCEhrjb8BqW6mjHnjwRGue780Sw/g07mkyUL3WRhg4Fel6Q/RibbZZc5O0Y4To8kUqSnnY/hm2xapvkE9h5xpsflvlAPzT2VCTtHMKQVJNGi1m5YZQpEV0n3FqWjO9vqh74QB4NorUg0oSAz4shPA/nOIXcvXJpLW+inh2G9kYcXQqqglG49sGxEZhJlJUmfFmgoLfKmZanJxoJ8FBAU1hxWXINhkmxTAQHdEheF9mXtyrDz6FCJnFbA7FmZeVQBCxeQgnTMB1/C7lhHw67B4q8wWhU71hhuDRVsoUUmnVt5Pr998jOQJ6L/5mUkF4Sh44sUb1nrDsFuGE3DCnOGF/mSdHZgp58dxQdtPQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(7916004)(136003)(366004)(346002)(376002)(39860400002)(396003)(451199018)(6666004)(186003)(6506007)(1076003)(26005)(6512007)(66574015)(6486002)(316002)(9686003)(6916009)(4326008)(66556008)(66946007)(66476007)(54906003)(478600001)(83380400001)(8936002)(7416002)(7406005)(5660300002)(2906002)(44832011)(41300700001)(8676002)(38100700002)(86362001)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?Ku6jfbNHWNj86RRzwn0CeXWmU6810N/ZyKnu6W7gfkotsUEpi+MMjMPx6A?=
- =?iso-8859-1?Q?+mfK3gabkQCspfg6h80/Gfd0gPsK13xMrHSEimkQvWwXhREMOPcwETVO/f?=
- =?iso-8859-1?Q?1mF2kjlCV2NBiC6f6yMP2BIwYju4oa5+b9J2Vtkgxds46G/SR3mH2N9pHT?=
- =?iso-8859-1?Q?kjSn1eAHwCJe7liTIr2UtHPJliSHHZPYMEBLkY1aTssu8wFk8zwPxM+KrY?=
- =?iso-8859-1?Q?Tqkih30YOfYyZuGA9fjjnVIxtsbxGeASOIhcTz0lekZztkICn4dakphU9Y?=
- =?iso-8859-1?Q?0Da34PrB2dNbegfPp424JmviR0JZsf4qgSWskovBkNCTXgcdXP2bzT6dnX?=
- =?iso-8859-1?Q?fzPQ5NJO1fiQmk1ycWTcRfTHCbF1rlwwRK8Cm+Mft7VRwj5CXf8jVgqdU6?=
- =?iso-8859-1?Q?y/c9vrrE0NXbSr9R+pXgdBuPEvLxbErs8rrNPahH69EXHSfGyY2P4cKUte?=
- =?iso-8859-1?Q?JQdGhVNFXerkmRhxtv1J3b/88EAJhRTb+XcFs84Hk2Mwkny+UyDdoyMTGi?=
- =?iso-8859-1?Q?M8A+xTlOYyuRryuWeMibyavaRpexir14p0Zcv8U77ajN8U08oOC8b7vqZd?=
- =?iso-8859-1?Q?CLnn7Y16HpIbOET7844fNUJqeTz1oluudVwAJ5U4ipp/NrdQW8KjoO1Hzn?=
- =?iso-8859-1?Q?/8XZs3Si2tulisP+qLkX6jJ556oW21anHIBJdp2VpZZehCXAYDN1dHm55J?=
- =?iso-8859-1?Q?EYZXHMJaTEkRXd9zGecJy9ziZhtXs7C4IpNrAmE+H+duO2Lwo+4/mmldKs?=
- =?iso-8859-1?Q?6h75QeJ4PihViodeiTkjnt7T9fLGth2HIn4C/ocZqW1szXdIL3/BTLJCOk?=
- =?iso-8859-1?Q?4KeaXcUa4DQ/TXrfLQfghZkDpaUnBGIqy9gBDBttYMpNn/boDmUaFe94tC?=
- =?iso-8859-1?Q?qGYYkrBVEThvZmRxNlaQdg3R35Ce/mr1wt3Upb6PzA8LQiB+XupUFH1gSV?=
- =?iso-8859-1?Q?Uxf38NJD3wPp2PijLJTAG/gxUR/wEf3pJaj4nnHVgZQhd/pUdJdItFhUiP?=
- =?iso-8859-1?Q?JKl2DWeT/v/4DQfempWOj2F72oq2ddW0cy2kLCbAmr0l1ZEPwYJewN3i38?=
- =?iso-8859-1?Q?M1NLPUy4dEWqKJ9PBAPx2iLSMLf4FhPFgTI5EdVYa605sDZftMIQwQHJLH?=
- =?iso-8859-1?Q?ulIZqJxElVdEekH02eg8EkOd90CMCNr3E7Ar3dh1KYAkjdyfoQGvmB4bG6?=
- =?iso-8859-1?Q?Er+4rdd7RvoexgjROEdJ6FqFK1Q+0WE4fJIv9Fz03WywIE8bF5V17QPIdo?=
- =?iso-8859-1?Q?klygkL7yiO24yoZ4+LGCORfY7TFi6fdblabSaNaNX+ZDx2CsWtjdQrbbzF?=
- =?iso-8859-1?Q?bi0hwHMqORxKt6v9b2/8uCnAkFMCAKBY6YVMbUPwSyn1gHt6jmFez5TR/o?=
- =?iso-8859-1?Q?K/1ZPPz+JncBsopWRABBKRTGNRSUlIx7Wb3B4efCtK/RdPXURUC6PxdJeW?=
- =?iso-8859-1?Q?epWs6uqJSiJkSn9rsuFa+vMeY/k67xwpeMiAODT9pFJzdZitiA+XNYUdlX?=
- =?iso-8859-1?Q?vfGGH2itdUb5Ssjp6vsN2uZXZFWKOJuaM4/U/blBJE+lFUmxwBmUmU4E1n?=
- =?iso-8859-1?Q?8YNH5u7wx9cmvT3mUgdHDQeeLMX0smurAYxPf/ymKYVVqLu9Qr3Pcpr/uG?=
- =?iso-8859-1?Q?jxHOJGWfU69oa6qBZj2AYqmGdQhKv6GV4uaj8z5k/FtLwSp5I+BPB8Qw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f962c2f-a98f-4cab-1fa4-08db27a79b5b
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2023 11:55:02.5331
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BjlVDcEWMJUXDr/QiQHB/5F2UJN5Qq9TEtKB0Paqxw+UoztMF9ASFsKW8iucwTYitNQNmduDJY2kZgl4DlQcPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7404
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0Q/vSjzTMzK1nUkq"
+Content-Disposition: inline
+In-Reply-To: <20230314183220.513101-5-evan@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 09:03:06PM -0700, Jakub Kicinski wrote:
-> On Fri, 17 Mar 2023 20:38:49 -0700 Richard Cochran wrote:
-> > On Fri, Mar 17, 2023 at 05:21:50PM +0200, Vladimir Oltean wrote:
-> > > On Thu, Mar 16, 2023 at 04:09:20PM +0100, Köry Maincent wrote:  
-> > > > Was there any useful work that could be continued on managing timestamp through
-> > > > NDOs. As it seem we will made some change to the timestamp API, maybe it is a
-> > > > good time to also take care of this.  
-> > > 
-> > > Not to my knowledge. Yes, I agree that it would be a good time to add an
-> > > NDO for hwtimestamping (while keeping the ioctl fallback), then
-> > > transitioning as many devices as we can, and removing the fallback when
-> > > the transition is complete.  
-> > 
-> > Um, user space ABI cannot be removed.
-> 
-> NDO meaning a dedicated callback in struct net_device_ops, so at least
-> for netdevs we can copy the data from user space, validate in the core
-> and then call the driver with a normal kernel pointer. So just an
-> internal refactoring, no uAPI changes.
 
-Yes, I was talking about the current handling via net_device_ops :: ndo_eth_ioctl()
-(internal driver-facing kernel API) that should eventually get removed.
-The new ndo_hwtstamp_get() and ndo_hwtstamp_set() should also have
-slightly different (clearer) semantics IMO, like for example they should
-only get called if the selected timestamping layer is the MAC. The MAC
-driver would no longer be concerned with marshalling these calls down to
-the PHY for PHY timestamping with this new API.
+--0Q/vSjzTMzK1nUkq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is also the reason why the conversion can't be realistically done
-all at once, because in some cases, as pointed out by Horatiu, simply
-marshalling the ndo_eth_ioctl() to phy_mii_ioctl() isn't the only thing
-that's necessary - sometimes the MAC driver may need to add filters or
-traps for PTP frames itself, even if it doesn't provide the timestamps
-per se. That will be solved not via the ndo_hwtstamp_set(), but via a
-new (listen-only) NETDEV_HWTSTAMP_SET notifier, where interested drivers
-can figure out that timestamping was enabled somewhere along the data
-path of their netdev (not necessarily at their MAC layer) and program
-those filters or traps accordingly, so that either MAC, or PHY,
-timestamping works properly e.g. on a switch.
+On Tue, Mar 14, 2023 at 11:32:18AM -0700, Evan Green wrote:
+> This allows userspace to select various routines to use based on the
+> performance of misaligned access on the target hardware.
+>=20
+> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Evan Green <evan@rivosinc.com>
 
-Also, the ndo_hwtstamp_get() and ndo_hwtstamp_set() API should not need
-to explicitly call copy_from_user() and copy_to_user(), those are
-especially error-prone w.r.t. their error code - non-zero means "bytes
-left to copy IIRC", but -EFAULT should be returned to user space,
-instead of blindly propagating what copy_from_user() has returned.
+I think this fine now, modulo the lack of an explanation in the commit
+message for the new thead feature/"errata" that you've added.
+With an explanation for that:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks,
+Conor.
+
+> ---
+>=20
+> Changes in v4:
+>  - Add newlines to CPUPERF_0 documentation (Conor)
+>  - Add UNSUPPORTED value (Conor)
+>  - Switched from DT to alternatives-based probing (Rob)
+>  - Crispen up cpu index type to always be int (Conor)
+>=20
+> Changes in v3:
+>  - Have hwprobe_misaligned return int instead of long.
+>  - Constify cpumask pointer in hwprobe_misaligned()
+>  - Fix warnings in _PERF_O list documentation, use :c:macro:.
+>  - Move include cpufeature.h to misaligned patch.
+>  - Fix documentation mismatch for RISCV_HWPROBE_KEY_CPUPERF_0 (Conor)
+>  - Use for_each_possible_cpu() instead of NR_CPUS (Conor)
+>  - Break early in misaligned access iteration (Conor)
+>  - Increase MISALIGNED_MASK from 2 bits to 3 for possible UNSUPPORTED fut=
+ure
+>    value (Conor)
+>=20
+> Changes in v2:
+>  - Fixed logic error in if(of_property_read_string...) that caused crash
+>  - Include cpufeature.h in cpufeature.h to avoid undeclared variable
+>    warning.
+>  - Added a _MASK define
+>  - Fix random checkpatch complaints
+>=20
+>  Documentation/riscv/hwprobe.rst       | 21 ++++++++++++++++++++
+>  arch/riscv/errata/thead/errata.c      |  9 +++++++++
+>  arch/riscv/include/asm/alternative.h  |  5 +++++
+>  arch/riscv/include/asm/cpufeature.h   |  2 ++
+>  arch/riscv/include/asm/hwprobe.h      |  2 +-
+>  arch/riscv/include/uapi/asm/hwprobe.h |  7 +++++++
+>  arch/riscv/kernel/alternative.c       | 19 ++++++++++++++++++
+>  arch/riscv/kernel/cpufeature.c        |  3 +++
+>  arch/riscv/kernel/smpboot.c           |  1 +
+>  arch/riscv/kernel/sys_riscv.c         | 28 +++++++++++++++++++++++++++
+>  10 files changed, 96 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprob=
+e.rst
+> index 945d44683c40..9f0dd62dcb5d 100644
+> --- a/Documentation/riscv/hwprobe.rst
+> +++ b/Documentation/riscv/hwprobe.rst
+> @@ -63,3 +63,24 @@ The following keys are defined:
+> =20
+>    * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as def=
+ined
+>      by version 2.2 of the RISC-V ISA manual.
+> +
+> +* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains perfor=
+mance
+> +  information about the selected set of processors.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misa=
+ligned
+> +    accesses is unknown.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned accesses are
+> +    emulated via software, either in or below the kernel.  These accesse=
+s are
+> +    always extremely slow.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are su=
+pported
+> +    in hardware, but are slower than the cooresponding aligned accesses
+> +    sequences.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are su=
+pported
+> +    in hardware and are faster than the cooresponding aligned accesses
+> +    sequences.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned accesses=
+ are
+> +    not supported at all and will generate a misaligned address fault.
+> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/e=
+rrata.c
+> index fac5742d1c1e..f41a45af5607 100644
+> --- a/arch/riscv/errata/thead/errata.c
+> +++ b/arch/riscv/errata/thead/errata.c
+> @@ -10,7 +10,9 @@
+>  #include <linux/uaccess.h>
+>  #include <asm/alternative.h>
+>  #include <asm/cacheflush.h>
+> +#include <asm/cpufeature.h>
+>  #include <asm/errata_list.h>
+> +#include <asm/hwprobe.h>
+>  #include <asm/patch.h>
+>  #include <asm/vendorid_list.h>
+> =20
+> @@ -108,3 +110,10 @@ void __init_or_module thead_errata_patch_func(struct=
+ alt_entry *begin, struct al
+>  	if (stage =3D=3D RISCV_ALTERNATIVES_EARLY_BOOT)
+>  		local_flush_icache_all();
+>  }
+> +
+> +void thead_feature_probe_func(unsigned int cpu, unsigned long archid,
+> +			      unsigned long impid)
+> +{
+> +	if ((archid =3D=3D 0) && (impid =3D=3D 0))
+> +		per_cpu(misaligned_access_speed, cpu) =3D RISCV_HWPROBE_MISALIGNED_FAS=
+T;
+> +}
+> diff --git a/arch/riscv/include/asm/alternative.h b/arch/riscv/include/as=
+m/alternative.h
+> index 6511dd73e812..7be6d4c6a27d 100644
+> --- a/arch/riscv/include/asm/alternative.h
+> +++ b/arch/riscv/include/asm/alternative.h
+> @@ -23,6 +23,7 @@
+>  #define RISCV_ALTERNATIVES_MODULE	1 /* alternatives applied during modul=
+e-init */
+>  #define RISCV_ALTERNATIVES_EARLY_BOOT	2 /* alternatives applied before m=
+mu start */
+> =20
+> +void probe_vendor_features(unsigned int cpu);
+>  void __init apply_boot_alternatives(void);
+>  void __init apply_early_boot_alternatives(void);
+>  void apply_module_alternatives(void *start, size_t length);
+> @@ -47,11 +48,15 @@ void thead_errata_patch_func(struct alt_entry *begin,=
+ struct alt_entry *end,
+>  			     unsigned long archid, unsigned long impid,
+>  			     unsigned int stage);
+> =20
+> +void thead_feature_probe_func(unsigned int cpu, unsigned long archid,
+> +			      unsigned long impid);
+> +
+>  void riscv_cpufeature_patch_func(struct alt_entry *begin, struct alt_ent=
+ry *end,
+>  				 unsigned int stage);
+> =20
+>  #else /* CONFIG_RISCV_ALTERNATIVE */
+> =20
+> +static inline void probe_vendor_features(unsigned int cpu) { }
+>  static inline void apply_boot_alternatives(void) { }
+>  static inline void apply_early_boot_alternatives(void) { }
+>  static inline void apply_module_alternatives(void *start, size_t length)=
+ { }
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index 66ebaae449c8..808d5403f2ac 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -18,4 +18,6 @@ struct riscv_cpuinfo {
+> =20
+>  DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+> =20
+> +DECLARE_PER_CPU(long, misaligned_access_speed);
+> +
+>  #endif
+> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hw=
+probe.h
+> index 7e52f1e1fe10..4e45e33015bc 100644
+> --- a/arch/riscv/include/asm/hwprobe.h
+> +++ b/arch/riscv/include/asm/hwprobe.h
+> @@ -8,6 +8,6 @@
+> =20
+>  #include <uapi/asm/hwprobe.h>
+> =20
+> -#define RISCV_HWPROBE_MAX_KEY 4
+> +#define RISCV_HWPROBE_MAX_KEY 5
+> =20
+>  #endif
+> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
+api/asm/hwprobe.h
+> index fc5665411782..2968bb0984b5 100644
+> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> @@ -25,6 +25,13 @@ struct riscv_hwprobe {
+>  #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
+>  #define		RISCV_HWPROBE_IMA_FD		(1 << 0)
+>  #define		RISCV_HWPROBE_IMA_C		(1 << 1)
+> +#define RISCV_HWPROBE_KEY_CPUPERF_0	5
+> +#define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+> +#define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+> +#define		RISCV_HWPROBE_MISALIGNED_SLOW		(2 << 0)
+> +#define		RISCV_HWPROBE_MISALIGNED_FAST		(3 << 0)
+> +#define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
+> +#define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
+>  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+> =20
+>  #endif
+> diff --git a/arch/riscv/kernel/alternative.c b/arch/riscv/kernel/alternat=
+ive.c
+> index a7d26a00beea..522d3d11e0c3 100644
+> --- a/arch/riscv/kernel/alternative.c
+> +++ b/arch/riscv/kernel/alternative.c
+> @@ -23,6 +23,8 @@ struct cpu_manufacturer_info_t {
+>  	void (*patch_func)(struct alt_entry *begin, struct alt_entry *end,
+>  				  unsigned long archid, unsigned long impid,
+>  				  unsigned int stage);
+> +	void (*feature_probe_func)(unsigned int cpu, unsigned long archid,
+> +				   unsigned long impid);
+>  };
+> =20
+>  static void __init_or_module riscv_fill_cpu_mfr_info(struct cpu_manufact=
+urer_info_t *cpu_mfr_info)
+> @@ -37,6 +39,7 @@ static void __init_or_module riscv_fill_cpu_mfr_info(st=
+ruct cpu_manufacturer_inf
+>  	cpu_mfr_info->imp_id =3D sbi_get_mimpid();
+>  #endif
+> =20
+> +	cpu_mfr_info->feature_probe_func =3D NULL;
+>  	switch (cpu_mfr_info->vendor_id) {
+>  #ifdef CONFIG_ERRATA_SIFIVE
+>  	case SIFIVE_VENDOR_ID:
+> @@ -46,6 +49,7 @@ static void __init_or_module riscv_fill_cpu_mfr_info(st=
+ruct cpu_manufacturer_inf
+>  #ifdef CONFIG_ERRATA_THEAD
+>  	case THEAD_VENDOR_ID:
+>  		cpu_mfr_info->patch_func =3D thead_errata_patch_func;
+> +		cpu_mfr_info->feature_probe_func =3D thead_feature_probe_func;
+>  		break;
+>  #endif
+>  	default:
+> @@ -53,6 +57,20 @@ static void __init_or_module riscv_fill_cpu_mfr_info(s=
+truct cpu_manufacturer_inf
+>  	}
+>  }
+> =20
+> +/* Called on each CPU as it starts */
+> +void probe_vendor_features(unsigned int cpu)
+> +{
+> +	struct cpu_manufacturer_info_t cpu_mfr_info;
+> +
+> +	riscv_fill_cpu_mfr_info(&cpu_mfr_info);
+> +	if (!cpu_mfr_info.feature_probe_func)
+> +		return;
+> +
+> +	cpu_mfr_info.feature_probe_func(cpu,
+> +					cpu_mfr_info.arch_id,
+> +					cpu_mfr_info.imp_id);
+> +}
+> +
+>  /*
+>   * This is called very early in the boot process (directly after we run
+>   * a feature detect on the boot CPU). No need to worry about other CPUs
+> @@ -82,6 +100,7 @@ void __init apply_boot_alternatives(void)
+>  	/* If called on non-boot cpu things could go wrong */
+>  	WARN_ON(smp_processor_id() !=3D 0);
+> =20
+> +	probe_vendor_features(0);
+>  	_apply_alternatives((struct alt_entry *)__alt_start,
+>  			    (struct alt_entry *)__alt_end,
+>  			    RISCV_ALTERNATIVES_BOOT);
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 93e45560af30..8ccf260e8b02 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -32,6 +32,9 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
+ead_mostly;
+>  DEFINE_STATIC_KEY_ARRAY_FALSE(riscv_isa_ext_keys, RISCV_ISA_EXT_KEY_MAX);
+>  EXPORT_SYMBOL(riscv_isa_ext_keys);
+> =20
+> +/* Performance information */
+> +DEFINE_PER_CPU(long, misaligned_access_speed);
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
+> index 3373df413c88..1291ab5ba4c3 100644
+> --- a/arch/riscv/kernel/smpboot.c
+> +++ b/arch/riscv/kernel/smpboot.c
+> @@ -167,6 +167,7 @@ asmlinkage __visible void smp_callin(void)
+>  	notify_cpu_starting(curr_cpuid);
+>  	numa_add_cpu(curr_cpuid);
+>  	set_cpu_online(curr_cpuid, 1);
+> +	probe_vendor_features(curr_cpuid);
+> =20
+>  	/*
+>  	 * Remote TLB flushes are ignored while the CPU is offline, so emit
+> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+> index 1c118438b1b3..76d5b468914c 100644
+> --- a/arch/riscv/kernel/sys_riscv.c
+> +++ b/arch/riscv/kernel/sys_riscv.c
+> @@ -7,6 +7,7 @@
+> =20
+>  #include <linux/syscalls.h>
+>  #include <asm/cacheflush.h>
+> +#include <asm/cpufeature.h>
+>  #include <asm/hwprobe.h>
+>  #include <asm/sbi.h>
+>  #include <asm/switch_to.h>
+> @@ -117,6 +118,29 @@ static void hwprobe_arch_id(struct riscv_hwprobe *pa=
+ir,
+>  	pair->value =3D id;
+>  }
+> =20
+> +static u64 hwprobe_misaligned(const struct cpumask *cpus)
+> +{
+> +	int cpu;
+> +	u64 perf =3D -1ULL;
+> +
+> +	for_each_cpu(cpu, cpus) {
+> +		int this_perf =3D per_cpu(misaligned_access_speed, cpu);
+> +
+> +		if (perf =3D=3D -1ULL)
+> +			perf =3D this_perf;
+> +
+> +		if (perf !=3D this_perf) {
+> +			perf =3D RISCV_HWPROBE_MISALIGNED_UNKNOWN;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (perf =3D=3D -1ULL)
+> +		return RISCV_HWPROBE_MISALIGNED_UNKNOWN;
+> +
+> +	return perf;
+> +}
+> +
+>  static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+>  			     const struct cpumask *cpus)
+>  {
+> @@ -146,6 +170,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *p=
+air,
+> =20
+>  		break;
+> =20
+> +	case RISCV_HWPROBE_KEY_CPUPERF_0:
+> +		pair->value =3D hwprobe_misaligned(cpus);
+> +		break;
+> +
+>  	/*
+>  	 * For forward compatibility, unknown keys don't fail the whole
+>  	 * call, but get their element key set to -1 and value set to 0
+> --=20
+> 2.25.1
+>=20
+
+--0Q/vSjzTMzK1nUkq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZBWoOgAKCRB4tDGHoIJi
+0jjbAQC8Pyk2ey4Voutcd0hhV8SfyCF+jl52xqMpQGDusR0MZgEA5rB6R62j62Us
+64D1LdX2D4FgZiqANThANuizktmLoQQ=
+=3WKM
+-----END PGP SIGNATURE-----
+
+--0Q/vSjzTMzK1nUkq--
