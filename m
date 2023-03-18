@@ -2,110 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DEFC7619A
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 20:29:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3548C6FD1D
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Mar 2023 00:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229473AbjCQU3M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 16:29:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58740 "EHLO
+        id S229533AbjCRA6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 20:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbjCQU3D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 16:29:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CA4DBAD3C
-        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 13:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679084881;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LMNmNTOdx390ioTe9XNiCAi1NYjBrn3x8X89rBxIitg=;
-        b=fKaktX6BEYi2d1WqbMA4G+oCwmqlZsoZg/ugQvXUUye0APtXpbd4JSchdngYpQDLZU2ibp
-        li+xPjA0J7OVht3ZK4tXv2Kl8jUxZc+HGy/ByiuR3ROglpDquksi+WOm/T6ei2e4dj3T/7
-        nqMqQB3osV3rXBni+1HUTnS5XL+GA8g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-Mxwocp_hMcOEN5qt7QZfpw-1; Fri, 17 Mar 2023 16:27:58 -0400
-X-MC-Unique: Mxwocp_hMcOEN5qt7QZfpw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D7602999B21;
-        Fri, 17 Mar 2023 20:27:57 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.99])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E243B492B00;
-        Fri, 17 Mar 2023 20:27:56 +0000 (UTC)
-From:   Eric Blake <eblake@redhat.com>
-To:     josef@toxicpanda.com, linux-block@vger.kernel.org,
-        nbd@other.debian.org
-Cc:     philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
-        christoph.boehmwalder@linbit.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/5] block nbd: use req.cookie instead of req.handle
-Date:   Fri, 17 Mar 2023 15:27:48 -0500
-Message-Id: <20230317202749.419094-5-eblake@redhat.com>
-In-Reply-To: <20230317202749.419094-1-eblake@redhat.com>
-References: <20230317202749.419094-1-eblake@redhat.com>
+        with ESMTP id S229473AbjCRA6c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 20:58:32 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230D63CE23;
+        Fri, 17 Mar 2023 17:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679101111; x=1710637111;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kTtpQOSz4D9Z4x23243KvoMRT8zk4k5AM2MlBBfU7E4=;
+  b=ZvjpDgjNJDdcW2dbwU7KVPjhwAxVJ53uI/WPfmus/1KkkkIIyLApDsEd
+   o7+DXx2VeXiQ0wwTNR7nnoAs7m7FxInsZYfsU9BmMrns+tXkQcr1eRa6o
+   nL4O/T5S6Yuc5cR/1nV7qL+oYR/T6qM4KLM6mRj4qTDKk6OnKaqHGULhL
+   k0HjHzDuuLct4lym8vpe+ORxHCctbdU4qXy0mvbmfqzZ0EDC9RZvE9vcm
+   dOINrUK9KvcX72DJE68Cz+kZicdpHC1X+NKAAlGl3Lbk3PaIJ4BhI5MLY
+   0EXbkGtb5CjjDgoM8cxSLTEjAgHIQzyuOfn4KmPpUmh5czUATLE1wLnTg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="403264661"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
+   d="scan'208";a="403264661"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 17:58:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="854652652"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
+   d="scan'208";a="854652652"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 17 Mar 2023 17:58:26 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pdKtu-0009h8-0x;
+        Sat, 18 Mar 2023 00:58:26 +0000
+Date:   Sat, 18 Mar 2023 08:57:28 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Shanker Donthineni <sdonthineni@nvidia.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v3] irqchip/gicv3: Workaround for NVIDIA erratum
+ T241-FABRIC-4
+Message-ID: <202303180807.8bgU13CU-lkp@intel.com>
+References: <20230317162636.851085-1-sdonthineni@nvidia.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230317162636.851085-1-sdonthineni@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A good optimizing compiler should not compile this any differently,
-but it is nicer to work directly with integers instead of memcpy().
+Hi Shanker,
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
+Thank you for the patch! Yet something to improve:
 
----
-v2: Fix kernel test robot complaint about wrong endianness on loongarch:
-https://lore.kernel.org/oe-kbuild-all/202303121323.Jd35Q1Au-lkp@intel.com/
----
- drivers/block/nbd.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on arm64/for-next/core soc/for-next linus/master v6.3-rc2 next-20230317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-index 8a9487e79f1c..94ae85400b46 100644
---- a/drivers/block/nbd.c
-+++ b/drivers/block/nbd.c
-@@ -560,7 +560,6 @@ static int nbd_send_cmd(struct nbd_device *nbd, struct nbd_cmd *cmd, int index)
- 	unsigned long size = blk_rq_bytes(req);
- 	struct bio *bio;
- 	u64 handle;
--	__be64 tmp;
- 	u32 type;
- 	u32 nbd_cmd_flags = 0;
- 	int sent = nsock->sent, skip = 0;
-@@ -607,8 +606,7 @@ static int nbd_send_cmd(struct nbd_device *nbd, struct nbd_cmd *cmd, int index)
- 		request.len = htonl(size);
- 	}
- 	handle = nbd_cmd_handle(cmd);
--	tmp = cpu_to_be64(handle);
--	memcpy(request.handle, &tmp, sizeof(tmp));
-+	request.cookie = cpu_to_be64(handle);
+url:    https://github.com/intel-lab-lkp/linux/commits/Shanker-Donthineni/irqchip-gicv3-Workaround-for-NVIDIA-erratum-T241-FABRIC-4/20230318-003214
+patch link:    https://lore.kernel.org/r/20230317162636.851085-1-sdonthineni%40nvidia.com
+patch subject: [PATCH v3] irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230318/202303180807.8bgU13CU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/27a88c95568fc0cfe4537989de4d5e28fe4174c9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shanker-Donthineni/irqchip-gicv3-Workaround-for-NVIDIA-erratum-T241-FABRIC-4/20230318-003214
+        git checkout 27a88c95568fc0cfe4537989de4d5e28fe4174c9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
 
- 	trace_nbd_send_request(&request, nbd->index, blk_mq_rq_from_pdu(cmd));
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303180807.8bgU13CU-lkp@intel.com/
 
-@@ -729,14 +727,12 @@ static struct nbd_cmd *nbd_handle_reply(struct nbd_device *nbd, int index,
- 	int result;
- 	struct nbd_cmd *cmd;
- 	struct request *req = NULL;
--	__be64 tmp;
- 	u64 handle;
- 	u16 hwq;
- 	u32 tag;
- 	int ret = 0;
+All errors (new ones prefixed by >>):
 
--	memcpy(&tmp, reply->handle, sizeof(tmp));
--	handle = be64_to_cpu(tmp);
-+	handle = be64_to_cpu(reply->cookie);
- 	tag = nbd_handle_to_tag(handle);
- 	hwq = blk_mq_unique_tag_to_hwq(tag);
- 	if (hwq < nbd->tag_set.nr_hw_queues)
+   In file included from include/linux/bits.h:6,
+                    from include/linux/ioport.h:13,
+                    from include/linux/acpi.h:12,
+                    from drivers/irqchip/irq-gic-v3.c:9:
+   drivers/irqchip/irq-gic-v3.c: In function 'gic_enable_quirk_nvidia_t241':
+>> include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_251' declared with attribute error: FIELD_GET: type of reg too small for mask
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                            ^~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '__compiletime_assert'
+     346 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:128:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     128 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-gic-v3.c:1781:35: note: in expansion of macro 'FIELD_GET'
+    1781 |                 chip_bmask |= BIT(FIELD_GET(T241_CHIPN_MASK,
+         |                                   ^~~~~~~~~
+
+
+vim +/__compiletime_assert_251 +358 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  356   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  357  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @358  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  359  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
