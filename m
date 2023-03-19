@@ -2,94 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C483C77B62
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Mar 2023 07:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2B4C6FD1F
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Mar 2023 08:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbjCSHtS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Mar 2023 03:49:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52842 "EHLO
+        id S229685AbjCSI2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Mar 2023 04:28:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbjCSHtN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Mar 2023 03:49:13 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881FA17CC8;
-        Sun, 19 Mar 2023 00:49:11 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so9495429pjp.1;
-        Sun, 19 Mar 2023 00:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679212151;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDmKMfZRvdGTqS2YjpCHycz2mr/bwWb55BHOr40VzVw=;
-        b=Uikflf21LoGQOuteV4ayhUyn0iQyYz0tnQEITezuEDbBxagF83vXzoSQ3vCrCMT8pD
-         0ArNozhIkVXe/LmguBr6RkFQD6eTvnXTQzkA3bkWBVehzF2gHz6l2sLMJpbMoJGDR2zr
-         4ExEHmTfBxedMiFsGOanyrfjHANBOe77txws0V5IT297orfxPWMJ2V/ajSplBZYU6RXe
-         hBver8mdc2F+QwYhkktPaGqL/9JS4p9OHYpfg222j2sasl2ovGNlc9EXWQrWqlsAFP0X
-         AklOksJGwhnMt1tNU7Jt1454iHT7TCbU9WvdRKxVDpHTVwOZYqCBgI2h7MnabuV5Htsr
-         CMXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679212151;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FDmKMfZRvdGTqS2YjpCHycz2mr/bwWb55BHOr40VzVw=;
-        b=fjH/zk1Wzthub09lOVNXSjjbVh1n7qTmmpWZ/mj2l8Z+QxkUTuG2Pn8eLJjB0rVwMh
-         g26aYvi0v2M4OwWTJZ+poud4g3XDSGus/FZgr+3hdVOEih9XomjEXsiLbCqVsUIyNfrI
-         UfWnyZiuRN5gBhb04aHpt4NE1P4RcbwBRSarl94cV5HRj83/Y2BKQ4OqIW9pljkUBqur
-         uULJeEbF/rLMLWzJ1ZPBC4Zog34wvaJW7KphH5fO5r1lZvzuVO05WS72QNMnK15UUuiJ
-         DsYM04TyOuG2kPavN4HGUXkGXQbcq64h3L8PawyNEEqJ6fupJOEWlomOrdGp48KBAKT3
-         X3HQ==
-X-Gm-Message-State: AO0yUKXcDgS/Yx+LBCmiQe5Jty+RkwFSXQIWptMvwuoM6VeMv5qErj70
-        r7whk7LGsNLR6qxmnjpduSs=
-X-Google-Smtp-Source: AK7set9r1PJM+UDP4DEy+/qi0WLwDAu/7wmKLUGtYka4LtoxDlg+mUygQBIcBw4C/Yegck7oft0XXA==
-X-Received: by 2002:a17:903:4111:b0:19a:b6bf:1df6 with SMTP id r17-20020a170903411100b0019ab6bf1df6mr11472096pld.20.1679212150970;
-        Sun, 19 Mar 2023 00:49:10 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-29.three.co.id. [180.214.233.29])
-        by smtp.gmail.com with ESMTPSA id s19-20020a170902989300b00186cf82717fsm4296616plp.165.2023.03.19.00.49.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 00:49:10 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id CEFDB10667B; Sun, 19 Mar 2023 14:49:06 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux MediaTek <linux-mediatek@lists.infradead.org>,
-        Linux LEDs <linux-leds@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        ChiaEn Wu <chiaen_wu@richtek.com>, Lee Jones <lee@kernel.org>,
-        ChiYuan Huang <cy_huang@richtek.com>
-Subject: [PATCH 0/3] Documentation fixes for MT6370 RGB
-Date:   Sun, 19 Mar 2023 14:49:00 +0700
-Message-Id: <20230319074903.13075-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S229508AbjCSI2H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Mar 2023 04:28:07 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DFF21A3D
+        for <linux-doc@vger.kernel.org>; Sun, 19 Mar 2023 01:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679214485; x=1710750485;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xUpBKuyCq3zDvKFg5zoxA5YrmdR01ZE/PnMjGtfcNaU=;
+  b=MjzhKnL82tqk3gAlTXrUX5k1Liqptn70tmLRxplyDWgamB4q/yKWHM7N
+   1sAqzVG3Clx/vuFBsOGWwoX5Jb72QVQM8PBNPea7kbsQsl8+TsExiI4mp
+   sk9YP9xlpofJkCD4CIycOn/+RkEU8HVVN9ww0jWcc8aWVaUsQRCj34nDe
+   PzInbzyEEgYMcAH8x8xCX5zhFroE8YiVLd3ngT6jdNB9wAI+bDPkxyU2i
+   CtyvfiDGwWXGOqmq9Ot64PL3fBWqDr3Lir6QzTtJmW1//ydJFWN/hc3D5
+   vqu/CUSzMJ1fqllDrK2lcEllGRA+GwqnlxbR7w6cqZ8Je4wuATBzx/TBx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="340849621"
+X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
+   d="scan'208";a="340849621"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 01:28:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="674014013"
+X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
+   d="scan'208";a="674014013"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 19 Mar 2023 01:28:04 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pdoOZ-000ASs-14;
+        Sun, 19 Mar 2023 08:28:03 +0000
+Date:   Sun, 19 Mar 2023 16:27:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
+        linux-doc@vger.kernel.org
+Subject: [lunn:v6.2.0-net-next-phy-leds 2/28] htmldocs:
+ Documentation/leds/leds-class.rst:217: WARNING: Inline emphasis start-string
+ without end-string.
+Message-ID: <202303191637.XhbORWKz-lkp@intel.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=620; i=bagasdotme@gmail.com; h=from:subject; bh=INgo8UAcDlgThAL83Kqu0+jtw7xGVPRobpAiN6s6OPE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCli+/KWz13l1TR9qpjWxwrxNVF3P7xi1kqbsnxZbuQU/ t0H+Gr/dpSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAi7PMYGZ5P3/v54+sWyw43 no6o6cs/vv3BWP687JJo7ZlDVUXKWusZGf6KGyvNqWvS01j+QWvW5WM+PlYnpV2nH9q/51aYTXL 5DDYA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot recently reported htmldocs warnings on documentation
-for MT6370 RGB LED. So here are the fixes.
+tree:   https://github.com/lunn/linux.git v6.2.0-net-next-phy-leds
+head:   8a9b1a5ad5dd0e48585009020088a2ee5bdd6688
+commit: d4ee8e7089227062d16b95302ae0532f578bc205 [2/28] leds: add function to configure hardware controlled LED
+reproduce:
+        # https://github.com/lunn/linux/commit/d4ee8e7089227062d16b95302ae0532f578bc205
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.2.0-net-next-phy-leds
+        git checkout d4ee8e7089227062d16b95302ae0532f578bc205
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Bagas Sanjaya (3):
-  Documentation: leds: Add MT6370 doc to the toctree
-  Documentation: leds: MT6370: Properly wrap hw_pattern chart
-  Documentation: leds: MT6370: Use bullet lists for timing variables
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303191637.XhbORWKz-lkp@intel.com/
 
- Documentation/leds/index.rst           |  1 +
- Documentation/leds/leds-mt6370-rgb.rst | 42 +++++++++++++-------------
- 2 files changed, 22 insertions(+), 21 deletions(-)
+All warnings (new ones prefixed by >>):
 
+>> Documentation/leds/leds-class.rst:217: WARNING: Inline emphasis start-string without end-string.
 
-base-commit: 4ba9df04b7ac66d2d000ed7ae2d8136302d99a57
+vim +217 Documentation/leds/leds-class.rst
+
+   216	
+ > 217	- struct led_classdev *led_cdev
+   218	
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
