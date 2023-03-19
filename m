@@ -2,99 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA74C7618E
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Mar 2023 08:46:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7F3C6FD1F
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Mar 2023 12:52:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbjCSIqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Mar 2023 04:46:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52694 "EHLO
+        id S230243AbjCSMw1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Mar 2023 08:52:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjCSIqN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Mar 2023 04:46:13 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9EEF35A7;
-        Sun, 19 Mar 2023 01:46:11 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id fd25so5320682pfb.1;
-        Sun, 19 Mar 2023 01:46:11 -0700 (PDT)
+        with ESMTP id S229676AbjCSMw0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Mar 2023 08:52:26 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFCE1C5BC;
+        Sun, 19 Mar 2023 05:52:25 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id c18so9796446ple.11;
+        Sun, 19 Mar 2023 05:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679215571;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5o6ymqe954+ceahx9omRlmLXZU+j0iSO1O5txu/jm1w=;
-        b=UiTt3XPbVNE9dtJ2kIShcbgPRkcifVYqGGhxGzxMSpBwa4wgxtdu0TBGlDXUtcXUDW
-         0cqfK+3fTiuuuCgcZqpudV5lBGZDkQlHpKrjCGyA2kxFKm+oNaozT9X1cdqSLWaIiHhy
-         cwqMFSIcLiWR7R9l15EPL5M6ig3zh3f6I1exd37FLlBEln5/7R2802V7e72dVB74wdOC
-         /PDe8bSnDnOiQtdWi2CCZv5PNnoGVuJcu2LFSmFmRsQ6Pq9E+/k6ezOaJRFV7HmX1Ch9
-         9CrM5absCJ4zCZ6Gxh9wjyWbdbaEcvvloRbq/03Bg4nWHMYWBS7SeEU0lAw2NRh66n73
-         W8EQ==
+        d=gmail.com; s=20210112; t=1679230345;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sx3R8+4eXcBfWk/kEKY5/xAPakgQR9ddZb5g/YyPWv4=;
+        b=I37KCPzSG6H64xonNrJ5rCOPsuWrec4JBJpTWx/Az/+IfD4RfvpFyP2LzK//35QaD7
+         4/2rAJdFpKMA5bkNMF6V/Te0ShH7GojvxpRjFS7CoCIjzdwkm9HZguldFOSYrqca7ASC
+         bZkHZNKEif/i/rGWhBoVHJFX/cN/59TzP+Dju3XaXsnem8Bz82gM0b8l9kSyYhCNlcZn
+         ZBMvtdca3PI1BNlz6fjFwsSxKskoOCQzyPIiAMgpDtkf/KPqLlZHX8o2oTE7KKVCKxu8
+         2TQTO1J6rM2dGIPh5ghjvVnoBVTxbCmCUGJvDmFzaWyf4Bzzn4rsdoCQfg7/adh8f58c
+         B0EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679215571;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5o6ymqe954+ceahx9omRlmLXZU+j0iSO1O5txu/jm1w=;
-        b=AqzeS9DNdSR8H5u/mebofxqAALwy88GRfTnlj92x00ENk5rCwssl3SRzGEGA1SU9b2
-         KVuC0IyIWpWz19l6KzUTAI4fDcvgckgfzapRPaWpYZCXW6Z40lAEyFmfXLpxNd3vXYxR
-         XITQpVPc03yWmu1swy0TDpaLLIqvHrZaq+phgGFfwZk+UhQFLPr/XZvo1dtiRaob8M3c
-         DH/cpjiiIXYPSPDbxRhcYIu642OXQ8bMh/AZR4mU1nE9yNHsnaS6sPvu3qMpccm3O3Ij
-         G6PyXZDlUalFULsJEKiJWZHyAUAtuMLhxxJN7myaE00Iu+fhQ8VPkRjxnqKM9s/Wd3wy
-         w3KQ==
-X-Gm-Message-State: AO0yUKVBTr+q+mvbiCkJznOuWN5F7Hrl+blGYSLyqO0kABBma8OSiklZ
-        UIV1etq+fo0pgjuyOb4W+SY=
-X-Google-Smtp-Source: AK7set/cVmDfhFl8yui+LNoY/s7ZNk9VbFPRmk0FRG0zWDtT7ivNm03773bU8tdRYJtnKuAH4TjfAg==
-X-Received: by 2002:aa7:9804:0:b0:627:e42f:b76d with SMTP id e4-20020aa79804000000b00627e42fb76dmr3654543pfl.12.1679215571202;
-        Sun, 19 Mar 2023 01:46:11 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-29.three.co.id. [180.214.233.29])
-        by smtp.gmail.com with ESMTPSA id a24-20020a62e218000000b00627f2f23624sm512643pfi.159.2023.03.19.01.46.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 01:46:10 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 62DB6106574; Sun, 19 Mar 2023 15:46:07 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux LEDs <linux-leds@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] MAINTAINERS: Add entry for LED devices documentation
-Date:   Sun, 19 Mar 2023 15:46:04 +0700
-Message-Id: <20230319084604.19749-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        d=1e100.net; s=20210112; t=1679230345;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sx3R8+4eXcBfWk/kEKY5/xAPakgQR9ddZb5g/YyPWv4=;
+        b=fXNwtw8233yMFR9h7CpazUmzCPKIqhg8VwftHstuJSmbkhot2JxsErW260irpYorhA
+         vDpolBoxjSfH4vQJ0tQPbNpQS/YZrZHImXGe+OQZEvHbPR6az6D3OfDgPcze8NQe2Qpm
+         Qs9lu9RVLuHjsH8BwAJfSyXdm/jAaNcILfAxZcKrSLUafxmGQg5QDjxxN+aMs/tTJuDv
+         mpfKhN5AwOJ58+wAo+VubkQhXEPyawhMVFmqlhwdjhTyYOYunYlusQDetS6eHDaH6bvz
+         s0AOC0OQPlA6UwiasYdrA+cuMw/GkxmGhrQwMzksFgbdcjB88faZ++GxWFAVfrNx4Ugh
+         qh0A==
+X-Gm-Message-State: AO0yUKVj62zMf8yk+3DH3lWGcGfxcI3aVVhqIZTOO1ttEJ6U8qLk7XhC
+        6IJ5QrUMad2c9o0kDAoTyYk=
+X-Google-Smtp-Source: AK7set8rbtsa+y0IukuFAqizrLvWMnwirw/hWnmcny3Y9VWHyk7GL5IOCRZkTM34Z0vhJLZtoUeCqQ==
+X-Received: by 2002:a17:902:fac3:b0:19e:76b7:c7d2 with SMTP id ld3-20020a170902fac300b0019e76b7c7d2mr12248682plb.26.1679230345011;
+        Sun, 19 Mar 2023 05:52:25 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-58.three.co.id. [116.206.28.58])
+        by smtp.gmail.com with ESMTPSA id w13-20020a1709029a8d00b0019a9436d2a0sm4713018plp.89.2023.03.19.05.52.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Mar 2023 05:52:24 -0700 (PDT)
+Message-ID: <df9e53ac-be69-60a6-9782-73165873d28b@gmail.com>
+Date:   Sun, 19 Mar 2023 19:52:21 +0700
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=923; i=bagasdotme@gmail.com; h=from:subject; bh=TSOdQAypRtKbV1Yt9eZY3fOYgd810K9XXcusnAgBdUg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDClip48fit4hq6F8eZGbRv3y8s0Lf8jzTvqxT2rvhp321 z988p95p6OUhUGMi0FWTJFlUiJf0+ldRiIX2tc6wsxhZQIZwsDFKQATSZjK8N+t+J+019Q21u07 Nl25cX998gaBDpaoi8UyalcVD+a/nWHHyPAkKTorvmjr7OZ3N860OC1S2zLrkKzuFabfyt8VC1Q O/GYHAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] ELF: document some de-facto PT_* ABI quirks
+Content-Language: en-US
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, akpm@linux-foundation.org,
+        linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
+ <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
+ <ZBQjRLiXOwfmoIs+@debian.me> <cc449f31-071c-48b8-a6a8-7b91f205c3c6@p183>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <cc449f31-071c-48b8-a6a8-7b91f205c3c6@p183>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When given patches that only touch documentation directory for LED
-devices (Documentation/leds/), get_maintainer doesn't list mailing list
-for LED subsystem. However, the patch should be seen on that list in order
-to be applied.
+On 3/17/23 23:53, Alexey Dobriyan wrote:
+>> The current doc path is Documentation/ELF/ELF.rst, which means that
+>> readers expect to find general info about the executable format, not
+>> some sort of trivia/niche like this.
+> 
+> General info is in ELF spec. This document is intended to be Linux
+> specific stuff you won't find anywhere but source.
+> 
+> I'll write down overmapping rules as well.
 
-Add the entry for Documentation/leds/.
+In the same Documentation/ELF/ELF.rst?
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+And thus, the doc title should be "Linux-specific ELF notes", right?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8d5bc223f3053b..8cc35a2e24e515 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11648,6 +11648,7 @@ L:	linux-leds@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git
- F:	Documentation/devicetree/bindings/leds/
-+F:	Documentation/leds/
- F:	drivers/leds/
- F:	include/dt-bindings/leds/
- F:	include/linux/leds.h
-
-base-commit: 4ba9df04b7ac66d2d000ed7ae2d8136302d99a57
 -- 
 An old man doll... just what I always wanted! - Clara
 
