@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CDF4C74A5B
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Mar 2023 00:20:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 470F1C74A5B
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Mar 2023 00:21:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjCSAUo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Mar 2023 20:20:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38418 "EHLO
+        id S230218AbjCSAVE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Mar 2023 20:21:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbjCSAUI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Mar 2023 20:20:08 -0400
+        with ESMTP id S229964AbjCSAUV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Mar 2023 20:20:21 -0400
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E91F28D07;
-        Sat, 18 Mar 2023 17:18:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D692F2B2AB;
+        Sat, 18 Mar 2023 17:18:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679185114; x=1710721114;
+  t=1679185124; x=1710721124;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=JiFIyLCYmEZEMe86X9SZ26iJG6/i80APvHoHhUeLipc=;
-  b=db/8MtrTjUybRJ2TnHtj6gg3h8FJeeBZu96h2psRcf6xCOqvarwK78LC
-   9onxlGkqXz35mU0fOUk3BdR70C7ZKBbEFlInMMRotbi6yY7XcMyTIJoIG
-   hLThi1mqVFoMOrsEfgHHs7cipD3Hqv7AczXkQycbX6dcbwEjql6BtJjgh
-   uUwKmlr6qzbKrEk83SlBDVS4uqsOGsnBIjcXFTrVlbfutvAuHdyydiozR
-   9y1R8VveMnvKu4N0hMKiFzDUNplrtNZvwmYuxqqFvN2R+1iNIPqSJDkqe
-   k4eulaq2VO94Z0A0l5H0JoIVl7M3pCCybex0GW3iArbQdn+Tyu8ffRfG+
+  bh=m2G03CSTQRSNX4YXn65CryKHCN03SDYmmfcTPTkRd8E=;
+  b=lb1Od6fhtL2DLrCK9c+USmxyHjHNckFz4EimAijArw9/WJ4flEY+hAmJ
+   kbYbFTMuLrtNqrzf2WSuECwPndQ2Bgu3mgBdz1XeQIBaxNpMG7LQB6hUt
+   FooqfXx+xvBZrpV+7HMhwsUcAHUu+nvPlm/62HQotWwKhesIKLeErd8HW
+   4e08tSW0xQJGruLVQWp9BiZzyTjIvccASPsCqwjZmtIxI33V02uiZzlZY
+   q6TouUe16LxaRiVVjW4GsdtXWaA1B/RHSWAJ3cIa7zV0/g7yefoiuXv0A
+   oArJ2d6q3fBoiNHeeH1qYB6qPKhno2qljRDQRV9OamBVNMw9UWcd1P9cO
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="338491233"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="338491282"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="338491233"
+   d="scan'208";a="338491282"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 17:16:33 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 17:16:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="749672874"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="749672886"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="749672874"
+   d="scan'208";a="749672886"
 Received: from bmahatwo-mobl1.gar.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.135.34.5])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 17:16:31 -0700
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 17:16:34 -0700
 From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
 To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -67,10 +67,10 @@ To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com
-Cc:     rick.p.edgecombe@intel.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v8 23/40] mm: Re-introduce vm_flags to do_mmap()
-Date:   Sat, 18 Mar 2023 17:15:18 -0700
-Message-Id: <20230319001535.23210-24-rick.p.edgecombe@intel.com>
+Cc:     rick.p.edgecombe@intel.com
+Subject: [PATCH v8 25/40] x86/mm: Introduce MAP_ABOVE4G
+Date:   Sat, 18 Mar 2023 17:15:20 -0700
+Message-Id: <20230319001535.23210-26-rick.p.edgecombe@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230319001535.23210-1-rick.p.edgecombe@intel.com>
 References: <20230319001535.23210-1-rick.p.edgecombe@intel.com>
@@ -78,154 +78,124 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+The x86 Control-flow Enforcement Technology (CET) feature includes a new
+type of memory called shadow stack. This shadow stack memory has some
+unusual properties, which require some core mm changes to function
+properly.
 
-There was no more caller passing vm_flags to do_mmap(), and vm_flags was
-removed from the function's input by:
+One of the properties is that the shadow stack pointer (SSP), which is a
+CPU register that points to the shadow stack like the stack pointer points
+to the stack, can't be pointing outside of the 32 bit address space when
+the CPU is executing in 32 bit mode. It is desirable to prevent executing
+in 32 bit mode when shadow stack is enabled because the kernel can't easily
+support 32 bit signals.
 
-    commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap_pgoff()").
+On x86 it is possible to transition to 32 bit mode without any special
+interaction with the kernel, by doing a "far call" to a 32 bit segment.
+So the shadow stack implementation can use this address space behavior
+as a feature, by enforcing that shadow stack memory is always mapped
+outside of the 32 bit address space. This way userspace will trigger a
+general protection fault which will in turn trigger a segfault if it
+tries to transition to 32 bit mode with shadow stack enabled.
 
-There is a new user now.  Shadow stack allocation passes VM_SHADOW_STACK to
-do_mmap().  Thus, re-introduce vm_flags to do_mmap().
+This provides a clean error generating border for the user if they try
+attempt to do 32 bit mode shadow stack, rather than leave the kernel in a
+half working state for userspace to be surprised by.
 
-Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+So to allow future shadow stack enabling patches to map shadow stacks
+out of the 32 bit address space, introduce MAP_ABOVE4G. The behavior
+is pretty much like MAP_32BIT, except that it has the opposite address
+range. The are a few differences though.
+
+If both MAP_32BIT and MAP_ABOVE4G are provided, the kernel will use the
+MAP_ABOVE4G behavior. Like MAP_32BIT, MAP_ABOVE4G is ignored in a 32 bit
+syscall.
+
+Since the default search behavior is top down, the normal kaslr base can
+be used for MAP_ABOVE4G. This is unlike MAP_32BIT which has to add its
+own randomization in the bottom up case.
+
+For MAP_32BIT, only the bottom up search path is used. For MAP_ABOVE4G
+both are potentially valid, so both are used. In the bottomup search
+path, the default behavior is already consistent with MAP_ABOVE4G since
+mmap base should be above 4GB.
+
+Without MAP_ABOVE4G, the shadow stack will already normally be above 4GB.
+So without introducing MAP_ABOVE4G, trying to transition to 32 bit mode
+with shadow stack enabled would usually segfault anyway. This is already
+pretty decent guard rails. But the addition of MAP_ABOVE4G is some small
+complexity spent to make it make it more complete.
+
 Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Reviewed-by: Peter Collingbourne <pcc@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
 Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 Tested-by: John Allen <john.allen@amd.com>
 Tested-by: Kees Cook <keescook@chromium.org>
 ---
- fs/aio.c           |  2 +-
- include/linux/mm.h |  3 ++-
- ipc/shm.c          |  2 +-
- mm/mmap.c          | 10 +++++-----
- mm/nommu.c         |  4 ++--
- mm/util.c          |  2 +-
- 6 files changed, 12 insertions(+), 11 deletions(-)
+v8:
+ - Update commit log verbiage (Boris)
+ - Use SZ_4G (Boris)
 
-diff --git a/fs/aio.c b/fs/aio.c
-index b0b17bd098bb..4a7576989719 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -558,7 +558,7 @@ static int aio_setup_ring(struct kioctx *ctx, unsigned int nr_events)
+v5:
+ - New patch
+---
+ arch/x86/include/uapi/asm/mman.h | 1 +
+ arch/x86/kernel/sys_x86_64.c     | 6 +++++-
+ include/linux/mman.h             | 4 ++++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
+index 775dbd3aff73..5a0256e73f1e 100644
+--- a/arch/x86/include/uapi/asm/mman.h
++++ b/arch/x86/include/uapi/asm/mman.h
+@@ -3,6 +3,7 @@
+ #define _ASM_X86_MMAN_H
  
- 	ctx->mmap_base = do_mmap(ctx->aio_ring_file, 0, ctx->mmap_size,
- 				 PROT_READ | PROT_WRITE,
--				 MAP_SHARED, 0, &unused, NULL);
-+				 MAP_SHARED, 0, 0, &unused, NULL);
- 	mmap_write_unlock(mm);
- 	if (IS_ERR((void *)ctx->mmap_base)) {
- 		ctx->mmap_size = 0;
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index d09fbe9f43f8..d389198e17c2 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -3043,7 +3043,8 @@ extern unsigned long mmap_region(struct file *file, unsigned long addr,
- 	struct list_head *uf);
- extern unsigned long do_mmap(struct file *file, unsigned long addr,
- 	unsigned long len, unsigned long prot, unsigned long flags,
--	unsigned long pgoff, unsigned long *populate, struct list_head *uf);
-+	vm_flags_t vm_flags, unsigned long pgoff, unsigned long *populate,
-+	struct list_head *uf);
- extern int do_vmi_munmap(struct vma_iterator *vmi, struct mm_struct *mm,
- 			 unsigned long start, size_t len, struct list_head *uf,
- 			 bool downgrade);
-diff --git a/ipc/shm.c b/ipc/shm.c
-index 60e45e7045d4..576a543b7cff 100644
---- a/ipc/shm.c
-+++ b/ipc/shm.c
-@@ -1662,7 +1662,7 @@ long do_shmat(int shmid, char __user *shmaddr, int shmflg,
- 			goto invalid;
- 	}
+ #define MAP_32BIT	0x40		/* only give out 32bit addresses */
++#define MAP_ABOVE4G	0x80		/* only map above 4GB */
  
--	addr = do_mmap(file, addr, size, prot, flags, 0, &populate, NULL);
-+	addr = do_mmap(file, addr, size, prot, flags, 0, 0, &populate, NULL);
- 	*raddr = addr;
- 	err = 0;
- 	if (IS_ERR_VALUE(addr))
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 740b54be3ed4..e2c8e8e611d4 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1191,11 +1191,11 @@ static inline bool file_mmap_ok(struct file *file, struct inode *inode,
-  */
- unsigned long do_mmap(struct file *file, unsigned long addr,
- 			unsigned long len, unsigned long prot,
--			unsigned long flags, unsigned long pgoff,
--			unsigned long *populate, struct list_head *uf)
-+			unsigned long flags, vm_flags_t vm_flags,
-+			unsigned long pgoff, unsigned long *populate,
-+			struct list_head *uf)
- {
- 	struct mm_struct *mm = current->mm;
--	vm_flags_t vm_flags;
- 	int pkey = 0;
+ #ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
+ #define arch_calc_vm_prot_bits(prot, key) (		\
+diff --git a/arch/x86/kernel/sys_x86_64.c b/arch/x86/kernel/sys_x86_64.c
+index 8cc653ffdccd..c783aeb37dce 100644
+--- a/arch/x86/kernel/sys_x86_64.c
++++ b/arch/x86/kernel/sys_x86_64.c
+@@ -193,7 +193,11 @@ arch_get_unmapped_area_topdown(struct file *filp, const unsigned long addr0,
  
- 	validate_mm(mm);
-@@ -1256,7 +1256,7 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
- 	 * to. we assume access permissions have been handled by the open
- 	 * of the memory object, so we don't do any here.
- 	 */
--	vm_flags = calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
-+	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
- 			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
+ 	info.flags = VM_UNMAPPED_AREA_TOPDOWN;
+ 	info.length = len;
+-	info.low_limit = PAGE_SIZE;
++	if (!in_32bit_syscall() && (flags & MAP_ABOVE4G))
++		info.low_limit = SZ_4G;
++	else
++		info.low_limit = PAGE_SIZE;
++
+ 	info.high_limit = get_mmap_base(0);
  
- 	if (flags & MAP_LOCKED)
-@@ -2829,7 +2829,7 @@ SYSCALL_DEFINE5(remap_file_pages, unsigned long, start, unsigned long, size,
+ 	/*
+diff --git a/include/linux/mman.h b/include/linux/mman.h
+index cee1e4b566d8..40d94411d492 100644
+--- a/include/linux/mman.h
++++ b/include/linux/mman.h
+@@ -15,6 +15,9 @@
+ #ifndef MAP_32BIT
+ #define MAP_32BIT 0
+ #endif
++#ifndef MAP_ABOVE4G
++#define MAP_ABOVE4G 0
++#endif
+ #ifndef MAP_HUGE_2MB
+ #define MAP_HUGE_2MB 0
+ #endif
+@@ -50,6 +53,7 @@
+ 		| MAP_STACK \
+ 		| MAP_HUGETLB \
+ 		| MAP_32BIT \
++		| MAP_ABOVE4G \
+ 		| MAP_HUGE_2MB \
+ 		| MAP_HUGE_1GB)
  
- 	file = get_file(vma->vm_file);
- 	ret = do_mmap(vma->vm_file, start, size,
--			prot, flags, pgoff, &populate, NULL);
-+			prot, flags, 0, pgoff, &populate, NULL);
- 	fput(file);
- out:
- 	mmap_write_unlock(mm);
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 57ba243c6a37..f6ddd084671f 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -1002,6 +1002,7 @@ unsigned long do_mmap(struct file *file,
- 			unsigned long len,
- 			unsigned long prot,
- 			unsigned long flags,
-+			vm_flags_t vm_flags,
- 			unsigned long pgoff,
- 			unsigned long *populate,
- 			struct list_head *uf)
-@@ -1009,7 +1010,6 @@ unsigned long do_mmap(struct file *file,
- 	struct vm_area_struct *vma;
- 	struct vm_region *region;
- 	struct rb_node *rb;
--	vm_flags_t vm_flags;
- 	unsigned long capabilities, result;
- 	int ret;
- 	VMA_ITERATOR(vmi, current->mm, 0);
-@@ -1029,7 +1029,7 @@ unsigned long do_mmap(struct file *file,
- 
- 	/* we've determined that we can make the mapping, now translate what we
- 	 * now know into VMA flags */
--	vm_flags = determine_vm_flags(file, prot, flags, capabilities);
-+	vm_flags |= determine_vm_flags(file, prot, flags, capabilities);
- 
- 
- 	/* we're going to need to record the mapping */
-diff --git a/mm/util.c b/mm/util.c
-index b8ed9dbc7fd5..a93e832f4065 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -539,7 +539,7 @@ unsigned long vm_mmap_pgoff(struct file *file, unsigned long addr,
- 	if (!ret) {
- 		if (mmap_write_lock_killable(mm))
- 			return -EINTR;
--		ret = do_mmap(file, addr, len, prot, flag, pgoff, &populate,
-+		ret = do_mmap(file, addr, len, prot, flag, 0, pgoff, &populate,
- 			      &uf);
- 		mmap_write_unlock(mm);
- 		userfaultfd_unmap_complete(mm, &uf);
 -- 
 2.17.1
 
