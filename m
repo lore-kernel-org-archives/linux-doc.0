@@ -2,124 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E611C7618A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 09:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6475C7618A
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 10:03:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbjCTJHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 05:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40066 "EHLO
+        id S229640AbjCTKDk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 06:03:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231172AbjCTJHI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 05:07:08 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F9EEFBF
-        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 02:07:06 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id w9so43824041edc.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 02:07:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares.net; s=google; t=1679303225;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I48ZALEeuyq+5nq4S7WyEKtOnaJxJTCOPAHy1zR7+cA=;
-        b=b1yya70mMnKfuymKGpD4u7cacCo6VDcwoDsWql+gacONY7SMbcuszHiX/kPPpJtnoL
-         tv62CMqTPC2HHvyzGIZdKmZcFdXtneY8NxaD9whBwPZPP+0CsKGjmv4hI0V2WQBLgweF
-         fexKOal9AHNEQVixmsHto8Na7yTwiwFlJmhg3a49KfbQ95UmD+O8CnVAPXBHRN09fKNE
-         NLFtPwtbieJjeS6naO6guWLas8w4KBJIpnhu3Oz9nLwneVAsWzslmgAFYeaaxXt+eigu
-         Fx+/Hp2QgCSyBuAQPtkO6kO25P+vZxI8XEVHuljyqRnBHWLXNxrf35nSvbRIDgYt1ZE5
-         s0Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679303225;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I48ZALEeuyq+5nq4S7WyEKtOnaJxJTCOPAHy1zR7+cA=;
-        b=j1rfET5sOZt3ih7vTv2eW9j5yU72jlfvtgobH9bXv16DAzAdI7ORpSGp6SJ+crdJeC
-         ciaj0qEP1jPQ5TK82NVxHXVxlyS3Pg1WZkOq/9xu+ohwspKOLbjZpr7JOiqiyZbncYyQ
-         947yhx+NnsDrqP4f9TsaWCv5cm2NMgZ66KRyfg7LHIphnbdu7+JQ/CMJFj4ZXkNOqBeZ
-         SbD93qRkKq0Sdv5i3iN0FQBEmOTMD8KphKqlV1rtuckh58h7r2hlZj2dtGtMPamSE5A6
-         YeLussuzyQyMNanL4Bi1nsBFObQWj1CtE12Qgz2OGIIfWvI+ZzJVY9nO8eUdq1aNTneW
-         KDgA==
-X-Gm-Message-State: AO0yUKVoip3rY3deYgmjCEvacIsOUrSMom5Bl8sxjpqluqAYhMPoixTU
-        kKW5hr33tng+te30ZmWsDqaNgA==
-X-Google-Smtp-Source: AK7set9VYk5vwIViq9reJb8Y0C3jTXgNZOOwFW7E0tuFon//jhh0RCKuy5Ff+HuteVXJ+1hE301E9A==
-X-Received: by 2002:a17:906:c193:b0:932:1af9:7386 with SMTP id g19-20020a170906c19300b009321af97386mr7539672ejz.27.1679303224873;
-        Mon, 20 Mar 2023 02:07:04 -0700 (PDT)
-Received: from [10.44.2.5] ([81.246.10.41])
-        by smtp.gmail.com with ESMTPSA id z21-20020a1709064e1500b00930de1da701sm4229334eju.10.2023.03.20.02.07.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 02:07:04 -0700 (PDT)
-Message-ID: <065e79b3-f562-0ffa-2904-a3660b2c038c@tessares.net>
-Date:   Mon, 20 Mar 2023 10:07:04 +0100
+        with ESMTP id S229657AbjCTKDj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 06:03:39 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 429002D76;
+        Mon, 20 Mar 2023 03:03:05 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88CDFFEC;
+        Mon, 20 Mar 2023 03:03:47 -0700 (PDT)
+Received: from [10.57.20.45] (unknown [10.57.20.45])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6ABB3F67D;
+        Mon, 20 Mar 2023 03:03:00 -0700 (PDT)
+Message-ID: <25b5fb44-fc33-cc2d-5a36-64e780015824@arm.com>
+Date:   Mon, 20 Mar 2023 10:03:06 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/2] docs: process: allow Closes tags with links
-Content-Language: en-GB
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-References: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v1-1-1b83072e9a9a@tessares.net>
- <4822168e-85a5-e507-9429-21d9a222406c@gmail.com>
-From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-In-Reply-To: <4822168e-85a5-e507-9429-21d9a222406c@gmail.com>
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 4/4] serial: qcom_geni: Use devm_krealloc_array
+Content-Language: en-US
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org, linux@roeck-us.net,
+        michal.simek@amd.com, Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20230309150334.216760-1-james.clark@arm.com>
+ <20230309150334.216760-5-james.clark@arm.com>
+ <20230311191800.74ec2b84@jic23-huawei>
+ <74d8b579-6ea8-d6f3-170f-ea13534b4565@arm.com>
+ <20230318173402.20a4f60d@jic23-huawei>
+From:   James Clark <james.clark@arm.com>
+In-Reply-To: <20230318173402.20a4f60d@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas,
 
-On 17/03/2023 09:00, Bagas Sanjaya wrote:
-> On 3/16/23 00:44, Matthieu Baerts wrote:
->> +In the same category as linking web pages, a special tag is also used to close
->> +issues but only when the mentioned ticketing system can do this operation
->> +automatically::
->> +
->> +        Closes: https://example.com/issues/1234
->> +
->> +Please use this 'Closes:' tag only if it helps managing issues thanks to
->> +automations. If not, pick the 'Link:' one.
->> +
+
+On 18/03/2023 17:34, Jonathan Cameron wrote:
+> On Fri, 17 Mar 2023 11:34:49 +0000
+> James Clark <james.clark@arm.com> wrote:
 > 
-> What about:
+>> On 11/03/2023 19:18, Jonathan Cameron wrote:
+>>> On Thu,  9 Mar 2023 15:03:33 +0000
+>>> James Clark <james.clark@arm.com> wrote:
+>>>   
+>>>> Now that it exists, use it instead of doing the multiplication manually.
+>>>>
+>>>> Signed-off-by: James Clark <james.clark@arm.com>  
+>>>
+>>> Hmm. I've stared at the users of this for a bit, and it's not actually obvious
+>>> that it's being used as an array of u32.  The only typed user of this is as
+>>> the 2nd parameter of  
+>>> tty_insert_flip_string() which is an unsigned char *
+>>>
+>>> I wonder if that sizeof(u32) isn't a 'correct' description of where the 4 is coming
+>>> from even if it has the right value?  Perhaps the fifo depth is just a multiple of 4?
+>>>
+>>> Jonathan
+>>>   
+>>
+>> The commit that added it (b8caf69a6946) seems to hint that something
+>> reads from it in words. And I see this:
+>>
+>>   /* We always configure 4 bytes per FIFO word */
+>>   #define BYTES_PER_FIFO_WORD		4U
+>>
+>> Perhaps sizeof(u32) isn't as accurate of a description as using
+>> BYTES_PER_FIFO_WORD but I'd be reluctant to make a change because I
+>> don't really understand the implications.
 > 
-> ```
-> Similarly, there is also "Closes:" tag that can be used to close issues when
-> the underlying tracker can do this operation automatically. For example::
+> Agreed with your analysis.  + fully understand why you don't want to change
+> it. 
 > 
->     Closes: <issue link>
+> I'd be tempted to take the view that whilst it's allocated in 4 byte chunks
+> because it's accessed elsewhere as a set of 1 byte entries, krealloc_array
+> isn't appropriate and so just leave it with devm_krealloc()
 > 
-> For other trackers keep using "Link:" tag instead.
-> ```
-> ?
+> Risk is that a steady stream of patches will turn up 'fixing' this as
+> it will be easy for people to find with a script.  Maybe better to just add
+> a comment (either with or without your patch).
 
-Thank you for your feedback! This suggestion looks better to me.
+Ok that makes sense to me. I can add a comment instead this patch to
+change this one.
 
-I might just have to mention "public bug tracker" to also address Jon's
-comment: we don't want links to internal bug trackers.
-
-Please note that it is still unclear to me if such exception for the
-"Closes:" tag can be accepted: please see the discussions[1] on the
-cover letter for more details about that.
-
-Cheers,
-Matt
-
-[1]
-https://lore.kernel.org/linux-doc/20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net/T/
--- 
-Tessares | Belgium | Hybrid Access Solutions
-www.tessares.net
+>>
+>> There is also this in handle_rx_console():
+>>
+>>   unsigned char buf[sizeof(u32)];
+>>
+>> James
+>>
+>>>
+>>>   
+>>>> ---
+>>>>  drivers/tty/serial/qcom_geni_serial.c | 6 +++---
+>>>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
+>>>> index d69592e5e2ec..23fc33d182ac 100644
+>>>> --- a/drivers/tty/serial/qcom_geni_serial.c
+>>>> +++ b/drivers/tty/serial/qcom_geni_serial.c
+>>>> @@ -1056,9 +1056,9 @@ static int setup_fifos(struct qcom_geni_serial_port *port)
+>>>>  		(port->tx_fifo_depth * port->tx_fifo_width) / BITS_PER_BYTE;
+>>>>  
+>>>>  	if (port->rx_buf && (old_rx_fifo_depth != port->rx_fifo_depth) && port->rx_fifo_depth) {
+>>>> -		port->rx_buf = devm_krealloc(uport->dev, port->rx_buf,
+>>>> -					     port->rx_fifo_depth * sizeof(u32),
+>>>> -					     GFP_KERNEL);
+>>>> +		port->rx_buf = devm_krealloc_array(uport->dev, port->rx_buf,
+>>>> +						   port->rx_fifo_depth, sizeof(u32),
+>>>> +						   GFP_KERNEL);
+>>>>  		if (!port->rx_buf)
+>>>>  			return -ENOMEM;
+>>>>  	}  
+>>>   
+> 
