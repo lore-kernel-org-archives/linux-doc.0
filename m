@@ -2,107 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 718BAC6FD1D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 17:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 811C2C6FD1D
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 18:19:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232812AbjCTRWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 13:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
+        id S231250AbjCTSTH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 14:19:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233007AbjCTRVo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 13:21:44 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8FDC16A45;
-        Mon, 20 Mar 2023 10:17:40 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC28DAD7;
-        Mon, 20 Mar 2023 10:11:31 -0700 (PDT)
-Received: from [10.1.196.177] (eglon.cambridge.arm.com [10.1.196.177])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAB363F67D;
-        Mon, 20 Mar 2023 10:10:42 -0700 (PDT)
-Message-ID: <f4808265-f136-631e-0220-9019e64ee9d3@arm.com>
-Date:   Mon, 20 Mar 2023 17:10:40 +0000
+        with ESMTP id S229622AbjCTSS2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 14:18:28 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346283FBA9;
+        Mon, 20 Mar 2023 11:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679335930; x=1710871930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KGgMVkVYkzc5hGwH7fgh8riyDfxHum9YPyo5UnckO5Q=;
+  b=MQS4GLiMrTjh1Kth/SswsWI3KxJw6ozMMUrhilByyow0abVWG4ME68iB
+   6gcd0knfbeTZb/51MuEPHlMddy4f/L3ZiQ/XpHsVERb5FU3o01wty5yOr
+   aw/BtfQGQHC94QFKPxm6aq7/qq4amJUPHrzHB4DJ07f2mseZI96KKk7tc
+   sirzsaz3YNTyOwTxRcJiFNcKncVFzh6FYldhKb5YmRN4V2Yu37kPCTHb1
+   rS60g0vARWe6gboG3Z/uJ6IzjL4TS24P0kYW0TeWlTW0LCW0EN8GWI6au
+   ncETjH1i3gmF878q3Rex2qmt05oYEiFhzzK1groslDUhKbaf4Lk/u1v7V
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338764979"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
+   d="scan'208";a="338764979"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 11:10:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="927063951"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
+   d="scan'208";a="927063951"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 20 Mar 2023 11:10:53 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1peJy8-000BDZ-1J;
+        Mon, 20 Mar 2023 18:10:52 +0000
+Date:   Tue, 21 Mar 2023 02:10:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch,
+        jacek.lawrynowicz@linux.intel.com,
+        stanislaw.gruszka@linux.intel.com
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
+        quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
+Subject: Re: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
+Message-ID: <202303210148.859DLhtz-lkp@intel.com>
+References: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 5/7] x86/resctrl: Display the RMID and COSID for
- resctrl groups
-Content-Language: en-GB
-To:     Babu Moger <babu.moger@amd.com>, corbet@lwn.net,
-        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de
-Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-References: <167778850105.1053859.14596357862185564029.stgit@bmoger-ubuntu>
- <167778869402.1053859.6094569492538617564.stgit@bmoger-ubuntu>
-From:   James Morse <james.morse@arm.com>
-In-Reply-To: <167778869402.1053859.6094569492538617564.stgit@bmoger-ubuntu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
+Hi Jeffrey,
 
-On 02/03/2023 20:24, Babu Moger wrote:
-> When a user creates a control or monitor group, the CLOSID or RMID
-> are not visible to the user. These are architecturally defined entities.
+Thank you for the patch! Perhaps something to improve:
 
-On x86. Any other architecture is going to have a hard time supporting this.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on lwn/docs-next linus/master v6.3-rc3 next-20230320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/1679325074-5494-7-git-send-email-quic_jhugo%40quicinc.com
+patch subject: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
+reproduce:
+        make versioncheck
 
-> There is no harm in displaying these in resctrl groups. Sometimes it
-> can help to debug the issues.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210148.859DLhtz-lkp@intel.com/
 
-By comparing it with what? Unless user-space can see into the hardware, resctrl is the
-only gateway to this stuff. What difference does the allocated value here make?
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+>> ./drivers/accel/qaic/mhi_qaic_ctrl.c: 9 linux/version.h not needed.
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-Could you elaborate on what issues this can help debug?
-
-
-> Add CLOSID and RMID to the control/monitor groups display in resctrl
-> interface.
-> 
-> $cat /sys/fs/resctrl/clos1/closid
-> 1
-> $cat /sys/fs/resctrl/mon_groups/mon1/rmid
-> 3
-
-Er. Please don't expose this to user-space!
-MPAM has no equivalent value to RMID, so whatever this is for, can't work on MPAM.
-
-
-Where I have needed this value for MPAM is to pass the closid/rmid to another kernel
-interface. Because the user-space interface needs to be architecture agnostic, I proposed
-it as a u64 called 'id' that each architecture can encode/decode as appropriate. [0]
-
-To prevent user-space trying to base anything on the raw closid/rmid values, I went as far
-as obfuscating them with a random value picked at boot, to ensure scripts always read the
-current value when passing the control/monitor group.
-
-
-I'm curious what the raw value is useful for.
-
-
-Thanks,
-
-James
-
-[0]
-https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?h=mpam/snapshot/v6.2&id=d568cf2ba58b7c4970ce41a8d4d6224e285a177e
-
-
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
