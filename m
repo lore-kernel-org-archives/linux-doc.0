@@ -2,331 +2,435 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9FB5C7618A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 16:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EE93C76195
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 16:48:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232127AbjCTQkU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 12:40:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33368 "EHLO
+        id S232023AbjCTQsk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 12:48:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232664AbjCTQjv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 12:39:51 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3483440E5
-        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 09:35:08 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id az3-20020a05600c600300b003ed2920d585so9557685wmb.2
-        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 09:35:08 -0700 (PDT)
+        with ESMTP id S232285AbjCTQrn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 12:47:43 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F95936470
+        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 09:41:17 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id y2so12749647pjg.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 09:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1679330106;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gWxn3l14RXLabu7eJJmB4eERcGGiKycFSTENeGZGJGU=;
-        b=3gApqsN+aCSqX8uSfjeEedbiRwDvoKklvCoIUy/s4e7N53FPbT9T3wUT7NlsyC6DZR
-         qDKuSL6u8RzE75MFeQ+/SUgKvjuKSPG3icP+egXYgmmNB7N6AgIXbUQGxSLAtTBq4Es4
-         CPnoDEIG2FglBWN1eAXbF9f38+YiepxVpOH2z75bg9tQURSy/3tXCsqvTmwZpDhpc1Nv
-         KGPAyz3iGzcnhPZMzbiXRYzpzCihoFdMIwGO9OndgQiIvM9sLDiOXyba9uPOfsOAflFs
-         lHd8rEWvy52IqmX+x9OUK51xqmRtkdc8kP1WCroYdfLSKgOHXCso1KmDKI9Z5arri+8E
-         3apw==
+        d=chromium.org; s=google; t=1679330459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LpF/fHzebsMvXoN3THiUY7/cA5le9tliIRffbZJtABE=;
+        b=W/YCxu1E+Xs+U5tGoioWxhllfToXhUtJ5MQYUMByt8KjC+Pz9gkHan8OV7mP5pdIjc
+         FN1fN6dJTiaM2eETG57o/bQqe+hGgIrr/9PJ2nhnyuvDi7LTvBJRQVVyQ3Hu+KSuWIgM
+         hnamtTGiuSqYo6fm5DbMosvxBYcmy2QFDN5qw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679330106;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gWxn3l14RXLabu7eJJmB4eERcGGiKycFSTENeGZGJGU=;
-        b=NS9MsHasA9r2xHmaYoTWvDfDPFvQdRMG4G1PJDbiTUicxn393Y5StcraxPDmFUHZBk
-         RoPk5PPgU/+Q9hHMx3cFsMHMZGiyiyG0PH5e6aThtpt+prVzGSt2Y/t1PLQTpbCzY0TB
-         nF24fS4VSlz8Y+Y3U6F79fIMkYf+TW+3C8bVWsD5NmSYLKt+2kDG49vJSopzVdVLWp7H
-         0nGaX1N4S7GAcP5JWA40OfjCuvg+2VmCbUYbeWQ/AB6ulYWU1L5wG3JpNDeUcL88UiRH
-         k4zWgjQ4/ZvAqrfNVhyDTxkXL3RNEyLI4LYhavcafFt5GVlU9ngkb/GaN3L1llJjjE8j
-         xKZA==
-X-Gm-Message-State: AO0yUKVh86cK4nL6tXlg0oHZjv2Th4H1wCusabIPbSwoKOUvMtAY+YvD
-        tK95YNsEnnnHeZ/fr+M+2qGDoA==
-X-Google-Smtp-Source: AK7set8GooS3gQhj5FZBxaNBFZaG2KzUVWPRMkoPvYo1ebuUko7PW1z97XjgURXrfeTYQ5Gc/4grEw==
-X-Received: by 2002:a7b:c3ce:0:b0:3eb:37ce:4c3e with SMTP id t14-20020a7bc3ce000000b003eb37ce4c3emr136754wmj.16.1679330106515;
-        Mon, 20 Mar 2023 09:35:06 -0700 (PDT)
-Received: from [192.168.1.70] (151.31.102.84.rev.sfr.net. [84.102.31.151])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05600c4f8500b003b47b80cec3sm17092150wmq.42.2023.03.20.09.35.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 09:35:06 -0700 (PDT)
-Message-ID: <04914464-2bc2-9d86-e9e2-8a716b929f28@baylibre.com>
-Date:   Mon, 20 Mar 2023 17:35:03 +0100
+        d=1e100.net; s=20210112; t=1679330459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LpF/fHzebsMvXoN3THiUY7/cA5le9tliIRffbZJtABE=;
+        b=yENyGLIaoMpCDl1qcCrAhCm345qjWRH8PCKAmuRLrOgBueR/d0ngzNLKW7V8liruTK
+         E6bmUHNuXm/rq0sqNo0BVToTkhwecx8NvUVGT7jV437xUpWi2afwbSnqiGphGWO6DfEu
+         b/WPcb8aQDgqEvR4QD/Umf+4AOloHF0H953/w30PXMob04W3H+TCGnIGbcZEzoDO7Wmj
+         MZod1LNsaBYFKjS7QLvOGdXTMOH2gkFT74sJzeV19WEf3rYr/pq79ykyLhfp43vF/pdi
+         GdckDz2y+X/0L0uW01s+5BlDCI4Xm9w4aM7WYyy4pX2/i17nyDZa40gpW21iP0MsgNKc
+         DHlg==
+X-Gm-Message-State: AO0yUKW+iRGjx5Ve4pBFfgXb/iItXlQrvHQyJEC8FcO3mk8FKcpmlWyo
+        rIuDTD4+EnSGhUMHo5PXIX7pHQ==
+X-Google-Smtp-Source: AK7set8AruL9lWpckO+UkKDoQmOfTlbpjJ1Xsq6cIfgaNalBavgQgyJNNkXbzgZr/gzgKxFtHDDSqQ==
+X-Received: by 2002:a17:902:e38b:b0:19f:3b86:4715 with SMTP id g11-20020a170902e38b00b0019f3b864715mr14008874ple.8.1679330459205;
+        Mon, 20 Mar 2023 09:40:59 -0700 (PDT)
+Received: from wafflehead.lan ([47.144.140.44])
+        by smtp.gmail.com with ESMTPSA id d7-20020a170902728700b00194c90ca320sm6907800pll.204.2023.03.20.09.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 09:40:58 -0700 (PDT)
+From:   Jeffrey Kardatzke <jkardatzke@chromium.org>
+X-Google-Original-From: Jeffrey Kardatzke <jkardatzke@google.com>
+To:     op-tee@lists.trustedfirmware.org
+Cc:     Jeffrey Kardatzke <jkardatzke@google.com>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v11] tee: optee: Add SMC for loading OP-TEE image
+Date:   Mon, 20 Mar 2023 09:40:56 -0700
+Message-Id: <20230320094046.v11.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     lee@kernel.org, krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
-        arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, davem@davemloft.net,
-        christian.koenig@amd.com, contact@emersion.fr,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
-        eblanc@baylibre.com, jneanne@baylibre.com
-References: <20230315110736.35506-1-jpanis@baylibre.com>
- <20230315110736.35506-2-jpanis@baylibre.com>
- <20230320155354.GB1733616-robh@kernel.org>
-From:   Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <20230320155354.GB1733616-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Adds an SMC call that will pass an OP-TEE binary image to EL3 and
+instruct it to load it as the BL32 payload. This works in conjunction
+with a feature added to Trusted Firmware for ARMv8 and above
+architectures that supports this.
 
+The main purpose of this change is to facilitate updating the OP-TEE
+component on devices via a rootfs change rather than having to do a
+firmware update. Further details are linked to in the Kconfig file.
 
-On 3/20/23 16:53, Rob Herring wrote:
-> On Wed, Mar 15, 2023 at 12:07:33PM +0100, Julien Panis wrote:
->> TPS6594 is a Power Management IC which provides regulators and others
->> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->> PFSM (Pre-configurable Finite State Machine) managing the state of the
->> device.
->> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
-> As mentioned, the binding needs to be complete. It's missing GPIO at
-> least. RTC and watchdog may or may not need binding changes.
+Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
+Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
+Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+---
 
-Thank you for your feedback.
+Changes in v11:
+- Fixed typo in tee.rst documentation
 
-About GPIO, do you speak about 'gpio-controller'
-and/or '#gpio-cells' properties ?
-For RTC (and for watchdog, once the driver will be
-implemented), our driver do not require any node
-to work. What could make an explicit instantiation
-necessary in DT ?
+Changes in v10:
+- Fixed tee.rst documentation formatting
 
->
->> Signed-off-by: Julien Panis <jpanis@baylibre.com>
->> ---
->>   .../devicetree/bindings/mfd/ti,tps6594.yaml   | 191 ++++++++++++++++++
->>   1 file changed, 191 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->> new file mode 100644
->> index 000000000000..18f47cd6a2f9
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->> @@ -0,0 +1,191 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: TI TPS6594 Power Management Integrated Circuit
->> +
->> +maintainers:
->> +  - Julien Panis <jpanis@baylibre.com>
->> +
->> +description: |
-> Don't need '|'.
->
->> +  TPS6594 is a Power Management IC which provides regulators and others
->> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
->> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,lp8764x
->> +      - ti,tps6593
->> +      - ti,tps6594
->> +
->> +  reg:
->> +    description: I2C slave address or SPI chip select number.
->> +    maxItems: 1
->> +
->> +  ti,spmi-controller:
->> +    type: boolean
->> +    description: |
->> +      Identify the primary PMIC on SPMI bus.
-> Perhaps the property name should include 'primary' and 'pmic'.
-> Otherwise, it looks like it is just marked as 'a SPMI controller'.
+Changes in v9:
+- Add CPU hotplug callback to init on all cores at startup
 
-Including 'primary' and 'pmic' will be more understandable indeed.
-I will change that in v3.
+Changes in v8:
+- Renamed params and fixed alignment issue
 
->
->
->> +      A multi-PMIC synchronization scheme is implemented in the PMIC device
->> +      to synchronize the power state changes with other PMIC devices. This is
->> +      accomplished through a SPMI bus: the primary PMIC is the controller
->> +      device on the SPMI bus, and the secondary PMICs are the target devices
->> +      on the SPMI bus.
-> Is this a TI specific feature?
+Changes in v7:
+- Added documentation to Documentation/staging/tee.rst
 
-I don't think so. I will double-check that.
-If not, shall I remove the 'ti,' prefix ?
+Changes in v6:
+- Expanded Kconfig documentation
 
->
->> +
->> +  system-power-controller: true
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  ti,multi-phase-id:
->> +    description: |
->> +      Describes buck multi-phase configuration, if any. For instance, XY id means
->> +      that outputs of buck converters X and Y are combined in multi-phase mode.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [12, 34, 123, 1234]
-> coupled regulator stuff doesn't work here?
+Changes in v5:
+- Renamed config option
+- Added runtime warning when config is used
 
-Coupled regulator stuff works here.
-Is it also necessary to specify some 'allOf' logic here to ensure
-that mutual exclusions described below (for regulators) will be
-applied ?
+Changes in v4:
+- Update commit message
+- Added more documentation
+- Renamed config option, added ARM64 dependency
 
->
->> +
->> +  regulators:
->> +    type: object
->> +    description: List of regulators provided by this controller.
->> +
->> +    patternProperties:
->> +      "^buck([1-5]|12|34|123|1234)$":
->> +        type: object
->> +        $ref: /schemas/regulator/regulator.yaml#
->> +
->> +        unevaluatedProperties: false
->> +
->> +      "^ldo[1-4]$":
->> +        type: object
->> +        $ref: /schemas/regulator/regulator.yaml#
->> +
->> +        unevaluatedProperties: false
->> +
->> +    allOf:
->> +      - if:
->> +          required:
->> +            - buck12
->> +        then:
->> +          properties:
->> +            buck123: false
->> +            buck1234: false
->> +      - if:
->> +          required:
->> +            - buck123
->> +        then:
->> +          properties:
->> +            buck34: false
->> +      - if:
->> +          required:
->> +            - buck1234
->> +        then:
->> +          properties:
->> +            buck34: false
->> +
->> +    additionalProperties: false
->> +
->> +patternProperties:
->> +  "^buck([1-5]|12|34|123|1234)-supply$":
->> +    description: Input supply phandle for each buck.
->> +
->> +  "^ldo[1-4]-supply$":
->> +    description: Input supply phandle for each ldo.
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        tps6593: pmic@48 {
->> +            compatible = "ti,tps6593";
->> +            reg = <0x48>;
->> +            ti,spmi-controller;
->> +            system-power-controller;
->> +
->> +            pinctrl-names = "default";
->> +            pinctrl-0 = <&pmic_irq_pins_default>;
->> +            interrupt-parent = <&mcu_gpio0>;
->> +            interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
->> +
->> +            ti,multi-phase-id = <123>;
->> +
->> +            buck123-supply = <&vcc_3v3_sys>;
->> +            buck4-supply = <&vcc_3v3_sys>;
->> +            buck5-supply = <&vcc_3v3_sys>;
->> +            ldo1-supply = <&vcc_3v3_sys>;
->> +            ldo2-supply = <&vcc_3v3_sys>;
->> +            ldo3-supply = <&buck5>;
->> +            ldo4-supply = <&vcc_3v3_sys>;
->> +
->> +            regulators {
->> +                buck123: buck123 {
->> +                    regulator-name = "vcc_core";
->> +                    regulator-min-microvolt = <750000>;
->> +                    regulator-max-microvolt = <850000>;
->> +                    regulator-boot-on;
->> +                    regulator-always-on;
->> +                };
->> +
->> +                buck4: buck4 {
->> +                    regulator-name = "vcc_1v1";
->> +                    regulator-min-microvolt = <1100000>;
->> +                    regulator-max-microvolt = <1100000>;
->> +                    regulator-boot-on;
->> +                    regulator-always-on;
->> +                };
->> +
->> +                buck5: buck5 {
->> +                    regulator-name = "vcc_1v8_sys";
->> +                    regulator-min-microvolt = <1800000>;
->> +                    regulator-max-microvolt = <1800000>;
->> +                    regulator-boot-on;
->> +                    regulator-always-on;
->> +                };
->> +
->> +                ldo1: ldo1 {
->> +                    regulator-name = "vddshv5_sdio";
->> +                    regulator-min-microvolt = <3300000>;
->> +                    regulator-max-microvolt = <3300000>;
->> +                    regulator-boot-on;
->> +                    regulator-always-on;
->> +                };
->> +
->> +                ldo2: ldo2 {
->> +                    regulator-name = "vpp_1v8";
->> +                    regulator-min-microvolt = <1800000>;
->> +                    regulator-max-microvolt = <1800000>;
->> +                    regulator-boot-on;
->> +                    regulator-always-on;
->> +                };
->> +
->> +                ldo3: ldo3 {
->> +                    regulator-name = "vcc_0v85";
->> +                    regulator-min-microvolt = <850000>;
->> +                    regulator-max-microvolt = <850000>;
->> +                    regulator-boot-on;
->> +                    regulator-always-on;
->> +                };
->> +
->> +                ldo4: ldo4 {
->> +                    regulator-name = "vdda_1v8";
->> +                    regulator-min-microvolt = <1800000>;
->> +                    regulator-max-microvolt = <1800000>;
->> +                    regulator-boot-on;
->> +                    regulator-always-on;
->> +                };
->> +            };
->> +        };
->> +    };
->> -- 
->> 2.37.3
->>
+Changes in v3:
+- Removed state tracking for driver reload
+- Check UID of service to verify it needs image load
+
+Changes in v2:
+- Fixed compile issue when feature is disabled
+- Addressed minor comments
+- Added state tracking for driver reload
+
+ Documentation/staging/tee.rst |  41 +++++++++++
+ drivers/tee/optee/Kconfig     |  17 +++++
+ drivers/tee/optee/optee_msg.h |  12 +++
+ drivers/tee/optee/optee_smc.h |  24 ++++++
+ drivers/tee/optee/smc_abi.c   | 134 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 228 insertions(+)
+
+diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+index 498343c7ab08..b11e9053bc99 100644
+--- a/Documentation/staging/tee.rst
++++ b/Documentation/staging/tee.rst
+@@ -214,6 +214,47 @@ call is done from the thread assisting the interrupt handler. This is a
+ building block for OP-TEE OS in secure world to implement the top half and
+ bottom half style of device drivers.
+ 
++OPTEE_INSECURE_LOAD_IMAGE Kconfig option
++----------------------------------------
++
++The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
++BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
++it from the firmware before the kernel boots. This also requires enabling the
++corresponding option in Trusted Firmware for Arm. The documentation there
++explains the security threat associated with enabling this as well as
++mitigations at the firmware and platform level.
++https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
++
++There are additional attack vectors/mitigations for the kernel that should be
++addressed when using this option.
++
++1. Boot chain security.
++   Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
++   the system.
++   Mitigation: There must be boot chain security that verifies the kernel and
++   rootfs, otherwise an attacker can modify the loaded OP-TEE binary by
++   modifying it in the rootfs.
++2. Alternate boot modes.
++   Attack vector: Using an alternate boot mode (i.e. recovery mode), the OP-TEE
++   driver isn't loaded, leaving the SMC hole open.
++   Mitigation: If there are alternate methods of booting the device, such as a
++   recovery mode, it should be ensured that the same mitigations are applied in
++   that mode.
++3. Attacks prior to SMC invocation.
++   Attack vector: Code that is executed prior to issuing the SMC call to load
++   OP-TEE can be exploited to then load an alternate OS image.
++   Mitigation: The OP-TEE driver must be loaded before any potential attack
++   vectors are opened up. This should include mounting of any modifiable
++   filesystems, opening of network ports or communicating with external devices
++   (e.g. USB).
++4. Blocking SMC call to load OP-TEE.
++   Attack vector: Prevent the driver from being probed, so the SMC call to load
++   OP-TEE isn't executed when desired, leaving it open to being executed later
++   and loading a modified OS.
++   Mitigation: It is recommended to build the OP-TEE driver as an included
++   driver rather than a module to prevent exploits that may cause the module to
++   not be loaded.
++
+ AMD-TEE driver
+ ==============
+ 
+diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
+index f121c224e682..70898bbd5809 100644
+--- a/drivers/tee/optee/Kconfig
++++ b/drivers/tee/optee/Kconfig
+@@ -7,3 +7,20 @@ config OPTEE
+ 	help
+ 	  This implements the OP-TEE Trusted Execution Environment (TEE)
+ 	  driver.
++
++config OPTEE_INSECURE_LOAD_IMAGE
++	bool "Load OP-TEE image as firmware"
++	default n
++	depends on OPTEE && ARM64
++	help
++	  This loads the BL32 image for OP-TEE as firmware when the driver is
++	  probed. This returns -EPROBE_DEFER until the firmware is loadable from
++	  the filesystem which is determined by checking the system_state until
++	  it is in SYSTEM_RUNNING. This also requires enabling the corresponding
++	  option in Trusted Firmware for Arm. The documentation there explains
++	  the security threat associated with enabling this as well as
++	  mitigations at the firmware and platform level.
++	  https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
++
++	  Additional documentation on kernel security risks are at
++	  Documentation/staging/tee.rst.
+diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
+index 70e9cc2ee96b..e8840a82b983 100644
+--- a/drivers/tee/optee/optee_msg.h
++++ b/drivers/tee/optee/optee_msg.h
+@@ -241,11 +241,23 @@ struct optee_msg_arg {
+  * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
+  * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
+  * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
++ *
++ * In the case where the OP-TEE image is loaded by the kernel, this will
++ * initially return an alternate UID to reflect that we are communicating with
++ * the TF-A image loading service at that time instead of OP-TEE. That UID is:
++ * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
++ * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
++ * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
++ * OPTEE_MSG_IMAGE_LOAD_UID_3.
+  */
+ #define OPTEE_MSG_UID_0			0x384fb3e0
+ #define OPTEE_MSG_UID_1			0xe7f811e3
+ #define OPTEE_MSG_UID_2			0xaf630002
+ #define OPTEE_MSG_UID_3			0xa5d5c51b
++#define OPTEE_MSG_IMAGE_LOAD_UID_0	0xa3fbeab1
++#define OPTEE_MSG_IMAGE_LOAD_UID_1	0x1246315d
++#define OPTEE_MSG_IMAGE_LOAD_UID_2	0xc7c406b9
++#define OPTEE_MSG_IMAGE_LOAD_UID_3	0xc03cbea4
+ #define OPTEE_MSG_FUNCID_CALLS_UID	0xFF01
+ 
+ /*
+diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
+index 73b5e7760d10..7d9fa426505b 100644
+--- a/drivers/tee/optee/optee_smc.h
++++ b/drivers/tee/optee/optee_smc.h
+@@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
+ 	unsigned long reserved1;
+ };
+ 
++/*
++ * Load Trusted OS from optee/tee.bin in the Linux firmware.
++ *
++ * WARNING: Use this cautiously as it could lead to insecure loading of the
++ * Trusted OS.
++ * This SMC instructs EL3 to load a binary and execute it as the Trusted OS.
++ *
++ * Call register usage:
++ * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
++ * a1 Upper 32bit of a 64bit size for the payload
++ * a2 Lower 32bit of a 64bit size for the payload
++ * a3 Upper 32bit of the physical address for the payload
++ * a4 Lower 32bit of the physical address for the payload
++ *
++ * The payload is in the OP-TEE image format.
++ *
++ * Returns result in a0, 0 on success and an error code otherwise.
++ */
++#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
++#define OPTEE_SMC_CALL_LOAD_IMAGE \
++	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
++			   ARM_SMCCC_OWNER_TRUSTED_OS_END, \
++			   OPTEE_SMC_FUNCID_LOAD_IMAGE)
++
+ /*
+  * Call with struct optee_msg_arg as argument
+  *
+diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+index a1c1fa1a9c28..fcbcd0c0c3aa 100644
+--- a/drivers/tee/optee/smc_abi.c
++++ b/drivers/tee/optee/smc_abi.c
+@@ -7,10 +7,13 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/arm-smccc.h>
++#include <linux/cpuhotplug.h>
+ #include <linux/errno.h>
++#include <linux/firmware.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/irqdomain.h>
++#include <linux/kernel.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+@@ -1149,6 +1152,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
+ 	return false;
+ }
+ 
++#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
++static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invoke_fn)
++{
++	struct arm_smccc_res res;
++
++	invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
++
++	if (res.a0 == OPTEE_MSG_IMAGE_LOAD_UID_0 &&
++	   res.a1 == OPTEE_MSG_IMAGE_LOAD_UID_1 &&
++	   res.a2 == OPTEE_MSG_IMAGE_LOAD_UID_2 &&
++	   res.a3 == OPTEE_MSG_IMAGE_LOAD_UID_3)
++		return true;
++	return false;
++}
++#endif
++
+ static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
+ {
+ 	union {
+@@ -1354,6 +1373,117 @@ static void optee_shutdown(struct platform_device *pdev)
+ 		optee_disable_shm_cache(optee);
+ }
+ 
++#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
++
++#define OPTEE_FW_IMAGE "optee/tee.bin"
++
++static optee_invoke_fn *cpuhp_invoke_fn;
++
++static int optee_cpuhp_probe(unsigned int cpu)
++{
++	/*
++	 * Invoking a call on a CPU will cause OP-TEE to perform the required
++	 * setup for that CPU. Just invoke the call to get the UID since that
++	 * has no side effects.
++	 */
++	if (optee_msg_api_uid_is_optee_api(cpuhp_invoke_fn))
++		return 0;
++	else
++		return -EINVAL;
++}
++
++static int optee_load_fw(struct platform_device *pdev,
++			 optee_invoke_fn *invoke_fn)
++{
++	const struct firmware *fw = NULL;
++	struct arm_smccc_res res;
++	phys_addr_t data_pa;
++	u8 *data_buf = NULL;
++	u64 data_size;
++	u32 data_pa_high, data_pa_low;
++	u32 data_size_high, data_size_low;
++	int rc;
++	int hp_state;
++
++	if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
++		return 0;
++
++	rc = request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
++	if (rc) {
++		/*
++		 * The firmware in the rootfs will not be accessible until we
++		 * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
++		 * that point.
++		 */
++		if (system_state < SYSTEM_RUNNING)
++			return -EPROBE_DEFER;
++		goto fw_err;
++	}
++
++	data_size = fw->size;
++	/*
++	 * This uses the GFP_DMA flag to ensure we are allocated memory in the
++	 * 32-bit space since TF-A cannot map memory beyond the 32-bit boundary.
++	 */
++	data_buf = kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
++	if (!data_buf) {
++		rc = -ENOMEM;
++		goto fw_err;
++	}
++	memcpy(data_buf, fw->data, fw->size);
++	data_pa = virt_to_phys(data_buf);
++	reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
++	reg_pair_from_64(&data_size_high, &data_size_low, data_size);
++	goto fw_load;
++
++fw_err:
++	pr_warn("image loading failed\n");
++	data_pa_high = data_pa_low = data_size_high = data_size_low = 0;
++
++fw_load:
++	/*
++	 * Always invoke the SMC, even if loading the image fails, to indicate
++	 * to EL3 that we have passed the point where it should allow invoking
++	 * this SMC.
++	 */
++	pr_warn("OP-TEE image loaded from kernel, this can be insecure");
++	invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_low,
++		  data_pa_high, data_pa_low, 0, 0, 0, &res);
++	if (!rc)
++		rc = res.a0;
++	if (fw)
++		release_firmware(fw);
++	kfree(data_buf);
++
++	if (!rc) {
++		/*
++		 * We need to initialize OP-TEE on all other running cores as
++		 * well. Any cores that aren't running yet will get initialized
++		 * when they are brought up by the power management functions in
++		 * TF-A which are registered by the OP-TEE SPD. Due to that we
++		 * can un-register the callback right after registering it.
++		 */
++		cpuhp_invoke_fn = invoke_fn;
++		hp_state = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "optee:probe",
++					     optee_cpuhp_probe, NULL);
++		if (hp_state < 0) {
++			pr_warn("Failed with CPU hotplug setup for OP-TEE");
++			return -EINVAL;
++		}
++		cpuhp_remove_state(hp_state);
++		cpuhp_invoke_fn = NULL;
++	}
++
++	return rc;
++}
++#else
++static inline int optee_load_fw(struct platform_device *pdev,
++				optee_invoke_fn *invoke_fn)
++{
++	return 0;
++}
++#endif
++
+ static int optee_probe(struct platform_device *pdev)
+ {
+ 	optee_invoke_fn *invoke_fn;
+@@ -1372,6 +1502,10 @@ static int optee_probe(struct platform_device *pdev)
+ 	if (IS_ERR(invoke_fn))
+ 		return PTR_ERR(invoke_fn);
+ 
++	rc = optee_load_fw(pdev, invoke_fn);
++	if (rc)
++		return rc;
++
+ 	if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
+ 		pr_warn("api uid mismatch\n");
+ 		return -EINVAL;
+-- 
+2.40.0.rc1.284.g88254d51c5-goog
 
