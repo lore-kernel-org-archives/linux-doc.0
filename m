@@ -2,25 +2,24 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9858C7618D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 12:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7A6C6FD1D
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 12:49:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231566AbjCTMsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 08:48:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
+        id S231588AbjCTMtn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 08:49:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231600AbjCTMsC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 08:48:02 -0400
-X-Greylist: delayed 1103 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Mar 2023 05:47:45 PDT
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9B012BE8;
-        Mon, 20 Mar 2023 05:47:44 -0700 (PDT)
+        with ESMTP id S231655AbjCTMtV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 08:49:21 -0400
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B18922DC4;
+        Mon, 20 Mar 2023 05:48:09 -0700 (PDT)
 Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4PgDN6589Vz9v7Z6;
-        Mon, 20 Mar 2023 20:20:38 +0800 (CST)
+        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4PgDM03lywz9v7YD;
+        Mon, 20 Mar 2023 20:19:40 +0800 (CST)
 Received: from A2101119013HW2.china.huawei.com (unknown [10.48.148.162])
-        by APP2 (Coremail) with SMTP id GxC2BwBnOF9kURhkkqGyAQ--.46782S6;
-        Mon, 20 Mar 2023 13:29:08 +0100 (CET)
+        by APP2 (Coremail) with SMTP id GxC2BwBnOF9kURhkkqGyAQ--.46782S4;
+        Mon, 20 Mar 2023 13:28:51 +0100 (CET)
 From:   Petr Tesarik <petrtesarik@huaweicloud.com>
 To:     Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -36,32 +35,32 @@ To:     Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
         linux-kernel@vger.kernel.org (open list),
         iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
 Cc:     Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz
-Subject: [RFC v1 4/4] swiotlb: Add an option to allow dynamic bounce buffers
-Date:   Mon, 20 Mar 2023 13:28:16 +0100
-Message-Id: <e00c8c576b8ef2fa3cf867ab776cd136a519a835.1679309810.git.petr.tesarik.ext@huawei.com>
+Subject: [RFC v1 2/4] swiotlb: Move code around in preparation for dynamic bounce buffers
+Date:   Mon, 20 Mar 2023 13:28:14 +0100
+Message-Id: <932dee179c950e98713f8636f0c9d95a6a37b640.1679309810.git.petr.tesarik.ext@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
 References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GxC2BwBnOF9kURhkkqGyAQ--.46782S6
-X-Coremail-Antispam: 1UD129KBjvJXoWxWFyUXw4rKw1kZw1kJFWfuFg_yoWrZryUpr
-        y0va4YgFZ7JF18Z347Cw47GF1Fkan29ay3ZayFgryFyr98Xrn0qwnrtr4YqF1rt3y09F47
-        ZFyYvF4Ykr17t3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPmb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-        Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-        rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-        AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
-        wI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I
-        80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCj
-        c4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0Ew4
-        C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
-        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
-        v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
-        c7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
-        AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZE
-        Xa7IU8gAw7UUUUU==
+X-CM-TRANSID: GxC2BwBnOF9kURhkkqGyAQ--.46782S4
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jr4kZF4DXF1UtF1xuFWUXFb_yoW7Cw4xpF
+        4xJFyrKFZ3tF18C3sF9a1kGF1F9w1kK3y3JFWa9ryF9a4DXrn0qFZ8CrWjg3WFqFWv9FW7
+        Xr98ZF4rKF47Ar7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPIb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXw
+        A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+        w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+        W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+        Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
+        Ij6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
+        Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAKzI0EY4
+        vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+        rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXw
+        CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+        67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+        0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07j5
+        -B_UUUUU=
 X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
 X-CFilter-Loop: Reflected
 Precedence: bulk
@@ -70,124 +69,154 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Petr Tesarik <petr.tesarik.ext@huawei.com>
 
-Dynamic allocation of bounce buffers may introduce regression for
-some workloads. The expected outcomes are bigger worst-case I/O
-latency reduced performance for some workloads. Unfortunately,
-real-world testing has been too unstable to draw any conclusion.
+In preparation for the introduction of dynamically allocated
+bounce buffers, separate out common code and code which handles
+non-dynamic bounce buffers.
 
-To stay on the safe side, make the feature disabled by default and
-let people turn it on with "swiotlb=dynamic" if needed. Since this
-option can be combined with "force", the parser must be modified to
-allow multiple options separated by commas.
-
-A new bool field is added to struct io_tlb_mem to tell whether
-dynamic allocations are allowed. This field is always false for
-DMA restricted pools. It is also false for other software IO
-TLBs unless "swiotlb=dynamic" was specified.
+No functional change, but this commit should make the addition of
+dynamic allocations easier to review.
 
 Signed-off-by: Petr Tesarik <petr.tesarik.ext@huawei.com>
 ---
- .../admin-guide/kernel-parameters.txt         |  6 +++++-
- include/linux/swiotlb.h                       |  3 ++-
- kernel/dma/swiotlb.c                          | 19 ++++++++++++++-----
- 3 files changed, 21 insertions(+), 7 deletions(-)
+ include/linux/swiotlb.h |  7 ++++-
+ kernel/dma/swiotlb.c    | 64 +++++++++++++++++++++++++++++------------
+ 2 files changed, 52 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6cfa6e3996cf..6240a463631b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6081,14 +6081,18 @@
- 			Execution Facility on pSeries.
- 
- 	swiotlb=	[ARM,IA-64,PPC,MIPS,X86]
--			Format: { <int> [,<int>] | force | noforce }
-+			Format: { <int> [,<int>] [,option-list] | option-list }
- 			<int> -- Number of I/O TLB slabs
- 			<int> -- Second integer after comma. Number of swiotlb
- 				 areas with their own lock. Will be rounded up
- 				 to a power of 2.
-+			<option-list> -- Comma-separated list of options.
-+
-+			Available options:
- 			force -- force using of bounce buffers even if they
- 			         wouldn't be automatically used by the kernel
- 			noforce -- Never use bounce buffers (for debugging)
-+			dynamic -- allow dynamic allocation of bounce buffers
- 
- 	switches=	[HW,M68k]
- 
 diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index 0ef27d6491b9..628e25ad7db7 100644
+index 35bc4e281c21..b71adba03dc7 100644
 --- a/include/linux/swiotlb.h
 +++ b/include/linux/swiotlb.h
-@@ -101,6 +101,7 @@ struct io_tlb_mem {
- 	bool late_alloc;
- 	bool force_bounce;
- 	bool for_alloc;
-+	bool allow_dyn;
- 	unsigned int nareas;
- 	unsigned int area_nslabs;
- 	struct io_tlb_area *areas;
-@@ -123,7 +124,7 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+@@ -105,11 +105,16 @@ struct io_tlb_mem {
+ };
+ extern struct io_tlb_mem io_tlb_default_mem;
  
- 	return mem &&
- 		(is_swiotlb_fixed(mem, paddr) ||
--		 is_swiotlb_dyn(mem, paddr));
-+		 (mem->allow_dyn && is_swiotlb_dyn(mem, paddr)));
++static inline bool is_swiotlb_fixed(struct io_tlb_mem *mem, phys_addr_t paddr)
++{
++	return paddr >= mem->start && paddr < mem->end;
++}
++
+ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+ {
+ 	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
+ 
+-	return mem && paddr >= mem->start && paddr < mem->end;
++	return mem && is_swiotlb_fixed(mem, paddr);
  }
  
  static inline bool is_swiotlb_force_bounce(struct device *dev)
 diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index c6a0b8f2aa6f..3efaefebb6af 100644
+index a34c38bbe28f..e8608bcb205e 100644
 --- a/kernel/dma/swiotlb.c
 +++ b/kernel/dma/swiotlb.c
-@@ -78,6 +78,7 @@ struct io_tlb_dyn_slot {
+@@ -78,6 +78,10 @@ phys_addr_t swiotlb_unencrypted_base;
+ static unsigned long default_nslabs = IO_TLB_DEFAULT_SIZE >> IO_TLB_SHIFT;
+ static unsigned long default_nareas;
  
- static bool swiotlb_force_bounce;
- static bool swiotlb_force_disable;
-+static bool swiotlb_dynamic;
++static void swiotlb_copy(struct device *dev, phys_addr_t orig_addr,
++		unsigned char *vaddr, size_t size, size_t alloc_size,
++		unsigned int tlb_offset, enum dma_data_direction dir);
++
+ /**
+  * struct io_tlb_area - IO TLB memory area descriptor
+  *
+@@ -530,7 +534,6 @@ static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size
+ 	int index = (tlb_addr - mem->start) >> IO_TLB_SHIFT;
+ 	phys_addr_t orig_addr = mem->slots[index].orig_addr;
+ 	size_t alloc_size = mem->slots[index].alloc_size;
+-	unsigned long pfn = PFN_DOWN(orig_addr);
+ 	unsigned char *vaddr = mem->vaddr + tlb_addr - mem->start;
+ 	unsigned int tlb_offset, orig_addr_offset;
  
- struct io_tlb_mem io_tlb_default_mem;
- 
-@@ -159,10 +160,17 @@ setup_io_tlb_npages(char *str)
- 		swiotlb_adjust_nareas(simple_strtoul(str, &str, 0));
- 	if (*str == ',')
- 		++str;
--	if (!strcmp(str, "force"))
--		swiotlb_force_bounce = true;
--	else if (!strcmp(str, "noforce"))
--		swiotlb_force_disable = true;
-+	while (str && *str) {
-+		char *opt = strsep(&str, ",");
-+		if (!strcmp(opt, "force"))
-+			swiotlb_force_bounce = true;
-+		else if (!strcmp(opt, "noforce"))
-+			swiotlb_force_disable = true;
-+		else if (!strcmp(opt, "dynamic"))
-+			swiotlb_dynamic = true;
-+		else
-+			pr_warn("Invalid swiotlb option: %s", opt);
-+	}
- 
- 	return 0;
- }
-@@ -287,6 +295,7 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
- 	mem->area_nslabs = nslabs / mem->nareas;
- 
- 	mem->force_bounce = swiotlb_force_bounce || (flags & SWIOTLB_FORCE);
-+	mem->allow_dyn = swiotlb_dynamic;
- 
- 	for (i = 0; i < mem->nareas; i++) {
- 		spin_lock_init(&mem->areas[i].lock);
-@@ -930,7 +939,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+@@ -547,6 +550,18 @@ static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size
  	}
  
- 	tlb_addr = (phys_addr_t)DMA_MAPPING_ERROR;
--	if (!is_swiotlb_for_alloc(dev))
-+	if (mem->allow_dyn)
- 		tlb_addr = swiotlb_dyn_map(dev, orig_addr, alloc_size,
- 					   alloc_align_mask, dir, attrs);
- 	if (tlb_addr == (phys_addr_t)DMA_MAPPING_ERROR)
+ 	tlb_offset -= orig_addr_offset;
++	swiotlb_copy(dev, orig_addr, vaddr, size, alloc_size, tlb_offset, dir);
++}
++
++/*
++ * Copy swiotlb buffer content, checking for overflows.
++ */
++static void swiotlb_copy(struct device *dev, phys_addr_t orig_addr,
++		unsigned char *vaddr, size_t size, size_t alloc_size,
++		unsigned int tlb_offset, enum dma_data_direction dir)
++{
++	unsigned long pfn = PFN_DOWN(orig_addr);
++
+ 	if (tlb_offset > alloc_size) {
+ 		dev_WARN_ONCE(dev, 1,
+ 			"Buffer overflow detected. Allocation size: %zu. Mapping size: %zu+%u.\n",
+@@ -738,15 +753,35 @@ static unsigned long mem_used(struct io_tlb_mem *mem)
+ 	return used;
+ }
+ 
++static phys_addr_t swiotlb_fixed_map(struct device *dev, phys_addr_t orig_addr,
++			size_t alloc_size, unsigned int alloc_align_mask,
++			unsigned long attrs)
++{
++	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
++	unsigned int offset = swiotlb_align_offset(dev, orig_addr);
++	int index = swiotlb_find_slots(dev, orig_addr,
++				       alloc_size + offset, alloc_align_mask);
++	unsigned int i;
++
++	if (index == -1)
++		return (phys_addr_t)DMA_MAPPING_ERROR;
++
++	/*
++	 * Save away the mapping from the original address to the DMA address.
++	 * This is needed when we sync the memory.  Then we sync the buffer if
++	 * needed.
++	 */
++	for (i = 0; i < nr_slots(alloc_size + offset); i++)
++		mem->slots[index + i].orig_addr = slot_addr(orig_addr, i);
++	return slot_addr(mem->start, index) + offset;
++}
++
+ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+ 		size_t mapping_size, size_t alloc_size,
+ 		unsigned int alloc_align_mask, enum dma_data_direction dir,
+ 		unsigned long attrs)
+ {
+ 	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
+-	unsigned int offset = swiotlb_align_offset(dev, orig_addr);
+-	unsigned int i;
+-	int index;
+ 	phys_addr_t tlb_addr;
+ 
+ 	if (!mem || !mem->nslabs) {
+@@ -764,24 +799,17 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+ 		return (phys_addr_t)DMA_MAPPING_ERROR;
+ 	}
+ 
+-	index = swiotlb_find_slots(dev, orig_addr,
+-				   alloc_size + offset, alloc_align_mask);
+-	if (index == -1) {
++	tlb_addr = swiotlb_fixed_map(dev, orig_addr, alloc_size,
++				     alloc_align_mask, attrs);
++
++	if (tlb_addr == (phys_addr_t)DMA_MAPPING_ERROR) {
+ 		if (!(attrs & DMA_ATTR_NO_WARN))
+ 			dev_warn_ratelimited(dev,
+-	"swiotlb buffer is full (sz: %zd bytes), total %lu (slots), used %lu (slots)\n",
+-				 alloc_size, mem->nslabs, mem_used(mem));
+-		return (phys_addr_t)DMA_MAPPING_ERROR;
++				"swiotlb buffer is full (sz: %zd bytes), total %lu (slots), used %lu (slots)\n",
++				alloc_size, mem->nslabs, mem_used(mem));
++		return tlb_addr;
+ 	}
+ 
+-	/*
+-	 * Save away the mapping from the original address to the DMA address.
+-	 * This is needed when we sync the memory.  Then we sync the buffer if
+-	 * needed.
+-	 */
+-	for (i = 0; i < nr_slots(alloc_size + offset); i++)
+-		mem->slots[index + i].orig_addr = slot_addr(orig_addr, i);
+-	tlb_addr = slot_addr(mem->start, index) + offset;
+ 	/*
+ 	 * When dir == DMA_FROM_DEVICE we could omit the copy from the orig
+ 	 * to the tlb buffer, if we knew for sure the device will
 -- 
 2.25.1
 
