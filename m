@@ -2,442 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 469CDC6FD1D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 06:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D813C7618A
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 07:04:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbjCTGwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 02:52:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54168 "EHLO
+        id S230075AbjCTHD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 03:03:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbjCTGwI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 02:52:08 -0400
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7598813D4D
-        for <linux-doc@vger.kernel.org>; Sun, 19 Mar 2023 23:52:02 -0700 (PDT)
-Received: by mail-ua1-x932.google.com with SMTP id 89so7185785uao.0
-        for <linux-doc@vger.kernel.org>; Sun, 19 Mar 2023 23:52:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679295121;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ONO7gIsbMkd/ovAh33jhzD+sIWjyxjKy4Gn5SbgUbWo=;
-        b=GQjlhiiPKKa0UmRkc8eT7zKLH3ncbO/RVF+VrP/9+Y2/g3uJAi5idhCzvni+TONeBM
-         YcafoiAFnHJxfkMZm0sw6+57LWhzaP/mRYI/9IbC/v+1RsfkAEp+tfaJaGS7W5dIRkQT
-         Z2PwXKyPp32kh1jyacItPvlc1V4CnMapSrKgf00I57IPC3mp+9a8GHE7D6WdHrKXfctE
-         kJyQz/C/QgZR8dSZQacaP2KMFo/jpxobqKB8LZbSxv9fj+tQo1lyzYS/WfnS0dv1YrG1
-         TKLPRkOCo8vJ22TaOlQjN+6kAsnCspjL5ofY9bFlDOLHfBcPKmtyVDmniPn9s+0lKyKN
-         uNpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679295121;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ONO7gIsbMkd/ovAh33jhzD+sIWjyxjKy4Gn5SbgUbWo=;
-        b=vjlaxhBgxCJqbxzptEmCZwH98B+W7Merzgg40rD61zIOEKfIoDfgghxFggkMn8KWNS
-         v6wsNIt0khWAdB1KzIY3sJw9MCarPcsr8LJn9baC9Hhck9Kx+tNLh70zdo7Ty52BNXh8
-         8wFTkZbFj1ZHIH0VxcNjrj0n8Ls0wUpQTdKd8OYap0sOKa2rbhLNyl6JF23Kz3Lh/8a5
-         PJJBBsBj3bYmfi61nVtFq4kh4gKmtx3rgg5zt8+Has5h8maMz2koZkhAzUj+tCpsAdzd
-         qDmhOdeAUekAYlGYMtEHighuoTjkvxZzJ3AiPv0igkivBQne5iRDJS8g1lp8jXWsxutz
-         Cx9Q==
-X-Gm-Message-State: AO0yUKW7B+G9Bc8ZBNvjT43gqtwoeQMf7bvu78bS/Frcj+YMBkz6/pMp
-        GE4CqYsASu2NAp0NnE+Jbo9L4wEFcRSFAaX+tqcQ6w==
-X-Google-Smtp-Source: AK7set9k07yBuj/KiMJ+bzIoDKPKh0+48U19HM4SkbDM3+X/0D5eBgoDEIsS240E4mlk7QhWyGGsB3AwkqJy2PcT3Wk=
-X-Received: by 2002:ab0:1006:0:b0:755:9b3:fef8 with SMTP id
- f6-20020ab01006000000b0075509b3fef8mr3394695uab.2.1679295120593; Sun, 19 Mar
- 2023 23:52:00 -0700 (PDT)
+        with ESMTP id S230054AbjCTHD5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 03:03:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2DDE1ACF8;
+        Mon, 20 Mar 2023 00:03:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4BBA761241;
+        Mon, 20 Mar 2023 07:03:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4946C4339E;
+        Mon, 20 Mar 2023 07:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679295835;
+        bh=2H4AQ2SU481Tr1WbHtk4czK916TUGFna3lsTDF/M42w=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=XfxP8nunHNfa8ecRMsWEdiXfHmD+3ANvXwhSFmHl6NgiQ92xGH2ytDTTE30DlnvHp
+         hadk9c0S+gKq7GCAtzOn6GnLcSlti3r1PSZGcJP2LvUJPQHn+bErmMsQb5kuNUGTvP
+         vFiRGpdKIXVLPCz2g0Gh0CSe4bwzy3qd1fqgbJzGI/q9eoswRXG+7U6qedo18nqEn4
+         wDu6oT/0W4krCmW8cweVWUfQDiB5Qi1lQbtOo/DrrcqV5aE45NnM8Ta92roPIWO+gf
+         M8KUsHLXscTFqv4kI3yP3YQru6n/n2P6zbsvfj98q2ASzogKpxJkYYHYMtTAlxVdqr
+         ia3yMYif2LtUA==
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5418d54d77bso206952367b3.12;
+        Mon, 20 Mar 2023 00:03:55 -0700 (PDT)
+X-Gm-Message-State: AO0yUKVnkWvr6YKHlJyn16VDEpdcLWeqIsTDo6XNriPufb96Hk19yqFa
+        yj1RK7iIG9auxEMcS+OzWNg8PmrW4H3tQz7KTn8=
+X-Google-Smtp-Source: AK7set89bEdjlCM3E14LMT7MClZ73N7FHeqNx6qsP8qKAUb/CfL5+5L5ehdU/HIyQGpQJqFvX9FDilzvmN/lwwuc2Qo=
+X-Received: by 2002:a81:ac25:0:b0:540:e744:13ae with SMTP id
+ k37-20020a81ac25000000b00540e74413aemr9881948ywh.3.1679295834577; Mon, 20 Mar
+ 2023 00:03:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230315132040.v10.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
-In-Reply-To: <20230315132040.v10.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Mon, 20 Mar 2023 12:21:49 +0530
-Message-ID: <CAFA6WYOc4f6_R-3UvG84s2CC-+aUZj6Nm+h3y7A798jcFmP+AA@mail.gmail.com>
-Subject: Re: [PATCH v10] tee: optee: Add SMC for loading OP-TEE image
-To:     Jeffrey Kardatzke <jkardatzke@chromium.org>
-Cc:     op-tee@lists.trustedfirmware.org,
-        Jeffrey Kardatzke <jkardatzke@google.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
+ <1678138443-2760-9-git-send-email-quic_jhugo@quicinc.com> <5e912413-eee4-5b25-5f6d-00ccc7501b9d@linux.intel.com>
+ <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com> <20230317140451.uywz7szrzvusyrjy@houat>
+ <d46b8f76-ce60-1c01-edc7-ec227315faf9@quicinc.com>
+In-Reply-To: <d46b8f76-ce60-1c01-edc7-ec227315faf9@quicinc.com>
+From:   Oded Gabbay <ogabbay@kernel.org>
+Date:   Mon, 20 Mar 2023 09:03:28 +0200
+X-Gmail-Original-Message-ID: <CAFCwf11mo2rwTNDUO+7jT0OHJVs+EzxSg4c-pKO3h9V+Un1Ugg@mail.gmail.com>
+Message-ID: <CAFCwf11mo2rwTNDUO+7jT0OHJVs+EzxSg4c-pKO3h9V+Un1Ugg@mail.gmail.com>
+Subject: Re: [PATCH v3 8/8] MAINTAINERS: Add entry for QAIC driver
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc:     Maxime Ripard <maxime@cerno.tech>,
+        Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+        dafna@fastmail.com, airlied@gmail.com, daniel@ffwll.ch,
+        stanislaw.gruszka@linux.intel.com, dri-devel@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
+        quic_carlv@quicinc.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Mar 2023 at 01:50, Jeffrey Kardatzke <jkardatzke@chromium.org> wrote:
+On Fri, Mar 17, 2023 at 5:46=E2=80=AFPM Jeffrey Hugo <quic_jhugo@quicinc.co=
+m> wrote:
 >
-> Adds an SMC call that will pass an OP-TEE binary image to EL3 and
-> instruct it to load it as the BL32 payload. This works in conjunction
-> with a feature added to Trusted Firmware for ARMv8 and above
-> architectures that supports this.
+> On 3/17/2023 8:04 AM, Maxime Ripard wrote:
+> > On Thu, Mar 16, 2023 at 11:04:05AM -0600, Jeffrey Hugo wrote:
+> >> On 3/14/2023 3:59 AM, Jacek Lawrynowicz wrote:
+> >>> Hi
+> >>>
+> >>> On 06.03.2023 22:34, Jeffrey Hugo wrote:
+> >>>> Add MAINTAINERS entry for the Qualcomm Cloud AI 100 driver.
+> >>>>
+> >>>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> >>>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> >>>> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.co=
+m>
+> >>>> ---
+> >>>>    MAINTAINERS | 9 +++++++++
+> >>>>    1 file changed, 9 insertions(+)
+> >>>>
+> >>>> diff --git a/MAINTAINERS b/MAINTAINERS
+> >>>> index b0db911..feb2974 100644
+> >>>> --- a/MAINTAINERS
+> >>>> +++ b/MAINTAINERS
+> >>>> @@ -17253,6 +17253,15 @@ F:        Documentation/devicetree/bindings=
+/clock/qcom,*
+> >>>>    F:      drivers/clk/qcom/
+> >>>>    F:      include/dt-bindings/clock/qcom,*
+> >>>> +QUALCOMM CLOUD AI (QAIC) DRIVER
+> >>>> +M:        Jeffrey Hugo <quic_jhugo@quicinc.com>
+> >>>> +L:        linux-arm-msm@vger.kernel.org
+> >>>> +L:        dri-devel@lists.freedesktop.org
+> >>>> +S:        Supported
+> >>>> +F:        Documentation/accel/qaic/
+> >>>> +F:        drivers/accel/qaic/
+> >>>> +F:        include/uapi/drm/qaic_accel.h
+> >>>
+> >>> Aren't you missing repo link?
+> >>> T:  git git://anongit.freedesktop.org/drm/drm-misc
+> >>
+> >> Maarten/Maxime/Thomas are we ok to follow the iVPU example and use drm=
+-misc
+> >> for this, or would a separate tree be preferred?
+> >
+> > Yeah, please go ahead with drm-misc
+> >
+> > Do you have commit rights?
 >
-> The main purpose of this change is to facilitate updating the OP-TEE
-> component on devices via a rootfs change rather than having to do a
-> firmware update. Further details are linked to in the Kconfig file.
+> No.  My operating assumption is this series will get merged first, which
+> will then justify having commit rights.  I'm new to DRM, so please
+> educate me if I'm missing something.
 >
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> ---
+> Thanks
 >
+> -Jeff
 
-Apart from nit below, feel free to add:
+Your assumption is correct. Once it gets merged, I think that's enough
+for you to get commit rights.
+And drm-misc is the place for most of the drivers in drm, so that's
+also completely fine.
 
-Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
-
-> Changes in v10:
-> - Fixed tee.rst documentation formatting
->
-> Changes in v9:
-> - Add CPU hotplug callback to init on all cores at startup
->
-> Changes in v8:
-> - Renamed params and fixed alignment issue
->
-> Changes in v7:
-> - Added documentation to Documentation/staging/tee.rst
->
-> Changes in v6:
-> - Expanded Kconfig documentation
->
-> Changes in v5:
-> - Renamed config option
-> - Added runtime warning when config is used
->
-> Changes in v4:
-> - Update commit message
-> - Added more documentation
-> - Renamed config option, added ARM64 dependency
->
-> Changes in v3:
-> - Removed state tracking for driver reload
-> - Check UID of service to verify it needs image load
->
-> Changes in v2:
-> - Fixed compile issue when feature is disabled
-> - Addressed minor comments
-> - Added state tracking for driver reload
->
->  Documentation/staging/tee.rst |  41 +++++++++++
->  drivers/tee/optee/Kconfig     |  17 +++++
->  drivers/tee/optee/optee_msg.h |  12 +++
->  drivers/tee/optee/optee_smc.h |  24 ++++++
->  drivers/tee/optee/smc_abi.c   | 134 ++++++++++++++++++++++++++++++++++
->  5 files changed, 228 insertions(+)
->
-> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-> index 498343c7ab08..6e90ee726880 100644
-> --- a/Documentation/staging/tee.rst
-> +++ b/Documentation/staging/tee.rst
-> @@ -214,6 +214,47 @@ call is done from the thread assisting the interrupt handler. This is a
->  building block for OP-TEE OS in secure world to implement the top half and
->  bottom half style of device drivers.
->
-> +OPTEE_INSECURE_LOAD_IMAGE Kconfig option
-> +----------------------------------------
-> +
-> +The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
-> +BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
-> +it from the firmware before the kernel boots. This also requires enabling the
-> +corresponding option in Trusted Firmware for Arm. The documentation there
-> +explains the security threat associated with enabling this as well as
-> +mitigations at the firmware and platform level.
-> +https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-> +
-> +There are additional attack vectors/mitigations for the kernel that should be
-> +addressed when using this option.
-> +
-> +1. Boot chain security.
-> +   Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
-> +   the system.
-> +   Migitation: There must be boot chain security that verifies the kernel and
-
-s/Migitation/Mitigation/
-
--Sumit
-
-> +   rootfs, otherwise an attacker can modify the loaded OP-TEE binary by
-> +   modifying it in the rootfs.
-> +2. Alternate boot modes.
-> +   Attack vector: Using an alternate boot mode (i.e. recovery mode), the OP-TEE
-> +   driver isn't loaded, leaving the SMC hole open.
-> +   Mitigation: If there are alternate methods of booting the device, such as a
-> +   recovery mode, it should be ensured that the same mitigations are applied in
-> +   that mode.
-> +3. Attacks prior to SMC invocation.
-> +   Attack vector: Code that is executed prior to issuing the SMC call to load
-> +   OP-TEE can be exploited to then load an alternate OS image.
-> +   Mitigation: The OP-TEE driver must be loaded before any potential attack
-> +   vectors are opened up. This should include mounting of any modifiable
-> +   filesystems, opening of network ports or communicating with external devices
-> +   (e.g. USB).
-> +4. Blocking SMC call to load OP-TEE.
-> +   Attack vector: Prevent the driver from being probed, so the SMC call to load
-> +   OP-TEE isn't executed when desired, leaving it open to being executed later
-> +   and loading a modified OS.
-> +   Mitigation: It is recommended to build the OP-TEE driver as an included
-> +   driver rather than a module to prevent exploits that may cause the module to
-> +   not be loaded.
-> +
->  AMD-TEE driver
->  ==============
->
-> diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
-> index f121c224e682..70898bbd5809 100644
-> --- a/drivers/tee/optee/Kconfig
-> +++ b/drivers/tee/optee/Kconfig
-> @@ -7,3 +7,20 @@ config OPTEE
->         help
->           This implements the OP-TEE Trusted Execution Environment (TEE)
->           driver.
-> +
-> +config OPTEE_INSECURE_LOAD_IMAGE
-> +       bool "Load OP-TEE image as firmware"
-> +       default n
-> +       depends on OPTEE && ARM64
-> +       help
-> +         This loads the BL32 image for OP-TEE as firmware when the driver is
-> +         probed. This returns -EPROBE_DEFER until the firmware is loadable from
-> +         the filesystem which is determined by checking the system_state until
-> +         it is in SYSTEM_RUNNING. This also requires enabling the corresponding
-> +         option in Trusted Firmware for Arm. The documentation there explains
-> +         the security threat associated with enabling this as well as
-> +         mitigations at the firmware and platform level.
-> +         https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-> +
-> +         Additional documentation on kernel security risks are at
-> +         Documentation/staging/tee.rst.
-> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
-> index 70e9cc2ee96b..e8840a82b983 100644
-> --- a/drivers/tee/optee/optee_msg.h
-> +++ b/drivers/tee/optee/optee_msg.h
-> @@ -241,11 +241,23 @@ struct optee_msg_arg {
->   * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
->   * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
->   * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
-> + *
-> + * In the case where the OP-TEE image is loaded by the kernel, this will
-> + * initially return an alternate UID to reflect that we are communicating with
-> + * the TF-A image loading service at that time instead of OP-TEE. That UID is:
-> + * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
-> + * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
-> + * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
-> + * OPTEE_MSG_IMAGE_LOAD_UID_3.
->   */
->  #define OPTEE_MSG_UID_0                        0x384fb3e0
->  #define OPTEE_MSG_UID_1                        0xe7f811e3
->  #define OPTEE_MSG_UID_2                        0xaf630002
->  #define OPTEE_MSG_UID_3                        0xa5d5c51b
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_0     0xa3fbeab1
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_1     0x1246315d
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_2     0xc7c406b9
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_3     0xc03cbea4
->  #define OPTEE_MSG_FUNCID_CALLS_UID     0xFF01
->
->  /*
-> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
-> index 73b5e7760d10..7d9fa426505b 100644
-> --- a/drivers/tee/optee/optee_smc.h
-> +++ b/drivers/tee/optee/optee_smc.h
-> @@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
->         unsigned long reserved1;
->  };
->
-> +/*
-> + * Load Trusted OS from optee/tee.bin in the Linux firmware.
-> + *
-> + * WARNING: Use this cautiously as it could lead to insecure loading of the
-> + * Trusted OS.
-> + * This SMC instructs EL3 to load a binary and execute it as the Trusted OS.
-> + *
-> + * Call register usage:
-> + * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
-> + * a1 Upper 32bit of a 64bit size for the payload
-> + * a2 Lower 32bit of a 64bit size for the payload
-> + * a3 Upper 32bit of the physical address for the payload
-> + * a4 Lower 32bit of the physical address for the payload
-> + *
-> + * The payload is in the OP-TEE image format.
-> + *
-> + * Returns result in a0, 0 on success and an error code otherwise.
-> + */
-> +#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
-> +#define OPTEE_SMC_CALL_LOAD_IMAGE \
-> +       ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
-> +                          ARM_SMCCC_OWNER_TRUSTED_OS_END, \
-> +                          OPTEE_SMC_FUNCID_LOAD_IMAGE)
-> +
->  /*
->   * Call with struct optee_msg_arg as argument
->   *
-> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-> index a1c1fa1a9c28..fcbcd0c0c3aa 100644
-> --- a/drivers/tee/optee/smc_abi.c
-> +++ b/drivers/tee/optee/smc_abi.c
-> @@ -7,10 +7,13 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->
->  #include <linux/arm-smccc.h>
-> +#include <linux/cpuhotplug.h>
->  #include <linux/errno.h>
-> +#include <linux/firmware.h>
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/irqdomain.h>
-> +#include <linux/kernel.h>
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> @@ -1149,6 +1152,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
->         return false;
->  }
->
-> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-> +static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invoke_fn)
-> +{
-> +       struct arm_smccc_res res;
-> +
-> +       invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
-> +
-> +       if (res.a0 == OPTEE_MSG_IMAGE_LOAD_UID_0 &&
-> +          res.a1 == OPTEE_MSG_IMAGE_LOAD_UID_1 &&
-> +          res.a2 == OPTEE_MSG_IMAGE_LOAD_UID_2 &&
-> +          res.a3 == OPTEE_MSG_IMAGE_LOAD_UID_3)
-> +               return true;
-> +       return false;
-> +}
-> +#endif
-> +
->  static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
->  {
->         union {
-> @@ -1354,6 +1373,117 @@ static void optee_shutdown(struct platform_device *pdev)
->                 optee_disable_shm_cache(optee);
->  }
->
-> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-> +
-> +#define OPTEE_FW_IMAGE "optee/tee.bin"
-> +
-> +static optee_invoke_fn *cpuhp_invoke_fn;
-> +
-> +static int optee_cpuhp_probe(unsigned int cpu)
-> +{
-> +       /*
-> +        * Invoking a call on a CPU will cause OP-TEE to perform the required
-> +        * setup for that CPU. Just invoke the call to get the UID since that
-> +        * has no side effects.
-> +        */
-> +       if (optee_msg_api_uid_is_optee_api(cpuhp_invoke_fn))
-> +               return 0;
-> +       else
-> +               return -EINVAL;
-> +}
-> +
-> +static int optee_load_fw(struct platform_device *pdev,
-> +                        optee_invoke_fn *invoke_fn)
-> +{
-> +       const struct firmware *fw = NULL;
-> +       struct arm_smccc_res res;
-> +       phys_addr_t data_pa;
-> +       u8 *data_buf = NULL;
-> +       u64 data_size;
-> +       u32 data_pa_high, data_pa_low;
-> +       u32 data_size_high, data_size_low;
-> +       int rc;
-> +       int hp_state;
-> +
-> +       if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
-> +               return 0;
-> +
-> +       rc = request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
-> +       if (rc) {
-> +               /*
-> +                * The firmware in the rootfs will not be accessible until we
-> +                * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
-> +                * that point.
-> +                */
-> +               if (system_state < SYSTEM_RUNNING)
-> +                       return -EPROBE_DEFER;
-> +               goto fw_err;
-> +       }
-> +
-> +       data_size = fw->size;
-> +       /*
-> +        * This uses the GFP_DMA flag to ensure we are allocated memory in the
-> +        * 32-bit space since TF-A cannot map memory beyond the 32-bit boundary.
-> +        */
-> +       data_buf = kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
-> +       if (!data_buf) {
-> +               rc = -ENOMEM;
-> +               goto fw_err;
-> +       }
-> +       memcpy(data_buf, fw->data, fw->size);
-> +       data_pa = virt_to_phys(data_buf);
-> +       reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
-> +       reg_pair_from_64(&data_size_high, &data_size_low, data_size);
-> +       goto fw_load;
-> +
-> +fw_err:
-> +       pr_warn("image loading failed\n");
-> +       data_pa_high = data_pa_low = data_size_high = data_size_low = 0;
-> +
-> +fw_load:
-> +       /*
-> +        * Always invoke the SMC, even if loading the image fails, to indicate
-> +        * to EL3 that we have passed the point where it should allow invoking
-> +        * this SMC.
-> +        */
-> +       pr_warn("OP-TEE image loaded from kernel, this can be insecure");
-> +       invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_low,
-> +                 data_pa_high, data_pa_low, 0, 0, 0, &res);
-> +       if (!rc)
-> +               rc = res.a0;
-> +       if (fw)
-> +               release_firmware(fw);
-> +       kfree(data_buf);
-> +
-> +       if (!rc) {
-> +               /*
-> +                * We need to initialize OP-TEE on all other running cores as
-> +                * well. Any cores that aren't running yet will get initialized
-> +                * when they are brought up by the power management functions in
-> +                * TF-A which are registered by the OP-TEE SPD. Due to that we
-> +                * can un-register the callback right after registering it.
-> +                */
-> +               cpuhp_invoke_fn = invoke_fn;
-> +               hp_state = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "optee:probe",
-> +                                            optee_cpuhp_probe, NULL);
-> +               if (hp_state < 0) {
-> +                       pr_warn("Failed with CPU hotplug setup for OP-TEE");
-> +                       return -EINVAL;
-> +               }
-> +               cpuhp_remove_state(hp_state);
-> +               cpuhp_invoke_fn = NULL;
-> +       }
-> +
-> +       return rc;
-> +}
-> +#else
-> +static inline int optee_load_fw(struct platform_device *pdev,
-> +                               optee_invoke_fn *invoke_fn)
-> +{
-> +       return 0;
-> +}
-> +#endif
-> +
->  static int optee_probe(struct platform_device *pdev)
->  {
->         optee_invoke_fn *invoke_fn;
-> @@ -1372,6 +1502,10 @@ static int optee_probe(struct platform_device *pdev)
->         if (IS_ERR(invoke_fn))
->                 return PTR_ERR(invoke_fn);
->
-> +       rc = optee_load_fw(pdev, invoke_fn);
-> +       if (rc)
-> +               return rc;
-> +
->         if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
->                 pr_warn("api uid mismatch\n");
->                 return -EINVAL;
-> --
-> 2.40.0.rc1.284.g88254d51c5-goog
->
+Thanks,
+Oded
