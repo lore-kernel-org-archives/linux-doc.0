@@ -2,116 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8BBC7618A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 10:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BFEFC77B60
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 11:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbjCTKvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 06:51:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52828 "EHLO
+        id S229940AbjCTLBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 07:01:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230049AbjCTKvZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 06:51:25 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CC34E298C8;
-        Mon, 20 Mar 2023 03:48:48 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D103FEC;
-        Mon, 20 Mar 2023 03:48:39 -0700 (PDT)
-Received: from bogus (unknown [10.57.52.173])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4B463F67D;
-        Mon, 20 Mar 2023 03:47:52 -0700 (PDT)
-Date:   Mon, 20 Mar 2023 10:47:19 +0000
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     Shanker Donthineni <sdonthineni@nvidia.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v5] irqchip/gicv3: Workaround for NVIDIA erratum
- T241-FABRIC-4
-Message-ID: <20230320104719.mane5faxvv6ofpiv@bogus>
-References: <20230319024314.3540573-1-sdonthineni@nvidia.com>
- <20230319024314.3540573-2-sdonthineni@nvidia.com>
+        with ESMTP id S229916AbjCTLAw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 07:00:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF223A8B
+        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 03:55:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679309732;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hZyCMxGpcR0S73UtYylnn7dYqSGpGJubntx2gaRzXj0=;
+        b=hN3mNu4yEf2xkfj4or3ogFG6HVzJReytpvfqTslXSta/D7lHv2cAn5XgyPErzy/G9FPBCw
+        0I3LCYS5Rm5SMszITLcOY6u+OaYJyLSgLJkadAMlBdUfFLOswbz5uKgHR2/4Pdm2uG8++z
+        NP11k1jSZJIsoS/DqXuW7CZ7Z5TJqzU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-271-nAUnxDWROaSeDg0M-T3Q1Q-1; Mon, 20 Mar 2023 06:55:31 -0400
+X-MC-Unique: nAUnxDWROaSeDg0M-T3Q1Q-1
+Received: by mail-wm1-f69.google.com with SMTP id iv10-20020a05600c548a00b003ee112e6df1so403657wmb.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 03:55:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679309730;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hZyCMxGpcR0S73UtYylnn7dYqSGpGJubntx2gaRzXj0=;
+        b=NZI8EO001HjZGlD4RwZsW4tjqNJMbXcihxwl2hFYfyrWBwoaBtz8H/+uqEjBK4KECg
+         IthhAa619Slhf0LP+gpU+gYNSy1DuiZFATrS45jJCgj37rEXwwz7g0ZWi2VfOYHjuFbH
+         ik9d8Hv5FuWc71XpHycluhr9/ZGNQzP+1+IXkMzoaVg0N8Bqkbm0IcJk8nPwXU1B+QH2
+         qt4CtWA+Tb2pybRcMRGmru1hXLYg1LxpA8NbYdOStAe4XvMd6OQmodTr32PI2zgBk2ID
+         c1TIOPXILCG8QMFer9BVqDJQrnzYFE8HpTrDUfS98Wyq1ygHoF/lOtyVBwRxVE3lzsDB
+         osAg==
+X-Gm-Message-State: AO0yUKU62MubhRUXnIEijyje+bUKbeZPLkGMR8fzFBTERqtBjZC/9J2I
+        /4gAhV8PEpgt3Fka3aJPMaVS+TU7MIEck1B/hoFhW8VifWWIpW46kE0aRnJ64FRPkVtoczI3nhW
+        M7ibX/KYxu3K+17Q0fGRK
+X-Received: by 2002:a5d:4d10:0:b0:2d1:7ade:aad with SMTP id z16-20020a5d4d10000000b002d17ade0aadmr11360088wrt.31.1679309730069;
+        Mon, 20 Mar 2023 03:55:30 -0700 (PDT)
+X-Google-Smtp-Source: AK7set93CzdZEb3DYvK+1MT2JxGK+OwqrYFwweBrtleHk/IXtONusAqG4ZSXQvD5FA52RfO37i3ukA==
+X-Received: by 2002:a5d:4d10:0:b0:2d1:7ade:aad with SMTP id z16-20020a5d4d10000000b002d17ade0aadmr11360062wrt.31.1679309729712;
+        Mon, 20 Mar 2023 03:55:29 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:4100:a064:1ded:25ec:cf2f? (p200300cbc7024100a0641ded25eccf2f.dip0.t-ipconnect.de. [2003:cb:c702:4100:a064:1ded:25ec:cf2f])
+        by smtp.gmail.com with ESMTPSA id v7-20020a5d4b07000000b002c56af32e8csm8555317wrq.35.2023.03.20.03.55.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Mar 2023 03:55:29 -0700 (PDT)
+Message-ID: <da5c721e-3492-5028-2439-64875efc5a6d@redhat.com>
+Date:   Mon, 20 Mar 2023 11:55:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230319024314.3540573-2-sdonthineni@nvidia.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v8 17/40] mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+Content-Language: en-US
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        debug@rivosinc.com, szabolcs.nagy@arm.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+References: <20230319001535.23210-1-rick.p.edgecombe@intel.com>
+ <20230319001535.23210-18-rick.p.edgecombe@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230319001535.23210-18-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 18, 2023 at 09:43:14PM -0500, Shanker Donthineni wrote:
-> The T241 platform suffers from the T241-FABRIC-4 erratum which causes
-> unexpected behavior in the GIC when multiple transactions are received
-> simultaneously from different sources. This hardware issue impacts
-> NVIDIA server platforms that use more than two T241 chips
-> interconnected. Each chip has support for 320 {E}SPIs.
+On 19.03.23 01:15, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> This issue occurs when multiple packets from different GICs are
-> incorrectly interleaved at the target chip. The erratum text below
-> specifies exactly what can cause multiple transfer packets susceptible
-> to interleaving and GIC state corruption. GIC state corruption can
-> lead to a range of problems, including kernel panics, and unexpected
-> behavior.
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
 > 
-> From the erratum text:
->   "In some cases, inter-socket AXI4 Stream packets with multiple
->   transfers, may be interleaved by the fabric when presented to ARM
->   Generic Interrupt Controller. GIC expects all transfers of a packet
->   to be delivered without any interleaving.
+> Future patches will introduce a new VM flag VM_SHADOW_STACK that will be
+> VM_HIGH_ARCH_BIT_5. VM_HIGH_ARCH_BIT_1 through VM_HIGH_ARCH_BIT_4 are
+> bits 32-36, and bit 37 is the unrelated VM_UFFD_MINOR_BIT. For the sake
+> of order, make all VM_HIGH_ARCH_BITs stay together by moving
+> VM_UFFD_MINOR_BIT from 37 to 38. This will allow VM_SHADOW_STACK to be
+> introduced as 37.
 > 
->   The following GICv3 commands may result in multiple transfer packets
->   over inter-socket AXI4 Stream interface:
->    - Register reads from GICD_I* and GICD_N*
->    - Register writes to 64-bit GICD registers other than GICD_IROUTERn*
->    - ITS command MOVALL
-> 
->   Multiple commands in GICv4+ utilize multiple transfer packets,
->   including VMOVP, VMOVI, VMAPP, and 64-bit register accesses."
-> 
->   This issue impacts system configurations with more than 2 sockets,
->   that require multi-transfer packets to be sent over inter-socket
->   AXI4 Stream interface between GIC instances on different sockets.
->   GICv4 cannot be supported. GICv3 SW model can only be supported
->   with the workaround. Single and Dual socket configurations are not
->   impacted by this issue and support GICv3 and GICv4."
-> 
-> Link: https://developer.nvidia.com/docs/t241-fabric-4/nvidia-t241-fabric-4-errata.pdf
-> 
-> Writing to the chip alias region of the GICD_In{E} registers except
-> GICD_ICENABLERn has an equivalent effect as writing to the global
-> distributor. The SPI interrupt deactivate path is not impacted by
-> the erratum.
-> 
-> To fix this problem, implement a workaround that ensures read accesses
-> to the GICD_In{E} registers are directed to the chip that owns the
-> SPI, and disable GICv4.x features. To simplify code changes, the
-> gic_configure_irq() function uses the same alias region for both read
-> and write operations to GICD_ICFGR.
-> 
-> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
-> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
-> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Axel Rasmussen <axelrasmussen@google.com>
+> Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> Acked-by: Peter Xu <peterx@redhat.com>
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Tested-by: John Allen <john.allen@amd.com>
+> Tested-by: Kees Cook <keescook@chromium.org>
 > ---
-> Changes since v4:
->  - Resolve Marc's comments https://lore.kernel.org/all/871qlqif9v.wl-maz@kernel.org/
-> Changes since v3:
->  - Fix the build issue for the 32bit arch
-> Changes since v2:
->  - Add accessors for the SOC-ID version & revision
 
-SMCCC/SOC ID part looks good to me. In case you spin another version for any
-reason, I would prefer you split those changes into separate patch. Otherwise
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com> (for SMCCC/SOC ID bits)
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
-Regards,
-Sudeep
+Thanks,
+
+David / dhildenb
+
