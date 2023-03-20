@@ -2,129 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D813C7618A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 07:04:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E611C7618A
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 09:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbjCTHD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 03:03:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39420 "EHLO
+        id S229808AbjCTJHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 05:07:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230054AbjCTHD5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 03:03:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2DDE1ACF8;
-        Mon, 20 Mar 2023 00:03:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4BBA761241;
-        Mon, 20 Mar 2023 07:03:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4946C4339E;
-        Mon, 20 Mar 2023 07:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679295835;
-        bh=2H4AQ2SU481Tr1WbHtk4czK916TUGFna3lsTDF/M42w=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XfxP8nunHNfa8ecRMsWEdiXfHmD+3ANvXwhSFmHl6NgiQ92xGH2ytDTTE30DlnvHp
-         hadk9c0S+gKq7GCAtzOn6GnLcSlti3r1PSZGcJP2LvUJPQHn+bErmMsQb5kuNUGTvP
-         vFiRGpdKIXVLPCz2g0Gh0CSe4bwzy3qd1fqgbJzGI/q9eoswRXG+7U6qedo18nqEn4
-         wDu6oT/0W4krCmW8cweVWUfQDiB5Qi1lQbtOo/DrrcqV5aE45NnM8Ta92roPIWO+gf
-         M8KUsHLXscTFqv4kI3yP3YQru6n/n2P6zbsvfj98q2ASzogKpxJkYYHYMtTAlxVdqr
-         ia3yMYif2LtUA==
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5418d54d77bso206952367b3.12;
-        Mon, 20 Mar 2023 00:03:55 -0700 (PDT)
-X-Gm-Message-State: AO0yUKVnkWvr6YKHlJyn16VDEpdcLWeqIsTDo6XNriPufb96Hk19yqFa
-        yj1RK7iIG9auxEMcS+OzWNg8PmrW4H3tQz7KTn8=
-X-Google-Smtp-Source: AK7set89bEdjlCM3E14LMT7MClZ73N7FHeqNx6qsP8qKAUb/CfL5+5L5ehdU/HIyQGpQJqFvX9FDilzvmN/lwwuc2Qo=
-X-Received: by 2002:a81:ac25:0:b0:540:e744:13ae with SMTP id
- k37-20020a81ac25000000b00540e74413aemr9881948ywh.3.1679295834577; Mon, 20 Mar
- 2023 00:03:54 -0700 (PDT)
+        with ESMTP id S231172AbjCTJHI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 05:07:08 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F9EEFBF
+        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 02:07:06 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id w9so43824041edc.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Mar 2023 02:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tessares.net; s=google; t=1679303225;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I48ZALEeuyq+5nq4S7WyEKtOnaJxJTCOPAHy1zR7+cA=;
+        b=b1yya70mMnKfuymKGpD4u7cacCo6VDcwoDsWql+gacONY7SMbcuszHiX/kPPpJtnoL
+         tv62CMqTPC2HHvyzGIZdKmZcFdXtneY8NxaD9whBwPZPP+0CsKGjmv4hI0V2WQBLgweF
+         fexKOal9AHNEQVixmsHto8Na7yTwiwFlJmhg3a49KfbQ95UmD+O8CnVAPXBHRN09fKNE
+         NLFtPwtbieJjeS6naO6guWLas8w4KBJIpnhu3Oz9nLwneVAsWzslmgAFYeaaxXt+eigu
+         Fx+/Hp2QgCSyBuAQPtkO6kO25P+vZxI8XEVHuljyqRnBHWLXNxrf35nSvbRIDgYt1ZE5
+         s0Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679303225;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I48ZALEeuyq+5nq4S7WyEKtOnaJxJTCOPAHy1zR7+cA=;
+        b=j1rfET5sOZt3ih7vTv2eW9j5yU72jlfvtgobH9bXv16DAzAdI7ORpSGp6SJ+crdJeC
+         ciaj0qEP1jPQ5TK82NVxHXVxlyS3Pg1WZkOq/9xu+ohwspKOLbjZpr7JOiqiyZbncYyQ
+         947yhx+NnsDrqP4f9TsaWCv5cm2NMgZ66KRyfg7LHIphnbdu7+JQ/CMJFj4ZXkNOqBeZ
+         SbD93qRkKq0Sdv5i3iN0FQBEmOTMD8KphKqlV1rtuckh58h7r2hlZj2dtGtMPamSE5A6
+         YeLussuzyQyMNanL4Bi1nsBFObQWj1CtE12Qgz2OGIIfWvI+ZzJVY9nO8eUdq1aNTneW
+         KDgA==
+X-Gm-Message-State: AO0yUKVoip3rY3deYgmjCEvacIsOUrSMom5Bl8sxjpqluqAYhMPoixTU
+        kKW5hr33tng+te30ZmWsDqaNgA==
+X-Google-Smtp-Source: AK7set9VYk5vwIViq9reJb8Y0C3jTXgNZOOwFW7E0tuFon//jhh0RCKuy5Ff+HuteVXJ+1hE301E9A==
+X-Received: by 2002:a17:906:c193:b0:932:1af9:7386 with SMTP id g19-20020a170906c19300b009321af97386mr7539672ejz.27.1679303224873;
+        Mon, 20 Mar 2023 02:07:04 -0700 (PDT)
+Received: from [10.44.2.5] ([81.246.10.41])
+        by smtp.gmail.com with ESMTPSA id z21-20020a1709064e1500b00930de1da701sm4229334eju.10.2023.03.20.02.07.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Mar 2023 02:07:04 -0700 (PDT)
+Message-ID: <065e79b3-f562-0ffa-2904-a3660b2c038c@tessares.net>
+Date:   Mon, 20 Mar 2023 10:07:04 +0100
 MIME-Version: 1.0
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-9-git-send-email-quic_jhugo@quicinc.com> <5e912413-eee4-5b25-5f6d-00ccc7501b9d@linux.intel.com>
- <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com> <20230317140451.uywz7szrzvusyrjy@houat>
- <d46b8f76-ce60-1c01-edc7-ec227315faf9@quicinc.com>
-In-Reply-To: <d46b8f76-ce60-1c01-edc7-ec227315faf9@quicinc.com>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Mon, 20 Mar 2023 09:03:28 +0200
-X-Gmail-Original-Message-ID: <CAFCwf11mo2rwTNDUO+7jT0OHJVs+EzxSg4c-pKO3h9V+Un1Ugg@mail.gmail.com>
-Message-ID: <CAFCwf11mo2rwTNDUO+7jT0OHJVs+EzxSg4c-pKO3h9V+Un1Ugg@mail.gmail.com>
-Subject: Re: [PATCH v3 8/8] MAINTAINERS: Add entry for QAIC driver
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-        dafna@fastmail.com, airlied@gmail.com, daniel@ffwll.ch,
-        stanislaw.gruszka@linux.intel.com, dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        quic_carlv@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] docs: process: allow Closes tags with links
+Content-Language: en-GB
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+References: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
+ <20230314-doc-checkpatch-closes-tag-v1-1-1b83072e9a9a@tessares.net>
+ <4822168e-85a5-e507-9429-21d9a222406c@gmail.com>
+From:   Matthieu Baerts <matthieu.baerts@tessares.net>
+In-Reply-To: <4822168e-85a5-e507-9429-21d9a222406c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 5:46=E2=80=AFPM Jeffrey Hugo <quic_jhugo@quicinc.co=
-m> wrote:
->
-> On 3/17/2023 8:04 AM, Maxime Ripard wrote:
-> > On Thu, Mar 16, 2023 at 11:04:05AM -0600, Jeffrey Hugo wrote:
-> >> On 3/14/2023 3:59 AM, Jacek Lawrynowicz wrote:
-> >>> Hi
-> >>>
-> >>> On 06.03.2023 22:34, Jeffrey Hugo wrote:
-> >>>> Add MAINTAINERS entry for the Qualcomm Cloud AI 100 driver.
-> >>>>
-> >>>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> >>>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> >>>> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.co=
-m>
-> >>>> ---
-> >>>>    MAINTAINERS | 9 +++++++++
-> >>>>    1 file changed, 9 insertions(+)
-> >>>>
-> >>>> diff --git a/MAINTAINERS b/MAINTAINERS
-> >>>> index b0db911..feb2974 100644
-> >>>> --- a/MAINTAINERS
-> >>>> +++ b/MAINTAINERS
-> >>>> @@ -17253,6 +17253,15 @@ F:        Documentation/devicetree/bindings=
-/clock/qcom,*
-> >>>>    F:      drivers/clk/qcom/
-> >>>>    F:      include/dt-bindings/clock/qcom,*
-> >>>> +QUALCOMM CLOUD AI (QAIC) DRIVER
-> >>>> +M:        Jeffrey Hugo <quic_jhugo@quicinc.com>
-> >>>> +L:        linux-arm-msm@vger.kernel.org
-> >>>> +L:        dri-devel@lists.freedesktop.org
-> >>>> +S:        Supported
-> >>>> +F:        Documentation/accel/qaic/
-> >>>> +F:        drivers/accel/qaic/
-> >>>> +F:        include/uapi/drm/qaic_accel.h
-> >>>
-> >>> Aren't you missing repo link?
-> >>> T:  git git://anongit.freedesktop.org/drm/drm-misc
-> >>
-> >> Maarten/Maxime/Thomas are we ok to follow the iVPU example and use drm=
--misc
-> >> for this, or would a separate tree be preferred?
-> >
-> > Yeah, please go ahead with drm-misc
-> >
-> > Do you have commit rights?
->
-> No.  My operating assumption is this series will get merged first, which
-> will then justify having commit rights.  I'm new to DRM, so please
-> educate me if I'm missing something.
->
-> Thanks
->
-> -Jeff
+Hi Bagas,
 
-Your assumption is correct. Once it gets merged, I think that's enough
-for you to get commit rights.
-And drm-misc is the place for most of the drivers in drm, so that's
-also completely fine.
+On 17/03/2023 09:00, Bagas Sanjaya wrote:
+> On 3/16/23 00:44, Matthieu Baerts wrote:
+>> +In the same category as linking web pages, a special tag is also used to close
+>> +issues but only when the mentioned ticketing system can do this operation
+>> +automatically::
+>> +
+>> +        Closes: https://example.com/issues/1234
+>> +
+>> +Please use this 'Closes:' tag only if it helps managing issues thanks to
+>> +automations. If not, pick the 'Link:' one.
+>> +
+> 
+> What about:
+> 
+> ```
+> Similarly, there is also "Closes:" tag that can be used to close issues when
+> the underlying tracker can do this operation automatically. For example::
+> 
+>     Closes: <issue link>
+> 
+> For other trackers keep using "Link:" tag instead.
+> ```
+> ?
 
-Thanks,
-Oded
+Thank you for your feedback! This suggestion looks better to me.
+
+I might just have to mention "public bug tracker" to also address Jon's
+comment: we don't want links to internal bug trackers.
+
+Please note that it is still unclear to me if such exception for the
+"Closes:" tag can be accepted: please see the discussions[1] on the
+cover letter for more details about that.
+
+Cheers,
+Matt
+
+[1]
+https://lore.kernel.org/linux-doc/20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net/T/
+-- 
+Tessares | Belgium | Hybrid Access Solutions
+www.tessares.net
