@@ -2,65 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0ED4C6FD1D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 14:37:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F075C7618D
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 15:01:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231693AbjCTOhs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 10:37:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41374 "EHLO
+        id S232059AbjCTPBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 11:01:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231817AbjCTOhn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 10:37:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755A724107;
-        Mon, 20 Mar 2023 07:37:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 22E98614D6;
-        Mon, 20 Mar 2023 14:37:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ACE4C4339B;
-        Mon, 20 Mar 2023 14:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679323041;
-        bh=OfZgDqFXBUdIMyEH4oAv+asfs2VQIn/ZVquHlPB1Saw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mePrb7L1qo6GFjZ+3oszM9GYvUm5Z5vLScmvI8JzM/ZNKNBUfwEYNcKwzAzTLEOgm
-         Ckmn9rJmyHQIVVbogmyIwW8D+bzk77R1l+ZbjWZ+fuxY2ZmXjf3Tc4cQb2DO+XE3zQ
-         o6e65hvEssUKre2r+kDZswa7udIh9lAcYis4L8jp2nowJGyb6R26vhxZqVsoc9wRGX
-         eWg1GQRQIunmaKgvpBAJYph0Pgy7QSmOGpD4tIWXmQGczGazwKZ9vgYkE1hbHW1gmU
-         itlTWjoGRVPD46Y5ZLt/LCjyUHjkOggzmu+VdVH6c6zUldzOhVOl3V9NQ9LGPgbOE5
-         EX/xP5LIpIBCw==
-Date:   Mon, 20 Mar 2023 15:37:14 +0100
-From:   Simon Horman <horms@kernel.org>
-To:     Chen Jiahao <chenjiahao16@huawei.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        conor.dooley@microchip.com, guoren@kernel.org, heiko@sntech.de,
-        bjorn@rivosinc.com, alex@ghiti.fr, akpm@linux-foundation.org,
-        atishp@rivosinc.com, bhe@redhat.com, thunder.leizhen@huawei.com,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH -next 2/2] docs: kdump: Update the crashkernel
- description for riscv
-Message-ID: <ZBhvmqlyyvLOUot1@kernel.org>
-References: <20230320204244.1637821-1-chenjiahao16@huawei.com>
- <20230320204244.1637821-3-chenjiahao16@huawei.com>
+        with ESMTP id S231479AbjCTPBP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 11:01:15 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 067B9144A3;
+        Mon, 20 Mar 2023 07:57:54 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A1E7FAD7;
+        Mon, 20 Mar 2023 07:58:02 -0700 (PDT)
+Received: from e127643.arm.com (unknown [10.57.18.95])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 87D3B3F71E;
+        Mon, 20 Mar 2023 07:57:15 -0700 (PDT)
+From:   James Clark <james.clark@arm.com>
+To:     linux-kernel@vger.kernel.org, linux@roeck-us.net,
+        michal.simek@amd.com, Jonathan.Cameron@huawei.com
+Cc:     James Clark <james.clark@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: [PATCH v3 0/4] devres: Provide krealloc_array
+Date:   Mon, 20 Mar 2023 14:57:05 +0000
+Message-Id: <20230320145710.1120469-1-james.clark@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230320204244.1637821-3-chenjiahao16@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 04:42:44AM +0800, Chen Jiahao wrote:
-> Now "crashkernel=" parameter on riscv has been updated to support
-> crashkernel=X,[high,low]. Through which we can reserve memory region
-> above/within 32bit addressible DMA zone.
-> 
-> Here update the parameter description accordingly.
-> 
-> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+Changes since v2:
+ 
+ * Remove change in qcom_geni_serial.c in the last commmit and replace
+   it with a comment instead
+ * Whitespace fix
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Changes since v1:
+
+ * Style fix
+
+-----------------------
+
+Hi,
+
+I had a use for a devm realloc_array in a separate change, so I've
+added one and updated all the obvious existing uses of it that I could
+find. This is basically a copy paste of the one in slab.h
+
+Applies to v6.3-rc3
+
+Thanks
+James
+
+James Clark (4):
+  devres: Provide krealloc_array
+  hwmon: pmbus: Use devm_krealloc_array
+  iio: adc: Use devm_krealloc_array
+  serial: qcom_geni: Comment use of devm_krealloc rather than
+    devm_krealloc_array
+
+ .../driver-api/driver-model/devres.rst          |  1 +
+ drivers/hwmon/pmbus/pmbus_core.c                |  6 +++---
+ drivers/iio/adc/xilinx-ams.c                    |  9 +++------
+ drivers/iio/adc/xilinx-xadc-core.c              | 17 +++++++----------
+ drivers/tty/serial/qcom_geni_serial.c           |  5 +++++
+ include/linux/device.h                          | 11 +++++++++++
+ 6 files changed, 30 insertions(+), 19 deletions(-)
+
+-- 
+2.34.1
 
