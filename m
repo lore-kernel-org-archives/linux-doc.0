@@ -2,138 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5698C7618A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 12:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9858C7618D
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 12:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231622AbjCTMsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 08:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55590 "EHLO
+        id S231566AbjCTMsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 08:48:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbjCTMrk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 08:47:40 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9FA149AB;
-        Mon, 20 Mar 2023 05:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679316455; x=1710852455;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BS/iDj084XvVXlM/TI4ORDgBbDzLSZq0yXe7n1ACXBA=;
-  b=j9QG30vAS0DKc/3qnMLMiFY6bp9keIN4U7TKil+tNwggJBlBHE1OGdou
-   Ev3hGaBRV0UqJ/V0IY0FARCF8BkxP7/vpmT1IucShYPvlZOVCYp4RHFG3
-   u2p/n43Db23Ch67urc+ILtKcE0QTHNyQuaFjO6gvkNxSG2SYmPKD7wB0S
-   CeidzDI12sphF0MbiQxsrHW1wn+1+nm+YaigHaMwLrtF9AztVQTjcCs7s
-   XNVqf/oGAAlmyaURzYERCQhuCcIrwRd4cPpXyq5Aj25JEmN0qlPW4kO+t
-   dlaM9tr9TYJ6rA3ZR+nYkYQff4XMdpWxmZo0HuezHYLF72yGco18BsY2G
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="319050903"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="319050903"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 05:46:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="745361757"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="745361757"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Mar 2023 05:46:51 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1peEuW-006GkN-0C;
-        Mon, 20 Mar 2023 14:46:48 +0200
-Date:   Mon, 20 Mar 2023 14:46:47 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Paul Fertser <fercerpav@gmail.com>
-Cc:     Iwona Winiarska <iwona.winiarska@intel.com>,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        Dave Hansen <dave.hansen@intel.com>,
-        Zev Weiss <zweiss@equinix.com>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
-        Jean Delvare <jdelvare@suse.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-        Tony Luck <tony.luck@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
+        with ESMTP id S231600AbjCTMsC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 08:48:02 -0400
+X-Greylist: delayed 1103 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Mar 2023 05:47:45 PDT
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9B012BE8;
+        Mon, 20 Mar 2023 05:47:44 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.229])
+        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4PgDN6589Vz9v7Z6;
+        Mon, 20 Mar 2023 20:20:38 +0800 (CST)
+Received: from A2101119013HW2.china.huawei.com (unknown [10.48.148.162])
+        by APP2 (Coremail) with SMTP id GxC2BwBnOF9kURhkkqGyAQ--.46782S6;
+        Mon, 20 Mar 2023 13:29:08 +0100 (CET)
+From:   Petr Tesarik <petrtesarik@huaweicloud.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Olof Johansson <olof@lixom.net>
-Subject: Re: [PATCH v8 10/13] hwmon: peci: Add cputemp driver
-Message-ID: <ZBhVt74i1DSoa+bE@smile.fi.intel.com>
-References: <20220208153639.255278-1-iwona.winiarska@intel.com>
- <20220208153639.255278-11-iwona.winiarska@intel.com>
- <ZBhHS7v+98NK56is@home.paul.comp>
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
+Cc:     Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz
+Subject: [RFC v1 4/4] swiotlb: Add an option to allow dynamic bounce buffers
+Date:   Mon, 20 Mar 2023 13:28:16 +0100
+Message-Id: <e00c8c576b8ef2fa3cf867ab776cd136a519a835.1679309810.git.petr.tesarik.ext@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
+In-Reply-To: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
+References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBhHS7v+98NK56is@home.paul.comp>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GxC2BwBnOF9kURhkkqGyAQ--.46782S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxWFyUXw4rKw1kZw1kJFWfuFg_yoWrZryUpr
+        y0va4YgFZ7JF18Z347Cw47GF1Fkan29ay3ZayFgryFyr98Xrn0qwnrtr4YqF1rt3y09F47
+        ZFyYvF4Ykr17t3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPmb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
+        Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
+        rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
+        AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
+        wI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I
+        80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCj
+        c4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0Ew4
+        C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
+        v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+        c7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
+        AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZE
+        Xa7IU8gAw7UUUUU==
+X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 02:45:15PM +0300, Paul Fertser wrote:
-> Hello,
-> 
-> We are seeing wrong DTS temperatures on at least "Intel(R) Xeon(R)
-> Bronze 3204 CPU @ 1.90GHz" and most probably other Skylake Xeon CPUs
-> are also affected, see inline.
+From: Petr Tesarik <petr.tesarik.ext@huawei.com>
 
-Thanks for the report! I guess we need a fix for this indeed.
+Dynamic allocation of bounce buffers may introduce regression for
+some workloads. The expected outcomes are bigger worst-case I/O
+latency reduced performance for some workloads. Unfortunately,
+real-world testing has been too unstable to draw any conclusion.
 
-> On Tue, Feb 08, 2022 at 04:36:36PM +0100, Iwona Winiarska wrote:
-> > Add peci-cputemp driver for Digital Thermal Sensor (DTS) thermal
-> > readings of the processor package and processor cores that are
-> > accessible via the PECI interface.
-> ...
-> > +static const struct cpu_info cpu_hsx = {
-> > +	.reg		= &resolved_cores_reg_hsx,
-> > +	.min_peci_revision = 0x33,
-> > +	.thermal_margin_to_millidegree = &dts_eight_dot_eight_to_millidegree,
-> > +};
-> > +
-> > +static const struct cpu_info cpu_icx = {
-> > +	.reg		= &resolved_cores_reg_icx,
-> > +	.min_peci_revision = 0x40,
-> > +	.thermal_margin_to_millidegree = &dts_ten_dot_six_to_millidegree,
-> > +};
-> ...
-> > +	{
-> > +		.name = "peci_cpu.cputemp.skx",
-> > +		.driver_data = (kernel_ulong_t)&cpu_hsx,
-> > +	},
-> 
-> With this configuration we get this data:
-> 
-> /sys/bus/peci/devices/0-30/peci_cpu.cputemp.skx.48/hwmon/hwmon15# grep . temp[123]_{label,input}
-> temp1_label:Die
-> temp2_label:DTS
-> temp3_label:Tcontrol
-> temp1_input:30938
-> temp2_input:67735
-> temp3_input:80000
-> 
-> On the host system "sensors" report
-> 
-> Package id 0:  +31.C (high = +80.C, crit = +90.C)
-> 
-> So I conclude Die temperature as retrieved over PECI is correct while
-> DTS is mis-calculated. The old downstream code in OpenBMC was using
-> ten_dot_six_to_millidegree() function for conversion, and that was
-> providing expected results. And indeed if we reverse the calculation
-> here we get 80000 - ((80000-67735) * 256 / 64) = 30940 which matches
-> expectations.
+To stay on the safe side, make the feature disabled by default and
+let people turn it on with "swiotlb=dynamic" if needed. Since this
+option can be combined with "force", the parser must be modified to
+allow multiple options separated by commas.
 
+A new bool field is added to struct io_tlb_mem to tell whether
+dynamic allocations are allowed. This field is always false for
+DMA restricted pools. It is also false for other software IO
+TLBs unless "swiotlb=dynamic" was specified.
+
+Signed-off-by: Petr Tesarik <petr.tesarik.ext@huawei.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  6 +++++-
+ include/linux/swiotlb.h                       |  3 ++-
+ kernel/dma/swiotlb.c                          | 19 ++++++++++++++-----
+ 3 files changed, 21 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6cfa6e3996cf..6240a463631b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6081,14 +6081,18 @@
+ 			Execution Facility on pSeries.
+ 
+ 	swiotlb=	[ARM,IA-64,PPC,MIPS,X86]
+-			Format: { <int> [,<int>] | force | noforce }
++			Format: { <int> [,<int>] [,option-list] | option-list }
+ 			<int> -- Number of I/O TLB slabs
+ 			<int> -- Second integer after comma. Number of swiotlb
+ 				 areas with their own lock. Will be rounded up
+ 				 to a power of 2.
++			<option-list> -- Comma-separated list of options.
++
++			Available options:
+ 			force -- force using of bounce buffers even if they
+ 			         wouldn't be automatically used by the kernel
+ 			noforce -- Never use bounce buffers (for debugging)
++			dynamic -- allow dynamic allocation of bounce buffers
+ 
+ 	switches=	[HW,M68k]
+ 
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 0ef27d6491b9..628e25ad7db7 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -101,6 +101,7 @@ struct io_tlb_mem {
+ 	bool late_alloc;
+ 	bool force_bounce;
+ 	bool for_alloc;
++	bool allow_dyn;
+ 	unsigned int nareas;
+ 	unsigned int area_nslabs;
+ 	struct io_tlb_area *areas;
+@@ -123,7 +124,7 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+ 
+ 	return mem &&
+ 		(is_swiotlb_fixed(mem, paddr) ||
+-		 is_swiotlb_dyn(mem, paddr));
++		 (mem->allow_dyn && is_swiotlb_dyn(mem, paddr)));
+ }
+ 
+ static inline bool is_swiotlb_force_bounce(struct device *dev)
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index c6a0b8f2aa6f..3efaefebb6af 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -78,6 +78,7 @@ struct io_tlb_dyn_slot {
+ 
+ static bool swiotlb_force_bounce;
+ static bool swiotlb_force_disable;
++static bool swiotlb_dynamic;
+ 
+ struct io_tlb_mem io_tlb_default_mem;
+ 
+@@ -159,10 +160,17 @@ setup_io_tlb_npages(char *str)
+ 		swiotlb_adjust_nareas(simple_strtoul(str, &str, 0));
+ 	if (*str == ',')
+ 		++str;
+-	if (!strcmp(str, "force"))
+-		swiotlb_force_bounce = true;
+-	else if (!strcmp(str, "noforce"))
+-		swiotlb_force_disable = true;
++	while (str && *str) {
++		char *opt = strsep(&str, ",");
++		if (!strcmp(opt, "force"))
++			swiotlb_force_bounce = true;
++		else if (!strcmp(opt, "noforce"))
++			swiotlb_force_disable = true;
++		else if (!strcmp(opt, "dynamic"))
++			swiotlb_dynamic = true;
++		else
++			pr_warn("Invalid swiotlb option: %s", opt);
++	}
+ 
+ 	return 0;
+ }
+@@ -287,6 +295,7 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+ 	mem->area_nslabs = nslabs / mem->nareas;
+ 
+ 	mem->force_bounce = swiotlb_force_bounce || (flags & SWIOTLB_FORCE);
++	mem->allow_dyn = swiotlb_dynamic;
+ 
+ 	for (i = 0; i < mem->nareas; i++) {
+ 		spin_lock_init(&mem->areas[i].lock);
+@@ -930,7 +939,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+ 	}
+ 
+ 	tlb_addr = (phys_addr_t)DMA_MAPPING_ERROR;
+-	if (!is_swiotlb_for_alloc(dev))
++	if (mem->allow_dyn)
+ 		tlb_addr = swiotlb_dyn_map(dev, orig_addr, alloc_size,
+ 					   alloc_align_mask, dir, attrs);
+ 	if (tlb_addr == (phys_addr_t)DMA_MAPPING_ERROR)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
