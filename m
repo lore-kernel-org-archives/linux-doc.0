@@ -2,201 +2,312 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0869FC6FD1C
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 19:17:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8032C7619A
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 19:20:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbjCTTRg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 15:17:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51224 "EHLO
+        id S230348AbjCTTUs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 15:20:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231459AbjCTTRC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 15:17:02 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2080.outbound.protection.outlook.com [40.107.93.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A8618B12;
-        Mon, 20 Mar 2023 12:09:04 -0700 (PDT)
+        with ESMTP id S231530AbjCTTTX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 15:19:23 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2056.outbound.protection.outlook.com [40.107.94.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21032E1AD;
+        Mon, 20 Mar 2023 12:11:17 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=im00wn4RtiihvtjNqes0NddaPIayDVxlGh0kva17tg3ns9CE6qg+rNSc9bviVRBCf14IoRNzwH8kSd8jEUkcTF0lhF9Yxe+M2iDDQ0XcCjKk6lX1autzh3PCy6razwmMtrMCSpa9zDOKAlGWL5ZokTbYx+4MvITqaeN8D4NPXWORxEAlWBw4so5DnS7+765u7Arv5ms6Yq0PiCg4JHjyWqm29rUUSUdpe/LoT0yJN/SgYDCTSz642tCFsEfiT7s0m04QYEwJEtdY4z+1ov9blUfJ1eVk47WIa7NCsY3msti3eKYhvLcGzG1RhHozptj/Ok69rSFoOecJ8chqEtdHKw==
+ b=aPm4XGecaAiJgw3lJXTRNLXUSU3V68+xXN8PAOCTIPo0QDoObUwWCDHfdNB/8kOSbqy6yamhw50FLk3aORYnYKLsjM7v1A+A5cm8hq0BzPa2YmWBLElY3OMS60HbG6w5ieKmajqC2640Pe+CvnansJNstfp1R1+I8O8naDuwF4pBfJ+PBZH8XxwVYN2vqoNlO567svQ/0UNVfedt03GBEzAeHS4aL0PHn7/d3UG6nWdPtyRAcwanRvJnRIO2hKOI/xYHnFgym9wExvpYSXkyC3gq84WlnLK0uA7Ww8M0UoWrAaSD2Rm6zaC/MoNVPIrDMT600Tr5XhzExjmhLIiFrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5NLlAPZwMiSazJEbO/+mgSBbKlTZVM+3pZVnxsQgw6U=;
- b=bZBAu3a99pJ4HEVeyPbRx3O0guuFPmdv2/P61v87K2SUZ4XQ/zG4yp946JwIaKvJXegGRGhW+1tngTd8+oQPLunO1a61Oj/ln9AFysG0E5xBzckEjhHNu8IdRVIpkq8rhlKPydGT8lFlJuLSZrZ2dvWdQwPNvTmi+E6PoTLl6AYdUEsk8Zpkr7zDtC7x3/KYxVLWeET7mWRm9HsT0vDad5WG9bw8XSoBLV632Ro4q0UVmGhaQuXzac+xWGc6ZmwvNR3p+ZcrTOlBQ8GjD3EdS/vEgpkIVrdhB+6BA0VksTtjVap6cmFhz2BcuiQw92MXss3fkbsFJ+JIadfr+I/3Yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=m0TooSyZrgXJgX6GFt4U94Y+9mX47rDQeSZl8faGHLw=;
+ b=Ny9qHx3OPD3V2lWkar+xYdAf1zzDLQ67ML7xjwIR0SGWKbAEI05eEf6gOYFlNOl0mRACgcXW0v2J+ymN94Z+Eevt9B28FFnnw43+Z9k3LBY8IeZfvEF1xUgh9TLYvLTVTjXD+CyEGdc84Fa6U+jHuDSv9NFZNxZLgzyYMlhBnAVGGgeLPxpTb4HmirHrkVJ7E3HPbfiTDeFtEkeTCm/NLZ1jl4B2hbaEpEd0tzLqhjNOKSGm/WGgf7Q2l2/L+mO3Tqni0Jr2fyhsbHiFFjBAQrcNKw03jAfwtbT72K3gQH9BSxDPuWcCNxzU+LMwzq6iBgPGiafQ0eninmiveSeFIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5NLlAPZwMiSazJEbO/+mgSBbKlTZVM+3pZVnxsQgw6U=;
- b=kXQcxgoQ4Txx7PnMIte47ih3PYC/NXw8L9Av1/I6He9bSUwqcn0VCBJei+OAa+lVwDWEKgbUVxX07cX4kbfZrhHqaKK4hGLZwNmdpJKjDO4HvV5Yl1GhPsMbO7GUiib7u2QbUub1KrqTtDyk4uqa3fT6WDlxxtsep+2bJe4x/R8=
-Received: from DM6PR02CA0089.namprd02.prod.outlook.com (2603:10b6:5:1f4::30)
- by MW4PR12MB6731.namprd12.prod.outlook.com (2603:10b6:303:1eb::11) with
+ bh=m0TooSyZrgXJgX6GFt4U94Y+9mX47rDQeSZl8faGHLw=;
+ b=D75kv/zWnB2wyTE1yWQEDzcNLxPqhhu0M9qKkotNoqTqmKGq7g1ZDc4LARbPtLElkqhiEeAhRKrjG2GmMoDj5o961roj7oyO/VmQnYQW9VJvBGz6/xDjHHuAbcKfR5uIMucntQaIlEtHfJ6uBF71PSsJnuPENUcLyz2ANe8jK6aKWb5ieQIIqJpLSKEM8Tr24dwmA1vh1f5N1oH+7/wiUt5bZLdWC7X/enb+tu1ebYXP+RuJsTqm3AHIKpOPM66KceFcAlwznIBHN5gVY4TS52PlUqq3U05FotugaHH2ukPomC43i9yaaON495497J3FaAMZwy8XNI2pRt8BktdvjA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM4PR12MB7573.namprd12.prod.outlook.com (2603:10b6:8:10f::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
- 2023 19:08:54 +0000
-Received: from DM6NAM11FT093.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:1f4:cafe::b4) by DM6PR02CA0089.outlook.office365.com
- (2603:10b6:5:1f4::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37 via Frontend
- Transport; Mon, 20 Mar 2023 19:08:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT093.mail.protection.outlook.com (10.13.172.235) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6222.16 via Frontend Transport; Mon, 20 Mar 2023 19:08:54 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 20 Mar
- 2023 14:08:53 -0500
-Date:   Mon, 20 Mar 2023 14:08:36 -0500
-From:   Michael Roth <michael.roth@amd.com>
-To:     "Nikunj A. Dadhania" <nikunj@amd.com>
-CC:     Chao Peng <chao.p.peng@linux.intel.com>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
+ 2023 19:11:12 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::ef6d:fdf6:352f:efd1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::ef6d:fdf6:352f:efd1%3]) with mapi id 15.20.6178.037; Mon, 20 Mar 2023
+ 19:11:12 +0000
+Date:   Mon, 20 Mar 2023 16:11:10 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Lu Baolu <baolu.lu@linux.intel.com>,
         Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        <luto@kernel.org>, <jun.nakajima@intel.com>,
-        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
-        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
-        Quentin Perret <qperret@google.com>, <tabba@google.com>,
-        <mhocko@suse.com>, <wei.w.wang@intel.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20230320190836.z2rqrhybke3egiuu@amd.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <86d7cc82-8ff9-769b-f80f-ff18fe28f44d@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, Will Deacon <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>
+Subject: Re: [PATCH v7 2/7] iommu/sva: Move PASID helpers to sva code
+Message-ID: <ZBivznuBdkadHbA+@nvidia.com>
+References: <20230320185910.2643260-1-jacob.jun.pan@linux.intel.com>
+ <20230320185910.2643260-3-jacob.jun.pan@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <86d7cc82-8ff9-769b-f80f-ff18fe28f44d@amd.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
+In-Reply-To: <20230320185910.2643260-3-jacob.jun.pan@linux.intel.com>
+X-ClientProxiedBy: MN2PR13CA0027.namprd13.prod.outlook.com
+ (2603:10b6:208:160::40) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT093:EE_|MW4PR12MB6731:EE_
-X-MS-Office365-Filtering-Correlation-Id: de5474ad-425d-4847-530e-08db29768c62
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB7573:EE_
+X-MS-Office365-Filtering-Correlation-Id: d6f2ab1b-6698-4f54-8b0f-08db2976de62
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6OSETOd3/d0/TdfWptG6EQZdZ2VsQ6H93+9cEYnqeDNTrUInSl5t+LAYRCKdh5V7eJ0VFJq6KJ5oG1zTxgs65+GIrM6iohaF/xnRIeDk4/l8D9Z3wpmGXKxJ7n6YvnoP3fNikk4TG85yP10434dCXMi2dsfar5FiL+EeIZlcXM0UT+PbkzpoXMPIJ1infiWVnl9fYrS8bi0Yz4U6BV+phE/1ukNxo1q6M+b03/CbNycJ3RVQ8pikrnV0lteV0+ZQp4EhaFRVGIpRApi0odLuvvlcaL+1WI9+BhMx1ilaYcm2UORWE63I6onSjCk0TrPErJquj7um8SKDhOdS7vbSAQK82+HLvrs8hM24ZmQgin3/bFWRBk5e8mMtarKMoWGcX8K7K5XHBaKi/VehHKokskRhHdhQKDYcemq5f139zJ7BfyNxYfeGnqdLbWFEjr+uNAPdo6uansTVyWMNmSOcSnIMiPmdzplE/2miVNxFFrkc0giHR0brQi+eKhbVop7ZB1XNeTaik8g1//ykBd2nHtPPXB4/V8300QvzWyrzwa+UWrsmOSxdmglcPMfKFYUTRW0erFvvHPqhDh1PyGikTP+F+Sa8B/xFY+3ajNwQLYgD8Qdhl3NhCFZ/onxsThUyZZo0jajx8mMQL1hjpHUN60MPUWA8ES8ON0Bc+ifI7edMMtfK69uSmpCTboMiHVQVz1bl5je1KWEnjKNLl/6n83TRDg3DCkYC34Olw+P12dI=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(396003)(136003)(346002)(451199018)(40470700004)(46966006)(36840700001)(6862004)(7416002)(44832011)(5660300002)(7406005)(36860700001)(41300700001)(82310400005)(86362001)(356005)(40480700001)(8936002)(36756003)(82740400003)(40460700003)(81166007)(2906002)(6666004)(4326008)(966005)(336012)(83380400001)(478600001)(426003)(47076005)(2616005)(16526019)(186003)(1076003)(26005)(8676002)(37006003)(6636002)(316002)(54906003)(70586007)(70206006)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 19:08:54.0409
+X-Microsoft-Antispam-Message-Info: RY/4lE4Tw8x2ILn0WfpL9rty6al/UsN+BT1mM5OBGmfwQR3TXNGLZXFxBefVukcuU4FKLYnHBsVGeXkWSu0aqcFbry3WQCNYaFn57/XwX07BHpFu7UK2ciHsAyDxa6N0q8fnBjQAd6b3fSoWbjfUZJ1amKqkjnxCioHQXQEaihtw4l7C5G/0/iCKdrnWpREFIHVf5bcHDTN9DhwEh4UgaUD7kU3QP4rCo65Hkt7isT+HTG6m/upcptRqVCZIHScQ+lNntGXYdNYzEV0JWQoE5jIRIw+eg9JvXS5n+8tq3ZWhtluca/2aTeJkbQZdr6eYeEVbKLxMdP2YMIBBjZvmNslOTOSymayQcDr0Wh1VTCf+ZdD+lY/ytEDjG4iKSd0j+T2c+B3QqgJQcVXaUiv0PA76jPHC1rPMwRH5WQRg5T9CXgoLuhk2yVuqWSplyECYHOYlJ5ASy+Kg4xRwB4GPi5m6jcL/CiqzkV0pDTg4cCylXdEKfJBlp+u16vWjmxoiL0iEnEhCbCia0Ogx2G+NR0ToLQzd8nMG49wKvtSFVjGXH5AKgji85nT2WJDl9Dkp7hXl6h4e56eq8iNlK44wz5raRzJCMAhRzgPrsVxXsD6GLnnWh/Ny0DKsTOSDqhNOXpKR0vQbeTB1NBmP3kh8Vw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(376002)(366004)(39860400002)(346002)(451199018)(5660300002)(7416002)(6486002)(41300700001)(66556008)(83380400001)(478600001)(316002)(54906003)(6916009)(66476007)(4326008)(86362001)(36756003)(8936002)(8676002)(66946007)(2906002)(2616005)(186003)(38100700002)(26005)(6512007)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5jd7m6H+cAjCOc/FULoz+in+y5bMIQJS77yyw4PaMN4tELMdZNxglYXCRHJz?=
+ =?us-ascii?Q?NOorg8UeE9YJ/Gsca5fXxvcY6f+NXVIHtaVnVKH+vAceBHYe7VU4lxCAfHr8?=
+ =?us-ascii?Q?fgjreDb4hdYxDARUI2uNnmhJuNpSWXf8B2m1Jsc84k8euoOcDmdy8jCjlB4m?=
+ =?us-ascii?Q?7mCnY6nbKVV/LAExE3MXBlzYqcQKQJAeCNOUVE9Zpd08+/3L35z3qYnGKEzZ?=
+ =?us-ascii?Q?1551Xho/i5PlOMckDDuSSHcbrAGskoWt57y5wJBaasnl+MAWMEhHVLG9Mjc0?=
+ =?us-ascii?Q?DxtX3E27R+YNSH3r+C43CfPbhACKTgOD4sD4swCo7SOtIvPB/FCf4Q4BNU4q?=
+ =?us-ascii?Q?lDNa/qbVr8it4GRTKW6+MAoBj5CwG7PBjniuUe2py+MyywVqOs3Kcn0tRx9j?=
+ =?us-ascii?Q?a7332fob2waERUHkdjpeiiTd0suRgIA8ifkvsFrYFy/qwqNAH1vyaVmAa3k0?=
+ =?us-ascii?Q?FZCrb13CWDLP+KgFAQqKibbQeYo+HVcFyWEeuc5a1ChZo9xn2j3tgb85qVxo?=
+ =?us-ascii?Q?oCH1wU+Dc6xSEjXajXTUeU9fgqo9rAHtj6CQ+jrUreuZLqVgkchjF49LxtEe?=
+ =?us-ascii?Q?pZY6mTARmg1E2QcDZphXbRgozvjTEAcFZQPqYM0NVlT+8WxQnl0wMSHjpIM6?=
+ =?us-ascii?Q?y/nF3+CJHTX3a3w3iy78Gc/omy+CFIu7xO65FVcVON/F4MxodVZg6/R21L9S?=
+ =?us-ascii?Q?2fbsWPcEjGrmQG1b7YOvEIN1GraziJOvKdotw8U3C+krE0Yiwg8J9cj1OpJ+?=
+ =?us-ascii?Q?OaW2UZEcYynD1lXYZ7kTeEqzHY4p7Lg8+NTBVgp+UGrbqOJb/2A9geoBoXWu?=
+ =?us-ascii?Q?WDQuJJgCDY4XeucvZ0I9SZ3mWdMB+e9iGLUKDb1+omWvMbndBB4oiObUJyy9?=
+ =?us-ascii?Q?qUJmpG63PpJCB7BUJaKMVGGKYAPFynlTvuz37TpA/EYel72mqIVJlofJH9yz?=
+ =?us-ascii?Q?Dk6G5gRk5SoxRSUgmYcRCB+XzFOXErBtDCxiL2EzCGzu4TCswzaqh/x0pD3g?=
+ =?us-ascii?Q?0695ADDBNILKiBXm2mYkMqEPPJP9DBQ6Pg3B7WaNXeiT1rxMmhc95L0I2uS6?=
+ =?us-ascii?Q?gCdN3qwPPU2oZW4lVP4zk0s30UGN1iEE6OpjX1Y175/0kUxKkxThsPIo9HQD?=
+ =?us-ascii?Q?nceTBY45bf0s1c4h6T+DY+9xYsnH6sZl4xt7FwHoCR18KL8VW9RpxJAGEWpg?=
+ =?us-ascii?Q?NNuCmNW4DLW+uQ8xjwZZtQVfOM2vVIV1DeVp3gMBtYtiynxeN5ngWViKG+3R?=
+ =?us-ascii?Q?bfV2X67ud2aOeFye6h9Iba/ozksAqWDMjb/HoZaS2wnn/KJtAoXCk041BSQ7?=
+ =?us-ascii?Q?3AYklAV7HlVbOxmDkCGJ0D2iG8vHZu2nCBZPhYzsPd7VV3sa2WGLeG0Tajac?=
+ =?us-ascii?Q?4+xsHeepkM7bdjaZQQhFx2Sq+0boeviZOeIz77vNJ1ZXPqlN5DC6YBKPPIiW?=
+ =?us-ascii?Q?Op+loxhe+dhGvNvx5KarGF0vVs0sb6Pi419sQDuNRAyfSsvC1nPx2VZQkMek?=
+ =?us-ascii?Q?n5pS64IGAKDrRhDei9IwlBNkY8GJRlEMd235SPy+LWlH/zuflDc/Okqh899T?=
+ =?us-ascii?Q?rNRBr0gkOx8gt/zKssGGDx4HFjoAGnECESSK/3MI?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6f2ab1b-6698-4f54-8b0f-08db2976de62
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 19:11:11.8811
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: de5474ad-425d-4847-530e-08db29768c62
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT093.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6731
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n5SRUfzwgKmkcsjWuV3LTdwtjdJFTlSURciRLqXSJfYSQLsNk+kS1Kq7Sn5HZqgT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7573
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 03:21:21PM +0530, Nikunj A. Dadhania wrote:
+On Mon, Mar 20, 2023 at 11:59:05AM -0700, Jacob Pan wrote:
+> Preparing to remove IOASID infrastructure, PASID management will be
+> under SVA code. Decouple mm code from IOASID.
 > 
-> > +static struct file *restrictedmem_file_create(struct file *memfd)
-> > +{
-> > +	struct restrictedmem_data *data;
-> > +	struct address_space *mapping;
-> > +	struct inode *inode;
-> > +	struct file *file;
-> > +
-> > +	data = kzalloc(sizeof(*data), GFP_KERNEL);
-> > +	if (!data)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	data->memfd = memfd;
-> > +	mutex_init(&data->lock);
-> > +	INIT_LIST_HEAD(&data->notifiers);
-> > +
-> > +	inode = alloc_anon_inode(restrictedmem_mnt->mnt_sb);
-> > +	if (IS_ERR(inode)) {
-> > +		kfree(data);
-> > +		return ERR_CAST(inode);
-> > +	}
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> ---
+> v7:
+> 	- use CONFIG_IOMMU_SVA around PASID helpers in fork.c, Fixes a
+> 	compile problem.
+> v6:
+> 	- put helpers under iommu.h instead of iommu-helper.h
+> v5:
+> 	- move definition of helpers to iommu code to be consistent with
+> 	  declarations. (Kevin)
+> 	- fix patch partitioning bug (Baolu)
+> v4:
+> 	- delete and open code mm_set_pasid
+> 	- keep mm_init_pasid() as inline for fork performance
+> ---
+>  drivers/iommu/iommu-sva.c | 10 +++++++++-
+>  include/linux/ioasid.h    |  6 +-----
+>  include/linux/iommu.h     | 14 +++++++++++++-
+>  include/linux/sched/mm.h  | 26 --------------------------
+>  kernel/fork.c             |  5 +++++
+>  5 files changed, 28 insertions(+), 33 deletions(-)
 > 
-> alloc_anon_inode() uses new_pseudo_inode() to get the inode. As per the comment, new inode 
-> is not added to the superblock s_inodes list.
+> diff --git a/drivers/iommu/iommu-sva.c b/drivers/iommu/iommu-sva.c
+> index 24bf9b2b58aa..fcfdc80a3939 100644
+> --- a/drivers/iommu/iommu-sva.c
+> +++ b/drivers/iommu/iommu-sva.c
+> @@ -44,7 +44,7 @@ int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
+>  	if (!pasid_valid(pasid))
+>  		ret = -ENOMEM;
+>  	else
+> -		mm_pasid_set(mm, pasid);
+> +		mm->pasid = pasid;
+>  out:
+>  	mutex_unlock(&iommu_sva_lock);
+>  	return ret;
+> @@ -238,3 +238,11 @@ iommu_sva_handle_iopf(struct iommu_fault *fault, void *data)
+>  
+>  	return status;
+>  }
+> +
+> +void mm_pasid_drop(struct mm_struct *mm)
+> +{
+> +	if (pasid_valid(mm->pasid)) {
+> +		ioasid_free(mm->pasid);
+> +		mm->pasid = INVALID_IOASID;
+> +	}
+> +}
+> diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
+> index af1c9d62e642..bdee937da907 100644
+> --- a/include/linux/ioasid.h
+> +++ b/include/linux/ioasid.h
+> @@ -4,8 +4,8 @@
+>  
+>  #include <linux/types.h>
+>  #include <linux/errno.h>
+> +#include <linux/iommu.h>
+>  
+> -#define INVALID_IOASID ((ioasid_t)-1)
+>  typedef unsigned int ioasid_t;
+>  typedef ioasid_t (*ioasid_alloc_fn_t)(ioasid_t min, ioasid_t max, void *data);
+>  typedef void (*ioasid_free_fn_t)(ioasid_t ioasid, void *data);
+> @@ -40,10 +40,6 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+>  int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
+>  void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
+>  int ioasid_set_data(ioasid_t ioasid, void *data);
+> -static inline bool pasid_valid(ioasid_t ioasid)
+> -{
+> -	return ioasid != INVALID_IOASID;
+> -}
+>  
+>  #else /* !CONFIG_IOASID */
+>  static inline ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index 6595454d4f48..d3f81dc6e4dd 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -13,7 +13,6 @@
+>  #include <linux/errno.h>
+>  #include <linux/err.h>
+>  #include <linux/of.h>
+> -#include <linux/ioasid.h>
+>  #include <uapi/linux/iommu.h>
+>  
+>  #define IOMMU_READ	(1 << 0)
+> @@ -192,6 +191,8 @@ enum iommu_dev_features {
+>  };
+>  
+>  #define IOMMU_PASID_INVALID	(-1U)
+> +typedef unsigned int ioasid_t;
+> +#define INVALID_IOASID ((ioasid_t)-1)
+>  
+>  #ifdef CONFIG_IOMMU_API
+>  
+> @@ -1172,7 +1173,16 @@ static inline bool tegra_dev_iommu_get_stream_id(struct device *dev, u32 *stream
+>  	return false;
+>  }
+>  
+> +static inline bool pasid_valid(ioasid_t ioasid)
+> +{
+> +	return ioasid != INVALID_IOASID;
+> +}
+>  #ifdef CONFIG_IOMMU_SVA
+> +static inline void mm_pasid_init(struct mm_struct *mm)
+> +{
+> +	mm->pasid = INVALID_IOASID;
+> +}
+> +void mm_pasid_drop(struct mm_struct *mm);
+>  struct iommu_sva *iommu_sva_bind_device(struct device *dev,
+>  					struct mm_struct *mm);
+>  void iommu_sva_unbind_device(struct iommu_sva *handle);
+> @@ -1192,6 +1202,8 @@ static inline u32 iommu_sva_get_pasid(struct iommu_sva *handle)
+>  {
+>  	return IOMMU_PASID_INVALID;
+>  }
+> +static inline void mm_pasid_init(struct mm_struct *mm) {}
+> +static inline void mm_pasid_drop(struct mm_struct *mm) {}
+>  #endif /* CONFIG_IOMMU_SVA */
+>  
+>  #endif /* __LINUX_IOMMU_H */
+> diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
+> index 2a243616f222..da9712a3ba73 100644
+> --- a/include/linux/sched/mm.h
+> +++ b/include/linux/sched/mm.h
+> @@ -8,7 +8,6 @@
+>  #include <linux/mm_types.h>
+>  #include <linux/gfp.h>
+>  #include <linux/sync_core.h>
+> -#include <linux/ioasid.h>
+>  
+>  /*
+>   * Routines for handling mm_structs
+> @@ -451,29 +450,4 @@ static inline void membarrier_update_current_mm(struct mm_struct *next_mm)
+>  }
+>  #endif
+>  
+> -#ifdef CONFIG_IOMMU_SVA
+> -static inline void mm_pasid_init(struct mm_struct *mm)
+> -{
+> -	mm->pasid = INVALID_IOASID;
+> -}
+> -
+> -/* Associate a PASID with an mm_struct: */
+> -static inline void mm_pasid_set(struct mm_struct *mm, u32 pasid)
+> -{
+> -	mm->pasid = pasid;
+> -}
+> -
+> -static inline void mm_pasid_drop(struct mm_struct *mm)
+> -{
+> -	if (pasid_valid(mm->pasid)) {
+> -		ioasid_free(mm->pasid);
+> -		mm->pasid = INVALID_IOASID;
+> -	}
+> -}
+> -#else
+> -static inline void mm_pasid_init(struct mm_struct *mm) {}
+> -static inline void mm_pasid_set(struct mm_struct *mm, u32 pasid) {}
+> -static inline void mm_pasid_drop(struct mm_struct *mm) {}
+> -#endif
 
-Another issue somewhat related to alloc_anon_inode() is that the shmem code
-in some cases assumes the inode struct was allocated via shmem_alloc_inode(),
-which allocates a struct shmem_inode_info, which is a superset of struct inode
-with additional fields for things like spinlocks.
 
-These additional fields don't get allocated/ininitialized in the case of
-restrictedmem, so when restrictedmem_getattr() tries to pass the inode on to
-shmem handler, it can cause a crash.
+> @@ -794,7 +795,9 @@ void __mmdrop(struct mm_struct *mm)
+>  	mmu_notifier_subscriptions_destroy(mm);
+>  	check_mm(mm);
+>  	put_user_ns(mm->user_ns);
+> +#ifdef CONFIG_IOMMU_SVA	
+>  	mm_pasid_drop(mm);
+> +#endif
+>  
+>  	for (i = 0; i < NR_MM_COUNTERS; i++)
+>  		percpu_counter_destroy(&mm->rss_stat[i]);
+> @@ -1140,7 +1143,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+>  	mm_init_cpumask(mm);
+>  	mm_init_aio(mm);
+>  	mm_init_owner(mm, p);
+> +#ifdef CONFIG_IOMMU_SVA	
+>  	mm_pasid_init(mm);
+> +#endif
 
-For instance, the following trace was seen when executing 'sudo lsof' while a
-process/guest was running with an open memfd FD:
+No ifdef here, you correctly made static inline dummy functions above.
 
-    [24393.121409] general protection fault, probably for non-canonical address 0xfe9fb182fea3f077: 0000 [#1] PREEMPT SMP NOPTI
-    [24393.133546] CPU: 2 PID: 590073 Comm: lsof Tainted: G            E      6.1.0-rc4-upm10b-host-snp-v8b+ #4
-    [24393.144125] Hardware name: AMD Corporation ETHANOL_X/ETHANOL_X, BIOS RXM1009B 05/14/2022
-    [24393.153150] RIP: 0010:native_queued_spin_lock_slowpath+0x3a3/0x3e0
-    [24393.160049] Code: f3 90 41 8b 04 24 85 c0 74 ea eb f4 c1 ea 12 83 e0 03 83 ea 01 48 c1 e0 05 48 63 d2 48 05 00 41 04 00 48 03 04 d5 e0 ea 8b 82 <48> 89 18 8b 43 08 85 c0 75 09 f3 90 8b 43 08 85 c0 74 f7 48 8b 13
-    [24393.181004] RSP: 0018:ffffc9006b6a3cf8 EFLAGS: 00010086
-    [24393.186832] RAX: fe9fb182fea3f077 RBX: ffff889fcc144100 RCX: 0000000000000000
-    [24393.194793] RDX: 0000000000003ffe RSI: ffffffff827acde9 RDI: ffffc9006b6a3cdf
-    [24393.202751] RBP: ffffc9006b6a3d20 R08: 0000000000000001 R09: 0000000000000000
-    [24393.210710] R10: 0000000000000000 R11: 000000000000ffff R12: ffff888179fa50e0
-    [24393.218670] R13: ffff889fcc144100 R14: 00000000000c0000 R15: 00000000000c0000
-    [24393.226629] FS:  00007f9440f45400(0000) GS:ffff889fcc100000(0000) knlGS:0000000000000000
-    [24393.235692] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    [24393.242101] CR2: 000055c55a9cf088 CR3: 0008000220e9c003 CR4: 0000000000770ee0
-    [24393.250059] PKRU: 55555554
-    [24393.253073] Call Trace:
-    [24393.255797]  <TASK>
-    [24393.258133]  do_raw_spin_lock+0xc4/0xd0
-    [24393.262410]  _raw_spin_lock_irq+0x50/0x70
-    [24393.266880]  ? shmem_getattr+0x4c/0xf0
-    [24393.271060]  shmem_getattr+0x4c/0xf0
-    [24393.275044]  restrictedmem_getattr+0x34/0x40
-    [24393.279805]  vfs_getattr_nosec+0xbd/0xe0
-    [24393.284178]  vfs_getattr+0x37/0x50
-    [24393.287971]  vfs_statx+0xa0/0x150
-    [24393.291668]  vfs_fstatat+0x59/0x80
-    [24393.295462]  __do_sys_newstat+0x35/0x70
-    [24393.299739]  __x64_sys_newstat+0x16/0x20
-    [24393.304111]  do_syscall_64+0x3b/0x90
-    [24393.308098]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-As a workaround we've been doing the following, but it's probably not the
-proper fix:
-
-  https://github.com/AMDESE/linux/commit/0378116b5c4e373295c9101727f2cb5112d6b1f4
-
--Mike
-
+Jason
