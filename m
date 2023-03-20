@@ -2,409 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1797C6FD1D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 12:29:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7029C76195
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 12:43:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229866AbjCTM3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 08:29:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57682 "EHLO
+        id S231442AbjCTMnj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 08:43:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231391AbjCTM3s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 08:29:48 -0400
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 473D427D6C;
-        Mon, 20 Mar 2023 05:29:29 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.228])
-        by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4PgDMv19cBz9y4Sr;
-        Mon, 20 Mar 2023 20:20:27 +0800 (CST)
-Received: from A2101119013HW2.china.huawei.com (unknown [10.48.148.162])
-        by APP2 (Coremail) with SMTP id GxC2BwBnOF9kURhkkqGyAQ--.46782S5;
-        Mon, 20 Mar 2023 13:28:59 +0100 (CET)
-From:   Petr Tesarik <petrtesarik@huaweicloud.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
-Cc:     Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz
-Subject: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce buffers
-Date:   Mon, 20 Mar 2023 13:28:15 +0100
-Message-Id: <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
+        with ESMTP id S231438AbjCTMni (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 08:43:38 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB2E59776;
+        Mon, 20 Mar 2023 05:43:34 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id x15so1662301pjk.2;
+        Mon, 20 Mar 2023 05:43:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679316214;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CuPNRur3NtDnFJVCvDkEsVvpqOyVBKyvwyaXnfO9pqQ=;
+        b=QMgf8Le2567Br9ksKL7GWK1o3CI5/d/geLI8q2Tpae+sN4p5dtWy0TU8d154IWd9el
+         k2eHxUtxg18PFCvrZv3gGPh9Yu+3x9+CdOyl/alM0efOpo4jys4fk0iLr6xWv+lvxVSb
+         8LX4tkFuQRp3DNPaY8qW90NokPcLNXzF5uhztu8SmG2W3b3eBEqjNuWo4JSRHPtV6CSL
+         w6bzCX8NhIdahw8f31d9/B8Sonxo7V4u/iijvJ0H26p4dvAIssh4cvlVD+HYYN/tiArX
+         aHbbMJ5/nJFCHZeqY4DBSFtuZdd27bGIAqxaH1dCR1WteITU5JG/oSO0FIfONDsuJGeQ
+         ZI5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679316214;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CuPNRur3NtDnFJVCvDkEsVvpqOyVBKyvwyaXnfO9pqQ=;
+        b=g7YMRlcF91a78Xi+8w+c8lKfDxZs4/3GuUgNkyOKgb4D/KJKaUz3jMwu/+TS4VVkEO
+         jKWjHIyTCGmimqJnLGDaIZrQ3BSzlEJuq5zfZjBxr0VrMElrIjh6FsJnhfaEdBMXLUWH
+         sMo98FEFtfZqoCDYJ2PF/fpUVL9AC6Gz9DjnPMBME2FDR4wkf0PK6LSleSnDq2w4xCCp
+         CotCl1av24ZbIVyo9JFSyxfHTFU4donsDjyruln113RZJy234gqps7U8jHcc5ruQizb/
+         9EofxxZU1p8/qD5e+BJ3l32sAGEAz0pycwg9yoDSQr9h2eEsnZ1OOfXPW5ZtPIA3Wzpv
+         yPPg==
+X-Gm-Message-State: AO0yUKUWfw11uQESVXWgzH1Nm2PKO05Kz9qQ1fHr+lnlan6Bb6afhqvU
+        4RxtQj+ALUa1d6Alfvg+5Z8=
+X-Google-Smtp-Source: AK7set9exICfpZxGY8h+eBzFIKrFFkrk0yOXMxizkoAm5tACLSpbGCmlrUA5F82wFem4X1ugpyK80A==
+X-Received: by 2002:a17:90b:4acf:b0:23d:9a3:f571 with SMTP id mh15-20020a17090b4acf00b0023d09a3f571mr19188670pjb.20.1679316214106;
+        Mon, 20 Mar 2023 05:43:34 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-6.three.co.id. [180.214.232.6])
+        by smtp.gmail.com with ESMTPSA id p12-20020a17090a2d8c00b0023440af7aafsm6114484pjd.9.2023.03.20.05.43.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 05:43:33 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 7343A1065D0; Mon, 20 Mar 2023 19:43:29 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Borislav Petkov <bp@suse.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Subject: [PATCH] Documentation: maintainer-tip: Rectify link to "Describe your changes" section of submitting-patches.rst
+Date:   Mon, 20 Mar 2023 19:43:27 +0700
+Message-Id: <20230320124327.174881-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1511; i=bagasdotme@gmail.com; h=from:subject; bh=FAEl/7SkBqFPoHqShwOaCVSmuT0ZoOhqKjAWrvmRTI8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkSIa8U3zaEsvBwi3b9MjvFo2LWZiqYvyjNcfopsfPiY Xftf6zuKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwETCMhn+qXt+UL5/0Lpl1bbP e0IXNxxJX/GE/ZBJSv8CYQnuBvvjqxj+R3zxWmVvsKvj2htVnsUpqQ83ld7a+WzHCZ65otdnv7V cwQcA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GxC2BwBnOF9kURhkkqGyAQ--.46782S5
-X-Coremail-Antispam: 1UD129KBjvAXoW3ZFykKry5CFyxCr17uFyxAFb_yoW8Jr1fto
-        WxAF13Wr1fKw1UGrZ0kFZrJF47Zayvka1rAr4fZ3yYga9FyryYgw12gF4rJwn3Ww18KFWx
-        Ar9Iga48Xan7Ar48n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOe7kC6x804xWl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK
-        8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr
-        Wl82xGYIkIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-        e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-        0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-        6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
-        WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkE
-        bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0264kExV
-        AvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
-        x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6r
-        W5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF
-        7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI
-        0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x
-        07jeKZXUUUUU=
-X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+The general changelog rules for the tip tree refers to "Describe your
+changes" section of submitting patches guide. However, the internal link
+reference targets to non-existent "submittingpatches" label, which
+brings reader to the top of the linked doc.
 
-The software IO TLB was designed with the assumption that it is not
-used much, especially on 64-bit systems, so a small fixed memory
-area (currently 64 MiB) is sufficient to handle the few cases which
-still require a bounce buffer. However, these cases are not so rare
-in some circumstances.
+Correct the target. No changes to submitting-patches.rst since the
+required label is already there.
 
-First, if SEV is active, all DMA must be done through shared
-unencrypted pages, and SWIOTLB is used to make this happen without
-changing device drivers. The software IO TLB size is increased to
-6% of total memory in sev_setup_arch(), but that is more of an
-approximation. The actual requirements may vary depending on which
-drivers are used and the amount of I/O.
-
-Second, on the Raspberry Pi 4, swiotlb is used by dma-buf for pages
-moved from the rendering GPU (v3d driver), which can access all
-memory, to the display output (vc4 driver), which is connected to a
-bus with an address limit of 1 GiB and no IOMMU. These buffers can
-be large (several megabytes) and cannot be handled by SWIOTLB,
-because they exceed maximum segment size of 256 KiB. Such mapping
-failures can be easily reproduced on a Raspberry Pi4: Starting
-GNOME remote desktop results in a flood of kernel messages like
-these:
-
-[  387.937625] vc4-drm gpu: swiotlb buffer is full (sz: 524288 bytes), total 32768 (slots), used 3136 (slots)
-[  387.960381] vc4-drm gpu: swiotlb buffer is full (sz: 815104 bytes), total 32768 (slots), used 2 (slots)
-
-This second example cannot be even solved without increasing the
-segment size (and the complexity of {map,unmap}_single size). At
-that point, it's better to allocate bounce buffers dynamically with
-dma_direct_alloc_pages().
-
-One caveat is that the DMA API often takes only the address of a
-buffer, and the implementation (direct or IOMMU) checks whether it
-belongs to the software IO TLB. This is easy if the IO TLB is a
-single chunk of physically contiguous memory, but not if some
-buffers are allocated dynamically. Testing on a Raspberry Pi 4
-shows that there can be 1k+ such buffers. This requires something
-better than a linked list. I'm using a maple tree to track
-dynamically allocated buffers. This data structure was invented for
-a similar use case, but there are some challenges:
-
-1. The value is limited to ULONG_MAX, which is too little both for
-   physical addresses (e.g. x86 PAE or 32-bit ARM LPAE) and DMA
-   addresses (e.g. Xen guests on 32-bit ARM).
-
-2. Since buffers are currently allocated with page granularity, a
-   PFN can be used instead. However, some values are reserved by
-   the maple tree implementation. Liam suggests to use
-   xa_mk_value() in that case, but that reduces the usable range by
-   half. Luckily, 31 bits are still enough to hold a PFN on all
-   32-bit platforms.
-
-3. Software IO TLB is used from interrupt context. The maple tree
-   implementation is not IRQ-safe (MT_FLAGS_LOCK_IRQ does nothing
-   AFAICS). Instead, I use an external lock, spin_lock_irqsave() and
-   spin_unlock_irqrestore().
-
-Note that bounce buffers are never allocated dynamically if the
-software IO TLB is in fact a DMA restricted pool, which is intended
-to be stay in its designated location in physical memory.
-
-Signed-off-by: Petr Tesarik <petr.tesarik.ext@huawei.com>
+Fixes: 31c9d7c8297558 ("Documentation/process: Add tip tree handbook")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- include/linux/swiotlb.h |  11 ++-
- kernel/dma/swiotlb.c    | 156 +++++++++++++++++++++++++++++++++++++---
- 2 files changed, 157 insertions(+), 10 deletions(-)
+ This patch is based on core/urgent branch of tip tree.
 
-diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index b71adba03dc7..0ef27d6491b9 100644
---- a/include/linux/swiotlb.h
-+++ b/include/linux/swiotlb.h
-@@ -7,6 +7,7 @@
- #include <linux/init.h>
- #include <linux/types.h>
- #include <linux/limits.h>
-+#include <linux/maple_tree.h>
- #include <linux/spinlock.h>
+ Documentation/process/maintainer-tip.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+index 572a3289c9cbf3..178c95fd17dcad 100644
+--- a/Documentation/process/maintainer-tip.rst
++++ b/Documentation/process/maintainer-tip.rst
+@@ -128,8 +128,8 @@ uppercase letter and should be written in imperative tone.
+ Changelog
+ ^^^^^^^^^
  
- struct device;
-@@ -87,6 +88,8 @@ dma_addr_t swiotlb_map(struct device *dev, phys_addr_t phys,
-  * @for_alloc:  %true if the pool is used for memory allocation
-  * @nareas:  The area number in the pool.
-  * @area_nslabs: The slot number in the area.
-+ * @dyn_lock:	Protect dynamically allocated slots.
-+ * @dyn_slots:	Dynamically allocated slots.
-  */
- struct io_tlb_mem {
- 	phys_addr_t start;
-@@ -102,9 +105,13 @@ struct io_tlb_mem {
- 	unsigned int area_nslabs;
- 	struct io_tlb_area *areas;
- 	struct io_tlb_slot *slots;
-+	spinlock_t dyn_lock;
-+	struct maple_tree dyn_slots;
- };
- extern struct io_tlb_mem io_tlb_default_mem;
+-The general rules about changelogs in the process documentation, see
+-:ref:`Documentation/process/ <submittingpatches>`, apply.
++The general rules about changelogs in the :ref:`Submitting patches guide
++<describe_changes>`, apply.
  
-+bool is_swiotlb_dyn(struct io_tlb_mem *mem, phys_addr_t paddr);
-+
- static inline bool is_swiotlb_fixed(struct io_tlb_mem *mem, phys_addr_t paddr)
- {
- 	return paddr >= mem->start && paddr < mem->end;
-@@ -114,7 +121,9 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
- {
- 	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
- 
--	return mem && is_swiotlb_fixed(mem, paddr);
-+	return mem &&
-+		(is_swiotlb_fixed(mem, paddr) ||
-+		 is_swiotlb_dyn(mem, paddr));
- }
- 
- static inline bool is_swiotlb_force_bounce(struct device *dev)
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index e8608bcb205e..c6a0b8f2aa6f 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -41,6 +41,7 @@
- #include <linux/string.h>
- #include <linux/swiotlb.h>
- #include <linux/types.h>
-+#include <linux/xarray.h>
- #ifdef CONFIG_DMA_RESTRICTED_POOL
- #include <linux/of.h>
- #include <linux/of_fdt.h>
-@@ -68,6 +69,13 @@ struct io_tlb_slot {
- 	unsigned int list;
- };
- 
-+struct io_tlb_dyn_slot {
-+	phys_addr_t orig_addr;
-+	size_t alloc_size;
-+	struct page *page;
-+	dma_addr_t dma_addr;
-+};
-+
- static bool swiotlb_force_bounce;
- static bool swiotlb_force_disable;
- 
-@@ -292,6 +300,10 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
- 		mem->slots[i].alloc_size = 0;
- 	}
- 
-+	spin_lock_init(&mem->dyn_lock);
-+	mt_init_flags(&mem->dyn_slots, MT_FLAGS_LOCK_EXTERN);
-+	mt_set_external_lock(&mem->dyn_slots, &mem->dyn_lock);
-+
- 	/*
- 	 * If swiotlb_unencrypted_base is set, the bounce buffer memory will
- 	 * be remapped and cleared in swiotlb_update_mem_attributes.
-@@ -516,6 +528,115 @@ void __init swiotlb_exit(void)
- 	memset(mem, 0, sizeof(*mem));
- }
- 
-+static struct io_tlb_dyn_slot *swiotlb_dyn_slot(struct io_tlb_mem *mem,
-+						phys_addr_t paddr)
-+{
-+	unsigned long index = (uintptr_t)xa_mk_value(PHYS_PFN(paddr));
-+	struct io_tlb_dyn_slot *slot;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&mem->dyn_lock, flags);
-+	slot = mt_find(&mem->dyn_slots, &index, index);
-+	spin_unlock_irqrestore(&mem->dyn_lock, flags);
-+	return slot;
-+}
-+
-+bool is_swiotlb_dyn(struct io_tlb_mem *mem, phys_addr_t paddr)
-+{
-+	return !!swiotlb_dyn_slot(mem, paddr);
-+}
-+
-+static void swiotlb_dyn_bounce(struct device *dev, phys_addr_t tlb_addr,
-+		size_t size, enum dma_data_direction dir)
-+{
-+	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-+	struct io_tlb_dyn_slot *slot = swiotlb_dyn_slot(mem, tlb_addr);
-+	unsigned int tlb_offset;
-+	unsigned char *vaddr;
-+
-+	if (!slot)
-+		return;
-+
-+	tlb_offset = tlb_addr - page_to_phys(slot->page);
-+	vaddr = page_address(slot->page) + tlb_offset;
-+
-+	swiotlb_copy(dev, slot->orig_addr, vaddr, size, slot->alloc_size,
-+		     tlb_offset, dir);
-+}
-+
-+static phys_addr_t swiotlb_dyn_map(struct device *dev, phys_addr_t orig_addr,
-+		size_t alloc_size, unsigned int alloc_align_mask,
-+		enum dma_data_direction dir, unsigned long attrs)
-+{
-+	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-+	struct io_tlb_dyn_slot *slot;
-+	unsigned long index;
-+	unsigned long flags;
-+	phys_addr_t paddr;
-+	gfp_t gfp;
-+	int err;
-+
-+	/* Allocation has page granularity. Avoid small buffers. */
-+	if (alloc_size < PAGE_SIZE)
-+		goto err;
-+
-+	/* DMA direct does not deal with physical address constraints. */
-+	if (alloc_align_mask || dma_get_min_align_mask(dev))
-+		goto err;
-+
-+	gfp = (attrs & DMA_ATTR_MAY_SLEEP) ? GFP_KERNEL : GFP_NOWAIT;
-+	slot = kmalloc(sizeof(*slot), gfp | __GFP_NOWARN);
-+	if (!slot)
-+		goto err;
-+
-+	slot->orig_addr = orig_addr;
-+	slot->alloc_size = alloc_size;
-+	slot->page = dma_direct_alloc_pages(dev, PAGE_ALIGN(alloc_size),
-+					    &slot->dma_addr, dir,
-+					    gfp | __GFP_NOWARN);
-+	if (!slot->page)
-+		goto err_free_slot;
-+
-+	paddr = page_to_phys(slot->page);
-+	index = (uintptr_t)xa_mk_value(PHYS_PFN(paddr));
-+	spin_lock_irqsave(&mem->dyn_lock, flags);
-+	err = mtree_store_range(&mem->dyn_slots, index,
-+				index + PFN_UP(alloc_size) - 1,
-+				slot, GFP_NOWAIT | __GFP_NOWARN);
-+	spin_unlock_irqrestore(&mem->dyn_lock, flags);
-+	if (err)
-+		goto err_free_dma;
-+
-+	return paddr;
-+
-+err_free_dma:
-+	dma_direct_free_pages(dev, slot->alloc_size, slot->page,
-+			      slot->dma_addr, dir);
-+
-+err_free_slot:
-+	kfree(slot);
-+err:
-+	return (phys_addr_t)DMA_MAPPING_ERROR;
-+}
-+
-+static void swiotlb_dyn_unmap(struct device *dev, phys_addr_t tlb_addr,
-+			      enum dma_data_direction dir)
-+{
-+	unsigned long index = (uintptr_t)xa_mk_value(PHYS_PFN(tlb_addr));
-+	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-+	struct io_tlb_dyn_slot *slot;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&mem->dyn_lock, flags);
-+	slot = mt_find(&mem->dyn_slots, &index, index);
-+	mtree_erase(&mem->dyn_slots, index);
-+	spin_unlock_irqrestore(&mem->dyn_lock, flags);
-+
-+	dma_direct_free_pages(dev, slot->alloc_size, slot->page,
-+			      slot->dma_addr, dir);
-+	kfree(slot);
-+}
-+
- /*
-  * Return the offset into a iotlb slot required to keep the device happy.
-  */
-@@ -524,11 +645,8 @@ static unsigned int swiotlb_align_offset(struct device *dev, u64 addr)
- 	return addr & dma_get_min_align_mask(dev) & (IO_TLB_SIZE - 1);
- }
- 
--/*
-- * Bounce: copy the swiotlb buffer from or back to the original dma location
-- */
--static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size,
--			   enum dma_data_direction dir)
-+static void swiotlb_fixed_bounce(struct device *dev, phys_addr_t tlb_addr,
-+		size_t size, enum dma_data_direction dir)
- {
- 	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
- 	int index = (tlb_addr - mem->start) >> IO_TLB_SHIFT;
-@@ -608,6 +726,18 @@ static void swiotlb_copy(struct device *dev, phys_addr_t orig_addr,
- 	}
- }
- 
-+/*
-+ * Bounce: copy the swiotlb buffer from or back to the original dma location
-+ */
-+static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size,
-+			   enum dma_data_direction dir)
-+{
-+	if (is_swiotlb_fixed(dev->dma_io_tlb_mem, tlb_addr))
-+		swiotlb_fixed_bounce(dev, tlb_addr, size, dir);
-+	else
-+		swiotlb_dyn_bounce(dev, tlb_addr, size, dir);
-+}
-+
- static inline phys_addr_t slot_addr(phys_addr_t start, phys_addr_t idx)
- {
- 	return start + (idx << IO_TLB_SHIFT);
-@@ -799,8 +929,13 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 		return (phys_addr_t)DMA_MAPPING_ERROR;
- 	}
- 
--	tlb_addr = swiotlb_fixed_map(dev, orig_addr, alloc_size,
--				     alloc_align_mask, attrs);
-+	tlb_addr = (phys_addr_t)DMA_MAPPING_ERROR;
-+	if (!is_swiotlb_for_alloc(dev))
-+		tlb_addr = swiotlb_dyn_map(dev, orig_addr, alloc_size,
-+					   alloc_align_mask, dir, attrs);
-+	if (tlb_addr == (phys_addr_t)DMA_MAPPING_ERROR)
-+		tlb_addr = swiotlb_fixed_map(dev, orig_addr, alloc_size,
-+					     alloc_align_mask, attrs);
- 
- 	if (tlb_addr == (phys_addr_t)DMA_MAPPING_ERROR) {
- 		if (!(attrs & DMA_ATTR_NO_WARN))
-@@ -882,7 +1017,10 @@ void swiotlb_tbl_unmap_single(struct device *dev, phys_addr_t tlb_addr,
- 	    (dir == DMA_FROM_DEVICE || dir == DMA_BIDIRECTIONAL))
- 		swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_FROM_DEVICE);
- 
--	swiotlb_release_slots(dev, tlb_addr);
-+	if (is_swiotlb_fixed(dev->dma_io_tlb_mem, tlb_addr))
-+		swiotlb_release_slots(dev, tlb_addr);
-+	else
-+		swiotlb_dyn_unmap(dev, tlb_addr, dir);
- }
- 
- void swiotlb_sync_single_for_device(struct device *dev, phys_addr_t tlb_addr,
-@@ -1013,7 +1151,7 @@ bool swiotlb_free(struct device *dev, struct page *page, size_t size)
- {
- 	phys_addr_t tlb_addr = page_to_phys(page);
- 
--	if (!is_swiotlb_buffer(dev, tlb_addr))
-+	if (!is_swiotlb_fixed(dev->dma_io_tlb_mem, tlb_addr))
- 		return false;
- 
- 	swiotlb_release_slots(dev, tlb_addr);
+ The tip tree maintainers set value on following these rules, especially on
+ the request to write changelogs in imperative mood and not impersonating
+
+base-commit: 3e2619c4ebba2cab8414c55b131b7a28f628de3b
 -- 
-2.25.1
+An old man doll... just what I always wanted! - Clara
 
