@@ -2,316 +2,442 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B70C7618A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 04:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 469CDC6FD1D
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Mar 2023 06:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbjCTEk3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 00:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41852 "EHLO
+        id S229998AbjCTGwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 02:52:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjCTEk2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 00:40:28 -0400
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2088.outbound.protection.outlook.com [40.107.96.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB5731A971;
-        Sun, 19 Mar 2023 21:40:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uz79DCalhOqEUHIP0bmkzpkVOoSOMeREFrt1PXOsanmmxkIwPlr2ose9XNOP+W+J99o97/804cSp697KsE+iZqTqD7jzS6FksClo+nebHsmztTLqpOeg4W2t3rTDFvh6BSZ0Y0+uvlCyczX2cjN/hWOJGuBFgMk0gtMmtxRPhHkgS7y3S35oOQI3rhH3JuND2M+OYW/iqucRRUgohP/2HxMTswlWdaglsghXA0pLa5vgTrTiJrG8M1C3q4WRbCRC5Cks3MnZJQHx2qn/Ou06fwJz8CtfcyI++YuqwUF38gO7REAcWWq3pWHQsqZq/wjcDm7EG9Ys/oCL72SmBalQZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S1Hj2Bn/hMwqKf5HzYcRRvgkSWSrhzhIlhNbMAMMy1c=;
- b=H971GyWPD9cj8ZVwvMDzy+WnslauaxIyGTDTbhdXLtx/MQJTfoJ7UUMu7vsMk31H3M41HTdbOyTB6LO24PMSwYJzzvLt3XGs/jGZyBXDnJwvG7m24G8ZOK9QSycQS59/w6ZPYQgai7527uQgFQHH525sjL6PUiDTvil0FZDvK2JnFRzB1OhMM9bMh88UzpcYjtwTU9Muru8HV8J1+Ez9NXx+mBWgmqpefpbe+iIgvJo3s9gSpDloxKlDe2M3ZDq22T3p2dqor9U4dlmbiQi6XvrYQ8pWVFqhhAxZYkanMv11+0Sx+OTbiQl7dTnS4RgHwrMaXgdIU3oDPXKejpDFIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S1Hj2Bn/hMwqKf5HzYcRRvgkSWSrhzhIlhNbMAMMy1c=;
- b=mTXHZM1peIPola6vxd5sG29LfxPHcqZpv+q/DfgJaf12o6inWOSiv8w7OxVbz2QGrAbx6z2vt6zj8ZOhuASwLGP9hJwfk19iodpxfWVWIXJuSnOidrmIbXsaeksMQsaeQTy4WbQazzJGdlps1mLHBvVeJzrdehwrE+Wm18PdeFs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BY5PR12MB3876.namprd12.prod.outlook.com (2603:10b6:a03:1a7::26)
- by MN2PR12MB4222.namprd12.prod.outlook.com (2603:10b6:208:19a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
- 2023 04:40:22 +0000
-Received: from BY5PR12MB3876.namprd12.prod.outlook.com
- ([fe80::d1cf:3d4a:4882:7fd3]) by BY5PR12MB3876.namprd12.prod.outlook.com
- ([fe80::d1cf:3d4a:4882:7fd3%4]) with mapi id 15.20.6178.037; Mon, 20 Mar 2023
- 04:40:21 +0000
-Date:   Mon, 20 Mar 2023 10:10:04 +0530
-From:   Wyes Karny <wyes.karny@amd.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Huang Rui <ray.huang@amd.com>, Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        santosh.shukla@amd.com, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        gautham.shenoy@amd.com, Tor Vic <torvic9@mailbox.org>,
-        Russell Haley <yumpusamongus@gmail.com>
-Subject: Re: [PATCH v8 0/6] cpufreq: amd-pstate: Add guided autonomous mode
- support
-Message-ID: <ZBfjpJAQRkzEb/+y@bhagirati.amd.com>
-References: <20230307112740.132338-1-wyes.karny@amd.com>
- <CAJZ5v0gijQJeCpxgTOD6uj9Cjn8=C+FwX5Ub1SP3xe6ygCaX4Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0gijQJeCpxgTOD6uj9Cjn8=C+FwX5Ub1SP3xe6ygCaX4Q@mail.gmail.com>
-X-ClientProxiedBy: PN3PR01CA0159.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:c8::20) To BY5PR12MB3876.namprd12.prod.outlook.com
- (2603:10b6:a03:1a7::26)
+        with ESMTP id S230019AbjCTGwI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 02:52:08 -0400
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7598813D4D
+        for <linux-doc@vger.kernel.org>; Sun, 19 Mar 2023 23:52:02 -0700 (PDT)
+Received: by mail-ua1-x932.google.com with SMTP id 89so7185785uao.0
+        for <linux-doc@vger.kernel.org>; Sun, 19 Mar 2023 23:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679295121;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ONO7gIsbMkd/ovAh33jhzD+sIWjyxjKy4Gn5SbgUbWo=;
+        b=GQjlhiiPKKa0UmRkc8eT7zKLH3ncbO/RVF+VrP/9+Y2/g3uJAi5idhCzvni+TONeBM
+         YcafoiAFnHJxfkMZm0sw6+57LWhzaP/mRYI/9IbC/v+1RsfkAEp+tfaJaGS7W5dIRkQT
+         Z2PwXKyPp32kh1jyacItPvlc1V4CnMapSrKgf00I57IPC3mp+9a8GHE7D6WdHrKXfctE
+         kJyQz/C/QgZR8dSZQacaP2KMFo/jpxobqKB8LZbSxv9fj+tQo1lyzYS/WfnS0dv1YrG1
+         TKLPRkOCo8vJ22TaOlQjN+6kAsnCspjL5ofY9bFlDOLHfBcPKmtyVDmniPn9s+0lKyKN
+         uNpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679295121;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ONO7gIsbMkd/ovAh33jhzD+sIWjyxjKy4Gn5SbgUbWo=;
+        b=vjlaxhBgxCJqbxzptEmCZwH98B+W7Merzgg40rD61zIOEKfIoDfgghxFggkMn8KWNS
+         v6wsNIt0khWAdB1KzIY3sJw9MCarPcsr8LJn9baC9Hhck9Kx+tNLh70zdo7Ty52BNXh8
+         8wFTkZbFj1ZHIH0VxcNjrj0n8Ls0wUpQTdKd8OYap0sOKa2rbhLNyl6JF23Kz3Lh/8a5
+         PJJBBsBj3bYmfi61nVtFq4kh4gKmtx3rgg5zt8+Has5h8maMz2koZkhAzUj+tCpsAdzd
+         qDmhOdeAUekAYlGYMtEHighuoTjkvxZzJ3AiPv0igkivBQne5iRDJS8g1lp8jXWsxutz
+         Cx9Q==
+X-Gm-Message-State: AO0yUKW7B+G9Bc8ZBNvjT43gqtwoeQMf7bvu78bS/Frcj+YMBkz6/pMp
+        GE4CqYsASu2NAp0NnE+Jbo9L4wEFcRSFAaX+tqcQ6w==
+X-Google-Smtp-Source: AK7set9k07yBuj/KiMJ+bzIoDKPKh0+48U19HM4SkbDM3+X/0D5eBgoDEIsS240E4mlk7QhWyGGsB3AwkqJy2PcT3Wk=
+X-Received: by 2002:ab0:1006:0:b0:755:9b3:fef8 with SMTP id
+ f6-20020ab01006000000b0075509b3fef8mr3394695uab.2.1679295120593; Sun, 19 Mar
+ 2023 23:52:00 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR12MB3876:EE_|MN2PR12MB4222:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13744f35-26b8-4895-7296-08db28fd36c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d4ujUQGmTqnf9fxgYvTSXgOxlvAKQmmgASWoUtnMm81ThCkxLadTBYAmyy1qeRGyambSj5LgQBBJk8Gl9QRRNWnbxpOTAUMegxENAav4KYMo7Yi0nZ+J/qFrIFVnx3Z+3pP7g6p7MD4qz2Eji2UnpHvs+cTNg6LYjZQHHdSBZwQ5DLkA5EaO+jNJ9TjkUPTmRaPBgqOlUAtPnWPUbqQMMJy2YOS/lQMFvHfbjNIGma6ovs2MCpbKEwvKJHp9txps5DLj2J6c9BcTWinXzC41KLGIby3RsozwLpTnV+a+C7jRh2/lHAWdU2fBA/x1PLamAS4IF3g0nkoMt/o6ia3nHlsMuEvTBNZqai+nFSUWFRalJjCYTaVkeaHkDiZEu5PmbgVgvCAOWEmsjANebJVdK8QZlca94cnxrY/4OccXiFsniKURc3PTtqL/qI72BXHan59pinnuTClFMu9vHwS3uSDKvqoKkH1DNfrFmAzdPCRyyrXr52D+WT9BNH4ioo6SGCua3c9EcXmT43FaOxkSdlFlu5dabruKEAAUq0cX/n2Q6GtuTmm+G2zm0Elb777Pwd5gXniVKcS+iZrNJmOZC7iKhJly3CINrk+cGoBoT/bYK3eLoP7Q5qlf0mveF8dy0r7EkyR+TMpWGupngVsF3Iax4Noh3ghluGH1GFEV8SQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3876.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(396003)(39860400002)(346002)(366004)(136003)(451199018)(26005)(6506007)(53546011)(6512007)(6666004)(966005)(316002)(83380400001)(8676002)(6916009)(6486002)(4326008)(54906003)(66476007)(186003)(478600001)(66946007)(5660300002)(7416002)(8936002)(44832011)(2906002)(41300700001)(66556008)(38100700002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFovYVFLM0RlMkQyZEtrZjlzeW95Wit5NTdNc242Mmx0U3cwU25rakVKRWRw?=
- =?utf-8?B?TDRtU1ZBY1g2a2Rma2FIUk9iMG5NU3AwUGhsWEw3WTFEWnRTZGFRZk93STJ0?=
- =?utf-8?B?RERFck12VldySGh5V1FYVjFla1RVcDM1eXFnY1FCMWJXZXFkWjR4YzMxblZ2?=
- =?utf-8?B?MkZOVGR0eHMydWZTZ2FsblY2ZXZxU2JMY04rSGdmcndxUStWamgzWUVlYk9j?=
- =?utf-8?B?eFA0cnh6MTgwRGVFWnUxbG56V08xOHlYckl6aXU1WkIwalo0Wm1HT0t4Nkpr?=
- =?utf-8?B?ME1BRTdTK2ZhTkJxb2oyazZHUVBMUzlZUStZWkJ6dVVCZHZQejRDVGtFZlkw?=
- =?utf-8?B?MU9sWUpDRVR3Qm1xNzRRTURUTzhpSkUrODdDY0QybzdBT0xsRCtldDJZNUMw?=
- =?utf-8?B?SDFxRFduVG1kMHV5c3BWSGdiZXZUSk1mRnNxbGNjNG5aLzNDUmV2YXRrM3cr?=
- =?utf-8?B?V3hTQ0xnRVRvb0wzcExHUEIwYXBDVVhqV3UyYkJQMHUydERJaHlZczJXMlVl?=
- =?utf-8?B?RVdsNGFGRFhpdmNiMzZCU0g3L2ZhK0NFOUl5SGRQMkdFOXlrbU55ckJldlRq?=
- =?utf-8?B?V0hEVjJjb1NvSHV4cUtRYzlobEV2RGE5bHBIdGdBazBWZnUrZ0tZSmw2MnZH?=
- =?utf-8?B?a1BRQkkzSHZYTUJVazNNTHBRMlorQW5VTDNKNDZkZmtObmpLRmN0c2pQaU52?=
- =?utf-8?B?SDV1cXhOQnIzamVZbUNWR05QeGh5L1RTd1JIbkZ4UjZSVlJ3Q0pJYzVKN3dJ?=
- =?utf-8?B?VUxwS080SWtINW5taHR1R2ZHQ1NxUUQ0cnNCZHhJaG5KRWxxTm9VL2hkUWx6?=
- =?utf-8?B?UTBvQk1qVlM3b0s3REVxZ2tPL29mNlRFY3FPV3MybnVLeTU5ejZvT1NKTTZX?=
- =?utf-8?B?bU1nMFFJSC8vQVFFZjdvaGx2WHVJNXZoOFJKUm45UjBFdzhkU1NncHVRZG9n?=
- =?utf-8?B?SVBSdHFkMW0rS1BqOGlWYTlIVjFoV2FIN3BZakhLVk8yQ0dyOTRWdlBmS05p?=
- =?utf-8?B?VzVVb3ZOVGVWTlVuUVpkMGtzcTJnSVNhYitQYXVESG8rZTFpQWNhZ3RkNXds?=
- =?utf-8?B?TUtaTWtJRkVadElNaXoyVlYvZDVvL21wVTZrZkF5bG1EbDlyMHBGZlVpUmNU?=
- =?utf-8?B?ckFWT0JXOXhLQU1HK0dIZGtMZmFiWTVybWxVckRVaUdDTFJBcndYUFZGbDFt?=
- =?utf-8?B?VUZzNHRncGVUam9FTHI2alpLVENTSS9SR0hXVVFGVXBYM0NLVHJra2d4VU4y?=
- =?utf-8?B?U2hMbzZlTW9JRVRZNVM0VDN5UEM0N0xGK3RzUE1UejBUdTJVMUtMVjM4TW9s?=
- =?utf-8?B?Z2lSLzVkTnZTR3AyelEwTEhkdURZVXlwOHg2eG1rZkd1a1lEa2hzd2dpT0xx?=
- =?utf-8?B?OWoxTk9tbXVRV1V4cVN3RWhZOW1yRU11VXhvQnZ4NUpxWitzcWt3ZFNiYjZt?=
- =?utf-8?B?eW9WcXBHeXRwdkhhKzNqSE9QbFpYUCtOcnE0TE5nWEVzRzVYcHBLdFZtRis3?=
- =?utf-8?B?NkdUY1B5TnFJaHFVRDBLMkZGam81UFFMVkFUZENhVkFUSnZjbVlZc1BSMVZC?=
- =?utf-8?B?VGFjNmJ0RFQvS25JMkJ6d2RQb25FYm5BQ1hzRFlkMmVWSnY5YnNIZVNPOW9K?=
- =?utf-8?B?bHBtejNuOXFnenA2cFhrZXBTMkI2Ym1VeFVocGloak9sSEFHaGFwUGpyVmVS?=
- =?utf-8?B?TXlXRTJtSFJsM2ZBTlBqd0M4dEVMRmhmWkg5TklDQUNZanMySk51RGlJdGVR?=
- =?utf-8?B?RURLc3JXaXBHV01rVFN6RkpPdG9Rd2tBOHRwVDc4NnVONWxUbHNpVGo2Vy9h?=
- =?utf-8?B?R0lZVlJidzZXT2k0WWc0UFpBZloyempkRUxRN20rUVI2cGkzZXh6VGNsS3JW?=
- =?utf-8?B?TXE2ZlRMaXhuUHQxMGZseVJ0MWlQUmVpYktmNmNGNE1aZHhIcHJwL0hLbFN5?=
- =?utf-8?B?YnA1cFc1MHA4Z3B3MUJXY0tGZU5CRTR4cDYzdnM4aUVTNk5uTGVNakVLei9K?=
- =?utf-8?B?aWh1N04vclJVekUyWkN1TWZUTm9nOVNCT3JqVm5rZXNuLzhBRGtQYTJhdVcx?=
- =?utf-8?B?WGJJSnhVc3hvT3pjeHlsU0VRb3g2bXpkTXhRQi9MZUxPTHVJa0VtQTFyZk9Z?=
- =?utf-8?Q?spmcIkyrlxfXxTFYy19jzCe8B?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13744f35-26b8-4895-7296-08db28fd36c2
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3876.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 04:40:21.5638
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OJTV7BfkpNzzPTSIUWeRvzH937mnDnq3Hwac908bnFXnPXJ7452qf2AV7YgIo4bADxCq6FsdS1o+4K7kqIPegw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4222
+References: <20230315132040.v10.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+In-Reply-To: <20230315132040.v10.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Mon, 20 Mar 2023 12:21:49 +0530
+Message-ID: <CAFA6WYOc4f6_R-3UvG84s2CC-+aUZj6Nm+h3y7A798jcFmP+AA@mail.gmail.com>
+Subject: Re: [PATCH v10] tee: optee: Add SMC for loading OP-TEE image
+To:     Jeffrey Kardatzke <jkardatzke@chromium.org>
+Cc:     op-tee@lists.trustedfirmware.org,
+        Jeffrey Kardatzke <jkardatzke@google.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
+On Thu, 16 Mar 2023 at 01:50, Jeffrey Kardatzke <jkardatzke@chromium.org> wrote:
+>
+> Adds an SMC call that will pass an OP-TEE binary image to EL3 and
+> instruct it to load it as the BL32 payload. This works in conjunction
+> with a feature added to Trusted Firmware for ARMv8 and above
+> architectures that supports this.
+>
+> The main purpose of this change is to facilitate updating the OP-TEE
+> component on devices via a rootfs change rather than having to do a
+> firmware update. Further details are linked to in the Kconfig file.
+>
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> ---
+>
 
-On 17 Mar 19:10, Rafael J. Wysocki wrote:
-> On Tue, Mar 7, 2023 at 12:28 PM Wyes Karny <wyes.karny@amd.com> wrote:
-> >
-> > From ACPI spec[1] below 3 modes for CPPC can be defined:
-> > 1. Non autonomous: OS scaling governor specifies operating frequency/
-> >    performance level through `Desired Performance` register and platform
-> > follows that.
-> > 2. Guided autonomous: OS scaling governor specifies min and max
-> >    frequencies/ performance levels through `Minimum Performance` and
-> > `Maximum Performance` register, and platform can autonomously select an
-> > operating frequency in this range.
-> > 3. Fully autonomous: OS only hints (via EPP) to platform for the required
-> >    energy performance preference for the workload and platform autonomously
-> > scales the frequency.
-> >
-> > Currently (1) is supported by amd_pstate as passive mode, and (3) is
-> > implemented by EPP support[2]. This change is to support (2).
-> >
-> > In guided autonomous mode the min_perf is based on the input from the
-> > scaling governor. For example, in case of schedutil this value depends
-> > on the current utilization. And max_perf is set to max capacity.
-> >
-> > To activate guided auto mode ``amd_pstate=guided`` command line
-> > parameter has to be passed in the kernel.
-> >
-> > Below are the results (normalized) of benchmarks with this patch:
-> > System: Genoa 96C 192T
-> > Kernel: 6.3-rc1 + patch
-> > Scaling governor: schedutil
-> >
-> > ================ dbench comparisons ================
-> > dbench result comparison:
-> > Here results are throughput (MB/s)
-> > Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> >     1      1.00 (0.00 pct)         1.01 (1.00 pct)         1.02 (2.00 pct)
-> >     2      1.07 (0.00 pct)         1.06 (-0.93 pct)        1.07 (0.00 pct)
-> >     4      1.68 (0.00 pct)         1.70 (1.19 pct)         1.72 (2.38 pct)
-> >     8      2.61 (0.00 pct)         2.68 (2.68 pct)         2.76 (5.74 pct)
-> >    16      4.16 (0.00 pct)         4.24 (1.92 pct)         4.53 (8.89 pct)
-> >    32      5.98 (0.00 pct)         6.17 (3.17 pct)         7.30 (22.07 pct)
-> >    64      8.67 (0.00 pct)         8.99 (3.69 pct)        10.71 (23.52 pct)
-> >   128     11.98 (0.00 pct)        12.52 (4.50 pct)        14.67 (22.45 pct)
-> >   256     15.73 (0.00 pct)        16.13 (2.54 pct)        17.81 (13.22 pct)
-> >   512     15.77 (0.00 pct)        16.32 (3.48 pct)        16.39 (3.93 pct)
-> > dbench power comparison:
-> > Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> >     1      1.00 (0.00 pct)         1.00 (0.00 pct)         1.04 (4.00 pct)
-> >     2      0.99 (0.00 pct)         0.97 (-2.02 pct)        1.02 (3.03 pct)
-> >     4      0.98 (0.00 pct)         0.98 (0.00 pct)         1.02 (4.08 pct)
-> >     8      0.98 (0.00 pct)         0.99 (1.02 pct)         1.02 (4.08 pct)
-> >    16      0.99 (0.00 pct)         1.00 (1.01 pct)         1.04 (5.05 pct)
-> >    32      1.02 (0.00 pct)         1.02 (0.00 pct)         1.07 (4.90 pct)
-> >    64      1.05 (0.00 pct)         1.05 (0.00 pct)         1.11 (5.71 pct)
-> >   128      1.08 (0.00 pct)         1.08 (0.00 pct)         1.15 (6.48 pct)
-> >   256      1.12 (0.00 pct)         1.12 (0.00 pct)         1.20 (7.14 pct)
-> >   512      1.18 (0.00 pct)         1.17 (-0.84 pct)        1.26 (6.77 pct)
-> >
-> > ================ git-source comparisons ================
-> > git-source result comparison:
-> > Here results are throughput (compilations per 1000 sec)
-> > Threads:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> >   192      1.00 (0.00 pct)         0.93 (-7.00 pct)        1.00 (0.00 pct)
-> > git-source power comparison:
-> > Threads:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> >   192      1.00 (0.00 pct)         1.00 (0.00 pct)         0.96 (-4.00 pct)
-> >
-> > ================ kernbench comparisons ================
-> > kernbench result comparison:
-> > Here results are throughput (compilations per 1000 sec)
-> > Load:      acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> > 32         1.00 (0.00 pct)         1.01 (1.00 pct)         1.02 (2.00 pct)
-> > 48         1.26 (0.00 pct)         1.28 (1.58 pct)         1.25 (-0.79 pct)
-> > 64         1.39 (0.00 pct)         1.47 (5.75 pct)         1.43 (2.87 pct)
-> > 96         1.48 (0.00 pct)         1.50 (1.35 pct)         1.49 (0.67 pct)
-> > 128        1.29 (0.00 pct)         1.32 (2.32 pct)         1.33 (3.10 pct)
-> > 192        1.17 (0.00 pct)         1.20 (2.56 pct)         1.21 (3.41 pct)
-> > 256        1.17 (0.00 pct)         1.18 (0.85 pct)         1.20 (2.56 pct)
-> > 384        1.16 (0.00 pct)         1.17 (0.86 pct)         1.21 (4.31 pct)
-> > kernbench power comparison:
-> > Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> >    32      1.00 (0.00 pct)         0.97 (-3.00 pct)        1.00 (0.00 pct)
-> >    48      0.87 (0.00 pct)         0.81 (-6.89 pct)        0.88 (1.14 pct)
-> >    64      0.81 (0.00 pct)         0.73 (-9.87 pct)        0.77 (-4.93 pct)
-> >    96      0.75 (0.00 pct)         0.74 (-1.33 pct)        0.75 (0.00 pct)
-> >   128      0.83 (0.00 pct)         0.79 (-4.81 pct)        0.83 (0.00 pct)
-> >   192      0.92 (0.00 pct)         0.88 (-4.34 pct)        0.92 (0.00 pct)
-> >   256      0.92 (0.00 pct)         0.88 (-4.34 pct)        0.92 (0.00 pct)
-> >   384      0.92 (0.00 pct)         0.88 (-4.34 pct)        0.92 (0.00 pct)
-> >
-> > ================ tbench comparisons ================
-> > tbench result comparison:
-> > Here results are throughput (MB/s)
-> > Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> >     1      1.00 (0.00 pct)         0.70 (-30.00 pct)       1.37 (37.00 pct)
-> >     2      2.64 (0.00 pct)         1.39 (-47.34 pct)       2.70 (2.27 pct)
-> >     4      4.89 (0.00 pct)         2.75 (-43.76 pct)       5.28 (7.97 pct)
-> >     8      9.46 (0.00 pct)         5.42 (-42.70 pct)      10.22 (8.03 pct)
-> >    16     19.05 (0.00 pct)        10.42 (-45.30 pct)      19.94 (4.67 pct)
-> >    32     37.50 (0.00 pct)        20.23 (-46.05 pct)      36.87 (-1.68 pct)
-> >    64     61.24 (0.00 pct)        43.08 (-29.65 pct)      62.96 (2.80 pct)
-> >   128     67.16 (0.00 pct)        69.08 (2.85 pct)        67.34 (0.26 pct)
-> >   256    154.59 (0.00 pct)       162.33 (5.00 pct)       156.78 (1.41 pct)
-> >   512    154.02 (0.00 pct)       156.74 (1.76 pct)       153.48 (-0.35 pct)
-> > tbench power comparison:
-> > Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> >     1      1.00 (0.00 pct)         0.97 (-3.00 pct)        1.08 (8.00 pct)
-> >     2      1.04 (0.00 pct)         0.97 (-6.73 pct)        1.11 (6.73 pct)
-> >     4      1.12 (0.00 pct)         0.99 (-11.60 pct)       1.18 (5.35 pct)
-> >     8      1.25 (0.00 pct)         1.04 (-16.80 pct)       1.31 (4.80 pct)
-> >    16      1.53 (0.00 pct)         1.13 (-26.14 pct)       1.58 (3.26 pct)
-> >    32      2.01 (0.00 pct)         1.36 (-32.33 pct)       2.03 (0.99 pct)
-> >    64      2.58 (0.00 pct)         2.14 (-17.05 pct)       2.61 (1.16 pct)
-> >   128      2.80 (0.00 pct)         2.81 (0.35 pct)         2.81 (0.35 pct)
-> >   256      3.39 (0.00 pct)         3.43 (1.17 pct)         3.42 (0.88 pct)
-> >   512      3.44 (0.00 pct)         3.44 (0.00 pct)         3.44 (0.00 pct)
-> >
-> > Change log:
-> >
-> > v7 -> v8:
-> > - Rebased on top of 6.3-rc1 tip
-> > - Pickup tested-by flag by Oleksandr
-> 
-> This series has been applied as 6.4 material, but I generally prefer
-> ACPI and CPPC to be spelled in capitals in patch subjects and you
-> should be more careful about comments and white space added by your
-> patches (I have fixed up a few assorted issues of these types in the
-> patches).
-> 
-> Thanks!
+Apart from nit below, feel free to add:
 
-Thank you for taking this patch series.
+Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
 
-Regards,
-Wyes
+> Changes in v10:
+> - Fixed tee.rst documentation formatting
+>
+> Changes in v9:
+> - Add CPU hotplug callback to init on all cores at startup
+>
+> Changes in v8:
+> - Renamed params and fixed alignment issue
+>
+> Changes in v7:
+> - Added documentation to Documentation/staging/tee.rst
+>
+> Changes in v6:
+> - Expanded Kconfig documentation
+>
+> Changes in v5:
+> - Renamed config option
+> - Added runtime warning when config is used
+>
+> Changes in v4:
+> - Update commit message
+> - Added more documentation
+> - Renamed config option, added ARM64 dependency
+>
+> Changes in v3:
+> - Removed state tracking for driver reload
+> - Check UID of service to verify it needs image load
+>
+> Changes in v2:
+> - Fixed compile issue when feature is disabled
+> - Addressed minor comments
+> - Added state tracking for driver reload
+>
+>  Documentation/staging/tee.rst |  41 +++++++++++
+>  drivers/tee/optee/Kconfig     |  17 +++++
+>  drivers/tee/optee/optee_msg.h |  12 +++
+>  drivers/tee/optee/optee_smc.h |  24 ++++++
+>  drivers/tee/optee/smc_abi.c   | 134 ++++++++++++++++++++++++++++++++++
+>  5 files changed, 228 insertions(+)
+>
+> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+> index 498343c7ab08..6e90ee726880 100644
+> --- a/Documentation/staging/tee.rst
+> +++ b/Documentation/staging/tee.rst
+> @@ -214,6 +214,47 @@ call is done from the thread assisting the interrupt handler. This is a
+>  building block for OP-TEE OS in secure world to implement the top half and
+>  bottom half style of device drivers.
+>
+> +OPTEE_INSECURE_LOAD_IMAGE Kconfig option
+> +----------------------------------------
+> +
+> +The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
+> +BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
+> +it from the firmware before the kernel boots. This also requires enabling the
+> +corresponding option in Trusted Firmware for Arm. The documentation there
+> +explains the security threat associated with enabling this as well as
+> +mitigations at the firmware and platform level.
+> +https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
+> +
+> +There are additional attack vectors/mitigations for the kernel that should be
+> +addressed when using this option.
+> +
+> +1. Boot chain security.
+> +   Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
+> +   the system.
+> +   Migitation: There must be boot chain security that verifies the kernel and
 
-> 
-> > v6 -> v7:
-> > - Addressed comments by Ray
-> > - Reorder and rebase patches
-> > - Pick up Ack by Ray
-> >
-> > v5 -> v6:
-> > - Don't return -EBUSY when changing to same mode
-> >
-> > v4 -> v5:
-> > - Rebased on top of EPP v12 series
-> > - Addressed comments form Mario regarding documentation
-> > - Picked up RB flags from Mario and Bagas Sanjaya
-> >
-> > v3 -> v4:
-> > - Fixed active mode low frequency issue reported by Peter Jung and Tor Vic
-> > - Documentation modification suggested by Bagas Sanjaya
-> >
-> > v2 -> v3:
-> > - Addressed review comments form Mario.
-> > - Picked up RB tag from Mario.
-> > - Rebase on top of EPP v11 [3].
-> >
-> > v1 -> v2:
-> > - Fix issue with shared mem systems.
-> > - Rebase on top of EPP series.
-> >
-> > [1]: https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
-> > [2]: https://lore.kernel.org/lkml/20221110175847.3098728-1-Perry.Yuan@amd.com/
-> > [3]: https://lore.kernel.org/linux-pm/20230131090016.3970625-1-perry.yuan@amd.com/
-> >
-> > Wyes Karny (6):
-> >   acpi: cppc: Add min and max perf reg writing support
-> >   acpi: cppc: Add auto select register read/write support
-> >   Documentation: cpufreq: amd-pstate: Move amd_pstate param to
-> >     alphabetical order
-> >   cpufreq: amd-pstate: Add guided autonomous mode
-> >   cpufreq: amd-pstate: Add guided mode control support via sysfs
-> >   Documentation: cpufreq: amd-pstate: Update amd_pstate status sysfs for
-> >     guided
-> >
-> >  .../admin-guide/kernel-parameters.txt         |  40 ++--
-> >  Documentation/admin-guide/pm/amd-pstate.rst   |  31 ++-
-> >  drivers/acpi/cppc_acpi.c                      | 121 +++++++++++-
-> >  drivers/cpufreq/amd-pstate.c                  | 177 +++++++++++++-----
-> >  include/acpi/cppc_acpi.h                      |  11 ++
-> >  include/linux/amd-pstate.h                    |   2 +
-> >  6 files changed, 302 insertions(+), 80 deletions(-)
-> >
-> > --
-> > 2.34.1
-> >
+s/Migitation/Mitigation/
+
+-Sumit
+
+> +   rootfs, otherwise an attacker can modify the loaded OP-TEE binary by
+> +   modifying it in the rootfs.
+> +2. Alternate boot modes.
+> +   Attack vector: Using an alternate boot mode (i.e. recovery mode), the OP-TEE
+> +   driver isn't loaded, leaving the SMC hole open.
+> +   Mitigation: If there are alternate methods of booting the device, such as a
+> +   recovery mode, it should be ensured that the same mitigations are applied in
+> +   that mode.
+> +3. Attacks prior to SMC invocation.
+> +   Attack vector: Code that is executed prior to issuing the SMC call to load
+> +   OP-TEE can be exploited to then load an alternate OS image.
+> +   Mitigation: The OP-TEE driver must be loaded before any potential attack
+> +   vectors are opened up. This should include mounting of any modifiable
+> +   filesystems, opening of network ports or communicating with external devices
+> +   (e.g. USB).
+> +4. Blocking SMC call to load OP-TEE.
+> +   Attack vector: Prevent the driver from being probed, so the SMC call to load
+> +   OP-TEE isn't executed when desired, leaving it open to being executed later
+> +   and loading a modified OS.
+> +   Mitigation: It is recommended to build the OP-TEE driver as an included
+> +   driver rather than a module to prevent exploits that may cause the module to
+> +   not be loaded.
+> +
+>  AMD-TEE driver
+>  ==============
+>
+> diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
+> index f121c224e682..70898bbd5809 100644
+> --- a/drivers/tee/optee/Kconfig
+> +++ b/drivers/tee/optee/Kconfig
+> @@ -7,3 +7,20 @@ config OPTEE
+>         help
+>           This implements the OP-TEE Trusted Execution Environment (TEE)
+>           driver.
+> +
+> +config OPTEE_INSECURE_LOAD_IMAGE
+> +       bool "Load OP-TEE image as firmware"
+> +       default n
+> +       depends on OPTEE && ARM64
+> +       help
+> +         This loads the BL32 image for OP-TEE as firmware when the driver is
+> +         probed. This returns -EPROBE_DEFER until the firmware is loadable from
+> +         the filesystem which is determined by checking the system_state until
+> +         it is in SYSTEM_RUNNING. This also requires enabling the corresponding
+> +         option in Trusted Firmware for Arm. The documentation there explains
+> +         the security threat associated with enabling this as well as
+> +         mitigations at the firmware and platform level.
+> +         https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
+> +
+> +         Additional documentation on kernel security risks are at
+> +         Documentation/staging/tee.rst.
+> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
+> index 70e9cc2ee96b..e8840a82b983 100644
+> --- a/drivers/tee/optee/optee_msg.h
+> +++ b/drivers/tee/optee/optee_msg.h
+> @@ -241,11 +241,23 @@ struct optee_msg_arg {
+>   * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
+>   * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
+>   * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
+> + *
+> + * In the case where the OP-TEE image is loaded by the kernel, this will
+> + * initially return an alternate UID to reflect that we are communicating with
+> + * the TF-A image loading service at that time instead of OP-TEE. That UID is:
+> + * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
+> + * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
+> + * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
+> + * OPTEE_MSG_IMAGE_LOAD_UID_3.
+>   */
+>  #define OPTEE_MSG_UID_0                        0x384fb3e0
+>  #define OPTEE_MSG_UID_1                        0xe7f811e3
+>  #define OPTEE_MSG_UID_2                        0xaf630002
+>  #define OPTEE_MSG_UID_3                        0xa5d5c51b
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_0     0xa3fbeab1
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_1     0x1246315d
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_2     0xc7c406b9
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_3     0xc03cbea4
+>  #define OPTEE_MSG_FUNCID_CALLS_UID     0xFF01
+>
+>  /*
+> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
+> index 73b5e7760d10..7d9fa426505b 100644
+> --- a/drivers/tee/optee/optee_smc.h
+> +++ b/drivers/tee/optee/optee_smc.h
+> @@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
+>         unsigned long reserved1;
+>  };
+>
+> +/*
+> + * Load Trusted OS from optee/tee.bin in the Linux firmware.
+> + *
+> + * WARNING: Use this cautiously as it could lead to insecure loading of the
+> + * Trusted OS.
+> + * This SMC instructs EL3 to load a binary and execute it as the Trusted OS.
+> + *
+> + * Call register usage:
+> + * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
+> + * a1 Upper 32bit of a 64bit size for the payload
+> + * a2 Lower 32bit of a 64bit size for the payload
+> + * a3 Upper 32bit of the physical address for the payload
+> + * a4 Lower 32bit of the physical address for the payload
+> + *
+> + * The payload is in the OP-TEE image format.
+> + *
+> + * Returns result in a0, 0 on success and an error code otherwise.
+> + */
+> +#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
+> +#define OPTEE_SMC_CALL_LOAD_IMAGE \
+> +       ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
+> +                          ARM_SMCCC_OWNER_TRUSTED_OS_END, \
+> +                          OPTEE_SMC_FUNCID_LOAD_IMAGE)
+> +
+>  /*
+>   * Call with struct optee_msg_arg as argument
+>   *
+> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> index a1c1fa1a9c28..fcbcd0c0c3aa 100644
+> --- a/drivers/tee/optee/smc_abi.c
+> +++ b/drivers/tee/optee/smc_abi.c
+> @@ -7,10 +7,13 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>
+>  #include <linux/arm-smccc.h>
+> +#include <linux/cpuhotplug.h>
+>  #include <linux/errno.h>
+> +#include <linux/firmware.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+>  #include <linux/irqdomain.h>
+> +#include <linux/kernel.h>
+>  #include <linux/mm.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> @@ -1149,6 +1152,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
+>         return false;
+>  }
+>
+> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
+> +static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invoke_fn)
+> +{
+> +       struct arm_smccc_res res;
+> +
+> +       invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
+> +
+> +       if (res.a0 == OPTEE_MSG_IMAGE_LOAD_UID_0 &&
+> +          res.a1 == OPTEE_MSG_IMAGE_LOAD_UID_1 &&
+> +          res.a2 == OPTEE_MSG_IMAGE_LOAD_UID_2 &&
+> +          res.a3 == OPTEE_MSG_IMAGE_LOAD_UID_3)
+> +               return true;
+> +       return false;
+> +}
+> +#endif
+> +
+>  static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
+>  {
+>         union {
+> @@ -1354,6 +1373,117 @@ static void optee_shutdown(struct platform_device *pdev)
+>                 optee_disable_shm_cache(optee);
+>  }
+>
+> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
+> +
+> +#define OPTEE_FW_IMAGE "optee/tee.bin"
+> +
+> +static optee_invoke_fn *cpuhp_invoke_fn;
+> +
+> +static int optee_cpuhp_probe(unsigned int cpu)
+> +{
+> +       /*
+> +        * Invoking a call on a CPU will cause OP-TEE to perform the required
+> +        * setup for that CPU. Just invoke the call to get the UID since that
+> +        * has no side effects.
+> +        */
+> +       if (optee_msg_api_uid_is_optee_api(cpuhp_invoke_fn))
+> +               return 0;
+> +       else
+> +               return -EINVAL;
+> +}
+> +
+> +static int optee_load_fw(struct platform_device *pdev,
+> +                        optee_invoke_fn *invoke_fn)
+> +{
+> +       const struct firmware *fw = NULL;
+> +       struct arm_smccc_res res;
+> +       phys_addr_t data_pa;
+> +       u8 *data_buf = NULL;
+> +       u64 data_size;
+> +       u32 data_pa_high, data_pa_low;
+> +       u32 data_size_high, data_size_low;
+> +       int rc;
+> +       int hp_state;
+> +
+> +       if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
+> +               return 0;
+> +
+> +       rc = request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
+> +       if (rc) {
+> +               /*
+> +                * The firmware in the rootfs will not be accessible until we
+> +                * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
+> +                * that point.
+> +                */
+> +               if (system_state < SYSTEM_RUNNING)
+> +                       return -EPROBE_DEFER;
+> +               goto fw_err;
+> +       }
+> +
+> +       data_size = fw->size;
+> +       /*
+> +        * This uses the GFP_DMA flag to ensure we are allocated memory in the
+> +        * 32-bit space since TF-A cannot map memory beyond the 32-bit boundary.
+> +        */
+> +       data_buf = kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
+> +       if (!data_buf) {
+> +               rc = -ENOMEM;
+> +               goto fw_err;
+> +       }
+> +       memcpy(data_buf, fw->data, fw->size);
+> +       data_pa = virt_to_phys(data_buf);
+> +       reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
+> +       reg_pair_from_64(&data_size_high, &data_size_low, data_size);
+> +       goto fw_load;
+> +
+> +fw_err:
+> +       pr_warn("image loading failed\n");
+> +       data_pa_high = data_pa_low = data_size_high = data_size_low = 0;
+> +
+> +fw_load:
+> +       /*
+> +        * Always invoke the SMC, even if loading the image fails, to indicate
+> +        * to EL3 that we have passed the point where it should allow invoking
+> +        * this SMC.
+> +        */
+> +       pr_warn("OP-TEE image loaded from kernel, this can be insecure");
+> +       invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_low,
+> +                 data_pa_high, data_pa_low, 0, 0, 0, &res);
+> +       if (!rc)
+> +               rc = res.a0;
+> +       if (fw)
+> +               release_firmware(fw);
+> +       kfree(data_buf);
+> +
+> +       if (!rc) {
+> +               /*
+> +                * We need to initialize OP-TEE on all other running cores as
+> +                * well. Any cores that aren't running yet will get initialized
+> +                * when they are brought up by the power management functions in
+> +                * TF-A which are registered by the OP-TEE SPD. Due to that we
+> +                * can un-register the callback right after registering it.
+> +                */
+> +               cpuhp_invoke_fn = invoke_fn;
+> +               hp_state = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "optee:probe",
+> +                                            optee_cpuhp_probe, NULL);
+> +               if (hp_state < 0) {
+> +                       pr_warn("Failed with CPU hotplug setup for OP-TEE");
+> +                       return -EINVAL;
+> +               }
+> +               cpuhp_remove_state(hp_state);
+> +               cpuhp_invoke_fn = NULL;
+> +       }
+> +
+> +       return rc;
+> +}
+> +#else
+> +static inline int optee_load_fw(struct platform_device *pdev,
+> +                               optee_invoke_fn *invoke_fn)
+> +{
+> +       return 0;
+> +}
+> +#endif
+> +
+>  static int optee_probe(struct platform_device *pdev)
+>  {
+>         optee_invoke_fn *invoke_fn;
+> @@ -1372,6 +1502,10 @@ static int optee_probe(struct platform_device *pdev)
+>         if (IS_ERR(invoke_fn))
+>                 return PTR_ERR(invoke_fn);
+>
+> +       rc = optee_load_fw(pdev, invoke_fn);
+> +       if (rc)
+> +               return rc;
+> +
+>         if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
+>                 pr_warn("api uid mismatch\n");
+>                 return -EINVAL;
+> --
+> 2.40.0.rc1.284.g88254d51c5-goog
+>
