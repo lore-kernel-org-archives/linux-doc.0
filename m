@@ -2,96 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5078C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 01:03:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBA81C6FD1C
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 01:21:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjCUBDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 21:03:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47600 "EHLO
+        id S229749AbjCUBVW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 21:21:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229928AbjCUBDZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 21:03:25 -0400
+        with ESMTP id S229783AbjCUBVW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 21:21:22 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DD0230E9A;
-        Mon, 20 Mar 2023 18:02:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D9804C09;
+        Mon, 20 Mar 2023 18:20:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9F0D3B811BD;
-        Tue, 21 Mar 2023 01:02:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3E7C433A0;
-        Tue, 21 Mar 2023 01:02:48 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BC3CAB811C6;
+        Tue, 21 Mar 2023 01:19:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9340C433EF;
+        Tue, 21 Mar 2023 01:19:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679360568;
-        bh=Gt3XpPSB3ySvhPWXjtcOvUQMKgRg79fVOLRl2xXo2AM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WmMRp1zvPLOOAET9ARQLarM8Un0UWuP+RWngaMu+U9SIOvlrNfHi6JnrPrO8JX5d2
-         ir2brAZPqyWNdfzwMg9ReNIwr8Q9coxnpnYOB8PSWqqScVPaZTYeBQMfWTINy557fE
-         4lkA+0pjujw8ty3sSXuHGca15SKuzMn7JGXo5LcC/Sf/GD3GyFtXQRob/IOSfydSBe
-         JvL2ugmkqOhhcNJNPWKX3A1IgiPFQmVi8mfxu0Zd2b+7xl6LuvlHGqxpGVlmSwF89P
-         AYwWo2zhLjUMX3rwEvfAk+sWJVMimdqN85o+eq+dt0FBdfttc2IWtSQKN7nt11yr3w
-         WMI5v97sM5yqw==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 89A0215403A7; Mon, 20 Mar 2023 18:02:47 -0700 (PDT)
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        kernel-team@meta.com, mingo@kernel.org
-Cc:     stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org,
-        peterz@infradead.org, boqun.feng@gmail.com, npiggin@gmail.com,
-        dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
-        akiyks@gmail.com, Randy Dunlap <rdunlap@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH memory-model 8/8] Documentation: litmus-tests: Correct spelling
-Date:   Mon, 20 Mar 2023 18:02:46 -0700
-Message-Id: <20230321010246.50960-8-paulmck@kernel.org>
-X-Mailer: git-send-email 2.40.0.rc2
-In-Reply-To: <778147e4-ccab-40cf-b6ef-31abe4e3f6b7@paulmck-laptop>
-References: <778147e4-ccab-40cf-b6ef-31abe4e3f6b7@paulmck-laptop>
+        s=k20201202; t=1679361580;
+        bh=cOyAMd8SLZqFSZrum3Teub3OqA39attRY9PRS9aybAc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Y4dlbE+9dz2Jiw5M3l8rWpKJ4kxpj/9GVpdl7bS56zRkHrahuRTdi1cEk/5GJjBF3
+         kBYr/tGS00uzPBCWd0+no/guTcLCCoYqlaep/m556OMl2AADh2w789J5XRu2334H0S
+         Nk4C+OypFuW/wb/B8+Xpr0SA2zCUECVGbqbscZXncFEVb6ThEaa/xbyFEXeyJCzOlw
+         JKMIRI+B2RzXE0STvqSBv4bK/ZTwQmFkaZ7j6DAQ5N1jt002krHYvfb3PuRGZEyxsh
+         ozEGN1cBJip3776IR4kOg/GAQdx9CPxZSn8TygAmwWrDFVIcLANcczNr0tYyUwTG6G
+         7jNkFCYi3HfXw==
+Date:   Mon, 20 Mar 2023 18:19:38 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Stephen Hemminger <stephen@networkplumber.org>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>, davem@davemloft.net,
+        netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: networking: document NAPI
+Message-ID: <20230320181938.1b7e8139@kernel.org>
+In-Reply-To: <20230320174840.4db888eb@hermes.local>
+References: <20230315223044.471002-1-kuba@kernel.org>
+        <8da9b24b-966a-0334-d322-269b103f7550@gmail.com>
+        <20230320170221.27896adb@kernel.org>
+        <20230320174840.4db888eb@hermes.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Mon, 20 Mar 2023 17:48:40 -0700 Stephen Hemminger wrote:
+> > On Thu, 16 Mar 2023 16:16:39 -0700 Florian Fainelli wrote: =20
+> > > Did it not stand for New API?   =20
+> >=20
+> > I think it did. But we had extra 20 years of software development
+> > experience and now agree that naming things "new" or "next" is
+> > a bad idea? So let's pretend it stands for nothing. Or NAPI API ;) =20
+>=20
+>=20
+> Maybe just a footnote like:
+>   [1] Was originally referred to as New API in 2.4 Linux.
 
-Correct spelling problems for Documentation/litmus-tests/ as reported
-by codespell.
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Andrea Parri <parri.andrea@gmail.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Jade Alglave <j.alglave@ucl.ac.uk>
-Cc: Luc Maranget <luc.maranget@inria.fr>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: linux-arch@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: David Howells <dhowells@redhat.com>
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
----
- Documentation/litmus-tests/README | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-index 7f5c6c3ed6c3..658d37860d39 100644
---- a/Documentation/litmus-tests/README
-+++ b/Documentation/litmus-tests/README
-@@ -9,7 +9,7 @@ a kernel test module based on a litmus test, please see
- tools/memory-model/README.
- 
- 
--atomic (/atomic derectory)
-+atomic (/atomic directory)
- --------------------------
- 
- Atomic-RMW+mb__after_atomic-is-stronger-than-acquire.litmus
--- 
-2.40.0.rc2
-
+=F0=9F=91=8C=EF=B8=8F let me find out how to make a footnote in sphinx
