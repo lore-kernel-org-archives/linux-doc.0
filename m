@@ -2,105 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D64AC6FD1C
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 01:26:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B755C6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 01:43:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbjCUB01 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Mar 2023 21:26:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58786 "EHLO
+        id S229612AbjCUBnD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Mar 2023 21:43:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjCUB00 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 21:26:26 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 894751BA;
-        Mon, 20 Mar 2023 18:26:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679361969; x=1710897969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JN7P6/84ciM0tfW9IPxK1ZgqeLHaWe1UJr7VG9engOc=;
-  b=n0fOkG1LBiot3OdSMcVl/RTZDA25i1IVnHe6Im1xFFNfUA7r3nTKzU/y
-   j75ZDG29C1G/JEMNHTy1dftxc0HfFM+O3X0g5Oit3nl1ujO0zfiRPmLVx
-   +NC7vmty5q47gAf0uYInNeXJzwWTi6n6MKbnZtHRysE6Zw7ezHxKfy5U/
-   2fAq8A95+CVuVHhXNIi7sGN01F3ptoaMj3FfwHxKEQrRF70zVPmOf3T8Q
-   eaZHx0bEoD1KgitbbjwHGUmGjWtXOZx1OxbfHtv574BYXcu8eeScH2SKB
-   BT0sWoOsbm6kCufEwtfa2gelVmqnNpAd9FirWRs+lMm5p0CItUKDPr3St
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="336325520"
-X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="336325520"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 18:26:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="791863757"
-X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="791863757"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2023 18:26:06 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1peQlJ-000BTF-1u;
-        Tue, 21 Mar 2023 01:26:05 +0000
-Date:   Tue, 21 Mar 2023 09:25:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
-        jacek.lawrynowicz@linux.intel.com,
-        stanislaw.gruszka@linux.intel.com
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
-        quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
-Subject: Re: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
-Message-ID: <202303210930.FzkLKCic-lkp@intel.com>
-References: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+        with ESMTP id S229540AbjCUBnC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Mar 2023 21:43:02 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237CF1FC1;
+        Mon, 20 Mar 2023 18:43:00 -0700 (PDT)
+Received: from dggpemm500006.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PgZ6J69FJznYwQ;
+        Tue, 21 Mar 2023 09:39:52 +0800 (CST)
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 21 Mar 2023 09:42:57 +0800
+Subject: Re: [PATCH -next 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+To:     Chen Jiahao <chenjiahao16@huawei.com>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <conor.dooley@microchip.com>,
+        <guoren@kernel.org>, <heiko@sntech.de>, <bjorn@rivosinc.com>,
+        <alex@ghiti.fr>, <akpm@linux-foundation.org>,
+        <atishp@rivosinc.com>, <bhe@redhat.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <20230320204244.1637821-1-chenjiahao16@huawei.com>
+ <20230320204244.1637821-2-chenjiahao16@huawei.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <be3ff2fa-39ea-8d36-0e11-e75195509a2e@huawei.com>
+Date:   Tue, 21 Mar 2023 09:42:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+In-Reply-To: <20230320204244.1637821-2-chenjiahao16@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jeffrey,
 
-Thank you for the patch! Yet something to improve:
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on lwn/docs-next]
-[cannot apply to linus/master v6.3-rc3 next-20230320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 2023/3/21 4:42, Chen Jiahao wrote:
+> On riscv, the current crash kernel allocation logic is trying to
+> allocate within 32bit addressible memory region by default, if
+> failed, try to allocate without 4G restriction.
+> 
+> In need of saving DMA zone memory while allocating a relatively large
+> crash kernel region, allocating the reserved memory top down in
+> high memory, without overlapping the DMA zone, is a mature solution.
+> Here introduce the parameter option crashkernel=X,[high,low].
+> 
+> We can reserve the crash kernel from high memory above DMA zone range
+> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+> below 4G with "crashkernel=X,low".
+> 
+> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+> ---
+>  arch/riscv/kernel/setup.c |  5 ++++
+>  arch/riscv/mm/init.c      | 56 ++++++++++++++++++++++++++++++++++++---
+>  2 files changed, 58 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> index 376d2827e736..d867b1535da4 100644
+> --- a/arch/riscv/kernel/setup.c
+> +++ b/arch/riscv/kernel/setup.c
+> @@ -176,6 +176,11 @@ static void __init init_resources(void)
+>  		if (ret < 0)
+>  			goto error;
+>  	}
+> +	if (crashk_low_res.start != crashk_low_res.end) {
+> +		ret = add_resource(&iomem_resource, &crashk_low_res);
+> +		if (ret < 0)
+> +			goto error;
+> +	}
+>  #endif
+>  
+>  #ifdef CONFIG_CRASH_DUMP
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 478d6763a01a..5def2174b243 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
+>  }
+>  #endif /* CONFIG_MMU */
+>  
+> +/* Reserve 128M low memory by default for swiotlb buffer */
+> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
+> +
+> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+> +{
+> +	unsigned long long low_base;
+> +
+> +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
+> +	if (!low_base) {
+> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	pr_info("crashkernel low memory reserved: 0x%08llx - 0x%08llx (%lld MB)\n",
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/1679325074-5494-8-git-send-email-quic_jhugo%40quicinc.com
-patch subject: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230321/202303210930.FzkLKCic-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bffc487514275054bebfe9e732bf2d36da14a31f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-        git checkout bffc487514275054bebfe9e732bf2d36da14a31f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+For unsigned long long, 08 --> 016.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210930.FzkLKCic-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/accel/qaic/qaic.ko] undefined!
+> +		low_base, low_base + low_size, low_size >> 20);
+> +
+> +	crashk_low_res.start = low_base;
+> +	crashk_low_res.end = low_base + low_size - 1;
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * reserve_crashkernel() - reserves memory for crash kernel
+>   *
+> @@ -1163,6 +1185,7 @@ static void __init reserve_crashkernel(void)
+>  {
+>  	unsigned long long crash_base = 0;
+>  	unsigned long long crash_size = 0;
+> +	unsigned long long crash_low_size = 0;
+>  	unsigned long search_start = memblock_start_of_DRAM();
+>  	unsigned long search_end = memblock_end_of_DRAM();
+>  
+> @@ -1182,8 +1205,26 @@ static void __init reserve_crashkernel(void)
+>  
+>  	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>  				&crash_size, &crash_base);
+> -	if (ret || !crash_size)
+> +	if (ret == -ENOENT) {
+> +		ret = parse_crashkernel_high(boot_command_line, 0, &crash_size, &crash_base);
+> +		if (ret || !crash_size)
+> +			return;
+> +
+> +		/*
+> +		 * crashkernel=Y,low can be specified or not, but invalid value
+> +		 * is not allowed.
+> +		 */
+> +		ret = parse_crashkernel_low(boot_command_line, 0, &crash_low_size, &crash_base);
+> +		if (ret == -ENOENT)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +		else if (ret)
+> +			return;
+> +
+> +		search_start = dma32_phys_limit;
+> +	} else if (ret || !crash_size) {
+> +		/* Invalid argument value specified */
+>  		return;
+> +	}
+>  
+>  	crash_size = PAGE_ALIGN(crash_size);
+>  
+> @@ -1201,16 +1242,25 @@ static void __init reserve_crashkernel(void)
+>  	 */
+>  	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>  					       search_start,
+> -					       min(search_end, (unsigned long) SZ_4G));
+> +					       min(search_end, (unsigned long) dma32_phys_limit));
+>  	if (crash_base == 0) {
+>  		/* Try again without restricting region to 32bit addressible memory */
+>  		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+> -						search_start, search_end);
+> +						       search_start, search_end);
+>  		if (crash_base == 0) {
+>  			pr_warn("crashkernel: couldn't allocate %lldKB\n",
+>  				crash_size >> 10);
+>  			return;
+>  		}
+> +
+> +		if (!crash_low_size)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +	}
+> +
+> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
+> +	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+> +		memblock_phys_free(crash_base, crash_size);
+> +		return;
+>  	}
+>  
+>  	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards,
+  Zhen Lei
