@@ -2,96 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE649C7619A
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 16:38:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F7DC6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 16:42:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbjCUQif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Mar 2023 12:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44558 "EHLO
+        id S230030AbjCUQl7 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Mar 2023 12:41:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbjCUQie (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 12:38:34 -0400
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E6493A86;
-        Tue, 21 Mar 2023 09:38:32 -0700 (PDT)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 32LGc0B1129243;
-        Tue, 21 Mar 2023 11:38:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1679416680;
-        bh=uyW0ma/g/TPpcz9cP3XZ4eMHjClm1JYyRJYyObimbRg=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To;
-        b=TEpHALzKK4737cd+fev5B5J6JQaHQMk+tWpOOvSdWkkBlEnr4c4PSsLHKXOWJzzck
-         Kd43hsjF7hkzFqtOW3gCaIYBzbtNwn7UBKzTM3pvDHzgCrDHRukL3D4OPupOLTxrPx
-         O0MTJAvXeDv97FVNtLJWKvREJTv/eqNdjkJX5DVc=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 32LGbxa1067846
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 21 Mar 2023 11:37:59 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 21
- Mar 2023 11:37:59 -0500
-Received: from DFLE114.ent.ti.com ([fe80::bc90:ddd:2b87:4222]) by
- DFLE114.ent.ti.com ([fe80::bc90:ddd:2b87:4222%18]) with mapi id
- 15.01.2507.016; Tue, 21 Mar 2023 11:37:59 -0500
-From:   "Sterzik, Chris" <sterzik@ti.com>
-To:     Rob Herring <robh@kernel.org>, Julien Panis <jpanis@baylibre.com>
-CC:     "lee@kernel.org" <lee@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "arnd@arndb.de" <arnd@arndb.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "derek.kiernan@xilinx.com" <derek.kiernan@xilinx.com>,
-        "dragan.cvetic@xilinx.com" <dragan.cvetic@xilinx.com>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "contact@emersion.fr" <contact@emersion.fr>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Kumar, Udit" <u-kumar1@ti.com>,
-        "eblanc@baylibre.com" <eblanc@baylibre.com>,
-        "jneanne@baylibre.com" <jneanne@baylibre.com>
-Subject: RE: [EXTERNAL] Re: [PATCH v2 1/4] dt-bindings: mfd: Add TI TPS6594
- PMIC
-Thread-Topic: [EXTERNAL] Re: [PATCH v2 1/4] dt-bindings: mfd: Add TI TPS6594
- PMIC
-Thread-Index: AQHZW0Qu2zDSQUXVm0moss4cLgsF5K8FbWcw
-Date:   Tue, 21 Mar 2023 16:37:59 +0000
-Message-ID: <edbd9ccae2fb4d18b50d99123246cb03@ti.com>
-References: <20230315110736.35506-1-jpanis@baylibre.com>
- <20230315110736.35506-2-jpanis@baylibre.com>
- <20230320155354.GB1733616-robh@kernel.org>
-In-Reply-To: <20230320155354.GB1733616-robh@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.249.38.185]
-x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230150AbjCUQlu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 12:41:50 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81A152911;
+        Tue, 21 Mar 2023 09:41:33 -0700 (PDT)
+Received: from ip4d1634d3.dynamic.kabel-deutschland.de ([77.22.52.211] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1pef2q-0002rh-BA; Tue, 21 Mar 2023 17:41:08 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Evan Green <evan@rivosinc.com>
+Cc:     slewis@rivosinc.com, Conor Dooley <conor@kernel.org>,
+        vineetg@rivosinc.com, Evan Green <evan@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Guo Ren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 3/6] RISC-V: hwprobe: Add support for
+ RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+Date:   Tue, 21 Mar 2023 17:41:07 +0100
+Message-ID: <3351107.e9J7NaK4W3@diego>
+In-Reply-To: <20230314183220.513101-4-evan@rivosinc.com>
+References: <20230314183220.513101-1-evan@rivosinc.com>
+ <20230314183220.513101-4-evan@rivosinc.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> +      A multi-PMIC synchronization scheme is implemented in the PMIC de=
-vice
->> +      to synchronize the power state changes with other PMIC devices. T=
-his is
->> +      accomplished through a SPMI bus: the primary PMIC is the controll=
-er
->> +      device on the SPMI bus, and the secondary PMICs are the target de=
-vices
->> +      on the SPMI bus.
->
->Is this a TI specific feature?
->
-This implementation of SPMI bus is a TI specific feature and is only suppor=
-ted between devices which have this specific implementation.
+Hi Evan,
+
+Am Dienstag, 14. März 2023, 19:32:17 CET schrieb Evan Green:
+> We have an implicit set of base behaviors that userspace depends on,
+> which are mostly defined in various ISA specifications.
+> 
+> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Evan Green <evan@rivosinc.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> 
+> Changes in v4:
+>  - More newlines in BASE_BEHAVIOR_IMA documentation (Conor)
+> 
+> Changes in v3:
+>  - Refactored base ISA behavior probe to allow kernel probing as well,
+>    in prep for vDSO data initialization.
+>  - Fixed doc warnings in IMA text list, use :c:macro:.
+> 
+>  Documentation/riscv/hwprobe.rst       | 24 ++++++++++++++++++++++++
+>  arch/riscv/include/asm/hwprobe.h      |  2 +-
+>  arch/riscv/include/uapi/asm/hwprobe.h |  5 +++++
+>  arch/riscv/kernel/sys_riscv.c         | 20 ++++++++++++++++++++
+>  4 files changed, 50 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
+> index 211828f706e3..945d44683c40 100644
+> --- a/Documentation/riscv/hwprobe.rst
+> +++ b/Documentation/riscv/hwprobe.rst
+> @@ -39,3 +39,27 @@ The following keys are defined:
+>  
+>  * :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimplid``, as
+>    defined by the RISC-V privileged architecture specification.
+> +
+> +* :c:macro:`RISCV_HWPROBE_KEY_BASE_BEHAVIOR`: A bitmask containing the base
+> +  user-visible behavior that this kernel supports.  The following base user ABIs
+> +  are defined:
+> +
+> +  * :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`: Support for rv32ima or
+> +    rv64ima, as defined by version 2.2 of the user ISA and version 1.10 of the
+> +    privileged ISA, with the following known exceptions (more exceptions may be
+> +    added, but only if it can be demonstrated that the user ABI is not broken):
+> +
+> +    * The :fence.i: instruction cannot be directly executed by userspace
+> +      programs (it may still be executed in userspace via a
+> +      kernel-controlled mechanism such as the vDSO).
+> +
+> +* :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`: A bitmask containing the extensions
+> +  that are compatible with the :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`:
+> +  base system behavior.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_IMA_FD`: The F and D extensions are supported, as
+> +    defined by commit cd20cee ("FMIN/FMAX now implement
+> +    minimumNumber/maximumNumber, not minNum/maxNum") of the RISC-V ISA manual.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
+> +    by version 2.2 of the RISC-V ISA manual.
+
+just wondering, is there a plan on how further extensions should be added this this?
+[as we have this big plethora of them :-) ]
+
+Aka things like Zbb and friends will probably also be relevant to userspace, so just
+fill up RISCV_HWPROBE_KEY_IMA_EXT_0 with more elements and once full switch to
+RISCV_HWPROBE_KEY_IMA_EXT_1 , RISCV_HWPROBE_KEY_IMA_EXT_2, etc?
+
+Or do we have some more elaborate sorting mechanism?
+
+
+Thanks
+Heiko
+
+
+
+> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+> index 08d1c3bdd78a..7e52f1e1fe10 100644
+> --- a/arch/riscv/include/asm/hwprobe.h
+> +++ b/arch/riscv/include/asm/hwprobe.h
+> @@ -8,6 +8,6 @@
+>  
+>  #include <uapi/asm/hwprobe.h>
+>  
+> -#define RISCV_HWPROBE_MAX_KEY 2
+> +#define RISCV_HWPROBE_MAX_KEY 4
+>  
+>  #endif
+> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+> index 591802047460..fc5665411782 100644
+> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> @@ -20,6 +20,11 @@ struct riscv_hwprobe {
+>  #define RISCV_HWPROBE_KEY_MVENDORID	0
+>  #define RISCV_HWPROBE_KEY_MARCHID	1
+>  #define RISCV_HWPROBE_KEY_MIMPID	2
+> +#define RISCV_HWPROBE_KEY_BASE_BEHAVIOR	3
+> +#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA	(1 << 0)
+> +#define RISCV_HWPROBE_KEY_IMA_EXT_0	4
+> +#define		RISCV_HWPROBE_IMA_FD		(1 << 0)
+> +#define		RISCV_HWPROBE_IMA_C		(1 << 1)
+>  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+>  
+>  #endif
+> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+> index 981d23457f13..1c118438b1b3 100644
+> --- a/arch/riscv/kernel/sys_riscv.c
+> +++ b/arch/riscv/kernel/sys_riscv.c
+> @@ -9,6 +9,7 @@
+>  #include <asm/cacheflush.h>
+>  #include <asm/hwprobe.h>
+>  #include <asm/sbi.h>
+> +#include <asm/switch_to.h>
+>  #include <asm/uaccess.h>
+>  #include <asm/unistd.h>
+>  #include <asm-generic/mman-common.h>
+> @@ -125,6 +126,25 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+>  	case RISCV_HWPROBE_KEY_MIMPID:
+>  		hwprobe_arch_id(pair, cpus);
+>  		break;
+> +	/*
+> +	 * The kernel already assumes that the base single-letter ISA
+> +	 * extensions are supported on all harts, and only supports the
+> +	 * IMA base, so just cheat a bit here and tell that to
+> +	 * userspace.
+> +	 */
+> +	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
+> +		pair->value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
+> +		break;
+> +
+> +	case RISCV_HWPROBE_KEY_IMA_EXT_0:
+> +		pair->value = 0;
+> +		if (has_fpu())
+> +			pair->value |= RISCV_HWPROBE_IMA_FD;
+> +
+> +		if (elf_hwcap & RISCV_ISA_EXT_c)
+> +			pair->value |= RISCV_HWPROBE_IMA_C;
+> +
+> +		break;
+>  
+>  	/*
+>  	 * For forward compatibility, unknown keys don't fail the whole
+> 
+
+
+
+
