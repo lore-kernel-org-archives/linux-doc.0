@@ -2,127 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B7B0C7618D
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 10:48:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F393EC6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 10:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbjCUKsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Mar 2023 06:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46648 "EHLO
+        id S230284AbjCUKwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Mar 2023 06:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230388AbjCUKsT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 06:48:19 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60EC2AF32
-        for <linux-doc@vger.kernel.org>; Tue, 21 Mar 2023 03:48:10 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id v25so9693480wra.12
-        for <linux-doc@vger.kernel.org>; Tue, 21 Mar 2023 03:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1679395689;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9fr4s/NbgFwlXaB/kT+wdNGLIVroo3XSqt3IGTfKlrw=;
-        b=XpxtA4gxBxKDJ+qVj87Lm+nPdo9mRsPb9+gYYIOIqGAHVmtPw9Xws+tHNBVkr1HrMe
-         KNw1h8gFTV68arDcGIVtYPpY9Z8mio8vMDw+jTo6BWD3wyTCCPWjF+EHtmKdMG/+c41f
-         kz2Thg/wBZGzM3WGDsRfNjQdKFKwBawispP30fYPXblSeCtauxrT0p3XZqawGxwx2YHa
-         2m9uWuLQ1+E0u0vnC0tG4bRnwKj6dfb7Qy7W8K+I0f2oy/QprtKkMEbWji4nzWsqPSF6
-         6ibDObDfCxIdrlKzN/vM2WiNFTYdPp+GOLbZG9Ktk7WNe+nM8Cq8B2np38QurauyySPd
-         GqVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679395689;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9fr4s/NbgFwlXaB/kT+wdNGLIVroo3XSqt3IGTfKlrw=;
-        b=hqQlrxJxbchO5YzELMJrZr0JK0y4GcNKDpiHmlUun2VYMfjJndEjCYvud04eOJZS0Z
-         fzYS+e5CNwbgraMTtt2SLGDv+pImO5qyZXn6eDmJ4dbEd5DRtfdrtN+4mG5PhNjAaN/X
-         i1WQjlUZXJn/xZgoLvZz8JMnnTN9ReE1cQfoihO+52SNOboxfTQTl0uqKgPwSASKTcTg
-         fjdw/soHtt0pUGgBvrlPUDp4Hlkqp1q/nJkdrGscoQc8WkCFxGwKom6ALGIDxPXgbJod
-         wJu1UGw6BbG7a14DH926BhQ71+qT39NitgoSE8DCWQfobhtS3Ak0HXeFEJhCcswjKIO8
-         mOOA==
-X-Gm-Message-State: AO0yUKXbfVUc2aXnuvDBpFCIWnLUXgqpdCyRwQWoPuc44e4vwIXmAvMf
-        T/E+WDZC5EyWQSVjcm0iVVtU3w==
-X-Google-Smtp-Source: AK7set+Dx2bqwbuauE+ZNG0b4IJ0siP/A/tIE+bC6HdEArLrXCBXSI/i2Tk8rfNS7MbnYwY37Ql4ug==
-X-Received: by 2002:adf:edc9:0:b0:2d1:5698:3f6e with SMTP id v9-20020adfedc9000000b002d156983f6emr1913160wro.58.1679395688892;
-        Tue, 21 Mar 2023 03:48:08 -0700 (PDT)
-Received: from [192.168.1.70] (151.31.102.84.rev.sfr.net. [84.102.31.151])
-        by smtp.gmail.com with ESMTPSA id a4-20020adffb84000000b002d322b9a7f5sm11010756wrr.88.2023.03.21.03.48.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 03:48:08 -0700 (PDT)
-Message-ID: <5845f51e-5d87-c98e-77a1-0f9b6365e6c1@baylibre.com>
-Date:   Tue, 21 Mar 2023 11:48:06 +0100
+        with ESMTP id S230287AbjCUKwW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 06:52:22 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Mar 2023 03:52:17 PDT
+Received: from harvie.cz (harvie.cz [77.87.242.242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 582BB19100;
+        Tue, 21 Mar 2023 03:52:16 -0700 (PDT)
+Received: from anemophobia.amit.cz (unknown [31.30.84.130])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by harvie.cz (Postfix) with ESMTPSA id D37151801B5;
+        Tue, 21 Mar 2023 11:35:04 +0100 (CET)
+From:   Tomas Mudrunka <tomas.mudrunka@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, rppt@kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, tomas.mudrunka@gmail.com
+Subject: [PATCH v2] Add results of early memtest to /proc/meminfo
+Date:   Tue, 21 Mar 2023 11:34:30 +0100
+Message-Id: <20230321103430.7130-1-tomas.mudrunka@gmail.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230317165637.6be5414a3eb05d751da7d19f@linux-foundation.org>
+References: <20230317165637.6be5414a3eb05d751da7d19f@linux-foundation.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Cc:     lee@kernel.org, krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
-        arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, davem@davemloft.net,
-        christian.koenig@amd.com, contact@emersion.fr,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
-        eblanc@baylibre.com, jneanne@baylibre.com
-References: <20230315110736.35506-1-jpanis@baylibre.com>
- <20230315110736.35506-2-jpanis@baylibre.com>
- <20230320155354.GB1733616-robh@kernel.org>
- <04914464-2bc2-9d86-e9e2-8a716b929f28@baylibre.com>
- <2dcfd9dc-6c43-20b7-e27b-8ec2883be237@linaro.org>
- <887d5e71-334c-b206-08e6-2cc822df9eda@baylibre.com>
- <2aeb47d6-0577-f8e4-6070-331af15b1f83@linaro.org>
-From:   Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <2aeb47d6-0577-f8e4-6070-331af15b1f83@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Currently the memtest results were only presented in dmesg.
+This adds /proc/meminfo entry which can be easily used by scripts.
 
+Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+---
+ Documentation/filesystems/proc.rst |  8 ++++++++
+ fs/proc/meminfo.c                  | 13 +++++++++++++
+ include/linux/memblock.h           |  2 ++
+ mm/memtest.c                       |  6 ++++++
+ 4 files changed, 29 insertions(+)
 
-On 3/21/23 11:32, Krzysztof Kozlowski wrote:
-> On 21/03/2023 10:03, Julien Panis wrote:
->>
->> On 3/21/23 08:36, Krzysztof Kozlowski wrote:
->>> On 20/03/2023 17:35, Julien Panis wrote:
->>>> On 3/20/23 16:53, Rob Herring wrote:
->>>>> On Wed, Mar 15, 2023 at 12:07:33PM +0100, Julien Panis wrote:
->>>>>> TPS6594 is a Power Management IC which provides regulators and others
->>>>>> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->>>>>> PFSM (Pre-configurable Finite State Machine) managing the state of the
->>>>>> device.
->>>>>> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->>>>> As mentioned, the binding needs to be complete. It's missing GPIO at
->>>>> least. RTC and watchdog may or may not need binding changes.
->>>> Thank you for your feedback.
->>>>
->>>> About GPIO, do you speak about 'gpio-controller'
->>>> and/or '#gpio-cells' properties ?
->>> Yes.
->>>
->>>> For RTC (and for watchdog, once the driver will be
->>>> implemented), our driver do not require any node
->>>> to work. What could make an explicit instantiation
->>>> necessary in DT ?
->>> Properties from RTC schema, e.g. start-year, wakeup etc.
->> TPS6594 RTC driver is being reviewed (this is another patch
->> series, not merged yet). These properties are not used by our
->> driver, that's why we did not have to add some RTC node in
->> the DT (until now, using such properties in our driver was not
->> requested by RTC sub-system maintainers).
-> Bindings should be complete, regardless whether you now need this in
-> driver or not. Does your comment mean that you will never need these,
-> because hardware does not support them, and never going to add?
-> Otherwise I don't get why you refer to driver when we talk about bindings...
-
-OK, I understand now (I misinterpreted "RTC and watchdog may or may not
-need binding changes").
-
-> Best regards,
-> Krzysztof
->
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 9d5fd9424..8740362f3 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -996,6 +996,7 @@ Example output. You may not have all of these fields.
+     VmallocUsed:       40444 kB
+     VmallocChunk:          0 kB
+     Percpu:            29312 kB
++    EarlyMemtestBad:       0 kB
+     HardwareCorrupted:     0 kB
+     AnonHugePages:   4149248 kB
+     ShmemHugePages:        0 kB
+@@ -1146,6 +1147,13 @@ VmallocChunk
+ Percpu
+               Memory allocated to the percpu allocator used to back percpu
+               allocations. This stat excludes the cost of metadata.
++EarlyMemtestBad
++              The amount of RAM/memory in kB, that was identified as corrupted
++              by early memtest. If memtest was not run, this field will not
++              be displayed at all. Size is never rounded down to 0 kB.
++              That means if 0 kB is reported, you can safely assume
++              there was at least one pass of memtest and none of the passes
++              found a single faulty byte of RAM.
+ HardwareCorrupted
+               The amount of RAM/memory in KB, the kernel identifies as
+               corrupted.
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index 440960110..b43d0bd42 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -6,6 +6,7 @@
+ #include <linux/hugetlb.h>
+ #include <linux/mman.h>
+ #include <linux/mmzone.h>
++#include <linux/memblock.h>
+ #include <linux/proc_fs.h>
+ #include <linux/percpu.h>
+ #include <linux/seq_file.h>
+@@ -131,6 +132,18 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 	show_val_kb(m, "VmallocChunk:   ", 0ul);
+ 	show_val_kb(m, "Percpu:         ", pcpu_nr_pages());
+ 
++#ifdef CONFIG_MEMTEST
++	if (early_memtest_done) {
++		unsigned long early_memtest_bad_size_kb;
++
++		early_memtest_bad_size_kb = early_memtest_bad_size>>10;
++		if (early_memtest_bad_size && !early_memtest_bad_size_kb)
++			early_memtest_bad_size_kb = 1;
++		/* When 0 is reported, it means there actually was a successful test */
++		seq_printf(m, "EarlyMemtestBad:   %5lu kB\n", early_memtest_bad_size_kb);
++	}
++#endif
++
+ #ifdef CONFIG_MEMORY_FAILURE
+ 	seq_printf(m, "HardwareCorrupted: %5lu kB\n",
+ 		   atomic_long_read(&num_poisoned_pages) << (PAGE_SHIFT - 10));
+diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+index 50ad19662..f82ee3fac 100644
+--- a/include/linux/memblock.h
++++ b/include/linux/memblock.h
+@@ -597,6 +597,8 @@ extern int hashdist;		/* Distribute hashes across NUMA nodes? */
+ #endif
+ 
+ #ifdef CONFIG_MEMTEST
++extern phys_addr_t early_memtest_bad_size;	/* Size of faulty ram found by memtest */
++extern bool early_memtest_done;			/* Was early memtest done? */
+ extern void early_memtest(phys_addr_t start, phys_addr_t end);
+ #else
+ static inline void early_memtest(phys_addr_t start, phys_addr_t end)
+diff --git a/mm/memtest.c b/mm/memtest.c
+index f53ace709..57149dfee 100644
+--- a/mm/memtest.c
++++ b/mm/memtest.c
+@@ -4,6 +4,9 @@
+ #include <linux/init.h>
+ #include <linux/memblock.h>
+ 
++bool early_memtest_done;
++phys_addr_t early_memtest_bad_size;
++
+ static u64 patterns[] __initdata = {
+ 	/* The first entry has to be 0 to leave memtest with zeroed memory */
+ 	0,
+@@ -30,6 +33,7 @@ static void __init reserve_bad_mem(u64 pattern, phys_addr_t start_bad, phys_addr
+ 	pr_info("  %016llx bad mem addr %pa - %pa reserved\n",
+ 		cpu_to_be64(pattern), &start_bad, &end_bad);
+ 	memblock_reserve(start_bad, end_bad - start_bad);
++	early_memtest_bad_size += (end_bad - start_bad);
+ }
+ 
+ static void __init memtest(u64 pattern, phys_addr_t start_phys, phys_addr_t size)
+@@ -61,6 +65,8 @@ static void __init memtest(u64 pattern, phys_addr_t start_phys, phys_addr_t size
+ 	}
+ 	if (start_bad)
+ 		reserve_bad_mem(pattern, start_bad, last_bad + incr);
++
++	early_memtest_done = true;
+ }
+ 
+ static void __init do_one_pass(u64 pattern, phys_addr_t start, phys_addr_t end)
+-- 
+2.40.0
 
