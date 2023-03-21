@@ -2,640 +2,483 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC84FC761A6
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 20:16:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B44ACC6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Mar 2023 20:21:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbjCUUQT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Mar 2023 16:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55966 "EHLO
+        id S229799AbjCUUVJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Mar 2023 16:21:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230183AbjCUUQR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 16:16:17 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 111DE58B42
-        for <linux-doc@vger.kernel.org>; Tue, 21 Mar 2023 13:15:48 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id l12-20020a170903120c00b001a1241a9bb1so9468988plh.11
-        for <linux-doc@vger.kernel.org>; Tue, 21 Mar 2023 13:15:48 -0700 (PDT)
+        with ESMTP id S229911AbjCUUVI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 16:21:08 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD6A349C2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Mar 2023 13:19:54 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id r11so64532661edd.5
+        for <linux-doc@vger.kernel.org>; Tue, 21 Mar 2023 13:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679429746;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WUxn3KVcBxbFXkgOhZJm8jHzCo14A+URwIfQXLEPszQ=;
-        b=gOamuZL09TvaiKBWLNigfj5XfPQ9ZV+G8B5xxWIHP7ReVAgFwkb2mMOqoMmAQj4JA5
-         a71uvwvqvuhm9Mla+M6MKfVBfAeZv8j+Ais4qiGHYQbdzN04WOFDIvW+KHiX6/6UcG3g
-         krfkQwX/3y0i/lIiZnvQ0cDeDcI7B671x+yj/K+Slq7czkPMQa4ZsYo4hXCLHwgEBbR6
-         wcEzyW5vDv1w52aGipOfZRkfsbrmcbzAncEZk/uv+Uo6h534K0mNscTMHh24KGiLks3G
-         i+rXSGXGfinc7T1/3sxRE9aQe0lPV9r2mPkO1dm8fdQ094x0CRIh1SLftIFzpGONkFQy
-         Gw5A==
+        d=linaro.org; s=google; t=1679429992;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zilK0d0Uf3iuezoEwzx+OD3k9KAQ8GpwZUTkAXC8lkI=;
+        b=wtBFPpjIV7KiImWUl3z6Q64vdi8IywvzOJPBt1juWZyXgq9JY5obeloe6CMlt3c8l2
+         n4OhQYP1hm4QknTg/dqNXV6G8smfonfZsYEP/EWnLLMP9TQPyE42cTukUZsAVj2uWLfE
+         p5nOus3r9n6uY1kH2T0EFUPWiXMzPQV5MicLhUI3PLnV0aKYebzaXU3t3tmlHorYeMKY
+         BZC7d94PaBML8zRpZ+1+C30SpztE+cm3EygWFUgF0ihhe3OBP2g/5zEoyWRJBTnOLhxg
+         jq6A+33Mx28bPUnH4eECNaF5zKUIXmj4wZw59AbTs7ZKayTRLjm1dJaDhPPHDCyMGZqL
+         lTQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679429746;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WUxn3KVcBxbFXkgOhZJm8jHzCo14A+URwIfQXLEPszQ=;
-        b=l0kTECUVsE86Ahrle7vXUJdFstP6xBZfzuXTeR2bjHh+0HEiNmFHWc/ZGyyJSUgHoP
-         /jCPZoIlThrYZoPjjkM2Isrq0j7GmYfAwAvd0gsGNRMFEYq5Es8tO3njYHNqXlehz1c1
-         yWrF/3uPgvYYabYx1OzhWhMNpfspRFguYcQ1omVDAdLbplxauZEbRZrxVoeMx693KNhJ
-         EWdKlbjUpa51/o9pAIspB7DO7VMaOq4GU+cbl92BbGltCOQcp8b91S19EQNfoPw5BRcW
-         N/O55J0lUeYrKiuNVfdC0QQt8XRNt+//iH8LhAZVuB1C8kCDNfdR+KIou+VXoc2FffAJ
-         ox8g==
-X-Gm-Message-State: AO0yUKVVNcgbFP0YVnXZop6bCjJki+BaY+Dc0E2HIMq0AF+/aBXO0/eO
-        ljIL+KB1xXeCsbBfmUVJ540czJQOgAN61Wzrjw==
-X-Google-Smtp-Source: AK7set+dSS5L5IQsR2QM90zFjxvQz3FiYFZP+Sm9POtIwngHMs0+tu5Z0jbahBkmyz+8xgu0gtCE94fpBCegZt4AyQ==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a05:6a00:99d:b0:628:fc:9049 with SMTP
- id u29-20020a056a00099d00b0062800fc9049mr654427pfg.4.1679429746071; Tue, 21
- Mar 2023 13:15:46 -0700 (PDT)
-Date:   Tue, 21 Mar 2023 20:15:33 +0000
-In-Reply-To: <cover.1679428901.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1679428901.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
-Message-ID: <4db33a8976193f3eff80dbd4515335c36aeeb416.1679428901.git.ackerleytng@google.com>
-Subject: [RFC PATCH v2 2/2] selftests: restrictedmem: Check hugepage-ness of
- shmem file backing restrictedmem fd
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
-        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
-        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
-        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
-        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
-        Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20210112; t=1679429992;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zilK0d0Uf3iuezoEwzx+OD3k9KAQ8GpwZUTkAXC8lkI=;
+        b=FCqK6/CxZH9Q6kyQjAfNbL4IGI0YzP4hD0C7Tpna+B07eH8J9D5UxB1Uib8+x7Zcxs
+         5I2CCHeNJy74dUo33G9iAFsGfSu42x6vWLpdPhjtk9yanGuypOhALp1AIDVopig6sNDj
+         j6he9bBD+1phr6HQiydOeohu2nBVoDfv8Ze2ljngxpGCLyrIWB2sIaqgYSYXM4lGEyrx
+         Wy3fOKtCkWgOTpjYbwiGCO2o6fR95BrhmZCpdabB2TziR81VXWFdBVgm8iycfV74T2Ug
+         yapiV7tGLpkH37UlMpKAn2nWxnPcLxgPRQmHAdAJhniKim4EnSFVdzdVAd/B/6NxOi0u
+         9uJA==
+X-Gm-Message-State: AO0yUKU+Rx+miNO3CFswH7GknbDCuH9cdre0m3OnRRfM551T/e7IkQLr
+        HgK9gupOMVLEiM6Ve4lAeMhbKg==
+X-Google-Smtp-Source: AK7set/P2f6JVMVgK8V1xGvovTLyqEKgqENGNj+wWyaiirzrrCld75wthFFfg2Vyka2tWaiswC5O5w==
+X-Received: by 2002:a17:906:7b96:b0:925:5549:f81c with SMTP id s22-20020a1709067b9600b009255549f81cmr4394298ejo.6.1679429991780;
+        Tue, 21 Mar 2023 13:19:51 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id fi9-20020a170906da0900b00931faf03db0sm5915177ejb.27.2023.03.21.13.19.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Mar 2023 13:19:51 -0700 (PDT)
+Message-ID: <3fe1023a-99b7-e905-20c1-12a51b57f701@linaro.org>
+Date:   Tue, 21 Mar 2023 20:19:48 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v11 16/26] firmware: qcom_scm: Register Gunyah platform
+ ops
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
+ <20230304010632.2127470-17-quic_eberman@quicinc.com>
+ <6c2e3fac-1bd8-be10-6e10-e200ee9b55f2@linaro.org>
+ <bc68f88e-81fd-e24c-30b6-73bff4652bae@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <bc68f88e-81fd-e24c-30b6-73bff4652bae@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For memfd_restricted() calls without a userspace mount, the backing
-file should be the shmem mount in the kernel, and the size of backing
-pages should be as defined by system-wide shmem configuration.
 
-If a userspace mount is provided, the size of backing pages should be
-as defined in the mount.
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- tools/testing/selftests/Makefile              |   1 +
- .../selftests/restrictedmem/.gitignore        |   3 +
- .../testing/selftests/restrictedmem/Makefile  |  15 +
- .../testing/selftests/restrictedmem/common.c  |   9 +
- .../testing/selftests/restrictedmem/common.h  |   8 +
- .../restrictedmem_hugepage_test.c             | 459 ++++++++++++++++++
- 6 files changed, 495 insertions(+)
- create mode 100644 tools/testing/selftests/restrictedmem/.gitignore
- create mode 100644 tools/testing/selftests/restrictedmem/Makefile
- create mode 100644 tools/testing/selftests/restrictedmem/common.c
- create mode 100644 tools/testing/selftests/restrictedmem/common.h
- create mode 100644 tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
+On 21/03/2023 18:40, Elliot Berman wrote:
+> 
+> 
+> On 3/21/2023 7:24 AM, Srinivas Kandagatla wrote:
+>> Hi Elliot,
+>>
+>> On 04/03/2023 01:06, Elliot Berman wrote:
+>>> Qualcomm platforms have a firmware entity which performs access control
+>>> to physical pages. Dynamically started Gunyah virtual machines use the
+>>> QCOM_SCM_RM_MANAGED_VMID for access. Linux thus needs to assign access
+>>> to the memory used by guest VMs. Gunyah doesn't do this operation for us
+>>> since it is the current VM (typically VMID_HLOS) delegating the access
+>>> and not Gunyah itself. Use the Gunyah platform ops to achieve this so
+>>> that only Qualcomm platforms attempt to make the needed SCM calls.
+>>>
+>>> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>>> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>>> ---
+>>>   drivers/firmware/Kconfig       |   2 +
+>>>   drivers/firmware/qcom_scm.c    | 100 +++++++++++++++++++++++++++++++++
+>>>   include/linux/gunyah_rsc_mgr.h |   2 +-
+>>>   3 files changed, 103 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+>>> index b59e3041fd62..b888068ff6f2 100644
+>>> --- a/drivers/firmware/Kconfig
+>>> +++ b/drivers/firmware/Kconfig
+>>> @@ -214,6 +214,8 @@ config MTK_ADSP_IPC
+>>>   config QCOM_SCM
+>>>       tristate
+>>> +    select VIRT_DRIVERS
+>>> +    select GUNYAH_PLATFORM_HOOKS
+>>>
+>>
+>> I still have concerns with this selects in Kconfig on older Qualcomm 
+>> platforms that use SCM and do not have GUNYAH.
+>>
+>> In our last discussing you mentioned the requirement for
+>> "CONFIG_GUNYAH=y and CONFIG_QCOM_SCM=m"
+>>
+>> I think that should be doable and remove selecting if you can make a 
+>> separate GUNYAH_QCOM_PLATFORM_HOOKS driver
+>>
+>> Does this work?
+> 
+> This works for Android and all the Qualcomm vendor (downstream) 
+> platforms where we can explicitly load modules. I don't think this 
+> module would be implicitly loaded by any kernel mechanism.
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index f07aef7c592c..44078eeefb79 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -60,6 +60,7 @@ TARGETS += pstore
- TARGETS += ptrace
- TARGETS += openat2
- TARGETS += resctrl
-+TARGETS += restrictedmem
- TARGETS += rlimits
- TARGETS += rseq
- TARGETS += rtc
-diff --git a/tools/testing/selftests/restrictedmem/.gitignore b/tools/testing/selftests/restrictedmem/.gitignore
-new file mode 100644
-index 000000000000..2581bcc8ff29
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/.gitignore
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+restrictedmem_hugepage_test
-diff --git a/tools/testing/selftests/restrictedmem/Makefile b/tools/testing/selftests/restrictedmem/Makefile
-new file mode 100644
-index 000000000000..8e5378d20226
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/Makefile
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+CFLAGS = $(KHDR_INCLUDES)
-+CFLAGS += -Wall -Wstrict-prototypes -Wuninitialized -std=gnu99
-+
-+TEST_GEN_PROGS += restrictedmem_hugepage_test
-+
-+include ../lib.mk
-+
-+EXTRA_CLEAN = $(OUTPUT)/common.o
-+
-+$(OUTPUT)/common.o: common.c
-+	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c -ffreestanding $< -o $@
-+
-+$(TEST_GEN_PROGS): $(OUTPUT)/common.o
-diff --git a/tools/testing/selftests/restrictedmem/common.c b/tools/testing/selftests/restrictedmem/common.c
-new file mode 100644
-index 000000000000..03dac843404f
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/common.c
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+
-+int memfd_restricted(unsigned int flags, int mount_fd)
-+{
-+	return syscall(__NR_memfd_restricted, flags, mount_fd);
-+}
-diff --git a/tools/testing/selftests/restrictedmem/common.h b/tools/testing/selftests/restrictedmem/common.h
-new file mode 100644
-index 000000000000..06284ed86baf
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/common.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef SELFTESTS_RESTRICTEDMEM_COMMON_H
-+#define SELFTESTS_RESTRICTEDMEM_COMMON_H
-+
-+int memfd_restricted(unsigned int flags, int mount_fd);
-+
-+#endif  // SELFTESTS_RESTRICTEDMEM_COMMON_H
-diff --git a/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-new file mode 100644
-index 000000000000..ae37148342fe
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-@@ -0,0 +1,459 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#define _GNU_SOURCE /* for O_PATH */
-+#define _POSIX_C_SOURCE /* for PATH_MAX */
-+#include <limits.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <unistd.h>
-+
-+#include "linux/restrictedmem.h"
-+
-+#include "common.h"
-+#include "../kselftest_harness.h"
-+
-+/*
-+ * Expect policy to be one of always, within_size, advise, never,
-+ * deny, force
-+ */
-+#define POLICY_BUF_SIZE 12
-+
-+static int get_hpage_pmd_size(void)
-+{
-+	FILE *fp;
-+	char buf[100];
-+	char *ret;
-+	int size;
-+
-+	fp = fopen("/sys/kernel/mm/transparent_hugepage/hpage_pmd_size", "r");
-+	if (!fp)
-+		return -1;
-+
-+	ret = fgets(buf, 100, fp);
-+	if (ret != buf) {
-+		size = -1;
-+		goto out;
-+	}
-+
-+	if (sscanf(buf, "%d\n", &size) != 1)
-+		size = -1;
-+
-+out:
-+	fclose(fp);
-+
-+	return size;
-+}
-+
-+static bool is_valid_shmem_thp_policy(char *policy)
-+{
-+	if (strcmp(policy, "always") == 0)
-+		return true;
-+	if (strcmp(policy, "within_size") == 0)
-+		return true;
-+	if (strcmp(policy, "advise") == 0)
-+		return true;
-+	if (strcmp(policy, "never") == 0)
-+		return true;
-+	if (strcmp(policy, "deny") == 0)
-+		return true;
-+	if (strcmp(policy, "force") == 0)
-+		return true;
-+
-+	return false;
-+}
-+
-+static int get_shmem_thp_policy(char *policy)
-+{
-+	FILE *fp;
-+	char buf[100];
-+	char *left = NULL;
-+	char *right = NULL;
-+	int ret = -1;
-+
-+	fp = fopen("/sys/kernel/mm/transparent_hugepage/shmem_enabled", "r");
-+	if (!fp)
-+		return -1;
-+
-+	if (fgets(buf, 100, fp) != buf)
-+		goto out;
-+
-+	/*
-+	 * Expect shmem_enabled to be of format like "always within_size advise
-+	 * [never] deny force"
-+	 */
-+	left = memchr(buf, '[', 100);
-+	if (!left)
-+		goto out;
-+
-+	right = memchr(buf, ']', 100);
-+	if (!right)
-+		goto out;
-+
-+	memcpy(policy, left + 1, right - left - 1);
-+
-+	ret = !is_valid_shmem_thp_policy(policy);
-+
-+out:
-+	fclose(fp);
-+	return ret;
-+}
-+
-+static int write_string_to_file(const char *path, const char *string)
-+{
-+	FILE *fp;
-+	size_t len = strlen(string);
-+	int ret = -1;
-+
-+	fp = fopen(path, "w");
-+	if (!fp)
-+		return ret;
-+
-+	if (fwrite(string, 1, len, fp) != len)
-+		goto out;
-+
-+	ret = 0;
-+
-+out:
-+	fclose(fp);
-+	return ret;
-+}
-+
-+static int set_shmem_thp_policy(char *policy)
-+{
-+	int ret = -1;
-+	/* +1 for newline */
-+	char to_write[POLICY_BUF_SIZE + 1] = { 0 };
-+
-+	if (!is_valid_shmem_thp_policy(policy))
-+		return ret;
-+
-+	ret = snprintf(to_write, POLICY_BUF_SIZE + 1, "%s\n", policy);
-+	if (ret != strlen(policy) + 1)
-+		return -1;
-+
-+	ret = write_string_to_file(
-+		"/sys/kernel/mm/transparent_hugepage/shmem_enabled", to_write);
-+
-+	return ret;
-+}
-+
-+FIXTURE(reset_shmem_enabled)
-+{
-+	char shmem_enabled[POLICY_BUF_SIZE];
-+};
-+
-+FIXTURE_SETUP(reset_shmem_enabled)
-+{
-+	memset(self->shmem_enabled, 0, POLICY_BUF_SIZE);
-+	ASSERT_EQ(0, get_shmem_thp_policy(self->shmem_enabled));
-+}
-+
-+FIXTURE_TEARDOWN(reset_shmem_enabled)
-+{
-+	ASSERT_EQ(0, set_shmem_thp_policy(self->shmem_enabled));
-+}
-+
-+TEST_F(reset_shmem_enabled, restrictedmem_fstat_shmem_enabled_never)
-+{
-+	int fd = -1;
-+	struct stat stat;
-+
-+	ASSERT_EQ(0, set_shmem_thp_policy("never"));
-+
-+	fd = memfd_restricted(0, -1);
-+	ASSERT_NE(-1, fd);
-+
-+	ASSERT_EQ(0, fstat(fd, &stat));
-+
-+	/*
-+	 * st_blksize is set based on the superblock's s_blocksize_bits. For
-+	 * shmem, this is set to PAGE_SHIFT
-+	 */
-+	ASSERT_EQ(stat.st_blksize, getpagesize());
-+
-+	close(fd);
-+}
-+
-+TEST_F(reset_shmem_enabled, restrictedmem_fstat_shmem_enabled_always)
-+{
-+	int fd = -1;
-+	struct stat stat;
-+
-+	ASSERT_EQ(0, set_shmem_thp_policy("always"));
-+
-+	fd = memfd_restricted(0, -1);
-+	ASSERT_NE(-1, fd);
-+
-+	ASSERT_EQ(0, fstat(fd, &stat));
-+
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+}
-+
-+TEST(restrictedmem_tmpfile_invalid_fd)
-+{
-+	int fd = memfd_restricted(RMFD_TMPFILE, -2);
-+
-+	ASSERT_EQ(-1, fd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+TEST(restrictedmem_tmpfile_fd_not_a_mount)
-+{
-+	int fd = memfd_restricted(RMFD_TMPFILE, STDOUT_FILENO);
-+
-+	ASSERT_EQ(-1, fd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+TEST(restrictedmem_tmpfile_not_tmpfs_mount)
-+{
-+	int fd = -1;
-+	int mfd = -1;
-+
-+	mfd = open("/proc", O_PATH);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+
-+	ASSERT_EQ(-1, fd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+FIXTURE(tmpfs_hugepage_sfd)
-+{
-+	int sfd;
-+};
-+
-+FIXTURE_SETUP(tmpfs_hugepage_sfd)
-+{
-+	self->sfd = fsopen("tmpfs", 0);
-+	ASSERT_NE(-1, self->sfd);
-+}
-+
-+FIXTURE_TEARDOWN(tmpfs_hugepage_sfd)
-+{
-+	close(self->sfd);
-+}
-+
-+TEST_F(tmpfs_hugepage_sfd, restrictedmem_fstat_tmpfs_huge_always)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	fsconfig(self->sfd, FSCONFIG_SET_STRING, "huge", "always", 0);
-+	fsconfig(self->sfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+
-+	mfd = fsmount(self->sfd, 0, 0);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* User can close reference to mount */
-+	ret = close(mfd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+}
-+
-+TEST_F(tmpfs_hugepage_sfd, restrictedmem_fstat_tmpfs_huge_never)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	fsconfig(self->sfd, FSCONFIG_SET_STRING, "huge", "never", 0);
-+	fsconfig(self->sfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+
-+	mfd = fsmount(self->sfd, 0, 0);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* User can close reference to mount */
-+	ret = close(mfd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, getpagesize());
-+
-+	close(fd);
-+}
-+
-+static bool directory_exists(const char *path)
-+{
-+	struct stat sb;
-+
-+	return stat(path, &sb) == 0 && S_ISDIR(sb.st_mode);
-+}
-+
-+FIXTURE(tmpfs_hugepage_mount_path)
-+{
-+	char *mount_path;
-+};
-+
-+FIXTURE_SETUP(tmpfs_hugepage_mount_path)
-+{
-+	int ret = -1;
-+
-+	/* /tmp is an FHS-mandated world-writable directory */
-+	self->mount_path = "/tmp/restrictedmem-selftest-mnt";
-+
-+	if (!directory_exists(self->mount_path)) {
-+		ret = mkdir(self->mount_path, 0777);
-+		ASSERT_EQ(0, ret);
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(tmpfs_hugepage_mount_path)
-+{
-+	int ret = -1;
-+
-+	if (!directory_exists(self->mount_path))
-+		return;
-+
-+	ret = umount2(self->mount_path, MNT_FORCE);
-+	EXPECT_EQ(0, ret);
-+	if (ret == -1 && errno == EINVAL)
-+		fprintf(stderr, "%s was not mounted\n", self->mount_path);
-+
-+	ret = rmdir(self->mount_path);
-+	EXPECT_EQ(0, ret);
-+	if (ret == -1)
-+		fprintf(stderr, "rmdir(%s) failed\n", self->mount_path);
-+}
-+
-+/*
-+ * When the restrictedmem's fd is open, a user should not be able to unmount or
-+ * remove the mounted directory
-+ */
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_umount_rmdir_while_file_open)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	mfd = open(self->mount_path, O_PATH);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* We don't need this reference to the mount anymore */
-+	ret = close(mfd);
-+	ASSERT_EQ(0, ret);
-+
-+	/* restrictedmem's fd should still be usable */
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	/* User should not be able to unmount directory */
-+	ret = umount2(self->mount_path, MNT_FORCE);
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EBUSY, errno);
-+
-+	ret = rmdir(self->mount_path);
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EBUSY, errno);
-+
-+	close(fd);
-+}
-+
-+/* The fd of a file on the mount can be provided as mount_fd */
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_provide_fd_of_file)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int ffd = -1;
-+	char tmp_file_path[PATH_MAX] = { 0 };
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	snprintf(tmp_file_path, PATH_MAX, "%s/tmp-file", self->mount_path);
-+	ret = write_string_to_file(tmp_file_path, "filler\n");
-+	ASSERT_EQ(0, ret);
-+
-+	ffd = open(tmp_file_path, O_RDWR);
-+	ASSERT_NE(-1, ffd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, ffd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* We don't need this reference anymore */
-+	ret = close(ffd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+	remove(tmp_file_path);
-+}
-+
-+/*
-+ * The fd of any file on the mount (including subdirectories) can be provided as
-+ * mount_fd
-+ */
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_provide_fd_of_file_in_subdir)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int ffd = -1;
-+	char tmp_dir_path[PATH_MAX] = { 0 };
-+	char tmp_file_path[PATH_MAX] = { 0 };
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	snprintf(tmp_dir_path, PATH_MAX, "%s/tmp-subdir", self->mount_path);
-+	ret = mkdir(tmp_dir_path, 0777);
-+	ASSERT_EQ(0, ret);
-+
-+	snprintf(tmp_file_path, PATH_MAX, "%s/tmp-subdir/tmp-file",
-+		 self->mount_path);
-+	ret = write_string_to_file(tmp_file_path, "filler\n");
-+	ASSERT_EQ(0, ret);
-+
-+	ffd = open(tmp_file_path, O_RDWR);
-+	ASSERT_NE(-1, ffd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, ffd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* We don't need this reference anymore */
-+	ret = close(ffd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+	remove(tmp_file_path);
-+	rmdir(tmp_dir_path);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.40.0.rc2.332.ga46443480c-goog
+We could also load this module based on UUID match at the gunyah core 
+level too, if that helps.
 
+
+--srini
+
+> 
+>>  >----------------------->cut<-------------------------------
+>>  From 1fb7995aecf17caefd09ffb516579bc4ac9ac301 Mon Sep 17 00:00:00 2001
+>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> Date: Tue, 21 Mar 2023 13:34:02 +0000
+>> Subject: [PATCH] virt: gunyah: add qcom platform hooks
+>>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> ---
+>>   drivers/firmware/Kconfig                      |  2 --
+>>   drivers/firmware/qcom_scm.c                   | 14 +++-----
+>>   drivers/virt/gunyah/Kconfig                   |  5 +++
+>>   drivers/virt/gunyah/Makefile                  |  1 +
+>>   .../virt/gunyah/gunyah_qcom_platform_hooks.c  | 35 +++++++++++++++++++
+>>   include/linux/firmware/qcom/qcom_scm.h        |  3 ++
+>>   6 files changed, 48 insertions(+), 12 deletions(-)
+>>   create mode 100644 drivers/virt/gunyah/gunyah_qcom_platform_hooks.c
+>>
+>> diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+>> index b888068ff6f2..b59e3041fd62 100644
+>> --- a/drivers/firmware/Kconfig
+>> +++ b/drivers/firmware/Kconfig
+>> @@ -214,8 +214,6 @@ config MTK_ADSP_IPC
+>>
+>>   config QCOM_SCM
+>>       tristate
+>> -    select VIRT_DRIVERS
+>> -    select GUNYAH_PLATFORM_HOOKS
+>>
+>>   config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
+>>       bool "Qualcomm download mode enabled by default"
+>> diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
+>> index 5273cf64ee2a..194ea2bc9a1d 100644
+>> --- a/drivers/firmware/qcom_scm.c
+>> +++ b/drivers/firmware/qcom_scm.c
+>> @@ -1301,7 +1301,7 @@ int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 
+>> payload_reg, u32 payload_val,
+>>   }
+>>   EXPORT_SYMBOL(qcom_scm_lmh_dcvsh);
+>>
+>> -static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct 
+>> gh_rm_mem_parcel *mem_parcel)
+>> +int qcom_scm_gh_rm_pre_mem_share(struct gh_rm_mem_parcel *mem_parcel)
+>>   {
+>>       struct qcom_scm_vmperm *new_perms;
+>>       u64 src, src_cpy;
+>> @@ -1359,8 +1359,9 @@ static int qcom_scm_gh_rm_pre_mem_share(struct 
+>> gh_rm *rm, struct gh_rm_mem_parce
+>>       kfree(new_perms);
+>>       return ret;
+>>   }
+>> +EXPORT_SYMBOL_GPL(qcom_scm_gh_rm_pre_mem_share);
+>>
+>> -static int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct 
+>> gh_rm_mem_parcel *mem_parcel)
+>> +int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm_mem_parcel *mem_parcel)
+>>   {
+>>       struct qcom_scm_vmperm new_perms;
+>>       u64 src = 0, src_cpy;
+>> @@ -1388,11 +1389,7 @@ static int 
+>> qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_pa
+>>
+>>       return ret;
+>>   }
+>> -
+>> -static struct gh_rm_platform_ops qcom_scm_gh_rm_platform_ops = {
+>> -    .pre_mem_share = qcom_scm_gh_rm_pre_mem_share,
+>> -    .post_mem_reclaim = qcom_scm_gh_rm_post_mem_reclaim,
+>> -};
+>> +EXPORT_SYMBOL_GPL(qcom_scm_gh_rm_post_mem_reclaim);
+>>
+>>   static int qcom_scm_find_dload_address(struct device *dev, u64 *addr)
+>>   {
+>> @@ -1597,9 +1594,6 @@ static int qcom_scm_probe(struct platform_device 
+>> *pdev)
+>>       if (download_mode)
+>>           qcom_scm_set_download_mode(true);
+>>
+>> -    if (devm_gh_rm_register_platform_ops(&pdev->dev, 
+>> &qcom_scm_gh_rm_platform_ops))
+>> -        dev_warn(__scm->dev, "Gunyah RM platform ops were already 
+>> registered\n");
+>> -
+>>       return 0;
+>>   }
+>>
+>> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+>> index bd8e31184962..a9c48d6518f7 100644
+>> --- a/drivers/virt/gunyah/Kconfig
+>> +++ b/drivers/virt/gunyah/Kconfig
+>> @@ -16,6 +16,11 @@ config GUNYAH
+>>   config GUNYAH_PLATFORM_HOOKS
+>>       tristate
+>>
+>> +config GUNYAH_QCOM_PLATFORM_HOOKS
+>> +    tristate "Gunyah Platform hooks for Qualcomm"
+>> +        depends on ARCH_QCOM && QCOM_SCM
+>> +    depends on GUNYAH
+>> +
+>>   config GUNYAH_VCPU
+>>       tristate "Runnable Gunyah vCPUs"
+>>       depends on GUNYAH
+>> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+>> index 7347b1470491..c33f701bb5c8 100644
+>> --- a/drivers/virt/gunyah/Makefile
+>> +++ b/drivers/virt/gunyah/Makefile
+>> @@ -2,6 +2,7 @@
+>>
+>>   obj-$(CONFIG_GUNYAH) += gunyah.o
+>>   obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
+>> +obj-$(CONFIG_GUNYAH_QCOM_PLATFORM_HOOKS) += gunyah_qcom_platform_hooks.o
+>>
+>>   gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+>>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+>> diff --git a/drivers/virt/gunyah/gunyah_qcom_platform_hooks.c 
+>> b/drivers/virt/gunyah/gunyah_qcom_platform_hooks.c
+>> new file mode 100644
+>> index 000000000000..3332f84134d3
+>> --- /dev/null
+>> +++ b/drivers/virt/gunyah/gunyah_qcom_platform_hooks.c
+>> @@ -0,0 +1,35 @@
+>> +#include <linux/kernel.h>
+>> +#include <linux/module.h>
+>> +#include <linux/firmware/qcom/qcom_scm.h>
+>> +#include <linux/gunyah_rsc_mgr.h>
+>> +
+>> +static int qcom_gh_rm_pre_mem_share(struct gh_rm *rm, struct 
+>> gh_rm_mem_parcel *mem_parcel)
+>> +{
+>> +    return qcom_scm_gh_rm_pre_mem_share(mem_parcel);
+>> +}
+>> +
+>> +static int qcom_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct 
+>> gh_rm_mem_parcel *mem_parcel)
+>> +{
+>> +    return qcom_scm_gh_rm_post_mem_reclaim(mem_parcel);
+>> +}
+>> +
+>> +static struct gh_rm_platform_ops qcom_gh_platform_hooks_ops = {
+>> +    .pre_mem_share = qcom_gh_rm_pre_mem_share,
+>> +    .post_mem_reclaim = qcom_gh_rm_post_mem_reclaim,
+>> +};
+>> +
+>> +static int __init qcom_gh_platform_hooks_register(void)
+>> +{
+>> +    return gh_rm_register_platform_ops(&qcom_gh_platform_hooks_ops);
+>> +}
+>> +
+>> +static void __exit qcom_gh_platform_hooks_unregister(void)
+>> +{
+>> +    gh_rm_unregister_platform_ops(&qcom_gh_platform_hooks_ops);
+>> +}
+>> +
+>> +module_init(qcom_gh_platform_hooks_register);
+>> +module_exit(qcom_gh_platform_hooks_unregister);
+>> +
+>> +MODULE_DESCRIPTION("Qualcomm Technologies, Inc. Gunyah Platform Hooks 
+>> driver");
+>> +MODULE_LICENSE("GPL v2");
+>> diff --git a/include/linux/firmware/qcom/qcom_scm.h 
+>> b/include/linux/firmware/qcom/qcom_scm.h
+>> index 1e449a5d7f5c..9b0d33db803d 100644
+>> --- a/include/linux/firmware/qcom/qcom_scm.h
+>> +++ b/include/linux/firmware/qcom/qcom_scm.h
+>> @@ -121,5 +121,8 @@ extern int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 
+>> payload_reg, u32 payload_val,
+>>                     u64 limit_node, u32 node_id, u64 version);
+>>   extern int qcom_scm_lmh_profile_change(u32 profile_id);
+>>   extern bool qcom_scm_lmh_dcvsh_available(void);
+>> +struct gh_rm_mem_parcel;
+>> +extern int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm_mem_parcel 
+>> *mem_parcel);
+>> +extern int qcom_scm_gh_rm_pre_mem_share(struct gh_rm_mem_parcel 
+>> *mem_parcel);
+>>
+>>   #endif
+>> --------------------------->cut<-----------------------
+>>
+>>>   config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
+>>>       bool "Qualcomm download mode enabled by default"
+>>> diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
+>>> index b95616b35bff..89a261a9e021 100644
+>>> --- a/drivers/firmware/qcom_scm.c
+>>> +++ b/drivers/firmware/qcom_scm.c
+>>> @@ -20,6 +20,7 @@
+>>>   #include <linux/clk.h>
+>>>   #include <linux/reset-controller.h>
+>>>   #include <linux/arm-smccc.h>
+>>> +#include <linux/gunyah_rsc_mgr.h>
+>>>   #include "qcom_scm.h"
+>>> @@ -30,6 +31,9 @@ module_param(download_mode, bool, 0);
+>>>   #define SCM_HAS_IFACE_CLK    BIT(1)
+>>>   #define SCM_HAS_BUS_CLK        BIT(2)
+>>> +#define QCOM_SCM_RM_MANAGED_VMID    0x3A
+>>> +#define QCOM_SCM_MAX_MANAGED_VMID    0x3F
+>>> +
+>>>   struct qcom_scm {
+>>>       struct device *dev;
+>>>       struct clk *core_clk;
+>>> @@ -1299,6 +1303,99 @@ int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 
+>>> payload_reg, u32 payload_val,
+>>>   }
+>>>   EXPORT_SYMBOL(qcom_scm_lmh_dcvsh);
+>>> +static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct 
+>>> gh_rm_mem_parcel *mem_parcel)
+>>> +{
+>>> +    struct qcom_scm_vmperm *new_perms;
+>>> +    u64 src, src_cpy;
+>>> +    int ret = 0, i, n;
+>>> +    u16 vmid;
+>>> +
+>>> +    new_perms = kcalloc(mem_parcel->n_acl_entries, 
+>>> sizeof(*new_perms), GFP_KERNEL);
+>>> +    if (!new_perms)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+>>> +        vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+>>> +        if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+>>> +            new_perms[n].vmid = vmid;
+>>> +        else
+>>> +            new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
+>>> +        if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
+>>> +            new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
+>>> +        if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
+>>> +            new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
+>>> +        if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
+>>> +            new_perms[n].perm |= QCOM_SCM_PERM_READ;
+>>> +    }
+>>> +
+>>> +    src = (1ull << QCOM_SCM_VMID_HLOS);
+>>> +
+>>> +    for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+>>> +        src_cpy = src;
+>>> +        ret = 
+>>> qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+>>> +                        le64_to_cpu(mem_parcel->mem_entries[i].size),
+>>> +                        &src_cpy, new_perms, 
+>>> mem_parcel->n_acl_entries);
+>>> +        if (ret) {
+>>> +            src = 0;
+>>> +            for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+>>> +                vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+>>> +                if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+>>> +                    src |= (1ull << vmid);
+>>> +                else
+>>> +                    src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+>>> +            }
+>>> +
+>>> +            new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
+>>> +
+>>> +            for (i--; i >= 0; i--) {
+>>> +                src_cpy = src;
+>>> +                WARN_ON_ONCE(qcom_scm_assign_mem(
+>>> + le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+>>> +                        le64_to_cpu(mem_parcel->mem_entries[i].size),
+>>> +                        &src_cpy, new_perms, 1));
+>>> +            }
+>>> +            break;
+>>> +        }
+>>> +    }
+>>> +
+>>> +    kfree(new_perms);
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct 
+>>> gh_rm_mem_parcel *mem_parcel)
+>>> +{
+>>> +    struct qcom_scm_vmperm new_perms;
+>>> +    u64 src = 0, src_cpy;
+>>> +    int ret = 0, i, n;
+>>> +    u16 vmid;
+>>> +
+>>> +    new_perms.vmid = QCOM_SCM_VMID_HLOS;
+>>> +    new_perms.perm = QCOM_SCM_PERM_EXEC | QCOM_SCM_PERM_WRITE | 
+>>> QCOM_SCM_PERM_READ;
+>>> +
+>>> +    for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+>>> +        vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+>>> +        if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+>>> +            src |= (1ull << vmid);
+>>> +        else
+>>> +            src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+>>> +    }
+>>> +
+>>> +    for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+>>> +        src_cpy = src;
+>>> +        ret = 
+>>> qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+>>> +                        le64_to_cpu(mem_parcel->mem_entries[i].size),
+>>> +                        &src_cpy, &new_perms, 1);
+>>> +        WARN_ON_ONCE(ret);
+>>> +    }
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static struct gh_rm_platform_ops qcom_scm_gh_rm_platform_ops = {
+>>> +    .pre_mem_share = qcom_scm_gh_rm_pre_mem_share,
+>>> +    .post_mem_reclaim = qcom_scm_gh_rm_post_mem_reclaim,
+>>> +};
+>>> +
+>>>   static int qcom_scm_find_dload_address(struct device *dev, u64 *addr)
+>>>   {
+>>>       struct device_node *tcsr;
+>>> @@ -1502,6 +1599,9 @@ static int qcom_scm_probe(struct 
+>>> platform_device *pdev)
+>>>       if (download_mode)
+>>>           qcom_scm_set_download_mode(true);
+>>> +    if (devm_gh_rm_register_platform_ops(&pdev->dev, 
+>>> &qcom_scm_gh_rm_platform_ops))
+>>> +        dev_warn(__scm->dev, "Gunyah RM platform ops were already 
+>>> registered\n");
+>>> +
+>>>       return 0;
+>>>   }
+>>> diff --git a/include/linux/gunyah_rsc_mgr.h 
+>>> b/include/linux/gunyah_rsc_mgr.h
+>>> index 515087931a2b..acf8c1545a6c 100644
+>>> --- a/include/linux/gunyah_rsc_mgr.h
+>>> +++ b/include/linux/gunyah_rsc_mgr.h
+>>> @@ -145,7 +145,7 @@ int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 
+>>> vmid,
+>>>                   struct gh_rm_hyp_resources **resources);
+>>>   int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
+>>> -struct gunyah_rm_platform_ops {
+>>> +struct gh_rm_platform_ops {
+>>>       int (*pre_mem_share)(struct gh_rm *rm, struct gh_rm_mem_parcel 
+>>> *mem_parcel);
+>>>       int (*post_mem_reclaim)(struct gh_rm *rm, struct 
+>>> gh_rm_mem_parcel *mem_parcel);
+>>>   };
