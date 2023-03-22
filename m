@@ -2,149 +2,233 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11944C6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 10:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C944C7619A
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 11:20:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbjCVKkG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 06:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57580 "EHLO
+        id S230425AbjCVLUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 07:20:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230330AbjCVKkE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 06:40:04 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D6C34741F
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 03:40:02 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id h8so70848055ede.8
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 03:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blackwall-org.20210112.gappssmtp.com; s=20210112; t=1679481601;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a86RjZ2N63DirVpQxCCyPL1BzLxFdG6fDziwW/dj7vc=;
-        b=if06j9ePnMhdle6v/guHe1KmTLtk2M9vnlEGbrcUa1su3DJpSpzToVbVUJVSA/MP82
-         gzzO9txaCRPUNT3cMze6Hd/FmF42t6AB5b7ky//r8l5+vH0SnfCCHDd0ut6F1vO9tDQE
-         octr9mv9UNdyo1Pd5NKrSZNa4/vdTMs8zrQPxkz2KqZAGbg1s1qON18jHyjWBVscQnZl
-         7c4o3NBoIXilBcafSFT0MPtWyPMnsFYjHL8/vWeDVBk+qtk4aTPZcC31RAQ2QidMusy/
-         YXtcVE9gbgCb8tWglk+n33N8/y9/Ugbz8L5AkeVXleaeP8IE0s1v72oy900CduMJ8RHr
-         o7qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679481601;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a86RjZ2N63DirVpQxCCyPL1BzLxFdG6fDziwW/dj7vc=;
-        b=KXfGg/HyiBoUTb6FuUbHcT4V0l7e6BrwC7JJZzgKz7FX/gMc1sXkpkzoMoAEbMIodu
-         Ntx1WX5854A84nfsTE7dirw3TsD8LLSG/A8squuYQNqCp/dBk01yUu19moySrPyBM76T
-         ZP2eVRB3Siq9qFknUtLk4H23d1qltuHeSKExztdRADxc9sWKdOkCyrsEmbPvL084IDYH
-         t0TTyNM4pW0G7DEv8y+ndt5MmqAvF0WA3VYwh8wXTD2TbHU2asPEsCKfRv+wq7YCn42s
-         Dk47kd8fjWN80dmoiTtCYFPlaR6vf87bLAQ7tP4bMAP36toQU12Od02L+VFijltAvBgv
-         l2Lw==
-X-Gm-Message-State: AO0yUKXHsu9fPuBKwkJ+YlJ+32wtGdVZjRU4KyPBg/hFKuKj10ONSuLs
-        WFX47MylhlXmXuM07c63jJrizg==
-X-Google-Smtp-Source: AK7set+wKHYeTHwZtpIzikB0Y6Mfz4+irSmE61FEmkGJ97E74sVd4IG1G6JRf3jz4CUj0BmlUgeLMg==
-X-Received: by 2002:a17:906:3553:b0:930:ca4d:f2bf with SMTP id s19-20020a170906355300b00930ca4df2bfmr6296334eja.54.1679481601042;
-        Wed, 22 Mar 2023 03:40:01 -0700 (PDT)
-Received: from [192.168.0.161] (62-73-72-43.ip.btc-net.bg. [62.73.72.43])
-        by smtp.gmail.com with ESMTPSA id u23-20020a170906409700b009334a6ef3e8sm4947246ejj.141.2023.03.22.03.40.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 03:40:00 -0700 (PDT)
-Message-ID: <e9caa256-482d-1cc0-4244-e9d4c5615f01@blackwall.org>
-Date:   Wed, 22 Mar 2023 12:39:59 +0200
+        with ESMTP id S229891AbjCVLUH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 07:20:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F46853734;
+        Wed, 22 Mar 2023 04:20:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AEC6962022;
+        Wed, 22 Mar 2023 11:20:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B15FC433D2;
+        Wed, 22 Mar 2023 11:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679484005;
+        bh=bh9WMot+PxfiYtF580dBl0Pw71rD7gR84+9GKsHMvq8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tgZr20L7g2MjqdIEtuHPR4MPveRDiYnDKxr+MqbztJHvnHJSoi13pTqMj6R5Pdrme
+         K2Np71e4bLyiocp7EzyEgeF5WXENJK8jRu6cQMnzsJaJNPQCDOLZ2cP/GhMfFyWeOZ
+         ktbPebv86ifJeb0TYSAuMaScrRBNTxWjvbJwqpxMis0ptMhdXOcJ65FnkmWAhmTMTX
+         97juHBb0Fs9YXKWZBZKfBKfX0VvO2U9FXitfqCfr5qvw/iIF9ULuejxtpPul+eZss7
+         cJhAa2HZQjVMOCxbXu2z+H279nb5Ri/J29y73qC1zyxsjqtSOZkxSUW64LkyanoFXS
+         OyAydZBtSLZQg==
+Date:   Wed, 22 Mar 2023 12:19:51 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
+        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
+        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+        joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
+Subject: Re: [RFC PATCH v2 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+Message-ID: <20230322111951.vfrm2xf4o5kmtte6@wittgenstein>
+References: <cover.1679428901.git.ackerleytng@google.com>
+ <6e800e069c7fc400841b75ea49d1227bd101c1cf.1679428901.git.ackerleytng@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH net-next v3] docs: networking: document NAPI
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
-        Pavel Pisa <pisa@cmp.felk.cvut.cz>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>, corbet@lwn.net,
-        jesse.brandeburg@intel.com, mkl@pengutronix.de,
-        linux-doc@vger.kernel.org, stephen@networkplumber.org,
-        romieu@fr.zoreil.com
-References: <20230322053848.198452-1-kuba@kernel.org>
-From:   Nikolay Aleksandrov <razor@blackwall.org>
-In-Reply-To: <20230322053848.198452-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6e800e069c7fc400841b75ea49d1227bd101c1cf.1679428901.git.ackerleytng@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/03/2023 07:38, Jakub Kicinski wrote:
-> Add basic documentation about NAPI. We can stop linking to the ancient
-> doc on the LF wiki.
+On Tue, Mar 21, 2023 at 08:15:32PM +0000, Ackerley Tng wrote:
+> By default, the backing shmem file for a restrictedmem fd is created
+> on shmem's kernel space mount.
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Link: https://lore.kernel.org/all/20230315223044.471002-1-kuba@kernel.org/
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Reviewed-by: Toke Høiland-Jørgensen <toke@redhat.com>
-> Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz> # for ctucanfd-driver.rst
-> Reviewed-by: Tony Nguyen <anthony.l.nguyen@intel.com>
-> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> With this patch, an optional tmpfs mount can be specified via an fd,
+> which will be used as the mountpoint for backing the shmem file
+> associated with a restrictedmem fd.
+> 
+> This change is modeled after how sys_open() can create an unnamed
+> temporary file in a given directory with O_TMPFILE.
+> 
+> This will help restrictedmem fds inherit the properties of the
+> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+> binding hints, etc.
+> 
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 > ---
-> v3: rebase on net-next (to avoid ixgb conflict)
->     fold in grammar fixes from Stephen
-> v2: https://lore.kernel.org/all/20230321050334.1036870-1-kuba@kernel.org/
->     remove the links in CAN and in ICE as well
->     improve the start of the threaded NAPI section
->     name footnote
->     internal links from the intro to sections
->     various clarifications from Florian and Stephen
+>  include/linux/syscalls.h           |  2 +-
+>  include/uapi/linux/restrictedmem.h |  8 ++++
+>  mm/restrictedmem.c                 | 63 +++++++++++++++++++++++++++---
+>  3 files changed, 66 insertions(+), 7 deletions(-)
+>  create mode 100644 include/uapi/linux/restrictedmem.h
 > 
-> CC: corbet@lwn.net
-> CC: jesse.brandeburg@intel.com
-> CC: anthony.l.nguyen@intel.com
-> CC: pisa@cmp.felk.cvut.cz
-> CC: mkl@pengutronix.de
-> CC: linux-doc@vger.kernel.org
-> CC: f.fainelli@gmail.com
-> CC: stephen@networkplumber.org
-> CC: romieu@fr.zoreil.com
-> ---
->  .../can/ctu/ctucanfd-driver.rst               |   3 +-
->  .../device_drivers/ethernet/intel/e100.rst    |   3 +-
->  .../device_drivers/ethernet/intel/i40e.rst    |   4 +-
->  .../device_drivers/ethernet/intel/ice.rst     |   4 +-
->  Documentation/networking/index.rst            |   1 +
->  Documentation/networking/napi.rst             | 251 ++++++++++++++++++
->  include/linux/netdevice.h                     |  13 +-
->  7 files changed, 266 insertions(+), 13 deletions(-)
->  create mode 100644 Documentation/networking/napi.rst
-> 
-[snip]
-> +Threaded NAPI
-> +-------------
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index f9e9e0c820c5..a23c4c385cd3 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>  					    unsigned long home_node,
+>  					    unsigned long flags);
+> -asmlinkage long sys_memfd_restricted(unsigned int flags);
+> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
+>  
+>  /*
+>   * Architecture-specific system calls
+> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..9f108dd1ac4c
+> --- /dev/null
+> +++ b/include/uapi/linux/restrictedmem.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
+> +#define _UAPI_LINUX_RESTRICTEDMEM_H
 > +
-> +Threaded NAPI is an operating mode that uses dedicated kernel
-> +threads rather than software IRQ context for NAPI processing.
-> +The configuration is per netdevice and will affect all
-> +NAPI instances of that device. Each NAPI instance will spawn a separate
-> +thread (called ``napi/${ifc-name}-${napi-id}``).
+> +/* flags for memfd_restricted */
+> +#define RMFD_TMPFILE		0x0001U
 > +
-> +It is recommended to pin each kernel thread to a single CPU, the same
-> +CPU as services the interrupt. Note that the mapping between IRQs and
-
-"... the same CPU as services the interrupt ...", should it be
-"the same CPU that services the interrupt" ?
-
-> +NAPI instances may not be trivial (and is driver dependent).
-> +The NAPI instance IDs will be assigned in the opposite order
-> +than the process IDs of the kernel threads.
+> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index c5d869d8c2d8..4d83b949d84e 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -1,11 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> -#include "linux/sbitmap.h"
+> +#include <linux/namei.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/shmem_fs.h>
+>  #include <linux/syscalls.h>
+>  #include <uapi/linux/falloc.h>
+>  #include <uapi/linux/magic.h>
+> +#include <uapi/linux/restrictedmem.h>
+>  #include <linux/restrictedmem.h>
+>  
+>  struct restrictedmem {
+> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+>  	return file;
+>  }
+>  
+> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> +static int restrictedmem_create(struct vfsmount *mount)
+>  {
+>  	struct file *file, *restricted_file;
+>  	int fd, err;
+>  
+> -	if (flags)
+> -		return -EINVAL;
+> -
+>  	fd = get_unused_fd_flags(0);
+>  	if (fd < 0)
+>  		return fd;
+>  
+> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +	if (mount)
+> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
+> +	else
+> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
 > +
-> +Threaded NAPI is controlled by writing 0/1 to the ``threaded`` file in
-> +netdev's sysfs directory.
+>  	if (IS_ERR(file)) {
+>  		err = PTR_ERR(file);
+>  		goto err_fd;
+> @@ -223,6 +225,55 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>  	return err;
+>  }
+>  
+> +static bool is_shmem_mount(struct vfsmount *mnt)
+> +{
+> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+> +}
 > +
-> +.. rubric:: Footnotes
+> +static int restrictedmem_create_from_file(int mount_fd)
+> +{
+> +	int ret;
+> +	struct fd f;
+> +	struct vfsmount *mnt;
 > +
-> +.. [#] NAPI was originally referred to as New API in 2.4 Linux.
+> +	f = fdget_raw(mount_fd);
+> +	if (!f.file)
+> +		return -EBADF;
+> +
+> +	mnt = f.file->f_path.mnt;
+> +	if (!is_shmem_mount(mnt)) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
 
-Very nice! Other than the above looks good to me.
+This looks like you can just pass in some tmpfs fd and you just use it
+to identify the mnt and then you create a restricted memfd area in that
+instance. So if I did:
 
-Cheers,
- Nik
+mount -t tmpfs tmpfs /mnt
+mknod /mnt/bla c 0 0
+fd = open("/mnt/bla")
+memfd_restricted(fd)
 
+then it would create a memfd restricted entry in the tmpfs instance
+using the arbitrary dummy device node to infer the tmpfs instance.
+
+Looking at the older thread briefly and the cover letter. Afaict, the
+new mount api shouldn't figure into the design of this. fsopen() returns
+fds referencing a VFS-internal fs_context object. They can't be used to
+create or lookup files or identify mounts. The mount doesn't exist at
+that time. Not even a superblock might exist at the time before
+fsconfig(FSCONFIG_CMD_CREATE).
+
+When fsmount() is called after superblock setup then it's similar to any
+other fd from open() or open_tree() or whatever (glossing over some
+details that are irrelevant here). Difference is that open_tree() and
+fsmount() would refer to the root of a mount.
+
+At first I wondered why this doesn't just use standard *at() semantics
+but I guess the restricted memfd is unlinked and doesn't show up in the
+tmpfs instance.
+
+So if you go down that route then I would suggest to enforce that the
+provided fd refer to the root of a tmpfs mount. IOW, it can't just be an
+arbitrary file descriptor in a tmpfs instance. That seems cleaner to me:
+
+sb = f_path->mnt->mnt_sb;
+sb->s_magic == TMPFS_MAGIC && f_path->mnt->mnt_root == sb->s_root
+
+and has much tigher semantics than just allowing any kind of fd.
+
+Another wrinkly I find odd but that's for you to judge is that this
+bypasses the permission model of the tmpfs instance. IOW, as long as you
+have a handle to the root of a tmpfs mount you can just create
+restricted memfds in there. So if I provided a completely sandboxed
+service - running in a user namespace or whatever - with an fd to the
+host's tmpfs instance they can just create restricted memfds in there no
+questions asked.
+
+Maybe that's fine but it's certainly something to spell out and think
+about the implications.
