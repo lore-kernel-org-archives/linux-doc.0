@@ -2,84 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 325D6C6FD20
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 00:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61C7C6FD20
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 00:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjCVAOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Mar 2023 20:14:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
+        id S229656AbjCVAo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Mar 2023 20:44:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjCVAOo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 20:14:44 -0400
-Received: from violet.fr.zoreil.com (violet.fr.zoreil.com [IPv6:2001:4b98:dc0:41:216:3eff:fe56:8398])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A0631E35;
-        Tue, 21 Mar 2023 17:14:42 -0700 (PDT)
-Received: from violet.fr.zoreil.com ([127.0.0.1])
-        by violet.fr.zoreil.com (8.17.1/8.17.1) with ESMTP id 32M0Dgof452698;
-        Wed, 22 Mar 2023 01:13:42 +0100
-DKIM-Filter: OpenDKIM Filter v2.11.0 violet.fr.zoreil.com 32M0Dgof452698
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fr.zoreil.com;
-        s=v20220413; t=1679444022;
-        bh=ftAdNGzckaGT6Ll8pv9l2TysMDC42QOH0a5wmX1LBI8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A3LngsaYlzqVm6+VPZxTVyOf/l6NZemuldwOjeLlocLnRr0iVwWvS1Ibl90Fu0yfd
-         SHTa8RFFA87powusXd9AIhvKjfRW8cKiCIWeOitONRH82R62fAQhtQmqRqtNxwRDm4
-         JLjXBe1PuKE6o2fYjkT/Eix66LBLsTPHAJ2nXsro=
-Received: (from romieu@localhost)
-        by violet.fr.zoreil.com (8.17.1/8.17.1/Submit) id 32M0Ddgp452695;
-        Wed, 22 Mar 2023 01:13:39 +0100
-Date:   Wed, 22 Mar 2023 01:13:38 +0100
-From:   Francois Romieu <romieu@fr.zoreil.com>
-To:     Jakub Kicinski <kuba@kernel.org>
+        with ESMTP id S229798AbjCVAo4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 20:44:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E26B2365F;
+        Tue, 21 Mar 2023 17:44:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BF395B81A3A;
+        Wed, 22 Mar 2023 00:44:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BE7C433EF;
+        Wed, 22 Mar 2023 00:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679445892;
+        bh=dmONf9oAJL7CG+fsOh3ODEZ9B+5Qk0gXu4GNSV23oJM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=iz1DHUUDbFJGo3EVrEQb64uT/3TZMjrryUOUlBPN8jWPPpiQ4IBquttrOJOmv4nKt
+         JbMvciWVhS8KtHhhSihLr4n6niJUeM2qIPStuSMwM624F48MqSvRkujUtie/UGsDbS
+         VY4q+fADCRW33L3q+qfuBXnVdr+5NYtmBZswmA5lCZB+qEB1jxBVKd+8L1WvNeM0yd
+         gkr5wBrlKfCXvCS8SPqZwv0ulZawk3ddtylzxmD9Ggn2y0Xz/vx/CGGbCPqU+p1Cc+
+         0ZHhqN1aruz0QU9orEK66xOGh9lg7L/Ax+hLdrsrM+Um+qdY0A/HS3miYBoPBSmiXR
+         f53Apmx5X83Kw==
+Date:   Tue, 21 Mar 2023 17:44:50 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Stephen Hemminger <stephen@networkplumber.org>
 Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
         pabeni@redhat.com, Bagas Sanjaya <bagasdotme@gmail.com>,
-        Toke HHHiland-JJJrgensen <toke@redhat.com>, corbet@lwn.net,
-        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
-        pisa@cmp.felk.cvut.cz, mkl@pengutronix.de,
-        linux-doc@vger.kernel.org, f.fainelli@gmail.com,
-        stephen@networkplumber.org
+        Toke =?UTF-8?B?SMO4aWxhbmQtSsO4cmdlbnNlbg==?= <toke@redhat.com>,
+        corbet@lwn.net, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, pisa@cmp.felk.cvut.cz,
+        mkl@pengutronix.de, linux-doc@vger.kernel.org, f.fainelli@gmail.com
 Subject: Re: [PATCH net-next v2] docs: networking: document NAPI
-Message-ID: <20230322001338.GA452632@electric-eye.fr.zoreil.com>
+Message-ID: <20230321174450.0bd8114f@kernel.org>
+In-Reply-To: <20230321100522.474c3763@hermes.local>
 References: <20230321050334.1036870-1-kuba@kernel.org>
+        <20230321100522.474c3763@hermes.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230321050334.1036870-1-kuba@kernel.org>
-X-Organisation: Land of Sunshine Inc.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> :
-[...]
-> diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
-> new file mode 100644
-> index 000000000000..e9833f2b777a
-> --- /dev/null
-> +++ b/Documentation/networking/napi.rst
-> @@ -0,0 +1,251 @@
-> +.. _napi:
-> +
-> +====
-> +NAPI
-> +====
-> +
-> +NAPI is the event handling mechanism used by the Linux networking stack.
-> +The name NAPI does not stand for anything in particular [#]_.
-> +
-> +In basic operation device notifies the host about new events via an interrupt.
-> +The host then schedules a NAPI instance to process the events.
-> +Device may also be polled for events via NAPI without receiving
-> +interrupts first (:ref:`busy polling<poll>`).
-> +
-> +NAPI processing usually happens in the software interrupt context,
-> +but user may choose to use :ref:`separate kernel threads<threaded>`
-> +for NAPI processing.
+On Tue, 21 Mar 2023 10:05:22 -0700 Stephen Hemminger wrote:
+> Looks good overall. I used a grammar scanner to look for issues and
+> it found lots of little things.
 
-NAPI processing also happens in the unusual context of netpoll.
-
-I can't tell if it's better to be completely silent about it or to
-explicitely state that it is beyond the scope of the document.
-
--- 
-Ueimor
+Thanks for that, I folded in all the grammar improvements.
+I did not take the larger changes, they lose context / relations,
+I prefer the current wording.
