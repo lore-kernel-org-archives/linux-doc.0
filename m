@@ -2,96 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A2DC6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 22:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C57C6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 22:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbjCVWEc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 18:04:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49204 "EHLO
+        id S229825AbjCVW1t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 18:27:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjCVWEa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 18:04:30 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEF3510413
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 15:04:29 -0700 (PDT)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32MLt2XV003406
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : references : to : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=1e7xSsLbQplYJGkDFpxrlHRXdlKoqX1vhxiMrXvLSgQ=;
- b=ri+NYSIjb0G1MMVO+D599PEqjxnQwIpn4dOCEGfoaLvqVmvbxJxdt6d+Maxwp5LOKpPU
- i6eF1vsCcI67Ul2xokRWtdGb2dx8P0z2hatBQ+hWVQQdIiF7glZobY62JcxG/2i7cCRG
- 8+d9dYDu9qpW8JFaUajQeTlGT8gwdqbCB0BvQE79tukVcj9QYUp9jnRUV0fx3tuRrylG
- RIfQZOpcWxfTM/Vdwd/WG9CKuVsJOsKOsypj97XC+/lR5l5AuRMQ9wLBb73AcDfSFN9k
- bRWui2xX0oGPRZtA6B6UN0he8sdgOxJ3nXW9p4B5603fwndyDrUskRxe9MOupoh08Msr vw== 
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pga0w05tp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:29 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
-        by ppma01wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MJWuNl011975
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:28 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
-        by ppma01wdc.us.ibm.com (PPS) with ESMTPS id 3pd4x72j71-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:28 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
-        by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32MM4RFU27787820
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:27 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4719C5805D
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:27 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0FF9B58053
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:27 +0000 (GMT)
-Received: from [9.160.167.235] (unknown [9.160.167.235])
-        by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 22:04:26 +0000 (GMT)
-Message-ID: <a3289dfb-da44-47ce-9f3b-1f5c9dec900c@linux.ibm.com>
-Date:   Wed, 22 Mar 2023 18:04:26 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Fwd: Documentation on IMA for Linux Kernel Documentation
-Content-Language: en-US
-References: <60ac4c41-65b8-3c3d-7e31-1a580e728ca5@infradead.org>
-To:     linux-doc@vger.kernel.org
-From:   Ken Goldman <kgold@linux.ibm.com>
-In-Reply-To: <60ac4c41-65b8-3c3d-7e31-1a580e728ca5@infradead.org>
-X-Forwarded-Message-Id: <60ac4c41-65b8-3c3d-7e31-1a580e728ca5@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: KLVOH7yU2nXPwYJHLxsZXXZBeH2OJ33K
-X-Proofpoint-GUID: KLVOH7yU2nXPwYJHLxsZXXZBeH2OJ33K
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S229487AbjCVW1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 18:27:48 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAFC23A50;
+        Wed, 22 Mar 2023 15:27:46 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id b20so46137863edd.1;
+        Wed, 22 Mar 2023 15:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679524065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e/Wjm0b8Ik7+X2MQf3m3hky1zdDJvNFJ4agRqoB9mA0=;
+        b=JQUJQb9gDALwd6Y7wgUsxJSfzD42gRcFCBl+E45QH5FnfzpRHlivPXbtU6vl/Go/yc
+         z/o6VwbUuEs2rsAmGDsfIRwoKU+G5hvXOOKpjvk8mm9iCZFfAHNkwtfyM+9CuOZ8ZYV1
+         z2ef2J+von7Wvbkr+dMh4qaRJmRq6pXhDiFs/Dyol8PVYRTOR86kWd1gtPPFAfo/JkPd
+         2ug/1DAdmXCXrcsot3W+oG9URJn506AB14fh6d557cKSfBI2lrpeL1CcmC2fuNKhbBcO
+         xkcCKNHzFsfSFqsudAw2cKVs5sNkhqp+gLSQhsmdQXfA7NnfZCPXZ+DZeia6spYkSrFV
+         OKUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679524065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e/Wjm0b8Ik7+X2MQf3m3hky1zdDJvNFJ4agRqoB9mA0=;
+        b=aBNdNFfRGByk9hTTMREUP1rj0JCdMvFjiJ77nwlv+VhpNxG7zk0nTtwAtq5lUMnkI3
+         Oyh6o3gj58CPpDJtm27C4NAdWRSRgzqCHbKc1GsE3CpN37MpLrs2uhYqjo2vX7xGdeT0
+         Fi6ZzEpeVlhb/wUt7vTYonnZs0V++GQQ0GeEW8rUxryBLeNlje7zbBQHA+eL7Rggt0Uw
+         ldKaXxtsW++f20lzAfe77kU2z2hHcWIEkRiJGrH6Q3sHYmFdQ6vMmokpR1PnmGcfGbOo
+         k+E3/q0KrbVFLByubSzuVoUbaOFOsHiU2uoVpcXR9cmsT1JdrJlqiKPWS2DKhwkjEcwp
+         PPQw==
+X-Gm-Message-State: AO0yUKVcHMeYqM9Z2WcB3KsJIjrIt//U1jAv7TZQ8luZm/ckRRAT6QmB
+        Plc7fHxZYz/7BUBTuS/OplYvII7MIzM/GP9kzS4=
+X-Google-Smtp-Source: AK7set8gUyy1sCqRru6eNQSGWAYy+Eqil0jvDXyYXA+sgAPfrL/BhDbBOzzjpcL26JACm1NBn4cQczKuSSkzdJN/AzA=
+X-Received: by 2002:a50:c3cf:0:b0:4fb:2593:846 with SMTP id
+ i15-20020a50c3cf000000b004fb25930846mr4193269edf.3.1679524064488; Wed, 22 Mar
+ 2023 15:27:44 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_18,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 clxscore=1011 spamscore=0 mlxlogscore=496 suspectscore=0
- malwarescore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303220158
+References: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
+ <CAADnVQLKONwKwkJMopRq-dzcV2ZejrjGzyuzW_5QX=0BY=Z4jw@mail.gmail.com> <b5c80613c696818ce89b92dac54e98878ec3ccd0.camel@huaweicloud.com>
+In-Reply-To: <b5c80613c696818ce89b92dac54e98878ec3ccd0.camel@huaweicloud.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Wed, 22 Mar 2023 15:27:33 -0700
+Message-ID: <CAADnVQJC0h7rtuntt0tqS5BbxWsmyWs3ZSbboZMmUKetMG2VhA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] usermode_driver: Add management library and API
+To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        David Ahern <dsahern@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I'm writing documentation on IMA targeting users (not kernel 
-developers).  It includes concepts, details on writing policies, the IMA 
-event log format, utilities, and more.  It aggregates existing scattered 
-documentation, but adds much more.  It's maybe 1/2 done.
+On Wed, Mar 22, 2023 at 5:08=E2=80=AFAM Roberto Sassu
+<roberto.sassu@huaweicloud.com> wrote:
+>
+> On Tue, 2023-03-21 at 19:23 -0700, Alexei Starovoitov wrote:
+> > On Fri, Mar 17, 2023 at 7:53=E2=80=AFAM Roberto Sassu
+> > <roberto.sassu@huaweicloud.com> wrote:
+> > > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > >
+> > > A User Mode Driver (UMD) is a specialization of a User Mode Helper (U=
+MH),
+> > > which runs a user space process from a binary blob, and creates a
+> > > bidirectional pipe, so that the kernel can make a request to that pro=
+cess,
+> > > and the latter provides its response. It is currently used by bpfilte=
+r,
+> > > although it does not seem to do any useful work.
+> >
+> > FYI the new home for bpfilter is here:
+> > https://github.com/facebook/bpfilter
+>
+> Thanks. I just ensured that it worked, by doing:
+>
+> getsockopt(fd, SOL_IP, IPT_SO_GET_INFO, &info, &optlen);
+>
+> and accepting IPT_SO_GET_INFO in main.c.
+>
+> > > The problem is, if other users would like to implement a UMD similar =
+to
+> > > bpfilter, they would have to duplicate the code. Instead, make an UMD
+> > > management library and API from the existing bpfilter and sockopt cod=
+e,
+> > > and move it to common kernel code.
+> > >
+> > > Also, define the software architecture and the main components of the
+> > > library: the UMD Manager, running in the kernel, acting as the fronte=
+nd
+> > > interface to any user or kernel-originated request; the UMD Loader, a=
+lso
+> > > running in the kernel, responsible to load the UMD Handler; the UMD
+> > > Handler, running in user space, responsible to handle requests from t=
+he UMD
+> > > Manager and to send to it the response.
+> >
+> > That doesn't look like a generic interface for UMD.
+>
+> What would make it more generic? I made the API message format-
+> independent. It has the capability of starting the user space process
+> as required, when there is a communication.
+>
+> > It was a quick hack to get bpfilter off the ground, but certainly
+> > not a generic one.
+>
+> True, it is not generic in the sense that it can accomodate any
+> possible use case. The main goal is to move something that was running
+> in the kernel to user space, with the same isolation guarantees as if
+> the code was executed in the kernel.
 
-Questions:
+They are not the same guarantees.
+UMD is exactly equivalent to root process running in user space.
+Meaning it can be killed, ptraced, priority inverted, etc
 
-1. Are there people who could look at it and see if I'm on the right path?
+> > > I have two use cases, but for sake of brevity I will propose one.
+> > >
+> > > I would like to add support for PGP keys and signatures in the kernel=
+, so
+> > > that I can extend secure boot to applications, and allow/deny code
+> > > execution based on the signed file digests included in RPM headers.
+> > >
+> > > While I proposed a patch set a while ago (based on a previous work of=
+ David
+> > > Howells), the main objection was that the PGP packet parser should no=
+t run
+> > > in the kernel.
+> > >
+> > > That makes a perfect example for using a UMD. If the PGP parser is mo=
+ved to
+> > > user space (UMD Handler), and the kernel (UMD Manager) just instantia=
+tes
+> > > the key and verifies the signature on already parsed data, this would
+> > > address the concern.
+> >
+> > I don't think PGP parser belongs to UMD either.
+> > Please do it as a normal user space process and define a proper
+> > protocol for communication between kernel and user space.
+>
+> UMD is better in the sense that it establishes a bidirectional pipe
+> between the kernel and the user space process. With that, there is no
+> need to further restrict the access to a sysfs file, for example.
 
-It's a lot of work.  I'd like to know that it has some chance of acceptance.
-
-2. What is the process for getting a block of documentation added to 
-https://www.kernel.org/doc/html?
-
-
+If a simple pipe is good enough then you can have a kernel module
+that creates it and interacts with the user space process.
+Out-of-tree bpftiler can do that, so can you.
+PGP is not suitable for kernel git repo either as kernel code or as UMD.
