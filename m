@@ -2,166 +2,199 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 429ACC6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 12:48:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4931C6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 13:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230163AbjCVMso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 08:48:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36368 "EHLO
+        id S230156AbjCVNYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 09:24:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbjCVMsm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 08:48:42 -0400
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5300DB770;
-        Wed, 22 Mar 2023 05:48:41 -0700 (PDT)
-Received: by mail-ua1-x92e.google.com with SMTP id i22so12515324uat.8;
-        Wed, 22 Mar 2023 05:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679489320;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C3oCNWppbROd6SSbXVVTTvNwlzOezQhHcc6I5uo2B6o=;
-        b=jkLoSQeZoj7lPy3YyjlsVsMY8EyX+PKWGwOqo5C2ioV84YccIr3jRx+beabTLQWAcm
-         dX13QrMNNSAdxPuqzedkdFMQqfXagX0CkiBz2fUE+Y46TNyt5Q99WvD1fs4QW36u4UfQ
-         9E7hMp10kDZBAVN0iLRtHEp3FUQOMWgazedgc7NkcEJppi7mbDU0gkt/e3MU2tHfVKqG
-         6iHZjoyEuzH3e/vLmQTkksMyXyP14EFYKysuWwhkPAOwJGqzQFyC+KNPBQa3/69HvG4P
-         l4aohuTWFo3TzEXsEdmqlw40xr7KD9Hqcz+TEDWQH4tm2W7krm6TbbgFL0qjamhLt41r
-         u3uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679489320;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C3oCNWppbROd6SSbXVVTTvNwlzOezQhHcc6I5uo2B6o=;
-        b=nzhiYNubZLmN5l3Er6ZsLrxposCsemrFBbcCrykWENo/sjjmsNrknKj4EfQPl1VD2I
-         ARf/Nt7f3rrOsR0+BrCRiddyQSix5/MDcV4yjGRhTSd0afzqJMhOLu5n7aB0rEkExvpn
-         s7urOS8TzW0R2Mz6FhB4Jos1svXBRQKIwkidbm3lsQDEJeOPX7GZ8LCrslw8F7QAvEnH
-         paN3CuIzx/oHOnq5dVwkaWJZfWsyjZ2v/0aRwWau/I/vYoBHFKt9K0DW81wrTxKRSym4
-         e4RPfMsBf11x+Uo5JiOtXMkAfWY2yH9uccEcqRYU0aZCtv/S2aK+OHs93aHH297o53t5
-         M5ag==
-X-Gm-Message-State: AO0yUKVLqX3mzSTaHKKjIxfjxqCZU+oOt4jUw7mY7IsuDrOUojvrH+MH
-        6DC4qZ/aJ1Z5oizaenXkP9xQZfwD6r1z4xRsx2o=
-X-Google-Smtp-Source: AK7set/X+NyRJ6USDPXg3DEszeyebaLGd4pwgf3cHSfLLffG9nVVa2N7HRukXTPNJdgcyeb18X+C5ORBCTlBy5oo/4s=
-X-Received: by 2002:a1f:1e0a:0:b0:406:6b94:c4fe with SMTP id
- e10-20020a1f1e0a000000b004066b94c4femr3280697vke.0.1679489320234; Wed, 22 Mar
- 2023 05:48:40 -0700 (PDT)
+        with ESMTP id S229719AbjCVNYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 09:24:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5BE51BF4
+        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 06:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679491423;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Vr/nw/QBGgbu6vHLXLGuyUHyWfBfiDPuxGzOQXoK3+8=;
+        b=fUjLkvupdV5WAv3tRtaZio08QgWkXkICJ6ZJevmCuBVlxg3LFY6gsV2wDn/rCUZALRSKLm
+        NMH2JDX+osHqg9E+LCdktHd4QUyZrH8WN/aw8I684JLFRKpJKnUDpqfJYdZI16QLC71VX3
+        rIZBTludLVrqinbHyJZ5mQAJsNmuY1I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-452-1DUppYg_MCimdX7OH_7Hbw-1; Wed, 22 Mar 2023 09:23:39 -0400
+X-MC-Unique: 1DUppYg_MCimdX7OH_7Hbw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC0D51C087AC;
+        Wed, 22 Mar 2023 13:23:38 +0000 (UTC)
+Received: from ovpn-8-17.pek2.redhat.com (ovpn-8-18.pek2.redhat.com [10.72.8.18])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id AD886C15BAD;
+        Wed, 22 Mar 2023 13:23:32 +0000 (UTC)
+Date:   Wed, 22 Mar 2023 21:23:27 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Eric Blake <eblake@redhat.com>
+Cc:     josef@toxicpanda.com, linux-block@vger.kernel.org,
+        nbd@other.debian.org, philipp.reisner@linbit.com,
+        lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ming.lei@redhat.com
+Subject: Re: [PATCH v2 2/5] block nbd: send handle in network order
+Message-ID: <ZBsBT0nvK06MZZjF@ovpn-8-17.pek2.redhat.com>
+References: <20230317202749.419094-1-eblake@redhat.com>
+ <20230317202749.419094-3-eblake@redhat.com>
+ <ZBjqQckL7d5EJPlh@ovpn-8-29.pek2.redhat.com>
+ <20230321135900.ni4w5ichvjba7s4u@redhat.com>
+ <ZBpQLQtZP3Gj8MdS@ovpn-8-18.pek2.redhat.com>
+ <20230322122921.ac47tbbkddrb72gq@redhat.com>
 MIME-Version: 1.0
-References: <Yao51m9EXszPsxNN@redhat.com> <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
- <YapjNRrjpDu2a5qQ@redhat.com> <CAHC9VhQTUgBRBEz_wFX8daSA70nGJCJLXj8Yvcqr5+DHcfDmwA@mail.gmail.com>
- <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com>
- <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com>
- <CAHC9VhQkLSBGQ-F5Oi9p3G6L7Bf_jQMWAxug_G4bSOJ0_cYXxQ@mail.gmail.com>
- <CAOQ4uxhfU+LGunL3cweorPPdoCXCZU0xMtF=MekOAe-F-68t_Q@mail.gmail.com>
- <YitWOqzIRjnP1lok@redhat.com> <CAHC9VhQ+x3ko+=oU-P+w4ssqyyskRxaKsBGJLnXtP_NzWNuxHg@mail.gmail.com>
- <20230322072850.GA18056@suse.de>
-In-Reply-To: <20230322072850.GA18056@suse.de>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 22 Mar 2023 14:48:29 +0200
-Message-ID: <CAOQ4uxgH905R1dkQy5=tuG4nnB-p2XUWcf91vvYbfu2DyftzPw@mail.gmail.com>
-Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
-To:     Johannes Segitz <jsegitz@suse.com>
-Cc:     Paul Moore <paul@paul-moore.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        David Anderson <dvander@google.com>,
-        Mark Salyzyn <salyzyn@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
-        paulmoore@microsoft.com, luca.boccassi@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322122921.ac47tbbkddrb72gq@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 9:28=E2=80=AFAM Johannes Segitz <jsegitz@suse.com> =
-wrote:
->
-> On Fri, Mar 11, 2022 at 03:52:54PM -0500, Paul Moore wrote:
-> > On Fri, Mar 11, 2022 at 9:01 AM Vivek Goyal <vgoyal@redhat.com> wrote:
-> > > Agreed. After going through the patch set, I was wondering what's the
-> > > overall security model and how to visualize that.
-> > >
-> > > So probably there needs to be a documentation patch which explains
-> > > what's the new security model and how does it work.
-> >
-> > Yes, of course.  I'll be sure to add a section to the existing docs.
-> >
-> > > Also think both in terms of DAC and MAC. (Instead of just focussing t=
-oo
-> > > hard on SELinux).
-> >
-> > Definitely.  Most of what I've been thinking about the past day or so
-> > has been how to properly handle some of the DAC/capability issues; I
-> > have yet to start playing with the code, but for the most part I think
-> > the MAC/SELinux bits are already working properly.
-> >
-> > > My understanding is that in current model, some of the overlayfs
-> > > operations require priviliges. So mounter is supposed to be privilige=
-d
-> > > and does the operation on underlying layers.
-> > >
-> > > Now in this new model, there will be two levels of check. Both overla=
-y
-> > > level and underlying layer checks will happen in the context of task
-> > > which is doing the operation. So first of all, all tasks will need
-> > > to have enough priviliges to be able to perform various operations
-> > > on lower layer.
-> > >
-> > > If we do checks at both the levels in with the creds of calling task,
-> > > I guess that probably is fine. (But will require a closer code inspec=
-tion
-> > > to make sure there is no privilege escalation both for mounter as wel=
-l
-> > > calling task).
-> >
-> > I have thoughts on this, but I don't think I'm yet in a position to
-> > debate this in depth just yet; I still need to finish poking around
-> > the code and playing with a few things :)
-> >
-> > It may take some time before I'm back with patches, but I appreciate
-> > all of the tips and insight - thank you!
->
-> Let me resurrect this discussion. With
-> https://github.com/fedora-selinux/selinux-policy/commit/1e8688ea694393c9d=
-918939322b72dfb44a01792
-> the Fedora policy changed kernel_t to a confined domain. This means that
-> many overlayfs setups that are created in initrd will now run into issues=
-,
-> as it will have kernel_t as part of the saved credentials. So while the
-> original use case that inspired the patch set was probably not very commo=
-n
-> that now changed.
+On Wed, Mar 22, 2023 at 07:29:21AM -0500, Eric Blake wrote:
+> On Wed, Mar 22, 2023 at 08:47:41AM +0800, Ming Lei wrote:
+> > On Tue, Mar 21, 2023 at 08:59:00AM -0500, Eric Blake wrote:
+> > > On Tue, Mar 21, 2023 at 07:20:33AM +0800, Ming Lei wrote:
+> > > > On Fri, Mar 17, 2023 at 03:27:46PM -0500, Eric Blake wrote:
+> > > > > The NBD spec says the client handle (or cookie) is opaque on the
+> > > > > server, and therefore it really doesn't matter what endianness we use;
+> > > > > to date, the use of memcpy() between u64 and a char[8] has exposed
+> > > > > native endianness when treating the handle as a 64-bit number.
+> > > > 
+> > > > No, memcpy() works fine for char[8], which doesn't break endianness.
+> > > 
+> > > I didn't say memcpy() breaks endianness, I said it preserves it.  By
+> > > using memcpy(), you are exposing native endianness over the wire.
+> > > Thus, even though a server should not be making any decisions based on
+> > > the content of the handle (it is an opaque value handed back to the
+> > > client unchanged), the current kernel client code DOES leak through
+> > > information about whether the client is big- or little-endian;
+> > 
+> > How is the client cpu endianness leaked with handle defined as char[8]?
+> > 
+> > Suppose it is leaked, is it really one issue? Cause most of CPUs in
+> > the world is little-endian.
+> > 
+> > > contrast to the NBD protocol saying that ALL data is
+> > > network-byte-order.
+> > 
+> > That doesn't make sense for any data defined as char[] or byte which
+> > needn't to be little or big endian.
+> 
+> The NBD spec defines it as a 64-bit opaque quantity - that does not
+> indicate whether it is a single integer or 8 characters, but because
+> it is opaque, we don't have to care.  However, if we DO treat it as an
+> integer (and the kernel client code DOES do that: internally, it is
+> building up a u64 integer), it is wise to consider network endianness.
 
-I don't remember anyone rejecting the patches on the account that
-the Android use case is not important. It was never the issue.
+That depends on if it is reasonable to convert to int.
 
->
-> It's tricky to work around this. Loading a policy in initrd causes a lot =
-of
-> issues now that kernel_t isn't unconfined anymore. Once the policy is
-> loaded by systemd changing the mounts is tough since we use it for /etc a=
-nd
-> at this time systemd already has open file handles for policy files in
-> /etc.
->
+> 
+> > 
+> > > 
+> > > > 
+> > > > > However, since NBD protocol documents that everything else is in
+> > > > > network order, and tools like Wireshark will dump even the contents of
+> > > > > the handle as seen over the network, it's worth using a consistent
+> > > > > ordering regardless of the native endianness.
+> > > > > 
+> > > > > Plus, using a consistent endianness now allows an upcoming patch to
+> > > > > simplify this to directly use integer assignment instead of memcpy().
+> > > > 
+> > > > It isn't necessary, given ->handle is actually u64, which is handled by
+> > > > nbd client only.
+> > > 
+> > > No, re-read the whole series.  ->handle is actually char[8].  Later in
+> > > the series adds ->cookie as __be64 as an alias to ->handle, precisely
+> > > so that we are converting the u64 'handle' in kernel code into a
+> > > big-endian value on the wire, regardless of the host type, and making
+> > > it impossible for a server to inspect the wire data and learn the
+> > > kernel's endianness.
+> > 
+> > How does server learn the client cpu endianness in this way? Is it really
+> > one issue?
+> 
+> Not a security issue, merely a consistency one.  A server that
+> inspects the handles being sent by the client, and checks whether they
+> are sequential when treated as a big- or little-endian number, can
+> infer whether the client is little-endian.  But there is nothing
+> useful it can do with that knowledge.  Rather, the consistency factor
+> is that if you have a wireshark plugin reading network traffic, and
+> are trying to correlate it back to kernel traces, it is NICE if the
+> wireshark plugin can display the SAME u64 number as the kernel was
+> sticking into the field - and the way to do that is to have a fixed
+> endianness of the u64 value over the wire.
 
-I've already explained several times on this thread what needs to be
-done in order to move forward - express the security model and
-explain why it is safe.
+OK, so the real motivation is only for aligning wireshark output with nbd
+trace event. If yes, please add it in comment log.
 
-If the security guys are going to be in LSS in Vancouver, perhaps
-we can have a meetup with overlayfs developers on the overlap
-day with LSFMM (May 10) to try and figure out a path forward.
+BTW, the nbd trace event can be converted to any format by bcc or bpftrace
+script, then you still can associate one with another.
+
+> 
+> > 
+> > > 
+> > > > 
+> > > > > 
+> > > > > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > > > > 
+> > > > > ---
+> > > > > v2: new patch
+> > > > > ---
+> > > > >  drivers/block/nbd.c | 10 +++++++---
+> > > > >  1 file changed, 7 insertions(+), 3 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+> > > > > index 592cfa8b765a..8a9487e79f1c 100644
+> > > > > --- a/drivers/block/nbd.c
+> > > > > +++ b/drivers/block/nbd.c
+> > > > > @@ -560,6 +560,7 @@ static int nbd_send_cmd(struct nbd_device *nbd, struct nbd_cmd *cmd, int index)
+> > > > >  	unsigned long size = blk_rq_bytes(req);
+> > > > >  	struct bio *bio;
+> > > > >  	u64 handle;
+> > > > > +	__be64 tmp;
+> > > > >  	u32 type;
+> > > > >  	u32 nbd_cmd_flags = 0;
+> > > > >  	int sent = nsock->sent, skip = 0;
+> > > > > @@ -606,7 +607,8 @@ static int nbd_send_cmd(struct nbd_device *nbd, struct nbd_cmd *cmd, int index)
+> > > > >  		request.len = htonl(size);
+> > > > >  	}
+> > > > >  	handle = nbd_cmd_handle(cmd);
+> > > > > -	memcpy(request.handle, &handle, sizeof(handle));
+> > > > > +	tmp = cpu_to_be64(handle);
+> > > > > +	memcpy(request.handle, &tmp, sizeof(tmp));
+> > > > 
+> > > > This way copies handle two times, really not fun.
+> > > 
+> > > Indeed.  And as mentioned in the commit message, it is temporary; the
+> > > second copy goes away later in the series once we can use direct
+> > > integer assignment.
+> > 
+> > Then please merge with following patch, given it is hard to review
+> > temporary change.
+> 
+> The underlying reason I split this patch out is that in v1 I got
+> complaints that I was not taking endianness into account.  The patch
+> series DOES cause an observable change (namely, a little-endian client
+> now sends a value in big-endian order that it used to send in
+> little-endian order) - but the change is harmless.  But if you want me
+> to squash this patch back with 4/5 in v3, I'm happy to do that.
+> 
+> Are there any other comments on this series that I should consider
+> before spending time putting out a v3?
+
+I think 2~4 should be merged to single patch.
 
 Thanks,
-Amir.
+Ming
+
