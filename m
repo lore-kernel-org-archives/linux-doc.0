@@ -2,357 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5672AC6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 19:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC06C6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 20:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbjCVTRv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 15:17:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
+        id S232227AbjCVUN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 16:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbjCVTRu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 15:17:50 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F835DEF2;
-        Wed, 22 Mar 2023 12:17:47 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M6fKef018927;
-        Wed, 22 Mar 2023 19:17:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=AiP4BOjuLoB/Kjrial9eWIMycztKER8b+U2Ec2SDup8=;
- b=pXHjKfb/yPw9pza9NwbsQH6gTPkbeXVZJSmynf9+XtDqddfqRnzMmg0Bb+A8aYzP+0Di
- R47OL+GLGHqC2PKJT3e2v5oXsmGPwsxXxh63Gwhr7toYP2B1BJzUgkA6GKnqcYjVZWCP
- c73QYWQTaFX+X7Fsh5wAx/2rSlazDwv+NyzDMwGA2QMsXtYZPATUACD+WYOC6FnoK/xR
- 0fwCLeF01jW4duXpZgAxg5TQZze2IY9pblyc8+7b6TmryiQCdyFhngXag5LAlrCQrA4n
- sIZHiGroJ1uTBJMcME1ACUsofQonAmNfoWyuevn0wDm8SJRzUzAerAVo6YU9Ed+Nrgnm CA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pfhntk6vx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Mar 2023 19:17:29 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32MJHSO1011735
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Mar 2023 19:17:28 GMT
-Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Mar
- 2023 12:17:27 -0700
-Message-ID: <1b893760-0be7-e9f5-24c8-3e6dcbe8e237@quicinc.com>
-Date:   Wed, 22 Mar 2023 12:17:27 -0700
+        with ESMTP id S232181AbjCVUNj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 16:13:39 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B22E80E13;
+        Wed, 22 Mar 2023 13:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679515500; x=1711051500;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a8YkKlN2oKnSi1BC3A2diPgc104NuJ1ZJiB6GyG9A2k=;
+  b=M0+RtruKBflVeTY5tcMZJRG45AoDM75Fm/M+dDOoXdFCyNrBEYMMm/Pl
+   /JEFb29A9rKU+T6/iW7C1UCFsUK7nt3Q3rw02d0XCLtdczsDw3ki+m7JB
+   r03PheuwZMFIHNH03jtaCfpXLMETorUnB4iU3II6eqBLb1B/8Tzfv4pcm
+   QAgM5P3o56vhX9dB9sMwc7jkIcu7EZdtLE3vdx/qyxTkBahOxuEzvouJI
+   7qUwJhISLHzMeJZ7zhFXxRpgsVi/5mQUSOiYh+xs6ACXLV/unP5+GcdPY
+   /4bprK0FGbR63Ft6RfCCjTY7SRQAp9LCH/3oqwBfp6H2BuU+RTcVLgF1i
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="339356785"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
+   d="scan'208";a="339356785"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 13:04:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682039315"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
+   d="scan'208";a="682039315"
+Received: from srinivas-otcpl-7600.jf.intel.com (HELO jacob-builder.jf.intel.com) ([10.54.39.106])
+  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 13:04:04 -0700
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        "Lu Baolu" <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        "Robin Murphy" <robin.murphy@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     "Will Deacon" <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v8 0/7] Remove VT-d virtual command interface and IOASID
+Date:   Wed, 22 Mar 2023 13:07:56 -0700
+Message-Id: <20230322200803.869130-1-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v11 15/26] gunyah: rsc_mgr: Add platform ops on
- mem_lend/mem_reclaim
-Content-Language: en-US
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alex Elder <elder@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
- <20230304010632.2127470-16-quic_eberman@quicinc.com>
- <5e9b3ec6-5d47-cd73-c7c0-0aa891bdfc23@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <5e9b3ec6-5d47-cd73-c7c0-0aa891bdfc23@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: jRODWjIfHdBvayWmVaMKT0Cxnkn8s7Al
-X-Proofpoint-ORIG-GUID: jRODWjIfHdBvayWmVaMKT0Cxnkn8s7Al
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_15,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- suspectscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303220134
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi all,
+
+This patch set removes unused VT-d virtual command interface followed by
+removal of the IOASID infrastructure.
+
+This has only been tested on x86 platforms, need help with testing on ARM
+SMMU and other architectures.
 
 
-On 3/21/2023 7:23 AM, Srinivas Kandagatla wrote:
-> 
-> 
-> On 04/03/2023 01:06, Elliot Berman wrote:
->> On Qualcomm platforms, there is a firmware entity which controls access
->> to physical pages. In order to share memory with another VM, this entity
->> needs to be informed that the guest VM should have access to the memory.
->>
->> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->> ---
->>   drivers/virt/gunyah/Kconfig                 |  4 ++
->>   drivers/virt/gunyah/Makefile                |  1 +
->>   drivers/virt/gunyah/gunyah_platform_hooks.c | 80 +++++++++++++++++++++
->>   drivers/virt/gunyah/rsc_mgr.h               |  3 +
->>   drivers/virt/gunyah/rsc_mgr_rpc.c           | 18 ++++-
->>   include/linux/gunyah_rsc_mgr.h              | 17 +++++
->>   6 files changed, 121 insertions(+), 2 deletions(-)
->>   create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
->>
->> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
->> index 1a737694c333..de815189dab6 100644
->> --- a/drivers/virt/gunyah/Kconfig
->> +++ b/drivers/virt/gunyah/Kconfig
->> @@ -4,6 +4,7 @@ config GUNYAH
->>       tristate "Gunyah Virtualization drivers"
->>       depends on ARM64
->>       depends on MAILBOX
->> +    select GUNYAH_PLATFORM_HOOKS
->>       help
->>         The Gunyah drivers are the helper interfaces that run in a 
->> guest VM
->>         such as basic inter-VM IPC and signaling mechanisms, and 
->> higher level
->> @@ -11,3 +12,6 @@ config GUNYAH
->>         Say Y/M here to enable the drivers needed to interact in a Gunyah
->>         virtual environment.
->> +
->> +config GUNYAH_PLATFORM_HOOKS
->> +    tristate
->> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
->> index ff8bc4925392..6b8f84dbfe0d 100644
->> --- a/drivers/virt/gunyah/Makefile
->> +++ b/drivers/virt/gunyah/Makefile
->> @@ -1,6 +1,7 @@
->>   # SPDX-License-Identifier: GPL-2.0
->>   obj-$(CONFIG_GUNYAH) += gunyah.o
->> +obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
->>   gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
->>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
->> diff --git a/drivers/virt/gunyah/gunyah_platform_hooks.c 
->> b/drivers/virt/gunyah/gunyah_platform_hooks.c
->> new file mode 100644
->> index 000000000000..60da0e154e98
->> --- /dev/null
->> +++ b/drivers/virt/gunyah/gunyah_platform_hooks.c
->> @@ -0,0 +1,80 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->> rights reserved.
->> + */
->> +
->> +#include <linux/module.h>
->> +#include <linux/rwsem.h>
->> +#include <linux/gunyah_rsc_mgr.h>
->> +
->> +#include "rsc_mgr.h"
->> +
->> +static struct gh_rm_platform_ops *rm_platform_ops;
->> +static DECLARE_RWSEM(rm_platform_ops_lock);
->> +
->> +int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct 
->> gh_rm_mem_parcel *mem_parcel)
-> 
-> I think I have asked this question but I can not find the answer to this 
-> from old replies.
-> Why is this platform hooks not part of core gunyah? Do we need a 
-> dedicated module for this.
-> By the looks of APIs I see this is very much close to rm and i think 
-> this functionality should live with rm.
-> 
+Thanks,
 
-If the platform hooks were part of core gunyah, then core gunyah could 
-only be enabled as =y in the default defconfig because QCOM_SCM would 
-rely on the platform hooks (core gunyah).
+Jacob
 
-With the suggestion to move the SCM platform hooks into separate module, 
-I can/will bring the platform hooks back into core gunyah module.
+ChangeLog:
+v8:
+ - remove #ifdef CONFIG_IOMMU_SVA since we have dummy inline functions.
+ - fixed a compile bug that affects bisectability
 
-- Elliot
+v7:
+ - use CONFIG_IOMMU_SVA around PASID helpers in fork.c, Fixes a
+   compile problem.
+ - Fix extra space
 
-> --srini
-> +{
->> +    int ret = 0;
->> +
->> +    down_read(&rm_platform_ops_lock);
->> +    if (rm_platform_ops && rm_platform_ops->pre_mem_share)
->> +        ret = rm_platform_ops->pre_mem_share(rm, mem_parcel);
->> +    up_read(&rm_platform_ops_lock);
->> +    return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(gh_rm_platform_pre_mem_share);
->> +
->> +int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct 
->> gh_rm_mem_parcel *mem_parcel)
->> +{
->> +    int ret = 0;
->> +
->> +    down_read(&rm_platform_ops_lock);
->> +    if (rm_platform_ops && rm_platform_ops->post_mem_reclaim)
->> +        ret = rm_platform_ops->post_mem_reclaim(rm, mem_parcel);
->> +    up_read(&rm_platform_ops_lock);
->> +    return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(gh_rm_platform_post_mem_reclaim);
->> +
->> +int gh_rm_register_platform_ops(struct gh_rm_platform_ops *platform_ops)
->> +{
->> +    int ret = 0;
->> +
->> +    down_write(&rm_platform_ops_lock);
->> +    if (!rm_platform_ops)
->> +        rm_platform_ops = platform_ops;
->> +    else
->> +        ret = -EEXIST;
->> +    up_write(&rm_platform_ops_lock);
->> +    return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(gh_rm_register_platform_ops);
->> +
->> +void gh_rm_unregister_platform_ops(struct gh_rm_platform_ops 
->> *platform_ops)
->> +{
->> +    down_write(&rm_platform_ops_lock);
->> +    if (rm_platform_ops == platform_ops)
->> +        rm_platform_ops = NULL;
->> +    up_write(&rm_platform_ops_lock);
->> +}
->> +EXPORT_SYMBOL_GPL(gh_rm_unregister_platform_ops);
->> +
->> +static void _devm_gh_rm_unregister_platform_ops(void *data)
->> +{
->> +    gh_rm_unregister_platform_ops(data);
->> +}
->> +
->> +int devm_gh_rm_register_platform_ops(struct device *dev, struct 
->> gh_rm_platform_ops *ops)
->> +{
->> +    int ret;
->> +
->> +    ret = gh_rm_register_platform_ops(ops);
->> +    if (ret)
->> +        return ret;
->> +
->> +    return devm_add_action(dev, _devm_gh_rm_unregister_platform_ops, 
->> ops);
->> +}
->> +EXPORT_SYMBOL_GPL(devm_gh_rm_register_platform_ops);
->> +
->> +MODULE_LICENSE("GPL");
->> +MODULE_DESCRIPTION("Gunyah Platform Hooks");
->> diff --git a/drivers/virt/gunyah/rsc_mgr.h 
->> b/drivers/virt/gunyah/rsc_mgr.h
->> index 3665ebc7b020..6838e736f361 100644
->> --- a/drivers/virt/gunyah/rsc_mgr.h
->> +++ b/drivers/virt/gunyah/rsc_mgr.h
->> @@ -13,4 +13,7 @@ struct gh_rm;
->>   int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, void 
->> *req_buff, size_t req_buf_size,
->>           void **resp_buf, size_t *resp_buf_size);
->> +int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct 
->> gh_rm_mem_parcel *mem_parcel);
->> +int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct 
->> gh_rm_mem_parcel *mem_parcel);
->> +
->>   #endif
->> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c 
->> b/drivers/virt/gunyah/rsc_mgr_rpc.c
->> index 3df15ad5b97d..733be4dc8dd2 100644
->> --- a/drivers/virt/gunyah/rsc_mgr_rpc.c
->> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
->> @@ -204,6 +204,12 @@ static int gh_rm_mem_lend_common(struct gh_rm 
->> *rm, u32 message_id, struct gh_rm_
->>       if (!msg)
->>           return -ENOMEM;
->> +    ret = gh_rm_platform_pre_mem_share(rm, p);
->> +    if (ret) {
->> +        kfree(msg);
->> +        return ret;
->> +    }
->> +
->>       req_header = msg;
->>       acl_section = (void *)req_header + sizeof(*req_header);
->>       mem_section = (void *)acl_section + struct_size(acl_section, 
->> entries, p->n_acl_entries);
->> @@ -227,8 +233,10 @@ static int gh_rm_mem_lend_common(struct gh_rm 
->> *rm, u32 message_id, struct gh_rm_
->>       ret = gh_rm_call(rm, message_id, msg, msg_size, (void **)&resp, 
->> &resp_size);
->>       kfree(msg);
->> -    if (ret)
->> +    if (ret) {
->> +        gh_rm_platform_post_mem_reclaim(rm, p);
->>           return ret;
->> +    }
->>       p->mem_handle = le32_to_cpu(*resp);
->> @@ -283,8 +291,14 @@ int gh_rm_mem_reclaim(struct gh_rm *rm, struct 
->> gh_rm_mem_parcel *parcel)
->>       struct gh_rm_mem_release_req req = {
->>           .mem_handle = cpu_to_le32(parcel->mem_handle),
->>       };
->> +    int ret;
->> +
->> +    ret = gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), 
->> NULL, NULL);
->> +    /* Do not call platform mem reclaim hooks: the reclaim didn't 
->> happen*/
->> +    if (ret)
->> +        return ret;
->> -    return gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), 
->> NULL, NULL);
->> +    return gh_rm_platform_post_mem_reclaim(rm, parcel);
->>   }
->>   /**
->> diff --git a/include/linux/gunyah_rsc_mgr.h 
->> b/include/linux/gunyah_rsc_mgr.h
->> index 8b0b46f28e39..515087931a2b 100644
->> --- a/include/linux/gunyah_rsc_mgr.h
->> +++ b/include/linux/gunyah_rsc_mgr.h
->> @@ -145,4 +145,21 @@ int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 
->> vmid,
->>                   struct gh_rm_hyp_resources **resources);
->>   int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
->> +struct gunyah_rm_platform_ops {
->> +    int (*pre_mem_share)(struct gh_rm *rm, struct gh_rm_mem_parcel 
->> *mem_parcel);
->> +    int (*post_mem_reclaim)(struct gh_rm *rm, struct gh_rm_mem_parcel 
->> *mem_parcel);
->> +};
->> +
->> +#if IS_ENABLED(CONFIG_GUNYAH_PLATFORM_HOOKS)
->> +int gh_rm_register_platform_ops(struct gh_rm_platform_ops 
->> *platform_ops);
->> +void gh_rm_unregister_platform_ops(struct gh_rm_platform_ops 
->> *platform_ops);
->> +int devm_gh_rm_register_platform_ops(struct device *dev, struct 
->> gh_rm_platform_ops *ops);
->> +#else
->> +static inline int gh_rm_register_platform_ops(struct 
->> gh_rm_platform_ops *platform_ops)
->> +    { return 0; }
->> +static inline void gh_rm_unregister_platform_ops(struct 
->> gh_rm_platform_ops *platform_ops) { }
->> +static inline int devm_gh_rm_register_platform_ops(struct device *dev,
->> +    struct gh_rm_platform_ops *ops) { return 0; }
->> +#endif
->> +
->>   #endif
+v6:
+ - put pasid helpers under iommu.h instead of iommu-helper.h
+ - add comments for pasid allocation function to clarify inclusive range
+
+v5:
+ - rebased on v6.3-rc1
+ - put removing iommu_sva_find() in a separate patch (Kevin)
+ - move definition of helpers to iommu code to be consistent with
+   declarations. (Kevin)
+ - misc fixes
+
+v4:
+ - keep mm_pasid helpers inline as much as we can for fork performance
+ - separate GFP_ATOMIC to GFP_KERNEL change for bisectability
+
+v3:
+ - moved helper functions for PASID under SVA code, avoided circular inclusion
+   between mm.h and iommu.h
+ - deleted makefiles
+ - put rename under a different patch
+
+
+
+Jacob Pan (5):
+  iommu/vt-d: Remove virtual command interface
+  iommu/sva: Move PASID helpers to sva code
+  iommu/sva: Remove PASID to mm lookup function
+  iommu/sva: Use GFP_KERNEL for pasid allocation
+  iommu/ioasid: Rename INVALID_IOASID
+
+Jason Gunthorpe (2):
+  iommu/sva: Stop using ioasid_set for SVA
+  iommu: Remove ioasid infrastructure
+
+ Documentation/x86/sva.rst       |   2 +-
+ arch/x86/kernel/traps.c         |   2 +-
+ drivers/dma/idxd/device.c       |   8 +-
+ drivers/dma/idxd/idxd.h         |   2 +-
+ drivers/dma/idxd/init.c         |   2 +-
+ drivers/dma/idxd/irq.c          |   2 +-
+ drivers/iommu/Kconfig           |   5 -
+ drivers/iommu/Makefile          |   1 -
+ drivers/iommu/intel/cap_audit.c |   2 -
+ drivers/iommu/intel/dmar.c      |   6 +-
+ drivers/iommu/intel/iommu.c     |  87 +------
+ drivers/iommu/intel/iommu.h     |   3 -
+ drivers/iommu/intel/svm.c       |   3 +-
+ drivers/iommu/ioasid.c          | 422 --------------------------------
+ drivers/iommu/iommu-sva.c       |  61 ++---
+ drivers/iommu/iommu-sva.h       |   4 -
+ include/linux/ioasid.h          |  83 -------
+ include/linux/iommu.h           |  14 +-
+ include/linux/sched/mm.h        |  26 --
+ kernel/fork.c                   |   1 +
+ mm/init-mm.c                    |   4 +-
+ 21 files changed, 47 insertions(+), 693 deletions(-)
+ delete mode 100644 drivers/iommu/ioasid.c
+ delete mode 100644 include/linux/ioasid.h
+
+-- 
+2.25.1
+
