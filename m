@@ -2,99 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76E6C761AF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 14:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F04C6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 14:08:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbjCVOIE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 10:08:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58482 "EHLO
+        id S231201AbjCVOI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 10:08:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231175AbjCVOIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 10:08:02 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5197CA5EF
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 07:08:00 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-53d277c1834so340332897b3.10
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 07:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1679494079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4EakOMVvmjMrpb457OnFfYZClCBACmlWo/Bdwpmz3ho=;
-        b=Bq0nLj0I4jhCoeI2O/FcBp826/00O1M1O0TDmkYE5MBR1Yw2ZzBCSrh+slr/9y6MKk
-         WhLZHaDuSoJCTuKHwMclihwWBvyAwU7M3Z2xjWTSy4cuqGOAB1lJlwCS5qH4dMSxGZba
-         iUW76DCjYQLx7FJvnh0eB9Ie1EWVbMCzK/ke58iKlYlBzg4Zw/hk54ZOC7xPuZn2sLvE
-         IHEniGW2jl979RkJGqZrM6MN+MssrXP2j9d/4rcnilRJ6oGC4EgFNU1ZunF69PI3HMUy
-         h5BZxjPJ7ssMceCccT/j7Awzy//rHe8Nc+AtqZlsxX8tVJapXASBrrhjj7qE4SQ7MLXi
-         glUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679494079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4EakOMVvmjMrpb457OnFfYZClCBACmlWo/Bdwpmz3ho=;
-        b=d7v3MqnpGjD68iWYNNA4brgQfUBTmrbZ/A4WRVEutg2P7ITGlO84c8fFqIHC/dZ1/l
-         RDniALZqN4wmVPtK986wagKWbZNQb8z/EujmmgKnqx5gHCvOFpndiwZhc08yg8kDTrtK
-         7QzffLy0Eco8bi2aPpZKbE6jEAV3TCD4WEYTtU+1jr1ccscef1mxY4UFrZcSF0IEjnlt
-         D9aCYPn+BlGknFV2CkNxpGsaHMBhgtARG70jzqMbAzlFnuOaAOthouyoHHI7nPAewVqx
-         RfzRhKJTY6RB0DHqEVxnpHSTvPk6p9DZVOeb+oarm8vwA48OHQqc3rpr0CL6m+vuG0/o
-         fz/A==
-X-Gm-Message-State: AAQBX9daCwh49CKIha2eAnX09od864c4GVj1bvz91p6epUHt0srTzS3S
-        p+nsQuL9QGwVYPHr3BKX60I7593MAvzgXm42aUWC
-X-Google-Smtp-Source: AKy350YJvYPmZdXNUJfmC7kxcMB9gDrOVe3l06Mal5Xkb0cXB7QE+r2GmVHGornORg0Jzt4IPVF/0t2Zye7NOAwla6I=
-X-Received: by 2002:a81:ac62:0:b0:541:7f7b:a2ff with SMTP id
- z34-20020a81ac62000000b005417f7ba2ffmr3075152ywj.8.1679494079305; Wed, 22 Mar
- 2023 07:07:59 -0700 (PDT)
+        with ESMTP id S230513AbjCVOI4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 10:08:56 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A038C83F9;
+        Wed, 22 Mar 2023 07:08:55 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M5Di7Z006527;
+        Wed, 22 Mar 2023 14:08:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=XyC8Vg8Vddv01CmDJkL51n+6GguQndl0CbYryLQ2s/0=;
+ b=Yk8YO2CLwdIbcjGh3XoiwPSuKuMqVXTASblAf5fEk6Z9/ALhwhczEonkRo9EzPyDekzb
+ n2DVsEdjDwpR0KQ3RRQaCV+TNgItSMp2oE4+q+OKEU54AScqRaoHNfUAC1aeFfX/dvDu
+ AOMQTNOksmf3vm5aLlXhefd5F0Lh4WRfhmR/rvsN8+M6G+q53Osr0OtGTJO9rsRxFeeu
+ BUxtmP6lQ6WFqzZkhwzpRzltCk2ONjk8AnX5eDkE8inFzsJHFPAbS8WlXvZbVNXS741v
+ /y7KQA32koVjki7Sp+HOAgFz3CPzwwMwR6khvWoc+ofwg8VxC2t/qIERNo1FgOh/ynnq fw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pfdm4k5y9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Mar 2023 14:08:45 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32ME8ij0018980
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Mar 2023 14:08:44 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Mar
+ 2023 07:08:43 -0700
+Message-ID: <9ecfcdc2-71cb-4149-a05c-69947f255720@quicinc.com>
+Date:   Wed, 22 Mar 2023 08:08:42 -0600
 MIME-Version: 1.0
-References: <Yao51m9EXszPsxNN@redhat.com> <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
- <YapjNRrjpDu2a5qQ@redhat.com> <CAHC9VhQTUgBRBEz_wFX8daSA70nGJCJLXj8Yvcqr5+DHcfDmwA@mail.gmail.com>
- <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com>
- <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com>
- <CAHC9VhQkLSBGQ-F5Oi9p3G6L7Bf_jQMWAxug_G4bSOJ0_cYXxQ@mail.gmail.com>
- <CAOQ4uxhfU+LGunL3cweorPPdoCXCZU0xMtF=MekOAe-F-68t_Q@mail.gmail.com>
- <YitWOqzIRjnP1lok@redhat.com> <CAHC9VhQ+x3ko+=oU-P+w4ssqyyskRxaKsBGJLnXtP_NzWNuxHg@mail.gmail.com>
- <20230322072850.GA18056@suse.de> <CAOQ4uxgH905R1dkQy5=tuG4nnB-p2XUWcf91vvYbfu2DyftzPw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgH905R1dkQy5=tuG4nnB-p2XUWcf91vvYbfu2DyftzPw@mail.gmail.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 22 Mar 2023 10:07:48 -0400
-Message-ID: <CAHC9VhQMixtPrUmqBKrEWeT-BshyP35By71h-QSXj1zoJBba4A@mail.gmail.com>
-Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Johannes Segitz <jsegitz@suse.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        David Anderson <dvander@google.com>,
-        Mark Salyzyn <salyzyn@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
-        paulmoore@microsoft.com, luca.boccassi@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
+Content-Language: en-US
+To:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+        <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <stanislaw.gruszka@linux.intel.com>
+CC:     <dafna@fastmail.com>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <quic_ajitpals@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+        <quic_carlv@quicinc.com>
+References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+ <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+ <f4e01050-ecaa-75e3-92f4-e2b71702cc52@linux.intel.com>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <f4e01050-ecaa-75e3-92f4-e2b71702cc52@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: KKjN7n1FXYZWVrJvU4-PSbWKHS8JBm_N
+X-Proofpoint-GUID: KKjN7n1FXYZWVrJvU4-PSbWKHS8JBm_N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_11,2023-03-22_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ spamscore=0 phishscore=0 bulkscore=0 malwarescore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303220103
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 8:48=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
-> If the security guys are going to be in LSS in Vancouver, perhaps
-> we can have a meetup with overlayfs developers on the overlap
-> day with LSFMM (May 10) to try and figure out a path forward.
+On 3/22/2023 2:03 AM, Jacek Lawrynowicz wrote:
+> Hi,
+> 
+> On 20.03.2023 16:11, Jeffrey Hugo wrote:
+>> Now that we have all the components of a minimum QAIC which can boot and
+>> run an AIC100 device, add the infrastructure that allows the QAIC driver
+>> to be built.
+>>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+>> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> ---
+>>   drivers/accel/Kconfig       |  1 +
+>>   drivers/accel/Makefile      |  1 +
+>>   drivers/accel/qaic/Kconfig  | 23 +++++++++++++++++++++++
+>>   drivers/accel/qaic/Makefile | 13 +++++++++++++
+>>   4 files changed, 38 insertions(+)
+>>   create mode 100644 drivers/accel/qaic/Kconfig
+>>   create mode 100644 drivers/accel/qaic/Makefile
+>>
+>> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+>> index c437206..64065fb 100644
+>> --- a/drivers/accel/Kconfig
+>> +++ b/drivers/accel/Kconfig
+>> @@ -26,5 +26,6 @@ menuconfig DRM_ACCEL
+>>   
+>>   source "drivers/accel/habanalabs/Kconfig"
+>>   source "drivers/accel/ivpu/Kconfig"
+>> +source "drivers/accel/qaic/Kconfig"
+>>   
+>>   endif
+>> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+>> index 07aa77a..26caf43 100644
+>> --- a/drivers/accel/Makefile
+>> +++ b/drivers/accel/Makefile
+>> @@ -2,3 +2,4 @@
+>>   
+>>   obj-y	+= habanalabs/
+>>   obj-y	+= ivpu/
+>> +obj-$(CONFIG_DRM_ACCEL_QAIC)  += qaic/
+> 
+> Use two tabs instead of two spaces here to align with the current version of this file on drm-misc-next.
 
-At the very least I currently plan to be at LSS-NA in Vancouver and
-would be very happy to discuss this with anyone who wants to talk
-about it.  I'm also happy to continue to conversation here too, for
-the sake of those who might not be able to travel to LSS-NA and/or
-LSFMM.
+Will do.
 
---=20
-paul-moore.com
+-Jeff
+
