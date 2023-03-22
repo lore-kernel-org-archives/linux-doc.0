@@ -2,307 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5BBC6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 07:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91B8BC7619A
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 07:29:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjCVH0x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 03:26:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55196 "EHLO
+        id S229879AbjCVH3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 03:29:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbjCVH0v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 03:26:51 -0400
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB8B126DE;
-        Wed, 22 Mar 2023 00:26:50 -0700 (PDT)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M7Eog8007381;
-        Wed, 22 Mar 2023 00:26:07 -0700
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2048.outbound.protection.outlook.com [104.47.56.48])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3pdctpc5py-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Mar 2023 00:26:07 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ewbY8nXzRvOiQgjA+fjjxMAwc9S5xBZewGCAij6T4+ok7YPDCo0L3XKrpBShfKKuz8wvM5rBBLfolzq8yNgKi5ujlTwuR/fhWUOQe4GUcZEAISeLAslmpPhg9kKbUw/Q+swPBQLjJ0dD8EbyvAeRrrGvdyUQb/McPjjKilwViFUvF2PIxFIRpavbNUYHZoSG+CMFYxDNf8nriLSJrXtP//aX3a9ogvz25BY7f/20+JBM0+AoMXrPNM0Zb/hLNavP8RhN1UM/N8VyTwQgigPx+xnH+66Xh2CD+FIUlGGFraJWrqnKB+hNqoMOBhKGCUwdZgTSbosnAs5Wv9hWo7CFQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kEOQMjbARsPQx5T1Xlg9SJaW2Hv2W5Y9Cpi+R6FCCvE=;
- b=Bs7MocInB3ASqA+lmoAJZP0c7uvrRxMDG5jHG4jugVNjvl12Ls6toVx0hxQy4jXWwaVx5u9qtQ9yP1i2Tt4gG1Mp4BhFbNduI6c4ts/DTiID6cm8xiJOHXZu8CPHv4ZUYAqZk0t5rENBCf94kcQrLktXCVoVQZhtyxzt0PzGLQYO3qldDcdE6B7PuDJqdsiHW+QQ3/N7F8eJZyZrG43orinixpP+ofQN96Gv+qNCr/gQn0NR2J3KmDKBQWXrdh3iPcDo9T60vm6Po0l836fxZlSxBFbOSJMsF8xLDq3cWhfahxlMqEuEB/04ugowlFXnyfFQNWo60K40XanoWcyLmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kEOQMjbARsPQx5T1Xlg9SJaW2Hv2W5Y9Cpi+R6FCCvE=;
- b=KgT+zFg/w+tHLhrzV6EGowaCbKXmW2NYPKBAvd8wQTOwLjIHNGPFuWuUQM0Wt7Wi3DYnKecnh3crDZf96ZGpdbZkOSdFcQK7l2rAJKgkiLkXFn3U/udGS73fH4ukVglpEYO3HPLZEWXGXFd63v0vSwgcSH2AUb7/YZKU9hCj8DE=
-Received: from BYASPR01MB0053.namprd18.prod.outlook.com (2603:10b6:a03:b2::12)
- by PH0PR18MB4441.namprd18.prod.outlook.com (2603:10b6:510:e0::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
- 2023 07:26:05 +0000
-Received: from BYASPR01MB0053.namprd18.prod.outlook.com
- ([fe80::c472:7b3:b39a:50e2]) by BYASPR01MB0053.namprd18.prod.outlook.com
- ([fe80::c472:7b3:b39a:50e2%5]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
- 07:26:05 +0000
-From:   Veerasenareddy Burru <vburru@marvell.com>
-To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Abhijit Ayarekar <aayarekar@marvell.com>,
-        Sathesh B Edara <sedara@marvell.com>,
-        Satananda Burla <sburla@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Subject: RE: [EXT] Re: [PATCH net-next v3 5/7] octeon_ep: support asynchronous
- notifications
-Thread-Topic: [EXT] Re: [PATCH net-next v3 5/7] octeon_ep: support
- asynchronous notifications
-Thread-Index: AQHZQDM6GPKcjWDLWUe8vgr/YQ1bB67QNs6AgDZndGA=
-Date:   Wed, 22 Mar 2023 07:26:05 +0000
-Message-ID: <BYASPR01MB0053FFDDDF3ED9122B0D917DCC869@BYASPR01MB0053.namprd18.prod.outlook.com>
-References: <20230214051422.13705-1-vburru@marvell.com>
- <20230214051422.13705-6-vburru@marvell.com> <Y+0J94sowllCe5Gs@boxer>
-In-Reply-To: <Y+0J94sowllCe5Gs@boxer>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcdmJ1cnJ1XGFw?=
- =?us-ascii?Q?cGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEy?=
- =?us-ascii?Q?OWUzNWJcbXNnc1xtc2ctY2NjMjhmNzItYzg4Mi0xMWVkLTgzNzctZjRhNDc1?=
- =?us-ascii?Q?OWE1OGFjXGFtZS10ZXN0XGNjYzI4Zjc0LWM4ODItMTFlZC04Mzc3LWY0YTQ3?=
- =?us-ascii?Q?NTlhNThhY2JvZHkudHh0IiBzej0iMzM0NCIgdD0iMTMzMjM5NDM1NjM1MDE4?=
- =?us-ascii?Q?OTQwIiBoPSJyQU8zYThGbkRFQXYzMlFHV1JxVmNNallJS289IiBpZD0iIiBi?=
- =?us-ascii?Q?bD0iMCIgYm89IjEiIGNpPSJjQUFBQUVSSFUxUlNSVUZOQ2dVQUFIWUlBQUM4?=
- =?us-ascii?Q?VEJtUGoxelpBZmFUbkNMUVNvcHQ5cE9jSXRCS2ltME5BQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBSEFBQUFBR0NBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?RUFBUUFCQUFBQTFGSDNhQUFBQUFBQUFBQUFBQUFBQUo0QUFBQmhBR1FBWkFC?=
- =?us-ascii?Q?eUFHVUFjd0J6QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFF?=
- =?us-ascii?Q?QUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdNQWRRQnpBSFFBYndCdEFGOEFjQUJs?=
- =?us-ascii?Q?QUhJQWN3QnZBRzRBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNBQUFB?=
- =?us-ascii?Q?QUFDZUFBQUFZd0IxQUhNQWRBQnZBRzBBWHdCd0FHZ0Fid0J1QUdVQWJnQjFB?=
- =?us-ascii?Q?RzBBWWdCbEFISUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCakFIVUFj?=
- =?us-ascii?Q?d0IwQUc4QWJRQmZBSE1BY3dCdUFGOEFaQUJoQUhNQWFBQmZBSFlBTUFBeUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
-x-dg-refone: =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR01B?=
- =?us-ascii?Q?ZFFCekFIUUFid0J0QUY4QWN3QnpBRzRBWHdCckFHVUFlUUIzQUc4QWNnQmtB?=
- =?us-ascii?Q?SE1BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFRQUFBQUFBQUFBQ0FBQUFBQUNlQUFBQVl3QjFBSE1BZEFCdkFHMEFY?=
- =?us-ascii?Q?d0J6QUhNQWJnQmZBRzRBYndCa0FHVUFiQUJwQUcwQWFRQjBBR1VBY2dCZkFI?=
- =?us-ascii?Q?WUFNQUF5QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFB?=
- =?us-ascii?Q?QUlBQUFBQUFKNEFBQUJqQUhVQWN3QjBBRzhBYlFCZkFITUFjd0J1QUY4QWN3?=
- =?us-ascii?Q?QndBR0VBWXdCbEFGOEFkZ0F3QURJQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFH?=
- =?us-ascii?Q?UUFiQUJ3QUY4QWN3QnJBSGtBY0FCbEFGOEFZd0JvQUdFQWRBQmZBRzBBWlFC?=
- =?us-ascii?Q?ekFITUFZUUJuQUdVQVh3QjJBREFBTWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQVFBQUFBQUFBQUFDQUFBQUFBQ2VBQUFBWkFCc0FIQUFYd0J6QUd3?=
- =?us-ascii?Q?QVlRQmpBR3NBWHdCakFHZ0FZUUIwQUY4QWJRQmxBSE1BY3dCaEFHY0FaUUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
-x-dg-reftwo: =?us-ascii?Q?QUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQmtBR3dBY0FCZkFI?=
- =?us-ascii?Q?UUFaUUJoQUcwQWN3QmZBRzhBYmdCbEFHUUFjZ0JwQUhZQVpRQmZBR1lBYVFC?=
- =?us-ascii?Q?c0FHVUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFFQUFB?=
- =?us-ascii?Q?QUFBQUFBQWdBQUFBQUFuZ0FBQUdVQWJRQmhBR2tBYkFCZkFHRUFaQUJrQUhJ?=
- =?us-ascii?Q?QVpRQnpBSE1BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQURnQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNBQUFBQUFD?=
- =?us-ascii?Q?ZUFBQUFiUUJoQUhJQWRnQmxBR3dBYkFCZkFIQUFjZ0J2QUdvQVpRQmpBSFFB?=
- =?us-ascii?Q?WHdCakFHOEFaQUJsQUhNQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCdEFHRUFjZ0Iy?=
- =?us-ascii?Q?QUdVQWJBQnNBRjhBZEFCbEFISUFiUUJwQUc0QWRRQnpBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUVB?=
- =?us-ascii?Q?QUFBQUFBQUFBZ0FBQUFBQSIvPjwvbWV0YT4=3D?=
-x-dg-rorf: true
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYASPR01MB0053:EE_|PH0PR18MB4441:EE_
-x-ms-office365-filtering-correlation-id: 82a68f0b-687b-47ed-f85d-08db2aa6b296
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +arD6xJzCbZr5mctcAqBFADiV1axn3SVh1KGYy6i3sGqzgA7i6/orIl0zQtJoL5sHY2Lu2FoPLGI83tC9YJ/23lxPgQ49mRzsqfY4/dgI81C8K49ZEMXEXNJG2b5smgKjJIuspLgf5OHPAOAjWm5iP3mO5TXDpp2f2tQLDQ3TcQya7NIpbs25VyX50b3VCRUlPuXJZL82fUT9zp2aSqy3PmGOk34eNAIP2SMncEhP6079moVr154Z86X9IqClzbJsnqrq0rzs+bUo5qmIhfuh/ki43a0HHQ8+Hq95dTppYvjN3OGuAL+n+m+AElMtfUsVUiUAyl76T6YTc75AdY5UpLf84BcMMMnmC3n+9dKa3qwMPJorAGBC7zCYrkG6NV1CSBOHuZyjtuMotsasFeC7XpehYYq0rUV5bH8idGaxRpz+Zs2og/Z8cd95MOnWY2jUQEnsfeFcbCC/tP40T2XuPnS9z4hBLSnAUv3wuBKM/g1hiqscYB7aITSdFYjADIBaMinAjivNvHfdfYMqgXwOLnVSpqrr1FK5MN1KsPhZ6xdDVTqK1z6l6hcMso3qErt7LcXF1dB++AqC04VQRNepesMVhMmE8wbn8HoU6nzUYjUBh9phBoTYr02LSc2G7or3fpcOi/MaqN8Y3XxmOtKWj4FWSQeiyCsSiobtO2MgCbgtZfTDIUbIDlPZP2fE5xgN0BQyywZrRvhAczz0GoAgg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYASPR01MB0053.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199018)(7696005)(41300700001)(71200400001)(186003)(4326008)(83380400001)(478600001)(316002)(8676002)(64756008)(66556008)(76116006)(66446008)(66946007)(66476007)(6916009)(53546011)(9686003)(26005)(6506007)(54906003)(52536014)(8936002)(5660300002)(38100700002)(122000001)(2906002)(15650500001)(55016003)(38070700005)(86362001)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dvJttHcqEaaduqzkSk9gTtZocgRBtesoPvQAmudIbNl/fwCXRH1M5LHrWRIq?=
- =?us-ascii?Q?4/ExtGv3iG1F/hMv+YIvTdRuGi8d9zCvuaMPeepLmPpfKZ/5gKtM/duPg9+V?=
- =?us-ascii?Q?AckkKHVW5QGVP5nfIa6Sr6NkD95wqWXNkWL/XOpvYnM9W9lzH+hEaxi6W08z?=
- =?us-ascii?Q?uvqgHtR4XNksiKbjNO3IaL5nP672l3J0+V0kM5W/4s+DPTOuufinZdE/dSx5?=
- =?us-ascii?Q?tjBfCOAKyl4EtjrV+cDBQD4LrsXuKAE7/GnO+xOWJUFUDkB2JK0sgWGeQGte?=
- =?us-ascii?Q?OkmXhV+OwVsV7jIjWtAbfqYQk0xzkBIqJEdKqNAKeFC0QNLa4Rnfc1CIvDG+?=
- =?us-ascii?Q?V9ngCry4JpYsBDPy6jtLedL3ANotjcYWhZRd0O1KjUjPiSkeqZhqChJ0fdbl?=
- =?us-ascii?Q?bQQSgBCrnUJ64vjMN+y6ha2MdylKg9ZyiTUlRocJyyfgOyCXTjZJ4TywZ1Ln?=
- =?us-ascii?Q?8Rri04Gt/8fkQdW+u9QvllVWuilBj6ljkkBpFkAwybO7eCPhBHuzKGKkC6V4?=
- =?us-ascii?Q?oSRjmWYuMY2Ps/DCHkrfBpE7/KpzvT2TCsfUqaHUHsF7/+tikvjQmNy0xGMq?=
- =?us-ascii?Q?f4O1REgVK0btYjlpCKEmHCYya3E+XzUTuSs9d3DeoOtHzkOCZBeTeSILS4yT?=
- =?us-ascii?Q?dWbunjc0gElY0xGJXPRZWNrAb2ppthkwzhcuVIn35aJtFyIZbz0fG/Keeb8J?=
- =?us-ascii?Q?1Xq0HbkrMEj+O0HVTS8uwMPKslAzp0Ms/aLek/ktJ6QKGiJ3r376cLP94Onz?=
- =?us-ascii?Q?9kiLJF3XZtqA8cFEpvSowPg0RZhW7J99M/4kUNYI5xqL59ojAuF8rXu8Js1d?=
- =?us-ascii?Q?zY1QJINBpVVurNFJgHwEagSi9Rw1zpTKLW/zd1cQK7KiaDm5pGbhI6NCUYjR?=
- =?us-ascii?Q?jEfGH017Ve9tHr0uio4EENqtF6IP+P3DeY6zvwsG+yGnkUpFH6+cQKG7iVit?=
- =?us-ascii?Q?/dnvqccgf/YbfafNoqOCSBU3ZgDn5ITZCosCjXVQfclEkjmVh9TeAvV5DPZY?=
- =?us-ascii?Q?ZyxAy6pFGWuZd49pQCY7hc9J98iLWAuY+wX3x1fGetYQq4lYY8Radi1GBvl4?=
- =?us-ascii?Q?R9BVULEFJPBqcfaz3ExBSz3Wz9FL/UaBimKLF3S/UGU2LAGtrLTaeWjRbOyT?=
- =?us-ascii?Q?fA0r+S2uixWnmBGNPRjNGIfVDxQt2nqYnmOYF63aXbzAjcqUzId1IGvuz0Xu?=
- =?us-ascii?Q?BZ5RateB+eJn+kkmRWRI7NOvv5p+LvoM1ab93IU1RXDl+guOePWvv59R3LPw?=
- =?us-ascii?Q?JhqRDcku64JBFkdvvAzJyBq6NDX8FK8lwFm/RfmRc/02tYzlpvW8I/Ws1nKa?=
- =?us-ascii?Q?oxKoDOD8+Slwn4gJnVUQE1SkYD/UpMGtsQT1Hyrwc8R2l9TPNBQVNj6ncPGI?=
- =?us-ascii?Q?S8YqTHeC3r4OA3qNL24nqHybaNVvio6W+TuU/mgVS/ZeK0jTZhLBdOoMVBhT?=
- =?us-ascii?Q?D+JShhopK3inEh3GZI1UZpxf5fhAjyZRiIZQlrVyERzcEJxEinWuubQBd8rx?=
- =?us-ascii?Q?UxCqtdokWqfnjMQxMA0NRN0G7egjeF/0KZ0SLCrwLhTR3k62GHy+AxPEPBqV?=
- =?us-ascii?Q?o4q/eeHscjyquZf0KbadVZEffMeZ1q+nPeo4gwle?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229629AbjCVH3B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 03:29:01 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D6E55B9D;
+        Wed, 22 Mar 2023 00:28:54 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 9981B20AD0;
+        Wed, 22 Mar 2023 07:28:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1679470133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cymDLHsKErmhpfJVevitVVO6X1IcQsyXzRz4TMydPWI=;
+        b=HqxxYv8w66oKUKmuICtM7fXmOPOun/5xVYIob9LRuwNBLJJccJqRVEjLEF+OO20vwxgCMr
+        rIsh48lVgxsWOraYch2q8wqcr9tcxnc3E9+VcYojz3Yoc6TPW4JVaceH94Bvd/KVXjIjaB
+        vUhx8C+O+On23OLHzI12eruEYFZpyag=
+Received: from suse.de (unknown [10.163.42.222])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 7AFFB2C141;
+        Wed, 22 Mar 2023 07:28:51 +0000 (UTC)
+Date:   Wed, 22 Mar 2023 08:28:50 +0100
+From:   Johannes Segitz <jsegitz@suse.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        David Anderson <dvander@google.com>,
+        Mark Salyzyn <salyzyn@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
+        paulmoore@microsoft.com, luca.boccassi@microsoft.com
+Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr
+ fix
+Message-ID: <20230322072850.GA18056@suse.de>
+References: <Yao51m9EXszPsxNN@redhat.com>
+ <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
+ <YapjNRrjpDu2a5qQ@redhat.com>
+ <CAHC9VhQTUgBRBEz_wFX8daSA70nGJCJLXj8Yvcqr5+DHcfDmwA@mail.gmail.com>
+ <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com>
+ <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com>
+ <CAHC9VhQkLSBGQ-F5Oi9p3G6L7Bf_jQMWAxug_G4bSOJ0_cYXxQ@mail.gmail.com>
+ <CAOQ4uxhfU+LGunL3cweorPPdoCXCZU0xMtF=MekOAe-F-68t_Q@mail.gmail.com>
+ <YitWOqzIRjnP1lok@redhat.com>
+ <CAHC9VhQ+x3ko+=oU-P+w4ssqyyskRxaKsBGJLnXtP_NzWNuxHg@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYASPR01MB0053.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82a68f0b-687b-47ed-f85d-08db2aa6b296
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2023 07:26:05.1920
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LBiZBjkm7rjTlW7szeYt4jYj/PVCDEwZaa1qHYwPqXOvv9J1k7EMvp3wz6f+5sLJ0AlyDBml33xhO75atxm0TQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR18MB4441
-X-Proofpoint-ORIG-GUID: -KL6TtOditB3mO_MhpVH91SgKnXPtNxY
-X-Proofpoint-GUID: -KL6TtOditB3mO_MhpVH91SgKnXPtNxY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="/04w6evG8XlLl3ft"
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhQ+x3ko+=oU-P+w4ssqyyskRxaKsBGJLnXtP_NzWNuxHg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--/04w6evG8XlLl3ft
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-> Sent: Wednesday, February 15, 2023 8:36 AM
-> To: Veerasenareddy Burru <vburru@marvell.com>
-> Cc: netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Abhijit Ayareka=
-r
-> <aayarekar@marvell.com>; Sathesh B Edara <sedara@marvell.com>;
-> Satananda Burla <sburla@marvell.com>; linux-doc@vger.kernel.org; David S.
-> Miller <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>;
-> Jakub Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>
-> Subject: [EXT] Re: [PATCH net-next v3 5/7] octeon_ep: support
-> asynchronous notifications
+On Fri, Mar 11, 2022 at 03:52:54PM -0500, Paul Moore wrote:
+> On Fri, Mar 11, 2022 at 9:01 AM Vivek Goyal <vgoyal@redhat.com> wrote:
+> > Agreed. After going through the patch set, I was wondering what's the
+> > overall security model and how to visualize that.
+> >
+> > So probably there needs to be a documentation patch which explains
+> > what's the new security model and how does it work.
 >=20
-> External Email
+> Yes, of course.  I'll be sure to add a section to the existing docs.
 >=20
-> ----------------------------------------------------------------------
-> On Mon, Feb 13, 2023 at 09:14:20PM -0800, Veerasenareddy Burru wrote:
-> > Add asynchronous notification support to the control mailbox.
-> >
-> > Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
-> > Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
-> > ---
-> > v2 -> v3:
-> >  * no change
-> >
-> > v1 -> v2:
-> >  * no change
-> >
-> >  .../marvell/octeon_ep/octep_ctrl_net.c        | 29 +++++++++++++++++++
-> >  1 file changed, 29 insertions(+)
-> >
-> > diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-> > b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-> > index 715af1891d0d..80bcd6cd4732 100644
-> > --- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-> > +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-> > @@ -279,6 +279,33 @@ static int process_mbox_resp(struct octep_device
-> *oct,
-> >  	return 0;
-> >  }
-> >
-> > +static int process_mbox_notify(struct octep_device *oct,
+> > Also think both in terms of DAC and MAC. (Instead of just focussing too
+> > hard on SELinux).
 >=20
-> void
+> Definitely.  Most of what I've been thinking about the past day or so
+> has been how to properly handle some of the DAC/capability issues; I
+> have yet to start playing with the code, but for the most part I think
+> the MAC/SELinux bits are already working properly.
 >=20
+> > My understanding is that in current model, some of the overlayfs
+> > operations require priviliges. So mounter is supposed to be priviliged
+> > and does the operation on underlying layers.
+> >
+> > Now in this new model, there will be two levels of check. Both overlay
+> > level and underlying layer checks will happen in the context of task
+> > which is doing the operation. So first of all, all tasks will need
+> > to have enough priviliges to be able to perform various operations
+> > on lower layer.
+> >
+> > If we do checks at both the levels in with the creds of calling task,
+> > I guess that probably is fine. (But will require a closer code inspecti=
+on
+> > to make sure there is no privilege escalation both for mounter as well
+> > calling task).
+>=20
+> I have thoughts on this, but I don't think I'm yet in a position to
+> debate this in depth just yet; I still need to finish poking around
+> the code and playing with a few things :)
+>=20
+> It may take some time before I'm back with patches, but I appreciate
+> all of the tips and insight - thank you!
 
-Will change in next revision.
+Let me resurrect this discussion. With=20
+https://github.com/fedora-selinux/selinux-policy/commit/1e8688ea694393c9d91=
+8939322b72dfb44a01792
+the Fedora policy changed kernel_t to a confined domain. This means that
+many overlayfs setups that are created in initrd will now run into issues,
+as it will have kernel_t as part of the saved credentials. So while the
+original use case that inspired the patch set was probably not very common
+that now changed.
 
-> > +			       struct octep_ctrl_mbox_msg *msg) {
-> > +	struct octep_ctrl_net_f2h_req *req;
-> > +	struct net_device *netdev =3D oct->netdev;
->=20
-> RCT
->=20
+It's tricky to work around this. Loading a policy in initrd causes a lot of
+issues now that kernel_t isn't unconfined anymore. Once the policy is
+loaded by systemd changing the mounts is tough since we use it for /etc and
+at this time systemd already has open file handles for policy files in
+/etc.
 
-Will fix in next revision. I missed some RCT violations in this patchset. W=
-ill take care for future submissions.
-Thank you for kind review.
+Johannes
+--=20
+GPG Key                EE16 6BCE AD56 E034 BFB3  3ADD 7BF7 29D5 E7C8 1FA0
+Subkey fingerprint:    250F 43F5 F7CE 6F1E 9C59  4F95 BC27 DD9D 2CC4 FD66
+SUSE Software Solutions Germany GmbH, Frankenstra=DFe 146, 90461 N=FCrnberg=
+, Germany
+Gesch=E4ftsf=FChrer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moer=
+man
+(HRB 36809, AG N=FCrnberg)
 
-> > +
-> > +	req =3D (struct octep_ctrl_net_f2h_req *)msg->sg_list[0].msg;
-> > +	switch (req->hdr.s.cmd) {
-> > +	case OCTEP_CTRL_NET_F2H_CMD_LINK_STATUS:
-> > +		if (netif_running(netdev)) {
-> > +			if (req->link.state) {
-> > +				dev_info(&oct->pdev->dev,
-> "netif_carrier_on\n");
-> > +				netif_carrier_on(netdev);
-> > +			} else {
-> > +				dev_info(&oct->pdev->dev,
-> "netif_carrier_off\n");
-> > +				netif_carrier_off(netdev);
-> > +			}
-> > +		}
-> > +		break;
-> > +	default:
-> > +		pr_info("Unknown mbox req : %u\n", req->hdr.s.cmd);
-> > +		break;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  int octep_ctrl_net_recv_fw_messages(struct octep_device *oct)  {
-> >  	static u16 msg_sz =3D sizeof(union octep_ctrl_net_max_data); @@ -
-> 303,6
-> > +330,8 @@ int octep_ctrl_net_recv_fw_messages(struct octep_device
-> *oct)
-> >  			process_mbox_req(oct, &msg);
-> >  		else if (msg.hdr.s.flags &
-> OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP)
-> >  			process_mbox_resp(oct, &msg);
-> > +		else if (msg.hdr.s.flags &
-> OCTEP_CTRL_MBOX_MSG_HDR_FLAG_NOTIFY)
-> > +			process_mbox_notify(oct, &msg);
-> >  	}
-> >
-> >  	return 0;
-> > --
-> > 2.36.0
-> >
+--/04w6evG8XlLl3ft
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEJQ9D9ffObx6cWU+VvCfdnSzE/WYFAmQarjEACgkQvCfdnSzE
+/WZskw/9FYgktDjOsvztkB5Utny04C0x3z8y+aHfEyEwMndpczZ3CXNIM9mjKu7c
+a1KFZEKqucb1wudqloCPoyleZJ5tym/h5gkyQ6jotEW6Y9+hzfB0pfZhg4ePS0OR
+OXTOuLumVuh/bWOTGbTF87S6Be5jJ1L9OorWC0God5jJwDi37OJURT2pe41DvPGQ
+oWPLmcr8olO7JmdVoFPzoTYqzOyB6eZvNOZX37X9mLowTE7gNIHm9kT01ca2ac3R
+4NoT0zJq4g8ZiW8WcM1GI2FM5B6GJ0DAhqGXAlICBz+K7sD2FrLfye0oJwr1xOZO
+zbA1Gzc0Va9d06mqmXUXM3fKzCko76HSUVSu2JfLs+9ScL9CZb9qyr4W6LjwdbjW
+3ZVswI8wXuuTrcv2+iZ+pr+wrNaOkTZPU3qX78xcBTbkrtDjDJKM2QWJJlbDMSYH
+mjL7A3N7676pwarozT5zmXse599yxTrN/EeRiLevTv4NhVYVzxjOppnXQGrX/s52
+Cy4PO9mR5U2NnbjduvnWhFnTXnmhmtU6pbCg3XSwHbFboquqD9D3IeZExnRhYa7Z
+DgGNPkWjHI+2O2+ZL323i6hJjGGKFUhV41dUrBvE0TBLZNSaBogE9loWvArTd8S0
+fA4gOhtBH68vM0m+OvveqRyFF6jWXQucPS5iTEQvKsEyNmErxbE=
+=+WdL
+-----END PGP SIGNATURE-----
+
+--/04w6evG8XlLl3ft--
