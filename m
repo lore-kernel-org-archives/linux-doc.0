@@ -2,342 +2,455 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B413DC6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 04:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 657BFC6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 05:38:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbjCVEju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 00:39:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35898 "EHLO
+        id S229762AbjCVFi5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 01:38:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbjCVEjt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 00:39:49 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B31B761;
-        Tue, 21 Mar 2023 21:39:48 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id l7so410215pjg.5;
-        Tue, 21 Mar 2023 21:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679459988;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xm0M1kcuL6xFu2eK/DxZuL2ZfVmnA4tafMen2+OWSWw=;
-        b=mSuchzjfljBMbdDULRddFK0aPiZCcTU1+tbT/nfRrb8Ap6x/TXsyugBT6w3lv3yMpB
-         woXU/IJVacipXn6P0SoPWb7IZt3AxJHfAQAQSNxOueI7+y3nS3avsrztg2lAlUhzUOgO
-         VMlW7DpFWr9xliD3qGsr5J7Sj5rKrdQws/h+l6PuObVFEdZ+XahKxaxeUWJx1eUVPhqa
-         fO8dPw12X9DtRe92+x93RkJX+jve7pPerbNwhVhJa6wdXHgLuAUNiLgCfcFwujXt51H/
-         n8ZsedB82MNit9wC260woOVYGML+0NMGIbrPY3HLK1hm0d7Djp99LqFgSWj7ZGH3T4fM
-         mkkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679459988;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xm0M1kcuL6xFu2eK/DxZuL2ZfVmnA4tafMen2+OWSWw=;
-        b=qMyjKPMIeqaKz3vMnlDFolEEn6kSuO5qi91l8dUejcsszZRCVKQICnnQM/tdkMlOfh
-         +c9Uw0zkm9h6N0QPz5O4zcRfCUJvqMGvjR5Nq3d3KUydEOhGzm0jdxHBjh456AOvcinw
-         TOLk92VczF/7bfcVdF6ZBIJxFNcl+9eOBAM+755CA4WWkfDs0qq1n9e+nqUyuT7w1WtK
-         ChSb16bLDr3RozvkYTG8A2IoDiewK/tj4RtJMbLZ38BgiUD+JLDtXlGAC8T+D/KfZ6Kz
-         prJzxA68CqEmLNxnYf21E6Z2WhD/R3IfUDi8bcePo3YPldOo+ku30QsmlptltoQwRT5d
-         weQQ==
-X-Gm-Message-State: AO0yUKXXZHcdaWCfnu/dMhnHNQm2ttF+RsSB3K7H8VPk8O57OIQOgLce
-        yS0ClZ41C78sWWCrQc54+tY=
-X-Google-Smtp-Source: AK7set+SWZhbEAI+gnRhYaNeVGUPOUw0LhZI77y0MwZcyezPwJ1nB8cL8gtJ6BpnsZdJsAcQSWaNtQ==
-X-Received: by 2002:a17:90b:38c8:b0:23b:4005:26e6 with SMTP id nn8-20020a17090b38c800b0023b400526e6mr2239670pjb.34.1679459987739;
-        Tue, 21 Mar 2023 21:39:47 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-30.three.co.id. [180.214.232.30])
-        by smtp.gmail.com with ESMTPSA id hg4-20020a17090b300400b002340d317f3esm8859243pjb.52.2023.03.21.21.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 21:39:47 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id F29F710665C; Wed, 22 Mar 2023 11:39:43 +0700 (WIB)
-Date:   Wed, 22 Mar 2023 11:39:43 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
-        jacek.lawrynowicz@linux.intel.com,
-        stanislaw.gruszka@linux.intel.com
-Cc:     dafna@fastmail.com, dri-devel@lists.freedesktop.org,
-        quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
-        quic_ajitpals@quicinc.com, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v4 1/8] accel/qaic: Add documentation for AIC100
- accelerator driver
-Message-ID: <ZBqGj+gyl4c5Yz7E@debian.me>
-References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
- <1679325074-5494-2-git-send-email-quic_jhugo@quicinc.com>
- <ZBmxl0sFH5PBG36H@debian.me>
- <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
+        with ESMTP id S229629AbjCVFi4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 01:38:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D649ED4;
+        Tue, 21 Mar 2023 22:38:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F4CD61F74;
+        Wed, 22 Mar 2023 05:38:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B68C9C433EF;
+        Wed, 22 Mar 2023 05:38:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679463533;
+        bh=7APVAm83V4sqBRCSXtDoGdcCo2nxh7yxhfzU7CqpXwQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gu7JT+omPd6avLH2qbZytPUdV8CGXUuz5mXDF0vvOlCPs9RKiKv5G0uCtmEVMQm04
+         CeHtwz4tLjX9gwDydmj5DPpgCXGOCcFfsO/MJj6TtazqOEMw8ux5IBanZ1+4/QPGgb
+         5ChPbaGQRovmyi/8u4KO+1XwbFcUsVt7THb5QVz+w+yrFlzVN2W9NFSwrbOuKrlK5h
+         +Q24oumdUsLJ8FChY/6zQj8/0HAu9TkRIGbxo3YgRZMcYRKr2Okd3cw2EAJ3/KCO6j
+         J6qSSiOxZ9ALdyAc6tt1piAfZPPIKRyDqWG8ez3Z2iP6dcXQJlXNR7xR0kmOQ3SsyF
+         i/jxv0BrdP36A==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>, corbet@lwn.net,
+        jesse.brandeburg@intel.com, mkl@pengutronix.de,
+        linux-doc@vger.kernel.org, stephen@networkplumber.org,
+        romieu@fr.zoreil.com
+Subject: [PATCH net-next v3] docs: networking: document NAPI
+Date:   Tue, 21 Mar 2023 22:38:48 -0700
+Message-Id: <20230322053848.198452-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="EXPXy0S25JFamHAK"
-Content-Disposition: inline
-In-Reply-To: <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add basic documentation about NAPI. We can stop linking to the ancient
+doc on the LF wiki.
 
---EXPXy0S25JFamHAK
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Link: https://lore.kernel.org/all/20230315223044.471002-1-kuba@kernel.org/
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: Toke Høiland-Jørgensen <toke@redhat.com>
+Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz> # for ctucanfd-driver.rst
+Reviewed-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+---
+v3: rebase on net-next (to avoid ixgb conflict)
+    fold in grammar fixes from Stephen
+v2: https://lore.kernel.org/all/20230321050334.1036870-1-kuba@kernel.org/
+    remove the links in CAN and in ICE as well
+    improve the start of the threaded NAPI section
+    name footnote
+    internal links from the intro to sections
+    various clarifications from Florian and Stephen
 
-On Tue, Mar 21, 2023 at 03:52:11PM -0600, Jeffrey Hugo wrote:
-> > > +
-> > > +Request field descriptions:
-> > > +
-> > > +| req_id- request ID. A request FIFO element and a response FIFO ele=
-ment with
-> > > +|         the same request ID refer to the same command.
-> > > +
-> > > +| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
-> > > +
-> > > +| pcie_dma_cmd- describes the DMA element of this request.
-> > > +| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI =
-logic
-> > > +| 		and generates a MSI when this request is complete, and QSM
-> > > +| 		configures the DMA Bridge to look at this bit.
-> > > +| 	Bits(6:5) are reserved.
-> > > +| 	Bit(4) is the completion code flag, and indicates that the DMA Br=
-idge
-> > > +| 		shall generate a response FIFO element when this request is
-> > > +| 		complete.
-> > > +| 	Bit(3) indicates if this request is a linked list transfer(0) or =
-a bulk
-> > > +| 		transfer(1).
-> > > +| 	Bit(2) is reserved.
-> > > +| 	Bits(1:0) indicate the type of transfer. No transfer(0), to devic=
-e(1),
-> > > +| 		from device(2). Value 3 is illegal.
-> > > +
-> > > +| pcie_dma_source_addr- source address for a bulk transfer, or the a=
-ddress of
-> > > +|         the linked list.
-> > > +
-> > > +| pcie_dma_dest_addr- destination address for a bulk transfer.
-> > > +
-> > > +| pcie_dma_len- length of the bulk transfer. Note that the size of t=
-his field
-> > > +| 	limits transfers to 4G in size.
-> > > +
-> > > +| doorbell_addr- address of the doorbell to ring when this request i=
-s complete.
-> > > +
-> > > +| doorbell_attr- doorbell attributes.
-> > > +| 	Bit(7) indicates if a write to a doorbell is to occur.
-> > > +| 	Bits(6:2) are reserved.
-> > > +| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bi=
-t,
-> > > +| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
-> > > +| 		must be naturally aligned to the specified length.
-> > > +
-> > > +| doorbell_data- data to write to the doorbell. Only the bits corres=
-ponding to
-> > > +| 	the doorbell length are valid.
-> > > +
-> > > +| sem_cmdN- semaphore command.
-> > > +| 	Bit(31) indicates this semaphore command is enabled.
-> > > +| 	Bit(30) is the to-device DMA fence. Block this request until all
-> > > +| 		to-device DMA transfers are complete.
-> > > +| 	Bit(29) is the from-device DMA fence. Block this request until all
-> > > +| 		from-device DMA transfers are complete.
-> > > +| 	Bits(28:27) are reserved.
-> > > +| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with t=
-he
-> > > +| 		specified value. 2 is increment. 3 is decrement. 4 is wait
-> > > +| 		until the semaphore is equal to the specified value. 5 is wait
-> > > +| 		until the semaphore is greater or equal to the specified value.
-> > > +| 		6 is "P", wait until semaphore is greater than 0, then
-> > > +| 		decrement by 1. 7 is reserved.
-> > > +| 	Bit(23) is reserved.
-> > > +| 	Bit(22) is the semaphore sync. 0 is post sync, which means that t=
-he
-> > > +| 		semaphore operation is done after the DMA transfer. 1 is
-> > > +| 		presync, which gates the DMA transfer. Only one presync is
-> > > +| 		allowed per request.
-> > > +| 	Bit(21) is reserved.
-> > > +| 	Bits(20:16) is the index of the semaphore to operate on.
-> > > +| 	Bits(15:12) are reserved.
-> > > +| 	Bits(11:0) are the semaphore value to use in operations.
-> >=20
-> > What about bullet lists?
->=20
-> It doesn't feel like the above fits into a bullet list structure.  Do you
-> have an example reference, or can you transform a small section of the ab=
-ove
-> to illustrate what you are thinking?
->=20
+CC: corbet@lwn.net
+CC: jesse.brandeburg@intel.com
+CC: anthony.l.nguyen@intel.com
+CC: pisa@cmp.felk.cvut.cz
+CC: mkl@pengutronix.de
+CC: linux-doc@vger.kernel.org
+CC: f.fainelli@gmail.com
+CC: stephen@networkplumber.org
+CC: romieu@fr.zoreil.com
+---
+ .../can/ctu/ctucanfd-driver.rst               |   3 +-
+ .../device_drivers/ethernet/intel/e100.rst    |   3 +-
+ .../device_drivers/ethernet/intel/i40e.rst    |   4 +-
+ .../device_drivers/ethernet/intel/ice.rst     |   4 +-
+ Documentation/networking/index.rst            |   1 +
+ Documentation/networking/napi.rst             | 251 ++++++++++++++++++
+ include/linux/netdevice.h                     |  13 +-
+ 7 files changed, 266 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/networking/napi.rst
 
-Oops, sorry for suggesting the wrong construct.
-
-Definition lists fit in this case, since there are request fields along
-with their individual descriptions. For bit lists, bullet lists should
-suffice.
-
-Here is the illustration diff:
-
-diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic=
-/aic100.rst
-index 7ed95bb164bbeb..4d438fd8121451 100644
---- a/Documentation/accel/qaic/aic100.rst
-+++ b/Documentation/accel/qaic/aic100.rst
-@@ -308,67 +308,79 @@ A request FIFO element has the following structure:
-=20
- Request field descriptions:
-=20
--| req_id- request ID. A request FIFO element and a response FIFO element w=
-ith
--|         the same request ID refer to the same command.
-+  req_id
-+      request ID. A request FIFO element and a response FIFO element with
-+      the same request ID refer to the same command.
-=20
--| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
-+  seq_id
-+      sequence ID within a request. Ignored by the DMA Bridge.
-=20
--| pcie_dma_cmd- describes the DMA element of this request.
--| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
--| 		and generates a MSI when this request is complete, and QSM
--| 		configures the DMA Bridge to look at this bit.
--| 	Bits(6:5) are reserved.
--| 	Bit(4) is the completion code flag, and indicates that the DMA Bridge
--| 		shall generate a response FIFO element when this request is
--| 		complete.
--| 	Bit(3) indicates if this request is a linked list transfer(0) or a bulk
--| 		transfer(1).
--| 	Bit(2) is reserved.
--| 	Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
--| 		from device(2). Value 3 is illegal.
-+  pcie_dma_cmd
-+      describes the DMA element of this request.
-=20
--| pcie_dma_source_addr- source address for a bulk transfer, or the address=
- of
--|         the linked list.
-+      * Bit(7) is the force msi flag, which overrides the DMA Bridge MSI l=
-ogic
-+        and generates a MSI when this request is complete, and QSM
-+        configures the DMA Bridge to look at this bit.
-+      * Bits(6:5) are reserved.
-+      * Bit(4) is the completion code flag, and indicates that the DMA Bri=
-dge
-+        shall generate a response FIFO element when this request is
-+        complete.
-+      * Bit(3) indicates if this request is a linked list transfer(0) or a=
- bulk
-+      * transfer(1).
-+      * Bit(2) is reserved.
-+      * Bits(1:0) indicate the type of transfer. No transfer(0), to device=
-(1),
-+      * from device(2). Value 3 is illegal.
-=20
--| pcie_dma_dest_addr- destination address for a bulk transfer.
-+  pcie_dma_source_addr
-+      source address for a bulk transfer, or the address of  the linked li=
-st.
-=20
--| pcie_dma_len- length of the bulk transfer. Note that the size of this fi=
-eld
--| 	limits transfers to 4G in size.
-+  pcie_dma_dest_addr
-+      destination address for a bulk transfer.
-=20
--| doorbell_addr- address of the doorbell to ring when this request is comp=
-lete.
-+  pcie_dma_len
-+      length of the bulk transfer. Note that the size of this field
-+      limits transfers to 4G in size.
-=20
--| doorbell_attr- doorbell attributes.
--| 	Bit(7) indicates if a write to a doorbell is to occur.
--| 	Bits(6:2) are reserved.
--| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
--| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
--| 		must be naturally aligned to the specified length.
-+  doorbell_addr
-+      address of the doorbell to ring when this request is complete.
-=20
--| doorbell_data- data to write to the doorbell. Only the bits correspondin=
-g to
--| 	the doorbell length are valid.
-+  doorbell_attr
-+      doorbell attributes.
-=20
--| sem_cmdN- semaphore command.
--| 	Bit(31) indicates this semaphore command is enabled.
--| 	Bit(30) is the to-device DMA fence. Block this request until all
--| 		to-device DMA transfers are complete.
--| 	Bit(29) is the from-device DMA fence. Block this request until all
--| 		from-device DMA transfers are complete.
--| 	Bits(28:27) are reserved.
--| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
--| 		specified value. 2 is increment. 3 is decrement. 4 is wait
--| 		until the semaphore is equal to the specified value. 5 is wait
--| 		until the semaphore is greater or equal to the specified value.
--| 		6 is "P", wait until semaphore is greater than 0, then
--| 		decrement by 1. 7 is reserved.
--| 	Bit(23) is reserved.
--| 	Bit(22) is the semaphore sync. 0 is post sync, which means that the
--| 		semaphore operation is done after the DMA transfer. 1 is
--| 		presync, which gates the DMA transfer. Only one presync is
--| 		allowed per request.
--| 	Bit(21) is reserved.
--| 	Bits(20:16) is the index of the semaphore to operate on.
--| 	Bits(15:12) are reserved.
--| 	Bits(11:0) are the semaphore value to use in operations.
-+      * Bit(7) indicates if a write to a doorbell is to occur.
-+      * Bits(6:2) are reserved.
-+      * Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
-+        1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
-+        must be naturally aligned to the specified length.
+diff --git a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
+index 1a4fc6607582..1661d13174d5 100644
+--- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
++++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
+@@ -229,8 +229,7 @@ frames for a while. This has a potential to avoid the costly round of
+ enabling interrupts, handling an incoming IRQ in ISR, re-enabling the
+ softirq and switching context back to softirq.
+ 
+-More detailed documentation of NAPI may be found on the pages of Linux
+-Foundation `<https://wiki.linuxfoundation.org/networking/napi>`_.
++See :ref:`Documentation/networking/napi.rst <napi>` for more information.
+ 
+ Integrating the core to Xilinx Zynq
+ -----------------------------------
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/e100.rst b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
+index 3d4a9ba21946..371b7e5c3293 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/e100.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
+@@ -151,8 +151,7 @@ NAPI
+ 
+ NAPI (Rx polling mode) is supported in the e100 driver.
+ 
+-See https://wiki.linuxfoundation.org/networking/napi for more
+-information on NAPI.
++See :ref:`Documentation/networking/napi.rst <napi>` for more information.
+ 
+ Multiple Interfaces on Same Ethernet Broadcast Network
+ ------------------------------------------------------
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+index ac35bd472bdc..c495c4e16b3b 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+@@ -399,8 +399,8 @@ operate only in full duplex and only at their native speed.
+ NAPI
+ ----
+ NAPI (Rx polling mode) is supported in the i40e driver.
+-For more information on NAPI, see
+-https://wiki.linuxfoundation.org/networking/napi
 +
-+  doorbell_data
-+      data to write to the doorbell. Only the bits corresponding to
-+      the doorbell length are valid.
++See :ref:`Documentation/networking/napi.rst <napi>` for more information.
+ 
+ Flow Control
+ ------------
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index 5efea4dd1251..2b6dc7880d7b 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -817,10 +817,10 @@ on your device, you may not be able to change the auto-negotiation setting.
+ 
+ NAPI
+ ----
 +
-+  sem_cmdN
-+      semaphore command.
+ This driver supports NAPI (Rx polling mode).
+-For more information on NAPI, see
+-https://wiki.linuxfoundation.org/networking/napi
+ 
++See :ref:`Documentation/networking/napi.rst <napi>` for more information.
+ 
+ MACVLAN
+ -------
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index 4ddcae33c336..24bb256d6d53 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -73,6 +73,7 @@ Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
+    mpls-sysctl
+    mptcp-sysctl
+    multiqueue
++   napi
+    netconsole
+    netdev-features
+    netdevices
+diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
+new file mode 100644
+index 000000000000..4f848d86750c
+--- /dev/null
++++ b/Documentation/networking/napi.rst
+@@ -0,0 +1,251 @@
++.. _napi:
 +
-+      * Bit(31) indicates this semaphore command is enabled.
-+      * Bit(30) is the to-device DMA fence. Block this request until all
-+        to-device DMA transfers are complete.
-+      * Bit(29) is the from-device DMA fence. Block this request until all
-+        from-device DMA transfers are complete.
-+      * Bits(28:27) are reserved.
-+        Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
-+        specified value. 2 is increment. 3 is decrement. 4 is wait
-+        until the semaphore is equal to the specified value. 5 is wait
-+        until the semaphore is greater or equal to the specified value.
-+        6 is "P", wait until semaphore is greater than 0, then
-+        decrement by 1. 7 is reserved.
-+      * Bit(23) is reserved.
-+      * Bit(22) is the semaphore sync. 0 is post sync, which means that the
-+        semaphore operation is done after the DMA transfer. 1 is
-+      * presync, which gates the DMA transfer. Only one presync is
-+      * allowed per request.
-+      * Bit(21) is reserved.
-+      * Bits(20:16) is the index of the semaphore to operate on.
-+      * Bits(15:12) are reserved.
-+      * Bits(11:0) are the semaphore value to use in operations.
-=20
- Overall, a request is processed in 4 steps:
-=20
++====
++NAPI
++====
++
++NAPI is the event handling mechanism used by the Linux networking stack.
++The name NAPI no longer stands for anything in particular [#]_.
++
++In basic operation device notifies the host about new events via an interrupt.
++The host then schedules a NAPI instance to process the events.
++Device may also be polled for events via NAPI without receiving
++interrupts first (:ref:`busy polling<poll>`).
++
++NAPI processing usually happens in the software interrupt context,
++but there is an option to use :ref:`separate kernel threads<threaded>`
++for NAPI processing.
++
++All in all NAPI abstracts away from the drivers the context and configuration
++of event (packet Rx and Tx) processing.
++
++Driver API
++==========
++
++The two most important elements of NAPI are the struct napi_struct
++and the associated poll method. struct napi_struct holds the state
++of the NAPI instance while the method is the driver-specific event
++handler. The method will typically free Tx packets that have been
++transmitted and process newly received packets.
++
++.. _drv_ctrl:
++
++Control API
++-----------
++
++netif_napi_add() and netif_napi_del() add/remove a NAPI instance
++from the system. The instances are attached to the netdevice passed
++as argument (and will be deleted automatically when netdevice is
++unregistered). Instances are added in a disabled state.
++
++napi_enable() and napi_disable() manage the disabled state.
++A disabled NAPI can't be scheduled and its poll method is guaranteed
++to not be invoked. napi_disable() waits for ownership of the NAPI
++instance to be released.
++
++The control APIs are not idempotent. Control API calls are safe against
++concurrent use of datapath APIs but an incorrect sequence of control API
++calls may result in crashes, deadlocks, or race conditions. For example,
++calling napi_disable() multiple times in a row will deadlock.
++
++Datapath API
++------------
++
++napi_schedule() is the basic method of scheduling a NAPI poll.
++Drivers should call this function in their interrupt handler
++(see :ref:`drv_sched` for more info). A successful call to napi_schedule()
++will take ownership of the NAPI instance.
++
++Later, after NAPI is scheduled, the driver's poll method will be
++called to process the events/packets. The method takes a ``budget``
++argument - drivers can process completions for any number of Tx
++packets but should only process up to ``budget`` number of
++Rx packets. Rx processing is usually much more expensive.
++
++In other words, it is recommended to ignore the budget argument when
++performing TX buffer reclamation to ensure that the reclamation is not
++arbitrarily bounded, however, it is required to honor the budget argument
++for RX processing.
++
++.. warning::
++
++   The ``budget`` argument may be 0 if core tries to only process Tx completions
++   and no Rx packets.
++
++The poll method returns the amount of work done. If the driver still
++has outstanding work to do (e.g. ``budget`` was exhausted)
++the poll method should return exactly ``budget``. In that case,
++the NAPI instance will be serviced/polled again (without the
++need to be scheduled).
++
++If event processing has been completed (all outstanding packets
++processed) the poll method should call napi_complete_done()
++before returning. napi_complete_done() releases the ownership
++of the instance.
++
++.. warning::
++
++   The case of finishing all events and using exactly ``budget``
++   must be handled carefully. There is no way to report this
++   (rare) condition to the stack, so the driver must either
++   not call napi_complete_done() and wait to be called again,
++   or return ``budget - 1``.
++
++   If the ``budget`` is 0 napi_complete_done() should never be called.
++
++Call sequence
++-------------
++
++Drivers should not make assumptions about the exact sequencing
++of calls. The poll method may be called without the driver scheduling
++the instance (unless the instance is disabled). Similarly,
++it's not guaranteed that the poll method will be called, even
++if napi_schedule() succeeded (e.g. if the instance gets disabled).
++
++As mentioned in the :ref:`drv_ctrl` section - napi_disable() and subsequent
++calls to the poll method only wait for the ownership of the instance
++to be released, not for the poll method to exit. This means that
++drivers should avoid accessing any data structures after calling
++napi_complete_done().
++
++.. _drv_sched:
++
++Scheduling and IRQ masking
++--------------------------
++
++Drivers should keep the interrupts masked after scheduling
++the NAPI instance - until NAPI polling finishes any further
++interrupts are unnecessary.
++
++Drivers which have to mask the interrupts explicitly (as opposed
++to IRQ being auto-masked by the device) should use the napi_schedule_prep()
++and __napi_schedule() calls:
++
++.. code-block:: c
++
++  if (napi_schedule_prep(&v->napi)) {
++      mydrv_mask_rxtx_irq(v->idx);
++      /* schedule after masking to avoid races */
++      __napi_schedule(&v->napi);
++  }
++
++IRQ should only be unmasked after a successful call to napi_complete_done():
++
++.. code-block:: c
++
++  if (budget && napi_complete_done(&v->napi, work_done)) {
++    mydrv_unmask_rxtx_irq(v->idx);
++    return min(work_done, budget - 1);
++  }
++
++napi_schedule_irqoff() is a variant of napi_schedule() which takes advantage
++of guarantees given by being invoked in IRQ context (no need to
++mask interrupts). Note that PREEMPT_RT forces all interrupts
++to be threaded so the interrupt may need to be marked ``IRQF_NO_THREAD``
++to avoid issues on real-time kernel configurations.
++
++Instance to queue mapping
++-------------------------
++
++Modern devices have multiple NAPI instances (struct napi_struct) per
++interface. There is no strong requirement on how the instances are
++mapped to queues and interrupts. NAPI is primarily a polling/processing
++abstraction without specific user-facing semantics. That said, most networking
++devices end up using NAPI in fairly similar ways.
++
++NAPI instances most often correspond 1:1:1 to interrupts and queue pairs
++(queue pair is a set of a single Rx and single Tx queue).
++
++In less common cases a NAPI instance may be used for multiple queues
++or Rx and Tx queues can be serviced by separate NAPI instances on a single
++core. Regardless of the queue assignment, however, there is usually still
++a 1:1 mapping between NAPI instances and interrupts.
++
++It's worth noting that the ethtool API uses a "channel" terminology where
++each channel can be either ``rx``, ``tx`` or ``combined``. It's not clear
++what constitutes a channel, the recommended interpretation is to understand
++a channel as an IRQ/NAPI which services queues of a given type. For example,
++a configuration of 1 ``rx``, 1 ``tx`` and 1 ``combined`` channel is expected
++to utilize 3 interrupts, 2 Rx and 2 Tx queues.
++
++User API
++========
++
++User interactions with NAPI depend on NAPI instance ID. The instance IDs
++are only visible to the user thru the ``SO_INCOMING_NAPI_ID`` socket option.
++It's not currently possible to query IDs used by a given device.
++
++Software IRQ coalescing
++-----------------------
++
++NAPI does not perform any explicit event coalescing by default.
++In most scenarios batching happens due to IRQ coalescing which is done
++by the device. There are cases where software coalescing is helpful.
++
++NAPI can be configured to arm a repoll timer instead of unmasking
++the hardware interrupts as soon as all packets are processed.
++The ``gro_flush_timeout`` sysfs configuration of the netdevice
++is reused to control the delay of the timer, while
++``napi_defer_hard_irqs`` controls the number of consecutive empty polls
++before NAPI gives up and goes back to using hardware IRQs.
++
++.. _poll:
++
++Busy polling
++------------
++
++Busy polling allows user process to check for incoming packets before
++the device interrupt fires. As is the case with any busy polling it trades
++off CPU cycles for lower latency (in fact production uses of NAPI busy
++polling are not well known).
++
++Busy polling is enabled by either setting ``SO_BUSY_POLL`` on
++selected sockets or using the global ``net.core.busy_poll`` and
++``net.core.busy_read`` sysctls. An io_uring API for NAPI busy polling
++also exists.
++
++IRQ mitigation
++---------------
++
++While busy polling is supposed to be used by low latency applications,
++a similar mechanism can be used for IRQ mitigation.
++
++Very high request-per-second applications (especially routing/forwarding
++applications and especially applications using AF_XDP sockets) may not
++want to be interrupted until they finish processing a request or a batch
++of packets.
++
++Such applications can pledge to the kernel that they will perform a busy
++polling operation periodically, and the driver should keep the device IRQs
++permanently masked. This mode is enabled by using the ``SO_PREFER_BUSY_POLL``
++socket option. To avoid system misbehavior the pledge is revoked
++if ``gro_flush_timeout`` passes without any busy poll call.
++
++The NAPI budget for busy polling is lower than the default (which makes
++sense given the low latency intention of normal busy polling). This is
++not the case with IRQ mitigation, however, so the budget can be adjusted
++with the ``SO_BUSY_POLL_BUDGET`` socket option.
++
++.. _threaded:
++
++Threaded NAPI
++-------------
++
++Threaded NAPI is an operating mode that uses dedicated kernel
++threads rather than software IRQ context for NAPI processing.
++The configuration is per netdevice and will affect all
++NAPI instances of that device. Each NAPI instance will spawn a separate
++thread (called ``napi/${ifc-name}-${napi-id}``).
++
++It is recommended to pin each kernel thread to a single CPU, the same
++CPU as services the interrupt. Note that the mapping between IRQs and
++NAPI instances may not be trivial (and is driver dependent).
++The NAPI instance IDs will be assigned in the opposite order
++than the process IDs of the kernel threads.
++
++Threaded NAPI is controlled by writing 0/1 to the ``threaded`` file in
++netdev's sysfs directory.
++
++.. rubric:: Footnotes
++
++.. [#] NAPI was originally referred to as New API in 2.4 Linux.
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 7621c512765f..b304684c3696 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -509,15 +509,18 @@ static inline bool napi_reschedule(struct napi_struct *napi)
+ 	return false;
+ }
+ 
+-bool napi_complete_done(struct napi_struct *n, int work_done);
+ /**
+- *	napi_complete - NAPI processing complete
+- *	@n: NAPI context
++ * napi_complete_done - NAPI processing complete
++ * @n: NAPI context
++ * @work_done: number of packets processed
+  *
+- * Mark NAPI processing as complete.
+- * Consider using napi_complete_done() instead.
++ * Mark NAPI processing as complete. Should only be called if poll budget
++ * has not been completely consumed.
++ * Prefer over napi_complete().
+  * Return false if device should avoid rearming interrupts.
+  */
++bool napi_complete_done(struct napi_struct *n, int work_done);
++
+ static inline bool napi_complete(struct napi_struct *n)
+ {
+ 	return napi_complete_done(n, 0);
+-- 
+2.39.2
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---EXPXy0S25JFamHAK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBqGiwAKCRD2uYlJVVFO
-o8YcAP99Ek9bDxbQwDy9P1xr8cC6hW5c8NcwEvyvIUls3e+hVAEA0V2KwAmMxPcn
-b1APtu6ox4tlgoFPgFfyynftXRePTgQ=
-=zliE
------END PGP SIGNATURE-----
-
---EXPXy0S25JFamHAK--
