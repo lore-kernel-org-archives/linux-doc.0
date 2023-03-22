@@ -2,145 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C6D6C6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 14:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D613EC6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 14:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230525AbjCVOLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 10:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37330 "EHLO
+        id S231388AbjCVOQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 10:16:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231331AbjCVOLs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 10:11:48 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F33AF60D6A;
-        Wed, 22 Mar 2023 07:11:45 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32MCpcVi011279;
-        Wed, 22 Mar 2023 14:11:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Vemu7qiT1mPDOUsmvY7OHgh2fRESakJx8u/T0nigTwM=;
- b=h+72E3Xy+IIwQQwLd7/sTlat2yyE97W+nW9utCFBr7FH04I4sfEYKvGai8fIoKH2bKpz
- VZmilUkOUNMC2sRHhUII+eiawZ6dI/DE6BeFcU19NBlKlIT4zZoQtni1668pzuN7MPlt
- 1hr0Rr2i2UzSIIylI0O9d0KOkGaAKsS9dFJfEXQDxpoqpyhjuV7bJW6UT85vSugg/20w
- FbOUpXiLP79RP8/l90x2R2U11X7dmhcsNK5ssLeLHN+aIm4Em1RtPm54+KrsoE31UsJK
- MvK3MJpV9S9mrg+zlKr41aUejKrvbcdJgq/GUZRWr4xfDgBP2WUrOcdgiG9FljcBRqd2 0Q== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pfhntjarv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Mar 2023 14:11:30 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32MEBT8B028110
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Mar 2023 14:11:29 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Mar
- 2023 07:11:28 -0700
-Message-ID: <e9b9bd7e-89d8-9a95-a6b5-0a4c82b609bb@quicinc.com>
-Date:   Wed, 22 Mar 2023 08:11:27 -0600
+        with ESMTP id S231137AbjCVOQC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 10:16:02 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F20976424E
+        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 07:15:57 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-54184571389so341270787b3.4
+        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 07:15:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda-com.20210112.gappssmtp.com; s=20210112; t=1679494557;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Whislchss/sFlCFTwP31713E4FxIStQL6qfZ4WUEnIc=;
+        b=tzVmChHwG5UdzVVOpXkf2rTQATcV+/+zaZ4pw3uDOzqEhkRt5Ve9ob8pgqEPs/Y1fe
+         UTg2YOvzk6LqHz80jJegh3QK/C6Nw5mUFmQRuYQdxN/g06L4n2D8VqGTpKrEwVLXCMyg
+         bcLY5fticeZdjLAS82sbu5TBTjdYbbZWwVewaUa46wFZTPzT8Iaeq+jOe9TXtX5fDQhM
+         bH0UkD0Bze72U3h9g4fm9xhtBi74DWE9y5/g7HVJ77mStLDJNqI5IlGO35ZFBslvbkdt
+         0tnWP6LHWVGlPLgYq0+b9Iy7dVlw0jYqZHf1nX5ZUpvjRTg0T1AmjYqWQfawOzmxCgxb
+         Ollg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679494557;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Whislchss/sFlCFTwP31713E4FxIStQL6qfZ4WUEnIc=;
+        b=KaU2TYB62V8ylEFyO5FlQxUSuPKMzcDjCn+DSp+mDXuglrraJUQcfYPykVJsLz9ThG
+         v3inS9nMyJMjfqeq+5ys7BI4/SeaaZc9HSGBgKTvDAooDnj7i8CsuIcF7xnnjzcdR7vs
+         SMF2wcv+0Q2Q8n2uucSn5vQT2/TjOHNFdj1vT2H59BJQodPypX9ZMZ/xY1e7lmOZJm3N
+         XedioWrTRxxVh30fuZyvk/LW2yDwdlIH0Upe1DGkR/3+mpE9xVaFQ590I48JhbU/LYwP
+         yak4j6JofymI+9Z3DOI7z3Vs2oSv1OW5WUWBxG6DZariHuZL0kAbsbHf0J44N/N5YEgr
+         f6Tg==
+X-Gm-Message-State: AO0yUKVJhYJP8MzTj/EJtrqqRv5YbpXF8EaLLvlojiL3l8RvJcrnWN0s
+        ESUYgC/EDZ7VG8JqAEcNyrOudA==
+X-Google-Smtp-Source: AK7set867nYOJLPUXEWSXWMJFE/YmBaPwP8V/3k5TMR93AJK29UptcHHOv2RuPaUN5WddwnxgNj1hw==
+X-Received: by 2002:a05:7500:5bc3:b0:fb:d3c:28fe with SMTP id ed3-20020a0575005bc300b000fb0d3c28femr62914gab.29.1679494556330;
+        Wed, 22 Mar 2023 07:15:56 -0700 (PDT)
+Received: from localhost (cpe-174-109-170-245.nc.res.rr.com. [174.109.170.245])
+        by smtp.gmail.com with ESMTPSA id f66-20020a37d245000000b00745f3200f54sm11293540qkj.112.2023.03.22.07.15.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 07:15:55 -0700 (PDT)
+Date:   Wed, 22 Mar 2023 10:15:53 -0400
+From:   Josef Bacik <josef@toxicpanda.com>
+To:     Eric Blake <eblake@redhat.com>
+Cc:     linux-block@vger.kernel.org, nbd@other.debian.org,
+        philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+        christoph.boehmwalder@linbit.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] nbd: s/handle/cookie/
+Message-ID: <20230321235250.GA1426669@localhost.localdomain>
+References: <20230317202749.419094-1-eblake@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
-Content-Language: en-US
-To:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-        <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <stanislaw.gruszka@linux.intel.com>
-CC:     <dafna@fastmail.com>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <quic_ajitpals@quicinc.com>, <quic_pkanojiy@quicinc.com>,
-        <quic_carlv@quicinc.com>
-References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
- <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
- <8571460d-17eb-bc76-6d07-58bd036ff0d0@quicinc.com>
- <d79799c4-6ed3-c7ec-8061-3e5a6bf42d43@linux.intel.com>
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <d79799c4-6ed3-c7ec-8061-3e5a6bf42d43@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _YjYmSZ8OSYB2Xmy4dGxp1s3f9cIFKDi
-X-Proofpoint-ORIG-GUID: _YjYmSZ8OSYB2Xmy4dGxp1s3f9cIFKDi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_11,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- suspectscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303220104
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230317202749.419094-1-eblake@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/22/2023 2:11 AM, Jacek Lawrynowicz wrote:
-> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+On Fri, Mar 17, 2023 at 03:27:44PM -0500, Eric Blake wrote:
+> v1 was here: https://lkml.org/lkml/2023/3/10/1162
+> since then:
+> - split original 1/3 into 1/5 and 5/5
+> - new patch 2/5
+> - reorder members of anon union
+> - always send cookie in network order
 > 
-> Hi,
+> Eric Blake (5):
+>   uapi nbd: improve doc links to userspace spec
+>   block nbd: send handle in network order
+>   uapi nbd: add cookie alias to handle
+>   block nbd: use req.cookie instead of req.handle
+>   docs nbd: userspace NBD now favors github over sourceforge
 > 
-> On 20.03.2023 20:06, Jeffrey Hugo wrote:
->> On 3/20/2023 9:11 AM, Jeffrey Hugo wrote:
->>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->>>
->>> Some of the MHI channels for an AIC100 device need to be routed to
->>> userspace so that userspace can communicate directly with QSM. The MHI
->>> bus does not support this, and while the WWAN subsystem does (for the same
->>> reasons), AIC100 is not a WWAN device. Also, MHI is not something that
->>> other accelerators are expected to share, thus an accel subsystem function
->>> that meets this usecase is unlikely.
->>>
->>> Create a QAIC specific MHI userspace shim that exposes these channels.
->>>
->>> Start with QAIC_SAHARA which is required to boot AIC100 and is consumed by
->>> the kickstart application as documented in aic100.rst
->>>
->>> Each AIC100 instance (currently, up to 16) in a system will create a
->>> chardev for QAIC_SAHARA. This chardev will be found as
->>> /dev/<mhi instance>_QAIC_SAHARA
->>> For example - /dev/mhi0_QAIC_SAHARA
->>>
->>> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
->>> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
->>> ---
->>>    drivers/accel/qaic/mhi_qaic_ctrl.c | 571 +++++++++++++++++++++++++++++++++++++
->>>    drivers/accel/qaic/mhi_qaic_ctrl.h |  12 +
->>>    2 files changed, 583 insertions(+)
->>>    create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
->>>    create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
->>>
->>> diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.c b/drivers/accel/qaic/mhi_qaic_ctrl.c
->>> new file mode 100644
->>> index 0000000..a46ba1d
->>> --- /dev/null
->>> +++ b/drivers/accel/qaic/mhi_qaic_ctrl.c
->>> @@ -0,0 +1,571 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +/* Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
->>> +
->>> +#include <linux/kernel.h>
->>> +#include <linux/mhi.h>
->>> +#include <linux/mod_devicetable.h>
->>> +#include <linux/module.h>
->>> +#include <linux/poll.h>
->>> +#include <linux/version.h>
->>
->> Will remove this.
->>
->> Jacek, I think I've got all of your comments addressed.  Do you see anything more?  I'm hopeful that we are just looking at one more spin.
+>  Documentation/admin-guide/blockdev/nbd.rst |  2 +-
+>  drivers/block/nbd.c                        |  6 +++---
+>  include/uapi/linux/nbd.h                   | 25 +++++++++++++++++-----
+>  3 files changed, 24 insertions(+), 9 deletions(-)
 > 
-> Yeah, I don't have any additional comments.
-> The whole patchset looks OK to me :)
+> 
+> base-commit: 8d3c682a5e3d9dfc2448ecbb22f4cd48359b9e21
 
-Thanks for the review.  I appreciate the constructive feedback.
+Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 
--Jeff
+Thanks,
 
-
+Josef
