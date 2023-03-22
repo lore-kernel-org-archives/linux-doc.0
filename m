@@ -2,116 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBAEC6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 23:12:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2428C6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 23:12:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbjCVXMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 19:12:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38628 "EHLO
+        id S229436AbjCVXMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 19:12:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbjCVXMH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 19:12:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AEE1F976;
-        Wed, 22 Mar 2023 16:12:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 38D24622AE;
-        Wed, 22 Mar 2023 23:12:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43950C433EF;
-        Wed, 22 Mar 2023 23:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679526725;
-        bh=WT0iGPe8aO02K38pg9YUokWwFwEi1y3oeJ6wfh7kpm0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=b8vXLUPTNpElNI1iOoI8cUcdF9gcQGweFoXj57fnHvldEiHzFckHerVOjvZ6l3kph
-         IuxlnvErEYwPzazf/7ep3o5JU7INyPsT8wQfG7NofWXgCOp/F140JyKZIbGBycyF9L
-         Sbr9OtjnIJ0HrYwdBIDr7BkJjqcVHIJiJCn598OB4ykO41xDPCuqdNpH3zm46lV6WT
-         nV12hZ4/tNt7Ia+43+iWuSejKzOPFPdA8wRNnQpUy7/YN+SxKFNKp4fycoAOv59bfm
-         ykDl4gpKSzPmneZGMyh1BUgv7B6ejRj1x6Lk36Hce4aNV7fgaW8PRfP+4qgopDmRUe
-         /omSnbDsGk2Ew==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>, sean.anderson@seco.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH net-next] docs: netdev: add note about Changes Requested and revising commit messages
-Date:   Wed, 22 Mar 2023 16:12:02 -0700
-Message-Id: <20230322231202.265835-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S229654AbjCVXMT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 19:12:19 -0400
+X-Greylist: delayed 3601 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Mar 2023 16:12:17 PDT
+Received: from 8.mo548.mail-out.ovh.net (8.mo548.mail-out.ovh.net [46.105.45.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1784C10247
+        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 16:12:16 -0700 (PDT)
+Received: from mxplan6.mail.ovh.net (unknown [10.108.20.7])
+        by mo548.mail-out.ovh.net (Postfix) with ESMTPS id EE9A8202C3;
+        Wed, 22 Mar 2023 21:53:13 +0000 (UTC)
+Received: from jwilk.net (37.59.142.106) by DAG4EX1.mxp6.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 22 Mar
+ 2023 22:53:12 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-106R006f6024961-d43b-433f-ac60-913a5e3d2475,
+                    65661AC9A5D673C6099EB45C0BA3B174173FF86C) smtp.auth=jwilk@jwilk.net
+X-OVh-ClientIp: 5.172.255.55
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH] coding-style: fix title of Greg K-H's talk
+Date:   Wed, 22 Mar 2023 22:53:11 +0100
+Message-ID: <20230322215311.6579-1-jwilk@jwilk.net>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG6EX1.mxp6.local (172.16.2.51) To DAG4EX1.mxp6.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9df3da02-f192-4f6f-8361-a235e6131127
+X-Ovh-Tracer-Id: 8703487756989487072
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegvddgudehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgtghisehtkeertdertddtnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeelveeludehleefudetgeehkeelheekudeifeethfelveevgefgleeludduieetheenucffohhmrghinhepghhnuhdrohhrghdpohhpvghnqdhsthgurdhorhhgpdhkrhhorghhrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhifihhlkhesjhifihhlkhdrnhgvtheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhmtghhvghhrggssehkvghrnhgvlhdrohhrghdplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-One of the most commonly asked questions is "I answered all questions
-and don't need to make any code changes, why was the patch not applied".
-Document our time honored tradition of asking people to repost with
-improved commit messages, to record the answers to reviewer questions.
+The talk title was inadvertently mangled in 8c27ceff3604 ("docs: fix
+locations of several documents that got moved").
 
-Take this opportunity to also recommend a change log format.
-
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
 ---
-I couldn't come up with a real example of the commit message.
-LMK if the fake one is too silly :)
+ Documentation/process/coding-style.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-CC: sean.anderson@seco.com
-CC: corbet@lwn.net
-CC: linux-doc@vger.kernel.org
----
- Documentation/process/maintainer-netdev.rst | 29 +++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 4a75686d35ab..4d109d92f40d 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -109,6 +109,8 @@ Finally, the vX.Y gets released, and the whole cycle starts over.
- netdev patch review
- -------------------
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 007e49ef6cec..6db37a46d305 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -1267,5 +1267,5 @@ gcc internals and indent, all available from https://www.gnu.org/manual/
+ WG14 is the international standardization working group for the programming
+ language C, URL: http://www.open-std.org/JTC1/SC22/WG14/
  
-+.. _patch_status:
-+
- Patch status
- ~~~~~~~~~~~~
- 
-@@ -143,6 +145,33 @@ Asking the maintainer for status updates on your
- patch is a good way to ensure your patch is ignored or pushed to the
- bottom of the priority list.
- 
-+Changes requested
-+~~~~~~~~~~~~~~~~~
-+
-+Patches :ref:`marked<patch_status>` as ``Changes Requested`` need
-+to be revised. The new version should come with a change log,
-+preferably including links to previous postings, for example::
-+
-+  [PATCH net-next v3] net: make cows go moo
-+
-+  Even users who don't drink milk appreciate hearing the cows go "moo".
-+
-+  The amount of mooing will depend on packet rate so should match
-+  the diurnal cycle quite well.
-+
-+  Signed-of-by: Joe Defarmer <joe@barn.org>
-+  ---
-+  v3:
-+    - add a note about time-of-day mooing fluctuation to the commit message
-+  v2: https://lore.kernel.org/netdev/123themessageid@barn.org/
-+    - fix missing argument in kernel doc for netif_is_bovine()
-+    - fix memory leak in netdev_register_cow()
-+  v1: https://lore.kernel.org/netdev/456getstheclicks@barn.org/
-+
-+Commit message should be revised to answer any questions reviewers
-+had to ask in previous discussions. Occasionally the update of
-+the commit message will be the only change in the new version.
-+
- Partial resends
- ~~~~~~~~~~~~~~~
- 
+-Kernel :ref:`process/coding-style.rst <codingstyle>`, by greg@kroah.com at OLS 2002:
++Kernel CodingStyle, by greg@kroah.com at OLS 2002:
+ http://www.kroah.com/linux/talks/ols_2002_kernel_codingstyle_talk/html/
 -- 
-2.39.2
+2.40.0
 
