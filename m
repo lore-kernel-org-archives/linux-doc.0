@@ -2,175 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA17C6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 08:01:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6942CC6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 08:03:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbjCVIBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 04:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42582 "EHLO
+        id S229671AbjCVIDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 04:03:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbjCVIBm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 04:01:42 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D7BA5B5DF
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 01:01:39 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id o32so4529833wms.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 01:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1679472098;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e2bpCu2JkDxdB1j+Upo++Ty9Q2a+W+RFaVVRjPXt9MM=;
-        b=x872nMvEYBCBHKT76hXne8vpGCgaWD4I74cu5OV3jp4KtTykj63AxTuDw+GvyLK6TZ
-         ttytHBtlURPVQ1rwRRlV5oRCXcPGVM4RbqvoZPXBZwY4EL5HKpXLDGNRGhcLuv9TzLmd
-         QClsavyNjf6NxzBQptz0oU139JJiuP027ji/YWARz452wspPU3XJuYjeSs8H4gDxNCs+
-         WIqXq2vRZx7oFKAscT5pl4CDIj+VOYANla/ki+JcywhjqRgb/Yqd+p7psyvSFEIwB0GN
-         F16BnTbYXbFb5iobP3euQvrGFU1t+SItoMp/6w34X7yOS7zrY0YNkzF5aJGtpG1PgLJk
-         zYWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679472098;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=e2bpCu2JkDxdB1j+Upo++Ty9Q2a+W+RFaVVRjPXt9MM=;
-        b=5oRyG3TtcUufPzTLYIazlU/XNp+QP+6OMxx5apttErhIaY/7a9leQtaF0QbVCUQbcV
-         7frXsrKPdkKsNOMZRRuN1vqUjXrsmLd/TVCOZZV1YQB1+v7JM5CRqEJ/79cqLY4ZPoPa
-         T89pHWAY9+Qmnco+TznS3Ja/jrKyJoYaF3/t9z/3ly1MdPX9WdY6LZpo6NUahQSmvrFe
-         8gvMUnLMekLd5ZLudhkJ52MekNrQtV4ENdsIdCbtjsv+u9lrzbxdxV0+x1ZBuu4cE+D8
-         slsB5+TRFXa5BS2if2euw364JBrTsj8l1yp8obZexDoCUTfI7K/sXUeSP+h1VbdRDKV2
-         2XZw==
-X-Gm-Message-State: AO0yUKX7dvKzK4faqGr4GgfcjgFuAVxN/Ly1npQ+Er1bmNkZodrno60x
-        hu9oY9AaaqpB+GUrot7AwwTJvg==
-X-Google-Smtp-Source: AK7set/tU9CJSSgPwA3UuQn1UgSF4EB8Y1MOo5/jP2r4Gkp5gmRYRG+jHuM50BGr6jx3OTRVYoT9YQ==
-X-Received: by 2002:a05:600c:295:b0:3eb:25ff:3446 with SMTP id 21-20020a05600c029500b003eb25ff3446mr4283251wmk.4.1679472098083;
-        Wed, 22 Mar 2023 01:01:38 -0700 (PDT)
-Received: from [192.168.1.70] (151.31.102.84.rev.sfr.net. [84.102.31.151])
-        by smtp.gmail.com with ESMTPSA id fc6-20020a05600c524600b003ee04190ddfsm7743179wmb.17.2023.03.22.01.01.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 01:01:37 -0700 (PDT)
-Message-ID: <bffba580-e737-8996-4812-3c76c880acc9@baylibre.com>
-Date:   Wed, 22 Mar 2023 09:01:35 +0100
+        with ESMTP id S229611AbjCVIDQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 04:03:16 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 715E6193D4;
+        Wed, 22 Mar 2023 01:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679472195; x=1711008195;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QoQSBiHSuFz+gIFFZ9OZq2W/b3tXA3lJOkmYcr9k9K0=;
+  b=JAFBPy2C1yZKB8VO+ra2bkmTpb3xH05dsLABeTx+BE/LbLVpFWLlqOrm
+   yUH/b65w3WiX0tRGjWvlKk8HHdRHhpvlzjE+9WFQVU0i6ox78pwsJreiU
+   5HoH0FKwL/Ifa6ZP1OPEha7vF93xeMEt3J+D1gWY35t4eUrhBbPPMzrZu
+   1gOFkbOLNdbSLpYyYd1wx/L8f32tlusYHQKJr6aHZiDQdF+RW4aMXfi4j
+   uWhCvCW4KRe+Vw0o/d5+Z6Bhgq7WkGo2e/8r+b69V4kMXOn/9M33/dmoY
+   v8doYX+gx8CYJIvkEIjGzPUnEseeTSQlUgEIr2Peui2nuxd3Q4G7MQuwO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="322992917"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="322992917"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 01:03:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="712130594"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="712130594"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.146.128]) ([10.249.146.128])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 01:03:11 -0700
+Message-ID: <f4e01050-ecaa-75e3-92f4-e2b71702cc52@linux.intel.com>
+Date:   Wed, 22 Mar 2023 09:03:09 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net, arnd@arndb.de,
-        gregkh@linuxfoundation.org, derek.kiernan@xilinx.com,
-        dragan.cvetic@xilinx.com
-Cc:     eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, davem@davemloft.net,
-        christian.koenig@amd.com, contact@emersion.fr,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
-        eblanc@baylibre.com, jneanne@baylibre.com
-References: <20230321171020.74736-1-jpanis@baylibre.com>
- <20230321171020.74736-2-jpanis@baylibre.com>
- <88a6856e-c766-d4a5-1882-5350fd0e248a@linaro.org>
-From:   Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <88a6856e-c766-d4a5-1882-5350fd0e248a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch,
+        stanislaw.gruszka@linux.intel.com
+Cc:     dafna@fastmail.com, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
+        quic_carlv@quicinc.com
+References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+ <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+From:   Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
+On 20.03.2023 16:11, Jeffrey Hugo wrote:
+> Now that we have all the components of a minimum QAIC which can boot and
+> run an AIC100 device, add the infrastructure that allows the QAIC driver
+> to be built.
+> 
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>  drivers/accel/Kconfig       |  1 +
+>  drivers/accel/Makefile      |  1 +
+>  drivers/accel/qaic/Kconfig  | 23 +++++++++++++++++++++++
+>  drivers/accel/qaic/Makefile | 13 +++++++++++++
+>  4 files changed, 38 insertions(+)
+>  create mode 100644 drivers/accel/qaic/Kconfig
+>  create mode 100644 drivers/accel/qaic/Makefile
+> 
+> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+> index c437206..64065fb 100644
+> --- a/drivers/accel/Kconfig
+> +++ b/drivers/accel/Kconfig
+> @@ -26,5 +26,6 @@ menuconfig DRM_ACCEL
+>  
+>  source "drivers/accel/habanalabs/Kconfig"
+>  source "drivers/accel/ivpu/Kconfig"
+> +source "drivers/accel/qaic/Kconfig"
+>  
+>  endif
+> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+> index 07aa77a..26caf43 100644
+> --- a/drivers/accel/Makefile
+> +++ b/drivers/accel/Makefile
+> @@ -2,3 +2,4 @@
+>  
+>  obj-y	+= habanalabs/
+>  obj-y	+= ivpu/
+> +obj-$(CONFIG_DRM_ACCEL_QAIC)  += qaic/
 
-On 3/22/23 08:34, Krzysztof Kozlowski wrote:
-> On 21/03/2023 18:10, Julien Panis wrote:
->> TPS6594 is a Power Management IC which provides regulators and others
->> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->> PFSM (Pre-configurable Finite State Machine) managing the state of the
->> device.
->> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->>
->> Signed-off-by: Julien Panis <jpanis@baylibre.com>
->> ---
->>   .../devicetree/bindings/mfd/ti,tps6594.yaml   | 231 ++++++++++++++++++
->>   1 file changed, 231 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->> new file mode 100644
->> index 000000000000..4e4565a68e40
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->> @@ -0,0 +1,231 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: TI TPS6594 Power Management Integrated Circuit
->> +
->> +maintainers:
->> +  - Julien Panis <jpanis@baylibre.com>
->> +
->> +description:
->> +  TPS6594 is a Power Management IC which provides regulators and others
->> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
->> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,lp8764x
-> Does x stand for a wildcard? If so, then fix it. Compatibles should be
-> specific.
+Use two tabs instead of two spaces here to align with the current version of this file on drm-misc-next.
 
-OK, I will remove 'x' in next version.
-
->
->> +      - ti,tps6593
->> +      - ti,tps6594
->> +
->> +  reg:
->> +    description: I2C slave address or SPI chip select number.
->> +    maxItems: 1
->> +
->> +  ti,primary-pmic:
->> +    type: boolean
->> +    description: |
->> +      Identify the primary PMIC on SPMI bus.
->> +      A multi-PMIC synchronization scheme is implemented in the PMIC device
->> +      to synchronize the power state changes with other PMIC devices. This is
->> +      accomplished through a SPMI bus: the primary PMIC is the controller
->> +      device on the SPMI bus, and the secondary PMICs are the target devices
->> +      on the SPMI bus.
->> +
->> +  system-power-controller: true
->> +
->> +  gpio-controller: true
->> +
->> +  '#gpio-cells':
->> +    const: 2
->> +    description: |
->> +      The first cell is the pin number, the second cell is used to specify flags.
->> +      See ../gpio/gpio.txt for more information.
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  ti,multi-phase-id:
->> +    description: |
->> +      Describes buck multi-phase configuration, if any. For instance, XY id means
->> +      that outputs of buck converters X and Y are combined in multi-phase mode.
->> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> No improvements here. As Rob pointed out, this looks like coupled
-> regulators.
-
-I used 'oneOf' logic to handle mutual exclusion. But it seems that I did not
-understand what you and Rob expected.
-Does some generic property already exist for 'coupled regulators' ?
-
->
-> Best regards,
-> Krzysztof
->
-
+Regards,
+Jacek
