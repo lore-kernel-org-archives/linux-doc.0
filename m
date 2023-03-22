@@ -2,78 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B75D4C6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 22:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBAEC6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 23:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbjCVW60 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 18:58:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53012 "EHLO
+        id S229694AbjCVXMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 19:12:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjCVW6X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 18:58:23 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FC1305F1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 15:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=zJp4Y5Lw4Qy49NkbNely/ZBAVf09re8By+2d8xkTbJw=; b=KQ7TCKjrvVjJTlr8bpGUCV/Uk4
-        3puin9ZNHhyPNBGlMFm+RYuRsVLKgjfLVOcntd3CAWisQmGlr3MH9A/sPaAyDaPcit4evoKJFfyZ/
-        oTKRJpoylUdhAvs1zDk74PLC4Ju3jR/e/vjCmgWtIkm4rbcXhUPHtuItMGl/Q1gn/iq6+AnVYUvDU
-        P84djWehACF+nHdFsd8H6kIlMsqHDJxpgRTWl8r3Ja4R50JKHX6PPrsFv//bazTXvgWdZFIdy5OQz
-        HT+N3WOhemd6NyhmmDD7hZBDQrwvz9rFJ8i5yxlJ5y1xmAr+5YmdL2jMNPzQZCLjruii4wnypOfzz
-        F8chSG3A==;
-Received: from [2601:1c2:980:9ec0::21b4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pf7PS-0003bB-16;
-        Wed, 22 Mar 2023 22:58:22 +0000
-Message-ID: <369843bb-3a7a-78d0-40ac-0df51b0cc58d@infradead.org>
-Date:   Wed, 22 Mar 2023 15:58:21 -0700
+        with ESMTP id S229617AbjCVXMH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 19:12:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AEE1F976;
+        Wed, 22 Mar 2023 16:12:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 38D24622AE;
+        Wed, 22 Mar 2023 23:12:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43950C433EF;
+        Wed, 22 Mar 2023 23:12:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679526725;
+        bh=WT0iGPe8aO02K38pg9YUokWwFwEi1y3oeJ6wfh7kpm0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=b8vXLUPTNpElNI1iOoI8cUcdF9gcQGweFoXj57fnHvldEiHzFckHerVOjvZ6l3kph
+         IuxlnvErEYwPzazf/7ep3o5JU7INyPsT8wQfG7NofWXgCOp/F140JyKZIbGBycyF9L
+         Sbr9OtjnIJ0HrYwdBIDr7BkJjqcVHIJiJCn598OB4ykO41xDPCuqdNpH3zm46lV6WT
+         nV12hZ4/tNt7Ia+43+iWuSejKzOPFPdA8wRNnQpUy7/YN+SxKFNKp4fycoAOv59bfm
+         ykDl4gpKSzPmneZGMyh1BUgv7B6ejRj1x6Lk36Hce4aNV7fgaW8PRfP+4qgopDmRUe
+         /omSnbDsGk2Ew==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>, sean.anderson@seco.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: netdev: add note about Changes Requested and revising commit messages
+Date:   Wed, 22 Mar 2023 16:12:02 -0700
+Message-Id: <20230322231202.265835-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: Fwd: Documentation on IMA for Linux Kernel Documentation
-Content-Language: en-US
-To:     Ken Goldman <kgold@linux.ibm.com>, linux-doc@vger.kernel.org
-References: <60ac4c41-65b8-3c3d-7e31-1a580e728ca5@infradead.org>
- <a3289dfb-da44-47ce-9f3b-1f5c9dec900c@linux.ibm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <a3289dfb-da44-47ce-9f3b-1f5c9dec900c@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+One of the most commonly asked questions is "I answered all questions
+and don't need to make any code changes, why was the patch not applied".
+Document our time honored tradition of asking people to repost with
+improved commit messages, to record the answers to reviewer questions.
 
+Take this opportunity to also recommend a change log format.
 
-On 3/22/23 15:04, Ken Goldman wrote:
-> I'm writing documentation on IMA targeting users (not kernel developers).  It includes concepts, details on writing policies, the IMA event log format, utilities, and more.  It aggregates existing scattered documentation, but adds much more.  It's maybe 1/2 done.
-> 
-> Questions:
-> 
-> 1. Are there people who could look at it and see if I'm on the right path?
-> 
-> It's a lot of work.  I'd like to know that it has some chance of acceptance.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+I couldn't come up with a real example of the commit message.
+LMK if the fake one is too silly :)
 
-Review in terms of IMA-specific content?  or in terms of ReST usage?
-or in general terms to see if it is appropriate for kernel tree documentation?
+CC: sean.anderson@seco.com
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 29 +++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-I think that you should Cc: linux-integrity@vger.kernel.org for their input
-as well as linux-doc@vger.kernel.org. Several of us here can look at it for
-general review feedback.
-
-> 2. What is the process for getting a block of documentation added to https://www.kernel.org/doc/html?
-
-From last week's email:
-
->>> It should be added to the kernel tree in the Documentation/userspace-api/ subdirectory
->>> or Documentation/security/ subdirectory.  The kernel.org/doc/ web pages are generated
->>> from what is in the Linux kernel tree.
-
-although if you don't think that it is appropriate for either of those subdirectories,
-just explain and justify that and it might be possible to put it somewhere else.
-
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index 4a75686d35ab..4d109d92f40d 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -109,6 +109,8 @@ Finally, the vX.Y gets released, and the whole cycle starts over.
+ netdev patch review
+ -------------------
+ 
++.. _patch_status:
++
+ Patch status
+ ~~~~~~~~~~~~
+ 
+@@ -143,6 +145,33 @@ Asking the maintainer for status updates on your
+ patch is a good way to ensure your patch is ignored or pushed to the
+ bottom of the priority list.
+ 
++Changes requested
++~~~~~~~~~~~~~~~~~
++
++Patches :ref:`marked<patch_status>` as ``Changes Requested`` need
++to be revised. The new version should come with a change log,
++preferably including links to previous postings, for example::
++
++  [PATCH net-next v3] net: make cows go moo
++
++  Even users who don't drink milk appreciate hearing the cows go "moo".
++
++  The amount of mooing will depend on packet rate so should match
++  the diurnal cycle quite well.
++
++  Signed-of-by: Joe Defarmer <joe@barn.org>
++  ---
++  v3:
++    - add a note about time-of-day mooing fluctuation to the commit message
++  v2: https://lore.kernel.org/netdev/123themessageid@barn.org/
++    - fix missing argument in kernel doc for netif_is_bovine()
++    - fix memory leak in netdev_register_cow()
++  v1: https://lore.kernel.org/netdev/456getstheclicks@barn.org/
++
++Commit message should be revised to answer any questions reviewers
++had to ask in previous discussions. Occasionally the update of
++the commit message will be the only change in the new version.
++
+ Partial resends
+ ~~~~~~~~~~~~~~~
+ 
 -- 
-~Randy
+2.39.2
+
