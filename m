@@ -2,455 +2,1292 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 657BFC6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 05:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1FB0C6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 07:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbjCVFi5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 01:38:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
+        id S229713AbjCVHYm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 03:24:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjCVFi4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 01:38:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D649ED4;
-        Tue, 21 Mar 2023 22:38:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F4CD61F74;
-        Wed, 22 Mar 2023 05:38:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B68C9C433EF;
-        Wed, 22 Mar 2023 05:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679463533;
-        bh=7APVAm83V4sqBRCSXtDoGdcCo2nxh7yxhfzU7CqpXwQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gu7JT+omPd6avLH2qbZytPUdV8CGXUuz5mXDF0vvOlCPs9RKiKv5G0uCtmEVMQm04
-         CeHtwz4tLjX9gwDydmj5DPpgCXGOCcFfsO/MJj6TtazqOEMw8ux5IBanZ1+4/QPGgb
-         5ChPbaGQRovmyi/8u4KO+1XwbFcUsVt7THb5QVz+w+yrFlzVN2W9NFSwrbOuKrlK5h
-         +Q24oumdUsLJ8FChY/6zQj8/0HAu9TkRIGbxo3YgRZMcYRKr2Okd3cw2EAJ3/KCO6j
-         J6qSSiOxZ9ALdyAc6tt1piAfZPPIKRyDqWG8ez3Z2iP6dcXQJlXNR7xR0kmOQ3SsyF
-         i/jxv0BrdP36A==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        with ESMTP id S229513AbjCVHYi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 03:24:38 -0400
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB449C14E;
+        Wed, 22 Mar 2023 00:24:35 -0700 (PDT)
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M3vqaT020844;
+        Wed, 22 Mar 2023 00:24:19 -0700
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2042.outbound.protection.outlook.com [104.47.56.42])
+        by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3pft7ugk85-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Mar 2023 00:24:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fX30IvnKm+YcE2RuVLGjtbFhVkbdYkm0eUwFB3X6FKlF649rDWpJL96rh0TAzWlASaPB6HUGAwzIqNJYIBs9mz24k37T92dfUAv98bxO4tFcPHyD6gm2vSMRCx3Na+DeVZwtC1xeMEy26/udYSTq+zsnwHvetIf5Uv8iJLFjXKKe0ip02/bkiyfaNkg5EV76pcbMk9bbP15XtkECsjVpCX9HKvRdxnVLabjfKyIOfEnqwdHZTnzysp5/3k0jVGuCNi+WXt33UKL5vIjTGcBgwlXUiyxZdLzsJ6Kr3Fo14t/8XZjgLDhcT7F5+LPR0IPaM+WtQJUd828I8DCRXjMTyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oY4yIXmtttlJ83ehxpbkDlrAnnp8M78aPxzGbK33OK0=;
+ b=RZkNLi0GUKlyPp5SEFhnH3p6sqNbm81ZfXjsy6FzRDX5PHO0IJ8bbo199KEr5hqWshTA9rAEIqDOk8nZzGLhCSB8ii1SsPEkRVbuwol1ZEl9Wu4Hizk1nVzftu16bg/KGu5d1CBXJN7/FE3JznAWfT+XrkmG77mIRdj1CO4tZHEVhSVRKi0Wc1/HfRnozptI4/geRP0ChFOu3I1vFQSdhjty8klmxW1pE6Svl9RWSeX38uLNEI2druAUWYWb51tHsJPK10esMEdIS/Q2T8T2mA7o98sMaFC3AdYxw4ILB5PZKsC4N23U0jxywWjqF0/OwaXK5XJq7wVHQkzQ+rkgQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oY4yIXmtttlJ83ehxpbkDlrAnnp8M78aPxzGbK33OK0=;
+ b=dq66FRwyamu3FrzyunvHlN11DQierYiExShe0ldbJxgJGcf8jUH6aTjrVi48TMfZBaAWjtIKnXY05586ecWJoSHWNnCUKKPngroYQ3A0ve0fsUye8Ys4o42f5gcrlR+J7i78dfDubYfSMaA1kp5ZxY9C+4mwwD2pbjMtfZnrQ3g=
+Received: from BYASPR01MB0053.namprd18.prod.outlook.com (2603:10b6:a03:b2::12)
+ by PH0PR18MB4441.namprd18.prod.outlook.com (2603:10b6:510:e0::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
+ 2023 07:24:16 +0000
+Received: from BYASPR01MB0053.namprd18.prod.outlook.com
+ ([fe80::c472:7b3:b39a:50e2]) by BYASPR01MB0053.namprd18.prod.outlook.com
+ ([fe80::c472:7b3:b39a:50e2%5]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
+ 07:24:15 +0000
+From:   Veerasenareddy Burru <vburru@marvell.com>
+To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Abhijit Ayarekar <aayarekar@marvell.com>,
+        Sathesh B Edara <sedara@marvell.com>,
+        Satananda Burla <sburla@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        Pavel Pisa <pisa@cmp.felk.cvut.cz>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>, corbet@lwn.net,
-        jesse.brandeburg@intel.com, mkl@pengutronix.de,
-        linux-doc@vger.kernel.org, stephen@networkplumber.org,
-        romieu@fr.zoreil.com
-Subject: [PATCH net-next v3] docs: networking: document NAPI
-Date:   Tue, 21 Mar 2023 22:38:48 -0700
-Message-Id: <20230322053848.198452-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        Paolo Abeni <pabeni@redhat.com>
+Subject: RE: [EXT] Re: [PATCH net-next v3 4/7] octeon_ep: enhance control
+ mailbox for VF support
+Thread-Topic: [EXT] Re: [PATCH net-next v3 4/7] octeon_ep: enhance control
+ mailbox for VF support
+Thread-Index: AQHZQDM7JtIuJpXXiU6mkQqtLS8i+q7QK1mAgCtMJJA=
+Date:   Wed, 22 Mar 2023 07:24:15 +0000
+Message-ID: <BYASPR01MB00532A59704296C72DB0FB39CC869@BYASPR01MB0053.namprd18.prod.outlook.com>
+References: <20230214051422.13705-1-vburru@marvell.com>
+ <20230214051422.13705-5-vburru@marvell.com> <Y+0AW3b9No9pyWrr@boxer>
+In-Reply-To: <Y+0AW3b9No9pyWrr@boxer>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcdmJ1cnJ1XGFw?=
+ =?us-ascii?Q?cGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEy?=
+ =?us-ascii?Q?OWUzNWJcbXNnc1xtc2ctOGI0ZjhlYjktYzg4Mi0xMWVkLTgzNzctZjRhNDc1?=
+ =?us-ascii?Q?OWE1OGFjXGFtZS10ZXN0XDhiNGY4ZWJiLWM4ODItMTFlZC04Mzc3LWY0YTQ3?=
+ =?us-ascii?Q?NTlhNThhY2JvZHkudHh0IiBzej0iMzU3MjAiIHQ9IjEzMzIzOTQzNDUzNzA0?=
+ =?us-ascii?Q?Mzg4MyIgaD0icGU4VVk4a3FxbWRLdTNJeElYNlI3RjJ4NndFPSIgaWQ9IiIg?=
+ =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBSFlJQUFD?=
+ =?us-ascii?Q?cmg2ZE5qMXpaQWJNaXZWWlJjOHFnc3lLOVZsRnp5cUFOQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQUdDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUVBQVFBQkFBQUExRkgzYUFBQUFBQUFBQUFBQUFBQUFKNEFBQUJoQUdRQVpB?=
+ =?us-ascii?Q?QnlBR1VBY3dCekFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFFQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHTUFkUUJ6QUhRQWJ3QnRBRjhBY0FC?=
+ =?us-ascii?Q?bEFISUFjd0J2QUc0QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
+ =?us-ascii?Q?QUFBQ2VBQUFBWXdCMUFITUFkQUJ2QUcwQVh3QndBR2dBYndCdUFHVUFiZ0Ix?=
+ =?us-ascii?Q?QUcwQVlnQmxBSElBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQmpBSFVB?=
+ =?us-ascii?Q?Y3dCMEFHOEFiUUJmQUhNQWN3QnVBRjhBWkFCaEFITUFhQUJmQUhZQU1BQXlB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+x-dg-refone: =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdN?=
+ =?us-ascii?Q?QWRRQnpBSFFBYndCdEFGOEFjd0J6QUc0QVh3QnJBR1VBZVFCM0FHOEFjZ0Jr?=
+ =?us-ascii?Q?QUhNQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBUUFBQUFBQUFBQUNBQUFBQUFDZUFBQUFZd0IxQUhNQWRBQnZBRzBB?=
+ =?us-ascii?Q?WHdCekFITUFiZ0JmQUc0QWJ3QmtBR1VBYkFCcEFHMEFhUUIwQUdVQWNnQmZB?=
+ =?us-ascii?Q?SFlBTUFBeUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFB?=
+ =?us-ascii?Q?QUFJQUFBQUFBSjRBQUFCakFIVUFjd0IwQUc4QWJRQmZBSE1BY3dCdUFGOEFj?=
+ =?us-ascii?Q?d0J3QUdFQVl3QmxBRjhBZGdBd0FESUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFB?=
+ =?us-ascii?Q?R1FBYkFCd0FGOEFjd0JyQUhrQWNBQmxBRjhBWXdCb0FHRUFkQUJmQUcwQVpR?=
+ =?us-ascii?Q?QnpBSE1BWVFCbkFHVUFYd0IyQURBQU1nQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFRQUFBQUFBQUFBQ0FBQUFBQUNlQUFBQVpBQnNBSEFBWHdCekFH?=
+ =?us-ascii?Q?d0FZUUJqQUdzQVh3QmpBR2dBWVFCMEFGOEFiUUJsQUhNQWN3QmhBR2NBWlFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+x-dg-reftwo: =?us-ascii?Q?QUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJrQUd3QWNBQmZB?=
+ =?us-ascii?Q?SFFBWlFCaEFHMEFjd0JmQUc4QWJnQmxBR1FBY2dCcEFIWUFaUUJmQUdZQWFR?=
+ =?us-ascii?Q?QnNBR1VBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBRUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFnQUFBQUFBbmdBQUFHVUFiUUJoQUdrQWJBQmZBR0VBWkFCa0FI?=
+ =?us-ascii?Q?SUFaUUJ6QUhNQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFEZ0FBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFBQUFB?=
+ =?us-ascii?Q?Q2VBQUFBYlFCaEFISUFkZ0JsQUd3QWJBQmZBSEFBY2dCdkFHb0FaUUJqQUhR?=
+ =?us-ascii?Q?QVh3QmpBRzhBWkFCbEFITUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQnRBR0VBY2dC?=
+ =?us-ascii?Q?MkFHVUFiQUJzQUY4QWRBQmxBSElBYlFCcEFHNEFkUUJ6QUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFF?=
+ =?us-ascii?Q?QUFBQUFBQUFBQWdBQUFBQUEiLz48L21ldGE+?=
+x-dg-rorf: true
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYASPR01MB0053:EE_|PH0PR18MB4441:EE_
+x-ms-office365-filtering-correlation-id: d4143b6e-d262-4a09-ce40-08db2aa67147
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oWHPqhYOnv0BBklp2i6X5j52/GAy4fuhHjZFsh4arswKA+Hklxz11vt1UrcYV3CoL9LiXAottxRYQxhP8k8FCiY/5wOD4b5NtPB183qMx09ZYeN6rO9NoBbNXP5Rqlq7IM65kZ/+epp4iEOOShYen9kYKZWA8rdfrhUTxQ2c2FlkWfesd19CX5gWLY1O9lR8z7w3G8GWNEFzmZN7+JEHOQUrMocdxZ2Nr3Z57aeK97HyimTNAlCn3skz+ePfNWag3XI4SrD1ao6ZqGGW3r6wAkyaUcq3o2KArjDShAD4jFiEP7kKOGSXKRb6n0ivwpo4hxBuMpTTpWF8fflFyr4gzyXpr7AlY7Wip5UyU1Gd23yTnjIaiP5dDQ9fF0jyU+35PclLejCcqwLj0yGV93jnvtHOzjjukEzAVl0MtQlaPM95srK0nwiuXV3m2mBcf6rFqWoVf7ttIH66SzwcGKFPlxsV1GgGZY4e5qEWL48a+9Jjquv0TS+7nmuQvqvrKNOOrg7sU09xYZ+z9d7ZdVVfx0mSlzykYB7dFbd4mBOvlTJMqOR7kQsOk3o6mThpQXvACxOIlLfJ3aneRA1nH2AvMa3214Pla7KsqJsLYnxKZqLEIwhlfzbidlmhF+FiRixM7l85siPAy613GsZFgwXUBL7XN6JicsWYOqq26KQKr1qdqeb1pN0Yyz709j2XYB//+jXu2zVe3ZIGykV//tH6ZQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYASPR01MB0053.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199018)(7696005)(41300700001)(71200400001)(186003)(4326008)(83380400001)(478600001)(316002)(8676002)(64756008)(66556008)(76116006)(66446008)(66946007)(66476007)(6916009)(53546011)(9686003)(26005)(6506007)(54906003)(52536014)(8936002)(30864003)(5660300002)(38100700002)(122000001)(2906002)(15650500001)(55016003)(38070700005)(86362001)(33656002)(559001)(579004);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?MzW1sNySgZWzvW+IiFC8eHZJjnZzbnC29G5gat5a7QHyyrLPmx/1RmnCzRFq?=
+ =?us-ascii?Q?xJreE4yu/1uXvIteTYIzEhtO1tJflUJ0PqkFdTvgWvaCcu07XgZrBEkTFPOy?=
+ =?us-ascii?Q?ZWNS+7Uw+TpqkRC9W+XTOvNI4w5d+0HfE/2+bZDkrs6PO12RjNNNkIO7xNYb?=
+ =?us-ascii?Q?sykCZVc2vheUeN6rNJZQHWv8MTyjnmi2PDyJfxjipcaDA/hSHYdym2CkC0br?=
+ =?us-ascii?Q?c87k5fcSNv0PqmwI4ZtEB7b+uxdR2KyPtrMIXQqaoraNabytP4yOkNiyJwn1?=
+ =?us-ascii?Q?+R6v5Z53ozXsE7/Din9BBKJxeAhJpijloi9aO2+0pWVcz5qy6pYVBLHZOD5Z?=
+ =?us-ascii?Q?ZPh+SPoU0+EnL4Oi1aDFI9PyZQ98UYOGpVi9P7IYD13EE4XuI+hgevCGMZBd?=
+ =?us-ascii?Q?fEpfC8BucWOGJhbj6nBqcTTlInPpsoo1OJQzYZDksU9cZZheodkSkWYbnYOS?=
+ =?us-ascii?Q?MI+RJOBCwL0+NF8VSM6hmMVDr3QBlEnOewK6UAgn3YOr50sndkXPoLS4Qwei?=
+ =?us-ascii?Q?gGxrN0sD+b8Ooq23Whbq8jlLhLZWUrSTjnY+O7baxl7oOGG26CBJYexXMmcw?=
+ =?us-ascii?Q?39b7Wyk0VP3ueoCUOZ2RqLMmiBKRtlbGNrysgkFugLBiE1H9j6ys3MmFdbOd?=
+ =?us-ascii?Q?xNL/XHwq/91KKRABLGRR6NiTclnKfWDzuXObTBk9cYodn8iTF5qOqPfjUjqL?=
+ =?us-ascii?Q?3ersl2DlwKnkbpJtuRkEVxlIJGpB5323P7HkbanMHPhfMPAscqQgKulWBXBj?=
+ =?us-ascii?Q?QFw9D2Wzxs31nG953AIMe8cfkVqjWH+r64PUacvgbTAazgsdWjJR7VHG2qTi?=
+ =?us-ascii?Q?542t7i0AYy7m0UBz1MQv/xZVFJX4kaJVR39xvJObeCHcy5sLnrXx09cJ4lYv?=
+ =?us-ascii?Q?mlvq33gZtKSOqSkpgJfMUVv98neoLHiQNL5y/GQ/CyfVh9jeSueADeD/LcYl?=
+ =?us-ascii?Q?PBQlyisJXOExhdNTaMHOQtAHwqyWamAAFV7frDI5pMwwaMeofoLPHDTbGjCK?=
+ =?us-ascii?Q?AA2SYoO0DBDGK5f3KixaUo0s7TFtKaUbET+IOK/6V9b+xR1N6FXCJakdhtEI?=
+ =?us-ascii?Q?UjhxJzg6eXp5CwC2JpOTKWc31WMoRawkiJZd51TzR50+b2PO1ECgC+ea4UGI?=
+ =?us-ascii?Q?xqoOG5Zszn29QHQLVhuZ1+bh+cQyqvrkOb0Z/P1l2Ec9uyUnnoEJvCWNpeIo?=
+ =?us-ascii?Q?oAtJeJmh3oSYQNpbDqcrc4FobpuoJVbaiZrdXjFNICDpFPzFzQWoCI/mlMNX?=
+ =?us-ascii?Q?MIHtzIrjy2PV95Zof5wNd+JPkWrRctFRHQB3VtFqgfIAoXAA8oKq2PEGkbYX?=
+ =?us-ascii?Q?aGQWuFnD/A8JMtvywKjTK4ZpEUzg47iYV7GtWZvgfKWb+gwDCx0LbFH7rXYz?=
+ =?us-ascii?Q?jNnmTj/u2JK5NOeE/Mcyjy+ScNsfrPeabqijeFf3bs5r8OfPo+JyjL6slRgl?=
+ =?us-ascii?Q?v4/CepEpEunw1KzGjh1s5tm8Y2I6rU3Iu+SaUOQ7te1t5b5lfRCkLcGCwSkG?=
+ =?us-ascii?Q?+EP3DhnWeR1xFfjOl6tsCSKgwvhED4AYPOWKIUqIcapUJbE86JuDWjCc3UH4?=
+ =?us-ascii?Q?PnH3a+pAsbV7590d+j0fSJ199MpNZ8wZ+ZBcjpfh?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: marvell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYASPR01MB0053.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4143b6e-d262-4a09-ce40-08db2aa67147
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2023 07:24:15.6057
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jIeijn0Xyt3baq4Pi4MiG4IIkHL1RnNYp3Olh1n+vDqu2DSWVgyV1XcA8LGBzFtyRiEJ0NyzC4jR5BApRldJ/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR18MB4441
+X-Proofpoint-GUID: zMnDA6gSbRPGrPBWViUteK0_dnm26F_v
+X-Proofpoint-ORIG-GUID: zMnDA6gSbRPGrPBWViUteK0_dnm26F_v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add basic documentation about NAPI. We can stop linking to the ancient
-doc on the LF wiki.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Link: https://lore.kernel.org/all/20230315223044.471002-1-kuba@kernel.org/
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Toke Høiland-Jørgensen <toke@redhat.com>
-Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz> # for ctucanfd-driver.rst
-Reviewed-by: Tony Nguyen <anthony.l.nguyen@intel.com>
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
----
-v3: rebase on net-next (to avoid ixgb conflict)
-    fold in grammar fixes from Stephen
-v2: https://lore.kernel.org/all/20230321050334.1036870-1-kuba@kernel.org/
-    remove the links in CAN and in ICE as well
-    improve the start of the threaded NAPI section
-    name footnote
-    internal links from the intro to sections
-    various clarifications from Florian and Stephen
 
-CC: corbet@lwn.net
-CC: jesse.brandeburg@intel.com
-CC: anthony.l.nguyen@intel.com
-CC: pisa@cmp.felk.cvut.cz
-CC: mkl@pengutronix.de
-CC: linux-doc@vger.kernel.org
-CC: f.fainelli@gmail.com
-CC: stephen@networkplumber.org
-CC: romieu@fr.zoreil.com
----
- .../can/ctu/ctucanfd-driver.rst               |   3 +-
- .../device_drivers/ethernet/intel/e100.rst    |   3 +-
- .../device_drivers/ethernet/intel/i40e.rst    |   4 +-
- .../device_drivers/ethernet/intel/ice.rst     |   4 +-
- Documentation/networking/index.rst            |   1 +
- Documentation/networking/napi.rst             | 251 ++++++++++++++++++
- include/linux/netdevice.h                     |  13 +-
- 7 files changed, 266 insertions(+), 13 deletions(-)
- create mode 100644 Documentation/networking/napi.rst
+> -----Original Message-----
+> From: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+> Sent: Wednesday, February 15, 2023 7:55 AM
+> To: Veerasenareddy Burru <vburru@marvell.com>
+> Cc: netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Abhijit Ayareka=
+r
+> <aayarekar@marvell.com>; Sathesh B Edara <sedara@marvell.com>;
+> Satananda Burla <sburla@marvell.com>; linux-doc@vger.kernel.org; David S.
+> Miller <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>;
+> Jakub Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>
+> Subject: [EXT] Re: [PATCH net-next v3 4/7] octeon_ep: enhance control
+> mailbox for VF support
+>=20
+> External Email
+>=20
+> ----------------------------------------------------------------------
+> On Mon, Feb 13, 2023 at 09:14:19PM -0800, Veerasenareddy Burru wrote:
+> > Enhance control mailbox protocol to support following
+> >  - separate command and response queues
+> >     * command queue to send control commands to firmware.
+> >     * response queue to receive responses and notifications from
+> >       firmware.
+> >  - variable size messages using scatter/gather
+> >  - VF support
+> >     * extend control command structure to include vfid.
+> >     * update APIs to accept VF ID.
+> >
+> > Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
+> > Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+> > ---
+> > v2 -> v3:
+> >  * no change
+> >
+> > v1 -> v2:
+> >  * modified the patch to work with device status "oct->status" removed.
+> >
+> >  .../marvell/octeon_ep/octep_ctrl_mbox.c       | 318 +++++++++-------
+> >  .../marvell/octeon_ep/octep_ctrl_mbox.h       | 102 ++---
+> >  .../marvell/octeon_ep/octep_ctrl_net.c        | 349 ++++++++++++------
+> >  .../marvell/octeon_ep/octep_ctrl_net.h        | 176 +++++----
+> >  .../marvell/octeon_ep/octep_ethtool.c         |   7 +-
+> >  .../ethernet/marvell/octeon_ep/octep_main.c   |  80 ++--
+> >  6 files changed, 619 insertions(+), 413 deletions(-)
+>=20
+> patch is big, any ways to split it up? for example, why couldn't the "VF
+> support" be pulled out to a sequent commit?
+>=20
 
-diff --git a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-index 1a4fc6607582..1661d13174d5 100644
---- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-+++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-@@ -229,8 +229,7 @@ frames for a while. This has a potential to avoid the costly round of
- enabling interrupts, handling an incoming IRQ in ISR, re-enabling the
- softirq and switching context back to softirq.
- 
--More detailed documentation of NAPI may be found on the pages of Linux
--Foundation `<https://wiki.linuxfoundation.org/networking/napi>`_.
-+See :ref:`Documentation/networking/napi.rst <napi>` for more information.
- 
- Integrating the core to Xilinx Zynq
- -----------------------------------
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/e100.rst b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
-index 3d4a9ba21946..371b7e5c3293 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/e100.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
-@@ -151,8 +151,7 @@ NAPI
- 
- NAPI (Rx polling mode) is supported in the e100 driver.
- 
--See https://wiki.linuxfoundation.org/networking/napi for more
--information on NAPI.
-+See :ref:`Documentation/networking/napi.rst <napi>` for more information.
- 
- Multiple Interfaces on Same Ethernet Broadcast Network
- ------------------------------------------------------
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-index ac35bd472bdc..c495c4e16b3b 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-@@ -399,8 +399,8 @@ operate only in full duplex and only at their native speed.
- NAPI
- ----
- NAPI (Rx polling mode) is supported in the i40e driver.
--For more information on NAPI, see
--https://wiki.linuxfoundation.org/networking/napi
-+
-+See :ref:`Documentation/networking/napi.rst <napi>` for more information.
- 
- Flow Control
- ------------
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index 5efea4dd1251..2b6dc7880d7b 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -817,10 +817,10 @@ on your device, you may not be able to change the auto-negotiation setting.
- 
- NAPI
- ----
-+
- This driver supports NAPI (Rx polling mode).
--For more information on NAPI, see
--https://wiki.linuxfoundation.org/networking/napi
- 
-+See :ref:`Documentation/networking/napi.rst <napi>` for more information.
- 
- MACVLAN
- -------
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 4ddcae33c336..24bb256d6d53 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -73,6 +73,7 @@ Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
-    mpls-sysctl
-    mptcp-sysctl
-    multiqueue
-+   napi
-    netconsole
-    netdev-features
-    netdevices
-diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
-new file mode 100644
-index 000000000000..4f848d86750c
---- /dev/null
-+++ b/Documentation/networking/napi.rst
-@@ -0,0 +1,251 @@
-+.. _napi:
-+
-+====
-+NAPI
-+====
-+
-+NAPI is the event handling mechanism used by the Linux networking stack.
-+The name NAPI no longer stands for anything in particular [#]_.
-+
-+In basic operation device notifies the host about new events via an interrupt.
-+The host then schedules a NAPI instance to process the events.
-+Device may also be polled for events via NAPI without receiving
-+interrupts first (:ref:`busy polling<poll>`).
-+
-+NAPI processing usually happens in the software interrupt context,
-+but there is an option to use :ref:`separate kernel threads<threaded>`
-+for NAPI processing.
-+
-+All in all NAPI abstracts away from the drivers the context and configuration
-+of event (packet Rx and Tx) processing.
-+
-+Driver API
-+==========
-+
-+The two most important elements of NAPI are the struct napi_struct
-+and the associated poll method. struct napi_struct holds the state
-+of the NAPI instance while the method is the driver-specific event
-+handler. The method will typically free Tx packets that have been
-+transmitted and process newly received packets.
-+
-+.. _drv_ctrl:
-+
-+Control API
-+-----------
-+
-+netif_napi_add() and netif_napi_del() add/remove a NAPI instance
-+from the system. The instances are attached to the netdevice passed
-+as argument (and will be deleted automatically when netdevice is
-+unregistered). Instances are added in a disabled state.
-+
-+napi_enable() and napi_disable() manage the disabled state.
-+A disabled NAPI can't be scheduled and its poll method is guaranteed
-+to not be invoked. napi_disable() waits for ownership of the NAPI
-+instance to be released.
-+
-+The control APIs are not idempotent. Control API calls are safe against
-+concurrent use of datapath APIs but an incorrect sequence of control API
-+calls may result in crashes, deadlocks, or race conditions. For example,
-+calling napi_disable() multiple times in a row will deadlock.
-+
-+Datapath API
-+------------
-+
-+napi_schedule() is the basic method of scheduling a NAPI poll.
-+Drivers should call this function in their interrupt handler
-+(see :ref:`drv_sched` for more info). A successful call to napi_schedule()
-+will take ownership of the NAPI instance.
-+
-+Later, after NAPI is scheduled, the driver's poll method will be
-+called to process the events/packets. The method takes a ``budget``
-+argument - drivers can process completions for any number of Tx
-+packets but should only process up to ``budget`` number of
-+Rx packets. Rx processing is usually much more expensive.
-+
-+In other words, it is recommended to ignore the budget argument when
-+performing TX buffer reclamation to ensure that the reclamation is not
-+arbitrarily bounded, however, it is required to honor the budget argument
-+for RX processing.
-+
-+.. warning::
-+
-+   The ``budget`` argument may be 0 if core tries to only process Tx completions
-+   and no Rx packets.
-+
-+The poll method returns the amount of work done. If the driver still
-+has outstanding work to do (e.g. ``budget`` was exhausted)
-+the poll method should return exactly ``budget``. In that case,
-+the NAPI instance will be serviced/polled again (without the
-+need to be scheduled).
-+
-+If event processing has been completed (all outstanding packets
-+processed) the poll method should call napi_complete_done()
-+before returning. napi_complete_done() releases the ownership
-+of the instance.
-+
-+.. warning::
-+
-+   The case of finishing all events and using exactly ``budget``
-+   must be handled carefully. There is no way to report this
-+   (rare) condition to the stack, so the driver must either
-+   not call napi_complete_done() and wait to be called again,
-+   or return ``budget - 1``.
-+
-+   If the ``budget`` is 0 napi_complete_done() should never be called.
-+
-+Call sequence
-+-------------
-+
-+Drivers should not make assumptions about the exact sequencing
-+of calls. The poll method may be called without the driver scheduling
-+the instance (unless the instance is disabled). Similarly,
-+it's not guaranteed that the poll method will be called, even
-+if napi_schedule() succeeded (e.g. if the instance gets disabled).
-+
-+As mentioned in the :ref:`drv_ctrl` section - napi_disable() and subsequent
-+calls to the poll method only wait for the ownership of the instance
-+to be released, not for the poll method to exit. This means that
-+drivers should avoid accessing any data structures after calling
-+napi_complete_done().
-+
-+.. _drv_sched:
-+
-+Scheduling and IRQ masking
-+--------------------------
-+
-+Drivers should keep the interrupts masked after scheduling
-+the NAPI instance - until NAPI polling finishes any further
-+interrupts are unnecessary.
-+
-+Drivers which have to mask the interrupts explicitly (as opposed
-+to IRQ being auto-masked by the device) should use the napi_schedule_prep()
-+and __napi_schedule() calls:
-+
-+.. code-block:: c
-+
-+  if (napi_schedule_prep(&v->napi)) {
-+      mydrv_mask_rxtx_irq(v->idx);
-+      /* schedule after masking to avoid races */
-+      __napi_schedule(&v->napi);
-+  }
-+
-+IRQ should only be unmasked after a successful call to napi_complete_done():
-+
-+.. code-block:: c
-+
-+  if (budget && napi_complete_done(&v->napi, work_done)) {
-+    mydrv_unmask_rxtx_irq(v->idx);
-+    return min(work_done, budget - 1);
-+  }
-+
-+napi_schedule_irqoff() is a variant of napi_schedule() which takes advantage
-+of guarantees given by being invoked in IRQ context (no need to
-+mask interrupts). Note that PREEMPT_RT forces all interrupts
-+to be threaded so the interrupt may need to be marked ``IRQF_NO_THREAD``
-+to avoid issues on real-time kernel configurations.
-+
-+Instance to queue mapping
-+-------------------------
-+
-+Modern devices have multiple NAPI instances (struct napi_struct) per
-+interface. There is no strong requirement on how the instances are
-+mapped to queues and interrupts. NAPI is primarily a polling/processing
-+abstraction without specific user-facing semantics. That said, most networking
-+devices end up using NAPI in fairly similar ways.
-+
-+NAPI instances most often correspond 1:1:1 to interrupts and queue pairs
-+(queue pair is a set of a single Rx and single Tx queue).
-+
-+In less common cases a NAPI instance may be used for multiple queues
-+or Rx and Tx queues can be serviced by separate NAPI instances on a single
-+core. Regardless of the queue assignment, however, there is usually still
-+a 1:1 mapping between NAPI instances and interrupts.
-+
-+It's worth noting that the ethtool API uses a "channel" terminology where
-+each channel can be either ``rx``, ``tx`` or ``combined``. It's not clear
-+what constitutes a channel, the recommended interpretation is to understand
-+a channel as an IRQ/NAPI which services queues of a given type. For example,
-+a configuration of 1 ``rx``, 1 ``tx`` and 1 ``combined`` channel is expected
-+to utilize 3 interrupts, 2 Rx and 2 Tx queues.
-+
-+User API
-+========
-+
-+User interactions with NAPI depend on NAPI instance ID. The instance IDs
-+are only visible to the user thru the ``SO_INCOMING_NAPI_ID`` socket option.
-+It's not currently possible to query IDs used by a given device.
-+
-+Software IRQ coalescing
-+-----------------------
-+
-+NAPI does not perform any explicit event coalescing by default.
-+In most scenarios batching happens due to IRQ coalescing which is done
-+by the device. There are cases where software coalescing is helpful.
-+
-+NAPI can be configured to arm a repoll timer instead of unmasking
-+the hardware interrupts as soon as all packets are processed.
-+The ``gro_flush_timeout`` sysfs configuration of the netdevice
-+is reused to control the delay of the timer, while
-+``napi_defer_hard_irqs`` controls the number of consecutive empty polls
-+before NAPI gives up and goes back to using hardware IRQs.
-+
-+.. _poll:
-+
-+Busy polling
-+------------
-+
-+Busy polling allows user process to check for incoming packets before
-+the device interrupt fires. As is the case with any busy polling it trades
-+off CPU cycles for lower latency (in fact production uses of NAPI busy
-+polling are not well known).
-+
-+Busy polling is enabled by either setting ``SO_BUSY_POLL`` on
-+selected sockets or using the global ``net.core.busy_poll`` and
-+``net.core.busy_read`` sysctls. An io_uring API for NAPI busy polling
-+also exists.
-+
-+IRQ mitigation
-+---------------
-+
-+While busy polling is supposed to be used by low latency applications,
-+a similar mechanism can be used for IRQ mitigation.
-+
-+Very high request-per-second applications (especially routing/forwarding
-+applications and especially applications using AF_XDP sockets) may not
-+want to be interrupted until they finish processing a request or a batch
-+of packets.
-+
-+Such applications can pledge to the kernel that they will perform a busy
-+polling operation periodically, and the driver should keep the device IRQs
-+permanently masked. This mode is enabled by using the ``SO_PREFER_BUSY_POLL``
-+socket option. To avoid system misbehavior the pledge is revoked
-+if ``gro_flush_timeout`` passes without any busy poll call.
-+
-+The NAPI budget for busy polling is lower than the default (which makes
-+sense given the low latency intention of normal busy polling). This is
-+not the case with IRQ mitigation, however, so the budget can be adjusted
-+with the ``SO_BUSY_POLL_BUDGET`` socket option.
-+
-+.. _threaded:
-+
-+Threaded NAPI
-+-------------
-+
-+Threaded NAPI is an operating mode that uses dedicated kernel
-+threads rather than software IRQ context for NAPI processing.
-+The configuration is per netdevice and will affect all
-+NAPI instances of that device. Each NAPI instance will spawn a separate
-+thread (called ``napi/${ifc-name}-${napi-id}``).
-+
-+It is recommended to pin each kernel thread to a single CPU, the same
-+CPU as services the interrupt. Note that the mapping between IRQs and
-+NAPI instances may not be trivial (and is driver dependent).
-+The NAPI instance IDs will be assigned in the opposite order
-+than the process IDs of the kernel threads.
-+
-+Threaded NAPI is controlled by writing 0/1 to the ``threaded`` file in
-+netdev's sysfs directory.
-+
-+.. rubric:: Footnotes
-+
-+.. [#] NAPI was originally referred to as New API in 2.4 Linux.
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 7621c512765f..b304684c3696 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -509,15 +509,18 @@ static inline bool napi_reschedule(struct napi_struct *napi)
- 	return false;
- }
- 
--bool napi_complete_done(struct napi_struct *n, int work_done);
- /**
-- *	napi_complete - NAPI processing complete
-- *	@n: NAPI context
-+ * napi_complete_done - NAPI processing complete
-+ * @n: NAPI context
-+ * @work_done: number of packets processed
-  *
-- * Mark NAPI processing as complete.
-- * Consider using napi_complete_done() instead.
-+ * Mark NAPI processing as complete. Should only be called if poll budget
-+ * has not been completely consumed.
-+ * Prefer over napi_complete().
-  * Return false if device should avoid rearming interrupts.
-  */
-+bool napi_complete_done(struct napi_struct *n, int work_done);
-+
- static inline bool napi_complete(struct napi_struct *n)
- {
- 	return napi_complete_done(n, 0);
--- 
-2.39.2
+Will separate out the changes to the APIs to accept function ID
 
+> >
+> > diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
+> > b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
+> > index 39322e4dd100..cda252fc8f54 100644
+> > --- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
+> > +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
+> > @@ -24,41 +24,49 @@
+> >  /* Time in msecs to wait for message response */
+> >  #define OCTEP_CTRL_MBOX_MSG_WAIT_MS			10
+> >
+> > -#define OCTEP_CTRL_MBOX_INFO_MAGIC_NUM_OFFSET(m)	(m)
+> > -#define OCTEP_CTRL_MBOX_INFO_BARMEM_SZ_OFFSET(m)	((m) +
+> 8)
+> > -#define OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(m)	((m) +
+> 24)
+> > -#define OCTEP_CTRL_MBOX_INFO_FW_STATUS_OFFSET(m)	((m) +
+> 144)
+> > -
+> > -#define OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)		((m) +
+> OCTEP_CTRL_MBOX_INFO_SZ)
+> > -#define OCTEP_CTRL_MBOX_H2FQ_PROD_OFFSET(m)
+> 	(OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m))
+> > -#define OCTEP_CTRL_MBOX_H2FQ_CONS_OFFSET(m)
+> 	((OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)) + 4)
+> > -#define OCTEP_CTRL_MBOX_H2FQ_ELEM_SZ_OFFSET(m)
+> 	((OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)) + 8)
+> > -#define OCTEP_CTRL_MBOX_H2FQ_ELEM_CNT_OFFSET(m)
+> 	((OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)) + 12)
+> > -
+> > -#define OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)		((m) +
+> \
+> > -
+> OCTEP_CTRL_MBOX_INFO_SZ + \
+> > -
+> OCTEP_CTRL_MBOX_H2FQ_INFO_SZ)
+> > -#define OCTEP_CTRL_MBOX_F2HQ_PROD_OFFSET(m)
+> 	(OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m))
+> > -#define OCTEP_CTRL_MBOX_F2HQ_CONS_OFFSET(m)
+> 	((OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)) + 4)
+> > -#define OCTEP_CTRL_MBOX_F2HQ_ELEM_SZ_OFFSET(m)
+> 	((OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)) + 8)
+> > -#define OCTEP_CTRL_MBOX_F2HQ_ELEM_CNT_OFFSET(m)
+> 	((OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)) + 12)
+> > -
+> > -#define OCTEP_CTRL_MBOX_Q_OFFSET(m, i)			((m) +
+> \
+> > -							 (sizeof(struct
+> octep_ctrl_mbox_msg) * (i)))
+> > -
+> > -static u32 octep_ctrl_mbox_circq_inc(u32 index, u32 mask)
+> > +/* Size of mbox info in bytes */
+> > +#define OCTEP_CTRL_MBOX_INFO_SZ				256
+> > +/* Size of mbox host to fw queue info in bytes */
+> > +#define OCTEP_CTRL_MBOX_H2FQ_INFO_SZ			16
+> > +/* Size of mbox fw to host queue info in bytes */
+> > +#define OCTEP_CTRL_MBOX_F2HQ_INFO_SZ			16
+> > +
+> > +#define OCTEP_CTRL_MBOX_TOTAL_INFO_SZ
+> 	(OCTEP_CTRL_MBOX_INFO_SZ + \
+> > +					 OCTEP_CTRL_MBOX_H2FQ_INFO_SZ
+> + \
+> > +
+> OCTEP_CTRL_MBOX_F2HQ_INFO_SZ)
+> > +
+> > +#define OCTEP_CTRL_MBOX_INFO_MAGIC_NUM(m)	(m)
+>=20
+> This doesn't serve any purpose, does it? I know there was
+> OCTEP_CTRL_MBOX_INFO_MAGIC_NUM_OFFSET but i don't see any value
+> in this macro.
+>=20
+
+OCTEP_CTRL_MBOX_INFO_MAGIC_NUM_OFFSET is renamed to OCTEP_CTRL_MBOX_INFO_MA=
+GIC_NUM.
+
+> > +#define OCTEP_CTRL_MBOX_INFO_BARMEM_SZ(m)	((m) + 8)
+> > +#define OCTEP_CTRL_MBOX_INFO_HOST_STATUS(m)	((m) + 24)
+> > +#define OCTEP_CTRL_MBOX_INFO_FW_STATUS(m)	((m) + 144)
+> > +
+> > +#define OCTEP_CTRL_MBOX_H2FQ_INFO(m)	((m) +
+> OCTEP_CTRL_MBOX_INFO_SZ)
+> > +#define OCTEP_CTRL_MBOX_H2FQ_PROD(m)
+> 	(OCTEP_CTRL_MBOX_H2FQ_INFO(m))
+> > +#define OCTEP_CTRL_MBOX_H2FQ_CONS(m)
+> 	((OCTEP_CTRL_MBOX_H2FQ_INFO(m)) + 4)
+> > +#define OCTEP_CTRL_MBOX_H2FQ_SZ(m)
+> 	((OCTEP_CTRL_MBOX_H2FQ_INFO(m)) + 8)
+> > +
+> > +#define OCTEP_CTRL_MBOX_F2HQ_INFO(m)	((m) + \
+> > +					 OCTEP_CTRL_MBOX_INFO_SZ + \
+> > +
+> OCTEP_CTRL_MBOX_H2FQ_INFO_SZ)
+> > +#define OCTEP_CTRL_MBOX_F2HQ_PROD(m)
+> 	(OCTEP_CTRL_MBOX_F2HQ_INFO(m))
+> > +#define OCTEP_CTRL_MBOX_F2HQ_CONS(m)
+> 	((OCTEP_CTRL_MBOX_F2HQ_INFO(m)) + 4)
+> > +#define OCTEP_CTRL_MBOX_F2HQ_SZ(m)
+> 	((OCTEP_CTRL_MBOX_F2HQ_INFO(m)) + 8)
+> > +
+> > +static const u32 mbox_hdr_sz =3D sizeof(union octep_ctrl_mbox_msg_hdr)=
+;
+> > +
+> > +static u32 octep_ctrl_mbox_circq_inc(u32 index, u32 inc, u32 sz)
+> >  {
+> > -	return (index + 1) & mask;
+> > +	return (index + inc) % sz;
+>=20
+> previously mbox len was power-of-2 sized?
+>=20
+> >  }
+> >
+> > -static u32 octep_ctrl_mbox_circq_space(u32 pi, u32 ci, u32 mask)
+> > +static u32 octep_ctrl_mbox_circq_space(u32 pi, u32 ci, u32 sz)
+> >  {
+> > -	return mask - ((pi - ci) & mask);
+> > +	return sz - (abs(pi - ci) % sz);
+> >  }
+> >
+> > -static u32 octep_ctrl_mbox_circq_depth(u32 pi, u32 ci, u32 mask)
+> > +static u32 octep_ctrl_mbox_circq_depth(u32 pi, u32 ci, u32 sz)
+> >  {
+> > -	return ((pi - ci) & mask);
+> > +	return (abs(pi - ci) % sz);
+> >  }
+> >
+> >  int octep_ctrl_mbox_init(struct octep_ctrl_mbox *mbox) @@ -73,172
+> > +81,228 @@ int octep_ctrl_mbox_init(struct octep_ctrl_mbox *mbox)
+> >  		return -EINVAL;
+> >  	}
+> >
+> > -	magic_num =3D
+> readq(OCTEP_CTRL_MBOX_INFO_MAGIC_NUM_OFFSET(mbox->barmem));
+> > +	magic_num =3D
+> readq(OCTEP_CTRL_MBOX_INFO_MAGIC_NUM(mbox->barmem));
+> >  	if (magic_num !=3D OCTEP_CTRL_MBOX_MAGIC_NUMBER) {
+> > -		pr_info("octep_ctrl_mbox : Invalid magic number %llx\n",
+> magic_num);
+> > +		pr_info("octep_ctrl_mbox : Invalid magic number %llx\n",
+> > +			magic_num);
+>=20
+> unneeded change
+>=20
+> >  		return -EINVAL;
+> >  	}
+> >
+> > -	status =3D
+> readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS_OFFSET(mbox->barmem));
+> > +	status =3D readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS(mbox-
+> >barmem));
+> >  	if (status !=3D OCTEP_CTRL_MBOX_STATUS_READY) {
+> >  		pr_info("octep_ctrl_mbox : Firmware is not ready.\n");
+> >  		return -EINVAL;
+> >  	}
+> >
+> > -	mbox->barmem_sz =3D
+> readl(OCTEP_CTRL_MBOX_INFO_BARMEM_SZ_OFFSET(mbox->barmem));
+> > +	mbox->barmem_sz =3D
+> > +readl(OCTEP_CTRL_MBOX_INFO_BARMEM_SZ(mbox->barmem));
+> >
+> > -	writeq(OCTEP_CTRL_MBOX_STATUS_INIT,
+> OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox->barmem));
+> > +	writeq(OCTEP_CTRL_MBOX_STATUS_INIT,
+> > +	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS(mbox->barmem));
+> >
+> > -	mbox->h2fq.elem_cnt =3D
+> readl(OCTEP_CTRL_MBOX_H2FQ_ELEM_CNT_OFFSET(mbox->barmem));
+> > -	mbox->h2fq.elem_sz =3D
+> readl(OCTEP_CTRL_MBOX_H2FQ_ELEM_SZ_OFFSET(mbox->barmem));
+> > -	mbox->h2fq.mask =3D (mbox->h2fq.elem_cnt - 1);
+> > -	mutex_init(&mbox->h2fq_lock);
+> > +	mbox->h2fq.sz =3D readl(OCTEP_CTRL_MBOX_H2FQ_SZ(mbox-
+> >barmem));
+> > +	mbox->h2fq.hw_prod =3D OCTEP_CTRL_MBOX_H2FQ_PROD(mbox-
+> >barmem);
+> > +	mbox->h2fq.hw_cons =3D OCTEP_CTRL_MBOX_H2FQ_CONS(mbox-
+> >barmem);
+> > +	mbox->h2fq.hw_q =3D mbox->barmem +
+> OCTEP_CTRL_MBOX_TOTAL_INFO_SZ;
+> >
+> > -	mbox->f2hq.elem_cnt =3D
+> readl(OCTEP_CTRL_MBOX_F2HQ_ELEM_CNT_OFFSET(mbox->barmem));
+> > -	mbox->f2hq.elem_sz =3D
+> readl(OCTEP_CTRL_MBOX_F2HQ_ELEM_SZ_OFFSET(mbox->barmem));
+> > -	mbox->f2hq.mask =3D (mbox->f2hq.elem_cnt - 1);
+> > -	mutex_init(&mbox->f2hq_lock);
+> > -
+> > -	mbox->h2fq.hw_prod =3D
+> OCTEP_CTRL_MBOX_H2FQ_PROD_OFFSET(mbox->barmem);
+> > -	mbox->h2fq.hw_cons =3D
+> OCTEP_CTRL_MBOX_H2FQ_CONS_OFFSET(mbox->barmem);
+> > -	mbox->h2fq.hw_q =3D mbox->barmem +
+> > -			  OCTEP_CTRL_MBOX_INFO_SZ +
+> > -			  OCTEP_CTRL_MBOX_H2FQ_INFO_SZ +
+> > -			  OCTEP_CTRL_MBOX_F2HQ_INFO_SZ;
+> > -
+> > -	mbox->f2hq.hw_prod =3D
+> OCTEP_CTRL_MBOX_F2HQ_PROD_OFFSET(mbox->barmem);
+> > -	mbox->f2hq.hw_cons =3D
+> OCTEP_CTRL_MBOX_F2HQ_CONS_OFFSET(mbox->barmem);
+> > -	mbox->f2hq.hw_q =3D mbox->h2fq.hw_q +
+> > -			  ((mbox->h2fq.elem_sz + sizeof(union
+> octep_ctrl_mbox_msg_hdr)) *
+> > -			   mbox->h2fq.elem_cnt);
+> > +	mbox->f2hq.sz =3D readl(OCTEP_CTRL_MBOX_F2HQ_SZ(mbox-
+> >barmem));
+> > +	mbox->f2hq.hw_prod =3D OCTEP_CTRL_MBOX_F2HQ_PROD(mbox-
+> >barmem);
+> > +	mbox->f2hq.hw_cons =3D OCTEP_CTRL_MBOX_F2HQ_CONS(mbox-
+> >barmem);
+> > +	mbox->f2hq.hw_q =3D mbox->barmem +
+> > +			  OCTEP_CTRL_MBOX_TOTAL_INFO_SZ +
+> > +			  mbox->h2fq.sz;
+> >
+> >  	/* ensure ready state is seen after everything is initialized */
+> >  	wmb();
+> > -	writeq(OCTEP_CTRL_MBOX_STATUS_READY,
+> OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox->barmem));
+> > +	writeq(OCTEP_CTRL_MBOX_STATUS_READY,
+> > +	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS(mbox->barmem));
+> >
+> >  	pr_info("Octep ctrl mbox : Init successful.\n");
+> >
+> >  	return 0;
+> >  }
+> >
+> > -int octep_ctrl_mbox_send(struct octep_ctrl_mbox *mbox, struct
+> > octep_ctrl_mbox_msg *msg)
+> > +static int write_mbox_data(struct octep_ctrl_mbox_q *q, u32 *pi,
+> > +			   u32 ci, void *buf, u32 w_sz)
+>=20
+> octep_write_mbox_data ?
+
+Will rename in next revision.
+
+>=20
+> also, you only return 0 and don't check the retval, so s/static int/stati=
+c void
+>=20
+
+Ack. Will make this change in next revision.
+
+> > +{
+> > +	u32 cp_sz;
+> > +	u8 __iomem *qbuf;
+> > +
+> > +	/* Assumption: Caller has ensured enough write space */
+> > +	qbuf =3D (q->hw_q + *pi);
+> > +	if (*pi < ci) {
+> > +		/* copy entire w_sz */
+> > +		memcpy_toio(qbuf, buf, w_sz);
+> > +		*pi =3D octep_ctrl_mbox_circq_inc(*pi, w_sz, q->sz);
+> > +	} else {
+> > +		/* copy up to end of queue */
+> > +		cp_sz =3D min((q->sz - *pi), w_sz);
+> > +		memcpy_toio(qbuf, buf, cp_sz);
+> > +		w_sz -=3D cp_sz;
+> > +		*pi =3D octep_ctrl_mbox_circq_inc(*pi, cp_sz, q->sz);
+> > +		if (w_sz) {
+> > +			/* roll over and copy remaining w_sz */
+> > +			buf +=3D cp_sz;
+> > +			qbuf =3D (q->hw_q + *pi);
+> > +			memcpy_toio(qbuf, buf, w_sz);
+> > +			*pi =3D octep_ctrl_mbox_circq_inc(*pi, w_sz, q->sz);
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +int octep_ctrl_mbox_send(struct octep_ctrl_mbox *mbox,
+> > +			 struct octep_ctrl_mbox_msg *msgs,
+> > +			 int num)
+>=20
+> only callsite that currently is present sets num to 1, what's the point c=
+urrently
+> of having this arg?
+>=20
+
+Will remove this argument in next revision. Will bring it back when we have=
+ actual use case.
+
+> >  {
+> > -	unsigned long timeout =3D
+> msecs_to_jiffies(OCTEP_CTRL_MBOX_MSG_TIMEOUT_MS);
+> > -	unsigned long period =3D
+> msecs_to_jiffies(OCTEP_CTRL_MBOX_MSG_WAIT_MS);
+> > +	struct octep_ctrl_mbox_msg_buf *sg;
+> > +	struct octep_ctrl_mbox_msg *msg;
+> >  	struct octep_ctrl_mbox_q *q;
+> > -	unsigned long expire;
+> > -	u64 *mbuf, *word0;
+> > -	u8 __iomem *qidx;
+> > -	u16 pi, ci;
+> > -	int i;
+> > +	u32 pi, ci, prev_pi, buf_sz, w_sz;
+>=20
+> RCT? you probably have this issue all over your patchset
+>=20
+
+Sorry for missing on this. Will fix RCT violations in next revision.
+
+> > +	int m, s;
+> >
+> > -	if (!mbox || !msg)
+> > +	if (!mbox || !msgs)
+> >  		return -EINVAL;
+> >
+> > +	if (readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS(mbox->barmem))
+> !=3D
+> > +	    OCTEP_CTRL_MBOX_STATUS_READY)
+> > +		return -EIO;
+> > +
+> > +	mutex_lock(&mbox->h2fq_lock);
+> >  	q =3D &mbox->h2fq;
+> >  	pi =3D readl(q->hw_prod);
+> >  	ci =3D readl(q->hw_cons);
+> > +	for (m =3D 0; m < num; m++) {
+> > +		msg =3D &msgs[m];
+> > +		if (!msg)
+> > +			break;
+> >
+> > -	if (!octep_ctrl_mbox_circq_space(pi, ci, q->mask))
+> > -		return -ENOMEM;
+> > -
+> > -	qidx =3D OCTEP_CTRL_MBOX_Q_OFFSET(q->hw_q, pi);
+> > -	mbuf =3D (u64 *)msg->msg;
+> > -	word0 =3D &msg->hdr.word0;
+> > -
+> > -	mutex_lock(&mbox->h2fq_lock);
+> > -	for (i =3D 1; i <=3D msg->hdr.sizew; i++)
+> > -		writeq(*mbuf++, (qidx + (i * 8)));
+> > -
+> > -	writeq(*word0, qidx);
+> > +		/* not enough space for next message */
+> > +		if (octep_ctrl_mbox_circq_space(pi, ci, q->sz) <
+> > +		    (msg->hdr.s.sz + mbox_hdr_sz))
+> > +			break;
+> >
+> > -	pi =3D octep_ctrl_mbox_circq_inc(pi, q->mask);
+> > +		prev_pi =3D pi;
+> > +		write_mbox_data(q, &pi, ci, (void *)&msg->hdr,
+> mbox_hdr_sz);
+> > +		buf_sz =3D msg->hdr.s.sz;
+> > +		for (s =3D 0; ((s < msg->sg_num) && (buf_sz > 0)); s++) {
+> > +			sg =3D &msg->sg_list[s];
+> > +			w_sz =3D (sg->sz <=3D buf_sz) ? sg->sz : buf_sz;
+> > +			write_mbox_data(q, &pi, ci, sg->msg, w_sz);
+> > +			buf_sz -=3D w_sz;
+> > +		}
+> > +		if (buf_sz) {
+> > +			/* we did not write entire message */
+> > +			pi =3D prev_pi;
+> > +			break;
+> > +		}
+> > +	}
+> >  	writel(pi, q->hw_prod);
+> >  	mutex_unlock(&mbox->h2fq_lock);
+> >
+> > -	/* don't check for notification response */
+> > -	if (msg->hdr.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_NOTIFY)
+> > -		return 0;
+> > +	return (m) ? m : -EAGAIN;
+>=20
+> remove brackets
+>=20
+
+Ack
+
+> > +}
+> >
+> > -	expire =3D jiffies + timeout;
+> > -	while (true) {
+> > -		*word0 =3D readq(qidx);
+> > -		if (msg->hdr.flags =3D=3D
+> OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP)
+> > -			break;
+> > -		schedule_timeout_interruptible(period);
+> > -		if (signal_pending(current) || time_after(jiffies, expire)) {
+> > -			pr_info("octep_ctrl_mbox: Timed out\n");
+> > -			return -EBUSY;
+> > +static int read_mbox_data(struct octep_ctrl_mbox_q *q, u32 pi,
+>=20
+> same comment as for write func
+>=20
+
+Will fix in next revision
+
+> > +			  u32 *ci, void *buf, u32 r_sz)
+> > +{
+> > +	u32 cp_sz;
+> > +	u8 __iomem *qbuf;
+> > +
+> > +	/* Assumption: Caller has ensured enough read space */
+> > +	qbuf =3D (q->hw_q + *ci);
+> > +	if (*ci < pi) {
+> > +		/* copy entire r_sz */
+> > +		memcpy_fromio(buf, qbuf, r_sz);
+> > +		*ci =3D octep_ctrl_mbox_circq_inc(*ci, r_sz, q->sz);
+> > +	} else {
+> > +		/* copy up to end of queue */
+> > +		cp_sz =3D min((q->sz - *ci), r_sz);
+> > +		memcpy_fromio(buf, qbuf, cp_sz);
+> > +		r_sz -=3D cp_sz;
+> > +		*ci =3D octep_ctrl_mbox_circq_inc(*ci, cp_sz, q->sz);
+> > +		if (r_sz) {
+> > +			/* roll over and copy remaining r_sz */
+> > +			buf +=3D cp_sz;
+> > +			qbuf =3D (q->hw_q + *ci);
+> > +			memcpy_fromio(buf, qbuf, r_sz);
+> > +			*ci =3D octep_ctrl_mbox_circq_inc(*ci, r_sz, q->sz);
+> >  		}
+> >  	}
+> > -	mbuf =3D (u64 *)msg->msg;
+> > -	for (i =3D 1; i <=3D msg->hdr.sizew; i++)
+> > -		*mbuf++ =3D readq(qidx + (i * 8));
+> >
+> >  	return 0;
+> >  }
+> >
+> > -int octep_ctrl_mbox_recv(struct octep_ctrl_mbox *mbox, struct
+> > octep_ctrl_mbox_msg *msg)
+> > +int octep_ctrl_mbox_recv(struct octep_ctrl_mbox *mbox,
+> > +			 struct octep_ctrl_mbox_msg *msgs,
+> > +			 int num)
+> >  {
+> > +	struct octep_ctrl_mbox_msg_buf *sg;
+> > +	struct octep_ctrl_mbox_msg *msg;
+> >  	struct octep_ctrl_mbox_q *q;
+> > -	u32 count, pi, ci;
+> > -	u8 __iomem *qidx;
+> > -	u64 *mbuf;
+> > -	int i;
+> > +	u32 pi, ci, q_depth, r_sz, buf_sz, prev_ci;
+> > +	int s, m;
+> >
+> > -	if (!mbox || !msg)
+> > +	if (!mbox || !msgs)
+> >  		return -EINVAL;
+> >
+> > +	if (readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS(mbox->barmem))
+> !=3D
+> > +	    OCTEP_CTRL_MBOX_STATUS_READY)
+> > +		return -EIO;
+> > +
+> > +	mutex_lock(&mbox->f2hq_lock);
+> >  	q =3D &mbox->f2hq;
+> >  	pi =3D readl(q->hw_prod);
+> >  	ci =3D readl(q->hw_cons);
+> > -	count =3D octep_ctrl_mbox_circq_depth(pi, ci, q->mask);
+> > -	if (!count)
+> > -		return -EAGAIN;
+> > -
+> > -	qidx =3D OCTEP_CTRL_MBOX_Q_OFFSET(q->hw_q, ci);
+> > -	mbuf =3D (u64 *)msg->msg;
+> > -
+> > -	mutex_lock(&mbox->f2hq_lock);
+> > +	for (m =3D 0; m < num; m++) {
+> > +		q_depth =3D octep_ctrl_mbox_circq_depth(pi, ci, q->sz);
+> > +		if (q_depth < mbox_hdr_sz)
+> > +			break;
+> >
+> > -	msg->hdr.word0 =3D readq(qidx);
+> > -	for (i =3D 1; i <=3D msg->hdr.sizew; i++)
+> > -		*mbuf++ =3D readq(qidx + (i * 8));
+> > +		msg =3D &msgs[m];
+> > +		if (!msg)
+> > +			break;
+> >
+> > -	ci =3D octep_ctrl_mbox_circq_inc(ci, q->mask);
+> > +		prev_ci =3D ci;
+> > +		read_mbox_data(q, pi, &ci, (void *)&msg->hdr,
+> mbox_hdr_sz);
+> > +		buf_sz =3D msg->hdr.s.sz;
+> > +		if (q_depth < (mbox_hdr_sz + buf_sz)) {
+> > +			ci =3D prev_ci;
+> > +			break;
+> > +		}
+> > +		for (s =3D 0; ((s < msg->sg_num) && (buf_sz > 0)); s++) {
+> > +			sg =3D &msg->sg_list[s];
+> > +			r_sz =3D (sg->sz <=3D buf_sz) ? sg->sz : buf_sz;
+> > +			read_mbox_data(q, pi, &ci, sg->msg, r_sz);
+> > +			buf_sz -=3D r_sz;
+> > +		}
+> > +		if (buf_sz) {
+> > +			/* we did not read entire message */
+> > +			ci =3D prev_ci;
+> > +			break;
+> > +		}
+> > +	}
+> >  	writel(ci, q->hw_cons);
+> > -
+> >  	mutex_unlock(&mbox->f2hq_lock);
+> >
+> > -	if (msg->hdr.flags !=3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ ||
+> !mbox->process_req)
+> > -		return 0;
+> > -
+> > -	mbox->process_req(mbox->user_ctx, msg);
+> > -	mbuf =3D (u64 *)msg->msg;
+> > -	for (i =3D 1; i <=3D msg->hdr.sizew; i++)
+> > -		writeq(*mbuf++, (qidx + (i * 8)));
+> > -
+> > -	writeq(msg->hdr.word0, qidx);
+> > -
+> > -	return 0;
+> > +	return (m) ? m : -EAGAIN;
+>=20
+> again remove brackets
+>=20
+
+Ack
+
+> >  }
+> >
+> >  int octep_ctrl_mbox_uninit(struct octep_ctrl_mbox *mbox)  {
+> >  	if (!mbox)
+> >  		return -EINVAL;
+> > +	if (!mbox->barmem)
+> > +		return -EINVAL;
+> >
+> > -	writeq(OCTEP_CTRL_MBOX_STATUS_UNINIT,
+> > -	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox-
+> >barmem));
+> > +	writeq(OCTEP_CTRL_MBOX_STATUS_INVALID,
+> > +	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS(mbox->barmem));
+> >  	/* ensure uninit state is written before uninitialization */
+> >  	wmb();
+> >
+> >  	mutex_destroy(&mbox->h2fq_lock);
+> >  	mutex_destroy(&mbox->f2hq_lock);
+> >
+> > -	writeq(OCTEP_CTRL_MBOX_STATUS_INVALID,
+> > -	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox-
+> >barmem));
+> > -
+> >  	pr_info("Octep ctrl mbox : Uninit successful.\n");
+> >
+> >  	return 0;
+>=20
+> (...)
+>=20
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_net_h2f_resp *resp;
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > -	int err;
+> > +	msg->hdr.s.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > +	msg->hdr.s.msg_id =3D atomic_inc_return(&ctrl_net_msg_id) &
+> > +			    GENMASK(sizeof(msg->hdr.s.msg_id) *
+> BITS_PER_BYTE, 0);
+> > +	msg->hdr.s.sz =3D req_hdr_sz + sz;
+> > +	msg->sg_num =3D 1;
+> > +	msg->sg_list[0].msg =3D buf;
+> > +	msg->sg_list[0].sz =3D msg->hdr.s.sz;
+> > +	if (vfid !=3D OCTEP_CTRL_NET_INVALID_VFID) {
+> > +		msg->hdr.s.is_vf =3D 1;
+> > +		msg->hdr.s.vf_idx =3D vfid;
+> > +	}
+> > +}
+> >
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
+> > -	req.link.cmd =3D OCTEP_CTRL_NET_CMD_GET;
+> > +static int send_mbox_req(struct octep_device *oct,
+>=20
+> why it's not prefixed with octep_ ?
+>=20
+
+we should have had octep_ prefix. Will add in next revision.
+
+> > +			 struct octep_ctrl_net_wait_data *d,
+> > +			 bool wait_for_response)
+> > +{
+> > +	int err, ret;
+> >
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_STATE_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > -	err =3D octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > -	if (err)
+> > +	err =3D octep_ctrl_mbox_send(&oct->ctrl_mbox, &d->msg, 1);
+> > +	if (err < 0)
+> >  		return err;
+> >
+> > -	resp =3D (struct octep_ctrl_net_h2f_resp *)&req;
+> > -	return resp->link.state;
+> > +	if (!wait_for_response)
+> > +		return 0;
+> > +
+> > +	d->done =3D 0;
+> > +	INIT_LIST_HEAD(&d->list);
+> > +	list_add_tail(&d->list, &oct->ctrl_req_wait_list);
+> > +	ret =3D wait_event_interruptible_timeout(oct->ctrl_req_wait_q,
+> > +					       (d->done !=3D 0),
+> > +					       jiffies + msecs_to_jiffies(500));
+> > +	list_del(&d->list);
+> > +	if (ret =3D=3D 0 || ret =3D=3D 1)
+> > +		return -EAGAIN;
+> > +
+> > +	/**
+> > +	 * (ret =3D=3D 0)  cond =3D false && timeout, return 0
+> > +	 * (ret < 0) interrupted by signal, return 0
+> > +	 * (ret =3D=3D 1) cond =3D true && timeout, return 1
+> > +	 * (ret >=3D 1) cond =3D true && !timeout, return 1
+> > +	 */
+> > +
+> > +	if (d->data.resp.hdr.s.reply !=3D OCTEP_CTRL_NET_REPLY_OK)
+> > +		return -EAGAIN;
+> > +
+> > +	return 0;
+> >  }
+> >
+> > -void octep_set_link_status(struct octep_device *oct, bool up)
+> > +int octep_ctrl_net_init(struct octep_device *oct)
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > +	struct pci_dev *pdev =3D oct->pdev;
+> > +	struct octep_ctrl_mbox *ctrl_mbox;
+> > +	int ret;
+> > +
+> > +	init_waitqueue_head(&oct->ctrl_req_wait_q);
+> > +	INIT_LIST_HEAD(&oct->ctrl_req_wait_list);
+> > +
+> > +	/* Initialize control mbox */
+> > +	ctrl_mbox =3D &oct->ctrl_mbox;
+> > +	ctrl_mbox->barmem =3D CFG_GET_CTRL_MBOX_MEM_ADDR(oct-
+> >conf);
+> > +	ret =3D octep_ctrl_mbox_init(ctrl_mbox);
+> > +	if (ret) {
+> > +		dev_err(&pdev->dev, "Failed to initialize control mbox\n");
+> > +		return ret;
+> > +	}
+> > +	oct->ctrl_mbox_ifstats_offset =3D ctrl_mbox->barmem_sz;
+> > +
+> > +	return 0;
+> > +}
+> >
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
+> > -	req.link.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > -	req.link.state =3D (up) ? OCTEP_CTRL_NET_STATE_UP :
+> OCTEP_CTRL_NET_STATE_DOWN;
+> > +int octep_ctrl_net_get_link_status(struct octep_device *oct, int
+> > +vfid) {
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> > +	int err;
+> >
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_STATE_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > -	octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > +	init_send_req(&d.msg, (void *)req, state_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
+> > +	req->link.cmd =3D OCTEP_CTRL_NET_CMD_GET;
+> > +	err =3D send_mbox_req(oct, &d, true);
+> > +	if (err < 0)
+> > +		return err;
+> > +
+> > +	return d.data.resp.link.state;
+> >  }
+> >
+> > -void octep_set_rx_state(struct octep_device *oct, bool up)
+> > +int octep_ctrl_net_set_link_status(struct octep_device *oct, int vfid,=
+ bool
+> up,
+> > +				   bool wait_for_response)
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> >
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_RX_STATE;
+> > -	req.link.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > -	req.link.state =3D (up) ? OCTEP_CTRL_NET_STATE_UP :
+> OCTEP_CTRL_NET_STATE_DOWN;
+> > +	init_send_req(&d.msg, req, state_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
+> > +	req->link.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > +	req->link.state =3D (up) ? OCTEP_CTRL_NET_STATE_UP :
+> > +				OCTEP_CTRL_NET_STATE_DOWN;
+> >
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_STATE_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > -	octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > +	return send_mbox_req(oct, &d, wait_for_response);
+> >  }
+> >
+> > -int octep_get_mac_addr(struct octep_device *oct, u8 *addr)
+> > +int octep_ctrl_net_set_rx_state(struct octep_device *oct, int vfid, bo=
+ol
+> up,
+> > +				bool wait_for_response)
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_net_h2f_resp *resp;
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > -	int err;
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> > +
+> > +	init_send_req(&d.msg, req, state_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_RX_STATE;
+> > +	req->link.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > +	req->link.state =3D (up) ? OCTEP_CTRL_NET_STATE_UP :
+> > +				OCTEP_CTRL_NET_STATE_DOWN;
+> >
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_MAC;
+> > -	req.link.cmd =3D OCTEP_CTRL_NET_CMD_GET;
+> > +	return send_mbox_req(oct, &d, wait_for_response); }
+> > +
+> > +int octep_ctrl_net_get_mac_addr(struct octep_device *oct, int vfid,
+> > +u8 *addr) {
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> > +	int err;
+> >
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_MAC_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > -	err =3D octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > -	if (err)
+> > +	init_send_req(&d.msg, req, mac_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_MAC;
+> > +	req->link.cmd =3D OCTEP_CTRL_NET_CMD_GET;
+> > +	err =3D send_mbox_req(oct, &d, true);
+> > +	if (err < 0)
+> >  		return err;
+> >
+> > -	resp =3D (struct octep_ctrl_net_h2f_resp *)&req;
+> > -	memcpy(addr, resp->mac.addr, ETH_ALEN);
+> > +	memcpy(addr, d.data.resp.mac.addr, ETH_ALEN);
+> >
+> > -	return err;
+> > +	return 0;
+> >  }
+> >
+> > -int octep_set_mac_addr(struct octep_device *oct, u8 *addr)
+> > +int octep_ctrl_net_set_mac_addr(struct octep_device *oct, int vfid, u8
+> *addr,
+> > +				bool wait_for_response)
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> >
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_MAC;
+> > -	req.mac.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > -	memcpy(&req.mac.addr, addr, ETH_ALEN);
+> > +	init_send_req(&d.msg, req, mac_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_MAC;
+> > +	req->mac.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > +	memcpy(&req->mac.addr, addr, ETH_ALEN);
+> >
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_MAC_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > -
+> > -	return octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > +	return send_mbox_req(oct, &d, wait_for_response);
+> >  }
+> >
+> > -int octep_set_mtu(struct octep_device *oct, int mtu)
+> > +int octep_ctrl_net_set_mtu(struct octep_device *oct, int vfid, int mtu=
+,
+> > +			   bool wait_for_response)
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > -
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_MTU;
+> > -	req.mtu.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > -	req.mtu.val =3D mtu;
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> >
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_MTU_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > +	init_send_req(&d.msg, req, mtu_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_MTU;
+> > +	req->mtu.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > +	req->mtu.val =3D mtu;
+> >
+> > -	return octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > +	return send_mbox_req(oct, &d, wait_for_response);
+> >  }
+> >
+> > -int octep_get_if_stats(struct octep_device *oct)
+> > +int octep_ctrl_net_get_if_stats(struct octep_device *oct, int vfid)
+> >  {
+> >  	void __iomem *iface_rx_stats;
+> >  	void __iomem *iface_tx_stats;
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> >  	int err;
+> >
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_GET_IF_STATS;
+> > -	req.mac.cmd =3D OCTEP_CTRL_NET_CMD_GET;
+> > -	req.get_stats.offset =3D oct->ctrl_mbox_ifstats_offset;
+> > -
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_GET_STATS_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > -	err =3D octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > -	if (err)
+> > +	init_send_req(&d.msg, req, get_stats_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_GET_IF_STATS;
+> > +	req->get_stats.offset =3D oct->ctrl_mbox_ifstats_offset;
+> > +	err =3D send_mbox_req(oct, &d, true);
+> > +	if (err < 0)
+> >  		return err;
+> >
+> >  	iface_rx_stats =3D oct->ctrl_mbox.barmem +
+> > oct->ctrl_mbox_ifstats_offset; @@ -144,51 +209,115 @@ int
+> octep_get_if_stats(struct octep_device *oct)
+> >  	memcpy_fromio(&oct->iface_rx_stats, iface_rx_stats, sizeof(struct
+> octep_iface_rx_stats));
+> >  	memcpy_fromio(&oct->iface_tx_stats, iface_tx_stats, sizeof(struct
+> > octep_iface_tx_stats));
+> >
+> > -	return err;
+> > +	return 0;
+> >  }
+> >
+> > -int octep_get_link_info(struct octep_device *oct)
+> > +int octep_ctrl_net_get_link_info(struct octep_device *oct, int vfid)
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> >  	struct octep_ctrl_net_h2f_resp *resp;
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> >  	int err;
+> >
+> > -	req.hdr.cmd =3D OCTEP_CTRL_NET_H2F_CMD_LINK_INFO;
+> > -	req.mac.cmd =3D OCTEP_CTRL_NET_CMD_GET;
+> > -
+> > -	msg.hdr.flags =3D OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
+> > -	msg.hdr.sizew =3D OCTEP_CTRL_NET_H2F_LINK_INFO_REQ_SZW;
+> > -	msg.msg =3D &req;
+> > -	err =3D octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
+> > -	if (err)
+> > +	init_send_req(&d.msg, req, link_info_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_LINK_INFO;
+> > +	req->link_info.cmd =3D OCTEP_CTRL_NET_CMD_GET;
+> > +	err =3D send_mbox_req(oct, &d, true);
+> > +	if (err < 0)
+> >  		return err;
+> >
+> > -	resp =3D (struct octep_ctrl_net_h2f_resp *)&req;
+> > +	resp =3D &d.data.resp;
+> >  	oct->link_info.supported_modes =3D resp-
+> >link_info.supported_modes;
+> >  	oct->link_info.advertised_modes =3D resp-
+> >link_info.advertised_modes;
+> >  	oct->link_info.autoneg =3D resp->link_info.autoneg;
+> >  	oct->link_info.pause =3D resp->link_info.pause;
+> >  	oct->link_info.speed =3D resp->link_info.speed;
+> >
+> > -	return err;
+> > +	return 0;
+> >  }
+> >
+> > -int octep_set_link_info(struct octep_device *oct, struct
+> > octep_iface_link_info *link_info)
+> > +int octep_ctrl_net_set_link_info(struct octep_device *oct, int vfid,
+> > +				 struct octep_iface_link_info *link_info,
+> > +				 bool wait_for_response)
+> >  {
+> > -	struct octep_ctrl_net_h2f_req req =3D {};
+> > -	struct octep_ctrl_mbox_msg msg =3D {};
+> > +	struct octep_ctrl_net_wait_data d =3D {0};
+> > +	struct octep_ctrl_net_h2f_req *req =3D &d.data.req;
+> > +
+> > +	init_send_req(&d.msg, req, link_info_sz, vfid);
+> > +	req->hdr.s.cmd =3D OCTEP_CTRL_NET_H2F_CMD_LINK_INFO;
+> > +	req->link_info.cmd =3D OCTEP_CTRL_NET_CMD_SET;
+> > +	req->link_info.info.advertised_modes =3D link_info-
+> >advertised_modes;
+> > +	req->link_info.info.autoneg =3D link_info->autoneg;
+> > +	req->link_info.info.pause =3D link_info->pause;
+> > +	req->link_info.info.speed =3D link_info->speed;
+> > +
+> > +	return send_mbox_req(oct, &d, wait_for_response); }
+> > +
+> > +static int process_mbox_req(struct octep_device *oct,
+> > +			    struct octep_ctrl_mbox_msg *msg) {
+> > +	return 0;
+>=20
+> ? if it's going to be filled on later patch, add it there.
+>=20
+
+Sure, will remove it in next revision.
+
+> > +}
+> > +
+> > +static int process_mbox_resp(struct octep_device *oct,
+>=20
+> s/int/void
+>=20
+> > +			     struct octep_ctrl_mbox_msg *msg) {
+> > +	struct octep_ctrl_net_wait_data *pos, *n;
+> > +
+> > +	list_for_each_entry_safe(pos, n, &oct->ctrl_req_wait_list, list) {
+> > +		if (pos->msg.hdr.s.msg_id =3D=3D msg->hdr.s.msg_id) {
+> > +			memcpy(&pos->data.resp,
+> > +			       msg->sg_list[0].msg,
+> > +			       msg->hdr.s.sz);
+> > +			pos->done =3D 1;
+> > +			wake_up_interruptible_all(&oct->ctrl_req_wait_q);
+> > +			break;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +int octep_ctrl_net_recv_fw_messages(struct octep_device *oct)
+>=20
+> s/int/void
+>=20
+
+will update in the next revision
+
+> > +{
+> > +	static u16 msg_sz =3D sizeof(union octep_ctrl_net_max_data);
+> > +	union octep_ctrl_net_max_data data =3D {0};
+> > +	struct octep_ctrl_mbox_msg msg =3D {0};
+> > +	int ret;
+> > +
+> > +	msg.hdr.s.sz =3D msg_sz;
+> > +	msg.sg_num =3D 1;
+> > +	msg.sg_list[0].sz =3D msg_sz;
+> > +	msg.sg_list[0].msg =3D &data;
+> > +	while (true) {
+> > +		/* mbox will overwrite msg.hdr.s.sz so initialize it */
+> > +		msg.hdr.s.sz =3D msg_sz;
+> > +		ret =3D octep_ctrl_mbox_recv(&oct->ctrl_mbox,
+> > +					   (struct octep_ctrl_mbox_msg
+> *)&msg,
+> > +					   1);
+> > +		if (ret <=3D 0)
+> > +			break;
+>=20
+> wouldn't it be better to return error and handle this accordingly on call=
+site?
+>=20
+> > +
+> > +		if (msg.hdr.s.flags &
+> OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ)
+> > +			process_mbox_req(oct, &msg);
+> > +		else if (msg.hdr.s.flags &
+> OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP)
+> > +			process_mbox_resp(oct, &msg);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+>=20
+> (...)
+>=20
+> >  static const char *octep_devid_to_str(struct octep_device *oct) @@
+> > -956,7 +935,6 @@ static const char *octep_devid_to_str(struct
+> octep_device *oct)
+> >   */
+> >  int octep_device_setup(struct octep_device *oct)  {
+> > -	struct octep_ctrl_mbox *ctrl_mbox;
+> >  	struct pci_dev *pdev =3D oct->pdev;
+> >  	int i, ret;
+> >
+> > @@ -993,18 +971,9 @@ int octep_device_setup(struct octep_device *oct)
+> >
+> >  	oct->pkind =3D CFG_GET_IQ_PKIND(oct->conf);
+> >
+> > -	/* Initialize control mbox */
+> > -	ctrl_mbox =3D &oct->ctrl_mbox;
+> > -	ctrl_mbox->barmem =3D CFG_GET_CTRL_MBOX_MEM_ADDR(oct-
+> >conf);
+> > -	ret =3D octep_ctrl_mbox_init(ctrl_mbox);
+> > -	if (ret) {
+> > -		dev_err(&pdev->dev, "Failed to initialize control mbox\n");
+> > -		goto unsupported_dev;
+> > -	}
+> > -	oct->ctrl_mbox_ifstats_offset =3D OCTEP_CTRL_MBOX_SZ(ctrl_mbox-
+> >h2fq.elem_sz,
+> > -							   ctrl_mbox-
+> >h2fq.elem_cnt,
+> > -							   ctrl_mbox-
+> >f2hq.elem_sz,
+> > -							   ctrl_mbox-
+> >f2hq.elem_cnt);
+> > +	ret =3D octep_ctrl_net_init(oct);
+> > +	if (ret)
+> > +		return ret;
+>=20
+> if it's the end of func then you could just
+>=20
+> 	return octep_ctrl_net_init(oct);
+>=20
+
+Agree; will fix in next revision.
+Thank you for the kind review comments and suggestions.
+
+> >
+> >  	return 0;
+> >
+> > @@ -1034,7 +1003,7 @@ static void octep_device_cleanup(struct
+> octep_device *oct)
+> >  		oct->mbox[i] =3D NULL;
+> >  	}
+> >
+> > -	octep_ctrl_mbox_uninit(&oct->ctrl_mbox);
+> > +	octep_ctrl_net_uninit(oct);
+> >
+> >  	oct->hw_ops.soft_reset(oct);
+> >  	for (i =3D 0; i < OCTEP_MMIO_REGIONS; i++) { @@ -1145,7 +1114,8 @@
+> > static int octep_probe(struct pci_dev *pdev, const struct pci_device_id
+> *ent)
+> >  	netdev->max_mtu =3D OCTEP_MAX_MTU;
+> >  	netdev->mtu =3D OCTEP_DEFAULT_MTU;
+> >
+> > -	err =3D octep_get_mac_addr(octep_dev, octep_dev->mac_addr);
+> > +	err =3D octep_ctrl_net_get_mac_addr(octep_dev,
+> OCTEP_CTRL_NET_INVALID_VFID,
+> > +					  octep_dev->mac_addr);
+> >  	if (err) {
+> >  		dev_err(&pdev->dev, "Failed to get mac address\n");
+> >  		goto register_dev_err;
+> > --
+> > 2.36.0
+> >
