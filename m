@@ -2,90 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E45D4C6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 22:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B75D4C6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 22:58:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbjCVW6U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 18:58:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52916 "EHLO
+        id S229820AbjCVW60 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 18:58:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjCVW6T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 18:58:19 -0400
+        with ESMTP id S229522AbjCVW6X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 18:58:23 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236DB728D;
-        Wed, 22 Mar 2023 15:58:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FC1305F1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 15:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=OBnYzZy3fC6UWVKQq92ULDzDnysgfAJsQHJA+q0UW60=; b=PR5ae4z8Nwlbw6qbPpu815yY2Z
-        L9XsyXiX681Yi8XCDzqYu5L6u/Gw0xPvcllh2yq615gn/brC44+pLUdv+HF6c+Uz610za9C8wexuA
-        xXAdcrTsPo348ixNijXY2Gfq3okAS0toZW0N7OlphG3Ap3z8gDQ73DmGJPvNGrOof3bZEp+CCLeSM
-        twQ+8wM/lOog+0qyPXGPXv7bccnFLP48v0fBenlb7wWQ0M78xLOiEce5Xb9CtUrtLWD9xr4rKCPf4
-        helE5y+YJm3eUdRZkkOAN5sODPWFcYAXgPg0hk9mNJhoYfcfllGuW7jymCmrtrl4+ejv+2sO1mtox
-        sZgbsOUA==;
+        bh=zJp4Y5Lw4Qy49NkbNely/ZBAVf09re8By+2d8xkTbJw=; b=KQ7TCKjrvVjJTlr8bpGUCV/Uk4
+        3puin9ZNHhyPNBGlMFm+RYuRsVLKgjfLVOcntd3CAWisQmGlr3MH9A/sPaAyDaPcit4evoKJFfyZ/
+        oTKRJpoylUdhAvs1zDk74PLC4Ju3jR/e/vjCmgWtIkm4rbcXhUPHtuItMGl/Q1gn/iq6+AnVYUvDU
+        P84djWehACF+nHdFsd8H6kIlMsqHDJxpgRTWl8r3Ja4R50JKHX6PPrsFv//bazTXvgWdZFIdy5OQz
+        HT+N3WOhemd6NyhmmDD7hZBDQrwvz9rFJ8i5yxlJ5y1xmAr+5YmdL2jMNPzQZCLjruii4wnypOfzz
+        F8chSG3A==;
 Received: from [2601:1c2:980:9ec0::21b4]
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pf7PK-0003a8-3D;
-        Wed, 22 Mar 2023 22:58:15 +0000
-Message-ID: <ccfb7800-41ed-6849-a2fe-4f11573d3162@infradead.org>
-Date:   Wed, 22 Mar 2023 15:58:13 -0700
+        id 1pf7PS-0003bB-16;
+        Wed, 22 Mar 2023 22:58:22 +0000
+Message-ID: <369843bb-3a7a-78d0-40ac-0df51b0cc58d@infradead.org>
+Date:   Wed, 22 Mar 2023 15:58:21 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: Documentation on IMA for Linux Kernel Documentation
+Subject: Re: Fwd: Documentation on IMA for Linux Kernel Documentation
 Content-Language: en-US
-To:     Ken Goldman <kgold@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <7c91820d-0153-e4db-1c60-38b6f650ed20@linux.ibm.com>
- <60ac4c41-65b8-3c3d-7e31-1a580e728ca5@infradead.org>
- <a50110ca-843a-7586-ed2a-aca12702dde9@infradead.org>
- <c03bf464-00c1-9121-fb2f-549ac991a658@linux.ibm.com>
+To:     Ken Goldman <kgold@linux.ibm.com>, linux-doc@vger.kernel.org
+References: <60ac4c41-65b8-3c3d-7e31-1a580e728ca5@infradead.org>
+ <a3289dfb-da44-47ce-9f3b-1f5c9dec900c@linux.ibm.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <c03bf464-00c1-9121-fb2f-549ac991a658@linux.ibm.com>
+In-Reply-To: <a3289dfb-da44-47ce-9f3b-1f5c9dec900c@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ken,
 
-On 3/22/23 15:02, Ken Goldman wrote:
-> On 3/13/2023 6:34 PM, Randy Dunlap wrote:
->> On 3/13/23 15:25, Randy Dunlap wrote:
->>> [add IMA list]
->>>
->>> On 3/13/23 14:43, Ken Goldman wrote:
->>>> I'm writing documentation on IMA targeting users (not kernel developers).  It includes concepts, details on writing policies, the IMA event log format, utilities, and more.  It aggregates existing scattered documentation, but adds much more.  It's maybe 1/2 done.
->>>>
->>>> Questions:
->>>>
->>>> 1. Are there people who could look at it and see if I'm on the right path?
->>>>
->>>> It's a lot of work.  I'd like to know that it has some chance of acceptance.
->>>>
->>>> 2. What is the process for getting a block of documentation added to https://www.kernel.org/doc/html?
->>>
+
+On 3/22/23 15:04, Ken Goldman wrote:
+> I'm writing documentation on IMA targeting users (not kernel developers).  It includes concepts, details on writing policies, the IMA event log format, utilities, and more.  It aggregates existing scattered documentation, but adds much more.  It's maybe 1/2 done.
+> 
+> Questions:
+> 
+> 1. Are there people who could look at it and see if I'm on the right path?
+> 
+> It's a lot of work.  I'd like to know that it has some chance of acceptance.
+
+Review in terms of IMA-specific content?  or in terms of ReST usage?
+or in general terms to see if it is appropriate for kernel tree documentation?
+
+I think that you should Cc: linux-integrity@vger.kernel.org for their input
+as well as linux-doc@vger.kernel.org. Several of us here can look at it for
+general review feedback.
+
+> 2. What is the process for getting a block of documentation added to https://www.kernel.org/doc/html?
+
+From last week's email:
+
 >>> It should be added to the kernel tree in the Documentation/userspace-api/ subdirectory
->>> or Documentation/security/ subdirectory.  The kernel.org/doc/ web pages are generated
+>>> or Documentation/security/ subdirectory.  The kernel.org/doc/ web pages are generated
 >>> from what is in the Linux kernel tree.
->> Ken, if you are not familiar with in-tree kernel documentation, you should take a look
->> at the Documentation/doc-guide/ subdirectory for some documentation on the documentation.
->>
->> Also you can ask for help with specific issues at linux-doc@vger.kernel.org
-> 
-> I've read the guidelines, coding in rest markdown, using sphinx to test the web pages.  I think it's right.
-> 
-> 1. I was hoping that someone could look at what I'm doing to see if it has a chance of acceptance.
-> 
-> I.e., I don't want to spend months on this only to get a quick 'nack'.
-> 
-> 2. I wonder what the process for submission is.
 
-It's documented in Documentation/process/submitting-patches.rst,
-but just ask if you have any questions about it.
+although if you don't think that it is appropriate for either of those subdirectories,
+just explain and justify that and it might be possible to put it somewhere else.
 
 -- 
 ~Randy
