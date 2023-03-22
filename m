@@ -2,447 +2,308 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD25DC6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 15:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FA5DC6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 15:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231293AbjCVPVB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 11:21:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58958 "EHLO
+        id S231318AbjCVPWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 11:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231527AbjCVPVA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 11:21:00 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7DF65DED8
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 08:20:51 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id x6so1746152ile.3
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 08:20:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1679498451; x=1682090451;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LDbptPGFcQQzWvhEVmHUFWpjqD/zMKbil7z697tn1F8=;
-        b=Ou7gjQDkru9VhL19tA2bjhfLWsSrWdzi8TBG3iH291dDEALpphtXdGqDvEDB+i11uG
-         4Civd2e7uNglhjqDzgep4l/l9e1vclO3z5o43LwihxbJbFfpMKZtmwuEZE8SqHrqiWsK
-         pdGLvyZ6yQ5jQmRNEuL3S3W7FHn30+yIGVUVA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679498451; x=1682090451;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LDbptPGFcQQzWvhEVmHUFWpjqD/zMKbil7z697tn1F8=;
-        b=dkcsvY4zyraMaHbmgIO/Quvx5M2c1Mod5bkuxAqeswEBgRmPRbBBCjRjTl5QUbRPAs
-         5qw7LxHliaWEvIIxmNM6zvOn0AHePagMI7J4fgph7bzU3bfpsrdQcCIKdv7fa6HMbrnA
-         hxiezubRr+ZtPGN9KCQC5UknhHhGvxulBOM+bbZXVs+zQY06l50KHBMweXDIOdMoPWiE
-         IfA7rlAbz+c3R+5jy/iJGjsx+npCU16W10v1SJawfJh8iYmZTxuyNtAtZ9nANb0PeNdo
-         AZSklFIiFNhbhjKjvnldfO/wXHtpLQ39LKiQ76tdbXanieufv2s8RiTiGW4b/9NTVzca
-         p6Gg==
-X-Gm-Message-State: AO0yUKXMjfJfJWkKok6r8s339Qx1Ayj1aD5YTZnYwpDn7c0yqhJHgJgu
-        YkY4G2hg+dGsrdOGpjs3XQmsWg==
-X-Google-Smtp-Source: AK7set/74NyAgrVh7ZY2gwiK0Qttvf6dXUMyI11LjQ7BTMSp5D78LfPKGVyBeKRG7P5VsxVr1r6MBA==
-X-Received: by 2002:a05:6e02:1d99:b0:319:5431:5d5b with SMTP id h25-20020a056e021d9900b0031954315d5bmr4774806ila.1.1679498450682;
-        Wed, 22 Mar 2023 08:20:50 -0700 (PDT)
-Received: from shuah-tx13.internal ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id n20-20020a02a194000000b004046f72271esm5215283jah.100.2023.03.22.08.20.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 08:20:50 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     corbet@lwn.net
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs: add system-state document to admin-guide
-Date:   Wed, 22 Mar 2023 09:20:49 -0600
-Message-Id: <20230322152049.12723-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S230127AbjCVPWa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 11:22:30 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7403466D03;
+        Wed, 22 Mar 2023 08:22:26 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32MDpjCh021258;
+        Wed, 22 Mar 2023 15:22:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=qGTfLIc3drovlUBC/EyUNv5R9vD4u38xW+/xnKXdUgM=;
+ b=YC2pJxuqps3W4JpZOfK/euOn+gIU+/528CsVZ1J7vhizACrjDT48DvpcdIo/Z3T7VTaV
+ pXM6QR7csr6/7Zxov6fpBBnOAdc8D4GmbZwOqQgJ8AVf+1inc1R5/3HR2OdUdjF9o3iT
+ d3ycl4Hdz1POG9e/4IWb8Px+jUxBx7jBqDB0fKU8Aj1wN6bbCQWBsaF/mducXJApSvkW
+ G6ygXKPehccUjo1XeU7xLvpvFoBhFfbgecLjmyGX4otEcJZeqh3DERYt0zY5KXmB29K5
+ 7O3rUHrAkZdz6mhmPtjWMWrT/fMGp4NUaET7QWzOJlPqbRIGOVndnx8ICeqHTPHSNNY4 3Q== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pfdm4kevu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Mar 2023 15:22:16 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32MFMFbN007425
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Mar 2023 15:22:15 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Mar
+ 2023 08:22:14 -0700
+Message-ID: <0c297244-823f-9516-8708-d9b3cf1b22f9@quicinc.com>
+Date:   Wed, 22 Mar 2023 09:22:13 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 1/8] accel/qaic: Add documentation for AIC100
+ accelerator driver
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, <ogabbay@kernel.org>,
+        <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <jacek.lawrynowicz@linux.intel.com>,
+        <stanislaw.gruszka@linux.intel.com>
+CC:     <dafna@fastmail.com>, <dri-devel@lists.freedesktop.org>,
+        <quic_pkanojiy@quicinc.com>, <quic_carlv@quicinc.com>,
+        <quic_ajitpals@quicinc.com>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+ <1679325074-5494-2-git-send-email-quic_jhugo@quicinc.com>
+ <ZBmxl0sFH5PBG36H@debian.me>
+ <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
+ <ZBqGj+gyl4c5Yz7E@debian.me>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <ZBqGj+gyl4c5Yz7E@debian.me>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: tjjCl4FJxx2c8aMpfpc7eQrzmPurUgAw
+X-Proofpoint-GUID: tjjCl4FJxx2c8aMpfpc7eQrzmPurUgAw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_12,2023-03-22_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ spamscore=0 phishscore=0 bulkscore=0 malwarescore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303220110
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new system state document to the admin-guide. This document is
-intended to be used as a guide on how to gather higher level information
-about a system and its run-time activity.
+On 3/21/2023 10:39 PM, Bagas Sanjaya wrote:
+> On Tue, Mar 21, 2023 at 03:52:11PM -0600, Jeffrey Hugo wrote:
+>>>> +
+>>>> +Request field descriptions:
+>>>> +
+>>>> +| req_id- request ID. A request FIFO element and a response FIFO element with
+>>>> +|         the same request ID refer to the same command.
+>>>> +
+>>>> +| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
+>>>> +
+>>>> +| pcie_dma_cmd- describes the DMA element of this request.
+>>>> +| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
+>>>> +| 		and generates a MSI when this request is complete, and QSM
+>>>> +| 		configures the DMA Bridge to look at this bit.
+>>>> +| 	Bits(6:5) are reserved.
+>>>> +| 	Bit(4) is the completion code flag, and indicates that the DMA Bridge
+>>>> +| 		shall generate a response FIFO element when this request is
+>>>> +| 		complete.
+>>>> +| 	Bit(3) indicates if this request is a linked list transfer(0) or a bulk
+>>>> +| 		transfer(1).
+>>>> +| 	Bit(2) is reserved.
+>>>> +| 	Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
+>>>> +| 		from device(2). Value 3 is illegal.
+>>>> +
+>>>> +| pcie_dma_source_addr- source address for a bulk transfer, or the address of
+>>>> +|         the linked list.
+>>>> +
+>>>> +| pcie_dma_dest_addr- destination address for a bulk transfer.
+>>>> +
+>>>> +| pcie_dma_len- length of the bulk transfer. Note that the size of this field
+>>>> +| 	limits transfers to 4G in size.
+>>>> +
+>>>> +| doorbell_addr- address of the doorbell to ring when this request is complete.
+>>>> +
+>>>> +| doorbell_attr- doorbell attributes.
+>>>> +| 	Bit(7) indicates if a write to a doorbell is to occur.
+>>>> +| 	Bits(6:2) are reserved.
+>>>> +| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
+>>>> +| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
+>>>> +| 		must be naturally aligned to the specified length.
+>>>> +
+>>>> +| doorbell_data- data to write to the doorbell. Only the bits corresponding to
+>>>> +| 	the doorbell length are valid.
+>>>> +
+>>>> +| sem_cmdN- semaphore command.
+>>>> +| 	Bit(31) indicates this semaphore command is enabled.
+>>>> +| 	Bit(30) is the to-device DMA fence. Block this request until all
+>>>> +| 		to-device DMA transfers are complete.
+>>>> +| 	Bit(29) is the from-device DMA fence. Block this request until all
+>>>> +| 		from-device DMA transfers are complete.
+>>>> +| 	Bits(28:27) are reserved.
+>>>> +| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
+>>>> +| 		specified value. 2 is increment. 3 is decrement. 4 is wait
+>>>> +| 		until the semaphore is equal to the specified value. 5 is wait
+>>>> +| 		until the semaphore is greater or equal to the specified value.
+>>>> +| 		6 is "P", wait until semaphore is greater than 0, then
+>>>> +| 		decrement by 1. 7 is reserved.
+>>>> +| 	Bit(23) is reserved.
+>>>> +| 	Bit(22) is the semaphore sync. 0 is post sync, which means that the
+>>>> +| 		semaphore operation is done after the DMA transfer. 1 is
+>>>> +| 		presync, which gates the DMA transfer. Only one presync is
+>>>> +| 		allowed per request.
+>>>> +| 	Bit(21) is reserved.
+>>>> +| 	Bits(20:16) is the index of the semaphore to operate on.
+>>>> +| 	Bits(15:12) are reserved.
+>>>> +| 	Bits(11:0) are the semaphore value to use in operations.
+>>>
+>>> What about bullet lists?
+>>
+>> It doesn't feel like the above fits into a bullet list structure.  Do you
+>> have an example reference, or can you transform a small section of the above
+>> to illustrate what you are thinking?
+>>
+> 
+> Oops, sorry for suggesting the wrong construct.
+> 
+> Definition lists fit in this case, since there are request fields along
+> with their individual descriptions. For bit lists, bullet lists should
+> suffice.
+> 
+> Here is the illustration diff:
+> 
+> diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
+> index 7ed95bb164bbeb..4d438fd8121451 100644
+> --- a/Documentation/accel/qaic/aic100.rst
+> +++ b/Documentation/accel/qaic/aic100.rst
+> @@ -308,67 +308,79 @@ A request FIFO element has the following structure:
+>   
+>   Request field descriptions:
+>   
+> -| req_id- request ID. A request FIFO element and a response FIFO element with
+> -|         the same request ID refer to the same command.
+> +  req_id
+> +      request ID. A request FIFO element and a response FIFO element with
+> +      the same request ID refer to the same command.
+>   
+> -| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
+> +  seq_id
+> +      sequence ID within a request. Ignored by the DMA Bridge.
+>   
+> -| pcie_dma_cmd- describes the DMA element of this request.
+> -| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
+> -| 		and generates a MSI when this request is complete, and QSM
+> -| 		configures the DMA Bridge to look at this bit.
+> -| 	Bits(6:5) are reserved.
+> -| 	Bit(4) is the completion code flag, and indicates that the DMA Bridge
+> -| 		shall generate a response FIFO element when this request is
+> -| 		complete.
+> -| 	Bit(3) indicates if this request is a linked list transfer(0) or a bulk
+> -| 		transfer(1).
+> -| 	Bit(2) is reserved.
+> -| 	Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
+> -| 		from device(2). Value 3 is illegal.
+> +  pcie_dma_cmd
+> +      describes the DMA element of this request.
+>   
+> -| pcie_dma_source_addr- source address for a bulk transfer, or the address of
+> -|         the linked list.
+> +      * Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
+> +        and generates a MSI when this request is complete, and QSM
+> +        configures the DMA Bridge to look at this bit.
+> +      * Bits(6:5) are reserved.
+> +      * Bit(4) is the completion code flag, and indicates that the DMA Bridge
+> +        shall generate a response FIFO element when this request is
+> +        complete.
+> +      * Bit(3) indicates if this request is a linked list transfer(0) or a bulk
+> +      * transfer(1).
+> +      * Bit(2) is reserved.
+> +      * Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
+> +      * from device(2). Value 3 is illegal.
+>   
+> -| pcie_dma_dest_addr- destination address for a bulk transfer.
+> +  pcie_dma_source_addr
+> +      source address for a bulk transfer, or the address of  the linked list.
+>   
+> -| pcie_dma_len- length of the bulk transfer. Note that the size of this field
+> -| 	limits transfers to 4G in size.
+> +  pcie_dma_dest_addr
+> +      destination address for a bulk transfer.
+>   
+> -| doorbell_addr- address of the doorbell to ring when this request is complete.
+> +  pcie_dma_len
+> +      length of the bulk transfer. Note that the size of this field
+> +      limits transfers to 4G in size.
+>   
+> -| doorbell_attr- doorbell attributes.
+> -| 	Bit(7) indicates if a write to a doorbell is to occur.
+> -| 	Bits(6:2) are reserved.
+> -| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
+> -| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
+> -| 		must be naturally aligned to the specified length.
+> +  doorbell_addr
+> +      address of the doorbell to ring when this request is complete.
+>   
+> -| doorbell_data- data to write to the doorbell. Only the bits corresponding to
+> -| 	the doorbell length are valid.
+> +  doorbell_attr
+> +      doorbell attributes.
+>   
+> -| sem_cmdN- semaphore command.
+> -| 	Bit(31) indicates this semaphore command is enabled.
+> -| 	Bit(30) is the to-device DMA fence. Block this request until all
+> -| 		to-device DMA transfers are complete.
+> -| 	Bit(29) is the from-device DMA fence. Block this request until all
+> -| 		from-device DMA transfers are complete.
+> -| 	Bits(28:27) are reserved.
+> -| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
+> -| 		specified value. 2 is increment. 3 is decrement. 4 is wait
+> -| 		until the semaphore is equal to the specified value. 5 is wait
+> -| 		until the semaphore is greater or equal to the specified value.
+> -| 		6 is "P", wait until semaphore is greater than 0, then
+> -| 		decrement by 1. 7 is reserved.
+> -| 	Bit(23) is reserved.
+> -| 	Bit(22) is the semaphore sync. 0 is post sync, which means that the
+> -| 		semaphore operation is done after the DMA transfer. 1 is
+> -| 		presync, which gates the DMA transfer. Only one presync is
+> -| 		allowed per request.
+> -| 	Bit(21) is reserved.
+> -| 	Bits(20:16) is the index of the semaphore to operate on.
+> -| 	Bits(15:12) are reserved.
+> -| 	Bits(11:0) are the semaphore value to use in operations.
+> +      * Bit(7) indicates if a write to a doorbell is to occur.
+> +      * Bits(6:2) are reserved.
+> +      * Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
+> +        1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
+> +        must be naturally aligned to the specified length.
+> +
+> +  doorbell_data
+> +      data to write to the doorbell. Only the bits corresponding to
+> +      the doorbell length are valid.
+> +
+> +  sem_cmdN
+> +      semaphore command.
+> +
+> +      * Bit(31) indicates this semaphore command is enabled.
+> +      * Bit(30) is the to-device DMA fence. Block this request until all
+> +        to-device DMA transfers are complete.
+> +      * Bit(29) is the from-device DMA fence. Block this request until all
+> +        from-device DMA transfers are complete.
+> +      * Bits(28:27) are reserved.
+> +        Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
+> +        specified value. 2 is increment. 3 is decrement. 4 is wait
+> +        until the semaphore is equal to the specified value. 5 is wait
+> +        until the semaphore is greater or equal to the specified value.
+> +        6 is "P", wait until semaphore is greater than 0, then
+> +        decrement by 1. 7 is reserved.
+> +      * Bit(23) is reserved.
+> +      * Bit(22) is the semaphore sync. 0 is post sync, which means that the
+> +        semaphore operation is done after the DMA transfer. 1 is
+> +      * presync, which gates the DMA transfer. Only one presync is
+> +      * allowed per request.
+> +      * Bit(21) is reserved.
+> +      * Bits(20:16) is the index of the semaphore to operate on.
+> +      * Bits(15:12) are reserved.
+> +      * Bits(11:0) are the semaphore value to use in operations.
+>   
+>   Overall, a request is processed in 4 steps:
+>   
+> 
+> Thanks.
 
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
-Changes since v1:
--- Addressed review comments
+Ok.  This is making sense to me.  Thanks for the clarification.  I'll 
+give this a try.
 
- Documentation/admin-guide/index.rst        |   1 +
- Documentation/admin-guide/system-state.rst | 350 +++++++++++++++++++++
- 2 files changed, 351 insertions(+)
- create mode 100644 Documentation/admin-guide/system-state.rst
-
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index f475554382e2..541372672c55 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -66,6 +66,7 @@ subsystems expectations will be found here.
-    :maxdepth: 1
- 
-    workload-tracing
-+   system-state
- 
- The rest of this manual consists of various unordered guides on how to
- configure specific aspects of kernel behavior to your liking.
-diff --git a/Documentation/admin-guide/system-state.rst b/Documentation/admin-guide/system-state.rst
-new file mode 100644
-index 000000000000..2a6fdf85c35c
---- /dev/null
-+++ b/Documentation/admin-guide/system-state.rst
-@@ -0,0 +1,350 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
-+
-+===========================================================
-+Discovering system calls and features supported on a system
-+===========================================================
-+
-+:Author: Shuah Khan <skhan@linuxfoundation.org>
-+:maintained-by: Shuah Khan <skhan@linuxfoundation.org>
-+
-+Key Points
-+==========
-+
-+ * System state includes system calls, features, static and dynamic
-+   modules enabled in the kernel configuration.
-+ * Supported system calls and Kernel features are architecture dependent.
-+ * auditd, checksyscalls.sh, and get_feat.pl tools can be used to discover
-+   static system state.
-+ * Understanding Linux kernel hardening configurations options and making
-+   sure they are enabled will make a system more secure.
-+ * Employing run-time tracing can shed light on the dynamic system state.
-+ * Workloads could change the system state by loading and unloading dynamic
-+   modules and tuning system parameters.
-+
-+System State Visualization
-+==========================
-+
-+The kernel system state can be viewed as a combination of static and
-+dynamic features and modules. Let’s first define what static and dynamic
-+system states are and then explore how we can visualize the static and
-+dynamic system parts of the kernel.
-+
-+Static System View comprises system calls, features, static and dynamic
-+modules enabled in the kernel configuration. Supported system calls
-+and Kernel features are architecture dependent. System call numbering is
-+different on different architectures. We can get the supported system call
-+information using auditd utilities.
-+
-+ausyscall –dump prints out the supported system calls on a system and allows
-+mapping syscall names and numbers. You can install the auditd package on
-+Debian based systems::
-+
-+  sudo apt-get install auditd
-+
-+scripts/checksyscalls.sh can be used to check if current architecture is
-+missing any system calls compared to i386.
-+
-+scripts/get_feat.pl can be used to list the Kernel feature support matrix
-+for an architecture.
-+
-+Dynamic System View comprises system calls, ioctls invoked, and subsystems
-+used during the runtime. A workload could load and unload modules and also
-+change the dynamic system configuration to suit its needs by tuning system
-+parameters.
-+
-+What is the methodology?
-+========================
-+
-+The first step is gathering the default system state such as the dynamic
-+and static modules loaded on the system. lsmod command prints out the
-+dynamically loaded modules on a system. Statically configured modules can
-+be found in the kernel configuration file.
-+
-+The next step is discovering system activity during run-time. You can do so
-+by enabling event tracing and then running your favorite application. After
-+a period of time, gather the event logs, and kernel messages.
-+
-+Once you have the necessary information, you can extract the system call
-+numbers from the event trace log and map them to the supported system calls.
-+
-+Finding supported system calls
-+==============================
-+
-+As mentioned earlier, ausyscall prints out supported system calls
-+on a system and allows mapping syscalls names and numbers::
-+
-+ ausyscall --dump
-+
-+You can look for specific system calls as shown in the below::
-+
-+  ausyscall open
-+    open               2
-+    mq_open            240
-+    openat             257
-+    perf_event_open    298
-+    open_by_handle_at  304
-+    open_tree          428
-+    fsopen             430
-+    pidfd_open         434
-+    openat2            437
-+
-+  ausyscall time
-+
-+    getitimer          36
-+    setitimer          38
-+    gettimeofday       96
-+    times              100
-+    rt_sigtimedwait    128
-+    utime              132
-+    adjtimex           159
-+    settimeofday       164
-+    time               201
-+    semtimedop         220
-+    timer_create       222
-+    timer_settime      223
-+    timer_gettime      224
-+    timer_getoverrun   225
-+    timer_delete       226
-+    clock_settime      227
-+    clock_gettime      228
-+    utimes             235
-+    mq_timedsend       242
-+    mq_timedreceive    243
-+    futimesat          261
-+    utimensat          280
-+    timerfd_create     283
-+    timerfd_settime    286
-+    timerfd_gettime    287
-+    clock_adjtime      305
-+
-+Finding unsupported system calls
-+================================
-+
-+As mentioned earlier, scripts/checksyscalls.sh checks missing system calls
-+on current architecture compared to i386. Example run::
-+
-+  checksyscalls.sh gcc
-+    warning: #warning syscall mmap2 not implemented [-Wcpp]
-+    warning: #warning syscall truncate64 not implemented [-Wcpp]
-+    warning: #warning syscall ftruncate64 not implemented [-Wcpp]
-+    warning: #warning syscall fcntl64 not implemented [-Wcpp]
-+    warning: #warning syscall sendfile64 not implemented [-Wcpp]
-+    warning: #warning syscall statfs64 not implemented [-Wcpp]
-+    warning: #warning syscall fstatfs64 not implemented [-Wcpp]
-+    warning: #warning syscall fadvise64_64 not implemented [-Wcpp]
-+
-+Let's check this against ausyscall now::
-+
-+  ausyscall map
-+    mmap               9
-+    munmap             11
-+    mremap             25
-+    remap_file_pages   216
-+
-+  ausyscall trunc
-+    truncate           76
-+    ftruncate          77
-+
-+As you can see, ausyscall shows mmap2, truncate64, and ftruncate64 aren't
-+implemented on this system. This matches what checksyscalls.sh shows.
-+
-+Finding supported features
-+==========================
-+
-+scripts/get_feat.pl can be used to list the Kernel feature support matrix
-+for an architecture::
-+
-+ get_feat.pl list
-+ get_feat.pl list –arch=arm64 lists
-+
-+This scripts parses Documentation/features to find the support status
-+information. It can be used to validate the contents of the files under
-+Documentation/features or simply list them::
-+
-+  --arch Outputs features for an specific architecture, optionally filtering
-+         for a single specific feature.
-+  --feat or --feature Output features for a single specific feature.
-+
-+Here is how you can find if stackprotector and hread-info-in-task features
-+are supported::
-+
-+  scripts/get_feat.pl --arch=arm64 --feat=stackprotector list
-+    #
-+    # Kernel feature support matrix of the 'arm64' architecture:
-+    #
-+    debug/ stackprotector       :  ok  |            HAVE_STACKPROTECTOR #
-+    arch supports compiler driven stack overflow protection
-+
-+  scripts/get_feat.pl --feat=thread-info-in-task list
-+    #
-+    # Kernel feature support matrix of the 'x86' architecture:
-+    #
-+      core/ thread-info-in-task  :  ok  |           THREAD_INFO_IN_TASK #
-+      arch makes use of the core kernel facility to embed thread_info in
-+      task_struct
-+
-+Finding kernel module status
-+============================
-+
-+lsmod command shows the kernel modules that are currently loaded. This
-+program displays the contents of /proc/modules. Let's pick uvcvideo
-+module which is found on most laptops::
-+
-+  lsmod | grep uvc
-+  uvcvideo              126976  0
-+  videobuf2_vmalloc      20480  1 uvcvideo
-+  uvc                    16384  1 uvcvideo
-+  videobuf2_v4l2         36864  1 uvcvideo
-+  videodev              315392  2 videobuf2_v4l2,uvcvideo
-+  videobuf2_common       65536  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
-+  mc                     77824  4 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
-+
-+You can see that lsmod shows uvcvideo and the modules it depends on and how
-+many modules are using them. videobuf2_common is in use by 4 other modules.
-+In other words, this is the reference count for this module and rmmod will
-+refuse to unload it as long as the reference count is > 0.
-+
-+You can get the same information from /proc.modules::
-+
-+  less /proc/modules | grep uvc
-+  uvcvideo 126976 0 - Live 0x0000000000000000
-+  videobuf2_vmalloc 20480 1 uvcvideo, Live 0x0000000000000000
-+  uvc 16384 1 uvcvideo, Live 0x0000000000000000
-+  videobuf2_v4l2 36864 1 uvcvideo, Live 0x0000000000000000
-+  videodev 315392 2 uvcvideo,videobuf2_v4l2, Live 0x0000000000000000
-+  videobuf2_common 65536 4 uvcvideo,videobuf2_vmalloc,videobuf2_memops,videobuf2_v4l2, Live 0x0000000000000000
-+  mc 77824 4 uvcvideo,videobuf2_v4l2,videodev,videobuf2_common, Live 0x0000000000000000
-+
-+The information is similar with a few more extra fields. The address is the
-+base address for the module in kernel virtual memory space. When run as a
-+normal user, the address is all zeros. The same command when run as root will
-+be as follows::
-+
-+  sudo less /proc/modules | grep uvc
-+  uvcvideo 126976 0 - Live 0xffffffffc1c8b000
-+  videobuf2_vmalloc 20480 1 uvcvideo, Live 0xffffffffc167f000
-+  uvc 16384 1 uvcvideo, Live 0xffffffffc0ab0000
-+  videobuf2_v4l2 36864 1 uvcvideo, Live 0xffffffffc0a28000
-+  videodev 315392 2 uvcvideo,videobuf2_v4l2, Live 0xffffffffc16e9000
-+  videobuf2_common 65536 4 uvcvideo,videobuf2_vmalloc,videobuf2_memops,videobuf2_v4l2, Live 0xffffffffc094d000
-+  mc 77824 4 uvcvideo,videobuf2_v4l2,videodev,videobuf2_common, Live 0xffffffffc15eb000
-+
-+Let's check what modinfo shows that is important for us::
-+
-+  /sbin/modinfo uvcvideo
-+  filename:       /lib/modules/6.3.0-rc2/kernel/drivers/media/usb/uvc/uvcvideo.ko
-+  license:        GPL
-+  description:    USB Video Class driver
-+  depends:        videobuf2-v4l2,videodev,mc,uvc,videobuf2-common,videobuf2-vmalloc
-+  retpoline:      Y
-+  intree:         Y
-+  name:           uvcvideo
-+  vermagic:       6.3.0-rc2 SMP preempt mod_unload modversions
-+  sig_id:         PKCS#7
-+  signer:         Build time autogenerated kernel key
-+
-+This tells us that this module is built intree and the signed with a build
-+time autogenerated key.
-+
-+Let's do one last sanity check on the system to see if the following two
-+command outputs match::
-+
-+  ps ax | wc -l
-+  ls -d /proc/* | grep [0-9]|wc -l
-+
-+If they don't match, examine your system closely. kernel rootkits install
-+their own ps, find, etc. utilities to mask their activity. The outputs
-+match on my system. Do they on yours?
-+
-+Is my system as secure as it could be?
-+======================================
-+
-+Linux kernel supports several hardening options to make system secure.
-+kconfig-hardened-check tool sanity checks kernel configuration for
-+security. You can clone the latest kconfig-hardened-check repository::
-+
-+  git clone https://github.com/a13xp0p0v/kconfig-hardened-check.git
-+  cd kconfig-hardened-check
-+  bin/kconfig-hardened-check --config <config file> --cmdline /proc/cmdline
-+
-+This will generate detailed report of kernel security configuration and
-+command line options that are enabled (OK) and the ones that aren't (FAIL)
-+and a summary line at the end::
-+
-+  [+] Config check is finished: 'OK' - 100 / 'FAIL' - 100
-+
-+You will have to analyze the information to determine which options make
-+sense to enable on your system.
-+
-+Understanding system run-time activity
-+======================================
-+
-+Enabling event tracing gives insight into system run-time activity. This is
-+a good way to identify which parts of the kernel are used at a higher level
-+while system is in and/or while a specific workload/process is running.
-+
-+Event tracing depends on the CONFIG_EVENT_TRACING option enabled. You can
-+enable event tracing before starting workload/process. Event tracing allows
-+you to dynamically enable and disable tracing on supported/available events.
-+You can find available events, tracers, and filter functions in the following
-+files::
-+
-+  /sys/kernel/debug/tracing/available_events
-+  /sys/kernel/debug/tracing/available_filter_functions
-+  /sys/kernel/debug/tracing/available_tracers
-+
-+Now this is how you can enable tracing::
-+
-+  sudo echo 1 > /sys/kernel/debug/tracing/events/enable
-+
-+Once the workload/process stops or when you decide you have the status you
-+need, you can disable event tracing::
-+
-+  sudo echo 0 > /sys/kernel/debug/tracing/events/enable
-+
-+You can find the tracing information in the file::
-+
-+  /sys/kernel/debug/tracing
-+
-+Here is the information shown in this file::
-+
-+  cat trace
-+  # tracer: nop
-+  #
-+  # entries-in-buffer/entries-written: 0/0   #P:16
-+  #
-+  #                                _-----=> irqs-off/BH-disabled
-+  #                               / _----=> need-resched
-+  #                              | / _---=> hardirq/softirq
-+  #                              || / _--=> preempt-depth
-+  #                              ||| / _-=> migrate-disable
-+  #                              |||| /     delay
-+  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-+  #              | |         |   |||||     |         |
-+
-+
-+Analyzing traces
-+================
-+
-+You will be able map the functions to system calls and other kernel features
-+to get insight into the overall system activity while a workload/process is
-+running.
-+
-+Map the NR (syscal) numbers from the trace to syscalls from the syscalls dump.
-+Categorize system calls and map them to Linux subsystems.
-+
-+Conclusion
-+==========
-+
-+This document is intended to be used as a guide on how to gather higher level
-+information about a system and its run-time activity. The approach described
-+in this document helps us get insight into supported system calls, features,
-+assess how secure a system is, and its run-time activity.
-+
-+References
-+==========
-+
-+ * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/checksyscalls.sh
-+ * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/get_feat.pl
-+ * https://github.com/a13xp0p0v/kconfig-hardened-check
-+ * https://docs.kernel.org/trace/index.html
--- 
-2.34.1
-
+-Jeff
