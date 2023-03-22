@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7D0C6FD1C
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 16:05:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9BF0C6FD1C
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 16:18:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbjCVQFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 12:05:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43288 "EHLO
+        id S229832AbjCVQSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 12:18:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjCVQFE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 12:05:04 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4323A19B
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 09:05:03 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id by8so18304091ljb.12
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 09:05:03 -0700 (PDT)
+        with ESMTP id S229597AbjCVQSO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 12:18:14 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C19C46B7
+        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 09:18:12 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id s8so23848475lfr.8
+        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 09:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1679501101;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1679501891;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bQMj+UbSGYt/V4ItEl8Atz++wkEESN6wJSeRvZafcDU=;
-        b=fXDTK4UwWJxghhGY844FVJkS0jod018sFRa0JBR2+G/lVjO/CNliTnwbakz6nPokPM
-         ctesUpwtgM7AtGOBQBk/KcVJvZPTuY4YB+apo51lhApvb0i6T+YI89tfIMxJFGF/7ux5
-         juJINe4wcZSKbe5qz65JOk30xQa36Jqx3MzzCnYaHQ5IYG6+PO2I14y5OIXs5kxDTkdF
-         1GQzH/YyUtvAXNacXkMC5rRcgMYiaWgSG03Tag7KIj9qW4H+teBEqY4enNWq8SNghfg1
-         9+EuKVWvhD8tt7Fbg3arhOW22QAjiVRVddT5aSc3tb9uQ5pIPLeFLjsMPz+Guw2w8av6
-         2zDg==
+        bh=91NUsnI2JWzfZ4bANRRwcZ4orsUryFhVkgWXPdVK98g=;
+        b=G2s79NLcITgAksd3/kq8VJtWspJVsPtOCodre7wqiFjOGu3tfqxEGcHiiTKs9xXS8g
+         nwTXUK9QA5CbXOAbXfd+kxBIrw8HMUUewNAP0B71MjIkc5fHVCIv6eXxUxjmLljY1lMy
+         nkE30ypFZwFDgsjEIjrBSqFee//emPM2Ig3TP9YTWrXf9yzM6JbK4GM1eeXEQybU/PUb
+         GETetZGN2DggKxOYhw1jwg4XprUTKPaWloeltxSiG5FYNJUzkEDTjEIvspbM1dRSvjGN
+         H9OPDl7W4ebTwMXIsaEPtjILjg0BbMztfI898jPtHg9QT/tZViD2dRCgwc9pBKe78T3J
+         uMvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679501101;
+        d=1e100.net; s=20210112; t=1679501891;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bQMj+UbSGYt/V4ItEl8Atz++wkEESN6wJSeRvZafcDU=;
-        b=w8x/iREdj+Ml+tlF5K8HLz4tcej2Ll1E+jQP7acV5ntdg2MCwEbOJWVCYEcVMLkoxZ
-         vGOjN5InkmhHA01b+ooRzfrhvyT++MY3F+poQ7Bc7kMB53aDSJ3Kf39dAvARNGTVCbtf
-         c/yCCARPxSN+ahMPKrF1fx2bgw3bowaVEO53cYrYYoRI7IhNERaUFD03ytPT97TxECw9
-         fnEew36sqUmHARrvEiOi33qcJIOb/gBTfoIZFsj3AzkWjOsC9+C3SQaKj8TaE6/MsWbN
-         9ENdsr3/uLDkDIdLSPlYNdfmp3iK27aIrxxXV4PF3Us4zKHrihMJgGY9+xUwQ9MYJ0j6
-         w0YA==
-X-Gm-Message-State: AO0yUKWT8JlkOtlk5FLlusc5IGwMsHpYY5UP/56L8UTtwIYKMP9CNBjD
-        S0aEh5itXwAoLfhUnnYBoucjPykEfE+fXE5ItsZqFA==
-X-Google-Smtp-Source: AK7set9V3VY49u6SCjZkRbppQZLZPGl6botYkgoHJVVX0x35uhukV8uSf3SrWFeWx07P5q2ZlbHvjlPYcJhJ919zgfU=
-X-Received: by 2002:a2e:7e05:0:b0:299:ac4e:a8a6 with SMTP id
- z5-20020a2e7e05000000b00299ac4ea8a6mr2145466ljc.9.1679501101548; Wed, 22 Mar
- 2023 09:05:01 -0700 (PDT)
+        bh=91NUsnI2JWzfZ4bANRRwcZ4orsUryFhVkgWXPdVK98g=;
+        b=0TTIPC5C0tUuT1egVnUYqJOX1JutkPAShFpGJLbvm0zYajfcMnIQonvqt7FvyZI6tn
+         vtgA+/QiZpYzT1BkjertYxve1EBZ3KejxZpCHMC1cfnNQHMShAj5SNyt/2Ks/3RIvklW
+         q+fwn1W29y9prBE5sLJENHV4k5v1Z1N6zPg0hPS/1Mr0/RxmwF3nNm7A+OvJobrAgaU0
+         R2FTRzejvFq4PpuachUyINqJbMQN7h3kA1G36e0hXEr7LpWuqYPhs6bNSJBnB5jFrzxW
+         N9rgOiH8wRCSXLxa6p8tjSreZH0CF3QXGK8xDmNmN+s2MJlRlmkEBfx2wVIs91zeXfrm
+         rY0g==
+X-Gm-Message-State: AO0yUKUHc9zAd8J3FO2GdIkZqRhIvUV/MqOGAkHaVr0iT2y94uyK0JAN
+        5/gsAklKF5BzfR3lSwOFdW9liD3gRzdfki4qTE+0cA==
+X-Google-Smtp-Source: AK7set9Y6w1sy23dklqHJdPn+k27VHykRl6SZ39SZtwN0MftCWxQu9UvUwQzQP7Nv3+x+O3Su2kEKylKZtHjHnLlD3Q=
+X-Received: by 2002:ac2:41c6:0:b0:4d5:ca43:704a with SMTP id
+ d6-20020ac241c6000000b004d5ca43704amr2061085lfi.13.1679501890831; Wed, 22 Mar
+ 2023 09:18:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230314183220.513101-1-evan@rivosinc.com> <20230314183220.513101-4-evan@rivosinc.com>
- <8e132bed-c85a-4bfd-bff8-5147db1cec32@spud>
-In-Reply-To: <8e132bed-c85a-4bfd-bff8-5147db1cec32@spud>
+ <3351107.e9J7NaK4W3@diego>
+In-Reply-To: <3351107.e9J7NaK4W3@diego>
 From:   Evan Green <evan@rivosinc.com>
-Date:   Wed, 22 Mar 2023 09:04:25 -0700
-Message-ID: <CALs-HsskLpLg=yEfULXZNOCFeFU3M9j9Kzcj49gPtw+0VGGhzA@mail.gmail.com>
+Date:   Wed, 22 Mar 2023 09:17:34 -0700
+Message-ID: <CALs-HsuCejsEtS65pH=SBp74V2gw2d2WmkL44muWr6+VSocO5w@mail.gmail.com>
 Subject: Re: [PATCH v4 3/6] RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
-To:     Conor Dooley <conor@kernel.org>
+To:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
 Cc:     Palmer Dabbelt <palmer@rivosinc.com>, slewis@rivosinc.com,
-        heiko@sntech.de, vineetg@rivosinc.com,
+        Conor Dooley <conor@kernel.org>, vineetg@rivosinc.com,
         Conor Dooley <conor.dooley@microchip.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Andrew Bresticker <abrestic@rivosinc.com>,
@@ -72,14 +72,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yep, you and Heiko are on the same wavelength these days. I'll make that ch=
-ange.
--Evan
-
-On Wed, Mar 22, 2023 at 8:36=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
+On Tue, Mar 21, 2023 at 9:41=E2=80=AFAM Heiko St=C3=BCbner <heiko@sntech.de=
+> wrote:
 >
-> On Tue, Mar 14, 2023 at 11:32:17AM -0700, Evan Green wrote:
+> Hi Evan,
+>
+> Am Dienstag, 14. M=C3=A4rz 2023, 19:32:17 CET schrieb Evan Green:
 > > We have an implicit set of base behaviors that userspace depends on,
 > > which are mostly defined in various ISA specifications.
 > >
@@ -87,44 +85,82 @@ te:
 > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 > > Signed-off-by: Evan Green <evan@rivosinc.com>
 > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->
-> > @@ -125,6 +126,25 @@ static void hwprobe_one_pair(struct riscv_hwprobe =
-*pair,
-> >       case RISCV_HWPROBE_KEY_MIMPID:
-> >               hwprobe_arch_id(pair, cpus);
-> >               break;
-> > +     /*
-> > +      * The kernel already assumes that the base single-letter ISA
-> > +      * extensions are supported on all harts, and only supports the
-> > +      * IMA base, so just cheat a bit here and tell that to
-> > +      * userspace.
-> > +      */
-> > +     case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
-> > +             pair->value =3D RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
-> > +             break;
-> > +
-> > +     case RISCV_HWPROBE_KEY_IMA_EXT_0:
-> > +             pair->value =3D 0;
-> > +             if (has_fpu())
-> > +                     pair->value |=3D RISCV_HWPROBE_IMA_FD;
-> > +
-> > +             if (elf_hwcap & RISCV_ISA_EXT_c)
->
-> Random thought while reviewing another patch, and I kinda felt a bit
-> stupid following the existing code to try and make sure, but should this
-> become a call to riscv_isa_extension_available(NULL, c)?
-> It may be nice to propagate that helper, if it works, than check the bit
-> directly.
->
-> Cheers,
-> Conor.
->
-> > +                     pair->value |=3D RISCV_HWPROBE_IMA_C;
-> > +
-> > +             break;
+> > ---
 > >
-> >       /*
-> >        * For forward compatibility, unknown keys don't fail the whole
-> > --
-> > 2.25.1
+> > Changes in v4:
+> >  - More newlines in BASE_BEHAVIOR_IMA documentation (Conor)
 > >
+> > Changes in v3:
+> >  - Refactored base ISA behavior probe to allow kernel probing as well,
+> >    in prep for vDSO data initialization.
+> >  - Fixed doc warnings in IMA text list, use :c:macro:.
+> >
+> >  Documentation/riscv/hwprobe.rst       | 24 ++++++++++++++++++++++++
+> >  arch/riscv/include/asm/hwprobe.h      |  2 +-
+> >  arch/riscv/include/uapi/asm/hwprobe.h |  5 +++++
+> >  arch/riscv/kernel/sys_riscv.c         | 20 ++++++++++++++++++++
+> >  4 files changed, 50 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwpr=
+obe.rst
+> > index 211828f706e3..945d44683c40 100644
+> > --- a/Documentation/riscv/hwprobe.rst
+> > +++ b/Documentation/riscv/hwprobe.rst
+> > @@ -39,3 +39,27 @@ The following keys are defined:
+> >
+> >  * :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimpli=
+d``, as
+> >    defined by the RISC-V privileged architecture specification.
+> > +
+> > +* :c:macro:`RISCV_HWPROBE_KEY_BASE_BEHAVIOR`: A bitmask containing the=
+ base
+> > +  user-visible behavior that this kernel supports.  The following base=
+ user ABIs
+> > +  are defined:
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`: Support for rv32ima or
+> > +    rv64ima, as defined by version 2.2 of the user ISA and version 1.1=
+0 of the
+> > +    privileged ISA, with the following known exceptions (more exceptio=
+ns may be
+> > +    added, but only if it can be demonstrated that the user ABI is not=
+ broken):
+> > +
+> > +    * The :fence.i: instruction cannot be directly executed by userspa=
+ce
+> > +      programs (it may still be executed in userspace via a
+> > +      kernel-controlled mechanism such as the vDSO).
+> > +
+> > +* :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`: A bitmask containing the ext=
+ensions
+> > +  that are compatible with the :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_I=
+MA`:
+> > +  base system behavior.
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_IMA_FD`: The F and D extensions are suppor=
+ted, as
+> > +    defined by commit cd20cee ("FMIN/FMAX now implement
+> > +    minimumNumber/maximumNumber, not minNum/maxNum") of the RISC-V ISA=
+ manual.
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as d=
+efined
+> > +    by version 2.2 of the RISC-V ISA manual.
+>
+> just wondering, is there a plan on how further extensions should be added=
+ this this?
+> [as we have this big plethora of them :-) ]
+>
+> Aka things like Zbb and friends will probably also be relevant to userspa=
+ce, so just
+> fill up RISCV_HWPROBE_KEY_IMA_EXT_0 with more elements and once full swit=
+ch to
+> RISCV_HWPROBE_KEY_IMA_EXT_1 , RISCV_HWPROBE_KEY_IMA_EXT_2, etc?
+>
+> Or do we have some more elaborate sorting mechanism?
+
+That sounds reasonable to me. I tried to think about a couple of
+possible sorting patterns, but when I played them out mentally they
+were only ever aesthetically pleasing with no technical benefit, and
+possibly added technical debt.
+-Evan
