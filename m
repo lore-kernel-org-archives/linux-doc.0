@@ -2,122 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF35C761A6
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 12:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 429ACC6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 12:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjCVMeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 08:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42154 "EHLO
+        id S230163AbjCVMso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 08:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjCVMeW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 08:34:22 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1FC52F7B;
-        Wed, 22 Mar 2023 05:34:21 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id q23so5166627pfs.2;
-        Wed, 22 Mar 2023 05:34:21 -0700 (PDT)
+        with ESMTP id S230008AbjCVMsm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 08:48:42 -0400
+Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5300DB770;
+        Wed, 22 Mar 2023 05:48:41 -0700 (PDT)
+Received: by mail-ua1-x92e.google.com with SMTP id i22so12515324uat.8;
+        Wed, 22 Mar 2023 05:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679488461;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i5V9xwXeXLLD+KrCDhZHNlARjVnQzbrA2drRGNTtvTM=;
-        b=CDVrPbquHqM6HszFxuFUX2B3vFLX7cGGnLlzfIXA9zqINFHXAUX5B+u28t/1ETgD5R
-         3vSi6wpz1ys/mGkAntVqxg1ARpmJv+WgcckV7eE0GHqspgLihaH0YU4Xgy/v4hD4ZslS
-         Baa7r/FR4OlY7SXjweixs0l2H6uf3IKdKOnYctTpB65NUohQ+7qRHMoBqzQqzxYuo0pJ
-         5BHh8jE+OszzoW7tR9gseN4sJG6ia4Co/um2Lg4SzHGF3HMm2LVlzQpOY6mpGG6leV8N
-         l13+6azf0a2F2vwpZCO9TkY5LA1uMuvzs3NhP4rhyk5xAxbAj0mAEj/oex9MEq3cKtms
-         QNAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679488461;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1679489320;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i5V9xwXeXLLD+KrCDhZHNlARjVnQzbrA2drRGNTtvTM=;
-        b=eQUEuHVsUbAix8ECTQ4KT+LqkSa9CzNYxlqW+Eu1gW0bE/Tlwu14NXu38kIHhDzQ1S
-         5OUluSyy652E+HdLm7WfdBvu+JW6wGkCQAZJDnN24ZnFgemppOST6adbHgj1KqbjwRhu
-         mmPWWjzcSyU4r9zQBk92JHu++S4lC9bKTgvtqCzfIk8Mplf9unp2HHOGdeQ7CDavNtV8
-         qZTNoSmjTG/VHrDjBQfH40IcUhPRlxUeh6BLJycD4LgCnZgRdrX0GVeIb4eQf2yxtog7
-         oV86vX1PCOmugGwJWhhgJbwKpGax9XetwVCmjNAs97H9dJLV5Gw7BEE7WSqVOU1sJxtr
-         Pf9g==
-X-Gm-Message-State: AO0yUKVaPPZ4TEZHU+kxJube2G7wpXr534eaJyHPPiE6j5FMJ68YpXam
-        bHl7I+RtWsz3PnnZNQQ5WV4=
-X-Google-Smtp-Source: AK7set+SjG5SfufUMJ0PRkkAShlqktMKpQsqeCGtZJxdP7AhsNBXop2LwGx6eAvpMjdX7Qk4ANsA+w==
-X-Received: by 2002:a62:2581:0:b0:622:ec07:c6bc with SMTP id l123-20020a622581000000b00622ec07c6bcmr2946097pfl.15.1679488460857;
-        Wed, 22 Mar 2023 05:34:20 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-12.three.co.id. [180.214.232.12])
-        by smtp.gmail.com with ESMTPSA id b11-20020aa7870b000000b005ac419804d5sm1038423pfo.98.2023.03.22.05.34.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 05:34:20 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id D6A611065AA; Wed, 22 Mar 2023 19:34:16 +0700 (WIB)
-Date:   Wed, 22 Mar 2023 19:34:16 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        dsahern@kernel.org, shuah@kernel.org, brauner@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, ebiederm@xmission.com,
-        mcgrof@kernel.org, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH 5/5] doc: Add documentation for the User Mode Driver
- management library
-Message-ID: <ZBr1yGQtNIXsgRYS@debian.me>
-References: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
- <20230317145240.363908-6-roberto.sassu@huaweicloud.com>
+        bh=C3oCNWppbROd6SSbXVVTTvNwlzOezQhHcc6I5uo2B6o=;
+        b=jkLoSQeZoj7lPy3YyjlsVsMY8EyX+PKWGwOqo5C2ioV84YccIr3jRx+beabTLQWAcm
+         dX13QrMNNSAdxPuqzedkdFMQqfXagX0CkiBz2fUE+Y46TNyt5Q99WvD1fs4QW36u4UfQ
+         9E7hMp10kDZBAVN0iLRtHEp3FUQOMWgazedgc7NkcEJppi7mbDU0gkt/e3MU2tHfVKqG
+         6iHZjoyEuzH3e/vLmQTkksMyXyP14EFYKysuWwhkPAOwJGqzQFyC+KNPBQa3/69HvG4P
+         l4aohuTWFo3TzEXsEdmqlw40xr7KD9Hqcz+TEDWQH4tm2W7krm6TbbgFL0qjamhLt41r
+         u3uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679489320;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C3oCNWppbROd6SSbXVVTTvNwlzOezQhHcc6I5uo2B6o=;
+        b=nzhiYNubZLmN5l3Er6ZsLrxposCsemrFBbcCrykWENo/sjjmsNrknKj4EfQPl1VD2I
+         ARf/Nt7f3rrOsR0+BrCRiddyQSix5/MDcV4yjGRhTSd0afzqJMhOLu5n7aB0rEkExvpn
+         s7urOS8TzW0R2Mz6FhB4Jos1svXBRQKIwkidbm3lsQDEJeOPX7GZ8LCrslw8F7QAvEnH
+         paN3CuIzx/oHOnq5dVwkaWJZfWsyjZ2v/0aRwWau/I/vYoBHFKt9K0DW81wrTxKRSym4
+         e4RPfMsBf11x+Uo5JiOtXMkAfWY2yH9uccEcqRYU0aZCtv/S2aK+OHs93aHH297o53t5
+         M5ag==
+X-Gm-Message-State: AO0yUKVLqX3mzSTaHKKjIxfjxqCZU+oOt4jUw7mY7IsuDrOUojvrH+MH
+        6DC4qZ/aJ1Z5oizaenXkP9xQZfwD6r1z4xRsx2o=
+X-Google-Smtp-Source: AK7set/X+NyRJ6USDPXg3DEszeyebaLGd4pwgf3cHSfLLffG9nVVa2N7HRukXTPNJdgcyeb18X+C5ORBCTlBy5oo/4s=
+X-Received: by 2002:a1f:1e0a:0:b0:406:6b94:c4fe with SMTP id
+ e10-20020a1f1e0a000000b004066b94c4femr3280697vke.0.1679489320234; Wed, 22 Mar
+ 2023 05:48:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="n/OawJ+UwZzJM60M"
-Content-Disposition: inline
-In-Reply-To: <20230317145240.363908-6-roberto.sassu@huaweicloud.com>
+References: <Yao51m9EXszPsxNN@redhat.com> <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
+ <YapjNRrjpDu2a5qQ@redhat.com> <CAHC9VhQTUgBRBEz_wFX8daSA70nGJCJLXj8Yvcqr5+DHcfDmwA@mail.gmail.com>
+ <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com>
+ <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com>
+ <CAHC9VhQkLSBGQ-F5Oi9p3G6L7Bf_jQMWAxug_G4bSOJ0_cYXxQ@mail.gmail.com>
+ <CAOQ4uxhfU+LGunL3cweorPPdoCXCZU0xMtF=MekOAe-F-68t_Q@mail.gmail.com>
+ <YitWOqzIRjnP1lok@redhat.com> <CAHC9VhQ+x3ko+=oU-P+w4ssqyyskRxaKsBGJLnXtP_NzWNuxHg@mail.gmail.com>
+ <20230322072850.GA18056@suse.de>
+In-Reply-To: <20230322072850.GA18056@suse.de>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 22 Mar 2023 14:48:29 +0200
+Message-ID: <CAOQ4uxgH905R1dkQy5=tuG4nnB-p2XUWcf91vvYbfu2DyftzPw@mail.gmail.com>
+Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
+To:     Johannes Segitz <jsegitz@suse.com>
+Cc:     Paul Moore <paul@paul-moore.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        David Anderson <dvander@google.com>,
+        Mark Salyzyn <salyzyn@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
+        paulmoore@microsoft.com, luca.boccassi@microsoft.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 22, 2023 at 9:28=E2=80=AFAM Johannes Segitz <jsegitz@suse.com> =
+wrote:
+>
+> On Fri, Mar 11, 2022 at 03:52:54PM -0500, Paul Moore wrote:
+> > On Fri, Mar 11, 2022 at 9:01 AM Vivek Goyal <vgoyal@redhat.com> wrote:
+> > > Agreed. After going through the patch set, I was wondering what's the
+> > > overall security model and how to visualize that.
+> > >
+> > > So probably there needs to be a documentation patch which explains
+> > > what's the new security model and how does it work.
+> >
+> > Yes, of course.  I'll be sure to add a section to the existing docs.
+> >
+> > > Also think both in terms of DAC and MAC. (Instead of just focussing t=
+oo
+> > > hard on SELinux).
+> >
+> > Definitely.  Most of what I've been thinking about the past day or so
+> > has been how to properly handle some of the DAC/capability issues; I
+> > have yet to start playing with the code, but for the most part I think
+> > the MAC/SELinux bits are already working properly.
+> >
+> > > My understanding is that in current model, some of the overlayfs
+> > > operations require priviliges. So mounter is supposed to be privilige=
+d
+> > > and does the operation on underlying layers.
+> > >
+> > > Now in this new model, there will be two levels of check. Both overla=
+y
+> > > level and underlying layer checks will happen in the context of task
+> > > which is doing the operation. So first of all, all tasks will need
+> > > to have enough priviliges to be able to perform various operations
+> > > on lower layer.
+> > >
+> > > If we do checks at both the levels in with the creds of calling task,
+> > > I guess that probably is fine. (But will require a closer code inspec=
+tion
+> > > to make sure there is no privilege escalation both for mounter as wel=
+l
+> > > calling task).
+> >
+> > I have thoughts on this, but I don't think I'm yet in a position to
+> > debate this in depth just yet; I still need to finish poking around
+> > the code and playing with a few things :)
+> >
+> > It may take some time before I'm back with patches, but I appreciate
+> > all of the tips and insight - thank you!
+>
+> Let me resurrect this discussion. With
+> https://github.com/fedora-selinux/selinux-policy/commit/1e8688ea694393c9d=
+918939322b72dfb44a01792
+> the Fedora policy changed kernel_t to a confined domain. This means that
+> many overlayfs setups that are created in initrd will now run into issues=
+,
+> as it will have kernel_t as part of the saved credentials. So while the
+> original use case that inspired the patch set was probably not very commo=
+n
+> that now changed.
 
---n/OawJ+UwZzJM60M
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't remember anyone rejecting the patches on the account that
+the Android use case is not important. It was never the issue.
 
-On Fri, Mar 17, 2023 at 03:52:40PM +0100, Roberto Sassu wrote:
-> +The `UMD Manager` is the frontend interface to any user or
-> +kernel-originated request. It invokes the `UMD Loader` to start the
-> +`UMD Handler`, and communicates with the latter to satisfy the request.
-> +
-> +The `UMD Loader` is merely responsible to extract the `user binary` from
-> +the kernel module, copy it to a tmpfs filesystem, fork the current proce=
-ss,
-> +start the `UMD Handler`, and create a pipe for the communication between
-> +the `UMD Manager` and the `UMD Handler`.
-> +
-> +The `UMD Handler` reads requests from the `UMD Manager`, processes them
-> +internally, and sends the response to it.
+>
+> It's tricky to work around this. Loading a policy in initrd causes a lot =
+of
+> issues now that kernel_t isn't unconfined anymore. Once the policy is
+> loaded by systemd changing the mounts is tough since we use it for /etc a=
+nd
+> at this time systemd already has open file handles for policy files in
+> /etc.
+>
 
-I think you can write out the full forms (UMD manager, UMD loader, and
-UMD handler) once and for subsequent mentions of these, UMD can be
-omitted, since the manager/loader/handler will obviously refers to the
-UMD one.
+I've already explained several times on this thread what needs to be
+done in order to move forward - express the security model and
+explain why it is safe.
 
-Otherwise LGTM, thanks!
+If the security guys are going to be in LSS in Vancouver, perhaps
+we can have a meetup with overlayfs developers on the overlap
+day with LSFMM (May 10) to try and figure out a path forward.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---n/OawJ+UwZzJM60M
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBr1wwAKCRD2uYlJVVFO
-o2XjAP98cKjwFVj5tKztgFgnpo2hMzFfJttUJXQOZJllxh9/PAEAziMVaUg2INAl
-TElZ2NEmhAMWDKyYC7XmwIioKYn8HAI=
-=kqxF
------END PGP SIGNATURE-----
-
---n/OawJ+UwZzJM60M--
+Thanks,
+Amir.
