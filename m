@@ -2,139 +2,342 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C666C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 02:23:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B413DC6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 04:39:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbjCVCXq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Mar 2023 22:23:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40232 "EHLO
+        id S229713AbjCVEju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 00:39:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjCVCXo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Mar 2023 22:23:44 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82FF9A24E;
-        Tue, 21 Mar 2023 19:23:34 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id eg48so67138754edb.13;
-        Tue, 21 Mar 2023 19:23:34 -0700 (PDT)
+        with ESMTP id S229676AbjCVEjt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 00:39:49 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B31B761;
+        Tue, 21 Mar 2023 21:39:48 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id l7so410215pjg.5;
+        Tue, 21 Mar 2023 21:39:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679451813;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hqh1G6spMySCJmEihCoSjRChZOJKV6vGK7xpTVI//4w=;
-        b=HS2sxe7M69Aab1brdxz3YpCtpkwDeWkH/O9FIIkGTuD2gzyAVhsV0Do3C62qtuk24x
-         h3lC+6pwuE/ROsMqAs5ikZQ7kbvu/g0MqEbRcURDG9w9z+9lG2igyFKPgCZL3G5Loa2c
-         e7LGH3mu9CmUmQEvTYB8eQuJzEZDCvJKY1bTgi0RXvP9R+hSmCBgGAHWC0g/6nOGkNou
-         Y1NeeKJyOeRMA+EL99J3DBduH30ks9iRypQlMSBGxeN6kR1WjpwKQy7d7x5EyyWlaYPx
-         pKs5Mba1DgHCsVvkK4oj5LiJQpVRafFBEPZa4jMjMmkM4Kd/8WOirZ0KWDFPGCwbWb6z
-         ysdA==
+        d=gmail.com; s=20210112; t=1679459988;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xm0M1kcuL6xFu2eK/DxZuL2ZfVmnA4tafMen2+OWSWw=;
+        b=mSuchzjfljBMbdDULRddFK0aPiZCcTU1+tbT/nfRrb8Ap6x/TXsyugBT6w3lv3yMpB
+         woXU/IJVacipXn6P0SoPWb7IZt3AxJHfAQAQSNxOueI7+y3nS3avsrztg2lAlUhzUOgO
+         VMlW7DpFWr9xliD3qGsr5J7Sj5rKrdQws/h+l6PuObVFEdZ+XahKxaxeUWJx1eUVPhqa
+         fO8dPw12X9DtRe92+x93RkJX+jve7pPerbNwhVhJa6wdXHgLuAUNiLgCfcFwujXt51H/
+         n8ZsedB82MNit9wC260woOVYGML+0NMGIbrPY3HLK1hm0d7Djp99LqFgSWj7ZGH3T4fM
+         mkkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679451813;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Hqh1G6spMySCJmEihCoSjRChZOJKV6vGK7xpTVI//4w=;
-        b=gmgnDxJF44S26mP/iEx/eY6t1BtjE6Bs+Lo9U7SPXu/c18j3zDr4wIkUM26cAFKUva
-         H1h51thPGblcikZqK2CLtW1T8coIMmzu0JVB5r2quWk/ViIYd/u0CaySFbdO2HR2x76V
-         8c5ZGGNMJxCXpsHrzJ9VlhGRVg3rkFMAmU+XG6xXwdQlCi6Byk9VnRSktojB7+4L1ZTg
-         xbwA+cEa349aUle/UbLXeKW7jzTty4ReoD8zeAhOjyl/oy8uxHhAEm1RC+kit8FMr2bf
-         7BFcyzfb4u6dA/ej4B+yl4hnMp1TpysCKBTLN82VUJ5DKTcI8p1ceB4z+4IgZ3eaNMar
-         CK8A==
-X-Gm-Message-State: AO0yUKUsWDIsfvUY5/2vnqtIc5w+8rlwFf8vmhHVYWejW1X/kPQPwUL1
-        zYwPmdky/DNqRdrb8ymR8GbsmBUO0JsYpc7qU/k=
-X-Google-Smtp-Source: AK7set8wvkY1K1BZY67D7iN6R0hS9GWfzPTLzFimfFPV3COKDH6mWc4O019qVgeAAi+sUtjUi1sGpr/g/SsK/DEnapk=
-X-Received: by 2002:a50:8d04:0:b0:4fc:ebe2:2fc9 with SMTP id
- s4-20020a508d04000000b004fcebe22fc9mr2707603eds.3.1679451812654; Tue, 21 Mar
- 2023 19:23:32 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679459988;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xm0M1kcuL6xFu2eK/DxZuL2ZfVmnA4tafMen2+OWSWw=;
+        b=qMyjKPMIeqaKz3vMnlDFolEEn6kSuO5qi91l8dUejcsszZRCVKQICnnQM/tdkMlOfh
+         +c9Uw0zkm9h6N0QPz5O4zcRfCUJvqMGvjR5Nq3d3KUydEOhGzm0jdxHBjh456AOvcinw
+         TOLk92VczF/7bfcVdF6ZBIJxFNcl+9eOBAM+755CA4WWkfDs0qq1n9e+nqUyuT7w1WtK
+         ChSb16bLDr3RozvkYTG8A2IoDiewK/tj4RtJMbLZ38BgiUD+JLDtXlGAC8T+D/KfZ6Kz
+         prJzxA68CqEmLNxnYf21E6Z2WhD/R3IfUDi8bcePo3YPldOo+ku30QsmlptltoQwRT5d
+         weQQ==
+X-Gm-Message-State: AO0yUKXXZHcdaWCfnu/dMhnHNQm2ttF+RsSB3K7H8VPk8O57OIQOgLce
+        yS0ClZ41C78sWWCrQc54+tY=
+X-Google-Smtp-Source: AK7set+SWZhbEAI+gnRhYaNeVGUPOUw0LhZI77y0MwZcyezPwJ1nB8cL8gtJ6BpnsZdJsAcQSWaNtQ==
+X-Received: by 2002:a17:90b:38c8:b0:23b:4005:26e6 with SMTP id nn8-20020a17090b38c800b0023b400526e6mr2239670pjb.34.1679459987739;
+        Tue, 21 Mar 2023 21:39:47 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-30.three.co.id. [180.214.232.30])
+        by smtp.gmail.com with ESMTPSA id hg4-20020a17090b300400b002340d317f3esm8859243pjb.52.2023.03.21.21.39.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 21:39:47 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id F29F710665C; Wed, 22 Mar 2023 11:39:43 +0700 (WIB)
+Date:   Wed, 22 Mar 2023 11:39:43 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch,
+        jacek.lawrynowicz@linux.intel.com,
+        stanislaw.gruszka@linux.intel.com
+Cc:     dafna@fastmail.com, dri-devel@lists.freedesktop.org,
+        quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
+        quic_ajitpals@quicinc.com, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v4 1/8] accel/qaic: Add documentation for AIC100
+ accelerator driver
+Message-ID: <ZBqGj+gyl4c5Yz7E@debian.me>
+References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+ <1679325074-5494-2-git-send-email-quic_jhugo@quicinc.com>
+ <ZBmxl0sFH5PBG36H@debian.me>
+ <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
 MIME-Version: 1.0
-References: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
-In-Reply-To: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Tue, 21 Mar 2023 19:23:21 -0700
-Message-ID: <CAADnVQLKONwKwkJMopRq-dzcV2ZejrjGzyuzW_5QX=0BY=Z4jw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] usermode_driver: Add management library and API
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        David Ahern <dsahern@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="EXPXy0S25JFamHAK"
+Content-Disposition: inline
+In-Reply-To: <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 7:53=E2=80=AFAM Roberto Sassu
-<roberto.sassu@huaweicloud.com> wrote:
->
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->
-> A User Mode Driver (UMD) is a specialization of a User Mode Helper (UMH),
-> which runs a user space process from a binary blob, and creates a
-> bidirectional pipe, so that the kernel can make a request to that process=
-,
-> and the latter provides its response. It is currently used by bpfilter,
-> although it does not seem to do any useful work.
 
-FYI the new home for bpfilter is here:
-https://github.com/facebook/bpfilter
+--EXPXy0S25JFamHAK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> The problem is, if other users would like to implement a UMD similar to
-> bpfilter, they would have to duplicate the code. Instead, make an UMD
-> management library and API from the existing bpfilter and sockopt code,
-> and move it to common kernel code.
->
-> Also, define the software architecture and the main components of the
-> library: the UMD Manager, running in the kernel, acting as the frontend
-> interface to any user or kernel-originated request; the UMD Loader, also
-> running in the kernel, responsible to load the UMD Handler; the UMD
-> Handler, running in user space, responsible to handle requests from the U=
-MD
-> Manager and to send to it the response.
+On Tue, Mar 21, 2023 at 03:52:11PM -0600, Jeffrey Hugo wrote:
+> > > +
+> > > +Request field descriptions:
+> > > +
+> > > +| req_id- request ID. A request FIFO element and a response FIFO ele=
+ment with
+> > > +|         the same request ID refer to the same command.
+> > > +
+> > > +| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
+> > > +
+> > > +| pcie_dma_cmd- describes the DMA element of this request.
+> > > +| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI =
+logic
+> > > +| 		and generates a MSI when this request is complete, and QSM
+> > > +| 		configures the DMA Bridge to look at this bit.
+> > > +| 	Bits(6:5) are reserved.
+> > > +| 	Bit(4) is the completion code flag, and indicates that the DMA Br=
+idge
+> > > +| 		shall generate a response FIFO element when this request is
+> > > +| 		complete.
+> > > +| 	Bit(3) indicates if this request is a linked list transfer(0) or =
+a bulk
+> > > +| 		transfer(1).
+> > > +| 	Bit(2) is reserved.
+> > > +| 	Bits(1:0) indicate the type of transfer. No transfer(0), to devic=
+e(1),
+> > > +| 		from device(2). Value 3 is illegal.
+> > > +
+> > > +| pcie_dma_source_addr- source address for a bulk transfer, or the a=
+ddress of
+> > > +|         the linked list.
+> > > +
+> > > +| pcie_dma_dest_addr- destination address for a bulk transfer.
+> > > +
+> > > +| pcie_dma_len- length of the bulk transfer. Note that the size of t=
+his field
+> > > +| 	limits transfers to 4G in size.
+> > > +
+> > > +| doorbell_addr- address of the doorbell to ring when this request i=
+s complete.
+> > > +
+> > > +| doorbell_attr- doorbell attributes.
+> > > +| 	Bit(7) indicates if a write to a doorbell is to occur.
+> > > +| 	Bits(6:2) are reserved.
+> > > +| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bi=
+t,
+> > > +| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
+> > > +| 		must be naturally aligned to the specified length.
+> > > +
+> > > +| doorbell_data- data to write to the doorbell. Only the bits corres=
+ponding to
+> > > +| 	the doorbell length are valid.
+> > > +
+> > > +| sem_cmdN- semaphore command.
+> > > +| 	Bit(31) indicates this semaphore command is enabled.
+> > > +| 	Bit(30) is the to-device DMA fence. Block this request until all
+> > > +| 		to-device DMA transfers are complete.
+> > > +| 	Bit(29) is the from-device DMA fence. Block this request until all
+> > > +| 		from-device DMA transfers are complete.
+> > > +| 	Bits(28:27) are reserved.
+> > > +| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with t=
+he
+> > > +| 		specified value. 2 is increment. 3 is decrement. 4 is wait
+> > > +| 		until the semaphore is equal to the specified value. 5 is wait
+> > > +| 		until the semaphore is greater or equal to the specified value.
+> > > +| 		6 is "P", wait until semaphore is greater than 0, then
+> > > +| 		decrement by 1. 7 is reserved.
+> > > +| 	Bit(23) is reserved.
+> > > +| 	Bit(22) is the semaphore sync. 0 is post sync, which means that t=
+he
+> > > +| 		semaphore operation is done after the DMA transfer. 1 is
+> > > +| 		presync, which gates the DMA transfer. Only one presync is
+> > > +| 		allowed per request.
+> > > +| 	Bit(21) is reserved.
+> > > +| 	Bits(20:16) is the index of the semaphore to operate on.
+> > > +| 	Bits(15:12) are reserved.
+> > > +| 	Bits(11:0) are the semaphore value to use in operations.
+> >=20
+> > What about bullet lists?
+>=20
+> It doesn't feel like the above fits into a bullet list structure.  Do you
+> have an example reference, or can you transform a small section of the ab=
+ove
+> to illustrate what you are thinking?
+>=20
 
-That doesn't look like a generic interface for UMD.
-It was a quick hack to get bpfilter off the ground, but certainly
-not a generic one.
+Oops, sorry for suggesting the wrong construct.
 
-> I have two use cases, but for sake of brevity I will propose one.
->
-> I would like to add support for PGP keys and signatures in the kernel, so
-> that I can extend secure boot to applications, and allow/deny code
-> execution based on the signed file digests included in RPM headers.
->
-> While I proposed a patch set a while ago (based on a previous work of Dav=
-id
-> Howells), the main objection was that the PGP packet parser should not ru=
-n
-> in the kernel.
->
-> That makes a perfect example for using a UMD. If the PGP parser is moved =
-to
-> user space (UMD Handler), and the kernel (UMD Manager) just instantiates
-> the key and verifies the signature on already parsed data, this would
-> address the concern.
+Definition lists fit in this case, since there are request fields along
+with their individual descriptions. For bit lists, bullet lists should
+suffice.
 
-I don't think PGP parser belongs to UMD either.
-Please do it as a normal user space process and define a proper
-protocol for communication between kernel and user space.
+Here is the illustration diff:
+
+diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic=
+/aic100.rst
+index 7ed95bb164bbeb..4d438fd8121451 100644
+--- a/Documentation/accel/qaic/aic100.rst
++++ b/Documentation/accel/qaic/aic100.rst
+@@ -308,67 +308,79 @@ A request FIFO element has the following structure:
+=20
+ Request field descriptions:
+=20
+-| req_id- request ID. A request FIFO element and a response FIFO element w=
+ith
+-|         the same request ID refer to the same command.
++  req_id
++      request ID. A request FIFO element and a response FIFO element with
++      the same request ID refer to the same command.
+=20
+-| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
++  seq_id
++      sequence ID within a request. Ignored by the DMA Bridge.
+=20
+-| pcie_dma_cmd- describes the DMA element of this request.
+-| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
+-| 		and generates a MSI when this request is complete, and QSM
+-| 		configures the DMA Bridge to look at this bit.
+-| 	Bits(6:5) are reserved.
+-| 	Bit(4) is the completion code flag, and indicates that the DMA Bridge
+-| 		shall generate a response FIFO element when this request is
+-| 		complete.
+-| 	Bit(3) indicates if this request is a linked list transfer(0) or a bulk
+-| 		transfer(1).
+-| 	Bit(2) is reserved.
+-| 	Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
+-| 		from device(2). Value 3 is illegal.
++  pcie_dma_cmd
++      describes the DMA element of this request.
+=20
+-| pcie_dma_source_addr- source address for a bulk transfer, or the address=
+ of
+-|         the linked list.
++      * Bit(7) is the force msi flag, which overrides the DMA Bridge MSI l=
+ogic
++        and generates a MSI when this request is complete, and QSM
++        configures the DMA Bridge to look at this bit.
++      * Bits(6:5) are reserved.
++      * Bit(4) is the completion code flag, and indicates that the DMA Bri=
+dge
++        shall generate a response FIFO element when this request is
++        complete.
++      * Bit(3) indicates if this request is a linked list transfer(0) or a=
+ bulk
++      * transfer(1).
++      * Bit(2) is reserved.
++      * Bits(1:0) indicate the type of transfer. No transfer(0), to device=
+(1),
++      * from device(2). Value 3 is illegal.
+=20
+-| pcie_dma_dest_addr- destination address for a bulk transfer.
++  pcie_dma_source_addr
++      source address for a bulk transfer, or the address of  the linked li=
+st.
+=20
+-| pcie_dma_len- length of the bulk transfer. Note that the size of this fi=
+eld
+-| 	limits transfers to 4G in size.
++  pcie_dma_dest_addr
++      destination address for a bulk transfer.
+=20
+-| doorbell_addr- address of the doorbell to ring when this request is comp=
+lete.
++  pcie_dma_len
++      length of the bulk transfer. Note that the size of this field
++      limits transfers to 4G in size.
+=20
+-| doorbell_attr- doorbell attributes.
+-| 	Bit(7) indicates if a write to a doorbell is to occur.
+-| 	Bits(6:2) are reserved.
+-| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
+-| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
+-| 		must be naturally aligned to the specified length.
++  doorbell_addr
++      address of the doorbell to ring when this request is complete.
+=20
+-| doorbell_data- data to write to the doorbell. Only the bits correspondin=
+g to
+-| 	the doorbell length are valid.
++  doorbell_attr
++      doorbell attributes.
+=20
+-| sem_cmdN- semaphore command.
+-| 	Bit(31) indicates this semaphore command is enabled.
+-| 	Bit(30) is the to-device DMA fence. Block this request until all
+-| 		to-device DMA transfers are complete.
+-| 	Bit(29) is the from-device DMA fence. Block this request until all
+-| 		from-device DMA transfers are complete.
+-| 	Bits(28:27) are reserved.
+-| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
+-| 		specified value. 2 is increment. 3 is decrement. 4 is wait
+-| 		until the semaphore is equal to the specified value. 5 is wait
+-| 		until the semaphore is greater or equal to the specified value.
+-| 		6 is "P", wait until semaphore is greater than 0, then
+-| 		decrement by 1. 7 is reserved.
+-| 	Bit(23) is reserved.
+-| 	Bit(22) is the semaphore sync. 0 is post sync, which means that the
+-| 		semaphore operation is done after the DMA transfer. 1 is
+-| 		presync, which gates the DMA transfer. Only one presync is
+-| 		allowed per request.
+-| 	Bit(21) is reserved.
+-| 	Bits(20:16) is the index of the semaphore to operate on.
+-| 	Bits(15:12) are reserved.
+-| 	Bits(11:0) are the semaphore value to use in operations.
++      * Bit(7) indicates if a write to a doorbell is to occur.
++      * Bits(6:2) are reserved.
++      * Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
++        1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
++        must be naturally aligned to the specified length.
++
++  doorbell_data
++      data to write to the doorbell. Only the bits corresponding to
++      the doorbell length are valid.
++
++  sem_cmdN
++      semaphore command.
++
++      * Bit(31) indicates this semaphore command is enabled.
++      * Bit(30) is the to-device DMA fence. Block this request until all
++        to-device DMA transfers are complete.
++      * Bit(29) is the from-device DMA fence. Block this request until all
++        from-device DMA transfers are complete.
++      * Bits(28:27) are reserved.
++        Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
++        specified value. 2 is increment. 3 is decrement. 4 is wait
++        until the semaphore is equal to the specified value. 5 is wait
++        until the semaphore is greater or equal to the specified value.
++        6 is "P", wait until semaphore is greater than 0, then
++        decrement by 1. 7 is reserved.
++      * Bit(23) is reserved.
++      * Bit(22) is the semaphore sync. 0 is post sync, which means that the
++        semaphore operation is done after the DMA transfer. 1 is
++      * presync, which gates the DMA transfer. Only one presync is
++      * allowed per request.
++      * Bit(21) is reserved.
++      * Bits(20:16) is the index of the semaphore to operate on.
++      * Bits(15:12) are reserved.
++      * Bits(11:0) are the semaphore value to use in operations.
+=20
+ Overall, a request is processed in 4 steps:
+=20
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--EXPXy0S25JFamHAK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBqGiwAKCRD2uYlJVVFO
+o8YcAP99Ek9bDxbQwDy9P1xr8cC6hW5c8NcwEvyvIUls3e+hVAEA0V2KwAmMxPcn
+b1APtu6ox4tlgoFPgFfyynftXRePTgQ=
+=zliE
+-----END PGP SIGNATURE-----
+
+--EXPXy0S25JFamHAK--
