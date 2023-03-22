@@ -2,128 +2,211 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE098C6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 15:36:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B181C76196
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 15:55:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbjCVPgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 11:36:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52394 "EHLO
+        id S230365AbjCVPzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 11:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231607AbjCVPgK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 11:36:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A65E515CD;
-        Wed, 22 Mar 2023 08:36:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 26C9C621A0;
-        Wed, 22 Mar 2023 15:36:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BEB5C4339B;
-        Wed, 22 Mar 2023 15:36:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679499365;
-        bh=DZy9l2qyDKre9adLwkTIGVd6PoEOrq5ypuDZNWHxbJU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uWqGKRZENH6xhp47Uo6JUmbc8rMcVyCGI1wIWS9Ycu1PR1v0i/Lz6WE6+ITRbtQWP
-         KAnd/amMvGloOOH7kvjSXNEUHUkGA1gaJqAMqsveJtnl/L2r+/wOKA/YOupxvhpISe
-         P3FgL3ojHPObXM2v0pgehfxYKLrp39ovS8Ar51V52vhsmGInrbpfA4Mrw4C/S1FFTA
-         DuFz4tYaXZxzg234CCAJ1GVEhXEQhPTgYATpEzg3nAgPu9x9So32+zEkijfb7Br4SN
-         tkUOZaFPXlyyZwFHfh4HFM89T11cJdwBtYwAxhUy9nBxJT+LzAxHv3YCLVfdDX6RzX
-         lx0Mz43ukmzFg==
-Date:   Wed, 22 Mar 2023 15:35:59 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>, slewis@rivosinc.com,
-        heiko@sntech.de, vineetg@rivosinc.com,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Guo Ren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 3/6] RISC-V: hwprobe: Add support for
- RISCV_HWPROBE_BASE_BEHAVIOR_IMA
-Message-ID: <8e132bed-c85a-4bfd-bff8-5147db1cec32@spud>
-References: <20230314183220.513101-1-evan@rivosinc.com>
- <20230314183220.513101-4-evan@rivosinc.com>
+        with ESMTP id S230509AbjCVPz1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 11:55:27 -0400
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E9F45B43B;
+        Wed, 22 Mar 2023 08:55:24 -0700 (PDT)
+Received: by mail-ua1-x92b.google.com with SMTP id x33so12947481uaf.12;
+        Wed, 22 Mar 2023 08:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679500523;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QkiGC3KrWLcdVvbKtOD6EuMic290UkYWO3dGkV1DW6M=;
+        b=SfYNzRieiSacBnZzinpD3JwNvgMRa+NXUxjMEV+g91rUok2QRQtIoLw4xVo/WYsRMe
+         g9D7vI8WY2XtxVxbWCXxkv9y91H5aTaAgLBl7lA44o4HynNGSNnfjLs9kwxgQGafnfXs
+         EOGDdaA/9oNYcn55W+6VHiMEfJJ3OEpqjRGYfyjRSfcIecHGyyLm1s0eVFeuc0UYGdZ+
+         h7i2Nms/wr60H9KLZ9k9+Sw/InLSKLEpIz6134u8BLrFbrNf7I28ahX9J40vJNRkcm0R
+         unbVv7pNOkaPV17HMxfiKWTnHLX1tSDw61aG+cGxz1Q52Y05F2ILaQgyhvWS2KNutcsI
+         yQ1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679500523;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QkiGC3KrWLcdVvbKtOD6EuMic290UkYWO3dGkV1DW6M=;
+        b=1zT0+5B26WncEPXGrvqmo93FjmCseEjqA6vRV4/bINN6is7Ti14zg1z5REGo73DhpL
+         s84OOO12X9EMLP1pYaGpPWOXAg72yD/I9edJsPDc4nZO81k4PFHblUTyw9Y1hRROlUtk
+         AZoQ81JV0gvbNoQBSnn548GVEbLZ/OZHlQIStYGgMAm5/09oSxLQ6OID1SDBCI5V5Wt0
+         7g4Al7GfrlzbIKvYdlbv/VqIWo8+zBwXN6ktlXdUOZjqMOs+RjZcex1BL9n0F0ElbmpG
+         5jZYaM8vX65S1zDl1MNCUYEuL/qcTVkGYlF+UQV9vhjCNTXiVZl9zYAKIneA57rT/lmf
+         6r4Q==
+X-Gm-Message-State: AAQBX9dcRTX9RgmpegjJ5ktf1ZlBlHNogswxV4zsufLxVvwYLHfsazCV
+        s8WaKd1Dxr2AnxOLTjbo/tuzMoOra2wVvLt47xE=
+X-Google-Smtp-Source: AKy350b8QTB1s5WselluQQaw7LPVVPPE9gv4ky3yMgOg/05AlNjluBezpFi0dGocghRlqqIGotLucpqmeScJqEgIDMY=
+X-Received: by 2002:a05:6130:424:b0:68b:8665:a73b with SMTP id
+ ba36-20020a056130042400b0068b8665a73bmr3867185uab.1.1679500523106; Wed, 22
+ Mar 2023 08:55:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="r+TYFFM1/Jo8CP9z"
-Content-Disposition: inline
-In-Reply-To: <20230314183220.513101-4-evan@rivosinc.com>
+References: <20221223-dyndbg-filename-v1-0-cbf8543009a1@weissschuh.net>
+ <20221223-dyndbg-filename-v1-3-cbf8543009a1@weissschuh.net>
+ <04311d93-7cb4-bf0b-dfa7-162a38b42583@akamai.com> <c0b009e8-0b12-4605-83fa-ceb3cb27922f@weissschuh.net>
+In-Reply-To: <c0b009e8-0b12-4605-83fa-ceb3cb27922f@weissschuh.net>
+From:   jim.cromie@gmail.com
+Date:   Wed, 22 Mar 2023 09:54:56 -0600
+Message-ID: <CAJfuBxxkTKKyxKgbk4iv0qDi7-fz=ThtZ8FhUag_GMtjmPHoOA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dyndbg: add source filename to prefix
+To:     linux@weissschuh.net
+Cc:     Jason Baron <jbaron@akamai.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Feb 4, 2023 at 7:49=E2=80=AFAM <linux@weissschuh.net> wrote:
+>
+> Hi Jason,
+>
+>
+> Feb 3, 2023 10:45:49 Jason Baron <jbaron@akamai.com>:
+>
+> > Hi Thomas,
+> >
+> > Thanks for this series, this series is fine with me:
+> > Acked-by: Jason Baron <jbaron@akamai.com>
+>
+> Thanks!
+>
+> > Your comment about making the output more relatable to the control file=
+ made me think if we should try and make the logged output look more like t=
+he control file:
+> >
+> > # cat /proc/dynamic_debug/control
+> > # filename:lineno [module]function flags format
+> >
+> > So for your example, I think that would look like:
+> >
+> > [   71.802212] lib/test_dynamic_debug.c:103 do_cats: test_dd: doing cat=
+egories
+> > [   71.802227] lib/test_dynamic_debug.c:123 do_levels: doing levels
+> >
+> > But even if we think it looks better, there maybe too many dependencies=
+ on the current output format...
+>
+> I agree on both points.
+>
+> An alternative could be a new flag that prints the
+> full format from the control file.
+> The control file even has a format header that
+> tools could use to parse out the fields, making it
+> extensible.
+>
+> Not sure it's worth it though.
+> And it should be in addition to this series in my
+> opinion.
 
---r+TYFFM1/Jo8CP9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Boy howdy, I was hoping you were gonna do it. :-)
 
-On Tue, Mar 14, 2023 at 11:32:17AM -0700, Evan Green wrote:
-> We have an implicit set of base behaviors that userspace depends on,
-> which are mostly defined in various ISA specifications.
->=20
-> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Evan Green <evan@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+I think we need the 's' flag.
+it displays properly as "$src:$line"
 
-> @@ -125,6 +126,25 @@ static void hwprobe_one_pair(struct riscv_hwprobe *p=
-air,
->  	case RISCV_HWPROBE_KEY_MIMPID:
->  		hwprobe_arch_id(pair, cpus);
->  		break;
-> +	/*
-> +	 * The kernel already assumes that the base single-letter ISA
-> +	 * extensions are supported on all harts, and only supports the
-> +	 * IMA base, so just cheat a bit here and tell that to
-> +	 * userspace.
-> +	 */
-> +	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
-> +		pair->value =3D RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
-> +		break;
-> +
-> +	case RISCV_HWPROBE_KEY_IMA_EXT_0:
-> +		pair->value =3D 0;
-> +		if (has_fpu())
-> +			pair->value |=3D RISCV_HWPROBE_IMA_FD;
-> +
-> +		if (elf_hwcap & RISCV_ISA_EXT_c)
+I agree that shuffling the "$src:$line" part before the "$mod:$func"
+part would be ideal
+(reluctantly) its a separate patch
 
-Random thought while reviewing another patch, and I kinda felt a bit
-stupid following the existing code to try and make sure, but should this
-become a call to riscv_isa_extension_available(NULL, c)?
-It may be nice to propagate that helper, if it works, than check the bit
-directly.
+Acked-by: Jim Cromie <jim.cromie@gmail.com>
 
-Cheers,
-Conor.
+(resisting the urge to hijack this thread for "designing")
 
-> +			pair->value |=3D RISCV_HWPROBE_IMA_C;
-> +
-> +		break;
-> =20
->  	/*
->  	 * For forward compatibility, unknown keys don't fail the whole
-> --=20
-> 2.25.1
->=20
-
---r+TYFFM1/Jo8CP9z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZBsgXwAKCRB4tDGHoIJi
-0uXwAPwO6vaB4a7jTfh6cwcjIbakPGbW2KoWTWyZNWCElUCFGgEA/czXfGY7/Z9G
-0R/BZly3E44aKfHbp8z2S2DhkztM8QU=
-=2y2o
------END PGP SIGNATURE-----
-
---r+TYFFM1/Jo8CP9z--
+>
+> Thomas
+>
+> > Thanks,
+> >
+> > -Jason
+> >
+> > On 1/29/23 9:01 PM, Thomas Wei=C3=9Fschuh wrote:
+> >> Printing the line number without the file is of limited usefulness.
+> >> Knowing the filename also makes it also easier to relate the logged
+> >> information to the controlfile.
+> >> Example:
+> >>      # modprobe test_dynamic_debug
+> >>      # echo 'file test_dynamic_debug.c =3Dpfsl' > /proc/dynamic_debug/=
+control
+> >>      # echo 1 > /sys/module/test_dynamic_debug/parameters/do_prints
+> >>      # dmesg | tail -2
+> >>      [   71.802212] do_cats:lib/test_dynamic_debug.c:103: test_dd: doi=
+ng categories
+> >>      [   71.802227] do_levels:lib/test_dynamic_debug.c:123: test_dd: d=
+oing levels
+> >> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> >> ---
+> >>   Documentation/admin-guide/dynamic-debug-howto.rst | 5 +++--
+> >>   include/linux/dynamic_debug.h                     | 4 +++-
+> >>   lib/dynamic_debug.c                               | 4 ++++
+> >>   3 files changed, 10 insertions(+), 3 deletions(-)
+> >> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Docum=
+entation/admin-guide/dynamic-debug-howto.rst
+> >> index faa22f77847a..f9fa8163fba6 100644
+> >> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> >> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> >> @@ -216,13 +216,14 @@ The flags are::
+> >>     t    Include thread ID, or <intr>
+> >>     m    Include module name
+> >>     f    Include the function name
+> >> +  s    Include the source file name
+> >>     l    Include line number
+> >>     For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, onl=
+y
+> >>   the ``p`` flag has meaning, other flags are ignored.
+> >>   -Note the regexp ``^[-+=3D][flmpt_]+$`` matches a flags specificatio=
+n.
+> >> -To clear all flags at once, use ``=3D_`` or ``-flmpt``.
+> >> +Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification=
+.
+> >> +To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
+> >>       Debug messages during Boot Process
+> >> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_deb=
+ug.h
+> >> index 41682278d2e8..0c77105d583c 100644
+> >> --- a/include/linux/dynamic_debug.h
+> >> +++ b/include/linux/dynamic_debug.h
+> >> @@ -37,10 +37,12 @@ struct _ddebug {
+> >>   #define _DPRINTK_FLAGS_INCL_FUNCNAME  (1<<2)
+> >>   #define _DPRINTK_FLAGS_INCL_LINENO    (1<<3)
+> >>   #define _DPRINTK_FLAGS_INCL_TID       (1<<4)
+> >> +#define _DPRINTK_FLAGS_INCL_SOURCENAME (1<<5)
+> >>     #define _DPRINTK_FLAGS_INCL_ANY     \
+> >>     (_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |\
+> >> -    _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID)
+> >> +    _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID |\
+> >> +    _DPRINTK_FLAGS_INCL_SOURCENAME)
+> >>     #if defined DEBUG
+> >>   #define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
+> >> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> >> index e96ea427d8af..fa7418e35197 100644
+> >> --- a/lib/dynamic_debug.c
+> >> +++ b/lib/dynamic_debug.c
+> >> @@ -92,6 +92,7 @@ static const struct { unsigned flag:8; char opt_char=
+; } opt_array[] =3D {
+> >>     { _DPRINTK_FLAGS_PRINT, 'p' },
+> >>     { _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
+> >>     { _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
+> >> +   { _DPRINTK_FLAGS_INCL_SOURCENAME, 's' },
+> >>     { _DPRINTK_FLAGS_INCL_LINENO, 'l' },
+> >>     { _DPRINTK_FLAGS_INCL_TID, 't' },
+> >>     { _DPRINTK_FLAGS_NONE, '_' },
+> >> @@ -836,6 +837,9 @@ static char *__dynamic_emit_prefix(const struct _d=
+debug *desc, char *buf)
+> >>     if (desc->flags & _DPRINTK_FLAGS_INCL_FUNCNAME)
+> >>         pos +=3D snprintf(buf + pos, remaining(pos), "%s:",
+> >>                 desc->function);
+> >> +   if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
+> >> +       pos +=3D snprintf(buf + pos, remaining(pos), "%s:",
+> >> +               trim_prefix(desc->filename));
+> >>     if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
+> >>         pos +=3D snprintf(buf + pos, remaining(pos), "%d:",
+> >>                 desc->lineno);
+> >>
+>
