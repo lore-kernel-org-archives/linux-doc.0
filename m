@@ -2,188 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47FA7C6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 12:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF35C761A6
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 12:34:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbjCVMaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 08:30:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34242 "EHLO
+        id S230039AbjCVMeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 08:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229983AbjCVMaL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 08:30:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C4874D42A
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 05:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679488167;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DDZ81cwjjCLDnbq2gzVynfA+CfCd2gVU17eXqtriDsI=;
-        b=Y4UnSA5yJ2bi8XuAR5EbjQQ9EElRsmy52BEd3H420sCkGZ0YFjgZSV8mOVY0jt6wHIyZl2
-        +xP/UFbVcjAYkOTTt3x4LRQ6YPawHVY0nDtxZItsKswpLoXdW5fO27aorsrsobFtq8pPqW
-        8BZbsF0kgTdTEv9spyQFP/eV6xlZIYA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-b_yorsKQMHavVIILlI1VxA-1; Wed, 22 Mar 2023 08:29:24 -0400
-X-MC-Unique: b_yorsKQMHavVIILlI1VxA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E11C93C54277;
-        Wed, 22 Mar 2023 12:29:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.148])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E3A4B1731B;
-        Wed, 22 Mar 2023 12:29:22 +0000 (UTC)
-Date:   Wed, 22 Mar 2023 07:29:21 -0500
-From:   Eric Blake <eblake@redhat.com>
-To:     Ming Lei <ming.lei@redhat.com>
-Cc:     josef@toxicpanda.com, linux-block@vger.kernel.org,
-        nbd@other.debian.org, philipp.reisner@linbit.com,
-        lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] block nbd: send handle in network order
-Message-ID: <20230322122921.ac47tbbkddrb72gq@redhat.com>
-References: <20230317202749.419094-1-eblake@redhat.com>
- <20230317202749.419094-3-eblake@redhat.com>
- <ZBjqQckL7d5EJPlh@ovpn-8-29.pek2.redhat.com>
- <20230321135900.ni4w5ichvjba7s4u@redhat.com>
- <ZBpQLQtZP3Gj8MdS@ovpn-8-18.pek2.redhat.com>
+        with ESMTP id S229534AbjCVMeW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 08:34:22 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1FC52F7B;
+        Wed, 22 Mar 2023 05:34:21 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id q23so5166627pfs.2;
+        Wed, 22 Mar 2023 05:34:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679488461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i5V9xwXeXLLD+KrCDhZHNlARjVnQzbrA2drRGNTtvTM=;
+        b=CDVrPbquHqM6HszFxuFUX2B3vFLX7cGGnLlzfIXA9zqINFHXAUX5B+u28t/1ETgD5R
+         3vSi6wpz1ys/mGkAntVqxg1ARpmJv+WgcckV7eE0GHqspgLihaH0YU4Xgy/v4hD4ZslS
+         Baa7r/FR4OlY7SXjweixs0l2H6uf3IKdKOnYctTpB65NUohQ+7qRHMoBqzQqzxYuo0pJ
+         5BHh8jE+OszzoW7tR9gseN4sJG6ia4Co/um2Lg4SzHGF3HMm2LVlzQpOY6mpGG6leV8N
+         l13+6azf0a2F2vwpZCO9TkY5LA1uMuvzs3NhP4rhyk5xAxbAj0mAEj/oex9MEq3cKtms
+         QNAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679488461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i5V9xwXeXLLD+KrCDhZHNlARjVnQzbrA2drRGNTtvTM=;
+        b=eQUEuHVsUbAix8ECTQ4KT+LqkSa9CzNYxlqW+Eu1gW0bE/Tlwu14NXu38kIHhDzQ1S
+         5OUluSyy652E+HdLm7WfdBvu+JW6wGkCQAZJDnN24ZnFgemppOST6adbHgj1KqbjwRhu
+         mmPWWjzcSyU4r9zQBk92JHu++S4lC9bKTgvtqCzfIk8Mplf9unp2HHOGdeQ7CDavNtV8
+         qZTNoSmjTG/VHrDjBQfH40IcUhPRlxUeh6BLJycD4LgCnZgRdrX0GVeIb4eQf2yxtog7
+         oV86vX1PCOmugGwJWhhgJbwKpGax9XetwVCmjNAs97H9dJLV5Gw7BEE7WSqVOU1sJxtr
+         Pf9g==
+X-Gm-Message-State: AO0yUKVaPPZ4TEZHU+kxJube2G7wpXr534eaJyHPPiE6j5FMJ68YpXam
+        bHl7I+RtWsz3PnnZNQQ5WV4=
+X-Google-Smtp-Source: AK7set+SjG5SfufUMJ0PRkkAShlqktMKpQsqeCGtZJxdP7AhsNBXop2LwGx6eAvpMjdX7Qk4ANsA+w==
+X-Received: by 2002:a62:2581:0:b0:622:ec07:c6bc with SMTP id l123-20020a622581000000b00622ec07c6bcmr2946097pfl.15.1679488460857;
+        Wed, 22 Mar 2023 05:34:20 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-12.three.co.id. [180.214.232.12])
+        by smtp.gmail.com with ESMTPSA id b11-20020aa7870b000000b005ac419804d5sm1038423pfo.98.2023.03.22.05.34.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 05:34:20 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id D6A611065AA; Wed, 22 Mar 2023 19:34:16 +0700 (WIB)
+Date:   Wed, 22 Mar 2023 19:34:16 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        dsahern@kernel.org, shuah@kernel.org, brauner@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bpf@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, ebiederm@xmission.com,
+        mcgrof@kernel.org, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH 5/5] doc: Add documentation for the User Mode Driver
+ management library
+Message-ID: <ZBr1yGQtNIXsgRYS@debian.me>
+References: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
+ <20230317145240.363908-6-roberto.sassu@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="n/OawJ+UwZzJM60M"
 Content-Disposition: inline
-In-Reply-To: <ZBpQLQtZP3Gj8MdS@ovpn-8-18.pek2.redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+In-Reply-To: <20230317145240.363908-6-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 08:47:41AM +0800, Ming Lei wrote:
-> On Tue, Mar 21, 2023 at 08:59:00AM -0500, Eric Blake wrote:
-> > On Tue, Mar 21, 2023 at 07:20:33AM +0800, Ming Lei wrote:
-> > > On Fri, Mar 17, 2023 at 03:27:46PM -0500, Eric Blake wrote:
-> > > > The NBD spec says the client handle (or cookie) is opaque on the
-> > > > server, and therefore it really doesn't matter what endianness we use;
-> > > > to date, the use of memcpy() between u64 and a char[8] has exposed
-> > > > native endianness when treating the handle as a 64-bit number.
-> > > 
-> > > No, memcpy() works fine for char[8], which doesn't break endianness.
-> > 
-> > I didn't say memcpy() breaks endianness, I said it preserves it.  By
-> > using memcpy(), you are exposing native endianness over the wire.
-> > Thus, even though a server should not be making any decisions based on
-> > the content of the handle (it is an opaque value handed back to the
-> > client unchanged), the current kernel client code DOES leak through
-> > information about whether the client is big- or little-endian;
-> 
-> How is the client cpu endianness leaked with handle defined as char[8]?
-> 
-> Suppose it is leaked, is it really one issue? Cause most of CPUs in
-> the world is little-endian.
-> 
-> > contrast to the NBD protocol saying that ALL data is
-> > network-byte-order.
-> 
-> That doesn't make sense for any data defined as char[] or byte which
-> needn't to be little or big endian.
 
-The NBD spec defines it as a 64-bit opaque quantity - that does not
-indicate whether it is a single integer or 8 characters, but because
-it is opaque, we don't have to care.  However, if we DO treat it as an
-integer (and the kernel client code DOES do that: internally, it is
-building up a u64 integer), it is wise to consider network endianness.
+--n/OawJ+UwZzJM60M
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > 
-> > > 
-> > > > However, since NBD protocol documents that everything else is in
-> > > > network order, and tools like Wireshark will dump even the contents of
-> > > > the handle as seen over the network, it's worth using a consistent
-> > > > ordering regardless of the native endianness.
-> > > > 
-> > > > Plus, using a consistent endianness now allows an upcoming patch to
-> > > > simplify this to directly use integer assignment instead of memcpy().
-> > > 
-> > > It isn't necessary, given ->handle is actually u64, which is handled by
-> > > nbd client only.
-> > 
-> > No, re-read the whole series.  ->handle is actually char[8].  Later in
-> > the series adds ->cookie as __be64 as an alias to ->handle, precisely
-> > so that we are converting the u64 'handle' in kernel code into a
-> > big-endian value on the wire, regardless of the host type, and making
-> > it impossible for a server to inspect the wire data and learn the
-> > kernel's endianness.
-> 
-> How does server learn the client cpu endianness in this way? Is it really
-> one issue?
+On Fri, Mar 17, 2023 at 03:52:40PM +0100, Roberto Sassu wrote:
+> +The `UMD Manager` is the frontend interface to any user or
+> +kernel-originated request. It invokes the `UMD Loader` to start the
+> +`UMD Handler`, and communicates with the latter to satisfy the request.
+> +
+> +The `UMD Loader` is merely responsible to extract the `user binary` from
+> +the kernel module, copy it to a tmpfs filesystem, fork the current proce=
+ss,
+> +start the `UMD Handler`, and create a pipe for the communication between
+> +the `UMD Manager` and the `UMD Handler`.
+> +
+> +The `UMD Handler` reads requests from the `UMD Manager`, processes them
+> +internally, and sends the response to it.
 
-Not a security issue, merely a consistency one.  A server that
-inspects the handles being sent by the client, and checks whether they
-are sequential when treated as a big- or little-endian number, can
-infer whether the client is little-endian.  But there is nothing
-useful it can do with that knowledge.  Rather, the consistency factor
-is that if you have a wireshark plugin reading network traffic, and
-are trying to correlate it back to kernel traces, it is NICE if the
-wireshark plugin can display the SAME u64 number as the kernel was
-sticking into the field - and the way to do that is to have a fixed
-endianness of the u64 value over the wire.
+I think you can write out the full forms (UMD manager, UMD loader, and
+UMD handler) once and for subsequent mentions of these, UMD can be
+omitted, since the manager/loader/handler will obviously refers to the
+UMD one.
 
-> 
-> > 
-> > > 
-> > > > 
-> > > > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > > > 
-> > > > ---
-> > > > v2: new patch
-> > > > ---
-> > > >  drivers/block/nbd.c | 10 +++++++---
-> > > >  1 file changed, 7 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-> > > > index 592cfa8b765a..8a9487e79f1c 100644
-> > > > --- a/drivers/block/nbd.c
-> > > > +++ b/drivers/block/nbd.c
-> > > > @@ -560,6 +560,7 @@ static int nbd_send_cmd(struct nbd_device *nbd, struct nbd_cmd *cmd, int index)
-> > > >  	unsigned long size = blk_rq_bytes(req);
-> > > >  	struct bio *bio;
-> > > >  	u64 handle;
-> > > > +	__be64 tmp;
-> > > >  	u32 type;
-> > > >  	u32 nbd_cmd_flags = 0;
-> > > >  	int sent = nsock->sent, skip = 0;
-> > > > @@ -606,7 +607,8 @@ static int nbd_send_cmd(struct nbd_device *nbd, struct nbd_cmd *cmd, int index)
-> > > >  		request.len = htonl(size);
-> > > >  	}
-> > > >  	handle = nbd_cmd_handle(cmd);
-> > > > -	memcpy(request.handle, &handle, sizeof(handle));
-> > > > +	tmp = cpu_to_be64(handle);
-> > > > +	memcpy(request.handle, &tmp, sizeof(tmp));
-> > > 
-> > > This way copies handle two times, really not fun.
-> > 
-> > Indeed.  And as mentioned in the commit message, it is temporary; the
-> > second copy goes away later in the series once we can use direct
-> > integer assignment.
-> 
-> Then please merge with following patch, given it is hard to review
-> temporary change.
+Otherwise LGTM, thanks!
 
-The underlying reason I split this patch out is that in v1 I got
-complaints that I was not taking endianness into account.  The patch
-series DOES cause an observable change (namely, a little-endian client
-now sends a value in big-endian order that it used to send in
-little-endian order) - but the change is harmless.  But if you want me
-to squash this patch back with 4/5 in v3, I'm happy to do that.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Are there any other comments on this series that I should consider
-before spending time putting out a v3?
+--=20
+An old man doll... just what I always wanted! - Clara
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+--n/OawJ+UwZzJM60M
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBr1wwAKCRD2uYlJVVFO
+o2XjAP98cKjwFVj5tKztgFgnpo2hMzFfJttUJXQOZJllxh9/PAEAziMVaUg2INAl
+TElZ2NEmhAMWDKyYC7XmwIioKYn8HAI=
+=kqxF
+-----END PGP SIGNATURE-----
+
+--n/OawJ+UwZzJM60M--
