@@ -2,233 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C944C7619A
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 11:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A31B9C7619A
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Mar 2023 12:08:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbjCVLUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 07:20:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38860 "EHLO
+        id S229611AbjCVMIW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 08:08:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbjCVLUH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 07:20:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F46853734;
-        Wed, 22 Mar 2023 04:20:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AEC6962022;
-        Wed, 22 Mar 2023 11:20:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B15FC433D2;
-        Wed, 22 Mar 2023 11:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679484005;
-        bh=bh9WMot+PxfiYtF580dBl0Pw71rD7gR84+9GKsHMvq8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tgZr20L7g2MjqdIEtuHPR4MPveRDiYnDKxr+MqbztJHvnHJSoi13pTqMj6R5Pdrme
-         K2Np71e4bLyiocp7EzyEgeF5WXENJK8jRu6cQMnzsJaJNPQCDOLZ2cP/GhMfFyWeOZ
-         ktbPebv86ifJeb0TYSAuMaScrRBNTxWjvbJwqpxMis0ptMhdXOcJ65FnkmWAhmTMTX
-         97juHBb0Fs9YXKWZBZKfBKfX0VvO2U9FXitfqCfr5qvw/iIF9ULuejxtpPul+eZss7
-         cJhAa2HZQjVMOCxbXu2z+H279nb5Ri/J29y73qC1zyxsjqtSOZkxSUW64LkyanoFXS
-         OyAydZBtSLZQg==
-Date:   Wed, 22 Mar 2023 12:19:51 +0100
-From:   Christian Brauner <brauner@kernel.org>
-To:     Ackerley Tng <ackerleytng@google.com>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Subject: Re: [RFC PATCH v2 1/2] mm: restrictedmem: Allow userspace to specify
- mount for memfd_restricted
-Message-ID: <20230322111951.vfrm2xf4o5kmtte6@wittgenstein>
-References: <cover.1679428901.git.ackerleytng@google.com>
- <6e800e069c7fc400841b75ea49d1227bd101c1cf.1679428901.git.ackerleytng@google.com>
+        with ESMTP id S229459AbjCVMIV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 08:08:21 -0400
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A077CEB71;
+        Wed, 22 Mar 2023 05:08:19 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.228])
+        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4PhRpY0Y3Fz9v7Nc;
+        Wed, 22 Mar 2023 19:59:17 +0800 (CST)
+Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
+        by APP1 (Coremail) with SMTP id LxC2BwBn6QSL7xpkVHG9AQ--.51830S2;
+        Wed, 22 Mar 2023 13:07:54 +0100 (CET)
+Message-ID: <b5c80613c696818ce89b92dac54e98878ec3ccd0.camel@huaweicloud.com>
+Subject: Re: [PATCH 0/5] usermode_driver: Add management library and API
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        David Ahern <dsahern@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Date:   Wed, 22 Mar 2023 13:07:37 +0100
+In-Reply-To: <CAADnVQLKONwKwkJMopRq-dzcV2ZejrjGzyuzW_5QX=0BY=Z4jw@mail.gmail.com>
+References: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
+         <CAADnVQLKONwKwkJMopRq-dzcV2ZejrjGzyuzW_5QX=0BY=Z4jw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6e800e069c7fc400841b75ea49d1227bd101c1cf.1679428901.git.ackerleytng@google.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: LxC2BwBn6QSL7xpkVHG9AQ--.51830S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZF47uw1rWFyrGFWUZw4DXFb_yoWrGF18pF
+        4YkFW7K3WkJF17Crn7Zw48Ca4I9397J3y3Grn3try5Zwn0kFySkr1IvF13uF1DGr4fKw1a
+        qrW5X34jg34DZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
+        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+        xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAkuxUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAEBF1jj4bRvQACsb
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 08:15:32PM +0000, Ackerley Tng wrote:
-> By default, the backing shmem file for a restrictedmem fd is created
-> on shmem's kernel space mount.
+On Tue, 2023-03-21 at 19:23 -0700, Alexei Starovoitov wrote:
+> On Fri, Mar 17, 2023 at 7:53 AM Roberto Sassu
+> <roberto.sassu@huaweicloud.com> wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > 
+> > A User Mode Driver (UMD) is a specialization of a User Mode Helper (UMH),
+> > which runs a user space process from a binary blob, and creates a
+> > bidirectional pipe, so that the kernel can make a request to that process,
+> > and the latter provides its response. It is currently used by bpfilter,
+> > although it does not seem to do any useful work.
 > 
-> With this patch, an optional tmpfs mount can be specified via an fd,
-> which will be used as the mountpoint for backing the shmem file
-> associated with a restrictedmem fd.
+> FYI the new home for bpfilter is here:
+> https://github.com/facebook/bpfilter
+
+Thanks. I just ensured that it worked, by doing:
+
+getsockopt(fd, SOL_IP, IPT_SO_GET_INFO, &info, &optlen);
+
+and accepting IPT_SO_GET_INFO in main.c.
+
+> > The problem is, if other users would like to implement a UMD similar to
+> > bpfilter, they would have to duplicate the code. Instead, make an UMD
+> > management library and API from the existing bpfilter and sockopt code,
+> > and move it to common kernel code.
+> > 
+> > Also, define the software architecture and the main components of the
+> > library: the UMD Manager, running in the kernel, acting as the frontend
+> > interface to any user or kernel-originated request; the UMD Loader, also
+> > running in the kernel, responsible to load the UMD Handler; the UMD
+> > Handler, running in user space, responsible to handle requests from the UMD
+> > Manager and to send to it the response.
 > 
-> This change is modeled after how sys_open() can create an unnamed
-> temporary file in a given directory with O_TMPFILE.
+> That doesn't look like a generic interface for UMD.
+
+What would make it more generic? I made the API message format-
+independent. It has the capability of starting the user space process
+as required, when there is a communication.
+
+> It was a quick hack to get bpfilter off the ground, but certainly
+> not a generic one.
+
+True, it is not generic in the sense that it can accomodate any
+possible use case. The main goal is to move something that was running
+in the kernel to user space, with the same isolation guarantees as if
+the code was executed in the kernel.
+
+> > I have two use cases, but for sake of brevity I will propose one.
+> > 
+> > I would like to add support for PGP keys and signatures in the kernel, so
+> > that I can extend secure boot to applications, and allow/deny code
+> > execution based on the signed file digests included in RPM headers.
+> > 
+> > While I proposed a patch set a while ago (based on a previous work of David
+> > Howells), the main objection was that the PGP packet parser should not run
+> > in the kernel.
+> > 
+> > That makes a perfect example for using a UMD. If the PGP parser is moved to
+> > user space (UMD Handler), and the kernel (UMD Manager) just instantiates
+> > the key and verifies the signature on already parsed data, this would
+> > address the concern.
 > 
-> This will help restrictedmem fds inherit the properties of the
-> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
-> binding hints, etc.
-> 
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
->  include/linux/syscalls.h           |  2 +-
->  include/uapi/linux/restrictedmem.h |  8 ++++
->  mm/restrictedmem.c                 | 63 +++++++++++++++++++++++++++---
->  3 files changed, 66 insertions(+), 7 deletions(-)
->  create mode 100644 include/uapi/linux/restrictedmem.h
-> 
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index f9e9e0c820c5..a23c4c385cd3 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
->  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
->  					    unsigned long home_node,
->  					    unsigned long flags);
-> -asmlinkage long sys_memfd_restricted(unsigned int flags);
-> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
->  
->  /*
->   * Architecture-specific system calls
-> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
-> new file mode 100644
-> index 000000000000..9f108dd1ac4c
-> --- /dev/null
-> +++ b/include/uapi/linux/restrictedmem.h
-> @@ -0,0 +1,8 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
-> +#define _UAPI_LINUX_RESTRICTEDMEM_H
-> +
-> +/* flags for memfd_restricted */
-> +#define RMFD_TMPFILE		0x0001U
-> +
-> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
-> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-> index c5d869d8c2d8..4d83b949d84e 100644
-> --- a/mm/restrictedmem.c
-> +++ b/mm/restrictedmem.c
-> @@ -1,11 +1,12 @@
->  // SPDX-License-Identifier: GPL-2.0
-> -#include "linux/sbitmap.h"
-> +#include <linux/namei.h>
->  #include <linux/pagemap.h>
->  #include <linux/pseudo_fs.h>
->  #include <linux/shmem_fs.h>
->  #include <linux/syscalls.h>
->  #include <uapi/linux/falloc.h>
->  #include <uapi/linux/magic.h>
-> +#include <uapi/linux/restrictedmem.h>
->  #include <linux/restrictedmem.h>
->  
->  struct restrictedmem {
-> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
->  	return file;
->  }
->  
-> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> +static int restrictedmem_create(struct vfsmount *mount)
->  {
->  	struct file *file, *restricted_file;
->  	int fd, err;
->  
-> -	if (flags)
-> -		return -EINVAL;
-> -
->  	fd = get_unused_fd_flags(0);
->  	if (fd < 0)
->  		return fd;
->  
-> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> +	if (mount)
-> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
-> +	else
-> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> +
->  	if (IS_ERR(file)) {
->  		err = PTR_ERR(file);
->  		goto err_fd;
-> @@ -223,6 +225,55 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
->  	return err;
->  }
->  
-> +static bool is_shmem_mount(struct vfsmount *mnt)
-> +{
-> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
-> +}
-> +
-> +static int restrictedmem_create_from_file(int mount_fd)
-> +{
-> +	int ret;
-> +	struct fd f;
-> +	struct vfsmount *mnt;
-> +
-> +	f = fdget_raw(mount_fd);
-> +	if (!f.file)
-> +		return -EBADF;
-> +
-> +	mnt = f.file->f_path.mnt;
-> +	if (!is_shmem_mount(mnt)) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
+> I don't think PGP parser belongs to UMD either.
+> Please do it as a normal user space process and define a proper
+> protocol for communication between kernel and user space.
 
-This looks like you can just pass in some tmpfs fd and you just use it
-to identify the mnt and then you create a restricted memfd area in that
-instance. So if I did:
+UMD is better in the sense that it establishes a bidirectional pipe
+between the kernel and the user space process. With that, there is no
+need to further restrict the access to a sysfs file, for example.
 
-mount -t tmpfs tmpfs /mnt
-mknod /mnt/bla c 0 0
-fd = open("/mnt/bla")
-memfd_restricted(fd)
+The UMD mechanism is much more effective: the pipe is already
+established with the right process, whose code was integrity-checked
+because embedded in the kernel module.
 
-then it would create a memfd restricted entry in the tmpfs instance
-using the arbitrary dummy device node to infer the tmpfs instance.
+In addition to that, I'm using seccomp to further restrict what the
+user space process can do (read, write, exit, ...). That process cannot
+open new communication channels, even if corrupted. It is expected to
+send to the kernel simple data structures, that the kernel can
+effectively sanitize.
 
-Looking at the older thread briefly and the cover letter. Afaict, the
-new mount api shouldn't figure into the design of this. fsopen() returns
-fds referencing a VFS-internal fs_context object. They can't be used to
-create or lookup files or identify mounts. The mount doesn't exist at
-that time. Not even a superblock might exist at the time before
-fsconfig(FSCONFIG_CMD_CREATE).
+The last step to achieve full isolation would be to deny ptrace/kill on
+the user space process created by the UMD management library so that,
+in lockdown mode, not even root can interfer with that process.
 
-When fsmount() is called after superblock setup then it's similar to any
-other fd from open() or open_tree() or whatever (glossing over some
-details that are irrelevant here). Difference is that open_tree() and
-fsmount() would refer to the root of a mount.
+Roberto
 
-At first I wondered why this doesn't just use standard *at() semantics
-but I guess the restricted memfd is unlinked and doesn't show up in the
-tmpfs instance.
-
-So if you go down that route then I would suggest to enforce that the
-provided fd refer to the root of a tmpfs mount. IOW, it can't just be an
-arbitrary file descriptor in a tmpfs instance. That seems cleaner to me:
-
-sb = f_path->mnt->mnt_sb;
-sb->s_magic == TMPFS_MAGIC && f_path->mnt->mnt_root == sb->s_root
-
-and has much tigher semantics than just allowing any kind of fd.
-
-Another wrinkly I find odd but that's for you to judge is that this
-bypasses the permission model of the tmpfs instance. IOW, as long as you
-have a handle to the root of a tmpfs mount you can just create
-restricted memfds in there. So if I provided a completely sandboxed
-service - running in a user namespace or whatever - with an fd to the
-host's tmpfs instance they can just create restricted memfds in there no
-questions asked.
-
-Maybe that's fine but it's certainly something to spell out and think
-about the implications.
