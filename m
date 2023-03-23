@@ -2,252 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1161C74A5B
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 01:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2080C6FD1C
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 01:29:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229703AbjCWB2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 21:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48620 "EHLO
+        id S229992AbjCWB3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 21:29:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjCWB2B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 21:28:01 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE681B5;
-        Wed, 22 Mar 2023 18:27:59 -0700 (PDT)
+        with ESMTP id S229499AbjCWB3l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 21:29:41 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2058.outbound.protection.outlook.com [40.107.243.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD7B2D56;
+        Wed, 22 Mar 2023 18:29:40 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dx8Z0uObm40mi3yuk8K1nHaWFE2bo2nQI5GSk0uc7gLBY4D3afw91ZeTr73O2YUoTlib3SbvfirkMfuwrjn3zCAXunElunospOORb46L3KShcdDU1hoUdTfoA7SoH8PVYZsNak4XvmFyAvKN+HGSBQeizWRZ7C4NHUrHOnEOCppMwEJg9yxq/s6l8d6bD0znNPajX/LAj6vzlczZlJPwW8ybfXgDD9tGX9M605RACOCd7vYfbErkd8nByyH+HrNFXVZ2z4HXgLJPYNdpHzowkH+85+e55xFeOL1Gb7r6qqCgUO/VsDUd+voJ2CS+Z33H/wjHGLRGUFJS2AFuEgYiiQ==
+ b=A8Eu00o1g8L4SOMqGnBGgn/eBXMZhgF7Q8PXfPhMMcuv+MUcfwvlmt+aHQJkv4iAKE2xmgoJCfiUkPnEV4QnsoEqcGoKqGfqiq2YzZ3ci5UQrioFSvwZClHsPeJzd0iVkxgANcvPpbeZ7vuM01dIC4h+UWBC+5NVazOFZXVvSxecOHWjiVH1K/qI/y2LOKc1ix3poWYj/fW77+m1KOoY99r0fQHfxSEW5lRjei6ob9kHZ8RzPXHjWRiOfBqBBF4MvsEZ0tpDQk1VBkLie3B3IIyKxT1LL55+sdn6NRIAXg9NwmjnGTIebH5nF8LO3eT0+lKk4wqRusgU3ynyNiufWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jx0LCcrl0zhtbGtyYthgXkwmDL7Ey5uollXMP76ypVQ=;
- b=ISOIssF6qWEsvwMPt/nal2OHvseWPNezvQtyMejinG5aaRCluWoImar2FvQIqAI+bXPMpMkuY0WrMNB4R1WOPON7/VNBcek6m9WZtkqTzMyi6aJFa6yBnY59ZiP4EgBWHg4HlwY8ZN90S8w6BAJgooAOJnmfzA+Hn43+45kb+gr1NlivK+1nac0x62efuTA9788tPeUtAUdOWX3mIvSifpY0t3FZfJCqxAxfRodxzZviByTiPVa6npOqMW0gWXzvzi3xCd6AeLBlFbHzIedkl4/ocI70oMGPslUEdMxrOvWeJazHBK8KlCXfuqFsclfnEQCDm3Y4AEguQwMaMT79eQ==
+ bh=kStb/h2bxxTnpUoG8mlerqt8YY7TMtzqPvYaHaQ0ccE=;
+ b=Rr2QlQqSFjmaxt0/SsDdXSL6AySWQzD8mvFSmDdaQd2zWUMxI/SobPvHKV+UkYeVfT1u9h2ChqV1YnAr+R1uODBfDzGYOJbX4Lo+IW3FcAVhmCM0iime1WJNwqafw0PjJWBcwaKqhLqNUxxBWCrmIu6cAroCcFkWlguhOz2Ck77m2OiS/knWIJ1DDsSFiWyVPu7YfIMU57zqg2o52SDu8bAmb2839Zoanb15ddiVeRUbo59cQBk7Yb7qzU5ZNXKx1bSQTG3u0N5mchrcFjXR8ejh17c/Qxu3gMf1Ji/9BD0Ri6NMU6RYp1AfexcP0caIa+foa3YjS+fWE8kDXz8jnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ 216.228.117.160) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jx0LCcrl0zhtbGtyYthgXkwmDL7Ey5uollXMP76ypVQ=;
- b=pa8dn0jsDfbm9tpQREmymVcwoTNcI8YYC4qm+zy6vCpsBTijJ2acWva7hbfqpzyj6UTahvanAgSa2CHY3wwK37dileayrx4aA6acoMg77L5JfHC28kOy7W8faj9w6px/kdwVRHV7sUM6YmQQAQrXQplja+0/LGlE/X/iWN7FUlM=
-Received: from MN2PR15CA0059.namprd15.prod.outlook.com (2603:10b6:208:237::28)
- by SA0PR12MB4463.namprd12.prod.outlook.com (2603:10b6:806:92::14) with
+ bh=kStb/h2bxxTnpUoG8mlerqt8YY7TMtzqPvYaHaQ0ccE=;
+ b=mlUuHUAH1VAQmAEA0qPBB8iTehzOWYPBT+4P9CfpLuPc7HenovVZQeN04kMrNLVnV7FEzXQh8fXukQaInCmrqQ2RZr18wvBgf5CxAWrO6vUz0kyZojN6Q0TnxVwceWoG8ZCYyFcKKdhl0YFAJFXFjNIrkq2IGDIlvEVIMt43oep61Kg2SwgWQIGVFgAwLdyudwZzAD5znAPGoPGfSMhrHWH20Zq+T0ZLjH2SSv33m5ftNnfLHIXJXs4xr1qMQE0DlT9Et1+Cwl9de4VbNNQecNWZWZvrH/JY1E2k2gnGSeJyoreeBk/UXWDOUVKE/FcreogsusQtco3lha4W1ZJP9g==
+Received: from DM6PR06CA0010.namprd06.prod.outlook.com (2603:10b6:5:120::23)
+ by DM4PR12MB7743.namprd12.prod.outlook.com (2603:10b6:8:101::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Thu, 23 Mar
- 2023 01:27:56 +0000
-Received: from BL02EPF0000EE3C.namprd05.prod.outlook.com
- (2603:10b6:208:237:cafe::f1) by MN2PR15CA0059.outlook.office365.com
- (2603:10b6:208:237::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Thu, 23 Mar
+ 2023 01:29:38 +0000
+Received: from DM6NAM11FT096.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:120:cafe::12) by DM6PR06CA0010.outlook.office365.com
+ (2603:10b6:5:120::23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37 via Frontend
- Transport; Thu, 23 Mar 2023 01:27:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0000EE3C.mail.protection.outlook.com (10.167.241.132) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.30 via Frontend Transport; Thu, 23 Mar 2023 01:27:54 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 22 Mar
- 2023 20:27:54 -0500
-Date:   Wed, 22 Mar 2023 20:27:37 -0500
-From:   Michael Roth <michael.roth@amd.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-CC:     Sean Christopherson <seanjc@google.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-arch@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <qemu-devel@nongnu.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        <luto@kernel.org>, <jun.nakajima@intel.com>,
-        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
-        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
-        Quentin Perret <qperret@google.com>, <tabba@google.com>,
-        <mhocko@suse.com>, <wei.w.wang@intel.com>
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
- <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com>
- <20230119223704.GD2976263@ls.amr.corp.intel.com>
- <Y880FiYF7YCtsw/i@google.com>
- <20230213130102.two7q3kkcf254uof@amd.com>
- <20230221121135.GA1595130@chaop.bj.intel.com>
+ Transport; Thu, 23 Mar 2023 01:29:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ DM6NAM11FT096.mail.protection.outlook.com (10.13.173.145) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6222.17 via Frontend Transport; Thu, 23 Mar 2023 01:29:38 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Wed, 22 Mar 2023
+ 18:29:32 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Wed, 22 Mar
+ 2023 18:29:32 -0700
+Received: from dipenp.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.986.5 via Frontend
+ Transport; Wed, 22 Mar 2023 18:29:32 -0700
+From:   Dipen Patel <dipenp@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh+dt@kernel.org>, <timestamp@lists.linux.dev>,
+        <krzysztof.kozlowski+dt@linaro.org>, <brgl@bgdev.pl>,
+        <corbet@lwn.net>, <gregkh@linuxfoundation.org>
+CC:     Dipen Patel <dipenp@nvidia.com>
+Subject: [PATCH V4 01/10] MAINTAINERS: Add HTE/timestamp subsystem details
+Date:   Wed, 22 Mar 2023 18:29:20 -0700
+Message-ID: <20230323012929.10815-2-dipenp@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230323012929.10815-1-dipenp@nvidia.com>
+References: <20230323012929.10815-1-dipenp@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230221121135.GA1595130@chaop.bj.intel.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000EE3C:EE_|SA0PR12MB4463:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62866689-2cda-4b67-8414-08db2b3dd3c3
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT096:EE_|DM4PR12MB7743:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e760af3-047a-4311-ab61-08db2b3e1193
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LMAXdBDFqtDpIFu82ZPHqUkd4fl7aS4dBZQjtL/hw6oW3BaJcSWalbXjEJJre0jRwXcOI4cEd45XlDjpTRAmX8qhXYZPMNxe1HUUn5LIUd/9cBFCz0Anc2TR+O6K26xEpy6AT94syR4zQpvxoFzLtmMwCy97e/zAyKPX8YTr9e4H25rwOzwIjAxZqCLSXMVEDbBz/RacrPMbvcem2DvkzBuo8ETuOEOxBfY6y6eh3Lz5EiFEBoBJ6wycIxHp9b9D9xrrshnOYs+4AhzvylzKLo/zwLrC6dlONWVizJFEGGLE6vlm1X68vEgi6xxwEc/f3GUx3MoBQgfh3JsQO5Ft1EUJwb/YfZE8axCmfItrOh6gddG+qinxFRDnTHfh9TWdHa1ue5C2l7/RbEKsaEV7M3qyWEwqmcKk7hgvq9znDIUvASCcqaxUqpi2SGkqDVYYaSlzCFS9C988vxI8bXnFTDnL+i3zjncqom92OuZRI0yKv4zhC1620iEGMLDpDVGW+oPMjJdyFoYYlEoax8ikci6WaFwcgkY3anGH2IbP5BWQMLpnKTNzSXvaH1l0H4yZtsvko6h7CYqPlOyg7vVc0eRWUAGfjMXP9g4RD1PAtQzuV4myf4A2SFd9zPoAiHiuExt+HM739KerY92e5IZFRd5uOQfzz4oYyFvdq8I56vDyRjsn6DrvEYY3XuZ7FSOnS3MwjCMj313DmL8+3cNMTi9/Y3dRSk3YO2Ff+9dlVuM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(376002)(136003)(346002)(451199018)(46966006)(36840700001)(40470700004)(1076003)(26005)(82310400005)(336012)(6666004)(36756003)(426003)(47076005)(40460700003)(16526019)(186003)(40480700001)(316002)(81166007)(2906002)(356005)(54906003)(41300700001)(36860700001)(8936002)(8676002)(4326008)(6916009)(70586007)(70206006)(2616005)(44832011)(82740400003)(7416002)(7406005)(5660300002)(83380400001)(966005)(86362001)(478600001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 01:27:54.7925
+X-Microsoft-Antispam-Message-Info: ac06nvqAjwLcnnJxcAsVPEcuoxKriXu4+4qeYgroJyiN1nVNQDLzA4WmxnoyEic2c31nhElT7wYuzJWFpUoSY+P/17D6Oybq4IFUQdM5DUCKgmIsu7VHjzQXdbq/r9JWMvNb5aK97/9rQ7+3/YRSnFQ6iFGMGSGyeMywuR0R3XO9Kn5Tz0K5bTUh9kUGjGhiSKBw+qmIWMOgCTODsw1mil+at6uQgcozO+osMH27SiOPPGY4s1kIvShqprUmoFixAjiNyp7H/HALf1npImx1UA+RB0wF/UHXfnoAVA9sctgekl/BBIHeHcWYLivxQC6OHn0O1PDm7K0ybOdQMdBOBTbUNbpeHTsy2qv60uiV69iH2oT/wwZDqhTx8J2mnh35CVHdyVuj2EWSFXl6+Xj4PZxk7UygDPu9TraMS1diJRCeb9uWU8XInisKLkBVCUGdCS2XZSB0NdhGhhLINrxFCBfbySUbQLvCsTFYRlKKXlXMkzO+mF0IwT0t2Kv4AQuL/wIKpfYpYOkJcUn8SJrR74RRIpboBmooe8o2JkeR2zWMcnqz/yfp3R+LXP+CwotmxtF7nFjqpikxPG2ggbv+NcKem7X/Ysd+S9D3zsjeVbxLWFnywl+dAySfe24uT4HR3TCXtAvhBojC+VXrf0+GnonbUQ9fpJxRt+WLoFJhHeJpvlcKoOoy/GjTiUuchP9dGU+GkEXyV32pQ57nRBlR3hKd6wd24taMLdFcy8QWr5lM1hdUv56yoGXqIxuNvY0hvwZWx5WWj5akFqU49YDy9EGEsQqGUVpVkxoSSuttz7kIn/EgY8+J0yitDKV1iNPWheVUv8N9rc4+/e3SQFod7OxhSAP26s5Q5da1YDP3NxM=
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(396003)(346002)(136003)(451199018)(46966006)(40470700004)(36840700001)(7696005)(7416002)(41300700001)(40480700001)(6666004)(107886003)(966005)(8936002)(47076005)(5660300002)(426003)(36860700001)(4744005)(40460700003)(336012)(921005)(186003)(2906002)(82310400005)(7636003)(478600001)(356005)(2616005)(316002)(110136005)(86362001)(26005)(4326008)(1076003)(36756003)(82740400003)(70206006)(70586007)(8676002)(83996005)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 01:29:38.4508
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62866689-2cda-4b67-8414-08db2b3dd3c3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000EE3C.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e760af3-047a-4311-ab61-08db2b3e1193
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT096.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4463
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7743
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 21, 2023 at 08:11:35PM +0800, Chao Peng wrote:
-> > Hi Sean,
-> > 
-> > We've rebased the SEV+SNP support onto your updated UPM base support
-> > tree and things seem to be working okay, but we needed some fixups on
-> > top of the base support get things working, along with 1 workaround
-> > for an issue that hasn't been root-caused yet:
-> > 
-> >   https://github.com/mdroth/linux/commits/upmv10b-host-snp-v8-wip
-> > 
-> >   *stash (upm_base_support): mm: restrictedmem: Kirill's pinning implementation
-> >   *workaround (use_base_support): mm: restrictedmem: loosen exclusivity check
-> 
-> What I'm seeing is Slot#3 gets added first and then deleted. When it's
-> gets added, Slot#0 already has the same range bound to restrictedmem so
-> trigger the exclusive check. This check is exactly the current code for.
+Add tree, mailing list and patchwork details.
 
-With the following change in QEMU, we no longer trigger this check:
+Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+---
+ MAINTAINERS | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-  index 20da121374..849b5de469 100644
-  --- a/hw/pci-host/q35.c
-  +++ b/hw/pci-host/q35.c
-  @@ -588,9 +588,9 @@ static void mch_realize(PCIDevice *d, Error **errp)
-       memory_region_init_alias(&mch->open_high_smram, OBJECT(mch), "smram-open-high",
-                                mch->ram_memory, MCH_HOST_BRIDGE_SMRAM_C_BASE,
-                                MCH_HOST_BRIDGE_SMRAM_C_SIZE);
-  +    memory_region_set_enabled(&mch->open_high_smram, false);
-       memory_region_add_subregion_overlap(mch->system_memory, 0xfeda0000,
-                                           &mch->open_high_smram, 1);
-  -    memory_region_set_enabled(&mch->open_high_smram, false);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8d5bc223f305..65b58963f0d2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9425,6 +9425,9 @@ F:	drivers/input/touchscreen/htcpen.c
+ 
+ HTE SUBSYSTEM
+ M:	Dipen Patel <dipenp@nvidia.com>
++L:	timestamp@lists.linux.dev
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pateldipen1984/linux.git
++Q:	https://patchwork.kernel.org/project/timestamp/list/
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/timestamp/
+ F:	Documentation/driver-api/hte/
+-- 
+2.17.1
 
-I'm not sure if QEMU is actually doing something wrong here though or if
-this check is putting tighter restrictions on userspace than what was
-expected before. Will look into it more.
-
-> 
-> >   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
-> >   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
-> 
-> As many kernel APIs treat 'end' as exclusive, I would rather keep using
-> exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
-> and notifier callbacks) but fix it internally in the restrictedmem. E.g.
-> all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
-> See below for the change.
-
-Yes I did feel like I was fighting the kernel a bit on that; your
-suggestion seems like it would be a better fit.
-
-> 
-> >   *fixup (upm_base_support): KVM: fix restrictedmem GFN range calculations
-> 
-> Subtracting slot->restrictedmem.index for start/end in
-> restrictedmem_get_gfn_range() is the correct fix.
-> 
-> >   *fixup (upm_base_support): KVM: selftests: CoCo compilation fixes
-> > 
-> > We plan to post an updated RFC for v8 soon, but also wanted to share
-> > the staging tree in case you end up looking at the UPM integration aspects
-> > before then.
-> > 
-> > -Mike
-> 
-> This is the restrictedmem fix to solve 'end' being stored and checked in xarray:
-
-Looks good.
-
-Thanks!
-
--Mike
-
-> 
-> --- a/mm/restrictedmem.c
-> +++ b/mm/restrictedmem.c
-> @@ -46,12 +46,12 @@ static long restrictedmem_punch_hole(struct restrictedmem *rm, int mode,
->          */
->         down_read(&rm->lock);
->  
-> -       xa_for_each_range(&rm->bindings, index, notifier, start, end)
-> +       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
->                 notifier->ops->invalidate_start(notifier, start, end);
->  
->         ret = memfd->f_op->fallocate(memfd, mode, offset, len);
->  
-> -       xa_for_each_range(&rm->bindings, index, notifier, start, end)
-> +       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
->                 notifier->ops->invalidate_end(notifier, start, end);
->  
->         up_read(&rm->lock);
-> @@ -224,7 +224,7 @@ static int restricted_error_remove_page(struct address_space *mapping,
->                 }
->                 spin_unlock(&inode->i_lock);
->  
-> -               xa_for_each_range(&rm->bindings, index, notifier, start, end)
-> +               xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
->                         notifier->ops->error(notifier, start, end);
->                 break;
->         }
-> @@ -301,11 +301,12 @@ int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
->                 if (exclusive != rm->exclusive)
->                         goto out_unlock;
->  
-> -               if (exclusive && xa_find(&rm->bindings, &start, end, XA_PRESENT))
-> +               if (exclusive &&
-> +                   xa_find(&rm->bindings, &start, end - 1, XA_PRESENT))
->                         goto out_unlock;
->         }
->  
-> -       xa_store_range(&rm->bindings, start, end, notifier, GFP_KERNEL);
-> +       xa_store_range(&rm->bindings, start, end - 1, notifier, GFP_KERNEL);
->         rm->exclusive = exclusive;
->         ret = 0;
->  out_unlock:
-> @@ -320,7 +321,7 @@ void restrictedmem_unbind(struct file *file, pgoff_t start, pgoff_t end,
->         struct restrictedmem *rm = file->f_mapping->private_data;
->  
->         down_write(&rm->lock);
-> -       xa_store_range(&rm->bindings, start, end, NULL, GFP_KERNEL);
-> +       xa_store_range(&rm->bindings, start, end - 1, NULL, GFP_KERNEL);
->         synchronize_rcu();
->         up_write(&rm->lock);
->  }
