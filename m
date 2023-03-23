@@ -2,68 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5AD5C74A5B
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 17:35:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1AFBC6FD1C
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 17:38:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231556AbjCWRfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 13:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53024 "EHLO
+        id S231216AbjCWRi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 13:38:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231639AbjCWRe7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 13:34:59 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4CD23C41;
-        Thu, 23 Mar 2023 10:34:35 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6969F60A;
-        Thu, 23 Mar 2023 17:33:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6969F60A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1679592819; bh=PdZ3mvwus/QAx+ru7XpTafVFhQSTGrOihpwidIHItF4=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=R+FA+IS3U97T/01V+b6/Q5DfrhCbW0CGh4dh7Qmi1C5pCQTFRdmHD4XMhGn0X+PI1
-         8W4ZY55wAlpAB/xK4zLfSDZMmnydMWD/s2sa41tB+s2nulm8GJusS94swihKH0SQh9
-         UVxfSN2ZfneuRHFTv+bALANCU+DebzAI7Ol5E9OUrA455CYF3LSmBCoCLeIo9fN5/f
-         /omXybV1YtnRfxK7b/FX5h4Xa31h8JmQDRDDqxxCwfF52+C4EHC7CjycwwX3V4q0rQ
-         OtaltcQv8HXqLwGfv1cuhoI+8J+BGte/FuCWuCBq97FItQdoIS4OjKC6dJSe3rcTQt
-         wD1mjKGM1684Q==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: translation alignment
-In-Reply-To: <20230319134624.21327-1-federico.vaga@vaga.pv.it>
-References: <20230319134624.21327-1-federico.vaga@vaga.pv.it>
-Date:   Thu, 23 Mar 2023 11:33:38 -0600
-Message-ID: <87bkkjcqz1.fsf@meer.lwn.net>
+        with ESMTP id S231265AbjCWRij (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 13:38:39 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A39A3B213;
+        Thu, 23 Mar 2023 10:37:20 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pfOsH-0000nY-V0; Thu, 23 Mar 2023 18:37:18 +0100
+Message-ID: <a9c2fa30-569b-e69a-fb06-3dc093538b53@leemhuis.info>
+Date:   Thu, 23 Mar 2023 18:37:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US, de-DE
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev
+References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+ <87a60frxk0.fsf@meer.lwn.net>
+ <d233a796-1cb8-a9b3-5a50-043dd2f98b3e@leemhuis.info>
+ <87edpomtzn.fsf@meer.lwn.net>
+ <165bd284-580d-df03-ab04-f5214b1e6be4@leemhuis.info>
+ <87jzz7creg.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
+In-Reply-To: <87jzz7creg.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1679593041;9e1f8453;
+X-HE-SMSGID: 1pfOsH-0000nY-V0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Federico Vaga <federico.vaga@vaga.pv.it> writes:
+On 23.03.23 18:24, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
+> 
+>> I currently can't really see the need for another book/top-level
+>> directory and to be honest it's by far my least favorite solution among
+>> the options on the table.
+> 
+> Well, it was just an idea that crossed my mind as I was thinking about
+> this stuff...it doesn't appear to have inspired a lot of enthusiasm.
 
-> Major update for maintainer-pgp-guide
->
-> commit e4412739472b ("Documentation: raise minimum supported version of binutils to 2.25")
-> commit 67fe6792a7fb ("Documentation: stable: Document alternative for referring upstream commit hash")
-> commit 8763a30bc15b ("docs: deprecated.rst: Add note about DECLARE_FLEX_ARRAY() usage
-> commit 2f993509a97e ("docs: process/5.Posting.rst: clarify use of Reported-by: tag")
-> commit a31323bef2b6 ("timers: Update the documentation to reflect on the new timer_shutdown() API")
->
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> ---
->  .../it_IT/kernel-hacking/locking.rst          |   5 +
->  .../translations/it_IT/process/5.Posting.rst  |   6 +-
->  .../translations/it_IT/process/changes.rst    |   4 +-
->  .../translations/it_IT/process/deprecated.rst |  29 +-
->  .../it_IT/process/maintainer-pgp-guide.rst    | 346 +++++++++---------
->  .../it_IT/process/stable-kernel-rules.rst     |   6 +
->  6 files changed, 214 insertions(+), 182 deletions(-)
+Yeah, looks like it, but was definitely worth mentioning and thinking
+about.
 
-Applied, thanks.
+>  So
+> never mind that for now, I guess...I reserve the right to come back to
+> it in the future once we're getting overwhelmed by these things :)
 
-jon
+:-D
+
+>> I'm taken back and forth between the other two options (e.g. put the
+>> text in Documentation/admin-guide/ or
+>> Documentation/admin-guide/tutorials/). Maybe I prefer the latter a
+>> little bit more.
+> 
+> Let's just put it in admin-guide, I guess, though the fit feels a bit
+> awkward.  If we get more tutorials, we can make a separate section in
+> index.html, I don't think we need another subdirectory there at this
+> point.
+
+Okay.
+
+> Did you have further tweaks, or should I take v3?
+
+No further tweaks, so feel free to apply it as it is.
+
+tia!
+
+Ciao, Thorsten
