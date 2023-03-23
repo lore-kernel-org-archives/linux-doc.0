@@ -2,94 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 942C1C6FD1F
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 00:44:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771DEC6FD1F
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 01:07:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229703AbjCWAoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Mar 2023 20:44:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38036 "EHLO
+        id S229603AbjCWBHE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Mar 2023 21:07:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjCWAoP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 20:44:15 -0400
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E5113D5B
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 17:44:12 -0700 (PDT)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-541a05e4124so368936457b3.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Mar 2023 17:44:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu-com.20210112.gappssmtp.com; s=20210112; t=1679532251;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KAgegFFYRJFgMmY65gKMXq+08Wd+mNcD7wi9VXrXcSc=;
-        b=Ie+0oAM/+OGZJIQfDwD/5CiFJTqW07sMYUm0MHX3naZyX8BRojLwhFRFRowA3lnfg1
-         GKFcM0bl+h/e1UcA39V/AyelIfhi+GVD7zz9ReIlgCXrrcXJ7vUMJHRW6ZHzbiLERQwV
-         3usiq3YhLV8HVO3XMtuWPQPEbupK67NyLfR/putVsVyjPfC0eYR9X+VNAF8Ff77oUqWs
-         dTlekuFoBfwEEPybMpNaGJW1LPvab3Z5VOL/XD0wkQRWnBsnHeGxQqdmbZvG3aVy3mpd
-         pjcGZuy4NR18V511prRV1TPMjLzmWRKNO5SnDCZPhqlbrD+qOfnZCbuqV6AtW7G8npfd
-         ij7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679532251;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KAgegFFYRJFgMmY65gKMXq+08Wd+mNcD7wi9VXrXcSc=;
-        b=b/h58ZCdQkj7T11InPLWLpG3Iet30qWCTq6fJNh4Slz1sE4rx9s/tCwsuEoeWpcqYH
-         Au9ZdixnIS29Xxn1tz5YkEbKDwQzHfujB0WvaWfnCjKiB/JhJySpc1QklmopuBJGpyBl
-         ko0aTFIE+RywX2EHg7j1DrQB2PKNGGYvPk1BqHIUl8JfiKTpSKb8RSbeg5bvC6ozLB5u
-         KLpEpOQ0LtiS8vqHExUwCjElSY1GIackjMhsHcrnUR9AtvKd+jPPxbCvAkt5CmZS9HEx
-         JSHtL3xZvePFSVKMKJmHjmNav9KEZtCwMrnwfZLkYwAsBGMhZHqtafovtqGP/MaEEPaW
-         cYcA==
-X-Gm-Message-State: AAQBX9cvot39dLHHQXhAAIXnfYH9/iyBa9Ic6pkACOwsrsYM6fuYbk7V
-        NeG74ZOvlvt51amrgsk0e+1t0BFsBQ9s6Q+PINQVWQ==
-X-Google-Smtp-Source: AKy350YnUMB0sDfILYet1HARj1/7MAFHet+kh3sCbnCzmh5dcGDMyXy8fiPZHNmyE1WcCaO2EuUhSm3ybEYK6yEXz6k=
-X-Received: by 2002:a81:4524:0:b0:545:1d7f:abfe with SMTP id
- s36-20020a814524000000b005451d7fabfemr903896ywa.7.1679532251795; Wed, 22 Mar
- 2023 17:44:11 -0700 (PDT)
+        with ESMTP id S229644AbjCWBHE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Mar 2023 21:07:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF1932798B;
+        Wed, 22 Mar 2023 18:06:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 553656237B;
+        Thu, 23 Mar 2023 01:06:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AB53C433D2;
+        Thu, 23 Mar 2023 01:06:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679533618;
+        bh=RoGVNrMnM2MNBp0dqcQAezNTO1axws6G/zVkGqChpHM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jKAhnR43hrp5CEWtRDh+vdKAoU91kW9aBeYWLs+Z7uyvu2DX2vgrDMxSj2VZptYPb
+         BbA1UEyYW7+IKBJpvSmzERgFmhcapiSL/kfJG0/p/pCatKD73P6eFKJBUZb15KcXa/
+         LYAqoVcj6MjCT8fiwtGI0myIp3aS9utx+ldKcvxhmp45kLCHAVpwKWZBgvwPJjTjtx
+         VHJxSmjH20i20AxzXw2MFjaisNB3/tmp6tQfKf6jCbKAbA/+YVkTqvN7q0sKnofSi8
+         McWiixlEIhSk1b15E+jd4eibP7KXcFB2FxUN10gmrFDnU33rpTL3Q6LRMMb1O/xN7V
+         p5+1+fdVdGkGw==
+Date:   Wed, 22 Mar 2023 18:06:57 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, sean.anderson@seco.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: netdev: add note about Changes Requested
+ and revising commit messages
+Message-ID: <20230322180657.41903d30@kernel.org>
+In-Reply-To: <af2e9958-d624-d5fc-9403-a082ff15df9a@infradead.org>
+References: <20230322231202.265835-1-kuba@kernel.org>
+        <af2e9958-d624-d5fc-9403-a082ff15df9a@infradead.org>
 MIME-Version: 1.0
-References: <20230315223044.471002-1-kuba@kernel.org> <20230315183846.3eb99271@hermes.local>
-In-Reply-To: <20230315183846.3eb99271@hermes.local>
-From:   Jamal Hadi Salim <jhs@mojatatu.com>
-Date:   Wed, 22 Mar 2023 20:44:00 -0400
-Message-ID: <CAM0EoMmYMVPAAKwKNkxnWyYdm6-Xu3VwE56+ph3wH3f+ewE-aA@mail.gmail.com>
-Subject: Re: [PATCH net-next] docs: networking: document NAPI
-To:     Stephen Hemminger <stephen@networkplumber.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-        netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 9:38=E2=80=AFPM Stephen Hemminger
-<stephen@networkplumber.org> wrote:
->
-> On Wed, 15 Mar 2023 15:30:44 -0700
-> Jakub Kicinski <kuba@kernel.org> wrote:
->
-> > Add basic documentation about NAPI. We can stop linking to the ancient
-> > doc on the LF wiki.
-> >
-> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > ---
-> > CC: jesse.brandeburg@intel.com
-> > CC: anthony.l.nguyen@intel.com
-> > CC: corbet@lwn.net
-> > CC: linux-doc@vger.kernel.org
->
-> Older pre LF wiki NAPI docs still survive here
-> https://lwn.net/2002/0321/a/napi-howto.php3
+On Wed, 22 Mar 2023 16:38:53 -0700 Randy Dunlap wrote:
+> > +had to ask in previous discussions. Occasionally the update of  
+> 
+> asked in previous discussions.
 
-Feel free to use that doc or excerpts under whatever licence you want.
-Other references:
-https://www.usenix.org/legacy/publications/library/proceedings/als01/full_p=
-apers/jamal/jamal.pdf
-(good reference for most excellent diagrams!)
-And some musings (still relevant today):
-http://ftp.dei.uc.pt/pub/linux/kernel/people/hadi/docs/UKUUG2005.pdf
-
-cheers,
-jamal
+"had to ask" as in were forced to ask due to a poor commit message,
+is that not a valid use of "had to"?
