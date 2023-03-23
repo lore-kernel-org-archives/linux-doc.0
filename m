@@ -2,146 +2,522 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 840C0C76196
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 14:44:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D29C6FD1C
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 14:54:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231699AbjCWOov (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 10:44:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42942 "EHLO
+        id S231887AbjCWOx7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 10:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbjCWOou (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 10:44:50 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2055.outbound.protection.outlook.com [40.107.100.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18DA523C4A;
-        Thu, 23 Mar 2023 07:44:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MJcRl98iEIqvPvFxbOX1f0vfmgN9D4Ebv6VnmB/kzVg+S2SCzf+bPyyjZyMA1NQhjePoqam24AKZ/T93OgAFDKwIuwcL6lwoHuV5osQZvHhj8n4Il+AaoGraGgWobOTIQXi1ZBlbIqHQNs/DDUBR+x6TZ/8o5b4sp3pXUS/+w1g+mp2D7P89TNgUEbTgXxW66KHjfRR0PR0rAPvBSmV6QuthMNCbliedzM5d0Be/wE+0V4Vt7ThOVfeuDR2DUyUQbSVvrCCgHg7DSGkSXCHcW/3Wzz2tNhohw+oJk8GjHdwDR0qTg+XSAf9CNgBx52fpjlr4cF4B8fBrFfKJDoMweA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d5OfBQRiycuaBHtBOx5aeEMwuOGWXdzHUtTHFG/eKFU=;
- b=Ih28e0qMxFiwakvDxZ0J3rHH/n5J4OjqKYhyXzbKZkibnnspzYUzKoEhZRCaH0tVjyE4ERx/6sa/ln7SItBTNM1evPkybnaB7u3W4qkAdjJwe8yNfCrGwXDQBHl/8rMaf393exMT8QwRFLxn2TfNT8tJfkTpz68wfKgqKpKxywvMaNBgjpw3x0QhJT1aDdjrCHIVW0FI12XMrlCPQZhtybun4wqqXSdS2tJJ6GNxa1E/kuKvlxqcKdNbm7Im6M9l5VKC1JFkTLOYoOQ0D4BByphvhjdZTEQgh4zv2G9B44Fv/ea4clQdavJSQPTkC1pXGQUH5iIzB2LNvMza9BJaCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d5OfBQRiycuaBHtBOx5aeEMwuOGWXdzHUtTHFG/eKFU=;
- b=o50rw0+PjZNdt5d9VHy69rxnG125tnzSzLweowkYv1Mw9UYFw3FoTvNkJBKwwTViad7IGxe+lATjFid2liVqnHEIlNxTRZguqIXqIj2LefD19A/ewDsdHVME0Ok4m0XeBk1T/30r6zthQVPnzFhT1t2vaEWdx/eKTKJHXKbry+iiAT73wxTMgsLx/Avk9Co2DAEHe5qYvs8zkmBunX0+ts2Wb1fwI0eXyvWocXUA/Dn7CaYEwMkAyZd19O1zFnSwvLjuG8IxY3ogOVuz7imdowC7Om1vES9eTuiFUgFBff0qeTe0iaGavgrnLKxsiwJzRI0Zyv5WjiTo888SCsnagg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Thu, 23 Mar
- 2023 14:44:47 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::ef6d:fdf6:352f:efd1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::ef6d:fdf6:352f:efd1%3]) with mapi id 15.20.6178.037; Thu, 23 Mar 2023
- 14:44:47 +0000
-Date:   Thu, 23 Mar 2023 11:44:44 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        X86 Kernel <x86@kernel.org>, bp@alien8.de,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        vkoul@kernel.org, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, Will Deacon <will@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH v8 0/7] Remove VT-d virtual command interface and IOASID
-Message-ID: <ZBxl3FgN/m2Qus7V@nvidia.com>
-References: <20230322200803.869130-1-jacob.jun.pan@linux.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230322200803.869130-1-jacob.jun.pan@linux.intel.com>
-X-ClientProxiedBy: MN2PR17CA0017.namprd17.prod.outlook.com
- (2603:10b6:208:15e::30) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        with ESMTP id S231220AbjCWOx5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 10:53:57 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECD617CF9
+        for <linux-doc@vger.kernel.org>; Thu, 23 Mar 2023 07:53:55 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id w9so87838272edc.3
+        for <linux-doc@vger.kernel.org>; Thu, 23 Mar 2023 07:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1679583234;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ke1RlQ0xG30XGkDDFvzNLg7p0Up3tRLKgYMMIVUwlf0=;
+        b=SxMS12xs3VsJHlBACTTJGo2w6wv5Vrt42MhQlmEX2pnu0Tk4ficjw/BPrwluo4XIVE
+         jCs5CWb8V4rwEkt/vgB9JC6HnbR5uwlpoU3BSyULEh50dDj5an0KVDjZAALbEJCgiJHt
+         aTUASMKvkrwPf0d6duks1LLXKaCrX8cQsl6tA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679583234;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ke1RlQ0xG30XGkDDFvzNLg7p0Up3tRLKgYMMIVUwlf0=;
+        b=Mxa8rwxS8XXv00n6vqj8oje8OWkKFNofmc88cr0OrnIR+oyEUgGeREv8hJEBGFf4wv
+         UNlKEbVsEEUDhyM9uYBMEcumoICvQ8q0ObLXSteZghVCwVp+f/obM8bXMa9SLwYKPBPR
+         mNR0LOdUpN80v069oLUKGcf4rC6ELrtP9AX5ixnDTLE8FbHYKN1xpFwta+YI1gdyA51z
+         6g4p1evaoEZELNtpeGhJTbglLNKGSb4ZxygxPRfBUeyrtejVfpI9WJtYuh0ePAmXGl0M
+         P98pixE2COVGTqdXxCIU44WI98L1IF70I5SHDVfPnkTjJPnzVFpr2Z70mSuSJLkzcbFh
+         8Aww==
+X-Gm-Message-State: AO0yUKXdPqRRIbE7BuMrJN6ztBkIbElrUhvFUmz7tYg+oMNvQzWcrMVC
+        ZRH4psYr/1PN9MpgH6t92E17yiuIpieiuA37YICIEQ==
+X-Google-Smtp-Source: AK7set+XLEfwvRDxfWey4XsNJHo0NoZc1bBOGOY8sZdVNyf7FP5gcCxxjKPjaHoqiWXEbG/DeYNn+Uh46F+RgMCIi2g=
+X-Received: by 2002:a50:d597:0:b0:4fb:e0e8:5140 with SMTP id
+ v23-20020a50d597000000b004fbe0e85140mr5528237edi.6.1679583233774; Thu, 23 Mar
+ 2023 07:53:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH8PR12MB7301:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4836d225-7648-499e-6564-08db2bad2553
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: laV7rn+toP6JvrKKq7YOydiXOIEBwQeZ+aQLdpEUYwpsePbUmf9Y9UdWlDm4xhNDXn74AoRyt01cFdWSSeg9LIRjf8s/e5nlf5wSvEWq/pPa3+xp5UH+B2L/oAAfiHmCY0qHCQNlfNQOyUasR5FO/eZKaM3Wb3WNBRHUo4eJTL/gqr1YBRdDQgsobEEQL5VyPAcVV9LtBlHl2tpEqa4HqogH9nHVMPTdKiR0yCmUQCApbBeyMwmOULXNIrGMJPYbzIshSlWt5mW4Cubee8btY95rfSG+K0eZ0AwYz4xzLS4Ln85hQAwM5sPpnVylopvo3/GKLKyYdQTxTY+fDk0L/arJ3EBP8oQPLkznE5Z/8ytFJPt6ZbZKxOVF5BNRvoGZrnAqGLYQpKEJ3gvNmcxwVoM3g11Fb6G/XqYf+9oydgrIoZUzuU0g2HUYnuM1vpvgXBreChYK9RZ7FQyXZWIWGKoG2Vymg715bk7oKfEyvSlATOE2fmZpSAbJPEGJKdICdqvTdt+wEdaklaXnDlQC71M0gv1y4kGiWy31dCSJfVdKnJHceHvjDNfd93pMBJeZKbw81LVGWdMmO+41u6VCjDMup3WRaNosqXn+g97FB5xMlDT13ud0mLuwT/mtMaUHWpWFOaka7XP6gP3V5Mh+Gg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(39860400002)(346002)(376002)(396003)(451199018)(36756003)(6916009)(8676002)(86362001)(4326008)(66946007)(66556008)(8936002)(66476007)(41300700001)(6486002)(478600001)(316002)(54906003)(5660300002)(2906002)(7416002)(4744005)(26005)(38100700002)(6512007)(6506007)(6666004)(186003)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TvOZCtjCdJwNDjZCGvWutS+XrBEb1YBhhuIcBkrSuhQLB3RJbkrwZjUjaByd?=
- =?us-ascii?Q?DY+aT5BhkOZPNLwUEOCgPJvdoiFKmFu39CmETWCgxhHmDtuLfoCkAUHLieiF?=
- =?us-ascii?Q?YTO/+VqMpYTAynkGFuLxooF/NM3kZLEkLt4Ndq5fXzQs4Q8vs2Xal34xG88E?=
- =?us-ascii?Q?FNqjD9KN7PxkyoTBGASIHtO0/iZFLsNmsBzqKYpNYav+u0BNOJg2BHGT3mDZ?=
- =?us-ascii?Q?/Fw9urzA0A2J9WQFKEgkXeIHi6MfBRTWiMavmib5/NnhrwLWTKGmSmg2kMw5?=
- =?us-ascii?Q?pNtZHtFkH0f6lqzm/pIbQr3cslNl8JXj5xorfrjWF1zslnaYdAgSAlQEE7rt?=
- =?us-ascii?Q?Pcy+CTcGlGhB/uRXruIXjjmEmoG8P2kJJMJWt2ae8aptTAS5LuLJCbvMjK8b?=
- =?us-ascii?Q?Lg0tVtg+5Hxq7/zgI5Xb7n2lHv1TNVIjZxNS5iN+uL2QkouCk0vkDrZK7Xlx?=
- =?us-ascii?Q?3TkdQPHNGvDdc6k32Vv+L+7T+d3dtHI78pY6FmuNCTypkahUkRdy3YHahiuH?=
- =?us-ascii?Q?UdUx4sE3dtzM18G0ruVQtaI9vMBXIy0/OWrhOudWsw+Np+i0ilS0PB0Korbk?=
- =?us-ascii?Q?4YLQ9BuDZS8rGlJGO7UavLx58emhSNima9VjzxhPWQh4Py0qGN3rWSRTLaAo?=
- =?us-ascii?Q?/jpdiARGovURmfbq2oYObjt0Pj41BuK4/KPCpD/JzMCltHTwq/3jZsn1MHr4?=
- =?us-ascii?Q?oX7pCFhc27iQTS+c0wz43c6Zz/ldoXOq+NZqYASigHbnBEmxxl0+1mjL2vsG?=
- =?us-ascii?Q?0r/5Ic/pTEimD67ShGrb6ryBe0aCE1owcZVq2btRah5DeZX4WNBRVahpTT7C?=
- =?us-ascii?Q?UhargBul45j7/KTjYWTv9c2x6U6ijL8bJp8GJkOo+i7QSk/2wwJ0m16CvrQ7?=
- =?us-ascii?Q?9IUTdOVKEMK/fa0DD2OTxIrO3ryAGPh/VGtWDLpafhr7ONTJgdXMTQQM1lap?=
- =?us-ascii?Q?y2gl1QXwYgRksL6hjcQPxgLMXgzNJZRJXauDCUuXNm9zU3X1f71Jh6MEhHfT?=
- =?us-ascii?Q?BEN1YEx+Hp0JVT6SVAF2QhiUCrsY9mgrw7HUOeu8pSQzvqvQauLHigrXYjEc?=
- =?us-ascii?Q?+9PaRDo7WNtE0Wr8IJJLEcJZidoVFWRMtu7skFsnwTkS4wA5hXOU3lzC4x+j?=
- =?us-ascii?Q?mJGb3++1LlWZr7DAARLBvVVjRYv1iOIiFj9wz7oI40itTnIy8NRTBTElPile?=
- =?us-ascii?Q?KEbC3P/kGv0OjVrNe43kIeEUJnc9bTT0IXZ5prJagBQC+oxtr7rghx7fKpM9?=
- =?us-ascii?Q?iClMopW8IA4zWo8S1F3Y4LK/RdBDRKRJxcB/jXVTY8H6qxcJEU6TsWYOHF+B?=
- =?us-ascii?Q?ebK9y39Wj7z1iAXg68OT00TRIv1+Iw53U9gDSMmY2W3mRZf4WmLgEoSRPaKS?=
- =?us-ascii?Q?UR6XiAF27ZGT4AMY0tQNRCd8bKEchM37rqhEZqC9YAC6heeWliolbcva+inP?=
- =?us-ascii?Q?1uuwE40mb83wrZmKl7jH0zGnOlWvkPrPF3ueuXJyKwGgruIZ493l3uZcUYnq?=
- =?us-ascii?Q?8fnvZA7sVJRH5jQd4N0X99nfUHYyVk1pMkQaRdcaw197a1LxgctBe5GT9H4d?=
- =?us-ascii?Q?wXczKlHIGmjMname2xfdffiqK8frJ7gQQxxHXC9C?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4836d225-7648-499e-6564-08db2bad2553
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 14:44:46.8614
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SYTLrNF7E9ondJUrtxtbP3ZVAI6LgMYkVulL/y4wvvGF4n6p9Y5hFZAeMHd8CWoA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7301
+References: <20230322152049.12723-1-skhan@linuxfoundation.org>
+In-Reply-To: <20230322152049.12723-1-skhan@linuxfoundation.org>
+From:   Kate Stewart <kstewart@linuxfoundation.org>
+Date:   Thu, 23 Mar 2023 09:53:41 -0500
+Message-ID: <CAG_66ZRLmauNF9s-Nk=20sPCVgjJp2ye3KkrN8rNks331+4Hpg@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: add system-state document to admin-guide
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 01:07:56PM -0700, Jacob Pan wrote:
-> Hi all,
-> 
-> This patch set removes unused VT-d virtual command interface followed by
-> removal of the IOASID infrastructure.
-> 
-> This has only been tested on x86 platforms, need help with testing on ARM
-> SMMU and other architectures.
-> 
-> 
-> Thanks,
-> 
-> Jacob
-> 
-> ChangeLog:
-> v8:
->  - remove #ifdef CONFIG_IOMMU_SVA since we have dummy inline functions.
->  - fixed a compile bug that affects bisectability
+Looks good Shuah.
 
-I think this looks OK now, thanks
+On Wed, Mar 22, 2023 at 10:20=E2=80=AFAM Shuah Khan <skhan@linuxfoundation.=
+org> wrote:
+>
+> Add a new system state document to the admin-guide. This document is
+> intended to be used as a guide on how to gather higher level information
+> about a system and its run-time activity.
+>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Jason
+Reviewed-by:  Kate Stewart <kstewart@linuxfoundation.org>
+
+> ---
+> Changes since v1:
+> -- Addressed review comments
+>
+>  Documentation/admin-guide/index.rst        |   1 +
+>  Documentation/admin-guide/system-state.rst | 350 +++++++++++++++++++++
+>  2 files changed, 351 insertions(+)
+>  create mode 100644 Documentation/admin-guide/system-state.rst
+>
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-gu=
+ide/index.rst
+> index f475554382e2..541372672c55 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -66,6 +66,7 @@ subsystems expectations will be found here.
+>     :maxdepth: 1
+>
+>     workload-tracing
+> +   system-state
+>
+>  The rest of this manual consists of various unordered guides on how to
+>  configure specific aspects of kernel behavior to your liking.
+> diff --git a/Documentation/admin-guide/system-state.rst b/Documentation/a=
+dmin-guide/system-state.rst
+> new file mode 100644
+> index 000000000000..2a6fdf85c35c
+> --- /dev/null
+> +++ b/Documentation/admin-guide/system-state.rst
+> @@ -0,0 +1,350 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Discovering system calls and features supported on a system
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +:Author: Shuah Khan <skhan@linuxfoundation.org>
+> +:maintained-by: Shuah Khan <skhan@linuxfoundation.org>
+> +
+> +Key Points
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> + * System state includes system calls, features, static and dynamic
+> +   modules enabled in the kernel configuration.
+> + * Supported system calls and Kernel features are architecture dependent=
+.
+> + * auditd, checksyscalls.sh, and get_feat.pl tools can be used to discov=
+er
+> +   static system state.
+> + * Understanding Linux kernel hardening configurations options and makin=
+g
+> +   sure they are enabled will make a system more secure.
+> + * Employing run-time tracing can shed light on the dynamic system state=
+.
+> + * Workloads could change the system state by loading and unloading dyna=
+mic
+> +   modules and tuning system parameters.
+> +
+> +System State Visualization
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +The kernel system state can be viewed as a combination of static and
+> +dynamic features and modules. Let=E2=80=99s first define what static and=
+ dynamic
+> +system states are and then explore how we can visualize the static and
+> +dynamic system parts of the kernel.
+> +
+> +Static System View comprises system calls, features, static and dynamic
+> +modules enabled in the kernel configuration. Supported system calls
+> +and Kernel features are architecture dependent. System call numbering is
+> +different on different architectures. We can get the supported system ca=
+ll
+> +information using auditd utilities.
+> +
+> +ausyscall =E2=80=93dump prints out the supported system calls on a syste=
+m and allows
+> +mapping syscall names and numbers. You can install the auditd package on
+> +Debian based systems::
+> +
+> +  sudo apt-get install auditd
+> +
+> +scripts/checksyscalls.sh can be used to check if current architecture is
+> +missing any system calls compared to i386.
+> +
+> +scripts/get_feat.pl can be used to list the Kernel feature support matri=
+x
+> +for an architecture.
+> +
+> +Dynamic System View comprises system calls, ioctls invoked, and subsyste=
+ms
+> +used during the runtime. A workload could load and unload modules and al=
+so
+> +change the dynamic system configuration to suit its needs by tuning syst=
+em
+> +parameters.
+> +
+> +What is the methodology?
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The first step is gathering the default system state such as the dynamic
+> +and static modules loaded on the system. lsmod command prints out the
+> +dynamically loaded modules on a system. Statically configured modules ca=
+n
+> +be found in the kernel configuration file.
+> +
+> +The next step is discovering system activity during run-time. You can do=
+ so
+> +by enabling event tracing and then running your favorite application. Af=
+ter
+> +a period of time, gather the event logs, and kernel messages.
+> +
+> +Once you have the necessary information, you can extract the system call
+> +numbers from the event trace log and map them to the supported system ca=
+lls.
+> +
+> +Finding supported system calls
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +As mentioned earlier, ausyscall prints out supported system calls
+> +on a system and allows mapping syscalls names and numbers::
+> +
+> + ausyscall --dump
+> +
+> +You can look for specific system calls as shown in the below::
+> +
+> +  ausyscall open
+> +    open               2
+> +    mq_open            240
+> +    openat             257
+> +    perf_event_open    298
+> +    open_by_handle_at  304
+> +    open_tree          428
+> +    fsopen             430
+> +    pidfd_open         434
+> +    openat2            437
+> +
+> +  ausyscall time
+> +
+> +    getitimer          36
+> +    setitimer          38
+> +    gettimeofday       96
+> +    times              100
+> +    rt_sigtimedwait    128
+> +    utime              132
+> +    adjtimex           159
+> +    settimeofday       164
+> +    time               201
+> +    semtimedop         220
+> +    timer_create       222
+> +    timer_settime      223
+> +    timer_gettime      224
+> +    timer_getoverrun   225
+> +    timer_delete       226
+> +    clock_settime      227
+> +    clock_gettime      228
+> +    utimes             235
+> +    mq_timedsend       242
+> +    mq_timedreceive    243
+> +    futimesat          261
+> +    utimensat          280
+> +    timerfd_create     283
+> +    timerfd_settime    286
+> +    timerfd_gettime    287
+> +    clock_adjtime      305
+> +
+> +Finding unsupported system calls
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +As mentioned earlier, scripts/checksyscalls.sh checks missing system cal=
+ls
+> +on current architecture compared to i386. Example run::
+> +
+> +  checksyscalls.sh gcc
+> +    warning: #warning syscall mmap2 not implemented [-Wcpp]
+> +    warning: #warning syscall truncate64 not implemented [-Wcpp]
+> +    warning: #warning syscall ftruncate64 not implemented [-Wcpp]
+> +    warning: #warning syscall fcntl64 not implemented [-Wcpp]
+> +    warning: #warning syscall sendfile64 not implemented [-Wcpp]
+> +    warning: #warning syscall statfs64 not implemented [-Wcpp]
+> +    warning: #warning syscall fstatfs64 not implemented [-Wcpp]
+> +    warning: #warning syscall fadvise64_64 not implemented [-Wcpp]
+> +
+> +Let's check this against ausyscall now::
+> +
+> +  ausyscall map
+> +    mmap               9
+> +    munmap             11
+> +    mremap             25
+> +    remap_file_pages   216
+> +
+> +  ausyscall trunc
+> +    truncate           76
+> +    ftruncate          77
+> +
+> +As you can see, ausyscall shows mmap2, truncate64, and ftruncate64 aren'=
+t
+> +implemented on this system. This matches what checksyscalls.sh shows.
+> +
+> +Finding supported features
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +scripts/get_feat.pl can be used to list the Kernel feature support matri=
+x
+> +for an architecture::
+> +
+> + get_feat.pl list
+> + get_feat.pl list =E2=80=93arch=3Darm64 lists
+> +
+> +This scripts parses Documentation/features to find the support status
+> +information. It can be used to validate the contents of the files under
+> +Documentation/features or simply list them::
+> +
+> +  --arch Outputs features for an specific architecture, optionally filte=
+ring
+> +         for a single specific feature.
+> +  --feat or --feature Output features for a single specific feature.
+> +
+> +Here is how you can find if stackprotector and hread-info-in-task featur=
+es
+> +are supported::
+> +
+> +  scripts/get_feat.pl --arch=3Darm64 --feat=3Dstackprotector list
+> +    #
+> +    # Kernel feature support matrix of the 'arm64' architecture:
+> +    #
+> +    debug/ stackprotector       :  ok  |            HAVE_STACKPROTECTOR =
+#
+> +    arch supports compiler driven stack overflow protection
+> +
+> +  scripts/get_feat.pl --feat=3Dthread-info-in-task list
+> +    #
+> +    # Kernel feature support matrix of the 'x86' architecture:
+> +    #
+> +      core/ thread-info-in-task  :  ok  |           THREAD_INFO_IN_TASK =
+#
+> +      arch makes use of the core kernel facility to embed thread_info in
+> +      task_struct
+> +
+> +Finding kernel module status
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +lsmod command shows the kernel modules that are currently loaded. This
+> +program displays the contents of /proc/modules. Let's pick uvcvideo
+> +module which is found on most laptops::
+> +
+> +  lsmod | grep uvc
+> +  uvcvideo              126976  0
+> +  videobuf2_vmalloc      20480  1 uvcvideo
+> +  uvc                    16384  1 uvcvideo
+> +  videobuf2_v4l2         36864  1 uvcvideo
+> +  videodev              315392  2 videobuf2_v4l2,uvcvideo
+> +  videobuf2_common       65536  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvi=
+deo,videobuf2_memops
+> +  mc                     77824  4 videodev,videobuf2_v4l2,uvcvideo,video=
+buf2_common
+> +
+> +You can see that lsmod shows uvcvideo and the modules it depends on and =
+how
+> +many modules are using them. videobuf2_common is in use by 4 other modul=
+es.
+> +In other words, this is the reference count for this module and rmmod wi=
+ll
+> +refuse to unload it as long as the reference count is > 0.
+> +
+> +You can get the same information from /proc.modules::
+> +
+> +  less /proc/modules | grep uvc
+> +  uvcvideo 126976 0 - Live 0x0000000000000000
+> +  videobuf2_vmalloc 20480 1 uvcvideo, Live 0x0000000000000000
+> +  uvc 16384 1 uvcvideo, Live 0x0000000000000000
+> +  videobuf2_v4l2 36864 1 uvcvideo, Live 0x0000000000000000
+> +  videodev 315392 2 uvcvideo,videobuf2_v4l2, Live 0x0000000000000000
+> +  videobuf2_common 65536 4 uvcvideo,videobuf2_vmalloc,videobuf2_memops,v=
+ideobuf2_v4l2, Live 0x0000000000000000
+> +  mc 77824 4 uvcvideo,videobuf2_v4l2,videodev,videobuf2_common, Live 0x0=
+000000000000000
+> +
+> +The information is similar with a few more extra fields. The address is =
+the
+> +base address for the module in kernel virtual memory space. When run as =
+a
+> +normal user, the address is all zeros. The same command when run as root=
+ will
+> +be as follows::
+> +
+> +  sudo less /proc/modules | grep uvc
+> +  uvcvideo 126976 0 - Live 0xffffffffc1c8b000
+> +  videobuf2_vmalloc 20480 1 uvcvideo, Live 0xffffffffc167f000
+> +  uvc 16384 1 uvcvideo, Live 0xffffffffc0ab0000
+> +  videobuf2_v4l2 36864 1 uvcvideo, Live 0xffffffffc0a28000
+> +  videodev 315392 2 uvcvideo,videobuf2_v4l2, Live 0xffffffffc16e9000
+> +  videobuf2_common 65536 4 uvcvideo,videobuf2_vmalloc,videobuf2_memops,v=
+ideobuf2_v4l2, Live 0xffffffffc094d000
+> +  mc 77824 4 uvcvideo,videobuf2_v4l2,videodev,videobuf2_common, Live 0xf=
+fffffffc15eb000
+> +
+> +Let's check what modinfo shows that is important for us::
+> +
+> +  /sbin/modinfo uvcvideo
+> +  filename:       /lib/modules/6.3.0-rc2/kernel/drivers/media/usb/uvc/uv=
+cvideo.ko
+> +  license:        GPL
+> +  description:    USB Video Class driver
+> +  depends:        videobuf2-v4l2,videodev,mc,uvc,videobuf2-common,videob=
+uf2-vmalloc
+> +  retpoline:      Y
+> +  intree:         Y
+> +  name:           uvcvideo
+> +  vermagic:       6.3.0-rc2 SMP preempt mod_unload modversions
+> +  sig_id:         PKCS#7
+> +  signer:         Build time autogenerated kernel key
+> +
+> +This tells us that this module is built intree and the signed with a bui=
+ld
+> +time autogenerated key.
+> +
+> +Let's do one last sanity check on the system to see if the following two
+> +command outputs match::
+> +
+> +  ps ax | wc -l
+> +  ls -d /proc/* | grep [0-9]|wc -l
+> +
+> +If they don't match, examine your system closely. kernel rootkits instal=
+l
+> +their own ps, find, etc. utilities to mask their activity. The outputs
+> +match on my system. Do they on yours?
+> +
+> +Is my system as secure as it could be?
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Linux kernel supports several hardening options to make system secure.
+> +kconfig-hardened-check tool sanity checks kernel configuration for
+> +security. You can clone the latest kconfig-hardened-check repository::
+> +
+> +  git clone https://github.com/a13xp0p0v/kconfig-hardened-check.git
+> +  cd kconfig-hardened-check
+> +  bin/kconfig-hardened-check --config <config file> --cmdline /proc/cmdl=
+ine
+> +
+> +This will generate detailed report of kernel security configuration and
+> +command line options that are enabled (OK) and the ones that aren't (FAI=
+L)
+> +and a summary line at the end::
+> +
+> +  [+] Config check is finished: 'OK' - 100 / 'FAIL' - 100
+> +
+> +You will have to analyze the information to determine which options make
+> +sense to enable on your system.
+> +
+> +Understanding system run-time activity
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Enabling event tracing gives insight into system run-time activity. This=
+ is
+> +a good way to identify which parts of the kernel are used at a higher le=
+vel
+> +while system is in and/or while a specific workload/process is running.
+> +
+> +Event tracing depends on the CONFIG_EVENT_TRACING option enabled. You ca=
+n
+> +enable event tracing before starting workload/process. Event tracing all=
+ows
+> +you to dynamically enable and disable tracing on supported/available eve=
+nts.
+> +You can find available events, tracers, and filter functions in the foll=
+owing
+> +files::
+> +
+> +  /sys/kernel/debug/tracing/available_events
+> +  /sys/kernel/debug/tracing/available_filter_functions
+> +  /sys/kernel/debug/tracing/available_tracers
+> +
+> +Now this is how you can enable tracing::
+> +
+> +  sudo echo 1 > /sys/kernel/debug/tracing/events/enable
+> +
+> +Once the workload/process stops or when you decide you have the status y=
+ou
+> +need, you can disable event tracing::
+> +
+> +  sudo echo 0 > /sys/kernel/debug/tracing/events/enable
+> +
+> +You can find the tracing information in the file::
+> +
+> +  /sys/kernel/debug/tracing
+> +
+> +Here is the information shown in this file::
+> +
+> +  cat trace
+> +  # tracer: nop
+> +  #
+> +  # entries-in-buffer/entries-written: 0/0   #P:16
+> +  #
+> +  #                                _-----=3D> irqs-off/BH-disabled
+> +  #                               / _----=3D> need-resched
+> +  #                              | / _---=3D> hardirq/softirq
+> +  #                              || / _--=3D> preempt-depth
+> +  #                              ||| / _-=3D> migrate-disable
+> +  #                              |||| /     delay
+> +  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> +  #              | |         |   |||||     |         |
+> +
+> +
+> +Analyzing traces
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +You will be able map the functions to system calls and other kernel feat=
+ures
+> +to get insight into the overall system activity while a workload/process=
+ is
+> +running.
+> +
+> +Map the NR (syscal) numbers from the trace to syscalls from the syscalls=
+ dump.
+> +Categorize system calls and map them to Linux subsystems.
+> +
+> +Conclusion
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This document is intended to be used as a guide on how to gather higher =
+level
+> +information about a system and its run-time activity. The approach descr=
+ibed
+> +in this document helps us get insight into supported system calls, featu=
+res,
+> +assess how secure a system is, and its run-time activity.
+> +
+> +References
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> + * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/scripts/checksyscalls.sh
+> + * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/scripts/get_feat.pl
+> + * https://github.com/a13xp0p0v/kconfig-hardened-check
+> + * https://docs.kernel.org/trace/index.html
+> --
+> 2.34.1
+>
