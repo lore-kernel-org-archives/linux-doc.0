@@ -2,73 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4281DC6FD1C
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 17:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5AD5C74A5B
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 17:35:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231905AbjCWR0x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 13:26:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36622 "EHLO
+        id S231556AbjCWRfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 13:35:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232071AbjCWR0r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 13:26:47 -0400
+        with ESMTP id S231639AbjCWRe7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 13:34:59 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D34B777;
-        Thu, 23 Mar 2023 10:26:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4CD23C41;
+        Thu, 23 Mar 2023 10:34:35 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5DB07378;
-        Thu, 23 Mar 2023 17:26:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5DB07378
+        by ms.lwn.net (Postfix) with ESMTPSA id 6969F60A;
+        Thu, 23 Mar 2023 17:33:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6969F60A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1679592402; bh=MBuRS26mgv6HpsYzuzNMBYMg9+1oJPHXW00uMeFRd3M=;
+        t=1679592819; bh=PdZ3mvwus/QAx+ru7XpTafVFhQSTGrOihpwidIHItF4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=NM/ZkxP2Csjnth8cI1gftpl8cvVvA0aSpJ9hspjYmKD75/FqUs0yno0GMoR843bM9
-         n77dqi4HfOewvPUzEtuBjZ96I8ZpIGzoaEFMakTpbAEnuscMyWocgcY6x7Jlo2DdJf
-         9bO7OjMSYXqkx2IzorWrtBD8NWVU4M86sLqe2t6WKDIMJ24Qa2rqNBEUctuUe+AgOy
-         SanktsE5ibv+h71c7HXbgl399kD0FvKHnv9Sb0plP+0RaXB3UQzRey8iDB/r6rmkQR
-         cNCSg49BcAs/DhYBulWhxz6NR/IHtRcztjaDOje8GQAFrniHOOjcdwGeSxjP9Jddes
-         G9Vbmw4lcH/7Q==
+        b=R+FA+IS3U97T/01V+b6/Q5DfrhCbW0CGh4dh7Qmi1C5pCQTFRdmHD4XMhGn0X+PI1
+         8W4ZY55wAlpAB/xK4zLfSDZMmnydMWD/s2sa41tB+s2nulm8GJusS94swihKH0SQh9
+         UVxfSN2ZfneuRHFTv+bALANCU+DebzAI7Ol5E9OUrA455CYF3LSmBCoCLeIo9fN5/f
+         /omXybV1YtnRfxK7b/FX5h4Xa31h8JmQDRDDqxxCwfF52+C4EHC7CjycwwX3V4q0rQ
+         OtaltcQv8HXqLwGfv1cuhoI+8J+BGte/FuCWuCBq97FItQdoIS4OjKC6dJSe3rcTQt
+         wD1mjKGM1684Q==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Borislav Petkov <bp@suse.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] Documentation: maintainer-tip: Rectify link to
- "Describe your changes" section of submitting-patches.rst
-In-Reply-To: <874jqd9jol.ffs@tglx>
-References: <20230320124327.174881-1-bagasdotme@gmail.com>
- <874jqd9jol.ffs@tglx>
-Date:   Thu, 23 Mar 2023 11:26:41 -0600
-Message-ID: <87fs9vcram.fsf@meer.lwn.net>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: Re: [PATCH] doc:it_IT: translation alignment
+In-Reply-To: <20230319134624.21327-1-federico.vaga@vaga.pv.it>
+References: <20230319134624.21327-1-federico.vaga@vaga.pv.it>
+Date:   Thu, 23 Mar 2023 11:33:38 -0600
+Message-ID: <87bkkjcqz1.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thomas Gleixner <tglx@linutronix.de> writes:
+Federico Vaga <federico.vaga@vaga.pv.it> writes:
 
-> On Mon, Mar 20 2023 at 19:43, Bagas Sanjaya wrote:
->> The general changelog rules for the tip tree refers to "Describe your
->> changes" section of submitting patches guide. However, the internal link
->> reference targets to non-existent "submittingpatches" label, which
->> brings reader to the top of the linked doc.
->>
->> Correct the target. No changes to submitting-patches.rst since the
->> required label is already there.
->>
->> Fixes: 31c9d7c8297558 ("Documentation/process: Add tip tree handbook")
->> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Major update for maintainer-pgp-guide
 >
-> In cass Jonathan is picking this up:
+> commit e4412739472b ("Documentation: raise minimum supported version of binutils to 2.25")
+> commit 67fe6792a7fb ("Documentation: stable: Document alternative for referring upstream commit hash")
+> commit 8763a30bc15b ("docs: deprecated.rst: Add note about DECLARE_FLEX_ARRAY() usage
+> commit 2f993509a97e ("docs: process/5.Posting.rst: clarify use of Reported-by: tag")
+> commit a31323bef2b6 ("timers: Update the documentation to reflect on the new timer_shutdown() API")
 >
-> Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> ---
+>  .../it_IT/kernel-hacking/locking.rst          |   5 +
+>  .../translations/it_IT/process/5.Posting.rst  |   6 +-
+>  .../translations/it_IT/process/changes.rst    |   4 +-
+>  .../translations/it_IT/process/deprecated.rst |  29 +-
+>  .../it_IT/process/maintainer-pgp-guide.rst    | 346 +++++++++---------
+>  .../it_IT/process/stable-kernel-rules.rst     |   6 +
+>  6 files changed, 214 insertions(+), 182 deletions(-)
 
-I've applied it, thanks.
+Applied, thanks.
 
 jon
