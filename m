@@ -2,75 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4CD2C76196
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 19:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28695C761AF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 22:20:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbjCWTkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 15:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43682 "EHLO
+        id S231540AbjCWWUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 18:20:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231522AbjCWTkQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 15:40:16 -0400
+        with ESMTP id S231531AbjCWWUE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 18:20:04 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A0420069;
-        Thu, 23 Mar 2023 12:40:15 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 877CF60A;
-        Thu, 23 Mar 2023 19:40:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 877CF60A
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF63320D3F;
+        Thu, 23 Mar 2023 15:20:02 -0700 (PDT)
+Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
+        by ms.lwn.net (Postfix) with ESMTPA id 670CE60A;
+        Thu, 23 Mar 2023 22:20:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 670CE60A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1679600414; bh=iQi8Bi9hacIn33KLkpIHUMRozKG0oaFhXdu49BmPO4k=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=k0FDr3OzJvgw2XqhhWd1E+YHjnJ0AUrhtyaUyDHHAw+k0FR4HqJBaXoY+3sEVbgQF
-         vF5oGSNrO6mX6ul+tg9Xv92MWo56Z0+oF6hIqBNOGq7DeBqt4RcMQF54B3YeX0EtmN
-         jFdtJ809hXRkOGpKI08CVbIVTlA/L3Y+luIFMg9GgE+/jUkpVc8Q0MYUv41ewex2ia
-         qBxcXulpBMhTTM2qDirqXJXSB4l4XtIIZaT1GakvDrRp8FCp+tv28m+g/u21wq6LU/
-         tJDrve0L9Qts0xBIy9uy30HFA0G6iGk0zqKPttP/6tBjyUoSTdAIMJVrvKU05I1fX1
-         qPBk0C4u1yCEw==
+        t=1679610002; bh=uJ3G9x9Oc+8gANJ7IStVIIXmDT9uCREH515n9V/IsQI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TFj34R/CSPOrMPhLbV673AOSIIXwpBK2m3pJWW7qh9ZjGUyUKvRF4BtECRPGm2+a1
+         q0v0AewLZfCa1qiPTA5N6DKG9aqtlfgAGKQJ6HMt8AfjymrYiyFS59SNzDaZsGQrDS
+         s/bIGI7tJinLprk0wJs+lAeuJZAvI5wadaVlmSbXYvQ8IAaNMNPYESd0TV7lYRwTNU
+         FVd2B/mV+WjpGHnk6xEoPlxCdHGW+oZ3cz8TORdVAkCbRiqphrfayy1waTunA2wviL
+         J22BYFJQhIzJ8EHHyfDUj24vs58HIrDWfodFNRQ3mTJ//cqhdTBqhQchBEjR3SaHZr
+         x+HcR5ammNF7A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dave Hansen <dave.hansen@intel.com>, linux-doc@vger.kernel.org
+To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Borislav Petkov <bp@alien8.de>
-Subject: Re: [PATCH RFC 0/2] Begin reorganizing the arch documentation
-In-Reply-To: <498938d3-60a4-6219-a02c-a03e490103c3@intel.com>
-References: <20230315211523.108836-1-corbet@lwn.net>
- <fe5d1e0e-0725-45eb-8b96-edcd12ae4a8b@intel.com>
- <87cz4zb8xu.fsf@meer.lwn.net>
- <498938d3-60a4-6219-a02c-a03e490103c3@intel.com>
-Date:   Thu, 23 Mar 2023 13:40:13 -0600
-Message-ID: <87v8ir9rz6.fsf@meer.lwn.net>
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 0/6] Documentation: arch reorg (continued)
+Date:   Thu, 23 Mar 2023 16:19:42 -0600
+Message-Id: <20230323221948.352154-1-corbet@lwn.net>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dave Hansen <dave.hansen@intel.com> writes:
+This series builds on top of the documentation reorganization posted at
 
-> On 3/23/23 11:48, Jonathan Corbet wrote:
->> I could do the "fix up and send at the end of the merge window" trick
->> with it.
->
-> That would work for me.
->
->>  Or perhaps some of this should go via tip?  Suggestions welcome.
->
-> Since we have so many branches, we'll still have to do the merges
-> between whatever branch carries the move and the actual doc-update branches.
->
-> The end-of-the-merge-window is nice for us maintainers because we can
-> ask the submitters to do any rebasing.
+    https://lore.kernel.org/lkml/20230315211523.108836-1-corbet@lwn.net/
 
-Now that I look...the only thing in linux-next currently that conflicts
-is the shadow-stack series; if that continues, it might not be necessary
-to do anything special.
+it adds several more architectures (the relatively inactive ones) to the
+new arch/ directory.  This series goes on top of the previous one.
 
-Thanks,
+The cover letter from that series provides the motivation for this work:
 
-jon
+    The top-level Documentation/ directory, despite the efforts of the last
+    few years, is still a mess; there is too much stuff there, making it
+    harder to find anything.  We do not organize our source directories
+    that way, and for good reasons.
+
+Jonathan Corbet (6):
+  docs: zh_CN: create the architecture-specific top-level directory
+  docs: move xtensa documentation under Documentation/arch/
+  docs: move sparc documentation under Documentation/arch/
+  docs: move superh documentation under Documentation/arch/
+  docs: move openrisc documentation under Documentation/arch/
+  docs: move nios2 documentation under Documentation/arch/
+
+ Documentation/arch/index.rst                           | 10 +++++-----
+ Documentation/{ => arch}/nios2/features.rst            |  0
+ Documentation/{ => arch}/nios2/index.rst               |  0
+ Documentation/{ => arch}/nios2/nios2.rst               |  0
+ Documentation/{ => arch}/openrisc/features.rst         |  0
+ Documentation/{ => arch}/openrisc/index.rst            |  0
+ Documentation/{ => arch}/openrisc/openrisc_port.rst    |  0
+ Documentation/{ => arch}/openrisc/todo.rst             |  0
+ Documentation/{ => arch}/sh/booting.rst                |  0
+ Documentation/{ => arch}/sh/features.rst               |  0
+ Documentation/{ => arch}/sh/index.rst                  |  0
+ Documentation/{ => arch}/sh/new-machine.rst            |  0
+ Documentation/{ => arch}/sh/register-banks.rst         |  0
+ Documentation/{ => arch}/sparc/adi.rst                 |  0
+ Documentation/{ => arch}/sparc/console.rst             |  0
+ Documentation/{ => arch}/sparc/features.rst            |  0
+ Documentation/{ => arch}/sparc/index.rst               |  0
+ Documentation/{ => arch}/sparc/oradax/dax-hv-api.txt   |  0
+ Documentation/{ => arch}/sparc/oradax/oracle-dax.rst   |  0
+ Documentation/{ => arch}/xtensa/atomctl.rst            |  0
+ Documentation/{ => arch}/xtensa/booting.rst            |  0
+ Documentation/{ => arch}/xtensa/features.rst           |  0
+ Documentation/{ => arch}/xtensa/index.rst              |  0
+ Documentation/{ => arch}/xtensa/mmu.rst                |  0
+ .../translations/zh_CN/{arch.rst => arch/index.rst}    | 10 +++++-----
+ .../translations/zh_CN/{ => arch}/openrisc/index.rst   |  4 ++--
+ .../zh_CN/{ => arch}/openrisc/openrisc_port.rst        |  4 ++--
+ .../translations/zh_CN/{ => arch}/openrisc/todo.rst    |  4 ++--
+ Documentation/translations/zh_CN/index.rst             |  2 +-
+ MAINTAINERS                                            |  4 ++--
+ arch/sh/Kconfig.cpu                                    |  2 +-
+ arch/xtensa/include/asm/initialize_mmu.h               |  2 +-
+ drivers/sbus/char/oradax.c                             |  2 +-
+ 33 files changed, 22 insertions(+), 22 deletions(-)
+ rename Documentation/{ => arch}/nios2/features.rst (100%)
+ rename Documentation/{ => arch}/nios2/index.rst (100%)
+ rename Documentation/{ => arch}/nios2/nios2.rst (100%)
+ rename Documentation/{ => arch}/openrisc/features.rst (100%)
+ rename Documentation/{ => arch}/openrisc/index.rst (100%)
+ rename Documentation/{ => arch}/openrisc/openrisc_port.rst (100%)
+ rename Documentation/{ => arch}/openrisc/todo.rst (100%)
+ rename Documentation/{ => arch}/sh/booting.rst (100%)
+ rename Documentation/{ => arch}/sh/features.rst (100%)
+ rename Documentation/{ => arch}/sh/index.rst (100%)
+ rename Documentation/{ => arch}/sh/new-machine.rst (100%)
+ rename Documentation/{ => arch}/sh/register-banks.rst (100%)
+ rename Documentation/{ => arch}/sparc/adi.rst (100%)
+ rename Documentation/{ => arch}/sparc/console.rst (100%)
+ rename Documentation/{ => arch}/sparc/features.rst (100%)
+ rename Documentation/{ => arch}/sparc/index.rst (100%)
+ rename Documentation/{ => arch}/sparc/oradax/dax-hv-api.txt (100%)
+ rename Documentation/{ => arch}/sparc/oradax/oracle-dax.rst (100%)
+ rename Documentation/{ => arch}/xtensa/atomctl.rst (100%)
+ rename Documentation/{ => arch}/xtensa/booting.rst (100%)
+ rename Documentation/{ => arch}/xtensa/features.rst (100%)
+ rename Documentation/{ => arch}/xtensa/index.rst (100%)
+ rename Documentation/{ => arch}/xtensa/mmu.rst (100%)
+ rename Documentation/translations/zh_CN/{arch.rst => arch/index.rst} (77%)
+ rename Documentation/translations/zh_CN/{ => arch}/openrisc/index.rst (79%)
+ rename Documentation/translations/zh_CN/{ => arch}/openrisc/openrisc_port.rst (97%)
+ rename Documentation/translations/zh_CN/{ => arch}/openrisc/todo.rst (88%)
+
+-- 
+2.39.2
+
