@@ -2,120 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F423DC6FD1C
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 09:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4628C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 10:42:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231375AbjCWJ2s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 05:28:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58678 "EHLO
+        id S230410AbjCWKmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 06:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbjCWJ2K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 05:28:10 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1647A1B542;
-        Thu, 23 Mar 2023 02:25:01 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id y2so8303210pfw.9;
-        Thu, 23 Mar 2023 02:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679563501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oedrkQTKeKhk5jpPMXJExckMWKmDYsOLUWEd03oO1jc=;
-        b=Xsnwqe0u+OhenA0uQnCmo5f7oZse/SWWrlZMDr1wmNtIez+HCNRnydnG7mIWS5H7cc
-         jQErK+9VQDBe9Ybt86Bh8s5xzW660Zs4Wlc0qYNxJGvE/KrYckpFYE3c7BjNeAxxnJR/
-         +CPRu1DhGodVbU5q9R8xszUXPwfvJkbd7GyiLnGnDiXIV3IR5RVubAFqy5uedx5/rpBU
-         desOUjczT857xaWluqFGj5kMfTiiRQenWqjXBO5QNuVfO4Gi8uqxPFGwGVw/1ZC7L+es
-         Z8aTaPy+16fxwcuRztySG+OgRmQNXcBgKwcbE3lZjj3V5uNpIhoOU8QZQ6Y5BYdcVnH/
-         Gf0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679563501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oedrkQTKeKhk5jpPMXJExckMWKmDYsOLUWEd03oO1jc=;
-        b=tvlErEZ0rFvo2rd0SAz1xjl83bgOYTRUYE349+DTpxU7bfZFchRvmzE43qAqNgsHPC
-         Au89A2n6rTRKqJPVIMgaoLxuv7M/hbPShImRgmCkK9av5gzeRRYCCRasVz1ksEFrQJzE
-         W3SVXa4YHkE/qbLJxiY1okJjGJuJcj8W/2llWK+q5aHNvko5HmvO/23O85cpM6dhUMFO
-         RZX97efjbDidbGILgMA+5OQmFFESg+dalnbx64vtptZkQsdm4GQd/FsBbnedbbEbVW3c
-         DjQjwNbH8IArypKdGanu0fwZMF1ulmZ3MIN2HsZmi7OWRAYNMCpRteQNNPHeaWUUWRoX
-         2n/w==
-X-Gm-Message-State: AO0yUKXrC/NCGenecwyltk2Le67X5yq9qFi0mS6z7w8z1/n6Gk8ibSgG
-        ZOnQTWUctlKcaaSr5aHLdyg=
-X-Google-Smtp-Source: AK7set90RsGF6plNEmkD3dIggH5nrDX5jcX7Ql9g4f9DKWsEsiMQK33OuujoCaxeaDME4YoPIa1akg==
-X-Received: by 2002:aa7:9dc1:0:b0:627:e69c:847c with SMTP id g1-20020aa79dc1000000b00627e69c847cmr6401408pfq.16.1679563501129;
-        Thu, 23 Mar 2023 02:25:01 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-11.three.co.id. [180.214.232.11])
-        by smtp.gmail.com with ESMTPSA id u16-20020aa78490000000b00627df85cd72sm9547769pfn.199.2023.03.23.02.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 02:25:00 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 2DEB21066D3; Thu, 23 Mar 2023 16:24:56 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Wireless Development <linux-wireless@vger.kernel.org>,
-        Linux Networking <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Cc:     Johannes Berg <johannes@sipsolutions.net>,
-        "David S. Miller" <davem@davemloft.net>,
+        with ESMTP id S231189AbjCWKl6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 06:41:58 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1DB23BC72;
+        Thu, 23 Mar 2023 03:39:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AA6D6B8206F;
+        Thu, 23 Mar 2023 10:39:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D12AFC433EF;
+        Thu, 23 Mar 2023 10:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679567944;
+        bh=Hia61pLbuUoI5LRjq1+nG/PnCT/SHMq+QsnWE3WPoMo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Dw9j5FgIHYK47PycP9ezQt0DOUaPG9RuoP63/PDtccK2TIdKNFUxulKT5hjdepsF3
+         QYj/sVZ0SDAdhgPzhLLtpSScTZWUr/IoegdBHUimFdbexKArpRtnc5bDxr2MNAlOVL
+         pIybU5VU7jfd9/bj3t3widP3qvlhXHxepEXLyecfRIv1CWJehGoLrhZ8F/2ckH/Jtj
+         xX67aK/jCMtUHKkCoWO9YDQzGL03lXIXOS6gb6WZ3+VGus6Pr+UJ22XIjWrixod/2X
+         gUFoSh+DWm15J6TCj+P9VdSFrEYQ/npSEibxDUktQyqCb6B+32YNkfv7d6e6dK68LD
+         7qfJGUvt3UZbg==
+Date:   Thu, 23 Mar 2023 12:39:00 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        aayarekar@marvell.com, sedara@marvell.com, sburla@marvell.com,
+        linux-doc@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Felix Fietkau <nbd@nbd.name>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] wifi: mac80211: use bullet list for amsdu_mesh_control formats list
-Date:   Thu, 23 Mar 2023 16:24:54 +0700
-Message-Id: <20230323092454.391815-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH net-next v4 6/8] octeon_ep: support asynchronous
+ notifications
+Message-ID: <20230323103900.GC36557@unreal>
+References: <20230322091958.13103-1-vburru@marvell.com>
+ <20230322091958.13103-7-vburru@marvell.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1928; i=bagasdotme@gmail.com; h=from:subject; bh=sghnb6cYp6gN1i8QCZqutc4mpo/Cxsdj7NRwu8vq+VU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkyUo8eHzmYfPRswKMlnzI3W72vkvracW57yWE9v+lG2 2ZOzFO90FHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJnJNnZHjVwetxtMOwVtgi rJhzkpP32kmTmkqdrnE/f7p3cZ2YRgrD/4zzMT8rpB82877SmnmCad+uu3V7agueN1zTVtB1Yi8 15QAA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322091958.13103-7-vburru@marvell.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit fe4a6d2db3bad4 ("wifi: mac80211: implement support for yet
-another mesh A-MSDU format") expands amsdu_mesh_control list to
-multi-line list. However, the expansion triggers Sphinx warning:
+On Wed, Mar 22, 2023 at 02:19:55AM -0700, Veerasenareddy Burru wrote:
+> Add asynchronous notification support to the control mailbox.
+> 
+> Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+> Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
+> ---
+> v3 -> v4:
+>  * 0005-xxx.patch in v3 is 0006-xxx.patch in v4.
+>  * addressed review comments
+>    https://lore.kernel.org/all/Y+0J94sowllCe5Gs@boxer/
+>    - fixed rct violation.
+>    - process_mbox_notify() now returns void.
+> 
+> v2 -> v3:
+>  * no change
+> 
+> v1 -> v2:
+>  * no change
+> 
+>  .../marvell/octeon_ep/octep_ctrl_net.c        | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
+> index cef4bc3b1ec0..465eef2824e3 100644
+> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
+> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
+> @@ -271,6 +271,33 @@ static void process_mbox_resp(struct octep_device *oct,
+>  	}
+>  }
+>  
+> +static int process_mbox_notify(struct octep_device *oct,
+> +			       struct octep_ctrl_mbox_msg *msg)
+> +{
+> +	struct net_device *netdev = oct->netdev;
+> +	struct octep_ctrl_net_f2h_req *req;
+> +
+> +	req = (struct octep_ctrl_net_f2h_req *)msg->sg_list[0].msg;
+> +	switch (req->hdr.s.cmd) {
+> +	case OCTEP_CTRL_NET_F2H_CMD_LINK_STATUS:
+> +		if (netif_running(netdev)) {
+> +			if (req->link.state) {
+> +				dev_info(&oct->pdev->dev, "netif_carrier_on\n");
+> +				netif_carrier_on(netdev);
+> +			} else {
+> +				dev_info(&oct->pdev->dev, "netif_carrier_off\n");
+> +				netif_carrier_off(netdev);
+> +			}
 
-Documentation/driver-api/80211/mac80211-advanced:214: ./net/mac80211/sta_info.h:628: WARNING: Unexpected indentation.
+Shouldn't netdev changes be protected by some lock?
+Is is safe to get event from FW and process it as is?
 
-Use bullet list instead to fix the warning.
-
-Link: https://lore.kernel.org/linux-next/20230323141548.659479ef@canb.auug.org.au/
-Fixes: fe4a6d2db3bad4 ("wifi: mac80211: implement support for yet another mesh A-MSDU format")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- net/mac80211/sta_info.h | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/net/mac80211/sta_info.h b/net/mac80211/sta_info.h
-index f354d470e1740c..195b563132d6c5 100644
---- a/net/mac80211/sta_info.h
-+++ b/net/mac80211/sta_info.h
-@@ -622,11 +622,13 @@ struct link_sta_info {
-  *	taken from HT/VHT capabilities or VHT operating mode notification
-  * @cparams: CoDel parameters for this station.
-  * @reserved_tid: reserved TID (if any, otherwise IEEE80211_TID_UNRESERVED)
-- * @amsdu_mesh_control: track the mesh A-MSDU format used by the peer
-- *	(-1: not yet known,
-- *	  0: non-mesh A-MSDU length field
-- *	  1: big-endian mesh A-MSDU length field
-- *	  2: little-endian mesh A-MSDU length field)
-+ * @amsdu_mesh_control: track the mesh A-MSDU format used by the peer:
-+ *
-+ *	  * -1: not yet known
-+ *	  * 0: non-mesh A-MSDU length field
-+ *	  * 1: big-endian mesh A-MSDU length field
-+ *	  * 2: little-endian mesh A-MSDU length field
-+ *
-  * @fast_tx: TX fastpath information
-  * @fast_rx: RX fastpath information
-  * @tdls_chandef: a TDLS peer can have a wider chandef that is compatible to
-
-base-commit: 0dd45ebc08de2449efe1a0908147796856a5f824
--- 
-An old man doll... just what I always wanted! - Clara
-
+Thanks
