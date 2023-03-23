@@ -2,114 +2,223 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5709C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 12:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F8CC6FD1C
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 13:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231903AbjCWMtw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 08:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35192 "EHLO
+        id S231350AbjCWNhG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 09:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231965AbjCWMtt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 08:49:49 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C28A42916A
-        for <linux-doc@vger.kernel.org>; Thu, 23 Mar 2023 05:49:48 -0700 (PDT)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NBBsXF028556;
-        Thu, 23 Mar 2023 12:49:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=3jzvtm0xjvfN19ztbHPMlLoYBGYFXUzJo9QYvMJQiYk=;
- b=VUizJaaOlvpQY7wdCTWtVhuvUhMWiq+kEi99D5CP011EWDw3C7YA5cDSzl0FlVEhsDTs
- PvI72kRcRC1r61Cs65SPQ8VNfivKP4ZSOAsso/FXxBdISOFwXl735nbhPkMCuhQWR5//
- Amx4ddikyAYjFzQ/OcB3bGzj7woJ9gb1BnMDjyGvYaIpdYtDRcQoTPK41CRNNkXgxYlo
- HKthjGQae2PL90xKLnCBPi8i8m/sgcUqP5cG+qggXB7XQP91mGlEhMlGjJcQsgYsHvIY
- Yy93jVypV2SKZCNOH86iKaqVqy7DC9zkor4vnCW9jYCIHQU2OlzTxlP6wYNpOlRLAbTm zQ== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pghqsrd5r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 23 Mar 2023 12:49:41 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32NC8X2L023444;
-        Thu, 23 Mar 2023 12:49:40 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
-        by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7n7mn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 23 Mar 2023 12:49:40 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
-        by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32NCndMt11272714
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 23 Mar 2023 12:49:39 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 698A658053;
-        Thu, 23 Mar 2023 12:49:39 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1D43C58059;
-        Thu, 23 Mar 2023 12:49:39 +0000 (GMT)
-Received: from [9.160.39.9] (unknown [9.160.39.9])
-        by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-        Thu, 23 Mar 2023 12:49:38 +0000 (GMT)
-Message-ID: <437443de-b9cf-d09b-1f9b-23dfd47f3e6b@linux.ibm.com>
-Date:   Thu, 23 Mar 2023 08:49:37 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: Fwd: Documentation on IMA for Linux Kernel Documentation
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-References: <60ac4c41-65b8-3c3d-7e31-1a580e728ca5@infradead.org>
- <a3289dfb-da44-47ce-9f3b-1f5c9dec900c@linux.ibm.com>
- <369843bb-3a7a-78d0-40ac-0df51b0cc58d@infradead.org>
-From:   Ken Goldman <kgold@linux.ibm.com>
-In-Reply-To: <369843bb-3a7a-78d0-40ac-0df51b0cc58d@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 72RUU1jkMSnbe_vqNT2oHrbHuLLkGqIm
-X-Proofpoint-ORIG-GUID: 72RUU1jkMSnbe_vqNT2oHrbHuLLkGqIm
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S231229AbjCWNhF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 09:37:05 -0400
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C7018A9F;
+        Thu, 23 Mar 2023 06:37:01 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.227])
+        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4Pj5jc1mmTz9xHM1;
+        Thu, 23 Mar 2023 21:27:16 +0800 (CST)
+Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
+        by APP1 (Coremail) with SMTP id LxC2BwCHCATRVRxk2BbCAQ--.54288S2;
+        Thu, 23 Mar 2023 14:36:34 +0100 (CET)
+Message-ID: <e0b828d994a8427ad48b7b514f75d751ea791b47.camel@huaweicloud.com>
+Subject: Re: [PATCH 0/5] usermode_driver: Add management library and API
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        David Ahern <dsahern@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Date:   Thu, 23 Mar 2023 14:36:17 +0100
+In-Reply-To: <CAADnVQJC0h7rtuntt0tqS5BbxWsmyWs3ZSbboZMmUKetMG2VhA@mail.gmail.com>
+References: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
+         <CAADnVQLKONwKwkJMopRq-dzcV2ZejrjGzyuzW_5QX=0BY=Z4jw@mail.gmail.com>
+         <b5c80613c696818ce89b92dac54e98878ec3ccd0.camel@huaweicloud.com>
+         <CAADnVQJC0h7rtuntt0tqS5BbxWsmyWs3ZSbboZMmUKetMG2VhA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_21,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0 clxscore=1011
- mlxscore=0 impostorscore=0 spamscore=0 bulkscore=0 mlxlogscore=906
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303230094
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: LxC2BwCHCATRVRxk2BbCAQ--.54288S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3AryktFy7tFyktr48CrWxWFg_yoWxXr4DpF
+        WrCFWjka1DJF17ArZ2vw18Ca409397tw43WrnrGryfZ3Z09FyIkr1I9F4a9FnrGr4Skw1Y
+        qr4jya4293Z8ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
+        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+        xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAkuxUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAFBF1jj4sTwwAAsq
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/22/2023 6:58 PM, Randy Dunlap wrote:
-> On 3/22/23 15:04, Ken Goldman wrote:
->> I'm writing documentation on IMA targeting users (not kernel developers).  It includes concepts, details on writing policies, the IMA event log format, utilities, and more.  It aggregates existing scattered documentation, but adds much more.  It's maybe 1/2 done.
->>
->> Questions:
->>
->> 1. Are there people who could look at it and see if I'm on the right path?
->>
->> It's a lot of work.  I'd like to know that it has some chance of acceptance.
-> Review in terms of IMA-specific content?  or in terms of ReST usage?
-> or in general terms to see if it is appropriate for kernel tree documentation?
->
-> I think that you should Cc: linux-integrity@vger.kernel.org for their input
-> as well as linux-doc@vger.kernel.org. Several of us here can look at it for
-> general review feedback.
+On Wed, 2023-03-22 at 15:27 -0700, Alexei Starovoitov wrote:
+> On Wed, Mar 22, 2023 at 5:08 AM Roberto Sassu
+> <roberto.sassu@huaweicloud.com> wrote:
+> > On Tue, 2023-03-21 at 19:23 -0700, Alexei Starovoitov wrote:
+> > > On Fri, Mar 17, 2023 at 7:53 AM Roberto Sassu
+> > > <roberto.sassu@huaweicloud.com> wrote:
+> > > > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > > > 
+> > > > A User Mode Driver (UMD) is a specialization of a User Mode Helper (UMH),
+> > > > which runs a user space process from a binary blob, and creates a
+> > > > bidirectional pipe, so that the kernel can make a request to that process,
+> > > > and the latter provides its response. It is currently used by bpfilter,
+> > > > although it does not seem to do any useful work.
+> > > 
+> > > FYI the new home for bpfilter is here:
+> > > https://github.com/facebook/bpfilter
+> > 
+> > Thanks. I just ensured that it worked, by doing:
+> > 
+> > getsockopt(fd, SOL_IP, IPT_SO_GET_INFO, &info, &optlen);
+> > 
+> > and accepting IPT_SO_GET_INFO in main.c.
+> > 
+> > > > The problem is, if other users would like to implement a UMD similar to
+> > > > bpfilter, they would have to duplicate the code. Instead, make an UMD
+> > > > management library and API from the existing bpfilter and sockopt code,
+> > > > and move it to common kernel code.
+> > > > 
+> > > > Also, define the software architecture and the main components of the
+> > > > library: the UMD Manager, running in the kernel, acting as the frontend
+> > > > interface to any user or kernel-originated request; the UMD Loader, also
+> > > > running in the kernel, responsible to load the UMD Handler; the UMD
+> > > > Handler, running in user space, responsible to handle requests from the UMD
+> > > > Manager and to send to it the response.
+> > > 
+> > > That doesn't look like a generic interface for UMD.
+> > 
+> > What would make it more generic? I made the API message format-
+> > independent. It has the capability of starting the user space process
+> > as required, when there is a communication.
+> > 
+> > > It was a quick hack to get bpfilter off the ground, but certainly
+> > > not a generic one.
+> > 
+> > True, it is not generic in the sense that it can accomodate any
+> > possible use case. The main goal is to move something that was running
+> > in the kernel to user space, with the same isolation guarantees as if
+> > the code was executed in the kernel.
+> 
+> They are not the same guarantees.
+> UMD is exactly equivalent to root process running in user space.
+> Meaning it can be killed, ptraced, priority inverted, etc
 
-Not the accuracy - I have IMA experts looking at that.
+That is the starting point.
 
-I want to know if it'll be accepted, and if the structure is OK.
+I suppose you can remove any privilege from the UMD process, it just
+needs to read/write from/to a pipe (and in my case to use socket() with
+AF_ALG to interact with the Crypto API).
 
-> 2. What is the process for getting a block of documentation added to 
-> https://www.kernel.org/doc/html?
->  From last week's email:
->
->>>> It should be added to the kernel tree in the Documentation/userspace-api/ subdirectory
->>>> or Documentation/security/ subdirectory.  The kernel.org/doc/ web pages are generated
->>>> from what is in the Linux kernel tree.
-> although if you don't think that it is appropriate for either of those subdirectories,
-> just explain and justify that and it might be possible to put it somewhere else.
+Also, as I mentioned, you can enforce a very strict seccomp profile,
+which forces the UMD process to use a very limited number of system
+calls.
 
-"Where" comes later.  I just want to know if it'll be accepted at all.
+For the interactions of the rest of the system to the UMD process, you
+could deny with an LSM all the operations that you mentioned. The rest
+of the system would not be affected, only operations which have the UMD
+process as target are denied.
+
+> > > > I have two use cases, but for sake of brevity I will propose one.
+> > > > 
+> > > > I would like to add support for PGP keys and signatures in the kernel, so
+> > > > that I can extend secure boot to applications, and allow/deny code
+> > > > execution based on the signed file digests included in RPM headers.
+> > > > 
+> > > > While I proposed a patch set a while ago (based on a previous work of David
+> > > > Howells), the main objection was that the PGP packet parser should not run
+> > > > in the kernel.
+> > > > 
+> > > > That makes a perfect example for using a UMD. If the PGP parser is moved to
+> > > > user space (UMD Handler), and the kernel (UMD Manager) just instantiates
+> > > > the key and verifies the signature on already parsed data, this would
+> > > > address the concern.
+> > > 
+> > > I don't think PGP parser belongs to UMD either.
+> > > Please do it as a normal user space process and define a proper
+> > > protocol for communication between kernel and user space.
+> > 
+> > UMD is better in the sense that it establishes a bidirectional pipe
+> > between the kernel and the user space process. With that, there is no
+> > need to further restrict the access to a sysfs file, for example.
+> 
+> If a simple pipe is good enough then you can have a kernel module
+> that creates it and interacts with the user space process.
+
+Few points I forgot to mention.
+
+With the UMD approach, the binary blob is embedded in the kernel
+module, which means that no external dependencies are needed for
+integrity verification. The binary is statically compiled, and the
+kernel write-protects it at run-time.
+
+Second, since DIGLIM would check the integrity of any executable,
+including init, the PGP signature verification needs to occur before.
+So, the PGP UMD should be already started by then. That is not going to
+be a problem, since the binary is copied to a private tmpfs mount.
+
+> Out-of-tree bpftiler can do that, so can you.
+
+As far as I can see, the out-of-tree bpfilter works exactly in the same
+way as the in-tree counterpart. The binary blob is embedded in the
+kernel module.
+
+> PGP is not suitable for kernel git repo either as kernel code or as UMD.
+
+Well, the asymmetric key type can be extended with new parsers, so this
+possibility was already taken into account. The objection that the PGP
+parser should not run in kernel space is fair, but I think the UMD
+approach fully addresses that.
+
+Also, I agree with you that we should not just take any code and
+pretend that it is part of the kernel. However, in this particular
+case, the purpose of the PGP UMD would be simply to extract very few
+information from the PGP packets. The asymmetric key type and the
+signature verification infrastructure already take care of the rest.
+
+PGP keys and signatures would act as an additional system trust anchor
+for verifying critical system data (for DIGLIM, which executables are
+allowed to run), similarly to how X.509 certificates are used for
+verifying kernel modules. RPM headers, executables digests are taken
+from, are signed with PGP, so there is no other way than adding this
+functionality.
+
+And unfortunately, especially for features impacting the entire system,
+out-of-tree drivers are not really an option:
+
+https://docs.fedoraproject.org/en-US/quick-docs/kernel/overview/#_out_of_tree_drivers
+
+Thanks
+
+Roberto
 
