@@ -2,249 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA1CC76195
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 10:49:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C24AC6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 11:08:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231643AbjCWKtJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 06:49:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
+        id S231137AbjCWLI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 07:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231626AbjCWKsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 06:48:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C67C776B8;
-        Thu, 23 Mar 2023 03:47:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 75D6CB82072;
-        Thu, 23 Mar 2023 10:47:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D4FBC433D2;
-        Thu, 23 Mar 2023 10:47:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679568428;
-        bh=rHQ3TAJg8RAt4JjXjcJHVvvGvOrq1SkLAdurwZ69tgQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tZsPYb1ZNCD7NM8HMedI5E2K63lkjqXMFWs7WPPCgsr5LJAy3p1DJ8WZZ/W5ELJCA
-         FOUjs/P9lrXKl/boh5wkJ34NHT/SYK8e8pVeE9t7HxsFFBqeQdwjthSiQWyALcEkHZ
-         gZya+A+VZmdPEGgImmzlFxgjGqKZeJNdYWR5VeeUrPfTYAypzW6bV5SaQFhOsn79WW
-         V3BwGoEmFQkTd1g8HsXdWAjF5FbNPbpdyCh+nKMoVVbVRfO3zkWfVwRNaQ7PxJLqFx
-         vD4a7U0wieSXEfYhGLkUQrNLgxRdc+JRV1X5yDmJoiBSkIwKdY/ws5X+uIAA+vW3by
-         ZmCSRyYwTD5EA==
-Date:   Thu, 23 Mar 2023 12:47:03 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        aayarekar@marvell.com, sedara@marvell.com, sburla@marvell.com,
-        linux-doc@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH net-next v4 8/8] octeon_ep: add heartbeat monitor
-Message-ID: <20230323104703.GD36557@unreal>
-References: <20230322091958.13103-1-vburru@marvell.com>
- <20230322091958.13103-9-vburru@marvell.com>
+        with ESMTP id S231145AbjCWLI2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 07:08:28 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F541FD6;
+        Thu, 23 Mar 2023 04:08:27 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 140B21C0E45; Thu, 23 Mar 2023 12:08:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1679569706;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=k5hKQ0F5IqpeLP7FipvyIh82TpmOBiR55uTJeJOjZmg=;
+        b=HO9K77TtTnbAMb5Za+OPE24h45qee6DG8hFbn7so3VwcFqvA/1HVWxnSBhjZ4oskgucixh
+        e+PS0mQJN/JY5YO7qXY5BG9ipiVN9fuK7G9BRyZIH3wuQIsAghsOje8R0/38bqot1C5S7W
+        XEdEvMk53wTa2HleZ96gsodpjC7CtEc=
+Date:   Thu, 23 Mar 2023 12:08:25 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux MediaTek <linux-mediatek@lists.infradead.org>,
+        Linux LEDs <linux-leds@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        ChiaEn Wu <chiaen_wu@richtek.com>, Lee Jones <lee@kernel.org>,
+        ChiYuan Huang <cy_huang@richtek.com>
+Subject: Re: [PATCH 0/3] Documentation fixes for MT6370 RGB
+Message-ID: <ZBwzKUem+Cg5GU0U@duo.ucw.cz>
+References: <20230319074903.13075-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="D24VC61xTd81s6wO"
 Content-Disposition: inline
-In-Reply-To: <20230322091958.13103-9-vburru@marvell.com>
+In-Reply-To: <20230319074903.13075-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 02:19:57AM -0700, Veerasenareddy Burru wrote:
-> Monitor periodic heartbeat messages from device firmware.
-> Presence of heartbeat indicates the device is active and running.
-> If the heartbeat is missed for configured interval indicates
-> firmware has crashed and device is unusable; in this case, PF driver
-> stops and uninitialize the device.
-> 
-> Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
-> Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
-> ---
-> v3 -> v4:
->  * 0007-xxx.patch in v3 is 0008-xxx.patch in v4.
-> 
-> v2 -> v3:
->  * 0009-xxx.patch in v2 is now 0007-xxx.patch in v3 due to
->    0007 and 0008.patch from v2 are removed in v3.
-> 
-> v1 -> v2:
->  * no change
-> 
->  .../marvell/octeon_ep/octep_cn9k_pf.c         |  9 ++++
->  .../ethernet/marvell/octeon_ep/octep_config.h |  6 +++
->  .../ethernet/marvell/octeon_ep/octep_main.c   | 45 ++++++++++++++++++-
->  .../ethernet/marvell/octeon_ep/octep_main.h   |  7 +++
->  .../marvell/octeon_ep/octep_regs_cn9k_pf.h    |  2 +
->  5 files changed, 67 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
-> index e2503c9bc8a1..90c3a419932d 100644
-> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
-> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
-> @@ -16,6 +16,9 @@
->  #define CTRL_MBOX_MAX_PF	128
->  #define CTRL_MBOX_SZ		((size_t)(0x400000 / CTRL_MBOX_MAX_PF))
->  
-> +#define FW_HB_INTERVAL_IN_SECS		1
-> +#define FW_HB_MISS_COUNT		10
-> +
->  /* Names of Hardware non-queue generic interrupts */
->  static char *cn93_non_ioq_msix_names[] = {
->  	"epf_ire_rint",
-> @@ -249,6 +252,10 @@ static void octep_init_config_cn93_pf(struct octep_device *oct)
->  	conf->ctrl_mbox_cfg.barmem_addr = (void __iomem *)oct->mmio[2].hw_addr +
->  					   (0x400000ull * 7) +
->  					   (link * CTRL_MBOX_SZ);
-> +
-> +	conf->hb_interval = FW_HB_INTERVAL_IN_SECS;
-> +	conf->max_hb_miss_cnt = FW_HB_MISS_COUNT;
-> +
->  }
->  
->  /* Setup registers for a hardware Tx Queue  */
-> @@ -383,6 +390,8 @@ static bool octep_poll_non_ioq_interrupts_cn93_pf(struct octep_device *oct)
->  		octep_write_csr64(oct, CN93_SDP_EPF_OEI_RINT, reg0);
->  		if (reg0 & CN93_SDP_EPF_OEI_RINT_DATA_BIT_MBOX)
->  			queue_work(octep_wq, &oct->ctrl_mbox_task);
-> +		else if (reg0 & CN93_SDP_EPF_OEI_RINT_DATA_BIT_HBEAT)
-> +			atomic_set(&oct->hb_miss_cnt, 0);
->  
->  		handled = true;
->  	}
-> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_config.h b/drivers/net/ethernet/marvell/octeon_ep/octep_config.h
-> index f208f3f9a447..df7cd39d9fce 100644
-> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_config.h
-> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_config.h
-> @@ -200,5 +200,11 @@ struct octep_config {
->  
->  	/* ctrl mbox config */
->  	struct octep_ctrl_mbox_config ctrl_mbox_cfg;
-> +
-> +	/* Configured maximum heartbeat miss count */
-> +	u32 max_hb_miss_cnt;
-> +
-> +	/* Configured firmware heartbeat interval in secs */
-> +	u32 hb_interval;
->  };
->  #endif /* _OCTEP_CONFIG_H_ */
-> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-> index ba0d5fe3081d..415dd06ff344 100644
-> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-> @@ -901,6 +901,38 @@ static void octep_intr_poll_task(struct work_struct *work)
->  			   msecs_to_jiffies(OCTEP_INTR_POLL_TIME_MSECS));
->  }
->  
-> +/**
-> + * octep_hb_timeout_task - work queue task to check firmware heartbeat.
-> + *
-> + * @work: pointer to hb work_struct
-> + *
-> + * Check for heartbeat miss count. Uninitialize oct device if miss count
-> + * exceeds configured max heartbeat miss count.
-> + *
-> + **/
-> +static void octep_hb_timeout_task(struct work_struct *work)
-> +{
-> +	struct octep_device *oct = container_of(work, struct octep_device,
-> +						hb_task.work);
-> +
-> +	int miss_cnt;
-> +
-> +	atomic_inc(&oct->hb_miss_cnt);
-> +	miss_cnt = atomic_read(&oct->hb_miss_cnt);
 
-miss_cnt = atomic_inc_return(&oct->hb_miss_cnt);
+--D24VC61xTd81s6wO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +	if (miss_cnt < oct->conf->max_hb_miss_cnt) {
+On Sun 2023-03-19 14:49:00, Bagas Sanjaya wrote:
+> kernel test robot recently reported htmldocs warnings on documentation
+> for MT6370 RGB LED. So here are the fixes.
+>=20
+> Bagas Sanjaya (3):
+>   Documentation: leds: Add MT6370 doc to the toctree
+>   Documentation: leds: MT6370: Properly wrap hw_pattern chart
+>   Documentation: leds: MT6370: Use bullet lists for timing variables
+>=20
+>  Documentation/leds/index.rst           |  1 +
+>  Documentation/leds/leds-mt6370-rgb.rst | 42 +++++++++++++-------------
+>  2 files changed, 22 insertions(+), 21 deletions(-)
 
-How is this heartbeat working? You increment on every entry to octep_hb_timeout_task(),
-After max_hb_miss_cnt invocations, you will stop your device.
+Series looks good to me.
 
-Thanks
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
-> +		queue_delayed_work(octep_wq, &oct->hb_task,
-> +				   msecs_to_jiffies(oct->conf->hb_interval * 1000));
-> +		return;
-> +	}
-> +
-> +	dev_err(&oct->pdev->dev, "Missed %u heartbeats. Uninitializing\n",
-> +		miss_cnt);
-> +	rtnl_lock();
-> +	if (netif_running(oct->netdev))
-> +		octep_stop(oct->netdev);
-> +	rtnl_unlock();
-> +}
-> +
->  /**
->   * octep_ctrl_mbox_task - work queue task to handle ctrl mbox messages.
->   *
-> @@ -938,7 +970,7 @@ static const char *octep_devid_to_str(struct octep_device *oct)
->  int octep_device_setup(struct octep_device *oct)
->  {
->  	struct pci_dev *pdev = oct->pdev;
-> -	int i;
-> +	int i, ret;
->  
->  	/* allocate memory for oct->conf */
->  	oct->conf = kzalloc(sizeof(*oct->conf), GFP_KERNEL);
-> @@ -973,7 +1005,15 @@ int octep_device_setup(struct octep_device *oct)
->  
->  	oct->pkind = CFG_GET_IQ_PKIND(oct->conf);
->  
-> -	return octep_ctrl_net_init(oct);
-> +	ret = octep_ctrl_net_init(oct);
-> +	if (ret)
-> +		return ret;
-> +
-> +	atomic_set(&oct->hb_miss_cnt, 0);
-> +	INIT_DELAYED_WORK(&oct->hb_task, octep_hb_timeout_task);
-> +	queue_delayed_work(octep_wq, &oct->hb_task,
-> +			   msecs_to_jiffies(oct->conf->hb_interval * 1000));
-> +	return 0;
->  
->  unsupported_dev:
->  	for (i = 0; i < OCTEP_MMIO_REGIONS; i++)
-> @@ -1002,6 +1042,7 @@ static void octep_device_cleanup(struct octep_device *oct)
->  	}
->  
->  	octep_ctrl_net_uninit(oct);
-> +	cancel_delayed_work_sync(&oct->hb_task);
->  
->  	oct->hw_ops.soft_reset(oct);
->  	for (i = 0; i < OCTEP_MMIO_REGIONS; i++) {
-> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.h b/drivers/net/ethernet/marvell/octeon_ep/octep_main.h
-> index 836d990ba3fa..e0907a719133 100644
-> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.h
-> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.h
-> @@ -280,6 +280,13 @@ struct octep_device {
->  	bool poll_non_ioq_intr;
->  	/* Work entry to poll non-ioq interrupts */
->  	struct delayed_work intr_poll_task;
-> +
-> +	/* Firmware heartbeat timer */
-> +	struct timer_list hb_timer;
-> +	/* Firmware heartbeat miss count tracked by timer */
-> +	atomic_t hb_miss_cnt;
-> +	/* Task to reset device on heartbeat miss */
-> +	struct delayed_work hb_task;
->  };
->  
->  static inline u16 OCTEP_MAJOR_REV(struct octep_device *oct)
-> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h b/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
-> index 0466fd9a002d..b25c3093dc7b 100644
-> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
-> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
-> @@ -367,5 +367,7 @@
->  
->  /* bit 0 for control mbox interrupt */
->  #define CN93_SDP_EPF_OEI_RINT_DATA_BIT_MBOX	BIT_ULL(0)
-> +/* bit 1 for firmware heartbeat interrupt */
-> +#define CN93_SDP_EPF_OEI_RINT_DATA_BIT_HBEAT	BIT_ULL(1)
->  
->  #endif /* _OCTEP_REGS_CN9K_PF_H_ */
-> -- 
-> 2.36.0
-> 
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--D24VC61xTd81s6wO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBwzKQAKCRAw5/Bqldv6
+8j/vAJ0WmSMJOhbk/I5/iFHaEdFTR8H20gCgniwKgLB/GP2U0jwW2klmXEF8xEc=
+=U7EG
+-----END PGP SIGNATURE-----
+
+--D24VC61xTd81s6wO--
