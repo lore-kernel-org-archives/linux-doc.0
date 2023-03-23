@@ -2,133 +2,359 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AE0C74A5B
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 16:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA4EDC74A5B
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 16:49:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232341AbjCWQiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 12:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55230 "EHLO
+        id S232468AbjCWQtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 12:49:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232246AbjCWQhp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 12:37:45 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6294737B58
-        for <linux-doc@vger.kernel.org>; Thu, 23 Mar 2023 09:36:04 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id r11so4487954wrr.12
-        for <linux-doc@vger.kernel.org>; Thu, 23 Mar 2023 09:36:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1679589360;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dFIdVMyY2JcOEfEYtk1Mrcm+ayayJpn4ssJH1y+Y8SY=;
-        b=XRx/qjnE9uNVUhjrkckwtZNfRSeDtPWLGHujMYbX+pUc6W8XwJmyzK1Ozrgu3VrsCw
-         ixX8yG4vVRdtvMmjSzsPFW6TAPtaQxa32kDhr/vEIxz/liX5Jnxy5ks5DMPn+9Tyqa0I
-         dhuIn3YjYroXQczSAF05RgaY7Kx28T0tYXahdqAvORqBe/APPcYemeDL+w3XcSMRAei/
-         FKvdHHP06rtfOitHpAAyJ0P4XX7VIzxGjRd4JUWIFZkTI6oVrvarr15s7codKgs0PYNT
-         zS2CfmUgxC4epAxnNbYREJe7YzKCstK51eH0rVUpoZ7mNbioJ0ywr2VQq6ujrDbSqDWe
-         XaZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679589360;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dFIdVMyY2JcOEfEYtk1Mrcm+ayayJpn4ssJH1y+Y8SY=;
-        b=GLecP9zuc16h4GNTN72hma+diXM5XEPwH14VwPmhAUwA/VhHyTcMQkhkL6L3bxBVV0
-         hVd28EWxc9R+65AjFY4QG+c2eWf53o7/Mq+1RxaBEkJkpmb7ud3vo22rihse/7i7lg2s
-         nOk0vgdaD6n3NJhxTuy0fj0f3PnKRBNOWYZiVl3nSKWwui9a4gYk7DFXchkky1fttIGH
-         2GBD4is36wmdJ1PucWaDyh/JSErYpfvmpweduPZ2qoma8bub0wsnbtD2Jzr1Me1mNKCs
-         FR9NEmjCdRebQnTxHzPws4ReNpRsC0sPW+R1r5gBX7IX7Fr8nl3zHBW/Zezckwwf5XZr
-         Q1Cw==
-X-Gm-Message-State: AAQBX9duGZyqvKZkBVtsvir7P+PtqL6s7ak+qPVacjMh8AxQwKGm1hiO
-        fsSeK2D9J4iGSiSD3QlFuJktuw==
-X-Google-Smtp-Source: AKy350bZB6XINZ/e2OvUeiAx/NAII4Q3/0majzUkK7Zk38kV4Ea31iChLco4fr0gnvIX/KOBcmR+sw==
-X-Received: by 2002:adf:da50:0:b0:2cf:f312:86dd with SMTP id r16-20020adfda50000000b002cff31286ddmr2991280wrl.18.1679589359878;
-        Thu, 23 Mar 2023 09:35:59 -0700 (PDT)
-Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id v3-20020adfe4c3000000b002cf8220cc75sm8570661wrm.24.2023.03.23.09.35.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 09:35:59 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH -fixes 2/2] riscv: Do not set initial_boot_params to the linear address of the dtb
-Date:   Thu, 23 Mar 2023 17:33:47 +0100
-Message-Id: <20230323163347.182895-3-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230323163347.182895-1-alexghiti@rivosinc.com>
-References: <20230323163347.182895-1-alexghiti@rivosinc.com>
+        with ESMTP id S231359AbjCWQti (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 12:49:38 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D05F11154;
+        Thu, 23 Mar 2023 09:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=wZrc8t7iqb/rNBBPsg0Yvex8uxmUf4O6Gadpn9n/nXM=; b=ZIeplrIw75d9OpSwloMbnQbSec
+        UfU7c2yAuzyX9V57slKcIJI/dCKy1OxSC9Et7xcyTH1RSC13be460lonPzrz+ZEsY8cLPxtI/91dh
+        HJT2KRoxiP3gsHM0iYVyn9fdOfepGICyD5M17O/Pw9TxobrI3obNLxheot67bJsrL2lWJ2obZ6cg7
+        ipA+yzkH+JxaPk3aBaneTpL5u4Ow+bdFOwaHGoZbHKydv1UKz75HtGwfPh47m0E/lMpoR+T+dd5i5
+        MhHk5K+GW5loVw+pV2Wl1Rr4i+eoHMefud6az3vVND8ajHl/bfSwXcX9+88IQsYtop7DewKdrWlj+
+        T19uv7dw==;
+Received: from [2601:1c2:980:9ec0::21b4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pfO7d-002Wdo-2m;
+        Thu, 23 Mar 2023 16:49:05 +0000
+Message-ID: <dcb0c139-e40e-f448-ad99-245020025862@infradead.org>
+Date:   Thu, 23 Mar 2023 09:49:02 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH RFC] Documentation: Add document for false sharing
+Content-Language: en-US
+To:     Feng Tang <feng.tang@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Shakeel Butt <shakeelb@google.com>, dave.hansen@intel.com,
+        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com
+References: <20230323082626.100718-1-feng.tang@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230323082626.100718-1-feng.tang@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that the dtb early mapping was moved in the fixmap region, we can
-keep using this address since it is present in swapper_pg_dir, so remove
-the dtb relocation which was wrong anyway since early_memremap is
-restricted to 256K whereas the maximum fdt size is 2MB.
+Hi,
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- arch/riscv/kernel/setup.c |  5 +----
- arch/riscv/mm/init.c      | 21 ++-------------------
- 2 files changed, 3 insertions(+), 23 deletions(-)
+Lots of good/interesting info here.
 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index 542eed85ad2c..a059b73f4ddb 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -278,10 +278,7 @@ void __init setup_arch(char **cmdline_p)
- #if IS_ENABLED(CONFIG_BUILTIN_DTB)
- 	unflatten_and_copy_device_tree();
- #else
--	if (early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa))))
--		unflatten_device_tree();
--	else
--		pr_err("No DTB found in kernel mappings\n");
-+	unflatten_device_tree();
- #endif
- 	misc_mem_init();
- 
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index fb78d6bbabae..0f14f4a8d179 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -249,25 +249,8 @@ static void __init setup_bootmem(void)
- 	 * early_init_fdt_reserve_self() since __pa() does
- 	 * not work for DTB pointers that are fixmap addresses
- 	 */
--	if (!IS_ENABLED(CONFIG_BUILTIN_DTB)) {
--		/*
--		 * In case the DTB is not located in a memory region we won't
--		 * be able to locate it later on via the linear mapping and
--		 * get a segfault when accessing it via __va(dtb_early_pa).
--		 * To avoid this situation copy DTB to a memory region.
--		 * Note that memblock_phys_alloc will also reserve DTB region.
--		 */
--		if (!memblock_is_memory(dtb_early_pa)) {
--			size_t fdt_size = fdt_totalsize(dtb_early_va);
--			phys_addr_t new_dtb_early_pa = memblock_phys_alloc(fdt_size, PAGE_SIZE);
--			void *new_dtb_early_va = early_memremap(new_dtb_early_pa, fdt_size);
--
--			memcpy(new_dtb_early_va, dtb_early_va, fdt_size);
--			early_memunmap(new_dtb_early_va, fdt_size);
--			_dtb_early_pa = new_dtb_early_pa;
--		} else
--			memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_early_va));
--	}
-+	if (!IS_ENABLED(CONFIG_BUILTIN_DTB))
-+		memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_early_va));
- 
- 	dma_contiguous_reserve(dma32_phys_limit);
- 	if (IS_ENABLED(CONFIG_64BIT))
+On 3/23/23 01:26, Feng Tang wrote:
+> From: "Tang, Feng" <feng.tang@intel.com>
+> 
+> When doing performance tuning or debugging performance regressions,
+> more and more cases are found to be related to false sharing [1][2],
+> and the situation can be worse for newer platforms with hundreds of
+> CPUs. There are already many commits in current kernel specially
+> for mitigating the performance downgradation due to false sharing.
+
+maybe                            degradation
+
+> 
+> False sharing could harm the performance silently without being
+> noticed, due to reasons like:
+> * data members of a big data structure randomly sitting together
+>   in one cache line
+> * global data of small size are linked compactly together
+> 
+> So it's better to make a simple document about the normal pattern
+> of false sharing, basic ways to mitigate it and call out to
+> developers to pay attention during code-writing.
+> 
+> [ Many thanks to Dave Hansen, Ying Huang, Tim Chen, Julie Du and
+>   Yu Chen for their contributions ]
+> 
+> [1]. https://lore.kernel.org/lkml/20220619150456.GB34471@xsang-OptiPlex-9020/
+> [2]. https://lore.kernel.org/lkml/20201102091543.GM31092@shao2-debian/
+> 
+> Signed-off-by: Feng Tang <feng.tang@intel.com>
+> ---
+>  .../kernel-hacking/false-sharing.rst          | 199 ++++++++++++++++++
+>  Documentation/kernel-hacking/index.rst        |   1 +
+>  2 files changed, 200 insertions(+)
+>  create mode 100644 Documentation/kernel-hacking/false-sharing.rst
+> 
+> diff --git a/Documentation/kernel-hacking/false-sharing.rst b/Documentation/kernel-hacking/false-sharing.rst
+> new file mode 100644
+> index 000000000000..325de2be2c49
+> --- /dev/null
+> +++ b/Documentation/kernel-hacking/false-sharing.rst
+> @@ -0,0 +1,199 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=============
+> +False Sharing
+> +=============
+> +
+> +What is False Sharing
+> +=====================
+> +False sharing is related with cache mechanism of maintaining the data
+> +coherence of one cache line stored in multiple CPU's caches, the
+
+                                                        caches; then
+
+> +academic definition for it is in [1]_. Consider a struct with a
+> +refcount and a string::
+> +
+> +	struct foo {
+> +		refcount_t refcount;
+> +		...
+> +		char name[16];
+> +	} ____cacheline_internodealigned_in_smp;
+> +
+> +Member 'refcount'(A) and 'name'(B) _share_ one cache line like below::
+> +
+> +                +-----------+                     +-----------+
+> +                |   CPU 0   |                     |   CPU 1   |
+> +                +-----------+                     +-----------+
+> +               /                                        |
+> +              /                                         |
+> +             V                                          V
+> +         +----------------------+             +----------------------+
+> +         | A      B             | Cache 0     | A       B            | Cache 1
+> +         +----------------------+             +----------------------+
+> +                             |                  |
+> +  ---------------------------+------------------+-----------------------------
+> +                             |                  |
+> +                           +----------------------+
+> +                           |                      |
+> +                           +----------------------+
+> +              Main Memory  | A       B            |
+> +                           +----------------------+
+> +
+> +'refcount' is modified frequently, but 'name' is set once at object
+> +creation time and is never modified.  When many CPUs access 'foo' at
+> +the same time, and 'refcount' is only bumped by one CPU frequently,
+> +while 'name' is read by all other CPUs, which have to reload the whole
+> +cache line over and over, even though the 'name' is never changed.
+
+That last "sentence" is not a sentence.
+
+> +
+> +There are many real-world cases of performance regressions caused by
+> +false sharing, and one is a rw_semaphore 'mmap_lock' inside struct
+> +mm_struct, whose cache line layout change triggered a regression
+> +and Linus analyzed in [2]_.
+> +
+> +There are two key factors for a harmful false sharing:
+> +
+> +* A global data accessed(shared) by many CPUs
+
+              datum accessed (shared)
+
+> +* In the concurrent accesses to the data, there is at least one write
+> +  operation: write/write or write/read cases.
+> +
+> +The sharing could be from totally unrelated kernel components, or
+> +different code paths of the same kernel component.
+> +
+> +
+> +False Sharing Pitfalls
+> +======================
+> +Back in time when one platform has only one or a few CPUs, hot data
+
+                                  had
+
+> +members could be purposely put in the same cache line to make them
+> +cache hot and save cacheline/TLB, like a lock and the data protected
+> +by it.  But for recent large system with hundreds of CPUs, this may
+> +not work when the lock is heavily contended, as the lock owner CPU
+> +could write to the data, while other CPUs are busy spinning the lock.
+> +
+> +Looking at past cases, there are several frequently occurring patterns
+> +for false sharing:
+> +
+> +* lock(spinlock/mutex/semaphore) and data protected by it are
+
+   * lock (spinlock/mutex/semaphore)
+
+> +  purposely put in one cache line.
+> +* global data being put together in one cache line. Some kernel
+> +  subsystem has many global parameters of small size (4 bytes),
+
+     subsystems have
+
+> +  which can easily be grouped together and put into one cache line.
+> +* data members of a big data structure randomly sitting together
+> +  without being noticed (cache line is usually 64 bytes or more),
+> +  like struct 'mem_cgroup'.
+> +
+> +Following 'mitigation' section provides real-world examples.
+> +
+> +False sharing could easily happen unless they are intentionally
+> +checked, and it is valuable to run specific tools for performance
+> +critical workload to detect false sharing affecting performance case
+
+            workloads
+
+> +and optimize accordingly.
+> +
+> +
+> +How to detect and analysis False Sharing
+> +========================================
+> +perf record/report/stat are widely used for performance tuning, and
+> +once hotspots are detected, tools like 'perf-c2c' and 'pahole' can
+> +be further used to detect and pinpoint the possible false sharing
+> +data structures.  'addr2line' is also good at decoding instruction
+> +pointer when there are multiple layers of inline functions.
+> +
+> +perf-c2c can capture the cache lines with most false sharing hits,
+> +decoded functions (line number of file) accessing that cache line,
+> +and in-line offset of the data. Simple commands are::
+> +
+> +  #perf c2c record -ag sleep 3
+> +  #perf c2c report --call-graph none -k vmlinux
+> +
+> +Run it when testing will-it-scale's tlb_flush1 case, and the report
+> +has pieces like::
+> +
+> +  Total records                     :    1658231
+> +  Locked Load/Store Operations      :      89439
+> +  Load Operations                   :     623219
+> +  Load Local HITM                   :      92117
+> +  Load Remote HITM                  :        139
+> +
+> +  #----------------------------------------------------------------------
+> +      4        0     2374        0        0        0  0xff1100088366d880
+> +  #----------------------------------------------------------------------
+> +    0.00%   42.29%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff81373b7b         0       231       129     5312        64  [k] __mod_lruvec_page_state    [kernel.vmlinux]  memcontrol.h:752   1
+> +    0.00%   13.10%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff81374718         0       226        97     3551        64  [k] folio_lruvec_lock_irqsave  [kernel.vmlinux]  memcontrol.h:752   1
+> +    0.00%   11.20%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff812c29bf         0       170       136      555        64  [k] lru_add_fn                 [kernel.vmlinux]  mm_inline.h:41     1
+> +    0.00%    7.62%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff812c3ec5         0       175       108      632        64  [k] release_pages              [kernel.vmlinux]  mm_inline.h:41     1
+> +    0.00%   23.29%    0.00%    0.00%    0.00%   0x10     1       1  0xffffffff81372d0a         0       234       279     1051        64  [k] __mod_memcg_lruvec_state   [kernel.vmlinux]  memcontrol.c:736   1
+> +
+> +A nice introduction for perf-c2c is [3]_
+
+Add a period at the end above?
+
+> +
+> +'pahole' decodes data structure layouts delimited in cache line
+> +granularity.  User can match the offset in perf-c2c output with
+
+                 The user
+or               A user
+or               Users
+
+> +pahole's decoding to locate the exact data members.  For global
+> +data, user can search the data address in system.map.
+
+                                             System.map.
+
+> +
+> +
+> +Possible Mitigations
+> +====================
+> +False sharing does not always need to be mitigated.  False sharing
+> +mitigations need to balance performance gains with complexity and
+> +space consumption.  Sometimes, lower performance is OK, and it's
+> +unnecessary to hyper-optimize every rarely used data structure or
+> +a cold data path.
+> +
+> +False sharing hurting performance cases are seen more frequently with
+> +core count increasing, and there have been many patches merged to
+> +solve it, like in networking and memory management subsystems.  Some
+> +common mitigations(with examples) are:
+
+          mitigations (with examples) are:
+
+> +
+> +* Separate hot global data in its own dedicated cache line, even if it
+> +  is just a 'short' type. The downside is more consumption of memory,
+> +  cache line and TLB entries.
+> +
+> +  Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_sockets_allocated")
+> +
+> +* Reorganize the data structure, separate the interfering members to
+> +  different cache lines.  One downside is it may introduce new false
+> +  sharing of other members.
+> +
+> +  Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduce false sharing")
+> +
+> +* Replace 'write' with 'read' when possible, especially in loops.
+> +  Like for some global variable, use compare(read)-then-write instead
+> +  of unconditional write. Like Use:
+
+                             For example, use:
+
+> +
+> +	if (!test_bit(XXX))
+> +		set_bit(XXX);
+> +
+> +  instead of directly "set_bit(XXX);", similarly for atomic_t data.
+> +
+> +  Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() multithreaded CPU false sharing")
+> +  Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
+> +
+> +* Turn hot global data to 'per-cpu data + global data' when possible,
+> +  or reasonably increase the threshold for syncing per-cpu data to
+> +  global data, to reduce or postpone the 'write' to that global data.
+> +
+> +  Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cache hits/misses")
+> +  Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm overcommit policy")
+> +
+> +Surely, all mitigations should be carefully verified to not cause side
+> +effects.  And to avoid false sharing in advance during coding, it's
+> +better to:
+> +
+> +* Be aware of cache line boundaries
+> +* Group mostly read-only fields together
+> +* Group things that are written at the same time together
+> +* Separate known read-mostly and written-mostly fields
+> +
+> +and better add a comment stating the false sharing consideration.
+> +
+> +One note is, sometimes even after a severe false sharing is detected
+> +and solved, the performance may still has no obvious improvement as
+> +the hotspot switches to a new place.
+> +
+> +
+> +Misc
+> +=====
+
+  Miscellaneous
+  =============
+
+> +One open is kernel has data structure randomization mechanism, which
+
+   One open issue is that the kernel has an optional data structure
+   randomization mechanism, which
+
+
+> +also randomizes the situation of cache line sharing of data members.
+> +
+> +
+> +.. [1] https://en.wikipedia.org/wiki/False_sharing
+> +.. [2] https://lore.kernel.org/lkml/CAHk-=whoqV=cX5VC80mmR9rr+Z+yQ6fiQZm36Fb-izsanHg23w@mail.gmail.com/
+> +.. [3] https://joemario.github.io/blog/2016/09/01/c2c-blog/
+> diff --git a/Documentation/kernel-hacking/index.rst b/Documentation/kernel-hacking/index.rst
+> index f53027652290..79c03bac99a2 100644
+> --- a/Documentation/kernel-hacking/index.rst
+> +++ b/Documentation/kernel-hacking/index.rst
+> @@ -9,3 +9,4 @@ Kernel Hacking Guides
+>  
+>     hacking
+>     locking
+> +   false-sharing
+
+Thanks for the documentation.
 -- 
-2.37.2
-
+~Randy
