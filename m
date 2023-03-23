@@ -2,31 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C24AC6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 11:08:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F6FC6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Mar 2023 12:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbjCWLI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 07:08:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
+        id S231433AbjCWMcJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 08:32:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231145AbjCWLI2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 07:08:28 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F541FD6;
-        Thu, 23 Mar 2023 04:08:27 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 140B21C0E45; Thu, 23 Mar 2023 12:08:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679569706;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=k5hKQ0F5IqpeLP7FipvyIh82TpmOBiR55uTJeJOjZmg=;
-        b=HO9K77TtTnbAMb5Za+OPE24h45qee6DG8hFbn7so3VwcFqvA/1HVWxnSBhjZ4oskgucixh
-        e+PS0mQJN/JY5YO7qXY5BG9ipiVN9fuK7G9BRyZIH3wuQIsAghsOje8R0/38bqot1C5S7W
-        XEdEvMk53wTa2HleZ96gsodpjC7CtEc=
-Date:   Thu, 23 Mar 2023 12:08:25 +0100
-From:   Pavel Machek <pavel@ucw.cz>
+        with ESMTP id S230488AbjCWMcF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 08:32:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B1F24CA6;
+        Thu, 23 Mar 2023 05:32:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 49BBD625D3;
+        Thu, 23 Mar 2023 12:32:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FF62C433EF;
+        Thu, 23 Mar 2023 12:31:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679574722;
+        bh=EYf6786yE/sBEJ5kVxCWKnQjuC3+cnNr9QYBjueYbts=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=J++0vaReFWwPOwPXGP+Po4zvrxhwh5She2/Ec56VQSyU/fB7On301Z7qGfUhVnUyX
+         SdO5C25BT+xlwKrVGf5EnOQLRMO0ivqJ2a1v86lLTJn0ok331QoJwer4z39XS8p4Tv
+         UWf3+tr8QcyH2hsSvavwjncNpjTVFvkGGC9IXuf9140dHvo6FawidhHQRWGdMaF8wQ
+         fcFQXvjQ/lzngUvaOsH6tJBNoNLxkfsvI7wRhhU9EUYNnrTZhsSc7mDc3J2u7PqPVf
+         MF9uFDrtjjga7TBZG1HIgr2H3KboAaLcQttd83XsXeOrQUjR+94n4RpXrBUoAzQqYo
+         rdLJcSSaPByGQ==
+Date:   Thu, 23 Mar 2023 12:31:56 +0000
+From:   Lee Jones <lee@kernel.org>
 To:     Bagas Sanjaya <bagasdotme@gmail.com>
 Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -38,55 +44,63 @@ Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
-        ChiaEn Wu <chiaen_wu@richtek.com>, Lee Jones <lee@kernel.org>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
         ChiYuan Huang <cy_huang@richtek.com>
 Subject: Re: [PATCH 0/3] Documentation fixes for MT6370 RGB
-Message-ID: <ZBwzKUem+Cg5GU0U@duo.ucw.cz>
+Message-ID: <20230323123156.GL2673958@google.com>
 References: <20230319074903.13075-1-bagasdotme@gmail.com>
+ <2b8667b5-ea54-2ef4-f069-a86acd28ecea@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="D24VC61xTd81s6wO"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230319074903.13075-1-bagasdotme@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2b8667b5-ea54-2ef4-f069-a86acd28ecea@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 23 Mar 2023, Bagas Sanjaya wrote:
 
---D24VC61xTd81s6wO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 3/19/23 14:49, Bagas Sanjaya wrote:
+> > kernel test robot recently reported htmldocs warnings on documentation
+> > for MT6370 RGB LED. So here are the fixes.
+> >
+> > Bagas Sanjaya (3):
+> >   Documentation: leds: Add MT6370 doc to the toctree
+> >   Documentation: leds: MT6370: Properly wrap hw_pattern chart
+> >   Documentation: leds: MT6370: Use bullet lists for timing variables
+> >
+> >  Documentation/leds/index.rst           |  1 +
+> >  Documentation/leds/leds-mt6370-rgb.rst | 42 +++++++++++++-------------
+> >  2 files changed, 22 insertions(+), 21 deletions(-)
+> >
+> >
+> > base-commit: 4ba9df04b7ac66d2d000ed7ae2d8136302d99a57
+>
+> ping
 
-On Sun 2023-03-19 14:49:00, Bagas Sanjaya wrote:
-> kernel test robot recently reported htmldocs warnings on documentation
-> for MT6370 RGB LED. So here are the fixes.
->=20
-> Bagas Sanjaya (3):
->   Documentation: leds: Add MT6370 doc to the toctree
->   Documentation: leds: MT6370: Properly wrap hw_pattern chart
->   Documentation: leds: MT6370: Use bullet lists for timing variables
->=20
->  Documentation/leds/index.rst           |  1 +
->  Documentation/leds/leds-mt6370-rgb.rst | 42 +++++++++++++-------------
->  2 files changed, 22 insertions(+), 21 deletions(-)
+a) Don't do that!
 
-Series looks good to me.
+b) Especually don't do that 4 days after submission!
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+The usual expectation is 2 full weeks before submitting a [RESEND].
 
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Mark Brown says it best:
 
---D24VC61xTd81s6wO
-Content-Type: application/pgp-signature; name="signature.asc"
+"
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
 
------BEGIN PGP SIGNATURE-----
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+"
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBwzKQAKCRAw5/Bqldv6
-8j/vAJ0WmSMJOhbk/I5/iFHaEdFTR8H20gCgniwKgLB/GP2U0jwW2klmXEF8xEc=
-=U7EG
------END PGP SIGNATURE-----
-
---D24VC61xTd81s6wO--
+--
+Lee Jones [李琼斯]
