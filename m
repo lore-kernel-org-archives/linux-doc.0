@@ -2,97 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A184C6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 04:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B5BC6FD20
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 05:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230021AbjCXEaY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 00:30:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
+        id S231146AbjCXFAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 01:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbjCXEaX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 00:30:23 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8A019F16;
-        Thu, 23 Mar 2023 21:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=tFSxKzdCHt/dcQq+NfQ6l0WFyAWV4COX8pFL7v6wAJY=; b=imM1RetqpzJF3NRW6J896U5GTY
-        iGGxojVa1Au/xl2iWHCwGIx0zmCN6rzLjt2nboBP1xBqxxgo1LaIXOHjEkb7s+JpHSM8hzH+GfrY1
-        BqzryrindmJweu1J+BBCUmy8ykFcOtlrBIvDW0V0ozaedY+7vUghYXrutH5ZJGDC3VUPPqQRisZi9
-        8QTVOX1/VrVHxiQRTH03jddKFEMrOvihtOIIGuDrcSKocHLf1ChUkwzlysHxszxFjkTe1yNroy0SE
-        bMHjA7NHVHoWjYvWqdnjxw6VgRY/quGOeEWHyf7bZdCjre11hbea4KytZsKOrJIYMtz7uKuBKS10t
-        hgaBzwYA==;
-Received: from [2601:1c2:980:9ec0::21b4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pfZ4D-003W5h-0b;
-        Fri, 24 Mar 2023 04:30:17 +0000
-Message-ID: <d0032404-e627-2d51-9c7b-42f5cdf29929@infradead.org>
-Date:   Thu, 23 Mar 2023 21:30:14 -0700
+        with ESMTP id S230011AbjCXFAb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 01:00:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D0E19F16;
+        Thu, 23 Mar 2023 22:00:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A1F36294A;
+        Fri, 24 Mar 2023 05:00:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E78E1C4339E;
+        Fri, 24 Mar 2023 05:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679634027;
+        bh=hxIAAffVzfLjss74KiALSYBJthtXxacpq+QZ8plANiU=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=JJ/aJ3eK4qwIzgVrOnil27HFmn5U7PHGDNwIdC/ihEDIJEK9VJDGGIE44a29UOtAB
+         CIDnvt/w0H+9nIFC0kAIp5yt9znvIB71rxrA9qyY/p/mCwSPNTR/gVwHuLm1zxcXRs
+         pKfUIUFUhgcaC7VC1i3BNPJS1wWrW2HNy5wpSIj/AEewgD1gJCoWVAadLeITiZ0sJ7
+         PyFSN63dtFKAtjDkel6FFJcboETUpa19Ubq+ogr7qSqk9wZtLY0okHkexE1VsbtsDf
+         Cn3lc1+znPUv4xVHSZq9AuG4gklICEFXDhFxLYBSlGzgRfvxJRksNFx7RKHf9SxKc2
+         uoLVb9YsEsfww==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C06D2E52511;
+        Fri, 24 Mar 2023 05:00:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH RFC] Documentation: Add document for false sharing
-Content-Language: en-US
-To:     Feng Tang <feng.tang@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Shakeel Butt <shakeelb@google.com>, dave.hansen@intel.com,
-        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com
-References: <20230323082626.100718-1-feng.tang@intel.com>
- <dcb0c139-e40e-f448-ad99-245020025862@infradead.org>
- <ZB0S/gfCLGP44HME@feng-clx>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZB0S/gfCLGP44HME@feng-clx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] docs: netdev: add note about Changes Requested and
+ revising commit messages
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167963402678.21241.359053559453446320.git-patchwork-notify@kernel.org>
+Date:   Fri, 24 Mar 2023 05:00:26 +0000
+References: <20230322231202.265835-1-kuba@kernel.org>
+In-Reply-To: <20230322231202.265835-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, sean.anderson@seco.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+Hello:
 
-On 3/23/23 20:03, Feng Tang wrote:
-> Hi Randy,
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 22 Mar 2023 16:12:02 -0700 you wrote:
+> One of the most commonly asked questions is "I answered all questions
+> and don't need to make any code changes, why was the patch not applied".
+> Document our time honored tradition of asking people to repost with
+> improved commit messages, to record the answers to reviewer questions.
 > 
-> Thank you for the thorough reviews!
+> Take this opportunity to also recommend a change log format.
 > 
-> On Thu, Mar 23, 2023 at 09:49:02AM -0700, Randy Dunlap wrote:
->> Hi,
->>
->> Lots of good/interesting info here.
->>
->> On 3/23/23 01:26, Feng Tang wrote:
->>> From: "Tang, Feng" <feng.tang@intel.com>
+> [...]
 
+Here is the summary with links:
+  - [net-next] docs: netdev: add note about Changes Requested and revising commit messages
+    https://git.kernel.org/netdev/net-next/c/e110ba659271
 
->>> +
->>> +'refcount' is modified frequently, but 'name' is set once at object
->>> +creation time and is never modified.  When many CPUs access 'foo' at
->>> +the same time, and 'refcount' is only bumped by one CPU frequently,
->>> +while 'name' is read by all other CPUs, which have to reload the whole
->>> +cache line over and over, even though the 'name' is never changed.
->>
->> That last "sentence" is not a sentence.
-> 
-> How about:
-> 
-> "
-> When many CPUs access 'foo' at the same time, with 'refcount' being only
-> bumped by one CPU frequently and 'name' being read by other CPUs, all
-> those reading CPUs have to reload the whole cache line over and over
-> due to the 'sharing', even though 'name' is never changed.
-> "
-> ?
-
-Yes, that's good. Thanks.
-
+You are awesome, thank you!
 -- 
-~Randy
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
