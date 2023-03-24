@@ -2,63 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E509EC6FD20
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 18:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B94DC6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 18:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231569AbjCXSxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 14:53:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40960 "EHLO
+        id S231623AbjCXSxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 14:53:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjCXSxK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 14:53:10 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653D461B4
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id l12so2751639wrm.10
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
+        with ESMTP id S231614AbjCXSxN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 14:53:13 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BCBBEC
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 11:53:07 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id n10-20020a05600c4f8a00b003ee93d2c914so3414060wmq.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 11:53:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares.net; s=google; t=1679683983;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AvFmi2Kslfzz8p7RlnVaanV9PDS7ezg9eJoTmpzeqLU=;
-        b=c07BLeBXy4v+Jc465zDUVlUJBuC5ZwPChTA8jtt0ZZeABDsPCZpd5nBIS4OCup4Yjf
-         UwUpftJYbvFl1pRFjZGVkBkX6LvzVRxEM1ElKLtrW9wR26l1H/CeqrjcLbozOCqODl3u
-         TVIMf2uGghQQZbslcE/eUNKTlwqpTciEiQK48ujsPEmb4gUpbWFW9Le7O5ITX2FsOZIO
-         hM8x7cUpML8bew+QgZUnRgXKLkR6woc7c0mdA0syeR+HTHGeq0svX9ozha0YHVCbsqqz
-         c68DWjMH0gyew9uW+GaIyr/0+nZQHp9MWxGgB28kaQGGDXgL0rzETXCKgW1Seqn+8apg
-         gc6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679683983;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=tessares.net; s=google; t=1679683986;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AvFmi2Kslfzz8p7RlnVaanV9PDS7ezg9eJoTmpzeqLU=;
-        b=unY7bxWLH6wUIVTLvajFNjSB0UZW3GwlbeSbP0oKW9SVSzIfDi0sfCPKSbjUWVu9RI
-         IxcUF3mLYPLUOoOvvoqhwfhMUnJFV4W8UaaEz3iTb0mIO8ih4heTN7boMQKatY7eC0G6
-         7mHFbEiHFX4xaM3/baFx1ZxHDkqHmvz+hXWOKI+LrI+33Nd0bk8uqarEAbJCDA9Y3j9A
-         k6cBB6WwPGcxk8f9hyW/zjEXIEf3vKB19G4kXPAYjr4FM73107negtLaWH2pEN4mjG3K
-         3N/sB9R7ayWUlsZc6928p1SN3Zqq7WuqCwMrgcIQEHClitKxQ9JdxaVNPKftIC1KPxfW
-         oOPg==
-X-Gm-Message-State: AAQBX9e0ZKW51Edf45FhcyIrsHa67/dfMnyE412ysWZwpjPo3pqw8GKg
-        BxtIA3an67w4+xv1ybVtwqp5l9KkOrZH+Hx+BKJ/cQ==
-X-Google-Smtp-Source: AKy350aaqrujAr8UEyTGBmBkvY/sH6CnI1gpgbAxu5Uxe5DRzA8XLPJkFulS9IB/6lu4GhcM84lq6Q==
-X-Received: by 2002:a5d:4d51:0:b0:2d2:20ed:b572 with SMTP id a17-20020a5d4d51000000b002d220edb572mr2900719wru.69.1679683983636;
-        Fri, 24 Mar 2023 11:53:03 -0700 (PDT)
+        bh=bN/V+wXkn6VKpx8ehUnZf15tp4N5UtPAc89buCNTYdI=;
+        b=bu98ZAs0Afv51Za0kQE/RzrDrEwOt0xs2eqndfKe4rNxs+wqsDR0ptOIUDvlM6DQaz
+         TShFbf4YJDjf+hY8JNkrKhxXnnMTZ8eePn3u6qckHSa8Qr/qf52PdiFTKi/Dn/Pq1Xfl
+         5jxb14Cv6P/mPtxn6owPPgKAioRHp9HDgISGf1ZQ4R5V52HEM6WqHK6mHuDKSub5CfwY
+         ZTw9XOlC8rd02KsQeEVzJrJajCIU2ZO4CkfNa/r5NDeINQNCI9iDW+JLOwJvHKp3TFIE
+         2fBcd44eH6l5bamARPJ78bLa5Tyyl1xC0NszZ2oxkcih33o5bMewvKywv6r9PAXFn0K1
+         5vNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679683986;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bN/V+wXkn6VKpx8ehUnZf15tp4N5UtPAc89buCNTYdI=;
+        b=LmCCmRV02wnVGL3CyqZtAVbBK5yS2Y+bp/0DgcRssShIlLeaWGPD3xc0AnUJ52v/AL
+         mAM8HBdQc7pvKDNtKvpbzx91mA9hwXUMWqmePl8eQLDOc1MY/ozWFbktKcwijnf5Invw
+         LZGWe5/PtnHVGczIJOaG75ew0P0FExgzrNuIh0THhHbO0tmFwbaZaChPMoW/GjWBxvJl
+         gKrTngOT8w9L4HGE4X8BESJppHiWMqD0rj1w0jZAsEoHbOuOf6WLuuKv2kcf0S3/zBoZ
+         lxIhVDcBsawZgvunIiIBHZJ2eObmgMqKior0kgb2UAkm8Os+qfz5oOVtVOrnKWyTgMIv
+         R8/w==
+X-Gm-Message-State: AO0yUKUR/Oi4RokM7wkjwsrb4YwAep2GXzIKiOgph4Kg1ShMSPZvoBBL
+        wsuWKnI4GT4QWY95OK9yfpaRTcXB+MNDVJH+KPwk5A==
+X-Google-Smtp-Source: AK7set8LarYNE5XR9zQMQl74m9FglnwL3uYMLGTS7Xe71v0PquWOK+cq2G0SEkO3r0EPaLgMRwpUPw==
+X-Received: by 2002:a7b:cbcc:0:b0:3ee:1afc:c14 with SMTP id n12-20020a7bcbcc000000b003ee1afc0c14mr3254271wmi.11.1679683985732;
+        Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
 Received: from vdi08.nix.tessares.net (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
-        by smtp.gmail.com with ESMTPSA id n1-20020a5d67c1000000b002cfe685bfd6sm18948878wrw.108.2023.03.24.11.53.02
+        by smtp.gmail.com with ESMTPSA id n1-20020a5d67c1000000b002cfe685bfd6sm18948878wrw.108.2023.03.24.11.53.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 11:53:03 -0700 (PDT)
+        Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
 From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-Subject: [PATCH v2 0/2] docs & checkpatch: allow Closes tags with links
-Date:   Fri, 24 Mar 2023 19:52:45 +0100
-Message-Id: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
+Date:   Fri, 24 Mar 2023 19:52:47 +0100
+Subject: [PATCH v2 2/2] checkpatch: allow Closes tags with links
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAH3xHWQC/42OTQ6CMBCFr2K6drQFEXHlPQyLaRlpI7akU4mGc
- HcLJ3D5vZf3Mwum6IjFdTeLSJNjF3yGYr8TxqLvCVyXWRSyKGWpTtAFA8aSeY6YjAUzBCaGhD2
- oulS6qqvqrJXIeY1MoCN6Y9eGwfk3H1/IieJqj5Ee7rNN39vM1nEK8bs9mdSq/jM6KZCg9KWUd
- UENNnhLxIyR+OApiXZZlh/fVtDi5AAAAA==
+Message-Id: <20230314-doc-checkpatch-closes-tag-v2-2-f4a417861f6d@tessares.net>
+References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
+In-Reply-To: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Andy Whitcroft <apw@canonical.com>,
         Joe Perches <joe@perches.com>,
@@ -76,81 +75,95 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev,
         Matthieu Baerts <matthieu.baerts@tessares.net>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2585;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3236;
  i=matthieu.baerts@tessares.net; h=from:subject:message-id;
- bh=hBQXRTLnt2/M7PhMUp0rgb64b++zS9LaDQGwBm4DXUk=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkHfGOqPllO3g+/LlSkRIxkaEoUAWKI/DGZTOyA
- OG7ny0LP+CJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZB3xjgAKCRD2t4JPQmmg
- c6pEEADBh4OrKeURadfB2zkHoNq4wee35N1D+2057a2iHhcB1hiM3S2kApDgLJT7hynAlg/oAP9
- KlAnaKcqrAaVAHJ2/bDkMurl/i5AHzwEv5XJxjNlat3DHM6oUir4ZC+bhN2sJEgxxztkNz7z8Ep
- E5JyHXxZYBDRYCmC5JbTdyH2x2C7fJ28gq1rX8qDj8aCz1Mu8SD02XchIvh0pSudoHrdxOToSdF
- 1Wll+rDDjZgWfuynGhfEm4MJVb/Y4dDVkYpd02k/lBjN0x5E++eJIWTyikPaSUnCa0uo6btxuqP
- 98UATAXCIroa4QZD6YBI/T2fimEsR9cMkoEpohyyk3fMN3cY5Xy7gpvY9rtgO8B7liueMS9xSiW
- FhobWVD+ZmE1QBpf8TgeaUEvbeP151YtoqMYckOu5n/QugOlD5Y+0qDj0xJUFGsbeJlg4VmVyw4
- XeB7Cjw5LxLcMT2uk2ceesqaSNri9W3KZyYmsIYCV1smTTMbiEgXTCJbf+wjvWZQfQJiAY8D9u2
- ewRwaSW54k3pjbr/DQtcM4TLwzHBtQi54gIREfOOSHHZKOBVRtwA+jKGNM82i/sTb3amiQqViwi
- Cay1VAHjyqQHDSVhe9lM06Pp2brytPsAb8osq8mBknAIW10PfZwJcThF9512YMiFK4dK07bcmRv
- QVIriidmpXtGF/w==
+ bh=A6YcEFpnSEzRoE/JmsgqALbij5oTtx49G6r6xyFUvo8=;
+ b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkHfGOx31HhMzR0A+INyOMQmmGQah/4ZZO6p3Og
+ 2KcBLwkzDeJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZB3xjgAKCRD2t4JPQmmg
+ c/BWEADSzURwBTQcuMSbbLIgU0Ou5/VHGqfsm7MUZ7rhDqqBfUe7OXlZI/2tbKUDaZ7Gq3xszLG
+ vHBLzvlwju+B7xLLRLBZ2w/cmoixV1m2S6gT9DHKn+F0ms95HfZmBFZXs/G0QylZNkmFWq9PPmw
+ rlu5P9loP4G3/mw/8eToDGQLbeCU1uyUTKwOVupMbxNUqTOHwAQn5fM0LwDDrX8fsNCNo3ji/Rm
+ zpkwxdjSrr7emjDnosJS+rBtSC/GUVVi8R4vs9Oxdpyr48L7Z4y4WloNTF4uzDVyjTrOv1KQSO8
+ M1w5YzWQPAtNIPmZKlCdQIL2K1lwK7QsPEuslWEMf6uwz3rWZUP/QCOZ7UXPbhiFaYAVpERoQD7
+ oCN8I92DG/RREDzdB/q0D+rZBs0mqaoVz49kt3X+Ju9DZIMsU+vgzVak6fmeFoIx23eBi8tYs5o
+ 4QMinXloHVfuH/au71si0QG4fcjKQb30CAAGMPIW4WXAAjGAGf169xQmHI4X8pUOvS43vqIbrRy
+ 2MOKPEnougitkE7BNLsZimh7AYWZc2ksJ/jI5vStDdcRaA0lpuxcxQelF8foCAyUMR4GfjjVoMA
+ s01Yn1eBw5Dgx0sn8t4k3dRcQ5/zg4lqUdQVTrJqx1nJqU5BHSMShcGplYtO3nrrcfayLqOmGCZ
+ fnn8Dbrs1p1SBkw==
 X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
  fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
-followed by a link [1]. It also complains if a "Reported-by:" tag is
-followed by a "Closes:" one [2].
+As a follow-up of the previous patch modifying the documentation to
+allow using the "Closes:" tag, checkpatch.pl is updated accordingly.
 
-As detailed in the first patch, this "Closes:" tag is used for a bit of
-time, mainly by DRM and MPTCP subsystems. It is used by some bug
-trackers to automate the closure of issues when a patch is accepted.
-It is even planned to use this tag with bugzilla.kernel.org [3].
+checkpatch.pl now mentions the "Closes:" tag between brackets to express
+the fact it should be used only if it makes sense.
 
-The first patch updates the documentation to explain what is this
-"Closes:" tag and how/when to use it. The second patch modifies
-checkpatch.pl to stop complaining about it.
+While at it, checkpatch.pl will not complain if the "Closes" tag is used
+with a "long" line, similar to what is done with the "Link" tag.
 
-The DRM maintainers and their mailing list have been added in Cc as they
-are probably interested by these two patches as well.
-
-[1] https://lore.kernel.org/all/3b036087d80b8c0e07a46a1dbaaf4ad0d018f8d5.1674217480.git.linux@leemhuis.info/
-[2] https://lore.kernel.org/all/bb5dfd55ea2026303ab2296f4a6df3da7dd64006.1674217480.git.linux@leemhuis.info/
-[3] https://lore.kernel.org/linux-doc/20230315181205.f3av7h6owqzzw64p@meerkat.local/
-
+Fixes: 76f381bb77a0 ("checkpatch: warn when unknown tags are used for links")
+Fixes: d7f1d71e5ef6 ("checkpatch: warn when Reported-by: is not followed by Link:")
+Closes: https://github.com/multipath-tcp/mptcp_net-next/issues/373
 Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
 ---
-Note: After having re-read the comments from the v1, it is still unclear
-to me if this "Closes:" can be accepted or not. But because it seems
-that the future Bugzilla bot for kernel.org is going to use it, I'm
-sending here a v2. I'm sorry if I misunderstood the comments from v1.
-Please ignore this v2 if I did.
+ scripts/checkpatch.pl | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Changes in v2:
-- Patch 1/2:
-  - Add Konstantin's Acked-by: even if the patch has changed a bit, the
-    concept is still the same, I hope that's OK.
-  - Mention "public" in "5.Posting.rst" file as well. (Jonathan Corbet)
-  - Re-phrase the new text from "5.Posting.rst". (Bagas Sanjaya &
-    Thorsten Leemhuis)
-  - Clearly mention that private bug trackers and invalid URLs are
-    forbidden (Linus Torvalds).
-- Rebased on top of Linus' repo.
-- Link to v1: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bd44d12965c9..d6376e0b68cc 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3158,14 +3158,14 @@ sub process {
+ 				}
+ 			}
+ 
+-# check if Reported-by: is followed by a Link:
++# check if Reported-by: is followed by a Link: (or Closes:) tag
+ 			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
+ 				if (!defined $lines[$linenr]) {
+ 					WARN("BAD_REPORTED_BY_LINK",
+-					     "Reported-by: should be immediately followed by Link: to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+-				} elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
++					     "Reported-by: should be immediately followed by Link: (or Closes:) to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
++				} elsif ($rawlines[$linenr] !~ m{^(link|closes):\s*https?://}i) {
+ 					WARN("BAD_REPORTED_BY_LINK",
+-					     "Reported-by: should be immediately followed by Link: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
++					     "Reported-by: should be immediately followed by Link: (or Closes:) with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+ 				}
+ 			}
+ 		}
+@@ -3250,8 +3250,8 @@ sub process {
+ 					# file delta changes
+ 		      $line =~ /^\s*(?:[\w\.\-\+]*\/)++[\w\.\-\+]+:/ ||
+ 					# filename then :
+-		      $line =~ /^\s*(?:Fixes:|Link:|$signature_tags)/i ||
+-					# A Fixes: or Link: line or signature tag line
++		      $line =~ /^\s*(?:Fixes:|Link:|Closes:|$signature_tags)/i ||
++					# A Fixes:, Link:, Closes: or signature tag line
+ 		      $commit_log_possible_stack_dump)) {
+ 			WARN("COMMIT_LOG_LONG_LINE",
+ 			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
+@@ -3266,13 +3266,13 @@ sub process {
+ 
+ # Check for odd tags before a URI/URL
+ 		if ($in_commit_log &&
+-		    $line =~ /^\s*(\w+):\s*http/ && $1 ne 'Link') {
++		    $line =~ /^\s*(\w+):\s*http/ && $1 ne 'Link' && $1 ne 'Closes') {
+ 			if ($1 =~ /^v(?:ersion)?\d+/i) {
+ 				WARN("COMMIT_LOG_VERSIONING",
+ 				     "Patch version information should be after the --- line\n" . $herecurr);
+ 			} else {
+ 				WARN("COMMIT_LOG_USE_LINK",
+-				     "Unknown link reference '$1:', use 'Link:' instead\n" . $herecurr);
++				     "Unknown link reference '$1:', use 'Link:' (or 'Closes:') instead\n" . $herecurr);
+ 			}
+ 		}
+ 
 
----
-Matthieu Baerts (2):
-      docs: process: allow Closes tags with links
-      checkpatch: allow Closes tags with links
-
- Documentation/process/5.Posting.rst          |  9 +++++++++
- Documentation/process/submitting-patches.rst |  9 +++++++++
- scripts/checkpatch.pl                        | 16 ++++++++--------
- 3 files changed, 26 insertions(+), 8 deletions(-)
----
-base-commit: cb7f5b41f8341148050fe63e27cf52aa4f1519ad
-change-id: 20230314-doc-checkpatch-closes-tag-1731b57556b1
-
-Best regards,
 -- 
-Matthieu Baerts <matthieu.baerts@tessares.net>
+2.39.2
 
