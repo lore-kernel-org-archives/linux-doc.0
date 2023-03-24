@@ -2,214 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B71C6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 12:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE4E2C6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 12:45:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbjCXMOi convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 08:14:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60762 "EHLO
+        id S231855AbjCXMph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 08:45:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbjCXMOh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 08:14:37 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 090236A40;
-        Fri, 24 Mar 2023 05:14:35 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PjgzF1z9Pz67MCd;
-        Fri, 24 Mar 2023 20:11:05 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 24 Mar
- 2023 12:14:32 +0000
-Date:   Fri, 24 Mar 2023 12:14:31 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Jie Zhan <zhanjie9@hisilicon.com>
-CC:     <will@kernel.org>, <mark.rutland@arm.com>,
-        <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
-        <john.g.garry@oracle.com>, <james.clark@arm.com>,
-        <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-        <corbet@lwn.net>, <zhangshaokun@hisilicon.com>,
-        <shenyang39@huawei.com>, <hejunhao3@huawei.com>,
-        <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
-        <suntao25@huawei.com>, <jiazhao4@hisilicon.com>,
-        <linuxarm@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>
-Subject: Re: [RFC PATCH v1 1/4] docs: perf: Add documentation for HiSilicon
- PMCU
-Message-ID: <20230324121431.000034c4@Huawei.com>
-In-Reply-To: <2d366bef-a891-6ee7-28bf-2091e0b78dbc@hisilicon.com>
-References: <20230206065146.645505-1-zhanjie9@hisilicon.com>
-        <20230206065146.645505-2-zhanjie9@hisilicon.com>
-        <20230317133710.00007d48@Huawei.com>
-        <2d366bef-a891-6ee7-28bf-2091e0b78dbc@hisilicon.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        with ESMTP id S230329AbjCXMpg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 08:45:36 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2313FCC2A;
+        Fri, 24 Mar 2023 05:45:35 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id z18so985329pgj.13;
+        Fri, 24 Mar 2023 05:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679661934;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpf4OkQ9ZCWW1S8L2UsDLHFAbEnlNYu/Xzcrj9wogs=;
+        b=Rrc1LYqjAqETK3k6kFTvezr/BXR7cc0eTMw0n1z/dC98/jIs75+UMEbwsyHvg0jhjb
+         NLlZ912yRk4Ks34Rt4KCHCSB2bOUBFCnLJHaBq5FVbihLSi7LiS51tM6MN7Oo++yznel
+         X8kluD5x+3jzfFv7r7LuZTpW0I0jRg+0X9l5rpQFAT8TEVGBY1f9ySqEuwXivlgTpPZD
+         6gUd3Q1k2FKaP33rU6omam7Yj93xipv3KuvtG9wf0QWF2ShWHjJlmtQRz3nCNHqNyu/j
+         4PEKPDjUzaRgo/KkoK6XbP+Sl2hZm0QxY9rMuLBcs8aHV/FCl0fbllVs933vRVTk4+Vo
+         iVHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679661934;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nWpf4OkQ9ZCWW1S8L2UsDLHFAbEnlNYu/Xzcrj9wogs=;
+        b=1dOQdf72pk0uDmlCIi01shj8q/SRBUryboFGju1obVIY1O9GF5H3Tw9Y+A5oAjusFd
+         MzU/GGJNtScca3qHnnlrLviY3sdE1DrzyIsEUvvywcNYuxy3uRa7vyqn3zh1V2NsRHXj
+         dakzbt1f4yQJxjjrv2KtxW9hRh67pCQMsbJbDskfgTW5jY7m5ukSOW0nfqVaHdh8qwiY
+         eWzZxLpzrMvcpIupMLDT1Yo1ze8lQa2VgqzVJ1Xg78SuGMBzhmFnqI5D33Ao9FwrURY7
+         mALyfTaFU4IAKDKT1FFFYMBrBKzaGeIwQmnKeEcywbjYV0CDlWgI7iRZlJK3Q6BLiuwI
+         Zezw==
+X-Gm-Message-State: AAQBX9dIpe6jyUvfI77z7QbR9bFIm4br8m9X2zjXtaFVhtohmVfKx5/B
+        H8KL/OUdD0QXR+TJno7dGY4=
+X-Google-Smtp-Source: AKy350Z1Aa9QhsMRyPvp1b7Voh3TwHp0uBjEfDOTCVT04eocigw6DVY/e5jUTqb2B4T8NVDMPuys+A==
+X-Received: by 2002:aa7:9696:0:b0:627:fae5:b3d0 with SMTP id f22-20020aa79696000000b00627fae5b3d0mr2835430pfk.24.1679661934552;
+        Fri, 24 Mar 2023 05:45:34 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-20.three.co.id. [180.214.232.20])
+        by smtp.gmail.com with ESMTPSA id e21-20020aa78255000000b0062bada5db75sm504162pfn.172.2023.03.24.05.45.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 05:45:34 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 17C521060BB; Fri, 24 Mar 2023 19:45:28 +0700 (WIB)
+Date:   Fri, 24 Mar 2023 19:45:28 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Feng Tang <feng.tang@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Shakeel Butt <shakeelb@google.com>, dave.hansen@intel.com,
+        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com
+Subject: Re: [PATCH v1] Documentation: Add document for false sharing
+Message-ID: <ZB2baIDIPhxj5Vdl@debian.me>
+References: <20230324071316.167337-1-feng.tang@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="bmr6WrZlwmrP0vLx"
+Content-Disposition: inline
+In-Reply-To: <20230324071316.167337-1-feng.tang@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Mar 2023 17:32:15 +0800
-Jie Zhan <zhanjie9@hisilicon.com> wrote:
 
-> On 17/03/2023 21:37, Jonathan Cameron wrote:
-> > On Mon, 6 Feb 2023 14:51:43 +0800
-> > Jie Zhan <zhanjie9@hisilicon.com> wrote:
-> >  
-> >> Document the overview and usage of HiSilicon PMCU.
-> >>
-> >> HiSilicon Performance Monitor Control Unit (PMCU) is a device that offloads
-> >> PMU accesses from CPUs, handling the configuration, event switching, and
-> >> counter reading of core PMUs on Kunpeng SoC. It facilitates fine-grained
-> >> and multi-PMU-event CPU profiling, in which scenario the current 'perf'
-> >> scheme may lose events or drop sampling frequency. With PMCU, users can
-> >> reliably obtain the data of up to 240 PMU events with the sample interval
-> >> of events down to 1ms, while the software overhead of accessing PMUs, as
-> >> well as its impact on target workloads, is reduced.
-> >>
-> >> Signed-off-by: Jie Zhan <zhanjie9@hisilicon.com>  
-> > Nice documentation. I've read this a few times before, but on this read
-> > through wondered if we could say anything about the skew between capture
-> > of the counters.  Not that important though so I'm happy to add
-> >
-> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> >
-> > though this may of course need updating significantly as the interface
-> > is refined (the RFC question you raised for example in the cover letter).
-> >
-> > Thanks
-> >
-> > Jonathan
-> >  
-> >> ---
-> >>   Documentation/admin-guide/perf/hisi-pmcu.rst | 183 +++++++++++++++++++
-> >>   Documentation/admin-guide/perf/index.rst     |   1 +
-> >>   2 files changed, 184 insertions(+)
-> >>   create mode 100644 Documentation/admin-guide/perf/hisi-pmcu.rst
-> >>
-> >> diff --git a/Documentation/admin-guide/perf/hisi-pmcu.rst b/Documentation/admin-guide/perf/hisi-pmcu.rst
-> >> new file mode 100644
-> >> index 000000000000..50d17cbd0049
-> >> --- /dev/null
-> >> +++ b/Documentation/admin-guide/perf/hisi-pmcu.rst
-> >> @@ -0,0 +1,183 @@
-> >> +.. SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +==========================================
-> >> +HiSilicon Performance Monitor Control Unit
-> >> +==========================================
-> >> +
-> >> +Introduction
-> >> +============
-> >> +
-> >> +HiSilicon Performance Monitor Control Unit (PMCU) is a device that offloads
-> >> +PMU accesses from CPUs, handling the configuration, event switching, and
-> >> +counter reading of core PMUs on Kunpeng SoC. It facilitates fine-grained
-> >> +and multi-PMU-event CPU profiling, in which scenario the current ``perf``
-> >> +scheme may lose events or drop sampling frequency. With PMCU, users can
-> >> +reliably obtain the data of up to 240 PMU events with the sample interval
-> >> +of events down to 1ms, while the software overhead of accessing PMUs, as
-> >> +well as its impact on target workloads, is reduced.
-> >> +
-> >> +Each CPU die is equipped with a PMCU device. The PMCU driver registers it as a
-> >> +PMU device, named as ``hisi_pmcu_sccl<N>``, where ``<N>`` is the corresponding
-> >> +CPU die ID. When triggered, PMCU reads event IDs and pass them to PMUs in all
-> >> +CPUs on the CPU die it is on. PMCU then starts the counters for counting
-> >> +events, waits for a time interval, and stops them. The PMU counter readings are
-> >> +dumped from hardware to memory, i.e. perf AUX buffers, and further copied to
-> >> +the ``perf.data`` file in the user space. PMCU automatically switches events
-> >> +(when there are more events than available PMU counters) and completes multiple
-> >> +rounds of PMU event counting in one trigger.
-> >> +
-> >> +Hardware overview
-> >> +=================
-> >> +
-> >> +On Kunpeng SoC, each CPU die is equipped with a PMCU device. PMCU acts like an
-> >> +assistant to access the core PMUs on its die and move the counter readings to
-> >> +memory. An overview of PMCU's hardware organization is shown below::
-> >> +
-> >> +                                +--------------------+
-> >> +                                |       Memory       |
-> >> +                                | +------+ +-------+ |
-> >> +                   +--------+   | |Events| |Samples| |
-> >> +                   |  PMCU  |   | +------+ +-------+ |
-> >> +                   +---|----+   +---------|----------+
-> >> +                       |                  |
-> >> +        =======================================================  Bus
-> >> +                   |                         |               |
-> >> +        +----------|----------+   +----------|----------+    |
-> >> +        | +------+ | +------+ |   | +------+ | +------+ |    |
-> >> +        | |Core 0| | |Core 1| |   | |Core 0| | |Core 1| |    |
-> >> +        | +--|---+ | +--|---+ |   | +--|---+ | +--|---+ |  (More
-> >> +        |    +-----+----+     |   |    +-----+----+     |  clusters
-> >> +        | +--|---+   +--|---+ |   | +--|---+   +--|---+ |  ...)
-> >> +        | |Core 2|   |Core 3| |   | |Core 2|   |Core 3| |
-> >> +        | +------+   +------+ |   | +------+   +------+ |
-> >> +        |    CPU Cluster 0    |   |    CPU Cluster 1    |
-> >> +        +---------------------+   +---------------------+
-> >> +
-> >> +On Kunpeng SoC, a CPU die is formed of several CPU clusters and several
-> >> +CPUs per cluster. PMCU is able to access the core PMUs in these CPUs.
-> >> +The main job of PMCU is to fetch PMU event IDs from memory, make PMUs count the
-> >> +events for a while, and move the counter readings back to memory.
-> >> +
-> >> +Once triggered, PMCU performs a number of loops and processes a number of
-> >> +events in each loop. It fetches ``nr_pmu`` events from memory at a time, where
-> >> +``nr_pmu`` denotes the number of PMU counters to be used in each CPU. The
-> >> +``nr_pmu`` events are passed to the PMU counters of all CPUs on the CPU die
-> >> +where PMCU resides. Then, PMCU starts all the counters, waits for a period,
-> >> +stops all the counters, and moves the counter readings to memory, before
-> >> +handling the next ``nr_pmu`` events if there are more events to process in this
-> >> +loop. The number of loops and ``nr_pmu`` are determined by the driver, whereas
-> >> +the number of events to process depends on user inputs. The counters are
-> >> +stopped when PMCU reads counters and switches events, so there is a tiny time
-> >> +window during which the events are not counted.  
-> > I'm not clear from this description whether there is 'skew' between the counters
-> > (beyond the normal issues from uarch).  Does the PMCU stop all counters
-> > then read them all (minimizing skew) or does it stop each CPUs set of counters
-> > and read those, or stop each individual counter before reading?
-> >
-> > My impression is that this feature is meant to be left running over timescales
-> > much longer than the sampling period so it may not be necessary to align the
-> > different lines on the resulting graphs perfectly.  Hence maybe this doesn't matter.
-> >  
-> Thanks for pointing this out.
-> 
-> The PMCU stops all the counters before reading any counters (i.e. the 
-> first case you said).
-> 
-> The basic procedure is:
->      start counters -> wait -> stop counters -> read and reset counters 
-> -> switch events -> start counters -> ...  
-> where each step applys to all CPUs and counters.
+--bmr6WrZlwmrP0vLx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Great. So this is across all cores on a die so skew should be minimized
-(at a cost of missing more events than a skew heavy approach).
+On Fri, Mar 24, 2023 at 03:13:16PM +0800, Feng Tang wrote:
+> +There are many real-world cases of performance regressions caused by
+> +false sharing, and one is a rw_semaphore 'mmap_lock' inside struct
+"... . One of these is rw_semaphore 'mmap_lock' ..."
 
-> 
-> The counters don't count during the tiny stop-start window.
-> I guess a small improvement would be: reset -> read -> switch -> reset 
-> -> ..., while the counters keep running,  
-> but we still lose some event counts between read and reset, and thus, no 
-> fundamental differrence.
+But I think in English we commonly name things as "foobar struct"
+instead of "struct foobar" (that is, common noun follow the proper noun
+that names something).
 
-Lots of ways to reduce both skew and missed counts, but I think you are
-right in that none of them matter for the intended long term monitoring
-usecase.
+> +* A global datum accessed (shared) by many CPUs
+Global data?
 
-Jonathan
+> +Following 'mitigation' section provides real-world examples.
+"The real-world examples are given in 'Possible mitigations' sections."
+> +  #perf c2c record -ag sleep 3
+> +  #perf c2c report --call-graph none -k vmlinux
 
-> 
-> Regards,
-> Jie
+Are these commands really run as root?
 
+> +
+> +Run it when testing will-it-scale's tlb_flush1 case, and the report
+> +has pieces like::
+
+"When running above during testing ..., perf reports something like::"
+
+> +False sharing hurting performance cases are seen more frequently with
+> +core count increasing, and there have been many patches merged to
+> +solve it, like in networking and memory management subsystems.  Some
+> +common mitigations (with examples) are:
+
+"... Because of these detrimental effects, many patches have been
+proposed across variety of subsystems (like networking and memory
+management) and merged."
+
+> +
+> +* Separate hot global data in its own dedicated cache line, even if it
+> +  is just a 'short' type. The downside is more consumption of memory,
+> +  cache line and TLB entries.
+> +
+> +  Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_socke=
+ts_allocated")
+> +
+> +* Reorganize the data structure, separate the interfering members to
+> +  different cache lines.  One downside is it may introduce new false
+> +  sharing of other members.
+> +
+> +  Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduce =
+false sharing")
+> +
+> +* Replace 'write' with 'read' when possible, especially in loops.
+> +  Like for some global variable, use compare(read)-then-write instead
+> +  of unconditional write. For example, use:
+"... For example, write::"
+> +
+> +	if (!test_bit(XXX))
+> +		set_bit(XXX);
+> +
+> +  instead of directly "set_bit(XXX);", similarly for atomic_t data.
+> +
+> +  Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() mul=
+tithreaded CPU false sharing")
+> +  Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
+> +
+> +* Turn hot global data to 'per-cpu data + global data' when possible,
+> +  or reasonably increase the threshold for syncing per-cpu data to
+> +  global data, to reduce or postpone the 'write' to that global data.
+> +
+> +  Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cach=
+e hits/misses")
+> +  Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm=
+ overcommit policy")
+
+IMO it's odd to jump to specifying example commits without some sort of
+conjuction (e.g. "for example, see commit <commit>").
+
+> +
+> +Surely, all mitigations should be carefully verified to not cause side
+> +effects.  And to avoid false sharing in advance during coding, it's
+> +better to:
+> +
+> +* Be aware of cache line boundaries
+> +* Group mostly read-only fields together
+> +* Group things that are written at the same time together
+> +* Separate known read-mostly and written-mostly fields
+
+Proactively prevent false sharing with above tips?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--bmr6WrZlwmrP0vLx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZB2bYwAKCRD2uYlJVVFO
+o6aVAP4k4TZkALv52VhS6ilM3BXWRZ9wrsPMkJ+Udg9do+OosgD9F6em3Tvl3RKS
+KFZ/T31R1voKg7eV70fPWSsimVlUYgA=
+=DfFY
+-----END PGP SIGNATURE-----
+
+--bmr6WrZlwmrP0vLx--
