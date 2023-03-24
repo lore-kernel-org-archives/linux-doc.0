@@ -2,79 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A172CC6FD20
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 17:35:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E8CC6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 17:47:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229921AbjCXRfK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 13:35:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57910 "EHLO
+        id S231806AbjCXRr1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 13:47:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjCXRfJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 13:35:09 -0400
-Received: from nbd.name (nbd.name [46.4.11.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD83DC64C;
-        Fri, 24 Mar 2023 10:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=nbd.name;
-        s=20160729; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:From
-        :References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=miGmwI1bTGkIjWnSC43LX/N+9isfAegXHNpz6mp4Veg=; b=myXgInc3xx8PMiPFGMZq3OGoHm
-        ZLnQv4NmgXzemL98aFuh6/2u4qpW7QGvhTTTAxoi+QH4U2t3U6biOks9dNPgc0koyO3B1cta6kLct
-        TPulu/bIE//tDM3Lw+Vr+4AiLUeKVslDfbkfB2qtTy1lwSfdOb+llXeHtEIr7IsMWZ1I=;
-Received: from p200300daa7147b00f53b1e71cf2162bd.dip0.t-ipconnect.de ([2003:da:a714:7b00:f53b:1e71:cf21:62bd] helo=nf.local)
-        by ds12 with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <nbd@nbd.name>)
-        id 1pflJc-006Rgm-PY; Fri, 24 Mar 2023 18:35:00 +0100
-Message-ID: <2d251879-1cf4-237d-8e62-c42bb4feb047@nbd.name>
-Date:   Fri, 24 Mar 2023 18:35:00 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S229522AbjCXRr0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 13:47:26 -0400
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B761819F39;
+        Fri, 24 Mar 2023 10:47:22 -0700 (PDT)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OH2r7V001150;
+        Fri, 24 Mar 2023 10:47:14 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=pfpt0220; bh=RQJnUV0LgzhgDRqK+teJvOHzNPq+nNWZbwxNL4URU0I=;
+ b=jHVRWs/VmjGTLeTkzM98/BeFyt1mvw3PJf+tlYgDmCyc69evILXgpu+PAknBjRrR5uKY
+ 731PLkC7f5Bg6jJIbTlRR7Ke/NNIGl3Zzakd2KTC5fqGvDJvb2R5SKQH22br11hXpdol
+ 5HYPOeV6XklPKJ4FoXeUHF7q2GN2tloQUSdP1toFps/aGQHTBq8lXrLq8iIx8X10hvfS
+ 9Wxx4DaYclHqKRJ90jPJ/J4Gu3WNU3z7Oqg6mIF7ICNUTOB5YFmHnmQY6T+zu3HlnYNH
+ qiPKf+XmRRJQ7q1jkOcOymwPa7rjIXjI5u2geRQT9BAfrltGkBJtrYnDJkA/R6DgIGbl 6Q== 
+Received: from dc5-exch02.marvell.com ([199.233.59.182])
+        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3pgxmfkdp2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Fri, 24 Mar 2023 10:47:14 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 24 Mar
+ 2023 10:47:12 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.42 via Frontend
+ Transport; Fri, 24 Mar 2023 10:47:12 -0700
+Received: from sburla-PowerEdge-T630.sclab.marvell.com (unknown [10.106.27.217])
+        by maili.marvell.com (Postfix) with ESMTP id 0A1923F7059;
+        Fri, 24 Mar 2023 10:47:12 -0700 (PDT)
+From:   Veerasenareddy Burru <vburru@marvell.com>
+To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <aayarekar@marvell.com>, <sedara@marvell.com>, <sburla@marvell.com>
+CC:     <linux-doc@vger.kernel.org>,
+        Veerasenareddy Burru <vburru@marvell.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230324171314.73537-1-nbd@nbd.name>
- <20230324102038.7d91355c@kernel.org>
-From:   Felix Fietkau <nbd@nbd.name>
-Subject: Re: [PATCH net-next] net/core: add optional threading for backlog
- processing
-In-Reply-To: <20230324102038.7d91355c@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: [PATCH net-next v5 0/8] octeon_ep: deferred probe and mailbox
+Date:   Fri, 24 Mar 2023 10:46:55 -0700
+Message-ID: <20230324174704.9752-1-vburru@marvell.com>
+X-Mailer: git-send-email 2.36.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: R5aHlj6t82mx3b1MLlUJeH5zsfunVayT
+X-Proofpoint-ORIG-GUID: R5aHlj6t82mx3b1MLlUJeH5zsfunVayT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24.03.23 18:20, Jakub Kicinski wrote:
-> On Fri, 24 Mar 2023 18:13:14 +0100 Felix Fietkau wrote:
->> When dealing with few flows or an imbalance on CPU utilization, static RPS
->> CPU assignment can be too inflexible. Add support for enabling threaded NAPI
->> for backlog processing in order to allow the scheduler to better balance
->> processing. This helps better spread the load across idle CPUs.
-> 
-> Can you explain the use case a little bit more?
+Implement Deferred probe, mailbox enhancements and heartbeat monitor.
 
-I'm primarily testing this on routers with 2 or 4 CPUs and limited 
-processing power, handling routing/NAT. RPS is typically needed to 
-properly distribute the load across all available CPUs. When there is 
-only a small number of flows that are pushing a lot of traffic, a static 
-RPS assignment often leaves some CPUs idle, whereas others become a 
-bottleneck by being fully loaded. Threaded NAPI reduces this a bit, but 
-CPUs can become bottlenecked and fully loaded by a NAPI thread alone.
+v4 -> v5:
+   - addressed review comments
+     https://lore.kernel.org/all/20230323104703.GD36557@unreal/
+     replaced atomic_inc() + atomic_read() with atomic_inc_return().
 
-Making backlog processing threaded helps split up the processing work 
-even more and distribute it onto remaining idle CPUs.
+v3 -> v4:
+   - addressed review comments on v3
+     https://lore.kernel.org/all/20230214051422.13705-1-vburru@marvell.com/
+   - 0004-xxx.patch v3 is split into 0004-xxx.patch and 0005-xxx.patch
+     in v4.
+   - API changes to accept function ID are moved to 0005-xxx.patch.
+   - fixed rct violations.
+   - reverted newly added changes that do not yet have use cases.
 
-It can basically be used to make RPS a bit more dynamic and 
-configurable, because you can assign multiple backlog threads to a set 
-of CPUs and selectively steer packets from specific devices / rx queues 
-to them and allow the scheduler to take care of the rest.
+v2 -> v3:
+   - removed SRIOV VF support changes from v2, as new drivers which use
+     ndo_get_vf_xxx() and ndo_set_vf_xxx() are not accepted.
+     https://lore.kernel.org/all/20221207200204.6819575a@kernel.org/
 
-- Felix
+     Will implement VF representors and submit again.
+   - 0007-xxx.patch and 0008-xxx.patch from v2 are removed and
+     0009-xxx.patch in v2 is now 0007-xxx.patch in v3.
+   - accordingly, changed title for cover letter.
+
+v1 -> v2:
+   - remove separate workqueue task to wait for firmware ready.
+     instead defer probe when firmware is not ready.
+     Reported-by: Leon Romanovsky <leon@kernel.org>
+   - This change has resulted in update of 0001-xxx.patch and
+     all other patches in the patchset.
+
+Veerasenareddy Burru (8):
+  octeon_ep: defer probe if firmware not ready
+  octeon_ep: poll for control messages
+  octeon_ep: control mailbox for multiple PFs
+  octeon_ep: add separate mailbox command and response queues
+  octeon_ep: include function id in mailbox commands
+  octeon_ep: support asynchronous notifications
+  octeon_ep: function id in link info and stats mailbox commands
+  octeon_ep: add heartbeat monitor
+
+ .../marvell/octeon_ep/octep_cn9k_pf.c         |  72 ++--
+ .../ethernet/marvell/octeon_ep/octep_config.h |   6 +
+ .../marvell/octeon_ep/octep_ctrl_mbox.c       | 276 +++++++------
+ .../marvell/octeon_ep/octep_ctrl_mbox.h       |  88 ++--
+ .../marvell/octeon_ep/octep_ctrl_net.c        | 387 ++++++++++++------
+ .../marvell/octeon_ep/octep_ctrl_net.h        | 196 +++++----
+ .../marvell/octeon_ep/octep_ethtool.c         |  12 +-
+ .../ethernet/marvell/octeon_ep/octep_main.c   | 180 +++++---
+ .../ethernet/marvell/octeon_ep/octep_main.h   |  18 +-
+ .../marvell/octeon_ep/octep_regs_cn9k_pf.h    |   6 +
+ 10 files changed, 784 insertions(+), 457 deletions(-)
+
+
+base-commit: 323fe43cf9aef79159ba8937218a3f076bf505af
+-- 
+2.36.0
+
