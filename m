@@ -2,199 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16634C6FD20
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 09:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08577C6FD20
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 10:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbjCXJc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 05:32:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40436 "EHLO
+        id S231135AbjCXKZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 06:25:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231346AbjCXJcX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 05:32:23 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB50A24BE5;
-        Fri, 24 Mar 2023 02:32:17 -0700 (PDT)
-Received: from dggpeml500019.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4PjcNL6S5nz17P1v;
-        Fri, 24 Mar 2023 17:29:06 +0800 (CST)
-Received: from [10.67.101.98] (10.67.101.98) by dggpeml500019.china.huawei.com
- (7.185.36.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 24 Mar
- 2023 17:32:15 +0800
-Message-ID: <2d366bef-a891-6ee7-28bf-2091e0b78dbc@hisilicon.com>
-Date:   Fri, 24 Mar 2023 17:32:15 +0800
+        with ESMTP id S230071AbjCXKZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 06:25:51 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E64F1E1DF;
+        Fri, 24 Mar 2023 03:25:48 -0700 (PDT)
+Received: (Authenticated sender: maxime.chevallier@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4FC82C0008;
+        Fri, 24 Mar 2023 10:25:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1679653546;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xv+ASSzcWiUf7WB1UddjxDgaUpS6QjUv6DsxIIFvx1w=;
+        b=hl9OoFksAO9preOhRLTIo0SONnDHJIuXFwghucu/pBPo3zaA7osCDq9AyGtyOmgSyN7XUF
+        +XYru/MB6/vken94g5WLx5HB/V8xxCe3VeE7twcYrsqfHkcaExDaS26KALR2XI1mpvsl/K
+        SnbXosRs/KVijDPH3N1QMSg2pOhC7DPj3HIlBnPwiFoIWtrP5g58l/sQDDWQoizMoh5KIi
+        ZR+e4ZLGcvkR/rEbhkRnVjQ+p8dYyd8KHF0BnkvCJYfPy4TtSGtUPiuEEQA54LKByF3RwN
+        GHmrTJo2TrFW5uU0uHvpJUykvz4siTYpY1Ro4ty8npHV9HAV+5PvnZptqZg1pg==
+Date:   Fri, 24 Mar 2023 11:25:41 +0100
+From:   Maxime Chevallier <maxime.chevallier@bootlin.com>
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
+        Michael Walle <michael@walle.cc>,
+        Richard Cochran <richardcochran@gmail.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
+        Jie Wang <wangjie125@huawei.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Sean Anderson <sean.anderson@seco.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Marco Bonelli <marco@mebeim.net>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <20230324112541.0b3dd38a@pc-7.home>
+In-Reply-To: <20230310113533.l7flaoli7y3bmlnr@skbuf>
+References: <20230308135936.761794-1-kory.maincent@bootlin.com>
+        <20230308135936.761794-1-kory.maincent@bootlin.com>
+        <20230308135936.761794-4-kory.maincent@bootlin.com>
+        <20230308135936.761794-4-kory.maincent@bootlin.com>
+        <20230308230321.liw3v255okrhxg6s@skbuf>
+        <20230310114852.3cef643d@kmaincent-XPS-13-7390>
+        <20230310113533.l7flaoli7y3bmlnr@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [RFC PATCH v1 1/4] docs: perf: Add documentation for HiSilicon
- PMCU
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC:     <will@kernel.org>, <mark.rutland@arm.com>,
-        <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
-        <john.g.garry@oracle.com>, <james.clark@arm.com>,
-        <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-        <corbet@lwn.net>, <zhangshaokun@hisilicon.com>,
-        <shenyang39@huawei.com>, <hejunhao3@huawei.com>,
-        <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
-        <suntao25@huawei.com>, <jiazhao4@hisilicon.com>,
-        <linuxarm@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>
-References: <20230206065146.645505-1-zhanjie9@hisilicon.com>
- <20230206065146.645505-2-zhanjie9@hisilicon.com>
- <20230317133710.00007d48@Huawei.com>
-From:   Jie Zhan <zhanjie9@hisilicon.com>
-In-Reply-To: <20230317133710.00007d48@Huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.101.98]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500019.china.huawei.com (7.185.36.137)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello everyone,
 
+I'm sorry to intervene late in this discussion, but since it looks like
+the discussion is converging towards the creation of a new API (though
+NDOs internally, and through netlink for userspace), I'd like to add a
+small other use-case to consider. Of course, this can be addressed
+later on.
 
-On 17/03/2023 21:37, Jonathan Cameron wrote:
-> On Mon, 6 Feb 2023 14:51:43 +0800
-> Jie Zhan <zhanjie9@hisilicon.com> wrote:
->
->> Document the overview and usage of HiSilicon PMCU.
->>
->> HiSilicon Performance Monitor Control Unit (PMCU) is a device that offloads
->> PMU accesses from CPUs, handling the configuration, event switching, and
->> counter reading of core PMUs on Kunpeng SoC. It facilitates fine-grained
->> and multi-PMU-event CPU profiling, in which scenario the current 'perf'
->> scheme may lose events or drop sampling frequency. With PMCU, users can
->> reliably obtain the data of up to 240 PMU events with the sample interval
->> of events down to 1ms, while the software overhead of accessing PMUs, as
->> well as its impact on target workloads, is reduced.
->>
->> Signed-off-by: Jie Zhan <zhanjie9@hisilicon.com>
-> Nice documentation. I've read this a few times before, but on this read
-> through wondered if we could say anything about the skew between capture
-> of the counters.  Not that important though so I'm happy to add
->
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->
-> though this may of course need updating significantly as the interface
-> is refined (the RFC question you raised for example in the cover letter).
->
-> Thanks
->
-> Jonathan
->
->> ---
->>   Documentation/admin-guide/perf/hisi-pmcu.rst | 183 +++++++++++++++++++
->>   Documentation/admin-guide/perf/index.rst     |   1 +
->>   2 files changed, 184 insertions(+)
->>   create mode 100644 Documentation/admin-guide/perf/hisi-pmcu.rst
->>
->> diff --git a/Documentation/admin-guide/perf/hisi-pmcu.rst b/Documentation/admin-guide/perf/hisi-pmcu.rst
->> new file mode 100644
->> index 000000000000..50d17cbd0049
->> --- /dev/null
->> +++ b/Documentation/admin-guide/perf/hisi-pmcu.rst
->> @@ -0,0 +1,183 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +==========================================
->> +HiSilicon Performance Monitor Control Unit
->> +==========================================
->> +
->> +Introduction
->> +============
->> +
->> +HiSilicon Performance Monitor Control Unit (PMCU) is a device that offloads
->> +PMU accesses from CPUs, handling the configuration, event switching, and
->> +counter reading of core PMUs on Kunpeng SoC. It facilitates fine-grained
->> +and multi-PMU-event CPU profiling, in which scenario the current ``perf``
->> +scheme may lose events or drop sampling frequency. With PMCU, users can
->> +reliably obtain the data of up to 240 PMU events with the sample interval
->> +of events down to 1ms, while the software overhead of accessing PMUs, as
->> +well as its impact on target workloads, is reduced.
->> +
->> +Each CPU die is equipped with a PMCU device. The PMCU driver registers it as a
->> +PMU device, named as ``hisi_pmcu_sccl<N>``, where ``<N>`` is the corresponding
->> +CPU die ID. When triggered, PMCU reads event IDs and pass them to PMUs in all
->> +CPUs on the CPU die it is on. PMCU then starts the counters for counting
->> +events, waits for a time interval, and stops them. The PMU counter readings are
->> +dumped from hardware to memory, i.e. perf AUX buffers, and further copied to
->> +the ``perf.data`` file in the user space. PMCU automatically switches events
->> +(when there are more events than available PMU counters) and completes multiple
->> +rounds of PMU event counting in one trigger.
->> +
->> +Hardware overview
->> +=================
->> +
->> +On Kunpeng SoC, each CPU die is equipped with a PMCU device. PMCU acts like an
->> +assistant to access the core PMUs on its die and move the counter readings to
->> +memory. An overview of PMCU's hardware organization is shown below::
->> +
->> +                                +--------------------+
->> +                                |       Memory       |
->> +                                | +------+ +-------+ |
->> +                   +--------+   | |Events| |Samples| |
->> +                   |  PMCU  |   | +------+ +-------+ |
->> +                   +---|----+   +---------|----------+
->> +                       |                  |
->> +        =======================================================  Bus
->> +                   |                         |               |
->> +        +----------|----------+   +----------|----------+    |
->> +        | +------+ | +------+ |   | +------+ | +------+ |    |
->> +        | |Core 0| | |Core 1| |   | |Core 0| | |Core 1| |    |
->> +        | +--|---+ | +--|---+ |   | +--|---+ | +--|---+ |  (More
->> +        |    +-----+----+     |   |    +-----+----+     |  clusters
->> +        | +--|---+   +--|---+ |   | +--|---+   +--|---+ |  ...)
->> +        | |Core 2|   |Core 3| |   | |Core 2|   |Core 3| |
->> +        | +------+   +------+ |   | +------+   +------+ |
->> +        |    CPU Cluster 0    |   |    CPU Cluster 1    |
->> +        +---------------------+   +---------------------+
->> +
->> +On Kunpeng SoC, a CPU die is formed of several CPU clusters and several
->> +CPUs per cluster. PMCU is able to access the core PMUs in these CPUs.
->> +The main job of PMCU is to fetch PMU event IDs from memory, make PMUs count the
->> +events for a while, and move the counter readings back to memory.
->> +
->> +Once triggered, PMCU performs a number of loops and processes a number of
->> +events in each loop. It fetches ``nr_pmu`` events from memory at a time, where
->> +``nr_pmu`` denotes the number of PMU counters to be used in each CPU. The
->> +``nr_pmu`` events are passed to the PMU counters of all CPUs on the CPU die
->> +where PMCU resides. Then, PMCU starts all the counters, waits for a period,
->> +stops all the counters, and moves the counter readings to memory, before
->> +handling the next ``nr_pmu`` events if there are more events to process in this
->> +loop. The number of loops and ``nr_pmu`` are determined by the driver, whereas
->> +the number of events to process depends on user inputs. The counters are
->> +stopped when PMCU reads counters and switches events, so there is a tiny time
->> +window during which the events are not counted.
-> I'm not clear from this description whether there is 'skew' between the counters
-> (beyond the normal issues from uarch).  Does the PMCU stop all counters
-> then read them all (minimizing skew) or does it stop each CPUs set of counters
-> and read those, or stop each individual counter before reading?
->
-> My impression is that this feature is meant to be left running over timescales
-> much longer than the sampling period so it may not be necessary to align the
-> different lines on the resulting graphs perfectly.  Hence maybe this doesn't matter.
->
-Thanks for pointing this out.
+On Fri, 10 Mar 2023 13:35:33 +0200
+Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
 
-The PMCU stops all the counters before reading any counters (i.e. the 
-first case you said).
+> On Fri, Mar 10, 2023 at 11:48:52AM +0100, K=C3=B6ry Maincent wrote:
+> > > From previous discussions, I believe that a device tree property
+> > > was added in order to prevent perceived performance regressions
+> > > when timestamping support is added to a PHY driver, correct? =20
+> >=20
+> > Yes, i.e. to select the default and better timestamp on a board. =20
+>=20
+> Is there a way to unambiguously determine the "better" timestamping
+> on a board?
 
-The basic procedure is:
-     start counters -> wait -> stop counters -> read and reset counters 
--> switch events -> start counters -> ...
-where each step applys to all CPUs and counters.
+I'd like to point out a series sent a while ago :
 
-The counters don't count during the tiny stop-start window.
-I guess a small improvement would be: reset -> read -> switch -> reset 
--> ..., while the counters keep running,
-but we still lose some event counts between read and reset, and thus, no 
-fundamental differrence.
+https://lore.kernel.org/netdev/3a14f417-1ae1-9434-5532-4b3387f25d18@orolia.=
+com/
 
-Regards,
-Jie
+Here, the MAC's timestamping unit can be configured in 2 ways, which
+boils down to either more accurate timestamps, or better accuracy in
+frequency adjustments for the clock.
+
+The need is to be able to change this mode at runtime, as we can change
+the clock source for the timestamping unit to a very precise-one,
+therefore using the "accurate timestamps mode" working as a
+grand-master, or switching to slave mode, where we would sacrifice a
+little bit the timestamping precision to get better frequency
+precision.
+
+So, we can consider here that not only the MAC's timestamping unit has
+a non-fixed precision, but if we go through the route a a new API,
+maybe we can also take this case into account, allowing for a bit of
+configuration of the timestamping unit from userspace?=20
+
+> Is it plausible that over time, when PTP timestamping matures and,
+> for example, MDIO devices get support for PTP_SYS_OFFSET_EXTENDED
+> (an attempt was here: https://lkml.org/lkml/2019/8/16/638), the
+> relationship between PTP clock qualities changes, and so does the
+> preference change?
+
+I'm not exactly familiar with PTP_SYS_OFFSET_EXTENDED, but it looks a
+bit similar in purpose to the above-mentionned use-case.
+
+Thanks,
+
+Maxime
