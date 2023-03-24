@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78443C6FD20
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 06:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D960C6FD20
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 06:17:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231687AbjCXGRA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 02:17:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
+        id S231704AbjCXGR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 02:17:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231699AbjCXGQz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 02:16:55 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DCBF19F16;
-        Thu, 23 Mar 2023 23:16:52 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32O3V5sP031552;
-        Fri, 24 Mar 2023 06:16:37 GMT
+        with ESMTP id S229817AbjCXGRX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 02:17:23 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D6028E76;
+        Thu, 23 Mar 2023 23:17:15 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32O5FbJ2030390;
+        Fri, 24 Mar 2023 06:16:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=XmY9HOSG6epo6mFJPOCNZOEe25sE7IFp6wh19+RhQ0Y=;
- b=Cpsce67872scjFjYr17ZOlZ2PXKWvFwCGjF5NOlFgdET3Id02nXAB7i1EUrApPKtPq0A
- oN2nD8Dm7uFOlshgsyddM8Vc82Wpi7OYUnHfwg2+8B/+zYT80W/rS1sd/LRotFjrEGKV
- LP01bUEOLxKftWk/6+jFlIN/zrjzRBXSma9Swd4zIJ/jBzQO4rt8fZMGRRtMGSSu0hdC
- 1h+p+bbU65YhbOt2g4Zi/JWdD7WtGFO0dPrpl8YkjM3NMekC2HocDe9cAneoHZjJZm5Z
- ezUG9kRu0/kIvuSqXEEHx2/djEezMtnoxC2e0eSGfFgwtMm+ofMM1cC1G1V56+8VynyE mw== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pgyee8uk7-1
+ bh=XNhxMsKw6ZAe+EYt13fPXlDqqycgBNXXfO0jTrz0x0w=;
+ b=LymwUMow5Jwgr4HR/5eHH+OVNwHFWYtxutNjh4/KbsM4Ny7gVjeScmWgEO57LS47Ec7w
+ 5YApU1Y/pfNfXkB6xuPKu+qwmXQ1rpJHLMbSZiouiuLibsP0RlONIu389m+fVQC8fi44
+ 2mkzSDMLs6X6om6+iMDSgRQl3qdH8f/Rl5rcO6GhCUgQdhinvRFFke/ls1m5SVtxCKQL
+ t2Cbph8CoPiCySPCrklnOOIgbGb0Pc67HZ1XA89UhXW6TRjlZ3SqypwA5M78P5aDhHd3
+ 40gCCKHSj8ExWuGFmmn2rvLs8QspOa4KzjJsHqoK/PHMpRAMYZLI+++zj6Gg1+rQ296/ ig== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pgydugvyf-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Mar 2023 06:16:37 +0000
+        Fri, 24 Mar 2023 06:16:50 +0000
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32O6Ga7Y014263
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32O6Gn6B005035
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Mar 2023 06:16:36 GMT
+        Fri, 24 Mar 2023 06:16:49 GMT
 Received: from hazha-gv.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Thu, 23 Mar 2023 23:16:31 -0700
+ 15.2.986.41; Thu, 23 Mar 2023 23:16:43 -0700
 From:   Hao Zhang <quic_hazha@quicinc.com>
 To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
@@ -64,9 +64,9 @@ CC:     Hao Zhang <quic_hazha@quicinc.com>, Leo Yan <leo.yan@linaro.org>,
         <linux-arm-msm@vger.kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         <linux-doc@vger.kernel.org>
-Subject: [PATCH v2 1/3] Coresight: Add coresight dummy driver
-Date:   Fri, 24 Mar 2023 14:16:06 +0800
-Message-ID: <20230324061608.33609-2-quic_hazha@quicinc.com>
+Subject: [PATCH v2 3/3] Documentation: trace: Add documentation for Coresight Dummy Trace
+Date:   Fri, 24 Mar 2023 14:16:08 +0800
+Message-ID: <20230324061608.33609-4-quic_hazha@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230324061608.33609-1-quic_hazha@quicinc.com>
 References: <20230324061608.33609-1-quic_hazha@quicinc.com>
@@ -77,246 +77,92 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: YuIr9MOiJgHsYjhzYgX6WGCpfP6V6nJ2
-X-Proofpoint-ORIG-GUID: YuIr9MOiJgHsYjhzYgX6WGCpfP6V6nJ2
+X-Proofpoint-ORIG-GUID: LNGL-8bt0fqzFf7EHFVs3GItCkxhHfeV
+X-Proofpoint-GUID: LNGL-8bt0fqzFf7EHFVs3GItCkxhHfeV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-24_02,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 clxscore=1015 mlxlogscore=999
- malwarescore=0 phishscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
- impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ adultscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 spamscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2303200000 definitions=main-2303240049
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some Coresight devices that HLOS don't have permission to access
-or configure. Such as Coresight sink EUD, some TPDMs etc. So there
-need driver to register dummy devices as Coresight devices. Provide
-Coresight API for dummy device operations, such as enabling and
-disabling dummy devices. Build the Coresight path for dummy sink or
-dummy source for debugging.
+Add documentation for Coresight Dummy Trace under trace/coresight.
 
 Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
 ---
- drivers/hwtracing/coresight/Kconfig           |  11 ++
- drivers/hwtracing/coresight/Makefile          |   1 +
- drivers/hwtracing/coresight/coresight-dummy.c | 176 ++++++++++++++++++
- 3 files changed, 188 insertions(+)
- create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
+ .../trace/coresight/coresight-dummy.rst       | 58 +++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+ create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
 
-diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
-index 2b5bbfffbc4f..06f0a7594169 100644
---- a/drivers/hwtracing/coresight/Kconfig
-+++ b/drivers/hwtracing/coresight/Kconfig
-@@ -236,4 +236,15 @@ config CORESIGHT_TPDA
- 
- 	  To compile this driver as a module, choose M here: the module will be
- 	  called coresight-tpda.
-+
-+config CORESIGHT_DUMMY
-+	tristate "Dummy driver support"
-+	help
-+	  Enables support for dummy driver. Dummy driver can be used for
-+	  CoreSight sources/sinks that are owned and configured by some
-+	  other subsystem and use Linux drivers to configure rest of trace
-+	  path.
-+
-+	  To compile this driver as a module, choose M here: the module will be
-+	  called coresight-dummy.
- endif
-diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-index 33bcc3f7b8ae..995d3b2c76df 100644
---- a/drivers/hwtracing/coresight/Makefile
-+++ b/drivers/hwtracing/coresight/Makefile
-@@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
- coresight-cti-y := coresight-cti-core.o	coresight-cti-platform.o \
- 		   coresight-cti-sysfs.o
- obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
-+obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
-diff --git a/drivers/hwtracing/coresight/coresight-dummy.c b/drivers/hwtracing/coresight/coresight-dummy.c
+diff --git a/Documentation/trace/coresight/coresight-dummy.rst b/Documentation/trace/coresight/coresight-dummy.rst
 new file mode 100644
-index 000000000000..2d4eb3e546eb
+index 000000000000..819cabab8623
 --- /dev/null
-+++ b/drivers/hwtracing/coresight/coresight-dummy.c
-@@ -0,0 +1,176 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
++++ b/Documentation/trace/coresight/coresight-dummy.rst
+@@ -0,0 +1,58 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/coresight.h>
-+#include <linux/of.h>
-+#include <linux/pm_runtime.h>
++=============================
++Coresight Dummy Trace Module
++=============================
 +
-+#include "coresight-priv.h"
-+#include "coresight-trace-id.h"
++    :Author:   Hao Zhang <quic_hazha@quicinc.com>
++    :Date:     March 2023
 +
-+struct dummy_drvdata {
-+	struct device			*dev;
-+	struct coresight_device		*csdev;
-+	int				traceid;
-+};
++Introduction
++---------------------------
 +
-+DEFINE_CORESIGHT_DEVLIST(dummy_devs, "dummy");
++Coresight Dummy Trace Module is for the specific devices that HLOS don't
++have permission to access or configure. Such as Coresight sink EUD, some
++TPDMs etc. So there need driver to register dummy devices as Coresight
++devices. Provide Coresight API for dummy device operations, such as
++enabling and disabling dummy devices. Build the Coresight path for dummy
++sink or dummy source for debugging.
 +
-+static int dummy_source_enable(struct coresight_device *csdev,
-+			       struct perf_event *event, u32 mode)
-+{
-+	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
++Sysfs files and directories
++---------------------------
 +
-+	dev_info(drvdata->dev, "Dummy source enabled\n");
++Root: ``/sys/bus/coresight/devices/dummy<N>``
 +
-+	return 0;
-+}
++----
 +
-+static void dummy_source_disable(struct coresight_device *csdev,
-+				 struct perf_event *event)
-+{
-+	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
++:File:            ``enable_source`` (RW)
++:Notes:
++    - > 0 : enable the datasets of dummy source.
 +
-+	dev_info(drvdata->dev, "Dummy source disabled\n");
-+}
++    - = 0 : disable the datasets of dummy source.
 +
-+static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
-+				void *data)
-+{
-+	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
++:Syntax:
++    ``echo 1 > enable_source``
 +
-+	dev_info(drvdata->dev, "Dummy sink enabled\n");
++----
 +
-+	return 0;
-+}
++:File:            ``enable_sink`` (RW)
++:Notes:
++    - > 0 : enable the datasets of dummy sink.
 +
-+static int dummy_sink_disable(struct coresight_device *csdev)
-+{
-+	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
++    - = 0 : disable the datasets of dummy sink.
 +
-+	dev_info(drvdata->dev, "Dummy sink disabled\n");
++:Syntax:
++    ``echo 1 > enable_sink``
 +
-+	return 0;
-+}
++----
 +
-+static const struct coresight_ops_source dummy_source_ops = {
-+	.enable		= dummy_source_enable,
-+	.disable	= dummy_source_disable,
-+};
++Config details
++---------------------------
 +
-+static const struct coresight_ops_sink dummy_sink_ops = {
-+	.enable		= dummy_sink_enable,
-+	.disable	= dummy_sink_disable,
-+};
-+
-+static const struct coresight_ops dummy_cs_ops = {
-+	.source_ops	= &dummy_source_ops,
-+	.sink_ops	= &dummy_sink_ops,
-+};
-+
-+static int dummy_probe(struct platform_device *pdev)
-+{
-+	int ret, trace_id;
-+	struct device *dev = &pdev->dev;
-+	struct coresight_platform_data *pdata;
-+	struct dummy_drvdata *drvdata;
-+	struct coresight_desc desc = { 0 };
-+
-+	desc.name = coresight_alloc_device_name(&dummy_devs, dev);
-+	if (!desc.name)
-+		return -ENOMEM;
-+
-+	pdata = coresight_get_platform_data(dev);
-+	if (IS_ERR(pdata))
-+		return PTR_ERR(pdata);
-+	pdev->dev.platform_data = pdata;
-+
-+	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-+	if (!drvdata)
-+		return -ENOMEM;
-+
-+	drvdata->dev = &pdev->dev;
-+	platform_set_drvdata(pdev, drvdata);
-+
-+	if (of_property_read_bool(pdev->dev.of_node, "qcom,dummy-source")) {
-+		desc.type = CORESIGHT_DEV_TYPE_SOURCE;
-+		desc.subtype.source_subtype =
-+					CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
-+	} else if (of_property_read_bool(pdev->dev.of_node,
-+					 "qcom,dummy-sink")) {
-+		desc.type = CORESIGHT_DEV_TYPE_SINK;
-+		desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_BUFFER;
-+	} else {
-+		dev_info(dev, "Device type not set\n");
-+		return -EINVAL;
-+	}
-+
-+	desc.ops = &dummy_cs_ops;
-+	desc.pdata = pdev->dev.platform_data;
-+	desc.dev = &pdev->dev;
-+	drvdata->csdev = coresight_register(&desc);
-+	if (IS_ERR(drvdata->csdev))
-+		return PTR_ERR(drvdata->csdev);
-+
-+	trace_id = coresight_trace_id_get_system_id();
-+	if (trace_id < 0) {
-+		ret = trace_id;
-+		goto cs_unregister;
-+	}
-+	drvdata->traceid = (u8)trace_id;
-+
-+	pm_runtime_enable(dev);
-+	dev_info(dev, "Dummy device initialized\n");
-+
-+	return 0;
-+
-+cs_unregister:
-+	coresight_unregister(drvdata->csdev);
-+
-+	return ret;
-+}
-+
-+static int dummy_remove(struct platform_device *pdev)
-+{
-+	struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
-+	struct device *dev = &pdev->dev;
-+
-+	coresight_trace_id_put_system_id(drvdata->traceid);
-+	pm_runtime_disable(dev);
-+	coresight_unregister(drvdata->csdev);
-+	return 0;
-+}
-+
-+static const struct of_device_id dummy_match[] = {
-+	{.compatible = "qcom,coresight-dummy"},
-+	{},
-+};
-+
-+static struct platform_driver dummy_driver = {
-+	.probe	= dummy_probe,
-+	.remove	= dummy_remove,
-+	.driver	= {
-+		.name   = "coresight-dummy",
-+		.of_match_table = dummy_match,
-+	},
-+};
-+
-+static int __init dummy_init(void)
-+{
-+	return platform_driver_register(&dummy_driver);
-+}
-+module_init(dummy_init);
-+
-+static void __exit dummy_exit(void)
-+{
-+	platform_driver_unregister(&dummy_driver);
-+}
-+module_exit(dummy_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("CoreSight dummy source driver");
++There are two types of nodes, dummy sink and dummy source. The nodes
++should be observed at the coresight path
++"/sys/bus/coresight/devices".
++e.g.
++/sys/bus/coresight/devices # ls -l | grep dummy
++dummy0 -> ../../../devices/platform/soc@0/soc@0:dummy_source/dummy0
++dummy1 -> ../../../devices/platform/soc@0/soc@0:dummy_sink/dummy1
 -- 
 2.17.1
 
