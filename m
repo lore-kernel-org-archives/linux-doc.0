@@ -2,84 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD571C6FD20
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 16:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBE2C6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 17:14:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231447AbjCXQ42 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 12:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
+        id S231794AbjCXROL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 13:14:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230373AbjCXQ41 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 12:56:27 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5E01BF8
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 09:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679676986; x=1711212986;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rkY1+Ra6r6IrmzIwEr8sPSls6mfeqQ2y1LZln6kdbb0=;
-  b=K4OGhSNK7IYz/T9iqoEvTUCkUi6IlC2gEB5UQ4WrbSGaOY1iJ01QviRe
-   LgX68gg5sl83s12FcYyUHBREQL/XipQDsV91wvKulzAU0rnDhG3R+3rJR
-   s3H0vLHFT+fl/3HgN+03DGMt15xKtY/maVahPe0TbC/8ZUrwbzXMTX1r5
-   YhLIycQ8CvmtvAs6RlXMU+2snA69olNA1+uF/gMGfitL+tmrR2fSumpcu
-   USdsWoNswq08N03obQo90o5+M9vH3X3KCHo5pvTzxYRj+q7/XdNKNOqNz
-   zMLC4MXPqciPI45XuP33/HBH+uhEfp0czyYhNq1DTeHnY6t39xQWrK3DB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="338551983"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="338551983"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 09:56:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="713131230"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="713131230"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Mar 2023 09:56:24 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pfkiF-000FU4-2h;
-        Fri, 24 Mar 2023 16:56:23 +0000
-Date:   Sat, 25 Mar 2023 00:55:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 7/121] htmldocs: Warning:
- Documentation/devicetree/bindings/power/wakeup-source.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-Message-ID: <202303250049.0LhZBaFN-lkp@intel.com>
+        with ESMTP id S230380AbjCXROJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 13:14:09 -0400
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4826E30CA;
+        Fri, 24 Mar 2023 10:13:45 -0700 (PDT)
+Received: by mail-ot1-f50.google.com with SMTP id 14-20020a9d010e000000b0069f1287f557so1253656otu.0;
+        Fri, 24 Mar 2023 10:13:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679678011;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kXC/ehgAlDQxlar8G+0cOCIylNpUxRXIsV141jWIs+8=;
+        b=d8w6/kgIy4OWy6tIGXp/lwc2cnIC8HQujHDyKpv0ZS0D6gk7/KmhUkSJb4t1DWqQ2x
+         zAB/PZCPvMIPgAuvKylj2w/GBWA+1Vsi7mZVVvE0959YptHo8OmTCDapSMvualyEDw7y
+         vBLLd6RM6Pu75qnwhd5HKZ4t/cBFgt7VNlabUHGb5rNOCPQnkL03MMulZYPs8gmjShWD
+         YnPSaA7CFIYnm2ATm+zUVwAqIrPg4k8Cwdx0n9wgKML3VtemW2GMAPGnkX+4ivGUD9kc
+         lGK+oHDImQ6JJZxujGm5a4CpKfc7LfP7aHzL0JpIrS9UeHfPPgblvtWZYl9KvP0W389A
+         vwDQ==
+X-Gm-Message-State: AO0yUKV/AwS11f7cFuf74RTZh/tQiCxhzxs4cpOESHr5G2z0MaW2Nnzu
+        zesXd9vgx+KW8oGMUy0VSA==
+X-Google-Smtp-Source: AK7set+5p7gPylRYq/K6l1RQHd22yIy2rXmsFpG3s5vAqu3sGEjDS54c2caeW0q1rpz0pGfTGa7MZg==
+X-Received: by 2002:a05:6830:14d0:b0:69f:9140:2dde with SMTP id t16-20020a05683014d000b0069f91402ddemr1970115otq.37.1679678010821;
+        Fri, 24 Mar 2023 10:13:30 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id a20-20020a9d74d4000000b006a11998d20esm459350otl.45.2023.03.24.10.13.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 10:13:30 -0700 (PDT)
+Received: (nullmailer pid 2073665 invoked by uid 1000);
+        Fri, 24 Mar 2023 17:13:29 -0000
+Date:   Fri, 24 Mar 2023 12:13:29 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+Subject: Re: [PATCH V4 04/10] dt-bindings: timestamp: Add
+ nvidia,gpio-controller
+Message-ID: <20230324171329.GA2062332-robh@kernel.org>
+References: <20230323012929.10815-1-dipenp@nvidia.com>
+ <20230323012929.10815-5-dipenp@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230323012929.10815-5-dipenp@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   f1bfefa327cc9f54e2ee6185f0e7e53e8cf233a6
-commit: 54c9db528bf69f1336be6db861c0246a13717da9 [7/121] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
-reproduce:
-        # https://github.com/krzk/linux/commit/54c9db528bf69f1336be6db861c0246a13717da9
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-        git checkout 54c9db528bf69f1336be6db861c0246a13717da9
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Wed, Mar 22, 2023 at 06:29:23PM -0700, Dipen Patel wrote:
+> Introducing nvidia,gpio-controller property from Tegra234 SoCs onwards.
+> This is done to help below case.
+> 
+> Without this property code would look like:
+> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
+> 	hte_dev->c = gpiochip_find("tegra194-gpio-aon",
+> 				   tegra_get_gpiochip_from_name);
+> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-aon"))
+> 	hte_dev->c = gpiochip_find("tegra234-gpio-aon",
+> 				   tegra_get_gpiochip_from_name);
+> else
+> 	return -ENODEV;
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303250049.0LhZBaFN-lkp@intel.com/
+Or you just put the name in match data.
 
-All warnings (new ones prefixed by >>):
+> 
+> This means for every future addition of the compatible string, if else
+> condition statements have to be expanded.
+> 
+> With the property:
+> gpio_ctrl = of_parse_phandle(dev->of_node, "nvidia,gpio-controller", 0);
+> ....
+> hte_dev->c = gpiochip_find(gpio_ctrl, tegra_get_gpiochip_from_of_node);
+> 
+> This simplifies the code significantly. The introdunction of this
 
->> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+typo 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> property/binding does not break existing Tegra194 provider driver.
+
+Making a new property required is an ABI break.
+
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> ---
+>  .../timestamp/nvidia,tegra194-hte.yaml        | 31 +++++++++++++++++--
+>  1 file changed, 29 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+> index eafc33e9ae2e..841273a3d8ae 100644
+> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+> @@ -51,6 +51,12 @@ properties:
+>        LIC instance has 11 slices and Tegra234 LIC has 17 slices.
+>      enum: [3, 11, 17]
+>  
+> +  nvidia,gpio-controller:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The phandle to AON gpio controller instance. This is required to handle
+> +      namespace conversion between GPIO and GTE.
+
+Explain what the GPIO controller is needed for rather than how this 
+changes the driver.
+
+> +
+>    '#timestamp-cells':
+>      description:
+>        This represents number of line id arguments as specified by the
+> @@ -65,22 +71,43 @@ required:
+>    - interrupts
+>    - "#timestamp-cells"
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra234-gte-aon
+> +    then:
+> +      required:
+> +        - nvidia,gpio-controller
+
+> +
+>  additionalProperties: false
+>  
+>  examples:
+>    - |
+>      tegra_hte_aon: timestamp@c1e0000 {
+>                compatible = "nvidia,tegra194-gte-aon";
+> -              reg = <0xc1e0000 0x10000>;
+> +              reg = <0x0 0xc1e0000 0x0 0x10000>;
+> +              interrupts = <0 13 0x4>;
+> +              nvidia,int-threshold = <1>;
+> +              #timestamp-cells = <1>;
+> +    };
+> +
+> +  - |
+> +    tegra234_hte_aon: timestamp@c1e0000 {
+> +              compatible = "nvidia,tegra234-gte-aon";
+> +              reg = <0x0 0xc1e0000 0x0 0x10000>;
+>                interrupts = <0 13 0x4>;
+>                nvidia,int-threshold = <1>;
+> +              nvidia,gpio-controller = <&gpio_aon>;
+>                #timestamp-cells = <1>;
+>      };
+>  
+>    - |
+>      tegra_hte_lic: timestamp@3aa0000 {
+>                compatible = "nvidia,tegra194-gte-lic";
+> -              reg = <0x3aa0000 0x10000>;
+> +              reg = <0x0 0x3aa0000 0x0 0x10000>;
+>                interrupts = <0 11 0x4>;
+>                nvidia,int-threshold = <1>;
+>                #timestamp-cells = <1>;
+> -- 
+> 2.17.1
+> 
