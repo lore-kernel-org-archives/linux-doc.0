@@ -2,100 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC42C6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 21:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C55C6FD20
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 21:43:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231924AbjCXVax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 17:30:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38972 "EHLO
+        id S231986AbjCXVny (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 17:43:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231864AbjCXVav (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 17:30:51 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007D519F2F
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 14:30:48 -0700 (PDT)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OK1s7O023157
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date : to :
- from : subject : content-type : content-transfer-encoding : mime-version;
- s=pp1; bh=31YoTRDV29vrbxHR92ConsN1QShr+CnS36IdwmGEaPE=;
- b=ldnhjIyYDxMa3VzGP/df1pCmqs94ufqHP8I5NPD+fjy2tsIG9p6FyY2lP07Na7KtCAkm
- HsG1cAEUfZjqhDrHjsY/g5res4VcnA4tLCY8dolCj2aqMjzwpfc71Y7X5tgwcCaNtxep
- qTj0tGAXs0W1xpibs70I0N8CpYAiVolmL+tTslBEas0ZUNQin1YsO9M1HGzHue+VFw4G
- hueqFyNBKVXfBxWpVvKMCA4/vLfkn/aINtn5dMh9pH14roa/JylcliY0R79HvKQSEl4t
- Yf40w8fqfq84sNEMc+ct/g8AJ5+davwWUHLSCTBmR2TKNiwjRgv9k0NYhfyQ/vrCz4E+ oQ== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3phjhua8sy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:48 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32OL5rNo002401
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:47 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([9.208.129.114])
-        by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3pgy3tf4ve-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:47 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
-        by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32OLUjcu51642832
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:46 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E59F358053
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:45 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AF92A58043
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:45 +0000 (GMT)
-Received: from [9.160.56.143] (unknown [9.160.56.143])
-        by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:45 +0000 (GMT)
-Message-ID: <e747b0ba-7992-36c7-f931-08aac46385f1@linux.ibm.com>
-Date:   Fri, 24 Mar 2023 17:30:44 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-To:     linux-doc@vger.kernel.org
-Content-Language: en-US
-From:   Ken Goldman <kgold@linux.ibm.com>
-Subject: sphinx - proper method for linking
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: r5xZ5mkV3pVMwOBQ1bLdyLjm-rPqAc0_
-X-Proofpoint-GUID: r5xZ5mkV3pVMwOBQ1bLdyLjm-rPqAc0_
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S231946AbjCXVns (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 17:43:48 -0400
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D7D10265;
+        Fri, 24 Mar 2023 14:43:45 -0700 (PDT)
+Received: by mail-oi1-f169.google.com with SMTP id y184so2274237oiy.8;
+        Fri, 24 Mar 2023 14:43:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679694225;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CHSbB1SCTNjgkFNr2EH/UUZJ6o73g7xDpL0a/bfAGW4=;
+        b=SxPvXNrq5qpvJtUkizuYz+a5h+wTHWTvoDEWx9K4cukPNYMUPbqQqbQyl0Mv8CfMgR
+         xI9qjO3YKgGzrurAhWJPXJTzG4aA8aew+YNFJvL3QRXDK6nAHWL6F+z832IciWqZspiD
+         wa2HZsnYYWiMZFfzfHQc+VB7XqEk/5cV1CbzrMzoQLNP35kLH/ShNJI+YEBC9KHuGPc8
+         2W0KjvnDh/gVFsfw/NfipFcdcFIDbMWYhVbmy/QvMXM9mbh4lGIpERO6PD18wHoJpUKD
+         /RzbSzZdlVLZ04i08LVfJ6kb2I4sN9U0l8EdcVqHxtQQee/eEnr/Ni7Y53h6n553Bmmm
+         /MvA==
+X-Gm-Message-State: AO0yUKXAqGO9ZWYxzJcntnG7/SkEST3oenEtOkWQC9G+HQx8U+1/b/7Y
+        FyfxU4PSG1HWRIacuNkjwsRKvN6eEA==
+X-Google-Smtp-Source: AK7set/oeSAd7/XsFdatBuszhN1GZKNz6UbweX/12Q4XUIcikQgrV85TeiISLjYEDNk5No5DqZVBpA==
+X-Received: by 2002:a54:4406:0:b0:387:3239:61f3 with SMTP id k6-20020a544406000000b00387323961f3mr1756696oiw.21.1679694224727;
+        Fri, 24 Mar 2023 14:43:44 -0700 (PDT)
+Received: from robh_at_kernel.org ([2605:ef80:80f9:92f0:b372:78c0:69c1:66d6])
+        by smtp.gmail.com with ESMTPSA id j7-20020acab907000000b0038478923768sm8688314oif.3.2023.03.24.14.43.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 14:43:44 -0700 (PDT)
+Received: (nullmailer pid 33223 invoked by uid 1000);
+        Fri, 24 Mar 2023 21:43:41 -0000
+Date:   Fri, 24 Mar 2023 16:43:41 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] of: unittest: option to allow tests that trigger
+ kernel stack dump
+Message-ID: <20230324214341.GA20080-robh@kernel.org>
+References: <20230301012116.1488132-1-frowand.list@gmail.com>
+ <20230301012116.1488132-2-frowand.list@gmail.com>
+ <018f54ee-55cc-e30b-4595-ce555fff1708@roeck-us.net>
+ <96cfd1ee-768d-cc03-53dd-35ccf2396863@gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- spamscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0 bulkscore=0
- adultscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
- mlxlogscore=451 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303240160
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <96cfd1ee-768d-cc03-53dd-35ccf2396863@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-1. What is the recommended way to link to documents outside my tree.
+On Wed, Mar 01, 2023 at 10:01:36AM -0600, Frank Rowand wrote:
+> On 2/28/23 22:07, Guenter Roeck wrote:
+> > On 2/28/23 17:21, Frank Rowand wrote:
+> >> Commit 74df14cd301a ("of: unittest: add node lifecycle tests") added
+> >> some tests that trigger a kernel stack dump.  Filtering the boot
+> >> messages with scripts/dtc/of_unittest_expect detects that the stack
+> >> dump is expected instead of being a test error.
+> >>
+> >> Test beds might interpret the stack dumps as errors, resulting in
+> >> needless debugging and error reports.  These test beds are likely
+> >> to remove unittests due to these stack dumps. To avoid these problems,
+> >> have unittest default to skip the tests that trigger a stack dump.
+> >>
+> >> Add a kernel cmdline option to not skip those tests.  This option can
+> >> be used by testers who are able to interpret the stack dumps as not
+> >> an error.
+> >>
+> >> Signed-off-by: Frank Rowand <frowand.list@gmail.com>
+> >> ---
+> >>   drivers/of/unittest.c | 54 ++++++++++++++++++++++++++++++++++++++++---
+> >>   1 file changed, 51 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+> >> index b5a7a31d8bd2..3a9bc2bc4ba1 100644
+> >> --- a/drivers/of/unittest.c
+> >> +++ b/drivers/of/unittest.c
+> >> @@ -70,6 +70,36 @@ static struct unittest_results {
+> >>   #define EXPECT_NOT_END(level, fmt, ...) \
+> >>       printk(level pr_fmt("EXPECT_NOT / : ") fmt, ##__VA_ARGS__)
+> >>   +/*
+> >> + * Some tests will cause the kernel to emit a stack dump, aka back trace,
+> >> + * when the test is successful.  The tests should make it possible for
+> >> + * test beds to detect that the trace is not an error via EXPECT_BEGIN().
+> >> + *
+> >> + * Most test beds do not process the EXPECT_BEGIN() information and may
+> >> + * flag the stack dump as an error, thus reporting a false failure.  It
+> >> + * is hoped that the KTAP version 4 specification will add the EXPECT_BEGIN()
+> >> + * processing to test beds.
+> >> + *
+> >> + * By default, skip tests that cause a stack dump.  Test beds that process
+> >> + * EXPECT_BEGIN() information should enable these tests via a kernel boot
+> >> + * command line option.
+> >> + */
+> >> +static int stackdump_tests_enabled;
+> >> +
+> >> +static int __init enable_unittest_stackdump(char *str)
+> >> +{
+> >> +    stackdump_tests_enabled = 1;
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int __init disable_unittest_stackdump(char *str)
+> >> +{
+> >> +    stackdump_tests_enabled = 0;
+> >> +    return 0;
+> >> +}
+> >> +early_param("of_unittest_stackdump", enable_unittest_stackdump);
+> >> +early_param("no_of_unittest_stackdump", disable_unittest_stackdump);
+> > 
+> > Does no_of_unittest_stackdump have any benefit or value ?
+> 
+> I would say no, but it is a common pattern to provide both
+> foo and no_foo.
 
-Should I be doing that, or is it fragile / not recommended?
+It is? I see one documented example. I see numerous ones that are 
+'no_foo'.
 
-Are links to other documents stable?
+This doesn't scale well if lots of tests need to disable it. Perhaps it 
+should be more generic (at least documentation/naming wise even if the 
+implmentation lives in DT unittest for now).
 
-How about sections within the page?
-
-I found that this .rst works.
-
-See 
-https://www.kernel.org/doc/html/latest/security/keys/trusted-encrypted.html
-
-Is that OK, or is there a better way?
-
-Is that link (doc/html/latest) correct.
-
-2. Are my pages and headings to be treated as stable, like an API? I.e., 
-once I release documentation, are all the pages and headings frozen so 
-they will not break links?
-
-
-
+Rob
