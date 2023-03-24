@@ -2,78 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B5BC6FD20
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 05:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD25C76195
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 06:16:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231146AbjCXFAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 01:00:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43158 "EHLO
+        id S231666AbjCXGQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 02:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbjCXFAb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 01:00:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D0E19F16;
-        Thu, 23 Mar 2023 22:00:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A1F36294A;
-        Fri, 24 Mar 2023 05:00:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E78E1C4339E;
-        Fri, 24 Mar 2023 05:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679634027;
-        bh=hxIAAffVzfLjss74KiALSYBJthtXxacpq+QZ8plANiU=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=JJ/aJ3eK4qwIzgVrOnil27HFmn5U7PHGDNwIdC/ihEDIJEK9VJDGGIE44a29UOtAB
-         CIDnvt/w0H+9nIFC0kAIp5yt9znvIB71rxrA9qyY/p/mCwSPNTR/gVwHuLm1zxcXRs
-         pKfUIUFUhgcaC7VC1i3BNPJS1wWrW2HNy5wpSIj/AEewgD1gJCoWVAadLeITiZ0sJ7
-         PyFSN63dtFKAtjDkel6FFJcboETUpa19Ubq+ogr7qSqk9wZtLY0okHkexE1VsbtsDf
-         Cn3lc1+znPUv4xVHSZq9AuG4gklICEFXDhFxLYBSlGzgRfvxJRksNFx7RKHf9SxKc2
-         uoLVb9YsEsfww==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C06D2E52511;
-        Fri, 24 Mar 2023 05:00:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S231308AbjCXGQu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 02:16:50 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DA528D32;
+        Thu, 23 Mar 2023 23:16:47 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32O4JN1f005878;
+        Fri, 24 Mar 2023 06:16:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=binmqssIOH8RRHmzcq2GvEcacH7/g6cim/PVJXyXtqE=;
+ b=ev5V4zVctWJ/2G7y8t9UE+7YX+lSsLirMZDIgtZrtC6mMTFQZZp8aM2SrX+PC+xPDTma
+ kCMrjw8htXQcMZ8pR70PT3uPoXzlxoUbeBqQ3KVSB4S9LyArZoRD+Myf3YcLfFXmJ2Kn
+ Ml/7Rs15VWzQwvPHB80k0O1qie2uXBBlmoIKouysK+ish8B6YsBrwzM0NUg5449T0G86
+ MAvF5VAfmCsDNGhG3qbdkfr6ZRTaARK4uQ6OIGpv3oEnzYaVr/PU7vGRCQPyYg2O9fsQ
+ dZ3YR9tbrBsW9zVRF2XWjnxKAUNGlbuYvoRFj/JbitCc4z2wyf+N0zN3IIoiVGH7PSWi mA== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pgyee8uk0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 24 Mar 2023 06:16:29 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32O6GShd023727
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 24 Mar 2023 06:16:28 GMT
+Received: from hazha-gv.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Thu, 23 Mar 2023 23:16:22 -0700
+From:   Hao Zhang <quic_hazha@quicinc.com>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Hao Zhang <quic_hazha@quicinc.com>, Leo Yan <leo.yan@linaro.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH v2 0/3] Add support to configure Coresight Dummy subunit
+Date:   Fri, 24 Mar 2023 14:16:05 +0800
+Message-ID: <20230324061608.33609-1-quic_hazha@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] docs: netdev: add note about Changes Requested and
- revising commit messages
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167963402678.21241.359053559453446320.git-patchwork-notify@kernel.org>
-Date:   Fri, 24 Mar 2023 05:00:26 +0000
-References: <20230322231202.265835-1-kuba@kernel.org>
-In-Reply-To: <20230322231202.265835-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, sean.anderson@seco.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Lta3x1h8TvZ0PQVBKPAZ1Lr7xe20DlQn
+X-Proofpoint-ORIG-GUID: Lta3x1h8TvZ0PQVBKPAZ1Lr7xe20DlQn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_02,2023-03-23_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 mlxlogscore=999
+ malwarescore=0 phishscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2303240049
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Introduction of Coresight Dummy subunit
+The Coresight Dummy subunit is for Coresight Dummy component, there are some
+specific Coresight devices that HLOS don't have permission to access. Such as
+some TPDMs, they would be configured in NON-HLOS side, but it's necessary to
+build Coresight path for it to debug. So there need driver to register dummy
+devices as Coresight devices.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Commit link:
+https://git.codelinaro.org/clo/linux-kernel/coresight/-/tree/coresight-dummy-v2
 
-On Wed, 22 Mar 2023 16:12:02 -0700 you wrote:
-> One of the most commonly asked questions is "I answered all questions
-> and don't need to make any code changes, why was the patch not applied".
-> Document our time honored tradition of asking people to repost with
-> improved commit messages, to record the answers to reviewer questions.
-> 
-> Take this opportunity to also recommend a change log format.
-> 
-> [...]
+Changes in V2:
+1. Declare dummy_init and dummy_exit as static to fix missing-prototypes
+warnings. -- kernel test robot <lkp@intel.com>
+2. Fix the errors of coresight-dummy yaml file. -- Rob Herring <robh@kernel.org>
 
-Here is the summary with links:
-  - [net-next] docs: netdev: add note about Changes Requested and revising commit messages
-    https://git.kernel.org/netdev/net-next/c/e110ba659271
+Hao Zhang (3):
+  Coresight: Add coresight dummy driver
+  dt-bindings: arm: Add Coresight Dummy Trace YAML schema
+  Documentation: trace: Add documentation for Coresight Dummy Trace
 
-You are awesome, thank you!
+ .../bindings/arm/qcom,coresight-dummy.yaml    | 118 ++++++++++++
+ .../trace/coresight/coresight-dummy.rst       |  58 ++++++
+ drivers/hwtracing/coresight/Kconfig           |  11 ++
+ drivers/hwtracing/coresight/Makefile          |   1 +
+ drivers/hwtracing/coresight/coresight-dummy.c | 176 ++++++++++++++++++
+ 5 files changed, 364 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
+ create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
+ create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.17.1
 
