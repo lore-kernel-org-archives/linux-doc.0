@@ -2,210 +2,235 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 824EAC6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 01:43:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0DEAC7619A
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 02:18:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbjCXBnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Mar 2023 21:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60000 "EHLO
+        id S231196AbjCXCST (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Mar 2023 22:18:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbjCXBno (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 21:43:44 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 71295CC27;
-        Thu, 23 Mar 2023 18:43:41 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.241])
-        by gateway (Coremail) with SMTP id _____8Axkk5LAB1kRI4QAA--.25172S3;
-        Fri, 24 Mar 2023 09:43:39 +0800 (CST)
-Received: from [192.168.100.131] (unknown [112.20.109.241])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxprxGAB1kCM8KAA--.2585S3;
-        Fri, 24 Mar 2023 09:43:35 +0800 (CST)
-Message-ID: <271b00b7-fa10-fc2c-3929-c533a41bb22a@loongson.cn>
-Date:   Fri, 24 Mar 2023 09:43:34 +0800
+        with ESMTP id S229773AbjCXCSS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Mar 2023 22:18:18 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBBBF3C03;
+        Thu, 23 Mar 2023 19:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679624296; x=1711160296;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=M4FQzDrjs+QeI9XLnd+NfZpr2fRqKi1DscOllLq4wCk=;
+  b=O5J5yxn+c8Ta89rb3pUkoeWY+46g0XRjZ03kQFZPf6iup6EbzEHqfb0J
+   F7zZFa1gH8Ht/kZFyKV3y3FqVZ8q8yI7U7O6qz2jRIc+W/FEvqkKZxL3f
+   FQVm1/rny7bH+iu1mfyHGGxIu+qRJamAWDt+UHEsGWjP5vJT62VU5CWNB
+   pJ/pGMo4c9fb6391lBDXpAC3+X8T5zO5Kk7tAr2mtZDDGfUcm+Gfk9yo3
+   0NPlPVZcW2eNuUHbP6/uS24jZzoD2XGubDM71sMUkfDDexncdUVzDuizc
+   dWec/VdPUBqz0NJyt0mdDqAWnbrgWzwVf2KHvrQb8dFexm/0TzbYSvXFu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="338400943"
+X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
+   d="scan'208";a="338400943"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 19:18:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="659886402"
+X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
+   d="scan'208";a="659886402"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+  by orsmga006.jf.intel.com with ESMTP; 23 Mar 2023 19:18:04 -0700
+Date:   Fri, 24 Mar 2023 10:10:29 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc:     Ackerley Tng <ackerleytng@google.com>, seanjc@google.com,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com,
+        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de,
+        naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org,
+        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+        bfields@fieldses.org, akpm@linux-foundation.org, shuah@kernel.org,
+        rppt@kernel.org, steven.price@arm.com, mail@maciej.szmigiero.name,
+        vbabka@suse.cz, vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        kirill.shutemov@linux.intel.com, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
+        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+Message-ID: <20230324021029.GA2774613@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20230128140030.GB700688@chaop.bj.intel.com>
+ <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
+ <20230308074026.GA2183207@chaop.bj.intel.com>
+ <20230323004131.GA214881@ls.amr.corp.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 5/6] docs: move openrisc documentation under
- Documentation/arch/
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>, Alex Shi <alexs@kernel.org>
-References: <20230323221948.352154-1-corbet@lwn.net>
- <20230323221948.352154-6-corbet@lwn.net>
-Content-Language: en-US
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20230323221948.352154-6-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxprxGAB1kCM8KAA--.2585S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3WrWUuF13ZFyrKF45JFW7XFb_yoWxAr18pa
-        yvka4Ig3W3Zr1DK348KF17Kry7CF1xGa13Gas7X34vqFn0qw4jvr43t3s8KFn7JrW0vayk
-        uFsagFy5tr12ywUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAa
-        w2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2
-        jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
-        AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
-        1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
-        Wlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j
-        6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
-        0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIY
-        CTnIWIevJa73UjIFyTuYvjxU2NB_UUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230323004131.GA214881@ls.amr.corp.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
+> On Wed, Mar 08, 2023 at 03:40:26PM +0800,
+> Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> 
+> > On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
+> > > Chao Peng <chao.p.peng@linux.intel.com> writes:
+> > > 
+> > > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
+> > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > ...
+> > > > > Strongly prefer to use similar logic to existing code that detects wraps:
+> > > 
+> > > > > 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
+> > > 
+> > > > > This is also where I'd like to add the "gfn is aligned to offset"
+> > > > > check, though
+> > > > > my brain is too fried to figure that out right now.
+> > > 
+> > > > Used count_trailing_zeros() for this TODO, unsure we have other better
+> > > > approach.
+> > > 
+> > > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > > > index afc8c26fa652..fd34c5f7cd2f 100644
+> > > > --- a/virt/kvm/kvm_main.c
+> > > > +++ b/virt/kvm/kvm_main.c
+> > > > @@ -56,6 +56,7 @@
+> > > >   #include <asm/processor.h>
+> > > >   #include <asm/ioctl.h>
+> > > >   #include <linux/uaccess.h>
+> > > > +#include <linux/count_zeros.h>
+> > > 
+> > > >   #include "coalesced_mmio.h"
+> > > >   #include "async_pf.h"
+> > > > @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct
+> > > > kvm_memslots *slots, int id,
+> > > >   	return false;
+> > > >   }
+> > > 
+> > > > +/*
+> > > > + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
+> > > > + */
+> > > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
+> > > > +{
+> > > > +	if (!offset)
+> > > > +		return true;
+> > > > +	if (!gpa)
+> > > > +		return false;
+> > > > +
+> > > > +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+> 
+> This check doesn't work expected. For example, offset = 2GB, gpa=4GB
+> this check fails.
 
-在 3/24/23 06:19, Jonathan Corbet 写道:
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.  Move
-> Documentation/openrisc into arch/ and fix all in-tree references.
->
-> Cc: Jonas Bonn <jonas@southpole.se>
-> Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
-> Cc: Stafford Horne <shorne@gmail.com>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+This case is expected to fail as Sean initially suggested[*]:
+  I would rather reject memslot if the gfn has lesser alignment than
+  the offset. I'm totally ok with this approach _if_ there's a use case.
+  Until such a use case presents itself, I would rather be conservative
+  from a uAPI perspective.
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+I understand that we put tighter restriction on this but if you see such
+restriction is really a big issue for real usage, instead of a
+theoretical problem, then we can loosen the check here. But at that time
+below code is kind of x86 specific and may need improve.
 
+BTW, in latest code, I replaced count_trailing_zeros() with fls64():
+  return !!(fls64(offset) >= fls64(gpa));
 
-Thanks,
+[*] https://lore.kernel.org/all/Y8HldeHBrw+OOZVm@google.com/
 
-Yanteng
-
+Chao
+> I come up with the following.
+> 
+> >From ec87e25082f0497431b732702fae82c6a05071bf Mon Sep 17 00:00:00 2001
+> Message-Id: <ec87e25082f0497431b732702fae82c6a05071bf.1679531995.git.isaku.yamahata@intel.com>
+> From: Isaku Yamahata <isaku.yamahata@intel.com>
+> Date: Wed, 22 Mar 2023 15:32:56 -0700
+> Subject: [PATCH] KVM: Relax alignment check for restricted mem
+> 
+> kvm_check_rmem_offset_alignment() only checks based on offset alignment
+> and GPA alignment.  However, the actual alignment for offset depends
+> on architecture.  For x86 case, it can be 1G, 2M or 4K.  So even if
+> GPA is aligned for 1G+, only 1G-alignment is required for offset.
+> 
+> Without this patch, gpa=4G, offset=2G results in failure of memory slot
+> creation.
+> 
+> Fixes: edc8814b2c77 ("KVM: Require gfn be aligned with restricted offset")
+> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 > ---
->   Documentation/arch/index.rst                                  | 2 +-
->   Documentation/{ => arch}/openrisc/features.rst                | 0
->   Documentation/{ => arch}/openrisc/index.rst                   | 0
->   Documentation/{ => arch}/openrisc/openrisc_port.rst           | 0
->   Documentation/{ => arch}/openrisc/todo.rst                    | 0
->   Documentation/translations/zh_CN/arch/index.rst               | 2 +-
->   .../translations/zh_CN/{ => arch}/openrisc/index.rst          | 4 ++--
->   .../translations/zh_CN/{ => arch}/openrisc/openrisc_port.rst  | 4 ++--
->   Documentation/translations/zh_CN/{ => arch}/openrisc/todo.rst | 4 ++--
->   MAINTAINERS                                                   | 2 +-
->   10 files changed, 9 insertions(+), 9 deletions(-)
->   rename Documentation/{ => arch}/openrisc/features.rst (100%)
->   rename Documentation/{ => arch}/openrisc/index.rst (100%)
->   rename Documentation/{ => arch}/openrisc/openrisc_port.rst (100%)
->   rename Documentation/{ => arch}/openrisc/todo.rst (100%)
->   rename Documentation/translations/zh_CN/{ => arch}/openrisc/index.rst (79%)
->   rename Documentation/translations/zh_CN/{ => arch}/openrisc/openrisc_port.rst (97%)
->   rename Documentation/translations/zh_CN/{ => arch}/openrisc/todo.rst (88%)
->
-> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-> index 792f58e30f25..65945daa40fe 100644
-> --- a/Documentation/arch/index.rst
-> +++ b/Documentation/arch/index.rst
-> @@ -17,7 +17,7 @@ implementation.
->      ../m68k/index
->      ../mips/index
->      ../nios2/index
-> -   ../openrisc/index
-> +   openrisc/index
->      ../parisc/index
->      ../powerpc/index
->      ../riscv/index
-> diff --git a/Documentation/openrisc/features.rst b/Documentation/arch/openrisc/features.rst
-> similarity index 100%
-> rename from Documentation/openrisc/features.rst
-> rename to Documentation/arch/openrisc/features.rst
-> diff --git a/Documentation/openrisc/index.rst b/Documentation/arch/openrisc/index.rst
-> similarity index 100%
-> rename from Documentation/openrisc/index.rst
-> rename to Documentation/arch/openrisc/index.rst
-> diff --git a/Documentation/openrisc/openrisc_port.rst b/Documentation/arch/openrisc/openrisc_port.rst
-> similarity index 100%
-> rename from Documentation/openrisc/openrisc_port.rst
-> rename to Documentation/arch/openrisc/openrisc_port.rst
-> diff --git a/Documentation/openrisc/todo.rst b/Documentation/arch/openrisc/todo.rst
-> similarity index 100%
-> rename from Documentation/openrisc/todo.rst
-> rename to Documentation/arch/openrisc/todo.rst
-> diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
-> index aa53dcff268e..7e59af567331 100644
-> --- a/Documentation/translations/zh_CN/arch/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/index.rst
-> @@ -11,7 +11,7 @@
->      ../mips/index
->      ../arm64/index
->      ../riscv/index
-> -   ../openrisc/index
-> +   openrisc/index
->      ../parisc/index
->      ../loongarch/index
->   
-> diff --git a/Documentation/translations/zh_CN/openrisc/index.rst b/Documentation/translations/zh_CN/arch/openrisc/index.rst
-> similarity index 79%
-> rename from Documentation/translations/zh_CN/openrisc/index.rst
-> rename to Documentation/translations/zh_CN/arch/openrisc/index.rst
-> index 9ad6cc600884..da21f8ab894b 100644
-> --- a/Documentation/translations/zh_CN/openrisc/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/openrisc/index.rst
-> @@ -1,8 +1,8 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/openrisc/index.rst
-> +:Original: Documentation/arch/openrisc/index.rst
->   
->   :翻译:
->   
-> diff --git a/Documentation/translations/zh_CN/openrisc/openrisc_port.rst b/Documentation/translations/zh_CN/arch/openrisc/openrisc_port.rst
-> similarity index 97%
-> rename from Documentation/translations/zh_CN/openrisc/openrisc_port.rst
-> rename to Documentation/translations/zh_CN/arch/openrisc/openrisc_port.rst
-> index b8a67670492d..cadc580fa23b 100644
-> --- a/Documentation/translations/zh_CN/openrisc/openrisc_port.rst
-> +++ b/Documentation/translations/zh_CN/arch/openrisc/openrisc_port.rst
-> @@ -1,6 +1,6 @@
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/openrisc/openrisc_port.rst
-> +:Original: Documentation/arch/openrisc/openrisc_port.rst
->   
->   :翻译:
->   
-> diff --git a/Documentation/translations/zh_CN/openrisc/todo.rst b/Documentation/translations/zh_CN/arch/openrisc/todo.rst
-> similarity index 88%
-> rename from Documentation/translations/zh_CN/openrisc/todo.rst
-> rename to Documentation/translations/zh_CN/arch/openrisc/todo.rst
-> index 63c38717edb1..1f6f95616633 100644
-> --- a/Documentation/translations/zh_CN/openrisc/todo.rst
-> +++ b/Documentation/translations/zh_CN/arch/openrisc/todo.rst
-> @@ -1,6 +1,6 @@
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/openrisc/todo.rst
-> +:Original: Documentation/arch/openrisc/todo.rst
->   
->   :翻译:
->   
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cf4eb913ea12..64ea94536f4c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15638,7 +15638,7 @@ S:	Maintained
->   W:	http://openrisc.io
->   T:	git https://github.com/openrisc/linux.git
->   F:	Documentation/devicetree/bindings/openrisc/
-> -F:	Documentation/openrisc/
-> +F:	Documentation/arch/openrisc/
->   F:	arch/openrisc/
->   F:	drivers/irqchip/irq-ompic.c
->   F:	drivers/irqchip/irq-or1k-*
-
+>  arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
+>  virt/kvm/kvm_main.c             |  9 ++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 88e11dd3afde..03af44650f24 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/irq_work.h>
+>  #include <linux/irq.h>
+>  #include <linux/workqueue.h>
+> +#include <linux/count_zeros.h>
+>  
+>  #include <linux/kvm.h>
+>  #include <linux/kvm_para.h>
+> @@ -143,6 +144,20 @@
+>  #define KVM_HPAGE_MASK(x)	(~(KVM_HPAGE_SIZE(x) - 1))
+>  #define KVM_PAGES_PER_HPAGE(x)	(KVM_HPAGE_SIZE(x) / PAGE_SIZE)
+>  
+> +#define kvm_arch_required_alignment	kvm_arch_required_alignment
+> +static inline int kvm_arch_required_alignment(u64 gpa)
+> +{
+> +	int zeros = count_trailing_zeros(gpa);
+> +
+> +	WARN_ON_ONCE(!PAGE_ALIGNED(gpa));
+> +	if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_1G))
+> +		return KVM_HPAGE_SHIFT(PG_LEVEL_1G);
+> +	else if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_2M))
+> +		return KVM_HPAGE_SHIFT(PG_LEVEL_2M);
+> +
+> +	return PAGE_SHIFT;
+> +}
+> +
+>  #define KVM_MEMSLOT_PAGES_TO_MMU_PAGES_RATIO 50
+>  #define KVM_MIN_ALLOC_MMU_PAGES 64UL
+>  #define KVM_MMU_HASH_SHIFT 12
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index c9c4eef457b0..f4ff96171d24 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2113,6 +2113,13 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
+>  	return false;
+>  }
+>  
+> +#ifndef kvm_arch_required_alignment
+> +__weak int kvm_arch_required_alignment(u64 gpa)
+> +{
+> +	return PAGE_SHIFT
+> +}
+> +#endif
+> +
+>  /*
+>   * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
+>   */
+> @@ -2123,7 +2130,7 @@ static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
+>  	if (!gpa)
+>  		return false;
+>  
+> -	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+> +	return !!(count_trailing_zeros(offset) >= kvm_arch_required_alignment(gpa));
+>  }
+>  
+>  /*
+> -- 
+> 2.25.1
+> 
+> 
+> 
+> -- 
+> Isaku Yamahata <isaku.yamahata@gmail.com>
