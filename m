@@ -2,87 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 785E8C6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 16:51:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD571C6FD20
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 16:56:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229943AbjCXQvB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 12:51:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37144 "EHLO
+        id S231447AbjCXQ42 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 12:56:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbjCXQvB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 12:51:01 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53B22158A5
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 09:51:00 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id h11so1158026ild.11
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 09:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1679676659; x=1682268659;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R6W/+xSIy2LrHW9iOt6nruh+Qj6F+h5sXjXOMzQkKqc=;
-        b=TkwDD8j3zxa46H6s0Y2Cd+cqCjtL8QZFEo4pvrG3FhSyny7CcZlhoKAIPQdbaOhGxw
-         eQ1KcRtb/SlQnuljuraLGX38yLSYr67CiNWalVaUK7IPAyd3tUYuUM/JVdvdFrRFLGvr
-         pnofxGZMEjNxR5cU0YGOKaWS+LC59OL3ka7Ok=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679676659; x=1682268659;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R6W/+xSIy2LrHW9iOt6nruh+Qj6F+h5sXjXOMzQkKqc=;
-        b=hrFJycREhoDYvBb0iaUHz7zdWbF0ZF/Rrsj+GI5Iy6AflVohPzMxrzDYR9zn3xpHyG
-         QBtzkHM/sxzDpHLWxBpQSj0uOcZhmX0iqR1f93lnE3pFlU5Ju++KJdMw261QkSU+EsMX
-         L9+1lDBwhv5o/Adu7X9UxP7rSGaU6g+D8Rjq+Dd4tIh5CnDuAfSOIKPpDcNSi5+E7r9q
-         F4etkefpJH44OJZbIHGrlrj/IyT1Tz5DKEV+1Gj2tmZqLIN0+Y7eORXW+5+k7dsM/amH
-         OwUJ6yoGTuYrU41n5/AnGTPARVohRjSzdqrAOJQ9DpU81SG8Apmpbamin4sHN3i36JL0
-         SKiQ==
-X-Gm-Message-State: AAQBX9cHRGR8h0oqTdxxMPy8TywfAIzY0mfZCN4j3fe8xlX9MHs8JBs3
-        clA20ueFcpCw++isoJ4GZn/F0g==
-X-Google-Smtp-Source: AKy350bWEnOhZA+41gMK0JwGaYDc47+uvmcqhyuuFaYWlslXE1inLEwmiIOYesAeOcifs1QRRAy0nw==
-X-Received: by 2002:a05:6e02:12a8:b0:316:67be:1b99 with SMTP id f8-20020a056e0212a800b0031667be1b99mr1211674ilr.0.1679676659602;
-        Fri, 24 Mar 2023 09:50:59 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id g4-20020a05663810e400b003c2b67fac92sm6908450jae.81.2023.03.24.09.50.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Mar 2023 09:50:59 -0700 (PDT)
-Message-ID: <bfa092ee-43c8-c32e-b7f1-7813698861e3@linuxfoundation.org>
-Date:   Fri, 24 Mar 2023 10:50:58 -0600
+        with ESMTP id S230373AbjCXQ41 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 12:56:27 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5E01BF8
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 09:56:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679676986; x=1711212986;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rkY1+Ra6r6IrmzIwEr8sPSls6mfeqQ2y1LZln6kdbb0=;
+  b=K4OGhSNK7IYz/T9iqoEvTUCkUi6IlC2gEB5UQ4WrbSGaOY1iJ01QviRe
+   LgX68gg5sl83s12FcYyUHBREQL/XipQDsV91wvKulzAU0rnDhG3R+3rJR
+   s3H0vLHFT+fl/3HgN+03DGMt15xKtY/maVahPe0TbC/8ZUrwbzXMTX1r5
+   YhLIycQ8CvmtvAs6RlXMU+2snA69olNA1+uF/gMGfitL+tmrR2fSumpcu
+   USdsWoNswq08N03obQo90o5+M9vH3X3KCHo5pvTzxYRj+q7/XdNKNOqNz
+   zMLC4MXPqciPI45XuP33/HBH+uhEfp0czyYhNq1DTeHnY6t39xQWrK3DB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="338551983"
+X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
+   d="scan'208";a="338551983"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 09:56:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="713131230"
+X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
+   d="scan'208";a="713131230"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 24 Mar 2023 09:56:24 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pfkiF-000FU4-2h;
+        Fri, 24 Mar 2023 16:56:23 +0000
+Date:   Sat, 25 Mar 2023 00:55:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+ 7/121] htmldocs: Warning:
+ Documentation/devicetree/bindings/power/wakeup-source.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+Message-ID: <202303250049.0LhZBaFN-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] docs: add system-state document to admin-guide
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20230322152049.12723-1-skhan@linuxfoundation.org>
- <877cv7cpyj.fsf@meer.lwn.net>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <877cv7cpyj.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/23/23 11:55, Jonathan Corbet wrote:
-> Shuah Khan <skhan@linuxfoundation.org> writes:
-> 
->> Add a new system state document to the admin-guide. This document is
->> intended to be used as a guide on how to gather higher level information
->> about a system and its run-time activity.
->>
->> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->> ---
->> Changes since v1:
->> -- Addressed review comments
->>
+tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+head:   f1bfefa327cc9f54e2ee6185f0e7e53e8cf233a6
+commit: 54c9db528bf69f1336be6db861c0246a13717da9 [7/121] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+reproduce:
+        # https://github.com/krzk/linux/commit/54c9db528bf69f1336be6db861c0246a13717da9
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+        git checkout 54c9db528bf69f1336be6db861c0246a13717da9
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Thank you for the review and agree with all your comments. I will
-send v3 shortly.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303250049.0LhZBaFN-lkp@intel.com/
 
-thanks,
--- Shuah
+All warnings (new ones prefixed by >>):
 
+>> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
