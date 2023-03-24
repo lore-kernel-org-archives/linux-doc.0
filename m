@@ -2,379 +2,311 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8971C6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 10:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A34C76196
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 10:44:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbjCXK05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 06:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42296 "EHLO
+        id S231311AbjCXKog (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 06:44:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjCXK04 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 06:26:56 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C202007E
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 03:26:54 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id u10so1402000plz.7
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 03:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679653614;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TGBD8FEWEKxDa7aK1T0RCNQbdYp8oLYvFK8eEV3W7LA=;
-        b=UcT+NAof1Ccxa4ZtsdQ9EdvfdNzrIb2CmNbdEj+HOHaXg8m0iOjKEQgt9HNvXkV4rz
-         9lADCh2MMBVM87PG1MIieBf5CvmjUj3opMQiE4nqyoPzyItjzcBRUD2kd8gcy3RTPNBl
-         5V5RlUWRcWD1GVta2TTHnUlbbQE0+Ae0ZDW1bM/pH2T57BCw/vdwLtmGHSZ6FAdo1XtM
-         RFddG11GaqtIg7czUclZoJRxo3ndTle0Uu2ho/hLcjpX2iYKYwYEXxD3+Y4sU9ZWUSoF
-         r2ORZEviNd0dCGIrIwNSZXBZQuhyuk9b8Ut/rkoT5ySOzTf5e4XGe/B5NwsvytAJWcX8
-         I1ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679653614;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TGBD8FEWEKxDa7aK1T0RCNQbdYp8oLYvFK8eEV3W7LA=;
-        b=du6Am9eFIeqFbXzX4KbR2Xohhx/w25bn9SDqSlHW4kIhEUvFj8gyXf2O1Kx33PQcQ6
-         IHKbmyC8nPkSI31L0PCnW3Dk7oQdgowVNgl4bi5PnfNSIcUTUZuATRaBLzJVgzRffJd4
-         OhKY0eikkHM08k6leJhTHLj3ZbiqMo32cGRAGfb1k1v0aOxY1lnqvUFzoyVCutYyN3xc
-         adco7xgwwOrPcLht8MzzgvrGbl58m96ZLjDA+3lhT18zGnRWAV/Tpzbw1tkJTQUufFj/
-         2tmFf5hbKfTr7RSIclhpQCO1iY51csl6tX/ATXVgspv4WgeVvcSygZGAd6OpFSjbD/QM
-         jLhQ==
-X-Gm-Message-State: AO0yUKWDqb4Hxu3vmdrJTWSEaqbWl5l/AHcoayjtEAg2w+hhsoYlnoUQ
-        CSGlt7oXHWFhRKOQqvhtc+/9
-X-Google-Smtp-Source: AK7set+n1gDTS/JZRzJwz0CgXfIV651PxtqHRmlNkqFCwcibcQZN1jAs/cXNK5xrcHF+n2ZWE9+WPw==
-X-Received: by 2002:a05:6a20:b70f:b0:da:318a:981f with SMTP id fg15-20020a056a20b70f00b000da318a981fmr2473057pzb.42.1679653614258;
-        Fri, 24 Mar 2023 03:26:54 -0700 (PDT)
-Received: from thinkpad ([117.217.184.219])
-        by smtp.gmail.com with ESMTPSA id a7-20020a62bd07000000b006222a261188sm13553144pff.62.2023.03.24.03.26.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 03:26:53 -0700 (PDT)
-Date:   Fri, 24 Mar 2023 15:56:45 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc:     ogabbay@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
-        jacek.lawrynowicz@linux.intel.com,
-        stanislaw.gruszka@linux.intel.com, dafna@fastmail.com,
-        dri-devel@lists.freedesktop.org, quic_pkanojiy@quicinc.com,
-        quic_carlv@quicinc.com, quic_ajitpals@quicinc.com,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v4 3/8] accel/qaic: Add MHI controller
-Message-ID: <20230324102645.GB4259@thinkpad>
-References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
- <1679325074-5494-4-git-send-email-quic_jhugo@quicinc.com>
+        with ESMTP id S230088AbjCXKof (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 06:44:35 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6532EF977;
+        Fri, 24 Mar 2023 03:44:33 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A8BE11FB;
+        Fri, 24 Mar 2023 03:45:17 -0700 (PDT)
+Received: from [10.57.55.150] (unknown [10.57.55.150])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0B6B3F6C4;
+        Fri, 24 Mar 2023 03:44:27 -0700 (PDT)
+Message-ID: <0c1d60f7-0d01-832f-a49c-12527665e86e@arm.com>
+Date:   Fri, 24 Mar 2023 10:44:26 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1679325074-5494-4-git-send-email-quic_jhugo@quicinc.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/3] Coresight: Add coresight dummy driver
+To:     Hao Zhang <quic_hazha@quicinc.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Leo Yan <leo.yan@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20230324061608.33609-1-quic_hazha@quicinc.com>
+ <20230324061608.33609-2-quic_hazha@quicinc.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20230324061608.33609-2-quic_hazha@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 09:11:09AM -0600, Jeffrey Hugo wrote:
-> An AIC100 device contains a MHI interface with a number of different
-> channels for controlling different aspects of the device. The MHI
-> controller works with the MHI bus to enable and drive that interface.
+On 24/03/2023 06:16, Hao Zhang wrote:
+> Some Coresight devices that HLOS don't have permission to access
+> or configure. Such as Coresight sink EUD, some TPDMs etc. So there
+> need driver to register dummy devices as Coresight devices. Provide
+> Coresight API for dummy device operations, such as enabling and
+> disabling dummy devices. Build the Coresight path for dummy sink or
+> dummy source for debugging.
 > 
-> AIC100 uses the BHI protocol in PBL to load SBL. The MHI controller
-> expects the SBL to be located at /lib/firmware/qcom/aic100/sbl.bin and
-> expects the MHI bus to manage the process of loading and sending SBL to
-> the device.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
 > ---
->  drivers/accel/qaic/mhi_controller.c | 563 ++++++++++++++++++++++++++++++++++++
->  drivers/accel/qaic/mhi_controller.h |  16 +
->  2 files changed, 579 insertions(+)
->  create mode 100644 drivers/accel/qaic/mhi_controller.c
->  create mode 100644 drivers/accel/qaic/mhi_controller.h
+>   drivers/hwtracing/coresight/Kconfig           |  11 ++
+>   drivers/hwtracing/coresight/Makefile          |   1 +
+>   drivers/hwtracing/coresight/coresight-dummy.c | 176 ++++++++++++++++++
+>   3 files changed, 188 insertions(+)
+>   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
 > 
-> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+> diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
+> index 2b5bbfffbc4f..06f0a7594169 100644
+> --- a/drivers/hwtracing/coresight/Kconfig
+> +++ b/drivers/hwtracing/coresight/Kconfig
+> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
+>   
+>   	  To compile this driver as a module, choose M here: the module will be
+>   	  called coresight-tpda.
+> +
+> +config CORESIGHT_DUMMY
+> +	tristate "Dummy driver support"
+> +	help
+> +	  Enables support for dummy driver. Dummy driver can be used for
+> +	  CoreSight sources/sinks that are owned and configured by some
+> +	  other subsystem and use Linux drivers to configure rest of trace
+> +	  path.
+> +
+> +	  To compile this driver as a module, choose M here: the module will be
+> +	  called coresight-dummy.
+>   endif
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index 33bcc3f7b8ae..995d3b2c76df 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
+>   coresight-cti-y := coresight-cti-core.o	coresight-cti-platform.o \
+>   		   coresight-cti-sysfs.o
+>   obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
+> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
+> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c b/drivers/hwtracing/coresight/coresight-dummy.c
 > new file mode 100644
-> index 0000000..777dfbe
+> index 000000000000..2d4eb3e546eb
 > --- /dev/null
-> +++ b/drivers/accel/qaic/mhi_controller.c
-> @@ -0,0 +1,563 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
+> @@ -0,0 +1,176 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
 > +
-> +/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
-> +/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/coresight.h>
+> +#include <linux/of.h>
+> +#include <linux/pm_runtime.h>
 > +
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/memblock.h>
-> +#include <linux/mhi.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/pci.h>
-> +#include <linux/sizes.h>
+> +#include "coresight-priv.h"
+> +#include "coresight-trace-id.h"
 > +
-> +#include "mhi_controller.h"
-> +#include "qaic.h"
-> +
-> +#define MAX_RESET_TIME_SEC 25
-> +
-> +static unsigned int mhi_timeout_ms = 2000; /* 2 sec default */
-> +module_param(mhi_timeout_ms, uint, 0600);
-> +MODULE_PARM_DESC(mhi_timeout_ms, "MHI controller timeout value");
-> +
-> +static struct mhi_channel_config aic100_channels[] = {
-> +	{
-> +		.name = "QAIC_LOOPBACK",
-
-Why do you need QAIC_ prefix for channel names?
-
-> +		.num = 0,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-
-[...]
-
-> +static struct mhi_event_config aic100_events[] = {
-> +	{
-> +		.num_elements = 32,
-> +		.irq_moderation_ms = 0,
-> +		.irq = 0,
-> +		.channel = U32_MAX,
-> +		.priority = 1,
-> +		.mode = MHI_DB_BRST_DISABLE,
-> +		.data_type = MHI_ER_CTRL,
-> +		.hardware_event = false,
-> +		.client_managed = false,
-> +		.offload_channel = false,
-> +	},
+> +struct dummy_drvdata {
+> +	struct device			*dev;
+> +	struct coresight_device		*csdev;
+> +	int				traceid;
 > +};
 > +
-
-It'd be nice to use macros for defining the channels and events as done in the
-pci_generic driver.
-
-> +static struct mhi_controller_config aic100_config = {
-> +	.max_channels = 128,
-> +	.timeout_ms = 0, /* controlled by mhi_timeout */
-> +	.buf_len = 0,
-> +	.num_channels = ARRAY_SIZE(aic100_channels),
-> +	.ch_cfg = aic100_channels,
-> +	.num_events = ARRAY_SIZE(aic100_events),
-> +	.event_cfg = aic100_events,
-> +	.use_bounce_buf = false,
-> +	.m2_no_db = false,
-> +};
+> +DEFINE_CORESIGHT_DEVLIST(dummy_devs, "dummy");
 > +
-> +static int mhi_read_reg(struct mhi_controller *mhi_cntl, void __iomem *addr, u32 *out)
+> +static int dummy_source_enable(struct coresight_device *csdev,
+> +			       struct perf_event *event, u32 mode)
 > +{
-> +	u32 tmp = readl_relaxed(addr);
+> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
 > +
-> +	if (tmp == U32_MAX)
-> +		return -EIO;
-> +
-> +	*out = tmp;
+> +	dev_info(drvdata->dev, "Dummy source enabled\n");
+
+Please use dev_dbg everywher.
+
+
 > +
 > +	return 0;
 > +}
 > +
-> +static void mhi_write_reg(struct mhi_controller *mhi_cntl, void __iomem *addr, u32 val)
+> +static void dummy_source_disable(struct coresight_device *csdev,
+> +				 struct perf_event *event)
 > +{
-> +	writel_relaxed(val, addr);
+> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+> +
+> +	dev_info(drvdata->dev, "Dummy source disabled\n");
 > +}
 > +
-> +static int mhi_runtime_get(struct mhi_controller *mhi_cntl)
+> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
+> +				void *data)
 > +{
+> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+> +
+> +	dev_info(drvdata->dev, "Dummy sink enabled\n");
+> +
 > +	return 0;
 > +}
 > +
-> +static void mhi_runtime_put(struct mhi_controller *mhi_cntl)
+> +static int dummy_sink_disable(struct coresight_device *csdev)
 > +{
+> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+> +
+> +	dev_info(drvdata->dev, "Dummy sink disabled\n");
+> +
+> +	return 0;
 > +}
 > +
-> +static void mhi_status_cb(struct mhi_controller *mhi_cntl, enum mhi_callback reason)
+> +static const struct coresight_ops_source dummy_source_ops = {
+> +	.enable		= dummy_source_enable,
+> +	.disable	= dummy_source_disable,
+> +};
+> +
+> +static const struct coresight_ops_sink dummy_sink_ops = {
+> +	.enable		= dummy_sink_enable,
+> +	.disable	= dummy_sink_disable,
+> +};
+> +
+> +static const struct coresight_ops dummy_cs_ops = {
+> +	.source_ops	= &dummy_source_ops,
+> +	.sink_ops	= &dummy_sink_ops,
+> +};
+> +
+> +static int dummy_probe(struct platform_device *pdev)
 > +{
-> +	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_cntl->cntrl_dev));
+> +	int ret, trace_id;
+> +	struct device *dev = &pdev->dev;
+> +	struct coresight_platform_data *pdata;
+> +	struct dummy_drvdata *drvdata;
+> +	struct coresight_desc desc = { 0 };
 > +
-> +	/* this event occurs in atomic context */
-> +	if (reason == MHI_CB_FATAL_ERROR)
-> +		pci_err(qdev->pdev, "Fatal error received from device. Attempting to recover\n");
+> +	desc.name = coresight_alloc_device_name(&dummy_devs, dev);
+> +	if (!desc.name)
+> +		return -ENOMEM;
+> +
+> +	pdata = coresight_get_platform_data(dev);
+> +	if (IS_ERR(pdata))
+> +		return PTR_ERR(pdata);
+> +	pdev->dev.platform_data = pdata;
+> +
+> +	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
+> +	if (!drvdata)
+> +		return -ENOMEM;
+> +
+> +	drvdata->dev = &pdev->dev;
+> +	platform_set_drvdata(pdev, drvdata);
+> +
+> +	if (of_property_read_bool(pdev->dev.of_node, "qcom,dummy-source")) {
 
-Why no dev_err()?
+I don't see any reason why this should be qcom,...
 
-> +	/* this event occurs in non-atomic context */
-> +	if (reason == MHI_CB_SYS_ERROR)
-> +		qaic_dev_reset_clean_local_state(qdev, true);
-> +}
-> +
-> +static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntl)
-> +{
-> +	char time_sec = 1;
+Please could we use : "arm,coresight-", everywhere including the "dt"
+compatible ?
 
-u8?
-
-> +	int current_ee;
-> +	int ret;
+> +		desc.type = CORESIGHT_DEV_TYPE_SOURCE;
+> +		desc.subtype.source_subtype =
+> +					CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
+> +	} else if (of_property_read_bool(pdev->dev.of_node,
+> +					 "qcom,dummy-sink")) {
+> +		desc.type = CORESIGHT_DEV_TYPE_SINK;
+> +		desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_BUFFER;
+> +	} else {
+> +		dev_info(dev, "Device type not set\n");
+> +		return -EINVAL;
+> +	}
 > +
-> +	/* Reset the device to bring the device in PBL EE */
-> +	mhi_soc_reset(mhi_cntl);
+> +	desc.ops = &dummy_cs_ops;
+> +	desc.pdata = pdev->dev.platform_data;
+> +	desc.dev = &pdev->dev;
+> +	drvdata->csdev = coresight_register(&desc);
+> +	if (IS_ERR(drvdata->csdev))
+> +		return PTR_ERR(drvdata->csdev);
 > +
-> +	/*
-> +	 * Keep checking the execution environment(EE) after every 1 second
-> +	 * interval.
-> +	 */
-> +	do {
-> +		msleep(1000);
-> +		current_ee = mhi_get_exec_env(mhi_cntl);
-> +	} while (current_ee != MHI_EE_PBL && time_sec++ <= MAX_RESET_TIME_SEC);
+> +	trace_id = coresight_trace_id_get_system_id();
+> +	if (trace_id < 0) {
+> +		ret = trace_id;
+> +		goto cs_unregister;
+> +	}
+> +	drvdata->traceid = (u8)trace_id;
 > +
-> +	/* If the device is in PBL EE retry power up */
-> +	if (current_ee == MHI_EE_PBL)
-> +		ret = mhi_async_power_up(mhi_cntl);
-> +	else
-> +		ret = -EIO;
+> +	pm_runtime_enable(dev);
+> +	dev_info(dev, "Dummy device initialized\n");
+> +
+> +	return 0;
+> +
+> +cs_unregister:
+> +	coresight_unregister(drvdata->csdev);
 > +
 > +	return ret;
 > +}
 > +
-> +struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
-> +						    int mhi_irq)
+> +static int dummy_remove(struct platform_device *pdev)
 > +{
-> +	struct mhi_controller *mhi_cntl;
-
-Cosmetic change: We use "mhi_cntrl" in other controller drivers. So it is
-better to follow the same pattern here also.
-
-> +	int ret;
+> +	struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
+> +	struct device *dev = &pdev->dev;
 > +
-> +	mhi_cntl = devm_kzalloc(&pci_dev->dev, sizeof(*mhi_cntl), GFP_KERNEL);
-> +	if (!mhi_cntl)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	mhi_cntl->cntrl_dev = &pci_dev->dev;
-> +
-> +	/*
-> +	 * Covers the entire possible physical ram region. Remote side is
-> +	 * going to calculate a size of this range, so subtract 1 to prevent
-> +	 * rollover.
-> +	 */
-> +	mhi_cntl->iova_start = 0;
-> +	mhi_cntl->iova_stop = PHYS_ADDR_MAX - 1;
-> +	mhi_cntl->status_cb = mhi_status_cb;
-> +	mhi_cntl->runtime_get = mhi_runtime_get;
-> +	mhi_cntl->runtime_put = mhi_runtime_put;
-> +	mhi_cntl->read_reg = mhi_read_reg;
-> +	mhi_cntl->write_reg = mhi_write_reg;
-> +	mhi_cntl->regs = mhi_bar;
-> +	mhi_cntl->reg_len = SZ_4K;
-
-Is this size fixed for all AIC100 revisions? I think you should get this value
-from pci_resource_len() to avoid issues later.
-
-Thanks,
-Mani
-
-> +	mhi_cntl->nr_irqs = 1;
-> +	mhi_cntl->irq = devm_kmalloc(&pci_dev->dev, sizeof(*mhi_cntl->irq), GFP_KERNEL);
-> +
-> +	if (!mhi_cntl->irq)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	mhi_cntl->irq[0] = mhi_irq;
-> +	mhi_cntl->fw_image = "qcom/aic100/sbl.bin";
-> +
-> +	/* use latest configured timeout */
-> +	aic100_config.timeout_ms = mhi_timeout_ms;
-> +	ret = mhi_register_controller(mhi_cntl, &aic100_config);
-> +	if (ret) {
-> +		pci_err(pci_dev, "mhi_register_controller failed %d\n", ret);
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	ret = mhi_prepare_for_power_up(mhi_cntl);
-> +	if (ret) {
-> +		pci_err(pci_dev, "mhi_prepare_for_power_up failed %d\n", ret);
-> +		goto prepare_power_up_fail;
-> +	}
-> +
-> +	ret = mhi_async_power_up(mhi_cntl);
-> +	/*
-> +	 * If EIO is returned it is possible that device is in SBL EE, which is
-> +	 * undesired. SOC reset the device and try to power up again.
-> +	 */
-> +	if (ret == -EIO && MHI_EE_SBL == mhi_get_exec_env(mhi_cntl)) {
-> +		pci_err(pci_dev, "Found device in SBL at MHI init. Attempting a reset.\n");
-> +		ret = mhi_reset_and_async_power_up(mhi_cntl);
-> +	}
-> +
-> +	if (ret) {
-> +		pci_err(pci_dev, "mhi_async_power_up failed %d\n", ret);
-> +		goto power_up_fail;
-> +	}
-> +
-> +	return mhi_cntl;
-> +
-> +power_up_fail:
-> +	mhi_unprepare_after_power_down(mhi_cntl);
-> +prepare_power_up_fail:
-> +	mhi_unregister_controller(mhi_cntl);
-> +	return ERR_PTR(ret);
+> +	coresight_trace_id_put_system_id(drvdata->traceid);
+> +	pm_runtime_disable(dev);
+> +	coresight_unregister(drvdata->csdev);
+> +	return 0;
 > +}
 > +
-> +void qaic_mhi_free_controller(struct mhi_controller *mhi_cntl, bool link_up)
-> +{
-> +	mhi_power_down(mhi_cntl, link_up);
-> +	mhi_unprepare_after_power_down(mhi_cntl);
-> +	mhi_unregister_controller(mhi_cntl);
-> +}
-> +
-> +void qaic_mhi_start_reset(struct mhi_controller *mhi_cntl)
-> +{
-> +	mhi_power_down(mhi_cntl, true);
-> +}
-> +
-> +void qaic_mhi_reset_done(struct mhi_controller *mhi_cntl)
-> +{
-> +	struct pci_dev *pci_dev = container_of(mhi_cntl->cntrl_dev, struct pci_dev, dev);
-> +	int ret;
-> +
-> +	ret = mhi_async_power_up(mhi_cntl);
-> +	if (ret)
-> +		pci_err(pci_dev, "mhi_async_power_up failed after reset %d\n", ret);
-> +}
-> diff --git a/drivers/accel/qaic/mhi_controller.h b/drivers/accel/qaic/mhi_controller.h
-> new file mode 100644
-> index 0000000..c105e93
-> --- /dev/null
-> +++ b/drivers/accel/qaic/mhi_controller.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only
-> + *
-> + * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef MHICONTROLLERQAIC_H_
-> +#define MHICONTROLLERQAIC_H_
-> +
-> +struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
-> +						    int mhi_irq);
-> +void qaic_mhi_free_controller(struct mhi_controller *mhi_cntl, bool link_up);
-> +void qaic_mhi_start_reset(struct mhi_controller *mhi_cntl);
-> +void qaic_mhi_reset_done(struct mhi_controller *mhi_cntl);
-> +
-> +#endif /* MHICONTROLLERQAIC_H_ */
-> -- 
-> 2.7.4
-> 
+> +static const struct of_device_id dummy_match[] = {
+> +	{.compatible = "qcom,coresight-dummy"},
 
--- 
-மணிவண்ணன் சதாசிவம்
+As mentioned above, "arm,coresight-dummy-device" ? This has
+nothing to do with qcom IP. qcom has a use for this. So, I would
+like to keep this "coresight" subsystem specific compatibles.
+
+May be we could even add other types too : i.e,
+
+arm,coresight-dummy-link-split, arm,coresight-dummy-link-merge
+
+
+Suzuki
+
+> +	{},
+> +};
+> +
+> +static struct platform_driver dummy_driver = {
+> +	.probe	= dummy_probe,
+> +	.remove	= dummy_remove,
+> +	.driver	= {
+> +		.name   = "coresight-dummy",
+> +		.of_match_table = dummy_match,
+> +	},
+> +};
+> +
+> +static int __init dummy_init(void)
+> +{
+> +	return platform_driver_register(&dummy_driver);
+> +}
+> +module_init(dummy_init);
+> +
+> +static void __exit dummy_exit(void)
+> +{
+> +	platform_driver_unregister(&dummy_driver);
+> +}
+> +module_exit(dummy_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("CoreSight dummy source driver");
+
