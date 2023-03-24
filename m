@@ -2,317 +2,457 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A505DC6FD20
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 15:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E03FC76196
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 15:27:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231665AbjCXPMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 11:12:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60142 "EHLO
+        id S229919AbjCXP12 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 11:27:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232123AbjCXPMM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 11:12:12 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D71E1A97B;
-        Fri, 24 Mar 2023 08:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=c9VYuHHYkjeYQP4B8l8g3Kph6l5aAo+aMshO918WiTI=; b=Ku7kRlRuzoyAjjEPIdZ8JYg22/
-        JEj+wPVOoFI0NCgR17Rfqu3XZKX31HdhfJp19iBoik7O4NaMNxnD6ORolCVAHH7zdwc0iVGth5uqH
-        naFQaNsrnVFkqjYaNjckl+6KJKcy2SM7wobL+uJVrpE+2FflkzH0V6UFpNpX7/q1av3ulbsTPRXwD
-        q/bv+vWvSJ0L+chlr5gRLUaupTdKPRJQuypbDn8TZRiU/xJIkzy7T81GgykG8z1lKBTza7v/z/NXv
-        D68LnjhsifrSiZhA1+6tOK4Uc714I6iUva1uYQmANm/+K1dK8HiMdsJhmnMOiN8LOXm1yiDJBVloL
-        mLcXQK9g==;
-Received: from [2601:1c2:980:9ec0::21b4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pfj56-004lC2-0c;
-        Fri, 24 Mar 2023 15:11:52 +0000
-Message-ID: <f08d902b-1a8a-5b5a-97f1-0b6a000f23d1@infradead.org>
-Date:   Fri, 24 Mar 2023 08:09:26 -0700
+        with ESMTP id S229540AbjCXP12 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 11:27:28 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25E361CF74;
+        Fri, 24 Mar 2023 08:27:26 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OAto5m008835;
+        Fri, 24 Mar 2023 15:26:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=V2ei9bDFSF4oI5flOewtMFEAH74P6obTMm7leaRQFAo=;
+ b=n5ijegI5ahf1JerTZp0tHMpBREaMdyCP7580R1SGuDE1EbMVpHvJ1CNbpjbPhnRERqPV
+ xjvWnU35C3d3ztHReh5LLQ0g+OzkcAdBdKVQk1HC9sc99GFu6aEq7F3Xpm2hzUKxcp79
+ 0lx9+pzWPg5s0GKZB3biEwKuXEH8CRJkOgQ8ruThAUyN+X9wd9Wab7LvQdlMgkEyh6Y0
+ KWl6a2rJUY38sQYiLwePFehCzLWvrX/rW7sMhEb4xNTFg+TN/70qf5dxa9ZjzI7ha3Vh
+ MGhzBYRHC/r93lmt0W5rEeW4DUx3i2lZPnBpPUZ5C9+zm/6SN5bzvCUyntIuunxuo/Ls hg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pgydujaub-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 24 Mar 2023 15:26:52 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32OFQp5m030564
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 24 Mar 2023 15:26:51 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 24 Mar
+ 2023 08:26:50 -0700
+Message-ID: <e671d2df-6429-185a-31b2-27734d537281@quicinc.com>
+Date:   Fri, 24 Mar 2023 09:26:49 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v1] Documentation: Add document for false sharing
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 3/8] accel/qaic: Add MHI controller
 Content-Language: en-US
-To:     Feng Tang <feng.tang@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Shakeel Butt <shakeelb@google.com>, dave.hansen@intel.com,
-        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com
-References: <20230324071316.167337-1-feng.tang@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230324071316.167337-1-feng.tang@intel.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC:     <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <jacek.lawrynowicz@linux.intel.com>,
+        <stanislaw.gruszka@linux.intel.com>, <dafna@fastmail.com>,
+        <dri-devel@lists.freedesktop.org>, <quic_pkanojiy@quicinc.com>,
+        <quic_carlv@quicinc.com>, <quic_ajitpals@quicinc.com>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+ <1679325074-5494-4-git-send-email-quic_jhugo@quicinc.com>
+ <20230324102645.GB4259@thinkpad>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230324102645.GB4259@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: aIqq0fcUke-94v04LsnWQW05tnBXKtJf
+X-Proofpoint-GUID: aIqq0fcUke-94v04LsnWQW05tnBXKtJf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_09,2023-03-24_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ adultscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1011
+ priorityscore=1501 impostorscore=0 spamscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2303240123
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 3/24/2023 4:26 AM, Manivannan Sadhasivam wrote:
+> On Mon, Mar 20, 2023 at 09:11:09AM -0600, Jeffrey Hugo wrote:
+>> An AIC100 device contains a MHI interface with a number of different
+>> channels for controlling different aspects of the device. The MHI
+>> controller works with the MHI bus to enable and drive that interface.
+>>
+>> AIC100 uses the BHI protocol in PBL to load SBL. The MHI controller
+>> expects the SBL to be located at /lib/firmware/qcom/aic100/sbl.bin and
+>> expects the MHI bus to manage the process of loading and sending SBL to
+>> the device.
+>>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+>> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>> ---
+>>   drivers/accel/qaic/mhi_controller.c | 563 ++++++++++++++++++++++++++++++++++++
+>>   drivers/accel/qaic/mhi_controller.h |  16 +
+>>   2 files changed, 579 insertions(+)
+>>   create mode 100644 drivers/accel/qaic/mhi_controller.c
+>>   create mode 100644 drivers/accel/qaic/mhi_controller.h
+>>
+>> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+>> new file mode 100644
+>> index 0000000..777dfbe
+>> --- /dev/null
+>> +++ b/drivers/accel/qaic/mhi_controller.c
+>> @@ -0,0 +1,563 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +
+>> +/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
+>> +/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
+>> +
+>> +#include <linux/delay.h>
+>> +#include <linux/err.h>
+>> +#include <linux/memblock.h>
+>> +#include <linux/mhi.h>
+>> +#include <linux/moduleparam.h>
+>> +#include <linux/pci.h>
+>> +#include <linux/sizes.h>
+>> +
+>> +#include "mhi_controller.h"
+>> +#include "qaic.h"
+>> +
+>> +#define MAX_RESET_TIME_SEC 25
+>> +
+>> +static unsigned int mhi_timeout_ms = 2000; /* 2 sec default */
+>> +module_param(mhi_timeout_ms, uint, 0600);
+>> +MODULE_PARM_DESC(mhi_timeout_ms, "MHI controller timeout value");
+>> +
+>> +static struct mhi_channel_config aic100_channels[] = {
+>> +	{
+>> +		.name = "QAIC_LOOPBACK",
+> 
+> Why do you need QAIC_ prefix for channel names?
 
+To avoid existing and anticipated conflicts.
 
-On 3/24/23 00:13, Feng Tang wrote:
-> When doing performance tuning or debugging performance regressions,
-> more and more cases are found to be related to false sharing [1][2],
-> and the situation can be worse for newer platforms with hundreds of
-> CPUs. There are already many commits in current kernel specially
-> for mitigating the performance degradation due to false sharing.
-> 
-> False sharing could harm the performance silently without being
-> noticed, due to reasons like:
-> * data members of a big data structure randomly sitting together
->   in one cache line
-> * global data of small size are linked compactly together
-> 
-> So it's better to make a simple document about the normal pattern
-> of false sharing, basic ways to mitigate it and call out to
-> developers to pay attention during code-writing.
-> 
-> [ Many thanks to Dave Hansen, Ying Huang, Tim Chen, Julie Du and
->   Yu Chen for their contributions ]
-> 
-> [1]. https://lore.kernel.org/lkml/20220619150456.GB34471@xsang-OptiPlex-9020/
-> [2]. https://lore.kernel.org/lkml/20201102091543.GM31092@shao2-debian/
-> 
-> Signed-off-by: Feng Tang <feng.tang@intel.com>
+As you are aware, the channel name becomes critical for the bus device 
+and is the key that the consumer driver will probe on.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Sadly, that is rife for conflicts.  You can only have one driver for a 
+particular MHI device (channel).  Multiple drivers can register for it, 
+but only the first one will bind to the device.  This creates a race 
+condition.  Whoever is able to register with the bus first, owns all 
+instances of that device.  That also means that particular driver on the 
+bus also needs to be able to handle all instances of that device.
 
-Thanks.
+The WWAN subsystem already claims DIAG.  You and I both know from the 
+WWAN subsystem creation experience, the Net folks don't want a common 
+framework that can service multiple types of devices.  QAIC devices are 
+not WWAN devices, and were an argument for having a WWAN specific thing. 
+  So, I can't leverage WWAN, and frankly I shouldn't because my device 
+is not a WWAN device.  The WWAN userspace shouldn't try to use 
+ACCEL/QAIC devices (one of the reasons for having ACCEL instead of DRM). 
+  Therefore DIAG devices are WWAN exclusive, and I need to have a 
+different device.  "DIAG2" seems like a poor name.  If the QAIC DIAG 
+device is going to be QAIC specific, having QAIC in the name to isolate 
+and identify it seems like the best option.
 
-> ---
-> Changelog:
-> 
->   since RFC:
->   * Reword paragraphs with grammar issues; fixes many format and
->     typo issues (Randy Dunlap)
-> 
->  .../kernel-hacking/false-sharing.rst          | 201 ++++++++++++++++++
->  Documentation/kernel-hacking/index.rst        |   1 +
->  2 files changed, 202 insertions(+)
->  create mode 100644 Documentation/kernel-hacking/false-sharing.rst
-> 
-> diff --git a/Documentation/kernel-hacking/false-sharing.rst b/Documentation/kernel-hacking/false-sharing.rst
-> new file mode 100644
-> index 000000000000..c67745e8da3d
-> --- /dev/null
-> +++ b/Documentation/kernel-hacking/false-sharing.rst
-> @@ -0,0 +1,201 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============
-> +False Sharing
-> +=============
-> +
-> +What is False Sharing
-> +=====================
-> +False sharing is related with cache mechanism of maintaining the data
-> +coherence of one cache line stored in multiple CPU's caches; then
-> +academic definition for it is in [1]_. Consider a struct with a
-> +refcount and a string::
-> +
-> +	struct foo {
-> +		refcount_t refcount;
-> +		...
-> +		char name[16];
-> +	} ____cacheline_internodealigned_in_smp;
-> +
-> +Member 'refcount'(A) and 'name'(B) _share_ one cache line like below::
-> +
-> +                +-----------+                     +-----------+
-> +                |   CPU 0   |                     |   CPU 1   |
-> +                +-----------+                     +-----------+
-> +               /                                        |
-> +              /                                         |
-> +             V                                          V
-> +         +----------------------+             +----------------------+
-> +         | A      B             | Cache 0     | A       B            | Cache 1
-> +         +----------------------+             +----------------------+
-> +                             |                  |
-> +  ---------------------------+------------------+-----------------------------
-> +                             |                  |
-> +                           +----------------------+
-> +                           |                      |
-> +                           +----------------------+
-> +              Main Memory  | A       B            |
-> +                           +----------------------+
-> +
-> +'refcount' is modified frequently, but 'name' is set once at object
-> +creation time and is never modified.  When many CPUs access 'foo' at
-> +the same time, with 'refcount' being only bumped by one CPU frequently
-> +and 'name' being read by other CPUs, all those reading CPUs have to
-> +reload the whole cache line over and over due to the 'sharing', even
-> +though 'name' is never changed.
-> +
-> +There are many real-world cases of performance regressions caused by
-> +false sharing, and one is a rw_semaphore 'mmap_lock' inside struct
-> +mm_struct, whose cache line layout change triggered a regression
-> +and Linus analyzed in [2]_.
-> +
-> +There are two key factors for a harmful false sharing:
-> +
-> +* A global datum accessed (shared) by many CPUs
-> +* In the concurrent accesses to the data, there is at least one write
-> +  operation: write/write or write/read cases.
-> +
-> +The sharing could be from totally unrelated kernel components, or
-> +different code paths of the same kernel component.
-> +
-> +
-> +False Sharing Pitfalls
-> +======================
-> +Back in time when one platform had only one or a few CPUs, hot data
-> +members could be purposely put in the same cache line to make them
-> +cache hot and save cacheline/TLB, like a lock and the data protected
-> +by it.  But for recent large system with hundreds of CPUs, this may
-> +not work when the lock is heavily contended, as the lock owner CPU
-> +could write to the data, while other CPUs are busy spinning the lock.
-> +
-> +Looking at past cases, there are several frequently occurring patterns
-> +for false sharing:
-> +
-> +* lock (spinlock/mutex/semaphore) and data protected by it are
-> +  purposely put in one cache line.
-> +* global data being put together in one cache line. Some kernel
-> +  subsystems have many global parameters of small size (4 bytes),
-> +  which can easily be grouped together and put into one cache line.
-> +* data members of a big data structure randomly sitting together
-> +  without being noticed (cache line is usually 64 bytes or more),
-> +  like struct 'mem_cgroup'.
-> +
-> +Following 'mitigation' section provides real-world examples.
-> +
-> +False sharing could easily happen unless they are intentionally
-> +checked, and it is valuable to run specific tools for performance
-> +critical workloads to detect false sharing affecting performance case
-> +and optimize accordingly.
-> +
-> +
-> +How to detect and analysis False Sharing
-> +========================================
-> +perf record/report/stat are widely used for performance tuning, and
-> +once hotspots are detected, tools like 'perf-c2c' and 'pahole' can
-> +be further used to detect and pinpoint the possible false sharing
-> +data structures.  'addr2line' is also good at decoding instruction
-> +pointer when there are multiple layers of inline functions.
-> +
-> +perf-c2c can capture the cache lines with most false sharing hits,
-> +decoded functions (line number of file) accessing that cache line,
-> +and in-line offset of the data. Simple commands are::
-> +
-> +  #perf c2c record -ag sleep 3
-> +  #perf c2c report --call-graph none -k vmlinux
-> +
-> +Run it when testing will-it-scale's tlb_flush1 case, and the report
-> +has pieces like::
-> +
-> +  Total records                     :    1658231
-> +  Locked Load/Store Operations      :      89439
-> +  Load Operations                   :     623219
-> +  Load Local HITM                   :      92117
-> +  Load Remote HITM                  :        139
-> +
-> +  #----------------------------------------------------------------------
-> +      4        0     2374        0        0        0  0xff1100088366d880
-> +  #----------------------------------------------------------------------
-> +    0.00%   42.29%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff81373b7b         0       231       129     5312        64  [k] __mod_lruvec_page_state    [kernel.vmlinux]  memcontrol.h:752   1
-> +    0.00%   13.10%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff81374718         0       226        97     3551        64  [k] folio_lruvec_lock_irqsave  [kernel.vmlinux]  memcontrol.h:752   1
-> +    0.00%   11.20%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff812c29bf         0       170       136      555        64  [k] lru_add_fn                 [kernel.vmlinux]  mm_inline.h:41     1
-> +    0.00%    7.62%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff812c3ec5         0       175       108      632        64  [k] release_pages              [kernel.vmlinux]  mm_inline.h:41     1
-> +    0.00%   23.29%    0.00%    0.00%    0.00%   0x10     1       1  0xffffffff81372d0a         0       234       279     1051        64  [k] __mod_memcg_lruvec_state   [kernel.vmlinux]  memcontrol.c:736   1
-> +
-> +A nice introduction for perf-c2c is [3]_.
-> +
-> +'pahole' decodes data structure layouts delimited in cache line
-> +granularity.  Users can match the offset in perf-c2c output with
-> +pahole's decoding to locate the exact data members.  For global
-> +data, users can search the data address in System.map.
-> +
-> +
-> +Possible Mitigations
-> +====================
-> +False sharing does not always need to be mitigated.  False sharing
-> +mitigations need to balance performance gains with complexity and
-> +space consumption.  Sometimes, lower performance is OK, and it's
-> +unnecessary to hyper-optimize every rarely used data structure or
-> +a cold data path.
-> +
-> +False sharing hurting performance cases are seen more frequently with
-> +core count increasing, and there have been many patches merged to
-> +solve it, like in networking and memory management subsystems.  Some
-> +common mitigations (with examples) are:
-> +
-> +* Separate hot global data in its own dedicated cache line, even if it
-> +  is just a 'short' type. The downside is more consumption of memory,
-> +  cache line and TLB entries.
-> +
-> +  Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_sockets_allocated")
-> +
-> +* Reorganize the data structure, separate the interfering members to
-> +  different cache lines.  One downside is it may introduce new false
-> +  sharing of other members.
-> +
-> +  Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduce false sharing")
-> +
-> +* Replace 'write' with 'read' when possible, especially in loops.
-> +  Like for some global variable, use compare(read)-then-write instead
-> +  of unconditional write. For example, use:
-> +
-> +	if (!test_bit(XXX))
-> +		set_bit(XXX);
-> +
-> +  instead of directly "set_bit(XXX);", similarly for atomic_t data.
-> +
-> +  Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() multithreaded CPU false sharing")
-> +  Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
-> +
-> +* Turn hot global data to 'per-cpu data + global data' when possible,
-> +  or reasonably increase the threshold for syncing per-cpu data to
-> +  global data, to reduce or postpone the 'write' to that global data.
-> +
-> +  Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cache hits/misses")
-> +  Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm overcommit policy")
-> +
-> +Surely, all mitigations should be carefully verified to not cause side
-> +effects.  And to avoid false sharing in advance during coding, it's
-> +better to:
-> +
-> +* Be aware of cache line boundaries
-> +* Group mostly read-only fields together
-> +* Group things that are written at the same time together
-> +* Separate known read-mostly and written-mostly fields
-> +
-> +and better add a comment stating the false sharing consideration.
-> +
-> +One note is, sometimes even after a severe false sharing is detected
-> +and solved, the performance may still has no obvious improvement as
-> +the hotspot switches to a new place.
-> +
-> +
-> +Miscellaneous
-> +=============
-> +One open issue is that kernel has an optional data structure
-> +randomization mechanism, which also randomizes the situation of cache
-> +line sharing of data members.
-> +
-> +
-> +.. [1] https://en.wikipedia.org/wiki/False_sharing
-> +.. [2] https://lore.kernel.org/lkml/CAHk-=whoqV=cX5VC80mmR9rr+Z+yQ6fiQZm36Fb-izsanHg23w@mail.gmail.com/
-> +.. [3] https://joemario.github.io/blog/2016/09/01/c2c-blog/
-> diff --git a/Documentation/kernel-hacking/index.rst b/Documentation/kernel-hacking/index.rst
-> index f53027652290..79c03bac99a2 100644
-> --- a/Documentation/kernel-hacking/index.rst
-> +++ b/Documentation/kernel-hacking/index.rst
-> @@ -9,3 +9,4 @@ Kernel Hacking Guides
->  
->     hacking
->     locking
-> +   false-sharing
+I anticipate similar conflicts with 
+SAHARA/QDSS/DEBUG/TIMESYNC/LOGGING/LOOPBACK.  All of these are "common" 
+with other existing MHI devices.
 
--- 
-~Randy
+I anticipate future conflicts with STATUS/RAS/TELEMETRY/CONTROL/SSR. 
+These are rather generic channel names.  It seems likely that a future 
+WWAN device or other MHI device would want a channel with the same name 
+as one of these.  I'd like to leave that open as a possibility by not 
+exclusivly claiming the sole use to one of these names.
+
+Arguably this is an internal implementation detail with how the MHI bus 
+operates and could be fixed at first look.  However I don't think that 
+is the case because it looks like the WWAN subsystem is exposing these 
+names to userspace, which creates a uAPI that cannot be broken. 
+Therefore I think we are rather quite stuck with this situation and what 
+I have proposed with this patch is the best thing I've come up with to 
+address the problem.  If you have an alternate suggestion, I'm willing 
+to discuss with you.
+
+> 
+>> +		.num = 0,
+>> +		.num_elements = 32,
+>> +		.local_elements = 0,
+>> +		.event_ring = 0,
+>> +		.dir = DMA_TO_DEVICE,
+>> +		.ee_mask = MHI_CH_EE_AMSS,
+>> +		.pollcfg = 0,
+>> +		.doorbell = MHI_DB_BRST_DISABLE,
+>> +		.lpm_notify = false,
+>> +		.offload_channel = false,
+>> +		.doorbell_mode_switch = false,
+>> +		.auto_queue = false,
+>> +		.wake_capable = false,
+>> +	},
+> 
+> [...]
+> 
+>> +static struct mhi_event_config aic100_events[] = {
+>> +	{
+>> +		.num_elements = 32,
+>> +		.irq_moderation_ms = 0,
+>> +		.irq = 0,
+>> +		.channel = U32_MAX,
+>> +		.priority = 1,
+>> +		.mode = MHI_DB_BRST_DISABLE,
+>> +		.data_type = MHI_ER_CTRL,
+>> +		.hardware_event = false,
+>> +		.client_managed = false,
+>> +		.offload_channel = false,
+>> +	},
+>> +};
+>> +
+> 
+> It'd be nice to use macros for defining the channels and events as done in the
+> pci_generic driver.
+
+I think the pci_generic driver has a usecase for using a macro in that 
+it is servicing multiple devices, with different configuration.  Right 
+now, we only have the one device with the one config.  I suspect that 
+will change in the future, but I don't have concrete information at the 
+time to inform a proper design.
+
+I feel this should be left until such time the multi-device scenario 
+becomes realized.
+
+> 
+>> +static struct mhi_controller_config aic100_config = {
+>> +	.max_channels = 128,
+>> +	.timeout_ms = 0, /* controlled by mhi_timeout */
+>> +	.buf_len = 0,
+>> +	.num_channels = ARRAY_SIZE(aic100_channels),
+>> +	.ch_cfg = aic100_channels,
+>> +	.num_events = ARRAY_SIZE(aic100_events),
+>> +	.event_cfg = aic100_events,
+>> +	.use_bounce_buf = false,
+>> +	.m2_no_db = false,
+>> +};
+>> +
+>> +static int mhi_read_reg(struct mhi_controller *mhi_cntl, void __iomem *addr, u32 *out)
+>> +{
+>> +	u32 tmp = readl_relaxed(addr);
+>> +
+>> +	if (tmp == U32_MAX)
+>> +		return -EIO;
+>> +
+>> +	*out = tmp;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void mhi_write_reg(struct mhi_controller *mhi_cntl, void __iomem *addr, u32 val)
+>> +{
+>> +	writel_relaxed(val, addr);
+>> +}
+>> +
+>> +static int mhi_runtime_get(struct mhi_controller *mhi_cntl)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +static void mhi_runtime_put(struct mhi_controller *mhi_cntl)
+>> +{
+>> +}
+>> +
+>> +static void mhi_status_cb(struct mhi_controller *mhi_cntl, enum mhi_callback reason)
+>> +{
+>> +	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_cntl->cntrl_dev));
+>> +
+>> +	/* this event occurs in atomic context */
+>> +	if (reason == MHI_CB_FATAL_ERROR)
+>> +		pci_err(qdev->pdev, "Fatal error received from device. Attempting to recover\n");
+> 
+> Why no dev_err()?
+
+pci_err is more specific than dev_err.  It is built upon dev_err. 
+pci_err seems to be preferred for pci devices, and also matches uses 
+elsewhere in the driver.
+
+> 
+>> +	/* this event occurs in non-atomic context */
+>> +	if (reason == MHI_CB_SYS_ERROR)
+>> +		qaic_dev_reset_clean_local_state(qdev, true);
+>> +}
+>> +
+>> +static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntl)
+>> +{
+>> +	char time_sec = 1;
+> 
+> u8?
+
+Eh.  Ok I guess.  I usually reserve the size specific types for things 
+where that size is required, such as sending data over a network.
+
+> 
+>> +	int current_ee;
+>> +	int ret;
+>> +
+>> +	/* Reset the device to bring the device in PBL EE */
+>> +	mhi_soc_reset(mhi_cntl);
+>> +
+>> +	/*
+>> +	 * Keep checking the execution environment(EE) after every 1 second
+>> +	 * interval.
+>> +	 */
+>> +	do {
+>> +		msleep(1000);
+>> +		current_ee = mhi_get_exec_env(mhi_cntl);
+>> +	} while (current_ee != MHI_EE_PBL && time_sec++ <= MAX_RESET_TIME_SEC);
+>> +
+>> +	/* If the device is in PBL EE retry power up */
+>> +	if (current_ee == MHI_EE_PBL)
+>> +		ret = mhi_async_power_up(mhi_cntl);
+>> +	else
+>> +		ret = -EIO;
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
+>> +						    int mhi_irq)
+>> +{
+>> +	struct mhi_controller *mhi_cntl;
+> 
+> Cosmetic change: We use "mhi_cntrl" in other controller drivers. So it is
+> better to follow the same pattern here also.
+
+If you insist.  "cntl" is the more common abbreviation.  The MHI bus is 
+the first place I recall seeing "cntrl".
+
+> 
+>> +	int ret;
+>> +
+>> +	mhi_cntl = devm_kzalloc(&pci_dev->dev, sizeof(*mhi_cntl), GFP_KERNEL);
+>> +	if (!mhi_cntl)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	mhi_cntl->cntrl_dev = &pci_dev->dev;
+>> +
+>> +	/*
+>> +	 * Covers the entire possible physical ram region. Remote side is
+>> +	 * going to calculate a size of this range, so subtract 1 to prevent
+>> +	 * rollover.
+>> +	 */
+>> +	mhi_cntl->iova_start = 0;
+>> +	mhi_cntl->iova_stop = PHYS_ADDR_MAX - 1;
+>> +	mhi_cntl->status_cb = mhi_status_cb;
+>> +	mhi_cntl->runtime_get = mhi_runtime_get;
+>> +	mhi_cntl->runtime_put = mhi_runtime_put;
+>> +	mhi_cntl->read_reg = mhi_read_reg;
+>> +	mhi_cntl->write_reg = mhi_write_reg;
+>> +	mhi_cntl->regs = mhi_bar;
+>> +	mhi_cntl->reg_len = SZ_4K;
+> 
+> Is this size fixed for all AIC100 revisions? I think you should get this value
+> from pci_resource_len() to avoid issues later.
+
+Yes, this size is burned into the silicon with no provision for ever 
+changing it.
+
+> 
+> Thanks,
+> Mani
+> 
+>> +	mhi_cntl->nr_irqs = 1;
+>> +	mhi_cntl->irq = devm_kmalloc(&pci_dev->dev, sizeof(*mhi_cntl->irq), GFP_KERNEL);
+>> +
+>> +	if (!mhi_cntl->irq)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	mhi_cntl->irq[0] = mhi_irq;
+>> +	mhi_cntl->fw_image = "qcom/aic100/sbl.bin";
+>> +
+>> +	/* use latest configured timeout */
+>> +	aic100_config.timeout_ms = mhi_timeout_ms;
+>> +	ret = mhi_register_controller(mhi_cntl, &aic100_config);
+>> +	if (ret) {
+>> +		pci_err(pci_dev, "mhi_register_controller failed %d\n", ret);
+>> +		return ERR_PTR(ret);
+>> +	}
+>> +
+>> +	ret = mhi_prepare_for_power_up(mhi_cntl);
+>> +	if (ret) {
+>> +		pci_err(pci_dev, "mhi_prepare_for_power_up failed %d\n", ret);
+>> +		goto prepare_power_up_fail;
+>> +	}
+>> +
+>> +	ret = mhi_async_power_up(mhi_cntl);
+>> +	/*
+>> +	 * If EIO is returned it is possible that device is in SBL EE, which is
+>> +	 * undesired. SOC reset the device and try to power up again.
+>> +	 */
+>> +	if (ret == -EIO && MHI_EE_SBL == mhi_get_exec_env(mhi_cntl)) {
+>> +		pci_err(pci_dev, "Found device in SBL at MHI init. Attempting a reset.\n");
+>> +		ret = mhi_reset_and_async_power_up(mhi_cntl);
+>> +	}
+>> +
+>> +	if (ret) {
+>> +		pci_err(pci_dev, "mhi_async_power_up failed %d\n", ret);
+>> +		goto power_up_fail;
+>> +	}
+>> +
+>> +	return mhi_cntl;
+>> +
+>> +power_up_fail:
+>> +	mhi_unprepare_after_power_down(mhi_cntl);
+>> +prepare_power_up_fail:
+>> +	mhi_unregister_controller(mhi_cntl);
+>> +	return ERR_PTR(ret);
+>> +}
+>> +
+>> +void qaic_mhi_free_controller(struct mhi_controller *mhi_cntl, bool link_up)
+>> +{
+>> +	mhi_power_down(mhi_cntl, link_up);
+>> +	mhi_unprepare_after_power_down(mhi_cntl);
+>> +	mhi_unregister_controller(mhi_cntl);
+>> +}
+>> +
+>> +void qaic_mhi_start_reset(struct mhi_controller *mhi_cntl)
+>> +{
+>> +	mhi_power_down(mhi_cntl, true);
+>> +}
+>> +
+>> +void qaic_mhi_reset_done(struct mhi_controller *mhi_cntl)
+>> +{
+>> +	struct pci_dev *pci_dev = container_of(mhi_cntl->cntrl_dev, struct pci_dev, dev);
+>> +	int ret;
+>> +
+>> +	ret = mhi_async_power_up(mhi_cntl);
+>> +	if (ret)
+>> +		pci_err(pci_dev, "mhi_async_power_up failed after reset %d\n", ret);
+>> +}
+>> diff --git a/drivers/accel/qaic/mhi_controller.h b/drivers/accel/qaic/mhi_controller.h
+>> new file mode 100644
+>> index 0000000..c105e93
+>> --- /dev/null
+>> +++ b/drivers/accel/qaic/mhi_controller.h
+>> @@ -0,0 +1,16 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only
+>> + *
+>> + * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#ifndef MHICONTROLLERQAIC_H_
+>> +#define MHICONTROLLERQAIC_H_
+>> +
+>> +struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
+>> +						    int mhi_irq);
+>> +void qaic_mhi_free_controller(struct mhi_controller *mhi_cntl, bool link_up);
+>> +void qaic_mhi_start_reset(struct mhi_controller *mhi_cntl);
+>> +void qaic_mhi_reset_done(struct mhi_controller *mhi_cntl);
+>> +
+>> +#endif /* MHICONTROLLERQAIC_H_ */
+>> -- 
+>> 2.7.4
+>>
+> 
+
