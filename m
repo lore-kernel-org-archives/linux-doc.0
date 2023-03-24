@@ -2,126 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7275C76195
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 19:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC42C6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 21:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231709AbjCXTTk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 15:19:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
+        id S231924AbjCXVax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 17:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231508AbjCXTTh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 15:19:37 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15808469B;
-        Fri, 24 Mar 2023 12:19:32 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id cu4so2341289qvb.3;
-        Fri, 24 Mar 2023 12:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679685571;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lIMBsyNwngYJxJCZuFxAXyNmrXqE9/jxWeXYfc5T+pA=;
-        b=o/fCI8eCvJdWx6N61FxJQjh6ePqXk/lipAykGvNhEQD7vn8DnHKMB6rVMZhgrLjrPT
-         NNRzBkLM0EWWZfz2DClbcVsr3E21OHiH4Sum/PP7Zgbv8XvNXLj4pEsO6/f1f0XxShqF
-         GHgvR7xGHJOM6PCCWyDC1+oXKDBCuIujFTI4wmMKfTaBQs03uyOfdGOv4K482DxE5ZfF
-         2QQVBLSR8VW2Dl5j3NmYzGhASjrNyJYza62/zQszPxTOvszX63PcpenQ2kx5APMTcZwW
-         VQs7IRrCovydbX+yhR4pIKRbSovJjDPiW5OBmc4Qj5FAcll5FWphpgb6mcYclJC8vqLa
-         BKSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679685571;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lIMBsyNwngYJxJCZuFxAXyNmrXqE9/jxWeXYfc5T+pA=;
-        b=AYRlV1X2hwCOPRe6SoTlPjveTv9aJNu4XdiG7N1SgSfD94MfUPr1SONE0ZaqaeHYAo
-         619ox+dJk6lJxqlrrL+joAWBwGpMFZ6k3WLaGLRRV2+TmDuIVcWL4MW8j9apEcb7fIUS
-         DwTWToTUli6MY3CxFpDLcXWLmrv7i5M5DCCoHZagkHqEIL8OJzS+b9qqxefYfZ8TcGMg
-         Oqf8+h0m/HAnPPW7L3+rPGdUY5GV0Idu/QhPGYl4jrr3OpI7Roe/ep0JYxCiYmedDJQT
-         P8+kQNgjO3FOBx9zDFzLfjoWmUK2Pf/i1eeWaMBrGJP1/s9P8w22PTXNpCtnrJ6lKmZ6
-         I8KA==
-X-Gm-Message-State: AAQBX9eodTCySYEVjXmiGB4XRKr/VvHBFgXlPEDcUXY8zrH6DY90O6vV
-        704o0r3mQL3L0JUO3Siu9ztEpR/BLfUxIA==
-X-Google-Smtp-Source: AKy350agtxz524VV6sAsirgR2yGtrM/IlrRCFHyPR9Tne7xD8XWCTIyI/caAvhgeIAg34y5/Y0ye+g==
-X-Received: by 2002:a05:6214:d05:b0:56e:9c11:651e with SMTP id 5-20020a0562140d0500b0056e9c11651emr6501444qvh.27.1679685570861;
-        Fri, 24 Mar 2023 12:19:30 -0700 (PDT)
-Received: from imac.redhat.com ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id cn5-20020ad44a65000000b005dd8b9345e1sm900141qvb.121.2023.03.24.12.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 12:19:30 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v4 7/7] docs: netlink: document the sub-type attribute property
-Date:   Fri, 24 Mar 2023 19:19:00 +0000
-Message-Id: <20230324191900.21828-8-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230324191900.21828-1-donald.hunter@gmail.com>
-References: <20230324191900.21828-1-donald.hunter@gmail.com>
+        with ESMTP id S231864AbjCXVav (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 17:30:51 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007D519F2F
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 14:30:48 -0700 (PDT)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OK1s7O023157
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date : to :
+ from : subject : content-type : content-transfer-encoding : mime-version;
+ s=pp1; bh=31YoTRDV29vrbxHR92ConsN1QShr+CnS36IdwmGEaPE=;
+ b=ldnhjIyYDxMa3VzGP/df1pCmqs94ufqHP8I5NPD+fjy2tsIG9p6FyY2lP07Na7KtCAkm
+ HsG1cAEUfZjqhDrHjsY/g5res4VcnA4tLCY8dolCj2aqMjzwpfc71Y7X5tgwcCaNtxep
+ qTj0tGAXs0W1xpibs70I0N8CpYAiVolmL+tTslBEas0ZUNQin1YsO9M1HGzHue+VFw4G
+ hueqFyNBKVXfBxWpVvKMCA4/vLfkn/aINtn5dMh9pH14roa/JylcliY0R79HvKQSEl4t
+ Yf40w8fqfq84sNEMc+ct/g8AJ5+davwWUHLSCTBmR2TKNiwjRgv9k0NYhfyQ/vrCz4E+ oQ== 
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3phjhua8sy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:48 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32OL5rNo002401
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:47 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([9.208.129.114])
+        by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3pgy3tf4ve-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:47 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+        by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32OLUjcu51642832
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:46 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E59F358053
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:45 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AF92A58043
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:45 +0000 (GMT)
+Received: from [9.160.56.143] (unknown [9.160.56.143])
+        by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 21:30:45 +0000 (GMT)
+Message-ID: <e747b0ba-7992-36c7-f931-08aac46385f1@linux.ibm.com>
+Date:   Fri, 24 Mar 2023 17:30:44 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+To:     linux-doc@vger.kernel.org
+Content-Language: en-US
+From:   Ken Goldman <kgold@linux.ibm.com>
+Subject: sphinx - proper method for linking
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: r5xZ5mkV3pVMwOBQ1bLdyLjm-rPqAc0_
+X-Proofpoint-GUID: r5xZ5mkV3pVMwOBQ1bLdyLjm-rPqAc0_
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ spamscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ adultscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ mlxlogscore=451 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303240160
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a definition for sub-type to the protocol spec doc and a description of
-its usage for C arrays in genetlink-legacy.
+1. What is the recommended way to link to documents outside my tree.
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- .../userspace-api/netlink/genetlink-legacy.rst     | 14 ++++++++++++++
- Documentation/userspace-api/netlink/specs.rst      |  9 +++++++++
- 2 files changed, 23 insertions(+)
+Should I be doing that, or is it fragile / not recommended?
 
-diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-index 6b385a9e6d0b..afd9c4947a1c 100644
---- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
-+++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-@@ -216,6 +216,20 @@ specify a sub-type.
-           type: binary
-           struct: vport-stats
- 
-+C Arrays
-+--------
-+
-+Legacy families also use ``binary`` attributes to encapsulate C arrays. The
-+``sub-type`` is used to identify the type of scalar to extract.
-+
-+.. code-block:: yaml
-+
-+  attributes:
-+    -
-+      name: ports
-+      type: binary
-+      sub-type: u32
-+
- Multi-message DO
- ----------------
- 
-diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-index a22442ba1d30..7931322d3238 100644
---- a/Documentation/userspace-api/netlink/specs.rst
-+++ b/Documentation/userspace-api/netlink/specs.rst
-@@ -254,6 +254,15 @@ rather than depend on what is specified in the spec file.
- The validation policy in the kernel is formed by combining the type
- definition (``type`` and ``nested-attributes``) and the ``checks``.
- 
-+sub-type
-+~~~~~~~~
-+
-+Attributes can have a ``sub-type`` that is interpreted in a ``type``
-+specific way. For example, an attribute with ``type: binary`` can have
-+``sub-type: u32`` which says to interpret the binary blob as an array of
-+``u32``. Binary types are described in more detail in
-+:doc:`genetlink-legacy`.
-+
- operations
- ----------
- 
--- 
-2.39.0
+Are links to other documents stable?
+
+How about sections within the page?
+
+I found that this .rst works.
+
+See 
+https://www.kernel.org/doc/html/latest/security/keys/trusted-encrypted.html
+
+Is that OK, or is there a better way?
+
+Is that link (doc/html/latest) correct.
+
+2. Are my pages and headings to be treated as stable, like an API? I.e., 
+once I release documentation, are all the pages and headings frozen so 
+they will not break links?
+
+
 
