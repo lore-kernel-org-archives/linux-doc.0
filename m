@@ -2,248 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E1DC6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 18:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E509EC6FD20
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 18:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjCXSvu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 14:51:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39264 "EHLO
+        id S231569AbjCXSxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 14:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231263AbjCXSvt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 14:51:49 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3C59270B;
-        Fri, 24 Mar 2023 11:51:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TC1n6LM1aCAMDc9WDQX1m4oiVEwuXVe5d/wq6lnaXV2hFdku/5UcGG9kHnFrRUhf5ABHqp2K3NCK353GIRpgl/Cx4SwNQ7H27/9JsQv7d290nMBmXXoTcwa9+eB6MPZbtB/x6BB1Ez+IuA4o6F5aJmYyMDLSBFg8TDgU9nSwu4kcihMzR9iG6XUAou94Qq0KRZ8OZU2Xzm1f8yIH3UN2VaNraBwhTir5NHJv5O2ZD/d8x+kBbD2T1s/yX0ItjrnkWVNo2O8HSBqo1Iz9o+SFGja802vaI6+2foDExNLYkuGnKOVIfhg21/wl4E3ciMrmZ200ARAKAiA6I8UHxymZnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XTRp0nIAhtx0YzW2i3jspM6rsZXVMyMRmOkQ8fO867g=;
- b=mtxnajkEn9wGgxpcPcvpG1jgUDAWy/cDER8PF1iC1JtAle2RmIlgOSAZnkyvkqKkdq/0MGUZV4tx+ZJIsHiHVzD+RWD5xt+d6yNWiXSbmOWKfXeamyiBUa8t2xyT/61c8wGKNGaYVZXZnCFh4YA86Kv3vnCPwUHMFYEGMhkAVNq+SMyfvr2gyziWtvtWWCiWxvnWCEfo1yabKIK2AoavGe+2I94ETFg6CkJW0aBd67HWMnMk2maakAfzlZlPUhZ+uBAJVco3Bz+y0iYI4xxhwHZ/FUwkY1KUfHXkjpqnqxzwWtkgiA9k1etxeUcGfc52VFUFyGWkWK7f19x0kzi8pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XTRp0nIAhtx0YzW2i3jspM6rsZXVMyMRmOkQ8fO867g=;
- b=FpYdwirearVN7oF9gAQsyt9Jr2NE+DvFSn5LKCnlvvjuX43NWRyG4/KpnrQ4+mdjWIz4X8awRu6Duhy3tQy6dnwe0I63XB3emSz9ifdeVVwfxh2q33bSGwthhzcER+i7f1uqYsvap7+zFKfXIZUrh/2zC/SV/OYa9ECUGjW7T3WwCgV59Exb66DwOU/61VqDcyR2RCeEyZOq+RnMV9mqr3sNMsmy6Ic6wPbhdwAPMsb6X/d84vBEeEzAgshvQq0oD8jhMaazPIMr83MzWxLCiPQhV+lZTKoCkqoeCq1s44hmVQvMj4PBRDsVRFWk5eOQj88bb1deCGWN+ECX+jJW4A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
- by MN6PR12MB8516.namprd12.prod.outlook.com (2603:10b6:208:46f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Fri, 24 Mar
- 2023 18:51:44 +0000
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::735c:fa9:2043:279a]) by IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::735c:fa9:2043:279a%5]) with mapi id 15.20.6178.038; Fri, 24 Mar 2023
- 18:51:44 +0000
-Message-ID: <7f2dc5cf-78b5-81c6-0012-26b1adce1c86@nvidia.com>
-Date:   Fri, 24 Mar 2023 11:51:40 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH V4 04/10] dt-bindings: timestamp: Add
- nvidia,gpio-controller
-To:     Rob Herring <robh@kernel.org>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
-References: <20230323012929.10815-1-dipenp@nvidia.com>
- <20230323012929.10815-5-dipenp@nvidia.com>
- <20230324171329.GA2062332-robh@kernel.org>
-Content-Language: en-US
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-In-Reply-To: <20230324171329.GA2062332-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0070.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::15) To IA1PR12MB6604.namprd12.prod.outlook.com
- (2603:10b6:208:3a0::7)
+        with ESMTP id S229522AbjCXSxK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 14:53:10 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653D461B4
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id l12so2751639wrm.10
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tessares.net; s=google; t=1679683983;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AvFmi2Kslfzz8p7RlnVaanV9PDS7ezg9eJoTmpzeqLU=;
+        b=c07BLeBXy4v+Jc465zDUVlUJBuC5ZwPChTA8jtt0ZZeABDsPCZpd5nBIS4OCup4Yjf
+         UwUpftJYbvFl1pRFjZGVkBkX6LvzVRxEM1ElKLtrW9wR26l1H/CeqrjcLbozOCqODl3u
+         TVIMf2uGghQQZbslcE/eUNKTlwqpTciEiQK48ujsPEmb4gUpbWFW9Le7O5ITX2FsOZIO
+         hM8x7cUpML8bew+QgZUnRgXKLkR6woc7c0mdA0syeR+HTHGeq0svX9ozha0YHVCbsqqz
+         c68DWjMH0gyew9uW+GaIyr/0+nZQHp9MWxGgB28kaQGGDXgL0rzETXCKgW1Seqn+8apg
+         gc6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679683983;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AvFmi2Kslfzz8p7RlnVaanV9PDS7ezg9eJoTmpzeqLU=;
+        b=unY7bxWLH6wUIVTLvajFNjSB0UZW3GwlbeSbP0oKW9SVSzIfDi0sfCPKSbjUWVu9RI
+         IxcUF3mLYPLUOoOvvoqhwfhMUnJFV4W8UaaEz3iTb0mIO8ih4heTN7boMQKatY7eC0G6
+         7mHFbEiHFX4xaM3/baFx1ZxHDkqHmvz+hXWOKI+LrI+33Nd0bk8uqarEAbJCDA9Y3j9A
+         k6cBB6WwPGcxk8f9hyW/zjEXIEf3vKB19G4kXPAYjr4FM73107negtLaWH2pEN4mjG3K
+         3N/sB9R7ayWUlsZc6928p1SN3Zqq7WuqCwMrgcIQEHClitKxQ9JdxaVNPKftIC1KPxfW
+         oOPg==
+X-Gm-Message-State: AAQBX9e0ZKW51Edf45FhcyIrsHa67/dfMnyE412ysWZwpjPo3pqw8GKg
+        BxtIA3an67w4+xv1ybVtwqp5l9KkOrZH+Hx+BKJ/cQ==
+X-Google-Smtp-Source: AKy350aaqrujAr8UEyTGBmBkvY/sH6CnI1gpgbAxu5Uxe5DRzA8XLPJkFulS9IB/6lu4GhcM84lq6Q==
+X-Received: by 2002:a5d:4d51:0:b0:2d2:20ed:b572 with SMTP id a17-20020a5d4d51000000b002d220edb572mr2900719wru.69.1679683983636;
+        Fri, 24 Mar 2023 11:53:03 -0700 (PDT)
+Received: from vdi08.nix.tessares.net (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
+        by smtp.gmail.com with ESMTPSA id n1-20020a5d67c1000000b002cfe685bfd6sm18948878wrw.108.2023.03.24.11.53.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 11:53:03 -0700 (PDT)
+From:   Matthieu Baerts <matthieu.baerts@tessares.net>
+Subject: [PATCH v2 0/2] docs & checkpatch: allow Closes tags with links
+Date:   Fri, 24 Mar 2023 19:52:45 +0100
+Message-Id: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|MN6PR12MB8516:EE_
-X-MS-Office365-Filtering-Correlation-Id: eec32a54-2a08-4d52-661a-08db2c98d02f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SIyjqGq0z1q+sHdvUNO3lH5LvYnzgRepiuWsZhS3xEMo6xs0rZViZNSZakj5SUbiA0ttze/Dw8Z9XANs1MLgEaZIkwHIVX79NnMO9ywqnb357Tm99GRQ0xzBTSNcpGNnI+P7zMXHBrkE0ySun+ftFCNDrtMHjcgn0o3e6HYcrWTdPf7kWCQLGQEm/eISQPSCgjyk/6+JVZoAcRUQm8k8T8REAI+euGgOLFcTdO/i4naCgpF1m/EK+OHsyvCVTcapurU/lA3SSY2n46J086f2FsoM4cOSTKxW86y4wK5usEwudSHqRPBk+WnJF1wROBdCXV7bfkBXpIPmojrVOoOAVEZEQbBeHv/nvtnkP9WswbnUuzBWYf9fQnlj7Q6us24PCUmOXtuDDRFnEi+LKekAnAtr4ZjWALZn1v2OIrxBo5+DcHtNqBsk2tyEBd4Qa1FnNlUWIDkY9OHaK28egHSQUasdkjMyz7PYFaLVi5QIVMHKVDon8ROlNvLEgwpqqZGg49u6aZII3YMMM1Hb7pam/iOzwzUDA39gyCPZ7rnxpVLrsCv+5G8C7dnj3hXpXYF+xrHEoFkGBQjzlue+rw46Y1ndhuwdRvUNSTcdO3Tce78bRjUXVpnLzegXRmdOCsB4hrFH2UNE8NvuvKYOirFrCVbNqm+AVyH5lt0tYz80uz9N7H/ZFRMhPbh2MSGYEHeALm9ByMP3c+MfxM8VfYl1RJN08ndFOJBitMSjp/rveE8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(39860400002)(396003)(366004)(451199021)(2906002)(2616005)(38100700002)(4326008)(6916009)(66476007)(66946007)(66556008)(7416002)(6666004)(41300700001)(316002)(5660300002)(26005)(6512007)(186003)(6486002)(53546011)(6506007)(478600001)(83380400001)(8936002)(31686004)(8676002)(31696002)(86362001)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1Y2dU1LKy9TTHpFcFZ3elp0cG9HcFh5K24wamc5M3FmTGhCcWRFWUxjaWJL?=
- =?utf-8?B?TkVNWURIWER4elJ1OUxnZlNvNXd5aVdSTVEydHUwVEdKdW1LK0hkV3NYQ29M?=
- =?utf-8?B?QUlXMzdMcGVoaEdyL3VualhWUjl3Q2lUcW8rekFZVGo2WVdYSG9xWXFOSWto?=
- =?utf-8?B?TzNENVFzWlIxOGJBMVpnNXJQRWZCYXNISkNVQUlQNEZTdFlsSzRaNk1wS0ll?=
- =?utf-8?B?N240L2JlUXN3bURBTDhqYStUN2tMeHdpK0taN1hHdVV5MzdlNE1Va2ZMbnN0?=
- =?utf-8?B?YUlMc201RlExNVo0c1RMWjhyZGNZeU9wSkRPTlpibDlGeHBLajNCSS9MRUpL?=
- =?utf-8?B?elVwSlFTRVBvKzdDWTliVzFqcTNYZk1iVmdjQjZPWm5xSWV6dzM4TWJCSVNE?=
- =?utf-8?B?cFVKS2Z6S1JndUtrTU1CbTdmMjhYUUZ6WC9nQzIrMWVoQk1KTFI5dHc2d2ll?=
- =?utf-8?B?SnZ5blpENmh3bi9iRCtwOFkxNW55R25RcUg2NHEvWHYzZEFWQ1loTXJBckp3?=
- =?utf-8?B?a09HNytHLzRDdWdXSGRtVFZJb2tuSjNUR3Z0dEhDdE9qVnNDNXRZZlZSZm5j?=
- =?utf-8?B?TXI5MW52Qlk3NkJhVDNudWFpRUdOTVM4WGpDa2k1dTZqa0pvQURaQXdlRmFF?=
- =?utf-8?B?dFpmejlXQ0JpditaZUs3ZFJiUWJxSVdhS3dSbFMwc1NxNDVRdkR3Nmc2RGZl?=
- =?utf-8?B?Ym1TT213MDNmQWczQTdhcGVGd0hqdTlqYzdMU3NnZXFzbEwwRENzN2pVelBx?=
- =?utf-8?B?LzgwenB2SjRtdzR2ekdBejNrZVFuUVN5TnFqdzhhOFhIcE8rWFc1K0UrTGh5?=
- =?utf-8?B?aGh3ek1BZDJVSEFzVUszQkZEVVFnQWVlMXBWNmxJUnF2dFdocFlQOXlsNm5C?=
- =?utf-8?B?NVFiWkRHMnNnbmxOZ09YaVpxM21UY3AwaDFyeHVxQ1N2c05pSTdvZ1ZjRGRW?=
- =?utf-8?B?ekV5QVNPOHVtT3JsNTRVL0Mvak5od1NhT0JVSWRVWUR1RjJuSWp6eEppT3pn?=
- =?utf-8?B?Q0ltOCtveTh5MEVhWWVIS2gweFdQVjlzZ1NrRmQ3OWNYOHZZMWhRWUVsR2hC?=
- =?utf-8?B?OERGMzNVaGc0WWxOTEROczlKcS81ZWI2cFdiVnBRZUxsQmRIUlplL3JqRUE4?=
- =?utf-8?B?WHNram1EQmhOQWpaN2xEdlRDeVNUS3d6a1djS1lJQjErQ3hSaEMvZHdkb1lq?=
- =?utf-8?B?OHVyNHo4VTVZdEs4OXhZVmUzOXRWamQwcmIrcWFzb0F4RVRaYlVGTVhvY2Jk?=
- =?utf-8?B?aTdvbnpWVXc2RnRJNUtsN2ozUVNsMEtEWFJrZFhnOFBPU3ZlUnhWeG9Qd3da?=
- =?utf-8?B?Ui9tYzBVQy9nQmVSTDR6OU04RFZ6ZitUeFcrR3dtcXcyQmpqSUtEM092TDZD?=
- =?utf-8?B?ZHhjeXhQbEtSZGlFZnhreVowaEhGU3dIN1JiYXp4UjNMc3I2c3Rla25keEJl?=
- =?utf-8?B?eGYzOTFSMHlDcWJNeE5OUzFwZXJXS29VOWhZUGVnVlVtT3c3dTgxcVZWMlhp?=
- =?utf-8?B?UmZKWks2b3lIWlZBTStkcEgxZWJXSGlUR3pMZVNteExuMGt3NVNiTjkvWDd4?=
- =?utf-8?B?cFpnOEdwTzYzbFQ1anNGL1Y4UzVGQnY4Q2VLT3FmVUI5dUhKdUVqemxrNjFM?=
- =?utf-8?B?d0diV0hTZFZ1RWJsV0swL0RpbUY4VWYra1RzajZTbS9aS3JnbUs0N2d4N0FX?=
- =?utf-8?B?TGRBbGNVY2YvbUtZU09JUmNNY1dYdllKNzk0WTVBelZ2OVRseWFWUzJEbXpu?=
- =?utf-8?B?c2Q1U3FPK2hUcEk4Y2p4WUNQRjhSNmpPemVramF1RnZQbElFZFlYWE1JQkhw?=
- =?utf-8?B?bWxJeU9MUGpLQ3Bza3pNSEwyTFVtM1o3d04zcGNST1dMQUcyNGU0WGVjRENW?=
- =?utf-8?B?L0l6OU41ZlZqaVIwQUpLS0w1YzF5c0JualpIeUtJemJxNU0waytOblZJSXBQ?=
- =?utf-8?B?Q2pnbExPODU3RmpyMnNtOXNMWmtrS1dpUEh0UVB6NkNxN3o3YkhNUGhjbllD?=
- =?utf-8?B?ekR1Z2Z1Y3Z1dUZDVlZJbWFwUlgya3dSZXk4aGRGblMwQlVueXdjL3NHczNu?=
- =?utf-8?B?MWZkWVJoVDZwT2pHMmJUSERxYzdzZGc5K0VrNVNVMGgvVHFhaFd2RzRaeitk?=
- =?utf-8?Q?5hR1sLkZjghP9nvVIBczBEGZW?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eec32a54-2a08-4d52-661a-08db2c98d02f
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 18:51:44.6898
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ep8PXmLhvIATDBoDWAFgJnhtohsxxZ+hgAcw94wLWve87zYbPQF6925gmQmzPrckwWsrDTkR9Sk0jXZjMIua5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8516
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH3xHWQC/42OTQ6CMBCFr2K6drQFEXHlPQyLaRlpI7akU4mGc
+ HcLJ3D5vZf3Mwum6IjFdTeLSJNjF3yGYr8TxqLvCVyXWRSyKGWpTtAFA8aSeY6YjAUzBCaGhD2
+ oulS6qqvqrJXIeY1MoCN6Y9eGwfk3H1/IieJqj5Ee7rNN39vM1nEK8bs9mdSq/jM6KZCg9KWUd
+ UENNnhLxIyR+OApiXZZlh/fVtDi5AAAAA==
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        =?utf-8?q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev,
+        Matthieu Baerts <matthieu.baerts@tessares.net>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2585;
+ i=matthieu.baerts@tessares.net; h=from:subject:message-id;
+ bh=hBQXRTLnt2/M7PhMUp0rgb64b++zS9LaDQGwBm4DXUk=;
+ b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkHfGOqPllO3g+/LlSkRIxkaEoUAWKI/DGZTOyA
+ OG7ny0LP+CJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZB3xjgAKCRD2t4JPQmmg
+ c6pEEADBh4OrKeURadfB2zkHoNq4wee35N1D+2057a2iHhcB1hiM3S2kApDgLJT7hynAlg/oAP9
+ KlAnaKcqrAaVAHJ2/bDkMurl/i5AHzwEv5XJxjNlat3DHM6oUir4ZC+bhN2sJEgxxztkNz7z8Ep
+ E5JyHXxZYBDRYCmC5JbTdyH2x2C7fJ28gq1rX8qDj8aCz1Mu8SD02XchIvh0pSudoHrdxOToSdF
+ 1Wll+rDDjZgWfuynGhfEm4MJVb/Y4dDVkYpd02k/lBjN0x5E++eJIWTyikPaSUnCa0uo6btxuqP
+ 98UATAXCIroa4QZD6YBI/T2fimEsR9cMkoEpohyyk3fMN3cY5Xy7gpvY9rtgO8B7liueMS9xSiW
+ FhobWVD+ZmE1QBpf8TgeaUEvbeP151YtoqMYckOu5n/QugOlD5Y+0qDj0xJUFGsbeJlg4VmVyw4
+ XeB7Cjw5LxLcMT2uk2ceesqaSNri9W3KZyYmsIYCV1smTTMbiEgXTCJbf+wjvWZQfQJiAY8D9u2
+ ewRwaSW54k3pjbr/DQtcM4TLwzHBtQi54gIREfOOSHHZKOBVRtwA+jKGNM82i/sTb3amiQqViwi
+ Cay1VAHjyqQHDSVhe9lM06Pp2brytPsAb8osq8mBknAIW10PfZwJcThF9512YMiFK4dK07bcmRv
+ QVIriidmpXtGF/w==
+X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/24/23 10:13 AM, Rob Herring wrote:
-> On Wed, Mar 22, 2023 at 06:29:23PM -0700, Dipen Patel wrote:
->> Introducing nvidia,gpio-controller property from Tegra234 SoCs onwards.
->> This is done to help below case.
->>
->> Without this property code would look like:
->> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
->> 	hte_dev->c = gpiochip_find("tegra194-gpio-aon",
->> 				   tegra_get_gpiochip_from_name);
->> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-aon"))
->> 	hte_dev->c = gpiochip_find("tegra234-gpio-aon",
->> 				   tegra_get_gpiochip_from_name);
->> else
->> 	return -ENODEV;
-> 
-> Or you just put the name in match data.
+Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
+followed by a link [1]. It also complains if a "Reported-by:" tag is
+followed by a "Closes:" one [2].
 
-Not sure I have understood this comment, but "name" the first argument is
-already there to supply to callback to match data. Also, this if else is
-needed to know which "name" to provide.
-> 
->>
->> This means for every future addition of the compatible string, if else
->> condition statements have to be expanded.
->>
->> With the property:
->> gpio_ctrl = of_parse_phandle(dev->of_node, "nvidia,gpio-controller", 0);
->> ....
->> hte_dev->c = gpiochip_find(gpio_ctrl, tegra_get_gpiochip_from_of_node);
->>
->> This simplifies the code significantly. The introdunction of this
-> 
-> typo
+As detailed in the first patch, this "Closes:" tag is used for a bit of
+time, mainly by DRM and MPTCP subsystems. It is used by some bug
+trackers to automate the closure of issues when a patch is accepted.
+It is even planned to use this tag with bugzilla.kernel.org [3].
 
-ACK...
-> 
->> property/binding does not break existing Tegra194 provider driver.
-> 
-> Making a new property required is an ABI break.
-The driver code for the Tegra194 binds by old binding and does not need
-this new property, the relevant code is part of this patch series.
-> 
->> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
->> ---
->>  .../timestamp/nvidia,tegra194-hte.yaml        | 31 +++++++++++++++++--
->>  1 file changed, 29 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
->> index eafc33e9ae2e..841273a3d8ae 100644
->> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
->> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
->> @@ -51,6 +51,12 @@ properties:
->>        LIC instance has 11 slices and Tegra234 LIC has 17 slices.
->>      enum: [3, 11, 17]
->>  
->> +  nvidia,gpio-controller:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description:
->> +      The phandle to AON gpio controller instance. This is required to handle
->> +      namespace conversion between GPIO and GTE.
-> 
-> Explain what the GPIO controller is needed for rather than how this 
-> changes the driver.
-Doesn't "This is required..." statement addresses why GPIO controller is needed
-for part? Or do you want detail explanation which is already part of the commit?
-> 
->> +
->>    '#timestamp-cells':
->>      description:
->>        This represents number of line id arguments as specified by the
->> @@ -65,22 +71,43 @@ required:
->>    - interrupts
->>    - "#timestamp-cells"
->>  
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - nvidia,tegra234-gte-aon
->> +    then:
->> +      required:
->> +        - nvidia,gpio-controller
-> 
->> +
->>  additionalProperties: false
->>  
->>  examples:
->>    - |
->>      tegra_hte_aon: timestamp@c1e0000 {
->>                compatible = "nvidia,tegra194-gte-aon";
->> -              reg = <0xc1e0000 0x10000>;
->> +              reg = <0x0 0xc1e0000 0x0 0x10000>;
->> +              interrupts = <0 13 0x4>;
->> +              nvidia,int-threshold = <1>;
->> +              #timestamp-cells = <1>;
->> +    };
->> +
->> +  - |
->> +    tegra234_hte_aon: timestamp@c1e0000 {
->> +              compatible = "nvidia,tegra234-gte-aon";
->> +              reg = <0x0 0xc1e0000 0x0 0x10000>;
->>                interrupts = <0 13 0x4>;
->>                nvidia,int-threshold = <1>;
->> +              nvidia,gpio-controller = <&gpio_aon>;
->>                #timestamp-cells = <1>;
->>      };
->>  
->>    - |
->>      tegra_hte_lic: timestamp@3aa0000 {
->>                compatible = "nvidia,tegra194-gte-lic";
->> -              reg = <0x3aa0000 0x10000>;
->> +              reg = <0x0 0x3aa0000 0x0 0x10000>;
->>                interrupts = <0 11 0x4>;
->>                nvidia,int-threshold = <1>;
->>                #timestamp-cells = <1>;
->> -- 
->> 2.17.1
->>
+The first patch updates the documentation to explain what is this
+"Closes:" tag and how/when to use it. The second patch modifies
+checkpatch.pl to stop complaining about it.
+
+The DRM maintainers and their mailing list have been added in Cc as they
+are probably interested by these two patches as well.
+
+[1] https://lore.kernel.org/all/3b036087d80b8c0e07a46a1dbaaf4ad0d018f8d5.1674217480.git.linux@leemhuis.info/
+[2] https://lore.kernel.org/all/bb5dfd55ea2026303ab2296f4a6df3da7dd64006.1674217480.git.linux@leemhuis.info/
+[3] https://lore.kernel.org/linux-doc/20230315181205.f3av7h6owqzzw64p@meerkat.local/
+
+Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
+---
+Note: After having re-read the comments from the v1, it is still unclear
+to me if this "Closes:" can be accepted or not. But because it seems
+that the future Bugzilla bot for kernel.org is going to use it, I'm
+sending here a v2. I'm sorry if I misunderstood the comments from v1.
+Please ignore this v2 if I did.
+
+Changes in v2:
+- Patch 1/2:
+  - Add Konstantin's Acked-by: even if the patch has changed a bit, the
+    concept is still the same, I hope that's OK.
+  - Mention "public" in "5.Posting.rst" file as well. (Jonathan Corbet)
+  - Re-phrase the new text from "5.Posting.rst". (Bagas Sanjaya &
+    Thorsten Leemhuis)
+  - Clearly mention that private bug trackers and invalid URLs are
+    forbidden (Linus Torvalds).
+- Rebased on top of Linus' repo.
+- Link to v1: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net
+
+---
+Matthieu Baerts (2):
+      docs: process: allow Closes tags with links
+      checkpatch: allow Closes tags with links
+
+ Documentation/process/5.Posting.rst          |  9 +++++++++
+ Documentation/process/submitting-patches.rst |  9 +++++++++
+ scripts/checkpatch.pl                        | 16 ++++++++--------
+ 3 files changed, 26 insertions(+), 8 deletions(-)
+---
+base-commit: cb7f5b41f8341148050fe63e27cf52aa4f1519ad
+change-id: 20230314-doc-checkpatch-closes-tag-1731b57556b1
+
+Best regards,
+-- 
+Matthieu Baerts <matthieu.baerts@tessares.net>
 
