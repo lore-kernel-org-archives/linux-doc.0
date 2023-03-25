@@ -2,78 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E49C6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Mar 2023 23:37:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C3DC76195
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 02:45:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231766AbjCXXhV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Mar 2023 19:37:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38562 "EHLO
+        id S230133AbjCYCpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Mar 2023 22:45:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231717AbjCXXhU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 19:37:20 -0400
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295B5113C4
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 16:37:03 -0700 (PDT)
-Received: by mail-pl1-x64a.google.com with SMTP id j18-20020a170902da9200b001a055243657so1962633plx.19
-        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 16:37:03 -0700 (PDT)
+        with ESMTP id S229943AbjCYCpW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Mar 2023 22:45:22 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0601ADE0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 19:45:21 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id z11so2419549pfh.4
+        for <linux-doc@vger.kernel.org>; Fri, 24 Mar 2023 19:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679701022;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D+BJi54U0cmiUHoWXHQzl0xPiOaPcA8Tmmek78k7nC0=;
-        b=DK9Ah+gQ4AHjZizsWS6hZn22cxoOChaz9yL0sYmaVA8CI/Igw5yKJrin2rJezaSNJC
-         4riaqrV7SD/jpl3P0onjeXE9TgkhCZhrcaSQiIPptBaoL9IAIDXGF2+aTp34TrnDKD+e
-         ENs+7N9w9qH0hQSZUK7v2ORWv6PePruA841mD5r4YZZzRvZE2kSj1X7nyncVCsw1nrPM
-         JoiOe2Q+7IoBnZ526RiaN6JoOvdF1HKT2RvfdFFADB4wvpR8h3UB58GpNxV3bMoLTHye
-         VWSAGukLHGGe4Qn8g39NIzM6IBLXglb+eggv1UpdmahS8RvtH9jK2g8XXuJJNZfBQqrh
-         w1ig==
+        d=gmail.com; s=20210112; t=1679712320;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7lCzsHS/Uo9GVbxI/vOGVzeWcrY6opSuBQA73bmoXwA=;
+        b=Nyb+0/OIywePObhWQbujyatuTm4x9bKcB0ZWqiSUMSmhNzNH6veYINxQVnQafRy9iP
+         ddrYDpq8P9l8ez4MB9OSFXitdGoy2tDYXCUSO3SFru+KdoM3H+PlZlScpZMKC10Afq00
+         GxANPgMd9J2T74GDy45nfwh29ryBKpaVQxQaWQxYbrZtsypsAJglv8cgGT5ikp223PcZ
+         pDMfwEKTnEIi5JALEQTDakHwA9f0FqQsvDlCzpsKjeB8uoBedQHXdk3JUGoxpud0NGN+
+         4jnj1sTEtJZyosKjdUBraeINpMXVu9BOIWxxPDUr3mAwe3jExHMYKeCrpft54fFnbbVv
+         NZ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679701022;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D+BJi54U0cmiUHoWXHQzl0xPiOaPcA8Tmmek78k7nC0=;
-        b=urTe6m6lUgq8vvA/8rewgus2AoqyQu3UWnesSW2YEMcC8oKOL4jLj+rGNJMyWiLjAT
-         0DCGP1/odQ8P8Ir7+EzS+rfqh5e8mMH7irLiJ2H1H9FZMOTJxhaWFfkjY/p9YTQNvqWp
-         FFNEjyx4YsCs8Vr8S1TWoutkUaiqopzxqAy070OcHlpM8OKx+xJipv+lHBgpmqGyoruH
-         ir1HFGnbeFZkIXKBqR3AQ3bA8LmKZjCftHNcp6L2ku+urrhxiZy4k16CZE66FAQ7KlbK
-         +5GQw1kzOZSD59G7TTcQCxJoJnhVwVI9gCYcM6DRR2J7veJdPsi7XuNqdcjFautHhKP1
-         0a3A==
-X-Gm-Message-State: AAQBX9e8vsbNXsVWHLBmrt52phTpQ8Isgcb3rA/b493b98q42CmHS4HY
-        pKoOVumwZGdDsRpgDWSiChHw5JFQ8GQ=
-X-Google-Smtp-Source: AKy350ZfgixPvBRUEyfab6W97rcYv6yYxHQUo/MV8CsklYh7JiEmQEicV9gESAGH9hDr+4awxZU7sDoseGw=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:902:bb97:b0:1a1:ffc5:1e8d with SMTP id
- m23-20020a170902bb9700b001a1ffc51e8dmr1453284pls.3.1679701022677; Fri, 24 Mar
- 2023 16:37:02 -0700 (PDT)
-Date:   Fri, 24 Mar 2023 16:35:51 -0700
-In-Reply-To: <20230220034910.11024-1-shahuang@redhat.com>
-Mime-Version: 1.0
-References: <20230220034910.11024-1-shahuang@redhat.com>
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <167969119815.2754691.17747317733864412835.b4-ty@google.com>
-Subject: Re: [PATCH] KVM: Add the missed title format
-From:   Sean Christopherson <seanjc@google.com>
-To:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
-        Shaoqin Huang <shahuang@redhat.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20210112; t=1679712320;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7lCzsHS/Uo9GVbxI/vOGVzeWcrY6opSuBQA73bmoXwA=;
+        b=4gM7wAxv7/itSEe+VkKCCxYtySGTvN5YB05XR4xmkeBY0JQR9uC4WvzUOyNkdAkrGF
+         dO2fqIwz09YsVWNl775CceOzejYOqYa0kNXxrwR+S4TuT1a8JtdheAtGsXj0vEc0yunF
+         Xq+0OL4lzwzWfjlYpgFMPBBG5xB989nQX+4TMgI4crJM58i3wQtFBpJioBG4od7/lfC7
+         jL6s3wpIZbmrsW4OLW+6IKhxy+UK4w7isaFiYaTY3hZ4RF8hmECyXMi7xWUgbyx1H+2I
+         4zGsbj3cjUpTvpQo+byCjifNgraNmW3wzjbK7RHevrvU/6L5KAb86MT5Bln0yWeAXPQQ
+         DeuQ==
+X-Gm-Message-State: AAQBX9cwJWGqM4niz2Cjtk6RTQeDIrsTLk9mez/SPnMeuQ2zry4SwVaB
+        0gIvRzySxujRNxsyQp5haAqoA2jIkmXvGw==
+X-Google-Smtp-Source: AKy350ZJktYvbAur6w9w/VaGcuGgc40X2eXe0vsApvtNDeZ+UBgyWqpAy172adBLOa8ORkczeAVwBw==
+X-Received: by 2002:a62:4e50:0:b0:5a8:515a:eba4 with SMTP id c77-20020a624e50000000b005a8515aeba4mr5043707pfb.10.1679712320464;
+        Fri, 24 Mar 2023 19:45:20 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-14.three.co.id. [180.214.232.14])
+        by smtp.gmail.com with ESMTPSA id n26-20020aa78a5a000000b006260e5bdd81sm14325360pfa.45.2023.03.24.19.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 19:45:20 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id E4524106734; Sat, 25 Mar 2023 09:45:16 +0700 (WIB)
+Date:   Sat, 25 Mar 2023 09:45:16 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Ken Goldman <kgold@linux.ibm.com>, linux-doc@vger.kernel.org
+Subject: Re: sphinx - proper method for linking
+Message-ID: <ZB5gPAGzTwqArQY4@debian.me>
+References: <e747b0ba-7992-36c7-f931-08aac46385f1@linux.ibm.com>
+ <87v8ipzswd.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="i5wYLHzbIdPPbq1U"
+Content-Disposition: inline
+In-Reply-To: <87v8ipzswd.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Feb 2023 11:49:09 +0800, Shaoqin Huang wrote:
-> The 7.18 KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 now is not a title, make it
-> as a title to keep the format consistent.
-> 
-> 
 
-Applied to kvm-x86 generic, thanks!
+--i5wYLHzbIdPPbq1U
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1/1] KVM: Add the missed title format
-      https://github.com/kvm-x86/linux/commit/752b8a9b4d98
+On Fri, Mar 24, 2023 at 04:28:02PM -0600, Jonathan Corbet wrote:
+> > Are links to other documents stable?
+> >
+> > How about sections within the page?
+>=20
+> I don't understand those questions.
 
---
-https://github.com/kvm-x86/linux/tree/next
-https://github.com/kvm-x86/linux/tree/fixes
+You need to first add the label before desired section heading, like:
+
+```
+=2E..
+=2E. _foo:
+
+Foo
+=3D=3D=3D
+
+=2E..
+```
+
+Then elsewhere use :ref: role and specify the target label, ideally also
+specifying anchor text:
+
+```
+=2E..
+This assumes that you have knowledge on :ref:`foo <foo>`.
+=2E..
+```
+
+>=20
+> > I found that this .rst works.
+> >
+> > See=20
+> > https://www.kernel.org/doc/html/latest/security/keys/trusted-encrypted.=
+html
+> >
+> > Is that OK, or is there a better way?
+>=20
+> You wouldn't link to the rendered kernel docs normally, you'd just say
+> "See Documentation/security/keys/trusted-encrypted.rst".
+>=20
+> Look at the Sphinx cheatsheets on the net for the various other ways of
+> making links if you need to link outside of the kernel docs.
+
+As with internal linking, you can simply write out the link:
+
+```
+=2E..
+Check out the documentation at https://foo.bar/baz for complete
+treatment on this topic.
+=2E..
+
+```
+
+Or if you need anchor text:
+
+```
+=2E..
+Check out `baz documentation <https://foo.bar/baz>`_ for complete
+treatment on this topic`.
+=2E..
+```
+
+There is also :doc: directive if you need internal linking with anchor
+text. The target can be either relative to the doc or absolute in respect
+to documentation root (`Documentation/`). Do not specify filename
+suffix. For example:
+
+```
+=2E..
+The general guide on :doc:`submitting patches
+</process/submitting-patches>` also applies to this subsystem.
+=2E..
+
+```
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--i5wYLHzbIdPPbq1U
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZB5gNgAKCRD2uYlJVVFO
+o7lgAP0SPFWCyGmmJxtlSajZG63U8dRu6VkeLVctaY7R3Ux5RgD/cVOt39rVhUsD
+mvqEvCe8okZiJ82jHgX+eVNGLXqqoA4=
+=xa49
+-----END PGP SIGNATURE-----
+
+--i5wYLHzbIdPPbq1U--
