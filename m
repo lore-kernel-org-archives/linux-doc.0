@@ -2,271 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 905CEC761AF
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 11:49:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D256C76196
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 14:24:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231436AbjCYLtJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Mar 2023 07:49:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35812 "EHLO
+        id S230049AbjCYOYI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Mar 2023 10:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjCYLtI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 07:49:08 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B15C013510
-        for <linux-doc@vger.kernel.org>; Sat, 25 Mar 2023 04:49:03 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id i5so17813532eda.0
-        for <linux-doc@vger.kernel.org>; Sat, 25 Mar 2023 04:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679744942;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kQyYQJ5ADRdF9OVtRfx6rMZJz2Nfi45W36+555qY1PU=;
-        b=JBA87vR3OI9LMt/L1FYtJpneL3XrGo/91n2B7ZT8MakWj/8yfzgUw5luR8Xuz8p69E
-         0/egcylpxO3IGMXaAHKYPAqJYkZVObi+Zn22pFLkRuoRspFdcWPegE1+cUXfkzstPhey
-         +uZaSdsJAKp3zPlpsk41+qm7KUEm/9pswRhfxZHImiwyETw+pgnSo1LxTcR6IVFZO4me
-         kKtrpdPYIG1PyIZIx6WIdBv45uui1ex3gd2LUqoG+7kybfPYdJtlEF71//zaq1NTmaLm
-         EwYTATLTIWaMkP3y2NUiUw8Z5xVPWsyClkmbZg5jdaEbdMUuUMLKSMo7JpXyb+/fniHP
-         hPfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679744942;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kQyYQJ5ADRdF9OVtRfx6rMZJz2Nfi45W36+555qY1PU=;
-        b=bIQN7fqi9Cc/xGHVFZuokFZd1knQ/7RPshxzQr9fmma5rrkC54tgapGfp6I6Cbq8Cj
-         pQoSEz1irX7SWbPLtjWV+xwC4YR7lVIs92wgAoFVbZPHNCvmwsenT0Zf/PNck6p3c8ef
-         O+O1N6yuREMebCAVSb0gZU1Cen/CnlSxb4OOALYRgluoWRL6cqLZFkkX9J9SCXuB2cBC
-         6UHX9o295oTMtGkAvkEDxKcZ166a9umMiTYGj5IEwrVFDsmvJc1AHUFTfEqJizp06xgy
-         2u9DP6CIMm4hL1qtA2bQTJ/xefZccIf8INWe/AzRZYn3GMv51AK+9/g1ANP0KEiDzUTf
-         VH/w==
-X-Gm-Message-State: AAQBX9c0Mb9/ilN/fu3Xq4z0D9k4elZUg/G5njs+1IBPL3hQDZrjrYZz
-        B3C7FHB7LEoUwjCinB0n5WCypg==
-X-Google-Smtp-Source: AKy350YTzrkYAXqQjHWZV0xpJM6s5LAt6LbBiUANs0niqJlx14HXYukVYXfsZrnn/XNAv0K2o1tP1w==
-X-Received: by 2002:a17:906:b159:b0:93d:b767:9fea with SMTP id bt25-20020a170906b15900b0093db7679feamr5292904ejb.31.1679744942194;
-        Sat, 25 Mar 2023 04:49:02 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:d230:b2c7:d55:c9c8? ([2a02:810d:15c0:828:d230:b2c7:d55:c9c8])
-        by smtp.gmail.com with ESMTPSA id a25-20020a50c319000000b004bc15a440f1sm12215603edb.78.2023.03.25.04.49.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Mar 2023 04:49:01 -0700 (PDT)
-Message-ID: <e51c200e-6de0-d516-3f32-28367b2f5a95@linaro.org>
-Date:   Sat, 25 Mar 2023 12:49:00 +0100
+        with ESMTP id S229568AbjCYOYH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 10:24:07 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCAC3132DE;
+        Sat, 25 Mar 2023 07:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679754246; x=1711290246;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G5dKp3GhNYs5afXAsBYrDFF1t73ncz8rHznKQk17txc=;
+  b=eEPmpibVvLikWxd8u9UAnUu8GVW6bqnYqMjzoMz+Fbbpy5o1AQMEaE8q
+   6T+Zn/Qv28JWhKVIaBI9WyJuPkcZIaGUkVdpJuvPmAA/mE0zG2thmSPXu
+   jo44sDMMHElA1b59M+GV4GOUAXmHNRcj9PUxi5DIAzopA4w31AIfTVs+P
+   XBlJBolrxvz1ZOqrSp5e98p349CFbVhOQHQ6/O2K97IaYttPom6jDa0/w
+   omRG593PQC3cDGabx6bhl/VeZhcNZa1gJj1LeNa0Ijh7qxukZQ+7Of2Ca
+   6STIydLkrEveAYO/KkGw7Smus82oqD0UGngg9XasSoOgZK7AMlJywnO52
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="342372207"
+X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
+   d="scan'208";a="342372207"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 07:24:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="793780446"
+X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
+   d="scan'208";a="793780446"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2023 07:24:03 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pg4oN-000GJd-1B;
+        Sat, 25 Mar 2023 14:24:03 +0000
+Date:   Sat, 25 Mar 2023 22:23:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Alison Schofield <alison.schofield@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [cxl:for-6.4/cxl-type-2 20/22] htmldocs:
+ Documentation/driver-api/cxl/memory-devices:454:
+ ./drivers/cxl/core/region.c:678: WARNING: Inline emphasis start-string
+ without end-string.
+Message-ID: <202303252234.exORHn1K-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/3] dt-bindings: arm: Add Coresight Dummy Trace YAML
- schema
-Content-Language: en-US
-To:     Hao Zhang <quic_hazha@quicinc.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Leo Yan <leo.yan@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20230324061608.33609-1-quic_hazha@quicinc.com>
- <20230324061608.33609-3-quic_hazha@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230324061608.33609-3-quic_hazha@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/03/2023 07:16, Hao Zhang wrote:
-> Add new coresight-dummy.yaml file describing the bindings required
-> to define coresight dummy trace in the device trees.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.4/cxl-type-2
+head:   0b80e8b55828313bcd08c4740646689e648de444
+commit: e68a88d2ee505c0f142b2ff072acc95621131eb6 [20/22] cxl/region: Define a driver interface for HPA free space enumeration
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commit/?id=e68a88d2ee505c0f142b2ff072acc95621131eb6
+        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+        git fetch --no-tags cxl for-6.4/cxl-type-2
+        git checkout e68a88d2ee505c0f142b2ff072acc95621131eb6
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Subject: drop second/last, redundant "YAML schema". The "dt-bindings"
-prefix is already stating that these are bindings and all new must be DT
-schema. You cannot add anything else, so this is redundant.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303252234.exORHn1K-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
 
-> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
-> ---
->  .../bindings/arm/qcom,coresight-dummy.yaml    | 118 ++++++++++++++++++
->  1 file changed, 118 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
-> new file mode 100644
-> index 000000000000..7b719b084d72
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
-> @@ -0,0 +1,118 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/arm/qcom,coresight-dummy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: QCOM Coresight Dummy component
-> +
-> +description: |
-> +  The Coresight Dummy component is for the specific devices that HLOS don't have
-> +  permission to access or configure. Such as Coresight sink EUD, some TPDMs etc.
-> +  So there need driver to register dummy devices as Coresight devices. Provide
-> +  Coresight API for dummy device operations, such as enabling and disabling
-> +  dummy devices. Build the Coresight path for dummy sink or dummy source for
-> +  debugging.
-> +
-> +  The primary use case of the coresight dummy is to build path for dummy sink or
-> +  dummy source.
-> +
-> +maintainers:
-> +  - Mao Jinlong <quic_jinlmao@quicinc.com>
-> +  - Tao Zhang <quic_taozha@quicinc.com>
-> +  - Hao Zhang <quic_hazha@quicinc.com>
-> +
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - qcom,coresight-dummy
-> +  required:
-> +    - compatible
+>> Documentation/driver-api/cxl/memory-devices:454: ./drivers/cxl/core/region.c:678: WARNING: Inline emphasis start-string without end-string.
 
-Why do you need the select?
-
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^dummy_.*(sink|source)_[0-9]+.*$"
-
-We do not enforce node names in individual bindings. Why do you need it?
-Plus underscore is not even proper character...
-
-> +  compatible:
-> +    items:
-
-Drop items. You have only one item, so no need for list.
-
-> +      - const: qcom,coresight-dummy
-> +
-> +  qcom,dummy-sink:
-> +    type: boolean
-> +    description:
-> +      Indicates that the type of this coresight node is dummy sink.
-
-You just duplicated property name. Write something useful.
-
-> +
-> +  qcom,dummy-source:
-> +    type: boolean
-> +    description:
-> +      Indicates that the type of this coresight node is dummy source.
-
-You just duplicated property name. Write something useful.
-
-> +
-> +  out-ports:
-> +    description: |
-
-No need for |
-
-> +      Output connections from the dummy source to Coresight Trace bus.
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port:
-> +        description: Output connection from the dummy source to Coresight
-> +            Trace bus.
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +
-> +  in-ports:
-> +    description: |
-
-Ditto
-
-> +      Input connections from the CoreSight Trace bus to dummy sink.
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port:
-> +        description: Input connection from the Coresight Trace bus to
-> +            dummy sink.
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +oneOf:
-> +  - required:
-> +      - qcom,dummy-sink
-> +  - required:
-> +      - qcom,dummy-source
-> +
-> +examples:
-> +  # minimum dummy sink definition. dummy sink connect to coresight replicator.
-> +  - |
-> +    dummy_sink_1 {
-
-Node names should be generic, so "sink"
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-> +      compatible = "qcom,coresight-dummy";
-> +      qcom,dummy-sink;
-> +
-> +      in-ports {
-> +        port {
-> +          eud_in_replicator_swao: endpoint {
-> +            remote-endpoint =
-> +              <&replicator_swao_out_eud>;
-
-Why line break after =?
-
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +  # minimum dummy source definition. dummy source connect to coresight funnel.
-
-If you use sentences, then start with capital letter.
-
-> +  - |
-> +    dummy_source_1 {
-> +      compatible = "qcom,coresight-dummy";
-> +      qcom,dummy-source;
-> +
-> +      out-ports {
-> +        port {
-> +          dummy_riscv_out_funnel_swao: endpoint {
-> +            remote-endpoint =
-> +              <&funnel_swao_in_dummy_riscv>;
-
-Why line break?
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-
-Best regards,
-Krzysztof
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
