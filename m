@@ -2,134 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A1AC6FD20
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 10:22:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D3AC761AF
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 11:04:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231156AbjCYKWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Mar 2023 06:22:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53164 "EHLO
+        id S230399AbjCYLEi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Mar 2023 07:04:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjCYKWE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 06:22:04 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071E486AA;
-        Sat, 25 Mar 2023 03:22:01 -0700 (PDT)
-Received: from dggpeml500019.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4PkFVQ576QzKncx;
-        Sat, 25 Mar 2023 18:21:34 +0800 (CST)
-Received: from [10.67.101.98] (10.67.101.98) by dggpeml500019.china.huawei.com
- (7.185.36.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Sat, 25 Mar
- 2023 18:21:59 +0800
-Message-ID: <cf1f8c1f-90cb-9319-91e0-a8f4339547e6@hisilicon.com>
-Date:   Sat, 25 Mar 2023 18:21:59 +0800
+        with ESMTP id S231846AbjCYLEh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 07:04:37 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 199C7126EE
+        for <linux-doc@vger.kernel.org>; Sat, 25 Mar 2023 04:04:35 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id x3so17246817edb.10
+        for <linux-doc@vger.kernel.org>; Sat, 25 Mar 2023 04:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679742273;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YGuQcUMPAohDQdYCn6esi5t8mBDfcwG+UMgt1Vpx+WM=;
+        b=pMAvRb8aCJ2b0iCd+bQbJvnxrHmZdtK2pRSRcgh8uUGqvblJeke1gYjt2UVdKTPv2T
+         tE/Jx7SUB3KniKeL3tXU9iLtWMVaVOQn2bD0tkfIwL+eY/NlNpJBI/hXmIDAh8bMyaYI
+         HxIWizm/znH9TrCyib1AJNP0PMJXPbJ1I8+dxmfRO9M6mkYHa9lSvSjWmGoAta0y3o61
+         RUXOIC0PIN/nYSvCp4SDQyCd2//4jjpLR3o1hFqT22PbPt8syu6kWex4RbPC1Voip8PD
+         jMvgpF3URNTFFCWYZiTX/Qv30J+QbEIufaG3hIQmjufi0hl6LEfjfX2yX6SW+1o5ZMfX
+         LrZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679742273;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YGuQcUMPAohDQdYCn6esi5t8mBDfcwG+UMgt1Vpx+WM=;
+        b=8HrmIUY1wMfS1tOxa1bOmUgThSE/Jq+HVkeFBsyiiW9OqITe1n3El7mZ0g0rh82NTv
+         3xAvW1Umn4VHtbZIgmwGXwcCqxyoRUYmBTQr1BFam4kLFmh/LbrLdlMvAOOJw3iSwy07
+         LiPZ6vtZcHApEQ9rNHABG0RwfmoaTlFJmn5+33GM79+zXegX13RugQvHQw6uH8QzE89U
+         5bZrbKLek8NEVDyQBLO9ocbduBTc4Ka6Sl20d00TNTrCERwYDnLV3AicwE3ExIHAHlZ/
+         a3Jl8aUp80xF16F6dxHSzbFGf6A7aLI7uVEQtmY2p42u1MXJ3jhZbaF35bA3wm3MSOTc
+         WsrA==
+X-Gm-Message-State: AAQBX9fpOK9+AeKVfQXyu5eHN1hla5NOOwu6bTE3VReE37B0ymQFsSft
+        efQYkCueMONPmefgwSelwDyMgQ==
+X-Google-Smtp-Source: AKy350Y/NlId/yerM/9zRTivgf+nQ019MPql1v8mGNitanGiTO1YCTgARhntB8wDoJL8eH7ILlPbiQ==
+X-Received: by 2002:a17:906:951:b0:933:3cc7:4420 with SMTP id j17-20020a170906095100b009333cc74420mr5852539ejd.45.1679742273597;
+        Sat, 25 Mar 2023 04:04:33 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:d230:b2c7:d55:c9c8? ([2a02:810d:15c0:828:d230:b2c7:d55:c9c8])
+        by smtp.gmail.com with ESMTPSA id b1-20020a1709065e4100b008ca52f7fbcbsm11602168eju.1.2023.03.25.04.04.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Mar 2023 04:04:33 -0700 (PDT)
+Message-ID: <55ab6fdb-7b93-38bb-bbf9-9d9e2051afba@linaro.org>
+Date:   Sat, 25 Mar 2023 12:04:32 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [RFC PATCH v1 2/4] drivers/perf: hisi: Add driver support for
- HiSilicon PMCU
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC:     <will@kernel.org>, <mark.rutland@arm.com>,
-        <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
-        <john.g.garry@oracle.com>, <james.clark@arm.com>,
-        <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-        <corbet@lwn.net>, <zhangshaokun@hisilicon.com>,
-        <shenyang39@huawei.com>, <hejunhao3@huawei.com>,
-        <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
-        <suntao25@huawei.com>, <jiazhao4@hisilicon.com>,
-        <linuxarm@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>
-References: <20230206065146.645505-1-zhanjie9@hisilicon.com>
- <20230206065146.645505-3-zhanjie9@hisilicon.com>
- <20230317145232.00001c38@Huawei.com>
-From:   Jie Zhan <zhanjie9@hisilicon.com>
-In-Reply-To: <20230317145232.00001c38@Huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH V4 02/10] dt-bindings: timestamp: Add Tegra234 support
+Content-Language: en-US
+To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+References: <20230323012929.10815-1-dipenp@nvidia.com>
+ <20230323012929.10815-3-dipenp@nvidia.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230323012929.10815-3-dipenp@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.101.98]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500019.china.huawei.com (7.185.36.137)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 23/03/2023 02:29, Dipen Patel wrote:
+> Added timestamp provider support for the Tegra234 in devicetree
+> bindings.
+> 
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> ---
+> v2:
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On 17/03/2023 22:52, Jonathan Cameron wrote:
-> On Mon, 6 Feb 2023 14:51:44 +0800
-> Jie Zhan <zhanjie9@hisilicon.com> wrote:
->
->> HiSilicon Performance Monitor Control Unit (PMCU) is a device that offloads
->> PMU accesses from CPUs, handling the configuration, event switching, and
->> counter reading of core PMUs on Kunpeng SoC. It facilitates fine-grained
->> and multi-PMU-event CPU profiling, in which scenario the current 'perf'
->> scheme may lose events or drop sampling frequency. With PMCU, users can
->> reliably obtain the data of up to 240 PMU events with the sample interval
->> of events down to 1ms, while the software overhead of accessing PMUs, as
->> well as its impact on target workloads, is reduced.
->>
->> This driver enables the usage of PMCU through the perf_event framework.
->> PMCU is registered as a PMU device and utilises the AUX buffer to dump data
->> directly. Users can start PMCU sampling through 'perf-record'. Event
->> numbers are passed by a sysfs interface.
->>
->> Signed-off-by: Jie Zhan <zhanjie9@hisilicon.com>
-> Hi Jie,
->
-> A few minor comments inline.
-> Whilst I looked at this internally, that was a while back so I've
-> found a few new things to point out in what I think is a pretty good/clean driver.
-> The main thing here is the RFC questions you've raised in the cover letter
-> of course - particularly the one around mediating who has the counters between
-> this and the normal PMU driver.
->
-> Thanks,
->
-> Jonathan
-Hi Jonathan,
-
-Many thanks for the review again.
-
-Happy to accept all the comments. I have updated the driver based on them.
-
-One reply below.
-
-Jie
-
-
-...
->> +static const struct attribute_group hisi_pmcu_format_attr_group = {
->> +	.name = "format",
->> +	.attrs = hisi_pmcu_format_attrs,
->> +};
->> +
->> +static ssize_t monitored_cpus_show(struct device *dev,
->> +				   struct device_attribute *attr, char *buf)
->> +{
->> +	struct hisi_pmcu *hisi_pmcu = to_hisi_pmcu(dev_get_drvdata(dev));
->> +
->> +	return sysfs_emit(buf, "%d-%d\n",
->> +			  cpumask_first(&hisi_pmcu->cpus),
->> +			  cpumask_last(&hisi_pmcu->cpus));
-> What does this do about offline CPUs?
-> Should it include them or not?
-PMCU takes care of offline CPUs as well, and the event counts from 
-offline CPUs
-should show as zeroes in the output.
-
-hisi_pmcu->cpus contains only the online CPUs monitored by the PMCU,
-so something should be improved with the "monitored_cpus" interface here.
-
-"monitored_cpus" should actually show alll the online/offline CPUs 
-monitored,
-or, if it is meant to show only online CPUs, it show be a comma 
-separated list
-representing the hisi_pmcu->cpus mask rather than a range that may ignore
-some offline CPUs in the middle.
-
-Will fix this in V2.
+Best regards,
+Krzysztof
 
