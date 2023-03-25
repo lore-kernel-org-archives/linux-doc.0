@@ -2,87 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D256C76196
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 14:24:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D27F2C6FD1C
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 16:08:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbjCYOYI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Mar 2023 10:24:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43748 "EHLO
+        id S231995AbjCYQIr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Mar 2023 12:08:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjCYOYH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 10:24:07 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCAC3132DE;
-        Sat, 25 Mar 2023 07:24:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679754246; x=1711290246;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G5dKp3GhNYs5afXAsBYrDFF1t73ncz8rHznKQk17txc=;
-  b=eEPmpibVvLikWxd8u9UAnUu8GVW6bqnYqMjzoMz+Fbbpy5o1AQMEaE8q
-   6T+Zn/Qv28JWhKVIaBI9WyJuPkcZIaGUkVdpJuvPmAA/mE0zG2thmSPXu
-   jo44sDMMHElA1b59M+GV4GOUAXmHNRcj9PUxi5DIAzopA4w31AIfTVs+P
-   XBlJBolrxvz1ZOqrSp5e98p349CFbVhOQHQ6/O2K97IaYttPom6jDa0/w
-   omRG593PQC3cDGabx6bhl/VeZhcNZa1gJj1LeNa0Ijh7qxukZQ+7Of2Ca
-   6STIydLkrEveAYO/KkGw7Smus82oqD0UGngg9XasSoOgZK7AMlJywnO52
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="342372207"
-X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="342372207"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 07:24:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="793780446"
-X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="793780446"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2023 07:24:03 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pg4oN-000GJd-1B;
-        Sat, 25 Mar 2023 14:24:03 +0000
-Date:   Sat, 25 Mar 2023 22:23:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Alison Schofield <alison.schofield@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [cxl:for-6.4/cxl-type-2 20/22] htmldocs:
- Documentation/driver-api/cxl/memory-devices:454:
- ./drivers/cxl/core/region.c:678: WARNING: Inline emphasis start-string
- without end-string.
-Message-ID: <202303252234.exORHn1K-lkp@intel.com>
+        with ESMTP id S230118AbjCYQIr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 12:08:47 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9F1FF06;
+        Sat, 25 Mar 2023 09:08:44 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 5D89D1C0AB2; Sat, 25 Mar 2023 17:08:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1679760523;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Iu3sMDpb2cGCTRvieQtO3ixStP5OjjgHrhtfj3Yc0Rc=;
+        b=JetlJMBqxPen7cCBeun33m7ML49bqtZowkmUygKG6oC8Xnv33vQ7Jm2ZCnEy9peHHooj/E
+        HgDUjkG9NzY5+mzprr2BOpiSm6aKque252LvbvYgUazU10C1khnSxPDVg+tU0wwUlyG9P3
+        r8WfL4xZDpd7vhQPalKAack7X12amgU=
+Date:   Sat, 25 Mar 2023 17:08:40 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
+Message-ID: <20230325160838.GB1820@bug>
+References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+ <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.4/cxl-type-2
-head:   0b80e8b55828313bcd08c4740646689e648de444
-commit: e68a88d2ee505c0f142b2ff072acc95621131eb6 [20/22] cxl/region: Define a driver interface for HPA free space enumeration
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/commit/?id=e68a88d2ee505c0f142b2ff072acc95621131eb6
-        git remote add cxl https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
-        git fetch --no-tags cxl for-6.4/cxl-type-2
-        git checkout e68a88d2ee505c0f142b2ff072acc95621131eb6
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi!
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303252234.exORHn1K-lkp@intel.com/
+> > +Many RC controllers is able to configure which stick goes to which channel.
+> > +This is also configurable in most simulators, so a matching is not necessary.
 
-All warnings (new ones prefixed by >>):
+While it is configurable, we should try to do the good job "by default". Configuring controllers
+can take hours, and it is not fun.
 
->> Documentation/driver-api/cxl/memory-devices:454: ./drivers/cxl/core/region.c:678: WARNING: Inline emphasis start-string without end-string.
+> > +The driver is generating the following input event for on channels:
+> > +
+> > ++---------+----------------+
+> > +| Channel |      Event     |
+> > ++=========+================+
+> > +|     1   |  ABS_Y         |
+> > ++---------+----------------+
+> > +|     2   |  ABS_X         |
+> > ++---------+----------------+
+> > +|     3   |  ABS_RY        |
+> > ++---------+----------------+
+> > +|     4   |  ABS_RX        |
+> > ++---------+----------------+
+> > +|     5   |  BTN_A         |
+> > ++---------+----------------+
+> > +|     6   |  BTN_B         |
+> > ++---------+----------------+
+
+If one of these is normally used as throttle and rudder, it should be marked as such...
+
+User can then remap it if he does not like the mapping.
+
+Best regards,
+									Pavel
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
