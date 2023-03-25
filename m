@@ -2,132 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B6B5C6FD1C
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 04:23:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BA7C6FD1C
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 05:42:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbjCYEXE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Mar 2023 00:23:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36954 "EHLO
+        id S229591AbjCYFmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Mar 2023 01:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjCYEXD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 00:23:03 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E58769A;
-        Fri, 24 Mar 2023 21:23:02 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id q102so3136873pjq.3;
-        Fri, 24 Mar 2023 21:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679718182;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vgpYKWXzjJN2Yld0pg3hkQUZovUKmsnyiCz0x9041pc=;
-        b=BQwlA3JxKsQ/NLXvTODQe/+kSL6/LDn89Lmh56eesDRtuy+wVQTjWJlTKlwCDOOMlN
-         ZrRNOCCTpch/KSblLe/3f4byk/RvuV38W96Te2n0NtDp3M6xNg/kwzLyNsJtzqVeeqR8
-         PxXy7h8IwhIjfZ4oeopCboNZftkfOlxaXSH1TDXGd/XP2PkaJ2OuWu9omxztCMiApdvE
-         98uC3F/PTxJkXVPkr5kZze0MQ0IrJxuvPB73GdELSyCcROzgZGzlfi/mgMJtm6WED61V
-         ld/U/rRVX6eRH4YVzWOD5H8HOO1ULHzeqE1vEHvaY4dKxvUlKhcoUC4etBHguOR9X+cx
-         4VoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679718182;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vgpYKWXzjJN2Yld0pg3hkQUZovUKmsnyiCz0x9041pc=;
-        b=Ae28txzEticZketdBu796+VAbmhLgSWq/PCINeRfMJ2FfL0SENvAtvJNR2ecywsG/A
-         sX43U1CondUc057ER0woRpnHqQDgxr9PQMYty8RYiPQCluwfW1hMFtuZnRuZyxiPdGnr
-         zj+Li30iaoWF/GL7wKgQU+oNTrmW4VVzqxcl+W5f1jEUH5DlwsrvjXaBD+W9gaN05qTP
-         dqBnfmAnxuGuvIkUElLw9H9T3emfSu/GO739q2HtMSWsZp10L02BdV2Vi/pAodEK1y8C
-         Ah5uclN6qF0zNMVxMTNNsyBiBQsymM75pl3xlk8Xgw6AHOL0r1fyweFSSeBZ61L0ue4K
-         0QTA==
-X-Gm-Message-State: AAQBX9f/JlFYRKnUNv2Dj5Clnx4bRIj6LTYMOQ9/usWa6YVhwkoU9zc9
-        FN1r2xQII1IFjnS3v935XrU=
-X-Google-Smtp-Source: AKy350b7n1hQhN2FdXuCHfv3E6Y+Fsn7JSY9rneZKs9hhy/ARsctLJ+8hbMgU1asbkLh4/wW0M+fUg==
-X-Received: by 2002:a17:90b:4d81:b0:23b:3422:e78a with SMTP id oj1-20020a17090b4d8100b0023b3422e78amr5152241pjb.6.1679718181842;
-        Fri, 24 Mar 2023 21:23:01 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-18.three.co.id. [180.214.232.18])
-        by smtp.gmail.com with ESMTPSA id h7-20020a17090a2ec700b0023b5528b8d4sm3786553pjs.19.2023.03.24.21.22.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Mar 2023 21:23:01 -0700 (PDT)
-Message-ID: <fd643854-d687-1dda-f0ae-a6ef06432394@gmail.com>
-Date:   Sat, 25 Mar 2023 11:22:56 +0700
+        with ESMTP id S229441AbjCYFmy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 01:42:54 -0400
+Received: from nbd.name (nbd.name [46.4.11.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC481A48C;
+        Fri, 24 Mar 2023 22:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=nbd.name;
+        s=20160729; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=elBC7x8BCDuYhJTGwQV3bWcb2ZYFxDKqqBJRBK7oPXA=; b=MfYdNUgeY+5US8ue8eoYcRVIyp
+        vlkWGh2XrS2isG+R+p58i3KZxlnLWqJjzhedN9Jf7elWGTXCi6YBUYXreMyqPgI+DY5Z1mfZbupQM
+        0R8dKbj7amqnvFhHKCV3RLxq7oqHwLKThyDEZnC0Xe9JiSsvVmtMq3xxx41IxE15K1ak=;
+Received: from p54ae9730.dip0.t-ipconnect.de ([84.174.151.48] helo=nf.local)
+        by ds12 with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <nbd@nbd.name>)
+        id 1pfwfr-006bjW-Us; Sat, 25 Mar 2023 06:42:44 +0100
+Message-ID: <2ef8ab92-3670-61a1-384d-b827865447ca@nbd.name>
+Date:   Sat, 25 Mar 2023 06:42:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 1/2] docs: process: allow Closes tags with links
-To:     Matthieu Baerts <matthieu.baerts@tessares.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH net-next] net/core: add optional threading for backlog
+ processing
 Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
-Content-Type: text/plain; charset=UTF-8
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230324171314.73537-1-nbd@nbd.name>
+ <20230324102038.7d91355c@kernel.org>
+ <2d251879-1cf4-237d-8e62-c42bb4feb047@nbd.name>
+ <20230324104733.571466bc@kernel.org>
+ <f59ee83f-7267-04df-7286-f7ea147b5b49@nbd.name>
+ <20230324201951.75eabe1f@kernel.org>
+From:   Felix Fietkau <nbd@nbd.name>
+In-Reply-To: <20230324201951.75eabe1f@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/25/23 01:52, Matthieu Baerts wrote:
-> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> index 7a670a075ab6..20f0b6b639b7 100644
-> --- a/Documentation/process/5.Posting.rst
-> +++ b/Documentation/process/5.Posting.rst
-> @@ -217,6 +217,15 @@ latest public review posting of the patch; often this is automatically done
->  by tools like b4 or a git hook like the one described in
->  'Documentation/maintainer/configure-git.rst'.
->  
-> +Similarly, there is also the "Closes:" tag that can be used to close issues
-> +when the underlying public bug tracker can do this operation automatically.
-> +For example::
-> +
-> +	Closes: https://example.com/issues/1234
-> +
-> +Private bug trackers and invalid URLs are forbidden. For other public bug
-> +trackers not supporting automations, keep using the "Link:" tag instead.
-> +
->  A third kind of tag is used to document who was involved in the development of
->  the patch. Each of these uses this format::
->  
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 69ce64e03c70..759c99e34085 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -134,6 +134,15 @@ resources. In addition to giving a URL to a mailing list archive or bug,
->  summarize the relevant points of the discussion that led to the
->  patch as submitted.
->  
-> +It might be interesting to use the 'Closes:' tag to close issues when the
-> +underlying public bug tracker can do this operation automatically. For
-> +example::
-> +
-> +	Closes: https://example.com/issues/1234
-> +
-> +Private bug trackers and invalid URLs are forbidden. For other public bug
-> +trackers not supporting automations, keep using the "Link:" tag instead.
-> +
->  If your patch fixes a bug in a specific commit, e.g. you found an issue using
->  ``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
->  the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
+On 25.03.23 04:19, Jakub Kicinski wrote:
+> On Fri, 24 Mar 2023 18:57:03 +0100 Felix Fietkau wrote:
+>> >> It can basically be used to make RPS a bit more dynamic and 
+>> >> configurable, because you can assign multiple backlog threads to a set 
+>> >> of CPUs and selectively steer packets from specific devices / rx queues   
+>> > 
+>> > Can you give an example?
+>> > 
+>> > With the 4 CPU example, in case 2 queues are very busy - you're trying
+>> > to make sure that the RPS does not end up landing on the same CPU as
+>> > the other busy queue?  
+>> 
+>> In this part I'm thinking about bigger systems where you want to have a
+>> group of CPUs dedicated to dealing with network traffic without
+>> assigning a fixed function (e.g. NAPI processing or RPS target) to each
+>> one, allowing for more dynamic processing.
 > 
+> I tried the threaded NAPI on larger systems and helped others try,
+> and so far it's not been beneficial :( Even the load balancing
+> improvements are not significant enough to use it, and there
+> is a large risk of scheduler making the wrong decision.
+> 
+> Hence my questioning - I'm trying to understand what you're doing
+> differently.
+I didn't actually run any tests on bigger systems myself, so I don't 
+know how to tune it for those.
 
-The doc LGTM, thanks!
+>> >> to them and allow the scheduler to take care of the rest.  
+>> > 
+>> > You trust the scheduler much more than I do, I think :)  
+>> 
+>> In my tests it brings down latency (both avg and p99) considerably in
+>> some cases. I posted some numbers here:
+>> https://lore.kernel.org/netdev/e317d5bc-cc26-8b1b-ca4b-66b5328683c4@nbd.name/
+> 
+> Could you provide the full configuration for this test?
+> In non-threaded mode the RPS is enabled to spread over remaining
+> 3 cores?
+In this test I'm using threaded NAPI and backlog_threaded without any 
+fixed core assignment.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+- Felix
