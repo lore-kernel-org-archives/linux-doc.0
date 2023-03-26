@@ -2,97 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1797AC6FD1F
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Mar 2023 18:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B095C77B61
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Mar 2023 00:56:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229446AbjCYS7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Mar 2023 14:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56812 "EHLO
+        id S229956AbjCZA4O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Mar 2023 20:56:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbjCYS7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 14:59:30 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46ACF5276;
-        Sat, 25 Mar 2023 11:59:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E3FEDB80782;
-        Sat, 25 Mar 2023 18:59:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1DAC433EF;
-        Sat, 25 Mar 2023 18:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679770766;
-        bh=cvkDQ5VUSugi/Mx0cXn8GHD+HIhy+RhvFVUaPPEbIaA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=uQRaY0SdvHsMw3Qz1+oQ2OU67uhbpMc7NB4AyXGTJ/vep30XWbPOqxbW3fg1+ojV7
-         u34Y4IGvGvMqEtc+iLwpwoTEuXWcGUAMUFnV4umx8fuJI/ian4Ct+25DM5Hw7wsZD1
-         YCqfBlyPp/njAWIl8h2dhWigJZxZqHb1TOpTn3rGnreTCcepKTiFfZpaYBRj8SdtW3
-         7CpscxCm13XMUTxOgl7D5w3IG+8/oWhQl6wla27yb3TaNTBgy6GM1kvwNftE35OWZ7
-         ZGnP2ZtMyFSJiS4krHyoeBCpP7ehAbQarDoYa/F5JY5S3eGZ/zsYlUVhDwT3HI2G86
-         jkBrUKeIdDG5Q==
-Date:   Sat, 25 Mar 2023 19:14:26 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     James Clark <james.clark@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux@roeck-us.net,
-        michal.simek@amd.com, Jonathan.Cameron@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] serial: qcom_geni: Comment use of devm_krealloc
- rather than devm_krealloc_array
-Message-ID: <20230325191426.5810b644@jic23-huawei>
-In-Reply-To: <20230320145710.1120469-5-james.clark@arm.com>
-References: <20230320145710.1120469-1-james.clark@arm.com>
-        <20230320145710.1120469-5-james.clark@arm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+        with ESMTP id S229446AbjCZA4O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Mar 2023 20:56:14 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F39FBB8E;
+        Sat, 25 Mar 2023 17:56:13 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-17997ccf711so5763639fac.0;
+        Sat, 25 Mar 2023 17:56:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679792171;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uAwqO8DmblyvZIKV1qNsnAE1hHK5TyffAw/NgAmyT5k=;
+        b=amnPa9ykmh0NipOZ5rN9IBmY77F05sjIytUNydCstPU5sDt7uYmNqilQmvP0Mi/5RY
+         fQM3Of7U6YcIGV1gDXk9epIfNIK4cSrAoZEzg4VNlfxYdSvp5hAMNYEu16B7G1I5UDci
+         LBqRLzTNKf6ljUmq18IqAOxx3J+VJVXrCEP5AgkJb3mt9G+Ey01JTm0Ym0OuP3TZ6+HM
+         aoA7KlfaGOVZfbwp4A/PfWThOCA7QM8GcOr0EJNcrTRJ+ZpLPBbyVAwyht+ZDp2adslO
+         UYU1Jyk3Yu7oAqm2TYbc6NZCSeIlnSVgo6I0wML27TWJoX1xpLerHVQQ0nqL9VEX8bY5
+         cr9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679792171;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uAwqO8DmblyvZIKV1qNsnAE1hHK5TyffAw/NgAmyT5k=;
+        b=hYJDmKDtKomyjbevJqMQmoBIn8lSjqXFjrvxwlT/qPXO50ZIwv/+Ms63iu8LFKu3e1
+         YMeJh2/LDCLgY/1o4zs/YYJLdrYWOUWjhlEJSGssbEk8ro4UCkerdBhbfUJ9Zn7w8iOI
+         9lXvnbMZMiXSTfXNGuyhPLibafXApR9K52MNXzMd09o8UASHeBZ0ju0eWvneokVB7dU9
+         i4dFiTX1KJkacNqBGJjOQRDx6N2GbMoVJ0iPg1SDcWuXmUYA8i0e8aQv7+A9P3mcpT34
+         dytbwBSyj8TeMzRY/yPYEbSPwRNnllRgUb8JmeMjob65Hcsy27xaiNvu+ynWgptXvYpJ
+         xqdQ==
+X-Gm-Message-State: AO0yUKVykC7rE5HvRRBXqU0GvKyFbxIQ+22nXdweFWlIZ1WkyREvEkbR
+        yfvVcCNATc1Iij+7/dWuLo4=
+X-Google-Smtp-Source: AK7set9hXBU/hTVV0DiOuJRCuAHYZa35pnjIiPFEqWj24/Oq/SOkrDzzylZ+KhKLbzVRBGBL+CAF0A==
+X-Received: by 2002:a05:6870:5884:b0:177:ab4c:fc90 with SMTP id be4-20020a056870588400b00177ab4cfc90mr5539624oab.32.1679792171553;
+        Sat, 25 Mar 2023 17:56:11 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:189a:e969:3b47:81d? ([2600:1700:2442:6db0:189a:e969:3b47:81d])
+        by smtp.gmail.com with ESMTPSA id yv18-20020a05687c229200b001729072f759sm8585936oab.0.2023.03.25.17.56.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Mar 2023 17:56:10 -0700 (PDT)
+Message-ID: <4b483680-2532-98e9-71b0-4b2ced508313@gmail.com>
+Date:   Sat, 25 Mar 2023 19:56:09 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] of: unittest: option to allow tests that trigger
+ kernel stack dump
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20230301012116.1488132-1-frowand.list@gmail.com>
+ <20230301012116.1488132-2-frowand.list@gmail.com>
+ <018f54ee-55cc-e30b-4595-ce555fff1708@roeck-us.net>
+ <96cfd1ee-768d-cc03-53dd-35ccf2396863@gmail.com>
+ <20230324214341.GA20080-robh@kernel.org>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <20230324214341.GA20080-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Mar 2023 14:57:09 +0000
-James Clark <james.clark@arm.com> wrote:
-
-> Now that devm_krealloc_array is available, add a comment justifying not
-> changing this occurrence to avoid any future auto fixups.
+On 3/24/23 16:43, Rob Herring wrote:
+> On Wed, Mar 01, 2023 at 10:01:36AM -0600, Frank Rowand wrote:
+>> On 2/28/23 22:07, Guenter Roeck wrote:
+>>> On 2/28/23 17:21, Frank Rowand wrote:
+>>>> Commit 74df14cd301a ("of: unittest: add node lifecycle tests") added
+>>>> some tests that trigger a kernel stack dump.  Filtering the boot
+>>>> messages with scripts/dtc/of_unittest_expect detects that the stack
+>>>> dump is expected instead of being a test error.
+>>>>
+>>>> Test beds might interpret the stack dumps as errors, resulting in
+>>>> needless debugging and error reports.  These test beds are likely
+>>>> to remove unittests due to these stack dumps. To avoid these problems,
+>>>> have unittest default to skip the tests that trigger a stack dump.
+>>>>
+>>>> Add a kernel cmdline option to not skip those tests.  This option can
+>>>> be used by testers who are able to interpret the stack dumps as not
+>>>> an error.
+>>>>
+>>>> Signed-off-by: Frank Rowand <frowand.list@gmail.com>
+>>>> ---
+>>>>   drivers/of/unittest.c | 54 ++++++++++++++++++++++++++++++++++++++++---
+>>>>   1 file changed, 51 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+>>>> index b5a7a31d8bd2..3a9bc2bc4ba1 100644
+>>>> --- a/drivers/of/unittest.c
+>>>> +++ b/drivers/of/unittest.c
+>>>> @@ -70,6 +70,36 @@ static struct unittest_results {
+>>>>   #define EXPECT_NOT_END(level, fmt, ...) \
+>>>>       printk(level pr_fmt("EXPECT_NOT / : ") fmt, ##__VA_ARGS__)
+>>>>   +/*
+>>>> + * Some tests will cause the kernel to emit a stack dump, aka back trace,
+>>>> + * when the test is successful.  The tests should make it possible for
+>>>> + * test beds to detect that the trace is not an error via EXPECT_BEGIN().
+>>>> + *
+>>>> + * Most test beds do not process the EXPECT_BEGIN() information and may
+>>>> + * flag the stack dump as an error, thus reporting a false failure.  It
+>>>> + * is hoped that the KTAP version 4 specification will add the EXPECT_BEGIN()
+>>>> + * processing to test beds.
+>>>> + *
+>>>> + * By default, skip tests that cause a stack dump.  Test beds that process
+>>>> + * EXPECT_BEGIN() information should enable these tests via a kernel boot
+>>>> + * command line option.
+>>>> + */
+>>>> +static int stackdump_tests_enabled;
+>>>> +
+>>>> +static int __init enable_unittest_stackdump(char *str)
+>>>> +{
+>>>> +    stackdump_tests_enabled = 1;
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static int __init disable_unittest_stackdump(char *str)
+>>>> +{
+>>>> +    stackdump_tests_enabled = 0;
+>>>> +    return 0;
+>>>> +}
+>>>> +early_param("of_unittest_stackdump", enable_unittest_stackdump);
+>>>> +early_param("no_of_unittest_stackdump", disable_unittest_stackdump);
+>>>
+>>> Does no_of_unittest_stackdump have any benefit or value ?
+>>
+>> I would say no, but it is a common pattern to provide both
+>> foo and no_foo.
 > 
-> Link: https://lore.kernel.org/all/20230318173402.20a4f60d@jic23-huawei/
-> Signed-off-by: James Clark <james.clark@arm.com>
-LGTM
+> It is? I see one documented example. I see numerous ones that are 
+> 'no_foo'.
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+I reconsidered.  I plan to remove the no_of_unittest_stackdump in v2, updated
+to the current kernel version.
 
-> ---
->  drivers/tty/serial/qcom_geni_serial.c | 5 +++++
->  1 file changed, 5 insertions(+)
+-Frank
+
 > 
-> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
-> index 28fbc927a546..8ae1fb7c2636 100644
-> --- a/drivers/tty/serial/qcom_geni_serial.c
-> +++ b/drivers/tty/serial/qcom_geni_serial.c
-> @@ -1055,6 +1055,11 @@ static int setup_fifos(struct qcom_geni_serial_port *port)
->  		(port->tx_fifo_depth * port->tx_fifo_width) / BITS_PER_BYTE;
->  
->  	if (port->rx_buf && (old_rx_fifo_depth != port->rx_fifo_depth) && port->rx_fifo_depth) {
-> +		/*
-> +		 * Use krealloc rather than krealloc_array because rx_buf is
-> +		 * accessed as 1 byte entries as well as 4 byte entries so it's
-> +		 * not necessarily an array.
-> +		 */
->  		port->rx_buf = devm_krealloc(uport->dev, port->rx_buf,
->  					     port->rx_fifo_depth * sizeof(u32),
->  					     GFP_KERNEL);
+> This doesn't scale well if lots of tests need to disable it. Perhaps it 
+> should be more generic (at least documentation/naming wise even if the 
+> implmentation lives in DT unittest for now).
+> 
+> Rob
 
