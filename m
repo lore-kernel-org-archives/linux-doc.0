@@ -2,128 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CD6C74A5B
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Mar 2023 06:35:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17258C74A5B
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Mar 2023 11:28:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230495AbjCZGfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Mar 2023 02:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47700 "EHLO
+        id S230309AbjCZL2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Mar 2023 07:28:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbjCZGfB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 02:35:01 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6951A5FDE;
-        Sat, 25 Mar 2023 23:35:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0162BB801C0;
-        Sun, 26 Mar 2023 06:34:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 019D8C433D2;
-        Sun, 26 Mar 2023 06:34:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1679812497;
-        bh=jr13vMuf/WaHi5CBNG+X2Brpbr1MnZxbiMHYOEZyZVw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eTIMMVczZqjaFFjFea7FxGinqMwyKi5ehjeZtYZt0iztBREcv6eiTgOszrG/eZ2cE
-         n/c/vwh+0PMqajzLshr0kG/lz8zHju9wAGv+SY2TiYEcsPO3+c288/Wetnm9VoGi3s
-         /j4Me3rpKvEU6uIRun8B/CigylfUrb+ZEwjh4Fes=
-Date:   Sun, 26 Mar 2023 08:34:53 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Erdem Aktas <erdemaktas@google.com>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] virt: tdx-guest: Add Quote generation support
-Message-ID: <ZB/njYsTTwgTtAeA@kroah.com>
-References: <20230326062039.341479-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20230326062039.341479-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+        with ESMTP id S229627AbjCZL2q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 07:28:46 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C88E83CB;
+        Sun, 26 Mar 2023 04:28:44 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pgOYA-0004Op-9n; Sun, 26 Mar 2023 13:28:38 +0200
+Message-ID: <29b2c9c1-f176-5e42-2606-94b4bc6d4c45@leemhuis.info>
+Date:   Sun, 26 Mar 2023 13:28:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230326062039.341479-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US, de-DE
+To:     Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
+ <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v2 1/2] docs: process: allow Closes tags with links
+In-Reply-To: <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1679830125;0647ea1f;
+X-HE-SMSGID: 1pgOYA-0004Op-9n
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 25, 2023 at 11:20:38PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> Since GetQuote support requires usage of DMA APIs, convert TDX guest
-> driver to a platform driver.
-
-Sorry, but that's not a valid reason to use a platform device for fake
-things like this:
-
-> +static struct platform_device *tdx_dev;
-
-Especially a single static one.
-
-> +static int tdx_guest_probe(struct platform_device *pdev)
-> +{
-> +	if (tdx_register_event_irq_cb(attestation_callback_handler, pdev))
-> +		return -EIO;
-> +
-> +	return misc_register(&tdx_misc_dev);
-> +}
-> +
-> +static int tdx_guest_remove(struct platform_device *pdev)
-> +{
-> +	tdx_unregister_event_irq_cb(attestation_callback_handler, pdev);
-> +	misc_deregister(&tdx_misc_dev);
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver tdx_guest_driver = {
-> +	.probe = tdx_guest_probe,
-> +	.remove = tdx_guest_remove,
-> +	.driver.name = KBUILD_MODNAME,
-> +};
-> +
->  static const struct x86_cpu_id tdx_guest_ids[] = {
->  	X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
->  	{}
-> @@ -84,16 +310,35 @@ MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
+On 24.03.23 19:52, Matthieu Baerts wrote:
+> Making sure a bug tracker is up to date is not an easy task. For
+> example, a first version of a patch fixing a tracked issue can be sent a
+> long time after having created the issue. But also, it can take some
+> time to have this patch accepted upstream in its final form. When it is
+> done, someone -- probably not the person who accepted the patch -- has
+> to remember about closing the corresponding issue.
+> 
+> This task of closing and tracking the patch can be done automatically by
+> bug trackers like GitLab [1], GitHub [2] and hopefully soon [3]
+> bugzilla.kernel.org when the appropriated tag is used. The two first
+> ones accept multiple tags but it is probably better to pick one.
+> 
+> [...]
+> 
+> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> index 7a670a075ab6..20f0b6b639b7 100644
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
+> @@ -217,6 +217,15 @@ latest public review posting of the patch; often this is automatically done
+>  by tools like b4 or a git hook like the one described in
+>  'Documentation/maintainer/configure-git.rst'.
 >  
->  static int __init tdx_guest_init(void)
->  {
-> +	int ret;
+> +Similarly, there is also the "Closes:" tag that can be used to close issues
+> +when the underlying public bug tracker can do this operation automatically.
+> +For example::
 > +
->  	if (!x86_match_cpu(tdx_guest_ids))
->  		return -ENODEV;
->  
-> -	return misc_register(&tdx_misc_dev);
-> +	ret = platform_driver_register(&tdx_guest_driver);
-> +	if (ret) {
-> +		pr_err("failed to register driver, err=%d\n", ret);
-> +		return ret;
-> +	}
+> +	Closes: https://example.com/issues/1234
+> +
+> +Private bug trackers and invalid URLs are forbidden. For other public bug
+> +trackers not supporting automations, keep using the "Link:" tag instead.
+> [...]
 
-No, please do not create a fake platform driver.
+This more and more seems half-hearted to me.
 
-> +	tdx_dev = platform_device_register_simple(KBUILD_MODNAME,
-> +						  PLATFORM_DEVID_NONE,
-> +						  NULL, 0);
+One reason: it makes things unnecessarily complicated for developers, as
+they'd then have to remember `is this a public bug tracker that is
+supporting automations? Then use "Closes", otherwise "Link:"`.
 
-And please do not create a fake platform device.
+Another reason: the resulting situation ignores my regression tracking
+bot, which (among others) tracks emailed reports. It would benefit from
+"Closes" as well to avoid the ambiguity problem Konstantin brought up
+(the one about "Link: might just point to a report for background
+information in patches that don't address the problem the link points
+to"[1]. But FWIW, I'm not sure if this ambiguity is much of a problem in
+practice, I have a feeling that it's rare and most of the time will
+happen after the reported problem has been addressed or in the same
+patch-set.
 
-As always, do not create fake platform devices for things that are NOT
-platform devices.
+I thus think we should use either of these approaches:
 
-If this device needs DMA (but why?) then make it a real device and tie
-it to the bus it belongs to (that it is obviously doing DMA on.)
+* just stick to "Link: <url>"
 
-But as-is, this isn't ok, sorry.
+* go "all-in" and tell developers to use "Closes: <url>"[2] all the time
+when a patch is resolving an issue that was reported in public
 
-thanks,
+I'm not sure which of them I prefer myself. Maybe I'm slightly leaning
+towards the latter: it avoids the ambiguity, checkpatch.pl will yell if
+it's used with something else than a URL, it makes things easier for
+MPTCP & DRM developers, and (maybe most importantly) is something new
+developers are often used to already from git forges.
 
-greg k-h
+Ciao, Thorsten
+
+[1]
+https://lore.kernel.org/linux-doc/20230317185637.ebxzsdxivhgzkqqw@meerkat.local/
+
+[2] fwiw, I still prefer "Resolves:" over "Closes". Yes, I've seen
+Konstantin's comment on the subtle difference between the two[3], but as
+he said, Bugbot can work with it as well. But to me "Resolves" sounds
+way friendlier and more descriptive to me; but well, I'm not a native
+speaker, so I don't think my option should count much here.
+
+[3]
+https://lore.kernel.org/linux-doc/20230316162227.727rhima2tejdl5j@meerkat.local/
+
