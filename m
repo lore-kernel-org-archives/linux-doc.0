@@ -2,135 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B5C6C74A5B
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Mar 2023 19:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4ED5C7619A
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Mar 2023 23:25:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229552AbjCZTvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Mar 2023 15:51:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
+        id S229651AbjCZXZj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Mar 2023 19:25:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjCZTvn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 15:51:43 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764AF46AF;
-        Sun, 26 Mar 2023 12:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=budMwMqW8tIuFTIfePqvZbV0rAEQ+HiaEFGnaM9O8SA=; b=AUYfY4kAEcGeAfh53LuHc4dHqt
-        PH1KTT9M0FEEbntpKkczLb5/r2ticvR+B4PFq4FGK8xR8OUTTxdianF/FBkQWgmeJ2S/eln4U8LP7
-        cpvvHUXS3SsXiKWaXO/ONIcu6JVtD5BK9FR4mlyBxKrePYCKHYfdGwwM1zZB+8+RTgodemMnzcnPQ
-        xQm1kBuVjoR0DE99q1GX9COPjXaCBGfu98axD+v7PyIjYuhGWuqN8p9Pv4WOdXjQsqbsBd+pc8Bmy
-        +ZfZ1Ca7A57Vx5n4OEtr0hPbXdRA4juMdufcrYKKjq34ZmfHwrvz5piLsD6LNZYMG/Cm3zPk50YJH
-        E33h3Rnw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pgWOx-00980k-2M;
-        Sun, 26 Mar 2023 19:51:39 +0000
-Message-ID: <4de7483e-2240-5a81-e3e8-af7b658695eb@infradead.org>
-Date:   Sun, 26 Mar 2023 12:51:37 -0700
+        with ESMTP id S229619AbjCZXZi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 19:25:38 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511BC46B5;
+        Sun, 26 Mar 2023 16:25:37 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-177ca271cb8so7559128fac.2;
+        Sun, 26 Mar 2023 16:25:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679873136;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pD08TxzwkE2haKDmxOA3Gpocm1WKkTb8S6Or18m5HDI=;
+        b=BHIGlZ8LfLq6WhYRt8wpjCAkR3hiOlJCdQ/1EO646kWQXcHyx1T4M5Klhfs0ZMHSYQ
+         jF7sbzasBVM6WgyDlHhWkz0CQj9IR48vNdtKfGzrWngIuz7KvrxwMio0Otp68B4GcEXi
+         3pVgJ9s4sidJyiU5KFgEVUIz0ZvvN7jZdUAKJbW9eq3mGEt1mX6vPT47FvM4/w+6Z8XF
+         zoiiuywoPzy5oOcrlaNEJDwf5BwuyskUT/PvDArmq/bgepNainWGGMMBKweGmKRpmg9R
+         i21B6kuEUsxuD5acvNvNLWwCStjRGjs6e/i6r4Votor0UJuG1VEnACN0h3aELcd1r15r
+         tZ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679873136;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=pD08TxzwkE2haKDmxOA3Gpocm1WKkTb8S6Or18m5HDI=;
+        b=4qjZRwY+kYcx787xiXAijokpcWTw3pxhpEWgOMIOR2USsSqfUzmzL3Ou78KVzZ0+Ve
+         XXC5kUxRKldqLsnZCwM/X7gVPStulrFxOx0b4zc8UGzAT27XT11cgqZhI2r7C6W7hzyA
+         GbvNFPsl3L//Gyeigf4AVkkohO1XyBN/V+wWXJ263Avh6BTROnawH50RthpmX+6tI+FW
+         KBQwtMRlYCDS4Q7vNdt+tpvEF8Rp36HouJSOYCaKCCMZZcZMDDOfaT/CQNUv6aK6lovp
+         Q2rL+3YOfbdIk89b1MzOlvMzVsJQzQrDTdCUtqHZPetKzP4MVmdPDXhn5OHx329Lb40Z
+         /N3Q==
+X-Gm-Message-State: AO0yUKWaKuO663C3HRRkjav1dJi2B5Q9RuDo/Cy3dRHgZvk08O7zwTtj
+        P9enqCg7B/bXPOtejB3znFQ=
+X-Google-Smtp-Source: AK7set94XwEeE93yt4ccUYZEuNyC6y3OLlLPU1LbXSURjcgfx0nxnmHzvTkY4v04hQY+OCEFCQscew==
+X-Received: by 2002:a05:6870:5386:b0:176:22c5:de70 with SMTP id h6-20020a056870538600b0017622c5de70mr7019258oan.5.1679873136556;
+        Sun, 26 Mar 2023 16:25:36 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:988b:7dda:764e:c744? ([2600:1700:2442:6db0:988b:7dda:764e:c744])
+        by smtp.gmail.com with ESMTPSA id az15-20020a05687c230f00b0016a37572d17sm9383077oac.2.2023.03.26.16.25.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Mar 2023 16:25:35 -0700 (PDT)
+Message-ID: <6d4afb49-3cb9-f176-61a2-5bbaab698644@gmail.com>
+Date:   Sun, 26 Mar 2023 18:25:34 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2] ELF: document some de-facto PT_* ABI quirks
+ Thunderbird/102.7.1
 Content-Language: en-US
-To:     Alexey Dobriyan <adobriyan@gmail.com>, akpm@linux-foundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
- <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
- <c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
+To:     Frank Rowand <frowand.list@gmail.com>,
+        David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
+        Brendan Higgins <brendanhiggins@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
+        guillaume.tucker@collabora.com, dlatypov@google.com,
+        kernelci@groups.io, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Frank Rowand <frowand.list@gmail.com>
+Subject: [RFC] ktap_v2: KTAP specification transition method
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexey,
+In the middle of the thread about a patch to add the skip test result,
+I suggested documenting the process of deprecating the KTAP v1 Specification
+method of marking a skipped test:
 
-On 3/26/23 09:49, Alexey Dobriyan wrote:
-> Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
-> program headers are slightly different.
-> 
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
-> 
-> 	v2: integrate into documentation build system
-> 
->  Documentation/ELF/ELF.rst   |   32 ++++++++++++++++++++++++++++++++
->  Documentation/ELF/index.rst |   10 ++++++++++
->  Documentation/index.rst     |    1 +
->  3 files changed, 43 insertions(+)
+  https://lore.kernel.org/all/490271eb-1429-2217-6e38-837c6e5e328b@gmail.com/T/#u
 
-I'm not sure that ELF merits its own subdirectory or that each item here
-should be a chapter,  but this fixes all of the issues that I pointed out. Thanks.
+In a reply to that email I suggested that we ought to have a process to transition
+the KTAP Specification from v1 to v2, and possibly v3 and future.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+This email is meant to be the root of that discussion.
 
-> new file mode 100644
-> --- /dev/null
-> +++ b/Documentation/ELF/ELF.rst
-> @@ -0,0 +1,32 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=================================
-> +Linux-specific ELF idiosyncrasies
-> +=================================
-> +
-> +Definitions
-> +===========
-> +
-> +"First" program header is the one with the smallest offset in the file:
-> +e_phoff. "Last" program header is the one with the biggest offset:
-> +e_phoff + (e_phnum - 1) * sizeof(Elf_Phdr).
-> +
-> +PT_INTERP
-> +=========
-> +
-> +First PT_INTERP program header is used to locate the filename of ELF
-> +interpreter. Other PT_INTERP headers are ignored (since Linux 2.4.11).
-> +
-> +PT_GNU_STACK
-> +============
-> +
-> +Last PT_GNU_STACK program header defines userspace stack executability
-> +(since Linux 2.6.6). Other PT_GNU_STACK headers are ignored.
-> +
-> +PT_GNU_PROPERTY
-> +===============
-> +
-> +ELF interpreter's last PT_GNU_PROPERTY program header is used (since
-> +Linux 5.8). If interpreter doesn't have one, then the last PT_GNU_PROPERTY
-> +program header of an executable is used. Other PT_GNU_PROPERTY headers
-> +are ignored.
-> new file mode 100644
-> --- /dev/null
-> +++ b/Documentation/ELF/index.rst
-> @@ -0,0 +1,10 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===
-> +ELF
-> +===
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   ELF
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -113,6 +113,7 @@ to ReStructured Text format, or are simply too old.
->     :maxdepth: 1
->  
->     staging/index
-> +   ELF/index
->  
->  
->  Translations
+My initial thinking is that there are at least three different types of project
+and/or community that may have different needs in this area.
 
--- 
-~Randy
+Type 1 - project controls both the test output generation and the test output
+parsing tool.  Both generation and parsing code are in the same repository
+and/or synchronized versions are distributed together.
+
+Devicetree unittests are an example of Type 1.  I plan to maintain changes
+of test output to KTAP v2 format in coordination with updating the parser
+to process KTAP v2 data.
+
+Type 2 - project controls both the test output generation and the test output
+parsing tool.  The test output generation and a parser modifications may be
+controlled by the project BUT there are one or more external testing projects
+that (1) may have their own parsers, and (2) may have a single framework that
+tests multiple versions of the tests.
+
+I think that kselftest and kunit tests are probably examples of Type 2.  I also
+think that DT unittests will become a Type 2 project as a result of converting
+to KTAP v2 data.
+
+Type 3 - project may create and maintain some tests, but is primarily a consumer
+of tests created by other projects.  Type 3 projects typically have a single
+framework that is able to execute and process multiple versions of the tests.
+
+The Fuego test project is an example of Type 3.
+
+Maybe adding all of this complexity of different Types in my initial thinking
+was silly -- maybe everything in this topic is governed by the more complex
+Type 3.
+
+My thinking was that the three different Types of project would be impacted
+in different ways by transition plans.  Type 3 would be the most impacted,
+so I wanted to be sure that any transition plan especially considered their
+needs.
+
+There is an important aspect of the KTAP format that might ease the transition
+from one version to another: All KTAP formatted results begin with a "version
+line", so as soon as a parser has processed the first line of a test, it can
+apply the appropriate KTAP Specification version to all subsequent lines of
+test output.  A parser implementation could choose to process all versions,
+could choose to invoke a version specific parser, or some other approach
+all together.
+
+In the "add skip test results" thread, I suggested deprecating the v1
+method of marking a skipped test in v2, with a scheduled removal of
+the v1 method in v3.  But since the KTAP format version is available
+in the very first line of test output, is it necessary to do a slow
+deprecation and removal over two versions?
+
+One argument to doing a two version deprecation/removal process is that
+a parser that is one version older the the test output _might_ be able
+to process the test output without error, but would not be able to take
+advantage of features added in the newer version of the Specification.
+
+My opinion is that a two version deprecation/removal process will slow
+the Specification update process and lead to more versions of the
+Specification over a given time interval.
+
+A one version deprecation/removal process puts more of a burden on Type 3
+projects and external parsers for Type 2 projects to implement parsers
+that can process the newer Specification more quickly and puts a burden
+on test maintainers to delay a move to the newer Specification, or possibly
+pressure to support selection of more than one Specification version format
+for output data.
+
+One additional item...  On the KTAP Specification version 2 process wiki page,
+I suggested that it is "desirable for test result parsers that understand the
+KTAP Specification version 2 data also be able to parse version 1 data."
+With the implication "Converting version 1 compliant data to version 2 compliant
+data should not require a "flag day" switch of test result parsers."  If this
+thread discussion results in a different decision, I will update the wiki.
+
+Thoughts?
+
+-Frank
