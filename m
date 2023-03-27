@@ -2,129 +2,199 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DAC2C7619A
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 13:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39DA2C7619A
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 13:11:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbjC0NGb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 09:06:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45508 "EHLO
+        id S232329AbjC0NLR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 09:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230155AbjC0NGa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 09:06:30 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65F0ECD
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 06:06:29 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id i5so36107199eda.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 06:06:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares.net; s=google; t=1679922388;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cBRzSjF1ItIhFkB/xfzfFNBgliDQkj3K2tL0x/5xLLA=;
-        b=JwHQ5CYDRZgnqIABG/vIRSL/jAk6QRm9Ebi1hd8dh6gsxeEtqS4/fNF3/nuK7dv2N2
-         C++uIegHeA6s3eTPmJ8a8MzVHXjS7rfZeROG9dxb5N8U3M+dqTP+gQKVbqEIYn4wAI5y
-         uIHv78JsTM90s+XP8FAz7yyYcmJjIBps8CdNdpfWzBY4VUFnuc8vGX6F8OlG0gMaCSAK
-         mAeBcIRaXARtMzmwonZhHcGSqauZhRaBZdDFuzsUV8cIBrgqzNToy8KhOz54/YZtyKev
-         FXlT3YWbKnVP34us4nth/s6kuNa762qNOJv2WXyoOqLsTL8PdTecUgCqJxlUs+pC6wek
-         MzKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679922388;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cBRzSjF1ItIhFkB/xfzfFNBgliDQkj3K2tL0x/5xLLA=;
-        b=zg+8491zBQgPvE/z7yB1tVe0Pd3CTzgu/6vwdo2SoynLP4ClThioZ/8MAfyTJf7MW6
-         7IxWF7K9IW+lloR0AHsamPMGPXfqFOAPID2UyWO0zclIsxCcf2hFFcDGrNn5jma3Fygr
-         jldSeqbtrt/Cg9m+5iRSBCyHSAb+zydyafQSXrOW3DYxnXiOINoPZrnVGMQ4TJznIxI3
-         XkaDOvs+puidh2ieB1bnNsk/FQacjUWGOPjTBnIBGVnmI6k3h+6uH4ulJfyF90lZcESp
-         MNvzXTgrSD08xRCgKZaFHiWg6KJZm/xuXpeFSUNQsYiTGTMqmcNWIc8BbXZCgBt5LNsM
-         o2hA==
-X-Gm-Message-State: AAQBX9dBe9d/BzNxu0ql/3QX/jzuxt0D0IvpA4++nGR/HPARqqbu0Bi2
-        mfrSPsrwjtE5JHOL53dhFkcaSA==
-X-Google-Smtp-Source: AKy350aubl4IeRos5yxV+0Tm1DFsUgWeynjATke5ZllIc+r07irJ1p6DoXT2tO0X3ANifJBSe5VRxA==
-X-Received: by 2002:a17:907:9626:b0:8a9:e031:c4ae with SMTP id gb38-20020a170907962600b008a9e031c4aemr14908672ejc.2.1679922387777;
-        Mon, 27 Mar 2023 06:06:27 -0700 (PDT)
-Received: from [10.44.2.5] ([81.246.10.41])
-        by smtp.gmail.com with ESMTPSA id s9-20020a170906454900b008f89953b761sm14066107ejq.3.2023.03.27.06.06.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Mar 2023 06:06:27 -0700 (PDT)
-Message-ID: <bf7546ab-6c76-05b0-4539-f4aa854ffae9@tessares.net>
-Date:   Mon, 27 Mar 2023 15:06:27 +0200
+        with ESMTP id S232319AbjC0NLP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 09:11:15 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81BD212F;
+        Mon, 27 Mar 2023 06:11:13 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PlXn80JgMzrVvN;
+        Mon, 27 Mar 2023 20:53:48 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 27 Mar
+ 2023 20:54:54 +0800
+Message-ID: <39c36857-4452-0ccd-2cb8-da083e69124a@huawei.com>
+Date:   Mon, 27 Mar 2023 20:54:54 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/2] checkpatch: allow Closes tags with links
-Content-Language: en-GB
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v2-2-f4a417861f6d@tessares.net>
- <2f96048b-c580-625f-6fc7-06237292efe3@leemhuis.info>
-From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-In-Reply-To: <2f96048b-c580-625f-6fc7-06237292efe3@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH -next 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Content-Language: en-US
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <bhe@redhat.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <20230320204244.1637821-1-chenjiahao16@huawei.com>
+ <20230320204244.1637821-2-chenjiahao16@huawei.com>
+ <be3ff2fa-39ea-8d36-0e11-e75195509a2e@huawei.com>
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <be3ff2fa-39ea-8d36-0e11-e75195509a2e@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thorsten,
 
-On 25/03/2023 07:25, Thorsten Leemhuis wrote:
-> On 24.03.23 19:52, Matthieu Baerts wrote:
->> As a follow-up of the previous patch modifying the documentation to
->> allow using the "Closes:" tag, checkpatch.pl is updated accordingly.
+On 2023/3/21 9:42, Leizhen (ThunderTown) wrote:
+>
+> On 2023/3/21 4:42, Chen Jiahao wrote:
+>> On riscv, the current crash kernel allocation logic is trying to
+>> allocate within 32bit addressible memory region by default, if
+>> failed, try to allocate without 4G restriction.
 >>
->> checkpatch.pl now mentions the "Closes:" tag between brackets to express
->> the fact it should be used only if it makes sense.
+>> In need of saving DMA zone memory while allocating a relatively large
+>> crash kernel region, allocating the reserved memory top down in
+>> high memory, without overlapping the DMA zone, is a mature solution.
+>> Here introduce the parameter option crashkernel=X,[high,low].
 >>
->> While at it, checkpatch.pl will not complain if the "Closes" tag is used
->> with a "long" line, similar to what is done with the "Link" tag.
+>> We can reserve the crash kernel from high memory above DMA zone range
+>> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+>> below 4G with "crashkernel=X,low".
 >>
->> [...]
->>  
->> -# check if Reported-by: is followed by a Link:
->> +# check if Reported-by: is followed by a Link: (or Closes:) tag
-> 
-> Small detail: why the parenthesis here? Why no simply "check if
-> Reported-by: is followed by a either Link: or Closes: tag". Same below...
-> 
->>  			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
->>  				if (!defined $lines[$linenr]) {
->>  					WARN("BAD_REPORTED_BY_LINK",
->> -					     "Reported-by: should be immediately followed by Link: to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
->> -				} elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
->> +					     "Reported-by: should be immediately followed by Link: (or Closes:) to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
-> 
-> ...here, where users actually get to see this and might wonder why it's
-> written like that, without getting any answer.
+>> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+>> ---
+>>   arch/riscv/kernel/setup.c |  5 ++++
+>>   arch/riscv/mm/init.c      | 56 ++++++++++++++++++++++++++++++++++++---
+>>   2 files changed, 58 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+>> index 376d2827e736..d867b1535da4 100644
+>> --- a/arch/riscv/kernel/setup.c
+>> +++ b/arch/riscv/kernel/setup.c
+>> @@ -176,6 +176,11 @@ static void __init init_resources(void)
+>>   		if (ret < 0)
+>>   			goto error;
+>>   	}
+>> +	if (crashk_low_res.start != crashk_low_res.end) {
+>> +		ret = add_resource(&iomem_resource, &crashk_low_res);
+>> +		if (ret < 0)
+>> +			goto error;
+>> +	}
+>>   #endif
+>>   
+>>   #ifdef CONFIG_CRASH_DUMP
+>> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+>> index 478d6763a01a..5def2174b243 100644
+>> --- a/arch/riscv/mm/init.c
+>> +++ b/arch/riscv/mm/init.c
+>> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
+>>   }
+>>   #endif /* CONFIG_MMU */
+>>   
+>> +/* Reserve 128M low memory by default for swiotlb buffer */
+>> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
+>> +
+>> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+>> +{
+>> +	unsigned long long low_base;
+>> +
+>> +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
+>> +	if (!low_base) {
+>> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	pr_info("crashkernel low memory reserved: 0x%08llx - 0x%08llx (%lld MB)\n",
+> For unsigned long long, 08 --> 016.
 
-I tried to explain that in the cover-letter but maybe I should add an
-additional comment in the code: checkpatch.pl now mentions the "Closes:"
-tag between parenthesis to express the fact it should be used only if it
-makes sense. I didn't find any other short ways to express that but I'm
-open to suggestions.
+Sure, I will fix it soon in another version.
 
-Now as discussed on patch 1/2, if the "Closes:" tag can be used with any
-public link, we should definitively remove the parenthesis here and
-probably below (see "Check for odd tags before a URI/URL") as well.
+>
+>> +		low_base, low_base + low_size, low_size >> 20);
+>> +
+>> +	crashk_low_res.start = low_base;
+>> +	crashk_low_res.end = low_base + low_size - 1;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   /*
+>>    * reserve_crashkernel() - reserves memory for crash kernel
+>>    *
+>> @@ -1163,6 +1185,7 @@ static void __init reserve_crashkernel(void)
+>>   {
+>>   	unsigned long long crash_base = 0;
+>>   	unsigned long long crash_size = 0;
+>> +	unsigned long long crash_low_size = 0;
+>>   	unsigned long search_start = memblock_start_of_DRAM();
+>>   	unsigned long search_end = memblock_end_of_DRAM();
+>>   
+>> @@ -1182,8 +1205,26 @@ static void __init reserve_crashkernel(void)
+>>   
+>>   	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>>   				&crash_size, &crash_base);
+>> -	if (ret || !crash_size)
+>> +	if (ret == -ENOENT) {
+>> +		ret = parse_crashkernel_high(boot_command_line, 0, &crash_size, &crash_base);
+>> +		if (ret || !crash_size)
+>> +			return;
+>> +
+>> +		/*
+>> +		 * crashkernel=Y,low can be specified or not, but invalid value
+>> +		 * is not allowed.
+>> +		 */
+>> +		ret = parse_crashkernel_low(boot_command_line, 0, &crash_low_size, &crash_base);
+>> +		if (ret == -ENOENT)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +		else if (ret)
+>> +			return;
+>> +
+>> +		search_start = dma32_phys_limit;
+>> +	} else if (ret || !crash_size) {
+>> +		/* Invalid argument value specified */
+>>   		return;
+>> +	}
+>>   
+>>   	crash_size = PAGE_ALIGN(crash_size);
+>>   
+>> @@ -1201,16 +1242,25 @@ static void __init reserve_crashkernel(void)
+>>   	 */
+>>   	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>>   					       search_start,
+>> -					       min(search_end, (unsigned long) SZ_4G));
+>> +					       min(search_end, (unsigned long) dma32_phys_limit));
+>>   	if (crash_base == 0) {
+>>   		/* Try again without restricting region to 32bit addressible memory */
+>>   		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>> -						search_start, search_end);
+>> +						       search_start, search_end);
+>>   		if (crash_base == 0) {
+>>   			pr_warn("crashkernel: couldn't allocate %lldKB\n",
+>>   				crash_size >> 10);
+>>   			return;
+>>   		}
+>> +
+>> +		if (!crash_low_size)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +	}
+>> +
+>> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
+>> +	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>> +		memblock_phys_free(crash_base, crash_size);
+>> +		return;
+>>   	}
+>>   
+>>   	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
+>>
+BR,
 
-Cheers,
-Matt
--- 
-Tessares | Belgium | Hybrid Access Solutions
-www.tessares.net
+Chen, Jiahao
+
