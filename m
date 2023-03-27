@@ -2,107 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C153EC76195
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 14:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A434EC6FD1D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 15:30:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232644AbjC0OkF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 10:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41828 "EHLO
+        id S232851AbjC0Pa4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 11:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232263AbjC0OkE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 10:40:04 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23248A1;
-        Mon, 27 Mar 2023 07:40:04 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id s19so5305725pgi.0;
-        Mon, 27 Mar 2023 07:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679928003;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SyYmTYsp48SN5GhFCO3GnJdP+uhW7qRHTOQPZ8beoaU=;
-        b=g5EuLIiLm6gkT4v7NNIQ2Cy/jsRWj20OJQhSpNWH4CiOnpwEpikge+EitbC6MUTKfq
-         mOr0qjYXCewmp68v/TZ28wgyLCzy/+s3oxKxymaX9laCrDnEfNX5CPmQEUrTBS58waL3
-         nWplDyr9lsPGdhqp4GuzsD/LYqnE9Q6/Ra8sgxmg+KtdhNa7dzu/8c1ULrPJabq09gUA
-         qgjFOvx2UDnxT/ids/pa43rWHymyjrR5Sz+aew2PTJwkjp5QfbrDigRZwUqbvxIcg6kH
-         q0OP/wEvkEC7diU7ApViIXkMWGVbnCMD6fdySPqzajAWfrKq1xxrs6IuAODhuHZnc6y0
-         kUFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679928003;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SyYmTYsp48SN5GhFCO3GnJdP+uhW7qRHTOQPZ8beoaU=;
-        b=B7DzhPo9x3PixWr/3aVROKAohA9HVfyp+MJ3B0tEba1OoYa+eT3bTOsNi8H6Izqixe
-         hV336g6U7Cmth7s2b2/ewf5H6rl9JQIhHRMssQGEp7CjfqbAYN4zRpU8+vsKh0F9mZ78
-         W7sysUN96KLA29ejp5z74YYntjdIjr0VMBS1Q613hBeZtyDjNZZFqw1xn0D/xx57IUuW
-         Vs4J3QuxXd2bwbtYWEL729p5UTd/tFXmTnilY6sD1oA3994A/8NbsPdtbZyZwkoIIHMP
-         KRL+kCF/7/qPA30UaSQapAxFz/s3itDcnXuxOGbG7uzmhzqi4bX/NGbXdr2+G0/Wur1o
-         mpgQ==
-X-Gm-Message-State: AAQBX9fV5VAK2P/fFQ//geDe/orMcfoE9bbHPWNxTm7GM6yNd44nmRr1
-        5Y+qDixq9atGmLguniPs/14=
-X-Google-Smtp-Source: AKy350Z+bLkSuLBES54vGvv3XE566i7LbqSCQqPUsHfk83sIinzJl5JNLzoGEQOgDR73iIuitB1qzQ==
-X-Received: by 2002:aa7:8e88:0:b0:626:2cc8:311e with SMTP id a8-20020aa78e88000000b006262cc8311emr12245416pfr.12.1679928003516;
-        Mon, 27 Mar 2023 07:40:03 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id n2-20020aa79042000000b00625e885a6ffsm8929071pfo.18.2023.03.27.07.40.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Mar 2023 07:40:03 -0700 (PDT)
-Message-ID: <a1d0d61c-d6e9-aee6-fe67-e35f42b76a04@gmail.com>
-Date:   Mon, 27 Mar 2023 23:39:54 +0900
+        with ESMTP id S232849AbjC0Par (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 11:30:47 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C613ABA;
+        Mon, 27 Mar 2023 08:30:44 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0607D37E;
+        Mon, 27 Mar 2023 15:30:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0607D37E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1679931043; bh=XO9ObxSwSUHuoTConErq8w3ZLhO2VmWJEPLigLiermo=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=fN+vjMoRDUqEliXEHD+l6iOZR1Cg8vrNvzwlYDcpqKJijL/xI979OQZTM0WX1vFfY
+         rZIY/XEiWLiGHAjtCljofGySwqNsUG+kqOoWsVCIY+b2sJUR4uRgG0mtrqtPHjCpcW
+         NUVSH2cGNrRYVicOdxYR1oRtpIcogIXcnuMKe6Hkkp91sy1bL7GPFPeViHJdwpVXtn
+         arAjo0w1J86YrbO5C8J+YbI+vevDAShuYU3YMAJZD/8fPh7yZP1Z1fMSKzSOu7r3yC
+         Je7X2t2ioLJPQtwivKBVqchCdMyy0K+/0+JDcJikQmDLvXttP4HA4cBuZ0pyHOu7Bb
+         8kIXM93LiTfqg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Kai =?utf-8?Q?Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] docs: process: allow Closes tags with links
+In-Reply-To: <073d5ee7-64e7-7ced-44cc-2f7f00a8b238@leemhuis.info>
+References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
+ <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
+ <29b2c9c1-f176-5e42-2606-94b4bc6d4c45@leemhuis.info>
+ <9462668e-dbaf-8df8-8ba2-86f9511294ac@tessares.net>
+ <073d5ee7-64e7-7ced-44cc-2f7f00a8b238@leemhuis.info>
+Date:   Mon, 27 Mar 2023 09:30:42 -0600
+Message-ID: <87cz4unrdp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-To:     bagasdotme@gmail.com
-Cc:     corbet@lwn.net, davem@davemloft.net, donald.hunter@gmail.com,
-        donald.hunter@redhat.com, edumazet@google.com, kuba@kernel.org,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        pabeni@redhat.com
-References: <ZCGPy+90DsRpsicj@debian.me>
-Subject: Re: [PATCH net-next v5 6/7] docs: netlink: document struct support
- for genetlink-legacy
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <ZCGPy+90DsRpsicj@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Date: Mon, 27 Mar 2023 19:44:59 +0700, Bagas Sanjaya wrote:
-> On Mon, Mar 27, 2023 at 09:31:37AM +0100, Donald Hunter wrote:
-[...]
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
->> +
->> +Here is the struct definition from above, declared in YAML:
->> +
->> +.. code-block:: yaml
->> +
->> +  definitions:
->> +    -
->> +      name: message-header
->> +      type: struct
->> +      members:
->> +        -
->> +          name: a
->> +          type: u8
->> +        -
->> +          name: b
->> +          type: u16
->> +        -
->> +          name: c
->> +          type: u8
->> +
-> 
-> Nit: The indentation for code-block codes should be relative to
-> code-block:: declaration (e.g. if it starts from column 4, the first
-> column of code is also at 4).
+>> If we do that, would it be blocking to have this included in v6.3?
+>
+> You mean if this still can go in for 6.3? Well, the patches afaics needs
+> to be ACKed by the right people first (Joe for checkpatch I guess, Jon
+> for docs). It likely also depends on how this discussion continues and
+> the opinion of the maintainer(s?) that picks up the patches.
 
-Hey Bagas,
+We're at -rc4, I wouldn't really consider this for 6.3 at this point.
+There's no reason to try to rush it.
 
-I don't believe there is any such restriction. :-\
-Where did you find it ?
+Thanks,
 
-        Thanks, Akira
+jon
