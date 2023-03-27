@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56728C761AF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 08:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28E9BC77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 08:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233244AbjC0IiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S233029AbjC0IiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 27 Mar 2023 04:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57232 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233035AbjC0Iha (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 04:37:30 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D05A24B;
+        with ESMTP id S233037AbjC0Ihb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 04:37:31 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D74BDE7;
         Mon, 27 Mar 2023 01:32:03 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id l27so7783434wrb.2;
-        Mon, 27 Mar 2023 01:32:03 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id r11so7756253wrr.12;
+        Mon, 27 Mar 2023 01:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679905922;
+        d=gmail.com; s=20210112; t=1679905919;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=71KoEvNw1a5K58EQ9MffE/8r5VSXHU8fzu2wgupbboU=;
-        b=J4RsoRpBnwN1MqbboCHaHWoIINzGdRVo7e+jhZ+2JH7+YVu8z/mUJO5beVgJZmmx5y
-         O3EArjWy5A7cubyHbMv5vYaMLQs67VBGcKnT8jJGrdSAhENwCQzvndRIWkFt0ZT4wQN0
-         PV48JFRZiYwKl+OYU68DnCUyphLMngKVp6Afu6U+aykBAOd5y2OMThul+JrmmpyD79yL
-         +WuGb1YBKG5Se3RtW6vLB4kkMl7YUr4OdflJFaDr8fCtoqJNyB5ZfKXEnLJMgbBWSe2d
-         sy2/MFmGJzYZcvRxdO2AmQzwX44/pcTirBe4a6iGMIlAPW9QqOcf943M97m/xEZGE1G1
-         7G8A==
+        bh=VsN1qM/iNlNKJZHZAqCBrKK2RA/zU2Iy4nTTO5WUc/g=;
+        b=RY5nhqKcRUkWtzfIdOvJ3IFZQjZq54zGARvWoCO/DpfrSNQ2v3+7uVtPx/yyylIo9G
+         pcUQ/QEYSf9G1fYn8ruseqjqOckMab1j7p4kAuqudoPmNJgsV3lB18o64VqFxf2HTVq8
+         FHqESLvZ+4HTTwlEdSiGjvuFXwuGbzajGC8NOW+T/y4a6fVrtWZC4IT0bzxjzj0RtToX
+         G1d29NqvDcO8z6GOOVxONPqjpA6cIXQyDWUbUFWynAMZZJC6rCr4bAmLI8aqBxOYC49f
+         ZbMUNxN2CZWZbgYHwk7TDqvxM8d0bpIP0LXwivge2q4rY/oWhlrFUVINI7GdQ37k6eQm
+         yzrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679905922;
+        d=1e100.net; s=20210112; t=1679905919;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=71KoEvNw1a5K58EQ9MffE/8r5VSXHU8fzu2wgupbboU=;
-        b=xnd2FCzGrZDNNsIDK8gXlOZIAjGOIdDV+bVn7BTG2FPgpmT9GxzXU1eugNCFk8wfoN
-         ilILH1HvMRXSgtByUimzh4z1X9zKtZSbjv+bsfce0Y7V4hymIt6AekkTvyItwuzrSFa7
-         DKpbuHARzPExta4ZBAbXOSHYYY/idbt6HGiP3acRRVL9e7wVwOVz5m+4/haFAzsCfO0z
-         jEE5PSFtUdHgYd0yRiKgCEInDusXih6yban3Xwv9qhCvNcAiZ/RrkCoWHv5zbGl4H5i3
-         P4rOaIXX/uDV0rWILRmZCGB6TWDoJcYOiIkQHs+Jf/W2yOSQfq+xmBgs/Sz+Syw97Zpz
-         Sf5g==
-X-Gm-Message-State: AAQBX9eE+zP91xlG/qk0YXt1Wz2eMW5E05PqekHCx/sXJDWHYebD20QP
-        us0qLOfYDjo5oxUSzgcdwotLtCmwJPmyLg==
-X-Google-Smtp-Source: AKy350aM6lYL21FU3RM1r+IrDmd1X4g5iCKGkf8lGXaX/M48js6Bgm8kyAD4RinWQiSktmBRSQh2vA==
-X-Received: by 2002:a5d:5343:0:b0:2ce:ada5:325d with SMTP id t3-20020a5d5343000000b002ceada5325dmr9156319wrv.37.1679905921856;
-        Mon, 27 Mar 2023 01:32:01 -0700 (PDT)
+        bh=VsN1qM/iNlNKJZHZAqCBrKK2RA/zU2Iy4nTTO5WUc/g=;
+        b=Btan0MMlJRK5ZzK4zmf7Evv0q2We8XM/+T4wn8C4u7kZQQB7nufWR6vgpnLLHyxPe5
+         eo7rvbaDaRMZqYN/XmZq8wIqrDVoC5wVxjWg6lt8pWap2lcx9ecCoCyWFqa1pn9LNeqA
+         jQEu2qG1q6EH9xqTZ378mF90lDN5Ggfpubk1L/1jNYdolJq+e4qzEx/m/XE89LjJrVe6
+         CNbBYgjC0iVcihLBELu2j1B3400M27mE49Yfbe/L4/P2QkrzgMfmleqf/kBqWHGlr+6h
+         zGzkllWSvhQO+kP+9P661FuURG7sZbO28h1+xTtxVeoTe3oJA44zvYGP1yroA1q27VK2
+         XLVg==
+X-Gm-Message-State: AAQBX9dAWCo2ziXQy3lqf1pJuH+jc/wQuslQf4Mf8/Zpf3jsY5/Nz+Zz
+        MdoRkIYVu9he3TfPHLznRl3NjC+IQ8wWnw==
+X-Google-Smtp-Source: AKy350Zu5lg5ZzPmlUJq1f7rCFctfxaQ+eRxcBwd2ar8bodr3zszXYHcOCMoD71aDctrVvvwRjjK/w==
+X-Received: by 2002:a05:6000:114b:b0:2ce:abea:3de with SMTP id d11-20020a056000114b00b002ceabea03demr8494268wrx.45.1679905919350;
+        Mon, 27 Mar 2023 01:31:59 -0700 (PDT)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:7887:5530:69a2:a11f])
-        by smtp.gmail.com with ESMTPSA id z6-20020a056000110600b002c557f82e27sm24353249wrw.99.2023.03.27.01.32.00
+        by smtp.gmail.com with ESMTPSA id z6-20020a056000110600b002c557f82e27sm24353249wrw.99.2023.03.27.01.31.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 01:32:01 -0700 (PDT)
+        Mon, 27 Mar 2023 01:31:58 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -56,9 +56,9 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v5 6/7] docs: netlink: document struct support for genetlink-legacy
-Date:   Mon, 27 Mar 2023 09:31:37 +0100
-Message-Id: <20230327083138.96044-7-donald.hunter@gmail.com>
+Subject: [PATCH net-next v5 4/7] tools: ynl: Add fixed-header support to ynl
+Date:   Mon, 27 Mar 2023 09:31:35 +0100
+Message-Id: <20230327083138.96044-5-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230327083138.96044-1-donald.hunter@gmail.com>
 References: <20230327083138.96044-1-donald.hunter@gmail.com>
@@ -68,99 +68,171 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describe the genetlink-legacy support for using struct definitions
-for fixed headers and for binary attributes.
+Add support for netlink families that add an optional fixed header structure
+after the genetlink header and before any attributes. The fixed-header can be
+specified on a per op basis, or once for all operations, which serves as a
+default value that can be overridden.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 ---
- .../netlink/genetlink-legacy.rst              | 74 ++++++++++++++++++-
- 1 file changed, 71 insertions(+), 3 deletions(-)
+ Documentation/netlink/genetlink-legacy.yaml | 11 ++++++++++
+ tools/net/ynl/lib/nlspec.py                 | 21 +++++++++++-------
+ tools/net/ynl/lib/ynl.py                    | 24 +++++++++++++++++----
+ 3 files changed, 44 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-index 3bf0bcdf21d8..b8fdcf7f6615 100644
---- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
-+++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-@@ -162,9 +162,77 @@ Other quirks (todo)
- Structures
- ----------
+diff --git a/Documentation/netlink/genetlink-legacy.yaml b/Documentation/netlink/genetlink-legacy.yaml
+index d50c78b9f42d..b33541a51d6b 100644
+--- a/Documentation/netlink/genetlink-legacy.yaml
++++ b/Documentation/netlink/genetlink-legacy.yaml
+@@ -261,6 +261,14 @@ properties:
+       async-enum:
+         description: Name for the enum type with notifications/events.
+         type: string
++      # Start genetlink-legacy
++      fixed-header: &fixed-header
++        description: |
++          Name of the structure defining the optional fixed-length protocol
++          header. This header is placed in a message after the netlink and
++          genetlink headers and before any attributes.
++        type: string
++      # End genetlink-legacy
+       list:
+         description: List of commands
+         type: array
+@@ -293,6 +301,9 @@ properties:
+               type: array
+               items:
+                 enum: [ strict, dump ]
++            # Start genetlink-legacy
++            fixed-header: *fixed-header
++            # End genetlink-legacy
+             do: &subop-type
+               description: Main command handler.
+               type: object
+diff --git a/tools/net/ynl/lib/nlspec.py b/tools/net/ynl/lib/nlspec.py
+index d1e5f60af580..06a906d74f0e 100644
+--- a/tools/net/ynl/lib/nlspec.py
++++ b/tools/net/ynl/lib/nlspec.py
+@@ -263,16 +263,17 @@ class SpecOperation(SpecElement):
+     Information about a single Netlink operation.
  
--Legacy families can define C structures both to be used as the contents
--of an attribute and as a fixed message header. The plan is to define
--the structs in ``definitions`` and link the appropriate attrs.
-+Legacy families can define C structures both to be used as the contents of
-+an attribute and as a fixed message header. Structures are defined in
-+``definitions``  and referenced in operations or attributes. Note that
-+structures defined in YAML are implicitly packed according to C
-+conventions. For example, the following struct is 4 bytes, not 6 bytes:
-+
-+.. code-block:: c
-+
-+  struct {
-+          u8 a;
-+          u16 b;
-+          u8 c;
-+  }
-+
-+Any padding must be explicitly added and C-like languages should infer the
-+need for explicit padding from whether the members are naturally aligned.
-+
-+Here is the struct definition from above, declared in YAML:
-+
-+.. code-block:: yaml
-+
-+  definitions:
-+    -
-+      name: message-header
-+      type: struct
-+      members:
-+        -
-+          name: a
-+          type: u8
-+        -
-+          name: b
-+          type: u16
-+        -
-+          name: c
-+          type: u8
-+
-+Fixed Headers
-+~~~~~~~~~~~~~
-+
-+Fixed message headers can be added to operations using ``fixed-header``.
-+The default ``fixed-header`` can be set in ``operations`` and it can be set
-+or overridden for each operation.
-+
-+.. code-block:: yaml
-+
-+  operations:
-+    fixed-header: message-header
-+    list:
-+      -
-+        name: get
-+        fixed-header: custom-header
-+        attribute-set: message-attrs
-+
-+Attributes
-+~~~~~~~~~~
-+
-+A ``binary`` attribute can be interpreted as a C structure using a
-+``struct`` property with the name of the structure definition. The
-+``struct`` property implies ``sub-type: struct`` so it is not necessary to
-+specify a sub-type.
-+
-+.. code-block:: yaml
-+
-+  attribute-sets:
-+    -
-+      name: stats-attrs
-+      attributes:
-+        -
-+          name: stats
-+          type: binary
-+          struct: vport-stats
+     Attributes:
+-        value       numerical ID when serialized, None if req/rsp values differ
++        value           numerical ID when serialized, None if req/rsp values differ
  
- Multi-message DO
- ----------------
+-        req_value   numerical ID when serialized, user -> kernel
+-        rsp_value   numerical ID when serialized, user <- kernel
+-        is_call     bool, whether the operation is a call
+-        is_async    bool, whether the operation is a notification
+-        is_resv     bool, whether the operation does not exist (it's just a reserved ID)
+-        attr_set    attribute set name
++        req_value       numerical ID when serialized, user -> kernel
++        rsp_value       numerical ID when serialized, user <- kernel
++        is_call         bool, whether the operation is a call
++        is_async        bool, whether the operation is a notification
++        is_resv         bool, whether the operation does not exist (it's just a reserved ID)
++        attr_set        attribute set name
++        fixed_header    string, optional name of fixed header struct
+ 
+-        yaml        raw spec as loaded from the spec file
++        yaml            raw spec as loaded from the spec file
+     """
+     def __init__(self, family, yaml, req_value, rsp_value):
+         super().__init__(family, yaml)
+@@ -284,6 +285,7 @@ class SpecOperation(SpecElement):
+         self.is_call = 'do' in yaml or 'dump' in yaml
+         self.is_async = 'notify' in yaml or 'event' in yaml
+         self.is_resv = not self.is_async and not self.is_call
++        self.fixed_header = self.yaml.get('fixed-header', family.fixed_header)
+ 
+         # Added by resolve:
+         self.attr_set = None
+@@ -324,6 +326,7 @@ class SpecFamily(SpecElement):
+         msgs_by_value  dict of all messages (indexed by name)
+         ops        dict of all valid requests / responses
+         consts     dict of all constants/enums
++        fixed_header  string, optional name of family default fixed header struct
+     """
+     def __init__(self, spec_path, schema_path=None):
+         with open(spec_path, "r") as stream:
+@@ -397,6 +400,7 @@ class SpecFamily(SpecElement):
+         self._resolution_list.append(elem)
+ 
+     def _dictify_ops_unified(self):
++        self.fixed_header = self.yaml['operations'].get('fixed-header')
+         val = 1
+         for elem in self.yaml['operations']['list']:
+             if 'value' in elem:
+@@ -408,6 +412,7 @@ class SpecFamily(SpecElement):
+             self.msgs[op.name] = op
+ 
+     def _dictify_ops_directional(self):
++        self.fixed_header = self.yaml['operations'].get('fixed-header')
+         req_val = rsp_val = 1
+         for elem in self.yaml['operations']['list']:
+             if 'notify' in elem:
+diff --git a/tools/net/ynl/lib/ynl.py b/tools/net/ynl/lib/ynl.py
+index 63af3bd9787d..ec40918152e1 100644
+--- a/tools/net/ynl/lib/ynl.py
++++ b/tools/net/ynl/lib/ynl.py
+@@ -278,14 +278,22 @@ def _genl_load_families():
+ 
+ 
+ class GenlMsg:
+-    def __init__(self, nl_msg):
++    def __init__(self, nl_msg, fixed_header_members=[]):
+         self.nl = nl_msg
+ 
+         self.hdr = nl_msg.raw[0:4]
+-        self.raw = nl_msg.raw[4:]
++        offset = 4
+ 
+         self.genl_cmd, self.genl_version, _ = struct.unpack("BBH", self.hdr)
+ 
++        self.fixed_header_attrs = dict()
++        for m in fixed_header_members:
++            format, size = NlAttr.type_formats[m.type]
++            decoded = struct.unpack_from(format, nl_msg.raw, offset)
++            offset += size
++            self.fixed_header_attrs[m.name] = decoded[0]
++
++        self.raw = nl_msg.raw[offset:]
+         self.raw_attrs = NlAttrs(self.raw)
+ 
+     def __repr__(self):
+@@ -509,6 +517,13 @@ class YnlFamily(SpecFamily):
+ 
+         req_seq = random.randint(1024, 65535)
+         msg = _genl_msg(self.family.family_id, nl_flags, op.req_value, 1, req_seq)
++        fixed_header_members = []
++        if op.fixed_header:
++            fixed_header_members = self.consts[op.fixed_header].members
++            for m in fixed_header_members:
++                value = vals.pop(m.name)
++                format, _ = NlAttr.type_formats[m.type]
++                msg += struct.pack(format, value)
+         for name, value in vals.items():
+             msg += self._add_attr(op.attr_set.name, name, value)
+         msg = _genl_msg_finalize(msg)
+@@ -535,7 +550,7 @@ class YnlFamily(SpecFamily):
+                     done = True
+                     break
+ 
+-                gm = GenlMsg(nl_msg)
++                gm = GenlMsg(nl_msg, fixed_header_members)
+                 # Check if this is a reply to our request
+                 if nl_msg.nl_seq != req_seq or gm.genl_cmd != op.rsp_value:
+                     if gm.genl_cmd in self.async_msg_ids:
+@@ -545,7 +560,8 @@ class YnlFamily(SpecFamily):
+                         print('Unexpected message: ' + repr(gm))
+                         continue
+ 
+-                rsp.append(self._decode(gm.raw_attrs, op.attr_set.name))
++                rsp.append(self._decode(gm.raw_attrs, op.attr_set.name)
++                           | gm.fixed_header_attrs)
+ 
+         if not rsp:
+             return None
 -- 
 2.39.0
 
