@@ -2,342 +2,282 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F065C77B61
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 15:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61DD8C6FD1D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 16:32:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232349AbjC0P6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 11:58:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56704 "EHLO
+        id S232132AbjC0QcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 12:32:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbjC0P6c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 11:58:32 -0400
+        with ESMTP id S230156AbjC0QcO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 12:32:14 -0400
 Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 540A530E0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 08:58:28 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id kc4so8838312plb.10
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 08:58:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC851FEF
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 09:32:12 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id kc4so8934985plb.10
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 09:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679932708;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/D58uTxJlcuHcU4qWGtFCzED/+wV9SKtL9vHysDKM0=;
-        b=wJ493kOCJ4Sc2eWNECvpPc/GLbdkaTn1C4D1NOCw/ndF805mZnhm1vnV/Xk+T4LK16
-         uksSlSaKK8dIkSvU5zKbPgLM+0gaEmf9L0jQ1WYJrpP3ciJhAFi/ktEDitW5EuOR+6Ia
-         ozwnKJhxiS6zp5YbMVcWvHdSdg8kbOLJb4TlTlWzNaL/lmZPrZMXpBi3X5m134tXpehM
-         cs1XgYduF+HC3ie6D+EAZHJUoRXs60sSwoQufAuDVMo3XIGS9nclJ50Gbp4Z/4n670fr
-         823ydWgRN4oPVXCrOAMShp3chdbPEfKWXf8AbC7IRj0+J++kSbMTaFNJtcuoVoCpwysP
-         6O0A==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1679934732;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T/ibFYdC69vwh3wjMmxSSppBubSMnCe0A/BNmyM8WJo=;
+        b=tdDuf8vCsa1FE+tL+mI/XIjaZMDmBPF26iD2hq06oL/mfaeObs+EkJBJl8/OI5xGDL
+         QpKD0qVOcJW2bv1mz39UUFW1ExIVG0NZ5BqHXapjKQ8Xvv1TqZodP1umyNUWg+dHwBTm
+         eWCiLqyy/7u1C9LS14BuhKWbfB5P/FCBk9fCl+TXFPA3o0Wf7CWGGKdR1ik3oDJWJqqk
+         ca18O6dxhSenEvxrqSwCH0np+jX0xjAQ3NZqoQx6HiSAk4PCZyLk8h3o+nw4g5IKcDSt
+         UAyYsPgZ3dLnTuNAHzTKE6GUyYTeazWeZhK8tsuhDD8vFhVNcBPb4p0HtkMyPPRqhgNc
+         yCTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679932708;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1679934732;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=l/D58uTxJlcuHcU4qWGtFCzED/+wV9SKtL9vHysDKM0=;
-        b=ipbrITzHsDBXfPNq2yoIYaKGLg1gZK6nuwlVWdAe+a0n5JYocenvmsHdKhNsuha7vA
-         H/I/uUnhI7S8MkGTvQr0stmtdxZBZRXqqzshCq6Wp6N4oX7H84NxqMx+MITcCqoZ1+Db
-         ZEWWA7auUmVSgNIeskXSJ19FUBuNmYBrW5oSE9KEKDz4X/1Kf2Uo520DHHIeyBn8me1B
-         3H5t+ZEYrWeH+wGCImQvLouvvS/BRjpJwjNcjPqQ7MbdYVs4elIDQMYKrtI7V3gKsVxT
-         HP1/pUsehdwq68WB92C7LWeR1k1XsAdcGfDlVuNiL/1X44mW0wkMFP+FWv+9jUp8zgBE
-         mH6Q==
-X-Gm-Message-State: AAQBX9cLHBkFiciNTL/Yu2lTMqI8SYFjhi7l6ddJyIAOg+erQ5WnJgHF
-        9qKEL41kfPqL8MCrA6bW/gFv3FTRYyhfBCuRm3IQ3A==
-X-Google-Smtp-Source: AKy350YaQzK3TF63oVqDQouwPxKz3giaJiH60VCPzrZvy559rdh+r9L/QkO+wydgK87V0ypGMgljfpdUffAqKw++FIM=
-X-Received: by 2002:a17:90a:de93:b0:237:9ca5:4d5d with SMTP id
- n19-20020a17090ade9300b002379ca54d5dmr3734689pjv.6.1679932707746; Mon, 27 Mar
- 2023 08:58:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230324061608.33609-1-quic_hazha@quicinc.com> <20230324061608.33609-2-quic_hazha@quicinc.com>
-In-Reply-To: <20230324061608.33609-2-quic_hazha@quicinc.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Mon, 27 Mar 2023 16:58:16 +0100
-Message-ID: <CAJ9a7VgAJ25CCGwwdfs2DXKaKYoA-BUQAdyZt5udm4qJf9ZQrA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] Coresight: Add coresight dummy driver
-To:     Hao Zhang <quic_hazha@quicinc.com>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
+        bh=T/ibFYdC69vwh3wjMmxSSppBubSMnCe0A/BNmyM8WJo=;
+        b=Ed2UmuXdkc1Z8ykr+rffBEDvRTNmRx6NsgTjmw4gY+PAk0+L44Ff/OPpzyXoqQLb5C
+         n7HrTLQ1R20PWSj3pWmK1qxU2x8PCfqElN0LYIQmUP11UB7QfVDhprUv+0gpKE7IJwyv
+         BjfEX2RZ8PQI9nbkCvzvkQMOzmVoplwiUdlew2TPyn/rVVkhDP5GT8od1IRmGE3msPyg
+         6rKS8rG2F+o6hTgkIZOHJHzElkH33KLtcdY29jt3zoPIZbMXgLcPujwOQKgk2PoIgiew
+         bxkGFyYItlgrrfC9oDSK3P+ByLgy6V1GUoj3zDhDSdYDkphEWSYfBYxkMOddl2t53hs4
+         VqHA==
+X-Gm-Message-State: AAQBX9cEAZaWz9dZ+x5aVnNXbH6OnrGWOduatsMZubZjF+DVw3MxtUwx
+        Ye29ZAUHXrRTcwxavlI9ewKqfQ==
+X-Google-Smtp-Source: AKy350ZoLUqwI2Gu38GSeNj8EmtocvW2en1v6pQ13CgZqJmkofX1ql2bIW0hKvEbNaycl0IEwZCpMA==
+X-Received: by 2002:a17:90a:18e:b0:237:24eb:99d8 with SMTP id 14-20020a17090a018e00b0023724eb99d8mr13799736pjc.19.1679934732259;
+        Mon, 27 Mar 2023 09:32:12 -0700 (PDT)
+Received: from evan.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id io20-20020a17090312d400b001a1faeac240sm8963524plb.186.2023.03.27.09.32.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 09:32:11 -0700 (PDT)
+From:   Evan Green <evan@rivosinc.com>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     slewis@rivosinc.com, vineetg@rivosinc.com, heiko@sntech.de,
+        Conor Dooley <conor@kernel.org>,
+        Evan Green <evan@rivosinc.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Atish Patra <atishp@rivosinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Jann Horn <jannh@google.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Xu <peterx@redhat.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH v5 0/6] RISC-V Hardware Probing User Interface
+Date:   Mon, 27 Mar 2023 09:31:57 -0700
+Message-Id: <20230327163203.2918455-1-evan@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-On Fri, 24 Mar 2023 at 06:16, Hao Zhang <quic_hazha@quicinc.com> wrote:
->
-> Some Coresight devices that HLOS don't have permission to access
-> or configure. Such as Coresight sink EUD, some TPDMs etc. So there
-> need driver to register dummy devices as Coresight devices. Provide
-> Coresight API for dummy device operations, such as enabling and
-> disabling dummy devices. Build the Coresight path for dummy sink or
-> dummy source for debugging.
->
-> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
-> ---
->  drivers/hwtracing/coresight/Kconfig           |  11 ++
->  drivers/hwtracing/coresight/Makefile          |   1 +
->  drivers/hwtracing/coresight/coresight-dummy.c | 176 ++++++++++++++++++
->  3 files changed, 188 insertions(+)
->  create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
->
-> diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
-> index 2b5bbfffbc4f..06f0a7594169 100644
-> --- a/drivers/hwtracing/coresight/Kconfig
-> +++ b/drivers/hwtracing/coresight/Kconfig
-> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
->
->           To compile this driver as a module, choose M here: the module will be
->           called coresight-tpda.
-> +
-> +config CORESIGHT_DUMMY
-> +       tristate "Dummy driver support"
-> +       help
-> +         Enables support for dummy driver. Dummy driver can be used for
-> +         CoreSight sources/sinks that are owned and configured by some
-> +         other subsystem and use Linux drivers to configure rest of trace
-> +         path.
-> +
-> +         To compile this driver as a module, choose M here: the module will be
-> +         called coresight-dummy.
->  endif
-> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index 33bcc3f7b8ae..995d3b2c76df 100644
-> --- a/drivers/hwtracing/coresight/Makefile
-> +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
->  coresight-cti-y := coresight-cti-core.o        coresight-cti-platform.o \
->                    coresight-cti-sysfs.o
->  obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
-> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
-> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c b/drivers/hwtracing/coresight/coresight-dummy.c
-> new file mode 100644
-> index 000000000000..2d4eb3e546eb
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
-> @@ -0,0 +1,176 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/coresight.h>
-> +#include <linux/of.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include "coresight-priv.h"
-> +#include "coresight-trace-id.h"
-> +
-> +struct dummy_drvdata {
-> +       struct device                   *dev;
-> +       struct coresight_device         *csdev;
-> +       int                             traceid;
-> +};
-> +
-> +DEFINE_CORESIGHT_DEVLIST(dummy_devs, "dummy");
-> +
-> +static int dummy_source_enable(struct coresight_device *csdev,
-> +                              struct perf_event *event, u32 mode)
-> +{
-> +       struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +       dev_info(drvdata->dev, "Dummy source enabled\n");
-> +
-> +       return 0;
-> +}
-> +
-> +static void dummy_source_disable(struct coresight_device *csdev,
-> +                                struct perf_event *event)
-> +{
-> +       struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +       dev_info(drvdata->dev, "Dummy source disabled\n");
-> +}
-> +
-> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
-> +                               void *data)
-> +{
-> +       struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +       dev_info(drvdata->dev, "Dummy sink enabled\n");
-> +
-> +       return 0;
-> +}
-> +
-> +static int dummy_sink_disable(struct coresight_device *csdev)
-> +{
-> +       struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +       dev_info(drvdata->dev, "Dummy sink disabled\n");
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct coresight_ops_source dummy_source_ops = {
-> +       .enable         = dummy_source_enable,
-> +       .disable        = dummy_source_disable,
-> +};
-> +
-> +static const struct coresight_ops_sink dummy_sink_ops = {
-> +       .enable         = dummy_sink_enable,
-> +       .disable        = dummy_sink_disable,
-> +};
-> +
-> +static const struct coresight_ops dummy_cs_ops = {
-> +       .source_ops     = &dummy_source_ops,
-> +       .sink_ops       = &dummy_sink_ops,
-> +};
-> +
-> +static int dummy_probe(struct platform_device *pdev)
-> +{
-> +       int ret, trace_id;
-> +       struct device *dev = &pdev->dev;
-> +       struct coresight_platform_data *pdata;
-> +       struct dummy_drvdata *drvdata;
-> +       struct coresight_desc desc = { 0 };
-> +
-> +       desc.name = coresight_alloc_device_name(&dummy_devs, dev);
-> +       if (!desc.name)
-> +               return -ENOMEM;
-> +
-> +       pdata = coresight_get_platform_data(dev);
-> +       if (IS_ERR(pdata))
-> +               return PTR_ERR(pdata);
-> +       pdev->dev.platform_data = pdata;
-> +
-> +       drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-> +       if (!drvdata)
-> +               return -ENOMEM;
-> +
-> +       drvdata->dev = &pdev->dev;
-> +       platform_set_drvdata(pdev, drvdata);
-> +
-> +       if (of_property_read_bool(pdev->dev.of_node, "qcom,dummy-source")) {
-> +               desc.type = CORESIGHT_DEV_TYPE_SOURCE;
-> +               desc.subtype.source_subtype =
-> +                                       CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
-> +       } else if (of_property_read_bool(pdev->dev.of_node,
-> +                                        "qcom,dummy-sink")) {
-> +               desc.type = CORESIGHT_DEV_TYPE_SINK;
-> +               desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_BUFFER;
+There's been a bunch of off-list discussions about this, including at
+Plumbers.  The original plan was to do something involving providing an
+ISA string to userspace, but ISA strings just aren't sufficient for a
+stable ABI any more: in order to parse an ISA string users need the
+version of the specifications that the string is written to, the version
+of each extension (sometimes at a finer granularity than the RISC-V
+releases/versions encode), and the expected use case for the ISA string
+(ie, is it a U-mode or M-mode string).  That's a lot of complexity to
+try and keep ABI compatible and it's probably going to continue to grow,
+as even if there's no more complexity in the specifications we'll have
+to deal with the various ISA string parsing oddities that end up all
+over userspace.
 
-This will break the automatic sink selection on a system where perf is
-looking for a default sink and the dummy sink is closest  / first
-discovered.
+Instead this patch set takes a very different approach and provides a set
+of key/value pairs that encode various bits about the system.  The big
+advantage here is that we can clearly define what these mean so we can
+ensure ABI stability, but it also allows us to encode information that's
+unlikely to ever appear in an ISA string (see the misaligned access
+performance, for example).  The resulting interface looks a lot like
+what arm64 and x86 do, and will hopefully fit well into something like
+ACPI in the future.
 
-i.e. when perf record -e cs_etm// <options>
-is used to trace a program in linux, a dummy sink appearing in the
-coresight tree with this designation may be selected.
+The actual user interface is a syscall, with a vDSO function in front of
+it. The vDSO function can answer some queries without a syscall at all,
+and falls back to the syscall for cases it doesn't have answers to.
+Currently we prepopulate it with an array of answers for all keys and
+a CPU set of "all CPUs". This can be adjusted as necessary to provide
+fast answers to the most common queries.
 
-This needs to be corrected, probably with a unique sub-type that
-appears before the CORESIGHT_DEV_SUBTYPE_SINK_BUFFER value in the enum
-as the selection is based on >= CORESIGHT_DEV_SUBTYPE_SINK_BUFFER.
+An example series in glibc exposing this syscall and using it in an
+ifunc selector for memcpy can be found at [1]. I'm about to send a v2
+of that series out that incorporates the vDSO function.
 
-By implication adding a new value - will possibly affect other code
-using the enum values so will need to be checked
+I was asked about the performance delta between this and something like
+sysfs. I created a small test program [2] and ran it on a Nezha D1
+Allwinner board. Doing each operation 100000 times and dividing, these
+operations take the following amount of time:
+ - open()+read()+close() of /sys/kernel/cpu_byteorder: 3.8us
+ - access("/sys/kernel/cpu_byteorder", R_OK): 1.3us
+ - riscv_hwprobe() vDSO and syscall: .0094us
+ - riscv_hwprobe() vDSO with no syscall: 0.0091us
 
-Regards
+These numbers get farther apart if we query multiple keys, as sysfs will
+scale linearly with the number of keys, where the dedicated syscall
+stays the same. To frame these numbers, I also did a tight
+fork/exec/wait loop, which I measured as 4.8ms. So doing 4
+open/read/close operations is a delta of about 0.3%, versus a single vDSO
+call is a delta of essentially zero.
 
-Mike
+[1] https://public-inbox.org/libc-alpha/20230206194819.1679472-1-evan@rivosinc.com/T/#t
+[2] https://pastebin.com/x84NEKaS
 
+Changes in v5:
+ - Added tags
+ - Fixed misuse of ISA_EXT_c as bitmap, changed to use
+   riscv_isa_extension_available() (Heiko, Conor)
+ - Document the alternatives approach in the commit message (Conor and
+   Heiko).
+ - Fix __init call warnings by making probe_vendor_features() and
+   thead_feature_probe_func() __init_or_module.
+ - Fixed compat vdso compilation failure (lkp).
 
+Changes in v4:
+ - Used real types in syscall prototypes (Arnd)
+ - Fixed static line break in do_riscv_hwprobe() (Conor)
+ - Added newlines between documentation lists (Conor)
+ - Crispen up size types to size_t, and cpu indices to int (Joe)
+ - Fix copy_from_user() return logic bug (found via kselftests!)
+ - Add __user to SYSCALL_DEFINE() to fix warning
+ - More newlines in BASE_BEHAVIOR_IMA documentation (Conor)
+ - Add newlines to CPUPERF_0 documentation (Conor)
+ - Add UNSUPPORTED value (Conor)
+ - Switched from DT to alternatives-based probing (Rob)
+ - Crispen up cpu index type to always be int (Conor)
+ - Fixed selftests commit description, no more tiny libc (Mark Brown)
+ - Fixed selftest syscall prototype types to match v4.
+ - Added a prototype to fix -Wmissing-prototype warning (lkp@intel.com)
+ - Fixed rv32 build failure (lkp@intel.com)
+ - Make vdso prototype match syscall types update
 
-> +       } else {
-> +               dev_info(dev, "Device type not set\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       desc.ops = &dummy_cs_ops;
-> +       desc.pdata = pdev->dev.platform_data;
-> +       desc.dev = &pdev->dev;
-> +       drvdata->csdev = coresight_register(&desc);
-> +       if (IS_ERR(drvdata->csdev))
-> +               return PTR_ERR(drvdata->csdev);
-> +
-> +       trace_id = coresight_trace_id_get_system_id();
-> +       if (trace_id < 0) {
-> +               ret = trace_id;
-> +               goto cs_unregister;
-> +       }
-> +       drvdata->traceid = (u8)trace_id;
-> +
-> +       pm_runtime_enable(dev);
-> +       dev_info(dev, "Dummy device initialized\n");
-> +
-> +       return 0;
-> +
-> +cs_unregister:
-> +       coresight_unregister(drvdata->csdev);
-> +
-> +       return ret;
-> +}
-> +
-> +static int dummy_remove(struct platform_device *pdev)
-> +{
-> +       struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
-> +       struct device *dev = &pdev->dev;
-> +
-> +       coresight_trace_id_put_system_id(drvdata->traceid);
-> +       pm_runtime_disable(dev);
-> +       coresight_unregister(drvdata->csdev);
-> +       return 0;
-> +}
-> +
-> +static const struct of_device_id dummy_match[] = {
-> +       {.compatible = "qcom,coresight-dummy"},
-> +       {},
-> +};
-> +
-> +static struct platform_driver dummy_driver = {
-> +       .probe  = dummy_probe,
-> +       .remove = dummy_remove,
-> +       .driver = {
-> +               .name   = "coresight-dummy",
-> +               .of_match_table = dummy_match,
-> +       },
-> +};
-> +
-> +static int __init dummy_init(void)
-> +{
-> +       return platform_driver_register(&dummy_driver);
-> +}
-> +module_init(dummy_init);
-> +
-> +static void __exit dummy_exit(void)
-> +{
-> +       platform_driver_unregister(&dummy_driver);
-> +}
-> +module_exit(dummy_exit);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("CoreSight dummy source driver");
-> --
-> 2.17.1
->
+Changes in v3:
+ - Updated copyright date in cpufeature.h
+ - Fixed typo in cpufeature.h comment (Conor)
+ - Refactored functions so that kernel mode can query too, in
+   preparation for the vDSO data population.
+ - Changed the vendor/arch/imp IDs to return a value of -1 on mismatch
+   rather than failing the whole call.
+ - Const cpumask pointer in hwprobe_mid()
+ - Embellished documentation WRT cpu_set and the returned values.
+ - Renamed hwprobe_mid() to hwprobe_arch_id() (Conor)
+ - Fixed machine ID doc warnings, changed elements to c:macro:.
+ - Completed dangling unistd.h comment (Conor)
+ - Fixed line breaks and minor logic optimization (Conor).
+ - Use riscv_cached_mxxxid() (Conor)
+ - Refactored base ISA behavior probe to allow kernel probing as well,
+   in prep for vDSO data initialization.
+ - Fixed doc warnings in IMA text list, use :c:macro:.
+ - Have hwprobe_misaligned return int instead of long.
+ - Constify cpumask pointer in hwprobe_misaligned()
+ - Fix warnings in _PERF_O list documentation, use :c:macro:.
+ - Move include cpufeature.h to misaligned patch.
+ - Fix documentation mismatch for RISCV_HWPROBE_KEY_CPUPERF_0 (Conor)
+ - Use for_each_possible_cpu() instead of NR_CPUS (Conor)
+ - Break early in misaligned access iteration (Conor)
+ - Increase MISALIGNED_MASK from 2 bits to 3 for possible UNSUPPORTED future
+   value (Conor)
+ - Introduced vDSO function
 
+Changes in v2:
+ - Factored the move of struct riscv_cpuinfo to its own header
+ - Changed the interface to look more like poll(). Rather than supplying
+   key_offset and getting back an array of values with numerically
+   contiguous keys, have the user pre-fill the key members of the array,
+   and the kernel will fill in the corresponding values. For any key it
+   doesn't recognize, it will set the key of that element to -1. This
+   allows usermode to quickly ask for exactly the elements it cares
+   about, and not get bogged down in a back and forth about newer keys
+   that older kernels might not recognize. In other words, the kernel
+   can communicate that it doesn't recognize some of the keys while
+   still providing the data for the keys it does know.
+ - Added a shortcut to the cpuset parameters that if a size of 0 and
+   NULL is provided for the CPU set, the kernel will use a cpu mask of
+   all online CPUs. This is convenient because I suspect most callers
+   will only want to act on a feature if it's supported on all CPUs, and
+   it's a headache to dynamically allocate an array of all 1s, not to
+   mention a waste to have the kernel loop over all of the offline bits.
+ - Fixed logic error in if(of_property_read_string...) that caused crash
+ - Include cpufeature.h in cpufeature.h to avoid undeclared variable
+   warning.
+ - Added a _MASK define
+ - Fix random checkpatch complaints
+ - Updated the selftests to the new API and added some more.
+ - Fixed indentation, comments in .S, and general checkpatch complaints.
+
+Evan Green (6):
+  RISC-V: Move struct riscv_cpuinfo to new header
+  RISC-V: Add a syscall for HW probing
+  RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+  RISC-V: hwprobe: Support probing of misaligned access performance
+  selftests: Test the new RISC-V hwprobe interface
+  RISC-V: Add hwprobe vDSO function and data
+
+ Documentation/riscv/hwprobe.rst               |  86 +++++++
+ Documentation/riscv/index.rst                 |   1 +
+ arch/riscv/Kconfig                            |   1 +
+ arch/riscv/errata/thead/errata.c              |  10 +
+ arch/riscv/include/asm/alternative.h          |   5 +
+ arch/riscv/include/asm/cpufeature.h           |  23 ++
+ arch/riscv/include/asm/hwprobe.h              |  13 +
+ arch/riscv/include/asm/syscall.h              |   4 +
+ arch/riscv/include/asm/vdso/data.h            |  17 ++
+ arch/riscv/include/asm/vdso/gettimeofday.h    |   8 +
+ arch/riscv/include/uapi/asm/hwprobe.h         |  37 +++
+ arch/riscv/include/uapi/asm/unistd.h          |   9 +
+ arch/riscv/kernel/alternative.c               |  19 ++
+ arch/riscv/kernel/compat_vdso/Makefile        |   2 +-
+ arch/riscv/kernel/cpu.c                       |   8 +-
+ arch/riscv/kernel/cpufeature.c                |   3 +
+ arch/riscv/kernel/smpboot.c                   |   1 +
+ arch/riscv/kernel/sys_riscv.c                 | 225 +++++++++++++++++-
+ arch/riscv/kernel/vdso.c                      |   6 -
+ arch/riscv/kernel/vdso/Makefile               |   4 +
+ arch/riscv/kernel/vdso/hwprobe.c              |  52 ++++
+ arch/riscv/kernel/vdso/sys_hwprobe.S          |  15 ++
+ arch/riscv/kernel/vdso/vdso.lds.S             |   3 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/riscv/Makefile        |  58 +++++
+ .../testing/selftests/riscv/hwprobe/Makefile  |  10 +
+ .../testing/selftests/riscv/hwprobe/hwprobe.c |  90 +++++++
+ .../selftests/riscv/hwprobe/sys_hwprobe.S     |  12 +
+ 28 files changed, 709 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/riscv/hwprobe.rst
+ create mode 100644 arch/riscv/include/asm/cpufeature.h
+ create mode 100644 arch/riscv/include/asm/hwprobe.h
+ create mode 100644 arch/riscv/include/asm/vdso/data.h
+ create mode 100644 arch/riscv/include/uapi/asm/hwprobe.h
+ create mode 100644 arch/riscv/kernel/vdso/hwprobe.c
+ create mode 100644 arch/riscv/kernel/vdso/sys_hwprobe.S
+ create mode 100644 tools/testing/selftests/riscv/Makefile
+ create mode 100644 tools/testing/selftests/riscv/hwprobe/Makefile
+ create mode 100644 tools/testing/selftests/riscv/hwprobe/hwprobe.c
+ create mode 100644 tools/testing/selftests/riscv/hwprobe/sys_hwprobe.S
 
 -- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+2.25.1
+
