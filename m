@@ -2,153 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAF37C7619A
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 12:46:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DFEC76195
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 12:50:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232401AbjC0MqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 08:46:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41220 "EHLO
+        id S229610AbjC0Muu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 08:50:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232458AbjC0MqH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 08:46:07 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF92F4229;
-        Mon, 27 Mar 2023 05:46:00 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id z19so8328181plo.2;
-        Mon, 27 Mar 2023 05:46:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679921160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z95aEC3VowwbDydXMkdkVBsYGJB/RdmoSRYksYBwCmM=;
-        b=iC524/hFn4xLAwZrIRXhkLBBCiMnoQtpV6Um5x7iT2zYbtAdzrXM1idf9KqgEC5tpi
-         sjMG92hJHDJIgpJq4nPuDGw8pk+74byqa3FA/g4sbKo5cWZNmhNKMmZjwL/8n/MYb4fq
-         ku3FQcffzWt+b1phUIgAmCuMVq+d1i8+SXt0G5jSPiR43URa+td6C7+GXZx6avqa9Hha
-         cDPkvH2FcpFgqpp2D0orbAVXUDBlLU+qqQHDFHZV1Qz/pELHkppQcE8zDrUs2ao1nxaW
-         IR9g08TTS/L4dzlQ75UsrjEEMTiOmx6P4mAOX97V/dSPW0cwUoTdcSIVPK6SU+muI6Bn
-         3Yog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679921160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z95aEC3VowwbDydXMkdkVBsYGJB/RdmoSRYksYBwCmM=;
-        b=k7JxQucROkaRNtBGM4kA1sLq1h127uWVtOvWZwZgDSYvQM7kCJWYOlmOEkbchlpyLZ
-         0CgJ1J0jS0P/tcApcxNao9mvuefNfE19htTzlRGzRdd3MQBwSfYkX3BNubPDCAeUPrvs
-         W4TJ8juZxu8UHo251Pi3QdoLETRmNsgoxYy7TOLL39+Xurf+3l3QEMwwvI0+vRyy7YBk
-         O8dDDcWyl2PS0X3Nnkc7A1R22z0blC2qJOrT9B/nHkzlR20Zg3PEVfXpN39idHhd7sB2
-         Fz6T6/iEUIGr4vWrcyj8+yGOQ7g22RlMGircWuMv0BEbDEw6mJBfPK8JRdz7VEtEtQfz
-         4v9g==
-X-Gm-Message-State: AAQBX9dQu55xkmusUJdK7lqVtfKcE8t0fVCuZ0lU6/H2HJo+OV2PwsRV
-        ifRjsfV+JFX0rt0D3fAYUE0=
-X-Google-Smtp-Source: AKy350ap62ppG0s042u8UkoazwzjutGDLV0pH53h92KIDUg+pCCsJVSVbtR9cNBD52rlGVoz3Zco5g==
-X-Received: by 2002:a17:903:22cb:b0:19e:2eb5:712d with SMTP id y11-20020a17090322cb00b0019e2eb5712dmr12810061plg.25.1679921160122;
-        Mon, 27 Mar 2023 05:46:00 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-75.three.co.id. [180.214.233.75])
-        by smtp.gmail.com with ESMTPSA id jl1-20020a170903134100b0019cc3d0e1basm19072705plb.112.2023.03.27.05.45.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 05:45:59 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 7470310676A; Mon, 27 Mar 2023 19:45:55 +0700 (WIB)
-Date:   Mon, 27 Mar 2023 19:45:55 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>, netdev@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v5 7/7] docs: netlink: document the sub-type
- attribute property
-Message-ID: <ZCGQA0KVFGIDd/D6@debian.me>
-References: <20230327083138.96044-1-donald.hunter@gmail.com>
- <20230327083138.96044-8-donald.hunter@gmail.com>
+        with ESMTP id S229452AbjC0Mut (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 08:50:49 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF4DF1707;
+        Mon, 27 Mar 2023 05:50:47 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PlXdt52LRznZ50;
+        Mon, 27 Mar 2023 20:47:30 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 27 Mar
+ 2023 20:50:44 +0800
+Message-ID: <8bf91bee-e51c-90f6-b522-1db4094966f4@huawei.com>
+Date:   Mon, 27 Mar 2023 20:50:33 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Jyw3odFogf5C948k"
-Content-Disposition: inline
-In-Reply-To: <20230327083138.96044-8-donald.hunter@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Content-Language: en-US
+To:     Simon Horman <horms@kernel.org>
+CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <bhe@redhat.com>, <thunder.leizhen@huawei.com>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <20230320204244.1637821-1-chenjiahao16@huawei.com>
+ <20230320204244.1637821-2-chenjiahao16@huawei.com>
+ <ZBhvhBTQhAnN5qdm@kernel.org>
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <ZBhvhBTQhAnN5qdm@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---Jyw3odFogf5C948k
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2023/3/20 22:36, Simon Horman wrote:
+> On Tue, Mar 21, 2023 at 04:42:43AM +0800, Chen Jiahao wrote:
+>> On riscv, the current crash kernel allocation logic is trying to
+>> allocate within 32bit addressible memory region by default, if
+>> failed, try to allocate without 4G restriction.
+>>
+>> In need of saving DMA zone memory while allocating a relatively large
+>> crash kernel region, allocating the reserved memory top down in
+>> high memory, without overlapping the DMA zone, is a mature solution.
+>> Here introduce the parameter option crashkernel=X,[high,low].
+>>
+>> We can reserve the crash kernel from high memory above DMA zone range
+>> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+>> below 4G with "crashkernel=X,low".
+>>
+>> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+> Some minor nits, but I don't think there is any need to respin for them.
+>
+> Reviewed-by: Simon Horman <horms@kernel.org>
 
-On Mon, Mar 27, 2023 at 09:31:38AM +0100, Donald Hunter wrote:
-> diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/D=
-ocumentation/userspace-api/netlink/genetlink-legacy.rst
-> index b8fdcf7f6615..802875a37a27 100644
-> --- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
-> +++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-> @@ -234,6 +234,20 @@ specify a sub-type.
->            type: binary
->            struct: vport-stats
-> =20
-> +C Arrays
-> +--------
-> +
-> +Legacy families also use ``binary`` attributes to encapsulate C arrays. =
-The
-> +``sub-type`` is used to identify the type of scalar to extract.
-> +
-> +.. code-block:: yaml
-> +
-> +  attributes:
-> +    -
-> +      name: ports
-> +      type: binary
-> +      sub-type: u32
-> +
->  Multi-message DO
->  ----------------
-> =20
-> diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentatio=
-n/userspace-api/netlink/specs.rst
-> index a22442ba1d30..2e4acde890b7 100644
-> --- a/Documentation/userspace-api/netlink/specs.rst
-> +++ b/Documentation/userspace-api/netlink/specs.rst
-> @@ -254,6 +254,16 @@ rather than depend on what is specified in the spec =
-file.
->  The validation policy in the kernel is formed by combining the type
->  definition (``type`` and ``nested-attributes``) and the ``checks``.
-> =20
-> +sub-type
-> +~~~~~~~~
-> +
-> +Legacy families have special ways of expressing arrays. ``sub-type`` can=
- be
-> +used to define the type of array members in case array members are not
-> +fully defined as attributes (in a bona fide attribute space). For instan=
-ce
-> +a C array of u32 values can be specified with ``type: binary`` and
-> +``sub-type: u32``. Binary types and legacy array formats are described in
-> +more detail in :doc:`genetlink-legacy`.
-> +
->  operations
->  ----------
-> =20
+I will send another version and clean up these by the way, thanks.
 
-The doc LGTM, thanks!
+Chen, Jiahao
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---Jyw3odFogf5C948k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCGQAwAKCRD2uYlJVVFO
-o1MnAP4rOEY7nSKNdMH5vlinFXqYjWK2Ku/hN3TLluUC3zmlXgD/TCylLQvuSbtE
-VDUuakivWm2rZWtG/PkZZdnAKHpAtwQ=
-=Mzyw
------END PGP SIGNATURE-----
-
---Jyw3odFogf5C948k--
+>
+> ...
+>
+>> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+>> index 478d6763a01a..5def2174b243 100644
+>> --- a/arch/riscv/mm/init.c
+>> +++ b/arch/riscv/mm/init.c
+> ...
+>
+>> @@ -1201,16 +1242,25 @@ static void __init reserve_crashkernel(void)
+>>   	 */
+>>   	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>>   					       search_start,
+>> -					       min(search_end, (unsigned long) SZ_4G));
+>> +					       min(search_end, (unsigned long) dma32_phys_limit));
+> nit: While here, you could drop the space before 'ma32_phys_limit'.
+>       Or perhaps use min_t, which seems appropriate here.
+>
+>>   	if (crash_base == 0) {
+>>   		/* Try again without restricting region to 32bit addressible memory */
+>>   		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>> -						search_start, search_end);
+>> +						       search_start, search_end);
+>>   		if (crash_base == 0) {
+>>   			pr_warn("crashkernel: couldn't allocate %lldKB\n",
+>>   				crash_size >> 10);
+>>   			return;
+>>   		}
+>> +
+>> +		if (!crash_low_size)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +	}
+>> +
+>> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
+>> +	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+> nit: The line above should be aligned one character to the left
+>       (remove one space in the indent).
+>
+>> +		memblock_phys_free(crash_base, crash_size);
+>> +		return;
+>>   	}
+>>   
+>>   	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
+> ...
