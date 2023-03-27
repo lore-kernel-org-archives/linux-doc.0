@@ -2,421 +2,441 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8896C6FD1D
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 16:32:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF50C6FD1D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 16:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232428AbjC0Qcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 12:32:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45320 "EHLO
+        id S230309AbjC0QgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 12:36:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232390AbjC0Qch (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 12:32:37 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 225462D7C
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 09:32:30 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so12341478pjp.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 09:32:30 -0700 (PDT)
+        with ESMTP id S229744AbjC0QgA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 12:36:00 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A531FEF
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 09:35:58 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id f22so4847080plr.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 09:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1679934749;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f25CVnZcfJ/cWQg08dXo0ZloCIf9TbYbppKxy5nuGx8=;
-        b=l9hEg+9QDfUkaoswAp7QPK8hxTn+PszHMmY09pd/CfstwpBRKfQSl38m2XGSLu97et
-         pWgPeaSXXn73yUnzx/rvq27MgqElBJBNanLqLKMXGnYeMQUmxZQWOE3oKfYGzTARHUQ1
-         Z1a4EUI5PL6o5FO6orTXqJ71EyDMHGYCxlQ3yhE1Yj0K+hdp7J5Bg7sTnfO7ciKP9C57
-         UFBWwCK9HJuYvYJn9FnP6sN8o9BVBgyurSbnGofPpoSK4u1xMPkVXt6D4WQ4DA9o4eTB
-         Bl7kahze6CMmGxlZbntsYjNC4b3v7/Ipe9vBohpc8Isr3oOWOEp611kS8th6wSUMP0JE
-         SBsA==
+        d=chromium.org; s=google; t=1679934957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v0VVaXpMxJDnQifdYYWcSZcgUXoQp8hhnZ0Sagwu2H0=;
+        b=cr1KaLxVPy5bCZiDvCNfrC8LWRsv274eFRrS7aPbGOf8XObHk4NgkTxkl8KvYmZLk3
+         Bjb4OictYhPHsTY4w84H85BBUriVgcBXX8CFl5O1rtpArR9ppfp+QSZOHcd6F4XsoVNB
+         17qRSMB5Ja3ktdL5VVwVusb/7d8izoiDIFHeA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679934749;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f25CVnZcfJ/cWQg08dXo0ZloCIf9TbYbppKxy5nuGx8=;
-        b=qxotr2Kqyc2cHsvJwPBWnNnOUXA/jCbOhqF00gpZokDHHibibp+Jo7PVeqEwYuel55
-         F1ZgQN14jQf0US/kVj6ikxQCtGEHseX2Y05AOwrxJ6be0ve/4jtMbVdaEveCK+UaN99S
-         uR00KWWdQfGtYUofOVTtAEw1/GvWq3yudMnJLVPknI9bD2wU1bS3CAapSeA5YRM0uidk
-         gOOPiceT1PhkPkQMzFr2FU8k0a8Nxq5oTFbL/7zcQqHt6mjBCEiUPssRYibWzIqcc6YR
-         nw1jNY32DZ281AmLlTl5XtVffKoiPGwoRfTQPTxg9AhSxh4gYqhi1c+3CzoWk6M4XZNW
-         nhQw==
-X-Gm-Message-State: AAQBX9ceDmxb7Oa+fMTL7aI3Ix/IbV6yTCqyAWEd0s1J+LdIwsXakago
-        cFIo6aIFck434mgm2EJ5xyTqWw==
-X-Google-Smtp-Source: AKy350a9lDutZ66eOYK1yuWwKNHB+h6uruT2GT5AhrdEAzKJtjer5ydx6rldBcUvbC1fnutPorJZhQ==
-X-Received: by 2002:a17:903:32ca:b0:1a1:ab40:b0f5 with SMTP id i10-20020a17090332ca00b001a1ab40b0f5mr14886301plr.36.1679934749522;
-        Mon, 27 Mar 2023 09:32:29 -0700 (PDT)
-Received: from evan.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id io20-20020a17090312d400b001a1faeac240sm8963524plb.186.2023.03.27.09.32.27
+        d=1e100.net; s=20210112; t=1679934957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v0VVaXpMxJDnQifdYYWcSZcgUXoQp8hhnZ0Sagwu2H0=;
+        b=ZmR9JyS8hy1ge9zyvr3u2gWcsPUWbux+3FalmquL81kkY+VoGiSpA78Tsv+RNn5Gf9
+         giOMxEH29FiidR3W3KgPWYi2BvhEAO7tiolZDBtx1jb0cPX2RVg+2KVK8TU4QlW6sLuE
+         t9EqvTjuhBbb4vTE9ITh/FBzELA+wPxOUrRGLO0pJFHqGOEw5GahJL7l8l0ASCVXqpHM
+         vBHERI4OrZnFq2y95gMQxdPt6t1deSCJdubXhF/C4MjcP+fMDUAJ79QLaB30mEBxfnZp
+         YUT338oWb5uEhILY3oczyfrA+xM925mMK6C0UCe7c86tn1oPxMKnbixM9tzV0qVX0IJb
+         UTiw==
+X-Gm-Message-State: AAQBX9eNSDbMMbT9BanMNSXsn/F/tIilbj2UoG4J38Nn9F3fVKKeaDAs
+        4tC7Dz0gM/JT8CjQveVfmrNAnA==
+X-Google-Smtp-Source: AKy350a7Lm3TQCMVtfyvNEc8YkFHMN0SrlVUHdFi6cz9UAFGOgi5I79kjNs/9ubTJs8z1c7vTJ18YQ==
+X-Received: by 2002:a17:902:e80f:b0:19d:af20:3fe8 with SMTP id u15-20020a170902e80f00b0019daf203fe8mr15096932plg.21.1679934957182;
+        Mon, 27 Mar 2023 09:35:57 -0700 (PDT)
+Received: from wafflehead.lan ([47.144.140.44])
+        by smtp.gmail.com with ESMTPSA id p11-20020a170902bd0b00b001994e74c094sm19392746pls.275.2023.03.27.09.35.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 09:32:29 -0700 (PDT)
-From:   Evan Green <evan@rivosinc.com>
-To:     Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     slewis@rivosinc.com, vineetg@rivosinc.com, heiko@sntech.de,
-        Conor Dooley <conor@kernel.org>,
-        Evan Green <evan@rivosinc.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Samuel Holland <samuel@sholland.org>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH v5 4/6] RISC-V: hwprobe: Support probing of misaligned access performance
-Date:   Mon, 27 Mar 2023 09:32:01 -0700
-Message-Id: <20230327163203.2918455-5-evan@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230327163203.2918455-1-evan@rivosinc.com>
-References: <20230327163203.2918455-1-evan@rivosinc.com>
+        Mon, 27 Mar 2023 09:35:56 -0700 (PDT)
+From:   Jeffrey Kardatzke <jkardatzke@chromium.org>
+X-Google-Original-From: Jeffrey Kardatzke <jkardatzke@google.com>
+To:     op-tee@lists.trustedfirmware.org
+Cc:     Jeffrey Kardatzke <jkardatzke@google.com>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v12] tee: optee: Add SMC for loading OP-TEE image
+Date:   Mon, 27 Mar 2023 09:35:53 -0700
+Message-Id: <20230327093538.v12.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This allows userspace to select various routines to use based on the
-performance of misaligned access on the target hardware.
+Adds an SMC call that will pass an OP-TEE binary image to EL3 and
+instruct it to load it as the BL32 payload. This works in conjunction
+with a feature added to Trusted Firmware for ARMv8 and above
+architectures that supports this.
 
-Rather than adding DT bindings, this change taps into the alternatives
-mechanism used to probe CPU errata. Add a new function pointer alongside
-the vendor-specific errata_patch_func() that probes for desirable errata
-(otherwise known as "features"). Unlike the errata_patch_func(), this
-function is called on each CPU as it comes up, so it can save
-feature information per-CPU.
+The main purpose of this change is to facilitate updating the OP-TEE
+component on devices via a rootfs change rather than having to do a
+firmware update. Further details are linked to in the Kconfig file.
 
-The T-head C906 has fast unaligned access, both as defined by GCC [1],
-and in performing a basic benchmark, which determined that byte copies
-are >50% slower than a misaligned word copy of the same data size (source
-for this test at [2]):
-
-bytecopy size f000 count 50000 offset 0 took 31664899 us
-wordcopy size f000 count 50000 offset 0 took 5180919 us
-wordcopy size f000 count 50000 offset 1 took 13416949 us
-
-[1] https://github.com/gcc-mirror/gcc/blob/master/gcc/config/riscv/riscv.cc#L353
-[2] https://pastebin.com/EPXvDHSW
-
-Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-Signed-off-by: Evan Green <evan@rivosinc.com>
-Reviewed-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
-Tested-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
-
+Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
+Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
+Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
 ---
 
+Changes in v12:
+- Fixed checkpatch strict issues
+
+Changes in v11:
+- Fixed typo in tee.rst documentation
+
+Changes in v10:
+- Fixed tee.rst documentation formatting
+
+Changes in v9:
+- Add CPU hotplug callback to init on all cores at startup
+
+Changes in v8:
+- Renamed params and fixed alignment issue
+
+Changes in v7:
+- Added documentation to Documentation/staging/tee.rst
+
+Changes in v6:
+- Expanded Kconfig documentation
+
 Changes in v5:
- - Document the alternatives approach in the commit message (Conor and
-   Heiko).
- - Fix __init call warnings by making probe_vendor_features() and
-   thead_feature_probe_func() __init_or_module.
+- Renamed config option
+- Added runtime warning when config is used
 
 Changes in v4:
- - Add newlines to CPUPERF_0 documentation (Conor)
- - Add UNSUPPORTED value (Conor)
- - Switched from DT to alternatives-based probing (Rob)
- - Crispen up cpu index type to always be int (Conor)
+- Update commit message
+- Added more documentation
+- Renamed config option, added ARM64 dependency
 
 Changes in v3:
- - Have hwprobe_misaligned return int instead of long.
- - Constify cpumask pointer in hwprobe_misaligned()
- - Fix warnings in _PERF_O list documentation, use :c:macro:.
- - Move include cpufeature.h to misaligned patch.
- - Fix documentation mismatch for RISCV_HWPROBE_KEY_CPUPERF_0 (Conor)
- - Use for_each_possible_cpu() instead of NR_CPUS (Conor)
- - Break early in misaligned access iteration (Conor)
- - Increase MISALIGNED_MASK from 2 bits to 3 for possible UNSUPPORTED future
-   value (Conor)
+- Removed state tracking for driver reload
+- Check UID of service to verify it needs image load
 
 Changes in v2:
- - Fixed logic error in if(of_property_read_string...) that caused crash
- - Include cpufeature.h in cpufeature.h to avoid undeclared variable
-   warning.
- - Added a _MASK define
- - Fix random checkpatch complaints
+- Fixed compile issue when feature is disabled
+- Addressed minor comments
+- Added state tracking for driver reload
 
- Documentation/riscv/hwprobe.rst       | 21 ++++++++++++++++++++
- arch/riscv/errata/thead/errata.c      | 10 ++++++++++
- arch/riscv/include/asm/alternative.h  |  5 +++++
- arch/riscv/include/asm/cpufeature.h   |  2 ++
- arch/riscv/include/asm/hwprobe.h      |  2 +-
- arch/riscv/include/uapi/asm/hwprobe.h |  7 +++++++
- arch/riscv/kernel/alternative.c       | 19 ++++++++++++++++++
- arch/riscv/kernel/cpufeature.c        |  3 +++
- arch/riscv/kernel/smpboot.c           |  1 +
- arch/riscv/kernel/sys_riscv.c         | 28 +++++++++++++++++++++++++++
- 10 files changed, 97 insertions(+), 1 deletion(-)
+ Documentation/staging/tee.rst |  41 ++++++++++
+ drivers/tee/optee/Kconfig     |  17 +++++
+ drivers/tee/optee/optee_msg.h |  12 +++
+ drivers/tee/optee/optee_smc.h |  24 ++++++
+ drivers/tee/optee/smc_abi.c   | 137 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 231 insertions(+)
 
-diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
-index 945d44683c40..9f0dd62dcb5d 100644
---- a/Documentation/riscv/hwprobe.rst
-+++ b/Documentation/riscv/hwprobe.rst
-@@ -63,3 +63,24 @@ The following keys are defined:
+diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+index 498343c7ab08..b11e9053bc99 100644
+--- a/Documentation/staging/tee.rst
++++ b/Documentation/staging/tee.rst
+@@ -214,6 +214,47 @@ call is done from the thread assisting the interrupt handler. This is a
+ building block for OP-TEE OS in secure world to implement the top half and
+ bottom half style of device drivers.
  
-   * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
-     by version 2.2 of the RISC-V ISA manual.
++OPTEE_INSECURE_LOAD_IMAGE Kconfig option
++----------------------------------------
 +
-+* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
-+  information about the selected set of processors.
++The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
++BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
++it from the firmware before the kernel boots. This also requires enabling the
++corresponding option in Trusted Firmware for Arm. The documentation there
++explains the security threat associated with enabling this as well as
++mitigations at the firmware and platform level.
++https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
 +
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misaligned
-+    accesses is unknown.
++There are additional attack vectors/mitigations for the kernel that should be
++addressed when using this option.
 +
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned accesses are
-+    emulated via software, either in or below the kernel.  These accesses are
-+    always extremely slow.
++1. Boot chain security.
++   Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
++   the system.
++   Mitigation: There must be boot chain security that verifies the kernel and
++   rootfs, otherwise an attacker can modify the loaded OP-TEE binary by
++   modifying it in the rootfs.
++2. Alternate boot modes.
++   Attack vector: Using an alternate boot mode (i.e. recovery mode), the OP-TEE
++   driver isn't loaded, leaving the SMC hole open.
++   Mitigation: If there are alternate methods of booting the device, such as a
++   recovery mode, it should be ensured that the same mitigations are applied in
++   that mode.
++3. Attacks prior to SMC invocation.
++   Attack vector: Code that is executed prior to issuing the SMC call to load
++   OP-TEE can be exploited to then load an alternate OS image.
++   Mitigation: The OP-TEE driver must be loaded before any potential attack
++   vectors are opened up. This should include mounting of any modifiable
++   filesystems, opening of network ports or communicating with external devices
++   (e.g. USB).
++4. Blocking SMC call to load OP-TEE.
++   Attack vector: Prevent the driver from being probed, so the SMC call to load
++   OP-TEE isn't executed when desired, leaving it open to being executed later
++   and loading a modified OS.
++   Mitigation: It is recommended to build the OP-TEE driver as an included
++   driver rather than a module to prevent exploits that may cause the module to
++   not be loaded.
 +
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are supported
-+    in hardware, but are slower than the cooresponding aligned accesses
-+    sequences.
+ AMD-TEE driver
+ ==============
+ 
+diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
+index f121c224e682..70898bbd5809 100644
+--- a/drivers/tee/optee/Kconfig
++++ b/drivers/tee/optee/Kconfig
+@@ -7,3 +7,20 @@ config OPTEE
+ 	help
+ 	  This implements the OP-TEE Trusted Execution Environment (TEE)
+ 	  driver.
 +
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are supported
-+    in hardware and are faster than the cooresponding aligned accesses
-+    sequences.
++config OPTEE_INSECURE_LOAD_IMAGE
++	bool "Load OP-TEE image as firmware"
++	default n
++	depends on OPTEE && ARM64
++	help
++	  This loads the BL32 image for OP-TEE as firmware when the driver is
++	  probed. This returns -EPROBE_DEFER until the firmware is loadable from
++	  the filesystem which is determined by checking the system_state until
++	  it is in SYSTEM_RUNNING. This also requires enabling the corresponding
++	  option in Trusted Firmware for Arm. The documentation there explains
++	  the security threat associated with enabling this as well as
++	  mitigations at the firmware and platform level.
++	  https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
 +
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned accesses are
-+    not supported at all and will generate a misaligned address fault.
-diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/errata.c
-index 3b96a06d3c54..5b6d62586a8b 100644
---- a/arch/riscv/errata/thead/errata.c
-+++ b/arch/riscv/errata/thead/errata.c
-@@ -11,7 +11,9 @@
- #include <linux/uaccess.h>
- #include <asm/alternative.h>
- #include <asm/cacheflush.h>
-+#include <asm/cpufeature.h>
- #include <asm/errata_list.h>
-+#include <asm/hwprobe.h>
- #include <asm/patch.h>
- #include <asm/vendorid_list.h>
++	  Additional documentation on kernel security risks are at
++	  Documentation/staging/tee.rst.
+diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
+index 70e9cc2ee96b..e8840a82b983 100644
+--- a/drivers/tee/optee/optee_msg.h
++++ b/drivers/tee/optee/optee_msg.h
+@@ -241,11 +241,23 @@ struct optee_msg_arg {
+  * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
+  * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
+  * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
++ *
++ * In the case where the OP-TEE image is loaded by the kernel, this will
++ * initially return an alternate UID to reflect that we are communicating with
++ * the TF-A image loading service at that time instead of OP-TEE. That UID is:
++ * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
++ * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
++ * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
++ * OPTEE_MSG_IMAGE_LOAD_UID_3.
+  */
+ #define OPTEE_MSG_UID_0			0x384fb3e0
+ #define OPTEE_MSG_UID_1			0xe7f811e3
+ #define OPTEE_MSG_UID_2			0xaf630002
+ #define OPTEE_MSG_UID_3			0xa5d5c51b
++#define OPTEE_MSG_IMAGE_LOAD_UID_0	0xa3fbeab1
++#define OPTEE_MSG_IMAGE_LOAD_UID_1	0x1246315d
++#define OPTEE_MSG_IMAGE_LOAD_UID_2	0xc7c406b9
++#define OPTEE_MSG_IMAGE_LOAD_UID_3	0xc03cbea4
+ #define OPTEE_MSG_FUNCID_CALLS_UID	0xFF01
  
-@@ -115,3 +117,11 @@ void __init_or_module thead_errata_patch_func(struct alt_entry *begin, struct al
- 	if (stage == RISCV_ALTERNATIVES_EARLY_BOOT)
- 		local_flush_icache_all();
- }
-+
-+void __init_or_module thead_feature_probe_func(unsigned int cpu,
-+					       unsigned long archid,
-+					       unsigned long impid)
-+{
-+	if ((archid == 0) && (impid == 0))
-+		per_cpu(misaligned_access_speed, cpu) = RISCV_HWPROBE_MISALIGNED_FAST;
-+}
-diff --git a/arch/riscv/include/asm/alternative.h b/arch/riscv/include/asm/alternative.h
-index b8648d4f2ac1..b5774e24d4a3 100644
---- a/arch/riscv/include/asm/alternative.h
-+++ b/arch/riscv/include/asm/alternative.h
-@@ -28,6 +28,7 @@
- #define ALT_OLD_PTR(a)			__ALT_PTR(a, old_offset)
- #define ALT_ALT_PTR(a)			__ALT_PTR(a, alt_offset)
- 
-+void __init probe_vendor_features(unsigned int cpu);
- void __init apply_boot_alternatives(void);
- void __init apply_early_boot_alternatives(void);
- void apply_module_alternatives(void *start, size_t length);
-@@ -55,11 +56,15 @@ void thead_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
- 			     unsigned long archid, unsigned long impid,
- 			     unsigned int stage);
- 
-+void thead_feature_probe_func(unsigned int cpu, unsigned long archid,
-+			      unsigned long impid);
-+
- void riscv_cpufeature_patch_func(struct alt_entry *begin, struct alt_entry *end,
- 				 unsigned int stage);
- 
- #else /* CONFIG_RISCV_ALTERNATIVE */
- 
-+static inline void probe_vendor_features(unsigned int cpu) { }
- static inline void apply_boot_alternatives(void) { }
- static inline void apply_early_boot_alternatives(void) { }
- static inline void apply_module_alternatives(void *start, size_t length) { }
-diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-index 66ebaae449c8..808d5403f2ac 100644
---- a/arch/riscv/include/asm/cpufeature.h
-+++ b/arch/riscv/include/asm/cpufeature.h
-@@ -18,4 +18,6 @@ struct riscv_cpuinfo {
- 
- DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
- 
-+DECLARE_PER_CPU(long, misaligned_access_speed);
-+
- #endif
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 7e52f1e1fe10..4e45e33015bc 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -8,6 +8,6 @@
- 
- #include <uapi/asm/hwprobe.h>
- 
--#define RISCV_HWPROBE_MAX_KEY 4
-+#define RISCV_HWPROBE_MAX_KEY 5
- 
- #endif
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index fc5665411782..2968bb0984b5 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -25,6 +25,13 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
- #define		RISCV_HWPROBE_IMA_FD		(1 << 0)
- #define		RISCV_HWPROBE_IMA_C		(1 << 1)
-+#define RISCV_HWPROBE_KEY_CPUPERF_0	5
-+#define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_SLOW		(2 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_FAST		(3 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
- 
- #endif
-diff --git a/arch/riscv/kernel/alternative.c b/arch/riscv/kernel/alternative.c
-index 2354c69dc7d1..fc65c9293ac5 100644
---- a/arch/riscv/kernel/alternative.c
-+++ b/arch/riscv/kernel/alternative.c
-@@ -27,6 +27,8 @@ struct cpu_manufacturer_info_t {
- 	void (*patch_func)(struct alt_entry *begin, struct alt_entry *end,
- 				  unsigned long archid, unsigned long impid,
- 				  unsigned int stage);
-+	void (*feature_probe_func)(unsigned int cpu, unsigned long archid,
-+				   unsigned long impid);
+ /*
+diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
+index 73b5e7760d10..7d9fa426505b 100644
+--- a/drivers/tee/optee/optee_smc.h
++++ b/drivers/tee/optee/optee_smc.h
+@@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
+ 	unsigned long reserved1;
  };
  
- static void __init_or_module riscv_fill_cpu_mfr_info(struct cpu_manufacturer_info_t *cpu_mfr_info)
-@@ -41,6 +43,7 @@ static void __init_or_module riscv_fill_cpu_mfr_info(struct cpu_manufacturer_inf
- 	cpu_mfr_info->imp_id = sbi_get_mimpid();
- #endif
- 
-+	cpu_mfr_info->feature_probe_func = NULL;
- 	switch (cpu_mfr_info->vendor_id) {
- #ifdef CONFIG_ERRATA_SIFIVE
- 	case SIFIVE_VENDOR_ID:
-@@ -50,6 +53,7 @@ static void __init_or_module riscv_fill_cpu_mfr_info(struct cpu_manufacturer_inf
- #ifdef CONFIG_ERRATA_THEAD
- 	case THEAD_VENDOR_ID:
- 		cpu_mfr_info->patch_func = thead_errata_patch_func;
-+		cpu_mfr_info->feature_probe_func = thead_feature_probe_func;
- 		break;
- #endif
- 	default:
-@@ -139,6 +143,20 @@ void riscv_alternative_fix_offsets(void *alt_ptr, unsigned int len,
- 	}
- }
- 
-+/* Called on each CPU as it starts */
-+void __init_or_module probe_vendor_features(unsigned int cpu)
-+{
-+	struct cpu_manufacturer_info_t cpu_mfr_info;
-+
-+	riscv_fill_cpu_mfr_info(&cpu_mfr_info);
-+	if (!cpu_mfr_info.feature_probe_func)
-+		return;
-+
-+	cpu_mfr_info.feature_probe_func(cpu,
-+					cpu_mfr_info.arch_id,
-+					cpu_mfr_info.imp_id);
-+}
++/*
++ * Load Trusted OS from optee/tee.bin in the Linux firmware.
++ *
++ * WARNING: Use this cautiously as it could lead to insecure loading of the
++ * Trusted OS.
++ * This SMC instructs EL3 to load a binary and execute it as the Trusted OS.
++ *
++ * Call register usage:
++ * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
++ * a1 Upper 32bit of a 64bit size for the payload
++ * a2 Lower 32bit of a 64bit size for the payload
++ * a3 Upper 32bit of the physical address for the payload
++ * a4 Lower 32bit of the physical address for the payload
++ *
++ * The payload is in the OP-TEE image format.
++ *
++ * Returns result in a0, 0 on success and an error code otherwise.
++ */
++#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
++#define OPTEE_SMC_CALL_LOAD_IMAGE \
++	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
++			   ARM_SMCCC_OWNER_TRUSTED_OS_END, \
++			   OPTEE_SMC_FUNCID_LOAD_IMAGE)
 +
  /*
-  * This is called very early in the boot process (directly after we run
-  * a feature detect on the boot CPU). No need to worry about other CPUs
-@@ -193,6 +211,7 @@ void __init apply_boot_alternatives(void)
- 	/* If called on non-boot cpu things could go wrong */
- 	WARN_ON(smp_processor_id() != 0);
- 
-+	probe_vendor_features(0);
- 	_apply_alternatives((struct alt_entry *)__alt_start,
- 			    (struct alt_entry *)__alt_end,
- 			    RISCV_ALTERNATIVES_BOOT);
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 59d58ee0f68d..8bbc89351050 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -30,6 +30,9 @@ unsigned long elf_hwcap __read_mostly;
- /* Host ISA bitmap */
- static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
- 
-+/* Performance information */
-+DEFINE_PER_CPU(long, misaligned_access_speed);
-+
- /**
-  * riscv_isa_extension_base() - Get base extension word
+  * Call with struct optee_msg_arg as argument
   *
-diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-index ddb2afba6d25..2867c12c3d16 100644
---- a/arch/riscv/kernel/smpboot.c
-+++ b/arch/riscv/kernel/smpboot.c
-@@ -168,6 +168,7 @@ asmlinkage __visible void smp_callin(void)
- 	notify_cpu_starting(curr_cpuid);
- 	numa_add_cpu(curr_cpuid);
- 	set_cpu_online(curr_cpuid, 1);
-+	probe_vendor_features(curr_cpuid);
+diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+index a1c1fa1a9c28..6e1f023d50c6 100644
+--- a/drivers/tee/optee/smc_abi.c
++++ b/drivers/tee/optee/smc_abi.c
+@@ -7,10 +7,13 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
- 	/*
- 	 * Remote TLB flushes are ignored while the CPU is offline, so emit
-diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-index c83218a0db02..19a6def6bb00 100644
---- a/arch/riscv/kernel/sys_riscv.c
-+++ b/arch/riscv/kernel/sys_riscv.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/syscalls.h>
- #include <asm/cacheflush.h>
-+#include <asm/cpufeature.h>
- #include <asm/hwprobe.h>
- #include <asm/sbi.h>
- #include <asm/switch_to.h>
-@@ -117,6 +118,29 @@ static void hwprobe_arch_id(struct riscv_hwprobe *pair,
- 	pair->value = id;
+ #include <linux/arm-smccc.h>
++#include <linux/cpuhotplug.h>
+ #include <linux/errno.h>
++#include <linux/firmware.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/irqdomain.h>
++#include <linux/kernel.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+@@ -1149,6 +1152,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
+ 	return false;
  }
  
-+static u64 hwprobe_misaligned(const struct cpumask *cpus)
++#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
++static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invoke_fn)
 +{
-+	int cpu;
-+	u64 perf = -1ULL;
++	struct arm_smccc_res res;
 +
-+	for_each_cpu(cpu, cpus) {
-+		int this_perf = per_cpu(misaligned_access_speed, cpu);
++	invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
 +
-+		if (perf == -1ULL)
-+			perf = this_perf;
++	if (res.a0 == OPTEE_MSG_IMAGE_LOAD_UID_0 &&
++	    res.a1 == OPTEE_MSG_IMAGE_LOAD_UID_1 &&
++	    res.a2 == OPTEE_MSG_IMAGE_LOAD_UID_2 &&
++	    res.a3 == OPTEE_MSG_IMAGE_LOAD_UID_3)
++		return true;
++	return false;
++}
++#endif
 +
-+		if (perf != this_perf) {
-+			perf = RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-+			break;
-+		}
-+	}
+ static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
+ {
+ 	union {
+@@ -1354,6 +1373,120 @@ static void optee_shutdown(struct platform_device *pdev)
+ 		optee_disable_shm_cache(optee);
+ }
+ 
++#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
 +
-+	if (perf == -1ULL)
-+		return RISCV_HWPROBE_MISALIGNED_UNKNOWN;
++#define OPTEE_FW_IMAGE "optee/tee.bin"
 +
-+	return perf;
++static optee_invoke_fn *cpuhp_invoke_fn;
++
++static int optee_cpuhp_probe(unsigned int cpu)
++{
++	/*
++	 * Invoking a call on a CPU will cause OP-TEE to perform the required
++	 * setup for that CPU. Just invoke the call to get the UID since that
++	 * has no side effects.
++	 */
++	if (optee_msg_api_uid_is_optee_api(cpuhp_invoke_fn))
++		return 0;
++	else
++		return -EINVAL;
 +}
 +
- static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 			     const struct cpumask *cpus)
- {
-@@ -146,6 +170,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 
- 		break;
- 
-+	case RISCV_HWPROBE_KEY_CPUPERF_0:
-+		pair->value = hwprobe_misaligned(cpus);
-+		break;
++static int optee_load_fw(struct platform_device *pdev,
++			 optee_invoke_fn *invoke_fn)
++{
++	const struct firmware *fw = NULL;
++	struct arm_smccc_res res;
++	phys_addr_t data_pa;
++	u8 *data_buf = NULL;
++	u64 data_size;
++	u32 data_pa_high, data_pa_low;
++	u32 data_size_high, data_size_low;
++	int rc;
++	int hp_state;
 +
- 	/*
- 	 * For forward compatibility, unknown keys don't fail the whole
- 	 * call, but get their element key set to -1 and value set to 0
++	if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
++		return 0;
++
++	rc = request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
++	if (rc) {
++		/*
++		 * The firmware in the rootfs will not be accessible until we
++		 * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
++		 * that point.
++		 */
++		if (system_state < SYSTEM_RUNNING)
++			return -EPROBE_DEFER;
++		goto fw_err;
++	}
++
++	data_size = fw->size;
++	/*
++	 * This uses the GFP_DMA flag to ensure we are allocated memory in the
++	 * 32-bit space since TF-A cannot map memory beyond the 32-bit boundary.
++	 */
++	data_buf = kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
++	if (!data_buf) {
++		rc = -ENOMEM;
++		goto fw_err;
++	}
++	memcpy(data_buf, fw->data, fw->size);
++	data_pa = virt_to_phys(data_buf);
++	reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
++	reg_pair_from_64(&data_size_high, &data_size_low, data_size);
++	goto fw_load;
++
++fw_err:
++	pr_warn("image loading failed\n");
++	data_pa_high = 0;
++	data_pa_low = 0;
++	data_size_high = 0;
++	data_size_low = 0;
++
++fw_load:
++	/*
++	 * Always invoke the SMC, even if loading the image fails, to indicate
++	 * to EL3 that we have passed the point where it should allow invoking
++	 * this SMC.
++	 */
++	pr_warn("OP-TEE image loaded from kernel, this can be insecure");
++	invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_low,
++		  data_pa_high, data_pa_low, 0, 0, 0, &res);
++	if (!rc)
++		rc = res.a0;
++	if (fw)
++		release_firmware(fw);
++	kfree(data_buf);
++
++	if (!rc) {
++		/*
++		 * We need to initialize OP-TEE on all other running cores as
++		 * well. Any cores that aren't running yet will get initialized
++		 * when they are brought up by the power management functions in
++		 * TF-A which are registered by the OP-TEE SPD. Due to that we
++		 * can un-register the callback right after registering it.
++		 */
++		cpuhp_invoke_fn = invoke_fn;
++		hp_state = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "optee:probe",
++					     optee_cpuhp_probe, NULL);
++		if (hp_state < 0) {
++			pr_warn("Failed with CPU hotplug setup for OP-TEE");
++			return -EINVAL;
++		}
++		cpuhp_remove_state(hp_state);
++		cpuhp_invoke_fn = NULL;
++	}
++
++	return rc;
++}
++#else
++static inline int optee_load_fw(struct platform_device *pdev,
++				optee_invoke_fn *invoke_fn)
++{
++	return 0;
++}
++#endif
++
+ static int optee_probe(struct platform_device *pdev)
+ {
+ 	optee_invoke_fn *invoke_fn;
+@@ -1372,6 +1505,10 @@ static int optee_probe(struct platform_device *pdev)
+ 	if (IS_ERR(invoke_fn))
+ 		return PTR_ERR(invoke_fn);
+ 
++	rc = optee_load_fw(pdev, invoke_fn);
++	if (rc)
++		return rc;
++
+ 	if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
+ 		pr_warn("api uid mismatch\n");
+ 		return -EINVAL;
 -- 
-2.25.1
+2.40.0.348.gf938b09366-goog
 
