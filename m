@@ -2,94 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A5C7C761A6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 08:14:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61354C761A6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 08:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232985AbjC0IOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 04:14:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44302 "EHLO
+        id S233151AbjC0Ihf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 04:37:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232760AbjC0IOP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 04:14:15 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F316D40DA;
-        Mon, 27 Mar 2023 01:14:11 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id v20-20020a05600c471400b003ed8826253aso4592311wmo.0;
-        Mon, 27 Mar 2023 01:14:11 -0700 (PDT)
+        with ESMTP id S233162AbjC0IhJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 04:37:09 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217349EFE;
+        Mon, 27 Mar 2023 01:31:54 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id r29so7742550wra.13;
+        Mon, 27 Mar 2023 01:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679904850;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZWU4G3nKFJcBbrSVmK0Own01xR4ae0P4k4/h0MM+GzE=;
-        b=KQGJj6dsuUQ+Zl7n6a37xTVq1RO/BfFYnBTArjdVgRRWXB9dMZHj1ursHNDhpL2tYs
-         N0hc5RVx8DgW9F8M4uX24pr92zYd5awkOHRmO7DuvfBTSc9vyIWrEwwnVcU1AUeIqhFh
-         yP14trTflIgA3p1Pi7CCQfSMLZMjB0JxWjMUVYEghakl0S4m0L2binTjjtmNkB2ID44k
-         s9gqc9t09/lCb4wBj7vwzJxbUM26opsXZO0vZ/5Rj+R80Isg8K0xco0ZtEhuyF5mzS+P
-         z3ievDVZtRn9bthVJH2Ag77X0MLKm1p7yyMNO0Edn6nwyTwaEuhNxGyyfX/7oZQgZ9Di
-         mvtQ==
+        d=gmail.com; s=20210112; t=1679905911;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjNj28/Jhl8ERT2Gnc3byTIO3nUY9uGnzk3NiQJVKjI=;
+        b=JdkO1R4MTFSIMrDa56x/MU24Z68WDwhUPUdjH4CPAcEhzhEyfz3htowkfCOWMcsz1N
+         VRgfPekM0R6dUffH8iMhSfHv8358NG09aC9LMAfZsU17tLK9nNEgfSt91NMV0INgo3uD
+         3nIZModLFVQXyp3SPuzAJ3M2GKhC2cxr/DhwbSyOyJtA6jpYHNe3WTrss9Xo+T4JKzG7
+         RX46RIhHYJAVAqKqZYy0qW0jSew1OxWYs6Stetz8pXMyDgBgZT7j/Z1xDVvfQ7c8VdKj
+         SoAEumYx6cLNwWTL0GHGkoT2Hj4uCF16Es3+FICOdjpKwAHmKgto5Hj7XAMKoVHi6ONA
+         yXhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679904850;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZWU4G3nKFJcBbrSVmK0Own01xR4ae0P4k4/h0MM+GzE=;
-        b=ucIULS3cCa+Zyq5a6C/1c4jjTL+VYjRQvqVb8O4GQMAtNMYU1+KkVDmLNOk7rkJ/kN
-         6+Cd3506CH23bK8T9gb4BQxDKKZISGo5QUgWcxrELb/2GghQw+21SS7EBAp7RCEGtYea
-         AGYovtO5QDqlGY/eGSMqqsvZS5iG9DWEAURgaG6k6FEU4bMBh7coldqCd58iDoy1KTj5
-         mCzHFVIFFRcJbi+zxzITGUkdjNu+JfRixbXylVKcZFSqpzVJ3sVDzut+Maco5aU6aJZJ
-         1mH+8C6ABoQXQmcZzwutyCJSWSJCP/hhmBvd47tdZgji346jfIq2OFmVEIkRsuO0WqAv
-         qqig==
-X-Gm-Message-State: AO0yUKUFTfT+lOq655njS3ASxBLSXq+CLU2P0DNYwoVnRYgSQmFxFBWu
-        l6Zjg9Zzqwjo8RiO/GIxcs0=
-X-Google-Smtp-Source: AK7set8q8GIalrvcrZOzwAv3vgdgJxNohUpv65uLaGUfEw+KycAKX6N7VldDa27dtV/KXg9GYRVI1A==
-X-Received: by 2002:a05:600c:22d4:b0:3ed:b56c:9496 with SMTP id 20-20020a05600c22d400b003edb56c9496mr8551103wmg.31.1679904850535;
-        Mon, 27 Mar 2023 01:14:10 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:7887:5530:69a2:a11f])
-        by smtp.gmail.com with ESMTPSA id s2-20020a5d5102000000b002c71b4d476asm24344663wrt.106.2023.03.27.01.14.09
+        d=1e100.net; s=20210112; t=1679905911;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HjNj28/Jhl8ERT2Gnc3byTIO3nUY9uGnzk3NiQJVKjI=;
+        b=GjlDB98sL488pBB23gAkchDzhxBQT/V2u0rMgYEl/oR6/xjBzHTDrbvn2TE9KV8O0e
+         nJcS1GXqHT++GzTmBSn4xqv4qE7OwP2SWw6Q5XZJmc7TMZPGjAA9NvPdw489wdhlGIRo
+         zKpDkB7aex2YyLdOjvCwzM0fFGYqjTJqORRSaIAkUBzlYkyagMPZKSmY6iHHTb1oXjre
+         NKFHlDwFV+AdtRWZSLgF42MbMHN4Fs4vUdgR5Gzh7C4inxWEaUhwh57yJPx5rQ1YsNin
+         HPj1+iI43yVSowpfLfvpkCn0nqBC5EfAmvYkS9WP0wcPwYCJ685s3Zv22K9JpR63vTuS
+         mTWg==
+X-Gm-Message-State: AAQBX9eYY7JF3ee/PeCGIHjYL+YWTPiWpjbCbPl8Zjlz7LOPwB5SDOj8
+        TCh01KCuCP++ZbmuSEW6zxxidUO4SZlJ5g==
+X-Google-Smtp-Source: AKy350ZjJQa9J6vaKWYLO2Hbe8n54pRri4fDbfsglS2P7q7tUlItjIQS+9ejW7SaahqLxYSE9UVxiw==
+X-Received: by 2002:adf:f544:0:b0:2cf:f2f9:5aab with SMTP id j4-20020adff544000000b002cff2f95aabmr9169193wrp.20.1679905911332;
+        Mon, 27 Mar 2023 01:31:51 -0700 (PDT)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:7887:5530:69a2:a11f])
+        by smtp.gmail.com with ESMTPSA id z6-20020a056000110600b002c557f82e27sm24353249wrw.99.2023.03.27.01.31.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 01:14:09 -0700 (PDT)
+        Mon, 27 Mar 2023 01:31:50 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v4 7/7] docs: netlink: document the sub-type
- attribute property
-In-Reply-To: <20230324205722.7b6a9e70@kernel.org> (Jakub Kicinski's message of
-        "Fri, 24 Mar 2023 20:57:22 -0700")
-Date:   Mon, 27 Mar 2023 09:13:41 +0100
-Message-ID: <m21qlaipca.fsf@gmail.com>
-References: <20230324191900.21828-1-donald.hunter@gmail.com>
-        <20230324191900.21828-8-donald.hunter@gmail.com>
-        <20230324205722.7b6a9e70@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH net-next v5 0/7] ynl: add support for user headers and struct attrs
+Date:   Mon, 27 Mar 2023 09:31:31 +0100
+Message-Id: <20230327083138.96044-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Add support for user headers and struct attrs to YNL. This patchset adds
+features to ynl and add a partial spec for openvswitch that demonstrates
+use of the features.
 
-> On Fri, 24 Mar 2023 19:19:00 +0000 Donald Hunter wrote:
->> +sub-type
->> +~~~~~~~~
->> +
->> +Attributes can have a ``sub-type`` that is interpreted in a ``type``
->> +specific way. For example, an attribute with ``type: binary`` can have
->> +``sub-type: u32`` which says to interpret the binary blob as an array of
->> +``u32``. Binary types are described in more detail in
->> +:doc:`genetlink-legacy`.
->
-> I think sub-type is only used for arrays? How about:
->
->  Legacy families have special ways of expressing arrays. ``sub-type``
->  can be used to define the type of array members in case array members
->  are not fully defined as attributes (in a bona fide attribute space).
->  For instance a C array of u32 values can be specified with 
->  ``type: binary`` and ``sub-type: u32``. Binary types and legacy array
->  formats are described in more detail in :doc:`genetlink-legacy`.
+Patch 1-4 add features to ynl
+Patch 5 adds partial openvswitch specs that demonstrate the new features
+Patch 6-7 add documentation for legacy structs and for sub-type
 
-I'll use this text verbatim. Thanks.
+v4 - v5: all requested by Jakub Kicinski
+ - Describe C struct packing sematics in docs
+ - Rework struct example
+ - Change sub-type doc to use text from Jakub
+ - Add struct_name and sub_type as fields of class SpecAttr
+ - Fix typos and wrap at 80 chars
+ - Clean up signature formatting in python code
+
+v3 - v4:
+ - Rebase to net-next after net-6.3-rc4 merge
+
+v2 - v3: all requested by Jakub Kicinski
+ - Drop genlmsg fix that was applied separately
+ - Don't mention 'kernel' types, leave it to schema
+ - Avoid passing fixed header around in python code
+ - Use 'binary' with 'sub-type' for C arrays
+ - Use 'binary' with 'struct' for C structs
+ - Add docs for structs and sub-type
+
+v1 - v2: all requested by Jakub Kicinski
+ - Split ynl changes into separate patches
+ - Rename user-header to fixed-header and improve description
+ - Move fixed-header to operations section of spec
+ - Introduce objects to represent struct config in nlspec
+ - Use kebab-case throughout openvswitch specs
+
+Donald Hunter (7):
+  tools: ynl: Add struct parsing to nlspec
+  tools: ynl: Add C array attribute decoding to ynl
+  tools: ynl: Add struct attr decoding to ynl
+  tools: ynl: Add fixed-header support to ynl
+  netlink: specs: add partial specification for openvswitch
+  docs: netlink: document struct support for genetlink-legacy
+  docs: netlink: document the sub-type attribute property
+
+ Documentation/netlink/genetlink-legacy.yaml   |  16 ++
+ Documentation/netlink/specs/ovs_datapath.yaml | 153 ++++++++++++++++++
+ Documentation/netlink/specs/ovs_vport.yaml    | 139 ++++++++++++++++
+ .../netlink/genetlink-legacy.rst              |  88 +++++++++-
+ Documentation/userspace-api/netlink/specs.rst |  10 ++
+ tools/net/ynl/lib/nlspec.py                   |  73 +++++++--
+ tools/net/ynl/lib/ynl.py                      |  55 ++++++-
+ 7 files changed, 516 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/netlink/specs/ovs_datapath.yaml
+ create mode 100644 Documentation/netlink/specs/ovs_vport.yaml
+
+-- 
+2.39.0
+
