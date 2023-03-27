@@ -2,239 +2,286 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C842C74A5B
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Mar 2023 23:36:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E5EC74A5B
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 00:45:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229606AbjCZXgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Mar 2023 19:36:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55690 "EHLO
+        id S229596AbjC0Ap3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Mar 2023 20:45:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjCZXgJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 19:36:09 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 134D04EC4;
-        Sun, 26 Mar 2023 16:36:06 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id f17so5096461oiw.10;
-        Sun, 26 Mar 2023 16:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679873765;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u0IJGLM6qczRLZLKYS/PLKvdKaXI6TCFz4YdGjJKWQE=;
-        b=A9VRz1bNbhYrvQbiZ6xOwJ3GSzwpCOZ7cxuJXtlJ0w5gpyda2moVimg6hG78ibEURG
-         T8x6PiiUFk9A5XtZHkpPeYSATmXyr7BE1CpLwaWRZY0uVulqFfQGbC2MY0IxcQaRS0Mg
-         8OBTVknpREPJaSr+zLEmB3SOmjnmqCjcdjp9HAYaIsThjzFxe3vYeEf2kxXIBYkyia07
-         VrPtpofNyPjt38j34ZAiGNrnhhj1DnhCJ0xz2gapTCsj2QdUhY+fpN6oV0CLCeLmMtnO
-         OvJobC3yJ4wiq4q2ZCROJbMPDl9O2AHpaCq0/mbK3MP6Gp6rOldLUEv1wSdrjznmblOH
-         d4yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679873765;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u0IJGLM6qczRLZLKYS/PLKvdKaXI6TCFz4YdGjJKWQE=;
-        b=w7n2UOdPrKXlAGcYalw7bUPZaGH7IRFTzhKWXrod+P5yWiUxTB5+C2YH+RLyMmvcEl
-         sFOxAz3IL2JQ9SahfgnIWjLkvhYLUQd1Z9Z4jkeKn0pbieM4KhX5/5YChJSYIxKS+v1q
-         D4gz+HLzYKm+Za6hbrCTgioAJEA+33ARdiSUf42NLAeDX19NfohfGQNdlYlKITR5y/E4
-         mTgcYfpDH+AqtEbNXNZtHxa7bduO1PqTm29gdhCkU/G1PKUJLJZ1aAlqRVrVMCOxWTDZ
-         y3+r06eRSjEKgSAqWT53vOaiI0vh+m/mpTqzZKCU9B5zY10DUxyqo0Dxy5llB00ktmI8
-         HvSw==
-X-Gm-Message-State: AO0yUKVUJMkg8/qcPYWwZ71CRRxCMC/phncebI4rbzUfndjopX196IIg
-        pPGRExgVEL+47DhXofrljvc=
-X-Google-Smtp-Source: AK7set8DwQC+wewJW0vTAlKKNTNRHXbbgHO4kqCD83pEcjaRjfusQdSxnnHnEXxiEwSrOQ6Gj47m1g==
-X-Received: by 2002:a05:6808:a92:b0:387:6c61:d44e with SMTP id q18-20020a0568080a9200b003876c61d44emr3598779oij.55.1679873765128;
-        Sun, 26 Mar 2023 16:36:05 -0700 (PDT)
-Received: from ?IPV6:2600:1700:2442:6db0:988b:7dda:764e:c744? ([2600:1700:2442:6db0:988b:7dda:764e:c744])
-        by smtp.gmail.com with ESMTPSA id y45-20020a4a9830000000b0053bb063121asm2771045ooi.9.2023.03.26.16.36.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Mar 2023 16:36:04 -0700 (PDT)
-Message-ID: <dd3372a2-98f0-dcbd-1e04-7d1e19bdd231@gmail.com>
-Date:   Sun, 26 Mar 2023 18:36:02 -0500
+        with ESMTP id S229456AbjC0Ap2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 20:45:28 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F318249F5;
+        Sun, 26 Mar 2023 17:45:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679877926; x=1711413926;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=3AoAnGCMCtvOUZDavRh1iuwNHoi8vQlwnSL9zKV5Pe8=;
+  b=dsIpH5fIzcOJQgjhiHo9cw6iHxudoM6Cl0kSsX9X2OjSpTd1w5+iPFT9
+   iVoO/bXKbcx6w9ZsmhDfPsboVRcHUE49c8xleZupjdQXwc3lVhKKChyOp
+   J3MUryXnciseIhXnYNuKqYAHwh7Af8H3RzrXfdIBV6PG5EH3kk6vuKRdv
+   cDATKBe858YWA7FQ7e/GmXCRKIvyb2xh4ePVOmQpK84+34+5JcpaOYxF0
+   Y3eOzOiJtPAP3cycwa6Q539blDTud6gdcDVSVZ7ok3c4ArdqLTUClh5sR
+   HrnYnmWavFZoP5LS1vbHqqhTlurKAkvE0hsHhOEJyar8NJAf3snEExBA7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="319806614"
+X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
+   d="scan'208";a="319806614"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 17:45:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="715888228"
+X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
+   d="scan'208";a="715888228"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga001.jf.intel.com with ESMTP; 26 Mar 2023 17:45:25 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Sun, 26 Mar 2023 17:45:25 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Sun, 26 Mar 2023 17:45:25 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Sun, 26 Mar 2023 17:45:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bx+rPe22Z1LeNLup7YKSts/z4eHFBsuCuB4pmZDJHFrY2vYBHOJA3bP7/uCX1jb5mOjMEaCkvU761Pn474wKxp5n65GiSkb7i5a21kSKUHHGIsdV0+UvUJkccuEsYknelvRd645JsBAhKALD9IHuJIYYtcu6NZOFVLlrUPA3DWKAeDuschmeDp/lDyYTm6KC/YSPLH6RHG778PR6krY3LEBez/DO5ulnWciIYBn92YEXKXwbhxqvHbJFXYJE8/R1WhHvTdt6IlWMaO+HaZBihl3eEfV2w8YfgKz1KTNycitrWHoXZL+CVU8FVbdRUcVlQgi3bAFCAQCPOc+Rbh/zuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sVyGv5XSBGI8mG9Q8HbPreNOhApFdrSDj20qZqOZPXM=;
+ b=ZXJTzWyRr0SHHzi5yJax8ZkwsWdIRTZMve+TivUL3suN5OGnFh6sctXgujo+F4Y6/K3PxCBz1ZM3BDkMUwn8GMzB1/dVVheQl1qtsHTdz7X9CzwYsz1MbsnA8FQAY0icL2BBpqwd643zWO1HOsvDsoxXJCdTIILoRtC093eax+b8Hlyr3aYeG6CQfRWMjprxeZ5VWsNy1y3bldFSBStNH0wKJH+5neApAXAaWlTenM2X8PP90ZUYZjfnEX1aohT269xmiIx1DlwNt2tmJwgHbEeLwr1NyUOGXqB/WkoNA3X836qmNriuRZtr1vDvaaeK3DPcIAlKdA64RyCSbN5zcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
+ by SN7PR11MB8264.namprd11.prod.outlook.com (2603:10b6:806:26c::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 27 Mar
+ 2023 00:45:21 +0000
+Received: from MN0PR11MB6304.namprd11.prod.outlook.com
+ ([fe80::cb54:c0ca:5914:4242]) by MN0PR11MB6304.namprd11.prod.outlook.com
+ ([fe80::cb54:c0ca:5914:4242%9]) with mapi id 15.20.6178.038; Mon, 27 Mar 2023
+ 00:45:21 +0000
+Date:   Mon, 27 Mar 2023 08:39:50 +0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+CC:     Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Arnaldo Carvalho de Melo" <acme@redhat.com>,
+        Joe Mario <jmario@redhat.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Linus Torvalds" <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Shakeel Butt <shakeelb@google.com>, <dave.hansen@intel.com>,
+        <ying.huang@intel.com>, <tim.c.chen@intel.com>,
+        <andi.kleen@intel.com>
+Subject: Re: [PATCH v1] Documentation: Add document for false sharing
+Message-ID: <ZCDl1o16eZDx1HW1@feng-clx>
+References: <20230324071316.167337-1-feng.tang@intel.com>
+ <ZB2baIDIPhxj5Vdl@debian.me>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZB2baIDIPhxj5Vdl@debian.me>
+X-ClientProxiedBy: SG2PR02CA0036.apcprd02.prod.outlook.com
+ (2603:1096:3:18::24) To MN0PR11MB6304.namprd11.prod.outlook.com
+ (2603:10b6:208:3c0::7)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [KTAP V2 PATCH] ktap_v2: add skip test result
-Content-Language: en-US
-From:   Frank Rowand <frowand.list@gmail.com>
-To:     Rae Moar <rmoar@google.com>, davidgow@google.com,
-        skhan@linuxfoundation.org, keescook@chromium.org,
-        Tim.Bird@sony.com, brendanhiggins@google.com
-Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230310222002.3633162-1-rmoar@google.com>
- <490271eb-1429-2217-6e38-837c6e5e328b@gmail.com>
- <93e35a77-c00b-5c66-a460-6018dab98175@gmail.com>
-In-Reply-To: <93e35a77-c00b-5c66-a460-6018dab98175@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|SN7PR11MB8264:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a7a0dc6-05da-4b84-c6fd-08db2e5c8b32
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9AWSF0bl/bc6p8zQmotT9g7rgIDywi56/2gxW5y9iuUUh2jlpMvLinQ7OipDmHDBCb+kwikfMmbUTYGnvakJvqXTLF0RybtGVVcKQwdtQ7dTeW7nNbJnpIk38IbA+hewQ2ZDJwmofZwk8rb/TQgohRZWYtklSn2OaoVyUfDp2s5x5HMCuWTCjGjjyEhhlz4amEKbL/+5c/cgFhSIYvcdH1m7w2xVSwXXqbBWLqpboJsjYc8grkML5iuhQFevuYr8iRE6up/gBJxbRhWxcJBV8ABweQud1J0AXmiZBDhZiADFFdtAfRRuG/WLThzZ/YGV0qDfW+HtOohOR593Ce0Ni3E+7lKXXcKQnW6166F8xrAxLzlZsSCNUcbBsShn6FSuGxhByKuj/DaCbQKcWJmpOnzM1ImVyD0tAg4qI+neuw+basqBc9SR8xjEhRPKTkaqYpd7LplSVjpM9vkg9kyXouBqu4hJCn18n+p6Atgs5a0uYFdkvTLyk5oYeCTMo/V+6Cqf2eiyAgFL8vygH6ue75u7879ddRZjKLNYeXt9yUZqZD409FynbXkbjdK0/xOR5DsElC7QbtK39EYBPehc/hCci2CTutBjetSc3dIZnik=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(136003)(346002)(39860400002)(376002)(396003)(366004)(451199021)(82960400001)(66476007)(7416002)(44832011)(54906003)(38100700002)(26005)(2906002)(107886003)(86362001)(33716001)(6666004)(83380400001)(6486002)(8936002)(4326008)(41300700001)(5660300002)(6916009)(66556008)(8676002)(6512007)(6506007)(186003)(66946007)(9686003)(316002)(478600001)(21314003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1Byd5Wp9oFsipWe5KaYN2ydlK+jm+iTSjlMYJeRR/6iGVXmZ4zT6vMofL/d5?=
+ =?us-ascii?Q?aQu9yclAOHKpnwfEiDhYET+SVdM21MGoK7vYRG91Zl3fAvlxG7RCVd5+2Q4P?=
+ =?us-ascii?Q?pWa1P6B2Y24W+ldzINodt7qYL+VkGGlBH9+Db01kJdjrkfDzmob0akdlBKZE?=
+ =?us-ascii?Q?8fTTUWGzZVI8GDM6CmUZCgt1keiW2mpUjl+fbvIWuXoOXFRpN/a4V0l64xxK?=
+ =?us-ascii?Q?nv3I0Vd3MKDrskd601YVgqP4TVwN1Fhpx6Rv9UYLFEMv7SUf0Qyyg2U14I0V?=
+ =?us-ascii?Q?GXd/I83FbCIPH/qiOD5P+NA7o9Awb87RVekWQETUaMnzarKAGqIsZgQqdD+e?=
+ =?us-ascii?Q?noXNrsRDJQoAWQv8QROwFQs1Dx4me89QUfkRBxsuIkR9mpfbQ0QzuoCOyomi?=
+ =?us-ascii?Q?TUrsP3oObopj+uKDRrTorduRyHy7QTTWEKm12SZXhnjhHWKOSSGh8L5Fp69Q?=
+ =?us-ascii?Q?kqj4D9lxjJ1Pas7W93C09gpNRcLdmyJBGI1zODwkXn1EeLvJGQo2ZD5FC6lr?=
+ =?us-ascii?Q?B+RCJDSQfEJaa+WiOu0iA6Swo3O58bqmVOht+30cTMS1fhUqXXOKWts2Ov7D?=
+ =?us-ascii?Q?8G6XnYXkLBIOI2IXSyjREK3uZzfvNY/ETUg423FUqgpIVSAcMmTFEEU9cbqc?=
+ =?us-ascii?Q?+UKuCypjAtqbBl+CFEK4bf6jWlloOu8lY/D5Oqob2YuXwwvCgxwMUaGWZYE4?=
+ =?us-ascii?Q?Q1ATkg4ne6kl5ivj6N9coK7yuludORvK8loBGsbH+QNiYnpigWlSAby1/Q5z?=
+ =?us-ascii?Q?Fl+ngq+N5wI5gEdfGb3iQldspB4z1eZaEj3KpXFrOU6qVuf0EsB/83V99rRk?=
+ =?us-ascii?Q?9uJGpCAvRON1CK30lK+ozDA27gylmHXRkq/sECKFEnRDstO0g0n7z+Ja6YEe?=
+ =?us-ascii?Q?EtoJ1XD955uKeL3JFpOEuiFvcBWhk5RXSFPE8xVlS2yLrbvBhkQ3GLGPs42s?=
+ =?us-ascii?Q?HVE52lPiQCnivOsNN0zQVMPJZizrizbPYut7XucHouQWsyC8BmEAKLnAY7gb?=
+ =?us-ascii?Q?22V0bgD6hULIwe5JuiXfrDeUBR7V7jjNt6JMhp9mPptAgG94igAQ1Hjt4RKb?=
+ =?us-ascii?Q?R4sW7ugk8WkSEI2i+vRDsxcox3bwcBLHZGyU4naolxFpkFcEYnUBTIkC8Kjo?=
+ =?us-ascii?Q?+tT+/r46qZHTVoi0BPrf42SJDiNpn2QSKjzihFCkgti0ppFE7PM1ZQ4fpKPV?=
+ =?us-ascii?Q?2OCv5bhXYMm798kMC5jOJ3d6qoagBrlnOjf3waOOtRV3m/0ZYx+Xbv1/H3K/?=
+ =?us-ascii?Q?I5SuZyWcblqv7hHvLs/Sc2NTi8fR+q3PO2kGzZT2iiuYfYb1JxEA8FBvrWYS?=
+ =?us-ascii?Q?kSdLukOK+Skpfj7UHJTUr/saYbUlC+HgPaIl6V9O6fcPnYapACd4lm5PEayS?=
+ =?us-ascii?Q?Hv6cKIiHEGGbWCI+3s8338csX6xWtFHAIvV8+xggFvl6Jw8jFsl9GjvIqgfg?=
+ =?us-ascii?Q?MxpHrlUyALlJrwCm7qHw2nz9v0gLtJQbLMILoV8oc1oHHSnxA3eZk/RYB+7U?=
+ =?us-ascii?Q?HgNL6lfRjhUFU4fU6dZPOFn1pSiwsz5xeWcuCE3f+lRGvBz3OsS7p4hrHLnV?=
+ =?us-ascii?Q?wg+5XLpYXZd/N0OcDWxOLGNCEiHDFK0KQ7D8hr/g?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a7a0dc6-05da-4b84-c6fd-08db2e5c8b32
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 00:45:21.2630
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gcGnUeQuwZh6wSav6dINry1zmKF+DQEa3mxK0zXxwYhHI5sF2azhVc/l6gi40xbpYP1Bpj6ESStwW5RC/PU6Fw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8264
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/13/23 09:41, Frank Rowand wrote:
-> On 3/11/23 21:52, Frank Rowand wrote:
->> On 3/10/23 16:20, Rae Moar wrote:
->>> Add the test result "skip" to KTAP version 2 as an alternative way to
->>> indicate a test was skipped.
->>>
->>> The current spec uses the "#SKIP" directive to indicate that a test was
->>> skipped. However, the "#SKIP" directive is not always evident when quickly
->>> skimming through KTAP results.
->>>
->>> The "skip" result would provide an alternative that could make it clearer
->>> that a test has not successfully passed because it was skipped.
->>>
->>> Before:
->>>
->>>  KTAP version 1
->>>  1..1
->>>    KTAP version 1
->>>    1..2
->>>    ok 1 case_1
->>>    ok 2 case_2 #SKIP
->>>  ok 1 suite
->>>
->>> After:
->>>
->>>  KTAP version 2
->>>  1..1
->>>    KTAP version 2
->>>    1..2
->>>    ok 1 case_1
->>>    skip 2 case_2
->>>  ok 1 suite
->>>
->>> Here is a link to a version of the KUnit parser that is able to parse
->>> the skip test result for KTAP version 2. Note this parser is still able
->>> to parse the "#SKIP" directive.
->>>
->>> Link: https://kunit-review.googlesource.com/c/linux/+/5689
->>>
->>> Signed-off-by: Rae Moar <rmoar@google.com>
->>> ---> 
->>> Note: this patch is based on Frank's ktap_spec_version_2 branch.
->>>
->>>  Documentation/dev-tools/ktap.rst | 27 ++++++++++++++++++---------
->>>  1 file changed, 18 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
->>> index ff77f4aaa6ef..f48aa00db8f0 100644
->>> --- a/Documentation/dev-tools/ktap.rst
->>> +++ b/Documentation/dev-tools/ktap.rst
->>> @@ -74,7 +74,8 @@ They are required and must have the format:
->>>  	<result> <number> [<description>][ # [<directive>] [<diagnostic data>]]
->>>  
->>>  The result can be either "ok", which indicates the test case passed,
->>> -or "not ok", which indicates that the test case failed.
->>> +"not ok", which indicates that the test case failed, or "skip", which indicates
->>> +the test case did not run.
->>>  
->>>  <number> represents the number of the test being performed. The first test must
->>>  have the number 1 and the number then must increase by 1 for each additional
->>> @@ -91,12 +92,13 @@ A directive is a keyword that indicates a different outcome for a test other
->>>  than passed and failed. The directive is optional, and consists of a single
->>>  keyword preceding the diagnostic data. In the event that a parser encounters
->>>  a directive it doesn't support, it should fall back to the "ok" / "not ok"
->>> -result.
->>> +/ "skip" result.
->>>  
->>>  Currently accepted directives are:
->>>  
->>> -- "SKIP", which indicates a test was skipped (note the result of the test case
->>> -  result line can be either "ok" or "not ok" if the SKIP directive is used)
->>
->>> +- "SKIP", which indicates a test was skipped (note this is an alternative to
->>> +  the "skip" result type and if the SKIP directive is used, the
->>> +  result can be any type - "ok", "not ok", or "skip")
->>
->> For the "SKIP" directive, result type of either "ok", or "not ok" reflects the
->> current real world usage, which is mixed.  I agree is makes sense to also
->> allow the result type of "skip" with the "SKIP directive.
->>
-> 
->> I think it would be good to deprecate the "SKIP" directive, with a scheduled
->> removal in the V3 specification - that would allow plenty of time for test
->> parsers to process both V1 and V2 data, before removing processing of V1 data.
-> 
-> Since I wrote that paragraph, I have pondered the process of transition from
-> V1 to V2, to possibly V3.  It seems to be a complex enough issue that I will
-> start a different email thread to gather thoughts, issues, and possible
-> directions.
+Hi Bagas Sanjaya,
 
-The new thread is now started at:
+Many thanks for the reviews!
 
-  https://lore.kernel.org/all/6d4afb49-3cb9-f176-61a2-5bbaab698644@gmail.com/T/#u
+On Fri, Mar 24, 2023 at 07:45:28PM +0700, Bagas Sanjaya wrote:
+> On Fri, Mar 24, 2023 at 03:13:16PM +0800, Feng Tang wrote:
+> > +There are many real-world cases of performance regressions caused by
+> > +false sharing, and one is a rw_semaphore 'mmap_lock' inside struct
+> "... . One of these is rw_semaphore 'mmap_lock' ..."
 
--Frank
+OK, will use this.
 
+> But I think in English we commonly name things as "foobar struct"
+> instead of "struct foobar" (that is, common noun follow the proper noun
+> that names something).
+
+I can change that. And IIRC, I saw 'struct XXX' and 'XXX struct' both
+frequently used in kernel. I just run '# git log | grep -w struct'
+and the majority use 'struct XXX'
+
+> > +* A global datum accessed (shared) by many CPUs
+> Global data?
+
+In RFC version, I used 'data' and Randy suggested 'datum'. TBH, I 
+looked it up in a dictionary :),  and found:
+	"Data" is the Latin plural form of "datum"
+
+> > +Following 'mitigation' section provides real-world examples.
+> "The real-world examples are given in 'Possible mitigations' sections."
+
+Will use this, thanks.
+
+> > +  #perf c2c record -ag sleep 3
+> > +  #perf c2c report --call-graph none -k vmlinux
 > 
-> -Frank
+> Are these commands really run as root?
+
+You are right, people can run it as 'root' or a normal user. And I
+guess this won't confuse kernel developers.
+
+My original version is kind of too long and full of explainations,
+and some kernel developer suggested that this doc is under
+'kernel-hacking' and its audience is kernel developers, and I should
+make it clear and short, and not make it look like a wiki page or
+man page.
+
+> > +
+> > +Run it when testing will-it-scale's tlb_flush1 case, and the report
+> > +has pieces like::
 > 
->>
->> If so, the deprecation plan should be documented.
->>
->>>  - "TODO", which indicates that a test is not expected to pass at the moment,
->>>    e.g. because the feature it is testing is known to be broken. While this>    directive is inherited from TAP, its use in the kernel is discouraged.
->>> @@ -110,7 +112,7 @@ Currently accepted directives are:
->>>  
->>>  The diagnostic data is a plain-text field which contains any additional details
->>>  about why this result was produced. This is typically an error message for ERROR
->>> -or failed tests, or a description of missing dependencies for a SKIP result.
->>> +or failed tests, or a description of missing dependencies for a skipped test.
->>>  
->>>  The diagnostic data field is optional, and results which have neither a
->>>  directive nor any diagnostic data do not need to include the "#" field
->>> @@ -130,11 +132,18 @@ The test "test_case_name" failed.
->>>  
->>>  ::
->>>  
->>> -	ok 1 test # SKIP necessary dependency unavailable
->>> +	skip 1 test # necessary dependency unavailable
->>
->> Maybe add a note that the "skip" result method is preferred over the below
->> "ok ... # SKIP..." example below.
->>
->>>  
->>> -The test "test" was SKIPPED with the diagnostic message "necessary dependency
->>> +The test "test" was skipped with the diagnostic message "necessary dependency
->>>  unavailable".
->>>  
->>> +::
->>> +
->>> +	ok 1 test_2 # SKIP this test should not run
->>> +
->>> +The test "test_2" was skipped with the diagnostic message "this test
->>> +should not run".
->>
->> Maybe add a deprecation note here.
->>
->>> +
->>>  ::
->>>  
->>>  	not ok 1 test # TIMEOUT 30 seconds
->>> @@ -225,7 +234,7 @@ An example format with multiple levels of nested testing:
->>>  	    not ok 1 test_1
->>>  	    ok 2 test_2
->>>  	  not ok 1 test_3
->>> -	  ok 2 test_4 # SKIP
->>> +	  skip 2 test_4
->>>  	not ok 1 example_test_1
->>>  	ok 2 example_test_2
->>>  
->>> @@ -262,7 +271,7 @@ Example KTAP output
->>>  	  ok 1 example_test_1
->>>  	    KTAP version 2
->>>  	    1..2
->>> -	    ok 1 test_1 # SKIP test_1 skipped
->>> +	    skip 1 test_1 # test_1 skipped
->>>  	    ok 2 test_2
->>>  	  ok 2 example_test_2
->>>  	    KTAP version 2
->>>
->>> base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
->>
+> "When running above during testing ..., perf reports something like::"
+
+This is more logical, will change.
+
+> > +False sharing hurting performance cases are seen more frequently with
+> > +core count increasing, and there have been many patches merged to
+> > +solve it, like in networking and memory management subsystems.  Some
+> > +common mitigations (with examples) are:
 > 
+> "... Because of these detrimental effects, many patches have been
+> proposed across variety of subsystems (like networking and memory
+> management) and merged."
+
+This is much better, thanks
+
+> > +
+> > +* Separate hot global data in its own dedicated cache line, even if it
+> > +  is just a 'short' type. The downside is more consumption of memory,
+> > +  cache line and TLB entries.
+> > +
+> > +  Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_sockets_allocated")
+> > +
+> > +* Reorganize the data structure, separate the interfering members to
+> > +  different cache lines.  One downside is it may introduce new false
+> > +  sharing of other members.
+> > +
+> > +  Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduce false sharing")
+> > +
+> > +* Replace 'write' with 'read' when possible, especially in loops.
+> > +  Like for some global variable, use compare(read)-then-write instead
+> > +  of unconditional write. For example, use:
+> "... For example, write::"
+
+The following is a coding pattern (for bit operation, atomic, etc.),
+and I think 'use' may also be good?
+
+> > +
+> > +	if (!test_bit(XXX))
+> > +		set_bit(XXX);
+> > +
+> > +  instead of directly "set_bit(XXX);", similarly for atomic_t data.
+> > +
+> > +  Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() multithreaded CPU false sharing")
+> > +  Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
+> > +
+> > +* Turn hot global data to 'per-cpu data + global data' when possible,
+> > +  or reasonably increase the threshold for syncing per-cpu data to
+> > +  global data, to reduce or postpone the 'write' to that global data.
+> > +
+> > +  Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cache hits/misses")
+> > +  Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm overcommit policy")
+> 
+> IMO it's odd to jump to specifying example commits without some sort of
+> conjuction (e.g. "for example, see commit <commit>").
+
+I agree, and I had the same concern, but I was also afraid of that
+too many repeating of this, so the previous 
+"Following 'mitigation' section provides real-world examples." 
+in last section (which you helped to improve) was added trying
+to address this.
+
+> > +
+> > +Surely, all mitigations should be carefully verified to not cause side
+> > +effects.  And to avoid false sharing in advance during coding, it's
+> > +better to:
+> > +
+> > +* Be aware of cache line boundaries
+> > +* Group mostly read-only fields together
+> > +* Group things that are written at the same time together
+> > +* Separate known read-mostly and written-mostly fields
+> 
+> Proactively prevent false sharing with above tips?
+
+You are right. And most of these bullets are directly taken from
+Dave Hansen's reviews (thanks to Dave)
+
+Thanks,
+Feng
+
+> Thanks.
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+
 
