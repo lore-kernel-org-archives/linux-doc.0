@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 691FAC77B74
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 15:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8450BC76195
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 15:55:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbjC0Pzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 11:55:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54166 "EHLO
+        id S232561AbjC0Pzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 11:55:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232617AbjC0Pzh (ORCPT
+        with ESMTP id S232658AbjC0Pzh (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 11:55:37 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C55E830DB;
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1163C2D7F;
         Mon, 27 Mar 2023 08:55:32 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32RDMg6A015765;
-        Mon, 27 Mar 2023 15:55:16 GMT
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32RAJSaf029090;
+        Mon, 27 Mar 2023 15:55:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=ZqvbhlGGshn0VAYn7KfDp68GX2ZYQ+ukp3ygOTn+ako=;
- b=PFdyASzUj4Y51OKPLKKKgTDcW9MUEVZLvi8Ve4UcAUMgcb3CpjgCgzfASFgI31s+8KI2
- FQuGvlKlH3KHjo4cXCRvxP81+l7hXhRgi1GQFx3Natptc2cKDsMgdW5PO1KVKqsj9vCZ
- iSs1dpIO7UEKYStjlwPbEVW4GmZaL1ibQ1l/CY2pjTUQS2weUVfzFJL5p/8xiO5JOLvM
- yaMOYFctHAiont9oF7EwMFJUIyJ2zOzosdgQVWvhhs6n+P4AuHBhL7QzALe+OPBnPr5f
- FiDycINthi5JDsMJUm9KyicAcwBTxbTt0NKuiMwxOEMO+rlv7MOgX45BaqPeXN87/8F6 Xw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pkby48f5r-1
+ bh=wKSeJl2Lpz7nmVanyezmA4lxBjvjmBXUXDAt5WNIWgU=;
+ b=maSx69g7HtXobdyBb8yd8xzsGVEcFP9xC2q3HQWWDT9SsMMjryqqtEq0lpa8zU8hoXZJ
+ WtWrvMbwRmJ52cLSkvp1W4rR76Vc91gBCPv3WOqJVodo6z1Xg2IoQepcZ7x60snDrenB
+ 6Dk5yUWXzwzZwcjkutWf0rJadC+B0dwZc97bJkLMNVp8vnE1KN4c5Lp/wmUbqsWX3M++
+ JV06Lg8gsgEJlD1TMVuWKo5tTIZqMxzdOFr2KxRYJeBXr8XKFFrfp1nT2Odicllg9RQR
+ kMgZ0IUp30rxzB3HcvdaXqbGmYvRjzTFWIXdry8xH5+8wNHgGeic5kycDKh6i4Bn0WDq 1A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pk79b94bp-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Mar 2023 15:55:16 +0000
+        Mon, 27 Mar 2023 15:55:24 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32RFtFQ5019338
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32RFtNlq028533
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Mar 2023 15:55:15 GMT
+        Mon, 27 Mar 2023 15:55:23 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Mon, 27 Mar 2023 08:55:14 -0700
+ 15.2.986.41; Mon, 27 Mar 2023 08:55:22 -0700
 From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
 To:     <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>
 CC:     <jacek.lawrynowicz@linux.intel.com>,
@@ -47,9 +47,9 @@ CC:     <jacek.lawrynowicz@linux.intel.com>,
         <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <bagasdotme@gmail.com>, <mani@kernel.org>,
         Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH v5 1/8] accel/qaic: Add documentation for AIC100 accelerator driver
-Date:   Mon, 27 Mar 2023 09:54:50 -0600
-Message-ID: <1679932497-30277-2-git-send-email-quic_jhugo@quicinc.com>
+Subject: [PATCH v5 5/8] accel/qaic: Add datapath
+Date:   Mon, 27 Mar 2023 09:54:54 -0600
+Message-ID: <1679932497-30277-6-git-send-email-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
 References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
@@ -61,32 +61,32 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: MJRwVuUsJtL3pc3fLHGpkFR9o5kcJ9E7
-X-Proofpoint-GUID: MJRwVuUsJtL3pc3fLHGpkFR9o5kcJ9E7
+X-Proofpoint-ORIG-GUID: WjT9ftFp1ksiJoCGuj1vhGZthikYY-kR
+X-Proofpoint-GUID: WjT9ftFp1ksiJoCGuj1vhGZthikYY-kR
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- impostorscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303270127
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 mlxscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 phishscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270128
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Qualcomm Cloud AI 100 (AIC100) device is an Artificial Intelligence
-accelerator PCIe card. It contains a number of components both in the
-SoC and on the card which facilitate running workloads:
+Add the datapath component that manages BOs and submits them to running
+workloads on the qaic device via the dma_bridge hardware. This allows
+QAIC clients to interact with their workloads (run inferences) via the
+following ioctls along with mmap():
 
-QSM: management processor
-NSPs: workload compute units
-DMA Bridge: dedicated data mover for the workloads
-MHI: multiplexed communication channels
-DDR: workload storage and memory
-
-The Linux kernel driver for AIC100 is called "QAIC" and is located in the
-accel subsystem.
+DRM_IOCTL_QAIC_CREATE_BO
+DRM_IOCTL_QAIC_MMAP_BO
+DRM_IOCTL_QAIC_ATTACH_SLICE_BO
+DRM_IOCTL_QAIC_EXECUTE_BO
+DRM_IOCTL_QAIC_PARTIAL_EXECUTE_BO
+DRM_IOCTL_QAIC_WAIT_BO
+DRM_IOCTL_QAIC_PERF_STATS_BO
 
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
@@ -94,738 +94,1919 @@ Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- Documentation/accel/index.rst       |   1 +
- Documentation/accel/qaic/aic100.rst | 510 ++++++++++++++++++++++++++++++++++++
- Documentation/accel/qaic/index.rst  |  13 +
- Documentation/accel/qaic/qaic.rst   | 170 ++++++++++++
- 4 files changed, 694 insertions(+)
- create mode 100644 Documentation/accel/qaic/aic100.rst
- create mode 100644 Documentation/accel/qaic/index.rst
- create mode 100644 Documentation/accel/qaic/qaic.rst
+ drivers/accel/qaic/qaic_data.c | 1903 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 1903 insertions(+)
+ create mode 100644 drivers/accel/qaic/qaic_data.c
 
-diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
-index 2b43c9a..e94a016 100644
---- a/Documentation/accel/index.rst
-+++ b/Documentation/accel/index.rst
-@@ -8,6 +8,7 @@ Compute Accelerators
-    :maxdepth: 1
- 
-    introduction
-+   qaic/index
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
 new file mode 100644
-index 0000000..c80d0f1
+index 0000000..c186e6c
 --- /dev/null
-+++ b/Documentation/accel/qaic/aic100.rst
-@@ -0,0 +1,510 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -0,0 +1,1903 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +
-+===============================
-+ Qualcomm Cloud AI 100 (AIC100)
-+===============================
++/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
++/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
 +
-+Overview
-+========
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/completion.h>
++#include <linux/delay.h>
++#include <linux/dma-buf.h>
++#include <linux/dma-mapping.h>
++#include <linux/interrupt.h>
++#include <linux/kref.h>
++#include <linux/list.h>
++#include <linux/math64.h>
++#include <linux/mm.h>
++#include <linux/moduleparam.h>
++#include <linux/scatterlist.h>
++#include <linux/spinlock.h>
++#include <linux/srcu.h>
++#include <linux/types.h>
++#include <linux/uaccess.h>
++#include <linux/wait.h>
++#include <drm/drm_file.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_print.h>
++#include <uapi/drm/qaic_accel.h>
 +
-+The Qualcomm Cloud AI 100/AIC100 family of products (including SA9000P - part of
-+Snapdragon Ride) are PCIe adapter cards which contain a dedicated SoC ASIC for
-+the purpose of efficiently running Artificial Intelligence (AI) Deep Learning
-+inference workloads. They are AI accelerators.
++#include "qaic.h"
 +
-+The PCIe interface of AIC100 is capable of PCIe Gen4 speeds over eight lanes
-+(x8). An individual SoC on a card can have up to 16 NSPs for running workloads.
-+Each SoC has an A53 management CPU. On card, there can be up to 32 GB of DDR.
++#define SEM_VAL_MASK	GENMASK_ULL(11, 0)
++#define SEM_INDEX_MASK	GENMASK_ULL(4, 0)
++#define BULK_XFER	BIT(3)
++#define GEN_COMPLETION	BIT(4)
++#define INBOUND_XFER	1
++#define OUTBOUND_XFER	2
++#define REQHP_OFF	0x0 /* we read this */
++#define REQTP_OFF	0x4 /* we write this */
++#define RSPHP_OFF	0x8 /* we write this */
++#define RSPTP_OFF	0xc /* we read this */
 +
-+Multiple AIC100 cards can be hosted in a single system to scale overall
-+performance. AIC100 cards are multi-user capable and able to execute workloads
-+from multiple users in a concurrent manner.
++#define ENCODE_SEM(val, index, sync, cmd, flags)			\
++		({							\
++			FIELD_PREP(GENMASK(11, 0), (val)) |		\
++			FIELD_PREP(GENMASK(20, 16), (index)) |		\
++			FIELD_PREP(BIT(22), (sync)) |			\
++			FIELD_PREP(GENMASK(26, 24), (cmd)) |		\
++			FIELD_PREP(GENMASK(30, 29), (flags)) |		\
++			FIELD_PREP(BIT(31), (cmd) ? 1 : 0);		\
++		})
++#define NUM_EVENTS	128
++#define NUM_DELAYS	10
 +
-+Hardware Description
-+====================
++static unsigned int wait_exec_default_timeout_ms = 5000; /* 5 sec default */
++module_param(wait_exec_default_timeout_ms, uint, 0600);
++MODULE_PARM_DESC(wait_exec_default_timeout_ms, "Default timeout for DRM_IOCTL_QAIC_WAIT_BO");
 +
-+An AIC100 card consists of an AIC100 SoC, on-card DDR, and a set of misc
-+peripherals (PMICs, etc).
++static unsigned int datapath_poll_interval_us = 100; /* 100 usec default */
++module_param(datapath_poll_interval_us, uint, 0600);
++MODULE_PARM_DESC(datapath_poll_interval_us,
++		"Amount of time to sleep between activity when datapath polling is enabled");
 +
-+An AIC100 card can either be a PCIe HHHL form factor (a traditional PCIe card),
-+or a Dual M.2 card. Both use PCIe to connect to the host system.
++struct dbc_req {
++	/*
++	 * A request ID is assigned to each memory handle going in DMA queue.
++	 * As a single memory handle can enqueue multiple elements in DMA queue
++	 * all of them will have the same request ID.
++	 */
++	__le16	req_id;
++	/* Future use */
++	__u8	seq_id;
++	/*
++	 * Special encoded variable
++	 * 7	0 - Do not force to generate MSI after DMA is completed
++	 *	1 - Force to generate MSI after DMA is completed
++	 * 6:5	Reserved
++	 * 4	1 - Generate completion element in the response queue
++	 *	0 - No Completion Code
++	 * 3	0 - DMA request is a Link list transfer
++	 *	1 - DMA request is a Bulk transfer
++	 * 2	Reserved
++	 * 1:0	00 - No DMA transfer involved
++	 *	01 - DMA transfer is part of inbound transfer
++	 *	10 - DMA transfer has outbound transfer
++	 *	11 - NA
++	 */
++	__u8	cmd;
++	__le32	resv;
++	/* Source address for the transfer */
++	__le64	src_addr;
++	/* Destination address for the transfer */
++	__le64	dest_addr;
++	/* Length of transfer request */
++	__le32	len;
++	__le32	resv2;
++	/* Doorbell address */
++	__le64	db_addr;
++	/*
++	 * Special encoded variable
++	 * 7	1 - Doorbell(db) write
++	 *	0 - No doorbell write
++	 * 6:2	Reserved
++	 * 1:0	00 - 32 bit access, db address must be aligned to 32bit-boundary
++	 *	01 - 16 bit access, db address must be aligned to 16bit-boundary
++	 *	10 - 8 bit access, db address must be aligned to 8bit-boundary
++	 *	11 - Reserved
++	 */
++	__u8	db_len;
++	__u8	resv3;
++	__le16	resv4;
++	/* 32 bit data written to doorbell address */
++	__le32	db_data;
++	/*
++	 * Special encoded variable
++	 * All the fields of sem_cmdX are passed from user and all are ORed
++	 * together to form sem_cmd.
++	 * 0:11		Semaphore value
++	 * 15:12	Reserved
++	 * 20:16	Semaphore index
++	 * 21		Reserved
++	 * 22		Semaphore Sync
++	 * 23		Reserved
++	 * 26:24	Semaphore command
++	 * 28:27	Reserved
++	 * 29		Semaphore DMA out bound sync fence
++	 * 30		Semaphore DMA in bound sync fence
++	 * 31		Enable semaphore command
++	 */
++	__le32	sem_cmd0;
++	__le32	sem_cmd1;
++	__le32	sem_cmd2;
++	__le32	sem_cmd3;
++} __packed;
 +
-+As a PCIe endpoint/adapter, AIC100 uses the standard VendorID(VID)/
-+DeviceID(DID) combination to uniquely identify itself to the host. AIC100
-+uses the standard Qualcomm VID (0x17cb). All AIC100 SKUs use the same
-+AIC100 DID (0xa100).
++struct dbc_rsp {
++	/* Request ID of the memory handle whose DMA transaction is completed */
++	__le16	req_id;
++	/* Status of the DMA transaction. 0 : Success otherwise failure */
++	__le16	status;
++} __packed;
 +
-+AIC100 does not implement FLR (function level reset).
++inline int get_dbc_req_elem_size(void)
++{
++	return sizeof(struct dbc_req);
++}
 +
-+AIC100 implements MSI but does not implement MSI-X. AIC100 requires 17 MSIs to
-+operate (1 for MHI, 16 for the DMA Bridge).
++inline int get_dbc_rsp_elem_size(void)
++{
++	return sizeof(struct dbc_rsp);
++}
 +
-+As a PCIe device, AIC100 utilizes BARs to provide host interfaces to the device
-+hardware. AIC100 provides 3, 64-bit BARs.
++static void free_slice(struct kref *kref)
++{
++	struct bo_slice *slice = container_of(kref, struct bo_slice, ref_count);
 +
-+* The first BAR is 4K in size, and exposes the MHI interface to the host.
++	list_del(&slice->slice);
++	drm_gem_object_put(&slice->bo->base);
++	sg_free_table(slice->sgt);
++	kfree(slice->sgt);
++	kfree(slice->reqs);
++	kfree(slice);
++}
 +
-+* The second BAR is 2M in size, and exposes the DMA Bridge interface to the
-+  host.
++static int clone_range_of_sgt_for_slice(struct qaic_device *qdev, struct sg_table **sgt_out,
++					struct sg_table *sgt_in, u64 size, u64 offset)
++{
++	int total_len, len, nents, offf = 0, offl = 0;
++	struct scatterlist *sg, *sgn, *sgf, *sgl;
++	struct sg_table *sgt;
++	int ret, j;
 +
-+* The third BAR is variable in size based on an individual AIC100's
-+  configuration, but defaults to 64K. This BAR currently has no purpose.
++	/* find out number of relevant nents needed for this mem */
++	total_len = 0;
++	sgf = NULL;
++	sgl = NULL;
++	nents = 0;
 +
-+From the host perspective, AIC100 has several key hardware components -
++	size = size ? size : PAGE_SIZE;
++	for (sg = sgt_in->sgl; sg; sg = sg_next(sg)) {
++		len = sg_dma_len(sg);
 +
-+* MHI (Modem Host Interface)
-+* QSM (QAIC Service Manager)
-+* NSPs (Neural Signal Processor)
-+* DMA Bridge
-+* DDR
++		if (!len)
++			continue;
++		if (offset >= total_len && offset < total_len + len) {
++			sgf = sg;
++			offf = offset - total_len;
++		}
++		if (sgf)
++			nents++;
++		if (offset + size >= total_len &&
++		    offset + size <= total_len + len) {
++			sgl = sg;
++			offl = offset + size - total_len;
++			break;
++		}
++		total_len += len;
++	}
 +
-+MHI
-+---
++	if (!sgf || !sgl) {
++		ret = -EINVAL;
++		goto out;
++	}
 +
-+AIC100 has one MHI interface over PCIe. MHI itself is documented at
-+Documentation/mhi/index.rst MHI is the mechanism the host uses to communicate
-+with the QSM. Except for workload data via the DMA Bridge, all interaction with
-+the device occurs via MHI.
++	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
++	if (!sgt) {
++		ret = -ENOMEM;
++		goto out;
++	}
 +
-+QSM
-+---
++	ret = sg_alloc_table(sgt, nents, GFP_KERNEL);
++	if (ret)
++		goto free_sgt;
 +
-+QAIC Service Manager. This is an ARM A53 CPU that runs the primary
-+firmware of the card and performs on-card management tasks. It also
-+communicates with the host via MHI. Each AIC100 has one of
-+these.
++	/* copy relevant sg node and fix page and length */
++	sgn = sgf;
++	for_each_sgtable_sg(sgt, sg, j) {
++		memcpy(sg, sgn, sizeof(*sg));
++		if (sgn == sgf) {
++			sg_dma_address(sg) += offf;
++			sg_dma_len(sg) -= offf;
++			sg_set_page(sg, sg_page(sgn), sg_dma_len(sg), offf);
++		} else {
++			offf = 0;
++		}
++		if (sgn == sgl) {
++			sg_dma_len(sg) = offl - offf;
++			sg_set_page(sg, sg_page(sgn), offl - offf, offf);
++			sg_mark_end(sg);
++			break;
++		}
++		sgn = sg_next(sgn);
++	}
 +
-+NSP
-+---
++	*sgt_out = sgt;
++	return ret;
 +
-+Neural Signal Processor. Each AIC100 has up to 16 of these. These are
-+the processors that run the workloads on AIC100. Each NSP is a Qualcomm Hexagon
-+(Q6) DSP with HVX and HMX. Each NSP can only run one workload at a time, but
-+multiple NSPs may be assigned to a single workload. Since each NSP can only run
-+one workload, AIC100 is limited to 16 concurrent workloads. Workload
-+"scheduling" is under the purview of the host. AIC100 does not automatically
-+timeslice.
++free_sgt:
++	kfree(sgt);
++out:
++	*sgt_out = NULL;
++	return ret;
++}
 +
-+DMA Bridge
-+----------
++static int encode_reqs(struct qaic_device *qdev, struct bo_slice *slice,
++		       struct qaic_attach_slice_entry *req)
++{
++	__le64 db_addr = cpu_to_le64(req->db_addr);
++	__le32 db_data = cpu_to_le32(req->db_data);
++	struct scatterlist *sg;
++	__u8 cmd = BULK_XFER;
++	int presync_sem;
++	u64 dev_addr;
++	__u8 db_len;
++	int i;
 +
-+The DMA Bridge is custom DMA engine that manages the flow of data
-+in and out of workloads. AIC100 has one of these. The DMA Bridge has 16
-+channels, each consisting of a set of request/response FIFOs. Each active
-+workload is assigned a single DMA Bridge channel. The DMA Bridge exposes
-+hardware registers to manage the FIFOs (head/tail pointers), but requires host
-+memory to store the FIFOs.
++	if (!slice->no_xfer)
++		cmd |= (slice->dir == DMA_TO_DEVICE ? INBOUND_XFER : OUTBOUND_XFER);
 +
-+DDR
-+---
++	if (req->db_len && !IS_ALIGNED(req->db_addr, req->db_len / 8))
++		return -EINVAL;
 +
-+AIC100 has on-card DDR. In total, an AIC100 can have up to 32 GB of DDR.
-+This DDR is used to store workloads, data for the workloads, and is used by the
-+QSM for managing the device. NSPs are granted access to sections of the DDR by
-+the QSM. The host does not have direct access to the DDR, and must make
-+requests to the QSM to transfer data to the DDR.
++	presync_sem = req->sem0.presync + req->sem1.presync + req->sem2.presync + req->sem3.presync;
++	if (presync_sem > 1)
++		return -EINVAL;
 +
-+High-level Use Flow
-+===================
++	presync_sem = req->sem0.presync << 0 | req->sem1.presync << 1 |
++		      req->sem2.presync << 2 | req->sem3.presync << 3;
 +
-+AIC100 is a multi-user, programmable accelerator typically used for running
-+neural networks in inferencing mode to efficiently perform AI operations.
-+AIC100 is not intended for training neural networks. AIC100 can be utilized
-+for generic compute workloads.
++	switch (req->db_len) {
++	case 32:
++		db_len = BIT(7);
++		break;
++	case 16:
++		db_len = BIT(7) | 1;
++		break;
++	case 8:
++		db_len = BIT(7) | 2;
++		break;
++	case 0:
++		db_len = 0; /* doorbell is not active for this command */
++		break;
++	default:
++		return -EINVAL; /* should never hit this */
++	}
 +
-+Assuming a user wants to utilize AIC100, they would follow these steps:
++	/*
++	 * When we end up splitting up a single request (ie a buf slice) into
++	 * multiple DMA requests, we have to manage the sync data carefully.
++	 * There can only be one presync sem. That needs to be on every xfer
++	 * so that the DMA engine doesn't transfer data before the receiver is
++	 * ready. We only do the doorbell and postsync sems after the xfer.
++	 * To guarantee previous xfers for the request are complete, we use a
++	 * fence.
++	 */
++	dev_addr = req->dev_addr;
++	for_each_sgtable_sg(slice->sgt, sg, i) {
++		slice->reqs[i].cmd = cmd;
++		slice->reqs[i].src_addr = cpu_to_le64(slice->dir == DMA_TO_DEVICE ?
++						      sg_dma_address(sg) : dev_addr);
++		slice->reqs[i].dest_addr = cpu_to_le64(slice->dir == DMA_TO_DEVICE ?
++						       dev_addr : sg_dma_address(sg));
++		/*
++		 * sg_dma_len(sg) returns size of a DMA segment, maximum DMA
++		 * segment size is set to UINT_MAX by qaic and hence return
++		 * values of sg_dma_len(sg) can never exceed u32 range. So,
++		 * by down sizing we are not corrupting the value.
++		 */
++		slice->reqs[i].len = cpu_to_le32((u32)sg_dma_len(sg));
++		switch (presync_sem) {
++		case BIT(0):
++			slice->reqs[i].sem_cmd0 = cpu_to_le32(ENCODE_SEM(req->sem0.val,
++									 req->sem0.index,
++									 req->sem0.presync,
++									 req->sem0.cmd,
++									 req->sem0.flags));
++			break;
++		case BIT(1):
++			slice->reqs[i].sem_cmd1 = cpu_to_le32(ENCODE_SEM(req->sem1.val,
++									 req->sem1.index,
++									 req->sem1.presync,
++									 req->sem1.cmd,
++									 req->sem1.flags));
++			break;
++		case BIT(2):
++			slice->reqs[i].sem_cmd2 = cpu_to_le32(ENCODE_SEM(req->sem2.val,
++									 req->sem2.index,
++									 req->sem2.presync,
++									 req->sem2.cmd,
++									 req->sem2.flags));
++			break;
++		case BIT(3):
++			slice->reqs[i].sem_cmd3 = cpu_to_le32(ENCODE_SEM(req->sem3.val,
++									 req->sem3.index,
++									 req->sem3.presync,
++									 req->sem3.cmd,
++									 req->sem3.flags));
++			break;
++		}
++		dev_addr += sg_dma_len(sg);
++	}
++	/* add post transfer stuff to last segment */
++	i--;
++	slice->reqs[i].cmd |= GEN_COMPLETION;
++	slice->reqs[i].db_addr = db_addr;
++	slice->reqs[i].db_len = db_len;
++	slice->reqs[i].db_data = db_data;
++	/*
++	 * Add a fence if we have more than one request going to the hardware
++	 * representing the entirety of the user request, and the user request
++	 * has no presync condition.
++	 * Fences are expensive, so we try to avoid them. We rely on the
++	 * hardware behavior to avoid needing one when there is a presync
++	 * condition. When a presync exists, all requests for that same
++	 * presync will be queued into a fifo. Thus, since we queue the
++	 * post xfer activity only on the last request we queue, the hardware
++	 * will ensure that the last queued request is processed last, thus
++	 * making sure the post xfer activity happens at the right time without
++	 * a fence.
++	 */
++	if (i && !presync_sem)
++		req->sem0.flags |= (slice->dir == DMA_TO_DEVICE ?
++				    QAIC_SEM_INSYNCFENCE : QAIC_SEM_OUTSYNCFENCE);
++	slice->reqs[i].sem_cmd0 = cpu_to_le32(ENCODE_SEM(req->sem0.val, req->sem0.index,
++							 req->sem0.presync, req->sem0.cmd,
++							 req->sem0.flags));
++	slice->reqs[i].sem_cmd1 = cpu_to_le32(ENCODE_SEM(req->sem1.val, req->sem1.index,
++							 req->sem1.presync, req->sem1.cmd,
++							 req->sem1.flags));
++	slice->reqs[i].sem_cmd2 = cpu_to_le32(ENCODE_SEM(req->sem2.val, req->sem2.index,
++							 req->sem2.presync, req->sem2.cmd,
++							 req->sem2.flags));
++	slice->reqs[i].sem_cmd3 = cpu_to_le32(ENCODE_SEM(req->sem3.val, req->sem3.index,
++							 req->sem3.presync, req->sem3.cmd,
++							 req->sem3.flags));
 +
-+1. Compile the workload into an ELF targeting the NSP(s)
-+2. Make requests to the QSM to load the workload and related artifacts into the
-+   device DDR
-+3. Make a request to the QSM to activate the workload onto a set of idle NSPs
-+4. Make requests to the DMA Bridge to send input data to the workload to be
-+   processed, and other requests to receive processed output data from the
-+   workload.
-+5. Once the workload is no longer required, make a request to the QSM to
-+   deactivate the workload, thus putting the NSPs back into an idle state.
-+6. Once the workload and related artifacts are no longer needed for future
-+   sessions, make requests to the QSM to unload the data from DDR. This frees
-+   the DDR to be used by other users.
++	return 0;
++}
 +
++static int qaic_map_one_slice(struct qaic_device *qdev, struct qaic_bo *bo,
++			      struct qaic_attach_slice_entry *slice_ent)
++{
++	struct sg_table *sgt = NULL;
++	struct bo_slice *slice;
++	int ret;
 +
-+Boot Flow
-+=========
++	ret = clone_range_of_sgt_for_slice(qdev, &sgt, bo->sgt, slice_ent->size, slice_ent->offset);
++	if (ret)
++		goto out;
 +
-+AIC100 uses a flashless boot flow, derived from Qualcomm MSMs.
++	slice = kmalloc(sizeof(*slice), GFP_KERNEL);
++	if (!slice) {
++		ret = -ENOMEM;
++		goto free_sgt;
++	}
 +
-+When AIC100 is first powered on, it begins executing PBL (Primary Bootloader)
-+from ROM. PBL enumerates the PCIe link, and initializes the BHI (Boot Host
-+Interface) component of MHI.
++	slice->reqs = kcalloc(sgt->nents, sizeof(*slice->reqs), GFP_KERNEL);
++	if (!slice->reqs) {
++		ret = -ENOMEM;
++		goto free_slice;
++	}
 +
-+Using BHI, the host points PBL to the location of the SBL (Secondary Bootloader)
-+image. The PBL pulls the image from the host, validates it, and begins
-+execution of SBL.
++	slice->no_xfer = !slice_ent->size;
++	slice->sgt = sgt;
++	slice->nents = sgt->nents;
++	slice->dir = bo->dir;
++	slice->bo = bo;
++	slice->size = slice_ent->size;
++	slice->offset = slice_ent->offset;
 +
-+SBL initializes MHI, and uses MHI to notify the host that the device has entered
-+the SBL stage. SBL performs a number of operations:
++	ret = encode_reqs(qdev, slice, slice_ent);
++	if (ret)
++		goto free_req;
 +
-+* SBL initializes the majority of hardware (anything PBL left uninitialized),
-+  including DDR.
-+* SBL offloads the bootlog to the host.
-+* SBL synchronizes timestamps with the host for future logging.
-+* SBL uses the Sahara protocol to obtain the runtime firmware images from the
-+  host.
++	bo->total_slice_nents += sgt->nents;
++	kref_init(&slice->ref_count);
++	drm_gem_object_get(&bo->base);
++	list_add_tail(&slice->slice, &bo->slices);
 +
-+Once SBL has obtained and validated the runtime firmware, it brings the NSPs out
-+of reset, and jumps into the QSM.
++	return 0;
 +
-+The QSM uses MHI to notify the host that the device has entered the QSM stage
-+(AMSS in MHI terms). At this point, the AIC100 device is fully functional, and
-+ready to process workloads.
++free_req:
++	kfree(slice->reqs);
++free_slice:
++	kfree(slice);
++free_sgt:
++	sg_free_table(sgt);
++	kfree(sgt);
++out:
++	return ret;
++}
 +
-+Userspace components
-+====================
++static int create_sgt(struct qaic_device *qdev, struct sg_table **sgt_out, u64 size)
++{
++	struct scatterlist *sg;
++	struct sg_table *sgt;
++	struct page **pages;
++	int *pages_order;
++	int buf_extra;
++	int max_order;
++	int nr_pages;
++	int ret = 0;
++	int i, j, k;
++	int order;
 +
-+Compiler
-+--------
++	if (size) {
++		nr_pages = DIV_ROUND_UP(size, PAGE_SIZE);
++		/*
++		 * calculate how much extra we are going to allocate, to remove
++		 * later
++		 */
++		buf_extra = (PAGE_SIZE - size % PAGE_SIZE) % PAGE_SIZE;
++		max_order = min(MAX_ORDER - 1, get_order(size));
++	} else {
++		/* allocate a single page for book keeping */
++		nr_pages = 1;
++		buf_extra = 0;
++		max_order = 0;
++	}
 +
-+An open compiler for AIC100 based on upstream LLVM can be found at:
-+https://github.com/quic/software-kit-for-qualcomm-cloud-ai-100-cc
++	pages = kvmalloc_array(nr_pages, sizeof(*pages) + sizeof(*pages_order), GFP_KERNEL);
++	if (!pages) {
++		ret = -ENOMEM;
++		goto out;
++	}
++	pages_order = (void *)pages + sizeof(*pages) * nr_pages;
 +
-+Usermode Driver (UMD)
-+---------------------
++	/*
++	 * Allocate requested memory using alloc_pages. It is possible to allocate
++	 * the requested memory in multiple chunks by calling alloc_pages
++	 * multiple times. Use SG table to handle multiple allocated pages.
++	 */
++	i = 0;
++	while (nr_pages > 0) {
++		order = min(get_order(nr_pages * PAGE_SIZE), max_order);
++		while (1) {
++			pages[i] = alloc_pages(GFP_KERNEL | GFP_HIGHUSER |
++					       __GFP_NOWARN | __GFP_ZERO |
++					       (order ? __GFP_NORETRY : __GFP_RETRY_MAYFAIL),
++					       order);
++			if (pages[i])
++				break;
++			if (!order--) {
++				ret = -ENOMEM;
++				goto free_partial_alloc;
++			}
++		}
 +
-+An open UMD that interfaces with the qaic kernel driver can be found at:
-+https://github.com/quic/software-kit-for-qualcomm-cloud-ai-100
++		max_order = order;
++		pages_order[i] = order;
 +
-+Sahara loader
-+-------------
++		nr_pages -= 1 << order;
++		if (nr_pages <= 0)
++			/* account for over allocation */
++			buf_extra += abs(nr_pages) * PAGE_SIZE;
++		i++;
++	}
 +
-+An open implementation of the Sahara protocol called kickstart can be found at:
-+https://github.com/andersson/qdl
++	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
++	if (!sgt) {
++		ret = -ENOMEM;
++		goto free_partial_alloc;
++	}
 +
-+MHI Channels
-+============
++	if (sg_alloc_table(sgt, i, GFP_KERNEL)) {
++		ret = -ENOMEM;
++		goto free_sgt;
++	}
 +
-+AIC100 defines a number of MHI channels for different purposes. This is a list
-+of the defined channels, and their uses.
++	/* Populate the SG table with the allocated memory pages */
++	sg = sgt->sgl;
++	for (k = 0; k < i; k++, sg = sg_next(sg)) {
++		/* Last entry requires special handling */
++		if (k < i - 1) {
++			sg_set_page(sg, pages[k], PAGE_SIZE << pages_order[k], 0);
++		} else {
++			sg_set_page(sg, pages[k], (PAGE_SIZE << pages_order[k]) - buf_extra, 0);
++			sg_mark_end(sg);
++		}
 +
-++----------------+---------+----------+----------------------------------------+
-+| Channel name   | IDs     | EEs      | Purpose                                |
-++================+=========+==========+========================================+
-+| QAIC_LOOPBACK  | 0 & 1   | AMSS     | Any data sent to the device on this    |
-+|                |         |          | channel is sent back to the host.      |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_SAHARA    | 2 & 3   | SBL      | Used by SBL to obtain the runtime      |
-+|                |         |          | firmware from the host.                |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_DIAG      | 4 & 5   | AMSS     | Used to communicate with QSM via the   |
-+|                |         |          | DIAG protocol.                         |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_SSR       | 6 & 7   | AMSS     | Used to notify the host of subsystem   |
-+|                |         |          | restart events, and to offload SSR     |
-+|                |         |          | crashdumps.                            |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_QDSS      | 8 & 9   | AMSS     | Used for the Qualcomm Debug Subsystem. |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_CONTROL   | 10 & 11 | AMSS     | Used for the Neural Network Control    |
-+|                |         |          | (NNC) protocol. This is the primary    |
-+|                |         |          | channel between host and QSM for       |
-+|                |         |          | managing workloads.                    |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_LOGGING   | 12 & 13 | SBL      | Used by the SBL to send the bootlog to |
-+|                |         |          | the host.                              |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_STATUS    | 14 & 15 | AMSS     | Used to notify the host of Reliability,|
-+|                |         |          | Accessibility, Serviceability (RAS)    |
-+|                |         |          | events.                                |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_TELEMETRY | 16 & 17 | AMSS     | Used to get/set power/thermal/etc      |
-+|                |         |          | attributes.                            |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_DEBUG     | 18 & 19 | AMSS     | Not used.                              |
-++----------------+---------+----------+----------------------------------------+
-+| QAIC_TIMESYNC  | 20 & 21 | SBL/AMSS | Used to synchronize timestamps in the  |
-+|                |         |          | device side logs with the host time    |
-+|                |         |          | source.                                |
-++----------------+---------+----------+----------------------------------------+
++	}
 +
-+DMA Bridge
-+==========
++	kvfree(pages);
++	*sgt_out = sgt;
++	return ret;
 +
-+Overview
-+--------
++free_sgt:
++	kfree(sgt);
++free_partial_alloc:
++	for (j = 0; j < i; j++)
++		__free_pages(pages[j], pages_order[j]);
++	kvfree(pages);
++out:
++	*sgt_out = NULL;
++	return ret;
++}
 +
-+The DMA Bridge is one of the main interfaces to the host from the device
-+(the other being MHI). As part of activating a workload to run on NSPs, the QSM
-+assigns that network a DMA Bridge channel. A workload's DMA Bridge channel
-+(DBC for short) is solely for the use of that workload and is not shared with
-+other workloads.
++static bool invalid_sem(struct qaic_sem *sem)
++{
++	if (sem->val & ~SEM_VAL_MASK || sem->index & ~SEM_INDEX_MASK ||
++	    !(sem->presync == 0 || sem->presync == 1) || sem->pad ||
++	    sem->flags & ~(QAIC_SEM_INSYNCFENCE | QAIC_SEM_OUTSYNCFENCE) ||
++	    sem->cmd > QAIC_SEM_WAIT_GT_0)
++		return true;
++	return false;
++}
 +
-+Each DBC is a pair of FIFOs that manage data in and out of the workload. One
-+FIFO is the request FIFO. The other FIFO is the response FIFO.
++static int qaic_validate_req(struct qaic_device *qdev, struct qaic_attach_slice_entry *slice_ent,
++			     u32 count, u64 total_size)
++{
++	int i;
 +
-+Each DBC contains 4 registers in hardware:
++	for (i = 0; i < count; i++) {
++		if (!(slice_ent[i].db_len == 32 || slice_ent[i].db_len == 16 ||
++		      slice_ent[i].db_len == 8 || slice_ent[i].db_len == 0) ||
++		      invalid_sem(&slice_ent[i].sem0) || invalid_sem(&slice_ent[i].sem1) ||
++		      invalid_sem(&slice_ent[i].sem2) || invalid_sem(&slice_ent[i].sem3))
++			return -EINVAL;
 +
-+* Request FIFO head pointer (offset 0x0). Read only by the host. Indicates the
-+  latest item in the FIFO the device has consumed.
-+* Request FIFO tail pointer (offset 0x4). Read/write by the host. Host
-+  increments this register to add new items to the FIFO.
-+* Response FIFO head pointer (offset 0x8). Read/write by the host. Indicates
-+  the latest item in the FIFO the host has consumed.
-+* Response FIFO tail pointer (offset 0xc). Read only by the host. Device
-+  increments this register to add new items to the FIFO.
++		if (slice_ent[i].offset + slice_ent[i].size > total_size)
++			return -EINVAL;
++	}
 +
-+The values in each register are indexes in the FIFO. To get the location of the
-+FIFO element pointed to by the register: FIFO base address + register * element
-+size.
++	return 0;
++}
 +
-+DBC registers are exposed to the host via the second BAR. Each DBC consumes
-+4KB of space in the BAR.
++static void qaic_free_sgt(struct sg_table *sgt)
++{
++	struct scatterlist *sg;
 +
-+The actual FIFOs are backed by host memory. When sending a request to the QSM
-+to activate a network, the host must donate memory to be used for the FIFOs.
-+Due to internal mapping limitations of the device, a single contiguous chunk of
-+memory must be provided per DBC, which hosts both FIFOs. The request FIFO will
-+consume the beginning of the memory chunk, and the response FIFO will consume
-+the end of the memory chunk.
++	for (sg = sgt->sgl; sg; sg = sg_next(sg))
++		if (sg_page(sg))
++			__free_pages(sg_page(sg), get_order(sg->length));
++	sg_free_table(sgt);
++	kfree(sgt);
++}
 +
-+Request FIFO
-+------------
++static void qaic_gem_print_info(struct drm_printer *p, unsigned int indent,
++				const struct drm_gem_object *obj)
++{
++	struct qaic_bo *bo = to_qaic_bo(obj);
 +
-+A request FIFO element has the following structure:
++	drm_printf_indent(p, indent, "user requested size=%llu\n", bo->size);
++}
 +
-+.. code-block:: c
++static const struct vm_operations_struct drm_vm_ops = {
++	.open = drm_gem_vm_open,
++	.close = drm_gem_vm_close,
++};
 +
-+  struct request_elem {
++static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
++{
++	struct qaic_bo *bo = to_qaic_bo(obj);
++	unsigned long offset = 0;
++	struct scatterlist *sg;
++	int ret;
++
++	if (obj->import_attach)
++		return -EINVAL;
++
++	for (sg = bo->sgt->sgl; sg; sg = sg_next(sg)) {
++		if (sg_page(sg)) {
++			ret = remap_pfn_range(vma, vma->vm_start + offset, page_to_pfn(sg_page(sg)),
++					      sg->length, vma->vm_page_prot);
++			if (ret)
++				goto out;
++			offset += sg->length;
++		}
++	}
++
++out:
++	return ret;
++}
++
++static void qaic_free_object(struct drm_gem_object *obj)
++{
++	struct qaic_bo *bo = to_qaic_bo(obj);
++
++	if (obj->import_attach) {
++		/* DMABUF/PRIME Path */
++		dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
++		dma_buf_put(obj->import_attach->dmabuf);
++	} else {
++		/* Private buffer allocation path */
++		qaic_free_sgt(bo->sgt);
++	}
++
++	drm_gem_object_release(obj);
++	kfree(bo);
++}
++
++static const struct drm_gem_object_funcs qaic_gem_funcs = {
++	.free = qaic_free_object,
++	.print_info = qaic_gem_print_info,
++	.mmap = qaic_gem_object_mmap,
++	.vm_ops = &drm_vm_ops,
++};
++
++static struct qaic_bo *qaic_alloc_init_bo(void)
++{
++	struct qaic_bo *bo;
++
++	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
++	if (!bo)
++		return ERR_PTR(-ENOMEM);
++
++	INIT_LIST_HEAD(&bo->slices);
++	init_completion(&bo->xfer_done);
++	complete_all(&bo->xfer_done);
++
++	return bo;
++}
++
++int qaic_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
++{
++	struct qaic_create_bo *args = data;
++	int usr_rcu_id, qdev_rcu_id;
++	struct drm_gem_object *obj;
++	struct qaic_device *qdev;
++	struct qaic_user *usr;
++	struct qaic_bo *bo;
++	size_t size;
++	int ret;
++
++	if (args->pad)
++		return -EINVAL;
++
++	usr = file_priv->driver_priv;
++	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
++	if (!usr->qddev) {
++		ret = -ENODEV;
++		goto unlock_usr_srcu;
++	}
++
++	qdev = usr->qddev->qdev;
++	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
++	if (qdev->in_reset) {
++		ret = -ENODEV;
++		goto unlock_dev_srcu;
++	}
++
++	size = PAGE_ALIGN(args->size);
++	if (size == 0) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	bo = qaic_alloc_init_bo();
++	if (IS_ERR(bo)) {
++		ret = PTR_ERR(bo);
++		goto unlock_dev_srcu;
++	}
++	obj = &bo->base;
++
++	drm_gem_private_object_init(dev, obj, size);
++
++	obj->funcs = &qaic_gem_funcs;
++	ret = create_sgt(qdev, &bo->sgt, size);
++	if (ret)
++		goto free_bo;
++
++	bo->size = args->size;
++
++	ret = drm_gem_handle_create(file_priv, obj, &args->handle);
++	if (ret)
++		goto free_sgt;
++
++	bo->handle = args->handle;
++	drm_gem_object_put(obj);
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++
++	return 0;
++
++free_sgt:
++	qaic_free_sgt(bo->sgt);
++free_bo:
++	kfree(bo);
++unlock_dev_srcu:
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++unlock_usr_srcu:
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++	return ret;
++}
++
++int qaic_mmap_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
++{
++	struct qaic_mmap_bo *args = data;
++	int usr_rcu_id, qdev_rcu_id;
++	struct drm_gem_object *obj;
++	struct qaic_device *qdev;
++	struct qaic_user *usr;
++	int ret;
++
++	usr = file_priv->driver_priv;
++	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
++	if (!usr->qddev) {
++		ret = -ENODEV;
++		goto unlock_usr_srcu;
++	}
++
++	qdev = usr->qddev->qdev;
++	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
++	if (qdev->in_reset) {
++		ret = -ENODEV;
++		goto unlock_dev_srcu;
++	}
++
++	obj = drm_gem_object_lookup(file_priv, args->handle);
++	if (!obj) {
++		ret = -ENOENT;
++		goto unlock_dev_srcu;
++	}
++
++	ret = drm_gem_create_mmap_offset(obj);
++	if (ret == 0)
++		args->offset = drm_vma_node_offset_addr(&obj->vma_node);
++
++	drm_gem_object_put(obj);
++
++unlock_dev_srcu:
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++unlock_usr_srcu:
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++	return ret;
++}
++
++struct drm_gem_object *qaic_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf)
++{
++	struct dma_buf_attachment *attach;
++	struct drm_gem_object *obj;
++	struct qaic_bo *bo;
++	size_t size;
++	int ret;
++
++	bo = qaic_alloc_init_bo();
++	if (IS_ERR(bo)) {
++		ret = PTR_ERR(bo);
++		goto out;
++	}
++
++	obj = &bo->base;
++	get_dma_buf(dma_buf);
++
++	attach = dma_buf_attach(dma_buf, dev->dev);
++	if (IS_ERR(attach)) {
++		ret = PTR_ERR(attach);
++		goto attach_fail;
++	}
++
++	size = PAGE_ALIGN(attach->dmabuf->size);
++	if (size == 0) {
++		ret = -EINVAL;
++		goto size_align_fail;
++	}
++
++	drm_gem_private_object_init(dev, obj, size);
++	/*
++	 * skipping dma_buf_map_attachment() as we do not know the direction
++	 * just yet. Once the direction is known in the subsequent IOCTL to
++	 * attach slicing, we can do it then.
++	 */
++
++	obj->funcs = &qaic_gem_funcs;
++	obj->import_attach = attach;
++	obj->resv = dma_buf->resv;
++
++	return obj;
++
++size_align_fail:
++	dma_buf_detach(dma_buf, attach);
++attach_fail:
++	dma_buf_put(dma_buf);
++	kfree(bo);
++out:
++	return ERR_PTR(ret);
++}
++
++static int qaic_prepare_import_bo(struct qaic_bo *bo, struct qaic_attach_slice_hdr *hdr)
++{
++	struct drm_gem_object *obj = &bo->base;
++	struct sg_table *sgt;
++	int ret;
++
++	if (obj->import_attach->dmabuf->size < hdr->size)
++		return -EINVAL;
++
++	sgt = dma_buf_map_attachment(obj->import_attach, hdr->dir);
++	if (IS_ERR(sgt)) {
++		ret = PTR_ERR(sgt);
++		return ret;
++	}
++
++	bo->sgt = sgt;
++	bo->size = hdr->size;
++
++	return 0;
++}
++
++static int qaic_prepare_export_bo(struct qaic_device *qdev, struct qaic_bo *bo,
++				  struct qaic_attach_slice_hdr *hdr)
++{
++	int ret;
++
++	if (bo->size != hdr->size)
++		return -EINVAL;
++
++	ret = dma_map_sgtable(&qdev->pdev->dev, bo->sgt, hdr->dir, 0);
++	if (ret)
++		return -EFAULT;
++
++	return 0;
++}
++
++static int qaic_prepare_bo(struct qaic_device *qdev, struct qaic_bo *bo,
++			   struct qaic_attach_slice_hdr *hdr)
++{
++	int ret;
++
++	if (bo->base.import_attach)
++		ret = qaic_prepare_import_bo(bo, hdr);
++	else
++		ret = qaic_prepare_export_bo(qdev, bo, hdr);
++
++	if (ret == 0)
++		bo->dir = hdr->dir;
++
++	return ret;
++}
++
++static void qaic_unprepare_import_bo(struct qaic_bo *bo)
++{
++	dma_buf_unmap_attachment(bo->base.import_attach, bo->sgt, bo->dir);
++	bo->sgt = NULL;
++	bo->size = 0;
++}
++
++static void qaic_unprepare_export_bo(struct qaic_device *qdev, struct qaic_bo *bo)
++{
++	dma_unmap_sgtable(&qdev->pdev->dev, bo->sgt, bo->dir, 0);
++}
++
++static void qaic_unprepare_bo(struct qaic_device *qdev, struct qaic_bo *bo)
++{
++	if (bo->base.import_attach)
++		qaic_unprepare_import_bo(bo);
++	else
++		qaic_unprepare_export_bo(qdev, bo);
++
++	bo->dir = 0;
++}
++
++static void qaic_free_slices_bo(struct qaic_bo *bo)
++{
++	struct bo_slice *slice, *temp;
++
++	list_for_each_entry_safe(slice, temp, &bo->slices, slice)
++		kref_put(&slice->ref_count, free_slice);
++}
++
++static int qaic_attach_slicing_bo(struct qaic_device *qdev, struct qaic_bo *bo,
++				  struct qaic_attach_slice_hdr *hdr,
++				  struct qaic_attach_slice_entry *slice_ent)
++{
++	int ret, i;
++
++	for (i = 0; i < hdr->count; i++) {
++		ret = qaic_map_one_slice(qdev, bo, &slice_ent[i]);
++		if (ret) {
++			qaic_free_slices_bo(bo);
++			return ret;
++		}
++	}
++
++	if (bo->total_slice_nents > qdev->dbc[hdr->dbc_id].nelem) {
++		qaic_free_slices_bo(bo);
++		return -ENOSPC;
++	}
++
++	bo->sliced = true;
++	bo->nr_slice = hdr->count;
++	list_add_tail(&bo->bo_list, &qdev->dbc[hdr->dbc_id].bo_lists);
++
++	return 0;
++}
++
++int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
++{
++	struct qaic_attach_slice_entry *slice_ent;
++	struct qaic_attach_slice *args = data;
++	struct dma_bridge_chan	*dbc;
++	int usr_rcu_id, qdev_rcu_id;
++	struct drm_gem_object *obj;
++	struct qaic_device *qdev;
++	unsigned long arg_size;
++	struct qaic_user *usr;
++	u8 __user *user_data;
++	struct qaic_bo *bo;
++	int ret;
++
++	usr = file_priv->driver_priv;
++	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
++	if (!usr->qddev) {
++		ret = -ENODEV;
++		goto unlock_usr_srcu;
++	}
++
++	qdev = usr->qddev->qdev;
++	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
++	if (qdev->in_reset) {
++		ret = -ENODEV;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->hdr.count == 0) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	arg_size = args->hdr.count * sizeof(*slice_ent);
++	if (arg_size / args->hdr.count != sizeof(*slice_ent)) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->hdr.dbc_id >= qdev->num_dbc) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->hdr.size == 0) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	if (!(args->hdr.dir == DMA_TO_DEVICE  || args->hdr.dir == DMA_FROM_DEVICE)) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	dbc = &qdev->dbc[args->hdr.dbc_id];
++	if (dbc->usr != usr) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->data == 0) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	user_data = u64_to_user_ptr(args->data);
++
++	slice_ent = kzalloc(arg_size, GFP_KERNEL);
++	if (!slice_ent) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	ret = copy_from_user(slice_ent, user_data, arg_size);
++	if (ret) {
++		ret = -EFAULT;
++		goto free_slice_ent;
++	}
++
++	ret = qaic_validate_req(qdev, slice_ent, args->hdr.count, args->hdr.size);
++	if (ret)
++		goto free_slice_ent;
++
++	obj = drm_gem_object_lookup(file_priv, args->hdr.handle);
++	if (!obj) {
++		ret = -ENOENT;
++		goto free_slice_ent;
++	}
++
++	bo = to_qaic_bo(obj);
++
++	ret = qaic_prepare_bo(qdev, bo, &args->hdr);
++	if (ret)
++		goto put_bo;
++
++	ret = qaic_attach_slicing_bo(qdev, bo, &args->hdr, slice_ent);
++	if (ret)
++		goto unprepare_bo;
++
++	if (args->hdr.dir == DMA_TO_DEVICE)
++		dma_sync_sgtable_for_cpu(&qdev->pdev->dev, bo->sgt, args->hdr.dir);
++
++	bo->dbc = dbc;
++	drm_gem_object_put(obj);
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++
++	return 0;
++
++unprepare_bo:
++	qaic_unprepare_bo(qdev, bo);
++put_bo:
++	drm_gem_object_put(obj);
++free_slice_ent:
++	kfree(slice_ent);
++unlock_dev_srcu:
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++unlock_usr_srcu:
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++	return ret;
++}
++
++static inline int copy_exec_reqs(struct qaic_device *qdev, struct bo_slice *slice, u32 dbc_id,
++				 u32 head, u32 *ptail)
++{
++	struct dma_bridge_chan *dbc = &qdev->dbc[dbc_id];
++	struct dbc_req *reqs = slice->reqs;
++	u32 tail = *ptail;
++	u32 avail;
++
++	avail = head - tail;
++	if (head <= tail)
++		avail += dbc->nelem;
++
++	--avail;
++
++	if (avail < slice->nents)
++		return -EAGAIN;
++
++	if (tail + slice->nents > dbc->nelem) {
++		avail = dbc->nelem - tail;
++		avail = min_t(u32, avail, slice->nents);
++		memcpy(dbc->req_q_base + tail * get_dbc_req_elem_size(), reqs,
++		       sizeof(*reqs) * avail);
++		reqs += avail;
++		avail = slice->nents - avail;
++		if (avail)
++			memcpy(dbc->req_q_base, reqs, sizeof(*reqs) * avail);
++	} else {
++		memcpy(dbc->req_q_base + tail * get_dbc_req_elem_size(), reqs,
++		       sizeof(*reqs) * slice->nents);
++	}
++
++	*ptail = (tail + slice->nents) % dbc->nelem;
++
++	return 0;
++}
++
++/*
++ * Based on the value of resize we may only need to transmit first_n
++ * entries and the last entry, with last_bytes to send from the last entry.
++ * Note that first_n could be 0.
++ */
++static inline int copy_partial_exec_reqs(struct qaic_device *qdev, struct bo_slice *slice,
++					 u64 resize, u32 dbc_id, u32 head, u32 *ptail)
++{
++	struct dma_bridge_chan *dbc = &qdev->dbc[dbc_id];
++	struct dbc_req *reqs = slice->reqs;
++	struct dbc_req *last_req;
++	u32 tail = *ptail;
++	u64 total_bytes;
++	u64 last_bytes;
++	u32 first_n;
++	u32 avail;
++	int ret;
++	int i;
++
++	avail = head - tail;
++	if (head <= tail)
++		avail += dbc->nelem;
++
++	--avail;
++
++	total_bytes = 0;
++	for (i = 0; i < slice->nents; i++) {
++		total_bytes += le32_to_cpu(reqs[i].len);
++		if (total_bytes >= resize)
++			break;
++	}
++
++	if (total_bytes < resize) {
++		/* User space should have used the full buffer path. */
++		ret = -EINVAL;
++		return ret;
++	}
++
++	first_n = i;
++	last_bytes = i ? resize + le32_to_cpu(reqs[i].len) - total_bytes : resize;
++
++	if (avail < (first_n + 1))
++		return -EAGAIN;
++
++	if (first_n) {
++		if (tail + first_n > dbc->nelem) {
++			avail = dbc->nelem - tail;
++			avail = min_t(u32, avail, first_n);
++			memcpy(dbc->req_q_base + tail * get_dbc_req_elem_size(), reqs,
++			       sizeof(*reqs) * avail);
++			last_req = reqs + avail;
++			avail = first_n - avail;
++			if (avail)
++				memcpy(dbc->req_q_base, last_req, sizeof(*reqs) * avail);
++		} else {
++			memcpy(dbc->req_q_base + tail * get_dbc_req_elem_size(), reqs,
++			       sizeof(*reqs) * first_n);
++		}
++	}
++
++	/* Copy over the last entry. Here we need to adjust len to the left over
++	 * size, and set src and dst to the entry it is copied to.
++	 */
++	last_req = dbc->req_q_base + (tail + first_n) % dbc->nelem * get_dbc_req_elem_size();
++	memcpy(last_req, reqs + slice->nents - 1, sizeof(*reqs));
++
++	/*
++	 * last_bytes holds size of a DMA segment, maximum DMA segment size is
++	 * set to UINT_MAX by qaic and hence last_bytes can never exceed u32
++	 * range. So, by down sizing we are not corrupting the value.
++	 */
++	last_req->len = cpu_to_le32((u32)last_bytes);
++	last_req->src_addr = reqs[first_n].src_addr;
++	last_req->dest_addr = reqs[first_n].dest_addr;
++
++	*ptail = (tail + first_n + 1) % dbc->nelem;
++
++	return 0;
++}
++
++static int send_bo_list_to_device(struct qaic_device *qdev, struct drm_file *file_priv,
++				  struct qaic_execute_entry *exec, unsigned int count,
++				  bool is_partial, struct dma_bridge_chan *dbc, u32 head,
++				  u32 *tail)
++{
++	struct qaic_partial_execute_entry *pexec = (struct qaic_partial_execute_entry *)exec;
++	struct drm_gem_object *obj;
++	struct bo_slice *slice;
++	unsigned long flags;
++	struct qaic_bo *bo;
++	bool queued;
++	int i, j;
++	int ret;
++
++	for (i = 0; i < count; i++) {
++		/*
++		 * ref count will be decremented when the transfer of this
++		 * buffer is complete. It is inside dbc_irq_threaded_fn().
++		 */
++		obj = drm_gem_object_lookup(file_priv,
++					    is_partial ? pexec[i].handle : exec[i].handle);
++		if (!obj) {
++			ret = -ENOENT;
++			goto failed_to_send_bo;
++		}
++
++		bo = to_qaic_bo(obj);
++
++		if (!bo->sliced) {
++			ret = -EINVAL;
++			goto failed_to_send_bo;
++		}
++
++		if (is_partial && pexec[i].resize > bo->size) {
++			ret = -EINVAL;
++			goto failed_to_send_bo;
++		}
++
++		spin_lock_irqsave(&dbc->xfer_lock, flags);
++		queued = bo->queued;
++		bo->queued = true;
++		if (queued) {
++			spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++			ret = -EINVAL;
++			goto failed_to_send_bo;
++		}
++
++		bo->req_id = dbc->next_req_id++;
++
++		list_for_each_entry(slice, &bo->slices, slice) {
++			/*
++			 * If this slice does not fall under the given
++			 * resize then skip this slice and continue the loop
++			 */
++			if (is_partial && pexec[i].resize && pexec[i].resize <= slice->offset)
++				continue;
++
++			for (j = 0; j < slice->nents; j++)
++				slice->reqs[j].req_id = cpu_to_le16(bo->req_id);
++
++			/*
++			 * If it is a partial execute ioctl call then check if
++			 * resize has cut this slice short then do a partial copy
++			 * else do complete copy
++			 */
++			if (is_partial && pexec[i].resize &&
++			    pexec[i].resize < slice->offset + slice->size)
++				ret = copy_partial_exec_reqs(qdev, slice,
++							     pexec[i].resize - slice->offset,
++							     dbc->id, head, tail);
++			else
++				ret = copy_exec_reqs(qdev, slice, dbc->id, head, tail);
++			if (ret) {
++				bo->queued = false;
++				spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++				goto failed_to_send_bo;
++			}
++		}
++		reinit_completion(&bo->xfer_done);
++		list_add_tail(&bo->xfer_list, &dbc->xfer_list);
++		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++		dma_sync_sgtable_for_device(&qdev->pdev->dev, bo->sgt, bo->dir);
++	}
++
++	return 0;
++
++failed_to_send_bo:
++	if (likely(obj))
++		drm_gem_object_put(obj);
++	for (j = 0; j < i; j++) {
++		spin_lock_irqsave(&dbc->xfer_lock, flags);
++		bo = list_last_entry(&dbc->xfer_list, struct qaic_bo, xfer_list);
++		obj = &bo->base;
++		bo->queued = false;
++		list_del(&bo->xfer_list);
++		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++		dma_sync_sgtable_for_cpu(&qdev->pdev->dev, bo->sgt, bo->dir);
++		drm_gem_object_put(obj);
++	}
++	return ret;
++}
++
++static void update_profiling_data(struct drm_file *file_priv,
++				  struct qaic_execute_entry *exec, unsigned int count,
++				  bool is_partial, u64 received_ts, u64 submit_ts, u32 queue_level)
++{
++	struct qaic_partial_execute_entry *pexec = (struct qaic_partial_execute_entry *)exec;
++	struct drm_gem_object *obj;
++	struct qaic_bo *bo;
++	int i;
++
++	for (i = 0; i < count; i++) {
++		/*
++		 * Since we already committed the BO to hardware, the only way
++		 * this should fail is a pending signal. We can't cancel the
++		 * submit to hardware, so we have to just skip the profiling
++		 * data. In case the signal is not fatal to the process, we
++		 * return success so that the user doesn't try to resubmit.
++		 */
++		obj = drm_gem_object_lookup(file_priv,
++					    is_partial ? pexec[i].handle : exec[i].handle);
++		if (!obj)
++			break;
++		bo = to_qaic_bo(obj);
++		bo->perf_stats.req_received_ts = received_ts;
++		bo->perf_stats.req_submit_ts = submit_ts;
++		bo->perf_stats.queue_level_before = queue_level;
++		queue_level += bo->total_slice_nents;
++		drm_gem_object_put(obj);
++	}
++}
++
++static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv,
++				   bool is_partial)
++{
++	struct qaic_partial_execute_entry *pexec;
++	struct qaic_execute *args = data;
++	struct qaic_execute_entry *exec;
++	struct dma_bridge_chan *dbc;
++	int usr_rcu_id, qdev_rcu_id;
++	struct qaic_device *qdev;
++	struct qaic_user *usr;
++	u8 __user *user_data;
++	unsigned long n;
++	u64 received_ts;
++	u32 queue_level;
++	u64 submit_ts;
++	int rcu_id;
++	u32 head;
++	u32 tail;
++	u64 size;
++	int ret;
++
++	received_ts = ktime_get_ns();
++
++	size = is_partial ? sizeof(*pexec) : sizeof(*exec);
++
++	n = (unsigned long)size * args->hdr.count;
++	if (args->hdr.count == 0 || n / args->hdr.count != size)
++		return -EINVAL;
++
++	user_data = u64_to_user_ptr(args->data);
++
++	exec = kcalloc(args->hdr.count, size, GFP_KERNEL);
++	pexec = (struct qaic_partial_execute_entry *)exec;
++	if (!exec)
++		return -ENOMEM;
++
++	if (copy_from_user(exec, user_data, n)) {
++		ret = -EFAULT;
++		goto free_exec;
++	}
++
++	usr = file_priv->driver_priv;
++	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
++	if (!usr->qddev) {
++		ret = -ENODEV;
++		goto unlock_usr_srcu;
++	}
++
++	qdev = usr->qddev->qdev;
++	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
++	if (qdev->in_reset) {
++		ret = -ENODEV;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->hdr.dbc_id >= qdev->num_dbc) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	dbc = &qdev->dbc[args->hdr.dbc_id];
++
++	rcu_id = srcu_read_lock(&dbc->ch_lock);
++	if (!dbc->usr || dbc->usr->handle != usr->handle) {
++		ret = -EPERM;
++		goto release_ch_rcu;
++	}
++
++	head = readl(dbc->dbc_base + REQHP_OFF);
++	tail = readl(dbc->dbc_base + REQTP_OFF);
++
++	if (head == U32_MAX || tail == U32_MAX) {
++		/* PCI link error */
++		ret = -ENODEV;
++		goto release_ch_rcu;
++	}
++
++	queue_level = head <= tail ? tail - head : dbc->nelem - (head - tail);
++
++	ret = send_bo_list_to_device(qdev, file_priv, exec, args->hdr.count, is_partial, dbc,
++				     head, &tail);
++	if (ret)
++		goto release_ch_rcu;
++
++	/* Finalize commit to hardware */
++	submit_ts = ktime_get_ns();
++	writel(tail, dbc->dbc_base + REQTP_OFF);
++
++	update_profiling_data(file_priv, exec, args->hdr.count, is_partial, received_ts,
++			      submit_ts, queue_level);
++
++	if (datapath_polling)
++		schedule_work(&dbc->poll_work);
++
++release_ch_rcu:
++	srcu_read_unlock(&dbc->ch_lock, rcu_id);
++unlock_dev_srcu:
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++unlock_usr_srcu:
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++free_exec:
++	kfree(exec);
++	return ret;
++}
++
++int qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
++{
++	return __qaic_execute_bo_ioctl(dev, data, file_priv, false);
++}
++
++int qaic_partial_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
++{
++	return __qaic_execute_bo_ioctl(dev, data, file_priv, true);
++}
++
++/*
++ * Our interrupt handling is a bit more complicated than a simple ideal, but
++ * sadly necessary.
++ *
++ * Each dbc has a completion queue. Entries in the queue correspond to DMA
++ * requests which the device has processed. The hardware already has a built
++ * in irq mitigation. When the device puts an entry into the queue, it will
++ * only trigger an interrupt if the queue was empty. Therefore, when adding
++ * the Nth event to a non-empty queue, the hardware doesn't trigger an
++ * interrupt. This means the host doesn't get additional interrupts signaling
++ * the same thing - the queue has something to process.
++ * This behavior can be overridden in the DMA request.
++ * This means that when the host receives an interrupt, it is required to
++ * drain the queue.
++ *
++ * This behavior is what NAPI attempts to accomplish, although we can't use
++ * NAPI as we don't have a netdev. We use threaded irqs instead.
++ *
++ * However, there is a situation where the host drains the queue fast enough
++ * that every event causes an interrupt. Typically this is not a problem as
++ * the rate of events would be low. However, that is not the case with
++ * lprnet for example. On an Intel Xeon D-2191 where we run 8 instances of
++ * lprnet, the host receives roughly 80k interrupts per second from the device
++ * (per /proc/interrupts). While NAPI documentation indicates the host should
++ * just chug along, sadly that behavior causes instability in some hosts.
++ *
++ * Therefore, we implement an interrupt disable scheme similar to NAPI. The
++ * key difference is that we will delay after draining the queue for a small
++ * time to allow additional events to come in via polling. Using the above
++ * lprnet workload, this reduces the number of interrupts processed from
++ * ~80k/sec to about 64 in 5 minutes and appears to solve the system
++ * instability.
++ */
++irqreturn_t dbc_irq_handler(int irq, void *data)
++{
++	struct dma_bridge_chan *dbc = data;
++	int rcu_id;
++	u32 head;
++	u32 tail;
++
++	rcu_id = srcu_read_lock(&dbc->ch_lock);
++
++	if (!dbc->usr) {
++		srcu_read_unlock(&dbc->ch_lock, rcu_id);
++		return IRQ_HANDLED;
++	}
++
++	head = readl(dbc->dbc_base + RSPHP_OFF);
++	if (head == U32_MAX) { /* PCI link error */
++		srcu_read_unlock(&dbc->ch_lock, rcu_id);
++		return IRQ_NONE;
++	}
++
++	tail = readl(dbc->dbc_base + RSPTP_OFF);
++	if (tail == U32_MAX) { /* PCI link error */
++		srcu_read_unlock(&dbc->ch_lock, rcu_id);
++		return IRQ_NONE;
++	}
++
++	if (head == tail) { /* queue empty */
++		srcu_read_unlock(&dbc->ch_lock, rcu_id);
++		return IRQ_NONE;
++	}
++
++	disable_irq_nosync(irq);
++	srcu_read_unlock(&dbc->ch_lock, rcu_id);
++	return IRQ_WAKE_THREAD;
++}
++
++void irq_polling_work(struct work_struct *work)
++{
++	struct dma_bridge_chan *dbc = container_of(work, struct dma_bridge_chan,  poll_work);
++	unsigned long flags;
++	int rcu_id;
++	u32 head;
++	u32 tail;
++
++	rcu_id = srcu_read_lock(&dbc->ch_lock);
++
++	while (1) {
++		if (dbc->qdev->in_reset) {
++			srcu_read_unlock(&dbc->ch_lock, rcu_id);
++			return;
++		}
++		if (!dbc->usr) {
++			srcu_read_unlock(&dbc->ch_lock, rcu_id);
++			return;
++		}
++		spin_lock_irqsave(&dbc->xfer_lock, flags);
++		if (list_empty(&dbc->xfer_list)) {
++			spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++			srcu_read_unlock(&dbc->ch_lock, rcu_id);
++			return;
++		}
++		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++
++		head = readl(dbc->dbc_base + RSPHP_OFF);
++		if (head == U32_MAX) { /* PCI link error */
++			srcu_read_unlock(&dbc->ch_lock, rcu_id);
++			return;
++		}
++
++		tail = readl(dbc->dbc_base + RSPTP_OFF);
++		if (tail == U32_MAX) { /* PCI link error */
++			srcu_read_unlock(&dbc->ch_lock, rcu_id);
++			return;
++		}
++
++		if (head != tail) {
++			irq_wake_thread(dbc->irq, dbc);
++			srcu_read_unlock(&dbc->ch_lock, rcu_id);
++			return;
++		}
++
++		cond_resched();
++		usleep_range(datapath_poll_interval_us, 2 * datapath_poll_interval_us);
++	}
++}
++
++irqreturn_t dbc_irq_threaded_fn(int irq, void *data)
++{
++	struct dma_bridge_chan *dbc = data;
++	int event_count = NUM_EVENTS;
++	int delay_count = NUM_DELAYS;
++	struct qaic_device *qdev;
++	struct qaic_bo *bo, *i;
++	struct dbc_rsp *rsp;
++	unsigned long flags;
++	int rcu_id;
++	u16 status;
 +	u16 req_id;
-+	u8  seq_id;
-+	u8  pcie_dma_cmd;
-+	u32 reserved;
-+	u64 pcie_dma_source_addr;
-+	u64 pcie_dma_dest_addr;
-+	u32 pcie_dma_len;
-+	u32 reserved;
-+	u64 doorbell_addr;
-+	u8  doorbell_attr;
-+	u8  reserved;
-+	u16 reserved;
-+	u32 doorbell_data;
-+	u32 sem_cmd0;
-+	u32 sem_cmd1;
-+	u32 sem_cmd2;
-+	u32 sem_cmd3;
-+  };
-+
-+Request field descriptions:
-+
-+req_id
-+	request ID. A request FIFO element and a response FIFO element with
-+	the same request ID refer to the same command.
-+
-+seq_id
-+	sequence ID within a request. Ignored by the DMA Bridge.
-+
-+pcie_dma_cmd
-+	describes the DMA element of this request.
-+
-+	* Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
-+	  and generates a MSI when this request is complete, and QSM
-+	  configures the DMA Bridge to look at this bit.
-+	* Bits(6:5) are reserved.
-+	* Bit(4) is the completion code flag, and indicates that the DMA Bridge
-+	  shall generate a response FIFO element when this request is
-+	  complete.
-+	* Bit(3) indicates if this request is a linked list transfer(0) or a bulk
-+	  transfer(1).
-+	* Bit(2) is reserved.
-+	* Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
-+	  from device(2). Value 3 is illegal.
-+
-+pcie_dma_source_addr
-+	source address for a bulk transfer, or the address of the linked list.
-+
-+pcie_dma_dest_addr
-+	destination address for a bulk transfer.
-+
-+pcie_dma_len
-+	length of the bulk transfer. Note that the size of this field
-+	limits transfers to 4G in size.
-+
-+doorbell_addr
-+	address of the doorbell to ring when this request is complete.
-+
-+doorbell_attr
-+	doorbell attributes.
-+
-+	* Bit(7) indicates if a write to a doorbell is to occur.
-+	* Bits(6:2) are reserved.
-+	* Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
-+	  1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
-+	  must be naturally aligned to the specified length.
-+
-+doorbell_data
-+	data to write to the doorbell. Only the bits corresponding to
-+	the doorbell length are valid.
-+
-+sem_cmdN
-+	semaphore command.
-+
-+	* Bit(31) indicates this semaphore command is enabled.
-+	* Bit(30) is the to-device DMA fence. Block this request until all
-+	  to-device DMA transfers are complete.
-+	* Bit(29) is the from-device DMA fence. Block this request until all
-+	  from-device DMA transfers are complete.
-+	* Bits(28:27) are reserved.
-+	* Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
-+	  specified value. 2 is increment. 3 is decrement. 4 is wait
-+	  until the semaphore is equal to the specified value. 5 is wait
-+	  until the semaphore is greater or equal to the specified value.
-+	  6 is "P", wait until semaphore is greater than 0, then
-+	  decrement by 1. 7 is reserved.
-+	* Bit(23) is reserved.
-+	* Bit(22) is the semaphore sync. 0 is post sync, which means that the
-+	  semaphore operation is done after the DMA transfer. 1 is
-+	  presync, which gates the DMA transfer. Only one presync is
-+	  allowed per request.
-+	* Bit(21) is reserved.
-+	* Bits(20:16) is the index of the semaphore to operate on.
-+	* Bits(15:12) are reserved.
-+	* Bits(11:0) are the semaphore value to use in operations.
-+
-+Overall, a request is processed in 4 steps:
-+
-+1. If specified, the presync semaphore condition must be true
-+2. If enabled, the DMA transfer occurs
-+3. If specified, the postsync semaphore conditions must be true
-+4. If enabled, the doorbell is written
-+
-+By using the semaphores in conjunction with the workload running on the NSPs,
-+the data pipeline can be synchronized such that the host can queue multiple
-+requests of data for the workload to process, but the DMA Bridge will only copy
-+the data into the memory of the workload when the workload is ready to process
-+the next input.
-+
-+Response FIFO
-+-------------
-+
-+Once a request is fully processed, a response FIFO element is generated if
-+specified in pcie_dma_cmd. The structure of a response FIFO element:
-+
-+.. code-block:: c
-+
-+  struct response_elem {
-+	u16 req_id;
-+	u16 completion_code;
-+  };
-+
-+req_id
-+	matches the req_id of the request that generated this element.
-+
-+completion_code
-+	status of this request. 0 is success. Non-zero is an error.
-+
-+The DMA Bridge will generate a MSI to the host as a reaction to activity in the
-+response FIFO of a DBC. The DMA Bridge hardware has an IRQ storm mitigation
-+algorithm, where it will only generate a MSI when the response FIFO transitions
-+from empty to non-empty (unless force MSI is enabled and triggered). In
-+response to this MSI, the host is expected to drain the response FIFO, and must
-+take care to handle any race conditions between draining the FIFO, and the
-+device inserting elements into the FIFO.
-+
-+Neural Network Control (NNC) Protocol
-+=====================================
-+
-+The NNC protocol is how the host makes requests to the QSM to manage workloads.
-+It uses the QAIC_CONTROL MHI channel.
-+
-+Each NNC request is packaged into a message. Each message is a series of
-+transactions. A passthrough type transaction can contain elements known as
-+commands.
-+
-+QSM requires NNC messages be little endian encoded and the fields be naturally
-+aligned. Since there are 64-bit elements in some NNC messages, 64-bit alignment
-+must be maintained.
-+
-+A message contains a header and then a series of transactions. A message may be
-+at most 4K in size from QSM to the host. From the host to the QSM, a message
-+can be at most 64K (maximum size of a single MHI packet), but there is a
-+continuation feature where message N+1 can be marked as a continuation of
-+message N. This is used for exceedingly large DMA xfer transactions.
-+
-+Transaction descriptions
-+------------------------
-+
-+passthrough
-+	Allows userspace to send an opaque payload directly to the QSM.
-+	This is used for NNC commands. Userspace is responsible for managing
-+	the QSM message requirements in the payload.
-+
-+dma_xfer
-+	DMA transfer. Describes an object that the QSM should DMA into the
-+	device via address and size tuples.
-+
-+activate
-+	Activate a workload onto NSPs. The host must provide memory to be
-+	used by the DBC.
-+
-+deactivate
-+	Deactivate an active workload and return the NSPs to idle.
-+
-+status
-+	Query the QSM about it's NNC implementation. Returns the NNC version,
-+	and if CRC is used.
-+
-+terminate
-+	Release a user's resources.
-+
-+dma_xfer_cont
-+	Continuation of a previous DMA transfer. If a DMA transfer
-+	cannot be specified in a single message (highly fragmented), this
-+	transaction can be used to specify more ranges.
-+
-+validate_partition
-+	Query to QSM to determine if a partition identifier is valid.
-+
-+Each message is tagged with a user id, and a partition id. The user id allows
-+QSM to track resources, and release them when the user goes away (eg the process
-+crashes). A partition id identifies the resource partition that QSM manages,
-+which this message applies to.
-+
-+Messages may have CRCs. Messages should have CRCs applied until the QSM
-+reports via the status transaction that CRCs are not needed. The QSM on the
-+SA9000P requires CRCs for black channel safing.
-+
-+Subsystem Restart (SSR)
-+=======================
-+
-+SSR is the concept of limiting the impact of an error. An AIC100 device may
-+have multiple users, each with their own workload running. If the workload of
-+one user crashes, the fallout of that should be limited to that workload and not
-+impact other workloads. SSR accomplishes this.
-+
-+If a particular workload crashes, QSM notifies the host via the QAIC_SSR MHI
-+channel. This notification identifies the workload by it's assigned DBC. A
-+multi-stage recovery process is then used to cleanup both sides, and get the
-+DBC/NSPs into a working state.
-+
-+When SSR occurs, any state in the workload is lost. Any inputs that were in
-+process, or queued by not yet serviced, are lost. The loaded artifacts will
-+remain in on-card DDR, but the host will need to re-activate the workload if
-+it desires to recover the workload.
-+
-+Reliability, Accessibility, Serviceability (RAS)
-+================================================
-+
-+AIC100 is expected to be deployed in server systems where RAS ideology is
-+applied. Simply put, RAS is the concept of detecting, classifying, and
-+reporting errors. While PCIe has AER (Advanced Error Reporting) which factors
-+into RAS, AER does not allow for a device to report details about internal
-+errors. Therefore, AIC100 implements a custom RAS mechanism. When a RAS event
-+occurs, QSM will report the event with appropriate details via the QAIC_STATUS
-+MHI channel. A sysadmin may determine that a particular device needs
-+additional service based on RAS reports.
-+
-+Telemetry
-+=========
-+
-+QSM has the ability to report various physical attributes of the device, and in
-+some cases, to allow the host to control them. Examples include thermal limits,
-+thermal readings, and power readings. These items are communicated via the
-+QAIC_TELEMETRY MHI channel.
-diff --git a/Documentation/accel/qaic/index.rst b/Documentation/accel/qaic/index.rst
-new file mode 100644
-index 0000000..ad19b88
---- /dev/null
-+++ b/Documentation/accel/qaic/index.rst
-@@ -0,0 +1,13 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=====================================
-+ accel/qaic Qualcomm Cloud AI driver
-+=====================================
-+
-+The accel/qaic driver supports the Qualcomm Cloud AI machine learning
-+accelerator cards.
-+
-+.. toctree::
-+
-+   qaic
-+   aic100
-diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-new file mode 100644
-index 0000000..72a70ab
---- /dev/null
-+++ b/Documentation/accel/qaic/qaic.rst
-@@ -0,0 +1,170 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=============
-+ QAIC driver
-+=============
-+
-+The QAIC driver is the Kernel Mode Driver (KMD) for the AIC100 family of AI
-+accelerator products.
-+
-+Interrupts
-+==========
-+
-+While the AIC100 DMA Bridge hardware implements an IRQ storm mitigation
-+mechanism, it is still possible for an IRQ storm to occur. A storm can happen
-+if the workload is particularly quick, and the host is responsive. If the host
-+can drain the response FIFO as quickly as the device can insert elements into
-+it, then the device will frequently transition the response FIFO from empty to
-+non-empty and generate MSIs at a rate equivalent to the speed of the
-+workload's ability to process inputs. The lprnet (license plate reader network)
-+workload is known to trigger this condition, and can generate in excess of 100k
-+MSIs per second. It has been observed that most systems cannot tolerate this
-+for long, and will crash due to some form of watchdog due to the overhead of
-+the interrupt controller interrupting the host CPU.
-+
-+To mitigate this issue, the QAIC driver implements specific IRQ handling. When
-+QAIC receives an IRQ, it disables that line. This prevents the interrupt
-+controller from interrupting the CPU. Then AIC drains the FIFO. Once the FIFO
-+is drained, QAIC implements a "last chance" polling algorithm where QAIC will
-+sleep for a time to see if the workload will generate more activity. The IRQ
-+line remains disabled during this time. If no activity is detected, QAIC exits
-+polling mode and reenables the IRQ line.
-+
-+This mitigation in QAIC is very effective. The same lprnet usecase that
-+generates 100k IRQs per second (per /proc/interrupts) is reduced to roughly 64
-+IRQs over 5 minutes while keeping the host system stable, and having the same
-+workload throughput performance (within run to run noise variation).
-+
-+
-+Neural Network Control (NNC) Protocol
-+=====================================
-+
-+The implementation of NNC is split between the KMD (QAIC) and UMD. In general
-+QAIC understands how to encode/decode NNC wire protocol, and elements of the
-+protocol which require kernel space knowledge to process (for example, mapping
-+host memory to device IOVAs). QAIC understands the structure of a message, and
-+all of the transactions. QAIC does not understand commands (the payload of a
-+passthrough transaction).
-+
-+QAIC handles and enforces the required little endianness and 64-bit alignment,
-+to the degree that it can. Since QAIC does not know the contents of a
-+passthrough transaction, it relies on the UMD to satisfy the requirements.
-+
-+The terminate transaction is of particular use to QAIC. QAIC is not aware of
-+the resources that are loaded onto a device since the majority of that activity
-+occurs within NNC commands. As a result, QAIC does not have the means to
-+roll back userspace activity. To ensure that a userspace client's resources
-+are fully released in the case of a process crash, or a bug, QAIC uses the
-+terminate command to let QSM know when a user has gone away, and the resources
-+can be released.
-+
-+QSM can report a version number of the NNC protocol it supports. This is in the
-+form of a Major number and a Minor number.
-+
-+Major number updates indicate changes to the NNC protocol which impact the
-+message format, or transactions (impacts QAIC).
-+
-+Minor number updates indicate changes to the NNC protocol which impact the
-+commands (does not impact QAIC).
-+
-+uAPI
-+====
-+
-+QAIC defines a number of driver specific IOCTLs as part of the userspace API.
-+This section describes those APIs.
-+
-+DRM_IOCTL_QAIC_MANAGE
-+  This IOCTL allows userspace to send a NNC request to the QSM. The call will
-+  block until a response is received, or the request has timed out.
-+
-+DRM_IOCTL_QAIC_CREATE_BO
-+  This IOCTL allows userspace to allocate a buffer object (BO) which can send
-+  or receive data from a workload. The call will return a GEM handle that
-+  represents the allocated buffer. The BO is not usable until it has been
-+  sliced (see DRM_IOCTL_QAIC_ATTACH_SLICE_BO).
-+
-+DRM_IOCTL_QAIC_MMAP_BO
-+  This IOCTL allows userspace to prepare an allocated BO to be mmap'd into the
-+  userspace process.
-+
-+DRM_IOCTL_QAIC_ATTACH_SLICE_BO
-+  This IOCTL allows userspace to slice a BO in preparation for sending the BO
-+  to the device. Slicing is the operation of describing what portions of a BO
-+  get sent where to a workload. This requires a set of DMA transfers for the
-+  DMA Bridge, and as such, locks the BO to a specific DBC.
-+
-+DRM_IOCTL_QAIC_EXECUTE_BO
-+  This IOCTL allows userspace to submit a set of sliced BOs to the device. The
-+  call is non-blocking. Success only indicates that the BOs have been queued
-+  to the device, but does not guarantee they have been executed.
-+
-+DRM_IOCTL_QAIC_PARTIAL_EXECUTE_BO
-+  This IOCTL operates like DRM_IOCTL_QAIC_EXECUTE_BO, but it allows userspace
-+  to shrink the BOs sent to the device for this specific call. If a BO
-+  typically has N inputs, but only a subset of those is available, this IOCTL
-+  allows userspace to indicate that only the first M bytes of the BO should be
-+  sent to the device to minimize data transfer overhead. This IOCTL dynamically
-+  recomputes the slicing, and therefore has some processing overhead before the
-+  BOs can be queued to the device.
-+
-+DRM_IOCTL_QAIC_WAIT_BO
-+  This IOCTL allows userspace to determine when a particular BO has been
-+  processed by the device. The call will block until either the BO has been
-+  processed and can be re-queued to the device, or a timeout occurs.
-+
-+DRM_IOCTL_QAIC_PERF_STATS_BO
-+  This IOCTL allows userspace to collect performance statistics on the most
-+  recent execution of a BO. This allows userspace to construct an end to end
-+  timeline of the BO processing for a performance analysis.
-+
-+DRM_IOCTL_QAIC_PART_DEV
-+  This IOCTL allows userspace to request a duplicate "shadow device". This extra
-+  accelN device is associated with a specific partition of resources on the
-+  AIC100 device and can be used for limiting a process to some subset of
-+  resources.
-+
-+Userspace Client Isolation
-+==========================
-+
-+AIC100 supports multiple clients. Multiple DBCs can be consumed by a single
-+client, and multiple clients can each consume one or more DBCs. Workloads
-+may contain sensitive information therefore only the client that owns the
-+workload should be allowed to interface with the DBC.
-+
-+Clients are identified by the instance associated with their open(). A client
-+may only use memory they allocate, and DBCs that are assigned to their
-+workloads. Attempts to access resources assigned to other clients will be
-+rejected.
-+
-+Module parameters
-+=================
-+
-+QAIC supports the following module parameters:
-+
-+**datapath_polling (bool)**
-+
-+Configures QAIC to use a polling thread for datapath events instead of relying
-+on the device interrupts. Useful for platforms with broken multiMSI. Must be
-+set at QAIC driver initialization. Default is 0 (off).
-+
-+**mhi_timeout_ms (unsigned int)**
-+
-+Sets the timeout value for MHI operations in milliseconds (ms). Must be set
-+at the time the driver detects a device. Default is 2000 (2 seconds).
-+
-+**control_resp_timeout_s (unsigned int)**
-+
-+Sets the timeout value for QSM responses to NNC messages in seconds (s). Must
-+be set at the time the driver is sending a request to QSM. Default is 60 (one
-+minute).
-+
-+**wait_exec_default_timeout_ms (unsigned int)**
-+
-+Sets the default timeout for the wait_exec ioctl in milliseconds (ms). Must be
-+set prior to the waic_exec ioctl call. A value specified in the ioctl call
-+overrides this for that call. Default is 5000 (5 seconds).
-+
-+**datapath_poll_interval_us (unsigned int)**
-+
-+Sets the polling interval in microseconds (us) when datapath polling is active.
-+Takes effect at the next polling interval. Default is 100 (100 us).
++	u32 head;
++	u32 tail;
++
++	rcu_id = srcu_read_lock(&dbc->ch_lock);
++
++	head = readl(dbc->dbc_base + RSPHP_OFF);
++	if (head == U32_MAX) /* PCI link error */
++		goto error_out;
++
++	qdev = dbc->qdev;
++read_fifo:
++
++	if (!event_count) {
++		event_count = NUM_EVENTS;
++		cond_resched();
++	}
++
++	/*
++	 * if this channel isn't assigned or gets unassigned during processing
++	 * we have nothing further to do
++	 */
++	if (!dbc->usr)
++		goto error_out;
++
++	tail = readl(dbc->dbc_base + RSPTP_OFF);
++	if (tail == U32_MAX) /* PCI link error */
++		goto error_out;
++
++	if (head == tail) { /* queue empty */
++		if (delay_count) {
++			--delay_count;
++			usleep_range(100, 200);
++			goto read_fifo; /* check for a new event */
++		}
++		goto normal_out;
++	}
++
++	delay_count = NUM_DELAYS;
++	while (head != tail) {
++		if (!event_count)
++			break;
++		--event_count;
++		rsp = dbc->rsp_q_base + head * sizeof(*rsp);
++		req_id = le16_to_cpu(rsp->req_id);
++		status = le16_to_cpu(rsp->status);
++		if (status)
++			pci_dbg(qdev->pdev, "req_id %d failed with status %d\n", req_id, status);
++		spin_lock_irqsave(&dbc->xfer_lock, flags);
++		/*
++		 * A BO can receive multiple interrupts, since a BO can be
++		 * divided into multiple slices and a buffer receives as many
++		 * interrupts as slices. So until it receives interrupts for
++		 * all the slices we cannot mark that buffer complete.
++		 */
++		list_for_each_entry_safe(bo, i, &dbc->xfer_list, xfer_list) {
++			if (bo->req_id == req_id)
++				bo->nr_slice_xfer_done++;
++			else
++				continue;
++
++			if (bo->nr_slice_xfer_done < bo->nr_slice)
++				break;
++
++			/*
++			 * At this point we have received all the interrupts for
++			 * BO, which means BO execution is complete.
++			 */
++			dma_sync_sgtable_for_cpu(&qdev->pdev->dev, bo->sgt, bo->dir);
++			bo->nr_slice_xfer_done = 0;
++			bo->queued = false;
++			list_del(&bo->xfer_list);
++			bo->perf_stats.req_processed_ts = ktime_get_ns();
++			complete_all(&bo->xfer_done);
++			drm_gem_object_put(&bo->base);
++			break;
++		}
++		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++		head = (head + 1) % dbc->nelem;
++	}
++
++	/*
++	 * Update the head pointer of response queue and let the device know
++	 * that we have consumed elements from the queue.
++	 */
++	writel(head, dbc->dbc_base + RSPHP_OFF);
++
++	/* elements might have been put in the queue while we were processing */
++	goto read_fifo;
++
++normal_out:
++	if (likely(!datapath_polling))
++		enable_irq(irq);
++	else
++		schedule_work(&dbc->poll_work);
++	/* checking the fifo and enabling irqs is a race, missed event check */
++	tail = readl(dbc->dbc_base + RSPTP_OFF);
++	if (tail != U32_MAX && head != tail) {
++		if (likely(!datapath_polling))
++			disable_irq_nosync(irq);
++		goto read_fifo;
++	}
++	srcu_read_unlock(&dbc->ch_lock, rcu_id);
++	return IRQ_HANDLED;
++
++error_out:
++	srcu_read_unlock(&dbc->ch_lock, rcu_id);
++	if (likely(!datapath_polling))
++		enable_irq(irq);
++	else
++		schedule_work(&dbc->poll_work);
++
++	return IRQ_HANDLED;
++}
++
++int qaic_wait_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
++{
++	struct qaic_wait *args = data;
++	int usr_rcu_id, qdev_rcu_id;
++	struct dma_bridge_chan *dbc;
++	struct drm_gem_object *obj;
++	struct qaic_device *qdev;
++	unsigned long timeout;
++	struct qaic_user *usr;
++	struct qaic_bo *bo;
++	int rcu_id;
++	int ret;
++
++	usr = file_priv->driver_priv;
++	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
++	if (!usr->qddev) {
++		ret = -ENODEV;
++		goto unlock_usr_srcu;
++	}
++
++	qdev = usr->qddev->qdev;
++	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
++	if (qdev->in_reset) {
++		ret = -ENODEV;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->pad != 0) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->dbc_id >= qdev->num_dbc) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	dbc = &qdev->dbc[args->dbc_id];
++
++	rcu_id = srcu_read_lock(&dbc->ch_lock);
++	if (dbc->usr != usr) {
++		ret = -EPERM;
++		goto unlock_ch_srcu;
++	}
++
++	obj = drm_gem_object_lookup(file_priv, args->handle);
++	if (!obj) {
++		ret = -ENOENT;
++		goto unlock_ch_srcu;
++	}
++
++	bo = to_qaic_bo(obj);
++	timeout = args->timeout ? args->timeout : wait_exec_default_timeout_ms;
++	timeout = msecs_to_jiffies(timeout);
++	ret = wait_for_completion_interruptible_timeout(&bo->xfer_done, timeout);
++	if (!ret) {
++		ret = -ETIMEDOUT;
++		goto put_obj;
++	}
++	if (ret > 0)
++		ret = 0;
++
++	if (!dbc->usr)
++		ret = -EPERM;
++
++put_obj:
++	drm_gem_object_put(obj);
++unlock_ch_srcu:
++	srcu_read_unlock(&dbc->ch_lock, rcu_id);
++unlock_dev_srcu:
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++unlock_usr_srcu:
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++	return ret;
++}
++
++int qaic_perf_stats_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
++{
++	struct qaic_perf_stats_entry *ent = NULL;
++	struct qaic_perf_stats *args = data;
++	int usr_rcu_id, qdev_rcu_id;
++	struct drm_gem_object *obj;
++	struct qaic_device *qdev;
++	struct qaic_user *usr;
++	struct qaic_bo *bo;
++	int ret, i;
++
++	usr = file_priv->driver_priv;
++	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
++	if (!usr->qddev) {
++		ret = -ENODEV;
++		goto unlock_usr_srcu;
++	}
++
++	qdev = usr->qddev->qdev;
++	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
++	if (qdev->in_reset) {
++		ret = -ENODEV;
++		goto unlock_dev_srcu;
++	}
++
++	if (args->hdr.dbc_id >= qdev->num_dbc) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	ent = kcalloc(args->hdr.count, sizeof(*ent), GFP_KERNEL);
++	if (!ent) {
++		ret = -EINVAL;
++		goto unlock_dev_srcu;
++	}
++
++	ret = copy_from_user(ent, u64_to_user_ptr(args->data), args->hdr.count * sizeof(*ent));
++	if (ret) {
++		ret = -EFAULT;
++		goto free_ent;
++	}
++
++	for (i = 0; i < args->hdr.count; i++) {
++		obj = drm_gem_object_lookup(file_priv, ent[i].handle);
++		if (!obj) {
++			ret = -ENOENT;
++			goto free_ent;
++		}
++		bo = to_qaic_bo(obj);
++		/*
++		 * perf stats ioctl is called before wait ioctl is complete then
++		 * the latency information is invalid.
++		 */
++		if (bo->perf_stats.req_processed_ts < bo->perf_stats.req_submit_ts) {
++			ent[i].device_latency_us = 0;
++		} else {
++			ent[i].device_latency_us = div_u64((bo->perf_stats.req_processed_ts -
++							    bo->perf_stats.req_submit_ts), 1000);
++		}
++		ent[i].submit_latency_us = div_u64((bo->perf_stats.req_submit_ts -
++						    bo->perf_stats.req_received_ts), 1000);
++		ent[i].queue_level_before = bo->perf_stats.queue_level_before;
++		ent[i].num_queue_element = bo->total_slice_nents;
++		drm_gem_object_put(obj);
++	}
++
++	if (copy_to_user(u64_to_user_ptr(args->data), ent, args->hdr.count * sizeof(*ent)))
++		ret = -EFAULT;
++
++free_ent:
++	kfree(ent);
++unlock_dev_srcu:
++	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
++unlock_usr_srcu:
++	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
++	return ret;
++}
++
++static void empty_xfer_list(struct qaic_device *qdev, struct dma_bridge_chan *dbc)
++{
++	unsigned long flags;
++	struct qaic_bo *bo;
++
++	spin_lock_irqsave(&dbc->xfer_lock, flags);
++	while (!list_empty(&dbc->xfer_list)) {
++		bo = list_first_entry(&dbc->xfer_list, typeof(*bo), xfer_list);
++		bo->queued = false;
++		list_del(&bo->xfer_list);
++		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++		dma_sync_sgtable_for_cpu(&qdev->pdev->dev, bo->sgt, bo->dir);
++		complete_all(&bo->xfer_done);
++		drm_gem_object_put(&bo->base);
++		spin_lock_irqsave(&dbc->xfer_lock, flags);
++	}
++	spin_unlock_irqrestore(&dbc->xfer_lock, flags);
++}
++
++int disable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr)
++{
++	if (!qdev->dbc[dbc_id].usr || qdev->dbc[dbc_id].usr->handle != usr->handle)
++		return -EPERM;
++
++	qdev->dbc[dbc_id].usr = NULL;
++	synchronize_srcu(&qdev->dbc[dbc_id].ch_lock);
++	return 0;
++}
++
++/**
++ * enable_dbc - Enable the DBC. DBCs are disabled by removing the context of
++ * user. Add user context back to DBC to enable it. This function trusts the
++ * DBC ID passed and expects the DBC to be disabled.
++ * @qdev: Qranium device handle
++ * @dbc_id: ID of the DBC
++ * @usr: User context
++ */
++void enable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr)
++{
++	qdev->dbc[dbc_id].usr = usr;
++}
++
++void wakeup_dbc(struct qaic_device *qdev, u32 dbc_id)
++{
++	struct dma_bridge_chan *dbc = &qdev->dbc[dbc_id];
++
++	dbc->usr = NULL;
++	empty_xfer_list(qdev, dbc);
++	synchronize_srcu(&dbc->ch_lock);
++}
++
++void release_dbc(struct qaic_device *qdev, u32 dbc_id)
++{
++	struct bo_slice *slice, *slice_temp;
++	struct qaic_bo *bo, *bo_temp;
++	struct dma_bridge_chan *dbc;
++
++	dbc = &qdev->dbc[dbc_id];
++	if (!dbc->in_use)
++		return;
++
++	wakeup_dbc(qdev, dbc_id);
++
++	dma_free_coherent(&qdev->pdev->dev, dbc->total_size, dbc->req_q_base, dbc->dma_addr);
++	dbc->total_size = 0;
++	dbc->req_q_base = NULL;
++	dbc->dma_addr = 0;
++	dbc->nelem = 0;
++	dbc->usr = NULL;
++
++	list_for_each_entry_safe(bo, bo_temp, &dbc->bo_lists, bo_list) {
++		list_for_each_entry_safe(slice, slice_temp, &bo->slices, slice)
++			kref_put(&slice->ref_count, free_slice);
++		bo->sliced = false;
++		INIT_LIST_HEAD(&bo->slices);
++		bo->total_slice_nents = 0;
++		bo->dir = 0;
++		bo->dbc = NULL;
++		bo->nr_slice = 0;
++		bo->nr_slice_xfer_done = 0;
++		bo->queued = false;
++		bo->req_id = 0;
++		init_completion(&bo->xfer_done);
++		complete_all(&bo->xfer_done);
++		list_del(&bo->bo_list);
++		bo->perf_stats.req_received_ts = 0;
++		bo->perf_stats.req_submit_ts = 0;
++		bo->perf_stats.req_processed_ts = 0;
++		bo->perf_stats.queue_level_before = 0;
++	}
++
++	dbc->in_use = false;
++	wake_up(&dbc->dbc_release);
++}
 -- 
 2.7.4
 
