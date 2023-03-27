@@ -2,85 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C56C6FD1D
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 17:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1071CC77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 17:36:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbjC0R1D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 13:27:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59658 "EHLO
+        id S232126AbjC0Rgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 13:36:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230273AbjC0R1C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 13:27:02 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 665374229;
-        Mon, 27 Mar 2023 10:26:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id CB9CDCE18F5;
-        Mon, 27 Mar 2023 17:26:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C34C7C433EF;
-        Mon, 27 Mar 2023 17:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679938011;
-        bh=ofpr8LvHjegum9DXiaI8m5me7aU3KrZdWE8e+usLlEU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=iTX/Drm8Xj3IgWIn9rXb+4McbMynUvuj7HmgrDVy4CaGMXddjqaW3m6vPxOOYkrfm
-         djbAZ8bYiZvlKiNxg5xMa60BAhQXFU/T/SUcCu8fq0rWj1sqbOKmF6GDJbr5Ubw6hn
-         5nZywhHsYDRyg87t4Q1wEPuC6UjEIMjIEkNXgFx9c642/HLwyOxZNekMFCL7oajFt6
-         OVmyPtkUfXX3/na8oO8KDjNE+oO/6ljiVLKVsY/61nEhoZmrDaTw2Y09Z8WCuD6XmY
-         l9QxiwbVtaF6xFEQY6BXEy3JVYjubgakAsQ84f0/NVZRSQ+9gq2x3Fy+2fGnCjtwqT
-         PHp80mzkNcJFA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next] docs: netdev: clarify the need to sending reverts as patches
-Date:   Mon, 27 Mar 2023 10:26:46 -0700
-Message-Id: <20230327172646.2622943-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S229804AbjC0Rga (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 13:36:30 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1383DF5
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 10:36:30 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id i22so6930330uat.8
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 10:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1679938589;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iEz3U669eusarpdOhYY7KYApKyeHC+XWqMsT7FRhmXs=;
+        b=X/+I64ySwrBmfuGZEe53ScuVQe0B8Ih9lH+keHrzFe3gwrkz0E83XPgyzDjUMjjiDD
+         g+bTo3+UwEwRHu81T6msOPGw/9FqE1f42194QiqP9/OqZiR1R34PhndLQMcrAMwVLC6N
+         LPfNvhr1c113OCgxM2WojAz+Q+Kez3ZKZPWa/8h/5uSFmVfw0K9GniowrUMt2OAfWXp1
+         bVALLmglOD1zHZPnG/jU7IhCa09JAxCudhOxX/pIpQ8Tq5BfTWK6uQXHczqCIVdXG2yc
+         ebR608LLiKgkkwaarNjccCwreBwrPeSPEdEZIjxeA90eqtFG/BF07eNL1/nEg7n3AuHl
+         ajhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679938589;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iEz3U669eusarpdOhYY7KYApKyeHC+XWqMsT7FRhmXs=;
+        b=XT3coehx8GGwuN+ha7uuIlrGQbN5OQqI1Czm4WfUSdqowjFz3oV7xL0tUwTg8bOVvG
+         hlYGYzkHXLSQfpkBopUHWmlsnnM6tCZNiQDY1sNmTEG0Zt0KJKu5d6JvfQa9xpcXwjKl
+         vr8UxVVCUrtseDcs3gbjn7Y9oK6X0N9cXFJRaogYpynkFcKN7OT6hlkjY4g9amWmf/0j
+         +jw73Ardix6j35hrHBh0HXMdIZzsCAf3rZJ7IpytLRdbtJcU1JLEd6G3mBMqqb8vv8n5
+         Bzk+n9ijzq1cclfhoqalBthQf6lZBcuVaRgNU9rKz/4WoFrtyhRM5pKHTZFt+DygHyde
+         F7GQ==
+X-Gm-Message-State: AAQBX9eRfZWOJZ7yALw9+GaSAe3+0AXcub02Nm053jlkz4eVZeDh9cSp
+        Nug27rFXTGZ6p5xxr3q0o/qzCbmx3IMzda1D4erfkg==
+X-Google-Smtp-Source: AKy350YbDMi2uGWPOd3bHOIwEjCKN7d/pdSlcBAJGKrIOUa6ARnClHJ058kfsjjEkkbOnvGFbJbs4whviQpqhVvD2WU=
+X-Received: by 2002:a1f:2dce:0:b0:436:4a89:bb11 with SMTP id
+ t197-20020a1f2dce000000b004364a89bb11mr7016521vkt.0.1679938588828; Mon, 27
+ Mar 2023 10:36:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230326062039.341479-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <20230326062039.341479-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+From:   Erdem Aktas <erdemaktas@google.com>
+Date:   Mon, 27 Mar 2023 10:36:17 -0700
+Message-ID: <CAAYXXYxC++kRW_Kg0jieaxuwzTC2hu-9SxRjsHH_kqZW_DTE7Q@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] TDX Guest Quote generation support
+To:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We don't state explicitly that reverts need to be submitted
-as a patch. It occasionally comes up.
+On Sat, Mar 25, 2023 at 11:20=E2=80=AFPM Kuppuswamy Sathyanarayanan
+<sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
+>
+> Hi All,
+>
+> In TDX guest, the attestation process is used to verify the TDX guest
+> trustworthiness to other entities before provisioning secrets to the
+> guest.
+>
+> The TDX guest attestation process consists of two steps:
+>
+> 1. TDREPORT generation
+> 2. Quote generation.
+>
+> The First step (TDREPORT generation) involves getting the TDX guest
+> measurement data in the format of TDREPORT which is further used to
+> validate the authenticity of the TDX guest. The second step involves
+> sending the TDREPORT to a Quoting Enclave (QE) server to generate a
+> remotely verifiable Quote. TDREPORT by design can only be verified on
+> the local platform. To support remote verification of the TDREPORT,
+> TDX leverages Intel SGX Quoting Enclave to verify the TDREPORT
+> locally and convert it to a remotely verifiable Quote. Although
+> attestation software can use communication methods like TCP/IP or
+> vsock to send the TDREPORT to QE, not all platforms support these
+> communication models. So TDX GHCI specification [1] defines a method
+> for Quote generation via hypercalls. Please check the discussion from
+> Google [2] and Alibaba [3] which clarifies the need for hypercall based
+Thanks Sathyanarayanan for submitting patches again.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: corbet@lwn.net
-CC: linux-doc@vger.kernel.org
----
- Documentation/process/maintainer-netdev.rst | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index e31d7a951073..f6983563ff06 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -184,11 +184,18 @@ Handling misapplied patches
- 
- Occasionally a patch series gets applied before receiving critical feedback,
- or the wrong version of a series gets applied.
--There is no revert possible, once it is pushed out, it stays like that.
-+
-+Making the patch disappear once it is pushed out is not possible, the commit
-+history in netdev trees is stable.
- Please send incremental versions on top of what has been merged in order to fix
- the patches the way they would look like if your latest patch series was to be
- merged.
- 
-+In cases where full revert is needed the revert has to be submitted
-+as a patch to the list with a commit message explaining the technical
-+problems with the reverted commit. Reverts should be used as a last resort,
-+when original change is completely wrong; incremental fixes are preferred.
-+
- Stable tree
- ~~~~~~~~~~~
- 
--- 
-2.39.2
-
+I just wanted to reiterate what I said before that having a clean
+TDVMCALL based interface to get TDX Quote without any virtio/vsock
+dependency  is critical for us to support many use cases.
