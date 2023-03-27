@@ -2,303 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC47C76195
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 07:39:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0B7C761AF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 07:41:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230386AbjC0Hja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 03:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47480 "EHLO
+        id S232742AbjC0Hk7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 03:40:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232235AbjC0Hj2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 03:39:28 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC5E4EF8;
-        Mon, 27 Mar 2023 00:39:03 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32R2PeBd009341;
-        Mon, 27 Mar 2023 07:38:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ayGcta1t0/mhzZrSgvEXq8osqlgQtRCVCmvaYNaSBJ4=;
- b=UAccVUoHUtIDlt3GYuFBgJLl3P6PExrDwpmaL+nTiihV+WCY63jp579BBcibZZ682a7o
- QMZY4mq1kZRomw5rp5Hb/RqMOpmGfLt1HDcjBH0wTgNzq8YpXyDfEpev9Dq82X7rMMsf
- GWJhgmPVE4WbCE6qvdsnKNYCQgdqSBwm5eKvDa8YHFAkx3GEaxCcDtdkrf8e1L+Ox65b
- miG1N4iI8Zl3JIhHN7F5438R+tOuWzz7YukGrJA0Qb4jDvjSI3Ngl/wCxkQG3HFJTGFA
- iqJ3j8krHGcvjtlCNJJ4gwwHJIOuTvlU6qem1xFfGosKdvfaMItuOqvF+P1SMuzEF86e wg== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3phsrauquy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Mar 2023 07:38:18 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32R7cHqc010581
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Mar 2023 07:38:17 GMT
-Received: from [10.253.35.148] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 27 Mar
- 2023 00:38:11 -0700
-Message-ID: <e6b0a542-17d9-290e-7c84-8356a38d6802@quicinc.com>
-Date:   Mon, 27 Mar 2023 15:38:08 +0800
+        with ESMTP id S232713AbjC0Hks (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 03:40:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA98EC3;
+        Mon, 27 Mar 2023 00:40:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 83AFA61011;
+        Mon, 27 Mar 2023 07:40:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CD720C4339B;
+        Mon, 27 Mar 2023 07:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679902839;
+        bh=0TEk3ZqWXnxKuH/Fw6PufZL4vXFQjTfxwUoYTmilE6k=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=h1eQTJYwHRbb0dxZLl+zbMue6/IRHI8vO6L8MHPxTjMcOgyacc9uJ3vGD8xTHzwZW
+         MYEQ2B7dKK1vNcBIfBvozCIWTQd7oeHzHv8aJI0h98ATSCFN/y1SOo5XRGTKAH5k/h
+         e96I81aHzlLKoR24oHxvKU/ei5cGBO0DLJliB0qUEbhDEjtcEdXzrDH6LVKeWYE5+A
+         8HRt12CjW8hxIb5l5UQ9CAZ0tKeyW6UmGv1fhzt/DKZQMvY3mmpourITgV5XIuVRqB
+         AYJa4EG7478kzeyisPB+3yR79+UxJ+gIIEVq1hQ9I/hKzmPDWlZ1exKYRwY1mKe3zl
+         09l3oHpZAVK8g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B9428E4D029;
+        Mon, 27 Mar 2023 07:40:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/3] dt-bindings: arm: Add Coresight Dummy Trace YAML
- schema
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Leo Yan <leo.yan@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <coresight@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20230324061608.33609-1-quic_hazha@quicinc.com>
- <20230324061608.33609-3-quic_hazha@quicinc.com>
- <e51c200e-6de0-d516-3f32-28367b2f5a95@linaro.org>
-From:   Hao Zhang <quic_hazha@quicinc.com>
-In-Reply-To: <e51c200e-6de0-d516-3f32-28367b2f5a95@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: QevoKFm3MDTpINyHJGuy6i2xNKFr9LXu
-X-Proofpoint-ORIG-GUID: QevoKFm3MDTpINyHJGuy6i2xNKFr9LXu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 suspectscore=0
- lowpriorityscore=0 mlxscore=0 bulkscore=0 clxscore=1011 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303270061
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v5 0/8] octeon_ep: deferred probe and mailbox
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167990283975.16393.10243925958413218334.git-patchwork-notify@kernel.org>
+Date:   Mon, 27 Mar 2023 07:40:39 +0000
+References: <20230324174704.9752-1-vburru@marvell.com>
+In-Reply-To: <20230324174704.9752-1-vburru@marvell.com>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        aayarekar@marvell.com, sedara@marvell.com, sburla@marvell.com,
+        linux-doc@vger.kernel.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Krzysztof,
+Hello:
 
-On 3/25/2023 7:49 PM, Krzysztof Kozlowski wrote:
-> On 24/03/2023 07:16, Hao Zhang wrote:
->> Add new coresight-dummy.yaml file describing the bindings required
->> to define coresight dummy trace in the device trees.
->>
-> 
-> Subject: drop second/last, redundant "YAML schema". The "dt-bindings"
-> prefix is already stating that these are bindings and all new must be DT
-> schema. You cannot add anything else, so this is redundant.
-> 
-I will take your advice to drop redundant part of title in the next 
-version of patch.
-> 
->> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
->> ---
->>   .../bindings/arm/qcom,coresight-dummy.yaml    | 118 ++++++++++++++++++
->>   1 file changed, 118 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
->> new file mode 100644
->> index 000000000000..7b719b084d72
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
->> @@ -0,0 +1,118 @@
->> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
->> +# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/arm/qcom,coresight-dummy.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: QCOM Coresight Dummy component
->> +
->> +description: |
->> +  The Coresight Dummy component is for the specific devices that HLOS don't have
->> +  permission to access or configure. Such as Coresight sink EUD, some TPDMs etc.
->> +  So there need driver to register dummy devices as Coresight devices. Provide
->> +  Coresight API for dummy device operations, such as enabling and disabling
->> +  dummy devices. Build the Coresight path for dummy sink or dummy source for
->> +  debugging.
->> +
->> +  The primary use case of the coresight dummy is to build path for dummy sink or
->> +  dummy source.
->> +
->> +maintainers:
->> +  - Mao Jinlong <quic_jinlmao@quicinc.com>
->> +  - Tao Zhang <quic_taozha@quicinc.com>
->> +  - Hao Zhang <quic_hazha@quicinc.com>
->> +
->> +select:
->> +  properties:
->> +    compatible:
->> +      contains:
->> +        enum:
->> +          - qcom,coresight-dummy
->> +  required:
->> +    - compatible
-> 
-> Why do you need the select?
-> 
-This is a mistake, will remove it in the next version of patch.
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^dummy_.*(sink|source)_[0-9]+.*$"
-> 
-> We do not enforce node names in individual bindings. Why do you need it?
-> Plus underscore is not even proper character...
-> 
-I will remove this node.
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
->> +  compatible:
->> +    items:
+On Fri, 24 Mar 2023 10:46:55 -0700 you wrote:
+> Implement Deferred probe, mailbox enhancements and heartbeat monitor.
 > 
-> Drop items. You have only one item, so no need for list.
+> v4 -> v5:
+>    - addressed review comments
+>      https://lore.kernel.org/all/20230323104703.GD36557@unreal/
+>      replaced atomic_inc() + atomic_read() with atomic_inc_return().
+> 
+> [...]
 
-I will take your advice and update it in the next version of patch.
+Here is the summary with links:
+  - [net-next,v5,1/8] octeon_ep: defer probe if firmware not ready
+    https://git.kernel.org/netdev/net-next/c/10c073e40469
+  - [net-next,v5,2/8] octeon_ep: poll for control messages
+    https://git.kernel.org/netdev/net-next/c/24d4333233b3
+  - [net-next,v5,3/8] octeon_ep: control mailbox for multiple PFs
+    https://git.kernel.org/netdev/net-next/c/7c05d3d06c23
+  - [net-next,v5,4/8] octeon_ep: add separate mailbox command and response queues
+    https://git.kernel.org/netdev/net-next/c/577f0d1b1c5f
+  - [net-next,v5,5/8] octeon_ep: include function id in mailbox commands
+    https://git.kernel.org/netdev/net-next/c/f25e596755b4
+  - [net-next,v5,6/8] octeon_ep: support asynchronous notifications
+    https://git.kernel.org/netdev/net-next/c/baa987988777
+  - [net-next,v5,7/8] octeon_ep: function id in link info and stats mailbox commands
+    https://git.kernel.org/netdev/net-next/c/0718693fb36c
+  - [net-next,v5,8/8] octeon_ep: add heartbeat monitor
+    https://git.kernel.org/netdev/net-next/c/5cb96c29aa0e
 
->> +      - const: qcom,coresight-dummy
->> +
->> +  qcom,dummy-sink:
->> +    type: boolean
->> +    description:
->> +      Indicates that the type of this coresight node is dummy sink.
-> 
-> You just duplicated property name. Write something useful.
-> 
->> +
->> +  qcom,dummy-source:
->> +    type: boolean
->> +    description:
->> +      Indicates that the type of this coresight node is dummy source.
-> 
-> You just duplicated property name. Write something useful.
-> 
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Sure, I will add more details for it.
 
->> +
->> +  out-ports:
->> +    description: |
-> 
-> No need for |
-> 
->> +      Output connections from the dummy source to Coresight Trace bus.
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port:
->> +        description: Output connection from the dummy source to Coresight
->> +            Trace bus.
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +
->> +  in-ports:
->> +    description: |
-> 
-> Ditto
-> 
-I will remove it in the next version of patch.
-
->> +      Input connections from the CoreSight Trace bus to dummy sink.
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port:
->> +        description: Input connection from the Coresight Trace bus to
->> +            dummy sink.
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +
->> +required:
->> +  - compatible
->> +
->> +additionalProperties: false
->> +
->> +oneOf:
->> +  - required:
->> +      - qcom,dummy-sink
->> +  - required:
->> +      - qcom,dummy-source
->> +
->> +examples:
->> +  # minimum dummy sink definition. dummy sink connect to coresight replicator.
->> +  - |
->> +    dummy_sink_1 {
-> 
-> Node names should be generic, so "sink"
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
->> +      compatible = "qcom,coresight-dummy";
->> +      qcom,dummy-sink;
->> +
->> +      in-ports {
->> +        port {
->> +          eud_in_replicator_swao: endpoint {
->> +            remote-endpoint =
->> +              <&replicator_swao_out_eud>;
-> 
-> Why line break after =?
-> 
-
->> +          };
->> +        };
->> +      };
->> +    };
->> +
->> +  # minimum dummy source definition. dummy source connect to coresight funnel.
-> 
-> If you use sentences, then start with capital letter.
->
-
-I will update it according to your advice in the next version of patch.
-
->> +  - |
->> +    dummy_source_1 {
->> +      compatible = "qcom,coresight-dummy";
->> +      qcom,dummy-source;
->> +
->> +      out-ports {
->> +        port {
->> +          dummy_riscv_out_funnel_swao: endpoint {
->> +            remote-endpoint =
->> +              <&funnel_swao_in_dummy_riscv>;
-> 
-> Why line break?
-
-I copy it from device tree and keep the original format, will correct 
-the format in the next version of patch.
-
-Thanks,
-Hao
-
->> +          };
->> +        };
->> +      };
->> +    };
->> +
->> +...
-> 
-> Best regards,
-> Krzysztof
-> 
