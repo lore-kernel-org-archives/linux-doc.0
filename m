@@ -2,213 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE24EC7619A
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 06:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27766C7619A
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 06:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbjC0GFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 02:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33486 "EHLO
+        id S231976AbjC0Gae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 02:30:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230380AbjC0GFj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 02:05:39 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A664EEE;
-        Sun, 26 Mar 2023 23:05:33 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32R5fwVf014477;
-        Mon, 27 Mar 2023 06:05:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=c5Moma9QH1NFeyptfTJA6uULulI09houVr9jBihY+sE=;
- b=jZf8vqINdE2wX/JjsMfeN8j6DCG4vol6NRi4QBvIEEFtH0Y695l6DrIDLLXO9n945nP/
- j+rGF2F1PmwvTUX3Mn9aBhzw55xY5ntyNamrmRM9GoQXLFCBgkPexY4LvXZoIdk+HA2k
- G6aAb79avxYwqyJTtyFIApK8sbVgwKW/xXYoX0kJWM+Up2LyyOQX6XDjPeDEbD9yDk8D
- 7WzRYdPmN2DOgEI5gZ01R9QO7ESNK6j0tLziJujU8Rq8ANUxypfJRP8jjSTvc6X8ti8Z
- CzhiBW9B86DVnjMXfKAwIcn7fctl+dKI/t5ni8W4daRLFAkBA5PYgGD1csD8Fn78G7+j Cg== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pk57701x1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Mar 2023 06:05:19 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32R65It5030052
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Mar 2023 06:05:18 GMT
-Received: from [10.253.35.148] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Sun, 26 Mar
- 2023 23:05:10 -0700
-Message-ID: <a56a460e-7d50-fcf0-95a5-cf08eeb73f43@quicinc.com>
-Date:   Mon, 27 Mar 2023 14:05:08 +0800
+        with ESMTP id S232259AbjC0Gac (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 02:30:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F0D3A9A;
+        Sun, 26 Mar 2023 23:30:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B50CB60FC6;
+        Mon, 27 Mar 2023 06:30:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607DEC433EF;
+        Mon, 27 Mar 2023 06:30:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1679898626;
+        bh=ju/d3q0v2bf5FDc4EUiRscamg6Isw0kzmX3UyI6cgCA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZYv3p4//3I4ZFnwKiWQ8XJHI7UWl6RiSftpivRsW+GLQ7F2V5s4Ez43RwaO7oRc26
+         uy+SwxyfKE9r3MNjY7t/6uaTxU9DIfXAUpMqXTlcEHOZEQbvULPcwGA4UVtr3L0GVV
+         AP1JnveRLuIfkOxa6DnQ83R0cIG/DOS+nV90ukKE=
+Date:   Mon, 27 Mar 2023 08:30:24 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] virt: tdx-guest: Add Quote generation support
+Message-ID: <ZCE4AJBX8zM53XCM@kroah.com>
+References: <20230326062039.341479-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20230326062039.341479-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <ZB/njYsTTwgTtAeA@kroah.com>
+ <d09f30f5-23da-4fb6-141e-3dd9483217c7@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/3] Documentation: trace: Add documentation for
- Coresight Dummy Trace
-Content-Language: en-US
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Leo Yan <leo.yan@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <coresight@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20230324061608.33609-1-quic_hazha@quicinc.com>
- <20230324061608.33609-4-quic_hazha@quicinc.com>
- <e383c17d-12b8-b134-acc5-82f515714562@arm.com>
-From:   Hao Zhang <quic_hazha@quicinc.com>
-In-Reply-To: <e383c17d-12b8-b134-acc5-82f515714562@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: W2Z5qzmY9BFcRWSfwrWsZFOaxkPYsP0e
-X-Proofpoint-ORIG-GUID: W2Z5qzmY9BFcRWSfwrWsZFOaxkPYsP0e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 adultscore=0
- mlxlogscore=986 phishscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303270050
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d09f30f5-23da-4fb6-141e-3dd9483217c7@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
+On Sun, Mar 26, 2023 at 12:06:26PM -0700, Sathyanarayanan Kuppuswamy wrote:
+> If usage of DMA APIs / platform device is not acceptable for this use case,
 
-On 3/24/2023 7:00 PM, Suzuki K Poulose wrote:
-> On 24/03/2023 06:16, Hao Zhang wrote:
->> Add documentation for Coresight Dummy Trace under trace/coresight.
->>
->> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
->> ---
->>   .../trace/coresight/coresight-dummy.rst       | 58 +++++++++++++++++++
->>   1 file changed, 58 insertions(+)
->>   create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
->>
->> diff --git a/Documentation/trace/coresight/coresight-dummy.rst 
->> b/Documentation/trace/coresight/coresight-dummy.rst
->> new file mode 100644
->> index 000000000000..819cabab8623
->> --- /dev/null
->> +++ b/Documentation/trace/coresight/coresight-dummy.rst
->> @@ -0,0 +1,58 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=============================
->> +Coresight Dummy Trace Module
->> +=============================
->> +
->> +    :Author:   Hao Zhang <quic_hazha@quicinc.com>
->> +    :Date:     March 2023
->> +
->> +Introduction
->> +---------------------------
->> +
->> +Coresight Dummy Trace Module is for the specific devices that HLOS don't
-> 
-> Please do not use cryptic abbreviations, please use "kernel"
-> 
-Sure, I will change it to "kernel".
-> 
->> +have permission to access or configure. 
-> 
-> Such as Coresight sink EUD, some
->> +TPDMs etc. 
-> Say "e.g., CoreSight TPDMs on Qualcomm platforms.:
-> 
-> So there need driver to register dummy devices as Coresight
->> +devices.
-> 
-> Add:
-> 
-> "It may also be used to define components that may not have any
-> programming interfaces (e.g, static links), so that paths can
-> be established in the driver.
-> "
-> 
->   Provide Coresight API for dummy device operations, such as
->> +enabling and disabling dummy devices. Build the Coresight path for dummy
->> +sink or dummy source for debugging.
-> 
-I will take your advice in the next version of patch.
-> 
-> I think the following content may not be needed as they are part
-> of the standard source/sink type devices, nothing specific to
-> dummy devices.
-> 
-> --- vvvvv ---
->> +
->> +Sysfs files and directories
->> +---------------------------
->> +
->> +Root: ``/sys/bus/coresight/devices/dummy<N>``
->> +
->> +----
->> +
->> +:File:            ``enable_source`` (RW)
->> +:Notes:
->> +    - > 0 : enable the datasets of dummy source.
->> +
->> +    - = 0 : disable the datasets of dummy source.
->> +
->> +:Syntax:
->> +    ``echo 1 > enable_source``
->> +
->> +----
->> +
->> +:File:            ``enable_sink`` (RW)
->> +:Notes:
->> +    - > 0 : enable the datasets of dummy sink.
->> +
->> +    - = 0 : disable the datasets of dummy sink.
->> +
->> +:Syntax:
->> +    ``echo 1 > enable_sink``
->> +
->> +----
->> +
-> 
-> --- You may remove the above ^^^ ----
->
-I will remove the above notes in the next version of patch.
+It is not ok to use a platform device for this because you just do not
+have a platform device for it, don't make one up out of thin air please,
+as that really doesn't even have the correct bindings to the DMA memory
+that you want here.
 
-Thanks,
-Hao
+> an alternative approach is to allocate a fixed number of shared buffers during
+> the TDX guest driver probe and use it for GetQuote requests. Although it would
+> limit the amount of memory we can use for GetQuote requests at a time and also
+> reserve a chunk of memory during the init() time, I think it is an acceptable
+> tradeoff when compared to alternative choices. The AMD SEV guest driver also
+> adopts the similar approach. Please let me know if this approach is acceptable.
 
->> +Config details
->> +---------------------------
->> +
->> +There are two types of nodes, dummy sink and dummy source. The nodes
->> +should be observed at the coresight path
->> +"/sys/bus/coresight/devices".
->> +e.g.
->> +/sys/bus/coresight/devices # ls -l | grep dummy
->> +dummy0 -> ../../../devices/platform/soc@0/soc@0:dummy_source/dummy0
->> +dummy1 -> ../../../devices/platform/soc@0/soc@0:dummy_sink/dummy1
-> 
-> Suzuki
-> 
+This sounds like a better approach.
+
+thanks,
+
+greg k-h
