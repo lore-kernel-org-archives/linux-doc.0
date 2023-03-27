@@ -2,286 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E5EC74A5B
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 00:45:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B70C7619A
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 01:19:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjC0Ap3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Mar 2023 20:45:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58466 "EHLO
+        id S230020AbjC0BTS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Mar 2023 21:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjC0Ap2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 20:45:28 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F318249F5;
-        Sun, 26 Mar 2023 17:45:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679877926; x=1711413926;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=3AoAnGCMCtvOUZDavRh1iuwNHoi8vQlwnSL9zKV5Pe8=;
-  b=dsIpH5fIzcOJQgjhiHo9cw6iHxudoM6Cl0kSsX9X2OjSpTd1w5+iPFT9
-   iVoO/bXKbcx6w9ZsmhDfPsboVRcHUE49c8xleZupjdQXwc3lVhKKChyOp
-   J3MUryXnciseIhXnYNuKqYAHwh7Af8H3RzrXfdIBV6PG5EH3kk6vuKRdv
-   cDATKBe858YWA7FQ7e/GmXCRKIvyb2xh4ePVOmQpK84+34+5JcpaOYxF0
-   Y3eOzOiJtPAP3cycwa6Q539blDTud6gdcDVSVZ7ok3c4ArdqLTUClh5sR
-   HrnYnmWavFZoP5LS1vbHqqhTlurKAkvE0hsHhOEJyar8NJAf3snEExBA7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="319806614"
-X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="319806614"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 17:45:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="715888228"
-X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="715888228"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga001.jf.intel.com with ESMTP; 26 Mar 2023 17:45:25 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Sun, 26 Mar 2023 17:45:25 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Sun, 26 Mar 2023 17:45:25 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Sun, 26 Mar 2023 17:45:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bx+rPe22Z1LeNLup7YKSts/z4eHFBsuCuB4pmZDJHFrY2vYBHOJA3bP7/uCX1jb5mOjMEaCkvU761Pn474wKxp5n65GiSkb7i5a21kSKUHHGIsdV0+UvUJkccuEsYknelvRd645JsBAhKALD9IHuJIYYtcu6NZOFVLlrUPA3DWKAeDuschmeDp/lDyYTm6KC/YSPLH6RHG778PR6krY3LEBez/DO5ulnWciIYBn92YEXKXwbhxqvHbJFXYJE8/R1WhHvTdt6IlWMaO+HaZBihl3eEfV2w8YfgKz1KTNycitrWHoXZL+CVU8FVbdRUcVlQgi3bAFCAQCPOc+Rbh/zuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sVyGv5XSBGI8mG9Q8HbPreNOhApFdrSDj20qZqOZPXM=;
- b=ZXJTzWyRr0SHHzi5yJax8ZkwsWdIRTZMve+TivUL3suN5OGnFh6sctXgujo+F4Y6/K3PxCBz1ZM3BDkMUwn8GMzB1/dVVheQl1qtsHTdz7X9CzwYsz1MbsnA8FQAY0icL2BBpqwd643zWO1HOsvDsoxXJCdTIILoRtC093eax+b8Hlyr3aYeG6CQfRWMjprxeZ5VWsNy1y3bldFSBStNH0wKJH+5neApAXAaWlTenM2X8PP90ZUYZjfnEX1aohT269xmiIx1DlwNt2tmJwgHbEeLwr1NyUOGXqB/WkoNA3X836qmNriuRZtr1vDvaaeK3DPcIAlKdA64RyCSbN5zcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
- by SN7PR11MB8264.namprd11.prod.outlook.com (2603:10b6:806:26c::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 27 Mar
- 2023 00:45:21 +0000
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::cb54:c0ca:5914:4242]) by MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::cb54:c0ca:5914:4242%9]) with mapi id 15.20.6178.038; Mon, 27 Mar 2023
- 00:45:21 +0000
-Date:   Mon, 27 Mar 2023 08:39:50 +0800
-From:   Feng Tang <feng.tang@intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-CC:     Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Arnaldo Carvalho de Melo" <acme@redhat.com>,
-        Joe Mario <jmario@redhat.com>,
-        "Ingo Molnar" <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Shakeel Butt <shakeelb@google.com>, <dave.hansen@intel.com>,
-        <ying.huang@intel.com>, <tim.c.chen@intel.com>,
-        <andi.kleen@intel.com>
-Subject: Re: [PATCH v1] Documentation: Add document for false sharing
-Message-ID: <ZCDl1o16eZDx1HW1@feng-clx>
-References: <20230324071316.167337-1-feng.tang@intel.com>
- <ZB2baIDIPhxj5Vdl@debian.me>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZB2baIDIPhxj5Vdl@debian.me>
-X-ClientProxiedBy: SG2PR02CA0036.apcprd02.prod.outlook.com
- (2603:1096:3:18::24) To MN0PR11MB6304.namprd11.prod.outlook.com
- (2603:10b6:208:3c0::7)
+        with ESMTP id S229564AbjC0BTR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Mar 2023 21:19:17 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 91C6E4EFD;
+        Sun, 26 Mar 2023 18:19:14 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.241])
+        by gateway (Coremail) with SMTP id _____8DxEzQQ7yBkgQMSAA--.27501S3;
+        Mon, 27 Mar 2023 09:19:12 +0800 (CST)
+Received: from [192.168.100.131] (unknown [112.20.109.241])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cx97wO7yBk7K4NAA--.6575S3;
+        Mon, 27 Mar 2023 09:19:11 +0800 (CST)
+Message-ID: <92ec8165-90c4-366f-94de-d7ab731b4058@loongson.cn>
+Date:   Mon, 27 Mar 2023 09:19:10 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|SN7PR11MB8264:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a7a0dc6-05da-4b84-c6fd-08db2e5c8b32
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9AWSF0bl/bc6p8zQmotT9g7rgIDywi56/2gxW5y9iuUUh2jlpMvLinQ7OipDmHDBCb+kwikfMmbUTYGnvakJvqXTLF0RybtGVVcKQwdtQ7dTeW7nNbJnpIk38IbA+hewQ2ZDJwmofZwk8rb/TQgohRZWYtklSn2OaoVyUfDp2s5x5HMCuWTCjGjjyEhhlz4amEKbL/+5c/cgFhSIYvcdH1m7w2xVSwXXqbBWLqpboJsjYc8grkML5iuhQFevuYr8iRE6up/gBJxbRhWxcJBV8ABweQud1J0AXmiZBDhZiADFFdtAfRRuG/WLThzZ/YGV0qDfW+HtOohOR593Ce0Ni3E+7lKXXcKQnW6166F8xrAxLzlZsSCNUcbBsShn6FSuGxhByKuj/DaCbQKcWJmpOnzM1ImVyD0tAg4qI+neuw+basqBc9SR8xjEhRPKTkaqYpd7LplSVjpM9vkg9kyXouBqu4hJCn18n+p6Atgs5a0uYFdkvTLyk5oYeCTMo/V+6Cqf2eiyAgFL8vygH6ue75u7879ddRZjKLNYeXt9yUZqZD409FynbXkbjdK0/xOR5DsElC7QbtK39EYBPehc/hCci2CTutBjetSc3dIZnik=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(136003)(346002)(39860400002)(376002)(396003)(366004)(451199021)(82960400001)(66476007)(7416002)(44832011)(54906003)(38100700002)(26005)(2906002)(107886003)(86362001)(33716001)(6666004)(83380400001)(6486002)(8936002)(4326008)(41300700001)(5660300002)(6916009)(66556008)(8676002)(6512007)(6506007)(186003)(66946007)(9686003)(316002)(478600001)(21314003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1Byd5Wp9oFsipWe5KaYN2ydlK+jm+iTSjlMYJeRR/6iGVXmZ4zT6vMofL/d5?=
- =?us-ascii?Q?aQu9yclAOHKpnwfEiDhYET+SVdM21MGoK7vYRG91Zl3fAvlxG7RCVd5+2Q4P?=
- =?us-ascii?Q?pWa1P6B2Y24W+ldzINodt7qYL+VkGGlBH9+Db01kJdjrkfDzmob0akdlBKZE?=
- =?us-ascii?Q?8fTTUWGzZVI8GDM6CmUZCgt1keiW2mpUjl+fbvIWuXoOXFRpN/a4V0l64xxK?=
- =?us-ascii?Q?nv3I0Vd3MKDrskd601YVgqP4TVwN1Fhpx6Rv9UYLFEMv7SUf0Qyyg2U14I0V?=
- =?us-ascii?Q?GXd/I83FbCIPH/qiOD5P+NA7o9Awb87RVekWQETUaMnzarKAGqIsZgQqdD+e?=
- =?us-ascii?Q?noXNrsRDJQoAWQv8QROwFQs1Dx4me89QUfkRBxsuIkR9mpfbQ0QzuoCOyomi?=
- =?us-ascii?Q?TUrsP3oObopj+uKDRrTorduRyHy7QTTWEKm12SZXhnjhHWKOSSGh8L5Fp69Q?=
- =?us-ascii?Q?kqj4D9lxjJ1Pas7W93C09gpNRcLdmyJBGI1zODwkXn1EeLvJGQo2ZD5FC6lr?=
- =?us-ascii?Q?B+RCJDSQfEJaa+WiOu0iA6Swo3O58bqmVOht+30cTMS1fhUqXXOKWts2Ov7D?=
- =?us-ascii?Q?8G6XnYXkLBIOI2IXSyjREK3uZzfvNY/ETUg423FUqgpIVSAcMmTFEEU9cbqc?=
- =?us-ascii?Q?+UKuCypjAtqbBl+CFEK4bf6jWlloOu8lY/D5Oqob2YuXwwvCgxwMUaGWZYE4?=
- =?us-ascii?Q?Q1ATkg4ne6kl5ivj6N9coK7yuludORvK8loBGsbH+QNiYnpigWlSAby1/Q5z?=
- =?us-ascii?Q?Fl+ngq+N5wI5gEdfGb3iQldspB4z1eZaEj3KpXFrOU6qVuf0EsB/83V99rRk?=
- =?us-ascii?Q?9uJGpCAvRON1CK30lK+ozDA27gylmHXRkq/sECKFEnRDstO0g0n7z+Ja6YEe?=
- =?us-ascii?Q?EtoJ1XD955uKeL3JFpOEuiFvcBWhk5RXSFPE8xVlS2yLrbvBhkQ3GLGPs42s?=
- =?us-ascii?Q?HVE52lPiQCnivOsNN0zQVMPJZizrizbPYut7XucHouQWsyC8BmEAKLnAY7gb?=
- =?us-ascii?Q?22V0bgD6hULIwe5JuiXfrDeUBR7V7jjNt6JMhp9mPptAgG94igAQ1Hjt4RKb?=
- =?us-ascii?Q?R4sW7ugk8WkSEI2i+vRDsxcox3bwcBLHZGyU4naolxFpkFcEYnUBTIkC8Kjo?=
- =?us-ascii?Q?+tT+/r46qZHTVoi0BPrf42SJDiNpn2QSKjzihFCkgti0ppFE7PM1ZQ4fpKPV?=
- =?us-ascii?Q?2OCv5bhXYMm798kMC5jOJ3d6qoagBrlnOjf3waOOtRV3m/0ZYx+Xbv1/H3K/?=
- =?us-ascii?Q?I5SuZyWcblqv7hHvLs/Sc2NTi8fR+q3PO2kGzZT2iiuYfYb1JxEA8FBvrWYS?=
- =?us-ascii?Q?kSdLukOK+Skpfj7UHJTUr/saYbUlC+HgPaIl6V9O6fcPnYapACd4lm5PEayS?=
- =?us-ascii?Q?Hv6cKIiHEGGbWCI+3s8338csX6xWtFHAIvV8+xggFvl6Jw8jFsl9GjvIqgfg?=
- =?us-ascii?Q?MxpHrlUyALlJrwCm7qHw2nz9v0gLtJQbLMILoV8oc1oHHSnxA3eZk/RYB+7U?=
- =?us-ascii?Q?HgNL6lfRjhUFU4fU6dZPOFn1pSiwsz5xeWcuCE3f+lRGvBz3OsS7p4hrHLnV?=
- =?us-ascii?Q?wg+5XLpYXZd/N0OcDWxOLGNCEiHDFK0KQ7D8hr/g?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a7a0dc6-05da-4b84-c6fd-08db2e5c8b32
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 00:45:21.2630
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gcGnUeQuwZh6wSav6dINry1zmKF+DQEa3mxK0zXxwYhHI5sF2azhVc/l6gi40xbpYP1Bpj6ESStwW5RC/PU6Fw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8264
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/6] docs: zh_CN: create the architecture-specific
+ top-level directory
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Alex Shi <alexs@kernel.org>
+References: <20230323221948.352154-1-corbet@lwn.net>
+ <20230323221948.352154-2-corbet@lwn.net>
+Content-Language: en-US
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20230323221948.352154-2-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx97wO7yBk7K4NAA--.6575S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7ZrykWFW5Zr17Cw15ArWrXwb_yoW8Cr1DpF
+        y0kr93K3WfZr1UC34IgF1UGryUGa1xCa17WFWYqw1Fqrn8ZF4ktFn8tryDKF97trWfZFZ7
+        Xa1FgFWUuryjkrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
+        xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+        kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
+        72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+        k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+        MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
+        1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+        IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+        A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1EksDUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas Sanjaya,
 
-Many thanks for the reviews!
+在 3/24/23 06:19, Jonathan Corbet 写道:
+> This mirrors commit 4f1bb0386dfc ("docs: create a top-level arch/
+> directory"), creating a top-level directory to hold architecture-specific
+> documentation.
+>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Yanteng Si <siyanteng@loongson.cn>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-On Fri, Mar 24, 2023 at 07:45:28PM +0700, Bagas Sanjaya wrote:
-> On Fri, Mar 24, 2023 at 03:13:16PM +0800, Feng Tang wrote:
-> > +There are many real-world cases of performance regressions caused by
-> > +false sharing, and one is a rw_semaphore 'mmap_lock' inside struct
-> "... . One of these is rw_semaphore 'mmap_lock' ..."
-
-OK, will use this.
-
-> But I think in English we commonly name things as "foobar struct"
-> instead of "struct foobar" (that is, common noun follow the proper noun
-> that names something).
-
-I can change that. And IIRC, I saw 'struct XXX' and 'XXX struct' both
-frequently used in kernel. I just run '# git log | grep -w struct'
-and the majority use 'struct XXX'
-
-> > +* A global datum accessed (shared) by many CPUs
-> Global data?
-
-In RFC version, I used 'data' and Randy suggested 'datum'. TBH, I 
-looked it up in a dictionary :),  and found:
-	"Data" is the Latin plural form of "datum"
-
-> > +Following 'mitigation' section provides real-world examples.
-> "The real-world examples are given in 'Possible mitigations' sections."
-
-Will use this, thanks.
-
-> > +  #perf c2c record -ag sleep 3
-> > +  #perf c2c report --call-graph none -k vmlinux
-> 
-> Are these commands really run as root?
-
-You are right, people can run it as 'root' or a normal user. And I
-guess this won't confuse kernel developers.
-
-My original version is kind of too long and full of explainations,
-and some kernel developer suggested that this doc is under
-'kernel-hacking' and its audience is kernel developers, and I should
-make it clear and short, and not make it look like a wiki page or
-man page.
-
-> > +
-> > +Run it when testing will-it-scale's tlb_flush1 case, and the report
-> > +has pieces like::
-> 
-> "When running above during testing ..., perf reports something like::"
-
-This is more logical, will change.
-
-> > +False sharing hurting performance cases are seen more frequently with
-> > +core count increasing, and there have been many patches merged to
-> > +solve it, like in networking and memory management subsystems.  Some
-> > +common mitigations (with examples) are:
-> 
-> "... Because of these detrimental effects, many patches have been
-> proposed across variety of subsystems (like networking and memory
-> management) and merged."
-
-This is much better, thanks
-
-> > +
-> > +* Separate hot global data in its own dedicated cache line, even if it
-> > +  is just a 'short' type. The downside is more consumption of memory,
-> > +  cache line and TLB entries.
-> > +
-> > +  Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_sockets_allocated")
-> > +
-> > +* Reorganize the data structure, separate the interfering members to
-> > +  different cache lines.  One downside is it may introduce new false
-> > +  sharing of other members.
-> > +
-> > +  Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduce false sharing")
-> > +
-> > +* Replace 'write' with 'read' when possible, especially in loops.
-> > +  Like for some global variable, use compare(read)-then-write instead
-> > +  of unconditional write. For example, use:
-> "... For example, write::"
-
-The following is a coding pattern (for bit operation, atomic, etc.),
-and I think 'use' may also be good?
-
-> > +
-> > +	if (!test_bit(XXX))
-> > +		set_bit(XXX);
-> > +
-> > +  instead of directly "set_bit(XXX);", similarly for atomic_t data.
-> > +
-> > +  Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() multithreaded CPU false sharing")
-> > +  Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
-> > +
-> > +* Turn hot global data to 'per-cpu data + global data' when possible,
-> > +  or reasonably increase the threshold for syncing per-cpu data to
-> > +  global data, to reduce or postpone the 'write' to that global data.
-> > +
-> > +  Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cache hits/misses")
-> > +  Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm overcommit policy")
-> 
-> IMO it's odd to jump to specifying example commits without some sort of
-> conjuction (e.g. "for example, see commit <commit>").
-
-I agree, and I had the same concern, but I was also afraid of that
-too many repeating of this, so the previous 
-"Following 'mitigation' section provides real-world examples." 
-in last section (which you helped to improve) was added trying
-to address this.
-
-> > +
-> > +Surely, all mitigations should be carefully verified to not cause side
-> > +effects.  And to avoid false sharing in advance during coding, it's
-> > +better to:
-> > +
-> > +* Be aware of cache line boundaries
-> > +* Group mostly read-only fields together
-> > +* Group things that are written at the same time together
-> > +* Separate known read-mostly and written-mostly fields
-> 
-> Proactively prevent false sharing with above tips?
-
-You are right. And most of these bullets are directly taken from
-Dave Hansen's reviews (thanks to Dave)
 
 Thanks,
-Feng
 
-> Thanks.
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
-
+Yanteng
+> ---
+>   .../translations/zh_CN/{arch.rst => arch/index.rst}  | 12 ++++++------
+>   Documentation/translations/zh_CN/index.rst           |  2 +-
+>   2 files changed, 7 insertions(+), 7 deletions(-)
+>   rename Documentation/translations/zh_CN/{arch.rst => arch/index.rst} (72%)
+>
+> diff --git a/Documentation/translations/zh_CN/arch.rst b/Documentation/translations/zh_CN/arch/index.rst
+> similarity index 72%
+> rename from Documentation/translations/zh_CN/arch.rst
+> rename to Documentation/translations/zh_CN/arch/index.rst
+> index 690e173d8b2a..aa53dcff268e 100644
+> --- a/Documentation/translations/zh_CN/arch.rst
+> +++ b/Documentation/translations/zh_CN/arch/index.rst
+> @@ -8,12 +8,12 @@
+>   .. toctree::
+>      :maxdepth: 2
+>   
+> -   mips/index
+> -   arm64/index
+> -   riscv/index
+> -   openrisc/index
+> -   parisc/index
+> -   loongarch/index
+> +   ../mips/index
+> +   ../arm64/index
+> +   ../riscv/index
+> +   ../openrisc/index
+> +   ../parisc/index
+> +   ../loongarch/index
+>   
+>   TODOList:
+>   
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+> index 7c3216845b71..299704c0818d 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -120,7 +120,7 @@ TODOList:
+>   .. toctree::
+>      :maxdepth: 2
+>   
+> -   arch
+> +   arch/index
+>   
+>   其他文档
+>   --------
 
