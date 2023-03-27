@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C20C761A6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 15:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3509CC761A6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 15:41:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232891AbjC0Plg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 11:41:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33980 "EHLO
+        id S232799AbjC0Plv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 11:41:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232519AbjC0Plb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 11:41:31 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68B34680
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 08:41:14 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id y14so9263554wrq.4
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 08:41:14 -0700 (PDT)
+        with ESMTP id S232719AbjC0Pll (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 11:41:41 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3204C18
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 08:41:23 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so7670189wmq.4
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 08:41:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1679931665;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1679931670;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OPzvzuvpmK6mdKAkMf0lpAwxvChSpk37xRLJ2bHOdk4=;
-        b=XpZz20/pAuEQ5Md8qiiPdZnOu13Yp8mFmZXTj4VPKbUt5xrqXCUM+N3buxjZW4BAch
-         j9KheRyjyboP8Y0PRVoNAIQH0hCJfmOe4+z9ItA0DF3Hgv7SOottAw+jmbp3Rcc0Bq0O
-         ePdQG8ro0k8UvxJDvXxYqIjYN96a3rKye+26XZhK72kltU1GGydv5ry03iaNFgwVREPk
-         U/rSdX9vuUXBlFQwQMqYCKqkkLiZWk+kDU0rWy0uaZ9qzUX6zHZuCvt5IhSDoCfh83yQ
-         KI1tHqWrY4rnc213D8HbgFmI+8uhHoezoZ6iBfpf3WvLadUFwRdk6H9r7dp1a4ESZaXv
-         zorg==
+        bh=9LJQ+sDTT7/2B0EHkeJQ+ht/B6QBzU/r9JK7BEbK3O0=;
+        b=gsnBO1w8stJaAN7eUarpuZc7OS5QH0TGC6MKgYep6TLC+uFXwo4xtDempXtG5n1bZF
+         +JNz7w2V0NFqcYsH77RIgHPK5dfZKQ9R89lVIXgIiGf5+sNsJyWTR7YyImt7Uft34+8W
+         lGV0GXNUcjgY64KmcvP0SkCduS+ZEH0pMVwWvmjAHrUTcBkO8uUCoHHdPHRnkG9hBanm
+         HBOuQbn6KdxlGJJGRDkltp6YkoSVaR6hsxDzkJdP05pcD/kqQW/D5rHTESHoRWA2K4uf
+         WME0hwdli10iO4wnteJ4DOuoPwdeBHTvYljWe+1wY+fjknoVzqyiVTjqZalJk3WrFBU1
+         vYkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679931665;
+        d=1e100.net; s=20210112; t=1679931670;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OPzvzuvpmK6mdKAkMf0lpAwxvChSpk37xRLJ2bHOdk4=;
-        b=psna+H2Bi4txXjdpIZbgzesgJxCPi8yvK4MfbDnKJd5cdkHVmspbWe3SCVKNU7h5E/
-         5MrvTSpY0r4tP1lkD4kdJz7mIqpsX0CGxP2+C8CQGueZnB5QMyOhYRbpZiO9Mfc5OWcR
-         diWhLcvNMuh7/bju72kC0sbbxnS6AJQTxCnAvBsKPRuS74+JwAndwNaAux/voiyHpeNB
-         ORYALnWzIjqkwS9fEPdt1+gypTrBFh7PncxT8cbrr3pZNS2ZALFiVUBZ86DVpTW9NZDg
-         t1hgCLMR02osWEI8PhZ/E+oVLWjZqKloP5DRzaLtdgr9kODtCrsQLyvHN2b9i50DS6zR
-         6G/Q==
-X-Gm-Message-State: AAQBX9fKDFhpnIoxZjapHUOWAMT9g98C6ZhBfFd45xw//VEmzWbCeXGW
-        FNME+mDsz3wjXUqy8BRyOr5vJA==
-X-Google-Smtp-Source: AKy350a6zBABnqUxrmI3Lbtn30qVOt8YDcJE/Ji9bto3b3LcAPxHxDAH3FBjq/QrXlFiAJUdM3kZZQ==
-X-Received: by 2002:adf:edc9:0:b0:2ce:aad6:a5d0 with SMTP id v9-20020adfedc9000000b002ceaad6a5d0mr8388548wro.29.1679931665338;
-        Mon, 27 Mar 2023 08:41:05 -0700 (PDT)
+        bh=9LJQ+sDTT7/2B0EHkeJQ+ht/B6QBzU/r9JK7BEbK3O0=;
+        b=cZ7Z1Xo+Ci/khHGR1CGu7g/SlOjCb24oXDCPYkUryhzVCrM0BCWxoRh/C7mqXR9d4G
+         uDfGCaLBM+yXSDkOnrLkQBqSroB1MascJeeZSkbS8q3voW/FlpsSRoCbvOyVi5oD32gY
+         N5g3pI2bqt8rSYe9Er9sijLTT61mN2H7WZ2gUaN4PoWlm1N4PWYI8n3iKUZyC/n7sO1S
+         75Fpsb0Xege5Li7ZN7T6/guwkli1jWZfh+iCbTevQ+D20mkC02IwE+dQ8sGnOdGBKVZa
+         qHfyoLQlB9rHtColvGxb1nWkJY9bSIjRKVKDAw8fJE139EiQ/3tlxSBVoEnKVl+QsXyy
+         hMVQ==
+X-Gm-Message-State: AO0yUKVQr2lCcHhcwzmvu4/jSXEAm++sNST/pcePGA7PLXSEAx71bOBD
+        XcfTDdSZ9jGw1RCPC50zFuYMlw==
+X-Google-Smtp-Source: AK7set9zjf2vmCayR/R1EozYMAi7a9QSgTYnMAi8PCTWR81S6vtrD7NMKlPNac9/eSpbRhcKf32D3Q==
+X-Received: by 2002:a05:600c:220e:b0:3ee:a205:848f with SMTP id z14-20020a05600c220e00b003eea205848fmr8995855wml.20.1679931670273;
+        Mon, 27 Mar 2023 08:41:10 -0700 (PDT)
 Received: from baylibre-ThinkPad-T14s-Gen-2i.. (151.31.102.84.rev.sfr.net. [84.102.31.151])
-        by smtp.gmail.com with ESMTPSA id a18-20020a5d4d52000000b002d1e49cff35sm25277161wru.40.2023.03.27.08.41.03
+        by smtp.gmail.com with ESMTPSA id a18-20020a5d4d52000000b002d1e49cff35sm25277161wru.40.2023.03.27.08.41.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 08:41:05 -0700 (PDT)
+        Mon, 27 Mar 2023 08:41:10 -0700 (PDT)
 From:   Julien Panis <jpanis@baylibre.com>
 To:     lee@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net, arnd@arndb.de,
@@ -60,9 +60,9 @@ Cc:     eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
         eblanc@baylibre.com, jneanne@baylibre.com
-Subject: [PATCH v4 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
-Date:   Mon, 27 Mar 2023 17:40:58 +0200
-Message-Id: <20230327154101.211732-2-jpanis@baylibre.com>
+Subject: [PATCH v4 3/4] misc: tps6594-esm: Add driver for TI TPS6594 ESM
+Date:   Mon, 27 Mar 2023 17:41:00 +0200
+Message-Id: <20230327154101.211732-4-jpanis@baylibre.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20230327154101.211732-1-jpanis@baylibre.com>
 References: <20230327154101.211732-1-jpanis@baylibre.com>
@@ -72,255 +72,187 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TPS6594 is a Power Management IC which provides regulators and others
-features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
-PFSM (Pre-configurable Finite State Machine) managing the state of the
-device.
-TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+This patch adds support for TPS6594 ESM (Error Signal Monitor).
+This device monitors the SoC error output signal at its nERR_SOC input pin.
+In error condition, ESM toggles its nRSTOUT_SOC pin to reset the SoC.
 
 Signed-off-by: Julien Panis <jpanis@baylibre.com>
 ---
- .../devicetree/bindings/mfd/ti,tps6594.yaml   | 231 ++++++++++++++++++
- 1 file changed, 231 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+ drivers/misc/Kconfig       |  11 ++++
+ drivers/misc/Makefile      |   1 +
+ drivers/misc/tps6594-esm.c | 132 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 144 insertions(+)
+ create mode 100644 drivers/misc/tps6594-esm.c
 
-diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 433aa4197785..c73c02801330 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -538,6 +538,17 @@ config TMR_INJECT
+ 
+ 	  Say N here unless you know what you are doing.
+ 
++config TPS6594_ESM
++	tristate "TI TPS6594 Error Signal Monitor support"
++	depends on MFD_TPS6594
++	default MFD_TPS6594
++	help
++	  Support ESM (Error Signal Monitor) on TPS6594 PMIC devices.
++	  ESM is used typically to reboot the board in error condition.
++
++	  This driver can also be built as a module.  If so, the module
++	  will be called tps6594-esm.
++
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index 56de43943cd5..3dc69ec69912 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -65,3 +65,4 @@ obj-$(CONFIG_GP_PCI1XXXX)	+= mchp_pci1xxxx/
+ obj-$(CONFIG_VCPU_STALL_DETECTOR)	+= vcpu_stall_detector.o
+ obj-$(CONFIG_TMR_MANAGER)      += xilinx_tmr_manager.o
+ obj-$(CONFIG_TMR_INJECT)	+= xilinx_tmr_inject.o
++obj-$(CONFIG_TPS6594_ESM)	+= tps6594-esm.o
+diff --git a/drivers/misc/tps6594-esm.c b/drivers/misc/tps6594-esm.c
 new file mode 100644
-index 000000000000..4498e6361b34
+index 000000000000..7dc7cd0697ff
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-@@ -0,0 +1,231 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/misc/tps6594-esm.c
+@@ -0,0 +1,132 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * ESM (Error Signal Monitor) driver for TI TPS6594/TPS6593/LP8764X PMICs
++ *
++ * Copyright (C) 2023 BayLibre Incorporated - https://www.baylibre.com/
++ */
 +
-+title: TI TPS6594 Power Management Integrated Circuit
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/regmap.h>
 +
-+maintainers:
-+  - Julien Panis <jpanis@baylibre.com>
++#include <linux/mfd/tps6594.h>
 +
-+description:
-+  TPS6594 is a Power Management IC which provides regulators and others
-+  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
-+  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
-+  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
++static irqreturn_t tps6594_esm_isr(int irq, void *dev_id)
++{
++	struct platform_device *pdev = dev_id;
++	int i;
 +
-+properties:
-+  compatible:
-+    enum:
-+      - ti,lp8764
-+      - ti,tps6593
-+      - ti,tps6594
++	for (i = 0 ; i < pdev->num_resources ; i++) {
++		if (irq == platform_get_irq_byname(pdev, pdev->resource[i].name)) {
++			dev_err(pdev->dev.parent, "%s error detected\n", pdev->resource[i].name);
++			return IRQ_HANDLED;
++		}
++	}
 +
-+  reg:
-+    description: I2C slave address or SPI chip select number.
-+    maxItems: 1
++	return IRQ_NONE;
++}
 +
-+  ti,primary-pmic:
-+    type: boolean
-+    description: |
-+      Identify the primary PMIC on SPMI bus.
-+      A multi-PMIC synchronization scheme is implemented in the PMIC device
-+      to synchronize the power state changes with other PMIC devices. This is
-+      accomplished through a SPMI bus: the primary PMIC is the controller
-+      device on the SPMI bus, and the secondary PMICs are the target devices
-+      on the SPMI bus.
++static int tps6594_esm_probe(struct platform_device *pdev)
++{
++	struct tps6594 *tps = dev_get_drvdata(pdev->dev.parent);
++	struct device *dev = &pdev->dev;
++	int irq;
++	int ret;
++	int i;
 +
-+  system-power-controller: true
++	for (i = 0 ; i < pdev->num_resources ; i++) {
++		irq = platform_get_irq_byname(pdev, pdev->resource[i].name);
++		if (irq < 0)
++			return dev_err_probe(dev, irq, "Failed to get %s irq\n",
++					     pdev->resource[i].name);
 +
-+  gpio-controller: true
++		ret = devm_request_threaded_irq(dev, irq, NULL,
++						tps6594_esm_isr, IRQF_ONESHOT,
++						pdev->resource[i].name, pdev);
++		if (ret)
++			return dev_err_probe(dev, ret, "Failed to request irq\n");
++	}
 +
-+  '#gpio-cells':
-+    const: 2
-+    description: |
-+      The first cell is the pin number, the second cell is used to specify flags.
-+      See ../gpio/gpio.txt for more information.
++	ret = regmap_set_bits(tps->regmap, TPS6594_REG_ESM_SOC_MODE_CFG,
++			      TPS6594_BIT_ESM_SOC_EN | TPS6594_BIT_ESM_SOC_ENDRV);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to configure ESM\n");
 +
-+  interrupts:
-+    maxItems: 1
++	ret = regmap_set_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++			      TPS6594_BIT_ESM_SOC_START);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to start ESM\n");
 +
-+  ti,multi-phase-id:
-+    description: |
-+      Describes buck multi-phase configuration, if any. For instance, XY id means
-+      that outputs of buck converters X and Y are combined in multi-phase mode.
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    oneOf:
-+      - items:
-+          - const: 12
-+      - items:
-+          - const: 34
-+      - items:
-+          - const: 12
-+          - const: 34
-+      - items:
-+          - const: 123
-+      - items:
-+          - const: 1234
++	pm_runtime_enable(dev);
++	pm_runtime_get_sync(dev);
 +
-+  regulators:
-+    type: object
-+    description: List of regulators provided by this controller.
++	return 0;
++}
 +
-+    patternProperties:
-+      "^buck([1-5]|12|34|123|1234)$":
-+        type: object
-+        $ref: /schemas/regulator/regulator.yaml#
++static int tps6594_esm_remove(struct platform_device *pdev)
++{
++	struct tps6594 *tps = dev_get_drvdata(pdev->dev.parent);
++	struct device *dev = &pdev->dev;
++	int ret;
 +
-+        unevaluatedProperties: false
++	ret = regmap_clear_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++				TPS6594_BIT_ESM_SOC_START);
++	if (ret) {
++		dev_err(dev, "Failed to stop ESM\n");
++		goto out;
++	}
 +
-+      "^ldo[1-4]$":
-+        type: object
-+        $ref: /schemas/regulator/regulator.yaml#
++	ret = regmap_clear_bits(tps->regmap, TPS6594_REG_ESM_SOC_MODE_CFG,
++				TPS6594_BIT_ESM_SOC_EN | TPS6594_BIT_ESM_SOC_ENDRV);
++	if (ret)
++		dev_err(dev, "Failed to unconfigure ESM\n");
 +
-+        unevaluatedProperties: false
++out:
++	pm_runtime_put_sync(dev);
++	pm_runtime_disable(dev);
 +
-+    allOf:
-+      - if:
-+          required:
-+            - buck12
-+        then:
-+          properties:
-+            buck123: false
-+            buck1234: false
-+      - if:
-+          required:
-+            - buck123
-+        then:
-+          properties:
-+            buck34: false
-+      - if:
-+          required:
-+            - buck1234
-+        then:
-+          properties:
-+            buck34: false
++	return ret;
++}
 +
-+    additionalProperties: false
++static int tps6594_esm_suspend(struct device *dev)
++{
++	struct tps6594 *tps = dev_get_drvdata(dev->parent);
++	int ret;
 +
-+  rtc:
-+    type: object
-+    description: RTC provided by this controller.
-+    $ref: /schemas/rtc/rtc.yaml#
++	ret = regmap_clear_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++				TPS6594_BIT_ESM_SOC_START);
 +
-+  watchdog:
-+    type: object
-+    description: Watchdog provided by this controller.
-+    $ref: /schemas/watchdog/watchdog.yaml#
++	pm_runtime_put_sync(dev);
 +
-+patternProperties:
-+  "^buck([1-5]|12|34|123|1234)-supply$":
-+    description: Input supply phandle for each buck.
++	return ret;
++}
 +
-+  "^ldo[1-4]-supply$":
-+    description: Input supply phandle for each ldo.
++static int tps6594_esm_resume(struct device *dev)
++{
++	struct tps6594 *tps = dev_get_drvdata(dev->parent);
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
++	pm_runtime_get_sync(dev);
 +
-+additionalProperties: false
++	return regmap_set_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++			       TPS6594_BIT_ESM_SOC_START);
++}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++static DEFINE_SIMPLE_DEV_PM_OPS(tps6594_esm_pm_ops, tps6594_esm_suspend, tps6594_esm_resume);
 +
-+        tps6593: pmic@48 {
-+            compatible = "ti,tps6593";
-+            reg = <0x48>;
-+            ti,primary-pmic;
-+            system-power-controller;
++static struct platform_driver tps6594_esm_driver = {
++	.driver	= {
++		.name = "tps6594-esm",
++		.pm = pm_sleep_ptr(&tps6594_esm_pm_ops),
++	},
++	.probe = tps6594_esm_probe,
++	.remove = tps6594_esm_remove,
++};
 +
-+            gpio-controller;
-+            #gpio-cells = <2>;
++module_platform_driver(tps6594_esm_driver);
 +
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&pmic_irq_pins_default>;
-+            interrupt-parent = <&mcu_gpio0>;
-+            interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
-+
-+            ti,multi-phase-id = <123>;
-+
-+            buck123-supply = <&vcc_3v3_sys>;
-+            buck4-supply = <&vcc_3v3_sys>;
-+            buck5-supply = <&vcc_3v3_sys>;
-+            ldo1-supply = <&vcc_3v3_sys>;
-+            ldo2-supply = <&vcc_3v3_sys>;
-+            ldo3-supply = <&buck5>;
-+            ldo4-supply = <&vcc_3v3_sys>;
-+
-+            regulators {
-+                buck123: buck123 {
-+                    regulator-name = "vcc_core";
-+                    regulator-min-microvolt = <750000>;
-+                    regulator-max-microvolt = <850000>;
-+                    regulator-boot-on;
-+                    regulator-always-on;
-+                };
-+
-+                buck4: buck4 {
-+                    regulator-name = "vcc_1v1";
-+                    regulator-min-microvolt = <1100000>;
-+                    regulator-max-microvolt = <1100000>;
-+                    regulator-boot-on;
-+                    regulator-always-on;
-+                };
-+
-+                buck5: buck5 {
-+                    regulator-name = "vcc_1v8_sys";
-+                    regulator-min-microvolt = <1800000>;
-+                    regulator-max-microvolt = <1800000>;
-+                    regulator-boot-on;
-+                    regulator-always-on;
-+                };
-+
-+                ldo1: ldo1 {
-+                    regulator-name = "vddshv5_sdio";
-+                    regulator-min-microvolt = <3300000>;
-+                    regulator-max-microvolt = <3300000>;
-+                    regulator-boot-on;
-+                    regulator-always-on;
-+                };
-+
-+                ldo2: ldo2 {
-+                    regulator-name = "vpp_1v8";
-+                    regulator-min-microvolt = <1800000>;
-+                    regulator-max-microvolt = <1800000>;
-+                    regulator-boot-on;
-+                    regulator-always-on;
-+                };
-+
-+                ldo3: ldo3 {
-+                    regulator-name = "vcc_0v85";
-+                    regulator-min-microvolt = <850000>;
-+                    regulator-max-microvolt = <850000>;
-+                    regulator-boot-on;
-+                    regulator-always-on;
-+                };
-+
-+                ldo4: ldo4 {
-+                    regulator-name = "vdda_1v8";
-+                    regulator-min-microvolt = <1800000>;
-+                    regulator-max-microvolt = <1800000>;
-+                    regulator-boot-on;
-+                    regulator-always-on;
-+                };
-+            };
-+
-+            rtc: rtc {
-+                wakeup-source;
-+            };
-+
-+            watchdog: watchdog {
-+                timeout-sec = <10>;
-+            };
-+        };
-+    };
++MODULE_ALIAS("platform:tps6594-esm");
++MODULE_AUTHOR("Julien Panis <jpanis@baylibre.com>");
++MODULE_DESCRIPTION("TPS6594 Error Signal Monitor Driver");
++MODULE_LICENSE("GPL");
 -- 
 2.37.3
 
