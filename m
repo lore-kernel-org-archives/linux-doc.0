@@ -2,127 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 744E3C77B70
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 08:38:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 159E7C7619A
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 09:07:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233245AbjC0IiC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 04:38:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57264 "EHLO
+        id S232627AbjC0JHo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 05:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233254AbjC0Ihc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 04:37:32 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 501C25279;
-        Mon, 27 Mar 2023 01:32:05 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id l12so7748766wrm.10;
-        Mon, 27 Mar 2023 01:32:05 -0700 (PDT)
+        with ESMTP id S233304AbjC0JHI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 05:07:08 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5DA54EFD;
+        Mon, 27 Mar 2023 02:06:33 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id l7so7048117pjg.5;
+        Mon, 27 Mar 2023 02:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679905923;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W3Pnhk6WXCTvMYshsQQxsvUwuf8HT7xMnse1nDPGhPo=;
-        b=qacayhcU8j7TjHpxJKF4fFiwSBWH52U1tTZBx/KPUwncWUUqrrFGQMkFuA5Hk3Uqm7
-         mFfUzbbEetwcvaFCOeY+7jfynuUBn6PdLE0mny2ODwdpJgLy66XIydwt53hiHmGXec+J
-         jZm7gYy5OYlTyfndam8Pg8p9DVVeLoGdqXI7SXVNcgzjLU5xoNaJ2t+5nXqflkhWDjbl
-         GokbCOO2dpT8bxo7rQCszJftp4KCqULc1DffKMpOveo6BDWg7NVGu1Z8eVZZDhgBxjAh
-         KESM+RlJjyiCNwm+LM8e5rU5T/os4lTPWHnFuFnok3MByxnFZZUUJ3rKAraZLCU40mqj
-         ECNg==
+        d=gmail.com; s=20210112; t=1679907993;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O8fUt4pO+XHuFO5xT5Dt4jN0bSb0IjaRl69C7+BMdDg=;
+        b=LcgNg+6NtV1SL1HZQ41SfLf4+zxLtfV9YXrxPK7vJ5t3NhP4X/JdG0vszd1eEYhVEi
+         Lx0vA1NU1gcwAQ8PRLarirt1b17dx3ulnzdHVH3i9FyW/z845IxGIo4PEVkQAxINU0kz
+         O2BbcKQHUzwTxWoIs4Nl9/n8vmpmDFssbVjkJtANNenJpDzQQM3coQDZhgRLEqCACobQ
+         NA26ZrjjI4CcToPS5twfuS0xEWwLRWevqsCZH/kaaBMSyPDAgQYA+YrSDAEcICpyyYH/
+         KiS0tgcgHQbHeXuzAIOXjLgCE46vLsxSFJunPzgAq2e+Lc8OPBQ5cmJX9U/Y8FcU9ki2
+         CzVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679905923;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W3Pnhk6WXCTvMYshsQQxsvUwuf8HT7xMnse1nDPGhPo=;
-        b=zvnM8730el/i3J2SovR2EXlxhtRHPfyrGZOpohdHThzIEQWMe8I1AsWpjhIh/Ux9j9
-         N4qb4Uj4LDpTfTmmqQWOV6EuRu8Sbb7YXDXv6T8oXW3KSW4xyTUcKveETnqsD+ow2MSu
-         wDOo+sWFNxAqRiEbby3KOv9KF0kRt4vHSktdsOYl7+whcdzXmQtsNY+nQmXEcRfo+4xg
-         heP2rzob7y2EzbR2JO+ovdLj2Q7NoIyPeCBpEJihN+xg5inksJEz+SkVo5tdSAdUur/n
-         8B9/hFsOMRj3MHTefkLIAjNiM0CN7wXdQD2FMnW3H+X+pAA2MY6zeZahHaDyiR4HLVvS
-         Zg/w==
-X-Gm-Message-State: AAQBX9eFAPOAjp3qJNUkrRwjqT7tDF3ODub61mGTJZwWW2DlncmFdQYK
-        79GiFiwS5kO+JcVAZd8NcVAURJdWqMK4Cg==
-X-Google-Smtp-Source: AKy350ZHmJPagplwUBfqVwiTe6cpM9txTphF28audlh2ksHNQLFtkVRLoXCntUyVg96Tigwx4+FMAw==
-X-Received: by 2002:adf:ef83:0:b0:2d4:b9fc:90c1 with SMTP id d3-20020adfef83000000b002d4b9fc90c1mr9282039wro.42.1679905923043;
-        Mon, 27 Mar 2023 01:32:03 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:7887:5530:69a2:a11f])
-        by smtp.gmail.com with ESMTPSA id z6-20020a056000110600b002c557f82e27sm24353249wrw.99.2023.03.27.01.32.01
+        d=1e100.net; s=20210112; t=1679907993;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O8fUt4pO+XHuFO5xT5Dt4jN0bSb0IjaRl69C7+BMdDg=;
+        b=1UyTcrX+UqTns8O0csW/dsL36bsNxwbNH430svLFoKY69i807b8w6lSynSlIUFTiN+
+         3I84cX9b6b6y5fMWLAZtzxCgJ0QDVj13p7tp8f0v+8+X2tc6t8FZlnlO4dvJlj9gNnVG
+         Dl4Wu3ErUyhVLSkdWByxy8Yjd1ZbkAXa1YgeHafARJvRSTPaa3MUSaqnnMZ6cAeFF+0n
+         o9vLY1f1KNHXdJeyHJqntpi42bqoJhyfEEKPYVyMfsoTX0y5AC9Qbek2KcWJqm5jCq3G
+         tySBy/3fj/XP9BmzUs7ytdDL+2k0EvN7QAHEq6nfxijdMsWZpBFKXyM6hzwIttkWmOP4
+         jdyQ==
+X-Gm-Message-State: AAQBX9dEAFC8U4fD6vR3M4AXh56/vCNMNtydlwxHSaIC3Jj/rCdVq67f
+        klY3vMyFRFDpK6Ic2QOETP0=
+X-Google-Smtp-Source: AKy350akZsC9DAW9cAZ9dO/WH1qyoqAa+nZML0KGvlXEjleks2KmWYsZflCCbNjDE2Oyna1h5ZRy6w==
+X-Received: by 2002:a17:903:28c8:b0:1a2:19c1:a974 with SMTP id kv8-20020a17090328c800b001a219c1a974mr8678082plb.68.1679907993332;
+        Mon, 27 Mar 2023 02:06:33 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-16.three.co.id. [180.214.232.16])
+        by smtp.gmail.com with ESMTPSA id l18-20020a170902d35200b0019468fe44d3sm18629240plk.25.2023.03.27.02.06.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 01:32:02 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v5 7/7] docs: netlink: document the sub-type attribute property
-Date:   Mon, 27 Mar 2023 09:31:38 +0100
-Message-Id: <20230327083138.96044-8-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230327083138.96044-1-donald.hunter@gmail.com>
-References: <20230327083138.96044-1-donald.hunter@gmail.com>
+        Mon, 27 Mar 2023 02:06:32 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 6B322106758; Mon, 27 Mar 2023 16:06:29 +0700 (WIB)
+Date:   Mon, 27 Mar 2023 16:06:28 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Hao Zhang <quic_hazha@quicinc.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Leo Yan <leo.yan@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] Documentation: trace: Add documentation for
+ Coresight Dummy Trace
+Message-ID: <ZCFclDU2JZLzbVX/@debian.me>
+References: <20230324061608.33609-1-quic_hazha@quicinc.com>
+ <20230324061608.33609-4-quic_hazha@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Nhj3/4xBxIE5HRwH"
+Content-Disposition: inline
+In-Reply-To: <20230324061608.33609-4-quic_hazha@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a definition for sub-type to the protocol spec doc and a description of
-its usage for C arrays in genetlink-legacy.
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- .../userspace-api/netlink/genetlink-legacy.rst     | 14 ++++++++++++++
- Documentation/userspace-api/netlink/specs.rst      | 10 ++++++++++
- 2 files changed, 24 insertions(+)
+--Nhj3/4xBxIE5HRwH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-index b8fdcf7f6615..802875a37a27 100644
---- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
-+++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
-@@ -234,6 +234,20 @@ specify a sub-type.
-           type: binary
-           struct: vport-stats
- 
-+C Arrays
-+--------
-+
-+Legacy families also use ``binary`` attributes to encapsulate C arrays. The
-+``sub-type`` is used to identify the type of scalar to extract.
-+
-+.. code-block:: yaml
-+
-+  attributes:
-+    -
-+      name: ports
-+      type: binary
-+      sub-type: u32
-+
- Multi-message DO
- ----------------
- 
-diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
-index a22442ba1d30..2e4acde890b7 100644
---- a/Documentation/userspace-api/netlink/specs.rst
-+++ b/Documentation/userspace-api/netlink/specs.rst
-@@ -254,6 +254,16 @@ rather than depend on what is specified in the spec file.
- The validation policy in the kernel is formed by combining the type
- definition (``type`` and ``nested-attributes``) and the ``checks``.
- 
-+sub-type
-+~~~~~~~~
-+
-+Legacy families have special ways of expressing arrays. ``sub-type`` can be
-+used to define the type of array members in case array members are not
-+fully defined as attributes (in a bona fide attribute space). For instance
-+a C array of u32 values can be specified with ``type: binary`` and
-+``sub-type: u32``. Binary types and legacy array formats are described in
-+more detail in :doc:`genetlink-legacy`.
-+
- operations
- ----------
- 
--- 
-2.39.0
+On Fri, Mar 24, 2023 at 02:16:08PM +0800, Hao Zhang wrote:
+> +Sysfs files and directories
+> +---------------------------
+> +
+> +Root: ``/sys/bus/coresight/devices/dummy<N>``
+> +
+> +----
+> +
+> +:File:            ``enable_source`` (RW)
+> +:Notes:
+> +    - > 0 : enable the datasets of dummy source.
+> +
+> +    - =3D 0 : disable the datasets of dummy source.
+> +
+> +:Syntax:
+> +    ``echo 1 > enable_source``
+> +
+> +----
+> +
+> +:File:            ``enable_sink`` (RW)
+> +:Notes:
+> +    - > 0 : enable the datasets of dummy sink.
+> +
+> +    - =3D 0 : disable the datasets of dummy sink.
+> +
+> +:Syntax:
+> +    ``echo 1 > enable_sink``
 
+Is enable_{source,sink} integer-valued or bit (0/1)? In other words, is
+it OK to `echo 2` to both sysfs files?
+
+> +
+> +----
+> +
+> +Config details
+> +---------------------------
+> +
+> +There are two types of nodes, dummy sink and dummy source. The nodes
+> +should be observed at the coresight path
+> +"/sys/bus/coresight/devices".
+
+For consistency, inline this sysfs also (thus
+``/sys/bus/coresight/devices``.
+
+> +e.g.
+e.g.:: (make the shell snippet below code block)
+> +/sys/bus/coresight/devices # ls -l | grep dummy
+IMO I prefer `PS1=3D\$` (that is, omit the directory). Alternatively,
+you can write `ls -l /sys/bus/coresight/devices | grep dummy` (specify
+the directory to `ls`).
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Nhj3/4xBxIE5HRwH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCFcjwAKCRD2uYlJVVFO
+o1gMAP9hA3XoJ+1BWv3KOewMhgRMYIwCugU1u1SLb6+ulgXKKQD8DNcMJrpatOcs
+cyouf4vyhI6HmCRIK5V0aHosRUkHrQM=
+=Bs3E
+-----END PGP SIGNATURE-----
+
+--Nhj3/4xBxIE5HRwH--
