@@ -2,92 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0B7C761AF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 07:41:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C06C76195
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 08:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232742AbjC0Hk7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 03:40:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48310 "EHLO
+        id S232670AbjC0IOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 04:14:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232713AbjC0Hks (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 03:40:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA98EC3;
-        Mon, 27 Mar 2023 00:40:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 83AFA61011;
-        Mon, 27 Mar 2023 07:40:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CD720C4339B;
-        Mon, 27 Mar 2023 07:40:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679902839;
-        bh=0TEk3ZqWXnxKuH/Fw6PufZL4vXFQjTfxwUoYTmilE6k=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=h1eQTJYwHRbb0dxZLl+zbMue6/IRHI8vO6L8MHPxTjMcOgyacc9uJ3vGD8xTHzwZW
-         MYEQ2B7dKK1vNcBIfBvozCIWTQd7oeHzHv8aJI0h98ATSCFN/y1SOo5XRGTKAH5k/h
-         e96I81aHzlLKoR24oHxvKU/ei5cGBO0DLJliB0qUEbhDEjtcEdXzrDH6LVKeWYE5+A
-         8HRt12CjW8hxIb5l5UQ9CAZ0tKeyW6UmGv1fhzt/DKZQMvY3mmpourITgV5XIuVRqB
-         AYJa4EG7478kzeyisPB+3yR79+UxJ+gIIEVq1hQ9I/hKzmPDWlZ1exKYRwY1mKe3zl
-         09l3oHpZAVK8g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B9428E4D029;
-        Mon, 27 Mar 2023 07:40:39 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S232972AbjC0IOL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 04:14:11 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7CF40CD;
+        Mon, 27 Mar 2023 01:14:07 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id d11-20020a05600c3acb00b003ef6e6754c5so1270694wms.5;
+        Mon, 27 Mar 2023 01:14:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679904845;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qUMg8u3fYkxxNNqq3JGdpb2eRGzVPcLLm8VE266HQfg=;
+        b=kdpKr5qETjbzmKKRrCGSbz3+TE8TX7fazWI90/imT0PL7XCtOAUdYrhiFqjSYXXyGE
+         wq193TYkRUPbBRLb4Zps/X2+WNcZbcWZe8UUUDT7c1aAWvqgJpYsbvGhbyfquab51zlD
+         JH1FupvWq49p6fBvslPQHL2b4vo7HvkArwmdl4kinOdYMIOenuP3UePFOZGCnmxY2/F3
+         UNI8wq6EmdArcZ0FawhXprt4Xr5hNLfJ7l3AIaSG0moumABcDr2kBPDuBVE9J5ZHejPi
+         v5Kze4aOPCDPHmwzSMiTnTDp8/0npTd75YUZMXzt9UHXTyBYZeIFrpCLgCfoEbmTtL9x
+         Hkyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679904845;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qUMg8u3fYkxxNNqq3JGdpb2eRGzVPcLLm8VE266HQfg=;
+        b=ADEgMXR79IiBQ3ByLnyxsDCEjRpAMVlrHbv3udp6ZzyJW9tFFIdk2639bPtgqneqCx
+         Uv/fNVFfy5wAvsJPp6cJAs9XKSaq33PHVpge1ReFDgqq+ohMSLnez1Kx7sAVF6tPyUmI
+         VyefFN9k6IasR4V/hLxDLNr2vCts/z6NLcXmjBjI4fte7cwHkZQybKfQlkDsInwrwp+U
+         zEsTnCf5AJ1Ize/rLmgIcpA5FPFE8B7WvqjNJBE0m59gPlFp4LLstDKnDbt+bc5QlGjQ
+         vqOL4/zz6vOCS/ZVlzo3sEGdRar9ixIqrFU4huoPXED1XXRwEDTfrlgBHMY+M3xhP6/0
+         09JA==
+X-Gm-Message-State: AO0yUKVgnm650pKC4osQMurlhyC0MCtYWHNFSlG6VUr+4n2dMoFfpY1E
+        Yr2bWNQpT2GAro3+MdvVbGdN8LxIwmogRw==
+X-Google-Smtp-Source: AK7set8XcOe1WbYGfNPTVqeKPxulz8CTgutu/4O+MumO9oRmqHOzrUk/sKhmst9JL351hKkNrTjzaQ==
+X-Received: by 2002:a05:600c:2304:b0:3eb:f5a2:2d67 with SMTP id 4-20020a05600c230400b003ebf5a22d67mr8502142wmo.33.1679904845439;
+        Mon, 27 Mar 2023 01:14:05 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:7887:5530:69a2:a11f])
+        by smtp.gmail.com with ESMTPSA id s12-20020a1cf20c000000b003ed1f111fdesm12703309wmc.20.2023.03.27.01.14.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 01:14:04 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v4 2/7] tools: ynl: Add C array attribute
+ decoding to ynl
+In-Reply-To: <20230324203837.1e12be44@kernel.org> (Jakub Kicinski's message of
+        "Fri, 24 Mar 2023 20:38:37 -0700")
+Date:   Mon, 27 Mar 2023 08:57:42 +0100
+Message-ID: <m2edpaiq2x.fsf@gmail.com>
+References: <20230324191900.21828-1-donald.hunter@gmail.com>
+        <20230324191900.21828-3-donald.hunter@gmail.com>
+        <20230324203837.1e12be44@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v5 0/8] octeon_ep: deferred probe and mailbox
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167990283975.16393.10243925958413218334.git-patchwork-notify@kernel.org>
-Date:   Mon, 27 Mar 2023 07:40:39 +0000
-References: <20230324174704.9752-1-vburru@marvell.com>
-In-Reply-To: <20230324174704.9752-1-vburru@marvell.com>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        aayarekar@marvell.com, sedara@marvell.com, sburla@marvell.com,
-        linux-doc@vger.kernel.org, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Jakub Kicinski <kuba@kernel.org> writes:
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+> On Fri, 24 Mar 2023 19:18:55 +0000 Donald Hunter wrote:
+>> Add support for decoding C arrays from binay blobs in genetlink-legacy
+>> messages.
+>> 
+>> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+>
+> If Stan's byte-order support gets in first consider supporting
+> byte-order in arrays as well:
+> https://lore.kernel.org/r/20230324225656.3999785-2-sdf@google.com/
 
-On Fri, 24 Mar 2023 10:46:55 -0700 you wrote:
-> Implement Deferred probe, mailbox enhancements and heartbeat monitor.
-> 
-> v4 -> v5:
->    - addressed review comments
->      https://lore.kernel.org/all/20230323104703.GD36557@unreal/
->      replaced atomic_inc() + atomic_read() with atomic_inc_return().
-> 
-> [...]
+Ack. I'll watch for it. 
 
-Here is the summary with links:
-  - [net-next,v5,1/8] octeon_ep: defer probe if firmware not ready
-    https://git.kernel.org/netdev/net-next/c/10c073e40469
-  - [net-next,v5,2/8] octeon_ep: poll for control messages
-    https://git.kernel.org/netdev/net-next/c/24d4333233b3
-  - [net-next,v5,3/8] octeon_ep: control mailbox for multiple PFs
-    https://git.kernel.org/netdev/net-next/c/7c05d3d06c23
-  - [net-next,v5,4/8] octeon_ep: add separate mailbox command and response queues
-    https://git.kernel.org/netdev/net-next/c/577f0d1b1c5f
-  - [net-next,v5,5/8] octeon_ep: include function id in mailbox commands
-    https://git.kernel.org/netdev/net-next/c/f25e596755b4
-  - [net-next,v5,6/8] octeon_ep: support asynchronous notifications
-    https://git.kernel.org/netdev/net-next/c/baa987988777
-  - [net-next,v5,7/8] octeon_ep: function id in link info and stats mailbox commands
-    https://git.kernel.org/netdev/net-next/c/0718693fb36c
-  - [net-next,v5,8/8] octeon_ep: add heartbeat monitor
-    https://git.kernel.org/netdev/net-next/c/5cb96c29aa0e
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+>
+> Otherwise LGTM:
+>
+> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
