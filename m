@@ -2,144 +2,196 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D86ECC7619A
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 12:44:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA1DC76195
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 12:45:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjC0Mop (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 08:44:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39312 "EHLO
+        id S232244AbjC0MpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 08:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjC0Mop (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 08:44:45 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF4B40D8
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 05:44:43 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id ek18so35640959edb.6
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 05:44:43 -0700 (PDT)
+        with ESMTP id S230351AbjC0MpI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 08:45:08 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACFA40DF;
+        Mon, 27 Mar 2023 05:45:06 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso11721841pjb.0;
+        Mon, 27 Mar 2023 05:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares.net; s=google; t=1679921082;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EKW/tU35UjGEuUF9Mez4H7fZWGcAomPnT3WUqTcOwB8=;
-        b=glqgBSj0rwWYVzccQFPKfUYu5IDeMkUNFZIBmxGr8nrmFA32ZNrdBTM5DUu2qpSXLv
-         Mfo4LtPvpfhIO8obwOsqHhZlR0GD506gc5h7OGcxx5xgkduTJjVtlnkrpeagGFFgoyp2
-         d1cuQqvxMbD/Mce87L+rEUWcPATyTMuab+t9DHVvLAUdFlYlBvzEHQl1CfO6gB5HRYrf
-         1cR4RCuotDVykuEG2m/fTO/HXu5WRxL3jkji0Xf/AWOnRywfpk+o3DOWC7MZPaTGgLdo
-         dToSihjbS9ns47KyhivkdLSL9xl2cG6kBlkOEx/4lxrfyqAC/pQ40e0ifowVCDFNiNaK
-         7DrQ==
+        d=gmail.com; s=20210112; t=1679921106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CfnHyaaBH+Lk9iWABIQalbJ32qbFAoxiTvidJWprhp8=;
+        b=NNxARsSVi+Vf8UNk8EQ9Q9/8OjYeMe26RXINidqLbbXrCuOsIJdftNQ8upuPFiTPLc
+         zfTeZzaKBWmwc+pLglgVnBP6OH2OixtLKlDz7gdjv6WGv/QooAQlBR3sK3OgP+9FXfvJ
+         sxTCa4DSP+5rxehV3A3qADQefIuOG4Ak99AMU07TYrf3f1hYapnS3wSRSTxceInhdCpX
+         VJTPhIFVzxZgOnpsrX7fmrEUmK3aJqnUtErZfTNAf42RFrZjb0m6fWxw9ogK34CWaaSb
+         I5srQiYz805zdd1hg0zWrvUf8iyRtQaS7nLa29U8JGPSwmlJKu0lhmHwmAwwLBvM3FK6
+         iyIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679921082;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EKW/tU35UjGEuUF9Mez4H7fZWGcAomPnT3WUqTcOwB8=;
-        b=hMuFzieO9/i7YLjg5+KSnAFcw1eaWRw/Ij+nRNkOobKfpGyANFmgtaVsINsWcCl3Em
-         RoRhzJcuYmCgeDyBpAxVyyjDMN1DxW4MydNmnpVTppim3H9bHLi3voSYWFKL72Ukc5Pb
-         GmJxchCEag0zyHPEw9RR4UDGn/jdNE4JZFIzbdpeu1HV/N0cNgEYPHzJ/6tb+xhG9Ez4
-         5C/oHOLuhLKYE8Lpsbp8zmTajZLbzIDaPW2xKFv4/1cXFzayUiX+1N0qQwFgGti0lXPe
-         Cv4V8HxPiIXNlbhq5A9eIGYbpwYFYP8ZXBG6gHb7IDVB4fwGtQAoBVJL/RYBL4D/5P8K
-         oBQw==
-X-Gm-Message-State: AAQBX9fFc37yARdF3jaT2aA+8kYp05f7AJLsjZQ3857w1VSg/sAYI4Vm
-        o7p3KFLPeTPO6dyDtJ7nWnhb0A==
-X-Google-Smtp-Source: AKy350bdtzCpB1RpTkMzpU+kL/HgZJs5VPsA2ZEf4q+QvtNuRCG23spbWNl2cGsoNjW3ojSIcOXorQ==
-X-Received: by 2002:a17:906:48cb:b0:932:c50e:d6b4 with SMTP id d11-20020a17090648cb00b00932c50ed6b4mr11850596ejt.9.1679921081892;
-        Mon, 27 Mar 2023 05:44:41 -0700 (PDT)
-Received: from [10.44.2.5] ([81.246.10.41])
-        by smtp.gmail.com with ESMTPSA id w17-20020a170906b19100b0093fa8c2e877sm2894122ejy.80.2023.03.27.05.44.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Mar 2023 05:44:41 -0700 (PDT)
-Message-ID: <03e4389e-5790-68c5-422f-f128415c2d03@tessares.net>
-Date:   Mon, 27 Mar 2023 14:44:41 +0200
+        d=1e100.net; s=20210112; t=1679921106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CfnHyaaBH+Lk9iWABIQalbJ32qbFAoxiTvidJWprhp8=;
+        b=uT4h4LQABPjyvV9DifsoVhDiOTLrMLzp78PBQYspBG3HVfz5ycXat5UO1TQMIDJ03T
+         zVE2R9ha6tIUCZnsmfE2dO0k/VGN7KkNl4zEYp/TIN3zC8MzDAQPZFC2rXF4mW22Ffc+
+         kTDH15AzA+WWp94KZkJdHFgejy1QUcYSWUXfRyfi0MJBgqQqk1+rs439+Gm+5iF/boXc
+         VzfGtVmUTWA+cqeawKA3KjDl9AyWEobrX+YmrhdeBEHMTbzE3UbjZVXD/v4RTKJD1w8j
+         y83oWbHiMX8dtH6Py5mUDC2t/72HnPu3uMFBNnmQWudkFvLAUC+XnS8T/NsDRHAz4AQG
+         GJBg==
+X-Gm-Message-State: AAQBX9eHey9sMB9u6sx2DtT8GUAXFioMKMwzTW/nN6rWf+w4tVUY3tjA
+        FCmek3XLGw+RfznJsnvchPM=
+X-Google-Smtp-Source: AKy350a354fPptjXr9CCSC0YCaAVEB1MwOJCcjrJDLqV5X6Lj0XRJ5MmqLZMXVU25Yk8sR1peeymTQ==
+X-Received: by 2002:a17:902:ec91:b0:1a1:dd3a:7509 with SMTP id x17-20020a170902ec9100b001a1dd3a7509mr14214042plg.48.1679921106075;
+        Mon, 27 Mar 2023 05:45:06 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-75.three.co.id. [180.214.233.75])
+        by smtp.gmail.com with ESMTPSA id d9-20020a170902854900b0019c61616f82sm19084100plo.230.2023.03.27.05.45.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 05:45:05 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 2CC41106758; Mon, 27 Mar 2023 19:45:00 +0700 (WIB)
+Date:   Mon, 27 Mar 2023 19:44:59 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Donald Hunter <donald.hunter@gmail.com>, netdev@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v5 6/7] docs: netlink: document struct support
+ for genetlink-legacy
+Message-ID: <ZCGPy+90DsRpsicj@debian.me>
+References: <20230327083138.96044-1-donald.hunter@gmail.com>
+ <20230327083138.96044-7-donald.hunter@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/2] checkpatch: allow Closes tags with links
-Content-Language: en-GB
-To:     Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v2-2-f4a417861f6d@tessares.net>
- <d24f2eca8f2a858b48ad0e019e58e0e5098be5c3.camel@perches.com>
-From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-In-Reply-To: <d24f2eca8f2a858b48ad0e019e58e0e5098be5c3.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="nh5IJXJhvW4Mxisv"
+Content-Disposition: inline
+In-Reply-To: <20230327083138.96044-7-donald.hunter@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Joe,
 
-Thank you for the review!
+--nh5IJXJhvW4Mxisv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 24/03/2023 20:13, Joe Perches wrote:
-> On Fri, 2023-03-24 at 19:52 +0100, Matthieu Baerts wrote:
->> As a follow-up of the previous patch modifying the documentation to
->> allow using the "Closes:" tag, checkpatch.pl is updated accordingly.
->>
->> checkpatch.pl now mentions the "Closes:" tag between brackets to express
->> the fact it should be used only if it makes sense.
->>
->> While at it, checkpatch.pl will not complain if the "Closes" tag is used
->> with a "long" line, similar to what is done with the "Link" tag.
->>
->> Fixes: 76f381bb77a0 ("checkpatch: warn when unknown tags are used for links")
->> Fixes: d7f1d71e5ef6 ("checkpatch: warn when Reported-by: is not followed by Link:")
->> Closes: https://github.com/multipath-tcp/mptcp_net-next/issues/373
->> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
->> ---
->>  scripts/checkpatch.pl | 16 ++++++++--------
->>  1 file changed, 8 insertions(+), 8 deletions(-)
->>
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->> index bd44d12965c9..d6376e0b68cc 100755
->> --- a/scripts/checkpatch.pl
->> +++ b/scripts/checkpatch.pl
->> @@ -3158,14 +3158,14 @@ sub process {
->>  				}
->>  			}
->>  
->> -# check if Reported-by: is followed by a Link:
->> +# check if Reported-by: is followed by a Link: (or Closes:) tag
->>  			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
->>  				if (!defined $lines[$linenr]) {
->>  					WARN("BAD_REPORTED_BY_LINK",
->> -					     "Reported-by: should be immediately followed by Link: to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
->> -				} elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
->> +					     "Reported-by: should be immediately followed by Link: (or Closes:) to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
->> +				} elsif ($rawlines[$linenr] !~ m{^(link|closes):\s*https?://}i) {
-> 
-> Please do not use an unnecessary capture group.
-> 
-> 		(?:link|closes)
+On Mon, Mar 27, 2023 at 09:31:37AM +0100, Donald Hunter wrote:
+> diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/D=
+ocumentation/userspace-api/netlink/genetlink-legacy.rst
+> index 3bf0bcdf21d8..b8fdcf7f6615 100644
+> --- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
+> +++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+> @@ -162,9 +162,77 @@ Other quirks (todo)
+>  Structures
+>  ----------
+> =20
+> -Legacy families can define C structures both to be used as the contents
+> -of an attribute and as a fixed message header. The plan is to define
+> -the structs in ``definitions`` and link the appropriate attrs.
+> +Legacy families can define C structures both to be used as the contents =
+of
+> +an attribute and as a fixed message header. Structures are defined in
+> +``definitions``  and referenced in operations or attributes. Note that
+> +structures defined in YAML are implicitly packed according to C
+> +conventions. For example, the following struct is 4 bytes, not 6 bytes:
+> +
+> +.. code-block:: c
+> +
+> +  struct {
+> +          u8 a;
+> +          u16 b;
+> +          u8 c;
+> +  }
+> +
+> +Any padding must be explicitly added and C-like languages should infer t=
+he
+> +need for explicit padding from whether the members are naturally aligned.
+> +
+> +Here is the struct definition from above, declared in YAML:
+> +
+> +.. code-block:: yaml
+> +
+> +  definitions:
+> +    -
+> +      name: message-header
+> +      type: struct
+> +      members:
+> +        -
+> +          name: a
+> +          type: u8
+> +        -
+> +          name: b
+> +          type: u16
+> +        -
+> +          name: c
+> +          type: u8
+> +
 
-Good point, thank you, that will be in the v3.
+Nit: The indentation for code-block codes should be relative to
+code-block:: declaration (e.g. if it starts from column 4, the first
+column of code is also at 4).
 
-> And because it's somewhat likely that _more_ of these keywords
-> could be added, perhaps use some array like deprecated_apis
+> +Fixed Headers
+> +~~~~~~~~~~~~~
+> +
+> +Fixed message headers can be added to operations using ``fixed-header``.
+> +The default ``fixed-header`` can be set in ``operations`` and it can be =
+set
+> +or overridden for each operation.
+> +
+> +.. code-block:: yaml
+> +
+> +  operations:
+> +    fixed-header: message-header
+> +    list:
+> +      -
+> +        name: get
+> +        fixed-header: custom-header
+> +        attribute-set: message-attrs
+> +
+> +Attributes
+> +~~~~~~~~~~
+> +
+> +A ``binary`` attribute can be interpreted as a C structure using a
+> +``struct`` property with the name of the structure definition. The
+> +``struct`` property implies ``sub-type: struct`` so it is not necessary =
+to
+> +specify a sub-type.
+> +
+> +.. code-block:: yaml
+> +
+> +  attribute-sets:
+> +    -
+> +      name: stats-attrs
+> +      attributes:
+> +        -
+> +          name: stats
+> +          type: binary
+> +          struct: vport-stats
+> =20
+>  Multi-message DO
+>  ----------------
 
-I can but from the discussions we had on the v1, it looks unlikely to me
-that more of these keywords will be allowed (if this one already ends up
-being accepted :) ). Strangely, we might not even want to make it easy
-to add new tags.
+Otherwise LGTM, thanks!
 
-But I'm fine to change that in the v3 if you prefer to have an array here.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Cheers,
-Matt
--- 
-Tessares | Belgium | Hybrid Access Solutions
-www.tessares.net
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--nh5IJXJhvW4Mxisv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCGPxwAKCRD2uYlJVVFO
+o7dAAP9Kl/eouvxC4qUIM4eux+mH7G2CdpTE5COhvkjWprES6QEAmcdj2JAO+3BF
+lYWIetPQF8ppzikEZ8Np6UDuXZInfAQ=
+=Sjt1
+-----END PGP SIGNATURE-----
+
+--nh5IJXJhvW4Mxisv--
