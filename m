@@ -2,108 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF946C6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 18:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7E3C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 20:00:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbjC1Sqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 14:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47848 "EHLO
+        id S229487AbjC1UAm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 16:00:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjC1Sqe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 14:46:34 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7142107;
-        Tue, 28 Mar 2023 11:46:30 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 341855C00B9;
-        Tue, 28 Mar 2023 14:46:27 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Tue, 28 Mar 2023 14:46:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1680029187; x=1680115587; bh=OR
-        P2FIKdfRirdyD2Lu4aWJpigZ2drmLWozeD8QCTfbg=; b=Zmq41Z/qSRMn9rYp+h
-        QDNmVcNMoLhclV/Hq1H5ugsx2lOCfEYHLvvTFmQg+RMWJrkym/WeIRc3MLvDHkDO
-        HTLlocYp2MP2d8ICO4tnvSs469GkfAH6/BwEDWyKiyXrt/Grg0Q36E3ytLWoMgVY
-        kVs6uuC6q4rihRfqOtOtxlAzLj5Do+ABME+dLp8/dowyD7zms93hlezwCC0hO2jO
-        gc4Etx3f3cr9lkTjP9KQr25IAKxCDW6mY9imntxbaqqBHgOY+zPHISXPfZNt/fuE
-        hdzRkfn+jZ/Tf25ykGdteW4/5VebEAdEgCiW2ZmIVpd9GHM26wsg4EidEvJeT/07
-        dtHw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680029187; x=1680115587; bh=ORP2FIKdfRird
-        yD2Lu4aWJpigZ2drmLWozeD8QCTfbg=; b=tdxBQh+0EYo2NEcZuqxzWQqO0iBup
-        z7kKFZO7eLXSnp/penapQpwCORauQUrn1+S28WIKpr9NXH22yUC7X7WM4KoT0sSA
-        Utdqa1wIqN3voN9NMdJhx+n1s/L0/t0c2qL7KhFQMUVrtS6IEovWlufwT4grYd2g
-        Mpvz5DsY3OOX4Brj/D+dZx/AThVFwhXIAhMoqD/yv/9Sc/Nx7VdtZdWPfPb9NT15
-        gTtJyaIh/FC/BxrH9ORyJMvFvYyPUafyy6Rrx2Hlw0Syj2ID5lqcQPJdSSMOhNwy
-        OCKv82SpmoGpl8+byqpQUt7DnPctCQ+AwuApPF2SjgNgsRo5HKGVYMvZQ==
-X-ME-Sender: <xms:AjYjZKbgzVIbwPrq7_BIJIaFu20D34SyJbGqsiK4XwKns_w6Nqafeg>
-    <xme:AjYjZNbme47GuCgltwoyMI2lamCL7qadYs67pfnBxYcEsfn0Y4m6CzxbITNpe_LPe
-    j8-T9eqA18pUsnotsk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehgedguddvlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:AjYjZE_lzVS2e3UQMYqpds57bY5IRM2trHFYYatTNaqTiMtbXjs0Zg>
-    <xmx:AjYjZMoIZ0O43yjyTJ-QbGtT2jmdVTsfR9278Yf55J9URtL8rIz6IQ>
-    <xmx:AjYjZFr-P8cIFe3xJN12TNHds6E7fgzjA64i5ULxbG61OHNEOdXovw>
-    <xmx:AzYjZLblnJuQRIaOyK96rwdmhmhmXmoh6aBI-vdT4fT2hJyOA9OBMA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 4754DB60098; Tue, 28 Mar 2023 14:46:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-237-g62623e8e3f-fm-20230327.001-g62623e8e
-Mime-Version: 1.0
-Message-Id: <b0d8da28-2499-48db-be17-7d126697e303@app.fastmail.com>
-In-Reply-To: <20230328164811.2451-2-gregory.price@memverge.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
-Date:   Tue, 28 Mar 2023 20:46:06 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Gregory Price" <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "Oleg Nesterov" <oleg@redhat.com>, avagin@gmail.com,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Andy Lutomirski" <luto@kernel.org>, krisman@collabora.com,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Jonathan Corbet" <corbet@lwn.net>, shuah <shuah@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Mark Rutland" <mark.rutland@arm.com>, tongtiangen@huawei.com,
-        "Robin Murphy" <robin.murphy@arm.com>,
-        "Gregory Price" <gregory.price@memverge.com>
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of access_ok
-Content-Type: text/plain
+        with ESMTP id S229532AbjC1UAl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 16:00:41 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F20703C24
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 13:00:05 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id q206so7924075pgq.9
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 13:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680033571;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0/yvlhEoGf4lYD0w5w4illgGKFOLps9NjXpDI+7ErcQ=;
+        b=Kj4ahUJ17/TklSj8P4aYyhNWSNUggUnfHpq42Yf2/g2G1VGWGWrewPLvp9vsLX/JEg
+         Bo8mZjMkfy7Ctlho2KRKOpKqTbOfwp+ZKHRKs6VdamQXWlk+XXleJft4Oz61Oo6NQ4pw
+         KGYJwhnhB3/D0jfIu8miCDACYf921OreR3HQSswBQW4rpuJCq8+F+dboOuddBBTNRJ7Q
+         VAjey0lem6IOqAD6Q/8oNVUFh4Oe+mz5d1NunBWyGOByo8e7HkQXRnaO9wXGbSxcVuOU
+         k+XH0lQKF/eHBchip2FdOmhmF1eQBFBUO8i0IDxZ9EOdGZNFd8SUBL8dWE5arhzeF1Al
+         3IIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680033571;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0/yvlhEoGf4lYD0w5w4illgGKFOLps9NjXpDI+7ErcQ=;
+        b=R0MwkYnHwp8UXVIuIeTBUo83ZxmEY/rE74Cxfk15CbZVOHZNeiA/LYzL0aClghrMO1
+         WF9nJ4fgoXKMwV2+1lBRagSUuaJqXzgXGqgc95x6miBoVDn/0JnM+8KDaajPxu5r+XVs
+         6qDWd3H8N+R53ZflaGV3qtDZicKJqPANo4q3T4Revv9Xq6suFEfF9nxVqnB5pPr5Q0uk
+         iLwMNL01THjNj6Qw8JgXyDcI/hYcEJRUcr1dgMJ4IfAvrAYehmJPwRq5vzS2q7mPmE+0
+         YSx2VhUQS4i0annDi5LgglVKr+sAS53BEyIjJ12hbPGI7CEyObnsdH4z8lHAjbwAOf0L
+         cHDQ==
+X-Gm-Message-State: AAQBX9cUx65C2D3smUho8wVmbsa1l851lqCNWRTmUUH3VFrwAOv9auX+
+        NDfovW92VAm5QV5MPAW/33ww7ehoKjsGTgBjIfRpww==
+X-Google-Smtp-Source: AKy350a02nhWjZJNaefPpoZ0AZzLMqgU+rjEYIaK5jw3IZfaHRS4Bp2uRB/lOVaXyN/t2Dcrapc37Bok73ZdIIbqPUU=
+X-Received: by 2002:a63:5a47:0:b0:513:2523:1b5f with SMTP id
+ k7-20020a635a47000000b0051325231b5fmr4363099pgm.3.1680033570922; Tue, 28 Mar
+ 2023 12:59:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230326062039.341479-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <CAAYXXYxC++kRW_Kg0jieaxuwzTC2hu-9SxRjsHH_kqZW_DTE7Q@mail.gmail.com>
+In-Reply-To: <CAAYXXYxC++kRW_Kg0jieaxuwzTC2hu-9SxRjsHH_kqZW_DTE7Q@mail.gmail.com>
+From:   Dionna Amalie Glaze <dionnaglaze@google.com>
+Date:   Tue, 28 Mar 2023 12:59:18 -0700
+Message-ID: <CAAH4kHZWW6QsMcLCLYwRo25i6d6Uhg+=rTeoVV7yrGHqUWwFUQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] TDX Guest Quote generation support
+To:     Erdem Aktas <erdemaktas@google.com>, Chong Cai <chongc@google.com>
+Cc:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 28, 2023, at 18:48, Gregory Price wrote:
-> On arm64, access_ok makes adjustments to pointers based on whether
-> memory tagging is enabled for a task (ARM MTE). When leveraging ptrace,
-> it's possible for a task to enable/disable various kernel features (such
-> as syscall user dispatch) which require user points as arguments.
->
-> To enable Task A to set these features via ptrace with Task B's
-> pointers, a task variant of access_ok is required for architectures with
-> features such as memory tagging.
->
-> If the architecture does not implement task_access_ok, the operation
-> reduces to access_ok and the task argument is discarded.
->
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
++Chong Cai
 
-For asm-generic:
+Adding a colleague per his request since he's not subscribed to the list ye=
+t.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+On Mon, Mar 27, 2023 at 10:36=E2=80=AFAM Erdem Aktas <erdemaktas@google.com=
+> wrote:
+>
+> On Sat, Mar 25, 2023 at 11:20=E2=80=AFPM Kuppuswamy Sathyanarayanan
+> <sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
+> >
+> > Hi All,
+> >
+> > In TDX guest, the attestation process is used to verify the TDX guest
+> > trustworthiness to other entities before provisioning secrets to the
+> > guest.
+> >
+> > The TDX guest attestation process consists of two steps:
+> >
+> > 1. TDREPORT generation
+> > 2. Quote generation.
+> >
+> > The First step (TDREPORT generation) involves getting the TDX guest
+> > measurement data in the format of TDREPORT which is further used to
+> > validate the authenticity of the TDX guest. The second step involves
+> > sending the TDREPORT to a Quoting Enclave (QE) server to generate a
+> > remotely verifiable Quote. TDREPORT by design can only be verified on
+> > the local platform. To support remote verification of the TDREPORT,
+> > TDX leverages Intel SGX Quoting Enclave to verify the TDREPORT
+> > locally and convert it to a remotely verifiable Quote. Although
+> > attestation software can use communication methods like TCP/IP or
+> > vsock to send the TDREPORT to QE, not all platforms support these
+> > communication models. So TDX GHCI specification [1] defines a method
+> > for Quote generation via hypercalls. Please check the discussion from
+> > Google [2] and Alibaba [3] which clarifies the need for hypercall based
+> Thanks Sathyanarayanan for submitting patches again.
+>
+> I just wanted to reiterate what I said before that having a clean
+> TDVMCALL based interface to get TDX Quote without any virtio/vsock
+> dependency  is critical for us to support many use cases.
+
+
+
+--=20
+-Dionna Glaze, PhD (she/her)
