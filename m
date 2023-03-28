@@ -2,123 +2,461 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88EC1C761A6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 12:15:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2722C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 12:21:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231871AbjC1MPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 08:15:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
+        id S229995AbjC1MV3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 08:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232719AbjC1MPj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 08:15:39 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4745393E5;
-        Tue, 28 Mar 2023 05:15:37 -0700 (PDT)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8BxONlo2iJkeBYTAA--.29105S3;
-        Tue, 28 Mar 2023 20:15:36 +0800 (CST)
-Received: from [10.130.0.102] (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Dxjb5l2iJkMWQPAA--.35747S3;
-        Tue, 28 Mar 2023 20:15:35 +0800 (CST)
-Subject: Re: [PATCH] LoongArch: Add kernel address sanitizer support
-To:     Xi Ruoyao <xry111@xry111.site>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, loongarch@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20230328111714.2056-1-zhangqing@loongson.cn>
- <9817aaa043e9f0ed964bd523773447bd64f6e2c0.camel@xry111.site>
-From:   Qing Zhang <zhangqing@loongson.cn>
-Message-ID: <1c231587-3b70-22ab-d554-ebe3de407909@loongson.cn>
-Date:   Tue, 28 Mar 2023 20:15:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        with ESMTP id S229654AbjC1MV2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 08:21:28 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1F2C1BD;
+        Tue, 28 Mar 2023 05:21:25 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF2E3C14;
+        Tue, 28 Mar 2023 05:22:09 -0700 (PDT)
+Received: from [10.57.54.240] (unknown [10.57.54.240])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D2833F6C4;
+        Tue, 28 Mar 2023 05:21:21 -0700 (PDT)
+Message-ID: <bab8fc7f-77b3-472f-2d2b-b1275d753888@arm.com>
+Date:   Tue, 28 Mar 2023 13:21:20 +0100
 MIME-Version: 1.0
-In-Reply-To: <9817aaa043e9f0ed964bd523773447bd64f6e2c0.camel@xry111.site>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/3] Coresight: Add coresight dummy driver
+To:     Hao Zhang <quic_hazha@quicinc.com>,
+        Mike Leach <mike.leach@linaro.org>
+Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20230324061608.33609-1-quic_hazha@quicinc.com>
+ <20230324061608.33609-2-quic_hazha@quicinc.com>
+ <CAJ9a7VgAJ25CCGwwdfs2DXKaKYoA-BUQAdyZt5udm4qJf9ZQrA@mail.gmail.com>
+ <0faff427-1f01-8783-9585-32dca872fe45@quicinc.com>
+ <883c72a4-0c72-fd08-1b04-577037138b43@arm.com>
+ <9fcc59cf-c76e-8cee-d232-830b31e35060@quicinc.com>
+ <CAJ9a7Vj7L1wbc2iad-Tbf+2d_t5z-GpN7WEff0_FupVZVRNymA@mail.gmail.com>
+ <19028b1a-d167-07d9-59d4-a8446f2330d6@quicinc.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <19028b1a-d167-07d9-59d4-a8446f2330d6@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dxjb5l2iJkMWQPAA--.35747S3
-X-CM-SenderInfo: x2kd0wptlqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7ArWDtw4rur15Gr1DuF1Dtrb_yoW8ZF4kpr
-        ykJF15JrWrAr18Jr1qqw1DZryUXw1qq3W5Gr1DJFyrZw17Aryjgr4DXr1qgr1Dtr40gr15
-        Jr1UtF12vw1UJr7anT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bqxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
-        w2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
-        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
-        AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCa
-        FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r4a6rW5MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
-        IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280
-        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8XTm3UUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Ruoyao
+On 28/03/2023 12:25, Hao Zhang wrote:
+> Hi Mike,
+> 
+> On 3/28/2023 6:06 PM, Mike Leach wrote:
+>> Hi,
+>>
+>> A few additional comments....
+>>
+>> On Tue, 28 Mar 2023 at 10:24, Hao Zhang <quic_hazha@quicinc.com> wrote:
+>>>
+>>> Hi Suzuki,
+>>>
+>>> On 3/28/2023 4:35 PM, Suzuki K Poulose wrote:
+>>>> On 28/03/2023 08:22, Hao Zhang wrote:
+>>>>> Hi Mike,
+>>>>>
+>>>>> On 3/27/2023 11:58 PM, Mike Leach wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On Fri, 24 Mar 2023 at 06:16, Hao Zhang <quic_hazha@quicinc.com> 
+>>>>>> wrote:
+>>>>>>>
+>>>>>>> Some Coresight devices that HLOS don't have permission to access
+>>>>>>> or configure. Such as Coresight sink EUD, some TPDMs etc. So there
+>>>>>>> need driver to register dummy devices as Coresight devices. Provide
+>>>>>>> Coresight API for dummy device operations, such as enabling and
+>>>>>>> disabling dummy devices. Build the Coresight path for dummy sink or
+>>>>>>> dummy source for debugging.
+>>>>>>>
+>>>>>>> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+>>>>>>> ---
+>>>>>>>    drivers/hwtracing/coresight/Kconfig           |  11 ++
+>>>>>>>    drivers/hwtracing/coresight/Makefile          |   1 +
+>>>>>>>    drivers/hwtracing/coresight/coresight-dummy.c | 176
+>>>>>>> ++++++++++++++++++
+>>>>>>>    3 files changed, 188 insertions(+)
+>>>>>>>    create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>>>
+>>>>>>> diff --git a/drivers/hwtracing/coresight/Kconfig
+>>>>>>> b/drivers/hwtracing/coresight/Kconfig
+>>>>>>> index 2b5bbfffbc4f..06f0a7594169 100644
+>>>>>>> --- a/drivers/hwtracing/coresight/Kconfig
+>>>>>>> +++ b/drivers/hwtracing/coresight/Kconfig
+>>>>>>> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
+>>>>>>>
+>>>>>>>             To compile this driver as a module, choose M here: the
+>>>>>>> module will be
+>>>>>>>             called coresight-tpda.
+>>>>>>> +
+>>>>>>> +config CORESIGHT_DUMMY
+>>>>>>> +       tristate "Dummy driver support"
+>>>>>>> +       help
+>>>>>>> +         Enables support for dummy driver. Dummy driver can be used
+>>>>>>> for
+>>>>>>> +         CoreSight sources/sinks that are owned and configured 
+>>>>>>> by some
+>>>>>>> +         other subsystem and use Linux drivers to configure rest of
+>>>>>>> trace
+>>>>>>> +         path.
+>>>>>>> +
+>>>>>>> +         To compile this driver as a module, choose M here: the
+>>>>>>> module will be
+>>>>>>> +         called coresight-dummy.
+>>>>>>>    endif
+>>>>>>> diff --git a/drivers/hwtracing/coresight/Makefile
+>>>>>>> b/drivers/hwtracing/coresight/Makefile
+>>>>>>> index 33bcc3f7b8ae..995d3b2c76df 100644
+>>>>>>> --- a/drivers/hwtracing/coresight/Makefile
+>>>>>>> +++ b/drivers/hwtracing/coresight/Makefile
+>>>>>>> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
+>>>>>>>    coresight-cti-y := coresight-cti-core.o 
+>>>>>>> coresight-cti-platform.o \
+>>>>>>>                      coresight-cti-sysfs.o
+>>>>>>>    obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
+>>>>>>> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
+>>>>>>> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>>> b/drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>>> new file mode 100644
+>>>>>>> index 000000000000..2d4eb3e546eb
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>>> @@ -0,0 +1,176 @@
+>>>>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>>>>> +/*
+>>>>>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights
+>>>>>>> reserved.
+>>>>>>> + */
+>>>>>>> +
+>>>>>>> +#include <linux/kernel.h>
+>>>>>>> +#include <linux/module.h>
+>>>>>>> +#include <linux/platform_device.h>
+>>>>>>> +#include <linux/coresight.h>
+>>>>>>> +#include <linux/of.h>
+>>>>>>> +#include <linux/pm_runtime.h>
+>>>>>>> +
+>>>>>>> +#include "coresight-priv.h"
+>>>>>>> +#include "coresight-trace-id.h"
+>>>>>>> +
+>>>>>>> +struct dummy_drvdata {
+>>>>>>> +       struct device                   *dev;
+>>>>>>> +       struct coresight_device         *csdev;
+>>>>>>> +       int                             traceid;
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +DEFINE_CORESIGHT_DEVLIST(dummy_devs, "dummy");
+>>>>>>> +
+>>
+>> minor nit: can we have dummy_source and dummy_sink as the device names
+>> to make it clear at the first level what these are without having to
+>> look at the attributes?
+>>
+> 
+> This is a good advice, dummy_source and dummy_sink are two different 
+> components, so it's better to separate it at the first level. I will 
+> take your advice in the next version of patch.
+> 
+>>>>>>> +static int dummy_source_enable(struct coresight_device *csdev,
+>>>>>>> +                              struct perf_event *event, u32 mode)
+>>>>>>> +{
+>>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>>> +
+>>>>>>> +       dev_info(drvdata->dev, "Dummy source enabled\n");
+>>>>>>> +
+>>>>>>> +       return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static void dummy_source_disable(struct coresight_device *csdev,
+>>>>>>> +                                struct perf_event *event)
+>>>>>>> +{
+>>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>>> +
+>>>>>>> +       dev_info(drvdata->dev, "Dummy source disabled\n");
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int dummy_sink_enable(struct coresight_device *csdev, u32 
+>>>>>>> mode,
+>>>>>>> +                               void *data)
+>>>>>>> +{
+>>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>>> +
+>>>>>>> +       dev_info(drvdata->dev, "Dummy sink enabled\n");
+>>>>>>> +
+>>>>>>> +       return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int dummy_sink_disable(struct coresight_device *csdev)
+>>>>>>> +{
+>>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>>> +
+>>>>>>> +       dev_info(drvdata->dev, "Dummy sink disabled\n");
+>>>>>>> +
+>>>>>>> +       return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static const struct coresight_ops_source dummy_source_ops = {
+>>>>>>> +       .enable         = dummy_source_enable,
+>>>>>>> +       .disable        = dummy_source_disable,
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +static const struct coresight_ops_sink dummy_sink_ops = {
+>>>>>>> +       .enable         = dummy_sink_enable,
+>>>>>>> +       .disable        = dummy_sink_disable,
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +static const struct coresight_ops dummy_cs_ops = {
+>>>>>>> +       .source_ops     = &dummy_source_ops,
+>>>>>>> +       .sink_ops       = &dummy_sink_ops,
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +static int dummy_probe(struct platform_device *pdev)
+>>>>>>> +{
+>>>>>>> +       int ret, trace_id;
+>>>>>>> +       struct device *dev = &pdev->dev;
+>>>>>>> +       struct coresight_platform_data *pdata;
+>>>>>>> +       struct dummy_drvdata *drvdata;
+>>>>>>> +       struct coresight_desc desc = { 0 };
+>>>>>>> +
+>>>>>>> +       desc.name = coresight_alloc_device_name(&dummy_devs, dev);
+>>>>>>> +       if (!desc.name)
+>>>>>>> +               return -ENOMEM;
+>>>>>>> +
+>>>>>>> +       pdata = coresight_get_platform_data(dev);
+>>>>>>> +       if (IS_ERR(pdata))
+>>>>>>> +               return PTR_ERR(pdata);
+>>>>>>> +       pdev->dev.platform_data = pdata;
+>>>>>>> +
+>>>>>>> +       drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
+>>>>>>> +       if (!drvdata)
+>>>>>>> +               return -ENOMEM;
+>>>>>>> +
+>>>>>>> +       drvdata->dev = &pdev->dev;
+>>>>>>> +       platform_set_drvdata(pdev, drvdata);
+>>>>>>> +
+>>>>>>> +       if (of_property_read_bool(pdev->dev.of_node,
+>>>>>>> "qcom,dummy-source")) {
+>>>>>>> +               desc.type = CORESIGHT_DEV_TYPE_SOURCE;
+>>>>>>> +               desc.subtype.source_subtype =
+>>>>>>> + CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
+>>>>>>> +       } else if (of_property_read_bool(pdev->dev.of_node,
+>>>>>>> +                                        "qcom,dummy-sink")) {
+>>
+>> It would simplify things if the compatibles were
+>> arm,coresight-dummy-source and arm,coresight-dummy-sink - and drop the
+>> two additional attributes, using of_device_is_compatible() here.
+>>
+> 
+> Yes, I will update it in the next version of patch.
+> 
+>>>>>>> +               desc.type = CORESIGHT_DEV_TYPE_SINK;
+>>>>>>> +               desc.subtype.sink_subtype =
+>>>>>>> CORESIGHT_DEV_SUBTYPE_SINK_BUFFER;
+>>>>>>
+>>>>>> This will break the automatic sink selection on a system where 
+>>>>>> perf is
+>>>>>> looking for a default sink and the dummy sink is closest  / first
+>>>>>> discovered.
+>>>>>>
+>>>>>> i.e. when perf record -e cs_etm// <options>
+>>>>>> is used to trace a program in linux, a dummy sink appearing in the
+>>>>>> coresight tree with this designation may be selected.
+>>>>>>
+>>>>>> This needs to be corrected, probably with a unique sub-type that
+>>>>>> appears before the CORESIGHT_DEV_SUBTYPE_SINK_BUFFER value in the 
+>>>>>> enum
+>>>>>> as the selection is based on >= CORESIGHT_DEV_SUBTYPE_SINK_BUFFER.
+>>>>>>
+>>>>
+>>>> Good point Mike.
+>>>>
+>>>>>> By implication adding a new value - will possibly affect other code
+>>>>>> using the enum values so will need to be checked
+>>>>>>
+>>>>>> Regards
+>>>>>>
+>>>>>> Mike
+>>>>>>
+>>>>>
+>>>>> Thanks for your comments, I will add a new sub-type for dummy sink and
+>>>>> check the impact of it.
+>>>>
+>>>> Please keep this as the lowest priority, something like:
+>>>>
+>>>>    enum coresight_dev_subtype_sink {
+>>>> +    CORESIGHT_DEV_SUBTYPE_SINK_DUMMY,
+>>>>           CORESIGHT_DEV_SUBTYPE_SINK_PORT,
+>>>>           CORESIGHT_DEV_SUBTYPE_SINK_BUFFER,
+>>>>           CORESIGHT_DEV_SUBTYPE_SINK_SYSMEM,
+>>>>           CORESIGHT_DEV_SUBTYPE_SINK_PERCPU_SYSMEM,
+>>>> };
+>>>>
+>>>> This should be fine without any impact on the existing code, as we
+>>>> expect the driver modules to be updated with the new core module.
+>>>>
+>>>> Suzuki
+>>>>
+>>>
+>>> Sure, I will take your advice in the next version of patch.
+>>>
+>>> Thanks,
+>>> Hao
+>>>
+>>>>
+>>>>>
+>>>>> Thanks,
+>>>>> Hao
+>>>>>
+>>>>>>
+>>>>>>> +       } else {
+>>>>>>> +               dev_info(dev, "Device type not set\n");
+>>>>>>> +               return -EINVAL;
+>>>>>>> +       }
+>>>>>>> +
+>>>>>>> +       desc.ops = &dummy_cs_ops;
+>>>>>>> +       desc.pdata = pdev->dev.platform_data;
+>>>>>>> +       desc.dev = &pdev->dev;
+>>>>>>> +       drvdata->csdev = coresight_register(&desc);
+>>>>>>> +       if (IS_ERR(drvdata->csdev))
+>>>>>>> +               return PTR_ERR(drvdata->csdev);
+>>>>>>> +
+>>>>>>> +       trace_id = coresight_trace_id_get_system_id();
+>>>>>>> +       if (trace_id < 0) {
+>>>>>>> +               ret = trace_id;
+>>>>>>> +               goto cs_unregister;
+>>>>>>> +       }
+>>>>>>> +       drvdata->traceid = (u8)trace_id;
+>>>>>>> +
+>>
+>> Number of issues here:-
+>> 1) Why are sinks being given a trace ID? - they do not need them.
+>> 2) how is the trace ID communicated to the underlying hardware system?
+>> - there appears to be no way of doing this here. Without this you
+>> cannot guarantee that there will not be clashes.
+>> Although your use case may mitigate against this - for this to be a
+>> generic module there must be a way to ensure the IDs can be discovered
+>> externally.
+>> 3) Trace IDs are a limited resource - most sources allocate on enable,
+>> release on disable  / reset - this would be preferable.
+>>
+>>
+>> Regards
+>>
+>> Mike
 
-On 2023/3/28 下午7:39, Xi Ruoyao wrote:
-> On Tue, 2023-03-28 at 19:17 +0800, Qing Zhang wrote:
-> 
-> /* snip */
-> 
-> 
->> -void * __init relocate_kernel(void)
->> +unsigned long __init relocate_kernel(void)
-> 
-> Why we must modify relocate_kernel for KASAN?
+Good points Mike.
 
-When the CONFIG_RANDOMIZE_BASE is enabled, the kernel will be updated to 
-a random new address.
-Kasan needs to call kasan_early_init before start_kernel.
-There are two situations:
-1> After enabling CONFIG_RELOCATABLE, call kasan_early_init.
-2> After CONFIG_RELOCATABLE is not enabled, call kasan_early_init.
-
-In order to prevent code redundancy and semantic problems caused by 
-calling kasan_early_init (before jr a0) at the old PC.
-
-Thanks,
--Qing
 > 
->>   {
->>          unsigned long kernel_length;
->>          unsigned long random_offset = 0;
->>          void *location_new = _text; /* Default to original kernel start */
->> -       void *kernel_entry = start_kernel; /* Default to original kernel entry point */
->>          char *cmdline = early_ioremap(fw_arg1, COMMAND_LINE_SIZE); /* Boot command line is passed in fw_arg1 */
->>   
->>          strscpy(boot_command_line, cmdline, COMMAND_LINE_SIZE);
->> @@ -190,9 +189,6 @@ void * __init relocate_kernel(void)
->>   
->>                  reloc_offset += random_offset;
->>   
->> -               /* Return the new kernel's entry point */
->> -               kernel_entry = RELOCATED_KASLR(start_kernel);
->> -
->>                  /* The current thread is now within the relocated kernel */
->>                  __current_thread_info = RELOCATED_KASLR(__current_thread_info);
->>   
->> @@ -204,7 +200,7 @@ void * __init relocate_kernel(void)
->>   
->>          relocate_absolute(random_offset);
->>   
->> -       return kernel_entry;
->> +       return random_offset;
+> 1. It should not be given a trace ID for sink, I will correct it in the 
+> next version of patch.
+> 2. There are other patches to transmit the trace ID to sub-processor. 
+> But We have an upstream dependency on QMI project. We will sync with 
+> them for the other related patches.
+> 3. The trace ID of dummy source need to be communicated to the 
+> sub-processor, it's better to be allocated on probe, that would reduce 
+> communications costs. On the other hand, there will be few dummy 
+> sources. I'd perfer to allocate it on probe function.
+
+Could that be delayed to dynamic allocation when the device is enabled ?
+Also, do we need a property for the dummy-source to "allocate" a
+traceID?
+
+i.e., add a "property" (not compatible) 
+"arm,coresight-dummy-source-traceid" ?
+
+Suzuki
+
+
 > 
+> Thanks,
+> Hao
+> 
+>>
+>>>>>>> +       pm_runtime_enable(dev);
+>>>>>>> +       dev_info(dev, "Dummy device initialized\n");
+>>>>>>> +
+>>>>>>> +       return 0;
+>>>>>>> +
+>>>>>>> +cs_unregister:
+>>>>>>> +       coresight_unregister(drvdata->csdev);
+>>>>>>> +
+>>>>>>> +       return ret;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int dummy_remove(struct platform_device *pdev)
+>>>>>>> +{
+>>>>>>> +       struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
+>>>>>>> +       struct device *dev = &pdev->dev;
+>>>>>>> +
+>>>>>>> +       coresight_trace_id_put_system_id(drvdata->traceid);
+>>>>>>> +       pm_runtime_disable(dev);
+>>>>>>> +       coresight_unregister(drvdata->csdev);
+>>>>>>> +       return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static const struct of_device_id dummy_match[] = {
+>>>>>>> +       {.compatible = "qcom,coresight-dummy"},
+>>>>>>> +       {},
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +static struct platform_driver dummy_driver = {
+>>>>>>> +       .probe  = dummy_probe,
+>>>>>>> +       .remove = dummy_remove,
+>>>>>>> +       .driver = {
+>>>>>>> +               .name   = "coresight-dummy",
+>>>>>>> +               .of_match_table = dummy_match,
+>>>>>>> +       },
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +static int __init dummy_init(void)
+>>>>>>> +{
+>>>>>>> +       return platform_driver_register(&dummy_driver);
+>>>>>>> +}
+>>>>>>> +module_init(dummy_init);
+>>>>>>> +
+>>>>>>> +static void __exit dummy_exit(void)
+>>>>>>> +{
+>>>>>>> +       platform_driver_unregister(&dummy_driver);
+>>>>>>> +}
+>>>>>>> +module_exit(dummy_exit);
+>>>>>>> +
+>>>>>>> +MODULE_LICENSE("GPL");
+>>>>>>> +MODULE_DESCRIPTION("CoreSight dummy source driver");
+>>>>>>> -- 
+>>>>>>> 2.17.1
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>
+>>
+>>
+>>
 
