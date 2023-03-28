@@ -2,129 +2,355 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C2A5C761A6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 06:34:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E59EC76196
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 06:51:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232480AbjC1Gec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 02:34:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58110 "EHLO
+        id S230022AbjC1Gvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 02:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232336AbjC1Gea (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 02:34:30 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC5ABAB;
-        Mon, 27 Mar 2023 23:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1679985258; x=1711521258;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tiG1v6NfOzPmruzIudxgHxX7Fr23+NkzRWHlkxxT8xc=;
-  b=xPl8pOeWj3aTQ06zEc02NONzxbcDns0wE7I8PePYlf1o/8hLjV/7fVQ3
-   s0sl+/Ly2VuJTz5EJenofOpd4RL6JOewzLLnIGrnwDOAmWIGMDQnXxfuy
-   V4rphg+ZB/CvG1vZyYf6EjO5BytOUs9T/eBHKUPXnolDjN0QbzgKZnak2
-   YoyNqOQDO+4QmXsZN5dRx09al0qgFn2VrhYh9xVl0XIt2hJPRQTZRigot
-   dFAWwHmfTzYIX6yu2zZYdatewufNX2wFtcElyLhOsaAxAcXNWHzWbuJmL
-   uKUCQ1JyVjOZ9XQKLLRx7Pa+vhYa40QFcMn4ZUbsTf9zlpMvUurGQ5wKv
-   w==;
-X-IronPort-AV: E=Sophos;i="5.98,296,1673938800"; 
-   d="asc'?scan'208";a="206622339"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Mar 2023 23:34:17 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Mar 2023 23:34:16 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Mon, 27 Mar 2023 23:34:11 -0700
-Date:   Tue, 28 Mar 2023 07:45:28 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Evan Green <evan@rivosinc.com>
-CC:     Palmer Dabbelt <palmer@rivosinc.com>, <slewis@rivosinc.com>,
-        <vineetg@rivosinc.com>, <heiko@sntech.de>,
-        Conor Dooley <conor@kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Atish Patra <atishp@rivosinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Jann Horn <jannh@google.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Xu <peterx@redhat.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v5 0/6] RISC-V Hardware Probing User Interface
-Message-ID: <d47020f9-e5a8-4ef3-94bc-6aa6f6b2465c@spud>
-References: <20230327163203.2918455-1-evan@rivosinc.com>
+        with ESMTP id S229617AbjC1Gvu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 02:51:50 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D5510F1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 23:51:47 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id er13so4455519edb.9
+        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 23:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679986306;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P5ai3EYkM1htB+W2lgmdBChBKino/fBN7wu+IJkBf/M=;
+        b=UdYFGK8Dsy6fjsiSr2VmZApUCTVc7n/Y7v34yCmBKrS1PLukfe7pGEgv7MhluBi/An
+         G+UHnXkv6q60byOEn0pHRqbuXZZIx4pGDVsXSQ40BHM24Oc5/R0QIfuz9iwITKtBvARH
+         bRNTH/DlAq6tg/JrHNdev5Zj9OheXfnOJH0o6HaRokVQC0fdTIC2tc6i2sbVBCvBQ574
+         gKI7ByrO1j5fySExohKe9lliLWFFVUXTHpK7tXvxrgGA78EX6isva64UKOp3VOUZY0Rc
+         7DleNtk8PA0A8ZVlhPC9h7yoytkZoXQ+nQbM5WRcT6LBhxlk7WymmI/y797PCxFOXSIl
+         2RLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679986306;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P5ai3EYkM1htB+W2lgmdBChBKino/fBN7wu+IJkBf/M=;
+        b=pBX6bTO8MzLSUgy8BJPTfMYRJawuBOLEX7WoQ+2dffdXQttAQVKfYK/MsSGNyvjPgO
+         wrS43R5mOljDOvR8oCvAtJYxTR/RvdPSXjNPS8RK8xMRfwpz2rss/viXNBJyKBR00y5T
+         EHDJc09eVWY04Fs0VOaCW7O6GykUVtwP71P6R51WncJBE5zu2I8kfCLQH+CzzUwBB3CU
+         iWUSvamOIqFGzppHI0r3QgkCjaouafCwCCjWDMvVwg8h3LoPg+l0O00VrRRq0QC5Pg6x
+         eF8aFbYayVArj8CDkX9sGxT+hPXlPt6qFfytnhCFVgqvH64/qaoLhzCq4JFHiqNmnVN3
+         X3Tg==
+X-Gm-Message-State: AAQBX9dSKKSFtEDS0ndFUnAU/1i04tigRjI+eMspVOs4VPaMZj+1gWnM
+        c4BxnS+a7+bMwTUQ3LCh/Czs+g==
+X-Google-Smtp-Source: AKy350Zzo4VoLlBwYgn25E5+Q22AB3MpaPFtNJQGeySHsRKY+0thqa7kSW05eNBCmVcs1f1ALHSbOw==
+X-Received: by 2002:a05:6402:1110:b0:500:50f6:dd33 with SMTP id u16-20020a056402111000b0050050f6dd33mr15366328edv.2.1679986306082;
+        Mon, 27 Mar 2023 23:51:46 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:9e92:dca6:241d:71b6? ([2a02:810d:15c0:828:9e92:dca6:241d:71b6])
+        by smtp.gmail.com with ESMTPSA id y2-20020a50ce02000000b004c0057b478bsm15598870edi.34.2023.03.27.23.51.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Mar 2023 23:51:45 -0700 (PDT)
+Message-ID: <a0c18c3a-4f9e-f491-582f-8d3ca56ec26f@linaro.org>
+Date:   Tue, 28 Mar 2023 08:51:44 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="PnlzjXfdKEpPFvxa"
-Content-Disposition: inline
-In-Reply-To: <20230327163203.2918455-1-evan@rivosinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
+Content-Language: en-US
+To:     Julien Panis <jpanis@baylibre.com>, lee@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com
+Cc:     eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
+        stephen@networkplumber.org, davem@davemloft.net,
+        christian.koenig@amd.com, contact@emersion.fr,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
+        eblanc@baylibre.com, jneanne@baylibre.com
+References: <20230327154101.211732-1-jpanis@baylibre.com>
+ <20230327154101.211732-2-jpanis@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230327154101.211732-2-jpanis@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---PnlzjXfdKEpPFvxa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 27/03/2023 17:40, Julien Panis wrote:
+> TPS6594 is a Power Management IC which provides regulators and others
+> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+> PFSM (Pre-configurable Finite State Machine) managing the state of the
+> device.
+> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+> 
+> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> ---
+>  .../devicetree/bindings/mfd/ti,tps6594.yaml   | 231 ++++++++++++++++++
+>  1 file changed, 231 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+> new file mode 100644
+> index 000000000000..4498e6361b34
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+> @@ -0,0 +1,231 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI TPS6594 Power Management Integrated Circuit
+> +
+> +maintainers:
+> +  - Julien Panis <jpanis@baylibre.com>
+> +
+> +description:
+> +  TPS6594 is a Power Management IC which provides regulators and others
+> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
+> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
 
-On Mon, Mar 27, 2023 at 09:31:57AM -0700, Evan Green wrote:
+LP8764X? Compatible says LP8764.
 
-Hey Evan,
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,lp8764
 
-Patchwork has a rake of complaints about the series unfortunately:
-https://patchwork.kernel.org/project/linux-riscv/list/?series=734234
+It's confusing. If x was wildcard, didn't you remove part of model name?
 
-Some of the checkpatch whinging may be spurious, but there's some
-definitely valid stuff in there!
 
-> Evan Green (6):
->   RISC-V: Move struct riscv_cpuinfo to new header
->   RISC-V: Add a syscall for HW probing
->   RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
->   RISC-V: hwprobe: Support probing of misaligned access performance
->   selftests: Test the new RISC-V hwprobe interface
+> +      - ti,tps6593
+> +      - ti,tps6594
+> +
+> +  reg:
+> +    description: I2C slave address or SPI chip select number.
+> +    maxItems: 1
+> +
+> +  ti,primary-pmic:
+> +    type: boolean
+> +    description: |
+> +      Identify the primary PMIC on SPMI bus.
+> +      A multi-PMIC synchronization scheme is implemented in the PMIC device
+> +      to synchronize the power state changes with other PMIC devices. This is
+> +      accomplished through a SPMI bus: the primary PMIC is the controller
+> +      device on the SPMI bus, and the secondary PMICs are the target devices
+> +      on the SPMI bus.
+> +
+> +  system-power-controller: true
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +    description: |
+> +      The first cell is the pin number, the second cell is used to specify flags.
+> +      See ../gpio/gpio.txt for more information.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  ti,multi-phase-id:
+> +    description: |
+> +      Describes buck multi-phase configuration, if any. For instance, XY id means
+> +      that outputs of buck converters X and Y are combined in multi-phase mode.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    oneOf:
+> +      - items:
+> +          - const: 12
+> +      - items:
+> +          - const: 34
+> +      - items:
+> +          - const: 12
+> +          - const: 34
+> +      - items:
+> +          - const: 123
+> +      - items:
+> +          - const: 1234
+> +
+> +  regulators:
+> +    type: object
+> +    description: List of regulators provided by this controller.
+> +
+> +    patternProperties:
+> +      "^buck([1-5]|12|34|123|1234)$":
 
->   RISC-V: Add hwprobe vDSO function and data
+Why do you need ti,multi-phase-id property at all? Having buck123
+implies ti,multi-phase-id=123.
 
-And this one breaks the build for !MMU kernels unfortunately.
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml#
+> +
+> +        unevaluatedProperties: false
+> +
+> +      "^ldo[1-4]$":
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml#
+> +
+> +        unevaluatedProperties: false
+> +
+> +    allOf:
+> +      - if:
+> +          required:
+> +            - buck12
+> +        then:
+> +          properties:
+> +            buck123: false
+> +            buck1234: false
+> +      - if:
+> +          required:
+> +            - buck123
+> +        then:
+> +          properties:
+> +            buck34: false
+> +      - if:
+> +          required:
+> +            - buck1234
+> +        then:
+> +          properties:
+> +            buck34: false
+> +
+> +    additionalProperties: false
+> +
+> +  rtc:
+> +    type: object
+> +    description: RTC provided by this controller.
+> +    $ref: /schemas/rtc/rtc.yaml#
 
-Thanks,
-Conor.
+I doubt that you can have here any RTC and any watchdog (below). This
+should be specific binding instead. Or list of compatibles if you have 3
+or more possible bindings.
 
---PnlzjXfdKEpPFvxa
-Content-Type: application/pgp-signature; name="signature.asc"
+Additionally, judging by your DTS you do not have any resources in rtc
+and watchdog, so these should not be nodes by themself in such case.
 
------BEGIN PGP SIGNATURE-----
+> +
+> +  watchdog:
+> +    type: object
+> +    description: Watchdog provided by this controller.
+> +    $ref: /schemas/watchdog/watchdog.yaml#
+> +
+> +patternProperties:
+> +  "^buck([1-5]|12|34|123|1234)-supply$":
+> +    description: Input supply phandle for each buck.
+> +
+> +  "^ldo[1-4]-supply$":
+> +    description: Input supply phandle for each ldo.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        tps6593: pmic@48 {
+> +            compatible = "ti,tps6593";
+> +            reg = <0x48>;
+> +            ti,primary-pmic;
+> +            system-power-controller;
+> +
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&pmic_irq_pins_default>;
+> +            interrupt-parent = <&mcu_gpio0>;
+> +            interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
+> +
+> +            ti,multi-phase-id = <123>;
+> +
+> +            buck123-supply = <&vcc_3v3_sys>;
+> +            buck4-supply = <&vcc_3v3_sys>;
+> +            buck5-supply = <&vcc_3v3_sys>;
+> +            ldo1-supply = <&vcc_3v3_sys>;
+> +            ldo2-supply = <&vcc_3v3_sys>;
+> +            ldo3-supply = <&buck5>;
+> +            ldo4-supply = <&vcc_3v3_sys>;
+> +
+> +            regulators {
+> +                buck123: buck123 {
+> +                    regulator-name = "vcc_core";
+> +                    regulator-min-microvolt = <750000>;
+> +                    regulator-max-microvolt = <850000>;
+> +                    regulator-boot-on;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                buck4: buck4 {
+> +                    regulator-name = "vcc_1v1";
+> +                    regulator-min-microvolt = <1100000>;
+> +                    regulator-max-microvolt = <1100000>;
+> +                    regulator-boot-on;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                buck5: buck5 {
+> +                    regulator-name = "vcc_1v8_sys";
+> +                    regulator-min-microvolt = <1800000>;
+> +                    regulator-max-microvolt = <1800000>;
+> +                    regulator-boot-on;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                ldo1: ldo1 {
+> +                    regulator-name = "vddshv5_sdio";
+> +                    regulator-min-microvolt = <3300000>;
+> +                    regulator-max-microvolt = <3300000>;
+> +                    regulator-boot-on;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                ldo2: ldo2 {
+> +                    regulator-name = "vpp_1v8";
+> +                    regulator-min-microvolt = <1800000>;
+> +                    regulator-max-microvolt = <1800000>;
+> +                    regulator-boot-on;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                ldo3: ldo3 {
+> +                    regulator-name = "vcc_0v85";
+> +                    regulator-min-microvolt = <850000>;
+> +                    regulator-max-microvolt = <850000>;
+> +                    regulator-boot-on;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                ldo4: ldo4 {
+> +                    regulator-name = "vdda_1v8";
+> +                    regulator-min-microvolt = <1800000>;
+> +                    regulator-max-microvolt = <1800000>;
+> +                    regulator-boot-on;
+> +                    regulator-always-on;
+> +                };
+> +            };
+> +
+> +            rtc: rtc {
+> +                wakeup-source;
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCKNAwAKCRB4tDGHoIJi
-0oy+AQCM8sPGm+KSyYCi9ckhnMclSSVU3IvS2XeSU1qNcJO+VQD/ZyBX5554srKJ
-1RmCuSKrnOwGjERvEz0BeAl13ls1+gk=
-=3HNq
------END PGP SIGNATURE-----
+No. We do not create nodes for single property.
 
---PnlzjXfdKEpPFvxa--
+
+> +            };
+> +
+> +            watchdog: watchdog {
+> +                timeout-sec = <10>;
+
+Same problem.
+
+
+
+Best regards,
+Krzysztof
+
