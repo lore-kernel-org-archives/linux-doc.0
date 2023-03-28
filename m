@@ -2,62 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A92FC761A6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 10:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72982C761A6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 10:13:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232392AbjC1KGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 06:06:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59328 "EHLO
+        id S230269AbjC1KNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 06:13:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230386AbjC1KGy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 06:06:54 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B206A4E
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 03:06:33 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id z11so7603500pfh.4
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 03:06:33 -0700 (PDT)
+        with ESMTP id S231374AbjC1KNR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 06:13:17 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E53B9F
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 03:12:54 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id q206so6851389pgq.9
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 03:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679997993;
+        d=linaro.org; s=google; t=1679998374;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qiA6wsSxwC1GRa63Z1d4DCGWvof/U0m3XxEtySo8Du8=;
-        b=FYL6dSL8wdZjdUuV2I+gx7GnuxYvNLEj3xSjpXH65FY1HbI/YtzJ5uPPcoKcEZWpLk
-         igEobR0gFBjdmj71lstkw/e5b8LTPwMmS11xFbMH/XCYuPyvmR+Kp6Brhx9gq6VKO69h
-         Xl9uA0kgtBtABfzc9MgDnMckfJJbZkIrtPgFOJccPwdfI+JDxEBOvzPn1sulVPrhrm9m
-         5tQ4t3cUmwdD9+/1G+6xxkTxGQm5LA1gHxewyDZ01G6kIHLBnqHYscDVIq//x1pOIplr
-         R26uURZe9XFNkfK806QQPBfYElSlArLZOwrKI5weg3uxfDxWcVEFlPEIcF3YvC8F00bQ
-         7rXg==
+        bh=Ur6uKN85TYQWLvCxVJ2c6x3zzJWUhaZqRctpfFiWUIw=;
+        b=jMVlny30ljZY/tcBflSVwe7xsuCk1ZeRa8ALY7gPYkfVb1fk3X/qS20c7qeNCwedo8
+         9fiMHOM1EmovhkAcm1B90c9lq3ijj7SE+2HntzSi8o7fNqelTbWHeSaKXhx8a3SbC23L
+         B3nr5bKH0OlufphI3VzSGZqK/YQJuw504YuT0K4IneZbcXkUocTqRJciPmfe8ARDEzTR
+         8j2aN8JQNZd3qBNZlpSfeJeD3j+hgUIhSUk1UDjMHEyCLLCT64sYQZn2QzOayHSQfzYi
+         vgzAQifxhoSr5QRskxbasBfNmluk69H7SVvuPqVVfDysWz66UMivERFjTNbT2pGqBSTg
+         dqLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679997993;
+        d=1e100.net; s=20210112; t=1679998374;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qiA6wsSxwC1GRa63Z1d4DCGWvof/U0m3XxEtySo8Du8=;
-        b=Gv/nKfe3ANs8zio6iFOnBN3MqPw5qoyHgy+h1D7/WLmZUoO1ozIbNOHYiGXHDsL+K7
-         2EEgwIDQz6SKU2PmOjwiMY+P+mBBgkOo2wT6MnsmkFQX3Rk5/wUWBG4rzK+NUD4Fp8pz
-         ZHGve/tjn5DZ5xISy6fjC8T1jqiuY7+GiC6lzX70G60ZqEDwWTdsOPkygVf7dPRvEU8L
-         8bukO0zDoWD5cYeqMuwWK03KhUyovBfIpy031su3x0SPE7cWiq9O+xNHe5rzuUWC1KGE
-         vz9hQ84MXNCS3puyYKBZoXXFSV2swG2sh5Yt1whgum6PVItbo4ThlRv+vhsefZdn+jc3
-         ozbw==
-X-Gm-Message-State: AAQBX9eUgupslRyHCZl/b6FSUFzFAOdfShAeFC5Xp9WhMHH3yXV/kkvL
-        xB9qHd3ZimHu9vpGYlkS7bBZe5PNQ7r5wd+lIaLPSg==
-X-Google-Smtp-Source: AKy350Y7KgmZWYQwiF20Van+UKKpbS7BTkh6RSynzVmd7hL3j6DjIBJ3Up79H2JZThT6onRSBAxNh2fvDSxjhv2HKt4=
-X-Received: by 2002:a63:f04c:0:b0:503:919f:b942 with SMTP id
- s12-20020a63f04c000000b00503919fb942mr3833216pgj.11.1679997992978; Tue, 28
- Mar 2023 03:06:32 -0700 (PDT)
+        bh=Ur6uKN85TYQWLvCxVJ2c6x3zzJWUhaZqRctpfFiWUIw=;
+        b=qfxQyc9YoIp3ja81toHHo4Tuyu+xy6bXTpbQaX8JKrMuPM4HPXlj1xEQ2jcxjIAi7p
+         zK09O/7Ojs+xSifOX+5vJtrGABJC+S/V74x7ThveRbidWrRZLr890c4Yny2dse0yvMtb
+         wCC80PQzKymH4EkQMiCA2QPOrtrFx4kMtk1u8oyt7K96kUrtfeKmjGqh7hSkMFWwFxoM
+         vcweILSCTsBM36t70rMzyrihqgiPOaLq+KMG9U8CIkeZtr9NZsXa2+A7HJLWeyCraJHI
+         VCkL8OMIlud+LULlhWV26nyVSm6eKbfEVRamGOfkV2aeMyNM/DQI4Zkp4uNVbjeAw0rQ
+         j5zg==
+X-Gm-Message-State: AAQBX9fYQQop1OtAIRq9GeLirX4Y++tQpBLJITJfcRZl8c1A0obW7Qz4
+        xYxVze2uW/E6GzW6v4M/e/MxzUBJnyYbWGpyDue6PQ==
+X-Google-Smtp-Source: AKy350bA0E0pgZejxVtJ222F9kw3bBsx4EpT493ao0TPM6h4l4h3va196sNgYjfU3tFvV53zdC5WKFAvD4wLwA7gH9k=
+X-Received: by 2002:a05:6a00:1827:b0:622:c6ad:b373 with SMTP id
+ y39-20020a056a00182700b00622c6adb373mr8123366pfa.3.1679998373864; Tue, 28 Mar
+ 2023 03:12:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230324061608.33609-1-quic_hazha@quicinc.com>
- <20230324061608.33609-2-quic_hazha@quicinc.com> <CAJ9a7VgAJ25CCGwwdfs2DXKaKYoA-BUQAdyZt5udm4qJf9ZQrA@mail.gmail.com>
- <0faff427-1f01-8783-9585-32dca872fe45@quicinc.com> <883c72a4-0c72-fd08-1b04-577037138b43@arm.com>
- <9fcc59cf-c76e-8cee-d232-830b31e35060@quicinc.com>
-In-Reply-To: <9fcc59cf-c76e-8cee-d232-830b31e35060@quicinc.com>
+ <20230324061608.33609-3-quic_hazha@quicinc.com> <e51c200e-6de0-d516-3f32-28367b2f5a95@linaro.org>
+ <e6b0a542-17d9-290e-7c84-8356a38d6802@quicinc.com>
+In-Reply-To: <e6b0a542-17d9-290e-7c84-8356a38d6802@quicinc.com>
 From:   Mike Leach <mike.leach@linaro.org>
-Date:   Tue, 28 Mar 2023 11:06:21 +0100
-Message-ID: <CAJ9a7Vj7L1wbc2iad-Tbf+2d_t5z-GpN7WEff0_FupVZVRNymA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] Coresight: Add coresight dummy driver
+Date:   Tue, 28 Mar 2023 11:12:42 +0100
+Message-ID: <CAJ9a7VjC+1m8odyotBoG3EPAL=Cn90fCCY1xPGFyg8uKEar7nQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: arm: Add Coresight Dummy Trace YAML schema
 To:     Hao Zhang <quic_hazha@quicinc.com>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         Konrad Dybcio <konradybcio@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -85,348 +85,227 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi,
 
-A few additional comments....
+As per my comments in the previous patch in this set....
 
-On Tue, 28 Mar 2023 at 10:24, Hao Zhang <quic_hazha@quicinc.com> wrote:
+On Mon, 27 Mar 2023 at 08:38, Hao Zhang <quic_hazha@quicinc.com> wrote:
 >
-> Hi Suzuki,
+> Hi Krzysztof,
 >
-> On 3/28/2023 4:35 PM, Suzuki K Poulose wrote:
-> > On 28/03/2023 08:22, Hao Zhang wrote:
-> >> Hi Mike,
+> On 3/25/2023 7:49 PM, Krzysztof Kozlowski wrote:
+> > On 24/03/2023 07:16, Hao Zhang wrote:
+> >> Add new coresight-dummy.yaml file describing the bindings required
+> >> to define coresight dummy trace in the device trees.
 > >>
-> >> On 3/27/2023 11:58 PM, Mike Leach wrote:
-> >>> Hi,
-> >>>
-> >>> On Fri, 24 Mar 2023 at 06:16, Hao Zhang <quic_hazha@quicinc.com> wrote:
-> >>>>
-> >>>> Some Coresight devices that HLOS don't have permission to access
-> >>>> or configure. Such as Coresight sink EUD, some TPDMs etc. So there
-> >>>> need driver to register dummy devices as Coresight devices. Provide
-> >>>> Coresight API for dummy device operations, such as enabling and
-> >>>> disabling dummy devices. Build the Coresight path for dummy sink or
-> >>>> dummy source for debugging.
-> >>>>
-> >>>> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
-> >>>> ---
-> >>>>   drivers/hwtracing/coresight/Kconfig           |  11 ++
-> >>>>   drivers/hwtracing/coresight/Makefile          |   1 +
-> >>>>   drivers/hwtracing/coresight/coresight-dummy.c | 176
-> >>>> ++++++++++++++++++
-> >>>>   3 files changed, 188 insertions(+)
-> >>>>   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
-> >>>>
-> >>>> diff --git a/drivers/hwtracing/coresight/Kconfig
-> >>>> b/drivers/hwtracing/coresight/Kconfig
-> >>>> index 2b5bbfffbc4f..06f0a7594169 100644
-> >>>> --- a/drivers/hwtracing/coresight/Kconfig
-> >>>> +++ b/drivers/hwtracing/coresight/Kconfig
-> >>>> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
-> >>>>
-> >>>>            To compile this driver as a module, choose M here: the
-> >>>> module will be
-> >>>>            called coresight-tpda.
-> >>>> +
-> >>>> +config CORESIGHT_DUMMY
-> >>>> +       tristate "Dummy driver support"
-> >>>> +       help
-> >>>> +         Enables support for dummy driver. Dummy driver can be used
-> >>>> for
-> >>>> +         CoreSight sources/sinks that are owned and configured by some
-> >>>> +         other subsystem and use Linux drivers to configure rest of
-> >>>> trace
-> >>>> +         path.
-> >>>> +
-> >>>> +         To compile this driver as a module, choose M here: the
-> >>>> module will be
-> >>>> +         called coresight-dummy.
-> >>>>   endif
-> >>>> diff --git a/drivers/hwtracing/coresight/Makefile
-> >>>> b/drivers/hwtracing/coresight/Makefile
-> >>>> index 33bcc3f7b8ae..995d3b2c76df 100644
-> >>>> --- a/drivers/hwtracing/coresight/Makefile
-> >>>> +++ b/drivers/hwtracing/coresight/Makefile
-> >>>> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
-> >>>>   coresight-cti-y := coresight-cti-core.o coresight-cti-platform.o \
-> >>>>                     coresight-cti-sysfs.o
-> >>>>   obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
-> >>>> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
-> >>>> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c
-> >>>> b/drivers/hwtracing/coresight/coresight-dummy.c
-> >>>> new file mode 100644
-> >>>> index 000000000000..2d4eb3e546eb
-> >>>> --- /dev/null
-> >>>> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
-> >>>> @@ -0,0 +1,176 @@
-> >>>> +// SPDX-License-Identifier: GPL-2.0
-> >>>> +/*
-> >>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights
-> >>>> reserved.
-> >>>> + */
-> >>>> +
-> >>>> +#include <linux/kernel.h>
-> >>>> +#include <linux/module.h>
-> >>>> +#include <linux/platform_device.h>
-> >>>> +#include <linux/coresight.h>
-> >>>> +#include <linux/of.h>
-> >>>> +#include <linux/pm_runtime.h>
-> >>>> +
-> >>>> +#include "coresight-priv.h"
-> >>>> +#include "coresight-trace-id.h"
-> >>>> +
-> >>>> +struct dummy_drvdata {
-> >>>> +       struct device                   *dev;
-> >>>> +       struct coresight_device         *csdev;
-> >>>> +       int                             traceid;
-> >>>> +};
-> >>>> +
-> >>>> +DEFINE_CORESIGHT_DEVLIST(dummy_devs, "dummy");
-> >>>> +
-
-minor nit: can we have dummy_source and dummy_sink as the device names
-to make it clear at the first level what these are without having to
-look at the attributes?
-
-> >>>> +static int dummy_source_enable(struct coresight_device *csdev,
-> >>>> +                              struct perf_event *event, u32 mode)
-> >>>> +{
-> >>>> +       struct dummy_drvdata *drvdata =
-> >>>> dev_get_drvdata(csdev->dev.parent);
-> >>>> +
-> >>>> +       dev_info(drvdata->dev, "Dummy source enabled\n");
-> >>>> +
-> >>>> +       return 0;
-> >>>> +}
-> >>>> +
-> >>>> +static void dummy_source_disable(struct coresight_device *csdev,
-> >>>> +                                struct perf_event *event)
-> >>>> +{
-> >>>> +       struct dummy_drvdata *drvdata =
-> >>>> dev_get_drvdata(csdev->dev.parent);
-> >>>> +
-> >>>> +       dev_info(drvdata->dev, "Dummy source disabled\n");
-> >>>> +}
-> >>>> +
-> >>>> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
-> >>>> +                               void *data)
-> >>>> +{
-> >>>> +       struct dummy_drvdata *drvdata =
-> >>>> dev_get_drvdata(csdev->dev.parent);
-> >>>> +
-> >>>> +       dev_info(drvdata->dev, "Dummy sink enabled\n");
-> >>>> +
-> >>>> +       return 0;
-> >>>> +}
-> >>>> +
-> >>>> +static int dummy_sink_disable(struct coresight_device *csdev)
-> >>>> +{
-> >>>> +       struct dummy_drvdata *drvdata =
-> >>>> dev_get_drvdata(csdev->dev.parent);
-> >>>> +
-> >>>> +       dev_info(drvdata->dev, "Dummy sink disabled\n");
-> >>>> +
-> >>>> +       return 0;
-> >>>> +}
-> >>>> +
-> >>>> +static const struct coresight_ops_source dummy_source_ops = {
-> >>>> +       .enable         = dummy_source_enable,
-> >>>> +       .disable        = dummy_source_disable,
-> >>>> +};
-> >>>> +
-> >>>> +static const struct coresight_ops_sink dummy_sink_ops = {
-> >>>> +       .enable         = dummy_sink_enable,
-> >>>> +       .disable        = dummy_sink_disable,
-> >>>> +};
-> >>>> +
-> >>>> +static const struct coresight_ops dummy_cs_ops = {
-> >>>> +       .source_ops     = &dummy_source_ops,
-> >>>> +       .sink_ops       = &dummy_sink_ops,
-> >>>> +};
-> >>>> +
-> >>>> +static int dummy_probe(struct platform_device *pdev)
-> >>>> +{
-> >>>> +       int ret, trace_id;
-> >>>> +       struct device *dev = &pdev->dev;
-> >>>> +       struct coresight_platform_data *pdata;
-> >>>> +       struct dummy_drvdata *drvdata;
-> >>>> +       struct coresight_desc desc = { 0 };
-> >>>> +
-> >>>> +       desc.name = coresight_alloc_device_name(&dummy_devs, dev);
-> >>>> +       if (!desc.name)
-> >>>> +               return -ENOMEM;
-> >>>> +
-> >>>> +       pdata = coresight_get_platform_data(dev);
-> >>>> +       if (IS_ERR(pdata))
-> >>>> +               return PTR_ERR(pdata);
-> >>>> +       pdev->dev.platform_data = pdata;
-> >>>> +
-> >>>> +       drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-> >>>> +       if (!drvdata)
-> >>>> +               return -ENOMEM;
-> >>>> +
-> >>>> +       drvdata->dev = &pdev->dev;
-> >>>> +       platform_set_drvdata(pdev, drvdata);
-> >>>> +
-> >>>> +       if (of_property_read_bool(pdev->dev.of_node,
-> >>>> "qcom,dummy-source")) {
-> >>>> +               desc.type = CORESIGHT_DEV_TYPE_SOURCE;
-> >>>> +               desc.subtype.source_subtype =
-> >>>> + CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
-> >>>> +       } else if (of_property_read_bool(pdev->dev.of_node,
-> >>>> +                                        "qcom,dummy-sink")) {
-
-It would simplify things if the compatibles were
-arm,coresight-dummy-source and arm,coresight-dummy-sink - and drop the
-two additional attributes, using of_device_is_compatible() here.
-
-> >>>> +               desc.type = CORESIGHT_DEV_TYPE_SINK;
-> >>>> +               desc.subtype.sink_subtype =
-> >>>> CORESIGHT_DEV_SUBTYPE_SINK_BUFFER;
-> >>>
-> >>> This will break the automatic sink selection on a system where perf is
-> >>> looking for a default sink and the dummy sink is closest  / first
-> >>> discovered.
-> >>>
-> >>> i.e. when perf record -e cs_etm// <options>
-> >>> is used to trace a program in linux, a dummy sink appearing in the
-> >>> coresight tree with this designation may be selected.
-> >>>
-> >>> This needs to be corrected, probably with a unique sub-type that
-> >>> appears before the CORESIGHT_DEV_SUBTYPE_SINK_BUFFER value in the enum
-> >>> as the selection is based on >= CORESIGHT_DEV_SUBTYPE_SINK_BUFFER.
-> >>>
 > >
-> > Good point Mike.
+> > Subject: drop second/last, redundant "YAML schema". The "dt-bindings"
+> > prefix is already stating that these are bindings and all new must be DT
+> > schema. You cannot add anything else, so this is redundant.
 > >
-> >>> By implication adding a new value - will possibly affect other code
-> >>> using the enum values so will need to be checked
-> >>>
-> >>> Regards
-> >>>
-> >>> Mike
-> >>>
+> I will take your advice to drop redundant part of title in the next
+> version of patch.
+> >
+> >> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+> >> ---
+> >>   .../bindings/arm/qcom,coresight-dummy.yaml    | 118 ++++++++++++++++++
+> >>   1 file changed, 118 insertions(+)
+> >>   create mode 100644 Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
 > >>
-> >> Thanks for your comments, I will add a new sub-type for dummy sink and
-> >> check the impact of it.
+> >> diff --git a/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
+> >> new file mode 100644
+> >> index 000000000000..7b719b084d72
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
+> >> @@ -0,0 +1,118 @@
+> >> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> >> +# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/arm/qcom,coresight-dummy.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: QCOM Coresight Dummy component
+> >> +
+> >> +description: |
+> >> +  The Coresight Dummy component is for the specific devices that HLOS don't have
+> >> +  permission to access or configure. Such as Coresight sink EUD, some TPDMs etc.
+> >> +  So there need driver to register dummy devices as Coresight devices. Provide
+> >> +  Coresight API for dummy device operations, such as enabling and disabling
+> >> +  dummy devices. Build the Coresight path for dummy sink or dummy source for
+> >> +  debugging.
+> >> +
+> >> +  The primary use case of the coresight dummy is to build path for dummy sink or
+> >> +  dummy source.
+> >> +
+> >> +maintainers:
+> >> +  - Mao Jinlong <quic_jinlmao@quicinc.com>
+> >> +  - Tao Zhang <quic_taozha@quicinc.com>
+> >> +  - Hao Zhang <quic_hazha@quicinc.com>
+> >> +
+> >> +select:
+> >> +  properties:
+> >> +    compatible:
+> >> +      contains:
+> >> +        enum:
+> >> +          - qcom,coresight-dummy
+
+Can we have coresight-dummy-source and coresight-dummy-sink?
+
+> >> +  required:
+> >> +    - compatible
 > >
-> > Please keep this as the lowest priority, something like:
+> > Why do you need the select?
 > >
-> >   enum coresight_dev_subtype_sink {
-> > +    CORESIGHT_DEV_SUBTYPE_SINK_DUMMY,
-> >          CORESIGHT_DEV_SUBTYPE_SINK_PORT,
-> >          CORESIGHT_DEV_SUBTYPE_SINK_BUFFER,
-> >          CORESIGHT_DEV_SUBTYPE_SINK_SYSMEM,
-> >          CORESIGHT_DEV_SUBTYPE_SINK_PERCPU_SYSMEM,
-> > };
+> This is a mistake, will remove it in the next version of patch.
+> >> +
+> >> +properties:
+> >> +  $nodename:
+> >> +    pattern: "^dummy_.*(sink|source)_[0-9]+.*$"
 > >
-> > This should be fine without any impact on the existing code, as we
-> > expect the driver modules to be updated with the new core module.
+> > We do not enforce node names in individual bindings. Why do you need it?
+> > Plus underscore is not even proper character...
 > >
-> > Suzuki
+> I will remove this node.
+>
+> >> +  compatible:
+> >> +    items:
+> >
+> > Drop items. You have only one item, so no need for list.
+>
+> I will take your advice and update it in the next version of patch.
+>
+> >> +      - const: qcom,coresight-dummy
+> >> +
+> >> +  qcom,dummy-sink:
+> >> +    type: boolean
+> >> +    description:
+> >> +      Indicates that the type of this coresight node is dummy sink.
+> >
+> > You just duplicated property name. Write something useful.
+> >
+> >> +
+> >> +  qcom,dummy-source:
+> >> +    type: boolean
+> >> +    description:
+> >> +      Indicates that the type of this coresight node is dummy source.
+> >
+> > You just duplicated property name. Write something useful.
 > >
 >
-> Sure, I will take your advice in the next version of patch.
+
+These properties not required if the compatible name is more specific
+
+> Sure, I will add more details for it.
 >
-> Thanks,
-> Hao
->
+> >> +
+> >> +  out-ports:
+> >> +    description: |
 > >
-> >>
-> >> Thanks,
-> >> Hao
-> >>
-> >>>
-> >>>> +       } else {
-> >>>> +               dev_info(dev, "Device type not set\n");
-> >>>> +               return -EINVAL;
-> >>>> +       }
-> >>>> +
-> >>>> +       desc.ops = &dummy_cs_ops;
-> >>>> +       desc.pdata = pdev->dev.platform_data;
-> >>>> +       desc.dev = &pdev->dev;
-> >>>> +       drvdata->csdev = coresight_register(&desc);
-> >>>> +       if (IS_ERR(drvdata->csdev))
-> >>>> +               return PTR_ERR(drvdata->csdev);
-> >>>> +
-> >>>> +       trace_id = coresight_trace_id_get_system_id();
-> >>>> +       if (trace_id < 0) {
-> >>>> +               ret = trace_id;
-> >>>> +               goto cs_unregister;
-> >>>> +       }
-> >>>> +       drvdata->traceid = (u8)trace_id;
-> >>>> +
+> > No need for |
+> >
+> >> +      Output connections from the dummy source to Coresight Trace bus.
+> >> +    $ref: /schemas/graph.yaml#/properties/ports
+> >> +
+> >> +    properties:
+> >> +      port:
+> >> +        description: Output connection from the dummy source to Coresight
+> >> +            Trace bus.
+> >> +        $ref: /schemas/graph.yaml#/properties/port
+> >> +
+> >> +  in-ports:
+> >> +    description: |
+> >
+> > Ditto
+> >
+> I will remove it in the next version of patch.
+>
+> >> +      Input connections from the CoreSight Trace bus to dummy sink.
+> >> +    $ref: /schemas/graph.yaml#/properties/ports
+> >> +
+> >> +    properties:
+> >> +      port:
+> >> +        description: Input connection from the Coresight Trace bus to
+> >> +            dummy sink.
+> >> +        $ref: /schemas/graph.yaml#/properties/port
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +
 
-Number of issues here:-
-1) Why are sinks being given a trace ID? - they do not need them.
-2) how is the trace ID communicated to the underlying hardware system?
-- there appears to be no way of doing this here. Without this you
-cannot guarantee that there will not be clashes.
-Although your use case may mitigate against this - for this to be a
-generic module there must be a way to ensure the IDs can be discovered
-externally.
-3) Trace IDs are a limited resource - most sources allocate on enable,
-release on disable  / reset - this would be preferable.
-
+The binding should constrain out ports to dummy-source only, and in
+ports to dummy sink only.
 
 Regards
 
 Mike
 
-> >>>> +       pm_runtime_enable(dev);
-> >>>> +       dev_info(dev, "Dummy device initialized\n");
-> >>>> +
-> >>>> +       return 0;
-> >>>> +
-> >>>> +cs_unregister:
-> >>>> +       coresight_unregister(drvdata->csdev);
-> >>>> +
-> >>>> +       return ret;
-> >>>> +}
-> >>>> +
-> >>>> +static int dummy_remove(struct platform_device *pdev)
-> >>>> +{
-> >>>> +       struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
-> >>>> +       struct device *dev = &pdev->dev;
-> >>>> +
-> >>>> +       coresight_trace_id_put_system_id(drvdata->traceid);
-> >>>> +       pm_runtime_disable(dev);
-> >>>> +       coresight_unregister(drvdata->csdev);
-> >>>> +       return 0;
-> >>>> +}
-> >>>> +
-> >>>> +static const struct of_device_id dummy_match[] = {
-> >>>> +       {.compatible = "qcom,coresight-dummy"},
-> >>>> +       {},
-> >>>> +};
-> >>>> +
-> >>>> +static struct platform_driver dummy_driver = {
-> >>>> +       .probe  = dummy_probe,
-> >>>> +       .remove = dummy_remove,
-> >>>> +       .driver = {
-> >>>> +               .name   = "coresight-dummy",
-> >>>> +               .of_match_table = dummy_match,
-> >>>> +       },
-> >>>> +};
-> >>>> +
-> >>>> +static int __init dummy_init(void)
-> >>>> +{
-> >>>> +       return platform_driver_register(&dummy_driver);
-> >>>> +}
-> >>>> +module_init(dummy_init);
-> >>>> +
-> >>>> +static void __exit dummy_exit(void)
-> >>>> +{
-> >>>> +       platform_driver_unregister(&dummy_driver);
-> >>>> +}
-> >>>> +module_exit(dummy_exit);
-> >>>> +
-> >>>> +MODULE_LICENSE("GPL");
-> >>>> +MODULE_DESCRIPTION("CoreSight dummy source driver");
-> >>>> --
-> >>>> 2.17.1
-> >>>>
-> >>>
-> >>>
+> >> +additionalProperties: false
+> >> +
+> >> +oneOf:
+> >> +  - required:
+> >> +      - qcom,dummy-sink
+> >> +  - required:
+> >> +      - qcom,dummy-source
+> >> +
+> >> +examples:
+> >> +  # minimum dummy sink definition. dummy sink connect to coresight replicator.
+> >> +  - |
+> >> +    dummy_sink_1 {
+> >
+> > Node names should be generic, so "sink"
+> > https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> >
+> >> +      compatible = "qcom,coresight-dummy";
+> >> +      qcom,dummy-sink;
+> >> +
+> >> +      in-ports {
+> >> +        port {
+> >> +          eud_in_replicator_swao: endpoint {
+> >> +            remote-endpoint =
+> >> +              <&replicator_swao_out_eud>;
+> >
+> > Why line break after =?
+> >
+>
+> >> +          };
+> >> +        };
+> >> +      };
+> >> +    };
+> >> +
+> >> +  # minimum dummy source definition. dummy source connect to coresight funnel.
+> >
+> > If you use sentences, then start with capital letter.
+> >
+>
+> I will update it according to your advice in the next version of patch.
+>
+> >> +  - |
+> >> +    dummy_source_1 {
+> >> +      compatible = "qcom,coresight-dummy";
+> >> +      qcom,dummy-source;
+> >> +
+> >> +      out-ports {
+> >> +        port {
+> >> +          dummy_riscv_out_funnel_swao: endpoint {
+> >> +            remote-endpoint =
+> >> +              <&funnel_swao_in_dummy_riscv>;
+> >
+> > Why line break?
+>
+> I copy it from device tree and keep the original format, will correct
+> the format in the next version of patch.
+>
+> Thanks,
+> Hao
+>
+> >> +          };
+> >> +        };
+> >> +      };
+> >> +    };
+> >> +
+> >> +...
+> >
+> > Best regards,
+> > Krzysztof
 > >
 
 
