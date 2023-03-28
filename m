@@ -2,211 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB68C76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 17:02:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF946C6FD18
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 18:46:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230331AbjC1RCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 13:02:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47666 "EHLO
+        id S229846AbjC1Sqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 14:46:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbjC1RCj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 13:02:39 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECBA0BDF2;
-        Tue, 28 Mar 2023 10:02:37 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PmGCw2Rtfz6J7dG;
-        Wed, 29 Mar 2023 01:01:00 +0800 (CST)
-Received: from localhost (10.195.244.179) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 28 Mar
- 2023 18:02:35 +0100
-Date:   Tue, 28 Mar 2023 18:02:34 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
-        <prime.zeng@huawei.com>, <linuxarm@huawei.com>
-Subject: Re: [PATCH 3/4] hwtracing: hisi_ptt: Export available filters
- through sysfs
-Message-ID: <20230328180234.00003421@Huawei.com>
-In-Reply-To: <20230315094316.26772-4-yangyicong@huawei.com>
-References: <20230315094316.26772-1-yangyicong@huawei.com>
-        <20230315094316.26772-4-yangyicong@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.195.244.179]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+        with ESMTP id S229511AbjC1Sqe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 14:46:34 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7142107;
+        Tue, 28 Mar 2023 11:46:30 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 341855C00B9;
+        Tue, 28 Mar 2023 14:46:27 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Tue, 28 Mar 2023 14:46:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1680029187; x=1680115587; bh=OR
+        P2FIKdfRirdyD2Lu4aWJpigZ2drmLWozeD8QCTfbg=; b=Zmq41Z/qSRMn9rYp+h
+        QDNmVcNMoLhclV/Hq1H5ugsx2lOCfEYHLvvTFmQg+RMWJrkym/WeIRc3MLvDHkDO
+        HTLlocYp2MP2d8ICO4tnvSs469GkfAH6/BwEDWyKiyXrt/Grg0Q36E3ytLWoMgVY
+        kVs6uuC6q4rihRfqOtOtxlAzLj5Do+ABME+dLp8/dowyD7zms93hlezwCC0hO2jO
+        gc4Etx3f3cr9lkTjP9KQr25IAKxCDW6mY9imntxbaqqBHgOY+zPHISXPfZNt/fuE
+        hdzRkfn+jZ/Tf25ykGdteW4/5VebEAdEgCiW2ZmIVpd9GHM26wsg4EidEvJeT/07
+        dtHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1680029187; x=1680115587; bh=ORP2FIKdfRird
+        yD2Lu4aWJpigZ2drmLWozeD8QCTfbg=; b=tdxBQh+0EYo2NEcZuqxzWQqO0iBup
+        z7kKFZO7eLXSnp/penapQpwCORauQUrn1+S28WIKpr9NXH22yUC7X7WM4KoT0sSA
+        Utdqa1wIqN3voN9NMdJhx+n1s/L0/t0c2qL7KhFQMUVrtS6IEovWlufwT4grYd2g
+        Mpvz5DsY3OOX4Brj/D+dZx/AThVFwhXIAhMoqD/yv/9Sc/Nx7VdtZdWPfPb9NT15
+        gTtJyaIh/FC/BxrH9ORyJMvFvYyPUafyy6Rrx2Hlw0Syj2ID5lqcQPJdSSMOhNwy
+        OCKv82SpmoGpl8+byqpQUt7DnPctCQ+AwuApPF2SjgNgsRo5HKGVYMvZQ==
+X-ME-Sender: <xms:AjYjZKbgzVIbwPrq7_BIJIaFu20D34SyJbGqsiK4XwKns_w6Nqafeg>
+    <xme:AjYjZNbme47GuCgltwoyMI2lamCL7qadYs67pfnBxYcEsfn0Y4m6CzxbITNpe_LPe
+    j8-T9eqA18pUsnotsk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehgedguddvlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:AjYjZE_lzVS2e3UQMYqpds57bY5IRM2trHFYYatTNaqTiMtbXjs0Zg>
+    <xmx:AjYjZMoIZ0O43yjyTJ-QbGtT2jmdVTsfR9278Yf55J9URtL8rIz6IQ>
+    <xmx:AjYjZFr-P8cIFe3xJN12TNHds6E7fgzjA64i5ULxbG61OHNEOdXovw>
+    <xmx:AzYjZLblnJuQRIaOyK96rwdmhmhmXmoh6aBI-vdT4fT2hJyOA9OBMA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 4754DB60098; Tue, 28 Mar 2023 14:46:26 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-237-g62623e8e3f-fm-20230327.001-g62623e8e
+Mime-Version: 1.0
+Message-Id: <b0d8da28-2499-48db-be17-7d126697e303@app.fastmail.com>
+In-Reply-To: <20230328164811.2451-2-gregory.price@memverge.com>
+References: <20230328164811.2451-1-gregory.price@memverge.com>
+ <20230328164811.2451-2-gregory.price@memverge.com>
+Date:   Tue, 28 Mar 2023 20:46:06 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Gregory Price" <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        "Oleg Nesterov" <oleg@redhat.com>, avagin@gmail.com,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Andy Lutomirski" <luto@kernel.org>, krisman@collabora.com,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Jonathan Corbet" <corbet@lwn.net>, shuah <shuah@kernel.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        "Mark Rutland" <mark.rutland@arm.com>, tongtiangen@huawei.com,
+        "Robin Murphy" <robin.murphy@arm.com>,
+        "Gregory Price" <gregory.price@memverge.com>
+Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of access_ok
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Mar 2023 17:43:15 +0800
-Yicong Yang <yangyicong@huawei.com> wrote:
-
-> From: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> The PTT can only filter the traced TLP headers by the Root Ports or the
-> Requester ID of the Endpoint, which are located on the same core of the
-> PTT device. The filter value used is derived from the BDF number of the
-> supported Root Port or the Endpoint. It's not friendly enough for the
-> users since it requires the user to be familiar enough with the platform
-> and calculate the filter value manually.
-> 
-> This patch export the available filters through sysfs. Each available
-> filters is presented as an individual file with the name of the BDF
-> number of the related PCIe device. The files are created under
-> $(PTT PMU dir)/available_root_port_filters and
-> $(PTT PMU dir)/available_requester_filters respectively. The filter
-> value can be known by reading the related file.
-> 
-> Then the users can easily know the available filters for trace and get
-> the filter values without calculating.
-> 
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-
-Trivial comments only inline.
-
-With those answered / tidied up.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-
-> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
-> index 010cdbc3c172..a5cd87edb813 100644
-> --- a/drivers/hwtracing/ptt/hisi_ptt.c
-> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
-
-
+On Tue, Mar 28, 2023, at 18:48, Gregory Price wrote:
+> On arm64, access_ok makes adjustments to pointers based on whether
+> memory tagging is enabled for a task (ARM MTE). When leveraging ptrace,
+> it's possible for a task to enable/disable various kernel features (such
+> as syscall user dispatch) which require user points as arguments.
 >
-> +
-> +static int hisi_ptt_init_filter_attributes(struct hisi_ptt *hisi_ptt)
-> +{
-> +	struct hisi_ptt_filter_desc *filter;
-> +	int ret;
-> +
-> +	mutex_lock(&hisi_ptt->filter_lock);
-> +
-> +	list_for_each_entry(filter, &hisi_ptt->port_filters, list) {
-> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
-> +		if (ret)
-> +			goto err;
-> +	}
-> +
-> +	list_for_each_entry(filter, &hisi_ptt->req_filters, list) {
-> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
-> +		if (ret)
-> +			goto err;
-> +	}
-> +
-> +	ret = devm_add_action_or_reset(&hisi_ptt->pdev->dev,
-> +				       hisi_ptt_remove_all_filter_attributes,
-> +				       hisi_ptt);
-> +	if (ret)
-> +		goto err;
-> +
-> +	hisi_ptt->sysfs_inited = true;
+> To enable Task A to set these features via ptrace with Task B's
+> pointers, a task variant of access_ok is required for architectures with
+> features such as memory tagging.
+>
+> If the architecture does not implement task_access_ok, the operation
+> reduces to access_ok and the task argument is discarded.
+>
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-err:
+For asm-generic:
 
-> +	mutex_unlock(&hisi_ptt->filter_lock);
-
-	return ret;
-
-No need for separate exit block when nothing to do but unlock.
-
-> +	return 0;
-> +err:
-> +	mutex_unlock(&hisi_ptt->filter_lock);
-> +	return ret;
-> +}
-> +
->  static void hisi_ptt_update_filters(struct work_struct *work)
->  {
->  	struct delayed_work *delayed_work = to_delayed_work(work);
-> @@ -384,8 +517,28 @@ static void hisi_ptt_update_filters(struct work_struct *work)
->  				continue;
->  			}
->  
-> +			filter->name = kstrdup(pci_name(info.pdev), GFP_KERNEL);
-> +			if (!filter->name) {
-> +				pci_err(hisi_ptt->pdev, "failed to add filter %s\n",
-> +					pci_name(info.pdev));
-> +				kfree(filter);
-> +				continue;
-> +			}
-> +
->  			filter->devid = devid;
->  			filter->is_port = is_port;
-> +
-> +			/*
-> +			 * If filters' sysfs entries hasn't been initialized, then
-> +			 * we're still at probe stage and leave it to handled by
-> +			 * others.
-> +			 */
-> +			if (hisi_ptt->sysfs_inited &&
-
-Can we move this sysfs_inited check earlier? Seems silly to leave a simple check
-like that so late.
-
-> +			    hisi_ptt_create_filter_attr(hisi_ptt, filter)) {
-> +				kfree(filter);
-> +				continue;
-> +			}
-> +
->  			list_add_tail(&filter->list, target_list);
->  
->  			if (is_port)
-> @@ -394,6 +547,11 @@ static void hisi_ptt_update_filters(struct work_struct *work)
->  			list_for_each_entry(filter, target_list, list)
->  				if (filter->devid == devid) {
->  					list_del(&filter->list);
-> +
-> +					if (hisi_ptt->sysfs_inited)
-> +						hisi_ptt_remove_filter_attr(hisi_ptt, filter);
-> +
-> +					kfree(filter->name);
->  					kfree(filter);
->  					break;
->  				}
-> @@ -486,10 +644,12 @@ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
->  	 * through the log. Other functions of PTT device are still available.
->  	 */
->  	filter = kzalloc(sizeof(*filter), GFP_KERNEL);
-> -	if (!filter) {
-> -		pci_err(hisi_ptt->pdev, "failed to add filter %s\n", pci_name(pdev));
-> -		return -ENOMEM;
-> -	}
-> +	if (!filter)
-> +		goto err_mem;
-> +
-> +	filter->name = kstrdup(pci_name(pdev), GFP_KERNEL);
-> +	if (!filter->name)
-> +		goto err_name;
->  
->  	filter->devid = PCI_DEVID(pdev->bus->number, pdev->devfn);
->  
-> @@ -504,6 +664,11 @@ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
->  	}
->  
->  	return 0;
-> +err_name:
-> +	kfree(filter);
-> +err_mem:
-> +	pci_err(hisi_ptt->pdev, "failed to add filter %s\n", pci_name(pdev));
-
-I'd rather see a message for each of the error paths so we have some information on why.
-Original message wasn't great for this obviously and perhaps given they are both allocation
-errors it's not worth splitting them up.
-
-> +	return -ENOMEM;
->  }
-
-
+Acked-by: Arnd Bergmann <arnd@arndb.de>
