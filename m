@@ -2,165 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02AE6C76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 12:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2FE1C761AF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 14:20:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231976AbjC1MoH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 08:44:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60950 "EHLO
+        id S232276AbjC1OU1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 10:20:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231238AbjC1MoD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 08:44:03 -0400
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD81AD22;
-        Tue, 28 Mar 2023 05:43:50 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.228])
-        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4Pm8Hn0YmLz9v7cL;
-        Tue, 28 Mar 2023 20:33:57 +0800 (CST)
-Received: from [10.48.131.174] (unknown [10.48.131.174])
-        by APP1 (Coremail) with SMTP id LxC2BwC3QAza4CJklbTXAQ--.65267S2;
-        Tue, 28 Mar 2023 13:43:16 +0100 (CET)
-Message-ID: <8cf7c515-9ce6-a2ed-0643-972aa3eba2fb@huaweicloud.com>
-Date:   Tue, 28 Mar 2023 14:43:03 +0200
+        with ESMTP id S231181AbjC1OUZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 10:20:25 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4E17690
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 07:20:20 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id n19so7078413wms.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 07:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1680013219;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+PEtB1leftLnTtvh+oHN0PgNHoCI5eZGmZHEiBkpRwA=;
+        b=8QZSnfbOtyJyh9xV/e8zioGy7lOr8GXVGlKXrX7Ph766BOYNeeOfpM6muMSeN40UQ4
+         ekxCt/LjmXJQXfRZcWMY+nS9l3m5kBPPrMZOCt5ogEUdgmX8Cvuzikvw1pH4AsIBCdTu
+         4ewt9LW6Hv7yrOHy8RkMs+cfG9IwGyMKWrwVaPsHHdG/KY0jt+xqQE5DYX830789j2FR
+         E1MDoO/jDQdTZBTyG+rgqMb2WT+UZe68TF6LjFDU26FZ/7Tr+9eNK5jRHHufVIOaMO3U
+         P8dstfIEpDRqQf0+q7dyWyFjkc0bryMVcg/47azJpYSABzzRNFy7xNlfmd9mreruwGsk
+         ex5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680013219;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+PEtB1leftLnTtvh+oHN0PgNHoCI5eZGmZHEiBkpRwA=;
+        b=XZN8iDE+KjumQrJVU9cejKjbc7QkiHDkmGMcWGh+4y/7RGO3BF/iWeVaAqrA15fo6s
+         /E0y8L3mrK46wP7JFpIscd5ekU2N5OaYZlm7Hi/ItG+F+5J7eNk40c9hF6zYeyqToFOB
+         eWgpUrbRIzuGic6pGpQozsQIH9e0fVA+pgxdEgcDnHyKL8nZEc2z5OO4wFLJ/F7nIvih
+         fvjnM8kitfWBzlGGKdxUA1JAkvlINt56D0+Xafw+YonthThhzDzLV9DJJmLHnl8Xyo0V
+         F9Ngdcvovy1Q8yxZ8cyBhgAfxuL9tdw1OP0XosVDTdQgnPHKu2QLWcWPGllIgJgIGJDn
+         wn2A==
+X-Gm-Message-State: AO0yUKXWH04b+7NyTiySnhjpsOrwRaucTAgzE4AIk2LaAFykFCSk22aX
+        yrj8qxDumc4Gq0accN1ZbIvSoA==
+X-Google-Smtp-Source: AK7set+BMwlEtjB3o6fUoqT4JYr5nGtbsMBbscTdTWB/vviOBBBLJCd6uSw5ZDqKEtisO3/CpdzCCQ==
+X-Received: by 2002:a1c:790b:0:b0:3ed:9ed7:d676 with SMTP id l11-20020a1c790b000000b003ed9ed7d676mr12553625wme.13.1680013218951;
+        Tue, 28 Mar 2023 07:20:18 -0700 (PDT)
+Received: from [10.3.3.14] (laubervilliers-657-1-248-155.w90-24.abo.wanadoo.fr. [90.24.137.155])
+        by smtp.gmail.com with ESMTPSA id o14-20020a05600c378e00b003ed2276cd0dsm17205130wmr.38.2023.03.28.07.20.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Mar 2023 07:20:18 -0700 (PDT)
+Message-ID: <fc519231-dd00-8ce3-ecdb-a1e1364cd0c4@baylibre.com>
+Date:   Tue, 28 Mar 2023 16:20:17 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-From:   Petr Tesarik <petrtesarik@huaweicloud.com>
-Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce buffers
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz,
-        Alexander Graf <graf@amazon.com>
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
- <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
- <20230328040724.GB25506@lst.de>
- <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
 Content-Language: en-US
-In-Reply-To: <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net, arnd@arndb.de,
+        gregkh@linuxfoundation.org, derek.kiernan@xilinx.com,
+        dragan.cvetic@xilinx.com
+Cc:     eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
+        stephen@networkplumber.org, davem@davemloft.net,
+        christian.koenig@amd.com, contact@emersion.fr,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
+        eblanc@baylibre.com, jneanne@baylibre.com
+References: <20230327154101.211732-1-jpanis@baylibre.com>
+ <20230327154101.211732-2-jpanis@baylibre.com>
+ <a0c18c3a-4f9e-f491-582f-8d3ca56ec26f@linaro.org>
+ <75f0a18d-aed9-8610-2925-4e604b4b0241@baylibre.com>
+ <f69d7b3a-6b30-5f30-9e72-7197a3a62a2c@linaro.org>
+From:   Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <f69d7b3a-6b30-5f30-9e72-7197a3a62a2c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: LxC2BwC3QAza4CJklbTXAQ--.65267S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr4xXw18Ar43uFy8Aw4xJFb_yoW5tFWxpF
-        y7ZF95KF4UWF4kC34Duw48GF1j9w4vk3yfW39Yvr1FkrnxXr95XF1DGrWYy3s5tr4vkF42
-        qry093yYk3WUXrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
-        07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-        WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
-        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-        7IU13rcDUUUUU==
-X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/28/2023 9:54 AM, Petr Tesarik wrote:
-> On 3/28/2023 6:07 AM, Christoph Hellwig wrote:
->> [adding Alex as he has been interested in this in the past]
+
+
+On 3/28/23 13:21, Krzysztof Kozlowski wrote:
+> On 28/03/2023 12:45, Julien Panis wrote:
 >>
->[...]>> I'm a little worried about all that because it causes quite a bit
->> of overhead even for callers that don't end up going into the
->> dynamic range or do not use swiotlb at all.  I don't really have a
->> good answer here except for the usual avoid bounce buffering whenever
->> you can that might not always be easy to do.
-> 
-> I'm also worried about all this overhead.
+>> On 3/28/23 08:51, Krzysztof Kozlowski wrote:
+>>> On 27/03/2023 17:40, Julien Panis wrote:
+>>>> TPS6594 is a Power Management IC which provides regulators and others
+>>>> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>>>> PFSM (Pre-configurable Finite State Machine) managing the state of the
+>>>> device.
+>>>> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>>>>
+>>>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+>>>> ---
+>>>>    .../devicetree/bindings/mfd/ti,tps6594.yaml   | 231 ++++++++++++++++++
+>>>>    1 file changed, 231 insertions(+)
+>>>>    create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..4498e6361b34
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>>> @@ -0,0 +1,231 @@
+>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: TI TPS6594 Power Management Integrated Circuit
+>>>> +
+>>>> +maintainers:
+>>>> +  - Julien Panis <jpanis@baylibre.com>
+>>>> +
+>>>> +description:
+>>>> +  TPS6594 is a Power Management IC which provides regulators and others
+>>>> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>>>> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
+>>>> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>>> LP8764X? Compatible says LP8764.
+>>>
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    enum:
+>>>> +      - ti,lp8764
+>>> It's confusing. If x was wildcard, didn't you remove part of model name?
+>> OK, I will remove 'X' from model name in v5.
+> There is no x in compatible. What is (are) the model name(s)?
 
-Oh, wait! I can do at least something for devices which do not use
-swiotlb at all.
+Basically, the model names are:
+- lp8764-q1 ('x' came from an error in internal documentation)
+- tps6593-q1
+- tps6594-q1
 
-If a device does not use bounce buffers, it cannot pass an address
-that belongs to the swiotlb. Consequently, the potentially
-expensive check can be skipped. This avoids the dynamic lookup
-penalty for devices which do not need the swiotlb.
+But...for these 3 pmics, there are 19 PN provided
+by TI. For instance: tps659413f, tps659411f, ...
+Each PN gives information about non-volatile memory
+settings and firmware. So, there can be several PN
+for a given model name.
 
-Note that the counter always remains zero if dma_io_tlb_mem is
-NULL, so the NULL check is not required.
+Which solution is recommended in such situation ?
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index a3e14143ec0c..f36638f207b8 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -2957,6 +2957,7 @@ void device_initialize(struct device *dev)
- #endif
- #ifdef CONFIG_SWIOTLB
- 	dev->dma_io_tlb_mem = &io_tlb_default_mem;
-+	atomic_set(&dev->dma_io_tlb_cnt, 0);
- #endif
- }
- EXPORT_SYMBOL_GPL(device_initialize);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 44e3acae7b36..cfdddce4cc30 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -504,6 +504,7 @@ struct device_physical_location {
-  * @dma_mem:	Internal for coherent mem override.
-  * @cma_area:	Contiguous memory area for dma allocations
-  * @dma_io_tlb_mem: Pointer to the swiotlb pool used.  Not for driver use.
-+ * @dma_io_tlb_cnt: Number of buffers mapped from the swiotlb pool.
-  * @archdata:	For arch-specific additions.
-  * @of_node:	Associated device tree node.
-  * @fwnode:	Associated device node supplied by platform firmware.
-@@ -609,6 +610,7 @@ struct device {
- #endif
- #ifdef CONFIG_SWIOTLB
- 	struct io_tlb_mem *dma_io_tlb_mem;
-+	atomic_t dma_io_tlb_cnt;
- #endif
- 	/* arch specific additions */
- 	struct dev_archdata	archdata;
-diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index 628e25ad7db7..7a115f4db49d 100644
---- a/include/linux/swiotlb.h
-+++ b/include/linux/swiotlb.h
-@@ -122,7 +122,7 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
- {
- 	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
- 
--	return mem &&
-+	return atomic_read(&dev->dma_io_tlb_cnt) &&
- 		(is_swiotlb_fixed(mem, paddr) ||
- 		 (mem->allow_dyn && is_swiotlb_dyn(mem, paddr)));
- }
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 3efaefebb6af..3dda1d3a39e8 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -954,6 +954,8 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 		return tlb_addr;
- 	}
- 
-+	atomic_inc(&dev->dma_io_tlb_cnt);
-+
- 	/*
- 	 * When dir == DMA_FROM_DEVICE we could omit the copy from the orig
- 	 * to the tlb buffer, if we knew for sure the device will
-@@ -1030,6 +1032,7 @@ void swiotlb_tbl_unmap_single(struct device *dev, phys_addr_t tlb_addr,
- 		swiotlb_release_slots(dev, tlb_addr);
- 	else
- 		swiotlb_dyn_unmap(dev, tlb_addr, dir);
-+	atomic_dec(&dev->dma_io_tlb_cnt);
- }
- 
- void swiotlb_sync_single_for_device(struct device *dev, phys_addr_t tlb_addr,
+IMO, using the 3 'xxxxxx-q1' names for compatible
+strings makes sense (that's what already exists in
+linux for others TI pmics).
+But if you think that full PN names should be specified
+to differentiate internal FW/NVM configurations, I will do
+that and we will get 19 compatible strings.
+
+>
+>>>
+>>>> +      - ti,tps6593
+>>>> +      - ti,tps6594
+> (...)
+>
+>>>> +
+>>>> +  rtc:
+>>>> +    type: object
+>>>> +    description: RTC provided by this controller.
+>>>> +    $ref: /schemas/rtc/rtc.yaml#
+>>> I doubt that you can have here any RTC and any watchdog (below). This
+>>> should be specific binding instead. Or list of compatibles if you have 3
+>>> or more possible bindings.
+>>>
+>>> Additionally, judging by your DTS you do not have any resources in rtc
+>>> and watchdog, so these should not be nodes by themself in such case.
+>> It seems that I can't figure out what you and Rob mean by saying that
+>> "binding must be complete" and that "RTC and watchdog may or may not
+>> need binding changes".
+>> What does "specific binding" mean ?
+> Specific means not loose, not generic, precise with some accurate
+> properties.
+>
+>> Should we add some specific property
+>> for RTC/WDG provided by the PMIC ?
+> You know ask me to know what is in your device. I don't know. You should
+> know.
+>
+>> Should we write another yaml for both
+>> of them ?
+> Depends. Pretty often yes, but think what do you want to put there?
+
+There's nothing to put there actually.
+
+>
+>> Why shouldn't they use the generic rtc/watchdog yaml ?
+> There are no properties in these nodes, so you do not need nodes. Or if
+> you have properties then you need specific binding, not generic one.
+
+We do not need nodes indeed, since we do not have properties to put in them.
+
+>
+>> I don't
+>> understand why they would need some "binding changes". Any example
+>> I could refer to ? (I might have not looked at the relevant ones for my case
+>> before sending this v4)
+> git grep $ref | grep rtc.yaml
+>
+>
+> Best regards,
+> Krzysztof
+>
 
