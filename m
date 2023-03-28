@@ -2,55 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D748C761A6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 23:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA36C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 23:16:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbjC1XJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 19:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58082 "EHLO
+        id S229670AbjC1XQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 19:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbjC1XJR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 19:09:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FE1B2109;
-        Tue, 28 Mar 2023 16:09:16 -0700 (PDT)
+        with ESMTP id S229811AbjC1XQs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 19:16:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16B72683;
+        Tue, 28 Mar 2023 16:16:46 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A269D619E9;
-        Tue, 28 Mar 2023 23:09:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1244C433D2;
-        Tue, 28 Mar 2023 23:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1680044955;
-        bh=8Wd0H0r4Y5vxHoD+EkGCPkXRzVkuf1s2NZi8Up9rhqA=;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 29F29B81CC9;
+        Tue, 28 Mar 2023 23:16:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83939C433D2;
+        Tue, 28 Mar 2023 23:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680045403;
+        bh=dr/aVS9Be55zvJpTsMjeCdwrQeiI1QFH6vPkt8vuTvc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=W/NE0DcX3GATvg/vghQSAyn7dAM5VACRWZBXY7SJi2E5H2n/lfzrGZhS75RTkaCTi
-         FwtIdOOe4c7gDK+ZkY3a21Gt2QbnhV9fIAenplVpRKOdGXkEr/CpwPfrN2foeTgvx9
-         kjUyzFil5Vk1WRrUl4Vh9rJFx6zYSiqtR6GcsbT4=
-Date:   Tue, 28 Mar 2023 16:09:14 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, hannes@cmpxchg.org
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-Message-Id: <20230328160914.5b6b66e4a5ad39e41fd63710@linux-foundation.org>
-In-Reply-To: <20230310182851.2579138-1-shr@devkernel.io>
-References: <20230310182851.2579138-1-shr@devkernel.io>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+        b=pzs3GpvfhGTKR0xo3I7NciiFyh7+WvAVLl5PGMvJITmwt41luFKf2SsiIpmRXUIvw
+         nOSK9sJMllpz8yd6i0NXERZW1H6QzrP9A45OkvSapoeJYxQkAK4LTHdBSdGJ/owvSb
+         BujTfG4niP+DLxl227cW+eFjB1vWgGmrC5bWJEkyAq6uLnUf9un70J6ivXnVYsrLYE
+         NwNw9oHmO7AFSme6LFvjfoyXjnLSt1UrHvvmU5HZqLvRlPv6ZWueEdjjiL89VaNrQB
+         LpBbxxchLrRo3NeCpeZOwlFlvsmPC9hD/FPP57qJ1T74pmhzikhbtlfw2tL5xspyDj
+         ougT6MLOuUeXw==
+Date:   Tue, 28 Mar 2023 16:16:42 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Felix Fietkau <nbd@nbd.name>
+Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2] net/core: add optional threading for
+ backlog processing
+Message-ID: <20230328161642.3d2f101c@kernel.org>
+In-Reply-To: <20230328195925.94495-1-nbd@nbd.name>
+References: <20230328195925.94495-1-nbd@nbd.name>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Mar 2023 10:28:48 -0800 Stefan Roesch <shr@devkernel.io> wrote:
+On Tue, 28 Mar 2023 21:59:25 +0200 Felix Fietkau wrote:
+> When dealing with few flows or an imbalance on CPU utilization, static RPS
+> CPU assignment can be too inflexible. Add support for enabling threaded NAPI
+> for backlog processing in order to allow the scheduler to better balance
+> processing. This helps better spread the load across idle CPUs.
 
-> So far KSM can only be enabled by calling madvise for memory regions. To
-> be able to use KSM for more workloads, KSM needs to have the ability to be
-> enabled / disabled at the process / cgroup level.
+Can you share some numbers vs a system where RPS only spreads to 
+the cores which are not running NAPI?
 
-Review on this series has been a bit thin.  Are we OK with moving this
-into mm-stable for the next merge window?
+IMHO you're putting a lot of faith in the scheduler and you need 
+to show that it actually does what you say it will do.
