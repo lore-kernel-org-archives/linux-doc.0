@@ -2,113 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF21C76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 16:24:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A27C761AF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 16:48:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230250AbjC1QYR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 12:24:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34172 "EHLO
+        id S230375AbjC1Qs0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 12:48:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjC1QYQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 12:24:16 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7A19A5D1;
-        Tue, 28 Mar 2023 09:24:14 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PmFMb6p3kz6J7gX;
-        Wed, 29 Mar 2023 00:22:35 +0800 (CST)
-Received: from localhost (10.195.244.179) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 28 Mar
- 2023 17:24:10 +0100
-Date:   Tue, 28 Mar 2023 17:24:09 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
-        <prime.zeng@huawei.com>, <linuxarm@huawei.com>
-Subject: Re: [PATCH 1/4] hwtracing: hisi_ptt: Make cpumask only present
- online CPUs
-Message-ID: <20230328172409.000021f5@Huawei.com>
-In-Reply-To: <20230315094316.26772-2-yangyicong@huawei.com>
-References: <20230315094316.26772-1-yangyicong@huawei.com>
-        <20230315094316.26772-2-yangyicong@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        with ESMTP id S230339AbjC1QsY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 12:48:24 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F4428A49;
+        Tue, 28 Mar 2023 09:48:22 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id q88so9523243qvq.13;
+        Tue, 28 Mar 2023 09:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680022102;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U5Tvv02beQxw04P5UwgN8lsFSBfOGArfLL4YIiRjeVg=;
+        b=QGbyQ2OVm/JaefeGmkoM3bQ/pmorQVe+oX3slbncUyNgKcdrd60ZjraMe1BEkNahlB
+         LgUjx2vqbj+WcIOnxuYL+llvGJekVUkO3WQduZTR+gKtSkUuN8BgOUD26cyQ2HIXkIuX
+         cC2tW7bsjEpSeW6wlb1oJEiJm34Y71NuHA9JJb/GaH7bFSTeWlCyBat8Cp+H4mDcg53k
+         3ftrJBL0RYv5yfq/8mcLri7EOkcX64JGTY0xTeaIjJMPoe2vG0ya3A09FR8cptyfHc0H
+         lsvSu5EgejkesFf85yUFHHta8T/39f0j4kubbyLcTNPbMzdj9329B8u5g9lTOzegvv8o
+         jm4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680022102;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U5Tvv02beQxw04P5UwgN8lsFSBfOGArfLL4YIiRjeVg=;
+        b=sOxaqTqw9kdhECjphbJkRk8qrkVY0Na4SSTnqoQ+mNqOyYlCNbACHvEWlEScy1VvOw
+         drWqMhLc8LdFjz9QMr8upj4FWGkQePt9vq+buTM6owrM2QmEUZ7LdL2SVdbU5PwxUPSY
+         W1kd+FCPGKn797Pa73xmu2yP7S/Ptr+Q6HiSSTQcnoGoqLB0tDEXey7YGg3RYeP2PUpQ
+         3oUshyzSzBEUl96Gf+gfmC1rjJMPGyIS+/EFeT8xmazBfuTWuc1yjU6vh0rWPHSf01ry
+         iSbd26hl2qL7WIS28UsvHKfel5yUfA01IVralljGprR8P5AKyfr44R49UdohVgP+3tvM
+         bBuQ==
+X-Gm-Message-State: AAQBX9cc06cYa1Di+9GGyo3qHoMUwOcG94BszFQFpDVpM5mDRYTudcgP
+        HHtYJJli0vehEZui9tO/iOL0fw6n9pSk+bM=
+X-Google-Smtp-Source: AKy350YOkL74vRK61mRi1pJPqckixB4oEN5zmCmx5upWbMccNyntAe/H6RyfQGuqJMXUJOrCLBj4AA==
+X-Received: by 2002:a05:6214:130b:b0:56f:fb19:1650 with SMTP id pn11-20020a056214130b00b0056ffb191650mr29277713qvb.2.1680022101920;
+        Tue, 28 Mar 2023 09:48:21 -0700 (PDT)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id qh16-20020a0562144c1000b005dd8b93457bsm3938206qvb.19.2023.03.28.09.48.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Mar 2023 09:48:21 -0700 (PDT)
+From:   Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org, oleg@redhat.com, avagin@gmail.com,
+        peterz@infradead.org, luto@kernel.org, krisman@collabora.com,
+        tglx@linutronix.de, corbet@lwn.net, shuah@kernel.org,
+        catalin.marinas@arm.com, arnd@arndb.de, will@kernel.org,
+        mark.rutland@arm.com, tongtiangen@huawei.com, robin.murphy@arm.com,
+        Gregory Price <gregory.price@memverge.com>
+Subject: [PATCH v14 0/4] Checkpoint Support for Syscall User Dispatch
+Date:   Tue, 28 Mar 2023 12:48:07 -0400
+Message-Id: <20230328164811.2451-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.195.244.179]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Mar 2023 17:43:13 +0800
-Yicong Yang <yangyicong@huawei.com> wrote:
+v14: implement task_access_ok variant for cross-task pointer checks
+     patch 2/4 changed from access_ok to task_access_ok
 
-> From: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> perf will try to start PTT trace on every CPU presented in cpumask sysfs
-> attribute and it will fail to start on offline CPUs(see the comments in
-> perf_event_open()). But the driver is using cpumask_of_node() to export
-> the available cpumask which may include offline CPUs and may fail the
-> perf unintendedly. Fix this by only export the online CPUs of the node.
+v13: sizeof consistency and cosmetic changes in patch 2
 
-There isn't clear documentation that I can find for cpumask_of_node()
-and chasing through on arm64 (which is what we care about for this driver)
-it's maintained via numa_add_cpu() numa_remove_cpu()
-Those are called in arch/arm64/kernel/smp.c in locations that are closely coupled
-with set_cpu_online(cpu, XXX);
-https://elixir.bootlin.com/linux/v6.3-rc4/source/arch/arm64/kernel/smp.c#L246
-https://elixir.bootlin.com/linux/v6.3-rc4/source/arch/arm64/kernel/smp.c#L303
+v12: split test into its own patch
+     change from padding a u8 to using a u64
+     casting issues
+     checkpatch.pl
 
-Now there are races when the two might not be in sync but in this case
-we are just exposing the result to userspace, so chances of a race
-after this sysfs attribute has been read seems much higher to me and
-I don't think we can do anything about that.
+[truncating version history]
 
-Is there another path that I'm missing where online and node masks are out
-of sync?
+Syscall user dispatch makes it possible to cleanly intercept system
+calls from user-land.  However, most transparent checkpoint software
+presently leverages some combination of ptrace and system call
+injection to place software in a ready-to-checkpoint state.
 
-Jonathan
+If Syscall User Dispatch is enabled at the time of being quiesced,
+injected system calls will subsequently be interposed upon and
+dispatched to the task's signal handler.
 
+Patch summary:
+- Create new task_access_ok which leverages the provided task's
+  information when validating userland pointers.  For ARM64 this means
+  MTE tags are accounted for.  For all other architectures, this simply
+  reduces to access_ok (presently).
 
-> 
-> Fixes: ff0de066b463 ("hwtracing: hisi_ptt: Add trace function support for HiSilicon PCIe Tune and Trace device")
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+- Refactor configuration setting interface to operate on a task
+  rather than current, so the set and error paths can be consolidated
 
-> ---
->  drivers/hwtracing/ptt/hisi_ptt.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
-> index 30f1525639b5..0a10c7ec46ad 100644
-> --- a/drivers/hwtracing/ptt/hisi_ptt.c
-> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
-> @@ -487,9 +487,18 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
->  			    char *buf)
->  {
->  	struct hisi_ptt *hisi_ptt = to_hisi_ptt(dev_get_drvdata(dev));
-> -	const cpumask_t *cpumask = cpumask_of_node(dev_to_node(&hisi_ptt->pdev->dev));
-> +	cpumask_var_t mask;
-> +	ssize_t n;
->  
-> -	return cpumap_print_to_pagebuf(true, buf, cpumask);
-> +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
-> +		return 0;
-> +
-> +	cpumask_and(mask, cpumask_of_node(dev_to_node(&hisi_ptt->pdev->dev)),
-> +		    cpu_online_mask);
-> +	n = cpumap_print_to_pagebuf(true, buf, mask);
-> +	free_cpumask_var(mask);
-> +
-> +	return n;
->  }
->  static DEVICE_ATTR_RO(cpumask);
->  
+- Implement a getter interface for Syscall User Dispatch config info.
+  To resume successfully, the checkpoint/resume software has to
+  save and restore this information.  Presently this configuration
+  is write-only, with no way for C/R software to save it.
+
+  This was done in ptrace because syscall user dispatch is not part of
+  uapi. The syscall_user_dispatch_config structure was added to the
+  ptrace exports.
+
+- Selftest for the new feature
+
+Gregory Price (4):
+  asm-generic,arm64: create task variant of access_ok
+  syscall_user_dispatch: helper function to operate on given task
+  ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+  selftest,ptrace: Add selftest for syscall user dispatch config api
+
+ .../admin-guide/syscall-user-dispatch.rst     |  4 ++
+ arch/arm64/include/asm/uaccess.h              | 13 +++-
+ include/asm-generic/access_ok.h               | 10 +++
+ include/linux/syscall_user_dispatch.h         | 18 +++++
+ include/uapi/linux/ptrace.h                   | 29 ++++++++
+ kernel/entry/syscall_user_dispatch.c          | 67 ++++++++++++++---
+ kernel/ptrace.c                               |  9 +++
+ tools/testing/selftests/ptrace/.gitignore     |  1 +
+ tools/testing/selftests/ptrace/Makefile       |  2 +-
+ tools/testing/selftests/ptrace/get_set_sud.c  | 72 +++++++++++++++++++
+ 10 files changed, 213 insertions(+), 12 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/get_set_sud.c
+
+-- 
+2.39.1
 
