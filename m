@@ -2,108 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F4DDC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 04:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82249C77B61
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 06:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232825AbjC1EHc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 00:07:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43448 "EHLO
+        id S231493AbjC1GEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 02:04:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjC1EHa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 00:07:30 -0400
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92667F3;
-        Mon, 27 Mar 2023 21:07:29 -0700 (PDT)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 9E54F68B05; Tue, 28 Mar 2023 06:07:24 +0200 (CEST)
-Date:   Tue, 28 Mar 2023 06:07:24 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Petr Tesarik <petrtesarik@huaweicloud.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz,
-        Alexander Graf <graf@amazon.com>
-Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce
- buffers
-Message-ID: <20230328040724.GB25506@lst.de>
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com> <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
+        with ESMTP id S231694AbjC1GEE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 02:04:04 -0400
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97137171E;
+        Mon, 27 Mar 2023 23:04:01 -0700 (PDT)
+X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
+        LIVER,40,3)
+Received: from 192.168.10.47
+        by mg.richtek.com with MailGates ESMTP Server V5.0(26685:1:AUTH_RELAY)
+        (envelope-from <cy_huang@richtek.com>); Tue, 28 Mar 2023 14:03:31 +0800 (CST)
+Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.25; Tue, 28 Mar
+ 2023 14:03:30 +0800
+Received: from linuxcarl2.richtek.com (192.168.10.154) by ex3.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.25 via Frontend
+ Transport; Tue, 28 Mar 2023 14:03:30 +0800
+Date:   Tue, 28 Mar 2023 14:03:30 +0800
+From:   ChiYuan Huang <cy_huang@richtek.com>
+To:     Pavel Machek <pavel@ucw.cz>
+CC:     ChiaEn Wu <chiaen_wu@richtek.com>, <corbet@lwn.net>,
+        <lee@kernel.org>, <matthias.bgg@gmail.com>,
+        <andriy.shevchenko@linux.intel.com>, <jacek.anaszewski@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>,
+        <linux-doc@vger.kernel.org>, <peterwu.pub@gmail.com>,
+        <linux-leds@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <szunichen@gmail.com>
+Subject: Re: [PATCH v18 1/3] leds: rgb: mt6370: Add MediaTek MT6370 current
+ sink type LED Indicator support
+Message-ID: <20230328060330.GA32398@linuxcarl2.richtek.com>
+References: <cover.1678430444.git.chiaen_wu@richtek.com>
+ <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
+ <ZCGCGb9E4KYlFNXR@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <ZCGCGb9E4KYlFNXR@duo.ucw.cz>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[adding Alex as he has been interested in this in the past]
-
-On Mon, Mar 20, 2023 at 01:28:15PM +0100, Petr Tesarik wrote:
-> Second, on the Raspberry Pi 4, swiotlb is used by dma-buf for pages
-> moved from the rendering GPU (v3d driver), which can access all
-> memory, to the display output (vc4 driver), which is connected to a
-> bus with an address limit of 1 GiB and no IOMMU. These buffers can
-> be large (several megabytes) and cannot be handled by SWIOTLB,
-> because they exceed maximum segment size of 256 KiB. Such mapping
-> failures can be easily reproduced on a Raspberry Pi4: Starting
-> GNOME remote desktop results in a flood of kernel messages like
-> these:
-
-Shouldn't we make sure dma-buf allocates the buffers for the most
-restricted devices, and more importantly does something like a dma
-coherent allocation instead of a dynamic mapping of random memory?
-
-While a larger swiotlb works around this I don't think this fixes the root
-cause.
-
-> 1. The value is limited to ULONG_MAX, which is too little both for
->    physical addresses (e.g. x86 PAE or 32-bit ARM LPAE) and DMA
->    addresses (e.g. Xen guests on 32-bit ARM).
+On Mon, Mar 27, 2023 at 01:46:33PM +0200, Pavel Machek wrote:
+> Hi!
 > 
-> 2. Since buffers are currently allocated with page granularity, a
->    PFN can be used instead. However, some values are reserved by
->    the maple tree implementation. Liam suggests to use
->    xa_mk_value() in that case, but that reduces the usable range by
->    half. Luckily, 31 bits are still enough to hold a PFN on all
->    32-bit platforms.
+> > The MediaTek MT6370 is a highly-integrated smart power management IC,
+> > which includes a single cell Li-Ion/Li-Polymer switching battery
+> > charger, a USB Type-C & Power Delivery (PD) controller, dual
+> > Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> > a display bias driver and a general LDO for portable devices.
+> > 
+> > Add support for the MediaTek MT6370 Current Sink Type LED Indicator
+> > driver. It can control four channels current-sink RGB LEDs with 3 modes:
+> > constant current, PWM, and breath mode.
+> > 
+> > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> > Co-developed-by: Alice Chen <alice_chen@richtek.com>
+> > Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 > 
-> 3. Software IO TLB is used from interrupt context. The maple tree
->    implementation is not IRQ-safe (MT_FLAGS_LOCK_IRQ does nothing
->    AFAICS). Instead, I use an external lock, spin_lock_irqsave() and
->    spin_unlock_irqrestore().
 > 
-> Note that bounce buffers are never allocated dynamically if the
-> software IO TLB is in fact a DMA restricted pool, which is intended
-> to be stay in its designated location in physical memory.
+> > +++ b/drivers/leds/rgb/Makefile
+> > @@ -2,3 +2,4 @@
+> >  
+> >  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
+> >  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
+> > +obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
+> 
+> I'd preffer leds-mt6370 name. We already have "rgb" in directory
+> name...
+> 
+Yap, sure,
 
-I'm a little worried about all that because it causes quite a bit
-of overhead even for callers that don't end up going into the
-dynamic range or do not use swiotlb at all.  I don't really have a
-good answer here except for the usual avoid bounce buffering whenever
-you can that might not always be easy to do.
+But for mt6370 leds, except rgb indicators, there are also flashes for camera.
+To keep the postfix in filename can more precisely tell what the file for.
 
-> +	gfp = (attrs & DMA_ATTR_MAY_SLEEP) ? GFP_KERNEL : GFP_NOWAIT;
-> +	slot = kmalloc(sizeof(*slot), gfp | __GFP_NOWARN);
-> +	if (!slot)
-> +		goto err;
-> +
-> +	slot->orig_addr = orig_addr;
-> +	slot->alloc_size = alloc_size;
-> +	slot->page = dma_direct_alloc_pages(dev, PAGE_ALIGN(alloc_size),
-> +					    &slot->dma_addr, dir,
-> +					    gfp | __GFP_NOWARN);
-> +	if (!slot->page)
-> +		goto err_free_slot;
 
-Without GFP_NOIO allocations this will deadlock eventually.
+> Otherwise looks good. Thanks for doing this.
+> 
+> BR,
+> 								Pavel
+> -- 
+> People of Russia, stop Putin before his war on Ukraine escalates.
+
+
