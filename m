@@ -2,186 +2,473 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABCE1C76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 11:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8997C761A6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 11:25:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjC1LVo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 07:21:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60716 "EHLO
+        id S232715AbjC1LZw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 07:25:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231833AbjC1LVl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 07:21:41 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E186EB1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 04:21:39 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id ek18so48147946edb.6
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 04:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680002498;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U0zoscBlvTHjjRLwzqsmHVflR54yqyBJXWRu4DbHXfo=;
-        b=XtXJ51p1c5JDwQyfHP2EKx1Qz42375Mks7R9KstgVvtV2PRPZcANgVeDO7XXqdA9h5
-         PSgbZezCFSem+O67TiS5EfewoERX2rxMVCyE8Eq69KHdw+pOdP+sqypLdjMjuBu8sCb2
-         ss+mnNHN4+Awx20ymc19Vo+AJVQ8rzEM4Pa/bhgJafT4QLhHKLCdYSGdqKnj+4D2NwH/
-         AxJvAl6aCarlLqtCkE6Xzfa2agU3gwz5hIJwfY0WFLcnK/8sAFZEdWuvfDLXF9W+NQhC
-         oaizRHasHtIHiH6xv319gD3rkrY46DKW2CjVwharOR3iJBISKkuzhl/Kxy0XVuseapiA
-         e8Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680002498;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U0zoscBlvTHjjRLwzqsmHVflR54yqyBJXWRu4DbHXfo=;
-        b=U6EY62S2qzQe7U6+iZ2IuyZtyQRmfBewbJA0SEXvBLspX0xr56OwjI4vzZzcCcob8b
-         /3bKMdWKpJM0qRKAGKxBei9QafT4iAp9NpJahJYlAKCbA7Ky1yee8eBSPKeKT9orrvMb
-         xATDH4C7nyDMRo4A60OqpI+MY8SCyZ3ELJG0tjCI+U4qA6+xT96pi5SzdS6Nk++k/A8d
-         9XmRC9i5Getwuv36GMMtB9kxlJ2kUi5MqB0mIYRrqmJ+Ba8dxqjwv/eYka83SCLVJivi
-         bIvICP2Or7G2W0HQ0vMf4STOSy+6gQQlY5tDurYl06UvYTXW8DZDc2xhx1yj1F2kFbrI
-         Arkw==
-X-Gm-Message-State: AAQBX9es9cCTAydJRPBEoZ2YaSNnBBXRIjqwi8RoU1bvmF+xA9bKjw8q
-        ojPLGTyp1s0W4+jnyzu79tyzEw==
-X-Google-Smtp-Source: AKy350bhS8sE1Git1AtlRiQDnYdFsSNHAsm/FNF0ywmE0CYXHD1GHyeP1JMP0ltV2FR9TFbU782THg==
-X-Received: by 2002:a17:906:f6cd:b0:92f:b8d0:746c with SMTP id jo13-20020a170906f6cd00b0092fb8d0746cmr15259029ejb.20.1680002497988;
-        Tue, 28 Mar 2023 04:21:37 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:9e92:dca6:241d:71b6? ([2a02:810d:15c0:828:9e92:dca6:241d:71b6])
-        by smtp.gmail.com with ESMTPSA id k24-20020a50ce58000000b004fc9e462743sm15608623edj.91.2023.03.28.04.21.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Mar 2023 04:21:37 -0700 (PDT)
-Message-ID: <f69d7b3a-6b30-5f30-9e72-7197a3a62a2c@linaro.org>
-Date:   Tue, 28 Mar 2023 13:21:36 +0200
+        with ESMTP id S229924AbjC1LZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 07:25:51 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F1310FA;
+        Tue, 28 Mar 2023 04:25:49 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32SA99GG007100;
+        Tue, 28 Mar 2023 11:25:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=kexBljKoaawGx32jq9mJFVDnYWTiZuoLaayyrO3ZhRU=;
+ b=fgz+SPn/yq13aga3nM8NXN7D6pezVuoEMZN4gM8VbXb8uqMLefSGWQVqBmoNpNkxFtcP
+ AvQPKgnu8vThShL++WgQe9ZE60g/6QIjCJKJgttKmiTdyMoto6PU0doOdIWfDw/SeMob
+ j8l8+E+5qLekccZ3J5crZfuq5SD2A6+bwY0lRvbZ6kGLQq8lz992/oFlLPh3z5KjuubH
+ mtNlqM6Y+LIZadVIVMqRDLtRNgVeGP8kZT2vzChb6P6qoyK4cb2pqMPV2t4uO0yMKUJE
+ B2dPNgzFG7utzxSt+hrl8MMqmB6Z/ii9+sTwL3VhXcePYCWR9p3mi5UTzQKOhaAXkuZi WQ== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pkby4assn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Mar 2023 11:25:28 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32SBPRU1018209
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Mar 2023 11:25:27 GMT
+Received: from [10.233.17.245] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 28 Mar
+ 2023 04:25:19 -0700
+Message-ID: <19028b1a-d167-07d9-59d4-a8446f2330d6@quicinc.com>
+Date:   Tue, 28 Mar 2023 19:25:16 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
+Subject: Re: [PATCH v2 1/3] Coresight: Add coresight dummy driver
 Content-Language: en-US
-To:     Julien Panis <jpanis@baylibre.com>, lee@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com
-Cc:     eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, davem@davemloft.net,
-        christian.koenig@amd.com, contact@emersion.fr,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
-        eblanc@baylibre.com, jneanne@baylibre.com
-References: <20230327154101.211732-1-jpanis@baylibre.com>
- <20230327154101.211732-2-jpanis@baylibre.com>
- <a0c18c3a-4f9e-f491-582f-8d3ca56ec26f@linaro.org>
- <75f0a18d-aed9-8610-2925-4e604b4b0241@baylibre.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <75f0a18d-aed9-8610-2925-4e604b4b0241@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Mike Leach <mike.leach@linaro.org>
+CC:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        "Yuanfang Zhang" <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20230324061608.33609-1-quic_hazha@quicinc.com>
+ <20230324061608.33609-2-quic_hazha@quicinc.com>
+ <CAJ9a7VgAJ25CCGwwdfs2DXKaKYoA-BUQAdyZt5udm4qJf9ZQrA@mail.gmail.com>
+ <0faff427-1f01-8783-9585-32dca872fe45@quicinc.com>
+ <883c72a4-0c72-fd08-1b04-577037138b43@arm.com>
+ <9fcc59cf-c76e-8cee-d232-830b31e35060@quicinc.com>
+ <CAJ9a7Vj7L1wbc2iad-Tbf+2d_t5z-GpN7WEff0_FupVZVRNymA@mail.gmail.com>
+From:   Hao Zhang <quic_hazha@quicinc.com>
+In-Reply-To: <CAJ9a7Vj7L1wbc2iad-Tbf+2d_t5z-GpN7WEff0_FupVZVRNymA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: UWs79-9lgK6WVlTCIIBKrmtR2VRKOUy4
+X-Proofpoint-GUID: UWs79-9lgK6WVlTCIIBKrmtR2VRKOUy4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-28_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303280093
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/03/2023 12:45, Julien Panis wrote:
+Hi Mike,
+
+On 3/28/2023 6:06 PM, Mike Leach wrote:
+> Hi,
 > 
+> A few additional comments....
 > 
-> On 3/28/23 08:51, Krzysztof Kozlowski wrote:
->> On 27/03/2023 17:40, Julien Panis wrote:
->>> TPS6594 is a Power Management IC which provides regulators and others
->>> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->>> PFSM (Pre-configurable Finite State Machine) managing the state of the
->>> device.
->>> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+> On Tue, 28 Mar 2023 at 10:24, Hao Zhang <quic_hazha@quicinc.com> wrote:
+>>
+>> Hi Suzuki,
+>>
+>> On 3/28/2023 4:35 PM, Suzuki K Poulose wrote:
+>>> On 28/03/2023 08:22, Hao Zhang wrote:
+>>>> Hi Mike,
+>>>>
+>>>> On 3/27/2023 11:58 PM, Mike Leach wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Fri, 24 Mar 2023 at 06:16, Hao Zhang <quic_hazha@quicinc.com> wrote:
+>>>>>>
+>>>>>> Some Coresight devices that HLOS don't have permission to access
+>>>>>> or configure. Such as Coresight sink EUD, some TPDMs etc. So there
+>>>>>> need driver to register dummy devices as Coresight devices. Provide
+>>>>>> Coresight API for dummy device operations, such as enabling and
+>>>>>> disabling dummy devices. Build the Coresight path for dummy sink or
+>>>>>> dummy source for debugging.
+>>>>>>
+>>>>>> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+>>>>>> ---
+>>>>>>    drivers/hwtracing/coresight/Kconfig           |  11 ++
+>>>>>>    drivers/hwtracing/coresight/Makefile          |   1 +
+>>>>>>    drivers/hwtracing/coresight/coresight-dummy.c | 176
+>>>>>> ++++++++++++++++++
+>>>>>>    3 files changed, 188 insertions(+)
+>>>>>>    create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>>
+>>>>>> diff --git a/drivers/hwtracing/coresight/Kconfig
+>>>>>> b/drivers/hwtracing/coresight/Kconfig
+>>>>>> index 2b5bbfffbc4f..06f0a7594169 100644
+>>>>>> --- a/drivers/hwtracing/coresight/Kconfig
+>>>>>> +++ b/drivers/hwtracing/coresight/Kconfig
+>>>>>> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
+>>>>>>
+>>>>>>             To compile this driver as a module, choose M here: the
+>>>>>> module will be
+>>>>>>             called coresight-tpda.
+>>>>>> +
+>>>>>> +config CORESIGHT_DUMMY
+>>>>>> +       tristate "Dummy driver support"
+>>>>>> +       help
+>>>>>> +         Enables support for dummy driver. Dummy driver can be used
+>>>>>> for
+>>>>>> +         CoreSight sources/sinks that are owned and configured by some
+>>>>>> +         other subsystem and use Linux drivers to configure rest of
+>>>>>> trace
+>>>>>> +         path.
+>>>>>> +
+>>>>>> +         To compile this driver as a module, choose M here: the
+>>>>>> module will be
+>>>>>> +         called coresight-dummy.
+>>>>>>    endif
+>>>>>> diff --git a/drivers/hwtracing/coresight/Makefile
+>>>>>> b/drivers/hwtracing/coresight/Makefile
+>>>>>> index 33bcc3f7b8ae..995d3b2c76df 100644
+>>>>>> --- a/drivers/hwtracing/coresight/Makefile
+>>>>>> +++ b/drivers/hwtracing/coresight/Makefile
+>>>>>> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
+>>>>>>    coresight-cti-y := coresight-cti-core.o coresight-cti-platform.o \
+>>>>>>                      coresight-cti-sysfs.o
+>>>>>>    obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
+>>>>>> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
+>>>>>> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>> b/drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..2d4eb3e546eb
+>>>>>> --- /dev/null
+>>>>>> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
+>>>>>> @@ -0,0 +1,176 @@
+>>>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>>>> +/*
+>>>>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights
+>>>>>> reserved.
+>>>>>> + */
+>>>>>> +
+>>>>>> +#include <linux/kernel.h>
+>>>>>> +#include <linux/module.h>
+>>>>>> +#include <linux/platform_device.h>
+>>>>>> +#include <linux/coresight.h>
+>>>>>> +#include <linux/of.h>
+>>>>>> +#include <linux/pm_runtime.h>
+>>>>>> +
+>>>>>> +#include "coresight-priv.h"
+>>>>>> +#include "coresight-trace-id.h"
+>>>>>> +
+>>>>>> +struct dummy_drvdata {
+>>>>>> +       struct device                   *dev;
+>>>>>> +       struct coresight_device         *csdev;
+>>>>>> +       int                             traceid;
+>>>>>> +};
+>>>>>> +
+>>>>>> +DEFINE_CORESIGHT_DEVLIST(dummy_devs, "dummy");
+>>>>>> +
+> 
+> minor nit: can we have dummy_source and dummy_sink as the device names
+> to make it clear at the first level what these are without having to
+> look at the attributes?
+> 
+
+This is a good advice, dummy_source and dummy_sink are two different 
+components, so it's better to separate it at the first level. I will 
+take your advice in the next version of patch.
+
+>>>>>> +static int dummy_source_enable(struct coresight_device *csdev,
+>>>>>> +                              struct perf_event *event, u32 mode)
+>>>>>> +{
+>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>> +
+>>>>>> +       dev_info(drvdata->dev, "Dummy source enabled\n");
+>>>>>> +
+>>>>>> +       return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void dummy_source_disable(struct coresight_device *csdev,
+>>>>>> +                                struct perf_event *event)
+>>>>>> +{
+>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>> +
+>>>>>> +       dev_info(drvdata->dev, "Dummy source disabled\n");
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
+>>>>>> +                               void *data)
+>>>>>> +{
+>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>> +
+>>>>>> +       dev_info(drvdata->dev, "Dummy sink enabled\n");
+>>>>>> +
+>>>>>> +       return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int dummy_sink_disable(struct coresight_device *csdev)
+>>>>>> +{
+>>>>>> +       struct dummy_drvdata *drvdata =
+>>>>>> dev_get_drvdata(csdev->dev.parent);
+>>>>>> +
+>>>>>> +       dev_info(drvdata->dev, "Dummy sink disabled\n");
+>>>>>> +
+>>>>>> +       return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static const struct coresight_ops_source dummy_source_ops = {
+>>>>>> +       .enable         = dummy_source_enable,
+>>>>>> +       .disable        = dummy_source_disable,
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct coresight_ops_sink dummy_sink_ops = {
+>>>>>> +       .enable         = dummy_sink_enable,
+>>>>>> +       .disable        = dummy_sink_disable,
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct coresight_ops dummy_cs_ops = {
+>>>>>> +       .source_ops     = &dummy_source_ops,
+>>>>>> +       .sink_ops       = &dummy_sink_ops,
+>>>>>> +};
+>>>>>> +
+>>>>>> +static int dummy_probe(struct platform_device *pdev)
+>>>>>> +{
+>>>>>> +       int ret, trace_id;
+>>>>>> +       struct device *dev = &pdev->dev;
+>>>>>> +       struct coresight_platform_data *pdata;
+>>>>>> +       struct dummy_drvdata *drvdata;
+>>>>>> +       struct coresight_desc desc = { 0 };
+>>>>>> +
+>>>>>> +       desc.name = coresight_alloc_device_name(&dummy_devs, dev);
+>>>>>> +       if (!desc.name)
+>>>>>> +               return -ENOMEM;
+>>>>>> +
+>>>>>> +       pdata = coresight_get_platform_data(dev);
+>>>>>> +       if (IS_ERR(pdata))
+>>>>>> +               return PTR_ERR(pdata);
+>>>>>> +       pdev->dev.platform_data = pdata;
+>>>>>> +
+>>>>>> +       drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
+>>>>>> +       if (!drvdata)
+>>>>>> +               return -ENOMEM;
+>>>>>> +
+>>>>>> +       drvdata->dev = &pdev->dev;
+>>>>>> +       platform_set_drvdata(pdev, drvdata);
+>>>>>> +
+>>>>>> +       if (of_property_read_bool(pdev->dev.of_node,
+>>>>>> "qcom,dummy-source")) {
+>>>>>> +               desc.type = CORESIGHT_DEV_TYPE_SOURCE;
+>>>>>> +               desc.subtype.source_subtype =
+>>>>>> + CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
+>>>>>> +       } else if (of_property_read_bool(pdev->dev.of_node,
+>>>>>> +                                        "qcom,dummy-sink")) {
+> 
+> It would simplify things if the compatibles were
+> arm,coresight-dummy-source and arm,coresight-dummy-sink - and drop the
+> two additional attributes, using of_device_is_compatible() here.
+> 
+
+Yes, I will update it in the next version of patch.
+
+>>>>>> +               desc.type = CORESIGHT_DEV_TYPE_SINK;
+>>>>>> +               desc.subtype.sink_subtype =
+>>>>>> CORESIGHT_DEV_SUBTYPE_SINK_BUFFER;
+>>>>>
+>>>>> This will break the automatic sink selection on a system where perf is
+>>>>> looking for a default sink and the dummy sink is closest  / first
+>>>>> discovered.
+>>>>>
+>>>>> i.e. when perf record -e cs_etm// <options>
+>>>>> is used to trace a program in linux, a dummy sink appearing in the
+>>>>> coresight tree with this designation may be selected.
+>>>>>
+>>>>> This needs to be corrected, probably with a unique sub-type that
+>>>>> appears before the CORESIGHT_DEV_SUBTYPE_SINK_BUFFER value in the enum
+>>>>> as the selection is based on >= CORESIGHT_DEV_SUBTYPE_SINK_BUFFER.
+>>>>>
 >>>
->>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
->>> ---
->>>   .../devicetree/bindings/mfd/ti,tps6594.yaml   | 231 ++++++++++++++++++
->>>   1 file changed, 231 insertions(+)
->>>   create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>> Good point Mike.
 >>>
->>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>> new file mode 100644
->>> index 000000000000..4498e6361b34
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>> @@ -0,0 +1,231 @@
->>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: TI TPS6594 Power Management Integrated Circuit
->>> +
->>> +maintainers:
->>> +  - Julien Panis <jpanis@baylibre.com>
->>> +
->>> +description:
->>> +  TPS6594 is a Power Management IC which provides regulators and others
->>> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->>> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
->>> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->> LP8764X? Compatible says LP8764.
+>>>>> By implication adding a new value - will possibly affect other code
+>>>>> using the enum values so will need to be checked
+>>>>>
+>>>>> Regards
+>>>>>
+>>>>> Mike
+>>>>>
+>>>>
+>>>> Thanks for your comments, I will add a new sub-type for dummy sink and
+>>>> check the impact of it.
+>>>
+>>> Please keep this as the lowest priority, something like:
+>>>
+>>>    enum coresight_dev_subtype_sink {
+>>> +    CORESIGHT_DEV_SUBTYPE_SINK_DUMMY,
+>>>           CORESIGHT_DEV_SUBTYPE_SINK_PORT,
+>>>           CORESIGHT_DEV_SUBTYPE_SINK_BUFFER,
+>>>           CORESIGHT_DEV_SUBTYPE_SINK_SYSMEM,
+>>>           CORESIGHT_DEV_SUBTYPE_SINK_PERCPU_SYSMEM,
+>>> };
+>>>
+>>> This should be fine without any impact on the existing code, as we
+>>> expect the driver modules to be updated with the new core module.
+>>>
+>>> Suzuki
+>>>
 >>
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - ti,lp8764
->> It's confusing. If x was wildcard, didn't you remove part of model name?
+>> Sure, I will take your advice in the next version of patch.
+>>
+>> Thanks,
+>> Hao
+>>
+>>>
+>>>>
+>>>> Thanks,
+>>>> Hao
+>>>>
+>>>>>
+>>>>>> +       } else {
+>>>>>> +               dev_info(dev, "Device type not set\n");
+>>>>>> +               return -EINVAL;
+>>>>>> +       }
+>>>>>> +
+>>>>>> +       desc.ops = &dummy_cs_ops;
+>>>>>> +       desc.pdata = pdev->dev.platform_data;
+>>>>>> +       desc.dev = &pdev->dev;
+>>>>>> +       drvdata->csdev = coresight_register(&desc);
+>>>>>> +       if (IS_ERR(drvdata->csdev))
+>>>>>> +               return PTR_ERR(drvdata->csdev);
+>>>>>> +
+>>>>>> +       trace_id = coresight_trace_id_get_system_id();
+>>>>>> +       if (trace_id < 0) {
+>>>>>> +               ret = trace_id;
+>>>>>> +               goto cs_unregister;
+>>>>>> +       }
+>>>>>> +       drvdata->traceid = (u8)trace_id;
+>>>>>> +
 > 
-> OK, I will remove 'X' from model name in v5.
+> Number of issues here:-
+> 1) Why are sinks being given a trace ID? - they do not need them.
+> 2) how is the trace ID communicated to the underlying hardware system?
+> - there appears to be no way of doing this here. Without this you
+> cannot guarantee that there will not be clashes.
+> Although your use case may mitigate against this - for this to be a
+> generic module there must be a way to ensure the IDs can be discovered
+> externally.
+> 3) Trace IDs are a limited resource - most sources allocate on enable,
+> release on disable  / reset - this would be preferable.
+> 
+> 
+> Regards
+> 
+> Mike
 
-There is no x in compatible. What is (are) the model name(s)?
+1. It should not be given a trace ID for sink, I will correct it in the 
+next version of patch.
+2. There are other patches to transmit the trace ID to sub-processor. 
+But We have an upstream dependency on QMI project. We will sync with 
+them for the other related patches.
+3. The trace ID of dummy source need to be communicated to the 
+sub-processor, it's better to be allocated on probe, that would reduce 
+communications costs. On the other hand, there will be few dummy 
+sources. I'd perfer to allocate it on probe function.
+
+Thanks,
+Hao
 
 > 
->>
->>
->>> +      - ti,tps6593
->>> +      - ti,tps6594
-
-(...)
-
->>> +
->>> +  rtc:
->>> +    type: object
->>> +    description: RTC provided by this controller.
->>> +    $ref: /schemas/rtc/rtc.yaml#
->> I doubt that you can have here any RTC and any watchdog (below). This
->> should be specific binding instead. Or list of compatibles if you have 3
->> or more possible bindings.
->>
->> Additionally, judging by your DTS you do not have any resources in rtc
->> and watchdog, so these should not be nodes by themself in such case.
+>>>>>> +       pm_runtime_enable(dev);
+>>>>>> +       dev_info(dev, "Dummy device initialized\n");
+>>>>>> +
+>>>>>> +       return 0;
+>>>>>> +
+>>>>>> +cs_unregister:
+>>>>>> +       coresight_unregister(drvdata->csdev);
+>>>>>> +
+>>>>>> +       return ret;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int dummy_remove(struct platform_device *pdev)
+>>>>>> +{
+>>>>>> +       struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
+>>>>>> +       struct device *dev = &pdev->dev;
+>>>>>> +
+>>>>>> +       coresight_trace_id_put_system_id(drvdata->traceid);
+>>>>>> +       pm_runtime_disable(dev);
+>>>>>> +       coresight_unregister(drvdata->csdev);
+>>>>>> +       return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static const struct of_device_id dummy_match[] = {
+>>>>>> +       {.compatible = "qcom,coresight-dummy"},
+>>>>>> +       {},
+>>>>>> +};
+>>>>>> +
+>>>>>> +static struct platform_driver dummy_driver = {
+>>>>>> +       .probe  = dummy_probe,
+>>>>>> +       .remove = dummy_remove,
+>>>>>> +       .driver = {
+>>>>>> +               .name   = "coresight-dummy",
+>>>>>> +               .of_match_table = dummy_match,
+>>>>>> +       },
+>>>>>> +};
+>>>>>> +
+>>>>>> +static int __init dummy_init(void)
+>>>>>> +{
+>>>>>> +       return platform_driver_register(&dummy_driver);
+>>>>>> +}
+>>>>>> +module_init(dummy_init);
+>>>>>> +
+>>>>>> +static void __exit dummy_exit(void)
+>>>>>> +{
+>>>>>> +       platform_driver_unregister(&dummy_driver);
+>>>>>> +}
+>>>>>> +module_exit(dummy_exit);
+>>>>>> +
+>>>>>> +MODULE_LICENSE("GPL");
+>>>>>> +MODULE_DESCRIPTION("CoreSight dummy source driver");
+>>>>>> --
+>>>>>> 2.17.1
+>>>>>>
+>>>>>
+>>>>>
+>>>
 > 
-> It seems that I can't figure out what you and Rob mean by saying that
-> "binding must be complete" and that "RTC and watchdog may or may not
-> need binding changes".
-> What does "specific binding" mean ?
-
-Specific means not loose, not generic, precise with some accurate
-properties.
-
-> Should we add some specific property
-> for RTC/WDG provided by the PMIC ?
-
-You know ask me to know what is in your device. I don't know. You should
-know.
-
-> Should we write another yaml for both
-> of them ? 
-
-Depends. Pretty often yes, but think what do you want to put there?
-
-> Why shouldn't they use the generic rtc/watchdog yaml ? 
-
-There are no properties in these nodes, so you do not need nodes. Or if
-you have properties then you need specific binding, not generic one.
-
-> I don't
-> understand why they would need some "binding changes". Any example
-> I could refer to ? (I might have not looked at the relevant ones for my case
-> before sending this v4)
-
-git grep $ref | grep rtc.yaml
-
-
-Best regards,
-Krzysztof
-
+> 
+> 
