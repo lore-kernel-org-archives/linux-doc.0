@@ -2,90 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57917C76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 08:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 789ECC76195
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 08:46:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbjC1Iiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 04:38:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59768 "EHLO
+        id S229747AbjC1Iqo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 04:46:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjC1Iiu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 04:38:50 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84D42D56;
-        Tue, 28 Mar 2023 01:38:49 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id kc4so10939857plb.10;
-        Tue, 28 Mar 2023 01:38:49 -0700 (PDT)
+        with ESMTP id S230210AbjC1Iqn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 04:46:43 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A472F524C;
+        Tue, 28 Mar 2023 01:46:30 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id w4so10955138plg.9;
+        Tue, 28 Mar 2023 01:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679992729;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1679993190;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ek4wwWcw4/B0a6zXzV51G3MRMlsrfWVAEVpyRGfV3lI=;
-        b=UtA+nZmVoGiio2bZg/lji5B6rvaxqnprehkzxkOOibnCOvwSJIE642RvOvu+e71xie
-         86uzd+EpRaWVDCtIBsdUSPXwTdJLGHChr3qM1lB9n7HyhDd9v7tTOi4eq+IYlkC9HaUV
-         R0BLxchxkWtNDIqURx0AKV4Jhmf5Qix+DBKJOKPIn08feJYcwaI1lw2Z9C9j+Hvp7Gsa
-         kzJEyCWfyU6MvyQtAgWZqlcxXMUhHqm0hHCHfcMtDACvUxDAlWSkPGn8yi4EbBE4Iceq
-         XPrF7WxmYh0TY7EHLdIDJZNdYGCdQeKTnLKFyE7jnYvyVHDou42V9FaKwVr5JnzupUU9
-         QNaA==
+        bh=anp81GhSwwfkIe9qRl4obfvPoMEkj3qI5//q6ZmwU98=;
+        b=h6q8HgqeugDXNBggTwPjAWSMtpVQk3+hF/pHqompFziz3vbq0t3kevehsFC4HOhQ/3
+         rzWN2lqejUoDJPnYaF4stkOIpjZiIMmVszz7nki7LxGSctzAchUQ7l3KBctYEIx/K/Tb
+         5S5WVdL87rA+yB4U8IB7lqKm/AwaDGlWxJhQZ0igFTr3NwWHPPkTNn40du+Ei8GqHNwi
+         ImwyojHIiK8AQYYVMh7fRiLnC/xsZ7xgNonD2SDTmh9GssW8nCOPT+VktdFY+bGhixXO
+         r9yM7UKurmw+cnd6H3hd9HhGUvuN0lPjS0EsPLCNiECCdUrcFvM/BTPWrpzSYgRAZ7sA
+         uiYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679992729;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1679993190;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ek4wwWcw4/B0a6zXzV51G3MRMlsrfWVAEVpyRGfV3lI=;
-        b=QnCkouQuC+Waomm8xyUHWgez3fNhBj6XyWyUAVSAfzBagHygVoomA8fjQJBiCBEVNJ
-         4XtaT0DazQgsJ5xOdDWHgrSCZZv6fGkXoJflvSYq1IXYW8vGbhPmEeITCxXhPZtE0pnl
-         YDXv6yFuzSZ0C1tj3ccFCQSBr2UWfJsxBQroUcvfTAc+lZGMjzvPpYK3dCGK0drxPJ0t
-         M6qCQs6hmLCpt9pGWkWRq6PL3wrXKASi7M9ZHkQiysfwvrTQ4ofsreFv57zEz/pWTNrY
-         uXSOXacaOXcPNRDT72uU3RCFZIkptoErPbpKgNMhPLl8rtknkl6SoH5f4+/DCjKUEWmo
-         IRTQ==
-X-Gm-Message-State: AAQBX9cdCz68POHbG1lX158JcpqR48JwX88SnMg/RZ6CVmFBmWXb1O6i
-        7O8h+YrMR6fqWLPScWoDXrcyjcS2HvU=
-X-Google-Smtp-Source: AKy350ZnGEQ+5E3+SPiIDZ4cWS2uSdx4He3At9d9x32kn/po3nwmR/BfBSPGkJRsUiyij9HDHFpqFw==
-X-Received: by 2002:a17:903:2343:b0:1a1:ee8c:eef8 with SMTP id c3-20020a170903234300b001a1ee8ceef8mr18297671plh.2.1679992729260;
-        Tue, 28 Mar 2023 01:38:49 -0700 (PDT)
+        bh=anp81GhSwwfkIe9qRl4obfvPoMEkj3qI5//q6ZmwU98=;
+        b=NFSdHuS0CFWcJqv8GW0kNvPDEdHeFbH2iqm51Lzvy91uEpa8WvZchUnvSqML9AEZLQ
+         W3NfESbT7GMQrz4dJDiGsrYVROrLw8gIy6Bxw8nmCVa+DNl9EwKCb235VQKrXO3cC6PH
+         aUFZ7j9CJnVFWOnfHMNiWRYqmcWZv0HRo4hxs7ftc13Oxhnm/WIyOhXkaor1WfCv4s61
+         5N/AT94G/qSk36fdZZ0xYvsL4ViEtVU+ssATwz39FZhkPYcmgqfGA4TzppmL2JBSqDU9
+         6o9OSXoJORQnJ8GfasD4KmzJo5sbNUHOM6fcqjwDG/3ikqa4PQl95vEzmaR+LkrX5vVf
+         EaNQ==
+X-Gm-Message-State: AAQBX9fHXT3L1DCE0JDoTjIYc+CKy2FaWe1cnEYfbgNCqbGpWcidi00g
+        beVMJqrSCel1HwKbCxDLeRk=
+X-Google-Smtp-Source: AKy350aqqXGol9gD5pZ2W3ssxNhqfCa1AUPzyc1cfQuPVuc7/uCkjv54W1yMu1SHYR+Yw8txB5YVbw==
+X-Received: by 2002:a17:90b:3907:b0:237:d59d:5f89 with SMTP id ob7-20020a17090b390700b00237d59d5f89mr17350646pjb.4.1679993189826;
+        Tue, 28 Mar 2023 01:46:29 -0700 (PDT)
 Received: from [192.168.43.80] (subs32-116-206-28-54.three.co.id. [116.206.28.54])
-        by smtp.gmail.com with ESMTPSA id l9-20020a170902d34900b001a064282b11sm20578064plk.151.2023.03.28.01.38.46
+        by smtp.gmail.com with ESMTPSA id g11-20020a17090a640b00b0024095afa776sm1436313pjj.20.2023.03.28.01.46.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Mar 2023 01:38:48 -0700 (PDT)
-Message-ID: <355309ce-3b3b-9d1b-6b4e-5e867bba920a@gmail.com>
-Date:   Tue, 28 Mar 2023 15:38:44 +0700
+        Tue, 28 Mar 2023 01:46:29 -0700 (PDT)
+Message-ID: <05a6e961-b1a3-cdb2-6baf-ec0559185a5f@gmail.com>
+Date:   Tue, 28 Mar 2023 15:46:23 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH net-next v5 6/7] docs: netlink: document struct support
- for genetlink-legacy
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     corbet@lwn.net, davem@davemloft.net, donald.hunter@gmail.com,
-        donald.hunter@redhat.com, edumazet@google.com, kuba@kernel.org,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        pabeni@redhat.com
-References: <ZCGPy+90DsRpsicj@debian.me>
- <a1d0d61c-d6e9-aee6-fe67-e35f42b76a04@gmail.com>
+Subject: Re: [PATCH v1] Documentation: Add document for false sharing
 Content-Language: en-US
+To:     Feng Tang <feng.tang@intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Shakeel Butt <shakeelb@google.com>, dave.hansen@intel.com,
+        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com
+References: <20230324071316.167337-1-feng.tang@intel.com>
+ <ZB2baIDIPhxj5Vdl@debian.me> <ZCDl1o16eZDx1HW1@feng-clx>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <a1d0d61c-d6e9-aee6-fe67-e35f42b76a04@gmail.com>
+In-Reply-To: <ZCDl1o16eZDx1HW1@feng-clx>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/27/23 21:39, Akira Yokosawa wrote:
->> Nit: The indentation for code-block codes should be relative to
->> code-block:: declaration (e.g. if it starts from column 4, the first
->> column of code is also at 4).
+On 3/27/23 07:39, Feng Tang wrote:
+> Hi Bagas Sanjaya,
 > 
-> Hey Bagas,
+> Many thanks for the reviews!
 > 
-> I don't believe there is any such restriction. :-\
-> Where did you find it ?
+> On Fri, Mar 24, 2023 at 07:45:28PM +0700, Bagas Sanjaya wrote:
+>> On Fri, Mar 24, 2023 at 03:13:16PM +0800, Feng Tang wrote:
+>>> +There are many real-world cases of performance regressions caused by
+>>> +false sharing, and one is a rw_semaphore 'mmap_lock' inside struct
+>> "... . One of these is rw_semaphore 'mmap_lock' ..."
+> 
+> OK, will use this.
+> 
+>> But I think in English we commonly name things as "foobar struct"
+>> instead of "struct foobar" (that is, common noun follow the proper noun
+>> that names something).
+> 
+> I can change that. And IIRC, I saw 'struct XXX' and 'XXX struct' both
+> frequently used in kernel. I just run '# git log | grep -w struct'
+> and the majority use 'struct XXX'
+> 
+>>> +* A global datum accessed (shared) by many CPUs
+>> Global data?
+> 
+> In RFC version, I used 'data' and Randy suggested 'datum'. TBH, I 
+> looked it up in a dictionary :),  and found:
+> 	"Data" is the Latin plural form of "datum"
 > 
 
-This current doc renders well (no warnings), but personally I found
-that aligning codes in the code-block:: is aesthetically better
-in my eyes (I expect the leading spaces as margin).
+OK, I understand.
+
+>>> +  #perf c2c record -ag sleep 3
+>>> +  #perf c2c report --call-graph none -k vmlinux
+>>
+>> Are these commands really run as root?
+> 
+> You are right, people can run it as 'root' or a normal user. And I
+> guess this won't confuse kernel developers.
+> 
+> My original version is kind of too long and full of explainations,
+> and some kernel developer suggested that this doc is under
+> 'kernel-hacking' and its audience is kernel developers, and I should
+> make it clear and short, and not make it look like a wiki page or
+> man page.
+> 
+
+So something like below, right?
+
+```
+$ perf <command> <args>...
+$ perf <command> <args>...
+```
+
+>>> +* Replace 'write' with 'read' when possible, especially in loops.
+>>> +  Like for some global variable, use compare(read)-then-write instead
+>>> +  of unconditional write. For example, use:
+>> "... For example, write::"
+> 
+> The following is a coding pattern (for bit operation, atomic, etc.),
+> and I think 'use' may also be good?
+> 
+
+I tend to say "write" when the context is typing code.
+
+>>> +
+>>> +	if (!test_bit(XXX))
+>>> +		set_bit(XXX);
+>>> +
+>>> +  instead of directly "set_bit(XXX);", similarly for atomic_t data.
+>>> +
+>>> +  Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() multithreaded CPU false sharing")
+>>> +  Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
+>>> +
+>>> +* Turn hot global data to 'per-cpu data + global data' when possible,
+>>> +  or reasonably increase the threshold for syncing per-cpu data to
+>>> +  global data, to reduce or postpone the 'write' to that global data.
+>>> +
+>>> +  Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cache hits/misses")
+>>> +  Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm overcommit policy")
+>>
+>> IMO it's odd to jump to specifying example commits without some sort of
+>> conjuction (e.g. "for example, see commit <commit>").
+> 
+> I agree, and I had the same concern, but I was also afraid of that
+> too many repeating of this, so the previous 
+> "Following 'mitigation' section provides real-world examples." 
+> in last section (which you helped to improve) was added trying
+> to address this.
+> 
+
+OK.
+
+And see you in v2!
 
 -- 
 An old man doll... just what I always wanted! - Clara
