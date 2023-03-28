@@ -2,102 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC46AC76195
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Mar 2023 19:19:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 628D9C761A6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 01:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232725AbjC0TTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Mar 2023 15:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44588 "EHLO
+        id S232354AbjC1BqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Mar 2023 21:46:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbjC0TTW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 15:19:22 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139C1FF;
-        Mon, 27 Mar 2023 12:19:21 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id x15so8674388pjk.2;
-        Mon, 27 Mar 2023 12:19:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679944760;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cEkusteTCwDKEBTVV3xCwC/kfjYPRfGUw+a3FX5ZwvQ=;
-        b=VnMzSKRHkGQ2F/1Qlw8a1//zhs7+0iNWB2nGlemtBy84Ho48i/cq1Hobv6NM96R+As
-         4gyZ6BZTmXOGaJhdpgRtci1kjrgXsPypn9ENPuGKjmAPxd80GPkWJA108NLSeISHFjPI
-         3zinFav0jBjl9Rk1fvHIcBsrbJx1ws2gH3w4KNjFHgyymCm2OpoCgL7pUGpYfE00/PoH
-         Naifw8HjeekgmNMW9+SMaX4hMok2vY6IjJyExkvHTi7JWrccVjn+QWzUa1sHjfFMAieH
-         D23CMPUEL+eAQLKud4oHIUEQHjbCskl+AQkWuRZQfJ15jFIklGUyzAKZefO+ctZCyXSq
-         4Pzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679944760;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cEkusteTCwDKEBTVV3xCwC/kfjYPRfGUw+a3FX5ZwvQ=;
-        b=ymg9vvTAOblxVeFWpSjiwf4e6OIHsqFFAB1T5YjcAjfLAfTPmcwZCDyD2XhQv/VhKn
-         pHblsqFGvRHOZm8PKnGkyIoOANyq/1z19bS5yatsAvI061b6+91SPYXRPuwNDpYnWG7h
-         lE6wVc3AOoBR6inUBgJ5l1H12wRWhtHbXUlTcqHBDPC/rEUm7Iek+4gC279loilqUK7L
-         mRCGcw0mDOkuYG/Nm2Hmp9xE3TtRJ48YQg5mGrjdpFj3Be6U57UyYgWfcpQl/P9divcO
-         s+sGNVylniEMGyKSv/OjE83dkUcYfWxB+mgFc66hLjD6TpwLDyLaP4bKxn5lumvhZJMj
-         WopQ==
-X-Gm-Message-State: AAQBX9fJsaNVNzS9jJU49xRMAw6qaom9d+2FYIvec2vca9vWi4KOy2NG
-        3krofGPzgJHimaABKV/mjJKB6zdnvZ4=
-X-Google-Smtp-Source: AKy350Y1d7IcYtthJ5wrpgwsqCrUj3040jTnkKRMa1iUXhp3SBw6zzkp8EfejSdE9+zdinFv4DQQcQ==
-X-Received: by 2002:a17:90a:c402:b0:234:656d:2366 with SMTP id i2-20020a17090ac40200b00234656d2366mr14314177pjt.42.1679944760470;
-        Mon, 27 Mar 2023 12:19:20 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id ce19-20020a17090aff1300b002367325203fsm4743777pjb.50.2023.03.27.12.19.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Mar 2023 12:19:19 -0700 (PDT)
-Message-ID: <7975a642-965b-81c7-d0e7-21e499b152ea@gmail.com>
-Date:   Mon, 27 Mar 2023 12:19:14 -0700
+        with ESMTP id S230156AbjC1Bp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Mar 2023 21:45:59 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 801271BCD;
+        Mon, 27 Mar 2023 18:45:57 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32RNMXeU030957;
+        Tue, 28 Mar 2023 01:45:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NVqOR9PCgqZAIwWDr1ktOZBwWzDpzUHb7zx6m33Yw64=;
+ b=GQ5XHLxSje7Lk6mPzUZXjl3yB1USrYBQC7XDhBUiZ7Za5okLKv1iKXWAxY0BngQMWbyU
+ 25zongN3NNhe8Jt16J4XzPXzpv9daJ9VTTTuuoMK6EmdBjUGpviBuLUPW/ACf2iLmXwi
+ IpKnaD1hRedSSuepWbEzYZbz5Z6lIwK06pSWmBq7NjWXO/p2cKXCj/LaXbSTxheNnLlQ
+ KXHx4CvzaKyB1Trmn+Il+YvTMcAGHmpxz+JM+BPEo9OASpXAERofSaj14X2mdkc87Zr2
+ 8WjRrW6DhQqCY8pD7UsimseFUhQ1bYIL6ZqAPiRX0wTBWikRHdidyCsjiwK08ivypIYe lQ== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pkby49j4p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Mar 2023 01:45:39 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32S1jcN7029325
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Mar 2023 01:45:38 GMT
+Received: from [10.233.17.245] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 27 Mar
+ 2023 18:45:30 -0700
+Message-ID: <4abcf829-5265-d8ed-05a4-e3259068ad51@quicinc.com>
+Date:   Tue, 28 Mar 2023 09:45:28 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH net-next] docs: netdev: clarify the need to sending
- reverts as patches
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 3/3] Documentation: trace: Add documentation for
+ Coresight Dummy Trace
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20230324061608.33609-1-quic_hazha@quicinc.com>
+ <20230324061608.33609-4-quic_hazha@quicinc.com> <ZCFeJkkpIor5P28r@kroah.com>
 Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20230327172646.2622943-1-kuba@kernel.org>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230327172646.2622943-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Hao Zhang <quic_hazha@quicinc.com>
+In-Reply-To: <ZCFeJkkpIor5P28r@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: DZya5-LtyXjXxFnWoKDxk3ifvAVdMTO9
+X-Proofpoint-GUID: DZya5-LtyXjXxFnWoKDxk3ifvAVdMTO9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 mlxlogscore=991 mlxscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303280011
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/27/23 10:26, Jakub Kicinski wrote:
-> We don't state explicitly that reverts need to be submitted
-> as a patch. It occasionally comes up.
+Hi Greg,
+
+On 3/27/2023 5:13 PM, Greg Kroah-Hartman wrote:
+> On Fri, Mar 24, 2023 at 02:16:08PM +0800, Hao Zhang wrote:
+>> Add documentation for Coresight Dummy Trace under trace/coresight.
+>>
+>> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+>> ---
+>>   .../trace/coresight/coresight-dummy.rst       | 58 +++++++++++++++++++
+>>   1 file changed, 58 insertions(+)
+>>   create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
+>>
+>> diff --git a/Documentation/trace/coresight/coresight-dummy.rst b/Documentation/trace/coresight/coresight-dummy.rst
+>> new file mode 100644
+>> index 000000000000..819cabab8623
+>> --- /dev/null
+>> +++ b/Documentation/trace/coresight/coresight-dummy.rst
+>> @@ -0,0 +1,58 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +=============================
+>> +Coresight Dummy Trace Module
+>> +=============================
+>> +
+>> +    :Author:   Hao Zhang <quic_hazha@quicinc.com>
+>> +    :Date:     March 2023
+>> +
+>> +Introduction
+>> +---------------------------
+>> +
+>> +Coresight Dummy Trace Module is for the specific devices that HLOS don't
+>> +have permission to access or configure. Such as Coresight sink EUD, some
+>> +TPDMs etc. So there need driver to register dummy devices as Coresight
+>> +devices. Provide Coresight API for dummy device operations, such as
+>> +enabling and disabling dummy devices. Build the Coresight path for dummy
+>> +sink or dummy source for debugging.
+>> +
+>> +Sysfs files and directories
+>> +---------------------------
+>> +
+>> +Root: ``/sys/bus/coresight/devices/dummy<N>``
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: corbet@lwn.net
-> CC: linux-doc@vger.kernel.org
-> ---
->   Documentation/process/maintainer-netdev.rst | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
+> sysfs files are documented in Documentation/ABI/ not in random .rst
+> files, sorry.  Please use the correct format described there, not a
+> random one like this :)
 > 
-> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index e31d7a951073..f6983563ff06 100644
-> --- a/Documentation/process/maintainer-netdev.rst
-> +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -184,11 +184,18 @@ Handling misapplied patches
->   
->   Occasionally a patch series gets applied before receiving critical feedback,
->   or the wrong version of a series gets applied.
-> -There is no revert possible, once it is pushed out, it stays like that.
-> +
-> +Making the patch disappear once it is pushed out is not possible, the commit
-> +history in netdev trees is stable.
+> thanks,
+> 
+> greg k-h
 
-I would write immutable instead of stable here to convey the idea that 
-there are no history rewrites once the tree is pushed out. With that:
+Thanks for your review, I will correct the format in the next version of 
+patch.
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
-
+Thanks,
+Hao
