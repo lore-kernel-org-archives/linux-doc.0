@@ -2,355 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E59EC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 06:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 413DCC76195
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 07:22:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbjC1Gvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 02:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
+        id S230185AbjC1HV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 03:21:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbjC1Gvu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 02:51:50 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D5510F1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 23:51:47 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id er13so4455519edb.9
-        for <linux-doc@vger.kernel.org>; Mon, 27 Mar 2023 23:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679986306;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P5ai3EYkM1htB+W2lgmdBChBKino/fBN7wu+IJkBf/M=;
-        b=UdYFGK8Dsy6fjsiSr2VmZApUCTVc7n/Y7v34yCmBKrS1PLukfe7pGEgv7MhluBi/An
-         G+UHnXkv6q60byOEn0pHRqbuXZZIx4pGDVsXSQ40BHM24Oc5/R0QIfuz9iwITKtBvARH
-         bRNTH/DlAq6tg/JrHNdev5Zj9OheXfnOJH0o6HaRokVQC0fdTIC2tc6i2sbVBCvBQ574
-         gKI7ByrO1j5fySExohKe9lliLWFFVUXTHpK7tXvxrgGA78EX6isva64UKOp3VOUZY0Rc
-         7DleNtk8PA0A8ZVlhPC9h7yoytkZoXQ+nQbM5WRcT6LBhxlk7WymmI/y797PCxFOXSIl
-         2RLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679986306;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P5ai3EYkM1htB+W2lgmdBChBKino/fBN7wu+IJkBf/M=;
-        b=pBX6bTO8MzLSUgy8BJPTfMYRJawuBOLEX7WoQ+2dffdXQttAQVKfYK/MsSGNyvjPgO
-         wrS43R5mOljDOvR8oCvAtJYxTR/RvdPSXjNPS8RK8xMRfwpz2rss/viXNBJyKBR00y5T
-         EHDJc09eVWY04Fs0VOaCW7O6GykUVtwP71P6R51WncJBE5zu2I8kfCLQH+CzzUwBB3CU
-         iWUSvamOIqFGzppHI0r3QgkCjaouafCwCCjWDMvVwg8h3LoPg+l0O00VrRRq0QC5Pg6x
-         eF8aFbYayVArj8CDkX9sGxT+hPXlPt6qFfytnhCFVgqvH64/qaoLhzCq4JFHiqNmnVN3
-         X3Tg==
-X-Gm-Message-State: AAQBX9dSKKSFtEDS0ndFUnAU/1i04tigRjI+eMspVOs4VPaMZj+1gWnM
-        c4BxnS+a7+bMwTUQ3LCh/Czs+g==
-X-Google-Smtp-Source: AKy350Zzo4VoLlBwYgn25E5+Q22AB3MpaPFtNJQGeySHsRKY+0thqa7kSW05eNBCmVcs1f1ALHSbOw==
-X-Received: by 2002:a05:6402:1110:b0:500:50f6:dd33 with SMTP id u16-20020a056402111000b0050050f6dd33mr15366328edv.2.1679986306082;
-        Mon, 27 Mar 2023 23:51:46 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:9e92:dca6:241d:71b6? ([2a02:810d:15c0:828:9e92:dca6:241d:71b6])
-        by smtp.gmail.com with ESMTPSA id y2-20020a50ce02000000b004c0057b478bsm15598870edi.34.2023.03.27.23.51.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Mar 2023 23:51:45 -0700 (PDT)
-Message-ID: <a0c18c3a-4f9e-f491-582f-8d3ca56ec26f@linaro.org>
-Date:   Tue, 28 Mar 2023 08:51:44 +0200
+        with ESMTP id S229684AbjC1HV6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 03:21:58 -0400
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B1A212B;
+        Tue, 28 Mar 2023 00:21:53 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.229])
+        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4Pm18H5MnLz9xHMD;
+        Tue, 28 Mar 2023 15:11:59 +0800 (CST)
+Received: from [10.48.131.174] (unknown [10.48.131.174])
+        by APP2 (Coremail) with SMTP id GxC2BwCXamFplSJkH5LUAQ--.63553S2;
+        Tue, 28 Mar 2023 08:21:23 +0100 (CET)
+Message-ID: <f42723f3-6dda-037d-3dd2-dc60ac0dcc3d@huaweicloud.com>
+Date:   Tue, 28 Mar 2023 09:21:10 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
+From:   Petr Tesarik <petrtesarik@huaweicloud.com>
+Subject: Re: [RFC v1 1/4] dma-mapping: introduce the DMA_ATTR_MAY_SLEEP
+ attribute
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz
+References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
+ <ea0646e0e63380bb8595fbac81c23aeca30feae9.1679309810.git.petr.tesarik.ext@huawei.com>
+ <20230328035725.GA25506@lst.de>
 Content-Language: en-US
-To:     Julien Panis <jpanis@baylibre.com>, lee@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com
-Cc:     eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, davem@davemloft.net,
-        christian.koenig@amd.com, contact@emersion.fr,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
-        eblanc@baylibre.com, jneanne@baylibre.com
-References: <20230327154101.211732-1-jpanis@baylibre.com>
- <20230327154101.211732-2-jpanis@baylibre.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230327154101.211732-2-jpanis@baylibre.com>
+In-Reply-To: <20230328035725.GA25506@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: GxC2BwCXamFplSJkH5LUAQ--.63553S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4fJr1UWFWfCFWrZw4rAFb_yoW8GFyUpF
+        s3tFy7trs8tF4FvasrZw4DZF9Y9a1xJrWru3Wjvwn3urn8uFsFkry2yFW2934DJrnrJ3yS
+        vrZFk345Z34UC37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
+        07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
+        WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
+        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+        7IU13rcDUUUUU==
+X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 27/03/2023 17:40, Julien Panis wrote:
-> TPS6594 is a Power Management IC which provides regulators and others
-> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
-> PFSM (Pre-configurable Finite State Machine) managing the state of the
-> device.
-> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+On 3/28/2023 5:57 AM, Christoph Hellwig wrote:
+> On Mon, Mar 20, 2023 at 01:28:13PM +0100, Petr Tesarik wrote:
+>> From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+>>
+>> Introduce a DMA attribute to tell the DMA-mapping subsystem that
+>> the operation is allowed to sleep.
+>>
+>> This patch merely adds the flag, which is not used for anything at
+>> the moment. It should be used by users who can sleep (e.g. dma-buf
+>> ioctls) to allow page reclaim and/or allocations from CMA.
 > 
-> Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> ---
->  .../devicetree/bindings/mfd/ti,tps6594.yaml   | 231 ++++++++++++++++++
->  1 file changed, 231 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> new file mode 100644
-> index 000000000000..4498e6361b34
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> @@ -0,0 +1,231 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI TPS6594 Power Management Integrated Circuit
-> +
-> +maintainers:
-> +  - Julien Panis <jpanis@baylibre.com>
-> +
-> +description:
-> +  TPS6594 is a Power Management IC which provides regulators and others
-> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
-> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
-> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+> So what drivers would call this?  As-is it doesn't have any users in
+> the series.
 
-LP8764X? Compatible says LP8764.
+Yes, I removed one patch from the RFC series to reduce the Cc list while
+I wasn't sure if the proposal would be considered at all.
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,lp8764
+The full series in my local tree added it to the implementation of
+DRM_IOCTL_PRIME_FD_TO_HANDLE:
 
-It's confusing. If x was wildcard, didn't you remove part of model name?
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index f924b8b4ab6b..f32e12445570 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -635,7 +635,7 @@ struct sg_table *drm_gem_map_dma_buf(struct
+dma_buf_attachment *attach,
+ 		return sgt;
 
+ 	ret = dma_map_sgtable(attach->dev, sgt, dir,
+-			      DMA_ATTR_SKIP_CPU_SYNC);
++			      DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MAY_SLEEP);
+ 	if (ret) {
+ 		sg_free_table(sgt);
+ 		kfree(sgt);
 
-> +      - ti,tps6593
-> +      - ti,tps6594
-> +
-> +  reg:
-> +    description: I2C slave address or SPI chip select number.
-> +    maxItems: 1
-> +
-> +  ti,primary-pmic:
-> +    type: boolean
-> +    description: |
-> +      Identify the primary PMIC on SPMI bus.
-> +      A multi-PMIC synchronization scheme is implemented in the PMIC device
-> +      to synchronize the power state changes with other PMIC devices. This is
-> +      accomplished through a SPMI bus: the primary PMIC is the controller
-> +      device on the SPMI bus, and the secondary PMICs are the target devices
-> +      on the SPMI bus.
-> +
-> +  system-power-controller: true
-> +
-> +  gpio-controller: true
-> +
-> +  '#gpio-cells':
-> +    const: 2
-> +    description: |
-> +      The first cell is the pin number, the second cell is used to specify flags.
-> +      See ../gpio/gpio.txt for more information.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  ti,multi-phase-id:
-> +    description: |
-> +      Describes buck multi-phase configuration, if any. For instance, XY id means
-> +      that outputs of buck converters X and Y are combined in multi-phase mode.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    oneOf:
-> +      - items:
-> +          - const: 12
-> +      - items:
-> +          - const: 34
-> +      - items:
-> +          - const: 12
-> +          - const: 34
-> +      - items:
-> +          - const: 123
-> +      - items:
-> +          - const: 1234
-> +
-> +  regulators:
-> +    type: object
-> +    description: List of regulators provided by this controller.
-> +
-> +    patternProperties:
-> +      "^buck([1-5]|12|34|123|1234)$":
+I also noticed a similar place in udmabuf, but since I don't have a use
+case ATM, I haven't added the flag there (yet).
 
-Why do you need ti,multi-phase-id property at all? Having buck123
-implies ti,multi-phase-id=123.
-
-> +        type: object
-> +        $ref: /schemas/regulator/regulator.yaml#
-> +
-> +        unevaluatedProperties: false
-> +
-> +      "^ldo[1-4]$":
-> +        type: object
-> +        $ref: /schemas/regulator/regulator.yaml#
-> +
-> +        unevaluatedProperties: false
-> +
-> +    allOf:
-> +      - if:
-> +          required:
-> +            - buck12
-> +        then:
-> +          properties:
-> +            buck123: false
-> +            buck1234: false
-> +      - if:
-> +          required:
-> +            - buck123
-> +        then:
-> +          properties:
-> +            buck34: false
-> +      - if:
-> +          required:
-> +            - buck1234
-> +        then:
-> +          properties:
-> +            buck34: false
-> +
-> +    additionalProperties: false
-> +
-> +  rtc:
-> +    type: object
-> +    description: RTC provided by this controller.
-> +    $ref: /schemas/rtc/rtc.yaml#
-
-I doubt that you can have here any RTC and any watchdog (below). This
-should be specific binding instead. Or list of compatibles if you have 3
-or more possible bindings.
-
-Additionally, judging by your DTS you do not have any resources in rtc
-and watchdog, so these should not be nodes by themself in such case.
-
-> +
-> +  watchdog:
-> +    type: object
-> +    description: Watchdog provided by this controller.
-> +    $ref: /schemas/watchdog/watchdog.yaml#
-> +
-> +patternProperties:
-> +  "^buck([1-5]|12|34|123|1234)-supply$":
-> +    description: Input supply phandle for each buck.
-> +
-> +  "^ldo[1-4]-supply$":
-> +    description: Input supply phandle for each ldo.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        tps6593: pmic@48 {
-> +            compatible = "ti,tps6593";
-> +            reg = <0x48>;
-> +            ti,primary-pmic;
-> +            system-power-controller;
-> +
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&pmic_irq_pins_default>;
-> +            interrupt-parent = <&mcu_gpio0>;
-> +            interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
-> +
-> +            ti,multi-phase-id = <123>;
-> +
-> +            buck123-supply = <&vcc_3v3_sys>;
-> +            buck4-supply = <&vcc_3v3_sys>;
-> +            buck5-supply = <&vcc_3v3_sys>;
-> +            ldo1-supply = <&vcc_3v3_sys>;
-> +            ldo2-supply = <&vcc_3v3_sys>;
-> +            ldo3-supply = <&buck5>;
-> +            ldo4-supply = <&vcc_3v3_sys>;
-> +
-> +            regulators {
-> +                buck123: buck123 {
-> +                    regulator-name = "vcc_core";
-> +                    regulator-min-microvolt = <750000>;
-> +                    regulator-max-microvolt = <850000>;
-> +                    regulator-boot-on;
-> +                    regulator-always-on;
-> +                };
-> +
-> +                buck4: buck4 {
-> +                    regulator-name = "vcc_1v1";
-> +                    regulator-min-microvolt = <1100000>;
-> +                    regulator-max-microvolt = <1100000>;
-> +                    regulator-boot-on;
-> +                    regulator-always-on;
-> +                };
-> +
-> +                buck5: buck5 {
-> +                    regulator-name = "vcc_1v8_sys";
-> +                    regulator-min-microvolt = <1800000>;
-> +                    regulator-max-microvolt = <1800000>;
-> +                    regulator-boot-on;
-> +                    regulator-always-on;
-> +                };
-> +
-> +                ldo1: ldo1 {
-> +                    regulator-name = "vddshv5_sdio";
-> +                    regulator-min-microvolt = <3300000>;
-> +                    regulator-max-microvolt = <3300000>;
-> +                    regulator-boot-on;
-> +                    regulator-always-on;
-> +                };
-> +
-> +                ldo2: ldo2 {
-> +                    regulator-name = "vpp_1v8";
-> +                    regulator-min-microvolt = <1800000>;
-> +                    regulator-max-microvolt = <1800000>;
-> +                    regulator-boot-on;
-> +                    regulator-always-on;
-> +                };
-> +
-> +                ldo3: ldo3 {
-> +                    regulator-name = "vcc_0v85";
-> +                    regulator-min-microvolt = <850000>;
-> +                    regulator-max-microvolt = <850000>;
-> +                    regulator-boot-on;
-> +                    regulator-always-on;
-> +                };
-> +
-> +                ldo4: ldo4 {
-> +                    regulator-name = "vdda_1v8";
-> +                    regulator-min-microvolt = <1800000>;
-> +                    regulator-max-microvolt = <1800000>;
-> +                    regulator-boot-on;
-> +                    regulator-always-on;
-> +                };
-> +            };
-> +
-> +            rtc: rtc {
-> +                wakeup-source;
-
-No. We do not create nodes for single property.
-
-
-> +            };
-> +
-> +            watchdog: watchdog {
-> +                timeout-sec = <10>;
-
-Same problem.
-
-
-
-Best regards,
-Krzysztof
+Petr T
 
