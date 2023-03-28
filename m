@@ -2,338 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D501DC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 22:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5962EC76196
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 22:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbjC1Wan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 18:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54778 "EHLO
+        id S229491AbjC1Wxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 18:53:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbjC1Wal (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 18:30:41 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3581210C
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 15:30:39 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id q5so1767123ilg.12
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 15:30:39 -0700 (PDT)
+        with ESMTP id S229525AbjC1Wxk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 18:53:40 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A9FE2134
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 15:53:39 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id c9so7396278lfb.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 15:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680042639;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680044017;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XfrOsOpnqxrdbXw8cTpOjnxBsJ1WSvwEhP/QCOfZvvM=;
-        b=AYZZ+7FN2S0eFfWorKzduUULM2BMIh3SqbYaWQX6KuhcT1YbPyif2xYDrAJ1QT3d2q
-         ISh9i0FHBIN3JXd484BwYdfRQclk8eULgKRL3aXULq3P6MSBckvdnb9HJWzP6EWA2FDH
-         rozer6sKkrIq6+tJurfUip3LB/c3NiS6GffJCbi9kR5ec2aO+CEOqAMi9YMaD4xdJWMJ
-         jiH6G+aUtgNtjTdJQG3eT+o3E5ppNeRe6JWvSGZ+IpaymYbEe6Nf6FbSnzlmhomgGr1c
-         Zc/ulJ/lVkXN3IeCaUfuac3otZVMEnECqaEcpor3aRAlQN6NI2tGOpPy9h6mU2F8/awQ
-         BxqA==
+        bh=qskuMbf/TQUlVl/XQCSzEK2+S7ntNlCiLvuefA3pamM=;
+        b=25yk2ORrLanITla28soBs7miCE+xev3gOhMYTjHwrGodhppl5zmyb5CRsbvTjr70JU
+         ZjO+zCf+xQiNqZfKuR24kdK5V7BHB3Ozhqly3ZCk5gzoQziG5phV7SNdx2yXqFRmLp5U
+         xSrfT+qhWfUOQmnGNm7lNwu3qPo52oIxL+h+lPjgqhZyuvD3bLjWqqVyTTNwU311KZVs
+         y5KgGCVVgnW7N/CBLQay0BwL8p/ZoN7GMg71rJngVtTq5ha1EC2v+ateu0Kmn7g/m2Zt
+         MUMcWrip+u5PEbh/eXSeRl/+NO0lDCzY732wMzRFlJD4+79AHGQQbWm7jTXeby5erbho
+         Gt7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680042639;
+        d=1e100.net; s=20210112; t=1680044017;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XfrOsOpnqxrdbXw8cTpOjnxBsJ1WSvwEhP/QCOfZvvM=;
-        b=ZLPRurPoC9We6eQcbGKf/744zuFJVCgri7SIavX9MuNZqJE+j6Uho8dYDv7IypAlt1
-         5RiCkOpD/Mt2dwZga3N7LzxPqXrNMehP86Rqs1rEuOHQCKjE5q+lR2ca5TcyUH5QuPHr
-         XuoG2D8zsGV4QJP3J9FfMIBtD/4jfK4sy7NZEFXL9+SayvaA4ArZikqWKplANlyMR6qN
-         4tEEKnjSdOPXUwHJgg5BEF9NGAE6QrGj+O29Cp7nFeWjaoOB8WWyAE0CZcWe1SzyC2SA
-         01fDsMG+ly0vDOJ+eyH01eQAkfD0+4e9O7gAWVO9H70CFF4L6Y1VyyzkgOcFth7X6dpl
-         WTbQ==
-X-Gm-Message-State: AAQBX9f9ccJeiiVhWYB316nbxfWnoBuG51HliJBR0UTrkjjIT/mZMZYk
-        cMS1rLvaT8NBKHEnjqRgcLTJjDiM88sVfTAotFqqmA==
-X-Google-Smtp-Source: AKy350ZK5IyYA9Wk4KwHRYcFlwgupqb8zlGkiiXMerP6RT7ZRB3sqFXY2PYSe7FENYWQkdqCH95ry1OfFmMXvph6qq4=
-X-Received: by 2002:a05:6e02:218d:b0:322:fd25:872c with SMTP id
- j13-20020a056e02218d00b00322fd25872cmr9145652ila.2.1680042638741; Tue, 28 Mar
- 2023 15:30:38 -0700 (PDT)
+        bh=qskuMbf/TQUlVl/XQCSzEK2+S7ntNlCiLvuefA3pamM=;
+        b=WyQQNx7nG5GukgQCo0U3oW7zz8QWHgzUd77o94uOezGwbXwJqSWaPHWl+qYzTUzmGy
+         dH52NojVO40CZpFY0Vnn/10VN6bwAR/Qtamt5LrfgtQDaj1HzEJI7gFfyS13a+cNjpGB
+         Cn+oTdyJz1BwO2+B4z7kVb1KtnV2637MYnHHDDaznVVlML7ZB5661FhXI/wL7RvytE9T
+         XISmwkGd0lSG66MOcbKnptG91EU/noXgHf4T1VSGAkB05Ou/FCgHX21o2AUmKg9TNVaF
+         ZIRj9JGqp9ub3kJg0EEPnUxpBRoaxCVD3jpY47Zv2OnxG2/oGz/Y/564I84b2DDTG47i
+         rUiA==
+X-Gm-Message-State: AAQBX9ddv2QmEjPBlVgKRSZBybmmbAzE+y0zghv2oq/zPIXnpm2smJYE
+        gcaDHLLp3aYsIFkziweLVHVENBo28lQdjctK0f1w/Q==
+X-Google-Smtp-Source: AKy350Yx95yz3SiP8gB4VeUZ8/yo/xmapgiAWvd2H9O92Pk195cpVNYCvypmY6+6pn/77BmE4p+eUJhYJ8k+JbbEMqM=
+X-Received: by 2002:a19:a401:0:b0:4d8:1c0e:bfc7 with SMTP id
+ q1-20020a19a401000000b004d81c0ebfc7mr4984994lfc.13.1680044017285; Tue, 28 Mar
+ 2023 15:53:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230328195925.94495-1-nbd@nbd.name>
-In-Reply-To: <20230328195925.94495-1-nbd@nbd.name>
-From:   Eric Dumazet <edumazet@google.com>
-Date:   Wed, 29 Mar 2023 00:30:27 +0200
-Message-ID: <CANn89iJ1-xSmTXbfhhiBxFE5cH=o4QWQdguWZUuSs8fehbOC=A@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] net/core: add optional threading for backlog processing
-To:     Felix Fietkau <nbd@nbd.name>
-Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <20230327163203.2918455-1-evan@rivosinc.com> <8238271.NyiUUSuA9g@diego>
+In-Reply-To: <8238271.NyiUUSuA9g@diego>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Tue, 28 Mar 2023 15:53:01 -0700
+Message-ID: <CALs-Hsu58iOrxKKKu-rQBszz3F--657G-zipBu5zZCxzPWRPWw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] RISC-V Hardware Probing User Interface
+To:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>, slewis@rivosinc.com,
+        vineetg@rivosinc.com, Conor Dooley <conor@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Atish Patra <atishp@rivosinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Xu <peterx@redhat.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 9:59=E2=80=AFPM Felix Fietkau <nbd@nbd.name> wrote:
+On Tue, Mar 28, 2023 at 1:35=E2=80=AFPM Heiko St=C3=BCbner <heiko@sntech.de=
+> wrote:
 >
-> When dealing with few flows or an imbalance on CPU utilization, static RP=
-S
-> CPU assignment can be too inflexible. Add support for enabling threaded N=
-API
-> for backlog processing in order to allow the scheduler to better balance
-> processing. This helps better spread the load across idle CPUs.
+> Am Montag, 27. M=C3=A4rz 2023, 18:31:57 CEST schrieb Evan Green:
+> >
+> > There's been a bunch of off-list discussions about this, including at
+> > Plumbers.  The original plan was to do something involving providing an
+> > ISA string to userspace, but ISA strings just aren't sufficient for a
+> > stable ABI any more: in order to parse an ISA string users need the
+> > version of the specifications that the string is written to, the versio=
+n
+> > of each extension (sometimes at a finer granularity than the RISC-V
+> > releases/versions encode), and the expected use case for the ISA string
+> > (ie, is it a U-mode or M-mode string).  That's a lot of complexity to
+> > try and keep ABI compatible and it's probably going to continue to grow=
+,
+> > as even if there's no more complexity in the specifications we'll have
+> > to deal with the various ISA string parsing oddities that end up all
+> > over userspace.
+> >
+> > Instead this patch set takes a very different approach and provides a s=
+et
+> > of key/value pairs that encode various bits about the system.  The big
+> > advantage here is that we can clearly define what these mean so we can
+> > ensure ABI stability, but it also allows us to encode information that'=
+s
+> > unlikely to ever appear in an ISA string (see the misaligned access
+> > performance, for example).  The resulting interface looks a lot like
+> > what arm64 and x86 do, and will hopefully fit well into something like
+> > ACPI in the future.
+> >
+> > The actual user interface is a syscall, with a vDSO function in front o=
+f
+> > it. The vDSO function can answer some queries without a syscall at all,
+> > and falls back to the syscall for cases it doesn't have answers to.
+> > Currently we prepopulate it with an array of answers for all keys and
+> > a CPU set of "all CPUs". This can be adjusted as necessary to provide
+> > fast answers to the most common queries.
+> >
+> > An example series in glibc exposing this syscall and using it in an
+> > ifunc selector for memcpy can be found at [1]. I'm about to send a v2
+> > of that series out that incorporates the vDSO function.
+> >
+> > I was asked about the performance delta between this and something like
+> > sysfs. I created a small test program [2] and ran it on a Nezha D1
+> > Allwinner board. Doing each operation 100000 times and dividing, these
+> > operations take the following amount of time:
+> >  - open()+read()+close() of /sys/kernel/cpu_byteorder: 3.8us
+> >  - access("/sys/kernel/cpu_byteorder", R_OK): 1.3us
+> >  - riscv_hwprobe() vDSO and syscall: .0094us
+> >  - riscv_hwprobe() vDSO with no syscall: 0.0091us
 >
-> Signed-off-by: Felix Fietkau <nbd@nbd.name>
-> ---
-> v2:
->  - initialize sd->backlog.poll_list in order fix switching backlogs to th=
-readed
->    that have not been scheduled before
-> PATCH:
->  - add missing process_queue_empty initialization
->  - fix kthread leak
->  - add documentation
-> RFC v3:
->  - make patch more generic, applies to backlog processing in general
->  - fix process queue access on flush
-> RFC v2:
->  - fix rebase error in rps locking
->  Documentation/admin-guide/sysctl/net.rst |  9 +++
->  Documentation/networking/scaling.rst     | 20 ++++++
->  include/linux/netdevice.h                |  2 +
->  net/core/dev.c                           | 83 ++++++++++++++++++++++--
->  net/core/sysctl_net_core.c               | 27 ++++++++
->  5 files changed, 136 insertions(+), 5 deletions(-)
+> Looks like this series spawned a thread on one of the riscv-lists [0].
 >
-> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/adm=
-in-guide/sysctl/net.rst
-> index 466c560b0c30..6d037633a52f 100644
-> --- a/Documentation/admin-guide/sysctl/net.rst
-> +++ b/Documentation/admin-guide/sysctl/net.rst
-> @@ -47,6 +47,15 @@ Table : Subdirectories in /proc/sys/net
->  1. /proc/sys/net/core - Network core options
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> +backlog_threaded
-> +----------------
-> +
-> +This offloads processing of backlog (input packets steered by RPS, or
-> +queued because the kernel is receiving more than it can handle on the
-> +incoming CPU) to threads (one for each CPU) instead of processing them
-> +in softirq context. This can improve load balancing by allowing the
-> +scheduler to better spread the load across idle CPUs.
-> +
->  bpf_jit_enable
->  --------------
->
-> diff --git a/Documentation/networking/scaling.rst b/Documentation/network=
-ing/scaling.rst
-> index 3d435caa3ef2..ded6fc713304 100644
-> --- a/Documentation/networking/scaling.rst
-> +++ b/Documentation/networking/scaling.rst
-> @@ -244,6 +244,26 @@ Setting net.core.netdev_max_backlog to either 1000 o=
-r 10000
->  performed well in experiments.
->
->
-> +Threaded Backlog
-> +~~~~~~~~~~~~~~~~
-> +
-> +When dealing with few flows or an imbalance on CPU utilization, static
-> +RPS CPU assignment can be too inflexible. Making backlog processing
-> +threaded can improve load balancing by allowing the scheduler to spread
-> +the load across idle CPUs.
-> +
-> +
-> +Suggested Configuration
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +If you have CPUs fully utilized with network processing, you can enable
-> +threaded backlog processing by setting /proc/sys/net/core/backlog_thread=
-ed
-> +to 1. Afterwards, RPS CPU configuration bits no longer refer to CPU
-> +numbers, but to backlog threads named napi/backlog-<n>.
-> +If necessary, you can change the CPU affinity of these threads to limit
-> +them to specific CPU cores.
-> +
-> +
->  RFS: Receive Flow Steering
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
->
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index 18a5be6ddd0f..953876cb0e92 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -527,6 +527,7 @@ static inline bool napi_complete(struct napi_struct *=
-n)
->  }
->
->  int dev_set_threaded(struct net_device *dev, bool threaded);
-> +int backlog_set_threaded(bool threaded);
->
->  /**
->   *     napi_disable - prevent NAPI from scheduling
-> @@ -3217,6 +3218,7 @@ struct softnet_data {
->         unsigned int            cpu;
->         unsigned int            input_queue_tail;
->  #endif
-> +       unsigned int            process_queue_empty;
+> As auxvals were mentioned in that thread, I was wondering what's the
+> difference between doing a new syscall vs. putting the keys + values as
+> architecture auxvec elements [1] ?
 
-Hmmm... probably better close to input_queue_head, to share a
-dedicated cache line already dirtied
-with input_queue_head_incr()
+The auxvec approach would also work. The primary difference is that
+auxvec bits are actively copied into every new process, forever. If
+you predict a slow pace of new bits coming in, the auxvec approach
+probably makes more sense. This series was born out of a prediction
+that this set of "stuff" was going to be larger than traditional
+x86/ARM architectures, fiddly (ie bits possibly representing specific
+versions of various extensions), evolving regularly over time, and
+heterogeneous between cores. With that sort of rubber band ball in
+mind, a key/value interface seemed to make more sense.
 
-I also think we could avoid adding this new field.
-
-Use instead input_queue_head, latching its value in void
-flush_backlog() and adding sd->process_queue length ?
-
-Then waiting for (s32)(input_queue_head - latch) >=3D 0 ?
-
-
->                         /*
->                          * Inline a custom version of __napi_complete().
-> -                        * only current cpu owns and manipulates this nap=
-i,
-> -                        * and NAPI_STATE_SCHED is the only possible flag=
- set
-> -                        * on backlog.
-> +                        * only current cpu owns and manipulates this nap=
-i.
->                          * We can use a plain write instead of clear_bit(=
-),
->                          * and we dont need an smp_mb() memory barrier.
->                          */
-> -                       napi->state =3D 0;
-> +                       napi->state &=3D ~(NAPIF_STATE_SCHED |
-> +                                        NAPIF_STATE_SCHED_THREADED);
->                         again =3D false;
->                 } else {
->                         skb_queue_splice_tail_init(&sd->input_pkt_queue,
-> @@ -6350,6 +6370,55 @@ int dev_set_threaded(struct net_device *dev, bool =
-threaded)
->  }
->  EXPORT_SYMBOL(dev_set_threaded);
->
-> +int backlog_set_threaded(bool threaded)
-> +{
-> +       static bool backlog_threaded;
-> +       int err =3D 0;
-> +       int i;
-> +
-> +       if (backlog_threaded =3D=3D threaded)
-> +               return 0;
-> +
-> +       for_each_possible_cpu(i) {
-> +               struct softnet_data *sd =3D &per_cpu(softnet_data, i);
-> +               struct napi_struct *n =3D &sd->backlog;
-> +
-> +               if (n->thread)
-> +                       continue;
-> +               n->thread =3D kthread_run(napi_threaded_poll, n, "napi/ba=
-cklog-%d", i);
-> +               if (IS_ERR(n->thread)) {
-> +                       err =3D PTR_ERR(n->thread);
-> +                       pr_err("kthread_run failed with err %d\n", err);
-> +                       n->thread =3D NULL;
-> +                       threaded =3D false;
-> +                       break;
-> +               }
-> +
-> +       }
-> +
-> +       backlog_threaded =3D threaded;
-> +
-> +       /* Make sure kthread is created before THREADED bit
-> +        * is set.
-> +        */
-> +       smp_mb__before_atomic();
-> +
-> +       for_each_possible_cpu(i) {
-> +               struct softnet_data *sd =3D &per_cpu(softnet_data, i);
-> +               struct napi_struct *n =3D &sd->backlog;
-> +               unsigned long flags;
-> +
-> +               rps_lock_irqsave(sd, &flags);
-> +               if (threaded)
-> +                       n->state |=3D NAPIF_STATE_THREADED;
-> +               else
-> +                       n->state &=3D ~NAPIF_STATE_THREADED;
-> +               rps_unlock_irq_restore(sd, &flags);
-> +       }
-> +
-> +       return err;
-> +}
-> +
->  void netif_napi_add_weight(struct net_device *dev, struct napi_struct *n=
-api,
->                            int (*poll)(struct napi_struct *, int), int we=
-ight)
->  {
-> @@ -11108,6 +11177,9 @@ static int dev_cpu_dead(unsigned int oldcpu)
->         raise_softirq_irqoff(NET_TX_SOFTIRQ);
->         local_irq_enable();
->
-> +       if (test_bit(NAPI_STATE_THREADED, &oldsd->backlog.state))
-> +               return 0;
-> +
->  #ifdef CONFIG_RPS
->         remsd =3D oldsd->rps_ipi_list;
->         oldsd->rps_ipi_list =3D NULL;
-> @@ -11411,6 +11483,7 @@ static int __init net_dev_init(void)
->                 INIT_CSD(&sd->defer_csd, trigger_rx_softirq, sd);
->                 spin_lock_init(&sd->defer_lock);
->
-> +               INIT_LIST_HEAD(&sd->backlog.poll_list);
->                 init_gro_hash(&sd->backlog);
->                 sd->backlog.poll =3D process_backlog;
->                 sd->backlog.weight =3D weight_p;
-> diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-> index 74842b453407..77114cd0b021 100644
-> --- a/net/core/sysctl_net_core.c
-> +++ b/net/core/sysctl_net_core.c
-> @@ -30,6 +30,7 @@ static int int_3600 =3D 3600;
->  static int min_sndbuf =3D SOCK_MIN_SNDBUF;
->  static int min_rcvbuf =3D SOCK_MIN_RCVBUF;
->  static int max_skb_frags =3D MAX_SKB_FRAGS;
-> +static int backlog_threaded;
->
->  static int net_msg_warn;       /* Unused, but still a sysctl */
->
-> @@ -188,6 +189,23 @@ static int rps_sock_flow_sysctl(struct ctl_table *ta=
-ble, int write,
->  }
->  #endif /* CONFIG_RPS */
->
-> +static int backlog_threaded_sysctl(struct ctl_table *table, int write,
-> +                              void *buffer, size_t *lenp, loff_t *ppos)
-> +{
-> +       static DEFINE_MUTEX(backlog_threaded_mutex);
-> +       int ret;
-> +
-> +       mutex_lock(&backlog_threaded_mutex);
-> +
-> +       ret =3D proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-> +       if (write && !ret)
-> +               ret =3D backlog_set_threaded(backlog_threaded);
-> +
-> +       mutex_unlock(&backlog_threaded_mutex);
-> +
-> +       return ret;
-> +}
-> +
->  #ifdef CONFIG_NET_FLOW_LIMIT
->  static DEFINE_MUTEX(flow_limit_update_mutex);
->
-> @@ -532,6 +550,15 @@ static struct ctl_table net_core_table[] =3D {
->                 .proc_handler   =3D rps_sock_flow_sysctl
->         },
->  #endif
-> +       {
-> +               .procname       =3D "backlog_threaded",
-> +               .data           =3D &backlog_threaded,
-> +               .maxlen         =3D sizeof(unsigned int),
-> +               .mode           =3D 0644,
-> +               .proc_handler   =3D backlog_threaded_sysctl,
-> +               .extra1         =3D SYSCTL_ZERO,
-> +               .extra2         =3D SYSCTL_ONE
-> +       },
->  #ifdef CONFIG_NET_FLOW_LIMIT
->         {
->                 .procname       =3D "flow_limit_cpu_bitmap",
-> --
-> 2.39.0
->
+-Evan
