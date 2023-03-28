@@ -2,126 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C09C76196
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 21:08:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D89D8C6FD18
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Mar 2023 21:36:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbjC1VI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Mar 2023 17:08:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50318 "EHLO
+        id S229729AbjC1Vg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Mar 2023 17:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbjC1VIz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 17:08:55 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF512107
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 14:08:51 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-5456249756bso255052327b3.5
-        for <linux-doc@vger.kernel.org>; Tue, 28 Mar 2023 14:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680037730;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HjM/ZqYn/T7unhyITZnKsFzK8c16l02nzfEEL176xOU=;
-        b=ocoA87DNTSkmHztT5vnke6BiFUYBXc6/lZxINhcigUkk0S1CcjEXgStw7e9Zp88jv+
-         i89diJ/hJM1JqzrRRVhBca1mfW48YWKNSscl5VxNxl/D8BuvFLHWAN4JwAYSOtJsAnvU
-         /hLRstVR0H2yntq3lWpDGRwmwcMZGwMsqstB4dAb+RrozEc4vmQ5viXaNAHQbq7tKKtp
-         bsDDdWbOfanraXHIIKTb/3e2+ED5o30OM1egoRKfHSontwTNP2Ocq5mm+XuTmXg9cwR+
-         7CfkIF9F9SFfzSbUPIN0ev0xFztzmGXuEfR7BLx+g6u52KVj0QwddYgJTyOOUy8WqtJ7
-         MRlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680037730;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HjM/ZqYn/T7unhyITZnKsFzK8c16l02nzfEEL176xOU=;
-        b=JQ6EI/lGQjmzmbeBS17geykpUxvmN1vW1CG9od21N2zLMwzuDOFjpPXb5AvxUn4JXf
-         bfzLFsiK2m5xcPK4CEcHZQPlWz7bdtxfpfSrCADRC6IBFczU661S7ntahd1TiHOUaAmI
-         DQvGtsyPDU50Keun+Bpnh+HSKVedRMx6F/uyQl7MpvRMPqUZEn+igKH973cGu4XKo7Si
-         viFQp3D8cyqEz7Uwuy3+XXpLjfCWQAlv9jvDg2dFlDnwCxW9LVCeFH+nfQwvKaRmwhpi
-         3ATxrfoseoHxSiyaBeHx1Qmv5GeTRMp+80ikXrVT/JFGizPSAurqYDVXvDo/3//x3zsB
-         9QoA==
-X-Gm-Message-State: AAQBX9fiJD/5VJvsNUO3qP7Wejz3Pl7iSOHJjOIjNlFK4scA5YwTYNq4
-        vYTk4ewsflVmefZuucKOjV/EvexksP0Lq8OeRUDHIw==
-X-Google-Smtp-Source: AKy350ZLcUn0YW0dPW8RrTZpH1OlJLUgV7pk23eKHtHIEBdLUfe+SXlC99rlPRcKPdL9i7z5gyFajqvtscRGyxF3v54=
-X-Received: by 2002:a81:a908:0:b0:545:7164:49ac with SMTP id
- g8-20020a81a908000000b00545716449acmr7922856ywh.5.1680037730422; Tue, 28 Mar
- 2023 14:08:50 -0700 (PDT)
+        with ESMTP id S229555AbjC1Vg4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Mar 2023 17:36:56 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 263ED26BE;
+        Tue, 28 Mar 2023 14:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680039416; x=1711575416;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=lRUDa9QZQb0fXRVcvHKDEfHg8a2PZVa5X7ucZyjCT30=;
+  b=Z+dtVwNP4mFnIWP6WhNN23LsHkxdihkHjHsjHXJwZ/TOZgNcyL7rxGFA
+   n1+2MN0ASbKDguIk9LdeVpNhw5ggI4hq2xmA1Xxm2fv2bwtN9aIqaNeKw
+   4lXlMIhOSO1fdAUKw2uc4q5WQ4qJmKfN+styqGcAJKRJJBE4heZMpD0i4
+   srMf3sTlnJ3VKD5BcDoUfyECIBR0dvkdgpM4rs4R5SFfphoXZPLzYDfYx
+   EWLElmvPwluyPumGY8WywYitLIAIUthti8UgiEGr0yhvL3LAUQfAy5YCz
+   fikeNYYYR6QxkRCUAIe/WaMdp0+z2Y5s6/C4OU6MA9Oc2eioU0KwEtVFR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403313675"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="403313675"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 14:36:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="748539872"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="748539872"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.24.100.114])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 14:36:54 -0700
+Date:   Tue, 28 Mar 2023 14:40:57 -0700
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, Will Deacon <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>, jacob.jun.pan@linux.intel.com
+Subject: Re: [PATCH v8 0/7] Remove VT-d virtual command interface and IOASID
+Message-ID: <20230328144057.73ce8565@jacob-builder>
+In-Reply-To: <ZBxl3FgN/m2Qus7V@nvidia.com>
+References: <20230322200803.869130-1-jacob.jun.pan@linux.intel.com>
+        <ZBxl3FgN/m2Qus7V@nvidia.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230316225915.494688-1-rmoar@google.com> <CAGS_qxp2u3F4abmYgN+XwCG8CJN37NSqWSC===SWLCjZG8HYBw@mail.gmail.com>
-In-Reply-To: <CAGS_qxp2u3F4abmYgN+XwCG8CJN37NSqWSC===SWLCjZG8HYBw@mail.gmail.com>
-From:   Rae Moar <rmoar@google.com>
-Date:   Tue, 28 Mar 2023 17:08:38 -0400
-Message-ID: <CA+GJov4F+Vjw2gFj=YTYEoZ5wmy774xE5+aDQv55BKQE3VZo1g@mail.gmail.com>
-Subject: Re: [KTAP V2 PATCH] ktap_v2: add recognized test name line
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     frowand.list@gmail.com, davidgow@google.com,
-        skhan@linuxfoundation.org, keescook@chromium.org,
-        Tim.Bird@sony.com, brendanhiggins@google.com, corbet@lwn.net,
-        guillaume.tucker@collabora.com, kernelci@lists.linux.dev,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 3:21=E2=80=AFPM 'Daniel Latypov' via KUnit Developm=
-ent
-<kunit-dev@googlegroups.com> wrote:
->
-> On Thu, Mar 16, 2023 at 3:59=E2=80=AFPM Rae Moar <rmoar@google.com> wrote=
-:
-> >
-> > Add recognition of the test name line ("# Subtest: <name>") to the KTAP=
- v2
-> > spec.
-> >
-> > The purpose of this line is to declare the name of a test before its
-> > results. This functionality is especially useful when trying to parse t=
-est
-> > results incrementally and when interpretting results after a crash.
-> >
-> > This line is already compliant with KTAP v1 as it is interpretted as a
->
-> minor nit for if there's a v2, s/interprett/interpret (here and above)
->
+Hi Joerg et al,
 
-Oops. Thanks for catching this. I will change this for a v2. Unsure
-why I repeated the typo twice.
+Just wondering if there are any other comments? Should i spin another
+version to include Reviewed-by tags from Kevin?
 
-> Also, I want to elaborate on the previous paragraph a bit more, in
-> case the motivation isn't clear.
-> The problem with TAP and KTAP as-is is that the name of a test case is
-> only known *after* it completes.
->
-> So the scenario being referred to is
->
-> KTAP version 1
-> 1..1
-> <lots of output>
-> <kernel crash, no more output>
->
-> It would be nice if parsers could report "test FOO caused a crash" as
-> opposed to "the first test case caused a crash, good luck figuring out
-> which one that was"
->
+I have a patchset below depends on this one.
 
-Yes, this is exactly what I think is the largest benefit of a line to
-define the test name pre-results. Thanks for expanding. I will likely
-add in some of this explanation into the commit message for v2.
+https://lore.kernel.org/linux-iommu/20230327232138.1490712-1-jacob.jun.pan@linux.intel.com/T/#t
+
+Thank you everyone,
+
+Jacob
+
+On Thu, 23 Mar 2023 11:44:44 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> On Wed, Mar 22, 2023 at 01:07:56PM -0700, Jacob Pan wrote:
+> > Hi all,
+> > 
+> > This patch set removes unused VT-d virtual command interface followed by
+> > removal of the IOASID infrastructure.
+> > 
+> > This has only been tested on x86 platforms, need help with testing on
+> > ARM SMMU and other architectures.
+> > 
+> > 
+> > Thanks,
+> > 
+> > Jacob
+> > 
+> > ChangeLog:
+> > v8:
+> >  - remove #ifdef CONFIG_IOMMU_SVA since we have dummy inline functions.
+> >  - fixed a compile bug that affects bisectability  
+> 
+> I think this looks OK now, thanks
+> 
+> Jason
+
 
 Thanks,
 
-Rae
-
-> Daniel
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/kunit-dev/CAGS_qxp2u3F4abmYgN%2BXwCG8CJN37NSqWSC%3D%3D%3DSWLCjZG8HYBw%40m=
-ail.gmail.com.
+Jacob
