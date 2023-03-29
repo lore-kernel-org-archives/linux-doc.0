@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EACCC77B60
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 12:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B2AC6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 12:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229903AbjC2MwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 08:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33772 "EHLO
+        id S229605AbjC2Mya (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 08:54:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbjC2MwP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 08:52:15 -0400
+        with ESMTP id S229436AbjC2My3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 08:54:29 -0400
 Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22635F4;
-        Wed, 29 Mar 2023 05:52:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4A6BA;
+        Wed, 29 Mar 2023 05:54:28 -0700 (PDT)
 Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PmmbV20k2zKwQ9;
-        Wed, 29 Mar 2023 20:49:42 +0800 (CST)
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PmmfC0yY6zKwRQ;
+        Wed, 29 Mar 2023 20:52:03 +0800 (CST)
 Received: from [10.67.102.169] (10.67.102.169) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 29 Mar 2023 20:52:05 +0800
+ 15.1.2507.21; Wed, 29 Mar 2023 20:54:26 +0800
 CC:     <yangyicong@hisilicon.com>, <mathieu.poirier@linaro.org>,
         <suzuki.poulose@arm.com>, <corbet@lwn.net>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
         <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
         <linuxarm@huawei.com>
-Subject: Re: [PATCH 2/4] hwtracing: hisi_ptt: Add support for dynamically
- updating the filter list
+Subject: Re: [PATCH 3/4] hwtracing: hisi_ptt: Export available filters through
+ sysfs
 To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 References: <20230315094316.26772-1-yangyicong@huawei.com>
- <20230315094316.26772-3-yangyicong@huawei.com>
- <20230328175153.00002938@Huawei.com>
+ <20230315094316.26772-4-yangyicong@huawei.com>
+ <20230328180234.00003421@Huawei.com>
 From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <d22fd364-bff3-0ece-ad53-1d6f910f9f52@huawei.com>
-Date:   Wed, 29 Mar 2023 20:52:05 +0800
+Message-ID: <08d5c43f-664c-457f-69a1-c6747bb56637@huawei.com>
+Date:   Wed, 29 Mar 2023 20:54:25 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20230328175153.00002938@Huawei.com>
+In-Reply-To: <20230328180234.00003421@Huawei.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.67.102.169]
@@ -50,134 +50,182 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/3/29 0:51, Jonathan Cameron wrote:
-> On Wed, 15 Mar 2023 17:43:14 +0800
+On 2023/3/29 1:02, Jonathan Cameron wrote:
+> On Wed, 15 Mar 2023 17:43:15 +0800
 > Yicong Yang <yangyicong@huawei.com> wrote:
 > 
 >> From: Yicong Yang <yangyicong@hisilicon.com>
 >>
->> The PCIe devices supported by the PTT trace can be removed/rescanned by
->> hotplug or through sysfs.  Add support for dynamically updating the
->> available filter list by registering a PCI bus notifier block. Then user
->> can always get latest information about available tracing filters and
->> driver can block the invalid filters of which related devices no longer
->> exist in the system.
+>> The PTT can only filter the traced TLP headers by the Root Ports or the
+>> Requester ID of the Endpoint, which are located on the same core of the
+>> PTT device. The filter value used is derived from the BDF number of the
+>> supported Root Port or the Endpoint. It's not friendly enough for the
+>> users since it requires the user to be familiar enough with the platform
+>> and calculate the filter value manually.
+>>
+>> This patch export the available filters through sysfs. Each available
+>> filters is presented as an individual file with the name of the BDF
+>> number of the related PCIe device. The files are created under
+>> $(PTT PMU dir)/available_root_port_filters and
+>> $(PTT PMU dir)/available_requester_filters respectively. The filter
+>> value can be known by reading the related file.
+>>
+>> Then the users can easily know the available filters for trace and get
+>> the filter values without calculating.
 >>
 >> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
->> ---
 > 
-> Just a few trivial comments on this.
+> Trivial comments only inline.
 > 
-> With those tidied up
+> With those answered / tidied up.
+> 
 > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-Thanks for the comment, will fix in next version.
-
 > 
-> 
-> 
-> ...
 > 
 >> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
->> index 0a10c7ec46ad..010cdbc3c172 100644
+>> index 010cdbc3c172..a5cd87edb813 100644
 >> --- a/drivers/hwtracing/ptt/hisi_ptt.c
 >> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
 > 
->> +/*
->> + * A PCI bus notifier is used here for dynamically updating the filter
->> + * list.
->> + */
->> +static int hisi_ptt_notifier_call(struct notifier_block *nb, unsigned long action,
->> +				  void *data)
+> 
+>>
+>> +
+>> +static int hisi_ptt_init_filter_attributes(struct hisi_ptt *hisi_ptt)
 >> +{
->> +	struct hisi_ptt *hisi_ptt = container_of(nb, struct hisi_ptt, hisi_ptt_nb);
->> +	struct hisi_ptt_filter_update_info info;
->> +	struct device *dev = data;
->> +	struct pci_dev *pdev = to_pci_dev(dev);
-> 
-> This local variable doesn't add anything over
-> 
-> 	info.pdev = to_pci_dev(dev);
-> 
-
-ok, will drop it.
-
-> 
-> 
+>> +	struct hisi_ptt_filter_desc *filter;
+>> +	int ret;
 >> +
->> +	info.pdev = pdev;
+>> +	mutex_lock(&hisi_ptt->filter_lock);
 >> +
->> +	switch (action) {
->> +	case BUS_NOTIFY_ADD_DEVICE:
->> +		info.is_add = true;
->> +		break;
->> +	case BUS_NOTIFY_DEL_DEVICE:
->> +		info.is_add = false;
->> +		break;
->> +	default:
->> +		return 0;
+>> +	list_for_each_entry(filter, &hisi_ptt->port_filters, list) {
+>> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
+>> +		if (ret)
+>> +			goto err;
 >> +	}
 >> +
->> +	hisi_ptt_update_fifo_in(hisi_ptt, &info);
+>> +	list_for_each_entry(filter, &hisi_ptt->req_filters, list) {
+>> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
+>> +		if (ret)
+>> +			goto err;
+>> +	}
 >> +
->> +	return 0;
->> +}
+>> +	ret = devm_add_action_or_reset(&hisi_ptt->pdev->dev,
+>> +				       hisi_ptt_remove_all_filter_attributes,
+>> +				       hisi_ptt);
+>> +	if (ret)
+>> +		goto err;
 >> +
+>> +	hisi_ptt->sysfs_inited = true;
 > 
->> diff --git a/drivers/hwtracing/ptt/hisi_ptt.h b/drivers/hwtracing/ptt/hisi_ptt.h
->> index 5beb1648c93a..b1ba638fe7ea 100644
->> --- a/drivers/hwtracing/ptt/hisi_ptt.h
->> +++ b/drivers/hwtracing/ptt/hisi_ptt.h
->> @@ -11,12 +11,15 @@
+> err:
 > 
->>  /**
->>   * struct hisi_ptt_pmu_buf - Descriptor of the AUX buffer of PTT trace
->>   * @length:   size of the AUX buffer
->> @@ -170,10 +188,15 @@ struct hisi_ptt_pmu_buf {
->>   * @lower_bdf:    the lower BDF range of the PCI devices managed by this PTT device
->>   * @port_filters: the filter list of root ports
->>   * @req_filters:  the filter list of requester ID
->> + * @filter_lock:  lock to protect the filters
->>   * @port_mask:    port mask of the managed root ports
->> + * @work:         delayed work for filter updating
->> + * @filter_update_lock: spinlock to protect the filter update fifo
->> + * @filter_update_fifo: fifo of the filters waiting to update the filter list
->>   */
->>  struct hisi_ptt {
->>  	struct hisi_ptt_trace_ctrl trace_ctrl;
->> +	struct notifier_block hisi_ptt_nb;
+>> +	mutex_unlock(&hisi_ptt->filter_lock);
 > 
-> Docs update for this one?
+> 	return ret;
+> 
+> No need for separate exit block when nothing to do but unlock.
 > 
 
-sorry for missing this. will fix.
+ok. will refine here.
+
+>> +	return 0;
+>> +err:
+>> +	mutex_unlock(&hisi_ptt->filter_lock);
+>> +	return ret;
+>> +}
+>> +
+>>  static void hisi_ptt_update_filters(struct work_struct *work)
+>>  {
+>>  	struct delayed_work *delayed_work = to_delayed_work(work);
+>> @@ -384,8 +517,28 @@ static void hisi_ptt_update_filters(struct work_struct *work)
+>>  				continue;
+>>  			}
+>>  
+>> +			filter->name = kstrdup(pci_name(info.pdev), GFP_KERNEL);
+>> +			if (!filter->name) {
+>> +				pci_err(hisi_ptt->pdev, "failed to add filter %s\n",
+>> +					pci_name(info.pdev));
+>> +				kfree(filter);
+>> +				continue;
+>> +			}
+>> +
+>>  			filter->devid = devid;
+>>  			filter->is_port = is_port;
+>> +
+>> +			/*
+>> +			 * If filters' sysfs entries hasn't been initialized, then
+>> +			 * we're still at probe stage and leave it to handled by
+>> +			 * others.
+>> +			 */
+>> +			if (hisi_ptt->sysfs_inited &&
+> 
+> Can we move this sysfs_inited check earlier? Seems silly to leave a simple check
+> like that so late.
+> 
+
+maybe move it into the hisi_ptt_create_filter_attr()? will have a check.
+for here we still need to update filter list even if the hisi_ptt's sysfs is not
+initialized yet.
+
+>> +			    hisi_ptt_create_filter_attr(hisi_ptt, filter)) {
+>> +				kfree(filter);
+>> +				continue;
+>> +			}
+>> +
+>>  			list_add_tail(&filter->list, target_list);
+>>  
+>>  			if (is_port)
+>> @@ -394,6 +547,11 @@ static void hisi_ptt_update_filters(struct work_struct *work)
+>>  			list_for_each_entry(filter, target_list, list)
+>>  				if (filter->devid == devid) {
+>>  					list_del(&filter->list);
+>> +
+>> +					if (hisi_ptt->sysfs_inited)
+>> +						hisi_ptt_remove_filter_attr(hisi_ptt, filter);
+>> +
+>> +					kfree(filter->name);
+>>  					kfree(filter);
+>>  					break;
+>>  				}
+>> @@ -486,10 +644,12 @@ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
+>>  	 * through the log. Other functions of PTT device are still available.
+>>  	 */
+>>  	filter = kzalloc(sizeof(*filter), GFP_KERNEL);
+>> -	if (!filter) {
+>> -		pci_err(hisi_ptt->pdev, "failed to add filter %s\n", pci_name(pdev));
+>> -		return -ENOMEM;
+>> -	}
+>> +	if (!filter)
+>> +		goto err_mem;
+>> +
+>> +	filter->name = kstrdup(pci_name(pdev), GFP_KERNEL);
+>> +	if (!filter->name)
+>> +		goto err_name;
+>>  
+>>  	filter->devid = PCI_DEVID(pdev->bus->number, pdev->devfn);
+>>  
+>> @@ -504,6 +664,11 @@ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
+>>  	}
+>>  
+>>  	return 0;
+>> +err_name:
+>> +	kfree(filter);
+>> +err_mem:
+>> +	pci_err(hisi_ptt->pdev, "failed to add filter %s\n", pci_name(pdev));
+> 
+> I'd rather see a message for each of the error paths so we have some information on why.
+> Original message wasn't great for this obviously and perhaps given they are both allocation
+> errors it's not worth splitting them up.
+> 
+
+ok, will try to split it and make it more verbosely.
 
 Thanks,
 Yicong
 
->>  	struct hlist_node hotplug_node;
->>  	struct pmu hisi_ptt_pmu;
->>  	void __iomem *iobase;
->> @@ -192,7 +215,19 @@ struct hisi_ptt {
->>  	 */
->>  	struct list_head port_filters;
->>  	struct list_head req_filters;
->> +	struct mutex filter_lock;
->>  	u16 port_mask;
->> +
->> +	/*
->> +	 * We use a delayed work here to avoid indefinitely waiting for
->> +	 * the hisi_ptt->mutex which protecting the filter list. The
->> +	 * work will be delayed only if the mutex can not be held,
->> +	 * otherwise no delay will be applied.
->> +	 */
->> +	struct delayed_work work;
->> +	spinlock_t filter_update_lock;
->> +	DECLARE_KFIFO(filter_update_kfifo, struct hisi_ptt_filter_update_info,
->> +		      HISI_PTT_FILTER_UPDATE_FIFO_SIZE);
->>  };
->>  
->>  #define to_hisi_ptt(pmu) container_of(pmu, struct hisi_ptt, hisi_ptt_pmu)
+>> +	return -ENOMEM;
+>>  }
+> 
 > 
 > .
 > 
