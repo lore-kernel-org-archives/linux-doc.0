@@ -2,109 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEC1C761AF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 15:16:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0448C761AF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 15:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230055AbjC2PQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 11:16:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54830 "EHLO
+        id S229898AbjC2PeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 11:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjC2PQr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 11:16:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872211BC1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 08:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680102960;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Yn7L6Gf5Ys1fnh23z7AVkJPW9NwbK9fjx3dyKcciMAc=;
-        b=YowQ6lXfj5RcXccufUwz/b4MWOhexORkja0FVaKuKfrxAPZ+NwgCgUrNsKoB/8m/eay86m
-        UdyuKbzuk9TyVsghnJS3TorIgIIN3W5mr5UlzDFzXb0Eq36Hz8sdKkN1AMTYZO0B9S9snj
-        HYyaqXZYERS5zK1H8E6QmvmFzQtgFeE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-EXRMXSF_PnSmrGoNDhg8iw-1; Wed, 29 Mar 2023 11:15:54 -0400
-X-MC-Unique: EXRMXSF_PnSmrGoNDhg8iw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S230054AbjC2Pd6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 11:33:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0420F49FA;
+        Wed, 29 Mar 2023 08:33:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB7092814247;
-        Wed, 29 Mar 2023 15:15:28 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.161])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 8A94D492C3E;
-        Wed, 29 Mar 2023 15:15:24 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Wed, 29 Mar 2023 17:15:21 +0200 (CEST)
-Date:   Wed, 29 Mar 2023 17:15:16 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gourry.memverge@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-        shuah@kernel.org, catalin.marinas@arm.com, arnd@arndb.de,
-        will@kernel.org, mark.rutland@arm.com, tongtiangen@huawei.com,
-        robin.murphy@arm.com, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
- access_ok
-Message-ID: <20230329151515.GA913@redhat.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9341461D8E;
+        Wed, 29 Mar 2023 15:33:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28112C433D2;
+        Wed, 29 Mar 2023 15:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680104030;
+        bh=IxAbBP9UjglHluPryJjf4M5TDGTVE3KN+oepn4YHf/w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=g0APkOz/qZlNfpr2NCNDI4Pxe00LN4KoAe4O+FwTiY/73aViE1XZUWX9msBX4VEUR
+         p67+BKKQJlNR7Lj+fjdM/ZfVWb7Pr4yAP9i4Rp+Vi8KFRw651xspY0SFOzlqLnxZON
+         zMant2XIebI+d/+eV80EXyK5c1zt8Bnxuvd/ML9bnE7tdAUwkJLJGhGtpTPlaX0s8/
+         oLpETCOSK91MCNujSKsefWxOSoATkQBWOh7cqWCK7bYp7Vct5dDH63jYR1czg6Z6V6
+         ipU59BL2UDAV4M9hPSAlmyAXIQIF562uUKjo0eRIta/o6JPHxAVR3g+JrDcSwIEIwi
+         Yh7SKufVBPXmg==
+Date:   Wed, 29 Mar 2023 16:33:45 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -fixes v2 3/3] riscv: No need to relocate the dtb as it
+ lies in the fixmap region
+Message-ID: <9c90f390-92d2-4dde-8cd7-b50e9c858787@spud>
+References: <20230329081932.79831-1-alexghiti@rivosinc.com>
+ <20230329081932.79831-4-alexghiti@rivosinc.com>
+ <381c2753-cbcc-40a0-bcb2-67d18e367822@spud>
+ <CAHVXubhVGR1vjqFVv1vuDGDMSiG0JBpKtRZnzgzpa9VBK+BuNw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="nf9NXaBcWq31jVDo"
 Content-Disposition: inline
-In-Reply-To: <20230328164811.2451-2-gregory.price@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+In-Reply-To: <CAHVXubhVGR1vjqFVv1vuDGDMSiG0JBpKtRZnzgzpa9VBK+BuNw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hmm. I am not comfortable with this change...
 
-I won't really argue because I don't have a better solution and because
-I think we don't really care as long as task_set_syscall_user_dispatch()
-is the only user of task_access_ok(), but still...
+--nf9NXaBcWq31jVDo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK, so this version changes set_syscall_user_dispatch() to use
-task_access_ok() instead of access_ok() because task != current.
+On Wed, Mar 29, 2023 at 04:40:18PM +0200, Alexandre Ghiti wrote:
+> On Wed, Mar 29, 2023 at 3:56=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
+rote:
+> >
+> > On Wed, Mar 29, 2023 at 10:19:32AM +0200, Alexandre Ghiti wrote:
+> > > We used to access the dtb via its linear mapping address but now that=
+ the
+> > > dtb early mapping was moved in the fixmap region, we can keep using t=
+his
+> > > address since it is present in swapper_pg_dir, and remove the dtb
+> > > relocation.
+> > >
+> > > Note that the relocation was wrong anyway since early_memremap() is
+> > > restricted to 256K whereas the maximum fdt size is 2MB.
+> >
+> > So, should this be marked as a fix, and backported along with 1/3?
+>=20
+> Hmmm the whole series should be backported, it does not make sense to
+> move the dtb mapping and keep accessing it using its linear mapping
+> address since it could fail for the exact reason the relocation was
+> implemented in the first place and the relocation is wrong.
+>=20
+> Maybe we should simply add a "Cc: stable@vger.kernel.org" on all the patc=
+hes?
 
-On 03/28, Gregory Price wrote:
->
-> If the architecture does not implement task_access_ok, the operation
-> reduces to access_ok and the task argument is discarded.
+Yup, although hopefully Palmer can handle that if nothing else needs
+changing.
 
-No, with this patch it reduces to __access_ok(). And this already doesn't
-look very good to me, but this is minor.
+--nf9NXaBcWq31jVDo
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> --- a/include/asm-generic/access_ok.h
-> +++ b/include/asm-generic/access_ok.h
-> @@ -45,4 +45,14 @@ static inline int __access_ok(const void __user *ptr, unsigned long size)
->  #define access_ok(addr, size) likely(__access_ok(addr, size))
->  #endif
->
-> +/*
-> + * Some architectures may have special features (such as ARM MTE)
-> + * that require handling if access_ok is called on a pointer from one
-> + * task in the context of another.  On most architectures this operation
-> + * is equivalent to simply __access_ok.
-> + */
-> +#ifndef task_access_ok
-> +#define task_access_ok(task, addr, size) likely(__access_ok(addr, size))
-> +#endif
+-----BEGIN PGP SIGNATURE-----
 
-Lets ignore arm64.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCRaWQAKCRB4tDGHoIJi
+0mnyAQDXKpwmfpB5q4X6QPOw2jiCPiYKY75s1bbJ5ruHbLirBAD/XxFephOltSEa
+xNmJKur1/tjGtJkHfUraiWjc0d6WGgo=
+=WNhR
+-----END PGP SIGNATURE-----
 
-This look as if access_ok() or __access_ok() doesn't depend on task, but
-this is not true in general. Say, TASK_SIZE_MAX can check is_32bit_task()
-test_thread_flag(TIF_32BIT...) and this uses "current".
-
-Again, we probably do not care, but I don't like the fact task_access_ok()
-looks as if task_access_ok(task) returns the same result as "task" calling
-access_ok().
-
-Oleg.
-
+--nf9NXaBcWq31jVDo--
