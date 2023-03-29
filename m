@@ -2,221 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD51DC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:23:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC061C6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:33:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjC2QXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 12:23:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47506 "EHLO
+        id S229485AbjC2Qd3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 12:33:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbjC2QXp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:23:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480375BA8;
-        Wed, 29 Mar 2023 09:23:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229518AbjC2Qd3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:33:29 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0456A4236;
+        Wed, 29 Mar 2023 09:33:20 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D6A9261D78;
-        Wed, 29 Mar 2023 16:23:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC267C4339B;
-        Wed, 29 Mar 2023 16:23:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680107017;
-        bh=PCrr5jt4AnAzXp5itb2Q6Tj3UBoSqk87mhIIlfHJbz4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=NY4x7K3GRB/3y/ReAu7adjWDRPBzL/v3p19DzlqSR4Q+v98WQihzgPEMLo7vjEGiC
-         hUFCVmRQX7T6YQMSARHT4XAoR/5o3YW/HaxtHxOgiEXFcHJhXctGRmsvIfXSSKjLOF
-         LNVL1asyt2VbuwwsE0PBjeBh2utYNTZRuWsGtwHCNomt5OGZJY1jC3qFoKWQzxFnCr
-         i6IhCHklLvkz2hvADlk1Ti3DjaX2t+GRTNJO7HLyrZTMYBZ9sw6F0J+FGbHVYNkDrE
-         fS1DiFRF4cZDyO10/w3IECsbdBUDpIsAqLT0h8iP3z6acYN26Z3VWy1cHH/OBxwpjP
-         G7CchCAYVp8VA==
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     linux-trace-devel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] rtla/timerlat: Add auto-analysis only option
-Date:   Wed, 29 Mar 2023 18:23:32 +0200
-Message-Id: <4dc514d1d5dc353c537a466a9b5af44c266b6da2.1680106912.git.bristot@kernel.org>
-X-Mailer: git-send-email 2.38.1
+        by ms.lwn.net (Postfix) with ESMTPSA id 7D47537E;
+        Wed, 29 Mar 2023 16:33:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D47537E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1680107599; bh=vol0vvvhGjAXnQgJjKN6stpyWJ0f2d8ePSYRTCwAwYA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ihosdN4WItM866ffFQWb3ysY0HQ+4JNv0Ex277nQD7s1iwV7Ulo4JTQlIucat+l6b
+         0pyoIZazWgoW+FW8biDU68LMOFVKxo2ZXDLEbHBSmVI60VgPV+flrRP8TLZ6p8GXS8
+         KNsBbi0iQb73UAuJ9CwRJM6Vw2oZcqVl/JYbG9M5MsCQ3uuth6q20gPlPRKBazMuj6
+         PY0hEe3zL1fgFUsj2Y4WJEu9GXMXjlBTVu5tUd7Hp5/K/GnfLFwYXAEVQVTt+idKh1
+         Adh78kfNcl+tEwXwBTUnLL14XhtMv4xyQo91CLXdMsR/0OjKC04JjaUnBlpFmCTQwW
+         k/qiiTu4H5aOQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Roan van Dijk <roan@protonic.nl>
+Cc:     mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        linux-doc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH] ARM: stm32: add initial documentation for STM32MP151
+In-Reply-To: <20230329095600.1355049-1-roan@protonic.nl>
+References: <20230329095600.1355049-1-roan@protonic.nl>
+Date:   Wed, 29 Mar 2023 10:33:18 -0600
+Message-ID: <87ilejjz5d.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Parsing and formating timerlat data might consume a reasonable
-amount of CPU time on very large systems, or when timerlat
-has a too short period.
+Roan van Dijk <roan@protonic.nl> writes:
 
-Add an option to run timerlat with auto-analysis enabled while
-skipping the statistics parsing. In this mode, rtla timerlat
-periodically checks if the tracing is on, going to sleep waiting
-for the stop tracing condition to stop tracing, or for the
-tracing session to finish.
+> This patch adds initial documentation of STM32MP151 microprocessor (MPU)
+> based on Arm Cortex-A7.
+>
+> Signed-off-by: Roan van Dijk <roan@protonic.nl>
+> ---
+>  .../arm/stm32/stm32mp151-overview.rst         | 36 +++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>  create mode 100644 Documentation/arm/stm32/stm32mp151-overview.rst
 
-If the stop tracing condition is hit, the tool prints the auto
-analysis. Otherwise, the tool prints the max observed latency and
-exit. The max observed latency is captured via tracing_max_latency.
+You will need to add this new file to .../arm/index.rst or it won't be
+pulled into the docs build (and will add a new warning).
 
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- .../tools/rtla/common_timerlat_aa.rst         |  7 +++
- tools/tracing/rtla/src/timerlat_top.c         | 49 +++++++++++++++++--
- 2 files changed, 51 insertions(+), 5 deletions(-)
+Thanks,
 
-diff --git a/Documentation/tools/rtla/common_timerlat_aa.rst b/Documentation/tools/rtla/common_timerlat_aa.rst
-index 077029e6b289..795b9fbcbc6d 100644
---- a/Documentation/tools/rtla/common_timerlat_aa.rst
-+++ b/Documentation/tools/rtla/common_timerlat_aa.rst
-@@ -5,3 +5,10 @@
- **--no-aa**
- 
-         disable auto-analysis, reducing rtla timerlat cpu usage
-+
-+**--aa-only** *us*
-+
-+        Set stop tracing conditions and run without collecting and displaying statistics.
-+        Print the auto-analysis if the system hits the stop tracing condition. This option
-+        is useful to reduce rtla timerlat CPU, enabling the debug without the overhead of
-+        collecting the statistics.
-diff --git a/tools/tracing/rtla/src/timerlat_top.c b/tools/tracing/rtla/src/timerlat_top.c
-index eea5b3357e27..92c658c64f28 100644
---- a/tools/tracing/rtla/src/timerlat_top.c
-+++ b/tools/tracing/rtla/src/timerlat_top.c
-@@ -33,6 +33,7 @@ struct timerlat_top_params {
- 	int			set_sched;
- 	int			dma_latency;
- 	int			no_aa;
-+	int			aa_only;
- 	int			dump_tasks;
- 	struct sched_attr	sched_param;
- 	struct trace_events	*events;
-@@ -142,10 +143,12 @@ timerlat_top_handler(struct trace_seq *s, struct tep_record *record,
- 	top = container_of(trace, struct osnoise_tool, trace);
- 	params = top->params;
- 
--	tep_get_field_val(s, event, "context", record, &thread, 1);
--	tep_get_field_val(s, event, "timer_latency", record, &latency, 1);
-+	if (!params->aa_only) {
-+		tep_get_field_val(s, event, "context", record, &thread, 1);
-+		tep_get_field_val(s, event, "timer_latency", record, &latency, 1);
- 
--	timerlat_top_update(top, cpu, thread, latency);
-+		timerlat_top_update(top, cpu, thread, latency);
-+	}
- 
- 	if (!params->no_aa)
- 		timerlat_aa_handler(s, record, event, context);
-@@ -250,6 +253,9 @@ timerlat_print_stats(struct timerlat_top_params *params, struct osnoise_tool *to
- 	static int nr_cpus = -1;
- 	int i;
- 
-+	if (params->aa_only)
-+		return;
-+
- 	if (nr_cpus == -1)
- 		nr_cpus = sysconf(_SC_NPROCESSORS_CONF);
- 
-@@ -279,10 +285,11 @@ static void timerlat_top_usage(char *usage)
- 		"",
- 		"  usage: rtla timerlat [top] [-h] [-q] [-a us] [-d s] [-D] [-n] [-p us] [-i us] [-T us] [-s us] \\",
- 		"	  [[-t[=file]] [-e sys[:event]] [--filter <filter>] [--trigger <trigger>] [-c cpu-list] \\",
--		"	  [-P priority] [--dma-latency us]",
-+		"	  [-P priority] [--dma-latency us] [--aa-only us]",
- 		"",
- 		"	  -h/--help: print this menu",
- 		"	  -a/--auto: set automatic trace mode, stopping the session if argument in us latency is hit",
-+		"	     --aa-only us: stop if <us> latency is hit, only printing the auto analysis (reduces CPU usage)",
- 		"	  -p/--period us: timerlat period in us",
- 		"	  -i/--irq us: stop trace if the irq latency is higher than the argument in us",
- 		"	  -T/--thread us: stop trace if the thread latency is higher than the argument in us",
-@@ -362,13 +369,14 @@ static struct timerlat_top_params
- 			{"dma-latency",		required_argument,	0, '2'},
- 			{"no-aa",		no_argument,		0, '3'},
- 			{"dump-tasks",		no_argument,		0, '4'},
-+			{"aa-only",		required_argument,	0, '5'},
- 			{0, 0, 0, 0}
- 		};
- 
- 		/* getopt_long stores the option index here. */
- 		int option_index = 0;
- 
--		c = getopt_long(argc, argv, "a:c:d:De:hi:np:P:qs:t::T:0:1:2:34",
-+		c = getopt_long(argc, argv, "a:c:d:De:hi:np:P:qs:t::T:0:1:2:345:",
- 				 long_options, &option_index);
- 
- 		/* detect the end of the options. */
-@@ -389,6 +397,20 @@ static struct timerlat_top_params
- 			/* set trace */
- 			params->trace_output = "timerlat_trace.txt";
- 			break;
-+		case '5':
-+			/* it is here because it is similar to -a */
-+			auto_thresh = get_llong_from_str(optarg);
-+
-+			/* set thread stop to auto_thresh */
-+			params->stop_total_us = auto_thresh;
-+			params->stop_us = auto_thresh;
-+
-+			/* get stack trace */
-+			params->print_stack = auto_thresh;
-+
-+			/* set aa_only to avoid parsing the trace */
-+			params->aa_only = 1;
-+			break;
- 		case 'c':
- 			retval = parse_cpu_list(optarg, &params->monitored_cpus);
- 			if (retval)
-@@ -503,6 +525,9 @@ static struct timerlat_top_params
- 	if (!params->stop_us && !params->stop_total_us)
- 		params->no_aa = 1;
- 
-+	if (params->no_aa && params->aa_only)
-+		timerlat_top_usage("--no-aa and --aa-only are mutually exclusive!");
-+
- 	return params;
- }
- 
-@@ -634,6 +659,7 @@ int timerlat_top_main(int argc, char *argv[])
- 	struct trace_instance *trace;
- 	int dma_latency_fd = -1;
- 	int return_value = 1;
-+	char *max_lat;
- 	int retval;
- 
- 	params = timerlat_top_parse_args(argc, argv);
-@@ -700,6 +726,9 @@ int timerlat_top_main(int argc, char *argv[])
- 	while (!stop_tracing) {
- 		sleep(params->sleep_time);
- 
-+		if (params->aa_only && !trace_is_off(&top->trace, &record->trace))
-+			continue;
-+
- 		retval = tracefs_iterate_raw_events(trace->tep,
- 						    trace->inst,
- 						    NULL,
-@@ -733,6 +762,16 @@ int timerlat_top_main(int argc, char *argv[])
- 			printf("  Saving trace to %s\n", params->trace_output);
- 			save_trace_to_file(record->trace.inst, params->trace_output);
- 		}
-+	} else if (params->aa_only) {
-+		/*
-+		 * If the trace did not stop with --aa-only, at least print the
-+		 * max known latency.
-+		 */
-+		max_lat = tracefs_instance_file_read(trace->inst, "tracing_max_latency", NULL);
-+		if (max_lat) {
-+			printf("  Max latency was %s\n", max_lat);
-+			free(max_lat);
-+		}
- 	}
- 
- out_top:
--- 
-2.38.1
-
+jon
