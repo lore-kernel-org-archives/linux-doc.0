@@ -2,179 +2,230 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA5DC74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 17:47:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB0E3C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 17:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbjC2RrV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 13:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40822 "EHLO
+        id S229590AbjC2RsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 13:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbjC2RrU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 13:47:20 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C9105254;
-        Wed, 29 Mar 2023 10:47:19 -0700 (PDT)
+        with ESMTP id S229836AbjC2RsB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 13:48:01 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE743C34;
+        Wed, 29 Mar 2023 10:47:59 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ncP1XdOJWFPJXckYvD2rVT7aEab8FxDmV3eLSSs83azHJaVoB/Qiuthx2TMHDip9NGosp5pNVanA1zgwuEPUWCDkKG29DP+XaetU+//5W5vzsunNZx1zHnnvWCaiogPP1WYOT8Pcsv+cawBEzJespD6OVbC0RY12q5FgpWeZtg70tvlz9XRpZqE85mkxnvBbKvU34dpUinPnOwcfwZIRtD0krn3QihViZqM9UUMxueMAGf8IlC4DTMQne98zFmdPfuQbuDctqij0MiQmLUqEuSXP5iQMG80HWUqWLIjQHOBh997leXwB+ip4a/6X5RxQZcowbpDaRypZFZsNaBi9eA==
+ b=k4JE/y60disf5pyHX56MIroNz1K6+udjwLWwfDLN/33/AiIL0J0fkH++DVBPPKjKsCCZJ5U/Gfl6Xum+ojMPsMAcHy8HH/o7yyBQZKZkyRn0I8Tg63r1rYkSar6MP9r9G5kBrqXft1D6T1j4ZYUvkd8dtItRDjCCaRx3+AgVfrvquXwP4mupfT1D1bEmaQPaPXJNwhLENfZpCSLRojhJ9A7+BfIpF7o4NujZiXIfeTx1ySe+y5qeIGtR83k2jFnwoDOJXaKD55xM0HRfonBndAaC8FbyiGP/1X3slhCEwKc9h6jTQBW0BMHs7XyyQSA6DGRawFGGnRbjd9nBrv5WDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D+H672fmBLWuVMAkYCy9KGjxIebb3h3al54gNOPVw4Y=;
- b=PSJiaDd1xUUjrdQ8qbEf9CaAY7zvXxk/mpyMAtKhoq+Z4i+skp/jtFQkxsRGa3n2HPlshgAkHXRrOYArCRBr7aVnC60XslEM32CHZQaXU3OC4zWgW6L/ix7dJMR5+MPSTPxGWU7Br8EWLjJWRdC29lz0RHorr7eyXBvYXtFPFIVKwI2g5WLgS0nBHX5Twc5V9mj7Ml+klLMpxH6PzQXpx5UcRxXcknMmyKNRjnSIVgcr0v/LZFMVaBgSJeXNuGIFCTfqgL/U8dImHE3Z6J1elePzpSlfi6+CfVNa8zD6q1kWYAClmAkfJvEzsg0iDdz8v1eckxAHPLORW++ri/0M9Q==
+ bh=St15u8TZqznzPzGRGjfaRQyANmEI7q4/Hz3r68LP0BA=;
+ b=kMvMVlH4bnzMYjo7S4yQs1SQX+tAGf1v6Pr92vixpLz2p0Q6kQ4OlUspXoLQlrBjvVwnUyuWtR7wijT73C1fssPMrhlmSDic7ubJ8+UJHKslN+1L7PQLFn2AWnKwH9xBwlQgHeTrRR9KYH0LDwunPm3uJl1LMN1cAX5WBchDtVPms7rjd0dSRv35Ons4qudZhs/qU5GM6ONLHfFnPkDYDJmlMU+zAAjDKSYjuu97fuhYuWIowyCldTLug9UO6cbXP/65KwBYem5VWxdMmL+XteAk0qTWkKXBRVaHAp9WFIQAs+MtLaf6gGpYIHVLuGBaoQnAZmoa3nYBo2dPoD1/Gw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D+H672fmBLWuVMAkYCy9KGjxIebb3h3al54gNOPVw4Y=;
- b=yc+8Xhkqit/V59f37Y8HYaRhi0jXUlZZy0VQINd9uRBr0yOeVNA8mV9Ff5Tp3Z8X2rntg7UleK4xQz6h+UNtZboddqFaUdEsHSTksu4iVV/a3E4nEqCKHLoigVqI/E7tKVtZKBVUlOErbdIBO8zJ6D0DP2ImMzijcAFmAoCSMN0=
+ bh=St15u8TZqznzPzGRGjfaRQyANmEI7q4/Hz3r68LP0BA=;
+ b=VAobZ68Q3kznwuVi/KxfRigcdHg6ccZjoT0YDFfIwhn7tSeKqh7Q8iHai8+1/AWqmNK6tz7KLbcOAsoMRf3ygEmFCweQSlNok+P9Lq/qRRg9qN8Y5K1Q6vhIPeE0/NroRRCv45ZKCM+BDXTd0GNziXIYpncvuGaofgS0wIef4nJlz+UjTGoiBSoV7U1ZMJ9dC3TgpJMvHlkPJE/rG2HWbwHWeECPen7fP0arI8WoZevmFp1Dx6m1FMza9AWFf36zWg51CP2v1zVhDDzqefWPlY6zpRgGafY2Uo9j9FLB8TBIb8kdi5Bvcnq6910gImmIEFjl3VVDu0tJL2zuEQkUGg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by DS0PR17MB6231.namprd17.prod.outlook.com (2603:10b6:8:139::15) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN0PR12MB5762.namprd12.prod.outlook.com (2603:10b6:208:375::12)
+ by PH7PR12MB6906.namprd12.prod.outlook.com (2603:10b6:510:1b8::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.30; Wed, 29 Mar
- 2023 17:47:16 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7b97:62c3:4602:b47a]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7b97:62c3:4602:b47a%5]) with mapi id 15.20.6222.033; Wed, 29 Mar 2023
- 17:47:16 +0000
-Date:   Wed, 29 Mar 2023 01:37:40 -0400
-From:   Gregory Price <gregory.price@memverge.com>
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, avagin@gmail.com,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>, krisman@collabora.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.32; Wed, 29 Mar
+ 2023 17:47:56 +0000
+Received: from MN0PR12MB5762.namprd12.prod.outlook.com
+ ([fe80::f3e4:c5a8:7103:8ef1]) by MN0PR12MB5762.namprd12.prod.outlook.com
+ ([fe80::f3e4:c5a8:7103:8ef1%3]) with mapi id 15.20.6178.038; Wed, 29 Mar 2023
+ 17:47:56 +0000
+Message-ID: <9846a44d-8d5f-f164-098f-e5f2b1ab99e1@nvidia.com>
+Date:   Wed, 29 Mar 2023 12:47:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] arm64: mm: Increase MODULES_VSIZE to 512MB
+Content-Language: en-US
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, tongtiangen@huawei.com,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
- access_ok
-Message-ID: <ZCPOpClZ3hOQCs7a@memverge.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
- <20230329151515.GA913@redhat.com>
- <9a456346-e207-44e1-873e-40d21334e01b@app.fastmail.com>
- <20230329160322.GA4477@redhat.com>
- <ZCO20bzX/IB8J6Gp@memverge.com>
- <20230329171322.GB4477@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230329171322.GB4477@redhat.com>
-X-ClientProxiedBy: SJ0PR03CA0210.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::35) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Zhou Guanghui <zhouguanghui1@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+References: <20230326170756.3021936-1-sdonthineni@nvidia.com>
+ <CAMj1kXF4MUGbuiW1bcupMs1VdxxE_74WWDt1YdUTg0o9ft+=JQ@mail.gmail.com>
+ <159ceeab-09af-3174-5058-445bc8dcf85b@nvidia.com>
+ <CAMj1kXGGUzzyN9BS7OeQcn3tvfmsH8Y_CJu5xQx-y7V7hEgXFA@mail.gmail.com>
+From:   Shanker Donthineni <sdonthineni@nvidia.com>
+In-Reply-To: <CAMj1kXGGUzzyN9BS7OeQcn3tvfmsH8Y_CJu5xQx-y7V7hEgXFA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0120.namprd13.prod.outlook.com
+ (2603:10b6:806:24::35) To MN0PR12MB5762.namprd12.prod.outlook.com
+ (2603:10b6:208:375::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|DS0PR17MB6231:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b83c461-3d78-40c8-9b55-08db307da292
+X-MS-TrafficTypeDiagnostic: MN0PR12MB5762:EE_|PH7PR12MB6906:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7b80aa9-c1e8-4aaf-a11a-08db307dbac8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1thSsfIW/mpKg+SS/dDU7ESqixwQ6Bs4Tral3qlZkKhJg9pwCRP4B5c3T1/w4P08W3DXjii1OfB/07fO52J6Jik8nN6r9AGcunC/tyXwFzWFa83bi+HGnimqqY/OYFIcSQmeVD8w0O+2ZUKdCqxCTyNt9FMhwy+rur48zsWtP7V5mVRVhXMXSF/Qpj2uFtBw6Lkz4Vrn6ff+BKv66BN5MA4GZQNGVgeD+KiTs1p4MT/VlDDhtDz42KTyb5Dd3sqme5XIg5BnMx8gMM1qMwhGdxC4rmOj3azUV9gT5Ax24Tq2b8zQ9thtjhBHLGgEyPGFT+porA/WdDfNaNbYpQwUdI5tR8ou/m0VIl+06gyyBDeyn+iZeMAjfZFiRI5+uuIyKWIzqDXOvEQNtoz1jWXsyLCzF7NeMSmMOLGfpCeocovUnFWuI65RPywCM8t7RwE51q3DCSk26pgvg7Kw+6ET2FsNes4fXhoj4ml+qMIcGgyr/lnKLJw16meK3dSfiltPO7lUAqOfkNUI1fPsLOHnOSkypYuYeX4evVJtWppqRXKj1rD3vGyzLoRYMnHgWeThq7ZkfWJ3P7ucZl4zr62r7u8TBYonAAj/HWkJaynEcX0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39840400004)(136003)(366004)(396003)(346002)(451199021)(38100700002)(2906002)(36756003)(83380400001)(44832011)(7416002)(5660300002)(8936002)(86362001)(2616005)(41300700001)(6666004)(54906003)(6512007)(26005)(6486002)(6506007)(316002)(478600001)(4326008)(8676002)(66556008)(186003)(66946007)(6916009)(66476007)(41533002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: gbPzmWyOHgaFbSMHGjfFBzT74OAEunc9oPzEKARKmfaix28K+/e/LgNNzOa5HLD5HzOf4SX3l0jkWzLO1VnLp4auXUitxwfAm5gzVNRCvyApcjPtxHi0KYoBUIljicg/EGD1y/27jb92yxPqVPYMihiMfIYUs7hwpKYPIoJ+ZZYyPGIUu6sgrHUw6y91A53ENSKAnqANy9YWL8JeSTWbJFX55mrWKJjxm0sg4I1oQ0A3cTWgcu3sBnyVhs9slmvlBLSbZjaNMqL46TZ1CSNaH/0gsEmVyf4uHuj+sHb5HKj8u7vClS4HoeO6YrgyLaddtbYE8fyIaCoawvG1EvG6Ix/heDS7nw7wva1IJ1aPE5AcGYiseqUmiBknHL+Gkwj++vp6AiiHZs9XwEymAV3IlJAxT8EaRlueyjOOx7izrSqMLvBr8i/rV4ogtNvP3DYg2yhZhgV19RCQs1c29QSx+1Zc5XSN+ChmRK8XuWY+qGQoQz7FUPbcIOL0ni11sMULMDn79O0imB6YzMyD61GJxjJxM6DOtQREIrh4HppF/o49vy9AEVpTaAroHpnRs9occcZV7AD4m/AQqySq2r2aNJX+MuxdCo7438H30kSXtqztIfS1+460KwP/J8hvlQX3Ekp+WHEsnHSd0ZYZE0eGcg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB5762.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(451199021)(66946007)(66476007)(8936002)(6916009)(316002)(41300700001)(5660300002)(83380400001)(6506007)(26005)(186003)(7416002)(54906003)(2616005)(6486002)(66556008)(478600001)(8676002)(6666004)(6512007)(107886003)(38100700002)(53546011)(4326008)(86362001)(31686004)(31696002)(2906002)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IL0QseYVkM5e6JAYqnGj+8V5a+JBlDBl9d7vgeJ5Fa26s/P0YuoghxjhrdWZ?=
- =?us-ascii?Q?qudVv1pMvPePpXnSyrfUVf7jmUinSzHCKsZAK9DdwFR7f24GT1/J4Ix5no1G?=
- =?us-ascii?Q?aHK+RiBFMFg4OHBwIpyWfKrByyN5OvnZ0xtk/7Su59a+iCi5r5oCpHXu3qwi?=
- =?us-ascii?Q?x9fCrEOIBNUCG9TPUrrZWntkpL/FKrTXxY60m+T19dW0V+7hbttsU6gNGTNL?=
- =?us-ascii?Q?VCyiGKQ4TCdvtRfY4MjnFAaUW2wyGGHmKiz9Jg97VCD+Gk7KwQGN7F84Tuot?=
- =?us-ascii?Q?FH4Kfw8riOnKbYc37FoQBAM15Fx9bxDkfsQa0QyQTv+JZKZUBwTkiPBTKx3j?=
- =?us-ascii?Q?LQv2vA8VWhe8mtklc0JoVrOslycfRz0q41p4nA7W36xvIt5iLZerAT5Hc5JP?=
- =?us-ascii?Q?iVttfqGBWTCzXg4ElC4wZM5+RY5e84EwQEmx0DhzyNkPAzFkprmmVvqUXpim?=
- =?us-ascii?Q?MPHlswKw+eFlTS18O+Nz/8gdAarh1LLaubqE7IFfe+LpwzOwEchLjA7ZbGCo?=
- =?us-ascii?Q?Refp/+LIUiW0f0If0HR2nRhCbacZdArFWtCdsYqhI96qX8bK1rzqnBTQ4ubZ?=
- =?us-ascii?Q?yppA/bdYMRQEO0dB8ISb2mVTeBVkBqonJA+2yloOyKuhXAAPAYrB3c5MecC/?=
- =?us-ascii?Q?AuDEdA8jUHGvcAsmhhoGdxwOeLmY9Xbig92zczm7LR2imC2ZWL/odT4mKyQQ?=
- =?us-ascii?Q?utS+zGKsFc9xlHHSc7wchgJBFDXhcsP4dJH7ALTTG5xNK6nhpJyMoLum1hLi?=
- =?us-ascii?Q?a7Fgh1SA8bOvDsldXLoyrU50Q5JweaK6+7erzN0gcRtceKc+1LpJgM3hhzdM?=
- =?us-ascii?Q?D7v4lLaoPmyHhttH8jDnkX28I2X3kRMBWe8VLWFcAutkA0Zp28QRy4fL+MIU?=
- =?us-ascii?Q?avgpEvVa67eopIk1mdTTbBVncKJPAZz4iI/toCK+MTanisip3izQaRCmTVK4?=
- =?us-ascii?Q?/LpSGVC0z3WocY3nVhkLm4GeduUUmYjcQ1njY0jK14TL+hQOCwtcUcQ516Ra?=
- =?us-ascii?Q?B5vE1Q2IT4a0Em+7d5uhAXVcsgWpa+SEZemQLsMVaNVdRAXuWCcrw8+0s3Ll?=
- =?us-ascii?Q?OYn9vY18Bo+n5Q0+EAx0ODDJmWifZrRnESzSR72IiVQKoND3DOvXV2SGd7sp?=
- =?us-ascii?Q?KWlv+lf5NGI5kHpSyfduYK17/uEiviiwqsbjMFFrGeeQBP8PJl6TJZKlzLaQ?=
- =?us-ascii?Q?wLuYcZmAD1nodjPBx8BzINhNQylAfSKo9n7TSOFC5MVJkWhmj8FlOoSgEbig?=
- =?us-ascii?Q?kGEDrKr5efuwFVoYLKWKUxWyxPCt2Xa+2Asd9U59nBoNxwcmsnA67Al7tPTE?=
- =?us-ascii?Q?kuisjkMjs0nqvDOzF9Dk96vjOQ7ITRY8/ItILViZivpfM2IauttAzqcXiXz0?=
- =?us-ascii?Q?6LULultzvMP3sE1hZpyUyxC7hNA50TreREY92dHvTGJM3F+l77SXuvqSZnAn?=
- =?us-ascii?Q?PRNBt/SvHIdrf+BWUECaQzx4MAoEMhVfT69G6mdA4KjDVzpOIMqER5kfRr8T?=
- =?us-ascii?Q?zt+03zPSbJ2RaOdvv+4V6GXwPp1jZIoEp1VaLjvLDkdwB+SEza/O6wbVNNtf?=
- =?us-ascii?Q?OZfcVmQ1GlU4eNynUyCwHCqp+Q0k726yE+5AYx9vfWfKbLqXfLFr72noPwai?=
- =?us-ascii?Q?mQ=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b83c461-3d78-40c8-9b55-08db307da292
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFp2NUdKSTZvU3JPOTE4Skd5bXhHTnFuOUExdVF0TVlrL2NQem81Zy9HNGd0?=
+ =?utf-8?B?WDg0MEJFTG01NGZCQ3U5dFgzd29handTc2M0cmM5U0pZU1ZCeFhqVk02Q0dw?=
+ =?utf-8?B?K2UyazYvejFVR1N5Z2dYdkQrU2pQcXBOQk9Rb0xkMzRWY2tMMUg3T1dyOFJL?=
+ =?utf-8?B?bVZ2RHd3eVQwWFJZamJSa1dwa0RjbnloaGQ0WXcwbVE5bjhISDUvN25jQ0RW?=
+ =?utf-8?B?c2s1V0lnWTgyYzV0NVNWY0hqS0lrMVYxVVY2VXpvMkFJeUpqU0xGYno2OTRV?=
+ =?utf-8?B?T3FTZnJKVEhFK0cyRUFuUWJwT0IybFRXK0t6SzFHWjYvRndyQzNRK0lQek1K?=
+ =?utf-8?B?NHRTcmVwZEQySFV1eHYzaHpxYXBkeExETFNZUVVIYjZidi9nRzVOUkdoZmdP?=
+ =?utf-8?B?NVdCNnFtaFpxWVRBbU94dXRCQW02L1VnK3JsejNibU95RUlZeFhNMVFSdDBk?=
+ =?utf-8?B?YlZDdkczUzFMOWVnK2xvejR3TkwxWWtQS2xBMjg0UHhCL1NWMlFKVGNIM3Rk?=
+ =?utf-8?B?ZFRGOW1neWtYbnZydGpBYjVRdDBoZURJRUtUZ2JCaGVjWWRkTGNNdFV6NkZq?=
+ =?utf-8?B?QjExSHZnVFF3dDVoYkNsT0xKWWc1dDNMaDJVckJEcDhCTjFLNzhVTVpTQUkw?=
+ =?utf-8?B?emdTRVZRNzlLWklBdFFISjBXNit1cVR4MkZRMnRCQ2JnMU5LampTTTlEeS9k?=
+ =?utf-8?B?MDZlR3VqWVlyWDR6dEREWStLcXBtdlNwYkRtYjZORVlUOFdITzdSOFBSaVFS?=
+ =?utf-8?B?VE9OdnpSVnZBTVV6MmlScStzWXk1a2Z0SC9VemVqTkFhSlQ2dnJRSVlGdVRR?=
+ =?utf-8?B?bmpZWnJMZmM0S042NTRtcHBsVFVMMzlPeGJGSzdCVk5xcmxlemVvRWRyOHNt?=
+ =?utf-8?B?djg2SXhZN2kvM3U3eDI0UHZJSExOQlRvZHNGZzQydHpEQ3ZtK0xnZWFVK3Iw?=
+ =?utf-8?B?S28rdkRXc1gyNERoUUdrNmJJWGgvenBweDNWWm9yL2VzYTNuZUJLSm9EUmtk?=
+ =?utf-8?B?aEFPc0pjTjkyYXgyZ3dWM3Z5cWNMZHU2VlpPdHRVQVlsNjlydGVyOHNicDRW?=
+ =?utf-8?B?UzRqQ0hnYkhBb2t6Tk5VMlcyMkphVDhTeGZQY3VDQWlzQnJFNHJ5QUpqcE53?=
+ =?utf-8?B?c0xiRnZhbmEwYlY1eTVaN2wyVWxsNk5aV1pvSTRPYUZvQ0R2MURVNytoRlM3?=
+ =?utf-8?B?RndlN0NiNjF0SmpWaFJ3MzNzeXRPZmZhaXQrMEJwVTBzN1pFSlpKdXRzeVBu?=
+ =?utf-8?B?US95dEROQ2x4VVYzNnBLa3BVY2trS25EVXExamVEZ2ZaM3RXRy8zOXVRbmJO?=
+ =?utf-8?B?Snl0dEpKZmNOd0tSdmZEMzVsWVVjdEpJRXltNTR0RjVBaEczeFMyb3JKRTNi?=
+ =?utf-8?B?eFZmV05KV2owc0gvVVNZTmJCUXFNT3RLQkNlTVhHNnhXSW1RZ1BYeFBlL2pj?=
+ =?utf-8?B?Y0F2OEFBRTkzZmtkclE4bHRIZmhtV2lqc3pBTm5mZm80ZFBXaEI3S1VlQmZ0?=
+ =?utf-8?B?NGNjVGhoMFlPV3hWZEdzVlRuenZoME50enlnV3JvUFBaS1lhbG91dGVVSUtS?=
+ =?utf-8?B?SUhaUHpOVTBwOWhqRUxuYVBlTE8xQ2dnZ2dSNWNBUVgxVmVjQ1JwanhBYSt5?=
+ =?utf-8?B?NDVtb0g2d3dnNEZmUnlGNEZIV3Q1c2xSMjBPY085UkdUZTUzaWt2RzcwNTU4?=
+ =?utf-8?B?R2FiREFYNEgyVVpOeHM2YUtQS0ZRNnI0a0pWWUF3cStYOS9UZU1OK2VaNzBM?=
+ =?utf-8?B?S1hzY0lGQ0VvK09kSC9UbzNjVmJWSnFHODVTeU0zL1BuVzh0QXR6b3JwSVVY?=
+ =?utf-8?B?MU90Nnozek9KY0d6aTVNS1lQVGwrZFJTdHk0YXhLZVU4THBMNEZqTGVtdVJU?=
+ =?utf-8?B?N1dGbmV4U3hEOHpWODFLRlZJeDJYTXhaYXdCUENsbWtkU2RLRVFKci9JS0dx?=
+ =?utf-8?B?OWJObk5NL293Tk9OeTdHbzBISUladHl3bnRPeHFMbXp3OGUrdmF6VmRjbXFG?=
+ =?utf-8?B?VW1RSHFBWitvL1VLcmZ6VWswcWFLNXk1Z09vQ3pKTG1qZjV1TDZtR1ZlQW54?=
+ =?utf-8?B?dEVtNS9oeis2VTZxK2lQMUMrWTRsbXJvUjhNQi9kMHMxL2NNcTBIVTZ4RUVV?=
+ =?utf-8?Q?eG3qCASDiAqDDDzYaLlWRLuxm?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7b80aa9-c1e8-4aaf-a11a-08db307dbac8
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB5762.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 17:47:16.1873
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 17:47:56.7989
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 22wLxO0vdCUDDEWihdpSyZW2BnACHZarOkKT/4Kr4zMagQsok31J8wCh72zEkOWj/8hjIfWW9jGt4+K4dicYdYavwBOXo5eacwFkh/bUYMo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR17MB6231
+X-MS-Exchange-CrossTenant-UserPrincipalName: tvsMJlOrmyeSWRl3LsVMc9yns1aAExdjKBqsbW7WLBD9JKpTyxF9+qpFrF+KiW3KUKWFYDwGtmpDiVaWMimXyw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6906
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 07:13:22PM +0200, Oleg Nesterov wrote:
-> On 03/28, Gregory Price wrote:
-> >
-> > Not sure how I should proceed here,
+
+
+On 3/29/23 11:07, Ard Biesheuvel wrote:
+> External email: Use caution opening links or attachments
 > 
-> Can't we just kill this access_ok() in set_syscall_user_dispatch() ?
-> I don't think it buys too much.
 > 
-> Oleg.
+> On Sun, 26 Mar 2023 at 20:59, Shanker Donthineni <sdonthineni@nvidia.com> wrote:
+>>
+>> Thanks Ard for a quick feedback.
+>>
+>> On 3/26/23 12:35, Ard Biesheuvel wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> On Sun, 26 Mar 2023 at 19:08, Shanker Donthineni <sdonthineni@nvidia.com> wrote:
+>>>>
+>>>> The allocation of modules occurs in two regions: the first region
+>>>> MODULES_VSIZE (128MB) is shared with the core kernel, while the
+>>>> the second region (2GB) is shared with other vmalloc callers.
+>>>> Depending on the size of the core kernel, the 128MB region may
+>>>> quickly fill up after loading a few modules, causing the system
+>>>> to switch to the 2GB region.
+>>>
+>>> How much module space are you actually using? This 128 MiB region is
+>>> not shared with vmalloc() so it should be dedicated to modules
+>>> entirely.
+>>>
+>> Is it correct to say that if the KASLR feature is disabled, 128MB is
+>> being shared between the kernel and modules? Approximately 110MB used
+>> by the NVIDIA GPU driver, resulting in the usage of more than 128MB.
+>>
+>> root@localhost:~# cat /proc/kallsyms | grep -wE '_etext|_stext|_end'
+>> ffff8000081d0000 T _stext
+>> ffff800009390000 D _etext
+>> ffff80000b4d0000 B _end
+>>
+>> root@localhost:~# cat /proc/vmallocinfo | more
+>> 0xffff800001390000-0xffff800001450000  786432 move_module+0x2c/0x190 pages=11 vmalloc N0=11
+>> 0xffff800001450000-0xffff8000014b0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+>> 0xffff8000014f0000-0xffff800001550000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+>> 0xffff800001590000-0xffff8000015f0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+>> 0xffff800001630000-0xffff800001690000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+>> 0xffff8000016d0000-0xffff800001740000  458752 move_module+0x2c/0x190 pages=6 vmalloc N0=6
+>> 0xffff800001780000-0xffff8000017e0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+>> 0xffff800001820000-0xffff800001880000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+>> ...
+>>
+>> The first modules loaded at the address 0xffff800001390000.
+>>
+>> Less than 128MB is available for modules if KASLR is disabled.
+>>
+>>> If you are doing EFI boot, you may need to following patch to ensure
+>>> that the 128 MiB region is actually the one being used.
+>>>
+>>> commit 010338d729c1090036eb40d2a60b7b7bce2445b8
+>>> Author: Ard Biesheuvel <ardb@kernel.org>
+>>> Date:   Thu Feb 23 21:41:01 2023 +0100
+>>>
+>>>       arm64: kaslr: don't pretend KASLR is enabled if offset < MIN_KIMG_ALIGN
+>>>
+>>>
+>> I have included your patch to prevent the incorrect detection of the
+>> KASLR feature. Otherwise, experiencing the different error
+>> "overflow in relocation type 261", R_AARCH64_PREL32. Seems this is
+>> due to the incorrect initialization of module_alloc_base.
+>>
 > 
-> diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-> index 0b6379adff6b..d2e516ece52b 100644
-> --- a/kernel/entry/syscall_user_dispatch.c
-> +++ b/kernel/entry/syscall_user_dispatch.c
-> @@ -43,11 +43,7 @@ bool syscall_user_dispatch(struct pt_regs *regs)
->  		return false;
->  
->  	if (likely(sd->selector)) {
-> -		/*
-> -		 * access_ok() is performed once, at prctl time, when
-> -		 * the selector is loaded by userspace.
-> -		 */
-> -		if (unlikely(__get_user(state, sd->selector))) {
-> +		if (unlikely(get_user(state, sd->selector))) {
->  			force_exit_sig(SIGSEGV);
->  			return true;
->  		}
-> @@ -86,9 +82,6 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
->  		if (offset && offset + len <= offset)
->  			return -EINVAL;
->  
-> -		if (selector && !access_ok(selector, sizeof(*selector)))
-> -			return -EFAULT;
-> -
->  		break;
->  	default:
->  		return -EINVAL;
+> Hmm, not sure - there was a report about this a while ago but I forgot
+> the details.
 > 
+> In any case, could we perhaps try something like the below? That way,
+> we still prefer allocating from the 128 MiB region that is within
+> direct branching range from the core kernel.
+> 
+> --- a/arch/arm64/include/asm/memory.h
+> +++ b/arch/arm64/include/asm/memory.h
+> @@ -46,7 +46,7 @@
+>   #define KIMAGE_VADDR           (MODULES_END)
+>   #define MODULES_END            (MODULES_VADDR + MODULES_VSIZE)
+>   #define MODULES_VADDR          (_PAGE_END(VA_BITS_MIN))
+> -#define MODULES_VSIZE          (SZ_128M)
+> +#define MODULES_VSIZE          (SZ_2G)
+>   #define VMEMMAP_START          (-(UL(1) << (VA_BITS - VMEMMAP_SHIFT)))
+>   #define VMEMMAP_END            (VMEMMAP_START + VMEMMAP_SIZE)
+>   #define PCI_IO_END             (VMEMMAP_START - SZ_8M)
+> diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
+> index 5af4975caeb58ff7..b4affe775f23e84f 100644
+> --- a/arch/arm64/kernel/module.c
+> +++ b/arch/arm64/kernel/module.c
+> @@ -37,7 +37,7 @@ void *module_alloc(unsigned long size)
+>                  /* don't exceed the static module region - see below */
+>                  module_alloc_end = MODULES_END;
+> 
+> -       p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
+> +       p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_end - SZ_128M,
+>                                  module_alloc_end, gfp_mask,
+> PAGE_KERNEL, VM_DEFER_KMEMLEAK,
+>                                  NUMA_NO_NODE, __builtin_return_address(0));
 
-The result of this would be either a task calling via prctl or a tracer
-calling via ptrace would be capable of setting selector to a bad pointer
-and producing a SIGSEGV on the next system call.
-
-It's a pretty small footgun, but maybe that's reasonable?
-
-From a user perspective, debugging this behavior would be nightmarish.
-Your call to prctl/ptrace would succeed and the process would continue
-to execute until the next syscall - at which point you incur a SIGSEGV,
-and depending on the syscall that could mean anything?
-
-Everything feels bad here lol.
-
-~Gregory
+Thanks Ard, I'll include your suggested changes in v2 patch.
