@@ -2,123 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC2CC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 05:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EACDC761AF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 07:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbjC2FWe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 01:22:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51288 "EHLO
+        id S229656AbjC2HAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 03:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjC2FWd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 01:22:33 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3D630D2;
-        Tue, 28 Mar 2023 22:22:31 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so17444501pjp.1;
-        Tue, 28 Mar 2023 22:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680067351;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=82yVM7sYH31Om3QqxDjo0pU0ohro8Dtb8BPvc+yj3W0=;
-        b=j1vjtXvOPnC1Ny80mu41nRfW77JFV+DXUXteMYD9Nv7JRrT5twsVsOg/W4eS8P0Bfi
-         UUJNqVBc67h8eOTvsbU9gSM1cUKFN1D8CE1vcwg5uUWvRnnykXYMA5BIrqZJ92KB0XCn
-         oaAjUrSeKD+0LTIY46iT8SX5em9KHuEdtOMZdvYWd+f/8ngI3vGXf0U+OO54VfuhzxcR
-         1kCzvrANouaoi7KMqJZEgKxrjn3C673ZFZq3mZbzRStGMEZkZGwxKt8naQwaRVGPRaY0
-         6x0twUxoeoHHt2SJ+oCXfEcIYxUDND82CvrnIzHhpLumPktNexrWqjSK2SS52Btngmx6
-         xpRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680067351;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=82yVM7sYH31Om3QqxDjo0pU0ohro8Dtb8BPvc+yj3W0=;
-        b=UmbTE+nsmJneaTqiufWMRSqXMlOGQUgXrfQSimHNn35iLpj6QF6XhZ7o6kcRWyRusF
-         rdFyXGMzet0MaNTkFIwI2VI7inrKK3lshY2anqGmgRlHzCxtvTmBytJxZz7boRLLRsHQ
-         QxIiTFAFx6vy3N1UxIJ46kth6D53iEh8a4HGBY2+okZDpnMJFyKkjL1NrvNlQRF5pVMQ
-         hNKRVOenHwQsGM7hQwfEZkiib8jwmV+w0+IhU3XiRbvMclZrDx6UcBpBnpgwT4wH+O7L
-         1E8oShRre6ELf/i0HF0iOpcN69LQGUDkAc4UHzYYPuTr7K/7QcppwLrP3JpKcZdLA+GW
-         I3Tw==
-X-Gm-Message-State: AO0yUKU6bju+0zBZJvnokX8n5rEt6GQGsU7/tB4eo57/27Vck1pQWICS
-        xqMYHdAyaUrEzaQgdBKNKSs=
-X-Google-Smtp-Source: AK7set84mFBgpOQnFp5uFECqg94DQv/SSArWXMLtEWZ6llrqqrNemu0gZJzOzMGZbq6w608gN270mg==
-X-Received: by 2002:a05:6a20:49a4:b0:da:834d:edd with SMTP id fs36-20020a056a2049a400b000da834d0eddmr16680804pzb.34.1680067350889;
-        Tue, 28 Mar 2023 22:22:30 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x3-20020a654143000000b0050301745a5dsm20894552pgp.50.2023.03.28.22.22.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Mar 2023 22:22:30 -0700 (PDT)
-Message-ID: <c38176c7-c30a-4c2c-3516-8d3be1c267dc@gmail.com>
-Date:   Wed, 29 Mar 2023 14:22:28 +0900
+        with ESMTP id S229550AbjC2HA3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 03:00:29 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CE5268B;
+        Wed, 29 Mar 2023 00:00:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B2D18B81A93;
+        Wed, 29 Mar 2023 07:00:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D094C433EF;
+        Wed, 29 Mar 2023 07:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680073226;
+        bh=lGSmi0b2PlgkNBEB47nzo6rd+Wkk5p0nuDR5QM0kWO8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=hDqnzMozm+QfHNaiSGurFhJKdxs/1nLY6D1NR+9M/4gCKa/mk+PlC/OJZ5bPG0bSG
+         A6o8h8q/6N0GOBGNIRZ1JciQoAVjO1QhwBhkSjlAqnLBIcKH1Ql4ZpXWA1XGya5HTv
+         CYp023znZtwbuyIK4CbRU1jbNSPoBvEZATVjkFyimRwKbACOGL2yMy0Ns4OxEHXDnG
+         C7ybsYirqGivA3VyviwueuW2GJKLbDuAGsHl96ov1Sd9WInaVOf8F71VdLhMNvEDix
+         OPEkRmSo/7jymWG5w81xbovqS+CZZSpMZVm2wcJxjHbLbwpBGfYNw18q3AbztMnW0D
+         HQaiRWM1Ta2tQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5302DE4F0DB;
+        Wed, 29 Mar 2023 07:00:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To:     Carlos Bilbao <carlos.bilbao@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs/sp_SP: Remove ZERO WIDTH SPACE in memory-barriers.txt
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v5 0/7] ynl: add support for user headers and struct
+ attrs
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <168007322633.11543.18104473489328578879.git-patchwork-notify@kernel.org>
+Date:   Wed, 29 Mar 2023 07:00:26 +0000
+References: <20230327083138.96044-1-donald.hunter@gmail.com>
+In-Reply-To: <20230327083138.96044-1-donald.hunter@gmail.com>
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     netdev@vger.kernel.org, kuba@kernel.org, davem@davemloft.net,
+        edumazet@google.com, pabeni@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, donald.hunter@redhat.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As this file is included literally, ZERO WIDTH SPACE causes
-"make pdfdocs" to emit messages which read:
+Hello:
 
-  Missing character: There is no =E2=80=8B (U+200B) in font DejaVu Sans M=
-ono/OT:script=3Dlatn;language=3Ddflt;!
-  Missing character: There is no =E2=80=8B (U+200B) in font DejaVu Sans M=
-ono/OT:script=3Dlatn;language=3Ddflt;!
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-U+200B (ZERO WIDTH SPADE) has no effect in literal blocks.
-Remove them and get rid of those noises.
+On Mon, 27 Mar 2023 09:31:31 +0100 you wrote:
+> Add support for user headers and struct attrs to YNL. This patchset adds
+> features to ynl and add a partial spec for openvswitch that demonstrates
+> use of the features.
+> 
+> Patch 1-4 add features to ynl
+> Patch 5 adds partial openvswitch specs that demonstrate the new features
+> Patch 6-7 add documentation for legacy structs and for sub-type
+> 
+> [...]
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Carlos Bilbao <carlos.bilbao@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-Hi,
+Here is the summary with links:
+  - [net-next,v5,1/7] tools: ynl: Add struct parsing to nlspec
+    https://git.kernel.org/netdev/net-next/c/bec0b7a2db35
+  - [net-next,v5,2/7] tools: ynl: Add C array attribute decoding to ynl
+    https://git.kernel.org/netdev/net-next/c/b423c3c86325
+  - [net-next,v5,3/7] tools: ynl: Add struct attr decoding to ynl
+    https://git.kernel.org/netdev/net-next/c/2607191395bd
+  - [net-next,v5,4/7] tools: ynl: Add fixed-header support to ynl
+    https://git.kernel.org/netdev/net-next/c/f036d936ca57
+  - [net-next,v5,5/7] netlink: specs: add partial specification for openvswitch
+    https://git.kernel.org/netdev/net-next/c/643ef4a676e3
+  - [net-next,v5,6/7] docs: netlink: document struct support for genetlink-legacy
+    https://git.kernel.org/netdev/net-next/c/88e288968412
+  - [net-next,v5,7/7] docs: netlink: document the sub-type attribute property
+    https://git.kernel.org/netdev/net-next/c/04eac39361d3
 
-Offending commit is 259b007f5729 ("docs/sp_SP: Add memory-barriers.txt
-Spanish translation") merged into v6.2.
-As this is not a bug fix, I'm not putting a Fixes: tag.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Note: It might be hard for human eyes to see where the removed
-ZERO WIDTH SPACEs were. :-)
-
-        Thanks, Akira
---
- Documentation/translations/sp_SP/memory-barriers.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/translations/sp_SP/memory-barriers.txt b/Docum=
-entation/translations/sp_SP/memory-barriers.txt
-index f62bd797216d..27097a808c88 100644
---- a/Documentation/translations/sp_SP/memory-barriers.txt
-+++ b/Documentation/translations/sp_SP/memory-barriers.txt
-@@ -604,7 +604,7 @@ READ_ONCE() para DEC Alpha, lo que significa que las =
-=C3=BAnicas personas que
- necesitan prestar atenci=C3=B3n a esta secci=C3=B3n son aquellas que tra=
-bajan en el
- c=C3=B3digo espec=C3=ADfico de la arquitectura DEC Alpha y aquellas que =
-trabajan en
- READ_ONCE() por dentro. Para aquellos que lo necesitan, y para aquellos =
-que
--est=C3=A9n interesados =E2=80=8B=E2=80=8Bdesde un punto de vista hist=C3=
-=B3rico, aqu=C3=AD est=C3=A1 la historia
-+est=C3=A9n interesados desde un punto de vista hist=C3=B3rico, aqu=C3=AD=
- est=C3=A1 la historia
- de las barreras de dependencia de direcci=C3=B3n.
-=20
- [!] Si bien las dependencias de direcciones se observan tanto en carga a=
-
-
-base-commit: 4f1bb0386dfc0bda78ddad0e4fb3cd519b2886ab
---=20
-2.25.1
 
