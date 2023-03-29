@@ -2,72 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D4BC74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB0D8C6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbjC2QkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 12:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46308 "EHLO
+        id S229481AbjC2QrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 12:47:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbjC2QkG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:40:06 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6269310F;
-        Wed, 29 Mar 2023 09:40:05 -0700 (PDT)
+        with ESMTP id S230347AbjC2QrW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:47:22 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 320D95276;
+        Wed, 29 Mar 2023 09:47:21 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9F7FD378;
-        Wed, 29 Mar 2023 16:40:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9F7FD378
+        by ms.lwn.net (Postfix) with ESMTPSA id C6C5837E;
+        Wed, 29 Mar 2023 16:47:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C6C5837E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1680108004; bh=paGh1OeGW3r8EjzTZ/oNzuANG8Gctu13IsDhEUo9Lz0=;
+        t=1680108441; bh=gGKcyO5IJvGdKPUHgKqWzXoBTk0DhP0TVnP6Gp+Ugus=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ai8x34f6qzOursoDarnQXytXyMVdCGws5ssISKVbIiqqkkM4QvqPyUZZQG8Xpj8Yr
-         RC8Fp4XjE09jV9aeYx4udQHkL7h+cGIcQ8RBfw0YJ5N+GOUy72zhCqFV6M6Q6ifjwa
-         27fICtx0yA3vfb3C2PVos7XM3NenB5sDzC2pJ1T5hIluiiWxPJqCwcECLJNhFhRPLo
-         Yiqzi4/M/SmalW8TUC+T9YmXFWSzhKcI9ktSSNpGLslZ+oxCN/y/ERQelb2qC3U9+u
-         pA1sZuUW3J4xZttzkdFq/FkItKg2si2w1R2lZYI/wiljQ3JyQ+HodAwI1IC2bst2Zd
-         t/zsmfcay7Y+w==
+        b=sixA2vqVXrcdX2X+YAJM18lhWFqKVTPDhRua9B1KErOmcaYrxv9mHu20Ovz3wln4N
+         Ghos+FY7cYJk1xXAn7nDbd66b31MP66QG1bK0yR+d7NdAbjezM8w6LLbQZxgGboA93
+         9he4YJv0YPzbr0Ugr9OQ6bZNPIHUSBWtf55DQeEu3WvtpLVEV566K0q418FDHa1/Mi
+         faDHnmc2euKTU3oT6k3WbPjSRE/vzqDbECnABkuxa9idUrHqXZo88JAChBmt/pkKHp
+         HqX5fLcgbGlETUTsn/UG1sRPe3l1iFmVCw2O02I6SlN0971E300y7f+6FOS6icjyf/
+         PyKzKrEC4EPjQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexey Dobriyan <adobriyan@gmail.com>, akpm@linux-foundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2] ELF: document some de-facto PT_* ABI quirks
-In-Reply-To: <c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
-References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
- <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
- <c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
-Date:   Wed, 29 Mar 2023 10:40:03 -0600
-Message-ID: <87edp7jyu4.fsf@meer.lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/sp_SP: Remove ZERO WIDTH SPACE in memory-barriers.txt
+In-Reply-To: <41839138-3d85-ea82-7832-5da5f9addeb1@amd.com>
+References: <c38176c7-c30a-4c2c-3516-8d3be1c267dc@gmail.com>
+ <41839138-3d85-ea82-7832-5da5f9addeb1@amd.com>
+Date:   Wed, 29 Mar 2023 10:47:19 -0600
+Message-ID: <87a5zvjyi0.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexey Dobriyan <adobriyan@gmail.com> writes:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
-> program headers are slightly different.
+> On 3/29/23 12:22 AM, Akira Yokosawa wrote:
+>> As this file is included literally, ZERO WIDTH SPACE causes
+>> "make pdfdocs" to emit messages which read:
+>>=20
+>>   Missing character: There is no =E2=80=8B (U+200B) in font DejaVu Sans =
+Mono/OT:script=3Dlatn;language=3Ddflt;!
+>>   Missing character: There is no =E2=80=8B (U+200B) in font DejaVu Sans =
+Mono/OT:script=3Dlatn;language=3Ddflt;!
+>>=20
+>> U+200B (ZERO WIDTH SPADE) has no effect in literal blocks.
+>> Remove them and get rid of those noises.
+>>=20
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: Carlos Bilbao <carlos.bilbao@amd.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> ---
+>> Hi,
+>>=20
+>> Offending commit is 259b007f5729 ("docs/sp_SP: Add memory-barriers.txt
+>> Spanish translation") merged into v6.2.
+>> As this is not a bug fix, I'm not putting a Fixes: tag.
+>>=20
+>> Note: It might be hard for human eyes to see where the removed
+>> ZERO WIDTH SPACEs were. :-)
+>>=20
+>>         Thanks, Akira
 >
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
->
-> 	v2: integrate into documentation build system
->
->  Documentation/ELF/ELF.rst   |   32 ++++++++++++++++++++++++++++++++
->  Documentation/ELF/index.rst |   10 ++++++++++
->  Documentation/index.rst     |    1 +
->  3 files changed, 43 insertions(+)
+> Good catch, Akira! Acked-by: Carlos Bilbao <carlos.bilbao@amd.com>
 
-I really don't want to add another top-level directory for a single
-short file ... I'm trying to have fewer of those directories, not more.
+Carlos, when you put an Acked-by in the middle of a line like that, b4
+no longer sees it.
 
-This is essentially use-space ABI information; I think you should really
-just drop a file into Documentation/userspace-api/.
-
-Thanks,
+Anyway, I've applied the patch, thanks.
 
 jon
