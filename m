@@ -2,111 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA8CC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 17:59:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A718C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 18:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbjC2R7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 13:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52614 "EHLO
+        id S229816AbjC2SAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 14:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229850AbjC2R7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 13:59:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D9F35A5
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 10:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680112746;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Bjdk/0Vi9XEk8rAPBToebWaS2lMtqxl+/fQ8ndI4Fq4=;
-        b=i0avLdG2wcVMcyvTwt/BEyuFgg0cGB7cIUWEIvAYVG13HYWwXwMILug0ZS+4sqDzSQR7hE
-        +N+M/woHxsCyLfZWlxc+3pbk6tTJtTrILRwAzDJBekLZnHQltLZi9Kke4T0ojRH2+8OPSR
-        bhAzXvYmGesj82/dDPEhMhRM3Ue3Jrk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-kbDiB8jMMXGxsU4Z-OuJDA-1; Wed, 29 Mar 2023 13:59:04 -0400
-X-MC-Unique: kbDiB8jMMXGxsU4Z-OuJDA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D201E3C0C8A6;
-        Wed, 29 Mar 2023 17:59:03 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.161])
-        by smtp.corp.redhat.com (Postfix) with SMTP id B68761121330;
-        Wed, 29 Mar 2023 17:58:59 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Wed, 29 Mar 2023 19:58:56 +0200 (CEST)
-Date:   Wed, 29 Mar 2023 19:58:51 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gregory.price@memverge.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, avagin@gmail.com,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>, krisman@collabora.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, tongtiangen@huawei.com,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
- access_ok
-Message-ID: <20230329175850.GA8425@redhat.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
- <20230329151515.GA913@redhat.com>
- <9a456346-e207-44e1-873e-40d21334e01b@app.fastmail.com>
- <20230329160322.GA4477@redhat.com>
- <ZCO20bzX/IB8J6Gp@memverge.com>
- <20230329171322.GB4477@redhat.com>
- <ZCPOpClZ3hOQCs7a@memverge.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCPOpClZ3hOQCs7a@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+        with ESMTP id S229877AbjC2SAD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 14:00:03 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA945FD1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 10:59:45 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id ix20so15723238plb.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 10:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1680112785;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/ATAQe7qivttkaF6z/d0hrLKosZU1JWYo/P3cLZVbkw=;
+        b=NEdOUx/javmB9kDa7FGeUc51U/Wn0STrKWBa4uDg3vm2+W9FVlVH1+/ZMb1zTGKdDj
+         d3KLDNLFiScX2SoDgiYm71CYQHSrFsT80Vwc5DPAARaURlvkxOnL/I2SpNS/7RjVoq7M
+         jjBHG4IkvUpJrr88X3pQ1Wfo+pEhSovMq/MTY7fiCKb7Nr6D9uNLsLzURn6rQVZeGbce
+         2RLnovtWpOUC6EB7GYynif//9myEVnFqbAQ6SEV67g2Ps9E2dBH1Zb7EzSix25ynrfat
+         k7WO6rSP3p9XcTqrR8xuaSeMtQV/wtnrluHPs9zpByqTym6w08+dV+DrUSg5AioJPwMA
+         gXXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680112785;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/ATAQe7qivttkaF6z/d0hrLKosZU1JWYo/P3cLZVbkw=;
+        b=ea4jphaCQLh4J8di2zmwlGcy5EU858mxBTTBNTcdPkFBZ65aLCRpsIJSlCup1Fe89j
+         4BIRJB99zBivIgJpcHqDkMTxa8LBND+1fyDeHlxkoli0y1roMIaQhl+bLUMSkyxIJNjY
+         QDlN7OZFjJZ1pAFF3EVUtJgsT/mvgPQ8Ta6FEJKfsRWp+KE6u+pZPERp0hZMzbmi+8E5
+         y95RmyXtU5HGXbku5koULTzUiVavR5vRTKJu6KEHzJ+5ywLp7qWU/vXpl4gOX6H+GyvZ
+         uveKb1zSqeCzNMMrNclCFh2BsmGmaAnQwtoxw5QboRdtd0pkIgxh5v8Xg85DgX+hy5Sr
+         egtA==
+X-Gm-Message-State: AO0yUKVfD2QDCmtqWJThemo4swjS1koquuExxVcr6TCcJT6KYJizNVyH
+        LV4Rh4riZpXRGs+ARO/HIcHcNA==
+X-Google-Smtp-Source: AK7set8WybREuJ/MU50NhWHApZc7Q738Nt6HMrkX3X3+yzmaIkDHQziymzMOq45dYkW+fnJxn7v6Yw==
+X-Received: by 2002:a05:6a20:21d5:b0:de:247e:d1fe with SMTP id p21-20020a056a2021d500b000de247ed1femr20032034pzb.1.1680112785240;
+        Wed, 29 Mar 2023 10:59:45 -0700 (PDT)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id y13-20020aa7804d000000b00592626fe48csm6374660pfm.122.2023.03.29.10.59.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 10:59:44 -0700 (PDT)
+Date:   Wed, 29 Mar 2023 10:59:44 -0700 (PDT)
+X-Google-Original-Date: Wed, 29 Mar 2023 10:59:40 PDT (-0700)
+Subject:     Re: [PATCH v8 0/1] riscv: Allow to downgrade paging mode from the command line
+In-Reply-To: <20230228154629.240541-1-alexghiti@rivosinc.com>
+CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>, bjorn@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, alexghiti@rivosinc.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alexghiti@rivosinc.com
+Message-ID: <mhng-4507ad68-27bd-4d29-bb72-8d8f5bc27e34@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/29, Gregory Price wrote:
+On Tue, 28 Feb 2023 07:46:28 PST (-0800), alexghiti@rivosinc.com wrote:
+> This new version gets rid of the limitation that prevented KASAN kernels
+> to use the newly introduced parameters.
 >
-> On Wed, Mar 29, 2023 at 07:13:22PM +0200, Oleg Nesterov wrote:
-> >
-> > -		if (selector && !access_ok(selector, sizeof(*selector)))
-> > -			return -EFAULT;
-> > -
-> >  		break;
-> >  	default:
-> >  		return -EINVAL;
-> >
+> While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
+> avoid relocating the kernel twice for KASLR"): it allows to use the fdt
+> functions very early in the boot process with KASAN enabled by simply
+> compiling a new version of those functions without instrumentation.
 >
-> The result of this would be either a task calling via prctl or a tracer
-> calling via ptrace would be capable of setting selector to a bad pointer
-> and producing a SIGSEGV on the next system call.
+> I had to change the handling of the command line parsing to make the
+> code self-contained in kernel/pi/cmd_early.c to avoid calling too many
+> __pi prefixed functions from outside this file.
+>
+> I'll use this approach like arm64 to handle the extraction of the random
+> seedi from the device tree for KASLR.
+>
+> base-commit: eb9be8310c58 ("RISC-V: add a spin_shadow_stack declaration")
 
-Yes,
+I have that in my tree, I'm still getting a bunch of boot failures 
+though.  I can try to get a list if you're not seeing any, but I'm kind 
+of stuck on some other stuff for a bit...
 
-> It's a pretty small footgun, but maybe that's reasonable?
-
-I hope this is reasonable,
-
-> From a user perspective, debugging this behavior would be nightmarish.
-> Your call to prctl/ptrace would succeed and the process would continue
-> to execute until the next syscall - at which point you incur a SIGSEGV,
-
-Yes. But how does this differ from the case when, for example, user
-does prtcl(PR_SET_SYSCALL_USER_DISPATCH, selector = 1) ? Or another
-bad address < TASK_SIZE?
-
-access_ok() will happily succeed, then later syscall_user_dispatch()
-will equally trigger SIGSEGV.
-
-Oleg.
-
+> v8:
+> - Fix LLVM ld warning by moving the section .init.sdata from
+>   kernel/pi/string.c into the newly created section .init.pidata
+>
+> v7:
+> - Rebased on top of for-next which introduces lots of errors (thanks to
+>   the patchwork CI)
+> - Add __NO_FORTIFY to avoid undefined __pi_fortify_panic
+> - Add an alias to our newly introduced strlen
+> - Remove __init as sections are already prefixed in the Makefile
+> - Introduce new section for kernel/pi/string.c to quiet the following
+>   warnings (once we have all the string functions, we'll be able to get
+>   rid of this):
+>
+> warning: orphan section `.init__bug_table' from `arch/riscv/kernel/pi/string.pi.o' being placed in section `.init__bug_table'
+> warning: orphan section `.init.srodata.cst8' from `arch/riscv/kernel/pi/string.pi.o' being placed in section `.init.srodata.cst8'
+>
+> v6:
+> - Fix llvm warning by forward declaring set_satp_mode_from_cmdline
+>
+> v5:
+> - Handle null command line, Thanks Björn!
+> - Add RB/TB from Björn
+>
+> v4:
+> - Introduce pi/ for KASAN to work
+>
+> v3:
+> - Massage commit log to make no4lvl clearer, as asked by Conor
+> - Add a note to kernel-parameters.txt regarding the impossibility to use
+>   those parameters when KASAN is enabled, as suggested by Conor
+> - Add RB from Björn
+>
+> v2:
+> - Honor CMDLINE_EXTEND and CMDLINE_FORCE as noticed by Björn
+>
+>
+> Alexandre Ghiti (1):
+>   riscv: Allow to downgrade paging mode from the command line
+>
+>  .../admin-guide/kernel-parameters.txt         |  5 +-
+>  arch/riscv/kernel/Makefile                    |  2 +
+>  arch/riscv/kernel/pi/Makefile                 | 37 +++++++++++
+>  arch/riscv/kernel/pi/cmdline_early.c          | 62 +++++++++++++++++++
+>  arch/riscv/kernel/vmlinux.lds.S               |  8 +++
+>  arch/riscv/lib/memcpy.S                       |  2 +
+>  arch/riscv/lib/memmove.S                      |  2 +
+>  arch/riscv/lib/strlen.S                       |  1 +
+>  arch/riscv/mm/init.c                          | 36 +++++++++--
+>  9 files changed, 148 insertions(+), 7 deletions(-)
+>  create mode 100644 arch/riscv/kernel/pi/Makefile
+>  create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
