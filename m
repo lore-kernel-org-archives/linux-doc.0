@@ -2,71 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE21C74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 17:15:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D4BC74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 17:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbjC2RPO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 13:15:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41264 "EHLO
+        id S231176AbjC2RRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 13:17:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231704AbjC2RPN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 13:15:13 -0400
+        with ESMTP id S230130AbjC2RRm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 13:17:42 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B7BB126;
-        Wed, 29 Mar 2023 10:15:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84139126;
+        Wed, 29 Mar 2023 10:17:41 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B3AB237E;
-        Wed, 29 Mar 2023 17:15:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B3AB237E
+        by ms.lwn.net (Postfix) with ESMTPSA id D5357378;
+        Wed, 29 Mar 2023 17:17:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D5357378
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1680110112; bh=M41nAelz0FnGebI5ROuNuD79pssF1GT6mHbcCQbxI3k=;
+        t=1680110261; bh=BGG/uIHYnOzF0ono2kbW+HeIrfKt11QT8bEELbMG11g=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=j+sCFhH/C9k9EuIh6R5bPCpZH3Cq3Qt98THQt/4bcgXMYrAFzV2MEk5mXWJCkRatR
-         1ucNin3UnvtX2gY3x/CLBhwOyQIKrJjWUI5JbkNGspGTPZihkvZsJWvXK2oCiKu5Op
-         354l/4yOLWhb7A9a3sH+1ZmOFziKgmruLL4qJ+y0cs5L7oHxunizLvegISU9Nwu9ZS
-         UtfjblqN6i36ag0XU2j6USNEXqwJRG31txO+3FHQ9+hg242F8Cxaq4yGIwAuiI+7BJ
-         rphNEp7mH7hLkyuyYVJAwGD1d7PAvIGbe2MbJRte5Et5XEeUQxC85tMa3cIPps1bcN
-         UZwFEXI8j5JZw==
+        b=RL715xBMG27ao6GRi94EK571XzuQw+jhp4r0d8Mbih8o49eOQsn+hKDl8kb3AyYDi
+         7fzPwo/F6H2lvsKNn+ZrWmAh3g3EH8AJV0V7JYqHM/Xe+RW6Y6vXm+Oy6Lwdo7PM6Q
+         RBiQ8PH5nOziJnAnU5liGic+LvM6OpiYI5QpPHkDSVDwHTETsbH2h3bqYOgfzCAQMU
+         Fs/PKk6LpYIizryN/vfvBwxrqsq/iRsWb6896hD2EU0JxU5vtylqtmWVCW/HMMALmD
+         sdnPwH5wZ/isC+FSLbwK1cK+VCn606hOD/rxnaJtXI5xNRoQOxwll7w0FEEXMJS2tf
+         kA3UMygljsOng==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mauriciofb@gmail.com, Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH] docs/sp_SP: Add translation of process/adding-syscalls
-In-Reply-To: <20230315143526.1213813-1-carlos.bilbao@amd.com>
-References: <20230315143526.1213813-1-carlos.bilbao@amd.com>
-Date:   Wed, 29 Mar 2023 11:15:11 -0600
-Message-ID: <87wn2ziin4.fsf@meer.lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Staging Drivers <linux-staging@lists.linux.dev>
+Cc:     Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] Documentation: kernel-parameters: Remove meye entry
+In-Reply-To: <20230315100246.62324-1-bagasdotme@gmail.com>
+References: <20230315100246.62324-1-bagasdotme@gmail.com>
+Date:   Wed, 29 Mar 2023 11:17:39 -0600
+Message-ID: <87sfdniij0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> Translate Documentation/process/adding-syscalls.rst into Spanish.
+> Commit ba47652ba65523 ("media: meye: remove this deprecated driver")
+> removes meye driver but forgets to purge its kernel-parameters.txt
+> entry, hence broken reference.
 >
-> Co-developed-by: Mauricio Fuentes <mauriciofb@gmail.com>
-> Signed-off-by: Mauricio Fuentes <mauriciofb@gmail.com>
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> Remove the entry.
+>
+> Link: https://lore.kernel.org/all/202302070341.OVqstpMM-lkp@intel.com/
+> Fixes: ba47652ba65523 ("media: meye: remove this deprecated driver")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  .../sp_SP/process/adding-syscalls.rst         | 632 ++++++++++++++++++
->  .../translations/sp_SP/process/index.rst      |   1 +
->  2 files changed, 633 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/process/adding-syscalls.rst
+>  This patch is based on staging-next tree, because the driver removal
+>  touched drivers/staging/.
+>
+>  Documentation/admin-guide/kernel-parameters.txt | 3 ---
+>  1 file changed, 3 deletions(-)
 
-So for whatever reason, I can't get this to apply to docs-next; care to
-respin and resend?
-
-While you're at it ...
-
-> + - un puntero a un struc conteniendo un puntero (por ejemplo
-> +   ``struct iovec __user *``)
-
-You might want to fix that "struc" typo :)
-
-Thanks,
+Applied.  I trimmed the hash in the Fixes tag to the normal 12
+characters to keep checkpatch from whining...
 
 jon
