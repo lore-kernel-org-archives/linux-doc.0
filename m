@@ -2,105 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E449CC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 15:42:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 347F6C77B61
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:09:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbjC2PmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 11:42:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58126 "EHLO
+        id S230221AbjC2QJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 12:09:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbjC2PmY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 11:42:24 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8696135;
-        Wed, 29 Mar 2023 08:42:23 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 159AE5C00A9;
-        Wed, 29 Mar 2023 11:42:21 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 29 Mar 2023 11:42:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1680104541; x=1680190941; bh=g4
-        kHrEowDgNpfJvpROnRHbgAmyyUXv8cp51hnQwqNfA=; b=PyC2SosgS0wI2qyuyZ
-        8I1huT30LSUNGQRWhSG7ehj0bbh0OrF+Yf257m7kOivTEDZ53dtqluEdcqxqvPkT
-        KIfiPo67hRBvw+GY1IAmuLaOfFNczHgNJuk/4aZ/S41F5MnxnicTGCdb6YcF1NVJ
-        fgqdhADST+G+KrKc7QWAB2nx7u9JxXCfj/KoTG7ozpKOwDQrFvQDyraAnfgQi+y9
-        L3vi2XQgACUsFuqf1UKWVRSFHK6LZftPcTNSRlnSYfnA7TKzvWNYWJ4hmxTN1DpV
-        cDYlrOOYdCwmywLgHDnX11orZXznL9gsAyOwiOK80I5vbvPfJblVjh0GM+gmCbX7
-        WlZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680104541; x=1680190941; bh=g4kHrEowDgNpf
-        JvpROnRHbgAmyyUXv8cp51hnQwqNfA=; b=G6aurwmS0jGXgg6xfGzlXhXc074VI
-        5csONtOtQLbIfhmW9ovxiLJnN0i/mdQWnI+A2ZF6SqAURLaGXfbyQsSjOjsdsQvf
-        Q+2aVFyao1llljQqEHEwl5Menwgcoxv1p10tJ0UtW5VMvnXSOs2E9i1sxKm9ChVi
-        sIq+cmazwFavNVf2npM9YIyLadxnhazH9tHCBs7HC13wbfqqfefVvWeUHDniLsOv
-        cXriWZWgAvw42kggofzDmj77CJJmbMY0tNzqPor9DzoGFmChResCKOGelKGcQaeQ
-        8OmUgKDUVVs0MP+OHBMZRxEA06ut91kUSTMsfBdS8b3KywC4gueJIdq5g==
-X-ME-Sender: <xms:XFwkZJH0v5Il8a1OrdoCKCNR0xpEj4DCFtkdW2y3WsbYFNu15B7Wwg>
-    <xme:XFwkZOWDF23GuDC3SWJIejh3QSzXJIXmU5QGLj3u_EFLmxFn8kUddi5ZS5jFPY-yA
-    zZNZ-tNG_FqmEnS0SQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgleefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:XFwkZLI-_7fUXFwvXi5r5Nob3e6iaAvEMTsD9LaBmpP7BY4DvT210Q>
-    <xmx:XFwkZPEJ_RYZI5IW9Rcinlo1GTFTM5-YXTa4SFlOO10bMMKz6kre1w>
-    <xmx:XFwkZPWFG4WMIKkVWQaE9P06BzpCxTIc3V3KN2C7qzjM1JiuN9M8qw>
-    <xmx:XVwkZDkfL0COabxa7z2t0r6vvM6iV4Yr14PD5_mG4XFHRdNA0hYioQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 1EBDBB6008D; Wed, 29 Mar 2023 11:42:20 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
-Mime-Version: 1.0
-Message-Id: <9a456346-e207-44e1-873e-40d21334e01b@app.fastmail.com>
-In-Reply-To: <20230329151515.GA913@redhat.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
- <20230329151515.GA913@redhat.com>
-Date:   Wed, 29 Mar 2023 17:41:21 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Oleg Nesterov" <oleg@redhat.com>,
-        "Gregory Price" <gourry.memverge@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, avagin@gmail.com,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Andy Lutomirski" <luto@kernel.org>, krisman@collabora.com,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Jonathan Corbet" <corbet@lwn.net>, shuah <shuah@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Mark Rutland" <mark.rutland@arm.com>, tongtiangen@huawei.com,
-        "Robin Murphy" <robin.murphy@arm.com>,
-        "Gregory Price" <gregory.price@memverge.com>
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of access_ok
-Content-Type: text/plain
+        with ESMTP id S230239AbjC2QIz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:08:55 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E765619C;
+        Wed, 29 Mar 2023 09:08:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 0BE3ACE243A;
+        Wed, 29 Mar 2023 16:07:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5727EC433A0;
+        Wed, 29 Mar 2023 16:07:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680106040;
+        bh=YVojyzV7I2zxywGSu8koM3+fA1i/6QFns/eP6CWmng0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=u70eZqqBR/2FPEKYU9lt4k9neO/yaPErzV3lS/YcyDd/gZifMtk4r3IKmt8jzELbC
+         EnaL1wJcls4J6rv7ZY9dbHnHTDeJYUeI1Mdneievyj/eY4nnHxJK+smGX1l+PUY/vH
+         Ws4t0X1z4Wh8Ufn3QfgTzTUy8D/CTsoccYsqsPdEFvREblbDE8IvHUszB6fgibryvu
+         tt3cZXFuTbpiEYOBE3QtWQ6MiDTe1T1FO6nS7N3dWYoqEj915O5XUKnYC1EvlzkhYR
+         wczzdx2Qazng9MLf7LbHfMzQ6/lHWYpJHRstRSAF3nFxxuVwMfo0byNHLk4VKVi44Q
+         Bzg4KhpDorctQ==
+Received: by mail-lf1-f53.google.com with SMTP id c9so10474139lfb.1;
+        Wed, 29 Mar 2023 09:07:20 -0700 (PDT)
+X-Gm-Message-State: AAQBX9ecUtJBLbSSsmj9BIG9btNNLy+1GyjcVREGS1f0JQt7lZ3lSwQW
+        pGGR4QrIYgvdDo+NG7g5bsRJRZvT5qdsPzpZUFA=
+X-Google-Smtp-Source: AKy350bh8npink4uSFW5NTbZr4LUGarnr5B8TIPB3MzdliaetP7r3vp7NRiXadQoj8onxRmpoyOITpqET3EzQJIirBs=
+X-Received: by 2002:ac2:522e:0:b0:4dc:4b06:9d67 with SMTP id
+ i14-20020ac2522e000000b004dc4b069d67mr5835427lfl.9.1680106038333; Wed, 29 Mar
+ 2023 09:07:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230326170756.3021936-1-sdonthineni@nvidia.com>
+ <CAMj1kXF4MUGbuiW1bcupMs1VdxxE_74WWDt1YdUTg0o9ft+=JQ@mail.gmail.com> <159ceeab-09af-3174-5058-445bc8dcf85b@nvidia.com>
+In-Reply-To: <159ceeab-09af-3174-5058-445bc8dcf85b@nvidia.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Wed, 29 Mar 2023 18:07:07 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGGUzzyN9BS7OeQcn3tvfmsH8Y_CJu5xQx-y7V7hEgXFA@mail.gmail.com>
+Message-ID: <CAMj1kXGGUzzyN9BS7OeQcn3tvfmsH8Y_CJu5xQx-y7V7hEgXFA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: mm: Increase MODULES_VSIZE to 512MB
+To:     Shanker Donthineni <sdonthineni@nvidia.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Zhou Guanghui <zhouguanghui1@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 29, 2023, at 17:15, Oleg Nesterov wrote:
+On Sun, 26 Mar 2023 at 20:59, Shanker Donthineni <sdonthineni@nvidia.com> wrote:
 >
-> This look as if access_ok() or __access_ok() doesn't depend on task, but
-> this is not true in general. Say, TASK_SIZE_MAX can check is_32bit_task()
-> test_thread_flag(TIF_32BIT...) and this uses "current".
+> Thanks Ard for a quick feedback.
 >
-> Again, we probably do not care, but I don't like the fact task_access_ok()
-> looks as if task_access_ok(task) returns the same result as "task" calling
-> access_ok().
+> On 3/26/23 12:35, Ard Biesheuvel wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Sun, 26 Mar 2023 at 19:08, Shanker Donthineni <sdonthineni@nvidia.com> wrote:
+> >>
+> >> The allocation of modules occurs in two regions: the first region
+> >> MODULES_VSIZE (128MB) is shared with the core kernel, while the
+> >> the second region (2GB) is shared with other vmalloc callers.
+> >> Depending on the size of the core kernel, the 128MB region may
+> >> quickly fill up after loading a few modules, causing the system
+> >> to switch to the 2GB region.
+> >
+> > How much module space are you actually using? This 128 MiB region is
+> > not shared with vmalloc() so it should be dedicated to modules
+> > entirely.
+> >
+> Is it correct to say that if the KASLR feature is disabled, 128MB is
+> being shared between the kernel and modules? Approximately 110MB used
+> by the NVIDIA GPU driver, resulting in the usage of more than 128MB.
+>
+> root@localhost:~# cat /proc/kallsyms | grep -wE '_etext|_stext|_end'
+> ffff8000081d0000 T _stext
+> ffff800009390000 D _etext
+> ffff80000b4d0000 B _end
+>
+> root@localhost:~# cat /proc/vmallocinfo | more
+> 0xffff800001390000-0xffff800001450000  786432 move_module+0x2c/0x190 pages=11 vmalloc N0=11
+> 0xffff800001450000-0xffff8000014b0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+> 0xffff8000014f0000-0xffff800001550000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+> 0xffff800001590000-0xffff8000015f0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+> 0xffff800001630000-0xffff800001690000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+> 0xffff8000016d0000-0xffff800001740000  458752 move_module+0x2c/0x190 pages=6 vmalloc N0=6
+> 0xffff800001780000-0xffff8000017e0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+> 0xffff800001820000-0xffff800001880000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
+> ...
+>
+> The first modules loaded at the address 0xffff800001390000.
+>
+> Less than 128MB is available for modules if KASLR is disabled.
+>
+> > If you are doing EFI boot, you may need to following patch to ensure
+> > that the 128 MiB region is actually the one being used.
+> >
+> > commit 010338d729c1090036eb40d2a60b7b7bce2445b8
+> > Author: Ard Biesheuvel <ardb@kernel.org>
+> > Date:   Thu Feb 23 21:41:01 2023 +0100
+> >
+> >      arm64: kaslr: don't pretend KASLR is enabled if offset < MIN_KIMG_ALIGN
+> >
+> >
+> I have included your patch to prevent the incorrect detection of the
+> KASLR feature. Otherwise, experiencing the different error
+> "overflow in relocation type 261", R_AARCH64_PREL32. Seems this is
+> due to the incorrect initialization of module_alloc_base.
+>
 
-I think the idea of TASK_SIZE_MAX is that it is a compile-time constant and in fact independent of current, while TASK_SIZE
-takes TIF_32BIT into account.
+Hmm, not sure - there was a report about this a while ago but I forgot
+the details.
 
-     Arnd
+In any case, could we perhaps try something like the below? That way,
+we still prefer allocating from the 128 MiB region that is within
+direct branching range from the core kernel.
+
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -46,7 +46,7 @@
+ #define KIMAGE_VADDR           (MODULES_END)
+ #define MODULES_END            (MODULES_VADDR + MODULES_VSIZE)
+ #define MODULES_VADDR          (_PAGE_END(VA_BITS_MIN))
+-#define MODULES_VSIZE          (SZ_128M)
++#define MODULES_VSIZE          (SZ_2G)
+ #define VMEMMAP_START          (-(UL(1) << (VA_BITS - VMEMMAP_SHIFT)))
+ #define VMEMMAP_END            (VMEMMAP_START + VMEMMAP_SIZE)
+ #define PCI_IO_END             (VMEMMAP_START - SZ_8M)
+diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
+index 5af4975caeb58ff7..b4affe775f23e84f 100644
+--- a/arch/arm64/kernel/module.c
++++ b/arch/arm64/kernel/module.c
+@@ -37,7 +37,7 @@ void *module_alloc(unsigned long size)
+                /* don't exceed the static module region - see below */
+                module_alloc_end = MODULES_END;
+
+-       p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
++       p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_end - SZ_128M,
+                                module_alloc_end, gfp_mask,
+PAGE_KERNEL, VM_DEFER_KMEMLEAK,
+                                NUMA_NO_NODE, __builtin_return_address(0));
