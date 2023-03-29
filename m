@@ -2,123 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C218AC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 14:53:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEC1C761AF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 15:16:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjC2OxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 10:53:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39082 "EHLO
+        id S230055AbjC2PQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 11:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230243AbjC2OxA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 10:53:00 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F37B137
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 07:52:57 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id i9so16043752wrp.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 07:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680101575;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y2kmo0aenMDSgvw0VfC+Yjgx7r7yEQ3UFvZP5QHKIFU=;
-        b=2AX6WT151XrxxKQ9+KZHBNPV0OKNUZqklMPvJ36VJq9J3TuOH8OV8pTmqS9WA/lBIZ
-         fFjAMYfcPxG8VZ/ozr3H6SR/ckhvHEIGfk4SrzK1MAD3PEVvf5idTnEHFAY6o8TnBvL4
-         F39elSu+TIpfZ4LyV6FX3/zyPkTvaG/66tZxHkwqMmwInLZEbEdQrMbbrpLuNQ6YC/3z
-         fl4ForUJSR2MqgC7/PbT2lQoIr+MWtZS3mkaRITA+tVFU+uOStpSTnw1HsF9GzvnNVIA
-         NJXB4pb+gH0+ApT++xs6D3QtTr4nV0GuyXY9BkXUWz4wTr52ilLrBe86Jho2QAG3/vft
-         QsZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680101575;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y2kmo0aenMDSgvw0VfC+Yjgx7r7yEQ3UFvZP5QHKIFU=;
-        b=Nf3x2eXpk6coCJwihP1txxqy0n1MUIA4CZQQ6MrLSITtyKMoSmsehkUycLEYtlr+Tl
-         n2HDqjZqVWanxKwjJyAyury7/gUVrYq4ChM+CnLGQYRZUlQkLFOgYDtVrN+umqvT2z7I
-         bFse/+sURkGRSyEWvQ04I3uN/tqY47MUZp4JbiLbNwSGH51SAAnV4j4Z0k7vzsalKTq+
-         J5wQOGxBBrsnzkw5mx7gGAfuLrpGAiJg1Qvj3hP/J0fOTdLJQ6WBvd+vRfj/U026DZUa
-         iDnJU/fx/f7I1EpNU5qpR+XSLaX5S+SZlGTPGODmhijopXHoupqKSnSS8Xzk7NFIahoQ
-         cTqg==
-X-Gm-Message-State: AAQBX9e4kEPB7ztROimAwifKz0t8Lg+56GzOHY9Hlqcp45S3WQw/t6bE
-        moo7BtEO2yD2TavdO/cnp+Hg+7IXhhi6NIPxykVB4w==
-X-Google-Smtp-Source: AKy350YibrgJqYb/G35x+FrqrJN2n0PzT7ee4etzLgFgZl3mXcWrfWIyeg9q9WE/eraWA5q1adz/eOCiZYh4p396ZL8=
-X-Received: by 2002:a5d:6606:0:b0:2de:9905:a46e with SMTP id
- n6-20020a5d6606000000b002de9905a46emr3109552wru.13.1680101575731; Wed, 29 Mar
- 2023 07:52:55 -0700 (PDT)
+        with ESMTP id S229532AbjC2PQr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 11:16:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872211BC1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 08:16:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680102960;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Yn7L6Gf5Ys1fnh23z7AVkJPW9NwbK9fjx3dyKcciMAc=;
+        b=YowQ6lXfj5RcXccufUwz/b4MWOhexORkja0FVaKuKfrxAPZ+NwgCgUrNsKoB/8m/eay86m
+        UdyuKbzuk9TyVsghnJS3TorIgIIN3W5mr5UlzDFzXb0Eq36Hz8sdKkN1AMTYZO0B9S9snj
+        HYyaqXZYERS5zK1H8E6QmvmFzQtgFeE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-264-EXRMXSF_PnSmrGoNDhg8iw-1; Wed, 29 Mar 2023 11:15:54 -0400
+X-MC-Unique: EXRMXSF_PnSmrGoNDhg8iw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB7092814247;
+        Wed, 29 Mar 2023 15:15:28 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.161])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 8A94D492C3E;
+        Wed, 29 Mar 2023 15:15:24 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed, 29 Mar 2023 17:15:21 +0200 (CEST)
+Date:   Wed, 29 Mar 2023 17:15:16 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
+        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, catalin.marinas@arm.com, arnd@arndb.de,
+        will@kernel.org, mark.rutland@arm.com, tongtiangen@huawei.com,
+        robin.murphy@arm.com, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
+ access_ok
+Message-ID: <20230329151515.GA913@redhat.com>
+References: <20230328164811.2451-1-gregory.price@memverge.com>
+ <20230328164811.2451-2-gregory.price@memverge.com>
 MIME-Version: 1.0
-References: <20230329081932.79831-1-alexghiti@rivosinc.com>
- <20230329081932.79831-3-alexghiti@rivosinc.com> <179c38d6-4298-4a16-b0d7-8aee49a91f58@spud>
-In-Reply-To: <179c38d6-4298-4a16-b0d7-8aee49a91f58@spud>
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-Date:   Wed, 29 Mar 2023 16:52:45 +0200
-Message-ID: <CAHVXubh9t7VuM337Br-4y7zJp1msr6+bAtr1eVLc+P50V9Bikg@mail.gmail.com>
-Subject: Re: [PATCH -fixes v2 2/3] riscv: Do not set initial_boot_params to
- the linear address of the dtb
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328164811.2451-2-gregory.price@memverge.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 4:37=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Wed, Mar 29, 2023 at 10:19:31AM +0200, Alexandre Ghiti wrote:
-> > early_init_dt_verify() is already called in parse_dtb() and since the d=
-tb
-> > address does not change anymore (it is now in the fixmap region), no ne=
-ed
-> > to reset initial_boot_params by calling early_init_dt_verify() again.
-> >
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > ---
-> >  arch/riscv/kernel/setup.c | 5 +----
-> >  1 file changed, 1 insertion(+), 4 deletions(-)
-> >
-> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > index 542eed85ad2c..a059b73f4ddb 100644
-> > --- a/arch/riscv/kernel/setup.c
-> > +++ b/arch/riscv/kernel/setup.c
-> > @@ -278,10 +278,7 @@ void __init setup_arch(char **cmdline_p)
-> >  #if IS_ENABLED(CONFIG_BUILTIN_DTB)
-> >       unflatten_and_copy_device_tree();
-> >  #else
-> > -     if (early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa))))
-> > -             unflatten_device_tree();
->
-> Silly question maybe, but since it isn't explicitly mentioned, the
-> XIP_FIXUP bits no longer matter?
+Hmm. I am not comfortable with this change...
 
-The XIP_FIXUP is only needed when translating virtual to physical
-addresses, but that does not mean I did not break it, I haven't
-considered XIP at all...
+I won't really argue because I don't have a better solution and because
+I think we don't really care as long as task_set_syscall_user_dispatch()
+is the only user of task_access_ok(), but still...
 
-> Also, in related news, I assume you don't have a QEMU setup that can do
-> boot an XIP kernel?
+OK, so this version changes set_syscall_user_dispatch() to use
+task_access_ok() instead of access_ok() because task != current.
 
-I haven't booted a XIP kernel for a long time now, here are my notes
-from that time:
-https://github.com/AlexGhiti/alexghiti.github.io/blob/main/xip/XIP.md
-
+On 03/28, Gregory Price wrote:
 >
-> Cheers,
-> Conor.
+> If the architecture does not implement task_access_ok, the operation
+> reduces to access_ok and the task argument is discarded.
+
+No, with this patch it reduces to __access_ok(). And this already doesn't
+look very good to me, but this is minor.
+
+> --- a/include/asm-generic/access_ok.h
+> +++ b/include/asm-generic/access_ok.h
+> @@ -45,4 +45,14 @@ static inline int __access_ok(const void __user *ptr, unsigned long size)
+>  #define access_ok(addr, size) likely(__access_ok(addr, size))
+>  #endif
 >
-> > -     else
-> > -             pr_err("No DTB found in kernel mappings\n");
-> > +     unflatten_device_tree();
-> >  #endif
-> >       misc_mem_init();
-> >
-> > --
-> > 2.37.2
-> >
+> +/*
+> + * Some architectures may have special features (such as ARM MTE)
+> + * that require handling if access_ok is called on a pointer from one
+> + * task in the context of another.  On most architectures this operation
+> + * is equivalent to simply __access_ok.
+> + */
+> +#ifndef task_access_ok
+> +#define task_access_ok(task, addr, size) likely(__access_ok(addr, size))
+> +#endif
+
+Lets ignore arm64.
+
+This look as if access_ok() or __access_ok() doesn't depend on task, but
+this is not true in general. Say, TASK_SIZE_MAX can check is_32bit_task()
+test_thread_flag(TIF_32BIT...) and this uses "current".
+
+Again, we probably do not care, but I don't like the fact task_access_ok()
+looks as if task_access_ok(task) returns the same result as "task" calling
+access_ok().
+
+Oleg.
+
