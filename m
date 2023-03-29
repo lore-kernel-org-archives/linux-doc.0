@@ -2,383 +2,324 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73BB7C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 07:37:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 522F4C6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 07:39:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230204AbjC2Hhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 03:37:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51288 "EHLO
+        id S229784AbjC2HjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 03:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230071AbjC2HhY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 03:37:24 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728F1133;
-        Wed, 29 Mar 2023 00:36:06 -0700 (PDT)
-Received: (Authenticated sender: alex@ghiti.fr)
-        by mail.gandi.net (Postfix) with ESMTPSA id 38A64240011;
-        Wed, 29 Mar 2023 07:36:00 +0000 (UTC)
-Message-ID: <b9097be8-b842-5e53-f728-a8cb6251316d@ghiti.fr>
-Date:   Wed, 29 Mar 2023 09:36:00 +0200
+        with ESMTP id S229635AbjC2Hiu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 03:38:50 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B08ADCF;
+        Wed, 29 Mar 2023 00:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680075525; x=1711611525;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Li8d29ySqCLKIqGgxErtvFLhyCGdQ+XDDt5ITItivdI=;
+  b=lz8qU5BwyeTEP67Od1vKeb+qFQvTQFCVy3X8zZzkO1AV+5xUBQl1VCWm
+   LC01i1uFBEC7iyknhh3oyJNvRYtpjJqksJZNdJAun0f0YC8Ehd8OwZo2A
+   BaIBcyVU01wapookYogsbud9jiRgyGA/Sxc1sMbwNv1/O1+URGWbtfIM5
+   LbVyVkJ9tzh/80/ZmCKmBFIpFP+r9BUBdRotdJ63LO20luXT3sqTiopiq
+   3DykNRWN0vYhzfWTT5iF7NmUyXdozA1UxPIKFPwqiupV7+W7IE7/ZEq49
+   SW80OsEvmUgl1WWD5NXQQAdV3uiPrGJbtgtaKCSknBcD4zr4buZA26tVk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="324708312"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
+   d="scan'208";a="324708312"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 00:38:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="634381777"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
+   d="scan'208";a="634381777"
+Received: from feng-clx.sh.intel.com ([10.238.200.228])
+  by orsmga003.jf.intel.com with ESMTP; 29 Mar 2023 00:38:39 -0700
+From:   Feng Tang <feng.tang@intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Shakeel Butt <shakeelb@google.com>, dave.hansen@intel.com,
+        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com,
+        Feng Tang <feng.tang@intel.com>
+Subject: [PATCH v2] Documentation: Add document for false sharing
+Date:   Wed, 29 Mar 2023 15:33:22 +0800
+Message-Id: <20230329073322.323177-1-feng.tang@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH -fixes 1/2] riscv: Move early dtb mapping into the fixmap
- region
-To:     Conor Dooley <conor.dooley@microchip.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20230323163347.182895-1-alexghiti@rivosinc.com>
- <20230323163347.182895-2-alexghiti@rivosinc.com>
- <292617ac-b63b-473d-8d4e-2817d17233a1@spud>
-Content-Language: en-US
-From:   Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <292617ac-b63b-473d-8d4e-2817d17233a1@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Conor,
+When doing performance tuning or debugging performance regressions,
+more and more cases are found to be related to false sharing [1][2],
+and the situation can be worse for newer platforms with hundreds of
+CPUs. There are already many commits in current kernel specially
+for mitigating the performance degradation due to false sharing.
 
-On 3/27/23 12:37, Conor Dooley wrote:
-> Hey Alex!
->
-> On Thu, Mar 23, 2023 at 05:33:46PM +0100, Alexandre Ghiti wrote:
->> riscv establishes 2 virtual mappings:
->>
->> - early_pg_dir maps the kernel which allows to discover the system
->>    memory
->> - swapper_pg_dir installs the final mapping (linear mapping included)
->>
->> We used to map the dtb in early_pg_dir using DTB_EARLY_BASE_VA, and this
->> mapping was not carried over in swapper_pg_dir. It happens that
->> early_init_fdt_scan_reserved_mem must be called before swapper_pg_dir is
->> setup otherwise we could allocate reserved memory defined in the dtb.
->> And this function initializes reserved_mem variable with addresses that
->> lie in the early_pg_dir dtb mapping: when those addresses are reused
->> with swapper_pg_dir, this mapping does not exist and then we trap.
->>
->> So move the dtb mapping in the fixmap region which is established in
->> early_pg_dir and handed over to swapper_pg_dir.
-> So I think this does a good job of explaining why we had a problem with
-> reserved memory to begin with, but I think it would be good to explain
-> exactly where
->> Fixes: 50e63dd8ed92 ("riscv: fix reserved memory setup")
-> gets things wrong. That being, as far as I can tell, that it violates
-> the requirement "...must be called before swapper_pg_dir is set up".
+False sharing could harm the performance silently without being
+noticed, due to reasons like:
+* data members of a big data structure randomly sitting together
+  in one cache line
+* global data of small size are linked compactly together
 
+So it's better to make a simple document about the normal pattern
+of false sharing, basic ways to mitigate it and call out to
+developers to pay attention during code-writing.
 
-The fix is not wrong, it is just incomplete: it fixes the issue with the 
-not-existing-anymore address but introduces the problem with the 
-possible allocations in the reserved regions (which you explained 
-clearly below, thanks).
+[ Many thanks to Dave Hansen, Ying Huang, Tim Chen, Julie Du and
+  Yu Chen for their contributions ]
 
+[1]. https://lore.kernel.org/lkml/20220619150456.GB34471@xsang-OptiPlex-9020/
+[2]. https://lore.kernel.org/lkml/20201102091543.GM31092@shao2-debian/
 
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Changelog:
 
-> It would be good to mention that specifically I think, say:
->
-> 	riscv establishes 2 virtual mappings:
->
-> 	- early_pg_dir maps the kernel which allows to discover the system
-> 	  memory
-> 	- swapper_pg_dir installs the final mapping (linear mapping included)
->
-> 	We used to map the dtb in early_pg_dir using DTB_EARLY_BASE_VA, and this
-> 	mapping was not carried over in swapper_pg_dir. This caused problems
-> 	for reserved memory, as early_init_fdt_scan_reserved_mem() initialised
-> 	reserved_mem variables with addresses that lie in the early_pg_dir dtb
-> 	mapping. When those addresses are reused with swapper_pg_dir, this
-> 	mapping does not exist and then we trap.
-> 	The previous "fix" was incorrect as early_init_fdt_scan_reserved_mem()
-> 	must be called before swapper_pg_dir is set up otherwise we could
-> 	allocate in reserved memory defined in the dtb.
->
-> 	Move the dtb mapping in the fixmap region which is established in
-> 	early_pg_dir and handed over to swapper_pg_dir.
->
-> You need this one too:
-> Fixes: 922b0375fc93 ("riscv: Fix memblock reservation for device tree blob")
+  since v1:
+  * Refine the wording and grammer (Bagas Sanjaya)
+  * Add Reviewed-by tag from Randy Dunlap
+  * Fix a line wrap problem for 'make htmldocs'
 
-Not sure this commit is related to this fix and it's hard to find *one* 
-culprit: TBH I only mentioned this one as otherwise I think the right 
-commit is commit 8f3a2b4a96dc ("RISC-V: Move DT mapping outof fixmap") 
-but that's a long time ago and the patch won't apply easily, not sure 
-what to do here.
-
->
-> As an aside, one thing I noticed while re-working that, would you mind
-> adding ()s to function names in commit messages? Makes differentiation
-> between functions and variables etc a lot easier :)
+  since RFC:
+  * Reword paragraphs with grammar issues; fixes many format and
+    typo issues (Randy Dunlap)
 
 
-Sure
+ .../kernel-hacking/false-sharing.rst          | 202 ++++++++++++++++++
+ Documentation/kernel-hacking/index.rst        |   1 +
+ 2 files changed, 203 insertions(+)
+ create mode 100644 Documentation/kernel-hacking/false-sharing.rst
 
+diff --git a/Documentation/kernel-hacking/false-sharing.rst b/Documentation/kernel-hacking/false-sharing.rst
+new file mode 100644
+index 000000000000..ceeaf20290ea
+--- /dev/null
++++ b/Documentation/kernel-hacking/false-sharing.rst
+@@ -0,0 +1,202 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=============
++False Sharing
++=============
++
++What is False Sharing
++=====================
++False sharing is related with cache mechanism of maintaining the data
++coherence of one cache line stored in multiple CPU's caches; then
++academic definition for it is in [1]_. Consider a struct with a
++refcount and a string::
++
++	struct foo {
++		refcount_t refcount;
++		...
++		char name[16];
++	} ____cacheline_internodealigned_in_smp;
++
++Member 'refcount'(A) and 'name'(B) _share_ one cache line like below::
++
++                +-----------+                     +-----------+
++                |   CPU 0   |                     |   CPU 1   |
++                +-----------+                     +-----------+
++               /                                        |
++              /                                         |
++             V                                          V
++         +----------------------+             +----------------------+
++         | A      B             | Cache 0     | A       B            | Cache 1
++         +----------------------+             +----------------------+
++                             |                  |
++  ---------------------------+------------------+-----------------------------
++                             |                  |
++                           +----------------------+
++                           |                      |
++                           +----------------------+
++              Main Memory  | A       B            |
++                           +----------------------+
++
++'refcount' is modified frequently, but 'name' is set once at object
++creation time and is never modified.  When many CPUs access 'foo' at
++the same time, with 'refcount' being only bumped by one CPU frequently
++and 'name' being read by other CPUs, all those reading CPUs have to
++reload the whole cache line over and over due to the 'sharing', even
++though 'name' is never changed.
++
++There are many real-world cases of performance regressions caused by
++false sharing.  One of these is a rw_semaphore 'mmap_lock' inside
++mm_struct struct, whose cache line layout change triggered a
++regression and Linus analyzed in [2]_.
++
++There are two key factors for a harmful false sharing:
++
++* A global datum accessed (shared) by many CPUs
++* In the concurrent accesses to the data, there is at least one write
++  operation: write/write or write/read cases.
++
++The sharing could be from totally unrelated kernel components, or
++different code paths of the same kernel component.
++
++
++False Sharing Pitfalls
++======================
++Back in time when one platform had only one or a few CPUs, hot data
++members could be purposely put in the same cache line to make them
++cache hot and save cacheline/TLB, like a lock and the data protected
++by it.  But for recent large system with hundreds of CPUs, this may
++not work when the lock is heavily contended, as the lock owner CPU
++could write to the data, while other CPUs are busy spinning the lock.
++
++Looking at past cases, there are several frequently occurring patterns
++for false sharing:
++
++* lock (spinlock/mutex/semaphore) and data protected by it are
++  purposely put in one cache line.
++* global data being put together in one cache line. Some kernel
++  subsystems have many global parameters of small size (4 bytes),
++  which can easily be grouped together and put into one cache line.
++* data members of a big data structure randomly sitting together
++  without being noticed (cache line is usually 64 bytes or more),
++  like struct 'mem_cgroup'.
++
++Following 'mitigation' section provides real-world examples.
++
++False sharing could easily happen unless they are intentionally
++checked, and it is valuable to run specific tools for performance
++critical workloads to detect false sharing affecting performance case
++and optimize accordingly.
++
++
++How to detect and analysis False Sharing
++========================================
++perf record/report/stat are widely used for performance tuning, and
++once hotspots are detected, tools like 'perf-c2c' and 'pahole' can
++be further used to detect and pinpoint the possible false sharing
++data structures.  'addr2line' is also good at decoding instruction
++pointer when there are multiple layers of inline functions.
++
++perf-c2c can capture the cache lines with most false sharing hits,
++decoded functions (line number of file) accessing that cache line,
++and in-line offset of the data. Simple commands are::
++
++  $ perf c2c record -ag sleep 3
++  $ perf c2c report --call-graph none -k vmlinux
++
++When running above during testing will-it-scale's tlb_flush1 case,
++perf reports something like::
++
++  Total records                     :    1658231
++  Locked Load/Store Operations      :      89439
++  Load Operations                   :     623219
++  Load Local HITM                   :      92117
++  Load Remote HITM                  :        139
++
++  #----------------------------------------------------------------------
++      4        0     2374        0        0        0  0xff1100088366d880
++  #----------------------------------------------------------------------
++    0.00%   42.29%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff81373b7b         0       231       129     5312        64  [k] __mod_lruvec_page_state    [kernel.vmlinux]  memcontrol.h:752   1
++    0.00%   13.10%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff81374718         0       226        97     3551        64  [k] folio_lruvec_lock_irqsave  [kernel.vmlinux]  memcontrol.h:752   1
++    0.00%   11.20%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff812c29bf         0       170       136      555        64  [k] lru_add_fn                 [kernel.vmlinux]  mm_inline.h:41     1
++    0.00%    7.62%    0.00%    0.00%    0.00%    0x8     1       1  0xffffffff812c3ec5         0       175       108      632        64  [k] release_pages              [kernel.vmlinux]  mm_inline.h:41     1
++    0.00%   23.29%    0.00%    0.00%    0.00%   0x10     1       1  0xffffffff81372d0a         0       234       279     1051        64  [k] __mod_memcg_lruvec_state   [kernel.vmlinux]  memcontrol.c:736   1
++
++A nice introduction for perf-c2c is [3]_.
++
++'pahole' decodes data structure layouts delimited in cache line
++granularity.  Users can match the offset in perf-c2c output with
++pahole's decoding to locate the exact data members.  For global
++data, users can search the data address in System.map.
++
++
++Possible Mitigations
++====================
++False sharing does not always need to be mitigated.  False sharing
++mitigations need to balance performance gains with complexity and
++space consumption.  Sometimes, lower performance is OK, and it's
++unnecessary to hyper-optimize every rarely used data structure or
++a cold data path.
++
++False sharing hurting performance cases are seen more frequently with
++core count increasing.  Because of these detrimental effects, many
++patches have been proposed across variety of subsystems (like
++networking and memory management) and merged.  Some common mitigations
++(with examples) are:
++
++* Separate hot global data in its own dedicated cache line, even if it
++  is just a 'short' type. The downside is more consumption of memory,
++  cache line and TLB entries.
++
++  - Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_sockets_allocated")
++
++* Reorganize the data structure, separate the interfering members to
++  different cache lines.  One downside is it may introduce new false
++  sharing of other members.
++
++  - Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduce false sharing")
++
++* Replace 'write' with 'read' when possible, especially in loops.
++  Like for some global variable, use compare(read)-then-write instead
++  of unconditional write. For example, use::
++
++	if (!test_bit(XXX))
++		set_bit(XXX);
++
++  instead of directly "set_bit(XXX);", similarly for atomic_t data.
++
++  - Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() multithreaded CPU false sharing")
++  - Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
++
++* Turn hot global data to 'per-cpu data + global data' when possible,
++  or reasonably increase the threshold for syncing per-cpu data to
++  global data, to reduce or postpone the 'write' to that global data.
++
++  - Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cache hits/misses")
++  - Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm overcommit policy")
++
++Surely, all mitigations should be carefully verified to not cause side
++effects.  And to avoid false sharing in advance during coding, it's
++better to:
++
++* Be aware of cache line boundaries
++* Group mostly read-only fields together
++* Group things that are written at the same time together
++* Separate known read-mostly and written-mostly fields
++
++and better add a comment stating the false sharing consideration.
++
++One note is, sometimes even after a severe false sharing is detected
++and solved, the performance may still have no obvious improvement as
++the hotspot switches to a new place.
++
++
++Miscellaneous
++=============
++One open issue is that kernel has an optional data structure
++randomization mechanism, which also randomizes the situation of cache
++line sharing of data members.
++
++
++.. [1] https://en.wikipedia.org/wiki/False_sharing
++.. [2] https://lore.kernel.org/lkml/CAHk-=whoqV=cX5VC80mmR9rr+Z+yQ6fiQZm36Fb-izsanHg23w@mail.gmail.com/
++.. [3] https://joemario.github.io/blog/2016/09/01/c2c-blog/
+diff --git a/Documentation/kernel-hacking/index.rst b/Documentation/kernel-hacking/index.rst
+index f53027652290..79c03bac99a2 100644
+--- a/Documentation/kernel-hacking/index.rst
++++ b/Documentation/kernel-hacking/index.rst
+@@ -9,3 +9,4 @@ Kernel Hacking Guides
+ 
+    hacking
+    locking
++   false-sharing
+-- 
+2.34.1
 
->
-> This is probably the least confident R-b I've given to date:
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> But I did also run this through the test the trigger the initial
-> problems and it looks good, so:
-> Tested-by: Conor Dooley <conor.dooley@microchip.com>
-
-
-Great, if that breaks something, we'll share responsibility then, thanks :)
-
-
->
->> Reported-by: Conor Dooley <Conor.Dooley@microchip.com>
-> btw, could you make the email all lowercase if you re-spin, exchange did
-> what it does to the original report cos it was sent from Thunderbird
-> rather than mutt.
-
-
-Sure
-
-
->
-> Thanks for working on this,
-
-
-You're welcome, that was fun!
-
-
-Alex
-
-
-> Conor.
->
->> Link: https://lore.kernel.org/all/f8e67f82-103d-156c-deb0-d6d6e2756f5e@microchip.com/
->> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->> ---
->>   Documentation/riscv/vm-layout.rst |  6 +--
->>   arch/riscv/include/asm/fixmap.h   |  8 ++++
->>   arch/riscv/include/asm/pgtable.h  |  8 +++-
->>   arch/riscv/kernel/setup.c         |  1 -
->>   arch/riscv/mm/init.c              | 61 +++++++++++++++++--------------
->>   5 files changed, 51 insertions(+), 33 deletions(-)
->>
->> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
->> index 3be44e74ec5d..5462c84f4723 100644
->> --- a/Documentation/riscv/vm-layout.rst
->> +++ b/Documentation/riscv/vm-layout.rst
->> @@ -47,7 +47,7 @@ RISC-V Linux Kernel SV39
->>                                                                 | Kernel-space virtual memory, shared between all processes:
->>     ____________________________________________________________|___________________________________________________________
->>                       |            |                  |         |
->> -   ffffffc6fee00000 | -228    GB | ffffffc6feffffff |    2 MB | fixmap
->> +   ffffffc6fea00000 | -228    GB | ffffffc6feffffff |    6 MB | fixmap
->>      ffffffc6ff000000 | -228    GB | ffffffc6ffffffff |   16 MB | PCI io
->>      ffffffc700000000 | -228    GB | ffffffc7ffffffff |    4 GB | vmemmap
->>      ffffffc800000000 | -224    GB | ffffffd7ffffffff |   64 GB | vmalloc/ioremap space
->> @@ -83,7 +83,7 @@ RISC-V Linux Kernel SV48
->>                                                                 | Kernel-space virtual memory, shared between all processes:
->>     ____________________________________________________________|___________________________________________________________
->>                       |            |                  |         |
->> -   ffff8d7ffee00000 |  -114.5 TB | ffff8d7ffeffffff |    2 MB | fixmap
->> +   ffff8d7ffea00000 |  -114.5 TB | ffff8d7ffeffffff |    6 MB | fixmap
->>      ffff8d7fff000000 |  -114.5 TB | ffff8d7fffffffff |   16 MB | PCI io
->>      ffff8d8000000000 |  -114.5 TB | ffff8f7fffffffff |    2 TB | vmemmap
->>      ffff8f8000000000 |  -112.5 TB | ffffaf7fffffffff |   32 TB | vmalloc/ioremap space
->> @@ -119,7 +119,7 @@ RISC-V Linux Kernel SV57
->>                                                                 | Kernel-space virtual memory, shared between all processes:
->>     ____________________________________________________________|___________________________________________________________
->>                       |            |                  |         |
->> -   ff1bfffffee00000 | -57     PB | ff1bfffffeffffff |    2 MB | fixmap
->> +   ff1bfffffea00000 | -57     PB | ff1bfffffeffffff |    6 MB | fixmap
->>      ff1bffffff000000 | -57     PB | ff1bffffffffffff |   16 MB | PCI io
->>      ff1c000000000000 | -57     PB | ff1fffffffffffff |    1 PB | vmemmap
->>      ff20000000000000 | -56     PB | ff5fffffffffffff |   16 PB | vmalloc/ioremap space
->> diff --git a/arch/riscv/include/asm/fixmap.h b/arch/riscv/include/asm/fixmap.h
->> index 5c3e7b97fcc6..0a55099bb734 100644
->> --- a/arch/riscv/include/asm/fixmap.h
->> +++ b/arch/riscv/include/asm/fixmap.h
->> @@ -22,6 +22,14 @@
->>    */
->>   enum fixed_addresses {
->>   	FIX_HOLE,
->> +	/*
->> +	 * The fdt fixmap mapping must be PMD aligned and will be mapped
->> +	 * using PMD entries in fixmap_pmd in 64-bit and a PGD entry in 32-bit.
->> +	 */
->> +	FIX_FDT_END,
->> +	FIX_FDT = FIX_FDT_END + FIX_FDT_SIZE / PAGE_SIZE - 1,
->> +
->> +	/* Below fixmaps will be mapped using fixmap_pte */
->>   	FIX_PTE,
->>   	FIX_PMD,
->>   	FIX_PUD,
->> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
->> index ab05f892d317..f641837ccf31 100644
->> --- a/arch/riscv/include/asm/pgtable.h
->> +++ b/arch/riscv/include/asm/pgtable.h
->> @@ -87,9 +87,13 @@
->>   
->>   #define FIXADDR_TOP      PCI_IO_START
->>   #ifdef CONFIG_64BIT
->> -#define FIXADDR_SIZE     PMD_SIZE
->> +#define MAX_FDT_SIZE	 PMD_SIZE
->> +#define FIX_FDT_SIZE	 (MAX_FDT_SIZE + SZ_2M)
->> +#define FIXADDR_SIZE     (PMD_SIZE + FIX_FDT_SIZE)
->>   #else
->> -#define FIXADDR_SIZE     PGDIR_SIZE
->> +#define MAX_FDT_SIZE	 PGDIR_SIZE
->> +#define FIX_FDT_SIZE	 MAX_FDT_SIZE
->> +#define FIXADDR_SIZE     (PGDIR_SIZE + FIX_FDT_SIZE)
->>   #endif
->>   #define FIXADDR_START    (FIXADDR_TOP - FIXADDR_SIZE)
->>   
->> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
->> index 376d2827e736..542eed85ad2c 100644
->> --- a/arch/riscv/kernel/setup.c
->> +++ b/arch/riscv/kernel/setup.c
->> @@ -283,7 +283,6 @@ void __init setup_arch(char **cmdline_p)
->>   	else
->>   		pr_err("No DTB found in kernel mappings\n");
->>   #endif
->> -	early_init_fdt_scan_reserved_mem();
->>   	misc_mem_init();
->>   
->>   	init_resources();
->> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
->> index 478d6763a01a..fb78d6bbabae 100644
->> --- a/arch/riscv/mm/init.c
->> +++ b/arch/riscv/mm/init.c
->> @@ -57,7 +57,6 @@ unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)]
->>   EXPORT_SYMBOL(empty_zero_page);
->>   
->>   extern char _start[];
->> -#define DTB_EARLY_BASE_VA      PGDIR_SIZE
->>   void *_dtb_early_va __initdata;
->>   uintptr_t _dtb_early_pa __initdata;
->>   
->> @@ -236,6 +235,14 @@ static void __init setup_bootmem(void)
->>   	set_max_mapnr(max_low_pfn - ARCH_PFN_OFFSET);
->>   
->>   	reserve_initrd_mem();
->> +
->> +	/*
->> +	 * No allocation should be done before reserving the memory as defined
->> +	 * in the device tree, otherwise the allocation could end up in a
->> +	 * reserved region.
->> +	 */
->> +	early_init_fdt_scan_reserved_mem();
->> +
->>   	/*
->>   	 * If DTB is built in, no need to reserve its memblock.
->>   	 * Otherwise, do reserve it but avoid using
->> @@ -279,9 +286,6 @@ pgd_t trampoline_pg_dir[PTRS_PER_PGD] __page_aligned_bss;
->>   static pte_t fixmap_pte[PTRS_PER_PTE] __page_aligned_bss;
->>   
->>   pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
->> -static p4d_t __maybe_unused early_dtb_p4d[PTRS_PER_P4D] __initdata __aligned(PAGE_SIZE);
->> -static pud_t __maybe_unused early_dtb_pud[PTRS_PER_PUD] __initdata __aligned(PAGE_SIZE);
->> -static pmd_t __maybe_unused early_dtb_pmd[PTRS_PER_PMD] __initdata __aligned(PAGE_SIZE);
->>   
->>   #ifdef CONFIG_XIP_KERNEL
->>   #define pt_ops			(*(struct pt_alloc_ops *)XIP_FIXUP(&pt_ops))
->> @@ -626,9 +630,6 @@ static void __init create_p4d_mapping(p4d_t *p4dp,
->>   #define trampoline_pgd_next	(pgtable_l5_enabled ?			\
->>   		(uintptr_t)trampoline_p4d : (pgtable_l4_enabled ?	\
->>   		(uintptr_t)trampoline_pud : (uintptr_t)trampoline_pmd))
->> -#define early_dtb_pgd_next	(pgtable_l5_enabled ?			\
->> -		(uintptr_t)early_dtb_p4d : (pgtable_l4_enabled ?	\
->> -		(uintptr_t)early_dtb_pud : (uintptr_t)early_dtb_pmd))
->>   #else
->>   #define pgd_next_t		pte_t
->>   #define alloc_pgd_next(__va)	pt_ops.alloc_pte(__va)
->> @@ -636,7 +637,6 @@ static void __init create_p4d_mapping(p4d_t *p4dp,
->>   #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)	\
->>   	create_pte_mapping(__nextp, __va, __pa, __sz, __prot)
->>   #define fixmap_pgd_next		((uintptr_t)fixmap_pte)
->> -#define early_dtb_pgd_next	((uintptr_t)early_dtb_pmd)
->>   #define create_p4d_mapping(__pmdp, __va, __pa, __sz, __prot) do {} while(0)
->>   #define create_pud_mapping(__pmdp, __va, __pa, __sz, __prot) do {} while(0)
->>   #define create_pmd_mapping(__pmdp, __va, __pa, __sz, __prot) do {} while(0)
->> @@ -860,32 +860,28 @@ static void __init create_kernel_page_table(pgd_t *pgdir, bool early)
->>    * this means 2 PMD entries whereas for 32-bit kernel, this is only 1 PGDIR
->>    * entry.
->>    */
->> -static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
->> +static void __init create_fdt_early_page_table(pgd_t *pgdir,
->> +					       uintptr_t fix_fdt_va,
->> +					       uintptr_t dtb_pa)
->>   {
->> -#ifndef CONFIG_BUILTIN_DTB
->>   	uintptr_t pa = dtb_pa & ~(PMD_SIZE - 1);
->>   
->> -	create_pgd_mapping(early_pg_dir, DTB_EARLY_BASE_VA,
->> -			   IS_ENABLED(CONFIG_64BIT) ? early_dtb_pgd_next : pa,
->> -			   PGDIR_SIZE,
->> -			   IS_ENABLED(CONFIG_64BIT) ? PAGE_TABLE : PAGE_KERNEL);
->> -
->> -	if (pgtable_l5_enabled)
->> -		create_p4d_mapping(early_dtb_p4d, DTB_EARLY_BASE_VA,
->> -				   (uintptr_t)early_dtb_pud, P4D_SIZE, PAGE_TABLE);
->> -
->> -	if (pgtable_l4_enabled)
->> -		create_pud_mapping(early_dtb_pud, DTB_EARLY_BASE_VA,
->> -				   (uintptr_t)early_dtb_pmd, PUD_SIZE, PAGE_TABLE);
->> +#ifndef CONFIG_BUILTIN_DTB
->> +	/* Make sure the fdt fixmap address is always aligned on PMD size */
->> +	BUILD_BUG_ON(FIX_FDT % (PMD_SIZE / PAGE_SIZE));
->>   
->> -	if (IS_ENABLED(CONFIG_64BIT)) {
->> -		create_pmd_mapping(early_dtb_pmd, DTB_EARLY_BASE_VA,
->> +	/* In 32-bit only, the fdt lies in its own PGD */
->> +	if (!IS_ENABLED(CONFIG_64BIT)) {
->> +		create_pgd_mapping(early_pg_dir, fix_fdt_va,
->> +				   pa, MAX_FDT_SIZE, PAGE_KERNEL);
->> +	} else {
->> +		create_pmd_mapping(fixmap_pmd, fix_fdt_va,
->>   				   pa, PMD_SIZE, PAGE_KERNEL);
->> -		create_pmd_mapping(early_dtb_pmd, DTB_EARLY_BASE_VA + PMD_SIZE,
->> +		create_pmd_mapping(fixmap_pmd, fix_fdt_va + PMD_SIZE,
->>   				   pa + PMD_SIZE, PMD_SIZE, PAGE_KERNEL);
->>   	}
->>   
->> -	dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PMD_SIZE - 1));
->> +	dtb_early_va = (void *)fix_fdt_va + (dtb_pa & (PMD_SIZE - 1));
->>   #else
->>   	/*
->>   	 * For 64-bit kernel, __va can't be used since it would return a linear
->> @@ -1055,7 +1051,8 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>   	create_kernel_page_table(early_pg_dir, true);
->>   
->>   	/* Setup early mapping for FDT early scan */
->> -	create_fdt_early_page_table(early_pg_dir, dtb_pa);
->> +	create_fdt_early_page_table(early_pg_dir,
->> +				    __fix_to_virt(FIX_FDT), dtb_pa);
->>   
->>   	/*
->>   	 * Bootime fixmap only can handle PMD_SIZE mapping. Thus, boot-ioremap
->> @@ -1097,6 +1094,16 @@ static void __init setup_vm_final(void)
->>   	u64 i;
->>   
->>   	/* Setup swapper PGD for fixmap */
->> +#if !defined(CONFIG_64BIT)
->> +	/*
->> +	 * In 32-bit, the device tree lies in a pgd entry, so it must be copied
->> +	 * directly in swapper_pg_dir in addition to the pgd entry that points
->> +	 * to fixmap_pte.
->> +	 */
->> +	unsigned long idx = pgd_index(__fix_to_virt(FIX_FDT));
->> +
->> +	set_pgd(&swapper_pg_dir[idx], early_pg_dir[idx]);
->> +#endif
->>   	create_pgd_mapping(swapper_pg_dir, FIXADDR_START,
->>   			   __pa_symbol(fixmap_pgd_next),
->>   			   PGDIR_SIZE, PAGE_TABLE);
->> -- 
->> 2.37.2
->>
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
