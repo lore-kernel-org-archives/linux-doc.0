@@ -2,289 +2,392 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D308C74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 10:40:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D48C5C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 11:08:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbjC2Kkb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 06:40:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46212 "EHLO
+        id S229665AbjC2LIB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 07:08:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbjC2Kkb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 06:40:31 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C3C3C21;
-        Wed, 29 Mar 2023 03:40:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DF07FB82249;
-        Wed, 29 Mar 2023 10:40:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CDFAC433D2;
-        Wed, 29 Mar 2023 10:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1680086426;
-        bh=3/EYlpKA/WAhFjAC+6ttrKSSg5D43RrofkB8s9tg/JY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RbgJov/FjAyGNtxTvxU0IRjiquduZah7SZoWZ0QoZNSdPIfv9wOxRYfDyWvODIBdv
-         0mY8FkkD7hax+aGY50MNvh3qEXEhg4nTgIJOfaczOPaZu1Y5ifLZoq6Nv5rGhY8flR
-         8HAi/Ka8HnfSBSuJKg4MqrVYHowdwIg0VZvLQAV8=
-Date:   Wed, 29 Mar 2023 12:40:24 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ardb@kernel.org, kraxel@redhat.com,
-        dovmurik@linux.ibm.com, elena.reshetova@intel.com,
-        dave.hansen@linux.intel.com, Dhaval.Giani@amd.com,
-        michael.day@amd.com, pavankumar.paluri@amd.com,
-        David.Kaplan@amd.com, Reshma.Lal@amd.com, Jeremy.Powell@amd.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com,
-        alexander.shishkin@linux.intel.com, thomas.lendacky@amd.com,
-        tglx@linutronix.de, dgilbert@redhat.com, dinechin@redhat.com,
-        linux-coco@lists.linux.dev, berrange@redhat.com, mst@redhat.com,
-        tytso@mit.edu, jikos@kernel.org, joro@8bytes.org, leon@kernel.org,
-        richard.weinberger@gmail.com, lukas@wunner.de, jejb@linux.ibm.com,
-        cdupontd@redhat.com, jasowang@redhat.com, sameo@rivosinc.com,
-        bp@alien8.de, seanjc@google.com, security@kernel.org
-Subject: Re: [PATCH] docs: security: Confidential computing intro and threat
- model
-Message-ID: <ZCQVmIKXWXX2xvo-@kroah.com>
-References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230327141816.2648615-1-carlos.bilbao@amd.com>
+        with ESMTP id S229659AbjC2LIA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 07:08:00 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6FC1716
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 04:07:59 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5417f156cb9so151971897b3.8
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 04:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680088078;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qLE8CWrmaNXgXCg2eNFOgeW6xHNyRTGjnMFCzItSd5A=;
+        b=Aob7ge9ZtEBOKmu461YXtMVZ/sAukHmCRbKP6dMeCycttYKk3qU6Jad/XnVJcxhkR9
+         u95tIOinC9eOx8dGDdYDKRGl7xopgJSnwxASP2J09IiR8fhmo1ezd8pvi5ZlRfJncZsX
+         7RaLGXYDz9+K8zMUrZ7YrhP89w+OXWG//7XUS5Zgw7/8Vxol9vXx34ek83kawzepgS38
+         VrcLKQYXJKqliJsKaGOmHuZitygaZDCbRHzkC1hwsVlCNrgbkgczRkxfiyzZ7+i9ETIq
+         CI7cqCgbOc2BoLiCRL6pVTcBRtkbQVGZbIVLjDWmkWX9TW6imq5Xfq1fm1SKjacpLZbA
+         7gCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680088078;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qLE8CWrmaNXgXCg2eNFOgeW6xHNyRTGjnMFCzItSd5A=;
+        b=prss5cFIr437UMIyEJFXpeGe/kFLFSpfJc4QkFbN9IYtGGD2rXfFj/CryoL18FRxKP
+         RuZgq9b8v2midPb4HzYukyo/MdELvo+rC6joAqd0kxvK6Mb3NKn7+3Pk3RvzFrcdo05n
+         0KjkIaNXDVfNdIVb6Y7bOLUXrDU0AczAyj/eqQxdA7wKU59eWYxRfb5+tN3OvYERyXjQ
+         P4R/3Tj8dY770z0GPZhEgncM8a4Ej1q1kRyYBSQH7bzRrghDuZjBv8eFQLc6RtyE1UDc
+         fRp8i9C1THlqrQs8BQ8cO8DZHfq2bvDHrescjgm8x8RrZooaf+rxghWpu0eIr7tEqM82
+         tlgg==
+X-Gm-Message-State: AAQBX9eTMR1f7tzvcL8VpW9NsXoF+btyKhDI1xoBlUKuiiGcuQm9Irr7
+        3vukWSWSzzqy6e/+33NTR+9dFzIaQWAsGDb9
+X-Google-Smtp-Source: AKy350ZYgvwaYrYxW4St3GTPmqThmwm4W46Naie1JY6mHAA8lhucU4GKj49jr/vcyUgjmMzqOu/vNKKFu4reiR5R
+X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
+ (user=sadiyakazi job=sendgmr) by 2002:a25:d7ce:0:b0:b7d:e643:d3c3 with SMTP
+ id o197-20020a25d7ce000000b00b7de643d3c3mr2897717ybg.8.1680088078456; Wed, 29
+ Mar 2023 04:07:58 -0700 (PDT)
+Date:   Wed, 29 Mar 2023 11:07:22 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
+Message-ID: <20230329110723.3458843-1-sadiyakazi@google.com>
+Subject: [PATCH v1] list: test: Test the klist structure
+From:   Sadiya Kazi <sadiyakazi@google.com>
+To:     brendanhiggins@google.com, davidgow@google.com,
+        skhan@linuxfoundation.org, corbet@lwn.net
+Cc:     Sadiya Kazi <sadiyakazi@google.com>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 27, 2023 at 09:18:16AM -0500, Carlos Bilbao wrote:
-> Kernel developers working on confidential computing operate under a set of
-> assumptions regarding the Linux kernel threat model that differ from the
-> traditional view. In order to effectively engage with the linux-coco
-> mailing list and contribute to ongoing kernel efforts, one must have a
-> thorough familiarity with these concepts. Add a concise,
-> architecture-agnostic introduction and threat model to provide a reference
-> for ongoing design discussions and to help developers gain a foundational
-> understanding of the subject.
+Add KUnit tests to the klist linked-list structure.
+These perform testing for different variations of node add
+and node delete in the klist data structure (<linux/klist.h>).
 
-Thanks for putting this together.  Some questions below:
+Limitation: Since we use a static global variable, and if
+multiple instances of this test are run concurrently, the test may fail.
 
-> +The basic CoCo layout includes the host, guest, the interfaces that
-> +communicate guest and host, a platform capable of supporting CoCo, and an
-> +intermediary between the guest virtual machine (VM) and the underlying
-> +platform that acts as security manager::
-> +
-> +    +-------------------+      +-----------------------+
-> +    | CoCo guest VM     |<---->|                       |
-> +    +-------------------+      |                       |
-> +      | Interfaces |           | CoCo security manager |
-> +    +-------------------+      |                       |
-> +    | Host VMM          |<---->|                       |
-> +    +-------------------+      |                       |
-> +                               |                       |
-> +    +--------------------+     |                       |
-> +    | CoCo platform      |<--->|                       |
-> +    +--------------------+     +-----------------------+
+Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+---
+ lib/list-test.c | 298 +++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 297 insertions(+), 1 deletion(-)
 
-I do not understand, what are the "<--->" lines representing?  Function
-calls?  APIs?  something else?
+diff --git a/lib/list-test.c b/lib/list-test.c
+index d374cf5d1a57..af651cacb8f4 100644
+--- a/lib/list-test.c
++++ b/lib/list-test.c
+@@ -8,6 +8,7 @@
+ #include <kunit/test.h>
+ 
+ #include <linux/list.h>
++#include <linux/klist.h>
+ 
+ struct list_test_struct {
+ 	int data;
+@@ -1199,6 +1200,301 @@ static struct kunit_suite hlist_test_module = {
+ 	.test_cases = hlist_test_cases,
+ };
+ 
+-kunit_test_suites(&list_test_module, &hlist_test_module);
++
++struct klist_test_struct {
++	int data;
++	struct klist klist;
++	struct klist_node klist_node;
++};
++
++/* counts the number of nodes*/
++static int node_count;
++static struct klist_node *last_node_count;
++
++static void check_node(struct klist_node *node_ptr)
++{
++	node_count++;
++	last_node_count = node_ptr;
++}
++
++static void check_delete_node(struct klist_node *node_ptr)
++{
++	node_count--;
++	last_node_count = node_ptr;
++}
++
++static void klist_test_add_tail(struct kunit *test)
++{
++	struct klist_node a, b;
++	struct klist mylist;
++	struct klist_iter i;
++
++	node_count = 0;
++	klist_init(&mylist, &check_node, NULL);
++
++	klist_add_tail(&a, &mylist);
++	KUNIT_EXPECT_EQ(test, node_count, 1);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &a);
++
++	klist_add_tail(&b, &mylist);
++	KUNIT_EXPECT_EQ(test, node_count, 2);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &b);
++
++	/* should be [list] -> a -> b */
++	klist_iter_init(&mylist, &i);
++
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
++	KUNIT_EXPECT_NULL(test, klist_next(&i));
++
++	klist_iter_exit(&i);
++
++}
++
++static void klist_test_add_head(struct kunit *test)
++{
++	struct klist_node a, b;
++	struct klist mylist;
++	struct klist_iter i;
++
++	node_count = 0;
++	klist_init(&mylist, &check_node, NULL);
++
++	klist_add_head(&a, &mylist);
++	KUNIT_EXPECT_EQ(test, node_count, 1);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &a);
++
++	klist_add_head(&b, &mylist);
++	KUNIT_EXPECT_EQ(test, node_count, 2);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &b);
++
++	/* should be [list] -> b -> a */
++	klist_iter_init(&mylist, &i);
++
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
++	KUNIT_EXPECT_NULL(test, klist_next(&i));
++
++	klist_iter_exit(&i);
++
++}
++
++static void klist_test_add_behind(struct kunit *test)
++{
++	struct klist_node a, b, c, d;
++	struct klist mylist;
++	struct klist_iter i;
++
++	node_count = 0;
++	klist_init(&mylist, &check_node, NULL);
++
++	klist_add_head(&a, &mylist);
++	klist_add_head(&b, &mylist);
++
++	klist_add_behind(&c, &a);
++	KUNIT_EXPECT_EQ(test, node_count, 3);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
++
++	klist_add_behind(&d, &b);
++	KUNIT_EXPECT_EQ(test, node_count, 4);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
++
++	klist_iter_init(&mylist, &i);
++
++	/* should be [list] -> b -> d -> a -> c*/
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
++	KUNIT_EXPECT_NULL(test, klist_next(&i));
++
++	klist_iter_exit(&i);
++
++}
++
++static void klist_test_add_before(struct kunit *test)
++{
++	struct klist_node a, b, c, d;
++	struct klist mylist;
++	struct klist_iter i;
++
++	node_count = 0;
++	klist_init(&mylist, &check_node, NULL);
++
++	klist_add_head(&a, &mylist);
++	klist_add_head(&b, &mylist);
++	klist_add_before(&c, &a);
++	KUNIT_EXPECT_EQ(test, node_count, 3);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
++
++	klist_add_before(&d, &b);
++	KUNIT_EXPECT_EQ(test, node_count, 4);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
++
++	klist_iter_init(&mylist, &i);
++
++	/* should be [list] -> b -> d -> a -> c*/
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
++	KUNIT_EXPECT_NULL(test, klist_next(&i));
++
++	klist_iter_exit(&i);
++
++}
++
++/* Verify that klist_del() delays the deletion of a node until there
++ * are no other references to it
++ */
++static void klist_test_del_refcount_greater_than_zero(struct kunit *test)
++{
++	struct klist_node a, b, c, d;
++	struct klist mylist;
++	struct klist_iter i;
++
++	node_count = 0;
++	klist_init(&mylist, &check_node, &check_delete_node);
++
++	/* Add nodes a,b,c,d to the list*/
++	klist_add_tail(&a, &mylist);
++	klist_add_tail(&b, &mylist);
++	klist_add_tail(&c, &mylist);
++	klist_add_tail(&d, &mylist);
++
++	klist_iter_init(&mylist, &i);
++
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
++	/* Advance the iterator to point to node c*/
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
++
++	/* Try to delete node c while there is a reference to it*/
++	klist_del(&c);
++
++	/*
++	 * Verify that node c is still attached to the list even after being
++	 * deleted. Since the iterator still points to c, the reference count is not
++	 * decreased to 0
++	 */
++	KUNIT_EXPECT_TRUE(test, klist_node_attached(&c));
++
++	/* Check that node c has not been removed yet*/
++	KUNIT_EXPECT_EQ(test, node_count, 4);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
++
++	klist_iter_exit(&i);
++
++	/* Since the iterator is no longer pointing to node c, node c is removed
++	 * from the list
++	 */
++	KUNIT_EXPECT_EQ(test, node_count, 3);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
++
++}
++
++/* Verify that klist_del() deletes a node immediately when there are no
++ * other references to it.
++ */
++static void klist_test_del_refcount_zero(struct kunit *test)
++{
++	struct klist_node a, b, c, d;
++	struct klist mylist;
++	struct klist_iter i;
++
++	node_count = 0;
++	klist_init(&mylist, &check_node, &check_delete_node);
++
++	/* Add nodes a,b,c,d to the list*/
++	klist_add_tail(&a, &mylist);
++	klist_add_tail(&b, &mylist);
++	klist_add_tail(&c, &mylist);
++	klist_add_tail(&d, &mylist);
++	/* Delete node c*/
++	klist_del(&c);
++
++	/* Check that node c is deleted from the list*/
++	KUNIT_EXPECT_EQ(test, node_count, 3);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
++
++	/* Should be [list] -> a -> b -> d*/
++	klist_iter_init(&mylist, &i);
++
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
++	KUNIT_EXPECT_NULL(test, klist_next(&i));
++
++	klist_iter_exit(&i);
++
++}
++
++static void klist_test_remove(struct kunit *test)
++{
++	/* This test doesn't check correctness under concurrent access */
++	struct klist_node a, b, c, d;
++	struct klist mylist;
++	struct klist_iter i;
++
++	node_count = 0;
++	klist_init(&mylist, &check_node, &check_delete_node);
++
++	/* Add nodes a,b,c,d to the list*/
++	klist_add_tail(&a, &mylist);
++	klist_add_tail(&b, &mylist);
++	klist_add_tail(&c, &mylist);
++	klist_add_tail(&d, &mylist);
++	/* Delete node c*/
++	klist_remove(&c);
++
++	/* Check the nodes in the list*/
++	KUNIT_EXPECT_EQ(test, node_count, 3);
++	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
++
++	/* should be [list] -> a -> b -> d*/
++	klist_iter_init(&mylist, &i);
++
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
++	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
++	KUNIT_EXPECT_NULL(test, klist_next(&i));
++
++	klist_iter_exit(&i);
++
++}
++
++static void klist_test_node_attached(struct kunit *test)
++{
++	struct klist_node a = {};
++	struct klist mylist;
++
++	klist_init(&mylist, NULL, NULL);
++
++	KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
++	klist_add_head(&a, &mylist);
++	KUNIT_EXPECT_TRUE(test, klist_node_attached(&a));
++	klist_del(&a);
++	KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
++
++}
++
++static struct kunit_case klist_test_cases[] = {
++	KUNIT_CASE(klist_test_add_tail),
++	KUNIT_CASE(klist_test_add_head),
++	KUNIT_CASE(klist_test_add_behind),
++	KUNIT_CASE(klist_test_add_before),
++	KUNIT_CASE(klist_test_del_refcount_greater_than_zero),
++	KUNIT_CASE(klist_test_del_refcount_zero),
++	KUNIT_CASE(klist_test_remove),
++	KUNIT_CASE(klist_test_node_attached),
++	{},
++};
++
++static struct kunit_suite klist_test_module = {
++	.name = "klist",
++	.test_cases = klist_test_cases,
++};
++
++kunit_test_suites(&list_test_module, &hlist_test_module, &klist_test_module);
+ 
+ MODULE_LICENSE("GPL v2");
+-- 
+2.40.0.348.gf938b09366-goog
 
-> +The specific details of the CoCo intermediary vastly diverge between
-> +technologies, so much so that in some cases it will be HW and in others
-> +SW.
-> +
-> +Existing Linux kernel threat model
-> +==================================
-> +
-> +The components of the current Linux kernel threat model are::
-> +
-> +     +-----------------------+      +-------------------+
-> +     |                       |<---->| Userspace         |
-> +     |                       |      +-------------------+
-> +     |   External attack     |         | Interfaces |
-> +     |       vectors         |      +-------------------+
-> +     |                       |<---->| Linux Kernel      |
-> +     |                       |      +-------------------+
-> +     +-----------------------+      +-------------------+
-> +                                    | Bootloader/BIOS   |
-> +                                    +-------------------+
-> +                                    +-------------------+
-> +                                    | HW platform       |
-> +                                    +-------------------+
-
-Again, what do the "<---->" lines mean?  there's no talking betwen the
-bootloader and the kernel?  What about the kernel talking to the HW
-without the BIOS (as is most of the time)?  What is "Interfaces"?
-
-And "external attack vectors" is odd, how can they get to the kernel
-without going through userspace?
-
-> +The existing Linux kernel threat model typically assumes execution on a
-> +trusted HW platform with all of the firmware and bootloaders included on
-> +its TCB. The primary attacker resides in the userspace and all of the data
-> +coming from there is generally considered untrusted, unless userspace is
-> +privileged enough to perform trusted actions. In addition, external
-> +attackers are typically considered, including those with access to enabled
-> +external networks (e.g. Ethernet, Wireless, Bluetooth), exposed hardware
-> +interfaces (e.g. USB, Thunderbolt), and the ability to modify the contents
-> +of disks offline.
-
-I can not parse that last sentance well, sorry.  What is in addition?
-What are you trying to say, some hardware the kernel trusts and some it
-doesn't?  Note there are different "levels" of trust for hardware as
-well (i.e. we attempt to accept any USB configuration header and treat
-that as untrusted but the USB data path we totally trust.)
-
-> +Confidential Computing threat model and security objectives
-> +===========================================================
-> +
-> +Confidential Cloud Computing adds a new type of attacker to the above list:
-> +an untrusted and potentially malicious host. This can be viewed as a more
-> +powerful type of external attacker, as it resides locally on the same
-> +physical machine, in contrast to a remote network attacker, and has control
-> +over the guest kernel communication with most of the HW::
-> +
-> +                                 +------------------------+
-> +                                 |    CoCo guest VM       |
-> +   +-----------------------+     |  +-------------------+ |
-> +   |                       |<--->|  | Userspace         | |
-> +   |                       |     |  +-------------------+ |
-> +   |   External attack     |     |     | Interfaces |     |
-> +   |       vectors         |     |  +-------------------+ |
-> +   |                       |<--->|  | Linux Kernel      | |
-> +   |                       |     |  +-------------------+ |
-> +   +-----------------------+     |  +-------------------+ |
-> +                                 |  | Bootloader/BIOS   | |
-> +   +-----------------------+     |  +-------------------+ |
-> +   |                       |<--->+------------------------+
-> +   |                       |          | Interfaces |
-> +   |                       |     +------------------------+
-> +   |     CoCo security     |<--->|   Host VMM             |
-> +   |      manager          |     +------------------------+
-> +   |                       |     +------------------------+
-> +   |                       |<--->|   CoCo platform        |
-> +   +-----------------------+     +------------------------+
-
-Again, I don't undertand the layers or <---> here, sorry.
-
-> +While the traditional hypervisor has unlimited access to guest data and
-> +can leverage this access to attack the guest, the CoCo systems mitigate
-> +such attacks by adding security features like guest data confidentiality
-> +and integrity protection. This threat model assumes that those features
-> +are available and intact.
-> +
-> +The **Linux kernel CoCo security objectives** can be summarized as follows:
-> +
-> +1. Preserve the confidentiality and integrity of CoCo guest private memory.
-
-Confidentiality from/to what?  Itself?  Someone else?  Userspace?
-
-> +2. Prevent privileged escalation from a host into a CoCo guest Linux kernel.
-
-But a host has to have privileges in order to create/destroy/sleep the
-guest, right?
-
-> +
-> +The above security objectives result in two primary **Linux kernel CoCo
-> +assets**:
-> +
-> +1. Guest kernel execution context.
-> +2. Guest kernel private memory.
-> +
-> +The host retains full control over the CoCo guest resources and can deny
-> +access to them at any time. Because of this, the host Denial of Service
-> +(DoS) attacks against CoCo guests are beyond the scope of this threat
-> +model.
-
-So all resources provided by the host to the guest are trusted?  Or are
-not trusted?  Confused...
-
-> +The **Linux CoCo attack surface** is any interface exposed from a CoCo
-> +guest Linux kernel towards an untrusted host that is not covered by the
-> +CoCo technology SW/HW protections.
-
-"not covered by" is an odd way to say "we trust lots of things, but not
-all", right?  If not, I don't understand again.
-
-> This includes any possible
-> +side-channels, as well as transient execution side channels. Examples of
-> +explicit (not side-channel) interfaces include accesses to port I/O, MMIO
-> +and DMA interfaces, access to PCI configuration space, VMM-specific
-> +hypercalls, access to shared memory pages, interrupts allowed to be
-> +injected to the guest kernel by the host, as well as CoCo technology
-> +specific hypercalls.
-
-So all of those things are trusted?  Or are not trusted?  Again, I'm
-confused.  And who is trusting, or not trusting them?  The host?  The
-guest?
-
-> Additionally, the host in a CoCo system typically
-> +controls the process of creating a CoCo guest: it has a method to load
-> +into a guest the firmware and bootloader images, the kernel image
-> +together with the kernel command line. All of this data should also be
-> +considered untrusted until its integrity and authenticity is established.
-
-Who does the authentication?  The host?  The guest?  Through what
-channel?
-
-> +The table below shows a threat matrix for the CoCo guest Linux kernel with
-> +the potential mitigation strategies. The matrix refers to CoCo-specific
-> +versions of the guest, host and platform.
-> +
-> +.. list-table:: CoCo Linux guest kernel threat matrix
-> +   :widths: auto
-> +   :align: center
-> +   :header-rows: 1
-> +
-> +   * - Threat name
-> +     - Threat description
-> +     - Mitigation strategy
-> +
-> +   * - Guest malicious configuration
-> +     - A malicious host modifies one of the following guest's
-> +       configuration:
-> +
-> +       1. Guest firmware or bootloader
-> +
-> +       2. Guest kernel or module binaries
-> +
-> +       3. Guest command line parameters
-> +
-> +       This allows the host to break the integrity of the code running
-> +       inside a CoCo guest and violate the CoCo security objectives.
-
-So hosts are not allowed to change this?  I don't understand the use of
-"violate" here, sorry.
-
-> +     - The integrity of the guest's configuration passed via untrusted host
-> +       must be ensured by methods such as remote attestation and signing.
-> +       This should be largely transparent to the guest kernel and would
-> +       allow it to assume a trusted state at the time of boot.
-
-How can it be transparent if the guest has to do this?  If the guest
-isn't doing it, who is?  Can configuration be changed while the guest is
-running?
-
-> +
-> +   * - CoCo guest data attacks
-> +     - A malicious host retains full control of the CoCo guest's data
-> +       in-transit between the guest and the host-managed physical or
-> +       virtual devices. This allows any attack against confidentiality,
-> +       integrity or freshness of such data.
-> +     - The CoCo guest is responsible for ensuring the confidentiality,
-> +       integrity and freshness of such data using well-established
-> +       security mechanisms. For example, for any guest external network
-> +       communications that are passed via the untrusted host, an end-to-end
-> +       secure session must be established between a guest and a trusted
-> +       remote endpoint using well-known protocols such as TLS.
-> +       This requirement also applies to protection of the guest's disk
-> +       image.
-
-So you trust all I/O into the guest by virtue of it having to be
-encrypted/protected somehow at the data layer?  So the guest kernel
-doesn't have to worry about the data contents it is receiving any more
-than it does today?
-
-I'm stopping here, sorry...
-
-greg k-h
