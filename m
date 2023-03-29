@@ -2,119 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D6CC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 08:24:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52002C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 09:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230449AbjC2IYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 04:24:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
+        id S229998AbjC2JEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 05:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231186AbjC2IXo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 04:23:44 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BFE86192
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 01:22:39 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id h17so14743368wrt.8
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 01:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680078157;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tkd1yySkMZCjQpFk/I00/AFBZMzwvjb6fzx+RcYU4u8=;
-        b=h5xChJSmqqdKg1QSgQom43LhcMDU0XiEsWSGiNAEWStm39CVorzpPFv0ONnnnIzsF9
-         Ty9fCdH2xUz2wOZR3NKor67Qdex16pDFGgwBHihecdqsxLGSk+HTgbwfoT7RYQekKSxu
-         SbmuwSNFsjGFqHbtDD6ksJRWX27fdpcnLkWqD3UW1R5E7gBu7qHO15F//p+2aDSW2ZPJ
-         3XfGMZn7kWWzAn00jE4Xlv2bopw4A0wydAb2rWVMI7SGd4F+bM+QTGAHlxcNNsqJ80D2
-         U2GBrATYMSRGj1vmfr96jLrF4tREftjHjgSGNdVyO36HJXh94p23JlkJWCxZ3yplJUqT
-         117Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680078157;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tkd1yySkMZCjQpFk/I00/AFBZMzwvjb6fzx+RcYU4u8=;
-        b=s4cNPJ7Xr5nJO53XWK67z/wkDHht8SPt+mAEuLAdEY2sPmgYlst7yH5rZ3J7h9GLrF
-         a0ArrtA36aZCilx25WNvvq0d9LtcE8OL1L0ePPJuVb9APoFJS0UrUoKZrUeWSz+Rd+/S
-         pD31FVR/q278oTYmMuAtyRJhnyHrsbXvU0yknEEbj2RhGvhtJ1qvW1gw08qH+2jpIc3m
-         NlW2CNRIiMtq2XWU7dqiCaZfZUOLLCpk+Hh6UWo0L4zNt7Yp6dgCDoAkLt56gylhn9eP
-         /435kWVndg5SOOO9j7plR1oE0g9lzCsk03Hsautn2jODdFi9suThlNhaskLbbAlQxv1t
-         sGZw==
-X-Gm-Message-State: AAQBX9cMSSS9XtLwIr74Pqgy7eVWGogDMAp/umPMYWUy5q4YndBl0yyV
-        IwAotnoBTzywkHNLeWdQ/wm1Iw==
-X-Google-Smtp-Source: AKy350ZkffXk96u2+42Qo7i7ZWXLM9FtJwE6V4RF+IY/ajIq1EyS7UxT/cCOOkgZrg6bEngki+QLiQ==
-X-Received: by 2002:adf:f8c2:0:b0:2c3:e7d8:245c with SMTP id f2-20020adff8c2000000b002c3e7d8245cmr13699207wrq.13.1680078157521;
-        Wed, 29 Mar 2023 01:22:37 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id w2-20020a5d6082000000b002c6d0462163sm29468263wrt.100.2023.03.29.01.22.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 01:22:37 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH -fixes v2 3/3] riscv: No need to relocate the dtb as it lies in the fixmap region
-Date:   Wed, 29 Mar 2023 10:19:32 +0200
-Message-Id: <20230329081932.79831-4-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230329081932.79831-1-alexghiti@rivosinc.com>
-References: <20230329081932.79831-1-alexghiti@rivosinc.com>
+        with ESMTP id S230458AbjC2JEf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 05:04:35 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290A749FA;
+        Wed, 29 Mar 2023 02:04:17 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1phRir-0007eL-U1; Wed, 29 Mar 2023 11:04:01 +0200
+Message-ID: <09f58115-e3f2-52be-47d6-85cde9b92d25@leemhuis.info>
+Date:   Wed, 29 Mar 2023 11:04:01 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH net-next] docs: netdev: clarify the need to sending
+ reverts as patches
+Content-Language: en-US, de-DE
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+References: <20230327172646.2622943-1-kuba@kernel.org>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <20230327172646.2622943-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1680080657;5f4960ef;
+X-HE-SMSGID: 1phRir-0007eL-U1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We used to access the dtb via its linear mapping address but now that the
-dtb early mapping was moved in the fixmap region, we can keep using this
-address since it is present in swapper_pg_dir, and remove the dtb
-relocation.
+On 27.03.23 19:26, Jakub Kicinski wrote:
+> We don't state explicitly that reverts need to be submitted
+> as a patch. It occasionally comes up.
+>  [...]
+> +In cases where full revert is needed the revert has to be submitted
+> +as a patch to the list with a commit message explaining the technical
+> +problems with the reverted commit. Reverts should be used as a last resort,
+> +when original change is completely wrong; incremental fixes are preferred.
+> +
 
-Note that the relocation was wrong anyway since early_memremap() is
-restricted to 256K whereas the maximum fdt size is 2MB.
+FWIW, I see how this is well meant, but I'm not really happy with the
+last sentence, as one of the problems I notice when handling regression
+is: it sometimes takes weeks to get regressions fixed that could have
+been solved quickly by reverting the culprit (and reapplying an improved
+version of the change or the change together and a fix later). That's
+why Documentation/process/handling-regressions.rst strongly suggest to
+revert changes that cause regressions if the problem can't be fixed
+quickly -- especially if the change made it into a proper release. The
+two texts thus now not slightly contradict each other.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- arch/riscv/mm/init.c | 21 ++-------------------
- 1 file changed, 2 insertions(+), 19 deletions(-)
+I noticed that this change was already applied, but how would you feel
+about changing the second sentence into something like this maybe?
 
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index fb78d6bbabae..0f14f4a8d179 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -249,25 +249,8 @@ static void __init setup_bootmem(void)
- 	 * early_init_fdt_reserve_self() since __pa() does
- 	 * not work for DTB pointers that are fixmap addresses
- 	 */
--	if (!IS_ENABLED(CONFIG_BUILTIN_DTB)) {
--		/*
--		 * In case the DTB is not located in a memory region we won't
--		 * be able to locate it later on via the linear mapping and
--		 * get a segfault when accessing it via __va(dtb_early_pa).
--		 * To avoid this situation copy DTB to a memory region.
--		 * Note that memblock_phys_alloc will also reserve DTB region.
--		 */
--		if (!memblock_is_memory(dtb_early_pa)) {
--			size_t fdt_size = fdt_totalsize(dtb_early_va);
--			phys_addr_t new_dtb_early_pa = memblock_phys_alloc(fdt_size, PAGE_SIZE);
--			void *new_dtb_early_va = early_memremap(new_dtb_early_pa, fdt_size);
--
--			memcpy(new_dtb_early_va, dtb_early_va, fdt_size);
--			early_memunmap(new_dtb_early_va, fdt_size);
--			_dtb_early_pa = new_dtb_early_pa;
--		} else
--			memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_early_va));
--	}
-+	if (!IS_ENABLED(CONFIG_BUILTIN_DTB))
-+		memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_early_va));
- 
- 	dma_contiguous_reserve(dma32_phys_limit);
- 	if (IS_ENABLED(CONFIG_64BIT))
--- 
-2.37.2
+```
+Use reverts to quickly fix regressions that otherwise would take too
+long to resolve. Apart from this reverts should be used as a last
+resort, when the original change is completely wrong; incremental fixes
+are preferred.
+```
 
+Or maybe this?
+
+```
+Incremental fixes in general are preferred over reverts, but the latter
+are useful to quickly fix regressions that otherwise would take too long
+to resolve. Apart from this reverts should be used as a last resort,
+when the original change is completely wrong.
+```
+
+Ciao, Thorsten
