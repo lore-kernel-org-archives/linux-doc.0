@@ -2,81 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B229CC74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 14:50:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C218AC6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 14:53:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjC2Ouc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 10:50:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35040 "EHLO
+        id S230242AbjC2OxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 10:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjC2Oub (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 10:50:31 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B578D8E;
-        Wed, 29 Mar 2023 07:50:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 61542B82105;
-        Wed, 29 Mar 2023 14:50:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607CCC433D2;
-        Wed, 29 Mar 2023 14:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680101428;
-        bh=eYl93MUIVFF6BLBKgWr8lqbFVa1ntSPyCl9lEoHchcI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C5czJaOJZhcF44+QDVhnXsDcOYQduzOs4tSkaL5cfs1gmL/YOadkgwpwqHvJ882dN
-         RdkIO/sMlhAtQYsD2wLrFBj7eumSAP6RBGwjTMyjZcKWI0v8rPfWviJxyV9kJIQbT1
-         uMebe+NYahzuRy54PyamPntuF2n6V4416w1YItkO1HPynWU66EtzoS11Za7kYKKf7k
-         IGaG6KrX0HI2GFnt6HF2PzLJQl9pH1LeS9AyAgqS1dPr4ErGV203Dmsie7JVAYkIar
-         5S9w0QRuLKar2xssmAFx58Au6tCI4BuYT41A+COsYiMLUxMtAmsaKNoytomWlAdfhx
-         3j6OEgM5BtP0w==
-Date:   Wed, 29 Mar 2023 15:50:20 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Julien Panis <jpanis@baylibre.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, davem@davemloft.net,
-        christian.koenig@amd.com, contact@emersion.fr,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
-        eblanc@baylibre.com, jneanne@baylibre.com
-Subject: Re: [PATCH v4 2/4] mfd: tps6594: Add driver for TI TPS6594 PMIC
-Message-ID: <20230329145020.GU2673958@google.com>
-References: <20230327154101.211732-1-jpanis@baylibre.com>
- <20230327154101.211732-3-jpanis@baylibre.com>
+        with ESMTP id S230243AbjC2OxA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 10:53:00 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F37B137
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 07:52:57 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id i9so16043752wrp.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 07:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680101575;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y2kmo0aenMDSgvw0VfC+Yjgx7r7yEQ3UFvZP5QHKIFU=;
+        b=2AX6WT151XrxxKQ9+KZHBNPV0OKNUZqklMPvJ36VJq9J3TuOH8OV8pTmqS9WA/lBIZ
+         fFjAMYfcPxG8VZ/ozr3H6SR/ckhvHEIGfk4SrzK1MAD3PEVvf5idTnEHFAY6o8TnBvL4
+         F39elSu+TIpfZ4LyV6FX3/zyPkTvaG/66tZxHkwqMmwInLZEbEdQrMbbrpLuNQ6YC/3z
+         fl4ForUJSR2MqgC7/PbT2lQoIr+MWtZS3mkaRITA+tVFU+uOStpSTnw1HsF9GzvnNVIA
+         NJXB4pb+gH0+ApT++xs6D3QtTr4nV0GuyXY9BkXUWz4wTr52ilLrBe86Jho2QAG3/vft
+         QsZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680101575;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y2kmo0aenMDSgvw0VfC+Yjgx7r7yEQ3UFvZP5QHKIFU=;
+        b=Nf3x2eXpk6coCJwihP1txxqy0n1MUIA4CZQQ6MrLSITtyKMoSmsehkUycLEYtlr+Tl
+         n2HDqjZqVWanxKwjJyAyury7/gUVrYq4ChM+CnLGQYRZUlQkLFOgYDtVrN+umqvT2z7I
+         bFse/+sURkGRSyEWvQ04I3uN/tqY47MUZp4JbiLbNwSGH51SAAnV4j4Z0k7vzsalKTq+
+         J5wQOGxBBrsnzkw5mx7gGAfuLrpGAiJg1Qvj3hP/J0fOTdLJQ6WBvd+vRfj/U026DZUa
+         iDnJU/fx/f7I1EpNU5qpR+XSLaX5S+SZlGTPGODmhijopXHoupqKSnSS8Xzk7NFIahoQ
+         cTqg==
+X-Gm-Message-State: AAQBX9e4kEPB7ztROimAwifKz0t8Lg+56GzOHY9Hlqcp45S3WQw/t6bE
+        moo7BtEO2yD2TavdO/cnp+Hg+7IXhhi6NIPxykVB4w==
+X-Google-Smtp-Source: AKy350YibrgJqYb/G35x+FrqrJN2n0PzT7ee4etzLgFgZl3mXcWrfWIyeg9q9WE/eraWA5q1adz/eOCiZYh4p396ZL8=
+X-Received: by 2002:a5d:6606:0:b0:2de:9905:a46e with SMTP id
+ n6-20020a5d6606000000b002de9905a46emr3109552wru.13.1680101575731; Wed, 29 Mar
+ 2023 07:52:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230327154101.211732-3-jpanis@baylibre.com>
+References: <20230329081932.79831-1-alexghiti@rivosinc.com>
+ <20230329081932.79831-3-alexghiti@rivosinc.com> <179c38d6-4298-4a16-b0d7-8aee49a91f58@spud>
+In-Reply-To: <179c38d6-4298-4a16-b0d7-8aee49a91f58@spud>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Wed, 29 Mar 2023 16:52:45 +0200
+Message-ID: <CAHVXubh9t7VuM337Br-4y7zJp1msr6+bAtr1eVLc+P50V9Bikg@mail.gmail.com>
+Subject: Re: [PATCH -fixes v2 2/3] riscv: Do not set initial_boot_params to
+ the linear address of the dtb
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Mar 2023, Julien Panis wrote:
-
-> This patch adds support for TPS6594 PMIC MFD core. It provides
-> communication through the I2C and SPI interfaces, and supports
-> protocols with embedded CRC data fields for safety applications.
+On Wed, Mar 29, 2023 at 4:37=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
 >
-> Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> ---
->  drivers/mfd/Kconfig         |   32 ++
->  drivers/mfd/Makefile        |    3 +
->  drivers/mfd/tps6594-core.c  |  462 ++++++++++++++++
->  drivers/mfd/tps6594-i2c.c   |  244 +++++++++
->  drivers/mfd/tps6594-spi.c   |  129 +++++
->  include/linux/mfd/tps6594.h | 1020 +++++++++++++++++++++++++++++++++++
->  6 files changed, 1890 insertions(+)
->  create mode 100644 drivers/mfd/tps6594-core.c
->  create mode 100644 drivers/mfd/tps6594-i2c.c
->  create mode 100644 drivers/mfd/tps6594-spi.c
->  create mode 100644 include/linux/mfd/tps6594.h
+> On Wed, Mar 29, 2023 at 10:19:31AM +0200, Alexandre Ghiti wrote:
+> > early_init_dt_verify() is already called in parse_dtb() and since the d=
+tb
+> > address does not change anymore (it is now in the fixmap region), no ne=
+ed
+> > to reset initial_boot_params by calling early_init_dt_verify() again.
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > ---
+> >  arch/riscv/kernel/setup.c | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> >
+> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> > index 542eed85ad2c..a059b73f4ddb 100644
+> > --- a/arch/riscv/kernel/setup.c
+> > +++ b/arch/riscv/kernel/setup.c
+> > @@ -278,10 +278,7 @@ void __init setup_arch(char **cmdline_p)
+> >  #if IS_ENABLED(CONFIG_BUILTIN_DTB)
+> >       unflatten_and_copy_device_tree();
+> >  #else
+> > -     if (early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa))))
+> > -             unflatten_device_tree();
+>
+> Silly question maybe, but since it isn't explicitly mentioned, the
+> XIP_FIXUP bits no longer matter?
 
-Note to self: I already Acked this once.
+The XIP_FIXUP is only needed when translating virtual to physical
+addresses, but that does not mean I did not break it, I haven't
+considered XIP at all...
 
---
-Lee Jones [李琼斯]
+> Also, in related news, I assume you don't have a QEMU setup that can do
+> boot an XIP kernel?
+
+I haven't booted a XIP kernel for a long time now, here are my notes
+from that time:
+https://github.com/AlexGhiti/alexghiti.github.io/blob/main/xip/XIP.md
+
+>
+> Cheers,
+> Conor.
+>
+> > -     else
+> > -             pr_err("No DTB found in kernel mappings\n");
+> > +     unflatten_device_tree();
+> >  #endif
+> >       misc_mem_init();
+> >
+> > --
+> > 2.37.2
+> >
