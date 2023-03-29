@@ -2,214 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CB9C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 11:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 752E4C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 12:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbjC2LUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 07:20:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51036 "EHLO
+        id S229518AbjC2MfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 08:35:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjC2LUc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 07:20:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2974214
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 04:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680088780;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=enFjLzQhsF/Rnw8cDNROHRwk0gQi15LMd/P2xbyR8Hg=;
-        b=U5hoTZLCquUHSG1a0/UxulVjaflE4DxbsS/FX0x7y+TfmSJOcy94KKAgDWxeBAUkAvOfQj
-        iJucHsWETkw4HDOWY4LUXVbpuoBuoY+oAlm4fYhQ8KC84dgDIFo/EQBGqvvyTOoXW7vHWc
-        wPab4zdOWwthL3cIpdhBPfj5rQ8KED4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-iu7qY3XkPgyvebGfSpfT5w-1; Wed, 29 Mar 2023 07:19:36 -0400
-X-MC-Unique: iu7qY3XkPgyvebGfSpfT5w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07AA2185A7BA;
-        Wed, 29 Mar 2023 11:19:36 +0000 (UTC)
-Received: from localhost (ovpn-12-252.pek2.redhat.com [10.72.12.252])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AE3EFC15BA0;
-        Wed, 29 Mar 2023 11:19:33 +0000 (UTC)
-Date:   Wed, 29 Mar 2023 19:19:30 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Chen Jiahao <chenjiahao16@huawei.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        conor.dooley@microchip.com, guoren@kernel.org, heiko@sntech.de,
-        bjorn@rivosinc.com, alex@ghiti.fr, akpm@linux-foundation.org,
-        atishp@rivosinc.com, thunder.leizhen@huawei.com, horms@kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH -next v2 1/2] riscv: kdump: Implement
- crashkernel=X,[high,low]
-Message-ID: <ZCQewkvSpaI52DSM@MiWiFi-R3L-srv>
-References: <20230328115150.2700016-1-chenjiahao16@huawei.com>
- <20230328115150.2700016-2-chenjiahao16@huawei.com>
+        with ESMTP id S229486AbjC2MfM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 08:35:12 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A414201;
+        Wed, 29 Mar 2023 05:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1680093305; x=1711629305;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2l2hmoiUE09lV8CvoAEQLjTkPM9/Sd/B1b4VpgazUKw=;
+  b=FFMHuGILZ9hfaqhmy1i3kJBj52qLKCp3hOxV2SJ/o07krVXEL8nGZpx0
+   pu8sFLQljqo2/PzN38xhwgpI6GEbn4se4AU9snyAfUMm1lh2B6TFF75zB
+   ZV6IJcEhnBXE/XFWCouYJ2BQgx/lagVQc2i4iLtIu4vXhkDq3Q6+YIktA
+   v9wdfGpRW41z8hrqX6Vb4VT7LDWEhNTKslzXVJzib2byVyKlWVFL8hId7
+   TZYTtNBUj2g+Gn7rC7RHHTvRrVRzJCQp8HW1z4ey2q3QyJp92+SWKt9Vd
+   3MtJCX4y1TtNc+qHEl3nj2xV9aX5TyXoX59vBikvRArfiDnVixKP2bRDA
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,300,1673938800"; 
+   d="scan'208";a="207245760"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 29 Mar 2023 05:35:04 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 29 Mar 2023 05:35:03 -0700
+Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
+ Transport; Wed, 29 Mar 2023 05:35:01 -0700
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <corbet@lwn.net>
+CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
+        Russ Weight <russell.h.weight@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tianfei zhang <tianfei.zhang@intel.com>,
+        "Luis Chamberlain" <mcgrof@kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] docs: driver-api: firmware_loader: fix missing argument in usage example
+Date:   Wed, 29 Mar 2023 13:34:26 +0100
+Message-ID: <20230329123425.4177084-1-conor.dooley@microchip.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230328115150.2700016-2-chenjiahao16@huawei.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1832; i=conor.dooley@microchip.com; h=from:subject; bh=2l2hmoiUE09lV8CvoAEQLjTkPM9/Sd/B1b4VpgazUKw=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCkqBgHV8VeF9GISglz9q7cxRUhbTowSeSSvJOMefmpLysrd lnc6SlkYxDgYZMUUWRJv97VIrf/jssO55y3MHFYmkCEMXJwCMJHuFkaGDWKBWVX+B8ITZFsOnbAI1v +480H9+yks/kXVrLk6n/adZ2SY49edx3p9U7eB7e4io12LRZQT4zWXyRhImjUtY1BIvcUNAA==
+X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/28/23 at 07:51pm, Chen Jiahao wrote:
-> On riscv, the current crash kernel allocation logic is trying to
-> allocate within 32bit addressible memory region by default, if
-> failed, try to allocate without 4G restriction.
-> 
-> In need of saving DMA zone memory while allocating a relatively large
-> crash kernel region, allocating the reserved memory top down in
-> high memory, without overlapping the DMA zone, is a mature solution.
-> Here introduce the parameter option crashkernel=X,[high,low].
-> 
-> One can reserve the crash kernel from high memory above DMA zone range
-> by explicitly passing "crashkernel=X,high"; or reserve a memory range
-> below 4G with "crashkernel=X,low".
-> 
-> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
-> ---
->  arch/riscv/kernel/setup.c |  5 ++++
->  arch/riscv/mm/init.c      | 63 ++++++++++++++++++++++++++++++++++++---
->  2 files changed, 64 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index 5d3184cbf518..ea84e5047c23 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -176,6 +176,11 @@ static void __init init_resources(void)
->  		if (ret < 0)
->  			goto error;
->  	}
-> +	if (crashk_low_res.start != crashk_low_res.end) {
-> +		ret = add_resource(&iomem_resource, &crashk_low_res);
-> +		if (ret < 0)
-> +			goto error;
-> +	}
->  #endif
->  
->  #ifdef CONFIG_CRASH_DUMP
-> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> index 478d6763a01a..b7708cc467fa 100644
-> --- a/arch/riscv/mm/init.c
-> +++ b/arch/riscv/mm/init.c
-> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
->  }
->  #endif /* CONFIG_MMU */
->  
-> +/* Reserve 128M low memory by default for swiotlb buffer */
-> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
-> +
-> +static int __init reserve_crashkernel_low(unsigned long long low_size)
-> +{
-> +	unsigned long long low_base;
-> +
-> +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
-> +	if (!low_base) {
-> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-> +		low_base, low_base + low_size, low_size >> 20);
-> +
-> +	crashk_low_res.start = low_base;
-> +	crashk_low_res.end = low_base + low_size - 1;
-> +
-> +	return 0;
-> +}
-> +
->  /*
->   * reserve_crashkernel() - reserves memory for crash kernel
->   *
-> @@ -1163,6 +1185,7 @@ static void __init reserve_crashkernel(void)
->  {
->  	unsigned long long crash_base = 0;
->  	unsigned long long crash_size = 0;
-> +	unsigned long long crash_low_size = 0;
->  	unsigned long search_start = memblock_start_of_DRAM();
->  	unsigned long search_end = memblock_end_of_DRAM();
->  
-> @@ -1182,8 +1205,30 @@ static void __init reserve_crashkernel(void)
->  
->  	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
->  				&crash_size, &crash_base);
-> -	if (ret || !crash_size)
-> +	if (ret == -ENOENT) {
-> +		/*
-> +		 * crashkernel=X,[high,low] can be specified or not, but
-> +		 * invalid value is not allowed.
-> +		 */
-> +		ret = parse_crashkernel_high(boot_command_line, 0, &crash_size, &crash_base);
+By the time firmware-upload support landed in commit 97730bbb242c
+("firmware_loader: Add firmware-upload support"), the arguments for
+firmware_upload_register() had changed, and while this is automagically
+represented in the kernel doc bits, the usage example was not kept in
+sync.
+Add the missing argument as per the driver.
 
-I would add a local variable to assign boot_command_line to it just like
-arm64 does. Then these lines could be shorter. 
+Fixes: 97730bbb242c ("firmware_loader: Add firmware-upload support")
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+From skimming the threads adding this stuff, looks like THIS_MODULE was
+always needed, so either I'm missing something or the doc stuff wasn't
+matching in any of the submitted versions.
 
-	char *cmdline = boot_command_line;
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Russ Weight <russell.h.weight@intel.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Tianfei zhang <tianfei.zhang@intel.com>
+CC: Luis Chamberlain <mcgrof@kernel.org>
+CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+---
+ Documentation/driver-api/firmware/fw_upload.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> +		if (ret || !crash_size)
-> +			return;
-> +
-> +		/*
-> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
-> +		 * is passed and high memory is reserved successful.
-> +		 */
-> +		ret = parse_crashkernel_low(boot_command_line, 0, &crash_low_size, &crash_base);
-> +		if (ret == -ENOENT)
-> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +		else if (ret)
-> +			return;
-> +
-> +		search_start = dma32_phys_limit;
-> +	} else if (ret || !crash_size) {
-> +		/* Invalid argument value specified */
->  		return;
-> +	}
->  
->  	crash_size = PAGE_ALIGN(crash_size);
->  
-> @@ -1201,16 +1246,26 @@ static void __init reserve_crashkernel(void)
->  	 */
->  	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
->  					       search_start,
-> -					       min(search_end, (unsigned long) SZ_4G));
-> +					       min(search_end, (unsigned long)dma32_phys_limit));
->  	if (crash_base == 0) {
-
-The above conditional check isn't right. If crashkernel=size@offset
-specified, the reservation failure won't trigger retry. This seems to be
-originally introduced by old commit, while this need be fixed firstly.
-
-> -		/* Try again without restricting region to 32bit addressible memory */
-> +		/* Try again above the region of 32bit addressible memory */
->  		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
-> -						search_start, search_end);
-> +						       max(search_start, (unsigned long)dma32_phys_limit),
-> +						       search_end);
->  		if (crash_base == 0) {
->  			pr_warn("crashkernel: couldn't allocate %lldKB\n",
->  				crash_size >> 10);
->  			return;
->  		}
-> +
-> +		if (!crash_low_size)
-> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +	}
-> +
-> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
-> +	    crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-> +		memblock_phys_free(crash_base, crash_size);
-> +		return;
->  	}
->  
->  	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
-> -- 
-> 2.31.1
-> 
+diff --git a/Documentation/driver-api/firmware/fw_upload.rst b/Documentation/driver-api/firmware/fw_upload.rst
+index 76922591e446..edf1d0c5e7c3 100644
+--- a/Documentation/driver-api/firmware/fw_upload.rst
++++ b/Documentation/driver-api/firmware/fw_upload.rst
+@@ -57,7 +57,8 @@ function calls firmware_upload_unregister() such as::
+ 		len = (truncate) ? truncate - fw_name : strlen(fw_name);
+ 		sec->fw_name = kmemdup_nul(fw_name, len, GFP_KERNEL);
+ 
+-		fwl = firmware_upload_register(sec->dev, sec->fw_name, &m10bmc_ops, sec);
++		fwl = firmware_upload_register(THIS_MODULE, sec->dev, sec->fw_name,
++					       &m10bmc_ops, sec);
+ 		if (IS_ERR(fwl)) {
+ 			dev_err(sec->dev, "Firmware Upload driver failed to start\n");
+ 			kfree(sec->fw_name);
+-- 
+2.39.2
 
