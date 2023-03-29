@@ -2,38 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C990C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 14:41:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1704CC74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 14:43:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229983AbjC2OlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 10:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38648 "EHLO
+        id S229901AbjC2OnM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 10:43:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbjC2Okw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 10:40:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DA27684;
-        Wed, 29 Mar 2023 07:37:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A55F1B820FE;
-        Wed, 29 Mar 2023 14:37:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95671C4339B;
-        Wed, 29 Mar 2023 14:37:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680100649;
-        bh=L1sqLmIkifE2Q8DXW/e/GjzJNlmt1BIwb5AvVrF0wO8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FCwHJUPMBB2T0IVu3eU/P+W1JqphqMbb768sdao2TORxURk+WeoyQYAVg+Q+drdj1
-         ++BV38HtdQsEpBsufFO+21Lft9t3gt2nXrwkgZ5xbW8gTkacUm5coCLBsxhM+ZQZX6
-         gdq2N3yCkBi+jLr44SLjezXhsXVHBlCqF+omci4nnp9IyDPRjJdE6T0O5MTlBGbrj4
-         rfviN2WlFprK8I0fqoxEg6aINQRa2Xhq5HK5v7PHhvp6HazGoYpPibeGufWErZBEmo
-         8HlHuYfloPLK1SvQcB0mk+5DnvaVNEckdo3PcyEmCp4XZ3MBw4P2M3F02pVdceNWFY
-         T/SvmxtvsrjrA==
-Date:   Wed, 29 Mar 2023 15:37:25 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+        with ESMTP id S230037AbjC2Om7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 10:42:59 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F31E728F
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 07:40:30 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id p34so9080298wms.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 07:40:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680100829;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y3ixFB+QbvxNuTUQ+9uGUyxwBpcWsdgUOQuT9hmx8Eo=;
+        b=ZzeMNASizro0DCX9uwISypPThwqsFl+cZwUJb8YUGxhfjqQ8/SxCcOk4qmwsNlo7M0
+         Qz1+Y8FmONI+a4poP0M1zVB2a/cEzzF7AtV1P5lvNYmDErZSNxXnqTcaA8GhSzfcVihx
+         58mjP5NpqgHxxd64VKl2DGbMalfctzr89HlxdyTxyq/1sEGjBmnuHkSWh030Dx4VS3yg
+         s4vwc5NymraZRVuMhF4zS7TaOHTnhLyDO3zH+FvtLKu65GRLqns/Q3aI4Ot51yb5xa4r
+         PmVfoG/WLHCUJS6abadujM0+aaT7LdWwsyVIPuZIIjjEZSYVYurISPrR4rt0nP3J77zc
+         TDpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680100829;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y3ixFB+QbvxNuTUQ+9uGUyxwBpcWsdgUOQuT9hmx8Eo=;
+        b=DxqctwtZq5UVu7olzJg4+/q9X9tOyux7OMJFZs15WYm4scL2gvdZhSxUqg3o2mkAw4
+         0/Y9U7gQq/9j8ft90Oiq7aCPBfMkRSNQBGvqMx3W1WVFHnE3xdu8c6joYZYyXVHAm3Lw
+         CQngkiwB1Fj+8C47gnDNREbhZdTkG07Rty7l9ugnI6/S1DpFRHL7WUWRXrSxDw2kcR+r
+         9Y7fE63v9baT53gL+oP5dA8RxURILTOG9SUSwVuvts61pSA6axcvUA46kqM6Y6UmdJtQ
+         FKQ8Dqccz+n5X6lUrfYqcBMEJg39+LYk6fyh/P01larN+lqaBshM3nMVrPewgykLodA2
+         llew==
+X-Gm-Message-State: AO0yUKUgtbFRJ0m50syLrs5kdqPi59Dk8Ge2BcicRPOksUSjbdQsltdU
+        W0wmJparyTsqboYKNhhrd/Wu3bELAZuPQNX7RXn46w==
+X-Google-Smtp-Source: AK7set/r5FDsIfVCcTouvt4BuewvjeXCoqh4AN0X/5B2UlHmX8Zjsb8G5Xepj+i2tfuaC8Pr0yg3CQAFxmFa2VYAUTc=
+X-Received: by 2002:a1c:7714:0:b0:3ee:3e07:5d35 with SMTP id
+ t20-20020a1c7714000000b003ee3e075d35mr4552357wmi.3.1680100828896; Wed, 29 Mar
+ 2023 07:40:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230329081932.79831-1-alexghiti@rivosinc.com>
+ <20230329081932.79831-4-alexghiti@rivosinc.com> <381c2753-cbcc-40a0-bcb2-67d18e367822@spud>
+In-Reply-To: <381c2753-cbcc-40a0-bcb2-67d18e367822@spud>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Wed, 29 Mar 2023 16:40:18 +0200
+Message-ID: <CAHVXubhVGR1vjqFVv1vuDGDMSiG0JBpKtRZnzgzpa9VBK+BuNw@mail.gmail.com>
+Subject: Re: [PATCH -fixes v2 3/3] riscv: No need to relocate the dtb as it
+ lies in the fixmap region
+To:     Conor Dooley <conor@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
@@ -41,74 +63,94 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Conor Dooley <conor.dooley@microchip.com>,
         linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -fixes v2 2/3] riscv: Do not set initial_boot_params to
- the linear address of the dtb
-Message-ID: <179c38d6-4298-4a16-b0d7-8aee49a91f58@spud>
-References: <20230329081932.79831-1-alexghiti@rivosinc.com>
- <20230329081932.79831-3-alexghiti@rivosinc.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="UOjzVrvSVXjIViV0"
-Content-Disposition: inline
-In-Reply-To: <20230329081932.79831-3-alexghiti@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 29, 2023 at 3:56=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Wed, Mar 29, 2023 at 10:19:32AM +0200, Alexandre Ghiti wrote:
+> > We used to access the dtb via its linear mapping address but now that t=
+he
+> > dtb early mapping was moved in the fixmap region, we can keep using thi=
+s
+> > address since it is present in swapper_pg_dir, and remove the dtb
+> > relocation.
+> >
+> > Note that the relocation was wrong anyway since early_memremap() is
+> > restricted to 256K whereas the maximum fdt size is 2MB.
+>
+> So, should this be marked as a fix, and backported along with 1/3?
 
---UOjzVrvSVXjIViV0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmmm the whole series should be backported, it does not make sense to
+move the dtb mapping and keep accessing it using its linear mapping
+address since it could fail for the exact reason the relocation was
+implemented in the first place and the relocation is wrong.
 
-On Wed, Mar 29, 2023 at 10:19:31AM +0200, Alexandre Ghiti wrote:
-> early_init_dt_verify() is already called in parse_dtb() and since the dtb
-> address does not change anymore (it is now in the fixmap region), no need
-> to reset initial_boot_params by calling early_init_dt_verify() again.
->=20
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  arch/riscv/kernel/setup.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index 542eed85ad2c..a059b73f4ddb 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -278,10 +278,7 @@ void __init setup_arch(char **cmdline_p)
->  #if IS_ENABLED(CONFIG_BUILTIN_DTB)
->  	unflatten_and_copy_device_tree();
->  #else
-> -	if (early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa))))
-> -		unflatten_device_tree();
+Maybe we should simply add a "Cc: stable@vger.kernel.org" on all the patche=
+s?
 
-Silly question maybe, but since it isn't explicitly mentioned, the
-XIP_FIXUP bits no longer matter?
-Also, in related news, I assume you don't have a QEMU setup that can do
-boot an XIP kernel?
+> Either way,
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> And from v1 (although I didn't actually send it for idk what reason):
+> Tested-by: Conor Dooley <conor.dooley@microchip.com>
 
-Cheers,
-Conor.
+Thanks!
 
-> -	else
-> -		pr_err("No DTB found in kernel mappings\n");
-> +	unflatten_device_tree();
->  #endif
->  	misc_mem_init();
-> =20
-> --=20
-> 2.37.2
->=20
-
---UOjzVrvSVXjIViV0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCRNJQAKCRB4tDGHoIJi
-0gqaAQDSe9gvXHde8jzjSZoWLPBptYoYGaraDZqYua/MYlGe3wEA/9h+58eBSjUH
-4VGr3g5fK9KMQFkCCp3A/kRsgdI7bwM=
-=B9wY
------END PGP SIGNATURE-----
-
---UOjzVrvSVXjIViV0--
+>
+> Thanks,
+> Conor.
+>
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > ---
+> >  arch/riscv/mm/init.c | 21 ++-------------------
+> >  1 file changed, 2 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> > index fb78d6bbabae..0f14f4a8d179 100644
+> > --- a/arch/riscv/mm/init.c
+> > +++ b/arch/riscv/mm/init.c
+> > @@ -249,25 +249,8 @@ static void __init setup_bootmem(void)
+> >        * early_init_fdt_reserve_self() since __pa() does
+> >        * not work for DTB pointers that are fixmap addresses
+> >        */
+> > -     if (!IS_ENABLED(CONFIG_BUILTIN_DTB)) {
+> > -             /*
+> > -              * In case the DTB is not located in a memory region we w=
+on't
+> > -              * be able to locate it later on via the linear mapping a=
+nd
+> > -              * get a segfault when accessing it via __va(dtb_early_pa=
+).
+> > -              * To avoid this situation copy DTB to a memory region.
+> > -              * Note that memblock_phys_alloc will also reserve DTB re=
+gion.
+> > -              */
+> > -             if (!memblock_is_memory(dtb_early_pa)) {
+> > -                     size_t fdt_size =3D fdt_totalsize(dtb_early_va);
+> > -                     phys_addr_t new_dtb_early_pa =3D memblock_phys_al=
+loc(fdt_size, PAGE_SIZE);
+> > -                     void *new_dtb_early_va =3D early_memremap(new_dtb=
+_early_pa, fdt_size);
+> > -
+> > -                     memcpy(new_dtb_early_va, dtb_early_va, fdt_size);
+> > -                     early_memunmap(new_dtb_early_va, fdt_size);
+> > -                     _dtb_early_pa =3D new_dtb_early_pa;
+> > -             } else
+> > -                     memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_=
+early_va));
+> > -     }
+> > +     if (!IS_ENABLED(CONFIG_BUILTIN_DTB))
+> > +             memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_early_va=
+));
+> >
+> >       dma_contiguous_reserve(dma32_phys_limit);
+> >       if (IS_ENABLED(CONFIG_64BIT))
+> > --
+> > 2.37.2
+> >
