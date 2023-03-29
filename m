@@ -2,392 +2,214 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48C5C74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 11:08:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CB9C6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 11:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbjC2LIB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 07:08:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
+        id S229775AbjC2LUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 07:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjC2LIA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 07:08:00 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6FC1716
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 04:07:59 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5417f156cb9so151971897b3.8
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 04:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680088078;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qLE8CWrmaNXgXCg2eNFOgeW6xHNyRTGjnMFCzItSd5A=;
-        b=Aob7ge9ZtEBOKmu461YXtMVZ/sAukHmCRbKP6dMeCycttYKk3qU6Jad/XnVJcxhkR9
-         u95tIOinC9eOx8dGDdYDKRGl7xopgJSnwxASP2J09IiR8fhmo1ezd8pvi5ZlRfJncZsX
-         7RaLGXYDz9+K8zMUrZ7YrhP89w+OXWG//7XUS5Zgw7/8Vxol9vXx34ek83kawzepgS38
-         VrcLKQYXJKqliJsKaGOmHuZitygaZDCbRHzkC1hwsVlCNrgbkgczRkxfiyzZ7+i9ETIq
-         CI7cqCgbOc2BoLiCRL6pVTcBRtkbQVGZbIVLjDWmkWX9TW6imq5Xfq1fm1SKjacpLZbA
-         7gCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680088078;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qLE8CWrmaNXgXCg2eNFOgeW6xHNyRTGjnMFCzItSd5A=;
-        b=prss5cFIr437UMIyEJFXpeGe/kFLFSpfJc4QkFbN9IYtGGD2rXfFj/CryoL18FRxKP
-         RuZgq9b8v2midPb4HzYukyo/MdELvo+rC6joAqd0kxvK6Mb3NKn7+3Pk3RvzFrcdo05n
-         0KjkIaNXDVfNdIVb6Y7bOLUXrDU0AczAyj/eqQxdA7wKU59eWYxRfb5+tN3OvYERyXjQ
-         P4R/3Tj8dY770z0GPZhEgncM8a4Ej1q1kRyYBSQH7bzRrghDuZjBv8eFQLc6RtyE1UDc
-         fRp8i9C1THlqrQs8BQ8cO8DZHfq2bvDHrescjgm8x8RrZooaf+rxghWpu0eIr7tEqM82
-         tlgg==
-X-Gm-Message-State: AAQBX9eTMR1f7tzvcL8VpW9NsXoF+btyKhDI1xoBlUKuiiGcuQm9Irr7
-        3vukWSWSzzqy6e/+33NTR+9dFzIaQWAsGDb9
-X-Google-Smtp-Source: AKy350ZYgvwaYrYxW4St3GTPmqThmwm4W46Naie1JY6mHAA8lhucU4GKj49jr/vcyUgjmMzqOu/vNKKFu4reiR5R
-X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
- (user=sadiyakazi job=sendgmr) by 2002:a25:d7ce:0:b0:b7d:e643:d3c3 with SMTP
- id o197-20020a25d7ce000000b00b7de643d3c3mr2897717ybg.8.1680088078456; Wed, 29
- Mar 2023 04:07:58 -0700 (PDT)
-Date:   Wed, 29 Mar 2023 11:07:22 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230329110723.3458843-1-sadiyakazi@google.com>
-Subject: [PATCH v1] list: test: Test the klist structure
-From:   Sadiya Kazi <sadiyakazi@google.com>
-To:     brendanhiggins@google.com, davidgow@google.com,
-        skhan@linuxfoundation.org, corbet@lwn.net
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229531AbjC2LUc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 07:20:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2974214
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 04:19:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680088780;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=enFjLzQhsF/Rnw8cDNROHRwk0gQi15LMd/P2xbyR8Hg=;
+        b=U5hoTZLCquUHSG1a0/UxulVjaflE4DxbsS/FX0x7y+TfmSJOcy94KKAgDWxeBAUkAvOfQj
+        iJucHsWETkw4HDOWY4LUXVbpuoBuoY+oAlm4fYhQ8KC84dgDIFo/EQBGqvvyTOoXW7vHWc
+        wPab4zdOWwthL3cIpdhBPfj5rQ8KED4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-594-iu7qY3XkPgyvebGfSpfT5w-1; Wed, 29 Mar 2023 07:19:36 -0400
+X-MC-Unique: iu7qY3XkPgyvebGfSpfT5w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07AA2185A7BA;
+        Wed, 29 Mar 2023 11:19:36 +0000 (UTC)
+Received: from localhost (ovpn-12-252.pek2.redhat.com [10.72.12.252])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id AE3EFC15BA0;
+        Wed, 29 Mar 2023 11:19:33 +0000 (UTC)
+Date:   Wed, 29 Mar 2023 19:19:30 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Chen Jiahao <chenjiahao16@huawei.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        conor.dooley@microchip.com, guoren@kernel.org, heiko@sntech.de,
+        bjorn@rivosinc.com, alex@ghiti.fr, akpm@linux-foundation.org,
+        atishp@rivosinc.com, thunder.leizhen@huawei.com, horms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH -next v2 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Message-ID: <ZCQewkvSpaI52DSM@MiWiFi-R3L-srv>
+References: <20230328115150.2700016-1-chenjiahao16@huawei.com>
+ <20230328115150.2700016-2-chenjiahao16@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328115150.2700016-2-chenjiahao16@huawei.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add KUnit tests to the klist linked-list structure.
-These perform testing for different variations of node add
-and node delete in the klist data structure (<linux/klist.h>).
+On 03/28/23 at 07:51pm, Chen Jiahao wrote:
+> On riscv, the current crash kernel allocation logic is trying to
+> allocate within 32bit addressible memory region by default, if
+> failed, try to allocate without 4G restriction.
+> 
+> In need of saving DMA zone memory while allocating a relatively large
+> crash kernel region, allocating the reserved memory top down in
+> high memory, without overlapping the DMA zone, is a mature solution.
+> Here introduce the parameter option crashkernel=X,[high,low].
+> 
+> One can reserve the crash kernel from high memory above DMA zone range
+> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+> below 4G with "crashkernel=X,low".
+> 
+> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+> ---
+>  arch/riscv/kernel/setup.c |  5 ++++
+>  arch/riscv/mm/init.c      | 63 ++++++++++++++++++++++++++++++++++++---
+>  2 files changed, 64 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> index 5d3184cbf518..ea84e5047c23 100644
+> --- a/arch/riscv/kernel/setup.c
+> +++ b/arch/riscv/kernel/setup.c
+> @@ -176,6 +176,11 @@ static void __init init_resources(void)
+>  		if (ret < 0)
+>  			goto error;
+>  	}
+> +	if (crashk_low_res.start != crashk_low_res.end) {
+> +		ret = add_resource(&iomem_resource, &crashk_low_res);
+> +		if (ret < 0)
+> +			goto error;
+> +	}
+>  #endif
+>  
+>  #ifdef CONFIG_CRASH_DUMP
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 478d6763a01a..b7708cc467fa 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
+>  }
+>  #endif /* CONFIG_MMU */
+>  
+> +/* Reserve 128M low memory by default for swiotlb buffer */
+> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
+> +
+> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+> +{
+> +	unsigned long long low_base;
+> +
+> +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
+> +	if (!low_base) {
+> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+> +		low_base, low_base + low_size, low_size >> 20);
+> +
+> +	crashk_low_res.start = low_base;
+> +	crashk_low_res.end = low_base + low_size - 1;
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * reserve_crashkernel() - reserves memory for crash kernel
+>   *
+> @@ -1163,6 +1185,7 @@ static void __init reserve_crashkernel(void)
+>  {
+>  	unsigned long long crash_base = 0;
+>  	unsigned long long crash_size = 0;
+> +	unsigned long long crash_low_size = 0;
+>  	unsigned long search_start = memblock_start_of_DRAM();
+>  	unsigned long search_end = memblock_end_of_DRAM();
+>  
+> @@ -1182,8 +1205,30 @@ static void __init reserve_crashkernel(void)
+>  
+>  	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>  				&crash_size, &crash_base);
+> -	if (ret || !crash_size)
+> +	if (ret == -ENOENT) {
+> +		/*
+> +		 * crashkernel=X,[high,low] can be specified or not, but
+> +		 * invalid value is not allowed.
+> +		 */
+> +		ret = parse_crashkernel_high(boot_command_line, 0, &crash_size, &crash_base);
 
-Limitation: Since we use a static global variable, and if
-multiple instances of this test are run concurrently, the test may fail.
+I would add a local variable to assign boot_command_line to it just like
+arm64 does. Then these lines could be shorter. 
 
-Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
----
- lib/list-test.c | 298 +++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 297 insertions(+), 1 deletion(-)
+	char *cmdline = boot_command_line;
 
-diff --git a/lib/list-test.c b/lib/list-test.c
-index d374cf5d1a57..af651cacb8f4 100644
---- a/lib/list-test.c
-+++ b/lib/list-test.c
-@@ -8,6 +8,7 @@
- #include <kunit/test.h>
- 
- #include <linux/list.h>
-+#include <linux/klist.h>
- 
- struct list_test_struct {
- 	int data;
-@@ -1199,6 +1200,301 @@ static struct kunit_suite hlist_test_module = {
- 	.test_cases = hlist_test_cases,
- };
- 
--kunit_test_suites(&list_test_module, &hlist_test_module);
-+
-+struct klist_test_struct {
-+	int data;
-+	struct klist klist;
-+	struct klist_node klist_node;
-+};
-+
-+/* counts the number of nodes*/
-+static int node_count;
-+static struct klist_node *last_node_count;
-+
-+static void check_node(struct klist_node *node_ptr)
-+{
-+	node_count++;
-+	last_node_count = node_ptr;
-+}
-+
-+static void check_delete_node(struct klist_node *node_ptr)
-+{
-+	node_count--;
-+	last_node_count = node_ptr;
-+}
-+
-+static void klist_test_add_tail(struct kunit *test)
-+{
-+	struct klist_node a, b;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_tail(&a, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &a);
-+
-+	klist_add_tail(&b, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &b);
-+
-+	/* should be [list] -> a -> b */
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_add_head(struct kunit *test)
-+{
-+	struct klist_node a, b;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_head(&a, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &a);
-+
-+	klist_add_head(&b, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &b);
-+
-+	/* should be [list] -> b -> a */
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_add_behind(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_head(&a, &mylist);
-+	klist_add_head(&b, &mylist);
-+
-+	klist_add_behind(&c, &a);
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
-+
-+	klist_add_behind(&d, &b);
-+	KUNIT_EXPECT_EQ(test, node_count, 4);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
-+
-+	klist_iter_init(&mylist, &i);
-+
-+	/* should be [list] -> b -> d -> a -> c*/
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_add_before(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_head(&a, &mylist);
-+	klist_add_head(&b, &mylist);
-+	klist_add_before(&c, &a);
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
-+
-+	klist_add_before(&d, &b);
-+	KUNIT_EXPECT_EQ(test, node_count, 4);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
-+
-+	klist_iter_init(&mylist, &i);
-+
-+	/* should be [list] -> b -> d -> a -> c*/
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+/* Verify that klist_del() delays the deletion of a node until there
-+ * are no other references to it
-+ */
-+static void klist_test_del_refcount_greater_than_zero(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, &check_delete_node);
-+
-+	/* Add nodes a,b,c,d to the list*/
-+	klist_add_tail(&a, &mylist);
-+	klist_add_tail(&b, &mylist);
-+	klist_add_tail(&c, &mylist);
-+	klist_add_tail(&d, &mylist);
-+
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	/* Advance the iterator to point to node c*/
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
-+
-+	/* Try to delete node c while there is a reference to it*/
-+	klist_del(&c);
-+
-+	/*
-+	 * Verify that node c is still attached to the list even after being
-+	 * deleted. Since the iterator still points to c, the reference count is not
-+	 * decreased to 0
-+	 */
-+	KUNIT_EXPECT_TRUE(test, klist_node_attached(&c));
-+
-+	/* Check that node c has not been removed yet*/
-+	KUNIT_EXPECT_EQ(test, node_count, 4);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
-+
-+	klist_iter_exit(&i);
-+
-+	/* Since the iterator is no longer pointing to node c, node c is removed
-+	 * from the list
-+	 */
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
-+
-+}
-+
-+/* Verify that klist_del() deletes a node immediately when there are no
-+ * other references to it.
-+ */
-+static void klist_test_del_refcount_zero(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, &check_delete_node);
-+
-+	/* Add nodes a,b,c,d to the list*/
-+	klist_add_tail(&a, &mylist);
-+	klist_add_tail(&b, &mylist);
-+	klist_add_tail(&c, &mylist);
-+	klist_add_tail(&d, &mylist);
-+	/* Delete node c*/
-+	klist_del(&c);
-+
-+	/* Check that node c is deleted from the list*/
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
-+
-+	/* Should be [list] -> a -> b -> d*/
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_remove(struct kunit *test)
-+{
-+	/* This test doesn't check correctness under concurrent access */
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, &check_delete_node);
-+
-+	/* Add nodes a,b,c,d to the list*/
-+	klist_add_tail(&a, &mylist);
-+	klist_add_tail(&b, &mylist);
-+	klist_add_tail(&c, &mylist);
-+	klist_add_tail(&d, &mylist);
-+	/* Delete node c*/
-+	klist_remove(&c);
-+
-+	/* Check the nodes in the list*/
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
-+
-+	/* should be [list] -> a -> b -> d*/
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_node_attached(struct kunit *test)
-+{
-+	struct klist_node a = {};
-+	struct klist mylist;
-+
-+	klist_init(&mylist, NULL, NULL);
-+
-+	KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
-+	klist_add_head(&a, &mylist);
-+	KUNIT_EXPECT_TRUE(test, klist_node_attached(&a));
-+	klist_del(&a);
-+	KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
-+
-+}
-+
-+static struct kunit_case klist_test_cases[] = {
-+	KUNIT_CASE(klist_test_add_tail),
-+	KUNIT_CASE(klist_test_add_head),
-+	KUNIT_CASE(klist_test_add_behind),
-+	KUNIT_CASE(klist_test_add_before),
-+	KUNIT_CASE(klist_test_del_refcount_greater_than_zero),
-+	KUNIT_CASE(klist_test_del_refcount_zero),
-+	KUNIT_CASE(klist_test_remove),
-+	KUNIT_CASE(klist_test_node_attached),
-+	{},
-+};
-+
-+static struct kunit_suite klist_test_module = {
-+	.name = "klist",
-+	.test_cases = klist_test_cases,
-+};
-+
-+kunit_test_suites(&list_test_module, &hlist_test_module, &klist_test_module);
- 
- MODULE_LICENSE("GPL v2");
--- 
-2.40.0.348.gf938b09366-goog
+> +		if (ret || !crash_size)
+> +			return;
+> +
+> +		/*
+> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
+> +		 * is passed and high memory is reserved successful.
+> +		 */
+> +		ret = parse_crashkernel_low(boot_command_line, 0, &crash_low_size, &crash_base);
+> +		if (ret == -ENOENT)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +		else if (ret)
+> +			return;
+> +
+> +		search_start = dma32_phys_limit;
+> +	} else if (ret || !crash_size) {
+> +		/* Invalid argument value specified */
+>  		return;
+> +	}
+>  
+>  	crash_size = PAGE_ALIGN(crash_size);
+>  
+> @@ -1201,16 +1246,26 @@ static void __init reserve_crashkernel(void)
+>  	 */
+>  	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>  					       search_start,
+> -					       min(search_end, (unsigned long) SZ_4G));
+> +					       min(search_end, (unsigned long)dma32_phys_limit));
+>  	if (crash_base == 0) {
+
+The above conditional check isn't right. If crashkernel=size@offset
+specified, the reservation failure won't trigger retry. This seems to be
+originally introduced by old commit, while this need be fixed firstly.
+
+> -		/* Try again without restricting region to 32bit addressible memory */
+> +		/* Try again above the region of 32bit addressible memory */
+>  		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+> -						search_start, search_end);
+> +						       max(search_start, (unsigned long)dma32_phys_limit),
+> +						       search_end);
+>  		if (crash_base == 0) {
+>  			pr_warn("crashkernel: couldn't allocate %lldKB\n",
+>  				crash_size >> 10);
+>  			return;
+>  		}
+> +
+> +		if (!crash_low_size)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +	}
+> +
+> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
+> +	    crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+> +		memblock_phys_free(crash_base, crash_size);
+> +		return;
+>  	}
+>  
+>  	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
+> -- 
+> 2.31.1
+> 
 
