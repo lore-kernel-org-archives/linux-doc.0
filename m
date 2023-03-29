@@ -2,157 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 347F6C77B61
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:09:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC221C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbjC2QJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 12:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40960 "EHLO
+        id S229555AbjC2QOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 12:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbjC2QIz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:08:55 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E765619C;
-        Wed, 29 Mar 2023 09:08:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 0BE3ACE243A;
-        Wed, 29 Mar 2023 16:07:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5727EC433A0;
-        Wed, 29 Mar 2023 16:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680106040;
-        bh=YVojyzV7I2zxywGSu8koM3+fA1i/6QFns/eP6CWmng0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=u70eZqqBR/2FPEKYU9lt4k9neO/yaPErzV3lS/YcyDd/gZifMtk4r3IKmt8jzELbC
-         EnaL1wJcls4J6rv7ZY9dbHnHTDeJYUeI1Mdneievyj/eY4nnHxJK+smGX1l+PUY/vH
-         Ws4t0X1z4Wh8Ufn3QfgTzTUy8D/CTsoccYsqsPdEFvREblbDE8IvHUszB6fgibryvu
-         tt3cZXFuTbpiEYOBE3QtWQ6MiDTe1T1FO6nS7N3dWYoqEj915O5XUKnYC1EvlzkhYR
-         wczzdx2Qazng9MLf7LbHfMzQ6/lHWYpJHRstRSAF3nFxxuVwMfo0byNHLk4VKVi44Q
-         Bzg4KhpDorctQ==
-Received: by mail-lf1-f53.google.com with SMTP id c9so10474139lfb.1;
-        Wed, 29 Mar 2023 09:07:20 -0700 (PDT)
-X-Gm-Message-State: AAQBX9ecUtJBLbSSsmj9BIG9btNNLy+1GyjcVREGS1f0JQt7lZ3lSwQW
-        pGGR4QrIYgvdDo+NG7g5bsRJRZvT5qdsPzpZUFA=
-X-Google-Smtp-Source: AKy350bh8npink4uSFW5NTbZr4LUGarnr5B8TIPB3MzdliaetP7r3vp7NRiXadQoj8onxRmpoyOITpqET3EzQJIirBs=
-X-Received: by 2002:ac2:522e:0:b0:4dc:4b06:9d67 with SMTP id
- i14-20020ac2522e000000b004dc4b069d67mr5835427lfl.9.1680106038333; Wed, 29 Mar
- 2023 09:07:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230326170756.3021936-1-sdonthineni@nvidia.com>
- <CAMj1kXF4MUGbuiW1bcupMs1VdxxE_74WWDt1YdUTg0o9ft+=JQ@mail.gmail.com> <159ceeab-09af-3174-5058-445bc8dcf85b@nvidia.com>
-In-Reply-To: <159ceeab-09af-3174-5058-445bc8dcf85b@nvidia.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Wed, 29 Mar 2023 18:07:07 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGGUzzyN9BS7OeQcn3tvfmsH8Y_CJu5xQx-y7V7hEgXFA@mail.gmail.com>
-Message-ID: <CAMj1kXGGUzzyN9BS7OeQcn3tvfmsH8Y_CJu5xQx-y7V7hEgXFA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: mm: Increase MODULES_VSIZE to 512MB
-To:     Shanker Donthineni <sdonthineni@nvidia.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        with ESMTP id S229941AbjC2QOK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:14:10 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2056.outbound.protection.outlook.com [40.107.223.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A517E6195;
+        Wed, 29 Mar 2023 09:13:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=noQNwDuwDcZHNafWTyhg2uxLb5UhkReMliBRX4bp49ds0Dwqvk7Hxlj8iuxc38lLYr34cg+KubG4wFr+UoKlzs9z9LKKMsIzciLda2gFs7bCKvHesj2jKrFhANXKEvzj3Sd3zX9qb+JEYNvn3UQfnR9ZszNsheiyAXWyy4PT8NaFjPiWuLyx+H3TbKi2Hu0UbHbX0j39Fv8vIceV1PmOaiogPE13NCjfE6KmyWbCFOC1ryzsnQ7AASx5vZm018BYgwdYROznkAc5jAIQ5I3dAYaJi5qgvYzuBnynxSdRaKd2yja8Hk0SQllumCe7lHe3r3Mt0tyO87GVsLUT8fX7YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PMrin/bbw9+/uh750pOTmBDA76IAnjVuwx+1IzBt4oc=;
+ b=gRukvZqFS1KfK3IxGm8qu+DNUHv77GW9gpwwiA+EbeacUXNylcfy07hdjsl00wh8A7nu94RjII9AOGYwxwX8zD8aTKkgRmPxtJhUrP8k+uvaEcnBJ8KYguwr7kyYSzjHC/R6W/WbMTUlp2KJQnJQPPOPhKin673Ai4ZfbinYSWr7hfJEkR4R0yTysGSAdlzc0DCmAf07DyiBUW5Ou/W7zlIPjdhd6yFAt9g1QBTe1Hu9k4LxtbxPrg7q4jsyqTwn9wN2OpOMQl2lzgD8VpSaxFB7HBU5K2oXYtiXbAxG12Dsa3Q51BMw/y9XJI57iP1LDLBX0Cg+dVxi0vsfGBfbWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PMrin/bbw9+/uh750pOTmBDA76IAnjVuwx+1IzBt4oc=;
+ b=GZ4usHWJ1AVQRGxGHLvtyTxYTiy7s0xoYuHbVQ4cZMy93dsawHxHhOtq9md9b9m5RyQmUGEofd1vYwBY3xzZumiWMoxmnrrD3xbMRq/glCM+2theparTY/161rEQ2uu2EyJb2g0b/l/PcQcSxZ1UOY3xNWAyKsnfe9JIrqGs88A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by SJ0PR17MB4600.namprd17.prod.outlook.com (2603:10b6:a03:371::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Wed, 29 Mar
+ 2023 16:13:26 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7b97:62c3:4602:b47a]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7b97:62c3:4602:b47a%5]) with mapi id 15.20.6222.033; Wed, 29 Mar 2023
+ 16:13:26 +0000
+Date:   Tue, 28 Mar 2023 23:56:01 -0400
+From:   Gregory Price <gregory.price@memverge.com>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Linux-Arch <linux-arch@vger.kernel.org>, avagin@gmail.com,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>, krisman@collabora.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Zhou Guanghui <zhouguanghui1@huawei.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mark Rutland <mark.rutland@arm.com>, tongtiangen@huawei.com,
+        Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
+ access_ok
+Message-ID: <ZCO20bzX/IB8J6Gp@memverge.com>
+References: <20230328164811.2451-1-gregory.price@memverge.com>
+ <20230328164811.2451-2-gregory.price@memverge.com>
+ <20230329151515.GA913@redhat.com>
+ <9a456346-e207-44e1-873e-40d21334e01b@app.fastmail.com>
+ <20230329160322.GA4477@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230329160322.GA4477@redhat.com>
+X-ClientProxiedBy: BL1PR13CA0129.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::14) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SJ0PR17MB4600:EE_
+X-MS-Office365-Filtering-Correlation-Id: 14bd1650-30ac-44d3-1cd2-08db307086d3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: viVDPq7284MxarkJEPVZDEaFJikcSu6xsUjMl0qSvsMaV/IzZGsWz9iq572POw8IxHdH9NRIibXj6I4UNXWW0cc3pMo6DdeD8blegcxL8OBgkXmWYQ1QmV3BXU6JTPMpZGTD/WYaX5A1H9VlM8hiWS+5v4yeY923Tlby9Myxg514UAGTJSU3pQTUzMRdYAtwfNerbkdqRmgXeza9lzovbR2GjZiDuQYgnxT9JgC57aW8mbnMI4NGRgYqd5zBNNVl/iKOJZcjTOauwV2XlL+bYxeUwFZBRYEqq+FLbg9lNVIUfU6/IHqSWt/Sme2hz42ocbrBZT2NldGOp/Nl6loTg/yepigaI7vksPQ3OqQpBl9xceQLSH1qTYSbCcFrArOPtzENsIKAdH/4sZnak1X8adYtCE8t/rXw0Gl6A7bE8vhj4EWrmX/Gv7QnoiJWP4oyQ1mP6eM7hH7m4LHiEZ2nfiDprg9dxqTdd6v3UnPFBhATf1HR4JWBwRZhGdKiEHYTHDlym13P6Fp+BMrP/Y4Him68VeLpNKqAbS0yY2VMDik1Mc1sMOGyENQaEstYKssA/jyfOK1SqgGZKUVOsHj/NIBoWHuOnqH91JtyNq3zwuM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(136003)(366004)(39840400004)(346002)(376002)(451199021)(6666004)(6506007)(6512007)(26005)(6486002)(6916009)(316002)(54906003)(478600001)(66556008)(66476007)(8676002)(66946007)(186003)(83380400001)(2616005)(41300700001)(8936002)(2906002)(7416002)(4326008)(5660300002)(44832011)(38100700002)(86362001)(36756003)(41533002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XpJGz43+RC/XrbNtCF9CPCTiRrtcuw0EZb5QxSC2ZahijhZng89VKP41lgah?=
+ =?us-ascii?Q?0nST0aft4SyG9g/drJn4pwmTLDWKxnorkI1zY6f2LtjOYdDMtp7w8V26f4jV?=
+ =?us-ascii?Q?pZTj5OfBMU3LoPRHe+pT/SC+APAaGuKhPjrIzylvh2IGoyMOa/OqLyycRHKe?=
+ =?us-ascii?Q?SnZgQgc6zPHOIKcwLPM9Rb39KCspT1VnLNyNHLUEiwJLqphr7Gfa4Xzb9dJp?=
+ =?us-ascii?Q?QyyjvWtbNCJ3WR2qJyO84rI9/4RJLAZo5ew/nC9lt+xN2RBCbwNw/vTVBhDf?=
+ =?us-ascii?Q?onkwzYE8I7CYltbbcJ2vSfLME90Rbsc8V594rjl6gT7IewUwu7kdqQezlPna?=
+ =?us-ascii?Q?kx3kweh+LVhPgR43CoGN4d+O599cSmEv39UKItblTYu220l/mbLPvCrEuB7C?=
+ =?us-ascii?Q?qb5hsfSpWAGu5GPZesDREJilnx9vj1FHNxRzreteTqg/s9UZhDosIjSwvLRu?=
+ =?us-ascii?Q?uHfEWF3Lguows7fyxcW5OilK5tIi3BmLxpBUGkWlmrgQmDASLfDQqxRDYA2W?=
+ =?us-ascii?Q?vKjA0JjUOJdfkeBzvTcCCtzkFp4BiAmKM8wLaL5hHIe8zhVJSmnhSFNKot+a?=
+ =?us-ascii?Q?MNs1bKSYYCsyoq/l9x+TahHFV/+NnRJL59mWijBOLqnk3Mz5LvFQyW7HbN26?=
+ =?us-ascii?Q?BoKVYpm2mVsmVkEDkmPKzItZi6vombtVsm5nW7ZEnRYoPSRh5TmvLGUnl7qa?=
+ =?us-ascii?Q?0+3oTKeTP2s7lSaQTccc5Gj4ep3unkVZN1pLnPqN8OjrP1ycoEFFpqjGwFy1?=
+ =?us-ascii?Q?trAeH0Le0xI2zRy2U+FO0VBa/hsqfqKQEJYuO4pcVMOy+FxvAb7IKoKXLggG?=
+ =?us-ascii?Q?6LD+9IygEBM8HxHKH3P6MYNycuvPblj4myB2SQ9fHlBu80uGaoBXT1FxAUWU?=
+ =?us-ascii?Q?LlOlx0jEVmndMPdwJiF+SpPrs8QJ3+L9tTrUiH59tvUwF63/t//t86jtv/Ch?=
+ =?us-ascii?Q?MXPZ3FP/ik7ysxrop5oPsLNGEPHNA3d7Xzg69U8tPOizaU4pwmeTUDmFuk04?=
+ =?us-ascii?Q?OBbKAA1vMunN+wvEEdY60O68HRqUJIpjPYZk06PIbNIQYYaZGi2HCU1Dilmy?=
+ =?us-ascii?Q?NzCGXYkZ6aMbi+tjH8M476eU2n3YgRNsdQqWKj9sqpqOHmUduRgFWkyveq8A?=
+ =?us-ascii?Q?02ONr7mHuOJQ3djPPQjO1AIWFb51bhhht6uylUYas4dzZu08zsif4VVyzMb8?=
+ =?us-ascii?Q?Q7EGwMwB6i80JfL36Ojoo6jyPrP3l73B0HuUUd1S0v24BSpvFxwf09+zTPBZ?=
+ =?us-ascii?Q?27pSJkRuRvKNRIwdw/JUd14l5nbQMTJtynZOYCCbsI1wsjplJ+x8kXQknK1G?=
+ =?us-ascii?Q?XcP+mdbJUPrsvypztEl2SVxvjUNu8KE+mCGrAZEz83IQGsadQB8NmzrTeekz?=
+ =?us-ascii?Q?BmWR7Gu4YfkbX/cXq5md9Iy9H75yJlJ7kRvTaY3t7ZXRWCCuCiNT0zxagyRB?=
+ =?us-ascii?Q?v9fN3GGmXlkjSNWkFmnss1Z8iuf9B1EPCStdQsXJ/HnVMGK7Abwd9qkU8cgZ?=
+ =?us-ascii?Q?cjWAquKdWD46e+5N7MU8VsGzghG1luIBKM3NMwnjF21bxZCM2BvsXZaC2BUL?=
+ =?us-ascii?Q?puD42UsNhcqeLu0fzjRcv5XvW+q64AjagOo9FvHNSUXCfGHjrapkcwERU502?=
+ =?us-ascii?Q?pw=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14bd1650-30ac-44d3-1cd2-08db307086d3
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 16:13:26.2100
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d8/0VY0+ZBse6U3Ld3wQx4shLX73gPKolis39IT/T9BOR1mScYjwZE//LAl1LGmjxEnK55JvGTBNu+aN9hlFVOTPcwASkpQeySRmDiXT7IQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB4600
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 26 Mar 2023 at 20:59, Shanker Donthineni <sdonthineni@nvidia.com> wrote:
->
-> Thanks Ard for a quick feedback.
->
-> On 3/26/23 12:35, Ard Biesheuvel wrote:
-> > External email: Use caution opening links or attachments
+On Wed, Mar 29, 2023 at 06:03:23PM +0200, Oleg Nesterov wrote:
+> On 03/29, Arnd Bergmann wrote:
 > >
+> > On Wed, Mar 29, 2023, at 17:15, Oleg Nesterov wrote:
+> > >
+> > > This look as if access_ok() or __access_ok() doesn't depend on task, but
+> > > this is not true in general. Say, TASK_SIZE_MAX can check is_32bit_task()
+> > > test_thread_flag(TIF_32BIT...) and this uses "current".
+> > >
+> > > Again, we probably do not care, but I don't like the fact task_access_ok()
+> > > looks as if task_access_ok(task) returns the same result as "task" calling
+> > > access_ok().
 > >
-> > On Sun, 26 Mar 2023 at 19:08, Shanker Donthineni <sdonthineni@nvidia.com> wrote:
-> >>
-> >> The allocation of modules occurs in two regions: the first region
-> >> MODULES_VSIZE (128MB) is shared with the core kernel, while the
-> >> the second region (2GB) is shared with other vmalloc callers.
-> >> Depending on the size of the core kernel, the 128MB region may
-> >> quickly fill up after loading a few modules, causing the system
-> >> to switch to the 2GB region.
-> >
-> > How much module space are you actually using? This 128 MiB region is
-> > not shared with vmalloc() so it should be dedicated to modules
-> > entirely.
-> >
-> Is it correct to say that if the KASLR feature is disabled, 128MB is
-> being shared between the kernel and modules? Approximately 110MB used
-> by the NVIDIA GPU driver, resulting in the usage of more than 128MB.
->
-> root@localhost:~# cat /proc/kallsyms | grep -wE '_etext|_stext|_end'
-> ffff8000081d0000 T _stext
-> ffff800009390000 D _etext
-> ffff80000b4d0000 B _end
->
-> root@localhost:~# cat /proc/vmallocinfo | more
-> 0xffff800001390000-0xffff800001450000  786432 move_module+0x2c/0x190 pages=11 vmalloc N0=11
-> 0xffff800001450000-0xffff8000014b0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
-> 0xffff8000014f0000-0xffff800001550000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
-> 0xffff800001590000-0xffff8000015f0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
-> 0xffff800001630000-0xffff800001690000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
-> 0xffff8000016d0000-0xffff800001740000  458752 move_module+0x2c/0x190 pages=6 vmalloc N0=6
-> 0xffff800001780000-0xffff8000017e0000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
-> 0xffff800001820000-0xffff800001880000  393216 move_module+0x2c/0x190 pages=5 vmalloc N0=5
-> ...
->
-> The first modules loaded at the address 0xffff800001390000.
->
-> Less than 128MB is available for modules if KASLR is disabled.
->
-> > If you are doing EFI boot, you may need to following patch to ensure
-> > that the 128 MiB region is actually the one being used.
-> >
-> > commit 010338d729c1090036eb40d2a60b7b7bce2445b8
-> > Author: Ard Biesheuvel <ardb@kernel.org>
-> > Date:   Thu Feb 23 21:41:01 2023 +0100
-> >
-> >      arm64: kaslr: don't pretend KASLR is enabled if offset < MIN_KIMG_ALIGN
-> >
-> >
-> I have included your patch to prevent the incorrect detection of the
-> KASLR feature. Otherwise, experiencing the different error
-> "overflow in relocation type 261", R_AARCH64_PREL32. Seems this is
-> due to the incorrect initialization of module_alloc_base.
->
+> > I think the idea of TASK_SIZE_MAX is that it is a compile-time constant and in fact independent of current, while TASK_SIZE
+> > takes TIF_32BIT into account.
+> 
+> Say, arch/loongarch defines TASK_SIZE which depends on test_thread_flag(TIF_32BIT_ADDR)
+> but it doesn't define TASK_SIZE_MAX, so __access_ok() will use TASK_SIZE.
+> 
+> Oleg.
+> 
 
-Hmm, not sure - there was a report about this a while ago but I forgot
-the details.
+I did not notice this at first.  Thinking of solutions, I'd originally
+considered writing a similar change in asm-generic that I made in arm64,
+but that would have ultimately resulted in "(void) task;" because task
+appears unused.
 
-In any case, could we perhaps try something like the below? That way,
-we still prefer allocating from the 128 MiB region that is within
-direct branching range from the core kernel.
+Now it seems like TASK_SIZE/_MAX seems like a dangerous define
+combination that hides relevant functionality. Fixing this seeems to
+naturally want a "TASK_TASK_SIZE(task)" which is... uh... annoying.
 
---- a/arch/arm64/include/asm/memory.h
-+++ b/arch/arm64/include/asm/memory.h
-@@ -46,7 +46,7 @@
- #define KIMAGE_VADDR           (MODULES_END)
- #define MODULES_END            (MODULES_VADDR + MODULES_VSIZE)
- #define MODULES_VADDR          (_PAGE_END(VA_BITS_MIN))
--#define MODULES_VSIZE          (SZ_128M)
-+#define MODULES_VSIZE          (SZ_2G)
- #define VMEMMAP_START          (-(UL(1) << (VA_BITS - VMEMMAP_SHIFT)))
- #define VMEMMAP_END            (VMEMMAP_START + VMEMMAP_SIZE)
- #define PCI_IO_END             (VMEMMAP_START - SZ_8M)
-diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
-index 5af4975caeb58ff7..b4affe775f23e84f 100644
---- a/arch/arm64/kernel/module.c
-+++ b/arch/arm64/kernel/module.c
-@@ -37,7 +37,7 @@ void *module_alloc(unsigned long size)
-                /* don't exceed the static module region - see below */
-                module_alloc_end = MODULES_END;
+Not sure how I should proceed here, but this makes me wonder if there
+are oversights like this elsewhere, as this seems like a pretty easy
+thing to overlook.
 
--       p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
-+       p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_end - SZ_128M,
-                                module_alloc_end, gfp_mask,
-PAGE_KERNEL, VM_DEFER_KMEMLEAK,
-                                NUMA_NO_NODE, __builtin_return_address(0));
+~Gregory
