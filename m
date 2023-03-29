@@ -2,78 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFB1C74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 16:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B44C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 17:14:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229873AbjC2QwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 12:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
+        id S231304AbjC2ROe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 13:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbjC2QwP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 12:52:15 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C1794C33;
-        Wed, 29 Mar 2023 09:51:53 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S231252AbjC2ROd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 13:14:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2CD5FDB
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 10:13:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680110023;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2HKY/Ux5TNZKEBOMV/tb21I2tofWYzDVBz54QvkxgBg=;
+        b=F1feGtSTlDKeQTzUsbxQ2+jphGbKaNs1PxPofPSS6S0g3jnchv+wDGn0AewTOL/Kyu5zby
+        Da2DoSHk2Auxp8ZezeTRbTNC66Cobhl7BAa8Jicx5CDiomGZXBAgy0G85SEeth4rnhFgpN
+        qTaiXyAAIw2TZEP0QESAokOPoAfxkYU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-93-wDlX7MaCPTeV1v8QlV9ksg-1; Wed, 29 Mar 2023 13:13:36 -0400
+X-MC-Unique: wDlX7MaCPTeV1v8QlV9ksg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 24C04378;
-        Wed, 29 Mar 2023 16:51:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 24C04378
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1680108713; bh=3eg3T5+ppWpqlruOz5BEP/AWJEx6stCZC64N06mPlAs=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=DwIWoJ20E8Ma0vao+1MUUsEe+9gmQ5o6RSNJYpauu3nJfthqV8fv13sYv5QjQ1Ey7
-         BURllWR/iFj2oZlULZATPhWf/j2gJup5mGsEOrhlFPsdrGfBvEvJjWDe0Se9Y+vKXT
-         TTWYSbueWLGtOT09wkyIt3latv+j6kVoTUSgqTm08OwcM0l+KvLcGzHuyr1jnaVEBc
-         np5+dQhGGaX/CICVlef5BdJtd5pyDnhRFhcagGBHANxzT0Gidpy9tzFv7PqR0Lum+G
-         OdXQiE7liooF3BIMdhqBXL4hPtalU2Lj20olpTSpMBDRJqAWGwcnrdOH6+pDiB8uVm
-         JCeYJDH48rDpQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: translation alignment
-In-Reply-To: <20230326130213.28755-1-federico.vaga@vaga.pv.it>
-References: <20230326130213.28755-1-federico.vaga@vaga.pv.it>
-Date:   Wed, 29 Mar 2023 10:51:52 -0600
-Message-ID: <875yajjyaf.fsf@meer.lwn.net>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B37485A588;
+        Wed, 29 Mar 2023 17:13:35 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.161])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 32E7F4020C82;
+        Wed, 29 Mar 2023 17:13:30 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed, 29 Mar 2023 19:13:27 +0200 (CEST)
+Date:   Wed, 29 Mar 2023 19:13:22 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Gregory Price <gregory.price@memverge.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Linux-Arch <linux-arch@vger.kernel.org>, avagin@gmail.com,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>, krisman@collabora.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, tongtiangen@huawei.com,
+        Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
+ access_ok
+Message-ID: <20230329171322.GB4477@redhat.com>
+References: <20230328164811.2451-1-gregory.price@memverge.com>
+ <20230328164811.2451-2-gregory.price@memverge.com>
+ <20230329151515.GA913@redhat.com>
+ <9a456346-e207-44e1-873e-40d21334e01b@app.fastmail.com>
+ <20230329160322.GA4477@redhat.com>
+ <ZCO20bzX/IB8J6Gp@memverge.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZCO20bzX/IB8J6Gp@memverge.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Federico Vaga <federico.vaga@vaga.pv.it> writes:
-
-> Italian translation updated following these changes:
+On 03/28, Gregory Price wrote:
 >
-> commit 901578a45950 ("docs: recommend using Link: whenever using Reported-by:")"
-> commit 775a445d9a63 ("coding-style: fix title of Greg K-H's talk")
-> commit 1d2ed9234c85 ("Documentation: process: Document suitability of Proton Mail for kernel development")
-> commit 9d0f5cd16744 ("docs: promote the title of process/index.rst")
-> commit d4563201f33a ("Documentation: simplify and clarify DCO contribution example language")
-> commit e7b4311ebcac ("Replace HTTP links with HTTPS ones: Documentation/process")
-> commit 0b02076f9953 ("docs: programming-language: add Rust programming language section")
-> commit 38484a1d0c50 ("docs: programming-language: remove mention of the Intel compiler")
-> commit b8885e2615f4 ("Documentation: front page: use recommended heading adornments")
->
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> ---
->  .../it_IT/core-api/symbol-namespaces.rst      |  3 +-
->  .../it_IT/doc-guide/parse-headers.rst         |  5 +-
->  Documentation/translations/it_IT/index.rst    | 47 +++++++++----------
->  .../translations/it_IT/process/5.Posting.rst  |  7 +--
->  .../it_IT/process/clang-format.rst            |  2 +-
->  .../it_IT/process/coding-style.rst            |  6 +--
->  .../it_IT/process/email-clients.rst           | 25 ++++++++++
->  .../translations/it_IT/process/index.rst      |  1 +
->  .../it_IT/process/maintainer-pgp-guide.rst    |  2 +-
->  .../it_IT/process/programming-language.rst    | 25 ++++++++--
->  .../it_IT/process/submitting-patches.rst      |  4 +-
->  .../process/volatile-considered-harmful.rst   |  4 +-
->  12 files changed, 84 insertions(+), 47 deletions(-)
+> Not sure how I should proceed here,
 
-Applied, thanks.
+Can't we just kill this access_ok() in set_syscall_user_dispatch() ?
+I don't think it buys too much.
 
-jon
+Oleg.
+
+diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+index 0b6379adff6b..d2e516ece52b 100644
+--- a/kernel/entry/syscall_user_dispatch.c
++++ b/kernel/entry/syscall_user_dispatch.c
+@@ -43,11 +43,7 @@ bool syscall_user_dispatch(struct pt_regs *regs)
+ 		return false;
+ 
+ 	if (likely(sd->selector)) {
+-		/*
+-		 * access_ok() is performed once, at prctl time, when
+-		 * the selector is loaded by userspace.
+-		 */
+-		if (unlikely(__get_user(state, sd->selector))) {
++		if (unlikely(get_user(state, sd->selector))) {
+ 			force_exit_sig(SIGSEGV);
+ 			return true;
+ 		}
+@@ -86,9 +82,6 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
+ 		if (offset && offset + len <= offset)
+ 			return -EINVAL;
+ 
+-		if (selector && !access_ok(selector, sizeof(*selector)))
+-			return -EFAULT;
+-
+ 		break;
+ 	default:
+ 		return -EINVAL;
+
