@@ -2,63 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E79C74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 09:46:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAAC8C74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 10:12:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbjC2Jqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 05:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45856 "EHLO
+        id S229603AbjC2KMW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 06:12:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230115AbjC2Jqf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 05:46:35 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D499B;
-        Wed, 29 Mar 2023 02:46:34 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-536af432ee5so283582197b3.0;
-        Wed, 29 Mar 2023 02:46:34 -0700 (PDT)
+        with ESMTP id S229729AbjC2KMW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 06:12:22 -0400
+X-Greylist: delayed 963 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 29 Mar 2023 03:12:19 PDT
+Received: from smtp16.bhosted.nl (smtp16.bhosted.nl [IPv6:2a02:9e0:8000::27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA0B10DE
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 03:12:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680083194;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kj7MeokRnnz1WX6SGf7aj7a40IFSejhm4QHlJ3A35GM=;
-        b=LA1BPPTHjMvyenLtuyu/PWIE/HA8vfNmsk6yOQMM1VhqOvIlQ5hcShDH4qm4QXttNZ
-         B32f3UtdkuD/VEko2VX5Yir4LTwKpLQcYcByKDnfOYnwn3PfoO7/nX8Ik35b5ctUlcgd
-         zA0V7ceZIw5kOO/XU71iRPJ2cPXr0iCWxvgmGdKzyuyqxJljA9XiiTG+jz10xnPxBe2r
-         /mlYH9Zbha4Wmdmz8TKd+/CKPEE1jOOFm5WQLBDM62+BczftHPycdKJNlVsbF9wHz8XK
-         FrP7Z5DEvMcVMyqmwpESOxPfyMCNhvM9nQNl43ILM+IPquYjnO5aT3+H5Q2QVUb0MbpR
-         g8bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680083194;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kj7MeokRnnz1WX6SGf7aj7a40IFSejhm4QHlJ3A35GM=;
-        b=ANcRT3/IPB73jNB1RPUEhvuhyLn8d03fjSVjcbYVxjjC0fqNwCyuH0PzGv0GEU3yes
-         idcwdo60Jjgc9wL6eB/atZloD6SwrdThl2pgN25vkQF/ur8MFSzxuFwWAogrht2cYtjh
-         6pSR72OIheYEpckMtJxidN4G/oTJX/LcYFDTjmpnk/8fTUpcS1lKZAf2u0wYNENVMVvP
-         6b2ysEOxVTZo0cxqxUEndnYtzgEvTXmQBgIFkc8oNG2cl/IzHJ7DYntnq9fFCvzeXSXq
-         tKNA7y5gZpCIf4zcrFFEgLT3ehqrc6wbEc9WRHgmuBSp2RO2EtS+3I2+03XBFcSqVyB4
-         oAVw==
-X-Gm-Message-State: AAQBX9fbrf8Fe2wFgeOPANuWP47X/66Hd3qw2BTDCkSt/ZO1/16n78ek
-        6z2eL6rlNM8BL4KZa8alxUA5PA6zlpbUxutt4XQQTOG5aUw=
-X-Google-Smtp-Source: AKy350Y5VTroxzy08tTDA5f+Zwuhv4abQObF+tQGnVifOW8gzkrFJaRg0U48Y557VV+lw+YVIXA33PkdUuaJNQ3dH68=
-X-Received: by 2002:a81:b28a:0:b0:544:5fc7:f01f with SMTP id
- q132-20020a81b28a000000b005445fc7f01fmr8872545ywh.4.1680083193744; Wed, 29
- Mar 2023 02:46:33 -0700 (PDT)
+        d=protonic.nl; s=202111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+         from;
+        bh=A7yjEgP+A6xQRL7HSj3Fivv9FpYOncdPGUSCTs1pGgQ=;
+        b=D2r0rPk9EYmB211NId2iOgRHJPBys7KZ5o0g8MpYtu0Lknmpgjl0sfhbN4N3FJilbepTgd78alZ1F
+         uusi34s+XlH5i1cIKEHnrAUqiAicnRU9s6/4weKPu80LLYiYpM28Bz6yNRPyxxcTCG5lH5skQSJjoW
+         qawhs/aXLgcjCh/b5QAKpczKa6zLsamzlh3gX7XRW7D3Nhke1s2yVLYMiPrgkYBw4HVDEnYNB3X/8P
+         u9Mtwb1FEFRoeWsZLIce0IZCLeXCIqoQnu843CicvIqyv8FXIJTAR5PgLfXNcCoYZNi2AATuBZs3oV
+         hVn8Ybt0MrZK1nlT0QHZUegoqkBAY8A==
+X-MSG-ID: efe3a89b-ce17-11ed-829c-0050569d2c73
+From:   Roan van Dijk <roan@protonic.nl>
+To:     corbet@lwn.net
+Cc:     mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        linux-doc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Roan van Dijk <roan@protonic.nl>
+Subject: [PATCH] ARM: stm32: add initial documentation for STM32MP151
+Date:   Wed, 29 Mar 2023 11:56:00 +0200
+Message-Id: <20230329095600.1355049-1-roan@protonic.nl>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-From:   Askar Safin <safinaskar@gmail.com>
-Date:   Wed, 29 Mar 2023 12:45:57 +0300
-Message-ID: <CAPnZJGAjE09M7a3WVrVA5LFiaw7iUixJPpaMQ6=bdmjvanWqKw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: add system-state document to admin-guide
-To:     skhan@linuxfoundation.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +You can get the same information from /proc.modules::
+This patch adds initial documentation of STM32MP151 microprocessor (MPU)
+based on Arm Cortex-A7.
 
-It seems you meant /proc/modules
+Signed-off-by: Roan van Dijk <roan@protonic.nl>
+---
+ .../arm/stm32/stm32mp151-overview.rst         | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 Documentation/arm/stm32/stm32mp151-overview.rst
 
+diff --git a/Documentation/arm/stm32/stm32mp151-overview.rst b/Documentation/arm/stm32/stm32mp151-overview.rst
+new file mode 100644
+index 000000000000..f42a2ac309c0
+--- /dev/null
++++ b/Documentation/arm/stm32/stm32mp151-overview.rst
+@@ -0,0 +1,36 @@
++===================
++STM32MP151 Overview
++===================
++
++Introduction
++------------
++
++The STM32MP151 is a Cortex-A MPU aimed at various applications.
++It features:
++
++- Single Cortex-A7 application core
++- Standard memories interface support
++- Standard connectivity, widely inherited from the STM32 MCU family
++- Comprehensive security support
++
++More details:
++
++- Cortex-A7 core running up to @800MHz
++- FMC controller to connect SDRAM, NOR and NAND memories
++- QSPI
++- SD/MMC/SDIO support
++- Ethernet controller
++- ADC/DAC
++- USB EHCI/OHCI controllers
++- USB OTG
++- I2C, SPI busses support
++- Several general purpose timers
++- Serial Audio interface
++- LCD-TFT controller
++- DCMIPP
++- SPDIFRX
++- DFSDM
++
++:Authors:
++
++- Roan van Dijk <roan@protonic.nl>
 -- 
-Askar Safin
+2.37.2
+
