@@ -2,173 +2,383 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2A0C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 18:03:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8A2C6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 18:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbjC2SDB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 14:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57758 "EHLO
+        id S230285AbjC2SIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 14:08:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229618AbjC2SDA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 14:03:00 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2046.outbound.protection.outlook.com [40.107.237.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2132D1733;
-        Wed, 29 Mar 2023 11:02:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j/aZ2W0Db9TooeBX3DlzlggoLFrKVdAD/ytFpcYZ1BRAKo9fpIWsbzUdI2gesZiJxoYZ5zacxgaE+zd6pMtDRGlDXeNW0LtMJXkjn56S+mF3JUk/gDyekC/g7x2ZBgBOcjc45UBTvQnJeLd1X40mk8SqlJIPeh0IJsin9AeTSo383x5Uus/tATERmJX91/LeJmui2FJDhv/rx1kTNVOWwYVHomGwM09mu80Lbt2zyXc7ijguEsgoQfMIRUW1HHkYOruKocdALhc5nadh8bIaKrwo/jg5jGT9o8qI7tEpdg3TgA5BzJ9RFoX0QWRUQ1UBeMosKg+LU2YpZUP7vqegFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CcCE8fsS+2OVquRyLgo3jfPr2w0cbIh5VuuaV1rXVGQ=;
- b=XFit/15GXGBUbQiwmnrfRBQj3XuDBMyyxCTBTGUyvLcX8pqVqoU+j54Rb80tMoppBnl27bUR+g4vjfgozWrHihDbyYkMWkLR6Z3WsAlXqNE4QNFdNU+pYKlh9t8QxGpzvS9t8DnyoRP3nzLIhCnveqUTaxo9WtcEj5iBCrYMqjGR34LJAFgIn8tj36UPL2xal2cOg0TUCe0thY500tgk5Ay0rS/FSYJjnndbnbGD/2ppCtQs8gHnkGr+nuZtvRp9U1henGx4ucFtPYjAbUMOtRiAt9Y3UKV+8xcNd9cxXXfEfjK2EZ2fHE7T15iYJOXgFXSbz7vvQWP9d4iT/0gXwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CcCE8fsS+2OVquRyLgo3jfPr2w0cbIh5VuuaV1rXVGQ=;
- b=SUkMDRY4bpPvMkNjbogsKlKYQFCUF1GdmuxH3qi927aOkYcCg9QYiFEijJgIUjxjTOrE5o260hH9GxdEgCS1s6UND37PInUY3ilRZ+BaVqYqKELVIGmMQvB3UfMM9gFOXblEBQwIyuMfpF7OiT5O3omB7Se3l+sa4Czi6YXgnJQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by DM6PR17MB4058.namprd17.prod.outlook.com (2603:10b6:5:25e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Wed, 29 Mar
- 2023 18:02:54 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7b97:62c3:4602:b47a]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7b97:62c3:4602:b47a%5]) with mapi id 15.20.6222.033; Wed, 29 Mar 2023
- 18:02:54 +0000
-Date:   Wed, 29 Mar 2023 01:54:37 -0400
-From:   Gregory Price <gregory.price@memverge.com>
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, avagin@gmail.com,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>, krisman@collabora.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, tongtiangen@huawei.com,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
- access_ok
-Message-ID: <ZCPSnVgvyv3uaAKY@memverge.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
- <20230329151515.GA913@redhat.com>
- <9a456346-e207-44e1-873e-40d21334e01b@app.fastmail.com>
- <20230329160322.GA4477@redhat.com>
- <ZCO20bzX/IB8J6Gp@memverge.com>
- <20230329171322.GB4477@redhat.com>
- <ZCPOpClZ3hOQCs7a@memverge.com>
- <20230329175850.GA8425@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230329175850.GA8425@redhat.com>
-X-ClientProxiedBy: BYAPR07CA0013.namprd07.prod.outlook.com
- (2603:10b6:a02:bc::26) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+        with ESMTP id S230179AbjC2SIV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 14:08:21 -0400
+Received: from mail-ed1-x562.google.com (mail-ed1-x562.google.com [IPv6:2a00:1450:4864:20::562])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B7FD65A6
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 11:08:11 -0700 (PDT)
+Received: by mail-ed1-x562.google.com with SMTP id i5so66999219eda.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 11:08:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dectris.com; s=google; t=1680113289;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K7rSsyMJhIvgvEQW89dfQdDTHZGh1oLI7Hpefw+WAVU=;
+        b=R59Kk0GJpE83KDA9DIUGaItDiauF8CyOj1tg4deG3TtTvgbvt5OOiBUHLwylJ7IH2e
+         OVtN4Xage71eE+hEJXhRz9Qzm31zVP0RvXDDi3YkAn7O1T9nf6LUEMH0DeacHIEVh4PK
+         6tW/18UzaYRw3RkD7qryUbe/YLchwV69Oh+Gw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680113289;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K7rSsyMJhIvgvEQW89dfQdDTHZGh1oLI7Hpefw+WAVU=;
+        b=imjC03hx2sjwM0/gcAunw1wjvMZupYfMnoX7acvvvHoCdmNq20OvPdkLyG8ZdoHw8I
+         /4OJLHDHx0EhwojclYTWLQHpfqIvijI/MYIgzHqpNPK+lOw1DsIp81w+Xe4A+5oqn372
+         gK7ssMUowY+ilP/XfVikJMKbJamtSiUULiA7iUZI3qGEwqCH10j7l7uzE6MjGOkQNqZB
+         jmwcCO0qjz9RkTkCNffQ2QulbaM4S+XkoJp9vQ92nH0UjqRXjn07unA61UZ62btGHatH
+         8+8E+foEI/7LHXB9uQ2bgJ93Ux1gUlZ2hOdVettchFYb5DRqqqaVf0nqVHTOhdXqcOxm
+         4qyQ==
+X-Gm-Message-State: AAQBX9eLADvIZ+1zc/5jtypBIn+Se/KS+40+X0QMAQ3QxmDTQ1Mpz5/8
+        JWwxm4Q/tnuMAyUdSrLRTjQtpKEwhEb9leCs3Riteim02P3c
+X-Google-Smtp-Source: AKy350aCFppLVcsx2UG4SxMzUwOX+R16It3pDZAWiVCNoDFSVi59DzExtW/TRjeFVqXH+X7N6vYGypWecM8P
+X-Received: by 2002:a17:906:5803:b0:878:5372:a34b with SMTP id m3-20020a170906580300b008785372a34bmr20501328ejq.45.1680113289583;
+        Wed, 29 Mar 2023 11:08:09 -0700 (PDT)
+Received: from fedora.dectris.local (dect-ch-bad-pfw.cyberlink.ch. [62.12.151.50])
+        by smtp-relay.gmail.com with ESMTPS id m10-20020a1709066d0a00b00920438f59b3sm12072998ejr.154.2023.03.29.11.08.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 11:08:09 -0700 (PDT)
+X-Relaying-Domain: dectris.com
+From:   Kal Conley <kal.conley@dectris.com>
+To:     =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>
+Cc:     Kal Conley <kal.conley@dectris.com>, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH bpf-next v2 08/10] xsk: Support UMEM chunk_size > PAGE_SIZE
+Date:   Wed, 29 Mar 2023 20:05:00 +0200
+Message-Id: <20230329180502.1884307-9-kal.conley@dectris.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230329180502.1884307-1-kal.conley@dectris.com>
+References: <20230329180502.1884307-1-kal.conley@dectris.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|DM6PR17MB4058:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9720e03-3302-499d-1e6d-08db307fd1c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yF8tW33Uukcwu3jO6CBpGNGHIBTqZudftwYkPkfeEKLOiXke0ZOF9iz3fZYgX/pbkXmqjeb5r9CSSZuKLP4IGcypf9J6K+2YMUZ72z8DfLInILQmSd4GXb0cNZsuqkXmay69vgsg6fw4h9OHqh8dlFU/qzW2m07woKdvXNF9ZcrBz2Kg6KqjYGe6CEt+NAwBvGBDwl6IK/76WvyqLlzd5vOjeIep/EFs1PKc7cQnwM4bsY+R1bLwg1mUV71ojJPt0tuUYBxH/g84I87QegvgXFOmK6oJPrjrhmHqGfQLsXkNPUzn8HOkPQUdcobXwq8fWD5S0y9plJbnJPF9p9cHDDpgwp6DiT1SnJJpuNmpQFTif7oA3pepIdM1tAB2SmdlZvKz+MeBjMZWX8lMl0LGHB9DUKX4x+CQFcO2T9hti+wC6CRijZXfb5NI5fCw7MjXOdUDvNceIDI2Pi6HEe+pXJEoEo8MIzWKpDuOeR0tHY0TgwQ8cBT933oyznf6yvi24UeF9/P9o9d+ODc9+RoUxQxxB69Z6l2mPS6toEBIDEODsvOW1nZojCja+bN6t2jO9SjMkZBZX9Vx2lN44Wp8Dw8BIOy0pkbDBhIKVeIxYq8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(396003)(376002)(136003)(366004)(39840400004)(451199021)(478600001)(83380400001)(44832011)(2906002)(38100700002)(7416002)(6486002)(2616005)(8936002)(5660300002)(54906003)(6666004)(316002)(6506007)(6512007)(86362001)(186003)(26005)(6916009)(41300700001)(66946007)(66556008)(4326008)(8676002)(66476007)(36756003)(41533002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?h7n8gL+WkGd2No0vxQipaKCFnwSqlqtwFE71vgWrTsce81MfHNsp1Q5SSeXw?=
- =?us-ascii?Q?wmvh7vStm+7orlhslN+cKDDXThafPFbgdkYfXUwJLmA2WQhXXwUqO6z2vKMt?=
- =?us-ascii?Q?7QViI+nMeirSTpM/RejOQ9qD7aKXnQMBaz60ntbhtK/e9Own0Sq9rGCBBEpV?=
- =?us-ascii?Q?RMghnRBin7MP5a7z9ztQt9C/5Q6bdgF7XmYlsfEN0fLBLGOSQa3cqnLVmV86?=
- =?us-ascii?Q?dhH5gHsb9VOtoltHh2Z/6WLvZJp0QL9979D/n9q5N62MXLXwfsK54NfDTG39?=
- =?us-ascii?Q?/l41mZek9a+ZnuixvLpfwZ11ypuUGA+bGEPCYqqm4vOCYBda/VIMYltrNBL2?=
- =?us-ascii?Q?KLQggG0rXiBgef6luRgozpohdV7ht664u5Jt/GUAnf3DQ927MBGffcPsCOGB?=
- =?us-ascii?Q?bdOuHAnHaMsliuVsEgAjNTm8YSC1SSAkolnwEwuCKDwTf6aTUD6rtvJJ5B2p?=
- =?us-ascii?Q?LqCxzADdaaN5YVPqhAcUxsm21s43z1+N3LOdYqliq+TjEUxHeiDBxEEIOYjc?=
- =?us-ascii?Q?MXUSiAhjIyHZmzVaWxYbX1Uk1EgQDyiFb3NqlAxATWtUTOxGRhrQo/s4HyIr?=
- =?us-ascii?Q?5bhzXYKuoJb1EVpbmyfoX8h4btguFsaZ3su5kJf+zb7YQmTndSgT26MIRt1A?=
- =?us-ascii?Q?Gpd2iMrigS4li7K9yQda/nkPzytObQd+W8nCHii9F1TDvpiTyUZ2FDmgoBnK?=
- =?us-ascii?Q?VFU59uD4rfByO0y99v4olNEq2OEexB51RyqZA9Btd8IBDUJs5Qe5ffWxwNSg?=
- =?us-ascii?Q?r8diWC+n3Gi8pj8EH73zehVeZSLWsHtSp5riQ0bYCtDZ20gtF+VM3+3dBb7C?=
- =?us-ascii?Q?f72MIjAD0HrtrtaHEQ/VhdmvKo2I06eZBFjkDTIC5bY6U1sXBuLUrjxP1RvW?=
- =?us-ascii?Q?JTUgLKOS5mDPSX7gjV6rGbjoPz8qTaSRqHXhQLmFKVhNT+ylhf+wZqKu/Qgi?=
- =?us-ascii?Q?Apmcl1O3fcCBPNx81Uevj17Rga5xJYvprGL3P8eNkBry2g0UepB/vPk1gFU5?=
- =?us-ascii?Q?VMx+xLHqE5PS9QEMtuIKph1G28t72CM0YMPAP4bFDEyaj/7qluYb7fukqQaO?=
- =?us-ascii?Q?+4Ne/FxxSne9ojdGgf9ddD4pYLSL9peV+Tdiiu6gO9Mfzgp8kr5am17ZXVS0?=
- =?us-ascii?Q?iJ2WT3OHex5jd8DC/xZHIWLqD+cFaA9adiKDRvMDy40H4icXzezMvZNFKnzE?=
- =?us-ascii?Q?lTc0Y9mOK0I+Z0yI29e5gx3WJIvjFk6Po3So1lmfzM9ypWstPJ+fQe+oQNyE?=
- =?us-ascii?Q?goq2lMwX8Wk/RGWy0T60Q7DUBOhybVICGueMBTk0vMXEabxRZbw9adVrb5PO?=
- =?us-ascii?Q?DeAf0jyuLNBK/OYFqxW+dSlAZHAxKDsXVKWY/VxkPHHJSwbjyw3vEvEGaV/X?=
- =?us-ascii?Q?q6trsUvlh4JZ1PKrRXMz+8KozlcfQafvOquWYww0J57fn73ULtbcRXnuVg6q?=
- =?us-ascii?Q?uun6cx4IY8bvuA7ROqRtwVy5TMY0dGZ5TEwJH54AxxYhPGE3HGCz0oA9cGhX?=
- =?us-ascii?Q?JrbEjvq3+6HrarlgWhry943KOdzvvpUvy2gVfSNW5/ElcYK97thbH9lorqyC?=
- =?us-ascii?Q?4NyXGlmCCKuXGsAgMMJ1otOXDG8DtiXo1+WzRPXeTDuu6cgDERMqYzHmGBrC?=
- =?us-ascii?Q?2Q=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9720e03-3302-499d-1e6d-08db307fd1c5
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 18:02:54.3894
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s0ePGMqsylr6Ki4QqgnKO8bcKLGnQQ+PTHalCusZhvPbar5WZPkEgRbXG/UHzeyGlWuGQTudd797DaCyDciB57KFFrCI4btHCK5kuyTgg8Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR17MB4058
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 07:58:51PM +0200, Oleg Nesterov wrote:
-> On 03/29, Gregory Price wrote:
-> >
-> > On Wed, Mar 29, 2023 at 07:13:22PM +0200, Oleg Nesterov wrote:
-> > >
-> > > -		if (selector && !access_ok(selector, sizeof(*selector)))
-> > > -			return -EFAULT;
-> > > -
-> > >  		break;
-> > >  	default:
-> > >  		return -EINVAL;
-> > >
-> >
-> > The result of this would be either a task calling via prctl or a tracer
-> > calling via ptrace would be capable of setting selector to a bad pointer
-> > and producing a SIGSEGV on the next system call.
-> 
-> Yes,
-> 
-> > It's a pretty small footgun, but maybe that's reasonable?
-> 
-> I hope this is reasonable,
-> 
-> > From a user perspective, debugging this behavior would be nightmarish.
-> > Your call to prctl/ptrace would succeed and the process would continue
-> > to execute until the next syscall - at which point you incur a SIGSEGV,
-> 
-> Yes. But how does this differ from the case when, for example, user
-> does prtcl(PR_SET_SYSCALL_USER_DISPATCH, selector = 1) ? Or another
-> bad address < TASK_SIZE?
-> 
-> access_ok() will happily succeed, then later syscall_user_dispatch()
-> will equally trigger SIGSEGV.
-> 
-> Oleg.
-> 
+Add core AF_XDP support for chunk sizes larger than PAGE_SIZE. This
+enables sending/receiving jumbo ethernet frames up to the theoretical
+maxiumum of 64 KiB. For chunk sizes > PAGE_SIZE, the UMEM is required
+to consist of HugeTLB VMAs (and be hugepage aligned). Initially, only
+SKB mode is usable pending future driver work.
 
-I'm convinced now, this feels like the correct solution.  I will pull
-your suggested patch ahead and drop the task variant of access_ok.
+For consistency, check for HugeTLB pages during UMEM registration. This
+implies that hugepages are required for XDP_COPY mode despite DMA not
+being used. This restriction is desirable since it ensures user software
+can take advantage of future driver support.
 
-Am I ok to add your signed-off-by to the suggested patch, and i'll add
-it to the series?  Not quite sure what the correct set of tags is,
-since i don't have any suggested changes to your patch.
+Even in HugeTLB mode, continue to do page accounting using order-0
+(4 KiB) pages. This minimizes the size of this change and reduces the
+risk of impacting driver code. Taking full advantage of hugepages for
+accounting should improve XDP performance in the general case.
 
-~Gregory
+No significant change in RX/TX performance was observed with this patch.
+A few data points are reproduced below:
+
+Machine : Dell PowerEdge R940
+CPU     : Intel(R) Xeon(R) Platinum 8168 CPU @ 2.70GHz
+NIC     : MT27700 Family [ConnectX-4]
+
++-----+------+------+-------+--------+--------+--------+
+|     |      |      | chunk | packet | rxdrop | rxdrop |
+|     | mode |  mtu |  size |   size | (Mpps) | (Gbps) |
++-----+------+------+-------+--------+--------+--------+
+| old |   -z | 3498 |  4000 |    320 |   15.7 |   40.2 |
+| new |   -z | 3498 |  4000 |    320 |   15.8 |   40.4 |
++-----+------+------+-------+--------+--------+--------+
+| old |   -z | 3498 |  4096 |    320 |   16.4 |   42.0 |
+| new |   -z | 3498 |  4096 |    320 |   16.3 |   41.7 |
++-----+------+------+-------+--------+--------+--------+
+| new |   -c | 3498 | 10240 |    320 |    6.3 |   16.1 |
++-----+------+------+-------+--------+--------+--------+
+| new |   -S | 9000 | 10240 |   9000 |   0.35 |   25.2 |
++-----+------+------+-------+--------+--------+--------+
+
+Signed-off-by: Kal Conley <kal.conley@dectris.com>
+---
+ Documentation/networking/af_xdp.rst | 19 +++++++----
+ include/net/xdp_sock.h              |  3 ++
+ include/net/xdp_sock_drv.h          | 12 +++++++
+ include/net/xsk_buff_pool.h         | 15 ++++++++-
+ net/xdp/xdp_umem.c                  | 50 ++++++++++++++++++++++++-----
+ net/xdp/xsk_buff_pool.c             | 30 +++++++++++------
+ 6 files changed, 105 insertions(+), 24 deletions(-)
+
+diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
+index 247c6c4127e9..0017f83c8fb8 100644
+--- a/Documentation/networking/af_xdp.rst
++++ b/Documentation/networking/af_xdp.rst
+@@ -419,13 +419,20 @@ XDP_UMEM_REG setsockopt
+ -----------------------
+ 
+ This setsockopt registers a UMEM to a socket. This is the area that
+-contain all the buffers that packet can reside in. The call takes a
++contains all the buffers that packets can reside in. The call takes a
+ pointer to the beginning of this area and the size of it. Moreover, it
+-also has parameter called chunk_size that is the size that the UMEM is
+-divided into. It can only be 2K or 4K at the moment. If you have an
+-UMEM area that is 128K and a chunk size of 2K, this means that you
+-will be able to hold a maximum of 128K / 2K = 64 packets in your UMEM
+-area and that your largest packet size can be 2K.
++also has a parameter called chunk_size that is the size that the UMEM is
++divided into. For example, if you have an UMEM area that is 128K and a
++chunk size of 2K, this means that you will be able to hold a maximum of
++128K / 2K = 64 packets in your UMEM and that your largest packet size
++can be 2K.
++
++Valid chunk sizes range from 2K to 64K. However, the chunk size must not
++exceed the size of a page (often 4K). This limitation is relaxed for
++UMEM areas allocated with HugeTLB pages. In this case, chunk sizes up
++to the system default hugepage size are supported. Note, this only works
++with hugepages allocated from the kernel's persistent pool. Using
++Transparent Huge Pages (THP) has no effect on the maximum chunk size.
+ 
+ There is also an option to set the headroom of each single buffer in
+ the UMEM. If you set this to N bytes, it means that the packet will
+diff --git a/include/net/xdp_sock.h b/include/net/xdp_sock.h
+index e96a1151ec75..ed88880d4b68 100644
+--- a/include/net/xdp_sock.h
++++ b/include/net/xdp_sock.h
+@@ -28,6 +28,9 @@ struct xdp_umem {
+ 	struct user_struct *user;
+ 	refcount_t users;
+ 	u8 flags;
++#ifdef CONFIG_HUGETLB_PAGE
++	bool hugetlb;
++#endif
+ 	bool zc;
+ 	struct page **pgs;
+ 	int id;
+diff --git a/include/net/xdp_sock_drv.h b/include/net/xdp_sock_drv.h
+index 9c0d860609ba..83fba3060c9a 100644
+--- a/include/net/xdp_sock_drv.h
++++ b/include/net/xdp_sock_drv.h
+@@ -12,6 +12,18 @@
+ #define XDP_UMEM_MIN_CHUNK_SHIFT 11
+ #define XDP_UMEM_MIN_CHUNK_SIZE (1 << XDP_UMEM_MIN_CHUNK_SHIFT)
+ 
++static_assert(XDP_UMEM_MIN_CHUNK_SIZE <= PAGE_SIZE);
++
++/* Allow chunk sizes up to the maximum size of an ethernet frame (64 KiB).
++ * Larger chunks are not guaranteed to fit in a single SKB.
++ */
++#ifdef CONFIG_HUGETLB_PAGE
++#define XDP_UMEM_MAX_CHUNK_SHIFT min(16, HPAGE_SHIFT)
++#else
++#define XDP_UMEM_MAX_CHUNK_SHIFT min(16, PAGE_SHIFT)
++#endif
++#define XDP_UMEM_MAX_CHUNK_SIZE (1 << XDP_UMEM_MAX_CHUNK_SHIFT)
++
+ #ifdef CONFIG_XDP_SOCKETS
+ 
+ void xsk_tx_completed(struct xsk_buff_pool *pool, u32 nb_entries);
+diff --git a/include/net/xsk_buff_pool.h b/include/net/xsk_buff_pool.h
+index d318c769b445..bb32112aefea 100644
+--- a/include/net/xsk_buff_pool.h
++++ b/include/net/xsk_buff_pool.h
+@@ -75,6 +75,9 @@ struct xsk_buff_pool {
+ 	u32 chunk_size;
+ 	u32 chunk_shift;
+ 	u32 frame_len;
++#ifdef CONFIG_HUGETLB_PAGE
++	u32 page_size;
++#endif
+ 	u8 cached_need_wakeup;
+ 	bool uses_need_wakeup;
+ 	bool dma_need_sync;
+@@ -165,6 +168,15 @@ static inline void xp_dma_sync_for_device(struct xsk_buff_pool *pool,
+ 	xp_dma_sync_for_device_slow(pool, dma, size);
+ }
+ 
++static inline u32 xp_get_page_size(struct xsk_buff_pool *pool)
++{
++#ifdef CONFIG_HUGETLB_PAGE
++	return pool->page_size;
++#else
++	return PAGE_SIZE;
++#endif
++}
++
+ /* Masks for xdp_umem_page flags.
+  * The low 12-bits of the addr will be 0 since this is the page address, so we
+  * can use them for flags.
+@@ -175,7 +187,8 @@ static inline void xp_dma_sync_for_device(struct xsk_buff_pool *pool,
+ static inline bool xp_desc_crosses_non_contig_pg(struct xsk_buff_pool *pool,
+ 						 u64 addr, u32 len)
+ {
+-	bool cross_pg = (addr & (PAGE_SIZE - 1)) + len > PAGE_SIZE;
++	const u32 page_size = xp_get_page_size(pool);
++	bool cross_pg = (addr & (page_size - 1)) + len > page_size;
+ 
+ 	if (likely(!cross_pg))
+ 		return false;
+diff --git a/net/xdp/xdp_umem.c b/net/xdp/xdp_umem.c
+index 4681e8e8ad94..8ff687d7e735 100644
+--- a/net/xdp/xdp_umem.c
++++ b/net/xdp/xdp_umem.c
+@@ -10,6 +10,8 @@
+ #include <linux/uaccess.h>
+ #include <linux/slab.h>
+ #include <linux/bpf.h>
++#include <linux/hugetlb.h>
++#include <linux/hugetlb_inline.h>
+ #include <linux/mm.h>
+ #include <linux/netdevice.h>
+ #include <linux/rtnetlink.h>
+@@ -91,8 +93,37 @@ void xdp_put_umem(struct xdp_umem *umem, bool defer_cleanup)
+ 	}
+ }
+ 
++#ifdef CONFIG_HUGETLB_PAGE
++
++/* Returns true if the UMEM contains HugeTLB pages exclusively, false otherwise.
++ *
++ * The mmap_lock must be held by the caller.
++ */
++static bool xdp_umem_is_hugetlb(struct xdp_umem *umem, unsigned long address)
++{
++	unsigned long end = address + umem->size;
++	struct vm_area_struct *vma;
++	struct vma_iterator vmi;
++
++	vma_iter_init(&vmi, current->mm, address);
++	for_each_vma_range(vmi, vma, end) {
++		if (!is_vm_hugetlb_page(vma))
++			return false;
++		/* Hugepage sizes smaller than the default are not supported. */
++		if (huge_page_size(hstate_vma(vma)) < HPAGE_SIZE)
++			return false;
++	}
++
++	return true;
++}
++
++#endif /* CONFIG_HUGETLB_PAGE */
++
+ static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
+ {
++#ifdef CONFIG_HUGETLB_PAGE
++	bool need_hugetlb = umem->chunk_size > PAGE_SIZE;
++#endif
+ 	unsigned int gup_flags = FOLL_WRITE;
+ 	long npgs;
+ 	int err;
+@@ -102,8 +133,18 @@ static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
+ 		return -ENOMEM;
+ 
+ 	mmap_read_lock(current->mm);
++
++#ifdef CONFIG_HUGETLB_PAGE
++	umem->hugetlb = IS_ALIGNED(address, HPAGE_SIZE) && xdp_umem_is_hugetlb(umem, address);
++	if (need_hugetlb && !umem->hugetlb) {
++		mmap_read_unlock(current->mm);
++		err = -EINVAL;
++		goto out_pgs;
++	}
++#endif
+ 	npgs = pin_user_pages(address, umem->npgs,
+ 			      gup_flags | FOLL_LONGTERM, &umem->pgs[0], NULL);
++
+ 	mmap_read_unlock(current->mm);
+ 
+ 	if (npgs != umem->npgs) {
+@@ -156,15 +197,8 @@ static int xdp_umem_reg(struct xdp_umem *umem, struct xdp_umem_reg *mr)
+ 	unsigned int chunks, chunks_rem;
+ 	int err;
+ 
+-	if (chunk_size < XDP_UMEM_MIN_CHUNK_SIZE || chunk_size > PAGE_SIZE) {
+-		/* Strictly speaking we could support this, if:
+-		 * - huge pages, or*
+-		 * - using an IOMMU, or
+-		 * - making sure the memory area is consecutive
+-		 * but for now, we simply say "computer says no".
+-		 */
++	if (chunk_size < XDP_UMEM_MIN_CHUNK_SIZE || chunk_size > XDP_UMEM_MAX_CHUNK_SIZE)
+ 		return -EINVAL;
+-	}
+ 
+ 	if (mr->flags & ~XDP_UMEM_UNALIGNED_CHUNK_FLAG)
+ 		return -EINVAL;
+diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
+index b2df1e0f8153..10933f78a5a2 100644
+--- a/net/xdp/xsk_buff_pool.c
++++ b/net/xdp/xsk_buff_pool.c
+@@ -80,9 +80,12 @@ struct xsk_buff_pool *xp_create_and_assign_umem(struct xdp_sock *xs,
+ 	pool->headroom = umem->headroom;
+ 	pool->chunk_size = umem->chunk_size;
+ 	pool->chunk_shift = ffs(umem->chunk_size) - 1;
+-	pool->unaligned = unaligned;
+ 	pool->frame_len = umem->chunk_size - umem->headroom -
+ 		XDP_PACKET_HEADROOM;
++#ifdef CONFIG_HUGETLB_PAGE
++	pool->page_size = umem->hugetlb ? HPAGE_SIZE : PAGE_SIZE;
++#endif
++	pool->unaligned = unaligned;
+ 	pool->umem = umem;
+ 	pool->addrs = umem->addrs;
+ 	INIT_LIST_HEAD(&pool->free_list);
+@@ -369,16 +372,25 @@ void xp_dma_unmap(struct xsk_buff_pool *pool, unsigned long attrs)
+ }
+ EXPORT_SYMBOL(xp_dma_unmap);
+ 
+-static void xp_check_dma_contiguity(struct xsk_dma_map *dma_map)
++/* HugeTLB pools consider contiguity at hugepage granularity only. Hence, all
++ * order-0 pages within a hugepage have the same contiguity value.
++ */
++static void xp_check_dma_contiguity(struct xsk_dma_map *dma_map, u32 page_size)
+ {
+-	u32 i;
++	u32 stride = page_size >> PAGE_SHIFT; /* in order-0 pages */
++	u32 i, j;
+ 
+-	for (i = 0; i < dma_map->dma_pages_cnt - 1; i++) {
+-		if (dma_map->dma_pages[i] + PAGE_SIZE == dma_map->dma_pages[i + 1])
+-			dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
+-		else
+-			dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
++	for (i = 0; i + stride < dma_map->dma_pages_cnt;) {
++		if (dma_map->dma_pages[i] + page_size == dma_map->dma_pages[i + stride]) {
++			for (j = 0; j < stride; i++, j++)
++				dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
++		} else {
++			for (j = 0; j < stride; i++, j++)
++				dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
++		}
+ 	}
++	for (; i < dma_map->dma_pages_cnt; i++)
++		dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
+ }
+ 
+ static int xp_init_dma_info(struct xsk_buff_pool *pool, struct xsk_dma_map *dma_map)
+@@ -441,7 +453,7 @@ int xp_dma_map(struct xsk_buff_pool *pool, struct device *dev,
+ 	}
+ 
+ 	if (pool->unaligned)
+-		xp_check_dma_contiguity(dma_map);
++		xp_check_dma_contiguity(dma_map, xp_get_page_size(pool));
+ 
+ 	err = xp_init_dma_info(pool, dma_map);
+ 	if (err) {
+-- 
+2.39.2
+
