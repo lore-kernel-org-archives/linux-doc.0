@@ -2,230 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B2AC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 12:54:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9F1C761A6
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 13:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjC2Mya (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 08:54:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37878 "EHLO
+        id S229745AbjC2NG5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 09:06:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjC2My3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 08:54:29 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4A6BA;
-        Wed, 29 Mar 2023 05:54:28 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PmmfC0yY6zKwRQ;
-        Wed, 29 Mar 2023 20:52:03 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 29 Mar 2023 20:54:26 +0800
-CC:     <yangyicong@hisilicon.com>, <mathieu.poirier@linaro.org>,
-        <suzuki.poulose@arm.com>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
-        <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
-        <linuxarm@huawei.com>
-Subject: Re: [PATCH 3/4] hwtracing: hisi_ptt: Export available filters through
- sysfs
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-References: <20230315094316.26772-1-yangyicong@huawei.com>
- <20230315094316.26772-4-yangyicong@huawei.com>
- <20230328180234.00003421@Huawei.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <08d5c43f-664c-457f-69a1-c6747bb56637@huawei.com>
-Date:   Wed, 29 Mar 2023 20:54:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S229892AbjC2NGx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 09:06:53 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2066.outbound.protection.outlook.com [40.107.100.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392FB423F;
+        Wed, 29 Mar 2023 06:06:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kkwOYgfAu5b8DEBBBfrXA7lnopkQ3MAL3nrkLbDaLdyv0PhVZsdjadIXQ/QNvkq90MY3yI7grk6Q0HLF6ehcNCzyC9gArC5F71B/ReqV6yrhsIrtyxq93ws8PprCPAHcQrScdNnhjgnxZ39NERDGvI02JEdlzxYoGk1pKPlfH54SaAvRA5hTpksBNaWEXbtPCxmDFtsEHEzMgtbI02c46+G7mdX+FLspr3e3NOH3B+pB8zr7fIFM6kMJfXWgq/efWKtSeFrta70a1Xr+dgUWepN+kKV0Y40Eh498vxw9wMYpAzQysxWfm6jkumTQH6Vjyt3YflulDiyQlau/TWMPsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SP/ptodZyzeFAqJI7ogkwb9lm+GLHr350gJr+feW6ns=;
+ b=WxY62OBTJc4Q4NM/VabJP5zSWU477urxHJRi7QGhUtoreryAS0GEdo/Hrbs2wScQEL3KZGT4VNCTyBqt4gOJsiy8hTtAa4i6QIn+dC1xAAXD/Osa94dByY3X5ieKrJFskcREUSEF5vtM1kHSO72TeMxOxaGQ5xfzGryDJsm1XT7B9VKHrskarWNiKGbuP9ArRGGstyFxinmnbls33Vkx8jMECst2xVpOjkbN12AeqKeNEymwz5jIerxd6EpTdyDbN15zdLlnb7WFQ1DF26l5i26A06hPqzMTO9NL3UaoJWnjXQxO19c4hC0IBLexU93uKfu1Zh6W731dMdR5K7ar2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SP/ptodZyzeFAqJI7ogkwb9lm+GLHr350gJr+feW6ns=;
+ b=D5mH1aVseqBtwHLcTsdsd2COx+T0h4X2mr+Xg5WFifisZ3RBKcEjgvToX2c/CntTduYXxl4bJJ+1vMH3Mc+MXGEikXqVX4A6Aauk7cPHvzHfeKACd3DZmZZ60WI00uhI1Fu5iVK4sSB/Ng2sUy569K6ODQX2/RLHXEL8jjijo5o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by DM4PR12MB8557.namprd12.prod.outlook.com (2603:10b6:8:18b::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41; Wed, 29 Mar
+ 2023 13:06:13 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::8511:7da:3d1e:4db0]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::8511:7da:3d1e:4db0%6]) with mapi id 15.20.6222.035; Wed, 29 Mar 2023
+ 13:06:12 +0000
+Message-ID: <41839138-3d85-ea82-7832-5da5f9addeb1@amd.com>
+Date:   Wed, 29 Mar 2023 08:06:10 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH] docs/sp_SP: Remove ZERO WIDTH SPACE in
+ memory-barriers.txt
+Content-Language: en-US
+To:     Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <c38176c7-c30a-4c2c-3516-8d3be1c267dc@gmail.com>
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <c38176c7-c30a-4c2c-3516-8d3be1c267dc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1P222CA0080.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:35e::17) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
 MIME-Version: 1.0
-In-Reply-To: <20230328180234.00003421@Huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|DM4PR12MB8557:EE_
+X-MS-Office365-Filtering-Correlation-Id: 106b0ac5-eed2-4eff-dfcf-08db30565f3a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: M6zu7KLXMGt9grvLmyo4WRQ5LBkE0wzYdQOS8EXfeMCiIkV8/wg4O/W2cz6gIMPwCCt3ABueI87athKUe9HLn5uQRXVzIhmW01FhYAG6hSKU4cDjYrrH0WIwAye+kVitBTGHIt/C5wV94tup95Vikp7SousfNMolqZU5le3ymWAR1c/aWLmuAJrbXMzK9VkEjDnYPeidcZljA51PMd+Gbog/OGPxjHDGKRiBC2sm0CI6U3vKBtK9axMrbiX9tzWvm43n4nIJKDQ4Jj4PKIbOVPjArpvnBoKtLMtw7aWJ7/n6YbLjl7/6AzIW/9OhEuU9bbQlEgMbwB/cFbf+odAvV5YXHSXzJcI/mOjABt6VcRE/4iwCs2FY0a+f2/IjRrAKdYEKom1/BKweVY6EcZKgWhCB3e4SSIOaQUPEmFHDP+7rdJMlT+3/XhYzQug0nbvWlIN+GOKn8amXhOni7TwVNhcYk6SLlpeuLJA5Zd9ZPqShflt1X3Fs1mH4frh5ypeixevuxcuauVrsV7yxZ57BmOiCSangsQkm4JQU4RdMy6GuESWcwYuF9yoUex49uFmhMcMmJE03AfrDtYXarTeCH4/utyfWbeoCPAMWr4SF9hayZNWfdP0gk/LZ2OtYa6YZ0CZMRRhSfVlBzbprifohJA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(39860400002)(366004)(346002)(376002)(451199021)(66574015)(83380400001)(2906002)(44832011)(8936002)(5660300002)(38100700002)(36756003)(86362001)(31696002)(316002)(53546011)(8676002)(6506007)(6512007)(4326008)(110136005)(66476007)(66556008)(66946007)(186003)(6486002)(31686004)(41300700001)(478600001)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NldMeHc3TnVsZzNmb2k0THJ5TS8wQVVTVDFQOXRXWlVlZmNHMEV5Qk54K3Z3?=
+ =?utf-8?B?dUhac0oxVWZQdmk0aDByQXAzR2w1QTNpckJvNlg5TmttNXBsWUoyR2hrMkNh?=
+ =?utf-8?B?dXdWRndTZy9PZFVwNE9qY0Q2WnFmeWp1c2FqRXdwYmJTeDVXS1lUYk5QZm1N?=
+ =?utf-8?B?R0xTVWt4Kzd4Z3JSajBYRThyYm5ITXB3QmpRQ0UzbjFHMm1IL2tYRlVOWVlu?=
+ =?utf-8?B?clFBNnd5ayttY0ZoRlU1dDRGcVEzVW5VVXJSTkoxVjFHKy9wM09BQ2ZHWm9s?=
+ =?utf-8?B?NTl4Z21kSHRXQjJYM05ScW5PWGhGZ0RhL3V6T005aHJjNm45VEJvRzRBY1A5?=
+ =?utf-8?B?SHVZaFZJdGsvdG1RSDBwQkJJMzZtTXlialFRajZadkRmRWpZM3FUZmRndXNQ?=
+ =?utf-8?B?MjZhSkI0M2pnTW9leVNSbitjVzNVczA4dTJJVzFPUEN0SFlFbENlQmE0Uis5?=
+ =?utf-8?B?ZW8xTGNuQnMwVDlxUTh6Q3lBWVdwREw4QTBVTWlSRUpRYmpEd1hSNi9UNUl1?=
+ =?utf-8?B?NGlJek0wc3Uwci9KUTUyb0d3TUdkVG1tajl5NFk0WldhVG1WeWZDN2luZHZj?=
+ =?utf-8?B?SGJKT0pRekJIL1B5NE9WN1gwbGZCRWJIdmxQSUl2aXVZZW5zeGx5bk84dTZy?=
+ =?utf-8?B?MnNtdHlQRXVOQkw2WlVvQnorbnhNSmlIbXlnZVN0MkhCakRMVm5FZS9wNVNU?=
+ =?utf-8?B?Qk1RWlV0QXlaQ3Iwa0VIL3lGTi9EaDBIWmR4Q1RuenJ1bm10Vk9nNWRmSWFa?=
+ =?utf-8?B?clRnTVZucTZKWk4xMUZac1FTWWpBUXVyWVV5NFV6ckRrazl0UTZoWTVwRzFE?=
+ =?utf-8?B?bzlXMHE1WStFZGFwOHRRTEdoTXVGMWVJMU15NnB3d2RIeFIyMU16ZHlVUWZj?=
+ =?utf-8?B?QWVmempObXQzY0ZNWUozTzFqTkJTby9aS2ZDQ3RNZEFCTlgrMDVoQ05UL2pR?=
+ =?utf-8?B?MWdKL0ZhOHM3S0JYankrOWdyTnpoRDlnMmlteDhNU1VZQVE0T2I2NVY4cG1K?=
+ =?utf-8?B?MUIzeUFYRWZSdmlCNi9WQzY5QThuUU5SWFlxVzY5VEhlZ1NlTkUrekxjZXJp?=
+ =?utf-8?B?Z1FITlBzU2ZxRnBlRFVKVVFlcUJUWGNBYmFjTm1KVXBZdCtNc1lQZG1seHVq?=
+ =?utf-8?B?VVF0RHhTcGx0eVB3aTBNeXBHRTNFOWtaMUhRbUh5ZGFCMzFvbFp5TmliWjlI?=
+ =?utf-8?B?UHY5NDVlc3pxSG5zMVlrZXg1V1U3ZEdHVFlXc0Ntckh0V1BOY2RESnJscDdx?=
+ =?utf-8?B?RFN6TDZuK2RjMG9IbG85RUk4aFhORHBjRThDbXh6VzZ1cUVBbFVJQWJBL2hI?=
+ =?utf-8?B?L1lYb0JheTBNem5oZkxkNmg2a0NlM3VPVHVZUFNhTlZzV2U0KytXMmpRb0dy?=
+ =?utf-8?B?Rm00RFE2WWRUZGcwQ1JURngwcTUvaW41QzVoVlJmcXZPd0V4Y09hYUlsQjBp?=
+ =?utf-8?B?c0lPSnczZkpuVU83ZzRyS3dUc2l4SkVSK01OSmovanRVZUlxRVFhTm5UK0dG?=
+ =?utf-8?B?SlRTZGxQWkt1R0paS1RYeHBsYjEzY2tKQnlORnRGVEd0WTFVa2N6TlYwcHJk?=
+ =?utf-8?B?RVUwL0VPZnk4OXQ2Smk1akpvdjRWMWFTTmNqbmhrc3dTaVJEeVZSV0g5ZFha?=
+ =?utf-8?B?b1NHa1ArYk5GK04wRitjQzBadEpUdUs3T243WHZld3JpR01tdDZmYVd4SGVS?=
+ =?utf-8?B?OTMrM3QrZzRSMzBvR1YzMlVPNHAzU0R4S0lsdEZYUzc0bUNlSGZydlNSYWRh?=
+ =?utf-8?B?cUtSc2pDczYxejV2ZVlNUFA4NlVvTFgxZTFBWnEwVE41cWNzVmpVeHh6enk3?=
+ =?utf-8?B?cVdxUnpJbFRhVnp0UHFubDgvbGk4SEcweHNrWnM2cExic0M5TjYrQnRLYzM5?=
+ =?utf-8?B?VFdReGFBWFhnWml1U01VL2xvMVBYcWxTbDNOeVRMbDZ6V0NwbjZPallweTJJ?=
+ =?utf-8?B?NFFJQmVRMHNLcUVhcHRtRjE3dmVlTHhVbm5zV2pLSDV5WnJxY0swUTZrQnlN?=
+ =?utf-8?B?NFZ2Mmw3QnNaZXZLRjl0Yjl1NzEzdHpHWGpxc0JLVHRCUnZzUGNGTDkvOS9v?=
+ =?utf-8?B?V0duVkxWYkJudDUwWXZrWUtDQmlHNVlaa2xRL25jTHJSeCtvc2p3Y1IvU29F?=
+ =?utf-8?B?NVlsNlcwQVVqbkVneTNOMU9rU3lSM1VLdnNHdUF0NGNkR09OYTF4NEQ3T20v?=
+ =?utf-8?Q?sbJdVePgvhHNvQFW88/iEZ8r5CWGDkUW7R7swJ/ISCjQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 106b0ac5-eed2-4eff-dfcf-08db30565f3a
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 13:06:12.8088
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: brALiIcedKb3ymryPi4S1rJrByK6kPV7Hii6R34JGYinb0LcSJdnD6kbzQlh168nP6D2AqAsdL7ULEaUvDBUhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8557
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/3/29 1:02, Jonathan Cameron wrote:
-> On Wed, 15 Mar 2023 17:43:15 +0800
-> Yicong Yang <yangyicong@huawei.com> wrote:
+On 3/29/23 12:22 AM, Akira Yokosawa wrote:
+> As this file is included literally, ZERO WIDTH SPACE causes
+> "make pdfdocs" to emit messages which read:
 > 
->> From: Yicong Yang <yangyicong@hisilicon.com>
->>
->> The PTT can only filter the traced TLP headers by the Root Ports or the
->> Requester ID of the Endpoint, which are located on the same core of the
->> PTT device. The filter value used is derived from the BDF number of the
->> supported Root Port or the Endpoint. It's not friendly enough for the
->> users since it requires the user to be familiar enough with the platform
->> and calculate the filter value manually.
->>
->> This patch export the available filters through sysfs. Each available
->> filters is presented as an individual file with the name of the BDF
->> number of the related PCIe device. The files are created under
->> $(PTT PMU dir)/available_root_port_filters and
->> $(PTT PMU dir)/available_requester_filters respectively. The filter
->> value can be known by reading the related file.
->>
->> Then the users can easily know the available filters for trace and get
->> the filter values without calculating.
->>
->> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>   Missing character: There is no ​ (U+200B) in font DejaVu Sans Mono/OT:script=latn;language=dflt;!
+>   Missing character: There is no ​ (U+200B) in font DejaVu Sans Mono/OT:script=latn;language=dflt;!
 > 
-> Trivial comments only inline.
+> U+200B (ZERO WIDTH SPADE) has no effect in literal blocks.
+> Remove them and get rid of those noises.
 > 
-> With those answered / tidied up.
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Carlos Bilbao <carlos.bilbao@amd.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> ---
+> Hi,
 > 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Offending commit is 259b007f5729 ("docs/sp_SP: Add memory-barriers.txt
+> Spanish translation") merged into v6.2.
+> As this is not a bug fix, I'm not putting a Fixes: tag.
 > 
+> Note: It might be hard for human eyes to see where the removed
+> ZERO WIDTH SPACEs were. :-)
 > 
->> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
->> index 010cdbc3c172..a5cd87edb813 100644
->> --- a/drivers/hwtracing/ptt/hisi_ptt.c
->> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
-> 
-> 
->>
->> +
->> +static int hisi_ptt_init_filter_attributes(struct hisi_ptt *hisi_ptt)
->> +{
->> +	struct hisi_ptt_filter_desc *filter;
->> +	int ret;
->> +
->> +	mutex_lock(&hisi_ptt->filter_lock);
->> +
->> +	list_for_each_entry(filter, &hisi_ptt->port_filters, list) {
->> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
->> +		if (ret)
->> +			goto err;
->> +	}
->> +
->> +	list_for_each_entry(filter, &hisi_ptt->req_filters, list) {
->> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
->> +		if (ret)
->> +			goto err;
->> +	}
->> +
->> +	ret = devm_add_action_or_reset(&hisi_ptt->pdev->dev,
->> +				       hisi_ptt_remove_all_filter_attributes,
->> +				       hisi_ptt);
->> +	if (ret)
->> +		goto err;
->> +
->> +	hisi_ptt->sysfs_inited = true;
-> 
-> err:
-> 
->> +	mutex_unlock(&hisi_ptt->filter_lock);
-> 
-> 	return ret;
-> 
-> No need for separate exit block when nothing to do but unlock.
-> 
+>         Thanks, Akira
 
-ok. will refine here.
+Good catch, Akira! Acked-by: Carlos Bilbao <carlos.bilbao@amd.com>
 
->> +	return 0;
->> +err:
->> +	mutex_unlock(&hisi_ptt->filter_lock);
->> +	return ret;
->> +}
->> +
->>  static void hisi_ptt_update_filters(struct work_struct *work)
->>  {
->>  	struct delayed_work *delayed_work = to_delayed_work(work);
->> @@ -384,8 +517,28 @@ static void hisi_ptt_update_filters(struct work_struct *work)
->>  				continue;
->>  			}
->>  
->> +			filter->name = kstrdup(pci_name(info.pdev), GFP_KERNEL);
->> +			if (!filter->name) {
->> +				pci_err(hisi_ptt->pdev, "failed to add filter %s\n",
->> +					pci_name(info.pdev));
->> +				kfree(filter);
->> +				continue;
->> +			}
->> +
->>  			filter->devid = devid;
->>  			filter->is_port = is_port;
->> +
->> +			/*
->> +			 * If filters' sysfs entries hasn't been initialized, then
->> +			 * we're still at probe stage and leave it to handled by
->> +			 * others.
->> +			 */
->> +			if (hisi_ptt->sysfs_inited &&
+> --
+>  Documentation/translations/sp_SP/memory-barriers.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Can we move this sysfs_inited check earlier? Seems silly to leave a simple check
-> like that so late.
+> diff --git a/Documentation/translations/sp_SP/memory-barriers.txt b/Documentation/translations/sp_SP/memory-barriers.txt
+> index f62bd797216d..27097a808c88 100644
+> --- a/Documentation/translations/sp_SP/memory-barriers.txt
+> +++ b/Documentation/translations/sp_SP/memory-barriers.txt
+> @@ -604,7 +604,7 @@ READ_ONCE() para DEC Alpha, lo que significa que las únicas personas que
+>  necesitan prestar atención a esta sección son aquellas que trabajan en el
+>  código específico de la arquitectura DEC Alpha y aquellas que trabajan en
+>  READ_ONCE() por dentro. Para aquellos que lo necesitan, y para aquellos que
+> -estén interesados ​​desde un punto de vista histórico, aquí está la historia
+> +estén interesados desde un punto de vista histórico, aquí está la historia
+>  de las barreras de dependencia de dirección.
+>  
+>  [!] Si bien las dependencias de direcciones se observan tanto en carga a
 > 
-
-maybe move it into the hisi_ptt_create_filter_attr()? will have a check.
-for here we still need to update filter list even if the hisi_ptt's sysfs is not
-initialized yet.
-
->> +			    hisi_ptt_create_filter_attr(hisi_ptt, filter)) {
->> +				kfree(filter);
->> +				continue;
->> +			}
->> +
->>  			list_add_tail(&filter->list, target_list);
->>  
->>  			if (is_port)
->> @@ -394,6 +547,11 @@ static void hisi_ptt_update_filters(struct work_struct *work)
->>  			list_for_each_entry(filter, target_list, list)
->>  				if (filter->devid == devid) {
->>  					list_del(&filter->list);
->> +
->> +					if (hisi_ptt->sysfs_inited)
->> +						hisi_ptt_remove_filter_attr(hisi_ptt, filter);
->> +
->> +					kfree(filter->name);
->>  					kfree(filter);
->>  					break;
->>  				}
->> @@ -486,10 +644,12 @@ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
->>  	 * through the log. Other functions of PTT device are still available.
->>  	 */
->>  	filter = kzalloc(sizeof(*filter), GFP_KERNEL);
->> -	if (!filter) {
->> -		pci_err(hisi_ptt->pdev, "failed to add filter %s\n", pci_name(pdev));
->> -		return -ENOMEM;
->> -	}
->> +	if (!filter)
->> +		goto err_mem;
->> +
->> +	filter->name = kstrdup(pci_name(pdev), GFP_KERNEL);
->> +	if (!filter->name)
->> +		goto err_name;
->>  
->>  	filter->devid = PCI_DEVID(pdev->bus->number, pdev->devfn);
->>  
->> @@ -504,6 +664,11 @@ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
->>  	}
->>  
->>  	return 0;
->> +err_name:
->> +	kfree(filter);
->> +err_mem:
->> +	pci_err(hisi_ptt->pdev, "failed to add filter %s\n", pci_name(pdev));
-> 
-> I'd rather see a message for each of the error paths so we have some information on why.
-> Original message wasn't great for this obviously and perhaps given they are both allocation
-> errors it's not worth splitting them up.
-> 
-
-ok, will try to split it and make it more verbosely.
+> base-commit: 4f1bb0386dfc0bda78ddad0e4fb3cd519b2886ab
 
 Thanks,
-Yicong
-
->> +	return -ENOMEM;
->>  }
-> 
-> 
-> .
-> 
+Carlos
