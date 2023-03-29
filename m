@@ -2,286 +2,388 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C79B8C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 20:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C3BC74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 21:15:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbjC2Uqv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 16:46:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
+        id S229462AbjC2VPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 17:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229878AbjC2Uqs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 16:46:48 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664C36E99
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 13:46:47 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phcgk-0001Sl-2y; Wed, 29 Mar 2023 22:46:34 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phcgj-007cAT-7l; Wed, 29 Mar 2023 22:46:33 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phcgi-0091Df-FO; Wed, 29 Mar 2023 22:46:32 +0200
-Date:   Wed, 29 Mar 2023 22:46:32 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-clk@vger.kernel.org, kernel@pengutronix.de,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v4] clk: expand clk_ignore_unused mechanism to keep only a
- few clks on
-Message-ID: <20230329204632.lsiiqf42hrwmn6xm@pengutronix.de>
-References: <20221026151812.1042052-1-u.kleine-koenig@pengutronix.de>
- <4d8d412a33a7d63f2ffe6a13194375ed.sboyd@kernel.org>
+        with ESMTP id S229449AbjC2VPH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 17:15:07 -0400
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0063273C
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 14:15:05 -0700 (PDT)
+Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-544787916d9so317299067b3.13
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 14:15:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680124505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JXC4MTheNGQBhmhUBKx9j9CdlTfCf6zg5go5xfHK3Cc=;
+        b=VTqpyDYoJUREYflZRqr1BUX891DRC0dl4/GIMu4nq9OOd3x2poQV+Xd83sBW9jJAtm
+         ki3cvbM8TERKoUCa7JR2bbMNclQsfCnq4nYLkCOrHQz9M2WnjVlP7y44dxA2wHvEqCuA
+         57EITOquGxYHc2U63RHnj0UX7QlS9cyPzD8O3xD1ZvAX77871lfXkRB0v/I6pMQjOAqn
+         htIXSR0YZoC2xEO4/X15dXE+jIZDD005f3EJU1dlplANozf91k3zrLVofsor2gUg0xdc
+         tZ9woUimhwR0QxzXoNKOQ7yZx450MWhrSt06D1FDPEOz6UNW96Sgc23zfin3Ittcgxif
+         2ebA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680124505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JXC4MTheNGQBhmhUBKx9j9CdlTfCf6zg5go5xfHK3Cc=;
+        b=KCk/1vHyl9HT7lqsrJbEVHW12yzfKjQGYTNQaQJwO+D+R8vvUHW0hoxPMvEpAnB8DV
+         WfH/NOjury7E8T0cATtbvwBbfjKsPTX46IIoM8JmHJgm7zDQEskXLSa5gsz6Cwj/9YRE
+         RW8zaOZqFpDA7fIylXx2QJ/OEwtLODL93cGm140yhmtJlzYiXijrGkFmmQgNpK1WT+zl
+         3FplmYGWglcxNs2z5d4yaTMyl6Rt3bagzZA8LshtthotbKcb7TXLRFeAmHBtkfpxajo6
+         8iT4x5U6j6GNAGOJCC5JBhQxfsSY6XfXW3hguuhsrgax7JnNoBp42WvL6tJcTPN0anIU
+         ikvg==
+X-Gm-Message-State: AAQBX9c5qTVlNnID/TkeIWMjLJGAszm+CgPb4RBgmJk1G3bQBBxFOsZ1
+        ZLWp+Jn4Ji/xBD4Ccq4FGMQ043gImxFahez21e+RtQ==
+X-Google-Smtp-Source: AKy350aQyn/TP180u2kbRTp3AVC/E8uKO6CULBFPZAkt19UdsNguHggT0HyxUvByt4xMjbPz4Khhad9HHKJLsXjSi8A=
+X-Received: by 2002:a81:ae4f:0:b0:545:ed8e:f4f6 with SMTP id
+ g15-20020a81ae4f000000b00545ed8ef4f6mr6177531ywk.5.1680124504649; Wed, 29 Mar
+ 2023 14:15:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="niaklppuzj2g3fmf"
-Content-Disposition: inline
-In-Reply-To: <4d8d412a33a7d63f2ffe6a13194375ed.sboyd@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20230316225926.494921-1-rmoar@google.com> <5626cd99-f44a-97db-334e-99f1d62112a1@gmail.com>
+In-Reply-To: <5626cd99-f44a-97db-334e-99f1d62112a1@gmail.com>
+From:   Rae Moar <rmoar@google.com>
+Date:   Wed, 29 Mar 2023 17:14:52 -0400
+Message-ID: <CA+GJov5B7Y8fqm7QtDuvx88m7QPEPF6bYqMqbEGf0cp=E=zGCg@mail.gmail.com>
+Subject: Re: [KTAP V2 PATCH] ktap_v2: allow prefix to KTAP lines
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     davidgow@google.com, skhan@linuxfoundation.org,
+        keescook@chromium.org, Tim.Bird@sony.com,
+        brendanhiggins@google.com, corbet@lwn.net,
+        guillaume.tucker@collabora.com, dlatypov@google.com,
+        kernelci@lists.linux.dev, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, Mar 26, 2023 at 10:12=E2=80=AFPM Frank Rowand <frowand.list@gmail.c=
+om> wrote:
+>
+> On 3/16/23 17:59, Rae Moar wrote:
+> > Change the KTAP v2 spec to allow variable prefixes to KTAP lines,
+> > instead of fixed indentation of two spaces. However, the prefix must be
+> > constant on the same level of testing (besides unknown lines).
+> >
+> > This was proposed by Tim Bird in 2021 and then supported by Frank Rowan=
+d
+> > in 2022 (see link below).
+> >
+> > Link: https://lore.kernel.org/all/bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@=
+gmail.com/
+>
+> Another link to the same thread, but expanded to show all replies in one =
+page is:
+>
+>   https://lore.kernel.org/all/bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@gmail.=
+com/T/#u
+>
+> Near the top of that thread I proposed alternative 1 (essentially what Ti=
+m
+> originally suggested, and what Rae proposes here) and alternative 2 (with
+> slight variant 2b).  The overall preference seemed to be alternative 1, b=
+ut
+> if we wanted to provide a method to provide test or system metadata then
+> alternative 2 might provide both a test prefix and metadata.
+>
+> Alternate 1 provides the vast majority of what I need the prefix for, but
+> I think there has been a recent comment that it would be useful to be abl=
+e
+> to report system metadata (sorry, I haven't found a reference for that ye=
+t).
+> In my case, it would be informative to use metadata to report which confi=
+g
+> options that impact the DT unittests are enabled.
+>
 
---niaklppuzj2g3fmf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Frank,
 
-Allow to pass an integer n that results in only keeping n unused clocks
-enabled.
+Thanks for all of your ideas!
 
-This helps to debug the problem if you only know that clk_ignore_unused
-helps but you have no clue yet which clock is the culprit.
+Thinking more on this topic, I do think we will want a specified way
+to report test metadata in KTAP. This can be partly covered with this
+idea for a prefix. However, it might not provide the flexibility or
+comprehensiveness we need. For example, reporting the file for input
+or output might be too verbose for a prefix.
 
-Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
----
-Hello Stephen,
+I thought your idea on config info lines was compelling. However, I am
+not sure using a result line to communicate the metadata is the best
+solution. This would alter the function of a result line. And for
+parsers that count "ok" and "not ok", this might create problems.
 
-On Wed, Mar 29, 2023 at 12:49:19PM -0700, Stephen Boyd wrote:
-> Quoting Uwe Kleine-K=F6nig (2022-10-26 08:18:12)
-> >  Documentation/driver-api/clk.rst |  4 +++-
->=20
-> No update to Documentation/admin-guide/kernel-parameters.txt?
+I have an idea that derives from my other KTAP proposal to declare a
+test name with "# Subtest:". The idea is to declare the metadata as
+diagnostic lines in between the version line and the test plan in
+order to separate this information from subtest diagnostic output. We
+could do something similar to below:
 
-Fair request. I mentioned it there that you can assign an integer but
-refer to Documentation/driver-api/clk.rst for the details.=20
+KTAP version 2
+1..1
+  KTAP version 2
+  # Name: test_1          // Or as proposed: "# Subtest: test_1"
+  # File: /sys/kernel/...
+  # Config: CONFIG_1=3Dy CONFIG_PARAM=3D2048
+  1..1
+  # subtest_1 passed
+  ok 1 subtest_1
+# test_1 passed
+ok 1 test_1
 
-> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > index c3c3f8c07258..356119a7e5fe 100644
-> > --- a/drivers/clk/clk.c
-> > +++ b/drivers/clk/clk.c
-> > [...]
-> > @@ -1352,12 +1354,17 @@ static void __init clk_disable_unused_subtree(s=
-truct clk_core *core)
-> >          * back to .disable
-> >          */
-> >         if (clk_core_is_enabled(core)) {
-> > -               trace_clk_disable(core);
-> > -               if (core->ops->disable_unused)
-> > -                       core->ops->disable_unused(core->hw);
-> > -               else if (core->ops->disable)
-> > -                       core->ops->disable(core->hw);
-> > -               trace_clk_disable_complete(core);
-> > +               if (clk_unused_keep_on) {
-> > +                       pr_warn("Keep unused clk \"%s\" on\n", core->na=
-me);
-> > +                       clk_unused_keep_on -=3D 1;
-> > +               } else {
-> > +                       trace_clk_disable(core);
->=20
-> We have trace_clk_disable() here. Can you have this tracepoint print to
-> the kernel log and watch over serial console? That would be faster than
-> bisecting.
+This is just an idea. I would love to hear other ideas on the best way
+to report metadata. Alternatively, we could create a new line format
+all together specific to report test metadata.
 
-Well no, that doesn't work for all the problems where
-clk_ignore_unused=3D7 could be useful. Consider that e.g. you know that
-eth0 is broken, but with clk_ignore_unused is works. So one of the (say)
-25 nominally unused clks are required for eth0. But it's not possible to
-test the network after each of the 25 clk_disable()s. Unless I'm missing
-something and you can hook a userspace action on a trace line?!
+> >
+> > As cited in the original proposal, it is useful in some Fuego tests to
+> > include an identifier in the prefix. This is an example:
+> >
+> >  KTAP version 1
+> >  1..2
+> >  [batch_id 4] KTAP version 1
+> >  [batch_id 4] 1..2
+> >  [batch_id 4] ok 1 cyclictest with 1000 cycles
+> >  [batch_id 4] # problem setting CLOCK_REALTIME
+> >  [batch_id 4] not ok 2 cyclictest with CLOCK_REALTIME
+> >  not ok 1 check realtime
+> >  [batch_id 4] KTAP version 1
+> >  [batch_id 4] 1..1
+> >  [batch_id 4] ok 1 IOZone read/write 4k blocks
+> >  ok 2 check I/O performance
+> >
+> > Here is a link to a version of the KUnit parser that is able to parse
+> > variable length prefixes for KTAP version 2. Note that the prefix must
+> > be constant at the same level of testing.
+> >
+> > Link: https://kunit-review.googlesource.com/c/linux/+/5710
+> >
+> > Signed-off-by: Rae Moar <rmoar@google.com>
+> > ---
+> >
+> > This idea has already been proposed but I wanted to potentially
+> > restart the discussion by demonstrating this change can by
+> > implemented in the KUnit parser. Let me know what you think.
+> >
+> > Note: this patch is based on Frank's ktap_spec_version_2 branch.
+> >
+> >  Documentation/dev-tools/ktap.rst | 21 ++++++++++++++++++---
+> >  1 file changed, 18 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools=
+/ktap.rst
+> > index ff77f4aaa6ef..ac61fdd97096 100644
+> > --- a/Documentation/dev-tools/ktap.rst
+> > +++ b/Documentation/dev-tools/ktap.rst
+>
+> Some additional lines of the Spec to be updated (from my alternate 1 emai=
+l,
+> I haven't checked the current Spec to see if these are the exact changes
+> needed, but at least capture the intent:
+>
+> The "Version lines" format is changed from:
+>
+>    KTAP version 1
+>
+> to:
+>
+>    [<prefix string>] KTAP version 1
+>
+> The "Plan lines" format is changed from:
+>
+>    "1..N"
+>
+> to:
+>
+>    [<prefix string>] "1..N"
+>
+> The "Test case result lines" format is changed from:
+>
+>    <result> <number> [<description>][ # [<directive>] [<diagnostic data>]=
+]
+>
+> to:
+>
+>    [<prefix string>] <result> <number> [<description>][ # [<directive>] [=
+<diagnostic data>]]
+>
 
-> > +                       if (core->ops->disable_unused)
-> > +                               core->ops->disable_unused(core->hw);
-> > +                       else if (core->ops->disable)
-> > +                               core->ops->disable(core->hw);
-> > +                       trace_clk_disable_complete(core);
-> > +               }
-> >         }
-> > =20
-> >  unlock_out:
-> > @@ -1369,9 +1376,17 @@ static void __init clk_disable_unused_subtree(st=
-ruct clk_core *core)
-> >  }
-> > =20
-> >  static bool clk_ignore_unused __initdata;
-> > -static int __init clk_ignore_unused_setup(char *__unused)
-> > +static int __init clk_ignore_unused_setup(char *keep)
-> >  {
-> > -       clk_ignore_unused =3D true;
-> > +       if (*keep =3D=3D '=3D') {
-> > +               int ret;
+These are all great additions to the spec. Will add in version 2. I
+suppose we should add this detail to the diagnostic lines syntax as
+well.
+
+>
+>    <prefix content is a constant string>
+>
+>
+> I wrote (with a bit of imprecision):
+>
+>   Indentation for "Nested tests" follows <prefix string>.  The indentatio=
+n
+>   does NOT precede <prefix string>.
+>
+> which was meant to imply that the two space indentation would follow the
+> <prefix string>.
+>
+> The patch I am replying to instead replaces the two space indentation
+> entirely with the <prefix string>.  I think this patches' version of
+> indentation is superior to what I suggested.
+>
+> > @@ -192,9 +192,11 @@ starting with another KTAP version line and test p=
+lan, and end with the overall
+> >  result. If one of the subtests fail, for example, the parent test shou=
+ld also
+> >  fail.
+> >
+> > -Additionally, all lines in a subtest should be indented. One level of
+> > -indentation is two spaces: "  ". The indentation should begin at the v=
+ersion
+> > -line and should end before the parent test's result line.
+> > +Additionally, all lines in a subtest should be indented. The standard =
+for one
+> > +level of indentation is two spaces: "  ". However, any prefix for inde=
+ntation
+> > +is allowed as long as the prefix is consistent throughout that level o=
+f
+> > +testing. The indentation should begin at the version line and should e=
+nd
+> > +before the parent test's result line.
+> >
+> >  "Unknown lines" are not considered to be lines in a subtest and thus a=
+re
+> >  allowed to be either indented or not indented.
+>
+> I was a little more verbose about "Unknown lines":
+>
+>    "Unknown lines" may optionally be prefixed with the <prefix string>, b=
+ut
+>    are not required to be prefixed with the <prefix string>.  It is allow=
+ed
+>    for some "Unknown lines" to not be prefixed with the <prefix string>, =
+even
+>    if one or more other "Unknown lines" are prefixed with the <prefix str=
+ing>.
+>
+> I think combining the intent ("not considered to be lines in a subtest") =
+with
+> the extra verbosity would be useful.
+>
+
+I agree this seems like a useful addition. Will add for version 2.
+
+> > @@ -229,6 +231,19 @@ An example format with multiple levels of nested t=
+esting:
+> >       not ok 1 example_test_1
+> >       ok 2 example_test_2
+> >
+> > +An example of a test with two nested subtests using prefixes:
 > > +
-> > +               ret =3D kstrtouint(keep + 1, 0, &clk_unused_keep_on);
-> > +               if (ret < 0)
->=20
-> Could omit 'ret' and just have if (kstrtouint(..))
+> > +::
+> > +
+> > +     KTAP version 2
+> > +     1..1
+> > +     [prefix_1] KTAP version 2
+> > +     [prefix_1] 1..2
+> > +     [prefix_1] ok 1 test_1
+> > +     [prefix_1] ok 2 test_2
+> > +     # example passed
+> > +     ok 1 example
+> > +
+>
+> The "[" and "]" are meant to indicate an optional field, so the
+> example would be:
+>
+> +       KTAP version 2
+> +       1..1
+> +       prefix_1 KTAP version 2
+> +       prefix_1 1..2
+> +       prefix_1 ok 1 test_1
+> +       prefix_1 ok 2 test_2
+> +       # example passed
+> +       ok 1 example
+> +
+>
 
-I don't feel strong, but I think having that on two lines is easier to
-read. So I kept it as is, but if you insist, I can change.
+Thanks, this is better to exclude the square brackets. Will change
+this for version 2.
 
-> > +                       pr_err("Warning: failed to parse clk_ignore_unu=
-sed parameter, ignoring");
->=20
-> Missing newline on printk.
+> Of course, "[" and "]" are valid characters within the prefix string, so
+> that an example of "[prefix_1]" could be mentioned as a valid example.
+>
+> I would suggest some additional more complex examples:
+>
+> +       prefix_0 KTAP version 2
+> +       prefix_0 1..1
+> +       prefix_0 prefix_1 KTAP version 2
+> +       prefix_0 prefix_1 1..2
+> +       prefix_0 prefix_1 ok 1 test_1
+> +       prefix_0 prefix_1 ok 2 test_2
+> +       # example passed
+> +       prefix_0 ok 1 example
+> +
 
-fixed.
+Shouldn't the "# example passed" line include the prefix_0?
 
-Best regards
-Uwe
+>
+> +       KTAP version 2
+> +       1..2
+> +       prefix_1 KTAP version 2
+> +       prefix_1 1..2
+> +       prefix_1 ok 1 test_a_1
+> +       prefix_1 ok 2 test_a_2
+> +       # example passed
+> +       ok 1 example
+> +       prefix_2 KTAP version 2
+> +       prefix_2 1..2
+> +       prefix_2 ok 1 test_b_1
+> +       prefix_2 ok 2 test_b_2
+> +       # example passed
+> +       ok 2 example
+> +
+>
+> +       KTAP version 2
+> +       1..3
+> +       prefix_1 KTAP version 2
+> +       prefix_1 1..2
+> +       prefix_1 ok 1 test_a_1
+> +       prefix_1 ok 2 test_a_2
+> +       # example passed
+> +       ok 1 example
+> +         KTAP version 2
+> +         1..2
+> +         ok 1 test_b_1
+> +         ok 2 test_b_2
+> +       # example passed
+> +       ok 2 example
+> +       prefix_2 KTAP version 2
+> +       prefix_2 1..2
+> +       prefix_2 ok 1 test_c_1
+> +       prefix_2 ok 2 test_c_2
+> +       # example passed
+> +       ok 3 example
+> +
+>
+>
 
- .../admin-guide/kernel-parameters.txt         |  6 ++--
- Documentation/driver-api/clk.rst              |  4 ++-
- drivers/clk/clk.c                             | 33 ++++++++++++++-----
- 3 files changed, 32 insertions(+), 11 deletions(-)
+Otherwise, these all look very helpful. I will definitely be adding
+these more complex examples in version 2.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
-n/admin-guide/kernel-parameters.txt
-index 6221a1d057dd..1a378fe94e48 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -600,8 +600,10 @@
- 			force such clocks to be always-on nor does it reserve
- 			those clocks in any way. This parameter is useful for
- 			debug and development, but should not be needed on a
--			platform with proper driver support.  For more
--			information, see Documentation/driver-api/clk.rst.
-+			platform with proper driver support.
-+			It can take a value (e.g. clk_ignore_unused=3D7), to only
-+			disable some clks. For more information, see
-+			Documentation/driver-api/clk.rst.
-=20
- 	clock=3D		[BUGS=3DX86-32, HW] gettimeofday clocksource override.
- 			[Deprecated]
-diff --git a/Documentation/driver-api/clk.rst b/Documentation/driver-api/cl=
-k.rst
-index 3cad45d14187..65ae7c3e2b33 100644
---- a/Documentation/driver-api/clk.rst
-+++ b/Documentation/driver-api/clk.rst
-@@ -259,7 +259,9 @@ the disabling means that the driver will remain functio=
-nal while the issues
- are sorted out.
-=20
- To bypass this disabling, include "clk_ignore_unused" in the bootargs to t=
-he
--kernel.
-+kernel. If you pass "clk_ignore_unused=3Dn" (where n is an integer) the fi=
-rst n
-+found clocks are not disabled which can be useful for bisecting over the u=
-nused
-+clks if you don't know yet which of them is reponsible for your problem.
-=20
- Locking
- =3D=3D=3D=3D=3D=3D=3D
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index ae07685c7588..87f605a4f791 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -1343,6 +1343,8 @@ static void __init clk_unprepare_unused_subtree(struc=
-t clk_core *core)
- 	clk_pm_runtime_put(core);
- }
-=20
-+static unsigned clk_unused_keep_on __initdata;
-+
- static void __init clk_disable_unused_subtree(struct clk_core *core)
- {
- 	struct clk_core *child;
-@@ -1373,12 +1375,17 @@ static void __init clk_disable_unused_subtree(struc=
-t clk_core *core)
- 	 * back to .disable
- 	 */
- 	if (clk_core_is_enabled(core)) {
--		trace_clk_disable(core);
--		if (core->ops->disable_unused)
--			core->ops->disable_unused(core->hw);
--		else if (core->ops->disable)
--			core->ops->disable(core->hw);
--		trace_clk_disable_complete(core);
-+		if (clk_unused_keep_on) {
-+			pr_warn("Keep unused clk \"%s\" on\n", core->name);
-+			clk_unused_keep_on -=3D 1;
-+		} else {
-+			trace_clk_disable(core);
-+			if (core->ops->disable_unused)
-+				core->ops->disable_unused(core->hw);
-+			else if (core->ops->disable)
-+				core->ops->disable(core->hw);
-+			trace_clk_disable_complete(core);
-+		}
- 	}
-=20
- unlock_out:
-@@ -1390,9 +1397,17 @@ static void __init clk_disable_unused_subtree(struct=
- clk_core *core)
- }
-=20
- static bool clk_ignore_unused __initdata;
--static int __init clk_ignore_unused_setup(char *__unused)
-+static int __init clk_ignore_unused_setup(char *keep)
- {
--	clk_ignore_unused =3D true;
-+	if (*keep =3D=3D '=3D') {
-+		int ret;
-+
-+		ret =3D kstrtouint(keep + 1, 0, &clk_unused_keep_on);
-+		if (ret < 0)
-+			pr_err("Warning: failed to parse clk_ignore_unused parameter, ignoring\=
-n");
-+	} else {
-+		clk_ignore_unused =3D true;
-+	}
- 	return 1;
- }
- __setup("clk_ignore_unused", clk_ignore_unused_setup);
-@@ -1404,6 +1419,8 @@ static int __init clk_disable_unused(void)
- 	if (clk_ignore_unused) {
- 		pr_warn("clk: Not disabling unused clocks\n");
- 		return 0;
-+	} else if (clk_unused_keep_on) {
-+		pr_warn("clk: Not disabling %u unused clocks\n", clk_unused_keep_on);
- 	}
-=20
- 	clk_prepare_lock();
---=20
-2.39.2
+Thanks!
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Rae
 
---niaklppuzj2g3fmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQko6cACgkQj4D7WH0S
-/k5TYwgAqGuYkNFtvYJovZ6o9tSRp05aqydeJAKq3upsG2d1ZPzoGbQR3Cxe3RZ4
-tH2tK6nKDrUz37afULhFyLV8uzuwhjszoOmQHfoLmZOYrLkNcIF/JqXhNQAwALij
-mCJlQXJ4IoIqrPn1QjD3sfZjagpBzDjkzWOB442+FZ9ZoCvkJptHR57zs4H9QbY7
-wgpNKf24tacMupg3gfZvAxP/pRxsvuW6NionrBk/Og7yVzxTQu7IuIWcuJNmVt5w
-3dtwuesmpEFzofdREuxrx+H+BO4+Yiri2cvAr6krtqX7rvStU0bc6gtOei1a4gtt
-BqGrsd18aLvNDcm/8dVDUoYWjzsj/A==
-=ljCv
------END PGP SIGNATURE-----
-
---niaklppuzj2g3fmf--
+>
+> >
+> >  Major differences between TAP and KTAP
+> >  --------------------------------------
+> >
+> > base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+>
