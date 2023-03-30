@@ -2,128 +2,513 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20AE2C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 06:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C369C74A5B
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 06:15:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbjC3GGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 02:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34906 "EHLO
+        id S229672AbjC3GPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 02:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjC3GGr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 02:06:47 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35D9A6A7B
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 23:06:13 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phlQE-0004b8-RX; Thu, 30 Mar 2023 08:06:06 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phlQD-007hMh-G9; Thu, 30 Mar 2023 08:06:05 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phlQC-0096gh-1A; Thu, 30 Mar 2023 08:06:04 +0200
-Date:   Thu, 30 Mar 2023 08:06:01 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-doc@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v4] clk: expand clk_ignore_unused mechanism to keep only
- a few clks on
-Message-ID: <20230330060601.6mo7b4ecd2sk5mdr@pengutronix.de>
-References: <20221026151812.1042052-1-u.kleine-koenig@pengutronix.de>
- <4d8d412a33a7d63f2ffe6a13194375ed.sboyd@kernel.org>
- <20230329204632.lsiiqf42hrwmn6xm@pengutronix.de>
- <2f4967f2a079e23b2b8a6013012c66e0.sboyd@kernel.org>
+        with ESMTP id S229441AbjC3GPi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 02:15:38 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98FBC40E8
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 23:15:36 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id n19so10192169wms.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 23:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680156935;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fIwc7d7xZa5Sxh5L4Wafm269CtzUaj5kFRqhtyBsjQ8=;
+        b=hysMqYUaa1v7aNtYwDp8GqJITW8SQJPy5tpVkqo5AXJ5nZiWbPcewmGdzYJvFhnWes
+         ihnho0D5gnjVkhXtCoCGsOCtY/BhnhZoR/9i/tsSzU0m61sP6qXWzi+z4n4p6VpQkbqt
+         /AOmUF/qrWOaFh9tPJYv+l4r7UOec405bqwVqf0Itwj3QOwdZbUF4AD3yBqB8Xzn4wrq
+         aXEqUltzAx8AarToHpr7QrO6oLCE5pLw3K6zNJB5U+3XG3v2tMVcDDX7slvbftae2S0W
+         Y/lzx3sRi/bGlaHP5qLU3+Cl25+77R2gPTniO5PctS/coSDr4I+JMXAiQ4UGp/UtkNKp
+         PXLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680156935;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fIwc7d7xZa5Sxh5L4Wafm269CtzUaj5kFRqhtyBsjQ8=;
+        b=LtbXkXynXbKmiq1f+poCo1GzE611zyBzpajroeb6+v5sU976JqvSk9zHJhLkIkUzfI
+         0/cuFMT0MT16P4iYUzwYApvG6+ItQZ/ofY1kkLRCBZWSPK9q9OSAq/7bE3/6p52Y8RKf
+         fPuyF62ftqIHWVCce2N9R1CcaxWMNvw8lMmTt6d9MuH/DI2JiYQVjmfDvi9LhC7HAelk
+         8LoCrh5F3i1nf9Qel7nbMSTwXHCnu4JCcJr1rLSOMK7MIR7vsgDMuCt5LoAArCVpP/VT
+         GlH96MkKJrgDKCHwhMT7aryPOZfzw7DvjjfEGaJbnc1hW96GfL9D167X+rjD0KU0n6JA
+         6SMQ==
+X-Gm-Message-State: AAQBX9d+vNZBSdYvw76b1R1oZC6/UVvY52sdWxYtWMVqn2M4UsIrDkMv
+        JGt6j9SYRoj5SmIIEtO27vBgPzIaYDFooEv9YGazDQ==
+X-Google-Smtp-Source: AKy350atIttQju6EGral441ZvbRBLspnqbHHxW+eNiNG5+EpvxoFjzJbIvPACjNvrC44k4/QWYWkC+o25FF/w7RTfFw=
+X-Received: by 2002:a05:600c:1ca2:b0:3ed:dc54:5c18 with SMTP id
+ k34-20020a05600c1ca200b003eddc545c18mr1883435wms.3.1680156934861; Wed, 29 Mar
+ 2023 23:15:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="hhy7jls2kpl3mst3"
-Content-Disposition: inline
-In-Reply-To: <2f4967f2a079e23b2b8a6013012c66e0.sboyd@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20230329110723.3458843-1-sadiyakazi@google.com>
+In-Reply-To: <20230329110723.3458843-1-sadiyakazi@google.com>
+From:   David Gow <davidgow@google.com>
+Date:   Thu, 30 Mar 2023 14:15:22 +0800
+Message-ID: <CABVgOS=Vhigp8bHVij9kRyEZDzDzLafz2O6LT471RSLHctRsGg@mail.gmail.com>
+Subject: Re: [PATCH v1] list: test: Test the klist structure
+To:     Sadiya Kazi <sadiyakazi@google.com>
+Cc:     brendanhiggins@google.com, skhan@linuxfoundation.org,
+        corbet@lwn.net, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000004c05ac05f81805bb"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--0000000000004c05ac05f81805bb
+Content-Type: text/plain; charset="UTF-8"
 
---hhy7jls2kpl3mst3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 29 Mar 2023 at 19:07, Sadiya Kazi <sadiyakazi@google.com> wrote:
+>
+> Add KUnit tests to the klist linked-list structure.
+> These perform testing for different variations of node add
+> and node delete in the klist data structure (<linux/klist.h>).
+>
+> Limitation: Since we use a static global variable, and if
+> multiple instances of this test are run concurrently, the test may fail.
+>
+> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+> ---
 
-On Wed, Mar 29, 2023 at 02:27:08PM -0700, Stephen Boyd wrote:
-> Quoting Uwe Kleine-K=F6nig (2023-03-29 13:46:32)
-> > > > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > > > index c3c3f8c07258..356119a7e5fe 100644
-> > > > --- a/drivers/clk/clk.c
-> > > > +++ b/drivers/clk/clk.c
-> > > > [...]
-> > > > @@ -1352,12 +1354,17 @@ static void __init clk_disable_unused_subtr=
-ee(struct clk_core *core)
-> > > >          * back to .disable
-> > > >          */
-> > > >         if (clk_core_is_enabled(core)) {
-> > > > -               trace_clk_disable(core);
-> > > > -               if (core->ops->disable_unused)
-> > > > -                       core->ops->disable_unused(core->hw);
-> > > > -               else if (core->ops->disable)
-> > > > -                       core->ops->disable(core->hw);
-> > > > -               trace_clk_disable_complete(core);
-> > > > +               if (clk_unused_keep_on) {
-> > > > +                       pr_warn("Keep unused clk \"%s\" on\n", core=
-->name);
-> > > > +                       clk_unused_keep_on -=3D 1;
-> > > > +               } else {
-> > > > +                       trace_clk_disable(core);
-> > >=20
-> > > We have trace_clk_disable() here. Can you have this tracepoint print =
-to
-> > > the kernel log and watch over serial console? That would be faster th=
-an
-> > > bisecting.
-> >=20
-> > Well no, that doesn't work for all the problems where
-> > clk_ignore_unused=3D7 could be useful. Consider that e.g. you know that
-> > eth0 is broken, but with clk_ignore_unused is works. So one of the (say)
-> > 25 nominally unused clks are required for eth0. But it's not possible to
-> > test the network after each of the 25 clk_disable()s. Unless I'm missing
-> > something and you can hook a userspace action on a trace line?!
->=20
-> In that case it sounds like you want to compile the kernel with the
-> support for enabling clks from debugfs. Can you use that?
+Thanks very much! This will be a great addition to the list tests (and
+the device model tests).
 
-In some of the cases that might work. Unless for example the problem
-makes the kernel fail to boot or the device is broken when the clk was
-disabled and reenable doesn't help?!
+A couple of super-minor suggestions re: comment formatting, otherwise
+good-to-go.
 
-Best regards
-Uwe
+Reviewed-by: David Gow <davidgow@google.com>
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Cheers,
+-- David
 
---hhy7jls2kpl3mst3
-Content-Type: application/pgp-signature; name="signature.asc"
+>  lib/list-test.c | 298 +++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 297 insertions(+), 1 deletion(-)
+>
+> diff --git a/lib/list-test.c b/lib/list-test.c
+> index d374cf5d1a57..af651cacb8f4 100644
+> --- a/lib/list-test.c
+> +++ b/lib/list-test.c
+> @@ -8,6 +8,7 @@
+>  #include <kunit/test.h>
+>
+>  #include <linux/list.h>
+> +#include <linux/klist.h>
+>
+>  struct list_test_struct {
+>         int data;
+> @@ -1199,6 +1200,301 @@ static struct kunit_suite hlist_test_module = {
+>         .test_cases = hlist_test_cases,
+>  };
+>
+> -kunit_test_suites(&list_test_module, &hlist_test_module);
+> +
+> +struct klist_test_struct {
+> +       int data;
+> +       struct klist klist;
+> +       struct klist_node klist_node;
+> +};
+> +
+> +/* counts the number of nodes*/
 
------BEGIN PGP SIGNATURE-----
+This comment doesn't really add anything,
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQlJsgACgkQj4D7WH0S
-/k60JQf+IxdY8eZUr5+sls0cy3Y9g0VVX/jGhbXhDTUMrbZz2Ktf0pfqHq5qnpHJ
-zNf3Nwny9c1VfMjormWp9toqkcPazH9F37SiMzekVGZkEUoEcvNaEDuAatIfqFFT
-vlxmq4/3AepjsqxiSfGb209ykKzA3xQ1dOm/s/GbvPaBb7FGNF34qRE2Bs+/7eZf
-uqqpznFPgIy8F8krv/vl/SIqkrT8iMiYok/ezqtIF1MMgAA1ghropOf0GG9Lx5TS
-MF7QT128U2RB9aRzSo/NLDB/epChjdJU4CFGONuWl0ZJh698tUgI1FGujZ7YTuP3
-NItNfoJ7GuMgcmq/4hc3a0/9mUc01g==
-=7eiI
------END PGP SIGNATURE-----
+> +static int node_count;
+> +static struct klist_node *last_node_count;
 
---hhy7jls2kpl3mst3--
+This isn't a count... can we rename it?
+
+> +
+> +static void check_node(struct klist_node *node_ptr)
+> +{
+> +       node_count++;
+> +       last_node_count = node_ptr;
+> +}
+> +
+> +static void check_delete_node(struct klist_node *node_ptr)
+> +{
+> +       node_count--;
+> +       last_node_count = node_ptr;
+> +}
+> +
+> +static void klist_test_add_tail(struct kunit *test)
+> +{
+> +       struct klist_node a, b;
+> +       struct klist mylist;
+> +       struct klist_iter i;
+> +
+> +       node_count = 0;
+> +       klist_init(&mylist, &check_node, NULL);
+> +
+> +       klist_add_tail(&a, &mylist);
+> +       KUNIT_EXPECT_EQ(test, node_count, 1);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &a);
+> +
+> +       klist_add_tail(&b, &mylist);
+> +       KUNIT_EXPECT_EQ(test, node_count, 2);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &b);
+> +
+> +       /* should be [list] -> a -> b */
+> +       klist_iter_init(&mylist, &i);
+> +
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
+> +       KUNIT_EXPECT_NULL(test, klist_next(&i));
+> +
+> +       klist_iter_exit(&i);
+> +
+> +}
+> +
+> +static void klist_test_add_head(struct kunit *test)
+> +{
+> +       struct klist_node a, b;
+> +       struct klist mylist;
+> +       struct klist_iter i;
+> +
+> +       node_count = 0;
+> +       klist_init(&mylist, &check_node, NULL);
+> +
+> +       klist_add_head(&a, &mylist);
+> +       KUNIT_EXPECT_EQ(test, node_count, 1);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &a);
+> +
+> +       klist_add_head(&b, &mylist);
+> +       KUNIT_EXPECT_EQ(test, node_count, 2);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &b);
+> +
+> +       /* should be [list] -> b -> a */
+> +       klist_iter_init(&mylist, &i);
+> +
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
+> +       KUNIT_EXPECT_NULL(test, klist_next(&i));
+> +
+> +       klist_iter_exit(&i);
+> +
+> +}
+> +
+> +static void klist_test_add_behind(struct kunit *test)
+> +{
+> +       struct klist_node a, b, c, d;
+> +       struct klist mylist;
+> +       struct klist_iter i;
+> +
+> +       node_count = 0;
+> +       klist_init(&mylist, &check_node, NULL);
+> +
+> +       klist_add_head(&a, &mylist);
+> +       klist_add_head(&b, &mylist);
+> +
+> +       klist_add_behind(&c, &a);
+> +       KUNIT_EXPECT_EQ(test, node_count, 3);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
+> +
+> +       klist_add_behind(&d, &b);
+> +       KUNIT_EXPECT_EQ(test, node_count, 4);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
+> +
+> +       klist_iter_init(&mylist, &i);
+> +
+> +       /* should be [list] -> b -> d -> a -> c*/
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
+> +       KUNIT_EXPECT_NULL(test, klist_next(&i));
+> +
+> +       klist_iter_exit(&i);
+> +
+> +}
+> +
+> +static void klist_test_add_before(struct kunit *test)
+> +{
+> +       struct klist_node a, b, c, d;
+> +       struct klist mylist;
+> +       struct klist_iter i;
+> +
+> +       node_count = 0;
+> +       klist_init(&mylist, &check_node, NULL);
+> +
+> +       klist_add_head(&a, &mylist);
+> +       klist_add_head(&b, &mylist);
+> +       klist_add_before(&c, &a);
+> +       KUNIT_EXPECT_EQ(test, node_count, 3);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
+> +
+> +       klist_add_before(&d, &b);
+> +       KUNIT_EXPECT_EQ(test, node_count, 4);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
+> +
+> +       klist_iter_init(&mylist, &i);
+> +
+> +       /* should be [list] -> b -> d -> a -> c*/
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
+> +       KUNIT_EXPECT_NULL(test, klist_next(&i));
+> +
+> +       klist_iter_exit(&i);
+> +
+> +}
+> +
+> +/* Verify that klist_del() delays the deletion of a node until there
+> + * are no other references to it
+> + */
+
+These comments are in the wrong style:
+https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+
+They should be of the form:
+/*
+ * Text
+ * More text
+ */
+(with the empty line at the top)
+
+> +static void klist_test_del_refcount_greater_than_zero(struct kunit *test)
+> +{
+> +       struct klist_node a, b, c, d;
+> +       struct klist mylist;
+> +       struct klist_iter i;
+> +
+> +       node_count = 0;
+> +       klist_init(&mylist, &check_node, &check_delete_node);
+> +
+> +       /* Add nodes a,b,c,d to the list*/
+> +       klist_add_tail(&a, &mylist);
+> +       klist_add_tail(&b, &mylist);
+> +       klist_add_tail(&c, &mylist);
+> +       klist_add_tail(&d, &mylist);
+> +
+> +       klist_iter_init(&mylist, &i);
+> +
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
+> +       /* Advance the iterator to point to node c*/
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
+> +
+> +       /* Try to delete node c while there is a reference to it*/
+> +       klist_del(&c);
+> +
+> +       /*
+> +        * Verify that node c is still attached to the list even after being
+> +        * deleted. Since the iterator still points to c, the reference count is not
+> +        * decreased to 0
+> +        */
+> +       KUNIT_EXPECT_TRUE(test, klist_node_attached(&c));
+> +
+> +       /* Check that node c has not been removed yet*/
+> +       KUNIT_EXPECT_EQ(test, node_count, 4);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &d);
+> +
+> +       klist_iter_exit(&i);
+> +
+> +       /* Since the iterator is no longer pointing to node c, node c is removed
+> +        * from the list
+> +        */
+
+Nit: comment formatting. The comment above ("Verify that node c...") looks good.
+
+> +       KUNIT_EXPECT_EQ(test, node_count, 3);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
+> +
+> +}
+> +
+> +/* Verify that klist_del() deletes a node immediately when there are no
+> + * other references to it.
+> + */
+
+As above, comment formatting.
+
+> +static void klist_test_del_refcount_zero(struct kunit *test)
+> +{
+> +       struct klist_node a, b, c, d;
+> +       struct klist mylist;
+> +       struct klist_iter i;
+> +
+> +       node_count = 0;
+> +       klist_init(&mylist, &check_node, &check_delete_node);
+> +
+> +       /* Add nodes a,b,c,d to the list*/
+> +       klist_add_tail(&a, &mylist);
+> +       klist_add_tail(&b, &mylist);
+> +       klist_add_tail(&c, &mylist);
+> +       klist_add_tail(&d, &mylist);
+> +       /* Delete node c*/
+> +       klist_del(&c);
+> +
+> +       /* Check that node c is deleted from the list*/
+> +       KUNIT_EXPECT_EQ(test, node_count, 3);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
+> +
+> +       /* Should be [list] -> a -> b -> d*/
+> +       klist_iter_init(&mylist, &i);
+> +
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
+> +       KUNIT_EXPECT_NULL(test, klist_next(&i));
+> +
+> +       klist_iter_exit(&i);
+> +
+> +}
+> +
+> +static void klist_test_remove(struct kunit *test)
+> +{
+> +       /* This test doesn't check correctness under concurrent access */
+> +       struct klist_node a, b, c, d;
+> +       struct klist mylist;
+> +       struct klist_iter i;
+> +
+> +       node_count = 0;
+> +       klist_init(&mylist, &check_node, &check_delete_node);
+> +
+> +       /* Add nodes a,b,c,d to the list*/
+> +       klist_add_tail(&a, &mylist);
+> +       klist_add_tail(&b, &mylist);
+> +       klist_add_tail(&c, &mylist);
+> +       klist_add_tail(&d, &mylist);
+> +       /* Delete node c*/
+> +       klist_remove(&c);
+> +
+> +       /* Check the nodes in the list*/
+> +       KUNIT_EXPECT_EQ(test, node_count, 3);
+> +       KUNIT_EXPECT_PTR_EQ(test, last_node_count, &c);
+> +
+> +       /* should be [list] -> a -> b -> d*/
+> +       klist_iter_init(&mylist, &i);
+> +
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
+> +       KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
+> +       KUNIT_EXPECT_NULL(test, klist_next(&i));
+> +
+> +       klist_iter_exit(&i);
+> +
+> +}
+> +
+> +static void klist_test_node_attached(struct kunit *test)
+> +{
+> +       struct klist_node a = {};
+> +       struct klist mylist;
+> +
+> +       klist_init(&mylist, NULL, NULL);
+> +
+> +       KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
+> +       klist_add_head(&a, &mylist);
+> +       KUNIT_EXPECT_TRUE(test, klist_node_attached(&a));
+> +       klist_del(&a);
+> +       KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
+> +
+> +}
+> +
+> +static struct kunit_case klist_test_cases[] = {
+> +       KUNIT_CASE(klist_test_add_tail),
+> +       KUNIT_CASE(klist_test_add_head),
+> +       KUNIT_CASE(klist_test_add_behind),
+> +       KUNIT_CASE(klist_test_add_before),
+> +       KUNIT_CASE(klist_test_del_refcount_greater_than_zero),
+> +       KUNIT_CASE(klist_test_del_refcount_zero),
+> +       KUNIT_CASE(klist_test_remove),
+> +       KUNIT_CASE(klist_test_node_attached),
+> +       {},
+> +};
+> +
+> +static struct kunit_suite klist_test_module = {
+> +       .name = "klist",
+> +       .test_cases = klist_test_cases,
+> +};
+> +
+> +kunit_test_suites(&list_test_module, &hlist_test_module, &klist_test_module);
+>
+>  MODULE_LICENSE("GPL v2");
+> --
+> 2.40.0.348.gf938b09366-goog
+>
+
+--0000000000004c05ac05f81805bb
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+64VRg2IjDI2fJVE9RD6aMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQA2lZLYRLu7foeR
+cHo1VeNA974FZBiCm08Kd44/aCMEzdTJvxAE9xbUJf7hS1i6eW49qxuSp3/YLn6U7uatwAcmZcwp
+Zma19ftf3LH+9Hvffk+X8fbPKe6uHkJhR2LktrhRzF159jj67NvXyGQv8J4n7UNeEVP0d5ByvRwv
+tF2bJwlOwRGLoxasKSyDHIyUpwTfWYPq7XvjoGqQ/tDS7Khcc5WncJl0/ZEj7EKjtoGbsDbLdXEF
+m/6vdcYKJzF9ghHewtV3YIU4RE3pEM4aCWWRtJwbExzeue6fI7RqURbNCAyQuSpWv0YQvzsX3ZX3
+c1otrs50n1N0Sf8/rfJxq7sWMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABxy1wm0tAmHKHFkLS9RWPMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCZ
+Eg3aLG7p2QcWXYlTFMcwmNtIsVQMZyeF/RsRqjiwejAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMzAzMzAwNjE1MzVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAHKOqELkVurbBaZXF4xSm
+ZsHHDANXAH6bHr/1lfZBcvjH9FTGFMYl+cibYcK3wLXT3lSZBrdl3Zbc0EIoBQp0ADXxLMoZDsEi
+kT80NjIWpcAR+7fTis5qgGPJS9LaBN3eFfsggdlVwx58ovZM6WowTPCLzUn7wYESqK5feUFh85jw
+4QRvt0aeEArXwMuE0jKYCnJp77HbeDKHTz7TknjtryEQrEmJTN9crul0HlZTCtOqvVe6M54BlwKS
+6DaSRuAXf4bGdyB/LyEryBXPXw1Vs3pC5rJ4fPFctmRQUYnE80Xwu9ByUKt2fXLGYcvqWBQvATJd
+ZwW3VGhptUcLJNguHA==
+--0000000000004c05ac05f81805bb--
