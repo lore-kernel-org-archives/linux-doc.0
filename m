@@ -2,224 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D68C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 21:25:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F566C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 22:41:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjC3VZT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 17:25:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
+        id S230425AbjC3WlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 18:41:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjC3VZS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 17:25:18 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0281725
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 14:25:16 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id c9so15866168lfb.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 14:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680211515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DYqYBLcFFkNS/UgYTJsvNxji20IdJ1DULm+w6DtBki4=;
-        b=gy/54b0UsOHthQjf3JEADvmY5I+IUJvFjCAXPsGfjxeR2WRZkkgf5VbtrOND5mQnty
-         mTyCaFMS7EjfoB3lyjPHLCbZfY2SOgJp7pWI0Sq+2/vzi7aPZOja4vE/a/yCFkc1Gk/y
-         EkeE00rqXSWfBBDmkrLc5eU4KXQpDC1YT1fxScZSg+icIsHGmPQhILPbh1IpiMSO0ayC
-         O/wJI0u5FjDi2uPSjMcic1FdsiLqd2bFUkaZuLw+6JfCVLXF7CZCL8K220VlVPojiXqb
-         3iZg/mW0N4sLH3p7YuUh5ftHLnFSYemU6qnxy1r7xZR0jbEesxy1uYDzlzLHaJczrp6Q
-         wPqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680211515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DYqYBLcFFkNS/UgYTJsvNxji20IdJ1DULm+w6DtBki4=;
-        b=kq52CYXX6W23xJiFbKeYOBwA66kiNuuxVrEni679QtXXNHeBwOn+d0S/NlYS66CYxC
-         mHbMxl1rR5TM/ijg3wRKPjpMEtR3tH25e6VGJyz9KVRNF6uoURXOLDgFVYEx7OLypJju
-         bwV5INDvhzjtoojVDcEERF5gJKpox3Q/IkHOH7abdTMQQeW/92h3m75X9U1DZC4Zwgxj
-         1lAiWRjJQjWjRAXsrAzQfrEVOc2jihthyTiC9tRNeddSdRvqNThZzDl0zhNoVw1dqb4C
-         SWikA5/dLg6GgAqsD/jIM2uk5Olw/6tkSSdtlv3reJptXdSWnT3VKrCjUZSqUHmNk81K
-         3kig==
-X-Gm-Message-State: AAQBX9dFGv9tnkGqugytrk5X30RaDqcIhOyXVRBL5YqvSJ0pxLSHsw7z
-        5ahfAi5TS3RimsuzTa6tvpz0w5WEI/pwnJwHjAdFCw==
-X-Google-Smtp-Source: AKy350YG+E22ikOANN7EgpjoEaKBmyUQkCMHo5NqvO+gl/QgqV5f2+53M+I2j1QxqSNsLgDewuS3L1HuSAYGOZAwpT4=
-X-Received: by 2002:ac2:4884:0:b0:4db:1999:67a3 with SMTP id
- x4-20020ac24884000000b004db199967a3mr7458577lfc.13.1680211514656; Thu, 30 Mar
- 2023 14:25:14 -0700 (PDT)
+        with ESMTP id S230388AbjC3WlL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 18:41:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA312EB52;
+        Thu, 30 Mar 2023 15:41:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7C34AB82A60;
+        Thu, 30 Mar 2023 22:41:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B61F3C433D2;
+        Thu, 30 Mar 2023 22:41:02 +0000 (UTC)
+Date:   Thu, 30 Mar 2023 23:40:59 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, oleg@redhat.com, avagin@gmail.com,
+        peterz@infradead.org, luto@kernel.org, krisman@collabora.com,
+        tglx@linutronix.de, corbet@lwn.net, shuah@kernel.org,
+        arnd@arndb.de, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v15 2/4] syscall user dispatch: untag selector addresses
+ before access_ok
+Message-ID: <ZCYP+4gRZDqC0lRo@arm.com>
+References: <20230330212121.1688-1-gregory.price@memverge.com>
+ <20230330212121.1688-3-gregory.price@memverge.com>
 MIME-Version: 1.0
-References: <20230221190858.3159617-1-evan@rivosinc.com> <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com>
- <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com> <6540574.4vTCxPXJkl@diego>
-In-Reply-To: <6540574.4vTCxPXJkl@diego>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Thu, 30 Mar 2023 14:24:38 -0700
-Message-ID: <CALs-Hsvgg6aZctwxjMqi2k6D5QFWy6oOEG682gb7xb3T2iNE4A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
-To:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Conor Dooley <conor@kernel.org>, slewis@rivosinc.com,
-        Vineet Gupta <vineetg@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        guoren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230330212121.1688-3-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 1:20=E2=80=AFPM Heiko St=C3=BCbner <heiko@sntech.de=
-> wrote:
->
-> Am Donnerstag, 30. M=C3=A4rz 2023, 20:30:29 CEST schrieb Evan Green:
-> > On Thu, Feb 23, 2023 at 2:06=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> w=
-rote:
-> > >
-> > > On Tue, Feb 21, 2023, at 20:08, Evan Green wrote:
-> > > > We don't have enough space for these all in ELF_HWCAP{,2} and there=
-'s no
-> > > > system call that quite does this, so let's just provide an arch-spe=
-cific
-> > > > one to probe for hardware capabilities.  This currently just provid=
-es
-> > > > m{arch,imp,vendor}id, but with the key-value pairs we can pass more=
- in
-> > > > the future.
-> > > >
-> > > > Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> > > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> > > > Signed-off-by: Evan Green <evan@rivosinc.com>
-> > >
-> > > I'm still skeptical about the need for a custom syscall interface her=
-e.
-> > > I had not looked at the interface so far, but there are a few things
-> > > that stick out:
-> > >
-> > > > +RISC-V Hardware Probing Interface
-> > > > +---------------------------------
-> > > > +
-> > > > +The RISC-V hardware probing interface is based around a single
-> > > > syscall, which
-> > > > +is defined in <asm/hwprobe.h>::
-> > > > +
-> > > > +    struct riscv_hwprobe {
-> > > > +        __s64 key;
-> > > > +        __u64 value;
-> > > > +    };
-> > >
-> > > The way this is defined, the kernel will always have to know
-> > > about the specific set of features, it can't just forward
-> > > unknown features to user space after probing them from an
-> > > architectured hardware interface or from DT.
-> >
-> > You're correct that this interface wasn't intended to have usermode
-> > come in with augmented data or additional key/value pairs. This was
-> > purely meant to provide access to the kernel's repository of
-> > architectural and microarchitectural details. If usermode wants to
-> > provide extra info in this same form, maybe they could wrap this
-> > interface.
-> >
-> > > If 'key' is just an enumerated value with a small number of
-> > > possible values, I don't see anything wrong with using elf
-> > > aux data. I understand it's hard to know how many keys
-> > > might be needed in the long run, from the way you define
-> > > the key/value pairs here, I would expect it to have a lot
-> > > of the same limitations that the aux data has, except for
-> > > a few bytes to be copied.
-> >
-> > Correct, this makes allocating bits out of here cheaper by not
-> > requiring that we actively copy them into every new process forever.
-> > You're right that the aux vector would work as well, but the thinking
-> > behind this series was that an interface like this might be better for
-> > an architecture as extensible as risc-v.
->
-> What would be the ramifications of defining some sort of vdso-like
-> data-structure and just putting the address into AT_HWCAP2 ?
-> (similar to what vdso does) - that could then even be re-usable
-> with other OS kernels.
->
-> And would also save declaring numerous new AT_* keys.
->
->
-> Because there are already nearly 130 standard extensions and vendors
-> are allowed to defines their own as well, and we will probably also want
-> to tell userspace about them.
+On Thu, Mar 30, 2023 at 05:21:22PM -0400, Gregory Price wrote:
+> diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+> index 22396b234854..16086226b41c 100644
+> --- a/kernel/entry/syscall_user_dispatch.c
+> +++ b/kernel/entry/syscall_user_dispatch.c
+> @@ -87,7 +87,18 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
+>  		if (offset && offset + len <= offset)
+>  			return -EINVAL;
+>  
+> -		if (selector && !access_ok(selector, sizeof(*selector)))
+> +		/*
+> +		 * access_ok will clear memory tags for tagged addresses on tasks where
+> +		 * memory tagging is enabled.  To enable a tracer to set a tracee's
+> +		 * selector not in the same tagging state, the selector address must be
+> +		 * untagged for access_ok, otherwise an untagged tracer will always fail
+> +		 * to set a tagged tracee's selector.
+> +		 *
+> +		 * The result of this is that a tagged tracer may be capable of setting
+> +		 * an invalid address, and the tracee will SIGSEGV on the next syscall.
+> +		 * This is equivalent to a task setting a bad selector (selector=0x1).
+> +		 */
 
-Yeah I mulled that approach over a bit originally as well. The
-downside is the vdso data then becomes part of the ABI. So you can
-never change the layout of that vdso data, and you lose the ability to
-change what gets cached in the vdso versus what bounces up to the
-syscall. To poach a scenario from a glibc discussion underway, if for
-instance cpu hotplug comes along and you need to invalidate some
-portion of your cached data, that's easy when there's a function in
-front of it, but difficult if apps are crawling the data themselves.
+I'd drop the last paragraph above. Even without tagged pointers, a tracer
+can set an invalid address (as you already mentioned) but the phrasing
+some implies (to me) that if we did it differently, the tracer would not be
+able to set an invalid pointer.
 
-130 extensions is certainly a lot, and illustrates how auxvec may get
-out of hand quickly. One nice thing about this mechanism (though other
-approaches share this trait) is that it's agnostic of where the data
-comes from. In other words, it doesn't require that data come from the
-DT, or alternative.c, etc, as long as the kernel can access it and
-plunk it in a key/value store.
--Evan
+Either way,
 
->
->
-> Heiko
->
->
-> > > > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
-> > > > pair_count,
-> > > > +                           size_t cpu_count, cpu_set_t *cpus,
-> > > > +                           unsigned long flags);
-> > >
-> > > The cpu set argument worries me more: there should never be a
-> > > need to optimize for broken hardware that has an asymmetric set
-> > > of features. Just let the kernel figure out the minimum set
-> > > of features that works across all CPUs and report that like we
-> > > do with HWCAP. If there is a SoC that is so broken that it has
-> > > important features on a subset of cores that some user might
-> > > actually want to rely on, then have them go through the slow
-> > > sysfs interface for probing the CPUs indidually, but don't make
-> > > the broken case easier at the expense of normal users that
-> > > run on working hardware.
-> >
-> > I'm not so sure. While I agree with you for major classes of features
-> > (eg one CPU has floating point support but another does not), I expect
-> > these bits to contain more subtle details as well, which might vary
-> > across asymmetric implementations without breaking ABI compatibility
-> > per-se. Maybe some vendor has implemented exotic video decoding
-> > acceleration instructions that only work on the big core. Or maybe the
-> > big cores support v3.1 of some extension (where certain things run
-> > faster), but the little cores only have v3.0, where it's a little
-> > slower. Certain apps would likely want to know these things so they
-> > can allocate their work optimally across cores.
-> >
-> > >
-> > > > +asmlinkage long sys_riscv_hwprobe(uintptr_t, uintptr_t, uintptr_t,
-> > > > uintptr_t,
-> > > > +                               uintptr_t, uintptr_t);
-> > >
-> > > Why 'uintptr_t' rather than the correct type?
-> >
-> > Fixed.
-> > -Evan
-> >
->
->
->
->
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+
+-- 
+Catalin
