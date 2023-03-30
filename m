@@ -2,173 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C0BC6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 14:05:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0ACBC761A6
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 14:25:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232262AbjC3OFb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 10:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52916 "EHLO
+        id S231916AbjC3OZ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 10:25:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232265AbjC3OFa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 10:05:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A84C7A9B;
-        Thu, 30 Mar 2023 07:05:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CFBF06209A;
-        Thu, 30 Mar 2023 14:05:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A08C433D2;
-        Thu, 30 Mar 2023 14:05:09 +0000 (UTC)
-Date:   Thu, 30 Mar 2023 15:05:07 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Gregory Price <gregory.price@memverge.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-        oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
-        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
-        corbet@lwn.net, shuah@kernel.org, arnd@arndb.de, will@kernel.org,
-        mark.rutland@arm.com, tongtiangen@huawei.com, robin.murphy@arm.com
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
- access_ok
-Message-ID: <ZCWXE04nLZ4pXEtM@arm.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
- <ZCRl2ZDsNK2nKAfy@arm.com>
- <ZCO/vNYlGdwthZX2@memverge.com>
+        with ESMTP id S231956AbjC3OZ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 10:25:58 -0400
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C2A3187;
+        Thu, 30 Mar 2023 07:25:57 -0700 (PDT)
+Received: by mail-oi1-f181.google.com with SMTP id be10so950325oib.6;
+        Thu, 30 Mar 2023 07:25:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680186356;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sFW2Fxi2txULIRe3DJUc5qXrtounXXEIdQOAl1fQLSk=;
+        b=ZJwYphP6TxIkWg89f+FtoA6XI+k8IK4uPoGQeQtPtPrs7koz2LCNUloggYAvNumrKL
+         SZScFYiZniQQXVyYQ9P9GZ1GTWTn6Tnl9iBzZMUTvh0Hu/xn4xHOP3c3K7KuRUuP3nM7
+         r1Yrmlp1PoK6g18gSqbELCP134EcXnFaG7mmbgAsmnpzUk31+EzNiRT0htLQYm452k9x
+         0w8pHXunf9cxRo/A0HLXSl8XXVNPtZDn/+ludVnHxrA6e7NA/C8AfkCuO6WhmSPSAhvU
+         Hq2DgYgWkkFV5AKPlyTAizeGCJRRbG1+RCPDnHIY/1LpBCFER+sFm7KrYSixpUCk6vOT
+         ypDg==
+X-Gm-Message-State: AAQBX9e7J/gJgW4BsNHfa8WXfHCEzgvXaym2V8x1OG9ajWR3fuUi9Yqk
+        IbSG0S5KOYR+Q4oQuLAqag==
+X-Google-Smtp-Source: AKy350ZidEg0WyM99bAmG60tXImF4uhx11/uXQd5Ggh/HE1bnuQq5Qgc2+9/Wv8CgF0SLC4fuMtIMQ==
+X-Received: by 2002:a05:6808:1a06:b0:389:21:9483 with SMTP id bk6-20020a0568081a0600b0038900219483mr10034574oib.59.1680186356186;
+        Thu, 30 Mar 2023 07:25:56 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z6-20020a4aae06000000b0051763d6497fsm14653566oom.38.2023.03.30.07.25.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 07:25:55 -0700 (PDT)
+Received: (nullmailer pid 1959245 invoked by uid 1000);
+        Thu, 30 Mar 2023 14:25:54 -0000
+Date:   Thu, 30 Mar 2023 09:25:54 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Julien Panis <jpanis@baylibre.com>
+Cc:     arnd@arndb.de, jneanne@baylibre.com, robh+dt@kernel.org,
+        razor@blackwall.org, eblanc@baylibre.com,
+        devicetree@vger.kernel.org, stephen@networkplumber.org,
+        derek.kiernan@xilinx.com, yi.l.liu@intel.com, jgg@ziepe.ca,
+        u-kumar1@ti.com, dragan.cvetic@xilinx.com,
+        gregkh@linuxfoundation.org, contact@emersion.fr,
+        krzysztof.kozlowski+dt@linaro.org, sterzik@ti.com,
+        linux-doc@vger.kernel.org, lee@kernel.org,
+        prabhakar.csengg@gmail.com, linux-kernel@vger.kernel.org,
+        corbet@lwn.net
+Subject: Re: [PATCH v5 1/4] dt-bindings: mfd: Add TI TPS6594 PMIC
+Message-ID: <168018635391.1959190.9703045344955071020.robh@kernel.org>
+References: <20230330082006.11216-1-jpanis@baylibre.com>
+ <20230330082006.11216-2-jpanis@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCO/vNYlGdwthZX2@memverge.com>
+In-Reply-To: <20230330082006.11216-2-jpanis@baylibre.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 12:34:04AM -0400, Gregory Price wrote:
-> On Wed, Mar 29, 2023 at 05:22:49PM +0100, Catalin Marinas wrote:
-> > On Tue, Mar 28, 2023 at 12:48:08PM -0400, Gregory Price wrote:
-> > > diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-> > > index 5c7b2f9d5913..1a51a54f264f 100644
-> > > --- a/arch/arm64/include/asm/uaccess.h
-> > > +++ b/arch/arm64/include/asm/uaccess.h
-> > > @@ -35,7 +35,9 @@ static inline int __access_ok(const void __user *ptr, unsigned long size);
-> > >   * This is equivalent to the following test:
-> > >   * (u65)addr + (u65)size <= (u65)TASK_SIZE_MAX
-> > >   */
-> > > -static inline int access_ok(const void __user *addr, unsigned long size)
-> > > +static inline int task_access_ok(struct task_struct *task,
-> > > +				 const void __user *addr,
-> > > +				 unsigned long size)
-> > >  {
-> > >  	/*
-> > >  	 * Asynchronous I/O running in a kernel thread does not have the
-> > > @@ -43,11 +45,18 @@ static inline int access_ok(const void __user *addr, unsigned long size)
-> > >  	 * the user address before checking.
-> > >  	 */
-> > >  	if (IS_ENABLED(CONFIG_ARM64_TAGGED_ADDR_ABI) &&
-> > > -	    (current->flags & PF_KTHREAD || test_thread_flag(TIF_TAGGED_ADDR)))
-> > > +	    (task->flags & PF_KTHREAD || test_ti_thread_flag(task, TIF_TAGGED_ADDR)))
-> > >  		addr = untagged_addr(addr);
-> > >  
-> > >  	return likely(__access_ok(addr, size));
-> > >  }
-> > > +
-> > > +static inline int access_ok(const void __user *addr, unsigned long size)
-> > > +{
-> > > +	return task_access_ok(current, addr, size);
-> > > +}
-> > > +
-> > > +#define task_access_ok task_access_ok
-> > 
-> > I'd not bother with this at all. In the generic code you can either do
-> > an __access_ok() check directly or just
-> > access_ok(untagged_addr(selector), ...) with a comment that address
-> > tagging of the ptraced task may not be enabled.
+
+On Thu, 30 Mar 2023 10:20:03 +0200, Julien Panis wrote:
+> TPS6594 is a Power Management IC which provides regulators and others
+> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+> PFSM (Pre-configurable Finite State Machine) managing the state of the
+> device.
+> TPS6594 is the super-set device while TPS6593 and LP8764 are derivatives.
 > 
-> This was my original proposal, but the comment that lead to this patch
-> was the following:
+> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> ---
+>  .../devicetree/bindings/mfd/ti,tps6594.yaml   | 193 ++++++++++++++++++
+>  1 file changed, 193 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
 > 
-> """
-> If this would be correct, then access_ok() on arm64 would
-> unconditionally untag the checked address, but it does not. Simply
-> because untagging is only valid if the task enabled pointer tagging. If
-> it didn't a tagged pointer is obviously invalid.
-> 
-> Why would ptrace make this suddenly valid?
-> """
-> 
-> https://lore.kernel.org/all/87a605anvx.ffs@tglx/
 
-Ah, thanks for the pointer.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-For ptrace(), we live with this relaxation as there's no easy way to
-check. Take __access_remote_vm() for example, it ends up in
-get_user_pages_remote() -> ... -> __get_user_pages() which just untags
-the address. Even if it would want to do this conditionally, the tag
-pointer is enabled per thread (and inherited) but the GUP API only takes
-the mm.
-
-While we could improve it as ptrace() can tell which thread it is
-tracing, I don't think it's worth the effort. On arm64, top-byte-ignore
-was enabled from the start for in-user accesses but not at the syscall
-level. We wanted to avoid breaking some use-cases with untagging all
-user pointers, hence the explicit opt-in to catch some issues (glibc did
-have a problem with brk() ignoring the top byte -
-https://bugzilla.redhat.com/show_bug.cgi?id=1797052).
-
-So yeah, this access_ok() in a few places is a best effort to catch some
-potential ABI regressions like the one above and also as a way to force
-the old ABI (mostly) via sysctl. But we do have places like GUP where we
-don't have the thread information (only the mm), so we just
-indiscriminately untag the pointer.
-
-Note that there is no security risk for the access itself. The Arm
-architecture selects the user vs kernel address spaces based on bit 55
-rather than 63. Untagging a pointer sign-extends bit 55.
-
-> I did not have a sufficient answer for this so I went down this path.
-> 
-> It does seem simpler to simply untag the address, however it didn't seem
-> like a good solution to simply leave an identified bad edge case.
-> 
-> with access_ok(untagged_addr(addr), ...) it breaks down like this:
-> 
-> (tracer,tracee) : result 
-> 
-> tag,tag     : untagged - (correct)
-> tag,untag   : untagged - incorrect as this would have been an impossible
->               state to reach through the standard prctl interface.  Will
-> 	      lead to a SIGSEGV in the tracee upon next syscall
-
-Well, even without untagging the pointer, the tracer can set a random
-address that passes access_ok() but still faults in the tracee. It's the
-tracer that should ensure the pointer is valid in the context of the
-tracee.
-
-Now, even if the selector pointer is tagged, the accesses still work
-fine (top-byte-ignore) unless MTE is enabled in the tracee and the tag
-should match the region's colour. But, again, that's no different from a
-debugger changing pointer variables in the debugged process, they should
-be valid and it's not for the kernel to sanitise them.
-
-> untag,tag   : untagged - (correct)
-> untag,untag : no-op - (correct), tagged address will fail to set
-> 
-> Basically if the tracer is a tagged process while the tracee is not, it
-> would become possible to set the tracee's selector to a tagged pointer.
-
-Yes, but does it matter? You'd trust the tracer to work correctly. There
-are multiple ways it can break the tracee here even if access_ok()
-worked as intended.
-
-> It's beyond me to say whether or not this situation is "ok" and "the
-> user's fault", but it does feel like an addressable problem.
-
-To me, the situation looks fine. While it's addressable, we have other
-places where the tag is ignored on the ptrace() path, so I don't think
-it's worth the effort.
-
--- 
-Catalin
