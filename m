@@ -2,174 +2,270 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C63FC77B62
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 16:46:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43298C761A6
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 17:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231240AbjC3QqG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 12:46:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51958 "EHLO
+        id S231650AbjC3RCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 13:02:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232214AbjC3QqF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 12:46:05 -0400
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE24D50E;
-        Thu, 30 Mar 2023 09:46:01 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 9EF98320093D;
-        Thu, 30 Mar 2023 12:46:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 30 Mar 2023 12:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1680194760; x=1680281160; bh=C1
-        ANtzD99ITAlQKFihJs3nRdO+Noal3WKWuXkIP7KiE=; b=qWfDLQArvQmB7aFjev
-        i+7YCgnvM+n5QYFJf4i0ZT1ZNX6HtVJSTQxYz43+2Drn7L7LCxlaHIzkgLEN39qV
-        YIsQPKvCBzhhrFnVeYyXBZPYuX/wpXfUZ9hjq23q9C9Ebb7gvLcJASrQkj+GLlw2
-        qug7ru5btkiOT4DBF8jZs4YQ9QUYvBG5tIc8dxl2xXpjHHRUokiIJJPXHBZQo3MT
-        On3EPZDQTha7icw1ZQAtZF3OcWb0FQAL/j/EA4kCuY/gpv9PEbMA1kxpQBv6pl2V
-        vLiinfJh3jaYx3AYaiwcb6GBEauiO6W7oNoiAda8gIpVloTAiLQtrLvMHUSz/AUp
-        QiEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680194760; x=1680281160; bh=C1ANtzD99ITAl
-        QKFihJs3nRdO+Noal3WKWuXkIP7KiE=; b=NVaM3TniOM/E/HCLGOxRciWTO6yxV
-        XM7LjAUJ3U/xNGvBJs35vqjQ4Hclu2Fe6EdVvW41l6AG7J4HzSjXXKiIomDJpErV
-        +evqY5IF7fjzVYBZoTlwgagH52hwwiDQJU/y9UgJJYoAtl1uBR+LnbiPdt/UN5WC
-        BT6FPgO2I7MNlahwGLf73ZS1vbImKIohAWpeCK0DkMOH1uJ7pHRWWJ2aqis9b9nt
-        qJl4mA9zR214L+Ye1aaIR7c0zn4W+2Hi72DBqeXmJrs5oq3wUYfOQheVZFasrGua
-        athtCv6WXGMtCsur2KVb9bYj9Acfysh4iWF20afel0+fT7Kp6/WVpa2dg==
-X-ME-Sender: <xms:x7wlZJOvGjs49Zi2v49XhYxXK_VrTo9kq89Q6Q-Z5IqwjGd2MfVH1g>
-    <xme:x7wlZL_vlMGEKooXogo8-fPFRv_F-dtRFqv78224xcyWv6S06XAW44rZlqvq3z99K
-    cHEZEpsF9Juigo9Sfw>
-X-ME-Received: <xmr:x7wlZIQGRNnUe5m-xLh0SKhjf9JPWk-85BTzXuwEO6qLxH2B3PQLOtg4LoH02rGSxh7EDocHz8oPsi-PnlWvAhK1e1b8lJ-uaQuoAfzKxA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehledguddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfhgfhffvvefuffgjkfggtgesthdtredttdertdenucfhrhhomhepufhtvghf
-    rghnucftohgvshgthhcuoehshhhrseguvghvkhgvrhhnvghlrdhioheqnecuggftrfgrth
-    htvghrnhepveelgffghfehudeitdehjeevhedthfetvdfhledutedvgeeikeeggefgudeg
-    uedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
-    hhrhesuggvvhhkvghrnhgvlhdrihho
-X-ME-Proxy: <xmx:x7wlZFvKZF5WO5JrF29_eD-69_QDbHXJ0rkIFW7ouQzoLsOWg4H4OQ>
-    <xmx:x7wlZBev33CsfwcBAT5KTIsPNy6bMl2ILUDwwg9ChdHar9-OKoB1Iw>
-    <xmx:x7wlZB3TpuJqrp5vnI12X4iN_AdgemcIgx3uDPr-Q-Pd3cxDsORjIw>
-    <xmx:yLwlZAyY0V1iUtUVdXS37VNqE_UEderiMUctO4ttthN94-GTje64FA>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Mar 2023 12:45:58 -0400 (EDT)
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230328160914.5b6b66e4a5ad39e41fd63710@linux-foundation.org>
- <37dcd52a-2e32-c01d-b805-45d862721fbc@redhat.com>
- <ZCWcJelF5bEdF4N3@cmpxchg.org>
- <ff599dc1-729d-52dc-d605-8a8ac890ad15@redhat.com>
-User-agent: mu4e 1.6.11; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        Hugh Dickins <hughd@google.com>
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-Date:   Thu, 30 Mar 2023 09:41:36 -0700
-In-reply-to: <ff599dc1-729d-52dc-d605-8a8ac890ad15@redhat.com>
-Message-ID: <qvqwv8ii89x6.fsf@dev0134.prn3.facebook.com>
+        with ESMTP id S231853AbjC3RCH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 13:02:07 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C8A486AB;
+        Thu, 30 Mar 2023 10:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680195726; x=1711731726;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=sp9gj3Dkpqtvy8eOqrwRYLa69QAUsnMwS3RK/vBFyEo=;
+  b=US1Le3eupjVTSDaFhISFPDzCs/7qb8b48LbrQqz6mhFWfICfp0WJlGmD
+   1ZyQN1AnoXRQ1zPCpqK2mhBksAGJKeYT1kSS3IJbL7TQG7FOw/ANK7yRC
+   M5ho8To3kMSmhNN3MA5tz+UCOxzBDcYVzioIPXoX/F+IG4drYMfPswFTq
+   XM1FrSVB2volhcYEdEZTpQLOmGcQFkZZnDH5SLhPnZvbfUwej3TSxH32i
+   dJa4akGFQPmHFIJIJdyv6NZ35l7wUoHi5Flp7S4ucgZ+dfcu93wwfaD4x
+   FDBlxGhT5h85ZfYRmgRaQBdYKI4ZKorIeY1J3wmPKId1ZinzQnpcfA/fk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329747484"
+X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
+   d="scan'208";a="329747484"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 10:01:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="687317631"
+X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
+   d="scan'208";a="687317631"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by fmsmga007.fm.intel.com with ESMTP; 30 Mar 2023 10:01:43 -0700
+From:   Tony Nguyen <anthony.l.nguyen@intel.com>
+To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, netdev@vger.kernel.org
+Cc:     Tony Nguyen <anthony.l.nguyen@intel.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>
+Subject: [PATCH net-next 2/3] Documentation/eth/intel: Remove references to SourceForge
+Date:   Thu, 30 Mar 2023 09:59:34 -0700
+Message-Id: <20230330165935.2503604-3-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230330165935.2503604-1-anthony.l.nguyen@intel.com>
+References: <20230330165935.2503604-1-anthony.l.nguyen@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The out-of-tree driver is hosted on SourceForge, as this does not apply
+to the kernel driver remove references to it. Also do some minor
+formatting changes around this section.
 
-My mistake I first answered to an older email.
+Suggested-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+---
+ .../networking/device_drivers/ethernet/intel/e100.rst      | 2 --
+ .../networking/device_drivers/ethernet/intel/e1000.rst     | 7 +------
+ .../networking/device_drivers/ethernet/intel/e1000e.rst    | 5 -----
+ .../networking/device_drivers/ethernet/intel/fm10k.rst     | 5 -----
+ .../networking/device_drivers/ethernet/intel/i40e.rst      | 5 -----
+ .../networking/device_drivers/ethernet/intel/iavf.rst      | 5 -----
+ .../networking/device_drivers/ethernet/intel/ice.rst       | 3 ---
+ .../networking/device_drivers/ethernet/intel/igb.rst       | 5 -----
+ .../networking/device_drivers/ethernet/intel/igbvf.rst     | 5 -----
+ .../networking/device_drivers/ethernet/intel/ixgbe.rst     | 5 -----
+ .../networking/device_drivers/ethernet/intel/ixgbevf.rst   | 5 -----
+ 11 files changed, 1 insertion(+), 51 deletions(-)
 
-David Hildenbrand <david@redhat.com> writes:
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/e100.rst b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
+index 4f613949782c..5dee1b53e977 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/e100.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
+@@ -180,8 +180,6 @@ Support
+ For general information, go to the Intel support website at:
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-http://sourceforge.net/projects/e1000
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/e1000.rst b/Documentation/networking/device_drivers/ethernet/intel/e1000.rst
+index 7b15b8c72be0..52a7fb9ce8d9 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/e1000.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/e1000.rst
+@@ -451,12 +451,7 @@ Support
+ =======
+ 
+ For general information, go to the Intel support website at:
+-
+-    http://support.intel.com
+-
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-    http://sourceforge.net/projects/e1000
++http://support.intel.com
+ 
+ If an issue is identified with the released source code on the supported
+ kernel with a supported adapter, email the specific information related
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst b/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst
+index 7a9cbfa9e0f3..d8f810afdd49 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst
+@@ -371,13 +371,8 @@ NOTE: Wake on LAN is only supported on port A for the following devices:
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst b/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst
+index 9d9c2ec2152e..396a2c8c3db1 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst
+@@ -130,13 +130,8 @@ the Intel Ethernet Controller XL710.
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+index 5b13fe0fec82..4fbaa1a2d674 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+@@ -759,13 +759,8 @@ enabled when setting up DCB on your switch.
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+index 079847666125..eb926c3bd4cd 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+@@ -319,13 +319,8 @@ This is caused by the way the Linux kernel reports this stressed condition.
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://support.intel.com
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on the supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index 246bf6455f64..69695e5511f4 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -1026,9 +1026,6 @@ Support
+ For general information, go to the Intel support website at:
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/igb.rst b/Documentation/networking/device_drivers/ethernet/intel/igb.rst
+index ee149bdb42b9..fbd590b6a0d6 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/igb.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/igb.rst
+@@ -201,13 +201,8 @@ NOTE: This feature is exclusive to i210 models.
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst b/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst
+index 78ceb3cdbfdb..11a9017f3069 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst
+@@ -53,13 +53,8 @@ https://www.kernel.org/pub/software/network/ethtool/
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst b/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst
+index 8d4f7ede2ff8..1e5f16993f69 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst
+@@ -545,13 +545,8 @@ on the Intel Ethernet Controller XL710.
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst b/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst
+index 9201c74e4c36..08dc0d368a48 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst
+@@ -55,13 +55,8 @@ VLANs: There is a limit of a total of 64 shared VLANs to 1 or more VFs.
+ Support
+ =======
+ For general information, go to the Intel support website at:
+-
+ https://www.intel.com/support/
+ 
+-or the Intel Wired Networking project hosted by Sourceforge at:
+-
+-https://sourceforge.net/projects/e1000
+-
+ If an issue is identified with the released source code on a supported kernel
+ with a supported adapter, email the specific information related to the issue
+ to intel-wired-lan@lists.osuosl.org.
+-- 
+2.38.1
 
-> On 30.03.23 16:26, Johannes Weiner wrote:
->> On Thu, Mar 30, 2023 at 06:55:31AM +0200, David Hildenbrand wrote:
->>> On 29.03.23 01:09, Andrew Morton wrote:
->>>> On Fri, 10 Mar 2023 10:28:48 -0800 Stefan Roesch <shr@devkernel.io> wrote:
->>>>
->>>>> So far KSM can only be enabled by calling madvise for memory regions. To
->>>>> be able to use KSM for more workloads, KSM needs to have the ability to be
->>>>> enabled / disabled at the process / cgroup level.
->>>>
->>>> Review on this series has been a bit thin.  Are we OK with moving this
->>>> into mm-stable for the next merge window?
->>>
->>> I still want to review (traveling this week), but I also don't want to block
->>> this forever.
->>>
->>> I think I didn't get a reply from Stefan to my question [1] yet (only some
->>> comments from Johannes). I would still be interested in the variance of
->>> pages we end up de-duplicating for processes.
->>>
->>> The 20% statement in the cover letter is rather useless and possibly
->>> misleading if no details about the actual workload are shared.
->> The workload is instagram. It forks off Django runtimes on-demand
->> until it saturates whatever hardware it's running on. This benefits
->> from merging common heap/stack state between instances. Since that
->> runtime is quite large, the 20% number is not surprising, and matches
->> our expectations of duplicative memory between instances.
->
-> Thanks for this explanation. It's valuable to get at least a feeling for the
-> workload because it doesn't seem to apply to other workloads at all.
->
->> Obviously we could spend months analysing which exact allocations are
->> identical, and then more months or years reworking the architecture to
->> deduplicate them by hand and in userspace. But this isn't practical,
->> and KSM is specifically for cases where this isn't practical.
->> Based on your request in the previous thread, we investigated whether
->> the boost was coming from the unintended side effects of KSM splitting
->> THPs. This wasn't the case.
->> If you have other theories on how the results could be bogus, we'd be
->> happy to investigate those as well. But you have to let us know what
->> you're looking for.
->>
->
-> Maybe I'm bad at making such requests but
->
-> "Stefan, can you do me a favor and investigate which pages we end up
-> deduplicating -- especially if it's mostly only the zeropage and if it's
-> still that significant when disabling THP?"
->
-> "In any case, it would be nice to get a feeling for how much variety in
-> these 20% of deduplicated pages are. "
->
-> is pretty clear to me. And shouldn't take months.
->
-
-/sys/kernel/mm/ksm/pages_shared is over 10000 when we run this on an
-Instagram workload. The workload consists of 36 processes plus a few
-sidecar processes.
-
-Each of these individual processes has around 500MB in KSM pages.
-
-Also to give some idea for individual VMA's
-
-7ef5d5600000-7ef5e5600000 rw-p 00000000 00:00 0 (Size: 262144 KB, KSM:
-73160 KB)
-
->> Beyond that, I don't think we need to prove from scratch that KSM can
->
-> I never expected a proof. I was merely trying to understand if it's really KSM
-> that helps here. Also with the intention to figure out if KSM is really the
-> right tool to use here or if it simply "helps by luck" as with the shared
-> zeropage. That end result could have been valuable to your use case as well,
-> because KSM overhead is real.
->
->> be a worthwhile optimization. It's been established that it can
->> be. This series is about enabling it in scenarios where madvise()
->> isn't practical, that's it, and it's yielding the expected results.
->
-> I'm sorry to say, but you sound a bit aggressive and annoyed. I also have no
-> idea why Stefan isn't replying to me but always you.
->
-> Am I asking the wrong questions? Do you want me to stop looking at KSM code?
->
-
-Your review is valuable, Johannes was quicker than me.
