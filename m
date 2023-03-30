@@ -2,88 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FA46C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 15:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04430C77B60
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 15:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232783AbjC3PKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 11:10:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56534 "EHLO
+        id S232992AbjC3P2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 11:28:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232705AbjC3PKE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 11:10:04 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2207DD31D
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 08:08:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680188936; x=1711724936;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9X5RJ4c+ptuUM1bme3S23XjEv8J3KsKmGwReVeUc16w=;
-  b=bdVvmipz9u42D9Lt67KQvRjSY9ic0ibPH1htg4Q/nAhNHhFqmQ3YStjD
-   GkxwF0W+6WANSpxo/qbSwn1Au6q8btwIdR5px1fUVigiXd+5lzAWPw+qe
-   2UWVzHosdJK7Pt0hgMYx2zEz8F5IvDaTBDCeSIvdtyVgH0n86Dty1d3tj
-   6Nb1Wup1iI1xenO4k+BCikWgdYLnZQwaX1jqkEUh6memggPOniJljlpVK
-   jimOEW6hjazs021iw9hE0slfyWCIhx/l5KTsIU9NI54vAZVKdqc7v0cot
-   nvB05AFi167gch3v4Ov0xBlibWpK65+5MsB3XtGA8QsEcike78GoqUj8G
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="406183947"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="406183947"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 08:06:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="717343222"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="717343222"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 30 Mar 2023 08:05:58 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1phtqf-000Kw0-1g;
-        Thu, 30 Mar 2023 15:05:57 +0000
-Date:   Thu, 30 Mar 2023 23:05:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Joshua Hay <joshua.a.hay@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Alan Brady <alan.brady@intel.com>,
-        Madhu Chittim <madhu.chittim@intel.com>,
-        Phani Burra <phani.r.burra@intel.com>,
-        Pavan Kumar Linga <pavan.kumar.linga@intel.com>,
-        Sridhar Samudrala <sridhar.samudrala@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [tnguy-next-queue:10GbE 15/15] htmldocs:
- Documentation/networking/device_drivers/ethernet/intel/idpf.rst: WARNING:
- document isn't included in any toctree
-Message-ID: <202303302334.b3zIhN9j-lkp@intel.com>
+        with ESMTP id S233022AbjC3P1y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 11:27:54 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92778C679;
+        Thu, 30 Mar 2023 08:27:25 -0700 (PDT)
+Received: from mercury (dyndsl-091-248-191-116.ewe-ip-backbone.de [91.248.191.116])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B398866030CD;
+        Thu, 30 Mar 2023 16:26:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680189980;
+        bh=b8BFbDxlmYytLZ0QnDA04VtQavFxFlJBUUjl2Zq+y4k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WgcabsnyEs+YRnB9DrSuVJG76rhjme+YMIeghLJUXySMkMRbTlkRaU88/Y1tAJsZv
+         hsIPDR/ddOO3WdZzFLpppQWN0xVyp1gwn3k5EEp7m7FAHMEsLEGOoOWMlqK1WBSJ5p
+         t+lbvrwqstI7vMt4eZss8GEr06/Vt4KVf7CRwcCtetFoztOsjW/1nF/4Av9qsu7SCS
+         m4nB6SXSnaSpEgBclRmHBWu/CLNjHQvGkKh3I877viqoLNjgqRsat2++KP7QKb0PPe
+         bU0TbO/ej0xYD713PXy2mOJEADsSCNAZfilphQ5LtS7J8p+jidgJo1Ov4pU6VTJnGn
+         fq6UU7kG8/ewA==
+Received: by mercury (Postfix, from userid 1000)
+        id AC0301062717; Thu, 30 Mar 2023 17:26:17 +0200 (CEST)
+Date:   Thu, 30 Mar 2023 17:26:17 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Stephen Boyd <sboyd@kernel.org>, linux-doc@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v4] clk: expand clk_ignore_unused mechanism to keep only
+ a few clks on
+Message-ID: <20230330152617.6zj5llx5pf6mlv2t@mercury.elektranox.org>
+References: <20221026151812.1042052-1-u.kleine-koenig@pengutronix.de>
+ <4d8d412a33a7d63f2ffe6a13194375ed.sboyd@kernel.org>
+ <20230329204632.lsiiqf42hrwmn6xm@pengutronix.de>
+ <2f4967f2a079e23b2b8a6013012c66e0.sboyd@kernel.org>
+ <20230330060601.6mo7b4ecd2sk5mdr@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="4t4y27tmdb2m2ofs"
 Content-Disposition: inline
+In-Reply-To: <20230330060601.6mo7b4ecd2sk5mdr@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git 10GbE
-head:   e8a488d38e0a75704e37e952fedd329e977df362
-commit: e8a488d38e0a75704e37e952fedd329e977df362 [15/15] idpf: configure SRIOV and add other ndo_ops
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git/commit/?id=e8a488d38e0a75704e37e952fedd329e977df362
-        git remote add tnguy-next-queue https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
-        git fetch --no-tags tnguy-next-queue 10GbE
-        git checkout e8a488d38e0a75704e37e952fedd329e977df362
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303302334.b3zIhN9j-lkp@intel.com/
+--4t4y27tmdb2m2ofs
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-All warnings (new ones prefixed by >>):
+Hi,
 
->> Documentation/networking/device_drivers/ethernet/intel/idpf.rst: WARNING: document isn't included in any toctree
+On Thu, Mar 30, 2023 at 08:06:01AM +0200, Uwe Kleine-K=F6nig wrote:
+> On Wed, Mar 29, 2023 at 02:27:08PM -0700, Stephen Boyd wrote:
+> > Quoting Uwe Kleine-K=F6nig (2023-03-29 13:46:32)
+> > > > > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> > > > > index c3c3f8c07258..356119a7e5fe 100644
+> > > > > --- a/drivers/clk/clk.c
+> > > > > +++ b/drivers/clk/clk.c
+> > > > > [...]
+> > > > > @@ -1352,12 +1354,17 @@ static void __init clk_disable_unused_sub=
+tree(struct clk_core *core)
+> > > > >          * back to .disable
+> > > > >          */
+> > > > >         if (clk_core_is_enabled(core)) {
+> > > > > -               trace_clk_disable(core);
+> > > > > -               if (core->ops->disable_unused)
+> > > > > -                       core->ops->disable_unused(core->hw);
+> > > > > -               else if (core->ops->disable)
+> > > > > -                       core->ops->disable(core->hw);
+> > > > > -               trace_clk_disable_complete(core);
+> > > > > +               if (clk_unused_keep_on) {
+> > > > > +                       pr_warn("Keep unused clk \"%s\" on\n", co=
+re->name);
+> > > > > +                       clk_unused_keep_on -=3D 1;
+> > > > > +               } else {
+> > > > > +                       trace_clk_disable(core);
+> > > >=20
+> > > > We have trace_clk_disable() here. Can you have this tracepoint prin=
+t to
+> > > > the kernel log and watch over serial console? That would be faster =
+than
+> > > > bisecting.
+> > >=20
+> > > Well no, that doesn't work for all the problems where
+> > > clk_ignore_unused=3D7 could be useful. Consider that e.g. you know th=
+at
+> > > eth0 is broken, but with clk_ignore_unused is works. So one of the (s=
+ay)
+> > > 25 nominally unused clks are required for eth0. But it's not possible=
+ to
+> > > test the network after each of the 25 clk_disable()s. Unless I'm miss=
+ing
+> > > something and you can hook a userspace action on a trace line?!
+> >=20
+> > In that case it sounds like you want to compile the kernel with the
+> > support for enabling clks from debugfs. Can you use that?
+>=20
+> In some of the cases that might work. Unless for example the problem
+> makes the kernel fail to boot or the device is broken when the clk was
+> disabled and reenable doesn't help?!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+I recently debugged a similar issue like this:
+
+1. build kernel with CLOCK_ALLOW_WRITE_DEBUGFS
+2. boot with clk_ignore_unused, so clocks stay enabled
+3. disable clocks via sysfs:
+   echo 1 > /sys/kernel/debug/clk/${CLK}/clk_prepare_enable
+   echo 0 > /sys/kernel/debug/clk/${CLK}/clk_prepare_enable
+4. check if peripheral is still ok
+5. repeat step 3 with the next 'interesting' clock
+
+-- Sebastian
+
+--4t4y27tmdb2m2ofs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmQlqhIACgkQ2O7X88g7
++ppqHw/+OdRrES3M3CO43e8OqvDC9wqhevdLaEYJEqY7/vbrb4Vq3h8Wbb4DWfJj
+iWLNR3TUsWIGQ95b6SGTJCQarLBgRIeEln+YN5nyRc7bYfrjLboNfCxo4dHhjbgl
+u2ZYY7kYdT9oyXvBx5WushvIUxRe687yxfQqHUMoBi0MjDD/+WjBZDQ0q1w5ZQWb
+ySpmlbMGa8md9HmxIQmUSGD1t5B7y8KCYHQPYO/YJoosTe6jrRksdP56JRVwj2Gj
+zr5jJ2rPLI/Xk2604rK/GQPKUebFHPcrYzotNjNyOuwEVRtA3qGOKiI/IJFkozpE
+oG05WALoD42Zt9NapQOeysMJQErAbIpZEYsF8+/sj7SzJfRCALEcvYPYCbwubf6W
+/ZSkxZFZyz4cyY6vvHTZ1xZfQdrBDmHgYnf8l4Iu2zT7dWJB2ZSUoHMwZVqBeGze
+MG0cHB1yApfedJrP29UMnaFTG2GeBDW3lgYTkYdODn+jCoRyneCceodx1LBpEA2z
+sLMr8M/yf60ZB6+RPrqP0jQAFlD/dj+VVwaqIIAomQJSCLd5yKm6faVlOOagMwhI
+OaCdg1JMa2wwetu7zyfgATNSC9Bmub7d9swYwdNN6GSIZvvttM2IFG2Fv5mapP4+
+qpO6Jtm6duP6uDbf91V79JVvML6HMEeo6m7WdtkF1gpcdZguEX4=
+=888j
+-----END PGP SIGNATURE-----
+
+--4t4y27tmdb2m2ofs--
