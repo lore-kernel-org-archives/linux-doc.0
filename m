@@ -2,252 +2,227 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE7DC761AF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 13:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E63C6C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 13:40:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjC3NPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 09:15:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46568 "EHLO
+        id S231445AbjC3Nkq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 09:40:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231566AbjC3NPr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 09:15:47 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36BCA99
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 06:15:21 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id cn12so76347197edb.4
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 06:15:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1680182119;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l+RaE4XYGB80qyrp/p+4bFb+Fa0YEMFoXvqdGvo2ZNk=;
-        b=ONXxGaalDe5k0dNXrxQs6A83VtdJzzP4OKcKWnuh8i5+JhLWI1oobBWma0BSZIH4gS
-         8VPji3BNZghO37zjNor7eRlKtWW14jqswEzhWfcVz0JZkvNOZ+IX/1gcM2KpVx+w3O6O
-         vDTgzRqUzux4A4ne06K4njwlYrOgzxyizw0TBIetkoXoX8FTnn66JsOexZcrQnw3U/8/
-         no7t0vBu5yQ3A17zsey22jnYZ6pGTqpACTEXEa8H14YOQfICLLxyUvDper0qcnmmlx8g
-         yZAt0lUv5fj057/z5xe5FMu/5hg2b3Y0bvaE9O7aMwcfz9Vn9f8Ztki5xMOREV/hzjXt
-         IHPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680182119;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l+RaE4XYGB80qyrp/p+4bFb+Fa0YEMFoXvqdGvo2ZNk=;
-        b=6y3rjxWUgYah86roD4FHxHjX/2RSqAZGLDc46eVuaqKgjP6Npi3WTidjKLeH0qC5GW
-         qFKNqoRBA+HYwC9cDOBPLroQ4VcEgRGp8150YdXu6s0FlYHiuxxEq3hbni00u75yOlUt
-         DfIYSX7HbCg7sSUUZN3hMNvho8u2umlb5zPY2PT79TYqci10bPD0sNUJsaVFb7QmDD99
-         dryCf2DRJ9n4o9z3GuVXFcC77QzMLs9V0qOb8mSNjfcIl1zDApKK4P0+g2NZkTAgTWq5
-         X+H3PagjsgNdnJmHkH/A8us5F6jcGwtUacdbfOyJ/XaiAWK2SrTxbaVOhNBxk1fbLLBk
-         wb9A==
-X-Gm-Message-State: AAQBX9cwadkn7zl3rv4soqNRbNkhpfk492melJS1O4Iiz1fh3Y/iCQVs
-        3vh1eCrbC8Ji2UJHXyzIPK2Prg==
-X-Google-Smtp-Source: AKy350bRsIS81O1P1wJbKuTM1etnYVXfc+LKORzx35R/lxw+WuJo/v00Kps9b6AB+jvBtSF6gFwsJg==
-X-Received: by 2002:a17:907:1c21:b0:8dd:5710:a017 with SMTP id nc33-20020a1709071c2100b008dd5710a017mr30636860ejc.4.1680182119599;
-        Thu, 30 Mar 2023 06:15:19 -0700 (PDT)
-Received: from localhost ([95.148.15.55])
-        by smtp.gmail.com with ESMTPSA id r9-20020a1709061ba900b009474ee5de37sm826782ejg.143.2023.03.30.06.15.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 06:15:19 -0700 (PDT)
-From:   Punit Agrawal <punit.agrawal@bytedance.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-Cc:     <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
-        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <anshuman.khandual@arm.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
-        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
-        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
-        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
-        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-        <linux-s390@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
-        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
-        <prime.zeng@hisilicon.com>, <Jonathan.Cameron@Huawei.com>,
-        Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-Subject: Re: [PATCH v8 2/2] arm64: support batched/deferred tlb shootdown
- during page reclamation
-References: <20230329035512.57392-1-yangyicong@huawei.com>
-        <20230329035512.57392-3-yangyicong@huawei.com>
-Date:   Thu, 30 Mar 2023 14:15:18 +0100
-In-Reply-To: <20230329035512.57392-3-yangyicong@huawei.com> (Yicong Yang's
-        message of "Wed, 29 Mar 2023 11:55:12 +0800")
-Message-ID: <87cz4qwfbt.fsf_-_@stealth>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        with ESMTP id S231922AbjC3Nkp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 09:40:45 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD281FFC;
+        Thu, 30 Mar 2023 06:40:38 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PnPbZ2rqwzSqBR;
+        Thu, 30 Mar 2023 21:36:58 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 30 Mar
+ 2023 21:40:35 +0800
+Message-ID: <b8a32e3c-c083-20de-16d1-f628b02b739b@huawei.com>
+Date:   Thu, 30 Mar 2023 21:40:35 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v2 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Content-Language: en-US
+To:     Baoquan He <bhe@redhat.com>
+CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <thunder.leizhen@huawei.com>, <horms@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <20230328115150.2700016-1-chenjiahao16@huawei.com>
+ <20230328115150.2700016-2-chenjiahao16@huawei.com>
+ <ZCQewkvSpaI52DSM@MiWiFi-R3L-srv>
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <ZCQewkvSpaI52DSM@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yicong,
 
-Yicong Yang <yangyicong@huawei.com> writes:
+On 2023/3/29 19:19, Baoquan He wrote:
+> On 03/28/23 at 07:51pm, Chen Jiahao wrote:
 
-> From: Barry Song <v-songbaohua@oppo.com>
->
-> on x86, batched and deferred tlb shootdown has lead to 90%
-> performance increase on tlb shootdown. on arm64, HW can do
-> tlb shootdown without software IPI. But sync tlbi is still
-> quite expensive.
->
-> Even running a simplest program which requires swapout can
-> prove this is true,
->  #include <sys/types.h>
->  #include <unistd.h>
->  #include <sys/mman.h>
->  #include <string.h>
->
->  int main()
->  {
->  #define SIZE (1 * 1024 * 1024)
->          volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
->                                           MAP_SHARED | MAP_ANONYMOUS, -1, 0);
->
->          memset(p, 0x88, SIZE);
->
->          for (int k = 0; k < 10000; k++) {
->                  /* swap in */
->                  for (int i = 0; i < SIZE; i += 4096) {
->                          (void)p[i];
->                  }
->
->                  /* swap out */
->                  madvise(p, SIZE, MADV_PAGEOUT);
->          }
->  }
->
-> Perf result on snapdragon 888 with 8 cores by using zRAM
-> as the swap block device.
->
->  ~ # perf record taskset -c 4 ./a.out
->  [ perf record: Woken up 10 times to write data ]
->  [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
->  ~ # perf report
->  # To display the perf.data header info, please use --header/--header-only options.
->  # To display the perf.data header info, please use --header/--header-only options.
->  #
->  #
->  # Total Lost Samples: 0
->  #
->  # Samples: 60K of event 'cycles'
->  # Event count (approx.): 35706225414
->  #
->  # Overhead  Command  Shared Object      Symbol
->  # ........  .......  .................  .............................................................................
->  #
->     21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
->      8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
->      6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
->      6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
->      5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
->      3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
->      3.49%  a.out    [kernel.kallsyms]  [k] memset64
->      1.63%  a.out    [kernel.kallsyms]  [k] clear_page
->      1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
->      1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
->      1.23%  a.out    [kernel.kallsyms]  [k] xas_load
->      1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
->
-> ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
-> swapping in/out a page mapped by only one process. If the
-> page is mapped by multiple processes, typically, like more
-> than 100 on a phone, the overhead would be much higher as
-> we have to run tlb flush 100 times for one single page.
-> Plus, tlb flush overhead will increase with the number
-> of CPU cores due to the bad scalability of tlb shootdown
-> in HW, so those ARM64 servers should expect much higher
-> overhead.
->
-> Further perf annonate shows 95% cpu time of ptep_clear_flush
-> is actually used by the final dsb() to wait for the completion
-> of tlb flush. This provides us a very good chance to leverage
-> the existing batched tlb in kernel. The minimum modification
-> is that we only send async tlbi in the first stage and we send
-> dsb while we have to sync in the second stage.
->
-> With the above simplest micro benchmark, collapsed time to
-> finish the program decreases around 5%.
->
-> Typical collapsed time w/o patch:
->  ~ # time taskset -c 4 ./a.out
->  0.21user 14.34system 0:14.69elapsed
-> w/ patch:
->  ~ # time taskset -c 4 ./a.out
->  0.22user 13.45system 0:13.80elapsed
->
-> Also, Yicong Yang added the following observation.
-> 	Tested with benchmark in the commit on Kunpeng920 arm64 server,
-> 	observed an improvement around 12.5% with command
-> 	`time ./swap_bench`.
-> 		w/o		w/
-> 	real	0m13.460s	0m11.771s
-> 	user	0m0.248s	0m0.279s
-> 	sys	0m12.039s	0m11.458s
->
-> 	Originally it's noticed a 16.99% overhead of ptep_clear_flush()
-> 	which has been eliminated by this patch:
->
-> 	[root@localhost yang]# perf record -- ./swap_bench && perf report
-> 	[...]
-> 	16.99%  swap_bench  [kernel.kallsyms]  [k] ptep_clear_flush
->
-> It is tested on 4,8,128 CPU platforms and shows to be beneficial on
-> large systems but may not have improvement on small systems like on
-> a 4 CPU platform. So make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends
-> on CONFIG_EXPERT for this stage and make this disabled on systems
-> with less than 8 CPUs. User can modify this threshold according to
-> their own platforms by CONFIG_NR_CPUS_FOR_BATCHED_TLB.
+Thanks for reviewing.
 
-The commit log and the patch disagree on the name of the config option
-(CONFIG_NR_CPUS_FOR_BATCHED_TLB vs CONFIG_ARM64_NR_CPUS_FOR_BATCHED_TLB).
-
-But more importantly, I was wondering why this posting doesn't address
-Catalin's feedback [a] about using a runtime tunable. Maybe I missed the
-follow-up discussion.
-
-Thanks,
-Punit
-
-[a] https://lore.kernel.org/linux-mm/Y7xMhPTAwcUT4O6b@arm.com/
-
-> Also this patch improve the performance of page migration. Using pmbench
-> and tries to migrate the pages of pmbench between node 0 and node 1 for
-> 20 times, this patch decrease the time used more than 50% and saved the
-> time used by ptep_clear_flush().
+>> On riscv, the current crash kernel allocation logic is trying to
+>> allocate within 32bit addressible memory region by default, if
+>> failed, try to allocate without 4G restriction.
+>>
+>> In need of saving DMA zone memory while allocating a relatively large
+>> crash kernel region, allocating the reserved memory top down in
+>> high memory, without overlapping the DMA zone, is a mature solution.
+>> Here introduce the parameter option crashkernel=X,[high,low].
+>>
+>> One can reserve the crash kernel from high memory above DMA zone range
+>> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+>> below 4G with "crashkernel=X,low".
+>>
+>> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+>> ---
+>>   arch/riscv/kernel/setup.c |  5 ++++
+>>   arch/riscv/mm/init.c      | 63 ++++++++++++++++++++++++++++++++++++---
+>>   2 files changed, 64 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+>> index 5d3184cbf518..ea84e5047c23 100644
+>> --- a/arch/riscv/kernel/setup.c
+>> +++ b/arch/riscv/kernel/setup.c
+>> @@ -176,6 +176,11 @@ static void __init init_resources(void)
+>>   		if (ret < 0)
+>>   			goto error;
+>>   	}
+>> +	if (crashk_low_res.start != crashk_low_res.end) {
+>> +		ret = add_resource(&iomem_resource, &crashk_low_res);
+>> +		if (ret < 0)
+>> +			goto error;
+>> +	}
+>>   #endif
+>>   
+>>   #ifdef CONFIG_CRASH_DUMP
+>> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+>> index 478d6763a01a..b7708cc467fa 100644
+>> --- a/arch/riscv/mm/init.c
+>> +++ b/arch/riscv/mm/init.c
+>> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
+>>   }
+>>   #endif /* CONFIG_MMU */
+>>   
+>> +/* Reserve 128M low memory by default for swiotlb buffer */
+>> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
+>> +
+>> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+>> +{
+>> +	unsigned long long low_base;
+>> +
+>> +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
+>> +	if (!low_base) {
+>> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>> +		low_base, low_base + low_size, low_size >> 20);
+>> +
+>> +	crashk_low_res.start = low_base;
+>> +	crashk_low_res.end = low_base + low_size - 1;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   /*
+>>    * reserve_crashkernel() - reserves memory for crash kernel
+>>    *
+>> @@ -1163,6 +1185,7 @@ static void __init reserve_crashkernel(void)
+>>   {
+>>   	unsigned long long crash_base = 0;
+>>   	unsigned long long crash_size = 0;
+>> +	unsigned long long crash_low_size = 0;
+>>   	unsigned long search_start = memblock_start_of_DRAM();
+>>   	unsigned long search_end = memblock_end_of_DRAM();
+>>   
+>> @@ -1182,8 +1205,30 @@ static void __init reserve_crashkernel(void)
+>>   
+>>   	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>>   				&crash_size, &crash_base);
+>> -	if (ret || !crash_size)
+>> +	if (ret == -ENOENT) {
+>> +		/*
+>> +		 * crashkernel=X,[high,low] can be specified or not, but
+>> +		 * invalid value is not allowed.
+>> +		 */
+>> +		ret = parse_crashkernel_high(boot_command_line, 0, &crash_size, &crash_base);
+> I would add a local variable to assign boot_command_line to it just like
+> arm64 does. Then these lines could be shorter.
 >
-> This patch extends arch_tlbbatch_add_mm() to take an address of the
-> target page to support the feature on arm64. Also rename it to
-> arch_tlbbatch_add_pending() to better match its function since we
-> don't need to handle the mm on arm64 and add_mm is not proper.
-> add_pending will make sense to both as on x86 we're pending the
-> TLB flush operations while on arm64 we're pending the synchronize
-> operations.
->
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Nadav Amit <namit@vmware.com>
-> Cc: Mel Gorman <mgorman@suse.de>
-> Tested-by: Yicong Yang <yangyicong@hisilicon.com>
-> Tested-by: Xin Hao <xhao@linux.alibaba.com>
-> Tested-by: Punit Agrawal <punit.agrawal@bytedance.com>
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> Reviewed-by: Xin Hao <xhao@linux.alibaba.com>
-> Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  .../features/vm/TLB/arch-support.txt          |  2 +-
->  arch/arm64/Kconfig                            |  6 +++
->  arch/arm64/include/asm/tlbbatch.h             | 12 +++++
->  arch/arm64/include/asm/tlbflush.h             | 52 ++++++++++++++++++-
->  arch/x86/include/asm/tlbflush.h               |  5 +-
->  include/linux/mm_types_task.h                 |  4 +-
->  mm/rmap.c                                     | 12 +++--
->  7 files changed, 81 insertions(+), 12 deletions(-)
->  create mode 100644 arch/arm64/include/asm/tlbbatch.h
+> 	char *cmdline = boot_command_line;
+Agreed, I will clean this up later in next version.
+>> +		if (ret || !crash_size)
+>> +			return;
+>> +
+>> +		/*
+>> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
+>> +		 * is passed and high memory is reserved successful.
+>> +		 */
+>> +		ret = parse_crashkernel_low(boot_command_line, 0, &crash_low_size, &crash_base);
+>> +		if (ret == -ENOENT)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +		else if (ret)
+>> +			return;
+>> +
+>> +		search_start = dma32_phys_limit;
+>> +	} else if (ret || !crash_size) {
+>> +		/* Invalid argument value specified */
+>>   		return;
+>> +	}
+>>   
+>>   	crash_size = PAGE_ALIGN(crash_size);
+>>   
+>> @@ -1201,16 +1246,26 @@ static void __init reserve_crashkernel(void)
+>>   	 */
+>>   	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>>   					       search_start,
+>> -					       min(search_end, (unsigned long) SZ_4G));
+>> +					       min(search_end, (unsigned long)dma32_phys_limit));
+>>   	if (crash_base == 0) {
+> The above conditional check isn't right. If crashkernel=size@offset
+> specified, the reservation failure won't trigger retry. This seems to be
+> originally introduced by old commit, while this need be fixed firstly.
+
+Just a little curious about the rule to cope with this specific case. If 
+"crashkernel=size@offset" was passed
+
+but reserve failed, should try again to allocate in high memory, 
+regardless the specified size@offset,
+
+or just throw a warning and return? Since I noticed the current logic 
+here on Arm64 is to check if !fixed_base first
+
+before retrying.
 
 
-[...]
+Or have I missed anything else?
+
+>> -		/* Try again without restricting region to 32bit addressible memory */
+>> +		/* Try again above the region of 32bit addressible memory */
+>>   		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>> -						search_start, search_end);
+>> +						       max(search_start, (unsigned long)dma32_phys_limit),
+>> +						       search_end);
+>>   		if (crash_base == 0) {
+>>   			pr_warn("crashkernel: couldn't allocate %lldKB\n",
+>>   				crash_size >> 10);
+>>   			return;
+>>   		}
+>> +
+>> +		if (!crash_low_size)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +	}
+>> +
+>> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
+>> +	    crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>> +		memblock_phys_free(crash_base, crash_size);
+>> +		return;
+>>   	}
+>>   
+>>   	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
+>> -- 
+>> 2.31.1
+>>
+BR,
+
+Jiahao
 
