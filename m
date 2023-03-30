@@ -2,141 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E00C5C77B6D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 18:13:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C520AC6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 18:31:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjC3SNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 14:13:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44510 "EHLO
+        id S231315AbjC3SbK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 14:31:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230081AbjC3SNv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 14:13:51 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB6FEE18C
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 11:13:49 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id q19so16919243wrc.5
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 11:13:49 -0700 (PDT)
+        with ESMTP id S230019AbjC3SbJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 14:31:09 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0F2C2133
+        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 11:31:06 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id h9so20601816ljq.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 11:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares.net; s=google; t=1680200028;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2pcuoehiPvGyehUI4bF839lUv51fj3SAdGORffoe55w=;
-        b=AL19jyQDpXSIL97ebF8N6roZDjqqZ58JaDJ+a22kaBzvp0UeYTNwsP3ZrjU8naMj0V
-         PyfbKCnH4RN7ZGwsCHfoAL5WmWlRu2w5imZcn4+H8inw9ZdoNpx2Xlx8fHwauzBjpAtO
-         zsZog50xCUpJxXr9uq4YLZUXyFADB62kXqUbAx4glHPggEt9w9bGroTD4RgRX6a9mArR
-         fbyPr6Z4gm6CNzpCP/lcbyxcMqqC2E/3xCYCXOLwWrLRt8KkvWqZ6awi5ySj+ZwKj5Qs
-         WjXHFdJfcuVd3M36W8Lh0WsERMEAKn6lNkMcWIuI5aW6i92vpAMswIkcEUI+ymPFfU9h
-         BapQ==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680201065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y4QG32glT+tPHqBHPO/ahp4Rj/Y6Ok/1/jb66T0Ro+s=;
+        b=Qh8bK7i7hfJEM+1W1rQTmIoi2XDNoN9PWIpdbxIWkpGlQUUU9eImLC7wy5nuo3DzfN
+         yLLvaWPgAIxb2EyRzYunmxDmUDVS8nULxt8VddcXJEt0APRFPSyidKmu/hKICKNvyi4u
+         w70DWAHUVtSFLiYo6+9irFiYZLewPu3rkShiyfKyS+reTYaazmrIR7krCkkZm6N629wC
+         aVIbZztnw0jQx4DpJhnTFGeDqe1Mxs6H7EUiLFNymACzxrj/jUPeZQUCm9PG7ngfO7NI
+         jhetQus9nZezECvnMgw8kySj7hwy9GGBe4MOgr8wLpaiDL0src1x8+dl9obApepTIT6R
+         evhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680200028;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1680201065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2pcuoehiPvGyehUI4bF839lUv51fj3SAdGORffoe55w=;
-        b=Q9o9ChYfJ0C+fZAAx9hP9aqZz4+g1MNWfiLQNMW2Hk3VQ7HBlOW+t/ggCJ2frFZ2Zj
-         zq3MFPqJb4ZMi0C6zZT+uMAJWsb9F5IsjzJk8JA5NyByWvWDlK1tvM5lZA2mbbFL4kAq
-         ZwUliZK0fR8rJZ2TwgN1D2ZO2vEG26eIGweiqlejRN+u93LEENUJtd7dw3YHyyvjfkru
-         NYP5/zvXKXzWL1+IoUh9bWizVUXWWXEHCnsx3ysB0/wtvDtNj/rQTrhqR82oPIXq1WgB
-         N8UMPcNOrOFZUyhlA6XuSHJQs1PFzDOimnSCTTNKzaKw9kb1IYT7bb1s1W8y86WUCTtK
-         j7EA==
-X-Gm-Message-State: AAQBX9f1dME7+gvA0r/zuCIalAHnekt8mo6RsWAfGWQa6naDIwGB7WQp
-        xmdbFWIe8dyl0hQ7LWgmPlHU3A==
-X-Google-Smtp-Source: AKy350YzU7wPKjANBCuoa0d1SuYlj3kkszREhmdvT7pjdImaboEpN1UAurUNdi2TP/Voo5hlSVe9wQ==
-X-Received: by 2002:adf:cc8f:0:b0:2d8:cacd:797e with SMTP id p15-20020adfcc8f000000b002d8cacd797emr19190788wrj.10.1680200028130;
-        Thu, 30 Mar 2023 11:13:48 -0700 (PDT)
-Received: from vdi08.nix.tessares.net (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
-        by smtp.gmail.com with ESMTPSA id e18-20020a056000121200b002d24a188b64sm33459741wrx.112.2023.03.30.11.13.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 11:13:47 -0700 (PDT)
-From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-Date:   Thu, 30 Mar 2023 20:13:26 +0200
-Subject: [PATCH v3 4/4] checkpatch: check for misuse of the link tags
+        bh=y4QG32glT+tPHqBHPO/ahp4Rj/Y6Ok/1/jb66T0Ro+s=;
+        b=yClqj+aOVMFH0SYVDR0Auw56xn6O6fLEcan2w+e+sudXfSRjRRnApXIereymThvgOu
+         vxTdxJQV3dwVr3RDAY1Q+goFG7ysGnymzJ0YVtC8s5AjXOe3XrZNFMcqXjgCLfmvY26P
+         l/0HWJpJ9nzYJrSlmr2jUYAYbWzU5H+hSU4xRjAScuW91kNz/4eeFmXFcVsJI6UfEzP1
+         pk1RG2OMbNdUp3wmE71sSbNuB/fN4+J7KY0NW/UfDWhq+/AgmbQuMA1juWet9/B0aHpt
+         +Ma9XN49XchLLAV6FyCbCqxfX0janXXbYpyv4D+uwIL7rpViMvxTlBa6oaSICRaDYZSS
+         bgjQ==
+X-Gm-Message-State: AAQBX9fxwIPex0nEOufMwYZpSP+Q/LqBuFZsjqwOF/KuDodIZw3cyPL8
+        y4IUYYPN+U+IZ0y0DpDIIrtu0jSaVyl9yA5rWZ2KLA==
+X-Google-Smtp-Source: AKy350ac0Ym4n+b7VsgrP64Z2yOkhqsCxyYEAUlayK34y4u4/HjIP7opTmYIxOLRCt8DA9iOPeeG7EoKst5bN4EsmnE=
+X-Received: by 2002:a2e:9887:0:b0:298:72a8:c6c4 with SMTP id
+ b7-20020a2e9887000000b0029872a8c6c4mr7514253ljj.9.1680201065020; Thu, 30 Mar
+ 2023 11:31:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230314-doc-checkpatch-closes-tag-v3-4-d1bdcf31c71c@tessares.net>
-References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?utf-8?q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+References: <20230221190858.3159617-1-evan@rivosinc.com> <20230221190858.3159617-3-evan@rivosinc.com>
+ <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com>
+In-Reply-To: <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Thu, 30 Mar 2023 11:30:29 -0700
+Message-ID: <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Conor Dooley <conor@kernel.org>, slewis@rivosinc.com,
+        Vineet Gupta <vineetg@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev,
-        Matthieu Baerts <matthieu.baerts@tessares.net>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1260;
- i=matthieu.baerts@tessares.net; h=from:subject:message-id;
- bh=4mEcP5uVl3gASvU4Xov+GjgFA2y/DSnWoQCQNXocbFA=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkJdFWAiRwpGTmZ3UksCrrvVVsadaDQyEH6ttlf
- xxeioGUWaiJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZCXRVgAKCRD2t4JPQmmg
- c+FYD/0QL8eSGtX66aGfn4VRo4nKjkBYeiz17dcwDxp+NOHSIrjUHDK2Qeq8pz+BpJIrV67/bNJ
- 8MhzhaNILYp+AjzLuRkW84TbGMi7o7LdOiLYZxo/Ija+64oRf4vvmftrxrUJwu8uAy947w1yvHk
- x0bmZIsBKQ+9hgXQ6wWuYYPbeyQwPp2FSyzO6N/OQr/0aSgs47n2IY02IU6QsDi3e2lzdIMIFI2
- W2LXk4KVDgiXD1Veoza94/lVWLw/uYSa2C1lZhm1pqTNOadKwrgtedxsgaK1rN901KhsA5fKnkt
- HMMfbu72dNEp9LCBO72pHW99u0ejQrk96QzZF045hPU0MRR5oZ/sKdol+NKmLvIQDAFsaU1eHxB
- xHeXPSfskzfbSmNCfu2iXbH5Xrn7+qcXmL1LlDm5hsGye9N6cKGqtg6/6Ri6+ydi103F2QohLyT
- HVZA/QymXSExliDxXnHo8nYS1eQGXMwIgrJI93/qUtmoKqQyqqPtmdI/EfW1K13d/dg3Y0NwqA7
- lZoqqRjZR8/TtAUbRagTAYdQc4gQrsMwTDgr8aRtKKunFHJJN64Jj0L1QdPo+3YY35qpGXdpdy1
- hBzhevHe0CZPzD/KQL3v/RkD+Bw90Sh+fblGKQFOQYlO9n3Gsq4EG00rbtlgzf45L33chHqdYOj
- fIHOulDCJF2UKCQ==
-X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
+        Celeste Liu <coelacanthus@outlook.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        guoren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Niklas Cassel <niklas.cassel@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Link:" and "Closes:" tags have to be used with public URLs.
+On Thu, Feb 23, 2023 at 2:06=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Tue, Feb 21, 2023, at 20:08, Evan Green wrote:
+> > We don't have enough space for these all in ELF_HWCAP{,2} and there's n=
+o
+> > system call that quite does this, so let's just provide an arch-specifi=
+c
+> > one to probe for hardware capabilities.  This currently just provides
+> > m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
+> > the future.
+> >
+> > Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > Signed-off-by: Evan Green <evan@rivosinc.com>
+>
+> I'm still skeptical about the need for a custom syscall interface here.
+> I had not looked at the interface so far, but there are a few things
+> that stick out:
+>
+> > +RISC-V Hardware Probing Interface
+> > +---------------------------------
+> > +
+> > +The RISC-V hardware probing interface is based around a single
+> > syscall, which
+> > +is defined in <asm/hwprobe.h>::
+> > +
+> > +    struct riscv_hwprobe {
+> > +        __s64 key;
+> > +        __u64 value;
+> > +    };
+>
+> The way this is defined, the kernel will always have to know
+> about the specific set of features, it can't just forward
+> unknown features to user space after probing them from an
+> architectured hardware interface or from DT.
 
-It is difficult to make sure the link is public but at least we can
-verify the tag is followed by 'http(s):'.
+You're correct that this interface wasn't intended to have usermode
+come in with augmented data or additional key/value pairs. This was
+purely meant to provide access to the kernel's repository of
+architectural and microarchitectural details. If usermode wants to
+provide extra info in this same form, maybe they could wrap this
+interface.
 
-With that, we avoid such a tag that is not allowed [1]:
+>
+> If 'key' is just an enumerated value with a small number of
+> possible values, I don't see anything wrong with using elf
+> aux data. I understand it's hard to know how many keys
+> might be needed in the long run, from the way you define
+> the key/value pairs here, I would expect it to have a lot
+> of the same limitations that the aux data has, except for
+> a few bytes to be copied.
 
-  Closes: <number>
+Correct, this makes allocating bits out of here cheaper by not
+requiring that we actively copy them into every new process forever.
+You're right that the aux vector would work as well, but the thinking
+behind this series was that an interface like this might be better for
+an architecture as extensible as risc-v.
 
-Link: https://lore.kernel.org/linux-doc/CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com/ [1]
-Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
----
-v3:
-- new patch addressing Linus' concerns.
----
- scripts/checkpatch.pl | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+>
+> > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
+> > pair_count,
+> > +                           size_t cpu_count, cpu_set_t *cpus,
+> > +                           unsigned long flags);
+>
+> The cpu set argument worries me more: there should never be a
+> need to optimize for broken hardware that has an asymmetric set
+> of features. Just let the kernel figure out the minimum set
+> of features that works across all CPUs and report that like we
+> do with HWCAP. If there is a SoC that is so broken that it has
+> important features on a subset of cores that some user might
+> actually want to rely on, then have them go through the slow
+> sysfs interface for probing the CPUs indidually, but don't make
+> the broken case easier at the expense of normal users that
+> run on working hardware.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index ca58c734ff22..e3cafd2cb77a 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3292,6 +3292,17 @@ sub process {
- 			}
- 		}
- 
-+# Check for misuse of the link tags
-+		if ($in_commit_log &&
-+		    $line =~ /^\s*(\w+:)\s*(\S+)/) {
-+			my $tag = $1;
-+			my $value = $2;
-+			if ($tag =~ /^$link_tags_search$/ && $value !~ /^https?:/) {
-+				WARN("COMMIT_LOG_WRONG_LINK",
-+				     "'$tag' should be followed by a public http(s) link\n" . $herecurr);
-+			}
-+		}
-+
- # Check for lines starting with a #
- 		if ($in_commit_log && $line =~ /^#/) {
- 			if (WARN("COMMIT_COMMENT_SYMBOL",
+I'm not so sure. While I agree with you for major classes of features
+(eg one CPU has floating point support but another does not), I expect
+these bits to contain more subtle details as well, which might vary
+across asymmetric implementations without breaking ABI compatibility
+per-se. Maybe some vendor has implemented exotic video decoding
+acceleration instructions that only work on the big core. Or maybe the
+big cores support v3.1 of some extension (where certain things run
+faster), but the little cores only have v3.0, where it's a little
+slower. Certain apps would likely want to know these things so they
+can allocate their work optimally across cores.
 
--- 
-2.39.2
+>
+> > +asmlinkage long sys_riscv_hwprobe(uintptr_t, uintptr_t, uintptr_t,
+> > uintptr_t,
+> > +                               uintptr_t, uintptr_t);
+>
+> Why 'uintptr_t' rather than the correct type?
 
+Fixed.
+-Evan
