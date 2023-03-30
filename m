@@ -2,134 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5462BC6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 09:12:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 801B8C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 09:17:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbjC3JMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 05:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40148 "EHLO
+        id S229675AbjC3JR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 05:17:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229862AbjC3JMW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 05:12:22 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0EE67AAB;
-        Thu, 30 Mar 2023 02:12:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1680167531; x=1711703531;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ro+17oDK7rnlBrMsXFzotd23YydUQ9691qY+Ptq0G7I=;
-  b=tVyVk0/LVO0WPg+UwKLeKbN1fDkacYdBN5JyjboazW3UTiUs5i7/+LDn
-   eAl2qdeKqrpNpAn6dAviszNpc+ZWWsG+dh0yYFiggnb535NyhTIRntZ3B
-   5wgtihHx2ZpluAMTqzk1+vGrw4iS8FBopA/CSj0VY5e43lyoX3z5BD80s
-   CK4ZtsJ3/fFvq6su9xfh5KQIIsn1J0xnjgDcYvm0N+Yvx1sxFQo6uza4D
-   ZaRdHPcUAiYw767tG9YFxUuqu7VK1NXEjHWLSdL6eAbxIHOX/QYt9BE2g
-   lV0+8wN+XwPjZsM2AV6R4KvzAd9Zi1ILL7xZslXCKOenCmTKpC2DroZpY
-   g==;
-X-IronPort-AV: E=Sophos;i="5.98,303,1673938800"; 
-   d="asc'?scan'208";a="218661930"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 30 Mar 2023 02:12:10 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 30 Mar 2023 02:12:10 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Thu, 30 Mar 2023 02:12:07 -0700
-Date:   Thu, 30 Mar 2023 10:11:53 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC:     <linux-riscv@lists.infradead.org>, <conor@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-Message-ID: <b5fba6b3-177c-4325-905a-8f9f633a592a@spud>
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
- <CANiq72=i9je2864iTvZBFnhVLhF7Cema7EPCcdWOJ3mr62SqDg@mail.gmail.com>
- <a6220e52-9934-422b-9b05-95705b8fd684@spud>
+        with ESMTP id S229961AbjC3JRG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 05:17:06 -0400
+Received: from smtp28.bhosted.nl (smtp28.bhosted.nl [IPv6:2a02:9e0:8000::40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDEA77EF8
+        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 02:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=protonic.nl; s=202111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+         from;
+        bh=PfPZKp62ZUfMvI3fqeh72mzhaSf7vvFEI18bulM/FrI=;
+        b=gTE0TsMBwKVLxEbNOrzWrtH71pn1o+UlfqzsRG8/3UmX0iJ2rWvmntfY4g8DsNe7LPrmtWZCcxq2O
+         zIS7wl5qQ852E6qOJRU+hcwEd//h4U6pjI7bLhG9Rj32t08tD1R0/AmRTA7wwKnQKCoz3UvPRTAoGb
+         jj6f82uZnheU/dwxN4DGcqqghUd2M4haooD0aZYGv6yPx09z43PFAV4+kiOeNs/sHd8FHuk4auFjBc
+         xcI7l29bBIq1Tml+ALIp2IxGDVGDX/59XLVquMFgrWvniwOmnXwQHeCQmtuczfWENIACeTeh/lxuGZ
+         zIn9QB9TbMvPlxwRuFf6S08xUnNVOZw==
+X-MSG-ID: 85abb958-cedb-11ed-a150-0050569d11ae
+From:   Roan van Dijk <roan@protonic.nl>
+To:     corbet@lwn.net
+Cc:     mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        linux-doc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Roan van Dijk <roan@protonic.nl>
+Subject: [PATCH v2] ARM: stm32: add initial documentation for STM32MP151
+Date:   Thu, 30 Mar 2023 11:16:13 +0200
+Message-Id: <20230330091613.1445734-1-roan@protonic.nl>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="3sMGWrE3WbodPTsC"
-Content-Disposition: inline
-In-Reply-To: <a6220e52-9934-422b-9b05-95705b8fd684@spud>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---3sMGWrE3WbodPTsC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This patch adds initial documentation of STM32MP151 microprocessor (MPU)
+based on Arm Cortex-A7.
 
-On Thu, Mar 30, 2023 at 09:23:45AM +0100, Conor Dooley wrote:
-> On Tue, Mar 07, 2023 at 12:07:29PM +0100, Miguel Ojeda wrote:
+Signed-off-by: Roan van Dijk <roan@protonic.nl>
+---
 
-> > By the way, like for the Arm patch set, if you end up doing a v2,
-> > could you please add the `BINDGEN_TARGET_*` in `rust/Makefile` (GCC
-> > builds are really experimental, but since they are there anyway, it is
-> > best to be consistent and add it).
+v2: 
+ - Adds stm32mp151 to index.rst
 
-Hmm, so I came across this commit while looking at that:
-https://github.com/Rust-for-Linux/linux/commit/cfc17fed52b9585e2f19e2381bfb7094561b8027a
-(rust: bindgen: ignore RISC-V extensions for GCC builds)
+ Documentation/arm/index.rst                   |  1 +
+ .../arm/stm32/stm32mp151-overview.rst         | 36 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 Documentation/arm/stm32/stm32mp151-overview.rst
 
-I don't want to add even more workarounds for this sort of thing,
-especially as in this case it is outside of arch/riscv.
-The extension stuff when mixing compilers is such a massive pain & given
-this one requires Rust it's even less likely to be tested when someone
-comes along and adds some additional extension support that appears in
--march :(
+diff --git a/Documentation/arm/index.rst b/Documentation/arm/index.rst
+index ae42fe886f0d..056ac11372af 100644
+--- a/Documentation/arm/index.rst
++++ b/Documentation/arm/index.rst
+@@ -58,6 +58,7 @@ SoC-specific documents
+    stm32/stm32f769-overview
+    stm32/stm32f429-overview
+    stm32/stm32mp13-overview
++   stm32/stm32mp151-overview
+    stm32/stm32mp157-overview
+    stm32/stm32-dma-mdma-chaining
+ 
+diff --git a/Documentation/arm/stm32/stm32mp151-overview.rst b/Documentation/arm/stm32/stm32mp151-overview.rst
+new file mode 100644
+index 000000000000..f42a2ac309c0
+--- /dev/null
++++ b/Documentation/arm/stm32/stm32mp151-overview.rst
+@@ -0,0 +1,36 @@
++===================
++STM32MP151 Overview
++===================
++
++Introduction
++------------
++
++The STM32MP151 is a Cortex-A MPU aimed at various applications.
++It features:
++
++- Single Cortex-A7 application core
++- Standard memories interface support
++- Standard connectivity, widely inherited from the STM32 MCU family
++- Comprehensive security support
++
++More details:
++
++- Cortex-A7 core running up to @800MHz
++- FMC controller to connect SDRAM, NOR and NAND memories
++- QSPI
++- SD/MMC/SDIO support
++- Ethernet controller
++- ADC/DAC
++- USB EHCI/OHCI controllers
++- USB OTG
++- I2C, SPI busses support
++- Several general purpose timers
++- Serial Audio interface
++- LCD-TFT controller
++- DCMIPP
++- SPDIFRX
++- DFSDM
++
++:Authors:
++
++- Roan van Dijk <roan@protonic.nl>
+-- 
+2.37.2
 
-I'd rather do this in the RISC-V Makefile so that it does not get
-forgotten.
-
-If my understanding of bindgen is correct, we don't actually need to be
-honest to it about what extensions the rest of the kernel is compiled
-with, only make sure that it is not called with arguments it does not
-understand?
-
-| bindgen_c_flags_patsubst1 = $(patsubst -march=rv%_zicbom,-march=rv%,$(bindgen_c_flags_patsubst2))
-
-This one is no longer needed as of 9a5c09dd9701 ("Merge patch series
-"Remove toolchain dependencies for Zicbom"").
-
-| bindgen_c_flags_patsubst  = $(patsubst -march=rv%_zicsr_zifencei,-march=rv%,$(bindgen_c_flags_patsubst1))
-
-Oh and clang-17 is going to support both of these, and Nathan and I
-already spent a bunch of time fixing the fallout from that!
-It still functions correctly without having them passed, but I have
-heard requiring these may become the default at some point too.
-What's done here may end up needing to be dynamic, but that bridge can be
-crossed if/when we come to it.
-
-What version of GCC do I need to replicate this? I can build tip-of-tree
-gcc if needs be.
-
-Cheers,
-Conor.
-
---3sMGWrE3WbodPTsC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCVSWQAKCRB4tDGHoIJi
-0qpsAQD93N6ZELaSuCLnFRRrVX6KqM1buvhJrxpnIPixxEBkYgEAtdX2bVK2gcK0
-Nb8PM/km+TWTR+ljihbHfIH7vEsl0AE=
-=NGwF
------END PGP SIGNATURE-----
-
---3sMGWrE3WbodPTsC--
