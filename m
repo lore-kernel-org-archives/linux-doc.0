@@ -2,110 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF000C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 17:33:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F66C77B60
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 18:13:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbjC3Rdf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 13:33:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        id S229581AbjC3SNs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 14:13:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232426AbjC3Rdc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 13:33:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807AEEF89
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 10:33:30 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phw9M-0002bv-87; Thu, 30 Mar 2023 19:33:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phw9L-007ohf-6b; Thu, 30 Mar 2023 19:33:23 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phw9K-009FWH-JA; Thu, 30 Mar 2023 19:33:22 +0200
-Date:   Thu, 30 Mar 2023 19:33:19 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v4] clk: expand clk_ignore_unused mechanism to keep only
- a few clks on
-Message-ID: <20230330173319.x4w2yd2bbk5hy2hb@pengutronix.de>
-References: <20221026151812.1042052-1-u.kleine-koenig@pengutronix.de>
- <4d8d412a33a7d63f2ffe6a13194375ed.sboyd@kernel.org>
- <20230329204632.lsiiqf42hrwmn6xm@pengutronix.de>
- <2f4967f2a079e23b2b8a6013012c66e0.sboyd@kernel.org>
- <20230330060601.6mo7b4ecd2sk5mdr@pengutronix.de>
- <20230330152617.6zj5llx5pf6mlv2t@mercury.elektranox.org>
+        with ESMTP id S229552AbjC3SNr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 14:13:47 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF3CD516
+        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 11:13:45 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id e18so19989910wra.9
+        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 11:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tessares.net; s=google; t=1680200024;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8rBDKsgZ0c2Ea0fhfHATR3kgGwH9tv06KM69SIB7yXs=;
+        b=bBsrNAMNDg2hmM1g5ZjEmgb4OtN2iPjzRQAn2q9/9UE+XsxVYH+8x3ewcsS2i1Cqqs
+         tddFU2LH+8uz4LEejwQv6lqh2kRwiKseLyLPvzhScAjC1bntXWJijgiHsMAmNYXQ52lt
+         yMpwvxwgZABQthiThFH0dG3QB8/iWbxFNFhhHUP/PJ6qqbI30R4RSMjVGT6dT/6YkeGs
+         vLxjOlIgEioRIZ/9rNzkjMm4rXpjv215vNUhXMZsxXcw/Z4UPSaJ4Ofkqo5hvz5vZ1V0
+         ZExrnBlTPNyJrSV3TjJYMc7BLf4K1Pj+ydhxizIWYG8n7DjsyMFKRgq0vjBpEhYnhnPJ
+         0bIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680200024;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8rBDKsgZ0c2Ea0fhfHATR3kgGwH9tv06KM69SIB7yXs=;
+        b=r28aJTggFs35jUXwEH0e470nPU4ZEn0nLim4FREKZllZwBCT+hJj4QnrU1p5TXMuTw
+         I29/TsQeUvdYAnYdRaK5ofw7I0DxxQpDSnUkQVPJTsqhDuUAvQI54CbCRedKb40sawhP
+         z5DyvRkDsURHoRL7OG3laxxrA18nXdrOGn5lSjRqx7b1N8V6AakZK1p4KWl8N2yetuno
+         Uiaj3tvvS14DBelnb+sff11v9S2Ttlnq/09yIhuFGDC7l0qP1rAz2ZiM7JRIi7ltMxoX
+         kYU3H1HGyvBidHsxDSBsGjuiAFlWXdnboOY2ndAoT3FvnwDAO/iRmtSf78cJLdOFRFzq
+         zhEw==
+X-Gm-Message-State: AAQBX9cCQddhq56uAxeo6B8IKlPjQMz6r0W8zHlqAT01gSocPwSH7QD4
+        w5mDHxgLU6yUzdk3l555B9Mjkg==
+X-Google-Smtp-Source: AKy350bpf17pIYUtctW1UmQYRPMkHHfIjNcaEq9b/wtBb4XXFWdqt7apDJceS74tZ2toNjiTf4y38A==
+X-Received: by 2002:adf:fb0d:0:b0:2e5:17a4:7d65 with SMTP id c13-20020adffb0d000000b002e517a47d65mr1582583wrr.39.1680200023887;
+        Thu, 30 Mar 2023 11:13:43 -0700 (PDT)
+Received: from vdi08.nix.tessares.net (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
+        by smtp.gmail.com with ESMTPSA id e18-20020a056000121200b002d24a188b64sm33459741wrx.112.2023.03.30.11.13.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 11:13:43 -0700 (PDT)
+From:   Matthieu Baerts <matthieu.baerts@tessares.net>
+Subject: [PATCH v3 0/4] docs & checkpatch: allow Closes tags with links
+Date:   Thu, 30 Mar 2023 20:13:22 +0200
+Message-Id: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cfdydxwxw4zjvqxx"
-Content-Disposition: inline
-In-Reply-To: <20230330152617.6zj5llx5pf6mlv2t@mercury.elektranox.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAELRJWQC/42OS67CMAxFt4IyxlAn/cAbsQ/EwEldEsFLURwqE
+ OreSRkyYnh85XPvSwmnwKL+Vi+VeAoSxljArFfKeYpnhtAXVrrSpjJYQz86cJ7d5UbZeXDXUVg
+ g0xmwM2ibrmlai6r8WxIGmyg6vxiuId5l+0+SOS3xLfEQHp/q46mwD5LH9PwsmXC5/lI6IVSAd
+ meqTvOe9nTILEKJZRM5q0U86Z9lusiGmmrsdi0Obf8lm+f5DeOHyqExAQAA
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        =?utf-8?q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev,
+        Matthieu Baerts <matthieu.baerts@tessares.net>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3054;
+ i=matthieu.baerts@tessares.net; h=from:subject:message-id;
+ bh=P6AoCjPKkmZgS1nv0s1/YpaDCkuDnCn+pulVbPGi3fU=;
+ b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkJdFWd6L1EDibjVLoRL8MVbW7B74nKBeqWTkWV
+ jLorHcm6OaJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZCXRVgAKCRD2t4JPQmmg
+ cwnXD/9PUHGS5kFofgqXyvh4xymo63lE27hUiy16eFTdsOmc5RBXX1wJRyv+p4K3iJOs1kK7t1B
+ 6iHAQT9+YDDdwjKgMHHUM3P6RG14+PXH3taTgL8FPWeM9CCHbWhmT7t1WF102Z4sFH4FiYfoehc
+ PyUKmGHUnkrITvb28LN5r7wdxTqiphQIS72Ed8R+C3AfahWr9poP0GiMTrWMNPKmI70VTT2Wh7N
+ PGvQ4io348yw80+QT3KuXkxE/cgG/5SlWYkOev8Q1QpKTcO3tvtG4anudQ+J06YSEQg4DDYXzk8
+ tvQaQV8k+2E9f7SqbOu0nXfUIr8RPjfAOpz901UXTs6EIdcqmxqJqS1sHlO0Chrc1YbHOZYK0Al
+ HgtoCk31vLqtyv+p983bnY5oTRaDpoU2AAY2BujS3WKs49KcN7HIBSXvkFyOpRF2PP9BzQCc6CC
+ zDwWuLB8p/Wk8+8fe6/Dxca0/WejYdwkZAeyH/I90tBvl/qgTyCw2EeOCyG4lB8G9aZiaYxSeum
+ R7a3LKBY64/c6YlQiO8a157JTWFsEsmComat6PC59/RzpCoHb70KlH73dGHS2le+KPPISCoVw0d
+ xIP2thgk9hRIAuWniP/I2vE8hEGFxtEkZ7+NhVwavemfbe+a8L/70qilEcVBuEFm0fMswWWHRzY
+ DkeoZYcleOGd2ZQ==
+X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
+followed by a link [1]. It also complains if a "Reported-by:" tag is
+followed by a "Closes:" one [2].
 
---cfdydxwxw4zjvqxx
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As detailed in the first patch, this "Closes:" tag is used for a bit of
+time, mainly by DRM and MPTCP subsystems. It is used by some bug
+trackers to automate the closure of issues when a patch is accepted.
+It is even planned to use this tag with bugzilla.kernel.org [3].
 
-Hello Sebastian,
+The first patch updates the documentation to explain what is this
+"Closes:" tag and how/when to use it. The second patch modifies
+checkpatch.pl to stop complaining about it.
 
-On Thu, Mar 30, 2023 at 05:26:17PM +0200, Sebastian Reichel wrote:
-> > > In that case it sounds like you want to compile the kernel with the
-> > > support for enabling clks from debugfs. Can you use that?
-> >=20
-> > In some of the cases that might work. Unless for example the problem
-> > makes the kernel fail to boot or the device is broken when the clk was
-> > disabled and reenable doesn't help?!
->=20
-> I recently debugged a similar issue like this:
->=20
-> 1. build kernel with CLOCK_ALLOW_WRITE_DEBUGFS
-> 2. boot with clk_ignore_unused, so clocks stay enabled
-> 3. disable clocks via sysfs:
->    echo 1 > /sys/kernel/debug/clk/${CLK}/clk_prepare_enable
->    echo 0 > /sys/kernel/debug/clk/${CLK}/clk_prepare_enable
-> 4. check if peripheral is still ok
-> 5. repeat step 3 with the next 'interesting' clock
+The DRM maintainers and their mailing list have been added in Cc as they
+are probably interested by these two patches as well.
 
-Ah, that makes sense. Thanks.
+[1] https://lore.kernel.org/all/3b036087d80b8c0e07a46a1dbaaf4ad0d018f8d5.1674217480.git.linux@leemhuis.info/
+[2] https://lore.kernel.org/all/bb5dfd55ea2026303ab2296f4a6df3da7dd64006.1674217480.git.linux@leemhuis.info/
+[3] https://lore.kernel.org/linux-doc/20230315181205.f3av7h6owqzzw64p@meerkat.local/
 
-With that I cannot imagine a scenario that I can only debug with
-clk_ignore_unused=3Dn. So let's drop my patch.
+Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
+---
+Note: After having re-read the comments from the v1, it is still unclear
+to me if this "Closes:" can be accepted or not. But because it seems
+that the future Bugzilla bot for kernel.org and regzbot would like to
+use it as well, I'm sending here new versions. I'm sorry if I
+misunderstood the comments from v1. Please tell me if I did.
 
-Best regards
-Uwe
+Changes in v3:
+- Patch 1/4 now allow using the "Closes" tag with any kind of bug
+  reports, as long as the link is public. (Thorsten)
+- The former patch 2/2 has been split in two: first to use a list for
+  the different "link" tags (Joe). Then to allow the 'Closes' tag.
+- A new patch has been added to let checkpatch.pl checking if "Closes"
+  and "Links" are used with a URL.
+- Link to v2: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Changes in v2:
+- The text on patch 1/2 has been reworked thanks to Jon, Bagas and
+  Thorsten. See the individual changelog on the patch for more details.
+- Private bug trackers and invalid URLs are clearly marked as forbidden
+  to avoid being misused. (Linus)
+- Rebased on top of Linus' repo.
+- Link to v1: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net
 
---cfdydxwxw4zjvqxx
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+Matthieu Baerts (4):
+      docs: process: allow Closes tags with links
+      checkpatch: use a list of "link" tags
+      checkpatch: allow Closes tags with links
+      checkpatch: check for misuse of the link tags
 
------BEGIN PGP SIGNATURE-----
+ Documentation/process/5.Posting.rst          | 10 +++++++
+ Documentation/process/submitting-patches.rst | 10 +++++++
+ scripts/checkpatch.pl                        | 43 ++++++++++++++++++++++------
+ 3 files changed, 55 insertions(+), 8 deletions(-)
+---
+base-commit: ffe78bbd512166e0ef1cc4858010b128c510ed7d
+change-id: 20230314-doc-checkpatch-closes-tag-1731b57556b1
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQlx94ACgkQj4D7WH0S
-/k7cCAf+MHsYzxvenAAIdoLCJYxPpxjV5k6YCwYkEVtAY8G7zsNnkoXUH1dSS+Fd
-nfIrOQWMRz/6V+Am+yVG/BKElQB3smN7jZ/DEpAXJWtV9naHWncQ0geMzg79RJ+8
-TuabL605yjk41yc7J+IiP4EzhUv/ZeR+QggL7GK8IIRm8Mhaa33b/znCX9zjUViS
-sSqs4jp2JO/DBnj37VO3GvUpr1xXHAq4nF0BPDL6UUvEMTNKf6uY0OTxtVgXtZIT
-GJquOoCtzcMhXw71kB7DpE9bH0G0OPOKAXwM9PeS2nISflGDqsrE23QlL9MQjYSO
-Ss73bBb1igE8VUBF/9qYlJ2RPr40Xg==
-=OWZG
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Matthieu Baerts <matthieu.baerts@tessares.net>
 
---cfdydxwxw4zjvqxx--
