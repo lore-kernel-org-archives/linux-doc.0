@@ -2,149 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04430C77B60
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 15:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E87EC77B62
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 15:46:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbjC3P2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 11:28:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
+        id S233314AbjC3Pq3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 11:46:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233022AbjC3P1y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 11:27:54 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92778C679;
-        Thu, 30 Mar 2023 08:27:25 -0700 (PDT)
-Received: from mercury (dyndsl-091-248-191-116.ewe-ip-backbone.de [91.248.191.116])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B398866030CD;
-        Thu, 30 Mar 2023 16:26:20 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1680189980;
-        bh=b8BFbDxlmYytLZ0QnDA04VtQavFxFlJBUUjl2Zq+y4k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WgcabsnyEs+YRnB9DrSuVJG76rhjme+YMIeghLJUXySMkMRbTlkRaU88/Y1tAJsZv
-         hsIPDR/ddOO3WdZzFLpppQWN0xVyp1gwn3k5EEp7m7FAHMEsLEGOoOWMlqK1WBSJ5p
-         t+lbvrwqstI7vMt4eZss8GEr06/Vt4KVf7CRwcCtetFoztOsjW/1nF/4Av9qsu7SCS
-         m4nB6SXSnaSpEgBclRmHBWu/CLNjHQvGkKh3I877viqoLNjgqRsat2++KP7QKb0PPe
-         bU0TbO/ej0xYD713PXy2mOJEADsSCNAZfilphQ5LtS7J8p+jidgJo1Ov4pU6VTJnGn
-         fq6UU7kG8/ewA==
-Received: by mercury (Postfix, from userid 1000)
-        id AC0301062717; Thu, 30 Mar 2023 17:26:17 +0200 (CEST)
-Date:   Thu, 30 Mar 2023 17:26:17 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Stephen Boyd <sboyd@kernel.org>, linux-doc@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v4] clk: expand clk_ignore_unused mechanism to keep only
- a few clks on
-Message-ID: <20230330152617.6zj5llx5pf6mlv2t@mercury.elektranox.org>
-References: <20221026151812.1042052-1-u.kleine-koenig@pengutronix.de>
- <4d8d412a33a7d63f2ffe6a13194375ed.sboyd@kernel.org>
- <20230329204632.lsiiqf42hrwmn6xm@pengutronix.de>
- <2f4967f2a079e23b2b8a6013012c66e0.sboyd@kernel.org>
- <20230330060601.6mo7b4ecd2sk5mdr@pengutronix.de>
+        with ESMTP id S233269AbjC3Pq1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 11:46:27 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75BFD65AB
+        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 08:45:59 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id l27so19567092wrb.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 08:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1680191147; x=1682783147;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Bt3Z+HMoJYIzkmSX3sH1ZTn84Gu0acDcqEVk57vmUoI=;
+        b=3D+C33AbHdSHXYv18ienRAtfdFpzZ3HGGjwnhBgBnkBxOVCdiOOmIxbIs/A17m2jjx
+         Amxp6qXtSLzSwG+IBCtWr+XITprahLzidhD5x+1k35lI2fRsH//KKruBlWHqBrtC5MpQ
+         uQiVV3e/1ePh2wp3gdy707KSaKtT8k/xcbSr27TaYEKSJzlu+XfqCc6Cq80DkXhRMZxD
+         zFrLdIFowEVg1uhzw44jt0ghV6gngV0M5ySA/OKM/ZSqNwT4TqXNRi5/5IJWWZcEzvj+
+         4RiCBQ35FcioVLKonv7WSjsVFS60QuPyBvgdtjjQ7IroBlfsv37Hv9EwP0/4/B/hb4ZA
+         /LAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680191147; x=1682783147;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bt3Z+HMoJYIzkmSX3sH1ZTn84Gu0acDcqEVk57vmUoI=;
+        b=x8A71+i5nPxZJ696vg++eJ0G3W6utqInw5TXEjam5Zaw0OBVrd21qLhVv0EdkpeGMu
+         /eVT0WBDDEnN+pWS7qOcYxtYlIua0J10qkeSfJKKop32LV5CrL4OChcKYvSzz+EjijOS
+         ezsyssV432A7+m4eTv+oJr2mNFX84CvyVfbADKEtHmo2ot5rWyUjhLOIjb24H+hWKpYp
+         pUAhiF6INEYgMMyEp3FlqO6rjJuri1X2k8XxnN2ju/lykzvRF7WxaCEvNiJyEuSNZoFH
+         Q+64UZyqhM2T+uNviQJlz7cpZj34twBtzNigbhIUplgc6W2TMUAVbfxKCB67QWa0dljN
+         qpdA==
+X-Gm-Message-State: AAQBX9cYh14aJ5A+YV2OR1ppMwZHqR9nwkQH1BF5tCrPmPNF36Y486ug
+        G7DRMAQx5Ky7oS5//0QkWbKPYwFI72QGPS7GXKA=
+X-Google-Smtp-Source: AKy350aTnQVJ29GM9xhQgheOavkMe1pxyqllfaF/IZQFD2jWnj0+YK6CpqAFqB/fJBS71FuSwSdJkw==
+X-Received: by 2002:a05:6000:1044:b0:2dd:a3:c2e8 with SMTP id c4-20020a056000104400b002dd00a3c2e8mr18562410wrx.44.1680191146970;
+        Thu, 30 Mar 2023 08:45:46 -0700 (PDT)
+Received: from [192.168.1.70] (151.31.102.84.rev.sfr.net. [84.102.31.151])
+        by smtp.gmail.com with ESMTPSA id p10-20020a056000018a00b002c3f9404c45sm33560000wrx.7.2023.03.30.08.45.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Mar 2023 08:45:46 -0700 (PDT)
+Message-ID: <68fb2d6f-9434-7bcd-0f13-2132612888e5@baylibre.com>
+Date:   Thu, 30 Mar 2023 17:45:44 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4t4y27tmdb2m2ofs"
-Content-Disposition: inline
-In-Reply-To: <20230330060601.6mo7b4ecd2sk5mdr@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v5 4/4] misc: tps6594-pfsm: Add driver for TI TPS6594 PFSM
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net, arnd@arndb.de,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
+        yi.l.liu@intel.com, jgg@ziepe.ca, razor@blackwall.org,
+        stephen@networkplumber.org, prabhakar.csengg@gmail.com,
+        contact@emersion.fr, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
+        jneanne@baylibre.com
+References: <20230330082006.11216-1-jpanis@baylibre.com>
+ <20230330082006.11216-5-jpanis@baylibre.com> <ZCVJv-erahM_Jdug@kroah.com>
+From:   Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <ZCVJv-erahM_Jdug@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---4t4y27tmdb2m2ofs
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On 3/30/23 10:35, Greg KH wrote:
+> On Thu, Mar 30, 2023 at 10:20:06AM +0200, Julien Panis wrote:
+>> This PFSM controls the operational modes of the PMIC:
+>> - STANDBY and LP_STANDBY,
+>> - ACTIVE state,
+>> - MCU_ONLY state,
+>> - RETENTION state, with or without DDR and/or GPIO retention.
+>> Depending on the current operational mode, some voltage domains
+>> remain energized while others can be off.
+>>
+>> This PFSM is also used to trigger a firmware update, and provides
+>> R/W access to device registers.
+> What userspace code uses these new ioctls?  Do you have a pointer to it
+> anywhere?
 
-On Thu, Mar 30, 2023 at 08:06:01AM +0200, Uwe Kleine-K=F6nig wrote:
-> On Wed, Mar 29, 2023 at 02:27:08PM -0700, Stephen Boyd wrote:
-> > Quoting Uwe Kleine-K=F6nig (2023-03-29 13:46:32)
-> > > > > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > > > > index c3c3f8c07258..356119a7e5fe 100644
-> > > > > --- a/drivers/clk/clk.c
-> > > > > +++ b/drivers/clk/clk.c
-> > > > > [...]
-> > > > > @@ -1352,12 +1354,17 @@ static void __init clk_disable_unused_sub=
-tree(struct clk_core *core)
-> > > > >          * back to .disable
-> > > > >          */
-> > > > >         if (clk_core_is_enabled(core)) {
-> > > > > -               trace_clk_disable(core);
-> > > > > -               if (core->ops->disable_unused)
-> > > > > -                       core->ops->disable_unused(core->hw);
-> > > > > -               else if (core->ops->disable)
-> > > > > -                       core->ops->disable(core->hw);
-> > > > > -               trace_clk_disable_complete(core);
-> > > > > +               if (clk_unused_keep_on) {
-> > > > > +                       pr_warn("Keep unused clk \"%s\" on\n", co=
-re->name);
-> > > > > +                       clk_unused_keep_on -=3D 1;
-> > > > > +               } else {
-> > > > > +                       trace_clk_disable(core);
-> > > >=20
-> > > > We have trace_clk_disable() here. Can you have this tracepoint prin=
-t to
-> > > > the kernel log and watch over serial console? That would be faster =
-than
-> > > > bisecting.
-> > >=20
-> > > Well no, that doesn't work for all the problems where
-> > > clk_ignore_unused=3D7 could be useful. Consider that e.g. you know th=
-at
-> > > eth0 is broken, but with clk_ignore_unused is works. So one of the (s=
-ay)
-> > > 25 nominally unused clks are required for eth0. But it's not possible=
- to
-> > > test the network after each of the 25 clk_disable()s. Unless I'm miss=
-ing
-> > > something and you can hook a userspace action on a trace line?!
-> >=20
-> > In that case it sounds like you want to compile the kernel with the
-> > support for enabling clks from debugfs. Can you use that?
->=20
-> In some of the cases that might work. Unless for example the problem
-> makes the kernel fail to boot or the device is broken when the clk was
-> disabled and reenable doesn't help?!
+I will provide a user app in 'samples' directory in v6.
 
-I recently debugged a similar issue like this:
+>
+>> --- /dev/null
+>> +++ b/include/uapi/linux/tps6594_pfsm.h
+>> @@ -0,0 +1,45 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+>> +/*
+>> + * Userspace ABI for TPS6594 PMIC Pre-configurable Finite State Machine
+>> + *
+>> + * Copyright (C) 2023 BayLibre Incorporated - https://www.baylibre.com/
+>> + */
+>> +
+>> +#ifndef __TPS6594_PFSM_H
+>> +#define __TPS6594_PFSM_H
+>> +
+>> +#include <linux/const.h>
+>> +#include <linux/ioctl.h>
+>> +#include <linux/types.h>
+>> +
+>> +/* PFSM state definitions */
+>> +enum pfsm_state {
+>> +	PMIC_ACTIVE_STATE,
+>> +	PMIC_MCU_ONLY_STATE,
+>> +	PMIC_RETENTION_STATE
+>> +};
+>> +
+>> +/**
+>> + * struct pmic_state - PMIC state identification
+>> + * @state:   PFSM destination state
+>> + * @options: options for destination state
+>> + */
+>> +struct pmic_state {
+>> +	enum pfsm_state state;
+>> +	__u8 options;
+>> +};
+>> +
+>> +/* Commands */
+>> +#define	PMIC_BASE			'P'
+>> +
+>> +#define	PMIC_GOTO_STANDBY		_IO(PMIC_BASE, 0)
+>> +#define	PMIC_GOTO_LP_STANDBY		_IO(PMIC_BASE, 1)
+>> +#define	PMIC_UPDATE_PGM			_IO(PMIC_BASE, 2)
+>> +#define	PMIC_SET_STATE			_IOW(PMIC_BASE, 3, struct pmic_state)
+>> +
+>> +/* Options for destination state */
+>> +#define PMIC_GPIO_RETENTION		_BITUL(0)
+>> +#define PMIC_DDR_RETENTION		_BITUL(1)
+>> +#define PMIC_MCU_ONLY_STARTUP_DEST	_BITUL(2)
+> Please read Documentation/driver-api/ioctl.rst which says:
+>
+> * Bitfields and enums generally work as one would expect them to,
+>    but some properties of them are implementation-defined, so it is
+>    better to avoid them completely in ioctl interfaces.
+>
+> For a brand-new ioctl interface, you did both of these unrecommended
+> things.  Why set yourself for complexity when you do not need to?
 
-1. build kernel with CLOCK_ALLOW_WRITE_DEBUGFS
-2. boot with clk_ignore_unused, so clocks stay enabled
-3. disable clocks via sysfs:
-   echo 1 > /sys/kernel/debug/clk/${CLK}/clk_prepare_enable
-   echo 0 > /sys/kernel/debug/clk/${CLK}/clk_prepare_enable
-4. check if peripheral is still ok
-5. repeat step 3 with the next 'interesting' clock
+I will fix that. Thank you for your feedback.
 
--- Sebastian
+Julien
 
---4t4y27tmdb2m2ofs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmQlqhIACgkQ2O7X88g7
-+ppqHw/+OdRrES3M3CO43e8OqvDC9wqhevdLaEYJEqY7/vbrb4Vq3h8Wbb4DWfJj
-iWLNR3TUsWIGQ95b6SGTJCQarLBgRIeEln+YN5nyRc7bYfrjLboNfCxo4dHhjbgl
-u2ZYY7kYdT9oyXvBx5WushvIUxRe687yxfQqHUMoBi0MjDD/+WjBZDQ0q1w5ZQWb
-ySpmlbMGa8md9HmxIQmUSGD1t5B7y8KCYHQPYO/YJoosTe6jrRksdP56JRVwj2Gj
-zr5jJ2rPLI/Xk2604rK/GQPKUebFHPcrYzotNjNyOuwEVRtA3qGOKiI/IJFkozpE
-oG05WALoD42Zt9NapQOeysMJQErAbIpZEYsF8+/sj7SzJfRCALEcvYPYCbwubf6W
-/ZSkxZFZyz4cyY6vvHTZ1xZfQdrBDmHgYnf8l4Iu2zT7dWJB2ZSUoHMwZVqBeGze
-MG0cHB1yApfedJrP29UMnaFTG2GeBDW3lgYTkYdODn+jCoRyneCceodx1LBpEA2z
-sLMr8M/yf60ZB6+RPrqP0jQAFlD/dj+VVwaqIIAomQJSCLd5yKm6faVlOOagMwhI
-OaCdg1JMa2wwetu7zyfgATNSC9Bmub7d9swYwdNN6GSIZvvttM2IFG2Fv5mapP4+
-qpO6Jtm6duP6uDbf91V79JVvML6HMEeo6m7WdtkF1gpcdZguEX4=
-=888j
------END PGP SIGNATURE-----
-
---4t4y27tmdb2m2ofs--
