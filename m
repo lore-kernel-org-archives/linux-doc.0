@@ -2,67 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C61DC77B62
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 20:18:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B881BC6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 20:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbjC3USf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 16:18:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55674 "EHLO
+        id S229756AbjC3UVL convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 16:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbjC3USc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 16:18:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9F7FEFB2;
-        Thu, 30 Mar 2023 13:18:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 701D862194;
-        Thu, 30 Mar 2023 20:18:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86117C433EF;
-        Thu, 30 Mar 2023 20:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1680207510;
-        bh=XTszxfox9oLh3es63wEcoezcgUjjoFrEsUxixhLzQXU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=aFp1OijlEuiaqThqnmM/IC7G9txXqyIZawhTv6JwSuKZ1ndYRx3TGiIdi+iWgQgYR
-         oVpcE2EX9QtsAZZ9+1ej4ufaI3MK6OOVmFjKGubA0BLMeOAQ374+VqmO4nwixNmWza
-         zm6o9QAm8MCvXSbbXfVKqivYsf+Ds+A5uG/kFSX8=
-Date:   Thu, 30 Mar 2023 13:18:29 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        hannes@cmpxchg.org, Hugh Dickins <hughd@google.com>
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-Message-Id: <20230330131829.5b5070abf9ef5482aec01c81@linux-foundation.org>
-In-Reply-To: <37dcd52a-2e32-c01d-b805-45d862721fbc@redhat.com>
-References: <20230310182851.2579138-1-shr@devkernel.io>
-        <20230328160914.5b6b66e4a5ad39e41fd63710@linux-foundation.org>
-        <37dcd52a-2e32-c01d-b805-45d862721fbc@redhat.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229755AbjC3UVJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 16:21:09 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC00440D3;
+        Thu, 30 Mar 2023 13:21:06 -0700 (PDT)
+Received: from ip4d1634d3.dynamic.kabel-deutschland.de ([77.22.52.211] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1phylD-0006W9-Vs; Thu, 30 Mar 2023 22:20:40 +0200
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Arnd Bergmann <arnd@arndb.de>, Evan Green <evan@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Conor Dooley <conor@kernel.org>, slewis@rivosinc.com,
+        Vineet Gupta <vineetg@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        guoren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Niklas Cassel <niklas.cassel@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
+Date:   Thu, 30 Mar 2023 22:20:38 +0200
+Message-ID: <6540574.4vTCxPXJkl@diego>
+In-Reply-To: <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
+References: <20230221190858.3159617-1-evan@rivosinc.com>
+ <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com>
+ <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Mar 2023 06:55:31 +0200 David Hildenbrand <david@redhat.com> wrote:
-
-> On 29.03.23 01:09, Andrew Morton wrote:
-> > On Fri, 10 Mar 2023 10:28:48 -0800 Stefan Roesch <shr@devkernel.io> wrote:
-> > 
-> >> So far KSM can only be enabled by calling madvise for memory regions. To
-> >> be able to use KSM for more workloads, KSM needs to have the ability to be
-> >> enabled / disabled at the process / cgroup level.
-> > 
-> > Review on this series has been a bit thin.  Are we OK with moving this
-> > into mm-stable for the next merge window?
+Am Donnerstag, 30. März 2023, 20:30:29 CEST schrieb Evan Green:
+> On Thu, Feb 23, 2023 at 2:06 AM Arnd Bergmann <arnd@arndb.de> wrote:
+> >
+> > On Tue, Feb 21, 2023, at 20:08, Evan Green wrote:
+> > > We don't have enough space for these all in ELF_HWCAP{,2} and there's no
+> > > system call that quite does this, so let's just provide an arch-specific
+> > > one to probe for hardware capabilities.  This currently just provides
+> > > m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
+> > > the future.
+> > >
+> > > Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > > Signed-off-by: Evan Green <evan@rivosinc.com>
+> >
+> > I'm still skeptical about the need for a custom syscall interface here.
+> > I had not looked at the interface so far, but there are a few things
+> > that stick out:
+> >
+> > > +RISC-V Hardware Probing Interface
+> > > +---------------------------------
+> > > +
+> > > +The RISC-V hardware probing interface is based around a single
+> > > syscall, which
+> > > +is defined in <asm/hwprobe.h>::
+> > > +
+> > > +    struct riscv_hwprobe {
+> > > +        __s64 key;
+> > > +        __u64 value;
+> > > +    };
+> >
+> > The way this is defined, the kernel will always have to know
+> > about the specific set of features, it can't just forward
+> > unknown features to user space after probing them from an
+> > architectured hardware interface or from DT.
 > 
-> I still want to review (traveling this week), but I also don't want to 
-> block this forever.
+> You're correct that this interface wasn't intended to have usermode
+> come in with augmented data or additional key/value pairs. This was
+> purely meant to provide access to the kernel's repository of
+> architectural and microarchitectural details. If usermode wants to
+> provide extra info in this same form, maybe they could wrap this
+> interface.
+>
+> > If 'key' is just an enumerated value with a small number of
+> > possible values, I don't see anything wrong with using elf
+> > aux data. I understand it's hard to know how many keys
+> > might be needed in the long run, from the way you define
+> > the key/value pairs here, I would expect it to have a lot
+> > of the same limitations that the aux data has, except for
+> > a few bytes to be copied.
+> 
+> Correct, this makes allocating bits out of here cheaper by not
+> requiring that we actively copy them into every new process forever.
+> You're right that the aux vector would work as well, but the thinking
+> behind this series was that an interface like this might be better for
+> an architecture as extensible as risc-v.
 
-No hurry, we're only at -rc4.  Holding this series in mm-unstable for
-another 2-3 weeks isn't a problem.
+What would be the ramifications of defining some sort of vdso-like
+data-structure and just putting the address into AT_HWCAP2 ?
+(similar to what vdso does) - that could then even be re-usable
+with other OS kernels.
+
+And would also save declaring numerous new AT_* keys.
+
+
+Because there are already nearly 130 standard extensions and vendors
+are allowed to defines their own as well, and we will probably also want
+to tell userspace about them.
+
+
+Heiko
+
+
+> > > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
+> > > pair_count,
+> > > +                           size_t cpu_count, cpu_set_t *cpus,
+> > > +                           unsigned long flags);
+> >
+> > The cpu set argument worries me more: there should never be a
+> > need to optimize for broken hardware that has an asymmetric set
+> > of features. Just let the kernel figure out the minimum set
+> > of features that works across all CPUs and report that like we
+> > do with HWCAP. If there is a SoC that is so broken that it has
+> > important features on a subset of cores that some user might
+> > actually want to rely on, then have them go through the slow
+> > sysfs interface for probing the CPUs indidually, but don't make
+> > the broken case easier at the expense of normal users that
+> > run on working hardware.
+> 
+> I'm not so sure. While I agree with you for major classes of features
+> (eg one CPU has floating point support but another does not), I expect
+> these bits to contain more subtle details as well, which might vary
+> across asymmetric implementations without breaking ABI compatibility
+> per-se. Maybe some vendor has implemented exotic video decoding
+> acceleration instructions that only work on the big core. Or maybe the
+> big cores support v3.1 of some extension (where certain things run
+> faster), but the little cores only have v3.0, where it's a little
+> slower. Certain apps would likely want to know these things so they
+> can allocate their work optimally across cores.
+> 
+> >
+> > > +asmlinkage long sys_riscv_hwprobe(uintptr_t, uintptr_t, uintptr_t,
+> > > uintptr_t,
+> > > +                               uintptr_t, uintptr_t);
+> >
+> > Why 'uintptr_t' rather than the correct type?
+> 
+> Fixed.
+> -Evan
+> 
+
+
+
+
