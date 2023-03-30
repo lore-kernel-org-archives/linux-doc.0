@@ -2,106 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25BF5C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 08:24:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 296D7C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 08:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230329AbjC3IYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 04:24:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41554 "EHLO
+        id S229894AbjC3IfV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 04:35:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230271AbjC3IYI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 04:24:08 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B90440EB;
-        Thu, 30 Mar 2023 01:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1680164643; x=1711700643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SBoEmEO7Dj8b7NzG7TSXvuV5ruIHbv+zWUEtKVANFTE=;
-  b=SFRBen89IOz4UM2WOTouzvEBLOT3JzGCc95ze561lmGjwRXCZmk08xGF
-   Ia+hhOi8j0XAzQQkJXEp6hjigNhHdX++oaU80FbQwKdHct1CGhoI6cNp7
-   xRfcjQRP+ojvf7hMFL0HPQS3Dc4g87yrF6xi64VhdkBvnsujfeXOdbGJE
-   sml3OpPaROb99qZ0i1i66ooYRJ9yIcxIovNB31RaOPLaNYIQ45WJ3kt2k
-   cBXvo+4F5hQxnBs7lUXzrYaIMfdTG4g5zqcGfRJRXf1RAJ3W2XToL3fCQ
-   ykpG1EintgJKaNH6PujsiTK5ek5tsFk0n/bur0laexSXgZOuw79nfu3iU
-   A==;
-X-IronPort-AV: E=Sophos;i="5.98,303,1673938800"; 
-   d="asc'?scan'208";a="204161151"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 30 Mar 2023 01:24:02 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 30 Mar 2023 01:24:01 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Thu, 30 Mar 2023 01:23:58 -0700
-Date:   Thu, 30 Mar 2023 09:23:45 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC:     <linux-riscv@lists.infradead.org>, <conor@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-Message-ID: <a6220e52-9934-422b-9b05-95705b8fd684@spud>
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
- <CANiq72=i9je2864iTvZBFnhVLhF7Cema7EPCcdWOJ3mr62SqDg@mail.gmail.com>
+        with ESMTP id S229874AbjC3IfQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 04:35:16 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6867AAD;
+        Thu, 30 Mar 2023 01:35:02 -0700 (PDT)
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PnGtP6PTCz6J7sL;
+        Thu, 30 Mar 2023 16:34:21 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 30 Mar
+ 2023 09:35:00 +0100
+Date:   Thu, 30 Mar 2023 09:34:58 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Yicong Yang <yangyicong@huawei.com>
+CC:     <yangyicong@hisilicon.com>, <mathieu.poirier@linaro.org>,
+        <suzuki.poulose@arm.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
+        <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
+        <linuxarm@huawei.com>
+Subject: Re: [PATCH 1/4] hwtracing: hisi_ptt: Make cpumask only present
+ online CPUs
+Message-ID: <20230330093458.00002c50@Huawei.com>
+In-Reply-To: <94e7d85a-d580-94c5-ae2c-fe6a77c21487@huawei.com>
+References: <20230315094316.26772-1-yangyicong@huawei.com>
+        <20230315094316.26772-2-yangyicong@huawei.com>
+        <20230328172409.000021f5@Huawei.com>
+        <94e7d85a-d580-94c5-ae2c-fe6a77c21487@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="YyN1dM7SJNHGwojV"
-Content-Disposition: inline
-In-Reply-To: <CANiq72=i9je2864iTvZBFnhVLhF7Cema7EPCcdWOJ3mr62SqDg@mail.gmail.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---YyN1dM7SJNHGwojV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 30 Mar 2023 11:53:14 +0800
+Yicong Yang <yangyicong@huawei.com> wrote:
 
-On Tue, Mar 07, 2023 at 12:07:29PM +0100, Miguel Ojeda wrote:
-> On Tue, Mar 7, 2023 at 11:25=E2=80=AFAM Conor Dooley <conor.dooley@microc=
-hip.com> wrote:
-> >
-> > I have added SoB's too, but if that is not okay Gary, then please scream
-> > loudly.
->=20
-> Note that `Co-developed-by`s always go with a `Signed-off-by`s, i.e.
-> it is not possible to add just a `Co-developed-by`.
+> On 2023/3/29 0:24, Jonathan Cameron wrote:
+> > On Wed, 15 Mar 2023 17:43:13 +0800
+> > Yicong Yang <yangyicong@huawei.com> wrote:
+> >   
+> >> From: Yicong Yang <yangyicong@hisilicon.com>
+> >>
+> >> perf will try to start PTT trace on every CPU presented in cpumask sysfs
+> >> attribute and it will fail to start on offline CPUs(see the comments in
+> >> perf_event_open()). But the driver is using cpumask_of_node() to export
+> >> the available cpumask which may include offline CPUs and may fail the
+> >> perf unintendedly. Fix this by only export the online CPUs of the node.  
+> > 
+> > There isn't clear documentation that I can find for cpumask_of_node()
+> > and chasing through on arm64 (which is what we care about for this driver)
+> > it's maintained via numa_add_cpu() numa_remove_cpu()
+> > Those are called in arch/arm64/kernel/smp.c in locations that are closely coupled
+> > with set_cpu_online(cpu, XXX);
+> > https://elixir.bootlin.com/linux/v6.3-rc4/source/arch/arm64/kernel/smp.c#L246
+> > https://elixir.bootlin.com/linux/v6.3-rc4/source/arch/arm64/kernel/smp.c#L303
+> > 
+> > Now there are races when the two might not be in sync but in this case
+> > we are just exposing the result to userspace, so chances of a race
+> > after this sysfs attribute has been read seems much higher to me and
+> > I don't think we can do anything about that.
+> > 
+> > Is there another path that I'm missing where online and node masks are out
+> > of sync?
+> >   
+> 
+> maybe no. This patch maybe incorrect and I need more investigation, so let's me
+> drop it from the series. Tested and everything seems fine now.
+> 
+> I found this problem and referred to commit 064f0e9302af ("mm: only display online cpus of the numa node")
+> which might be the same problem. But seems unnecessary that cpumask_of_node()
+> already include online CPUs only.
 
-Aye, but that does not mean that I am entitled to add someone else's!
+Seems it was fixed up for arm64 in
+7f954aa1a ("arm64: smp: remove cpu and numa topology information when hotplugging out CPMU")
 
-> By the way, like for the Arm patch set, if you end up doing a v2,
-> could you please add the `BINDGEN_TARGET_*` in `rust/Makefile` (GCC
-> builds are really experimental, but since they are there anyway, it is
-> best to be consistent and add it).
+If we could audit all the other architectures it would be great to document
+the properties of this cpmuask and possibly simplify the code in the
+path you highlight above (assuming no race conditions etc)
 
-Sure.
+Jonathan
+ 
+> 
+> Thanks.
+> 
+> > Jonathan
+> > 
+> >   
+> >>
+> >> Fixes: ff0de066b463 ("hwtracing: hisi_ptt: Add trace function support for HiSilicon PCIe Tune and Trace device")
+> >> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>  
+> >   
+> >> ---
+> >>  drivers/hwtracing/ptt/hisi_ptt.c | 13 +++++++++++--
+> >>  1 file changed, 11 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
+> >> index 30f1525639b5..0a10c7ec46ad 100644
+> >> --- a/drivers/hwtracing/ptt/hisi_ptt.c
+> >> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
+> >> @@ -487,9 +487,18 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
+> >>  			    char *buf)
+> >>  {
+> >>  	struct hisi_ptt *hisi_ptt = to_hisi_ptt(dev_get_drvdata(dev));
+> >> -	const cpumask_t *cpumask = cpumask_of_node(dev_to_node(&hisi_ptt->pdev->dev));
+> >> +	cpumask_var_t mask;
+> >> +	ssize_t n;
+> >>  
+> >> -	return cpumap_print_to_pagebuf(true, buf, cpumask);
+> >> +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
+> >> +		return 0;
+> >> +
+> >> +	cpumask_and(mask, cpumask_of_node(dev_to_node(&hisi_ptt->pdev->dev)),
+> >> +		    cpu_online_mask);
+> >> +	n = cpumap_print_to_pagebuf(true, buf, mask);
+> >> +	free_cpumask_var(mask);
+> >> +
+> >> +	return n;
+> >>  }
+> >>  static DEVICE_ATTR_RO(cpumask);
+> >>    
+> > 
+> > .
+> >   
 
---YyN1dM7SJNHGwojV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCVHEQAKCRB4tDGHoIJi
-0sZQAQCUXauXvBSo3TQBU7zir2CymSgO+QWCV5+jRW9nEMhawAD/bfruWxpKJBpY
-m9CRaroRiPS0CZfC4rp/1I2j2aRuSQg=
-=eDKb
------END PGP SIGNATURE-----
-
---YyN1dM7SJNHGwojV--
