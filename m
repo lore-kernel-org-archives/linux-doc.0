@@ -2,193 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D73DEC77B60
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 17:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8494DC6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 17:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231796AbjC3RCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 13:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51996 "EHLO
+        id S230321AbjC3RLI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 13:11:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231993AbjC3RCI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 13:02:08 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB67903F;
-        Thu, 30 Mar 2023 10:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680195726; x=1711731726;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=R/ssDChJFeElkuFAdv0HOzsNHaITs0Wd/hQ8EL6X4I4=;
-  b=Rf7+5x0AB0oi77yIdUtaKgkkLE7yO6vr1k2V3U9xRYSrdIR2tH4JDYgV
-   UnkX/SETtW3X4FUMw1C/Ia4wAgbMyYl/cie3r+4Lk3jgbPleECr8qwCIQ
-   dKk/1LY9S+2DqNyuBgF0kWrGdVXwjCGrUJ6DHmhFcBp2Pnkxa6s+aud9m
-   Tw1wHRK7DlzXTPnzlHpDulQaUnjQ5prKukei7/IKK3LXLRg5DhKvWdYrg
-   qQf7B/3glL2pYEuQKvLfD4kwKwPeTyT0a+XCXcs0p+MrEJdMA/6AX1ujx
-   p8iz+AwyCf1T8jsVWUowePTIsEC0WKdq77S/PHfN1TGyLSv+VPemIjju/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329747476"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="329747476"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 10:01:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="687317627"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="687317627"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Mar 2023 10:01:43 -0700
-From:   Tony Nguyen <anthony.l.nguyen@intel.com>
-To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, netdev@vger.kernel.org
-Cc:     Tony Nguyen <anthony.l.nguyen@intel.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>
-Subject: [PATCH net-next 1/3] Documentation/eth/intel: Update address for driver support
-Date:   Thu, 30 Mar 2023 09:59:33 -0700
-Message-Id: <20230330165935.2503604-2-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230330165935.2503604-1-anthony.l.nguyen@intel.com>
-References: <20230330165935.2503604-1-anthony.l.nguyen@intel.com>
+        with ESMTP id S232178AbjC3RLA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 13:11:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEC7AEB63;
+        Thu, 30 Mar 2023 10:10:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A6F8D6212C;
+        Thu, 30 Mar 2023 17:10:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49867C433EF;
+        Thu, 30 Mar 2023 17:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680196212;
+        bh=Ff05YU+OXdwBxx5FHkJBKPbVv/qmWBEzp2lfTR+HLwo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d7FDU4Sq0GIHZNVN99MPeicNFv/d31zDuq4G5810smpAgLUMmZqbPaVTxB24xFeoJ
+         IdY+5S+50BnN0Wzh1okRUFWMh/GbPmLGdBlFelETeSi5lcaOPYJXGI4VlO2VshKH2j
+         iu2fYntuUC3ddBrDdK2s9J7sdJN7xSsnCwIbUpDmSwPgAJs2lewKcTZ5zJPSqeKTLX
+         W4m/3euvqupWyoHljsVualAh22OupGaA886CviwtSp42+XBE2fWCG9Qe4D7FMyvrxo
+         nlQW/qks3dTFp/45nJLxRSb8QxacRiVeEQY0u6t1snX4rvWyqdDtrDJMhyRDYIDL7H
+         wzLrjdNocZ0TQ==
+Date:   Thu, 30 Mar 2023 18:10:05 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Julien Panis <jpanis@baylibre.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
+        yi.l.liu@intel.com, jgg@ziepe.ca, razor@blackwall.org,
+        stephen@networkplumber.org, prabhakar.csengg@gmail.com,
+        contact@emersion.fr, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
+        jneanne@baylibre.com
+Subject: Re: [PATCH v5 0/4] TI TPS6594 PMIC support (Core, ESM, PFSM)
+Message-ID: <20230330171005.GC548901@google.com>
+References: <20230330082006.11216-1-jpanis@baylibre.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230330082006.11216-1-jpanis@baylibre.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the email address for support to use Intel Wired LAN, the mailing
-list used for kernel development.
+On Thu, 30 Mar 2023, Julien Panis wrote:
 
-Suggested-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
-Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
----
- Documentation/networking/device_drivers/ethernet/intel/e100.rst | 2 +-
- .../networking/device_drivers/ethernet/intel/e1000.rst          | 2 +-
- .../networking/device_drivers/ethernet/intel/e1000e.rst         | 2 +-
- .../networking/device_drivers/ethernet/intel/fm10k.rst          | 2 +-
- Documentation/networking/device_drivers/ethernet/intel/i40e.rst | 2 +-
- Documentation/networking/device_drivers/ethernet/intel/iavf.rst | 2 +-
- Documentation/networking/device_drivers/ethernet/intel/ice.rst  | 2 +-
- Documentation/networking/device_drivers/ethernet/intel/igb.rst  | 2 +-
- .../networking/device_drivers/ethernet/intel/igbvf.rst          | 2 +-
- .../networking/device_drivers/ethernet/intel/ixgbe.rst          | 2 +-
- .../networking/device_drivers/ethernet/intel/ixgbevf.rst        | 2 +-
- 11 files changed, 11 insertions(+), 11 deletions(-)
+> TPS6594 is a Power Management IC which provides regulators and others
+> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+> PFSM (Pre-configurable Finite State Machine). The SoC and the PMIC can
+> communicate through the I2C or SPI interfaces.
+> TPS6594 is the super-set device while TPS6593 and LP8764 are derivatives.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/e100.rst b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
-index 371b7e5c3293..4f613949782c 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/e100.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/e100.rst
-@@ -184,4 +184,4 @@ or the Intel Wired Networking project hosted by Sourceforge at:
- http://sourceforge.net/projects/e1000
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/e1000.rst b/Documentation/networking/device_drivers/ethernet/intel/e1000.rst
-index 4aaae0f7d6ba..7b15b8c72be0 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/e1000.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/e1000.rst
-@@ -460,4 +460,4 @@ or the Intel Wired Networking project hosted by Sourceforge at:
- 
- If an issue is identified with the released source code on the supported
- kernel with a supported adapter, email the specific information related
--to the issue to e1000-devel@lists.sf.net
-+to the issue to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst b/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst
-index f49cd370e7bf..7a9cbfa9e0f3 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/e1000e.rst
-@@ -380,4 +380,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst b/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst
-index 9258ef6f515c..9d9c2ec2152e 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/fm10k.rst
-@@ -139,4 +139,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-index c495c4e16b3b..5b13fe0fec82 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-@@ -768,4 +768,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-index 151af0a8da9c..079847666125 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-@@ -328,4 +328,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on the supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index 2b6dc7880d7b..246bf6455f64 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -1031,7 +1031,7 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
- 
- 
- Trademarks
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/igb.rst b/Documentation/networking/device_drivers/ethernet/intel/igb.rst
-index d46289e182cf..ee149bdb42b9 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/igb.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/igb.rst
-@@ -210,4 +210,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst b/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst
-index 40fa210c5e14..78ceb3cdbfdb 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/igbvf.rst
-@@ -62,4 +62,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst b/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst
-index 0a233b17c664..8d4f7ede2ff8 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ixgbe.rst
-@@ -554,4 +554,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst b/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst
-index 76bbde736f21..9201c74e4c36 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ixgbevf.rst
-@@ -64,4 +64,4 @@ https://sourceforge.net/projects/e1000
- 
- If an issue is identified with the released source code on a supported kernel
- with a supported adapter, email the specific information related to the issue
--to e1000-devel@lists.sf.net.
-+to intel-wired-lan@lists.osuosl.org.
--- 
-2.38.1
+Note to future me: once the misc drivers are good to go, route through MFD.
 
+--
+Lee Jones [李琼斯]
