@@ -2,76 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F566C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 22:41:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 775B3C7619A
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 22:43:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbjC3WlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 18:41:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33082 "EHLO
+        id S230491AbjC3Wn3 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 18:43:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230388AbjC3WlL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 18:41:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA312EB52;
-        Thu, 30 Mar 2023 15:41:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7C34AB82A60;
-        Thu, 30 Mar 2023 22:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B61F3C433D2;
-        Thu, 30 Mar 2023 22:41:02 +0000 (UTC)
-Date:   Thu, 30 Mar 2023 23:40:59 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Gregory Price <gourry.memverge@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, oleg@redhat.com, avagin@gmail.com,
-        peterz@infradead.org, luto@kernel.org, krisman@collabora.com,
-        tglx@linutronix.de, corbet@lwn.net, shuah@kernel.org,
-        arnd@arndb.de, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v15 2/4] syscall user dispatch: untag selector addresses
- before access_ok
-Message-ID: <ZCYP+4gRZDqC0lRo@arm.com>
-References: <20230330212121.1688-1-gregory.price@memverge.com>
- <20230330212121.1688-3-gregory.price@memverge.com>
+        with ESMTP id S230494AbjC3WnZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 18:43:25 -0400
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED651113E2;
+        Thu, 30 Mar 2023 15:43:17 -0700 (PDT)
+Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay08.hostedemail.com (Postfix) with ESMTP id 41579140304;
+        Thu, 30 Mar 2023 22:43:15 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id 8664F20028;
+        Thu, 30 Mar 2023 22:43:09 +0000 (UTC)
+Message-ID: <da9d8c2174e0813be2e0e6b31129e90fddaa128e.camel@perches.com>
+Subject: Re: [PATCH v3 3/4] checkpatch: allow Closes tags with links
+From:   Joe Perches <joe@perches.com>
+To:     Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Kai =?ISO-8859-1?Q?Wasserb=E4ch?= <kai@dev.carbon-project.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+Date:   Thu, 30 Mar 2023 15:43:08 -0700
+In-Reply-To: <20230314-doc-checkpatch-closes-tag-v3-3-d1bdcf31c71c@tessares.net>
+References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
+         <20230314-doc-checkpatch-closes-tag-v3-3-d1bdcf31c71c@tessares.net>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230330212121.1688-3-gregory.price@memverge.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 8664F20028
+X-Stat-Signature: o7s8y4yexe96pcmeht83bc8k1kmp4ytc
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1839bgV7wydgfXH7bCqxQ9k9vhrNnfor3U=
+X-HE-Tag: 1680216189-513749
+X-HE-Meta: U2FsdGVkX1+lgCVmV5KU3BNZtM6xwIk2/vlX9i6ZiIMH3ZU0YFPXMf/3WNcfaIuPazErrbphMTyQUkRCP/L9PA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 05:21:22PM -0400, Gregory Price wrote:
-> diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-> index 22396b234854..16086226b41c 100644
-> --- a/kernel/entry/syscall_user_dispatch.c
-> +++ b/kernel/entry/syscall_user_dispatch.c
-> @@ -87,7 +87,18 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
->  		if (offset && offset + len <= offset)
->  			return -EINVAL;
+On Thu, 2023-03-30 at 20:13 +0200, Matthieu Baerts wrote:
+> As a follow-up of a previous patch modifying the documentation to
+> allow using the "Closes:" tag, checkpatch.pl is updated accordingly.
+> 
+> checkpatch.pl now no longer complain when the "Closes:" tag is used by
+> itself or after the "Reported-by:" tag.
+> 
+> Fixes: 76f381bb77a0 ("checkpatch: warn when unknown tags are used for links")
+> Fixes: d7f1d71e5ef6 ("checkpatch: warn when Reported-by: is not followed by Link:")
+
+I don't think this _fixes_ anything.
+I believe it's merely a new capability.
+
+> Closes: https://github.com/multipath-tcp/mptcp_net-next/issues/373
+> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
+> ---
+> v3:
+>  - split into 2 patches: the previous one adds a list with all the
+>    "link" tags. This one only allows the "Closes" tag. (Joe Perches)
+>  - "Closes" is no longer printed between parenthesis. (Thorsten
+>    Leemhuis)
+> ---
+>  scripts/checkpatch.pl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 9d092ff4fc16..ca58c734ff22 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -620,7 +620,7 @@ our $signature_tags = qr{(?xi:
+>  	Cc:
+>  )};
 >  
-> -		if (selector && !access_ok(selector, sizeof(*selector)))
-> +		/*
-> +		 * access_ok will clear memory tags for tagged addresses on tasks where
-> +		 * memory tagging is enabled.  To enable a tracer to set a tracee's
-> +		 * selector not in the same tagging state, the selector address must be
-> +		 * untagged for access_ok, otherwise an untagged tracer will always fail
-> +		 * to set a tagged tracee's selector.
-> +		 *
-> +		 * The result of this is that a tagged tracer may be capable of setting
-> +		 * an invalid address, and the tracee will SIGSEGV on the next syscall.
-> +		 * This is equivalent to a task setting a bad selector (selector=0x1).
-> +		 */
+> -our @link_tags = qw(Link);
+> +our @link_tags = qw(Link Closes);
+>  
+>  #Create a search and print patterns for all these strings to be used directly below
+>  our $link_tags_search = "";
+> 
 
-I'd drop the last paragraph above. Even without tagged pointers, a tracer
-can set an invalid address (as you already mentioned) but the phrasing
-some implies (to me) that if we did it differently, the tracer would not be
-able to set an invalid pointer.
-
-Either way,
-
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-
--- 
-Catalin
