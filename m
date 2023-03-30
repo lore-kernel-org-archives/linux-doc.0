@@ -2,101 +2,201 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05700C77B60
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 16:26:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 058F2C761A6
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 16:37:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231482AbjC3Q04 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 12:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58130 "EHLO
+        id S231923AbjC3Qh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 12:37:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbjC3Q0z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 12:26:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABA1EC159;
-        Thu, 30 Mar 2023 09:26:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 496AA620FB;
-        Thu, 30 Mar 2023 16:26:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15D38C433D2;
-        Thu, 30 Mar 2023 16:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680193613;
-        bh=OTht3a35wO9ZxOdDuztv9uVBcSe4Zhlcnodcxs7W1WM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=XvgMvf6FdRDzWddB6VRohM5pC+Uj0wFELzD+Z6dy0Qt/Rh2tw0Pt+KGa2GnPr4owc
-         LDj3IFQMi0BqJQqT19paE2ytsuYa+Vj5MUZpmiFEe6kx7e6/o/tsWdAyewr+nGSvk5
-         x6ohs7C7r66BUVk82fDEL7274i+Qupy0Qt6Glyo1xbatObsoOA3UX0XFXbu/8DThY0
-         1o3mxJgKDeF5P6SpeGxjVCujWhUjY2zzrLOoi4PKrwQA8O6c+Ud2zPhH6eAD6obHI0
-         xRmjUFxQplfm+NzytrBeZ3C8F77a6ajgoLM5ynqwmeXLdoUEG0yJDpyhzuVke97g/I
-         GICTG0rfsh2Pw==
-Date:   Thu, 30 Mar 2023 09:26:51 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc:     Max Georgiev <glipus@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Michael Walle <michael@walle.cc>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
-        Jie Wang <wangjie125@huawei.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Marco Bonelli <marco@mebeim.net>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <20230330092651.4acb7b64@kernel.org>
-In-Reply-To: <20230330143824.43eb0c56@kmaincent-XPS-13-7390>
-References: <20230308135936.761794-4-kory.maincent@bootlin.com>
-        <20230308230321.liw3v255okrhxg6s@skbuf>
-        <20230310114852.3cef643d@kmaincent-XPS-13-7390>
-        <20230310113533.l7flaoli7y3bmlnr@skbuf>
-        <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
-        <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
-        <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
-        <20230313084059.GA11063@pengutronix.de>
-        <20230316160920.53737d1c@kmaincent-XPS-13-7390>
-        <20230317152150.qahrr6w5x4o3eysz@skbuf>
-        <20230317120744.5b7f1666@kernel.org>
-        <CAP5jrPHep12hRbbcb5gXrZB5w_uzmVpEp4EhpfqW=9zC+zcu9A@mail.gmail.com>
-        <20230330143824.43eb0c56@kmaincent-XPS-13-7390>
+        with ESMTP id S231920AbjC3QhY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 12:37:24 -0400
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2869AD31C;
+        Thu, 30 Mar 2023 09:37:17 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id D4EF6320098E;
+        Thu, 30 Mar 2023 12:37:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 30 Mar 2023 12:37:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
+        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1680194234; x=1680280634; bh=BG
+        wzN9alArpP+icGRPMJNrHFgvXg2GlJMjXi1YHIIuU=; b=HK0GjyYPrspfUfsigV
+        M5c6WyqLPA1v/0CYq51mUt94arzTP+rMcNp3CVv4waWrQtIuJywSfQNxylh5D5Ta
+        AdHSg1OqXc1/ZoUOc8iBSA4Qn8Dn2VyThB6ijF/zl9iJKwLj8gDXcq48IGny3J/8
+        joZH3mKsu6Fpv8qls6a2KHSQNn0fNu9CvseycKHmp2DYRr9Xg47bVU66V3tfXDmM
+        M6KQ2nCGYt4Lou0aICwY8LmQWuUPirN9IqwCYQZUPGaOse7aNW1u6p6OGY+MBe2/
+        5FO3YiGiPvn+eYsr6YQCsw96+skI2/5V/08Pp0C+Uu6oEpnIGpmtjsHIwcCLLJdu
+        gKgQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1680194234; x=1680280634; bh=BGwzN9alArpP+
+        icGRPMJNrHFgvXg2GlJMjXi1YHIIuU=; b=KvQ8IMmEuABtTXS/YLUQYqfoEoj4D
+        Atkzcj4w1TokeBF/Bv8hQZ7TLBV4kUxPmijbLkf4X+aU+gX8/BfMTruK0b9fsIBE
+        IiVvq9eMA1zFHYiv0Vj2aHhtYISqBnx2/fwA8bgiTjUTilarFEWZhBwlsdDIi3/J
+        KMOod7thqRNtk/fnQftrYQ/z6UUTFqlJ8Otk9hVNOtmnQYlsMHZ61qoL8qzPZXMk
+        7PMsOsRcZL9n499ndAjfkhgHxA6TC5cXU6Iu1yfe0hBPdjNplZlWuLU4m2fP3Tic
+        DG81Cy/Gjlu1Gc2PSf/sKsEvrUUhU/Y2RNRziOvPiKi+E5VdmbTXJF7pA==
+X-ME-Sender: <xms:ubolZDQkYDHrNZOSauyAaHOX_qbj4s3lbtGggeqdi0KlX8vmFIDsTw>
+    <xme:ubolZEw-XCaulLbIHgxsvNVJN3l3fV_JJ9VnJf9qDZjtznH9apU-SZEEsOmBNDqQX
+    81FRPUBQ67xhN8Qq0M>
+X-ME-Received: <xmr:ubolZI0mr4KJU7owTbzPpzbE0-UdYH8UJwDYRfR5w1-3OnsuCmzbcAvOLmCz8_8BFUFzYSp5lZ00p6Oz3os7kMUKO6JbBGSfKERg4ZPj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehledgudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfhgfhffvvefuffgjkfggtgesthdtredttdertdenucfhrhhomhepufhtvghf
+    rghnucftohgvshgthhcuoehshhhrseguvghvkhgvrhhnvghlrdhioheqnecuggftrfgrth
+    htvghrnhepveelgffghfehudeitdehjeevhedthfetvdfhledutedvgeeikeeggefgudeg
+    uedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    hhrhesuggvvhhkvghrnhgvlhdrihho
+X-ME-Proxy: <xmx:urolZDCEFRbYqUiGMQa6NQ2Rjjv10RLnPjFHRD1tT6_nYHq_cQ7xiA>
+    <xmx:urolZMgscHQF-lpR2HlzG3CFn9-7goJLkULlQ_uEP3gH0CAtjECPHg>
+    <xmx:urolZHpdRZXb3J7MV93e-2qQ42d08lBD6aTIaKyDQKlIIJOjhW8OYg>
+    <xmx:urolZFXMWBz3-Faw4y2VLe5sms8-g-Wib_nUUwzSYuGSzoTVecDoPw>
+Feedback-ID: i84614614:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Mar 2023 12:37:12 -0400 (EDT)
+References: <20230310182851.2579138-1-shr@devkernel.io>
+ <273a2f82-928f-5ad1-0988-1a886d169e83@redhat.com>
+ <20230315210545.GA116016@cmpxchg.org>
+ <20230315211927.GB116016@cmpxchg.org>
+ <c6a1c4fd-d8be-7942-bfe7-dc0e661a9c99@redhat.com>
+User-agent: mu4e 1.6.11; emacs 28.2.50
+From:   Stefan Roesch <shr@devkernel.io>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>, kernel-team@fb.com,
+        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, Mike Kravetz <mike.kravetz@oracle.com>
+Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
+Date:   Thu, 30 Mar 2023 09:19:19 -0700
+In-reply-to: <c6a1c4fd-d8be-7942-bfe7-dc0e661a9c99@redhat.com>
+Message-ID: <qvqwzg7u8abx.fsf@dev0134.prn3.facebook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Mar 2023 14:38:24 +0200 K=C3=B6ry Maincent wrote:
-> > I started working on a patch introducing NDO functions for hw
-> > timestamping, but unfortunately put it on hold.
-> > Let me finish it and send it out for review. =20
->=20
-> What is your timeline for it? Do you think of sending it in the followings
-> weeks, months, years? If you don't have much time ask for help, I am not =
-really
-> a PTP core expert but I would gladly work with you on this.
 
-+1 Max, could you push what you have to GitHub or post as an RFC?
+David Hildenbrand <david@redhat.com> writes:
+
+> On 15.03.23 22:19, Johannes Weiner wrote:
+>> On Wed, Mar 15, 2023 at 05:05:47PM -0400, Johannes Weiner wrote:
+>>> On Wed, Mar 15, 2023 at 09:03:57PM +0100, David Hildenbrand wrote:
+>>>> On 10.03.23 19:28, Stefan Roesch wrote:
+>>>>> So far KSM can only be enabled by calling madvise for memory regions. To
+>>>>> be able to use KSM for more workloads, KSM needs to have the ability to be
+>>>>> enabled / disabled at the process / cgroup level.
+>>>>>
+>>>>> Use case 1:
+>>>>> The madvise call is not available in the programming language. An example for
+>>>>> this are programs with forked workloads using a garbage collected language without
+>>>>> pointers. In such a language madvise cannot be made available.
+>>>>>
+>>>>> In addition the addresses of objects get moved around as they are garbage
+>>>>> collected. KSM sharing needs to be enabled "from the outside" for these type of
+>>>>> workloads.
+>>>>>
+>>>>> Use case 2:
+>>>>> The same interpreter can also be used for workloads where KSM brings no
+>>>>> benefit or even has overhead. We'd like to be able to enable KSM on a workload
+>>>>> by workload basis.
+>>>>>
+>>>>> Use case 3:
+>>>>> With the madvise call sharing opportunities are only enabled for the current
+>>>>> process: it is a workload-local decision. A considerable number of sharing
+>>>>> opportuniites may exist across multiple workloads or jobs. Only a higler level
+>>>>> entity like a job scheduler or container can know for certain if its running
+>>>>> one or more instances of a job. That job scheduler however doesn't have
+>>>>> the necessary internal worklaod knowledge to make targeted madvise calls.
+>>>>>
+>>>>> Security concerns:
+>>>>> In previous discussions security concerns have been brought up. The problem is
+>>>>> that an individual workload does not have the knowledge about what else is
+>>>>> running on a machine. Therefore it has to be very conservative in what memory
+>>>>> areas can be shared or not. However, if the system is dedicated to running
+>>>>> multiple jobs within the same security domain, its the job scheduler that has
+>>>>> the knowledge that sharing can be safely enabled and is even desirable.
+>>>>>
+>>>>> Performance:
+>>>>> Experiments with using UKSM have shown a capacity increase of around 20%.
+>>>>
+>>>> Stefan, can you do me a favor and investigate which pages we end up
+>>>> deduplicating -- especially if it's mostly only the zeropage and if it's
+>>>> still that significant when disabling THP?
+>>>>
+>>>>
+>>>> I'm currently investigating with some engineers on playing with enabling KSM
+>>>> on some selected processes (enabling it blindly on all VMAs of that process
+>>>> via madvise() ).
+>>>>
+>>>> One thing we noticed is that such (~50 times) 20MiB processes end up saving
+>>>> ~2MiB of memory per process. That made me suspicious, because it's the THP
+>>>> size.
+>>>>
+>>>> What I think happens is that we have a 2 MiB area (stack?) and only touch a
+>>>> single page. We get a whole 2 MiB THP populated. Most of that THP is zeroes.
+>>>>
+>>>> KSM somehow ends up splitting that THP and deduplicates all resulting
+>>>> zeropages. Thus, we "save" 2 MiB. Actually, it's more like we no longer
+>>>> "waste" 2 MiB. I think the processes with KSM have less (none) THP than the
+>>>> processes with THP enabled, but I only took a look at a sample of the
+>>>> process' smaps so far.
+>>>
+>>> THP and KSM is indeed an interesting problem. Better TLB hits with
+>>> THPs, but reduced chance of deduplicating memory - which may or may
+>>> not result in more IO that outweighs any THP benefits.
+>>>
+>>> That said, the service in the experiment referenced above has swap
+>>> turned on and is under significant memory pressure. Unused splitpages
+>>> would get swapped out. The difference from KSM was from deduplicating
+>>> pages that were in active use, not internal THP fragmentation.
+>> Brainfart, my apologies. It could have been the ksm-induced splits
+>> themselves that allowed the unused subpages to get swapped out in the
+>> first place.
+>
+> Yes, it's not easy to spot that this is implemented. I just wrote a simple
+> reproducer to confirm: modifying a single subpage in a bunch of THP ranges will
+> populate a THP whereby most of the THP is zeroes.
+>
+> As long as you keep accessing the single subpage via the PMD I assume chances of
+> getting it swapped out are lower, because the folio will be references/dirty.
+>
+> KSM will come around and split the THP filled mostly with zeroes and deduplciate
+> the resulting zero pages.
+>
+> [that's where a zeropage-only KSM could be very valuable eventually I think]
+>
+
+We can certainly run an experiment where THP is turned off to verify if we
+observe similar savings,
+
+>> But no, I double checked that workload just now. On a weekly average,
+>> it has about 50 anon THPs and 12 million regular anon. THP is not a
+>> factor in the reduction results.
+>
+> You mean with KSM enabled or with KSM disabled for the process? Not sure if your
+> observation reliably implies that the scenario described couldn't have happened,
+> but it's late in Germany already :)
+>
+> In any case, it would be nice to get a feeling for how much variety in these 20%
+> of deduplicated pages are. For example, if it's 99% the same page or just a wild
+> collection.
+>
+> Maybe "cat /sys/kernel/mm/ksm/pages_shared" would be expressive already. But I
+> seem to be getting "126" in my simple example where only zeropages should get
+> deduplicated, so I have to take another look at the stats tomorrow ...
+
+/sys/kernel/mm/ksm/pages_shared is over 10000 when we run this on an
+Instagram workload. The workload consists of 36 processes plus a few
+sidecar processes.
+
+Also to give some idea for individual VMA's
+
+7ef5d5600000-7ef5e5600000 rw-p 00000000 00:00 0 (Size: 262144 KB, KSM: 73160 KB)
