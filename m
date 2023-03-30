@@ -2,95 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE059C74A5B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Mar 2023 23:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBBEDC74A5B
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 00:11:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230176AbjC2Xzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 19:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55856 "EHLO
+        id S231147AbjC3ALg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 20:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231288AbjC2Xzr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 19:55:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 713151FD2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 16:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680134100;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YDvzU53CPeswLit/FMHu3YOxwiNaBZwdjQxKehJieKw=;
-        b=KpIdcd0gkaSTioCNr4d1uGjOOrF73EuXGl4XHnRkB8stP2uGbqsZavAqKG2ylau/SEF8cg
-        XIivhYRuChbUARFUvIsBLpkgzB47HcvDlDA0XcF2z85E54II7gbDFAXiPQIhc/pFppj3G2
-        MJTa/2sle19+8Rj2Vnko5RmCeunnALc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-gjbwPLEMPuu8BeS56HR0nQ-1; Wed, 29 Mar 2023 19:54:56 -0400
-X-MC-Unique: gjbwPLEMPuu8BeS56HR0nQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C88EE3C0DDA1;
-        Wed, 29 Mar 2023 23:54:55 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.161])
-        by smtp.corp.redhat.com (Postfix) with SMTP id AFE50492C3E;
-        Wed, 29 Mar 2023 23:54:51 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 30 Mar 2023 01:54:48 +0200 (CEST)
-Date:   Thu, 30 Mar 2023 01:54:43 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gregory.price@memverge.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, avagin@gmail.com,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>, krisman@collabora.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, tongtiangen@huawei.com,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v14 1/4] asm-generic,arm64: create task variant of
- access_ok
-Message-ID: <20230329235442.GA10790@redhat.com>
-References: <20230328164811.2451-1-gregory.price@memverge.com>
- <20230328164811.2451-2-gregory.price@memverge.com>
- <20230329151515.GA913@redhat.com>
- <9a456346-e207-44e1-873e-40d21334e01b@app.fastmail.com>
- <20230329160322.GA4477@redhat.com>
- <ZCO20bzX/IB8J6Gp@memverge.com>
- <20230329171322.GB4477@redhat.com>
- <ZCPOpClZ3hOQCs7a@memverge.com>
- <20230329175850.GA8425@redhat.com>
- <ZCQMsWNfkMJ0xHSy@memverge.com>
+        with ESMTP id S231139AbjC3ALd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 20:11:33 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE2B61AC
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 17:11:08 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id y4so70061464edo.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Mar 2023 17:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680135059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zS7IQPDMiW/+hW+Ioye+W55SPe8UpMOLvNbr97Z2oxM=;
+        b=MtcLTgzXeaOaGjVyhZXXnEZhyKHbd/mszjzjeBuOS7ayzlKN4JbJRb6qAhRpwKCUC9
+         WI98oqReLXyzvL8wl+U6rTPzz0Il0jUjFlHCEBSWvbX5zpWc4988i5PJtbzkGvV/gFCL
+         CxA9EzhGU4PzCncX/CrN2IxyXYFghWaV7Kh9MVlW+Nu9SExQsscjwKIXIABkji1j7lMY
+         jmKNzVu89DjiNc18Y6iLXcPz1SewEhn/SeDhLJpaMr4pnX78Gc/pij8HbFcFgH8wFnkv
+         nt/8JHRKbYf8Ra0C3AdoBtMSKjCbRGxOo1/QzcoXKe1jzyZMcbd2TseVaIohEie11Xt0
+         Tgrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680135059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zS7IQPDMiW/+hW+Ioye+W55SPe8UpMOLvNbr97Z2oxM=;
+        b=MkrdqggeyEFak4bEZ1nfYP4Bh61Xj7+HYoci0BOn4j1EzupSYywUfOoBDoa09HVvFU
+         9BxUymj1g3hJ2j7F7bd53Gd1LBpzYei9UeratltHGRku03MqtOx1OUaNWl+OB4kSRLWF
+         1JyCWQ//fNa3rSMMqMN+4ceMGYbWzR9xW4Vx+5rIdgaUJvFHF/1tE1r+I8DSd2pbi70A
+         LkAlJ7Yx10WvUgbdKmx1VLCDTCA4m0/UgfobgMfxfqWJKT8mW5xjeftEkS7MYKrPyyHD
+         cH4Qq3hihZWmQYpwLGSpuyznrZ59RxL5mEvvh6fcBmlwFVXrgD8Z3LZ0G0NMte3HnnOF
+         3luA==
+X-Gm-Message-State: AAQBX9fzbRRjSqtNp5ovZMn3TbWZFzPv2o8h1NZ9CggD6rG4dB06DXF+
+        u0vOoSVeUCa3owkdpsCbRT938cV6dTEFeix7oXZ7Zw==
+X-Google-Smtp-Source: AKy350aQi/2VkOWBIHQZFz8KEl/mv/orzkh9EkbmeOwUKSG+CmSGY34HyXENmyU1zGl0l4nRBuJygVcksv+wRoXFGZw=
+X-Received: by 2002:a17:907:c281:b0:8b1:7682:3181 with SMTP id
+ tk1-20020a170907c28100b008b176823181mr9849398ejc.9.1680135059084; Wed, 29 Mar
+ 2023 17:10:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCQMsWNfkMJ0xHSy@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+References: <20230329110723.3458843-1-sadiyakazi@google.com>
+In-Reply-To: <20230329110723.3458843-1-sadiyakazi@google.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 29 Mar 2023 20:10:47 -0400
+Message-ID: <CAFd5g45kEm2Kmwac3DTYVgWOcXLfp3b8_59euXOiJW8RVxRX0Q@mail.gmail.com>
+Subject: Re: [PATCH v1] list: test: Test the klist structure
+To:     Sadiya Kazi <sadiyakazi@google.com>
+Cc:     davidgow@google.com, skhan@linuxfoundation.org, corbet@lwn.net,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/29, Gregory Price wrote:
+On Wed, Mar 29, 2023 at 7:07=E2=80=AFAM Sadiya Kazi <sadiyakazi@google.com>=
+ wrote:
 >
-> Last note on this before I push up another patch set.
+> Add KUnit tests to the klist linked-list structure.
+> These perform testing for different variations of node add
+> and node delete in the klist data structure (<linux/klist.h>).
 >
-> The change from __get_user to get_user also introduces a call to
-> might_fault() which adds a larger callstack for every syscall /
-> dispatch.  This turns into a might_sleep and might_reschedule, which
-> represent a very different pattern of execution from before.
+> Limitation: Since we use a static global variable, and if
+> multiple instances of this test are run concurrently, the test may fail.
+>
+> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
 
-might_fault() is nop unless CONFIG_PROVE_LOCKING || DEBUG_ATOMIC_SLEEP.
+Looks good!
 
-Again, I won't really argue with task_access_ok(). Just I am not sure
-2/4 gives enough justification for this new helper with unclear semantics
-(until we ensure that access_ok() doesn't depend on current).
-
-Oleg.
-
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
