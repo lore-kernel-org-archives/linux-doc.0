@@ -2,102 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DEE6C761AF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 02:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B89D0C74A5B
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 03:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbjC3C4T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Mar 2023 22:56:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39108 "EHLO
+        id S229679AbjC3DxU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Mar 2023 23:53:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjC3C4S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 22:56:18 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D81475B92;
-        Wed, 29 Mar 2023 19:56:08 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id o11so16839932ple.1;
-        Wed, 29 Mar 2023 19:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680144968;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zcIEVyxOQ9ThEvdTZ3QimlrlYxsMccblwZq0nJEQf8Q=;
-        b=Zec5lJk4rXTCbA+qbB6XLLMkQsH0baL9XmFKOIVsa6DGOJodAy/QjlUIPA+YuJnisG
-         BLviy5bd66/mXjAw691bc1vI4BTemWYukYKjCZ1+jPr0XjLytUY1NT/zNqXehvPbHQ60
-         u//4jHceldp9UErdH8WTE+kZplg5WaFpToTSV3UlAnqAe5F6GUY6hMTMdwhuQqDTtOD2
-         u3vm2zcCg1Kk0SMP5H8FbNCOoU5dUs/LXyL76kqX2uLO96d7wuz5Ri66atDLcCfotByZ
-         DA0qxNlVVaf2BFurz3bXwPR7biZ4WJlZrmKAdrpggFJhgH5bTzqvysSpK1iQKoTWivaM
-         qsbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680144968;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zcIEVyxOQ9ThEvdTZ3QimlrlYxsMccblwZq0nJEQf8Q=;
-        b=tr4QwdFFNZ7nHi4Sm7fWTmgC1N5kzBuGW+fVbTF9xBImrdqj8NRC/7WoGaR494I0y4
-         TWuVjMBuDmFiKl0Xf1WjUWDyfvOqNw9cYO32vlNHC5p8G3thMGcvAYG0Or6KqW3OgWdb
-         O6TgkqBEsPh22Wvhxln47/whqkEeyJ13RLUC9xw0yh4C+rQ5r+VLDAu0kINjM4hciMP2
-         5qoFpZ7Z6vd+AGFQjLxJFklOFn7e9CZZ1sUeKeRS2fnT4FsF6rX+2+WWwVQDDanWXw10
-         ifJ8031KC9+l/BxKgB/5m6fpLFIDnwB/zjWIYgsmcXzsmwGSIFg1Km4z9V/gjoPE9aAr
-         lLxg==
-X-Gm-Message-State: AAQBX9cRtKI8jKuhBtokaugSlidtpitpTqq6E8CdIj2w4glF5pSNyhI3
-        aPFUyxbAnIuiuL9+mLI4SFRxINjOvp9SPv7QEgQ=
-X-Google-Smtp-Source: AKy350aaSitWK+oMnPBGI/HdGFv4oj337IShewGHsQKImjbS99hwBRaF/179UbwYduEu4LT8WrbvDdBJHlGFglrepNY=
-X-Received: by 2002:a17:902:ecc2:b0:1a0:7630:8ef1 with SMTP id
- a2-20020a170902ecc200b001a076308ef1mr8673024plh.11.1680144968218; Wed, 29 Mar
- 2023 19:56:08 -0700 (PDT)
+        with ESMTP id S229588AbjC3DxS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Mar 2023 23:53:18 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B80B4C15;
+        Wed, 29 Mar 2023 20:53:17 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Pn8dT2LXCzKqdc;
+        Thu, 30 Mar 2023 11:52:45 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 30 Mar 2023 11:53:15 +0800
+CC:     <yangyicong@hisilicon.com>, <mathieu.poirier@linaro.org>,
+        <suzuki.poulose@arm.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
+        <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
+        <linuxarm@huawei.com>
+Subject: Re: [PATCH 1/4] hwtracing: hisi_ptt: Make cpumask only present online
+ CPUs
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+References: <20230315094316.26772-1-yangyicong@huawei.com>
+ <20230315094316.26772-2-yangyicong@huawei.com>
+ <20230328172409.000021f5@Huawei.com>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <94e7d85a-d580-94c5-ae2c-fe6a77c21487@huawei.com>
+Date:   Thu, 30 Mar 2023 11:53:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <20230328111714.2056-1-zhangqing@loongson.cn> <CA+fCnZevgYh7CzJ9gOWJ80SwY4Y9w8UO2ZiFAXEnAhQhFgrffA@mail.gmail.com>
- <dccfbff3-7bad-de33-4d96-248bdff44a8b@loongson.cn>
-In-Reply-To: <dccfbff3-7bad-de33-4d96-248bdff44a8b@loongson.cn>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Thu, 30 Mar 2023 04:55:57 +0200
-Message-ID: <CA+fCnZddt50+10SZ+hZRKBudsmMF0W9XpsDG6=58p1ot62LjXQ@mail.gmail.com>
-Subject: Re: [PATCH] LoongArch: Add kernel address sanitizer support
-To:     Qing Zhang <zhangqing@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, loongarch@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230328172409.000021f5@Huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 4:06=E2=80=AFAM Qing Zhang <zhangqing@loongson.cn> =
-wrote:
->
-> > But I don't think you need this check here at all: addr_has_metadata
-> > already checks that shadow exists.
-> >
-> On LongArch, there's a lot of holes between different segments, so kasan
-> shadow area is some different type of memory that we concatenate, we
-> can't use if (unlikely((void *)addr <
-> kasan_shadow_to_mem((void *)KASAN_SHADOW_START))) to determine the
-> validity, and in arch/loongarch/include/asm/kasan.h I construct invalid
-> NULL.
+On 2023/3/29 0:24, Jonathan Cameron wrote:
+> On Wed, 15 Mar 2023 17:43:13 +0800
+> Yicong Yang <yangyicong@huawei.com> wrote:
+> 
+>> From: Yicong Yang <yangyicong@hisilicon.com>
+>>
+>> perf will try to start PTT trace on every CPU presented in cpumask sysfs
+>> attribute and it will fail to start on offline CPUs(see the comments in
+>> perf_event_open()). But the driver is using cpumask_of_node() to export
+>> the available cpumask which may include offline CPUs and may fail the
+>> perf unintendedly. Fix this by only export the online CPUs of the node.
+> 
+> There isn't clear documentation that I can find for cpumask_of_node()
+> and chasing through on arm64 (which is what we care about for this driver)
+> it's maintained via numa_add_cpu() numa_remove_cpu()
+> Those are called in arch/arm64/kernel/smp.c in locations that are closely coupled
+> with set_cpu_online(cpu, XXX);
+> https://elixir.bootlin.com/linux/v6.3-rc4/source/arch/arm64/kernel/smp.c#L246
+> https://elixir.bootlin.com/linux/v6.3-rc4/source/arch/arm64/kernel/smp.c#L303
+> 
+> Now there are races when the two might not be in sync but in this case
+> we are just exposing the result to userspace, so chances of a race
+> after this sysfs attribute has been read seems much higher to me and
+> I don't think we can do anything about that.
+> 
+> Is there another path that I'm missing where online and node masks are out
+> of sync?
+> 
 
-I get that, but you already added a special case for
-__HAVE_ARCH_SHADOW_MAP to addr_has_metadata, so you can just call it?
+maybe no. This patch maybe incorrect and I need more investigation, so let's me
+drop it from the series. Tested and everything seems fine now.
 
-> This is because in pagetable_init on loongarch/mips, we populate pmd/pud
-> with invalid_pmd_table/invalid_pud_table,
+I found this problem and referred to commit 064f0e9302af ("mm: only display online cpus of the numa node")
+which might be the same problem. But seems unnecessary that cpumask_of_node()
+already include online CPUs only.
 
-I see. Please add this into the patch description for v2.
+Thanks.
 
-> So pmd_init/pud_init(p) is required, perhaps we define them as __weak in
-> mm/kasan/init.c, like mm/sparse-vmemmap.c.
-
-Yes, this makes sense to do, so that KASAN doesn't depend on
-definitions from sparse-vmemmap.c.
-
-Thank you!
+> Jonathan
+> 
+> 
+>>
+>> Fixes: ff0de066b463 ("hwtracing: hisi_ptt: Add trace function support for HiSilicon PCIe Tune and Trace device")
+>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> 
+>> ---
+>>  drivers/hwtracing/ptt/hisi_ptt.c | 13 +++++++++++--
+>>  1 file changed, 11 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
+>> index 30f1525639b5..0a10c7ec46ad 100644
+>> --- a/drivers/hwtracing/ptt/hisi_ptt.c
+>> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
+>> @@ -487,9 +487,18 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
+>>  			    char *buf)
+>>  {
+>>  	struct hisi_ptt *hisi_ptt = to_hisi_ptt(dev_get_drvdata(dev));
+>> -	const cpumask_t *cpumask = cpumask_of_node(dev_to_node(&hisi_ptt->pdev->dev));
+>> +	cpumask_var_t mask;
+>> +	ssize_t n;
+>>  
+>> -	return cpumap_print_to_pagebuf(true, buf, cpumask);
+>> +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
+>> +		return 0;
+>> +
+>> +	cpumask_and(mask, cpumask_of_node(dev_to_node(&hisi_ptt->pdev->dev)),
+>> +		    cpu_online_mask);
+>> +	n = cpumap_print_to_pagebuf(true, buf, mask);
+>> +	free_cpumask_var(mask);
+>> +
+>> +	return n;
+>>  }
+>>  static DEVICE_ATTR_RO(cpumask);
+>>  
+> 
+> .
+> 
