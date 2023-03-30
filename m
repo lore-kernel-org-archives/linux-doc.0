@@ -2,221 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 647D3C74A5B
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 04:27:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C60D7C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 04:33:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbjC3E14 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 00:27:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56360 "EHLO
+        id S229634AbjC3EdA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 00:33:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbjC3E1z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 00:27:55 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2199C49D8;
-        Wed, 29 Mar 2023 21:27:53 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id kc4so16940162plb.10;
-        Wed, 29 Mar 2023 21:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680150472;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1U9hRJb89Ko+9M6v6pJAp28XNpi16VYv1bAP4awuv0g=;
-        b=LIgQ14kRBiNS1bRbv5v25/KuQ/PArb3SXrTw6ysSwLa9pyG1xvTYw8rhkQt0tW+q+Z
-         9YBaZAZCopHQg0DB7qPA2tM96IW7mmvTKEa1jRzz6+KDh4CQhfFn7QNIRZSGNzXzjFjp
-         IIQe8RthM0YhPT/SMqM2uVZQG3Mf5LR+PtvDZsaZdFi1DdSrzgeem4xYc2Pjj7btWRiy
-         JHLm5lJPpUEH1Z3iVYyWufnuRaJOD4zd/vojI8FYOGyo5JkMXkGCtq9jNFmPiDA2v5Re
-         N7vu0ho1MKdOtye2g7G7XoNdVOi4bPGJe69dLeBoK7jHNGz923ry5kwni3H8xOOfTRQA
-         z7fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680150472;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1U9hRJb89Ko+9M6v6pJAp28XNpi16VYv1bAP4awuv0g=;
-        b=xZO6zLAEbrlzy/CGSCLGInBP3ATEunVuCZkWbiWGyrKqxe2xnTnsSeYPpPJYSahRsX
-         NzRPcjmXRjjHOFBT8p1WVUKqcM4hhvwQ4NgkUH59RLTu9t3Qbp9vIrQa9GNTmXv1dTEV
-         DNNbN8Kl3XM4Av3/TdSlTlJcMI0obx9Ffkc1cv05qEflYv86YHIHYSrTXWj15+uM6s/z
-         IM1TDlTEME7ckM1r1OKMeH5/ccdg8o2I7S+2k9IEY9Lp7XPFdWW6X0cDNQBhzstXSpEy
-         6iUfED+RWmw49HhaybHeCu3iJP5n7cg0N6p1HIlsWHpfN2yhy8BSTz1oZTy5FkcEBXqq
-         fD8A==
-X-Gm-Message-State: AAQBX9ehdzt3XjmMXlY6GN620q6BpwjbyPb+VIagazYelNGGl0wKS3gd
-        N1uf802Cg+XAVEJthiP6MVg=
-X-Google-Smtp-Source: AKy350bUMcUm7OdolOcWYu5kDPquWvi2jXfjzFNmcp9lbP9AVHR+B2cSCowNhA5w6gvFCIeYfCmr/Q==
-X-Received: by 2002:a17:902:e88e:b0:19d:ee88:b4d7 with SMTP id w14-20020a170902e88e00b0019dee88b4d7mr26613416plg.25.1680150472557;
-        Wed, 29 Mar 2023 21:27:52 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-71.three.co.id. [180.214.232.71])
-        by smtp.gmail.com with ESMTPSA id c13-20020a170902c1cd00b0019f2328bef8sm23800979plc.34.2023.03.29.21.27.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 21:27:51 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 7D71F10672E; Thu, 30 Mar 2023 11:27:48 +0700 (WIB)
-Date:   Thu, 30 Mar 2023 11:27:48 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Feng Tang <feng.tang@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        with ESMTP id S229552AbjC3Ec7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 00:32:59 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B840B10F2;
+        Wed, 29 Mar 2023 21:32:57 -0700 (PDT)
+Received: from loongson.cn (unknown [113.200.148.30])
+        by gateway (Coremail) with SMTP id _____8AxJIT4ECVklDcUAA--.31182S3;
+        Thu, 30 Mar 2023 12:32:56 +0800 (CST)
+Received: from [10.130.0.102] (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxLuT1ECVkA_oQAA--.48468S3;
+        Thu, 30 Mar 2023 12:32:55 +0800 (CST)
+Subject: Re: [PATCH] LoongArch: Add kernel address sanitizer support
+To:     Andrey Konovalov <andreyknvl@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Shakeel Butt <shakeelb@google.com>, dave.hansen@intel.com,
-        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com
-Subject: Re: [PATCH v2] Documentation: Add document for false sharing
-Message-ID: <ZCUPxMQPJ8ETvUbM@debian.me>
-References: <20230329073322.323177-1-feng.tang@intel.com>
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>
+References: <20230328111714.2056-1-zhangqing@loongson.cn>
+ <CA+fCnZevgYh7CzJ9gOWJ80SwY4Y9w8UO2ZiFAXEnAhQhFgrffA@mail.gmail.com>
+ <dccfbff3-7bad-de33-4d96-248bdff44a8b@loongson.cn>
+ <CA+fCnZddt50+10SZ+hZRKBudsmMF0W9XpsDG6=58p1ot62LjXQ@mail.gmail.com>
+From:   Qing Zhang <zhangqing@loongson.cn>
+Message-ID: <2360000f-7292-9da8-d6b5-94b125c5f2b0@loongson.cn>
+Date:   Thu, 30 Mar 2023 12:32:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+bc6jzHwCokGdRls"
-Content-Disposition: inline
-In-Reply-To: <20230329073322.323177-1-feng.tang@intel.com>
+In-Reply-To: <CA+fCnZddt50+10SZ+hZRKBudsmMF0W9XpsDG6=58p1ot62LjXQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxLuT1ECVkA_oQAA--.48468S3
+X-CM-SenderInfo: x2kd0wptlqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWrKF4xGryxJF48Aw18Ww4UJwb_yoW8Jr4rpa
+        40kF95trsYyFn2vwn2kw1rtryjyF1fury3WFn8Kw1Fya4Y9Fy8KF1rGa4rCFykXrWxGw1Y
+        vwnFyasxJr4UAaDanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bqkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+        n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+        AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
+        s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
+        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41l
+        IxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIx
+        AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2
+        jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jz5lbUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---+bc6jzHwCokGdRls
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 29, 2023 at 03:33:22PM +0800, Feng Tang wrote:
-> +False sharing hurting performance cases are seen more frequently with
-> +core count increasing.  Because of these detrimental effects, many
-> +patches have been proposed across variety of subsystems (like
-> +networking and memory management) and merged.  Some common mitigations
-> +(with examples) are:
-> +
-> +* Separate hot global data in its own dedicated cache line, even if it
-> +  is just a 'short' type. The downside is more consumption of memory,
-> +  cache line and TLB entries.
-> +
-> +  - Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_soc=
-kets_allocated")
-> +
-> +* Reorganize the data structure, separate the interfering members to
-> +  different cache lines.  One downside is it may introduce new false
-> +  sharing of other members.
-> +
-> +  - Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduc=
-e false sharing")
-> +
-> +* Replace 'write' with 'read' when possible, especially in loops.
-> +  Like for some global variable, use compare(read)-then-write instead
-> +  of unconditional write. For example, use::
-> +
-> +	if (!test_bit(XXX))
-> +		set_bit(XXX);
-> +
-> +  instead of directly "set_bit(XXX);", similarly for atomic_t data.
-"... The similar technique is also applicable to atomic_t data".
+On 2023/3/30 上午10:55, Andrey Konovalov wrote:
+> On Thu, Mar 30, 2023 at 4:06 AM Qing Zhang <zhangqing@loongson.cn> wrote:
+>>
+>>> But I don't think you need this check here at all: addr_has_metadata
+>>> already checks that shadow exists.
+>>>
+>> On LongArch, there's a lot of holes between different segments, so kasan
+>> shadow area is some different type of memory that we concatenate, we
+>> can't use if (unlikely((void *)addr <
+>> kasan_shadow_to_mem((void *)KASAN_SHADOW_START))) to determine the
+>> validity, and in arch/loongarch/include/asm/kasan.h I construct invalid
+>> NULL.
+> 
+> I get that, but you already added a special case for
+> __HAVE_ARCH_SHADOW_MAP to addr_has_metadata, so you can just call it?
+> 
+ok, all the changes are going to be in v2.
 
-But how?
+Thanks,
+-Qing
+>> This is because in pagetable_init on loongarch/mips, we populate pmd/pud
+>> with invalid_pmd_table/invalid_pud_table,
+> 
+> I see. Please add this into the patch description for v2.
+> 
+>> So pmd_init/pud_init(p) is required, perhaps we define them as __weak in
+>> mm/kasan/init.c, like mm/sparse-vmemmap.c.
+> 
+> Yes, this makes sense to do, so that KASAN doesn't depend on
+> definitions from sparse-vmemmap.c.
+> 
+> Thank you!
+> 
 
-> +
-> +  - Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() m=
-ultithreaded CPU false sharing")
-> +  - Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
-> +
-> +* Turn hot global data to 'per-cpu data + global data' when possible,
-> +  or reasonably increase the threshold for syncing per-cpu data to
-> +  global data, to reduce or postpone the 'write' to that global data.
-> +
-> +  - Commit 520f897a3554 ("ext4: use percpu_counters for extent_status ca=
-che hits/misses")
-> +  - Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to =
-vm overcommit policy")
-> +
-
-Here's what I mean by bridging conjunctions to example commits as I reviewed
-in v1 [1]:
-
----- >8 ----
-diff --git a/Documentation/kernel-hacking/false-sharing.rst b/Documentation=
-/kernel-hacking/false-sharing.rst
-index ceeaf20290eabd..3b08f6f16d442e 100644
---- a/Documentation/kernel-hacking/false-sharing.rst
-+++ b/Documentation/kernel-hacking/false-sharing.rst
-@@ -141,19 +141,18 @@ False sharing hurting performance cases are seen more=
- frequently with
- core count increasing.  Because of these detrimental effects, many
- patches have been proposed across variety of subsystems (like
- networking and memory management) and merged.  Some common mitigations
--(with examples) are:
-+are:
-=20
- * Separate hot global data in its own dedicated cache line, even if it
-   is just a 'short' type. The downside is more consumption of memory,
--  cache line and TLB entries.
--
--  - Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_socke=
-ts_allocated")
-+  cache line and TLB entries. The example implentation is in commit
-+  91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_sockets_alloca=
-ted").
-=20
- * Reorganize the data structure, separate the interfering members to
-   different cache lines.  One downside is it may introduce new false
--  sharing of other members.
--
--  - Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduce =
-false sharing")
-+  sharing of other members. How it is done is illustrated by commit
-+  802f1d522d5f ("mm: page_counter: re-layout structure to reduce false
-+  sharing").
-=20
- * Replace 'write' with 'read' when possible, especially in loops.
-   Like for some global variable, use compare(read)-then-write instead
-@@ -163,16 +162,21 @@ networking and memory management) and merged.  Some c=
-ommon mitigations
- 		set_bit(XXX);
-=20
-   instead of directly "set_bit(XXX);", similarly for atomic_t data.
-+  Example commits are:
-=20
--  - Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() mul=
-tithreaded CPU false sharing")
--  - Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
-+  - 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() multithrea=
-ded
-+    CPU false sharing")
-+  - 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
-=20
- * Turn hot global data to 'per-cpu data + global data' when possible,
-   or reasonably increase the threshold for syncing per-cpu data to
-   global data, to reduce or postpone the 'write' to that global data.
-+  Examples are in commits:
-=20
--  - Commit 520f897a3554 ("ext4: use percpu_counters for extent_status cach=
-e hits/misses")
--  - Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm=
- overcommit policy")
-+  - 520f897a3554 ("ext4: use percpu_counters for extent_status cache
-+    hits/misses")
-+  - 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to vm overco=
-mmit
-+    policy")
-=20
- Surely, all mitigations should be carefully verified to not cause side
- effects.  And to avoid false sharing in advance during coding, it's
-
-Thanks.
-
-[1]: https://lore.kernel.org/linux-doc/ZB2baIDIPhxj5Vdl@debian.me/
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---+bc6jzHwCokGdRls
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCUPvwAKCRD2uYlJVVFO
-o6ngAQCe45mznyyZlyy4uLSGqihng7Df4U/iJd9SjCZBs5/2+gD9Ei5+SL30Pf4H
-NOpggsvX5sBAmHridg0qrx79tLN/pQE=
-=WQq6
------END PGP SIGNATURE-----
-
---+bc6jzHwCokGdRls--
