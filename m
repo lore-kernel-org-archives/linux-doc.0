@@ -2,171 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B881BC6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 20:21:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2658C7619A
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Mar 2023 21:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbjC3UVL convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Mar 2023 16:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58158 "EHLO
+        id S229710AbjC3VVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Mar 2023 17:21:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbjC3UVJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 16:21:09 -0400
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC00440D3;
-        Thu, 30 Mar 2023 13:21:06 -0700 (PDT)
-Received: from ip4d1634d3.dynamic.kabel-deutschland.de ([77.22.52.211] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <heiko@sntech.de>)
-        id 1phylD-0006W9-Vs; Thu, 30 Mar 2023 22:20:40 +0200
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     Arnd Bergmann <arnd@arndb.de>, Evan Green <evan@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Conor Dooley <conor@kernel.org>, slewis@rivosinc.com,
-        Vineet Gupta <vineetg@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        guoren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
-Date:   Thu, 30 Mar 2023 22:20:38 +0200
-Message-ID: <6540574.4vTCxPXJkl@diego>
-In-Reply-To: <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
-References: <20230221190858.3159617-1-evan@rivosinc.com>
- <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com>
- <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
+        with ESMTP id S229505AbjC3VVd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Mar 2023 17:21:33 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D00476A5;
+        Thu, 30 Mar 2023 14:21:32 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id x8so15103293qvr.9;
+        Thu, 30 Mar 2023 14:21:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680211291;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QtOE0UMdyRWqW8gZrFdzTK9tdy2bCuRHI9iq9QcRs8U=;
+        b=YFrzgje9+BktWWsfijArlckeFM4ZwzHGvPVl1UoisAE3+PFchEH13Yb4PZaV1vPFQW
+         kFZA2kGvPdejGt4uN4dISDfE7lV2T9um8oBoJOwi1jn3mE/Eadx3JQnCL77B6WU/H6wc
+         3nosF6elcxP1Ugs66NbPFlmw/uuUDnSTvVB5vSWryTUYKjlbJg0d1eiLaPlp9hD2EM9N
+         m/rl1F2XwmqhKNgd4bkzf7Swc3mQb9J2nunymMMarwyAb0fhUL7Gym6M11V2JLS+kOk/
+         Bz50CyTRiFrvwSXhXaWCmq5+uJ4Y4PYw9j6TRvl38JwhBQdtu14ObXBe3MhzsOIbb+0U
+         qoCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680211291;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QtOE0UMdyRWqW8gZrFdzTK9tdy2bCuRHI9iq9QcRs8U=;
+        b=JbASzsfkGpEUJjmCy1S23trY2cPFygqLEVCphOBJnf2PJvmrlhbh+E4S9QoLc+wZ0w
+         SbUqi7PIy2ciIZ/3/i67cWym21LLhoDWjdYrXs9t0LJJwFRUCJ8pABRvj2pfiFGmOQt7
+         FPal1/YFnaGyhJGyhN+Jh2AX/Bjf4y8R2vwS92F2hRKaTn3eXIKm3TxYWLrGAiCvSq90
+         pQ2p39M04tF+NSA61DMg9b1uIWsyX773CrLRI1imoDyjrdvSfki2iko3WtCcBFF8pmoQ
+         rB+PcLrxvyRCPBoU//aeQaea5dLpYaxBckk5ntyIceM8Tin2JV9tWE+bMXPlImsuZJGA
+         isKw==
+X-Gm-Message-State: AAQBX9fonrPvSItomr5AdyRcDF5kNSLRyPl2udhCdj2m1ol/qkN3ywEu
+        ZJpjuASCOcTvAUYJ4ly0M9fMaec93NoXKcI=
+X-Google-Smtp-Source: AKy350YwogZzSCdVnLOQ8xz3NArRj7h88NOMJmHPk6DJwoLdAIK8qFrmrPteEvVqaHqaledt3Qav0A==
+X-Received: by 2002:a05:6214:1cc7:b0:56c:13cc:d21f with SMTP id g7-20020a0562141cc700b0056c13ccd21fmr40185191qvd.50.1680211291043;
+        Thu, 30 Mar 2023 14:21:31 -0700 (PDT)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id mx5-20020a0562142e0500b005dd8b9345desm110761qvb.118.2023.03.30.14.21.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 14:21:30 -0700 (PDT)
+From:   Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
+        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
+        corbet@lwn.net, shuah@kernel.org, catalin.marinas@arm.com,
+        arnd@arndb.de, Gregory Price <gregory.price@memverge.com>
+Subject: [PATCH v15 0/4] Checkpoint Support for Syscall User Dispatch
+Date:   Thu, 30 Mar 2023 17:21:18 -0400
+Message-Id: <20230330212121.1688-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Donnerstag, 30. März 2023, 20:30:29 CEST schrieb Evan Green:
-> On Thu, Feb 23, 2023 at 2:06 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Tue, Feb 21, 2023, at 20:08, Evan Green wrote:
-> > > We don't have enough space for these all in ELF_HWCAP{,2} and there's no
-> > > system call that quite does this, so let's just provide an arch-specific
-> > > one to probe for hardware capabilities.  This currently just provides
-> > > m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
-> > > the future.
-> > >
-> > > Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> > > Signed-off-by: Evan Green <evan@rivosinc.com>
-> >
-> > I'm still skeptical about the need for a custom syscall interface here.
-> > I had not looked at the interface so far, but there are a few things
-> > that stick out:
-> >
-> > > +RISC-V Hardware Probing Interface
-> > > +---------------------------------
-> > > +
-> > > +The RISC-V hardware probing interface is based around a single
-> > > syscall, which
-> > > +is defined in <asm/hwprobe.h>::
-> > > +
-> > > +    struct riscv_hwprobe {
-> > > +        __s64 key;
-> > > +        __u64 value;
-> > > +    };
-> >
-> > The way this is defined, the kernel will always have to know
-> > about the specific set of features, it can't just forward
-> > unknown features to user space after probing them from an
-> > architectured hardware interface or from DT.
-> 
-> You're correct that this interface wasn't intended to have usermode
-> come in with augmented data or additional key/value pairs. This was
-> purely meant to provide access to the kernel's repository of
-> architectural and microarchitectural details. If usermode wants to
-> provide extra info in this same form, maybe they could wrap this
-> interface.
->
-> > If 'key' is just an enumerated value with a small number of
-> > possible values, I don't see anything wrong with using elf
-> > aux data. I understand it's hard to know how many keys
-> > might be needed in the long run, from the way you define
-> > the key/value pairs here, I would expect it to have a lot
-> > of the same limitations that the aux data has, except for
-> > a few bytes to be copied.
-> 
-> Correct, this makes allocating bits out of here cheaper by not
-> requiring that we actively copy them into every new process forever.
-> You're right that the aux vector would work as well, but the thinking
-> behind this series was that an interface like this might be better for
-> an architecture as extensible as risc-v.
+v15: drop task_access_ok variant, instead prefer to just untag the
+     selector address when validating the user pointer.
 
-What would be the ramifications of defining some sort of vdso-like
-data-structure and just putting the address into AT_HWCAP2 ?
-(similar to what vdso does) - that could then even be re-usable
-with other OS kernels.
+v14: implement task_access_ok variant for cross-task pointer checks
 
-And would also save declaring numerous new AT_* keys.
+v13: sizeof consistency and cosmetic changes in patch 2
 
+v12: split test into its own patch
+     change from padding a u8 to using a u64
+     casting issues
+     checkpatch.pl
 
-Because there are already nearly 130 standard extensions and vendors
-are allowed to defines their own as well, and we will probably also want
-to tell userspace about them.
+[truncating version history]
 
+Syscall user dispatch makes it possible to cleanly intercept system
+calls from user-land.  However, most transparent checkpoint software
+presently leverages some combination of ptrace and system call
+injection to place software in a ready-to-checkpoint state.
 
-Heiko
+If Syscall User Dispatch is enabled at the time of being quiesced,
+injected system calls will subsequently be interposed upon and
+dispatched to the task's signal handler.
 
+Patch summary:
 
-> > > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
-> > > pair_count,
-> > > +                           size_t cpu_count, cpu_set_t *cpus,
-> > > +                           unsigned long flags);
-> >
-> > The cpu set argument worries me more: there should never be a
-> > need to optimize for broken hardware that has an asymmetric set
-> > of features. Just let the kernel figure out the minimum set
-> > of features that works across all CPUs and report that like we
-> > do with HWCAP. If there is a SoC that is so broken that it has
-> > important features on a subset of cores that some user might
-> > actually want to rely on, then have them go through the slow
-> > sysfs interface for probing the CPUs indidually, but don't make
-> > the broken case easier at the expense of normal users that
-> > run on working hardware.
-> 
-> I'm not so sure. While I agree with you for major classes of features
-> (eg one CPU has floating point support but another does not), I expect
-> these bits to contain more subtle details as well, which might vary
-> across asymmetric implementations without breaking ABI compatibility
-> per-se. Maybe some vendor has implemented exotic video decoding
-> acceleration instructions that only work on the big core. Or maybe the
-> big cores support v3.1 of some extension (where certain things run
-> faster), but the little cores only have v3.0, where it's a little
-> slower. Certain apps would likely want to know these things so they
-> can allocate their work optimally across cores.
-> 
-> >
-> > > +asmlinkage long sys_riscv_hwprobe(uintptr_t, uintptr_t, uintptr_t,
-> > > uintptr_t,
-> > > +                               uintptr_t, uintptr_t);
-> >
-> > Why 'uintptr_t' rather than the correct type?
-> 
-> Fixed.
-> -Evan
-> 
+- Refactor configuration setting interface to operate on a task
+  rather than current, so the set and error paths can be consolidated
 
+- Untag the selector address when being set in order to enable an
+  untagged tracer to set a tagged tracee's syscall dispatch selector.
+  Otherwise an untagged tracer will always fail to set a tagged address.
 
+- Implement a getter interface for Syscall User Dispatch config info.
+  To resume successfully, the checkpoint/resume software has to
+  save and restore this information.  Presently this configuration
+  is write-only, with no way for C/R software to save it.
 
+  This was done in ptrace because syscall user dispatch is not part of
+  uapi. The syscall_user_dispatch_config structure was added to the
+  ptrace exports.
+
+- Selftest for the new feature
+
+Gregory Price (4):
+  syscall_user_dispatch: helper function to operate on given task
+  syscall user dispatch: untag selector addresses before access_ok
+  ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+  selftest,ptrace: Add selftest for syscall user dispatch config api
+
+ .../admin-guide/syscall-user-dispatch.rst     |  4 +
+ include/linux/syscall_user_dispatch.h         | 18 +++++
+ include/uapi/linux/ptrace.h                   | 29 +++++++
+ kernel/entry/syscall_user_dispatch.c          | 78 ++++++++++++++++---
+ kernel/ptrace.c                               |  9 +++
+ tools/testing/selftests/ptrace/.gitignore     |  1 +
+ tools/testing/selftests/ptrace/Makefile       |  2 +-
+ tools/testing/selftests/ptrace/get_set_sud.c  | 72 +++++++++++++++++
+ 8 files changed, 203 insertions(+), 10 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/get_set_sud.c
+
+-- 
+2.39.1
 
