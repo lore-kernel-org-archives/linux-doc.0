@@ -2,161 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95753C76196
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 13:21:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F12C761A6
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 14:24:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232211AbjCaNVk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 09:21:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56282 "EHLO
+        id S231766AbjCaOY3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 10:24:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231944AbjCaNVj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 09:21:39 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B0387DB2;
-        Fri, 31 Mar 2023 06:21:38 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id C023A5C00DE;
-        Fri, 31 Mar 2023 09:21:36 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 31 Mar 2023 09:21:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1680268896; x=1680355296; bh=ovGzLmCRYBV+Fk+VtkV1DusgbzUNCjhBOgu
-        eGJt1E/8=; b=khLHOepKtLXil1QvVmBA3JXD9wtQsSf0cBJ+mrHf5oL9PmEAjL/
-        WVpQtfOzsR6aPxknWPv7ZE89f9qTiqEQg3ZgXBsH+1fmldBU0syAtomPeQ/M8KtF
-        y8ydHdDN1zLNOQhzBz7fx7Wj981ct9AW6eLp9b5a51p3EMyTNkLPIfNJg1fppGuX
-        zsbAgJ3UrB14XKDY5U9Y9Mr22wbGERxxla/oc5vDsUkGrAuh4U6PHLpGvow5oWe1
-        LC9vG06Wj6bTUZ6hv/cRtHK79mhPfo2CwBUFM1kwr+oLLQ6ruSQ5U92dWbvBALGW
-        r7CVi3SBYGvnAcypzGT9inr4OiWiUIgZRHQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1680268896; x=1680355296; bh=ovGzLmCRYBV+Fk+VtkV1DusgbzUNCjhBOgu
-        eGJt1E/8=; b=CQvWK84Fn9nouXU6aTYtwXulujSysorotuAgKWMuGaXNXStqH1v
-        rFYE0q7n5U4dGAlaF6kjDlC08vnB+PDDJxUzIXjcEe1SH4ZYVb3uJ1rY/DM+2fLZ
-        l8QnbtPU5ULRi/ru+USclnnFwOiPYsvBO9rhZoLXJd7UZCsD3mHqfZUshItFmpYi
-        ZVS7vmXKe9Q92UmHHnTy9xcAg1QQT9NmRr3USK2ziMtw/STs0bZcH0KsvDqkEjf6
-        xZCA0KCtEtrgnFrRO23CtsCS0aDDbJ+b+FM5ZJWO/b+kKH99/g+h+QuJrUoRjGJB
-        AJ2Ex/w1lXMsCiKzMUBGpvEMqB2F3B2dSyA==
-X-ME-Sender: <xms:X94mZL9Ym39WBSyBfh1g0SRjLRCalx4op-MAUh9U5roJn_FeYGL04A>
-    <xme:X94mZHt_6qAJQXsydcD34NHf98IjjOENci7qtPwPQ4Oq3FQ2-GqR9wuj59Ei-E_cS
-    Cu-38MmxdCxJHqDKvM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiuddgiedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:YN4mZJAhJVnAYtZTUN7-g0dZBBkGLUtNRIo0LNaxWgM7ytI00Rr7hA>
-    <xmx:YN4mZHcWmmZEHu4IUF6Kt_RAEPLeZ3uSl-DukPDi8kcp0iJFd3LCHw>
-    <xmx:YN4mZAM_wkOeO78T2JwfrQyPgjpulPVsbxPm8ZNUM4ukuPTh8zvASA>
-    <xmx:YN4mZPPIw38AtrfICw7dFjCEq6HTcgeaZevW3fEznSQbBcI2Me8mhg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id E38FFB6008D; Fri, 31 Mar 2023 09:21:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
-Mime-Version: 1.0
-Message-Id: <d91ffb1e-261b-4b2f-a78f-f2846600a3e7@app.fastmail.com>
-In-Reply-To: <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
-References: <20230221190858.3159617-1-evan@rivosinc.com>
- <20230221190858.3159617-3-evan@rivosinc.com>
- <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com>
- <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
-Date:   Fri, 31 Mar 2023 15:21:15 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Evan Green" <evan@rivosinc.com>
-Cc:     "Palmer Dabbelt" <palmer@rivosinc.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        "Conor Dooley" <conor@kernel.org>, slewis@rivosinc.com,
-        "Vineet Gupta" <vineetg@rivosinc.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Andrew Bresticker" <abrestic@rivosinc.com>,
-        "Andrew Jones" <ajones@ventanamicro.com>,
-        "Anup Patel" <apatel@ventanamicro.com>,
-        "Atish Patra" <atishp@rivosinc.com>,
-        "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        "Celeste Liu" <coelacanthus@outlook.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        guoren <guoren@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        "Niklas Cassel" <niklas.cassel@wdc.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        "Ruizhe Pan" <c141028@gmail.com>,
-        "Sunil V L" <sunilvl@ventanamicro.com>,
-        "Tobias Klauser" <tklauser@distanz.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S231415AbjCaOY2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 10:24:28 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 428282112
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 07:24:27 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id h14so10215549ilj.0
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 07:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680272666; x=1682864666;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6UCEBU5mLz9QdxPqNmojtQa38OeHK3XeLs0yM78qHDU=;
+        b=ysa2qjifmTJO9JHHygIj29NmPqr7X++zxe0C5SngoNEYEgnb6q3wTU0Ve8V3Hk83qq
+         xyyQcuFNn2Joc/XP++7VT03IfLitF+LM8DOP0xJ/cRTKpR8InW0+3C31Mbh7F4ztZUnN
+         zCwyOiMRX2fzNPiOUI2aIg9/HgN+XbXvLdihCmNm2Bn3LDgvSfYnMYm8EToTOrGMPf4J
+         osR6kfHsUdXfrRt0vB+TpSvVef8YETc489yJTl/1WCscdnWZZqFjVrNKxgL4vB/EFSrR
+         ZsF7jEu35iOjh6Q4RD19FIcrALibJKiLmUQfYeA4xvDxLcjtld6MgCvxU/RzPK2vfkfP
+         Ae1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680272666; x=1682864666;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6UCEBU5mLz9QdxPqNmojtQa38OeHK3XeLs0yM78qHDU=;
+        b=vLXlIK8/2pDobXItbIYSA+6+R87XduyBSCWG6pt2/Fa0BDNkeZVj0Qx6rDDvXF4c20
+         LudfhAbNUo+0MJpRt1sAeUzPGzLHDF70dd0XsVhnhwyV1IZzd9IxEK5EROSSV9NUZDDv
+         NgAkyirky3mDT3QU3q53VYGc99yqMI9rT6wS+dMmhIoCHZrAhAVhRHIl0fhx8sMnE+yZ
+         zJTSQaiYMyQlKkdzpwQ63CSVjNYOB/CmVFlIke7jsHa4CPgpqBSzgxEJRXcxvaWuCZaa
+         2EP9CwYgg9W3rw1eiwwMDkkTdkYLnvzRrMdB3oeZhC6gK4jtJ2B+9PRXmSVHDAsYGYW9
+         dmoQ==
+X-Gm-Message-State: AAQBX9d1MQfgLTUGcq0pN9+/Zs8n0I8UEz1NmdAoVAcTtbDv0AtWeMmk
+        oKiJi2RgNtP/GrYUqVBoP1eg4w==
+X-Google-Smtp-Source: AKy350YVgRKOO4Y8oepZkwpgSMnl2j7X6N2/BaBvJ1LPgAjZRmKLiJF6tNiaXZIiQzSXa2KbugpiaA==
+X-Received: by 2002:a05:6e02:4cb:b0:323:f57c:806d with SMTP id f11-20020a056e0204cb00b00323f57c806dmr14994799ils.3.1680272666593;
+        Fri, 31 Mar 2023 07:24:26 -0700 (PDT)
+Received: from [172.22.22.4] ([98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id g3-20020a056e020d0300b003230c7d6a3csm657043ilj.67.2023.03.31.07.24.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Mar 2023 07:24:25 -0700 (PDT)
+Message-ID: <88a4808c-5f45-cb07-83bb-039f9d832b5b@linaro.org>
+Date:   Fri, 31 Mar 2023 09:24:24 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From:   Alex Elder <elder@linaro.org>
+Subject: Re: [PATCH v11 00/26] Drivers for gunyah hypervisor
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20230304010632.2127470-1-quic_eberman@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023, at 20:30, Evan Green wrote:
-> On Thu, Feb 23, 2023 at 2:06=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> =
-wrote:
->> > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
->> > pair_count,
->> > +                           size_t cpu_count, cpu_set_t *cpus,
->> > +                           unsigned long flags);
->>
->> The cpu set argument worries me more: there should never be a
->> need to optimize for broken hardware that has an asymmetric set
->> of features. Just let the kernel figure out the minimum set
->> of features that works across all CPUs and report that like we
->> do with HWCAP. If there is a SoC that is so broken that it has
->> important features on a subset of cores that some user might
->> actually want to rely on, then have them go through the slow
->> sysfs interface for probing the CPUs indidually, but don't make
->> the broken case easier at the expense of normal users that
->> run on working hardware.
->
-> I'm not so sure. While I agree with you for major classes of features
-> (eg one CPU has floating point support but another does not), I expect
-> these bits to contain more subtle details as well, which might vary
-> across asymmetric implementations without breaking ABI compatibility
-> per-se. Maybe some vendor has implemented exotic video decoding
-> acceleration instructions that only work on the big core. Or maybe the
-> big cores support v3.1 of some extension (where certain things run
-> faster), but the little cores only have v3.0, where it's a little
-> slower. Certain apps would likely want to know these things so they
-> can allocate their work optimally across cores.
+On 3/3/23 7:06 PM, Elliot Berman wrote:
+> Gunyah is a Type-1 hypervisor independent of any
+> high-level OS kernel, and runs in a higher CPU privilege level. It does
+> not depend on any lower-privileged OS kernel/code for its core
+> functionality. This increases its security and can support a much smaller
+> trusted computing base than a Type-2 hypervisor.
+> 
+> Gunyah is an open source hypervisor. The source repo is available at
+> https://github.com/quic/gunyah-hypervisor.
 
-Do you have a specific feature in mind where hardware would be
-intentionally designed this way? I still can't come up with a
-scenario where this would actually work in practice, as having
-asymmetric features is incompatible with so many other things
-we normally do.
+I've done a pretty detailed review again, and got further along
+than I did last time.  Things are definitely looking better, but
+I have found some bugs that need to be addressed.
 
-- In a virtual machine, the VCPU tents to get scheduled arbitrarily
-  to physical CPUs, so setting affinity in a guest won't actually
-  guarantee that the feature is still there.
+I also make a lot of comments about grouping certain sets of
+definitions into enumerated types.  Also I tend to notice when
+things aren't done consistently, and I mention that a lot.
 
-- Using a CPU feature from library code is practically impossible
-  if it requires special CPU affinity, as the application may
-  already be started on specific CPUs for another reason, and
-  having a library call sched_setaffinity will conflict with those.
+There are silly suggestions all over about alignment of
+things--these are mainly to make the code look prettier,
+though that's a matter of opinion.
 
-- Even in the simplest case of having a standalone application
-  without any shared libraries try to pick a sensible CPU to
-  run on is hard to do in a generic way, as it would need to
-  weigh availabilty of features on certain cores against the
-  number of cores with or without the feature and their current
-  and expected system load.
+I still prefer having lines generally closer to 80 columns
+wide, but I've already mentioned that...
 
-As long as there isn't a specific requirement, I think it's better
-to not actually encourage hardware vendors to implement designs
-like that, or at least not designing an interface to make getting
-this information a few microseconds faster that what already
-exists.
+I really focused on the code, and not the documentation.
+In fact I didn't even pay much attention to your patch
+headers either.  I did not review the SCM calls yet.
 
-      Arnd
+So in summary I have not reviewed patches 1, 2, 16, 17,
+and 26.  I try to look at everything in my next review,
+which I hope will be final (or very close).
+
+					-Alex
+
+> The diagram below shows the architecture.
+> 
+> ::
+> 
+>           VM A                    VM B
+>       +-----+ +-----+  | +-----+ +-----+ +-----+
+>       |     | |     |  | |     | |     | |     |
+>   EL0 | APP | | APP |  | | APP | | APP | | APP |
+>       |     | |     |  | |     | |     | |     |
+>       +-----+ +-----+  | +-----+ +-----+ +-----+
+>   ---------------------|-------------------------
+>       +--------------+ | +----------------------+
+>       |              | | |                      |
+>   EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
+>       |              | | |                      |
+>       +--------------+ | +----------------------+
+>   --------hvc/smc------|------hvc/smc------------
+>       +----------------------------------------+
+>       |                                        |
+>   EL2 |            Gunyah Hypervisor           |
+>       |                                        |
+>       +----------------------------------------+
+> 
+> Gunyah provides these following features.
+> 
+
+. . .
+
