@@ -2,184 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F56C76196
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 08:55:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FAFCC6FD18
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 08:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbjCaIzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 04:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35554 "EHLO
+        id S230088AbjCaI6N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 04:58:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbjCaIzx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 04:55:53 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12894198B
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 01:55:51 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id y15so27977932lfa.7
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 01:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680252949;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4dm+BPEOnC7e4hjDLH6po2CUlQmPHlDI5qtCyO0in2Q=;
-        b=h9p+asgoR7hjf3xWGqt0dESGNOGLYImfThLBriNOU0tdhyee4Dj/v82aPxY1l+yshP
-         rJxuPxGgYI6jUI6DBjgYqYHHxlm+3k4RYYjQX99sNkOanqarLy2UZMupY9g1Qv7egTfD
-         3iQbRP3qKjrBlBC8MLOcVhwBkT2DGC+KDRqi3qP+7TvgmVGRfbMfZRu/AYlQ4SaPljzg
-         eKCGp/zIAvGJhIBwkH1RyLPXBc3rwVclVdlHiyQi2cfc80JRI6qtQmM/Tw/rIsAQTfyg
-         fAv4m06xtOPLY7yFFiKTKST/6WJIbCvp+KFLiospIbLfJzI44pgopG9eozFO+yO6h/5e
-         dQkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680252949;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4dm+BPEOnC7e4hjDLH6po2CUlQmPHlDI5qtCyO0in2Q=;
-        b=G1efKS5sDfof9MBd3G0tQxor7R0AQv1tSTpJT8tnHOMarF06YQ2+jJyyX3Q9k2AfCL
-         Gw1oPTIU7ZGWVFbmcmP5Deb2Kv0cmCznchqhF1c3TjtlwZtRcUb5NmzEBIVmw6/40H8v
-         kR8N9Vbbx/56GjhnlzuoTnuW2pl5HZXIY1wqiHvH9ChIxv/IOtTGLoZr1r0cFnI9/ont
-         XMUcJvSso3fhwSzseDubOw5rtFuUYAkN/6u70uWxagKjZqrzUwinQXimR8FT9ftFlvwn
-         P9zqdR6vJ2pB7KKpOAv8v2iTcBstqLABk+KaWvj7C7JnSHZsyi7jP8DusQxKNmDmnjtO
-         eayw==
-X-Gm-Message-State: AAQBX9egYXulrczYf61CMhIYow2zwJLuj9isGViXf4pCU1FevTm9418j
-        hHV5c6Fa4+dKJwu77MwdY06Y6g==
-X-Google-Smtp-Source: AKy350ZI/3UGdFSqbHDvzrq0gk2lxo1Tz6xoBuV/VTSFHLt8yiKO4pkQahghPdhIFyzf5V5sRpBGCA==
-X-Received: by 2002:a19:f619:0:b0:4d5:831a:1af8 with SMTP id x25-20020a19f619000000b004d5831a1af8mr7934107lfe.40.1680252949296;
-        Fri, 31 Mar 2023 01:55:49 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id z9-20020ac25de9000000b004eb2dab8a61sm294109lfq.44.2023.03.31.01.55.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 01:55:48 -0700 (PDT)
-Message-ID: <e28e76e2-f392-44d9-e88c-27c6d26115d0@linaro.org>
-Date:   Fri, 31 Mar 2023 10:55:46 +0200
+        with ESMTP id S231135AbjCaI6H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 04:58:07 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5BA61D932;
+        Fri, 31 Mar 2023 01:57:45 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1piAZm-0000VF-2g; Fri, 31 Mar 2023 10:57:38 +0200
+Message-ID: <c2d5cc07-ec95-eb64-0cef-42f8378ea054@leemhuis.info>
+Date:   Fri, 31 Mar 2023 10:57:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 5/6] dt-bindings: cpufreq: add bindings for virtual
- kvm cpufreq
-Content-Language: en-US
-To:     David Dai <davidai@google.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+ Thunderbird/102.9.1
+Content-Language: en-US, de-DE
+To:     Matthieu Baerts <matthieu.baerts@tessares.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.linux.dev
-References: <20230331014356.1033759-1-davidai@google.com>
- <20230331014356.1033759-6-davidai@google.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230331014356.1033759-6-davidai@google.com>
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
+ <20230314-doc-checkpatch-closes-tag-v3-4-d1bdcf31c71c@tessares.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 4/4] checkpatch: check for misuse of the link tags
+In-Reply-To: <20230314-doc-checkpatch-closes-tag-v3-4-d1bdcf31c71c@tessares.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680253065;82b905b8;
+X-HE-SMSGID: 1piAZm-0000VF-2g
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31/03/2023 03:43, David Dai wrote:
-> Add devicetree bindings for a virtual kvm cpufreq driver.
-
-Why? Why virtual devices should be documented in DT? DT is for
-non-discoverable hardware, right? You have entire commit msg to explain
-it instead of saying something easily visible by the diff.
-
+On 30.03.23 20:13, Matthieu Baerts wrote:
+> "Link:" and "Closes:" tags have to be used with public URLs.
 > 
-> Co-developed-by: Saravana Kannan <saravanak@google.com>
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> Signed-off-by: David Dai <davidai@google.com>
-> ---
->  .../bindings/cpufreq/cpufreq-virtual-kvm.yaml | 39 +++++++++++++++++++
->  1 file changed, 39 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/cpufreq/cpufreq-virtual-kvm.yaml
+> It is difficult to make sure the link is public but at least we can
+> verify the tag is followed by 'http(s):'.
 > 
-> diff --git a/Documentation/devicetree/bindings/cpufreq/cpufreq-virtual-kvm.yaml b/Documentation/devicetree/bindings/cpufreq/cpufreq-virtual-kvm.yaml
-> new file mode 100644
-> index 000000000000..31e64558a7f1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/cpufreq/cpufreq-virtual-kvm.yaml
-> @@ -0,0 +1,39 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/cpufreq/cpufreq-virtual-kvm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Virtual KVM CPUFreq
-> +
-> +maintainers:
-> +  - David Dai <davidai@google.com>
-> +
-> +description: |
-
-Do not need '|'.
+> With that, we avoid such a tag that is not allowed [1]:
+> 
+>   Closes: <number>
+> 
+> Link: https://lore.kernel.org/linux-doc/CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com/ [1]
+> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
+> [...]
+> +# Check for misuse of the link tags
+> +		if ($in_commit_log &&
+> +		    $line =~ /^\s*(\w+:)\s*(\S+)/) {
+> +			my $tag = $1;
+> +			my $value = $2;
+> +			if ($tag =~ /^$link_tags_search$/ && $value !~ /^https?:/) {
+> +				WARN("COMMIT_LOG_WRONG_LINK",
+> +				     "'$tag' should be followed by a public http(s) link\n" . $herecurr);
+> +			}
+> +		}
 > +
 
-Drop stray blank line.
+I must be missing something here, but it looks to me like this is
+checked twice now. See this line in patch2 (which is changed there, but
+the check itself remains):
 
-> +  KVM CPUFreq is a virtualized driver in guest kernels that sends utilization
-> +  of its vCPUs as a hint to the host. The host uses hint to schedule vCPU
-> +  threads and select CPU frequency. It enables accurate Per-Entity Load
-> +  Tracking for tasks running in the guest by querying host CPU frequency
-> +  unless a virtualized FIE exists(Like AMUs).
+> } elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
 
-No clue why you need DT bindings for this. KVM has interfaces between
-host and guests.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: virtual,kvm-cpufreq
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    {
-
-This is some broken syntax and/or indentation.
-
-I don't get what this node is about.
-
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-
-Why?
-
-> +
-> +      cpufreq {
-> +            compatible = "virtual,kvm-cpufreq";
-> +      };
-> +
-
-Drop stray blank lines
-
-> +    };
-
-Best regards,
-Krzysztof
-
+Ciao, Thorsten
