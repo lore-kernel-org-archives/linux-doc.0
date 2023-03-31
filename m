@@ -2,91 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05855C6FD18
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 10:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA078C6FD18
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 11:36:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjCaKeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 06:34:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40456 "EHLO
+        id S231609AbjCaLgs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 07:36:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjCaKeV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 06:34:21 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 943E56A58;
-        Fri, 31 Mar 2023 03:34:20 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1piC5D-0002Be-5M; Fri, 31 Mar 2023 12:34:11 +0200
-Message-ID: <7d8cae85-5d0a-599e-cc48-0d06db27d9fe@leemhuis.info>
-Date:   Fri, 31 Mar 2023 12:34:07 +0200
+        with ESMTP id S229437AbjCaLgs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 07:36:48 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A83210D;
+        Fri, 31 Mar 2023 04:36:45 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4PnypX3DWVz17RGV;
+        Fri, 31 Mar 2023 19:33:24 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 31 Mar
+ 2023 19:36:42 +0800
+Message-ID: <f1fcf149-4d40-f10e-39d4-6580f025629c@huawei.com>
+Date:   Fri, 31 Mar 2023 19:36:42 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US, de-DE
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Matthieu Baerts <matthieu.baerts@tessares.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
- <2194d19d-f195-1a1e-41fc-7827ae569351@leemhuis.info>
- <cf5a3e73-c97d-4f98-80d7-4bcc68eb557a@spud>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3 0/4] docs & checkpatch: allow Closes tags with links
-In-Reply-To: <cf5a3e73-c97d-4f98-80d7-4bcc68eb557a@spud>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v2 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Content-Language: en-US
+To:     Baoquan He <bhe@redhat.com>
+CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <thunder.leizhen@huawei.com>, <horms@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <20230328115150.2700016-1-chenjiahao16@huawei.com>
+ <20230328115150.2700016-2-chenjiahao16@huawei.com>
+ <ZCQewkvSpaI52DSM@MiWiFi-R3L-srv>
+ <b8a32e3c-c083-20de-16d1-f628b02b739b@huawei.com>
+ <ZCYcJos4MLBvpP9/@MiWiFi-R3L-srv>
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <ZCYcJos4MLBvpP9/@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680258860;efe5fe62;
-X-HE-SMSGID: 1piC5D-0002Be-5M
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31.03.23 12:08, Conor Dooley wrote:
-> On Fri, Mar 31, 2023 at 11:39:22AM +0200, Thorsten Leemhuis wrote:
-> 
->> -Please check the link to make sure that it is actually working and points
->> -to the relevant message.
->> +If the URL points to a bug report that is fixed by the patch, use 'Closes:'
->> +instead.
-> 
-> This is not specifically a comment about your additional diff, but this
-> sprang to mind (again) while reading it.
-> I have been wondering if this sort of thing will lead to inconsistency. 
-> Reports sometimes report more than one issue at once. Other times a
-> patch that is (intentionally) not a complete fix for the problem.
-> Using Closes: in those cases is not really true, as it does not close
-> the report.
+
+On 2023/3/31 7:32, Baoquan He wrote:
+> On 03/30/23 at 09:40pm, chenjiahao (C) wrote:
+> ......
+>> Agreed, I will clean this up later in next version.
+>>>> +		if (ret || !crash_size)
+>>>> +			return;
+>>>> +
+>>>> +		/*
+>>>> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
+>>>> +		 * is passed and high memory is reserved successful.
+>>>> +		 */
+>>>> +		ret = parse_crashkernel_low(boot_command_line, 0, &crash_low_size, &crash_base);
+>>>> +		if (ret == -ENOENT)
+>>>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>> +		else if (ret)
+>>>> +			return;
+>>>> +
+>>>> +		search_start = dma32_phys_limit;
+>>>> +	} else if (ret || !crash_size) {
+>>>> +		/* Invalid argument value specified */
+>>>>    		return;
+>>>> +	}
+>>>>    	crash_size = PAGE_ALIGN(crash_size);
+>>>> @@ -1201,16 +1246,26 @@ static void __init reserve_crashkernel(void)
+>>>>    	 */
+>>>>    	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>>>>    					       search_start,
+>>>> -					       min(search_end, (unsigned long) SZ_4G));
+>>>> +					       min(search_end, (unsigned long)dma32_phys_limit));
+>>>>    	if (crash_base == 0) {
+>>> The above conditional check isn't right. If crashkernel=size@offset
+>>> specified, the reservation failure won't trigger retry. This seems to be
+>>> originally introduced by old commit, while this need be fixed firstly.
+>> Just a little curious about the rule to cope with this specific case. If
+>> "crashkernel=size@offset" was passed
+>>
+>> but reserve failed, should try again to allocate in high memory, regardless
+>> the specified size@offset,
+>>
+>> or just throw a warning and return? Since I noticed the current logic here
+>> on Arm64 is to check if !fixed_base first
+> Yeah, we need mark the "crashkernel=size@offset" case and avoid to
+> retry. Because you won't succeed if  memblock has already failed to
+> reserve an unavailable memory region, retry is meaningless. This has
+> been done in x86, arm64.
+
+Make sense, thanks.
+
+Actually, in my previous tests, the result in this case is the same
+as expectation, i.e. when allocating "crashkernel=size@offset" failed
+on low memory, it would retry but return on failure. Since the
+search_end is assigned with offset + size, which is lower than DMA32
+limit, the second allocation is definitely invalid.
+
+But for sure, to make the code easy to read and eradicate other
+possible corner cases, I will check if !fixed_base first on retry.
+
 >
-> Having a series of N patches, each of which purport to close an issue,
-> also doesn't seem quite right.
-> The word Closes has a meaning and "forcing" the use of Closes: for
-> reports implies meaning that may not be present.
-> 
-> I suppose it is true that just because documentation or checkpatch says
-> to do something, doesn't mean that you **have** to do it but I don't
-> want to be the one on the Rx side of a rant...
-
-Yeah, maybe checkpath.pl should allow a "Link" after a "Reported-by" for
-cases like this, then developers could save "Closes" for the patch that
-addresses the last of the issues the report is about.
-
-OTOH checkpatch.pl currently just prints a warning, so developers could
-ignore this and do the above already now, as you say. Guess it depends
-on how often we expect "one report with multiple issue" to happen.
-
-Maybe this is an indicator that we are on the wrong track in general and
-should not do any of this and just stick to "Link:".
-
-Ciao, Thorsten
