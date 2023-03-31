@@ -2,408 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8D6C76196
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 06:46:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC448C6FD18
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 07:04:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbjCaGqB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 02:46:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
+        id S230361AbjCaHEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 03:04:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230264AbjCaGqA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 02:46:00 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70EA9171E
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 23:45:58 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-54574d6204aso210914587b3.15
-        for <linux-doc@vger.kernel.org>; Thu, 30 Mar 2023 23:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680245157;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3VYwgOZzIab2d39oyClbfDEpmmkLWmyGxs5IxByBnP0=;
-        b=rgB6tWev0qNk4dlZ1kjDIOeciIm5SrcKp4JPV6QaPzj8RD2RWyzS8df1TqVTD+5Dvy
-         QdY2YDRTPdY1I/eT3RuDO0jtDYTH4CFByMqWgalTXfd2KGTqCN11w5jTywH8ydCzzGhJ
-         YeeUUPCec2EaDf1RW1ZbVgFJKbGGWfHXQhuIx9cNHtImDkqGTAc9k7aw4/aGiBPmdeS6
-         zNaDAOorCR9n9QqJlxkX9nWMD8GZ+cS58Jq3Kj94M4wW28/WWWVQ9l9QN/lMxFULTmZh
-         h96l3+aHy3fSTlhn0ePMTXVvs1eb/IqaGG5E83napmaipIruUt3U+rX5EpyZuJey8VeK
-         RN4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680245157;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3VYwgOZzIab2d39oyClbfDEpmmkLWmyGxs5IxByBnP0=;
-        b=E5ZRsRwcmJAvHckejF3a+4IhXFqZr9trHTOtsu8cdd/eq3tKwsI90NQB+Jbfxz/oCi
-         YOx8RCMhbzxbbi6UZYQNBkWBk7T7H2CMzAOjv1iQau8R0rqdDdux0rA3lus97PvWlUxI
-         kgM+BQULvQjBomFngI/BL+q56q8Dw5AfMa8ZzWZLfwx+eL7aYXld3UzGX/9NmZPRg1kK
-         02lAH2ELuEyj6bjwX0AEq9n+9YagExSp2IbucowDtgsKgLQDpzMccLajC+TW+NSLbZNy
-         jow7zYwV6Qs/RSslpcbCPC7rw0iW9fJN9BsNdMLzWSZG25erV4Cm4EP9JXRqW2mjxn+e
-         dRtg==
-X-Gm-Message-State: AAQBX9eGdDfqoF8jyj/6PvJgLPA+K2DM3s5ajQllHiB5IJEZcdhNhLb+
-        Lma1FMVSjW53k2IDr7StpQeNwEO5R6CJ/aUt
-X-Google-Smtp-Source: AKy350acPQrtcTiAOsgiWU+RkjlbXHHJgDvsAx5UvsyHHzTE0TsqfMU0q/sviQZSB71FBMeO6GaZmyYBlQkzNjGj
-X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
- (user=sadiyakazi job=sendgmr) by 2002:a81:b647:0:b0:534:d71f:14e6 with SMTP
- id h7-20020a81b647000000b00534d71f14e6mr12376184ywk.9.1680245157719; Thu, 30
- Mar 2023 23:45:57 -0700 (PDT)
-Date:   Fri, 31 Mar 2023 06:45:29 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230331064528.3764174-1-sadiyakazi@google.com>
-Subject: [PATCH v2] list: test: Test the klist structure
-From:   Sadiya Kazi <sadiyakazi@google.com>
-To:     brendanhiggins@google.com, davidgow@google.com,
-        skhan@linuxfoundation.org, corbet@lwn.net
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S230383AbjCaHEI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 03:04:08 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D3081A47F;
+        Fri, 31 Mar 2023 00:03:53 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Pnrmk5TmszKwCk;
+        Fri, 31 Mar 2023 15:01:26 +0800 (CST)
+Received: from localhost.localdomain (10.50.163.32) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 31 Mar 2023 15:03:51 +0800
+From:   Yicong Yang <yangyicong@huawei.com>
+To:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <jonathan.cameron@huawei.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC:     <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
+        <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
+        <linuxarm@huawei.com>
+Subject: [PATCH v2 4/4] hwtracing: hisi_ptt: Advertise PERF_PMU_CAP_NO_EXCLUDE for PTT PMU
+Date:   Fri, 31 Mar 2023 15:03:10 +0800
+Message-ID: <20230331070310.5465-5-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20230331070310.5465-1-yangyicong@huawei.com>
+References: <20230331070310.5465-1-yangyicong@huawei.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.50.163.32]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add KUnit tests to the klist linked-list structure.
-These perform testing for different variations of node add
-and node delete in the klist data structure (<linux/klist.h>).
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-Limitation: Since we use a static global variable, and if
-multiple instances of this test are run concurrently, the test may fail.
+The PTT trace collects PCIe TLP headers from the PCIe link and don't
+have the ability to exclude certain context. It doesn't support itrace
+as well. So only advertise PERF_PMU_CAP_NO_EXCLUDE. This will greatly
+save the storage of final data. Tested tracing idle link for ~15s,
+without this patch we'll collect ~28.682MB data for context related
+information and with this patch it reduced to ~0.226MB.
 
-Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: David Gow <davidgow@google.com>
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 ---
-Thank you Brendan and David for reviewing this patch. I have addressed
-the review comments in this iteration.
+ drivers/hwtracing/ptt/hisi_ptt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes since v1:
-https://lore.kernel.org/linux-kselftest/20230329110723.3458843-1-sadiyakazi@google.com/
-
-- Corrected the commenting style
-- Deleted the comment /* counts the number of nodes*/
-- Renamed last_node_count to last_node
-
-
----
- lib/list-test.c | 300 +++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 299 insertions(+), 1 deletion(-)
-
-diff --git a/lib/list-test.c b/lib/list-test.c
-index d374cf5d1a57..0cc27de9cec8 100644
---- a/lib/list-test.c
-+++ b/lib/list-test.c
-@@ -8,6 +8,7 @@
- #include <kunit/test.h>
+diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
+index 71bc0c784c51..b0f070ad88a1 100644
+--- a/drivers/hwtracing/ptt/hisi_ptt.c
++++ b/drivers/hwtracing/ptt/hisi_ptt.c
+@@ -1205,7 +1205,7 @@ static int hisi_ptt_register_pmu(struct hisi_ptt *hisi_ptt)
  
- #include <linux/list.h>
-+#include <linux/klist.h>
- 
- struct list_test_struct {
- 	int data;
-@@ -1199,6 +1200,303 @@ static struct kunit_suite hlist_test_module = {
- 	.test_cases = hlist_test_cases,
- };
- 
--kunit_test_suites(&list_test_module, &hlist_test_module);
-+
-+struct klist_test_struct {
-+	int data;
-+	struct klist klist;
-+	struct klist_node klist_node;
-+};
-+
-+static int node_count;
-+static struct klist_node *last_node;
-+
-+static void check_node(struct klist_node *node_ptr)
-+{
-+	node_count++;
-+	last_node = node_ptr;
-+}
-+
-+static void check_delete_node(struct klist_node *node_ptr)
-+{
-+	node_count--;
-+	last_node = node_ptr;
-+}
-+
-+static void klist_test_add_tail(struct kunit *test)
-+{
-+	struct klist_node a, b;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_tail(&a, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &a);
-+
-+	klist_add_tail(&b, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &b);
-+
-+	/* should be [list] -> a -> b */
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_add_head(struct kunit *test)
-+{
-+	struct klist_node a, b;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_head(&a, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &a);
-+
-+	klist_add_head(&b, &mylist);
-+	KUNIT_EXPECT_EQ(test, node_count, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &b);
-+
-+	/* should be [list] -> b -> a */
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_add_behind(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_head(&a, &mylist);
-+	klist_add_head(&b, &mylist);
-+
-+	klist_add_behind(&c, &a);
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &c);
-+
-+	klist_add_behind(&d, &b);
-+	KUNIT_EXPECT_EQ(test, node_count, 4);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &d);
-+
-+	klist_iter_init(&mylist, &i);
-+
-+	/* should be [list] -> b -> d -> a -> c*/
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_add_before(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, NULL);
-+
-+	klist_add_head(&a, &mylist);
-+	klist_add_head(&b, &mylist);
-+	klist_add_before(&c, &a);
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &c);
-+
-+	klist_add_before(&d, &b);
-+	KUNIT_EXPECT_EQ(test, node_count, 4);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &d);
-+
-+	klist_iter_init(&mylist, &i);
-+
-+	/* should be [list] -> b -> d -> a -> c*/
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+/*
-+ * Verify that klist_del() delays the deletion of a node until there
-+ * are no other references to it
-+ */
-+static void klist_test_del_refcount_greater_than_zero(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, &check_delete_node);
-+
-+	/* Add nodes a,b,c,d to the list*/
-+	klist_add_tail(&a, &mylist);
-+	klist_add_tail(&b, &mylist);
-+	klist_add_tail(&c, &mylist);
-+	klist_add_tail(&d, &mylist);
-+
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	/* Advance the iterator to point to node c*/
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &c);
-+
-+	/* Try to delete node c while there is a reference to it*/
-+	klist_del(&c);
-+
-+	/*
-+	 * Verify that node c is still attached to the list even after being
-+	 * deleted. Since the iterator still points to c, the reference count is not
-+	 * decreased to 0
-+	 */
-+	KUNIT_EXPECT_TRUE(test, klist_node_attached(&c));
-+
-+	/* Check that node c has not been removed yet*/
-+	KUNIT_EXPECT_EQ(test, node_count, 4);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &d);
-+
-+	klist_iter_exit(&i);
-+
-+	/*
-+	 * Since the iterator is no longer pointing to node c, node c is removed
-+	 * from the list
-+	 */
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &c);
-+
-+}
-+
-+/*
-+ * Verify that klist_del() deletes a node immediately when there are no
-+ * other references to it.
-+ */
-+static void klist_test_del_refcount_zero(struct kunit *test)
-+{
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, &check_delete_node);
-+
-+	/* Add nodes a,b,c,d to the list*/
-+	klist_add_tail(&a, &mylist);
-+	klist_add_tail(&b, &mylist);
-+	klist_add_tail(&c, &mylist);
-+	klist_add_tail(&d, &mylist);
-+	/* Delete node c*/
-+	klist_del(&c);
-+
-+	/* Check that node c is deleted from the list*/
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &c);
-+
-+	/* Should be [list] -> a -> b -> d*/
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_remove(struct kunit *test)
-+{
-+	/* This test doesn't check correctness under concurrent access */
-+	struct klist_node a, b, c, d;
-+	struct klist mylist;
-+	struct klist_iter i;
-+
-+	node_count = 0;
-+	klist_init(&mylist, &check_node, &check_delete_node);
-+
-+	/* Add nodes a,b,c,d to the list*/
-+	klist_add_tail(&a, &mylist);
-+	klist_add_tail(&b, &mylist);
-+	klist_add_tail(&c, &mylist);
-+	klist_add_tail(&d, &mylist);
-+	/* Delete node c*/
-+	klist_remove(&c);
-+
-+	/* Check the nodes in the list*/
-+	KUNIT_EXPECT_EQ(test, node_count, 3);
-+	KUNIT_EXPECT_PTR_EQ(test, last_node, &c);
-+
-+	/* should be [list] -> a -> b -> d*/
-+	klist_iter_init(&mylist, &i);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &a);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &b);
-+	KUNIT_EXPECT_PTR_EQ(test, klist_next(&i), &d);
-+	KUNIT_EXPECT_NULL(test, klist_next(&i));
-+
-+	klist_iter_exit(&i);
-+
-+}
-+
-+static void klist_test_node_attached(struct kunit *test)
-+{
-+	struct klist_node a = {};
-+	struct klist mylist;
-+
-+	klist_init(&mylist, NULL, NULL);
-+
-+	KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
-+	klist_add_head(&a, &mylist);
-+	KUNIT_EXPECT_TRUE(test, klist_node_attached(&a));
-+	klist_del(&a);
-+	KUNIT_EXPECT_FALSE(test, klist_node_attached(&a));
-+
-+}
-+
-+static struct kunit_case klist_test_cases[] = {
-+	KUNIT_CASE(klist_test_add_tail),
-+	KUNIT_CASE(klist_test_add_head),
-+	KUNIT_CASE(klist_test_add_behind),
-+	KUNIT_CASE(klist_test_add_before),
-+	KUNIT_CASE(klist_test_del_refcount_greater_than_zero),
-+	KUNIT_CASE(klist_test_del_refcount_zero),
-+	KUNIT_CASE(klist_test_remove),
-+	KUNIT_CASE(klist_test_node_attached),
-+	{},
-+};
-+
-+static struct kunit_suite klist_test_module = {
-+	.name = "klist",
-+	.test_cases = klist_test_cases,
-+};
-+
-+kunit_test_suites(&list_test_module, &hlist_test_module, &klist_test_module);
- 
- MODULE_LICENSE("GPL v2");
+ 	hisi_ptt->hisi_ptt_pmu = (struct pmu) {
+ 		.module		= THIS_MODULE,
+-		.capabilities	= PERF_PMU_CAP_EXCLUSIVE | PERF_PMU_CAP_ITRACE,
++		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
+ 		.task_ctx_nr	= perf_sw_context,
+ 		.attr_groups	= hisi_ptt_pmu_groups,
+ 		.event_init	= hisi_ptt_pmu_event_init,
 -- 
-2.40.0.348.gf938b09366-goog
+2.24.0
 
