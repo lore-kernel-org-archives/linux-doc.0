@@ -2,182 +2,358 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34FA7C77B60
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 17:52:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BAA3C761A6
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 18:35:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230185AbjCaRwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 13:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50430 "EHLO
+        id S229529AbjCaSfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 14:35:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232119AbjCaRwf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 13:52:35 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4F0C65D
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 10:52:33 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id j11so29903818lfg.13
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 10:52:33 -0700 (PDT)
+        with ESMTP id S232704AbjCaSfv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 14:35:51 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00F972369F
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 11:35:48 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id y85so10072672iof.13
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 11:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680285151;
+        d=chromium.org; s=google; t=1680287748;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+8e80o4Gln79rBts1nJMY6npgXhVyP7I9l6v7qOmueE=;
-        b=ZDMMsOOv7bfUQdz6tTuzYk4eoWNfPOynWKo7prMzzERpOnSYfO3iJWqKNRl2biNzxR
-         plXcDrJMH0etJstWAhURI6h0Emo3yos5KYLYAC5vQk32L5qJ2KHiODceSYJAYB5tKh1S
-         EpVdWD70PM98V9dohJZAtonBCMekXxlMHzt9y4ChHGts/uWsdHO13bE1HXB0DI+kBETj
-         1LHZl8n2ojURi/ya23GTnBBaAYu3g0YeJiDLEaGLfnfbfbkiRr5k2n56pxm4c5f4SgBj
-         BpOch70J30vIOEb+KgVgSul4thXKDM8Bsyj6RnTKk49Qe1Z7tAdbBUNiMqn277oxM0Em
-         N6Hg==
+        bh=GmSr2mixE9OAle9JozsvZ/XkRcEfDWZt67peW8UYerg=;
+        b=VVBGsPPlZdR8BQ7P87vsWIHRuU9a7wxAqa6EHBs1WvwDa9zmi2cIoez2NQ6szIcW9Y
+         05KWqQG9312BRSOazppgm1UoIGpcwlHnjX3PBlpRSWIJNcge/qKWxvX62Tix0kG+k1hP
+         KG0rfkit7zQrnAqwjTcaXZwh5aGBIecc9jWqQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680285151;
+        d=1e100.net; s=20210112; t=1680287748;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+8e80o4Gln79rBts1nJMY6npgXhVyP7I9l6v7qOmueE=;
-        b=Ut8u4QVjxwRq+GERWZeqPplf9OFv5nusrR6YVOhF2n9Zys2QQGEcdLNf27m8cgLeAO
-         mHcfgSz9BzmUD0/BiH9CujEjMz03DIhokiinb6M9x0ZKI0yZqvMkLktNUUJ0Ms1QFSNG
-         jp3ef/qRVsl1JBY+UFyh1EfItwppGAJBF1dJ2kixFQyfFfdPqT4XyNFaAN/b0lY2slug
-         KkGUTF9z78vfNvJEkb7RZw2JGeZ1reN12senmdnWzRo6GXSgwC7Bz/OAzIDHpScgytdJ
-         Co/AvbOHlH4eSk/aOnkt9E2VmMEenGXfIpzrDEfqAnYTzgPpztwx13bazI0f/AFxvj/p
-         0eQw==
-X-Gm-Message-State: AAQBX9fzuMnV7t5/NJ9aYVzKBs2n4HWZdwTflcd1ClAnH0obPPy3dMhz
-        wntF3v9t+byYB8579EoJIrdLKTAyP7AwxmjzpZosJw==
-X-Google-Smtp-Source: AKy350a+fqJATU7e9z9fJ7w3yTsauVEcnZ7kHiX0Y2joMw8UR3mkd5AYXqrb8iX+RpDnRkPGHb3IeuFazPqEgQ1kl8s=
-X-Received: by 2002:a05:6512:23a3:b0:4d8:86c2:75ea with SMTP id
- c35-20020a05651223a300b004d886c275eamr4807421lfv.3.1680285151328; Fri, 31 Mar
- 2023 10:52:31 -0700 (PDT)
+        bh=GmSr2mixE9OAle9JozsvZ/XkRcEfDWZt67peW8UYerg=;
+        b=aEQZIObv2Qq3yjrQBndaqg/ohcz36dIlhrzmbeVrLQE5LY+o/fU/djXqO8w0keDupb
+         LkmbCv/3qzplSEn4BWV3NOlvzZ8FCMIZ9feKGi3V8+w9Lm05ykzf86iB045+cH3VzSjZ
+         z33pxcNA6kwpT0xEHsyUK7h/31/KH+ZnKPlRkdEfm+i6DZDrNs/BYyuVRv/y7SpnzSXM
+         S8sglZyQn933nMF442A4OVfV77oOlH7hliaWK8/xQWbpTYLfhAT4MluHxMILfdvk8Yzx
+         UKCwLihmuofWPlWWR2qdcz+kPDBx0afCtwragVQ1V1HReQZ3kgiP5eqP/hLfHuNI0Myw
+         9F+w==
+X-Gm-Message-State: AO0yUKUuqayL438MO0BroKEKZLcQ+ucAEDqV/u7zMKzDBb0WJCmOyNOJ
+        Oe23pKQ67szXgT2B41AeWknnMCpviGAnba3lPobHUw==
+X-Google-Smtp-Source: AK7set9khoSxfk6M3llLg8sU+d91Dc+STpvO6RqkPAgHDCB5skFphu0j1rWv9ded651LcGl8PkY9Lw==
+X-Received: by 2002:a5e:a913:0:b0:759:7d4:c64c with SMTP id c19-20020a5ea913000000b0075907d4c64cmr19806180iod.21.1680287747966;
+        Fri, 31 Mar 2023 11:35:47 -0700 (PDT)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com. [209.85.166.179])
+        by smtp.gmail.com with ESMTPSA id s21-20020a5eaa15000000b00752f62cd3bdsm727533ioe.12.2023.03.31.11.35.47
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Mar 2023 11:35:47 -0700 (PDT)
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-322fc56a20eso564885ab.0
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 11:35:47 -0700 (PDT)
+X-Received: by 2002:a92:cd8f:0:b0:315:6243:9a7b with SMTP id
+ r15-20020a92cd8f000000b0031562439a7bmr20740ilb.10.1680287746579; Fri, 31 Mar
+ 2023 11:35:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230221190858.3159617-1-evan@rivosinc.com> <20230221190858.3159617-3-evan@rivosinc.com>
- <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com> <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
- <d91ffb1e-261b-4b2f-a78f-f2846600a3e7@app.fastmail.com>
-In-Reply-To: <d91ffb1e-261b-4b2f-a78f-f2846600a3e7@app.fastmail.com>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Fri, 31 Mar 2023 10:51:55 -0700
-Message-ID: <CALs-HsuiyocyK+RW_5O3JniOE7ROHHDJ4K=+6NZRzGad7wJpMQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        Conor Dooley <conor@kernel.org>, slewis@rivosinc.com,
-        Vineet Gupta <vineetg@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        guoren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
+References: <20230327093538.v12.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+ <ZCQAUukSQlwXLRfP@debian.me>
+In-Reply-To: <ZCQAUukSQlwXLRfP@debian.me>
+From:   Jeffrey Kardatzke <jkardatzke@chromium.org>
+Date:   Fri, 31 Mar 2023 11:35:35 -0700
+X-Gmail-Original-Message-ID: <CA+ddPcN3=H3xZnSJXKRXjDHY9CpT6aWWkFfTH9Ofxtv8WZwX6Q@mail.gmail.com>
+Message-ID: <CA+ddPcN3=H3xZnSJXKRXjDHY9CpT6aWWkFfTH9Ofxtv8WZwX6Q@mail.gmail.com>
+Subject: Re: [PATCH v12] tee: optee: Add SMC for loading OP-TEE image
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     op-tee@lists.trustedfirmware.org,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arnd,
+Thanks, new patch uploaded with these formatting changes done.
 
-On Fri, Mar 31, 2023 at 6:21=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
-:
+
+On Wed, Mar 29, 2023 at 2:09=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
 >
-> On Thu, Mar 30, 2023, at 20:30, Evan Green wrote:
-> > On Thu, Feb 23, 2023 at 2:06=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> w=
-rote:
-> >> > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
-> >> > pair_count,
-> >> > +                           size_t cpu_count, cpu_set_t *cpus,
-> >> > +                           unsigned long flags);
-> >>
-> >> The cpu set argument worries me more: there should never be a
-> >> need to optimize for broken hardware that has an asymmetric set
-> >> of features. Just let the kernel figure out the minimum set
-> >> of features that works across all CPUs and report that like we
-> >> do with HWCAP. If there is a SoC that is so broken that it has
-> >> important features on a subset of cores that some user might
-> >> actually want to rely on, then have them go through the slow
-> >> sysfs interface for probing the CPUs indidually, but don't make
-> >> the broken case easier at the expense of normal users that
-> >> run on working hardware.
+> On Mon, Mar 27, 2023 at 09:35:53AM -0700, Jeffrey Kardatzke wrote:
+> > Adds an SMC call that will pass an OP-TEE binary image to EL3 and
+> > instruct it to load it as the BL32 payload. This works in conjunction
+> > with a feature added to Trusted Firmware for ARMv8 and above
+> > architectures that supports this.
 > >
-> > I'm not so sure. While I agree with you for major classes of features
-> > (eg one CPU has floating point support but another does not), I expect
-> > these bits to contain more subtle details as well, which might vary
-> > across asymmetric implementations without breaking ABI compatibility
-> > per-se. Maybe some vendor has implemented exotic video decoding
-> > acceleration instructions that only work on the big core. Or maybe the
-> > big cores support v3.1 of some extension (where certain things run
-> > faster), but the little cores only have v3.0, where it's a little
-> > slower. Certain apps would likely want to know these things so they
-> > can allocate their work optimally across cores.
+> > The main purpose of this change is to facilitate updating the OP-TEE
+> > component on devices via a rootfs change rather than having to do a
+> > firmware update. Further details are linked to in the Kconfig file.
+> >
+> > Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
+> > Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
+> > Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> > ---
+> >
+> > Changes in v12:
+> > - Fixed checkpatch strict issues
+> >
+> > Changes in v11:
+> > - Fixed typo in tee.rst documentation
+> >
+> > Changes in v10:
+> > - Fixed tee.rst documentation formatting
+> >
+> > Changes in v9:
+> > - Add CPU hotplug callback to init on all cores at startup
+> >
+> > Changes in v8:
+> > - Renamed params and fixed alignment issue
+> >
+> > Changes in v7:
+> > - Added documentation to Documentation/staging/tee.rst
+> >
+> > Changes in v6:
+> > - Expanded Kconfig documentation
+> >
+> > Changes in v5:
+> > - Renamed config option
+> > - Added runtime warning when config is used
+> >
+> > Changes in v4:
+> > - Update commit message
+> > - Added more documentation
+> > - Renamed config option, added ARM64 dependency
+> >
+> > Changes in v3:
+> > - Removed state tracking for driver reload
+> > - Check UID of service to verify it needs image load
+> >
+> > Changes in v2:
+> > - Fixed compile issue when feature is disabled
+> > - Addressed minor comments
+> > - Added state tracking for driver reload
+> >
+> >  Documentation/staging/tee.rst |  41 ++++++++++
+> >  drivers/tee/optee/Kconfig     |  17 +++++
+> >  drivers/tee/optee/optee_msg.h |  12 +++
+> >  drivers/tee/optee/optee_smc.h |  24 ++++++
+> >  drivers/tee/optee/smc_abi.c   | 137 ++++++++++++++++++++++++++++++++++
+> >  5 files changed, 231 insertions(+)
+> >
+> > diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.=
+rst
+> > index 498343c7ab08..b11e9053bc99 100644
+> > --- a/Documentation/staging/tee.rst
+> > +++ b/Documentation/staging/tee.rst
+> > @@ -214,6 +214,47 @@ call is done from the thread assisting the interru=
+pt handler. This is a
+> >  building block for OP-TEE OS in secure world to implement the top half=
+ and
+> >  bottom half style of device drivers.
+> >
+> > +OPTEE_INSECURE_LOAD_IMAGE Kconfig option
+> > +----------------------------------------
+> > +
+> > +The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to lo=
+ad the
+> > +BL32 OP-TEE image from the kernel after the kernel boots, rather than =
+loading
+> > +it from the firmware before the kernel boots. This also requires enabl=
+ing the
+> > +corresponding option in Trusted Firmware for Arm. The documentation th=
+ere
+> > +explains the security threat associated with enabling this as well as
+> > +mitigations at the firmware and platform level.
+> > +https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat=
+_model.html
 >
-> Do you have a specific feature in mind where hardware would be
-> intentionally designed this way? I still can't come up with a
-> scenario where this would actually work in practice, as having
-> asymmetric features is incompatible with so many other things
-> we normally do.
-
-Isn't this already a reality, with the ARM folks building systems
-where only some cores can run arm32 code, and the rest are aarch64
-only?
-https://lwn.net/Articles/838339/
-
-The way I see it, it's going to be close to impossible to _not_ design
-hardware this way. As long as die area and energy efficiency are a
-constraint, big.LITTLE and other asymmetric architectures seem
-inevitable. Given this interface is sort of a software cpuid
-instruction, pretending there won't be differences between cores feels
-like an incomplete API.
-
+> For consistency to the rest of doc, the reference link should be put
+> separately in "References" section:
 >
-> - In a virtual machine, the VCPU tents to get scheduled arbitrarily
->   to physical CPUs, so setting affinity in a guest won't actually
->   guarantee that the feature is still there.
-
-Sure, but I wouldn't expect the guest to be able to observe physical
-properties from a transient host CPU (I'd consider that a bug). I'd
-expect either the VCPU is pinned to a physical CPU with no chance of
-migration, in which case you might reasonably plumb down some physical
-properties to the guest, or the guest sees a watered down generic CPU
-containing the least common denominator of features.
-
+> ---- >8 ----
+> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rs=
+t
+> index b11e9053bc9934..97758855156aa6 100644
+> --- a/Documentation/staging/tee.rst
+> +++ b/Documentation/staging/tee.rst
+> @@ -220,10 +220,9 @@ OPTEE_INSECURE_LOAD_IMAGE Kconfig option
+>  The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load=
+ the
+>  BL32 OP-TEE image from the kernel after the kernel boots, rather than lo=
+ading
+>  it from the firmware before the kernel boots. This also requires enablin=
+g the
+> -corresponding option in Trusted Firmware for Arm. The documentation ther=
+e
+> -explains the security threat associated with enabling this as well as
+> -mitigations at the firmware and platform level.
+> -https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_m=
+odel.html
+> +corresponding option in Trusted Firmware for Arm. The Trusted Firmare
+> +documentation [8] explains the security threat associated with enabling =
+this as
+> +well as mitigations at the firmware and platform level.
 >
-> - Using a CPU feature from library code is practically impossible
->   if it requires special CPU affinity, as the application may
->   already be started on specific CPUs for another reason, and
->   having a library call sched_setaffinity will conflict with those.
+>  There are additional attack vectors/mitigations for the kernel that shou=
+ld be
+>  addressed when using this option.
+> @@ -350,3 +349,5 @@ References
+>  [6] include/linux/psp-tee.h
 >
-> - Even in the simplest case of having a standalone application
->   without any shared libraries try to pick a sensible CPU to
->   run on is hard to do in a generic way, as it would need to
->   weigh availabilty of features on certain cores against the
->   number of cores with or without the feature and their current
->   and expected system load.
-
-In ChromeOS at least, we struggled a lot with chrome getting scheduled
-on the big vs little cores on some ARM platforms, as we'd get things
-like dropped video frames if we stayed stuck on the wrong cores. I
-think we managed to solve that with uclamp, but again that
-acknowledges that there are differences between cores, which I think
-justifies the cpuset parameter to a cpu feature interface like this.
-
+>  [7] drivers/tee/amdtee/amdtee_if.h
+> +
+> +[8] https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/thre=
+at_model.html
 >
-> As long as there isn't a specific requirement, I think it's better
-> to not actually encourage hardware vendors to implement designs
-> like that, or at least not designing an interface to make getting
-> this information a few microseconds faster that what already
-> exists.
-
-As this is ABI, there is a bit of "crystal ball gazing" I'm doing,
-though I hope I've backed it up with enough to show it's not a
-completely wild parameter.
-
--Evan
+> > +
+> > +There are additional attack vectors/mitigations for the kernel that sh=
+ould be
+> > +addressed when using this option.
+> > +
+> > +1. Boot chain security.
+> > +   Attack vector: Replace the OP-TEE OS image in the rootfs to gain co=
+ntrol of
+> > +   the system.
+> > +   Mitigation: There must be boot chain security that verifies the ker=
+nel and
+> > +   rootfs, otherwise an attacker can modify the loaded OP-TEE binary b=
+y
+> > +   modifying it in the rootfs.
+> > +2. Alternate boot modes.
+> > +   Attack vector: Using an alternate boot mode (i.e. recovery mode), t=
+he OP-TEE
+> > +   driver isn't loaded, leaving the SMC hole open.
+> > +   Mitigation: If there are alternate methods of booting the device, s=
+uch as a
+> > +   recovery mode, it should be ensured that the same mitigations are a=
+pplied in
+> > +   that mode.
+> > +3. Attacks prior to SMC invocation.
+> > +   Attack vector: Code that is executed prior to issuing the SMC call =
+to load
+> > +   OP-TEE can be exploited to then load an alternate OS image.
+> > +   Mitigation: The OP-TEE driver must be loaded before any potential a=
+ttack
+> > +   vectors are opened up. This should include mounting of any modifiab=
+le
+> > +   filesystems, opening of network ports or communicating with externa=
+l devices
+> > +   (e.g. USB).
+> > +4. Blocking SMC call to load OP-TEE.
+> > +   Attack vector: Prevent the driver from being probed, so the SMC cal=
+l to load
+> > +   OP-TEE isn't executed when desired, leaving it open to being execut=
+ed later
+> > +   and loading a modified OS.
+> > +   Mitigation: It is recommended to build the OP-TEE driver as an incl=
+uded
+> > +   driver rather than a module to prevent exploits that may cause the =
+module to
+> > +   not be loaded.
+> > +
+>
+> I think attack vectors and mitigations can be sub bullets:
+>
+> ---- >8 ----
+> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rs=
+t
+> index 97758855156aa6..b17eb9772230db 100644
+> --- a/Documentation/staging/tee.rst
+> +++ b/Documentation/staging/tee.rst
+> @@ -228,31 +228,41 @@ There are additional attack vectors/mitigations for=
+ the kernel that should be
+>  addressed when using this option.
+>
+>  1. Boot chain security.
+> -   Attack vector: Replace the OP-TEE OS image in the rootfs to gain cont=
+rol of
+> -   the system.
+> -   Mitigation: There must be boot chain security that verifies the kerne=
+l and
+> -   rootfs, otherwise an attacker can modify the loaded OP-TEE binary by
+> -   modifying it in the rootfs.
+> +
+> +   * Attack vector: Replace the OP-TEE OS image in the rootfs to gain co=
+ntrol of
+> +     the system.
+> +
+> +   * Mitigation: There must be boot chain security that verifies the ker=
+nel and
+> +     rootfs, otherwise an attacker can modify the loaded OP-TEE binary b=
+y
+> +     modifying it in the rootfs.
+>  2. Alternate boot modes.
+> -   Attack vector: Using an alternate boot mode (i.e. recovery mode), the=
+ OP-TEE
+> -   driver isn't loaded, leaving the SMC hole open.
+> -   Mitigation: If there are alternate methods of booting the device, suc=
+h as a
+> -   recovery mode, it should be ensured that the same mitigations are app=
+lied in
+> -   that mode.
+> +
+> +   * Attack vector: Using an alternate boot mode (i.e. recovery mode), t=
+he
+> +     OP-TEE driver isn't loaded, leaving the SMC hole open.
+> +
+> +   * Mitigation: If there are alternate methods of booting the device, s=
+uch as
+> +     a recovery mode, it should be ensured that the same mitigations are
+> +     applied in that mode.
+> +
+>  3. Attacks prior to SMC invocation.
+> -   Attack vector: Code that is executed prior to issuing the SMC call to=
+ load
+> -   OP-TEE can be exploited to then load an alternate OS image.
+> -   Mitigation: The OP-TEE driver must be loaded before any potential att=
+ack
+> -   vectors are opened up. This should include mounting of any modifiable
+> -   filesystems, opening of network ports or communicating with external =
+devices
+> -   (e.g. USB).
+> +
+> +   * Attack vector: Code that is executed prior to issuing the SMC call =
+to load
+> +     OP-TEE can be exploited to then load an alternate OS image.
+> +
+> +   * Mitigation: The OP-TEE driver must be loaded before any potential a=
+ttack
+> +     vectors are opened up. This should include mounting of any modifiab=
+le
+> +     filesystems, opening of network ports or communicating with externa=
+l
+> +     devices (e.g. USB).
+> +
+>  4. Blocking SMC call to load OP-TEE.
+> -   Attack vector: Prevent the driver from being probed, so the SMC call =
+to load
+> -   OP-TEE isn't executed when desired, leaving it open to being executed=
+ later
+> -   and loading a modified OS.
+> -   Mitigation: It is recommended to build the OP-TEE driver as an includ=
+ed
+> -   driver rather than a module to prevent exploits that may cause the mo=
+dule to
+> -   not be loaded.
+> +
+> +   * Attack vector: Prevent the driver from being probed, so the SMC cal=
+l to
+> +     load OP-TEE isn't executed when desired, leaving it open to being e=
+xecuted
+> +     later and loading a modified OS.
+> +
+> +   * Mitigation: It is recommended to build the OP-TEE driver as builtin
+> +     driver rather than as a module to prevent exploits that may cause t=
+he
+> +     module to not be loaded.
+>
+>  AMD-TEE driver
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Or due to tabular nature of additional attacks list above, reST tables
+> should fit.
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
