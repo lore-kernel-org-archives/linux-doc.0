@@ -2,212 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A50C77B60
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 17:32:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34FA7C77B60
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 17:52:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbjCaRcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 13:32:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
+        id S230185AbjCaRwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 13:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230302AbjCaRcC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 13:32:02 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 251E01DF90;
-        Fri, 31 Mar 2023 10:32:01 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so15848168wmq.4;
-        Fri, 31 Mar 2023 10:32:01 -0700 (PDT)
+        with ESMTP id S232119AbjCaRwf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 13:52:35 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4F0C65D
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 10:52:33 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id j11so29903818lfg.13
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 10:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680283919; x=1682875919;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JgfNIm0/b0S1WJTNKx0RJfqBlqbq2Is5rY0BnBfIYgI=;
-        b=HxTYUrxQFyfr2IFr3t/oz+cV+7dwpjSUNvJg7TA/5z4etdrS42cWV9DAjKZwQ9wTIz
-         MLQn3RcTY6zgcx2XAlZwF5CzNRNaOevF6l6L/q+6B3QQvvr81uJmt22IH0/EO8iLehyA
-         DeW9mWb0fdpuoQxuyPieF9yLwLF5EXId2ef1Llm4KtWMJmrlbGABHFsLlnqnvHj9XF8M
-         VDjmORYD1o7I5yJHiUzH7/3HZxKE2JQSC2WdlFRwNypYDx9k51pDSHM5rkgnAs1cTZ5k
-         0z+lk4nwrwicd5388RkmwjZTv06viZuldB2TsK3kpm9KtH1beEanT7Jd5kCSRqjdfHaV
-         ABHQ==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680285151;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+8e80o4Gln79rBts1nJMY6npgXhVyP7I9l6v7qOmueE=;
+        b=ZDMMsOOv7bfUQdz6tTuzYk4eoWNfPOynWKo7prMzzERpOnSYfO3iJWqKNRl2biNzxR
+         plXcDrJMH0etJstWAhURI6h0Emo3yos5KYLYAC5vQk32L5qJ2KHiODceSYJAYB5tKh1S
+         EpVdWD70PM98V9dohJZAtonBCMekXxlMHzt9y4ChHGts/uWsdHO13bE1HXB0DI+kBETj
+         1LHZl8n2ojURi/ya23GTnBBaAYu3g0YeJiDLEaGLfnfbfbkiRr5k2n56pxm4c5f4SgBj
+         BpOch70J30vIOEb+KgVgSul4thXKDM8Bsyj6RnTKk49Qe1Z7tAdbBUNiMqn277oxM0Em
+         N6Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680283919; x=1682875919;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JgfNIm0/b0S1WJTNKx0RJfqBlqbq2Is5rY0BnBfIYgI=;
-        b=hhThJY9nEYLgNtMqWuGDYEkg/dMzSlPdi9zg6808uvJjCK5NLZB8TiUXguZhA65SGE
-         86G35WJn02pniEpBPWgsz5Beiyp0UUlWZ4jxvTNVnwZAHNwSUACQkNC7U4Qp9cggrt0Q
-         YbV+fvEOuztAty5wNlBAoplhG+tGxA3Iq/QeSX04bi37Y5MbzWEqIu3X++Vs/YGaMa3o
-         2XkrePTj1fN1Zjmt+M+nrZRQL8mLvu/yp4O695xkmMy3a4G/jFRNe9IeccBNJHpy7YeC
-         1U9NddIIkmS1AY5LYx0sznV/HhXHS19NK0eZ+ctXUpbJBfwsCFScgGtVfan9o3VJ4EjH
-         A0ug==
-X-Gm-Message-State: AO0yUKXSGiPaE71DlY3GW3ljATh1KkKBDQ+WVLciOd4mog9VAgWwZAOK
-        Zwi1JzdNTxIzzcWn1juakgw=
-X-Google-Smtp-Source: AK7set8GLYgYWDweiiQubwdK8pBuq6rDyJKMVzE3Ht6dxeyx7PB1WmnUe+Ysn61PqU2HeB53ilbwRQ==
-X-Received: by 2002:a1c:7206:0:b0:3ed:2352:eebd with SMTP id n6-20020a1c7206000000b003ed2352eebdmr21386687wmc.11.1680283919518;
-        Fri, 31 Mar 2023 10:31:59 -0700 (PDT)
-Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net. [86.9.131.95])
-        by smtp.gmail.com with ESMTPSA id g19-20020a05600c311300b003ee74c25f12sm10411423wmo.35.2023.03.31.10.31.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 10:31:58 -0700 (PDT)
-Date:   Sat, 1 Apr 2023 02:31:58 +0900
-From:   Stafford Horne <shorne@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Subject: Re: [PATCH 5/6] docs: move openrisc documentation under
- Documentation/arch/
-Message-ID: <ZCcZDn9Rbqx+47MX@antec>
-References: <20230323221948.352154-1-corbet@lwn.net>
- <20230323221948.352154-6-corbet@lwn.net>
+        d=1e100.net; s=20210112; t=1680285151;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+8e80o4Gln79rBts1nJMY6npgXhVyP7I9l6v7qOmueE=;
+        b=Ut8u4QVjxwRq+GERWZeqPplf9OFv5nusrR6YVOhF2n9Zys2QQGEcdLNf27m8cgLeAO
+         mHcfgSz9BzmUD0/BiH9CujEjMz03DIhokiinb6M9x0ZKI0yZqvMkLktNUUJ0Ms1QFSNG
+         jp3ef/qRVsl1JBY+UFyh1EfItwppGAJBF1dJ2kixFQyfFfdPqT4XyNFaAN/b0lY2slug
+         KkGUTF9z78vfNvJEkb7RZw2JGeZ1reN12senmdnWzRo6GXSgwC7Bz/OAzIDHpScgytdJ
+         Co/AvbOHlH4eSk/aOnkt9E2VmMEenGXfIpzrDEfqAnYTzgPpztwx13bazI0f/AFxvj/p
+         0eQw==
+X-Gm-Message-State: AAQBX9fzuMnV7t5/NJ9aYVzKBs2n4HWZdwTflcd1ClAnH0obPPy3dMhz
+        wntF3v9t+byYB8579EoJIrdLKTAyP7AwxmjzpZosJw==
+X-Google-Smtp-Source: AKy350a+fqJATU7e9z9fJ7w3yTsauVEcnZ7kHiX0Y2joMw8UR3mkd5AYXqrb8iX+RpDnRkPGHb3IeuFazPqEgQ1kl8s=
+X-Received: by 2002:a05:6512:23a3:b0:4d8:86c2:75ea with SMTP id
+ c35-20020a05651223a300b004d886c275eamr4807421lfv.3.1680285151328; Fri, 31 Mar
+ 2023 10:52:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230323221948.352154-6-corbet@lwn.net>
+References: <20230221190858.3159617-1-evan@rivosinc.com> <20230221190858.3159617-3-evan@rivosinc.com>
+ <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com> <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
+ <d91ffb1e-261b-4b2f-a78f-f2846600a3e7@app.fastmail.com>
+In-Reply-To: <d91ffb1e-261b-4b2f-a78f-f2846600a3e7@app.fastmail.com>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Fri, 31 Mar 2023 10:51:55 -0700
+Message-ID: <CALs-HsuiyocyK+RW_5O3JniOE7ROHHDJ4K=+6NZRzGad7wJpMQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Conor Dooley <conor@kernel.org>, slewis@rivosinc.com,
+        Vineet Gupta <vineetg@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        guoren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Niklas Cassel <niklas.cassel@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 23, 2023 at 04:19:47PM -0600, Jonathan Corbet wrote:
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.  Move
-> Documentation/openrisc into arch/ and fix all in-tree references.
-> 
-> Cc: Jonas Bonn <jonas@southpole.se>
-> Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
-> Cc: Stafford Horne <shorne@gmail.com>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/arch/index.rst                                  | 2 +-
->  Documentation/{ => arch}/openrisc/features.rst                | 0
->  Documentation/{ => arch}/openrisc/index.rst                   | 0
->  Documentation/{ => arch}/openrisc/openrisc_port.rst           | 0
->  Documentation/{ => arch}/openrisc/todo.rst                    | 0
->  Documentation/translations/zh_CN/arch/index.rst               | 2 +-
->  .../translations/zh_CN/{ => arch}/openrisc/index.rst          | 4 ++--
->  .../translations/zh_CN/{ => arch}/openrisc/openrisc_port.rst  | 4 ++--
->  Documentation/translations/zh_CN/{ => arch}/openrisc/todo.rst | 4 ++--
->  MAINTAINERS                                                   | 2 +-
->  10 files changed, 9 insertions(+), 9 deletions(-)
->  rename Documentation/{ => arch}/openrisc/features.rst (100%)
->  rename Documentation/{ => arch}/openrisc/index.rst (100%)
->  rename Documentation/{ => arch}/openrisc/openrisc_port.rst (100%)
->  rename Documentation/{ => arch}/openrisc/todo.rst (100%)
->  rename Documentation/translations/zh_CN/{ => arch}/openrisc/index.rst (79%)
->  rename Documentation/translations/zh_CN/{ => arch}/openrisc/openrisc_port.rst (97%)
->  rename Documentation/translations/zh_CN/{ => arch}/openrisc/todo.rst (88%)
-> 
-> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-> index 792f58e30f25..65945daa40fe 100644
-> --- a/Documentation/arch/index.rst
-> +++ b/Documentation/arch/index.rst
-> @@ -17,7 +17,7 @@ implementation.
->     ../m68k/index
->     ../mips/index
->     ../nios2/index
-> -   ../openrisc/index
-> +   openrisc/index
->     ../parisc/index
->     ../powerpc/index
->     ../riscv/index
-> diff --git a/Documentation/openrisc/features.rst b/Documentation/arch/openrisc/features.rst
-> similarity index 100%
-> rename from Documentation/openrisc/features.rst
-> rename to Documentation/arch/openrisc/features.rst
-> diff --git a/Documentation/openrisc/index.rst b/Documentation/arch/openrisc/index.rst
-> similarity index 100%
-> rename from Documentation/openrisc/index.rst
-> rename to Documentation/arch/openrisc/index.rst
-> diff --git a/Documentation/openrisc/openrisc_port.rst b/Documentation/arch/openrisc/openrisc_port.rst
-> similarity index 100%
-> rename from Documentation/openrisc/openrisc_port.rst
-> rename to Documentation/arch/openrisc/openrisc_port.rst
-> diff --git a/Documentation/openrisc/todo.rst b/Documentation/arch/openrisc/todo.rst
-> similarity index 100%
-> rename from Documentation/openrisc/todo.rst
-> rename to Documentation/arch/openrisc/todo.rst
-> diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
-> index aa53dcff268e..7e59af567331 100644
-> --- a/Documentation/translations/zh_CN/arch/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/index.rst
-> @@ -11,7 +11,7 @@
->     ../mips/index
->     ../arm64/index
->     ../riscv/index
-> -   ../openrisc/index
-> +   openrisc/index
->     ../parisc/index
->     ../loongarch/index
->  
-> diff --git a/Documentation/translations/zh_CN/openrisc/index.rst b/Documentation/translations/zh_CN/arch/openrisc/index.rst
-> similarity index 79%
-> rename from Documentation/translations/zh_CN/openrisc/index.rst
-> rename to Documentation/translations/zh_CN/arch/openrisc/index.rst
-> index 9ad6cc600884..da21f8ab894b 100644
-> --- a/Documentation/translations/zh_CN/openrisc/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/openrisc/index.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->  
-> -:Original: Documentation/openrisc/index.rst
-> +:Original: Documentation/arch/openrisc/index.rst
->  
->  :翻译:
->  
-> diff --git a/Documentation/translations/zh_CN/openrisc/openrisc_port.rst b/Documentation/translations/zh_CN/arch/openrisc/openrisc_port.rst
-> similarity index 97%
-> rename from Documentation/translations/zh_CN/openrisc/openrisc_port.rst
-> rename to Documentation/translations/zh_CN/arch/openrisc/openrisc_port.rst
-> index b8a67670492d..cadc580fa23b 100644
-> --- a/Documentation/translations/zh_CN/openrisc/openrisc_port.rst
-> +++ b/Documentation/translations/zh_CN/arch/openrisc/openrisc_port.rst
-> @@ -1,6 +1,6 @@
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->  
-> -:Original: Documentation/openrisc/openrisc_port.rst
-> +:Original: Documentation/arch/openrisc/openrisc_port.rst
->  
->  :翻译:
->  
-> diff --git a/Documentation/translations/zh_CN/openrisc/todo.rst b/Documentation/translations/zh_CN/arch/openrisc/todo.rst
-> similarity index 88%
-> rename from Documentation/translations/zh_CN/openrisc/todo.rst
-> rename to Documentation/translations/zh_CN/arch/openrisc/todo.rst
-> index 63c38717edb1..1f6f95616633 100644
-> --- a/Documentation/translations/zh_CN/openrisc/todo.rst
-> +++ b/Documentation/translations/zh_CN/arch/openrisc/todo.rst
-> @@ -1,6 +1,6 @@
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->  
-> -:Original: Documentation/openrisc/todo.rst
-> +:Original: Documentation/arch/openrisc/todo.rst
->  
->  :翻译:
->  
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cf4eb913ea12..64ea94536f4c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15638,7 +15638,7 @@ S:	Maintained
->  W:	http://openrisc.io
->  T:	git https://github.com/openrisc/linux.git
->  F:	Documentation/devicetree/bindings/openrisc/
-> -F:	Documentation/openrisc/
-> +F:	Documentation/arch/openrisc/
->  F:	arch/openrisc/
->  F:	drivers/irqchip/irq-ompic.c
->  F:	drivers/irqchip/irq-or1k-*
+Hi Arnd,
 
-This all looks ok to me.
+On Fri, Mar 31, 2023 at 6:21=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Thu, Mar 30, 2023, at 20:30, Evan Green wrote:
+> > On Thu, Feb 23, 2023 at 2:06=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> w=
+rote:
+> >> > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
+> >> > pair_count,
+> >> > +                           size_t cpu_count, cpu_set_t *cpus,
+> >> > +                           unsigned long flags);
+> >>
+> >> The cpu set argument worries me more: there should never be a
+> >> need to optimize for broken hardware that has an asymmetric set
+> >> of features. Just let the kernel figure out the minimum set
+> >> of features that works across all CPUs and report that like we
+> >> do with HWCAP. If there is a SoC that is so broken that it has
+> >> important features on a subset of cores that some user might
+> >> actually want to rely on, then have them go through the slow
+> >> sysfs interface for probing the CPUs indidually, but don't make
+> >> the broken case easier at the expense of normal users that
+> >> run on working hardware.
+> >
+> > I'm not so sure. While I agree with you for major classes of features
+> > (eg one CPU has floating point support but another does not), I expect
+> > these bits to contain more subtle details as well, which might vary
+> > across asymmetric implementations without breaking ABI compatibility
+> > per-se. Maybe some vendor has implemented exotic video decoding
+> > acceleration instructions that only work on the big core. Or maybe the
+> > big cores support v3.1 of some extension (where certain things run
+> > faster), but the little cores only have v3.0, where it's a little
+> > slower. Certain apps would likely want to know these things so they
+> > can allocate their work optimally across cores.
+>
+> Do you have a specific feature in mind where hardware would be
+> intentionally designed this way? I still can't come up with a
+> scenario where this would actually work in practice, as having
+> asymmetric features is incompatible with so many other things
+> we normally do.
 
-Acked-by: Stafford Horne <shorne@gmail.com>
+Isn't this already a reality, with the ARM folks building systems
+where only some cores can run arm32 code, and the rest are aarch64
+only?
+https://lwn.net/Articles/838339/
+
+The way I see it, it's going to be close to impossible to _not_ design
+hardware this way. As long as die area and energy efficiency are a
+constraint, big.LITTLE and other asymmetric architectures seem
+inevitable. Given this interface is sort of a software cpuid
+instruction, pretending there won't be differences between cores feels
+like an incomplete API.
+
+>
+> - In a virtual machine, the VCPU tents to get scheduled arbitrarily
+>   to physical CPUs, so setting affinity in a guest won't actually
+>   guarantee that the feature is still there.
+
+Sure, but I wouldn't expect the guest to be able to observe physical
+properties from a transient host CPU (I'd consider that a bug). I'd
+expect either the VCPU is pinned to a physical CPU with no chance of
+migration, in which case you might reasonably plumb down some physical
+properties to the guest, or the guest sees a watered down generic CPU
+containing the least common denominator of features.
+
+>
+> - Using a CPU feature from library code is practically impossible
+>   if it requires special CPU affinity, as the application may
+>   already be started on specific CPUs for another reason, and
+>   having a library call sched_setaffinity will conflict with those.
+>
+> - Even in the simplest case of having a standalone application
+>   without any shared libraries try to pick a sensible CPU to
+>   run on is hard to do in a generic way, as it would need to
+>   weigh availabilty of features on certain cores against the
+>   number of cores with or without the feature and their current
+>   and expected system load.
+
+In ChromeOS at least, we struggled a lot with chrome getting scheduled
+on the big vs little cores on some ARM platforms, as we'd get things
+like dropped video frames if we stayed stuck on the wrong cores. I
+think we managed to solve that with uclamp, but again that
+acknowledges that there are differences between cores, which I think
+justifies the cpuset parameter to a cpu feature interface like this.
+
+>
+> As long as there isn't a specific requirement, I think it's better
+> to not actually encourage hardware vendors to implement designs
+> like that, or at least not designing an interface to make getting
+> this information a few microseconds faster that what already
+> exists.
+
+As this is ABI, there is a bit of "crystal ball gazing" I'm doing,
+though I hope I've backed it up with enough to show it's not a
+completely wild parameter.
+
+-Evan
