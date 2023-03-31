@@ -2,122 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64AAEC6FD18
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 07:44:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 842CCC76196
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 08:04:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbjCaHoV convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 03:44:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43614 "EHLO
+        id S230023AbjCaIEZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 04:04:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjCaHoU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 03:44:20 -0400
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294C710D7;
-        Fri, 31 Mar 2023 00:44:20 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id p204so26428290ybc.12;
-        Fri, 31 Mar 2023 00:44:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680248659;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yeeuMn+18qxZye2SkBV27ZVnmjOgzoZ1e4uAuUPEtd8=;
-        b=NEkNs9nIyiqmMCe4ucyDNo3UPYYhNlVff4aJXGa3ESoR8yek03zaeTDqfv2xTi1Vpv
-         B5i67hE8Y2IUZgV7iM0P/CDFAnTiJ/jjNehmTptAyTvDTW++dcWt33APlRJ/ClDJPknK
-         VuTBJI/tRGEe7SZNn6J/+pjNeaqXxmx6r+0TUcCIEzFrfD/ypvxAQWaQH1PP7TamXeIk
-         mi4Ag6my+86WEGJ54Z0MJlriHlijC4tpq/UTXV1agq+TjTVNkL5kI/dizHZEOtW4sKpK
-         No8pUea+d0oihb7ybP4PgzlH+S+XixCjJ8NF1yiIAncyKNq3h9hRDR496FiEyqdrU7MF
-         2MAw==
-X-Gm-Message-State: AAQBX9dPHiJtlZCkSFYUSzcZGZ0q8/ms8o5PWixkoDjEBi3slStTaNgc
-        vOFlgaZahqcTYuKw092Yy3jJxVAeAEaOdXsV
-X-Google-Smtp-Source: AKy350YEyQ70by6BsyR0OM1g8DmPwmCsMNXU1owLYTO5sC6CPGI2+B8oKewqEBQfHU30cnjqDpMAdQ==
-X-Received: by 2002:a25:dbc3:0:b0:b48:e823:bd0d with SMTP id g186-20020a25dbc3000000b00b48e823bd0dmr24596375ybf.23.1680248659121;
-        Fri, 31 Mar 2023 00:44:19 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id 85-20020a810658000000b005460412e2fcsm374611ywg.70.2023.03.31.00.44.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 00:44:18 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5456249756bso400497577b3.5;
-        Fri, 31 Mar 2023 00:44:18 -0700 (PDT)
-X-Received: by 2002:a81:b65f:0:b0:544:8bc1:a179 with SMTP id
- h31-20020a81b65f000000b005448bc1a179mr13310763ywk.4.1680248658426; Fri, 31
- Mar 2023 00:44:18 -0700 (PDT)
+        with ESMTP id S230241AbjCaIEY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 04:04:24 -0400
+Received: from mail.8bytes.org (mail.8bytes.org [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E6FBB3;
+        Fri, 31 Mar 2023 01:04:22 -0700 (PDT)
+Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.8bytes.org (Postfix) with ESMTPSA id 979B2244EFC;
+        Fri, 31 Mar 2023 10:04:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+        s=default; t=1680249862;
+        bh=HKuAz+OWW9VEt2t7NKMKxONe9g7YVlslkvijGOC1asY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=X53uRYWsb+cYybQx2wW/GhVyHv7wxhdIlk2tX5m9qytw5uGke4L3co2Pni7p1wyIt
+         ezwt1RMTNu5vI65Bt1fRGIiAhZAMcVJtdwxuGFGDR+gEfq208FOklO1FZuSdNDMD6n
+         IaoODUCbIu3izY9iyj93WECglXL6Tlbf20E3QTQMfjvBKk4b80l7MdD/LXD/s5A5gb
+         E10M3u4jdlgdbS+QzCkd5GFcGpdojqIrUJD8X2z4oEFcR0lPL/qE5jYGsqAIa0nKvi
+         2wYdklh/BEkqcVZKY7AYKArsriqYyyWnkAQasT/+5uzCRNF+sWOuMkst8OKO8LC4Xe
+         ldbJ1xDtV8b3g==
+Date:   Fri, 31 Mar 2023 10:04:20 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, Will Deacon <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>
+Subject: Re: [PATCH v8 0/7] Remove VT-d virtual command interface and IOASID
+Message-ID: <ZCaUBJvUMsJyD7EW@8bytes.org>
+References: <20230322200803.869130-1-jacob.jun.pan@linux.intel.com>
 MIME-Version: 1.0
-References: <20230330195604.269346-1-corbet@lwn.net> <20230330195604.269346-5-corbet@lwn.net>
-In-Reply-To: <20230330195604.269346-5-corbet@lwn.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 31 Mar 2023 09:44:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU=yyEciJD6iU-g90T3Qxg+t27Vz6VuojkhbxdODDJGwA@mail.gmail.com>
-Message-ID: <CAMuHMdU=yyEciJD6iU-g90T3Qxg+t27Vz6VuojkhbxdODDJGwA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] docs: move m68k architecture documentation under Documentation/arch/
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322200803.869130-1-jacob.jun.pan@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+On Wed, Mar 22, 2023 at 01:07:56PM -0700, Jacob Pan wrote:
+> Jacob Pan (5):
+>   iommu/vt-d: Remove virtual command interface
+>   iommu/sva: Move PASID helpers to sva code
+>   iommu/sva: Remove PASID to mm lookup function
+>   iommu/sva: Use GFP_KERNEL for pasid allocation
+>   iommu/ioasid: Rename INVALID_IOASID
+> 
+> Jason Gunthorpe (2):
+>   iommu/sva: Stop using ioasid_set for SVA
+>   iommu: Remove ioasid infrastructure
 
-On Thu, Mar 30, 2023 at 9:56 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.  Move
-> Documentation/m68k into arch/ and fix all in-tree references.
->
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-Thanks for your patch!
-
-> diff --git a/Documentation/translations/zh_CN/arch/parisc/debugging.rst b/Documentation/translations/zh_CN/arch/parisc/debugging.rst
-> index 9bd197eb0d41..c6b9de6d3175 100644
-> --- a/Documentation/translations/zh_CN/arch/parisc/debugging.rst
-> +++ b/Documentation/translations/zh_CN/arch/parisc/debugging.rst
-> @@ -1,4 +1,4 @@
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->
->  :Original: Documentation/arch/parisc/debugging.rst
->
-> diff --git a/Documentation/translations/zh_CN/arch/parisc/index.rst b/Documentation/translations/zh_CN/arch/parisc/index.rst
-> index 848742539550..9f69283bd1c9 100644
-> --- a/Documentation/translations/zh_CN/arch/parisc/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/parisc/index.rst
-> @@ -1,5 +1,5 @@
->  .. SPDX-License-Identifier: GPL-2.0
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->
->  :Original: Documentation/arch/parisc/index.rst
->
-> diff --git a/Documentation/translations/zh_CN/arch/parisc/registers.rst b/Documentation/translations/zh_CN/arch/parisc/registers.rst
-> index caf5f258248b..a55250afcc27 100644
-> --- a/Documentation/translations/zh_CN/arch/parisc/registers.rst
-> +++ b/Documentation/translations/zh_CN/arch/parisc/registers.rst
-> @@ -1,4 +1,4 @@
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->
->  :Original: Documentation/arch/parisc/registers.rst
->
-
-These changes do not belong in this patch.
-
-The rest LGTM, so with the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Applied, thanks.
