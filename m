@@ -2,66 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56457C76196
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 13:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C677C76196
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 13:06:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232690AbjCaND7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 09:03:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39476 "EHLO
+        id S232728AbjCaNGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 09:06:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232688AbjCaND6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 09:03:58 -0400
-X-Greylist: delayed 61662 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 31 Mar 2023 06:03:56 PDT
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567BD191F0;
-        Fri, 31 Mar 2023 06:03:56 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EC80A31A;
-        Fri, 31 Mar 2023 13:03:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EC80A31A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1680267836; bh=fgi0eL1RHpdLJzwkBb2vvnmgXqVDyXAHJ7IwoRjkJLk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=WbPIPwtlm0jYK9bvbBhXG41HIfvABxUc7+c/aT9UgeC3qe7Z1qyf2s+BYkv0OHO/B
-         biJTQlRLPBBnTnW6ZKxWeVAz7r8dNXHH5ojWr82PvN4Ng6QIZ9YXp+sWw5Fcv9fJEZ
-         VPciTbqFOkQiasC9XnxKwrJyLZxd93swCPPZHUGlvmjX9so6Pu4EU7i3J8BhHqn3KD
-         8B9VPCItptOJNJJ8ycPL4kqs2neTdazAelVZ7rmV3+s9ajxzLjOmh16doGbMaUAyap
-         myAnbzMeo1peIOMyfauswU1X9PQ4eFtvlZVmiukeS60Tp4Oax4+czoPd6wOFvYACPM
-         7v6omL23u9Bnw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Subject: Re: [PATCH 4/4] docs: move m68k architecture documentation under
- Documentation/arch/
-In-Reply-To: <87cz4pdqfs.fsf@meer.lwn.net>
-References: <20230330195604.269346-1-corbet@lwn.net>
- <20230330195604.269346-5-corbet@lwn.net>
- <CAMuHMdU=yyEciJD6iU-g90T3Qxg+t27Vz6VuojkhbxdODDJGwA@mail.gmail.com>
- <87cz4pdqfs.fsf@meer.lwn.net>
-Date:   Fri, 31 Mar 2023 07:03:55 -0600
-Message-ID: <878rfddqdg.fsf@meer.lwn.net>
+        with ESMTP id S232730AbjCaNGs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 09:06:48 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE5BF1A440;
+        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so23258089pjl.4;
+        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680268004;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=14bpLXKhsGbcNPJuXxXGVYE6w75UYQ85KK15RjcJ7NM=;
+        b=J+rhCmXUXYpIA9Z4hqSg12/qcx1JRwMtRVYOyRG1oZdWSz28BP+6taWx8MpvgyPCkf
+         z/4Z1gf3ifZu7a+4JHaMc4GEF4BFvsIPuMIIEjj7U/NR98vHHqiGmtXWHjfeSfoPCU5I
+         XIrr9MIr/8N20eLT8RwMJWWWLhiqofH7bkjLfIEthvekHDWWhDw7n66g3vOaxfXRkSSV
+         wlPfMDe8Qqp9RxBouFY0LbY2ZpW40dfnn3/eAb6CV+6MUCjbw8MmCUw6Plpk27E0kH9Q
+         u5jK2hElNCL/LH6xv2ZSmQ1M54Fp4Paq3bqNEn7EtFfObQDHipQTMyqs2vTX0L1U/+Ys
+         7EOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680268004;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=14bpLXKhsGbcNPJuXxXGVYE6w75UYQ85KK15RjcJ7NM=;
+        b=YAz4I3Y53pvLoNdAebubcMRzzMfA6pfDBtjrVgx01qj9uh4m42o0jTm+bTARmpFZxX
+         xTv4i0R+H8eARFyTB9Joe+/9ohCo+XI5PHU3ol/hx9DHOxqG6/XxFG4YsIcXK4jkbw4V
+         Z6387QZnIClxr3V9VD8+5mD1Ii95cuTvo43tpEBA3ESdxFnkZh2+BEKAH5v0esjOYa+y
+         JjjeFHr+fkZ10PtrD2rjqegvEL2cmI7YYkvpmeARIdM2qOl8BlTnqpB6bsaTok2OOFM7
+         mcB+E4PX4IaK7sjwgU4xy74pRGeftyEeBVnnxs4JoWhJFqVqp/Gxg9HAser7jcPHypwA
+         79Wg==
+X-Gm-Message-State: AAQBX9cvdaK9aEJz+qtkhrJmguLovZBp31nws71UB5b2lK3dUBzvi/BD
+        XODwIloOrLx2naFt9kl7/pI=
+X-Google-Smtp-Source: AKy350btzesFQdGHg0HNraW7MNdqEP2cgp0ZyzibFgofLQwudP9lvC9SJrYkNOkcOtLGChmUI7NE8w==
+X-Received: by 2002:a17:90a:e7cf:b0:23e:f855:79ed with SMTP id kb15-20020a17090ae7cf00b0023ef85579edmr29725179pjb.28.1680268004333;
+        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
+Received: from [192.168.43.80] (subs09b-223-255-225-236.three.co.id. [223.255.225.236])
+        by smtp.gmail.com with ESMTPSA id gz21-20020a17090b0ed500b0023f355a0bb5sm1465269pjb.14.2023.03.31.06.06.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
+Message-ID: <730b79b3-5adb-c8a2-8eb5-8790860fc1a3@gmail.com>
+Date:   Fri, 31 Mar 2023 20:06:37 +0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RFC v1 1/4] dma-mapping: introduce the DMA_ATTR_MAY_SLEEP
+ attribute
+To:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>
+Cc:     Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz
+References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
+ <ea0646e0e63380bb8595fbac81c23aeca30feae9.1679309810.git.petr.tesarik.ext@huawei.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <ea0646e0e63380bb8595fbac81c23aeca30feae9.1679309810.git.petr.tesarik.ext@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> writes:
+On 3/20/23 19:28, Petr Tesarik wrote:
+> +
+> +DMA_ATTR_MAY_SLEEP
+> +------------------
+> +
+> +This tells the DMA-mapping subsystem that it is allowed to sleep. For example,
+> +if mapping needs a bounce buffer, software IO TLB may use CMA for the
+> +allocation if this flag is given.
+> +
+> +This attribute is not used for dma_alloc_* functions. Instead, the provided
+                                  dma_alloc_\* (escape wildcard in order to
+                                                not confuse Sphinx for emphasis).
+> +GFP flags are used to determine whether the allocation may sleep.
 
->>>  :Original: Documentation/arch/parisc/registers.rst
->>>
->>
->> These changes do not belong in this patch.
->
-> Why not?  If I don't make those changes when moving the files, the
-> documentation build will break.
+Otherwise the doc LGTM.
 
-Never mind, those should be in the parisc patch.  I should know better
-than to dig into things while still on the first cup of coffee.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Sorry for the noise,
-
-jon
