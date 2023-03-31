@@ -2,103 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C677C76196
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 13:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95753C76196
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 13:21:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232728AbjCaNGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 09:06:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42742 "EHLO
+        id S232211AbjCaNVk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 09:21:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232730AbjCaNGs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 09:06:48 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE5BF1A440;
-        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so23258089pjl.4;
-        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680268004;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=14bpLXKhsGbcNPJuXxXGVYE6w75UYQ85KK15RjcJ7NM=;
-        b=J+rhCmXUXYpIA9Z4hqSg12/qcx1JRwMtRVYOyRG1oZdWSz28BP+6taWx8MpvgyPCkf
-         z/4Z1gf3ifZu7a+4JHaMc4GEF4BFvsIPuMIIEjj7U/NR98vHHqiGmtXWHjfeSfoPCU5I
-         XIrr9MIr/8N20eLT8RwMJWWWLhiqofH7bkjLfIEthvekHDWWhDw7n66g3vOaxfXRkSSV
-         wlPfMDe8Qqp9RxBouFY0LbY2ZpW40dfnn3/eAb6CV+6MUCjbw8MmCUw6Plpk27E0kH9Q
-         u5jK2hElNCL/LH6xv2ZSmQ1M54Fp4Paq3bqNEn7EtFfObQDHipQTMyqs2vTX0L1U/+Ys
-         7EOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680268004;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=14bpLXKhsGbcNPJuXxXGVYE6w75UYQ85KK15RjcJ7NM=;
-        b=YAz4I3Y53pvLoNdAebubcMRzzMfA6pfDBtjrVgx01qj9uh4m42o0jTm+bTARmpFZxX
-         xTv4i0R+H8eARFyTB9Joe+/9ohCo+XI5PHU3ol/hx9DHOxqG6/XxFG4YsIcXK4jkbw4V
-         Z6387QZnIClxr3V9VD8+5mD1Ii95cuTvo43tpEBA3ESdxFnkZh2+BEKAH5v0esjOYa+y
-         JjjeFHr+fkZ10PtrD2rjqegvEL2cmI7YYkvpmeARIdM2qOl8BlTnqpB6bsaTok2OOFM7
-         mcB+E4PX4IaK7sjwgU4xy74pRGeftyEeBVnnxs4JoWhJFqVqp/Gxg9HAser7jcPHypwA
-         79Wg==
-X-Gm-Message-State: AAQBX9cvdaK9aEJz+qtkhrJmguLovZBp31nws71UB5b2lK3dUBzvi/BD
-        XODwIloOrLx2naFt9kl7/pI=
-X-Google-Smtp-Source: AKy350btzesFQdGHg0HNraW7MNdqEP2cgp0ZyzibFgofLQwudP9lvC9SJrYkNOkcOtLGChmUI7NE8w==
-X-Received: by 2002:a17:90a:e7cf:b0:23e:f855:79ed with SMTP id kb15-20020a17090ae7cf00b0023ef85579edmr29725179pjb.28.1680268004333;
-        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
-Received: from [192.168.43.80] (subs09b-223-255-225-236.three.co.id. [223.255.225.236])
-        by smtp.gmail.com with ESMTPSA id gz21-20020a17090b0ed500b0023f355a0bb5sm1465269pjb.14.2023.03.31.06.06.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 06:06:44 -0700 (PDT)
-Message-ID: <730b79b3-5adb-c8a2-8eb5-8790860fc1a3@gmail.com>
-Date:   Fri, 31 Mar 2023 20:06:37 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [RFC v1 1/4] dma-mapping: introduce the DMA_ATTR_MAY_SLEEP
- attribute
-To:     Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>
-Cc:     Roberto Sassu <roberto.sassu@huawei.com>, petr@tesarici.cz
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
- <ea0646e0e63380bb8595fbac81c23aeca30feae9.1679309810.git.petr.tesarik.ext@huawei.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <ea0646e0e63380bb8595fbac81c23aeca30feae9.1679309810.git.petr.tesarik.ext@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S231944AbjCaNVj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 09:21:39 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B0387DB2;
+        Fri, 31 Mar 2023 06:21:38 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id C023A5C00DE;
+        Fri, 31 Mar 2023 09:21:36 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 31 Mar 2023 09:21:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+        1680268896; x=1680355296; bh=ovGzLmCRYBV+Fk+VtkV1DusgbzUNCjhBOgu
+        eGJt1E/8=; b=khLHOepKtLXil1QvVmBA3JXD9wtQsSf0cBJ+mrHf5oL9PmEAjL/
+        WVpQtfOzsR6aPxknWPv7ZE89f9qTiqEQg3ZgXBsH+1fmldBU0syAtomPeQ/M8KtF
+        y8ydHdDN1zLNOQhzBz7fx7Wj981ct9AW6eLp9b5a51p3EMyTNkLPIfNJg1fppGuX
+        zsbAgJ3UrB14XKDY5U9Y9Mr22wbGERxxla/oc5vDsUkGrAuh4U6PHLpGvow5oWe1
+        LC9vG06Wj6bTUZ6hv/cRtHK79mhPfo2CwBUFM1kwr+oLLQ6ruSQ5U92dWbvBALGW
+        r7CVi3SBYGvnAcypzGT9inr4OiWiUIgZRHQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1680268896; x=1680355296; bh=ovGzLmCRYBV+Fk+VtkV1DusgbzUNCjhBOgu
+        eGJt1E/8=; b=CQvWK84Fn9nouXU6aTYtwXulujSysorotuAgKWMuGaXNXStqH1v
+        rFYE0q7n5U4dGAlaF6kjDlC08vnB+PDDJxUzIXjcEe1SH4ZYVb3uJ1rY/DM+2fLZ
+        l8QnbtPU5ULRi/ru+USclnnFwOiPYsvBO9rhZoLXJd7UZCsD3mHqfZUshItFmpYi
+        ZVS7vmXKe9Q92UmHHnTy9xcAg1QQT9NmRr3USK2ziMtw/STs0bZcH0KsvDqkEjf6
+        xZCA0KCtEtrgnFrRO23CtsCS0aDDbJ+b+FM5ZJWO/b+kKH99/g+h+QuJrUoRjGJB
+        AJ2Ex/w1lXMsCiKzMUBGpvEMqB2F3B2dSyA==
+X-ME-Sender: <xms:X94mZL9Ym39WBSyBfh1g0SRjLRCalx4op-MAUh9U5roJn_FeYGL04A>
+    <xme:X94mZHt_6qAJQXsydcD34NHf98IjjOENci7qtPwPQ4Oq3FQ2-GqR9wuj59Ei-E_cS
+    Cu-38MmxdCxJHqDKvM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiuddgiedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:YN4mZJAhJVnAYtZTUN7-g0dZBBkGLUtNRIo0LNaxWgM7ytI00Rr7hA>
+    <xmx:YN4mZHcWmmZEHu4IUF6Kt_RAEPLeZ3uSl-DukPDi8kcp0iJFd3LCHw>
+    <xmx:YN4mZAM_wkOeO78T2JwfrQyPgjpulPVsbxPm8ZNUM4ukuPTh8zvASA>
+    <xmx:YN4mZPPIw38AtrfICw7dFjCEq6HTcgeaZevW3fEznSQbBcI2Me8mhg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id E38FFB6008D; Fri, 31 Mar 2023 09:21:35 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
+Mime-Version: 1.0
+Message-Id: <d91ffb1e-261b-4b2f-a78f-f2846600a3e7@app.fastmail.com>
+In-Reply-To: <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
+References: <20230221190858.3159617-1-evan@rivosinc.com>
+ <20230221190858.3159617-3-evan@rivosinc.com>
+ <605fb2fd-bda2-4922-92bf-e3e416d54398@app.fastmail.com>
+ <CALs-HstAKtvORKwRWeh97SuAuYR61aiR-3jA2_0JCZGAJXVHbg@mail.gmail.com>
+Date:   Fri, 31 Mar 2023 15:21:15 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Evan Green" <evan@rivosinc.com>
+Cc:     "Palmer Dabbelt" <palmer@rivosinc.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        "Conor Dooley" <conor@kernel.org>, slewis@rivosinc.com,
+        "Vineet Gupta" <vineetg@rivosinc.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Andrew Bresticker" <abrestic@rivosinc.com>,
+        "Andrew Jones" <ajones@ventanamicro.com>,
+        "Anup Patel" <apatel@ventanamicro.com>,
+        "Atish Patra" <atishp@rivosinc.com>,
+        "Bagas Sanjaya" <bagasdotme@gmail.com>,
+        "Celeste Liu" <coelacanthus@outlook.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        guoren <guoren@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        "Niklas Cassel" <niklas.cassel@wdc.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Ruizhe Pan" <c141028@gmail.com>,
+        "Sunil V L" <sunilvl@ventanamicro.com>,
+        "Tobias Klauser" <tklauser@distanz.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 2/7] RISC-V: Add a syscall for HW probing
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/20/23 19:28, Petr Tesarik wrote:
-> +
-> +DMA_ATTR_MAY_SLEEP
-> +------------------
-> +
-> +This tells the DMA-mapping subsystem that it is allowed to sleep. For example,
-> +if mapping needs a bounce buffer, software IO TLB may use CMA for the
-> +allocation if this flag is given.
-> +
-> +This attribute is not used for dma_alloc_* functions. Instead, the provided
-                                  dma_alloc_\* (escape wildcard in order to
-                                                not confuse Sphinx for emphasis).
-> +GFP flags are used to determine whether the allocation may sleep.
+On Thu, Mar 30, 2023, at 20:30, Evan Green wrote:
+> On Thu, Feb 23, 2023 at 2:06=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> =
+wrote:
+>> > +    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t
+>> > pair_count,
+>> > +                           size_t cpu_count, cpu_set_t *cpus,
+>> > +                           unsigned long flags);
+>>
+>> The cpu set argument worries me more: there should never be a
+>> need to optimize for broken hardware that has an asymmetric set
+>> of features. Just let the kernel figure out the minimum set
+>> of features that works across all CPUs and report that like we
+>> do with HWCAP. If there is a SoC that is so broken that it has
+>> important features on a subset of cores that some user might
+>> actually want to rely on, then have them go through the slow
+>> sysfs interface for probing the CPUs indidually, but don't make
+>> the broken case easier at the expense of normal users that
+>> run on working hardware.
+>
+> I'm not so sure. While I agree with you for major classes of features
+> (eg one CPU has floating point support but another does not), I expect
+> these bits to contain more subtle details as well, which might vary
+> across asymmetric implementations without breaking ABI compatibility
+> per-se. Maybe some vendor has implemented exotic video decoding
+> acceleration instructions that only work on the big core. Or maybe the
+> big cores support v3.1 of some extension (where certain things run
+> faster), but the little cores only have v3.0, where it's a little
+> slower. Certain apps would likely want to know these things so they
+> can allocate their work optimally across cores.
 
-Otherwise the doc LGTM.
+Do you have a specific feature in mind where hardware would be
+intentionally designed this way? I still can't come up with a
+scenario where this would actually work in practice, as having
+asymmetric features is incompatible with so many other things
+we normally do.
 
--- 
-An old man doll... just what I always wanted! - Clara
+- In a virtual machine, the VCPU tents to get scheduled arbitrarily
+  to physical CPUs, so setting affinity in a guest won't actually
+  guarantee that the feature is still there.
 
+- Using a CPU feature from library code is practically impossible
+  if it requires special CPU affinity, as the application may
+  already be started on specific CPUs for another reason, and
+  having a library call sched_setaffinity will conflict with those.
+
+- Even in the simplest case of having a standalone application
+  without any shared libraries try to pick a sensible CPU to
+  run on is hard to do in a generic way, as it would need to
+  weigh availabilty of features on certain cores against the
+  number of cores with or without the feature and their current
+  and expected system load.
+
+As long as there isn't a specific requirement, I think it's better
+to not actually encourage hardware vendors to implement designs
+like that, or at least not designing an interface to make getting
+this information a few microseconds faster that what already
+exists.
+
+      Arnd
