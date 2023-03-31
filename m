@@ -2,63 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72CE6C761A6
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 14:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A032C76196
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 14:26:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231423AbjCaO0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 10:26:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53600 "EHLO
+        id S232701AbjCaO0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 10:26:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231262AbjCaO0c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 10:26:32 -0400
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA07F2031C
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 07:26:02 -0700 (PDT)
-Received: by mail-qv1-xf2d.google.com with SMTP id g9so16406733qvt.8
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 07:26:02 -0700 (PDT)
+        with ESMTP id S231994AbjCaO0i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 10:26:38 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C1C049DE
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 07:26:14 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id cr18so17975148qtb.0
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 07:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680272761; x=1682864761;
+        d=linaro.org; s=google; t=1680272772; x=1682864772;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=GR8HbSJNeX2/6gkzUuSiSFMjntM3+JJlkqi7H7u9npY=;
-        b=LlNcj2jyX8XrRKCjQxXr5wwSbidsngkFvz+FSRaK9YWDFL40NY7/3kgh+soDlzADsm
-         f+xDW5dF490piR99KCafCo+FTsAPQLhbf3DYMaCegIuoo9mLUrznKGjUd5qJX1ObfOcY
-         t0iiFwHYZwliOXUqdYRuznpAKLxg06VV9JKOBoBLDf5uPxD8ZHnmhu+VpG86lE3EIBi8
-         bPiT5XIV3VodVsXHBI+HosufvLthN0ttaAoSZYT6kmhzZ8Qv6Ij0lY4qN4RulBDpKRIS
-         bYUgif6rY5h+Ox4oTje6xwxnhDsw4r5hy5a+4kMcO18XFwQrk27KNUbYDTw53CtIybv5
-         RkWg==
+        bh=4TZcNHBne8Ydj5DMvqldDY9nOVj97XooUthAxtENY64=;
+        b=AksL8Fbc1DQ03SWL1tkyjPlfYabcED0o0r4qV4AI/o8mdm2iZUdqXmYaEud9Qtsa2o
+         LpANr/Rb0HX6TiC5lOdOk+QfcQzwUgLc0PxZwb3ZRFf4qn6yb4V/DpJKI4IqVaZQQYJS
+         nZxSPRbayelM0a1M4PKdEew4sQkuUoC8DwUNf7EjaUrQ0P/hRIm4DpbN4pNBdKfCDyHA
+         k4dSYmVq08ihHgCYHZYge+tcFYrMZn+OA+tlDN0Fm1WQEBKJ6L8vncaf1Ij/SnMVwTyB
+         ihpa1EgNpM6++Uh0eLYNXMDJ6UTGYrPbgisg9dOVMfwqesZgcFDU39I0d54ZtSNJcHPy
+         D/AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680272761; x=1682864761;
+        d=1e100.net; s=20210112; t=1680272772; x=1682864772;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GR8HbSJNeX2/6gkzUuSiSFMjntM3+JJlkqi7H7u9npY=;
-        b=57Q+3aF2dXAX4lyAkyz986xLID7O+AxHex9wn9ORohvcIDczf8EoZqFZ04Vlm8bZag
-         fEwMAJBAAeD1wWifZhz3+b3VuzWcRQWFu34RWVrT+JXnQSuQMVNvlbgvXKjerxmmoa7u
-         JG5XKzZN5dxKS6t49lns16sokbC7RoHbK3d+43B35vBbAXtoeZIq+xYj/TNBuMBikf9u
-         fGuxW4xnlvMgzJM5gAyG2meZICvaVPmEyvP9jy8ehwLhxBhg09kWMkV3ghyuR2dFPouX
-         sKYiOUQla8gX94W+C6HFnrCfh0mAdb1lnFV1286Hy3T2EXQsE1NSt75O02w+86XA0RXr
-         26oQ==
-X-Gm-Message-State: AAQBX9d6THkre/1N/ph1MaJqRTqTq0dONWax25U9sleCe5OjhL4h4D2x
-        pLt8LlXTL9DObLJkwWPIWx0aIw==
-X-Google-Smtp-Source: AKy350aCdaT57cC6uWksuF5mhfKW1oFiWKlrdmkyxSri2/aHfUyewgmtwvFz9rHLt5dnqxqDTt1V8w==
-X-Received: by 2002:a05:6214:e85:b0:5aa:4c08:f188 with SMTP id hf5-20020a0562140e8500b005aa4c08f188mr42053846qvb.51.1680272761386;
-        Fri, 31 Mar 2023 07:26:01 -0700 (PDT)
+        bh=4TZcNHBne8Ydj5DMvqldDY9nOVj97XooUthAxtENY64=;
+        b=EaYMsTlacQ2/WmuvvpONbO8/NBx51tAJHdWj3Bxp9rMxpmcukR9fi0eCfPZ5y5njbw
+         TOw/YBepWomQzypWMXM2RiAOs35eor2uNH8e+zSmEIDhlsRxBqO3ep61boCkscFpnhyB
+         hIZ6140CzM1WAaFyXsSy8cGr0YuxPOTt8drfuuwdf/ysDVLOcvXV0RkZo6ZHXwrLHVUK
+         VzLC2cSw6CCpU9wFzF+X3dDvlf+ohUh+gIL437KR+xYlROg+2biy7NGFWRbjlrXQoz91
+         at0dQHKRtovsP00KxYgXfr7Mc0FTxL3FyXFy3IGpUEkA7LxggDYCwPgeApKkYPTr8Iut
+         4sEw==
+X-Gm-Message-State: AO0yUKUOsdvnjFgqolDX68tZd+y02q7oEOOakkXJNLLWHQomvOh0LRRn
+        ObYyJuooKRAFkZanZz+sCHLYQg==
+X-Google-Smtp-Source: AK7set+tGcgLaXuCfu+zxUyhVgeC1oWiMeq1dulMb73bXXbZF/p5T8q/YTSoP6J+2N+kh3CbZlbU0g==
+X-Received: by 2002:a05:622a:651:b0:3b9:b6e3:c78e with SMTP id a17-20020a05622a065100b003b9b6e3c78emr47769277qtb.8.1680272771827;
+        Fri, 31 Mar 2023 07:26:11 -0700 (PDT)
 Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id ob8-20020a0562142f8800b005e2007584f1sm420165qvb.24.2023.03.31.07.25.59
+        by smtp.googlemail.com with ESMTPSA id fu26-20020a05622a5d9a00b003e1080e0f8csm655777qtb.16.2023.03.31.07.26.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 07:26:01 -0700 (PDT)
-Message-ID: <37bc641a-77b9-a740-a08e-8b86d0b50630@linaro.org>
-Date:   Fri, 31 Mar 2023 09:25:59 -0500
+        Fri, 31 Mar 2023 07:26:11 -0700 (PDT)
+Message-ID: <9faf0a2a-48f6-2155-fb8d-cd7e7fa1c345@linaro.org>
+Date:   Fri, 31 Mar 2023 09:26:09 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v11 10/26] gunyah: vm_mgr: Introduce basic VM Manager
+Subject: Re: [PATCH v11 11/26] gunyah: rsc_mgr: Add RPC for sharing memory
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -71,6 +70,7 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -79,9 +79,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
- <20230304010632.2127470-11-quic_eberman@quicinc.com>
+ <20230304010632.2127470-12-quic_eberman@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <20230304010632.2127470-11-quic_eberman@quicinc.com>
+In-Reply-To: <20230304010632.2127470-12-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -89,340 +89,413 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 3/3/23 7:06 PM, Elliot Berman wrote:
-> Gunyah VM manager is a kernel moduel which exposes an interface to
-> Gunyah userspace to load, run, and interact with other Gunyah virtual
-> machines. The interface is a character device at /dev/gunyah.
+> Gunyah resource manager provides API to manipulate stage 2 page tables.
+> Manipulations are represented as a memory parcel. Memory parcels
+> describe a list of memory regions (intermediate physical address and
+> size), a list of new permissions for VMs, and the memory type (DDR or
+> MMIO). Memory parcels are uniquely identified by a handle allocated by
+> Gunyah. There are a few types of memory parcel sharing which Gunyah
+> supports:
 > 
-> Add a basic VM manager driver. Upcoming patches will add more ioctls
-> into this driver.
+>   - Sharing: the guest and host VM both have access
+>   - Lending: only the guest has access; host VM loses access
+>   - Donating: Permanently lent (not reclaimed even if guest shuts down)
+> 
+> Memory parcels that have been shared or lent can be reclaimed by the
+> host via an additional call. The reclaim operation restores the original
+> access the host VM had to the memory parcel and removes the access to
+> other VM.
+> 
+> One point to note that memory parcels don't describe where in the guest
+> VM the memory parcel should reside. The guest VM must accept the memory
+> parcel either explicitly via a "gh_rm_mem_accept" call (not introduced
+> here) or be configured to accept it automatically at boot. As the guest
+> VM accepts the memory parcel, it also mentions the IPA it wants to place
+> memory parcel.
 > 
 > Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 > Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 
-One suggestion to move some code here.  And a few other minor
-things.
-
-					-Alex
+The comments here aren't anything major, just suggestions.	-Alex
 
 > ---
->   .../userspace-api/ioctl/ioctl-number.rst      |   1 +
->   drivers/virt/gunyah/Makefile                  |   2 +-
->   drivers/virt/gunyah/rsc_mgr.c                 |  38 +++++-
->   drivers/virt/gunyah/vm_mgr.c                  | 116 ++++++++++++++++++
->   drivers/virt/gunyah/vm_mgr.h                  |  23 ++++
->   include/uapi/linux/gunyah.h                   |  23 ++++
->   6 files changed, 201 insertions(+), 2 deletions(-)
->   create mode 100644 drivers/virt/gunyah/vm_mgr.c
->   create mode 100644 drivers/virt/gunyah/vm_mgr.h
->   create mode 100644 include/uapi/linux/gunyah.h
+>   drivers/virt/gunyah/rsc_mgr_rpc.c | 223 ++++++++++++++++++++++++++++++
+>   include/linux/gunyah_rsc_mgr.h    |  48 +++++++
+>   2 files changed, 271 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 0a1882e296ae..2513324ae7be 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -137,6 +137,7 @@ Code  Seq#    Include File                                           Comments
->   'F'   DD     video/sstfb.h                                           conflict!
->   'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           conflict!
->   'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            conflict!
-> +'G'   00-0f  linux/gunyah.h                                          conflict!
->   'H'   00-7F  linux/hiddev.h                                          conflict!
->   'H'   00-0F  linux/hidraw.h                                          conflict!
->   'H'   01     linux/mei.h                                             conflict!
-> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> index de29769f2f3f..03951cf82023 100644
-> --- a/drivers/virt/gunyah/Makefile
-> +++ b/drivers/virt/gunyah/Makefile
-> @@ -2,5 +2,5 @@
->   
->   obj-$(CONFIG_GUNYAH) += gunyah.o
->   
-> -gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
-> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
->   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
-> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
-> index 67813c9a52db..d7ce692d0067 100644
-> --- a/drivers/virt/gunyah/rsc_mgr.c
-> +++ b/drivers/virt/gunyah/rsc_mgr.c
-> @@ -15,8 +15,10 @@
->   #include <linux/completion.h>
+> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
+> index ffcb861a31b5..3df15ad5b97d 100644
+> --- a/drivers/virt/gunyah/rsc_mgr_rpc.c
+> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
+> @@ -6,6 +6,12 @@
 >   #include <linux/gunyah_rsc_mgr.h>
->   #include <linux/platform_device.h>
-> +#include <linux/miscdevice.h>
->   
 >   #include "rsc_mgr.h"
-> +#include "vm_mgr.h"
 >   
->   #define RM_RPC_API_VERSION_MASK		GENMASK(3, 0)
->   #define RM_RPC_HEADER_WORDS_MASK	GENMASK(7, 4)
-> @@ -129,6 +131,7 @@ struct gh_rm_connection {
->    * @cache: cache for allocating Tx messages
->    * @send_lock: synchronization to allow only one request to be sent at a time
->    * @nh: notifier chain for clients interested in RM notification messages
-> + * @miscdev: /dev/gunyah
->    */
->   struct gh_rm {
->   	struct device *dev;
-> @@ -145,6 +148,8 @@ struct gh_rm {
->   	struct kmem_cache *cache;
->   	struct mutex send_lock;
->   	struct blocking_notifier_head nh;
+> +/* Message IDs: Memory Management */
+> +#define GH_RM_RPC_MEM_LEND			0x51000012
+> +#define GH_RM_RPC_MEM_SHARE			0x51000013
+> +#define GH_RM_RPC_MEM_RECLAIM			0x51000015
+> +#define GH_RM_RPC_MEM_APPEND			0x51000018
 > +
-> +	struct miscdevice miscdev;
->   };
+>   /* Message IDs: VM Management */
+>   #define GH_RM_RPC_VM_ALLOC_VMID			0x56000001
+>   #define GH_RM_RPC_VM_DEALLOC_VMID		0x56000002
+> @@ -22,6 +28,46 @@ struct gh_rm_vm_common_vmid_req {
+>   	__le16 _padding;
+>   } __packed;
 >   
->   /**
-> @@ -593,6 +598,21 @@ void gh_rm_put(struct gh_rm *rm)
->   }
->   EXPORT_SYMBOL_GPL(gh_rm_put);
->   
-
-I feel like /dev/gunyah code would more appropriately be found
-in "vm_mgr.c".  All gh_dev_ioctl() does is call the function
-defined there, and it's therefore a VM-oriented rather than
-resource-oriented device.
-
-> +static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-> +{
-> +	struct miscdevice *miscdev = filp->private_data;
-> +	struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+> +/* Call: MEM_LEND, MEM_SHARE */
+> +#define GH_MEM_SHARE_REQ_FLAGS_APPEND		BIT(1)
 > +
-> +	return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
-> +}
+> +struct gh_rm_mem_share_req_header {
+> +	u8 mem_type;
+> +	u8 _padding0;
+> +	u8 flags;
+> +	u8 _padding1;
+> +	__le32 label;
+> +} __packed;
 > +
-> +static const struct file_operations gh_dev_fops = {
-> +	.owner		= THIS_MODULE,
-> +	.unlocked_ioctl	= gh_dev_ioctl,
-> +	.compat_ioctl	= compat_ptr_ioctl,
-> +	.llseek		= noop_llseek,
+> +struct gh_rm_mem_share_req_acl_section {
+> +	__le32 n_entries;
+> +	struct gh_rm_mem_acl_entry entries[];
 > +};
 > +
->   static int gh_msgq_platform_probe_direction(struct platform_device *pdev, bool tx,
->   					    struct gh_resource *ghrsc)
->   {
-> @@ -651,7 +671,22 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
->   	rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
->   	rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
+> +struct gh_rm_mem_share_req_mem_section {
+> +	__le16 n_entries;
+> +	__le16 _padding;
+> +	struct gh_rm_mem_entry entries[];
+> +};
+> +
+> +/* Call: MEM_RELEASE */
+> +struct gh_rm_mem_release_req {
+> +	__le32 mem_handle;
+> +	u8 flags; /* currently not used */
+> +	u8 _padding0;
+> +	__le16 _padding1;
+> +} __packed;
+> +
+> +/* Call: MEM_APPEND */
+> +#define GH_MEM_APPEND_REQ_FLAGS_END	BIT(0)
+
+Insert a tab before BIT(0) to align with the value assigned
+to GH_MEM_SHARE_REQ_FLAGS_APPEND, above.  Same comment will
+apply to GH_RM_VM_STOP_FLAG_FORCE_STOP (and so on).
+
+> +
+> +struct gh_rm_mem_append_req_header {
+> +	__le32 mem_handle;
+> +	u8 flags;
+> +	u8 _padding0;
+> +	__le16 _padding1;
+> +} __packed;
+> +
+>   /* Call: VM_ALLOC */
+>   struct gh_rm_vm_alloc_vmid_resp {
+>   	__le16 vmid;
+> @@ -51,6 +97,8 @@ struct gh_rm_vm_config_image_req {
+>   	__le64 dtb_size;
+>   } __packed;
 >   
-> -	return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
-> +	ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
-> +	if (ret)
-> +		goto err_cache;
+> +#define GH_RM_MAX_MEM_ENTRIES	512
 > +
-> +	rm->miscdev.name = "gunyah";
-> +	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
-> +	rm->miscdev.fops = &gh_dev_fops;
-> +
-> +	ret = misc_register(&rm->miscdev);
-> +	if (ret)
-> +		goto err_msgq;
-> +
-> +	return 0;
-> +err_msgq:
-> +	mbox_free_channel(gh_msgq_chan(&rm->msgq));
-> +	gh_msgq_remove(&rm->msgq);
->   err_cache:
->   	kmem_cache_destroy(rm->cache);
->   	return ret;
-> @@ -661,6 +696,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
->   {
->   	struct gh_rm *rm = platform_get_drvdata(pdev);
+>   /*
+>    * Several RM calls take only a VMID as a parameter and give only standard
+>    * response back. Deduplicate boilerplate code by using this common call.
+> @@ -64,6 +112,181 @@ static int gh_rm_common_vmid_call(struct gh_rm *rm, u32 message_id, u16 vmid)
+>   	return gh_rm_call(rm, message_id, &req_payload, sizeof(req_payload), NULL, NULL);
+>   }
 >   
-> +	misc_deregister(&rm->miscdev);
->   	mbox_free_channel(gh_msgq_chan(&rm->msgq));
->   	gh_msgq_remove(&rm->msgq);
->   	kmem_cache_destroy(rm->cache);
-> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-> new file mode 100644
-> index 000000000000..dbacf36af72d
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/vm_mgr.c
-> @@ -0,0 +1,116 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#define pr_fmt(fmt) "gh_vm_mgr: " fmt
-> +
-> +#include <linux/anon_inodes.h>
-> +#include <linux/file.h>
-> +#include <linux/gunyah_rsc_mgr.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/module.h>
-> +
-> +#include <uapi/linux/gunyah.h>
-> +
-> +#include "vm_mgr.h"
-> +
-> +static void gh_vm_free(struct work_struct *work)
+> +static int _gh_rm_mem_append(struct gh_rm *rm, u32 mem_handle, bool end_append,
+> +			struct gh_rm_mem_entry *mem_entries, size_t n_mem_entries)
 > +{
-> +	struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
+> +	struct gh_rm_mem_share_req_mem_section *mem_section;
+> +	struct gh_rm_mem_append_req_header *req_header;
+> +	size_t msg_size = 0;
+> +	void *msg;
 > +	int ret;
 > +
-> +	ret = gh_rm_dealloc_vmid(ghvm->rm, ghvm->vmid);
-> +	if (ret)
-> +		pr_warn("Failed to deallocate vmid: %d\n", ret);
+> +	msg_size += sizeof(struct gh_rm_mem_append_req_header);
+> +	msg_size += struct_size(mem_section, entries, n_mem_entries);
 > +
-> +	put_gh_rm(ghvm->rm);
-> +	kfree(ghvm);
+> +	msg = kzalloc(msg_size, GFP_KERNEL);
+> +	if (!msg)
+> +		return -ENOMEM;
+> +
+> +	req_header = msg;
+> +	mem_section = (void *)req_header + sizeof(struct gh_rm_mem_append_req_header);
+> +
+> +	req_header->mem_handle = cpu_to_le32(mem_handle);
+> +	if (end_append)
+> +		req_header->flags |= GH_MEM_APPEND_REQ_FLAGS_END;
+> +
+> +	mem_section->n_entries = cpu_to_le16(n_mem_entries);
+> +	memcpy(mem_section->entries, mem_entries, sizeof(*mem_entries) * n_mem_entries);
+> +
+> +	ret = gh_rm_call(rm, GH_RM_RPC_MEM_APPEND, msg, msg_size, NULL, NULL);
+> +	kfree(msg);
+> +
+> +	return ret;
 > +}
 > +
-> +static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
+> +static int gh_rm_mem_append(struct gh_rm *rm, u32 mem_handle,
+> +			struct gh_rm_mem_entry *mem_entries, size_t n_mem_entries)
 > +{
-> +	struct gh_vm *ghvm;
-> +	int vmid;
+> +	bool end_append;
+> +	int ret = 0;
+> +	size_t n;
 > +
-> +	vmid = gh_rm_alloc_vmid(rm, 0);
-> +	if (vmid < 0)
-> +		return ERR_PTR(vmid);
+> +	while (n_mem_entries) {
+> +		if (n_mem_entries > GH_RM_MAX_MEM_ENTRIES) {
+> +			end_append = false;
+> +			n = GH_RM_MAX_MEM_ENTRIES;
+> +		} else {
+> +			end_append = true;
+> +			n = n_mem_entries;
+> +		}
 > +
-> +	ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
-> +	if (!ghvm) {
-> +		gh_rm_dealloc_vmid(rm, vmid);
-> +		return ERR_PTR(-ENOMEM);
+> +		ret = _gh_rm_mem_append(rm, mem_handle, end_append, mem_entries, n);
+> +		if (ret)
+> +			break;
+> +
+> +		mem_entries += n;
+> +		n_mem_entries -= n;
 > +	}
 > +
-> +	ghvm->parent = gh_rm_get(rm);
-> +	ghvm->vmid = vmid;
-> +	ghvm->rm = rm;
-> +
-> +	INIT_WORK(&ghvm->free_work, gh_vm_free);
-> +
-> +	return ghvm;
+> +	return ret;
 > +}
 > +
-> +static int gh_vm_release(struct inode *inode, struct file *filp)
+> +static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_mem_parcel *p)
 > +{
-> +	struct gh_vm *ghvm = filp->private_data;
+> +	size_t msg_size = 0, initial_mem_entries = p->n_mem_entries, resp_size;
+> +	struct gh_rm_mem_share_req_acl_section *acl_section;
+> +	struct gh_rm_mem_share_req_mem_section *mem_section;
+> +	struct gh_rm_mem_share_req_header *req_header;
+> +	u32 *attr_section;
+> +	__le32 *resp;
+> +	void *msg;
+> +	int ret;
 > +
-> +	/* VM will be reset and make RM calls which can interruptible sleep.
-> +	 * Defer to a work so this thread can receive signal.
-> +	 */
-> +	schedule_work(&ghvm->free_work);
-> +	return 0;
-> +}
-> +
-> +static const struct file_operations gh_vm_fops = {
-> +	.release = gh_vm_release,
-> +	.llseek = noop_llseek,
-> +};
-> +
-> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
-> +{
-> +	struct gh_vm *ghvm;
-> +	struct file *file;
-> +	int fd, err;
-> +
-> +	/* arg reserved for future use. */
-
-Do you have a clear idea of how this might be used in the future?
-
-I was thinking you could silently ignore the argument value, but
-I suppose if it *does* get used in the future, you want the caller
-to know it's being ignored.  (Is that right?)
-
-> +	if (arg)
+> +	if (!p->acl_entries || !p->n_acl_entries || !p->mem_entries || !p->n_mem_entries ||
+> +	    p->n_acl_entries > U8_MAX || p->mem_handle != GH_MEM_HANDLE_INVAL)
 > +		return -EINVAL;
 > +
-> +	ghvm = gh_vm_alloc(rm);
-> +	if (IS_ERR(ghvm))
-> +		return PTR_ERR(ghvm);
+> +	if (initial_mem_entries > GH_RM_MAX_MEM_ENTRIES)
+> +		initial_mem_entries = GH_RM_MAX_MEM_ENTRIES;
 > +
-> +	fd = get_unused_fd_flags(O_CLOEXEC);
-> +	if (fd < 0) {
-> +		err = fd;
-> +		goto err_destroy_vm;
+> +	/* The format of the message goes:
+> +	 * request header
+> +	 * ACL entries (which VMs get what kind of access to this memory parcel)
+> +	 * Memory entries (list of memory regions to share)
+> +	 * Memory attributes (currently unused, we'll hard-code the size to 0)
+> +	 */
+> +	msg_size += sizeof(struct gh_rm_mem_share_req_header);
+> +	msg_size += struct_size(acl_section, entries, p->n_acl_entries);
+> +	msg_size += struct_size(mem_section, entries, initial_mem_entries);
+
+Perhaps you can compute and cache these sizes, and use them
+both here and below when computing the addresses of the
+sections within the message.
+
+> +	msg_size += sizeof(u32); /* for memory attributes, currently unused */
+
+
+> +
+> +	msg = kzalloc(msg_size, GFP_KERNEL);
+> +	if (!msg)
+> +		return -ENOMEM;
+> +
+> +	req_header = msg;
+> +	acl_section = (void *)req_header + sizeof(*req_header);
+> +	mem_section = (void *)acl_section + struct_size(acl_section, entries, p->n_acl_entries);
+> +	attr_section = (void *)mem_section + struct_size(mem_section, entries, initial_mem_entries);
+> +
+> +	req_header->mem_type = p->mem_type;
+> +	if (initial_mem_entries != p->n_mem_entries)
+> +		req_header->flags |= GH_MEM_SHARE_REQ_FLAGS_APPEND;
+> +	req_header->label = cpu_to_le32(p->label);
+> +
+> +	acl_section->n_entries = cpu_to_le32(p->n_acl_entries);
+> +	memcpy(acl_section->entries, p->acl_entries, sizeof(*(p->acl_entries)) * p->n_acl_entries);
+
+Should you use struct_size(), or maybe flex_array_size() in the
+line above?
+
+> +
+> +	mem_section->n_entries = cpu_to_le16(initial_mem_entries);
+> +	memcpy(mem_section->entries, p->mem_entries,
+> +		sizeof(*(p->mem_entries)) * initial_mem_entries);
+
+Here too.
+
+> +
+> +	/* Set n_entries for memory attribute section to 0 */
+> +	*attr_section = 0;
+> +
+> +	ret = gh_rm_call(rm, message_id, msg, msg_size, (void **)&resp, &resp_size);
+> +	kfree(msg);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	p->mem_handle = le32_to_cpu(*resp);
+> +
+> +	if (initial_mem_entries != p->n_mem_entries) {
+> +		ret = gh_rm_mem_append(rm, p->mem_handle,
+> +					&p->mem_entries[initial_mem_entries],
+> +					p->n_mem_entries - initial_mem_entries);
+> +		if (ret) {
+> +			gh_rm_mem_reclaim(rm, p);
+> +			p->mem_handle = GH_MEM_HANDLE_INVAL;
+> +		}
 > +	}
 > +
-> +	file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
-> +	if (IS_ERR(file)) {
-> +		err = PTR_ERR(file);
-> +		goto err_put_fd;
-> +	}
-> +
-> +	fd_install(fd, file);
-> +
-> +	return fd;
-> +
-> +err_put_fd:
-> +	put_unused_fd(fd);
-> +err_destroy_vm:
-> +	gh_vm_free(&ghvm->free_work);
-> +	return err;
+> +	kfree(resp);
+> +	return ret;
 > +}
 > +
-> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg)
-> +{
-> +	switch (cmd) {
-> +	case GH_CREATE_VM:
-> +		return gh_dev_ioctl_create_vm(rm, arg);
-> +	default:
-> +		return -ENOIOCTLCMD;
-> +	}
-> +}
-> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-> new file mode 100644
-> index 000000000000..4b22fbcac91c
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/vm_mgr.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> +/**
+> + * gh_rm_mem_lend() - Lend memory to other virtual machines.
+> + * @rm: Handle to a Gunyah resource manager
+> + * @parcel: Package the memory information of the memory to be lent.
+
+Again, the "package" here doesn't clarify things for me.
+
+Maybe just "Information about the memory to be lent"?
+
+> + *
+> + * Lending removes Linux's access to the memory while the memory parcel is lent.
 > + */
+> +int gh_rm_mem_lend(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
+> +{
+> +	return gh_rm_mem_lend_common(rm, GH_RM_RPC_MEM_LEND, parcel);
+> +}
 > +
-> +#ifndef _GH_PRIV_VM_MGR_H
-> +#define _GH_PRIV_VM_MGR_H
+> +
+> +/**
+> + * gh_rm_mem_share() - Share memory with other virtual machines.
+> + * @rm: Handle to a Gunyah resource manager
+> + * @parcel: Package the memory information of the memory to be shared.
+> + *
+> + * Sharing keeps Linux's access to the memory while the memory parcel is shared.
+> + */
+> +int gh_rm_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
+> +{
+> +	return gh_rm_mem_lend_common(rm, GH_RM_RPC_MEM_SHARE, parcel);
+> +}
+> +
+> +/**
+> + * gh_rm_mem_reclaim() - Reclaim a memory parcel
+> + * @rm: Handle to a Gunyah resource manager
+> + * @parcel: Package the memory information of the memory to be reclaimed.
+> + *
+> + * RM maps the associated memory back into the stage-2 page tables of the owner VM.
+> + */
+> +int gh_rm_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
+> +{
+> +	struct gh_rm_mem_release_req req = {
+> +		.mem_handle = cpu_to_le32(parcel->mem_handle),
+> +	};
+> +
+> +	return gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), NULL, NULL);
+> +}
+> +
+>   /**
+>    * gh_rm_alloc_vmid() - Allocate a new VM in Gunyah. Returns the VM identifier.
+>    * @rm: Handle to a Gunyah resource manager
+> diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
+> index 6a2f434e67f7..88a429dad09e 100644
+> --- a/include/linux/gunyah_rsc_mgr.h
+> +++ b/include/linux/gunyah_rsc_mgr.h
+> @@ -11,6 +11,7 @@
+>   #include <linux/gunyah.h>
+>   
+>   #define GH_VMID_INVAL	U16_MAX
+> +#define GH_MEM_HANDLE_INVAL	U32_MAX
+>   
+>   struct gh_rm;
+>   int gh_rm_notifier_register(struct gh_rm *rm, struct notifier_block *nb);
+> @@ -51,7 +52,54 @@ struct gh_rm_vm_status_payload {
+>   
+>   #define GH_RM_NOTIFICATION_VM_STATUS		 0x56100008
+>   
+> +#define GH_RM_ACL_X		BIT(0)
+> +#define GH_RM_ACL_W		BIT(1)
+> +#define GH_RM_ACL_R		BIT(2)
+> +
+> +struct gh_rm_mem_acl_entry {
+> +	__le16 vmid;
+> +	u8 perms;
+> +	u8 reserved;
+> +} __packed;
+> +
+> +struct gh_rm_mem_entry {
+> +	__le64 ipa_base;
 
-Maybe _GH_VM_MGR_H?
+Does "ipa" represent "intermediate physical address"?  Please at
+least explain that, and preferably, rename the field so it's a
+little more explicit (maybe "intermediate_addr"?).
 
+> +	__le64 size;
+> +} __packed;
 > +
-> +#include <linux/gunyah_rsc_mgr.h>
-> +
-> +#include <uapi/linux/gunyah.h>
-> +
-> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
-> +
-> +struct gh_vm {
-> +	u16 vmid;
-> +	struct gh_rm *rm;
-> +	struct device *parent;
-> +
-> +	struct work_struct free_work;
+> +enum gh_rm_mem_type {
+> +	GH_RM_MEM_TYPE_NORMAL	= 0,
+> +	GH_RM_MEM_TYPE_IO	= 1,
 > +};
 > +
-> +#endif
-> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-> new file mode 100644
-> index 000000000000..10ba32d2b0a6
-> --- /dev/null
-> +++ b/include/uapi/linux/gunyah.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
 > +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef _UAPI_LINUX_GUNYAH
-> +#define _UAPI_LINUX_GUNYAH
+> + * struct gh_rm_mem_parcel - Package info about memory to be lent/shared/donated/reclaimed
 
-Use _UAPI_LINUX_GUNYAH_H
+The term "Package info", when describing a type you have named "parcel"
+is a little confusing.  I think you could safely drop "Package" (here
+and elsewhere).
 
-> +
-> +/*
-> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
+My understanding is that a parcel is a Gunyah representation of a set
+of memory regions that have been passed (lent or shared) to one or
+more other VMs, defining access permisions for each VM to all of the
+regions in the parcel.
+
+
+> + * @mem_type: The type of memory: normal (DDR) or IO
+> + * @label: An client-specified identifier which can be used by the other VMs to identify the purpose
+
+s/An/A/
+
+> + *         of the memory parcel.
+> + * @acl_entries: An array of access control entries. Each entry specifies a VM and what access
+> + *               is allowed for the memory parcel.
+> + * @n_acl_entries: Count of the number of entries in the `acl_entries` array.
+
+When you refer to a symbol in kernel-doc, you can use @acl_entries 
+rather than something like `acl-entries`.
+
+> + * @mem_entries: An list of regions to be associated with the memory parcel. Addresses should be
+> + *               (intermediate) physical addresses from Linux's perspective.
+> + * @n_mem_entries: Count of the number of entries in the `mem_entries` array.
+
+I don't know if this is required, but I suggest you list the
+descriptions here in the same order as the fields are defined
+in the structure below.
+
+> + * @mem_handle: On success, filled with memory handle that RM allocates for this memory parcel
 > + */
+> +struct gh_rm_mem_parcel {
+> +	enum gh_rm_mem_type mem_type;
+> +	u32 label;
+> +	size_t n_acl_entries;
+> +	struct gh_rm_mem_acl_entry *acl_entries;
+> +	size_t n_mem_entries;
+> +	struct gh_rm_mem_entry *mem_entries;
+> +	u32 mem_handle;
+> +};
 > +
-> +#include <linux/types.h>
-> +#include <linux/ioctl.h>
+>   /* RPC Calls */
+> +int gh_rm_mem_lend(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel);
+> +int gh_rm_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel);
+> +int gh_rm_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel);
 > +
-> +#define GH_IOCTL_TYPE			'G'
-> +
-> +/*
-> + * ioctls for /dev/gunyah fds:
-> + */
-> +#define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
-> +
-> +#endif
+>   int gh_rm_alloc_vmid(struct gh_rm *rm, u16 vmid);
+>   int gh_rm_dealloc_vmid(struct gh_rm *rm, u16 vmid);
+>   int gh_rm_vm_reset(struct gh_rm *rm, u16 vmid);
 
