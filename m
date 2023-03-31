@@ -2,91 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D58DFC6FD18
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 09:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CED16C6FD18
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 09:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232260AbjCaJcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 05:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41216 "EHLO
+        id S232212AbjCaJjx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 05:39:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231718AbjCaJca (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 05:32:30 -0400
-Received: from smtp-fw-9103.amazon.com (smtp-fw-9103.amazon.com [207.171.188.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E31E1B372;
-        Fri, 31 Mar 2023 02:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1680255132; x=1711791132;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NyBlKbROCGsMWhgK6uOMVGZcqOIwQUHp0D2OyMsRSWQ=;
-  b=omA71QLHVve2frxFO7FVf3yhjnLhxI95izUsrMBaeqX86yCyX+sgVMJn
-   hkfcwaLlRznVLdm6tgQJ3jIkcPYqBRepOVE6uGR/QKzOkBf7jIrkVIfmn
-   7dPwWHXHHG/2qV127InQKj5/xaLM+RW1eRQmTLrCpYzirISXXqW5qY544
-   s=;
-X-IronPort-AV: E=Sophos;i="5.98,307,1673913600"; 
-   d="scan'208";a="1118224456"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-96feee09.us-east-1.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-9103.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 09:31:46 +0000
-Received: from EX19MTAUWA002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-iad-1a-m6i4x-96feee09.us-east-1.amazon.com (Postfix) with ESMTPS id 8360F44BE2;
-        Fri, 31 Mar 2023 09:31:43 +0000 (UTC)
-Received: from EX19D002ANA003.ant.amazon.com (10.37.240.141) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.22; Fri, 31 Mar 2023 09:31:39 +0000
-Received: from b0f1d8753182.ant.amazon.com.com (10.106.83.11) by
- EX19D002ANA003.ant.amazon.com (10.37.240.141) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.26;
- Fri, 31 Mar 2023 09:31:35 +0000
-From:   Takahiro Itazuri <itazur@amazon.com>
-To:     <linux-kernel@vger.kernel.org>
-CC:     <linux-doc@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        David Dunn <daviddunn@google.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Takahiro Itazuri <zulinx86@gmail.com>,
-        "Takahiro Itazuri" <itazur@amazon.com>
-Subject: [PATCH v2] docs: kvm: x86: Fix broken field list
-Date:   Fri, 31 Mar 2023 10:31:16 +0100
-Message-ID: <20230331093116.99820-1-itazur@amazon.com>
-X-Mailer: git-send-email 2.38.0
+        with ESMTP id S232202AbjCaJjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 05:39:40 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664881EA28;
+        Fri, 31 Mar 2023 02:39:28 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1piBEB-00075I-BA; Fri, 31 Mar 2023 11:39:23 +0200
+Message-ID: <2194d19d-f195-1a1e-41fc-7827ae569351@leemhuis.info>
+Date:   Fri, 31 Mar 2023 11:39:22 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.106.83.11]
-X-ClientProxiedBy: EX19D045UWC002.ant.amazon.com (10.13.139.230) To
- EX19D002ANA003.ant.amazon.com (10.37.240.141)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Content-Language: en-US, de-DE
+To:     Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 0/4] docs & checkpatch: allow Closes tags with links
+In-Reply-To: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680255568;04a097a5;
+X-HE-SMSGID: 1piBEB-00075I-BA
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a missing ":" to fix a broken field list.
+On 30.03.23 20:13, Matthieu Baerts wrote:
+> Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
+> followed by a link [1]. It also complains if a "Reported-by:" tag is
+> followed by a "Closes:" one [2].
+> 
+> As detailed in the first patch, this "Closes:" tag is used for a bit of
+> time, mainly by DRM and MPTCP subsystems. It is used by some bug
+> trackers to automate the closure of issues when a patch is accepted.
+> It is even planned to use this tag with bugzilla.kernel.org [3].
+> 
+> The first patch updates the documentation to explain what is this
+> "Closes:" tag and how/when to use it. The second patch modifies
+> checkpatch.pl to stop complaining about it.
+> 
+> The DRM maintainers and their mailing list have been added in Cc as they
+> are probably interested by these two patches as well.
+> 
+> [1] https://lore.kernel.org/all/3b036087d80b8c0e07a46a1dbaaf4ad0d018f8d5.1674217480.git.linux@leemhuis.info/
+> [2] https://lore.kernel.org/all/bb5dfd55ea2026303ab2296f4a6df3da7dd64006.1674217480.git.linux@leemhuis.info/
+> [3] https://lore.kernel.org/linux-doc/20230315181205.f3av7h6owqzzw64p@meerkat.local/
+> 
+> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
 
-Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
-Fixes: ba7bb663f554 ("KVM: x86: Provide per VM capability for disabling PMU virtualization")
----
-v1 -> v2
-* Fix commit message to say "Do foo" instead of "This commit does foo".
-* Add "Fixes:" tag.
-* Link to v1: https://lore.kernel.org/all/20230330233956.78246-1-itazur@amazon.com/
+Maybe it's just me, but I think those changes do not make it clear
+enough when to use Link: and when to use Closes. Find below an
+alternative proposal how I'd do it for consideration that goes
+'all-in' for the sake of simplicity.
 
- Documentation/virt/kvm/api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[untested -- and I hope thunderbird won't mangle the patch]
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 62de0768d..f9163590c 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -8296,7 +8296,7 @@ ENOSYS for the others.
- 8.35 KVM_CAP_PMU_CAPABILITY
- ---------------------------
+Ciao, Thorsten
+
+
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 7a670a075ab6..fc194b4d1674 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -207,11 +207,17 @@ the patch::
+ 	Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
  
--:Capability KVM_CAP_PMU_CAPABILITY
-+:Capability: KVM_CAP_PMU_CAPABILITY
- :Architectures: x86
- :Type: vm
- :Parameters: arg[0] is bitmask of PMU virtualization capabilities.
--- 
-2.38.1
-
+ Another tag is used for linking web pages with additional backgrounds or
+-details, for example a report about a bug fixed by the patch or a document
++details, for example earlier discussion which lead to the patch or a document
+ with a specification implemented by the patch::
+ 
+ 	Link: https://example.com/somewhere.html  optional-other-stuff
+ 
++If the URL points to a report about a bug fixed by the patch, use this instead::
++
++	Closes: https://example.com/somewhere.html  optional-other-stuff
++
++Ensure any such links are publicly accessible.
++
+ Many maintainers when applying a patch also add this tag to link to the
+ latest public review posting of the patch; often this is automatically done
+ by tools like b4 or a git hook like the one described in
+@@ -251,7 +257,7 @@ The tags in common use are:
+  - Reported-by: names a user who reported a problem which is fixed by this
+    patch; this tag is used to give credit to the (often underappreciated)
+    people who test our code and let us know when things do not work
+-   correctly. Note, this tag should be followed by a Link: tag pointing to the
++   correctly. Note, this tag should be followed by a Closes: tag pointing to the
+    report, unless the report is not available on the web.
+ 
+  - Cc: the named person received a copy of the patch and had the
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 69ce64e03c70..73611cf1c372 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -126,8 +126,10 @@ For example::
+ 
+     Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
+ 
+-Please check the link to make sure that it is actually working and points
+-to the relevant message.
++If the URL points to a bug report that is fixed by the patch, use 'Closes:'
++instead.
++
++Ensure any such links are publicly accessible.
+ 
+ However, try to make your explanation understandable without external
+ resources. In addition to giving a URL to a mailing list archive or bug,
+@@ -498,7 +500,7 @@ Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
+ The Reported-by tag gives credit to people who find bugs and report them and it
+ hopefully inspires them to help us again in the future. The tag is intended for
+ bugs; please do not use it to credit feature requests. The tag should be
+-followed by a Link: tag pointing to the report, unless the report is not
++followed by a Closes: tag pointing to the report, unless the report is not
+ available on the web. Please note that if the bug was reported in private, then
+ ask for permission first before using the Reported-by tag.
+ 
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bd44d12965c9..f9a7c2b856ae 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3158,14 +3158,14 @@ sub process {
+ 				}
+ 			}
+ 
+-# check if Reported-by: is followed by a Link:
++# check if Reported-by: is followed by a Closes: tag
+ 			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
+ 				if (!defined $lines[$linenr]) {
+ 					WARN("BAD_REPORTED_BY_LINK",
+-					     "Reported-by: should be immediately followed by Link: to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+-				} elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
++					     "Reported-by: should be immediately followed by Closes: to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
++				} elsif ($rawlines[$linenr] !~ m{^closes:\s*https?://}i) {
+ 					WARN("BAD_REPORTED_BY_LINK",
+-					     "Reported-by: should be immediately followed by Link: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
++					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+ 				}
+ 			}
+ 		}
+@@ -3266,13 +3266,13 @@ sub process {
+ 
+ # Check for odd tags before a URI/URL
+ 		if ($in_commit_log &&
+-		    $line =~ /^\s*(\w+):\s*http/ && $1 ne 'Link') {
++		    $line =~ /^\s*(\w+):\s*http/ && $1 ne 'Link' && $1 ne 'Closes') {
+ 			if ($1 =~ /^v(?:ersion)?\d+/i) {
+ 				WARN("COMMIT_LOG_VERSIONING",
+ 				     "Patch version information should be after the --- line\n" . $herecurr);
+ 			} else {
+ 				WARN("COMMIT_LOG_USE_LINK",
+-				     "Unknown link reference '$1:', use 'Link:' instead\n" . $herecurr);
++				     "Unknown link reference '$1:', use 'Link:' or 'Closes:' instead\n" . $herecurr);
+ 			}
+ 		}
+ 
