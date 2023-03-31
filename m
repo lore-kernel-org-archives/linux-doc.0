@@ -2,61 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5466C76196
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 10:21:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05855C6FD18
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 10:34:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbjCaKVS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 06:21:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
+        id S229523AbjCaKeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 06:34:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231297AbjCaKUp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 06:20:45 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AE41F790
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 03:16:17 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id cn12so87640515edb.4
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 03:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares.net; s=google; t=1680257776;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RLyeL0ieC0af03HsrJcBtZcl6Qcrr61FaS5vG8SSolU=;
-        b=n7VgHm1iogUci/YDlLwqbiCQxOh0NTv+S+qLJr9YmfYegjQWmoHTp0Cklpblqu5bsJ
-         iaGtyYJwJwKuULk5G/jHZB7UgH1yEM2IrW9H5dQjSUwWnbvuAHA/kFU3q2NS5lPpzqRa
-         YVmS8BLqjrTpztRer9bqdMiB35T4WfhCrR/o8wi0Lk7b4c+q7aPRgmpZQ5YYJkje8+Ev
-         GlmyLmlrq65oTOn6ecRqiyzSQXlnwgiAVeCpy4yeEpvLO5iWElYQqyq+v54qBcF67eBP
-         D5U8sCdHoyM9THhL3t5k6uu9kAidFR1UbuMVrrsfGZP7T8hXIayuCJMC4LRxGnCc6m1j
-         V7Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680257776;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RLyeL0ieC0af03HsrJcBtZcl6Qcrr61FaS5vG8SSolU=;
-        b=oAKsVgI+CGHHppYbO7OESbFTOeoGIc3MQmQCIgYY/xInELtCVgbQeDfQydNS1GhvoX
-         t6h+SFsUC4RjZjyt9Ztp+smJcKKgDu/vs8lsGfXGIUNHEmPFdwOFm6VNJeeolm+h7VEH
-         0y8VSy7PFMoDM0OMPb+ZMcRhgFLFl5xK1GsX2EF3i3kUGKIpMpXY4ODHWgQ+AOUnVXxh
-         hxaEmsRLuNcTX+hqgvuW15HRrOOd0Ik8ZH6L9yyiyUENAL/azlvhyvKGsB3PU/DHRPTf
-         o8Q08qB+D8wl0MHo1vCxOP0j5WJTsPl1NMdPC1aYSbJH5ZHUTbcrRcjvttVAEIBIQuVy
-         vMkA==
-X-Gm-Message-State: AAQBX9cM21KpjiOg2AYQOw1lKrjl96XQOzYj9NjPV38r1vMdmEwk+Q+w
-        FKm28GDMfQFOeJtbHsJWIzXkSg==
-X-Google-Smtp-Source: AKy350YAcljW2beX0LP4ISmGtSCex+RPEa9az+T1vDHR7XPjPdnVyvT8Ksk0/Xf2hk7fPOwqHBpGIg==
-X-Received: by 2002:a17:906:44b:b0:931:624b:680c with SMTP id e11-20020a170906044b00b00931624b680cmr26590099eja.29.1680257775893;
-        Fri, 31 Mar 2023 03:16:15 -0700 (PDT)
-Received: from [10.44.2.5] ([81.246.10.41])
-        by smtp.gmail.com with ESMTPSA id c4-20020a170906170400b0093f0fbebfc2sm817144eje.144.2023.03.31.03.16.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 03:16:15 -0700 (PDT)
-Message-ID: <2370614d-6d9a-9f35-63a3-cfdcca2dd0c2@tessares.net>
-Date:   Fri, 31 Mar 2023 12:16:15 +0200
+        with ESMTP id S229441AbjCaKeV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 06:34:21 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 943E56A58;
+        Fri, 31 Mar 2023 03:34:20 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1piC5D-0002Be-5M; Fri, 31 Mar 2023 12:34:11 +0200
+Message-ID: <7d8cae85-5d0a-599e-cc48-0d06db27d9fe@leemhuis.info>
+Date:   Fri, 31 Mar 2023 12:34:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 4/4] checkpatch: check for misuse of the link tags
-Content-Language: en-GB
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
+ Thunderbird/102.9.1
+Content-Language: en-US, de-DE
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     Matthieu Baerts <matthieu.baerts@tessares.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Andy Whitcroft <apw@canonical.com>,
         Joe Perches <joe@perches.com>,
@@ -68,86 +36,57 @@ To:     Thorsten Leemhuis <linux@leemhuis.info>,
         Daniel Vetter <daniel@ffwll.ch>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
 References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v3-4-d1bdcf31c71c@tessares.net>
- <c2d5cc07-ec95-eb64-0cef-42f8378ea054@leemhuis.info>
- <ac473b8f-e7c1-edf9-9d9c-f1fd726e1e17@tessares.net>
- <d5c9d3fa-7f73-1179-8055-b31568ae2228@leemhuis.info>
-From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-In-Reply-To: <d5c9d3fa-7f73-1179-8055-b31568ae2228@leemhuis.info>
+ <2194d19d-f195-1a1e-41fc-7827ae569351@leemhuis.info>
+ <cf5a3e73-c97d-4f98-80d7-4bcc68eb557a@spud>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 0/4] docs & checkpatch: allow Closes tags with links
+In-Reply-To: <cf5a3e73-c97d-4f98-80d7-4bcc68eb557a@spud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680258860;efe5fe62;
+X-HE-SMSGID: 1piC5D-0002Be-5M
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thorsten,
+On 31.03.23 12:08, Conor Dooley wrote:
+> On Fri, Mar 31, 2023 at 11:39:22AM +0200, Thorsten Leemhuis wrote:
+> 
+>> -Please check the link to make sure that it is actually working and points
+>> -to the relevant message.
+>> +If the URL points to a bug report that is fixed by the patch, use 'Closes:'
+>> +instead.
+> 
+> This is not specifically a comment about your additional diff, but this
+> sprang to mind (again) while reading it.
+> I have been wondering if this sort of thing will lead to inconsistency. 
+> Reports sometimes report more than one issue at once. Other times a
+> patch that is (intentionally) not a complete fix for the problem.
+> Using Closes: in those cases is not really true, as it does not close
+> the report.
+>
+> Having a series of N patches, each of which purport to close an issue,
+> also doesn't seem quite right.
+> The word Closes has a meaning and "forcing" the use of Closes: for
+> reports implies meaning that may not be present.
+> 
+> I suppose it is true that just because documentation or checkpatch says
+> to do something, doesn't mean that you **have** to do it but I don't
+> want to be the one on the Rx side of a rant...
 
-On 31/03/2023 12:09, Thorsten Leemhuis wrote:
-> 
-> 
-> On 31.03.23 11:44, Matthieu Baerts wrote:
->> Hi Thorsten,
->>
->> On 31/03/2023 10:57, Thorsten Leemhuis wrote:
->>> On 30.03.23 20:13, Matthieu Baerts wrote:
->>>> "Link:" and "Closes:" tags have to be used with public URLs.
->>>>
->>>> It is difficult to make sure the link is public but at least we can
->>>> verify the tag is followed by 'http(s):'.
->>>>
->>>> With that, we avoid such a tag that is not allowed [1]:
->>>>
->>>>   Closes: <number>
->>>>
->>>> Link: https://lore.kernel.org/linux-doc/CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com/ [1]
->>>> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
->>>> [...]
->>>> +# Check for misuse of the link tags
->>>> +		if ($in_commit_log &&
->>>> +		    $line =~ /^\s*(\w+:)\s*(\S+)/) {
->>>> +			my $tag = $1;
->>>> +			my $value = $2;
->>>> +			if ($tag =~ /^$link_tags_search$/ && $value !~ /^https?:/) {
->>>> +				WARN("COMMIT_LOG_WRONG_LINK",
->>>> +				     "'$tag' should be followed by a public http(s) link\n" . $herecurr);
->>>> +			}
->>>> +		}
->>>> +
->>>
->>> I must be missing something here, but it looks to me like this is
->>> checked twice now. See this line in patch2 (which is changed there, but
->>> the check itself remains):
->>>
->>>> } elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
->>
->> If I'm not mistaken, we had the following checks:
->>
->> - after Reported-by, there is a link tag (Link:|Closes:)
->>
->> - (link tags can take more than 75 chars)
->> - tags followed by "http(s)://" are restricted to link ones
->>
->> Then not: link tags (Link:|Closes:) are followed by "http(s):".
-> 
-> Not in general, afaics -- and ensuring that is likely wise, so thx for
-> this. But for Link: and Closes: tags after a Reported-by it is already
-> checked, that's what I meant (and didn't communicate well, sorry). It's
-> just a detail, but might be wise to do this in patch 4:
-> 
-> - } elsif ($rawlines[$linenr] !~ m{^$link_tags_search\s*https?://}i) {
-> + } elsif ($rawlines[$linenr] !~ m{^$link_tags_search}i) {
-> 
-> (that's a line changed in patch2)
+Yeah, maybe checkpath.pl should allow a "Link" after a "Reported-by" for
+cases like this, then developers could save "Closes" for the patch that
+addresses the last of the issues the report is about.
 
-OK thank you. Sorry I didn't get that. Indeed, it should be enough to
-just check for the tags, not for the "http(s)://" part.
+OTOH checkpatch.pl currently just prints a warning, so developers could
+ignore this and do the above already now, as you say. Guess it depends
+on how often we expect "one report with multiple issue" to happen.
 
-Cheers,
-Matt
--- 
-Tessares | Belgium | Hybrid Access Solutions
-www.tessares.net
+Maybe this is an indicator that we are on the wrong track in general and
+should not do any of this and just stick to "Link:".
+
+Ciao, Thorsten
