@@ -2,336 +2,715 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27790C6FD1D
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 20:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED29C6FD1D
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 23:16:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229810AbjDAUHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Apr 2023 16:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35752 "EHLO
+        id S229719AbjDAXQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Apr 2023 19:16:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbjDAUHG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Apr 2023 16:07:06 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7B82658A
-        for <linux-doc@vger.kernel.org>; Sat,  1 Apr 2023 13:07:03 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id o2so24585619plg.4
-        for <linux-doc@vger.kernel.org>; Sat, 01 Apr 2023 13:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent.com; s=google; t=1680379623;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mLd8foSdmf5txqLdQkNjfonU5ikxCp4sPtaP6Q+JTnE=;
-        b=OvChOjNm3dSinjU+fu+rgd9IMd8Vt+i8sFjAejE/7lURA3zReX41N/Cl6L+8uCUqY6
-         3jpAbsW3L97kzaKi/Ds5CnSuL1sH/6CAaHNQS8sSKTPBTFRnOd1SW9BGf9M6YeButwu2
-         v/ELSSEtOF+Zacl0h3fgMCcXgIFYPo50zUkZYraDpaZRZLk/SO9ntJtKJVe1YPU1Ye0C
-         AwqSeWAZVZSzdPPUBSQtbiif+m0jDB00+D9Jflixe8qrvZ6h9qO3T0kpQnn/4PTQnTvB
-         TZHSQUve58SSP6pVdeXsCIt4QAoZAFYdLMbRO9EKTduNhCl8OcFfVxkuZo4MAl3EOK7i
-         Fk7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680379623;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mLd8foSdmf5txqLdQkNjfonU5ikxCp4sPtaP6Q+JTnE=;
-        b=TEndgUwCcV691ynOl+xvu7DvAnzeDTvkU6MZMA80YR/vIHto14UCMqQ4jH0DUPSd8x
-         xoGlIdcqrKDogqezgSTAjKd11Nag6jj0eLuJKeE66abBaJflc1GJr42aYzQFZGDZU3TC
-         VezcgZhPoafnaLFeg1p8IADQZTGOxx5zBR2dtyyKn4dJDwpOekPM6qHENelnlCsE9Cik
-         52J/NzXWaKVAEJdRIhj3duf8JWtHoUqJgwflQHjD77qiSiio3iB1gJSAt29G2V97PPry
-         Mw5HRPbgOIKZXuKBb83t3FEOX0DiUem+9I8wF2nZPcQugCHSv/38gN+3DY9HZvrAIn9d
-         IvtA==
-X-Gm-Message-State: AAQBX9eWnrZ4bS1o8e6uYIDzlGRAwxhyBV9Z889efesr9r4KL/L9XAjo
-        YEFydrZGRKeq5pvOfDLYgya0va1OqgNdXt7+66zv0Q==
-X-Google-Smtp-Source: AKy350YE0sjJ3fKADwBAuzlUmWGGEMzChaLM3H+A7RWN5OYS43KjEs046n9CYwPXm9i1qgRwbECQRw==
-X-Received: by 2002:a17:902:e843:b0:1a1:953b:9559 with SMTP id t3-20020a170902e84300b001a1953b9559mr38086484plg.3.1680379622752;
-        Sat, 01 Apr 2023 13:07:02 -0700 (PDT)
-Received: from carnotaurus.. (c-73-231-147-44.hsd1.ca.comcast.net. [73.231.147.44])
-        by smtp.gmail.com with ESMTPSA id x20-20020a17090300d400b0019f27fd7cecsm3715438plc.197.2023.04.01.13.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 13:07:02 -0700 (PDT)
-From:   Joe Stringer <joe@isovalent.com>
-To:     bpf@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev,
-        bagasdotme@gmail.com, maxtram95@gmail.com, john.fastabend@gmail.com
-Subject: [PATCH bpf-next v4 2/2] docs/bpf: Add LRU internals description and graph
-Date:   Sat,  1 Apr 2023 13:06:51 -0700
-Message-Id: <20230401200651.1022113-2-joe@isovalent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230401200651.1022113-1-joe@isovalent.com>
-References: <20230401200651.1022113-1-joe@isovalent.com>
+        with ESMTP id S229452AbjDAXQp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Apr 2023 19:16:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C68551FF3;
+        Sat,  1 Apr 2023 16:16:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4E3D6603F7;
+        Sat,  1 Apr 2023 23:16:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A02F5C433D2;
+        Sat,  1 Apr 2023 23:16:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680391001;
+        bh=H5STw0pJowgy64wqBEXRdvl1LSl7H7PAsGywQXxANvk=;
+        h=From:Date:Subject:To:Cc:From;
+        b=tcdi/fkfFEt3RDE0/TeiTc4726GCfsduRiIPY4UXa3thDXq6Lv1ZBhTrVTEl/fTA3
+         qlOE9Wsc5L/d5pKiyVNIqYYNUQM7m86OOCEy3OqRydqo+TIM3hnFPGmdpbBB1/1hHd
+         sO7uPOQ3Fo08vkKRRS/neS8zZ9rmVqWG1CnWtPwRaB2JwZBOT2xlISwFkHmvLnXCTh
+         kp2puzAE0XThuTY7GoPZO6oD3uXOYp83bOrGWW7QPoYIKl2R8U2HvJ/8JMNB6VtBVx
+         +1arGlDsGVawyiCfzb2bzwUKg2Ji5KHHCEjY/IZ5JmP+UHj7keXc7rA5dRx7W8hjGb
+         dRCXcmUoHFnPA==
+From:   Eric Van Hensbergen <ericvh@kernel.org>
+Date:   Sat, 01 Apr 2023 23:16:23 +0000
+Subject: [PATCH] fs/9p: Rework cache modes and add new options to
+ Documentation
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230401-ericvh-dev-rework-cache-options-v1-1-12d3adbdd33a@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAEa7KGQC/yWO0QqDMBAEf0XuuUdjFCn9ldKHeK5NKCRykVQQ/
+ 72xfRzYGXanDA3IdG92UpSQQ4oV2ktD4l18gcNUmayxnelNy3UuxfOEwopP0jeLEw9Oy1rVzFa
+ GobuNcLY3VCujy+BRXRR/dv76dU7KEdt6LhbFHLbfh8fzOL5p8MxgkwAAAA==
+To:     Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        v9fs@lists.linux.dev
+Cc:     v9fs-developer@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Eric Van Hensbergen <ericvh@kernel.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=23735; i=ericvh@kernel.org;
+ h=from:subject:message-id; bh=H5STw0pJowgy64wqBEXRdvl1LSl7H7PAsGywQXxANvk=;
+ b=owEBbQKS/ZANAwAKAYj/1ftKX/+YAcsmYgBkKLtYB4OThbxBcEi23mIO6p0UOir2tFxXSBcYd
+ sjN3TjhEPSJAjMEAAEKAB0WIQSWlvDRlqWQmKTK0VGI/9X7Sl//mAUCZCi7WAAKCRCI/9X7Sl//
+ mPJ+D/4rPjF0ABVtrQz2bUrxTK3jBAwNI9jdPj1RCRIafCpdjpcKEtKimotKAIptcJZhh7tUX3f
+ eBFCHPnMV9OcRfQsnlrFVeEEeyjTm/g2PnUt6OXvV4CXsPVJwZtZ8a5BIXzLSXKifas371NJx6/
+ PaZaR4alBx7AtbjSnDmHq9RNLnVoHo+Sv9qPUsiCLQGt+kbDPBXFdfDHPWNVUbZOr4L65rxvycx
+ HdnI+iiUcsQI4+2mOczWTZcM2DiRL7Akrr9REgvQMSLahbI5UyidGkbNjhUVxwBsVsuESEUeI9I
+ 3sD41rQgSFwfyWwYZ8kzpVWdecJKH6uxIcJrKpwSdDIk1/66q91fFY5sw9BEksD6NlC6SajUgFL
+ kA++QFKUoVs6J0ns8G3Q3dHkNuo7wInov664/cFdlaa0fuWqRbtAuK86ehsWJwVD4XvEzifoMzR
+ HarDGLbGFbrlcpubXuiY07Xd/77i00ums+a6EbZ7rpPZhBE14j7aTeXAllCmTBD/b2NmFz82wo/
+ DCb06SatdoI4CvqOLdrDaQ5iIbeUCPO02E24eNc5a9bERZ3KRVLUmhlohalrKA6or7dzI3oTC4+
+ QmvGrxQQQqKifNFOp0yQvTBlTQqBOvt8X9jqo7H2lsxKduNuNpAQbudN34MMjJ28pX25Bi9haZg
+ Kx3yZwXbYWDdt6g==
+X-Developer-Key: i=ericvh@kernel.org; a=openpgp;
+ fpr=9696F0D196A59098A4CAD15188FFD5FB4A5FFF98
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend the bpf hashmap docs to include a brief description of the
-internals of the LRU map type (setting appropriate API expectations),
-including the original commit message from Martin and a variant on the
-graph that I had presented during my Linux Plumbers Conference 2022 talk
-on "Pressure feedback for LRU map types"[0].
+Switch cache modes to a bit-mask and use legacy
+cache names as shortcuts.  Update documentation to
+include information on both shortcuts and bitmasks.
 
-The node names in the dot file correspond roughly to the functions where
-the logic for those decisions or steps is defined, to help curious
-developers to cross-reference and update this logic if the details of
-the LRU implementation ever differ from this description.
+This patch also fixes missing guards related to fscache.
 
-[0]: https://lpc.events/event/16/contributions/1368/
+Update the documentation for new mount flags
+and cache modes.
 
-Signed-off-by: Joe Stringer <joe@isovalent.com>
+Signed-off-by: Eric Van Hensbergen <ericvh@kernel.org>
 ---
-v4: Move UAPI descriptions outside of the internals section
-    Fix function reference discrepancies in dot source
-    Fix incorrect flag references (missing F_)
-    Simplify logic at bottom of graph for map updates
-    Add missing return codes to graph for failure cases
-v3: Use standard table syntax
-    Replace inline commit message with reference to commit
-    Fix incorrect Y/N label for common LRU check
-    Rename some dotfile variables to reduce confusion between cases
-    Minor wording touchups
-v2: Fix issue that caused initial email submission to fail
----
- Documentation/bpf/map_hash.rst            |  42 ++++++
- Documentation/bpf/map_lru_hash_update.dot | 172 ++++++++++++++++++++++
- 2 files changed, 214 insertions(+)
- create mode 100644 Documentation/bpf/map_lru_hash_update.dot
+ Documentation/filesystems/9p.rst | 50 ++++++++++++++++++++++--------
+ fs/9p/cache.h                    |  3 +-
+ fs/9p/fid.h                      |  4 +--
+ fs/9p/v9fs.c                     | 34 +++++++-------------
+ fs/9p/v9fs.h                     | 67 ++++++++++++++++++++++++++--------------
+ fs/9p/vfs_addr.c                 | 37 +++++++++++++---------
+ fs/9p/vfs_file.c                 |  6 ++--
+ fs/9p/vfs_inode.c                | 28 ++++++++++++-----
+ fs/9p/vfs_inode_dotl.c           | 24 +++++++-------
+ fs/9p/vfs_super.c                |  4 +--
+ 10 files changed, 154 insertions(+), 103 deletions(-)
 
-diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
-index 45d923cd16c4..ddc961f98b27 100644
---- a/Documentation/bpf/map_hash.rst
-+++ b/Documentation/bpf/map_hash.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0-only
- .. Copyright (C) 2022 Red Hat, Inc.
-+.. Copyright (C) 2022-2023 Isovalent, Inc.
+diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+index 0e800b8f73cc..d79bf4e41a71 100644
+--- a/Documentation/filesystems/9p.rst
++++ b/Documentation/filesystems/9p.rst
+@@ -78,19 +78,39 @@ Options
+   		offering several exported file systems.
  
- ===============================================
- BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
-@@ -215,3 +216,44 @@ Userspace walking the map elements from the map declared above:
-                     cur_key = &next_key;
-             }
-     }
+   cache=mode	specifies a caching policy.  By default, no caches are used.
+-
+-                        none
+-				default no cache policy, metadata and data
+-                                alike are synchronous.
+-			loose
+-				no attempts are made at consistency,
+-                                intended for exclusive, read-only mounts
+-                        fscache
+-				use FS-Cache for a persistent, read-only
+-				cache backend.
+-                        mmap
+-				minimal cache that is only used for read-write
+-                                mmap.  Northing else is cached, like cache=none
++		The mode can be specified as a bitmask or by using one of the
++		prexisting common 'shortcuts'.
++		The bitmask is described below: (unspecified bits are reserved)
 +
-+Internals
-+=========
++			==========	================================================
++			0b00000000	all caches disabled, mmap disabled
++			0b00000001	file caches enabled
++			0b00000010	meta-data caches enabled
++			0b00000100	writeback behavior (as opposed to writethrough)
++			0b00001000	loose caches (no explicit consistency with server)
++			0b10000000	fscache enabled for persistent caching
++			=========	================================================
 +
-+This section of the document is targeted at Linux developers and describes
-+aspects of the map implementations that are not considered stable ABI. The
-+following details are subject to change in future versions of the kernel.
++		The current shortcuts and their associated bitmask are:
 +
-+``BPF_MAP_TYPE_LRU_HASH`` and variants
-+--------------------------------------
++			=========	=============================================
++			none		0b00000000 (no caching)
++			readahead	0b00000001 (only read-ahead file caching)
++			mmap		0b00000101 (read-ahead + writeback file cache)
++			loose		0b00001111 (non-coherent file and meta-data caches)
++			fscache		0b10001111 (persistent loose cache)
++			=========	=============================================
 +
-+Updating elements in LRU maps may trigger eviction behaviour when the capacity
-+of the map is reached. There are various steps that the update algorithm
-+attempts in order to enforce the LRU property which have increasing impacts on
-+other CPUs involved in the following operation attempts:
++		NOTE: only these shortcuts are tested modes of operation at the
++		moment, so using other combinations of bit-patterns is not
++		known to work.  Work on better cache support is in progress.
 +
-+- Attempt to use CPU-local state to batch operations
-+- Attempt to fetch free nodes from global lists
-+- Attempt to pull any node from a global list and remove it from the hashmap
-+- Attempt to pull any node from any CPU's list and remove it from the hashmap
++		IMPORTANT: loose caches (and by extension at the moment fscache)
++		do not necessarily validate cached values on the server.  In other
++		words changes on the server are not guaranteed to be reflected
++		on the client system.  Only use this mode of operation if you
++		have an exclusive mount and the server will modify the filesystem
++		underneath you.
+ 
+   debug=n	specifies debug level.  The debug level is a bitmask.
+ 
+@@ -137,6 +157,10 @@ Options
+   		This can be used to share devices/named pipes/sockets between
+ 		hosts.  This functionality will be expanded in later versions.
+ 
++  directio	bypass page cache on all read/write operations
 +
-+This algorithm is described visually in the following diagram. See the
-+description in commit 3a08c2fd7634 ("bpf: LRU List") for a full explanation of
-+the corresponding operations:
++  ignoreqv	ignore qid.version==0 as a marker to ignore cache
 +
-+.. kernel-figure::  map_lru_hash_update.dot
-+   :alt:    Diagram outlining the LRU eviction steps taken during map update.
+   noxattr	do not offer xattr functions on this mount.
+ 
+   access	there are four access modes.
+diff --git a/fs/9p/cache.h b/fs/9p/cache.h
+index 1923affcdc62..ee1b6b06a2fd 100644
+--- a/fs/9p/cache.h
++++ b/fs/9p/cache.h
+@@ -8,9 +8,8 @@
+ #ifndef _9P_CACHE_H
+ #define _9P_CACHE_H
+ 
+-#include <linux/fscache.h>
+-
+ #ifdef CONFIG_9P_FSCACHE
++#include <linux/fscache.h>
+ 
+ extern int v9fs_cache_session_get_cookie(struct v9fs_session_info *v9ses,
+ 					  const char *dev_name);
+diff --git a/fs/9p/fid.h b/fs/9p/fid.h
+index 11576e1364bf..0c51889a60b3 100644
+--- a/fs/9p/fid.h
++++ b/fs/9p/fid.h
+@@ -56,11 +56,9 @@ static inline void v9fs_fid_add_modes(struct p9_fid *fid, int s_flags,
+ 	   ((fid->qid.version == 0) && !(s_flags & V9FS_IGNORE_QV)) ||
+ 	   (s_flags & V9FS_DIRECT_IO) || (f_flags & O_DIRECT)) {
+ 		fid->mode |= P9L_DIRECT; /* no read or write cache */
+-	} else if ((s_cache < CACHE_WRITEBACK) ||
++	} else if ((!(s_cache & CACHE_WRITEBACK)) ||
+ 				(f_flags & O_DSYNC) | (s_flags & V9FS_SYNC)) {
+ 		fid->mode |= P9L_NOWRITECACHE;
+-	} else if (s_cache == CACHE_LOOSE) {
+-		fid->mode |= P9L_LOOSE; /* noncoherent cache */
+ 	}
+ }
+ #endif
+diff --git a/fs/9p/v9fs.c b/fs/9p/v9fs.c
+index 43d3806150a9..c7f774fe398f 100644
+--- a/fs/9p/v9fs.c
++++ b/fs/9p/v9fs.c
+@@ -66,40 +66,30 @@ static const match_table_t tokens = {
+ 	{Opt_err, NULL}
+ };
+ 
+-static const char *const v9fs_cache_modes[nr__p9_cache_modes] = {
+-	[CACHE_NONE]		= "none",
+-	[CACHE_READAHEAD]	= "readahead",
+-	[CACHE_WRITEBACK]	= "writeback",
+-	[CACHE_MMAP]		= "mmap",
+-	[CACHE_LOOSE]		= "loose",
+-	[CACHE_FSCACHE]		= "fscache",
+-};
+-
+ /* Interpret mount options for cache mode */
+ static int get_cache_mode(char *s)
+ {
+ 	int version = -EINVAL;
+ 
+ 	if (!strcmp(s, "loose")) {
+-		version = CACHE_LOOSE;
++		version = CACHE_SC_LOOSE;
+ 		p9_debug(P9_DEBUG_9P, "Cache mode: loose\n");
+ 	} else if (!strcmp(s, "fscache")) {
+-		version = CACHE_FSCACHE;
++		version = CACHE_SC_FSCACHE;
+ 		p9_debug(P9_DEBUG_9P, "Cache mode: fscache\n");
+ 	} else if (!strcmp(s, "mmap")) {
+-		version = CACHE_MMAP;
++		version = CACHE_SC_MMAP;
+ 		p9_debug(P9_DEBUG_9P, "Cache mode: mmap\n");
+-	} else if (!strcmp(s, "writeback")) {
+-		version = CACHE_WRITEBACK;
+-		p9_debug(P9_DEBUG_9P, "Cache mode: writeback\n");
+ 	} else if (!strcmp(s, "readahead")) {
+-		version = CACHE_READAHEAD;
++		version = CACHE_SC_READAHEAD;
+ 		p9_debug(P9_DEBUG_9P, "Cache mode: readahead\n");
+ 	} else if (!strcmp(s, "none")) {
+-		version = CACHE_NONE;
++		version = CACHE_SC_NONE;
+ 		p9_debug(P9_DEBUG_9P, "Cache mode: none\n");
+-	} else
+-		pr_info("Unknown Cache mode %s\n", s);
++	} else if (kstrtoint(s, 0, &version) != 0) {
++		version = -EINVAL;
++		pr_info("Unknown Cache mode or invalid value %s\n", s);
++	}
+ 	return version;
+ }
+ 
+@@ -127,9 +117,9 @@ int v9fs_show_options(struct seq_file *m, struct dentry *root)
+ 	if (v9ses->nodev)
+ 		seq_puts(m, ",nodevmap");
+ 	if (v9ses->cache)
+-		seq_printf(m, ",cache=%s", v9fs_cache_modes[v9ses->cache]);
++		seq_printf(m, ",cache=%x", v9ses->cache);
+ #ifdef CONFIG_9P_FSCACHE
+-	if (v9ses->cachetag && v9ses->cache == CACHE_FSCACHE)
++	if (v9ses->cachetag && (v9ses->cache & CACHE_FSCACHE))
+ 		seq_printf(m, ",cachetag=%s", v9ses->cachetag);
+ #endif
+ 
+@@ -481,7 +471,7 @@ struct p9_fid *v9fs_session_init(struct v9fs_session_info *v9ses,
+ 
+ #ifdef CONFIG_9P_FSCACHE
+ 	/* register the session for caching */
+-	if (v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & CACHE_FSCACHE) {
+ 		rc = v9fs_cache_session_get_cookie(v9ses, dev_name);
+ 		if (rc < 0)
+ 			goto err_clnt;
+diff --git a/fs/9p/v9fs.h b/fs/9p/v9fs.h
+index 999cdbcbfed9..06a2514f0d88 100644
+--- a/fs/9p/v9fs.h
++++ b/fs/9p/v9fs.h
+@@ -31,35 +31,54 @@
+ #define V9FS_ACL_MASK V9FS_POSIX_ACL
+ 
+ enum p9_session_flags {
+-	V9FS_PROTO_2000U	= 0x01,
+-	V9FS_PROTO_2000L	= 0x02,
+-	V9FS_ACCESS_SINGLE	= 0x04,
+-	V9FS_ACCESS_USER	= 0x08,
+-	V9FS_ACCESS_CLIENT	= 0x10,
+-	V9FS_POSIX_ACL		= 0x20,
+-	V9FS_NO_XATTR		= 0x40,
+-	V9FS_IGNORE_QV		= 0x80, /* ignore qid.version for cache hints */
+-	V9FS_DIRECT_IO		= 0x100,
+-	V9FS_SYNC		= 0x200
++	V9FS_PROTO_2000U    = 0x01,
++	V9FS_PROTO_2000L    = 0x02,
++	V9FS_ACCESS_SINGLE  = 0x04,
++	V9FS_ACCESS_USER    = 0x08,
++	V9FS_ACCESS_CLIENT  = 0x10,
++	V9FS_POSIX_ACL      = 0x20,
++	V9FS_NO_XATTR       = 0x40,
++	V9FS_IGNORE_QV      = 0x80, /* ignore qid.version for cache hints */
++	V9FS_DIRECT_IO      = 0x100,
++	V9FS_SYNC           = 0x200
+ };
+ 
+-/* possible values of ->cache */
+ /**
+- * enum p9_cache_modes - user specified cache preferences
+- * @CACHE_NONE: do not cache data, dentries, or directory contents (default)
+- * @CACHE_LOOSE: cache data, dentries, and directory contents w/no consistency
++ * enum p9_cache_shortcuts - human readable cache preferences
++ * @CACHE_SC_NONE: disable all caches
++ * @CACHE_SC_READAHEAD: only provide caching for readahead
++ * @CACHE_SC_MMAP: provide caching to enable mmap
++ * @CACHE_SC_LOOSE: non-coherent caching for files and meta data
++ * @CACHE_SC_FSCACHE: persistent non-coherent caching for files and meta-data
+  *
+- * eventually support loose, tight, time, session, default always none
+  */
+ 
+-enum p9_cache_modes {
+-	CACHE_NONE,
+-	CACHE_READAHEAD,
+-	CACHE_WRITEBACK,
+-	CACHE_MMAP,
+-	CACHE_LOOSE,
+-	CACHE_FSCACHE,
+-	nr__p9_cache_modes
++enum p9_cache_shortcuts {
++	CACHE_SC_NONE       = 0b00000000,
++	CACHE_SC_READAHEAD  = 0b00000001,
++	CACHE_SC_MMAP       = 0b00000101,
++	CACHE_SC_LOOSE      = 0b00001111,
++	CACHE_SC_FSCACHE    = 0b10001111,
++};
 +
-+   LRU hash eviction during map update for ``BPF_MAP_TYPE_LRU_HASH`` and
-+   variants. See the dot file source for kernel function name code references.
++/**
++ * enum p9_cache_bits - possible values of ->cache
++ * @CACHE_NONE: caches disabled
++ * @CACHE_FILE: file caching (open to close)
++ * @CACHE_META: meta-data and directory caching
++ * @CACHE_WRITEBACK: write-back caching for files
++ * @CACHE_LOOSE: don't check cache consistency
++ * @CACHE_FSCACHE: local persistent caches
++ *
++ */
 +
-+Map updates start from the oval in the top right "begin ``bpf_map_update()``"
-+and progress through the graph towards the bottom where the result may be
-+either a successful update or a failure with various error codes. The key in
-+the top right provides indicators for which locks may be involved in specific
-+operations. This is intended as a visual hint for reasoning about how map
-+contention may impact update operations, though the map type and flags may
-+impact the actual contention on those locks, based on the logic described in
-+the table above. For instance, if the map is created with type
-+``BPF_MAP_TYPE_LRU_PERCPU_HASH`` and flags ``BPF_F_NO_COMMON_LRU`` then all map
-+properties would be per-cpu.
-diff --git a/Documentation/bpf/map_lru_hash_update.dot b/Documentation/bpf/map_lru_hash_update.dot
-new file mode 100644
-index 000000000000..cbcb0ae806d3
---- /dev/null
-+++ b/Documentation/bpf/map_lru_hash_update.dot
-@@ -0,0 +1,172 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright (C) 2022-2023 Isovalent, Inc.
-+digraph {
-+  node [colorscheme=accent4,style=filled] # Apply colorscheme to all nodes
-+  graph [splines=ortho, nodesep=1]
++enum p9_cache_bits {
++	CACHE_NONE          = 0b00000000,
++	CACHE_FILE          = 0b00000001,
++	CACHE_META          = 0b00000010,
++	CACHE_WRITEBACK     = 0b00000100,
++	CACHE_LOOSE         = 0b00001000,
++	CACHE_FSCACHE       = 0b10000000,
+ };
+ 
+ /**
+@@ -68,7 +87,7 @@ enum p9_cache_modes {
+  * @nodev: set to 1 to disable device mapping
+  * @debug: debug level
+  * @afid: authentication handle
+- * @cache: cache mode of type &p9_cache_modes
++ * @cache: cache mode of type &p9_cache_bits
+  * @cachetag: the tag of the cache associated with this session
+  * @fscache: session cookie associated with FS-Cache
+  * @uname: string user name to mount hierarchy as
+diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
+index 211165430a8a..193e898093cd 100644
+--- a/fs/9p/vfs_addr.c
++++ b/fs/9p/vfs_addr.c
+@@ -115,8 +115,6 @@ const struct netfs_request_ops v9fs_req_ops = {
+ 
+ static bool v9fs_release_folio(struct folio *folio, gfp_t gfp)
+ {
+-	struct inode *inode = folio_inode(folio);
+-
+ 	if (folio_test_private(folio))
+ 		return false;
+ #ifdef CONFIG_9P_FSCACHE
+@@ -125,8 +123,8 @@ static bool v9fs_release_folio(struct folio *folio, gfp_t gfp)
+ 			return false;
+ 		folio_wait_fscache(folio);
+ 	}
++	fscache_note_page_release(v9fs_inode_cookie(V9FS_I(folio_inode(folio))));
+ #endif
+-	fscache_note_page_release(v9fs_inode_cookie(V9FS_I(inode)));
+ 	return true;
+ }
+ 
+@@ -136,6 +134,7 @@ static void v9fs_invalidate_folio(struct folio *folio, size_t offset,
+ 	folio_wait_fscache(folio);
+ }
+ 
++#ifdef CONFIG_9P_FSCACHE
+ static void v9fs_write_to_cache_done(void *priv, ssize_t transferred_or_error,
+ 				     bool was_async)
+ {
+@@ -149,12 +148,11 @@ static void v9fs_write_to_cache_done(void *priv, ssize_t transferred_or_error,
+ 				   i_size_read(&v9inode->netfs.inode), 0);
+ 	}
+ }
++#endif
+ 
+ static int v9fs_vfs_write_folio_locked(struct folio *folio)
+ {
+ 	struct inode *inode = folio_inode(folio);
+-	struct v9fs_inode *v9inode = V9FS_I(inode);
+-	struct fscache_cookie *cookie = v9fs_inode_cookie(v9inode);
+ 	loff_t start = folio_pos(folio);
+ 	loff_t i_size = i_size_read(inode);
+ 	struct iov_iter from;
+@@ -181,15 +179,22 @@ static int v9fs_vfs_write_folio_locked(struct folio *folio)
+ 
+ 	p9_client_write(writeback_fid, start, &from, &err);
+ 
+-	if (err == 0 &&
+-	    fscache_cookie_enabled(cookie) &&
+-	    test_bit(FSCACHE_COOKIE_IS_CACHING, &cookie->flags)) {
+-		folio_start_fscache(folio);
+-		fscache_write_to_cache(v9fs_inode_cookie(v9inode),
+-				       folio_mapping(folio), start, len, i_size,
+-				       v9fs_write_to_cache_done, v9inode,
+-				       true);
++#ifdef CONFIG_9P_FSCACHE
++	{
++		struct v9fs_inode *v9inode = V9FS_I(inode);
++		struct fscache_cookie *cookie = v9fs_inode_cookie(v9inode);
 +
-+  subgraph cluster_key {
-+    label = "Key\n(locks held during operation)";
-+    rankdir = TB;
++		if (err == 0 &&
++			fscache_cookie_enabled(cookie) &&
++			test_bit(FSCACHE_COOKIE_IS_CACHING, &cookie->flags)) {
++			folio_start_fscache(folio);
++			fscache_write_to_cache(v9fs_inode_cookie(v9inode),
++						folio_mapping(folio), start, len, i_size,
++						v9fs_write_to_cache_done, v9inode,
++						true);
++		}
+ 	}
++#endif
+ 
+ 	folio_end_writeback(folio);
+ 	p9_fid_put(writeback_fid);
+@@ -300,7 +305,6 @@ static int v9fs_write_end(struct file *filp, struct address_space *mapping,
+ 	loff_t last_pos = pos + copied;
+ 	struct folio *folio = page_folio(subpage);
+ 	struct inode *inode = mapping->host;
+-	struct v9fs_inode *v9inode = V9FS_I(inode);
+ 
+ 	p9_debug(P9_DEBUG_VFS, "filp %p, mapping %p\n", filp, mapping);
+ 
+@@ -320,7 +324,10 @@ static int v9fs_write_end(struct file *filp, struct address_space *mapping,
+ 	if (last_pos > inode->i_size) {
+ 		inode_add_bytes(inode, last_pos - inode->i_size);
+ 		i_size_write(inode, last_pos);
+-		fscache_update_cookie(v9fs_inode_cookie(v9inode), NULL, &last_pos);
++#ifdef CONFIG_9P_FSCACHE
++		fscache_update_cookie(v9fs_inode_cookie(V9FS_I(inode)), NULL,
++			&last_pos);
++#endif
+ 	}
+ 	folio_mark_dirty(folio);
+ out:
+diff --git a/fs/9p/vfs_file.c b/fs/9p/vfs_file.c
+index 9f1d464bc1b5..581d2a3a037a 100644
+--- a/fs/9p/vfs_file.c
++++ b/fs/9p/vfs_file.c
+@@ -60,7 +60,7 @@ int v9fs_file_open(struct inode *inode, struct file *file)
+ 		if (IS_ERR(fid))
+ 			return PTR_ERR(fid);
+ 
+-		if ((v9ses->cache >= CACHE_WRITEBACK) && (omode & P9_OWRITE)) {
++		if ((v9ses->cache & CACHE_WRITEBACK) && (omode & P9_OWRITE)) {
+ 			int writeback_omode = (omode & ~P9_OWRITE) | P9_ORDWR;
+ 
+ 			p9_debug(P9_DEBUG_CACHE, "write-only file with writeback enabled, try opening O_RDWR\n");
+@@ -85,7 +85,7 @@ int v9fs_file_open(struct inode *inode, struct file *file)
+ 	}
+ 
+ #ifdef CONFIG_9P_FSCACHE
+-	if (v9ses->cache == CACHE_FSCACHE)
++	if (v9ses->cache & CACHE_FSCACHE)
+ 		fscache_use_cookie(v9fs_inode_cookie(v9inode),
+ 				   file->f_mode & FMODE_WRITE);
+ #endif
+@@ -485,7 +485,7 @@ v9fs_file_mmap(struct file *filp, struct vm_area_struct *vma)
+ 
+ 	p9_debug(P9_DEBUG_MMAP, "filp :%p\n", filp);
+ 
+-	if (v9ses->cache < CACHE_MMAP) {
++	if (!(v9ses->cache & CACHE_WRITEBACK)) {
+ 		p9_debug(P9_DEBUG_CACHE, "(no mmap mode)");
+ 		if (vma->vm_flags & VM_MAYSHARE)
+ 			return -ENODEV;
+diff --git a/fs/9p/vfs_inode.c b/fs/9p/vfs_inode.c
+index fb5e5c0e41e4..5d106cbcdf25 100644
+--- a/fs/9p/vfs_inode.c
++++ b/fs/9p/vfs_inode.c
+@@ -376,12 +376,18 @@ void v9fs_evict_inode(struct inode *inode)
+ 
+ 	truncate_inode_pages_final(&inode->i_data);
+ 	version = cpu_to_le32(v9inode->qid.version);
 +
-+    remote_lock [shape=rectangle,fillcolor=4,label="remote CPU LRU lock"]
-+    hash_lock [shape=rectangle,fillcolor=3,label="hashtab lock"]
-+    lru_lock [shape=rectangle,fillcolor=2,label="LRU lock"]
-+    local_lock [shape=rectangle,fillcolor=1,label="local CPU LRU lock"]
-+    no_lock [shape=rectangle,label="no locks held"]
-+  }
++#ifdef CONFIG_9P_FSCACHE
+ 	fscache_clear_inode_writeback(v9fs_inode_cookie(v9inode), inode,
+ 				      &version);
++#endif
 +
-+  begin [shape=oval,label="begin\nbpf_map_update()"]
+ 	clear_inode(inode);
+ 	filemap_fdatawrite(&inode->i_data);
+ 
++#ifdef CONFIG_9P_FSCACHE
+ 	fscache_relinquish_cookie(v9fs_inode_cookie(v9inode), false);
++#endif
+ }
+ 
+ static int v9fs_test_inode(struct inode *inode, void *data)
+@@ -761,7 +767,7 @@ struct dentry *v9fs_vfs_lookup(struct inode *dir, struct dentry *dentry,
+ 		inode = NULL;
+ 	else if (IS_ERR(fid))
+ 		inode = ERR_CAST(fid);
+-	else if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE)
++	else if (v9ses->cache & (CACHE_META|CACHE_LOOSE))
+ 		inode = v9fs_get_inode_from_fid(v9ses, fid, dir->i_sb);
+ 	else
+ 		inode = v9fs_get_new_inode_from_fid(v9ses, fid, dir->i_sb);
+@@ -816,7 +822,7 @@ v9fs_vfs_atomic_open(struct inode *dir, struct dentry *dentry,
+ 	perm = unixmode2p9mode(v9ses, mode);
+ 	p9_omode = v9fs_uflags2omode(flags, v9fs_proto_dotu(v9ses));
+ 
+-	if ((v9ses->cache >= CACHE_WRITEBACK) && (p9_omode & P9_OWRITE)) {
++	if ((v9ses->cache & CACHE_WRITEBACK) && (p9_omode & P9_OWRITE)) {
+ 		p9_omode = (p9_omode & !P9_OWRITE) | P9_ORDWR;
+ 		p9_debug(P9_DEBUG_CACHE,
+ 			"write-only file with writeback enabled, creating w/ O_RDWR\n");
+@@ -835,9 +841,11 @@ v9fs_vfs_atomic_open(struct inode *dir, struct dentry *dentry,
+ 		goto error;
+ 
+ 	file->private_data = fid;
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE)
++#ifdef CONFIG_9P_FSCACHE
++	if (v9ses->cache & CACHE_FSCACHE)
+ 		fscache_use_cookie(v9fs_inode_cookie(v9inode),
+ 				   file->f_mode & FMODE_WRITE);
++#endif
+ 
+ 	v9fs_fid_add_modes(fid, v9ses->flags, v9ses->cache, file->f_flags);
+ 	v9fs_open_fid_add(inode, &fid);
+@@ -1008,10 +1016,10 @@ v9fs_vfs_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 
+ 	p9_debug(P9_DEBUG_VFS, "dentry: %p\n", dentry);
+ 	v9ses = v9fs_dentry2v9ses(dentry);
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE)) {
+ 		generic_fillattr(&nop_mnt_idmap, inode, stat);
+ 		return 0;
+-	} else if (v9ses->cache >= CACHE_WRITEBACK) {
++	} else if (v9ses->cache & CACHE_WRITEBACK) {
+ 		if (S_ISREG(inode->i_mode)) {
+ 			int retval = filemap_fdatawrite(inode->i_mapping);
+ 
+@@ -1050,7 +1058,6 @@ static int v9fs_vfs_setattr(struct mnt_idmap *idmap,
+ {
+ 	int retval, use_dentry = 0;
+ 	struct inode *inode = d_inode(dentry);
+-	struct v9fs_inode *v9inode = V9FS_I(inode);
+ 	struct v9fs_session_info *v9ses;
+ 	struct p9_fid *fid = NULL;
+ 	struct p9_wstat wstat;
+@@ -1115,8 +1122,13 @@ static int v9fs_vfs_setattr(struct mnt_idmap *idmap,
+ 		truncate_setsize(inode, iattr->ia_size);
+ 		truncate_pagecache(inode, iattr->ia_size);
+ 
+-		if (v9ses->cache == CACHE_FSCACHE)
++#ifdef CONFIG_9P_FSCACHE
++		if (v9ses->cache & CACHE_FSCACHE) {
++			struct v9fs_inode *v9inode = V9FS_I(inode);
 +
-+  // Nodes below with an 'fn_' prefix are roughly labeled by the C function
-+  // names that initiate the corresponding logic in kernel/bpf/bpf_lru_list.c.
-+  // Number suffixes and errno suffixes handle subsections of the corresponding
-+  // logic in the function as of the writing of this dot.
-+
-+  // cf. __local_list_pop_free() / bpf_percpu_lru_pop_free()
-+  local_freelist_check [shape=diamond,fillcolor=1,
-+    label="Local freelist\nnode available?"];
-+  use_local_node [shape=rectangle,
-+    label="Use node owned\nby this CPU"]
-+
-+  // cf. bpf_lru_pop_free()
-+  common_lru_check [shape=diamond,
-+    label="Map created with\ncommon LRU?\n(!BPF_F_NO_COMMON_LRU)"];
-+
-+  fn_bpf_lru_list_pop_free_to_local [shape=rectangle,fillcolor=2,
-+    label="Flush local pending,
-+    Rotate Global list, move
-+    LOCAL_FREE_TARGET
-+    from global -> local"]
-+  // Also corresponds to:
-+  // fn__local_list_flush()
-+  // fn_bpf_lru_list_rotate()
-+  fn___bpf_lru_node_move_to_free[shape=diamond,fillcolor=2,
-+    label="Able to free\nLOCAL_FREE_TARGET\nnodes?"]
-+
-+  fn___bpf_lru_list_shrink_inactive [shape=rectangle,fillcolor=3,
-+    label="Shrink inactive list
-+      up to remaining
-+      LOCAL_FREE_TARGET
-+      (global LRU -> local)"]
-+  fn___bpf_lru_list_shrink [shape=diamond,fillcolor=2,
-+    label="> 0 entries in\nlocal free list?"]
-+  fn___bpf_lru_list_shrink2 [shape=rectangle,fillcolor=2,
-+    label="Steal one node from
-+      inactive, or if empty,
-+      from active global list"]
-+  fn___bpf_lru_list_shrink3 [shape=rectangle,fillcolor=3,
-+    label="Try to remove\nnode from hashtab"]
-+
-+  local_freelist_check2 [shape=diamond,label="Htab removal\nsuccessful?"]
-+  common_lru_check2 [shape=diamond,
-+    label="Map created with\ncommon LRU?\n(!BPF_F_NO_COMMON_LRU)"];
-+
-+  subgraph cluster_remote_lock {
-+    label = "Iterate through CPUs\n(start from current)";
-+    style = dashed;
-+    rankdir=LR;
-+
-+    local_freelist_check5 [shape=diamond,fillcolor=4,
-+      label="Steal a node from\nper-cpu freelist?"]
-+    local_freelist_check6 [shape=rectangle,fillcolor=4,
-+      label="Steal a node from
-+        (1) Unreferenced pending, or
-+        (2) Any pending node"]
-+    local_freelist_check7 [shape=rectangle,fillcolor=3,
-+      label="Try to remove\nnode from hashtab"]
-+    fn_htab_lru_map_update_elem [shape=diamond,
-+      label="Stole node\nfrom remote\nCPU?"]
-+    fn_htab_lru_map_update_elem2 [shape=diamond,label="Iterated\nall CPUs?"]
-+    // Also corresponds to:
-+    // use_local_node()
-+    // fn__local_list_pop_pending()
-+  }
-+
-+  fn_bpf_lru_list_pop_free_to_local2 [shape=rectangle,
-+    label="Use node that was\nnot recently referenced"]
-+  local_freelist_check4 [shape=rectangle,
-+    label="Use node that was\nactively referenced\nin global list"]
-+  fn_htab_lru_map_update_elem_ENOMEM [shape=oval,label="return -ENOMEM"]
-+  fn_htab_lru_map_update_elem3 [shape=rectangle,
-+    label="Use node that was\nactively referenced\nin (another?) CPU's cache"]
-+  fn_htab_lru_map_update_elem4 [shape=rectangle,fillcolor=3,
-+    label="Update hashmap\nwith new element"]
-+  fn_htab_lru_map_update_elem5 [shape=oval,label="return 0"]
-+  fn_htab_lru_map_update_elem_EBUSY [shape=oval,label="return -EBUSY"]
-+  fn_htab_lru_map_update_elem_EEXIST [shape=oval,label="return -EEXIST"]
-+  fn_htab_lru_map_update_elem_ENOENT [shape=oval,label="return -ENOENT"]
-+
-+  begin -> local_freelist_check
-+  local_freelist_check -> use_local_node [xlabel="Y"]
-+  local_freelist_check -> common_lru_check [xlabel="N"]
-+  common_lru_check -> fn_bpf_lru_list_pop_free_to_local [xlabel="Y"]
-+  common_lru_check -> fn___bpf_lru_list_shrink_inactive [xlabel="N"]
-+  fn_bpf_lru_list_pop_free_to_local -> fn___bpf_lru_node_move_to_free
-+  fn___bpf_lru_node_move_to_free ->
-+    fn_bpf_lru_list_pop_free_to_local2 [xlabel="Y"]
-+  fn___bpf_lru_node_move_to_free ->
-+    fn___bpf_lru_list_shrink_inactive [xlabel="N"]
-+  fn___bpf_lru_list_shrink_inactive -> fn___bpf_lru_list_shrink
-+  fn___bpf_lru_list_shrink -> fn_bpf_lru_list_pop_free_to_local2 [xlabel = "Y"]
-+  fn___bpf_lru_list_shrink -> fn___bpf_lru_list_shrink2 [xlabel="N"]
-+  fn___bpf_lru_list_shrink2 -> fn___bpf_lru_list_shrink3
-+  fn___bpf_lru_list_shrink3 -> local_freelist_check2
-+  local_freelist_check2 -> local_freelist_check4 [xlabel = "Y"]
-+  local_freelist_check2 -> common_lru_check2 [xlabel = "N"]
-+  common_lru_check2 -> local_freelist_check5 [xlabel = "Y"]
-+  common_lru_check2 -> fn_htab_lru_map_update_elem_ENOMEM [xlabel = "N"]
-+  local_freelist_check5 -> fn_htab_lru_map_update_elem [xlabel = "Y"]
-+  local_freelist_check5 -> local_freelist_check6 [xlabel = "N"]
-+  local_freelist_check6 -> local_freelist_check7
-+  local_freelist_check7 -> fn_htab_lru_map_update_elem
-+
-+  fn_htab_lru_map_update_elem -> fn_htab_lru_map_update_elem3 [xlabel = "Y"]
-+  fn_htab_lru_map_update_elem -> fn_htab_lru_map_update_elem2  [xlabel = "N"]
-+  fn_htab_lru_map_update_elem2 ->
-+    fn_htab_lru_map_update_elem_ENOMEM [xlabel = "Y"]
-+  fn_htab_lru_map_update_elem2 -> local_freelist_check5 [xlabel = "N"]
-+  fn_htab_lru_map_update_elem3 -> fn_htab_lru_map_update_elem4
-+
-+  use_local_node -> fn_htab_lru_map_update_elem4
-+  fn_bpf_lru_list_pop_free_to_local2 -> fn_htab_lru_map_update_elem4
-+  local_freelist_check4 -> fn_htab_lru_map_update_elem4
-+
-+  fn_htab_lru_map_update_elem4 -> fn_htab_lru_map_update_elem5 [label="Success"]
-+  fn_htab_lru_map_update_elem4 ->
-+    fn_htab_lru_map_update_elem_EBUSY [xlabel="Hashtab lock failed"]
-+  fn_htab_lru_map_update_elem4 ->
-+    fn_htab_lru_map_update_elem_EEXIST [xlabel="BPF_EXIST set and\nkey already exists"]
-+  fn_htab_lru_map_update_elem4 ->
-+    fn_htab_lru_map_update_elem_ENOENT [label="BPF_NOEXIST set\nand no such entry"]
-+
-+  // Create invisible pad nodes to line up various nodes
-+  pad0 [style=invis]
-+  pad1 [style=invis]
-+  pad2 [style=invis]
-+  pad3 [style=invis]
-+  pad4 [style=invis]
-+
-+  // Line up the key with the top of the graph
-+  no_lock -> local_lock [style=invis]
-+  local_lock -> lru_lock [style=invis]
-+  lru_lock -> hash_lock [style=invis]
-+  hash_lock -> remote_lock [style=invis]
-+  remote_lock -> local_freelist_check5 [style=invis]
-+  remote_lock -> fn___bpf_lru_list_shrink [style=invis]
-+
-+  // Line up return code nodes at the bottom of the graph
-+  fn_htab_lru_map_update_elem -> pad0 [style=invis]
-+  pad0 -> pad1 [style=invis]
-+  pad1 -> pad2 [style=invis]
-+  //pad2-> fn_htab_lru_map_update_elem_ENOMEM [style=invis]
-+  fn_htab_lru_map_update_elem4 -> pad3 [style=invis]
-+  pad3 -> fn_htab_lru_map_update_elem5  [style=invis]
-+  pad3 -> fn_htab_lru_map_update_elem_EBUSY  [style=invis]
-+  pad3 -> fn_htab_lru_map_update_elem_EEXIST  [style=invis]
-+  pad3 -> fn_htab_lru_map_update_elem_ENOENT  [style=invis]
-+
-+  // Reduce diagram width by forcing some nodes to appear above others
-+  local_freelist_check4 -> fn_htab_lru_map_update_elem3 [style=invis]
-+  common_lru_check2 -> pad4 [style=invis]
-+  pad4 -> local_freelist_check5 [style=invis]
-+}
+ 			fscache_resize_cookie(v9fs_inode_cookie(v9inode), iattr->ia_size);
++		}
++#endif
+ 	}
+ 
+ 	v9fs_invalidate_inode_attr(inode);
+@@ -1400,7 +1412,7 @@ int v9fs_refresh_inode(struct p9_fid *fid, struct inode *inode)
+ 	 * We don't want to refresh inode->i_size,
+ 	 * because we may have cached data
+ 	 */
+-	flags = (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) ?
++	flags = (v9ses->cache & CACHE_LOOSE) ?
+ 		V9FS_STAT2INODE_KEEP_ISIZE : 0;
+ 	v9fs_stat2inode(st, inode, inode->i_sb, flags);
+ out:
+diff --git a/fs/9p/vfs_inode_dotl.c b/fs/9p/vfs_inode_dotl.c
+index 4b9488cb7a56..a1c7dae6795c 100644
+--- a/fs/9p/vfs_inode_dotl.c
++++ b/fs/9p/vfs_inode_dotl.c
+@@ -287,7 +287,7 @@ v9fs_vfs_atomic_open_dotl(struct inode *dir, struct dentry *dentry,
+ 		goto out;
+ 	}
+ 
+-	if ((v9ses->cache >= CACHE_WRITEBACK) && (p9_omode & P9_OWRITE)) {
++	if ((v9ses->cache & CACHE_WRITEBACK) && (p9_omode & P9_OWRITE)) {
+ 		p9_omode = (p9_omode & !P9_OWRITE) | P9_ORDWR;
+ 		p9_debug(P9_DEBUG_CACHE,
+ 			"write-only file with writeback enabled, creating w/ O_RDWR\n");
+@@ -325,7 +325,7 @@ v9fs_vfs_atomic_open_dotl(struct inode *dir, struct dentry *dentry,
+ 		goto out;
+ 	file->private_data = ofid;
+ #ifdef CONFIG_9P_FSCACHE
+-	if (v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & CACHE_FSCACHE) {
+ 		struct v9fs_inode *v9inode = V9FS_I(inode);
+ 		fscache_use_cookie(v9fs_inode_cookie(v9inode),
+ 				   file->f_mode & FMODE_WRITE);
+@@ -403,7 +403,7 @@ static int v9fs_vfs_mkdir_dotl(struct mnt_idmap *idmap,
+ 	}
+ 
+ 	/* instantiate inode and assign the unopened fid to the dentry */
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE)) {
+ 		inode = v9fs_get_new_inode_from_fid(v9ses, fid, dir->i_sb);
+ 		if (IS_ERR(inode)) {
+ 			err = PTR_ERR(inode);
+@@ -451,7 +451,7 @@ v9fs_vfs_getattr_dotl(struct mnt_idmap *idmap,
+ 
+ 	p9_debug(P9_DEBUG_VFS, "dentry: %p\n", dentry);
+ 	v9ses = v9fs_dentry2v9ses(dentry);
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE)) {
+ 		generic_fillattr(&nop_mnt_idmap, inode, stat);
+ 		return 0;
+ 	} else if (v9ses->cache) {
+@@ -538,7 +538,6 @@ int v9fs_vfs_setattr_dotl(struct mnt_idmap *idmap,
+ {
+ 	int retval, use_dentry = 0;
+ 	struct inode *inode = d_inode(dentry);
+-	struct v9fs_inode *v9inode = V9FS_I(inode);
+ 	struct v9fs_session_info *v9ses;
+ 	struct p9_fid *fid = NULL;
+ 	struct p9_iattr_dotl p9attr = {
+@@ -603,8 +602,11 @@ int v9fs_vfs_setattr_dotl(struct mnt_idmap *idmap,
+ 		truncate_setsize(inode, iattr->ia_size);
+ 		truncate_pagecache(inode, iattr->ia_size);
+ 
+-		if (v9ses->cache == CACHE_FSCACHE)
+-			fscache_resize_cookie(v9fs_inode_cookie(v9inode), iattr->ia_size);
++#ifdef CONFIG_9P_FSCACHE
++		if (v9ses->cache & CACHE_FSCACHE)
++			fscache_resize_cookie(v9fs_inode_cookie(V9FS_I(inode)),
++				iattr->ia_size);
++#endif
+ 	}
+ 
+ 	v9fs_invalidate_inode_attr(inode);
+@@ -732,7 +734,7 @@ v9fs_vfs_symlink_dotl(struct mnt_idmap *idmap, struct inode *dir,
+ 	}
+ 
+ 	v9fs_invalidate_inode_attr(dir);
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE)) {
+ 		/* Now walk from the parent so we can get an unopened fid. */
+ 		fid = p9_client_walk(dfid, 1, &name, 1);
+ 		if (IS_ERR(fid)) {
+@@ -809,7 +811,7 @@ v9fs_vfs_link_dotl(struct dentry *old_dentry, struct inode *dir,
+ 	}
+ 
+ 	v9fs_invalidate_inode_attr(dir);
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE)) {
+ 		/* Get the latest stat info from server. */
+ 		struct p9_fid *fid;
+ 
+@@ -886,7 +888,7 @@ v9fs_vfs_mknod_dotl(struct mnt_idmap *idmap, struct inode *dir,
+ 	}
+ 
+ 	/* instantiate inode and assign the unopened fid to the dentry */
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) {
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE)) {
+ 		inode = v9fs_get_new_inode_from_fid(v9ses, fid, dir->i_sb);
+ 		if (IS_ERR(inode)) {
+ 			err = PTR_ERR(inode);
+@@ -971,7 +973,7 @@ int v9fs_refresh_inode_dotl(struct p9_fid *fid, struct inode *inode)
+ 	 * We don't want to refresh inode->i_size,
+ 	 * because we may have cached data
+ 	 */
+-	flags = (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE) ?
++	flags = (v9ses->cache & CACHE_LOOSE) ?
+ 		V9FS_STAT2INODE_KEEP_ISIZE : 0;
+ 	v9fs_stat2inode_dotl(st, inode, flags);
+ out:
+diff --git a/fs/9p/vfs_super.c b/fs/9p/vfs_super.c
+index af83b39e340c..c6cbc666a4c1 100644
+--- a/fs/9p/vfs_super.c
++++ b/fs/9p/vfs_super.c
+@@ -136,7 +136,7 @@ static struct dentry *v9fs_mount(struct file_system_type *fs_type, int flags,
+ 	if (retval)
+ 		goto release_sb;
+ 
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE)
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE))
+ 		sb->s_d_op = &v9fs_cached_dentry_operations;
+ 	else
+ 		sb->s_d_op = &v9fs_dentry_operations;
+@@ -277,7 +277,7 @@ static int v9fs_drop_inode(struct inode *inode)
+ 	struct v9fs_session_info *v9ses;
+ 
+ 	v9ses = v9fs_inode2v9ses(inode);
+-	if (v9ses->cache == CACHE_LOOSE || v9ses->cache == CACHE_FSCACHE)
++	if (v9ses->cache & (CACHE_META|CACHE_LOOSE))
+ 		return generic_drop_inode(inode);
+ 	/*
+ 	 * in case of non cached mode always drop the
+
+---
+base-commit: 1543b4c5071c54d76aad7a7a26a6e43082269b0c
+change-id: 20230401-ericvh-dev-rework-cache-options-2c6638bea240
+
+Best regards,
 -- 
-2.34.1
+Eric Van Hensbergen <ericvh@kernel.org>
 
