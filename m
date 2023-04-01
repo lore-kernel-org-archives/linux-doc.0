@@ -2,204 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF167C77B60
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 06:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11045C6FD1D
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 06:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233079AbjDAGnm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Apr 2023 02:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
+        id S232163AbjDAG7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Apr 2023 02:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbjDAGnl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Apr 2023 02:43:41 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ACBB7E192;
-        Fri, 31 Mar 2023 23:43:38 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.241])
-        by gateway (Coremail) with SMTP id _____8Axu5eZ0idkVy4VAA--.32734S3;
-        Sat, 01 Apr 2023 14:43:37 +0800 (CST)
-Received: from [192.168.100.131] (unknown [112.20.109.241])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxwOSS0idk2aoSAA--.51534S3;
-        Sat, 01 Apr 2023 14:43:30 +0800 (CST)
-Message-ID: <17ecd97e-a750-55ca-a067-986890a8d494@loongson.cn>
-Date:   Sat, 1 Apr 2023 14:43:30 +0800
+        with ESMTP id S230193AbjDAG7a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Apr 2023 02:59:30 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B52A81A470
+        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 23:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680332368; x=1711868368;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PMXe2iN70hx/zxIuvJrNcRar4+/wnhcOjl1pyngv4JU=;
+  b=KFNyYqPABMKV2EJ2kOVBorOlW94Jy08rjSDbY/Yo5W4DhqsduSLSOFUN
+   TfvQQ4nT5tQ2LIKqZqpgrvIzgY/rsU9vAhq1uYs/Tst2LkTgTKJjDgNAn
+   yjdgtQXRH7ySlxS0XJZ76140YIruxlIXqKgoHyfDUX1EVMd//hICwAXPH
+   bO/lijWwsD5YtO2w7Ef2gRBd1qXlfjnaLEuhGsrUSvMjnGrP5cbCrZL8U
+   /L6bu4PjWDL/4IUeIq9eBpGVCVnUhsUPxgfkXXYXvTc9NyOki+JFAKSoV
+   R9MwGVqqboGELFtBtdVhR2fMhQvsWSAaK/fb0upXstpe3iOZkcABYJWzw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339123384"
+X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
+   d="scan'208";a="339123384"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 23:59:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="715698542"
+X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
+   d="scan'208";a="715698542"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 31 Mar 2023 23:59:19 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1piVCo-000Ma3-0a;
+        Sat, 01 Apr 2023 06:59:18 +0000
+Date:   Sat, 1 Apr 2023 14:58:21 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Borislav Petkov (AMD)" <bp@alien8.de>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org
+Subject: [linux-next:master 8321/8375] htmldocs: Warning: arch/x86/Kconfig
+ references a file that doesn't exist: Documentation/x86/shstk.rst
+Message-ID: <202304011449.XFV6lLwh-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 3/4] docs: move parisc documentation under
- Documentation/arch/
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, Alex Shi <alexs@kernel.org>
-References: <20230330195604.269346-1-corbet@lwn.net>
- <20230330195604.269346-4-corbet@lwn.net>
-Content-Language: en-US
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20230330195604.269346-4-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxwOSS0idk2aoSAA--.51534S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3WrWUuF1kWw1xJF1kXrWkJFb_yoWxXF1xp3
-        Z7Kr1Ig3WSvryUC348WF17GFy7Ca4xua13WF4Utw10qFn8W39Yyr4UK3s0gFn3XrW0yFWk
-        uF4fKrW5uw1qywUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bfxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
-        x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2kK
-        e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
-        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
-        aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
-        xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
-        xVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
-        C2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
-        JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
-        WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
-        daVFxhVjvjDU0xZFpf9x07j5xhLUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5
+commit: 3a5762993f9278880487d2dccfa964f09f6a1021 [8321/8375] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3a5762993f9278880487d2dccfa964f09f6a1021
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 3a5762993f9278880487d2dccfa964f09f6a1021
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-在 3/31/23 03:56, Jonathan Corbet 写道:
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.  Move
-> Documentation/parisc into arch/ and fix all in-tree references.
->
-> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304011449.XFV6lLwh-lkp@intel.com/
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+All warnings (new ones prefixed by >>):
 
+>> Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/shstk.rst
 
-Thanks,
-
-Yanteng
-
-> ---
->   Documentation/arch/index.rst                                    | 2 +-
->   Documentation/{ => arch}/parisc/debugging.rst                   | 0
->   Documentation/{ => arch}/parisc/features.rst                    | 0
->   Documentation/{ => arch}/parisc/index.rst                       | 0
->   Documentation/{ => arch}/parisc/registers.rst                   | 0
->   Documentation/translations/zh_CN/arch/index.rst                 | 2 +-
->   .../translations/zh_CN/{ => arch}/parisc/debugging.rst          | 2 +-
->   Documentation/translations/zh_CN/{ => arch}/parisc/index.rst    | 2 +-
->   .../translations/zh_CN/{ => arch}/parisc/registers.rst          | 2 +-
->   MAINTAINERS                                                     | 2 +-
->   10 files changed, 6 insertions(+), 6 deletions(-)
->   rename Documentation/{ => arch}/parisc/debugging.rst (100%)
->   rename Documentation/{ => arch}/parisc/features.rst (100%)
->   rename Documentation/{ => arch}/parisc/index.rst (100%)
->   rename Documentation/{ => arch}/parisc/registers.rst (100%)
->   rename Documentation/translations/zh_CN/{ => arch}/parisc/debugging.rst (97%)
->   rename Documentation/translations/zh_CN/{ => arch}/parisc/index.rst (88%)
->   rename Documentation/translations/zh_CN/{ => arch}/parisc/registers.rst (99%)
->
-> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-> index 77e287c3eeb9..6839cd46850d 100644
-> --- a/Documentation/arch/index.rst
-> +++ b/Documentation/arch/index.rst
-> @@ -18,7 +18,7 @@ implementation.
->      ../mips/index
->      nios2/index
->      openrisc/index
-> -   ../parisc/index
-> +   parisc/index
->      ../powerpc/index
->      ../riscv/index
->      ../s390/index
-> diff --git a/Documentation/parisc/debugging.rst b/Documentation/arch/parisc/debugging.rst
-> similarity index 100%
-> rename from Documentation/parisc/debugging.rst
-> rename to Documentation/arch/parisc/debugging.rst
-> diff --git a/Documentation/parisc/features.rst b/Documentation/arch/parisc/features.rst
-> similarity index 100%
-> rename from Documentation/parisc/features.rst
-> rename to Documentation/arch/parisc/features.rst
-> diff --git a/Documentation/parisc/index.rst b/Documentation/arch/parisc/index.rst
-> similarity index 100%
-> rename from Documentation/parisc/index.rst
-> rename to Documentation/arch/parisc/index.rst
-> diff --git a/Documentation/parisc/registers.rst b/Documentation/arch/parisc/registers.rst
-> similarity index 100%
-> rename from Documentation/parisc/registers.rst
-> rename to Documentation/arch/parisc/registers.rst
-> diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
-> index 7e59af567331..908ea131bb1c 100644
-> --- a/Documentation/translations/zh_CN/arch/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/index.rst
-> @@ -12,7 +12,7 @@
->      ../arm64/index
->      ../riscv/index
->      openrisc/index
-> -   ../parisc/index
-> +   parisc/index
->      ../loongarch/index
->   
->   TODOList:
-> diff --git a/Documentation/translations/zh_CN/parisc/debugging.rst b/Documentation/translations/zh_CN/arch/parisc/debugging.rst
-> similarity index 97%
-> rename from Documentation/translations/zh_CN/parisc/debugging.rst
-> rename to Documentation/translations/zh_CN/arch/parisc/debugging.rst
-> index 68b73eb57105..9bd197eb0d41 100644
-> --- a/Documentation/translations/zh_CN/parisc/debugging.rst
-> +++ b/Documentation/translations/zh_CN/arch/parisc/debugging.rst
-> @@ -1,6 +1,6 @@
->   .. include:: ../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/parisc/debugging.rst
-> +:Original: Documentation/arch/parisc/debugging.rst
->   
->   :翻译:
->   
-> diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/arch/parisc/index.rst
-> similarity index 88%
-> rename from Documentation/translations/zh_CN/parisc/index.rst
-> rename to Documentation/translations/zh_CN/arch/parisc/index.rst
-> index 0cc553fc8272..848742539550 100644
-> --- a/Documentation/translations/zh_CN/parisc/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/parisc/index.rst
-> @@ -1,7 +1,7 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   .. include:: ../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/parisc/index.rst
-> +:Original: Documentation/arch/parisc/index.rst
->   
->   :翻译:
->   
-> diff --git a/Documentation/translations/zh_CN/parisc/registers.rst b/Documentation/translations/zh_CN/arch/parisc/registers.rst
-> similarity index 99%
-> rename from Documentation/translations/zh_CN/parisc/registers.rst
-> rename to Documentation/translations/zh_CN/arch/parisc/registers.rst
-> index d2ab1874a602..caf5f258248b 100644
-> --- a/Documentation/translations/zh_CN/parisc/registers.rst
-> +++ b/Documentation/translations/zh_CN/arch/parisc/registers.rst
-> @@ -1,6 +1,6 @@
->   .. include:: ../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/parisc/registers.rst
-> +:Original: Documentation/arch/parisc/registers.rst
->   
->   :翻译:
->   
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c515abc269f2..02720bc91481 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15834,7 +15834,7 @@ W:	https://parisc.wiki.kernel.org
->   Q:	http://patchwork.kernel.org/project/linux-parisc/list/
->   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jejb/parisc-2.6.git
->   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git
-> -F:	Documentation/parisc/
-> +F:	Documentation/arch/parisc/
->   F:	arch/parisc/
->   F:	drivers/char/agp/parisc-agp.c
->   F:	drivers/input/misc/hp_sdc_rtc.c
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
