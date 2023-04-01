@@ -2,150 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFB9C76196
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Mar 2023 23:57:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C29C9C761A6
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 02:10:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233475AbjCaX5H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 19:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35934 "EHLO
+        id S233301AbjDACKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Mar 2023 22:10:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233411AbjCaX4q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 19:56:46 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7833F1D938
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 16:56:14 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id i7-20020a626d07000000b005d29737db06so11156456pfc.15
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 16:56:14 -0700 (PDT)
+        with ESMTP id S233271AbjDACKh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 22:10:37 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66F9E053;
+        Fri, 31 Mar 2023 19:10:35 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id h12-20020a17090aea8c00b0023d1311fab3so25335175pjz.1;
+        Fri, 31 Mar 2023 19:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680306972;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sG6q4pkZb1PQl0aPgzbGY4ON8LGmvMRz4r7etWkMq4s=;
-        b=WIuiZiUmBrkp2YhuCurDCgSkBZEc7Z5OqkyPiskiC1yk+Wn7xr3OVMZ6bTJT2jChGU
-         gYB3NqXz1dSf2AK0Vo7H04PmxQ2u6f2sPigBZplbEjbqCCL6kOJu6i9T+PAkceBzrlJK
-         WdiA7iiJbAefAXUQlwEUCSWtlz4NyYo/TCW/dIFBgPN/OjRvLI9C9dzcKG2rYvPRaJgR
-         eledUJCSJqGBcVI+cf/4W7IKSTdWIRYbNu9Q8zMLaAw28LCuE9DmDJwYjnijOfTNWhW2
-         /dZLVFsSEyDqcwzoQeov9nRjWgfWRhWwoN1voUhGP/RLTxMxylIl+dFWMDFWmYA60zlX
-         wzcA==
+        d=gmail.com; s=20210112; t=1680315035;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JnyrkYSNqls/jv3SFfexrWS8fA+F90l+8vMjnIu/dDk=;
+        b=Zbx/dep8b0wFaQ3ok5UKrG21PvLlbh9WImL3ZchBW30R5/PRXx/buvD7XGh8fSHdAH
+         hIIUQv+Nrqf4dM1kpecBU/zS+Aa9wPCOvJdyfT6HaZQsWuE5IkADp/7J17Wh563GZiC9
+         yVAHmpHI+qtqVDE64MNHozCweOXEKiKN1ltiknSJK3w4EM/6TW83R8b6KNNb81gfN294
+         zLGAGXIAyIkLQngGlR3YHzY4rOvUmnpq94XDrZJ9vRAX9bmXmVGyehyW0WrRuejn4Uhc
+         nWiZO4Vwdha5BThGqOwN2RHpdbz0naoOizq7ogefNVxA0p/T8ppIGEVeALfeN1Tb5E8/
+         4qpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680306972;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+        d=1e100.net; s=20210112; t=1680315035;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sG6q4pkZb1PQl0aPgzbGY4ON8LGmvMRz4r7etWkMq4s=;
-        b=rdYVop9sOMfcsWqi2/aQeWdX+Rv+q0pqjK2F/pd+urjdfPnFn253o71iC5OlXdBl4P
-         QMoPq6BlzMYPeC7el6KyHkmzaD8HvRH7924n27OgRcYq1gtKLUt63VYfuw17wanBjjLl
-         shWRhFMb/4Zqszjk03u3CbSj76l9m+sd0nGa4pMYnH+6Hrkn4ea2k14fR3te8hTS2Ar9
-         6oxFnQihSoyaOIYZq5BZcF11MQnj3J4C2FkIx8NDksQb/+7fZsCjmpv0cATrhLD5fYAH
-         Ui/AuJrf9JTybWzj7WCIxdYSQKxMG84H4p6teZ7tGo6VIyPb7yQk1zGf3zPv10IYGTdQ
-         kbcA==
-X-Gm-Message-State: AAQBX9cgcj8QpNozWu544kmZNlHJqb5RFwFznLfOwN+EWDheZ9iCENvF
-        WjbFvQ4sN1Twb8P+ujaPcXYpgj/RHyr9RP51ww==
-X-Google-Smtp-Source: AKy350bwo4gDmt6qvVmklscGtMe+0GABAuLYyXXB8b22LaSZK6d4xB1fPVTRAuoUYPissJnWP1PA7ngfyjHOn7h8gg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a63:c042:0:b0:513:1281:2796 with SMTP
- id z2-20020a63c042000000b0051312812796mr8266653pgi.11.1680306971953; Fri, 31
- Mar 2023 16:56:11 -0700 (PDT)
-Date:   Fri, 31 Mar 2023 23:56:10 +0000
-In-Reply-To: <20230322111951.vfrm2xf4o5kmtte6@wittgenstein> (message from
- Christian Brauner on Wed, 22 Mar 2023 12:19:51 +0100)
-Mime-Version: 1.0
-Message-ID: <diqzmt3sqxut.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [RFC PATCH v2 1/2] mm: restrictedmem: Allow userspace to specify
- mount for memfd_restricted
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        bh=JnyrkYSNqls/jv3SFfexrWS8fA+F90l+8vMjnIu/dDk=;
+        b=V9EGAn+lG3gYCVQAx8kbSGurpmxq/w2pBB3M4+sbOWTZIznrGlu07cjbRFySPUfom0
+         gSUBScDEJibog6VUVZOD4W6ohXZDxc77uIonZYBUU6myDHZ086IxNq/QI306LIKWXlV9
+         ukeZqp7EdkuCuhoIbhcNMufwAC/SbhSOMacecGnqNLaf7exrfoTbpjbl5OFng2iT57gG
+         nPfqMLP/bqhQuh9uJf74BzgRkHtX6xgNDuCbTNpMkixOp3Y2EgJDr0px46de9xms/JS8
+         C1sksyASfkY0DK3QJRUGEGf5Ep8SuEw9tvjBWaPUHIJ7u+OrUJ/3NG5HI5ZqsAK8b5Kg
+         /bvQ==
+X-Gm-Message-State: AAQBX9d9qFiaqk30JWf2E3rh5ka48s9LFq6BD+LVUe0XIGeIfZa0YmNZ
+        gkh0UNbBHKys/B15Ctl271c=
+X-Google-Smtp-Source: AKy350YUq7DoV3rTzX8fP87JGF6Hj6ucie5EV59nAeF8Akr6nPpDbZfLyoj/v+V/DE4bWRR1yjsdJQ==
+X-Received: by 2002:a17:902:e546:b0:1a1:cc5a:b04 with SMTP id n6-20020a170902e54600b001a1cc5a0b04mr35087221plf.3.1680315035458;
+        Fri, 31 Mar 2023 19:10:35 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-71.three.co.id. [180.214.232.71])
+        by smtp.gmail.com with ESMTPSA id ik30-20020a170902ab1e00b0019f1264c7d7sm2196638plb.103.2023.03.31.19.10.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Mar 2023 19:10:35 -0700 (PDT)
+Message-ID: <f3e29e72-240a-20ba-c301-5b6fe1ec777a@gmail.com>
+Date:   Sat, 1 Apr 2023 09:10:29 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] docs/mm: Physical Memory: Fix grammar
+To:     Kim Phillips <kim.phillips@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230331165254.207526-1-kim.phillips@amd.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230331165254.207526-1-kim.phillips@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Christian Brauner <brauner@kernel.org> writes:
+On 3/31/23 23:52, Kim Phillips wrote:
+> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+> index 1bc888d36ea1..df2ed81e3639 100644
+> --- a/Documentation/mm/physical_memory.rst
+> +++ b/Documentation/mm/physical_memory.rst
+> @@ -19,7 +19,7 @@ a bank of memory very suitable for DMA near peripheral devices.
+>  
+>  Each bank is called a node and the concept is represented under Linux by a
+>  ``struct pglist_data`` even if the architecture is UMA. This structure is
+> -always referenced to by it's typedef ``pg_data_t``. ``A pg_data_t`` structure
+> +always referenced by its typedef ``pg_data_t``. A ``pg_data_t`` structure
+>  for a particular node can be referenced by ``NODE_DATA(nid)`` macro where
+>  ``nid`` is the ID of that node.
+>  
 
-> On Tue, Mar 21, 2023 at 08:15:32PM +0000, Ackerley Tng wrote:
->> By default, the backing shmem file for a restrictedmem fd is created
->> on shmem's kernel space mount.
+LGTM, thanks!
 
->> ...
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Thanks for reviewing this patch!
+-- 
+An old man doll... just what I always wanted! - Clara
 
-
-> This looks like you can just pass in some tmpfs fd and you just use it
-> to identify the mnt and then you create a restricted memfd area in that
-> instance. So if I did:
-
-> mount -t tmpfs tmpfs /mnt
-> mknod /mnt/bla c 0 0
-> fd = open("/mnt/bla")
-> memfd_restricted(fd)
-
-> then it would create a memfd restricted entry in the tmpfs instance
-> using the arbitrary dummy device node to infer the tmpfs instance.
-
-> Looking at the older thread briefly and the cover letter. Afaict, the
-> new mount api shouldn't figure into the design of this. fsopen() returns
-> fds referencing a VFS-internal fs_context object. They can't be used to
-> create or lookup files or identify mounts. The mount doesn't exist at
-> that time. Not even a superblock might exist at the time before
-> fsconfig(FSCONFIG_CMD_CREATE).
-
-> When fsmount() is called after superblock setup then it's similar to any
-> other fd from open() or open_tree() or whatever (glossing over some
-> details that are irrelevant here). Difference is that open_tree() and
-> fsmount() would refer to the root of a mount.
-
-This is correct, memfd_restricted() needs an fd returned from fsmount()
-and not fsopen(). Usage examples of this new parameter in
-memfd_restricted() are available in selftests.
-
-
-> At first I wondered why this doesn't just use standard *at() semantics
-> but I guess the restricted memfd is unlinked and doesn't show up in the
-> tmpfs instance.
-
-> So if you go down that route then I would suggest to enforce that the
-> provided fd refer to the root of a tmpfs mount. IOW, it can't just be an
-> arbitrary file descriptor in a tmpfs instance. That seems cleaner to me:
-
-> sb = f_path->mnt->mnt_sb;
-> sb->s_magic == TMPFS_MAGIC && f_path->mnt->mnt_root == sb->s_root
-
-> and has much tigher semantics than just allowing any kind of fd.
-
-Thanks for your suggestion, I've tightened the semantics as you
-suggested. memfd_restricted() now only accepts fds representing the root
-of the mount.
-
-
-> Another wrinkly I find odd but that's for you to judge is that this
-> bypasses the permission model of the tmpfs instance. IOW, as long as you
-> have a handle to the root of a tmpfs mount you can just create
-> restricted memfds in there. So if I provided a completely sandboxed
-> service - running in a user namespace or whatever - with an fd to the
-> host's tmpfs instance they can just create restricted memfds in there no
-> questions asked.
-
-> Maybe that's fine but it's certainly something to spell out and think
-> about the implications.
-
-Thanks for pointing this out! I added a permissions check in RFC v3, and
-clarified the permissions model (please see patch 1 of 2):
-https://lore.kernel.org/lkml/cover.1680306489.git.ackerleytng@google.com/
