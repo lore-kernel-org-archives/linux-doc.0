@@ -2,81 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11045C6FD1D
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 06:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE019C6FD1D
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 07:38:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232163AbjDAG7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Apr 2023 02:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60476 "EHLO
+        id S233538AbjDAHij (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Apr 2023 03:38:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbjDAG7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Apr 2023 02:59:30 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B52A81A470
-        for <linux-doc@vger.kernel.org>; Fri, 31 Mar 2023 23:59:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680332368; x=1711868368;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PMXe2iN70hx/zxIuvJrNcRar4+/wnhcOjl1pyngv4JU=;
-  b=KFNyYqPABMKV2EJ2kOVBorOlW94Jy08rjSDbY/Yo5W4DhqsduSLSOFUN
-   TfvQQ4nT5tQ2LIKqZqpgrvIzgY/rsU9vAhq1uYs/Tst2LkTgTKJjDgNAn
-   yjdgtQXRH7ySlxS0XJZ76140YIruxlIXqKgoHyfDUX1EVMd//hICwAXPH
-   bO/lijWwsD5YtO2w7Ef2gRBd1qXlfjnaLEuhGsrUSvMjnGrP5cbCrZL8U
-   /L6bu4PjWDL/4IUeIq9eBpGVCVnUhsUPxgfkXXYXvTc9NyOki+JFAKSoV
-   R9MwGVqqboGELFtBtdVhR2fMhQvsWSAaK/fb0upXstpe3iOZkcABYJWzw
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339123384"
-X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
-   d="scan'208";a="339123384"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 23:59:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="715698542"
-X-IronPort-AV: E=Sophos;i="5.98,310,1673942400"; 
-   d="scan'208";a="715698542"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 31 Mar 2023 23:59:19 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1piVCo-000Ma3-0a;
-        Sat, 01 Apr 2023 06:59:18 +0000
-Date:   Sat, 1 Apr 2023 14:58:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Borislav Petkov (AMD)" <bp@alien8.de>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: [linux-next:master 8321/8375] htmldocs: Warning: arch/x86/Kconfig
- references a file that doesn't exist: Documentation/x86/shstk.rst
-Message-ID: <202304011449.XFV6lLwh-lkp@intel.com>
+        with ESMTP id S233517AbjDAHii (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Apr 2023 03:38:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF211A442;
+        Sat,  1 Apr 2023 00:38:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 53B3860B27;
+        Sat,  1 Apr 2023 07:38:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01A2EC433EF;
+        Sat,  1 Apr 2023 07:38:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680334716;
+        bh=K3jsq7d7yI0aBSxu4a3vZPycD2Aw4HuThVUcruzSGvM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XOapJj24TwSpj1O4a/K1z07Kv6lgVXVRGXrU77hLqiRtHXe+uAEMtxxOHNqV7aukZ
+         mueLWP6gjh9VpzoL7fbK788HZB/s6kHbOVFlhieBWb9Cc56d8L/hlcJVKHphYj23q9
+         eQh9spAnGAp4vhk7RrBItRj4hYLyRDFcrUas5V5hhUya/GGsW3zPc/cFro4QhQNyv4
+         pvKGoGrxiai1/N+rcLSi1jb3y90XXdfVjh6bcJDVgYkSLKDIrJJKtzC5K9E+S6wOme
+         uaKxwVCiWeHRq0YlSwEWnPp7ej9y77BYlqUP2zoA/A8fJHSMpr95CzFBNLmYQWdeDw
+         2KseV7YgUCu8w==
+Date:   Sat, 1 Apr 2023 10:38:24 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Kim Phillips <kim.phillips@amd.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/mm: Physical Memory: Fix grammar
+Message-ID: <ZCffcADScYNZM/7Y@kernel.org>
+References: <20230331165254.207526-1-kim.phillips@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230331165254.207526-1-kim.phillips@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5
-commit: 3a5762993f9278880487d2dccfa964f09f6a1021 [8321/8375] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3a5762993f9278880487d2dccfa964f09f6a1021
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 3a5762993f9278880487d2dccfa964f09f6a1021
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Fri, Mar 31, 2023 at 11:52:54AM -0500, Kim Phillips wrote:
+> it's -> its
+> referenced to by -> referenced by
+> 
+> Fixes: 5d8c5e430a63 ("docs/mm: Physical Memory: add structure, introduction and nodes description")
+> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304011449.XFV6lLwh-lkp@intel.com/
+Reviewed-by: Mike Rapoport (IBM) <rppt@kernel.org>
 
-All warnings (new ones prefixed by >>):
-
->> Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/shstk.rst
+> ---
+>  Documentation/mm/physical_memory.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+> index 1bc888d36ea1..df2ed81e3639 100644
+> --- a/Documentation/mm/physical_memory.rst
+> +++ b/Documentation/mm/physical_memory.rst
+> @@ -19,7 +19,7 @@ a bank of memory very suitable for DMA near peripheral devices.
+>  
+>  Each bank is called a node and the concept is represented under Linux by a
+>  ``struct pglist_data`` even if the architecture is UMA. This structure is
+> -always referenced to by it's typedef ``pg_data_t``. ``A pg_data_t`` structure
+> +always referenced by its typedef ``pg_data_t``. A ``pg_data_t`` structure
+>  for a particular node can be referenced by ``NODE_DATA(nid)`` macro where
+>  ``nid`` is the ID of that node.
+>  
+> -- 
+> 2.34.1
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Sincerely yours,
+Mike.
