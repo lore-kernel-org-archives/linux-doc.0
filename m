@@ -2,195 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D79C6FD1D
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 03:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF167C77B60
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Apr 2023 06:43:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbjDAD22 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Mar 2023 23:28:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
+        id S233079AbjDAGnm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Apr 2023 02:43:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbjDAD20 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Mar 2023 23:28:26 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273D4C656;
-        Fri, 31 Mar 2023 20:28:25 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id n14so7341865plc.8;
-        Fri, 31 Mar 2023 20:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680319704;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1aOQ4eYy8N4YCSiaLMCwB/yerXMVOmw3wp9ck3pUmQA=;
-        b=Ok8vzWQ0fTWrdQmBekE/vwQkYJaeU+hCLGvU18l6tpgh+LY+guFyw1PCOkt6cTIDi2
-         Bi2rSAQ4ZWcSGNL5VXFZfhfY9W+UUMxFc836pBNMtI/YKiNa3lkmWiIeZkq/HOE2i6v1
-         CrYVfVRFvUIKsb9OYQYZttYR9+0qI6gi6G2q3B6O6heI5B6NINqaX8Decf4bPIdmgNnw
-         OaJfm9V/8H+3AActZ4CZ6pmApo3U2T1Addxc3QfoMJxKRJcGIg7WF89sAh+ZjT4HrCSn
-         og13ZG7hFc8Nl0yLoQjtBu0DXS/TVzMXnQhNidB4L5HU73Pr3qRkc91hBgz7qlyfdc9C
-         2WzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680319704;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1aOQ4eYy8N4YCSiaLMCwB/yerXMVOmw3wp9ck3pUmQA=;
-        b=jmFDBpOy8Z6Mp+u440v8SSVvR+vvDcWrYFi3YgJWfZISb7JJ0wY1pOEsFiY5/VPaLh
-         mUfzY5n7yY+5UGc0xJNcfNFtXwEVwi9BQmxJDzferfuHhj7c9LbSqtmxzu/DK1+SVwdp
-         6J+sCwO3+ZOZtbKWlfOWcR5BTyPzKrZDq1I6GrHfenoDsWJJqWqQ1d5nroRkw2b+E2Au
-         LBI2zl79kHlc3UxbUVOlsPFzcvcrEuxkh1sV46OBqt383cqKGzPtBmqPXmyTyMca/8HG
-         oy6A/Ia8iG4TcWO1yQelE2Kb3Srr+Il7RdGutEk8PehQ+g0XaVdSZ8GWBuXcI5jV+7hu
-         skzA==
-X-Gm-Message-State: AAQBX9eVttcyHn477xSpnzX1V+5jvg3y8LjqQtrCx/mTiMkAqlHkaA/A
-        2RHCRcaTB9IQZkn6NdlUKno=
-X-Google-Smtp-Source: AKy350Yoi20kGNomZnY7Fh4bdxg2fFhnur0eeEf88TS9IaTsvuK0id2OfKq0eADwsFcWp5pRxAwcFg==
-X-Received: by 2002:a17:902:f683:b0:1a0:7156:f8d1 with SMTP id l3-20020a170902f68300b001a07156f8d1mr37983907plg.19.1680319704568;
-        Fri, 31 Mar 2023 20:28:24 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-71.three.co.id. [180.214.232.71])
-        by smtp.gmail.com with ESMTPSA id f6-20020a170902ab8600b001a1f5dc64e5sm2271330plr.177.2023.03.31.20.28.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 20:28:24 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id CC3F510677D; Sat,  1 Apr 2023 10:28:21 +0700 (WIB)
-Date:   Sat, 1 Apr 2023 10:28:21 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     David Dai <davidai@google.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.linux.dev
-Subject: Re: [RFC PATCH v2 4/6] kvm: arm64: Add support for get_freqtbl
- service
-Message-ID: <ZCek1YOmg99d6l9A@debian.me>
-References: <20230331014356.1033759-1-davidai@google.com>
- <20230331014356.1033759-5-davidai@google.com>
+        with ESMTP id S230193AbjDAGnl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Apr 2023 02:43:41 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ACBB7E192;
+        Fri, 31 Mar 2023 23:43:38 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.241])
+        by gateway (Coremail) with SMTP id _____8Axu5eZ0idkVy4VAA--.32734S3;
+        Sat, 01 Apr 2023 14:43:37 +0800 (CST)
+Received: from [192.168.100.131] (unknown [112.20.109.241])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxwOSS0idk2aoSAA--.51534S3;
+        Sat, 01 Apr 2023 14:43:30 +0800 (CST)
+Message-ID: <17ecd97e-a750-55ca-a067-986890a8d494@loongson.cn>
+Date:   Sat, 1 Apr 2023 14:43:30 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230331014356.1033759-5-davidai@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 3/4] docs: move parisc documentation under
+ Documentation/arch/
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, Alex Shi <alexs@kernel.org>
+References: <20230330195604.269346-1-corbet@lwn.net>
+ <20230330195604.269346-4-corbet@lwn.net>
+Content-Language: en-US
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20230330195604.269346-4-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxwOSS0idk2aoSAA--.51534S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW3WrWUuF1kWw1xJF1kXrWkJFb_yoWxXF1xp3
+        Z7Kr1Ig3WSvryUC348WF17GFy7Ca4xua13WF4Utw10qFn8W39Yyr4UK3s0gFn3XrW0yFWk
+        uF4fKrW5uw1qywUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bfxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+        x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2kK
+        e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
+        aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+        xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+        xVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+        C2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+        JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+        WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
+        daVFxhVjvjDU0xZFpf9x07j5xhLUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 06:43:48PM -0700, David Dai wrote:
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 38ce33564efc..8f905456e2b4 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8400,6 +8400,14 @@ after normalizing for architecture. This is useful when guests are tracking
->  workload on its vCPUs. Util hints allow the host to make more accurate
->  frequency selections and task placement for vCPU threads.
->  
-> +8.42 KVM_CAP_GET_CPUFREQ_TBL
-> +---------------------------
-> +
-> +:Architectures: arm64
-> +
-> +This capability indicates that the KVM supports getting the
-> +frequency table of the current CPU that the vCPU thread is running on.
-> +
->  9. Known KVM API problems
->  =========================
->  
-> diff --git a/Documentation/virt/kvm/arm/get_freqtbl.rst b/Documentation/virt/kvm/arm/get_freqtbl.rst
-> new file mode 100644
-> index 000000000000..f6832d7566e7
-> --- /dev/null
-> +++ b/Documentation/virt/kvm/arm/get_freqtbl.rst
-> @@ -0,0 +1,23 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +get_freqtbl support for arm/arm64
-> +=============================
-> +
-> +Allows guest to query the frequency(in KHz) table of the current CPU that
-> +the vCPU thread is running on.
-> +
-> +* ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID: 0x86000042
-> +
-> +This hypercall uses the SMC32/HVC32 calling convention:
-> +
-> +ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID
-> +    ==============    ========    =====================================
-> +    Function ID:      (uint32)    0x86000042
-> +    Arguments:        (uint32)    index of the current CPU's frequency table
-> +    Return Values:    (int32)     NOT_SUPPORTED(-1) on error, or
-> +                      (uint32)    Frequency table entry of requested index
-> +                                  in KHz
-> +                                  of current CPU(r1)
-> +    Endianness:                   Must be the same endianness
-> +                                  as the host.
-> +    ==============    ========    =====================================
 
-Sphinx reports htmldocs warnings:
-/home/bagas/repo/linux-kernel/Documentation/virt/kvm/api.rst:8404: WARNING: Title underline too short.
+在 3/31/23 03:56, Jonathan Corbet 写道:
+> Architecture-specific documentation is being moved into Documentation/arch/
+> as a way of cleaning up the top-level documentation directory and making
+> the docs hierarchy more closely match the source hierarchy.  Move
+> Documentation/parisc into arch/ and fix all in-tree references.
+>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Yanteng Si <siyanteng@loongson.cn>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-8.42 KVM_CAP_GET_CPUFREQ_TBL
----------------------------
-/home/bagas/repo/linux-kernel/Documentation/virt/kvm/api.rst:8404: WARNING: Title underline too short.
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-8.42 KVM_CAP_GET_CPUFREQ_TBL
----------------------------
-/home/bagas/repo/linux-kernel/Documentation/virt/kvm/arm/get_freqtbl.rst:4: WARNING: Title underline too short.
 
-get_freqtbl support for arm/arm64
-=============================
+Thanks,
 
-I have applied the fixup:
+Yanteng
 
----- >8 ----
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index baf8a4c43b5839..3579c470375938 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -8401,7 +8401,7 @@ workload on its vCPUs. Util hints allow the host to make more accurate
- frequency selections and task placement for vCPU threads.
- 
- 8.42 KVM_CAP_GET_CPUFREQ_TBL
-----------------------------
-+----------------------------
- 
- :Architectures: arm64
- 
-diff --git a/Documentation/virt/kvm/arm/get_freqtbl.rst b/Documentation/virt/kvm/arm/get_freqtbl.rst
-index f6832d7566e7e5..215bf0f653e461 100644
---- a/Documentation/virt/kvm/arm/get_freqtbl.rst
-+++ b/Documentation/virt/kvm/arm/get_freqtbl.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- get_freqtbl support for arm/arm64
--=============================
-+=================================
- 
- Allows guest to query the frequency(in KHz) table of the current CPU that
- the vCPU thread is running on.
+> ---
+>   Documentation/arch/index.rst                                    | 2 +-
+>   Documentation/{ => arch}/parisc/debugging.rst                   | 0
+>   Documentation/{ => arch}/parisc/features.rst                    | 0
+>   Documentation/{ => arch}/parisc/index.rst                       | 0
+>   Documentation/{ => arch}/parisc/registers.rst                   | 0
+>   Documentation/translations/zh_CN/arch/index.rst                 | 2 +-
+>   .../translations/zh_CN/{ => arch}/parisc/debugging.rst          | 2 +-
+>   Documentation/translations/zh_CN/{ => arch}/parisc/index.rst    | 2 +-
+>   .../translations/zh_CN/{ => arch}/parisc/registers.rst          | 2 +-
+>   MAINTAINERS                                                     | 2 +-
+>   10 files changed, 6 insertions(+), 6 deletions(-)
+>   rename Documentation/{ => arch}/parisc/debugging.rst (100%)
+>   rename Documentation/{ => arch}/parisc/features.rst (100%)
+>   rename Documentation/{ => arch}/parisc/index.rst (100%)
+>   rename Documentation/{ => arch}/parisc/registers.rst (100%)
+>   rename Documentation/translations/zh_CN/{ => arch}/parisc/debugging.rst (97%)
+>   rename Documentation/translations/zh_CN/{ => arch}/parisc/index.rst (88%)
+>   rename Documentation/translations/zh_CN/{ => arch}/parisc/registers.rst (99%)
+>
+> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
+> index 77e287c3eeb9..6839cd46850d 100644
+> --- a/Documentation/arch/index.rst
+> +++ b/Documentation/arch/index.rst
+> @@ -18,7 +18,7 @@ implementation.
+>      ../mips/index
+>      nios2/index
+>      openrisc/index
+> -   ../parisc/index
+> +   parisc/index
+>      ../powerpc/index
+>      ../riscv/index
+>      ../s390/index
+> diff --git a/Documentation/parisc/debugging.rst b/Documentation/arch/parisc/debugging.rst
+> similarity index 100%
+> rename from Documentation/parisc/debugging.rst
+> rename to Documentation/arch/parisc/debugging.rst
+> diff --git a/Documentation/parisc/features.rst b/Documentation/arch/parisc/features.rst
+> similarity index 100%
+> rename from Documentation/parisc/features.rst
+> rename to Documentation/arch/parisc/features.rst
+> diff --git a/Documentation/parisc/index.rst b/Documentation/arch/parisc/index.rst
+> similarity index 100%
+> rename from Documentation/parisc/index.rst
+> rename to Documentation/arch/parisc/index.rst
+> diff --git a/Documentation/parisc/registers.rst b/Documentation/arch/parisc/registers.rst
+> similarity index 100%
+> rename from Documentation/parisc/registers.rst
+> rename to Documentation/arch/parisc/registers.rst
+> diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
+> index 7e59af567331..908ea131bb1c 100644
+> --- a/Documentation/translations/zh_CN/arch/index.rst
+> +++ b/Documentation/translations/zh_CN/arch/index.rst
+> @@ -12,7 +12,7 @@
+>      ../arm64/index
+>      ../riscv/index
+>      openrisc/index
+> -   ../parisc/index
+> +   parisc/index
+>      ../loongarch/index
+>   
+>   TODOList:
+> diff --git a/Documentation/translations/zh_CN/parisc/debugging.rst b/Documentation/translations/zh_CN/arch/parisc/debugging.rst
+> similarity index 97%
+> rename from Documentation/translations/zh_CN/parisc/debugging.rst
+> rename to Documentation/translations/zh_CN/arch/parisc/debugging.rst
+> index 68b73eb57105..9bd197eb0d41 100644
+> --- a/Documentation/translations/zh_CN/parisc/debugging.rst
+> +++ b/Documentation/translations/zh_CN/arch/parisc/debugging.rst
+> @@ -1,6 +1,6 @@
+>   .. include:: ../disclaimer-zh_CN.rst
+>   
+> -:Original: Documentation/parisc/debugging.rst
+> +:Original: Documentation/arch/parisc/debugging.rst
+>   
+>   :翻译:
+>   
+> diff --git a/Documentation/translations/zh_CN/parisc/index.rst b/Documentation/translations/zh_CN/arch/parisc/index.rst
+> similarity index 88%
+> rename from Documentation/translations/zh_CN/parisc/index.rst
+> rename to Documentation/translations/zh_CN/arch/parisc/index.rst
+> index 0cc553fc8272..848742539550 100644
+> --- a/Documentation/translations/zh_CN/parisc/index.rst
+> +++ b/Documentation/translations/zh_CN/arch/parisc/index.rst
+> @@ -1,7 +1,7 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   .. include:: ../disclaimer-zh_CN.rst
+>   
+> -:Original: Documentation/parisc/index.rst
+> +:Original: Documentation/arch/parisc/index.rst
+>   
+>   :翻译:
+>   
+> diff --git a/Documentation/translations/zh_CN/parisc/registers.rst b/Documentation/translations/zh_CN/arch/parisc/registers.rst
+> similarity index 99%
+> rename from Documentation/translations/zh_CN/parisc/registers.rst
+> rename to Documentation/translations/zh_CN/arch/parisc/registers.rst
+> index d2ab1874a602..caf5f258248b 100644
+> --- a/Documentation/translations/zh_CN/parisc/registers.rst
+> +++ b/Documentation/translations/zh_CN/arch/parisc/registers.rst
+> @@ -1,6 +1,6 @@
+>   .. include:: ../disclaimer-zh_CN.rst
+>   
+> -:Original: Documentation/parisc/registers.rst
+> +:Original: Documentation/arch/parisc/registers.rst
+>   
+>   :翻译:
+>   
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c515abc269f2..02720bc91481 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15834,7 +15834,7 @@ W:	https://parisc.wiki.kernel.org
+>   Q:	http://patchwork.kernel.org/project/linux-parisc/list/
+>   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jejb/parisc-2.6.git
+>   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git
+> -F:	Documentation/parisc/
+> +F:	Documentation/arch/parisc/
+>   F:	arch/parisc/
+>   F:	drivers/char/agp/parisc-agp.c
+>   F:	drivers/input/misc/hp_sdc_rtc.c
 
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
