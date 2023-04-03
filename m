@@ -2,209 +2,240 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7094C77B6C
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 18:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4747C77B6C
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 19:45:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233363AbjDCStS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 14:49:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55662 "EHLO
+        id S229642AbjDCTpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 15:45:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232822AbjDCStR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 14:49:17 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D941BF3;
-        Mon,  3 Apr 2023 11:49:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UB+APoCSj9NtnZ/DgSPSJVRcZSotTHc4ZLt3wcMcmYKnyT43TAeJTFwD1KpR8tXbP6Ov3EybZs2g/DDMTUgk2Oe/jTEWIl2Uep07dPkwtA83XFxZN8NLkle+GMFda8Y/maOyrM1pygBzWHneSPrbDrfBLNNAQW5JL0aSpLsm3QoJ3Y1zZ/LYuYZDNQMGPO4QZoixAov+bnmtOy7iI+9Q0o122wAgPU7qtjCORgzNSbsmPKV4QZTZJN5nWiPEZMsAE8GHuVYoew9XVzSfVMPU923KGp6QVcgdosoxUA+qOBmBh1BU/0wfJdUbk0lQ0fuiRvYyWH8DaHYePey0NKC7oA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3oA+3Xc0SRG1xTmFuM1mM6ikHs1lQywvdw89vBox+WQ=;
- b=CVxcH+Gv1GyJPD5Qea9Vqr8uwZ9UiI0ttEHPPYbDCeAT4XzkJ+VTRetI0DkRa88ktlrnEKmDBAxAD3WjdYfKuW1eK2l9pobuYreLWGyLNYcXfsbAedS/jXiLv11OlilP+IteDXy4CPPHYah9AADcmV4nClK1aLnL0ow+nOB0iykoijIys1F5KFUCYgmgdaZzh5k4Z0IeSaT0Fyr7em/eB8mxCmk23yB8L7j6RzjgOkWu2GK9y9K0xiyznXzTwWtWkFI5f5Tswm3uGy0uK5l3q8u8M/o+iC4s05k/a/3l3Jn6lpeVkKKpQnl4sofSulMKT9PlfjEVgWeoN5OR+D9Hkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3oA+3Xc0SRG1xTmFuM1mM6ikHs1lQywvdw89vBox+WQ=;
- b=NE1Rp5RH0sidAybmSrhXKxqgRke05XVzwodiSSguqIouoP7UsNv4v29v96E0EB6t/Nys9bgyFsi560En7g1Xwftbhu7cqGICgK4EJG+1o8BmDAE7qzdQniEhRkU2Y94DFtt2EGv+WR2UsZ+lttY+pep6XnuySjseSUZFsQcUMZayaAX5/J36R2Hmo1qgMWXe0y/gFkmpHGbHdY7iRaMkTRhVZnTPCNpT1fCBrm40IUbiosL40QKesDvpJStbc34z5LmSdeOe/nHOvr9LfgUpnK2wvDGv54yifJ5V4q3wRfz0hmv4vIcarWynbF3eJ1iSodwEDYY5qLQ1UO1KGrGgpA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
- by DS7PR12MB5839.namprd12.prod.outlook.com (2603:10b6:8:7a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.34; Mon, 3 Apr
- 2023 18:49:13 +0000
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::265:64aa:fb3e:288]) by IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::265:64aa:fb3e:288%4]) with mapi id 15.20.6254.033; Mon, 3 Apr 2023
- 18:49:13 +0000
-Message-ID: <d21063d2-da5b-bb60-93da-0e7f827c8599@nvidia.com>
-Date:   Mon, 3 Apr 2023 11:49:08 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH V4 03/10] dt-bindings: timestamp: Deprecate nvidia,slices
- property
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org, timestamp@lists.linux.dev,
-        krzysztof.kozlowski+dt@linaro.org, brgl@bgdev.pl, corbet@lwn.net,
-        gregkh@linuxfoundation.org
-References: <20230323012929.10815-1-dipenp@nvidia.com>
- <20230323012929.10815-4-dipenp@nvidia.com>
- <eb9a922b-82d6-c955-0fac-d6bedb494c68@linaro.org>
-Content-Language: en-US
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-In-Reply-To: <eb9a922b-82d6-c955-0fac-d6bedb494c68@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR17CA0068.namprd17.prod.outlook.com
- (2603:10b6:a03:167::45) To IA1PR12MB6604.namprd12.prod.outlook.com
- (2603:10b6:208:3a0::7)
+        with ESMTP id S231538AbjDCTpW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 15:45:22 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B69F1FFB;
+        Mon,  3 Apr 2023 12:45:19 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 333CdQnq028963;
+        Mon, 3 Apr 2023 19:45:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+Ac7/4Z2yuxpzK/gq/zmiCvWHonCoDbbOTHmIXxz6Yo=;
+ b=FvD3PIT0ChMNInzNRrLa1yjTRUH/YqMiahCtkgHh6+t404CJenfC7OKQCspSiHiwTpVp
+ KXug0J/fQS377/VgtULnZ2FWc5b5MTvvkRERQ3qIb0gLb4ket8pNu83pY1SpMTljmHcK
+ PAZjLJm7cxq3MbwYBX+fmxlC6qBmxW02CSt0qnQSRXgfXfCCZWrkycbo6Q1gmX+dJbBo
+ fZ0lzfqAnCG5jtm/ZEOZvU8nfm35pYNnwI4huyMHJ+TfvYKexGO6U3VJQJYJdM0kENNA
+ uNFglv/MhQd4/GFDpsJbXFHfTMTbCvMA7yYaQ9nslhSFxIWWR8lsaUhlMlTnzj6q20Pz EA== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pqw36s9xr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Apr 2023 19:45:03 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 333Jj1ut007791
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 3 Apr 2023 19:45:01 GMT
+Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 3 Apr 2023
+ 12:44:57 -0700
+Message-ID: <c60ec162-a6aa-d239-6c58-d6212064951b@quicinc.com>
+Date:   Mon, 3 Apr 2023 12:44:56 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|DS7PR12MB5839:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08867a55-a4ef-4907-e016-08db34741e28
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8ed6lsKiHPepBCReAlRqaLiUOC+S++cjSNHGvhpxcZ03JdNujo0iBoXZYXN603fRUrQpbT1kvy4uMhDDRDpMyMGeqgfswbEHbBjQF6KLqfDe7mFOLvtDA17qoNp2J74X/DD9/mCYpMAJyF/icz9grvu8L6iSG4mvx7fkGrVMslmkHfCWhA0Zb8UC7aEdZNGr6J5gd1DLC1HH1nyMCyp6EKuQKulna1WKum1shdDO8GRB74qu04rLLjM2K1u58j4PMICN636mbKaCQQUVZ+yrQw6Rkb/fGfnuhobhZ+uLze8iavrDNrMZ+tIvip75bGvsMDpBcsQnfYb17U7uZoJzUzTIFKw7XMaLMDFqIYAgtW/GxHlvf4vXWlTTVKM72vstLAPoRlNDFoTc7dXb8+IwZyII7UmposrsXkZPTmC46EUnVKwm966e0pgTlMyVu7Gka3+kaspWivbL4CegWmLl//qy/6MOQNGlpZIjgx5EyvR5x/xI18dOKKU+/1t3C5YbVlKRieebrJV+19tE8F4gTJ8JztFPqek8zJNV5lStH/tx6kFbk04GEH0y5N5F4BUBCY7Zm6WaeZa+dBVK5xPzxymcb2GHflQ8oHBxDkTozX4x6Ad/T5ieomvHjYX886k/1czlDCgK1GFWxYFk3klnNFJUVqzcAbW+Dsu7NftdARo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(451199021)(31686004)(2906002)(38100700002)(7416002)(5660300002)(921005)(66476007)(66556008)(66946007)(8936002)(41300700001)(8676002)(36756003)(316002)(2616005)(31696002)(83380400001)(53546011)(86362001)(478600001)(186003)(6512007)(6506007)(26005)(6666004)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2oxb3BTd3JWWSt1NXJERE0xVjJWR2RHVmg0cUc5ZmQrN0RwbmZJRjNyMDhI?=
- =?utf-8?B?dHBpVUFmRW5FSzVxdmZKWmdMNXU5ZVVhWFhvemp6SDg2RGJmRkVuRjhkdStK?=
- =?utf-8?B?V3Z6dExmZUFKZnJPVVVZK1NwdEdReURHQi9vNjUxTXFaeFZGK1ZQSk9PT1dM?=
- =?utf-8?B?NUpuM1p5Yjhrb1YxeFBRbnM4SVhJSS9jVVR4eWp0VHpDSVFkaXVsS3ZZSGoy?=
- =?utf-8?B?NFJMY2NOREJxdDdqOFcyWFROVFZrdk9uRjVhM0FOSk82TjQya2lEYTNNbnpE?=
- =?utf-8?B?ZFk5ZytuQnNxamt2UUxGMDZGY0F0U2RTeGI2SVQrK0hMQTF2UlM2S3dZaTRq?=
- =?utf-8?B?ejRaWWhabTFJeTdwckVJU2xxcWNhSVVWNTNzSTZaUEtIMkllUVRRQkRQVWVp?=
- =?utf-8?B?dERPTmtsS1F0VTJXbmxqOXFwYS9kdnVjS0dOaVoyZXNsQkpzTUUzM1RPeith?=
- =?utf-8?B?Z3lWTEJITmF0b2VrTHdKNVVqaFlaMklWeDdhcUFiUkFNWVI1R1d1eGIzWmFL?=
- =?utf-8?B?ZVpkY3BnRzhhZjBrWmJPTkJuUExjcGR4NUhEUnVIZ0oxQTgzVndVUFpaaTZB?=
- =?utf-8?B?SmtjcjRIZjFuTXU2MWZBOXdVVmdpNktCeXZOS1pRTzBhcjQzTHlhTUp6OXJM?=
- =?utf-8?B?SmxlWXZsR1R3MTN3QmRVUEx1K3lpdDVJbTF2UmRWSnIyKzJoSml5M1JEWkxl?=
- =?utf-8?B?MGRzKzAyNTQ5WDlPeVk3MDlrejhqVXBjU3ZBY3oxbWlxZURDZGdGdzE2Vm9o?=
- =?utf-8?B?YVQxUEVRR2VLWVJXditIY1JqendWSkZXTTN3R2hXYVFUenp3aDdhT3V4ZElH?=
- =?utf-8?B?MnBSYXp1S0IzdWU0OC9OS24xbytCcklUeHFDZmVSZ3ZreWpXTEVDdG1RTEdV?=
- =?utf-8?B?TUE0cnFhWGFmQ3VRZ1o0N0FRd3JmMmV4N0tlOEltWHQxSVFua0lUTkJ0YnFh?=
- =?utf-8?B?VmhlWUNJVk5wamZlQ1MyTGFuRDN6UXN4QnY3dVlkWHJmRUxyTVVwYmZxdFpH?=
- =?utf-8?B?TVF5Qk1zY2ZjRFlLZDBiUS90am1yc0ZiRFNLUWtWSTdxY0xqWkhZQUIwS0hX?=
- =?utf-8?B?RVpKY2NWOC90RC9IVGtZMUlzTGxPd1lUSG1OdFdFSEE3TW45QXN0clBrUUZV?=
- =?utf-8?B?bHlsNEFuRkZKVG8vM1loTEdGQ1pnb1V4S1lsZlh4VUtvK3V2ZjdwL1hMY3B6?=
- =?utf-8?B?Z0FwSm9sR0F1a2NHSklCZ1h3MndzTTZ0NXQvaUZQMWttZjlBekY0TjJyUTlp?=
- =?utf-8?B?Q09QSlphblJDK1hMY2VHZjBYOSs3N2NxOGVhSzhuZlZvVTBiMFV0V3BzR05U?=
- =?utf-8?B?YTAySmFYNHRza1l4dW5Lb2pBeDNWUFlqT3FSbkU0eGw1MWM5UndxQm5Ic05P?=
- =?utf-8?B?aHg1Y0RORWpPYS9LMW1LMHVTbjJrYXA3MXVLWVdnYkhXM2lqSDRGeHFZbi9P?=
- =?utf-8?B?aVAxd21HZGE0SWdHQkxuNHptR3RqSmJsaDlyeFMrb1dRTitVa25ZdFFRSzE3?=
- =?utf-8?B?MUYycWNnVENIUTRCeDlBQ2E4MUhSRjFjeFlPT29vK0V1eTlpQmJKUG0wejFs?=
- =?utf-8?B?YzRlVWVuczkzMHRUVm9OSEVrZmtMRDQ5TitDYzJtY1ArQU9KWlFLeEdRYU14?=
- =?utf-8?B?aTI4bndLeGRPaHViakZuSzNZY1Q4cDhsbXJEckRFNGtIbU9VaHYrTEJKcmRw?=
- =?utf-8?B?dFVLRHJ4M1E3NnRDaGtoTklEWUN6SW1jYXZBSTVtdGZGYnczTzZSY0NESFcv?=
- =?utf-8?B?VTh3c1R3YTdWNFBxdndhUktFbU5SQWpoOTNWSVQvUzVROXNhdTdNM21JUUIr?=
- =?utf-8?B?NDl1K1B0Q3I4Y0dZWFgvTGV3c0g4OVhXOEdveGNIR05HdHpReG5SNjdhdzlK?=
- =?utf-8?B?emxWcGpXVkIyK3RoL1JMcFNHSXJablZuOHZCTE0xTHJTQ29FejBzb1VyUjgr?=
- =?utf-8?B?ZDVDaWcyZ0l6T3pOdHNoSjRFS09ia1NQUE92bmNsVU16WGFXc3lYSWVxOTNy?=
- =?utf-8?B?dGpzeU5lL1pOTmVPRmt0V3hDVE9ES2FpQjZ0VmdJcVArdVAwZ2pROE55UzFI?=
- =?utf-8?B?MVRJWHZkd1B1d3NBb2NuSzR5UXRCWG5BUlBXSFFQekQ4Q2VkN2tZRlNlSDdT?=
- =?utf-8?Q?D4pl0I0IyhLfLwU0lxKGce9Xg?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08867a55-a4ef-4907-e016-08db34741e28
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2023 18:49:13.4263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T5z7grNbWjso4hxshrvtTdWX6narjt+1IYv9NTWK9ftGH6xS2ht1h/j+FS7XHYEarhYlG6by+D6TjZ1SPjclKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5839
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v11 03/26] gunyah: Common types and error codes for Gunyah
+ hypercalls
+To:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
+ <20230304010632.2127470-4-quic_eberman@quicinc.com>
+ <ea527244-c8ff-77fb-db77-3aa5470f3fb6@linaro.org>
+Content-Language: en-US
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <ea527244-c8ff-77fb-db77-3aa5470f3fb6@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: kuPQrEpQCzbuV2_lIH8KqdXAuDoW68XF
+X-Proofpoint-GUID: kuPQrEpQCzbuV2_lIH8KqdXAuDoW68XF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-03_15,2023-04-03_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ phishscore=0 clxscore=1015 malwarescore=0 adultscore=0 mlxscore=0
+ mlxlogscore=739 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304030153
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/25/23 4:05 AM, Krzysztof Kozlowski wrote:
-> On 23/03/2023 02:29, Dipen Patel wrote:
->> The property is not necessary as it is a constant value and can be
->> hardcoded in the driver code.
+
+
+On 3/31/2023 7:24 AM, Alex Elder wrote:
+> On 3/3/23 7:06 PM, Elliot Berman wrote:
+>> Add architecture-independent standard error codes, types, and macros for
+>> Gunyah hypercalls.
 >>
->> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> 
+> See a few comments below.    -Alex
+> 
 >> ---
->>  .../timestamp/nvidia,tegra194-hte.yaml        | 43 ++-----------------
->>  1 file changed, 4 insertions(+), 39 deletions(-)
+>>   include/linux/gunyah.h | 83 ++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 83 insertions(+)
+>>   create mode 100644 include/linux/gunyah.h
 >>
->> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
->> index 158dbe58c49f..eafc33e9ae2e 100644
->> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
->> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
->> @@ -42,10 +42,13 @@ properties:
->>  
->>    nvidia,slices:
->>      $ref: /schemas/types.yaml#/definitions/uint32
->> +    deprecated: true
->>      description:
->>        HTE lines are arranged in 32 bit slice where each bit represents different
->>        line/signal that it can enable/configure for the timestamp. It is u32
->> -      property and the value depends on the HTE instance in the chip.
->> +      property and the value depends on the HTE instance in the chip. The AON
->> +      GTE instances for both Tegra194 and Tegra234 has 3 slices. The Tegra194
->> +      LIC instance has 11 slices and Tegra234 LIC has 17 slices.
->>      enum: [3, 11, 17]
->>  
->>    '#timestamp-cells':
->> @@ -56,46 +59,10 @@ properties:
->>        mentioned in the nvidia GPIO device tree binding document.
->>      const: 1
->>  
->> -allOf:
->> -  - if:
->> -      properties:
->> -        compatible:
->> -          contains:
->> -            enum:
->> -              - nvidia,tegra194-gte-aon
->> -              - nvidia,tegra234-gte-aon
->> -    then:
->> -      properties:
->> -        nvidia,slices:
->> -          const: 3
->> -
->> -  - if:
->> -      properties:
->> -        compatible:
->> -          contains:
->> -            enum:
->> -              - nvidia,tegra194-gte-lic
->> -    then:
->> -      properties:
->> -        nvidia,slices:
->> -          const: 11
->> -
->> -  - if:
->> -      properties:
->> -        compatible:
->> -          contains:
->> -            enum:
->> -              - nvidia,tegra234-gte-lic
->> -    then:
->> -      properties:
->> -        nvidia,slices:
->> -          const: 17
+>> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+>> new file mode 100644
+>> index 000000000000..54b4be71caf7
+>> --- /dev/null
+>> +++ b/include/linux/gunyah.h
+>> @@ -0,0 +1,83 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#ifndef _LINUX_GUNYAH_H
+>> +#define _LINUX_GUNYAH_H
+>> +
+>> +#include <linux/errno.h>
+>> +#include <linux/limits.h>
+>> +
+>> +/******************************************************************************/
+>> +/* Common arch-independent definitions for Gunyah 
+>> hypercalls                  */
+>> +#define GH_CAPID_INVAL    U64_MAX
+>> +#define GH_VMID_ROOT_VM    0xff
 > 
-> You just added this entire block in previous patch. Adding it there and
-> immediately removing does not make much sense.
-Yes, probably I should just keep that block in this patch as it is since
-there is a deprecate field already introduced by this patch which should be enough. 
-
->> -
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
+> The above definition doesn't seem to be used anywhere, but seeing
+> it begs the question to me of what type it is expected to have.
+> If it were used, where would it be used in an 8 bit field?
 > 
 
+VMIDs are u16, the root VM (Resource Manager) VMID is 0xff. I think this 
+definition snuck in from the downstream code and is indeed not being 
+needed/used anywhere. I'll remove it.
+
+>> +
+>> +enum gh_error {
+>> +    GH_ERROR_OK            = 0,
+>> +    GH_ERROR_UNIMPLEMENTED        = -1,
+>> +    GH_ERROR_RETRY            = -2,
+> 
+> There might be nothing fundamentally wrong with this, but I
+> dislike seeing negative values assigned to enums.
+> 
+> These error values are returned from the hypervisor, and it
+> looks like they'll likely truncated from a 64-bit unsigned
+> value.  Are they *sent* from the hypervisor as 64-bit signed
+> values?  Or 32-bit signed values?  (In that case, the
+> 
+> I just wonder if you can use 0xffffffff or 0xffff for example
+> rather than -1, depending on the actual value that gets passed.
+> 
+
+They are sent from the hypervisor as 64-bit signed values (it's filling 
+a register). I think truncating should be OK because Gunyah wants to 
+maintain capability with 32-bit architectures and we would not see an 
+error number that truly requires more than 32 bits to represent.
+
+>> +
+>> +    GH_ERROR_ARG_INVAL        = 1,
+>> +    GH_ERROR_ARG_SIZE        = 2,
+>> +    GH_ERROR_ARG_ALIGN        = 3,
+>> +
+>> +    GH_ERROR_NOMEM            = 10,
+>> +
+>> +    GH_ERROR_ADDR_OVFL        = 20,
+>> +    GH_ERROR_ADDR_UNFL        = 21,
+>> +    GH_ERROR_ADDR_INVAL        = 22,
+>> +
+>> +    GH_ERROR_DENIED            = 30,
+>> +    GH_ERROR_BUSY            = 31,
+>> +    GH_ERROR_IDLE            = 32,
+>> +
+>> +    GH_ERROR_IRQ_BOUND        = 40,
+>> +    GH_ERROR_IRQ_UNBOUND        = 41,
+>> +
+>> +    GH_ERROR_CSPACE_CAP_NULL    = 50,
+>> +    GH_ERROR_CSPACE_CAP_REVOKED    = 51,
+>> +    GH_ERROR_CSPACE_WRONG_OBJ_TYPE    = 52,
+>> +    GH_ERROR_CSPACE_INSUF_RIGHTS    = 53,
+>> +    GH_ERROR_CSPACE_FULL        = 54,
+>> +
+>> +    GH_ERROR_MSGQUEUE_EMPTY        = 60,
+>> +    GH_ERROR_MSGQUEUE_FULL        = 61,
+>> +};
+>> +
+>> +/**
+>> + * gh_remap_error() - Remap Gunyah hypervisor errors into a Linux 
+>> error code
+>> + * @gh_error: Gunyah hypercall return value
+>> + */
+>> +static inline int gh_remap_error(enum gh_error gh_error)
+> 
+> Since you're remapping a gh_error, I would have named this
+> gh_error_remap().
+> 
+
+Done.
+
+>> +{
+>> +    switch (gh_error) {
+>> +    case GH_ERROR_OK:
+>> +        return 0;
+>> +    case GH_ERROR_NOMEM:
+>> +        return -ENOMEM;
+>> +    case GH_ERROR_DENIED:
+>> +    case GH_ERROR_CSPACE_CAP_NULL:
+>> +    case GH_ERROR_CSPACE_CAP_REVOKED:
+>> +    case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
+>> +    case GH_ERROR_CSPACE_INSUF_RIGHTS:
+>> +    case GH_ERROR_CSPACE_FULL:
+>> +        return -EACCES;
+>> +    case GH_ERROR_BUSY:
+>> +    case GH_ERROR_IDLE:
+>> +        return -EBUSY;
+>> +    case GH_ERROR_IRQ_BOUND:
+>> +    case GH_ERROR_IRQ_UNBOUND:
+>> +    case GH_ERROR_MSGQUEUE_FULL:
+>> +    case GH_ERROR_MSGQUEUE_EMPTY:
+>> +        return -EIO;
+>> +    case GH_ERROR_UNIMPLEMENTED:
+>> +    case GH_ERROR_RETRY:
+>> +        return -EOPNOTSUPP;
+>> +    default:
+>> +        return -EINVAL;
+>> +    }
+>> +}
+>> +
+>> +#endif
+> 
