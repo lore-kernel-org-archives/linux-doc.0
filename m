@@ -2,172 +2,310 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF0FC76196
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 03:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4D3C76196
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 08:23:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjDCDug (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Apr 2023 23:50:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52272 "EHLO
+        id S231727AbjDCIXT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 04:23:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjDCDuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Apr 2023 23:50:35 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDBC73C0D;
-        Sun,  2 Apr 2023 20:50:33 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id d8so16650954pgm.3;
-        Sun, 02 Apr 2023 20:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680493833;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v6vMrCF8OOl5vrU6gL6KNFSlmWSVBdedM89YGlTwZdI=;
-        b=Qoabb/yfINl+qeK1wYMdVZKL62BXfVUBEJ8xFkaib6M9R/xK3gfzut1jpBxqNTUSSe
-         9kNu2+dK6r1bw7oDatF2TGd4g6luhe4GZY9bTZFi27Kg9zxSAi2FMylP1F9uerXiCHeX
-         +pp8gy/xnxjGyfQ8uuSWlsJzuXqihD4rh6BS044uu+vOHaXUTSN0ImK8KMZsBCcacIbE
-         t7DAZUZzxAJFgiX9zEXTvcBKTfzuRMIA2qf0yT7WiF3cMWFSv3BP8BgVu+otCdhYhwzx
-         r7S/B96duBEz0P/lq3bJH6Ws1Dx6uULdOQHDntXAZZqxMBYiOWU8bYLLlyazn+N02qKa
-         Hf/g==
+        with ESMTP id S231736AbjDCIXQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 04:23:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F4BE1A2
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 01:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680510117;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jQzDBAQKeqgfsxxyrlkQCm/LEl+p6ixMadQZXFxQxwQ=;
+        b=auyQSzvhbUefgQ193ODr8OgWLQS23eFY3kxcjzMlnaSi22TPJrFTeq+xgjTomneaw+rEQ3
+        1+IHCnD+QkPY9t96SXkMwX2sCraKSQqvbV/Glm92nWtd92Nyw+P/wV6oRojsW+IRLKKxnq
+        f3X+KD+z9dlwG5bFuK6YFQ1hkM39MXg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-511-B_7dQ3kuNzy9VYYcXyktRQ-1; Mon, 03 Apr 2023 04:21:52 -0400
+X-MC-Unique: B_7dQ3kuNzy9VYYcXyktRQ-1
+Received: by mail-wm1-f72.google.com with SMTP id k1-20020a05600c1c8100b003ee6dbceb81so14369694wms.5
+        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 01:21:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680493833;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v6vMrCF8OOl5vrU6gL6KNFSlmWSVBdedM89YGlTwZdI=;
-        b=D0HL+r596D+ZOqjdUS/W0Te3ylQlqE5ke1D4TwNIDCxHMmF9/F3VXJ+Pws7ETlHcQx
-         65R5FlzIrPpwLQz/q6f50KJQPyR9MkmuFwd+W6FjHmaUPe7vlhZkYjqJ2TuQXDwZ1PiF
-         +U/BJe6VYsCiu8HUPcFfge5XjxOOfMUgFgBMDZUHmmyPtX3yCmm88jyOHp/HbW0AH6AM
-         ZBHQw0Z8DIlnQfvyQNxATnZaB6dH4H5Cu/HhsiFacG4diJPLRjedmWkKWcdIJ2Cbo0C6
-         CB8Sv1wqCxjaBnTlKt9m0lIBC1pn9Ir4vK8iDclB3uruvn3hEjYrul/s4/YP1hi6Xy12
-         0+SA==
-X-Gm-Message-State: AAQBX9cnyPhqgwGN+EZgtqAWgw6V5NZfljACM/V2Fi3MJstkdQz4gavl
-        J4tn4UeQm0YQ1quUOcXIL2U=
-X-Google-Smtp-Source: AKy350ZbbIhtqecTOv6NN8mhN9enmXzYOgL/QAPhrdx3CoMfHQ/1OyAd/+dzLgt5hzsRUUOrWoK17g==
-X-Received: by 2002:a62:7988:0:b0:625:e8ec:4f5b with SMTP id u130-20020a627988000000b00625e8ec4f5bmr35634590pfc.6.1680493833307;
-        Sun, 02 Apr 2023 20:50:33 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-12.three.co.id. [116.206.28.12])
-        by smtp.gmail.com with ESMTPSA id u20-20020a62ed14000000b0062a56e51fd7sm5612575pfh.188.2023.04.02.20.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 20:50:32 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 508F51067A2; Mon,  3 Apr 2023 10:50:30 +0700 (WIB)
-Date:   Mon, 3 Apr 2023 10:50:30 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Joe Stringer <joe@isovalent.com>, bpf@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev,
-        maxtram95@gmail.com, john.fastabend@gmail.com
-Subject: Re: [PATCH bpf-next v4 2/2] docs/bpf: Add LRU internals description
- and graph
-Message-ID: <ZCpNBjKlSnMFmHhf@debian.me>
-References: <20230401200651.1022113-1-joe@isovalent.com>
- <20230401200651.1022113-2-joe@isovalent.com>
+        d=1e100.net; s=20210112; t=1680510112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jQzDBAQKeqgfsxxyrlkQCm/LEl+p6ixMadQZXFxQxwQ=;
+        b=sftwh5Su7hiCEdpplDygUX6VLsCjHJf8R6CNXRznqAXugvlmthYwPW08jQTUARQUZa
+         ZDYfksbKvtM5Ml/n+34QLJ6YmcCl1rZOwBOTAfj19u05gKTJGdXdY1vg2tia4Xeyhusp
+         dHyv4ypL+rlwe6giADmEr1e/i2M21mJSciEgQsCUrXoRdSxBIFEh95jFEHx5Co/wjMtg
+         xk/yPLe2gE1dYs+um+pOC1YCSyc2nCRHWwH1t2JmTOMAa2yMxM0zX3vEkEEZr6AKZ4zc
+         uMlSqix1pdsyvD1APWBiotPUTuxG/9aKSSDyEY/AE8aH9jstI8si2TXnBlEM90s+Xp6j
+         0kEw==
+X-Gm-Message-State: AO0yUKUarHefuk44Swh/zoPafgY7/5PhQ6Tgj2gswLZfarQCt24CEgAc
+        uXTebxi5UkY8kcW6hPcZiYQ8vZgRhvcvlzsDTINthVD+jsXRprkTAl///wxKUYf8tlJzEPtAvtc
+        djmZ1iUcYe7bgH/bMv4vj
+X-Received: by 2002:a05:600c:20d:b0:3ee:672d:caae with SMTP id 13-20020a05600c020d00b003ee672dcaaemr26843827wmi.36.1680510111659;
+        Mon, 03 Apr 2023 01:21:51 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/AgkVl4NRObZrwop/hyYIrLuclF7oALAw2adBku9J1XTbgT5nDnZVWZTlkdOAVCBUc2F54wA==
+X-Received: by 2002:a05:600c:20d:b0:3ee:672d:caae with SMTP id 13-20020a05600c020d00b003ee672dcaaemr26843772wmi.36.1680510111270;
+        Mon, 03 Apr 2023 01:21:51 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:5e00:8e78:71f3:6243:77f0? (p200300cbc7025e008e7871f3624377f0.dip0.t-ipconnect.de. [2003:cb:c702:5e00:8e78:71f3:6243:77f0])
+        by smtp.gmail.com with ESMTPSA id c2-20020adfe702000000b002d6f285c0a2sm9135348wrm.42.2023.04.03.01.21.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Apr 2023 01:21:50 -0700 (PDT)
+Message-ID: <f0232380-4171-f4d3-f1a6-07993e551b46@redhat.com>
+Date:   Mon, 3 Apr 2023 10:21:48 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="FOoe/uNk0CyZUVIL"
-Content-Disposition: inline
-In-Reply-To: <20230401200651.1022113-2-joe@isovalent.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Content-Language: en-US
+To:     Ackerley Tng <ackerleytng@google.com>, kvm@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        qemu-devel@nongnu.org
+Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
+        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
+        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+        joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
+References: <cover.1680306489.git.ackerleytng@google.com>
+ <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+In-Reply-To: <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---FOoe/uNk0CyZUVIL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Apr 01, 2023 at 01:06:51PM -0700, Joe Stringer wrote:
-> diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.=
-rst
-> index 45d923cd16c4..ddc961f98b27 100644
-> --- a/Documentation/bpf/map_hash.rst
-> +++ b/Documentation/bpf/map_hash.rst
-> @@ -1,5 +1,6 @@
->  .. SPDX-License-Identifier: GPL-2.0-only
->  .. Copyright (C) 2022 Red Hat, Inc.
-> +.. Copyright (C) 2022-2023 Isovalent, Inc.
-> =20
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
-> @@ -215,3 +216,44 @@ Userspace walking the map elements from the map decl=
-ared above:
->                      cur_key =3D &next_key;
->              }
->      }
+On 01.04.23 01:50, Ackerley Tng wrote:
+> By default, the backing shmem file for a restrictedmem fd is created
+> on shmem's kernel space mount.
+> 
+> With this patch, an optional tmpfs mount can be specified via an fd,
+> which will be used as the mountpoint for backing the shmem file
+> associated with a restrictedmem fd.
+> 
+> This will help restrictedmem fds inherit the properties of the
+> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+> binding hints, etc.
+> 
+> Permissions for the fd passed to memfd_restricted() is modeled after
+> the openat() syscall, since both of these allow creation of a file
+> upon a mount/directory.
+> 
+> Permission to reference the mount the fd represents is checked upon fd
+> creation by other syscalls (e.g. fsmount(), open(), or open_tree(),
+> etc) and any process that can present memfd_restricted() with a valid
+> fd is expected to have obtained permission to use the mount
+> represented by the fd. This behavior is intended to parallel that of
+> the openat() syscall.
+> 
+> memfd_restricted() will check that the tmpfs superblock is
+> writable, and that the mount is also writable, before attempting to
+> create a restrictedmem file on the mount.
+> 
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> ---
+>   include/linux/syscalls.h           |  2 +-
+>   include/uapi/linux/restrictedmem.h |  8 ++++
+>   mm/restrictedmem.c                 | 74 +++++++++++++++++++++++++++---
+>   3 files changed, 77 insertions(+), 7 deletions(-)
+>   create mode 100644 include/uapi/linux/restrictedmem.h
+> 
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index f9e9e0c820c5..a23c4c385cd3 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>   asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>   					    unsigned long home_node,
+>   					    unsigned long flags);
+> -asmlinkage long sys_memfd_restricted(unsigned int flags);
+> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
+> 
+>   /*
+>    * Architecture-specific system calls
+> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..22d6f2285f6d
+> --- /dev/null
+> +++ b/include/uapi/linux/restrictedmem.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
+> +#define _UAPI_LINUX_RESTRICTEDMEM_H
 > +
-> +Internals
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This section of the document is targeted at Linux developers and describ=
-es
-> +aspects of the map implementations that are not considered stable ABI. T=
-he
-> +following details are subject to change in future versions of the kernel.
-> +
-> +``BPF_MAP_TYPE_LRU_HASH`` and variants
-> +--------------------------------------
-> +
-> +Updating elements in LRU maps may trigger eviction behaviour when the ca=
-pacity
-> +of the map is reached. There are various steps that the update algorithm
-> +attempts in order to enforce the LRU property which have increasing impa=
-cts on
-> +other CPUs involved in the following operation attempts:
-> +
-> +- Attempt to use CPU-local state to batch operations
-> +- Attempt to fetch free nodes from global lists
-> +- Attempt to pull any node from a global list and remove it from the has=
-hmap
-> +- Attempt to pull any node from any CPU's list and remove it from the ha=
-shmap
-> +
-> +This algorithm is described visually in the following diagram. See the
-> +description in commit 3a08c2fd7634 ("bpf: LRU List") for a full explanat=
-ion of
-> +the corresponding operations:
-> +
-> +.. kernel-figure::  map_lru_hash_update.dot
-> +   :alt:    Diagram outlining the LRU eviction steps taken during map up=
-date.
-> +
-> +   LRU hash eviction during map update for ``BPF_MAP_TYPE_LRU_HASH`` and
-> +   variants. See the dot file source for kernel function name code refer=
-ences.
-> +
-> +Map updates start from the oval in the top right "begin ``bpf_map_update=
-()``"
-> +and progress through the graph towards the bottom where the result may be
-> +either a successful update or a failure with various error codes. The ke=
-y in
-> +the top right provides indicators for which locks may be involved in spe=
-cific
-> +operations. This is intended as a visual hint for reasoning about how map
-> +contention may impact update operations, though the map type and flags m=
-ay
-> +impact the actual contention on those locks, based on the logic describe=
-d in
-> +the table above. For instance, if the map is created with type
-> +``BPF_MAP_TYPE_LRU_PERCPU_HASH`` and flags ``BPF_F_NO_COMMON_LRU`` then =
-all map
-> +properties would be per-cpu.
+> +/* flags for memfd_restricted */
+> +#define RMFD_USERMNT		0x0001U
 
-The doc LGTM, thanks!
+I wonder if we can come up with a more expressive prefix than RMFD. 
+Sounds more like "rm fd" ;) Maybe it should better match the 
+"memfd_restricted" syscall name, like "MEMFD_RSTD_USERMNT".
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
---=20
-An old man doll... just what I always wanted! - Clara
+> +
+> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index c5d869d8c2d8..f7b62364a31a 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -1,11 +1,12 @@
+>   // SPDX-License-Identifier: GPL-2.0
+> -#include "linux/sbitmap.h"
 
---FOoe/uNk0CyZUVIL
-Content-Type: application/pgp-signature; name="signature.asc"
+Looks like an unrelated change?
 
------BEGIN PGP SIGNATURE-----
+> +#include <linux/namei.h>
+>   #include <linux/pagemap.h>
+>   #include <linux/pseudo_fs.h>
+>   #include <linux/shmem_fs.h>
+>   #include <linux/syscalls.h>
+>   #include <uapi/linux/falloc.h>
+>   #include <uapi/linux/magic.h>
+> +#include <uapi/linux/restrictedmem.h>
+>   #include <linux/restrictedmem.h>
+> 
+>   struct restrictedmem {
+> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+>   	return file;
+>   }
+> 
+> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> +static int restrictedmem_create(struct vfsmount *mount)
+>   {
+>   	struct file *file, *restricted_file;
+>   	int fd, err;
+> 
+> -	if (flags)
+> -		return -EINVAL;
+> -
+>   	fd = get_unused_fd_flags(0);
+>   	if (fd < 0)
+>   		return fd;
+> 
+> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +	if (mount)
+> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
+> +	else
+> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +
+>   	if (IS_ERR(file)) {
+>   		err = PTR_ERR(file);
+>   		goto err_fd;
+> @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>   	return err;
+>   }
+> 
+> +static bool is_shmem_mount(struct vfsmount *mnt)
+> +{
+> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+> +}
+> +
+> +static bool is_mount_root(struct file *file)
+> +{
+> +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
+> +}
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCpNBQAKCRD2uYlJVVFO
-o3eLAP0XQzRYkXM5fpPRgoalA9a9OqJcsTQNSfQsABEqVwjnWgEAlS+OFwT22pQk
-LzuJG51NI7jyg1yDsuFrnfD6cbgOmQ8=
-=DDu/
------END PGP SIGNATURE-----
+I'd inline at least that function, pretty self-explaining.
 
---FOoe/uNk0CyZUVIL--
+> +
+> +static int restrictedmem_create_on_user_mount(int mount_fd)
+> +{
+> +	int ret;
+> +	struct fd f;
+> +	struct vfsmount *mnt;
+> +
+> +	f = fdget_raw(mount_fd);
+> +	if (!f.file)
+> +		return -EBADF;
+> +
+> +	ret = -EINVAL;
+> +	if (!is_mount_root(f.file))
+> +		goto out;
+> +
+> +	mnt = f.file->f_path.mnt;
+> +	if (!is_shmem_mount(mnt))
+> +		goto out;
+> +
+> +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = mnt_want_write(mnt);
+> +	if (unlikely(ret))
+> +		goto out;
+> +
+> +	ret = restrictedmem_create(mnt);
+> +
+> +	mnt_drop_write(mnt);
+> +out:
+> +	fdput(f);
+> +
+> +	return ret;
+> +}
+> +
+> +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
+> +{
+> +	if (flags & ~RMFD_USERMNT)
+> +		return -EINVAL;
+> +
+> +	if (flags == RMFD_USERMNT) {
+> +		if (mount_fd < 0)
+> +			return -EINVAL;
+> +
+> +		return restrictedmem_create_on_user_mount(mount_fd);
+> +	} else {
+> +		return restrictedmem_create(NULL);
+> +	}
+
+
+You can drop the else case:
+
+if (flags == RMFD_USERMNT) {
+	...
+	return restrictedmem_create_on_user_mount(mount_fd);
+}
+return restrictedmem_create(NULL);
+
+
+I do wonder if you want to properly check for a flag instead of 
+comparing values. Results in a more natural way to deal with flags:
+
+if (flags & RMFD_USERMNT) {
+
+}
+
+> +}
+> +
+>   int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+>   		       struct restrictedmem_notifier *notifier, bool exclusive)
+>   {
+
+The "memfd_restricted" vs. "restrictedmem" terminology is a bit 
+unfortunate, but not your fault here.
+
+
+I'm not a FS person, but it does look good to me.
+
+-- 
+Thanks,
+
+David / dhildenb
+
