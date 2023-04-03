@@ -2,201 +2,522 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D780EC76196
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 16:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D6DC76188
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 16:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232715AbjDCQpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 12:45:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54908 "EHLO
+        id S232979AbjDCQ5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 12:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232953AbjDCQoy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 12:44:54 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 576EA1721;
-        Mon,  3 Apr 2023 09:44:53 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id C305B5C0125;
-        Mon,  3 Apr 2023 12:44:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 03 Apr 2023 12:44:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1680540292; x=1680626692; bh=11
-        sc0TQGOZNioE8V36qC3PGFQzzymQW7XNL7fWSiI1E=; b=iiN8E5+Lt6mMuavRVk
-        45CA5j3Q4I0Jw+WHUcgc+h4vEF/ExBmWwdUDWf3mmepDzBKj71DNKL5CkVxodq14
-        hjIyhwgx8fWKgTwPMm6EgEVic7/LNSL6gF4tdbqEOMRXEj8pI3ogMky6x2BuQTbC
-        RAgEwyfS4Msa/qzW+cVvTkBP/LZo6Tpnl0aPRFCxZ0wiM2bNrIeHSDyn79uUdxvF
-        4EbL3vz3CD9wrw2bXOCLsT7LCvVJ8JStjKZNrDicObrQBntWM4CtUrTrDLCzudaA
-        WZtTSrXt6kabA5eX07ePeHMLcEB+ATRob8ZHZamnomuZVMANbM8nI0iYQMNUzwCB
-        iyoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680540292; x=1680626692; bh=11sc0TQGOZNio
-        E8V36qC3PGFQzzymQW7XNL7fWSiI1E=; b=lLcVNqMVPTl189cic2q6WYOJkkXdW
-        GqHLIW2aonhpjJPdP+jVxxyN2AbY/OR87Ma3gK/cerJMBIU+av4N+TOolGifjQc0
-        wUwMAtK1eE5yVIvUqBSmihovQNL7A5R8tmaY/HJRKvLT8oaCyJ5efYTDLLo1jRLh
-        sPvGaynh4KNewsf1THgz1xmyu4dmxoe+NPSYWQzHmoAjoW3eMM4DY5KpGhJUch5m
-        uVpg+vvvY3+L8aM6L0C/1Y7mIyaF9UyILSwf0CtodB1iX3wyzNPWRL+B8OdiKCVD
-        TqwO5AMylqRaAJbj1Ejww09dKhK3sLCiNEuxYIhxRgT4okOrFePcFSBKA==
-X-ME-Sender: <xms:hAIrZDtalJ9MIVjQpP3EAE6Dw7_Mvo-PWPe993omTJFD39SKeQ5lhA>
-    <xme:hAIrZEeJldtXuN2aO0o4BPggqto1K3ysXM2maBtOL8RZ6SHS8CYFBcH1Km30kEfdv
-    jgFpNlB7D5STcfh_LM>
-X-ME-Received: <xmr:hAIrZGyV1e6VYUEFG5JR5JP_-RQSkjH3YpTIbP90-Mgf5-G6Xuv6TbmsseJcP6-0gsgvPg2GzxVdFSAf-5WibCxK0SDcf190xbqL31g49Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeijedguddtiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpefuthgv
-    fhgrnhcutfhovghstghhuceoshhhrhesuggvvhhkvghrnhgvlhdrihhoqeenucggtffrrg
-    htthgvrhhnpeevlefggffhheduiedtheejveehtdfhtedvhfeludetvdegieekgeeggfdu
-    geeutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hshhhrseguvghvkhgvrhhnvghlrdhioh
-X-ME-Proxy: <xmx:hAIrZCMTo0ETiNsU0YkhZYXT8QzevU_nVp_SE0eyA-Sk_XYvlSiFgg>
-    <xmx:hAIrZD9cKLBn_TDiSkiOKnPw1L8jdbcYftxeODh9N2kG8ZoFkLSFxA>
-    <xmx:hAIrZCV9CnFeAvCyaJs6KzzHwudiHiChEIsFAETj5tMoGEWzV-jRRA>
-    <xmx:hAIrZPSwBLw2JSeNaInWDaKDOZkrr5MAJ-8RD_Fnm8uXFagiBjm_kg>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Apr 2023 12:44:51 -0400 (EDT)
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230328160914.5b6b66e4a5ad39e41fd63710@linux-foundation.org>
- <37dcd52a-2e32-c01d-b805-45d862721fbc@redhat.com>
- <ZCWcJelF5bEdF4N3@cmpxchg.org>
- <ff599dc1-729d-52dc-d605-8a8ac890ad15@redhat.com>
- <qvqwv8ii89x6.fsf@dev0134.prn3.facebook.com>
- <f969cb1f-651f-592f-7540-89f73e175c7d@redhat.com>
-User-agent: mu4e 1.6.11; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        Hugh Dickins <hughd@google.com>
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-Date:   Mon, 03 Apr 2023 09:34:59 -0700
-In-reply-to: <f969cb1f-651f-592f-7540-89f73e175c7d@redhat.com>
-Message-ID: <qvqwlej8vrst.fsf@dev0134.prn3.facebook.com>
+        with ESMTP id S232952AbjDCQ5E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 12:57:04 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9786426A6
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 09:57:02 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-3e632769c5eso821091cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 09:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680541021;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIMj8TtUAHd0i/PWyLWXWHU7SLPJzOggKJ4TPx+YsGs=;
+        b=PYupwjOLcQw7qVFril250VglxuD2BqgOZZ9YfKbi/tLF+IfASR1Z4ARIc9cydm1VLG
+         IuuWNRAU5XHLx0o95rs7hp+mwfHaaz7MZNfVjYfKIkkEyJBX/remdknOeOFoufua7TtP
+         r4q14Y8ixb97yCxS2PhFmJ6zyTzB6AulOiudGmWr+Zm3wF26PrxjQaaQAb4lEtybwLVA
+         4ePc7riZX7X+s/IudviacyxhlHQCtcFS7YPWAKdQB2Mi8romqqKPiDuxECh6PVyXHN0J
+         u0RHMRyLyN6HgiPivT4eoV/1tKCwcT/qMA4aA0abKwLN3jS3A1COJK1tHvHVn/D3Vg0z
+         T2pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680541021;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sIMj8TtUAHd0i/PWyLWXWHU7SLPJzOggKJ4TPx+YsGs=;
+        b=EmGsH7VFLwvhAzQ2ZDVpmiM4p0gjrXsfRl55cBnlmU3pa3sJ4Y04tGkK1+HHLuzalo
+         iFJaaD8PKuLpQOlNPnb6Zj0bbWj1LnPbD4opndoggYIRFDAyQ91FxGd9t6FJvWIvjxIP
+         p44NNkrvXHoOqH8q8tXws/s/hLc/q4Z6kkTo43htOPNPgD6ixxtRWG7lwUJ4SGMW724/
+         wkfIVb01SRgoIXJjOZWHQzvvuXRAY1wy0D+XxuN1GAU3Gg20z8F4lG650HsZCf8eKWQe
+         0oIbwAiQDBbvN6gsn3xmteN6b22WFKdFbiIzBj1F3TIsy0cAjRn/rBEO2IEwyafBQvFo
+         dBKA==
+X-Gm-Message-State: AAQBX9cBYULLMQCGKJpOwIMS6tOhiZczb42FHIg3YW3ojZdgBcZy3VYa
+        1OCTJU8HeV9B5YfuCOfdxlFUxqgFSUQOpOmFYJ+K
+X-Google-Smtp-Source: AKy350YhfX/oAlM8dQ05nV6TMbKsyJ+NXPyyPaj7rhG0Fm7iSWLkiD3MTU7jSIIKWTia00YvGUlP3mk/ezw5ESEYpa8=
+X-Received: by 2002:a05:622a:189:b0:3de:8cbe:47af with SMTP id
+ s9-20020a05622a018900b003de8cbe47afmr704178qtw.9.1680541021402; Mon, 03 Apr
+ 2023 09:57:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230331113539.v13.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+In-Reply-To: <20230331113539.v13.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
+From:   Jeffrey Kardatzke <jkardatzke@google.com>
+Date:   Mon, 3 Apr 2023 09:56:50 -0700
+Message-ID: <CA+ddPcNQp6BO9NHmoBTOU5QxhK0oqekRwQxhXBAyL_20DTVhCg@mail.gmail.com>
+Subject: Re: [PATCH v13] tee: optee: Add SMC for loading OP-TEE image
+To:     op-tee@lists.trustedfirmware.org
+Cc:     Sumit Garg <sumit.garg@linaro.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The  corresponding TF-A change is merged now, so the kernel patch
+should be all ready to go.
 
-David Hildenbrand <david@redhat.com> writes:
-
->>>> Obviously we could spend months analysing which exact allocations are
->>>> identical, and then more months or years reworking the architecture to
->>>> deduplicate them by hand and in userspace. But this isn't practical,
->>>> and KSM is specifically for cases where this isn't practical.
->>>> Based on your request in the previous thread, we investigated whether
->>>> the boost was coming from the unintended side effects of KSM splitting
->>>> THPs. This wasn't the case.
->>>> If you have other theories on how the results could be bogus, we'd be
->>>> happy to investigate those as well. But you have to let us know what
->>>> you're looking for.
->>>>
->>>
->>> Maybe I'm bad at making such requests but
->>>
->>> "Stefan, can you do me a favor and investigate which pages we end up
->>> deduplicating -- especially if it's mostly only the zeropage and if it's
->>> still that significant when disabling THP?"
->>>
->>> "In any case, it would be nice to get a feeling for how much variety in
->>> these 20% of deduplicated pages are. "
->>>
->>> is pretty clear to me. And shouldn't take months.
->>>
+On Fri, Mar 31, 2023 at 11:35=E2=80=AFAM Jeffrey Kardatzke
+<jkardatzke@chromium.org> wrote:
 >
-> Just to clarify: the details I requested are not meant to decide whether to
-> reject the patch set (I understand that it can be beneficial to have); I
-> primarily want to understand if we're really dealing with a workload where KSM
-> is able to deduplicate pages that are non-trivial, to maybe figure out if there
-> are other workloads that could similarly benefit -- or if we could optimize KSM
-> for these specific cases or avoid the memory deduplication altogether.
+> Adds an SMC call that will pass an OP-TEE binary image to EL3 and
+> instruct it to load it as the BL32 payload. This works in conjunction
+> with a feature added to Trusted Firmware for ARMv8 and above
+> architectures that supports this.
 >
-> In contrast to e.g.:
+> The main purpose of this change is to facilitate updating the OP-TEE
+> component on devices via a rootfs change rather than having to do a
+> firmware update. Further details are linked to in the Kconfig file.
 >
-> 1) THP resulted in many zeropages we end up deduplicating again. The THP
->    placement was unfortunate.
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
+> Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> ---
 >
-> 2) Unoptimized memory allocators that leave many identical pages mapped
->    after freeing up memory (e.g., zeroed pages, pages all filled with
->    poison values) instead of e.g., using MADV_DONTNEED to free up that
->    memory.
+> Changes in v13:
+> - Documentation formatting changes
 >
+> Changes in v12:
+> - Fixed checkpatch strict issues
 >
-
-I repeated an experiment with and without KSM. In terms of THP there is
-no huge difference between the two. On a 64GB main memory machine I see
-between 100 - 400MB in AnonHugePages.
-
->> /sys/kernel/mm/ksm/pages_shared is over 10000 when we run this on an
->> Instagram workload. The workload consists of 36 processes plus a few
->> sidecar processes.
+> Changes in v11:
+> - Fixed typo in tee.rst documentation
 >
-> Thanks! To which value is /sys/kernel/mm/ksm/max_page_sharing set in that
-> environment?
+> Changes in v10:
+> - Fixed tee.rst documentation formatting
 >
-
-It's set to the standard value of 256.
-
-In the meantime I have run experiments with different settings for
-pages_to_scan. With the default value of 100, we only get a relatively
-small benefit of KSM. If I increase the value to for instance to 2000 or
-3000 the savings are substantial. (The workload is memory bound, not
-CPU bound).
-
-Here are some stats for setting pages_to_scan to 3000:
-
-full_scans: 560
-general_profit: 20620539008
-max_page_sharing: 256
-merge_across_nodes: 1
-pages_shared: 125446
-pages_sharing: 5259506
-pages_to_scan: 3000
-pages_unshared: 1897537
-pages_volatile: 12389223
-run: 1
-sleep_millisecs: 20
-stable_node_chains: 176
-stable_node_chains_prune_millisecs: 2000
-stable_node_dups: 2604
-use_zero_pages: 0
-zero_pages_sharing: 0
-
-
-> What would be interesting is pages_shared after max_page_sharing was set to a
-> very high number such that pages_shared does not include duplicates. Then
-> pages_shared actually expresses how many different pages we deduplicate. No need
-> to run without THP in that case.
+> Changes in v9:
+> - Add CPU hotplug callback to init on all cores at startup
 >
-
-Thats on my list for the next set of experiments.
-> Similarly, enabling "use_zero_pages" could highlight if your workload ends up
-> deduplciating a lot of zeropages. But maxing out max_page_sharing would be
-> sufficient to understand what's happening.
+> Changes in v8:
+> - Renamed params and fixed alignment issue
 >
+> Changes in v7:
+> - Added documentation to Documentation/staging/tee.rst
 >
-
-I already run experiments with use_zero_pages, but they didn't make a
-difference. I'll repeat the experiment with a higher pages_to_scan
-value.
-
->> Each of these individual processes has around 500MB in KSM pages.
->>
+> Changes in v6:
+> - Expanded Kconfig documentation
 >
-> That's really a lot, thanks.
+> Changes in v5:
+> - Renamed config option
+> - Added runtime warning when config is used
 >
->> Also to give some idea for individual VMA's
->> 7ef5d5600000-7ef5e5600000 rw-p 00000000 00:00 0 (Size: 262144 KB, KSM:
->> 73160 KB)
->>
+> Changes in v4:
+> - Update commit message
+> - Added more documentation
+> - Renamed config option, added ARM64 dependency
 >
-> I'll have a look at the patches today.
+> Changes in v3:
+> - Removed state tracking for driver reload
+> - Check UID of service to verify it needs image load
+>
+> Changes in v2:
+> - Fixed compile issue when feature is disabled
+> - Addressed minor comments
+> - Added state tracking for driver reload
+>
+>  Documentation/staging/tee.rst |  53 +++++++++++++
+>  drivers/tee/optee/Kconfig     |  17 +++++
+>  drivers/tee/optee/optee_msg.h |  12 +++
+>  drivers/tee/optee/optee_smc.h |  24 ++++++
+>  drivers/tee/optee/smc_abi.c   | 137 ++++++++++++++++++++++++++++++++++
+>  5 files changed, 243 insertions(+)
+>
+> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rs=
+t
+> index 498343c7ab08..22baa077a3b9 100644
+> --- a/Documentation/staging/tee.rst
+> +++ b/Documentation/staging/tee.rst
+> @@ -214,6 +214,57 @@ call is done from the thread assisting the interrupt=
+ handler. This is a
+>  building block for OP-TEE OS in secure world to implement the top half a=
+nd
+>  bottom half style of device drivers.
+>
+> +OPTEE_INSECURE_LOAD_IMAGE Kconfig option
+> +----------------------------------------
+> +
+> +The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load=
+ the
+> +BL32 OP-TEE image from the kernel after the kernel boots, rather than lo=
+ading
+> +it from the firmware before the kernel boots. This also requires enablin=
+g the
+> +corresponding option in Trusted Firmware for Arm. The Trusted Firmware f=
+or Arm
+> +documentation [8] explains the security threat associated with enabling =
+this as
+> +well as mitigations at the firmware and platform level.
+> +
+> +There are additional attack vectors/mitigations for the kernel that shou=
+ld be
+> +addressed when using this option.
+> +
+> +1. Boot chain security.
+> +
+> +   * Attack vector: Replace the OP-TEE OS image in the rootfs to gain co=
+ntrol of
+> +     the system.
+> +
+> +   * Mitigation: There must be boot chain security that verifies the ker=
+nel and
+> +     rootfs, otherwise an attacker can modify the loaded OP-TEE binary b=
+y
+> +     modifying it in the rootfs.
+> +
+> +2. Alternate boot modes.
+> +
+> +   * Attack vector: Using an alternate boot mode (i.e. recovery mode), t=
+he
+> +     OP-TEE driver isn't loaded, leaving the SMC hole open.
+> +
+> +   * Mitigation: If there are alternate methods of booting the device, s=
+uch as a
+> +     recovery mode, it should be ensured that the same mitigations are a=
+pplied
+> +     in that mode.
+> +
+> +3. Attacks prior to SMC invocation.
+> +
+> +   * Attack vector: Code that is executed prior to issuing the SMC call =
+to load
+> +     OP-TEE can be exploited to then load an alternate OS image.
+> +
+> +   * Mitigation: The OP-TEE driver must be loaded before any potential a=
+ttack
+> +     vectors are opened up. This should include mounting of any modifiab=
+le
+> +     filesystems, opening of network ports or communicating with externa=
+l
+> +     devices (e.g. USB).
+> +
+> +4. Blocking SMC call to load OP-TEE.
+> +
+> +   * Attack vector: Prevent the driver from being probed, so the SMC cal=
+l to
+> +     load OP-TEE isn't executed when desired, leaving it open to being e=
+xecuted
+> +     later and loading a modified OS.
+> +
+> +   * Mitigation: It is recommended to build the OP-TEE driver as builtin=
+ driver
+> +     rather than as a module to prevent exploits that may cause the modu=
+le to
+> +     not be loaded.
+> +
+>  AMD-TEE driver
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> @@ -309,3 +360,5 @@ References
+>  [6] include/linux/psp-tee.h
+>
+>  [7] drivers/tee/amdtee/amdtee_if.h
+> +
+> +[8] https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/thre=
+at_model.html
+> diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
+> index f121c224e682..70898bbd5809 100644
+> --- a/drivers/tee/optee/Kconfig
+> +++ b/drivers/tee/optee/Kconfig
+> @@ -7,3 +7,20 @@ config OPTEE
+>         help
+>           This implements the OP-TEE Trusted Execution Environment (TEE)
+>           driver.
+> +
+> +config OPTEE_INSECURE_LOAD_IMAGE
+> +       bool "Load OP-TEE image as firmware"
+> +       default n
+> +       depends on OPTEE && ARM64
+> +       help
+> +         This loads the BL32 image for OP-TEE as firmware when the drive=
+r is
+> +         probed. This returns -EPROBE_DEFER until the firmware is loadab=
+le from
+> +         the filesystem which is determined by checking the system_state=
+ until
+> +         it is in SYSTEM_RUNNING. This also requires enabling the corres=
+ponding
+> +         option in Trusted Firmware for Arm. The documentation there exp=
+lains
+> +         the security threat associated with enabling this as well as
+> +         mitigations at the firmware and platform level.
+> +         https://trustedfirmware-a.readthedocs.io/en/latest/threat_model=
+/threat_model.html
+> +
+> +         Additional documentation on kernel security risks are at
+> +         Documentation/staging/tee.rst.
+> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.=
+h
+> index 70e9cc2ee96b..e8840a82b983 100644
+> --- a/drivers/tee/optee/optee_msg.h
+> +++ b/drivers/tee/optee/optee_msg.h
+> @@ -241,11 +241,23 @@ struct optee_msg_arg {
+>   * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
+>   * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
+>   * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
+> + *
+> + * In the case where the OP-TEE image is loaded by the kernel, this will
+> + * initially return an alternate UID to reflect that we are communicatin=
+g with
+> + * the TF-A image loading service at that time instead of OP-TEE. That U=
+ID is:
+> + * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
+> + * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
+> + * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
+> + * OPTEE_MSG_IMAGE_LOAD_UID_3.
+>   */
+>  #define OPTEE_MSG_UID_0                        0x384fb3e0
+>  #define OPTEE_MSG_UID_1                        0xe7f811e3
+>  #define OPTEE_MSG_UID_2                        0xaf630002
+>  #define OPTEE_MSG_UID_3                        0xa5d5c51b
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_0     0xa3fbeab1
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_1     0x1246315d
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_2     0xc7c406b9
+> +#define OPTEE_MSG_IMAGE_LOAD_UID_3     0xc03cbea4
+>  #define OPTEE_MSG_FUNCID_CALLS_UID     0xFF01
+>
+>  /*
+> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.=
+h
+> index 73b5e7760d10..7d9fa426505b 100644
+> --- a/drivers/tee/optee/optee_smc.h
+> +++ b/drivers/tee/optee/optee_smc.h
+> @@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
+>         unsigned long reserved1;
+>  };
+>
+> +/*
+> + * Load Trusted OS from optee/tee.bin in the Linux firmware.
+> + *
+> + * WARNING: Use this cautiously as it could lead to insecure loading of =
+the
+> + * Trusted OS.
+> + * This SMC instructs EL3 to load a binary and execute it as the Trusted=
+ OS.
+> + *
+> + * Call register usage:
+> + * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
+> + * a1 Upper 32bit of a 64bit size for the payload
+> + * a2 Lower 32bit of a 64bit size for the payload
+> + * a3 Upper 32bit of the physical address for the payload
+> + * a4 Lower 32bit of the physical address for the payload
+> + *
+> + * The payload is in the OP-TEE image format.
+> + *
+> + * Returns result in a0, 0 on success and an error code otherwise.
+> + */
+> +#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
+> +#define OPTEE_SMC_CALL_LOAD_IMAGE \
+> +       ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
+> +                          ARM_SMCCC_OWNER_TRUSTED_OS_END, \
+> +                          OPTEE_SMC_FUNCID_LOAD_IMAGE)
+> +
+>  /*
+>   * Call with struct optee_msg_arg as argument
+>   *
+> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> index a1c1fa1a9c28..6e1f023d50c6 100644
+> --- a/drivers/tee/optee/smc_abi.c
+> +++ b/drivers/tee/optee/smc_abi.c
+> @@ -7,10 +7,13 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>
+>  #include <linux/arm-smccc.h>
+> +#include <linux/cpuhotplug.h>
+>  #include <linux/errno.h>
+> +#include <linux/firmware.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+>  #include <linux/irqdomain.h>
+> +#include <linux/kernel.h>
+>  #include <linux/mm.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> @@ -1149,6 +1152,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_i=
+nvoke_fn *invoke_fn)
+>         return false;
+>  }
+>
+> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
+> +static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invok=
+e_fn)
+> +{
+> +       struct arm_smccc_res res;
+> +
+> +       invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
+> +
+> +       if (res.a0 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_0 &&
+> +           res.a1 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_1 &&
+> +           res.a2 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_2 &&
+> +           res.a3 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_3)
+> +               return true;
+> +       return false;
+> +}
+> +#endif
+> +
+>  static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
+>  {
+>         union {
+> @@ -1354,6 +1373,120 @@ static void optee_shutdown(struct platform_device=
+ *pdev)
+>                 optee_disable_shm_cache(optee);
+>  }
+>
+> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
+> +
+> +#define OPTEE_FW_IMAGE "optee/tee.bin"
+> +
+> +static optee_invoke_fn *cpuhp_invoke_fn;
+> +
+> +static int optee_cpuhp_probe(unsigned int cpu)
+> +{
+> +       /*
+> +        * Invoking a call on a CPU will cause OP-TEE to perform the requ=
+ired
+> +        * setup for that CPU. Just invoke the call to get the UID since =
+that
+> +        * has no side effects.
+> +        */
+> +       if (optee_msg_api_uid_is_optee_api(cpuhp_invoke_fn))
+> +               return 0;
+> +       else
+> +               return -EINVAL;
+> +}
+> +
+> +static int optee_load_fw(struct platform_device *pdev,
+> +                        optee_invoke_fn *invoke_fn)
+> +{
+> +       const struct firmware *fw =3D NULL;
+> +       struct arm_smccc_res res;
+> +       phys_addr_t data_pa;
+> +       u8 *data_buf =3D NULL;
+> +       u64 data_size;
+> +       u32 data_pa_high, data_pa_low;
+> +       u32 data_size_high, data_size_low;
+> +       int rc;
+> +       int hp_state;
+> +
+> +       if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
+> +               return 0;
+> +
+> +       rc =3D request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
+> +       if (rc) {
+> +               /*
+> +                * The firmware in the rootfs will not be accessible unti=
+l we
+> +                * are in the SYSTEM_RUNNING state, so return EPROBE_DEFE=
+R until
+> +                * that point.
+> +                */
+> +               if (system_state < SYSTEM_RUNNING)
+> +                       return -EPROBE_DEFER;
+> +               goto fw_err;
+> +       }
+> +
+> +       data_size =3D fw->size;
+> +       /*
+> +        * This uses the GFP_DMA flag to ensure we are allocated memory i=
+n the
+> +        * 32-bit space since TF-A cannot map memory beyond the 32-bit bo=
+undary.
+> +        */
+> +       data_buf =3D kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
+> +       if (!data_buf) {
+> +               rc =3D -ENOMEM;
+> +               goto fw_err;
+> +       }
+> +       memcpy(data_buf, fw->data, fw->size);
+> +       data_pa =3D virt_to_phys(data_buf);
+> +       reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
+> +       reg_pair_from_64(&data_size_high, &data_size_low, data_size);
+> +       goto fw_load;
+> +
+> +fw_err:
+> +       pr_warn("image loading failed\n");
+> +       data_pa_high =3D 0;
+> +       data_pa_low =3D 0;
+> +       data_size_high =3D 0;
+> +       data_size_low =3D 0;
+> +
+> +fw_load:
+> +       /*
+> +        * Always invoke the SMC, even if loading the image fails, to ind=
+icate
+> +        * to EL3 that we have passed the point where it should allow inv=
+oking
+> +        * this SMC.
+> +        */
+> +       pr_warn("OP-TEE image loaded from kernel, this can be insecure");
+> +       invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_lo=
+w,
+> +                 data_pa_high, data_pa_low, 0, 0, 0, &res);
+> +       if (!rc)
+> +               rc =3D res.a0;
+> +       if (fw)
+> +               release_firmware(fw);
+> +       kfree(data_buf);
+> +
+> +       if (!rc) {
+> +               /*
+> +                * We need to initialize OP-TEE on all other running core=
+s as
+> +                * well. Any cores that aren't running yet will get initi=
+alized
+> +                * when they are brought up by the power management funct=
+ions in
+> +                * TF-A which are registered by the OP-TEE SPD. Due to th=
+at we
+> +                * can un-register the callback right after registering i=
+t.
+> +                */
+> +               cpuhp_invoke_fn =3D invoke_fn;
+> +               hp_state =3D cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "opte=
+e:probe",
+> +                                            optee_cpuhp_probe, NULL);
+> +               if (hp_state < 0) {
+> +                       pr_warn("Failed with CPU hotplug setup for OP-TEE=
+");
+> +                       return -EINVAL;
+> +               }
+> +               cpuhp_remove_state(hp_state);
+> +               cpuhp_invoke_fn =3D NULL;
+> +       }
+> +
+> +       return rc;
+> +}
+> +#else
+> +static inline int optee_load_fw(struct platform_device *pdev,
+> +                               optee_invoke_fn *invoke_fn)
+> +{
+> +       return 0;
+> +}
+> +#endif
+> +
+>  static int optee_probe(struct platform_device *pdev)
+>  {
+>         optee_invoke_fn *invoke_fn;
+> @@ -1372,6 +1505,10 @@ static int optee_probe(struct platform_device *pde=
+v)
+>         if (IS_ERR(invoke_fn))
+>                 return PTR_ERR(invoke_fn);
+>
+> +       rc =3D optee_load_fw(pdev, invoke_fn);
+> +       if (rc)
+> +               return rc;
+> +
+>         if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
+>                 pr_warn("api uid mismatch\n");
+>                 return -EINVAL;
+> --
+> 2.40.0.348.gf938b09366-goog
+>
