@@ -2,109 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC59EC76188
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 15:13:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0942C76188
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 15:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232411AbjDCPNu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 11:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46334 "EHLO
+        id S231958AbjDCPdf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 11:33:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbjDCPNt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 11:13:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8E12D6B
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 08:13:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680534784;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oJGlwjdQBeHi6YLZ8ILA8VzHl25fpiQW6XX1UoDjDiE=;
-        b=Loe/QdqzgaPQ2qctUsu7wLgp7P0jdihdOOO29RP9hO0SNybPxHGNrV0WDhGkihKjXUOnsg
-        L0kkqKU3iThtIQmeBys8TCRd6fNaT6bapahtp+6aZLEJg4SEyWrIEBjATDvCmA9/RkUTtX
-        kB+FCrD554y0FE9PST53+l3BnyjHCHs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-325-_IiorG74OjSH7kLn7cmqiQ-1; Mon, 03 Apr 2023 11:13:02 -0400
-X-MC-Unique: _IiorG74OjSH7kLn7cmqiQ-1
-Received: by mail-ed1-f70.google.com with SMTP id i22-20020a05640242d600b004f5962985f4so42294486edc.12
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 08:13:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680534780; x=1683126780;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oJGlwjdQBeHi6YLZ8ILA8VzHl25fpiQW6XX1UoDjDiE=;
-        b=IhGmYfCevRdQTsJsrOYM/f1sPJKcE5B4XXssS6zsqq8rqXp/gSIJfvuwk7vw0B6YA0
-         NE0fOfmR7kXbpeLloEkL9mZEGlv4c1xQ7SLoRBcKr6p7PMkjZ+02PpJhlQb2sqR+sueR
-         kvdpYGC15lB15VUsKXBdIE0HdX4Jq7apVf7agp6bJMtlHQWteLpmzCvh3ZbbsKX3oVab
-         buVSVxX5+Zxr0hs6FwczVNMvFIvc51M9UyHTp7d3pKs8dKwg2eMrMW4OQ7wrMwxXeoul
-         nPdaiZ1N0G3SKtxvnMNCXvC+/5ripVKnjsct5u8/FJN5TrZ/ThudfllK+ACYx9F06E93
-         HPwg==
-X-Gm-Message-State: AAQBX9cmraRpJ/ycVLcrxR/EzLsTu0P5OSSTFQr//3iAhmq3BnDOl0K7
-        l6bnrDAPO39q09uiplq2GfCG1I6Mhq6ojiUiUNIyhtwm3BUZLbvRuoqPil+kwNlyYRcRPusrsFd
-        Iu/3RksDF2RKBhfnYyUTQ
-X-Received: by 2002:a05:6402:26d5:b0:4af:7bdc:188e with SMTP id x21-20020a05640226d500b004af7bdc188emr18470946edd.16.1680534780396;
-        Mon, 03 Apr 2023 08:13:00 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bIBqpFmu+8nIFsIAOCGXx5GXxWZehiLtPezZpI5dUmdWJJTcc9ck45XoV8kzig2i+Rj3SX9Q==
-X-Received: by 2002:a05:6402:26d5:b0:4af:7bdc:188e with SMTP id x21-20020a05640226d500b004af7bdc188emr18470927edd.16.1680534780085;
-        Mon, 03 Apr 2023 08:13:00 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89? ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
-        by smtp.googlemail.com with ESMTPSA id w26-20020a50d79a000000b005021d1ae6adsm4677928edi.28.2023.04.03.08.12.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 08:12:59 -0700 (PDT)
-Message-ID: <2add5a7e-ae72-c8ab-181d-23c1731cb966@redhat.com>
-Date:   Mon, 3 Apr 2023 17:12:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2] docs: kvm: x86: Fix broken field list
+        with ESMTP id S232870AbjDCPdd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 11:33:33 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15D610F9
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 08:33:30 -0700 (PDT)
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 333EvdPQ030399
+        for <linux-doc@vger.kernel.org>; Mon, 3 Apr 2023 15:33:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=ojZWGcfh8K/83i0uw17HgyAO/4FUqGcU0YN5pk+rCCk=;
+ b=Mn/8RgqRCfobXnPtLdvHpuy3DvdkrdIMmkVdhP/SUKqn04IkU+1bOpNYJVrNZ1a8s8Kn
+ 81A1kRJzq/bP534uWVXj/ovbcCRGEGkOfbm79INUnugQ+8x8GTS/wnc5n6VVygO+WfS2
+ JpCmpkd8dHvA5gqXMtJ9xHP3wIrqz+XUj8Lj2Adi9XomTb05DMbSR0c2MJ2/NgeuS0Er
+ 3jcDFWVR6MfpYrgXmVdT0M6sgYoSVLg0ogYKxaubuZ4hxBqBDZuhN0hofT9RHzyd9+mq
+ qt1xkLb95kZ37AevZ+1efo8YHKlR2BLQ4NHY2XIvKy4a1BEDMG21eb2gaPmPEyTup2Eq Zg== 
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pqygwvh8x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 15:33:29 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 333F3ujP017779
+        for <linux-doc@vger.kernel.org>; Mon, 3 Apr 2023 15:33:28 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
+        by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3ppc88q1d6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 15:33:28 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+        by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 333FXRtc46400046
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+        for <linux-doc@vger.kernel.org>; Mon, 3 Apr 2023 15:33:27 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 18D3A58052
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 15:33:27 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E66D058064
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 15:33:26 +0000 (GMT)
+Received: from [9.160.16.30] (unknown [9.160.16.30])
+        by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 15:33:26 +0000 (GMT)
+Message-ID: <0f9137dd-eca0-5187-6464-067974ed2f0c@linux.ibm.com>
+Date:   Mon, 3 Apr 2023 11:33:26 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: sphinx - proper method for linking
 Content-Language: en-US
-To:     Takahiro Itazuri <itazur@amazon.com>, linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Dunn <daviddunn@google.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Takahiro Itazuri <zulinx86@gmail.com>
-References: <20230331093116.99820-1-itazur@amazon.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230331093116.99820-1-itazur@amazon.com>
+To:     linux-doc@vger.kernel.org
+References: <e747b0ba-7992-36c7-f931-08aac46385f1@linux.ibm.com>
+ <87v8ipzswd.fsf@meer.lwn.net>
+From:   Ken Goldman <kgold@linux.ibm.com>
+In-Reply-To: <87v8ipzswd.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ASy7AmAOxQXTF4Y_gGyTiZP-xVufBS5e
+X-Proofpoint-GUID: ASy7AmAOxQXTF4Y_gGyTiZP-xVufBS5e
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-03_13,2023-04-03_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 mlxlogscore=769
+ malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0 spamscore=0
+ lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304030113
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/31/23 11:31, Takahiro Itazuri wrote:
-> Add a missing ":" to fix a broken field list.
-> 
-> Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
-> Fixes: ba7bb663f554 ("KVM: x86: Provide per VM capability for disabling PMU virtualization")
-> ---
-> v1 -> v2
-> * Fix commit message to say "Do foo" instead of "This commit does foo".
-> * Add "Fixes:" tag.
-> * Link to v1: https://lore.kernel.org/all/20230330233956.78246-1-itazur@amazon.com/
-> 
->   Documentation/virt/kvm/api.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 62de0768d..f9163590c 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8296,7 +8296,7 @@ ENOSYS for the others.
->   8.35 KVM_CAP_PMU_CAPABILITY
->   ---------------------------
->   
-> -:Capability KVM_CAP_PMU_CAPABILITY
-> +:Capability: KVM_CAP_PMU_CAPABILITY
->   :Architectures: x86
->   :Type: vm
->   :Parameters: arg[0] is bitmask of PMU virtualization capabilities.
+Besides the below questions, here's another:
 
-Queued, thanks.
+My current module has 6 .rst files.  Is that usual, or is it
+recommended that the entire module be in one big file?
 
-Paolo
+I know either works, but I want to follow the customary
+pattern.
 
+On 3/24/2023 6:28 PM, Jonathan Corbet wrote:
+> Ken Goldman <kgold@linux.ibm.com> writes:
+>
+>> 1. What is the recommended way to link to documents outside my tree.
+>>
+>> Should I be doing that, or is it fragile / not recommended?
+> If you need to link to something elsewhere, you can certainly do so;
+> there are countless examples in the kernel documentation.
+I know I can do it, but is it recommended or discouraged?
+>> Are links to other documents stable?
+>>
+>> How about sections within the page?
+> I don't understand those questions.
+
+I can add a link to a .rst file.  If someone links to my doc, it implies 
+that my filename cannot change.  Similarly, if I link to another doc, I 
+depend on that filename not changing.
+
+>> I found that this .rst works.
+>>
+>> See
+>> https://www.kernel.org/doc/html/latest/security/keys/trusted-encrypted.html
+>>
+>> Is that OK, or is there a better way?
+> You wouldn't link to the rendered kernel docs normally, you'd just say
+> "See Documentation/security/keys/trusted-encrypted.rst".
+>
+> Look at the Sphinx cheatsheets on the net for the various other ways of
+> making links if you need to link outside of the kernel docs.
+
+That's an example.  If I link like that, and then the name changes to 
+trusted-encryptedxxx.rst, I break.
+
+>
+>> Is that link (doc/html/latest) correct.
+>>
+>> 2. Are my pages and headings to be treated as stable, like an API? I.e.,
+>> once I release documentation, are all the pages and headings frozen so
+>> they will not break links?
+> No, there is no such requirement.
+Then don't links break?
