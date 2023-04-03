@@ -2,165 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A1AC77B60
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 09:50:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F31B4C77B60
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 10:19:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231433AbjDCJu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 05:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33236 "EHLO
+        id S232236AbjDCKTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 06:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231954AbjDCJul (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 05:50:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81C3A527B
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 02:49:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680515343;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+        with ESMTP id S232193AbjDCKTL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 06:19:11 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAB3113D1;
+        Mon,  3 Apr 2023 03:18:58 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 383F41FD68;
+        Mon,  3 Apr 2023 10:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1680517137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=UCVfONq4QX1WJA6KEQBIqDdCC3Zi4ZQ6oAhIXBiY4Aw=;
-        b=jO7zvEOgkKgF6O1Tb43/eiqFv7vFtilOq6sJhZiMCqOF2lSCMw7Fcl6o/ms9S70gpV54Io
-        5Fo4UY9WtlrPP0IKfutAVoHkVPCI7N3xAi2v96Z4yt5ZQj1J9l3zEywjdw6CLp/4QOa4OC
-        ipVR+/9yzTWSQ1X4JRzbCxRY4sPslPg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-644--YLOrhgrPGWMedJ5sf8QvA-1; Mon, 03 Apr 2023 05:49:02 -0400
-X-MC-Unique: -YLOrhgrPGWMedJ5sf8QvA-1
-Received: by mail-wr1-f70.google.com with SMTP id i25-20020adfaad9000000b002cff37de14fso3116650wrc.16
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 02:49:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680515341;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UCVfONq4QX1WJA6KEQBIqDdCC3Zi4ZQ6oAhIXBiY4Aw=;
-        b=LjPpm2BBLhR+F4+FpJmBQFvCfd3nqKCcLJoTySvIGcw4NndN3jqJnoxYDF2Ge3F1fl
-         P+tK9amWxeUTYm56Yk0+7h40uFa//R9pKvLKCYM9sX9JjPIATVBsEIjkx6x4mkWSAoj3
-         5Upkx6sZfrw/hkvdvPcSL7ys0bSDasiN5uSPpS2d3IoLxNQKJLe6QJeu4onhu+8Uidws
-         GFfySWihabTVzH2dlKoFXgV/2keuxHV6DZvUEQSIzuns44D2iGrG3jVV8+LPmB0VWYRV
-         2sbzcxmeQu4+xMHHjcsht/8X3/VtrMbKt90UhKJn7S5yZu+w8Dllse0R1FRL5wDp38vt
-         q/5A==
-X-Gm-Message-State: AAQBX9d4o+hX8QuX+kT1aH89XPC5lh0NeuxCZSY55s2RuxjC29sBp90T
-        oM3txXB2Oqy2C7ZHRgq3s7mWBP7Hdb4n6Q4pPKkudVUxjaubJrFuTaihRXo7s8UiVQWkdh9OrBk
-        AqfyzW+/11zz3cBnZFWzW
-X-Received: by 2002:a5d:460b:0:b0:2d2:59cf:468f with SMTP id t11-20020a5d460b000000b002d259cf468fmr13074450wrq.15.1680515341385;
-        Mon, 03 Apr 2023 02:49:01 -0700 (PDT)
-X-Google-Smtp-Source: AKy350arsxFGGG4mFkfzu2mP7wXMWNJhAfCsHB0QkcMrhf+hYAHPVuXlVhP82orVZo6dQiD7R1JfuA==
-X-Received: by 2002:a5d:460b:0:b0:2d2:59cf:468f with SMTP id t11-20020a5d460b000000b002d259cf468fmr13074432wrq.15.1680515341062;
-        Mon, 03 Apr 2023 02:49:01 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c702:5e00:8e78:71f3:6243:77f0? (p200300cbc7025e008e7871f3624377f0.dip0.t-ipconnect.de. [2003:cb:c702:5e00:8e78:71f3:6243:77f0])
-        by smtp.gmail.com with ESMTPSA id i16-20020adffc10000000b002c55ec7f661sm9350194wrr.5.2023.04.03.02.49.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 02:49:00 -0700 (PDT)
-Message-ID: <f969cb1f-651f-592f-7540-89f73e175c7d@redhat.com>
-Date:   Mon, 3 Apr 2023 11:48:59 +0200
+        bh=a4MoXhe1RG60yL55LAJJODjxOGik5d8SFY4UggIUu04=;
+        b=f3reNnGyU64PHa5HNUCrDzAbyKc0nC6m7ILE6UJTMTjHxkElPrk4lgSIqv7oS3Q9xgY/Hg
+        /VLrUeBAlu9b5NDr4LMcDfNld4Xb149VSq55RLcflhBtwMCJmuHvrN81AYVDRygS4QQW72
+        FO40CbIW+81IA5MAmWtsjVsYWLwADM8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1680517137;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=a4MoXhe1RG60yL55LAJJODjxOGik5d8SFY4UggIUu04=;
+        b=0j++IB0zvsDolT331j6Xki/sJRKexThn9M0PtBAqAqWQMgBfj6f+XjhvIKrb32XwASwr06
+        xT1cWwJyenOtBJCQ==
+Received: from suse.de (unknown [10.163.43.106])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 077E02C161;
+        Mon,  3 Apr 2023 10:18:51 +0000 (UTC)
+Date:   Mon, 3 Apr 2023 11:18:49 +0100
+From:   Mel Gorman <mgorman@suse.de>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     David Dai <davidai@google.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        kernel-team@android.com, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
+Message-ID: <20230403101849.z6wengqxkchvpf75@suse.de>
+References: <20230330224348.1006691-1-davidai@google.com>
+ <ZCYuLPlEFUnxPm4A@casper.infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        Hugh Dickins <hughd@google.com>
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230328160914.5b6b66e4a5ad39e41fd63710@linux-foundation.org>
- <37dcd52a-2e32-c01d-b805-45d862721fbc@redhat.com>
- <ZCWcJelF5bEdF4N3@cmpxchg.org>
- <ff599dc1-729d-52dc-d605-8a8ac890ad15@redhat.com>
- <qvqwv8ii89x6.fsf@dev0134.prn3.facebook.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-In-Reply-To: <qvqwv8ii89x6.fsf@dev0134.prn3.facebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <ZCYuLPlEFUnxPm4A@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>> Obviously we could spend months analysing which exact allocations are
->>> identical, and then more months or years reworking the architecture to
->>> deduplicate them by hand and in userspace. But this isn't practical,
->>> and KSM is specifically for cases where this isn't practical.
->>> Based on your request in the previous thread, we investigated whether
->>> the boost was coming from the unintended side effects of KSM splitting
->>> THPs. This wasn't the case.
->>> If you have other theories on how the results could be bogus, we'd be
->>> happy to investigate those as well. But you have to let us know what
->>> you're looking for.
->>>
->>
->> Maybe I'm bad at making such requests but
->>
->> "Stefan, can you do me a favor and investigate which pages we end up
->> deduplicating -- especially if it's mostly only the zeropage and if it's
->> still that significant when disabling THP?"
->>
->> "In any case, it would be nice to get a feeling for how much variety in
->> these 20% of deduplicated pages are. "
->>
->> is pretty clear to me. And shouldn't take months.
->>
-
-Just to clarify: the details I requested are not meant to decide whether 
-to reject the patch set (I understand that it can be beneficial to 
-have); I primarily want to understand if we're really dealing with a 
-workload where KSM is able to deduplicate pages that are non-trivial, to 
-maybe figure out if there are other workloads that could similarly 
-benefit -- or if we could optimize KSM for these specific cases or avoid 
-the memory deduplication altogether.
-
-In contrast to e.g.:
-
-1) THP resulted in many zeropages we end up deduplicating again. The THP
-    placement was unfortunate.
-
-2) Unoptimized memory allocators that leave many identical pages mapped
-    after freeing up memory (e.g., zeroed pages, pages all filled with
-    poison values) instead of e.g., using MADV_DONTNEED to free up that
-    memory.
-
-
+On Fri, Mar 31, 2023 at 01:49:48AM +0100, Matthew Wilcox wrote:
+> On Thu, Mar 30, 2023 at 03:43:35PM -0700, David Dai wrote:
+> > Hi,
+> > 
+> > This patch series is a continuation of the talk Saravana gave at LPC 2022
+> > titled "CPUfreq/sched and VM guest workload problems" [1][2][3]. The gist
+> > of the talk is that workloads running in a guest VM get terrible task
+> > placement and DVFS behavior when compared to running the same workload in
 > 
-> /sys/kernel/mm/ksm/pages_shared is over 10000 when we run this on an
-> Instagram workload. The workload consists of 36 processes plus a few
-> sidecar processes.
-
-Thanks! To which value is /sys/kernel/mm/ksm/max_page_sharing set in 
-that environment?
-
-What would be interesting is pages_shared after max_page_sharing was set 
-to a very high number such that pages_shared does not include 
-duplicates. Then pages_shared actually expresses how many different 
-pages we deduplicate. No need to run without THP in that case.
-
-Similarly, enabling "use_zero_pages" could highlight if your workload 
-ends up deduplciating a lot of zeropages. But maxing out 
-max_page_sharing would be sufficient to understand what's happening.
-
-
-> 
-> Each of these individual processes has around 500MB in KSM pages.
+> DVFS?  Some new filesystem, perhaps?
 > 
 
-That's really a lot, thanks.
+Dynamic Voltage and Frequency Scaling (DVFS) -- it's a well known term in
+cpufreq/cpuidle/schedutil land.
 
-> Also to give some idea for individual VMA's
+> > the host. Effectively, no EAS for threads inside VMs. This would make power
 > 
-> 7ef5d5600000-7ef5e5600000 rw-p 00000000 00:00 0 (Size: 262144 KB, KSM:
-> 73160 KB)
+> EAS?
 > 
 
-I'll have a look at the patches today.
+Energy Aware Scheduling (EAS) is mostly a kernel/sched thing that has
+an impact on cpufreq and my recollection is that it was discussed at
+conferences long before kernel/sched had any EAS awareness. I don't have
+the full series in my inbox and didn't dig further but patch 1 at least is
+providing additional information to schedutil which impacts CPU frequency
+selection on systems to varying degrees. The full impact would depend on
+what cpufreq driver is in use and the specific hardware so even if the
+series benefits one set of hardware, it's not necessarily a guaranteed win.
+
+> Two unfamiliar and undefined acronyms in your opening paragraph.
+> You're not making me want to read the rest of your opus.
+
+It depends on the audience and mm/ is not the audience.  VM in the title
+refers to Virtual Machine, not Virtual Memory although I confess I originally
+read it as mm/ and wondered initially how mm/ affects DVFS to the extent it
+triggered a "wtf happened in mm/ recently that I completely missed?". This
+series is mostly of concern to scheduler, cpufreq or KVM depending on your
+perspective. For example, on KVM, I'd immediately wonder if the hypercall
+overhead exceeds any benefit from better task placement although the leader
+suggests the answer is "no".  However, it didn't comment (or I didn't read
+carefully enough) on whether MMIO overhead or alternative communication
+methods have constant cost across different hardware or, much more likely,
+depend on the hardware that could potentially opt-in. Various cpufreq
+hardware has very different costs when measuring or alterating CPU frequency
+stuff, even within different generations of chips from the same vendor.
+While the data also shows performance improvements, it doesn't indicate how
+close to bare metal the improvement is. Even if it's 50% faster within a
+VM, how much slower than bare metal is it? In terms of data presentation,
+it might be better to assign bare metal a score of 1 at the best possible
+score and show the VM performance as a relative ratio (1.00 for bare metal,
+0.5 for VM with a vanilla kernel, 0.75 using improved task placement).
+It would also be preferred to have x86-64 data as the hazards the series
+details with impacts arm64 and x86-64 has the additional challenge that
+cpufreq is often managed by the hardware so it should be demonstrated the
+the series "does no harm" on x86-64 for recent generation Intel and AMD
+chips if possible.  The lack of that data doesn't kill the series as a large
+improvement is still very interesting even if it's not perfect and possible
+specific to arm64. If this *was* my area or I happened to be paying close
+attention to it at the time, I would likely favour using hypercalls only at
+the start because it can be used universally and suggest adding alternative
+communication methods later using the same metric "is an alternative method
+of Guest<->Host communication worse, neutral or better at getting close to
+bare metal performance?" I'd also push for the ratio tables as it's easier
+to see at a glance how close to bare metal performance the series achieves.
+Finally, I would look for x86-64 data just in case it causes harm due to
+hypercall overhead on chips that management frequency in firmware.
+
+So while I haven't read the series and only patches 2+6 reached by inbox,
+I understand the point in principle. The scheduler on wakeup paths for bare
+metal also tries to favour recently used CPUs and spurious CPU migration
+even though it is only tangentially related to EAS.  For example, a recently
+used CPUs may still be polling (drivers/cpuidle/poll_state.c:poll_idle)
+or at least not entered a deep C-state so the wakeup penalty is lower.
+
+So whatever critism the series deserves, it's not due to using obscure
+terms that no one in kernel/sched/, drivers/cpuidle of drivers/cpufreq
+would recognise.
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Mel Gorman
+SUSE Labs
