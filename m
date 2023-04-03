@@ -2,136 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EECFDC76196
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 17:27:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A4EBC76196
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 18:37:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233097AbjDCR1w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 13:27:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33420 "EHLO
+        id S233240AbjDCShc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 14:37:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbjDCR1v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 13:27:51 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E098E
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 10:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=lLsWRYwl1d8MCFjmvJbxMKguDTaPzXe7z3/bIDbNdgY=; b=AfaKyFMDx9dThcnTfOGaGtdXY6
-        Wzl+Z67RpOu8nQfzFFjrYa8RQF81yBl3dhIET3ZPwk4tyGLN7RVMBQ6BcsQfU700zgfb+sSFnMWzN
-        TMiCwA/WIvO1zsA0akHBPag8UHcJy7urc5ir61o2FmhGMlt5VfsVDBfx8JmPAD5D3rCH+leiciORh
-        SVVmBwCIcPIgEo/kQ6KWnJMn64min82YFNgKyrL8AtngLx/CDFEXxiEOzmnW+43g7EViZgV+mWf9L
-        tAhjMN6c90TB+5W6pqLPA42F6n/sDPkU/6upRYYqGZ08eoHEYn/arsBWlpwt/pqschiM80f0Al2rf
-        KA9/0XBA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pjNyA-00G4cS-1M;
-        Mon, 03 Apr 2023 17:27:50 +0000
-Message-ID: <0d88212c-d119-1854-4f05-7e9dc0549580@infradead.org>
-Date:   Mon, 3 Apr 2023 10:27:50 -0700
+        with ESMTP id S232354AbjDCShc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 14:37:32 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9308899;
+        Mon,  3 Apr 2023 11:37:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1680547048;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bnQrvEz/F0HtMo61MRMevGwpunBFI0o/+wdfXFhszQw=;
+        b=wmGIpaAeX3wlUIVZdWVbWY5RMVdmTF8B40N5sXTdehP85NEPptugaqHw+XJX2cPDclj4WM
+        atYeygViHa62jb9sd3JFz3XJkkiptTMr2M6qClT8yr7YS7UCHzJiq2HgKhRuPR2z7rVKai
+        SbXDqG7PskUUFgyASdtczeEkdEVJmqg=
+Message-ID: <6a75a551b3ef3fc7cf9281db0b69167a570130c2.camel@crapouillou.net>
+Subject: Re: [PATCH v3 11/11] Documentation: iio: Document high-speed DMABUF
+ based API
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Vinod Koul <vkoul@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-doc@vger.kernel.org
+Date:   Mon, 03 Apr 2023 20:37:26 +0200
+In-Reply-To: <87zg7p7xz4.fsf@meer.lwn.net>
+References: <20230403154800.215924-1-paul@crapouillou.net>
+         <20230403154955.216148-1-paul@crapouillou.net>
+         <20230403154955.216148-2-paul@crapouillou.net>
+         <87zg7p7xz4.fsf@meer.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: sphinx - proper method for linking
-Content-Language: en-US
-To:     Ken Goldman <kgold@linux.ibm.com>, linux-doc@vger.kernel.org
-References: <e747b0ba-7992-36c7-f931-08aac46385f1@linux.ibm.com>
- <87v8ipzswd.fsf@meer.lwn.net> <ZB5gPAGzTwqArQY4@debian.me>
- <bf615760-918c-f0d1-e70d-87071f847a04@linux.ibm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <bf615760-918c-f0d1-e70d-87071f847a04@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Jonathan,
 
+Le lundi 03 avril 2023 =C3=A0 10:05 -0600, Jonathan Corbet a =C3=A9crit=C2=
+=A0:
+> Paul Cercueil <paul@crapouillou.net> writes:
+>=20
+> One nit:
+>=20
+> > Document the new DMABUF based API.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-doc@vger.kernel.org
+> >=20
+> > ---
+> > v2: - Explicitly state that the new interface is optional and is
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 not implemented by all drivers.
+> > =C2=A0=C2=A0=C2=A0 - The IOCTLs can now only be called on the buffer FD=
+ returned
+> > by
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IIO_BUFFER_GET_FD_IOCTL.
+> > =C2=A0=C2=A0=C2=A0 - Move the page up a bit in the index since it is co=
+re stuff
+> > and not
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 driver-specific.
+> > v3: Update the documentation to reflect the new API.
+> > ---
+> > =C2=A0Documentation/iio/dmabuf_api.rst | 59
+> > ++++++++++++++++++++++++++++++++
+> > =C2=A0Documentation/iio/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 2 ++
+> > =C2=A02 files changed, 61 insertions(+)
+> > =C2=A0create mode 100644 Documentation/iio/dmabuf_api.rst
+> >=20
+> > diff --git a/Documentation/iio/dmabuf_api.rst
+> > b/Documentation/iio/dmabuf_api.rst
+> > new file mode 100644
+> > index 000000000000..4d70372c7ebd
+> > --- /dev/null
+> > +++ b/Documentation/iio/dmabuf_api.rst
+> > @@ -0,0 +1,59 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +High-speed DMABUF interface for IIO
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +1. Overview
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +The Industrial I/O subsystem supports access to buffers through a
+> > +file-based interface, with read() and write() access calls through
+> > the
+> > +IIO device's dev node.
+> > +
+> > +It additionally supports a DMABUF based interface, where the
+> > userspace
+> > +can attach DMABUF objects (externally created) to a IIO buffer,
+> > and
+> > +subsequently use them for data transfers.
+> > +
+> > +A userspace application can then use this interface to share
+> > DMABUF
+> > +objects between several interfaces, allowing it to transfer data
+> > in a
+> > +zero-copy fashion, for instance between IIO and the USB stack.
+> > +
+> > +The userspace application can also memory-map the DMABUF objects,
+> > and
+> > +access the sample data directly. The advantage of doing this vs.
+> > the
+> > +read() interface is that it avoids an extra copy of the data
+> > between the
+> > +kernel and userspace. This is particularly useful for high-speed
+> > devices
+> > +which produce several megabytes or even gigabytes of data per
+> > second.
+> > +It does however increase the userspace-kernelspace synchronization
+> > +overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs
+> > have to
+> > +be used for data integrity.
+> > +
+> > +2. User API
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +As part of this interface, three new IOCTLs have been added. These
+> > three
+> > +IOCTLs have to be performed on the IIO buffer's file descriptor,
+> > +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+> > +
+> > +``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
+> > +----------------------------------------------------------------
+> > +
+> > +Attach the DMABUF object, identified by its file descriptor, to
+> > the IIO
+> > +buffer. Returns zero on success, and a negative errno value on
+> > error.
+>=20
+> Rather than abusing subsections, this would be better done as a
+> description list:
+>=20
+> =C2=A0 IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Attach the DMABUF object, identified by it=
+s file descriptor, to
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the IIO buffer. Returns zero on success, a=
+nd a negative errno
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value on error.
 
-On 4/3/23 08:37, Ken Goldman wrote:
-> The answers below explain __how__, which I already know.
-> 
-> My question is whether this is a good or bad idea.  What happens if I change labels?  Do I break people's links?  Must my labels be stable forever?
+Noted, thanks.
 
-For in-kernel-tree links, they will be fixed up.
-
-> On 3/24/2023 10:45 PM, Bagas Sanjaya wrote:
->> On Fri, Mar 24, 2023 at 04:28:02PM -0600, Jonathan Corbet wrote:
->>>> Are links to other documents stable?
->>>>
->>>> How about sections within the page?
->>> I don't understand those questions.
->> You need to first add the label before desired section heading, like:
->>
->> ```
->> ...
->> .. _foo:
->>
->> Foo
->> ===
->>
->> ...
->> ```
->>
->> Then elsewhere use :ref: role and specify the target label, ideally also
->> specifying anchor text:
->>
->> ```
->> ...
->> This assumes that you have knowledge on :ref:`foo <foo>`.
->> ...
->> ```
-> 
-> I know I can do that.
-> 
-> However, what happens if someone links to my :ref:, and then I change the label?
-
-Is this "someone" a document in the kernel tree? If so, it will be fixed up.
-If it's some document on the internet, we have no control over that.
-It's up to "them" to keep it current. We don't guarantee stable links.
-
-
->>>> I found that this .rst works.
->>>>
->>>> See
->>>> https://www.kernel.org/doc/html/latest/security/keys/trusted-encrypted.html
->>>>
->>>> Is that OK, or is there a better way?
->>> You wouldn't link to the rendered kernel docs normally, you'd just say
->>> "See Documentation/security/keys/trusted-encrypted.rst".
->>>
->>> Look at the Sphinx cheatsheets on the net for the various other ways of
->>> making links if you need to link outside of the kernel docs.
->> As with internal linking, you can simply write out the link:
->>
->> ```
->> ...
->> Check out the documentation at https://foo.bar/baz for complete
->> treatment on this topic.
->> ...
->>
->> ```
->>
->> Or if you need anchor text:
->>
->> ```
->> ...
->> Check out `baz documentation <https://foo.bar/baz>`_ for complete
->> treatment on this topic`.
->> ...
->> ```
->>
->> There is also :doc: directive if you need internal linking with anchor
->> text. The target can be either relative to the doc or absolute in respect
->> to documentation root (`Documentation/`). Do not specify filename
->> suffix. For example:
->>
->> ```
->> ...
->> The general guide on :doc:`submitting patches
->> </process/submitting-patches>` also applies to this subsystem.
-
-
--- 
-~Randy
+Cheers,
+-Paul
