@@ -2,136 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A808C76196
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 16:36:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4451C76196
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 16:44:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231769AbjDCQgA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 12:36:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44292 "EHLO
+        id S229498AbjDCQof convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 12:44:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231549AbjDCQf7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 12:35:59 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A0CA1722;
-        Mon,  3 Apr 2023 09:35:57 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5491fa028adso66090837b3.10;
-        Mon, 03 Apr 2023 09:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680539757;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5dArMv48Z0r8Svv1VMgzG7vSfoXEvpoovHL3ZA5F1Rw=;
-        b=Gk/CsizFbvLI4ORGoNJJ7ovPQwr4iV3PWHd48GlCeZA4eeRa9oBDDOT3PidV2jcDsJ
-         0YAXl4H0/oAe/uQ9eus8b0hrxOJVRGaW2ATmi4dWgMT46as8OTj1iqEHCY1shn9ew2DL
-         36+47CtN8dXb/KaN5+DZrqset8QVBw5tGiWzLU/20SVFHvTUHBgaTcwrlO8VpXF9MYYp
-         HgwOdjJ5nqgG332xm0ld6KUm1mDGDMfMwSMrDFvlXuYqsdID8NAAQSDr3GbvxDXUh631
-         zo6ML+PKoREerwb7dp86tg9ihUuO45b78s1Yav6k0V/ZWUZHiU1swgIvhNg/Ww+VzpVd
-         z0YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680539757;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5dArMv48Z0r8Svv1VMgzG7vSfoXEvpoovHL3ZA5F1Rw=;
-        b=s1vqbdL2YRXyqiu5myEHi4WUfbMMiCZPx3eyvpTiZ7mwTN1tFEZ7nPWw42JqmRIvL5
-         HLPHhwRaguwkVZ4VLTS+aWMQNhIzO2i1fK6XGR7qA9u8OdA3vUh0sP7JJyWqTJBIgh+D
-         snJlBC3c+0WkUEJCK3Qtxg+31l4+zUOsohEibpe9A+M5flyqUJBdloBslsbfP9CQxaum
-         pY+gp/in/xTA123f9klY7uuvcq9g2GrO+jw3Y/sRhQgYtrgkSUoOBe0rd1f/Wiu+20+t
-         fU7ickqRR0mn3QP12tEegyksEJ0lwpsPIIixt/Ya2m5D9nJJxi8jsVMOvUTvAySx1X6W
-         J8bQ==
-X-Gm-Message-State: AAQBX9cGnhKLSOVAfKQPeUXRBon2/neIf9DN3ff4kr2B+x19pk9mGvtA
-        lGuF8wI/noViQlnxOVpcn7COTBrkgzXeTrQmA9M=
-X-Google-Smtp-Source: AKy350aleZtSpwGhXEt7/aCxHFxm+jb9JLInxP02y7DKsDbn8FSITj4EbJK65VMViTBbz2Vu90d5UZgyDMar/StOsJ8=
-X-Received: by 2002:a81:4406:0:b0:546:63a:6e23 with SMTP id
- r6-20020a814406000000b00546063a6e23mr13362258ywa.0.1680539756862; Mon, 03 Apr
- 2023 09:35:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
- <CANiq72=i9je2864iTvZBFnhVLhF7Cema7EPCcdWOJ3mr62SqDg@mail.gmail.com>
- <a6220e52-9934-422b-9b05-95705b8fd684@spud> <b5fba6b3-177c-4325-905a-8f9f633a592a@spud>
-In-Reply-To: <b5fba6b3-177c-4325-905a-8f9f633a592a@spud>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 3 Apr 2023 18:35:45 +0200
-Message-ID: <CANiq72mip7Xs5vnS4KccxCmBmRbKGki7AYTTHxwaeyr3amvSWw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     linux-riscv@lists.infradead.org, conor@kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        with ESMTP id S229379AbjDCQoe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 12:44:34 -0400
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0FF186;
+        Mon,  3 Apr 2023 09:44:33 -0700 (PDT)
+Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay01.hostedemail.com (Postfix) with ESMTP id 9C5BB1C6141;
+        Mon,  3 Apr 2023 16:44:30 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 9479F20028;
+        Mon,  3 Apr 2023 16:44:24 +0000 (UTC)
+Message-ID: <f0014730875502c9f2117c2438de0c69512c7d0a.camel@perches.com>
+Subject: Re: [PATCH v4 0/5] docs & checkpatch: allow Closes tags with links
+From:   Joe Perches <joe@perches.com>
+To:     Matthieu Baerts <matthieu.baerts@tessares.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Andy Whitcroft <apw@canonical.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Kai =?ISO-8859-1?Q?Wasserb=E4ch?= <kai@dev.carbon-project.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+Date:   Mon, 03 Apr 2023 09:44:23 -0700
+In-Reply-To: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
+References: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+MIME-Version: 1.0
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 9479F20028
+X-Stat-Signature: xiw3fm8z4miy48d6eqzcbjbqgzde5eap
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18AYvRZzAR1q2Hs1tsatw9ueURLajfnrEs=
+X-HE-Tag: 1680540264-872236
+X-HE-Meta: U2FsdGVkX1/wd3gCN3YdpSrEWSShFEzMbxSNJyksnDiVxWzTQo/h9bnPyZkSS+eShrwZBtgchjaYMYK2b1QT8Q==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 11:12=E2=80=AFAM Conor Dooley
-<conor.dooley@microchip.com> wrote:
->
-> I'd rather do this in the RISC-V Makefile so that it does not get
-> forgotten.
+On Mon, 2023-04-03 at 18:23 +0200, Matthieu Baerts wrote:
+> Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
+> followed by a link [1]. It also complains if a "Reported-by:" tag is
+> followed by a "Closes:" one [2].
 
-Sounds good to me! We want to have the least amount of things possible
-in the common pieces (e.g. for the target spec file we moved some
-flags); so the more we move out to `arch/`, the better.
+All these patches seems sensible, thanks.
 
-> If my understanding of bindgen is correct, we don't actually need to be
-> honest to it about what extensions the rest of the kernel is compiled
-> with, only make sure that it is not called with arguments it does not
-> understand?
+Assuming Linus approves the use of "Closes:"
 
-As long as bindgen generates things with the right ABI etc., yeah.
-But, in principle, enabling one extension one side but not the other
-could be wrong if it ends up in something that Rust uses, e.g. if the
-C side does:
+Acked-by: Joe Perches <joe@perches.com>
 
-    #ifdef __ARM_ARCH_7R__
-        int x;
-    #else
-        char x;
-    #endif
+> As detailed in the first patch, this "Closes:" tag is used for a bit of
+> time, mainly by DRM and MPTCP subsystems. It is used by some bug
+> trackers to automate the closure of issues when a patch is accepted.
+> It is even planned to use this tag with bugzilla.kernel.org [3].
+> 
+> The first patch updates the documentation to explain what is this
+> "Closes:" tag and how/when to use it. The second patch modifies
+> checkpatch.pl to stop complaining about it.
+> 
+> The DRM maintainers and their mailing list have been added in Cc as they
+> are probably interested by these two patches as well.
+> 
+> [1] https://lore.kernel.org/all/3b036087d80b8c0e07a46a1dbaaf4ad0d018f8d5.1674217480.git.linux@leemhuis.info/
+> [2] https://lore.kernel.org/all/bb5dfd55ea2026303ab2296f4a6df3da7dd64006.1674217480.git.linux@leemhuis.info/
+> [3] https://lore.kernel.org/linux-doc/20230315181205.f3av7h6owqzzw64p@meerkat.local/
+> 
+> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
+> ---
+> Note: After having re-read the comments from the v1, it is still unclear
+> to me if this "Closes:" can be accepted or not. But because it seems
+> that the future Bugzilla bot for kernel.org and regzbot would like to
+> use it as well, I'm sending here new versions. I'm sorry if I
+> misunderstood the comments from v1. Please tell me if I did.
+> 
+> Changes in v4:
+> - Patches 1/5, 3/5 and 4/5 have been added to ask using the "Closes" tag
+>   instead of the "Link" one for any bug reports. (Thorsten)
+> - The Fixes tags have been removed from patch 4/5. (Joe)
+> - The "Reported-by being followed by a link tag" check is now only
+>   looking for the tag, not the URL which is done elsewhere in patch 5/5.
+>   (Thorsten)
+> - A new patch has been added to fix a small issues in checkpatch.pl when
+>   checking if "Reported-by:" tag is on the last line.
+> - Link to v3: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net
+> 
+> Changes in v3:
+> - Patch 1/4 now allow using the "Closes" tag with any kind of bug
+>   reports, as long as the link is public. (Thorsten)
+> - The former patch 2/2 has been split in two: first to use a list for
+>   the different "link" tags (Joe). Then to allow the 'Closes' tag.
+> - A new patch has been added to let checkpatch.pl checking if "Closes"
+>   and "Links" are used with a URL.
+> - Link to v2: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net
+> 
+> Changes in v2:
+> - The text on patch 1/2 has been reworked thanks to Jon, Bagas and
+>   Thorsten. See the individual changelog on the patch for more details.
+> - Private bug trackers and invalid URLs are clearly marked as forbidden
+>   to avoid being misused. (Linus)
+> - Rebased on top of Linus' repo.
+> - Link to v1: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net
+> 
+> ---
+> Matthieu Baerts (5):
+>       docs: process: allow Closes tags with links
+>       checkpatch: don't print the next line if not defined
+>       checkpatch: use a list of "link" tags
+>       checkpatch: allow Closes tags with links
+>       checkpatch: check for misuse of the link tags
+> 
+>  Documentation/process/5.Posting.rst          | 22 ++++++++++----
+>  Documentation/process/submitting-patches.rst | 26 +++++++++++------
+>  scripts/checkpatch.pl                        | 43 ++++++++++++++++++++++------
+>  3 files changed, 70 insertions(+), 21 deletions(-)
+> ---
+> base-commit: 7e364e56293bb98cae1b55fd835f5991c4e96e7d
+> change-id: 20230314-doc-checkpatch-closes-tag-1731b57556b1
+> 
+> Best regards,
 
-and Rust attempts to use it, then particular `-march` builds could be broke=
-n.
-
-> Oh and clang-17 is going to support both of these, and Nathan and I
-> already spent a bunch of time fixing the fallout from that!
-> It still functions correctly without having them passed, but I have
-> heard requiring these may become the default at some point too.
-> What's done here may end up needing to be dynamic, but that bridge can be
-> crossed if/when we come to it.
->
-> What version of GCC do I need to replicate this? I can build tip-of-tree
-> gcc if needs be.
-
-Sorry, what do you want to replicate? If you mean what we had in the
-old GitHub CI, I see:
-
-    CONFIG_CC_VERSION_TEXT=3D"riscv64-linux-gnu-gcc (Ubuntu
-11.3.0-1ubuntu1~22.04) 11.3.0"
-
-which successfully boots in QEMU for the kernel config we tested.
-
-But if you are asking what should be supported, I guess it depends on
-the RISC-V maintainers. Ideally, everything that the kernel supports
-(GCC >=3D 5.1), but since the GCC+Rust builds are so experimental, I
-think as long as something is tested from time to time, it would be
-great (to at least know not everything is completely broken).
-
-But if you think that would be too much effort to maintain, or even
-GCC builds in general, then please feel free to ignore it for the time
-being, i.e. it is better to have LLVM builds rather than nothing! :)
-
-Cheers,
-Miguel
