@@ -2,116 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F62C76196
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 09:27:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A1AC77B60
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 09:50:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232047AbjDCJ1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 05:27:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56464 "EHLO
+        id S231433AbjDCJu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 05:50:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232050AbjDCJ1V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 05:27:21 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B416919B4;
-        Mon,  3 Apr 2023 02:27:17 -0700 (PDT)
-Received: (Authenticated sender: kory.maincent@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0E166240019;
-        Mon,  3 Apr 2023 09:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1680514035;
+        with ESMTP id S231954AbjDCJul (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 05:50:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81C3A527B
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 02:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680515343;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xDTA5M0TPTdxazkjSb14CfP6TBrXBGZGlLYwzOvQD1Q=;
-        b=Rj7qgoRWo77w1eixf97yibFJqGOVzruQFnRqYeJrwQOEaKrZK91izbnm1xCSwgLaTrZzGF
-        f2KUZIg3GDP3YiEHAjOReM6DsVLuxXGg1X650YFUQ3ACdOyFKIJzYAnkzxzz7TR5pwH95c
-        3XpI64BNPyHSM2qt4JncDZ41eE+lTrhqqhexTnJAEw/uMdDV6PhuhiYfLFp3qIorxca+Rs
-        dBgpVCmo6cH3T38ugemL0x45W6RirrQWfVtF9sCQvY8e4OWP/ZEyxoIlIKNpoZP6b0n6um
-        SK8kjGphtZ6qoYKvHeCAYTql449Lyb2HcYD8TU8TNVWjXRHQjq4xPRyRmHRmQw==
-Date:   Mon, 3 Apr 2023 11:27:02 +0200
-From:   =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     Max Georgiev <glipus@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Michael Walle <michael@walle.cc>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
-        Jie Wang <wangjie125@huawei.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Marco Bonelli <marco@mebeim.net>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <20230403112702.46e03c37@kmaincent-XPS-13-7390>
-In-Reply-To: <20230402171249.ntszn3wwvkjuyesg@skbuf>
-References: <20230310113533.l7flaoli7y3bmlnr@skbuf>
-        <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
-        <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
-        <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
-        <20230313084059.GA11063@pengutronix.de>
-        <20230316160920.53737d1c@kmaincent-XPS-13-7390>
-        <20230317152150.qahrr6w5x4o3eysz@skbuf>
-        <20230317120744.5b7f1666@kernel.org>
-        <CAP5jrPHep12hRbbcb5gXrZB5w_uzmVpEp4EhpfqW=9zC+zcu9A@mail.gmail.com>
-        <20230330143824.43eb0c56@kmaincent-XPS-13-7390>
-        <20230402171249.ntszn3wwvkjuyesg@skbuf>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        bh=UCVfONq4QX1WJA6KEQBIqDdCC3Zi4ZQ6oAhIXBiY4Aw=;
+        b=jO7zvEOgkKgF6O1Tb43/eiqFv7vFtilOq6sJhZiMCqOF2lSCMw7Fcl6o/ms9S70gpV54Io
+        5Fo4UY9WtlrPP0IKfutAVoHkVPCI7N3xAi2v96Z4yt5ZQj1J9l3zEywjdw6CLp/4QOa4OC
+        ipVR+/9yzTWSQ1X4JRzbCxRY4sPslPg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-644--YLOrhgrPGWMedJ5sf8QvA-1; Mon, 03 Apr 2023 05:49:02 -0400
+X-MC-Unique: -YLOrhgrPGWMedJ5sf8QvA-1
+Received: by mail-wr1-f70.google.com with SMTP id i25-20020adfaad9000000b002cff37de14fso3116650wrc.16
+        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 02:49:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680515341;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UCVfONq4QX1WJA6KEQBIqDdCC3Zi4ZQ6oAhIXBiY4Aw=;
+        b=LjPpm2BBLhR+F4+FpJmBQFvCfd3nqKCcLJoTySvIGcw4NndN3jqJnoxYDF2Ge3F1fl
+         P+tK9amWxeUTYm56Yk0+7h40uFa//R9pKvLKCYM9sX9JjPIATVBsEIjkx6x4mkWSAoj3
+         5Upkx6sZfrw/hkvdvPcSL7ys0bSDasiN5uSPpS2d3IoLxNQKJLe6QJeu4onhu+8Uidws
+         GFfySWihabTVzH2dlKoFXgV/2keuxHV6DZvUEQSIzuns44D2iGrG3jVV8+LPmB0VWYRV
+         2sbzcxmeQu4+xMHHjcsht/8X3/VtrMbKt90UhKJn7S5yZu+w8Dllse0R1FRL5wDp38vt
+         q/5A==
+X-Gm-Message-State: AAQBX9d4o+hX8QuX+kT1aH89XPC5lh0NeuxCZSY55s2RuxjC29sBp90T
+        oM3txXB2Oqy2C7ZHRgq3s7mWBP7Hdb4n6Q4pPKkudVUxjaubJrFuTaihRXo7s8UiVQWkdh9OrBk
+        AqfyzW+/11zz3cBnZFWzW
+X-Received: by 2002:a5d:460b:0:b0:2d2:59cf:468f with SMTP id t11-20020a5d460b000000b002d259cf468fmr13074450wrq.15.1680515341385;
+        Mon, 03 Apr 2023 02:49:01 -0700 (PDT)
+X-Google-Smtp-Source: AKy350arsxFGGG4mFkfzu2mP7wXMWNJhAfCsHB0QkcMrhf+hYAHPVuXlVhP82orVZo6dQiD7R1JfuA==
+X-Received: by 2002:a5d:460b:0:b0:2d2:59cf:468f with SMTP id t11-20020a5d460b000000b002d259cf468fmr13074432wrq.15.1680515341062;
+        Mon, 03 Apr 2023 02:49:01 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:5e00:8e78:71f3:6243:77f0? (p200300cbc7025e008e7871f3624377f0.dip0.t-ipconnect.de. [2003:cb:c702:5e00:8e78:71f3:6243:77f0])
+        by smtp.gmail.com with ESMTPSA id i16-20020adffc10000000b002c55ec7f661sm9350194wrr.5.2023.04.03.02.49.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Apr 2023 02:49:00 -0700 (PDT)
+Message-ID: <f969cb1f-651f-592f-7540-89f73e175c7d@redhat.com>
+Date:   Mon, 3 Apr 2023 11:48:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Content-Language: en-US
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>, kernel-team@fb.com,
+        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Hugh Dickins <hughd@google.com>
+References: <20230310182851.2579138-1-shr@devkernel.io>
+ <20230328160914.5b6b66e4a5ad39e41fd63710@linux-foundation.org>
+ <37dcd52a-2e32-c01d-b805-45d862721fbc@redhat.com>
+ <ZCWcJelF5bEdF4N3@cmpxchg.org>
+ <ff599dc1-729d-52dc-d605-8a8ac890ad15@redhat.com>
+ <qvqwv8ii89x6.fsf@dev0134.prn3.facebook.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
+In-Reply-To: <qvqwv8ii89x6.fsf@dev0134.prn3.facebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 2 Apr 2023 20:12:49 +0300
-Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+>>> Obviously we could spend months analysing which exact allocations are
+>>> identical, and then more months or years reworking the architecture to
+>>> deduplicate them by hand and in userspace. But this isn't practical,
+>>> and KSM is specifically for cases where this isn't practical.
+>>> Based on your request in the previous thread, we investigated whether
+>>> the boost was coming from the unintended side effects of KSM splitting
+>>> THPs. This wasn't the case.
+>>> If you have other theories on how the results could be bogus, we'd be
+>>> happy to investigate those as well. But you have to let us know what
+>>> you're looking for.
+>>>
+>>
+>> Maybe I'm bad at making such requests but
+>>
+>> "Stefan, can you do me a favor and investigate which pages we end up
+>> deduplicating -- especially if it's mostly only the zeropage and if it's
+>> still that significant when disabling THP?"
+>>
+>> "In any case, it would be nice to get a feeling for how much variety in
+>> these 20% of deduplicated pages are. "
+>>
+>> is pretty clear to me. And shouldn't take months.
+>>
 
-> On Thu, Mar 30, 2023 at 02:38:24PM +0200, K=C3=B6ry Maincent wrote:
-> > Hello Max,
-> >=20
-> > On Fri, 17 Mar 2023 13:43:34 -0600
-> > Max Georgiev <glipus@gmail.com> wrote:
-> >  =20
-> > > Jakub,
-> > >=20
-> > > I started working on a patch introducing NDO functions for hw
-> > > timestamping, but unfortunately put it on hold.
-> > > Let me finish it and send it out for review. =20
-> >=20
-> > What is your timeline for it? Do you think of sending it in the followi=
-ngs
-> > weeks, months, years? If you don't have much time ask for help, I am not
-> > really a PTP core expert but I would gladly work with you on this. =20
->=20
-> K=C3=B6ry, I believe you can start looking at that PHY driver whitelist
-> (for changing the default timestamping layer) in parallel with Maxim's
-> ndo_hwtstamp_set() effort, since they shouldn't depend on each other?
+Just to clarify: the details I requested are not meant to decide whether 
+to reject the patch set (I understand that it can be beneficial to 
+have); I primarily want to understand if we're really dealing with a 
+workload where KSM is able to deduplicate pages that are non-trivial, to 
+maybe figure out if there are other workloads that could similarly 
+benefit -- or if we could optimize KSM for these specific cases or avoid 
+the memory deduplication altogether.
 
-Yes, that's true. I will also update the change from ioctl to netlink to ha=
-ndle
-the PTP layer selection.
+In contrast to e.g.:
 
-K=C3=B6ry
+1) THP resulted in many zeropages we end up deduplicating again. The THP
+    placement was unfortunate.
+
+2) Unoptimized memory allocators that leave many identical pages mapped
+    after freeing up memory (e.g., zeroed pages, pages all filled with
+    poison values) instead of e.g., using MADV_DONTNEED to free up that
+    memory.
+
+
+> 
+> /sys/kernel/mm/ksm/pages_shared is over 10000 when we run this on an
+> Instagram workload. The workload consists of 36 processes plus a few
+> sidecar processes.
+
+Thanks! To which value is /sys/kernel/mm/ksm/max_page_sharing set in 
+that environment?
+
+What would be interesting is pages_shared after max_page_sharing was set 
+to a very high number such that pages_shared does not include 
+duplicates. Then pages_shared actually expresses how many different 
+pages we deduplicate. No need to run without THP in that case.
+
+Similarly, enabling "use_zero_pages" could highlight if your workload 
+ends up deduplciating a lot of zeropages. But maxing out 
+max_page_sharing would be sufficient to understand what's happening.
+
+
+> 
+> Each of these individual processes has around 500MB in KSM pages.
+> 
+
+That's really a lot, thanks.
+
+> Also to give some idea for individual VMA's
+> 
+> 7ef5d5600000-7ef5e5600000 rw-p 00000000 00:00 0 (Size: 262144 KB, KSM:
+> 73160 KB)
+> 
+
+I'll have a look at the patches today.
+
+-- 
+Thanks,
+
+David / dhildenb
+
