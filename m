@@ -2,522 +2,215 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D6DC76188
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 16:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5249DC76188
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 17:03:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232979AbjDCQ5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 12:57:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38594 "EHLO
+        id S231624AbjDCRDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 13:03:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232952AbjDCQ5E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 12:57:04 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9786426A6
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 09:57:02 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-3e632769c5eso821091cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 09:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680541021;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sIMj8TtUAHd0i/PWyLWXWHU7SLPJzOggKJ4TPx+YsGs=;
-        b=PYupwjOLcQw7qVFril250VglxuD2BqgOZZ9YfKbi/tLF+IfASR1Z4ARIc9cydm1VLG
-         IuuWNRAU5XHLx0o95rs7hp+mwfHaaz7MZNfVjYfKIkkEyJBX/remdknOeOFoufua7TtP
-         r4q14Y8ixb97yCxS2PhFmJ6zyTzB6AulOiudGmWr+Zm3wF26PrxjQaaQAb4lEtybwLVA
-         4ePc7riZX7X+s/IudviacyxhlHQCtcFS7YPWAKdQB2Mi8romqqKPiDuxECh6PVyXHN0J
-         u0RHMRyLyN6HgiPivT4eoV/1tKCwcT/qMA4aA0abKwLN3jS3A1COJK1tHvHVn/D3Vg0z
-         T2pw==
+        with ESMTP id S231878AbjDCRDb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 13:03:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E592733
+        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 10:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680541361;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kM3dwgQ9HVMfQOAjj/i3eYxZUwtH+i5WmR63AuQM8dg=;
+        b=MpB8DYh4RCL2x9m25e2EOlNCJmfzh5JlUMtuLeXr5929jf2s4zZNwHSDzy5ufP3v5RFpJI
+        Se1qwcZaIZYTp9g/N5MQcBudJVGuH9O4HWESRzVP9RM+HpvQOdAB0oFPedWLqxqNI1AxPD
+        x2VoLVIDh6nVkgJAhRE4o5R+eV2oXvk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-413-cyE0bXcZM3SS8Yk6R9RgnQ-1; Mon, 03 Apr 2023 13:02:39 -0400
+X-MC-Unique: cyE0bXcZM3SS8Yk6R9RgnQ-1
+Received: by mail-wm1-f71.google.com with SMTP id j27-20020a05600c1c1b00b003edd2023418so16439154wms.4
+        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 10:02:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680541021;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sIMj8TtUAHd0i/PWyLWXWHU7SLPJzOggKJ4TPx+YsGs=;
-        b=EmGsH7VFLwvhAzQ2ZDVpmiM4p0gjrXsfRl55cBnlmU3pa3sJ4Y04tGkK1+HHLuzalo
-         iFJaaD8PKuLpQOlNPnb6Zj0bbWj1LnPbD4opndoggYIRFDAyQ91FxGd9t6FJvWIvjxIP
-         p44NNkrvXHoOqH8q8tXws/s/hLc/q4Z6kkTo43htOPNPgD6ixxtRWG7lwUJ4SGMW724/
-         wkfIVb01SRgoIXJjOZWHQzvvuXRAY1wy0D+XxuN1GAU3Gg20z8F4lG650HsZCf8eKWQe
-         0oIbwAiQDBbvN6gsn3xmteN6b22WFKdFbiIzBj1F3TIsy0cAjRn/rBEO2IEwyafBQvFo
-         dBKA==
-X-Gm-Message-State: AAQBX9cBYULLMQCGKJpOwIMS6tOhiZczb42FHIg3YW3ojZdgBcZy3VYa
-        1OCTJU8HeV9B5YfuCOfdxlFUxqgFSUQOpOmFYJ+K
-X-Google-Smtp-Source: AKy350YhfX/oAlM8dQ05nV6TMbKsyJ+NXPyyPaj7rhG0Fm7iSWLkiD3MTU7jSIIKWTia00YvGUlP3mk/ezw5ESEYpa8=
-X-Received: by 2002:a05:622a:189:b0:3de:8cbe:47af with SMTP id
- s9-20020a05622a018900b003de8cbe47afmr704178qtw.9.1680541021402; Mon, 03 Apr
- 2023 09:57:01 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680541358;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kM3dwgQ9HVMfQOAjj/i3eYxZUwtH+i5WmR63AuQM8dg=;
+        b=OcoerVUMTtxyO0vkbvkDHIsN8moC+rDrZViREGScepwBiEOo88fcEaKdcxDVbTQrCj
+         cy1B9KnJip5jrM3qSbOEvmXshCy0c63FW6r/+Xhx5lk1Tax7Rura9vxy8NEPGtl30ION
+         fpvqV/tm5RSvR0WbilozXkthAxtksfSnBbVR0PgeZf9lY4RyHj7X2ghka8Cp7bpmrMBq
+         gEXGCEtQussvnyVjdwV0rCZWC0FnXdADxHvT8jCPr4BIfDZj/h4dpE6Ws98GSgJUYDDD
+         sJydu5GE2TkAbNXpWBl4NUQpyXddhflkaS9P/FDi8wEDueftBmgUsWJfsjz6cbjjnbYs
+         Dafg==
+X-Gm-Message-State: AAQBX9dPOwjT+h2AtL+UWKfOAutd5MscQDuA2iVnzHmKsIugG6aoF2pi
+        TRG+bQCC/GSrGVb6+XGrv7X+mlW5yUyJAXo7ysDRvOJTyH1a4LHoyB17CN7AnmdqxN3MxxcCdz1
+        cdGCExJPvspj5myId1UeC
+X-Received: by 2002:a5d:440e:0:b0:2e5:6441:2d16 with SMTP id z14-20020a5d440e000000b002e564412d16mr9153095wrq.42.1680541358589;
+        Mon, 03 Apr 2023 10:02:38 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bNyO+IrhEkypzMTwynN0OpO/ura/HmTqPcjZWbU5s0lV7LLf87+mbZZXdKp58mVrklwo0Ylg==
+X-Received: by 2002:a5d:440e:0:b0:2e5:6441:2d16 with SMTP id z14-20020a5d440e000000b002e564412d16mr9153076wrq.42.1680541358251;
+        Mon, 03 Apr 2023 10:02:38 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:5e00:8e78:71f3:6243:77f0? (p200300cbc7025e008e7871f3624377f0.dip0.t-ipconnect.de. [2003:cb:c702:5e00:8e78:71f3:6243:77f0])
+        by smtp.gmail.com with ESMTPSA id g7-20020a5d5407000000b002e6423cb207sm9071350wrv.112.2023.04.03.10.02.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Apr 2023 10:02:37 -0700 (PDT)
+Message-ID: <0235770b-eb37-88e0-9350-a2d9c0cf9c32@redhat.com>
+Date:   Mon, 3 Apr 2023 19:02:36 +0200
 MIME-Version: 1.0
-References: <20230331113539.v13.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
-In-Reply-To: <20230331113539.v13.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
-From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Mon, 3 Apr 2023 09:56:50 -0700
-Message-ID: <CA+ddPcNQp6BO9NHmoBTOU5QxhK0oqekRwQxhXBAyL_20DTVhCg@mail.gmail.com>
-Subject: Re: [PATCH v13] tee: optee: Add SMC for loading OP-TEE image
-To:     op-tee@lists.trustedfirmware.org
-Cc:     Sumit Garg <sumit.garg@linaro.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Content-Language: en-US
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org, Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20230310182851.2579138-1-shr@devkernel.io>
+ <20230310182851.2579138-2-shr@devkernel.io>
+ <7ed4308d-b400-d2bb-b539-3fe418862ab8@redhat.com>
+ <qvqwpm8ludx2.fsf@dev0134.prn3.facebook.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v4 1/3] mm: add new api to enable ksm per process
+In-Reply-To: <qvqwpm8ludx2.fsf@dev0134.prn3.facebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The  corresponding TF-A change is merged now, so the kernel patch
-should be all ready to go.
+On 03.04.23 17:50, Stefan Roesch wrote:
+>> I guess the interpreter could enable it (like a memory allocator could enable it
+>> for the whole heap). But I get that it's much easier to enable this per-process,
+>> and eventually only when a lot of the same processes are running in that
+>> particular environment.
+>>
+> 
+> We don't want it to get enabled for all workloads of that interpreter,
+> instead we want to be able to select for which workloads we enable KSM.
+> 
 
-On Fri, Mar 31, 2023 at 11:35=E2=80=AFAM Jeffrey Kardatzke
-<jkardatzke@chromium.org> wrote:
->
-> Adds an SMC call that will pass an OP-TEE binary image to EL3 and
-> instruct it to load it as the BL32 payload. This works in conjunction
-> with a feature added to Trusted Firmware for ARMv8 and above
-> architectures that supports this.
->
-> The main purpose of this change is to facilitate updating the OP-TEE
-> component on devices via a rootfs change rather than having to do a
-> firmware update. Further details are linked to in the Kconfig file.
->
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
-> Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> ---
->
-> Changes in v13:
-> - Documentation formatting changes
->
-> Changes in v12:
-> - Fixed checkpatch strict issues
->
-> Changes in v11:
-> - Fixed typo in tee.rst documentation
->
-> Changes in v10:
-> - Fixed tee.rst documentation formatting
->
-> Changes in v9:
-> - Add CPU hotplug callback to init on all cores at startup
->
-> Changes in v8:
-> - Renamed params and fixed alignment issue
->
-> Changes in v7:
-> - Added documentation to Documentation/staging/tee.rst
->
-> Changes in v6:
-> - Expanded Kconfig documentation
->
-> Changes in v5:
-> - Renamed config option
-> - Added runtime warning when config is used
->
-> Changes in v4:
-> - Update commit message
-> - Added more documentation
-> - Renamed config option, added ARM64 dependency
->
-> Changes in v3:
-> - Removed state tracking for driver reload
-> - Check UID of service to verify it needs image load
->
-> Changes in v2:
-> - Fixed compile issue when feature is disabled
-> - Addressed minor comments
-> - Added state tracking for driver reload
->
->  Documentation/staging/tee.rst |  53 +++++++++++++
->  drivers/tee/optee/Kconfig     |  17 +++++
->  drivers/tee/optee/optee_msg.h |  12 +++
->  drivers/tee/optee/optee_smc.h |  24 ++++++
->  drivers/tee/optee/smc_abi.c   | 137 ++++++++++++++++++++++++++++++++++
->  5 files changed, 243 insertions(+)
->
-> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rs=
-t
-> index 498343c7ab08..22baa077a3b9 100644
-> --- a/Documentation/staging/tee.rst
-> +++ b/Documentation/staging/tee.rst
-> @@ -214,6 +214,57 @@ call is done from the thread assisting the interrupt=
- handler. This is a
->  building block for OP-TEE OS in secure world to implement the top half a=
-nd
->  bottom half style of device drivers.
->
-> +OPTEE_INSECURE_LOAD_IMAGE Kconfig option
-> +----------------------------------------
-> +
-> +The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load=
- the
-> +BL32 OP-TEE image from the kernel after the kernel boots, rather than lo=
-ading
-> +it from the firmware before the kernel boots. This also requires enablin=
-g the
-> +corresponding option in Trusted Firmware for Arm. The Trusted Firmware f=
-or Arm
-> +documentation [8] explains the security threat associated with enabling =
-this as
-> +well as mitigations at the firmware and platform level.
-> +
-> +There are additional attack vectors/mitigations for the kernel that shou=
-ld be
-> +addressed when using this option.
-> +
-> +1. Boot chain security.
-> +
-> +   * Attack vector: Replace the OP-TEE OS image in the rootfs to gain co=
-ntrol of
-> +     the system.
-> +
-> +   * Mitigation: There must be boot chain security that verifies the ker=
-nel and
-> +     rootfs, otherwise an attacker can modify the loaded OP-TEE binary b=
-y
-> +     modifying it in the rootfs.
-> +
-> +2. Alternate boot modes.
-> +
-> +   * Attack vector: Using an alternate boot mode (i.e. recovery mode), t=
-he
-> +     OP-TEE driver isn't loaded, leaving the SMC hole open.
-> +
-> +   * Mitigation: If there are alternate methods of booting the device, s=
-uch as a
-> +     recovery mode, it should be ensured that the same mitigations are a=
-pplied
-> +     in that mode.
-> +
-> +3. Attacks prior to SMC invocation.
-> +
-> +   * Attack vector: Code that is executed prior to issuing the SMC call =
-to load
-> +     OP-TEE can be exploited to then load an alternate OS image.
-> +
-> +   * Mitigation: The OP-TEE driver must be loaded before any potential a=
-ttack
-> +     vectors are opened up. This should include mounting of any modifiab=
-le
-> +     filesystems, opening of network ports or communicating with externa=
-l
-> +     devices (e.g. USB).
-> +
-> +4. Blocking SMC call to load OP-TEE.
-> +
-> +   * Attack vector: Prevent the driver from being probed, so the SMC cal=
-l to
-> +     load OP-TEE isn't executed when desired, leaving it open to being e=
-xecuted
-> +     later and loading a modified OS.
-> +
-> +   * Mitigation: It is recommended to build the OP-TEE driver as builtin=
- driver
-> +     rather than as a module to prevent exploits that may cause the modu=
-le to
-> +     not be loaded.
-> +
->  AMD-TEE driver
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> @@ -309,3 +360,5 @@ References
->  [6] include/linux/psp-tee.h
->
->  [7] drivers/tee/amdtee/amdtee_if.h
-> +
-> +[8] https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/thre=
-at_model.html
-> diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
-> index f121c224e682..70898bbd5809 100644
-> --- a/drivers/tee/optee/Kconfig
-> +++ b/drivers/tee/optee/Kconfig
-> @@ -7,3 +7,20 @@ config OPTEE
->         help
->           This implements the OP-TEE Trusted Execution Environment (TEE)
->           driver.
-> +
-> +config OPTEE_INSECURE_LOAD_IMAGE
-> +       bool "Load OP-TEE image as firmware"
-> +       default n
-> +       depends on OPTEE && ARM64
-> +       help
-> +         This loads the BL32 image for OP-TEE as firmware when the drive=
-r is
-> +         probed. This returns -EPROBE_DEFER until the firmware is loadab=
-le from
-> +         the filesystem which is determined by checking the system_state=
- until
-> +         it is in SYSTEM_RUNNING. This also requires enabling the corres=
-ponding
-> +         option in Trusted Firmware for Arm. The documentation there exp=
-lains
-> +         the security threat associated with enabling this as well as
-> +         mitigations at the firmware and platform level.
-> +         https://trustedfirmware-a.readthedocs.io/en/latest/threat_model=
-/threat_model.html
-> +
-> +         Additional documentation on kernel security risks are at
-> +         Documentation/staging/tee.rst.
-> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.=
-h
-> index 70e9cc2ee96b..e8840a82b983 100644
-> --- a/drivers/tee/optee/optee_msg.h
-> +++ b/drivers/tee/optee/optee_msg.h
-> @@ -241,11 +241,23 @@ struct optee_msg_arg {
->   * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
->   * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
->   * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
-> + *
-> + * In the case where the OP-TEE image is loaded by the kernel, this will
-> + * initially return an alternate UID to reflect that we are communicatin=
-g with
-> + * the TF-A image loading service at that time instead of OP-TEE. That U=
-ID is:
-> + * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
-> + * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
-> + * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
-> + * OPTEE_MSG_IMAGE_LOAD_UID_3.
->   */
->  #define OPTEE_MSG_UID_0                        0x384fb3e0
->  #define OPTEE_MSG_UID_1                        0xe7f811e3
->  #define OPTEE_MSG_UID_2                        0xaf630002
->  #define OPTEE_MSG_UID_3                        0xa5d5c51b
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_0     0xa3fbeab1
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_1     0x1246315d
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_2     0xc7c406b9
-> +#define OPTEE_MSG_IMAGE_LOAD_UID_3     0xc03cbea4
->  #define OPTEE_MSG_FUNCID_CALLS_UID     0xFF01
->
->  /*
-> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.=
-h
-> index 73b5e7760d10..7d9fa426505b 100644
-> --- a/drivers/tee/optee/optee_smc.h
-> +++ b/drivers/tee/optee/optee_smc.h
-> @@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
->         unsigned long reserved1;
->  };
->
-> +/*
-> + * Load Trusted OS from optee/tee.bin in the Linux firmware.
-> + *
-> + * WARNING: Use this cautiously as it could lead to insecure loading of =
-the
-> + * Trusted OS.
-> + * This SMC instructs EL3 to load a binary and execute it as the Trusted=
- OS.
-> + *
-> + * Call register usage:
-> + * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
-> + * a1 Upper 32bit of a 64bit size for the payload
-> + * a2 Lower 32bit of a 64bit size for the payload
-> + * a3 Upper 32bit of the physical address for the payload
-> + * a4 Lower 32bit of the physical address for the payload
-> + *
-> + * The payload is in the OP-TEE image format.
-> + *
-> + * Returns result in a0, 0 on success and an error code otherwise.
-> + */
-> +#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
-> +#define OPTEE_SMC_CALL_LOAD_IMAGE \
-> +       ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
-> +                          ARM_SMCCC_OWNER_TRUSTED_OS_END, \
-> +                          OPTEE_SMC_FUNCID_LOAD_IMAGE)
-> +
->  /*
->   * Call with struct optee_msg_arg as argument
->   *
-> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-> index a1c1fa1a9c28..6e1f023d50c6 100644
-> --- a/drivers/tee/optee/smc_abi.c
-> +++ b/drivers/tee/optee/smc_abi.c
-> @@ -7,10 +7,13 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->
->  #include <linux/arm-smccc.h>
-> +#include <linux/cpuhotplug.h>
->  #include <linux/errno.h>
-> +#include <linux/firmware.h>
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/irqdomain.h>
-> +#include <linux/kernel.h>
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> @@ -1149,6 +1152,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_i=
-nvoke_fn *invoke_fn)
->         return false;
->  }
->
-> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-> +static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invok=
-e_fn)
-> +{
-> +       struct arm_smccc_res res;
-> +
-> +       invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
-> +
-> +       if (res.a0 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_0 &&
-> +           res.a1 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_1 &&
-> +           res.a2 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_2 &&
-> +           res.a3 =3D=3D OPTEE_MSG_IMAGE_LOAD_UID_3)
-> +               return true;
-> +       return false;
-> +}
-> +#endif
-> +
->  static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
->  {
->         union {
-> @@ -1354,6 +1373,120 @@ static void optee_shutdown(struct platform_device=
- *pdev)
->                 optee_disable_shm_cache(optee);
->  }
->
-> +#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-> +
-> +#define OPTEE_FW_IMAGE "optee/tee.bin"
-> +
-> +static optee_invoke_fn *cpuhp_invoke_fn;
-> +
-> +static int optee_cpuhp_probe(unsigned int cpu)
-> +{
-> +       /*
-> +        * Invoking a call on a CPU will cause OP-TEE to perform the requ=
-ired
-> +        * setup for that CPU. Just invoke the call to get the UID since =
-that
-> +        * has no side effects.
-> +        */
-> +       if (optee_msg_api_uid_is_optee_api(cpuhp_invoke_fn))
-> +               return 0;
-> +       else
-> +               return -EINVAL;
-> +}
-> +
-> +static int optee_load_fw(struct platform_device *pdev,
-> +                        optee_invoke_fn *invoke_fn)
-> +{
-> +       const struct firmware *fw =3D NULL;
-> +       struct arm_smccc_res res;
-> +       phys_addr_t data_pa;
-> +       u8 *data_buf =3D NULL;
-> +       u64 data_size;
-> +       u32 data_pa_high, data_pa_low;
-> +       u32 data_size_high, data_size_low;
-> +       int rc;
-> +       int hp_state;
-> +
-> +       if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
-> +               return 0;
-> +
-> +       rc =3D request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
-> +       if (rc) {
-> +               /*
-> +                * The firmware in the rootfs will not be accessible unti=
-l we
-> +                * are in the SYSTEM_RUNNING state, so return EPROBE_DEFE=
-R until
-> +                * that point.
-> +                */
-> +               if (system_state < SYSTEM_RUNNING)
-> +                       return -EPROBE_DEFER;
-> +               goto fw_err;
-> +       }
-> +
-> +       data_size =3D fw->size;
-> +       /*
-> +        * This uses the GFP_DMA flag to ensure we are allocated memory i=
-n the
-> +        * 32-bit space since TF-A cannot map memory beyond the 32-bit bo=
-undary.
-> +        */
-> +       data_buf =3D kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
-> +       if (!data_buf) {
-> +               rc =3D -ENOMEM;
-> +               goto fw_err;
-> +       }
-> +       memcpy(data_buf, fw->data, fw->size);
-> +       data_pa =3D virt_to_phys(data_buf);
-> +       reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
-> +       reg_pair_from_64(&data_size_high, &data_size_low, data_size);
-> +       goto fw_load;
-> +
-> +fw_err:
-> +       pr_warn("image loading failed\n");
-> +       data_pa_high =3D 0;
-> +       data_pa_low =3D 0;
-> +       data_size_high =3D 0;
-> +       data_size_low =3D 0;
-> +
-> +fw_load:
-> +       /*
-> +        * Always invoke the SMC, even if loading the image fails, to ind=
-icate
-> +        * to EL3 that we have passed the point where it should allow inv=
-oking
-> +        * this SMC.
-> +        */
-> +       pr_warn("OP-TEE image loaded from kernel, this can be insecure");
-> +       invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_lo=
-w,
-> +                 data_pa_high, data_pa_low, 0, 0, 0, &res);
-> +       if (!rc)
-> +               rc =3D res.a0;
-> +       if (fw)
-> +               release_firmware(fw);
-> +       kfree(data_buf);
-> +
-> +       if (!rc) {
-> +               /*
-> +                * We need to initialize OP-TEE on all other running core=
-s as
-> +                * well. Any cores that aren't running yet will get initi=
-alized
-> +                * when they are brought up by the power management funct=
-ions in
-> +                * TF-A which are registered by the OP-TEE SPD. Due to th=
-at we
-> +                * can un-register the callback right after registering i=
-t.
-> +                */
-> +               cpuhp_invoke_fn =3D invoke_fn;
-> +               hp_state =3D cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "opte=
-e:probe",
-> +                                            optee_cpuhp_probe, NULL);
-> +               if (hp_state < 0) {
-> +                       pr_warn("Failed with CPU hotplug setup for OP-TEE=
-");
-> +                       return -EINVAL;
-> +               }
-> +               cpuhp_remove_state(hp_state);
-> +               cpuhp_invoke_fn =3D NULL;
-> +       }
-> +
-> +       return rc;
-> +}
-> +#else
-> +static inline int optee_load_fw(struct platform_device *pdev,
-> +                               optee_invoke_fn *invoke_fn)
-> +{
-> +       return 0;
-> +}
-> +#endif
-> +
->  static int optee_probe(struct platform_device *pdev)
->  {
->         optee_invoke_fn *invoke_fn;
-> @@ -1372,6 +1505,10 @@ static int optee_probe(struct platform_device *pde=
-v)
->         if (IS_ERR(invoke_fn))
->                 return PTR_ERR(invoke_fn);
->
-> +       rc =3D optee_load_fw(pdev, invoke_fn);
-> +       if (rc)
-> +               return rc;
-> +
->         if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
->                 pr_warn("api uid mismatch\n");
->                 return -EINVAL;
-> --
-> 2.40.0.348.gf938b09366-goog
->
+Right.
+
+> 
+>>> 1. New options for prctl system command
+>>>      This patch series adds two new options to the prctl system call.
+>>>      The first one allows to enable KSM at the process level and the second
+>>>      one to query the setting.
+>>>      The setting will be inherited by child processes.
+>>>      With the above setting, KSM can be enabled for the seed process of a
+>>>      cgroup and all processes in the cgroup will inherit the setting.
+>>> 2. Changes to KSM processing
+>>>      When KSM is enabled at the process level, the KSM code will iterate
+>>>      over all the VMA's and enable KSM for the eligible VMA's.
+>>>      When forking a process that has KSM enabled, the setting will be
+>>>      inherited by the new child process.
+>>>      In addition when KSM is disabled for a process, KSM will be disabled
+>>>      for the VMA's where KSM has been enabled.
+>>
+>> Do we want to make MADV_MERGEABLE/MADV_UNMERGEABLE fail while the new prctl is
+>> enabled for a process?
+> 
+> I decided to allow enabling KSM with prctl even when MADV_MERGEABLE,
+> this allows more flexibility.
+
+MADV_MERGEABLE will be a nop. But IIUC, MADV_UNMERGEABLE will end up 
+calling unmerge_ksm_pages() and clear VM_MERGEABLE. But then, the next 
+KSM scan will merge the pages in there again.
+
+Not sure if that flexibility is worth having.
+
+[...]
+
+
+>>> @@ -2661,6 +2662,32 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>>>    	case PR_SET_VMA:
+>>>    		error = prctl_set_vma(arg2, arg3, arg4, arg5);
+>>>    		break;
+>>> +#ifdef CONFIG_KSM
+>>> +	case PR_SET_MEMORY_MERGE:
+>>> +		if (!capable(CAP_SYS_RESOURCE))
+>>> +			return -EPERM;
+>>> +
+>>> +		if (arg2) {
+>>> +			if (mmap_write_lock_killable(me->mm))
+>>> +				return -EINTR;
+>>> +
+>>> +			if (!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags))
+>>> +				error = __ksm_enter(me->mm, MMF_VM_MERGE_ANY);
+>>
+>> Hm, I think this might be problematic if we alread called __ksm_enter() via
+>> madvise(). Maybe we should really consider making MMF_VM_MERGE_ANY set
+>> MMF_VM_MERGABLE instead. Like:
+>>
+>> error = 0;
+>> if(test_bit(MMF_VM_MERGEABLE, &me->mm->flags))
+>> 	error = __ksm_enter(me->mm);
+>> if (!error)
+>> 	set_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
+>>
+> 
+> If we make that change, we would no longer be able to distinguish
+> if MMF_VM_MERGEABLE or MMF_VM_MERGE_ANY have been set.
+
+Why would you need that exactly? To cleanup? See below.
+
+> 
+>>> +			mmap_write_unlock(me->mm);
+>>> +		} else {
+>>> +			__ksm_exit(me->mm, MMF_VM_MERGE_ANY);
+>>
+>> Hm, I'd prefer if we really only call __ksm_exit() when we really exit the
+>> process. Is there a strong requirement to optimize disabling of KSM or would it
+>> be sufficient to clear the MMF_VM_MERGE_ANY flag here?
+>>
+> Then we still have the mm_slot allocated until the process gets
+> terminated.
+
+Which is the same as using MADV_UNMERGEABLE, no?
+
+> 
+>> Also, I wonder what happens if we have another VMA in that process that has it
+>> enabled ..
+>>
+>> Last but not least, wouldn't we want to do the same thing as MADV_UNMERGEABLE
+>> and actually unmerge the KSM pages?
+>>
+> Do you want to call unmerge for all VMA's?
+
+The question is what clearing MMF_VM_MERGE_ANY is supposed to do. If 
+it's supposed to disable KSM (like MADV_UNMERGEABLE) would, then I guess 
+you should go over all VMA's and unmerge.
+
+Also, it depend on how you want to handle VM_MERGABLE with 
+MMF_VM_MERGE_ANY. If MMF_VM_MERGE_ANY would not set VM_MERGABLE, then 
+you'd only unmerge where VM_MERGABLE is not set. Otherwise, you'd 
+unshare everywhere where VM_MERGABLE is set (and clear VM_MERGABLE) 
+while at it.
+
+Unsharing when clearing MMF_VM_MERGE_ANY might be the right thing to do 
+IMHO.
+
+
+I guess the main questions regarding implementation are:
+
+1) Do we want setting MMF_VM_MERGE_ANY to set VM_MERGABLE on all
+    candidate VMA's (go over all VMA's and set VM_MERGABLE). Then,
+    clearing MMF_VM_MERGE_ANY would simply unmerge and clear VM_MERGABLE
+    on all VMA's.
+
+2) Do we want to make MMF_VM_MERGE_ANY imply MMF_VM_MERGABLE. You could
+    still disable KSM (__ksm_exit()) during clearing MMF_VM_MERGE_ANY
+    after going over all VMA's (where you might want to unshare already
+    either way).
+
+I guess the code will end up simpler if you make MMF_VM_MERGE_ANY simply 
+piggy-back on MMF_VM_MERGABLE + VM_MERGABLE. I might be wrong, of course.
+
+-- 
+Thanks,
+
+David / dhildenb
+
