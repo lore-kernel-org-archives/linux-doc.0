@@ -2,88 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D208C761A6
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 08:50:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F62C76196
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 09:27:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231730AbjDCIuI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 04:50:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43706 "EHLO
+        id S232047AbjDCJ1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 05:27:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231638AbjDCIuG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 04:50:06 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3208A50;
-        Mon,  3 Apr 2023 01:50:00 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id y4so114284523edo.2;
-        Mon, 03 Apr 2023 01:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680511798;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F1csYuc8Du+yp6knHrKqTSIkRPNcCOVusY7pemIXMNI=;
-        b=NR0lUwCqM13kiX4Ei0Wpeh4pxSI8UQQzUXYoO85m56tZ2rNpR1aa5TKAHjt6qmiHgx
-         41akPXEgY+X2SDyOEJiV0xvN9/iNkHrmJxMQe+NDfGAd1Rbl7gXNMRQG2YEpWPcQobuk
-         RSoM965Jaa+wOVGjbxkuKhXvExt1k2x1i/d2I5s8/8/fRFDEJFTC7M8EZ7jIZ7U5c3UG
-         1mkZeaP1mnib6E9SDioYTvhE+3mEiJmGd5P3TCyInLeE5P6hK1ksukbP2VYTQ/7v8bbk
-         AwZ5TlxOv+yjLUOw8GfcU1yraGmY56PT+vfAdkZdXmwM1MBRI0jPvMPWKo8pGZXUCo94
-         IlPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680511798;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F1csYuc8Du+yp6knHrKqTSIkRPNcCOVusY7pemIXMNI=;
-        b=sqD2rxEckzdcagh0VFV11zr3Hc3FjXap7e03FKxcI/Z3wfaAd/89vgrZITZU2VT9fO
-         Zy2lWDpW2cCeljw4JKrHwDOZxjt/BfLbrb9M3w2wZaHgONfSkE/w31YKq008y85CKkXo
-         cupDfUMpVKaCBVnCQxrNJVRpEB75dYzyto7UOHpM1ScS/wd4PtmlzU/Y2STNUzRX5KYb
-         xPEdw29kWu590T+56qGk9DPgvVDxnquRLqjoer3KX7K7pDOXtex3Enn5oZ7NJsNXrAU5
-         sxeDKW+suvzWNQDUlaOGdAhrAvdvoJUY0YerWNAOclqKmuXJKgmHkGs9zGyEKhbDmTOx
-         BCyw==
-X-Gm-Message-State: AAQBX9cBw1b5SFvh/HxC/F5GiHyB6DWaX7/Nm26QgzMus6k9klAS1ys8
-        ek81oBmQ5nYTM4jXlfZaaQ9En3an1uMKSvlq
-X-Google-Smtp-Source: AKy350YKFA2hrAAFD23ldjQlNISQa4Kzn5iawZXIIDNQdadr6n/MRqHG6wssuEkw6iEjd1oZcfXysA==
-X-Received: by 2002:a17:906:4786:b0:946:a1c8:e000 with SMTP id cw6-20020a170906478600b00946a1c8e000mr26881504ejc.44.1680511798526;
-        Mon, 03 Apr 2023 01:49:58 -0700 (PDT)
-Received: from localhost (tor-exit-relay-8.anonymizing-proxy.digitalcourage.de. [185.220.102.254])
-        by smtp.gmail.com with ESMTPSA id t6-20020a170906608600b0094863433fdcsm1679976ejj.51.2023.04.03.01.49.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 01:49:58 -0700 (PDT)
-Date:   Mon, 3 Apr 2023 11:49:54 +0300
-From:   Maxim Mikityanskiy <maxtram95@gmail.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     kernel test robot <lkp@intel.com>,
-        Joe Stringer <joe@isovalent.com>, bpf@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
-        martin.lau@linux.dev, john.fastabend@gmail.com
-Subject: Re: [PATCH bpf-next v4 2/2] docs/bpf: Add LRU internals description
- and graph
-Message-ID: <ZCqTMq3sHMrx2boI@mail.gmail.com>
-References: <20230401200651.1022113-2-joe@isovalent.com>
- <202304022107.IwHc05cs-lkp@intel.com>
- <ZCpK5wOI0ZEedhrr@debian.me>
+        with ESMTP id S232050AbjDCJ1V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 05:27:21 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B416919B4;
+        Mon,  3 Apr 2023 02:27:17 -0700 (PDT)
+Received: (Authenticated sender: kory.maincent@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 0E166240019;
+        Mon,  3 Apr 2023 09:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1680514035;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xDTA5M0TPTdxazkjSb14CfP6TBrXBGZGlLYwzOvQD1Q=;
+        b=Rj7qgoRWo77w1eixf97yibFJqGOVzruQFnRqYeJrwQOEaKrZK91izbnm1xCSwgLaTrZzGF
+        f2KUZIg3GDP3YiEHAjOReM6DsVLuxXGg1X650YFUQ3ACdOyFKIJzYAnkzxzz7TR5pwH95c
+        3XpI64BNPyHSM2qt4JncDZ41eE+lTrhqqhexTnJAEw/uMdDV6PhuhiYfLFp3qIorxca+Rs
+        dBgpVCmo6cH3T38ugemL0x45W6RirrQWfVtF9sCQvY8e4OWP/ZEyxoIlIKNpoZP6b0n6um
+        SK8kjGphtZ6qoYKvHeCAYTql449Lyb2HcYD8TU8TNVWjXRHQjq4xPRyRmHRmQw==
+Date:   Mon, 3 Apr 2023 11:27:02 +0200
+From:   =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     Max Georgiev <glipus@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Michael Walle <michael@walle.cc>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
+        Jie Wang <wangjie125@huawei.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Sean Anderson <sean.anderson@seco.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Marco Bonelli <marco@mebeim.net>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <20230403112702.46e03c37@kmaincent-XPS-13-7390>
+In-Reply-To: <20230402171249.ntszn3wwvkjuyesg@skbuf>
+References: <20230310113533.l7flaoli7y3bmlnr@skbuf>
+        <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
+        <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
+        <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
+        <20230313084059.GA11063@pengutronix.de>
+        <20230316160920.53737d1c@kmaincent-XPS-13-7390>
+        <20230317152150.qahrr6w5x4o3eysz@skbuf>
+        <20230317120744.5b7f1666@kernel.org>
+        <CAP5jrPHep12hRbbcb5gXrZB5w_uzmVpEp4EhpfqW=9zC+zcu9A@mail.gmail.com>
+        <20230330143824.43eb0c56@kmaincent-XPS-13-7390>
+        <20230402171249.ntszn3wwvkjuyesg@skbuf>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCpK5wOI0ZEedhrr@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 03 Apr 2023 at 10:41:27 +0700, Bagas Sanjaya wrote:
-> On Sun, Apr 02, 2023 at 09:47:49PM +0800, kernel test robot wrote:
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> Warning: Orthogonal edges do not currently handle edge labels. Try using xlabels.
-> > 
-> 
-> Hi,
-> 
-> I can't reproduce the warning above. My system has graphviz 2.42.2
-> installed (via Debian package). What graphviz version do kernel test
-> robot have?
+On Sun, 2 Apr 2023 20:12:49 +0300
+Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
 
-I have the same warning on Arch Linux.
+> On Thu, Mar 30, 2023 at 02:38:24PM +0200, K=C3=B6ry Maincent wrote:
+> > Hello Max,
+> >=20
+> > On Fri, 17 Mar 2023 13:43:34 -0600
+> > Max Georgiev <glipus@gmail.com> wrote:
+> >  =20
+> > > Jakub,
+> > >=20
+> > > I started working on a patch introducing NDO functions for hw
+> > > timestamping, but unfortunately put it on hold.
+> > > Let me finish it and send it out for review. =20
+> >=20
+> > What is your timeline for it? Do you think of sending it in the followi=
+ngs
+> > weeks, months, years? If you don't have much time ask for help, I am not
+> > really a PTP core expert but I would gladly work with you on this. =20
+>=20
+> K=C3=B6ry, I believe you can start looking at that PHY driver whitelist
+> (for changing the default timestamping layer) in parallel with Maxim's
+> ndo_hwtstamp_set() effort, since they shouldn't depend on each other?
 
-$ dot --version
-dot - graphviz version 7.1.0 (0)
+Yes, that's true. I will also update the change from ioctl to netlink to ha=
+ndle
+the PTP layer selection.
+
+K=C3=B6ry
