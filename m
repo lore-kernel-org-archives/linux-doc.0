@@ -2,269 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 793D5C76196
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 11:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C477EC761A6
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 14:05:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbjDCLEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 07:04:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53448 "EHLO
+        id S232761AbjDCOFk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 10:05:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230269AbjDCLEI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 07:04:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D9B6180
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 04:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680519786;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=IQkFi8pN49v364EdSnnTRUfRnb+lg1bb/1afwxowe7o=;
-        b=C1pSAFBzJ7mx8Vx6K05hfnuuBNKp94SSWxOB9YgTSgdm+D8Vbxs2DLbVygMUhgk99kR2vj
-        MNqrM4hj9js1pA4mp4ZcxmdEI4THlzmuGqVW1R+Wf7TlXVNKxJOk8a9jOCfRmC4G4eE1yA
-        V0gvb9xLWwLo16KymVXKy497GorHVE4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-324-ctZMIsI_PgSqYaclsSyMnw-1; Mon, 03 Apr 2023 07:03:04 -0400
-X-MC-Unique: ctZMIsI_PgSqYaclsSyMnw-1
-Received: by mail-wm1-f70.google.com with SMTP id e5-20020a05600c4e4500b003edc5824521so16016307wmq.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 04:03:04 -0700 (PDT)
+        with ESMTP id S232805AbjDCOFc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 10:05:32 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73BD227825;
+        Mon,  3 Apr 2023 07:05:10 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id q102so27289296pjq.3;
+        Mon, 03 Apr 2023 07:05:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680530709;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pP1y+2npNFi89ug0/IC9s4GPFuEkE96kXvViHM8S82Y=;
+        b=LYgZJSU2LQVRKrVl3gJ6LmbsVBK8qTWoaiMbyLBWehqV4nTSQiAgTT3PYjLLV4+aRl
+         U/o2j8y3HhKy0BXoBFaF91+h1zy+ksM1f5aJ9S4ql1WBgMBz3UXtr2MiXM2Oqk+CK9Bh
+         FpVuJHo+ShHAPoJPVbr1/j76Tn0xm9zDBoofWk1lh+VyAVl/OMjaduJ/HPanBKTvzPK5
+         w/3MvnrMud4MqCovVyBgPjuXkhxKBF3jEvDvzwRM1AVOIlg+3yXdxjK+D1u8spJ+bjpo
+         0i99aQYTXGrHlujBFga9HLJn/awlfmA7b9pLZkKhysVnQua51WB9SVYgu/B7BPwYOvba
+         Yd/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680519783;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IQkFi8pN49v364EdSnnTRUfRnb+lg1bb/1afwxowe7o=;
-        b=ks2haw4ajzpIb/TrVaTgPD8uUM4DiJR//vvedSGTsg83PExAQ1RSaJHwT/hDsfJ9tJ
-         hgj1E2bmNwtlDys9l/2m3kJvk6uuo+Lb6KOivE7hcghIR2sxJ5ENtUhb1zPlffccego5
-         O+Q0oObkF0XdGZPGR++lgBxZRWtD1LqHQi3o3ywf/w3duRgCHyQBmAwjsK6bkyAH+wyx
-         AFBYIKvodfqtVWD6RP+rfSWeUes2cwVzCM24hGiJRYJpbN7gxoa99AcWPyP28RpVgxgZ
-         pwQQQD8wmdHZpT7Tv+FzTWrsNkGGJj8TjcRCAFToNJ0A5N93RC3KOqY6EKX/GSMCZwH2
-         AKSg==
-X-Gm-Message-State: AAQBX9eGxc61+szU6uTMHj/R/PyIOGkPStUIidc0pBn+Q4pxCI9mUT3O
-        OKRZdSxNZyB76imBlo4GGtiSyYm/lsTOsZWukfxA3vx80ljVDkI/M8MShQx70yO2U1E4Rsve0Pf
-        6VkNwP9zWXu/vWnmu7wVR
-X-Received: by 2002:adf:ce8e:0:b0:2dd:3856:4dec with SMTP id r14-20020adfce8e000000b002dd38564decmr27424158wrn.61.1680519783554;
-        Mon, 03 Apr 2023 04:03:03 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y2oST8H5mGI1Iswt2xjz8GyMo1HkvGSAsOIq6xqlbT4sEKAEwC6DgPef4K+whDRfjGMWlQuQ==
-X-Received: by 2002:adf:ce8e:0:b0:2dd:3856:4dec with SMTP id r14-20020adfce8e000000b002dd38564decmr27424136wrn.61.1680519783128;
-        Mon, 03 Apr 2023 04:03:03 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c702:5e00:8e78:71f3:6243:77f0? (p200300cbc7025e008e7871f3624377f0.dip0.t-ipconnect.de. [2003:cb:c702:5e00:8e78:71f3:6243:77f0])
-        by smtp.gmail.com with ESMTPSA id 7-20020a05600c024700b003ee63fe5203sm11736573wmj.36.2023.04.03.04.03.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 04:03:02 -0700 (PDT)
-Message-ID: <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
-Date:   Mon, 3 Apr 2023 13:03:01 +0200
+        d=1e100.net; s=20210112; t=1680530709;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pP1y+2npNFi89ug0/IC9s4GPFuEkE96kXvViHM8S82Y=;
+        b=nwAK7cguxb7/Pwc+zB6WxBgOrgFY/3Pr5KD8a/6iqwCY3VTecyU/kUhZi3zqmN5cpl
+         n6RltTj2Oq7v/m+dIRP5NPHtMSyYgZJ3kebwUv1ZDz41GMQF3J5Io92+E4Gna+bvcc7V
+         gE1Mt8fUx+t0PmONUSJc8H0yp/VH83i9T7rUOBh1ahGJphGehpEA0K0pGm3j0ivOCZBo
+         40hHQFhz5IXn1xN+T3OJGjyg2oMcX4Rd1hvrBaxorQgFPm6MgdhijKfthMLGBvmc8rtq
+         EnxgojfPDLps4aDgYwVB0EgQCqIRXFzOfiA0MjCZ8M663xA2zcb7aa8mzgeibJ6Wa/eb
+         TBRA==
+X-Gm-Message-State: AAQBX9cfzaZmYW+mokRoHHUq5kb3bB4e4fC7KCGJanSZPIoto66xP6QL
+        RMUNCV6GuzfGlgEg0h/z2oAjL7AWFQw=
+X-Google-Smtp-Source: AKy350ZPMTNT8j/gFua35RH6Y9rBKALeYSJ1nl6jWYeCMkrNYNAcbUZmVOrD3GaqTK0xuYAKNZrY2A==
+X-Received: by 2002:a17:902:fa8d:b0:19f:30be:ea0d with SMTP id lc13-20020a170902fa8d00b0019f30beea0dmr30070199plb.62.1680530709345;
+        Mon, 03 Apr 2023 07:05:09 -0700 (PDT)
+Received: from localhost ([198.11.176.14])
+        by smtp.gmail.com with ESMTPSA id u8-20020a170902a60800b001a045f45d49sm6638401plq.281.2023.04.03.07.05.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Apr 2023 07:05:08 -0700 (PDT)
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        "H. Peter Anvin" <hpa@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Asit Mallick <asit.k.mallick@intel.com>,
+        Cfir Cohen <cfir@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        David Kaplan <David.Kaplan@amd.com>,
+        David Rientjes <rientjes@google.com>,
+        Dirk Hohndel <dirkhh@vmware.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Jiri Slaby <jslaby@suse.cz>, Joerg Roedel <joro@8bytes.org>,
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mike Stunes <mstunes@vmware.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Tony Luck <tony.luck@intel.com>, kvm@vger.kernel.org,
+        linux-coco@lists.linux.dev, x86@kernel.org,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [RFC PATCH 2/7] x86/entry: Add IST main stack
+Date:   Mon,  3 Apr 2023 22:06:00 +0800
+Message-Id: <20230403140605.540512-3-jiangshanlai@gmail.com>
+X-Mailer: git-send-email 2.19.1.6.gb485710b
+In-Reply-To: <20230403140605.540512-1-jiangshanlai@gmail.com>
+References: <20230403140605.540512-1-jiangshanlai@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v4 1/3] mm: add new api to enable ksm per process
-Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
-Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, hannes@cmpxchg.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230310182851.2579138-2-shr@devkernel.io>
- <7ed4308d-b400-d2bb-b539-3fe418862ab8@redhat.com>
-Organization: Red Hat
-In-Reply-To: <7ed4308d-b400-d2bb-b539-3fe418862ab8@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03.04.23 12:37, David Hildenbrand wrote:
-> On 10.03.23 19:28, Stefan Roesch wrote:
->> Patch series "mm: process/cgroup ksm support", v3.
->>
->> So far KSM can only be enabled by calling madvise for memory regions.  To
->> be able to use KSM for more workloads, KSM needs to have the ability to be
->> enabled / disabled at the process / cgroup level.
->>
->> Use case 1:
->>
->>     The madvise call is not available in the programming language.  An
->>     example for this are programs with forked workloads using a garbage
->>     collected language without pointers.  In such a language madvise cannot
->>     be made available.
->>
->>     In addition the addresses of objects get moved around as they are
->>     garbage collected.  KSM sharing needs to be enabled "from the outside"
->>     for these type of workloads.
-> 
-> I guess the interpreter could enable it (like a memory allocator could
-> enable it for the whole heap). But I get that it's much easier to enable
-> this per-process, and eventually only when a lot of the same processes
-> are running in that particular environment.
-> 
->>
->> Use case 2:
->>
->>     The same interpreter can also be used for workloads where KSM brings
->>     no benefit or even has overhead.  We'd like to be able to enable KSM on
->>     a workload by workload basis.
-> 
-> Agreed. A per-process control is also helpful to identidy workloads
-> where KSM might be beneficial (and to which degree).
-> 
->>
->> Use case 3:
->>
->>     With the madvise call sharing opportunities are only enabled for the
->>     current process: it is a workload-local decision.  A considerable number
->>     of sharing opportuniites may exist across multiple workloads or jobs.
->>     Only a higler level entity like a job scheduler or container can know
->>     for certain if its running one or more instances of a job.  That job
->>     scheduler however doesn't have the necessary internal worklaod knowledge
->>     to make targeted madvise calls.
->>
->> Security concerns:
->>
->>     In previous discussions security concerns have been brought up.  The
->>     problem is that an individual workload does not have the knowledge about
->>     what else is running on a machine.  Therefore it has to be very
->>     conservative in what memory areas can be shared or not.  However, if the
->>     system is dedicated to running multiple jobs within the same security
->>     domain, its the job scheduler that has the knowledge that sharing can be
->>     safely enabled and is even desirable.
->>
->> Performance:
->>
->>     Experiments with using UKSM have shown a capacity increase of around
->>     20%.
->>
-> 
-> As raised, it would be great to include more details about the workload
-> where this particulalry helps (e.g., a lot of Django processes operating
-> in the same domain).
-> 
->>
->> 1. New options for prctl system command
->>
->>      This patch series adds two new options to the prctl system call.
->>      The first one allows to enable KSM at the process level and the second
->>      one to query the setting.
->>
->>      The setting will be inherited by child processes.
->>
->>      With the above setting, KSM can be enabled for the seed process of a
->>      cgroup and all processes in the cgroup will inherit the setting.
->>
->> 2. Changes to KSM processing
->>
->>      When KSM is enabled at the process level, the KSM code will iterate
->>      over all the VMA's and enable KSM for the eligible VMA's.
->>
->>      When forking a process that has KSM enabled, the setting will be
->>      inherited by the new child process.
->>
->>      In addition when KSM is disabled for a process, KSM will be disabled
->>      for the VMA's where KSM has been enabled.
-> 
-> Do we want to make MADV_MERGEABLE/MADV_UNMERGEABLE fail while the new
-> prctl is enabled for a process?
-> 
->>
->> 3. Add general_profit metric
->>
->>      The general_profit metric of KSM is specified in the documentation,
->>      but not calculated.  This adds the general profit metric to
->>      /sys/kernel/debug/mm/ksm.
->>
->> 4. Add more metrics to ksm_stat
->>
->>      This adds the process profit and ksm type metric to
->>      /proc/<pid>/ksm_stat.
->>
->> 5. Add more tests to ksm_tests
->>
->>      This adds an option to specify the merge type to the ksm_tests.
->>      This allows to test madvise and prctl KSM.  It also adds a new option
->>      to query if prctl KSM has been enabled.  It adds a fork test to verify
->>      that the KSM process setting is inherited by client processes.
->>
->> An update to the prctl(2) manpage has been proposed at [1].
->>
->> This patch (of 3):
->>
->> This adds a new prctl to API to enable and disable KSM on a per process
->> basis instead of only at the VMA basis (with madvise).
->>
->> 1) Introduce new MMF_VM_MERGE_ANY flag
->>
->>      This introduces the new flag MMF_VM_MERGE_ANY flag.  When this flag
->>      is set, kernel samepage merging (ksm) gets enabled for all vma's of a
->>      process.
->>
->> 2) add flag to __ksm_enter
->>
->>      This change adds the flag parameter to __ksm_enter.  This allows to
->>      distinguish if ksm was called by prctl or madvise.
->>
->> 3) add flag to __ksm_exit call
->>
->>      This adds the flag parameter to the __ksm_exit() call.  This allows
->>      to distinguish if this call is for an prctl or madvise invocation.
->>
->> 4) invoke madvise for all vmas in scan_get_next_rmap_item
->>
->>      If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
->>      over all the vmas and enable ksm if possible.  For the vmas that can be
->>      ksm enabled this is only done once.
->>
->> 5) support disabling of ksm for a process
->>
->>      This adds the ability to disable ksm for a process if ksm has been
->>      enabled for the process.
->>
->> 6) add new prctl option to get and set ksm for a process
->>
->>      This adds two new options to the prctl system call
->>      - enable ksm for all vmas of a process (if the vmas support it).
->>      - query if ksm has been enabled for a process.
-> 
-> 
-> Did you consider, instead of handling MMF_VM_MERGE_ANY in a special way,
-> to instead make it reuse the existing MMF_VM_MERGEABLE/VM_MERGEABLE
-> infrastructure. Especially:
-> 
-> 1) During prctl(MMF_VM_MERGE_ANY), set VM_MERGABLE on all applicable
->      compatible. Further, set MMF_VM_MERGEABLE and enter KSM if not
->      already set.
-> 
-> 2) When creating a new, compatible VMA and MMF_VM_MERGE_ANY is set, set
->      VM_MERGABLE?
-> 
-> The you can avoid all runtime checks for compatible VMAs and only look
-> at the VM_MERGEABLE flag. In fact, the VM_MERGEABLE will be completely
-> expressive then for all VMAs. You don't need vma_ksm_mergeable() then.
-> 
-> 
-> Another thing to consider is interaction with arch/s390/mm/gmap.c:
-> s390x/kvm does not support KSM and it has to disable it for all VMAs. We
-> have to find a way to fence the prctl (for example, fail setting the
-> prctl after gmap_mark_unmergeable() ran, and make
-> gmap_mark_unmergeable() fail if the prctl ran -- or handle it gracefully
-> in some other way).
+From: Lai Jiangshan <jiangshan.ljs@antgroup.com>
 
+Add IST main stack for atomic-IST-entry.
 
-Staring at that code, I wonder if the "mm->def_flags &= ~VM_MERGEABLE" 
-is doing what it's supposed to do. I don't think this effectively 
-prevents right now madvise() from getting re-enabled on that VMA.
+The size is THREAD_SIZE since there might be multiple super
+exceptions being handled on the stack.
 
-@Christian, Janosch, am I missing something?
+Signed-off-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
+---
+ Documentation/x86/kernel-stacks.rst   | 2 ++
+ arch/x86/include/asm/cpu_entry_area.h | 5 +++++
+ arch/x86/kernel/dumpstack_64.c        | 6 ++++--
+ arch/x86/mm/cpu_entry_area.c          | 1 +
+ 4 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/x86/kernel-stacks.rst b/Documentation/x86/kernel-stacks.rst
+index 6b0bcf027ff1..be89acf302da 100644
+--- a/Documentation/x86/kernel-stacks.rst
++++ b/Documentation/x86/kernel-stacks.rst
+@@ -105,6 +105,8 @@ The currently assigned IST stacks are:
+   middle of switching stacks.  Using IST for MCE events avoids making
+   assumptions about the previous state of the kernel stack.
+ 
++* ESTACK_IST. bla bla
++
+ For more details see the Intel IA32 or AMD AMD64 architecture manuals.
+ 
+ 
+diff --git a/arch/x86/include/asm/cpu_entry_area.h b/arch/x86/include/asm/cpu_entry_area.h
+index 462fc34f1317..a373e8c37e25 100644
+--- a/arch/x86/include/asm/cpu_entry_area.h
++++ b/arch/x86/include/asm/cpu_entry_area.h
+@@ -10,6 +10,8 @@
+ 
+ #ifdef CONFIG_X86_64
+ 
++#define IST_MAIN_STKSZ	THREAD_SIZE
++
+ #ifdef CONFIG_AMD_MEM_ENCRYPT
+ #define VC_EXCEPTION_STKSZ	EXCEPTION_STKSZ
+ #else
+@@ -30,6 +32,8 @@
+ 	char	VC_stack[optional_stack_size];			\
+ 	char	VC2_stack_guard[guardsize];			\
+ 	char	VC2_stack[optional_stack_size];			\
++	char	IST_stack_guard[guardsize];			\
++	char	IST_stack[IST_MAIN_STKSZ];			\
+ 	char	IST_top_guard[guardsize];			\
+ 
+ /* The exception stacks' physical storage. No guard pages required */
+@@ -52,6 +56,7 @@ enum exception_stack_ordering {
+ 	ESTACK_MCE,
+ 	ESTACK_VC,
+ 	ESTACK_VC2,
++	ESTACK_IST,
+ 	N_EXCEPTION_STACKS
+ };
+ 
+diff --git a/arch/x86/kernel/dumpstack_64.c b/arch/x86/kernel/dumpstack_64.c
+index f05339fee778..3413b23fa9f1 100644
+--- a/arch/x86/kernel/dumpstack_64.c
++++ b/arch/x86/kernel/dumpstack_64.c
+@@ -26,11 +26,12 @@ static const char * const exception_stack_names[] = {
+ 		[ ESTACK_MCE	]	= "#MC",
+ 		[ ESTACK_VC	]	= "#VC",
+ 		[ ESTACK_VC2	]	= "#VC2",
++		[ ESTACK_IST	]	= "#IST",
+ };
+ 
+ const char *stack_type_name(enum stack_type type)
+ {
+-	BUILD_BUG_ON(N_EXCEPTION_STACKS != 6);
++	BUILD_BUG_ON(N_EXCEPTION_STACKS != ARRAY_SIZE(exception_stack_names));
+ 
+ 	if (type == STACK_TYPE_TASK)
+ 		return "TASK";
+@@ -89,6 +90,7 @@ struct estack_pages estack_pages[CEA_ESTACK_PAGES] ____cacheline_aligned = {
+ 	EPAGERANGE(MCE),
+ 	EPAGERANGE(VC),
+ 	EPAGERANGE(VC2),
++	EPAGERANGE(IST),
+ };
+ 
+ static __always_inline bool in_exception_stack(unsigned long *stack, struct stack_info *info)
+@@ -98,7 +100,7 @@ static __always_inline bool in_exception_stack(unsigned long *stack, struct stac
+ 	struct pt_regs *regs;
+ 	unsigned int k;
+ 
+-	BUILD_BUG_ON(N_EXCEPTION_STACKS != 6);
++	BUILD_BUG_ON(N_EXCEPTION_STACKS != 7);
+ 
+ 	begin = (unsigned long)__this_cpu_read(cea_exception_stacks);
+ 	/*
+diff --git a/arch/x86/mm/cpu_entry_area.c b/arch/x86/mm/cpu_entry_area.c
+index 7316a8224259..62341cb819ab 100644
+--- a/arch/x86/mm/cpu_entry_area.c
++++ b/arch/x86/mm/cpu_entry_area.c
+@@ -148,6 +148,7 @@ static void __init percpu_setup_exception_stacks(unsigned int cpu)
+ 	cea_map_stack(NMI);
+ 	cea_map_stack(DB);
+ 	cea_map_stack(MCE);
++	cea_map_stack(IST);
+ 
+ 	if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
+ 		if (cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT)) {
 -- 
-Thanks,
-
-David / dhildenb
+2.19.1.6.gb485710b
 
