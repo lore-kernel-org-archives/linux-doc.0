@@ -2,164 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B2FC76196
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 15:37:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72FDAC761A6
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 15:57:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232935AbjDCPhy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 11:37:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43076 "EHLO
+        id S232617AbjDCP5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 11:57:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232884AbjDCPhx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 11:37:53 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDEB10F9
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 08:37:52 -0700 (PDT)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 333EEFqw031848
-        for <linux-doc@vger.kernel.org>; Mon, 3 Apr 2023 15:37:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=l0j4OlK7K/zzSIiuvF4pXe+E49y6ez7Q+6Vk1V1sB4Q=;
- b=LNHlsV5WSWsA8OzngMpeUlMrd2LtoydezFPkW9pH92+aztAJVwerO7WoG3STuc8l0fJs
- NWXEZ7F5uDUae2hFtQuGYh5Tq6vkm8t0gWfQtr0uI04Cjp+0LZQ/Ll1XTVAuC8Vjhp/8
- c7gu0Qj0y4T9vGc285ZPD3PCZnrW7KyiBNBdO1IQSko+1CbDmaSYfOZRYrAbGr6S+P8M
- TXZAeJFKyjt7ZX7tcMNxkTTNSwHEReNypER5I1Dfk4SoYX+fyPc31Sf5Ew52JRfmU0oI
- fagznmZKnzdQPdcucDMq1yIvds85Y/ixsYh7Hm54KMmwMSKBoR7OThyywdw0wA0rYoHD mg== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pr0crteyf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 15:37:51 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 333FHYrR016965
-        for <linux-doc@vger.kernel.org>; Mon, 3 Apr 2023 15:37:51 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
-        by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3ppc88q23r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 15:37:51 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-        by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 333Fbn8g6357714
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-        for <linux-doc@vger.kernel.org>; Mon, 3 Apr 2023 15:37:49 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 923C45805E
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 15:37:49 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6C1F25805A
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 15:37:49 +0000 (GMT)
-Received: from [9.160.16.30] (unknown [9.160.16.30])
-        by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 15:37:49 +0000 (GMT)
-Message-ID: <bf615760-918c-f0d1-e70d-87071f847a04@linux.ibm.com>
-Date:   Mon, 3 Apr 2023 11:37:49 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: sphinx - proper method for linking
-Content-Language: en-US
-To:     linux-doc@vger.kernel.org
-References: <e747b0ba-7992-36c7-f931-08aac46385f1@linux.ibm.com>
- <87v8ipzswd.fsf@meer.lwn.net> <ZB5gPAGzTwqArQY4@debian.me>
-From:   Ken Goldman <kgold@linux.ibm.com>
-In-Reply-To: <ZB5gPAGzTwqArQY4@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _XHafzQyJd171jIX0z1iorw7gLTeLIbD
-X-Proofpoint-ORIG-GUID: _XHafzQyJd171jIX0z1iorw7gLTeLIbD
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S232932AbjDCP5Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 11:57:25 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC66C448E;
+        Mon,  3 Apr 2023 08:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1680537006;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WQ7k7KsV39QPGYjokDQtx5Buy0HkE7q//zbkWOqAhK8=;
+        b=DEzFQ5dHQ52MTjpnNy7RIpuyYfglVdd9G+QCmQAVvx+THx1Dg3RcG9JdnozS0UiT+lI+RR
+        CwJVsJsAsQoVJKd/Og7/j2Tt0PnG/Sny+C9Ea9H9gfozB95dYUVccWs0aEeC/OjeWUzyfq
+        tjjtxRST8Z3B0Ek776+YV19sFnLRNGg=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Vinod Koul <vkoul@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        =?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v3 11/11] Documentation: iio: Document high-speed DMABUF based API
+Date:   Mon,  3 Apr 2023 17:49:55 +0200
+Message-Id: <20230403154955.216148-2-paul@crapouillou.net>
+In-Reply-To: <20230403154955.216148-1-paul@crapouillou.net>
+References: <20230403154800.215924-1-paul@crapouillou.net>
+ <20230403154955.216148-1-paul@crapouillou.net>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-03_12,2023-04-03_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=2 clxscore=1015 malwarescore=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 spamscore=2
- priorityscore=1501 mlxscore=2 mlxlogscore=159 adultscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304030105
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The answers below explain __how__, which I already know.
+Document the new DMABUF based API.
 
-My question is whether this is a good or bad idea.  What happens if I 
-change labels?  Do I break people's links?  Must my labels be stable 
-forever?
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 
-On 3/24/2023 10:45 PM, Bagas Sanjaya wrote:
-> On Fri, Mar 24, 2023 at 04:28:02PM -0600, Jonathan Corbet wrote:
->>> Are links to other documents stable?
->>>
->>> How about sections within the page?
->> I don't understand those questions.
-> You need to first add the label before desired section heading, like:
->
-> ```
-> ...
-> .. _foo:
->
-> Foo
-> ===
->
-> ...
-> ```
->
-> Then elsewhere use :ref: role and specify the target label, ideally also
-> specifying anchor text:
->
-> ```
-> ...
-> This assumes that you have knowledge on :ref:`foo <foo>`.
-> ...
-> ```
+---
+v2: - Explicitly state that the new interface is optional and is
+      not implemented by all drivers.
+    - The IOCTLs can now only be called on the buffer FD returned by
+      IIO_BUFFER_GET_FD_IOCTL.
+    - Move the page up a bit in the index since it is core stuff and not
+      driver-specific.
+v3: Update the documentation to reflect the new API.
+---
+ Documentation/iio/dmabuf_api.rst | 59 ++++++++++++++++++++++++++++++++
+ Documentation/iio/index.rst      |  2 ++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/iio/dmabuf_api.rst
 
-I know I can do that.
+diff --git a/Documentation/iio/dmabuf_api.rst b/Documentation/iio/dmabuf_api.rst
+new file mode 100644
+index 000000000000..4d70372c7ebd
+--- /dev/null
++++ b/Documentation/iio/dmabuf_api.rst
+@@ -0,0 +1,59 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===================================
++High-speed DMABUF interface for IIO
++===================================
++
++1. Overview
++===========
++
++The Industrial I/O subsystem supports access to buffers through a
++file-based interface, with read() and write() access calls through the
++IIO device's dev node.
++
++It additionally supports a DMABUF based interface, where the userspace
++can attach DMABUF objects (externally created) to a IIO buffer, and
++subsequently use them for data transfers.
++
++A userspace application can then use this interface to share DMABUF
++objects between several interfaces, allowing it to transfer data in a
++zero-copy fashion, for instance between IIO and the USB stack.
++
++The userspace application can also memory-map the DMABUF objects, and
++access the sample data directly. The advantage of doing this vs. the
++read() interface is that it avoids an extra copy of the data between the
++kernel and userspace. This is particularly useful for high-speed devices
++which produce several megabytes or even gigabytes of data per second.
++It does however increase the userspace-kernelspace synchronization
++overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
++be used for data integrity.
++
++2. User API
++===========
++
++As part of this interface, three new IOCTLs have been added. These three
++IOCTLs have to be performed on the IIO buffer's file descriptor,
++obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
++
++``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
++----------------------------------------------------------------
++
++Attach the DMABUF object, identified by its file descriptor, to the IIO
++buffer. Returns zero on success, and a negative errno value on error.
++
++``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
++--------------------------------------------------------
++
++Detach the given DMABUF object, identified by its file descriptor, from
++the IIO buffer. Returns zero on success, and a negative errno value on
++error.
++
++Note that closing the IIO buffer's file descriptor will automatically
++detach all previously attached DMABUF objects.
++
++``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
++--------------------------------------------------------
++
++Enqueue a previously attached DMABUF object to the buffer queue.
++Enqueued DMABUFs will be read from (if output buffer) or written to
++(if input buffer) as long as the buffer is enabled.
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index 1b7292c58cd0..3eae8fcb1938 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -9,6 +9,8 @@ Industrial I/O
+ 
+    iio_configfs
+ 
++   dmabuf_api
++
+    ep93xx_adc
+ 
+    bno055
+-- 
+2.39.2
 
-However, what happens if someone links to my :ref:, and then I change 
-the label?
-
->>> I found that this .rst works.
->>>
->>> See
->>> https://www.kernel.org/doc/html/latest/security/keys/trusted-encrypted.html
->>>
->>> Is that OK, or is there a better way?
->> You wouldn't link to the rendered kernel docs normally, you'd just say
->> "See Documentation/security/keys/trusted-encrypted.rst".
->>
->> Look at the Sphinx cheatsheets on the net for the various other ways of
->> making links if you need to link outside of the kernel docs.
-> As with internal linking, you can simply write out the link:
->
-> ```
-> ...
-> Check out the documentation at https://foo.bar/baz for complete
-> treatment on this topic.
-> ...
->
-> ```
->
-> Or if you need anchor text:
->
-> ```
-> ...
-> Check out `baz documentation <https://foo.bar/baz>`_ for complete
-> treatment on this topic`.
-> ...
-> ```
->
-> There is also :doc: directive if you need internal linking with anchor
-> text. The target can be either relative to the doc or absolute in respect
-> to documentation root (`Documentation/`). Do not specify filename
-> suffix. For example:
->
-> ```
-> ...
-> The general guide on :doc:`submitting patches
-> </process/submitting-patches>` also applies to this subsystem.
-> ...
->
-> ```
->
-> Thanks.
->
