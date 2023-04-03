@@ -2,172 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF59FC76188
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 17:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE58C76196
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Apr 2023 17:15:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbjDCRFv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 13:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45932 "EHLO
+        id S231895AbjDCRPG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Apr 2023 13:15:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232468AbjDCRFv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 13:05:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C7B1FD3
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 10:05:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680541501;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fB9l5DmMkkkgnxs6JL3bro+0KNlScQ1w3i/qgZyBoMI=;
-        b=IK0deAic2MBaL61JVANxNnjgcAISHfe9gG9u+bHlt/S44hq1ecUiBCdJTci6loXqFbjK+8
-        lThxV2+ajxFIkVaCeoA02gY4Azspip3fJf4uU5Fqsnz7il4XOSVqudyhqli0yFepU/rW9w
-        UXXqTVZCW0O11lfTZ2QMO9udE5OJ6DA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-296-QsCY_x-OO0CSAQQBr3p2Kg-1; Mon, 03 Apr 2023 13:04:59 -0400
-X-MC-Unique: QsCY_x-OO0CSAQQBr3p2Kg-1
-Received: by mail-wr1-f71.google.com with SMTP id p1-20020a5d6381000000b002cea6b2d5a9so3318502wru.14
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 10:04:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680541498;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fB9l5DmMkkkgnxs6JL3bro+0KNlScQ1w3i/qgZyBoMI=;
-        b=L1OMZXSWPQRkwKMWpWeB9Kgf0EKwUYmsl1+e1HfrKOPJ+g10716ehhufwiz0iss6Sf
-         rmxZG8+lAW7F26kqHglCbQwyGAankxon5FEAP55zF8ok2Ih1+GVHZOdUn2gxUe6C0DvC
-         4PYs2+OMoRIjoBc5ej38ZEQtJKo/knKxF4KEfzyB5eq6GsRySaKxP9M90OufGmG3ZAFa
-         yvlafoNCvBxGl2GG+e9JKIJqRnVkiphXaoIUheMzBwzga4aPLXl7x8fvo+xbEk4EeuEI
-         shl9opULlBc0CtGrponTZYUB3r+QrRDHtDsoEeDUCDBhmCSsAg8PXCPw/Ep23O4xzSJZ
-         lqGg==
-X-Gm-Message-State: AAQBX9eF5xbUm6CAcU1eVEO8Zp9x+mM2/WpiCooxV1jD4sStCB3OiKBh
-        MTs+7nvvFoQGJjymiIaqKtSQlDcu0iRCGxjDgSbCtgDvrQntaO6dwpBZ3Hh6zfVnR6J68GUCfWF
-        0VZRiOAyJPuhgGcpET1G8
-X-Received: by 2002:a05:6000:1807:b0:2e5:1da2:2a06 with SMTP id m7-20020a056000180700b002e51da22a06mr9798602wrh.5.1680541498730;
-        Mon, 03 Apr 2023 10:04:58 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YZsdZhtaUQElV+DlNmNek3k6auOGEEWMuMoCKBGhq8HidqpSrroTqCEY45g9u3ktoFhKZe+g==
-X-Received: by 2002:a05:6000:1807:b0:2e5:1da2:2a06 with SMTP id m7-20020a056000180700b002e51da22a06mr9798585wrh.5.1680541498435;
-        Mon, 03 Apr 2023 10:04:58 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c702:5e00:8e78:71f3:6243:77f0? (p200300cbc7025e008e7871f3624377f0.dip0.t-ipconnect.de. [2003:cb:c702:5e00:8e78:71f3:6243:77f0])
-        by smtp.gmail.com with ESMTPSA id k12-20020adfe8cc000000b002c7b229b1basm10137726wrn.15.2023.04.03.10.04.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 10:04:57 -0700 (PDT)
-Message-ID: <39deb9d5-9f21-9d3d-0847-54e90491b0b1@redhat.com>
-Date:   Mon, 3 Apr 2023 19:04:56 +0200
+        with ESMTP id S231411AbjDCRPF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 13:15:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 284B61BF0;
+        Mon,  3 Apr 2023 10:15:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B9FF762276;
+        Mon,  3 Apr 2023 17:15:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E2DC433D2;
+        Mon,  3 Apr 2023 17:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680542103;
+        bh=goHoB2jLaOy/EZiBpWOJOkuOxo+2a8uUDASlH5Rjdeo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZwzCFdR2HlV/3xEQ2th+BoUWRZxclFUkHHSDMfWoUpFshEVDp4PwvXfwPfwER46zu
+         utJLROIS9/Qc/2ko2aE1xfHFyTEz59HpTsq4MoWb4c8DmwUTg+qDyjk3du2n2sBJvX
+         dQUKlZ5L1keWxOxmBB8S08JMiituLrqzxnnE06tbsYuy+/FLZTfjyTp/0PDW7Kairo
+         c84lBAg53Eb2j6lj7QaRqTK0B9n6oGkXHkX5TPH+344DGvaXCqX7DY4VXPMy8FoKmA
+         nFSYMz35eiNfDuL4I3hMZwKn8jWjD0oZGCwIJEYgZes3oq7ZktScL+GuTEm6fj2N7i
+         43CXpTlrr0RJg==
+Date:   Mon, 3 Apr 2023 18:14:57 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+Message-ID: <20230403-repose-cartwheel-c3e10c231cae@spud>
+References: <20230307102441.94417-1-conor.dooley@microchip.com>
+ <CANiq72=i9je2864iTvZBFnhVLhF7Cema7EPCcdWOJ3mr62SqDg@mail.gmail.com>
+ <a6220e52-9934-422b-9b05-95705b8fd684@spud>
+ <b5fba6b3-177c-4325-905a-8f9f633a592a@spud>
+ <CANiq72mip7Xs5vnS4KccxCmBmRbKGki7AYTTHxwaeyr3amvSWw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-Content-Language: en-US
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        Hugh Dickins <hughd@google.com>
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230328160914.5b6b66e4a5ad39e41fd63710@linux-foundation.org>
- <37dcd52a-2e32-c01d-b805-45d862721fbc@redhat.com>
- <ZCWcJelF5bEdF4N3@cmpxchg.org>
- <ff599dc1-729d-52dc-d605-8a8ac890ad15@redhat.com>
- <qvqwv8ii89x6.fsf@dev0134.prn3.facebook.com>
- <f969cb1f-651f-592f-7540-89f73e175c7d@redhat.com>
- <qvqwlej8vrst.fsf@dev0134.prn3.facebook.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <qvqwlej8vrst.fsf@dev0134.prn3.facebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="XTCdhfO5W5YlGhZZ"
+Content-Disposition: inline
+In-Reply-To: <CANiq72mip7Xs5vnS4KccxCmBmRbKGki7AYTTHxwaeyr3amvSWw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03.04.23 18:34, Stefan Roesch wrote:
->>
->> In contrast to e.g.:
->>
->> 1) THP resulted in many zeropages we end up deduplicating again. The THP
->>     placement was unfortunate.
->>
->> 2) Unoptimized memory allocators that leave many identical pages mapped
->>     after freeing up memory (e.g., zeroed pages, pages all filled with
->>     poison values) instead of e.g., using MADV_DONTNEED to free up that
->>     memory.
->>
->>
-> 
-> I repeated an experiment with and without KSM. In terms of THP there is
-> no huge difference between the two. On a 64GB main memory machine I see
-> between 100 - 400MB in AnonHugePages.
-> 
->>> /sys/kernel/mm/ksm/pages_shared is over 10000 when we run this on an
->>> Instagram workload. The workload consists of 36 processes plus a few
->>> sidecar processes.
->>
->> Thanks! To which value is /sys/kernel/mm/ksm/max_page_sharing set in that
->> environment?
->>
-> 
-> It's set to the standard value of 256.
-> 
-> In the meantime I have run experiments with different settings for
-> pages_to_scan. With the default value of 100, we only get a relatively
-> small benefit of KSM. If I increase the value to for instance to 2000 or
-> 3000 the savings are substantial. (The workload is memory bound, not
-> CPU bound).
 
-Interesting.
+--XTCdhfO5W5YlGhZZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Here are some stats for setting pages_to_scan to 3000:
-> 
-> full_scans: 560
-> general_profit: 20620539008
-> max_page_sharing: 256
-> merge_across_nodes: 1
-> pages_shared: 125446
-> pages_sharing: 5259506
-> pages_to_scan: 3000
-> pages_unshared: 1897537
-> pages_volatile: 12389223
-> run: 1
-> sleep_millisecs: 20
-> stable_node_chains: 176
-> stable_node_chains_prune_millisecs: 2000
-> stable_node_dups: 2604
-> use_zero_pages: 0
-> zero_pages_sharing: 0
-> 
-> 
->> What would be interesting is pages_shared after max_page_sharing was set to a
->> very high number such that pages_shared does not include duplicates. Then
->> pages_shared actually expresses how many different pages we deduplicate. No need
->> to run without THP in that case.
->>
-> 
-> Thats on my list for the next set of experiments.
+On Mon, Apr 03, 2023 at 06:35:45PM +0200, Miguel Ojeda wrote:
+> On Thu, Mar 30, 2023 at 11:12=E2=80=AFAM Conor Dooley
+> <conor.dooley@microchip.com> wrote:
+> >
+> > I'd rather do this in the RISC-V Makefile so that it does not get
+> > forgotten.
+>=20
+> Sounds good to me! We want to have the least amount of things possible
+> in the common pieces (e.g. for the target spec file we moved some
+> flags); so the more we move out to `arch/`, the better.
+>=20
+> > If my understanding of bindgen is correct, we don't actually need to be
+> > honest to it about what extensions the rest of the kernel is compiled
+> > with, only make sure that it is not called with arguments it does not
+> > understand?
+>=20
+> As long as bindgen generates things with the right ABI etc., yeah.
+> But, in principle, enabling one extension one side but not the other
+> could be wrong if it ends up in something that Rust uses, e.g. if the
+> C side does:
+>=20
+>     #ifdef __ARM_ARCH_7R__
+>         int x;
+>     #else
+>         char x;
+>     #endif
+>=20
+> and Rust attempts to use it, then particular `-march` builds could be bro=
+ken.
 
-Splendid.
+To be on the safe side then, we should really disable the extensions
+across the whole kernel. I don't *think* we have any madness at the
+moment like in the above, but it is better to be on the safe side.
+As I note below, it's just one extension for now anyway.
 
->> Similarly, enabling "use_zero_pages" could highlight if your workload ends up
->> deduplciating a lot of zeropages. But maxing out max_page_sharing would be
->> sufficient to understand what's happening.
->>
->>
-> 
-> I already run experiments with use_zero_pages, but they didn't make a
-> difference. I'll repeat the experiment with a higher pages_to_scan
-> value.
+> > What version of GCC do I need to replicate this? I can build tip-of-tree
+> > gcc if needs be.
+>=20
+> Sorry, what do you want to replicate? If you mean what we had in the
+> old GitHub CI, I see:
+>=20
+>     CONFIG_CC_VERSION_TEXT=3D"riscv64-linux-gnu-gcc (Ubuntu
+> 11.3.0-1ubuntu1~22.04) 11.3.0"
+>=20
+> which successfully boots in QEMU for the kernel config we tested.
 
-Okay, so it's most certainly not the zeropage. Thanks for that 
-information and running the experiments!
+No, I misunderstood your question. I thought you meant something else
+entirely.
 
--- 
-Thanks,
+> But if you are asking what should be supported, I guess it depends on
+> the RISC-V maintainers. Ideally, everything that the kernel supports
+> (GCC >=3D 5.1),
 
-David / dhildenb
+Heh, as if that number is true across the board!
 
+> but since the GCC+Rust builds are so experimental, I
+> think as long as something is tested from time to time, it would be
+> great (to at least know not everything is completely broken).
+>=20
+> But if you think that would be too much effort to maintain, or even
+> GCC builds in general, then please feel free to ignore it for the time
+> being, i.e. it is better to have LLVM builds rather than nothing! :)
+
+Yeah, it may be worth getting just the LLVM bits in. I abhor the -march
+handling and it may end up looking like shite with the zicsr &
+zifencei handling.
+Worst comes to worst, can permit gcc builds by just removing all the
+extensions that get passed in -march for RUST && CC_IS_GCC type
+scenarios. The only one of those at the moment is zihintpause & I don't
+suppose too many tears will be shed over that.
+For now it's safe to assume that LLVM doesn't require zicsr or zifencei
+[1], we don't need to do a version dance right away.
+
+=C2=AF\_(=E3=83=84)_/=C2=AF,
+Conor.
+
+1 - https://reviews.llvm.org/D147183#4233360
+
+--XTCdhfO5W5YlGhZZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCsJkAAKCRB4tDGHoIJi
+0sYFAQDDRMpXIXaf93gLvJjaLEOPJ8XmdZ81CElLrdC/W/n/QgD/TsQf3QYbIo/K
+DV49NcCFvY9TYFvAJ4G3pq6JXWWEEgw=
+=tW4o
+-----END PGP SIGNATURE-----
+
+--XTCdhfO5W5YlGhZZ--
