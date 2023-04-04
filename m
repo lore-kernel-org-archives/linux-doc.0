@@ -2,157 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 558F6C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 05:51:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A001AC7618D
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 06:35:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233384AbjDDFvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 01:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42040 "EHLO
+        id S231767AbjDDGfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 02:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233417AbjDDFvR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 01:51:17 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B2C1713;
-        Mon,  3 Apr 2023 22:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680587475; x=1712123475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n3G2OuYaOWQow3ISG9SZGQT2IwS+n1euaI1EX7smRF0=;
-  b=OqUWTeNoDqJHI4xoNdyySCyWpXO/hgnT35tu2vYAnhQ1xCL7ni5bGcIN
-   1RbwObcRoBDHPQP7DO3xFic7HCQmh6j+xAlPm2+TziW513Z2HnHGmXX4D
-   bnoOo8qLoM359sSQtV2le2qGFRBz/7xel+UXoTz783zqPO8xCNYA+1Yhx
-   zjv7qvMouw7mpLyM/Bw9voQILRcgSgTLxp8nzlwAdpK3i79R7z7DFcvWV
-   bifiGSssSF5gvWN/6KD+NjOPLkJZQJhnhl5lyMG/Gc7nTNYnI198/jRJa
-   zn1PFie/iW8c1OSNlVoN80s+v52+avdeMM86D2EaDnEodPOBs4a3P2/tq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322489006"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="322489006"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:51:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="750793445"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="750793445"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Apr 2023 22:51:08 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pjZZT-000PG2-2l;
-        Tue, 04 Apr 2023 05:51:07 +0000
-Date:   Tue, 4 Apr 2023 13:50:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw
- ops to manage uvmm
-Message-ID: <202304041311.bWxdWPX0-lkp@intel.com>
-References: <20230404012741.116502-14-dakr@redhat.com>
+        with ESMTP id S230004AbjDDGfh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 02:35:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E742D1987;
+        Mon,  3 Apr 2023 23:35:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3052262167;
+        Tue,  4 Apr 2023 06:35:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83D54C433AA;
+        Tue,  4 Apr 2023 06:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680590134;
+        bh=hQhK5X+FMKBgkJ1ZUpllN4QGFJfhK9B1pyMS9yscrY8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rznEyMsz7HQcxNydcsNElmyjXY1YR+EX1OSCvdyQ2u/hwVUUoQI80Usj5EYmUpM0T
+         KNhknkAfwderWUOD3szSLC5mkfN8AmWGsfqfHr4c5RkH2qFA3K6tVLXpG2o2+EVvhp
+         Z+a1cTbOJePt4CDJduXkN0UNiVX1zrQ4ieh0A0TQXqGkHH1+ZFloMaqz0lBo9py1bd
+         MlgvuPApj1DKLkJq4U/hdgdc8N59czLGvy/xCwCJCs0WDQzztpWCjwMMdwLkKOl0RH
+         x97q25j/Y2z7ppWZ+dsuAX0A5OfEhhO4uAkFjFLtby03kQk7u+IXzayuQpdaQVXxBs
+         TycYOncjg/RbQ==
+Received: by mail-ed1-f42.google.com with SMTP id cn12so126321869edb.4;
+        Mon, 03 Apr 2023 23:35:34 -0700 (PDT)
+X-Gm-Message-State: AAQBX9cmCVWWJDfpOPcUUqEE920e+BLERMTk6Z0dLwpzJVK1NkoKCiOo
+        oHLVnp+bua9l90eR2RaL71YREgt64lx9OWY9/2U=
+X-Google-Smtp-Source: AKy350am7H/VQB4ZztsVmAqwJ6AuMYVKqkRGpW+k9TnAd7Y30s0+1JnJzKxMdbYUMePr1qS//qqrlzDzDdM171oTRug=
+X-Received: by 2002:a50:aad2:0:b0:501:d3a2:b4ae with SMTP id
+ r18-20020a50aad2000000b00501d3a2b4aemr788287edc.7.1680590132765; Mon, 03 Apr
+ 2023 23:35:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230404012741.116502-14-dakr@redhat.com>
+References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
+ <16007014-c5f2-4b07-baec-e19952236aa5@spud> <ZAbGSA6F0kfv9YYw@sunil-laptop>
+ <E7FB4927-1FE6-435A-914E-9615C2AD9D34@kernel.org> <a9823561-2e32-49e8-b6c9-73e4b8f8cf8d@spud>
+ <ZAfeaO52pnYhiyLN@sunil-laptop>
+In-Reply-To: <ZAfeaO52pnYhiyLN@sunil-laptop>
+From:   Ley Foon Tan <lftan@kernel.org>
+Date:   Tue, 4 Apr 2023 14:35:19 +0800
+X-Gmail-Original-Message-ID: <CAFiDJ58bRo6R1qOFaSSNgAdbQJZ3xDY6Wth-t8M8XKRFbig2hA@mail.gmail.com>
+Message-ID: <CAFiDJ58bRo6R1qOFaSSNgAdbQJZ3xDY6Wth-t8M8XKRFbig2hA@mail.gmail.com>
+Subject: Re: [PATCH V3 00/20] Add basic ACPI support for RISC-V
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     Conor Dooley <conor@kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-acpi@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Danilo,
+On Wed, Mar 8, 2023 at 9:08=E2=80=AFAM Sunil V L <sunilvl@ventanamicro.com>=
+ wrote:
+>
+> On Tue, Mar 07, 2023 at 06:44:35PM +0000, Conor Dooley wrote:
+> > On Tue, Mar 07, 2023 at 06:13:22AM +0000, Conor Dooley wrote:
+> > >
+> > >
+> > > On 7 March 2023 05:06:16 GMT, Sunil V L <sunilvl@ventanamicro.com> wr=
+ote:
+> > > >On Mon, Mar 06, 2023 at 09:51:09PM +0000, Conor Dooley wrote:
+> > > >> Hey Sunil,
+> > > >>
+> > > >> On Fri, Mar 03, 2023 at 07:06:27PM +0530, Sunil V L wrote:
+> > > >> > This patch series enables the basic ACPI infrastructure for RISC=
+-V.
+> > > >> > Supporting external interrupt controllers is in progress and hen=
+ce it is
+> > > >> > tested using poll based HVC SBI console and RAM disk.
+> > > >> >
+> > > >> > The first patch in this series is one of the patch from Jisheng'=
+s
+> > > >> > series [1] which is not merged yet. This patch is required to su=
+pport
+> > > >> > ACPI since efi_init() which gets called before sbi_init() can en=
+able
+> > > >> > static branches and hits a panic.
+> > > >> >
+> > > >> > Patch 2 and 3 are ACPICA patches which are not merged into acpic=
+a yet
+> > > >> > but a PR is raised already.
+> > > >> >
+> > > >> > Below are two ECRs approved by ASWG.
+> > > >> > RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5n=
+X6xSEqK2l/view
+> > > >> > RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123D=
+CZKR-tia/view
+> > > >> >
+> > > >> > The series depends on Anup's IPI improvement series [2].
+> > > >> >
+> > > >> > [1] https://lore.kernel.org/all/20220821140918.3613-1-jszhang@ke=
+rnel.org/
+> > > >> > [2] https://lore.kernel.org/lkml/20230103141221.772261-7-apatel@=
+ventanamicro.com/T/
+> > > >>
+> > > >> Building a clang-15 allmodconfig (I didn't try gcc) with this seri=
+es, and
+> > > >> Anup's IPI bits, results in a broken build, due to failings in cmp=
+xchg:
+> > > >>
+> > > >> /stuff/linux/drivers/platform/surface/aggregator/controller.c:61:2=
+5: error: call to __compiletime_assert_335 declared with 'error' attribute:=
+ BUILD_BUG failed
+> > > >>         while (unlikely((ret =3D cmpxchg(&c->value, old, new)) !=
+=3D old)) {
+> > > >>                                ^
+> >
+> > > > I am able to build without any of these issues using clang-15. I am
+> > > > wondering whether the base is proper. I had rebased on top of the m=
+aster
+> > > > and couple of patches from IPI series were already merged in the ma=
+ster.
+> > > >
+> > > > Do you mind verifying with my branch
+> > > > https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17_V3=
+?
+> > >
+> > > I can check that later I suppose.
+> >
+> > That's broken too.
+> >
+> > > > Or if you could provide me your branch details, I can look further.
+> > >
+> > > 6.3-rc1, with both series applied, sans Anups applied patches.
+> >
+> > I've pushed my stuff here, but unlikely that it makes any odds since
+> > your branch experiences the same build issue.
+> > https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/ borked=
+-acpi-surface
+> >
+> > My build commands are wrapped in a script, but it's an LLVM=3D1
+> > allmodconfig run w/ clang-15(.0.7) etc.
+> >
+> Ahh allmodconfig. Thank you very much!. I can reproduce the failure. Let
+> me look further and fix in next revision.
+>
+> Thanks!
+> Sunil
 
-kernel test robot noticed the following build warnings:
+Hi Sunil
 
-[auto build test WARNING on d36d68fd1925d33066d52468b7c7c6aca6521248]
+One question regarding PMU in ACPI flow.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-base:   d36d68fd1925d33066d52468b7c7c6aca6521248
-patch link:    https://lore.kernel.org/r/20230404012741.116502-14-dakr%40redhat.com
-patch subject: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
-config: arc-randconfig-r043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041311.bWxdWPX0-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ff73c969805aef784d47f6bedea6c15c8548d0bf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
-        git checkout ff73c969805aef784d47f6bedea6c15c8548d0bf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
+We use DT to decode the supported HPM counters/events for the
+different platforms now.
+How do we enable PMU (drivers/perf/riscv_pmu_sbi.c) when using ACPI method?
+Note, this might be in separate patch series.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041311.bWxdWPX0-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h:4,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h:5,
-                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:22:
-   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c: In function 'nvkm_uvmm_mthd_raw_map':
->> drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:422:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     422 |                               (void *)args->argv, args->argc);
-         |                               ^
-   drivers/gpu/drm/nouveau/include/nvkm/core/memory.h:66:43: note: in definition of macro 'nvkm_memory_map'
-      66 |         (p)->func->map((p),(o),(vm),(va),(av),(ac))
-         |                                           ^~
-
-
-vim +422 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
-
-   388	
-   389	static int
-   390	nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
-   391	{
-   392		struct nvkm_client *client = uvmm->object.client;
-   393		struct nvkm_vmm *vmm = uvmm->vmm;
-   394		struct nvkm_vma vma = {
-   395			.addr = args->addr,
-   396			.size = args->size,
-   397			.used = true,
-   398			.mapref = false,
-   399			.no_comp = true,
-   400		};
-   401		struct nvkm_memory *memory;
-   402		u64 handle = args->memory;
-   403		u8 refd;
-   404		int ret;
-   405	
-   406		if (!nvkm_vmm_in_managed_range(vmm, args->addr, args->size))
-   407			return -EINVAL;
-   408	
-   409		ret = nvkm_uvmm_page_index(uvmm, args->size, args->shift, &refd);
-   410		if (ret)
-   411			return ret;
-   412	
-   413		vma.page = vma.refd = refd;
-   414	
-   415		memory = nvkm_umem_search(client, args->memory);
-   416		if (IS_ERR(memory)) {
-   417			VMM_DEBUG(vmm, "memory %016llx %ld\n", handle, PTR_ERR(memory));
-   418			return PTR_ERR(memory);
-   419		}
-   420	
-   421		ret = nvkm_memory_map(memory, args->offset, vmm, &vma,
- > 422				      (void *)args->argv, args->argc);
-   423	
-   424		nvkm_memory_unref(&vma.memory);
-   425		nvkm_memory_unref(&memory);
-   426		return ret;
-   427	}
-   428	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards
+Ley Foon
