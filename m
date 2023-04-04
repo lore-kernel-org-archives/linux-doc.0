@@ -2,120 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E589FC761A6
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 05:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 558F6C6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 05:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232745AbjDDFdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 01:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58694 "EHLO
+        id S233384AbjDDFvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 01:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231450AbjDDFdy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 01:33:54 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC9419A8
-        for <linux-doc@vger.kernel.org>; Mon,  3 Apr 2023 22:33:52 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id h8so125882758ede.8
-        for <linux-doc@vger.kernel.org>; Mon, 03 Apr 2023 22:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680586431;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LSfvMCOrdSCg0KsTlmNTzh+wJyyn32F7jBR5XEIQXfs=;
-        b=SZwSkMwcEttyesUKzaZlZS4UGLFXMY126tr9woNXYKUhFfJvL2DW/VmdxbXEZVKhq4
-         Q8Pq5qlwwDErfIgKXJUIy0niHLAaBewg0qiRIG2Ea3WpDIcEC3HIHc1IACXyEIQcUvyO
-         c2Zr8YwvcOOX6aVTroi7AImN1zOILzZ4YqJrVM/HXHIeJqxbaLqixzQTiaPy3uI4KW8z
-         fWMLNaSOfu++mTiApTEXBctIvp/0ILa/2KaPKUr3ZGCLFKd7tQabv28XBN7YezNEXm6w
-         dx/m0ehD2NIiIW7DwzPLa2F+gqKklDNfN+rcYmZAnyu7BNPoZGwWJLn+fvo1lxCE/umF
-         vHMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680586431;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LSfvMCOrdSCg0KsTlmNTzh+wJyyn32F7jBR5XEIQXfs=;
-        b=L/OBB1z689swHO64THp8JndHsC9mMVrJ6XJQxFas4yiZQlIs4gt+x1MYZ4NUMGnjYD
-         X26T65vYHJB6h5U5J3ctbmsi+jkImUD9OBjQRTGKsNI5eJC1wP/xlOZ86qDpSWQGvAg0
-         89lQu8LIz9cPjaWs6bFgeYpxkommFID/wNaV2+obTwwIVzjW3lHWHwMpAd9V1RArHopU
-         f9jZ9E0HoUkiGSprY/KijNV6mXSaKh+d0B7/F34R/FmwC+jtGFHtqgCXNebOsJlf8fb/
-         cTLurO2cG0IdhJLb1c4JikKM6zOnRwqSRyTFhFqc/ALs3xgCPQRFnPJ108K0ejdl4YjT
-         B56w==
-X-Gm-Message-State: AAQBX9ezinaxRLZo9Uc4OlQqUst19OkUmj2oA1EEaAU2CsIjitmEBHeK
-        O8zcxXKglYafenx1bviO2w96zQ==
-X-Google-Smtp-Source: AKy350a40YXsaP1RgtMOL5a6WR77TS6ARlPJXWLmm7+/lgqUoQ15z5r6n8YquYLchK+7NxQM/Zfl/Q==
-X-Received: by 2002:aa7:cad9:0:b0:502:4875:721 with SMTP id l25-20020aa7cad9000000b0050248750721mr1233965edt.15.1680586430958;
-        Mon, 03 Apr 2023 22:33:50 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:233a:5c18:b527:381e? ([2a02:810d:15c0:828:233a:5c18:b527:381e])
-        by smtp.gmail.com with ESMTPSA id 28-20020a508e5c000000b004c13fe8fabfsm5387403edx.84.2023.04.03.22.33.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 22:33:50 -0700 (PDT)
-Message-ID: <9c49e4a9-0792-bcae-506f-77b5874d4d19@linaro.org>
-Date:   Tue, 4 Apr 2023 07:33:49 +0200
+        with ESMTP id S233417AbjDDFvR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 01:51:17 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B2C1713;
+        Mon,  3 Apr 2023 22:51:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680587475; x=1712123475;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n3G2OuYaOWQow3ISG9SZGQT2IwS+n1euaI1EX7smRF0=;
+  b=OqUWTeNoDqJHI4xoNdyySCyWpXO/hgnT35tu2vYAnhQ1xCL7ni5bGcIN
+   1RbwObcRoBDHPQP7DO3xFic7HCQmh6j+xAlPm2+TziW513Z2HnHGmXX4D
+   bnoOo8qLoM359sSQtV2le2qGFRBz/7xel+UXoTz783zqPO8xCNYA+1Yhx
+   zjv7qvMouw7mpLyM/Bw9voQILRcgSgTLxp8nzlwAdpK3i79R7z7DFcvWV
+   bifiGSssSF5gvWN/6KD+NjOPLkJZQJhnhl5lyMG/Gc7nTNYnI198/jRJa
+   zn1PFie/iW8c1OSNlVoN80s+v52+avdeMM86D2EaDnEodPOBs4a3P2/tq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322489006"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="322489006"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:51:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="750793445"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="750793445"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Apr 2023 22:51:08 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pjZZT-000PG2-2l;
+        Tue, 04 Apr 2023 05:51:07 +0000
+Date:   Tue, 4 Apr 2023 13:50:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
+        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw
+ ops to manage uvmm
+Message-ID: <202304041311.bWxdWPX0-lkp@intel.com>
+References: <20230404012741.116502-14-dakr@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH V4 04/10] dt-bindings: timestamp: Add
- nvidia,gpio-controller
-Content-Language: en-US
-To:     Dipen Patel <dipenp@nvidia.com>, Rob Herring <robh@kernel.org>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
-References: <20230323012929.10815-1-dipenp@nvidia.com>
- <20230323012929.10815-5-dipenp@nvidia.com>
- <20230324171329.GA2062332-robh@kernel.org>
- <7f2dc5cf-78b5-81c6-0012-26b1adce1c86@nvidia.com>
- <19b71fef-614a-d678-2e73-95db8f226e61@linaro.org>
- <df00404e-96a8-bf33-cbc7-25dbb09c89c7@nvidia.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <df00404e-96a8-bf33-cbc7-25dbb09c89c7@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230404012741.116502-14-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/04/2023 06:24, Dipen Patel wrote:
-> On 3/25/23 4:09 AM, Krzysztof Kozlowski wrote:
->> On 24/03/2023 19:51, Dipen Patel wrote:
->>> On 3/24/23 10:13 AM, Rob Herring wrote:
->>>> On Wed, Mar 22, 2023 at 06:29:23PM -0700, Dipen Patel wrote:
->>>>> Introducing nvidia,gpio-controller property from Tegra234 SoCs onwards.
->>>>> This is done to help below case.
->>>>>
->>>>> Without this property code would look like:
->>>>> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
->>>>> 	hte_dev->c = gpiochip_find("tegra194-gpio-aon",
->>>>> 				   tegra_get_gpiochip_from_name);
->>>>> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-aon"))
->>>>> 	hte_dev->c = gpiochip_find("tegra234-gpio-aon",
->>>>> 				   tegra_get_gpiochip_from_name);
->>>>> else
->>>>> 	return -ENODEV;
->>>>
->>>> Or you just put the name in match data.
->>>
->>> Not sure I have understood this comment, but "name" the first argument is
->>> already there to supply to callback to match data. Also, this if else is
->>> needed to know which "name" to provide.
->>
->> The point is that of_device_is_compatible() do not really scale and make
->> code more difficult to read. Your variant-customization should in
->> general entirely come from match/driver data.
-> 
-> Perhaps I should not have mentioned driver related details here about how
-> this property will help, that detail will go in driver patch. In the next
-> patch series I will remove this commit and just focus on what this property
-> is.
+Hi Danilo,
 
-Regardless of this commit, driver match data is the way to go, not
-of_device_is_compatible().
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d36d68fd1925d33066d52468b7c7c6aca6521248]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+base:   d36d68fd1925d33066d52468b7c7c6aca6521248
+patch link:    https://lore.kernel.org/r/20230404012741.116502-14-dakr%40redhat.com
+patch subject: [PATCH drm-next v3 13/15] drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+config: arc-randconfig-r043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041311.bWxdWPX0-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/ff73c969805aef784d47f6bedea6c15c8548d0bf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+        git checkout ff73c969805aef784d47f6bedea6c15c8548d0bf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041311.bWxdWPX0-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:22:
+   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c: In function 'nvkm_uvmm_mthd_raw_map':
+>> drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:422:31: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     422 |                               (void *)args->argv, args->argc);
+         |                               ^
+   drivers/gpu/drm/nouveau/include/nvkm/core/memory.h:66:43: note: in definition of macro 'nvkm_memory_map'
+      66 |         (p)->func->map((p),(o),(vm),(va),(av),(ac))
+         |                                           ^~
 
 
+vim +422 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
 
-Best regards,
-Krzysztof
+   388	
+   389	static int
+   390	nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
+   391	{
+   392		struct nvkm_client *client = uvmm->object.client;
+   393		struct nvkm_vmm *vmm = uvmm->vmm;
+   394		struct nvkm_vma vma = {
+   395			.addr = args->addr,
+   396			.size = args->size,
+   397			.used = true,
+   398			.mapref = false,
+   399			.no_comp = true,
+   400		};
+   401		struct nvkm_memory *memory;
+   402		u64 handle = args->memory;
+   403		u8 refd;
+   404		int ret;
+   405	
+   406		if (!nvkm_vmm_in_managed_range(vmm, args->addr, args->size))
+   407			return -EINVAL;
+   408	
+   409		ret = nvkm_uvmm_page_index(uvmm, args->size, args->shift, &refd);
+   410		if (ret)
+   411			return ret;
+   412	
+   413		vma.page = vma.refd = refd;
+   414	
+   415		memory = nvkm_umem_search(client, args->memory);
+   416		if (IS_ERR(memory)) {
+   417			VMM_DEBUG(vmm, "memory %016llx %ld\n", handle, PTR_ERR(memory));
+   418			return PTR_ERR(memory);
+   419		}
+   420	
+   421		ret = nvkm_memory_map(memory, args->offset, vmm, &vma,
+ > 422				      (void *)args->argv, args->argc);
+   423	
+   424		nvkm_memory_unref(&vma.memory);
+   425		nvkm_memory_unref(&memory);
+   426		return ret;
+   427	}
+   428	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
