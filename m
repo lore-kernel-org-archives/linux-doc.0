@@ -2,126 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17410C76188
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 14:38:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E6DC7619A
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 14:45:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238400AbjDEOiR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 10:38:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48428 "EHLO
+        id S238586AbjDEOpS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 10:45:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238215AbjDEOiC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 10:38:02 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B74340C4;
-        Wed,  5 Apr 2023 07:38:00 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 335AribA010049;
-        Wed, 5 Apr 2023 14:28:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=3+J+WKwJGaERCF/cnsSlj71w8+3ldjXzGdTHoHIh6AI=;
- b=A3BFHsRxaOrmF8TsuFi0dBSkIawJB7IFuN1mAt/qmpNC+g6Vjze1WMaWRP7vX2phSPSq
- SHAZaQIYdAeStitUu2h+fEkvJ31m5T+SJQUIXGXe7HZvkwkGbG0pR0SnQvz8ZQ/ufUTN
- KjuShWcMxitGG6NPBv5pVQf0UV9ArmQU2LCqus1Zo+6LiH/PZ5rLXYpFduP3WcFAO/aO
- gi+Kl2ET362ABoBbqUzY/ILTIp3JUN+lAtYR8b9FVfA1ugyBspI/U9V0KNdS/q3QMVy3
- qK3BUzYBVoVt1cJaIHEZfCSIPb90PZltLwdAp8NQcAdQqVBTBT/4FJmolxXeNrQ3YVWX Pg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ps6vf8hsk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Apr 2023 14:28:36 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335ESZaq015621
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 5 Apr 2023 14:28:35 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 5 Apr 2023
- 07:28:34 -0700
-Message-ID: <32ee0be5-99cf-7b0b-e195-73c6ef3294af@quicinc.com>
-Date:   Wed, 5 Apr 2023 08:28:33 -0600
+        with ESMTP id S238532AbjDEOpR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 10:45:17 -0400
+Received: from mx2.veeam.com (mx2.veeam.com [64.129.123.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D345658A;
+        Wed,  5 Apr 2023 07:45:07 -0700 (PDT)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx2.veeam.com (Postfix) with ESMTPS id 03AB6417B5;
+        Tue,  4 Apr 2023 10:09:22 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx2-2022; t=1680617362;
+        bh=11GGAKNFFOnfpIak6NFTdMWk1LHfY/KVoSOPzye48Ng=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+        b=NwRiJb+gjJQznZhakZ0C7bUEf34GSJBKlvcPoWpcMHZ9QHbtkNs01RsrHFl+bFyLj
+         Q42amjZbjhbrBDYerYo0B0V/43066nm4UD1ODEPGmQ+jFrBqIaud7ynUGT+NYTiLm6
+         lhpA5/OFGwQSDHUHSNU/7C7iYTQinGpOcc8OhuJ9SJ/hvTgGUwqOQUh/GW2cK9eLqw
+         a3Oxnkro3HJH3xTE8NW+yI/Z8W5Ml762h3I4Pskr9d9+AZ0AjKhNLzr0kaqeQogy3a
+         HfHkkveZLo92DtUSuPrL4+VwU66eP9Htg09Wb0OayTzKHhyoqeIsoGuWDWgrMIqPHJ
+         +OWAy0x3s+kuw==
+Received: from ssh-deb10-ssd-vb.amust.local (172.24.10.107) by
+ prgmbx01.amust.local (172.24.128.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 4 Apr 2023 16:09:15 +0200
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     <axboe@kernel.dk>, <hch@infradead.org>, <corbet@lwn.net>,
+        <snitzer@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <willy@infradead.org>, <kch@nvidia.com>,
+        <martin.petersen@oracle.com>, <vkoul@kernel.org>,
+        <ming.lei@redhat.com>, <gregkh@linuxfoundation.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <sergei.shtepa@veeam.com>
+Subject: [PATCH v3 11/11] blksnap: Kconfig and Makefile
+Date:   Tue, 4 Apr 2023 16:08:35 +0200
+Message-ID: <20230404140835.25166-12-sergei.shtepa@veeam.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20230404140835.25166-1-sergei.shtepa@veeam.com>
+References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 0/8] QAIC accel driver
-Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>
-CC:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-        <airlied@gmail.com>, <mani@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <quic_ajitpals@quicinc.com>,
-        <quic_pkanojiy@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
-        <quic_carlv@quicinc.com>, <bagasdotme@gmail.com>
-References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
- <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
- <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
- <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
- <ZC13QdSRybIe3nvk@phenom.ffwll.local>
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <ZC13QdSRybIe3nvk@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: oCZyWxozG6cGObvtRA7frcoRXqAvts0d
-X-Proofpoint-ORIG-GUID: oCZyWxozG6cGObvtRA7frcoRXqAvts0d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_09,2023-04-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
- mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501 bulkscore=0
- impostorscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304050131
+Content-Type: text/plain
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
+ prgmbx01.amust.local (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2924031554657367
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/5/2023 7:27 AM, Daniel Vetter wrote:
-> On Wed, Apr 05, 2023 at 03:35:19PM +0300, Oded Gabbay wrote:
->> On Wed, Apr 5, 2023 at 2:26 PM Jacek Lawrynowicz
->> <jacek.lawrynowicz@linux.intel.com> wrote:
->>>
->>> Hi,
->>>
->>> On 03.04.2023 19:22, Jeffrey Hugo wrote:
->>>> On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
->>>>> This series introduces a driver under the accel subsystem (QAIC -
->>>>> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
->>>>> a PCIe adapter card that hosts a dedicated machine learning inference
->>>>> accelerator.
->>>>>
->>>>> The previous version (v4) can be found at:
->>>>> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
->>>>
->>>> Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
->>>>
->>>> I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
->>>>
->>>> Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
->>>
->>> I'm would be happy to merge it but I think it needs to be acked by Oded first.
->>>
->>> Regards,
->>> Jacek
->>
->> Hi,
->> Entire patch-set is:
->> Acked-by: Oded Gabbay <ogabbay@kernel.org>
-> 
-> Once Jacke has pushed this I htink it would also be good to get Jeffrey
-> commit rights for drm-misc, so that in the future bugfixes for the qaic
-> driver can be pushed directly by the qaic team. Still with acks/r-b
-> requirements as per usual, and I guess for anything bigger/new uapi an ack
-> from oded is needed.
-> 
-> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
-> 
-> Cheers, Daniel
+Allows to build a module and add the blksnap to the kernel tree.
 
-Yep.  This is the plan per my understanding.
+Co-developed-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+---
+ drivers/block/Kconfig          |  2 ++
+ drivers/block/Makefile         |  2 ++
+ drivers/block/blksnap/Kconfig  | 12 ++++++++++++
+ drivers/block/blksnap/Makefile | 15 +++++++++++++++
+ 4 files changed, 31 insertions(+)
+ create mode 100644 drivers/block/blksnap/Kconfig
+ create mode 100644 drivers/block/blksnap/Makefile
 
--Jeff
+diff --git a/drivers/block/Kconfig b/drivers/block/Kconfig
+index f79f20430ef7..5fc38a7ed822 100644
+--- a/drivers/block/Kconfig
++++ b/drivers/block/Kconfig
+@@ -387,4 +387,6 @@ config BLK_DEV_UBLK
+ 
+ source "drivers/block/rnbd/Kconfig"
+ 
++source "drivers/block/blksnap/Kconfig"
++
+ endif # BLK_DEV
+diff --git a/drivers/block/Makefile b/drivers/block/Makefile
+index 101612cba303..9a2a9a56a247 100644
+--- a/drivers/block/Makefile
++++ b/drivers/block/Makefile
+@@ -40,3 +40,5 @@ obj-$(CONFIG_BLK_DEV_NULL_BLK)	+= null_blk/
+ obj-$(CONFIG_BLK_DEV_UBLK)			+= ublk_drv.o
+ 
+ swim_mod-y	:= swim.o swim_asm.o
++
++obj-$(CONFIG_BLKSNAP) += blksnap/
+diff --git a/drivers/block/blksnap/Kconfig b/drivers/block/blksnap/Kconfig
+new file mode 100644
+index 000000000000..14081359847b
+--- /dev/null
++++ b/drivers/block/blksnap/Kconfig
+@@ -0,0 +1,12 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Block device snapshot module configuration
++#
++
++config BLKSNAP
++	tristate "Block Devices Snapshots Module (blksnap)"
++	help
++	  Allow to create snapshots and track block changes for block devices.
++	  Designed for creating backups for simple block devices. Snapshots are
++	  temporary and are released then backup is completed. Change block
++	  tracking allows to create incremental or differential backups.
+diff --git a/drivers/block/blksnap/Makefile b/drivers/block/blksnap/Makefile
+new file mode 100644
+index 000000000000..8d528b95579a
+--- /dev/null
++++ b/drivers/block/blksnap/Makefile
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0
++
++blksnap-y := 		\
++	cbt_map.o	\
++	chunk.o		\
++	diff_area.o	\
++	diff_buffer.o	\
++	diff_storage.o	\
++	event_queue.o	\
++	main.o		\
++	snapimage.o	\
++	snapshot.o	\
++	tracker.o
++
++obj-$(CONFIG_BLKSNAP)	 += blksnap.o
+-- 
+2.20.1
+
