@@ -2,84 +2,309 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B225C77B6E
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 13:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5548EC6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 13:53:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235143AbjDDNhz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 09:37:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51752 "EHLO
+        id S235722AbjDDNxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 09:53:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235229AbjDDNhv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 09:37:51 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A46F1BD0;
-        Tue,  4 Apr 2023 06:37:50 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id x17so42465624lfu.5;
-        Tue, 04 Apr 2023 06:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680615468;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6eXqdv5R87UkWerUpADSYoTnH9yUbvTu+QxPfj9tLIA=;
-        b=U0zCF63H3O415nTgouxCcn5kmjVydu0JtlOM4Di2O9rMVKWCuU+SscNmFFUnV9zUl+
-         UnbmaZHgCOQ7+Ab216xHn5DLH3RCQSFSpMzGayzRMohf4jbY2XhBbWPU6XHMgd2Pxzsz
-         hk042GrPpRNijD3iOjVVEwvKONZYbrlVOZW045OZSGx6eUkKNNo9xMf9fxiXfRhZlAcA
-         v4YBubXVdnd9y8MWBvYwLljGHt46B82qtO5FJ6ZF/6lAitKwMlZNoKEcEbjTlGSdMh6R
-         ARhSOrWbMupM64rs8NXMiYZlW0eaQ64A2k6gP6/pb7cZ2uoG4RGlL1MhfEpMWB+bhGQr
-         GfaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680615468;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6eXqdv5R87UkWerUpADSYoTnH9yUbvTu+QxPfj9tLIA=;
-        b=jk45b5Tguf3X9t/Tthm9ML8PsqFpG5+H9zVPzrfTdzXK6zi7tv0+/GAwxEPymc0y7P
-         n6M2MW07N35TNtrfXNwIOB9a9GV3q7GX4TEg2az9NtHgoVOWgekEsCGCSl2kcwL/PezX
-         cIO3exgKNk66mZyrYosOohaHv8rLgIFl/2hi5YiaV4YJamPG7VqLSfSUPdMLZloMq8ZM
-         FW/zpC9vEpmpYLcwU//p8ygQ6BnPSXOK3QF33ct116AGVWC4SzAV8rcQgfy3z0j543eD
-         +IvaDs4ttdTUgbhCm58jW8TJcImukd/EjtlhANJUg0M+tvBRdldd4o+G1bIk63vsh1KW
-         y3WQ==
-X-Gm-Message-State: AAQBX9eC9YpqL+xPyl8Hq6MtLE3SeL+EA39aXqARF1eyQiIYhcoZT6un
-        NRcAGqEhzlJXbYdIG/nRYi36G5Tcb7Awa7DdZIc=
-X-Google-Smtp-Source: AKy350ZEAT1iGbbnRn4oiCOcUJdthP/lFaoMOdybQzNCgzOXKAR70jKI+paKyFbAceTGtY/nCUeMaRW8ef3QjV4FsNA=
-X-Received: by 2002:ac2:592b:0:b0:4d5:ca32:9bd6 with SMTP id
- v11-20020ac2592b000000b004d5ca329bd6mr741155lfi.2.1680615468201; Tue, 04 Apr
- 2023 06:37:48 -0700 (PDT)
+        with ESMTP id S235742AbjDDNxk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 09:53:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72574224;
+        Tue,  4 Apr 2023 06:53:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4159E61FF6;
+        Tue,  4 Apr 2023 13:53:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01718C4339B;
+        Tue,  4 Apr 2023 13:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680616407;
+        bh=/XmQ33Vz5rwMvBxocOUTIIX51AasQPq8MBzmwbLl0tM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j3pvbEx+ZOhkZUE1LhdjIxby9njBvyhGGDw8XHNztZL/HYm+7Hxi7G2yVH87tLGXc
+         8CnD+aWL0pEfl8K8eEelOm98QkGvx9t82yLNNIDbeUQbrNgrgJfn5szL4qfacmifzK
+         rPf45WV4a2jbZGv1xNcqWD6pLaJXwrjXc0olsbyf9BBEd2EZkpozWqX1cpZJ+N/H4B
+         DgcmwjDTRFPqxMyHwoKOds6qUcJuJA5u8+/FD/+XXp0LvwfGWk4fHYFr/UhTWZm0gV
+         fPQ9esbG+NnpA8lDyV4zQGiCjpZvv+DaqXProbhEGTYkWTuiPCv+24pkuCN8MpR4Xn
+         uVKJnk0xDg9EA==
+Date:   Tue, 4 Apr 2023 15:53:13 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
+        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
+        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+        joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
+Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+Message-ID: <20230404-amnesty-untying-01de932d4945@brauner>
+References: <cover.1680306489.git.ackerleytng@google.com>
+ <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
 MIME-Version: 1.0
-References: <20230403211548.6253-1-jorge.lopez2@hp.com> <ZCuMkdb6jeL4S8hz@debian.me>
-In-Reply-To: <ZCuMkdb6jeL4S8hz@debian.me>
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-Date:   Tue, 4 Apr 2023 08:37:30 -0500
-Message-ID: <CAOOmCE-5NHkYcmBP1GGpr=sEoxF9jkjj1LevekEm8R0wbrM4xQ@mail.gmail.com>
-Subject: Re: [PATCH v7] Introduction-of-HP-BIOSCFG-driver-documentation
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     hdegoede@redhat.com,
-        Linux x86 Platform Drivers 
-        <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas,
+On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
+> By default, the backing shmem file for a restrictedmem fd is created
+> on shmem's kernel space mount.
+> 
+> With this patch, an optional tmpfs mount can be specified via an fd,
+> which will be used as the mountpoint for backing the shmem file
+> associated with a restrictedmem fd.
+> 
+> This will help restrictedmem fds inherit the properties of the
+> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+> binding hints, etc.
+> 
+> Permissions for the fd passed to memfd_restricted() is modeled after
+> the openat() syscall, since both of these allow creation of a file
+> upon a mount/directory.
+> 
+> Permission to reference the mount the fd represents is checked upon fd
+> creation by other syscalls (e.g. fsmount(), open(), or open_tree(),
+> etc) and any process that can present memfd_restricted() with a valid
+> fd is expected to have obtained permission to use the mount
+> represented by the fd. This behavior is intended to parallel that of
+> the openat() syscall.
+> 
+> memfd_restricted() will check that the tmpfs superblock is
+> writable, and that the mount is also writable, before attempting to
+> create a restrictedmem file on the mount.
+> 
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> ---
+>  include/linux/syscalls.h           |  2 +-
+>  include/uapi/linux/restrictedmem.h |  8 ++++
+>  mm/restrictedmem.c                 | 74 +++++++++++++++++++++++++++---
+>  3 files changed, 77 insertions(+), 7 deletions(-)
+>  create mode 100644 include/uapi/linux/restrictedmem.h
+> 
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index f9e9e0c820c5..a23c4c385cd3 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>  					    unsigned long home_node,
+>  					    unsigned long flags);
+> -asmlinkage long sys_memfd_restricted(unsigned int flags);
+> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
+> 
+>  /*
+>   * Architecture-specific system calls
+> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..22d6f2285f6d
+> --- /dev/null
+> +++ b/include/uapi/linux/restrictedmem.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
+> +#define _UAPI_LINUX_RESTRICTEDMEM_H
+> +
+> +/* flags for memfd_restricted */
+> +#define RMFD_USERMNT		0x0001U
+> +
+> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index c5d869d8c2d8..f7b62364a31a 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -1,11 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> -#include "linux/sbitmap.h"
+> +#include <linux/namei.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/shmem_fs.h>
+>  #include <linux/syscalls.h>
+>  #include <uapi/linux/falloc.h>
+>  #include <uapi/linux/magic.h>
+> +#include <uapi/linux/restrictedmem.h>
+>  #include <linux/restrictedmem.h>
+> 
+>  struct restrictedmem {
+> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+>  	return file;
+>  }
+> 
+> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> +static int restrictedmem_create(struct vfsmount *mount)
+>  {
+>  	struct file *file, *restricted_file;
+>  	int fd, err;
+> 
+> -	if (flags)
+> -		return -EINVAL;
+> -
+>  	fd = get_unused_fd_flags(0);
 
->
-> Where is the rest of patches if this is a series? Had they been merged?
->
+Any reasons the file descriptors aren't O_CLOEXEC by default? I don't
+see any reasons why we should introduce new fdtypes that aren't
+O_CLOEXEC by default. The "don't mix-and-match" train has already left
+the station anyway as we do have seccomp noitifer fds and pidfds both of
+which are O_CLOEXEC by default.
 
-There is only one change as requested by  Thomas Wei=C3=9Fschuh
+>  	if (fd < 0)
+>  		return fd;
+> 
+> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +	if (mount)
+> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
+> +	else
+> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +
+>  	if (IS_ERR(file)) {
+>  		err = PTR_ERR(file);
+>  		goto err_fd;
+> @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>  	return err;
+>  }
+> 
+> +static bool is_shmem_mount(struct vfsmount *mnt)
+> +{
+> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
 
-> Feel free to ONLY submit the patch with the documentation for the next
-> revision. Then we can nail down the interface and initial functionality
-> and you don't always have to adapt the code to the changing interface.
+This can just be if (mnt->mnt_sb->s_magic == TMPFS_MAGIC).
 
-Perhaps, I misunderstood Thomas request.   I will address a few other
-comments and will submit all files again.
+> +}
+> +
+> +static bool is_mount_root(struct file *file)
+> +{
+> +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
 
-Regards,
+mount -t tmpfs tmpfs /mnt
+touch /mnt/bla
+touch /mnt/ble
+mount --bind /mnt/bla /mnt/ble
+fd = open("/mnt/ble")
+fd_restricted = memfd_restricted(fd)
 
-Jorge
+IOW, this doesn't restrict it to the tmpfs root. It only restricts it to
+paths that refer to the root of any tmpfs mount. To exclude bind-mounts
+that aren't bind-mounts of the whole filesystem you want:
+
+path->dentry == path->mnt->mnt_root && 
+path->mnt->mnt_root == path->mnt->mnt_sb->s_root
+
+> +}
+> +
+> +static int restrictedmem_create_on_user_mount(int mount_fd)
+> +{
+> +	int ret;
+> +	struct fd f;
+> +	struct vfsmount *mnt;
+> +
+> +	f = fdget_raw(mount_fd);
+> +	if (!f.file)
+> +		return -EBADF;
+> +
+> +	ret = -EINVAL;
+> +	if (!is_mount_root(f.file))
+> +		goto out;
+> +
+> +	mnt = f.file->f_path.mnt;
+> +	if (!is_shmem_mount(mnt))
+> +		goto out;
+> +
+> +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
+
+With the current semantics you're asking whether you have write
+permissions on the /mnt/ble file in order to get answer to the question
+whether you're allowed to create an unlinked restricted memory file.
+That doesn't make much sense afaict.
+
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = mnt_want_write(mnt);
+> +	if (unlikely(ret))
+> +		goto out;
+> +
+> +	ret = restrictedmem_create(mnt);
+> +
+> +	mnt_drop_write(mnt);
+> +out:
+> +	fdput(f);
+> +
+> +	return ret;
+> +}
+> +
+> +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
+> +{
+> +	if (flags & ~RMFD_USERMNT)
+> +		return -EINVAL;
+> +
+> +	if (flags == RMFD_USERMNT) {
+
+Why do you even need this flag? It seems that @mount_fd being < 0 is
+sufficient to indicate that a new restricted memory fd is supposed to be
+created in the system instance.
+
+> +		if (mount_fd < 0)
+> +			return -EINVAL;
+> +
+> +		return restrictedmem_create_on_user_mount(mount_fd);
+> +	} else {
+> +		return restrictedmem_create(NULL);
+> +	}
+> +}
+
+I have to say that I'm very confused by all of this the more I look at it.
+
+Effectively memfd restricted functions as a wrapper filesystem around
+the tmpfs filesystem. This is basically a weird overlay filesystem.
+You're allocating tmpfs files that you stash in restrictedmem files. 
+I have to say that this seems very hacky. I didn't get this at all at
+first.
+
+So what does the caller get if they call statx() on a restricted memfd?
+Do they get the device number of the tmpfs mount and the inode numbers
+of the tmpfs mount? Because it looks like they would:
+
+static int restrictedmem_getattr(struct user_namespace *mnt_userns,
+				 const struct path *path, struct kstat *stat,
+				 u32 request_mask, unsigned int query_flags)
+{
+	struct inode *inode = d_inode(path->dentry);
+	struct restrictedmem *rm = inode->i_mapping->private_data;
+	struct file *memfd = rm->memfd;
+
+	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
+					     request_mask, query_flags);
+
+That @memfd would be a struct file allocated in a tmpfs instance, no? So
+you'd be calling the inode operation of the tmpfs file meaning that
+struct kstat will be filled up with the info from the tmpfs instance.
+
+But then if I call statfs() and check the fstype I would get
+RESTRICTEDMEM_MAGIC, no? This is... unorthodox?
+
+I'm honestly puzzled and this sounds really strange. There must be a
+better way to implement all of this.
+
+Shouldn't you try and make this a part of tmpfs proper? Make a really
+separate filesystem and add a memfs library that both tmpfs and
+restrictedmemfs can use? Add a mount option to tmpfs that makes it a
+restricted tmpfs?
