@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 993CCC77B6C
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 18:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A885C77B60
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 18:26:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236323AbjDDS0c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 14:26:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
+        id S236219AbjDDS0s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 14:26:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236326AbjDDS0J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 14:26:09 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 623AF7292
-        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 11:23:35 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id j13so31494622pjd.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Apr 2023 11:23:35 -0700 (PDT)
+        with ESMTP id S236381AbjDDS0M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 14:26:12 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D4972A4
+        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 11:23:37 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id u10so32142221plz.7
+        for <linux-doc@vger.kernel.org>; Tue, 04 Apr 2023 11:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1680632602;
+        d=ventanamicro.com; s=google; t=1680632608;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bQY7IsXlYzYdPvbtAuGQhW+vz7kmikxb6Hsl9qnqiJo=;
-        b=SIAlskABjXHJXgba+lu7R2T7GFAtUq29s7yTNteHrnjrRREnu/xfZzyK9AUbLub4UK
-         OLevFJEkggs/7Las41GW3kOI9I0FbvaO/b1X4vW1T9Nqb/5dgHdvbBlCt4kJaRuyzOJP
-         5DO5UZ4mgBvY0/bjKpTLrHD2ZT/64XlWo9QjLPheIFMQeFiXMeVDHb2T8Gj12+6ixTqi
-         JCpYKfxf/H/dO6Iehr15B5nWCst6ZMA+J12yAIa9JygFJJNFZ22V/Fvf8sJbgyIZa92u
-         3vXDVcm+fZTnZDGc6Osgee5Mxo83Hf/3/hhAazhj7e3hI24w4Z944ntBwybmg0bZtph9
-         w1Cw==
+        bh=Gqxa4spepTnsUwVbNTwSWIuFxwC658E+AuuPxXktYUk=;
+        b=kAvoNYqdv/gD8yskD/3UsIZZx/i7x6fcbhJrbItIXOVXMaf2J/ZphfqXiq9a0kB1u6
+         PmIxtinJIL/VK4LPrFwgURCxv3uMUJaXR8WupowGpRdbZYxe85vGf7ADA3kpdGLGAjbw
+         doyBX/v48bQyNdsiTbpiqy+9xqhSQ/wjueeo3mWjHXI7j5kcoXr3GBMPSRO6QBlcfYJL
+         R/rE84Q8SYe+o93Fsj2ITB9DYOXg1jXgXV57Lpo/XLRh+NBFQ/p1nNn9hZqy4KxK2o/2
+         A9STBeEYXkETh3CnhrVKqaS3widasWrESAX5SSaNCUkVwZAhEOTn5+5CcS1XD6b614hV
+         WsTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680632602;
+        d=1e100.net; s=20210112; t=1680632608;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bQY7IsXlYzYdPvbtAuGQhW+vz7kmikxb6Hsl9qnqiJo=;
-        b=JunSUTfELHPBrSqQaQXQc45QK0YVJ53Pdm8nf7TPCTJiHkmExLNdGvJy3x6O4IZ0g2
-         HrEOzGStS3mTo6PvrRZSp0bjca8WmcamGqo6ytg/ksHmA7tKyGXr/GXthOKwz8MRG5fM
-         YHZzPg5iplfFAafNSKLDgXecgEB8xKshSxAyVsedg/+J/Ka5ebpMuZH9EMWMDdESNY5b
-         xJFgVMwGwHGzDbfvRLgUNODsD17D4mjpvvu6mWiZdr/TrFROHWN/18ADxFyHEOrpvxK9
-         Vbz11WwsEUx1rkHcfmXQK0N7VXmY+AA3Oj+DRHaivWdNzXPJESHoRzzh9Ah3jtk88AX0
-         Whxg==
-X-Gm-Message-State: AAQBX9fsqlGwHV/rq6duZ4oxg0xjMkRVA8HleFeXDqT2aMksiCF/ZwD1
-        zQawK6wPcXV0Z27v4wQtFFhTyVYLa6ak8buydNQ=
-X-Google-Smtp-Source: AKy350Z5wfhTkRydKKc5Ikh4OLcEW6DwobyPTf5WBp8sjWB/EwsebviKxYM7sCDYl+M9vs/GyS0S0w==
-X-Received: by 2002:a05:6a20:4659:b0:db:9726:8e46 with SMTP id eb25-20020a056a20465900b000db97268e46mr2674124pzb.54.1680632601831;
-        Tue, 04 Apr 2023 11:23:21 -0700 (PDT)
+        bh=Gqxa4spepTnsUwVbNTwSWIuFxwC658E+AuuPxXktYUk=;
+        b=R3IYUDyPVPutq50KoRBcF5J0ZY6pWbk2f/JftCesS2TivUVyYCwyxUegPtPbeZ/oq/
+         342ybXhRRo/iRoyQToouzB1rPBEvOWCSdpu0oxeg+oDZ7yGEPIrSiTCn/0dqAdzF2iht
+         45GgfyBNPwbYxPlJxlrfuqV5ry9GNg1impUha6crQZ8UzWGvUFju9Se/248gwgk16LZt
+         H5YpmOWXiPZkNnmuWRL9Z1UCLIW9vnnGWfkdo38LZQVeOOPi0ch+HZADXIaSUm7axAGa
+         gcIgLtGEzb5z7WBD5XrhcDPVA5YAJG6kJWhMbfgYcPE7f0B0zgr1Zj1oUBOpe0ovcT2I
+         lDcg==
+X-Gm-Message-State: AAQBX9cFKHS8L/QybNYhUcH/f1GZYtfgLeF78qCFAxvPCiJIii+al5d5
+        jbYfclIxpJbZ0che8WVYy819Myskxg3rx9D8/Uc=
+X-Google-Smtp-Source: AKy350bWUm4xmbDDUw2nmPYP8Z7MtcO7/jXhnD91vBLbrD3SWPHhJwbKHL30pf+O4r7dr/bP2clOAg==
+X-Received: by 2002:a05:6a20:6687:b0:db:6a5a:3ce7 with SMTP id o7-20020a056a20668700b000db6a5a3ce7mr2798195pzh.12.1680632608339;
+        Tue, 04 Apr 2023 11:23:28 -0700 (PDT)
 Received: from localhost.localdomain ([106.51.184.50])
-        by smtp.gmail.com with ESMTPSA id o12-20020a056a001bcc00b0062dcf5c01f9sm9018524pfw.36.2023.04.04.11.23.15
+        by smtp.gmail.com with ESMTPSA id o12-20020a056a001bcc00b0062dcf5c01f9sm9018524pfw.36.2023.04.04.11.23.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 11:23:21 -0700 (PDT)
+        Tue, 04 Apr 2023 11:23:28 -0700 (PDT)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
@@ -73,77 +73,69 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         "Rafael J . Wysocki" <rafael@kernel.org>,
         "David S . Miller" <davem@davemloft.net>,
         Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH V4 22/23] platform/surface: Disable for RISC-V
-Date:   Tue,  4 Apr 2023 23:50:36 +0530
-Message-Id: <20230404182037.863533-23-sunilvl@ventanamicro.com>
+Subject: [PATCH V4 23/23] crypto: hisilicon/qm: Workaround to enable build with RISC-V clang
+Date:   Tue,  4 Apr 2023 23:50:37 +0530
+Message-Id: <20230404182037.863533-24-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230404182037.863533-1-sunilvl@ventanamicro.com>
 References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=cp1252
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With CONFIG_ACPI enabled for RISC-V, this driver gets enabled
-in allmodconfig build. However, RISC-V doesn't support sub-word
-atomics which is used by this driver. Due to this, the build fails
-with below error.
+With CONFIG_ACPI enabled for RISC-V, this driver gets enabled in
+allmodconfig build. The gcc tool chain builds this driver removing the
+inline arm64 assembly code. However, clang for RISC-V tries to build
+the arm64 assembly and below error is seen.
 
-In function ‘ssh_seq_next’,
-    inlined from ‘ssam_request_write_data’ at drivers/platform/surface/aggregator/controller.c:1483:8:
-././include/linux/compiler_types.h:399:45: error: call to ‘__compiletime_assert_335’ declared with attribute error: BUILD_BUG failed
-  399 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |                                             ^
-./include/linux/compiler.h:78:45: note: in definition of macro ‘unlikely’
-   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-      |                                             ^
-././include/linux/compiler_types.h:387:9: note: in expansion of macro ‘__compiletime_assert’
-  387 |         __compiletime_assert(condition, msg, prefix, suffix)
-      |         ^~~~~~~~~~~~~~~~~~~~
-././include/linux/compiler_types.h:399:9: note: in expansion of macro ‘_compiletime_assert’
-  399 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |         ^~~~~~~~~~~~~~~~~~~
-./include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
-   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-      |                                     ^~~~~~~~~~~~~~~~~~
-./include/linux/build_bug.h:59:21: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
-   59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-      |                     ^~~~~~~~~~~~~~~~
-./arch/riscv/include/asm/cmpxchg.h:335:17: note: in expansion of macro ‘BUILD_BUG’
-  335 |                 BUILD_BUG();                                            \
-      |                 ^~~~~~~~~
-./arch/riscv/include/asm/cmpxchg.h:344:30: note: in expansion of macro ‘__cmpxchg’
-  344 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-      |                              ^~~~~~~~~
-./include/linux/atomic/atomic-instrumented.h:1916:9: note: in expansion of macro ‘arch_cmpxchg’
- 1916 |         arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-      |         ^~~~~~~~~~~~
-drivers/platform/surface/aggregator/controller.c:61:32: note: in expansion of macro ‘cmpxchg’
-   61 |         while (unlikely((ret = cmpxchg(&c->value, old, new)) != old)) {
-      |                                ^~~~~~~
+drivers/crypto/hisilicon/qm.c:627:10: error: invalid output constraint '+Q' in asm
+                       "+Q" (*((char __iomem *)fun_base))
+                       ^
+It appears that RISC-V clang is not smart enough to detect
+IS_ENABLED(CONFIG_ARM64) and remove the dead code.
 
-So, disable this driver for RISC-V even when ACPI is enabled for now.
+As a workaround, move this check to preprocessing stage which works
+with the RISC-V clang tool chain.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- drivers/platform/surface/aggregator/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/crypto/hisilicon/qm.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/platform/surface/aggregator/Kconfig b/drivers/platform/surface/aggregator/Kconfig
-index c114f9dd5fe1..88afc38ffdc5 100644
---- a/drivers/platform/surface/aggregator/Kconfig
-+++ b/drivers/platform/surface/aggregator/Kconfig
-@@ -4,7 +4,7 @@
- menuconfig SURFACE_AGGREGATOR
- 	tristate "Microsoft Surface System Aggregator Module Subsystem and Drivers"
- 	depends on SERIAL_DEV_BUS
--	depends on ACPI
-+	depends on ACPI && !RISCV
- 	select CRC_CCITT
- 	help
- 	  The Surface System Aggregator Module (Surface SAM or SSAM) is an
+diff --git a/drivers/crypto/hisilicon/qm.c b/drivers/crypto/hisilicon/qm.c
+index e4c84433a88a..a5f521529ab2 100644
+--- a/drivers/crypto/hisilicon/qm.c
++++ b/drivers/crypto/hisilicon/qm.c
+@@ -611,13 +611,9 @@ EXPORT_SYMBOL_GPL(hisi_qm_wait_mb_ready);
+ static void qm_mb_write(struct hisi_qm *qm, const void *src)
+ {
+ 	void __iomem *fun_base = qm->io_base + QM_MB_CMD_SEND_BASE;
+-	unsigned long tmp0 = 0, tmp1 = 0;
+ 
+-	if (!IS_ENABLED(CONFIG_ARM64)) {
+-		memcpy_toio(fun_base, src, 16);
+-		dma_wmb();
+-		return;
+-	}
++#if IS_ENABLED(CONFIG_ARM64)
++	unsigned long tmp0 = 0, tmp1 = 0;
+ 
+ 	asm volatile("ldp %0, %1, %3\n"
+ 		     "stp %0, %1, %2\n"
+@@ -627,6 +623,11 @@ static void qm_mb_write(struct hisi_qm *qm, const void *src)
+ 		       "+Q" (*((char __iomem *)fun_base))
+ 		     : "Q" (*((char *)src))
+ 		     : "memory");
++#else
++	memcpy_toio(fun_base, src, 16);
++	dma_wmb();
++#endif
++
+ }
+ 
+ static int qm_mb_nolock(struct hisi_qm *qm, struct qm_mailbox *mailbox)
 -- 
 2.34.1
 
