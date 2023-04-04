@@ -2,149 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE2FBC77B60
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 20:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B07C77B60
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 20:49:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236265AbjDDUrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 16:47:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54816 "EHLO
+        id S236305AbjDDUtQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 16:49:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236254AbjDDUrL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 16:47:11 -0400
+        with ESMTP id S232313AbjDDUtP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 16:49:15 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A73525B;
-        Tue,  4 Apr 2023 13:47:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4CDAC;
+        Tue,  4 Apr 2023 13:49:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 039CB6386C;
-        Tue,  4 Apr 2023 20:47:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70FF1C433EF;
-        Tue,  4 Apr 2023 20:46:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B7B063874;
+        Tue,  4 Apr 2023 20:49:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA3AEC4339B;
+        Tue,  4 Apr 2023 20:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680641221;
-        bh=M7AEWkhrz5m+HYdpjj6qhbiE8Cg4ln7oJCOBbFTIiRM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XKSVKmxvX+In5+aTFI38lD3mTwWpaROD+kYBh9cbnPJJlG3HlwLgZUz9omWVs9Ixr
-         bruMbiboP0WvSmcfxUXXTJ4jZSZKstsJmEs66wU1pV7eQ6vEkAjBy3wYs489g5Gt77
-         BteQHqtKWc2qqQaQmF8UyZX3irxIPZYxj2UeBS7GIXTuJjg+zHo/IM6Yi7thekeHrw
-         R7+jl9kAL9xldbbtpzij3Q6BWjM4Ph7bgidogmBKQGiDvrXaGj6zpNU7XQirvkUyuD
-         IZawGhwRO/Pp617SDrAWVKWBcrVNdcVvtiarwAekDRjP77OX+oq8QTewmM8N2FyfGT
-         Qy2lX1fAAXYTg==
-Date:   Tue, 4 Apr 2023 21:46:54 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        llvm@lists.linux.dev, Weili Qian <qianweili@huawei.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Tom Rix <trix@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Len Brown <lenb@kernel.org>
-Subject: Re: [PATCH V4 12/23] RISC-V: cpufeature: Avoid calling
- riscv_of_processor_hartid()
-Message-ID: <20230404-pavestone-skinless-2f466941a95b@spud>
-References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-13-sunilvl@ventanamicro.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kgJ+/uDheNc4jGb7"
-Content-Disposition: inline
-In-Reply-To: <20230404182037.863533-13-sunilvl@ventanamicro.com>
+        s=k20201202; t=1680641353;
+        bh=gXqIcJnn5Eq5okLMpDEb9nxUz3SeXdgGCHq7sJi3mH4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CtyWHrJha0wN1fTMK3NpqKRCmt11CL56a5Z8muzaCRqQWsJy7r5Y9Yl3zLU3fjyEH
+         hCDUmR6dQQLAq46HmHA6CY8AoaY/rVu5X32EsbMOstevgFcKnTuG0gLwkzdZB3ilhp
+         vjkw8Vm3SSrNv1Zlb0k9XyLj4TO3GqQ+Kg8tLl2XiVq/csKBVyaa6pDCfw9j9gktnZ
+         u1CgwUF4S/IlC4auLKpQzclYprcp5T9wsRxFoiyfHfDUhWhKV15DJCXOGGI8vJX8UQ
+         qrtkRfFEMJ/qgcTxiAzvcJoC7l3oAfhnMFG2mV3pn8/ejQj2NUOY8ghg/wSfjoHNOv
+         YvdRLhNXBpsRA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1pjnaZ-005l6L-AO;
+        Tue, 04 Apr 2023 21:49:11 +0100
+Date:   Tue, 04 Apr 2023 21:49:10 +0100
+Message-ID: <86sfdfv0e1.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     David Dai <davidai@google.com>,
+        Oliver Upton <oliver.upton@linux.dev>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        kernel-team@android.com, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
+In-Reply-To: <ZCx97IKjsBibjdGc@linux.dev>
+References: <20230330224348.1006691-1-davidai@google.com>
+        <ZCx97IKjsBibjdGc@linux.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: davidai@google.com, oliver.upton@linux.dev, rafael@kernel.org, viresh.kumar@linaro.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, pbonzini@redhat.com, corbet@lwn.net, james.morse@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, lpieralisi@kernel.org, sudeep.holla@arm.com, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com, kernel-team@android.com, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 04 Apr 2023 20:43:40 +0100,
+Oliver Upton <oliver.upton@linux.dev> wrote:
+> 
+> Folks,
+> 
+> On Thu, Mar 30, 2023 at 03:43:35PM -0700, David Dai wrote:
+> 
+> <snip>
+> 
+> > PCMark
+> > Higher is better
+> > +-------------------+----------+------------+--------+-------+--------+
+> > | Test Case (score) | Baseline |  Hypercall | %delta |  MMIO | %delta |
+> > +-------------------+----------+------------+--------+-------+--------+
+> > | Weighted Total    |     6136 |       7274 |   +19% |  6867 |   +12% |
+> > +-------------------+----------+------------+--------+-------+--------+
+> > | Web Browsing      |     5558 |       6273 |   +13% |  6035 |    +9% |
+> > +-------------------+----------+------------+--------+-------+--------+
+> > | Video Editing     |     4921 |       5221 |    +6% |  5167 |    +5% |
+> > +-------------------+----------+------------+--------+-------+--------+
+> > | Writing           |     6864 |       8825 |   +29% |  8529 |   +24% |
+> > +-------------------+----------+------------+--------+-------+--------+
+> > | Photo Editing     |     7983 |      11593 |   +45% | 10812 |   +35% |
+> > +-------------------+----------+------------+--------+-------+--------+
+> > | Data Manipulation |     5814 |       6081 |    +5% |  5327 |    -8% |
+> > +-------------------+----------+------------+--------+-------+--------+
+> > 
+> > PCMark Performance/mAh
+> > Higher is better
+> > +-----------+----------+-----------+--------+------+--------+
+> > |           | Baseline | Hypercall | %delta | MMIO | %delta |
+> > +-----------+----------+-----------+--------+------+--------+
+> > | Score/mAh |       79 |        88 |   +11% |   83 |    +7% |
+> > +-----------+----------+-----------+--------+------+--------+
+> > 
+> > Roblox
+> > Higher is better
+> > +-----+----------+------------+--------+-------+--------+
+> > |     | Baseline |  Hypercall | %delta |  MMIO | %delta |
+> > +-----+----------+------------+--------+-------+--------+
+> > | FPS |    18.25 |      28.66 |   +57% | 24.06 |   +32% |
+> > +-----+----------+------------+--------+-------+--------+
+> > 
+> > Roblox Frames/mAh
+> > Higher is better
+> > +------------+----------+------------+--------+--------+--------+
+> > |            | Baseline |  Hypercall | %delta |   MMIO | %delta |
+> > +------------+----------+------------+--------+--------+--------+
+> > | Frames/mAh |    91.25 |     114.64 |   +26% | 103.11 |   +13% |
+> > +------------+----------+------------+--------+--------+--------+
+> 
+> </snip>
+> 
+> > Next steps:
+> > ===========
+> > We are continuing to look into communication mechanisms other than
+> > hypercalls that are just as/more efficient and avoid switching into the VMM
+> > userspace. Any inputs in this regard are greatly appreciated.
+> 
+> We're highly unlikely to entertain such an interface in KVM.
+> 
+> The entire feature is dependent on pinning vCPUs to physical cores, for which
+> userspace is in the driver's seat. That is a well established and documented
+> policy which can be seen in the way we handle heterogeneous systems and
+> vPMU.
+> 
+> Additionally, this bloats the KVM PV ABI with highly VMM-dependent interfaces
+> that I would not expect to benefit the typical user of KVM.
+> 
+> Based on the data above, it would appear that the userspace implementation is
+> in the same neighborhood as a KVM-based implementation, which only further
+> weakens the case for moving this into the kernel.
+> 
+> I certainly can appreciate the motivation for the series, but this feature
+> should be in userspace as some form of a virtual device.
 
---kgJ+/uDheNc4jGb7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
++1 on all of the above.
 
-On Tue, Apr 04, 2023 at 11:50:26PM +0530, Sunil V L wrote:
-> riscv_fill_hwcap() finds hartid of each cpu but never really uses
-> it. So, remove this unnecessary call.
+The one thing I'd like to understand that the comment seems to imply
+that there is a significant difference in overhead between a hypercall
+and an MMIO. In my experience, both are pretty similar in cost for a
+handling location (both in userspace or both in the kernel). MMIO
+handling is a tiny bit more expensive due to a guaranteed TLB miss
+followed by a walk of the in-kernel device ranges, but that's all. It
+should hardly register.
 
-"Never uses it" or "never really uses it"?
-This commit message misses the point though I think - is this here to
-get the hartid, or is it here to do all the property validation that
-riscv_of_processor_hartid() does for a cpu node?
+And if you really want some super-low latency, low overhead
+signalling, maybe an exception is the wrong tool for the job. Shared
+memory communication could be more appropriate.
 
-This was added all the way back in 4.20 in commit 732e8e4130ff ("RISC-V:
-properly determine hardware caps").
-As the loop is a for_each_of_cpu_node(), I don't think this change is
-actually valid - there's no guarantee that the cpu we are iterating over
-is actually available and the riscv_of_processor_hartid() check is used
-to skip "bad" cpus AFAICT.
+Thanks,
 
-Perhaps I am missing something, I don't think you can do this until you
-switch the loop to use something that only uses cpus that you know are
-valid.
+	M.
 
-Cheers,
-Conor.
-
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> ---
->  arch/riscv/kernel/cpufeature.c | 5 -----
->  1 file changed, 5 deletions(-)
->=20
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index 59d58ee0f68d..63e56ce04162 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -91,7 +91,6 @@ void __init riscv_fill_hwcap(void)
->  	char print_str[NUM_ALPHA_EXTS + 1];
->  	int i, j, rc;
->  	unsigned long isa2hwcap[26] =3D {0};
-> -	unsigned long hartid;
-> =20
->  	isa2hwcap['i' - 'a'] =3D COMPAT_HWCAP_ISA_I;
->  	isa2hwcap['m' - 'a'] =3D COMPAT_HWCAP_ISA_M;
-> @@ -109,10 +108,6 @@ void __init riscv_fill_hwcap(void)
->  		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
->  		const char *temp;
-> =20
-> -		rc =3D riscv_of_processor_hartid(node, &hartid);
-> -		if (rc < 0)
-> -			continue;
-> -
->  		if (of_property_read_string(node, "riscv,isa", &isa)) {
->  			pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
->  			continue;
-> --=20
-> 2.34.1
->=20
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-
---kgJ+/uDheNc4jGb7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCyMvQAKCRB4tDGHoIJi
-0hpGAP4pgJiMrwEE4MqFKel0RfYzkzWShHChGkcaYXuq9E+PjwEA5j0+IIN4EnD3
-iGmXBcTRH2L8dBKnu+t39ju3V81nRQs=
-=z9Dv
------END PGP SIGNATURE-----
-
---kgJ+/uDheNc4jGb7--
+-- 
+Without deviation from the norm, progress is not possible.
