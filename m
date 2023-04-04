@@ -2,114 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF95C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 10:29:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F8FC77B6C
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 10:30:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234228AbjDDK3W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 06:29:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40672 "EHLO
+        id S234292AbjDDKaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 06:30:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233184AbjDDK3V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 06:29:21 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2AF1BD9
-        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 03:29:18 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id eh3so128509046edb.11
-        for <linux-doc@vger.kernel.org>; Tue, 04 Apr 2023 03:29:18 -0700 (PDT)
+        with ESMTP id S233699AbjDDKap (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 06:30:45 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065EE1984;
+        Tue,  4 Apr 2023 03:30:42 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id fi11so5073367edb.10;
+        Tue, 04 Apr 2023 03:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dectris.com; s=google; t=1680604157;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xvJX6OzPdeaHy4wK20GTpy5l0iHRjfHg5mh9C9oOE9I=;
-        b=CYSIsWBn//M7f3AfOaLBKAAVFwHdJdeDxosOvMmzf+rLEcevbsRhd6IBKmavR4y5sY
-         mVmwTCCXIjQxhv6ZKvye1nBMzydoRuddfwo0Ms2bYnFWvHNpdnPcDZJ1XpPy7ECl6qsP
-         33NgH5Vx+dOoZd0nn2EZ4hA4sQ6aibceWOcX0=
+        d=gmail.com; s=20210112; t=1680604240;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qPQJYuYVqddrLpsUiSF4JuC6g9/L1+GNYqEeCmgaIpw=;
+        b=Qf9ZiLsHWa67q5d6OwOb196jz2WhK7YOr7O9+et+VWP9XJTg4eS7ZGmo/pp76jWFPt
+         4Kbtvtu5S3zMCsF9eVSA/S/YNXm5ggVhITb/Ngz7+umuz+DRrtYBdfzKTl3UrdN7NzWW
+         O6IY8bxFhED+SxeYizHcRY3SwLERm5ZUtQuHN1aGTwiysQ10WcIUcldVRbRtkYiswHlM
+         nTETOQuueRAEtt0TgKyZgsrozphoT+IYOtKCMD3aGLrr4m8j5PNzK6Je3J+NQ2mth/Tq
+         N2V070Ic0y6tNpVzzPzhp6zx5ZpOQ5fxDFW2cAWXz/Wy2BIlRhwiAXRk4jwemb2Ozkk8
+         aGJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680604157;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xvJX6OzPdeaHy4wK20GTpy5l0iHRjfHg5mh9C9oOE9I=;
-        b=hiCrfASDDaOLAEng/CFzF82B5EHYReNXXz7pD6Njdr2VnP5UA9ayg04FZfXgxkaG5w
-         Xd+i/7jzVXYz2QMXAaKIUoabs9ADhXU+F27c7VERmjhqGo9gtNV5Y/qgmY0uJ12Z/D2A
-         Y/5y5QYk85o6gSOp6BVesBkap7nCiFPMgx9hger+CPB6ArpJZ1dJbzyu+zD127hWSyzP
-         1zDtngcr7VFM8bPMBZ2ZKJ3OP88FHIHfhh5p6BUoTjZSHIordW9FG5UscLMr5qy9RLch
-         e2Y4ReK9K3CyrZ3p+L+5kPGmHu8yDhoZhaoK36oru65jPM7iHcxTXHYNlZvRWY23/6KY
-         BqAw==
-X-Gm-Message-State: AAQBX9cwym9iOZFsH/P4BW5fdFKaKDFSgwS0LQZJUAmOLi5tbzKh9Kz1
-        Xy1H4LfdihoPoafU61f3WWVJ+vnT3QuMiJtsqg9zqQ==
-X-Google-Smtp-Source: AKy350ZcLXYZc/9zeTneMYSnKAyOHqt2QCJEcTpbmgqL8+BLXHbuJ2Z2YsyyleJ800gVKUEllBi0iQnxGPNoPt/YsHY=
-X-Received: by 2002:a50:9ec2:0:b0:502:7551:86c7 with SMTP id
- a60-20020a509ec2000000b00502755186c7mr1105970edf.4.1680604157350; Tue, 04 Apr
- 2023 03:29:17 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680604240;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qPQJYuYVqddrLpsUiSF4JuC6g9/L1+GNYqEeCmgaIpw=;
+        b=zQ1tRoSg6FxaZU0lOFZ4sUyIPj7ePKC1ZozNdO6A4huKHV0anGYR1SeT2sErIF7IF1
+         zedL6i/mBHOX5YSQ8JofrQNNffD3R71Fu5+NYs6SrB41jOxyBwWPUMQtO0Q4780ZVK1b
+         DPdVdTLpmgkk+fvoOZ1c0Pvdq8g3NyVixZowXB1uFIS2RbhVAIoblgbfckwH2y6qnJN3
+         vY5NoFnERDL8Wu6kyBM3sgJnbChwDVfm41BU+xJgLcUetkV7hA/oOlLRN+TAmabBCrY0
+         6QK4DqJOBc/iqC27tUrss1JQ3ZblDibK3hTftAtNrKGqSpmYBuF7D9SRJ0MJuHBDc5gz
+         dDwg==
+X-Gm-Message-State: AAQBX9cI7GJ26xqSwr5MtvdMs2yiAuOP2gmYb5Hpb81lRy6n31PlSyiO
+        4ImPwaOKtSWworREaIjlBy4=
+X-Google-Smtp-Source: AKy350br99HCbCDIQiZj8fwuuU0BjyJC/AwN7IrayX6NNSgMYELNtziysmKohGWt/IYRz9rEEj8/bQ==
+X-Received: by 2002:a17:907:8b87:b0:8e1:12b6:a8fc with SMTP id tb7-20020a1709078b8700b008e112b6a8fcmr1480812ejc.4.1680604240440;
+        Tue, 04 Apr 2023 03:30:40 -0700 (PDT)
+Received: from orome (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id qp24-20020a170907207800b0093f822321fesm5737690ejb.137.2023.04.04.03.30.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Apr 2023 03:30:40 -0700 (PDT)
+Date:   Tue, 4 Apr 2023 12:30:38 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+Subject: Re: [PATCH V4 04/10] dt-bindings: timestamp: Add
+ nvidia,gpio-controller
+Message-ID: <ZCv8TviVD8n4MrnW@orome>
+References: <20230323012929.10815-1-dipenp@nvidia.com>
+ <20230323012929.10815-5-dipenp@nvidia.com>
+ <f523c155-7d05-2034-27ea-e2e56881c0bb@linaro.org>
+ <a7539193-8374-cda6-f535-360a4a8eab22@nvidia.com>
 MIME-Version: 1.0
-References: <20230329180502.1884307-1-kal.conley@dectris.com>
- <20230329180502.1884307-9-kal.conley@dectris.com> <CAJ8uoz330DWzHabpqd+HaeAxBi2gr+GOTtnS9WJFWrt=6DaeWQ@mail.gmail.com>
- <CAHApi-nfBM=i1WeZ-jtHN87AWPvURo0LygT9yYxF=cUeYthXBQ@mail.gmail.com> <CAJ8uoz0SEkcXQuoqYd94GreJqpCxQuf1QVgm9=Um6Wqk=s8GBw@mail.gmail.com>
-In-Reply-To: <CAJ8uoz0SEkcXQuoqYd94GreJqpCxQuf1QVgm9=Um6Wqk=s8GBw@mail.gmail.com>
-From:   Kal Cutter Conley <kal.conley@dectris.com>
-Date:   Tue, 4 Apr 2023 12:33:58 +0200
-Message-ID: <CAHApi-=ui3JofMr7y+LvuYkXCU=h7vGiKXsfuV5gog-02u-u+Q@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 08/10] xsk: Support UMEM chunk_size > PAGE_SIZE
-To:     Magnus Karlsson <magnus.karlsson@gmail.com>
-Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="kKVfNtJEQjXZPd0A"
+Content-Disposition: inline
+In-Reply-To: <a7539193-8374-cda6-f535-360a4a8eab22@nvidia.com>
+User-Agent: Mutt/2.2.10 (2023-03-25)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > > Is not the max 64K as you test against XDP_UMEM_MAX_CHUNK_SIZE in
-> > > xdp_umem_reg()?
-> >
-> > The absolute max is 64K. In the case of HPAGE_SIZE < 64K, then it
-> > would be HPAGE_SIZE.
->
-> Is there such a case when HPAGE_SIZE would be less than 64K? If not,
-> then just write 64K.
 
-Yes. While most platforms have HPAGE_SIZE defined to a compile-time
-constant >= 64K (very often 2M) there are platforms (at least ia64 and
-powerpc) where the hugepage size is configured at boot. Specifically,
-in the case of Itanium (ia64), the hugepage size may be configured at
-boot to any valid page size > PAGE_SIZE (e.g. 8K). See:
-https://elixir.bootlin.com/linux/latest/source/arch/ia64/mm/hugetlbpage.c#L159
+--kKVfNtJEQjXZPd0A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> > > >  static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
-> > > >  {
-> > > > +#ifdef CONFIG_HUGETLB_PAGE
-> > >
-> > > Let us try to get rid of most of these #ifdefs sprinkled around the
-> > > code. How about hiding this inside xdp_umem_is_hugetlb() and get rid
-> > > of these #ifdefs below? Since I believe it is quite uncommon not to
-> > > have this config enabled, we could simplify things by always using the
-> > > page_size in the pool, for example. And dito for the one in struct
-> > > xdp_umem. What do you think?
-> >
-> > I used #ifdef for `page_size` in the pool for maximum performance when
-> > huge pages are disabled. We could also not worry about optimizing this
-> > uncommon case though since the performance impact is very small.
-> > However, I don't find the #ifdefs excessive either.
->
-> Keep them to a minimum please since there are few of them in the
-> current code outside of some header files. And let us assume that
-> CONFIG_HUGETLB_PAGE is the common case.
->
+On Mon, Mar 27, 2023 at 09:58:19AM -0700, Dipen Patel wrote:
+> On 3/25/23 4:07 AM, Krzysztof Kozlowski wrote:
+> > On 23/03/2023 02:29, Dipen Patel wrote:
+> >> Introducing nvidia,gpio-controller property from Tegra234 SoCs onwards.
+> >> This is done to help below case.
+> >>
+> >> Without this property code would look like:
+> >> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
+> >> 	hte_dev->c =3D gpiochip_find("tegra194-gpio-aon",
+> >> 				   tegra_get_gpiochip_from_name);
+> >> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-ao=
+n"))
+> >> 	hte_dev->c =3D gpiochip_find("tegra234-gpio-aon",
+> >> 				   tegra_get_gpiochip_from_name);
+> >> else
+> >> 	return -ENODEV;
+> >>
+> >> This means for every future addition of the compatible string, if else
+> >> condition statements have to be expanded.
+> >>
+> >> With the property:
+> >> gpio_ctrl =3D of_parse_phandle(dev->of_node, "nvidia,gpio-controller",=
+ 0);
+> >> ....
+> >> hte_dev->c =3D gpiochip_find(gpio_ctrl, tegra_get_gpiochip_from_of_nod=
+e);
+> >>
+> >> This simplifies the code significantly. The introdunction of this
+> >> property/binding does not break existing Tegra194 provider driver.
+> >>
+> >> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> >> ---
+> >>  .../timestamp/nvidia,tegra194-hte.yaml        | 31 +++++++++++++++++--
+> >>  1 file changed, 29 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra1=
+94-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-h=
+te.yaml
+> >> index eafc33e9ae2e..841273a3d8ae 100644
+> >> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.=
+yaml
+> >> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.=
+yaml
+> >> @@ -51,6 +51,12 @@ properties:
+> >>        LIC instance has 11 slices and Tegra234 LIC has 17 slices.
+> >>      enum: [3, 11, 17]
+> >> =20
+> >> +  nvidia,gpio-controller:
+> >> +    $ref: /schemas/types.yaml#/definitions/phandle
+> >> +    description:
+> >> +      The phandle to AON gpio controller instance. This is required t=
+o handle
+> >> +      namespace conversion between GPIO and GTE.
+> >> +
+> >>    '#timestamp-cells':
+> >>      description:
+> >>        This represents number of line id arguments as specified by the
+> >> @@ -65,22 +71,43 @@ required:
+> >>    - interrupts
+> >>    - "#timestamp-cells"
+> >> =20
+> >> +allOf:
+> >> +  - if:
+> >> +      properties:
+> >> +        compatible:
+> >> +          contains:
+> >> +            enum:
+> >> +              - nvidia,tegra234-gte-aon
+> >> +    then:
+> >> +      required:
+> >> +        - nvidia,gpio-controller
+> >> +
+> >>  additionalProperties: false
+> >> =20
+> >>  examples:
+> >>    - |
+> >>      tegra_hte_aon: timestamp@c1e0000 {
+> >>                compatible =3D "nvidia,tegra194-gte-aon";
+> >> -              reg =3D <0xc1e0000 0x10000>;
+> >> +              reg =3D <0x0 0xc1e0000 0x0 0x10000>;
+> >=20
+> > This is not really explained in commit msg... are you sure you tested i=
+t?
+> I have to revert this part back in next patch as when I upgraded dtsschem=
+a it gave me errors.
 
-Would you be OK if I just remove the ones from xsk_buff_pool? I think
-the code in xdp_umem.c is quite readable and the #ifdefs are really
-only used in xdp_umem_pin_pages.
+We need the 0x0 in the DTS files because we have #address-cells =3D <2>
+and #size-tells =3D <2>. For the examples, those default to just 1 cell,
+so this can't be an exact copy of what we have in the DTS files.
+
+Please make sure to always validate the bindings and examples.
+
+Thierry
+
+--kKVfNtJEQjXZPd0A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmQr/E4ACgkQ3SOs138+
+s6F7gQ/8CahJlsl2ie2xWVwhWMmBeCbLyErqS+oUnJBDhaLFTHrhUBNeDB0htb3x
+ZAUc3dZf+3ohXsFztk9DfVoH/3PTAxFftgN05tZHBCLXaBBoE/0uVQBVw2Q6VS7C
+q6XkykkbDFUBOzL6sJLZE3ucFdPTjG5HFmMF+UJF8NfmBLUWJrZ60kK8h3MQrjYR
+suT5Gr0EyOHy9nbtjDS3U05WW6Oyp4ppBTFWYuYbRIHgiZybCabVROR8NuCqqO5/
+17kaQheYOsyCfHwmQhNx/yH6qn/byXK0eKI8N05S9f7iBqyvgDO69LF5SVR7wZtD
+6i8DaiGS80EZtslyzEIcggM2WBklv0TO6tyRJWdsBjCoN+sFnRbTMOu/XFYvpqh5
+Fjk+Qedb/KaGYdzD+HjREyKCz8rjRJxBj+NyjiUCo/hIlXm3kBH+XihmLsY/3ZNs
+AjXxR25TIAq+yw42/gDfdx6/PzXwZtNmYq1ogpftsffj0rUTsv1v0Z5ScCWnKU15
+sIqSTXUmGBRmHErHyxV/AcgwAqljPuBVKdidyM+8IceZGD6bd56iv/Ywc28cfhNO
+cruSLxYVhvMJbMk2xX9ma8PWGAaOIkT+CTfQWC7YLMVMA8oMjPa74JQHKUlsrDb+
+GlAEoulplmcv1mbesr5bkm4rMpB6tjsoTElagX7RVgOOS2CALEI=
+=TMqU
+-----END PGP SIGNATURE-----
+
+--kKVfNtJEQjXZPd0A--
