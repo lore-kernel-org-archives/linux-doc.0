@@ -2,271 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 736D6C77B62
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 16:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C5BC77B60
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 17:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235387AbjDDQoM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 12:44:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50256 "EHLO
+        id S235814AbjDDRVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 13:21:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235362AbjDDQoL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 12:44:11 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E7DE6C;
-        Tue,  4 Apr 2023 09:44:10 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id A7CD75C0161;
-        Tue,  4 Apr 2023 12:44:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 04 Apr 2023 12:44:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1680626649; x=1680713049; bh=IK
-        XJaj89zCSXZFUdNfO6r9AvyGexfDFn5WHbwUeaEBM=; b=nogd+x4TNGtfnYDixP
-        mLJ0h9iPq0OR4mUd95f82XEyVDZ91/BA9S4UWApGdKwtr1UUV8U96aqOEsckNGWB
-        babOafjo7hhaZj7EhETl6daEQ8VJRHGgJH1sP1hZ2LUDRxAGbWoLZsBNGeqtnPh1
-        EJlPm6quwzCfgX9JMRzGDnJstGYPA9C/JdVn8nLlgH2pcMeEtd1vWCa3mTxk1Z2V
-        Jw0H6gAf+Y99ovqC+2WPIbExmpAVv0ngtMgFVmQ2/nbbC3s9AaNDkZR3D/0dbyNT
-        2IMzGnIPyf1NGGN1fYGuipbXbY5HcZWLLUjEugdIMECb2RUE9C6FCcz17JnDstlL
-        Fn6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680626649; x=1680713049; bh=IKXJaj89zCSXZ
-        FUdNfO6r9AvyGexfDFn5WHbwUeaEBM=; b=bKbu4U2l7TwF0iaxR203gFnj8QQcl
-        ljLNvwUsmqFAxy3nBQzaW0gUPVwbxEuCTF49jNrJ791ZLbg+8rh+x5ITIZEIRtWO
-        X927cSGxx9T74LT6slONX23GitMEtKzbOdt+Z/3UviQWyNBNsTYCoEhgGy06xR+q
-        95jyHTXv+FrKnUabi93+QK0HArHlYxqCR8TqxS7Q1W/SFJJWiSA/GCTa+gd9Glsg
-        Ljj3wz/TU20RZkKxz5Aseft39Hpa0OX1q6KdMDtUpd7Bc6mc14M1bVo20s5JBcHb
-        wgGxVMFO844X+BODKaYUugsUJJ8hgZHV0nMVvNva8YQTdB/lu5L0h9lMg==
-X-ME-Sender: <xms:2VMsZBVEvynioBVinq8cL5tw4v0ZHbGEWO2BBa2la0ZJuIJM0rekXQ>
-    <xme:2VMsZBn37N6f7MNoCWGaGyVBtb8JXSF641IUY24RyLKD3k51fJpZESYAkUeyNL_xM
-    IWvYlXOPDm7kPaTz04>
-X-ME-Received: <xmr:2VMsZNYDUkEXsbHlFwgbAjoQI78gKI7Ub7LH-MBsIdiUnNvfAHHKwvPO3YMDK5CMUmyutBSl7PAzQLTQ-V78y1IQXnQfxnwdwo2fePbW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledguddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpefuthgv
-    fhgrnhcutfhovghstghhuceoshhhrhesuggvvhhkvghrnhgvlhdrihhoqeenucggtffrrg
-    htthgvrhhnpeevlefggffhheduiedtheejveehtdfhtedvhfeludetvdegieekgeeggfdu
-    geeutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hshhhrseguvghvkhgvrhhnvghlrdhioh
-X-ME-Proxy: <xmx:2VMsZEVSieEwr4lFqtUgsN2eSWCCRTT5UgcxknT5WEWEwuP1RqNRWQ>
-    <xmx:2VMsZLnJQVE2p8_cV4CdEQVeWT5SUHL7zCacAnSlZ60dVTW9OkpeRQ>
-    <xmx:2VMsZBe2sZlbnF1N_73rKQxQiRQsv8HpJFZNURJItn9V2KQ9fCVv9g>
-    <xmx:2VMsZEc8gn1gXjzCb0NofGYyLMuWPshY_tXJOwoKOcUpHs54bSavQg>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 12:44:07 -0400 (EDT)
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230310182851.2579138-2-shr@devkernel.io>
- <7ed4308d-b400-d2bb-b539-3fe418862ab8@redhat.com>
- <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
-User-agent: mu4e 1.6.11; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH v4 1/3] mm: add new api to enable ksm per process
-Date:   Tue, 04 Apr 2023 09:43:51 -0700
-In-reply-to: <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
-Message-ID: <qvqwzg7nha21.fsf@dev0134.prn3.facebook.com>
+        with ESMTP id S235816AbjDDRVL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 13:21:11 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DA8AF;
+        Tue,  4 Apr 2023 10:21:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F/vCm0f+PR0waeGB0QY9SkC30ZFAIT444DSaSVsxxjL+cowIjqMOpdbyhNWJfxGCsyA+OS4mjymWb1PUcO6QWakZllVE1464aD8nh/H+2krZmYqYiKx8ZT5Likdaf1UJZA50zaey+gMnKTzkeUMMvRaJD95HdVJCILetjh3beZqxAQ49aIG7UeGlV3K8LSv9dMK8O6NQASpCEpGjylmcGvKWYn5o/7tbRbgulugqlpF+Ko5Fr1t/sji/A5JInkK4fITyAhc5wiSL5eMMS52ruzXuCgR9o4xWPyrktDahyAXOofe/osrgB+IT8TKrLuLr3kLGtmH9weh5gNHy7elqgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vb5pGZoqwfiQ6591zAB0Q3c3BH8x0Lp4DAZGH5u78UQ=;
+ b=DYsLlliJuN2ixtP9Pke4SfwysxdPvdjMn1vbEyXybtVwTLCy9ipg/mmyg2kweCqs+KYvjC2oxCnhbCWJH8f59jYI+beBt3DACZg/WfdBB36YEYWO/YsiOxxDGDkBW2pn8DUafBfwg/FfRdbb3aiqQ7NlLCC5zCgdIkAA2uvogBrLGwwvtnvGcS+ScadkZKHx4I2hs1SUmMFaHQMfPOO7Li5nS0DbD+dpUwCWIqPYiM50GmA9wqLFBAs3vxnh8poodJsjvLHTUS2TfEfoMfHWWbhg6ijyqcZg9cLurE/Mb34sjRhNiaDu9uQqLWO+ESkJdaHZqaE8ZTbO5ngAdIAY7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vb5pGZoqwfiQ6591zAB0Q3c3BH8x0Lp4DAZGH5u78UQ=;
+ b=tArZzN9NivofleY+Ww5b59TBvxwG3caC1bAdjw2HnQr4z7HHSP8PEK2oG+BbLk1twnORJnNC2dwvYcYr/Ns5r6HPt6QYkY6oBLGCVzmuXsvYe+DrQY7Igz8zT28AISjiIDqhhX3ghakbyV2kPdlKONrLXX0W/jgWRBhR/BHHcwViZwWAIfrdfUS2E3/8oGdy5OjeidFFGaD+AU8+nX3jX2eSDIz/Y2jR8fnPVRqYxrg8MghqHAM5X0nxjG8gJLKF55GHVaz0Wj8ngwiHp43PwqABhzO0NVv4EaWFDVJKixhna5AahcUqhWuWbBj2AT0lTD89D6a77N7MtSfvd31kSw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
+ by PH7PR12MB6466.namprd12.prod.outlook.com (2603:10b6:510:1f6::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.27; Tue, 4 Apr
+ 2023 17:21:04 +0000
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::265:64aa:fb3e:288]) by IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::265:64aa:fb3e:288%4]) with mapi id 15.20.6254.033; Tue, 4 Apr 2023
+ 17:21:04 +0000
+Message-ID: <7e617d8f-6c78-3d2f-5f8a-79acae09a8a9@nvidia.com>
+Date:   Tue, 4 Apr 2023 10:20:59 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH V4 04/10] dt-bindings: timestamp: Add
+ nvidia,gpio-controller
+Content-Language: en-US
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+References: <20230323012929.10815-1-dipenp@nvidia.com>
+ <20230323012929.10815-5-dipenp@nvidia.com>
+ <f523c155-7d05-2034-27ea-e2e56881c0bb@linaro.org>
+ <a7539193-8374-cda6-f535-360a4a8eab22@nvidia.com> <ZCv8TviVD8n4MrnW@orome>
+X-Nvconfidentiality: public
+From:   Dipen Patel <dipenp@nvidia.com>
+In-Reply-To: <ZCv8TviVD8n4MrnW@orome>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR21CA0019.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::29) To IA1PR12MB6604.namprd12.prod.outlook.com
+ (2603:10b6:208:3a0::7)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|PH7PR12MB6466:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7df1da37-9a3b-4fbb-cfd8-08db3530f81e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Aow+7VBEXAGyOBnkIdt91vJp9WOUxBGC3gwRROFQOZIg2OSjNyChOWTRxqrtcVWoEEC+ZgEgLePmHpxz1FyMXQTHBjOC5w1VBtLQGTSqo07RkK0HtbeqpZ8jKSpPPuN8FE2C1St0tDT6eYMXmc28Sox0N4wXrRIwYR/7/rLqferQA//xPOrHGpqRxBgs8j+SMMh82FO0QYQQEXlJH3yK8svqXp37LjI04/tEFhp0pts2EYlbbGx35HKkuX74+qeFjXGVvTnPLA+9xDca/aYFGJtjglz8efy2Ig2+0ugmEai0tPPcJUDBPwmsPei/MDJzSye/AiMNrQMdHdF7El7fe3UpdnAbmWtd/jk0aQzEXn/zgzAsMqarWkCjg7sf+azYZ8GTDLAaB+IpW+nVZ1RTRmtWH6rvzAMyF1D0rOZhPCcGFG/XTccG8PB45t9W5EOpQw2FksY0KgicdSvXE8KYVRRmPuclwOEBqHOnegh/htrxaV9zPFv3KttkaAOritSUZoC92zvTdZXqnrQ+nxQRoRLWXYarV1pltC7EkVy+hhCFc+LKfNeEh8e5iRCI7VLLohLuJyBTkW3u8ilmuZ0rUD9hVD4i5afkx/wa0imKoCCyaEra33svBUaz+Jv33BKrDSyTn3kocNouac5ExT3LXA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(346002)(396003)(376002)(39860400002)(451199021)(83380400001)(66946007)(8936002)(8676002)(31686004)(2616005)(6666004)(66556008)(186003)(36756003)(5660300002)(53546011)(6512007)(478600001)(2906002)(41300700001)(6486002)(316002)(6916009)(26005)(4326008)(38100700002)(7416002)(6506007)(66476007)(86362001)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d29hKzdWTjluNWV3TUJQclN3b1g4djhqUVZrcFMvb1dtalRXMlA5b2E1TFdM?=
+ =?utf-8?B?YVJOTk1vSmpWbkFUeWp2REtXWkF1VTRwc215bHVTYlpIaHJMMFpTMkF6L1Ay?=
+ =?utf-8?B?QkJoakR5U3hsRXgzU05jeWNMWnZRZ3loQ3FCenlHS2J4MGxxSm43ZXJ4Qzlk?=
+ =?utf-8?B?ZGNVYUlocm04czlBc1k4aStsU3FIcElxR2RsMWE0akRCVmlXSjA2cWl3VGcy?=
+ =?utf-8?B?YThQNExkRTcxZlFueWJIUDBGMkdQcFZycm5QK2FUT2xOeitsdXNyZktJY2pX?=
+ =?utf-8?B?eXFJYTVPUTVkM2JiOWZoYkFLWlpucDh2QVI1K2dUSTRCeUFFOENkZDZjbVVP?=
+ =?utf-8?B?dzUzTDRlemUxZlk1dTMxMlREbHNRQ3YxMmJNUmxRai9vaDFkY3Zsam9rMkdB?=
+ =?utf-8?B?dHprZEQ1WjMwVDNXWEVqajZ0bWR2cFFxWXdyejR0RTJPa1lPR1lzTnUvRXJM?=
+ =?utf-8?B?MUVPdFhVZ3ZWMWNhMlNKK0NhcUFZZTNEVC9MRmwxSmFsRlZ0T0JXWEJrY3dW?=
+ =?utf-8?B?UWxodCthZ0ZwMkI1UjdkUmcrOWJtTXU0OFRYYmtlSi9TeTd5dEhvOGhFQThy?=
+ =?utf-8?B?YklSM3R3NGVZZ0pUTE5uaXAxeHZVbGRvZGxiejJkMit3UlN6UnlGb2QyWnR4?=
+ =?utf-8?B?VUM1UzJhdDY4dGYxbzErRlVIUng5Y0JJaDFJMFhmdUJsTUxrbjNUVW1FdGJL?=
+ =?utf-8?B?NVp4YnBFbGkveXJsT0x3ZDZxa0JjS1dYdExrazRnN1lnSm13SlFTN3p0SUJ1?=
+ =?utf-8?B?Q0kxd3dSb3BGYWY3NkZXaTdwMkkwcFNTZ013eVkvc0VqTVVycGt0RnpOZDQ4?=
+ =?utf-8?B?Q0k2S00yQTRnWE5ZQzl4Wm8ySS9VVmpqY0xEUGR0Y3Z1NGZHallkbHNSVm5O?=
+ =?utf-8?B?VUF2ZGY4ejM3RnFyNHF2dDQxd3RNZ3FrTm5BL0VReHVRNCtYd000bURNQ1RM?=
+ =?utf-8?B?R2dKLzVHLzlGamYrUnc3akdEVHFvREdNelFCWGYySXdKUERFRkRvbjZHakZ4?=
+ =?utf-8?B?ZEdsdWNleE1lYzNhSVZ4USsrL051YllFN2NZbjR4L0Znb3J5NkM2c2tXUHRI?=
+ =?utf-8?B?ajY3M3Qxbnk4Z25LcEZwbHU0Yi9MTVc0REZSNlhRM0g2SFBYV2RIcGxYUGpC?=
+ =?utf-8?B?eDBxM09valZzMnUxcFRKeWwrc0xRTE1lZFIrR200Sk5GNzR6VUQ5a0FwT2FT?=
+ =?utf-8?B?ckNLOGNQRFhSWUlwYmdBMlh2TkpibW94Smw0b2JJcFpNOVFINzkvY3dHb09r?=
+ =?utf-8?B?NmNmTlMrTHV4T3Q2RVpCWTF4LzBXVW02eTVBQTQyWTk1M0pVc0hoL3ZjUHZk?=
+ =?utf-8?B?cnkxczVsZGtPaG5YajV3QUp3bFZ0VWpFb2ZkczB0bnI1Mno4UWM5UkMwL2hP?=
+ =?utf-8?B?TmxvVGtMODV3S0xnWlB6VHFobW1laVd4UjJVVElFbG50NDRRaENUMGwrSjVJ?=
+ =?utf-8?B?bkRoNzNyc2tsaC9jR045YnhaeUhSbGpJNnJreC9oN0xPL25IOHQyMk92U2ZU?=
+ =?utf-8?B?UHRCSXJLYmJnTTB3MUs3NEgyUVAxWjJjSDdtRUdtWWhpSFVnNHJHM1pyNTdt?=
+ =?utf-8?B?OStHWm5zajZwVmU2UkhsclNFVHoxbXgwcnEzWlowa2dLOHV2bnlHY1BpWXJG?=
+ =?utf-8?B?ZVBJa3lJVWRDN2dETksxLzVPL1YweXJ0bzlxOXJRbGJQTFNvRmdjREM5ZHFU?=
+ =?utf-8?B?ejY2NVIvWXRiSnUyK2dCZ0QyckYyZHFHLytyalhPblhkV2diTFdldmZHd2Ix?=
+ =?utf-8?B?dEVVMmlsMVpPU2hEdjV5ZENrcGowUWF3OHR5djFiWUJqeWM5UWJQUWRMK0U4?=
+ =?utf-8?B?djhEZ3ozbWZibFBjVk1VVC9OUmI3ckIxc0s2dDZCSlJMMElCa3N5OVU5VVl0?=
+ =?utf-8?B?K1dMOUlSN3FMc2FVUytTY3BpaFFUN2JhK0VGVFFOcjJrcC95eUVmVmZvdnBp?=
+ =?utf-8?B?dFRSVzNUVThPRlIrTUpZTmQvaGozQW5lM05PWjJFTHZpelUwWTU2S2prdzJw?=
+ =?utf-8?B?U3BVNWdVVnNrYStsYVhqTTN1eVlOQUhYcVpiQU9Bdnp6a0ErZHJlcG5nRE52?=
+ =?utf-8?B?V3JEMzUvQW44enoxOUZKWUk1dmd4STd0dTdSQ2svbWRxRUExR2dUN2Y3Z3Z3?=
+ =?utf-8?Q?PFVDxptxCrfR5M7TDegYdx9mC?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7df1da37-9a3b-4fbb-cfd8-08db3530f81e
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 17:21:04.2913
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y3RRoJZkqnty6MduhNduz2HRyFO1o4nykUYj5iI3jO4qfU9l84BADSmmozVVrX8WBj4TO3fEtu6yjSBZKaIZ3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6466
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 4/4/23 3:30 AM, Thierry Reding wrote:
+> On Mon, Mar 27, 2023 at 09:58:19AM -0700, Dipen Patel wrote:
+>> On 3/25/23 4:07 AM, Krzysztof Kozlowski wrote:
+>>> On 23/03/2023 02:29, Dipen Patel wrote:
+>>>> Introducing nvidia,gpio-controller property from Tegra234 SoCs onwards.
+>>>> This is done to help below case.
+>>>>
+>>>> Without this property code would look like:
+>>>> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
+>>>> 	hte_dev->c = gpiochip_find("tegra194-gpio-aon",
+>>>> 				   tegra_get_gpiochip_from_name);
+>>>> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-aon"))
+>>>> 	hte_dev->c = gpiochip_find("tegra234-gpio-aon",
+>>>> 				   tegra_get_gpiochip_from_name);
+>>>> else
+>>>> 	return -ENODEV;
+>>>>
+>>>> This means for every future addition of the compatible string, if else
+>>>> condition statements have to be expanded.
+>>>>
+>>>> With the property:
+>>>> gpio_ctrl = of_parse_phandle(dev->of_node, "nvidia,gpio-controller", 0);
+>>>> ....
+>>>> hte_dev->c = gpiochip_find(gpio_ctrl, tegra_get_gpiochip_from_of_node);
+>>>>
+>>>> This simplifies the code significantly. The introdunction of this
+>>>> property/binding does not break existing Tegra194 provider driver.
+>>>>
+>>>> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+>>>> ---
+>>>>  .../timestamp/nvidia,tegra194-hte.yaml        | 31 +++++++++++++++++--
+>>>>  1 file changed, 29 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>>>> index eafc33e9ae2e..841273a3d8ae 100644
+>>>> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>>>> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>>>> @@ -51,6 +51,12 @@ properties:
+>>>>        LIC instance has 11 slices and Tegra234 LIC has 17 slices.
+>>>>      enum: [3, 11, 17]
+>>>>  
+>>>> +  nvidia,gpio-controller:
+>>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>>> +    description:
+>>>> +      The phandle to AON gpio controller instance. This is required to handle
+>>>> +      namespace conversion between GPIO and GTE.
+>>>> +
+>>>>    '#timestamp-cells':
+>>>>      description:
+>>>>        This represents number of line id arguments as specified by the
+>>>> @@ -65,22 +71,43 @@ required:
+>>>>    - interrupts
+>>>>    - "#timestamp-cells"
+>>>>  
+>>>> +allOf:
+>>>> +  - if:
+>>>> +      properties:
+>>>> +        compatible:
+>>>> +          contains:
+>>>> +            enum:
+>>>> +              - nvidia,tegra234-gte-aon
+>>>> +    then:
+>>>> +      required:
+>>>> +        - nvidia,gpio-controller
+>>>> +
+>>>>  additionalProperties: false
+>>>>  
+>>>>  examples:
+>>>>    - |
+>>>>      tegra_hte_aon: timestamp@c1e0000 {
+>>>>                compatible = "nvidia,tegra194-gte-aon";
+>>>> -              reg = <0xc1e0000 0x10000>;
+>>>> +              reg = <0x0 0xc1e0000 0x0 0x10000>;
+>>>
+>>> This is not really explained in commit msg... are you sure you tested it?
+>> I have to revert this part back in next patch as when I upgraded dtsschema it gave me errors.
+> 
+> We need the 0x0 in the DTS files because we have #address-cells = <2>
+> and #size-tells = <2>. For the examples, those default to just 1 cell,
+> so this can't be an exact copy of what we have in the DTS files.
+> 
+> Please make sure to always validate the bindings and examples.
 
-David Hildenbrand <david@redhat.com> writes:
+Ack...
+> 
+> Thierry
 
-> On 03.04.23 12:37, David Hildenbrand wrote:
->> On 10.03.23 19:28, Stefan Roesch wrote:
->>> Patch series "mm: process/cgroup ksm support", v3.
->>>
->>> So far KSM can only be enabled by calling madvise for memory regions.  To
->>> be able to use KSM for more workloads, KSM needs to have the ability to be
->>> enabled / disabled at the process / cgroup level.
->>>
->>> Use case 1:
->>>
->>>     The madvise call is not available in the programming language.  An
->>>     example for this are programs with forked workloads using a garbage
->>>     collected language without pointers.  In such a language madvise cannot
->>>     be made available.
->>>
->>>     In addition the addresses of objects get moved around as they are
->>>     garbage collected.  KSM sharing needs to be enabled "from the outside"
->>>     for these type of workloads.
->> I guess the interpreter could enable it (like a memory allocator could
->> enable it for the whole heap). But I get that it's much easier to enable
->> this per-process, and eventually only when a lot of the same processes
->> are running in that particular environment.
->>
->>>
->>> Use case 2:
->>>
->>>     The same interpreter can also be used for workloads where KSM brings
->>>     no benefit or even has overhead.  We'd like to be able to enable KSM on
->>>     a workload by workload basis.
->> Agreed. A per-process control is also helpful to identidy workloads
->> where KSM might be beneficial (and to which degree).
->>
->>>
->>> Use case 3:
->>>
->>>     With the madvise call sharing opportunities are only enabled for the
->>>     current process: it is a workload-local decision.  A considerable number
->>>     of sharing opportuniites may exist across multiple workloads or jobs.
->>>     Only a higler level entity like a job scheduler or container can know
->>>     for certain if its running one or more instances of a job.  That job
->>>     scheduler however doesn't have the necessary internal worklaod knowledge
->>>     to make targeted madvise calls.
->>>
->>> Security concerns:
->>>
->>>     In previous discussions security concerns have been brought up.  The
->>>     problem is that an individual workload does not have the knowledge about
->>>     what else is running on a machine.  Therefore it has to be very
->>>     conservative in what memory areas can be shared or not.  However, if the
->>>     system is dedicated to running multiple jobs within the same security
->>>     domain, its the job scheduler that has the knowledge that sharing can be
->>>     safely enabled and is even desirable.
->>>
->>> Performance:
->>>
->>>     Experiments with using UKSM have shown a capacity increase of around
->>>     20%.
->>>
->> As raised, it would be great to include more details about the workload
->> where this particulalry helps (e.g., a lot of Django processes operating
->> in the same domain).
->>
->>>
->>> 1. New options for prctl system command
->>>
->>>      This patch series adds two new options to the prctl system call.
->>>      The first one allows to enable KSM at the process level and the second
->>>      one to query the setting.
->>>
->>>      The setting will be inherited by child processes.
->>>
->>>      With the above setting, KSM can be enabled for the seed process of a
->>>      cgroup and all processes in the cgroup will inherit the setting.
->>>
->>> 2. Changes to KSM processing
->>>
->>>      When KSM is enabled at the process level, the KSM code will iterate
->>>      over all the VMA's and enable KSM for the eligible VMA's.
->>>
->>>      When forking a process that has KSM enabled, the setting will be
->>>      inherited by the new child process.
->>>
->>>      In addition when KSM is disabled for a process, KSM will be disabled
->>>      for the VMA's where KSM has been enabled.
->> Do we want to make MADV_MERGEABLE/MADV_UNMERGEABLE fail while the new
->> prctl is enabled for a process?
->>
->>>
->>> 3. Add general_profit metric
->>>
->>>      The general_profit metric of KSM is specified in the documentation,
->>>      but not calculated.  This adds the general profit metric to
->>>      /sys/kernel/debug/mm/ksm.
->>>
->>> 4. Add more metrics to ksm_stat
->>>
->>>      This adds the process profit and ksm type metric to
->>>      /proc/<pid>/ksm_stat.
->>>
->>> 5. Add more tests to ksm_tests
->>>
->>>      This adds an option to specify the merge type to the ksm_tests.
->>>      This allows to test madvise and prctl KSM.  It also adds a new option
->>>      to query if prctl KSM has been enabled.  It adds a fork test to verify
->>>      that the KSM process setting is inherited by client processes.
->>>
->>> An update to the prctl(2) manpage has been proposed at [1].
->>>
->>> This patch (of 3):
->>>
->>> This adds a new prctl to API to enable and disable KSM on a per process
->>> basis instead of only at the VMA basis (with madvise).
->>>
->>> 1) Introduce new MMF_VM_MERGE_ANY flag
->>>
->>>      This introduces the new flag MMF_VM_MERGE_ANY flag.  When this flag
->>>      is set, kernel samepage merging (ksm) gets enabled for all vma's of a
->>>      process.
->>>
->>> 2) add flag to __ksm_enter
->>>
->>>      This change adds the flag parameter to __ksm_enter.  This allows to
->>>      distinguish if ksm was called by prctl or madvise.
->>>
->>> 3) add flag to __ksm_exit call
->>>
->>>      This adds the flag parameter to the __ksm_exit() call.  This allows
->>>      to distinguish if this call is for an prctl or madvise invocation.
->>>
->>> 4) invoke madvise for all vmas in scan_get_next_rmap_item
->>>
->>>      If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
->>>      over all the vmas and enable ksm if possible.  For the vmas that can be
->>>      ksm enabled this is only done once.
->>>
->>> 5) support disabling of ksm for a process
->>>
->>>      This adds the ability to disable ksm for a process if ksm has been
->>>      enabled for the process.
->>>
->>> 6) add new prctl option to get and set ksm for a process
->>>
->>>      This adds two new options to the prctl system call
->>>      - enable ksm for all vmas of a process (if the vmas support it).
->>>      - query if ksm has been enabled for a process.
->> Did you consider, instead of handling MMF_VM_MERGE_ANY in a special way,
->> to instead make it reuse the existing MMF_VM_MERGEABLE/VM_MERGEABLE
->> infrastructure. Especially:
->> 1) During prctl(MMF_VM_MERGE_ANY), set VM_MERGABLE on all applicable
->>      compatible. Further, set MMF_VM_MERGEABLE and enter KSM if not
->>      already set.
->> 2) When creating a new, compatible VMA and MMF_VM_MERGE_ANY is set, set
->>      VM_MERGABLE?
->> The you can avoid all runtime checks for compatible VMAs and only look
->> at the VM_MERGEABLE flag. In fact, the VM_MERGEABLE will be completely
->> expressive then for all VMAs. You don't need vma_ksm_mergeable() then.
->> Another thing to consider is interaction with arch/s390/mm/gmap.c:
->> s390x/kvm does not support KSM and it has to disable it for all VMAs. We
->> have to find a way to fence the prctl (for example, fail setting the
->> prctl after gmap_mark_unmergeable() ran, and make
->> gmap_mark_unmergeable() fail if the prctl ran -- or handle it gracefully
->> in some other way).
-
-gmap_mark_unmergeable() seems to have a problem today. We can execute
-gmap_mark_unmergeable() and mark the vma's as unmergeable, but shortly
-after that the process can run madvise on it again and make it
-mergeable. Am I mssing something here?
-
-Once prctl is run, we can check for the MMF_VM_MERGE_ANY flag in
-gmap_mark_unmergeable(). In case it is set, we can return an error. The
-error code path looks like it can handle that case.
-
-For the opposite case: gmap_mark_unmergeable() has already been run, we
-would need some kind of flag or other means to be able to detect it.
-Any recommendations?
-
->
->
-> Staring at that code, I wonder if the "mm->def_flags &= ~VM_MERGEABLE" is doing
-> what it's supposed to do. I don't think this effectively prevents right now
-> madvise() from getting re-enabled on that VMA.
->
-> @Christian, Janosch, am I missing something?
