@@ -2,109 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F91EC77B62
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 08:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C11C761A6
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 09:01:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233938AbjDDIn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 04:43:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50516 "EHLO
+        id S234251AbjDDJBb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 05:01:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233983AbjDDInZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 04:43:25 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B6733211D;
-        Tue,  4 Apr 2023 01:43:14 -0700 (PDT)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8AxYeUh4ytkx10WAA--.34733S3;
-        Tue, 04 Apr 2023 16:43:13 +0800 (CST)
-Received: from localhost.localdomain (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxT+Qc4ytkChcVAA--.55041S4;
-        Tue, 04 Apr 2023 16:43:12 +0800 (CST)
-From:   Qing Zhang <zhangqing@loongson.cn>
-To:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, loongarch@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH v2 6/6] LoongArch: Add ARCH_HAS_FORTIFY_SOURCE
-Date:   Tue,  4 Apr 2023 16:43:08 +0800
-Message-Id: <20230404084308.813-3-zhangqing@loongson.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230404084308.813-1-zhangqing@loongson.cn>
-References: <20230404084308.813-1-zhangqing@loongson.cn>
+        with ESMTP id S234210AbjDDJBS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 05:01:18 -0400
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B93268B;
+        Tue,  4 Apr 2023 02:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1680598876; x=1712134876;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wei0JOHMs1Z68b2qcIMpUU0+DXAx0f/WfPJDN5jKPaU=;
+  b=NMlD/nbwDd1QCI+RO9hvtJjGHVjxlIvmhdfboC2Y44LSZKtymhrJKH6Q
+   CEuygTvuFNRGgSJR83njgmoJbaMupzeInBF9N17NLPPeMC2J4B3bbKmVg
+   v+QNkrvw00aQpTUhy3tb0PrBscaNA3FRBC7kPKoOmQdX+HQfdlIYD17M9
+   c=;
+X-IronPort-AV: E=Sophos;i="5.98,317,1673913600"; 
+   d="scan'208";a="200736043"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-ed19f671.us-west-2.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 09:01:11 +0000
+Received: from EX19MTAUWB002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-pdx-2b-m6i4x-ed19f671.us-west-2.amazon.com (Postfix) with ESMTPS id CA37A81A75;
+        Tue,  4 Apr 2023 09:01:10 +0000 (UTC)
+Received: from EX19D002ANA003.ant.amazon.com (10.37.240.141) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Tue, 4 Apr 2023 09:01:10 +0000
+Received: from b0f1d8753182.ant.amazon.com (10.95.136.176) by
+ EX19D002ANA003.ant.amazon.com (10.37.240.141) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.26;
+ Tue, 4 Apr 2023 09:01:06 +0000
+From:   Takahiro Itazuri <itazur@amazon.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     <linux-doc@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        David Dunn <daviddunn@google.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Takahiro Itazuri <zulinx86@gmail.com>,
+        "Takahiro Itazuri" <itazur@amazon.com>
+Subject: [PATCH v3] docs: kvm: x86: Fix broken field list
+Date:   Tue, 4 Apr 2023 10:00:52 +0100
+Message-ID: <20230404090052.9872-1-itazur@amazon.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxT+Qc4ytkChcVAA--.55041S4
-X-CM-SenderInfo: x2kd0wptlqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7uF1xtF18KFW5Gr1ktw4DXFb_yoW8WFyrpF
-        nrA3s5Jr48CFn7AFWjy34UWryUWF97Kr42gFyYya48AFy3XryDXrs2q3Z0vFy5Za1rG3yx
-        uFyfWa4aqF4DX37anT9S1TB71UUUUb7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        b6xYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
-        8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
-        JwAaw2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4
-        CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_ZF0_GryDMcIj
-        6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMx
-        kF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
-        0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
-        14v26w1j6s0DMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI
-        8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AK
-        xVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07jDjjDUUUUU=
+Content-Type: text/plain
+X-Originating-IP: [10.95.136.176]
+X-ClientProxiedBy: EX19D036UWB003.ant.amazon.com (10.13.139.172) To
+ EX19D002ANA003.ant.amazon.com (10.37.240.141)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-FORTIFY_SOURCE could detect various overflows at compile and run time.
-ARCH_HAS_FORTIFY_SOURCE means that the architecture can be built and
-run with CONFIG_FORTIFY_SOURCE. Select it in LoongArch.
+Add missing ":" to fix a broken field list.
 
-See more about this feature from commit 6974f0c4555e
-("include/linux/string.h: add the option of fortified string.h functions").
-
-Signed-off-by: Qing Zhang <zhangqing@loongson.cn>
+Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
+Fixes: ba7bb663f554 ("KVM: x86: Provide per VM capability for disabling PMU virtualization")
 ---
- arch/loongarch/Kconfig              | 1 +
- arch/loongarch/include/asm/string.h | 4 ++++
- 2 files changed, 5 insertions(+)
+v2 -> v3
+* Add another missing ":"
+* Link to v2: https://lore.kernel.org/all/20230331093116.99820-1-itazur@amazon.com/
 
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index 61f883c51045..6c525e50bb7c 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -11,6 +11,7 @@ config LOONGARCH
- 	select ARCH_ENABLE_MEMORY_HOTPLUG
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE
- 	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
-+	select ARCH_HAS_FORTIFY_SOURCE
- 	select ARCH_HAS_NMI_SAFE_THIS_CPU_OPS
- 	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
-diff --git a/arch/loongarch/include/asm/string.h b/arch/loongarch/include/asm/string.h
-index a6482abdc8b3..5bb5a90d2681 100644
---- a/arch/loongarch/include/asm/string.h
-+++ b/arch/loongarch/include/asm/string.h
-@@ -28,6 +28,10 @@ extern void *__memmove(void *__dest, __const__ void *__src, size_t __n);
- #define memcpy(dst, src, len) __memcpy(dst, src, len)
- #define memmove(dst, src, len) __memmove(dst, src, len)
+v1 -> v2
+* Fix commit message to say "Do foo" instead of "This commit does foo".
+* Add "Fixes:" tag.
+* Link to v1: https://lore.kernel.org/all/20230330233956.78246-1-itazur@amazon.com/
+
+ Documentation/virt/kvm/api.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 62de0768d6aa..a5c803f39832 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8296,11 +8296,11 @@ ENOSYS for the others.
+ 8.35 KVM_CAP_PMU_CAPABILITY
+ ---------------------------
  
-+#ifndef __NO_FORTIFY
-+#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
-+#endif
-+
- #endif
+-:Capability KVM_CAP_PMU_CAPABILITY
++:Capability: KVM_CAP_PMU_CAPABILITY
+ :Architectures: x86
+ :Type: vm
+ :Parameters: arg[0] is bitmask of PMU virtualization capabilities.
+-:Returns 0 on success, -EINVAL when arg[0] contains invalid bits
++:Returns: 0 on success, -EINVAL when arg[0] contains invalid bits
  
- #endif /* _ASM_STRING_H */
+ This capability alters PMU virtualization in KVM.
+ 
 -- 
-2.20.1
+2.38.0
 
