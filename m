@@ -2,157 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C28EC6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 09:29:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18FAEC761A6
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 09:49:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233680AbjDDJ3s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 05:29:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60490 "EHLO
+        id S233995AbjDDJtV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 05:49:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234186AbjDDJ3n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 05:29:43 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43D4E1BDC;
-        Tue,  4 Apr 2023 02:29:41 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id j7so37908085ybg.4;
-        Tue, 04 Apr 2023 02:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680600580;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m+eL/z8RH/5rtw+dy/g/xT9VEmo4zwfmYNqhFX98Cqw=;
-        b=E21CLEBXl/AvExfe4X9ObKgn0tL4bMgbcWOtk9mmVcWVa3bwDSurtjprFskIdwsWmL
-         F7Fv6vv4tQiYeubOtRWhlpmSeESdJO9sDFFjoPpMEmrMNMPX3/DIFlmx/LVCnfg/x5yg
-         YIHrUlTJ7oksO67eUW12uxiaEOh0VM9fBTjiSl14jj8hXOatuLnBmjLdALFR0qaYAYfh
-         1YgaVcGcB/ixrMM08U7kgRhNGmZQTyvGmb+yEH/fds4Kma1wpri+WjMRog2FuEMUdpv7
-         iHu6YGokiH2qtYIE2HkK8yPShpCwDPKoUiBYBrX2y5JVA3AW+Zd09fjUEGGdiUW/th3Q
-         LQPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680600580;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m+eL/z8RH/5rtw+dy/g/xT9VEmo4zwfmYNqhFX98Cqw=;
-        b=yqRa/PdgcgYkYa8VdGfrw7WirYQAQVWZlAzIidxInJb1E+M1zZlvReWxzlz32sbdNK
-         h3MOUcwewS4Yyx2E8GeF2+eev8d5rqlaCaLylpDe44zAVcrvJBXUnK3x5RFrEmBcHAPy
-         ZRX1cARU6VoRxw8PLj5kVGVWUg4ZQSDwmLo4/1SYtCGyiJPE/Q4LaagUN+1qNRV5ijik
-         VRJYVz1EmPAKY+HutxWE06EY7ZpNLMIE7qcjrNRoybC+qR68Ln+BUa3qgmSaK3pqgOrN
-         M9mGyv0vJwEy8m0xq7+L99V3AD8U64JBGy8WxS65u/f5XgoEAzTVSRI/n1v8+84vZ0bC
-         IQ8A==
-X-Gm-Message-State: AAQBX9fAMr+fOOCQuLVbMpoKCi0Ff/rZRqf0Nbe7oKyMvx0Ll9sZpaeu
-        bbyoge6P14pGLxro71R9NhU0ciQLH3+g7pMrdMk=
-X-Google-Smtp-Source: AKy350YMnjVKc1oUniZ14UmKxTE2eBETlKxxRUa6bi1S7O7Gs/iVA8trnOr5nx5pqm+8zgB6e53f/vGt3ig4k+Zz4JE=
-X-Received: by 2002:a25:cb83:0:b0:b6a:5594:5936 with SMTP id
- b125-20020a25cb83000000b00b6a55945936mr1430996ybg.5.1680600580420; Tue, 04
- Apr 2023 02:29:40 -0700 (PDT)
+        with ESMTP id S233860AbjDDJtU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 05:49:20 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9A91BD6
+        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 02:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680601758; x=1712137758;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XdrAOxnXVXtiIIC4px7jMTUhlJWXOaO6uACJkkl6fM0=;
+  b=NL33fRB0T3I+ogeGtp5USYAjFPhLZrerx86oZIpcjxSxvNxjKap2Jlwn
+   yei6Oc13b1KHhvidG9inYs5ZE3Rqpu2NJKbYuPi/iB/UfQcic9WRx0IHp
+   XeL5Pv1CyeIIGNQLGPkEbLeRhrd2Jhr3kxCn4XzBcO8/5iKcKbHOLYn1C
+   QcJerDvsz3TJwIAlsVGznreR+Iq6D5ZSO3zCoDH7WHERNuMdWiK+WOKcE
+   CU+kQ7KySGQi66rTTHU4k0iVdm4NwxGDCwCkDs9+Z/VTNBG4mWJsm6kgn
+   Hi9fCbJRfgeQ/a/kISNoB9YMLzTQ4nsqV11xuZham1ji820Uq4YbgTI8x
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="330721592"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
+   d="scan'208";a="330721592"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 02:49:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="663522375"
+X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
+   d="scan'208";a="663522375"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 04 Apr 2023 02:49:16 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pjdHq-000PVU-2j;
+        Tue, 04 Apr 2023 09:49:10 +0000
+Date:   Tue, 4 Apr 2023 17:48:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Takahiro Itazuri <itazur@amazon.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 8464/9010] htmldocs:
+ Documentation/virt/kvm/api.rst:8303: WARNING: Field list ends without a
+ blank line; unexpected unindent.
+Message-ID: <202304041708.siWlxmyD-lkp@intel.com>
 MIME-Version: 1.0
-References: <20230329180502.1884307-1-kal.conley@dectris.com>
- <20230329180502.1884307-9-kal.conley@dectris.com> <CAJ8uoz330DWzHabpqd+HaeAxBi2gr+GOTtnS9WJFWrt=6DaeWQ@mail.gmail.com>
- <CAHApi-nfBM=i1WeZ-jtHN87AWPvURo0LygT9yYxF=cUeYthXBQ@mail.gmail.com>
-In-Reply-To: <CAHApi-nfBM=i1WeZ-jtHN87AWPvURo0LygT9yYxF=cUeYthXBQ@mail.gmail.com>
-From:   Magnus Karlsson <magnus.karlsson@gmail.com>
-Date:   Tue, 4 Apr 2023 11:29:29 +0200
-Message-ID: <CAJ8uoz0SEkcXQuoqYd94GreJqpCxQuf1QVgm9=Um6Wqk=s8GBw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 08/10] xsk: Support UMEM chunk_size > PAGE_SIZE
-To:     Kal Cutter Conley <kal.conley@dectris.com>
-Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Apr 2023 at 10:15, Kal Cutter Conley <kal.conley@dectris.com> wrote:
->
-> > Is not the max 64K as you test against XDP_UMEM_MAX_CHUNK_SIZE in
-> > xdp_umem_reg()?
->
-> The absolute max is 64K. In the case of HPAGE_SIZE < 64K, then it
-> would be HPAGE_SIZE.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6a53bda3aaf3de5edeea27d0b1d8781d067640b6
+commit: c2594091d0e517f3c46b99a3f380cd7ae23e4ffc [8464/9010] docs: kvm: x86: Fix broken field list
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=c2594091d0e517f3c46b99a3f380cd7ae23e4ffc
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout c2594091d0e517f3c46b99a3f380cd7ae23e4ffc
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Is there such a case when HPAGE_SIZE would be less than 64K? If not,
-then just write 64K.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041708.siWlxmyD-lkp@intel.com/
 
-> > > diff --git a/include/net/xdp_sock.h b/include/net/xdp_sock.h
-> > > index e96a1151ec75..ed88880d4b68 100644
-> > > --- a/include/net/xdp_sock.h
-> > > +++ b/include/net/xdp_sock.h
-> > > @@ -28,6 +28,9 @@ struct xdp_umem {
-> > >         struct user_struct *user;
-> > >         refcount_t users;
-> > >         u8 flags;
-> > > +#ifdef CONFIG_HUGETLB_PAGE
-> >
-> > Sanity check: have you tried compiling your code without this config set?
->
-> Yes. The CI does this also on one of the platforms (hence some of the
-> bot errors in v1).
+All warnings (new ones prefixed by >>):
 
-Perfect!
+>> Documentation/virt/kvm/api.rst:8303: WARNING: Field list ends without a blank line; unexpected unindent.
 
-> > >  static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
-> > >  {
-> > > +#ifdef CONFIG_HUGETLB_PAGE
-> >
-> > Let us try to get rid of most of these #ifdefs sprinkled around the
-> > code. How about hiding this inside xdp_umem_is_hugetlb() and get rid
-> > of these #ifdefs below? Since I believe it is quite uncommon not to
-> > have this config enabled, we could simplify things by always using the
-> > page_size in the pool, for example. And dito for the one in struct
-> > xdp_umem. What do you think?
->
-> I used #ifdef for `page_size` in the pool for maximum performance when
-> huge pages are disabled. We could also not worry about optimizing this
-> uncommon case though since the performance impact is very small.
-> However, I don't find the #ifdefs excessive either.
+vim +8303 Documentation/virt/kvm/api.rst
 
-Keep them to a minimum please since there are few of them in the
-current code outside of some header files. And let us assume that
-CONFIG_HUGETLB_PAGE is the common case.
+ba7bb663f5547e David Dunn       2022-02-23  8298  
+c2594091d0e517 Takahiro Itazuri 2023-03-31  8299  :Capability: KVM_CAP_PMU_CAPABILITY
+ba7bb663f5547e David Dunn       2022-02-23  8300  :Architectures: x86
+ba7bb663f5547e David Dunn       2022-02-23  8301  :Type: vm
+ba7bb663f5547e David Dunn       2022-02-23  8302  :Parameters: arg[0] is bitmask of PMU virtualization capabilities.
+ba7bb663f5547e David Dunn       2022-02-23 @8303  :Returns 0 on success, -EINVAL when arg[0] contains invalid bits
+ba7bb663f5547e David Dunn       2022-02-23  8304  
 
-> > > +static void xp_check_dma_contiguity(struct xsk_dma_map *dma_map, u32 page_size)
-> > >  {
-> > > -       u32 i;
-> > > +       u32 stride = page_size >> PAGE_SHIFT; /* in order-0 pages */
-> > > +       u32 i, j;
-> > >
-> > > -       for (i = 0; i < dma_map->dma_pages_cnt - 1; i++) {
-> > > -               if (dma_map->dma_pages[i] + PAGE_SIZE == dma_map->dma_pages[i + 1])
-> > > -                       dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
-> > > -               else
-> > > -                       dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
-> > > +       for (i = 0; i + stride < dma_map->dma_pages_cnt;) {
-> > > +               if (dma_map->dma_pages[i] + page_size == dma_map->dma_pages[i + stride]) {
-> > > +                       for (j = 0; j < stride; i++, j++)
-> > > +                               dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
-> > > +               } else {
-> > > +                       for (j = 0; j < stride; i++, j++)
-> > > +                               dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
-> > > +               }
-> >
-> > Still somewhat too conservative :-). If your page size is large you
-> > will waste a lot of the umem.  For the last page mark all the 4K
-> > "pages" that cannot cross the end of the umem due to the max size of a
-> > packet with the XSK_NEXT_PG_CONTIG_MASK bit. So you only need to add
-> > one more for-loop here to mark this, and then adjust the last for-loop
-> > below so it only marks the last bunch of 4K pages at the end of the
-> > umem as not contiguous.
->
-> I don't understand the issue. The XSK_NEXT_PG_CONTIG_MASK bit is only
-> looked at if the descriptor actually crosses a page boundary. I don't
-> think the current implementation wastes any UMEM.
+:::::: The code at line 8303 was first introduced by commit
+:::::: ba7bb663f5547ef474c98df99a97bb4a13c5715f KVM: x86: Provide per VM capability for disabling PMU virtualization
 
-I stand corrected. You do not waste any space, so please ignore.
+:::::: TO: David Dunn <daviddunn@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
