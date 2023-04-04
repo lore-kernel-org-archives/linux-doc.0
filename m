@@ -2,122 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50F97C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 08:09:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56DB2C761A6
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 08:15:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233892AbjDDIJz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 04:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42728 "EHLO
+        id S234103AbjDDIPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 04:15:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233451AbjDDIJz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 04:09:55 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 069491BD9;
-        Tue,  4 Apr 2023 01:09:53 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pjbjf-0006fr-PJ; Tue, 04 Apr 2023 10:09:47 +0200
-Message-ID: <e671189c-086e-87bd-68db-fb80678d4666@leemhuis.info>
-Date:   Tue, 4 Apr 2023 10:09:46 +0200
+        with ESMTP id S234096AbjDDIPr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 04:15:47 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DA35268B
+        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 01:15:42 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id i5so127363179eda.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Apr 2023 01:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dectris.com; s=google; t=1680596141;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ZWSy31nxZx1PXrJ/a/Nio7iVH3OxfiLHZKduoDBB98=;
+        b=FteqBbAS9GU7d/CcIKLll4vLYKmpQvsOdqlvYAoJwULBBi/Y0on4cacwGnABacI2Fj
+         L/UCNRzfGFcIV7VW99CVyvKbh72ec1sYa6CxTDURk/WHNWrbVN3ecXUuoEk0MEA+x8zC
+         1ipN/kACbc0hZpVcsf0PRsxHAPm/WvoSbj2Lg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680596141;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ZWSy31nxZx1PXrJ/a/Nio7iVH3OxfiLHZKduoDBB98=;
+        b=h9TU24nTrwOpK2t3u6OikXsqhY/fiicrvLb0Cffc+UfXlXXdh3YPhVBameniem84NT
+         lUhiH+nCEQ4MH4puWdrqcdvbrXClvopVmdyhwENV0Xs9Lp76ZKSmSfj1USUevdD/pczp
+         S9JxXEV+nPE+ZxI4AYVgq6svTY8tjb90qxROtGLoo/8kGjReZg6xhGZmnYBSDjcM4u1u
+         xPZljqiZCsUI0MCH7EtUgPVOw7X7DM9wQ8am6JVLzAa/SWFo1kIAD7WnN9abbtzJZkqZ
+         Uu2gnt0AX3qks1cWGYKDAqGWakvHqSYzypn0T24WwtFRrNHkzKrpl4xXgdrUr8p810/5
+         lJLQ==
+X-Gm-Message-State: AAQBX9dtvczvAz55XWo/Laiay1bgc/NZ83JfEsyNw99VRotztxJW1ECn
+        zKu+yFM5DeQJ5ylXEYDnBwDOTp905MEsB6GFSxB1Kw==
+X-Google-Smtp-Source: AKy350YlDyMLH1uHq6GEY6M6jNYluB2enrZLb7RkppafkVaCsKKheSOMENKLDrNGKHxMVxTkwwLxLF9mbkQ3ShK6sBk=
+X-Received: by 2002:a17:906:c197:b0:947:54ef:374 with SMTP id
+ g23-20020a170906c19700b0094754ef0374mr765759ejz.0.1680596140889; Tue, 04 Apr
+ 2023 01:15:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US, de-DE
-To:     Matthieu Baerts <matthieu.baerts@tessares.net>,
+References: <20230329180502.1884307-1-kal.conley@dectris.com>
+ <20230329180502.1884307-9-kal.conley@dectris.com> <CAJ8uoz330DWzHabpqd+HaeAxBi2gr+GOTtnS9WJFWrt=6DaeWQ@mail.gmail.com>
+In-Reply-To: <CAJ8uoz330DWzHabpqd+HaeAxBi2gr+GOTtnS9WJFWrt=6DaeWQ@mail.gmail.com>
+From:   Kal Cutter Conley <kal.conley@dectris.com>
+Date:   Tue, 4 Apr 2023 10:20:21 +0200
+Message-ID: <CAHApi-nfBM=i1WeZ-jtHN87AWPvURo0LygT9yYxF=cUeYthXBQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 08/10] xsk: Support UMEM chunk_size > PAGE_SIZE
+To:     Magnus Karlsson <magnus.karlsson@gmail.com>
+Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-References: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v4-1-d26d1fa66f9f@tessares.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v4 1/5] docs: process: allow Closes tags with links
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v4-1-d26d1fa66f9f@tessares.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680595794;ab84f175;
-X-HE-SMSGID: 1pjbjf-0006fr-PJ
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> Is not the max 64K as you test against XDP_UMEM_MAX_CHUNK_SIZE in
+> xdp_umem_reg()?
 
-On 03.04.23 18:23, Matthieu Baerts wrote:
-> [...]
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 828997bc9ff9..12d58ddc2b8a 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -113,11 +113,9 @@ there is no collision with your six-character ID now, that condition may
->  change five years from now.
->  
->  If related discussions or any other background information behind the change
-> -can be found on the web, add 'Link:' tags pointing to it. In case your patch
-> -fixes a bug, for example, add a tag with a URL referencing the report in the
-> -mailing list archives or a bug tracker; if the patch is a result of some
-> -earlier mailing list discussion or something documented on the web, point to
-> -it.
-> +can be found on the web, add 'Link:' tags pointing to it. If the patch is a
-> +result of some earlier mailing list discussions or something documented on the
-> +web, point to it.
->  
->  When linking to mailing list archives, preferably use the lore.kernel.org
->  message archiver service. To create the link URL, use the contents of the
-> @@ -134,6 +132,16 @@ resources. In addition to giving a URL to a mailing list archive or bug,
->  summarize the relevant points of the discussion that led to the
->  patch as submitted.
->  
-> +In case your patch fixes a bug, use the 'Closes:' tag with a URL referencing
-> +the report in the mailing list archives or a public bug tracker. For example::
-> +
-> +	Closes: https://example.com/issues/1234
+The absolute max is 64K. In the case of HPAGE_SIZE < 64K, then it
+would be HPAGE_SIZE.
 
-YMMV, but is this...
+> > diff --git a/include/net/xdp_sock.h b/include/net/xdp_sock.h
+> > index e96a1151ec75..ed88880d4b68 100644
+> > --- a/include/net/xdp_sock.h
+> > +++ b/include/net/xdp_sock.h
+> > @@ -28,6 +28,9 @@ struct xdp_umem {
+> >         struct user_struct *user;
+> >         refcount_t users;
+> >         u8 flags;
+> > +#ifdef CONFIG_HUGETLB_PAGE
+>
+> Sanity check: have you tried compiling your code without this config set?
 
-> +Some bug trackers have the ability to close issues automatically when a
-> +commit with such a tag is applied. Some bots monitoring mailing lists can
-> +also track such tags and take certain actions. Private bug trackers and
-> +invalid URLs are forbidden.
-> +
+Yes. The CI does this also on one of the platforms (hence some of the
+bot errors in v1).
 
-...section (and a similar one in the other document) really worth it
-and/or does it have to be that long? A simple "Some bug trackers then
-will automatically close the issue when the commit is merged" IMHO would
-suffice, but OTOH it might be considered common knowledge. And the
-"found on the web", "a public bug tracker" (both quoted above) and
-"available on the web" (quoted below) already make it pretty clear that
-links to private bug trackers are now desired. And there is also a
-"Please check the link to make sure that it is actually working and
-points to the relevant message." in submitting-patches.rst already, so
-invalid URLs are obviously not wanted either.
+> >  static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
+> >  {
+> > +#ifdef CONFIG_HUGETLB_PAGE
+>
+> Let us try to get rid of most of these #ifdefs sprinkled around the
+> code. How about hiding this inside xdp_umem_is_hugetlb() and get rid
+> of these #ifdefs below? Since I believe it is quite uncommon not to
+> have this config enabled, we could simplify things by always using the
+> page_size in the pool, for example. And dito for the one in struct
+> xdp_umem. What do you think?
 
->  If your patch fixes a bug in a specific commit, e.g. you found an issue using
->  ``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
->  the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
-> @@ -498,9 +506,11 @@ Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
->  The Reported-by tag gives credit to people who find bugs and report them and it
->  hopefully inspires them to help us again in the future. The tag is intended for
->  bugs; please do not use it to credit feature requests. The tag should be
-> -followed by a Link: tag pointing to the report, unless the report is not
-> -available on the web. Please note that if the bug was reported in private, then
-> -ask for permission first before using the Reported-by tag.
-> +followed by a Closes: tag pointing to the report, unless the report is not
-> +available on the web. The Link: tag can be used instead of Closes: if the patch
-> +fixes a part of the issue(s) being reported. Please note that if the bug was
-> +reported in private, then ask for permission first before using the Reported-by
-> +tag.
->  
->  A Tested-by: tag indicates that the patch has been successfully tested (in
->  some environment) by the person named.  This tag informs maintainers that
+I used #ifdef for `page_size` in the pool for maximum performance when
+huge pages are disabled. We could also not worry about optimizing this
+uncommon case though since the performance impact is very small.
+However, I don't find the #ifdefs excessive either.
 
-Ciao, Thorsten
+> > +static void xp_check_dma_contiguity(struct xsk_dma_map *dma_map, u32 page_size)
+> >  {
+> > -       u32 i;
+> > +       u32 stride = page_size >> PAGE_SHIFT; /* in order-0 pages */
+> > +       u32 i, j;
+> >
+> > -       for (i = 0; i < dma_map->dma_pages_cnt - 1; i++) {
+> > -               if (dma_map->dma_pages[i] + PAGE_SIZE == dma_map->dma_pages[i + 1])
+> > -                       dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
+> > -               else
+> > -                       dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
+> > +       for (i = 0; i + stride < dma_map->dma_pages_cnt;) {
+> > +               if (dma_map->dma_pages[i] + page_size == dma_map->dma_pages[i + stride]) {
+> > +                       for (j = 0; j < stride; i++, j++)
+> > +                               dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
+> > +               } else {
+> > +                       for (j = 0; j < stride; i++, j++)
+> > +                               dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
+> > +               }
+>
+> Still somewhat too conservative :-). If your page size is large you
+> will waste a lot of the umem.  For the last page mark all the 4K
+> "pages" that cannot cross the end of the umem due to the max size of a
+> packet with the XSK_NEXT_PG_CONTIG_MASK bit. So you only need to add
+> one more for-loop here to mark this, and then adjust the last for-loop
+> below so it only marks the last bunch of 4K pages at the end of the
+> umem as not contiguous.
+
+I don't understand the issue. The XSK_NEXT_PG_CONTIG_MASK bit is only
+looked at if the descriptor actually crosses a page boundary. I don't
+think the current implementation wastes any UMEM.
