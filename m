@@ -2,106 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59930C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 10:46:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7291C761A6
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 11:14:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234497AbjDDKqR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 06:46:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54472 "EHLO
+        id S234535AbjDDLOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 07:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234421AbjDDKqP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 06:46:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D863CE62
-        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 03:45:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680605122;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KlvAHwxh15I5CJgOz3iBO5tT4tChRwyHMt1NQ+o3LIA=;
-        b=OfCi3SFuoeuVhP8awLi5PP/wfLxgf+BaXLZCCtVfKqZiSsLnFyUaqVjMs4EY0pQsc0XKZn
-        6K4UjFoxYpH+2dQv4U0DeOq41FAFV5BYjgrnjMb6wyAWONhsTIOHpe7eTgqoC5eKUdEGWw
-        oKn+9/mczVK3HxEXC9PFtObp/KfrE/4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-KKW9AEdFMjO660zewoQhLg-1; Tue, 04 Apr 2023 06:45:19 -0400
-X-MC-Unique: KKW9AEdFMjO660zewoQhLg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3BBB80D190;
-        Tue,  4 Apr 2023 10:45:18 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.199])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 7493B40C6EC4;
-        Tue,  4 Apr 2023 10:45:15 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue,  4 Apr 2023 12:45:10 +0200 (CEST)
-Date:   Tue, 4 Apr 2023 12:45:06 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, avagin@gmail.com, peterz@infradead.org,
-        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
-        corbet@lwn.net, shuah@kernel.org, arnd@arndb.de,
-        Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v15 2/4] syscall user dispatch: untag selector addresses
- before access_ok
-Message-ID: <20230404104506.GA24740@redhat.com>
-References: <20230330212121.1688-1-gregory.price@memverge.com>
- <20230330212121.1688-3-gregory.price@memverge.com>
- <ZCYP+4gRZDqC0lRo@arm.com>
+        with ESMTP id S234639AbjDDLOd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 07:14:33 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB7C1FEA;
+        Tue,  4 Apr 2023 04:14:32 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id cf7so38212021ybb.5;
+        Tue, 04 Apr 2023 04:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680606872;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gVo5EF32hJ+j6zLMjucS/chjw/jsmoSQqHwPbkJqces=;
+        b=LwsfY1OtmyxDYjVpbBC59BNM9J4LMypl3khFXHuBY6BEJtuHWVF6eb2F/OPKgnEv7J
+         Fs7PmMuNKaVneD5uzcgczfMORk+rFTjGoJQYf5WGXdZI7yJ4ItoMZTwSplPFDvwkiqgx
+         A2InUYXJUwyh3pMRhwCIzGpMA9hTMDKGc26zJkwrcVsupUyt/7sfz2PT/FL6FH1Z+VHz
+         KGG2Z97W0knDhGwhVejX7yzguE0y1XYMjXcMH7cdhcbsr79czyq+9xQXV5grW21dHA+o
+         MBZRSP/41aOgP4ZMKpwvTLlofI3hdYR4x98u55XVjt33ZLqI73CsIeQ5WIQ05Yokm5IH
+         1TOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680606872;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gVo5EF32hJ+j6zLMjucS/chjw/jsmoSQqHwPbkJqces=;
+        b=ZGEUMW2hKo8XH6nATnOpH1yHiEmXWEwovl35dmP4jHOAKWtWGycxG20VtmFc9R8JCI
+         WHfOqzxqwSwL4PaCHgbomVWTxgxm9bgLvUiHEGXtQPvvGtcAuNZzRnbJo3Q2xR7Lp/KL
+         8chnKZBkZyQh/E1z0bhQYXxHamvqkdaEP4nlUIyF446Osm8cgOQLeRFHTecmkPjSQ/IT
+         L99FFduviVtsLr61FAfexPMKW9XJdnyYcEVtfOs6VQ4BFYrwM63ZVND1H5211qxgus2z
+         90kLo5nYlgF+iBYus0QfsDlMLP27cF6Jy19hPiWDzRpCqhS4HbQz/OwmZoz5Ec/+Zexe
+         Q29w==
+X-Gm-Message-State: AAQBX9cc/TTIXy5ypZS6G9XirxIuZi6xgPeqf4o93+lBiZTODO3F6ovi
+        ITUggykc2Yzb8fDN0MlLJe4lV98xjtgATyTKqJ0=
+X-Google-Smtp-Source: AKy350ajqq6A6l3G1blkn41jMC3CgA2eNIYkGbCOtvTg3xkmiJb332SKKTLe/F1mb8l+wuNsQquw2GNKsidWLkExD3A=
+X-Received: by 2002:a25:c401:0:b0:b76:ae61:b68b with SMTP id
+ u1-20020a25c401000000b00b76ae61b68bmr1379110ybf.5.1680606871742; Tue, 04 Apr
+ 2023 04:14:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCYP+4gRZDqC0lRo@arm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+References: <20230329180502.1884307-1-kal.conley@dectris.com>
+ <20230329180502.1884307-9-kal.conley@dectris.com> <CAJ8uoz330DWzHabpqd+HaeAxBi2gr+GOTtnS9WJFWrt=6DaeWQ@mail.gmail.com>
+ <CAHApi-nfBM=i1WeZ-jtHN87AWPvURo0LygT9yYxF=cUeYthXBQ@mail.gmail.com>
+ <CAJ8uoz0SEkcXQuoqYd94GreJqpCxQuf1QVgm9=Um6Wqk=s8GBw@mail.gmail.com> <CAHApi-=ui3JofMr7y+LvuYkXCU=h7vGiKXsfuV5gog-02u-u+Q@mail.gmail.com>
+In-Reply-To: <CAHApi-=ui3JofMr7y+LvuYkXCU=h7vGiKXsfuV5gog-02u-u+Q@mail.gmail.com>
+From:   Magnus Karlsson <magnus.karlsson@gmail.com>
+Date:   Tue, 4 Apr 2023 13:14:20 +0200
+Message-ID: <CAJ8uoz0GgzzfrgS0189=zwY-zzogZq+=v-NCY7O+RuWrwe1n6w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 08/10] xsk: Support UMEM chunk_size > PAGE_SIZE
+To:     Kal Cutter Conley <kal.conley@dectris.com>
+Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Catalin,
-
-doesn't this mean that access_ok() on arm64 could use
-untagged_addr(addr) unconditionally without any security risk?
-
-On 03/30, Catalin Marinas wrote:
+On Tue, 4 Apr 2023 at 12:29, Kal Cutter Conley <kal.conley@dectris.com> wrote:
 >
-> On Thu, Mar 30, 2023 at 05:21:22PM -0400, Gregory Price wrote:
-> > diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-> > index 22396b234854..16086226b41c 100644
-> > --- a/kernel/entry/syscall_user_dispatch.c
-> > +++ b/kernel/entry/syscall_user_dispatch.c
-> > @@ -87,7 +87,18 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
-> >  		if (offset && offset + len <= offset)
-> >  			return -EINVAL;
+> > > > Is not the max 64K as you test against XDP_UMEM_MAX_CHUNK_SIZE in
+> > > > xdp_umem_reg()?
+> > >
+> > > The absolute max is 64K. In the case of HPAGE_SIZE < 64K, then it
+> > > would be HPAGE_SIZE.
 > >
-> > -		if (selector && !access_ok(selector, sizeof(*selector)))
-> > +		/*
-> > +		 * access_ok will clear memory tags for tagged addresses on tasks where
-> > +		 * memory tagging is enabled.  To enable a tracer to set a tracee's
-> > +		 * selector not in the same tagging state, the selector address must be
-> > +		 * untagged for access_ok, otherwise an untagged tracer will always fail
-> > +		 * to set a tagged tracee's selector.
-> > +		 *
-> > +		 * The result of this is that a tagged tracer may be capable of setting
-> > +		 * an invalid address, and the tracee will SIGSEGV on the next syscall.
-> > +		 * This is equivalent to a task setting a bad selector (selector=0x1).
-> > +		 */
+> > Is there such a case when HPAGE_SIZE would be less than 64K? If not,
+> > then just write 64K.
 >
-> I'd drop the last paragraph above. Even without tagged pointers, a tracer
-> can set an invalid address (as you already mentioned) but the phrasing
-> some implies (to me) that if we did it differently, the tracer would not be
-> able to set an invalid pointer.
-> 
-> Either way,
-> 
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> 
-> -- 
-> Catalin
-> 
+> Yes. While most platforms have HPAGE_SIZE defined to a compile-time
+> constant >= 64K (very often 2M) there are platforms (at least ia64 and
+> powerpc) where the hugepage size is configured at boot. Specifically,
+> in the case of Itanium (ia64), the hugepage size may be configured at
+> boot to any valid page size > PAGE_SIZE (e.g. 8K). See:
+> https://elixir.bootlin.com/linux/latest/source/arch/ia64/mm/hugetlbpage.c#L159
 
+So for all practical purposes it is max 64K. Let us just write that then.
+
+> >
+> > > > >  static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
+> > > > >  {
+> > > > > +#ifdef CONFIG_HUGETLB_PAGE
+> > > >
+> > > > Let us try to get rid of most of these #ifdefs sprinkled around the
+> > > > code. How about hiding this inside xdp_umem_is_hugetlb() and get rid
+> > > > of these #ifdefs below? Since I believe it is quite uncommon not to
+> > > > have this config enabled, we could simplify things by always using the
+> > > > page_size in the pool, for example. And dito for the one in struct
+> > > > xdp_umem. What do you think?
+> > >
+> > > I used #ifdef for `page_size` in the pool for maximum performance when
+> > > huge pages are disabled. We could also not worry about optimizing this
+> > > uncommon case though since the performance impact is very small.
+> > > However, I don't find the #ifdefs excessive either.
+> >
+> > Keep them to a minimum please since there are few of them in the
+> > current code outside of some header files. And let us assume that
+> > CONFIG_HUGETLB_PAGE is the common case.
+> >
+>
+> Would you be OK if I just remove the ones from xsk_buff_pool? I think
+> the code in xdp_umem.c is quite readable and the #ifdefs are really
+> only used in xdp_umem_pin_pages.
+
+Please make an effort to remove the ones in xdp_umem.c too. The more
+ifdefs you add, the harder it will be to read.
