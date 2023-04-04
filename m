@@ -2,124 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E31C76196
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 02:37:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 028CBC761A6
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 04:06:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232002AbjDDChK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Apr 2023 22:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42708 "EHLO
+        id S231741AbjDDEGJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 00:06:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjDDChJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Apr 2023 22:37:09 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 811B2CF;
-        Mon,  3 Apr 2023 19:37:08 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id mp3-20020a17090b190300b0023fcc8ce113so34649600pjb.4;
-        Mon, 03 Apr 2023 19:37:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680575828;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CysjAL8xaOZiVUkW1bgeC1vlXFTE3Kt0mpBjBQvx5vc=;
-        b=jYBkisAFXF77CKha6BzD2oKkQralA+8xeLjtsj9X/cinmUB8talM84UqVJ71ZHILCA
-         01R+pUk16Jyj5OQdLsWebpE3xfTKXbB5e8C9ReJZWdMhERUvHhJLQGzdW7Zhrkb86iJi
-         RvemFSqe/syjmXzv7RpgVOtQzvflBdwQY2b9ODTEyrbqjE6+BUOADScXTNEKEyp/svvI
-         D2ao0xjfQC1s20RHF4FsuDbHRtVi134N48Ts4i/QepMdQWvcLPUw0741bZAAzVQ2Nk0t
-         PWrYyySKXSMm6i2S6Mjy22kx4v/pX34BSt9X9pFksxmCAE9eQv225xoVebud9WaL7ESU
-         /ywA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680575828;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CysjAL8xaOZiVUkW1bgeC1vlXFTE3Kt0mpBjBQvx5vc=;
-        b=QxM3z6RnSPDhKCHDB3PxZF35inDwPfwKLzAUVawHshI5vw0g1ysO4bsqcZPRQBlf+s
-         4EYincZMO2vFk+qW6i8U/xnDnTjGBknOaxPxMzDAdpXLyoVTzH56Id3O2pCV8mqx3xJ3
-         Uiai8Os00HfNpMnlU2SB4MsKwX9WNdwamyUtvBY9If3hk084Bk2AKXPi160SblxqBvSr
-         Uai0EOkv/PyX9C9X6I0Q8QwCwBDqbvVgB7ih43YvJl1Ras5uqiZ4ZxLSuj5EEV2SBYkI
-         xXUxnaIEg/1AJS5zGqN/Ds103YkD5nmED3VLJbyo7tR5OGYA7cJDzsK3PyPj+ddpMHmj
-         mTHw==
-X-Gm-Message-State: AAQBX9eCy3CgAfudK5CezbfwUITCygVcH40njQovs9wCfnqSfSADlqqc
-        WdPaLxhVa8Is7M3HlvqoDYZY8KFV58E=
-X-Google-Smtp-Source: AKy350YaDqd6LcHIdtHsv2fSMxfA4CTRARCemBfenBRx5+D6uTEn+Eb2dPBcgKC4MuBsZ8p/W19UAg==
-X-Received: by 2002:a17:902:c406:b0:1a2:6f9f:de16 with SMTP id k6-20020a170902c40600b001a26f9fde16mr1231952plk.11.1680575827888;
-        Mon, 03 Apr 2023 19:37:07 -0700 (PDT)
-Received: from debian.me (subs28-116-206-12-40.three.co.id. [116.206.12.40])
-        by smtp.gmail.com with ESMTPSA id kr15-20020a170903080f00b001a1ca6dc38csm7228079plb.118.2023.04.03.19.37.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 19:37:07 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3FE33106782; Tue,  4 Apr 2023 09:37:05 +0700 (WIB)
-Date:   Tue, 4 Apr 2023 09:37:05 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Joe Stringer <joe@isovalent.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
-        martin.lau@linux.dev, maxtram95@gmail.com, john.fastabend@gmail.com
-Subject: Re: [PATCH bpf-next v4 1/2] docs/bpf: Add table to describe LRU
- properties
-Message-ID: <ZCuNUeMiARuEfaDY@debian.me>
-References: <20230401200651.1022113-1-joe@isovalent.com>
- <ZCpMv1UHM1Vn+/ha@debian.me>
- <CADa=RyzmpE-XwOan0B5s20yi58EbM2VUFZDSLaGJQ3nnWgzvWw@mail.gmail.com>
+        with ESMTP id S229707AbjDDEGH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 00:06:07 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9DFB1735;
+        Mon,  3 Apr 2023 21:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680581165; x=1712117165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FMrZVyd22PM6TVP1ItBcA2qS5xG7Y4eZhT9IM7BxYAg=;
+  b=Cq1KzK7upky9bigpw6s6r/GZyqUarG0eNOh7nTIzC8o/u0b86ZWYqJLd
+   l5csPjZJxZ2o+GtYfcGKgznUuI6QEe1YUgMsyCeLetzUxhwSm74B/ZrWW
+   ftw7uTAXtYCGUi1wqhdbQshaKEKS2P8kT4d5Ya9Aq40KYu5MHV3LYeMHi
+   sujyKw2naovd50m3lPg00/JbpbQMVSbBEk10Dqg9qqemwrNDyuKJqMMrJ
+   s+cTILpkLAD2ez1+8t/CDevcnmciJlZt2WWZZxl6Sp/Xvr5zOjcJx2Y1B
+   ifxZJEUQ7UnlEawpiMjmDzHifZ80eCwW9Qv157HPgg61NnjSFDtpUkE7W
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="339570839"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="339570839"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 21:06:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="932297750"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="932297750"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 03 Apr 2023 21:06:00 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pjXvj-000P9S-1m;
+        Tue, 04 Apr 2023 04:05:59 +0000
+Date:   Tue, 4 Apr 2023 12:05:08 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
+        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net
+Cc:     oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v3 05/15] drm: debugfs: provide infrastructure
+ to dump a DRM GPU VA space
+Message-ID: <202304041151.y2WMbGh6-lkp@intel.com>
+References: <20230404012741.116502-6-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="sctaaJx8NKROVx/r"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADa=RyzmpE-XwOan0B5s20yi58EbM2VUFZDSLaGJQ3nnWgzvWw@mail.gmail.com>
+In-Reply-To: <20230404012741.116502-6-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Danilo,
 
---sctaaJx8NKROVx/r
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Mon, Apr 03, 2023 at 03:14:39PM -0700, Joe Stringer wrote:
-> On Sun, Apr 2, 2023 at 8:49=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
-> >
-> > On Sat, Apr 01, 2023 at 01:06:50PM -0700, Joe Stringer wrote:
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +Flag                     ``BPF_MAP_TYPE_LRU_HASH`` ``BPF_MAP_TYPE_LR=
-U_PERCPU_HASH``
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +``BPF_F_NO_COMMON_LRU``  Per-CPU LRU, global map   Per-CPU LRU, per-=
-cpu map
-> > > +``!BPF_F_NO_COMMON_LRU`` Global LRU, global map    Global LRU, per-c=
-pu map
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > The header column entries should also be bold (as above is two-way
-> > table).
->=20
-> They look bold to me already, do I need to take any action here?
+[auto build test WARNING on d36d68fd1925d33066d52468b7c7c6aca6521248]
 
-Oops, I mean the "Flag" column is the header column.
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+base:   d36d68fd1925d33066d52468b7c7c6aca6521248
+patch link:    https://lore.kernel.org/r/20230404012741.116502-6-dakr%40redhat.com
+patch subject: [PATCH drm-next v3 05/15] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20230404/202304041151.y2WMbGh6-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/97d8731cc359143f6f790b1c4755d1055a72adb9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v3/20230404-093042
+        git checkout 97d8731cc359143f6f790b1c4755d1055a72adb9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa SHELL=/bin/bash drivers/gpu/drm/
 
---=20
-An old man doll... just what I always wanted! - Clara
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304041151.y2WMbGh6-lkp@intel.com/
 
---sctaaJx8NKROVx/r
-Content-Type: application/pgp-signature; name="signature.asc"
+All warnings (new ones prefixed by >>):
 
------BEGIN PGP SIGNATURE-----
+   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
+>> drivers/gpu/drm/drm_debugfs.c:213:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     213 |                            (u64)va->gem.obj, va->gem.offset);
+         |                            ^
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCuNUAAKCRD2uYlJVVFO
-o6r7AP90Nd8COJZ2duXcJIFCjeD3L6eJnBzXKv01yXVnqDrngwEA/InGECZz/nfj
-ORcDT+zxcAiZ/Wfbpiuo3XsxSE6QCA4=
-=BMwQ
------END PGP SIGNATURE-----
 
---sctaaJx8NKROVx/r--
+vim +213 drivers/gpu/drm/drm_debugfs.c
+
+   178	
+   179	/**
+   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+   181	 * @m: pointer to the &seq_file to write
+   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+   183	 *
+   184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
+   185	 *
+   186	 * For each DRM GPU VA space drivers should call this function from their
+   187	 * &drm_info_list's show callback.
+   188	 *
+   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+   190	 */
+   191	int drm_debugfs_gpuva_info(struct seq_file *m,
+   192				   struct drm_gpuva_manager *mgr)
+   193	{
+   194		DRM_GPUVA_ITER(it, mgr, 0);
+   195		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
+   196	
+   197		if (!mgr->name)
+   198			return -ENODEV;
+   199	
+   200		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
+   201			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
+   202		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
+   203			   kva->va.addr, kva->va.addr + kva->va.range);
+   204		seq_puts(m, "\n");
+   205		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+   206		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+   207		drm_gpuva_iter_for_each(va, it) {
+   208			if (unlikely(va == &mgr->kernel_alloc_node))
+   209				continue;
+   210	
+   211			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+   212				   va->va.addr, va->va.range, va->va.addr + va->va.range,
+ > 213				   (u64)va->gem.obj, va->gem.offset);
+   214		}
+   215	
+   216		return 0;
+   217	}
+   218	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+   219	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
