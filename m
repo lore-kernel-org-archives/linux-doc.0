@@ -2,180 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17291C761A6
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 21:59:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE165C761A6
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 22:09:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236391AbjDDV7w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 17:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37898 "EHLO
+        id S236064AbjDDWJc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 18:09:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233001AbjDDV7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 17:59:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AEA610DF;
-        Tue,  4 Apr 2023 14:59:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A95BA63A3D;
-        Tue,  4 Apr 2023 21:59:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15FBDC433D2;
-        Tue,  4 Apr 2023 21:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680645589;
-        bh=oVb/3Yv6tCP2RVhr47u84gv2ub6ZCrD3LzM01ty7vrk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=srKJzP4unsO7VCYXuoEw/yp2w/Da1xNjdL6eqfAk4O4BXMGD2eDCasq2ri+OolkBN
-         +GLaCazAspMZrawj5jRSVVbHh/ydzuyqxqlNRhly+PDdZoGwVCd7uh0tqPkODHY0ME
-         gIlPw1yX+155k4I850he81of9BweX0/iu3+xLsqqymbfQEJ/J7hYXwqaTx+2f4r9m4
-         0f6vOhJfrDXrQVgMUMOyd1w3HFg0/LW8qj8fftiRTNPyttBrosP2Cg8nb6j8nxaNLs
-         8rN7SYSWMf9zpCBnQ73B2PG8sF9Szly9Ro0J7A+wOXpUf9iwAvolFdy2TgSWY7Vz6w
-         gHTAwvOsIsnPw==
-Date:   Tue, 4 Apr 2023 22:59:41 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        llvm@lists.linux.dev, Weili Qian <qianweili@huawei.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Tom Rix <trix@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Len Brown <lenb@kernel.org>
-Subject: Re: [PATCH V4 23/23] crypto: hisilicon/qm: Workaround to enable
- build with RISC-V clang
-Message-ID: <20230404-viewpoint-shank-674a8940809a@spud>
-References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-24-sunilvl@ventanamicro.com>
+        with ESMTP id S236498AbjDDWJc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 18:09:32 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046BB2D4B;
+        Tue,  4 Apr 2023 15:09:31 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id h12-20020a17090aea8c00b0023d1311fab3so35410082pjz.1;
+        Tue, 04 Apr 2023 15:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680646170;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ypW3uCkatd85laSwJoEHyhvz6A6Q9ytym+XuTNT93dU=;
+        b=JoPIXnG83ROdZ1kq4xk1n+ZIq8MPvMAtV87d4GO9cK1Ht5tNTGA78J92/9fyfQ8qOz
+         zOkXvSQyi0fCdcUqwDCF1aySQtYSj47zHGZnMA6yXhwZv9AQyrF4VswADo/gInOgv8cV
+         EDAQSv8DIu5lKaQgYKo3yqqGWLmwn21LgwsYD2Hyci1hzAh6UsJvZJCr+689gc8dKlqn
+         eS1k5e6m5h04Bp+/UQ/F13SBvUKzlkK5oXRvgxzxk3Kk5KyPaC5gueNPmztxsO+0cjDR
+         KyU54efHq5YIukhd5Dzmoy4gKq97Wol87Sn4yfXNtziL0Ij6a9VFiH9OrZ1WyDfc4cc6
+         lwxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680646170;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ypW3uCkatd85laSwJoEHyhvz6A6Q9ytym+XuTNT93dU=;
+        b=hI+WXQpcrNmGUXSy6/l80cLBs2s8yvweemGmdIbpblnGLkS5dPInQpkF7LR5+QWtzk
+         C3SscGx5peHymdT02Mah7xeilIFQlbtuqGyZpJUrG/fYnXsOTTNgZ3VKAQm/Ks4w9Xyi
+         +Dk5yj68GgaNDNPT8UJ5Cfa3ZxXRxv5zACLQp8fqt0b/IsX9qzaVVL5a0BDD2iH8dfhH
+         m39s5llClKnW5Y407C/sJM4j66i6mwRJ48nYjI51ZYyHLa98coKzXyfFQu9dCzqj2oVW
+         WvJseYoNIOfjy+eOqiIxKHAxqpXjkaXhvEEb5b/gU+U6v/gLGyQ1lLfvFlxzsW+Sy3RF
+         waOA==
+X-Gm-Message-State: AAQBX9fTDw/lqE/9LymvHGi0QRAlUo1YNZc+U7eGKDyoO4K0nD1I/EON
+        7cPgTzGKCu/trLXwZAfwG5p8AkkkigfLAcmBbsw=
+X-Google-Smtp-Source: AKy350auMB5aAW5vcPRu5Z3zk0kCG0J70wFTxHDdx38zTGhfy79hnQwCL23EHjo5fAbzVlHyZYpeRiAzV27aaZOYeGI=
+X-Received: by 2002:a17:902:8604:b0:1a0:48ff:539c with SMTP id
+ f4-20020a170902860400b001a048ff539cmr1636900plo.11.1680646170341; Tue, 04 Apr
+ 2023 15:09:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="g2rJHKXDBniPI9UF"
-Content-Disposition: inline
-In-Reply-To: <20230404182037.863533-24-sunilvl@ventanamicro.com>
+References: <20230404084308.813-1-zhangqing@loongson.cn> <20230404084308.813-2-zhangqing@loongson.cn>
+In-Reply-To: <20230404084308.813-2-zhangqing@loongson.cn>
+From:   Andrey Konovalov <andreyknvl@gmail.com>
+Date:   Wed, 5 Apr 2023 00:09:19 +0200
+Message-ID: <CA+fCnZf-segLxa3QxStd6v15ZCge=3=3rOL-9Q_eMc-y2j1nhg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] kasan: Add (pmd|pud)_init for LoongArch
+ zero_(pud|p4d)_populate process
+To:     Qing Zhang <zhangqing@loongson.cn>
+Cc:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---g2rJHKXDBniPI9UF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hey Sunil,
-
-This one made me scratch my head for a bit..
-
-On Tue, Apr 04, 2023 at 11:50:37PM +0530, Sunil V L wrote:
-> With CONFIG_ACPI enabled for RISC-V, this driver gets enabled in
-> allmodconfig build. The gcc tool chain builds this driver removing the
-> inline arm64 assembly code. However, clang for RISC-V tries to build
-> the arm64 assembly and below error is seen.
-
-There's actually nothing RISC-V specific about that behaviour, that's
-just how clang works. Quoting Nathan:
-"Clang performs semantic analysis (i.e., validates assembly) before
-dead code elimination, so IS_ENABLED() is not sufficient for avoiding
-that error."
-
-> drivers/crypto/hisilicon/qm.c:627:10: error: invalid output constraint '+=
-Q' in asm
->                        "+Q" (*((char __iomem *)fun_base))
->                        ^
-> It appears that RISC-V clang is not smart enough to detect
-> IS_ENABLED(CONFIG_ARM64) and remove the dead code.
-
-So I think this statement is just not true, it can remove dead code, but
-only after it has done the semantic analysis.
-
-The reason that this has not been seen before, again quoting Nathan, is:
-"arm64 and x86_64 both support the Q constraint, we cannot build
-LoongArch yet (although it does not have support for Q either so same
-boat as RISC-V), and ia64 is dead/unsupported in LLVM. Those are the
-only architectures that support ACPI, so I guess that explains why we
-have seen no issues aside from RISC-V so far."
-
-> As a workaround, move this check to preprocessing stage which works
-> with the RISC-V clang tool chain.
-
-I don't think there's much else you can do!
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-Perhaps it is also worth adding:
-Link: https://github.com/ClangBuiltLinux/linux/issues/999
-
-Cheers,
-Conor.
-
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+On Tue, Apr 4, 2023 at 10:43=E2=80=AFAM Qing Zhang <zhangqing@loongson.cn> =
+wrote:
+>
+> Loongarch populate pmd/pud with invalid_pmd_table/invalid_pud_table in
+> pagetable_init, So pmd_init/pud_init(p) is required, define them as __wea=
+k
+> in mm/kasan/init.c, like mm/sparse-vmemmap.c.
+>
+> Signed-off-by: Qing Zhang <zhangqing@loongson.cn>
 > ---
->  drivers/crypto/hisilicon/qm.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/crypto/hisilicon/qm.c b/drivers/crypto/hisilicon/qm.c
-> index e4c84433a88a..a5f521529ab2 100644
-> --- a/drivers/crypto/hisilicon/qm.c
-> +++ b/drivers/crypto/hisilicon/qm.c
-> @@ -611,13 +611,9 @@ EXPORT_SYMBOL_GPL(hisi_qm_wait_mb_ready);
->  static void qm_mb_write(struct hisi_qm *qm, const void *src)
->  {
->  	void __iomem *fun_base =3D qm->io_base + QM_MB_CMD_SEND_BASE;
-> -	unsigned long tmp0 =3D 0, tmp1 =3D 0;
-> =20
-> -	if (!IS_ENABLED(CONFIG_ARM64)) {
-> -		memcpy_toio(fun_base, src, 16);
-> -		dma_wmb();
-> -		return;
-> -	}
-> +#if IS_ENABLED(CONFIG_ARM64)
-> +	unsigned long tmp0 =3D 0, tmp1 =3D 0;
-> =20
->  	asm volatile("ldp %0, %1, %3\n"
->  		     "stp %0, %1, %2\n"
-> @@ -627,6 +623,11 @@ static void qm_mb_write(struct hisi_qm *qm, const vo=
-id *src)
->  		       "+Q" (*((char __iomem *)fun_base))
->  		     : "Q" (*((char *)src))
->  		     : "memory");
-> +#else
-> +	memcpy_toio(fun_base, src, 16);
-> +	dma_wmb();
-> +#endif
-> +
+>  mm/kasan/init.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+>
+> diff --git a/mm/kasan/init.c b/mm/kasan/init.c
+> index cc64ed6858c6..a7fa223b96e4 100644
+> --- a/mm/kasan/init.c
+> +++ b/mm/kasan/init.c
+> @@ -139,6 +139,10 @@ static int __ref zero_pmd_populate(pud_t *pud, unsig=
+ned long addr,
+>         return 0;
 >  }
-> =20
->  static int qm_mb_nolock(struct hisi_qm *qm, struct qm_mailbox *mailbox)
-> --=20
-> 2.34.1
->=20
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>
+> +void __weak __meminit pmd_init(void *addr)
+> +{
+> +}
+> +
+>  static int __ref zero_pud_populate(p4d_t *p4d, unsigned long addr,
+>                                 unsigned long end)
+>  {
+> @@ -166,8 +170,9 @@ static int __ref zero_pud_populate(p4d_t *p4d, unsign=
+ed long addr,
+>                                 if (!p)
+>                                         return -ENOMEM;
+>                         } else {
+> -                               pud_populate(&init_mm, pud,
+> -                                       early_alloc(PAGE_SIZE, NUMA_NO_NO=
+DE));
+> +                               p =3D early_alloc(PAGE_SIZE, NUMA_NO_NODE=
+);
+> +                               pmd_init(p);
+> +                               pud_populate(&init_mm, pud, p);
+>                         }
+>                 }
+>                 zero_pmd_populate(pud, addr, next);
+> @@ -176,6 +181,10 @@ static int __ref zero_pud_populate(p4d_t *p4d, unsig=
+ned long addr,
+>         return 0;
+>  }
+>
+> +void __weak __meminit pud_init(void *addr)
+> +{
+> +}
+> +
+>  static int __ref zero_p4d_populate(pgd_t *pgd, unsigned long addr,
+>                                 unsigned long end)
+>  {
+> @@ -207,8 +216,9 @@ static int __ref zero_p4d_populate(pgd_t *pgd, unsign=
+ed long addr,
+>                                 if (!p)
+>                                         return -ENOMEM;
+>                         } else {
+> -                               p4d_populate(&init_mm, p4d,
+> -                                       early_alloc(PAGE_SIZE, NUMA_NO_NO=
+DE));
+> +                               p =3D early_alloc(PAGE_SIZE, NUMA_NO_NODE=
+);
+> +                               pud_init(p);
+> +                               p4d_populate(&init_mm, p4d, p);
+>                         }
+>                 }
+>                 zero_pud_populate(p4d, addr, next);
+> --
+> 2.20.1
+>
 
---g2rJHKXDBniPI9UF
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCydzQAKCRB4tDGHoIJi
-0kS+APwI9urufiYlmUkAYkyAnD4XxPqkVAgS1QApjqn9spoehQD9GoxZzTCmlOmj
-V0HIsqbbKh/l2SrUpOETJlfKaSTkhwE=
-=P4m+
------END PGP SIGNATURE-----
-
---g2rJHKXDBniPI9UF--
+Thanks!
