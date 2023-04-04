@@ -2,158 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5876C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 08:43:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A566C6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 08:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233594AbjDDInI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 04:43:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49720 "EHLO
+        id S233979AbjDDInZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 04:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234076AbjDDIm4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 04:42:56 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F0642D51
-        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 01:42:33 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id l15-20020a05600c4f0f00b003ef6d684102so16003359wmq.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Apr 2023 01:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tessares.net; s=google; t=1680597751;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eKhe9Y5JEaP4z1zeWvbQyAnZVIyrCqdZxp2GHp+Z3cc=;
-        b=TTl/ADQs4hEpjXJPyC2dBO7s+PlDBsWUCbN9IM0npJvyQZuD8wPzugJe5bBk0l1tBX
-         FisY1JxDmetnYsyBBMB0+OT0OzU3foUd9DHqHoxHKiEIDbzhNCT5fNmQM4ddfZ0YBNSd
-         ++0AmTCxVXdi3DVnKzfqmMQcxWftjDxzhEmpdYbXaq9IU5mLN1dY334hIvjSMZARCWiq
-         ZFTjdY37+ZMJk6vhdZmP86teZpqfOyixU1boFx3b9BnNYQD2xsSSCGH3lw1/bexClLkz
-         +j/J+jnaiNlfUtqJDi+IL3yhJ0P33TJx47LYADxuAcpfl4xZNp8Ftl13EGBUtMOCpIxD
-         rNiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680597751;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eKhe9Y5JEaP4z1zeWvbQyAnZVIyrCqdZxp2GHp+Z3cc=;
-        b=pyr145gjcrldfyTGlll/GTgwS6v9yecoxP3bNlbsQmENLBJ8l/Ia2OA1VqMWS51ZtO
-         GiSIbEp7hcSuQC+dPF6Qql0oJfPEuTxwAHOLJMsWDTbkv49I9obNf16ot84vqPAYOfGN
-         6As/UFhR8FZOypYWA1T0s3F1jW3hhOAEHqIerqPAxtBJyMgWm6gLK1a+FsJq31RYo5Wx
-         lzm1uDcCCc+AWduQApEGpbIxPgxIbZErVp4NRkbwk7U530jn2ObJpFN8JM3q5AEeC7WR
-         d0KcbSjDE55ltJfm45ZUkfh8QyBlNAwNPXXvPalSdw6UsUA0dVme2qyk2Cq+EXWb0Vw9
-         +PwQ==
-X-Gm-Message-State: AAQBX9eiPlXBtQLiIl8V6yq2LtPEMaDC05wjp4HPRyPC19n8BPKxPTYP
-        qRQXges/TQMT0KyRNejRB9Yrlg==
-X-Google-Smtp-Source: AKy350Y5DMU8kEAJOzbfmW7NGKy5hnaCRv7A7hFu+RQQNUqByLYI+v3iTHv8cRT+S8Q+uybES9Z5PA==
-X-Received: by 2002:a05:600c:2312:b0:3ef:6396:d9c8 with SMTP id 18-20020a05600c231200b003ef6396d9c8mr1461785wmo.5.1680597751348;
-        Tue, 04 Apr 2023 01:42:31 -0700 (PDT)
-Received: from ?IPV6:2a02:578:8593:1200:9bac:ba77:27a:f657? ([2a02:578:8593:1200:9bac:ba77:27a:f657])
-        by smtp.gmail.com with ESMTPSA id b6-20020a5d5506000000b002e463bd49e3sm11660988wrv.66.2023.04.04.01.42.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Apr 2023 01:42:30 -0700 (PDT)
-Message-ID: <8edb82ed-10e8-c236-fb08-ed14ed3e4634@tessares.net>
-Date:   Tue, 4 Apr 2023 10:42:29 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v4 1/5] docs: process: allow Closes tags with links
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        with ESMTP id S233938AbjDDInX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 04:43:23 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A47162709;
+        Tue,  4 Apr 2023 01:43:12 -0700 (PDT)
+Received: from loongson.cn (unknown [113.200.148.30])
+        by gateway (Coremail) with SMTP id _____8Dx_5cf4ytkr10WAA--.34838S3;
+        Tue, 04 Apr 2023 16:43:11 +0800 (CST)
+Received: from localhost.localdomain (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxT+Qc4ytkChcVAA--.55041S2;
+        Tue, 04 Apr 2023 16:43:09 +0800 (CST)
+From:   Qing Zhang <zhangqing@loongson.cn>
+To:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-References: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v4-1-d26d1fa66f9f@tessares.net>
- <e671189c-086e-87bd-68db-fb80678d4666@leemhuis.info>
-Content-Language: en-GB
-From:   Matthieu Baerts <matthieu.baerts@tessares.net>
-In-Reply-To: <e671189c-086e-87bd-68db-fb80678d4666@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Huacai Chen <chenhuacai@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH v2 4/6] kasan: Add __HAVE_ARCH_SHADOW_MAP to support arch specific mapping
+Date:   Tue,  4 Apr 2023 16:43:06 +0800
+Message-Id: <20230404084308.813-1-zhangqing@loongson.cn>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxT+Qc4ytkChcVAA--.55041S2
+X-CM-SenderInfo: x2kd0wptlqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7WryDtw1xWw18Xw1UAr17Awb_yoW8uw4UpF
+        ZrGFyxtrs2qFy0ga43Cr4Uur15JrnaqF4ktrZIgw4rCFy5W3WvqF1q9F9Yyrn7Wr47tFyY
+        vwn7ZFZxJr90q3DanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bhxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+        ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+        M2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zV
+        CFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWrXVW3AwAv7VC2
+        z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x
+        0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCF
+        I7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
+        106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
+        xVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcI
+        k0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8
+        JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU08gA7UUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thorsten,
+Like the LoongArch, which has many holes between different segments
+and valid address space(256T available) is insufficient to map all
+these segments to kasan shadow memory with the common formula provided
+by kasan core, We need architecture specific mapping formula,different
+segments are mapped individually, and only limited length of space of
+that specific segment is mapped to shadow.
 
-Thank you for this review.
+Therefore, when the incoming address is converted to a shadow, we need
+to add a condition to determine whether it is valid.
 
-On 04/04/2023 10:09, Thorsten Leemhuis wrote:
-> 
-> On 03.04.23 18:23, Matthieu Baerts wrote:
->> [...]
->> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
->> index 828997bc9ff9..12d58ddc2b8a 100644
->> --- a/Documentation/process/submitting-patches.rst
->> +++ b/Documentation/process/submitting-patches.rst
->> @@ -113,11 +113,9 @@ there is no collision with your six-character ID now, that condition may
->>  change five years from now.
->>  
->>  If related discussions or any other background information behind the change
->> -can be found on the web, add 'Link:' tags pointing to it. In case your patch
->> -fixes a bug, for example, add a tag with a URL referencing the report in the
->> -mailing list archives or a bug tracker; if the patch is a result of some
->> -earlier mailing list discussion or something documented on the web, point to
->> -it.
->> +can be found on the web, add 'Link:' tags pointing to it. If the patch is a
->> +result of some earlier mailing list discussions or something documented on the
->> +web, point to it.
->>  
->>  When linking to mailing list archives, preferably use the lore.kernel.org
->>  message archiver service. To create the link URL, use the contents of the
->> @@ -134,6 +132,16 @@ resources. In addition to giving a URL to a mailing list archive or bug,
->>  summarize the relevant points of the discussion that led to the
->>  patch as submitted.
->>  
->> +In case your patch fixes a bug, use the 'Closes:' tag with a URL referencing
->> +the report in the mailing list archives or a public bug tracker. For example::
->> +
->> +	Closes: https://example.com/issues/1234
-> 
-> YMMV, but is this...
-> 
->> +Some bug trackers have the ability to close issues automatically when a
->> +commit with such a tag is applied. Some bots monitoring mailing lists can
->> +also track such tags and take certain actions. Private bug trackers and
->> +invalid URLs are forbidden.
->> +
-> 
-> ...section (and a similar one in the other document) really worth it
-> and/or does it have to be that long? A simple "Some bug trackers then
-> will automatically close the issue when the commit is merged" IMHO would
-> suffice, but OTOH it might be considered common knowledge. And the
-> "found on the web", "a public bug tracker" (both quoted above) and
-> "available on the web" (quoted below) already make it pretty clear that
-> links to private bug trackers are now desired. And there is also a
-> "Please check the link to make sure that it is actually working and
-> points to the relevant message." in submitting-patches.rst already, so
-> invalid URLs are obviously not wanted either.
+Signed-off-by: Qing Zhang <zhangqing@loongson.cn>
+---
+ include/linux/kasan.h | 2 ++
+ mm/kasan/kasan.h      | 6 ++++++
+ 2 files changed, 8 insertions(+)
 
-This paragraph seems worth it to me: the two first sentences explain how
-this tag can be used by external tools and the last one clearly explain
-what is not allowed. I agree that it makes sense and it is somehow
-already described around with the "positive form" but it is very common
-to use the "Closes:" tag with just the ticket ID, not the full URL. It
-might then be important to clearly mention that it has to be used with a
-valid URL and not a short version. While at it, I think it is fine to
-add that private bug trackers are forbidden too because it can be very
-tempting for devs to use them if automations are in place. And also
-because checkpatch.pl is not going to verify if URLs are public.
-
-But I'm clearly not an expert in writing docs, it is just my point of
-view as a developer :)
-I don't mind changing the text.
-
-Cheers,
-Matt
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index f7ef70661ce2..3b91b941873d 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -54,11 +54,13 @@ extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D];
+ int kasan_populate_early_shadow(const void *shadow_start,
+ 				const void *shadow_end);
+ 
++#ifndef __HAVE_ARCH_SHADOW_MAP
+ static inline void *kasan_mem_to_shadow(const void *addr)
+ {
+ 	return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
+ 		+ KASAN_SHADOW_OFFSET;
+ }
++#endif
+ 
+ int kasan_add_zero_shadow(void *start, unsigned long size);
+ void kasan_remove_zero_shadow(void *start, unsigned long size);
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index a61eeee3095a..033335c13b25 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -291,16 +291,22 @@ struct kasan_stack_ring {
+ 
+ #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+ 
++#ifndef __HAVE_ARCH_SHADOW_MAP
+ static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
+ {
+ 	return (void *)(((unsigned long)shadow_addr - KASAN_SHADOW_OFFSET)
+ 		<< KASAN_SHADOW_SCALE_SHIFT);
+ }
++#endif
+ 
+ static __always_inline bool addr_has_metadata(const void *addr)
+ {
++#ifdef __HAVE_ARCH_SHADOW_MAP
++	return (kasan_mem_to_shadow((void *)addr) != NULL);
++#else
+ 	return (kasan_reset_tag(addr) >=
+ 		kasan_shadow_to_mem((void *)KASAN_SHADOW_START));
++#endif
+ }
+ 
+ /**
 -- 
-Tessares | Belgium | Hybrid Access Solutions
-www.tessares.net
+2.20.1
+
