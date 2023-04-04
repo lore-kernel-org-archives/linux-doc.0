@@ -2,198 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F8FC77B6C
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 10:30:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59930C6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 10:46:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234292AbjDDKaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 06:30:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42346 "EHLO
+        id S234497AbjDDKqR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 06:46:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233699AbjDDKap (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 06:30:45 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065EE1984;
-        Tue,  4 Apr 2023 03:30:42 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id fi11so5073367edb.10;
-        Tue, 04 Apr 2023 03:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680604240;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qPQJYuYVqddrLpsUiSF4JuC6g9/L1+GNYqEeCmgaIpw=;
-        b=Qf9ZiLsHWa67q5d6OwOb196jz2WhK7YOr7O9+et+VWP9XJTg4eS7ZGmo/pp76jWFPt
-         4Kbtvtu5S3zMCsF9eVSA/S/YNXm5ggVhITb/Ngz7+umuz+DRrtYBdfzKTl3UrdN7NzWW
-         O6IY8bxFhED+SxeYizHcRY3SwLERm5ZUtQuHN1aGTwiysQ10WcIUcldVRbRtkYiswHlM
-         nTETOQuueRAEtt0TgKyZgsrozphoT+IYOtKCMD3aGLrr4m8j5PNzK6Je3J+NQ2mth/Tq
-         N2V070Ic0y6tNpVzzPzhp6zx5ZpOQ5fxDFW2cAWXz/Wy2BIlRhwiAXRk4jwemb2Ozkk8
-         aGJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680604240;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qPQJYuYVqddrLpsUiSF4JuC6g9/L1+GNYqEeCmgaIpw=;
-        b=zQ1tRoSg6FxaZU0lOFZ4sUyIPj7ePKC1ZozNdO6A4huKHV0anGYR1SeT2sErIF7IF1
-         zedL6i/mBHOX5YSQ8JofrQNNffD3R71Fu5+NYs6SrB41jOxyBwWPUMQtO0Q4780ZVK1b
-         DPdVdTLpmgkk+fvoOZ1c0Pvdq8g3NyVixZowXB1uFIS2RbhVAIoblgbfckwH2y6qnJN3
-         vY5NoFnERDL8Wu6kyBM3sgJnbChwDVfm41BU+xJgLcUetkV7hA/oOlLRN+TAmabBCrY0
-         6QK4DqJOBc/iqC27tUrss1JQ3ZblDibK3hTftAtNrKGqSpmYBuF7D9SRJ0MJuHBDc5gz
-         dDwg==
-X-Gm-Message-State: AAQBX9cI7GJ26xqSwr5MtvdMs2yiAuOP2gmYb5Hpb81lRy6n31PlSyiO
-        4ImPwaOKtSWworREaIjlBy4=
-X-Google-Smtp-Source: AKy350br99HCbCDIQiZj8fwuuU0BjyJC/AwN7IrayX6NNSgMYELNtziysmKohGWt/IYRz9rEEj8/bQ==
-X-Received: by 2002:a17:907:8b87:b0:8e1:12b6:a8fc with SMTP id tb7-20020a1709078b8700b008e112b6a8fcmr1480812ejc.4.1680604240440;
-        Tue, 04 Apr 2023 03:30:40 -0700 (PDT)
-Received: from orome (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id qp24-20020a170907207800b0093f822321fesm5737690ejb.137.2023.04.04.03.30.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 03:30:40 -0700 (PDT)
-Date:   Tue, 4 Apr 2023 12:30:38 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dipen Patel <dipenp@nvidia.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
-Subject: Re: [PATCH V4 04/10] dt-bindings: timestamp: Add
- nvidia,gpio-controller
-Message-ID: <ZCv8TviVD8n4MrnW@orome>
-References: <20230323012929.10815-1-dipenp@nvidia.com>
- <20230323012929.10815-5-dipenp@nvidia.com>
- <f523c155-7d05-2034-27ea-e2e56881c0bb@linaro.org>
- <a7539193-8374-cda6-f535-360a4a8eab22@nvidia.com>
+        with ESMTP id S234421AbjDDKqP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 06:46:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D863CE62
+        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 03:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680605122;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KlvAHwxh15I5CJgOz3iBO5tT4tChRwyHMt1NQ+o3LIA=;
+        b=OfCi3SFuoeuVhP8awLi5PP/wfLxgf+BaXLZCCtVfKqZiSsLnFyUaqVjMs4EY0pQsc0XKZn
+        6K4UjFoxYpH+2dQv4U0DeOq41FAFV5BYjgrnjMb6wyAWONhsTIOHpe7eTgqoC5eKUdEGWw
+        oKn+9/mczVK3HxEXC9PFtObp/KfrE/4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-KKW9AEdFMjO660zewoQhLg-1; Tue, 04 Apr 2023 06:45:19 -0400
+X-MC-Unique: KKW9AEdFMjO660zewoQhLg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3BBB80D190;
+        Tue,  4 Apr 2023 10:45:18 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.199])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 7493B40C6EC4;
+        Tue,  4 Apr 2023 10:45:15 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue,  4 Apr 2023 12:45:10 +0200 (CEST)
+Date:   Tue, 4 Apr 2023 12:45:06 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, avagin@gmail.com, peterz@infradead.org,
+        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
+        corbet@lwn.net, shuah@kernel.org, arnd@arndb.de,
+        Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v15 2/4] syscall user dispatch: untag selector addresses
+ before access_ok
+Message-ID: <20230404104506.GA24740@redhat.com>
+References: <20230330212121.1688-1-gregory.price@memverge.com>
+ <20230330212121.1688-3-gregory.price@memverge.com>
+ <ZCYP+4gRZDqC0lRo@arm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kKVfNtJEQjXZPd0A"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a7539193-8374-cda6-f535-360a4a8eab22@nvidia.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+In-Reply-To: <ZCYP+4gRZDqC0lRo@arm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Catalin,
 
---kKVfNtJEQjXZPd0A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+doesn't this mean that access_ok() on arm64 could use
+untagged_addr(addr) unconditionally without any security risk?
 
-On Mon, Mar 27, 2023 at 09:58:19AM -0700, Dipen Patel wrote:
-> On 3/25/23 4:07 AM, Krzysztof Kozlowski wrote:
-> > On 23/03/2023 02:29, Dipen Patel wrote:
-> >> Introducing nvidia,gpio-controller property from Tegra234 SoCs onwards.
-> >> This is done to help below case.
-> >>
-> >> Without this property code would look like:
-> >> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
-> >> 	hte_dev->c =3D gpiochip_find("tegra194-gpio-aon",
-> >> 				   tegra_get_gpiochip_from_name);
-> >> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-ao=
-n"))
-> >> 	hte_dev->c =3D gpiochip_find("tegra234-gpio-aon",
-> >> 				   tegra_get_gpiochip_from_name);
-> >> else
-> >> 	return -ENODEV;
-> >>
-> >> This means for every future addition of the compatible string, if else
-> >> condition statements have to be expanded.
-> >>
-> >> With the property:
-> >> gpio_ctrl =3D of_parse_phandle(dev->of_node, "nvidia,gpio-controller",=
- 0);
-> >> ....
-> >> hte_dev->c =3D gpiochip_find(gpio_ctrl, tegra_get_gpiochip_from_of_nod=
-e);
-> >>
-> >> This simplifies the code significantly. The introdunction of this
-> >> property/binding does not break existing Tegra194 provider driver.
-> >>
-> >> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
-> >> ---
-> >>  .../timestamp/nvidia,tegra194-hte.yaml        | 31 +++++++++++++++++--
-> >>  1 file changed, 29 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra1=
-94-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-h=
-te.yaml
-> >> index eafc33e9ae2e..841273a3d8ae 100644
-> >> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.=
-yaml
-> >> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.=
-yaml
-> >> @@ -51,6 +51,12 @@ properties:
-> >>        LIC instance has 11 slices and Tegra234 LIC has 17 slices.
-> >>      enum: [3, 11, 17]
-> >> =20
-> >> +  nvidia,gpio-controller:
-> >> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >> +    description:
-> >> +      The phandle to AON gpio controller instance. This is required t=
-o handle
-> >> +      namespace conversion between GPIO and GTE.
-> >> +
-> >>    '#timestamp-cells':
-> >>      description:
-> >>        This represents number of line id arguments as specified by the
-> >> @@ -65,22 +71,43 @@ required:
-> >>    - interrupts
-> >>    - "#timestamp-cells"
-> >> =20
-> >> +allOf:
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            enum:
-> >> +              - nvidia,tegra234-gte-aon
-> >> +    then:
-> >> +      required:
-> >> +        - nvidia,gpio-controller
-> >> +
-> >>  additionalProperties: false
-> >> =20
-> >>  examples:
-> >>    - |
-> >>      tegra_hte_aon: timestamp@c1e0000 {
-> >>                compatible =3D "nvidia,tegra194-gte-aon";
-> >> -              reg =3D <0xc1e0000 0x10000>;
-> >> +              reg =3D <0x0 0xc1e0000 0x0 0x10000>;
-> >=20
-> > This is not really explained in commit msg... are you sure you tested i=
-t?
-> I have to revert this part back in next patch as when I upgraded dtsschem=
-a it gave me errors.
+On 03/30, Catalin Marinas wrote:
+>
+> On Thu, Mar 30, 2023 at 05:21:22PM -0400, Gregory Price wrote:
+> > diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+> > index 22396b234854..16086226b41c 100644
+> > --- a/kernel/entry/syscall_user_dispatch.c
+> > +++ b/kernel/entry/syscall_user_dispatch.c
+> > @@ -87,7 +87,18 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
+> >  		if (offset && offset + len <= offset)
+> >  			return -EINVAL;
+> >
+> > -		if (selector && !access_ok(selector, sizeof(*selector)))
+> > +		/*
+> > +		 * access_ok will clear memory tags for tagged addresses on tasks where
+> > +		 * memory tagging is enabled.  To enable a tracer to set a tracee's
+> > +		 * selector not in the same tagging state, the selector address must be
+> > +		 * untagged for access_ok, otherwise an untagged tracer will always fail
+> > +		 * to set a tagged tracee's selector.
+> > +		 *
+> > +		 * The result of this is that a tagged tracer may be capable of setting
+> > +		 * an invalid address, and the tracee will SIGSEGV on the next syscall.
+> > +		 * This is equivalent to a task setting a bad selector (selector=0x1).
+> > +		 */
+>
+> I'd drop the last paragraph above. Even without tagged pointers, a tracer
+> can set an invalid address (as you already mentioned) but the phrasing
+> some implies (to me) that if we did it differently, the tracer would not be
+> able to set an invalid pointer.
+> 
+> Either way,
+> 
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> 
+> -- 
+> Catalin
+> 
 
-We need the 0x0 in the DTS files because we have #address-cells =3D <2>
-and #size-tells =3D <2>. For the examples, those default to just 1 cell,
-so this can't be an exact copy of what we have in the DTS files.
-
-Please make sure to always validate the bindings and examples.
-
-Thierry
-
---kKVfNtJEQjXZPd0A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmQr/E4ACgkQ3SOs138+
-s6F7gQ/8CahJlsl2ie2xWVwhWMmBeCbLyErqS+oUnJBDhaLFTHrhUBNeDB0htb3x
-ZAUc3dZf+3ohXsFztk9DfVoH/3PTAxFftgN05tZHBCLXaBBoE/0uVQBVw2Q6VS7C
-q6XkykkbDFUBOzL6sJLZE3ucFdPTjG5HFmMF+UJF8NfmBLUWJrZ60kK8h3MQrjYR
-suT5Gr0EyOHy9nbtjDS3U05WW6Oyp4ppBTFWYuYbRIHgiZybCabVROR8NuCqqO5/
-17kaQheYOsyCfHwmQhNx/yH6qn/byXK0eKI8N05S9f7iBqyvgDO69LF5SVR7wZtD
-6i8DaiGS80EZtslyzEIcggM2WBklv0TO6tyRJWdsBjCoN+sFnRbTMOu/XFYvpqh5
-Fjk+Qedb/KaGYdzD+HjREyKCz8rjRJxBj+NyjiUCo/hIlXm3kBH+XihmLsY/3ZNs
-AjXxR25TIAq+yw42/gDfdx6/PzXwZtNmYq1ogpftsffj0rUTsv1v0Z5ScCWnKU15
-sIqSTXUmGBRmHErHyxV/AcgwAqljPuBVKdidyM+8IceZGD6bd56iv/Ywc28cfhNO
-cruSLxYVhvMJbMk2xX9ma8PWGAaOIkT+CTfQWC7YLMVMA8oMjPa74JQHKUlsrDb+
-GlAEoulplmcv1mbesr5bkm4rMpB6tjsoTElagX7RVgOOS2CALEI=
-=TMqU
------END PGP SIGNATURE-----
-
---kKVfNtJEQjXZPd0A--
