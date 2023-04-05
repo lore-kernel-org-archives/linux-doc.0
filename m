@@ -2,80 +2,298 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8EE0C7619A
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 16:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88540C761AF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 16:05:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238572AbjDEQDj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 12:03:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50976 "EHLO
+        id S235125AbjDEQF3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 12:05:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232866AbjDEQDe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 12:03:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DECB5FFB
-        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 09:02:48 -0700 (PDT)
+        with ESMTP id S239089AbjDEQFW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 12:05:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C274EDB
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 09:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680710567;
+        s=mimecast20190719; t=1680710675;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=h82lgj63761it4Zz6EVQZAD8HXJt6YMzMIKXUxq/7Bs=;
-        b=P29N9gyNDRXAQ9pDIT6BDXckEPPLdmFCjYrmHzWAjfWnC1VZj6xk5PpFG5cmqGwcOzquB2
-        IO+0jIUkSRTkO6+qBgSgg1quITlDXC2a7X9P/h+VVJ2SACyzF1EtD6APv2AwAgZtNjp8gM
-        04lMg7FAzauXOqVTgoBFn5I9noW0wBw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-qOVvPJqdMVKCgg9ZnLA2WQ-1; Wed, 05 Apr 2023 12:02:42 -0400
-X-MC-Unique: qOVvPJqdMVKCgg9ZnLA2WQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45F2C88B767;
-        Wed,  5 Apr 2023 16:02:41 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.35])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 12970400F57;
-        Wed,  5 Apr 2023 16:02:37 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Wed,  5 Apr 2023 18:02:32 +0200 (CEST)
-Date:   Wed, 5 Apr 2023 18:02:28 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, avagin@gmail.com, peterz@infradead.org,
-        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
-        corbet@lwn.net, shuah@kernel.org, arnd@arndb.de,
-        Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v15 2/4] syscall user dispatch: untag selector addresses
- before access_ok
-Message-ID: <20230405160227.GA13943@redhat.com>
-References: <20230330212121.1688-1-gregory.price@memverge.com>
- <20230330212121.1688-3-gregory.price@memverge.com>
- <ZCYP+4gRZDqC0lRo@arm.com>
- <20230404104506.GA24740@redhat.com>
- <ZCxfdC+v4v6EEy4v@arm.com>
- <ZC1UEK43yOsXKvi4@arm.com>
+        bh=gXprtrdZNwmMIamN3jClp0qbW3EwMnyGKppnACo59/M=;
+        b=Jdg6ZFExZqOM6hjMhqwWdrYB4MqpGLARox35i+th903Lm95K63XcZUhO3meyiA1wLutxMG
+        hgbz+TLi2XYkBYpT01wBLclYLalcyTDAi2TmmQV5fSJ3CFLgKmOqaOa3K8tcF/w5/ljJat
+        akrJIE55VKIhysOcAir+k2r/C6sFKoE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-561--XFIFeLsPXe35DheZtoadA-1; Wed, 05 Apr 2023 12:04:33 -0400
+X-MC-Unique: -XFIFeLsPXe35DheZtoadA-1
+Received: by mail-wm1-f72.google.com with SMTP id r11-20020a05600c458b00b003eea8d25f06so17732754wmo.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 09:04:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680710672;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gXprtrdZNwmMIamN3jClp0qbW3EwMnyGKppnACo59/M=;
+        b=wC7DMDfQJACqTSTLYJNqdvRZTvhp7qMD7dPnThaZm33ie0/yx/h2gvJu4ClF2U5uJr
+         uYtVIeNZk09nTnlAu3w2A/FcM+ux2yl3gbGNbWqit4/EyCxu+V2yM6zzMyaDTrxvOMpi
+         wrVyKzx7ejEbHYP519ueIFtI0xBqrmUZjN7+hJqs5terEIRGvsQXcnIujb0fpaZQt8MW
+         M11hVtqXs0EdD/JmTWhYQbpLGB0qdJxvMAQcQz3lQOuzA6grEfAcIAyb6riaevbLkUXR
+         et4sHzhjqV0KiKWjHtg5aWcTO0r0hQMdi7fo+AYp+6uJ9lBaORDwLa2PYJ/pe6blgX3u
+         Or2Q==
+X-Gm-Message-State: AAQBX9flwLobIMZrWE745SudpDuu5085pF4lCEPPVrIWdAYmSbyB3HyT
+        +uKcyzh/aSMVlnOM0/2/wKNJCjYlJF84SqnusqUmJ28Osp1TGw09Co6itLVxCO8uhgVnN3SVlwq
+        JjeRizZJpFI44IaPtgrqLdGSzRlq0
+X-Received: by 2002:adf:e30f:0:b0:2ce:a46f:bbc5 with SMTP id b15-20020adfe30f000000b002cea46fbbc5mr4755851wrj.34.1680710672121;
+        Wed, 05 Apr 2023 09:04:32 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bpqqYAO9+vgw+2aNkzVE7Ih5UrgncoSo5774gO0GkyGPfCkiwNGwlRmXOq/Q2lEJVCqAmpnQ==
+X-Received: by 2002:adf:e30f:0:b0:2ce:a46f:bbc5 with SMTP id b15-20020adfe30f000000b002cea46fbbc5mr4755825wrj.34.1680710671688;
+        Wed, 05 Apr 2023 09:04:31 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c703:d00:ca74:d9ea:11e0:dfb? (p200300cbc7030d00ca74d9ea11e00dfb.dip0.t-ipconnect.de. [2003:cb:c703:d00:ca74:d9ea:11e0:dfb])
+        by smtp.gmail.com with ESMTPSA id n9-20020a5d4009000000b002d431f61b18sm15194754wrp.103.2023.04.05.09.04.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Apr 2023 09:04:30 -0700 (PDT)
+Message-ID: <d3af0fb8-64c4-fc68-0e8c-9bdab8706e02@redhat.com>
+Date:   Wed, 5 Apr 2023 18:04:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZC1UEK43yOsXKvi4@arm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Content-Language: en-US
+To:     Christian Borntraeger <borntraeger@de.ibm.com>,
+        Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, hannes@cmpxchg.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Janosch Frank <frankja@linux.ibm.com>
+References: <20230310182851.2579138-1-shr@devkernel.io>
+ <20230310182851.2579138-2-shr@devkernel.io>
+ <7ed4308d-b400-d2bb-b539-3fe418862ab8@redhat.com>
+ <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
+ <2229abe0-b304-6ae3-5bda-d71387c645ca@de.ibm.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v4 1/3] mm: add new api to enable ksm per process
+In-Reply-To: <2229abe0-b304-6ae3-5bda-d71387c645ca@de.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/05, Catalin Marinas wrote:
->
-> > Yes, from the security perspective, but there are ABI implications.
+On 05.04.23 08:51, Christian Borntraeger wrote:
+> Am 03.04.23 um 13:03 schrieb David Hildenbrand:
+>> On 03.04.23 12:37, David Hildenbrand wrote:
+>>> On 10.03.23 19:28, Stefan Roesch wrote:
+>>>> Patch series "mm: process/cgroup ksm support", v3.
+>>>>
+>>>> So far KSM can only be enabled by calling madvise for memory regions.  To
+>>>> be able to use KSM for more workloads, KSM needs to have the ability to be
+>>>> enabled / disabled at the process / cgroup level.
+>>>>
+>>>> Use case 1:
+>>>>
+>>>>      The madvise call is not available in the programming language.  An
+>>>>      example for this are programs with forked workloads using a garbage
+>>>>      collected language without pointers.  In such a language madvise cannot
+>>>>      be made available.
+>>>>
+>>>>      In addition the addresses of objects get moved around as they are
+>>>>      garbage collected.  KSM sharing needs to be enabled "from the outside"
+>>>>      for these type of workloads.
+>>>
+>>> I guess the interpreter could enable it (like a memory allocator could
+>>> enable it for the whole heap). But I get that it's much easier to enable
+>>> this per-process, and eventually only when a lot of the same processes
+>>> are running in that particular environment.
+>>>
+>>>>
+>>>> Use case 2:
+>>>>
+>>>>      The same interpreter can also be used for workloads where KSM brings
+>>>>      no benefit or even has overhead.  We'd like to be able to enable KSM on
+>>>>      a workload by workload basis.
+>>>
+>>> Agreed. A per-process control is also helpful to identidy workloads
+>>> where KSM might be beneficial (and to which degree).
+>>>
+>>>>
+>>>> Use case 3:
+>>>>
+>>>>      With the madvise call sharing opportunities are only enabled for the
+>>>>      current process: it is a workload-local decision.  A considerable number
+>>>>      of sharing opportuniites may exist across multiple workloads or jobs.
+>>>>      Only a higler level entity like a job scheduler or container can know
+>>>>      for certain if its running one or more instances of a job.  That job
+>>>>      scheduler however doesn't have the necessary internal worklaod knowledge
+>>>>      to make targeted madvise calls.
+>>>>
+>>>> Security concerns:
+>>>>
+>>>>      In previous discussions security concerns have been brought up.  The
+>>>>      problem is that an individual workload does not have the knowledge about
+>>>>      what else is running on a machine.  Therefore it has to be very
+>>>>      conservative in what memory areas can be shared or not.  However, if the
+>>>>      system is dedicated to running multiple jobs within the same security
+>>>>      domain, its the job scheduler that has the knowledge that sharing can be
+>>>>      safely enabled and is even desirable.
+>>>>
+>>>> Performance:
+>>>>
+>>>>      Experiments with using UKSM have shown a capacity increase of around
+>>>>      20%.
+>>>>
+>>>
+>>> As raised, it would be great to include more details about the workload
+>>> where this particulalry helps (e.g., a lot of Django processes operating
+>>> in the same domain).
+>>>
+>>>>
+>>>> 1. New options for prctl system command
+>>>>
+>>>>       This patch series adds two new options to the prctl system call.
+>>>>       The first one allows to enable KSM at the process level and the second
+>>>>       one to query the setting.
+>>>>
+>>>>       The setting will be inherited by child processes.
+>>>>
+>>>>       With the above setting, KSM can be enabled for the seed process of a
+>>>>       cgroup and all processes in the cgroup will inherit the setting.
+>>>>
+>>>> 2. Changes to KSM processing
+>>>>
+>>>>       When KSM is enabled at the process level, the KSM code will iterate
+>>>>       over all the VMA's and enable KSM for the eligible VMA's.
+>>>>
+>>>>       When forking a process that has KSM enabled, the setting will be
+>>>>       inherited by the new child process.
+>>>>
+>>>>       In addition when KSM is disabled for a process, KSM will be disabled
+>>>>       for the VMA's where KSM has been enabled.
+>>>
+>>> Do we want to make MADV_MERGEABLE/MADV_UNMERGEABLE fail while the new
+>>> prctl is enabled for a process?
+>>>
+>>>>
+>>>> 3. Add general_profit metric
+>>>>
+>>>>       The general_profit metric of KSM is specified in the documentation,
+>>>>       but not calculated.  This adds the general profit metric to
+>>>>       /sys/kernel/debug/mm/ksm.
+>>>>
+>>>> 4. Add more metrics to ksm_stat
+>>>>
+>>>>       This adds the process profit and ksm type metric to
+>>>>       /proc/<pid>/ksm_stat.
+>>>>
+>>>> 5. Add more tests to ksm_tests
+>>>>
+>>>>       This adds an option to specify the merge type to the ksm_tests.
+>>>>       This allows to test madvise and prctl KSM.  It also adds a new option
+>>>>       to query if prctl KSM has been enabled.  It adds a fork test to verify
+>>>>       that the KSM process setting is inherited by client processes.
+>>>>
+>>>> An update to the prctl(2) manpage has been proposed at [1].
+>>>>
+>>>> This patch (of 3):
+>>>>
+>>>> This adds a new prctl to API to enable and disable KSM on a per process
+>>>> basis instead of only at the VMA basis (with madvise).
+>>>>
+>>>> 1) Introduce new MMF_VM_MERGE_ANY flag
+>>>>
+>>>>       This introduces the new flag MMF_VM_MERGE_ANY flag.  When this flag
+>>>>       is set, kernel samepage merging (ksm) gets enabled for all vma's of a
+>>>>       process.
+>>>>
+>>>> 2) add flag to __ksm_enter
+>>>>
+>>>>       This change adds the flag parameter to __ksm_enter.  This allows to
+>>>>       distinguish if ksm was called by prctl or madvise.
+>>>>
+>>>> 3) add flag to __ksm_exit call
+>>>>
+>>>>       This adds the flag parameter to the __ksm_exit() call.  This allows
+>>>>       to distinguish if this call is for an prctl or madvise invocation.
+>>>>
+>>>> 4) invoke madvise for all vmas in scan_get_next_rmap_item
+>>>>
+>>>>       If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
+>>>>       over all the vmas and enable ksm if possible.  For the vmas that can be
+>>>>       ksm enabled this is only done once.
+>>>>
+>>>> 5) support disabling of ksm for a process
+>>>>
+>>>>       This adds the ability to disable ksm for a process if ksm has been
+>>>>       enabled for the process.
+>>>>
+>>>> 6) add new prctl option to get and set ksm for a process
+>>>>
+>>>>       This adds two new options to the prctl system call
+>>>>       - enable ksm for all vmas of a process (if the vmas support it).
+>>>>       - query if ksm has been enabled for a process.
+>>>
+>>>
+>>> Did you consider, instead of handling MMF_VM_MERGE_ANY in a special way,
+>>> to instead make it reuse the existing MMF_VM_MERGEABLE/VM_MERGEABLE
+>>> infrastructure. Especially:
+>>>
+>>> 1) During prctl(MMF_VM_MERGE_ANY), set VM_MERGABLE on all applicable
+>>>       compatible. Further, set MMF_VM_MERGEABLE and enter KSM if not
+>>>       already set.
+>>>
+>>> 2) When creating a new, compatible VMA and MMF_VM_MERGE_ANY is set, set
+>>>       VM_MERGABLE?
+>>>
+>>> The you can avoid all runtime checks for compatible VMAs and only look
+>>> at the VM_MERGEABLE flag. In fact, the VM_MERGEABLE will be completely
+>>> expressive then for all VMAs. You don't need vma_ksm_mergeable() then.
+>>>
+>>>
+>>> Another thing to consider is interaction with arch/s390/mm/gmap.c:
+>>> s390x/kvm does not support KSM and it has to disable it for all VMAs. We
+> 
+> Normally we do support KSM on s390. This is a special case for guests using
+> storage keys. Those are attributes of the physical page and might differ even
+> if the content of the page is the same.
+> New Linux no longer uses it (unless a debug option is set during build) so we
+> enable the guest storage keys lazy and break KSM pages in that process.
+> Ideally we would continue this semantic (e.g. even after a prctl, if the
+> guest enable storage keys, disable ksm for this VM).
 
-Thanks a lot for your explanations.
+IIRC, KSM also gets disabled when switching to protected VMs. I recall 
+that we really wanted to stop KSM scanning pages that are possibly 
+protected. (don't remember if one could harm the system enabling it 
+before/after the switch)
 
-To be honest, I am still a bit confused... Will try to grep the relevant code.
-But as for this patch, now I believe it is correct.
+> 
+>>> have to find a way to fence the prctl (for example, fail setting the
+>>> prctl after gmap_mark_unmergeable() ran, and make
+>>> gmap_mark_unmergeable() fail if the prctl ran -- or handle it gracefully
+>>> in some other way).
+>>
+>>
+>> Staring at that code, I wonder if the "mm->def_flags &= ~VM_MERGEABLE" is doing what it's supposed to do. I don't think this effectively prevents right now madvise() from getting re-enabled on that VMA.
+>>
+>> @Christian, Janosch, am I missing something?
+> 
+> Yes, if QEMU would do an madvise later on instead of just the start if would
+> result in guest storage keys to be messed up on KSM merges. One could argue
+> that this is a bug in the hypervisor then (QEMU) but yes, we should try
+> to make this more reliable in the kernel.
 
-So, FWIW,
+It looks like the "mm->def_flags &= ~VM_MERGEABLE" wanted to achieve 
+that, but failed. At least it looks like completely unnecessary code if 
+I am not wrong.
 
-Acked-by: Oleg Nesterov <oleg@redhat.com>
+Maybe inspired by similar code in thp_split_mm(), that enforces 
+VM_NOHUGEPAGE.
+
+-- 
+Thanks,
+
+David / dhildenb
 
