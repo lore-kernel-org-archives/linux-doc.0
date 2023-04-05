@@ -2,183 +2,159 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 258A4C7619A
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 21:09:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 147AEC7619A
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 21:18:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234096AbjDEVJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 17:09:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
+        id S230228AbjDEVSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 17:18:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234331AbjDEVJe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 17:09:34 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1718684
-        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 14:09:22 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id bt19so24575368pfb.3
-        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 14:09:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680728960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6MLGKvl/FzbLKzi4k20FGuOr9OHamYGW4v4bUuCe4Pw=;
-        b=n28dxYvaxPfq5JUzsQqU6kb+bImfDaBPK4ACVIjk36q9wbwO2Ix5OhdxzRqVx+gjh7
-         vPGDsy2Z/CkVDlg0sacBgvwyhP7Cr0CdN6fmm+V+cxa8+RtEgXZfvRyRNCKyvdMkH3IG
-         AZIFu3+14yJXDRgL1cAXUeLDtssdqJhhsK3uUP9LNJOKnlmtgEbiGDaecgZ2kxcyuk+W
-         ieFXO/j1UfguA8IRQyx5S+9eNafvz99yFQpPT34J9xYi+XPsnNySq6lG7R9Y+uCWDb48
-         YGdH1N2wSkTT52iPU+n1BLdHUrV7R+KBKxYE48TbebgWoPnGhsUXfQZtwsoUmHH5p6Uh
-         UXGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680728960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6MLGKvl/FzbLKzi4k20FGuOr9OHamYGW4v4bUuCe4Pw=;
-        b=PRocul+K5RDQyfkMWkeU9jhzm4w/CQLfAUjddUqzx5cPe1g2Yg2jTadlsXTiKVCT4L
-         V7yBXl5aaPekqX2ImkrcgvbZMYTp28P+w4CPoaXskAJ9mI9dFx2LeDjWFedaQ1W+MO6j
-         f32n7TWJyCC7zdZpvGtwFBhmXFPYjqVVX2x0fEGAlRswgIn93fGyp/W+WLhy8HTsRj/K
-         MDum8CXtsY0xTk0oMdRrudtY8pxw5YCs8q/mSZcJZOnHDOXskmTfSbjtO/E9yQj4+Wtw
-         M+hoYPnDEDaYKfTwDfHbe1eK87eZc3pmQGWuULnyFRo659zabAFmY81gcSZlzv2Rpk2+
-         /wGQ==
-X-Gm-Message-State: AAQBX9c+k4DXufWBWWL1uR+EudmZFrgdFTVx3c111XJi9ySYI574clFB
-        1Wt+7kc+GcE/bFwnKYVhmQSlmfG917RwTmL97ji/MA==
-X-Google-Smtp-Source: AKy350b0IUXlBzjwLLr6SEpK1cx38ABlr+yVbGlA9Wc0dSXUg0uG5eQHWSVFl7t3uBAdQCZoYdM8DgcCcOXiLa8I580=
-X-Received: by 2002:a65:430c:0:b0:514:3d3d:da5a with SMTP id
- j12-20020a65430c000000b005143d3dda5amr427665pgq.3.1680728960348; Wed, 05 Apr
- 2023 14:09:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230330224348.1006691-1-davidai@google.com> <20230405080548.GW4253@hirez.programming.kicks-ass.net>
-In-Reply-To: <20230405080548.GW4253@hirez.programming.kicks-ass.net>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 5 Apr 2023 14:08:43 -0700
-Message-ID: <CAGETcx-qgKeUQ60VhvW+hYUY-sMh-wX1G8zSwJUFpJ-u7aU6aA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     David Dai <davidai@google.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S229379AbjDEVSt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 17:18:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9F161BF;
+        Wed,  5 Apr 2023 14:18:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 45A6F627A2;
+        Wed,  5 Apr 2023 21:18:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10D2CC433D2;
+        Wed,  5 Apr 2023 21:18:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680729527;
+        bh=3D9E+zdKhNeQGnjhKiuzQ19pZBm6xsFwUsG365Tt6ng=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pxd9rkpLlhpRHvuHej02a/ljQ7E2IhvWw4PRSohdHqzr07nUTrDc6/7mhB56fWJQ1
+         HyL8aJUYbWe20NBolux+V8BSGnhstCF6OqBiXigTMuqc40pabYt8K9h43c6WMi3/H1
+         nM1RoPJXZ+xHVWn+HzqZT4StTdKeVfJAbchdq0Y3ZNI/T5Pqi7KJtxLg3MIpuxjomy
+         oth9ep9SrIwkscxszAgLpKX8FMNHkYN1DUd641YcCGcve8XIzlEU2EwSlTETMDfe1t
+         KKq2rkwW6ib2OJChbu9pDYDPStgwkSYeTQaKTPdVBT7mbJf4LX3kb/UgLQjqH2ViLn
+         OenrK9xcqtGaw==
+Date:   Wed, 5 Apr 2023 22:18:41 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        kernel-team@android.com, linux-pm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+Message-ID: <20230405-itinerary-handgrip-a5ffba368148@spud>
+References: <20230307102441.94417-1-conor.dooley@microchip.com>
+ <CANiq72=i9je2864iTvZBFnhVLhF7Cema7EPCcdWOJ3mr62SqDg@mail.gmail.com>
+ <a6220e52-9934-422b-9b05-95705b8fd684@spud>
+ <b5fba6b3-177c-4325-905a-8f9f633a592a@spud>
+ <CANiq72mip7Xs5vnS4KccxCmBmRbKGki7AYTTHxwaeyr3amvSWw@mail.gmail.com>
+ <20230403-repose-cartwheel-c3e10c231cae@spud>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="FcRyeZL+VScw/Opu"
+Content-Disposition: inline
+In-Reply-To: <20230403-repose-cartwheel-c3e10c231cae@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 5, 2023 at 1:06=E2=80=AFAM Peter Zijlstra <peterz@infradead.org=
-> wrote:
->
-> On Thu, Mar 30, 2023 at 03:43:35PM -0700, David Dai wrote:
-> > Hi,
-> >
-> > This patch series is a continuation of the talk Saravana gave at LPC 20=
-22
-> > titled "CPUfreq/sched and VM guest workload problems" [1][2][3]. The gi=
-st
-> > of the talk is that workloads running in a guest VM get terrible task
-> > placement and DVFS behavior when compared to running the same workload =
-in
-> > the host. Effectively, no EAS for threads inside VMs. This would make p=
-ower
-> > and performance terrible just by running the workload in a VM even if w=
-e
-> > assume there is zero virtualization overhead.
-> >
-> > We have been iterating over different options for communicating between
-> > guest and host, ways of applying the information coming from the
-> > guest/host, etc to figure out the best performance and power improvemen=
-ts
-> > we could get.
-> >
-> > The patch series in its current state is NOT meant for landing in the
-> > upstream kernel. We are sending this patch series to share the current
-> > progress and data we have so far. The patch series is meant to be easy =
-to
-> > cherry-pick and test on various devices to see what performance and pow=
-er
-> > benefits this might give for others.
-> >
-> > With this series, a workload running in a VM gets the same task placeme=
-nt
-> > and DVFS treatment as it would when running in the host.
-> >
-> > As expected, we see significant performance improvement and better
-> > performance/power ratio. If anyone else wants to try this out for your =
-VM
-> > workloads and report findings, that'd be very much appreciated.
-> >
-> > The idea is to improve VM CPUfreq/sched behavior by:
-> > - Having guest kernel to do accurate load tracking by taking host CPU
-> >   arch/type and frequency into account.
-> > - Sharing vCPU run queue utilization information with the host so that =
-the
-> >   host can do proper frequency scaling and task placement on the host s=
-ide.
->
-> So, not having actually been send many of the patches I've no idea what
-> you've done... Please, eradicate this ridiculous idea of sending random
-> people a random subset of a patch series. Either send all of it or none,
-> this is a bloody nuisance.
 
-Sorry, that was our intention, but had a scripting error. It's been fixed.
+--FcRyeZL+VScw/Opu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have a script to use with git send-email's --to-cmd and --cc-cmd
-option. It uses get_maintainers.pl to figure out who to email, but it
-gets trickier for a patch series that spans maintainer trees.
+On Mon, Apr 03, 2023 at 06:14:57PM +0100, Conor Dooley wrote:
+> On Mon, Apr 03, 2023 at 06:35:45PM +0200, Miguel Ojeda wrote:
 
-v2 and later will have everyone get all the patches.
+> > As long as bindgen generates things with the right ABI etc., yeah.
+> > But, in principle, enabling one extension one side but not the other
+> > could be wrong if it ends up in something that Rust uses, e.g. if the
+> > C side does:
+> >=20
+> >     #ifdef __ARM_ARCH_7R__
+> >         int x;
+> >     #else
+> >         char x;
+> >     #endif
+> >=20
+> > and Rust attempts to use it, then particular `-march` builds could be b=
+roken.
+>=20
+> To be on the safe side then, we should really disable the extensions
+> across the whole kernel. I don't *think* we have any madness at the
+> moment like in the above, but it is better to be on the safe side.
 
-> Having said that; my biggest worry is that you're making scheduler
-> internals into an ABI. I would hate for this paravirt interface to tie
-> us down.
+So I am still of this opinion. I don't want to silently have a mismatch
+between one side of the kernel and the other. Recipe for disaster.
+If it's off for the Rust side of things, it should be off for C too.
 
-The only 2 pieces of information shared between host/guest are:
+> > but since the GCC+Rust builds are so experimental, I
+> > think as long as something is tested from time to time, it would be
+> > great (to at least know not everything is completely broken).
+> >=20
+> > But if you think that would be too much effort to maintain, or even
+> > GCC builds in general, then please feel free to ignore it for the time
+> > being, i.e. it is better to have LLVM builds rather than nothing! :)
+>=20
+> Yeah, it may be worth getting just the LLVM bits in. I abhor the -march
+> handling and it may end up looking like shite with the zicsr &
+> zifencei handling.
+> Worst comes to worst, can permit gcc builds by just removing all the
+> extensions that get passed in -march for RUST && CC_IS_GCC type
+> scenarios. The only one of those at the moment is zihintpause & I don't
+> suppose too many tears will be shed over that.
 
-1. Host CPU frequency -- this isn't really scheduler internals and
-will map nicely to a virtual cpufreq driver.
+Been thinking about this some more, and I don't really like where this
+is going. I think I am gonna explicitly disable gcc support if
+anything.
+I wrote out a list of issues I have with all of this, but I then had
+second thoughts about some of them, so I've deleted that section of this
+mail.
+I need to think long and hard about the mixing and matching of support
+between several versions of the tools (bindgen/llvm, rustc, gcc) for
+different extensions & potentially different versions of the ISA spec.
 
-2. A vCPU util value between 0 - 1024 where 1024 corresponds to the
-highest performance point across all CPUs (taking freq, arch, etc into
-consideration). Yes, this currently matches how the run queue util is
-tracked, but we can document the interface as "percentage of max
-performance capability", but representing it as 0 - 1024 instead of
-0-100. That way, even if the scheduler changes how it tracks util in
-the future, we can still keep this interface between guest/host and
-map it appropriately on the host end.
+I'll revisit this when my thoughts have settled down.
 
-In either case, we could even have a Windows guest where they might
-track vCPU utilization differently and still have this work with the
-Linux host with this interface.
+> For now it's safe to assume that LLVM doesn't require zicsr or zifencei
+> [1], we don't need to do a version dance right away.
 
-Does that sound reasonable to you?
+I also needed to remove `-mno-riscv-attribute` from bindgen's cflags
+for things to work. That's probably not something yous have to deal with
+as you're on an old kernel for the rust branch. Or maybe it got
+backported to v6.2.n, idk.
 
-Another option is to convert (2) into a "CPU frequency" request (but
-without latching it to values in the CPUfreq table) but it'll add some
-unnecessary math (with division) on the guest and host end. But I'd
-rather keep it as 0-1024 unless you really want this 2nd option.
+Oh and bindgen doesn't actually seem to succeed with the hacks anyway:
+thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at__/__/inc=
+lude/linux/compiler_types_h_146_2)" is not a valid Ident'
+I had a quick check on lore but didn't see a fix for that one.
 
--Saravana
+And there's also the code model that doesn't yet seem to be handled.
+The script looks to always use medany. Writing that here lest I forget
+about it.
+
+Either way, I marked the series as "Changes Requested" on patchwork :)
+
+Cheers,
+Conor.
+
+--FcRyeZL+VScw/Opu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZC3lsQAKCRB4tDGHoIJi
+0pGOAQCeaM10rBdEcndRndqlaTF3FEa+T27gVhKcLhUC1A/dPgEA4f8S9UEUIK+6
+uLp00YAput5xzfDJIKKH5PE3oMmd/gE=
+=b9VZ
+-----END PGP SIGNATURE-----
+
+--FcRyeZL+VScw/Opu--
