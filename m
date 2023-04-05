@@ -2,288 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 668D7C761AF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 06:53:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A19C76188
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 07:48:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236556AbjDEGxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 02:53:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52810 "EHLO
+        id S237167AbjDEHsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 03:48:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229943AbjDEGxc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 02:53:32 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B88D40F7;
-        Tue,  4 Apr 2023 23:53:31 -0700 (PDT)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3356hPbV019755;
-        Wed, 5 Apr 2023 06:51:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=r08tgvRQO15jrwvSRIBZIrfJm0K4iBf2MVhRW+6IRUs=;
- b=Kzs5fh0KGqgychdK3EWVRalYndC2s7cYoXTf4U1iE44XoGtnLdEU09xmTqD/7Io/H1Yk
- qlmBWRVUPHbL+Gpuv37fJF4EmbNgvktLadzQcecUjBtHDdSvjrb4XIqRORrvbIOhEXpH
- fqc7F1rBLxViKTaDKllzKH1e9CYr5i99HnefcptwE+I0PfzPk+u7fJqUdumdJ1NADqy+
- Gd4j/SJyLR1Pggrorza1MRhpqM3KL6KXFr0wIc/tc9Ny1VO2FEdPYU8adB8SKaiHp4o1
- DCr9F/XBSOMz0gHv6RsxvQ8ufvtbpKfrMnYUBXxmKjcCalHtuJtp7gUqfalaedL6W5DC kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps3ydr5bn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Apr 2023 06:51:15 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3356i97B022143;
-        Wed, 5 Apr 2023 06:51:15 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps3ydr5b1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Apr 2023 06:51:15 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3344l3wD018686;
-        Wed, 5 Apr 2023 06:51:13 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3ppbvftbkm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Apr 2023 06:51:13 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3356pAQ443450910
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 5 Apr 2023 06:51:10 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C56212004D;
-        Wed,  5 Apr 2023 06:51:10 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AEC8320040;
-        Wed,  5 Apr 2023 06:51:09 +0000 (GMT)
-Received: from [9.171.4.189] (unknown [9.171.4.189])
-        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Wed,  5 Apr 2023 06:51:09 +0000 (GMT)
-Message-ID: <2229abe0-b304-6ae3-5bda-d71387c645ca@de.ibm.com>
-Date:   Wed, 5 Apr 2023 08:51:09 +0200
+        with ESMTP id S236956AbjDEHss (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 03:48:48 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980EB449A
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 00:48:37 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id r11so138921237edd.5
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 00:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680680916; x=1683272916;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p8w6UmRm5BD0nU8eoGMSUY3i4YMySq+vccxjuBrdrGk=;
+        b=Er4az+SUwSsypZMrqUPkmi0/nctg+5jtBJGX3n0itJa0VtzZQo1BvCHiFbGupUN3Vj
+         AHZVkrQl62hYk3iS59Pl/ZlCqcg8pMQLr53FnGQhXp5D/YEjkkTZoFMvzOcwIqK3nAYn
+         yyxf/+Pgp2dioV/6Q27rXufr5omEBU+UH3cPX1l3tOSGuNgEj3H1sVv/Irk1bmGD8suF
+         AjqoWpzzNPUHwjPUgPZNI2NewN/ytIQ1LWMZ4lNR2zK+vrnTYNuL+Q+3znkzs3LRj7ia
+         B7EYjfnmcdc80z22X6LKXzpMdjdF7PMtbII66DhdPksnvV3kLxXq5urPDETxKMC2JNKD
+         ussg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680680916; x=1683272916;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p8w6UmRm5BD0nU8eoGMSUY3i4YMySq+vccxjuBrdrGk=;
+        b=fi8DNFL7IeaQkzrTjIU/wbt0Wq98Gwf8nM1BM5IIAXD+sINmllNRFPPrW+8YlItQAn
+         3/QBDD9U3NlJP760ocPN07gjrnUaXBnJ5UlrfFlXdDu13CYZXeDPtHdAE4VimoUoRf9+
+         2BaRXLbeZBxHgm8kxSNqC7pErpQeCYOdzyRusmOR5wRG3J1UKwyxzNjKlACBn7WXuUgJ
+         5lkS6fVUCMZTlTcVw/E+0Kl+KIO0fwDrPS5hFREO+dRxJtCbVCXoJhyvcWg9ooFbmmWO
+         V6ZZjWecxZimgeOdy6a2HgAMDOm1wSz4QBTz08+oLOQrN12rAHyOG5xroNLH/QmrYEnx
+         DylQ==
+X-Gm-Message-State: AAQBX9cb1hNZti9GBqiHVFnPTcBtgv/MCKMB1Eo5aCrCjzcD7Z6Y+5K/
+        csC3/7ITeiIz0D+AXEf5qhlwJA==
+X-Google-Smtp-Source: AKy350agh4y8u6yqcvybPxa7k4bIoL0RiJQx9kT+gtSHfJM3UtSKuXTj5TsxcO5eYQ19NZXovee1uw==
+X-Received: by 2002:a17:907:6e25:b0:931:b34:4172 with SMTP id sd37-20020a1709076e2500b009310b344172mr2776628ejc.3.1680680915886;
+        Wed, 05 Apr 2023 00:48:35 -0700 (PDT)
+Received: from google.com (64.227.90.34.bc.googleusercontent.com. [34.90.227.64])
+        by smtp.gmail.com with ESMTPSA id l15-20020a17090612cf00b009222a7192b4sm6969397ejb.30.2023.04.05.00.48.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 00:48:35 -0700 (PDT)
+Date:   Wed, 5 Apr 2023 07:48:32 +0000
+From:   Quentin Perret <qperret@google.com>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     David Dai <davidai@google.com>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        kernel-team@android.com, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
+Message-ID: <ZC0n0HRsmNJeJZps@google.com>
+References: <20230330224348.1006691-1-davidai@google.com>
+ <ZCx97IKjsBibjdGc@linux.dev>
+ <86sfdfv0e1.wl-maz@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4 1/3] mm: add new api to enable ksm per process
-To:     David Hildenbrand <david@redhat.com>,
-        Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
-Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, hannes@cmpxchg.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Janosch Frank <frankja@linux.ibm.com>
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230310182851.2579138-2-shr@devkernel.io>
- <7ed4308d-b400-d2bb-b539-3fe418862ab8@redhat.com>
- <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
-Content-Language: en-US
-From:   Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ShJopCrRpVEzBW-9z50IB5J8E99j3AFI
-X-Proofpoint-ORIG-GUID: 7mzfY4TSQWq751ShcUqKfDdvDd9fpC9G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_02,2023-04-04_05,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1011 bulkscore=0 mlxscore=0 malwarescore=0 suspectscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- mlxlogscore=526 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304050060
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86sfdfv0e1.wl-maz@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 03.04.23 um 13:03 schrieb David Hildenbrand:
-> On 03.04.23 12:37, David Hildenbrand wrote:
->> On 10.03.23 19:28, Stefan Roesch wrote:
->>> Patch series "mm: process/cgroup ksm support", v3.
->>>
->>> So far KSM can only be enabled by calling madvise for memory regions.  To
->>> be able to use KSM for more workloads, KSM needs to have the ability to be
->>> enabled / disabled at the process / cgroup level.
->>>
->>> Use case 1:
->>>
->>>     The madvise call is not available in the programming language.  An
->>>     example for this are programs with forked workloads using a garbage
->>>     collected language without pointers.  In such a language madvise cannot
->>>     be made available.
->>>
->>>     In addition the addresses of objects get moved around as they are
->>>     garbage collected.  KSM sharing needs to be enabled "from the outside"
->>>     for these type of workloads.
->>
->> I guess the interpreter could enable it (like a memory allocator could
->> enable it for the whole heap). But I get that it's much easier to enable
->> this per-process, and eventually only when a lot of the same processes
->> are running in that particular environment.
->>
->>>
->>> Use case 2:
->>>
->>>     The same interpreter can also be used for workloads where KSM brings
->>>     no benefit or even has overhead.  We'd like to be able to enable KSM on
->>>     a workload by workload basis.
->>
->> Agreed. A per-process control is also helpful to identidy workloads
->> where KSM might be beneficial (and to which degree).
->>
->>>
->>> Use case 3:
->>>
->>>     With the madvise call sharing opportunities are only enabled for the
->>>     current process: it is a workload-local decision.  A considerable number
->>>     of sharing opportuniites may exist across multiple workloads or jobs.
->>>     Only a higler level entity like a job scheduler or container can know
->>>     for certain if its running one or more instances of a job.  That job
->>>     scheduler however doesn't have the necessary internal worklaod knowledge
->>>     to make targeted madvise calls.
->>>
->>> Security concerns:
->>>
->>>     In previous discussions security concerns have been brought up.  The
->>>     problem is that an individual workload does not have the knowledge about
->>>     what else is running on a machine.  Therefore it has to be very
->>>     conservative in what memory areas can be shared or not.  However, if the
->>>     system is dedicated to running multiple jobs within the same security
->>>     domain, its the job scheduler that has the knowledge that sharing can be
->>>     safely enabled and is even desirable.
->>>
->>> Performance:
->>>
->>>     Experiments with using UKSM have shown a capacity increase of around
->>>     20%.
->>>
->>
->> As raised, it would be great to include more details about the workload
->> where this particulalry helps (e.g., a lot of Django processes operating
->> in the same domain).
->>
->>>
->>> 1. New options for prctl system command
->>>
->>>      This patch series adds two new options to the prctl system call.
->>>      The first one allows to enable KSM at the process level and the second
->>>      one to query the setting.
->>>
->>>      The setting will be inherited by child processes.
->>>
->>>      With the above setting, KSM can be enabled for the seed process of a
->>>      cgroup and all processes in the cgroup will inherit the setting.
->>>
->>> 2. Changes to KSM processing
->>>
->>>      When KSM is enabled at the process level, the KSM code will iterate
->>>      over all the VMA's and enable KSM for the eligible VMA's.
->>>
->>>      When forking a process that has KSM enabled, the setting will be
->>>      inherited by the new child process.
->>>
->>>      In addition when KSM is disabled for a process, KSM will be disabled
->>>      for the VMA's where KSM has been enabled.
->>
->> Do we want to make MADV_MERGEABLE/MADV_UNMERGEABLE fail while the new
->> prctl is enabled for a process?
->>
->>>
->>> 3. Add general_profit metric
->>>
->>>      The general_profit metric of KSM is specified in the documentation,
->>>      but not calculated.  This adds the general profit metric to
->>>      /sys/kernel/debug/mm/ksm.
->>>
->>> 4. Add more metrics to ksm_stat
->>>
->>>      This adds the process profit and ksm type metric to
->>>      /proc/<pid>/ksm_stat.
->>>
->>> 5. Add more tests to ksm_tests
->>>
->>>      This adds an option to specify the merge type to the ksm_tests.
->>>      This allows to test madvise and prctl KSM.  It also adds a new option
->>>      to query if prctl KSM has been enabled.  It adds a fork test to verify
->>>      that the KSM process setting is inherited by client processes.
->>>
->>> An update to the prctl(2) manpage has been proposed at [1].
->>>
->>> This patch (of 3):
->>>
->>> This adds a new prctl to API to enable and disable KSM on a per process
->>> basis instead of only at the VMA basis (with madvise).
->>>
->>> 1) Introduce new MMF_VM_MERGE_ANY flag
->>>
->>>      This introduces the new flag MMF_VM_MERGE_ANY flag.  When this flag
->>>      is set, kernel samepage merging (ksm) gets enabled for all vma's of a
->>>      process.
->>>
->>> 2) add flag to __ksm_enter
->>>
->>>      This change adds the flag parameter to __ksm_enter.  This allows to
->>>      distinguish if ksm was called by prctl or madvise.
->>>
->>> 3) add flag to __ksm_exit call
->>>
->>>      This adds the flag parameter to the __ksm_exit() call.  This allows
->>>      to distinguish if this call is for an prctl or madvise invocation.
->>>
->>> 4) invoke madvise for all vmas in scan_get_next_rmap_item
->>>
->>>      If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
->>>      over all the vmas and enable ksm if possible.  For the vmas that can be
->>>      ksm enabled this is only done once.
->>>
->>> 5) support disabling of ksm for a process
->>>
->>>      This adds the ability to disable ksm for a process if ksm has been
->>>      enabled for the process.
->>>
->>> 6) add new prctl option to get and set ksm for a process
->>>
->>>      This adds two new options to the prctl system call
->>>      - enable ksm for all vmas of a process (if the vmas support it).
->>>      - query if ksm has been enabled for a process.
->>
->>
->> Did you consider, instead of handling MMF_VM_MERGE_ANY in a special way,
->> to instead make it reuse the existing MMF_VM_MERGEABLE/VM_MERGEABLE
->> infrastructure. Especially:
->>
->> 1) During prctl(MMF_VM_MERGE_ANY), set VM_MERGABLE on all applicable
->>      compatible. Further, set MMF_VM_MERGEABLE and enter KSM if not
->>      already set.
->>
->> 2) When creating a new, compatible VMA and MMF_VM_MERGE_ANY is set, set
->>      VM_MERGABLE?
->>
->> The you can avoid all runtime checks for compatible VMAs and only look
->> at the VM_MERGEABLE flag. In fact, the VM_MERGEABLE will be completely
->> expressive then for all VMAs. You don't need vma_ksm_mergeable() then.
->>
->>
->> Another thing to consider is interaction with arch/s390/mm/gmap.c:
->> s390x/kvm does not support KSM and it has to disable it for all VMAs. We
-
-Normally we do support KSM on s390. This is a special case for guests using
-storage keys. Those are attributes of the physical page and might differ even
-if the content of the page is the same.
-New Linux no longer uses it (unless a debug option is set during build) so we
-enable the guest storage keys lazy and break KSM pages in that process.
-Ideally we would continue this semantic (e.g. even after a prctl, if the
-guest enable storage keys, disable ksm for this VM).
-
->> have to find a way to fence the prctl (for example, fail setting the
->> prctl after gmap_mark_unmergeable() ran, and make
->> gmap_mark_unmergeable() fail if the prctl ran -- or handle it gracefully
->> in some other way).
+On Tuesday 04 Apr 2023 at 21:49:10 (+0100), Marc Zyngier wrote:
+> On Tue, 04 Apr 2023 20:43:40 +0100,
+> Oliver Upton <oliver.upton@linux.dev> wrote:
+> > 
+> > Folks,
+> > 
+> > On Thu, Mar 30, 2023 at 03:43:35PM -0700, David Dai wrote:
+> > 
+> > <snip>
+> > 
+> > > PCMark
+> > > Higher is better
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > | Test Case (score) | Baseline |  Hypercall | %delta |  MMIO | %delta |
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > | Weighted Total    |     6136 |       7274 |   +19% |  6867 |   +12% |
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > | Web Browsing      |     5558 |       6273 |   +13% |  6035 |    +9% |
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > | Video Editing     |     4921 |       5221 |    +6% |  5167 |    +5% |
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > | Writing           |     6864 |       8825 |   +29% |  8529 |   +24% |
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > | Photo Editing     |     7983 |      11593 |   +45% | 10812 |   +35% |
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > | Data Manipulation |     5814 |       6081 |    +5% |  5327 |    -8% |
+> > > +-------------------+----------+------------+--------+-------+--------+
+> > > 
+> > > PCMark Performance/mAh
+> > > Higher is better
+> > > +-----------+----------+-----------+--------+------+--------+
+> > > |           | Baseline | Hypercall | %delta | MMIO | %delta |
+> > > +-----------+----------+-----------+--------+------+--------+
+> > > | Score/mAh |       79 |        88 |   +11% |   83 |    +7% |
+> > > +-----------+----------+-----------+--------+------+--------+
+> > > 
+> > > Roblox
+> > > Higher is better
+> > > +-----+----------+------------+--------+-------+--------+
+> > > |     | Baseline |  Hypercall | %delta |  MMIO | %delta |
+> > > +-----+----------+------------+--------+-------+--------+
+> > > | FPS |    18.25 |      28.66 |   +57% | 24.06 |   +32% |
+> > > +-----+----------+------------+--------+-------+--------+
+> > > 
+> > > Roblox Frames/mAh
+> > > Higher is better
+> > > +------------+----------+------------+--------+--------+--------+
+> > > |            | Baseline |  Hypercall | %delta |   MMIO | %delta |
+> > > +------------+----------+------------+--------+--------+--------+
+> > > | Frames/mAh |    91.25 |     114.64 |   +26% | 103.11 |   +13% |
+> > > +------------+----------+------------+--------+--------+--------+
+> > 
+> > </snip>
+> > 
+> > > Next steps:
+> > > ===========
+> > > We are continuing to look into communication mechanisms other than
+> > > hypercalls that are just as/more efficient and avoid switching into the VMM
+> > > userspace. Any inputs in this regard are greatly appreciated.
+> > 
+> > We're highly unlikely to entertain such an interface in KVM.
+> > 
+> > The entire feature is dependent on pinning vCPUs to physical cores, for which
+> > userspace is in the driver's seat. That is a well established and documented
+> > policy which can be seen in the way we handle heterogeneous systems and
+> > vPMU.
+> > 
+> > Additionally, this bloats the KVM PV ABI with highly VMM-dependent interfaces
+> > that I would not expect to benefit the typical user of KVM.
+> > 
+> > Based on the data above, it would appear that the userspace implementation is
+> > in the same neighborhood as a KVM-based implementation, which only further
+> > weakens the case for moving this into the kernel.
+> > 
+> > I certainly can appreciate the motivation for the series, but this feature
+> > should be in userspace as some form of a virtual device.
 > 
-> 
-> Staring at that code, I wonder if the "mm->def_flags &= ~VM_MERGEABLE" is doing what it's supposed to do. I don't think this effectively prevents right now madvise() from getting re-enabled on that VMA.
-> 
-> @Christian, Janosch, am I missing something?
+> +1 on all of the above.
 
-Yes, if QEMU would do an madvise later on instead of just the start if would
-result in guest storage keys to be messed up on KSM merges. One could argue
-that this is a bug in the hypervisor then (QEMU) but yes, we should try
-to make this more reliable in the kernel.
+And I concur with all the above as well. Putting this in the kernel is
+not an obvious fit at all as that requires a number of assumptions about
+the VMM.
+
+As Oliver pointed out, the guest topology, and how it maps to the host
+topology (vcpu pinning etc) is very much a VMM policy decision and will
+be particularly important to handle guest frequency requests correctly.
+
+In addition to that, the VMM's software architecture may have an impact.
+Crosvm for example does device emulation in separate processes for
+security reasons, so it is likely that adjusting the scheduling
+parameters ('util_guest', uclamp, or else) only for the vCPU thread that
+issues frequency requests will be sub-optimal for performance, we may
+want to adjust those parameters for all the tasks that are on the
+critical path.
+
+And at an even higher level, assuming in the kernel a certain mapping of
+vCPU threads to host threads feels kinda wrong, this too is a host
+userspace policy decision I believe. Not that anybody in their right
+mind would want to do this, but I _think_ it would technically be
+feasible to serialize the execution of multiple vCPUs on the same host
+thread, at which point the util_guest thingy becomes entirely bogus. (I
+obviously don't want to conflate this use-case, it's just an example
+that shows the proposed abstraction in the series is not a perfect fit
+for the KVM userspace delegation model.)
+
+So +1 from me to move this as a virtual device of some kind. And if the
+extra cost of exiting all the way back to userspace is prohibitive (is
+it btw?), then we can try to work on that. Maybe something a la vhost
+can be done to optimize, I'll have a think.
+
+> The one thing I'd like to understand that the comment seems to imply
+> that there is a significant difference in overhead between a hypercall
+> and an MMIO. In my experience, both are pretty similar in cost for a
+> handling location (both in userspace or both in the kernel). MMIO
+> handling is a tiny bit more expensive due to a guaranteed TLB miss
+> followed by a walk of the in-kernel device ranges, but that's all. It
+> should hardly register.
+> 
+> And if you really want some super-low latency, low overhead
+> signalling, maybe an exception is the wrong tool for the job. Shared
+> memory communication could be more appropriate.
+
+I presume some kind of signalling mechanism will be necessary to
+synchronously update host scheduling parameters in response to guest
+frequency requests, but if the volume of data requires it then a shared
+buffer + doorbell type of approach should do.
+
+Thinking about it, using SCMI over virtio would implement exactly that.
+Linux-as-a-guest already supports it IIRC, so possibly the problem
+being addressed in this series could be 'simply' solved using an SCMI
+backend in the VMM...
+
+Thanks,
+Quentin
