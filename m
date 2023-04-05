@@ -2,87 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D48C761A6
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 11:26:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25DDAC7619A
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 11:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237841AbjDEL0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 07:26:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40346 "EHLO
+        id S237215AbjDEL3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 07:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237749AbjDEL0u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 07:26:50 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4994310CC;
-        Wed,  5 Apr 2023 04:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680694009; x=1712230009;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=rAdNmgT9ufOa3vrGGqYmkDwonVnOX8G6qLgSbIl7/3s=;
-  b=Wzn6Hspw4f5h1pNz5OIGvw8xR3DQp+h8vV6XNlvaWi2wGV6h+vznffet
-   20RDL3hCpZjpu407WhcJ6FrOKz5fyiZY8WIN/nyatRl9uty7cSYlX+aYO
-   FxSw3jaVyQNH8ZPFCiEVClT9JB0IMs+sj6yakxcz5PFtGtSC76cI02F62
-   XhG5KmGqMrie2KMwgFsdRxj8liHXUACg8JvN074s1Xl1HV2WYUCz0ndLv
-   CnNTW2lG8ecMM+8j21wFBtJkjnpQQrUrunBOUWb4eU5TjzxE5k29HxahU
-   cOprSVPSzuJDBe+EkfMxOv1yVMrqmJ7cNjWUjoYmPod/QoSNrv/O0/RMg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="341152240"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="341152240"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 04:26:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="830330605"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="830330605"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.153.132]) ([10.249.153.132])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 04:26:45 -0700
-Message-ID: <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
-Date:   Wed, 5 Apr 2023 13:26:31 +0200
+        with ESMTP id S237538AbjDEL3h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 07:29:37 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51344559D
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 04:29:31 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id lr16-20020a17090b4b9000b0023f187954acso36932288pjb.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 04:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1680694171;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=D4c1T5yq9j98I4xqzpkXy98H9NvOxhgZzRxqtRXXoJ8=;
+        b=gEdmzXz0VIfLxJ35ejE+hqigBd3ZlAebMNBtkV6vu61mKZHcpX9p2jnF1isA21YZIM
+         3kDnX+jNcaPCNXXmKITQmBn/dZKyUNwjEqTd/EwtALeGgF/kSEnRpv+ERLYe1z/Sfq4G
+         u4HXyAkV0wvl89N1Pjd6gFnwZvqzskXqusycuN4RQZWWBu3GWsrLGlxlt/kmUslAQhzo
+         LZDC0KFmqiBC7ClzCjU/BA5Meb1jEsNvGHJNi6UCZe/+6l7JHXYHv+W4reUxuL9NXVYv
+         QZq4/aMSdFAAiIXiYz/5PEJ0TZ2UhjoODy4m3WsAztl7rAOs2Wo2M77aSaZtWBQpSM6T
+         zQvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680694171;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D4c1T5yq9j98I4xqzpkXy98H9NvOxhgZzRxqtRXXoJ8=;
+        b=Z3U+kskxKpKkMDEP35DXmMNKLdjSKhYKY1Y8xDFGNWQo25QdNU5ghOhlamQFDwbdis
+         2jUd/kSCzURzmjF9GNzEQQ4fu2UHT+PriL/3qfEnno6KuD7y5IyY7Go7O65UC5U/yja9
+         0LVwEQFNBwnyAB2cyQwUo+npQzhav0u16va7Eft7hjXd02PTnCVSDttPC833weagw+4/
+         Uvm+lysQOsN0ZL0BWiOjsxba+YlKO8kzH1Nk5ENhSboBx26530dIKGQQLR6D5JlBcCyw
+         3xryshJG85At/Vtz1aqmxBFKXbUOvkR/YLOCOORtxo1ZKvKK5Oqh+ZyBYoBz5QiKD0cv
+         4S1Q==
+X-Gm-Message-State: AAQBX9dTf+MS4IGOU3hyFMuEpzxTncjFGGiOdADD8PcX+OjIP0IHFcdh
+        Q4WKLviREI94ikUJ42f9bl8mRA==
+X-Google-Smtp-Source: AKy350aEX+UO+F4lAIjzoSB5aZthgg5fu+oXk5GINgl1jGRsgPHII856swqYeTDojSQysuvDeoDPdQ==
+X-Received: by 2002:a17:903:244b:b0:1a0:7425:4b73 with SMTP id l11-20020a170903244b00b001a074254b73mr2119520pls.4.1680694170755;
+        Wed, 05 Apr 2023 04:29:30 -0700 (PDT)
+Received: from sunil-laptop ([106.51.184.50])
+        by smtp.gmail.com with ESMTPSA id m10-20020a170902bb8a00b001a1d553de0fsm9852768pls.271.2023.04.05.04.29.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 04:29:30 -0700 (PDT)
+Date:   Wed, 5 Apr 2023 16:59:18 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Jessica Clarke <jrtc27@jrtc27.com>
+Cc:     linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-acpi@vger.kernel.org, linux-crypto@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev,
+        Weili Qian <qianweili@huawei.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Tom Rix <trix@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Len Brown <lenb@kernel.org>
+Subject: Re: [PATCH V4 22/23] platform/surface: Disable for RISC-V
+Message-ID: <ZC1bjmdMqYqSnIHP@sunil-laptop>
+References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
+ <20230404182037.863533-23-sunilvl@ventanamicro.com>
+ <EAC85F14-B1DA-4358-9042-A607436D582A@jrtc27.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v5 0/8] QAIC accel driver
-Content-Language: en-US
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        mani@kernel.org, dri-devel@lists.freedesktop.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        stanislaw.gruszka@linux.intel.com, quic_carlv@quicinc.com,
-        bagasdotme@gmail.com
-References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
- <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
-From:   Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <EAC85F14-B1DA-4358-9042-A607436D582A@jrtc27.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Jess,
 
-On 03.04.2023 19:22, Jeffrey Hugo wrote:
-> On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
->> This series introduces a driver under the accel subsystem (QAIC -
->> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
->> a PCIe adapter card that hosts a dedicated machine learning inference
->> accelerator.
->>
->> The previous version (v4) can be found at:
->> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
+On Wed, Apr 05, 2023 at 05:19:35AM +0100, Jessica Clarke wrote:
+> On 4 Apr 2023, at 19:20, Sunil V L <sunilvl@ventanamicro.com> wrote:
+> > 
+> > With CONFIG_ACPI enabled for RISC-V, this driver gets enabled
+> > in allmodconfig build. However, RISC-V doesn't support sub-word
+> > atomics which is used by this driver.
 > 
-> Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
+> Why not? Compilers and libatomic do, so surely the Linux kernel should
+> too.
+>
+I think you are probably right. But I don't want to combine that
+activity with this series. IMO, that should be separate activity.
+ 
+> > Due to this, the build fails
+> > with below error.
+> > 
+> > In function â€˜ssh_seq_nextâ€™,
+> >    inlined from â€˜ssam_request_write_dataâ€™ at drivers/platform/surface/aggregator/controller.c:1483:8:
+> > ././include/linux/compiler_types.h:399:45: error: call to â€˜__compiletime_assert_335â€™ declared with attribute error: BUILD_BUG failed
+> >  399 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> >      |                                             ^
+> > ./include/linux/compiler.h:78:45: note: in definition of macro â€˜unlikelyâ€™
+> >   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+> >      |                                             ^
+> > ././include/linux/compiler_types.h:387:9: note: in expansion of macro â€˜__compiletime_assertâ€™
+> >  387 |         __compiletime_assert(condition, msg, prefix, suffix)
+> >      |         ^~~~~~~~~~~~~~~~~~~~
+> > ././include/linux/compiler_types.h:399:9: note: in expansion of macro â€˜_compiletime_assertâ€™
+> >  399 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> >      |         ^~~~~~~~~~~~~~~~~~~
+> > ./include/linux/build_bug.h:39:37: note: in expansion of macro â€˜compiletime_assertâ€™
+> >   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+> >      |                                     ^~~~~~~~~~~~~~~~~~
+> > ./include/linux/build_bug.h:59:21: note: in expansion of macro â€˜BUILD_BUG_ON_MSGâ€™
+> >   59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+> >      |                     ^~~~~~~~~~~~~~~~
+> > ./arch/riscv/include/asm/cmpxchg.h:335:17: note: in expansion of macro â€˜BUILD_BUGâ€™
+> >  335 |                 BUILD_BUG();                                            \
+> >      |                 ^~~~~~~~~
+> > ./arch/riscv/include/asm/cmpxchg.h:344:30: note: in expansion of macro â€˜__cmpxchgâ€™
+> >  344 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
+> >      |                              ^~~~~~~~~
+> > ./include/linux/atomic/atomic-instrumented.h:1916:9: note: in expansion of macro â€˜arch_cmpxchgâ€™
+> > 1916 |         arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
+> >      |         ^~~~~~~~~~~~
+> > drivers/platform/surface/aggregator/controller.c:61:32: note: in expansion of macro â€˜cmpxchgâ€™
+> >   61 |         while (unlikely((ret = cmpxchg(&c->value, old, new)) != old)) {
+> >      |                                ^~~~~~~
+> > 
+> > So, disable this driver for RISC-V even when ACPI is enabled for now.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > ---
+> > drivers/platform/surface/aggregator/Kconfig | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/platform/surface/aggregator/Kconfig b/drivers/platform/surface/aggregator/Kconfig
+> > index c114f9dd5fe1..88afc38ffdc5 100644
+> > --- a/drivers/platform/surface/aggregator/Kconfig
+> > +++ b/drivers/platform/surface/aggregator/Kconfig
+> > @@ -4,7 +4,7 @@
+> > menuconfig SURFACE_AGGREGATOR
+> > 	tristate "Microsoft Surface System Aggregator Module Subsystem and Drivers"
+> > 	depends on SERIAL_DEV_BUS
+> > -	depends on ACPI
+> > +	depends on ACPI && !RISCV
 > 
-> I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
+> If you insist on doing this, at least make it some new config variable
+> that’s self-documenting and means this automatically gets re-enabled
+> when arch/riscv fixes this deficiency? Hard-coding arch lists like this
+> seems like a terrible anti-pattern.
 > 
-> Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
+I understand your point. But given that this is currently only issue with
+a single driver from Microsoft and that too only in COMPILE_TEST builds,
+I think introducing a new config variable is overkill. If we support
+sub-word atomics in kernel, the option may not be useful much anyway.
 
-I'm would be happy to merge it but I think it needs to be acked by Oded first.
+There are patterns to disable an architecture for COMPILE_TEST builds.
 
-Regards,
-Jacek
+Thanks,
+Sunil
