@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D82C77B6C
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 14:59:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6884C7619A
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 15:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238205AbjDEO7D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 10:59:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44670 "EHLO
+        id S238830AbjDEPOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 11:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237207AbjDEO7C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 10:59:02 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C617C46B3
-        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 07:58:58 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id l12so36492550wrm.10
-        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 07:58:58 -0700 (PDT)
+        with ESMTP id S238439AbjDEPOG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 11:14:06 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D4E9026
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 08:12:07 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id p13-20020a17090a284d00b0023d2e945aebso4255396pjf.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 08:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1680706737;
+        d=ventanamicro.com; s=google; t=1680707527;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=22RndxDAcYTUmY2kPiSUATZV+V86fIqA8CXijZRxME0=;
-        b=ZqGBQ9vNPVA+48EQUhzwUp+/WM53IeOgdUq3ewaCaqBbb8KK+ZrgBqGqifDz5crZgH
-         /CleaEnxpWFOwffvcRE4PaNDqGEkHcmG0OnVDXABv3fNoyuPYsmlu61jRwXJVRT+0413
-         mj3JxSMHJ4zfndN1qkJQtOlXmiTBVil5f75tStkVD9R/uslQhGH8H1MqAJOwCBRPjH+m
-         pPbqDNNVAlFvGYVNAj6it/vbzhHsRPjyqEeiisOWJDq8uQmtwvTmIABAQmyolRpXrQlx
-         u4jHzID07wGJh+JOI1MOMTs/Slm2YMjD7pi+6pusqv7u8uoeOcLu5iBDA0Y978a8Lfpj
-         Bm+g==
+        bh=uc9pS7LWOx9W2W+bVOlzBxwPbz5vuE1RzHaVZSPLmto=;
+        b=E1iN/rVli6IlEc+9dtSf766sTAMDsKoBOf9+0HqG/1UKxBY9CsRrocmEKMyToLlGz4
+         gMn6oqiNZ2oMqeY+GCNgDGhKqzkpTMAFFbowFGbmLQ9VD3ZuzCvBevmg56kH26n23Rmb
+         pbtQjZFZUMnZs1F+k9M/tQLTuSqOdPg7cHgV/Fn6G7azHT/tkIxNegBxHN0JT5DrumSE
+         3F/7mc2bp3puj/e/PI/bFn4DGw984aOT8BFORB2XD4EqHbdNt6OXltvazgvL0dausRra
+         E7UOXUBJs9OCJZQQVHxikMXd3WNStS19nw7frBf76aEmS5gjvAKrr4C3jKExIkVaX/r9
+         JBDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680706737;
+        d=1e100.net; s=20210112; t=1680707527;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=22RndxDAcYTUmY2kPiSUATZV+V86fIqA8CXijZRxME0=;
-        b=tmJDdEw3M3hoqPzIikuCqDCSYjupEZDiSF6dNxkYlxIeH8n03N8wwMlUT/2ueJQt0i
-         FGNfY37PZtCYG2xoTPxXf2/a/IjdmXDfKwOR68e5YMCBdbN2+UqUoC2FkXgiuI0poz8G
-         ezFOB4Y4b1sJv4gkiUoGemiq+rNhgwkOBKX4Zvooezq1MfS0nF6XUaEQ5V97ljsjvRso
-         17SHvxKIVKKzRIsgE8Q9pSIVGZfnGgVWN+4YJ/BLAUOfByY1eesqLzeVeMbijUj2z53L
-         56UqgpmCHl+BWJvmiOQqfEGEdIlgAZp62HGj6rMVYIezQGXz84Hns4HIZh7kpNEhQBFE
-         SMZg==
-X-Gm-Message-State: AAQBX9cOPmu0RovPlVvw0Yuie9IAkqJdloI//ZfpSjitHMoimJ/HcmTo
-        Wr4BxB08G36fjqysyXTYe7GnPw==
-X-Google-Smtp-Source: AKy350bfWb7Q1dmeYeMrl784mM8dxuKi/bAHVMH6KYjH4SSAhIOa0dR3y/3E8flmAsd88iA8B0uhtw==
-X-Received: by 2002:a5d:4283:0:b0:2e5:8874:d883 with SMTP id k3-20020a5d4283000000b002e58874d883mr2297075wrq.8.1680706737309;
-        Wed, 05 Apr 2023 07:58:57 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id o15-20020a5d474f000000b002d7a75a2c20sm15255777wrs.80.2023.04.05.07.58.56
+        bh=uc9pS7LWOx9W2W+bVOlzBxwPbz5vuE1RzHaVZSPLmto=;
+        b=lbwno1reiIy9VVbNpgWfY4BusjaNT1FIbcbnZK/FM5ZXGLn8SdEWmzixNl/LSwiTXe
+         xRHCgN8X3kxPADCy8ycivu/6559XbQLkkey7jLuC+tRgVsmo9G373IMPTkupZqXG9ZWd
+         NPjChuXbIR5ZBwTySXokGKMk+R1jKOv67Dg8pZg3LsavCB2ZNbN2rkYWUZxD1NWTF7mN
+         f2sGMbhIfuTI9m4PTljRj1XXYYjzilN7GRJ/Y4rgBpZcw3siq0f5VcCHGYLN1Qw+ctdV
+         PkKHNW072zb6LPXW3q8Yx63syrs30q8IAsqErGWMRaM1qNEuYIn0rs/5O3JBCrh2z/8A
+         9+cw==
+X-Gm-Message-State: AAQBX9fDL27OC+LJPnK2N3htUFS0IFN5mV991ytn0XVigEkaZbczG3Q+
+        xWmSVFbgF3ijXXrVr3i5CkH+uQ==
+X-Google-Smtp-Source: AKy350acIs5ZpayOCA2w9KEEQrlHejGlhpqGSCjTnMb7JdKR0jSYZZQPlwOcN3qK4L6jamW1VaYfVw==
+X-Received: by 2002:a05:6a20:6b98:b0:df:81de:93dc with SMTP id bu24-20020a056a206b9800b000df81de93dcmr6125484pzb.34.1680707527314;
+        Wed, 05 Apr 2023 08:12:07 -0700 (PDT)
+Received: from sunil-laptop ([106.51.184.50])
+        by smtp.gmail.com with ESMTPSA id x24-20020a62fb18000000b00582f222f088sm10810109pfm.47.2023.04.05.08.11.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 07:58:56 -0700 (PDT)
-Date:   Wed, 5 Apr 2023 16:58:55 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
+        Wed, 05 Apr 2023 08:12:06 -0700 (PDT)
+Date:   Wed, 5 Apr 2023 20:41:54 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
@@ -64,7 +64,8 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Marc Zyngier <maz@kernel.org>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Len Brown <lenb@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Mark Gross <markgross@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -73,31 +74,67 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
         Zhou Wang <wangzhou1@hisilicon.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
+        Len Brown <lenb@kernel.org>,
         Maximilian Luz <luzmaximilian@gmail.com>,
         "David S . Miller" <davem@davemloft.net>
-Subject: Re: [PATCH V4 11/23] RISC-V: smpboot: Add ACPI support in smp_setup()
-Message-ID: <yqged6rmz4qb6sxhjfmypnjx3tmmoramynt45rszr2dk5awlmr@ovhlptchhv7t>
+Subject: Re: [PATCH V4 19/23] RISC-V: Add ACPI initialization in setup_arch()
+Message-ID: <ZC2PuiY5Xscz305H@sunil-laptop>
 References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-12-sunilvl@ventanamicro.com>
+ <20230404182037.863533-20-sunilvl@ventanamicro.com>
+ <20230404-escalator-fridge-daf9aaffad12@spud>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404182037.863533-12-sunilvl@ventanamicro.com>
+In-Reply-To: <20230404-escalator-fridge-daf9aaffad12@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 04, 2023 at 11:50:25PM +0530, Sunil V L wrote:
-> Enable SMP boot on ACPI based platforms by using the RINTC
-> structures in the MADT table.
+On Tue, Apr 04, 2023 at 10:38:56PM +0100, Conor Dooley wrote:
+> On Tue, Apr 04, 2023 at 11:50:33PM +0530, Sunil V L wrote:
+> > Initialize the ACPI core for RISC-V during boot.
+> > 
+> > ACPI tables and interpreter are initialized based on
+> > the information passed from the firmware and the value of
+> > the kernel parameter 'acpi'.
+> > 
+> > With ACPI support added for RISC-V, the kernel parameter 'acpi'
+> > is also supported on RISC-V. Hence, update the documentation.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > 
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  arch/riscv/include/asm/acpi.h |  2 +
->  arch/riscv/kernel/smpboot.c   | 72 ++++++++++++++++++++++++++++++++++-
->  2 files changed, 73 insertions(+), 1 deletion(-)
->
+> > +	/* Parse the ACPI tables for possible boot-time configuration */
+> > +	acpi_boot_table_init();
+> > +	if (acpi_disabled) {
+> > +		if (IS_ENABLED(CONFIG_BUILTIN_DTB)) {
+> > +			unflatten_and_copy_device_tree();
+> > +		} else {
+> > +			if (early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa))))
+> > +				unflatten_device_tree();
+> > +			else
+> > +				pr_err("No DTB found in kernel mappings\n");
+> > +		}
+> > +	} else {
+> > +		early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa)));
+> 
+> I'm probably forgetting something, but this seems very non-obvious to
+> me:
+> Why are you running early_init_dt_verify() when ACPI is enabled?
+> I think that one deserves a comment so that next time someone looks at
+> this (that doesn't live in ACPI land) they've know exactly why this is
+> like it is.
+> 
+> Doubly so since this is likely to change with some of Alex's bits moving
+> the dtb back into the fixmap.
+> 
+Good question. The kernel creates a tiny DTB even when the FW didn't
+pass the FDT (ACPI systems). Please see update_fdt(). So, parse_dtb()
+would have set initial_boot_params to early VA and if we don't call
+early_init_dt_verify() again with __va, it panics since
+initial_boot_params can not be translated.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Thanks,
+Sunil
