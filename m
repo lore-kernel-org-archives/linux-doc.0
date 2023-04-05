@@ -2,173 +2,267 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07244C77B6E
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 22:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C51C77B70
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 22:29:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbjDEWID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 18:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44670 "EHLO
+        id S232876AbjDEW3G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 18:29:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232267AbjDEWIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 18:08:01 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD14355BA
-        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 15:07:59 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id s19so22698722pgi.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 15:07:59 -0700 (PDT)
+        with ESMTP id S229520AbjDEW3E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 18:29:04 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 593941FC9
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 15:29:02 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id x4-20020a170902ec8400b001a1a5f6f272so21570454plg.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 15:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680732479;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6G4NsFlCDV5fs2a2Hk+HPn6BW+TSo8l8fhvL/n7IKto=;
-        b=Co/XH8kheGMcW5639kFQflWIBdRbseeE5Rgi33B4NHAwkIuhJ8cRjGblOk3jTnpe3M
-         r8NDGd4BbIPvGUCTtlIr1C3Zi3M3kVBDoSPBmqFnbVUgJEH+rMm0xic9kbB5F1PS469K
-         v1mqbc0XbrOyTEZFxU0ygPvmf+3dHmAY6CsJ9O7wnH7swCU/AVkriErypZpzAdgN2JX5
-         g7RiLqySQwykhvK9Yp436hJ6RVIMG7NxCvKb3YHlnhCMdin4lAC9yBtRjNUKm8bUitaS
-         sSu9j6TkAiYHkxQxzNBHO0Xb9op6XALV5XasEjMG0VTfxTM7nkVUzYMSqHE97uOdWJz9
-         t2rQ==
+        d=google.com; s=20210112; t=1680733742;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GWR9MlnovPb4azeMHr07bRFmjnPJymKEQvz5exk2wDc=;
+        b=VmY8UlSKwzQO0K5HFS4LZyNPsx2yz03z8VFeH0jzD3xNKquWByhUadcUB64clw/ukK
+         PS0lE7ms2N4zjfi8yBjDa838Jv9P/Ebe1rmQaDpZapGQHrRUF7T36fqfDV4nrOsV5AMd
+         SGz0kry10Itl5RDl9lqCNIJymFOfJXu3eyUU9TTKRLkH+oIyMJ/lPP7ew2v5fMpzLKgu
+         h2uPt2YYNrcvek8x7z9xu1hq0h+WSNdpNf1iKUK96UPq7N13/VzzDBzL4pGp1LrBOcqG
+         9eHu/EI4kCb1GuSPO4OgPgpAKgvx41nOj6p+bBeCRlZUmYgF2jGC97zqN3Q2IAWdiWYG
+         FlOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680732479;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6G4NsFlCDV5fs2a2Hk+HPn6BW+TSo8l8fhvL/n7IKto=;
-        b=oJBpsEVsX/aC7echBSHHaUS7+KbRbfFwJnMGTf+cFD38NFpeuyjqaMWjbomYOX39fg
-         3Oq0aAhhK39blvmBG5jrC8lEwZz3tWvScTkwao3Zcb9JxXR3mCf4GOv41WFmu8hRiMpb
-         uTcykYvULIqIKS32wI/cuhGsP/b6XGfKP36vp+ef8KC5Lib0gQrVXznkXKPuUFTbr5e7
-         5RfzxE6Oz3QiCigZqQ0jWG4jrt3K7f0UwY5dvHImm/unW0G7X5g6iTJN63w9xiVaAe0k
-         gWTrcVPFEDgsBas5+xpcsjcPbiRFStAyxwfPkZ9H7L7vzPf2CBBn6oOV6jnVo+2ixm99
-         qcRw==
-X-Gm-Message-State: AAQBX9cqV/BTXv5ZfGzCJRg5e+UM363NaTeW0oONgBzb9rhZ+R96hFBQ
-        5OveYHZlzG/vLqXRVmLQnFNyWVsKiqwgb+OKm/mbfQ==
-X-Google-Smtp-Source: AKy350YWe0LQY4a1WtMtO9UBAtN8fCXxF/yrfEr5xXDYzw+Sj0JKwU0Q2JALgP82rgc6URVJ5DF6xJk/YwaCPJm10os=
-X-Received: by 2002:a05:6a00:999:b0:625:cda5:c28c with SMTP id
- u25-20020a056a00099900b00625cda5c28cmr4345578pfg.6.1680732478867; Wed, 05 Apr
- 2023 15:07:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230331014356.1033759-1-davidai@google.com> <20230331014356.1033759-6-davidai@google.com>
- <CAL_JsqJErVOZZ==i1HpMABfuVEDC+drboLTntMDB0sUC9ZdQ_Q@mail.gmail.com>
-In-Reply-To: <CAL_JsqJErVOZZ==i1HpMABfuVEDC+drboLTntMDB0sUC9ZdQ_Q@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 5 Apr 2023 15:07:22 -0700
-Message-ID: <CAGETcx_YhXqgyuWwH7BrMV4-z2LVEq5-X-FtPvmi-9tCrjVXVw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 5/6] dt-bindings: cpufreq: add bindings for virtual
- kvm cpufreq
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     David Dai <davidai@google.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        kernel-team@android.com, linux-pm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20210112; t=1680733742;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GWR9MlnovPb4azeMHr07bRFmjnPJymKEQvz5exk2wDc=;
+        b=r/P8DV78WNPWC+ZkCWmm+E4iqwOvcKNVIXNDE1eZw71ToaFDt69WpHetR+y5v5rbWA
+         28iIXipS0bOoVKAlF0hpprN8EjDNVv9s/q0LRhO1nhpGSr6usPr3Vtxd0yOLidNNaMMc
+         igZnArlrJ1S5AnRcZH8jZUPx684oaDhgOCt48bZy1ZQrAUBWPq3AIksNiKhk0TvY1PQp
+         RW11ghKBWJacaW4xsugNEPN+12xnXL3M6irjkr33O/cAWXL/wUMVjLGPU5OwW/0/VeOk
+         PHkUaPWQbrK5O0lGlunVeSrWSYTE6X3OLzOKdB4JCeF229QzMIsiXNnUOTBKlKYlk2gn
+         r6Ow==
+X-Gm-Message-State: AAQBX9dAB0Awxxs1H4VATFobFZwnEMNlwUbLtc3B/F4zWH/jI4TeXX2k
+        vgZTeXj03R7dHDvY5+wr4Qf1Lk0gswyZMY74RA==
+X-Google-Smtp-Source: AKy350YZoCywDUVBhRVt0H67teuAx9CW+FCj9ARmbfK2XibL5Z5UEPVhVCnv/dIxeX7eINO95mUrqIM2r7ufZiriPQ==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a17:90a:7308:b0:23f:1caa:233a with
+ SMTP id m8-20020a17090a730800b0023f1caa233amr1734038pjk.1.1680733741709; Wed,
+ 05 Apr 2023 15:29:01 -0700 (PDT)
+Date:   Wed, 05 Apr 2023 22:29:00 +0000
+In-Reply-To: <f0232380-4171-f4d3-f1a6-07993e551b46@redhat.com> (message from
+ David Hildenbrand on Mon, 3 Apr 2023 10:21:48 +0200)
+Mime-Version: 1.0
+Message-ID: <diqzilea0xqr.fsf@ackerleytng-cloudtop.c.googlers.com>
+Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
+        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
+        corbet@lwn.net, dave.hansen@intel.com, ddutile@redhat.com,
+        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
+        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
+        jun.nakajima@intel.com, kirill.shutemov@linux.intel.com,
+        linmiaohe@huawei.com, luto@kernel.org, mail@maciej.szmigiero.name,
+        mhocko@suse.com, michael.roth@amd.com, mingo@redhat.com,
+        naoya.horiguchi@nec.com, pbonzini@redhat.com, qperret@google.com,
+        rppt@kernel.org, seanjc@google.com, shuah@kernel.org,
+        steven.price@arm.com, tabba@google.com, tglx@linutronix.de,
+        vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com,
+        wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org,
+        yu.c.zhang@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 31, 2023 at 5:47=E2=80=AFAM Rob Herring <robh+dt@kernel.org> wr=
-ote:
->
-> On Thu, Mar 30, 2023 at 8:45=E2=80=AFPM David Dai <davidai@google.com> wr=
-ote:
-> >
-> > Add devicetree bindings for a virtual kvm cpufreq driver.
-> >
-> > Co-developed-by: Saravana Kannan <saravanak@google.com>
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > Signed-off-by: David Dai <davidai@google.com>
-> > ---
-> >  .../bindings/cpufreq/cpufreq-virtual-kvm.yaml | 39 +++++++++++++++++++
-> >  1 file changed, 39 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/cpufreq/cpufreq-v=
-irtual-kvm.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/cpufreq/cpufreq-virtual-=
-kvm.yaml b/Documentation/devicetree/bindings/cpufreq/cpufreq-virtual-kvm.ya=
-ml
-> > new file mode 100644
-> > index 000000000000..31e64558a7f1
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/cpufreq/cpufreq-virtual-kvm.yam=
-l
-> > @@ -0,0 +1,39 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/cpufreq/cpufreq-virtual-kvm.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Virtual KVM CPUFreq
-> > +
-> > +maintainers:
-> > +  - David Dai <davidai@google.com>
-> > +
-> > +description: |
-> > +
-> > +  KVM CPUFreq is a virtualized driver in guest kernels that sends util=
-ization
-> > +  of its vCPUs as a hint to the host. The host uses hint to schedule v=
-CPU
-> > +  threads and select CPU frequency. It enables accurate Per-Entity Loa=
-d
-> > +  Tracking for tasks running in the guest by querying host CPU frequen=
-cy
-> > +  unless a virtualized FIE exists(Like AMUs).
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: virtual,kvm-cpufreq
-> > +
-> > +required:
-> > +  - compatible
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    {
-> > +      #address-cells =3D <2>;
-> > +      #size-cells =3D <2>;
-> > +
-> > +      cpufreq {
-> > +            compatible =3D "virtual,kvm-cpufreq";
-> > +      };
->
-> The same thing was tried on non-virtual h/w too. This is not a device
-> so it doesn't go in DT. It is just an abuse of DT as a kernel driver
-> instantiation mechanism.
 
-Because it has no registers it's reading and writing, right? Yeah,
-just went with this for now to make it easy for people to cherry pick
-and test it. Maybe we shouldn't have added documentation and made this
-look too official.
+Thanks for your review!
 
-In the end, I'm expecting this will be a real MMIO device. Until we
-move from RFC to PATCH, feel free to ignore this patch.
+David Hildenbrand <david@redhat.com> writes:
 
--Saravana
+> On 01.04.23 01:50, Ackerley Tng wrote:
+
+>> ...
+
+>> diff --git a/include/uapi/linux/restrictedmem.h  
+>> b/include/uapi/linux/restrictedmem.h
+>> new file mode 100644
+>> index 000000000000..22d6f2285f6d
+>> --- /dev/null
+>> +++ b/include/uapi/linux/restrictedmem.h
+>> @@ -0,0 +1,8 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+>> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
+>> +#define _UAPI_LINUX_RESTRICTEDMEM_H
+>> +
+>> +/* flags for memfd_restricted */
+>> +#define RMFD_USERMNT		0x0001U
+
+> I wonder if we can come up with a more expressive prefix than RMFD.
+> Sounds more like "rm fd" ;) Maybe it should better match the
+> "memfd_restricted" syscall name, like "MEMFD_RSTD_USERMNT".
+
+
+RMFD did actually sound vulgar, I'm good with MEMFD_RSTD_USERMNT!
+
+>> +
+>> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+>> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+>> index c5d869d8c2d8..f7b62364a31a 100644
+>> --- a/mm/restrictedmem.c
+>> +++ b/mm/restrictedmem.c
+>> @@ -1,11 +1,12 @@
+>>    // SPDX-License-Identifier: GPL-2.0
+>> -#include "linux/sbitmap.h"
+
+> Looks like an unrelated change?
+
+
+Will remove this in the next revision.
+
+>> +#include <linux/namei.h>
+>>    #include <linux/pagemap.h>
+>>    #include <linux/pseudo_fs.h>
+>>    #include <linux/shmem_fs.h>
+>>    #include <linux/syscalls.h>
+>>    #include <uapi/linux/falloc.h>
+>>    #include <uapi/linux/magic.h>
+>> +#include <uapi/linux/restrictedmem.h>
+>>    #include <linux/restrictedmem.h>
+
+>>    struct restrictedmem {
+>> @@ -189,19 +190,20 @@ static struct file  
+>> *restrictedmem_file_create(struct file *memfd)
+>>    	return file;
+>>    }
+
+>> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>> +static int restrictedmem_create(struct vfsmount *mount)
+>>    {
+>>    	struct file *file, *restricted_file;
+>>    	int fd, err;
+
+>> -	if (flags)
+>> -		return -EINVAL;
+>> -
+>>    	fd = get_unused_fd_flags(0);
+>>    	if (fd < 0)
+>>    		return fd;
+
+>> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+>> +	if (mount)
+>> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0,  
+>> VM_NORESERVE);
+>> +	else
+>> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+>> +
+>>    	if (IS_ERR(file)) {
+>>    		err = PTR_ERR(file);
+>>    		goto err_fd;
+>> @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int,  
+>> flags)
+>>    	return err;
+>>    }
+
+>> +static bool is_shmem_mount(struct vfsmount *mnt)
+>> +{
+>> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+>> +}
+>> +
+>> +static bool is_mount_root(struct file *file)
+>> +{
+>> +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
+>> +}
+
+> I'd inline at least that function, pretty self-explaining.
+
+
+Will inline this in the next revision.
+
+>> +
+>> +static int restrictedmem_create_on_user_mount(int mount_fd)
+>> +{
+>> +	int ret;
+>> +	struct fd f;
+>> +	struct vfsmount *mnt;
+>> +
+>> +	f = fdget_raw(mount_fd);
+>> +	if (!f.file)
+>> +		return -EBADF;
+>> +
+>> +	ret = -EINVAL;
+>> +	if (!is_mount_root(f.file))
+>> +		goto out;
+>> +
+>> +	mnt = f.file->f_path.mnt;
+>> +	if (!is_shmem_mount(mnt))
+>> +		goto out;
+>> +
+>> +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
+>> +	if (ret)
+>> +		goto out;
+>> +
+>> +	ret = mnt_want_write(mnt);
+>> +	if (unlikely(ret))
+>> +		goto out;
+>> +
+>> +	ret = restrictedmem_create(mnt);
+>> +
+>> +	mnt_drop_write(mnt);
+>> +out:
+>> +	fdput(f);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
+>> +{
+>> +	if (flags & ~RMFD_USERMNT)
+>> +		return -EINVAL;
+>> +
+>> +	if (flags == RMFD_USERMNT) {
+>> +		if (mount_fd < 0)
+>> +			return -EINVAL;
+>> +
+>> +		return restrictedmem_create_on_user_mount(mount_fd);
+>> +	} else {
+>> +		return restrictedmem_create(NULL);
+>> +	}
+
+
+> You can drop the else case:
+
+> if (flags == RMFD_USERMNT) {
+> 	...
+> 	return restrictedmem_create_on_user_mount(mount_fd);
+> }
+> return restrictedmem_create(NULL);
+
+
+I'll be refactoring this to adopt Kirill's suggestion of using a single
+restrictedmem_create(mnt) call.
+
+
+> I do wonder if you want to properly check for a flag instead of
+> comparing values. Results in a more natural way to deal with flags:
+
+> if (flags & RMFD_USERMNT) {
+
+> }
+
+
+Will use this in the next revision.
+
+>> +}
+>> +
+>>    int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+>>    		       struct restrictedmem_notifier *notifier, bool exclusive)
+>>    {
+
+> The "memfd_restricted" vs. "restrictedmem" terminology is a bit
+> unfortunate, but not your fault here.
+
+
+> I'm not a FS person, but it does look good to me.
