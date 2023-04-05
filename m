@@ -2,186 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 077B2C761A6
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 14:31:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17410C76188
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 14:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238184AbjDEObk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 10:31:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39592 "EHLO
+        id S238400AbjDEOiR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 10:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238037AbjDEObj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 10:31:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2ED2C1;
-        Wed,  5 Apr 2023 07:31:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F8C762685;
-        Wed,  5 Apr 2023 14:31:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ACCAC4339B;
-        Wed,  5 Apr 2023 14:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680705092;
-        bh=zSAJvHpnJ4t5+N5rlPStNtw8kt3Pvqahl38JBpYY8G0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UA05BQCDFOlATRVQf6u1KpRp0bUorSfIjan7xcEWrovcLCtG6gNGf4096NaaFpr2s
-         /NErwGnTgYtFy7ZdM1i3tquxq7hjpC7wmlV/TgnIJRKIV1zF9lu4CP5c8oe5KWAPHQ
-         77r0V/i0nWcoazrEjCoyt7/BUVuUxRkvmgtkAr2FDL554YVLCeL8LL8MAUxVvd56xW
-         HSEjZG/XTAXMZ8qANPYHf87Ju78DBpuPGv0tiGZtDTnsJuQVELo9YGtEi7XFG0cTuO
-         7prRmTBPrYhuaCNo5CQeQaue1Clx1elgq7OvAyjF9XJ8U7qcdmsWp05Vs6w78hkng0
-         eI+P4ShYUl+zQ==
-Date:   Wed, 5 Apr 2023 15:31:24 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        llvm@lists.linux.dev,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Tom Rix <trix@redhat.com>, Weili Qian <qianweili@huawei.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Len Brown <lenb@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>
-Subject: Re: [PATCH V4 13/23] RISC-V: cpufeature: Add ACPI support in
- riscv_fill_hwcap()
-Message-ID: <20230405-compel-slinky-2fe11b4bf0b3@spud>
-References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-14-sunilvl@ventanamicro.com>
- <20230404-promotion-scarce-7c69ff7e5f99@spud>
- <ZC15LqYqLzmiVdcr@sunil-laptop>
+        with ESMTP id S238215AbjDEOiC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 10:38:02 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B74340C4;
+        Wed,  5 Apr 2023 07:38:00 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 335AribA010049;
+        Wed, 5 Apr 2023 14:28:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=3+J+WKwJGaERCF/cnsSlj71w8+3ldjXzGdTHoHIh6AI=;
+ b=A3BFHsRxaOrmF8TsuFi0dBSkIawJB7IFuN1mAt/qmpNC+g6Vjze1WMaWRP7vX2phSPSq
+ SHAZaQIYdAeStitUu2h+fEkvJ31m5T+SJQUIXGXe7HZvkwkGbG0pR0SnQvz8ZQ/ufUTN
+ KjuShWcMxitGG6NPBv5pVQf0UV9ArmQU2LCqus1Zo+6LiH/PZ5rLXYpFduP3WcFAO/aO
+ gi+Kl2ET362ABoBbqUzY/ILTIp3JUN+lAtYR8b9FVfA1ugyBspI/U9V0KNdS/q3QMVy3
+ qK3BUzYBVoVt1cJaIHEZfCSIPb90PZltLwdAp8NQcAdQqVBTBT/4FJmolxXeNrQ3YVWX Pg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ps6vf8hsk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 14:28:36 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335ESZaq015621
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 5 Apr 2023 14:28:35 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 5 Apr 2023
+ 07:28:34 -0700
+Message-ID: <32ee0be5-99cf-7b0b-e195-73c6ef3294af@quicinc.com>
+Date:   Wed, 5 Apr 2023 08:28:33 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="G5/7scijW3x9IuES"
-Content-Disposition: inline
-In-Reply-To: <ZC15LqYqLzmiVdcr@sunil-laptop>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v5 0/8] QAIC accel driver
+Content-Language: en-US
+To:     Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>
+CC:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+        <airlied@gmail.com>, <mani@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <quic_ajitpals@quicinc.com>,
+        <quic_pkanojiy@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
+        <quic_carlv@quicinc.com>, <bagasdotme@gmail.com>
+References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
+ <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
+ <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
+ <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
+ <ZC13QdSRybIe3nvk@phenom.ffwll.local>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <ZC13QdSRybIe3nvk@phenom.ffwll.local>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: oCZyWxozG6cGObvtRA7frcoRXqAvts0d
+X-Proofpoint-ORIG-GUID: oCZyWxozG6cGObvtRA7frcoRXqAvts0d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_09,2023-04-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304050131
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 4/5/2023 7:27 AM, Daniel Vetter wrote:
+> On Wed, Apr 05, 2023 at 03:35:19PM +0300, Oded Gabbay wrote:
+>> On Wed, Apr 5, 2023 at 2:26 PM Jacek Lawrynowicz
+>> <jacek.lawrynowicz@linux.intel.com> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On 03.04.2023 19:22, Jeffrey Hugo wrote:
+>>>> On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
+>>>>> This series introduces a driver under the accel subsystem (QAIC -
+>>>>> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
+>>>>> a PCIe adapter card that hosts a dedicated machine learning inference
+>>>>> accelerator.
+>>>>>
+>>>>> The previous version (v4) can be found at:
+>>>>> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
+>>>>
+>>>> Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
+>>>>
+>>>> I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
+>>>>
+>>>> Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
+>>>
+>>> I'm would be happy to merge it but I think it needs to be acked by Oded first.
+>>>
+>>> Regards,
+>>> Jacek
+>>
+>> Hi,
+>> Entire patch-set is:
+>> Acked-by: Oded Gabbay <ogabbay@kernel.org>
+> 
+> Once Jacke has pushed this I htink it would also be good to get Jeffrey
+> commit rights for drm-misc, so that in the future bugfixes for the qaic
+> driver can be pushed directly by the qaic team. Still with acks/r-b
+> requirements as per usual, and I guess for anything bigger/new uapi an ack
+> from oded is needed.
+> 
+> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
+> 
+> Cheers, Daniel
 
---G5/7scijW3x9IuES
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yep.  This is the plan per my understanding.
 
-On Wed, Apr 05, 2023 at 07:05:42PM +0530, Sunil V L wrote:
-> On Tue, Apr 04, 2023 at 09:57:19PM +0100, Conor Dooley wrote:
-> > On Tue, Apr 04, 2023 at 11:50:27PM +0530, Sunil V L wrote:
-> > > On ACPI based systems, the information about the hart
-> > > like ISA is provided by the RISC-V Hart Capabilities Table (RHCT).
-> > > Enable filling up hwcap structure based on the information in RHCT.
-> > >=20
-> > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > > ---
-> > >  arch/riscv/kernel/cpufeature.c | 39 ++++++++++++++++++++++++++++++--=
---
-> > >  1 file changed, 35 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufe=
-ature.c
-> > > index 63e56ce04162..5d2065b937e5 100644
-> > > --- a/arch/riscv/kernel/cpufeature.c
-> > > +++ b/arch/riscv/kernel/cpufeature.c
-> > > @@ -6,6 +6,7 @@
-> > >   * Copyright (C) 2017 SiFive
-> > >   */
-> > > =20
-> > > +#include <linux/acpi.h>
-> > >  #include <linux/bitmap.h>
-> > >  #include <linux/ctype.h>
-> > >  #include <linux/libfdt.h>
-> > > @@ -13,6 +14,8 @@
-> > >  #include <linux/memory.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/of.h>
-> > > +#include <linux/of_device.h>
-> > > +#include <asm/acpi.h>
-> > >  #include <asm/alternative.h>
-> > >  #include <asm/cacheflush.h>
-> > >  #include <asm/errata_list.h>
-> > > @@ -91,6 +94,9 @@ void __init riscv_fill_hwcap(void)
-> > >  	char print_str[NUM_ALPHA_EXTS + 1];
-> > >  	int i, j, rc;
-> > >  	unsigned long isa2hwcap[26] =3D {0};
-> > > +	struct acpi_table_header *rhct;
-> > > +	acpi_status status;
-> > > +	unsigned int cpu;
-> > > =20
-> > >  	isa2hwcap['i' - 'a'] =3D COMPAT_HWCAP_ISA_I;
-> > >  	isa2hwcap['m' - 'a'] =3D COMPAT_HWCAP_ISA_M;
-> > > @@ -103,14 +109,36 @@ void __init riscv_fill_hwcap(void)
-> > > =20
-> > >  	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
-> > > =20
-> > > -	for_each_of_cpu_node(node) {
-> > > +	if (!acpi_disabled) {
-> > > +		status =3D acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
-> > > +		if (ACPI_FAILURE(status))
-> > > +			return;
-> > > +	}
-> > > +
-> > > +	for_each_possible_cpu(cpu) {
-> > >  		unsigned long this_hwcap =3D 0;
-> > >  		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
-> > >  		const char *temp;
-> > > =20
-> > > -		if (of_property_read_string(node, "riscv,isa", &isa)) {
-> > > -			pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
-> > > -			continue;
-> > > +		if (acpi_disabled) {
-> > > +			node =3D of_cpu_device_node_get(cpu);
-> > > +			if (node) {
-> > > +				rc =3D of_property_read_string(node, "riscv,isa", &isa);
-> >=20
-> > Hmm, after digging in the previous patch, I think this is actually not
-> > possible to fail? We already validated it when setting up the mask of
-> > possible cpus, but I think leaving the error handling here makes things
-> > a lot more obvious.
-> >=20
-> Yeah, do you prefer to merge these patches again since only in this
-> patch, we change the loop to for_each_possible_cpu() from
-> for_each_of_cpu_node() which actually makes riscv_of_processor_hartid()
-> not useful?
-
-Yah, all 3 of us mistakenly thought that that was an unrelated cleanup
-on the last revision, but clearly it is not.
-Squash it back IMO, sorry for my part in the extra work generated.
-
-Cheers,
-Conor.
-
->=20
-> > I'd swear I gave you a (conditional) R-b on v3 though, no?
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-
---G5/7scijW3x9IuES
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZC2GOAAKCRB4tDGHoIJi
-0rnsAP0cgFLWkLbUrSntzAuLfoBAltCrodxxTLrayMe+WsSAOgEA0umoMwKzM2ox
-W+uIW/1axAfQExBp1IRIgO1BnHHRKAE=
-=CYcq
------END PGP SIGNATURE-----
-
---G5/7scijW3x9IuES--
+-Jeff
