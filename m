@@ -2,147 +2,250 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB75C77B6C
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Apr 2023 22:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FB9FC761A6
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 01:02:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236424AbjDDWJx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 18:09:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
+        id S235182AbjDEBCl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 21:02:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236581AbjDDWJw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 18:09:52 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42963421F;
-        Tue,  4 Apr 2023 15:09:50 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id j13so32066920pjd.1;
-        Tue, 04 Apr 2023 15:09:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680646190;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FhW41Lz+Mez52y9+7Sqb35hmOmVdAZ3fg2uw11nAPAE=;
-        b=gUnEta5Yb6BtuCcTbAobNapAGPwc0djL/m8TaRV6zg1dmzIbN9ViSxcJdaPoUxzS4b
-         lqAg8chb72IJSS+FDlhtOK8Q6TNt1dX6HhF5uUTVwsIiKbA7yXZaggFVpSNKPB/kpfG5
-         UGE6OA1h2UEWP7hBlWDMJIm6VAA88W4h5iUein/TQ4pBlGSVHPr+4gtWEGZz1NccX+1O
-         pzrByG745s8cPaG1Bv9BjxgAeCG+TOnfx7Zf8ZthRcuoQ7uY/PzreoHfTKIwH39L6NMf
-         +ihHktT0J0n+iD3LRnqvnglDvtpJ0jraXnTyclvvFj3bOpjrIKalZFNddiclc0ueDpSP
-         hxZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680646190;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FhW41Lz+Mez52y9+7Sqb35hmOmVdAZ3fg2uw11nAPAE=;
-        b=CrGrfHtBlvOjjTF4xStir0n6IHEnpwk3c3p5eO2cvlgiQBpqqsEyjqfDBMM3joe5qG
-         wRZopbF0XAfy0CnoEAghgb+GkQ3ZRkk2bor9fCvOCYfhdAWAso+xFNX1nU29fbt9IA5+
-         nKxWq5kCGr6inhS1j9pJrybfQwtwYqOO0LucM2SkCTFEg/Mnedk0YoXhQtR62FmH/D4f
-         U+89JyTOkp1mdXLBAxMKPP8x2AInWn3BANFPxu7g00JJV0fRiAZtwR6kvzNELpQqdifj
-         v5sOZ0obEfKV62ewg+7YvBUw/1fdQ74J8jtksoeCmu5I81OHtmtdwmbxF2I4p1mGfZ4L
-         jC1Q==
-X-Gm-Message-State: AAQBX9dY5SJI6FRkol+3Rv5sY3RsdJDF7XBcvF9TqKOr51m220K4M4XH
-        aEJOX7WDa8AhcjNP8G5me1EKYZ9diAyeVLtwZrY=
-X-Google-Smtp-Source: AKy350bBMyaLkYHcsUf3JTXKneddX4ZVx0+3AX9RSmsTAdcXvoVPs11LPU8Ekd9MaEE01X2e0f3RDUQs/sOmoWXiTBE=
-X-Received: by 2002:a17:90b:e09:b0:240:228:95bd with SMTP id
- ge9-20020a17090b0e0900b00240022895bdmr1533929pjb.5.1680646189645; Tue, 04 Apr
- 2023 15:09:49 -0700 (PDT)
+        with ESMTP id S234826AbjDEBCk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 21:02:40 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5FA1BDB;
+        Tue,  4 Apr 2023 18:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680656559; x=1712192559;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=VTZFveUQpDbclsXRnRVZlD4esgdY08CT/2up92QJ1xY=;
+  b=MNYd0BE7fHB1TbfRGVMzeaR2jJe1zu2b2iKVSzViQPZyxV2A1hPsQkM6
+   jHxkV884eT3sKenIoIBPo1zByU7TZyv7ZW2I4BhbO4WtvdV3q4zgn/P8Z
+   BFvDx4RYqf5uqSE3CslAO2gkIhl5s6jtXc8JKvHn/VJ+xUkojcCmav4lY
+   H1g492VjMjcMbHmqzHF+HzzsvtEYXYLosa0TP0U3KLf/NIgj26SEfa/pn
+   M9BryCRxupUozpLXwSc6DSkv1B7HihhiJoQhLiGDTPOvGWHjZyRLg2lKy
+   tzKl/nr1D+oMPbSVHn5clrFn+Ex+pqEAWWY6qwJD/dDuFJEUxwtnrZ0J+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="341068172"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="341068172"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 18:02:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="810456316"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="810456316"
+Received: from evo-mobl.amr.corp.intel.com (HELO [10.212.179.129]) ([10.212.179.129])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 18:02:37 -0700
+Message-ID: <e90d74cb-3220-e34d-81b4-5a15cdb2eb01@linux.intel.com>
+Date:   Tue, 4 Apr 2023 18:02:37 -0700
 MIME-Version: 1.0
-References: <20230404084308.813-1-zhangqing@loongson.cn>
-In-Reply-To: <20230404084308.813-1-zhangqing@loongson.cn>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Wed, 5 Apr 2023 00:09:38 +0200
-Message-ID: <CA+fCnZentBDXuyyrZFzPLpt8Vdfo7YyAyxbgb506LFrR+v-D9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] kasan: Add __HAVE_ARCH_SHADOW_MAP to support arch
- specific mapping
-To:     Qing Zhang <zhangqing@loongson.cn>
-Cc:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, loongarch@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [PATCH v1 1/3] x86/tdx: Add TDX Guest event notify interrupt
+ support
+Content-Language: en-US
+To:     "Huang, Kai" <kai.huang@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>, "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>
+Cc:     "Yu, Guorui" <guorui.yu@linux.alibaba.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "wander@redhat.com" <wander@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>, "Du, Fan" <fan.du@intel.com>,
+        "Aktas, Erdem" <erdemaktas@google.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20230326062039.341479-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20230326062039.341479-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <3c88945515eba868056906f4a269e6ffcf49e1ec.camel@intel.com>
+ <c49727dc-1fe8-2214-07c7-e3be269030af@linux.intel.com>
+ <7aeac332d8be1e99d78997638354342dc55dfe8e.camel@intel.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <7aeac332d8be1e99d78997638354342dc55dfe8e.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 4, 2023 at 10:43=E2=80=AFAM Qing Zhang <zhangqing@loongson.cn> =
-wrote:
->
-> Like the LoongArch, which has many holes between different segments
-> and valid address space(256T available) is insufficient to map all
-> these segments to kasan shadow memory with the common formula provided
-> by kasan core, We need architecture specific mapping formula,different
-> segments are mapped individually, and only limited length of space of
-> that specific segment is mapped to shadow.
->
-> Therefore, when the incoming address is converted to a shadow, we need
-> to add a condition to determine whether it is valid.
->
-> Signed-off-by: Qing Zhang <zhangqing@loongson.cn>
-> ---
->  include/linux/kasan.h | 2 ++
->  mm/kasan/kasan.h      | 6 ++++++
->  2 files changed, 8 insertions(+)
->
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index f7ef70661ce2..3b91b941873d 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -54,11 +54,13 @@ extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D]=
-;
->  int kasan_populate_early_shadow(const void *shadow_start,
->                                 const void *shadow_end);
->
-> +#ifndef __HAVE_ARCH_SHADOW_MAP
->  static inline void *kasan_mem_to_shadow(const void *addr)
->  {
->         return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
->                 + KASAN_SHADOW_OFFSET;
->  }
-> +#endif
->
->  int kasan_add_zero_shadow(void *start, unsigned long size);
->  void kasan_remove_zero_shadow(void *start, unsigned long size);
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index a61eeee3095a..033335c13b25 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -291,16 +291,22 @@ struct kasan_stack_ring {
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->
-> +#ifndef __HAVE_ARCH_SHADOW_MAP
->  static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
->  {
->         return (void *)(((unsigned long)shadow_addr - KASAN_SHADOW_OFFSET=
-)
->                 << KASAN_SHADOW_SCALE_SHIFT);
->  }
-> +#endif
->
->  static __always_inline bool addr_has_metadata(const void *addr)
->  {
-> +#ifdef __HAVE_ARCH_SHADOW_MAP
-> +       return (kasan_mem_to_shadow((void *)addr) !=3D NULL);
-> +#else
->         return (kasan_reset_tag(addr) >=3D
->                 kasan_shadow_to_mem((void *)KASAN_SHADOW_START));
-> +#endif
->  }
->
->  /**
-> --
-> 2.20.1
->
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
 
-Thanks!
+On 3/27/23 9:02 PM, Huang, Kai wrote:
+> On Mon, 2023-03-27 at 19:50 -0700, Sathyanarayanan Kuppuswamy wrote:
+>> Hi Kai,
+>>
+>> On 3/27/23 7:38 PM, Huang, Kai wrote:
+>>>> +/* Reserve an IRQ from x86_vector_domain for TD event notification */
+>>>> +static int __init tdx_event_irq_init(void)
+>>>> +{
+>>>> +	struct irq_alloc_info info;
+>>>> +	cpumask_t saved_cpumask;
+>>>> +	struct irq_cfg *cfg;
+>>>> +	int cpu, irq;
+>>>> +
+>>>> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
+>>>> +		return 0;
+>>>> +
+>>>> +	init_irq_alloc_info(&info, NULL);
+>>>> +
+>>>> +	/*
+>>>> +	 * Event notification vector will be delivered to the CPU
+>>>> +	 * in which TDVMCALL_SETUP_NOTIFY_INTR hypercall is requested.
+>>>> +	 * So set the IRQ affinity to the current CPU.
+>>>> +	 */
+>>>> +	cpu = get_cpu();
+>>>> +	cpumask_copy(&saved_cpumask, current->cpus_ptr);
+>>>> +	info.mask = cpumask_of(cpu);
+>>>> +	put_cpu();
+>>> The 'saved_cpumask' related code is ugly.  If you move put_cpu() to the end of
+>>> this function, I think you can remove all related code:
+>>>
+>>> 	cpu = get_cpu();
+>>>
+>>> 	/*
+>>> 	 * Set @info->mask to local cpu to make sure a valid vector is
+>>> 	 * pre-allocated when TDX event notification IRQ is allocated
+>>> 	 * from x86_vector_domain.
+>>> 	 */
+>>> 	init_irq_alloc_info(&info, cpumask_of(cpu));
+>>>
+>>> 	// rest staff: request_irq(), hypercall ...
+>>>
+>>> 	put_cpu();
+>>> 	
+>>
+>> init_irq_alloc_info() is a sleeping function. Since get_cpu() disables
+>> preemption, we cannot call sleeping function after it. Initially, I
+>> have implemented it like you have mentioned. However, I discovered the
+>> following error.
+> 
+> Oh sorry I forgot this.  So I think we should use migrate_disable() instead:
+> 
+> 	migrate_disable();
+> 
+> 	init_irq_alloc_info(&info, cpumask_of(smp_processor_id()));
+> 
+> 	...
+> 
+> 	migrate_enable();
+> 
+> Or, should we just use early_initcall() so that only BSP is running?  IMHO it's
+> OK to always allocate the vector from BSP.
+> 
+> Anyway, either way is fine to me.
+
+Final version looks like below. 
+
+static int __init tdx_event_irq_init(void)
+{
+        struct irq_alloc_info info;
+        struct irq_cfg *cfg;
+        int irq;
+
+        if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
+                return 0;
+
+        init_irq_alloc_info(&info, NULL);
+
+        /*
+         * Event notification vector will be delivered to the CPU
+         * in which TDVMCALL_SETUP_NOTIFY_INTR hypercall is requested.
+         * So set the IRQ affinity to the current CPU.
+         */
+        info.mask = cpumask_of(0);
+
+        irq = irq_domain_alloc_irqs(x86_vector_domain, 1, cpu_to_node(0), &info);
+        if (irq <= 0) {
+                pr_err("Event notification IRQ allocation failed %d\n", irq);
+                return -EIO;
+        }
+
+        irq_set_handler(irq, handle_edge_irq);
+
+        /* Since the IRQ affinity is set, it cannot be balanced */
+        if (request_irq(irq, tdx_event_irq_handler, IRQF_NOBALANCING,
+                        "tdx_event_irq", NULL)) {
+                pr_err("Event notification IRQ request failed\n");
+                goto err_free_domain_irqs;
+        }
+
+        cfg = irq_cfg(irq);
+
+        /*
+         * Since tdx_event_irq_init() is triggered via early_initcall(),
+         * it will called before secondary CPUs bringup. Since there is
+         * only one CPU, it complies with the requirement of executing
+         * the TDVMCALL_SETUP_NOTIFY_INTR hypercall on the same CPU where
+         * the IRQ vector is allocated.
+         *
+         * Register callback vector address with VMM. More details
+         * about the ABI can be found in TDX Guest-Host-Communication
+         * Interface (GHCI), sec titled
+         * "TDG.VP.VMCALL<SetupEventNotifyInterrupt>".
+         */
+        if (_tdx_hypercall(TDVMCALL_SETUP_NOTIFY_INTR, cfg->vector, 0, 0, 0)) {
+                pr_err("Event notification hypercall failed\n");
+                goto err_free_irqs;
+        }
+
+        tdx_event_irq = irq;
+
+        return 0;
+
+err_free_irqs:
+        free_irq(irq, NULL);
+err_free_domain_irqs:
+        irq_domain_free_irqs(irq, 1);
+
+        return -EIO;
+}
+early_initcall(tdx_event_irq_init)
+
+
+> 
+>>
+>> [    2.400755] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:580
+>> [    2.404664] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
+>> [    2.408671] preempt_count: 1, expected: 0
+>> [    2.412650] RCU nest depth: 0, expected: 0
+>> [    2.412666] no locks held by swapper/0/1.
+>> [    2.416650] Preemption disabled at:
+>> [    2.416650] [<ffffffff83b8089f>] tdx_arch_init+0x38/0x117
+>> [    2.420670] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc4-00117-g672ca073d9f9-dirty #2527
+>> [    2.424650] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+>> [    2.424650] Call Trace:
+>> [    2.424650]  <TASK>
+>> [    2.424650]  dump_stack_lvl+0x6a/0x86
+>> [    2.424650]  __might_resched.cold+0xf4/0x12f
+>> [    2.424650]  __mutex_lock+0x50/0x810
+>> [    2.424650]  ? lock_is_held_type+0xd8/0x130
+>> [    2.424650]  ? __irq_alloc_descs+0xcf/0x310
+>> [    2.424650]  ? find_held_lock+0x2b/0x80
+>> [    2.424650]  ? __irq_alloc_descs+0xcf/0x310
+>> [    2.424650]  __irq_alloc_descs+0xcf/0x310
+>> [    2.424650]  irq_domain_alloc_descs.part.0+0x49/0xa0
+>> [    2.424650]  __irq_domain_alloc_irqs+0x2a0/0x4f0
+>> [    2.424650]  ? next_arg+0x129/0x1f0
+>> [    2.424650]  ? tdx_guest_init+0x5b/0x5b
+>> [    2.424650]  tdx_arch_init+0x8e/0x117
+>> [    2.424650]  do_one_initcall+0x137/0x2ec
+>> [    2.424650]  ? rcu_read_lock_sched_held+0x36/0x60
+>> [    2.424650]  kernel_init_freeable+0x1e3/0x241
+>> [    2.424650]  ? rest_init+0x1a0/0x1a0
+>> [    2.424650]  kernel_init+0x17/0x170
+>> [    2.424650]  ? rest_init+0x1a0/0x1a0
+>> [    2.424650]  ret_from_fork+0x1f/0x30
+>> [    2.424650]  </TASK>
+> 
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
