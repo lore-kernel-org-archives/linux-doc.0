@@ -2,250 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FB9FC761A6
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 01:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E91FC6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 02:24:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235182AbjDEBCl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Apr 2023 21:02:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42528 "EHLO
+        id S236202AbjDECYv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Apr 2023 22:24:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234826AbjDEBCk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 21:02:40 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5FA1BDB;
-        Tue,  4 Apr 2023 18:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680656559; x=1712192559;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=VTZFveUQpDbclsXRnRVZlD4esgdY08CT/2up92QJ1xY=;
-  b=MNYd0BE7fHB1TbfRGVMzeaR2jJe1zu2b2iKVSzViQPZyxV2A1hPsQkM6
-   jHxkV884eT3sKenIoIBPo1zByU7TZyv7ZW2I4BhbO4WtvdV3q4zgn/P8Z
-   BFvDx4RYqf5uqSE3CslAO2gkIhl5s6jtXc8JKvHn/VJ+xUkojcCmav4lY
-   H1g492VjMjcMbHmqzHF+HzzsvtEYXYLosa0TP0U3KLf/NIgj26SEfa/pn
-   M9BryCRxupUozpLXwSc6DSkv1B7HihhiJoQhLiGDTPOvGWHjZyRLg2lKy
-   tzKl/nr1D+oMPbSVHn5clrFn+Ex+pqEAWWY6qwJD/dDuFJEUxwtnrZ0J+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="341068172"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="341068172"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 18:02:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="810456316"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="810456316"
-Received: from evo-mobl.amr.corp.intel.com (HELO [10.212.179.129]) ([10.212.179.129])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 18:02:37 -0700
-Message-ID: <e90d74cb-3220-e34d-81b4-5a15cdb2eb01@linux.intel.com>
-Date:   Tue, 4 Apr 2023 18:02:37 -0700
+        with ESMTP id S230455AbjDECYu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Apr 2023 22:24:50 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6089E1FDC;
+        Tue,  4 Apr 2023 19:24:40 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id c18so33085061ple.11;
+        Tue, 04 Apr 2023 19:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680661480;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9QNbM9lP47YBzDxJmWKWYEJzZC9ZIOjbZpNDsjzB1/E=;
+        b=Xihw6CgZ9/9usz7a8VJsWY8rfqP+LOYjs7G3CCcJY+RprHUpGDw82g//kV+M/lN2eN
+         MCKYQ+HhvY5W1cSsIACkXEtTwItPP3atD7PSnn6CY3edFU7fRlyEpyLbrZYs5XvWXdKy
+         t9elDA+lhxpC06IPynnlGlvRp14mdfczCSvYnTbh9qn3oESdwAnGclujGnTFKq1PvYHe
+         UNDDXArlN2SssUcwAIha7XxGo6wmqlEvq3mMQaulR81DCsd7RPPSH6PKtAexQR7gj6dj
+         3c+zp0QURkwJcGXiXIAuMESlFidSs+6E6PbTvTKTDji9VpvU3LDj2Ttziz8wU064/qwl
+         Zonw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680661480;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9QNbM9lP47YBzDxJmWKWYEJzZC9ZIOjbZpNDsjzB1/E=;
+        b=4lHcdDcU+kVkqi3c8yjTzXgbF5KWrrxDG0ZvG+z7Yqq2/nUytX09hE3RcbBmOk1mon
+         mGliFZIbRvM1ifPWww13EcQslHE/dsMtxDlExyOKiQ/N7XtBCDKGB83K9RTJfOZWHmbX
+         BSCJKvTFJ6sdNpsTs0qAOE7s//aAoO7ocQ9qB4GA7gXmnngrIJpEorDv5TRkXyNCXxMS
+         tcJzD0vl5vChBEmNGiuMxHXGgxWau2fIQZOY6JAuE13nFzF4jTwX625OhEF3DYH7wAG9
+         j/sUPbzHv4zCAYbS+v0aX20AfzjK57XirEXRyA3Hu32vsGuLzofrcDOtlsOJ4i8+KIUV
+         dk7g==
+X-Gm-Message-State: AAQBX9dXt7pAKbxR00URXFVSrumboZk0+ORyaV5FpjFsNz52ZfXm3oUB
+        k+/PilDtGY8k9qU/cACcYDg=
+X-Google-Smtp-Source: AKy350YC3ggg9qLvnDzmFothcUSjAQpi7xNqcwvsbbun0pCTYz8A4L5T/wFudH3EGQ7zlYXf1Kpd3g==
+X-Received: by 2002:a05:6a20:659c:b0:da:c40:8dc with SMTP id p28-20020a056a20659c00b000da0c4008dcmr4172153pzh.6.1680661479619;
+        Tue, 04 Apr 2023 19:24:39 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-18.three.co.id. [180.214.232.18])
+        by smtp.gmail.com with ESMTPSA id x9-20020aa793a9000000b005898fcb7c1bsm9679454pff.177.2023.04.04.19.24.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Apr 2023 19:24:39 -0700 (PDT)
+Message-ID: <364610b8-2c40-6a71-513e-4e154b077055@gmail.com>
+Date:   Wed, 5 Apr 2023 09:24:30 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.0
-Subject: Re: [PATCH v1 1/3] x86/tdx: Add TDX Guest event notify interrupt
- support
+ Thunderbird/102.9.1
+Subject: Re: [PATCH V4 06/10] hte: Re-phrase tegra API document
 Content-Language: en-US
-To:     "Huang, Kai" <kai.huang@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>, "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>
-Cc:     "Yu, Guorui" <guorui.yu@linux.alibaba.com>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "wander@redhat.com" <wander@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Luck, Tony" <tony.luck@intel.com>, "Du, Fan" <fan.du@intel.com>,
-        "Aktas, Erdem" <erdemaktas@google.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20230326062039.341479-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20230326062039.341479-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <3c88945515eba868056906f4a269e6ffcf49e1ec.camel@intel.com>
- <c49727dc-1fe8-2214-07c7-e3be269030af@linux.intel.com>
- <7aeac332d8be1e99d78997638354342dc55dfe8e.camel@intel.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <7aeac332d8be1e99d78997638354342dc55dfe8e.camel@intel.com>
+To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+References: <20230323012929.10815-1-dipenp@nvidia.com>
+ <20230323012929.10815-7-dipenp@nvidia.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230323012929.10815-7-dipenp@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 3/27/23 9:02 PM, Huang, Kai wrote:
-> On Mon, 2023-03-27 at 19:50 -0700, Sathyanarayanan Kuppuswamy wrote:
->> Hi Kai,
->>
->> On 3/27/23 7:38 PM, Huang, Kai wrote:
->>>> +/* Reserve an IRQ from x86_vector_domain for TD event notification */
->>>> +static int __init tdx_event_irq_init(void)
->>>> +{
->>>> +	struct irq_alloc_info info;
->>>> +	cpumask_t saved_cpumask;
->>>> +	struct irq_cfg *cfg;
->>>> +	int cpu, irq;
->>>> +
->>>> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
->>>> +		return 0;
->>>> +
->>>> +	init_irq_alloc_info(&info, NULL);
->>>> +
->>>> +	/*
->>>> +	 * Event notification vector will be delivered to the CPU
->>>> +	 * in which TDVMCALL_SETUP_NOTIFY_INTR hypercall is requested.
->>>> +	 * So set the IRQ affinity to the current CPU.
->>>> +	 */
->>>> +	cpu = get_cpu();
->>>> +	cpumask_copy(&saved_cpumask, current->cpus_ptr);
->>>> +	info.mask = cpumask_of(cpu);
->>>> +	put_cpu();
->>> The 'saved_cpumask' related code is ugly.  If you move put_cpu() to the end of
->>> this function, I think you can remove all related code:
->>>
->>> 	cpu = get_cpu();
->>>
->>> 	/*
->>> 	 * Set @info->mask to local cpu to make sure a valid vector is
->>> 	 * pre-allocated when TDX event notification IRQ is allocated
->>> 	 * from x86_vector_domain.
->>> 	 */
->>> 	init_irq_alloc_info(&info, cpumask_of(cpu));
->>>
->>> 	// rest staff: request_irq(), hypercall ...
->>>
->>> 	put_cpu();
->>> 	
->>
->> init_irq_alloc_info() is a sleeping function. Since get_cpu() disables
->> preemption, we cannot call sleeping function after it. Initially, I
->> have implemented it like you have mentioned. However, I discovered the
->> following error.
+On 3/23/23 08:29, Dipen Patel wrote:
+> Make Tegra194 API document generic to make it applicable for
+> current and future tegra hte providers.
 > 
-> Oh sorry I forgot this.  So I think we should use migrate_disable() instead:
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> ---
+>  Documentation/driver-api/hte/tegra194-hte.rst | 33 +++++++++----------
+>  1 file changed, 16 insertions(+), 17 deletions(-)
 > 
-> 	migrate_disable();
-> 
-> 	init_irq_alloc_info(&info, cpumask_of(smp_processor_id()));
-> 
-> 	...
-> 
-> 	migrate_enable();
-> 
-> Or, should we just use early_initcall() so that only BSP is running?  IMHO it's
-> OK to always allocate the vector from BSP.
-> 
-> Anyway, either way is fine to me.
 
-Final version looks like below. 
+While generalizing the doc, the doc file name should also be renamed
+(i.e. to tegra-hte.rst).
 
-static int __init tdx_event_irq_init(void)
-{
-        struct irq_alloc_info info;
-        struct irq_cfg *cfg;
-        int irq;
+> diff --git a/Documentation/driver-api/hte/tegra194-hte.rst b/Documentation/driver-api/hte/tegra194-hte.rst
+> index f2d617265546..85e654772782 100644
+> --- a/Documentation/driver-api/hte/tegra194-hte.rst
+> +++ b/Documentation/driver-api/hte/tegra194-hte.rst
+> @@ -5,25 +5,25 @@ HTE Kernel provider driver
+>  
+>  Description
+>  -----------
+> -The Nvidia tegra194 HTE provider driver implements two GTE
+> -(Generic Timestamping Engine) instances: 1) GPIO GTE and 2) LIC
+> -(Legacy Interrupt Controller) IRQ GTE. Both GTE instances get the
+> -timestamp from the system counter TSC which has 31.25MHz clock rate, and the
+> -driver converts clock tick rate to nanoseconds before storing it as timestamp
+> -value.
+> +The Nvidia tegra HTE provider also known as GTE (Generic Timestamping Engine)
+> +driver implements two GTE instances: 1) GPIO GTE and 2) LIC
+> +(Legacy Interrupt Controller) IRQ GTE. Both GTE instances get the timestamp
+> +from the system counter TSC which has 31.25MHz clock rate, and the driver
+> +converts clock tick rate to nanoseconds before storing it as timestamp value.
+>  
+>  GPIO GTE
+>  --------
+>  
+>  This GTE instance timestamps GPIO in real time. For that to happen GPIO
+> -needs to be configured as input. The always on (AON) GPIO controller instance
+> -supports timestamping GPIOs in real time and it has 39 GPIO lines. The GPIO GTE
+> -and AON GPIO controller are tightly coupled as it requires very specific bits
+> -to be set in GPIO config register before GPIO GTE can be used, for that GPIOLIB
+> -adds two optional APIs as below. The GPIO GTE code supports both kernel
+> -and userspace consumers. The kernel space consumers can directly talk to HTE
+> -subsystem while userspace consumers timestamp requests go through GPIOLIB CDEV
+> -framework to HTE subsystem.
+> +needs to be configured as input. Only the always on (AON) GPIO controller
+> +instance supports timestamping GPIOs in real time as it is tightly coupled with
+> +the GPIO GTE. To support this, GPIOLIB adds two optional APIs as mentioned
+> +below. The GPIO GTE code supports both kernel and userspace consumers. The
+> +kernel space consumers can directly talk to HTE subsystem while userspace
+> +consumers timestamp requests go through GPIOLIB CDEV framework to HTE
+> +subsystem. The hte devicetree binding described at
+> +``Documentation/devicetree/bindings/timestamp`` provides an example of how a
+> +consumer can request an GPIO line.
+>  
+>  See gpiod_enable_hw_timestamp_ns() and gpiod_disable_hw_timestamp_ns().
+>  
+> @@ -34,9 +34,8 @@ returns the timestamp in nanoseconds.
+>  LIC (Legacy Interrupt Controller) IRQ GTE
+>  -----------------------------------------
+>  
+> -This GTE instance timestamps LIC IRQ lines in real time. There are 352 IRQ
+> -lines which this instance can add timestamps to in real time. The hte
+> -devicetree binding described at ``Documentation/devicetree/bindings/timestamp``
+> +This GTE instance timestamps LIC IRQ lines in real time. The hte devicetree
+> +binding described at ``Documentation/devicetree/bindings/timestamp``
+>  provides an example of how a consumer can request an IRQ line. Since it is a
+>  one-to-one mapping with IRQ GTE provider, consumers can simply specify the IRQ
+>  number that they are interested in. There is no userspace consumer support for
 
-        if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-                return 0;
+The wording LGTM, thanks!
 
-        init_irq_alloc_info(&info, NULL);
-
-        /*
-         * Event notification vector will be delivered to the CPU
-         * in which TDVMCALL_SETUP_NOTIFY_INTR hypercall is requested.
-         * So set the IRQ affinity to the current CPU.
-         */
-        info.mask = cpumask_of(0);
-
-        irq = irq_domain_alloc_irqs(x86_vector_domain, 1, cpu_to_node(0), &info);
-        if (irq <= 0) {
-                pr_err("Event notification IRQ allocation failed %d\n", irq);
-                return -EIO;
-        }
-
-        irq_set_handler(irq, handle_edge_irq);
-
-        /* Since the IRQ affinity is set, it cannot be balanced */
-        if (request_irq(irq, tdx_event_irq_handler, IRQF_NOBALANCING,
-                        "tdx_event_irq", NULL)) {
-                pr_err("Event notification IRQ request failed\n");
-                goto err_free_domain_irqs;
-        }
-
-        cfg = irq_cfg(irq);
-
-        /*
-         * Since tdx_event_irq_init() is triggered via early_initcall(),
-         * it will called before secondary CPUs bringup. Since there is
-         * only one CPU, it complies with the requirement of executing
-         * the TDVMCALL_SETUP_NOTIFY_INTR hypercall on the same CPU where
-         * the IRQ vector is allocated.
-         *
-         * Register callback vector address with VMM. More details
-         * about the ABI can be found in TDX Guest-Host-Communication
-         * Interface (GHCI), sec titled
-         * "TDG.VP.VMCALL<SetupEventNotifyInterrupt>".
-         */
-        if (_tdx_hypercall(TDVMCALL_SETUP_NOTIFY_INTR, cfg->vector, 0, 0, 0)) {
-                pr_err("Event notification hypercall failed\n");
-                goto err_free_irqs;
-        }
-
-        tdx_event_irq = irq;
-
-        return 0;
-
-err_free_irqs:
-        free_irq(irq, NULL);
-err_free_domain_irqs:
-        irq_domain_free_irqs(irq, 1);
-
-        return -EIO;
-}
-early_initcall(tdx_event_irq_init)
-
-
-> 
->>
->> [    2.400755] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:580
->> [    2.404664] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
->> [    2.408671] preempt_count: 1, expected: 0
->> [    2.412650] RCU nest depth: 0, expected: 0
->> [    2.412666] no locks held by swapper/0/1.
->> [    2.416650] Preemption disabled at:
->> [    2.416650] [<ffffffff83b8089f>] tdx_arch_init+0x38/0x117
->> [    2.420670] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc4-00117-g672ca073d9f9-dirty #2527
->> [    2.424650] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
->> [    2.424650] Call Trace:
->> [    2.424650]  <TASK>
->> [    2.424650]  dump_stack_lvl+0x6a/0x86
->> [    2.424650]  __might_resched.cold+0xf4/0x12f
->> [    2.424650]  __mutex_lock+0x50/0x810
->> [    2.424650]  ? lock_is_held_type+0xd8/0x130
->> [    2.424650]  ? __irq_alloc_descs+0xcf/0x310
->> [    2.424650]  ? find_held_lock+0x2b/0x80
->> [    2.424650]  ? __irq_alloc_descs+0xcf/0x310
->> [    2.424650]  __irq_alloc_descs+0xcf/0x310
->> [    2.424650]  irq_domain_alloc_descs.part.0+0x49/0xa0
->> [    2.424650]  __irq_domain_alloc_irqs+0x2a0/0x4f0
->> [    2.424650]  ? next_arg+0x129/0x1f0
->> [    2.424650]  ? tdx_guest_init+0x5b/0x5b
->> [    2.424650]  tdx_arch_init+0x8e/0x117
->> [    2.424650]  do_one_initcall+0x137/0x2ec
->> [    2.424650]  ? rcu_read_lock_sched_held+0x36/0x60
->> [    2.424650]  kernel_init_freeable+0x1e3/0x241
->> [    2.424650]  ? rest_init+0x1a0/0x1a0
->> [    2.424650]  kernel_init+0x17/0x170
->> [    2.424650]  ? rest_init+0x1a0/0x1a0
->> [    2.424650]  ret_from_fork+0x1f/0x30
->> [    2.424650]  </TASK>
-> 
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+An old man doll... just what I always wanted! - Clara
+
