@@ -2,240 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 941A4C7619A
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 22:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E05E2C7618D
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 22:45:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231574AbjDEWiY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 18:38:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35718 "EHLO
+        id S229958AbjDEWpd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 18:45:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjDEWiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 18:38:24 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49C2198A;
-        Wed,  5 Apr 2023 15:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680734302; x=1712270302;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=uF/QBOzF72JehbC5ujq+v9y0TYRet0oqwDu3diogIvI=;
-  b=gJ3SJnoyGT4oTYXdwKcr5t18kEcatIIKADhdJEDQe/DQG0V5d6VuxY3o
-   QkL3KNfy15jS1HD9EBFCv6t2UG2WfAwvadajwjI0b86GRaHmmq5X2zhvk
-   FtoBG66X86nKupVvT4D/e0pX5TMGPHUnIesHJXCDGJqCm7vu7TWo/NBi9
-   HKaSk+pdnazwYIptHwLXOawbIZHaM5DUHyVW389HrrXWqKYQAYEah+vCY
-   qRWL5g/GmfEJPRI2HkcNGLQjveJI5HZUgCjzo19splB3k9v4MujZtALCV
-   eMu3IyUPlJNo0/RWN1+SDvZHmdQEplGIz830YuMdALugDwSStBTo1h2/t
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="428875708"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="428875708"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 15:38:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="1016644486"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="1016644486"
-Received: from skansra-mobl.amr.corp.intel.com (HELO [10.209.62.228]) ([10.209.62.228])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 15:38:21 -0700
-Message-ID: <2520c3d060e7b77560ea32a4b132d8e1a5f14ac9.camel@linux.intel.com>
-Subject: Re: [PATCH v3] Documentation: Add document for false sharing
-From:   Tim Chen <tim.c.chen@linux.intel.com>
-To:     Feng Tang <feng.tang@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Shakeel Butt <shakeelb@google.com>
-Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>, dave.hansen@intel.com,
-        ying.huang@intel.com, tim.c.chen@intel.com, andi.kleen@intel.com
-Date:   Wed, 05 Apr 2023 15:38:20 -0700
-In-Reply-To: <20230404052228.15788-1-feng.tang@intel.com>
-References: <20230404052228.15788-1-feng.tang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        with ESMTP id S229484AbjDEWpc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 18:45:32 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BCB4B0;
+        Wed,  5 Apr 2023 15:45:31 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id t10so144747306edd.12;
+        Wed, 05 Apr 2023 15:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680734730; x=1683326730;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lN2UOf7lGdFl2l+kAYg6tuaUcdYb0pcDJoziF1bC1zc=;
+        b=BJF4bVjACD8rv6d1H5BoOtERf7zbyUMOwCPar/nhq75oD9GJn3DeC8tCunIwxtIxeY
+         XpCDH1N9xhGrqFuAGmgkRuBYzKgGGXe/A98RIVMqFz748aaqEolqXbLv/DGdWfTw4OLr
+         Kvzgdi+HIQdJWj8aBgxRKJAv/YHq5iQwy6xWn6eTIl+nEMU06obsA4mQ2lgodIjy9zjY
+         MtdidHROpIUWUfJ0YA8hFqMD9YVkG8h9UyYejwDL5VPaCjGvh9SJ0ULXKEXfbJvcg4MU
+         t6jFzb7L0XleKhydZ6I+xWoB2KwSgfGldgrNHDJnMUSN0qRifoCuxD8Gw1Ib9oPAS2pw
+         bBAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680734730; x=1683326730;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lN2UOf7lGdFl2l+kAYg6tuaUcdYb0pcDJoziF1bC1zc=;
+        b=EkugsCcfQfcq3krJuS/lpwR+O/GdMehXlFuU3YUjJlLqXHIG4J0biUDHd5ZRYCqjjh
+         6mW81kmYwrXsr5ZnbKtv+NWHkyI4C5B6q9lEvQxrCrctXrgdxR1gUuKKa9ql8jjUJvsX
+         BPPxsuy/5mYZ5A0UFc03bYcERzZTUFrG9WFA+sshTrAlJQ5xcifmYs5jv3Fc8LErVRkE
+         q+MK64kzBrXlX7JSYY/jC9NJ4AB/hU1G8OZES/OtMaULLSIAqZwrVupOYJ8i+HorxTzd
+         ExW6xDjYogt+pmDGa0QQVZcBhqhhFPJiwN/Tdf++vPut+0FcDfgYxLIo8RMpLlWzYjP9
+         R/eA==
+X-Gm-Message-State: AAQBX9es0XCrP3Mens6d5p6bV1xTwv052CHRqZq4GUwp+pfTPxf6R/LR
+        KdKw+pubYb68cky+yRP0Ewo=
+X-Google-Smtp-Source: AKy350bZqYFKKMPkeVsuSgbW9WXxE+WpixlDYiFjMCTx2aNtnJiM0jvfFNLPYOqR8zQy5BHAoy/CLA==
+X-Received: by 2002:a17:907:d603:b0:931:af6a:ad08 with SMTP id wd3-20020a170907d60300b00931af6aad08mr4813359ejc.57.1680734729389;
+        Wed, 05 Apr 2023 15:45:29 -0700 (PDT)
+Received: from caracal.museclub.art (p200300cf9f2cac00f0c38d0eb7c148d4.dip0.t-ipconnect.de. [2003:cf:9f2c:ac00:f0c3:8d0e:b7c1:48d4])
+        by smtp.googlemail.com with ESMTPSA id h3-20020a1709067cc300b0094776b4ef04sm8091868ejp.10.2023.04.05.15.45.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 15:45:28 -0700 (PDT)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] (asus-ec-sensors) add two more boards
+Date:   Thu,  6 Apr 2023 00:43:37 +0200
+Message-Id: <20230405224339.358675-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for the update. Looks good.  Some minor nits to improve readability.
+Adds sensor definitions for two more boards, provided and tested by
+users using this driver or Libre Hardware Monitor.
 
-On Tue, 2023-04-04 at 13:22 +0800, Feng Tang wrote:
->=20
-> +
-> +False sharing could easily happen unless they are intentionally
-> +checked, and it is valuable to run specific tools for performance
-> +critical workloads to detect false sharing affecting performance case
-> +and optimize accordingly.
-> +
-> +
-> +How to detect and analysis False Sharing
+Eugene Shalygin (1):
+  hwmon: (asus-ec-sensors) add ROG STRIX Z390-F GAMING
 
-s/analysis/analyse
+fireflame90051 (1):
+  hwmon: (asus-ec-sensors) add ProArt B550-Creator
 
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +perf record/report/stat are widely used for performance tuning, and
-> +once hotspots are detected, tools like 'perf-c2c' and 'pahole' can
-> +be further used to detect and pinpoint the possible false sharing
-> +data structures.  'addr2line' is also good at decoding instruction
-> +pointer when there are multiple layers of inline functions.
-> +
-> +perf-c2c can capture the cache lines with most false sharing hits,
-> +decoded functions (line number of file) accessing that cache line,
-> +and in-line offset of the data. Simple commands are::
-> +
-> +  $ perf c2c record -ag sleep 3
-> +  $ perf c2c report --call-graph none -k vmlinux
-> +
-> +When running above during testing will-it-scale's tlb_flush1 case,
-> +perf reports something like::
-> +
-> +  Total records                     :    1658231
-> +  Locked Load/Store Operations      :      89439
-> +  Load Operations                   :     623219
-> +  Load Local HITM                   :      92117
-> +  Load Remote HITM                  :        139
-> +
-> +  #---------------------------------------------------------------------=
--
-> +      4        0     2374        0        0        0  0xff1100088366d880
-> +  #---------------------------------------------------------------------=
--
-> +    0.00%   42.29%    0.00%    0.00%    0.00%    0x8     1       1  0xff=
-ffffff81373b7b         0       231       129     5312        64  [k] __mod_=
-lruvec_page_state    [kernel.vmlinux]  memcontrol.h:752   1
-> +    0.00%   13.10%    0.00%    0.00%    0.00%    0x8     1       1  0xff=
-ffffff81374718         0       226        97     3551        64  [k] folio_=
-lruvec_lock_irqsave  [kernel.vmlinux]  memcontrol.h:752   1
-> +    0.00%   11.20%    0.00%    0.00%    0.00%    0x8     1       1  0xff=
-ffffff812c29bf         0       170       136      555        64  [k] lru_ad=
-d_fn                 [kernel.vmlinux]  mm_inline.h:41     1
-> +    0.00%    7.62%    0.00%    0.00%    0.00%    0x8     1       1  0xff=
-ffffff812c3ec5         0       175       108      632        64  [k] releas=
-e_pages              [kernel.vmlinux]  mm_inline.h:41     1
-> +    0.00%   23.29%    0.00%    0.00%    0.00%   0x10     1       1  0xff=
-ffffff81372d0a         0       234       279     1051        64  [k] __mod_=
-memcg_lruvec_state   [kernel.vmlinux]  memcontrol.c:736   1
-> +
-> +A nice introduction for perf-c2c is [3]_.
-> +
-> +'pahole' decodes data structure layouts delimited in cache line
-> +granularity.  Users can match the offset in perf-c2c output with
-> +pahole's decoding to locate the exact data members.  For global
-> +data, users can search the data address in System.map.
-> +
-> +
-> +Possible Mitigations
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +False sharing does not always need to be mitigated.  False sharing
-> +mitigations need to balance performance gains with complexity and
+ Documentation/hwmon/asus_ec_sensors.rst |  2 ++
+ drivers/hwmon/asus-ec-sensors.c         | 20 ++++++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-s/need to/should/
-
-> +space consumption.  Sometimes, lower performance is OK, and it's
-> +unnecessary to hyper-optimize every rarely used data structure or
-> +a cold data path.
-> +
-> +False sharing hurting performance cases are seen more frequently with
-> +core count increasing.  Because of these detrimental effects, many
-> +patches have been proposed across variety of subsystems (like
-> +networking and memory management) and merged.  Some common mitigations
-> +(with examples) are:
-> +
-> +* Separate hot global data in its own dedicated cache line, even if it
-> +  is just a 'short' type. The downside is more consumption of memory,
-> +  cache line and TLB entries.
-> +
-> +  - Commit 91b6d3256356 ("net: cache align tcp_memory_allocated, tcp_soc=
-kets_allocated")
-> +
-> +* Reorganize the data structure, separate the interfering members to
-> +  different cache lines.  One downside is it may introduce new false
-> +  sharing of other members.
-> +
-> +  - Commit 802f1d522d5f ("mm: page_counter: re-layout structure to reduc=
-e false sharing")
-> +
-> +* Replace 'write' with 'read' when possible, especially in loops.
-> +  Like for some global variable, use compare(read)-then-write instead
-> +  of unconditional write. For example, use::
-> +
-> +	if (!test_bit(XXX))
-> +		set_bit(XXX);
-> +
-> +  instead of directly "set_bit(XXX);", similarly for atomic_t data::
-> +
-> +	if (atomic_read(XXX) =3D=3D AAA)
-> +		atomic_set(XXX, BBB);
-> +
-> +  - Commit 7b1002f7cfe5 ("bcache: fixup bcache_dev_sectors_dirty_add() m=
-ultithreaded CPU false sharing")
-> +  - Commit 292648ac5cf1 ("mm: gup: allow FOLL_PIN to scale in SMP")
-> +
-> +* Turn hot global data to 'per-cpu data + global data' when possible,
-> +  or reasonably increase the threshold for syncing per-cpu data to
-> +  global data, to reduce or postpone the 'write' to that global data.
-> +
-> +  - Commit 520f897a3554 ("ext4: use percpu_counters for extent_status ca=
-che hits/misses")
-> +  - Commit 56f3547bfa4d ("mm: adjust vm_committed_as_batch according to =
-vm overcommit policy")
-> +
-> +Surely, all mitigations should be carefully verified to not cause side
-> +effects.  And to avoid false sharing in advance during coding, it's
-
-Maybe say
-To avoid introducing false sharing when coding
-
-> +better to:
-> +
-> +* Be aware of cache line boundaries
-> +* Group mostly read-only fields together
-> +* Group things that are written at the same time together
-> +* Separate known read-mostly and written-mostly fields
-
-Separate frequently read and frequently written fields on different cache l=
-ines
-
-> +
-> +and better add a comment stating the false sharing consideration.
-> +
-> +One note is, sometimes even after a severe false sharing is detected
-> +and solved, the performance may still have no obvious improvement as
-> +the hotspot switches to a new place.
-> +
-> +
-> +Miscellaneous
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +One open issue is that kernel has an optional data structure
-> +randomization mechanism, which also randomizes the situation of cache
-> +line sharing of data members.
-> +
-> +
-> +.. [1] https://en.wikipedia.org/wiki/False_sharing
-> +.. [2] https://lore.kernel.org/lkml/CAHk-=3DwhoqV=3DcX5VC80mmR9rr+Z+yQ6f=
-iQZm36Fb-izsanHg23w@mail.gmail.com/
-> +.. [3] https://joemario.github.io/blog/2016/09/01/c2c-blog/
-> diff --git a/Documentation/kernel-hacking/index.rst b/Documentation/kerne=
-l-hacking/index.rst
-> index f53027652290..79c03bac99a2 100644
-> --- a/Documentation/kernel-hacking/index.rst
-> +++ b/Documentation/kernel-hacking/index.rst
-> @@ -9,3 +9,4 @@ Kernel Hacking Guides
-> =20
->     hacking
->     locking
-> +   false-sharing
-
-Thanks.
-
-Tim
+-- 
+2.40.0
 
