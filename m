@@ -2,195 +2,288 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F09DC77B62
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 04:19:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 668D7C761AF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 06:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236814AbjDEETn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 00:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37366 "EHLO
+        id S236556AbjDEGxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 02:53:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236798AbjDEETm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 00:19:42 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D859E10EA
-        for <linux-doc@vger.kernel.org>; Tue,  4 Apr 2023 21:19:38 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id j24so34896494wrd.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Apr 2023 21:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jrtc27.com; s=gmail.jrtc27.user; t=1680668377;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/BjpitaAtSgkqnnZepwdAnWUHtXKGCm4ypPOIBhTYG4=;
-        b=e4BiLC+K4OYu8TIu0STxll21APg+0MALOyXN2SMFNO5cMHrJpvXOAIvzfiUxo2q+V5
-         WDvHh+QslH4AhH+2TjZuYkNkEaTLztytVL2f0UYCH/TmJEd/0TAAlr//N84HDPO+XfkD
-         bvPR0eoq113cOieEQrQOeDXLnxrzu4Jx3aEwesqPJ349gVeRWz3Da6iqV4pSU/2Y4iNt
-         MnRmqCgCxV0aZLY7aaRW/N/kl8M1sH1Tu+WzfPMLUDgArZTNBjGppJ3nUd1FX9TI0JaZ
-         seEVGGKFa1LrcmSBIBRzX4kFY1havHXXvqCKrIitnLfe41G3TACDVnWYFtLdpqNQBFsi
-         ii4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680668377;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/BjpitaAtSgkqnnZepwdAnWUHtXKGCm4ypPOIBhTYG4=;
-        b=KqpI1FK96OlhX8OlZQKriv/I4JLvay5xCI4CLR7HywCWTVfb1ufQ6zZ4CXqk8VgDwp
-         oirCNi6vxVyrFw5Oyokz9LnTWm1Har0owOdkpi0Q5W5q7rSKcCXPozGu/362gDKad8P1
-         Z8LTUSTDGtCt+nIQQR5Z6WNiPPvmTWXrIFU1nqV8kmnqhB2B2vm1DRo/CSPC583jJrjD
-         V8993Fg0fklrfd0TpPBKi/cPI3zAWXeawYFQvz1jotTzGMUIIp2QcH4KBnOiEbQ7S7Al
-         ncCeJR2vc5MnlkvAjP9bLN7PtH+t7wYGf/G4PUIHyOHvO8QNDrwOxMN4VaoorBqf0vnM
-         7ONw==
-X-Gm-Message-State: AAQBX9eplEtAR9cQvnY4v1Et0J3neQc61d0e5U9hJ7pzjIJnrKyZf72J
-        puq+Qx2LjP7I7SzXx13lmguNSRKKzZ2Lvv9iPtWEBd3U
-X-Google-Smtp-Source: AKy350blw7YP4lnrKWGeXu58qdeqpEXA8gM8aenLdDfKqAQOydoUR5t2gTdnK43PxXcc1htfiqIEPA==
-X-Received: by 2002:a5d:6b91:0:b0:2e5:9101:e3af with SMTP id n17-20020a5d6b91000000b002e59101e3afmr3411038wrx.31.1680668377340;
-        Tue, 04 Apr 2023 21:19:37 -0700 (PDT)
-Received: from smtpclient.apple (global-5-142.n-2.net.cam.ac.uk. [131.111.5.142])
-        by smtp.gmail.com with ESMTPSA id t12-20020a7bc3cc000000b003ee42696acesm797550wmj.16.2023.04.04.21.19.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Apr 2023 21:19:36 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH V4 22/23] platform/surface: Disable for RISC-V
-From:   Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <20230404182037.863533-23-sunilvl@ventanamicro.com>
-Date:   Wed, 5 Apr 2023 05:19:35 +0100
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-acpi@vger.kernel.org, linux-crypto@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev,
-        Weili Qian <qianweili@huawei.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Tom Rix <trix@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Len Brown <lenb@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EAC85F14-B1DA-4358-9042-A607436D582A@jrtc27.com>
-References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-23-sunilvl@ventanamicro.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
+        with ESMTP id S229943AbjDEGxc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 02:53:32 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B88D40F7;
+        Tue,  4 Apr 2023 23:53:31 -0700 (PDT)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3356hPbV019755;
+        Wed, 5 Apr 2023 06:51:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=r08tgvRQO15jrwvSRIBZIrfJm0K4iBf2MVhRW+6IRUs=;
+ b=Kzs5fh0KGqgychdK3EWVRalYndC2s7cYoXTf4U1iE44XoGtnLdEU09xmTqD/7Io/H1Yk
+ qlmBWRVUPHbL+Gpuv37fJF4EmbNgvktLadzQcecUjBtHDdSvjrb4XIqRORrvbIOhEXpH
+ fqc7F1rBLxViKTaDKllzKH1e9CYr5i99HnefcptwE+I0PfzPk+u7fJqUdumdJ1NADqy+
+ Gd4j/SJyLR1Pggrorza1MRhpqM3KL6KXFr0wIc/tc9Ny1VO2FEdPYU8adB8SKaiHp4o1
+ DCr9F/XBSOMz0gHv6RsxvQ8ufvtbpKfrMnYUBXxmKjcCalHtuJtp7gUqfalaedL6W5DC kw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps3ydr5bn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 06:51:15 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3356i97B022143;
+        Wed, 5 Apr 2023 06:51:15 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps3ydr5b1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 06:51:15 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3344l3wD018686;
+        Wed, 5 Apr 2023 06:51:13 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3ppbvftbkm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 06:51:13 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3356pAQ443450910
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 5 Apr 2023 06:51:10 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C56212004D;
+        Wed,  5 Apr 2023 06:51:10 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AEC8320040;
+        Wed,  5 Apr 2023 06:51:09 +0000 (GMT)
+Received: from [9.171.4.189] (unknown [9.171.4.189])
+        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Wed,  5 Apr 2023 06:51:09 +0000 (GMT)
+Message-ID: <2229abe0-b304-6ae3-5bda-d71387c645ca@de.ibm.com>
+Date:   Wed, 5 Apr 2023 08:51:09 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 1/3] mm: add new api to enable ksm per process
+To:     David Hildenbrand <david@redhat.com>,
+        Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, hannes@cmpxchg.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Janosch Frank <frankja@linux.ibm.com>
+References: <20230310182851.2579138-1-shr@devkernel.io>
+ <20230310182851.2579138-2-shr@devkernel.io>
+ <7ed4308d-b400-d2bb-b539-3fe418862ab8@redhat.com>
+ <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
+Content-Language: en-US
+From:   Christian Borntraeger <borntraeger@de.ibm.com>
+In-Reply-To: <e888871b-9f48-c01d-ce7f-f32ec3d79ef8@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ShJopCrRpVEzBW-9z50IB5J8E99j3AFI
+X-Proofpoint-ORIG-GUID: 7mzfY4TSQWq751ShcUqKfDdvDd9fpC9G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_02,2023-04-04_05,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1011 bulkscore=0 mlxscore=0 malwarescore=0 suspectscore=0
+ phishscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ mlxlogscore=526 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304050060
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4 Apr 2023, at 19:20, Sunil V L <sunilvl@ventanamicro.com> wrote:
->=20
-> With CONFIG_ACPI enabled for RISC-V, this driver gets enabled
-> in allmodconfig build. However, RISC-V doesn't support sub-word
-> atomics which is used by this driver.
+Am 03.04.23 um 13:03 schrieb David Hildenbrand:
+> On 03.04.23 12:37, David Hildenbrand wrote:
+>> On 10.03.23 19:28, Stefan Roesch wrote:
+>>> Patch series "mm: process/cgroup ksm support", v3.
+>>>
+>>> So far KSM can only be enabled by calling madvise for memory regions.  To
+>>> be able to use KSM for more workloads, KSM needs to have the ability to be
+>>> enabled / disabled at the process / cgroup level.
+>>>
+>>> Use case 1:
+>>>
+>>>     The madvise call is not available in the programming language.  An
+>>>     example for this are programs with forked workloads using a garbage
+>>>     collected language without pointers.  In such a language madvise cannot
+>>>     be made available.
+>>>
+>>>     In addition the addresses of objects get moved around as they are
+>>>     garbage collected.  KSM sharing needs to be enabled "from the outside"
+>>>     for these type of workloads.
+>>
+>> I guess the interpreter could enable it (like a memory allocator could
+>> enable it for the whole heap). But I get that it's much easier to enable
+>> this per-process, and eventually only when a lot of the same processes
+>> are running in that particular environment.
+>>
+>>>
+>>> Use case 2:
+>>>
+>>>     The same interpreter can also be used for workloads where KSM brings
+>>>     no benefit or even has overhead.  We'd like to be able to enable KSM on
+>>>     a workload by workload basis.
+>>
+>> Agreed. A per-process control is also helpful to identidy workloads
+>> where KSM might be beneficial (and to which degree).
+>>
+>>>
+>>> Use case 3:
+>>>
+>>>     With the madvise call sharing opportunities are only enabled for the
+>>>     current process: it is a workload-local decision.  A considerable number
+>>>     of sharing opportuniites may exist across multiple workloads or jobs.
+>>>     Only a higler level entity like a job scheduler or container can know
+>>>     for certain if its running one or more instances of a job.  That job
+>>>     scheduler however doesn't have the necessary internal worklaod knowledge
+>>>     to make targeted madvise calls.
+>>>
+>>> Security concerns:
+>>>
+>>>     In previous discussions security concerns have been brought up.  The
+>>>     problem is that an individual workload does not have the knowledge about
+>>>     what else is running on a machine.  Therefore it has to be very
+>>>     conservative in what memory areas can be shared or not.  However, if the
+>>>     system is dedicated to running multiple jobs within the same security
+>>>     domain, its the job scheduler that has the knowledge that sharing can be
+>>>     safely enabled and is even desirable.
+>>>
+>>> Performance:
+>>>
+>>>     Experiments with using UKSM have shown a capacity increase of around
+>>>     20%.
+>>>
+>>
+>> As raised, it would be great to include more details about the workload
+>> where this particulalry helps (e.g., a lot of Django processes operating
+>> in the same domain).
+>>
+>>>
+>>> 1. New options for prctl system command
+>>>
+>>>      This patch series adds two new options to the prctl system call.
+>>>      The first one allows to enable KSM at the process level and the second
+>>>      one to query the setting.
+>>>
+>>>      The setting will be inherited by child processes.
+>>>
+>>>      With the above setting, KSM can be enabled for the seed process of a
+>>>      cgroup and all processes in the cgroup will inherit the setting.
+>>>
+>>> 2. Changes to KSM processing
+>>>
+>>>      When KSM is enabled at the process level, the KSM code will iterate
+>>>      over all the VMA's and enable KSM for the eligible VMA's.
+>>>
+>>>      When forking a process that has KSM enabled, the setting will be
+>>>      inherited by the new child process.
+>>>
+>>>      In addition when KSM is disabled for a process, KSM will be disabled
+>>>      for the VMA's where KSM has been enabled.
+>>
+>> Do we want to make MADV_MERGEABLE/MADV_UNMERGEABLE fail while the new
+>> prctl is enabled for a process?
+>>
+>>>
+>>> 3. Add general_profit metric
+>>>
+>>>      The general_profit metric of KSM is specified in the documentation,
+>>>      but not calculated.  This adds the general profit metric to
+>>>      /sys/kernel/debug/mm/ksm.
+>>>
+>>> 4. Add more metrics to ksm_stat
+>>>
+>>>      This adds the process profit and ksm type metric to
+>>>      /proc/<pid>/ksm_stat.
+>>>
+>>> 5. Add more tests to ksm_tests
+>>>
+>>>      This adds an option to specify the merge type to the ksm_tests.
+>>>      This allows to test madvise and prctl KSM.  It also adds a new option
+>>>      to query if prctl KSM has been enabled.  It adds a fork test to verify
+>>>      that the KSM process setting is inherited by client processes.
+>>>
+>>> An update to the prctl(2) manpage has been proposed at [1].
+>>>
+>>> This patch (of 3):
+>>>
+>>> This adds a new prctl to API to enable and disable KSM on a per process
+>>> basis instead of only at the VMA basis (with madvise).
+>>>
+>>> 1) Introduce new MMF_VM_MERGE_ANY flag
+>>>
+>>>      This introduces the new flag MMF_VM_MERGE_ANY flag.  When this flag
+>>>      is set, kernel samepage merging (ksm) gets enabled for all vma's of a
+>>>      process.
+>>>
+>>> 2) add flag to __ksm_enter
+>>>
+>>>      This change adds the flag parameter to __ksm_enter.  This allows to
+>>>      distinguish if ksm was called by prctl or madvise.
+>>>
+>>> 3) add flag to __ksm_exit call
+>>>
+>>>      This adds the flag parameter to the __ksm_exit() call.  This allows
+>>>      to distinguish if this call is for an prctl or madvise invocation.
+>>>
+>>> 4) invoke madvise for all vmas in scan_get_next_rmap_item
+>>>
+>>>      If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
+>>>      over all the vmas and enable ksm if possible.  For the vmas that can be
+>>>      ksm enabled this is only done once.
+>>>
+>>> 5) support disabling of ksm for a process
+>>>
+>>>      This adds the ability to disable ksm for a process if ksm has been
+>>>      enabled for the process.
+>>>
+>>> 6) add new prctl option to get and set ksm for a process
+>>>
+>>>      This adds two new options to the prctl system call
+>>>      - enable ksm for all vmas of a process (if the vmas support it).
+>>>      - query if ksm has been enabled for a process.
+>>
+>>
+>> Did you consider, instead of handling MMF_VM_MERGE_ANY in a special way,
+>> to instead make it reuse the existing MMF_VM_MERGEABLE/VM_MERGEABLE
+>> infrastructure. Especially:
+>>
+>> 1) During prctl(MMF_VM_MERGE_ANY), set VM_MERGABLE on all applicable
+>>      compatible. Further, set MMF_VM_MERGEABLE and enter KSM if not
+>>      already set.
+>>
+>> 2) When creating a new, compatible VMA and MMF_VM_MERGE_ANY is set, set
+>>      VM_MERGABLE?
+>>
+>> The you can avoid all runtime checks for compatible VMAs and only look
+>> at the VM_MERGEABLE flag. In fact, the VM_MERGEABLE will be completely
+>> expressive then for all VMAs. You don't need vma_ksm_mergeable() then.
+>>
+>>
+>> Another thing to consider is interaction with arch/s390/mm/gmap.c:
+>> s390x/kvm does not support KSM and it has to disable it for all VMAs. We
 
-Why not? Compilers and libatomic do, so surely the Linux kernel should
-too.
+Normally we do support KSM on s390. This is a special case for guests using
+storage keys. Those are attributes of the physical page and might differ even
+if the content of the page is the same.
+New Linux no longer uses it (unless a debug option is set during build) so we
+enable the guest storage keys lazy and break KSM pages in that process.
+Ideally we would continue this semantic (e.g. even after a prctl, if the
+guest enable storage keys, disable ksm for this VM).
 
-> Due to this, the build fails
-> with below error.
->=20
-> In function =C3=A2=E2=82=AC=CB=9Cssh_seq_next=C3=A2=E2=82=AC=E2=84=A2,
->    inlined from =C3=A2=E2=82=AC=CB=9Cssam_request_write_data=C3=A2=E2=82=
-=AC=E2=84=A2 at drivers/platform/surface/aggregator/controller.c:1483:8:
-> ././include/linux/compiler_types.h:399:45: error: call to =
-=C3=A2=E2=82=AC=CB=9C__compiletime_assert_335=C3=A2=E2=82=AC=E2=84=A2 =
-declared with attribute error: BUILD_BUG failed
->  399 |         _compiletime_assert(condition, msg, =
-__compiletime_assert_, __COUNTER__)
->      |                                             ^
-> ./include/linux/compiler.h:78:45: note: in definition of macro =
-=C3=A2=E2=82=AC=CB=9Cunlikely=C3=A2=E2=82=AC=E2=84=A2
->   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
->      |                                             ^
-> ././include/linux/compiler_types.h:387:9: note: in expansion of macro =
-=C3=A2=E2=82=AC=CB=9C__compiletime_assert=C3=A2=E2=82=AC=E2=84=A2
->  387 |         __compiletime_assert(condition, msg, prefix, suffix)
->      |         ^~~~~~~~~~~~~~~~~~~~
-> ././include/linux/compiler_types.h:399:9: note: in expansion of macro =
-=C3=A2=E2=82=AC=CB=9C_compiletime_assert=C3=A2=E2=82=AC=E2=84=A2
->  399 |         _compiletime_assert(condition, msg, =
-__compiletime_assert_, __COUNTER__)
->      |         ^~~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:39:37: note: in expansion of macro =
-=C3=A2=E2=82=AC=CB=9Ccompiletime_assert=C3=A2=E2=82=AC=E2=84=A2
->   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), =
-msg)
->      |                                     ^~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:59:21: note: in expansion of macro =
-=C3=A2=E2=82=AC=CB=9CBUILD_BUG_ON_MSG=C3=A2=E2=82=AC=E2=84=A2
->   59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
->      |                     ^~~~~~~~~~~~~~~~
-> ./arch/riscv/include/asm/cmpxchg.h:335:17: note: in expansion of macro =
-=C3=A2=E2=82=AC=CB=9CBUILD_BUG=C3=A2=E2=82=AC=E2=84=A2
->  335 |                 BUILD_BUG();                                    =
-        \
->      |                 ^~~~~~~~~
-> ./arch/riscv/include/asm/cmpxchg.h:344:30: note: in expansion of macro =
-=C3=A2=E2=82=AC=CB=9C__cmpxchg=C3=A2=E2=82=AC=E2=84=A2
->  344 |         (__typeof__(*(ptr))) __cmpxchg((ptr),                   =
-        \
->      |                              ^~~~~~~~~
-> ./include/linux/atomic/atomic-instrumented.h:1916:9: note: in =
-expansion of macro =C3=A2=E2=82=AC=CB=9Carch_cmpxchg=C3=A2=E2=82=AC=E2=84=A2=
+>> have to find a way to fence the prctl (for example, fail setting the
+>> prctl after gmap_mark_unmergeable() ran, and make
+>> gmap_mark_unmergeable() fail if the prctl ran -- or handle it gracefully
+>> in some other way).
+> 
+> 
+> Staring at that code, I wonder if the "mm->def_flags &= ~VM_MERGEABLE" is doing what it's supposed to do. I don't think this effectively prevents right now madvise() from getting re-enabled on that VMA.
+> 
+> @Christian, Janosch, am I missing something?
 
-> 1916 |         arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
->      |         ^~~~~~~~~~~~
-> drivers/platform/surface/aggregator/controller.c:61:32: note: in =
-expansion of macro =C3=A2=E2=82=AC=CB=9Ccmpxchg=C3=A2=E2=82=AC=E2=84=A2
->   61 |         while (unlikely((ret =3D cmpxchg(&c->value, old, new)) =
-!=3D old)) {
->      |                                ^~~~~~~
->=20
-> So, disable this driver for RISC-V even when ACPI is enabled for now.
->=20
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> ---
-> drivers/platform/surface/aggregator/Kconfig | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/platform/surface/aggregator/Kconfig =
-b/drivers/platform/surface/aggregator/Kconfig
-> index c114f9dd5fe1..88afc38ffdc5 100644
-> --- a/drivers/platform/surface/aggregator/Kconfig
-> +++ b/drivers/platform/surface/aggregator/Kconfig
-> @@ -4,7 +4,7 @@
-> menuconfig SURFACE_AGGREGATOR
-> 	tristate "Microsoft Surface System Aggregator Module Subsystem =
-and Drivers"
-> 	depends on SERIAL_DEV_BUS
-> -	depends on ACPI
-> +	depends on ACPI && !RISCV
-
-If you insist on doing this, at least make it some new config variable
-that=E2=80=99s self-documenting and means this automatically gets =
-re-enabled
-when arch/riscv fixes this deficiency? Hard-coding arch lists like this
-seems like a terrible anti-pattern.
-
-Jess
-
-> 	select CRC_CCITT
-> 	help
-> 	  The Surface System Aggregator Module (Surface SAM or SSAM) is =
-an
-> --=20
-> 2.34.1
->=20
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-
+Yes, if QEMU would do an madvise later on instead of just the start if would
+result in guest storage keys to be messed up on KSM merges. One could argue
+that this is a bug in the hypervisor then (QEMU) but yes, we should try
+to make this more reliable in the kernel.
