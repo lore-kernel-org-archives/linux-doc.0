@@ -2,118 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 929FCC76188
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 20:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF32C7619A
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 20:51:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231886AbjDEUsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 16:48:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43618 "EHLO
+        id S231132AbjDEUvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 16:51:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234058AbjDEUsS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 16:48:18 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1127DAD
-        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 13:48:02 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-50240a3b7fcso859748a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 13:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680727680;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gar2SeDIgd9oWPuJFUbMEAp6q8OZkPojCAqDAzQ9Ib8=;
-        b=eD9znuZhuILxcgVJJecjtuePLidQ8BiBdA9QFon9SZpy/fGUFiBRz39EvdoB4bRYtD
-         Ef3Lp0PnIV9u5HVChUC9BnCVD7BSr9K8brztFgIM+4m7o64rt8QXVgkLAysOeBNJxTGT
-         7S4B7aB1uhpLVmH7+9k68YqumQMRiASrD3DXTLUjSFEsWRoh2oatilPzFmNX6fc7qv2z
-         Hg841jEEV/8/I48Y6rzzNnqEeIJe391m/KlN92GYv7z2fX9eOF95eN6UOSWo74JuT6Iq
-         JGFiILRN8+3K0C5oiC0NjYOiFdm9KXQOjvKKnGsL5W7qOwMPnAe6rBfwT2LREnsbIHGN
-         Prxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680727680;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gar2SeDIgd9oWPuJFUbMEAp6q8OZkPojCAqDAzQ9Ib8=;
-        b=CpzwYuTsz1shAHmtFCnwiWnplDXAqCHrBZbuEIiTWc81raXo/7JX08t4ZRih2ajivo
-         x8Zsyc3EJhyqj1A2lIwWhBwTX2Hhmxy6P/M5L18oaCrhgVMXR6y3qz2ofzUgPbbT4pub
-         J1sNLSeMqquYJVMR/J0ESodcsZY2OT/eF/TS97Z6YDU2fp+fyEUe6lixSkqxzKU9xbyG
-         +S+9yh+10e58Hx2MCpYvHPk1TXYno2YiDdQXrUYWDFkjdswROBfi/n1RrOwM2df+Ho1j
-         hJ8M7SiOgr/ABE4biPBV53vzK4BCK/7LSeF5zoeMak8AkysKFu3mabmMl7kE/P1EX2zt
-         XWXw==
-X-Gm-Message-State: AAQBX9cw450XaWlxT3CrgKhl9LNY64VtQQfmDnNf2pPHW5AYKGJAaNep
-        fyXe1Hlrro7S/XEMNiydwiZO1IPI6r+uBA8LBElM
-X-Google-Smtp-Source: AKy350b/2tIT+e5QlFHEXhYsP01fC6fj0DfEQOEvWRjfflFPrhmacJNsGrlHJlO4vRKfn452es59o8bqrjpYSjzmRcE=
-X-Received: by 2002:a50:9fc7:0:b0:4fa:123:3b32 with SMTP id
- c65-20020a509fc7000000b004fa01233b32mr1930469edf.7.1680727680545; Wed, 05 Apr
- 2023 13:48:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230405-korg-llvm-tc-docs-v1-1-420849b2e025@kernel.org>
-In-Reply-To: <20230405-korg-llvm-tc-docs-v1-1-420849b2e025@kernel.org>
-From:   Bill Wendling <morbo@google.com>
-Date:   Wed, 5 Apr 2023 13:47:44 -0700
-Message-ID: <CAGG=3QX65iJEtvMiSD2Ju18f0KfHsi2zPXAQDSh0ScqbCLv=Cg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: Add a note about prebuilt kernel.org toolchains
-To:     Nathan Chancellor <nathan@kernel.org>
+        with ESMTP id S229479AbjDEUvb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 16:51:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B987185;
+        Wed,  5 Apr 2023 13:51:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BC1062B84;
+        Wed,  5 Apr 2023 20:51:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54C90C433EF;
+        Wed,  5 Apr 2023 20:51:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680727889;
+        bh=GIhWuSTvi5dNlCJnEe2QuPHkW1zE/y3p5xizO193qDs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lcuimBJR8T//I6SFduCNiWwmM9eKXgog875khOYd5/Svp36Sp9c6y3Kmc9HRohKGP
+         hJiYuFJjchgqjadCtly19N88RnFZk42S4xNwSlybAe1cOi8nDo6JbXV1NNPlKgEYz9
+         Q6pgj6HUZc0PJR9XWbYPdQxDKk9N/X3+IqEfvqQo0H35polk9YbUz0D3bpnga+tEDO
+         Z+LUC3w2cq6uK/PzH0Jb/3xUhUrKez8i/ujmvBcAlKvKXPb52doMCtsY81GzmFrR13
+         wl9fvmVI4tnq3RUpBtbm9ckjBItAuMqdOxprcE1PjQ379hjCchOfHrF89vXvGW29SE
+         OQCYph6Hitxug==
+Date:   Wed, 5 Apr 2023 13:51:26 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Bill Wendling <morbo@google.com>
 Cc:     ndesaulniers@google.com, masahiroy@kernel.org, corbet@lwn.net,
         arnd@arndb.de, keescook@chromium.org, trix@redhat.com,
         nicolas@fjasle.eu, llvm@lists.linux.dev, patches@lists.linux.dev,
         linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Documentation/llvm: Add a note about prebuilt kernel.org
+ toolchains
+Message-ID: <20230405205126.GA3280774@dev-arch.thelio-3990X>
+References: <20230405-korg-llvm-tc-docs-v1-1-420849b2e025@kernel.org>
+ <CAGG=3QX65iJEtvMiSD2Ju18f0KfHsi2zPXAQDSh0ScqbCLv=Cg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGG=3QX65iJEtvMiSD2Ju18f0KfHsi2zPXAQDSh0ScqbCLv=Cg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 5, 2023 at 1:44=E2=80=AFPM Nathan Chancellor <nathan@kernel.org=
-> wrote:
->
-> I recently started uploading prebuilt stable versions of LLVM to
-> kernel.org, which should make building the kernel with LLVM more
-> accessible to maintainers and developers. Link them in the LLVM
-> documentation to make this more visible.
->
-> Link: https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990=
-X/
-> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  Documentation/kbuild/llvm.rst | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rs=
-t
-> index bfb51685073c..3e1f67b05ca6 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -171,6 +171,10 @@ Getting Help
->  Getting LLVM
->  -------------
->
-> +We provide prebuilt stable versions of LLVM on `kernel.org <https://kern=
-el.org/pub/tools/llvm/>`_.
-> +Below are links that may be useful for building LLVM from source or proc=
-urring
+On Wed, Apr 05, 2023 at 01:47:44PM -0700, Bill Wendling wrote:
+> On Wed, Apr 5, 2023 at 1:44 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > I recently started uploading prebuilt stable versions of LLVM to
+> > kernel.org, which should make building the kernel with LLVM more
+> > accessible to maintainers and developers. Link them in the LLVM
+> > documentation to make this more visible.
+> >
+> > Link: https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990X/
+> > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > ---
+> >  Documentation/kbuild/llvm.rst | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> > index bfb51685073c..3e1f67b05ca6 100644
+> > --- a/Documentation/kbuild/llvm.rst
+> > +++ b/Documentation/kbuild/llvm.rst
+> > @@ -171,6 +171,10 @@ Getting Help
+> >  Getting LLVM
+> >  -------------
+> >
+> > +We provide prebuilt stable versions of LLVM on `kernel.org <https://kernel.org/pub/tools/llvm/>`_.
+> > +Below are links that may be useful for building LLVM from source or procurring
+> 
+> s/procurring/procuring/
 
-s/procurring/procuring/
+Leave it to me to forget to use ':set spell' :( sometimes I think that
+people would have a hard time guessing I am a native English speaker :^)
 
-Otherwise:
+> Otherwise:
+> 
+> Reviewed-by: Bill Wendling <morbo@google.com>
 
-Reviewed-by: Bill Wendling <morbo@google.com>
+Thanks for the quick review! I will send a v2 once others have had a
+chance to chime in (unless the person applying this does not mind fixing
+it up at that time).
 
--bw
-
-> +it through a distribution's package manager.
-> +
->  - https://releases.llvm.org/download.html
->  - https://github.com/llvm/llvm-project
->  - https://llvm.org/docs/GettingStarted.html
->
-> ---
-> base-commit: 7e364e56293bb98cae1b55fd835f5991c4e96e7d
-> change-id: 20230405-korg-llvm-tc-docs-84304e881bc5
->
-> Best regards,
-> --
-> Nathan Chancellor <nathan@kernel.org>
->
->
+> -bw
+> 
+> > +it through a distribution's package manager.
+> > +
+> >  - https://releases.llvm.org/download.html
+> >  - https://github.com/llvm/llvm-project
+> >  - https://llvm.org/docs/GettingStarted.html
+> >
+> > ---
+> > base-commit: 7e364e56293bb98cae1b55fd835f5991c4e96e7d
+> > change-id: 20230405-korg-llvm-tc-docs-84304e881bc5
+> >
+> > Best regards,
+> > --
+> > Nathan Chancellor <nathan@kernel.org>
+> >
+> >
