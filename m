@@ -2,117 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B70CBC7619A
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 13:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 816B3C77B6C
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 13:36:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237712AbjDEN1f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 09:27:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41750 "EHLO
+        id S232000AbjDENf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 09:35:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237259AbjDEN1e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 09:27:34 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4386F2705
-        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 06:27:33 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-4fd1f2a0f82so52399a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 06:27:33 -0700 (PDT)
+        with ESMTP id S238269AbjDENf5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 09:35:57 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B964C19
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 06:35:55 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so37295846pjt.5
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 06:35:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680701252; x=1683293252;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XqX1N9AwIcXh3tEpxCe94h+1QEhsxAem/vTybjTN11k=;
-        b=JXSAfvOtNFzK6tv8vKIgjAj2QxudkNTN+gOdh2IAHy0MotU6InrYYubzWWC4V5brU8
-         +Iwz08yS0ZLc1ZEFGhg9fpD4K3avpKoWG+Rf2Aw4mDHJXV6tZSo2upS+nG1jDlo0Tylh
-         /V9pl+Fa0Mjb6GSn/l601xafWZR6leIYeocfA=
+        d=ventanamicro.com; s=google; t=1680701755;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JIHDYxgUdzzSqTP2brP/Gv5M90CrOXKIjgMsPWUPa3E=;
+        b=CKTKF4kpb7ZHTt5WzSMSNpO/YiANGdZvzrrD77G3R2AwcXrky8I6y4ejU+fBNRkbFN
+         lryZ+EIvfsuH2rhE1cSkHr2YVlmsBsCIb8FDF1XSoF0GPIMefcCmWeKloUJDFICHi6eb
+         7MRvsY+ChHOJQlUMZypaYAaLEZHVZ0W99yx9LtAckYSxsCvWLVnwy22p6QBxC6+q6Wm5
+         UhgAmuMSveoY6oR2rnXWLS00Sqg1O+H6+VjZvXkfNBpXmNdo6GRt3ztEp6czta8goSwK
+         oRSWcq7xRdYhdRHeqG+fJZwC0rkHEmiTgcIOzCeYaKuTbI1JTB78nUaYlT1a1CD4IDgf
+         bc6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680701252; x=1683293252;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XqX1N9AwIcXh3tEpxCe94h+1QEhsxAem/vTybjTN11k=;
-        b=r77TadDXzsef9g0hBLd+l7Db+NOQlfmz8sID2l3eHEJP72dAY5TFZjWjjebdvG4Gtv
-         YF6wf7ejzMsmVLufuUnsrhHEm3lGIbXPAb8IbmEhnIas5HZXQMXhN4HfetG00UfnuryO
-         xEyftstGORB797SMgbq53sTpgQaiAGw/SQLLDYg2zxyasvmltPnC+ajcoWJYCbZCZY3s
-         e3RrVApVgX7SLYGqHbSr46atHi4FHs3vufVFI9sFLeywYDyoxl+sAeJ+ChNt4+54KBv4
-         LG2tYRSXbbieDuLcw84NNAJ1V4KPY8UGgBSCQX/wy+Ilk3N/vWxG7NWCiqPTbGP1CqKy
-         +V4A==
-X-Gm-Message-State: AAQBX9dobX7Lr5SPJqho8SyF73K2RDU7fn0d8Y/90hPecO360FVzcMfX
-        RYYbzzE1AVpt0QEtRPctCIV/yA==
-X-Google-Smtp-Source: AKy350YswyL/2WjlpsmEdGmBnqipwym85alKiP+KkghBft5Jy1eR+adZL60tPSX8iCmHKGIo3/jCOQ==
-X-Received: by 2002:a05:6402:524e:b0:4fd:2978:d80 with SMTP id t14-20020a056402524e00b004fd29780d80mr2007567edd.1.1680701251733;
-        Wed, 05 Apr 2023 06:27:31 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id q17-20020a50c351000000b004bf76fdfdb3sm7246880edb.26.2023.04.05.06.27.30
+        d=1e100.net; s=20210112; t=1680701755;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JIHDYxgUdzzSqTP2brP/Gv5M90CrOXKIjgMsPWUPa3E=;
+        b=aqsvcpOjZCA0u10WQpN3EXXcKolL2Y66em1jBNbbwZ7/mVT2kDR+L9i0EF3NElHjur
+         LDKSnT2he0/ADRrzlpyLi3pC0l4ILns8J6UAV52AeGrsoDedsoWKSfJGAE2yq9Z2y2ly
+         FqOSmZs0XiZ0/hIqgMquecd8pAh5kZwiYOVjIebvLwP2Ris8NEdcJoTnYusKUs3F2xgZ
+         ILmYOCCKuAnzfOtaLDAjYtiPp+Dz8S9do7VqWsk1SaBzS5ZL0wuuCSpMrs9jItl9l7Y0
+         SsypA0ybbOHW1Ythb0fh1EiPylWdwFKyqpZnsCvCaz42J9GcH7EOVqI6QCvpsDM8Ifzd
+         drgw==
+X-Gm-Message-State: AAQBX9eyzK/pl63ViD0N/nqaYLqxsdFkSOS2UCmL4OVy0LdALdV2et1B
+        MyHSMTNI47Jtj4fxVBAIFgjb9Q==
+X-Google-Smtp-Source: AKy350YakjU97DwbNOaHnJ7tP50TtKQnFHAXGnpEmklEn/OYjSLROKhCvPK2o+vvLvZ4pWgOW/ApXw==
+X-Received: by 2002:a17:902:e891:b0:1a1:f413:70b1 with SMTP id w17-20020a170902e89100b001a1f41370b1mr7345803plg.18.1680701754753;
+        Wed, 05 Apr 2023 06:35:54 -0700 (PDT)
+Received: from sunil-laptop ([106.51.184.50])
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b0019cad2de86bsm10131129pli.156.2023.04.05.06.35.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 06:27:31 -0700 (PDT)
-Date:   Wed, 5 Apr 2023 15:27:29 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Oded Gabbay <ogabbay@kernel.org>
-Cc:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>, airlied@gmail.com,
-        daniel@ffwll.ch, mani@kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        stanislaw.gruszka@linux.intel.com, quic_carlv@quicinc.com,
-        bagasdotme@gmail.com
-Subject: Re: [PATCH v5 0/8] QAIC accel driver
-Message-ID: <ZC13QdSRybIe3nvk@phenom.ffwll.local>
-References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
- <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
- <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
- <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
+        Wed, 05 Apr 2023 06:35:54 -0700 (PDT)
+Date:   Wed, 5 Apr 2023 19:05:42 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Tom Rix <trix@redhat.com>, Weili Qian <qianweili@huawei.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Len Brown <lenb@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>
+Subject: Re: [PATCH V4 13/23] RISC-V: cpufeature: Add ACPI support in
+ riscv_fill_hwcap()
+Message-ID: <ZC15LqYqLzmiVdcr@sunil-laptop>
+References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
+ <20230404182037.863533-14-sunilvl@ventanamicro.com>
+ <20230404-promotion-scarce-7c69ff7e5f99@spud>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+In-Reply-To: <20230404-promotion-scarce-7c69ff7e5f99@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 05, 2023 at 03:35:19PM +0300, Oded Gabbay wrote:
-> On Wed, Apr 5, 2023 at 2:26 PM Jacek Lawrynowicz
-> <jacek.lawrynowicz@linux.intel.com> wrote:
-> >
-> > Hi,
-> >
-> > On 03.04.2023 19:22, Jeffrey Hugo wrote:
-> > > On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
-> > >> This series introduces a driver under the accel subsystem (QAIC -
-> > >> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
-> > >> a PCIe adapter card that hosts a dedicated machine learning inference
-> > >> accelerator.
-> > >>
-> > >> The previous version (v4) can be found at:
-> > >> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
-> > >
-> > > Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
-> > >
-> > > I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
-> > >
-> > > Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
-> >
-> > I'm would be happy to merge it but I think it needs to be acked by Oded first.
-> >
-> > Regards,
-> > Jacek
+On Tue, Apr 04, 2023 at 09:57:19PM +0100, Conor Dooley wrote:
+> On Tue, Apr 04, 2023 at 11:50:27PM +0530, Sunil V L wrote:
+> > On ACPI based systems, the information about the hart
+> > like ISA is provided by the RISC-V Hart Capabilities Table (RHCT).
+> > Enable filling up hwcap structure based on the information in RHCT.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > ---
+> >  arch/riscv/kernel/cpufeature.c | 39 ++++++++++++++++++++++++++++++----
+> >  1 file changed, 35 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> > index 63e56ce04162..5d2065b937e5 100644
+> > --- a/arch/riscv/kernel/cpufeature.c
+> > +++ b/arch/riscv/kernel/cpufeature.c
+> > @@ -6,6 +6,7 @@
+> >   * Copyright (C) 2017 SiFive
+> >   */
+> >  
+> > +#include <linux/acpi.h>
+> >  #include <linux/bitmap.h>
+> >  #include <linux/ctype.h>
+> >  #include <linux/libfdt.h>
+> > @@ -13,6 +14,8 @@
+> >  #include <linux/memory.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of.h>
+> > +#include <linux/of_device.h>
+> > +#include <asm/acpi.h>
+> >  #include <asm/alternative.h>
+> >  #include <asm/cacheflush.h>
+> >  #include <asm/errata_list.h>
+> > @@ -91,6 +94,9 @@ void __init riscv_fill_hwcap(void)
+> >  	char print_str[NUM_ALPHA_EXTS + 1];
+> >  	int i, j, rc;
+> >  	unsigned long isa2hwcap[26] = {0};
+> > +	struct acpi_table_header *rhct;
+> > +	acpi_status status;
+> > +	unsigned int cpu;
+> >  
+> >  	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
+> >  	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
+> > @@ -103,14 +109,36 @@ void __init riscv_fill_hwcap(void)
+> >  
+> >  	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
+> >  
+> > -	for_each_of_cpu_node(node) {
+> > +	if (!acpi_disabled) {
+> > +		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
+> > +		if (ACPI_FAILURE(status))
+> > +			return;
+> > +	}
+> > +
+> > +	for_each_possible_cpu(cpu) {
+> >  		unsigned long this_hwcap = 0;
+> >  		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
+> >  		const char *temp;
+> >  
+> > -		if (of_property_read_string(node, "riscv,isa", &isa)) {
+> > -			pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
+> > -			continue;
+> > +		if (acpi_disabled) {
+> > +			node = of_cpu_device_node_get(cpu);
+> > +			if (node) {
+> > +				rc = of_property_read_string(node, "riscv,isa", &isa);
 > 
-> Hi,
-> Entire patch-set is:
-> Acked-by: Oded Gabbay <ogabbay@kernel.org>
+> Hmm, after digging in the previous patch, I think this is actually not
+> possible to fail? We already validated it when setting up the mask of
+> possible cpus, but I think leaving the error handling here makes things
+> a lot more obvious.
+> 
+Yeah, do you prefer to merge these patches again since only in this
+patch, we change the loop to for_each_possible_cpu() from
+for_each_of_cpu_node() which actually makes riscv_of_processor_hartid()
+not useful?
 
-Once Jacke has pushed this I htink it would also be good to get Jeffrey
-commit rights for drm-misc, so that in the future bugfixes for the qaic
-driver can be pushed directly by the qaic team. Still with acks/r-b
-requirements as per usual, and I guess for anything bigger/new uapi an ack
-from oded is needed.
-
-https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> I'd swear I gave you a (conditional) R-b on v3 though, no?
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+Thanks,
+Sunil
