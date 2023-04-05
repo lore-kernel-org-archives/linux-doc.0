@@ -2,51 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B90C7619A
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 08:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F100C76188
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Apr 2023 08:34:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237242AbjDEIGh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 04:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48722 "EHLO
+        id S237535AbjDEIeS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 04:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236950AbjDEIGg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 04:06:36 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AF395;
-        Wed,  5 Apr 2023 01:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=X4PVQdadl6ZTLGeoTeEp0Dd4gWHDvdr8s3g3jGogpgM=; b=DKg+iwJwTae61N3oz8ZS/lSVqH
-        kXviuaxC6aMQnQA5NKnoAYS+qajbWl5RIS05vx4JjXnA/1uY+a6/soU4CazZazeHQav2ueMfPrrCw
-        EQUtTTogq4y06UUHDaVZhomah8Ld7DY4BLc4PlF02mk+6H6VMn5G2AarBSTEbEfXR7zxMLhc8ipKq
-        fl5YJeELcKAFBG/bLUYgII+mWcmdo/VpMksm9FsNLpasKzi1IS7cA+k2ezf09uaGVGwNlxhm01sFE
-        KDYfuKdYv5cDPGcxNWj9Txx2BEhobQP6E+J5LNv2LY9KNdhtAkeSaFEL95RFldfCXBGTcR+AwDIHi
-        WB1uHuRg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pjy9S-009pS6-2w;
-        Wed, 05 Apr 2023 08:05:55 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9A0B2300274;
-        Wed,  5 Apr 2023 10:05:48 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 6D9C5262312B5; Wed,  5 Apr 2023 10:05:48 +0200 (CEST)
-Date:   Wed, 5 Apr 2023 10:05:48 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     David Dai <davidai@google.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        with ESMTP id S237530AbjDEIeR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 04:34:17 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 918434C13
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 01:34:10 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id d13so33240786pjh.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 01:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680683650; x=1683275650;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uswkZCNmvnRlVRQCSju2fZnjPjabnOYplQP8HVJ2wjE=;
+        b=hDTg9cZ5dgqFve21IhvP0vjH/LT5Qn7NqlC7lp8kDbxvOzwqcjsmIaSgUiFkxF9/rA
+         CX6RJ+FZxOinhHJXTmJWHeiM0PU12K7peccwTyhJ8SacTyOawUNsD711ZuiS/VYAiGjD
+         JxibN6nFFF/mlX0xY9ioRXj8B1hj/IrRo1VRraKc0O5K/v3oPqUvBr2n5pgr62FnlVaU
+         2hRpKMOuYdJLVWz7IDpKKO6Go35uPSTQZUdpvVPnGKhPc+aWLP8aA0Tz8VCWrmG+oJjo
+         p54SNKfSHgQ/MCAetv/xg7nmJSwNXLhATwlFTNFdgDWIHq16UuKOooTHU7SDn+oVRjSK
+         JQPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680683650; x=1683275650;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uswkZCNmvnRlVRQCSju2fZnjPjabnOYplQP8HVJ2wjE=;
+        b=zHNnx3o62ru+nLU+O6NZ+rQLmh7NO/O4FjLcsSlrxP8vJ6/8sA3g8CIyBqNXAM2nJJ
+         Q5anq2rXearGNWTlc3XR7XyFzlrEfkwVc5hUhd/ikjmdt+neAL79JkHA83bngXL+IrBK
+         EolO1svKofIfVZ7Cj05tn0ynK+FbcTQlpo1Hu2pLxT12TYWNLAeRwMl6AARN8bSYg7Ot
+         uW3vMH3CNn3ECggvw+3b/DH/Nf8n3W1VN0kmjVeJS//0pDmlvGLLTvqxuwOdopPKigDO
+         jatkyIbCqekClPJJ8Ry2JNU730r7XHumlSzOr1eZeJqE1HPV1NsfXG/rFuQLz8bIpucL
+         6fHQ==
+X-Gm-Message-State: AAQBX9e0LEheM+6EUt8F+qrK5ACbNG7Vyn24dA9CIO5pXvX4qbsyNUeo
+        YYxJKEsGePnZBmONcOU1oXA7OVIXJfsAFtQpqlc74w==
+X-Google-Smtp-Source: AKy350ZAsaPHdY8c5KE9TLI0KeNHy+W9j9/lSgVgAc0xT/TIw+751YYthPnT3mfZja3e78XtuRBHMTFr1xtbfMMwycs=
+X-Received: by 2002:a17:90a:d201:b0:240:d8d8:12c4 with SMTP id
+ o1-20020a17090ad20100b00240d8d812c4mr1918429pju.3.1680683649941; Wed, 05 Apr
+ 2023 01:34:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230330224348.1006691-1-davidai@google.com> <ZCx97IKjsBibjdGc@linux.dev>
+ <86sfdfv0e1.wl-maz@kernel.org> <ZC0n0HRsmNJeJZps@google.com>
+In-Reply-To: <ZC0n0HRsmNJeJZps@google.com>
+From:   Vincent Guittot <vincent.guittot@linaro.org>
+Date:   Wed, 5 Apr 2023 10:33:58 +0200
+Message-ID: <CAKfTPtBaXao2oFjFy7Zx8T6orBgC=+zw7L+mF3My7kOFAvg2Og@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
+To:     Quentin Perret <qperret@google.com>
+Cc:     Marc Zyngier <maz@kernel.org>, David Dai <davidai@google.com>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
         Viresh Kumar <viresh.kumar@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
         James Morse <james.morse@arm.com>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
         Zenghui Yu <yuzenghui@huawei.com>,
@@ -56,8 +71,8 @@ Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
         Sudeep Holla <sudeep.holla@arm.com>,
         Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
@@ -67,57 +82,151 @@ Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         kvm@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
-Message-ID: <20230405080548.GW4253@hirez.programming.kicks-ass.net>
-References: <20230330224348.1006691-1-davidai@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230330224348.1006691-1-davidai@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 03:43:35PM -0700, David Dai wrote:
-> Hi,
-> 
-> This patch series is a continuation of the talk Saravana gave at LPC 2022
-> titled "CPUfreq/sched and VM guest workload problems" [1][2][3]. The gist
-> of the talk is that workloads running in a guest VM get terrible task
-> placement and DVFS behavior when compared to running the same workload in
-> the host. Effectively, no EAS for threads inside VMs. This would make power
-> and performance terrible just by running the workload in a VM even if we
-> assume there is zero virtualization overhead.
-> 
-> We have been iterating over different options for communicating between
-> guest and host, ways of applying the information coming from the
-> guest/host, etc to figure out the best performance and power improvements
-> we could get.
-> 
-> The patch series in its current state is NOT meant for landing in the
-> upstream kernel. We are sending this patch series to share the current
-> progress and data we have so far. The patch series is meant to be easy to
-> cherry-pick and test on various devices to see what performance and power
-> benefits this might give for others.
-> 
-> With this series, a workload running in a VM gets the same task placement
-> and DVFS treatment as it would when running in the host.
-> 
-> As expected, we see significant performance improvement and better
-> performance/power ratio. If anyone else wants to try this out for your VM
-> workloads and report findings, that'd be very much appreciated.
-> 
-> The idea is to improve VM CPUfreq/sched behavior by:
-> - Having guest kernel to do accurate load tracking by taking host CPU
->   arch/type and frequency into account.
-> - Sharing vCPU run queue utilization information with the host so that the
->   host can do proper frequency scaling and task placement on the host side.
+On Wed, 5 Apr 2023 at 09:48, Quentin Perret <qperret@google.com> wrote:
+>
+> On Tuesday 04 Apr 2023 at 21:49:10 (+0100), Marc Zyngier wrote:
+> > On Tue, 04 Apr 2023 20:43:40 +0100,
+> > Oliver Upton <oliver.upton@linux.dev> wrote:
+> > >
+> > > Folks,
+> > >
+> > > On Thu, Mar 30, 2023 at 03:43:35PM -0700, David Dai wrote:
+> > >
+> > > <snip>
+> > >
+> > > > PCMark
+> > > > Higher is better
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > > | Test Case (score) | Baseline |  Hypercall | %delta |  MMIO | %delta |
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > > | Weighted Total    |     6136 |       7274 |   +19% |  6867 |   +12% |
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > > | Web Browsing      |     5558 |       6273 |   +13% |  6035 |    +9% |
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > > | Video Editing     |     4921 |       5221 |    +6% |  5167 |    +5% |
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > > | Writing           |     6864 |       8825 |   +29% |  8529 |   +24% |
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > > | Photo Editing     |     7983 |      11593 |   +45% | 10812 |   +35% |
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > > | Data Manipulation |     5814 |       6081 |    +5% |  5327 |    -8% |
+> > > > +-------------------+----------+------------+--------+-------+--------+
+> > > >
+> > > > PCMark Performance/mAh
+> > > > Higher is better
+> > > > +-----------+----------+-----------+--------+------+--------+
+> > > > |           | Baseline | Hypercall | %delta | MMIO | %delta |
+> > > > +-----------+----------+-----------+--------+------+--------+
+> > > > | Score/mAh |       79 |        88 |   +11% |   83 |    +7% |
+> > > > +-----------+----------+-----------+--------+------+--------+
+> > > >
+> > > > Roblox
+> > > > Higher is better
+> > > > +-----+----------+------------+--------+-------+--------+
+> > > > |     | Baseline |  Hypercall | %delta |  MMIO | %delta |
+> > > > +-----+----------+------------+--------+-------+--------+
+> > > > | FPS |    18.25 |      28.66 |   +57% | 24.06 |   +32% |
+> > > > +-----+----------+------------+--------+-------+--------+
+> > > >
+> > > > Roblox Frames/mAh
+> > > > Higher is better
+> > > > +------------+----------+------------+--------+--------+--------+
+> > > > |            | Baseline |  Hypercall | %delta |   MMIO | %delta |
+> > > > +------------+----------+------------+--------+--------+--------+
+> > > > | Frames/mAh |    91.25 |     114.64 |   +26% | 103.11 |   +13% |
+> > > > +------------+----------+------------+--------+--------+--------+
+> > >
+> > > </snip>
+> > >
+> > > > Next steps:
+> > > > ===========
+> > > > We are continuing to look into communication mechanisms other than
+> > > > hypercalls that are just as/more efficient and avoid switching into the VMM
+> > > > userspace. Any inputs in this regard are greatly appreciated.
+> > >
+> > > We're highly unlikely to entertain such an interface in KVM.
+> > >
+> > > The entire feature is dependent on pinning vCPUs to physical cores, for which
+> > > userspace is in the driver's seat. That is a well established and documented
+> > > policy which can be seen in the way we handle heterogeneous systems and
+> > > vPMU.
+> > >
+> > > Additionally, this bloats the KVM PV ABI with highly VMM-dependent interfaces
+> > > that I would not expect to benefit the typical user of KVM.
+> > >
+> > > Based on the data above, it would appear that the userspace implementation is
+> > > in the same neighborhood as a KVM-based implementation, which only further
+> > > weakens the case for moving this into the kernel.
+> > >
+> > > I certainly can appreciate the motivation for the series, but this feature
+> > > should be in userspace as some form of a virtual device.
+> >
+> > +1 on all of the above.
+>
+> And I concur with all the above as well. Putting this in the kernel is
+> not an obvious fit at all as that requires a number of assumptions about
+> the VMM.
+>
+> As Oliver pointed out, the guest topology, and how it maps to the host
+> topology (vcpu pinning etc) is very much a VMM policy decision and will
+> be particularly important to handle guest frequency requests correctly.
+>
+> In addition to that, the VMM's software architecture may have an impact.
+> Crosvm for example does device emulation in separate processes for
+> security reasons, so it is likely that adjusting the scheduling
+> parameters ('util_guest', uclamp, or else) only for the vCPU thread that
+> issues frequency requests will be sub-optimal for performance, we may
+> want to adjust those parameters for all the tasks that are on the
+> critical path.
+>
+> And at an even higher level, assuming in the kernel a certain mapping of
+> vCPU threads to host threads feels kinda wrong, this too is a host
+> userspace policy decision I believe. Not that anybody in their right
+> mind would want to do this, but I _think_ it would technically be
+> feasible to serialize the execution of multiple vCPUs on the same host
+> thread, at which point the util_guest thingy becomes entirely bogus. (I
+> obviously don't want to conflate this use-case, it's just an example
+> that shows the proposed abstraction in the series is not a perfect fit
+> for the KVM userspace delegation model.)
+>
+> So +1 from me to move this as a virtual device of some kind. And if the
+> extra cost of exiting all the way back to userspace is prohibitive (is
+> it btw?), then we can try to work on that. Maybe something a la vhost
+> can be done to optimize, I'll have a think.
+>
+> > The one thing I'd like to understand that the comment seems to imply
+> > that there is a significant difference in overhead between a hypercall
+> > and an MMIO. In my experience, both are pretty similar in cost for a
+> > handling location (both in userspace or both in the kernel). MMIO
+> > handling is a tiny bit more expensive due to a guaranteed TLB miss
+> > followed by a walk of the in-kernel device ranges, but that's all. It
+> > should hardly register.
+> >
+> > And if you really want some super-low latency, low overhead
+> > signalling, maybe an exception is the wrong tool for the job. Shared
+> > memory communication could be more appropriate.
+>
+> I presume some kind of signalling mechanism will be necessary to
+> synchronously update host scheduling parameters in response to guest
+> frequency requests, but if the volume of data requires it then a shared
+> buffer + doorbell type of approach should do.
+>
+> Thinking about it, using SCMI over virtio would implement exactly that.
+> Linux-as-a-guest already supports it IIRC, so possibly the problem
+> being addressed in this series could be 'simply' solved using an SCMI
+> backend in the VMM...
 
-So, not having actually been send many of the patches I've no idea what
-you've done... Please, eradicate this ridiculous idea of sending random
-people a random subset of a patch series. Either send all of it or none,
-this is a bloody nuisance.
+This is what was suggested at LPC:
+using virtio-scmi and scmi performance domain in the guest for cpufreq driver
+using a vhost user scmi backend in user space
+from this vhost userspace backend updates the uclamp min of the vCPU
+thread or use another method is this one is not good enough
 
-Having said that; my biggest worry is that you're making scheduler
-internals into an ABI. I would hate for this paravirt interface to tie
-us down.
+>
+> Thanks,
+> Quentin
