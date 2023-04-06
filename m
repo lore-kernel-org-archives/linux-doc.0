@@ -2,268 +2,249 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F3EC77B6C
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 21:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05492C77B74
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 22:00:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237277AbjDFVjY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 17:39:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33272 "EHLO
+        id S239596AbjDFWAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 18:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236642AbjDFVjX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 17:39:23 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75A968A55
-        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 14:39:20 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id r11so40812402wrr.12
-        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 14:39:20 -0700 (PDT)
+        with ESMTP id S239874AbjDFV7g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 17:59:36 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7C25B742;
+        Thu,  6 Apr 2023 14:59:34 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id o2so38698502plg.4;
+        Thu, 06 Apr 2023 14:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680817159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1680818374;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pj5O6q4/SLV++nc+no3Y4fbUsfJNZC+GMe261qLamEw=;
-        b=n6h9c0j+sES0yh6qBjYK+xyko80XB8y/5ykeeb8R97B2LZPG62DfWbTddtyczMWNNt
-         LGOjh/Qqu/RL3BkQkh9z9XKmf7JNg1Zq7cu7vKfTGi8YZ7Pr92/nGYRgQMcyXlADf081
-         +n/51mtxYPJSRnwhZ6fiSX/fBrn6Yqiz+X4rmovqJLCsdo2gkxHrpVTaf/l+JPNgyxLj
-         w36G+Zu9GjCCKHGMCk6oyAo8OXc7v5ABrXlclZNSBgBdWbLxzCaDTW+inb54gArnz07A
-         3vVssEmLjoCOdoWdyoE9BkUDeKAroTXGArrI+dTVqjwxpaCvpyIadrhvgOTVkIEHQOf2
-         D8jw==
+        bh=c6L5ENPI75XNzxj2+ZIEkRc54Pl4hiK3xelpisJ84I0=;
+        b=AnAkUdnHDzYKT97ng+g2R/yROgrNHBiakRRrw+nsrbwnxApR/yjxOJdHyK168NDqRI
+         3n8MQXqz+MHMZFXNLoFoAqwPcdY4Ha1DZLzLKP9WPLW2W6m3QqfYrvcDJfec/x2BNYOF
+         nhTvTBfHwdPiM4zr9MXWPyn3DKhjQglGC22qJM2mx+1y2bj6gYP8tOYzPPSkkdUA3puM
+         cAIGHzgz+SJpzEIJF2sG/wzLcgxhjUwwh315IIxqMWCHoP4tEabxOZd08q+Yujp23ww6
+         Cb4HlAEpaVmQxmOvnUvKvlqgzs+1zrtM7nB1fLyttJXocpQB522eg0ixh0mYVycxcDhc
+         KuZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680817159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1680818374;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pj5O6q4/SLV++nc+no3Y4fbUsfJNZC+GMe261qLamEw=;
-        b=Sx2kTHFN0Qsy3AxxBlagADL2c5ndBL+jyK0IOs9QtWWuNFX3ClvUjubBKd87tQHhFt
-         wQwxNYl10SfDngmoX8nogy53eg72JiXTpqGT398bjeQUHjW000VDb9LT0FsxxLQ/gZ8t
-         xa2H767z7bNyVBKeJzEBAMmHIBBRPR0FlYThXiKAIvM/FXwSQJHBMhuUEba25Tty1anr
-         SaumMrFQu2ROq8/sGUqOYRJpMp5p2yJp/yoJI0oyJhruKdx2MbaQVGCRsKFLJ7977Sfh
-         98BdsmYRh7OjukdKrgHn9wEVDRtbiv4QWVadnjBvq/lp8aFSRHpwF5JJ5vOODo+EcYPP
-         J8dg==
-X-Gm-Message-State: AAQBX9di3grd3s2QzHNhts5+8MiUNtQ+3yJljHS9dRLvMvqR4Apzn9wQ
-        MV52YkhTfgSKlYymELwedL+706U6gfST7BOTiXX/5w==
-X-Google-Smtp-Source: AKy350bsgguQ6+ROAswXDMNqU++5TVFkFSC3cAihJii/tTwwKLweqkSx1v7IlTCmC0owbXWsm5Fo5s3Miuy0gzzDowI=
-X-Received: by 2002:adf:eb4d:0:b0:2cf:f053:a32e with SMTP id
- u13-20020adfeb4d000000b002cff053a32emr2429273wrn.6.1680817158708; Thu, 06 Apr
- 2023 14:39:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230330224348.1006691-1-davidai@google.com> <ZCx97IKjsBibjdGc@linux.dev>
- <86sfdfv0e1.wl-maz@kernel.org> <ZC0n0HRsmNJeJZps@google.com>
- <CAGETcx_9SdyCQ5UHhjsnV5+X8arhXoZS2NN-mewtPM3oHuZrkw@mail.gmail.com> <ZC7Ao1qoNGYXQ9h4@google.com>
-In-Reply-To: <ZC7Ao1qoNGYXQ9h4@google.com>
-From:   David Dai <davidai@google.com>
-Date:   Thu, 6 Apr 2023 14:39:07 -0700
-Message-ID: <CABN1KCLQ3ArERDHxjDVxBmEx18us6dihHTrydjzKbPPw7rKhzA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
-To:     Quentin Perret <qperret@google.com>
-Cc:     Saravana Kannan <saravanak@google.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        bh=c6L5ENPI75XNzxj2+ZIEkRc54Pl4hiK3xelpisJ84I0=;
+        b=V2vv3HyCb5IOgYOd5OUgXJbD9iY45qNtOajEwEA4QVu1COjas9QrbaB3QjT9BhLLE2
+         m7WeaZ/Jm/g5pHBxri5h+jHrwVaoIxrLRPHJIetuNX+odxVClhiNaUHJCBu0Ss8KosAb
+         bcttXMe8DbsK1iWjhmgMdAlxQRkEaRVP23D+VjncotNfrA2PHzF8tqK2pN68v/gEAjLO
+         IkXv48Hpx4jU642upA7wGvVcVL/MDMRmkCWoHLO3i8k6hX22F8oFAfZYFBK9ME8fbf3Z
+         VNn4n50hssjq0qpg9Z8SC7A/ndyE8iradMRy2hSvPzyag0H+j87NZU5LnRDo0yDwFxtD
+         4zDQ==
+X-Gm-Message-State: AAQBX9dnHDJFs3oZbKEvcoWaq1UiYY23lknVnbQh8xCSwApH8TL9o7DB
+        LXlE8QM+pGKxvsD7lI0PQpQ=
+X-Google-Smtp-Source: AKy350a3Dxbhpp10Xwx9B8AMZVnumZvl4Zrhg3p3wx5sI9TNreng7qrPlNBDenob6BEbClj6yW/BGA==
+X-Received: by 2002:a17:902:f986:b0:1a0:549d:3996 with SMTP id ky6-20020a170902f98600b001a0549d3996mr5050194plb.25.1680818373990;
+        Thu, 06 Apr 2023 14:59:33 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+        by smtp.gmail.com with ESMTPSA id v6-20020a1709029a0600b0019a6cce2060sm1813770plp.57.2023.04.06.14.59.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 14:59:33 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Christopher Healy <healych@amazon.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        kernel-team@android.com, linux-pm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [RFC 1/2] drm: Add fdinfo memory stats
+Date:   Thu,  6 Apr 2023 14:59:16 -0700
+Message-Id: <20230406215917.1475704-2-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230406215917.1475704-1-robdclark@gmail.com>
+References: <20230406215917.1475704-1-robdclark@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 6, 2023 at 5:52=E2=80=AFAM Quentin Perret <qperret@google.com> =
-wrote:
->
-> On Wednesday 05 Apr 2023 at 14:07:18 (-0700), Saravana Kannan wrote:
-> > On Wed, Apr 5, 2023 at 12:48=E2=80=AFAM 'Quentin Perret' via kernel-tea=
-m
-> > > And I concur with all the above as well. Putting this in the kernel i=
-s
-> > > not an obvious fit at all as that requires a number of assumptions ab=
-out
-> > > the VMM.
-> > >
-> > > As Oliver pointed out, the guest topology, and how it maps to the hos=
-t
-> > > topology (vcpu pinning etc) is very much a VMM policy decision and wi=
-ll
-> > > be particularly important to handle guest frequency requests correctl=
-y.
-> > >
-> > > In addition to that, the VMM's software architecture may have an impa=
-ct.
-> > > Crosvm for example does device emulation in separate processes for
-> > > security reasons, so it is likely that adjusting the scheduling
-> > > parameters ('util_guest', uclamp, or else) only for the vCPU thread t=
-hat
-> > > issues frequency requests will be sub-optimal for performance, we may
-> > > want to adjust those parameters for all the tasks that are on the
-> > > critical path.
-> > >
-> > > And at an even higher level, assuming in the kernel a certain mapping=
- of
-> > > vCPU threads to host threads feels kinda wrong, this too is a host
-> > > userspace policy decision I believe. Not that anybody in their right
-> > > mind would want to do this, but I _think_ it would technically be
-> > > feasible to serialize the execution of multiple vCPUs on the same hos=
-t
-> > > thread, at which point the util_guest thingy becomes entirely bogus. =
-(I
-> > > obviously don't want to conflate this use-case, it's just an example
-> > > that shows the proposed abstraction in the series is not a perfect fi=
-t
-> > > for the KVM userspace delegation model.)
-> >
-> > See my reply to Oliver and Marc. To me it looks like we are converging
-> > towards having shared memory between guest, host kernel and VMM and
-> > that should address all our concerns.
->
-> Hmm, that is not at all my understanding of what has been the most
-> important part of the feedback so far: this whole thing belongs to
-> userspace.
->
-> > The guest will see a MMIO device, writing to it will trigger the host
-> > kernel to do the basic "set util_guest/uclamp for the vCPU thread that
-> > corresponds to the vCPU" and then the VMM can do more on top as/if
-> > needed (because it has access to the shared memory too). Does that
-> > make sense?
->
-> Not really no. I've given examples of why this doesn't make sense for
-> the kernel to do this, which still seems to be the case with what you're
-> suggesting here.
->
-> > Even in the extreme example, the stuff the kernel would do would still
-> > be helpful, but not sufficient. You can aggregate the
-> > util_guest/uclamp and do whatever from the VMM.
-> > Technically in the extreme example, you don't need any of this. The
-> > normal util tracking of the vCPU thread on the host side would be
-> > sufficient.
-> >
-> > Actually any time we have only 1 vCPU host thread per VM, we shouldn't
-> > be using anything in this patch series and not instantiate the guest
-> > device at all.
->
-> > > So +1 from me to move this as a virtual device of some kind. And if t=
-he
-> > > extra cost of exiting all the way back to userspace is prohibitive (i=
-s
-> > > it btw?),
-> >
-> > I think the "13% increase in battery consumption for games" makes it
-> > pretty clear that going to userspace is prohibitive. And that's just
-> > one example.
->
+From: Rob Clark <robdclark@chromium.org>
 
-Hi Quentin,
+Add a helper to dump memory stats to fdinfo.  For the things the drm
+core isn't aware of, use a callback.
 
-Appreciate the feedback,
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+ drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
+ include/drm/drm_file.h                | 10 ++++
+ 3 files changed, 110 insertions(+)
 
-> I beg to differ. We need to understand where these 13% come from in more
-> details. Is it really the actual cost of the userspace exit? Or is it
-> just that from userspace the only knob you can play with is uclamp and
-> that didn't reach the expected level of performance?
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index b46327356e80..56e3c95b6e0a 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
+ Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+ indicating kibi- or mebi-bytes.
+ 
++- drm-shared-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are shared with another file (ie. have more
++than a single handle).
++
++- drm-private-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are not shared with another file.
++
++- drm-resident-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are resident in system memory.
++
++- drm-purgeable-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are purgable.
++
++- drm-active-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are active on one or more rings.
++
+ - drm-cycles-<str> <uint>
+ 
+ Engine identifier string must be the same as the one specified in the
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index a51ff8cee049..21911d6ff38d 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -42,6 +42,7 @@
+ #include <drm/drm_client.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
++#include <drm/drm_gem.h>
+ #include <drm/drm_print.h>
+ 
+ #include "drm_crtc_internal.h"
+@@ -868,6 +869,84 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+ }
+ EXPORT_SYMBOL(drm_send_event);
+ 
++static void print_size(struct drm_printer *p, const char *stat, size_t sz)
++{
++	const char *units[] = {"B", "KiB", "MiB", "GiB"};
++	unsigned u;
++
++	for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
++		if (sz < SZ_1K)
++			break;
++		sz /= SZ_1K;
++	}
++
++	drm_printf(p, "%s:\t%lu %s\n", stat, sz, units[u]);
++}
++
++/**
++ * drm_print_memory_stats - Helper to print standard fdinfo memory stats
++ * @file: the DRM file
++ * @p: the printer to print output to
++ * @status: callback to get driver tracked object status
++ *
++ * Helper to iterate over GEM objects with a handle allocated in the specified
++ * file.  The optional status callback can return additional object state which
++ * determines which stats the object is counted against.  The callback is called
++ * under table_lock.  Racing against object status change is "harmless", and the
++ * callback can expect to not race against object destroy.
++ */
++void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
++			    enum drm_gem_object_status (*status)(struct drm_gem_object *))
++{
++	struct drm_gem_object *obj;
++	struct {
++		size_t shared;
++		size_t private;
++		size_t resident;
++		size_t purgeable;
++		size_t active;
++	} size = {0};
++	int id;
++
++	spin_lock(&file->table_lock);
++	idr_for_each_entry (&file->object_idr, obj, id) {
++		enum drm_gem_object_status s = 0;
++
++		if (status)
++			s = status(obj);
++
++		if (obj->handle_count > 1) {
++			size.shared += obj->size;
++		} else {
++			size.private += obj->size;
++		}
++
++		if (s & DRM_GEM_OBJECT_RESIDENT) {
++			size.resident += obj->size;
++			s &= ~DRM_GEM_OBJECT_PURGEABLE;
++		}
++
++		if (s & DRM_GEM_OBJECT_ACTIVE) {
++			size.active += obj->size;
++			s &= ~DRM_GEM_OBJECT_PURGEABLE;
++		}
++
++		if (s & DRM_GEM_OBJECT_PURGEABLE)
++			size.purgeable += obj->size;
++	}
++	spin_unlock(&file->table_lock);
++
++	print_size(p, "drm-shared-memory", size.shared);
++	print_size(p, "drm-private-memory", size.private);
++
++	if (status) {
++		print_size(p, "drm-resident-memory", size.resident);
++		print_size(p, "drm-purgeable-memory", size.purgeable);
++		print_size(p, "drm-active-memory", size.active);
++	}
++}
++EXPORT_SYMBOL(drm_print_memory_stats);
++
+ /**
+  * mock_drm_getfile - Create a new struct file for the drm device
+  * @minor: drm minor to wrap (e.g. #drm_device.primary)
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 0d1f853092ab..7bd8a1374f39 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -41,6 +41,7 @@
+ struct dma_fence;
+ struct drm_file;
+ struct drm_device;
++struct drm_printer;
+ struct device;
+ struct file;
+ 
+@@ -438,6 +439,15 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
+ 				     struct drm_pending_event *e,
+ 				     ktime_t timestamp);
+ 
++enum drm_gem_object_status {
++	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
++	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
++	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
++};
++
++void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
++			    enum drm_gem_object_status (*status)(struct drm_gem_object *));
++
+ struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
+ 
+ #endif /* _DRM_FILE_H_ */
+-- 
+2.39.2
 
-To clarify, the MMIO numbers shown in the cover letter were collected
-with updating vCPU task's util_guest as opposed to uclamp_min. In that
-configuration, userspace(VMM) handles the mmio_exit from the guest and
-makes an ioctl on the host kernel to update util_guest for the vCPU
-task.
-
->
-> If that is the userspace exit, then we can work to optimize that -- it's
-> a fairly common problem in the virt world, nothing special here.
->
-
-Ok, we're open to suggestions on how to better optimize here.
-
-> And if the issue is the lack of expressiveness in uclamp, then that too
-> is something we should work on, but clearly giving vCPU threads more
-> 'power' than normal host threads is a bit of a red flag IMO. vCPU
-> threads must be constrained in the same way that userspace threads are,
-> because they _are_ userspace threads.
->
-> > > then we can try to work on that. Maybe something a la vhost
-> > > can be done to optimize, I'll have a think.
-> > >
-> > > > The one thing I'd like to understand that the comment seems to impl=
-y
-> > > > that there is a significant difference in overhead between a hyperc=
-all
-> > > > and an MMIO. In my experience, both are pretty similar in cost for =
-a
-> > > > handling location (both in userspace or both in the kernel). MMIO
-> > > > handling is a tiny bit more expensive due to a guaranteed TLB miss
-> > > > followed by a walk of the in-kernel device ranges, but that's all. =
-It
-> > > > should hardly register.
-> > > >
-> > > > And if you really want some super-low latency, low overhead
-> > > > signalling, maybe an exception is the wrong tool for the job. Share=
-d
-> > > > memory communication could be more appropriate.
-> > >
-> > > I presume some kind of signalling mechanism will be necessary to
-> > > synchronously update host scheduling parameters in response to guest
-> > > frequency requests, but if the volume of data requires it then a shar=
-ed
-> > > buffer + doorbell type of approach should do.
-> >
-> > Part of the communication doesn't need synchronous handling by the
-> > host. So, what I said above.
->
-> I've also replied to another message about the scale invariance issue,
-> and I'm not convinced the frequency based interface proposed here really
-> makes sense. An AMU-like interface is very likely to be superior.
->
-
-Some sort of AMU-based interface was discussed offline with Saravana,
-but I'm not sure how to best implement that. If you have any pointers
-to get started, that would be helpful.
-
-> > > Thinking about it, using SCMI over virtio would implement exactly tha=
-t.
-> > > Linux-as-a-guest already supports it IIRC, so possibly the problem
-> > > being addressed in this series could be 'simply' solved using an SCMI
-> > > backend in the VMM...
-> >
-> > This will be worse than all the options we've tried so far because it
-> > has the userspace overhead AND uclamp overhead.
->
-> But it doesn't violate the whole KVM userspace delegation model, so we
-> should start from there and then optimize further if need be.
-
-Do you have any references we can experiment with getting started for
-SCMI? (ex. SCMI backend support in CrosVM).
-
-For RFC V3, I'll post a CPUfreq driver implementation that only uses
-MMIO and without any kernel host modifications(I.E. Only using uclamp
-as a knob to tune the host) along with performance numbers and then
-work on optimizing from there.
-
-Thanks,
-David
-
->
-> Thanks,
-> Quentin
