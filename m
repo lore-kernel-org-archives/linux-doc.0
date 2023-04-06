@@ -2,381 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48974C77B70
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 13:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3988BC761A6
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 13:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237895AbjDFNTg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 09:19:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46594 "EHLO
+        id S237316AbjDFNYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 09:24:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238029AbjDFNTd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 09:19:33 -0400
-Received: from mail-ej1-x663.google.com (mail-ej1-x663.google.com [IPv6:2a00:1450:4864:20::663])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 497D410C
-        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 06:19:29 -0700 (PDT)
-Received: by mail-ej1-x663.google.com with SMTP id j22so1336469ejv.1
-        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 06:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dectris.com; s=google; t=1680787168;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5yi4OiM4kEmgeS9xDsrs87sQiBi6sfhGesg9BenD2G4=;
-        b=k3LSrfgaeVvjvUGxBqu927KQxcLNsEqQg+9smp4VOTUpoeu4ZhBdNxFC8qM+Vmi4V5
-         AbvCj+GD0h6jAK1tdeGJLLVci59oqRiRZbvUWXRjQx/5uHlDHy/YZPfLeDWwJltnybbo
-         xgP362m89XTmCDlKHYu8EyDuHUgPWzpm1jaeQ=
+        with ESMTP id S238146AbjDFNYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 09:24:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAF9A5F3
+        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 06:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680787395;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=e7Hmzr+9HB3Bn94tWpFODla1b+fc9Td8o9IH5wnZAGQ=;
+        b=IJvuZi5AGySZtZ3n1D6T3KlRccHp5Bia6smlFHQRFNXtde/WIFEWtu+hlc1xbxNR8/1AdG
+        /lvZokz/UXcnZ5kmIjvgXtFB+i1CU9q1ni0k7tFTzJ+Mheh83jGJMlMm0EDo4q1jSjnUSg
+        5qNJqCpGiF2X8kR/9lWRUwsHB2lzLfQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-114-6f1262LuM0CX09EnHvxruA-1; Thu, 06 Apr 2023 09:23:14 -0400
+X-MC-Unique: 6f1262LuM0CX09EnHvxruA-1
+Received: by mail-wm1-f72.google.com with SMTP id p10-20020a05600c358a00b003edf7d484d4so18665638wmq.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 06:23:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680787168;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5yi4OiM4kEmgeS9xDsrs87sQiBi6sfhGesg9BenD2G4=;
-        b=G/ltmkWZ7xmevsDspVQufLr0fCm3h20gM3v2MGM9LPxbTJ48ISeZdprpMfYyULJ5+s
-         OCh3gMRBBMFWu9cXiUx0b6P7xWHDt1NFlyZu8AUOnqjVNvcL3mr+y7sAxvNcAZvACx87
-         hWKITLH6QFR4l6mWtgGSTSlMtkIsXsV9da/+h35y9cphAZ0hoRwBgbvi0lTgwSDIjdy3
-         qqq2LmIyNUo2L5h/q7pN9cuVb+CqzTjV6J5Q7yEFO7odn+mE/rI9ULABi3cZa6Trr0Ij
-         VJ9zQ/3F12aRSTvVXnmeoBSHmbNUHBH8PAlXJnLQANdzfAYcCtvv5xwCwWcpRpnfqvHM
-         8M5Q==
-X-Gm-Message-State: AAQBX9dI/9bt8c+6lnAZeeW1WlsDW/aVnm3HajqY5RT5Qyg9pqmvdYSc
-        2mc7ra8m/9+3TF04NU+cXw/uD4/DmAEohG9BMPTNGkRjldFJ
-X-Google-Smtp-Source: AKy350a4uNIJJ0BslTCRT8EDZu33zv0Pmx5iQTHVG38Dr2KZJCB1EvPGVFhJzrRTlKjoJ8OPE/sJh+/+vOSv
-X-Received: by 2002:a17:906:6893:b0:8b1:78bc:7508 with SMTP id n19-20020a170906689300b008b178bc7508mr5967512ejr.20.1680787167664;
-        Thu, 06 Apr 2023 06:19:27 -0700 (PDT)
-Received: from fedora.dectris.local (dect-ch-bad-pfw.cyberlink.ch. [62.12.151.50])
-        by smtp-relay.gmail.com with ESMTPS id 7-20020a170906014700b00947de8fa946sm137999ejh.201.2023.04.06.06.19.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 06:19:27 -0700 (PDT)
-X-Relaying-Domain: dectris.com
-From:   Kal Conley <kal.conley@dectris.com>
-To:     Magnus Karlsson <magnus.karlsson@intel.com>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>
-Cc:     Kal Conley <kal.conley@dectris.com>, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next v4 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
-Date:   Thu,  6 Apr 2023 15:18:04 +0200
-Message-Id: <20230406131806.51332-2-kal.conley@dectris.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230406131806.51332-1-kal.conley@dectris.com>
-References: <20230406131806.51332-1-kal.conley@dectris.com>
+        d=1e100.net; s=20210112; t=1680787393; x=1683379393;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e7Hmzr+9HB3Bn94tWpFODla1b+fc9Td8o9IH5wnZAGQ=;
+        b=vwroyYcfmhxMlvv1N7KVkNK2bIEuqSx3/t2q58JgXQcu0EpqSRPvM0ZFljKAonELuB
+         qsWEhwEQv6cWvoz3F5S+USVG4Ily259k6dszSGS9vnrRohqMdNP2dWPHGCnuYP64hzV9
+         YB+GTisXb1WYx4oN/tM0zKWOVGQ1EDK6jvhhzvJEMhD0PGaPSNB3YzQF7HPIdXziRAB8
+         4yb5hSwSP/NTwXcmxKTAQimodpMoJ4rODVnTJ8Vh0T1VflCPsFd054XAUHFaBPHt3kLF
+         3CXHgAjADFJ3EqzGmt6s8Q44LhARbX6PjAOfWNXhxRgvUKzAcbjuZ/TZUJ+psEM90Omr
+         JrXQ==
+X-Gm-Message-State: AAQBX9dW+LPjxOFPB0PWPjYfF0eWT5msSdygRmHRyKXCQlfdgZB2khTO
+        z/PmgxKPi9IpW/yl3mFQlQhZdx7GKXn7qBjqbQBFWfTN3pUg2QySZyq/pOFcP1u3T5Wljw/quC1
+        2W13EsG+4JQ5GYyoCW1Y5
+X-Received: by 2002:a05:600c:2216:b0:3e2:1dac:b071 with SMTP id z22-20020a05600c221600b003e21dacb071mr4319565wml.13.1680787392954;
+        Thu, 06 Apr 2023 06:23:12 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YcbkiaS8MTBR4JZ3ECj8Euw4BG/3vHhNsIZuEhi84AOHoHz8xwwrzQdwYxnoyhI8a3PQ+54g==
+X-Received: by 2002:a05:600c:2216:b0:3e2:1dac:b071 with SMTP id z22-20020a05600c221600b003e21dacb071mr4319547wml.13.1680787392649;
+        Thu, 06 Apr 2023 06:23:12 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id t16-20020a05600c451000b003ef66c89af0sm8750890wmo.0.2023.04.06.06.23.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Apr 2023 06:23:12 -0700 (PDT)
+Message-ID: <e7a930f6-feba-29a4-7c48-ae7d8108c7dc@redhat.com>
+Date:   Thu, 6 Apr 2023 15:23:11 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v4 2/3] mm: add new KSM process and sysfs knobs
+Content-Language: en-US
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org, Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20230310182851.2579138-1-shr@devkernel.io>
+ <20230310182851.2579138-3-shr@devkernel.io>
+ <ce494e5a-3540-d6ad-4e9c-0bb49c7e1e1b@redhat.com>
+ <qvqw8rf6uicf.fsf@dev0134.prn3.facebook.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <qvqw8rf6uicf.fsf@dev0134.prn3.facebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add core AF_XDP support for chunk sizes larger than PAGE_SIZE. This
-enables sending/receiving jumbo ethernet frames up to the theoretical
-maxiumum of 64 KiB. For chunk sizes > PAGE_SIZE, the UMEM is required
-to consist of HugeTLB VMAs (and be hugepage aligned). Initially, only
-SKB mode is usable pending future driver work.
+>>
+>> Often, when you have to start making a list of things that a patch does, it
+>> might make sense to split some of the items into separate patches such that you
+>> can avoid lists and just explain in list-free text how the pieces in the patch
+>> fit together.
+>>
+>> I'd suggest splitting this patch into logical pieces. For example, separating
+>> the general profit calculation/exposure from the per-mm profit and the per-mm
+>> ksm type indication.
+>>
+> 
+> Originally these were individual patches. If I recall correctly Johannes
+> Weiner wanted them as one patch. I can certainly split them again.
 
-For consistency, check for HugeTLB pages during UMEM registration. This
-implies that hugepages are required for XDP_COPY mode despite DMA not
-being used. This restriction is desirable since it ensures user software
-can take advantage of future driver support.
+That's why I remember that v1 contained more patches :)
 
-Even in HugeTLB mode, continue to do page accounting using order-0
-(4 KiB) pages. This minimizes the size of this change and reduces the
-risk of impacting other code. Taking full advantage of hugepages for
-accounting should improve XDP performance in the general case.
+Again, just my opinion on patches that require a description in form of 
+a list ...
 
-No significant change in RX/TX performance was observed with this patch.
-A few data points are reproduced below:
+> 
+>>> Link: https://lkml.kernel.org/r/20230224044000.3084046-3-shr@devkernel.io
+>>> Signed-off-by: Stefan Roesch <shr@devkernel.io>
+>>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>> Cc: David Hildenbrand <david@redhat.com>
+>>> Cc: Johannes Weiner <hannes@cmpxchg.org>
+>>> Cc: Michal Hocko <mhocko@suse.com>
+>>> Cc: Rik van Riel <riel@surriel.com>
+>>> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+>>> ---
+>>
+>>
+>> [...]
+>>
+>>>    KSM_ATTR_RO(pages_volatile);
+>>>    @@ -3280,6 +3305,21 @@ static ssize_t zero_pages_sharing_show(struct kobject
+>>> *kobj,
+>>>    }
+>>>    KSM_ATTR_RO(zero_pages_sharing);
+>>>    +static ssize_t general_profit_show(struct kobject *kobj,
+>>> +				   struct kobj_attribute *attr, char *buf)
+>>> +{
+>>> +	long general_profit;
+>>> +	long all_rmap_items;
+>>> +
+>>> +	all_rmap_items = ksm_max_page_sharing + ksm_pages_shared +
+>>> +				ksm_pages_unshared + pages_volatile();
+>>
+>> Are you sure you want to count a config knob (ksm_max_page_sharing) into that
+>> formula? I yet have to digest what this calculation implies, but it does feel
+>> odd.
+>>
+> 
+> This was a mistake. I wanted ksm_pages_sharing instead of
+> ksm_max_page_sharing.
+> 
+>>
+>> Further, maybe just avoid pages_volatile(). Expanding the formula (excluding
+>> ksm_max_page_sharing for now):
+>>
+>>
+>> all_rmap = ksm_pages_shared + ksm_pages_unshared + pages_volatile();
+>>
+>> -> expand pages_volatile() (ignoring the < 0 case)
+>>
+>> all_rmap = ksm_pages_shared + ksm_pages_unshared + ksm_rmap_items -
+>> ksm_pages_shared - ksm_pages_sharing - ksm_pages_unshared;
+>>
+>> -> simplify
+>>
+>> all_rmap = ksm_rmap_items + ksm_pages_sharing;
+>>
+> I'll simplify it.
 
-Machine : Dell PowerEdge R940
-CPU     : Intel(R) Xeon(R) Platinum 8168 CPU @ 2.70GHz
-NIC     : MT27700 Family [ConnectX-4]
 
-+-----+------+------+-------+--------+--------+--------+
-|     |      |      | chunk | packet | rxdrop | rxdrop |
-|     | mode |  mtu |  size |   size | (Mpps) | (Gbps) |
-+-----+------+------+-------+--------+--------+--------+
-| old |   -z | 3498 |  4000 |    320 |   16.0 |   40.9 |
-| new |   -z | 3498 |  4000 |    320 |   16.0 |   40.9 |
-+-----+------+------+-------+--------+--------+--------+
-| old |   -z | 3498 |  4096 |    320 |   16.4 |   42.1 |
-| new |   -z | 3498 |  4096 |    320 |   16.5 |   42.2 |
-+-----+------+------+-------+--------+--------+--------+
-| new |   -c | 3498 | 10240 |    320 |    6.1 |   15.6 |
-+-----+------+------+-------+--------+--------+--------+
-| new |   -S | 9000 | 10240 |   9000 |   0.37 |   26.9 |
-+-----+------+------+-------+--------+--------+--------+
+Cool.
 
-Signed-off-by: Kal Conley <kal.conley@dectris.com>
----
- Documentation/networking/af_xdp.rst | 36 +++++++++++++--------
- include/net/xdp_sock.h              |  1 +
- include/net/xdp_sock_drv.h          | 12 +++++++
- include/net/xsk_buff_pool.h         |  3 +-
- net/xdp/xdp_umem.c                  | 50 ++++++++++++++++++++++++-----
- net/xdp/xsk_buff_pool.c             | 28 ++++++++++------
- 6 files changed, 98 insertions(+), 32 deletions(-)
-
-diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
-index 247c6c4127e9..ea65cd882af6 100644
---- a/Documentation/networking/af_xdp.rst
-+++ b/Documentation/networking/af_xdp.rst
-@@ -105,12 +105,13 @@ with AF_XDP". It can be found at https://lwn.net/Articles/750845/.
- UMEM
- ----
- 
--UMEM is a region of virtual contiguous memory, divided into
--equal-sized frames. An UMEM is associated to a netdev and a specific
--queue id of that netdev. It is created and configured (chunk size,
--headroom, start address and size) by using the XDP_UMEM_REG setsockopt
--system call. A UMEM is bound to a netdev and queue id, via the bind()
--system call.
-+UMEM is a region of virtual contiguous memory divided into equal-sized
-+frames. This is the area that contains all the buffers that packets can
-+reside in. A UMEM is associated with a netdev and a specific queue id of
-+that netdev. It is created and configured (start address, size,
-+chunk size, and headroom) by using the XDP_UMEM_REG setsockopt system
-+call. A UMEM is bound to a netdev and queue id via the bind() system
-+call.
- 
- An AF_XDP is socket linked to a single UMEM, but one UMEM can have
- multiple AF_XDP sockets. To share an UMEM created via one socket A,
-@@ -418,14 +419,21 @@ negatively impact performance.
- XDP_UMEM_REG setsockopt
- -----------------------
- 
--This setsockopt registers a UMEM to a socket. This is the area that
--contain all the buffers that packet can reside in. The call takes a
--pointer to the beginning of this area and the size of it. Moreover, it
--also has parameter called chunk_size that is the size that the UMEM is
--divided into. It can only be 2K or 4K at the moment. If you have an
--UMEM area that is 128K and a chunk size of 2K, this means that you
--will be able to hold a maximum of 128K / 2K = 64 packets in your UMEM
--area and that your largest packet size can be 2K.
-+This setsockopt registers a UMEM to a socket. The call takes a pointer
-+to the beginning of this area and the size of it. Moreover, there is a
-+parameter called chunk_size that is the size that the UMEM is divided
-+into. The chunk size limits the maximum packet size that can be sent or
-+received. For example, if you have a UMEM area that is 128K and a chunk
-+size of 2K, then you will be able to hold a maximum of 128K / 2K = 64
-+packets in your UMEM. In this case, the maximum packet size will be 2K.
-+
-+Valid chunk sizes range from 2K to 64K. However, in aligned mode, the
-+chunk size must also be a power of two. Additionally, the chunk size
-+must not exceed the size of a page (usually 4K). This limitation is
-+relaxed for UMEM areas allocated with HugeTLB pages, in which case
-+chunk sizes up to 64K are allowed. Note, this only works with hugepages
-+allocated from the kernel's persistent pool. Using Transparent Huge
-+Pages (THP) has no effect on the maximum chunk size.
- 
- There is also an option to set the headroom of each single buffer in
- the UMEM. If you set this to N bytes, it means that the packet will
-diff --git a/include/net/xdp_sock.h b/include/net/xdp_sock.h
-index e96a1151ec75..086fcf065656 100644
---- a/include/net/xdp_sock.h
-+++ b/include/net/xdp_sock.h
-@@ -30,6 +30,7 @@ struct xdp_umem {
- 	u8 flags;
- 	bool zc;
- 	struct page **pgs;
-+	u32 page_size;
- 	int id;
- 	struct list_head xsk_dma_list;
- 	struct work_struct work;
-diff --git a/include/net/xdp_sock_drv.h b/include/net/xdp_sock_drv.h
-index 9c0d860609ba..83fba3060c9a 100644
---- a/include/net/xdp_sock_drv.h
-+++ b/include/net/xdp_sock_drv.h
-@@ -12,6 +12,18 @@
- #define XDP_UMEM_MIN_CHUNK_SHIFT 11
- #define XDP_UMEM_MIN_CHUNK_SIZE (1 << XDP_UMEM_MIN_CHUNK_SHIFT)
- 
-+static_assert(XDP_UMEM_MIN_CHUNK_SIZE <= PAGE_SIZE);
-+
-+/* Allow chunk sizes up to the maximum size of an ethernet frame (64 KiB).
-+ * Larger chunks are not guaranteed to fit in a single SKB.
-+ */
-+#ifdef CONFIG_HUGETLB_PAGE
-+#define XDP_UMEM_MAX_CHUNK_SHIFT min(16, HPAGE_SHIFT)
-+#else
-+#define XDP_UMEM_MAX_CHUNK_SHIFT min(16, PAGE_SHIFT)
-+#endif
-+#define XDP_UMEM_MAX_CHUNK_SIZE (1 << XDP_UMEM_MAX_CHUNK_SHIFT)
-+
- #ifdef CONFIG_XDP_SOCKETS
- 
- void xsk_tx_completed(struct xsk_buff_pool *pool, u32 nb_entries);
-diff --git a/include/net/xsk_buff_pool.h b/include/net/xsk_buff_pool.h
-index d318c769b445..6560d053ab88 100644
---- a/include/net/xsk_buff_pool.h
-+++ b/include/net/xsk_buff_pool.h
-@@ -75,6 +75,7 @@ struct xsk_buff_pool {
- 	u32 chunk_size;
- 	u32 chunk_shift;
- 	u32 frame_len;
-+	u32 page_size;
- 	u8 cached_need_wakeup;
- 	bool uses_need_wakeup;
- 	bool dma_need_sync;
-@@ -175,7 +176,7 @@ static inline void xp_dma_sync_for_device(struct xsk_buff_pool *pool,
- static inline bool xp_desc_crosses_non_contig_pg(struct xsk_buff_pool *pool,
- 						 u64 addr, u32 len)
- {
--	bool cross_pg = (addr & (PAGE_SIZE - 1)) + len > PAGE_SIZE;
-+	bool cross_pg = (addr & (pool->page_size - 1)) + len > pool->page_size;
- 
- 	if (likely(!cross_pg))
- 		return false;
-diff --git a/net/xdp/xdp_umem.c b/net/xdp/xdp_umem.c
-index 4681e8e8ad94..d4bf6e04e5d8 100644
---- a/net/xdp/xdp_umem.c
-+++ b/net/xdp/xdp_umem.c
-@@ -10,6 +10,8 @@
- #include <linux/uaccess.h>
- #include <linux/slab.h>
- #include <linux/bpf.h>
-+#include <linux/hugetlb.h>
-+#include <linux/hugetlb_inline.h>
- #include <linux/mm.h>
- #include <linux/netdevice.h>
- #include <linux/rtnetlink.h>
-@@ -91,6 +93,35 @@ void xdp_put_umem(struct xdp_umem *umem, bool defer_cleanup)
- 	}
- }
- 
-+/* NOTE: The mmap_lock must be held by the caller. */
-+static void xdp_umem_init_page_size(struct xdp_umem *umem, unsigned long address)
-+{
-+#ifdef CONFIG_HUGETLB_PAGE
-+	struct vm_area_struct *vma;
-+	struct vma_iterator vmi;
-+	unsigned long end;
-+
-+	if (!IS_ALIGNED(address, HPAGE_SIZE))
-+		goto no_hugetlb;
-+
-+	vma_iter_init(&vmi, current->mm, address);
-+	end = address + umem->size;
-+
-+	for_each_vma_range(vmi, vma, end) {
-+		if (!is_vm_hugetlb_page(vma))
-+			goto no_hugetlb;
-+		/* Hugepage sizes smaller than the default are not supported. */
-+		if (huge_page_size(hstate_vma(vma)) < HPAGE_SIZE)
-+			goto no_hugetlb;
-+	}
-+
-+	umem->page_size = HPAGE_SIZE;
-+	return;
-+no_hugetlb:
-+#endif
-+	umem->page_size = PAGE_SIZE;
-+}
-+
- static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
- {
- 	unsigned int gup_flags = FOLL_WRITE;
-@@ -102,8 +133,18 @@ static int xdp_umem_pin_pages(struct xdp_umem *umem, unsigned long address)
- 		return -ENOMEM;
- 
- 	mmap_read_lock(current->mm);
-+
-+	xdp_umem_init_page_size(umem, address);
-+
-+	if (umem->chunk_size > umem->page_size) {
-+		mmap_read_unlock(current->mm);
-+		err = -EINVAL;
-+		goto out_pgs;
-+	}
-+
- 	npgs = pin_user_pages(address, umem->npgs,
- 			      gup_flags | FOLL_LONGTERM, &umem->pgs[0], NULL);
-+
- 	mmap_read_unlock(current->mm);
- 
- 	if (npgs != umem->npgs) {
-@@ -156,15 +197,8 @@ static int xdp_umem_reg(struct xdp_umem *umem, struct xdp_umem_reg *mr)
- 	unsigned int chunks, chunks_rem;
- 	int err;
- 
--	if (chunk_size < XDP_UMEM_MIN_CHUNK_SIZE || chunk_size > PAGE_SIZE) {
--		/* Strictly speaking we could support this, if:
--		 * - huge pages, or*
--		 * - using an IOMMU, or
--		 * - making sure the memory area is consecutive
--		 * but for now, we simply say "computer says no".
--		 */
-+	if (chunk_size < XDP_UMEM_MIN_CHUNK_SIZE || chunk_size > XDP_UMEM_MAX_CHUNK_SIZE)
- 		return -EINVAL;
--	}
- 
- 	if (mr->flags & ~XDP_UMEM_UNALIGNED_CHUNK_FLAG)
- 		return -EINVAL;
-diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
-index b2df1e0f8153..f9e083fa5e6d 100644
---- a/net/xdp/xsk_buff_pool.c
-+++ b/net/xdp/xsk_buff_pool.c
-@@ -80,9 +80,10 @@ struct xsk_buff_pool *xp_create_and_assign_umem(struct xdp_sock *xs,
- 	pool->headroom = umem->headroom;
- 	pool->chunk_size = umem->chunk_size;
- 	pool->chunk_shift = ffs(umem->chunk_size) - 1;
--	pool->unaligned = unaligned;
- 	pool->frame_len = umem->chunk_size - umem->headroom -
- 		XDP_PACKET_HEADROOM;
-+	pool->page_size = umem->page_size;
-+	pool->unaligned = unaligned;
- 	pool->umem = umem;
- 	pool->addrs = umem->addrs;
- 	INIT_LIST_HEAD(&pool->free_list);
-@@ -369,16 +370,25 @@ void xp_dma_unmap(struct xsk_buff_pool *pool, unsigned long attrs)
- }
- EXPORT_SYMBOL(xp_dma_unmap);
- 
--static void xp_check_dma_contiguity(struct xsk_dma_map *dma_map)
-+/* HugeTLB pools consider contiguity at hugepage granularity only. Hence, all
-+ * order-0 pages within a hugepage have the same contiguity value.
-+ */
-+static void xp_check_dma_contiguity(struct xsk_dma_map *dma_map, u32 page_size)
- {
--	u32 i;
-+	u32 stride = page_size >> PAGE_SHIFT; /* in order-0 pages */
-+	u32 i, j;
- 
--	for (i = 0; i < dma_map->dma_pages_cnt - 1; i++) {
--		if (dma_map->dma_pages[i] + PAGE_SIZE == dma_map->dma_pages[i + 1])
--			dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
--		else
--			dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
-+	for (i = 0; i + stride < dma_map->dma_pages_cnt;) {
-+		if (dma_map->dma_pages[i] + page_size == dma_map->dma_pages[i + stride]) {
-+			for (j = 0; j < stride; i++, j++)
-+				dma_map->dma_pages[i] |= XSK_NEXT_PG_CONTIG_MASK;
-+		} else {
-+			for (j = 0; j < stride; i++, j++)
-+				dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
-+		}
- 	}
-+	for (; i < dma_map->dma_pages_cnt; i++)
-+		dma_map->dma_pages[i] &= ~XSK_NEXT_PG_CONTIG_MASK;
- }
- 
- static int xp_init_dma_info(struct xsk_buff_pool *pool, struct xsk_dma_map *dma_map)
-@@ -441,7 +451,7 @@ int xp_dma_map(struct xsk_buff_pool *pool, struct device *dev,
- 	}
- 
- 	if (pool->unaligned)
--		xp_check_dma_contiguity(dma_map);
-+		xp_check_dma_contiguity(dma_map, pool->page_size);
- 
- 	err = xp_init_dma_info(pool, dma_map);
- 	if (err) {
 -- 
-2.39.2
+Thanks,
+
+David / dhildenb
 
