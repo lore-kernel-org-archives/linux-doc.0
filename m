@@ -2,107 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C78B3C77B6C
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 20:45:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AACCC76196
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 20:52:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240450AbjDFUpU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 16:45:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36122 "EHLO
+        id S229891AbjDFUwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 16:52:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240496AbjDFUpD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 16:45:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB6F3E381;
-        Thu,  6 Apr 2023 13:42:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B45986476F;
-        Thu,  6 Apr 2023 20:42:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63752C4339B;
-        Thu,  6 Apr 2023 20:42:00 +0000 (UTC)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Aleksa Savic <savicaleksa83@gmail.com>,
-        Jack Doan <me@jackdoan.com>,
-        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-        Marius Zachmann <mail@mariuszachmann.de>,
-        Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-        Jean-Marie Verdun <verdun@hpe.com>,
-        Nick Hawkins <nick.hawkins@hpe.com>,
-        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-        Clemens Ladisch <clemens@ladisch.de>,
-        Rudolf Marek <r.marek@assembler.cz>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Jonas Malaco <jonas@protocubo.io>,
-        Aleksandr Mezin <mezin.alexander@gmail.com>,
-        Derek John Clark <derekjohn.clark@gmail.com>,
-        =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
-        <samsagax@gmail.com>, Iwona Winiarska <iwona.winiarska@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Michael Walle <michael@walle.cc>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Agathe Porte <agathe.porte@nokia.com>,
-        Eric Tremblay <etremblay@distech-controls.com>,
-        Robert Marko <robert.marko@sartura.hr>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        patches@opensource.cirrus.com, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 68/68] hwmon: w83773g: constify pointers to hwmon_channel_info
-Date:   Thu,  6 Apr 2023 22:40:27 +0200
-Message-Id: <20230406204027.3012532-9-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
-References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S229612AbjDFUwg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 16:52:36 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05F4CB0;
+        Thu,  6 Apr 2023 13:52:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=7Lv6drb3gEaVy64/Alzs7G5KLAupjBD12B3bx6sUEhQ=; b=Bt74+QxU+3R06I+jYD7uFNC17/
+        E1cJPHW3ucr0St3bSM1ejknGvvR3+AtCE3J8eme6D0Fy0scMhkaAOF1rJbWic1BO2c1aj5PhSGQA7
+        ypcidG6INsE9F+ysmBtxPH7CgWkdm+VHHiPhTWQoK+j2Tf0njrUC2p452+sOpuSCdeOKTKZ2Ie5Pm
+        lIwHWreo5PEN99i6q3DHI4fxaJyrV32WSXQGweZ58PENVcZaa/sRrz8BuJryzyw8V6t09mFjuTAKN
+        6326uiemrDXe5/hWppaxCD2HneX+QMeuY+oGRaYPeDOeLzMtuL6DFDjJkC+Bs0hhzl+0hW9fD3LyD
+        OyvcV/vA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pkWaE-000ADg-Ey; Thu, 06 Apr 2023 20:51:50 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 98BAE300274;
+        Thu,  6 Apr 2023 22:51:48 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7A0D42692D85E; Thu,  6 Apr 2023 22:51:48 +0200 (CEST)
+Date:   Thu, 6 Apr 2023 22:51:48 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Lai Jiangshan <jiangshanlai@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        "H. Peter Anvin" <hpa@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Asit Mallick <asit.k.mallick@intel.com>,
+        Cfir Cohen <cfir@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        David Kaplan <David.Kaplan@amd.com>,
+        David Rientjes <rientjes@google.com>,
+        Dirk Hohndel <dirkhh@vmware.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Jiri Slaby <jslaby@suse.cz>, Joerg Roedel <joro@8bytes.org>,
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mike Stunes <mstunes@vmware.com>,
+        Raj Ashok <ashok.raj@intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Tony Luck <tony.luck@intel.com>, kvm@vger.kernel.org,
+        linux-coco@lists.linux.dev, x86@kernel.org,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 2/7] x86/entry: Add IST main stack
+Message-ID: <20230406205148.GF405948@hirez.programming.kicks-ass.net>
+References: <20230403140605.540512-1-jiangshanlai@gmail.com>
+ <20230403140605.540512-3-jiangshanlai@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230403140605.540512-3-jiangshanlai@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Statically allocated array of pointed to hwmon_channel_info can be made
-const for safety.
+On Mon, Apr 03, 2023 at 10:06:00PM +0800, Lai Jiangshan wrote:
+> diff --git a/arch/x86/kernel/dumpstack_64.c b/arch/x86/kernel/dumpstack_64.c
+> index f05339fee778..3413b23fa9f1 100644
+> --- a/arch/x86/kernel/dumpstack_64.c
+> +++ b/arch/x86/kernel/dumpstack_64.c
+> @@ -26,11 +26,12 @@ static const char * const exception_stack_names[] = {
+>  		[ ESTACK_MCE	]	= "#MC",
+>  		[ ESTACK_VC	]	= "#VC",
+>  		[ ESTACK_VC2	]	= "#VC2",
+> +		[ ESTACK_IST	]	= "#IST",
+>  };
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/hwmon/w83773g.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hwmon/w83773g.c b/drivers/hwmon/w83773g.c
-index 88d11dc5feb9..8dbcd05abd9a 100644
---- a/drivers/hwmon/w83773g.c
-+++ b/drivers/hwmon/w83773g.c
-@@ -233,7 +233,7 @@ static umode_t w83773_is_visible(const void *data, enum hwmon_sensor_types type,
- 	return 0;
- }
- 
--static const struct hwmon_channel_info *w83773_info[] = {
-+static const struct hwmon_channel_info * const w83773_info[] = {
- 	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
- 	HWMON_CHANNEL_INFO(temp,
--- 
-2.34.1
-
+Since #IST is not actually a vector, perhaps ditch the '#' ?
