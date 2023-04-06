@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC908C77B70
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 20:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BA8C77B6E
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 20:31:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239243AbjDFUbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 16:31:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35836 "EHLO
+        id S239327AbjDFUbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 16:31:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239236AbjDFUbU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 16:31:20 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6B84C3C
-        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 13:31:18 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id jw24so4214846ejc.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 13:31:18 -0700 (PDT)
+        with ESMTP id S239329AbjDFUbY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 16:31:24 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1162D9012
+        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 13:31:23 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id l15so4216363ejq.10
+        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 13:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680813077;
+        d=linaro.org; s=google; t=1680813081;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x9bgnek9zezufpOznehWFLiWuMLFq160OkF04+hDtVg=;
-        b=DZfMCSkFDtwL+wAEAOKEF+BPBEglCteY7eu0A7PJt5poTWiie0elX86FUoHC5OJnvc
-         0DL/nGAPVOgm6baRgrhCFq6jgYRI/2cB41wdsA6bBU08/MkHWV713HiBkFjWUbIYRmqt
-         Y9D5DowgtmzQpMUSB8kMwEWbA5M3GXqSewttjoUxxCTvXcxpisDEj+Get88uthGaPpNs
-         aJthp7GoxksoRBFzlufpXAS5fWujiHLWSvZiBUS0jMH+4g9I2Kh75sZ1JK/kb4EYmxis
-         zWZOxmmq88z2MA6iD3o+1ooOpBjC9Y/+5I6E6WBj/AzsvYHMcgX3lnDVe0Pc0Mle3rYl
-         m3/w==
+        bh=u57ez0Oyy7vwUrJo3VoPbCM/KJTEPduqRqpuIH43A8o=;
+        b=XHG3nqXF82IDj/3hwckhgZbxN+s5RQDFGpsCor/HLk3As++7RNt43UfpgKicmj2Pt6
+         dFK2ZtMP2KTqTUWzZ4yNuDAd1vZUxX+uWHJ2wvtGtN7iMGoLzfUVOGsRWAHwSVLgsSf6
+         ws9RfsZqp6p/BmDu4OoasALISMjpbdtgWu/gu+J93Rx63H2XILuMT/S9hNdq/buQToi/
+         tfQnikwdFNGNhuumYNLioCjMiSkSCIdIQn7Z5MpGT/df00vEANoC4da6Ct7JGjTUHbJx
+         LjbF0DR7f7G34dGDo36wbdi/NB5XH3sYo6tzrV7KvjtHuSimTWV3HUpEBXfIddKCz2lz
+         pVow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680813077;
+        d=1e100.net; s=20210112; t=1680813081;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x9bgnek9zezufpOznehWFLiWuMLFq160OkF04+hDtVg=;
-        b=TrfEnJWO0ASAWwG96oP1juC5iBOZAUbogSSHlsFgRsrcDSS3eEfYZec3j0qAauBudf
-         jERB9Tl96+dt0/gKfJxMUeqOnee5mLQiMtVYTlYHrMlMgudY6mSaJQ7G/0EM52GJWnbc
-         5EsoJT5078/wo2gFFQKzRzeTv+w2tyEcYgb1HWCyzmABKtPbNJAr2KYjrmYvfANYrYst
-         HtHOxbIH+aa5EUW1gdCxZmT6/T4aMj7/vC7dv2LSyU9lYz/Da6xUC9kkvPx+5ubTefJa
-         QHXi6lqoK//KmlR7ADWhD0p/pGAw2QDBII4v1uWy72FmBacHOepWatSIB10HaRwYbhaM
-         3ZZw==
-X-Gm-Message-State: AAQBX9f6EM1G5U8Aeu04UDATfsWxXc0jlGP69ub9QG4f962dzR2cbR30
-        AImvW3kT4gGoQkdZPtxcqRiNxg==
-X-Google-Smtp-Source: AKy350athCTWJFwC9QStRqEB2SQ3i+g9X8jbV7cHjYrcV3kkQoUpiKKCxIeF/qvj91z2Kg99e7wcSw==
-X-Received: by 2002:a17:906:892:b0:92f:495b:bc7c with SMTP id n18-20020a170906089200b0092f495bbc7cmr6268101eje.23.1680813077135;
-        Thu, 06 Apr 2023 13:31:17 -0700 (PDT)
+        bh=u57ez0Oyy7vwUrJo3VoPbCM/KJTEPduqRqpuIH43A8o=;
+        b=ZMcgCAGbsLstVkTAYgKYMMPl2nOCNDO7miMfVKKGGZHYNFSOiJtuZRbu5fkfG4yx1O
+         8ptjDq4v9SDZELQFmpRCp/QnogeqDOFxRGHQZwL0wXawHwORowZFpob0YhO+/gPTagM9
+         hwZeBYWzvc4qNR2OMA6LA3UtDmgVru09CvJcxAMsqj9pLZTSjuFOJvHA9FVOS2uyxRIJ
+         VDxB1qD8TjoXEKL2/7Y1Tu3/VudgxjPKWA8hVxY5nKxNzfhBW639eanI3CzPRMaK7Tw2
+         ZBQAd6/mMnFbVW4/IHqO7Dvt9aEwbi8L3X4vqd4+Mmt+DvcsNSPZcTFeNG+g00s56xTj
+         F6ew==
+X-Gm-Message-State: AAQBX9cAUgsYjuYQmDEqozuftgL+Gdnz0ThDC7uyahuPv3hCSn9jbQ7o
+        iofWKPoD/shl9l6sWniJKAMa8Q==
+X-Google-Smtp-Source: AKy350Z6TMKljX6n+0Qj1JlrHMEQEsGP1keeSKPgK3j8/l06MtFFNYR9NxLb8ZpxGjngzuF7RkQkiA==
+X-Received: by 2002:a17:906:4f8d:b0:92b:e3f0:275f with SMTP id o13-20020a1709064f8d00b0092be3f0275fmr125741eju.40.1680813081529;
+        Thu, 06 Apr 2023 13:31:21 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:49e6:bb8c:a05b:c4ed])
-        by smtp.gmail.com with ESMTPSA id s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.31.15
+        by smtp.gmail.com with ESMTPSA id s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.31.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 13:31:16 -0700 (PDT)
+        Thu, 06 Apr 2023 13:31:21 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -99,9 +99,9 @@ To:     Jean Delvare <jdelvare@suse.com>,
         linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 01/68] hwmon: constify pointers to hwmon_channel_info
-Date:   Thu,  6 Apr 2023 22:29:56 +0200
-Message-Id: <20230406203103.3011503-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 03/68] hwmon: adm9240: constify pointers to hwmon_channel_info
+Date:   Thu,  6 Apr 2023 22:29:58 +0200
+Message-Id: <20230406203103.3011503-4-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
@@ -111,97 +111,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-HWmon core receives an array of pointers to hwmon_channel_info and it
-does not modify it, thus it can be array of const pointers for safety.
-This allows drivers to make them also const.
+Statically allocated array of pointed to hwmon_channel_info can be made
+const for safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/hwmon/hwmon-kernel-api.rst | 6 +++---
- drivers/accel/habanalabs/common/hwmon.c  | 2 +-
- drivers/hwmon/hwmon.c                    | 4 ++--
- include/linux/hwmon.h                    | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/hwmon/adm9240.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-index dbd68d7b033a..c2d1e0299d8d 100644
---- a/Documentation/hwmon/hwmon-kernel-api.rst
-+++ b/Documentation/hwmon/hwmon-kernel-api.rst
-@@ -107,7 +107,7 @@ The hwmon_chip_info structure looks as follows::
- 
- 	struct hwmon_chip_info {
- 		const struct hwmon_ops *ops;
--		const struct hwmon_channel_info **info;
-+		const struct hwmon_channel_info * const *info;
- 	};
- 
- It contains the following fields:
-@@ -203,7 +203,7 @@ register (HWMON_T_MAX) as well as a maximum temperature hysteresis register
- 		.config = lm75_temp_config,
- 	};
- 
--	static const struct hwmon_channel_info *lm75_info[] = {
-+	static const struct hwmon_channel_info * const lm75_info[] = {
- 		&lm75_chip,
- 		&lm75_temp,
- 		NULL
-@@ -212,7 +212,7 @@ register (HWMON_T_MAX) as well as a maximum temperature hysteresis register
- 	The HWMON_CHANNEL_INFO() macro can and should be used when possible.
- 	With this macro, the above example can be simplified to
- 
--	static const struct hwmon_channel_info *lm75_info[] = {
-+	static const struct hwmon_channel_info * const lm75_info[] = {
- 		HWMON_CHANNEL_INFO(chip,
- 				HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
- 		HWMON_CHANNEL_INFO(temp,
-diff --git a/drivers/accel/habanalabs/common/hwmon.c b/drivers/accel/habanalabs/common/hwmon.c
-index 55eb0203817f..8598056216e7 100644
---- a/drivers/accel/habanalabs/common/hwmon.c
-+++ b/drivers/accel/habanalabs/common/hwmon.c
-@@ -914,7 +914,7 @@ void hl_hwmon_fini(struct hl_device *hdev)
- 
- void hl_hwmon_release_resources(struct hl_device *hdev)
- {
--	const struct hwmon_channel_info **channel_info_arr;
-+	const struct hwmon_channel_info * const *channel_info_arr;
- 	int i = 0;
- 
- 	if (!hdev->hl_chip_info->info)
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index dc2e3646f943..573b83b6c08c 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -173,7 +173,7 @@ static int hwmon_thermal_set_trips(struct thermal_zone_device *tz, int low, int
- 	struct hwmon_thermal_data *tdata = thermal_zone_device_priv(tz);
- 	struct hwmon_device *hwdev = to_hwmon_device(tdata->dev);
- 	const struct hwmon_chip_info *chip = hwdev->chip;
--	const struct hwmon_channel_info **info = chip->info;
-+	const struct hwmon_channel_info * const *info = chip->info;
- 	unsigned int i;
- 	int err;
- 
-@@ -252,7 +252,7 @@ static int hwmon_thermal_register_sensors(struct device *dev)
- {
- 	struct hwmon_device *hwdev = to_hwmon_device(dev);
- 	const struct hwmon_chip_info *chip = hwdev->chip;
--	const struct hwmon_channel_info **info = chip->info;
-+	const struct hwmon_channel_info * const *info = chip->info;
- 	void *drvdata = dev_get_drvdata(dev);
- 	int i;
- 
-diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-index c1b62384b6ee..492dd27a5dd8 100644
---- a/include/linux/hwmon.h
-+++ b/include/linux/hwmon.h
-@@ -430,7 +430,7 @@ struct hwmon_channel_info {
-  */
- struct hwmon_chip_info {
- 	const struct hwmon_ops *ops;
--	const struct hwmon_channel_info **info;
-+	const struct hwmon_channel_info * const *info;
+diff --git a/drivers/hwmon/adm9240.c b/drivers/hwmon/adm9240.c
+index 40e3558d3709..9eb973a38e4b 100644
+--- a/drivers/hwmon/adm9240.c
++++ b/drivers/hwmon/adm9240.c
+@@ -731,7 +731,7 @@ static const struct hwmon_ops adm9240_hwmon_ops = {
+ 	.write = adm9240_write,
  };
  
- /* hwmon_device_register() is deprecated */
+-static const struct hwmon_channel_info *adm9240_info[] = {
++static const struct hwmon_channel_info * const adm9240_info[] = {
+ 	HWMON_CHANNEL_INFO(chip, HWMON_C_ALARMS),
+ 	HWMON_CHANNEL_INFO(intrusion, HWMON_INTRUSION_ALARM),
+ 	HWMON_CHANNEL_INFO(temp,
 -- 
 2.34.1
 
