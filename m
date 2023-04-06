@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AFFDC7618D
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 07:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4732AC77B6E
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 07:56:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235337AbjDFH4e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 03:56:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34170 "EHLO
+        id S235549AbjDFH4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 03:56:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235325AbjDFH4b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 03:56:31 -0400
+        with ESMTP id S235677AbjDFH4l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 03:56:41 -0400
 Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8943659A
-        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 00:56:26 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id m8so11225003wmq.5
-        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 00:56:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7035C7EF6
+        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 00:56:34 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id m6-20020a05600c3b0600b003ee6e324b19so23289572wms.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 00:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1680767785; x=1683359785;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RyMJ/LPWyITMHJeLGKmI4fclBoXgbQHEcia5vkVYuYQ=;
-        b=C1Gm3N8nHtU7kLWsmrNG8Nk2scc1RfScS2FvPY72/2b757hkeS1ferVMmT6+GNB/k8
-         F266u9ZdxlTE+SrC5qF05azDXRDCADMovyHGxWsi88ETJbVrqrlXtn65MOiQ0nyNXZ3R
-         8bub+pTFtzzd6HsmtCymyqTm5IO5j5AVh5o/k85nTWtPd84dMGAIP4BLbDLWbjIph+Rl
-         UN/7alvEAYRLFeAZuuw3Avhxftc1tBroSjw30x3bdshAk8ahLISL/X8XbG3cC2jYXieb
-         Ondso4SwEdb9NHRGsa8ZI95BAXovuiRzCa6pTQFXMXpkmxilx9GNv5Kw8cVZGJeLOAQV
-         dz0g==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1680767793; x=1683359793;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WFwkjW5J5CdRehsc8GlLIX3o+kL5YH8nSEZdD8MaHYM=;
+        b=iu3VJD/fdtuq43QvdmC/5mzXIDge1MezszU916KAi3PYdnk9KxRluv8/7UTzH+NTm/
+         WQoBqp4KufnMpTxLBIktCGir0jQq3khrAMSU3aIYbWsLY0zYVYrr7k5pQht3Y3j5c8MT
+         fQD0ZXpzW4gU0HhyWXvVSFuCmgB6qtauy/GorUGkPwN9eihiJaqAGOE7SZxGMmQuBj1n
+         2bux1JrpQ6V4DBkvwPPpms2AHR3xTkaHMP43mRR/NoT5taW48AUrRksDNrVoCaH1PKjz
+         i7ixx8X8EyMsn2EA/hwwZ0LQbLAac1awgK3+0Iz0Cah6E7cY/VjbEQLneJJhLu0Rvf1C
+         n3lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680767785; x=1683359785;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RyMJ/LPWyITMHJeLGKmI4fclBoXgbQHEcia5vkVYuYQ=;
-        b=5w6U2zOzQicC6J3iyEzj4cNMtwNzembcwKSWBrH39oB9aEfrY7xKA8q4T2lpMOc8XK
-         8RPnf7wfEoxq4mlr6tOW1ccD6x4c+ktM8nzx1NwuhpWOIY6VGaHI+qqLOBqqvuPTubxj
-         qI00bSOv61Dsv02S2q4oFobyYYuHgUghIrbzBhX8pC5J5J+oPOoACbKYWqeH4LQjdmg+
-         CgTmh7wsY4nMrGUAmUuknKGO+6q4xUqFoNW7ApABA1WKEDq8aKTL1wM6fmGchBjXGPDt
-         04maxr1cPR7mwgogUbpnfRZcnXfU7AdPCP0dWilBNj4IYIODT23c/K/2jEON23tfLYJ4
-         1Uqw==
-X-Gm-Message-State: AAQBX9eJJwTTof3KFX32oI17LSpTljVwQA4E+rLvY6PYOPt1JRUw5unA
-        HwtLqTV3D2HUz7268/3Ibc9IxA==
-X-Google-Smtp-Source: AKy350aRCbPwVFoCElS5gaRlAjyKcd2c6JbclERtzragMJZPLJ2jGCUwBnm/fKh1DP/Wwz1WO/LQ2w==
-X-Received: by 2002:a1c:4c16:0:b0:3ee:1084:aa79 with SMTP id z22-20020a1c4c16000000b003ee1084aa79mr3141461wmf.20.1680767785225;
-        Thu, 06 Apr 2023 00:56:25 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680767793; x=1683359793;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WFwkjW5J5CdRehsc8GlLIX3o+kL5YH8nSEZdD8MaHYM=;
+        b=0HWttD4FAMHEKHyg2755HuvZirGDtey2wLp5uxl4G7KsOlyDQt8yQN+EQXiSL6ueNy
+         ZpklD21KdptfQacugSE1u1jLBy9kkBiJOiGcEVeG9XgSNUKnHV8sjo25kqR97SkxMGwW
+         UW+PTBvMrgbzDDtRxY7g2DKJTeu+lTp9qHfLhNtArmgOl/SZDJuLfxK+j57WmZYmZRkg
+         3LhNllrxHCnCLfM45ByFDqLjLfbdPzAX5AFFdQ/qimpB1mDt4cVHEW/XXGgK9IG+P9+K
+         fxCUNEjV6s/CE/IpNqWpJrCC+ir8BuVBbUWr1qWLzrS91E9Aj+GMhL/p1qmchVKFQ3Zq
+         ix2Q==
+X-Gm-Message-State: AAQBX9eCB6TCsJiNN3L2pL9YDDNYVwPYLtgxBOC+SiR2KthF/MinS7Qg
+        Vs0FpdCEbOTi+X/QtqvKAuO7eQ==
+X-Google-Smtp-Source: AKy350ZxVqOHogDjg8RS9xJDesv/g/NoaK/UY52Rc6N4RKqnkLYTbYWXiPDQvKC0fzZSOopOKSOyOQ==
+X-Received: by 2002:a05:600c:211a:b0:3ef:732e:2d5a with SMTP id u26-20020a05600c211a00b003ef732e2d5amr6680076wml.34.1680767793442;
+        Thu, 06 Apr 2023 00:56:33 -0700 (PDT)
 Received: from baylibre-ThinkPad-T14s-Gen-2i.. (151.31.102.84.rev.sfr.net. [84.102.31.151])
-        by smtp.gmail.com with ESMTPSA id r15-20020a05600c458f00b003f03d483966sm4572651wmo.44.2023.04.06.00.56.23
+        by smtp.gmail.com with ESMTPSA id r15-20020a05600c458f00b003f03d483966sm4572651wmo.44.2023.04.06.00.56.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 00:56:24 -0700 (PDT)
+        Thu, 06 Apr 2023 00:56:33 -0700 (PDT)
 From:   Julien Panis <jpanis@baylibre.com>
 To:     lee@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net, arnd@arndb.de,
@@ -63,111 +64,199 @@ Cc:     yi.l.liu@intel.com, jgg@ziepe.ca, razor@blackwall.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
         jneanne@baylibre.com
-Subject: [PATCH v6 0/6] TI TPS6594 PMIC support (Core, ESM, PFSM)
-Date:   Thu,  6 Apr 2023 09:56:16 +0200
-Message-Id: <20230406075622.8990-1-jpanis@baylibre.com>
+Subject: [PATCH v6 3/6] misc: tps6594-esm: Add driver for TI TPS6594 ESM
+Date:   Thu,  6 Apr 2023 09:56:19 +0200
+Message-Id: <20230406075622.8990-4-jpanis@baylibre.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20230406075622.8990-1-jpanis@baylibre.com>
+References: <20230406075622.8990-1-jpanis@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TPS6594 is a Power Management IC which provides regulators and others
-features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
-PFSM (Pre-configurable Finite State Machine). The SoC and the PMIC can
-communicate through the I2C or SPI interfaces.
-TPS6594 is the super-set device while TPS6593 and LP8764 are derivatives.
+This patch adds support for TPS6594 ESM (Error Signal Monitor).
+This device monitors the SoC error output signal at its nERR_SOC input pin.
+In error condition, ESM toggles its nRSTOUT_SOC pin to reset the SoC.
 
-This series adds support to TI TPS6594 PMIC and its derivatives.
-
-The features implemented in this series are:
-- Core (MFD I2C and SPI entry points)
-- ESM (child device)
-- PFSM (child device)
-
-- Core description:
-I2C and SPI interface protocols are implemented, with and without
-the bit-integrity error detection feature (CRC mode).
-In multi-PMIC configuration, all instances share a single GPIO of
-the SoC to generate interrupt requests via their respective nINT
-output pin.
-
-- ESM description:
-This device monitors the SoC error output signal at its nERR_SOC
-input pin. In error condition, ESM toggles its nRSTOUT_SOC pin
-to reset the SoC.
-Basically, ESM driver starts ESM hardware.
-
-- PFSM description:
-Strictly speaking, PFSM is not hardware. It is a piece of code.
-PMIC integrates a state machine which manages operational modes.
-Depending on the current operational mode, some voltage domains
-remain energized while others can be off.
-PFSM driver can be used to trigger transitions between configured
-states.
-
-Changes since v5 [all related to PFSM 'misc' driver]:
-* [PFSM driver] Return -ENOIOCTLCMD instead of -EINVAL for unknown ioctl command.
-* [PFSM driver] Add compat_ioctl pointer set to compat_ptr_ioctl() helper.
-* [PFSM driver] Replace PMIC_SET_STATE ioctl command with 3 different ioctl
-commands, and rename/modify pmic_state struct accordingly (enum removed and
-bitfield replaced with several __u8 to enable/disable state options).
-* [doc] Add 'tps6594-pfsm.rst' file to 'Documentation/misc-devices' directory.
-* [doc] Modify command range in 'ioctl-number.rst'.
-* [samples] Add 'pfsm/pfsm-wakeup.c' userspace code to 'samples' directory.
-
-Link to v5:
-https://lore.kernel.org/all/20230330082006.11216-1-jpanis@baylibre.com/
-
-Others series will be submitted over the next few weeks, providing
-drivers for others child devices like GPIOs (pinctrl), RTC, and
-regulators. Board support will also be added (device trees).
-
-Julien Panis (6):
-  dt-bindings: mfd: Add TI TPS6594 PMIC
-  mfd: tps6594: Add driver for TI TPS6594 PMIC
-  misc: tps6594-esm: Add driver for TI TPS6594 ESM
-  misc: tps6594-pfsm: Add driver for TI TPS6594 PFSM
-  Documentation: Add TI TPS6594 PFSM
-  samples: Add userspace example for TI TPS6594 PFSM
-
- .../devicetree/bindings/mfd/ti,tps6594.yaml   |  193 ++++
- Documentation/misc-devices/index.rst          |    1 +
- Documentation/misc-devices/tps6594-pfsm.rst   |   87 ++
- .../userspace-api/ioctl/ioctl-number.rst      |    1 +
- drivers/mfd/Kconfig                           |   32 +
- drivers/mfd/Makefile                          |    3 +
- drivers/mfd/tps6594-core.c                    |  462 ++++++++
- drivers/mfd/tps6594-i2c.c                     |  244 ++++
- drivers/mfd/tps6594-spi.c                     |  129 +++
- drivers/misc/Kconfig                          |   23 +
- drivers/misc/Makefile                         |    2 +
- drivers/misc/tps6594-esm.c                    |  132 +++
- drivers/misc/tps6594-pfsm.c                   |  306 +++++
- include/linux/mfd/tps6594.h                   | 1020 +++++++++++++++++
- include/uapi/linux/tps6594_pfsm.h             |   37 +
- samples/Kconfig                               |    6 +
- samples/Makefile                              |    1 +
- samples/pfsm/.gitignore                       |    2 +
- samples/pfsm/Makefile                         |    4 +
- samples/pfsm/pfsm-wakeup.c                    |  125 ++
- 20 files changed, 2810 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
- create mode 100644 Documentation/misc-devices/tps6594-pfsm.rst
- create mode 100644 drivers/mfd/tps6594-core.c
- create mode 100644 drivers/mfd/tps6594-i2c.c
- create mode 100644 drivers/mfd/tps6594-spi.c
+Signed-off-by: Julien Panis <jpanis@baylibre.com>
+---
+ drivers/misc/Kconfig       |  11 ++++
+ drivers/misc/Makefile      |   1 +
+ drivers/misc/tps6594-esm.c | 132 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 144 insertions(+)
  create mode 100644 drivers/misc/tps6594-esm.c
- create mode 100644 drivers/misc/tps6594-pfsm.c
- create mode 100644 include/linux/mfd/tps6594.h
- create mode 100644 include/uapi/linux/tps6594_pfsm.h
- create mode 100644 samples/pfsm/.gitignore
- create mode 100644 samples/pfsm/Makefile
- create mode 100644 samples/pfsm/pfsm-wakeup.c
 
-
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 433aa4197785..c73c02801330 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -538,6 +538,17 @@ config TMR_INJECT
+ 
+ 	  Say N here unless you know what you are doing.
+ 
++config TPS6594_ESM
++	tristate "TI TPS6594 Error Signal Monitor support"
++	depends on MFD_TPS6594
++	default MFD_TPS6594
++	help
++	  Support ESM (Error Signal Monitor) on TPS6594 PMIC devices.
++	  ESM is used typically to reboot the board in error condition.
++
++	  This driver can also be built as a module.  If so, the module
++	  will be called tps6594-esm.
++
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index 56de43943cd5..3dc69ec69912 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -65,3 +65,4 @@ obj-$(CONFIG_GP_PCI1XXXX)	+= mchp_pci1xxxx/
+ obj-$(CONFIG_VCPU_STALL_DETECTOR)	+= vcpu_stall_detector.o
+ obj-$(CONFIG_TMR_MANAGER)      += xilinx_tmr_manager.o
+ obj-$(CONFIG_TMR_INJECT)	+= xilinx_tmr_inject.o
++obj-$(CONFIG_TPS6594_ESM)	+= tps6594-esm.o
+diff --git a/drivers/misc/tps6594-esm.c b/drivers/misc/tps6594-esm.c
+new file mode 100644
+index 000000000000..b488f704f104
+--- /dev/null
++++ b/drivers/misc/tps6594-esm.c
+@@ -0,0 +1,132 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * ESM (Error Signal Monitor) driver for TI TPS6594/TPS6593/LP8764 PMICs
++ *
++ * Copyright (C) 2023 BayLibre Incorporated - https://www.baylibre.com/
++ */
++
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/regmap.h>
++
++#include <linux/mfd/tps6594.h>
++
++static irqreturn_t tps6594_esm_isr(int irq, void *dev_id)
++{
++	struct platform_device *pdev = dev_id;
++	int i;
++
++	for (i = 0 ; i < pdev->num_resources ; i++) {
++		if (irq == platform_get_irq_byname(pdev, pdev->resource[i].name)) {
++			dev_err(pdev->dev.parent, "%s error detected\n", pdev->resource[i].name);
++			return IRQ_HANDLED;
++		}
++	}
++
++	return IRQ_NONE;
++}
++
++static int tps6594_esm_probe(struct platform_device *pdev)
++{
++	struct tps6594 *tps = dev_get_drvdata(pdev->dev.parent);
++	struct device *dev = &pdev->dev;
++	int irq;
++	int ret;
++	int i;
++
++	for (i = 0 ; i < pdev->num_resources ; i++) {
++		irq = platform_get_irq_byname(pdev, pdev->resource[i].name);
++		if (irq < 0)
++			return dev_err_probe(dev, irq, "Failed to get %s irq\n",
++					     pdev->resource[i].name);
++
++		ret = devm_request_threaded_irq(dev, irq, NULL,
++						tps6594_esm_isr, IRQF_ONESHOT,
++						pdev->resource[i].name, pdev);
++		if (ret)
++			return dev_err_probe(dev, ret, "Failed to request irq\n");
++	}
++
++	ret = regmap_set_bits(tps->regmap, TPS6594_REG_ESM_SOC_MODE_CFG,
++			      TPS6594_BIT_ESM_SOC_EN | TPS6594_BIT_ESM_SOC_ENDRV);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to configure ESM\n");
++
++	ret = regmap_set_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++			      TPS6594_BIT_ESM_SOC_START);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to start ESM\n");
++
++	pm_runtime_enable(dev);
++	pm_runtime_get_sync(dev);
++
++	return 0;
++}
++
++static int tps6594_esm_remove(struct platform_device *pdev)
++{
++	struct tps6594 *tps = dev_get_drvdata(pdev->dev.parent);
++	struct device *dev = &pdev->dev;
++	int ret;
++
++	ret = regmap_clear_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++				TPS6594_BIT_ESM_SOC_START);
++	if (ret) {
++		dev_err(dev, "Failed to stop ESM\n");
++		goto out;
++	}
++
++	ret = regmap_clear_bits(tps->regmap, TPS6594_REG_ESM_SOC_MODE_CFG,
++				TPS6594_BIT_ESM_SOC_EN | TPS6594_BIT_ESM_SOC_ENDRV);
++	if (ret)
++		dev_err(dev, "Failed to unconfigure ESM\n");
++
++out:
++	pm_runtime_put_sync(dev);
++	pm_runtime_disable(dev);
++
++	return ret;
++}
++
++static int tps6594_esm_suspend(struct device *dev)
++{
++	struct tps6594 *tps = dev_get_drvdata(dev->parent);
++	int ret;
++
++	ret = regmap_clear_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++				TPS6594_BIT_ESM_SOC_START);
++
++	pm_runtime_put_sync(dev);
++
++	return ret;
++}
++
++static int tps6594_esm_resume(struct device *dev)
++{
++	struct tps6594 *tps = dev_get_drvdata(dev->parent);
++
++	pm_runtime_get_sync(dev);
++
++	return regmap_set_bits(tps->regmap, TPS6594_REG_ESM_SOC_START_REG,
++			       TPS6594_BIT_ESM_SOC_START);
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(tps6594_esm_pm_ops, tps6594_esm_suspend, tps6594_esm_resume);
++
++static struct platform_driver tps6594_esm_driver = {
++	.driver	= {
++		.name = "tps6594-esm",
++		.pm = pm_sleep_ptr(&tps6594_esm_pm_ops),
++	},
++	.probe = tps6594_esm_probe,
++	.remove = tps6594_esm_remove,
++};
++
++module_platform_driver(tps6594_esm_driver);
++
++MODULE_ALIAS("platform:tps6594-esm");
++MODULE_AUTHOR("Julien Panis <jpanis@baylibre.com>");
++MODULE_DESCRIPTION("TPS6594 Error Signal Monitor Driver");
++MODULE_LICENSE("GPL");
 -- 
 2.37.3
 
