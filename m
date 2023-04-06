@@ -2,148 +2,256 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB167C7618D
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 14:42:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83E89C76196
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 16:56:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239233AbjDFOmA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 10:42:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32928 "EHLO
+        id S239744AbjDFQ4j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 12:56:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239081AbjDFOlr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 10:41:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E646CCA07
-        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 07:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680791940;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j895ymwzo5cFUK4EnI2MaN8LhhF7WBFR4yyDeDEaR/E=;
-        b=WUY0OWrAQpngkqCKEL6vymLQmsWR9dRK8GCrBFyLPgrzcZ8yHosQz1D58ce/LjZrbezkQ/
-        +iIgWe1ZbR29526lqP76FWNIkVN6Yf3jvaeUuT3vgwCUEgB5NeRx9P6Wq2BLyKmUozRXwc
-        74j5YvISvi2NIIKB8KQhVroHSfoRtS4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-333-p9dv_WtYPFGIRcb0vVvu2A-1; Thu, 06 Apr 2023 10:32:41 -0400
-X-MC-Unique: p9dv_WtYPFGIRcb0vVvu2A-1
-Received: by mail-wr1-f72.google.com with SMTP id h18-20020adfa4d2000000b002cea098a651so4959209wrb.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 07:32:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680791560; x=1683383560;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j895ymwzo5cFUK4EnI2MaN8LhhF7WBFR4yyDeDEaR/E=;
-        b=6zt83VugKm9KaDD0ytQasoZdOB16NP1oFpFVDP3hklo/7ubTEIWsgRtWuE7pWDMHr6
-         Hyr4DWvFG5+RYF3OlAjGb4dhU30P7Hlt+zgieQz/vSErIz3xajlxM0f4J35T1Cf2PIHw
-         qWLn18PY62Be1dO+e7NNs9t0nq5WHHsDROOvl9qPrfaH27yOigsvSvKhv2Xl88X/t+rv
-         co97Xt04/Q6PTvMc4z8CNAZgm46yFGenVGknS4Vmx/yxSn+X2uY49cGE2xcSsNJ+QubM
-         5R38YtkIo4cCVM6p91AQ/PttDskxHrM6twLKN2acCopYnfxyps7e8/bMNqjw0CkBgb5d
-         YsRw==
-X-Gm-Message-State: AAQBX9cFQu8KF0GdzrXBZgNQtlm586c4qBZBSlhjY3wl3oWE4N4DWsiu
-        uSQA6TEL+u4mrLH6p9KATxBOrvG4e9tIPtXVZ+fKWMoJS4xqARAFn4ZoguFsW66yIyUe8HvzReW
-        uee3CGnGjTX6tofm+eP/e
-X-Received: by 2002:adf:e807:0:b0:2db:9ccf:f9f5 with SMTP id o7-20020adfe807000000b002db9ccff9f5mr7281887wrm.0.1680791560105;
-        Thu, 06 Apr 2023 07:32:40 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZQFqd68J323693RzSjFbAIGhMIx+Sk7+HCdTARcTO1jXA82EQy191Q5dTyk14QuMR9BHz7KQ==
-X-Received: by 2002:adf:e807:0:b0:2db:9ccf:f9f5 with SMTP id o7-20020adfe807000000b002db9ccff9f5mr7281865wrm.0.1680791559754;
-        Thu, 06 Apr 2023 07:32:39 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id a15-20020a5d4d4f000000b002cfe685bfd6sm1881580wru.108.2023.04.06.07.32.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Apr 2023 07:32:38 -0700 (PDT)
-Message-ID: <a4994de5-973e-8df9-bb23-d74659641070@redhat.com>
-Date:   Thu, 6 Apr 2023 16:32:37 +0200
+        with ESMTP id S239716AbjDFQ4i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 12:56:38 -0400
+X-Greylist: delayed 160 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Apr 2023 09:56:36 PDT
+Received: from 66-220-144-179.mail-mxout.facebook.com (66-220-144-179.mail-mxout.facebook.com [66.220.144.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CDA2108
+        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 09:56:36 -0700 (PDT)
+Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
+        id 1EF01AC5FA67; Thu,  6 Apr 2023 09:53:44 -0700 (PDT)
+From:   Stefan Roesch <shr@devkernel.io>
+To:     kernel-team@fb.com
+Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v5 2/3] mm: add new KSM process and sysfs knobs
+Date:   Thu,  6 Apr 2023 09:53:38 -0700
+Message-Id: <20230406165339.1017597-3-shr@devkernel.io>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230406165339.1017597-1-shr@devkernel.io>
+References: <20230406165339.1017597-1-shr@devkernel.io>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <20230310182851.2579138-3-shr@devkernel.io>
- <ce494e5a-3540-d6ad-4e9c-0bb49c7e1e1b@redhat.com>
- <qvqw8rf6uicf.fsf@dev0134.prn3.facebook.com>
- <e7a930f6-feba-29a4-7c48-ae7d8108c7dc@redhat.com>
- <20230406141619.GB35884@cmpxchg.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v4 2/3] mm: add new KSM process and sysfs knobs
-In-Reply-To: <20230406141619.GB35884@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06.04.23 16:16, Johannes Weiner wrote:
-> On Thu, Apr 06, 2023 at 03:23:11PM +0200, David Hildenbrand wrote:
->>>>
->>>> Often, when you have to start making a list of things that a patch does, it
->>>> might make sense to split some of the items into separate patches such that you
->>>> can avoid lists and just explain in list-free text how the pieces in the patch
->>>> fit together.
->>>>
->>>> I'd suggest splitting this patch into logical pieces. For example, separating
->>>> the general profit calculation/exposure from the per-mm profit and the per-mm
->>>> ksm type indication.
->>>>
->>>
->>> Originally these were individual patches. If I recall correctly Johannes
->>> Weiner wanted them as one patch. I can certainly split them again.
->>
->> That's why I remember that v1 contained more patches :)
->>
->> Again, just my opinion on patches that require a description in form of a
->> list ...
-> 
-> My concern was the initial splitting of patch 1. I found it easier to
-> review with the new prctl() being one logical change, and fully
-> implemented in one go. The changelog is still in the form of a list,
-> but it essentially enumerates diff hunks that make up the interface.
-> 
-> No objection to splitting out the multiple sysfs knobs, though!
-> 
-> The strategy I usually follow is this:
-> 
-> 1. Split out changes based on user-visible behavior (new prctl(), new
->     sysfs knob)
-> 
-> 2. Extract changes made along the way that have stand-alone value in
->     existing code (bug fixes, simplifying/documenting tricky sections,
->     cleanups).
-> 
-> 3. Split out noisy prep work such as renames and refactors that make
->     the user-visible functional changes more difficult to understand.
-> 
-> and then order the series into sections 2, 3, and 1.
-> 
+This adds the general_profit KSM sysfs knob and the process profit metric
+and process merge type knobs to ksm_stat.
 
-I agree. The most important part is the "logical change" part. Once it's 
-down to a list of 3 items or so for a single commit we can usually 
-express it like (just an example that does no longer apply due to 
-pages_volatile() not being required) the following when combining items 
-1+2+3 from the list:
+1) expose general_profit metric
 
-"
-Let's expose the general KSM profit via sysfs and document that new 
-toggle. [add details about that and especially why we are doing that]
+   The documentation mentions a general profit metric, however this
+   metric is not calculated.  In addition the formula depends on the size
+   of internal structures, which makes it more difficult for an
+   administrator to make the calculation.  Adding the metric for a better
+   user experience.
 
-As we need the number of volatile pages to calculate the general KSM 
-profit, factor out existing functionality into a helper.
-"
+2) document general_profit sysfs knob
 
-Much easier to read.
+3) calculate ksm process profit metric
 
--- 
-Thanks,
+   The ksm documentation mentions the process profit metric and how to
+   calculate it.  This adds the calculation of the metric.
 
-David / dhildenb
+4) add ksm_merge_type() function
+
+   This adds the ksm_merge_type function.  The function returns the
+   merge type for the process.  For madvise it returns "madvise", for
+   prctl it returns "process" and otherwise it returns "none".
+
+5) mm: expose ksm process profit metric and merge type in ksm_stat
+
+   This exposes the ksm process profit metric in /proc/<pid>/ksm_stat.
+   The name of the value is ksm_merge_type.  The documentation mentions
+   the formula for the ksm process profit metric, however it does not
+   calculate it.  In addition the formula depends on the size of internal
+   structures.  So it makes sense to expose it.
+
+6) document new procfs ksm knobs
+
+Signed-off-by: Stefan Roesch <shr@devkernel.io>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Rik van Riel <riel@surriel.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+ Documentation/ABI/testing/sysfs-kernel-mm-ksm |  8 +++++
+ Documentation/admin-guide/mm/ksm.rst          |  8 ++++-
+ fs/proc/base.c                                |  5 +++
+ include/linux/ksm.h                           |  5 +++
+ mm/ksm.c                                      | 32 +++++++++++++++++++
+ 5 files changed, 57 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-ksm b/Documentatio=
+n/ABI/testing/sysfs-kernel-mm-ksm
+index d244674a9480..7768e90f7a8f 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-mm-ksm
++++ b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
+@@ -51,3 +51,11 @@ Description:	Control merging pages across different NU=
+MA nodes.
+=20
+ 		When it is set to 0 only pages from the same node are merged,
+ 		otherwise pages from all nodes can be merged together (default).
++
++What:		/sys/kernel/mm/ksm/general_profit
++Date:		January 2023
++KernelVersion:  6.1
++Contact:	Linux memory management mailing list <linux-mm@kvack.org>
++Description:	Measure how effective KSM is.
++		general_profit: how effective is KSM. The formula for the
++		calculation is in Documentation/admin-guide/mm/ksm.rst.
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-g=
+uide/mm/ksm.rst
+index 270560fef3b2..d2929964cd0f 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -157,6 +157,8 @@ stable_node_chains_prune_millisecs
+=20
+ The effectiveness of KSM and MADV_MERGEABLE is shown in ``/sys/kernel/mm=
+/ksm/``:
+=20
++general_profit
++        how effective is KSM. The calculation is explained below.
+ pages_shared
+         how many shared pages are being used
+ pages_sharing
+@@ -214,7 +216,8 @@ several times, which are unprofitable memory consumed=
+.
+ 			  ksm_rmap_items * sizeof(rmap_item).
+=20
+    where ksm_merging_pages is shown under the directory ``/proc/<pid>/``=
+,
+-   and ksm_rmap_items is shown in ``/proc/<pid>/ksm_stat``.
++   and ksm_rmap_items is shown in ``/proc/<pid>/ksm_stat``. The process =
+profit
++   is also shown in ``/proc/<pid>/ksm_stat`` as ksm_process_profit.
+=20
+ From the perspective of application, a high ratio of ``ksm_rmap_items`` =
+to
+ ``ksm_merging_pages`` means a bad madvise-applied policy, so developers =
+or
+@@ -225,6 +228,9 @@ so if the ``ksm_rmap_items/ksm_merging_pages`` ratio =
+exceeds 64 on 64-bit CPU
+ or exceeds 128 on 32-bit CPU, then the app's madvise policy should be dr=
+opped,
+ because the ksm profit is approximately zero or negative.
+=20
++The ksm_merge_type in ``/proc/<pid>/ksm_stat`` shows the merge type of t=
+he
++process. Valid values are ``none``, ``madvise`` and ``process``.
++
+ Monitoring KSM events
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 07463ad4a70a..c74450318e05 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -96,6 +96,7 @@
+ #include <linux/time_namespace.h>
+ #include <linux/resctrl.h>
+ #include <linux/cn_proc.h>
++#include <linux/ksm.h>
+ #include <trace/events/oom.h>
+ #include "internal.h"
+ #include "fd.h"
+@@ -3199,6 +3200,7 @@ static int proc_pid_ksm_merging_pages(struct seq_fi=
+le *m, struct pid_namespace *
+=20
+ 	return 0;
+ }
++
+ static int proc_pid_ksm_stat(struct seq_file *m, struct pid_namespace *n=
+s,
+ 				struct pid *pid, struct task_struct *task)
+ {
+@@ -3208,6 +3210,9 @@ static int proc_pid_ksm_stat(struct seq_file *m, st=
+ruct pid_namespace *ns,
+ 	if (mm) {
+ 		seq_printf(m, "ksm_rmap_items %lu\n", mm->ksm_rmap_items);
+ 		seq_printf(m, "zero_pages_sharing %lu\n", mm->ksm_zero_pages_sharing);
++		seq_printf(m, "ksm_merging_pages %lu\n", mm->ksm_merging_pages);
++		seq_printf(m, "ksm_merge_type %s\n", ksm_merge_type(mm));
++		seq_printf(m, "ksm_process_profit %ld\n", ksm_process_profit(mm));
+ 		mmput(mm);
+ 	}
+=20
+diff --git a/include/linux/ksm.h b/include/linux/ksm.h
+index c65455bf124c..4c32f9bca723 100644
+--- a/include/linux/ksm.h
++++ b/include/linux/ksm.h
+@@ -60,6 +60,11 @@ struct page *ksm_might_need_to_copy(struct page *page,
+ void rmap_walk_ksm(struct folio *folio, struct rmap_walk_control *rwc);
+ void folio_migrate_ksm(struct folio *newfolio, struct folio *folio);
+=20
++#ifdef CONFIG_PROC_FS
++long ksm_process_profit(struct mm_struct *);
++const char *ksm_merge_type(struct mm_struct *mm);
++#endif /* CONFIG_PROC_FS */
++
+ #else  /* !CONFIG_KSM */
+=20
+ static inline int ksm_add_mm(struct mm_struct *mm)
+diff --git a/mm/ksm.c b/mm/ksm.c
+index ab95ae0f9def..76b10ff840ac 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -3042,6 +3042,25 @@ static void wait_while_offlining(void)
+ }
+ #endif /* CONFIG_MEMORY_HOTREMOVE */
+=20
++#ifdef CONFIG_PROC_FS
++long ksm_process_profit(struct mm_struct *mm)
++{
++	return (long)mm->ksm_merging_pages * PAGE_SIZE -
++		mm->ksm_rmap_items * sizeof(struct ksm_rmap_item);
++}
++
++/* Return merge type name as string. */
++const char *ksm_merge_type(struct mm_struct *mm)
++{
++	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
++		return "process";
++	else if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
++		return "madvise";
++	else
++		return "none";
++}
++#endif /* CONFIG_PROC_FS */
++
+ #ifdef CONFIG_SYSFS
+ /*
+  * This all compiles without CONFIG_SYSFS, but is a waste of space.
+@@ -3313,6 +3332,18 @@ static ssize_t zero_pages_sharing_show(struct kobj=
+ect *kobj,
+ }
+ KSM_ATTR_RO(zero_pages_sharing);
+=20
++static ssize_t general_profit_show(struct kobject *kobj,
++				   struct kobj_attribute *attr, char *buf)
++{
++	long general_profit;
++
++	general_profit =3D ksm_pages_sharing * PAGE_SIZE -
++				ksm_rmap_items * sizeof(struct ksm_rmap_item);
++
++	return sysfs_emit(buf, "%ld\n", general_profit);
++}
++KSM_ATTR_RO(general_profit);
++
+ static ssize_t stable_node_dups_show(struct kobject *kobj,
+ 				     struct kobj_attribute *attr, char *buf)
+ {
+@@ -3378,6 +3409,7 @@ static struct attribute *ksm_attrs[] =3D {
+ 	&stable_node_dups_attr.attr,
+ 	&stable_node_chains_prune_millisecs_attr.attr,
+ 	&use_zero_pages_attr.attr,
++	&general_profit_attr.attr,
+ 	NULL,
+ };
+=20
+--=20
+2.34.1
 
