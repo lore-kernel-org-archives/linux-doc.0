@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB6BC7618D
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 20:31:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1476AC77B71
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 20:31:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239161AbjDFUbU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 16:31:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35812 "EHLO
+        id S239269AbjDFUbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 16:31:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239115AbjDFUbT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 16:31:19 -0400
+        with ESMTP id S239242AbjDFUbU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 16:31:20 -0400
 Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B984C16
-        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 13:31:16 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id sg7so4209381ejc.9
-        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 13:31:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DC949CC
+        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 13:31:19 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id sg7so4209762ejc.9
+        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 13:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680813075;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Cj6dH8SQdnU185Yyyy6Om9VdNmKCPrXJ/wOeykSuMs=;
-        b=taN5aF85T0o4DOEA7zGLC9x48hE/Ll4x8ZFWRhnpOle/x0WjymESe4p4Z14BHa4S9c
-         uw7oNg/Q29YXzTtqcl9Czi8nNczbJMDfMKL24RxQLPQ4i7gS2T3RgrLsNbgbf+VAwqnm
-         kCTb7lsCxP9ItySfzSsSSg9XA7o/XysqdOeSgmklm8S772pjBQT+JEFaumzsPFB7Z7Kq
-         ttNNTzWPBGiJpGKT0WSXACkCsMquvcdtgYxpUaltczVIRYNkiqm57VeXX06xfnl++FmI
-         gmxj3nq/pcX+gvNwXJxO0eKcWnKI5uuzQyY9KAyvy8nG+tI3TfEqTkyzFK+8IztYVtiX
-         M02w==
+        d=linaro.org; s=google; t=1680813079;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2sIWqsMomKx2PnPBWMVAcd7l87EB+JZ4zJtWBb4tmtA=;
+        b=QiBjZo+smpaLDZPnZQ79Z/dEAr4MqaFcZVqqqialTjCXWVvpLK1kIifHK2HcJ4B3N7
+         +VLEpX1SSwbzuzq6H3Rf+w5o/msSwZvE0mw+kJbt6rQTkz623WyZ1ca+vUy0UrEPwrop
+         WaIxfowNxoYjnRYmFKtXGuhqHnASBsfU6CZV0Igr7sejZ92V+4V4QYLKQrMWtrRDlQOP
+         lzm5MdIqkJDNdy9ppfSFbNTHyIhXQShGgadcfbODs49sL8uEem8nYlKfIjzTE5c7s9de
+         db0FX8r1RpncYzo+w0IY734Uzhvi4pjTjVhTXqamE6hsP6uGZhyEkVVtGdWZci1BVJrv
+         1bhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680813075;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6Cj6dH8SQdnU185Yyyy6Om9VdNmKCPrXJ/wOeykSuMs=;
-        b=4hpz70zqIkXQk6quS7bnqGzXpwsXZ9G38u4mHyjkgj3qSEYQHTMvbRJs7gv8cpRKxz
-         rCfhJxsI1oIJ38/mxAWq+0GllIZNzwSyUOIcrwgUs1wlmFv3O2NO9OzXspkEGvWdv3Mw
-         Nw7mqvgPGD3Mw7gPUHysAMyRwS8o9vqRl21Uf5IMp82INkhsyu//X8/bnjgZJ4zQDr0m
-         0YytefgX9Nu1+7iAySw9fzAOZ1hl2nGB1o8kZa+uNQBetJQrKDioDT9UH70adYZqA9e6
-         lcNZBxIUEB5dzrX9nLYhvbdextPVnAMKRbpnwON5+2In1TU7WDWmzp3Fa6NubUJ39jsW
-         fkmA==
-X-Gm-Message-State: AAQBX9cRYekMidqEPiKrPSgUeX3C+RGU3fUNBLqiy0Oervs29voR/R3Q
-        LWQNCIK6V3qCDinhWSy8iuu5VQ==
-X-Google-Smtp-Source: AKy350aYtbUbdh6UH+nAWn66ZLqv4AwXcyRo/pi+U+xLfe5lXoD+dmiqBL9fEc9v7hXlsmZb2JD7bg==
-X-Received: by 2002:a17:906:c795:b0:922:8fc9:d235 with SMTP id cw21-20020a170906c79500b009228fc9d235mr6270842ejb.9.1680813074873;
-        Thu, 06 Apr 2023 13:31:14 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680813079;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2sIWqsMomKx2PnPBWMVAcd7l87EB+JZ4zJtWBb4tmtA=;
+        b=0RoT99J5Ch9DNsevvzzXcGMpraHNhtAI6koNs8g7yX7U/XB+OVTHkgynuRNfJ68VAZ
+         sO35CRzMDJ7jUF8QgiZ0dl1ngNKYmnINeQ7uRzMUcrWySytnuhsFbwKzcXfv08jjc1Uo
+         b/nz9vDDeSwughMKANn8wp7i4Kw6lSAH1/MmBxYboj17rUEiUdtsjasZs1KvWnKFXbv8
+         0dgfkFXuFAeTAHIIARAzgQfvCdZZnuwlIJC3qHq3Dm2jniuwi9kWsDV6i2BgBwtYnGga
+         nS2aDggwl9VHbo3mgmHUOrUHuMfMg67zyOiPW9vHBZyPiBNQYMtdrXoCZRs/1wdnvQ8S
+         yCnw==
+X-Gm-Message-State: AAQBX9e7oQq5oSkzR6KgM+M/bOIrsMQ9KZo7Ccs4PMBh2sRLoq6w+vIR
+        mpRnM8uaeOgIYBNRHkIMgAvhTA==
+X-Google-Smtp-Source: AKy350ZBPO6m6MZm+LGsb3QXB/VIdy6OyRxsTcyuYHJsvXj1X/J1jphOn0rvZiVk7Bg1a2y8pNsePQ==
+X-Received: by 2002:a17:906:bc4b:b0:947:55ad:dd00 with SMTP id s11-20020a170906bc4b00b0094755addd00mr147468ejv.26.1680813079290;
+        Thu, 06 Apr 2023 13:31:19 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:49e6:bb8c:a05b:c4ed])
-        by smtp.gmail.com with ESMTPSA id s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.31.12
+        by smtp.gmail.com with ESMTPSA id s4-20020a1709067b8400b0092bea699124sm1210330ejo.106.2023.04.06.13.31.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 13:31:14 -0700 (PDT)
+        Thu, 06 Apr 2023 13:31:18 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -98,172 +99,39 @@ To:     Jean Delvare <jdelvare@suse.com>,
         linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 00/68] hwmon: constify pointers to hwmon_channel_info
-Date:   Thu,  6 Apr 2023 22:29:55 +0200
-Message-Id: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 02/68] hwmon: adm1177: constify pointers to hwmon_channel_info
+Date:   Thu,  6 Apr 2023 22:29:57 +0200
+Message-Id: <20230406203103.3011503-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
+References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Statically allocated array of pointed to hwmon_channel_info can be made
+const for safety.
 
-The first patch constifies the hwmon_channel_info pointers in the core, so all
-the drivers can be updated - all patches here depend on the first one.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/hwmon/adm1177.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If the approach is fine, I will later update other subsystems.
-
-Best regards,
-Krzysztof
-
-Krzysztof Kozlowski (68):
-  hwmon: constify pointers to hwmon_channel_info
-  hwmon: adm1177: constify pointers to hwmon_channel_info
-  hwmon: adm9240: constify pointers to hwmon_channel_info
-  hwmon: adt7411: constify pointers to hwmon_channel_info
-  hwmon: adt7470: constify pointers to hwmon_channel_info
-  hwmon: adt7x10: constify pointers to hwmon_channel_info
-  hwmon: aht10: constify pointers to hwmon_channel_info
-  hwmon: aquacomputer: constify pointers to hwmon_channel_info
-  hwmon: as370: constify pointers to hwmon_channel_info
-  hwmon: axi-fan: constify pointers to hwmon_channel_info
-  hwmon: bt1-pvt: constify pointers to hwmon_channel_info
-  hwmon: corsair: constify pointers to hwmon_channel_info
-  hwmon: dell-smm: constify pointers to hwmon_channel_info
-  hwmon: drivetemp: constify pointers to hwmon_channel_info
-  hwmon: emc2305: constify pointers to hwmon_channel_info
-  hwmon: ftsteutates: constify pointers to hwmon_channel_info
-  hwmon: gxp-fan: constify pointers to hwmon_channel_info
-  hwmon: i5500_temp: constify pointers to hwmon_channel_info
-  hwmon: ina238: constify pointers to hwmon_channel_info
-  hwmon: ina3221: constify pointers to hwmon_channel_info
-  hwmon: intel-m10-bmc: constify pointers to hwmon_channel_info
-  hwmon: jc42: constify pointers to hwmon_channel_info
-  hwmon: k10temp: constify pointers to hwmon_channel_info
-  hwmon: k8temp: constify pointers to hwmon_channel_info
-  hwmon: lan966x: constify pointers to hwmon_channel_info
-  hwmon: lm75: constify pointers to hwmon_channel_info
-  hwmon: lm83: constify pointers to hwmon_channel_info
-  hwmon: lm95241: constify pointers to hwmon_channel_info
-  hwmon: lm95245: constify pointers to hwmon_channel_info
-  hwmon: lochnagar: constify pointers to hwmon_channel_info
-  hwmon: ltc2947: constify pointers to hwmon_channel_info
-  hwmon: ltc2992: constify pointers to hwmon_channel_info
-  hwmon: ltc4245: constify pointers to hwmon_channel_info
-  hwmon: ltq-cputemp: constify pointers to hwmon_channel_info
-  hwmon: max127: constify pointers to hwmon_channel_info
-  hwmon: max31730: constify pointers to hwmon_channel_info
-  hwmon: max31760: constify pointers to hwmon_channel_info
-  hwmon: max31790: constify pointers to hwmon_channel_info
-  hwmon: max6620: constify pointers to hwmon_channel_info
-  hwmon: max6621: constify pointers to hwmon_channel_info
-  hwmon: max6650: constify pointers to hwmon_channel_info
-  hwmon: mc34vr500: constify pointers to hwmon_channel_info
-  hwmon: mcp3021: constify pointers to hwmon_channel_info
-  hwmon: mlxreg: constify pointers to hwmon_channel_info
-  hwmon: nct7904: constify pointers to hwmon_channel_info
-  hwmon: npcm750-pwm: constify pointers to hwmon_channel_info
-  hwmon: ntc_thermistor: constify pointers to hwmon_channel_info
-  hwmon: nzxt: constify pointers to hwmon_channel_info
-  hwmon: oxp-sensors: constify pointers to hwmon_channel_info
-  hwmon: peci: constify pointers to hwmon_channel_info
-  hwmon: powr1220: constify pointers to hwmon_channel_info
-  hwmon: raspberrypi: constify pointers to hwmon_channel_info
-  hwmon: sbrmi: constify pointers to hwmon_channel_info
-  hwmon: sbtsi_temp: constify pointers to hwmon_channel_info
-  hwmon: sch5627: constify pointers to hwmon_channel_info
-  hwmon: sht4x: constify pointers to hwmon_channel_info
-  hwmon: sl28cpld: constify pointers to hwmon_channel_info
-  hwmon: smpro: constify pointers to hwmon_channel_info
-  hwmon: sparx5-temp: constify pointers to hwmon_channel_info
-  hwmon: sy7636a: constify pointers to hwmon_channel_info
-  hwmon: tmp102: constify pointers to hwmon_channel_info
-  hwmon: tmp103: constify pointers to hwmon_channel_info
-  hwmon: tmp108: constify pointers to hwmon_channel_info
-  hwmon: tmp464: constify pointers to hwmon_channel_info
-  hwmon: tmp513: constify pointers to hwmon_channel_info
-  hwmon: tps23861: constify pointers to hwmon_channel_info
-  hwmon: w83627ehf: constify pointers to hwmon_channel_info
-  hwmon: w83773g: constify pointers to hwmon_channel_info
-
- Documentation/hwmon/hwmon-kernel-api.rst |  6 +++---
- drivers/accel/habanalabs/common/hwmon.c  |  2 +-
- drivers/hwmon/adm1177.c                  |  2 +-
- drivers/hwmon/adm9240.c                  |  2 +-
- drivers/hwmon/adt7411.c                  |  2 +-
- drivers/hwmon/adt7470.c                  |  2 +-
- drivers/hwmon/adt7x10.c                  |  2 +-
- drivers/hwmon/aht10.c                    |  2 +-
- drivers/hwmon/aquacomputer_d5next.c      |  2 +-
- drivers/hwmon/as370-hwmon.c              |  2 +-
- drivers/hwmon/axi-fan-control.c          |  2 +-
- drivers/hwmon/bt1-pvt.c                  |  4 ++--
- drivers/hwmon/corsair-cpro.c             |  2 +-
- drivers/hwmon/corsair-psu.c              |  2 +-
- drivers/hwmon/dell-smm-hwmon.c           |  2 +-
- drivers/hwmon/drivetemp.c                |  2 +-
- drivers/hwmon/emc2305.c                  |  2 +-
- drivers/hwmon/ftsteutates.c              |  2 +-
- drivers/hwmon/gxp-fan-ctrl.c             |  2 +-
- drivers/hwmon/hwmon.c                    |  4 ++--
- drivers/hwmon/i5500_temp.c               |  2 +-
- drivers/hwmon/ina238.c                   |  2 +-
- drivers/hwmon/ina3221.c                  |  2 +-
- drivers/hwmon/intel-m10-bmc-hwmon.c      | 10 +++++-----
- drivers/hwmon/jc42.c                     |  2 +-
- drivers/hwmon/k10temp.c                  |  2 +-
- drivers/hwmon/k8temp.c                   |  2 +-
- drivers/hwmon/lan966x-hwmon.c            |  2 +-
- drivers/hwmon/lm75.c                     |  2 +-
- drivers/hwmon/lm83.c                     |  2 +-
- drivers/hwmon/lm95241.c                  |  2 +-
- drivers/hwmon/lm95245.c                  |  2 +-
- drivers/hwmon/lochnagar-hwmon.c          |  2 +-
- drivers/hwmon/ltc2947-core.c             |  2 +-
- drivers/hwmon/ltc2992.c                  |  2 +-
- drivers/hwmon/ltc4245.c                  |  2 +-
- drivers/hwmon/ltq-cputemp.c              |  2 +-
- drivers/hwmon/max127.c                   |  2 +-
- drivers/hwmon/max31730.c                 |  2 +-
- drivers/hwmon/max31760.c                 |  2 +-
- drivers/hwmon/max31790.c                 |  2 +-
- drivers/hwmon/max6620.c                  |  2 +-
- drivers/hwmon/max6621.c                  |  2 +-
- drivers/hwmon/max6650.c                  |  2 +-
- drivers/hwmon/mc34vr500.c                |  2 +-
- drivers/hwmon/mcp3021.c                  |  2 +-
- drivers/hwmon/mlxreg-fan.c               |  2 +-
- drivers/hwmon/nct7904.c                  |  2 +-
- drivers/hwmon/npcm750-pwm-fan.c          |  2 +-
- drivers/hwmon/ntc_thermistor.c           |  2 +-
- drivers/hwmon/nzxt-kraken2.c             |  2 +-
- drivers/hwmon/nzxt-smart2.c              |  2 +-
- drivers/hwmon/oxp-sensors.c              |  2 +-
- drivers/hwmon/peci/cputemp.c             |  2 +-
- drivers/hwmon/peci/dimmtemp.c            |  2 +-
- drivers/hwmon/powr1220.c                 |  2 +-
- drivers/hwmon/raspberrypi-hwmon.c        |  2 +-
- drivers/hwmon/sbrmi.c                    |  2 +-
- drivers/hwmon/sbtsi_temp.c               |  2 +-
- drivers/hwmon/sch5627.c                  |  2 +-
- drivers/hwmon/sht4x.c                    |  2 +-
- drivers/hwmon/sl28cpld-hwmon.c           |  2 +-
- drivers/hwmon/smpro-hwmon.c              |  2 +-
- drivers/hwmon/sparx5-temp.c              |  2 +-
- drivers/hwmon/sy7636a-hwmon.c            |  2 +-
- drivers/hwmon/tmp102.c                   |  2 +-
- drivers/hwmon/tmp103.c                   |  2 +-
- drivers/hwmon/tmp108.c                   |  2 +-
- drivers/hwmon/tmp464.c                   |  2 +-
- drivers/hwmon/tmp513.c                   |  2 +-
- drivers/hwmon/tps23861.c                 |  2 +-
- drivers/hwmon/w83627ehf.c                |  2 +-
- drivers/hwmon/w83773g.c                  |  2 +-
- include/linux/hwmon.h                    |  2 +-
- 74 files changed, 82 insertions(+), 82 deletions(-)
-
+diff --git a/drivers/hwmon/adm1177.c b/drivers/hwmon/adm1177.c
+index be17a26a84f1..bfe070a1b501 100644
+--- a/drivers/hwmon/adm1177.c
++++ b/drivers/hwmon/adm1177.c
+@@ -168,7 +168,7 @@ static umode_t adm1177_is_visible(const void *data,
+ 	return 0;
+ }
+ 
+-static const struct hwmon_channel_info *adm1177_info[] = {
++static const struct hwmon_channel_info * const adm1177_info[] = {
+ 	HWMON_CHANNEL_INFO(curr,
+ 			   HWMON_C_INPUT | HWMON_C_MAX_ALARM),
+ 	HWMON_CHANNEL_INFO(in,
 -- 
 2.34.1
 
