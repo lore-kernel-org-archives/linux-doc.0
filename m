@@ -2,206 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E057AC77B71
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 14:06:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 642FCC76196
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 14:10:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238984AbjDFOG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 10:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48392 "EHLO
+        id S238701AbjDFOKI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 10:10:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238977AbjDFOGY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 10:06:24 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B0E383E4;
-        Thu,  6 Apr 2023 07:05:56 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Psjrj2NqnzKx1b;
-        Thu,  6 Apr 2023 22:03:17 +0800 (CST)
-Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 6 Apr
- 2023 22:05:47 +0800
-From:   Chen Jiahao <chenjiahao16@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
-CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-        <conor.dooley@microchip.com>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
-        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
-        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
-Subject: [PATCH -next v3 1/2] riscv: kdump: Implement crashkernel=X,[high,low]
-Date:   Fri, 7 Apr 2023 06:02:05 +0800
-Message-ID: <20230406220206.3067006-2-chenjiahao16@huawei.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230406220206.3067006-1-chenjiahao16@huawei.com>
-References: <20230406220206.3067006-1-chenjiahao16@huawei.com>
+        with ESMTP id S238397AbjDFOJi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 10:09:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA10A277
+        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 07:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680790096;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AT1MAIP9v4DHYB4m5xHxagncHIIMlg0uERfKC+FM+xk=;
+        b=FJ4haGhA6rEW5O5nGatw51jhpSA6CADDsxcGFO44otSX2vIumBeoOFsNW+gMKM5+agKGsD
+        2eD7XhBqEmsuSN9Iyw7ARphDdpQneeqakEl4PNSTBhBzja32rocLB4uMWticzZHfmLgyue
+        jGkiT3vdq/e5U8lojVSF6lHt0mMvRdk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-182-1FGS7ITMPuujGRFJNxDx8A-1; Thu, 06 Apr 2023 10:08:15 -0400
+X-MC-Unique: 1FGS7ITMPuujGRFJNxDx8A-1
+Received: by mail-ej1-f70.google.com with SMTP id 18-20020a17090600d200b0093c44a07ad1so292509eji.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 07:08:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680790093; x=1683382093;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AT1MAIP9v4DHYB4m5xHxagncHIIMlg0uERfKC+FM+xk=;
+        b=8IUKvjzI6EH+N/8G5h8oHFAEiNwiOJ90OVzc/QDTetmzH9crGaGss/fsGxJ2rn68HB
+         IBc6onkXZ1sKV2QwJyNdcpIf0UOq/1rkqJA4AmAVPJGDUHtAPIBpNj14gr8H3hBUCisF
+         z6RPgvB1xkdyoOKQrZnzU/6jMfdfjEGys0PexjNDNjWC/XhgdkadXBChh+D2m8ZSZyeT
+         8nh3Kjoa01l/ucdIKQbo6pb6+piFFjQMHsiSTSICLESWcXqlLaSoUSHBKsvuXaCwOWgw
+         E6AARq0liwYxKKD0xO0BuWj2YtpGUs+rsXUp5nd3G0OdZ/wADZJkHRP63XfLKV2CR3GY
+         +8Ug==
+X-Gm-Message-State: AAQBX9eRHLXpNrCYqzPXFxFwEoaYxfaXBcZpFSBieS81y+G2GcqiLBWz
+        gWALvMIdFhrw2jGFbzY8EvJh9MyX2ft17tXhN9tfhhCCl8+Blp7lkaV4A+fooZ77hHocP5Els07
+        3urU7x96weixglv2l58I2SlY/BOu+
+X-Received: by 2002:a17:907:a042:b0:93f:2114:9a1c with SMTP id gz2-20020a170907a04200b0093f21149a1cmr6362885ejc.45.1680790093369;
+        Thu, 06 Apr 2023 07:08:13 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aYnPYE5+ik5n4GldzrrnSl94ImQLUG+CLdBCsnooZZBbVL3WumeFjJnRY5TgvfVBKjxVz+Iw==
+X-Received: by 2002:a17:907:a042:b0:93f:2114:9a1c with SMTP id gz2-20020a170907a04200b0093f21149a1cmr6362870ejc.45.1680790093074;
+        Thu, 06 Apr 2023 07:08:13 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id s14-20020a170906bc4e00b0093338259b2bsm834536ejv.207.2023.04.06.07.08.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Apr 2023 07:08:12 -0700 (PDT)
+Message-ID: <565e6575-91f7-9ca2-1505-17527b95a816@redhat.com>
+Date:   Thu, 6 Apr 2023 16:08:11 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.174.205]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v7] Introduction-of-HP-BIOSCFG-driver-documentation
+Content-Language: en-US, nl
+To:     Jorge Lopez <jorgealtxwork@gmail.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>
+Cc:     Linux x86 Platform Drivers <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>
+References: <20230403211548.6253-1-jorge.lopez2@hp.com>
+ <ZCuMkdb6jeL4S8hz@debian.me>
+ <CAOOmCE-5NHkYcmBP1GGpr=sEoxF9jkjj1LevekEm8R0wbrM4xQ@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAOOmCE-5NHkYcmBP1GGpr=sEoxF9jkjj1LevekEm8R0wbrM4xQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On riscv, the current crash kernel allocation logic is trying to
-allocate within 32bit addressible memory region by default, if
-failed, try to allocate without 4G restriction.
+Hi All,
 
-In need of saving DMA zone memory while allocating a relatively large
-crash kernel region, allocating the reserved memory top down in
-high memory, without overlapping the DMA zone, is a mature solution.
-Here introduce the parameter option crashkernel=X,[high,low].
+FWIW I have been reading along with both the v6 and
+this v7 posting.
 
-One can reserve the crash kernel from high memory above DMA zone range
-by explicitly passing "crashkernel=X,high"; or reserve a memory range
-below 4G with "crashkernel=X,low".
+Thomas, Mark, thank you for your review / feedback
+on this series.
 
-Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
----
- arch/riscv/kernel/setup.c |  5 +++
- arch/riscv/mm/init.c      | 74 ++++++++++++++++++++++++++++++++++++---
- 2 files changed, 74 insertions(+), 5 deletions(-)
+On 4/4/23 15:37, Jorge Lopez wrote:
+> Hi Bagas,
+> 
+>>
+>> Where is the rest of patches if this is a series? Had they been merged?
+>>
+> 
+> There is only one change as requested by  Thomas Weißschuh
+> 
+>> Feel free to ONLY submit the patch with the documentation for the next
+>> revision. Then we can nail down the interface and initial functionality
+>> and you don't always have to adapt the code to the changing interface.
+> 
+> Perhaps, I misunderstood Thomas request.   I will address a few other
+> comments and will submit all files again.
 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index 5d3184cbf518..ea84e5047c23 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -176,6 +176,11 @@ static void __init init_resources(void)
- 		if (ret < 0)
- 			goto error;
- 	}
-+	if (crashk_low_res.start != crashk_low_res.end) {
-+		ret = add_resource(&iomem_resource, &crashk_low_res);
-+		if (ret < 0)
-+			goto error;
-+	}
- #endif
- 
- #ifdef CONFIG_CRASH_DUMP
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 478d6763a01a..b5b457193423 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
- }
- #endif /* CONFIG_MMU */
- 
-+/* Reserve 128M low memory by default for swiotlb buffer */
-+#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
-+
-+static int __init reserve_crashkernel_low(unsigned long long low_size)
-+{
-+	unsigned long long low_base;
-+
-+	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
-+	if (!low_base) {
-+		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-+		return -ENOMEM;
-+	}
-+
-+	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-+		low_base, low_base + low_size, low_size >> 20);
-+
-+	crashk_low_res.start = low_base;
-+	crashk_low_res.end = low_base + low_size - 1;
-+
-+	return 0;
-+}
-+
- /*
-  * reserve_crashkernel() - reserves memory for crash kernel
-  *
-@@ -1163,8 +1185,12 @@ static void __init reserve_crashkernel(void)
- {
- 	unsigned long long crash_base = 0;
- 	unsigned long long crash_size = 0;
-+	unsigned long long crash_low_size = 0;
- 	unsigned long search_start = memblock_start_of_DRAM();
- 	unsigned long search_end = memblock_end_of_DRAM();
-+	unsigned long search_low_max = (unsigned long)dma32_phys_limit;
-+	char *cmdline = boot_command_line;
-+	bool fixed_base = false;
- 
- 	int ret = 0;
- 
-@@ -1180,14 +1206,37 @@ static void __init reserve_crashkernel(void)
- 		return;
- 	}
- 
--	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-+	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
- 				&crash_size, &crash_base);
--	if (ret || !crash_size)
-+	if (ret == -ENOENT) {
-+		/*
-+		 * crashkernel=X,[high,low] can be specified or not, but
-+		 * invalid value is not allowed.
-+		 */
-+		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
-+		if (ret || !crash_size)
-+			return;
-+
-+		/*
-+		 * crashkernel=Y,low is valid only when crashkernel=X,high
-+		 * is passed and high memory is reserved successful.
-+		 */
-+		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-+		if (ret == -ENOENT)
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+		else if (ret)
-+			return;
-+
-+		search_start = search_low_max;
-+	} else if (ret || !crash_size) {
-+		/* Invalid argument value specified */
- 		return;
-+	}
- 
- 	crash_size = PAGE_ALIGN(crash_size);
- 
- 	if (crash_base) {
-+		fixed_base = true;
- 		search_start = crash_base;
- 		search_end = crash_base + crash_size;
- 	}
-@@ -1201,16 +1250,31 @@ static void __init reserve_crashkernel(void)
- 	 */
- 	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
- 					       search_start,
--					       min(search_end, (unsigned long) SZ_4G));
-+					       min(search_end, search_low_max));
- 	if (crash_base == 0) {
--		/* Try again without restricting region to 32bit addressible memory */
-+		if (fixed_base) {
-+			pr_warn("crashkernel: allocating failed with given size@offset\n");
-+			return;
-+		}
-+
-+		/* Try again above the region of 32bit addressible memory */
- 		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
--						search_start, search_end);
-+						       max(search_start, search_low_max),
-+						       search_end);
- 		if (crash_base == 0) {
- 			pr_warn("crashkernel: couldn't allocate %lldKB\n",
- 				crash_size >> 10);
- 			return;
- 		}
-+
-+		if (!crash_low_size)
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+	}
-+
-+	if ((crash_base > dma32_phys_limit - crash_low_size) &&
-+	    crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-+		memblock_phys_free(crash_base, crash_size);
-+		return;
- 	}
- 
- 	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
--- 
-2.31.1
+I think that Thomas' suggestion to first focus on getting
+the userspace API right and then implement the agreed
+upon API is a good idea.
+
+So for the next version just post only the documentation
+patch again please.
+
+Note it is not the intention to merge just the documentation
+patch without merging the code first.
+
+The idea is to first nail the API down and then modify
+the code once to implement the agreed upon API.
+
+Then once the API has been agreed upon post newer
+versions which also include the code again.
+
+And then once people are also happy with the code
+we can merge both the code + documentation in one go.
+
+Regards,
+
+Hans
+
+
+
+
+
+
+
+> 
+> Regards,
+> 
+> Jorge
+> 
 
