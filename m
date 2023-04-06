@@ -2,237 +2,217 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0326FC7618D
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 12:06:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62E6EC7618D
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 12:53:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbjDFMGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 08:06:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44480 "EHLO
+        id S237427AbjDFMxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 08:53:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbjDFMGb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 08:06:31 -0400
-X-Greylist: delayed 609 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Apr 2023 05:06:30 PDT
-Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 448A2A0
-        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 05:06:30 -0700 (PDT)
-Date:   Thu, 06 Apr 2023 11:44:55 +0000
-Authentication-Results: mail-4321.protonmail.ch;
-        dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="dZ9KpKqj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-        s=protonmail; t=1680781504; x=1681040704;
-        bh=jDCBj8lshorW4gdkd4kJjUH+4/q9Xfg6ywnJShCYQyw=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=dZ9KpKqjZpp5ekB8Hwx8+atH3RXHtHtb8jmwcgcxXYUdxq3S5rnRvb6cG4JLo2Gnm
-         EN1w+HfX+LY6vfSUh5jAQujFu1YzwnJkbqNXXgDur99xiTx631qZQejUg/yV/ZmNkf
-         +pps5DwM7jmDLZKedntQZACZjQ1UWk8ng/xtOMgGlOdDmUxlLgqC4EJImgFKO4Ao2e
-         um4qiqDRJvzu3RT5NbJly5Q/Qw0c2pc1tiEoW5dOgY22o7C74Jr4Rkfz5wnhgBHTdn
-         SGYczFCacdgmFxBo+8mYgdxk87TFwM24WQ8lRnRXwcC2eJXRQ7Cu986BlW9+QxNrb5
-         QWf7kSBD4vN2Q==
-To:     =?utf-8?Q?Petr_Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>
-From:   Juerg Haefliger <juergh@proton.me>
-Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Christoph Hellwig <hch@lst.de>,
+        with ESMTP id S236287AbjDFMw7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 08:52:59 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAFEC11C
+        for <linux-doc@vger.kernel.org>; Thu,  6 Apr 2023 05:52:56 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id j22so1132160ejv.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Apr 2023 05:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680785575; x=1683377575;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IJscOEPUxerIocq5ivhaFnZ1SHI0paGFj+4RY7CI49c=;
+        b=mmi2ytKq+NaQhoDUPRHBUEjRhCCPgZiy7rLgIJXfMFck1daXezUDFfW+f8Ya9qW8Nu
+         77o8Nv8mCPZJVOJ/Mw5IkzQ/lVA8K8pLYcnCheg3aUT4rIjJIAXX7Utgjw5MQqmXLhtW
+         435VTHVUt6RP3++nMGoeLtublMXBqOmF5FEHQb6o99n31lb7S6WZxLIvcTevt83tl6fV
+         cKM/LYDc4weOyCwuDkg3btNjWsl6SyXFBeMGeyFU1GWXKNRtgmCulev2zmpW5HSdx9TQ
+         WDUIoKFjlt3z2DEYShN6woFM3WBqXviuTCQLf58p6eWApFbTnPJA8N2vEAKJbmcOE3wx
+         8r5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680785575; x=1683377575;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IJscOEPUxerIocq5ivhaFnZ1SHI0paGFj+4RY7CI49c=;
+        b=37Z3rvgfIC3LVraEXbYr0/njx6A1sHAdyRsmPrieMeolVK0w86ZmEYkYiCGkJAszag
+         qasOgSPLcMpK3hVt62VaCQ12he1tQdrSfs1IslAozrJ2ghHIi5g2phN8N0SIeM9Prdll
+         yjHNlLQPf8CwNQfCBd3lfDnA5mqRA5us07zM4ofC9Lsbij6wZIK742S3qHkdL4RDxD5L
+         DeTAOJTtpatcuHOgf7LP9cBh4dM50KCJzblmHHJbccDmn7j/AcUoGN5GRbuiO7xnoryy
+         U8P+lSP7m09ctEOSn9sEX36jjN/TGtELI6YYIlZtOl+sHS1RJv6e9x5JURLOwYi6rNp7
+         Wrsg==
+X-Gm-Message-State: AAQBX9cDopEpV+yEs3Olmd0CDKvLbnqCL4lcD5ENpnNM78rDWlqTYVYQ
+        +b9btSr9wT8r4XzZDmSAkXWL+A==
+X-Google-Smtp-Source: AKy350ZjSeUi5W/FMFj8cFd3FZ8IBUmJZCdwJjwrxRaSX9z1B2tETRyepfqtj3cs2LAQGBpYvDx5aA==
+X-Received: by 2002:a17:906:9be2:b0:931:624b:680c with SMTP id de34-20020a1709069be200b00931624b680cmr6404112ejc.29.1680785575139;
+        Thu, 06 Apr 2023 05:52:55 -0700 (PDT)
+Received: from google.com (64.227.90.34.bc.googleusercontent.com. [34.90.227.64])
+        by smtp.gmail.com with ESMTPSA id rj13-20020a1709076c8d00b00947ccb6150bsm657067ejc.102.2023.04.06.05.52.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 05:52:54 -0700 (PDT)
+Date:   Thu, 6 Apr 2023 12:52:51 +0000
+From:   Quentin Perret <qperret@google.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Marc Zyngier <maz@kernel.org>, David Dai <davidai@google.com>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Alexander Graf <graf@amazon.com>
-Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce buffers
-Message-ID: <20230406134440.72959135@gollum>
-In-Reply-To: <20230331110043.7b1ddfa3@meshulam.tesarici.cz>
-References: <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com> <20230331092553.677e9649@smeagol> <20230331110043.7b1ddfa3@meshulam.tesarici.cz>
-Feedback-ID: 45149698:user:proton
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        kernel-team@android.com, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
+Message-ID: <ZC7Ao1qoNGYXQ9h4@google.com>
+References: <20230330224348.1006691-1-davidai@google.com>
+ <ZCx97IKjsBibjdGc@linux.dev>
+ <86sfdfv0e1.wl-maz@kernel.org>
+ <ZC0n0HRsmNJeJZps@google.com>
+ <CAGETcx_9SdyCQ5UHhjsnV5+X8arhXoZS2NN-mewtPM3oHuZrkw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="b1_ayphHOVkQ7156P23PkrcwNhMKb9WleLOMbnybo3AJ1Q"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGETcx_9SdyCQ5UHhjsnV5+X8arhXoZS2NN-mewtPM3oHuZrkw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a multi-part message in MIME format.
-
---b1_ayphHOVkQ7156P23PkrcwNhMKb9WleLOMbnybo3AJ1Q
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 31 Mar 2023 11:00:43 +0200
-Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
-
-> Hi Juerg,
->
-> On Fri, 31 Mar 2023 07:26:09 +0000
-> Juerg Haefliger <juergh@proton.me> wrote:
->
-> > On Tue, 28 Mar 2023 09:54:35 +0200
-> > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+On Wednesday 05 Apr 2023 at 14:07:18 (-0700), Saravana Kannan wrote:
+> On Wed, Apr 5, 2023 at 12:48 AM 'Quentin Perret' via kernel-team
+> > And I concur with all the above as well. Putting this in the kernel is
+> > not an obvious fit at all as that requires a number of assumptions about
+> > the VMM.
 > >
-> >[...]
-> > > Anyway, I suspected that the buffers need not be imported into the vc=
-4
-> > > driver (also hinted by Eric Anholt in a 2018 blog post [1]), and it
-> > > seems I was right. I encountered the issue with Ubuntu 22.10; I
-> > > installed latest openSUSE Tumbleweed yesterday, and I was not able to
-> > > reproduce the issue there, most likely because the Mesa drivers have
-> > > been fixed meanwhile. This makes the specific case of the Raspberry P=
-i 4
-> > > drivers moot. The issue may still affect other combinations of driver=
-s,
-> > > but I don't have any other real-world example ATM.
+> > As Oliver pointed out, the guest topology, and how it maps to the host
+> > topology (vcpu pinning etc) is very much a VMM policy decision and will
+> > be particularly important to handle guest frequency requests correctly.
 > >
-> > I'm only seeing this problem with Wayland, no issue when switching Ubun=
-tu to
-> > X. It seems Tumbleweed is using X by default.
+> > In addition to that, the VMM's software architecture may have an impact.
+> > Crosvm for example does device emulation in separate processes for
+> > security reasons, so it is likely that adjusting the scheduling
+> > parameters ('util_guest', uclamp, or else) only for the vCPU thread that
+> > issues frequency requests will be sub-optimal for performance, we may
+> > want to adjust those parameters for all the tasks that are on the
+> > critical path.
+> >
+> > And at an even higher level, assuming in the kernel a certain mapping of
+> > vCPU threads to host threads feels kinda wrong, this too is a host
+> > userspace policy decision I believe. Not that anybody in their right
+> > mind would want to do this, but I _think_ it would technically be
+> > feasible to serialize the execution of multiple vCPUs on the same host
+> > thread, at which point the util_guest thingy becomes entirely bogus. (I
+> > obviously don't want to conflate this use-case, it's just an example
+> > that shows the proposed abstraction in the series is not a perfect fit
+> > for the KVM userspace delegation model.)
+> 
+> See my reply to Oliver and Marc. To me it looks like we are converging
+> towards having shared memory between guest, host kernel and VMM and
+> that should address all our concerns.
+
+Hmm, that is not at all my understanding of what has been the most
+important part of the feedback so far: this whole thing belongs to
+userspace.
+
+> The guest will see a MMIO device, writing to it will trigger the host
+> kernel to do the basic "set util_guest/uclamp for the vCPU thread that
+> corresponds to the vCPU" and then the VMM can do more on top as/if
+> needed (because it has access to the shared memory too). Does that
+> make sense?
+
+Not really no. I've given examples of why this doesn't make sense for
+the kernel to do this, which still seems to be the case with what you're
+suggesting here.
+
+> Even in the extreme example, the stuff the kernel would do would still
+> be helpful, but not sufficient. You can aggregate the
+> util_guest/uclamp and do whatever from the VMM.
+> Technically in the extreme example, you don't need any of this. The
+> normal util tracking of the vCPU thread on the host side would be
+> sufficient.
 >
-> I know; I was the team lead of SUSE low-level graphics engineers until
-> end of last year... I have just double-checked, but this output of
-> wayland-info in the GNOME session accessed over RDP is quite convincing:
+> Actually any time we have only 1 vCPU host thread per VM, we shouldn't
+> be using anything in this patch series and not instantiate the guest
+> device at all.
 
-It sure is but how did you get that?? For me it's:
-$ wayland-info
-failed to create display: No such file or directory
+> > So +1 from me to move this as a virtual device of some kind. And if the
+> > extra cost of exiting all the way back to userspace is prohibitive (is
+> > it btw?),
+> 
+> I think the "13% increase in battery consumption for games" makes it
+> pretty clear that going to userspace is prohibitive. And that's just
+> one example.
 
-And from strace:
-connect(3, {sa_family=3DAF_UNIX, sun_path=3D"/run/user/1000/wayland-0"}, 27=
-) =3D -1 ENOENT (No such file or directory)
+I beg to differ. We need to understand where these 13% come from in more
+details. Is it really the actual cost of the userspace exit? Or is it
+just that from userspace the only knob you can play with is uclamp and
+that didn't reach the expected level of performance?
 
-Which is kind of expected when running X, no?
-$ ps -ef | grep -iP 'xorg|wayland'
-opensuse  1377  1375  0 09:13 tty2     00:00:16 /usr/bin/Xorg.bin vt2 -disp=
-layfd 3 -auth /run/user/1000/gdm/Xauthority -nolisten tcp -background none =
--noreset -keeptty -novtswitch -verbose 3
+If that is the userspace exit, then we can work to optimize that -- it's
+a fairly common problem in the virt world, nothing special here.
 
-What am I missing?
+And if the issue is the lack of expressiveness in uclamp, then that too
+is something we should work on, but clearly giving vCPU threads more
+'power' than normal host threads is a bit of a red flag IMO. vCPU
+threads must be constrained in the same way that userspace threads are,
+because they _are_ userspace threads.
 
-...Juerg
+> > then we can try to work on that. Maybe something a la vhost
+> > can be done to optimize, I'll have a think.
+> >
+> > > The one thing I'd like to understand that the comment seems to imply
+> > > that there is a significant difference in overhead between a hypercall
+> > > and an MMIO. In my experience, both are pretty similar in cost for a
+> > > handling location (both in userspace or both in the kernel). MMIO
+> > > handling is a tiny bit more expensive due to a guaranteed TLB miss
+> > > followed by a walk of the in-kernel device ranges, but that's all. It
+> > > should hardly register.
+> > >
+> > > And if you really want some super-low latency, low overhead
+> > > signalling, maybe an exception is the wrong tool for the job. Shared
+> > > memory communication could be more appropriate.
+> >
+> > I presume some kind of signalling mechanism will be necessary to
+> > synchronously update host scheduling parameters in response to guest
+> > frequency requests, but if the volume of data requires it then a shared
+> > buffer + doorbell type of approach should do.
+> 
+> Part of the communication doesn't need synchronous handling by the
+> host. So, what I said above.
 
+I've also replied to another message about the scale invariance issue,
+and I'm not convinced the frequency based interface proposed here really
+makes sense. An AMU-like interface is very likely to be superior.
 
+> > Thinking about it, using SCMI over virtio would implement exactly that.
+> > Linux-as-a-guest already supports it IIRC, so possibly the problem
+> > being addressed in this series could be 'simply' solved using an SCMI
+> > backend in the VMM...
+> 
+> This will be worse than all the options we've tried so far because it
+> has the userspace overhead AND uclamp overhead.
 
-> interface: 'wl_compositor',                              version:  5, nam=
-e:  1
-> interface: 'wl_shm',                                     version:  1, nam=
-e:  2
->         formats (fourcc):
->         0x48344258 =3D 'XB4H'
->         0x48344241 =3D 'AB4H'
->         0x48345258 =3D 'XR4H'
->         0x48345241 =3D 'AR4H'
->         0x30334258 =3D 'XB30'
->         0x30334241 =3D 'AB30'
->         0x30335258 =3D 'XR30'
->         0x30335241 =3D 'AR30'
->         0x36314752 =3D 'RG16'
->         0x34324258 =3D 'XB24'
->         0x34324241 =3D 'AB24'
->                  1 =3D 'XR24'
->                  0 =3D 'AR24'
-> interface: 'wl_output',                                  version:  3, nam=
-e:  3
->         x: 0, y: 0, scale: 1,
->         physical_width: 430 mm, physical_height: 270 mm,
->         make: 'FUS', model: 'P20W-5 ECO',
->         subpixel_orientation: unknown, output_transform: normal,
->         mode:
->                 width: 1680 px, height: 1050 px, refresh: 59.954 Hz,
->                 flags: current preferred
-> interface: 'zxdg_output_manager_v1',                     version:  3, nam=
-e:  4
->         xdg_output_v1
->                 output: 3
->                 name: 'HDMI-1'
->                 description: 'Fujitsu Siemens Computers GmbH 20"'
->                 logical_x: 0, logical_y: 0
->                 logical_width: 1680, logical_height: 1050
-> interface: 'wl_data_device_manager',                     version:  3, nam=
-e:  5
-> interface: 'zwp_primary_selection_device_manager_v1',    version:  1, nam=
-e:  6
-> interface: 'wl_subcompositor',                           version:  1, nam=
-e:  7
-> interface: 'xdg_wm_base',                                version:  4, nam=
-e:  8
-> interface: 'gtk_shell1',                                 version:  5, nam=
-e:  9
-> interface: 'wp_viewporter',                              version:  1, nam=
-e: 10
-> interface: 'zwp_pointer_gestures_v1',                    version:  3, nam=
-e: 11
-> interface: 'zwp_tablet_manager_v2',                      version:  1, nam=
-e: 12
-> interface: 'wl_seat',                                    version:  8, nam=
-e: 13
->         name: seat0
->         capabilities: pointer keyboard
->         keyboard repeat rate: 33
->         keyboard repeat delay: 500
-> interface: 'zwp_relative_pointer_manager_v1',            version:  1, nam=
-e: 14
-> interface: 'zwp_pointer_constraints_v1',                 version:  1, nam=
-e: 15
-> interface: 'zxdg_exporter_v1',                           version:  1, nam=
-e: 16
-> interface: 'zxdg_importer_v1',                           version:  1, nam=
-e: 17
-> interface: 'zwp_linux_dmabuf_v1',                        version:  3, nam=
-e: 18
->         formats (fourcc) and modifiers (names):
->         0x48344258 =3D 'XB4H'; 0x00ffffffffffffff =3D INVALID
->         0x48344241 =3D 'AB4H'; 0x00ffffffffffffff =3D INVALID
->         0x36314752 =3D 'RG16'; 0x00ffffffffffffff =3D INVALID
->         0x30334258 =3D 'XB30'; 0x00ffffffffffffff =3D INVALID
->         0x30335258 =3D 'XR30'; 0x00ffffffffffffff =3D INVALID
->         0x30334241 =3D 'AB30'; 0x00ffffffffffffff =3D INVALID
->         0x30335241 =3D 'AR30'; 0x00ffffffffffffff =3D INVALID
->         0x34324258 =3D 'XB24'; 0x00ffffffffffffff =3D INVALID
->         0x34325258 =3D 'XR24'; 0x00ffffffffffffff =3D INVALID
->         0x34324241 =3D 'AB24'; 0x00ffffffffffffff =3D INVALID
->         0x34325241 =3D 'AR24'; 0x00ffffffffffffff =3D INVALID
-> interface: 'wp_single_pixel_buffer_manager_v1',          version:  1, nam=
-e: 19
-> interface: 'zwp_keyboard_shortcuts_inhibit_manager_v1',  version:  1, nam=
-e: 20
-> interface: 'zwp_text_input_manager_v3',                  version:  1, nam=
-e: 21
-> interface: 'wp_presentation',                            version:  1, nam=
-e: 22
->         presentation clock id: 1 (CLOCK_MONOTONIC)
-> interface: 'xdg_activation_v1',                          version:  1, nam=
-e: 23
->
-> Petr T
+But it doesn't violate the whole KVM userspace delegation model, so we
+should start from there and then optimize further if need be.
 
-
---b1_ayphHOVkQ7156P23PkrcwNhMKb9WleLOMbnybo3AJ1Q
-Content-Type: application/pgp-signature; name=attachment.sig
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=attachment.sig
-
-LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0NCg0KaVFJekJBRUJDZ0FkRmlFRWhaZlU5Nkl1
-cHJ2aUxkZUxEOU9MQ1F1bVFyY0ZBbVF1c0tnQUNna1FEOU9MQ1F1bQ0KUXJlM3l3LytNd1BWaE5Y
-MjB0T3NzcW1vQnVwWFphMElzZGtpc0k4WnBIN2VrTHMveXZtZlRPRnRSQURqdVFndQ0Kdmg3RHEx
-N3RieGdyb0FLRU9ydjNuT2s4RVplWkZlZ2NTK0k3TnVhYVpEQUJhV0ZOQ1NjSlp0TkYrRUt4L2xX
-Tw0KdDluaEFRajVHK1JUZ2RrUmVla1A3aEpHeFVJRmhtWVpQM00zTVdwaFFqMTJLSnJTWWpYREhB
-akJMNDRFYnh5aQ0Kbi9vTEplRld6TUJBUWh4K0JDTlpqY1dHRlZGUnVOdlJhZE5EbXlrVFB5eWVw
-WTlUdWV5TWc1TGJXcHZLM2p3bw0KM25hOHRwd2U4T0UvbHlvSHBmVVVSWVQ3UjFMeWtMNkR0N3B4
-c25hQUJ6QkJqalZiLzhHVkdFYUFybU1BdCtWcw0Kd2FmTEhLUjlTM2ROT1FJUVBJNmFwUmZhZEF4
-QzBzNDBNQTdJOStvMFQxV25KUzdVdS9xVi9DODFVdHlZelpIaw0KYnFHbUIyQ0FCNS85cmVZTTVm
-WXorNVdROTFSSnVMeWlqV3krTG9iOGlYMVMxWnJla005V01ocXpxZzFhQXgzSA0KTGdIYUd5WkZG
-citBTUZ2MUN1czA2WFBKQVI1aWF3dU5OaTJwYWNEMXJacXhzSTd2QTk4R0ZzNjNFN3NjSjhMRg0K
-NVljS0pVRGppeDR2U2s4NjdIUGJPQ3BLVWZ1dzNjMi9weG5Oc0Q0L0FDQ2Z1QnFnSzRqV1E1L08x
-Qksxa0pqag0KdUp1SEhjVU5ydWRPcE05U3lrblZ6TXlZeUcrWDhUbW1RT1dkR0xoQlRKbUtxejB0
-WldtMkZlKzdLS3U4MWtkMA0KY05vS1E0akpQN2k0NkJicWxnQ0phU2hiamNKY2U1SmFTSWJ1OWp1
-WDVDZU9qSDI1Mkc4PQ0KPXhrdmYNCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQ0K
-
---b1_ayphHOVkQ7156P23PkrcwNhMKb9WleLOMbnybo3AJ1Q--
-
+Thanks,
+Quentin
