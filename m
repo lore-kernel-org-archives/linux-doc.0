@@ -2,102 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCB38C7618D
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 06:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2B1C77B6E
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 07:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235453AbjDFGfH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 02:35:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44636 "EHLO
+        id S235239AbjDFHgp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 03:36:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235467AbjDFGfB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 02:35:01 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2377193C7;
-        Wed,  5 Apr 2023 23:34:59 -0700 (PDT)
-Received: from canpemm500007.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PsWq11TJ7zSkWK;
-        Thu,  6 Apr 2023 14:31:09 +0800 (CST)
-Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
- (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 6 Apr
- 2023 14:34:56 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <corbet@lwn.net>, <dsahern@kernel.org>,
-        <kuniyu@amazon.com>
-CC:     <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH net] tcp: restrict net.ipv4.tcp_app_win
-Date:   Thu, 6 Apr 2023 14:34:50 +0800
-Message-ID: <20230406063450.19572-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+        with ESMTP id S232896AbjDFHgo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 03:36:44 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A16D128;
+        Thu,  6 Apr 2023 00:36:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=TDPAEotj8o6F8kLzXvNoLAs+SKYTvzHm7djobUfwOTc=; b=ApvP7pMC4U3siyul5SjaTyWa8s
+        v7eUodewJat7J5QLzVFcIe/0VkJFso/9SrSZ+I9aoSUw847oj2LMsDMNQDNNgnMjrltgjnC+gSXb+
+        Tv1RJO4gAqlKmS2FLp8naty8VZwSDtUOs29MCbqshfEkY50bflvsq1ZHl8PnfXcMNFPIBU6X3na6N
+        RxkOPtQHR9+eCaKRDEBH+BGtOC/VJunIJhABEGsG5DWAhGExtm1IsQppGmHdEHcWWIgDqHS38Ymac
+        bNqay7jtNBYGWIIPRj3UMxhTad4mB90GxQyJ44cQNntUXHcY1zNhFtQ5k/1DW+4vpnZp5dHDqV+cW
+        elZG3vCg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pkKAB-00HCMt-Kc; Thu, 06 Apr 2023 07:36:07 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0A8843000DC;
+        Thu,  6 Apr 2023 09:36:06 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E696324C025F1; Thu,  6 Apr 2023 09:36:05 +0200 (CEST)
+Date:   Thu, 6 Apr 2023 09:36:05 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     David Dai <davidai@google.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        kernel-team@android.com, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [RFC PATCH 0/6] Improve VM DVFS and task placement behavior
+Message-ID: <20230406073605.GB386572@hirez.programming.kicks-ass.net>
+References: <20230330224348.1006691-1-davidai@google.com>
+ <20230405080548.GW4253@hirez.programming.kicks-ass.net>
+ <CAGETcx-qgKeUQ60VhvW+hYUY-sMh-wX1G8zSwJUFpJ-u7aU6aA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.215]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500007.china.huawei.com (7.192.104.62)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGETcx-qgKeUQ60VhvW+hYUY-sMh-wX1G8zSwJUFpJ-u7aU6aA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UBSAN: shift-out-of-bounds in net/ipv4/tcp_input.c:555:23
-shift exponent 255 is too large for 32-bit type 'int'
-CPU: 1 PID: 7907 Comm: ssh Not tainted 6.3.0-rc4-00161-g62bad54b26db-dirty #206
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0x136/0x150
- __ubsan_handle_shift_out_of_bounds+0x21f/0x5a0
- tcp_init_transfer.cold+0x3a/0xb9
- tcp_finish_connect+0x1d0/0x620
- tcp_rcv_state_process+0xd78/0x4d60
- tcp_v4_do_rcv+0x33d/0x9d0
- __release_sock+0x133/0x3b0
- release_sock+0x58/0x1b0
+On Wed, Apr 05, 2023 at 02:08:43PM -0700, Saravana Kannan wrote:
 
-'maxwin' is int, shifting int for 32 or more bits is undefined behaviour.
+> Sorry, that was our intention, but had a scripting error. It's been fixed.
+> 
+> I have a script to use with git send-email's --to-cmd and --cc-cmd
+> option. It uses get_maintainers.pl to figure out who to email, but it
+> gets trickier for a patch series that spans maintainer trees.
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- Documentation/networking/ip-sysctl.rst | 2 ++
- net/ipv4/sysctl_net_ipv4.c             | 3 +++
- 2 files changed, 5 insertions(+)
+What I do is I simply run get_maintainers.pl against the full series
+diff and CC everybody the same.
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 87dd1c5283e6..58a78a316697 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -340,6 +340,8 @@ tcp_app_win - INTEGER
- 	Reserve max(window/2^tcp_app_win, mss) of window for application
- 	buffer. Value 0 is special, it means that nothing is reserved.
- 
-+	Possible values are [0, 31], inclusive.
-+
- 	Default: 31
- 
- tcp_autocorking - BOOLEAN
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 0d0cc4ef2b85..40fe70fc2015 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -25,6 +25,7 @@ static int ip_local_port_range_min[] = { 1, 1 };
- static int ip_local_port_range_max[] = { 65535, 65535 };
- static int tcp_adv_win_scale_min = -31;
- static int tcp_adv_win_scale_max = 31;
-+static int tcp_app_win_max = 31;
- static int tcp_min_snd_mss_min = TCP_MIN_SND_MSS;
- static int tcp_min_snd_mss_max = 65535;
- static int ip_privileged_port_min;
-@@ -1198,6 +1199,8 @@ static struct ctl_table ipv4_net_table[] = {
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dou8vec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= &tcp_app_win_max,
- 	},
- 	{
- 		.procname	= "tcp_adv_win_scale",
--- 
-2.34.1
-
+Then again, I don't use git-send-email, so I've no idea how to use that.
