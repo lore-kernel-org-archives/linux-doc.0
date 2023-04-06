@@ -2,119 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A46D1C77B6C
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 06:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCB38C7618D
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 06:35:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235448AbjDFGe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 02:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45348 "EHLO
+        id S235453AbjDFGfH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 02:35:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235531AbjDFGel (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 02:34:41 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C68BA5C8;
-        Wed,  5 Apr 2023 23:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680762875; x=1712298875;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=YOJponhxRttYqVGtZnJ5a2oLNec4i/zm9vWttrUqJmc=;
-  b=J5VLrZKjL8qit33ri55bM3TzpksaWSZ00ZXaqPIZSQJuyqWcsLIX4GV+
-   5OTnlruzTjzOVy6lg37aOn85MLuEp8zXI1pHHH+t4HLLePCeO+RudOuoV
-   3mKvyQvPfSTQctLGNk7Jqd8Ckbmw5lRvc36GTrYDwWgBZDvD/cBkNpqjQ
-   6yd5f3SHvJtPrg7CWlM0xv9GcisspxnU4KcOqeLJROr/r0zLVarLXEAl2
-   cWmZxGkRiLlIDQpo6EPGbYrDi8CiWj1mT1Q0DOMcb/7gt7eP0/fg3DYb1
-   vP5MtDSfRt025l7vjsAKFRI8dY+9xUyUIPiX0QXe0b6RsMpVN4E0o0/6F
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="326696188"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="326696188"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 23:34:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="664315136"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; 
-   d="scan'208";a="664315136"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.130.121]) ([10.249.130.121])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 23:34:31 -0700
-Message-ID: <228d379b-e4e5-5324-4bcf-6152faf5c54f@linux.intel.com>
-Date:   Thu, 6 Apr 2023 08:34:29 +0200
+        with ESMTP id S235467AbjDFGfB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 02:35:01 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2377193C7;
+        Wed,  5 Apr 2023 23:34:59 -0700 (PDT)
+Received: from canpemm500007.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PsWq11TJ7zSkWK;
+        Thu,  6 Apr 2023 14:31:09 +0800 (CST)
+Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
+ (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 6 Apr
+ 2023 14:34:56 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <corbet@lwn.net>, <dsahern@kernel.org>,
+        <kuniyu@amazon.com>
+CC:     <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH net] tcp: restrict net.ipv4.tcp_app_win
+Date:   Thu, 6 Apr 2023 14:34:50 +0800
+Message-ID: <20230406063450.19572-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v5 0/8] QAIC accel driver
-Content-Language: en-US
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Oded Gabbay <ogabbay@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        mani@kernel.org, dri-devel@lists.freedesktop.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        stanislaw.gruszka@linux.intel.com, quic_carlv@quicinc.com,
-        bagasdotme@gmail.com
-References: <1679932497-30277-1-git-send-email-quic_jhugo@quicinc.com>
- <857db3fb-b006-4aa8-a7f8-2ae0b8a160c9@quicinc.com>
- <c5d11a88-351a-8eaf-f1d2-d7cf37cdf81c@linux.intel.com>
- <CAFCwf12iVZkcPKOEc911-fCd4-YzHYJzs_p36jfBiT=VkcO9uQ@mail.gmail.com>
- <ZC13QdSRybIe3nvk@phenom.ffwll.local>
- <32ee0be5-99cf-7b0b-e195-73c6ef3294af@quicinc.com>
-From:   Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <32ee0be5-99cf-7b0b-e195-73c6ef3294af@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500007.china.huawei.com (7.192.104.62)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I've merged the patchset to drm-misc-next.
-Congrats Jeffrey :)
+UBSAN: shift-out-of-bounds in net/ipv4/tcp_input.c:555:23
+shift exponent 255 is too large for 32-bit type 'int'
+CPU: 1 PID: 7907 Comm: ssh Not tainted 6.3.0-rc4-00161-g62bad54b26db-dirty #206
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x136/0x150
+ __ubsan_handle_shift_out_of_bounds+0x21f/0x5a0
+ tcp_init_transfer.cold+0x3a/0xb9
+ tcp_finish_connect+0x1d0/0x620
+ tcp_rcv_state_process+0xd78/0x4d60
+ tcp_v4_do_rcv+0x33d/0x9d0
+ __release_sock+0x133/0x3b0
+ release_sock+0x58/0x1b0
 
-On 05.04.2023 16:28, Jeffrey Hugo wrote:
-> On 4/5/2023 7:27 AM, Daniel Vetter wrote:
->> On Wed, Apr 05, 2023 at 03:35:19PM +0300, Oded Gabbay wrote:
->>> On Wed, Apr 5, 2023 at 2:26 PM Jacek Lawrynowicz
->>> <jacek.lawrynowicz@linux.intel.com> wrote:
->>>>
->>>> Hi,
->>>>
->>>> On 03.04.2023 19:22, Jeffrey Hugo wrote:
->>>>> On 3/27/2023 9:54 AM, Jeffrey Hugo wrote:
->>>>>> This series introduces a driver under the accel subsystem (QAIC -
->>>>>> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
->>>>>> a PCIe adapter card that hosts a dedicated machine learning inference
->>>>>> accelerator.
->>>>>>
->>>>>> The previous version (v4) can be found at:
->>>>>> https://lore.kernel.org/all/1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com/
->>>>>
->>>>> Looks like things have been silent on this revision and we have a number of review tags already.  Seems like this series is ready for merge.
->>>>>
->>>>> I'd like to see this queued for 6.4 if possible.  Given that we are at 6.3-rc5, it seems like this would need to be merged now(ish) to make 6.4.
->>>>>
->>>>> Jacek, since you have commit permissions in drm-misc and are an active Accel maintainer, I wonder if it would be appropriate for you to merge this series to drm-misc.  Thoughts?
->>>>
->>>> I'm would be happy to merge it but I think it needs to be acked by Oded first.
->>>>
->>>> Regards,
->>>> Jacek
->>>
->>> Hi,
->>> Entire patch-set is:
->>> Acked-by: Oded Gabbay <ogabbay@kernel.org>
->>
->> Once Jacke has pushed this I htink it would also be good to get Jeffrey
->> commit rights for drm-misc, so that in the future bugfixes for the qaic
->> driver can be pushed directly by the qaic team. Still with acks/r-b
->> requirements as per usual, and I guess for anything bigger/new uapi an ack
->> from oded is needed.
->>
->> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
->>
->> Cheers, Daniel
-> 
-> Yep.  This is the plan per my understanding.
-> 
-> -Jeff
+'maxwin' is int, shifting int for 32 or more bits is undefined behaviour.
+
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ Documentation/networking/ip-sysctl.rst | 2 ++
+ net/ipv4/sysctl_net_ipv4.c             | 3 +++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 87dd1c5283e6..58a78a316697 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -340,6 +340,8 @@ tcp_app_win - INTEGER
+ 	Reserve max(window/2^tcp_app_win, mss) of window for application
+ 	buffer. Value 0 is special, it means that nothing is reserved.
+ 
++	Possible values are [0, 31], inclusive.
++
+ 	Default: 31
+ 
+ tcp_autocorking - BOOLEAN
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index 0d0cc4ef2b85..40fe70fc2015 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -25,6 +25,7 @@ static int ip_local_port_range_min[] = { 1, 1 };
+ static int ip_local_port_range_max[] = { 65535, 65535 };
+ static int tcp_adv_win_scale_min = -31;
+ static int tcp_adv_win_scale_max = 31;
++static int tcp_app_win_max = 31;
+ static int tcp_min_snd_mss_min = TCP_MIN_SND_MSS;
+ static int tcp_min_snd_mss_max = 65535;
+ static int ip_privileged_port_min;
+@@ -1198,6 +1199,8 @@ static struct ctl_table ipv4_net_table[] = {
+ 		.maxlen		= sizeof(u8),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dou8vec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= &tcp_app_win_max,
+ 	},
+ 	{
+ 		.procname	= "tcp_adv_win_scale",
+-- 
+2.34.1
+
