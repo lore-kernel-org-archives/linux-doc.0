@@ -2,119 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B1E5C7618D
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 03:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DED0DC76196
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 03:46:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233867AbjDFDSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Apr 2023 23:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38154 "EHLO
+        id S235302AbjDFDqt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Apr 2023 23:46:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234103AbjDFDSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 23:18:06 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 943A7273D
-        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 20:18:04 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id n15-20020a170902f60f00b001a273a4a685so13627032plg.15
-        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 20:18:04 -0700 (PDT)
+        with ESMTP id S235294AbjDFDqr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Apr 2023 23:46:47 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 778789762
+        for <linux-doc@vger.kernel.org>; Wed,  5 Apr 2023 20:46:44 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id bi31so28177604oib.9
+        for <linux-doc@vger.kernel.org>; Wed, 05 Apr 2023 20:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680751084;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IFz6bhca4X52vxR4H0gzEaozA12JNFxMy4GBixSJw5Y=;
-        b=LSyyrFI55Cmo9ES+J7fKmJstGf62iWHV4ZB3z7GaTRBDJpXJty4F4APwu6nijG7V8q
-         Q8zmxWi7tW1h7iK3ylfXF53yrgyNmv3vVJ3jf4wS1i1I4pT4N3UveDZuBRbzjOIwHnwc
-         POTrHIVSagyFvHk3NqEBZdaH+Ma+o9nO9TmMdKHmHxnfgYXuDk1Ez3wkPmG6atVlM38U
-         a+knMlbLa2xzSxFjIgIE0xbyFRhujt/pfiIjbmQL8SN6jYSW3L2wMddlflOzLZXD8y4m
-         5zNu9wat98WhI+QNvaJaqlzIG2/ODQso2kbU0EREXWS51QVbzUB8L/FEbK2E9EMqcfWu
-         ay/g==
+        d=ventanamicro.com; s=google; t=1680752803; x=1683344803;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e2HC8P/hmf80QzMRLst56jAGHCnOy19Nb1SfXkyKnng=;
+        b=OdCYn4+VByG1SRoySM17nK1AXgMbZVRXlJ5uIqR+tfwGuKggZw222F7duYA9Vb89YK
+         27pnFjed1vkAWjIH3w9kqNNxzyvrRs3I40xpJc8gABvfqFbm84Ah6fCAVV+EpDcHKNEM
+         T6LqevGxh7v6QeMq8lX+Fn0O2uSvDEMaPjduq6COs02ZgwWQq7TWFyzEWjpUoxp8g7/W
+         HeDHWwDs5YlngSYn9Y4eEcJFWPL1d9LCI5B4h6ljv4T9xfXx5ZEmdJDMYKPLEVyc5Sh4
+         e44ljucW2T/N/BZX5bfGqLHRrTCgxLP8TCM5oFflHLmQC3TPZL8Zpd5lDO1iSTWcWsjf
+         DH2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680751084;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IFz6bhca4X52vxR4H0gzEaozA12JNFxMy4GBixSJw5Y=;
-        b=AIN4fuJnNIdrLFwRhKrr91dBJU1mTvc0dXrDKu0Otl9wTUryxnYFtqW9EzZZoPsLGF
-         zvx6CgvMK7njBHwUgh30zP6IbxkYaPiuUnhKBbjnWoe/+aWZjdWBb0fURP43oqNTVO2n
-         fF2CoWO65SK8gap8BNG/tOugqzoaO8QFRt9b+onnOoWaeIxoXZoQ3fp1/zNcCoa9S/Uo
-         BB+xFUrZHWeaSRdycPM2yxln0dipQsVd0ym+lTQ5dnFHRV4Oyvim/wfA5OxMx8WvfH82
-         DUS1rQLEcdYJtl7tadQRUpcYRRJGgtIXsx8RgHunGho2UCDyVE9dMMZX9wsevy9KdoVP
-         1u+A==
-X-Gm-Message-State: AAQBX9cIqYhw65jhduTx6srhR8Fzwk1aDpjPY6mXoW/kWqGKVqwJ0CRE
-        IzyK/cMo4B7W66zCMaBRpETemokjz5g=
-X-Google-Smtp-Source: AKy350bG+R6GfeksBy+22jmNYbxlWNs7/ookGEHfF4PQnjPTMXNcLD6QXhV/GXsUJ2gG5XZMyBzn3DxZ4QY=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6a00:13a9:b0:62d:9bea:2a0c with SMTP id
- t41-20020a056a0013a900b0062d9bea2a0cmr4701093pfg.4.1680751084039; Wed, 05 Apr
- 2023 20:18:04 -0700 (PDT)
-Date:   Wed, 5 Apr 2023 20:18:02 -0700
-In-Reply-To: <9227068821b275ac547eb2ede09ec65d2281fe07.1680179693.git.houwenlong.hwl@antgroup.com>
-Mime-Version: 1.0
-References: <9227068821b275ac547eb2ede09ec65d2281fe07.1680179693.git.houwenlong.hwl@antgroup.com>
-Message-ID: <ZC456ooLZl4UCa2t@google.com>
-Subject: Re: [PATCH 1/3] KVM: x86: Disallow enable KVM_CAP_X86_DISABLE_EXITS
- capability after vCPUs have been created
-From:   Sean Christopherson <seanjc@google.com>
-To:     Hou Wenlong <houwenlong.hwl@antgroup.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        d=1e100.net; s=20210112; t=1680752803; x=1683344803;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e2HC8P/hmf80QzMRLst56jAGHCnOy19Nb1SfXkyKnng=;
+        b=EfqojngtyqmMAyvME/wUYDeMn0akk2v2CidkseuXNfdDQVfBzkVsWLQSRFAZw1fNXD
+         YYEueIdELk6khslcQ4GXkh2erew8dszpQyRX+bWf9rzLu3Xzpd9yoCRIQq/pyIU6D99E
+         hkd2chu8dMp8HUwq3OhvTfiXnap6wWni9lB17stmKSFFCE5DVuGtQ+zwQbvX5qrDMU6j
+         u/hE2nsFdl1V57GUmkBlEkgPleo4tzKR3H0jd43rAPtAEsDK+A+0CnPVvOdolNck7aLk
+         A0tnr7ri+8tF366RkZ2iZpSNpOSCAbW+onMnsUPgcjSkjcEgvtV3Jo0Ti0veHRES8ftr
+         cdPA==
+X-Gm-Message-State: AAQBX9cRpD5EOkBnPyxEJyZc6wiyOlEcD4j/VwAAf7baynisaCdoQ2Vs
+        zcV9qyZco5AEVW+S2h9IcsHg9w==
+X-Google-Smtp-Source: AKy350aAm5JE1r76kf6Lxl9p5V+N5sZaj6KFuUrSbX6DgQQJMad992E4+fIEGKxtn2iiwPmCcOOrnA==
+X-Received: by 2002:aca:d17:0:b0:388:f4de:1ed7 with SMTP id 23-20020aca0d17000000b00388f4de1ed7mr3555483oin.1.1680752803481;
+        Wed, 05 Apr 2023 20:46:43 -0700 (PDT)
+Received: from sunil-laptop ([106.51.83.242])
+        by smtp.gmail.com with ESMTPSA id en12-20020a056808394c00b003898ebb8be0sm215967oib.48.2023.04.05.20.46.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 20:46:43 -0700 (PDT)
+Date:   Thu, 6 Apr 2023 09:16:31 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V4 08/23] RISC-V: ACPI: Cache and retrieve the RINTC
+ structure
+Message-ID: <ZC5Al3swBGK1WP0g@sunil-laptop>
+References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
+ <20230404182037.863533-9-sunilvl@ventanamicro.com>
+ <h4wgl5pc4bptxsmlmf7ggohq2y2uwk6ecaoytyywbwhf2ubnzj@ojanwytq5lrk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <h4wgl5pc4bptxsmlmf7ggohq2y2uwk6ecaoytyywbwhf2ubnzj@ojanwytq5lrk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 30, 2023, Hou Wenlong wrote:
-> Disable PAUSE/MWAIT/HLT exits after vCPUs have been created is useless,
-> because PAUSE/MWAIT/HLT intercepts configuration is not changed after
-> vCPU created.  And two vCPUs may have inconsistent configuration if
-> disable PAUSE/MWAIT/HLT exits between those two vCPUs creation. Since
-> it's a per-VM capability, all vCPUs should keep same configuration, so
-> disallow enable KVM_CAP_X86_DISABLE_EXITS capability after vCPUs have
-> been created.
+On Wed, Apr 05, 2023 at 05:17:48PM +0200, Andrew Jones wrote:
+> On Tue, Apr 04, 2023 at 11:50:22PM +0530, Sunil V L wrote:
+> > RINTC structures in the MADT provide mapping between the hartid
+> > and the CPU. This is required many times even at run time like
+> > cpuinfo. So, instead of parsing the ACPI table every time, cache
+> > the RINTC structures and provide a function to get the correct
+> > RINTC structure for a given cpu.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >  arch/riscv/include/asm/acpi.h |  2 ++
+> >  arch/riscv/kernel/acpi.c      | 60 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 62 insertions(+)
+> > 
+> > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> > index 9be52b6ffae1..1606dce8992e 100644
+> > --- a/arch/riscv/include/asm/acpi.h
+> > +++ b/arch/riscv/include/asm/acpi.h
+> > @@ -59,6 +59,8 @@ static inline bool acpi_has_cpu_in_madt(void)
+> >  
+> >  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> >  
+> > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
+> > +u32 get_acpi_id_for_cpu(int cpu);
+> >  #endif /* CONFIG_ACPI */
+> >  
+> >  #endif /*_ASM_ACPI_H*/
+> > diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> > index 81d448c41714..40ab55309c70 100644
+> > --- a/arch/riscv/kernel/acpi.c
+> > +++ b/arch/riscv/kernel/acpi.c
+> > @@ -24,6 +24,66 @@ EXPORT_SYMBOL(acpi_disabled);
+> >  int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
+> >  EXPORT_SYMBOL(acpi_pci_disabled);
+> >  
+> > +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
+> > +
+> > +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
+> > +{
+> > +	struct acpi_madt_rintc *rintc = (struct acpi_madt_rintc *)header;
+> > +	int cpuid;
+> > +
+> > +	if (!(rintc->flags & ACPI_MADT_ENABLED))
+> > +		return 0;
+> > +
+> > +	cpuid = riscv_hartid_to_cpuid(rintc->hart_id);
+> > +	/*
+> > +	 * When CONFIG_SMP is disabled, mapping won't be created for
+> > +	 * all cpus.
+> > +	 * CPUs more than NR_CPUS, will be ignored.
+> > +	 */
+> > +	if (cpuid >= 0 && cpuid < NR_CPUS)
+> > +		cpu_madt_rintc[cpuid] = *rintc;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int acpi_init_rintc_array(void)
+> > +{
+> > +	if (acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, 0) > 0)
+> > +		return 0;
+> > +
+> > +	return -ENODEV;
 > 
-> Signed-off-by: Hou Wenlong <houwenlong.hwl@antgroup.com>
-> ---
->  Documentation/virt/kvm/api.rst | 3 ++-
->  arch/x86/kvm/x86.c             | 5 +++++
->  2 files changed, 7 insertions(+), 1 deletion(-)
+> As Conor pointed out, the errors could be propagated from
+> acpi_table_parse_madt(), which could reduce this function to
 > 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index a69e91088d76..95a683a27cf2 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -7179,7 +7179,8 @@ branch to guests' 0x200 interrupt vector.
->  
->  :Architectures: x86
->  :Parameters: args[0] defines which exits are disabled
-> -:Returns: 0 on success, -EINVAL when args[0] contains invalid exits
-> +:Returns: 0 on success, -EINVAL when args[0] contains invalid exits or
-> +	  any vCPUs have been created.
->  
->  Valid bits in args[0] are::
->  
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 2c0ff40e5345..7e97595465fc 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -6275,6 +6275,9 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->  		if (cap->args[0] & ~KVM_X86_DISABLE_VALID_EXITS)
->  			break;
->  
-> +		mutex_lock(&kvm->lock);
-> +		if (kvm->created_vcpus)
-> +			goto disable_exits_unlock;
->  		if (cap->args[0] & KVM_X86_DISABLE_EXITS_PAUSE)
->  			kvm->arch.pause_in_guest = true;
->  
-> @@ -6296,6 +6299,8 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->  		}
->  
->  		r = 0;
-> +disable_exits_unlock:
+>  return acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, 0);
+> 
+> where the '< 0' check would be in the caller below. That sounds good to
+> me, but then I'd take that a step further and just drop this helper
+> altogether.
+> 
+Thanks, Conor, Drew. I used similar to how others have used
+acpi_table_parse_madt(). But your suggestion makes sense. Will remove
+the wrapper function also.
 
-Hah!  I thought this looked familiar[*] :-)  
-
-[*] https://lkml.kernel.org/r/DM6PR12MB35000D46146BA68EE294953BCACB9%40DM6PR12MB3500.namprd12.prod.outlook.com
+Thanks,
+Sunil
