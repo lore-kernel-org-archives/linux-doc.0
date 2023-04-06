@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43EABC76196
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 14:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC63DC761A6
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 14:06:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238994AbjDFOGZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 10:06:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48186 "EHLO
+        id S238189AbjDFOG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 10:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238972AbjDFOGW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 10:06:22 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 590247ABA;
-        Thu,  6 Apr 2023 07:05:55 -0700 (PDT)
+        with ESMTP id S238976AbjDFOGX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 10:06:23 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7CF7903B;
+        Thu,  6 Apr 2023 07:05:56 -0700 (PDT)
 Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Psjt61DPRzrXfC;
-        Thu,  6 Apr 2023 22:04:30 +0800 (CST)
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Psjrj4KHPzKx4d;
+        Thu,  6 Apr 2023 22:03:17 +0800 (CST)
 Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
  (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 6 Apr
@@ -29,10 +29,12 @@ CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
         <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
         <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
         <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
-Subject: [PATCH -next v3 0/2] support allocating crashkernel above 4G explicitly on riscv
-Date:   Fri, 7 Apr 2023 06:02:04 +0800
-Message-ID: <20230406220206.3067006-1-chenjiahao16@huawei.com>
+Subject: [PATCH -next v3 2/2] docs: kdump: Update the crashkernel description for riscv
+Date:   Fri, 7 Apr 2023 06:02:06 +0800
+Message-ID: <20230406220206.3067006-3-chenjiahao16@huawei.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20230406220206.3067006-1-chenjiahao16@huawei.com>
+References: <20230406220206.3067006-1-chenjiahao16@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -44,64 +46,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On riscv, the current crash kernel allocation logic is trying to
-allocate within 32bit addressible memory region by default, if
-failed, try to allocate without 4G restriction.
+Now "crashkernel=" parameter on riscv has been updated to support
+crashkernel=X,[high,low]. Through which we can reserve memory region
+above/within 32bit addressible DMA zone.
 
-In need of saving DMA zone memory while allocating a relatively large
-crash kernel region, allocating the reserved memory top down in
-high memory, without overlapping the DMA zone, is a mature solution.
-Hence this patchset introduces the parameter option crashkernel=X,[high,low].
+Here update the parameter description accordingly.
 
-One can reserve the crash kernel from high memory above DMA zone range
-by explicitly passing "crashkernel=X,high"; or reserve a memory range
-below 4G with "crashkernel=X,low". Besides, there are few rules need
-to take notice:
-1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
-   is specified.
-2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
-   and there is enough memory to be allocated under 4G.
-3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
-   specified, a 128M low memory will be allocated automatically for
-   swiotlb bounce buffer.
-See Documentation/admin-guide/kernel-parameters.txt for more information.
+Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-To verify loading the crashkernel, adapted kexec-tools is attached below:
-https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
-
-Following test cases have been performed as expected:
-1) crashkernel=256M                          //low=256M
-2) crashkernel=1G                            //low=1G
-3) crashkernel=4G                            //high=4G, low=128M(default)
-4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
-5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
-6) crashkernel=4G,high                       //high=4G, low=128M(default)
-7) crashkernel=256M,low                      //low=0M, invalid
-8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
-9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
-10) crashkernel=512M@0xd0000000              //low=512M
-11) crashkernel=1G@0xe0000000                //high=0M, low=0M, no enough low memory, failed
-
-Changes since [v3]:
-1. Update to print warning and return explicitly on failure when
-   crashkernel=size@offset is specified. Not changing the result
-   in this case but making the logic more straightforward.
-2. Some minor cleanup.
-
-Changes since [v2]:
-1. Update the allocation logic to ensure the high crashkernel
-   region is reserved strictly above dma32_phys_limit.
-2. Clean up some minor format problems.
-
-Chen Jiahao (2):
-  riscv: kdump: Implement crashkernel=X,[high,low]
-  docs: kdump: Update the crashkernel description for riscv
-
- .../admin-guide/kernel-parameters.txt         | 15 ++--
- arch/riscv/kernel/setup.c                     |  5 ++
- arch/riscv/mm/init.c                          | 74 +++++++++++++++++--
- 3 files changed, 82 insertions(+), 12 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 54702bd488eb..41865aae9eaa 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -866,7 +866,7 @@
+ 			memory region [offset, offset + size] for that kernel
+ 			image. If '@offset' is omitted, then a suitable offset
+ 			is selected automatically.
+-			[KNL, X86-64, ARM64] Select a region under 4G first, and
++			[KNL, X86-64, ARM64, RISCV] Select a region under 4G first, and
+ 			fall back to reserve region above 4G when '@offset'
+ 			hasn't been specified.
+ 			See Documentation/admin-guide/kdump/kdump.rst for further details.
+@@ -879,14 +879,14 @@
+ 			Documentation/admin-guide/kdump/kdump.rst for an example.
+ 
+ 	crashkernel=size[KMG],high
+-			[KNL, X86-64, ARM64] range could be above 4G. Allow kernel
+-			to allocate physical memory region from top, so could
+-			be above 4G if system have more than 4G ram installed.
+-			Otherwise memory region will be allocated below 4G, if
+-			available.
++			[KNL, X86-64, ARM64, RISCV] range could be above 4G.
++			Allow kernel to allocate physical memory region from top,
++			so could be above 4G if system have more than 4G ram
++			installed. Otherwise memory region will be allocated
++			below 4G, if available.
+ 			It will be ignored if crashkernel=X is specified.
+ 	crashkernel=size[KMG],low
+-			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
++			[KNL, X86-64, ARM64, RISCV] range under 4G. When crashkernel=X,high
+ 			is passed, kernel could allocate physical memory region
+ 			above 4G, that cause second kernel crash on system
+ 			that require some amount of low memory, e.g. swiotlb
+@@ -897,6 +897,7 @@
+ 			size is	platform dependent.
+ 			  --> x86: max(swiotlb_size_or_default() + 8MiB, 256MiB)
+ 			  --> arm64: 128MiB
++			  --> riscv: 128MiB
+ 			This one lets the user specify own low range under 4G
+ 			for second kernel instead.
+ 			0: to disable low allocation.
 -- 
 2.31.1
 
