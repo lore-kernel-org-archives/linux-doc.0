@@ -2,74 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B67C77B6C
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Apr 2023 23:30:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 873EFC761A6
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 01:59:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbjDFXaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Apr 2023 19:30:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41558 "EHLO
+        id S239555AbjDGB7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Apr 2023 21:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbjDFXaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 19:30:03 -0400
+        with ESMTP id S239547AbjDGB73 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Apr 2023 21:59:29 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A019EC5;
-        Thu,  6 Apr 2023 16:29:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37CA47EC6;
+        Thu,  6 Apr 2023 18:59:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5FFF26498D;
-        Thu,  6 Apr 2023 23:29:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72C76C433D2;
-        Thu,  6 Apr 2023 23:29:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1680823798;
-        bh=qDIlNriYIeS492HkC/yOLQLD8cyeiSLOgIcNJoMa84k=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AFE9160ED7;
+        Fri,  7 Apr 2023 01:59:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0AFDC433D2;
+        Fri,  7 Apr 2023 01:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680832768;
+        bh=OjAgpL4hr+PIA/oOHr5fg/6H51UIxKwatbJ6by0dwZg=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UFwip8/hNEYfi28GVP5NGN6Q4UQK1bbuIXgHii34OS4tBhjOISMQG42LkdSssjw4j
-         jv58Vi79dzbgX0Fd5QxH5lXD6O2iX6aMpgOX9tPxsxSnGL/yLT74sl4InM5nXKD8xf
-         fRYWzvlLHAGI1zNjF1tVVBxDAcDqVfRYihUJeANA=
-Date:   Thu, 6 Apr 2023 16:29:57 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, hannes@cmpxchg.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v5 1/3] mm: add new api to enable ksm per process
-Message-Id: <20230406162957.57fa69a46691a97d4600f444@linux-foundation.org>
-In-Reply-To: <20230406165339.1017597-2-shr@devkernel.io>
-References: <20230406165339.1017597-1-shr@devkernel.io>
-        <20230406165339.1017597-2-shr@devkernel.io>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+        b=glcRKpI4T2vbTyII6CoMZXibBDjoYsB6lnEeqhK/DtYANk1bbFkqi0hd0PS25iddu
+         B1moeTddxKaZ8TzHNwujfSa5CBLdjhNCj2ldv6AtC2gmVVfv2Ykz3y1mJwzchBZK9F
+         FeNaxgplAAJwI5Cy4rJjtIU/RJbic+sDdImXCJSpC2M5CvILO09leNTf+YQXIct496
+         Y8DfUziy5zXwqhdr8/0fqYZGnTkDsZ7QjHZ6wVrq4r7YjTmcH+Lk87IzZ0aO7/I/Ky
+         IRzW0RLtTu+ie1PbuNUHv2PqDWA76Tn6rbBcmmRAtzmns9lUSdvJIB94iLtRorlEH8
+         BdKqMcthPVmDQ==
+Date:   Thu, 6 Apr 2023 18:59:26 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
+        <corbet@lwn.net>, <dsahern@kernel.org>, <kuniyu@amazon.com>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net] tcp: restrict net.ipv4.tcp_app_win
+Message-ID: <20230406185926.7da74db2@kernel.org>
+In-Reply-To: <20230406063450.19572-1-yuehaibing@huawei.com>
+References: <20230406063450.19572-1-yuehaibing@huawei.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  6 Apr 2023 09:53:37 -0700 Stefan Roesch <shr@devkernel.io> wrote:
-
-> So far KSM can only be enabled by calling madvise for memory regions.  To
-> be able to use KSM for more workloads, KSM needs to have the ability to be
-> enabled / disabled at the process / cgroup level.
+On Thu, 6 Apr 2023 14:34:50 +0800 YueHaibing wrote:
+> UBSAN: shift-out-of-bounds in net/ipv4/tcp_input.c:555:23
+> shift exponent 255 is too large for 32-bit type 'int'
+> CPU: 1 PID: 7907 Comm: ssh Not tainted 6.3.0-rc4-00161-g62bad54b26db-dirty #206
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x136/0x150
+>  __ubsan_handle_shift_out_of_bounds+0x21f/0x5a0
+>  tcp_init_transfer.cold+0x3a/0xb9
+>  tcp_finish_connect+0x1d0/0x620
+>  tcp_rcv_state_process+0xd78/0x4d60
+>  tcp_v4_do_rcv+0x33d/0x9d0
+>  __release_sock+0x133/0x3b0
+>  release_sock+0x58/0x1b0
 > 
-> ...
->
-> @@ -53,6 +62,18 @@ void folio_migrate_ksm(struct folio *newfolio, struct folio *folio);
->  
->  #else  /* !CONFIG_KSM */
->  
-> +static inline int ksm_add_mm(struct mm_struct *mm)
-> +{
-> +}
+> 'maxwin' is int, shifting int for 32 or more bits is undefined behaviour.
+> 
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-The compiler doesn't like the lack of a return value.
-
-I queued up a patch to simply delete the above function - seems that
-ksm_add_mm() has no callers if CONFIG_KSM=n.
-
-The same might be true of the ksm_add_vma()...ksm_exit() stubs also,
-Perhaps some kind soul could take a look at whether we can simply clean
-those out.
-
+Fixes tag?
