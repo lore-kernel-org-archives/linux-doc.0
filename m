@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5404CC77B6F
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 17:19:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E955FC77B75
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 17:19:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbjDGRS7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 13:18:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53582 "EHLO
+        id S229567AbjDGRTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 13:19:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjDGRSz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 13:18:55 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF4440FB;
-        Fri,  7 Apr 2023 10:18:45 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id f19-20020a9d5f13000000b00693ce5a2f3eso22363632oti.8;
-        Fri, 07 Apr 2023 10:18:45 -0700 (PDT)
+        with ESMTP id S229840AbjDGRS4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 13:18:56 -0400
+Received: from mail-oa1-x43.google.com (mail-oa1-x43.google.com [IPv6:2001:4860:4864:20::43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A068A4ED0;
+        Fri,  7 Apr 2023 10:18:52 -0700 (PDT)
+Received: by mail-oa1-x43.google.com with SMTP id 586e51a60fabf-18412684c50so2166950fac.5;
+        Fri, 07 Apr 2023 10:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680887925; x=1683479925;
+        d=gmail.com; s=20210112; t=1680887932; x=1683479932;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sLteJQ8c+SN8oNJjCjxoIRPKFzLnI8skpOxBYxbnER4=;
-        b=LVmzZcc4ItOFp3vZDq/gdzosshgwAr0ww023QcO3qkGDF6IeynqiyGwg7ts2NY5tox
-         76VACvntsuvoCYA4nLD8by+CStm6RuBjW9vjyeaipcoX5Qv3EtCuqDjOikiI9rCRWrdo
-         RMRNxSiMqqOvWvP/gpCwBRYGwWTWpNi+pwfXJyp1vS3GEWf2sRRLz9cuyTz4VDlisEkN
-         0xz74QfUwmwtKygBH3eMGPDk8oyZzw3loY59ChPX51cOQZu4hGwNbK+q8RPisSSuR0Gb
-         nrBOyqnKTMjmDFH2Q10OkRiUQ/ezc/iFG31UbVxY03eMy5rIWqlfDH+GztnizOEporb/
-         BX+Q==
+        bh=0ci1K0OGiVqlrbjf6n+dt/e4BXEFqQkMZBWMsE/R76w=;
+        b=RfnvkIgh4g0IwnKtSDMP8iexJYGY+Ke9FjJoeBQpiOmMoIqC3Hryed+uV4nzHnTU9/
+         xrkB8FAuWLmgqTaey4MHxbIO/eHEJoGT1+BvgObcF2C3RykWIWfoFp+DCzCnz2Z/FeES
+         EHSjZQ/BJfG88JskzGIdAY75g6dnEDdAHxHmEsbpQwLNhT5oxbHTS1R8mWarbdsdwJPT
+         nhFIQb/gjRqAcSOxvWxcnFhwuQihKBXx4w57EVqdCTeWd+nk5ca2oU2Uy8pUbO9U6i6Z
+         +mNzmqnzZ6PEzTCEI1l8HlQQ5H106EEHfRaLH4/VwG3jnhf1RL8kcXXObyqsc3ZzaHy4
+         B9iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680887925; x=1683479925;
+        d=1e100.net; s=20210112; t=1680887932; x=1683479932;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sLteJQ8c+SN8oNJjCjxoIRPKFzLnI8skpOxBYxbnER4=;
-        b=5WlC5F7qlR+atCK/RqYS4nx3DpUQSeNfHSUEFhOxdjawFDRYpQEolN6M1CaywnyDgh
-         einqw9qLa/dpp6AvxRg3XPXgeDjYxfWyqdF66nrE0nT/PfC4pHFnBJjaJzu1GskF8Eeu
-         zhvIxVZ+6ovhVEKDO2WXdh45yqYWyTZIp5u3jcFjh9I1nNcP98zI7/FCwYRurbVvZ620
-         fzjSO/JO4xi+l3rP17EitJ7E6Isr9kzaDm41QkEuHSYy2x4F2ZuwNhmxS9sTheh4G7kh
-         UrsmjUY8rgpQ6bzEg0fLmJIqA6cciokKSm1uuQSFSnyy03ZvNxmj/npGtqQlWR1Dfiqg
-         KSCA==
-X-Gm-Message-State: AAQBX9eoOb/HTni+9DZN7gVCVAP2+M9bN1HlaJLGvbBSlRIV4DpHezu3
-        Uow36F5YCBpTi3hy4ko+CiLO5cgrXBb2kU4=
-X-Google-Smtp-Source: AKy350Y/gKRvyuVHJithHouBOyeSoXFbnST168BAY2wAAOZ4E/7+p+xV2fEEc9gqgJuQo5C4vVAiQw==
-X-Received: by 2002:a05:6830:13d8:b0:6a1:373d:b0a6 with SMTP id e24-20020a05683013d800b006a1373db0a6mr1212595otq.23.1680887925115;
-        Fri, 07 Apr 2023 10:18:45 -0700 (PDT)
+        bh=0ci1K0OGiVqlrbjf6n+dt/e4BXEFqQkMZBWMsE/R76w=;
+        b=tryvQZt0Vp4QH/Q9dkIXRgEv9tgOV+LhPJYm3bmPSBRe6PCnpAd7npEDlNJwAiTRYL
+         Mfcx7bpYz+4sZgIcpA4M0B0HoUa0ecXLWsSD7fzAPeoolY/xb34BxO2Aiez64KFscEyo
+         82M6fViQtpNa+IEKvGI2DrMg9gXqd9v80TEfT0D6popyaMKjyENHvQMkqzGyrsQHWjjT
+         z71wsvufv+CZmWWn/tqKQz+lWEAwnPx0ZlJZdJUstxU+tE5jOqz+bMNzNnr8I43/2zjq
+         oLYYsoA7tpvuudVnQCRHRzx68RzjwKwtz9wSw9ZRtnr0xp8NyqQzyyJVU4U6O0/M5suK
+         dvJQ==
+X-Gm-Message-State: AAQBX9ewj99+kPgBUyDNZnqDSjsDZBi1Rd4Z0bqYjhmqMO1NPt0lc3zV
+        W5LHvfu5QMIwFMJlHffVZ5Wx1yLlr9gXs3A=
+X-Google-Smtp-Source: AKy350bObB0l+Qh6SdSADGp0fPGwtHdjk3zbGi0WJnsqEAKVYV+X8FOv8TKQxwcclwTj2zfryUhiAA==
+X-Received: by 2002:a05:6870:55a0:b0:17f:f2e0:2e14 with SMTP id n32-20020a05687055a000b0017ff2e02e14mr2006391oao.16.1680887931843;
+        Fri, 07 Apr 2023 10:18:51 -0700 (PDT)
 Received: from fedora.mshome.net ([104.184.156.161])
-        by smtp.gmail.com with ESMTPSA id l9-20020a9d7349000000b006a2ddc13c46sm1816730otk.78.2023.04.07.10.18.42
+        by smtp.gmail.com with ESMTPSA id l9-20020a9d7349000000b006a2ddc13c46sm1816730otk.78.2023.04.07.10.18.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 10:18:44 -0700 (PDT)
+        Fri, 07 Apr 2023 10:18:51 -0700 (PDT)
 From:   Gregory Price <gourry.memverge@gmail.com>
 X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
 To:     linux-kernel@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
         corbet@lwn.net, shuah@kernel.org, catalin.marinas@arm.com,
         arnd@arndb.de, Gregory Price <gregory.price@memverge.com>
-Subject: [PATCH v16 1/4] syscall_user_dispatch: helper function to operate on given task
-Date:   Fri,  7 Apr 2023 13:18:31 -0400
-Message-Id: <20230407171834.3558-2-gregory.price@memverge.com>
+Subject: [PATCH v16 3/4] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+Date:   Fri,  7 Apr 2023 13:18:33 -0400
+Message-Id: <20230407171834.3558-4-gregory.price@memverge.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230407171834.3558-1-gregory.price@memverge.com>
 References: <20230407171834.3558-1-gregory.price@memverge.com>
@@ -69,61 +69,199 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Preparatory patch ahead of set/get interfaces which will allow a
-ptrace to get/set the syscall user dispatch configuration of a task.
+Implement ptrace getter/setter interface for syscall user dispatch.
 
-This will simplify the set interface and consolidates error paths.
+These prctl settings are presently write-only, making it impossible to
+implement transparent checkpoint/restore via software like CRIU.
+
+'on_dispatch' field is not exposed because it is a kernel-internal
+only field that cannot be 'true' when returning to userland.
 
 Signed-off-by: Gregory Price <gregory.price@memverge.com>
 Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 ---
- kernel/entry/syscall_user_dispatch.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ .../admin-guide/syscall-user-dispatch.rst     |  4 ++
+ include/linux/syscall_user_dispatch.h         | 18 ++++++++
+ include/uapi/linux/ptrace.h                   | 29 +++++++++++++
+ kernel/entry/syscall_user_dispatch.c          | 42 +++++++++++++++++++
+ kernel/ptrace.c                               |  9 ++++
+ 5 files changed, 102 insertions(+)
 
+diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
+index 60314953c728..f7648c08297e 100644
+--- a/Documentation/admin-guide/syscall-user-dispatch.rst
++++ b/Documentation/admin-guide/syscall-user-dispatch.rst
+@@ -73,6 +73,10 @@ thread-wide, without the need to invoke the kernel directly.  selector
+ can be set to SYSCALL_DISPATCH_FILTER_ALLOW or SYSCALL_DISPATCH_FILTER_BLOCK.
+ Any other value should terminate the program with a SIGSYS.
+ 
++Additionally, a task's syscall user dispatch configuration can be peeked
++and poked via the PTRACE_(GET|SET)_SYSCALL_USER_DISPATCH_CONFIG ptrace
++requests. This is useful for checkpoint/restart software.
++
+ Security Notes
+ --------------
+ 
+diff --git a/include/linux/syscall_user_dispatch.h b/include/linux/syscall_user_dispatch.h
+index a0ae443fb7df..641ca8880995 100644
+--- a/include/linux/syscall_user_dispatch.h
++++ b/include/linux/syscall_user_dispatch.h
+@@ -22,6 +22,12 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
+ #define clear_syscall_work_syscall_user_dispatch(tsk) \
+ 	clear_task_syscall_work(tsk, SYSCALL_USER_DISPATCH)
+ 
++int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
++				     void __user *data);
++
++int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
++				     void __user *data);
++
+ #else
+ struct syscall_user_dispatch {};
+ 
+@@ -35,6 +41,18 @@ static inline void clear_syscall_work_syscall_user_dispatch(struct task_struct *
+ {
+ }
+ 
++static inline int syscall_user_dispatch_get_config(struct task_struct *task,
++						   unsigned long size, void __user *data)
++{
++	return -EINVAL;
++}
++
++static inline int syscall_user_dispatch_set_config(struct task_struct *task,
++						   unsigned long size, void __user *data)
++{
++	return -EINVAL;
++}
++
+ #endif /* CONFIG_GENERIC_ENTRY */
+ 
+ #endif /* _SYSCALL_USER_DISPATCH_H */
+diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+index 195ae64a8c87..1e77b02344c3 100644
+--- a/include/uapi/linux/ptrace.h
++++ b/include/uapi/linux/ptrace.h
+@@ -112,6 +112,35 @@ struct ptrace_rseq_configuration {
+ 	__u32 pad;
+ };
+ 
++#define PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG 0x4210
++#define PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG 0x4211
++
++/*
++ * struct ptrace_sud_config - Per-task configuration for SUD
++ * @mode:	One of PR_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF
++ * @selector:	Tracee's user virtual address of SUD selector
++ * @offset:	SUD exclusion area (virtual address)
++ * @len:	Length of SUD exclusion area
++ *
++ * Used to get/set the syscall user dispatch configuration for tracee.
++ * process.  Selector is optional (may be NULL), and if invalid will produce
++ * a SIGSEGV in the tracee upon first access.
++ *
++ * If mode is PR_SYS_DISPATCH_ON, syscall dispatch will be enabled. If
++ * PR_SYS_DISPATCH_OFF, syscall dispatch will be disabled and all other
++ * parameters must be 0.  The value in *selector (if not null), also determines
++ * whether syscall dispatch will occur.
++ *
++ * The SUD Exclusion area described by offset/len is the virtual address space
++ * from which syscalls will not produce a user dispatch.
++ */
++struct ptrace_sud_config {
++	__u64 mode;
++	__u64 selector;
++	__u64 offset;
++	__u64 len;
++};
++
+ /*
+  * These values are stored in task->ptrace_message
+  * by ptrace_stop to describe the current syscall-stop.
 diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-index 0b6379adff6b..22396b234854 100644
+index 424f24350f8b..3af4e73b62b4 100644
 --- a/kernel/entry/syscall_user_dispatch.c
 +++ b/kernel/entry/syscall_user_dispatch.c
-@@ -68,8 +68,9 @@ bool syscall_user_dispatch(struct pt_regs *regs)
- 	return true;
- }
- 
--int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
--			      unsigned long len, char __user *selector)
-+static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned long mode,
-+					  unsigned long offset, unsigned long len,
-+					  char __user *selector)
+@@ -4,6 +4,7 @@
+  */
+ #include <linux/sched.h>
+ #include <linux/prctl.h>
++#include <linux/ptrace.h>
+ #include <linux/syscall_user_dispatch.h>
+ #include <linux/uaccess.h>
+ #include <linux/signal.h>
+@@ -120,3 +121,44 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
  {
- 	switch (mode) {
- 	case PR_SYS_DISPATCH_OFF:
-@@ -94,15 +95,21 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
- 		return -EINVAL;
- 	}
- 
--	current->syscall_dispatch.selector = selector;
--	current->syscall_dispatch.offset = offset;
--	current->syscall_dispatch.len = len;
--	current->syscall_dispatch.on_dispatch = false;
-+	task->syscall_dispatch.selector = selector;
-+	task->syscall_dispatch.offset = offset;
-+	task->syscall_dispatch.len = len;
-+	task->syscall_dispatch.on_dispatch = false;
- 
- 	if (mode == PR_SYS_DISPATCH_ON)
--		set_syscall_work(SYSCALL_USER_DISPATCH);
-+		set_task_syscall_work(task, SYSCALL_USER_DISPATCH);
- 	else
--		clear_syscall_work(SYSCALL_USER_DISPATCH);
-+		clear_task_syscall_work(task, SYSCALL_USER_DISPATCH);
- 
- 	return 0;
+ 	return task_set_syscall_user_dispatch(current, mode, offset, len, selector);
  }
 +
-+int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
-+			      unsigned long len, char __user *selector)
++int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
++				     void __user *data)
 +{
-+	return task_set_syscall_user_dispatch(current, mode, offset, len, selector);
++	struct syscall_user_dispatch *sd = &task->syscall_dispatch;
++	struct ptrace_sud_config cfg;
++
++	if (size != sizeof(cfg))
++		return -EINVAL;
++
++	if (test_task_syscall_work(task, SYSCALL_USER_DISPATCH))
++		cfg.mode = PR_SYS_DISPATCH_ON;
++	else
++		cfg.mode = PR_SYS_DISPATCH_OFF;
++
++	cfg.offset = sd->offset;
++	cfg.len = sd->len;
++	cfg.selector = (__u64)(uintptr_t)sd->selector;
++
++	if (copy_to_user(data, &cfg, sizeof(cfg)))
++		return -EFAULT;
++
++	return 0;
 +}
++
++int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
++				     void __user *data)
++{
++	int rc;
++	struct ptrace_sud_config cfg;
++
++	if (size != sizeof(cfg))
++		return -EINVAL;
++
++	if (copy_from_user(&cfg, data, sizeof(cfg)))
++		return -EFAULT;
++
++	rc = task_set_syscall_user_dispatch(task, cfg.mode, cfg.offset, cfg.len,
++					    (char __user *)(uintptr_t)cfg.selector);
++	return rc;
++}
+diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+index 54482193e1ed..d99376532b56 100644
+--- a/kernel/ptrace.c
++++ b/kernel/ptrace.c
+@@ -32,6 +32,7 @@
+ #include <linux/compat.h>
+ #include <linux/sched/signal.h>
+ #include <linux/minmax.h>
++#include <linux/syscall_user_dispatch.h>
+ 
+ #include <asm/syscall.h>	/* for syscall_get_* */
+ 
+@@ -1259,6 +1260,14 @@ int ptrace_request(struct task_struct *child, long request,
+ 		break;
+ #endif
+ 
++	case PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG:
++		ret = syscall_user_dispatch_set_config(child, addr, datavp);
++		break;
++
++	case PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG:
++		ret = syscall_user_dispatch_get_config(child, addr, datavp);
++		break;
++
+ 	default:
+ 		break;
+ 	}
 -- 
 2.39.1
 
