@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A336C77B61
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 17:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D65C77B71
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 17:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbjDGRS6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 13:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
+        id S230174AbjDGRTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 13:19:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230032AbjDGRSz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 13:18:55 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CF96198D;
-        Fri,  7 Apr 2023 10:18:42 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id f19-20020a9d5f13000000b00693ce5a2f3eso22363583oti.8;
-        Fri, 07 Apr 2023 10:18:42 -0700 (PDT)
+        with ESMTP id S230089AbjDGRS4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 13:18:56 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 589C646BF;
+        Fri,  7 Apr 2023 10:18:49 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id r17-20020a05683002f100b006a131458abfso19775320ote.2;
+        Fri, 07 Apr 2023 10:18:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680887921; x=1683479921;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vl5wDUuARmyoFd8Z56SKQS2g88l5WRk3p231dzZGw/A=;
-        b=EgrHYYOnypawW3295OTKPr5IFXNpjg9oyPcveiY3ZxQO613+zGOiSArayLh2R4GIXB
-         p7JUKFI+r+UP6mrBjGlBIR8d3SCOzwxRbB67EtGtmDfr2cOnPD9i2CFynw8qDT/X2o6k
-         cfjSGae1pz9OUmMmifOTQ66G9VDV6TmxyEovv4rmqI+bok2WPQEG5HQAdkNJUQgh+ViQ
-         64sXNvciawC10b5zg34dRshn4EU4YbFmehu6ux2acLochnOWzNnJnfJGQfws4dYs3xDF
-         J+kWe85bYDsb2t75HfmK/8TwWqoCUDb8YcAH4ZNDkBlnSRO3cimA9wthgTe8WPXFctzf
-         PxDw==
+        d=gmail.com; s=20210112; t=1680887928; x=1683479928;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/rMtfFsP4cn7PRc7thWyRT6kVwkZQ9lV5jy6inZiGMQ=;
+        b=oKXezr1ZuTmKBFv3swmWuVW5y40pO2HvL0gyj+yk7DSdGd2t+VnK5VF/JG/e04hRuO
+         KzYDSpFGPsUMootKeCu/3+xLy1tvnhlwcRfEjUT3bnpLvtX4I67AkEyFnqF2vR/4nzKO
+         BNQHboMDs9wwSM4Ok7gojHynr1YBO4KJ3jYiD46owcDQBmuIN/k5bP1JzOReZa7cNSgy
+         p9LMq5rE6jk95BWIMhBAUcu8qgx7PPd1GmUrZo7KFhALaElKvMRxKm+G3ZLV4Sp/193w
+         ApQsObHY3jBLeRfmjuJLeL6l+EH8xLDAZiRQXSEIBZqI0wNYvx9Ywg3poiLXE5TEhmU9
+         3PpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680887921; x=1683479921;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Vl5wDUuARmyoFd8Z56SKQS2g88l5WRk3p231dzZGw/A=;
-        b=TIio0FFXshJ5S65hGM06xvRQxruqVSjoCTMS3KC7Fc2GEAFD8OPMAGw4GUy8oHIw/Z
-         KfevoTTJVcSjj592K/4o4Frx2DfnHeUSpumy9bP6FSnwWLjD/an97dsfTcpAemiQlYUS
-         AowyR27uO2S9H48z9g/JFQK659F7ZHlFVa05FJRVSMIdeqpkoJp/Czw3vdUDL25WH8Vw
-         JVk0IXKtFxL43QElEPULsYrVIcE2pJLXcDRz6CXumgF64qlrGZUfMbKtE+iMFwSaTT2w
-         kSBHOMvEAuey30rtV83CmMlYJ5fwRXWVLDTRyqZmdV8+d/qw5U5sN3ELEUzzH4rROd6q
-         p0xQ==
-X-Gm-Message-State: AAQBX9d+NRevsb4dCJGpgMtioZolZ4N769WJVnGryDzyKl8DUep9hXQG
-        ejBSo5EAwbMIVEibUBjC/9lSO4wI0e989Tc=
-X-Google-Smtp-Source: AKy350Y/JvJlgeLr9NT/ioFvnViQHl/i4UvAE4HjYdH0ENjRgjLXYvUW9g3eDBk9Le1TX3MxQYQIvQ==
-X-Received: by 2002:a9d:6f01:0:b0:6a1:3cc7:170d with SMTP id n1-20020a9d6f01000000b006a13cc7170dmr1359625otq.10.1680887921246;
-        Fri, 07 Apr 2023 10:18:41 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680887928; x=1683479928;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/rMtfFsP4cn7PRc7thWyRT6kVwkZQ9lV5jy6inZiGMQ=;
+        b=NuA+3Hv9K6mV+7mKoYhQT5Qj3hYhKgeXjhr1nJWwAt0tMWA87/VnwGKIHBiXnSsO28
+         fzo5oar6GKp4MH52A2VV5MBgXDkj82eiSvFV7LYLq7qbZ2qk7oy/FSvVLQMVSfaH+7zH
+         L3eeX/nEJ4jtNhtYrwBp6TM5FqzmP61b2QDBxwF+1u2ur1+uUUj1W5+jaX/8xlp6BYxg
+         pPIlIyZP+N88ZhUhC3FpHgVTcXEgM0glGsaXkRYNLGeUMm28mmJBqLJFyZJwaThXC+8P
+         QLemVJawyP1DLK7N/IsJKZg2nDgqUdGvDCMzCX39IKfJlFFdNsbkx+kb7pzbF50O7nOs
+         6Hzg==
+X-Gm-Message-State: AAQBX9cnAVFH5/fukWQ4K02R/+4Ok+ylsF9Q7EmVYaDGzWI7xL1O5Wgg
+        UoKNd+gO7n/KTARQdFAU4w2pRi4r9d9HVIs=
+X-Google-Smtp-Source: AKy350YSP92/WnkPS9LaeaoxkBx6hyts4ztLayrTjNIuPBBCgITCfGDZsxE0GVLxlWRLrHO/nXHvkA==
+X-Received: by 2002:a9d:77c3:0:b0:6a3:8c3d:80e7 with SMTP id w3-20020a9d77c3000000b006a38c3d80e7mr1313926otl.6.1680887928559;
+        Fri, 07 Apr 2023 10:18:48 -0700 (PDT)
 Received: from fedora.mshome.net ([104.184.156.161])
-        by smtp.gmail.com with ESMTPSA id l9-20020a9d7349000000b006a2ddc13c46sm1816730otk.78.2023.04.07.10.18.38
+        by smtp.gmail.com with ESMTPSA id l9-20020a9d7349000000b006a2ddc13c46sm1816730otk.78.2023.04.07.10.18.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 10:18:40 -0700 (PDT)
+        Fri, 07 Apr 2023 10:18:48 -0700 (PDT)
 From:   Gregory Price <gourry.memverge@gmail.com>
 X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
 To:     linux-kernel@vger.kernel.org
@@ -56,83 +57,72 @@ Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
         corbet@lwn.net, shuah@kernel.org, catalin.marinas@arm.com,
         arnd@arndb.de, Gregory Price <gregory.price@memverge.com>
-Subject: [PATCH v16 0/4] Checkpoint Support for Syscall User Dispatch
-Date:   Fri,  7 Apr 2023 13:18:30 -0400
-Message-Id: <20230407171834.3558-1-gregory.price@memverge.com>
+Subject: [PATCH v16 2/4] syscall user dispatch: untag selector addresses before access_ok
+Date:   Fri,  7 Apr 2023 13:18:32 -0400
+Message-Id: <20230407171834.3558-3-gregory.price@memverge.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230407171834.3558-1-gregory.price@memverge.com>
+References: <20230407171834.3558-1-gregory.price@memverge.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This appears to be in a good state now.  Not sure which branch
-I should seek to have this pulled through, or what else needs to
-be done to push this forward.
+This is a preparatory patch for enabling checkpoint/restart of tasks
+utilizing syscall user dispatch via ptrace.
 
-v16: pick up review tags, mild comment change
+To support checkpoint/restart, ptrace must be able to set the selector
+of the tracee.  The selector is a user pointer that may be subject to
+memory tagging extensions on some architectures (namely ARM MTE).
 
-v15: drop task_access_ok variant, instead prefer to just untag the
-     selector address when validating the user pointer.
+access_ok will clear memory tags for tagged addresses on tasks where
+memory tagging is enabled.  However, to allow ptrace to set a task's
+selector when tracer and tracee are not both tagged or untagged,
+the selector address must be untagged when calling access_ok.
 
-v14: implement task_access_ok variant for cross-task pointer checks
+Since access_ok utilizes current to determine whether or not to untag
+an address, an untagged tracer will always fail to restore a tagged
+address in a tagged tracee.  This patch will resolve this issue.
 
-v13: sizeof consistency and cosmetic changes in patch 2
+The result of this is that a tagged tracer may be capable of setting
+an invalid address, which will cause the tracee to SIGSEGV on next
+syscall.  This is equivalent to the tracee setting a bad selector
+address (such as selector=0x1).  This is preferable to the alternative
+of creating a task_access_ok variant, and is consistent with other
+operations which change tracee pointers via ptrace.
 
-v12: split test into its own patch
-     change from padding a u8 to using a u64
-     casting issues
-     checkpatch.pl
+For more information, see:
+https://lore.kernel.org/all/ZCWXE04nLZ4pXEtM@arm.com/
 
-[truncating version history]
+Signed-off-by: Gregory Price <gregory.price@memverge.com>
+Acked-by: Oleg Nesterov <oleg@redhat.com>
+Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+---
+ kernel/entry/syscall_user_dispatch.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Syscall user dispatch makes it possible to cleanly intercept system
-calls from user-land.  However, most transparent checkpoint software
-presently leverages some combination of ptrace and system call
-injection to place software in a ready-to-checkpoint state.
-
-If Syscall User Dispatch is enabled at the time of being quiesced,
-injected system calls will subsequently be interposed upon and
-dispatched to the task's signal handler.
-
-Patch summary:
-
-- Refactor configuration setting interface to operate on a task
-  rather than current, so the set and error paths can be consolidated
-
-- Untag the selector address when being set in order to enable an
-  untagged tracer to set a tagged tracee's syscall dispatch selector.
-  Otherwise an untagged tracer will always fail to set a tagged address.
-
-- Implement a getter interface for Syscall User Dispatch config info.
-  To resume successfully, the checkpoint/resume software has to
-  save and restore this information.  Presently this configuration
-  is write-only, with no way for C/R software to save it.
-
-  This was done in ptrace because syscall user dispatch is not part of
-  uapi. The syscall_user_dispatch_config structure was added to the
-  ptrace exports.
-
-- Selftest for the new feature
-
-
-Gregory Price (4):
-  syscall_user_dispatch: helper function to operate on given task
-  syscall user dispatch: untag selector addresses before access_ok
-  ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
-  selftest,ptrace: Add selftest for syscall user dispatch config api
-
- .../admin-guide/syscall-user-dispatch.rst     |  4 +
- include/linux/syscall_user_dispatch.h         | 18 +++++
- include/uapi/linux/ptrace.h                   | 29 ++++++++
- kernel/entry/syscall_user_dispatch.c          | 74 ++++++++++++++++---
- kernel/ptrace.c                               |  9 +++
- tools/testing/selftests/ptrace/.gitignore     |  1 +
- tools/testing/selftests/ptrace/Makefile       |  2 +-
- tools/testing/selftests/ptrace/get_set_sud.c  | 72 ++++++++++++++++++
- 8 files changed, 199 insertions(+), 10 deletions(-)
- create mode 100644 tools/testing/selftests/ptrace/get_set_sud.c
-
+diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+index 22396b234854..424f24350f8b 100644
+--- a/kernel/entry/syscall_user_dispatch.c
++++ b/kernel/entry/syscall_user_dispatch.c
+@@ -87,7 +87,14 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
+ 		if (offset && offset + len <= offset)
+ 			return -EINVAL;
+ 
+-		if (selector && !access_ok(selector, sizeof(*selector)))
++		/*
++		 * access_ok will clear memory tags for tagged addresses on tasks where
++		 * memory tagging is enabled.  To enable a tracer to set a tracee's
++		 * selector not in the same tagging state, the selector address must be
++		 * untagged for access_ok, otherwise an untagged tracer will always fail
++		 * to set a tagged tracee's selector.
++		 */
++		if (selector && !access_ok(untagged_addr(selector), sizeof(*selector)))
+ 			return -EFAULT;
+ 
+ 		break;
 -- 
 2.39.1
 
