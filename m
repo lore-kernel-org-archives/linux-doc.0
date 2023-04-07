@@ -2,91 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3910BC6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 10:57:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9D5C6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 12:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232154AbjDGK5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 06:57:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49462 "EHLO
+        id S230211AbjDGMDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 08:03:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235110AbjDGK5d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 06:57:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A8ABDDB
-        for <linux-doc@vger.kernel.org>; Fri,  7 Apr 2023 03:54:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680864897;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=k0rU9qN6OXQn9VhfokzgjZmLQQ8B6AgUhbS5Fy6LXPg=;
-        b=dNmWxebckJ2Wz3yzoCHTHVvZhJJSMWDvm9AO6xlBKt0t8PMr/udzAVDY4nfocrvK1LOBba
-        dfGpiFg43IcR3Vi3vRawUSNRWHG87Wba1Pe/BRsFXBaqd4HWG5c5GRFAWoOkVDhJKuscQ5
-        89a/jHcWVwFBPOx/d+t2z5DTSzcQKxs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-447-PPqS9KMgO5muE0GR06O7tg-1; Fri, 07 Apr 2023 06:54:55 -0400
-X-MC-Unique: PPqS9KMgO5muE0GR06O7tg-1
-Received: by mail-wm1-f71.google.com with SMTP id o28-20020a05600c511c00b003ef69894934so17385332wms.6
-        for <linux-doc@vger.kernel.org>; Fri, 07 Apr 2023 03:54:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680864894;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k0rU9qN6OXQn9VhfokzgjZmLQQ8B6AgUhbS5Fy6LXPg=;
-        b=5fEuDhf6G3Fx+UnxdXAc7cST6OZjCjkEEYh6/cyWbLs7LHCmP6Oh/fRL2Z6seg6zer
-         oMt9x+ghw95VCMbK1z7LHW78527rup7lGzCCLjFFCffgyXmANWidcr3UbeqJZ/3g+n0Z
-         EfuJ0fcMcXBS2usbSZe29RMk/o7zfW0CG+PrG/xxGruAZRGpI5SGLuvnAZKniV6eSxHZ
-         b+0WvhNKnpVGscuvjofIuz6ATY2owky3lNEXvDnPg0oxY62qQPLvkkjRyQ+MUGg2ezGe
-         96fj2r9yHkhnxvPr5QqwjlHFTIokVlFLuj6RBXU1ruGRA3nmc+NSDf954Q04dt4kfv5n
-         Tq/g==
-X-Gm-Message-State: AAQBX9fisldJTWKbifuU06lrx4HPApsKv83X7wz6KFdYxZIFYQRWTJCd
-        DtCofovFoYLM2j0nBmgZBNnQ4Fwwf9ig+EZn6uaqm0jvV+6u0o0pAi0hMNAmp2g/6ORdq5Wnsu4
-        ls1zrhooCesa8Lv3lu57C
-X-Received: by 2002:a5d:4311:0:b0:2ce:9fb8:b560 with SMTP id h17-20020a5d4311000000b002ce9fb8b560mr1214132wrq.8.1680864894691;
-        Fri, 07 Apr 2023 03:54:54 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Zz1WAl1pBgluIyvHAQ7Jass36PS67oNBouOPMJdAbw2ewAZH/Tiop2wAnpCorp5JLSJO7M/A==
-X-Received: by 2002:a5d:4311:0:b0:2ce:9fb8:b560 with SMTP id h17-20020a5d4311000000b002ce9fb8b560mr1214127wrq.8.1680864894384;
-        Fri, 07 Apr 2023 03:54:54 -0700 (PDT)
-Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
-        by smtp.gmail.com with ESMTPSA id t16-20020a05600c451000b003ef66c89af0sm11411742wmo.0.2023.04.07.03.54.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 03:54:53 -0700 (PDT)
-Date:   Fri, 7 Apr 2023 06:54:51 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] dma-api-howto: typo fix
-Message-ID: <af1505348a67981f63ccff4e3c3d45b686cda43f.1680864874.git.mst@redhat.com>
+        with ESMTP id S229666AbjDGMDb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 08:03:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5370783CD;
+        Fri,  7 Apr 2023 05:03:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9165360F90;
+        Fri,  7 Apr 2023 12:03:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D7BDC4339B;
+        Fri,  7 Apr 2023 12:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680869009;
+        bh=MDs+MtGIXGFtAsm2rEE3JPZAgrsutam8x/+OyQ6U/5Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CdUYTX/0/+T9+z9T0OX02fulTzrK0zyn+hY+KU0Ur572LTK2I7rQcUfOgGaBnhPRo
+         ambh4jV0pVIr3U4pU0iogCbVobAeEL28y+0+soqZjQmEOPVMv4bKzjW8TnJbNu6QeG
+         NgTY3NkpLzztvLl5tfUsyR4E6nzurftFip1H4rEaJco8ZhdFUpmEWUK2UmnFg93Z2/
+         TFvhvuZh/EwITPZfg8gYG/JDXQAAbMeABH072LcXVYuv6CfiYDeJr+mJx0BTxcbKOQ
+         yGI7VxGsk78TZkWIkVuFCW40AaU5CLA9eRCADsYEiijPIEQGePzGSqqiv/dksnm2vT
+         BdkpJiCa/Fzpg==
+Date:   Fri, 7 Apr 2023 14:03:23 +0200
+From:   Simon Horman <horms@kernel.org>
+To:     Chen Jiahao <chenjiahao16@huawei.com>
+Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        conor.dooley@microchip.com, guoren@kernel.org, heiko@sntech.de,
+        bjorn@rivosinc.com, alex@ghiti.fr, akpm@linux-foundation.org,
+        atishp@rivosinc.com, bhe@redhat.com, thunder.leizhen@huawei.com
+Subject: Re: [PATCH -next v3 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Message-ID: <ZDAGi2/+1q0oEUZ5@kernel.org>
+References: <20230406220206.3067006-1-chenjiahao16@huawei.com>
+ <20230406220206.3067006-2-chenjiahao16@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+In-Reply-To: <20230406220206.3067006-2-chenjiahao16@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stumbled upon a typo while reading the doc, here's a fix.
+On Fri, Apr 07, 2023 at 06:02:05AM +0800, Chen Jiahao wrote:
+> On riscv, the current crash kernel allocation logic is trying to
+> allocate within 32bit addressible memory region by default, if
+> failed, try to allocate without 4G restriction.
+> 
+> In need of saving DMA zone memory while allocating a relatively large
+> crash kernel region, allocating the reserved memory top down in
+> high memory, without overlapping the DMA zone, is a mature solution.
+> Here introduce the parameter option crashkernel=X,[high,low].
+> 
+> One can reserve the crash kernel from high memory above DMA zone range
+> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+> below 4G with "crashkernel=X,low".
+> 
+> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- Documentation/core-api/dma-api-howto.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...
 
-diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
-index 828846804e25..72f6cdb6be1c 100644
---- a/Documentation/core-api/dma-api-howto.rst
-+++ b/Documentation/core-api/dma-api-howto.rst
-@@ -185,7 +185,7 @@ device struct of your device is embedded in the bus-specific device struct of
- your device.  For example, &pdev->dev is a pointer to the device struct of a
- PCI device (pdev is a pointer to the PCI device struct of your device).
- 
--These calls usually return zero to indicated your device can perform DMA
-+These calls usually return zero to indicate your device can perform DMA
- properly on the machine given the address mask you provided, but they might
- return an error if the mask is too small to be supportable on the given
- system.  If it returns non-zero, your device cannot perform DMA properly on
--- 
-MST
+> @@ -1180,14 +1206,37 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
+> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>  				&crash_size, &crash_base);
+> -	if (ret || !crash_size)
+> +	if (ret == -ENOENT) {
+> +		/*
+> +		 * crashkernel=X,[high,low] can be specified or not, but
+> +		 * invalid value is not allowed.
 
+nit: Perhaps something like this would be easier to correlate with the
+     code that follows:
+
+		/* Fallback to crashkernel=X,[high,low] */
+
+
+> +		 */
+> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+> +		if (ret || !crash_size)
+> +			return;
+> +
+> +		/*
+> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
+> +		 * is passed and high memory is reserved successful.
+
+nit: s/successful/successfully/
+
+> +		 */
+> +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+> +		if (ret == -ENOENT)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +		else if (ret)
+> +			return;
+> +
+> +		search_start = search_low_max;
+> +	} else if (ret || !crash_size) {
+> +		/* Invalid argument value specified */
+>  		return;
+> +	}
+
+...
