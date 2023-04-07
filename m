@@ -2,248 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54617C76196
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 09:06:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09810C6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 10:16:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239421AbjDGJGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 05:06:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54548 "EHLO
+        id S232012AbjDGKQC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 06:16:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232085AbjDGJGj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 05:06:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A7D93F7;
-        Fri,  7 Apr 2023 02:06:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229609AbjDGKQB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 06:16:01 -0400
+Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9268F86A6;
+        Fri,  7 Apr 2023 03:15:59 -0700 (PDT)
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 26CEA64C43;
-        Fri,  7 Apr 2023 09:06:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87DE4C433A1;
-        Fri,  7 Apr 2023 09:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680858397;
-        bh=GjoE8pLLqpFNvPjjEJFxDwYnG+mHd4Kao3OLgsaszZ0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pe8fduDAGwtUb48emhH2LknvX9rwm5w/ZvDWc4Angw8fPrY+b8SYEIn/Ay8npOsf3
-         FhJhISx2Ge2kGRHIJJGHJ33+yF5kxwzhfXyoFdi/Dc5vAKRsbj1zTOBcPPoNHMiby1
-         v0l3aonjlPi+BVhdClH2uo83ZYrH4IT+3NjQzUdCqm4U3rGF73u3rDHSyZ7lgnQhgA
-         WRi4lsNP4a5E9hi8gwkaCzj1pFlpCcdHnVFJJofa9W8wDslRt2eiw4fmjbwE+FO5lW
-         Z9W0r1L0mc+Xr8BGviZVR32Hwe3VHpkL7YmO4+Gr4Z0O4fY+CnNLpaLner1dDE/HPW
-         OxEUsjzhG3S8w==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-949062abf62so210251566b.2;
-        Fri, 07 Apr 2023 02:06:37 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fDKW183sdZUmt4LD7r3JU1mrsfWT8F7Y2BpLIUPQsij4tc12e7
-        S6pkchV9mFY7a6N6ydeQtxjV+vTByES10ccqiLo=
-X-Google-Smtp-Source: AKy350bC7P5dv/YCBCZVMCl54lx/K33Opg2CWjsPDhXq393aZeTC0CD/PitAaV4RIPLrrmj2H6B7XFFVTnteDzemW6E=
-X-Received: by 2002:aa7:d856:0:b0:4fd:2533:f56 with SMTP id
- f22-20020aa7d856000000b004fd25330f56mr1759132eds.39.1680858395702; Fri, 07
- Apr 2023 02:06:35 -0700 (PDT)
+        by bee.tesarici.cz (Postfix) with ESMTPSA id 4239D14B818;
+        Fri,  7 Apr 2023 12:15:56 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+        t=1680862556; bh=PaIGonr5JMM+Z9od4ricOA/7Hr3fGMxSQp5ApjSQwqw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DNqwBXXvCxQ8a7C2kJ5An/Ucg5U5OkUQ3Utahbqx2rhCY7B/Gw1j8zQS7oQO2PK4d
+         OEOwIAQ+FoFE86ayjF16PfihXWG0zgOB4Onzs+jpTaLweXTG8jddQXY/W643jq8Ak3
+         I6a/GBljeXX9H4JaINyEH9bxopBJdZZIQIMCSiw6OVk380au26T+8G9Nu4vfvnkCG/
+         mxxDVVk5BljTm5rG82UshnUop9DV1ul8cVmZEDZkHYtvfmAAC93V0v2fRynBvT5HdQ
+         MUCbpjgK/DaCkGrhD0k1y6u2xPBQbtVEZ/U/pRv0lVJLHos/u+rX3rhngO1X99kyVg
+         M/NJ8vibVVIdw==
+Date:   Fri, 7 Apr 2023 12:15:55 +0200
+From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Alexander Graf <graf@amazon.com>
+Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce
+ buffers
+Message-ID: <20230407121555.4290a011@meshulam.tesarici.cz>
+In-Reply-To: <20230407055704.GD6803@lst.de>
+References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
+        <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
+        <20230328040724.GB25506@lst.de>
+        <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
+        <8cf7c515-9ce6-a2ed-0643-972aa3eba2fb@huaweicloud.com>
+        <20230407055704.GD6803@lst.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-References: <20230406220206.3067006-1-chenjiahao16@huawei.com> <20230406220206.3067006-2-chenjiahao16@huawei.com>
-In-Reply-To: <20230406220206.3067006-2-chenjiahao16@huawei.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Fri, 7 Apr 2023 17:06:24 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRtj=-XONv3cMZFd+qCtqUQqYZo5Lv7cgQbkGKTB0j7yg@mail.gmail.com>
-Message-ID: <CAJF2gTRtj=-XONv3cMZFd+qCtqUQqYZo5Lv7cgQbkGKTB0j7yg@mail.gmail.com>
-Subject: Re: [PATCH -next v3 1/2] riscv: kdump: Implement crashkernel=X,[high,low]
-To:     Chen Jiahao <chenjiahao16@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        conor.dooley@microchip.com, heiko@sntech.de, bjorn@rivosinc.com,
-        alex@ghiti.fr, akpm@linux-foundation.org, atishp@rivosinc.com,
-        bhe@redhat.com, thunder.leizhen@huawei.com, horms@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 6, 2023 at 10:06=E2=80=AFPM Chen Jiahao <chenjiahao16@huawei.co=
-m> wrote:
->
-> On riscv, the current crash kernel allocation logic is trying to
-> allocate within 32bit addressible memory region by default, if
-> failed, try to allocate without 4G restriction.
->
-> In need of saving DMA zone memory while allocating a relatively large
-> crash kernel region, allocating the reserved memory top down in
-> high memory, without overlapping the DMA zone, is a mature solution.
-> Here introduce the parameter option crashkernel=3DX,[high,low].
->
-> One can reserve the crash kernel from high memory above DMA zone range
-> by explicitly passing "crashkernel=3DX,high"; or reserve a memory range
-> below 4G with "crashkernel=3DX,low".
-Asked-by: Guo Ren <guoren@kernel.org>
+On Fri, 7 Apr 2023 07:57:04 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
->
-> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
-> ---
->  arch/riscv/kernel/setup.c |  5 +++
->  arch/riscv/mm/init.c      | 74 ++++++++++++++++++++++++++++++++++++---
->  2 files changed, 74 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index 5d3184cbf518..ea84e5047c23 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -176,6 +176,11 @@ static void __init init_resources(void)
->                 if (ret < 0)
->                         goto error;
->         }
-> +       if (crashk_low_res.start !=3D crashk_low_res.end) {
-> +               ret =3D add_resource(&iomem_resource, &crashk_low_res);
-> +               if (ret < 0)
-> +                       goto error;
-> +       }
->  #endif
->
->  #ifdef CONFIG_CRASH_DUMP
-> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> index 478d6763a01a..b5b457193423 100644
-> --- a/arch/riscv/mm/init.c
-> +++ b/arch/riscv/mm/init.c
-> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
->  }
->  #endif /* CONFIG_MMU */
->
-> +/* Reserve 128M low memory by default for swiotlb buffer */
-> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE  (128UL << 20)
-> +
-> +static int __init reserve_crashkernel_low(unsigned long long low_size)
-> +{
-> +       unsigned long long low_base;
-> +
-> +       low_base =3D memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma=
-32_phys_limit);
-> +       if (!low_base) {
-> +               pr_err("cannot allocate crashkernel low memory (size:0x%l=
-lx).\n", low_size);
-> +               return -ENOMEM;
-> +       }
-> +
-> +       pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (=
-%lld MB)\n",
-> +               low_base, low_base + low_size, low_size >> 20);
-> +
-> +       crashk_low_res.start =3D low_base;
-> +       crashk_low_res.end =3D low_base + low_size - 1;
-> +
-> +       return 0;
-> +}
-> +
->  /*
->   * reserve_crashkernel() - reserves memory for crash kernel
->   *
-> @@ -1163,8 +1185,12 @@ static void __init reserve_crashkernel(void)
->  {
->         unsigned long long crash_base =3D 0;
->         unsigned long long crash_size =3D 0;
-> +       unsigned long long crash_low_size =3D 0;
->         unsigned long search_start =3D memblock_start_of_DRAM();
->         unsigned long search_end =3D memblock_end_of_DRAM();
-> +       unsigned long search_low_max =3D (unsigned long)dma32_phys_limit;
-> +       char *cmdline =3D boot_command_line;
-> +       bool fixed_base =3D false;
->
->         int ret =3D 0;
->
-> @@ -1180,14 +1206,37 @@ static void __init reserve_crashkernel(void)
->                 return;
->         }
->
-> -       ret =3D parse_crashkernel(boot_command_line, memblock_phys_mem_si=
-ze(),
-> +       ret =3D parse_crashkernel(cmdline, memblock_phys_mem_size(),
->                                 &crash_size, &crash_base);
-> -       if (ret || !crash_size)
-> +       if (ret =3D=3D -ENOENT) {
-> +               /*
-> +                * crashkernel=3DX,[high,low] can be specified or not, bu=
-t
-> +                * invalid value is not allowed.
-> +                */
-> +               ret =3D parse_crashkernel_high(cmdline, 0, &crash_size, &=
-crash_base);
-> +               if (ret || !crash_size)
-> +                       return;
-> +
-> +               /*
-> +                * crashkernel=3DY,low is valid only when crashkernel=3DX=
-,high
-> +                * is passed and high memory is reserved successful.
-> +                */
-> +               ret =3D parse_crashkernel_low(cmdline, 0, &crash_low_size=
-, &crash_base);
-> +               if (ret =3D=3D -ENOENT)
-> +                       crash_low_size =3D DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +               else if (ret)
-> +                       return;
-> +
-> +               search_start =3D search_low_max;
-> +       } else if (ret || !crash_size) {
-> +               /* Invalid argument value specified */
->                 return;
-> +       }
->
->         crash_size =3D PAGE_ALIGN(crash_size);
->
->         if (crash_base) {
-> +               fixed_base =3D true;
->                 search_start =3D crash_base;
->                 search_end =3D crash_base + crash_size;
->         }
-> @@ -1201,16 +1250,31 @@ static void __init reserve_crashkernel(void)
->          */
->         crash_base =3D memblock_phys_alloc_range(crash_size, PMD_SIZE,
->                                                search_start,
-> -                                              min(search_end, (unsigned =
-long) SZ_4G));
-> +                                              min(search_end, search_low=
-_max));
->         if (crash_base =3D=3D 0) {
-> -               /* Try again without restricting region to 32bit addressi=
-ble memory */
-> +               if (fixed_base) {
-> +                       pr_warn("crashkernel: allocating failed with give=
-n size@offset\n");
-> +                       return;
-> +               }
-> +
-> +               /* Try again above the region of 32bit addressible memory=
- */
->                 crash_base =3D memblock_phys_alloc_range(crash_size, PMD_=
-SIZE,
-> -                                               search_start, search_end)=
-;
-> +                                                      max(search_start, =
-search_low_max),
-> +                                                      search_end);
->                 if (crash_base =3D=3D 0) {
->                         pr_warn("crashkernel: couldn't allocate %lldKB\n"=
-,
->                                 crash_size >> 10);
->                         return;
->                 }
-> +
-> +               if (!crash_low_size)
-> +                       crash_low_size =3D DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +       }
-> +
-> +       if ((crash_base > dma32_phys_limit - crash_low_size) &&
-> +           crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-> +               memblock_phys_free(crash_base, crash_size);
-> +               return;
->         }
->
->         pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n"=
-,
-> --
-> 2.31.1
->
+> On Tue, Mar 28, 2023 at 02:43:03PM +0200, Petr Tesarik wrote:
+> > Oh, wait! I can do at least something for devices which do not use
+> > swiotlb at all.
+> > 
+> > If a device does not use bounce buffers, it cannot pass an address
+> > that belongs to the swiotlb. Consequently, the potentially
+> > expensive check can be skipped. This avoids the dynamic lookup
+> > penalty for devices which do not need the swiotlb.
+> > 
+> > Note that the counter always remains zero if dma_io_tlb_mem is
+> > NULL, so the NULL check is not required.  
+> 
+> Hmm, that's yet another atomic for each map/unmap, and bloats
+> struct device.
 
+I'm not sure how bad it is to bloat struct device. It is already quite
+large, e.g. in my x86 build it is 768 bytes (exact size depends on
+config options), and nobody seems to be concerned...
 
---=20
-Best Regards
- Guo Ren
+Regarding the atomic operations, I am currently testing a slightly
+different approach, which merely sets a flag if there are any
+dynamically allocated bounce buffers. The atomic check changes to
+smp_load_acquire(), and the atomic inc/dec to smp_store_release()
+only if the flag changes. That said, if I hammer this path with heavy
+parallel I/O, I can still see some performance cost for devices that
+use swiotlb, but at least devices that do not need such bounce buffers
+seem to be unaffected then.
+
+> (Btw, in case anyone is interested, we really need to get started
+> on moving the dma fields out of struct device into a sub-struct
+> only allocated for DMA capable busses)
+
+I like this idea. In fact, my WIP topic branch now moves the swiotlb
+fields into a separate struct, but I can surely go further and move all
+DMA-related fields. I doubt it is worth to allocate it separately,
+though. We are talking about replacing some 100 bytes (in the worst
+case) with a pointer to a dynamically allocated struct, but the
+dynamic allocator adds some overhead. I believe it pays off only if the
+vast majority of struct device instances do not need these DMA fields,
+but is that really the case?
+
+Petr T
