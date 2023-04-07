@@ -2,130 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8251DC6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 10:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3910BC6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 10:57:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231285AbjDGKqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 06:46:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37924 "EHLO
+        id S232154AbjDGK5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 06:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230309AbjDGKqc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 06:46:32 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6540C8A6B;
-        Fri,  7 Apr 2023 03:46:31 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id 1092814C886;
-        Fri,  7 Apr 2023 12:46:28 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1680864389; bh=fwSxeONAMiIQulvFLbEmRpW+yUKJFrnFHkYYi44Vd7I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=4sM1CUkjmwVelOaTnEWeo9CIORmocDgOnSm0PWyS3bTKcFjrsk3FFguLF/n3mLz/E
-         3FoHV2DRuDICL7NYBgu8Ix0LvbyLUqJSmLyuyzj4H4Yy/7NQggJSL/YZLshclFDVkD
-         P/4Jsb3ODIIc5bGUkHW2zYV644QtsGrzxmoKsn47ROm6bnfneRTtQU6TkIT0+OjH0z
-         mzU6gVssjml8+15sN8QdeXwlMSr5YdeVfyNGqE0lvJWrnBAjwt4C3qk2Txo3w7ZqNh
-         p5l2MT4qljaJSVYjPre2Ly1hog7j6GZDOapB+X486jTBzpSQlUK/VVPBrITo2W44fW
-         sxVsi3ES64ziQ==
-Date:   Fri, 7 Apr 2023 12:46:27 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Alexander Graf <graf@amazon.com>
-Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce
- buffers
-Message-ID: <20230407124627.74528415@meshulam.tesarici.cz>
-In-Reply-To: <20230407055548.GC6803@lst.de>
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
-        <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
-        <20230328040724.GB25506@lst.de>
-        <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
-        <20230407055548.GC6803@lst.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
+        with ESMTP id S235110AbjDGK5d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 06:57:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A8ABDDB
+        for <linux-doc@vger.kernel.org>; Fri,  7 Apr 2023 03:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680864897;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=k0rU9qN6OXQn9VhfokzgjZmLQQ8B6AgUhbS5Fy6LXPg=;
+        b=dNmWxebckJ2Wz3yzoCHTHVvZhJJSMWDvm9AO6xlBKt0t8PMr/udzAVDY4nfocrvK1LOBba
+        dfGpiFg43IcR3Vi3vRawUSNRWHG87Wba1Pe/BRsFXBaqd4HWG5c5GRFAWoOkVDhJKuscQ5
+        89a/jHcWVwFBPOx/d+t2z5DTSzcQKxs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-447-PPqS9KMgO5muE0GR06O7tg-1; Fri, 07 Apr 2023 06:54:55 -0400
+X-MC-Unique: PPqS9KMgO5muE0GR06O7tg-1
+Received: by mail-wm1-f71.google.com with SMTP id o28-20020a05600c511c00b003ef69894934so17385332wms.6
+        for <linux-doc@vger.kernel.org>; Fri, 07 Apr 2023 03:54:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680864894;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k0rU9qN6OXQn9VhfokzgjZmLQQ8B6AgUhbS5Fy6LXPg=;
+        b=5fEuDhf6G3Fx+UnxdXAc7cST6OZjCjkEEYh6/cyWbLs7LHCmP6Oh/fRL2Z6seg6zer
+         oMt9x+ghw95VCMbK1z7LHW78527rup7lGzCCLjFFCffgyXmANWidcr3UbeqJZ/3g+n0Z
+         EfuJ0fcMcXBS2usbSZe29RMk/o7zfW0CG+PrG/xxGruAZRGpI5SGLuvnAZKniV6eSxHZ
+         b+0WvhNKnpVGscuvjofIuz6ATY2owky3lNEXvDnPg0oxY62qQPLvkkjRyQ+MUGg2ezGe
+         96fj2r9yHkhnxvPr5QqwjlHFTIokVlFLuj6RBXU1ruGRA3nmc+NSDf954Q04dt4kfv5n
+         Tq/g==
+X-Gm-Message-State: AAQBX9fisldJTWKbifuU06lrx4HPApsKv83X7wz6KFdYxZIFYQRWTJCd
+        DtCofovFoYLM2j0nBmgZBNnQ4Fwwf9ig+EZn6uaqm0jvV+6u0o0pAi0hMNAmp2g/6ORdq5Wnsu4
+        ls1zrhooCesa8Lv3lu57C
+X-Received: by 2002:a5d:4311:0:b0:2ce:9fb8:b560 with SMTP id h17-20020a5d4311000000b002ce9fb8b560mr1214132wrq.8.1680864894691;
+        Fri, 07 Apr 2023 03:54:54 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zz1WAl1pBgluIyvHAQ7Jass36PS67oNBouOPMJdAbw2ewAZH/Tiop2wAnpCorp5JLSJO7M/A==
+X-Received: by 2002:a5d:4311:0:b0:2ce:9fb8:b560 with SMTP id h17-20020a5d4311000000b002ce9fb8b560mr1214127wrq.8.1680864894384;
+        Fri, 07 Apr 2023 03:54:54 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
+        by smtp.gmail.com with ESMTPSA id t16-20020a05600c451000b003ef66c89af0sm11411742wmo.0.2023.04.07.03.54.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Apr 2023 03:54:53 -0700 (PDT)
+Date:   Fri, 7 Apr 2023 06:54:51 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] dma-api-howto: typo fix
+Message-ID: <af1505348a67981f63ccff4e3c3d45b686cda43f.1680864874.git.mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 7 Apr 2023 07:55:48 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+Stumbled upon a typo while reading the doc, here's a fix.
 
-> On Tue, Mar 28, 2023 at 09:54:35AM +0200, Petr Tesarik wrote:
-> > I tend to agree here. However, it's the DMABUF design itself that causes
-> > some trouble. The buffer is allocated by the v3d driver, which does not
-> > have the restriction, so the DMA API typically allocates an address
-> > somewhere near the 4G boundary. Userspace then exports the buffer, sends
-> > it to another process as a file descriptor and imports it into the vc4
-> > driver, which requires DMA below 1G. In the beginning, v3d had no idea
-> > that the buffer would be exported to userspace, much less that it would
-> > be later imported into vc4.  
-> 
-> Then we need to either:
-> 
->  a) figure out a way to communicate these addressing limitations
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ Documentation/core-api/dma-api-howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-AFAICS this would require a complete overhaul of the dma-buf userspace
-API so that intended imports are communicated at export time. In other
-words, it would be quite intrusive. Not my preferrence.
+diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
+index 828846804e25..72f6cdb6be1c 100644
+--- a/Documentation/core-api/dma-api-howto.rst
++++ b/Documentation/core-api/dma-api-howto.rst
+@@ -185,7 +185,7 @@ device struct of your device is embedded in the bus-specific device struct of
+ your device.  For example, &pdev->dev is a pointer to the device struct of a
+ PCI device (pdev is a pointer to the PCI device struct of your device).
+ 
+-These calls usually return zero to indicated your device can perform DMA
++These calls usually return zero to indicate your device can perform DMA
+ properly on the machine given the address mask you provided, but they might
+ return an error if the mask is too small to be supportable on the given
+ system.  If it returns non-zero, your device cannot perform DMA properly on
+-- 
+MST
 
->  b) find a way to migrate a buffer into other memory, similar to
->     how page migration works for page cache
-
-Let me express the idea in my own words to make sure I get it right.
-When a DMA buffer is imported, but before it is ultimately pinned in
-memory, the importing device driver checks whether the buffer meets its
-DMA constraints. If not, it calls a function provided by the exporting
-device driver to migrate the buffer. This makes sense, but:
-
-  1) The operation must be implemented in the exporting driver; this
-     will take some time.
-
-  2) In theory, there may be no overlap between the exporting device
-     and the importing device. OTOH I'm not aware of any real-world
-     example, so we can probably return a suitable error code, and
-     that's it.
-
-Anyway, I have already written in another reply that my original use
-case is moot, because a more recent distribution can do the job without
-using dma-buf, so it has been fixed in user space, be it in GNOME,
-pipewire, or Mesa (I don't really have to know).
-
-At this point I would go with the assumption that large buffers
-allocated by media subsystems will not hit swiotlb. Consequently, I
-don't plan to spend more time on this branch of the story.
-
-> > BTW my testing also suggests that the streaming DMA API is quite
-> > inefficient, because UAS performance _improved_ with swiotlb=force.
-> > Sure, this should probably be addressed in the UAS and/or xHCI driver,
-> > but what I mean is that moving away from swiotlb may even cause
-> > performance regressions, which is counter-intuitive. At least I would
-> > _not_ have expected it.  
-> 
-> That is indeed very odd.  Are you running with a very slow iommu
-> driver there?   Or what is the actual use case there in general?
-
-This was on a Raspberry Pi 4, which does not have any IOMMU. IOW it
-looks like copying data around can be faster than sending it straight
-to the device. When I have some more time, I must investigate what is
-really happening there, because it does not make any sense to me.
-
-Petr T
