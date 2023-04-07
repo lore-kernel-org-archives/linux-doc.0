@@ -2,86 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6305EC76196
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 08:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B569C6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 08:34:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239255AbjDGIKV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 04:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50152 "EHLO
+        id S231537AbjDGIer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 04:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231360AbjDGIKU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 04:10:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B99D7A271;
-        Fri,  7 Apr 2023 01:10:19 -0700 (PDT)
+        with ESMTP id S231389AbjDGIeq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 04:34:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0B1911C;
+        Fri,  7 Apr 2023 01:34:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5607F64F77;
-        Fri,  7 Apr 2023 08:10:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AA27EC433EF;
-        Fri,  7 Apr 2023 08:10:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B1D9648CA;
+        Fri,  7 Apr 2023 08:34:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DECAC4339C;
+        Fri,  7 Apr 2023 08:34:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680855018;
-        bh=vINl0lPg8DSk3x3DsYiCNOE7MhbQ+ie0j6bnteHngsI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=lzfHbqd7dQ26glqRvArGNoCyx9xXUg4MQs1x1mJddKXsZGF6y7zQyN79D22m6/ItA
-         njzUWh/zoYxV6q9KIicG7NnNEu00j8GHa9soduFnnWbPR0sAh0kCO1fXNaUKSTWDm7
-         qOqGboQ9GK4eaeyILtCYx5GaiLm0gtizfx8HPMXBoNhfn4eH1PYfuOjQRPmlZm421w
-         ACfDFxzNR/YxPZ2sI4euQhuD3aBKn5cDxCxetFR7HYQmldP3NbNE6hJyhpjkNRLPdJ
-         BBDfTfes2DvUSw0ayocdGf0B/2W7A7NozZlBTbPMr6Hx0xIIR4JMRMTtDntAQ1oZAp
-         5CDNs0PkNFTvg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8EA99C395C5;
-        Fri,  7 Apr 2023 08:10:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1680856484;
+        bh=WJH5Kn+G+Mpn2d43oNBGeROdsHIA2VvrZQA7fMNx0lg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uGTYH2xcdt+o04q0JPEsqFu72dRr+q44w5Rkn+deddTQ6rGjATvbkJGoVKU2fVDn5
+         bwJ6FfevUOakhBnl4Fo/FetmziQumwa7nZFsxiLw2EpEyOY92XuJfPFancW08Svvby
+         zbMHwvR/cczv5V6T9Dsdrzno1rcg78Hm34knkrS84snfJHT0qk8iMXgDClykR719TI
+         yuVUHvC6ksIPpG0oy2gpaA0mYtiX+l7bpNezV03k1BiKYw/+Zpcli4SRe4wzABq4y0
+         IROpo1Gp5N6ZLaY5+qdyoOciD2/XYNAn6HtN+hpLbvITS2ioWl0zY+mjFkL25loysK
+         DEAHSB2chZt4A==
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-942e6555947so160090566b.2;
+        Fri, 07 Apr 2023 01:34:44 -0700 (PDT)
+X-Gm-Message-State: AAQBX9dEXBynpvQaPljhdJe/J7oSjHE7nAKSuODZeaIqG5at10zfsYDW
+        gZmu/ppcJ8rME0LQE52+lL82eydjGnXdpHX1erg=
+X-Google-Smtp-Source: AKy350ZkAgTWHQwTncWH37YSTupT2jbEF7Bd7DZ3BElkwFqpJ5PRGZc35iYbOigftxmXdOqn0uQrzQtqlRb23I5eMlI=
+X-Received: by 2002:aa7:dcc4:0:b0:4f9:deb4:b97f with SMTP id
+ w4-20020aa7dcc4000000b004f9deb4b97fmr1942589edu.13.1680856482789; Fri, 07 Apr
+ 2023 01:34:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] tcp: restrict net.ipv4.tcp_app_win
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168085501858.4864.5890586221086478006.git-patchwork-notify@kernel.org>
-Date:   Fri, 07 Apr 2023 08:10:18 +0000
-References: <20230406063450.19572-1-yuehaibing@huawei.com>
-In-Reply-To: <20230406063450.19572-1-yuehaibing@huawei.com>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
-        kuniyu@amazon.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230406220206.3067006-1-chenjiahao16@huawei.com> <20230406220206.3067006-3-chenjiahao16@huawei.com>
+In-Reply-To: <20230406220206.3067006-3-chenjiahao16@huawei.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Fri, 7 Apr 2023 16:34:31 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTR-3a6X2_XPWzOaDdfMehQnQhU0aAxOXOPqOJ=CM5fFUw@mail.gmail.com>
+Message-ID: <CAJF2gTR-3a6X2_XPWzOaDdfMehQnQhU0aAxOXOPqOJ=CM5fFUw@mail.gmail.com>
+Subject: Re: [PATCH -next v3 2/2] docs: kdump: Update the crashkernel
+ description for riscv
+To:     Chen Jiahao <chenjiahao16@huawei.com>
+Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        conor.dooley@microchip.com, heiko@sntech.de, bjorn@rivosinc.com,
+        alex@ghiti.fr, akpm@linux-foundation.org, atishp@rivosinc.com,
+        bhe@redhat.com, thunder.leizhen@huawei.com, horms@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-This patch was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+On Thu, Apr 6, 2023 at 10:05=E2=80=AFPM Chen Jiahao <chenjiahao16@huawei.co=
+m> wrote:
+>
+> Now "crashkernel=3D" parameter on riscv has been updated to support
+> crashkernel=3DX,[high,low]. Through which we can reserve memory region
+> above/within 32bit addressible DMA zone.
+>
+> Here update the parameter description accordingly.
+>
+> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 54702bd488eb..41865aae9eaa 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -866,7 +866,7 @@
+>                         memory region [offset, offset + size] for that ke=
+rnel
+>                         image. If '@offset' is omitted, then a suitable o=
+ffset
+>                         is selected automatically.
+> -                       [KNL, X86-64, ARM64] Select a region under 4G fir=
+st, and
+> +                       [KNL, X86-64, ARM64, RISCV] Select a region under=
+ 4G first, and
+>                         fall back to reserve region above 4G when '@offse=
+t'
+>                         hasn't been specified.
+>                         See Documentation/admin-guide/kdump/kdump.rst for=
+ further details.
+> @@ -879,14 +879,14 @@
+>                         Documentation/admin-guide/kdump/kdump.rst for an =
+example.
+>
+>         crashkernel=3Dsize[KMG],high
+> -                       [KNL, X86-64, ARM64] range could be above 4G. All=
+ow kernel
+> -                       to allocate physical memory region from top, so c=
+ould
+> -                       be above 4G if system have more than 4G ram insta=
+lled.
+> -                       Otherwise memory region will be allocated below 4=
+G, if
+> -                       available.
+> +                       [KNL, X86-64, ARM64, RISCV] range could be above =
+4G.
+> +                       Allow kernel to allocate physical memory region f=
+rom top,
+> +                       so could be above 4G if system have more than 4G =
+ram
+> +                       installed. Otherwise memory region will be alloca=
+ted
+> +                       below 4G, if available.
+>                         It will be ignored if crashkernel=3DX is specifie=
+d.
+>         crashkernel=3Dsize[KMG],low
+> -                       [KNL, X86-64, ARM64] range under 4G. When crashke=
+rnel=3DX,high
+> +                       [KNL, X86-64, ARM64, RISCV] range under 4G. When =
+crashkernel=3DX,high
+>                         is passed, kernel could allocate physical memory =
+region
+>                         above 4G, that cause second kernel crash on syste=
+m
+>                         that require some amount of low memory, e.g. swio=
+tlb
+> @@ -897,6 +897,7 @@
+>                         size is platform dependent.
+>                           --> x86: max(swiotlb_size_or_default() + 8MiB, =
+256MiB)
+>                           --> arm64: 128MiB
+> +                         --> riscv: 128MiB
+>                         This one lets the user specify own low range unde=
+r 4G
+>                         for second kernel instead.
+>                         0: to disable low allocation.
+> --
+> 2.31.1
+>
 
-On Thu, 6 Apr 2023 14:34:50 +0800 you wrote:
-> UBSAN: shift-out-of-bounds in net/ipv4/tcp_input.c:555:23
-> shift exponent 255 is too large for 32-bit type 'int'
-> CPU: 1 PID: 7907 Comm: ssh Not tainted 6.3.0-rc4-00161-g62bad54b26db-dirty #206
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0x136/0x150
->  __ubsan_handle_shift_out_of_bounds+0x21f/0x5a0
->  tcp_init_transfer.cold+0x3a/0xb9
->  tcp_finish_connect+0x1d0/0x620
->  tcp_rcv_state_process+0xd78/0x4d60
->  tcp_v4_do_rcv+0x33d/0x9d0
->  __release_sock+0x133/0x3b0
->  release_sock+0x58/0x1b0
-> 
-> [...]
 
-Here is the summary with links:
-  - [net] tcp: restrict net.ipv4.tcp_app_win
-    https://git.kernel.org/netdev/net/c/dc5110c2d959
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+--=20
+Best Regards
+ Guo Ren
