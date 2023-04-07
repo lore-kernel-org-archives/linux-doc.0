@@ -2,128 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2037FC6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 15:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07389C6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 16:28:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbjDGPyT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 11:54:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55604 "EHLO
+        id S229564AbjDGQ2f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 12:28:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjDGPyS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 11:54:18 -0400
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF3356EAB;
-        Fri,  7 Apr 2023 08:54:17 -0700 (PDT)
-Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-17fcc07d6c4so31977957fac.8;
-        Fri, 07 Apr 2023 08:54:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680882857; x=1683474857;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Utrmt87/lvg+g4etr9fQILoL0w88HzDoqi2Ru46qUPk=;
-        b=o0/qFzatw0XuLbTEw8yp/m0U6CXUDcz+urrbqYGJmooStr83eR6WkSY1dJS/6Sw8IF
-         KrOgDS9KzsLU/0UfYPvA17xjNnyadU7o5N0AiMWy1CP0EXvlEzKhpfwkaSLK3rskO/gp
-         nzUiH3CSXqwuPOngsBh0ZTdjySRkvwB1zLA0sKLMP24uku2YZNXRWRmJdtJVGCwAtRsj
-         fkOgVWi4kB/9vMeivU++xLY7m2trwrUQOLpub20sSurOu5sDXxvy1QOpkp0ekb9cKKyr
-         DnxdQlgYO/29SONMNHp7xGzBLfCMACJpwLTnWZtbqg+kUCIT8Wum8tlAPhTuGhB+k/HP
-         C3qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680882857; x=1683474857;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Utrmt87/lvg+g4etr9fQILoL0w88HzDoqi2Ru46qUPk=;
-        b=rnR4MLw2s9vBueiBSU2UcM9fNsSP2CqfgIpVCdqbzS7QgYIWfhuZvOfVJo7qXVsZ3X
-         cBR4Q47k8Ti2mFJF1HAdV98/Zz9EjfaePV1ufpql8wLv1vKde8WL9deQXNT0dnzruuYC
-         zCWfSyO0i3TD6sYB8oEPQPi/Ry97eV7nlQrBOwc5ficslsn81VNYy2T6dOO9yicL9lwA
-         oDVXo72aW83VAfRAcSIABRLYkmwkhqhGoG+v2xuRqtwJFlgG5DHJkjEI7oDzBhe7oMP/
-         8xe1vwx1Oz2hLXu856ipyywpzkAoq2S+hE7gfCozWAPk+7PDMncKHOoE+QUQbbNabXW2
-         rYwQ==
-X-Gm-Message-State: AAQBX9fz5f9QFPj6oSKWPtM3vGQMozDyD5vSrLT/JmChpiovP5keti1q
-        x4GfMvf904cojwRTuqQUkEo=
-X-Google-Smtp-Source: AKy350Ysoe57s+DVzestQ+7uGRw8gyaZbfkee61FtumTVTC1uLb7QV3bmoGrOM3yH6TZuRduLJXrIw==
-X-Received: by 2002:a05:6870:4799:b0:177:9789:b0ad with SMTP id c25-20020a056870479900b001779789b0admr4484677oaq.22.1680882857044;
-        Fri, 07 Apr 2023 08:54:17 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id bd16-20020a056871b31000b0016e8726f0d4sm1763309oac.3.2023.04.07.08.54.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 08:54:16 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 7 Apr 2023 08:54:15 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (asus-ec-sensors) add ROG STRIX Z390-F GAMING
-Message-ID: <9a224c5a-adca-4802-b7d8-4b743ec47e76@roeck-us.net>
-References: <20230405224339.358675-1-eugene.shalygin@gmail.com>
- <20230405224339.358675-3-eugene.shalygin@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        with ESMTP id S229462AbjDGQ2d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 12:28:33 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21AE211F;
+        Fri,  7 Apr 2023 09:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680884912; x=1712420912;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=cB2173ca4X/GtXZ/WZ0rofQS6TOtVBAO5xc9G9Bseq8=;
+  b=UHqLx2BanYUmI6Yh4Wx+IAXBZO/l5DpAS67CScjR3bGx94wpMc91bxwI
+   voJVRLmoyZqDC1oyd0jWYG7E9vGRfaC73VMOK+HuKWeioXGvOfmHGrDVt
+   aaM1layAp1XvJSulXeJjrX1/7OEPf+HBphDgNh1oeSIXHAA8d6fypK0Si
+   TYrGmgBy5xxcXRqHHTL8UT4bU5S2TB1/MFwWnmg2QY0J8K5GUkeK76ItG
+   /lbE+5X/v+se9/+nReeuUmTo3A168EKK56+xo+2cMiXqOgAbxUH72U1zZ
+   h6wNU40l+QXGBFSP8gD626c4hSSaPnJXiA1ZIi7GPzV5i8qiESDUmxjW0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="429306096"
+X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
+   d="scan'208";a="429306096"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 09:28:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="690108560"
+X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
+   d="scan'208";a="690108560"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga007.fm.intel.com with ESMTP; 07 Apr 2023 09:28:30 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 7 Apr 2023 09:28:30 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Fri, 7 Apr 2023 09:28:30 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Fri, 7 Apr 2023 09:28:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VZFViIHrQYe9047QfSaeCVYTuEQ0gRmQZipLcAr84lfi0XI2/u0o7+hdJGhZopD1H4HrQKyVLnnmvir9U4ZpDkSN2SEkUZ2cyBzGnFl0MwYmhgw01r+QP6NLYqO2anlklpdt8zWZa6vly5OvkBffslN4yntD/fhLK3zn4td46P1SalpSMVbdUZRUXor4Cs2mEiGnso4JSeoO3POgenBUMoE+2Jm5OCCYX1phhFJt0Qk6T1iqLTEWjWm9ouZrQHhbrBthe3pKFs+nnfftJgW5hrWfLCnCgnbx0gL4B7kI3kLgbr/q3RGSiNnbVZRoQhH1uLepcqIpe2RAXVmt664Mpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Pjp8PG5aHDsuWZooEVNsZ2WM6bfFTGJzzxgquoEKQ8w=;
+ b=BYqLpZiecBGlIZJxiDbuJA0GGv+WWtrkMMe67VWJ7CrFKNNeps7yZMVefVarNs+1RAldAK0Qo/gPUU612AtTUMQfhJrtNAiTc8P5pWA/+MGxjCZIpLNr0ZzZ2iklJ2W55HmdSFhh1gy2U4k5Qo0MpR4NB6O0uao+zNPb/FzIzSzIRtuNLlZeCgVxGNyFo8Pq/BgsMR8mGo2VcnFl30wEgBH4NNaCySnPQoXhJHWmR60yFvAM8Spg98u1yrd/nk6k2uBwgG5h0KgQ7/AjVpdP8mLzYOLyEfsDMH7BcbMfwYwqxDYmV2rnoDPb/uw8pd5ZUA91aw0C59ZJHY7RdU0mdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB6117.namprd11.prod.outlook.com (2603:10b6:8:b3::19) by
+ CO1PR11MB4865.namprd11.prod.outlook.com (2603:10b6:303:9c::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6277.35; Fri, 7 Apr 2023 16:28:28 +0000
+Received: from DM4PR11MB6117.namprd11.prod.outlook.com
+ ([fe80::9e4f:80cc:e0aa:6809]) by DM4PR11MB6117.namprd11.prod.outlook.com
+ ([fe80::9e4f:80cc:e0aa:6809%3]) with mapi id 15.20.6277.031; Fri, 7 Apr 2023
+ 16:28:28 +0000
+Date:   Fri, 7 Apr 2023 18:28:14 +0200
+From:   Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+To:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
+CC:     Kal Conley <kal.conley@dectris.com>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        "Jonathan Lemon" <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Paolo Abeni" <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Alexei Starovoitov" <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "Jesper Dangaard Brouer" <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        <netdev@vger.kernel.org>, <bpf@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+Message-ID: <ZDBEng1KEEG5lOA6@boxer>
+References: <20230406130205.49996-1-kal.conley@dectris.com>
+ <20230406130205.49996-2-kal.conley@dectris.com>
+ <87sfdckgaa.fsf@toke.dk>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <20230405224339.358675-3-eugene.shalygin@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87sfdckgaa.fsf@toke.dk>
+X-ClientProxiedBy: FR2P281CA0158.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::11) To DM4PR11MB6117.namprd11.prod.outlook.com
+ (2603:10b6:8:b3::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB6117:EE_|CO1PR11MB4865:EE_
+X-MS-Office365-Filtering-Correlation-Id: 276f776c-ea4f-4c64-6a94-08db37851e5a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ywyJbSSlTrAZQ9yxvmzAr6NSonXoxL0a+qgoYpdExr33wq8G1gi5CSD2OIWaygFtTyetWEvD6OeDJz1YOQvmd3bg6FHhJpyVjVM9ATn4MCoyn7QQukz1KYgFub2M4eLj8mtT2641vL2TAXVLNwDP8zcTInAPC3Pg4euYlDLAeJ+0+6VXzI50uUl6bW+oh77wZrlb5zUsV6OLSedtMZBcI/8W4xdxKTurbsK6sxaeuMjYV0lS6ClJNT/A/CR2Nr1RtsqH6OKmEBlQ3+v4Ar2ZNeB68OlAxz8vmQZ5Ca6SsaICNOj/K14xI7Lchcn5Cnp6v1wHbCEteaCpV6JjA7lB9OBxBZwo1ifMryzk1WBwTET0VXuue8VShiNGdRDa3thUB5ydPNKysGUnlStSgVOW4bnQuje/GgpczsqvJ1SwPsuE3ysOj/U/7UkiSfElBt/a+OcD5baDUpvwr1+QzWn1c+m226svgC4GB43dPW5G+io6PU2nt6FqjV0czBH19b0MIlQxRO9NxLmPUOwenx4/63B42HjFp+XxTajoTs1MLNCXwPGPJJFZgUPPXpVOGgIg
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6117.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(366004)(346002)(39860400002)(396003)(136003)(376002)(451199021)(6486002)(66946007)(8676002)(66476007)(6916009)(4326008)(66556008)(54906003)(478600001)(41300700001)(316002)(86362001)(66574015)(6512007)(6506007)(9686003)(6666004)(26005)(2906002)(7416002)(8936002)(5660300002)(44832011)(4744005)(33716001)(38100700002)(186003)(82960400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?JbZfcXsKV38ShPiYD3VUsDaxOB5yFl8edvchsDzkVB3kkKaEF1tEPdJCyO?=
+ =?iso-8859-1?Q?ZHTI5q8RuF4xcbPnrf9CYj8R9L4PoXlrnokAu6wn02S8IGiSR1nNwlfx8w?=
+ =?iso-8859-1?Q?oKv03raWJrXdjf0JBp2YE8F4gM46QNSekSqRIe9Zj7LWu/3GIOW7ubeETu?=
+ =?iso-8859-1?Q?tFKrfcaF4Rwi6jmmL0MbaM+Gaa022wejMJi+f8ijaLLzHk6wln/84j6rv2?=
+ =?iso-8859-1?Q?qBXo9a0imca/kQUm9EDy9Arf2gPopZ8lpQZsTW0ri7MUzNi8bF5Ee3CNdW?=
+ =?iso-8859-1?Q?PRMhXY6QCBY1jDgMgL+HMAt/hqGfvNJEyA9h8i92l45d7ySIwwuV1xzs88?=
+ =?iso-8859-1?Q?0dVJiZhs7BpOk4IOMLK0sevzIM1NO4n3HIfgAEl6CL56kmmDwT9m56BxLy?=
+ =?iso-8859-1?Q?RIB6zTW+wqhX+T17STYg+OPnMI/RqZsNsk65WYFU/1WrRzvVnPpCC36kWZ?=
+ =?iso-8859-1?Q?wevoH8vXIaTMcJcsOzgBb/WWvgShcn2twYrLFk9PJ/eqjSlNC8v4N4DRb2?=
+ =?iso-8859-1?Q?GEOMChE2wsh37jSLF0gc7l5Lb4cBvN4xjhQgY60SonWmJhH6C6ZDKfgmRd?=
+ =?iso-8859-1?Q?eF16j/uXZLNtkgfVo1YmPUWwUp62+yuqBZfzHegpde6XG3jVvjCJ77Ipmr?=
+ =?iso-8859-1?Q?OAPTaD1hb5DApGpyf6X+jBytnO/BrZe7EWg2xjtC9nPz5/DgwGS/jveV8d?=
+ =?iso-8859-1?Q?dDZviGhxNOqDHwYZ1IpuBc72rb99q6Wr+GycfnHmdJ6I1xOVcwR+4ip5uD?=
+ =?iso-8859-1?Q?WLrNBjNP7uHnRSIxafPlfCJhDUQx5SHINya5T1B9LQ4pAMlrWwctAaJKgJ?=
+ =?iso-8859-1?Q?rpRTiAyiZdftJKjJC+9aGvjC+KnExCbj0Cm+ilGwxpKrv0DT7a0o8WzLT6?=
+ =?iso-8859-1?Q?o6Y3FpD9KET0SoE/mLK74QReO/RbDCeZcmhAkUMSV1FB7leoeCirLncBE+?=
+ =?iso-8859-1?Q?F20UFvF1N/xkHaOlOP8OOFCCrB05JOMC+mprKyGFmscyUUeWDk9SWOyY4I?=
+ =?iso-8859-1?Q?VsW0olvTY3QMojJLUuzyCE4hMe6S4UhB8w4QX/xniW4gkvkfdIpf0WuT8R?=
+ =?iso-8859-1?Q?uqfB68ABNuSiqeuzE3X4VYkE4PhJdEplMF1o2l4LECFiD9hYuzzXTULm2l?=
+ =?iso-8859-1?Q?5e29nobXX2Hyd2/FiH720YOY5Huvz2n6MhaGhldAY9QlUld4EuGpr6e9As?=
+ =?iso-8859-1?Q?YggXmnjnAOHJ0uIDxptrKT4EWfotTTq5QH3utvmfgy072awVov9VAY5UXr?=
+ =?iso-8859-1?Q?WyMrrlP2Ymh2BDO9kzmSokHBBroAIaFLP9RFiUqJo6konjbdFmj/ILeL6p?=
+ =?iso-8859-1?Q?eayq3L6cbVA052bB2Sp9O4LDWb4x0fT9jdtPWsevWUq5VIUXh46d6Ei347?=
+ =?iso-8859-1?Q?BeeNy4amFRu9cBv0Q2bWr05QsPiSGn31v401Y3wGNc7jI6sbjJpNq2m5Se?=
+ =?iso-8859-1?Q?77ybXphAalVlP5E60gzLZXt0Eg9R7BpXZIynfMaUPzTsksjt3wFH/OtuVv?=
+ =?iso-8859-1?Q?7VA02kQqWYb3H/s3ZMi8lUuI3Jn+fZDX+GaOK7/WDVsL49YL7erdVrNYvS?=
+ =?iso-8859-1?Q?Q1/ha3zdmPGsqjwXvcpXR/pt8gTRmT/dxQ6DaTBAErMpeNky9Img3hROZV?=
+ =?iso-8859-1?Q?s78ZqbC68kViAU3FcoiLoldhIYIM4UhKmmJ/fcldn3Gi+PDhlbp9liLA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 276f776c-ea4f-4c64-6a94-08db37851e5a
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6117.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2023 16:28:28.4316
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IocsJhuaqeANvMlv6IAdiBS1OY0bSAQxatLAlrGFirDkauYiE7NJyOo8DauQlzyYpdfxAZ5F0TqJYbQFxzqIHhPaD8QNIPI+UwjLXLPWJ/8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4865
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 06, 2023 at 12:43:39AM +0200, Eugene Shalygin wrote:
-> The definition comes from a LHM PR [1], and the mutex path from
-> the ACPI dump, kindly provided by the PR author [2]
+On Thu, Apr 06, 2023 at 08:38:05PM +0200, Toke Høiland-Jørgensen wrote:
+> Kal Conley <kal.conley@dectris.com> writes:
 > 
-> [1] https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/pull/1031
-> [2] https://github.com/zeule/asus-ec-sensors/issues/36
+> > Add core AF_XDP support for chunk sizes larger than PAGE_SIZE. This
+> > enables sending/receiving jumbo ethernet frames up to the theoretical
+> > maxiumum of 64 KiB. For chunk sizes > PAGE_SIZE, the UMEM is required
+> > to consist of HugeTLB VMAs (and be hugepage aligned). Initially, only
+> > SKB mode is usable pending future driver work.
 > 
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+> Hmm, interesting. So how does this interact with XDP multibuf?
 
-Applied.
+To me it currently does not interact with mbuf in any way as it is enabled
+only for skb mode which linearizes the skb from what i see.
 
-Thanks,
-Guenter
+I'd like to hear more about Kal's use case - Kal do you use AF_XDP in SKB
+mode on your side?
 
-> ---
->  Documentation/hwmon/asus_ec_sensors.rst |  1 +
->  drivers/hwmon/asus-ec-sensors.c         | 10 ++++++++++
->  2 files changed, 11 insertions(+)
 > 
-> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-> index f1c9b1e11268..c92c1d3839e4 100644
-> --- a/Documentation/hwmon/asus_ec_sensors.rst
-> +++ b/Documentation/hwmon/asus_ec_sensors.rst
-> @@ -22,6 +22,7 @@ Supported boards:
->   * ROG STRIX X570-E GAMING WIFI II
->   * ROG STRIX X570-F GAMING
->   * ROG STRIX X570-I GAMING
-> + * ROG STRIX Z390-F GAMING
->   * ROG STRIX Z690-A GAMING WIFI D4
->   * ROG ZENITH II EXTREME
->   * ROG ZENITH II EXTREME ALPHA
-> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-> index 594fe7241111..e5be0cf472fc 100644
-> --- a/drivers/hwmon/asus-ec-sensors.c
-> +++ b/drivers/hwmon/asus-ec-sensors.c
-> @@ -408,6 +408,14 @@ static const struct ec_board_info board_info_strix_x570_i_gaming = {
->  	.family = family_amd_500_series,
->  };
->  
-> +static const struct ec_board_info board_info_strix_z390_f_gaming = {
-> +	.sensors = SENSOR_TEMP_CHIPSET | SENSOR_TEMP_VRM |
-> +		SENSOR_TEMP_T_SENSOR |
-> +		SENSOR_FAN_CPU_OPT,
-> +	.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
-> +	.family = family_intel_300_series,
-> +};
-> +
->  static const struct ec_board_info board_info_strix_z690_a_gaming_wifi_d4 = {
->  	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM,
->  	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
-> @@ -473,6 +481,8 @@ static const struct dmi_system_id dmi_table[] = {
->  					&board_info_strix_x570_f_gaming),
->  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X570-I GAMING",
->  					&board_info_strix_x570_i_gaming),
-> +	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z390-F GAMING",
-> +					&board_info_strix_z390_f_gaming),
->  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z690-A GAMING WIFI D4",
->  					&board_info_strix_z690_a_gaming_wifi_d4),
->  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME",
+> -Toke
+> 
