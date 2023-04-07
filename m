@@ -2,189 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76CF3C77B6C
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 17:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35932C77B6C
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Apr 2023 20:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbjDGRTQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 13:19:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53542 "EHLO
+        id S229698AbjDGUFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 16:05:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229724AbjDGRS6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 13:18:58 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94DD1BD2;
-        Fri,  7 Apr 2023 10:18:56 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id a30-20020a9d3e1e000000b006a13f728172so19183619otd.3;
-        Fri, 07 Apr 2023 10:18:56 -0700 (PDT)
+        with ESMTP id S229437AbjDGUFT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 16:05:19 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2198F55AA
+        for <linux-doc@vger.kernel.org>; Fri,  7 Apr 2023 13:05:18 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id bt19so27046353pfb.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Apr 2023 13:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680887936; x=1683479936;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20210112; t=1680897917; x=1683489917;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CnyFffHnLQxEq4pI3SmE7M+GX7tfHqiqsW+FaERKQAw=;
-        b=jIlUSJ0V8IR9KRd8T2N1fNohSIfYxulDOKrWe+Sq990DkAz1OcVvfROFGewgH/MkrH
-         F2v5/PvnCH/3v9cQ/e67xbJ3tuTk+xM4ZqVwYDmKCjlazFoeRAmTQ6vrtEsJgfla+1Pe
-         PUKzVTqbFMu9nLm/CogYzALkCR0j1bp3MfWsi2zay/NW7y88jooWDHs7LNw16zAEhpZd
-         8DCASjK85Lr2VaiHk506gKEQL7F2u9f7GmiU59Qojfs08a8XxVDBJF5aHb3utyC0gp+G
-         l3FFNnkWk5RJ47PucvR4oQahUt9S7Dz4uskZiuOnLi8IbLJbUIVzd+i8RscIzAnoaoQb
-         AssQ==
+        bh=vdCXGzVGpQlfAukY4hF5kEd5gLRY5hPyCWsVGlyaVT4=;
+        b=bwYz6WQu+3CDeyg+SifIEaFQBntjRYmHYdIC1HofzV+goe/tHp5sWvdCfeGZsZ7piN
+         N1FsO7VE6dLPXKlSQnQmaITOXYIWZ6VFsn9VcTe2K7icNX7w+c+cN787cHrHryXhO4dK
+         sELbD+qVeqs7HWelUIfL7SSA7Y+8Tvv+uJkxqiamcm3hDNcHTHhoF5G7bCAop0dadhw2
+         UiJCEqgrC8abVItNLXwBakL7uFAE9srNakmnzka1+iT1a0CAztceb2Q0SNqXFeT48wvS
+         TZxLbIONSFV0gZHF1Z6W2TXc8/BAkGmA/JY4TSbvl48Bkw8f6QSHCggxKDXh9cLX+M/R
+         TNIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680887936; x=1683479936;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1680897917; x=1683489917;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CnyFffHnLQxEq4pI3SmE7M+GX7tfHqiqsW+FaERKQAw=;
-        b=MqQ80HO2zfBEybkWrJbJzdAKRdc+VdT4befEUH7WtEXpctVWJhAVHb+kYSFtNhQlCw
-         VCWxLH9ES3SdE7S2ee00UGLqpk45WJIUuZN9iBOK04ummF4U66E4aCR5Pqis/nuX37iH
-         BAgoa1gnxYpc36yWMYkMzpk7bVtHwaGnzXqEjJLhVf1bkwD+2m7AhnekXvxaDjWlb0es
-         jjdqlSjuS1EYz7dycCNuRY4KlLQYbbK5zSTG025Uajpr7mVv6+KYC9i0AxQfErmu2LAz
-         cnfcDHW10NK8MLBgJaUmWQEFTZcc3VmtKk2F83hH/4QKo/JwpJU7/E7IsPUGbb0++d/B
-         AyaQ==
-X-Gm-Message-State: AAQBX9fgaffpScPCeSkwIj/AIrc7hgqXOcmYGi5+/MykFymlxW88cirj
-        OuUZ2CYRKxdftTRrW9v61HVedYMV+xENHT4=
-X-Google-Smtp-Source: AKy350b0DU99QKvkQpLh4zt6z9o4Q5IDlL+QxIGt1XaqDVs1VDiSov6WZzducFkRGrn8iye6UsISHQ==
-X-Received: by 2002:a05:6830:1e90:b0:69f:a732:d4fb with SMTP id n16-20020a0568301e9000b0069fa732d4fbmr1251418otr.35.1680887936131;
-        Fri, 07 Apr 2023 10:18:56 -0700 (PDT)
-Received: from fedora.mshome.net ([104.184.156.161])
-        by smtp.gmail.com with ESMTPSA id l9-20020a9d7349000000b006a2ddc13c46sm1816730otk.78.2023.04.07.10.18.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 10:18:55 -0700 (PDT)
-From:   Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
-        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
-        corbet@lwn.net, shuah@kernel.org, catalin.marinas@arm.com,
-        arnd@arndb.de, Gregory Price <gregory.price@memverge.com>
-Subject: [PATCH v16 4/4] selftest,ptrace: Add selftest for syscall user dispatch config api
-Date:   Fri,  7 Apr 2023 13:18:34 -0400
-Message-Id: <20230407171834.3558-5-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230407171834.3558-1-gregory.price@memverge.com>
-References: <20230407171834.3558-1-gregory.price@memverge.com>
+        bh=vdCXGzVGpQlfAukY4hF5kEd5gLRY5hPyCWsVGlyaVT4=;
+        b=xwE2xPXxYtMUXomSo0bE44PFXySMwKgwOWbgTqAv74HhrJ1FMfbEBjuADBSerzt2YA
+         uwOcgQ4vcetuJNx+Rgj2KErnoXLv6x4N+sFJ5Qj+pIt2TNjn6hDuBi6fihQ+nJO5oq1y
+         DMwBuPIQWgefMPYUO5JmUJCYrKvjAtV+k9XkrIXpefh99zyWnckRIipqMKFdJbKTwHc2
+         7N98x7L22tubq3peGle4O/5NMniaw3vRjG9ET2zv191nkNuUwu2z5E25RPTGhrKpEuYC
+         UrjeyTmfE8nW+2FR94bhBlvIIqZsjyNScLXGO/GRVutaGxpnbo4n+Y2n2eQPJuDecCvz
+         /owg==
+X-Gm-Message-State: AAQBX9cfkF7RgtIly1jQY7BqaEaDF5JAOosI8FqG4Uwyia+vx5ltRdVJ
+        AVaFDzSiIeGP0o/PwklCZyeq96LukklEWTL0rBjWMQ==
+X-Google-Smtp-Source: AKy350bz7+45zvC9ZJN7sODXWkAUgHOWaxCkTpaRsVir3WWnsa1RP/CqiiXRch7jQzDzDvuwIeqbnlQD07DwH3Vojo0=
+X-Received: by 2002:a65:4903:0:b0:503:7be2:19a7 with SMTP id
+ p3-20020a654903000000b005037be219a7mr724077pgs.1.1680897917336; Fri, 07 Apr
+ 2023 13:05:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230405-korg-llvm-tc-docs-v1-1-420849b2e025@kernel.org>
+ <CAGG=3QX65iJEtvMiSD2Ju18f0KfHsi2zPXAQDSh0ScqbCLv=Cg@mail.gmail.com> <20230405205126.GA3280774@dev-arch.thelio-3990X>
+In-Reply-To: <20230405205126.GA3280774@dev-arch.thelio-3990X>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 7 Apr 2023 13:05:06 -0700
+Message-ID: <CAKwvOdmG4j4u2Uw3arpkkO4FHQMvWV_MiCiXNpOV3GQqq_5ofg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: Add a note about prebuilt kernel.org toolchains
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Bill Wendling <morbo@google.com>, masahiroy@kernel.org,
+        corbet@lwn.net, arnd@arndb.de, keescook@chromium.org,
+        trix@redhat.com, nicolas@fjasle.eu, llvm@lists.linux.dev,
+        patches@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Validate that the following new ptrace requests work as expected
+On Wed, Apr 5, 2023 at 1:51=E2=80=AFPM Nathan Chancellor <nathan@kernel.org=
+> wrote:
+>
+> On Wed, Apr 05, 2023 at 01:47:44PM -0700, Bill Wendling wrote:
+> > On Wed, Apr 5, 2023 at 1:44=E2=80=AFPM Nathan Chancellor <nathan@kernel=
+.org> wrote:
+> > >
+> > > I recently started uploading prebuilt stable versions of LLVM to
+> > > kernel.org, which should make building the kernel with LLVM more
+> > > accessible to maintainers and developers. Link them in the LLVM
+> > > documentation to make this more visible.
+> > >
+> > > Link: https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-=
+3990X/
+> > > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > > ---
+> > >  Documentation/kbuild/llvm.rst | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llv=
+m.rst
+> > > index bfb51685073c..3e1f67b05ca6 100644
+> > > --- a/Documentation/kbuild/llvm.rst
+> > > +++ b/Documentation/kbuild/llvm.rst
+> > > @@ -171,6 +171,10 @@ Getting Help
+> > >  Getting LLVM
+> > >  -------------
+> > >
+> > > +We provide prebuilt stable versions of LLVM on `kernel.org <https://=
+kernel.org/pub/tools/llvm/>`_.
+> > > +Below are links that may be useful for building LLVM from source or =
+procurring
+> >
+> > s/procurring/procuring/
+>
+> Leave it to me to forget to use ':set spell' :( sometimes I think that
+> people would have a hard time guessing I am a native English speaker :^)
 
-* PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG
-  - returns the contents of task->syscall_dispatch if enabled
+https://www.adamalbrecht.com/blog/2019/10/21/spell-check-in-vim-for-markdow=
+n-and-git-commit-messages/
 
-* PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG
-  - sets the contents of task->syscall_dispatch
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
----
- tools/testing/selftests/ptrace/.gitignore    |  1 +
- tools/testing/selftests/ptrace/Makefile      |  2 +-
- tools/testing/selftests/ptrace/get_set_sud.c | 72 ++++++++++++++++++++
- 3 files changed, 74 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/ptrace/get_set_sud.c
+>
+> > Otherwise:
+> >
+> > Reviewed-by: Bill Wendling <morbo@google.com>
+>
+> Thanks for the quick review! I will send a v2 once others have had a
+> chance to chime in (unless the person applying this does not mind fixing
+> it up at that time).
+>
+> > -bw
+> >
+> > > +it through a distribution's package manager.
+> > > +
+> > >  - https://releases.llvm.org/download.html
+> > >  - https://github.com/llvm/llvm-project
+> > >  - https://llvm.org/docs/GettingStarted.html
+> > >
+> > > ---
+> > > base-commit: 7e364e56293bb98cae1b55fd835f5991c4e96e7d
+> > > change-id: 20230405-korg-llvm-tc-docs-84304e881bc5
+> > >
+> > > Best regards,
+> > > --
+> > > Nathan Chancellor <nathan@kernel.org>
+> > >
+> > >
 
-diff --git a/tools/testing/selftests/ptrace/.gitignore b/tools/testing/selftests/ptrace/.gitignore
-index 792318aaa30c..b7dde152e75a 100644
---- a/tools/testing/selftests/ptrace/.gitignore
-+++ b/tools/testing/selftests/ptrace/.gitignore
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- get_syscall_info
-+get_set_sud
- peeksiginfo
- vmaccess
-diff --git a/tools/testing/selftests/ptrace/Makefile b/tools/testing/selftests/ptrace/Makefile
-index 2f1f532c39db..33a36b73bcb9 100644
---- a/tools/testing/selftests/ptrace/Makefile
-+++ b/tools/testing/selftests/ptrace/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- CFLAGS += -std=c99 -pthread -iquote../../../../include/uapi -Wall
- 
--TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess
-+TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess get_set_sud
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/ptrace/get_set_sud.c b/tools/testing/selftests/ptrace/get_set_sud.c
-new file mode 100644
-index 000000000000..5297b10d25c3
---- /dev/null
-+++ b/tools/testing/selftests/ptrace/get_set_sud.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include "../kselftest_harness.h"
-+#include <stdio.h>
-+#include <string.h>
-+#include <errno.h>
-+#include <sys/wait.h>
-+#include <sys/syscall.h>
-+#include <sys/prctl.h>
-+
-+#include "linux/ptrace.h"
-+
-+static int sys_ptrace(int request, pid_t pid, void *addr, void *data)
-+{
-+	return syscall(SYS_ptrace, request, pid, addr, data);
-+}
-+
-+TEST(get_set_sud)
-+{
-+	struct ptrace_sud_config config;
-+	pid_t child;
-+	int ret = 0;
-+	int status;
-+
-+	child = fork();
-+	ASSERT_GE(child, 0);
-+	if (child == 0) {
-+		ASSERT_EQ(0, sys_ptrace(PTRACE_TRACEME, 0, 0, 0)) {
-+			TH_LOG("PTRACE_TRACEME: %m");
-+		}
-+		kill(getpid(), SIGSTOP);
-+		_exit(1);
-+	}
-+
-+	waitpid(child, &status, 0);
-+
-+	memset(&config, 0xff, sizeof(config));
-+	config.mode = PR_SYS_DISPATCH_ON;
-+
-+	ret = sys_ptrace(PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG, child,
-+			 (void *)sizeof(config), &config);
-+
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(config.mode, PR_SYS_DISPATCH_OFF);
-+	ASSERT_EQ(config.selector, 0);
-+	ASSERT_EQ(config.offset, 0);
-+	ASSERT_EQ(config.len, 0);
-+
-+	config.mode = PR_SYS_DISPATCH_ON;
-+	config.selector = 0;
-+	config.offset = 0x400000;
-+	config.len = 0x1000;
-+
-+	ret = sys_ptrace(PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG, child,
-+			 (void *)sizeof(config), &config);
-+
-+	ASSERT_EQ(ret, 0);
-+
-+	memset(&config, 1, sizeof(config));
-+	ret = sys_ptrace(PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG, child,
-+			 (void *)sizeof(config), &config);
-+
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(config.mode, PR_SYS_DISPATCH_ON);
-+	ASSERT_EQ(config.selector, 0);
-+	ASSERT_EQ(config.offset, 0x400000);
-+	ASSERT_EQ(config.len, 0x1000);
-+
-+	kill(child, SIGKILL);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.39.1
 
+
+--=20
+Thanks,
+~Nick Desaulniers
