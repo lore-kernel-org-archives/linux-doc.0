@@ -2,88 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD92C7619A
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 13:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBF6C77B6C
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 15:16:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjDHNtt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Apr 2023 09:49:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56512 "EHLO
+        id S229504AbjDHPQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Apr 2023 11:16:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjDHNts (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 09:49:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97FD1BC6;
-        Sat,  8 Apr 2023 06:49:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229456AbjDHPQs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 11:16:48 -0400
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64090EF96;
+        Sat,  8 Apr 2023 08:16:46 -0700 (PDT)
+Received: from [192.168.1.190] (ip5b426bea.dynamic.kabel-deutschland.de [91.66.107.234])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C4076142E;
-        Sat,  8 Apr 2023 13:49:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95475C433A0;
-        Sat,  8 Apr 2023 13:49:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680961786;
-        bh=rpFTrTpcNVbSF0vqVoyh7L6giVIN41C6RAvl7FyFd6M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uYTTzr+VaSdylukWPgMXvbabqMmFJFBelvAVKNtGkkIMZ1pFQpTdcJneODqdlGLIC
-         NMm7/KkuKUJWf9AVIqyZCJ2fIaa0JgZ/qXBwsUoT3Gj+H6WkbGwYTbAkhnSr9MWkn5
-         RNh7d3QhL0cDEaelZ72nYpNXOCt9XG318tFjcgIWryvfP1lII8xCWiSDjzsmXUxVjw
-         79qFqh7GdiF3LkqIAnY5nPV7i1tT09Gwn3OUlvyKP0/b4vbRrYfx2D8dYcdi0rjtgV
-         9eWLZa/L9fT/XjtG5jSzK+FIxrV0bOiWfAW1PoHI4q6Kvjy/KSaEJP5IyIkg1ebQ2h
-         sfoKlbVKZJgHQ==
-Received: by mail-ot1-f49.google.com with SMTP id c2-20020a056830348200b006a3ab0ba8a2so4912747otu.1;
-        Sat, 08 Apr 2023 06:49:46 -0700 (PDT)
-X-Gm-Message-State: AAQBX9cc8dHgZ0LgdHIcZ7i+PDyfBJrg4lzU0Se4N7UegP0QmdXpEgsH
-        dT+2zWaq/7+6X9KYlr8GCKQrR5SRKIzefE8hh7w=
-X-Google-Smtp-Source: AKy350Yym8k/APtYBId7w0JsijjhyT7A4owCM9aPZto2PhafU7XfDKW9u3WGQU/uDgTbGtERYGu0UOkevabdF/37QBs=
-X-Received: by 2002:a05:6830:130a:b0:69f:8da4:48d with SMTP id
- p10-20020a056830130a00b0069f8da4048dmr1361134otq.1.1680961785939; Sat, 08 Apr
- 2023 06:49:45 -0700 (PDT)
+        (Authenticated sender: buczek)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 6247761E4052B;
+        Sat,  8 Apr 2023 17:16:43 +0200 (CEST)
+Message-ID: <be98bee0-4ddc-194f-82be-767e0bb9f60f@molgen.mpg.de>
+Date:   Sat, 8 Apr 2023 17:16:42 +0200
 MIME-Version: 1.0
-References: <20230405-korg-llvm-tc-docs-v2-1-98d2e4a96c41@kernel.org>
-In-Reply-To: <20230405-korg-llvm-tc-docs-v2-1-98d2e4a96c41@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 8 Apr 2023 22:49:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR9NjtgJip-ZuSrvFX6+zkF7XA7XewS7w+_hogB2F1x6A@mail.gmail.com>
-Message-ID: <CAK7LNAR9NjtgJip-ZuSrvFX6+zkF7XA7XewS7w+_hogB2F1x6A@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation/llvm: Add a note about prebuilt
- kernel.org toolchains
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     corbet@lwn.net, arnd@arndb.de, keescook@chromium.org,
-        ndesaulniers@google.com, trix@redhat.com, nicolas@fjasle.eu,
-        llvm@lists.linux.dev, patches@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        Bill Wendling <morbo@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
+        kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org,
+        ming.lei@redhat.com, gregkh@linuxfoundation.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
+ <20230404140835.25166-3-sergei.shtepa@veeam.com>
+Content-Language: en-US
+From:   Donald Buczek <buczek@molgen.mpg.de>
+In-Reply-To: <20230404140835.25166-3-sergei.shtepa@veeam.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 8, 2023 at 6:43=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
-> wrote:
->
-> I recently started uploading prebuilt stable versions of LLVM to
-> kernel.org, which should make building the kernel with LLVM more
-> accessible to maintainers and developers. Link them in the LLVM
-> documentation to make this more visible.
->
-> Link: https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990=
-X/
-> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> Reviewed-by: Bill Wendling <morbo@google.com>
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Hi, Sergei,
 
+On 4/4/23 16:08, Sergei Shtepa wrote:
+> The block device filtering mechanism is an API that allows to attach
+> block device filters. Block device filters allow perform additional
+> processing for I/O units.
+> [...]
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index b7b56871029c..1848d62979a4 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -185,6 +185,11 @@ struct fsxattr {
+>   #define BLKROTATIONAL _IO(0x12,126)
+>   #define BLKZEROOUT _IO(0x12,127)
+>   #define BLKGETDISKSEQ _IOR(0x12,128,__u64)
+> +/* 13* is defined in linux/blkzoned.h */
 
-Applied to linux-kbuild/fixes.
-Thanks.
+nit: This is already explained in the comment below your insert.
 
+Best
 
+  Donald
 
+> +#define BLKFILTER_ATTACH	_IOWR(0x12, 140, struct blkfilter_name)
+> +#define BLKFILTER_DETACH	_IOWR(0x12, 141, struct blkfilter_name)
+> +#define BLKFILTER_CTL		_IOWR(0x12, 142, struct blkfilter_ctl)
+> +
+>   /*
+>    * A jump here: 130-136 are reserved for zoned block devices
+>    * (see uapi/linux/blkzoned.h)
 
-
-
---=20
-Best Regards
-Masahiro Yamada
