@@ -2,117 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BB10C77B61
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 03:14:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4292C7619A
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 08:24:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbjDHDOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 23:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42984 "EHLO
+        id S229776AbjDHIYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Apr 2023 04:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjDHDOd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 23:14:33 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71937CC01;
-        Fri,  7 Apr 2023 20:14:32 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id 73so109780qkg.1;
-        Fri, 07 Apr 2023 20:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680923670; x=1683515670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xMTKJDQ8CdgEq5oydLbuNOEjnz2pC0DL2nvx8nYSz/g=;
-        b=Q48jvsiIcW6+33OEw+8Rq2By/0rqAJXsy0pbv5Ivxlezjf2NnrQr5WO9WV+cxoLcY4
-         P4kvSheOQQeR0uxecCxHXF+4BBRhAOXGI4WkJvpj5P7NfRHT9rW3MJ8D6DuRWfDCLkXR
-         AFXPr5fol0nMe116ZVgI6KN3Rfqc2Pq1dm9gSnEsJN/j6UYohxHtO902BVIzNVuFdVNC
-         /6lGFGdZ6rb2LdPUgWznZV/BfG818fKJT4SRzSLMRP0ZWiwsm080D2I4WjAiFqki9T3g
-         LJb/wdZ3AiTLkMiuSZDD6T/DVSEAPKUcD9BfAUZz4xCW8GxKZ/LqMV60r7GQGYdLknPi
-         4QXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680923670; x=1683515670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xMTKJDQ8CdgEq5oydLbuNOEjnz2pC0DL2nvx8nYSz/g=;
-        b=ruf/yy/pbXr61cmIM5PT0RnR72FjHDipnF0OmLR0RnMXBQeRcjsNl7d69Pg3IsIp76
-         zGiD8m59t/F24rf5CDuCIf5jgt7ZmMerVilhvjLCD4Tmo2yQIotYwxdZ12ir1+gbZfkz
-         F9sUecURz3QVba7xQ+r7c3cJ7cxxUq0pWp4Vv3Dtmt6eqNCAaR29xc/yVgm71rxBzYD3
-         dzevwZw8zZnOL29WJVztgRtj7wz5Qcbh1s7kBVgeLGnKoIw3J5U8FDxuwie34AMuvMKm
-         dmiN9vsaETJhRvCSaWa+BM6yVQXPjjVZasQK34p4MD9oLxYXmwkw/7iNJRdBpdb4a/SE
-         8JFg==
-X-Gm-Message-State: AAQBX9c9+wI8wpu943P3VwyjOuADwmuNOY1wGrIRofD5khKhDdT1Vvcs
-        XTKtsSjk3hvlR/XvWknkA5N1lTs5m5hnD//Udgw=
-X-Google-Smtp-Source: AKy350Z3AtOV3Hj8e2V0+G3cXlcE2CUJYghvIUSBZ5M8j+IP946o3xKT9Fp538mrEE70dVq7aSFML1TYV1nrT8gDZvc=
-X-Received: by 2002:a05:620a:1981:b0:74a:5c5:944 with SMTP id
- bm1-20020a05620a198100b0074a05c50944mr1150949qkb.4.1680923670462; Fri, 07 Apr
- 2023 20:14:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org> <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
-From:   Aleksandr Mezin <mezin.alexander@gmail.com>
-Date:   Sat, 8 Apr 2023 06:14:19 +0300
-Message-ID: <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
-Subject: Re: [PATCH 48/68] hwmon: nzxt: constify pointers to hwmon_channel_info
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        with ESMTP id S229504AbjDHIYT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 04:24:19 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A80D524;
+        Sat,  8 Apr 2023 01:24:17 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id F3E783200909;
+        Sat,  8 Apr 2023 04:24:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sat, 08 Apr 2023 04:24:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        joshtriplett.org; h=cc:content-type:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1680942254; x=1681028654; bh=2y
+        BXVbSSdNHxtHfP7iplYUCfsDs2K4dPwS9gffca2v0=; b=qnziuNy0ypINMNUC4t
+        LbshO8S4cz6pwpGvCspmYV8wYjIpSuusui+BrXV4fv+dTwsa2Hgws1HVzMI6uMn/
+        Vnlgx7xzz4w5igYnarE5MndhiUDXG/rwyJC3l7QesOVY0/PZw0w9jy8kJwIXS3Jx
+        UykvuJKZi+snphDZ0gRhv7V2uGbg5fNbh+dAQp/PLQUmniuaUYJHnEpbmCK69cVJ
+        f6IXEDN2jtrmMGEOfzSYGaiheZxhF16z3jd+GEJuWFLQ3/+ynjYfVfS04QKhrz/0
+        9pb4LMqeKoHrNyiuze4/LXIqaAqdhP6jcboVdnKRSSlawrQ1Pt3YfDNqTNcYejX0
+        6zrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1680942254; x=1681028654; bh=2yBXVbSSdNHxtHfP7iplYUCfsDs2K4dPwS9
+        gffca2v0=; b=lOV+UeK7Ut1d7PEJcKYvd7u5/u5xwSNj3qL6ZLo9nr3ibF6KPWN
+        vEttAkDc8R/a2Q+FW32kt+6BGxD4RtcOTWgYpzmVQ4S02EOTcAd6J+7ia2jJxtlX
+        YfFzoQ/cpGWDi66GsGHly9XGa0F1kSBkqnHHOu84yD1zKQmvgSXFcsXKZsCI/g6r
+        350sYwgK6vipF5aS8yVJAlgSnbN4TFzqiWN5H7or/cvkm/4Pw9R+xAIYjf+DyZFl
+        gtMXpKln51uaxBhCFCMiIpqAzZi/q1dPWgCozsDEyQbfN7YBdbWJmnE6TQN7pjpn
+        GuiDj7suuKQundmDfmOiJCaf7dDM3m+TKqg==
+X-ME-Sender: <xms:riQxZFi8pSkoas4z9F1eS0S03eDjD4m9tirqbMu9L8mNzILUopfSrg>
+    <xme:riQxZKBd3ttPf339ZJupeAEuu99A5Ovlv-hH8a3LhFctovtUuCRCNpKVeJlYmf0xW
+    Bvak4W9qlSLF_TdvcM>
+X-ME-Received: <xmr:riQxZFH1q2z7OSmY-nFxVDEwri27FDQ-pi9cjFhppXHajf1fi1d9DchBmVg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejjedgtdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfggtggusehttdertddttddvnecuhfhrohhmpeflohhshhcuvfhr
+    ihhplhgvthhtuceojhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgheqnecuggftrf
+    grthhtvghrnhepudelkeevueetjeegudehgfevheffvdffieelieeggfffgeeuffehteek
+    jefgueevnecuffhomhgrihhnpehshihstghtlhdrnhgvthenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjohhshhesjhhoshhhthhrihhplhgv
+    thhtrdhorhhg
+X-ME-Proxy: <xmx:riQxZKSlLW3UJ14ICgjjfi-iIWYLXFuyZwgTdcPT_ihlcF0MHzwJfQ>
+    <xmx:riQxZCyjtKbclMqKFN26mgdbesWf6pY2bWrjrxFjZPcht6JIRHMCrg>
+    <xmx:riQxZA6e-VqZYx9_2_HxphS8aEWOYr5Aez9tOQoJP-bycFz8KBVs5A>
+    <xmx:riQxZNyPGu_7yUoEKarrGlmDtFADZzFKpvMeCLAeIfE1vIT-bsv-OQ>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 8 Apr 2023 04:24:10 -0400 (EDT)
+Date:   Sat, 8 Apr 2023 17:24:07 +0900
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Aleksa Savic <savicaleksa83@gmail.com>,
-        Jack Doan <me@jackdoan.com>,
-        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        Marius Zachmann <mail@mariuszachmann.de>,
-        Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
-        Jean-Marie Verdun <verdun@hpe.com>,
-        Nick Hawkins <nick.hawkins@hpe.com>,
-        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-        Clemens Ladisch <clemens@ladisch.de>,
-        Rudolf Marek <r.marek@assembler.cz>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Jonas Malaco <jonas@protocubo.io>,
-        Derek John Clark <derekjohn.clark@gmail.com>,
-        =?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= 
-        <samsagax@gmail.com>, Iwona Winiarska <iwona.winiarska@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Michael Walle <michael@walle.cc>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Agathe Porte <agathe.porte@nokia.com>,
-        Eric Tremblay <etremblay@distech-controls.com>,
-        Robert Marko <robert.marko@sartura.hr>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        patches@opensource.cirrus.com, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] net: ipv6: Add Kconfig option to set default value of
+ accept_dad
+Message-ID: <3072adab06f9c5f45cc72d2068d1aed0100436ff.1680941918.git.josh@joshtriplett.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 6, 2023 at 11:37=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> -static const struct hwmon_channel_info *nzxt_smart2_channel_info[] =3D {
-> +static const struct hwmon_channel_info * const nzxt_smart2_channel_info[=
-] =3D {
+The kernel already supports disabling Duplicate Address Detection (DAD)
+by setting net.ipv6.conf.$interface.accept_dad to 0. However, for
+interfaces available at boot time, the kernel brings up the interface
+and sets up the link-local address before processing sysctls set on the
+kernel command line; thus, setting
+sysctl.net.ipv6.conf.default.accept_dad=0 on the kernel command line
+does not suffice to affect such interfaces.
 
-In the rest of nzxt-smart2.c there are spaces only before "*", not on
-both sides (and there are a few "*const" already). Would be nice to
-keep it consistent. The same seems to be true for nzxt-kraken2.c
-(although I'm not a maintainer)
+Add a configuration option to set the default value of accept_dad for
+new interfaces.
+
+Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+---
+
+I'm in a virtualized environment, and I'm trying to bring up network
+interfaces (including IPv6) extremely quickly and have them be
+immediately usable. I tried many different approaches to disable DAD on
+the interface, but I didn't find *any* way to successfully disable DAD
+before the kernel brought up the link-local address for eth0 and set it
+as tentative.
+
+I've verified that this option *does* successfully cause the link-local
+address for interfaces to not show up as "tentative".
+
+If this approach isn't appealing, or if there's a better way to
+accomplish this, I'd welcome suggestions for alternative approaches.
+
+ Documentation/networking/ip-sysctl.rst |  4 +++-
+ net/ipv6/Kconfig                       | 10 ++++++++++
+ net/ipv6/addrconf.c                    |  4 ++++
+ 3 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 87dd1c5283e6..302f1f208339 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -2496,11 +2496,13 @@ accept_dad - INTEGER
+ 
+ 	 == ==============================================================
+ 	  0  Disable DAD
+-	  1  Enable DAD (default)
++	  1  Enable DAD
+ 	  2  Enable DAD, and disable IPv6 operation if MAC-based duplicate
+ 	     link-local address has been found.
+ 	 == ==============================================================
+ 
++	Default: 1 if CONFIG_IPV6_DAD_DEFAULT_DISABLE is not set, otherwise 0.
++
+ 	DAD operation and mode on a given interface will be selected according
+ 	to the maximum value of conf/{all,interface}/accept_dad.
+ 
+diff --git a/net/ipv6/Kconfig b/net/ipv6/Kconfig
+index 658bfed1df8b..3535e1b6a38f 100644
+--- a/net/ipv6/Kconfig
++++ b/net/ipv6/Kconfig
+@@ -48,6 +48,16 @@ config IPV6_OPTIMISTIC_DAD
+ 
+ 	  If unsure, say N.
+ 
++config IPV6_DAD_DEFAULT_DISABLE
++	bool "IPv6: Disable Duplicate Address Detection by default"
++	help
++	  If enabled, this sets the default value of the
++	  net.ipv6.conf.default.accept_dad sysctl to 0, disabling Duplicate
++	  Address Detection (DAD). This allows the modified default to be
++	  picked up early enough to affect interfaces that exist at boot time.
++
++	  If unsure, say N.
++
+ config INET6_AH
+ 	tristate "IPv6: AH transformation"
+ 	select XFRM_AH
+diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
+index faa47f9ea73a..e931c836a5dd 100644
+--- a/net/ipv6/addrconf.c
++++ b/net/ipv6/addrconf.c
+@@ -274,7 +274,11 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
+ 	.proxy_ndp		= 0,
+ 	.accept_source_route	= 0,	/* we do not accept RH0 by default. */
+ 	.disable_ipv6		= 0,
++#ifdef CONFIG_IPV6_DAD_DEFAULT_DISABLE
++	.accept_dad		= 0,
++#else
+ 	.accept_dad		= 1,
++#endif
+ 	.suppress_frag_ndisc	= 1,
+ 	.accept_ra_mtu		= 1,
+ 	.stable_secret		= {
+-- 
+2.40.0
+
