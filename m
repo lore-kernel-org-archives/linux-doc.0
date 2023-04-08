@@ -2,116 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4071BC76196
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 02:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BB10C77B61
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 03:14:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbjDHCBd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Apr 2023 22:01:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53200 "EHLO
+        id S229710AbjDHDOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Apr 2023 23:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjDHCBc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 22:01:32 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 622A2E06C;
-        Fri,  7 Apr 2023 19:01:31 -0700 (PDT)
-Received: from dggpemm500006.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ptdfw3sYTznYd8;
-        Sat,  8 Apr 2023 09:58:00 +0800 (CST)
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sat, 8 Apr 2023 10:01:28 +0800
-Subject: Re: [PATCH -next v3 2/2] docs: kdump: Update the crashkernel
- description for riscv
-To:     Chen Jiahao <chenjiahao16@huawei.com>,
-        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
-CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-        <conor.dooley@microchip.com>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
-        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
-        <bhe@redhat.com>, <horms@kernel.org>
-References: <20230406220206.3067006-1-chenjiahao16@huawei.com>
- <20230406220206.3067006-3-chenjiahao16@huawei.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <ca1b1ca8-96eb-cdef-5526-6edeaf3ca343@huawei.com>
-Date:   Sat, 8 Apr 2023 10:01:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S229469AbjDHDOd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Apr 2023 23:14:33 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71937CC01;
+        Fri,  7 Apr 2023 20:14:32 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id 73so109780qkg.1;
+        Fri, 07 Apr 2023 20:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680923670; x=1683515670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xMTKJDQ8CdgEq5oydLbuNOEjnz2pC0DL2nvx8nYSz/g=;
+        b=Q48jvsiIcW6+33OEw+8Rq2By/0rqAJXsy0pbv5Ivxlezjf2NnrQr5WO9WV+cxoLcY4
+         P4kvSheOQQeR0uxecCxHXF+4BBRhAOXGI4WkJvpj5P7NfRHT9rW3MJ8D6DuRWfDCLkXR
+         AFXPr5fol0nMe116ZVgI6KN3Rfqc2Pq1dm9gSnEsJN/j6UYohxHtO902BVIzNVuFdVNC
+         /6lGFGdZ6rb2LdPUgWznZV/BfG818fKJT4SRzSLMRP0ZWiwsm080D2I4WjAiFqki9T3g
+         LJb/wdZ3AiTLkMiuSZDD6T/DVSEAPKUcD9BfAUZz4xCW8GxKZ/LqMV60r7GQGYdLknPi
+         4QXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680923670; x=1683515670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xMTKJDQ8CdgEq5oydLbuNOEjnz2pC0DL2nvx8nYSz/g=;
+        b=ruf/yy/pbXr61cmIM5PT0RnR72FjHDipnF0OmLR0RnMXBQeRcjsNl7d69Pg3IsIp76
+         zGiD8m59t/F24rf5CDuCIf5jgt7ZmMerVilhvjLCD4Tmo2yQIotYwxdZ12ir1+gbZfkz
+         F9sUecURz3QVba7xQ+r7c3cJ7cxxUq0pWp4Vv3Dtmt6eqNCAaR29xc/yVgm71rxBzYD3
+         dzevwZw8zZnOL29WJVztgRtj7wz5Qcbh1s7kBVgeLGnKoIw3J5U8FDxuwie34AMuvMKm
+         dmiN9vsaETJhRvCSaWa+BM6yVQXPjjVZasQK34p4MD9oLxYXmwkw/7iNJRdBpdb4a/SE
+         8JFg==
+X-Gm-Message-State: AAQBX9c9+wI8wpu943P3VwyjOuADwmuNOY1wGrIRofD5khKhDdT1Vvcs
+        XTKtsSjk3hvlR/XvWknkA5N1lTs5m5hnD//Udgw=
+X-Google-Smtp-Source: AKy350Z3AtOV3Hj8e2V0+G3cXlcE2CUJYghvIUSBZ5M8j+IP946o3xKT9Fp538mrEE70dVq7aSFML1TYV1nrT8gDZvc=
+X-Received: by 2002:a05:620a:1981:b0:74a:5c5:944 with SMTP id
+ bm1-20020a05620a198100b0074a05c50944mr1150949qkb.4.1680923670462; Fri, 07 Apr
+ 2023 20:14:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230406220206.3067006-3-chenjiahao16@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org> <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
+From:   Aleksandr Mezin <mezin.alexander@gmail.com>
+Date:   Sat, 8 Apr 2023 06:14:19 +0300
+Message-ID: <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
+Subject: Re: [PATCH 48/68] hwmon: nzxt: constify pointers to hwmon_channel_info
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Aleksa Savic <savicaleksa83@gmail.com>,
+        Jack Doan <me@jackdoan.com>,
+        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
+        Marius Zachmann <mail@mariuszachmann.de>,
+        Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        Jean-Marie Verdun <verdun@hpe.com>,
+        Nick Hawkins <nick.hawkins@hpe.com>,
+        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Rudolf Marek <r.marek@assembler.cz>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Jonas Malaco <jonas@protocubo.io>,
+        Derek John Clark <derekjohn.clark@gmail.com>,
+        =?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= 
+        <samsagax@gmail.com>, Iwona Winiarska <iwona.winiarska@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Michael Walle <michael@walle.cc>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Agathe Porte <agathe.porte@nokia.com>,
+        Eric Tremblay <etremblay@distech-controls.com>,
+        Robert Marko <robert.marko@sartura.hr>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        patches@opensource.cirrus.com, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Apr 6, 2023 at 11:37=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> -static const struct hwmon_channel_info *nzxt_smart2_channel_info[] =3D {
+> +static const struct hwmon_channel_info * const nzxt_smart2_channel_info[=
+] =3D {
 
-
-On 2023/4/7 6:02, Chen Jiahao wrote:
-> Now "crashkernel=" parameter on riscv has been updated to support
-> crashkernel=X,[high,low]. Through which we can reserve memory region
-> above/within 32bit addressible DMA zone.
-> 
-> Here update the parameter description accordingly.
-
-Reviewed-by: Zhen Lei <thunder.leizhen@huawei.com>
-
-> 
-> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 54702bd488eb..41865aae9eaa 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -866,7 +866,7 @@
->  			memory region [offset, offset + size] for that kernel
->  			image. If '@offset' is omitted, then a suitable offset
->  			is selected automatically.
-> -			[KNL, X86-64, ARM64] Select a region under 4G first, and
-> +			[KNL, X86-64, ARM64, RISCV] Select a region under 4G first, and
->  			fall back to reserve region above 4G when '@offset'
->  			hasn't been specified.
->  			See Documentation/admin-guide/kdump/kdump.rst for further details.
-> @@ -879,14 +879,14 @@
->  			Documentation/admin-guide/kdump/kdump.rst for an example.
->  
->  	crashkernel=size[KMG],high
-> -			[KNL, X86-64, ARM64] range could be above 4G. Allow kernel
-> -			to allocate physical memory region from top, so could
-> -			be above 4G if system have more than 4G ram installed.
-> -			Otherwise memory region will be allocated below 4G, if
-> -			available.
-> +			[KNL, X86-64, ARM64, RISCV] range could be above 4G.
-> +			Allow kernel to allocate physical memory region from top,
-> +			so could be above 4G if system have more than 4G ram
-> +			installed. Otherwise memory region will be allocated
-> +			below 4G, if available.
->  			It will be ignored if crashkernel=X is specified.
->  	crashkernel=size[KMG],low
-> -			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
-> +			[KNL, X86-64, ARM64, RISCV] range under 4G. When crashkernel=X,high
->  			is passed, kernel could allocate physical memory region
->  			above 4G, that cause second kernel crash on system
->  			that require some amount of low memory, e.g. swiotlb
-> @@ -897,6 +897,7 @@
->  			size is	platform dependent.
->  			  --> x86: max(swiotlb_size_or_default() + 8MiB, 256MiB)
->  			  --> arm64: 128MiB
-> +			  --> riscv: 128MiB
->  			This one lets the user specify own low range under 4G
->  			for second kernel instead.
->  			0: to disable low allocation.
-> 
-
--- 
-Regards,
-  Zhen Lei
+In the rest of nzxt-smart2.c there are spaces only before "*", not on
+both sides (and there are a few "*const" already). Would be nice to
+keep it consistent. The same seems to be true for nzxt-kraken2.c
+(although I'm not a maintainer)
