@@ -2,77 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBF6C77B6C
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 15:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81756C77B6E
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 15:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjDHPQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Apr 2023 11:16:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47808 "EHLO
+        id S229959AbjDHP3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Apr 2023 11:29:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjDHPQs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 11:16:48 -0400
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64090EF96;
-        Sat,  8 Apr 2023 08:16:46 -0700 (PDT)
-Received: from [192.168.1.190] (ip5b426bea.dynamic.kabel-deutschland.de [91.66.107.234])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: buczek)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 6247761E4052B;
-        Sat,  8 Apr 2023 17:16:43 +0200 (CEST)
-Message-ID: <be98bee0-4ddc-194f-82be-767e0bb9f60f@molgen.mpg.de>
-Date:   Sat, 8 Apr 2023 17:16:42 +0200
+        with ESMTP id S229778AbjDHP3E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 11:29:04 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D8AC44AA;
+        Sat,  8 Apr 2023 08:29:03 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id bp17-20020a17090b0c1100b0023f187954acso994213pjb.2;
+        Sat, 08 Apr 2023 08:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680967743; x=1683559743;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L/CqlFLSqTlHbIyKxwvXGQ5ogjJykzkwTVvFA5reLrY=;
+        b=MRHkIlNVuAzdfLMyOf1KU3dKEl6JGIYPOpOLaz/HH3DtmrUctyXQ6l5ZQJqZgDVhII
+         0uMYKnIRjhgXPogcW5LMZ/J4g5sETfrVvjSbPfNusD7z7mi7xhSjgX31uqk8sKhTxbKQ
+         bzGsMMYzPZhWqqxuL4p5QStegnHRzjYalYEE21AwRlXaGNiLjGwBvf8hAi7fUdKjTr2W
+         XlnaE7GsJKO9h1P8HKm4NmjGXjtFWiAIOdOI7UzPOcJ3CIypeiC8wdx2mxm12KaxB3qm
+         OwHYIkTnDjO9VtZjmUrWxupB0IP5+qHJJXQwge+J3xlSUgQeN3H3DXKLZM79LZFqsYli
+         A/Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680967743; x=1683559743;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L/CqlFLSqTlHbIyKxwvXGQ5ogjJykzkwTVvFA5reLrY=;
+        b=LakrHfLRSEJb47B5QouSD+ub+MnsXGHDliepDjsLSTw8GZJ0uTGwce73maDGluzh7B
+         gMspR/GJ3Qz9Pki3bme8RDKQq0ROgS7Yf2S+F2T/IHEz80LkPyRq/TUgMi2NyUeMZUsv
+         Q3M7ZHJAm5OTLPWZRzrMNvIBNooghvtoOYMFuWy1CHKLC/Wpf2h4WUpu6Ctq6I6ZYx7b
+         NahUX00QGBxZVgDOCw5lqHg7Ypkdwu9dIaJDK+ItEGdBb9jfUEoJ7jQufE6eTGGynTZe
+         QAXMLrCzyQ3btNgz9l02R8WbZtSQwPZL0fSU0tDqxVtouUd2T7w5lD55s6YwEj7JlE6g
+         7zPg==
+X-Gm-Message-State: AAQBX9f2rzNDab5DUdslNJcePJRbm+VKzHU8BiyoN8v/C6bOnDSELnmZ
+        tm/6LHe4uHyQoLsYps55JSs=
+X-Google-Smtp-Source: AKy350Y+M27wSUr2e2KA/3Osm5k6tDYPZAW3F7SZ5WX9U9qR8HLOaf0b2Pwx1PQHytYXXR2m/tR1vg==
+X-Received: by 2002:a17:902:e550:b0:19c:da7f:a234 with SMTP id n16-20020a170902e55000b0019cda7fa234mr7765282plf.67.1680967742844;
+        Sat, 08 Apr 2023 08:29:02 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id ju18-20020a170903429200b00199023c688esm4688711plb.26.2023.04.08.08.29.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Apr 2023 08:29:02 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 8 Apr 2023 08:29:01 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Hal Feng <hal.feng@starfivetech.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        Samin Guo <samin.guo@starfivetech.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] dt-bindings: hwmon: Add starfive,jh71x0-temp
+Message-ID: <746ae322-f661-4713-8152-1f7b33b1a988@roeck-us.net>
+References: <20230321022644.107027-1-hal.feng@starfivetech.com>
+ <20230321022644.107027-2-hal.feng@starfivetech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
-        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
-Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
-        kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org,
-        ming.lei@redhat.com, gregkh@linuxfoundation.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-3-sergei.shtepa@veeam.com>
-Content-Language: en-US
-From:   Donald Buczek <buczek@molgen.mpg.de>
-In-Reply-To: <20230404140835.25166-3-sergei.shtepa@veeam.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230321022644.107027-2-hal.feng@starfivetech.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Sergei,
+On Tue, Mar 21, 2023 at 10:26:43AM +0800, Hal Feng wrote:
+> From: Emil Renner Berthing <kernel@esmil.dk>
+> 
+> Add bindings for the temperature sensor on the StarFive JH7100 and
+> JH7110 SoCs.
+> 
+> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-On 4/4/23 16:08, Sergei Shtepa wrote:
-> The block device filtering mechanism is an API that allows to attach
-> block device filters. Block device filters allow perform additional
-> processing for I/O units.
-> [...]
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index b7b56871029c..1848d62979a4 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -185,6 +185,11 @@ struct fsxattr {
->   #define BLKROTATIONAL _IO(0x12,126)
->   #define BLKZEROOUT _IO(0x12,127)
->   #define BLKGETDISKSEQ _IOR(0x12,128,__u64)
-> +/* 13* is defined in linux/blkzoned.h */
+Applied.
 
-nit: This is already explained in the comment below your insert.
+Thanks,
+Guenter
 
-Best
-
-  Donald
-
-> +#define BLKFILTER_ATTACH	_IOWR(0x12, 140, struct blkfilter_name)
-> +#define BLKFILTER_DETACH	_IOWR(0x12, 141, struct blkfilter_name)
-> +#define BLKFILTER_CTL		_IOWR(0x12, 142, struct blkfilter_ctl)
+> ---
+>  .../bindings/hwmon/starfive,jh71x0-temp.yaml  | 70 +++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml b/Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml
+> new file mode 100644
+> index 000000000000..f5b34528928d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml
+> @@ -0,0 +1,70 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/starfive,jh71x0-temp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->   /*
->    * A jump here: 130-136 are reserved for zoned block devices
->    * (see uapi/linux/blkzoned.h)
-
+> +title: StarFive JH71x0 Temperature Sensor
+> +
+> +maintainers:
+> +  - Emil Renner Berthing <kernel@esmil.dk>
+> +
+> +description: |
+> +  StarFive Technology Co. JH71x0 embedded temperature sensor
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - starfive,jh7100-temp
+> +      - starfive,jh7110-temp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: "sense"
+> +      - const: "bus"
+> +
+> +  '#thermal-sensor-cells':
+> +    const: 0
+> +
+> +  resets:
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  reset-names:
+> +    items:
+> +      - const: "sense"
+> +      - const: "bus"
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - reset-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/starfive-jh7100.h>
+> +    #include <dt-bindings/reset/starfive-jh7100.h>
+> +
+> +    temperature-sensor@124a0000 {
+> +        compatible = "starfive,jh7100-temp";
+> +        reg = <0x124a0000 0x10000>;
+> +        clocks = <&clkgen JH7100_CLK_TEMP_SENSE>,
+> +                 <&clkgen JH7100_CLK_TEMP_APB>;
+> +        clock-names = "sense", "bus";
+> +        #thermal-sensor-cells = <0>;
+> +        resets = <&rstgen JH7100_RSTN_TEMP_SENSE>,
+> +                 <&rstgen JH7100_RSTN_TEMP_APB>;
+> +        reset-names = "sense", "bus";
+> +    };
