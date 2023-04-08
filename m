@@ -2,137 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C4FC77B61
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 10:35:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F71EC77B6C
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 12:20:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbjDHKfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Apr 2023 06:35:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35230 "EHLO
+        id S229996AbjDHMUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Apr 2023 08:20:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbjDHKfH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 06:35:07 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D6CFF33
-        for <linux-doc@vger.kernel.org>; Sat,  8 Apr 2023 03:34:24 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id r17-20020a05683002f100b006a131458abfso20468690ote.2
-        for <linux-doc@vger.kernel.org>; Sat, 08 Apr 2023 03:34:24 -0700 (PDT)
+        with ESMTP id S229756AbjDHMUQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 08:20:16 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2926F5B9B;
+        Sat,  8 Apr 2023 05:20:15 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id h198so7325972ybg.12;
+        Sat, 08 Apr 2023 05:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=protocubo.io; s=google; t=1680950013; x=1683542013;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=atnnfYB8H/1cRTIRhOKd2CzwH9WdqCAcJhjKRDN3luY=;
-        b=f36p8T3+z/J6u/o8geXfldjzGTUKvuBwnCOq8aVhPB5Yq0scv4lu22t0IvydiWVBM7
-         CU08wz3QuGcIPb3yAdVhAgW3usOu6fLAX0B9dTUyF+DdJBVTJT8oOMZeeGHVuzEsk8U/
-         ACJmBPiPbyDgvFE4BNoYWI2q2/7yDxQ5j48C6PILBZX/SdxNHL3oqGlqu/dDTMUrJmJs
-         0bwnWui1/dIDcDI/PfO4ScpNdmG7VY3T6R/tIZlS7SRCQlputLk0u0J6wwKpSjlPmnKv
-         U/RapLU0djwI0HQLlzVT8qQP9mV23Tbd/Y8AXD8hueIbuxcQessr9EfpsfZaTW/UQGCf
-         bfxQ==
+        d=gmail.com; s=20210112; t=1680956414; x=1683548414;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qhbv7Y5Jgs9ftPKleaknEhF4CyhB+GwqEo6U+Rr9mIc=;
+        b=kewdyz87bq2iHid5EObeNKszKFtBaD+7IqwhaAlfkh4BXU43XHG0n2XFhE+8I64XoZ
+         5vf/WXHewQ2r1JosqkV7cmmaF7Xo3YvF0R2w4N6H6HLcWl1GoA2FLD4ofgwx0JxaTTrq
+         CSipUN6RQEUZwSJzL3lwv1Zny4ZWY4oDtBZPqBNHgqwrrBaVhKwRgM/zpeASYlW2SZhI
+         71EqJEbs7Yhe+LjUaohEKTrE1vaWHdE4ojLs8Vewlr/uKsjzGq2f9FzNuRbS0G7zV1WF
+         3SXZPxBoJCq5Ci9ZklpxYDXRQs/JwtNjqxDNdLTG9w7dTOcoV2GFEBeH5krYm5I5IZ02
+         8ApA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680950013; x=1683542013;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=atnnfYB8H/1cRTIRhOKd2CzwH9WdqCAcJhjKRDN3luY=;
-        b=HoPGw+jdOitFyuXHWtMJbxIixVIbef7d6Rf9scBs+SwkwwN4N1dfLcD6v2pQ5WJzUc
-         OchET/L3pByq1knXwr3lkGfKFdL09ll00nB5Q8hd7WGoqcUV0EZ5FPl/MiAKf/OIau8b
-         S8XXIeS0n8mOEyKd41wRJIGjSfsuNlmMDHXPGx+7xpoZdfkfBmPo48bG4zWQ7Usa5SWS
-         tEjLca4ZmcQcbjMd9FLWH7Uuvweryim+gJMLYumS+p4o5AwMJ9GBWgyNoHfVOLWSHXG/
-         SWePMvt4fYlRcA7tCd/8m94X3Zb+1tGMF6/Wt1DPRa3EMd1oWkQL91+n7irsc9rf3nqV
-         eO4g==
-X-Gm-Message-State: AAQBX9cpDxg9mY2JZhYCi+R+FY8HhvPO044rscoAQoTKzwXlHzzYysVL
-        lhUR64Cwpo9IM2p8Pn6HJYbj5Q==
-X-Google-Smtp-Source: AKy350absmUQ6HrjCN8ybKL7JT651jVYn5RTh9izjX/ysr91076zOIBiNMnDzdw113Fn8tlB/GuQ7Q==
-X-Received: by 2002:a05:6830:101:b0:6a1:7f69:ffbf with SMTP id i1-20020a056830010100b006a17f69ffbfmr2146604otp.36.1680950013453;
-        Sat, 08 Apr 2023 03:33:33 -0700 (PDT)
-Received: from calvin.localdomain ([2804:14d:5c5e:5d5b::1000])
-        by smtp.gmail.com with ESMTPSA id m14-20020a9d6ace000000b0068bcf7995aesm2442533otq.64.2023.04.08.03.33.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Apr 2023 03:33:32 -0700 (PDT)
-Date:   Sat, 8 Apr 2023 07:33:20 -0300
-From:   Jonas Malaco <jonas@protocubo.io>
-To:     Aleksandr Mezin <mezin.alexander@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Aleksa Savic <savicaleksa83@gmail.com>,
-        Jack Doan <me@jackdoan.com>,
-        Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-        Marius Zachmann <mail@mariuszachmann.de>,
-        Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-        Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-        Jean-Marie Verdun <verdun@hpe.com>,
-        Nick Hawkins <nick.hawkins@hpe.com>,
-        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-        Clemens Ladisch <clemens@ladisch.de>,
-        Rudolf Marek <r.marek@assembler.cz>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Derek John Clark <derekjohn.clark@gmail.com>,
-        =?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= 
-        <samsagax@gmail.com>, Iwona Winiarska <iwona.winiarska@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Michael Walle <michael@walle.cc>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Agathe Porte <agathe.porte@nokia.com>,
-        Eric Tremblay <etremblay@distech-controls.com>,
-        Robert Marko <robert.marko@sartura.hr>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        patches@opensource.cirrus.com, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 48/68] hwmon: nzxt: constify pointers to
- hwmon_channel_info
-Message-ID: <jkptl4g7jwhz3mij5wffbw2qlwvxsmnwpqhyalq2ayd76pde2h@jfdw7jisg4at>
-References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
- <20230406203530.3012191-7-krzysztof.kozlowski@linaro.org>
- <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
+        d=1e100.net; s=20210112; t=1680956414; x=1683548414;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qhbv7Y5Jgs9ftPKleaknEhF4CyhB+GwqEo6U+Rr9mIc=;
+        b=pumuHHWSGmqMJKFRATlfHF/uMsquMuoGpGwUW0vTbwRJAWkBY/QIienUhMI9SPpRDh
+         74sBcE+MsGXV7Bncwdfia8gsUQ7PTzG9fzXG55ZxwYVFQUFdd1EepmihLu3yjpFBO9ts
+         J/au2EmGKo3lc5RB5mQFWtFdyOJJHbiMDV0zfPupkEqs6iE5FEISmhTOLvy6n30bTuq2
+         QsqI4FNOQ/IGt0YxCuHHfsi8o7kFvTg41FeoFVbjADeaIi0UdT+xOJB0j6O8m1L+Kifb
+         HKFPVkZ6FuagEKDNAgYJ1qg2rB12xt141O17lNpvFk34rg7rGXlQdZKMfUWrBbE8RMPz
+         VuOg==
+X-Gm-Message-State: AAQBX9e2Hw99HCQMPZb9YYPN00EfRbTaBATVkl/uk/TfPg7NqGFibxHe
+        TbF3bdbJShH3IkYxEGtccWDFThNPuJTAW6hdhJI=
+X-Google-Smtp-Source: AKy350byafsIIuMRDAbzbtG99qHBwJjc6HbvgeYdBJg3DC7Y1cC2snm+nm7ja1eD+czjeKKSwOkkAYx2grZ+GMjtYY4=
+X-Received: by 2002:a25:be11:0:b0:b7d:4c96:de0 with SMTP id
+ h17-20020a25be11000000b00b7d4c960de0mr993477ybk.5.1680956414354; Sat, 08 Apr
+ 2023 05:20:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnvcfKwHJ=dOFH1+DsDfn6Y5k6xdzA7QR1uVDv1afwCsiso3w@mail.gmail.com>
+References: <20230406215917.1475704-1-robdclark@gmail.com> <20230406215917.1475704-2-robdclark@gmail.com>
+In-Reply-To: <20230406215917.1475704-2-robdclark@gmail.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Sat, 8 Apr 2023 13:20:03 +0100
+Message-ID: <CACvgo50nOw-82pc2mEbydWH3=RDXuOKwnBnjmOhV-UYcbjRKQA@mail.gmail.com>
+Subject: Re: [RFC 1/2] drm: Add fdinfo memory stats
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-msm@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Christopher Healy <healych@amazon.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 08, 2023 at 06:14:19AM +0300, Aleksandr Mezin wrote:
-> On Thu, Apr 6, 2023 at 11:37 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
-> > -static const struct hwmon_channel_info *nzxt_smart2_channel_info[] = {
-> > +static const struct hwmon_channel_info * const nzxt_smart2_channel_info[] = {
-> 
-> In the rest of nzxt-smart2.c there are spaces only before "*", not on
-> both sides (and there are a few "*const" already). Would be nice to
-> keep it consistent. The same seems to be true for nzxt-kraken2.c
-> (although I'm not a maintainer)
+Hey Rob,
 
-While I don't have a strong preference for either `* const` or `*const`,
-it would be prefereable to use a single style in any given file.
+On Thu, 6 Apr 2023 at 22:59, Rob Clark <robdclark@gmail.com> wrote:
 
-As the kernel seems to favor the former style:
+> +- drm-purgeable-memory: <uint> [KiB|MiB]
+> +
+> +The total size of buffers that are purgable.
 
-$ rg -F '*const ' | wc -l
-2593
-$ rg -F '* const ' | wc -l
-15359
+s/purgable/purgeable/
 
-it would be better to change the other two locations in nzxt-kraken2.c
-to also use `* const`.
+
+> +static void print_size(struct drm_printer *p, const char *stat, size_t sz)
+> +{
+> +       const char *units[] = {"B", "KiB", "MiB", "GiB"};
+
+The documentation says:
+
+> Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+> indicating kibi- or mebi-bytes.
+
+So I would drop the B and/or update the documentation to mention B && GiB.
+
+> +       unsigned u;
+> +
+> +       for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
+> +               if (sz < SZ_1K)
+> +                       break;
+> +               sz /= SZ_1K;
+
+IIRC size_t can be 64bit, so we should probably use do_div() here.
+
+> +       }
+> +
+> +       drm_printf(p, "%s:\t%lu %s\n", stat, sz, units[u]);
+> +}
+> +
+> +/**
+> + * drm_print_memory_stats - Helper to print standard fdinfo memory stats
+> + * @file: the DRM file
+> + * @p: the printer to print output to
+> + * @status: callback to get driver tracked object status
+> + *
+> + * Helper to iterate over GEM objects with a handle allocated in the specified
+> + * file.  The optional status callback can return additional object state which
+
+s/return additional/return an additional/
+
+> + * determines which stats the object is counted against.  The callback is called
+> + * under table_lock.  Racing against object status change is "harmless", and the
+> + * callback can expect to not race against object destroy.
+
+s/destroy/destruction/
+
+> + */
+> +void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
+> +                           enum drm_gem_object_status (*status)(struct drm_gem_object *))
+> +{
+
+> +               if (s & DRM_GEM_OBJECT_RESIDENT) {
+> +                       size.resident += obj->size;
+> +                       s &= ~DRM_GEM_OBJECT_PURGEABLE;
+
+Is MSM capable of marking the object as both purgeable and resident or
+is this to catch other drivers? Should we add a note to the
+documentation above - resident memory cannot be purgeable
+
+> +               }
+> +
+> +               if (s & DRM_GEM_OBJECT_ACTIVE) {
+> +                       size.active += obj->size;
+> +                       s &= ~DRM_GEM_OBJECT_PURGEABLE;
+
+Ditto.
+
+With the above nits, the patch is:
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+
+HTH
+Emil
