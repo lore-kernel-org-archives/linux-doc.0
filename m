@@ -2,285 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F8CC7619A
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 15:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C88C7619A
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 17:33:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbjDHPaZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Apr 2023 11:30:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56352 "EHLO
+        id S229820AbjDHRdd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Apr 2023 13:33:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbjDHPaY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 11:30:24 -0400
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECE31707;
-        Sat,  8 Apr 2023 08:30:21 -0700 (PDT)
-Received: from [192.168.1.190] (ip5b426bea.dynamic.kabel-deutschland.de [91.66.107.234])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        (Authenticated sender: buczek)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 14E8E60027FE8;
-        Sat,  8 Apr 2023 17:30:20 +0200 (CEST)
-Message-ID: <793db44e-9e6d-d118-3f88-cdbffc9ad018@molgen.mpg.de>
-Date:   Sat, 8 Apr 2023 17:30:19 +0200
+        with ESMTP id S229807AbjDHRdd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 13:33:33 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD96EB756
+        for <linux-doc@vger.kernel.org>; Sat,  8 Apr 2023 10:33:30 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9476e2fa157so228019666b.3
+        for <linux-doc@vger.kernel.org>; Sat, 08 Apr 2023 10:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dectris.com; s=google; t=1680975209;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RWnk3r/ZKxNzmFwcfRG9jBXukIQvdhKh3XXK8OCGzWM=;
+        b=hxNr1hoZmnIwnoHDVcv2GhaPllcDjvLoN2jZN8CM1AHISKYHraI4fV2JwMFp4ynCkn
+         xaN5OlVRG1OxJF8YhhLjWK72UFhQ4xF9KAOtxG2eTTTUnY5ZFWLUt1D+01uZOa++Rb8J
+         PNd8doDgVbKoUmFfFD9gE0gQM8aBb/wHYeqKw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680975209;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RWnk3r/ZKxNzmFwcfRG9jBXukIQvdhKh3XXK8OCGzWM=;
+        b=M3p8wBQ/qID5DPeOkjQyQ1SCg9goktwrXni8KOMB5MogNRiD91iDC5DSd5ghMqCk06
+         1Lbm1eaUiRJN0wo+OiZno3wmFhpiEYj318VOkR/DqF+Wtjtq88xF0JAJeTao7nMm2l7Q
+         X0fho9GX4Gy53E1Wf000vgcfNNCs/E0Rkio97L/h6ul9pLS5sLnQ/XwCuqQeTekaFDnh
+         JWngJiMOBwpDmsXn30ici9mefiVC7zwAOpfwPm3mCtPZBZqMMhGkI4PYci9wCaZ6AMnd
+         M56uMHeWLn9LvUgl3XqDyH03K+aEf7eu1C7mM4p8Pm7XmhlzyjsYW+PpxGEbKOT2bNL7
+         1GHQ==
+X-Gm-Message-State: AAQBX9e9mJesAjlOQFliGpQlvf6Tr2OXwQzxxyqEdlmeK+T+l6iffOa2
+        pzCLZEjAwNNSbL//YBqhMYqoxxDL+SsnRqv+xXAovA==
+X-Google-Smtp-Source: AKy350atVtpuKNWtfg0ZdhZlaFfElzRQx9WPR6dWwTp9mdeMFEkeyxQpxNMihhgd8gBTYuzKpf+5tRgA65ek5/plImk=
+X-Received: by 2002:a50:ba8d:0:b0:4fb:e0e8:5140 with SMTP id
+ x13-20020a50ba8d000000b004fbe0e85140mr3140178ede.6.1680975209172; Sat, 08 Apr
+ 2023 10:33:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
-Content-Language: en-US
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
-        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
-Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
-        kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org,
-        ming.lei@redhat.com, gregkh@linuxfoundation.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-3-sergei.shtepa@veeam.com>
-From:   Donald Buczek <buczek@molgen.mpg.de>
-In-Reply-To: <20230404140835.25166-3-sergei.shtepa@veeam.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230406130205.49996-1-kal.conley@dectris.com>
+ <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk> <ZDBEng1KEEG5lOA6@boxer>
+In-Reply-To: <ZDBEng1KEEG5lOA6@boxer>
+From:   Kal Cutter Conley <kal.conley@dectris.com>
+Date:   Sat, 8 Apr 2023 19:38:09 +0200
+Message-ID: <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear Sergei,
+> > > Add core AF_XDP support for chunk sizes larger than PAGE_SIZE. This
+> > > enables sending/receiving jumbo ethernet frames up to the theoretical
+> > > maxiumum of 64 KiB. For chunk sizes > PAGE_SIZE, the UMEM is required
+> > > to consist of HugeTLB VMAs (and be hugepage aligned). Initially, only
+> > > SKB mode is usable pending future driver work.
+> >
+> > Hmm, interesting. So how does this interact with XDP multibuf?
+>
+> To me it currently does not interact with mbuf in any way as it is enabled
+> only for skb mode which linearizes the skb from what i see.
+>
+> I'd like to hear more about Kal's use case - Kal do you use AF_XDP in SKB
+> mode on your side?
 
-On 4/4/23 16:08, Sergei Shtepa wrote:
-> The block device filtering mechanism is an API that allows to attach
-> block device filters. Block device filters allow perform additional
-> processing for I/O units.
-> 
-> The idea of handling I/O units on block devices is not new. Back in the
-> 2.6 kernel, there was an undocumented possibility of handling I/O units
-> by substituting the make_request_fn() function, which belonged to the
-> request_queue structure. But none of the in-tree kernel modules used
-> this feature, and it was eliminated in the 5.10 kernel.
-> 
-> The block device filtering mechanism returns the ability to handle I/O
-> units. It is possible to safely attach filter to a block device "on the
-> fly" without changing the structure of block devices stack.
-> 
-> Co-developed-by: Christoph Hellwig <hch@infradead.org>
-> Signed-off-by: Christoph Hellwig <hch@infradead.org>
-> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
-> ---
->   MAINTAINERS                     |   3 +
->   block/Makefile                  |   2 +-
->   block/bdev.c                    |   1 +
->   block/blk-core.c                |  40 ++++++-
->   block/blk-filter.c              | 199 ++++++++++++++++++++++++++++++++
->   block/blk.h                     |  10 ++
->   block/genhd.c                   |   2 +
->   block/ioctl.c                   |   7 ++
->   block/partitions/core.c         |   2 +
->   include/linux/blk-filter.h      |  51 ++++++++
->   include/linux/blk_types.h       |   2 +
->   include/linux/blkdev.h          |   1 +
->   include/uapi/linux/blk-filter.h |  35 ++++++
->   include/uapi/linux/fs.h         |   5 +
->   14 files changed, 357 insertions(+), 3 deletions(-)
->   create mode 100644 block/blk-filter.c
->   create mode 100644 include/linux/blk-filter.h
->   create mode 100644 include/uapi/linux/blk-filter.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2cbe4331ac97..fb6b7abe83e1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3576,6 +3576,9 @@ M:	Sergei Shtepa <sergei.shtepa@veeam.com>
->   L:	linux-block@vger.kernel.org
->   S:	Supported
->   F:	Documentation/block/blkfilter.rst
-> +F:	block/blk-filter.c
-> +F:	include/linux/blk-filter.h
-> +F:	include/uapi/linux/blk-filter.h
->   
->   BLOCK LAYER
->   M:	Jens Axboe <axboe@kernel.dk>
-> diff --git a/block/Makefile b/block/Makefile
-> index 4e01bb71ad6e..d4671c7e499c 100644
-> --- a/block/Makefile
-> +++ b/block/Makefile
-> @@ -9,7 +9,7 @@ obj-y		:= bdev.o fops.o bio.o elevator.o blk-core.o blk-sysfs.o \
->   			blk-lib.o blk-mq.o blk-mq-tag.o blk-stat.o \
->   			blk-mq-sysfs.o blk-mq-cpumap.o blk-mq-sched.o ioctl.o \
->   			genhd.o ioprio.o badblocks.o partitions/ blk-rq-qos.o \
-> -			disk-events.o blk-ia-ranges.o
-> +			disk-events.o blk-ia-ranges.o blk-filter.o
->   
->   obj-$(CONFIG_BOUNCE)		+= bounce.o
->   obj-$(CONFIG_BLK_DEV_BSG_COMMON) += bsg.o
-> diff --git a/block/bdev.c b/block/bdev.c
-> index 1795c7d4b99e..e290020810dd 100644
-> --- a/block/bdev.c
-> +++ b/block/bdev.c
-> @@ -424,6 +424,7 @@ struct block_device *bdev_alloc(struct gendisk *disk, u8 partno)
->   		return NULL;
->   	}
->   	bdev->bd_disk = disk;
-> +	bdev->bd_filter = NULL;
->   	return bdev;
->   }
->   
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 42926e6cb83c..179a1c9ecc90 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -18,6 +18,7 @@
->   #include <linux/blkdev.h>
->   #include <linux/blk-pm.h>
->   #include <linux/blk-integrity.h>
-> +#include <linux/blk-filter.h>
->   #include <linux/highmem.h>
->   #include <linux/mm.h>
->   #include <linux/pagemap.h>
-> @@ -591,10 +592,32 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
->   	return BLK_STS_OK;
->   }
->   
-> +static bool submit_bio_filter(struct bio *bio)
-> +{
-> +	/*
-> +	 * If this bio came from the filter driver, send it straight down to the
-> +	 * actual device and clear the filtered flag, as the bio could be passed
-> +	 * on to another device that might have a filter attached again.
-> +	 */
-> +	if (bio_flagged(bio, BIO_FILTERED)) {
-> +		bio_clear_flag(bio, BIO_FILTERED);
-> +		return false;
-> +	}
-> +	bio_set_flag(bio, BIO_FILTERED);
-> +	return bio->bi_bdev->bd_filter->ops->submit_bio(bio);
-> +}
-> +
->   static void __submit_bio(struct bio *bio)
->   {
->   	struct gendisk *disk = bio->bi_bdev->bd_disk;
->   
-> +	/*
-> +	 * If there is a filter driver attached, check if the BIO needs to go to
-> +	 * the filter driver first, which can then pass on the bio or consume it.
-> +	 */
-> +	if (bio->bi_bdev->bd_filter && submit_bio_filter(bio))
-> +		return;
-> +
->   	if (unlikely(!blk_crypto_bio_prep(&bio)))
->   		return;
->   
-> @@ -682,6 +705,15 @@ static void __submit_bio_noacct_mq(struct bio *bio)
->   	current->bio_list = NULL;
->   }
->   
-> +/**
-> + * submit_bio_noacct_nocheck - re-submit a bio to the block device layer for I/O
-> + *	from block device filter.
-> + * @bio:  The bio describing the location in memory and on the device.
-> + *
-> + * This is a version of submit_bio() that shall only be used for I/O that is
-> + * resubmitted to lower level by block device filters.  All file  systems and
-> + * other upper level users of the block layer should use submit_bio() instead.
-> + */
->   void submit_bio_noacct_nocheck(struct bio *bio)
->   {
->   	blk_cgroup_bio_start(bio);
-> @@ -702,13 +734,17 @@ void submit_bio_noacct_nocheck(struct bio *bio)
->   	 * to collect a list of requests submited by a ->submit_bio method while
->   	 * it is active, and then process them after it returned.
->   	 */
-> -	if (current->bio_list)
-> +	if (current->bio_list) {
->   		bio_list_add(&current->bio_list[0], bio);
-> -	else if (!bio->bi_bdev->bd_disk->fops->submit_bio)
-> +		return;
-> +	}
-> +
-> +	if (!bio->bi_bdev->bd_disk->fops->submit_bio)
->   		__submit_bio_noacct_mq(bio);
->   	else
->   		__submit_bio_noacct(bio);
->   }
-> +EXPORT_SYMBOL_GPL(submit_bio_noacct_nocheck);
->   
->   /**
->    * submit_bio_noacct - re-submit a bio to the block device layer for I/O
-> diff --git a/block/blk-filter.c b/block/blk-filter.c
-> new file mode 100644
-> index 000000000000..5e9d884fad4d
-> --- /dev/null
-> +++ b/block/blk-filter.c
-> @@ -0,0 +1,199 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (C) 2023 Veeam Software Group GmbH */
-> +#include <linux/blk-filter.h>
-> +#include <linux/blk-mq.h>
-> +#include <linux/module.h>
-> +
-> +#include "blk.h"
-> +
-> +static LIST_HEAD(blkfilters);
-> +static DEFINE_SPINLOCK(blkfilters_lock);
-> +
-> +static inline struct blkfilter_operations *__blkfilter_find(const char *name)
-> +{
-> +	struct blkfilter_operations *ops;
-> +
-> +	list_for_each_entry(ops, &blkfilters, link)
-> +		if (strncmp(ops->name, name, BLKFILTER_NAME_LENGTH) == 0)
-> +			return ops;
-> +
-> +	return NULL;
-> +}
-> +
-> +static inline struct blkfilter_operations *blkfilter_find_get(const char *name)
-> +{
-> +	struct blkfilter_operations *ops;
-> +
-> +	spin_lock(&blkfilters_lock);
-> +	ops = __blkfilter_find(name);
-> +	if (ops && !try_module_get(ops->owner))
-> +		ops = NULL;
-> +	spin_unlock(&blkfilters_lock);
-> +
-> +	return ops;
-> +}
-> +
-> +int blkfilter_ioctl_attach(struct block_device *bdev,
-> +		    struct blkfilter_name __user *argp)
-> +{
-> +	struct blkfilter_name name;
-> +	struct blkfilter_operations *ops;
-> +	struct blkfilter *flt;
-> +	int ret;
-> +
-> +	if (copy_from_user(&name, argp, sizeof(name)))
-> +		return -EFAULT;
-> +
-> +	ops = blkfilter_find_get(name.name);
-> +	if (!ops)
-> +		return -ENOENT;
-> +
-> +	ret = freeze_bdev(bdev);
-> +	if (ret)
-> +		goto out_put_module;
-> +	blk_mq_freeze_queue(bdev->bd_queue);
-> +
-> +	if (bdev->bd_filter) {
-> +		if (bdev->bd_filter->ops == ops)
-> +			ret = -EALREADY;
-> +		else
-> +			ret = -EBUSY;
-> +		goto out_unfreeze;
-> +	}
+Our use-case is to receive jumbo Ethernet frames up to 9000 bytes with
+AF_XDP in zero-copy mode. This patchset is a step in this direction.
+At the very least, it lets you test out the feature in SKB mode
+pending future driver support. Currently, XDP multi-buffer does not
+support AF_XDP at all. It could support it in theory, but I think it
+would need some UAPI design work and a bit of implementation work.
 
-Maybe detach the old filter and attach the new one instead? An atomic replace might be usefull and it wouldn't complicate the code to do that instead. If its the same filter, maybe just return success and don't go through ops->detach and ops->attach?
+Also, I think that the approach taken in this patchset has some
+advantages over XDP multi-buffer:
+    (1) It should be possible to achieve higher performance
+        (a) because the packet data is kept together
+        (b) because you need to acquire and validate less descriptors
+and touch the queue pointers less often.
+    (2) It is a nicer user-space API.
+        (a) Since the packet data is all available in one linear
+buffer. This may even be a requirement to avoid an extra copy if the
+data must be handed off contiguously to other code.
 
-D.
+The disadvantage of this patchset is requiring the user to allocate
+HugeTLB pages which is an extra complication.
 
-> [...]
+I am not sure if this patchset would need to interact with XDP
+multi-buffer at all directly. Does anyone have anything to add here?
 
--- 
-Donald Buczek
-buczek@molgen.mpg.de
-Tel: +49 30 8413 1433
+What other intermediate steps are needed to get to ZC? I think drivers
+would already be able to support this now?
+
+Kal
