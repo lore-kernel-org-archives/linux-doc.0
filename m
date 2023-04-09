@@ -2,114 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C88C7619A
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Apr 2023 17:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0896DC77B71
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Apr 2023 08:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbjDHRdd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Apr 2023 13:33:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36466 "EHLO
+        id S229531AbjDIIVf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Apr 2023 04:21:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229807AbjDHRdd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Apr 2023 13:33:33 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD96EB756
-        for <linux-doc@vger.kernel.org>; Sat,  8 Apr 2023 10:33:30 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9476e2fa157so228019666b.3
-        for <linux-doc@vger.kernel.org>; Sat, 08 Apr 2023 10:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dectris.com; s=google; t=1680975209;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RWnk3r/ZKxNzmFwcfRG9jBXukIQvdhKh3XXK8OCGzWM=;
-        b=hxNr1hoZmnIwnoHDVcv2GhaPllcDjvLoN2jZN8CM1AHISKYHraI4fV2JwMFp4ynCkn
-         xaN5OlVRG1OxJF8YhhLjWK72UFhQ4xF9KAOtxG2eTTTUnY5ZFWLUt1D+01uZOa++Rb8J
-         PNd8doDgVbKoUmFfFD9gE0gQM8aBb/wHYeqKw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680975209;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RWnk3r/ZKxNzmFwcfRG9jBXukIQvdhKh3XXK8OCGzWM=;
-        b=M3p8wBQ/qID5DPeOkjQyQ1SCg9goktwrXni8KOMB5MogNRiD91iDC5DSd5ghMqCk06
-         1Lbm1eaUiRJN0wo+OiZno3wmFhpiEYj318VOkR/DqF+Wtjtq88xF0JAJeTao7nMm2l7Q
-         X0fho9GX4Gy53E1Wf000vgcfNNCs/E0Rkio97L/h6ul9pLS5sLnQ/XwCuqQeTekaFDnh
-         JWngJiMOBwpDmsXn30ici9mefiVC7zwAOpfwPm3mCtPZBZqMMhGkI4PYci9wCaZ6AMnd
-         M56uMHeWLn9LvUgl3XqDyH03K+aEf7eu1C7mM4p8Pm7XmhlzyjsYW+PpxGEbKOT2bNL7
-         1GHQ==
-X-Gm-Message-State: AAQBX9e9mJesAjlOQFliGpQlvf6Tr2OXwQzxxyqEdlmeK+T+l6iffOa2
-        pzCLZEjAwNNSbL//YBqhMYqoxxDL+SsnRqv+xXAovA==
-X-Google-Smtp-Source: AKy350atVtpuKNWtfg0ZdhZlaFfElzRQx9WPR6dWwTp9mdeMFEkeyxQpxNMihhgd8gBTYuzKpf+5tRgA65ek5/plImk=
-X-Received: by 2002:a50:ba8d:0:b0:4fb:e0e8:5140 with SMTP id
- x13-20020a50ba8d000000b004fbe0e85140mr3140178ede.6.1680975209172; Sat, 08 Apr
- 2023 10:33:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230406130205.49996-1-kal.conley@dectris.com>
- <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk> <ZDBEng1KEEG5lOA6@boxer>
-In-Reply-To: <ZDBEng1KEEG5lOA6@boxer>
-From:   Kal Cutter Conley <kal.conley@dectris.com>
-Date:   Sat, 8 Apr 2023 19:38:09 +0200
-Message-ID: <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
-To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Cc:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        with ESMTP id S229527AbjDIIVe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Apr 2023 04:21:34 -0400
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B17D45B80
+        for <linux-doc@vger.kernel.org>; Sun,  9 Apr 2023 01:21:32 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id C95712401B9
+        for <linux-doc@vger.kernel.org>; Sun,  9 Apr 2023 10:21:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1681028489; bh=GCmo/FQZEbl3ShLJvIwU3fxDcrVQZl3kl6EFP8KaIFc=;
+        h=Date:From:To:Cc:Subject:From;
+        b=Caf1SSvgMuXeYpAY5NXoJcSW/DiduWlRF7Bm5M8X3AE3VK+hU3Ib3EZYWatrGRd9d
+         hU0/cOD7ET8SMU2+DLk17dFFzv1hrUfgy0Bax1G+hqhb9tCYqW0Pbpj/3ALnAZEtBq
+         B1V0jf2KyKj1suPHOS1nmHTyGFys4XOZB6L6oAqouycgkMElq1TeRmuFRiVd/sWHsP
+         x0JVTTDepAAX2XyI0JMlZ6fsVIFC1hh0O2lw9e/P6nV9KUNC3NpEBZ85PtaXqPU1nr
+         rx+KvREciQJ3SSOD5AoBMnPsDx4f1p1ajoU5JpiE1wRXhTtiT87pqoAJrNpnl0DsQU
+         sqQQk9gm7S7rw==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4PvQ6k2vpXz6tvw;
+        Sun,  9 Apr 2023 10:21:18 +0200 (CEST)
+Date:   Sun,  9 Apr 2023 08:21:17 +0000
+From:   Wilken Gottwalt <wilken.gottwalt@posteo.net>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Oded Gabbay <ogabbay@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Aleksa Savic <savicaleksa83@gmail.com>,
+        Jack Doan <me@jackdoan.com>,
+        Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        Marius Zachmann <mail@mariuszachmann.de>,
+        Pali =?ISO-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Jean-Marie Verdun <verdun@hpe.com>,
+        Nick Hawkins <nick.hawkins@hpe.com>,
+        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Rudolf Marek <r.marek@assembler.cz>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Jonas Malaco <jonas@protocubo.io>,
+        Aleksandr Mezin <mezin.alexander@gmail.com>,
+        Derek John Clark <derekjohn.clark@gmail.com>,
+        =?ISO-8859-1?Q?Joaqu=EDn?= Ignacio =?ISO-8859-1?Q?Aramend=EDa?= 
+        <samsagax@gmail.com>, Iwona Winiarska <iwona.winiarska@intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Michael Walle <michael@walle.cc>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Agathe Porte <agathe.porte@nokia.com>,
+        Eric Tremblay <etremblay@distech-controls.com>,
+        Robert Marko <robert.marko@sartura.hr>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        patches@opensource.cirrus.com, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 12/68] hwmon: corsair: constify pointers to
+ hwmon_channel_info
+Message-ID: <20230409102117.6fcdc42f@posteo.net>
+In-Reply-To: <20230406203103.3011503-13-krzysztof.kozlowski@linaro.org>
+References: <20230406203103.3011503-1-krzysztof.kozlowski@linaro.org>
+        <20230406203103.3011503-13-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > > Add core AF_XDP support for chunk sizes larger than PAGE_SIZE. This
-> > > enables sending/receiving jumbo ethernet frames up to the theoretical
-> > > maxiumum of 64 KiB. For chunk sizes > PAGE_SIZE, the UMEM is required
-> > > to consist of HugeTLB VMAs (and be hugepage aligned). Initially, only
-> > > SKB mode is usable pending future driver work.
-> >
-> > Hmm, interesting. So how does this interact with XDP multibuf?
->
-> To me it currently does not interact with mbuf in any way as it is enabled
-> only for skb mode which linearizes the skb from what i see.
->
-> I'd like to hear more about Kal's use case - Kal do you use AF_XDP in SKB
-> mode on your side?
+On Thu,  6 Apr 2023 22:30:07 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Our use-case is to receive jumbo Ethernet frames up to 9000 bytes with
-AF_XDP in zero-copy mode. This patchset is a step in this direction.
-At the very least, it lets you test out the feature in SKB mode
-pending future driver support. Currently, XDP multi-buffer does not
-support AF_XDP at all. It could support it in theory, but I think it
-would need some UAPI design work and a bit of implementation work.
+> diff --git a/drivers/hwmon/corsair-psu.c b/drivers/hwmon/corsair-psu.c
+> index 2210aa62e3d0..dc24c566d08b 100644
+> --- a/drivers/hwmon/corsair-psu.c
+> +++ b/drivers/hwmon/corsair-psu.c
+> @@ -571,7 +571,7 @@ static const struct hwmon_ops corsairpsu_hwmon_ops = {
+>  	.read_string	= corsairpsu_hwmon_ops_read_string,
+>  };
+>  
+> -static const struct hwmon_channel_info *corsairpsu_info[] = {
+> +static const struct hwmon_channel_info * const corsairpsu_info[] = {
+>  	HWMON_CHANNEL_INFO(chip,
+>  			   HWMON_C_REGISTER_TZ),
+>  	HWMON_CHANNEL_INFO(temp,
 
-Also, I think that the approach taken in this patchset has some
-advantages over XDP multi-buffer:
-    (1) It should be possible to achieve higher performance
-        (a) because the packet data is kept together
-        (b) because you need to acquire and validate less descriptors
-and touch the queue pointers less often.
-    (2) It is a nicer user-space API.
-        (a) Since the packet data is all available in one linear
-buffer. This may even be a requirement to avoid an extra copy if the
-data must be handed off contiguously to other code.
+Wait a minute. Can you at least match it to the coding style of the driver?
+A lot of work went into it to keep it consistent.
 
-The disadvantage of this patchset is requiring the user to allocate
-HugeTLB pages which is an extra complication.
-
-I am not sure if this patchset would need to interact with XDP
-multi-buffer at all directly. Does anyone have anything to add here?
-
-What other intermediate steps are needed to get to ZC? I think drivers
-would already be able to support this now?
-
-Kal
+greetings,
+Will
