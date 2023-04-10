@@ -2,80 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F10C77B6E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 02:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3349C77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 05:01:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbjDJC2G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Apr 2023 22:28:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
+        id S229574AbjDJFBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 01:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbjDJC2F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Apr 2023 22:28:05 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED8C8269A
-        for <linux-doc@vger.kernel.org>; Sun,  9 Apr 2023 19:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681093684; x=1712629684;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EjOmyNjwv7deSwbM+hWUaXmedxB8gZSoYSkOsjZnLDU=;
-  b=UDw7ofb3ypzivW9V6+MKEHBaeZYb2IYsJGf4Ob4P/fURdlk7OzhGmN5R
-   peku7Dat3d0/VU/zVAEzGw+4X0IddE+mY5pir0xXoFEfNlx7XCCn6TIcZ
-   I0kgyKFSJcW78i74MrwzSGAU0aKA0enPN4xxtVkhqRXCq84H6+GHHADxx
-   rVrLzUzep5ZA3zoCpRRq+nxGqm119uDV8fMUK00z0wEJeh/yoquen2h7+
-   QKWuAoaalaUHhkbOXqHhIrIX0RMI1Uz3lxMjIXC5rfzxm0/rFdTidUuUt
-   MjqN6c7LBs1GLbr8XQcqFLqI69MF6hrebqtLA9JQMOnh1Qu8u3hnXzEX0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="322907006"
-X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
-   d="scan'208";a="322907006"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2023 19:28:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="757323331"
-X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
-   d="scan'208";a="757323331"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Apr 2023 19:28:03 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1plhGF-000Uwt-0O;
-        Mon, 10 Apr 2023 02:28:03 +0000
-Date:   Mon, 10 Apr 2023 10:27:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hector Martin <marcan@marcan.st>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [asahilinux:bits/005-maintainers 2/3] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/spi/apple,spi.yaml
-Message-ID: <202304101025.Vpjnwodr-lkp@intel.com>
+        with ESMTP id S229485AbjDJFBL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 01:01:11 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E2F93C14;
+        Sun,  9 Apr 2023 22:01:09 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-2467761d1f4so163374a91.2;
+        Sun, 09 Apr 2023 22:01:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681102869;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zsSfEZyj+6Q8d8N54pdQLmL7plXalSHeWulTtzchzEU=;
+        b=UNggAa+REmV/mVKgHZrHAhMKAXCg62u4RtbQyigD2xDLlxxzc+mLUZaZ2LSOhO18wH
+         ZCb2LWqCgMZF6YIC5uh6ycS5HclDDolef1sLQ67RkOfHhT/xy8LENTizW9auqEWDClzV
+         M95euQYdqsKZcvtHSQcLO/3s3izKkHsRNCbBoDYoVOpp7rCGy86gXgRHGnlXy6st/aY4
+         pqON9DeYoSqYdQZ0WuRRtgyqxh+5bOWFTNUGTZz00BS09v3QLovne9UAWlh0VE6XKn89
+         v0E1Z9sxgysK/59rH7oOddVKtqBrN8Ts/6D4TI2mOxXO1PhHvYMsewRmEW6spGq0VUeC
+         MBqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681102869;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zsSfEZyj+6Q8d8N54pdQLmL7plXalSHeWulTtzchzEU=;
+        b=AVvvE/QEXcXD7NzJI1u4T7SqrG2mb1VHx+U0zHPFxY7h1webW76GPudVBWhGKuKOsA
+         2PRlgfCcl44t3TrxqI+rCR3/HF+20upEGjJHpRGEaFdCh+chAl5URbOgoaLCFAc0Z47a
+         2rGnHRk3wNtkMDwZ9dnIzs0UELD6XoQbC6/ZVDCgZZ6Ge1Yx7WFQsRFleJnn8+XviQaZ
+         LZ4HcqFa44xvuOe9xeHdyRRphMId/9HNg56fTqv+PFkyucqrs2D9Br2aPXwTrguKkwDa
+         8yGmRf1ScozbuBtAjrXGBSnKC1rdyqoJFSIZwI6K8ZAL6xxnD8yW2+2WEg3xiMVC3QEJ
+         iURQ==
+X-Gm-Message-State: AAQBX9dV95Nbtgrwer2anRJj3IPcmjqErLkWX0pz6gL59STkcZpMEKfK
+        CwqeHhyPKQLMHpXuFsvsYmU=
+X-Google-Smtp-Source: AKy350Y1RaWC/2Sf5V2Te3MVI4yRXS+LLPRO3v85S9xjoGMlEJgqiYjq7FsgLcnvrdGOY6A1wC0XAw==
+X-Received: by 2002:a62:1bd4:0:b0:625:efa4:4c01 with SMTP id b203-20020a621bd4000000b00625efa44c01mr9899878pfb.3.1681102868660;
+        Sun, 09 Apr 2023 22:01:08 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-34.three.co.id. [116.206.28.34])
+        by smtp.gmail.com with ESMTPSA id s5-20020aa78d45000000b00625037cf695sm3391162pfe.86.2023.04.09.22.01.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Apr 2023 22:01:08 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 16D161067EC; Mon, 10 Apr 2023 12:01:03 +0700 (WIB)
+Date:   Mon, 10 Apr 2023 12:01:03 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
+        kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org,
+        ming.lei@redhat.com, gregkh@linuxfoundation.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
+Message-ID: <ZDOYD9eehrz9wQBZ@debian.me>
+References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
+ <20230404140835.25166-4-sergei.shtepa@veeam.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="3sJxY84NpHVtSyPq"
 Content-Disposition: inline
+In-Reply-To: <20230404140835.25166-4-sergei.shtepa@veeam.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/AsahiLinux/linux bits/005-maintainers
-head:   332d1bd2c6f629438bc0e1e9a2c657a98159831a
-commit: 9cf611bacc5136da75a47371082efa566cbcc866 [2/3] MAINTAINERS: Add apple-spi driver & binding files
-reproduce:
-        # https://github.com/AsahiLinux/linux/commit/9cf611bacc5136da75a47371082efa566cbcc866
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/005-maintainers
-        git checkout 9cf611bacc5136da75a47371082efa566cbcc866
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304101025.Vpjnwodr-lkp@intel.com/
+--3sJxY84NpHVtSyPq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-All warnings (new ones prefixed by >>):
+On Tue, Apr 04, 2023 at 04:08:27PM +0200, Sergei Shtepa wrote:
+> +The main properties that a backup tool should have are:
+> +
+> +- Simplicity and versatility of use
+> +- Reliability
+> +- Minimal consumption of system resources during backup
+> +- Minimal time required for recovery or replication of the entire system
+> +
+> +Therefore, the features of the blksnap module are:
+"Taking above properties into account, blksnap module features:"
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/spi/apple,spi.yaml
+> +The change tracker allows to determine which blocks were changed during =
+the
+> +time between the last snapshot created and any of the previous snapshots.
+> +Having a map of changes, it is enough to copy only the changed blocks, a=
+nd
+"With a map of changes, ..."
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> +3. ``blkfilter_ctl_blksnap_cbtdirty`` mark blocks as changed in the chan=
+ge
+                                         marks
+
+> +The blksnap [#userspace_tools]_ console tool allows to control the module
+> +from the command line. The tool contains detailed built-in help. To get
+> +the list of commands, enter the ``blksnap --help`` command. The ``blksnap
+> +<command name> --help`` command allows to get detailed information about=
+ the
+"To get list of commands with usage description, see ``blksnap --help``."
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--3sJxY84NpHVtSyPq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZDOYCwAKCRD2uYlJVVFO
+owIAAQCShKPGI3iVP2p11Jwxc8bI7plcI7SwlEpil85rz3HhEQD/fQEb1kgmjR1S
+yYd0nwhnho3eR9QaNG8wgBxpYwu3jQ0=
+=PoLi
+-----END PGP SIGNATURE-----
+
+--3sJxY84NpHVtSyPq--
