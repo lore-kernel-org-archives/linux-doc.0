@@ -2,87 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B68CC76196
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 22:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE89C77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 22:40:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbjDJWiW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 18:38:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34532 "EHLO
+        id S229571AbjDJWkG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 18:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjDJWiV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 18:38:21 -0400
+        with ESMTP id S229746AbjDJWkF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 18:40:05 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D7E1BCC;
-        Mon, 10 Apr 2023 15:38:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CEA22694;
+        Mon, 10 Apr 2023 15:39:42 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 566856D9;
-        Mon, 10 Apr 2023 22:38:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 566856D9
+        by ms.lwn.net (Postfix) with ESMTPSA id 1EF2D774;
+        Mon, 10 Apr 2023 22:39:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1EF2D774
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1681166300; bh=/lYt8/XY4xRlf2u3bBtJmDZ8TPXQC6ureYYFEZbdOYU=;
+        t=1681166379; bh=6eDX70pXfu8exeQjJyVzkDJBCFe2BFg+SPl9U895Ey0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=LSndp042OPJEi1j120AU19XQQQXYjEOwhKVMHzh7KXLHvffiEou/JQ5zIEjVvGrLJ
-         6NGAqrcWl+kuBJanGgSy5pHmAJGa5Q95FsjIMZN90D6G9ysdV5pJMnyRTm3qXcp1YF
-         tUwPL/BsQu/FKBKCQ2a2wn+iQ7PhP0W8RaffmE5Yd2OpuLIcsTjktf9s0pQ3OSOBht
-         Z3//wpXrcOPY+Qa9zQQcmiyUb4RunnQCKY7VfkhzsBl/4MbsMkx7/ZVK3WEx9JiuM4
-         BisVkpONIHCPBpUY7DEPk741Ea6sQXoa2YS7rvg48vwSqpSxfm9qI4/Cm+QREtKYsD
-         I3h+Gp84z6DZg==
+        b=UA6bLRNVpXgHbt3KdtqejYqSASP0hBTVmpARCX98AhvJd9CtyFGl5gijjE0UPOeld
+         /Yt+6WqEprCpl5bhMt8UHNeiSppyzusAiQ/Li/1W8PcRcTnO3s9Xab682o5iQArtdD
+         41/rSkEoWu8X6ktmIbkFTwdcC1N5jJrkJpzGcfywAPXbOzoH1D5jRVYX7ngHw4GCVA
+         H5fDcoslOD0FKHfZp9iKC5Q0q+FOBMp3uFrctTxAr2UAYqfTEFtYOKCufnsy8+ZuGu
+         9wY3ZkUlTLT6XGd2CL3SxZGi/PE2M8RpiqtooiHtVmLSMyU6NSsXY8nqH0f0RLc+tF
+         HvldD89qLSl7g==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Feng Tang <feng.tang@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+To:     Takahiro Itazuri <itazur@amazon.com>, linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        David Dunn <daviddunn@google.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>
-Cc:     Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Joe Mario <jmario@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>, dave.hansen@intel.com,
-        ying.huang@intel.com, andi.kleen@intel.com,
-        Feng Tang <feng.tang@intel.com>
-Subject: Re: [PATCH v4] Documentation: Add document for false sharing
-In-Reply-To: <20230407041235.37886-1-feng.tang@intel.com>
-References: <20230407041235.37886-1-feng.tang@intel.com>
-Date:   Mon, 10 Apr 2023 16:38:19 -0600
-Message-ID: <877cuje52c.fsf@meer.lwn.net>
+        Takahiro Itazuri <zulinx86@gmail.com>,
+        Takahiro Itazuri <itazur@amazon.com>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v4] docs: kvm: x86: Fix broken field list
+In-Reply-To: <20230404101401.25012-1-itazur@amazon.com>
+References: <20230404101401.25012-1-itazur@amazon.com>
+Date:   Mon, 10 Apr 2023 16:39:38 -0600
+Message-ID: <873557e505.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Feng Tang <feng.tang@intel.com> writes:
+Takahiro Itazuri <itazur@amazon.com> writes:
 
-> When doing performance tuning or debugging performance regressions,
-> more and more cases are found to be related to false sharing [1][2][3],
-> and the situation can be worse for newer platforms with hundreds of
-> CPUs. There are already many commits in current kernel specially
-> for mitigating the performance degradation due to false sharing.
+> Add missing ":" to fix a broken field list.
 >
-> False sharing could harm the performance silently without being
-> noticed, due to reasons like:
-> * data members of a big data structure randomly sitting together
->   in one cache line
-> * global data of small size are linked compactly together
+> Fixes: ba7bb663f554 ("KVM: x86: Provide per VM capability for disabling PMU virtualization")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/oe-kbuild-all/202304041708.siWlxmyD-lkp@intel.com/
+> Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
+> ---
+> v3 -> v4
+> * Add "Reported-by:" tag.
+> * Link to v3: https://lore.kernel.org/all/20230404090052.9872-1-itazur@amazon.com/
 >
-> So it's better to make a simple document about the normal pattern
-> of false sharing, basic ways to mitigate it and call out to
-> developers to pay attention during code-writing.
+> v2 -> v3
+> * Add another missing ":"
+> * Link to v2: https://lore.kernel.org/all/20230331093116.99820-1-itazur@amazon.com/
 >
-> [ Many thanks to Dave Hansen, Ying Huang, Tim Chen, Julie Du and
->   Yu Chen for their contributions ]
+> v1 -> v2
+> * Fix commit message to say "Do foo" instead of "This commit does foo".
+> * Add "Fixes:" tag.
+> * Link to v1: https://lore.kernel.org/all/20230330233956.78246-1-itazur@amazon.com/
 >
-> [1]. https://lore.kernel.org/lkml/20220619150456.GB34471@xsang-OptiPlex-9020/
-> [2]. https://lore.kernel.org/lkml/20201102091543.GM31092@shao2-debian/
-> [3]. https://lore.kernel.org/lkml/20230307125538.818862491@linutronix.de/
+>  Documentation/virt/kvm/api.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> Signed-off-by: Feng Tang <feng.tang@intel.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Shakeel Butt <shakeelb@google.com>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 62de0768d6aa..a5c803f39832 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -8296,11 +8296,11 @@ ENOSYS for the others.
+>  8.35 KVM_CAP_PMU_CAPABILITY
+>  ---------------------------
+>  
+> -:Capability KVM_CAP_PMU_CAPABILITY
+> +:Capability: KVM_CAP_PMU_CAPABILITY
+>  :Architectures: x86
+>  :Type: vm
+>  :Parameters: arg[0] is bitmask of PMU virtualization capabilities.
+> -:Returns 0 on success, -EINVAL when arg[0] contains invalid bits
+> +:Returns: 0 on success, -EINVAL when arg[0] contains invalid bits
 
 Applied, thanks.
 
