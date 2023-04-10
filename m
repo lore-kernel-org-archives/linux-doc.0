@@ -2,146 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B8BC77B70
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 23:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187B3C77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 23:13:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbjDJXMG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 19:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47654 "EHLO
+        id S230078AbjDJXNw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 19:13:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbjDJXLo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 19:11:44 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B823F2699;
-        Mon, 10 Apr 2023 16:11:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681168303; x=1712704303;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=gGdT5ei86w9Hizyjm1aYXsjM9Us57NAQM61P97l7pFk=;
-  b=mezJxstoAG2m6k/+UNrGcnTtbun9WK3YGF54kfGaeAOaCkE/yf+o2IA3
-   1wejJBeqqW1XZg72EEU5xjFcOp4Zacn37KgHWbCD4oToBh4kCGkzmnWwP
-   AJhC6uRX0lhV08NdSFfUKVuj1fM+5IJoYT5J2WGgWumBjiu22iY8WeA1M
-   HY/PoqZ6G9OlSRqwYGqHHxB+ia4cJOoLfMgWx3CJgLLz8W8/RWj7TuswY
-   TpEYb9vSQtVZJPA6Za6vTQmpV+SpQucbjJ28kIYcRsmdR8xifcBzvsIxa
-   ksq7VTASCNZonqcZMQp//y+QwkM00Bsh0YvsuXuD5S9d5joL0RmRczpV4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="340962575"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="340962575"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:11:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="757608015"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="757608015"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Apr 2023 16:11:41 -0700
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dm-devel@redhat.com
-Cc:     ebiggers@kernel.org, gmazyland@gmail.com, luto@kernel.org,
-        dave.hansen@linux.intel.com, tglx@linutronix.de, bp@suse.de,
-        mingo@kernel.org, x86@kernel.org, herbert@gondor.apana.org.au,
-        ardb@kernel.org, dan.j.williams@intel.com, bernie.keany@intel.com,
-        charishma1.gairuboyina@intel.com,
-        lalithambika.krishnakumar@intel.com, chang.seok.bae@intel.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v6 09/12] x86/cpu: Add a configuration and command line option for Key Locker
-Date:   Mon, 10 Apr 2023 15:59:33 -0700
-Message-Id: <20230410225936.8940-10-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230410225936.8940-1-chang.seok.bae@intel.com>
-References: <20220112211258.21115-1-chang.seok.bae@intel.com>
- <20230410225936.8940-1-chang.seok.bae@intel.com>
+        with ESMTP id S229944AbjDJXNh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 19:13:37 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D5473C25;
+        Mon, 10 Apr 2023 16:12:41 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id g3so7342442pja.2;
+        Mon, 10 Apr 2023 16:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681168355; x=1683760355;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w2pu/Q9tC6woWsX5eYA7h2LnjeiP9LM5xH/fnPuGwas=;
+        b=dNuLRTPRYm275ecTGqtgGoYnZrkeoM9tEOTogYbTjT0CHqxmEuf5MmiYbvO54JxQAe
+         NOibCupxxc6IEdjlOqw73QuGuvRpvXd/Q6dAHavE3NOp1CcbeNNZ3tCk9DpoSNAvUNxL
+         ID6GcUPcexcMFqaF0aozjfd/XlxRdZaxDexO2qtzYc0Oe/PSSoP2yEherIbbNM4BE1lo
+         ixdAMbeoS2IJAKOTbYks1eGOBRaxwt+k71uuKEK11cmBcIHjWDAHh4G6bY338TcahGuo
+         Itsq+pbZFpwTlKjhpAqxKEN8/mHyU3V4t1n+ryY8oH9Zfycu/uXnlYJ1iPmnh9d5+noj
+         5YMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681168355; x=1683760355;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w2pu/Q9tC6woWsX5eYA7h2LnjeiP9LM5xH/fnPuGwas=;
+        b=Kix+cbIx52upG5O4CTrd9ivvg8+WwkZ/WPGyQzaIXkF3R73QbyMmwmv/ZmnuRwSDrb
+         1kYg7eTbkwf5Szc4GXywcNz9cGjUzL9t1/Mlc0eCSAIB89EBYZfSDG7rsC42Tu1fl7ad
+         o3eHyIjnyG3GIbtMMOk378K5mwKPyecaAg4knoX7jQa5CIK1+ylkKwA4CNB3ufArlfp0
+         L+kAo7Jr6fFOZESApo/wWavXNz4VMbl9LjxkwOqv0hcs5EPU/+O354vPvcEu+x/nENft
+         TssRaHnagP8vrUtA3pslCPPrRDmLJajXXDQvkrLjg/3ZA3zVo1TFgyMCWSbxOumevGCe
+         v9bw==
+X-Gm-Message-State: AAQBX9d+UIPRJImZLFCZ/5TxlTwMe9WpOKoHN08dqsLYFL/GQArnY6I6
+        mTSJXtyWeygGps7C0ZGbyRLXcP12U23/lA==
+X-Google-Smtp-Source: AKy350ZDficuU/593PNroWmP5br0YdTUa+zA2WXrBeWQmOA8nbsKCEndPFwdVXzd19BDpmO36jOeAA==
+X-Received: by 2002:a17:903:338e:b0:1a1:d215:ef0c with SMTP id kb14-20020a170903338e00b001a1d215ef0cmr11579153plb.16.1681168355057;
+        Mon, 10 Apr 2023 16:12:35 -0700 (PDT)
+Received: from [192.168.1.105] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+        by smtp.gmail.com with ESMTPSA id k21-20020a170902ba9500b001a1ccb37847sm8348645pls.146.2023.04.10.16.12.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Apr 2023 16:12:34 -0700 (PDT)
+Message-ID: <1f4b874b-bd1e-17ff-51dd-19bf2d73214f@gmail.com>
+Date:   Mon, 10 Apr 2023 16:12:32 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] Documentation: firmware: Clarify firmware path usage
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20230402135423.3235-1-f.fainelli@gmail.com>
+ <87y1mzcq9y.fsf@meer.lwn.net>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <87y1mzcq9y.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add CONFIG_X86_KEYLOCKER to gate whether Key Locker is initialized at boot.
-The option is selected by the Key Locker cipher module CRYPTO_AES_KL (to be
-added in a later patch).
 
-Add a new command line option "nokeylocker" to optionally override the
-default CONFIG_X86_KEYLOCKER=y behavior.
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes from RFC v2:
-* Make the option selected by CRYPTO_AES_KL. (Dan Williams)
-* Massage the changelog and the config option description.
----
- Documentation/admin-guide/kernel-parameters.txt |  2 ++
- arch/x86/Kconfig                                |  3 +++
- arch/x86/kernel/cpu/common.c                    | 16 ++++++++++++++++
- 3 files changed, 21 insertions(+)
+On 4/10/2023 3:43 PM, Jonathan Corbet wrote:
+> Florian Fainelli <f.fainelli@gmail.com> writes:
+> 
+>> Newline characters will be taken into account for the firmware search
+>> path parameter, warn users about that and provide an example using 'echo
+>> -n' such that it clarifies the typical use of that parameter.
+>>
+>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+>> ---
+>>   Documentation/driver-api/firmware/fw_search_path.rst | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/driver-api/firmware/fw_search_path.rst b/Documentation/driver-api/firmware/fw_search_path.rst
+>> index a360f1009fa3..d7cb1e8f0076 100644
+>> --- a/Documentation/driver-api/firmware/fw_search_path.rst
+>> +++ b/Documentation/driver-api/firmware/fw_search_path.rst
+>> @@ -22,5 +22,10 @@ can use the file:
+>>   
+>>   * /sys/module/firmware_class/parameters/path
+>>   
+>> -You would echo into it your custom path and firmware requested will be
+>> -searched for there first.
+>> +You would echo into it your custom path and firmware requested will be searched
+>> +for there first. Be aware that newline characters will be taken into account
+>> +and may not produce the intended effects. For instance you might want to use:
+>> +
+>> +echo -n /path/to/script > /sys/module/firmware_class/parameters/path
+>> +
+>> +to ensure that your script is being used.
+> 
+> So I have no problem with applying this, but I have to ask...might it
+> not be better to fix the implementation of that sysfs file to strip
+> surrounding whitespace from the provided path?  This patch has the look
+> of a lesson learned the hard way; rather than codifying this behavior
+> into a feature, perhaps we could just make the next person's life a bit
+> easier...?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5f2ec4b0f927..6534e6217e56 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3655,6 +3655,8 @@
- 
- 	nohugevmalloc	[KNL,X86,PPC,ARM64] Disable kernel huge vmalloc mappings.
- 
-+	nokeylocker	[X86] Disable Key Locker hardware feature.
-+
- 	nosmt		[KNL,S390] Disable symmetric multithreading (SMT).
- 			Equivalent to smt=1.
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index c94297369448..91f2063ab283 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1894,6 +1894,9 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
- 
- 	  If unsure, say y.
- 
-+config X86_KEYLOCKER
-+	bool
-+
- choice
- 	prompt "TSX enable mode"
- 	depends on CPU_SUP_INTEL
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index a1edd5997e0a..c5550b8f030d 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -419,6 +419,22 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- static const unsigned long cr4_pinned_mask =
- 	X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
- 	X86_CR4_FSGSBASE | X86_CR4_CET;
-+
-+static __init int x86_nokeylocker_setup(char *arg)
-+{
-+	/* Expect an exact match without trailing characters. */
-+	if (strlen(arg))
-+		return 0;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_KEYLOCKER))
-+		return 1;
-+
-+	setup_clear_cpu_cap(X86_FEATURE_KEYLOCKER);
-+	pr_info("x86/keylocker: Disabled by kernel command line.\n");
-+	return 1;
-+}
-+__setup("nokeylocker", x86_nokeylocker_setup);
-+
- static DEFINE_STATIC_KEY_FALSE_RO(cr_pinning);
- static unsigned long cr4_pinned_bits __ro_after_init;
- 
+I was not sure whether it was on purpose or not, Greg, will we break 
+anyone's use case if we strip off \n from the firmware path passed via 
+sysfs?
 -- 
-2.17.1
-
+Florian
