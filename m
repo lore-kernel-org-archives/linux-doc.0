@@ -2,103 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF93C76196
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 05:04:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D566C77B6F
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 06:05:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjDJFEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 01:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53566 "EHLO
+        id S229557AbjDJGFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 02:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjDJFEj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 01:04:39 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE99C1BEC;
-        Sun,  9 Apr 2023 22:04:38 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id c3so4096016pjg.1;
-        Sun, 09 Apr 2023 22:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681103078;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQHFYt2aJZKqp/kH+9vd+a1FZT7IPDblBS/9XGkrR1w=;
-        b=Si5MedWHjr+8g9JZCHYRxC9v3RfVDQxCbrfrIN38EUh7EKSKsl3Up9693zCR5eSy+w
-         bKGrcMA8d7riLHr0an/agE+V9d6xC7WL2IN0GfbjwFKH77GHrS4XXBNCKNAQAe0Nufa+
-         Fj2zJP1Kh7z6i1oAn/1YWmIM1IrzbNEm7BpdeAoqYbm0XkGjb3qM84x9wvY5HJPqOuf5
-         5E2rpJBFGm0AMkiZVs1bsF169/OzUHo3U75T5UEC2Rab8z94XuuwZvUveulO4AAoYQv1
-         usHlt7hGaEsgRFP7Fxr1IPVFdF+tu8TK9uLYNw5vagxXQGNb1RXVwfvsM/AxuFq1L6Sa
-         vFIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681103078;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qQHFYt2aJZKqp/kH+9vd+a1FZT7IPDblBS/9XGkrR1w=;
-        b=OkYS26ce4NnGONmXTl3MRq+nbPSlp5pmpeSaVNRwww+lsA7IF9Ib8r7oR2rfE2nuEY
-         z/g+GLyTdATBf1I9DG46weJ++csgfAxPqlANgLpd1htuFg3Km/pqTNQmryGs2M2aIJxB
-         Fky99N56oFqRNJgWYOi/hFYPyrCwc0bW2fZ9dVXyq0r4k+VfyKKJvaOj5Z79xPX1Yjn0
-         jhn+izGHLBpJZbLiBeQ6JJ/b3TpKYcTBYhChPUANdVSEkKH3cur74GAZ5zP1MZhuON4J
-         QmBU6qFW/RQxuXfkoccM+P4mHUtKV9NEP1Gaqq/XWH6GGhqJCqC/qBK+QpvNPGUtHzxJ
-         8nKw==
-X-Gm-Message-State: AAQBX9eeVBEjtrgDMeCJcBNOc8G70iLnX++jcpqigMgeirDWV+yUxyC0
-        qNYlpeduXALMevwJeVebJJk=
-X-Google-Smtp-Source: AKy350aqJFtgeEV56uyaqKYdnoTGInPGu7JKsAgBHcNhoXyLYfiKqDuJ5njdcx9S3d+LCEjVH96vtA==
-X-Received: by 2002:a17:90a:3e0e:b0:240:daf9:7ab6 with SMTP id j14-20020a17090a3e0e00b00240daf97ab6mr11091088pjc.40.1681103078146;
-        Sun, 09 Apr 2023 22:04:38 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-34.three.co.id. [116.206.28.34])
-        by smtp.gmail.com with ESMTPSA id e9-20020a17090ab38900b00246b5a609d2sm538755pjr.27.2023.04.09.22.04.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Apr 2023 22:04:37 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id F16361067EC; Mon, 10 Apr 2023 12:04:34 +0700 (WIB)
-Date:   Mon, 10 Apr 2023 12:04:34 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
-        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
-Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
-        kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org,
-        ming.lei@redhat.com, gregkh@linuxfoundation.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 01/11] documentation: Block Device Filtering Mechanism
-Message-ID: <ZDOY4tWY9wjPDb/c@debian.me>
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-2-sergei.shtepa@veeam.com>
+        with ESMTP id S229482AbjDJGFP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 02:05:15 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0C43C14;
+        Sun,  9 Apr 2023 23:05:10 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 8AA8A24DC94;
+        Mon, 10 Apr 2023 14:05:01 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 10 Apr
+ 2023 14:05:01 +0800
+Received: from [192.168.125.87] (113.72.145.176) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 10 Apr
+ 2023 14:05:00 +0800
+Message-ID: <629439b9-13e4-7a69-bb56-7c3f7622c332@starfivetech.com>
+Date:   Mon, 10 Apr 2023 14:04:59 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1Bs8S2dr+BfN9DpP"
-Content-Disposition: inline
-In-Reply-To: <20230404140835.25166-2-sergei.shtepa@veeam.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v6 2/2] hwmon: (sfctemp) Add StarFive JH71x0 temperature
+ sensor
+To:     Guenter Roeck <linux@roeck-us.net>
+CC:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        Samin Guo <samin.guo@starfivetech.com>,
+        <linux-kernel@vger.kernel.org>
+References: <20230321022644.107027-1-hal.feng@starfivetech.com>
+ <20230321022644.107027-3-hal.feng@starfivetech.com>
+ <4423f128-dff8-421a-ae9b-b45c087481a4@roeck-us.net>
+Content-Language: en-US
+From:   Hal Feng <hal.feng@starfivetech.com>
+In-Reply-To: <4423f128-dff8-421a-ae9b-b45c087481a4@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [113.72.145.176]
+X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, 8 Apr 2023 08:29:36 -0700, Guenter Roeck wrote:
+> On Tue, Mar 21, 2023 at 10:26:44AM +0800, Hal Feng wrote:
+>> From: Emil Renner Berthing <kernel@esmil.dk>
+>> 
+>> Add driver for the StarFive JH71x0 temperature sensor. You
+>> can enable/disable it and read temperature in milli Celcius
+>> through sysfs.
+>> 
+>> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+>> Co-developed-by: Samin Guo <samin.guo@starfivetech.com>
+>> Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
+>> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+> 
+> Applied.
 
---1Bs8S2dr+BfN9DpP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you so much! Looking forward to seeing it in v6.4.
 
-On Tue, Apr 04, 2023 at 04:08:25PM +0200, Sergei Shtepa wrote:
-> +The filter can be implemented as a loadable module. In this case, module
-> +unloading is blocked while the filter is attached to at least one of the=
- block
-> +devices.
-"In this case, the filter module cannot be unloaded while the filter ..."
-
-The rest is LGTM, thanks!
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---1Bs8S2dr+BfN9DpP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZDOY4gAKCRD2uYlJVVFO
-o+vlAQCwAG7Fr5efYIrir6aoE5yXCLebFDick6uY5l6vXN8Q5AEAnBkZUpUAf0tA
-2Egg2ys5Nzy4P5sPVXhgqsA4Kr3L+w4=
-=OoWa
------END PGP SIGNATURE-----
-
---1Bs8S2dr+BfN9DpP--
+Best regards,
+Hal
