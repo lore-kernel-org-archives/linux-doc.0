@@ -2,177 +2,276 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF5D4C76196
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 19:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC283C77B71
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 19:10:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjDJTBd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 15:01:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38884 "EHLO
+        id S229649AbjDJTKm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 15:10:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjDJTBc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 15:01:32 -0400
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563B610DA;
-        Mon, 10 Apr 2023 12:01:31 -0700 (PDT)
-Received: by mail-oo1-xc34.google.com with SMTP id i10-20020a4ad68a000000b0053b8aa32089so843651oot.5;
-        Mon, 10 Apr 2023 12:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681153290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YA1oDxKqPlucgkchnpNsPOW/R7uhWJLrBrmfaiPq5Zo=;
-        b=HRgQGtTHNz/Pgr7l5cwUq9OicczD7PlbbLDbbtiWuqLZqJ2pOmwGe91v9Ks+1kg8n/
-         G1oIoHGkGYLU5+lgeYBVsysWTSZj2m08a77H9d/oDYbqzv/cWMo4V387+oRifE4CCWZV
-         rnvide6GUZiPtrdzpQBHgoSly4L7GY219XW9O06QfBrlfvu7NFq8yTAFfVRg13qLRIsV
-         4Am6lw9U1VsFkRltK04Um90m8RIZYf/347GUc3pFsJitahPPGhElGVbjzRPMP96eHY+m
-         8apOGTuUyhNUS9x/yThOd6Qep4XdCnbtI096DoYlRTGTeXzllJSR8AiEu0a10/4Pkif2
-         6NtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681153290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YA1oDxKqPlucgkchnpNsPOW/R7uhWJLrBrmfaiPq5Zo=;
-        b=oFT6sNF0E2eWRzZGZl4H1f8J30PQ4s+YzRjgMUbzUuG5F3wpxoVwFEY8jzxgF06fHv
-         MgXkyldxA04Ys/R39ZeeWLW/NagjgPEapTRT1S6YfOP9sDx8oz85emYmAyg8aWAgx1vZ
-         MS/RQ9EKYoENughhhz2PZvzpjlMau9zEhrO2rnf8OjU6jFS7VnPecYFcFlPAFttTUzNS
-         SrXc2Okr5+90n9RqUNkqTRJjBhLUI2fdlj8NJ1owfSul0S6NLc7M36t6cMtMQJ2hYVXB
-         ZipDWeM7zOVQNLOmdXQJzjIekI3C3FVOdXr4A+kGvhg7/LbAmG3N4U0fhXDBF1aDm9qq
-         kOFA==
-X-Gm-Message-State: AAQBX9cqfuU7CC4P0PNizOol50EcZ0rjgpajJ4sSP0FfnKX3bpJ6ccYc
-        z6Q9eIqNoDCQy0lSPeLQkkW22IBJ4xplrlprDN0=
-X-Google-Smtp-Source: AKy350Y+BZTSG4+KMyMj+jH5Xa47NJsPPHVKNdIX3bHK8JgZanUHLbm/3toXbUIzP5woyR3GYsRv8hPNs7jOZr0Zzns=
-X-Received: by 2002:a4a:4248:0:b0:541:c42f:2f04 with SMTP id
- i8-20020a4a4248000000b00541c42f2f04mr2203237ooj.1.1681153290350; Mon, 10 Apr
- 2023 12:01:30 -0700 (PDT)
+        with ESMTP id S229523AbjDJTKm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 15:10:42 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AAAC21BC0;
+        Mon, 10 Apr 2023 12:10:35 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id 36F172174E2A; Mon, 10 Apr 2023 12:10:35 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 36F172174E2A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1681153835;
+        bh=LitfwmASCD6XtrcgTnTIIPBcVPikllBf+qN/GfqwP8M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GOMIdjecPKY/CPgp3Hfb8d0/as17ALZ4feRwVik4YxfTblNlTUL+lnjqlAW6134lu
+         Urxyg0gve4p23SRx8ZvktUXNuHLxvME7Zv/VBDQ6XcS/44WG4NlPINI2DOUkJV08qN
+         /oxfY2MKMlvmrozaEbOwKupq23Mu/E/s+h90LTgo=
+Date:   Mon, 10 Apr 2023 12:10:35 -0700
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
+Message-ID: <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230406215917.1475704-1-robdclark@gmail.com> <20230406215917.1475704-2-robdclark@gmail.com>
- <CACvgo50nOw-82pc2mEbydWH3=RDXuOKwnBnjmOhV-UYcbjRKQA@mail.gmail.com>
-In-Reply-To: <CACvgo50nOw-82pc2mEbydWH3=RDXuOKwnBnjmOhV-UYcbjRKQA@mail.gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 10 Apr 2023 12:01:18 -0700
-Message-ID: <CAF6AEGuesqsWQEsEOwriaNC_1TkWoJ-d=mrrUgV9CoPXMftJVQ@mail.gmail.com>
-Subject: Re: [RFC 1/2] drm: Add fdinfo memory stats
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-msm@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Christopher Healy <healych@amazon.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 8, 2023 at 5:20=E2=80=AFAM Emil Velikov <emil.l.velikov@gmail.c=
-om> wrote:
->
-> Hey Rob,
->
-> On Thu, 6 Apr 2023 at 22:59, Rob Clark <robdclark@gmail.com> wrote:
->
-> > +- drm-purgeable-memory: <uint> [KiB|MiB]
+On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
+> On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> >
+> > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> >
+> > As is typical with LSMs, IPE uses securityfs as its interface with
+> > userspace. for a complete list of the interfaces and the respective
+> > inputs/outputs, please see the documentation under
+> > admin-guide/LSM/ipe.rst
+> >
+> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> 
+> ...
+> 
+> > ---
+> >  security/ipe/Makefile    |   2 +
+> >  security/ipe/fs.c        | 101 +++++++++
+> >  security/ipe/fs.h        |  17 ++
+> >  security/ipe/ipe.c       |   3 +
+> >  security/ipe/ipe.h       |   2 +
+> >  security/ipe/policy.c    | 135 ++++++++++++
+> >  security/ipe/policy.h    |   7 +
+> >  security/ipe/policy_fs.c | 459 +++++++++++++++++++++++++++++++++++++++
+> >  8 files changed, 726 insertions(+)
+> >  create mode 100644 security/ipe/fs.c
+> >  create mode 100644 security/ipe/fs.h
+> >  create mode 100644 security/ipe/policy_fs.c
+> 
+> ...
+> 
+> > diff --git a/security/ipe/policy.c b/security/ipe/policy.c
+> > index 772d876b1087..a5e9c6e5691b 100644
+> > --- a/security/ipe/policy.c
+> > +++ b/security/ipe/policy.c
+> > @@ -4,12 +4,39 @@
+> >   */
+> >
+> >  #include "ipe.h"
+> > +#include "eval.h"
+> > +#include "fs.h"
+> >  #include "policy.h"
+> >  #include "policy_parser.h"
+> >  #include "digest.h"
+> >
+> >  #include <linux/verification.h>
+> >
+> > +/* lock for synchronizing writers across ipe policy */
+> > +DEFINE_SPINLOCK(ipe_policy_lock);
 > > +
-> > +The total size of buffers that are purgable.
->
-> s/purgable/purgeable/
->
->
-> > +static void print_size(struct drm_printer *p, const char *stat, size_t=
- sz)
+> > +/**
+> > + * ver_to_u64 - Convert an internal ipe_policy_version to a u64.
+> > + * @p: Policy to extract the version from.
+> > + *
+> > + * Bits (LSB is index 0):
+> > + *     [48,32] -> Major
+> > + *     [32,16] -> Minor
+> > + *     [16, 0] -> Revision
+> > + *
+> > + * Return: u64 version of the embedded version structure.
+> > + */
+> > +static inline u64 ver_to_u64(const struct ipe_policy *const p)
 > > +{
-> > +       const char *units[] =3D {"B", "KiB", "MiB", "GiB"};
->
-> The documentation says:
->
-> > Default unit shall be bytes with optional unit specifiers of 'KiB' or '=
-MiB'
-> > indicating kibi- or mebi-bytes.
->
-> So I would drop the B and/or update the documentation to mention B && GiB=
-.
->
-> > +       unsigned u;
+> > +       u64 r = 0;
+> 
+> No need to set @r to 0 since you set it to the version immediately below.
+> 
+
+Yes this is redundant, I will remove it.
+
+> > +       r = (((u64)p->parsed->version.major) << 32)
+> > +         | (((u64)p->parsed->version.minor) << 16)
+> > +         | ((u64)(p->parsed->version.rev));
 > > +
-> > +       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
-> > +               if (sz < SZ_1K)
-> > +                       break;
-> > +               sz /=3D SZ_1K;
->
-> IIRC size_t can be 64bit, so we should probably use do_div() here.
->
+> > +       return r;
+> > +}
+> > +
+> >  /**
+> >   * ipe_free_policy - Deallocate a given IPE policy.
+> >   * @p: Supplies the policy to free.
+> > @@ -21,6 +48,7 @@ void ipe_free_policy(struct ipe_policy *p)
+> >         if (IS_ERR_OR_NULL(p))
+> >                 return;
+> >
+> > +       ipe_del_policyfs_node(p);
+> >         free_parsed_policy(p->parsed);
+> >         if (!p->pkcs7)
+> >                 kfree(p->text);
+> > @@ -39,6 +67,70 @@ static int set_pkcs7_data(void *ctx, const void *data, size_t len,
+> >         return 0;
+> >  }
+> >
+> > +/**
+> > + * ipe_update_policy - parse a new policy and replace @old with it.
+> > + * @addr: Supplies a pointer to the i_private for saving policy.
+> > + * @text: Supplies a pointer to the plain text policy.
+> > + * @textlen: Supplies the length of @text.
+> > + * @pkcs7: Supplies a pointer to a buffer containing a pkcs7 message.
+> > + * @pkcs7len: Supplies the length of @pkcs7len.
+> > + *
+> > + * @text/@textlen is mutually exclusive with @pkcs7/@pkcs7len - see
+> > + * ipe_new_policy.
+> > + *
+> > + * Return:
+> > + * * !IS_ERR   - OK
+> > + * * -ENOENT   - Policy doesn't exist
+> > + * * -EINVAL   - New policy is invalid
+> > + */
+> > +struct ipe_policy *ipe_update_policy(struct ipe_policy __rcu **addr,
+> > +                                    const char *text, size_t textlen,
+> > +                                    const char *pkcs7, size_t pkcs7len)
+> > +{
+> > +       int rc = 0;
+> > +       struct ipe_policy *old, *new;
+> > +
+> > +       old = ipe_get_policy_rcu(*addr);
+> > +       if (!old) {
+> > +               rc = -ENOENT;
+> > +               goto err;
 > > +       }
 > > +
-> > +       drm_printf(p, "%s:\t%lu %s\n", stat, sz, units[u]);
+> > +       new = ipe_new_policy(text, textlen, pkcs7, pkcs7len);
+> > +       if (IS_ERR(new)) {
+> > +               rc = PTR_ERR(new);
+> > +               goto err;
+> > +       }
+> > +
+> > +       if (strcmp(new->parsed->name, old->parsed->name)) {
+> > +               rc = -EINVAL;
+> > +               goto err;
+> > +       }
+> > +
+> > +       if (ver_to_u64(old) > ver_to_u64(new)) {
+> > +               rc = -EINVAL;
+> > +               goto err;
+> > +       }
+> > +
+> > +       if (ipe_is_policy_active(old)) {
+> 
+> I don't understand the is-active check, you want to make @new the new
+> active policy regardless, right?  Could this is-active check ever be
+> false?
+> 
+
+Actually this is needed. Policy updates can be applied to any deployed
+policy, which may be saved in two places: the securityfs file node
+and the ipe_active_policy pointer. To update a policy, this function first
+checks if the policy saved in the securityfs file node is currently active.
+If so, it updates the ipe_active_policy pointer to point to the new policy,
+and finally updates the policy pointer in the securityfs to the new policy.
+
+-Fan
+
+> > +               spin_lock(&ipe_policy_lock);
+> > +               rcu_assign_pointer(ipe_active_policy, new);
+> > +               spin_unlock(&ipe_policy_lock);
+> > +               synchronize_rcu();
+> > +       }
+> > +
+> > +       rcu_assign_pointer(*addr, new);
+> > +
+> > +       swap(new->policyfs, old->policyfs);
+> > +       ipe_free_policy(old);
+> > +
+> > +       goto out;
+> > +err:
+> > +       ipe_free_policy(new);
+> > +out:
+> > +       return (rc < 0) ? ERR_PTR(rc) : new;
+> > +}
+> > +
+> >  /**
+> >   * ipe_new_policy - Allocate and parse an ipe_policy structure.
+> >   *
+> > @@ -117,3 +209,46 @@ struct ipe_policy *ipe_get_policy_rcu(struct ipe_policy __rcu *p)
+> >
+> >         return rv;
+> >  }
+> > +
+> > +/**
+> > + * ipe_set_active_pol - Make @p the active policy.
+> > + * @p: Supplies a pointer to the policy to make active.
+> > + */
+> > +int ipe_set_active_pol(const struct ipe_policy *p)
+> > +{
+> > +       int rc = 0;
+> > +       struct ipe_policy *ap = NULL;
+> > +
+> > +       ap = ipe_get_policy_rcu(ipe_active_policy);
+> > +       if (ap && ver_to_u64(ap) > ver_to_u64(p)) {
+> > +               rc = -EINVAL;
+> > +               goto out;
+> > +       }
+> > +
+> > +       spin_lock(&ipe_policy_lock);
+> > +       rcu_assign_pointer(ipe_active_policy, p);
+> > +       spin_unlock(&ipe_policy_lock);
+> > +       synchronize_rcu();
+> > +
+> > +out:
+> > +       return rc;
 > > +}
 > > +
 > > +/**
-> > + * drm_print_memory_stats - Helper to print standard fdinfo memory sta=
-ts
-> > + * @file: the DRM file
-> > + * @p: the printer to print output to
-> > + * @status: callback to get driver tracked object status
+> > + * ipe_is_policy_active - Determine wehther @p is the active policy.
+> > + * @p: Supplies a pointer to the policy to check.
 > > + *
-> > + * Helper to iterate over GEM objects with a handle allocated in the s=
-pecified
-> > + * file.  The optional status callback can return additional object st=
-ate which
->
-> s/return additional/return an additional/
-
-"an" reads funny to me, as the state is plural (bitmask).. but agreed
-on the other things
-
-> > + * determines which stats the object is counted against.  The callback=
- is called
-> > + * under table_lock.  Racing against object status change is "harmless=
-", and the
-> > + * callback can expect to not race against object destroy.
->
-> s/destroy/destruction/
->
+> > + * Return:
+> > + * * true      - @p is the active policy
+> > + * * false     - @p is not the active policy
 > > + */
-> > +void drm_print_memory_stats(struct drm_file *file, struct drm_printer =
-*p,
-> > +                           enum drm_gem_object_status (*status)(struct=
- drm_gem_object *))
+> > +bool ipe_is_policy_active(const struct ipe_policy *p)
 > > +{
->
-> > +               if (s & DRM_GEM_OBJECT_RESIDENT) {
-> > +                       size.resident +=3D obj->size;
-> > +                       s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
->
-> Is MSM capable of marking the object as both purgeable and resident or
-> is this to catch other drivers? Should we add a note to the
-> documentation above - resident memory cannot be purgeable
-
-It is just to simplify drivers so they don't have to repeat this
-logic.  Ie. an object can be marked purgeable while it is still active
-(so it will be eventually purgeable when it becomes idle).  Likewise
-it doesn't make sense to count an object that has already been purged
-(is no longer resident) as purgeable.
-
-BR,
--R
-
-> > +               }
+> > +       bool rv;
 > > +
-> > +               if (s & DRM_GEM_OBJECT_ACTIVE) {
-> > +                       size.active +=3D obj->size;
-> > +                       s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
->
-> Ditto.
->
-> With the above nits, the patch is:
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
->
-> HTH
-> Emil
+> > +       rcu_read_lock();
+> > +       rv = rcu_access_pointer(ipe_active_policy) == p;
+> > +       rcu_read_unlock();
+> > +
+> > +       return rv;
+> > +}
+> 
+> --
+> paul-moore.com
