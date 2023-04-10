@@ -2,253 +2,316 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 245CEC77B75
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 21:06:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AAE7C77B6F
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 21:22:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229900AbjDJVGY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 17:06:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49924 "EHLO
+        id S229671AbjDJVWb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 17:22:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230071AbjDJVGX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 17:06:23 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 370871737;
-        Mon, 10 Apr 2023 14:06:22 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id j8so4152087pjy.4;
-        Mon, 10 Apr 2023 14:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681160781;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PJFK/82i55S3LMJhngVaMIQtHLPKCOXYIQAVhENxSX4=;
-        b=iQ1YcGademZken7tt39Vxwt10Q+8aCRwzy9R1BvI2zLub/OEjldjGNyD8wjrxIK14d
-         C1Nipbmugr14pmM1yuk+yn7B5j7cWCilIr/gnf95raKNcnvyxasiDe6xKvcx9zho1H31
-         Dhwnxoo47lY3KdBWBTBMJjqdBeo0K1XA1dYLozfXnoheJPlfBlUy4rytViAgQ7gqBy8g
-         g/EaDX8ZuCd3VDCnsaT3VJr3nfCtqHt8Fzxkaq57G234PjoOOQiIgZOPoU3blqZY50Cn
-         2m5fOkdqw3WQ1j3OTvSU6Xh1YhluZNhyLcuhKDEfl5UvhWtTmAHlmGwASBkLSD5TyorI
-         SJHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681160781;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PJFK/82i55S3LMJhngVaMIQtHLPKCOXYIQAVhENxSX4=;
-        b=TYinDpFDAWy0tTl5QGXLJv7C7c1Ha6XoJpbRXX63phkiHDq/j2RJS9VrUkV1bMFvuo
-         npSZ6Ls6QViwQcesnsy7Ghj3OLXW6NYWbrVyxZMJd9ega6QAbTaXo2HQqJxubHb42U+Z
-         nyt1EBRRvgCCx0jrZ+k81UqkJkuxFZgiVHU2tXuXAXlXmNiQxJjdVLKcqXaDJnEE3IUi
-         HEedwMgu9F9aKSlK6t/7++GdBV8oRWPqICsyxRfjHdYEUx2oMjLxjZuYehjzhiQDc/iR
-         L84JuG3Gnx1KgT4+JyHTXbrim4mU4Q3f1R4r6ESJdm3CMS+oFMdXvOc24wLb8izqcL7B
-         KBOg==
-X-Gm-Message-State: AAQBX9d1sMeTpIeIT/r1EaFH3w8PvK1w18xElOe5unJ10h/EWOx8k6QM
-        E9EuIRzUTccSnZwR3sdTfmQ=
-X-Google-Smtp-Source: AKy350amaaLhS95M7Dkn5QyPjiWDMhBzzAAuXASGjiYpVy3PCNTBkyN0n8dOQhViJMNf3n/OVhcRHA==
-X-Received: by 2002:a17:90b:1b4c:b0:237:24eb:99d8 with SMTP id nv12-20020a17090b1b4c00b0023724eb99d8mr14642142pjb.19.1681160781506;
-        Mon, 10 Apr 2023 14:06:21 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id iy18-20020a170903131200b001a644662ee0sm2029320plb.18.2023.04.10.14.06.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Apr 2023 14:06:21 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 1/2] drm: Add fdinfo memory stats
-Date:   Mon, 10 Apr 2023 14:06:06 -0700
-Message-Id: <20230410210608.1873968-2-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230410210608.1873968-1-robdclark@gmail.com>
-References: <20230410210608.1873968-1-robdclark@gmail.com>
+        with ESMTP id S229591AbjDJVWa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 17:22:30 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9C8671BF7;
+        Mon, 10 Apr 2023 14:22:28 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id 029D62121ED9; Mon, 10 Apr 2023 14:22:28 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 029D62121ED9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1681161748;
+        bh=xt/fJmUDps/x8ZiTtOAHQtR6GDYm/n5KlqBdwXz+DPQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=f9sHGf+IeRjFMcQyEtxUhjJuMUB6nkvfJ9I7x4j6T2Qa2koeH8LT8W41X5kCgdFDQ
+         lmtJJaoaDtX2f7Nksb5/aLLwjtRIhWUdNPAfKKwL8Ev7N24aXZR6jtTOKlRnC94xN0
+         fC1Szq+H6slLOsQa1kIXqPOAnaeXcyeEJSG4vcpg=
+Date:   Mon, 10 Apr 2023 14:22:27 -0700
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 06/16] ipe: add LSM hooks on execution and kernel
+ read
+Message-ID: <20230410212227.GC18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-7-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRX4-=SSAkb0f2722dJ9JGudTyT-B=t8uoRqA8efwcoSg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhRX4-=SSAkb0f2722dJ9JGudTyT-B=t8uoRqA8efwcoSg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On Thu, Mar 02, 2023 at 02:05:20PM -0500, Paul Moore wrote:
+> On Mon, Jan 30, 2023 at 5:59???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> >
+> > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> >
+> > IPE's initial goal is to control both execution and the loading of
+> > kernel modules based on the system's definition of trust. It
+> > accomplishes this by plugging into the security hooks for
+> > bprm_check_security, file_mprotect, mmap_file, kernel_load_data,
+> > and kernel_read_data.
+> >
+> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> 
+> ...
+> 
+> > ---
+> >  security/ipe/hooks.c | 169 +++++++++++++++++++++++++++++++++++++++++++
+> >  security/ipe/hooks.h |  13 ++++
+> >  security/ipe/ipe.c   |   6 ++
+> >  3 files changed, 188 insertions(+)
+> >
+> > diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
+> > index 335b773c7ae1..fd5109e29c76 100644
+> > --- a/security/ipe/hooks.c
+> > +++ b/security/ipe/hooks.c
+> > @@ -23,3 +23,172 @@ void ipe_sb_free_security(struct super_block *mnt_sb)
+> >  {
+> >         ipe_invalidate_pinned_sb(mnt_sb);
+> >  }
+> > +
+> > +/**
+> > + * ipe_bprm_check_security - ipe security hook function for bprm check.
+> > + * @bprm: Supplies a pointer to a linux_binprm structure to source the file
+> > + *       being evaluated.
+> > + *
+> > + * This LSM hook is called when a binary is loaded through the exec
+> > + * family of system calls.
+> > + * Return:
+> > + * *0  - OK
+> > + * *!0 - Error
+> > + */
+> > +int ipe_bprm_check_security(struct linux_binprm *bprm)
+> > +{
+> > +       struct ipe_eval_ctx ctx = { 0 };
+> > +
+> > +       build_eval_ctx(&ctx, bprm->file, ipe_op_exec);
+> > +       return ipe_evaluate_event(&ctx);
+> > +}
+> > +
+> > +/**
+> > + * ipe_mmap_file - ipe security hook function for mmap check.
+> > + * @f: File being mmap'd. Can be NULL in the case of anonymous memory.
+> > + * @reqprot: The requested protection on the mmap, passed from usermode.
+> > + * @prot: The effective protection on the mmap, resolved from reqprot and
+> > + *       system configuration.
+> > + * @flags: Unused.
+> > + *
+> > + * This hook is called when a file is loaded through the mmap
+> > + * family of system calls.
+> > + *
+> > + * Return:
+> > + * * 0 - OK
+> > + * * !0        - Error
+> > + */
+> > +int ipe_mmap_file(struct file *f, unsigned long reqprot, unsigned long prot,
+> > +                 unsigned long flags)
+> > +{
+> > +       struct ipe_eval_ctx ctx = { 0 };
+> > +
+> > +       if (prot & PROT_EXEC || reqprot & PROT_EXEC) {
+> 
+> Is there a reason why you care about @reqprot?  It seems like IPE
+> would only be interested in the protection flags that the kernel is
+> actually using.
+> 
+> I notice that in the `ipe_file_mprotect()` hook you ignore @reqprot,
+> which I believe is the right thing to do.
+> 
 
-Add a helper to dump memory stats to fdinfo.  For the things the drm
-core isn't aware of, use a callback.
+Yes I double checked and found that's not necessary, I will remove that.
 
-v2: Fix typos, change size units to match docs, use div_u64
+-Fan
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
----
- Documentation/gpu/drm-usage-stats.rst | 21 +++++++
- drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
- include/drm/drm_file.h                | 10 ++++
- 3 files changed, 110 insertions(+)
-
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index b46327356e80..b5e7802532ed 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
- Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
- indicating kibi- or mebi-bytes.
- 
-+- drm-shared-memory: <uint> [KiB|MiB]
-+
-+The total size of buffers that are shared with another file (ie. have more
-+than a single handle).
-+
-+- drm-private-memory: <uint> [KiB|MiB]
-+
-+The total size of buffers that are not shared with another file.
-+
-+- drm-resident-memory: <uint> [KiB|MiB]
-+
-+The total size of buffers that are resident in system memory.
-+
-+- drm-purgeable-memory: <uint> [KiB|MiB]
-+
-+The total size of buffers that are purgeable.
-+
-+- drm-active-memory: <uint> [KiB|MiB]
-+
-+The total size of buffers that are active on one or more rings.
-+
- - drm-cycles-<str> <uint>
- 
- Engine identifier string must be the same as the one specified in the
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index a51ff8cee049..085b01842a87 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -42,6 +42,7 @@
- #include <drm/drm_client.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_gem.h>
- #include <drm/drm_print.h>
- 
- #include "drm_crtc_internal.h"
-@@ -868,6 +869,84 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
- }
- EXPORT_SYMBOL(drm_send_event);
- 
-+static void print_size(struct drm_printer *p, const char *stat, size_t sz)
-+{
-+	const char *units[] = {"", " KiB", " MiB"};
-+	unsigned u;
-+
-+	for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
-+		if (sz < SZ_1K)
-+			break;
-+		sz = div_u64(sz, SZ_1K);
-+	}
-+
-+	drm_printf(p, "%s:\t%zu%s\n", stat, sz, units[u]);
-+}
-+
-+/**
-+ * drm_print_memory_stats - Helper to print standard fdinfo memory stats
-+ * @file: the DRM file
-+ * @p: the printer to print output to
-+ * @status: callback to get driver tracked object status
-+ *
-+ * Helper to iterate over GEM objects with a handle allocated in the specified
-+ * file.  The optional status callback can return additional object state which
-+ * determines which stats the object is counted against.  The callback is called
-+ * under table_lock.  Racing against object status change is "harmless", and the
-+ * callback can expect to not race against object destruction.
-+ */
-+void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
-+			    enum drm_gem_object_status (*status)(struct drm_gem_object *))
-+{
-+	struct drm_gem_object *obj;
-+	struct {
-+		size_t shared;
-+		size_t private;
-+		size_t resident;
-+		size_t purgeable;
-+		size_t active;
-+	} size = {0};
-+	int id;
-+
-+	spin_lock(&file->table_lock);
-+	idr_for_each_entry (&file->object_idr, obj, id) {
-+		enum drm_gem_object_status s = 0;
-+
-+		if (status)
-+			s = status(obj);
-+
-+		if (obj->handle_count > 1) {
-+			size.shared += obj->size;
-+		} else {
-+			size.private += obj->size;
-+		}
-+
-+		if (s & DRM_GEM_OBJECT_RESIDENT) {
-+			size.resident += obj->size;
-+			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-+		}
-+
-+		if (s & DRM_GEM_OBJECT_ACTIVE) {
-+			size.active += obj->size;
-+			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-+		}
-+
-+		if (s & DRM_GEM_OBJECT_PURGEABLE)
-+			size.purgeable += obj->size;
-+	}
-+	spin_unlock(&file->table_lock);
-+
-+	print_size(p, "drm-shared-memory", size.shared);
-+	print_size(p, "drm-private-memory", size.private);
-+
-+	if (status) {
-+		print_size(p, "drm-resident-memory", size.resident);
-+		print_size(p, "drm-purgeable-memory", size.purgeable);
-+		print_size(p, "drm-active-memory", size.active);
-+	}
-+}
-+EXPORT_SYMBOL(drm_print_memory_stats);
-+
- /**
-  * mock_drm_getfile - Create a new struct file for the drm device
-  * @minor: drm minor to wrap (e.g. #drm_device.primary)
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 0d1f853092ab..7bd8a1374f39 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -41,6 +41,7 @@
- struct dma_fence;
- struct drm_file;
- struct drm_device;
-+struct drm_printer;
- struct device;
- struct file;
- 
-@@ -438,6 +439,15 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
- 				     struct drm_pending_event *e,
- 				     ktime_t timestamp);
- 
-+enum drm_gem_object_status {
-+	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
-+	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
-+	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
-+};
-+
-+void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
-+			    enum drm_gem_object_status (*status)(struct drm_gem_object *));
-+
- struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
- 
- #endif /* _DRM_FILE_H_ */
--- 
-2.39.2
-
+> > +               build_eval_ctx(&ctx, f, ipe_op_exec);
+> > +               return ipe_evaluate_event(&ctx);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +/**
+> > + * ipe_file_mprotect - ipe security hook function for mprotect check.
+> > + * @vma: Existing virtual memory area created by mmap or similar.
+> > + * @reqprot: The requested protection on the mmap, passed from usermode.
+> > + * @prot: The effective protection on the mmap, resolved from reqprot and
+> > + *       system configuration.
+> > + *
+> > + * This LSM hook is called when a mmap'd region of memory is changing
+> > + * its protections via mprotect.
+> > + *
+> > + * Return:
+> > + * * 0 - OK
+> > + * * !0        - Error
+> > + */
+> > +int ipe_file_mprotect(struct vm_area_struct *vma, unsigned long reqprot,
+> > +                     unsigned long prot)
+> > +{
+> > +       struct ipe_eval_ctx ctx = { 0 };
+> > +
+> > +       /* Already Executable */
+> > +       if (vma->vm_flags & VM_EXEC)
+> > +               return 0;
+> > +
+> > +       if (prot & PROT_EXEC) {
+> > +               build_eval_ctx(&ctx, vma->vm_file, ipe_op_exec);
+> > +               return ipe_evaluate_event(&ctx);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +/**
+> > + * ipe_kernel_read_file - ipe security hook function for kernel read.
+> > + * @file: Supplies a pointer to the file structure being read in from disk.
+> > + * @id: Supplies the enumeration identifying the purpose of the read.
+> > + * @contents: Unused.
+> > + *
+> > + * This LSM hook is called when a file is being read in from disk from
+> > + * the kernel.
+> > + *
+> > + * Return:
+> > + * 0 - OK
+> > + * !0 - Error
+> > + */
+> > +int ipe_kernel_read_file(struct file *file, enum kernel_read_file_id id,
+> > +                        bool contents)
+> > +{
+> > +       enum ipe_op_type op;
+> > +       struct ipe_eval_ctx ctx;
+> > +
+> > +       switch (id) {
+> > +       case READING_FIRMWARE:
+> > +               op = ipe_op_firmware;
+> > +               break;
+> > +       case READING_MODULE:
+> > +               op = ipe_op_kernel_module;
+> > +               break;
+> > +       case READING_KEXEC_INITRAMFS:
+> > +               op = ipe_op_kexec_initramfs;
+> > +               break;
+> > +       case READING_KEXEC_IMAGE:
+> > +               op = ipe_op_kexec_image;
+> > +               break;
+> > +       case READING_POLICY:
+> > +               op = ipe_op_ima_policy;
+> > +               break;
+> > +       case READING_X509_CERTIFICATE:
+> > +               op = ipe_op_ima_x509;
+> > +               break;
+> > +       default:
+> > +               op = ipe_op_max;
+> > +               WARN(op == ipe_op_max, "no rule setup for enum %d", id);
+> > +       }
+> > +
+> > +       build_eval_ctx(&ctx, file, op);
+> > +       return ipe_evaluate_event(&ctx);
+> > +}
+> > +
+> > +/**
+> > + * ipe_kernel_load_data - ipe security hook function for kernel load data.
+> > + * @id: Supplies the enumeration identifying the purpose of the read.
+> > + * @contents: Unused.
+> > + *
+> > + * This LSM hook is called when a buffer is being read in from disk.
+> > + *
+> > + * Return:
+> > + * * 0 - OK
+> > + * * !0        - Error
+> > + */
+> > +int ipe_kernel_load_data(enum kernel_load_data_id id, bool contents)
+> > +{
+> > +       enum ipe_op_type op;
+> > +       struct ipe_eval_ctx ctx = { 0 };
+> > +
+> > +       switch (id) {
+> > +       case LOADING_FIRMWARE:
+> > +               op = ipe_op_firmware;
+> > +               break;
+> > +       case LOADING_MODULE:
+> > +               op = ipe_op_kernel_module;
+> > +               break;
+> > +       case LOADING_KEXEC_INITRAMFS:
+> > +               op = ipe_op_kexec_initramfs;
+> > +               break;
+> > +       case LOADING_KEXEC_IMAGE:
+> > +               op = ipe_op_kexec_image;
+> > +               break;
+> > +       case LOADING_POLICY:
+> > +               op = ipe_op_ima_policy;
+> > +               break;
+> > +       case LOADING_X509_CERTIFICATE:
+> > +               op = ipe_op_ima_x509;
+> > +               break;
+> > +       default:
+> > +               op = ipe_op_max;
+> > +               WARN(op == ipe_op_max, "no rule setup for enum %d", id);
+> > +       }
+> > +
+> > +       build_eval_ctx(&ctx, NULL, op);
+> > +       return ipe_evaluate_event(&ctx);
+> > +}
+> > diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
+> > index 30fe455389bf..857cae69678c 100644
+> > --- a/security/ipe/hooks.h
+> > +++ b/security/ipe/hooks.h
+> > @@ -11,4 +11,17 @@
+> >
+> >  void ipe_sb_free_security(struct super_block *mnt_sb);
+> >
+> > +int ipe_bprm_check_security(struct linux_binprm *bprm);
+> > +
+> > +int ipe_mmap_file(struct file *f, unsigned long reqprot, unsigned long prot,
+> > +                 unsigned long flags);
+> > +
+> > +int ipe_file_mprotect(struct vm_area_struct *vma, unsigned long reqprot,
+> > +                     unsigned long prot);
+> > +
+> > +int ipe_kernel_read_file(struct file *file, enum kernel_read_file_id id,
+> > +                        bool contents);
+> > +
+> > +int ipe_kernel_load_data(enum kernel_load_data_id id, bool contents);
+> > +
+> >  #endif /* IPE_HOOKS_H */
+> > diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
+> > index bef923026b50..7af2f942decd 100644
+> > --- a/security/ipe/ipe.c
+> > +++ b/security/ipe/ipe.c
+> > @@ -4,6 +4,7 @@
+> >   */
+> >
+> >  #include "ipe.h"
+> > +#include "hooks.h"
+> >
+> >  bool ipe_enabled;
+> >
+> > @@ -12,6 +13,11 @@ static struct lsm_blob_sizes ipe_blobs __lsm_ro_after_init = {
+> >
+> >  static struct security_hook_list ipe_hooks[] __lsm_ro_after_init = {
+> >         LSM_HOOK_INIT(sb_free_security, ipe_sb_free_security),
+> > +       LSM_HOOK_INIT(bprm_check_security, ipe_bprm_check_security),
+> > +       LSM_HOOK_INIT(mmap_file, ipe_mmap_file),
+> > +       LSM_HOOK_INIT(file_mprotect, ipe_file_mprotect),
+> > +       LSM_HOOK_INIT(kernel_read_file, ipe_kernel_read_file),
+> > +       LSM_HOOK_INIT(kernel_load_data, ipe_kernel_load_data),
+> >  };
+> >
+> >  /**
+> > --
+> > 2.39.0
+> 
+> --
+> paul-moore.com
