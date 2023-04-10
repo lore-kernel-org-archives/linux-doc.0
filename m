@@ -2,82 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D566C77B6F
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 06:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77916C77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 09:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbjDJGFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 02:05:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34484 "EHLO
+        id S229579AbjDJJUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 05:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjDJGFP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 02:05:15 -0400
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0C43C14;
-        Sun,  9 Apr 2023 23:05:10 -0700 (PDT)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 8AA8A24DC94;
-        Mon, 10 Apr 2023 14:05:01 +0800 (CST)
-Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 10 Apr
- 2023 14:05:01 +0800
-Received: from [192.168.125.87] (113.72.145.176) by EXMBX172.cuchost.com
- (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 10 Apr
- 2023 14:05:00 +0800
-Message-ID: <629439b9-13e4-7a69-bb56-7c3f7622c332@starfivetech.com>
-Date:   Mon, 10 Apr 2023 14:04:59 +0800
+        with ESMTP id S229485AbjDJJUd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 05:20:33 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F4340CD;
+        Mon, 10 Apr 2023 02:20:32 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Pw3J43tTdzSqbK;
+        Mon, 10 Apr 2023 17:16:36 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 10 Apr
+ 2023 17:20:29 +0800
+Message-ID: <826e8733-2f02-e0db-ee34-a6ae0cadb040@huawei.com>
+Date:   Mon, 10 Apr 2023 17:20:29 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v6 2/2] hwmon: (sfctemp) Add StarFive JH71x0 temperature
- sensor
-To:     Guenter Roeck <linux@roeck-us.net>
-CC:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        Samin Guo <samin.guo@starfivetech.com>,
-        <linux-kernel@vger.kernel.org>
-References: <20230321022644.107027-1-hal.feng@starfivetech.com>
- <20230321022644.107027-3-hal.feng@starfivetech.com>
- <4423f128-dff8-421a-ae9b-b45c087481a4@roeck-us.net>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v3 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+To:     Simon Horman <horms@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <bhe@redhat.com>, <thunder.leizhen@huawei.com>
+References: <20230406220206.3067006-1-chenjiahao16@huawei.com>
+ <20230406220206.3067006-2-chenjiahao16@huawei.com>
+ <ZDAGi2/+1q0oEUZ5@kernel.org>
 Content-Language: en-US
-From:   Hal Feng <hal.feng@starfivetech.com>
-In-Reply-To: <4423f128-dff8-421a-ae9b-b45c087481a4@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <ZDAGi2/+1q0oEUZ5@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [113.72.145.176]
-X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX172.cuchost.com
- (172.16.6.92)
-X-YovoleRuleAgent: yovoleflag
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 8 Apr 2023 08:29:36 -0700, Guenter Roeck wrote:
-> On Tue, Mar 21, 2023 at 10:26:44AM +0800, Hal Feng wrote:
->> From: Emil Renner Berthing <kernel@esmil.dk>
->> 
->> Add driver for the StarFive JH71x0 temperature sensor. You
->> can enable/disable it and read temperature in milli Celcius
->> through sysfs.
->> 
->> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
->> Co-developed-by: Samin Guo <samin.guo@starfivetech.com>
->> Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
->> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
-> 
-> Applied.
 
-Thank you so much! Looking forward to seeing it in v6.4.
+On 2023/4/7 20:03, Simon Horman wrote:
+> On Fri, Apr 07, 2023 at 06:02:05AM +0800, Chen Jiahao wrote:
+>> On riscv, the current crash kernel allocation logic is trying to
+>> allocate within 32bit addressible memory region by default, if
+>> failed, try to allocate without 4G restriction.
+>>
+>> In need of saving DMA zone memory while allocating a relatively large
+>> crash kernel region, allocating the reserved memory top down in
+>> high memory, without overlapping the DMA zone, is a mature solution.
+>> Here introduce the parameter option crashkernel=X,[high,low].
+>>
+>> One can reserve the crash kernel from high memory above DMA zone range
+>> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+>> below 4G with "crashkernel=X,low".
+>>
+>> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+> ...
+>
+>> @@ -1180,14 +1206,37 @@ static void __init reserve_crashkernel(void)
+>>   		return;
+>>   	}
+>>   
+>> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>>   				&crash_size, &crash_base);
+>> -	if (ret || !crash_size)
+>> +	if (ret == -ENOENT) {
+>> +		/*
+>> +		 * crashkernel=X,[high,low] can be specified or not, but
+>> +		 * invalid value is not allowed.
+> nit: Perhaps something like this would be easier to correlate with the
+>       code that follows:
+>
+> 		/* Fallback to crashkernel=X,[high,low] */
+>
+Agreed, this would be more concise and accurate.
+>> +		 */
+>> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+>> +		if (ret || !crash_size)
+>> +			return;
+>> +
+>> +		/*
+>> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
+>> +		 * is passed and high memory is reserved successful.
+> nit: s/successful/successfully/
 
-Best regards,
-Hal
+I will fix above nits and resend another version later, thanks.
+
+
+>> +		 */
+>> +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+>> +		if (ret == -ENOENT)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +		else if (ret)
+>> +			return;
+>> +
+>> +		search_start = search_low_max;
+>> +	} else if (ret || !crash_size) {
+>> +		/* Invalid argument value specified */
+>>   		return;
+>> +	}
+> ...
