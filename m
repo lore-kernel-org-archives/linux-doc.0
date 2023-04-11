@@ -2,98 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D95AC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 23:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F62C77B72
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 23:08:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbjDKXE0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 19:04:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51840 "EHLO
+        id S229509AbjDKXIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 19:08:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjDKXEZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 19:04:25 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F7C199D;
-        Tue, 11 Apr 2023 16:04:24 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id C9F895C018A;
-        Tue, 11 Apr 2023 19:04:20 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 11 Apr 2023 19:04:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1681254260; x=1681340660; bh=gs
-        bn2oyKgih4x2C06Ah8fFpl2xaJq27kMcEbABkhWFY=; b=l/tefIBwRsVvQpaogC
-        J7B7EnYcAR08db2luxaD81KGRmZrorH9dEFLyi8DKxAgP02/4PbU+IQnY9jJ4joq
-        v9uO/V7zHURvxFaXGm1m9fIyCKJioumsRoUOi1gRlih5QSCOmz1tH+RD47HQGQwu
-        pTal7H4domS1joO+0DvM3DJp0qzbQBNA7fbhErypCIVPvF5AnZoBqc5OLTma03GN
-        4802BP2nVEnRaDuRFh5jOyGOCnVXg+Vz/vv3KcWwQPNVsWePRzLegOuTbTmUFrL8
-        WMfxgGVqxCL6375N9L1dynhkOJ6lGAx+AzM56kSqwZggHcTv5aUgqpKZIgejjemS
-        Oxcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1681254260; x=1681340660; bh=gsbn2oyKgih4x
-        2C06Ah8fFpl2xaJq27kMcEbABkhWFY=; b=QbH0rvoGb1hFhDc0ra+rQxrOrh1rv
-        KZKjFMrmtl8JEKBghEUqOVY+sSWD67vupdLAU5wi0VFcXZ2AkUrBe9R0d+pjGwyA
-        U9+ZAdcat/iojatXAk7BONaf+N74Kv9H4CUvbHVcIv6YtDN6nbj3JAQJkDP4Kl3D
-        M+VXL8p5Sd58+Leo1uxObdu3U1FZ43Z84bXnSvHKS/+SN1tumg3cEDMHO7g4vqVD
-        lUR6pCUOMYArz46H9Ub9bE4hoX9D0NAE53aUH90lykKxyr7Z9HKdrstihEoxhRxR
-        QuhCZTX9ZNv2Hq17KBFqdSwkhi3jD1PEVb0rBRUKA7E2p6LFalN6+xOEQ==
-X-ME-Sender: <xms:c-c1ZH4Dmp78sWGgQRHeUsluruv8x2LdSkkl6uOnxthOTML_19rcXg>
-    <xme:c-c1ZM7M1KoT94Jdhe_NWkk0yW9LQZ8AR4zpX9Lb19MWoSLhrng59xqBvG9nxYfUX
-    yulAIJLf-lmVjWOQDg>
-X-ME-Received: <xmr:c-c1ZOef5FXs-hqxFM7uhCCqXXX4RdWJjUf13dL83Ip3CyH6jxBnzgPArvluIkF0jB2U46pacq8DhMkOmLcbeVuKnMsByBat0Uc131jmXQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekhedgudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpehffgfhvfevufffjgfkgggtsehttd
-    ertddtredtnecuhfhrohhmpefuthgvfhgrnhcutfhovghstghhuceoshhhrhesuggvvhhk
-    vghrnhgvlhdrihhoqeenucggtffrrghtthgvrhhnpeevlefggffhheduiedtheejveehtd
-    fhtedvhfeludetvdegieekgeeggfdugeeutdenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehshhhrseguvghvkhgvrhhnvghlrdhioh
-X-ME-Proxy: <xmx:c-c1ZIIL2fmLJ4gKelJRRISmpZeTd__iIwspdhTScTFkw3AlNCklkA>
-    <xmx:c-c1ZLJ23PUhuchjRcRijjU3Y7X6QdmCAy1bVh9m_-WyYqnUh_qb6A>
-    <xmx:c-c1ZBwSgQrZ_XvcEYn3SCnYvg08ENa8qUvqoXqXXJW9YrHbLDfAlQ>
-    <xmx:dOc1ZMUQMDYLyjk_kuZPprkNBEVRnogc3lNMJLp2MjsMP_wB2tUsTA>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Apr 2023 19:04:18 -0400 (EDT)
-References: <20230406165339.1017597-1-shr@devkernel.io>
- <20230406165339.1017597-2-shr@devkernel.io>
- <ZDXgmx0xD8ch/Iu5@casper.infradead.org>
-User-agent: mu4e 1.6.11; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v5 1/3] mm: add new api to enable ksm per process
-Date:   Tue, 11 Apr 2023 16:03:57 -0700
-In-reply-to: <ZDXgmx0xD8ch/Iu5@casper.infradead.org>
-Message-ID: <qvqw4jpm58cv.fsf@dev0134.prn3.facebook.com>
+        with ESMTP id S229456AbjDKXIN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 19:08:13 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C5401FD2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 16:08:09 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id z9so9947814ybs.9
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 16:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1681254489; x=1683846489;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eIyxfCRdtVW6DZEqESNyM82Zcjpw6q1yxE2SLi7Q/10=;
+        b=XXnbf3ZXHmVyyAWosjbgtLtVe0obVxWMHT6ER5WKVjE2//n1kQT1vqGfH+itDlXM2k
+         2fneTH+5x2uocctQ6SccdU559tW16dOAzYZt4SUNr3SQZoWWsatyRHmcKNDLHGZiFZX1
+         ngNGr73HAG/JBY+0W9DmkWkoC+3V3vgClv7PS81c7UdnCx+3aMFz1Ishp4aKe2GcG+9q
+         +3SRRyJSTGsRHSMejxxYLambtKEVZffeY9ZCgEkqByHxjKnrI4D7N/WlEOpBuqUt0lI4
+         YOvKnY4/lPDxTBJnhmllQ0VSpmZ1AJLwV7aGqPZH7Infu2EyjgWnt0Qsp4/uyydvAv+I
+         TYrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681254489; x=1683846489;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eIyxfCRdtVW6DZEqESNyM82Zcjpw6q1yxE2SLi7Q/10=;
+        b=3kD6rk2UMWd+M9tsqg/Fv75E7wdmomF3GAUfPqTc5eK9X8unN+8RNyoNUhrj5j9iJ+
+         svdq8IzzrAZbnGaM/TSdkQK8fjaXqzBvb5i8s51QmPke2QU0QJRU/ibJyU/cRLKz1WQ0
+         HiqqoK01zRZsnKcWkEC8XqWT3cROrnThLgBomO8yRwkBL3zo6yHfTwSEcM07vG+1JM4k
+         3B8Gnl5GYsZMJJVQu8duJzsMDcp/kNjBCEKB04MxjrqOFXbBvsGDuaokIgJj2n0rqbDV
+         VO5rRaZfCmjFKddbPN5KopaQMwCgKAkQSh0grkjscPRNtsx0KdGRHa6RFuoKrQNb7oyJ
+         LVZA==
+X-Gm-Message-State: AAQBX9dw4cGg7/zRndjjy4NR/WcUhd3nm8264q9KcX/gL52VWPtPUPJZ
+        k4632b1IXQfKeg1yrew2Rycxr6bTMlHxOspg1B2x
+X-Google-Smtp-Source: AKy350YGpKFShus1wXg4P7JDpOEQwCA2ZUIAFxOOzluNG03DhrMlLa19ZC7t5ZHiN0J6rZ9Xc6wbx1W+NEq2mwRq1zY=
+X-Received: by 2002:a25:d702:0:b0:b68:7a4a:5258 with SMTP id
+ o2-20020a25d702000000b00b687a4a5258mr377571ybg.3.1681254488697; Tue, 11 Apr
+ 2023 16:08:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-8-git-send-email-wufan@linux.microsoft.com>
+ <3723852.kQq0lBPeGt@x2> <CAHC9VhRqMrTuvVtwzJoK2U=6O1QuaQ8ceA6+qm=6ib0TOUEeSw@mail.gmail.com>
+ <20230316225340.GB22567@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20230316225340.GB22567@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 11 Apr 2023 19:07:57 -0400
+Message-ID: <CAHC9VhQxxrDnzJmUitMid3fk-VwNRU3NWoqjpj1=rhrtpoE=7w@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 07/16] uapi|audit|ipe: add ipe auditing support
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     Steve Grubb <sgrubb@redhat.com>, corbet@lwn.net,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
+        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com,
+        linux-audit@redhat.com, dm-devel@redhat.com,
+        linux-doc@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        roberto.sassu@huawei.com, linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-integrity@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-Matthew Wilcox <willy@infradead.org> writes:
-
-> On Thu, Apr 06, 2023 at 09:53:37AM -0700, Stefan Roesch wrote:
->> +	case PR_SET_MEMORY_MERGE:
->> +		if (mmap_write_lock_killable(me->mm))
->> +			return -EINTR;
->> +
->> +		if (arg2) {
->> +			int err = ksm_add_mm(me->mm);
->> +			if (err)
->> +				return err;
+On Thu, Mar 16, 2023 at 6:53=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> On Thu, Mar 02, 2023 at 02:05:33PM -0500, Paul Moore wrote:
+> > On Tue, Jan 31, 2023 at 12:11???PM Steve Grubb <sgrubb@redhat.com> wrot=
+e:
+> > >
+> > > Hello,
+> > >
+> > > On Monday, January 30, 2023 5:57:22 PM EST Fan Wu wrote:
+> > > > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> > > >
+> > > > Users of IPE require a way to identify when and why an operation fa=
+ils,
+> > > > allowing them to both respond to violations of policy and be notifi=
+ed
+> > > > of potentially malicious actions on their systens with respect to I=
+PE
+> > > > itself.
+> > > >
+> > > > The new 1420 audit, AUDIT_IPE_ACCESS indicates the result of a poli=
+cy
+> > > > evaulation of a resource. The other two events, AUDIT_MAC_POLICY_LO=
+AD,
+> > > > and AUDIT_MAC_CONFIG_CHANGE represent a new policy was loaded into =
+the
+> > > > kernel and the currently active policy changed, respectively.
+> > >
+> > > Typically when you reuse an existing record type, it is expected to m=
+aintain
+> > > the same fields in the same order. Also, it is expect that fields tha=
+t are
+> > > common across diferent records have the same meaning. To aid in this,=
+ we have
+> > > a field dictionary here:
+> > >
+> > > https://github.com/linux-audit/audit-documentation/blob/main/specs/fi=
+elds/
+> > > field-dictionary.csv
+> > >
+> > > For example, dev is expected to be 2 hex numbers separated by a colon=
+ which
+> > > are the device major and minor numbers. But down a couple lines from =
+here, we
+> > > find dev=3D"tmpfs". But isn't that a filesystem type?
+> >
+> > What Steve said.
+> >
+> > I'll also add an administrative note, we just moved upstream Linux
+> > audit development to a new mailing list, audit@vger.kernel.org, please
+> > use that in future patch submissions.  As a positive, it's a fully
+> > open list so you won't run into moderation delays/notifications/etc.
+> >
+> Thanks for the info, I will update the address.
 >
-> You'll return to userspace with the mutex held, no?
+> > > > This patch also adds support for success auditing, allowing users t=
+o
+> > > > identify how a resource passed policy. It is recommended to use thi=
+s
+> > > > option with caution, as it is quite noisy.
+> > > >
+> > > > This patch adds the following audit records:
+> > > >
+> > > >   audit: AUDIT1420 path=3D"/tmp/tmpwxmam366/deny/bin/hello" dev=3D"=
+tmpfs"
+> > > >     ino=3D72 rule=3D"DEFAULT op=3DEXECUTE action=3DDENY"
+> > >
+> > > Do we really need to log the whole rule?
+> >
+> > Fan, would it be reasonable to list the properties which caused the
+> > access denial?  That seems like it might be more helpful than the
+> > specific rule, or am I missing something?
 >
+> Audit the whole rule can let the user find the reason of a policy decisio=
+n.
+> We need the whole rule because an allow/block is not caused by a specific
+> property, but the combination of all property conditions in a rule.
 
-Thanks for catching this, I'll fix it in the next version.
+Okay, that's a reasonable argument for logging the rule along with the
+decision.  I think it helps that the IPE policy rules are not
+particularly long.
+
+> We could also add a verbose switch such that we only audit
+> the whole rule when a user turned the verbose switch on.
+
+I'm not sure that's necessary, and honestly it might be annoying as we
+would still need to output a 'rule=3D"?"' field in the audit record as
+it is considered good practice to not have fields magically appear and
+disappear from the record format.  However, if there are concerns
+about record sizes, that could be a potential mitigation.
+
+--=20
+paul-moore.com
