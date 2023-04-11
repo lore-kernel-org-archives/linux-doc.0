@@ -2,110 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCD0C77B6F
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 16:47:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 993F6C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 16:53:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbjDKQrw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 12:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55708 "EHLO
+        id S229932AbjDKQxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 12:53:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230091AbjDKQrs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 12:47:48 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5677C59E3;
-        Tue, 11 Apr 2023 09:47:44 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id 39-20020a9d04aa000000b006a1370e214aso2414944otm.11;
-        Tue, 11 Apr 2023 09:47:44 -0700 (PDT)
+        with ESMTP id S230261AbjDKQxX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 12:53:23 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 933D3CF
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 09:53:21 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-2efbab42639so271428f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 09:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681231663;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OV/uuQZ41eH3AQ7KVpUu+AQP65VPVOJDNUkIUJlBcW8=;
-        b=M0JuxiDMCuw5UBrcSnwb9HMdF0X77GXMcLCxFtljkSQ17pMsAE5s6+iVvE8x1k64lk
-         bFXie5+nYrcwp/e2JgNUFyd35ZZWgyNZArZ+Wuq8LfFlylOY11Zl6h7r76dLM7Xt9Wdd
-         D82CHTUBVKnKyhf9KQIS2hQkLUYG42ti+02ifxh8vcbCaqfvbvpSrUFNlr1NYwlMIp3W
-         wRiFQu/5DfcEA0XLxhNgxHFFHISPgN2hIIokMRLq0lxk6UiIcSd5yIiiN9I/HGUhmvlQ
-         pLWaUSRGgkGWcbAaUWt3w7uNaAtNuyqxHMPEuzDdplBxkGdJlaW3Bhza+bcFOz7KDp3B
-         OHEg==
+        d=ffwll.ch; s=google; t=1681232000;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+gfcS2tsX9XYUKArm1OCX22keoi76nV+AVghU8pmdeQ=;
+        b=ZHwBGcIXDowSL7P0mmBS86mEH7x4yQD/opnqA2YmT3uLGcV8wIz3w7kfDDiqRZH8wK
+         CvPWLRqV56VJ/fHFbywikIUe0WbQ4aqOlQbMcsWioRrumzFp7GM23LX4kQisKX4N65dC
+         bSyte7J7M300AOpKo4rtQgSP5iikR5XAeKqVY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681231663;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OV/uuQZ41eH3AQ7KVpUu+AQP65VPVOJDNUkIUJlBcW8=;
-        b=jGg9vnZvxgr2suM+ZMSPQ+5xn9u/aMKmxWc+UN+jJJkQVlq8u7EaCJHAU7QZ1vBH8L
-         zfTyxCDB9v6jHpFPkN3MHEGd4PojGHQFVBPEIt3bdM1W32WDxgyc2al3Juh/eG5wN7H8
-         4An5seHebE4SrXKbGs5Y5RWaaeaK5jlDal7zj6dosafqftX3syrRWzvmHIS5HHUj7BE5
-         6ZKJgUhB00fR7asfohfnriyD1PjbmiB+vsckwYZnKEtx6/z+PnTsse5hnQvz0RlN6DB3
-         ZN9k/SjzyDe9kRt/iv7w42YS4Eb8ikMLmGMDh+a8B6Fa4SuU4Xt4JtHIuUuzlGaE1PJt
-         srEA==
-X-Gm-Message-State: AAQBX9e5DZPWr/IwNzxsgpl1nEP0CuDLPXsePjo0RzZRh50bjp8gY4kA
-        OoZndD1H4IEsjrELfTD9yn8KZ15SiBemwICXnd8=
-X-Google-Smtp-Source: AKy350Zp/HByftvsIEBW+tEKszX5mY603bGDJCqGixLoxpUthI8l72LdtmsEHqerAO8/qJT918CEfStcjHdTFsPjnUU=
-X-Received: by 2002:a05:6830:1b62:b0:6a4:17b6:8767 with SMTP id
- d2-20020a0568301b6200b006a417b68767mr12354ote.7.1681231663656; Tue, 11 Apr
- 2023 09:47:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230410210608.1873968-1-robdclark@gmail.com>
-In-Reply-To: <20230410210608.1873968-1-robdclark@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 11 Apr 2023 09:47:32 -0700
-Message-ID: <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] drm: fdinfo memory stats
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
+        d=1e100.net; s=20210112; t=1681232000;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+gfcS2tsX9XYUKArm1OCX22keoi76nV+AVghU8pmdeQ=;
+        b=LhD2kiH2kxR8DthU6zr53f9N5yYwkBn3cRvKor8OYT/Oyxhi3hp639eswZcCNYQ9bK
+         DKoNCn9FytydupD5jCS3AllfOpuzg6S0nk9vxQKWoi/ovlPW/r6IfJXw9OT+Mp62UkQz
+         ElilNiJMPpkoyT5RCTxdAaYTj/MAl6q+2yX+JzSEl4K6p+hCm/Rqo6FDJsNN+PaTPrRN
+         +7l6P3RgCyPvmKzeDwo08ccOOXk0WwocEbEwyttfW2giFuLuSc4FHYsHSTqe3utNjF6+
+         DDYrcDgW545TsXXY9ufX22MSZck4xmYNgTY/Ck3onag3SGUyPZN7k4RPCfVp5c7B3nyb
+         9/aA==
+X-Gm-Message-State: AAQBX9fh7nF+XvBicECswHUp9XdBc9tFS+K6QjY9u+DLXIiTNbmnkQ7Z
+        Aa8PHLx36Uh1hO18dtvq2rIjWA==
+X-Google-Smtp-Source: AKy350br+rdKktY3gNnwuJRPjU8rT52r6Z6DA+ZmF+aY8UidhYk2IuG1US9rA79MkKG7FwSbsx8pVQ==
+X-Received: by 2002:a05:600c:3490:b0:3f0:7ec7:a71 with SMTP id a16-20020a05600c349000b003f07ec70a71mr8239096wmq.4.1681231999969;
+        Tue, 11 Apr 2023 09:53:19 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id k23-20020a05600c0b5700b003ee44b2effasm17500892wmr.12.2023.04.11.09.53.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 09:53:19 -0700 (PDT)
+Date:   Tue, 11 Apr 2023 18:53:17 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
         Rob Clark <robdclark@chromium.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Christopher Healy <healych@amazon.com>,
         open list <linux-kernel@vger.kernel.org>,
-        Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Sean Paul <sean@poorly.run>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/2] drm: fdinfo memory stats
+Message-ID: <ZDWQfbUBhyJf1Ezx@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+        dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Christopher Healy <healych@amazon.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sean Paul <sean@poorly.run>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        freedreno@lists.freedesktop.org
+References: <20230410210608.1873968-1-robdclark@gmail.com>
+ <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 10, 2023 at 2:06=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Similar motivation to other similar recent attempt[1].  But with an
-> attempt to have some shared code for this.  As well as documentation.
->
-> It is probably a bit UMA-centric, I guess devices with VRAM might want
-> some placement stats as well.  But this seems like a reasonable start.
->
-> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
-> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+On Tue, Apr 11, 2023 at 09:47:32AM -0700, Rob Clark wrote:
+> On Mon, Apr 10, 2023 at 2:06 PM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Similar motivation to other similar recent attempt[1].  But with an
+> > attempt to have some shared code for this.  As well as documentation.
+> >
+> > It is probably a bit UMA-centric, I guess devices with VRAM might want
+> > some placement stats as well.  But this seems like a reasonable start.
+> >
+> > Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+> > And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+> 
+> On a related topic, I'm wondering if it would make sense to report
+> some more global things (temp, freq, etc) via fdinfo?  Some of this,
+> tools like nvtop could get by trawling sysfs or other driver specific
+> ways.  But maybe it makes sense to have these sort of things reported
+> in a standardized way (even though they aren't really per-drm_file)
 
-On a related topic, I'm wondering if it would make sense to report
-some more global things (temp, freq, etc) via fdinfo?  Some of this,
-tools like nvtop could get by trawling sysfs or other driver specific
-ways.  But maybe it makes sense to have these sort of things reported
-in a standardized way (even though they aren't really per-drm_file)
+I think that's a bit much layering violation, we'd essentially have to
+reinvent the hwmon sysfs uapi in fdinfo. Not really a business I want to
+be in :-)
 
-BR,
--R
+What might be needed is better glue to go from the fd or fdinfo to the
+right hw device and then crawl around the hwmon in sysfs automatically. I
+would not be surprised at all if we really suck on this, probably more
+likely on SoC than pci gpus where at least everything should be under the
+main pci sysfs device.
+-Daniel
 
+> 
+> BR,
+> -R
+> 
+> 
+> > [1] https://patchwork.freedesktop.org/series/112397/
+> >
+> > Rob Clark (2):
+> >   drm: Add fdinfo memory stats
+> >   drm/msm: Add memory stats to fdinfo
+> >
+> >  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+> >  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
+> >  drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
+> >  drivers/gpu/drm/msm/msm_gpu.c         |  2 -
+> >  include/drm/drm_file.h                | 10 ++++
+> >  5 files changed, 134 insertions(+), 3 deletions(-)
+> >
+> > --
+> > 2.39.2
+> >
 
-> [1] https://patchwork.freedesktop.org/series/112397/
->
-> Rob Clark (2):
->   drm: Add fdinfo memory stats
->   drm/msm: Add memory stats to fdinfo
->
->  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
->  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
->  drivers/gpu/drm/msm/msm_gpu.c         |  2 -
->  include/drm/drm_file.h                | 10 ++++
->  5 files changed, 134 insertions(+), 3 deletions(-)
->
-> --
-> 2.39.2
->
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
