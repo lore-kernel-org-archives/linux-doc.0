@@ -2,54 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D9DCC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 09:39:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26549C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 10:21:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230211AbjDKJjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 05:39:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54290 "EHLO
+        id S229725AbjDKKVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 06:21:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjDKJij (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 05:38:39 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC58C1984;
-        Tue, 11 Apr 2023 02:37:54 -0700 (PDT)
-Received: by gandalf.ozlabs.org (Postfix, from userid 1003)
-        id 4Pwgk52nX0z4xFd; Tue, 11 Apr 2023 19:37:49 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-        s=201707; t=1681205869;
-        bh=ZqYO+3AAJ7KdoPIQv+9ft6lOTImzO3egTdFAE+QjTNs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IysLWq276d8TOdhvNMHA8UHL/7Esa9zUf65Wv2wj0jsCkvxZ7sXNjFyQpiMqMMP3m
-         mrjDO2oH3a7dFkzt7RbQLm8A8V8zHRnUtsqJEkhYPXf4wMkzs3dddakSFeynBf1z7l
-         GN0ZRFKO2huqhQVH6QuQfy1SD0ZxnxvIo6avvYL9nFNPp3P9Fl5docy+dJijqbkDY5
-         To6AzdLRgO9KwHmfl2I/TB754D7moWLFuTBBV2o+pnSc8PLaKs46iIj2A9dULu+iTU
-         iALnuKiRbVy6By3+ACij14tqAwH2iqKKs5s1X4mTiEAbygIGaoxUgQ24elbSGqkLdG
-         QgsXJ3bZp7/6Q==
-Date:   Tue, 11 Apr 2023 19:37:45 +1000
-From:   Paul Mackerras <paulus@ozlabs.org>
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH] KVM: PPC: Fix documentation for ppc mmu caps
-Message-ID: <ZDUqaUbakmKvNFXM@cleo>
-References: <20230411061446.26324-1-joel@jms.id.au>
+        with ESMTP id S229755AbjDKKVP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 06:21:15 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B9E23AB0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 03:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681208467; x=1712744467;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GVsPzAZHNedPOIs9wwN86m2a07NabvDF9TEuPZQLJBA=;
+  b=AwYXTtUw97wdzuNZq5RwoPMOViRxHon0kBrJLQMvfzCZz0qK8hNhWVkk
+   R3PwF+ZL0VAL9fO9gEuuLky2iIsLx4A6q2gBRNofRjsBHEVI4WfKajmZS
+   snrmtu5llC/+OZGO0Pg2h8ybsLUJO+tg9cpP8/CxZghx8P8J/3NCgj1zS
+   SC7Ey8I8Vh9FYJBLDkcR/zjD4GOR4ExjcfdVrPXko9JsI/QAzFqUTYIW6
+   0yz+CVXBGDZXfQIqNgjTXmhrqVA0q/mdO3QSDikRdF/Qd5xC7WGUcBwO4
+   D1f7LsVqtsQmtIOjxOhjonDVGXHXVUXsOcUjP8je1YifWqZ2TojM0boo6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="341071840"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="341071840"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 03:21:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="862817665"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="862817665"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 11 Apr 2023 03:21:05 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pmB7Y-000WCj-2b;
+        Tue, 11 Apr 2023 10:21:04 +0000
+Date:   Tue, 11 Apr 2023 18:21:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+ 10/150] htmldocs: Warning:
+ Documentation/devicetree/bindings/power/wakeup-source.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+Message-ID: <202304111813.Fng1bYsN-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230411061446.26324-1-joel@jms.id.au>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 03:44:46PM +0930, Joel Stanley wrote:
-> The documentation mentions KVM_CAP_PPC_RADIX_MMU, but the defines in the
-> kvm headers spell it KVM_CAP_PPC_MMU_RADIX. Similarly with
-> KVM_CAP_PPC_MMU_HASH_V3.
-> 
-> Fixes: c92701322711 ("KVM: PPC: Book3S HV: Add userspace interfaces for POWER9 MMU")
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+head:   50deb21d3cedfc0532a79c819cde73e09f9395fd
+commit: d1403fbcae5ad8cfbb421f06f4e87941c2b780b6 [10/150] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+reproduce:
+        # https://github.com/krzk/linux/commit/d1403fbcae5ad8cfbb421f06f4e87941c2b780b6
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+        git checkout d1403fbcae5ad8cfbb421f06f4e87941c2b780b6
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Acked-by: Paul Mackerras <paulus@ozlabs.org>
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304111813.Fng1bYsN-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
