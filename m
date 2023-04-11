@@ -2,91 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B9DCC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 14:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7865CC77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 14:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbjDKOOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 10:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47446 "EHLO
+        id S230305AbjDKORp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 10:17:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjDKOOn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 10:14:43 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF231B1;
-        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id c10-20020a17090abf0a00b0023d1bbd9f9eso11108895pjs.0;
-        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681222482; x=1683814482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nUqBPGgh8CrNxczOidhg/CSqsuSy4JlqYBSAJ+z/y9s=;
-        b=Gu7+eyUOLclC1bTu8BcvYj14sC6QoGrw3NMzAIq+OpKET0Clg1rXkZkOAYAVNWpKgS
-         4sPHsUqgwrQi95ufUaMLK38qQrwVMIKkK0tfRxmt2QOkPnTA6NT7kNrMHEL2eBUuRrK+
-         GwIcQBD5HNK4f1EwsJ+NQnqIMhPCddh38R2fymNcDL7/GlirPWTIiRrZN70V2WNOEjBY
-         99bcfItjprKWxL3gH4SGTZwChBgUOGhqakf6niF3igEqtL5k0RB8uzLpl0QQYsgq3xja
-         Gb3wSqNGEfEYWkNfTuxBPQ1QceWaIzdHq8rt0OLhTeucqPd28FOd0pIFkhehHju4+CSs
-         7gHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681222482; x=1683814482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nUqBPGgh8CrNxczOidhg/CSqsuSy4JlqYBSAJ+z/y9s=;
-        b=kTxW6iOJuusZAl0t4e99paoHBmvJJnOOJ6uyMfNBnudwLLbDSMZLuWHo42np1s++KW
-         VWze7YOVhkw8CSJVLfv4W5DuDCLIQNI8+JnJUNKLRIC3PSWn8J2gbN9E6ziIkc2JioO2
-         oV3kgoYBK1yCey4um03oIfJs8u03B1xJtt9DHqHYtmWya+4G+oN5JhOe082VfPDMp19Q
-         ri75BJdkRUIAWYPQmQk4aIdyUoPmQsy4k3na7KoD1hgLZmtaiq13jB81T/jmR0vt+Xdp
-         GlytKeUEKQrnVBqUsRxaQFRYN+oeZNwJ6z+TPuSqZLR+N2M6go+KzYkICb+v7wdBD/6L
-         w2lg==
-X-Gm-Message-State: AAQBX9fwB8pqY9rYR83gaaVkKWJAyOG7cA09MZ0/wMZkeWL4cdnwrANA
-        WAuL6FEz4oGFBvnzy+Qwo3k=
-X-Google-Smtp-Source: AKy350Yu36TtUThSJ9RIwGKPPMbCyhpU0MLUm4TlwkNqMALQCkJHYxd8RXFtTUPFEa2XbFYYLlKrOA==
-X-Received: by 2002:a17:902:cec6:b0:1a1:e112:4607 with SMTP id d6-20020a170902cec600b001a1e1124607mr3431694plg.50.1681222482287;
-        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
-Received: from localhost.localdomain (36-229-229-178.dynamic-ip.hinet.net. [36.229.229.178])
-        by smtp.gmail.com with ESMTPSA id s11-20020a170902988b00b001991f3d85acsm9691979plp.299.2023.04.11.07.14.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
-From:   Lin Yu Chen <starpt.official@gmail.com>
-To:     corbet@lwn.net
-Cc:     paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
-        josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lin Yu Chen <starpt.official@gmail.com>
-Subject: [PATCH] docs: Fix typo in Documentation/RCU/checklist.rst
-Date:   Tue, 11 Apr 2023 07:13:41 -0700
-Message-Id: <20230411141341.74133-1-starpt.official@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229999AbjDKOR2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 10:17:28 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B4B5263;
+        Tue, 11 Apr 2023 07:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1681222641; x=1712758641;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l+JgXouqrG+N1yi4JFy3ghvDTExLHywE71wQs1yugEQ=;
+  b=CIh9J7rey7Czx1EfmdI/pIqWPGJrIN9zX7FUoqsCCTJUxAsxkLyxbbWn
+   0n3ZJBVtov25wQlJ6DbxumkqzTcIOcpa30A38eDSdcYogw6FgL5MeIb6x
+   /G/ltJnSZKb/69Th8Ua07kE+ulf6OZwVSMDPxEFxeQZT7zOKx9cftyETp
+   mo0UHTHXtnkRPtA5uDpvr9dLsfuLMO3xgyr4bVJU4jjVgVD5jIEr7XmH0
+   5MNntQ7Q6ntdZg78dJnH89dqwPsqmF4UF3qdpu/ybx1bqjEK8JGC6pRT9
+   LSNcBbCcRQ0XsdProjBtXx1XFFZShLSjSPuKUw52zZlOpKINUJvWqZngc
+   A==;
+X-IronPort-AV: E=Sophos;i="5.98,336,1673938800"; 
+   d="asc'?scan'208";a="205964165"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 11 Apr 2023 07:17:20 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 11 Apr 2023 07:17:19 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Tue, 11 Apr 2023 07:17:14 -0700
+Date:   Tue, 11 Apr 2023 15:16:58 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Evan Green <evan@rivosinc.com>
+CC:     Palmer Dabbelt <palmer@rivosinc.com>, <slewis@rivosinc.com>,
+        <heiko@sntech.de>, Conor Dooley <conor@kernel.org>,
+        <vineetg@rivosinc.com>, Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Guo Ren <guoren@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Jann Horn <jannh@google.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Samuel Holland <samuel@sholland.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH v6 0/6] RISC-V Hardware Probing User Interface
+Message-ID: <20230411-primate-rice-a5c102f90c6c@wendy>
+References: <20230407231103.2622178-1-evan@rivosinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="AMh/Lwu23Kj/r0q5"
+Content-Disposition: inline
+In-Reply-To: <20230407231103.2622178-1-evan@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit corrects the spelling of "not" to "note" to accurately
-convey the intended meaning.
+--AMh/Lwu23Kj/r0q5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lin Yu Chen <starpt.official@gmail.com>
----
- Documentation/RCU/checklist.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hey Evan,
 
-diff --git a/Documentation/RCU/checklist.rst b/Documentation/RCU/checklist.rst
-index cc361fb01ed4..bd3c58c44bef 100644
---- a/Documentation/RCU/checklist.rst
-+++ b/Documentation/RCU/checklist.rst
-@@ -70,7 +70,7 @@ over a rather long period of time, but improvements are always welcome!
- 	can serve as rcu_read_lock_sched(), but is less readable and
- 	prevents lockdep from detecting locking issues.
- 
--	Please not that you *cannot* rely on code known to be built
-+	Please note that you *cannot* rely on code known to be built
- 	only in non-preemptible kernels.  Such code can and will break,
- 	especially in kernels built with CONFIG_PREEMPT_COUNT=y.
- 
--- 
-2.25.1
+On Fri, Apr 07, 2023 at 04:10:57PM -0700, Evan Green wrote:
+>=20
+> There's been a bunch of off-list discussions about this, including at
+> Plumbers.  The original plan was to do something involving providing an
+> ISA string to userspace, but ISA strings just aren't sufficient for a
+> stable ABI any more: in order to parse an ISA string users need the
+> version of the specifications that the string is written to, the version
+> of each extension (sometimes at a finer granularity than the RISC-V
+> releases/versions encode), and the expected use case for the ISA string
+> (ie, is it a U-mode or M-mode string).  That's a lot of complexity to
+> try and keep ABI compatible and it's probably going to continue to grow,
+> as even if there's no more complexity in the specifications we'll have
+> to deal with the various ISA string parsing oddities that end up all
+> over userspace.
+>=20
+> Instead this patch set takes a very different approach and provides a set
+> of key/value pairs that encode various bits about the system.  The big
+> advantage here is that we can clearly define what these mean so we can
+> ensure ABI stability, but it also allows us to encode information that's
+> unlikely to ever appear in an ISA string (see the misaligned access
+> performance, for example).  The resulting interface looks a lot like
+> what arm64 and x86 do, and will hopefully fit well into something like
+> ACPI in the future.
+>=20
+> The actual user interface is a syscall, with a vDSO function in front of
+> it. The vDSO function can answer some queries without a syscall at all,
+> and falls back to the syscall for cases it doesn't have answers to.
+> Currently we prepopulate it with an array of answers for all keys and
+> a CPU set of "all CPUs". This can be adjusted as necessary to provide
+> fast answers to the most common queries.
+>=20
+> An example series in glibc exposing this syscall and using it in an
+> ifunc selector for memcpy can be found at [1].
+>=20
+> I was asked about the performance delta between this and something like
+> sysfs. I created a small test program [2] and ran it on a Nezha D1
+> Allwinner board. Doing each operation 100000 times and dividing, these
+> operations take the following amount of time:
+>  - open()+read()+close() of /sys/kernel/cpu_byteorder: 3.8us
+>  - access("/sys/kernel/cpu_byteorder", R_OK): 1.3us
+>  - riscv_hwprobe() vDSO and syscall: .0094us
+>  - riscv_hwprobe() vDSO with no syscall: 0.0091us
+>=20
+> These numbers get farther apart if we query multiple keys, as sysfs will
+> scale linearly with the number of keys, where the dedicated syscall
+> stays the same. To frame these numbers, I also did a tight
+> fork/exec/wait loop, which I measured as 4.8ms. So doing 4
+> open/read/close operations is a delta of about 0.3%, versus a single vDSO
+> call is a delta of essentially zero.
 
+Two nits w.r.t. build bot complaints...
+
+On patch 2:
+arch/riscv/include/uapi/asm/unistd.h:54:1: warning: initializer overrides p=
+rior initialization of this subobject [-Winitializer-overrides]
+I think this one is kinda spurious, all of the syscalls complain like
+this (and do on arm64 too IIRC). There was a patch from Guo somewhere to
+disable -Winitializer-overrides in this case, I should go find out what
+happened to it.
+
+On patch 4:
+arch/riscv/kernel/cpufeature.c:29:1: warning: symbol '__pcpu_scope_misalign=
+ed_access_speed' was not declared. Should it be static?
+
+Probably because cos cpufeature.c doesn't include the header of the same
+name... Perhaps Palmer could fix that one up on application?
+
+Cheers,
+Conor.
+
+
+--AMh/Lwu23Kj/r0q5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZDVr2gAKCRB4tDGHoIJi
+0ohDAP4vO99mP1Aar7XOlBB+xPLraW90a9bDAoMU0IbNlORQPAD/dsc19K8yMIXX
+s/fnS3/GuvOs4S1Ty6FJFopQ+2J+HA8=
+=0uEU
+-----END PGP SIGNATURE-----
+
+--AMh/Lwu23Kj/r0q5--
