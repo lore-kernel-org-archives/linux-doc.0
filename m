@@ -2,181 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F2FC77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 21:45:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87280C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 22:20:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbjDKVp5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 17:45:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55782 "EHLO
+        id S229588AbjDKWUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 18:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbjDKVp4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 17:45:56 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EDF049C2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 14:45:53 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id y186so9824904yby.13
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 14:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1681249552; x=1683841552;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QJHIYVc0csC12SHK/J/mtXalsO4pjHKd97C3GIyBGPs=;
-        b=DBlz2vm4moCxBbqcz1weaSasKWcg+Y71F5kVhWN7HJXD/ZN7d3htDBV70rbXGYWU3t
-         CXxT9fxqT9/QnzXL5Nd4wWfo4F0S9G27/nnohdAdRRK+4bONsmM4BvVBIzpOCbcwAeha
-         Xy/3h3dUEkfQn6vXeo0795aMl3/fNibaNdnltb95zNJoMMc7l+XJgqL5yZzvzIEqaHpF
-         HuYAWlfZWOnEM+Wye80CUORh4piSFA7w5AQbxTd97rqexAdvf8c6ZT1rwMrsR9PEU/VP
-         HGzyfkBtzRsmynNQmymKhDcCzgTJ+xjIpLPiLBbn6PV++RgHBtfpqB4xyg2F/X6/HjlC
-         QQ/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681249552; x=1683841552;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QJHIYVc0csC12SHK/J/mtXalsO4pjHKd97C3GIyBGPs=;
-        b=ebvFe2XNpG5B0HRx4k6/b3w8qpxK3byuCtY+ec/46MiA8BKLJWczk9iRrH2jfJzDqI
-         /n2D2myqgJWlHCpgSz/j4N2etA38CWdbnFu9SP7wBGpOoMVdT5II3EBWAcG1uzKgB+zS
-         7x+8OCXuxrQYm6SUBAj8SH3DSBlh6WJ9w3/hdtxz/HugMiMPNMLBWz+QsmFK5270ax7q
-         BoGvK2ig7MrpQBWz1WdmUYDM42Yl7XhYLaxIROh/4wD1h9S3KnSiJ1c1Dsl8F95Bk4zG
-         5+azAVWsXdJpid98fc28py9tWyEcvF8ecJPVPATVmYMF94tG5VAYuY9IlpKID70uQRDl
-         U7Hg==
-X-Gm-Message-State: AAQBX9cGaT+1gQDL2+slhTgeWCZnw1CmuBniXIDo407o2774iN2Cc1UM
-        7Qg7DjvWxIYomyH3D1cqlytMd4xskFkM4ht5C0/u
-X-Google-Smtp-Source: AKy350Yy44JQPhqwIxfCYnzm9J8mBAXlzIsXMzsUvsaWbKpTAmHS32TjoXQQ8RK1Y2npGScPRJOP30cnOuG8gOZrT1A=
-X-Received: by 2002:a25:e0c5:0:b0:b8b:fd23:5028 with SMTP id
- x188-20020a25e0c5000000b00b8bfd235028mr2609635ybg.3.1681249552097; Tue, 11
- Apr 2023 14:45:52 -0700 (PDT)
+        with ESMTP id S229530AbjDKWUP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 18:20:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B79A3C2F;
+        Tue, 11 Apr 2023 15:20:15 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B387A5BF;
+        Tue, 11 Apr 2023 22:20:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B387A5BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1681251614; bh=vDkrXH2k6AQCgQ/vIworgpYA/A9rb4bI87aU5AynegU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=F8zCZv2w4C/UnEX84gCjsCckOtxo8qsV4VXTbddV8Vce8mm5AqzzVO0h1j4oOYhry
+         rqVVpLy4N044zHGlTiGaihpiSPvf84Md0IZmhDKb58m+ZckRby3kqzMm9bjId1BgWg
+         S4fXuvDK3f1YAtf8mE+VBao6JGFMifdIwk2IOLzkc9g78C5+EvMdt1/HC/6ssWd7Dq
+         mOpVnI6JLbZZc97gD5I5Bsq2K/bGcNaMR8hjnMNkXSvJf+iKt35LBaCoHlii2JSL3X
+         cGNwFlpFwHM8m7I7Uq9Fc2dajFySYuxO99PyVWloAwiQg0mi3FNwS2xONncD78PnWz
+         uggphSxZ3QsUg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: firmware: Clarify firmware path usage
+In-Reply-To: <ZDT39frTIqpX5p9O@kroah.com>
+References: <20230402135423.3235-1-f.fainelli@gmail.com>
+ <87y1mzcq9y.fsf@meer.lwn.net>
+ <1f4b874b-bd1e-17ff-51dd-19bf2d73214f@gmail.com>
+ <ZDT39frTIqpX5p9O@kroah.com>
+Date:   Tue, 11 Apr 2023 16:20:14 -0600
+Message-ID: <87wn2i9i3l.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com> <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-In-Reply-To: <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 11 Apr 2023 17:45:41 -0400
-Message-ID: <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 10, 2023 at 3:10=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
-wrote:
-> On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
-> > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wr=
-ote:
-> > >
-> > > From: Deven Bowers <deven.desai@linux.microsoft.com>
-> > >
-> > > As is typical with LSMs, IPE uses securityfs as its interface with
-> > > userspace. for a complete list of the interfaces and the respective
-> > > inputs/outputs, please see the documentation under
-> > > admin-guide/LSM/ipe.rst
-> > >
-> > > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> >
-> > ...
-> >
-> > > ---
-> > >  security/ipe/Makefile    |   2 +
-> > >  security/ipe/fs.c        | 101 +++++++++
-> > >  security/ipe/fs.h        |  17 ++
-> > >  security/ipe/ipe.c       |   3 +
-> > >  security/ipe/ipe.h       |   2 +
-> > >  security/ipe/policy.c    | 135 ++++++++++++
-> > >  security/ipe/policy.h    |   7 +
-> > >  security/ipe/policy_fs.c | 459 +++++++++++++++++++++++++++++++++++++=
-++
-> > >  8 files changed, 726 insertions(+)
-> > >  create mode 100644 security/ipe/fs.c
-> > >  create mode 100644 security/ipe/fs.h
-> > >  create mode 100644 security/ipe/policy_fs.c
+Greg KH <gregkh@linuxfoundation.org> writes:
 
-...
-
-> > > +/**
-> > > + * ipe_update_policy - parse a new policy and replace @old with it.
-> > > + * @addr: Supplies a pointer to the i_private for saving policy.
-> > > + * @text: Supplies a pointer to the plain text policy.
-> > > + * @textlen: Supplies the length of @text.
-> > > + * @pkcs7: Supplies a pointer to a buffer containing a pkcs7 message=
-.
-> > > + * @pkcs7len: Supplies the length of @pkcs7len.
-> > > + *
-> > > + * @text/@textlen is mutually exclusive with @pkcs7/@pkcs7len - see
-> > > + * ipe_new_policy.
-> > > + *
-> > > + * Return:
-> > > + * * !IS_ERR   - OK
-> > > + * * -ENOENT   - Policy doesn't exist
-> > > + * * -EINVAL   - New policy is invalid
-> > > + */
-> > > +struct ipe_policy *ipe_update_policy(struct ipe_policy __rcu **addr,
-> > > +                                    const char *text, size_t textlen=
-,
-> > > +                                    const char *pkcs7, size_t pkcs7l=
-en)
-> > > +{
-> > > +       int rc =3D 0;
-> > > +       struct ipe_policy *old, *new;
-> > > +
-> > > +       old =3D ipe_get_policy_rcu(*addr);
-> > > +       if (!old) {
-> > > +               rc =3D -ENOENT;
-> > > +               goto err;
-> > > +       }
-> > > +
-> > > +       new =3D ipe_new_policy(text, textlen, pkcs7, pkcs7len);
-> > > +       if (IS_ERR(new)) {
-> > > +               rc =3D PTR_ERR(new);
-> > > +               goto err;
-> > > +       }
-> > > +
-> > > +       if (strcmp(new->parsed->name, old->parsed->name)) {
-> > > +               rc =3D -EINVAL;
-> > > +               goto err;
-> > > +       }
-> > > +
-> > > +       if (ver_to_u64(old) > ver_to_u64(new)) {
-> > > +               rc =3D -EINVAL;
-> > > +               goto err;
-> > > +       }
-> > > +
-> > > +       if (ipe_is_policy_active(old)) {
-> >
-> > I don't understand the is-active check, you want to make @new the new
-> > active policy regardless, right?  Could this is-active check ever be
-> > false?
+> On Mon, Apr 10, 2023 at 04:12:32PM -0700, Florian Fainelli wrote:
+>> I was not sure whether it was on purpose or not, Greg, will we break
+>> anyone's use case if we strip off \n from the firmware path passed via
+>> sysfs?
 >
-> Actually this is needed. Policy updates can be applied to any deployed
-> policy, which may be saved in two places: the securityfs file node
-> and the ipe_active_policy pointer. To update a policy, this function firs=
-t
-> checks if the policy saved in the securityfs file node is currently activ=
-e.
-> If so, it updates the ipe_active_policy pointer to point to the new polic=
-y,
-> and finally updates the policy pointer in the securityfs to the new polic=
-y.
+> I do not know, sorry.
 
-Ah, okay.  I must have forgotten, or not realized, that multiple
-policies could be loaded and not active.
+I would be amazed if anybody is putting newlines into their firmware
+path; that would be kind of a silly thing to do.
 
-I guess this does make me wonder about keeping a non-active policy
-loaded in the kernel, what purpose does that serve?
+That said, I've been amazed before.
 
---=20
-paul-moore.com
+I'll go ahead and apply the docs patch, but it still doesn't really seem
+like the right fix to me.
+
+Thanks,
+
+jon
