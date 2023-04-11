@@ -2,105 +2,212 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE7DAC7619A
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 19:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F48C77B6F
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 20:32:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbjDKTX6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 15:23:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57862 "EHLO
+        id S229635AbjDKUc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 16:32:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbjDKTX5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 15:23:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A42B5B84
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 12:22:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681240927;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=qhq9dpmn2VnCwqB0zz5VnZkW7xe5Ahb4i2F79uPfYtI=;
-        b=PrOSqhiV03g/OZOIIprxB9OTBb4XQCXVMj7oLEn3GRPu/WRRpaV7bsLv/O6xoZbkGj6CXA
-        zYBb313CUIw1xWyB8RxmoRViB+6HWkujrtyorQqv5I86I61cPCScZFwAdM2NvYX5x65Qg6
-        Ha6jYCoE57nwwmbbHO2wQvBgxSwvgMU=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-504-0q1xHeMmMgq_4arJPshQvQ-1; Tue, 11 Apr 2023 15:22:05 -0400
-X-MC-Unique: 0q1xHeMmMgq_4arJPshQvQ-1
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-54f87e44598so9211987b3.5
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 12:22:05 -0700 (PDT)
+        with ESMTP id S229501AbjDKUc4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 16:32:56 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52673A9B
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 13:32:53 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id i20so13270672ybg.10
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 13:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1681245173; x=1683837173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ikdi+6xxj2kvpls/7KRBOAg0lIkRgRoVXw8KwuRi4Nc=;
+        b=IQ9zZGCNRzZwfZFuGDrY6qwE9SFscSfIixOwnA4rFQL16vvokxAcya+cMNiEJWF/lB
+         jfUjEDfBjxQmhe/m3jewm7jJLjeF+tKcqSL03+AbqWymsVlf8EEP00s1SU0cxksL0zEq
+         aELwAeeUCgGgh9NbZTSKlmYtsFMknlxQ5vc+LAgXie28umXXh7hhlP0K8oGds+yB5mEO
+         vnwwKYtfeLTL9Ggt6AoI0LCSpTdf8MtVDWfJHa7h5gd+mCjLpYJP73Z+fFhKTpm6ehpS
+         eULjph7vC73UZBatpFNnwz8A7xfnzCLiAhRTkuk93Tn1z4Nwff5SzQw+maLC17p1NBra
+         luBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681240925;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qhq9dpmn2VnCwqB0zz5VnZkW7xe5Ahb4i2F79uPfYtI=;
-        b=lQnlSKAi9KiKvu4fd7c1NlGLMhf+KQJlK3PquJ1DBMNz577+J2mlVD7Ms6Kcgx+CVw
-         k/gXVcPrT+JnICgrloRf1vYmB2xVlJTq4eQl6UhL0RpyoSi8/SHtCAv/oBqMax8g5Ekk
-         MS5CynKLLtNmtcmDPjHgmAVefVUEHyjpU3LOJa4/PoqhuU9v71TAEE8P+MbQD245h9Mn
-         2I5qFdAf2KzW1GgF57N3F9zChDLYbXKqNQAPE8Pc5y9lJW4uIouJEiaiycs3Ufz24MtZ
-         c2O3rHOrPHNkvAo+D43wZfV6aW2GHXGtcuRAOBvRoIEP4Y6lq2g+Mw2UkzoIcn/nNeQH
-         jePw==
-X-Gm-Message-State: AAQBX9fysV3MS3eS8eD5BBoSLstkvffc+3Dwz5LBOWfxPc76YAPORjxk
-        iooNwTri0AZrStcchmeXVtqvfVGm3ZeLyLfCgrG60O7goe7YRjXLKxR5Us9B/SZvplmQygZ7zSd
-        wvf4T2gWHsjosKBS/qy7m
-X-Received: by 2002:a81:4fc1:0:b0:54e:a6e3:4f28 with SMTP id d184-20020a814fc1000000b0054ea6e34f28mr11197579ywb.20.1681240924943;
-        Tue, 11 Apr 2023 12:22:04 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bAvGxiyboI6lM0HhwWpo/+tevQ7im6CkFWSvHGl5+7rsYinPvTzZuQW64FTQLBwLf4ZWk5xg==
-X-Received: by 2002:a81:4fc1:0:b0:54e:a6e3:4f28 with SMTP id d184-20020a814fc1000000b0054ea6e34f28mr11197566ywb.20.1681240924699;
-        Tue, 11 Apr 2023 12:22:04 -0700 (PDT)
-Received: from x1.redhat.com (c-73-214-169-22.hsd1.pa.comcast.net. [73.214.169.22])
-        by smtp.gmail.com with ESMTPSA id f10-20020a81414a000000b00545a08184desm3687792ywk.110.2023.04.11.12.22.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 12:22:03 -0700 (PDT)
-From:   Brian Masney <bmasney@redhat.com>
-To:     corbet@lwn.net, sboyd@kernel.org
-Cc:     linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mturquette@baylibre.com, linux-doc@vger.kernel.org
-Subject: [PATCH] docs: clk: add documentation to log which clocks have been disabled
-Date:   Tue, 11 Apr 2023 15:21:53 -0400
-Message-Id: <20230411192153.289688-1-bmasney@redhat.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20210112; t=1681245173; x=1683837173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ikdi+6xxj2kvpls/7KRBOAg0lIkRgRoVXw8KwuRi4Nc=;
+        b=jWAYiZ2HFm8chVE3DjQnlUKvFqQrOd6A4b8NBbAPO0/QRiQ+wCUmKBIqa0tfd1tCg/
+         z01iFpzlYTt4gNMajF+18j4KcYkRTU+u4KeGq+A1XRNj0lSLM5gTCRIXpuVGk2sEACYJ
+         2c/qqB8rdVMfVcpl4sI79lhn8XvIlJ9vsEaM2ZeD15tlw5xV+SFsos4pO9Ol7NSStAHS
+         rgcdj5PkWdrDRk4c0OtvZbMpY/kAy9UBaHBcK3jp5TRQ2dg07O+4FPzfA6c+NhRdcJPb
+         VKJdjA5b3UJiB6/2uAPdBqxbW7Gz7Kp8i0IAHAChXN8u+EOooBkAebZTHGCSpiwGDwzF
+         Mljg==
+X-Gm-Message-State: AAQBX9cVy+siXdcOSENQGRVGrzUyOcPVcDWeDJefqHfTjUL7ilYSf3US
+        xSr+QcYQZWDen1757wuu6x9g+lddWtxGOdNicpffcjw0uC1anos=
+X-Google-Smtp-Source: AKy350a8DI+fttqPGYGrYWlw3sZUgpf5kan6JSrYFZNA0OIQFLQ5A+goWX5p08tzzrk48yMapO6qwBhOBzk9Q/ypItw=
+X-Received: by 2002:a25:d702:0:b0:b68:7a4a:5258 with SMTP id
+ o2-20020a25d702000000b00b687a4a5258mr101812ybg.3.1681245172701; Tue, 11 Apr
+ 2023 13:32:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-4-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhS_EbT7ze4oSHwHfus91VWQfdgGagf=5O7_h+XJ2o79PA@mail.gmail.com> <20230410185334.GA18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20230410185334.GA18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 11 Apr 2023 16:32:41 -0400
+Message-ID: <CAHC9VhTRpDK74iL6A6wt2=--5LmrC7pHZY_BLnHDdfqboA2i1A@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 03/16] ipe: add evaluation loop and introduce
+ 'boot_verified' as a trust provider
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The existing clk documentation has a section that talks about the
-clk_ignore_unused kernel parameter. Add additional documentation that
-describes how to log which clocks the kernel disables on bootup. This
-will log messages like the following to the console on bootup:
+On Mon, Apr 10, 2023 at 2:53=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> On Thu, Mar 02, 2023 at 02:03:11PM -0500, Paul Moore wrote:
+> > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wr=
+ote:
+> > >
+> > > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> > >
+> > > IPE must have a centralized function to evaluate incoming callers
+> > > against IPE's policy. This iteration of the policy against the rules
+> > > for that specific caller is known as the evaluation loop.
+> > >
+> > > In addition, IPE is designed to provide system level trust guarantees=
+,
+> > > this usually implies that trust starts from bootup with a hardware ro=
+ot
+> > > of trust, which validates the bootloader. After this, the bootloader
+> > > verifies the kernel and the initramfs.
+> > >
+> > > As there's no currently supported integrity method for initramfs, and
+> > > it's typically already verified by the bootloader, introduce a proper=
+ty
+> > > that causes the first superblock to have an execution to be "pinned",
+> > > which is typically initramfs.
+> > >
+> > > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> >
+> > ...
+> >
+> > > ---
+> > >  security/ipe/Makefile        |   1 +
+> > >  security/ipe/eval.c          | 180 +++++++++++++++++++++++++++++++++=
+++
+> > >  security/ipe/eval.h          |  28 ++++++
+> > >  security/ipe/hooks.c         |  25 +++++
+> > >  security/ipe/hooks.h         |  14 +++
+> > >  security/ipe/ipe.c           |   1 +
+> > >  security/ipe/policy.c        |  20 ++++
+> > >  security/ipe/policy.h        |   3 +
+> > >  security/ipe/policy_parser.c |   8 +-
+> > >  9 files changed, 279 insertions(+), 1 deletion(-)
+> > >  create mode 100644 security/ipe/eval.c
+> > >  create mode 100644 security/ipe/eval.h
+> > >  create mode 100644 security/ipe/hooks.c
+> > >  create mode 100644 security/ipe/hooks.h
 
-    [    1.268115] clk: Disabling unused clocks
-    [    1.272167] clk_disable: gcc_usb_clkref_en
-    [    1.276389] clk_disable: gcc_usb30_sec_sleep_clk
-    [    1.281131] clk_disable: gcc_usb30_prim_sleep_clk
-    ...
+...
 
-Signed-off-by: Brian Masney <bmasney@redhat.com>
----
- Documentation/driver-api/clk.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+> > > diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+> > > new file mode 100644
+> > > index 000000000000..48b5104a3463
+> > > --- /dev/null
+> > > +++ b/security/ipe/eval.c
+> > > @@ -0,0 +1,180 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Copyright (C) Microsoft Corporation. All rights reserved.
+> > > + */
+> > > +
+> > > +#include "ipe.h"
+> > > +#include "eval.h"
+> > > +#include "hooks.h"
+> > > +#include "policy.h"
+> > > +
+> > > +#include <linux/fs.h>
+> > > +#include <linux/types.h>
+> > > +#include <linux/slab.h>
+> > > +#include <linux/file.h>
+> > > +#include <linux/sched.h>
+> > > +#include <linux/rcupdate.h>
+> > > +#include <linux/spinlock.h>
+> > > +
+> > > +struct ipe_policy __rcu *ipe_active_policy;
+> > > +
+> > > +static struct super_block *pinned_sb;
+> > > +static DEFINE_SPINLOCK(pin_lock);
+> > > +#define FILE_SUPERBLOCK(f) ((f)->f_path.mnt->mnt_sb)
+> > > +
+> > > +/**
+> > > + * pin_sb - Pin the underlying superblock of @f, marking it as trust=
+ed.
+> > > + * @f: Supplies a file structure to source the super_block from.
+> > > + */
+> > > +static void pin_sb(const struct file *f)
+> > > +{
+> > > +       if (!f)
+> > > +               return;
+> > > +       spin_lock(&pin_lock);
+> > > +       if (pinned_sb)
+> > > +               goto out;
+> > > +       pinned_sb =3D FILE_SUPERBLOCK(f);
+> > > +out:
+> > > +       spin_unlock(&pin_lock);
+> > > +}
+> >
+> > Since you don't actually use @f, just the super_block, you might
+> > consider passing the super_block as the parameter and not the
+> > associated file.
+> >
+> > I'd probably also flip the if-then to avoid the 'goto', for example:
+> >
+> >   static void pin_sb(const struct super_block *sb)
+> >   {
+> >     if (!sb)
+> >       return;
+> >     spin_lock(&pin_lock);
+> >     if (!pinned_sb)
+> >       pinned_sb =3D sb;
+> >     spin_unlock(&pin_lock);
+> >   }
+> >
+>
+> Sure, I can change the code accordingly.
+>
+> > Also, do we need to worry about the initramfs' being unmounted and the
+> > super_block going away?
+>
+> If initramfs is being unmounted, the boot_verified property will never be=
+ TRUE,
+> which is an expected behavior. In an actual use case, we can leverage thi=
+s
+> property to only enable files in initramfs during the booting stage, and =
+later switch
+> to another policy without the boot_verified property after unmounting the=
+ initramfs.
+> This approach helps keep the allowed set of files minimum at each stage.
 
-diff --git a/Documentation/driver-api/clk.rst b/Documentation/driver-api/clk.rst
-index 3cad45d14187..2199c0042e75 100644
---- a/Documentation/driver-api/clk.rst
-+++ b/Documentation/driver-api/clk.rst
-@@ -258,6 +258,11 @@ clocks properly but rely on them being on from the bootloader, bypassing
- the disabling means that the driver will remain functional while the issues
- are sorted out.
- 
-+You can see which clocks have been disabled by booting your kernel with these
-+parameters:
-+
-+ tp_printk trace_event=clk:clk_disable
-+
- To bypass this disabling, include "clk_ignore_unused" in the bootargs to the
- kernel.
- 
--- 
-2.39.2
+I think I was worried about not catching when the fs was unmounted and
+the superblock disappeared, but you've got a hook defined for that so
+it should be okay.  I'm not sure what I was thinking here, sorry for
+the noise ...
 
+Regardless of the source of my confusion, your policy/boot_verified
+description all sounds good to me.
+
+--=20
+paul-moore.com
