@@ -2,223 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CAAC7619A
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 07:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EFC1C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 08:28:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbjDKHyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 03:54:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43036 "EHLO
+        id S230499AbjDKI2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 04:28:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229745AbjDKHyj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 03:54:39 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584B2A4;
-        Tue, 11 Apr 2023 00:54:38 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        with ESMTP id S230505AbjDKI1q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 04:27:46 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FCC535B5;
+        Tue, 11 Apr 2023 01:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=d94WdOGKlgyLCpmEE9HUoxzwVon/CWYc2gTA65rEkLw=; b=jwr3fWUoxFDQwdNXMgNZGsAiWH
+        6uBwAeaj6fBLAhSU+ikjoqf87c6dT3y2vd5fZlDFOPRWproxKmvueJ/3+ZsYYSd6XnSh6sw/yGRJx
+        AmOa2Dhke3+kgUwvEBuXucMJKy7hFVUsSJqNeIcODQ/psk71Bw2vPuqjo7V2uB5fj38hYCaNpoTOx
+        tmgtu2B0GHPTWKkaWfEE3GTMz6OWQEgS09eEg8x1eWSQK3TQTqOuT1oPEogMbWlZ+h8bElUM2Rzrq
+        luHsX9j9ikDe/W+1N0O2BfgijPgZUyqjl/C9XIc/+4DJS/d3kFPC+CeAm/vF37dGUoitW044un5S5
+        W8fuFwyQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pm9Jv-005g72-Ka; Tue, 11 Apr 2023 08:25:43 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5068466031E2;
-        Tue, 11 Apr 2023 08:54:36 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681199676;
-        bh=X5FXAGQ1m/4RCqH9j/r3vyunBli9jNcGliIagj4A9cs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=U+yVRMwKKR3Vkq9p6ta2qsvpVTxDrdCDJ0n7K6B/z+mLWszol+ZnKjaauz3VmYAca
-         NcnI4+5mmVN9Dz8DOGpALGePw98NqqlsKGMdui5PYjT06spn8j9MrmVm/rZhGIKhQj
-         hlwrrkGFyJygHwJVP1shyY553W8hJMV4rzsjSVmXkba95Mw7In6EEupaMWiyalt4b4
-         NmAGla243GyIgIAHJ4QFddVMQWzvvVRPLRVSCm2YJuxxeSVghD7p5uppnq2k1kdBWa
-         GHdvPAbIV6XFyGiuwmBU0slzxEvYF0Ji1BaZj+0yhpz0dglNfDyY9BtbSMUBSUCchc
-         c8rZP56V4KyCg==
-Date:   Tue, 11 Apr 2023 09:54:33 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: Re: [RFC 1/2] drm: Add fdinfo memory stats
-Message-ID: <20230411095433.243a256c@collabora.com>
-In-Reply-To: <20230406215917.1475704-2-robdclark@gmail.com>
-References: <20230406215917.1475704-1-robdclark@gmail.com>
- <20230406215917.1475704-2-robdclark@gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B037E300244;
+        Tue, 11 Apr 2023 10:25:38 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 696412CB2BF7D; Tue, 11 Apr 2023 10:25:38 +0200 (CEST)
+Date:   Tue, 11 Apr 2023 10:25:38 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     K Prateek Nayak <kprateek.nayak@amd.com>
+Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        corbet@lwn.net, jgross@suse.com, andrew.cooper3@citrix.com,
+        Jason@zx2c4.com, thomas.lendacky@amd.com, puwen@hygon.cn,
+        x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] x86/Documentation: Add documentation about cluster
+Message-ID: <20230411082538.GA578657@hirez.programming.kicks-ass.net>
+References: <20230410163527.1626-1-kprateek.nayak@amd.com>
+ <20230410163527.1626-3-kprateek.nayak@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230410163527.1626-3-kprateek.nayak@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
-
-On Thu,  6 Apr 2023 14:59:16 -0700
-Rob Clark <robdclark@gmail.com> wrote:
-
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, Apr 10, 2023 at 10:05:27PM +0530, K Prateek Nayak wrote:
+> x86 processors map cluster to the L2 cache. Add documentation stating
+> the same, and provide more information on the values and API related to
+> CPU clusters exposed by the kernel.
 > 
-> Add a helper to dump memory stats to fdinfo.  For the things the drm
-> core isn't aware of, use a callback.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 > ---
->  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
->  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
->  include/drm/drm_file.h                | 10 ++++
->  3 files changed, 110 insertions(+)
+>  Documentation/x86/topology.rst | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
 > 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index b46327356e80..56e3c95b6e0a 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
->  Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->  indicating kibi- or mebi-bytes.
+> diff --git a/Documentation/x86/topology.rst b/Documentation/x86/topology.rst
+> index 7f58010ea86a..35991d8cdef1 100644
+> --- a/Documentation/x86/topology.rst
+> +++ b/Documentation/x86/topology.rst
+> @@ -33,6 +33,7 @@ historical nature and should be cleaned up.
+>  The topology of a system is described in the units of:
 >  
-> +- drm-shared-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are shared with another file (ie. have more
-> +than a single handle).
-> +
-> +- drm-private-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are not shared with another file.
-> +
-> +- drm-resident-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are resident in system memory.
-> +
-> +- drm-purgeable-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are purgable.
-> +
-> +- drm-active-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are active on one or more rings.
-> +
->  - drm-cycles-<str> <uint>
+>      - packages
+> +    - cluster
+>      - cores
+>      - threads
 >  
->  Engine identifier string must be the same as the one specified in the
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index a51ff8cee049..21911d6ff38d 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -42,6 +42,7 @@
->  #include <drm/drm_client.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
->  #include <drm/drm_print.h>
+> @@ -90,6 +91,27 @@ Package-related topology information in the kernel:
+>          Cache. In general, it is a number identifying an LLC uniquely on the
+>          system.
 >  
->  #include "drm_crtc_internal.h"
-> @@ -868,6 +869,84 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
->  }
->  EXPORT_SYMBOL(drm_send_event);
->  
-> +static void print_size(struct drm_printer *p, const char *stat, size_t sz)
-> +{
-> +	const char *units[] = {"B", "KiB", "MiB", "GiB"};
-> +	unsigned u;
 > +
-> +	for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
-> +		if (sz < SZ_1K)
-> +			break;
-> +		sz /= SZ_1K;
-> +	}
-> +
-> +	drm_printf(p, "%s:\t%lu %s\n", stat, sz, units[u]);
-> +}
-> +
-> +/**
-> + * drm_print_memory_stats - Helper to print standard fdinfo memory stats
-> + * @file: the DRM file
-> + * @p: the printer to print output to
-> + * @status: callback to get driver tracked object status
-> + *
-> + * Helper to iterate over GEM objects with a handle allocated in the specified
-> + * file.  The optional status callback can return additional object state which
-> + * determines which stats the object is counted against.  The callback is called
-> + * under table_lock.  Racing against object status change is "harmless", and the
-> + * callback can expect to not race against object destroy.
-> + */
-> +void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
-> +			    enum drm_gem_object_status (*status)(struct drm_gem_object *))
+> +Clusters
+> +========
+> +A cluster consists of 1 or more threads. It does not matter whether the threads
+> +are SMT- or CMT-type threads. All the threads of a cluster share the same L2
+> +cache.
 
-Nit: status() returning an 'enum drm_gem_object_status' makes it look
-like it can only return one of the DRM_GEM_OBJECT_* flag, when it can
-actually be a combination of flags. Should we make it return an u32
-instead? At the very least this should be clarified in the function doc.
+I'm not quite sure that's a correct discription of what a cluster is.
 
-> +{
-> +	struct drm_gem_object *obj;
-> +	struct {
-> +		size_t shared;
-> +		size_t private;
-> +		size_t resident;
-> +		size_t purgeable;
-> +		size_t active;
-> +	} size = {0};
-> +	int id;
-> +
-> +	spin_lock(&file->table_lock);
-> +	idr_for_each_entry (&file->object_idr, obj, id) {
-> +		enum drm_gem_object_status s = 0;
-> +
-> +		if (status)
-> +			s = status(obj);
-> +
-> +		if (obj->handle_count > 1) {
-> +			size.shared += obj->size;
-> +		} else {
-> +			size.private += obj->size;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_RESIDENT) {
-> +			size.resident += obj->size;
-> +			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_ACTIVE) {
-> +			size.active += obj->size;
-> +			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_PURGEABLE)
-> +			size.purgeable += obj->size;
-> +	}
-> +	spin_unlock(&file->table_lock);
-> +
-> +	print_size(p, "drm-shared-memory", size.shared);
-> +	print_size(p, "drm-private-memory", size.private);
-> +
-> +	if (status) {
-> +		print_size(p, "drm-resident-memory", size.resident);
-> +		print_size(p, "drm-purgeable-memory", size.purgeable);
-> +		print_size(p, "drm-active-memory", size.active);
-> +	}
+Yes, SMT will fundamentally share core-level caches (and should we not
+always have SMT share all cache topoligies?)
 
-Should we assume that all users of this drm_print_memory_stats() helper
-support tracking all these non-standard stats as soon as they provide a
-status callback? If not, we should probably not print the
-`drm-xxx-memory` line when the driver is not tracking this state (can
-be done with a 'supported_status' mask passed to
-drm_print_memory_stats()).
-
-Other than these 2 minor things, I think it's a perfect match for
-panfrost mem-tracking, and I certainly intend to use this helper in
-panfrost.
-
-Thanks,
-
-Boris
+But there is also x86 where L2 is shared between multiple cores -- while
+the above seems to suggest L2 is single core only.
