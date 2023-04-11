@@ -2,53 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5AC4C7619A
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 20:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F1CC76196
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 21:04:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbjDKUtD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 16:49:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53960 "EHLO
+        id S229506AbjDKVEs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 17:04:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjDKUtC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 16:49:02 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 396DF1BE6;
-        Tue, 11 Apr 2023 13:49:01 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33BKRFcH010765;
-        Tue, 11 Apr 2023 20:48:46 GMT
+        with ESMTP id S229515AbjDKVEr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 17:04:47 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C9A30C4;
+        Tue, 11 Apr 2023 14:04:46 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33BKOUZp029715;
+        Tue, 11 Apr 2023 21:04:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=r0vK+wl4SMxBod+g47ckhsBivn+LupBy8MmSpCjVf0o=;
- b=Hd0D+Xc9E0Rnf1wCI5Dztudo6NY7MFnbtA0Qdl3QsHveKeCDj9oFFuJMzHRu2StuWv77
- Z+42p4slkICsFO/BD1LxE8YIU4jmz75fpo0jewBQjPbwNHeVNc7shDwvy7GquxE8KP4b
- pOzCCwaxWyV3UYb5rYjkJs4wgqeUcqthvarSfQMfivmicyEs4fLCBLjlr1gPzCQHVHym
- 9WqciYLIPxxzHKoAigRgDem+afJQbLqGfivJtTztboHhGaqsaNfl4Xs825Dn9MpUsa0C
- r9BO8Qk4arXjqom8im07C3tZFjpxWFKLlSIiuqcL0DzPysQLDs09yodniwC6S3pNdBEl dw== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwe6m02s4-1
+ bh=b8ePNZOTICqSe+xK2ngJRni1H4oSJZNkfsVmf0MDt3Y=;
+ b=btva9PBOjaVDrEycZByrXlarkFQvrcrPlSgqdkO0JLFdQpZVNyB9M/L3wXzm34RCZkLW
+ nm8jfzfT0pChL5lRZxu/sBASC8Q7Z0M2UDeFIm4oDh4+UhYY6THG+gfAON2xr/E4dOgU
+ qsutNkCXhSOUemsoYFYaVhYntlMTVEbFQhd7nkYPD6D+d1dZDVAiHBJiwjb5mPyjM0Dk
+ X6v5dQXbYTbJ8sgmGVyTgBoU+qSIB0XrCo3sEFUhztJI40RXjUcG/R9WwOrQZhrk64TY
+ sXuzzFTYu+sa+Eu5jIkR7WQKMPVNjMrYpinJXZNN6p+3Jb7X4mERW0726iqvAfPcxLJm ag== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pw3cv9mg5-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Apr 2023 20:48:46 +0000
+        Tue, 11 Apr 2023 21:04:32 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33BKmirN003665
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33BL4DaS016655
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Apr 2023 20:48:44 GMT
+        Tue, 11 Apr 2023 21:04:13 GMT
 Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 11 Apr
- 2023 13:48:43 -0700
-Message-ID: <030888c7-1e32-1663-589a-55e998963ab7@quicinc.com>
-Date:   Tue, 11 Apr 2023 13:48:43 -0700
+ 2023 14:04:13 -0700
+Message-ID: <1276ec4c-e177-aeb2-d493-93bd48634ee8@quicinc.com>
+Date:   Tue, 11 Apr 2023 14:04:12 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v11 10/26] gunyah: vm_mgr: Introduce basic VM Manager
+Subject: Re: [PATCH v11 12/26] gunyah: vm_mgr: Add/remove user memory regions
 Content-Language: en-US
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Prakruthi Deepak Heragu" <quic_pheragu@quicinc.com>
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -60,6 +59,7 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -68,98 +68,212 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
 References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
- <20230304010632.2127470-11-quic_eberman@quicinc.com>
- <37bc641a-77b9-a740-a08e-8b86d0b50630@linaro.org>
+ <20230304010632.2127470-13-quic_eberman@quicinc.com>
+ <3b4e230c-6635-43f6-99ce-1ed51b55a450@linaro.org>
 From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <37bc641a-77b9-a740-a08e-8b86d0b50630@linaro.org>
+In-Reply-To: <3b4e230c-6635-43f6-99ce-1ed51b55a450@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 41EwfTKumxaNX_Md7CEUUj-4wSsvdCeI
-X-Proofpoint-ORIG-GUID: 41EwfTKumxaNX_Md7CEUUj-4wSsvdCeI
+X-Proofpoint-GUID: Xn1is88OUJ6e3fH2xhPQpYYbaZDYmSH9
+X-Proofpoint-ORIG-GUID: Xn1is88OUJ6e3fH2xhPQpYYbaZDYmSH9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-11_14,2023-04-11_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- priorityscore=1501 mlxlogscore=999 suspectscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304110187
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ suspectscore=0 phishscore=0 adultscore=0 clxscore=1015 bulkscore=0
+ mlxlogscore=914 impostorscore=0 lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304110190
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 3/31/2023 7:25 AM, Alex Elder wrote:
+On 3/31/2023 7:26 AM, Alex Elder wrote:
 > On 3/3/23 7:06 PM, Elliot Berman wrote:
->> @@ -129,6 +131,7 @@ struct gh_rm_connection {
->>    * @cache: cache for allocating Tx messages
->>    * @send_lock: synchronization to allow only one request to be sent 
->> at a time
->>    * @nh: notifier chain for clients interested in RM notification 
->> messages
->> + * @miscdev: /dev/gunyah
->>    */
->>   struct gh_rm {
->>       struct device *dev;
->> @@ -145,6 +148,8 @@ struct gh_rm {
->>       struct kmem_cache *cache;
->>       struct mutex send_lock;
->>       struct blocking_notifier_head nh;
 >> +
->> +    struct miscdevice miscdev;
->>   };
->>   /**
->> @@ -593,6 +598,21 @@ void gh_rm_put(struct gh_rm *rm)
->>   }
->>   EXPORT_SYMBOL_GPL(gh_rm_put);
+>> +    mem_entries = kcalloc(mapping->npages, sizeof(*mem_entries), 
+>> GFP_KERNEL);
+>> +    if (!mem_entries) {
+>> +        ret = -ENOMEM;
+>> +        goto reclaim;
+>> +    }
+>> +
+>> +    /* reduce number of entries by combining contiguous pages into 
+>> single memory entry */
 > 
-> I feel like /dev/gunyah code would more appropriately be found
-> in "vm_mgr.c".  All gh_dev_ioctl() does is call the function
-> defined there, and it's therefore a VM-oriented rather than
-> resource-oriented device.
+> Are you sure you need to do this?  I.e., does pin_user_pages_fast()
+> already take care of consolidating these pages?
+> 
 
-I'd like to keep the gh_dev_ioctl where it is because it keeps the 
-struct gh_rm explicitly private to rsc_mgr.c and thinking this helps 
-keep the design cleaner long term by preventing new members from 
-sneaking into struct gh_rm.
+pin_user_pages_fast wouldn't consolidate the page entries. There's a 
+speedup in sharing memory when pages are contiguous since less 
+information needs to be transmitted to Gunyah describing the memory.
+
+>> +    prev_page = page_to_phys(mapping->pages[0]);
+>> +    mem_entries[0].ipa_base = cpu_to_le64(prev_page);
+>> +    entry_size = PAGE_SIZE;
+>> +    for (i = 1, j = 0; i < mapping->npages; i++) {
+>> +        curr_page = page_to_phys(mapping->pages[i]);
+> 
+> I think you can actually use the page frame numbers
+> here instead of the addresses.  If they are consecutive,
+> they are contiguous.  See pages_are_mergeable() for an
+> example of that.  Using PFNs might simplify this code.
+> 
+
+It did, thanks for the suggestion!
+
+>> +        if (curr_page - prev_page == PAGE_SIZE) {
+>> +            entry_size += PAGE_SIZE;
+>> +        } else {
+>> +            mem_entries[j].size = cpu_to_le64(entry_size);
+>> +            j++;
+>> +            mem_entries[j].ipa_base = cpu_to_le64(curr_page);
+>> +            entry_size = PAGE_SIZE;
+>> +        }
+>> +
+>> +        prev_page = curr_page;
+>> +    }
+>> +    mem_entries[j].size = cpu_to_le64(entry_size);
+> 
+> It might be messier, but it seems like you could scan the pages to
+> see how many you'll need (after combining), then allocate the array
+> of mem entries based on that.  That is, do that rather than allocating,
+> filling, then duplicating and freeing.
+> 
+>      count = 1;
+>      curr_page = mapping->pages[0];
+>      for (i = 1; i < mapping->npages; i++) {
+>          next_page = mapping->pages[i];
+>          if (page_to_pfn(next_page) !=
+>                  page_to_pfn(curr_page) + 1)
+>              count++;
+>          curr_page = next_page;
+>      }
+>      parcel->n_mem_entries = count;
+>      parcel->mem_entries = kcalloc(count, ...);
+>      /* Then fill them up */
+> 
+> (Not tested, but you get the idea.)
+> 
+
+It wasn't too messy IMO, I think this ended up simplifying the loop.
 
 >> +
->> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
+>> +    parcel->n_mem_entries = j + 1;
+>> +    parcel->mem_entries = kmemdup(mem_entries, sizeof(*mem_entries) * 
+>> parcel->n_mem_entries,
+>> +                    GFP_KERNEL);
+>> +    kfree(mem_entries);
+>> +    if (!parcel->mem_entries) {
+>> +        ret = -ENOMEM;
+>> +        goto reclaim;
+>> +    }
+>> +
+>> +    mutex_unlock(&ghvm->mm_lock);
+>> +    return 0;
+>> +reclaim:
+>> +    gh_vm_mem_reclaim(ghvm, mapping);
+>> +free_mapping:
+>> +    kfree(mapping);
+>> +    mutex_unlock(&ghvm->mm_lock);
+>> +    return ret;
+>> +}
+>> +
+>> +int gh_vm_mem_free(struct gh_vm *ghvm, u32 label)
 >> +{
->> +    struct gh_vm *ghvm;
->> +    struct file *file;
->> +    int fd, err;
+>> +    struct gh_vm_mem *mapping;
+>> +    int ret;
 >> +
->> +    /* arg reserved for future use. */
+>> +    ret = mutex_lock_interruptible(&ghvm->mm_lock);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    mapping = __gh_vm_mem_find_by_label(ghvm, label);
+>> +    if (!mapping)
+>> +        goto out;
+>> +
+>> +    gh_vm_mem_reclaim(ghvm, mapping);
+>> +    kfree(mapping);
+>> +out:
+>> +    mutex_unlock(&ghvm->mm_lock);
+>> +    return ret;
+>> +}
+>> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+>> index 10ba32d2b0a6..a19207e3e065 100644
+>> --- a/include/uapi/linux/gunyah.h
+>> +++ b/include/uapi/linux/gunyah.h
+>> @@ -20,4 +20,33 @@
+>>    */
+>>   #define GH_CREATE_VM            _IO(GH_IOCTL_TYPE, 0x0) /* Returns a 
+>> Gunyah VM fd */
+>> +/*
+>> + * ioctls for VM fds
+>> + */
+>> +
 > 
-> Do you have a clear idea of how this might be used in the future?
-
-Not yet. I have some vague ideas to use it as a enumeration of "special" 
-VM types. We might have special number for VMs which use "protected VM 
-firmware"  for the Android boot flow, another number for the "Trusted UI 
-VM", another for "OEM VM", etc. Passing 0 would always be the 
-unauthenticated VM which we are creating today.
-
-We're considering bumping the info to a separate ioctl since additional 
-info needs to be passed from userspace to configure the VM. Userspace 
-would do GH_CREATE_VM(). Another ioctl like GH_VM_SET_PVMFW_ADDRESS() 
-would imply that the VM uses the protected VM firmware for the Android 
-boot flow. Another ioctl call would be used to imply the "Trusted UI 
-VM". In any case, we're still in early design phase.
-
+> I think you should define the following three values in an enum.
 > 
-> I was thinking you could silently ignore the argument value, but
-> I suppose if it *does* get used in the future, you want the caller
-> to know it's being ignored.  (Is that right?)
+>> +#define GH_MEM_ALLOW_READ    (1UL << 0)
+>> +#define GH_MEM_ALLOW_WRITE    (1UL << 1)
+>> +#define GH_MEM_ALLOW_EXEC    (1UL << 2)
+>> +
+>> +/**
+>> + * struct gh_userspace_memory_region - Userspace memory descripion 
+>> for GH_VM_SET_USER_MEM_REGION
+>> + * @label: Unique identifer to the region.
+> 
+> Unique with respect to what?  I think it's unique among memory
+> regions defined within a VM.  And I think it's arbitrary and
+> defined by the caller (right?).
+> 
+>> + * @flags: Flags for memory parcel behavior
+>> + * @guest_phys_addr: Location of the memory region in guest's memory 
+>> space (page-aligned)
+>> + * @memory_size: Size of the region (page-aligned)
+>> + * @userspace_addr: Location of the memory region in caller 
+>> (userspace)'s memory
+>> + *
+>> + * See Documentation/virt/gunyah/vm-manager.rst for further details.
+>> + */
+>> +struct gh_userspace_memory_region {
+>> +    __u32 label;
+>> +    __u32 flags;
+> 
+> Add a comment to indicate what types of values "flags" can have.
+> Maybe "flags" should be called "perms" or something?
 > 
 
-That's right.
+Added documentation for the valid values of flags. I'm anticipating 
+needing to add other flag values beyond permission bits.
 
-Thanks,
-Elliot
+>> +    __u64 guest_phys_addr;
+>> +    __u64 memory_size;
+>> +    __u64 userspace_addr;
+> 
+> Why isn't userspace_addr just a (void *)?  That would be a more natural
+> thing to pass to the kernel.  Is it to avoid 32-bit/64-bit pointer
+> differences in the API?
+> 
+
+Yes, to avoid 32-bit/64-bit pointer differences in API.
+
+>> +};
+>> +
+>> +#define GH_VM_SET_USER_MEM_REGION    _IOW(GH_IOCTL_TYPE, 0x1, \
+>> +                        struct gh_userspace_memory_region)
+>> +
+> 
+> I think it's nicer to group the definitions of these IOCTL values.
+> Then in the struct definitions that follow, you can add comment that
+> indicates which IOCTL the struct is used for.
+> 
+>>   #endif
+> 
