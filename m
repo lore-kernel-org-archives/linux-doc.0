@@ -2,290 +2,179 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05624C77B6F
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 10:43:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D37C76196
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 10:55:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbjDKKnV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 06:43:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34242 "EHLO
+        id S229772AbjDKKzm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 06:55:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjDKKnQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 06:43:16 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE9D3C21
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 03:43:14 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f080f53fc6so3211135e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 03:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1681209793; x=1683801793;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kdCFQImNcwIaC8ig2ueHYqJphNr8HsFPvfaTYHnuWiU=;
-        b=D/hlliBmXRQ9agP9C9pp/JtXQiusdn0Q18slpFMWofSYerQS6n9TITMsy+InyDmtPr
-         ZCSJX2JRObQx9Q/UHQJF42N6YrYuzb105H7HiX2RvoxwM1J42sIEhBckN+6WDe9yavBV
-         BUltVSjAJK3e4O4zg7VzAmzdLdW+kKUYhxV5g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681209793; x=1683801793;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kdCFQImNcwIaC8ig2ueHYqJphNr8HsFPvfaTYHnuWiU=;
-        b=A4M2U+JQ58GxJtRH5FRHp9DuUqczKKxmgNzcPs/HcDKcyPEaLaaqOYgHykOconHt4i
-         wCa/y9GxVkTugOC6BmyI7RNSPKAHs2Z07FZElQWfqcGNGSqAehvF20Mc/Ia2LWQomElo
-         vXJ0VUzhSFre3E1XlEDLtjBgw6cRgD6NVaqTmfaVk61HRWzVMnRPUmA5qDCMJKDwzgjB
-         4EVLrqXw33GVh9A0Fs8L+l2Ba2UaIU2IYPyFJ0/0+QW3i8UxXF/81rnBLP+AaRDMWBK2
-         onKds0cOit9Mlp/kcYnzUypoWHt+9VXS1mC8GdTLZESSLBUvL8OjxARj2H5vDnPOt7cY
-         wmpA==
-X-Gm-Message-State: AAQBX9fbZZ2LATteDt0CKU77BXBESaIXE1aX6fEqk8IKblwR+ixEngEL
-        dBSeNaMQHh6nHWdIhPYO8l8Bvw==
-X-Google-Smtp-Source: AKy350YbGULpT1gZF8MvSg6CbB17/Bi8MvulFffq8JcFMUHC1QdvMvKX3mNFhYAkiv82evR9sUpkzA==
-X-Received: by 2002:a5d:595a:0:b0:2e4:aa42:7872 with SMTP id e26-20020a5d595a000000b002e4aa427872mr5868131wri.4.1681209792784;
-        Tue, 11 Apr 2023 03:43:12 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id c11-20020a5d4f0b000000b002f27dd92643sm2895514wru.99.2023.04.11.03.43.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 03:43:12 -0700 (PDT)
-Date:   Tue, 11 Apr 2023 12:43:10 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] drm: Add fdinfo memory stats
-Message-ID: <ZDU5vvc4V85E9hqP@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230410210608.1873968-1-robdclark@gmail.com>
- <20230410210608.1873968-2-robdclark@gmail.com>
+        with ESMTP id S229598AbjDKKzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 06:55:41 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2041.outbound.protection.outlook.com [40.107.212.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B981982;
+        Tue, 11 Apr 2023 03:55:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nPj6q6IIQ6UPT5RetwctOgooecJg4WNJINEX7ngaRGjYk6lRraQ9b/fZktJtKwpk8p4EQ0tPtPB+ehltuMU3xkwcmyQPoHALrJQQi0MVbB1IH7U3/YmGoIMcAvnicwvIncLhNCk5Ck63m3TOejys85oZajoB9JTmBKhFwoOpUrUfayRGAaFQ37+V/61IaYHTz9Fi8kOquUuM/sHkm7sNwYxs4sztRzvdRqIp+bYgyq8PHDN1q4oewT4/CqpMs7QskxM3TNIfH/10HDV9EdQcyU7/JeFcudN7SedE+iN42Xz/3fng1AC6zvXdy8Q3zM2TxmDpa//3XT+8Wx2p2HkqCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NjOFOznQ3rG0aEuWG0MPZocc0W8Y9KDoilgT1qCS2JA=;
+ b=aCgUo8aW/Z9m2p2TmiqYHH3Q+Og9ZnvRuKThMxfbziQTuwjHmIr+ztUBs0g9JTWv5eWD53A9suldzy1lxKyx47PCSq+FZUo0lucGvEvn7mfvcNO65zNTcRF3/E7OS4cCLJPgUmdAI2TtvKcleKUeHIHVfTgjBi+c3CJDhRdt0liI5iXMsZ/6192FnFSi9/MSmE6obKx8bM0zD6+f2YCtgrmUyLxW0NeVtQHqz/4l0o3SiFAHCYSJ5BQAebQWkv1KepZ+8hkP40Qn3TRNouYaP+SJLvAlAfTGdWXik2WVqR9MU/2DcXiPk1QbR3J0MFaEDIHkC2d+9J5rp5NBaP33XQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NjOFOznQ3rG0aEuWG0MPZocc0W8Y9KDoilgT1qCS2JA=;
+ b=P2e/YXUCXwv2aCzkvsh13mqkncKeCukJbO5EeOatjbm9zhnmxoR7OGMbJjoLV1QUnJEGUrYkN8yJDNLkoWAfQS5Fr71MKkceaSnAROZfMKVh+UjieX5tt6QaiDlgO4G5Z4X8N/M0Oam0g0k4XAfRbA4SmCLJUk6UH6lqIfHHeCs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW2PR12MB2379.namprd12.prod.outlook.com (2603:10b6:907:9::24)
+ by DS7PR12MB8419.namprd12.prod.outlook.com (2603:10b6:8:e9::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.35; Tue, 11 Apr
+ 2023 10:55:36 +0000
+Received: from MW2PR12MB2379.namprd12.prod.outlook.com
+ ([fe80::42cb:32d6:2502:4cbd]) by MW2PR12MB2379.namprd12.prod.outlook.com
+ ([fe80::42cb:32d6:2502:4cbd%3]) with mapi id 15.20.6277.034; Tue, 11 Apr 2023
+ 10:55:36 +0000
+Message-ID: <0b54618f-ce15-575a-9571-f746e8bc40e2@amd.com>
+Date:   Tue, 11 Apr 2023 16:25:23 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH 2/2] x86/Documentation: Add documentation about cluster
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        corbet@lwn.net, jgross@suse.com, andrew.cooper3@citrix.com,
+        Jason@zx2c4.com, thomas.lendacky@amd.com, puwen@hygon.cn,
+        x86@kernel.org, linux-doc@vger.kernel.org
+References: <20230410163527.1626-1-kprateek.nayak@amd.com>
+ <20230410163527.1626-3-kprateek.nayak@amd.com>
+ <20230411082538.GA578657@hirez.programming.kicks-ass.net>
+From:   K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <20230411082538.GA578657@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0116.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:27::31) To MW2PR12MB2379.namprd12.prod.outlook.com
+ (2603:10b6:907:9::24)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230410210608.1873968-2-robdclark@gmail.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2379:EE_|DS7PR12MB8419:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab327c23-bbc6-48b6-30b7-08db3a7b47dc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pxU5Kq9Xf0fIv2tsbJUoxmxs3bOmcdArJfpPpdEbgnu85WKS0okKutc6FsTzPTiHxJIfwUzq/5vweKutJ9fwNiy+mn5mP+oPdWLDFCb1Vu5l94mge8wCH66IFUiysZ8+WDa02mtsdr6ojKaDRhjxOpIgAgzVMTBykVCQEhEw4/EYOhsOCbhgXXdVDjhapLetKnahAHL2oWuIRV09+n7OVYRe5kLOD2gjxkOGJ9zpRVQww2Oe+vgg4y0lj/ujz2Ihmc3uzkukEL42gkSeW9xULkHITuGhxaQS3C0TJYxiifWjKDAYbnYPJB4Puij6e/I9gD2E0ojOKLASHQ7wLhUbz1SNqGopPk0INF090dmlAHokLbGY0S8wvAjT1PYoejsfvdTXtCN+mA1wI6A1kCS72xzxdUXnG9Td735z2rDSux4RQzd7hvwNQ494DaFlHxVTsf1BJvuyiqtN1ezl7XtV2NwxX0Y007+lYeDMLT2/1jUE9F1XWXuT/CjLc8snCfpxDrIUm534eIBy4Jjggl+mvsfrPatSft9hSryuNOo6TOtrffseSEt+UwU3dhwqteqb3F3tQpcXZ+i7tTiOQNcBzrKteyQwEl0vT6blHFpm5nrdWjB/aFqcSB/Ioz8ZcJkLDl8tDH5Vkw2ijTH+O3lO4g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB2379.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(396003)(39860400002)(136003)(346002)(451199021)(8936002)(6666004)(7416002)(6486002)(5660300002)(6916009)(86362001)(31696002)(4326008)(8676002)(66556008)(66476007)(66946007)(478600001)(38100700002)(31686004)(316002)(53546011)(2906002)(6506007)(6512007)(186003)(2616005)(41300700001)(36756003)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RkpUbENsbm9WemlWS2ZtdFFXMFdpLzVNQitsVllmRGVrK2plZDJOMmgrNjVM?=
+ =?utf-8?B?NzZCVFA0OVpTMnJxSXlibUIzSnBzL3pkN1kvejM5VVc1M0pVMUxTK3VTZGgr?=
+ =?utf-8?B?UEJVazMyaE1TZ3lIa1dSRG5FN1R2aE4rUUNteU8xeWFMb0R2citIZXJaeHJx?=
+ =?utf-8?B?bWs2cElNMjhJcWVIcG1mK1VCU3N2T2FDbXVyTmV5QjJjdG9wTjRkNm1NWFpY?=
+ =?utf-8?B?Uk4zMHlRWkpzcTBuS0ZqZCtjQnJnUk1HSmF1ODEvdWN2ajBKWHdLcGtKQlUw?=
+ =?utf-8?B?RGw2Ri9wWjlSemhMSFEvRHFOa0pzdytXVEFSNEJMTDQ5RVhNNktabU52L3dP?=
+ =?utf-8?B?T05wdWhJVThNYktXYVZJczd6eFAwZktnaDIwSEdjZVBoQTZNelNpNk85NGYr?=
+ =?utf-8?B?clNXTU52MHlUTzJRcmJhYTMvWFo1MjZIL2QwcmxJVUNmK1ptcjVhL0JuTmxw?=
+ =?utf-8?B?UFBBRUNKTXhFcVZ5YVBSc214WnBYVDlTOHozVmRjOEI4eWZmSUtnWHE2RlBC?=
+ =?utf-8?B?WWNZcktHM0ZqSDk5RUxzU2hOUEpCSnFHalBCTEI5Zmc1dTRzdStsNVQ2dGlp?=
+ =?utf-8?B?KzBCZ1R4UTdqRU5sRGhqdlZLUHpJYlhGcEgvbi8wNU9VM2FNL2ZEWXYyUEZQ?=
+ =?utf-8?B?VWpCUkRyd2xpV0V0SzdlbVRRMkRlZlZFb0FySlZibUhWTkw0eHBtOG5KVG1q?=
+ =?utf-8?B?dzZDenJ4SDdTMUVSQmpCeXppekR4WWZuSTMzR1Y3RDArRTJGNXF1SFdHV0pt?=
+ =?utf-8?B?ODhoMXVXS3FNbStDU3VWbHVNdTQrWHpFSjFMNzJUSDFVNlFrUHhqNUQxcmk2?=
+ =?utf-8?B?Q21kdHlKSVR3MG9QTHZMZEJhcTFQL0psWGZKR0lCb1VMcERKTnYxT011SEhF?=
+ =?utf-8?B?RHVtQ05lbmVsQmQ1eVd5RCtma3MyZUhJdk5YSEVQWDFQWFkzdDJNQWVCU3FB?=
+ =?utf-8?B?ZS95M0d2MTJ5K1AwTWdPZVNoQWR0VjdFTFNEWmZka0d4UmZHcitQd0FzdW5Y?=
+ =?utf-8?B?M21GeWZaTFV0NmRRTVRubEhCQlMrR1JibzREY09pZ2M3Y0h0R1dSUGdjeHJ5?=
+ =?utf-8?B?ellLRkhoZTVyYSs3ZkpmTHRZTmtOdDhOUGNDQm54elYxZlV0eXdwZGI2RkY1?=
+ =?utf-8?B?TFhONUdMdHVtQ2xCRDZ2a2pJNUlMNFRXSm1pYmc1TTBqNWNrVlV6NXhWMk0r?=
+ =?utf-8?B?RXR0SHcrNHllQUo4dm01aE8wcUZhUnlDVVNvSkhvK3RzMlNqbFFwaEZtZnhh?=
+ =?utf-8?B?NXo4R2hNalNiLzR4Slhjak9RSTlPeDgrV1I0bUozV0VCa0JtTG9tbVdPRm5w?=
+ =?utf-8?B?WnlOYjJReE5jaHFqeFptTFVpUnZNSWhNekc0TEJXa3RiZEp4S1Q0VzVLWURS?=
+ =?utf-8?B?KzAvUllwcFF6ZXNzdytZcnkxZVpLU0J4alhUVG92UGl4c1pCNXFGWTdSNzJm?=
+ =?utf-8?B?R0RCdVRHTHpKUFpXa0lUVDJQWHJ6Yjd6bzR2QmNNbmxHNWtnUTZYdm1ORHBv?=
+ =?utf-8?B?RlJXL0JLbTRCTXI3U2lKZjROY2k0bEFBUHVvK2cycmtiU0lOSWpWTUJDK2s3?=
+ =?utf-8?B?YW5FazI2cG1oYjYyWnNDVVV1a3hONXRMN1oxdWIzRHhHOXpiY2VuWlVjaGlm?=
+ =?utf-8?B?OE5teVF5RWVqMHp6amNXMnRTcEFhb3dCOFFkR1lOOXgzcDdjREhsUUtkM1hw?=
+ =?utf-8?B?a1ZPNmlrbGRZNkNhZFF2NWRydGNUQll3alBKL3o5RDRYQ3FPcFRNTTZMNHl6?=
+ =?utf-8?B?L3Zoc1RLbDB6eU9sakhVbG9xWEVqYTAxRkIrV0hYV3JqSGYxR2dpWGwwZlFm?=
+ =?utf-8?B?OVpsUmRZK2NOWUtBZnFMdEQ0SFNkUVJ4azRoZ0hLRGVUNlZHT25pQm5Lc2JM?=
+ =?utf-8?B?bDloRUR1YWtkSFZ3d0N0SkE4S0I0QnBqL2pEaDFNdUFqaHFNYS9XZklVUmhB?=
+ =?utf-8?B?SUZFUUpHVFNzelkvYUpTQ0xVVVdBT0o1aUtadWNvN0xaWGpZVlNVWUFwcjJV?=
+ =?utf-8?B?M24wa2Z5MElSQ1ZMUzJnVEhqVXYwOFZpUHdlYkxhWDRmNlhsUmZVUGJib0pP?=
+ =?utf-8?B?RnNJcEtzMUlXZnc2d3FDZ0wwNktFTlk2aEZPWEFmV1ZhVzdjNUt0Z2hDTjdi?=
+ =?utf-8?Q?lRhQZJ5Rq320Kha0R4knCyABb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab327c23-bbc6-48b6-30b7-08db3a7b47dc
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2379.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2023 10:55:36.6826
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 39xx9UMdYJEthPgY8slrHSFdqyYCsmnV2Q4meXssmEv+pVvoT4AEqYerlrnvQn3OfgIVPswlZgEnjMkzPukj/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8419
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 10, 2023 at 02:06:06PM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Add a helper to dump memory stats to fdinfo.  For the things the drm
-> core isn't aware of, use a callback.
-> 
-> v2: Fix typos, change size units to match docs, use div_u64
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Hello Peter,
 
-Uh can't we wire this up by default? Having this as a per-driver opt-in
-sounds like we'll get maximally fragmented drm fd_info, and since that's
-uapi I don't think that's any good at all.
+Thank you for reviewing the patches.
 
-I think it's time we have
-- drm_fd_info
-- rolled out to all drivers in their fops
-- with feature checks as appropriate
-- push the driver-specific things into a drm_driver callback
-
-And I guess start peopling giving a hard time for making things needless
-driver-specifict ... there's really no reason at all this is not
-consistent across drivers.
--Daniel
-
-> ---
->  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
->  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
->  include/drm/drm_file.h                | 10 ++++
->  3 files changed, 110 insertions(+)
+On 4/11/2023 1:55 PM, Peter Zijlstra wrote:
+> On Mon, Apr 10, 2023 at 10:05:27PM +0530, K Prateek Nayak wrote:
+>> x86 processors map cluster to the L2 cache. Add documentation stating
+>> the same, and provide more information on the values and API related to
+>> CPU clusters exposed by the kernel.
+>>
+>> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
+>> ---
+>>  Documentation/x86/topology.rst | 31 +++++++++++++++++++++++++++++++
+>>  1 file changed, 31 insertions(+)
+>>
+>> diff --git a/Documentation/x86/topology.rst b/Documentation/x86/topology.rst
+>> index 7f58010ea86a..35991d8cdef1 100644
+>> --- a/Documentation/x86/topology.rst
+>> +++ b/Documentation/x86/topology.rst
+>> @@ -33,6 +33,7 @@ historical nature and should be cleaned up.
+>>  The topology of a system is described in the units of:
+>>  
+>>      - packages
+>> +    - cluster
+>>      - cores
+>>      - threads
+>>  
+>> @@ -90,6 +91,27 @@ Package-related topology information in the kernel:
+>>          Cache. In general, it is a number identifying an LLC uniquely on the
+>>          system.
+>>  
+>> +
+>> +Clusters
+>> +========
+>> +A cluster consists of 1 or more threads. It does not matter whether the threads
+>> +are SMT- or CMT-type threads. All the threads of a cluster share the same L2
+>> +cache.
 > 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index b46327356e80..b5e7802532ed 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
->  Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->  indicating kibi- or mebi-bytes.
->  
-> +- drm-shared-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are shared with another file (ie. have more
-> +than a single handle).
-> +
-> +- drm-private-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are not shared with another file.
-> +
-> +- drm-resident-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are resident in system memory.
-> +
-> +- drm-purgeable-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are purgeable.
-> +
-> +- drm-active-memory: <uint> [KiB|MiB]
-> +
-> +The total size of buffers that are active on one or more rings.
-> +
->  - drm-cycles-<str> <uint>
->  
->  Engine identifier string must be the same as the one specified in the
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index a51ff8cee049..085b01842a87 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -42,6 +42,7 @@
->  #include <drm/drm_client.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
->  #include <drm/drm_print.h>
->  
->  #include "drm_crtc_internal.h"
-> @@ -868,6 +869,84 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
->  }
->  EXPORT_SYMBOL(drm_send_event);
->  
-> +static void print_size(struct drm_printer *p, const char *stat, size_t sz)
-> +{
-> +	const char *units[] = {"", " KiB", " MiB"};
-> +	unsigned u;
-> +
-> +	for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
-> +		if (sz < SZ_1K)
-> +			break;
-> +		sz = div_u64(sz, SZ_1K);
-> +	}
-> +
-> +	drm_printf(p, "%s:\t%zu%s\n", stat, sz, units[u]);
-> +}
-> +
-> +/**
-> + * drm_print_memory_stats - Helper to print standard fdinfo memory stats
-> + * @file: the DRM file
-> + * @p: the printer to print output to
-> + * @status: callback to get driver tracked object status
-> + *
-> + * Helper to iterate over GEM objects with a handle allocated in the specified
-> + * file.  The optional status callback can return additional object state which
-> + * determines which stats the object is counted against.  The callback is called
-> + * under table_lock.  Racing against object status change is "harmless", and the
-> + * callback can expect to not race against object destruction.
-> + */
-> +void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
-> +			    enum drm_gem_object_status (*status)(struct drm_gem_object *))
-> +{
-> +	struct drm_gem_object *obj;
-> +	struct {
-> +		size_t shared;
-> +		size_t private;
-> +		size_t resident;
-> +		size_t purgeable;
-> +		size_t active;
-> +	} size = {0};
-> +	int id;
-> +
-> +	spin_lock(&file->table_lock);
-> +	idr_for_each_entry (&file->object_idr, obj, id) {
-> +		enum drm_gem_object_status s = 0;
-> +
-> +		if (status)
-> +			s = status(obj);
-> +
-> +		if (obj->handle_count > 1) {
-> +			size.shared += obj->size;
-> +		} else {
-> +			size.private += obj->size;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_RESIDENT) {
-> +			size.resident += obj->size;
-> +			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_ACTIVE) {
-> +			size.active += obj->size;
-> +			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> +		}
-> +
-> +		if (s & DRM_GEM_OBJECT_PURGEABLE)
-> +			size.purgeable += obj->size;
-> +	}
-> +	spin_unlock(&file->table_lock);
-> +
-> +	print_size(p, "drm-shared-memory", size.shared);
-> +	print_size(p, "drm-private-memory", size.private);
-> +
-> +	if (status) {
-> +		print_size(p, "drm-resident-memory", size.resident);
-> +		print_size(p, "drm-purgeable-memory", size.purgeable);
-> +		print_size(p, "drm-active-memory", size.active);
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_print_memory_stats);
-> +
->  /**
->   * mock_drm_getfile - Create a new struct file for the drm device
->   * @minor: drm minor to wrap (e.g. #drm_device.primary)
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 0d1f853092ab..7bd8a1374f39 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -41,6 +41,7 @@
->  struct dma_fence;
->  struct drm_file;
->  struct drm_device;
-> +struct drm_printer;
->  struct device;
->  struct file;
->  
-> @@ -438,6 +439,15 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
->  				     struct drm_pending_event *e,
->  				     ktime_t timestamp);
->  
-> +enum drm_gem_object_status {
-> +	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
-> +	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
-> +	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
-> +};
-> +
-> +void drm_print_memory_stats(struct drm_file *file, struct drm_printer *p,
-> +			    enum drm_gem_object_status (*status)(struct drm_gem_object *));
-> +
->  struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
->  
->  #endif /* _DRM_FILE_H_ */
-> -- 
-> 2.39.2
+> I'm not quite sure that's a correct discription of what a cluster is.
 > 
+> Yes, SMT will fundamentally share core-level caches (and should we not
+> always have SMT share all cache topoligies?)
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I can reword the cluster description as follows:
+
+"A cluster consists of threads of one or more cores sharing the same
+L2 cache."
+
+> 
+> But there is also x86 where L2 is shared between multiple cores -- while
+> the above seems to suggest L2 is single core only.
+
+I hope the above rewording solves this confusion. Let me know otherwise.
+--
+Thanks and Regards,
+Prateek
