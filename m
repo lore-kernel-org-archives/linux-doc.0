@@ -2,112 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A84FEC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 03:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A2BDC7619A
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 03:58:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbjDKDvi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 23:51:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50324 "EHLO
+        id S229843AbjDKD6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 23:58:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjDKDvi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 23:51:38 -0400
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E012118;
-        Mon, 10 Apr 2023 20:51:36 -0700 (PDT)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id E4D5E68BEB; Tue, 11 Apr 2023 05:51:31 +0200 (CEST)
-Date:   Tue, 11 Apr 2023 05:51:31 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Alexander Graf <graf@amazon.com>
-Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce
- buffers
-Message-ID: <20230411035131.GA15795@lst.de>
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com> <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com> <20230328040724.GB25506@lst.de> <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com> <20230407055548.GC6803@lst.de> <20230407124627.74528415@meshulam.tesarici.cz>
+        with ESMTP id S229485AbjDKD6S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 23:58:18 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FD898;
+        Mon, 10 Apr 2023 20:58:17 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-5144043d9d1so388045a12.3;
+        Mon, 10 Apr 2023 20:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681185497;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oKdZbWy4jwijLOLOEbSGdVMaYn7h020PIX2k8NqOSZo=;
+        b=YrArys0C7zjnMXda4FNLCkoSe1ZR7omGasqB9hnue3Q7HAupxVPI6UK7beT/uGuvja
+         8y/LqVgcrR3izzc9X3/+OdYf2z37VnS7WXUXCWw6T+iqkAbZdnu+Cf7L9lMtgOG9NG1W
+         hoUcVNhKxbHCp8frLvuPSA9rs0U1o0VvdyitT1vEPfaNQuWJ9q2xYejzMuOXJt5ZwZbG
+         Dy2Fegfmn3Ullz8d56mPDmqsE66ZtaRK2itNkhntx36NKTUSPr8PvxyoFC2wz35JE3wW
+         Y+3Jz51rICr2drVzy1BZlekWvBehp1s5uRf4kTSRcQIOG0srViccIv9dRu+TVf7PT4Um
+         PU4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681185497;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oKdZbWy4jwijLOLOEbSGdVMaYn7h020PIX2k8NqOSZo=;
+        b=ymhemzUwUXb6icS1uNGcgqN9lQ4+1mAqtC6SSX7wEGIDotjk9jKuqaCYkf6rySXsaM
+         G5zfo8TRAXzGchDa97ULQ3BR3dvokB5iDTsYIiQwlT3scQbZG1X8RBqi9jQJX3YnONG/
+         MpW0W/mLm1Rdapjz/BeSrXTuZcKu9rKY5/dRlCrxx4HCIR5U4aceQIhTrdNjuYIvt9s2
+         cMUGyIz/IIOViY7q+JaXFxgLRWpotTS9/vtJUHC+s+DIbKbI9pN57sr2t/Vn5sSS+0r7
+         qVWe7hPbQ+bn1VqbEO7PXYuwcyoTSKen3yRbVjTmniGZfMrRhWaIlkmVWXjfWNIUcxOJ
+         1a3Q==
+X-Gm-Message-State: AAQBX9eQhMgdnDkJHwv7OhwPzYSqYrFdikTRDnWyL55NIajqtiWF9Xl5
+        JIbuw+8En4MQKmaLS4gq4yg=
+X-Google-Smtp-Source: AKy350a8JeUjpoVeuqE3YRFo8p8V7nDdkF3nlUt2GK1vtwEhCLk5pvrKsjKo89MfDwv/aSNlxzxU7A==
+X-Received: by 2002:aa7:948b:0:b0:635:56c3:4bb6 with SMTP id z11-20020aa7948b000000b0063556c34bb6mr8221749pfk.27.1681185496759;
+        Mon, 10 Apr 2023 20:58:16 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-80.three.co.id. [180.214.232.80])
+        by smtp.gmail.com with ESMTPSA id d1-20020a63ed01000000b005133f658f1asm7598272pgi.94.2023.04.10.20.58.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Apr 2023 20:58:16 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 09C681068DD; Tue, 11 Apr 2023 10:58:12 +0700 (WIB)
+Date:   Tue, 11 Apr 2023 10:58:12 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     K Prateek Nayak <kprateek.nayak@amd.com>,
+        linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
+        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
+        Jason@zx2c4.com, thomas.lendacky@amd.com, puwen@hygon.cn,
+        x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] x86/Documentation: Add documentation about cluster
+Message-ID: <ZDTa1PbEqcyrhJsU@debian.me>
+References: <20230410163527.1626-1-kprateek.nayak@amd.com>
+ <20230410163527.1626-3-kprateek.nayak@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="JhsElS4CpgPS1dxo"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230407124627.74528415@meshulam.tesarici.cz>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20230410163527.1626-3-kprateek.nayak@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 07, 2023 at 12:46:27PM +0200, Petr Tesařík wrote:
-> >  b) find a way to migrate a buffer into other memory, similar to
-> >     how page migration works for page cache
-> 
-> Let me express the idea in my own words to make sure I get it right.
-> When a DMA buffer is imported, but before it is ultimately pinned in
-> memory, the importing device driver checks whether the buffer meets its
-> DMA constraints. If not, it calls a function provided by the exporting
-> device driver to migrate the buffer.
 
-Yes.
+--JhsElS4CpgPS1dxo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This makes sense, but:
-> 
->   1) The operation must be implemented in the exporting driver; this
->      will take some time.
-> 
->   2) In theory, there may be no overlap between the exporting device
->      and the importing device. OTOH I'm not aware of any real-world
->      example, so we can probably return a suitable error code, and
->      that's it.
+On Mon, Apr 10, 2023 at 10:05:27PM +0530, K Prateek Nayak wrote:
+> diff --git a/Documentation/x86/topology.rst b/Documentation/x86/topology.=
+rst
+> index 7f58010ea86a..35991d8cdef1 100644
+> --- a/Documentation/x86/topology.rst
+> +++ b/Documentation/x86/topology.rst
+> @@ -33,6 +33,7 @@ historical nature and should be cleaned up.
+>  The topology of a system is described in the units of:
+> =20
+>      - packages
+> +    - cluster
+>      - cores
+>      - threads
+> =20
+> @@ -90,6 +91,27 @@ Package-related topology information in the kernel:
+>          Cache. In general, it is a number identifying an LLC uniquely on=
+ the
+>          system.
+> =20
+> +
+> +Clusters
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +A cluster consists of 1 or more threads. It does not matter whether the =
+threads
+> +are SMT- or CMT-type threads. All the threads of a cluster share the sam=
+e L2
+> +cache.
+> +
+> +Cluster-related topology information in the kernel:
+> +
+> +  - cluster_id:
+> +
+> +    A per-CPU variable containing:
+> +
+> +      - On Intel, the common upper bits of APIC ID of the list of CPUs s=
+haring
+> +        the L2 Cache with lower bits set to 0.
+> +
+> +      - On AMD, with Topology Extension, the common upper bits of the Ex=
+tended
+> +        APIC ID of the list of CPUs sharing the L2 Cache, left shifted to
+> +        remove trailing 0s.
+> +
+> +
+>  Cores
+>  =3D=3D=3D=3D=3D
+>  A core consists of 1 or more threads. It does not matter whether the thr=
+eads
+> @@ -125,6 +147,11 @@ Thread-related topology information in the kernel:
+> =20
+>      The number of online threads is also printed in /proc/cpuinfo "sibli=
+ngs."
+> =20
+> +  - topology_cluster_cpumask():
+> +
+> +    The cpumask contains all online threads in the cluster to which a th=
+read
+> +    belongs.
+> +
+>    - topology_sibling_cpumask():
+> =20
+>      The cpumask contains all online threads in the core to which a thread
+> @@ -138,6 +165,10 @@ Thread-related topology information in the kernel:
+> =20
+>      The physical package ID to which a thread belongs.
+> =20
+> +  - topology_cluster_id();
+> +
+> +    The ID of the cluster to which a thread belongs.
+> +
+>    - topology_core_id();
+> =20
+>      The ID of the core to which a thread belongs. It is also printed in =
+/proc/cpuinfo
 
-Indeed.  And if there is no overlap, which as you said is indeed
-very unlikely but in theory possible, we could still keep migrating
-forther and back.
+The doc LGTM, thanks!
 
-One important thing that we should do is to consolidate more of the
-dma-buf implementation code.  Right now they just seem to be a wild
-mess of copy and pasted boilerplate code unfortunately.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> Anyway, I have already written in another reply that my original use
-> case is moot, because a more recent distribution can do the job without
-> using dma-buf, so it has been fixed in user space, be it in GNOME,
-> pipewire, or Mesa (I don't really have to know).
-> 
-> At this point I would go with the assumption that large buffers
-> allocated by media subsystems will not hit swiotlb. Consequently, I
-> don't plan to spend more time on this branch of the story.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Sounds fine to me, and thanks for taking the effort so far.
+--JhsElS4CpgPS1dxo
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > > BTW my testing also suggests that the streaming DMA API is quite
-> > > inefficient, because UAS performance _improved_ with swiotlb=force.
-> > > Sure, this should probably be addressed in the UAS and/or xHCI driver,
-> > > but what I mean is that moving away from swiotlb may even cause
-> > > performance regressions, which is counter-intuitive. At least I would
-> > > _not_ have expected it.  
-> > 
-> > That is indeed very odd.  Are you running with a very slow iommu
-> > driver there?   Or what is the actual use case there in general?
-> 
-> This was on a Raspberry Pi 4, which does not have any IOMMU. IOW it
-> looks like copying data around can be faster than sending it straight
-> to the device. When I have some more time, I must investigate what is
-> really happening there, because it does not make any sense to me.
+-----BEGIN PGP SIGNATURE-----
 
-If you're not using an IOMMU that doesn't actually make any sense to
-me.  swiotlb calls into exactly the same routines as dma-direct does
-for the dma setup on each I/O, just after copying the data.  So if you
-do have some spare cycles to investigate what is going on here, I'd
-be really curious about the results.
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZDTa0QAKCRD2uYlJVVFO
+o8bSAQCKg98KN3Qnlstb665jkFCvsedDcoxoMR2GR6qKmjGR9gD+IqyIoN/hwb22
+29qvJ4250RNiyDU/MpLzSvk5Pfm7MAY=
+=c5Hj
+-----END PGP SIGNATURE-----
+
+--JhsElS4CpgPS1dxo--
