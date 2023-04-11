@@ -2,114 +2,159 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 187B3C77B61
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Apr 2023 23:13:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62FDCC77B70
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 01:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbjDJXNw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Apr 2023 19:13:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48780 "EHLO
+        id S229775AbjDKB3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Apr 2023 21:29:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229944AbjDJXNh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 19:13:37 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D5473C25;
-        Mon, 10 Apr 2023 16:12:41 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id g3so7342442pja.2;
-        Mon, 10 Apr 2023 16:12:41 -0700 (PDT)
+        with ESMTP id S229660AbjDKB3i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Apr 2023 21:29:38 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C77010F7
+        for <linux-doc@vger.kernel.org>; Mon, 10 Apr 2023 18:29:37 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-54c01480e3cso147888697b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Apr 2023 18:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681168355; x=1683760355;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=w2pu/Q9tC6woWsX5eYA7h2LnjeiP9LM5xH/fnPuGwas=;
-        b=dNuLRTPRYm275ecTGqtgGoYnZrkeoM9tEOTogYbTjT0CHqxmEuf5MmiYbvO54JxQAe
-         NOibCupxxc6IEdjlOqw73QuGuvRpvXd/Q6dAHavE3NOp1CcbeNNZ3tCk9DpoSNAvUNxL
-         ID6GcUPcexcMFqaF0aozjfd/XlxRdZaxDexO2qtzYc0Oe/PSSoP2yEherIbbNM4BE1lo
-         ixdAMbeoS2IJAKOTbYks1eGOBRaxwt+k71uuKEK11cmBcIHjWDAHh4G6bY338TcahGuo
-         Itsq+pbZFpwTlKjhpAqxKEN8/mHyU3V4t1n+ryY8oH9Zfycu/uXnlYJ1iPmnh9d5+noj
-         5YMA==
+        d=google.com; s=20210112; t=1681176576;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u35FXb24rxXsoG0aCEe4m7ddoHISWHWt5V4ebjSzsz4=;
+        b=o2tU5lXa5GgaaWuGTbd5bbvKtG3z3RSme5Cet24inDTS7nOrViJmL/iq51gozQkU0w
+         fSc14g51lyAN7EZ2W2YdqFHXsQ6fhtJt3Ww8txhLuuaqZ7otipQp1kY2GirbtpvPd8tz
+         qOFtr4vKJdNigycQsXduABdE6Mx/1K8btlYWEfUtLHRYy5H01FBzkck2ffnGkGbDsNsT
+         ZbsMLLNEojFf+Yy7PynOmDitIMxxEZiFMr4qBeOETiKphih3BdTfUf4XHIT8Qtk4z1z+
+         d9h/ldEYXKqGvPbthLo+j90zJo0SUaeonPgvSapyQgn4pLlBWcLiJxpQI3QivbmMF29i
+         8afA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681168355; x=1683760355;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w2pu/Q9tC6woWsX5eYA7h2LnjeiP9LM5xH/fnPuGwas=;
-        b=Kix+cbIx52upG5O4CTrd9ivvg8+WwkZ/WPGyQzaIXkF3R73QbyMmwmv/ZmnuRwSDrb
-         1kYg7eTbkwf5Szc4GXywcNz9cGjUzL9t1/Mlc0eCSAIB89EBYZfSDG7rsC42Tu1fl7ad
-         o3eHyIjnyG3GIbtMMOk378K5mwKPyecaAg4knoX7jQa5CIK1+ylkKwA4CNB3ufArlfp0
-         L+kAo7Jr6fFOZESApo/wWavXNz4VMbl9LjxkwOqv0hcs5EPU/+O354vPvcEu+x/nENft
-         TssRaHnagP8vrUtA3pslCPPrRDmLJajXXDQvkrLjg/3ZA3zVo1TFgyMCWSbxOumevGCe
-         v9bw==
-X-Gm-Message-State: AAQBX9d+UIPRJImZLFCZ/5TxlTwMe9WpOKoHN08dqsLYFL/GQArnY6I6
-        mTSJXtyWeygGps7C0ZGbyRLXcP12U23/lA==
-X-Google-Smtp-Source: AKy350ZDficuU/593PNroWmP5br0YdTUa+zA2WXrBeWQmOA8nbsKCEndPFwdVXzd19BDpmO36jOeAA==
-X-Received: by 2002:a17:903:338e:b0:1a1:d215:ef0c with SMTP id kb14-20020a170903338e00b001a1d215ef0cmr11579153plb.16.1681168355057;
-        Mon, 10 Apr 2023 16:12:35 -0700 (PDT)
-Received: from [192.168.1.105] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
-        by smtp.gmail.com with ESMTPSA id k21-20020a170902ba9500b001a1ccb37847sm8348645pls.146.2023.04.10.16.12.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Apr 2023 16:12:34 -0700 (PDT)
-Message-ID: <1f4b874b-bd1e-17ff-51dd-19bf2d73214f@gmail.com>
-Date:   Mon, 10 Apr 2023 16:12:32 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] Documentation: firmware: Clarify firmware path usage
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20230402135423.3235-1-f.fainelli@gmail.com>
- <87y1mzcq9y.fsf@meer.lwn.net>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <87y1mzcq9y.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        d=1e100.net; s=20210112; t=1681176576;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u35FXb24rxXsoG0aCEe4m7ddoHISWHWt5V4ebjSzsz4=;
+        b=2E8+8hx9vMl5d9296CiIWBqLYiXzYWa2PBKmgg4LSLQiewc361funltrj8DnYlBbGc
+         MFql8RqO8/egNw3tPegEYgq4m27DMF6CN1GBGEIv0+RbCIdwcuIRJBF0qee7Diawfl7c
+         fDOOgy6eKfXiOdT4OxxC7fHZaovvT1tGfyUliSQt+rut/x+Bn6hPiiPkSNadB+uxwjGs
+         COelqOj42+F9cCwnqfDHUvQxJcdq7SIB4B/xKLB+G0yuUxMVbvHBrGHHXiLKTvQTqKs1
+         6k10lJBfDWfjeFAOq4SkDzJZa2P51E9bu1Gk7bgGsRyhLavwP433BNA8XPF+7OmwoSks
+         D3Nw==
+X-Gm-Message-State: AAQBX9ekSvY1O/SFKMzbyTRBFQTwETy/CqDWoZZZ0a9lCjfVomG2VbnG
+        /DS8yEy117Q0B7bbMdyF8XrRDYKrkzPN4TnkRA==
+X-Google-Smtp-Source: AKy350avHjLsg9mTzZAWYFqY+XYZP5h/AOkdol2OZ6k0pfwzqyIYSmwhwrM4doSRB7oAHOnKfLu7oA90tp2KCOA+fw==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a05:690c:1:b0:544:bbd2:74be with SMTP
+ id bc1-20020a05690c000100b00544bbd274bemr8286702ywb.4.1681176576562; Mon, 10
+ Apr 2023 18:29:36 -0700 (PDT)
+Date:   Tue, 11 Apr 2023 01:29:31 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.577.gac1e443424-goog
+Message-ID: <cover.1681176340.git.ackerleytng@google.com>
+Subject: [RFC PATCH v4 0/2] Providing mount in memfd_restricted() syscall
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
+        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
+        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
+        Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello,
 
+This patchset builds upon the memfd_restricted() system call that was
+discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
+series, at
+https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.int=
+el.com/T/
 
-On 4/10/2023 3:43 PM, Jonathan Corbet wrote:
-> Florian Fainelli <f.fainelli@gmail.com> writes:
-> 
->> Newline characters will be taken into account for the firmware search
->> path parameter, warn users about that and provide an example using 'echo
->> -n' such that it clarifies the typical use of that parameter.
->>
->> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
->> ---
->>   Documentation/driver-api/firmware/fw_search_path.rst | 9 +++++++--
->>   1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/driver-api/firmware/fw_search_path.rst b/Documentation/driver-api/firmware/fw_search_path.rst
->> index a360f1009fa3..d7cb1e8f0076 100644
->> --- a/Documentation/driver-api/firmware/fw_search_path.rst
->> +++ b/Documentation/driver-api/firmware/fw_search_path.rst
->> @@ -22,5 +22,10 @@ can use the file:
->>   
->>   * /sys/module/firmware_class/parameters/path
->>   
->> -You would echo into it your custom path and firmware requested will be
->> -searched for there first.
->> +You would echo into it your custom path and firmware requested will be searched
->> +for there first. Be aware that newline characters will be taken into account
->> +and may not produce the intended effects. For instance you might want to use:
->> +
->> +echo -n /path/to/script > /sys/module/firmware_class/parameters/path
->> +
->> +to ensure that your script is being used.
-> 
-> So I have no problem with applying this, but I have to ask...might it
-> not be better to fix the implementation of that sysfs file to strip
-> surrounding whitespace from the provided path?  This patch has the look
-> of a lesson learned the hard way; rather than codifying this behavior
-> into a feature, perhaps we could just make the next person's life a bit
-> easier...?
+The tree can be found at:
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-provide-mou=
+nt-fd-rfc-v4
 
-I was not sure whether it was on purpose or not, Greg, will we break 
-anyone's use case if we strip off \n from the firmware path passed via 
-sysfs?
--- 
-Florian
+In this patchset, a modification to the memfd_restricted() syscall is
+proposed, which allows userspace to provide a mount, on which the
+restrictedmem file will be created and returned from the
+memfd_restricted().
+
+Allowing userspace to provide a mount allows userspace to control
+various memory binding policies via tmpfs mount options, such as
+Transparent HugePage memory allocation policy through
+'huge=3Dalways/never' and NUMA memory allocation policy through
+'mpol=3Dlocal/bind:*'.
+
+Changes since RFCv3:
++ Added check to ensure that bind mounts must be bind mounts of the
+  whole filesystem
++ Removed inappropriate check on fd=E2=80=99s permissions as Christian
+  suggested
++ Renamed RMFD_USERMNT to MEMFD_RSTD_USERMNT as David suggested
++ Added selftest to check that bind mounts must be bind mounts of the
+  whole filesystem
+
+Changes since RFCv2:
++ Tightened semantics to accept only fds of the root of a tmpfs mount,
+  as Christian suggested
++ Added permissions check on the inode represented by the fd to guard
+  against creation of restrictedmem files on read-only tmpfs
+  filesystems or mounts
++ Renamed RMFD_TMPFILE to RMFD_USERMNT to better represent providing a
+  userspace mount to create a restrictedmem file on
++ Updated selftests for tighter semantics and added selftests to check
+  for permissions
+
+Changes since RFCv1:
++ Use fd to represent mount instead of path string, as Kirill
+  suggested. I believe using fds makes this syscall interface more
+  aligned with the other syscalls like fsopen(), fsconfig(), and
+  fsmount() in terms of using and passing around fds
++ Remove unused variable char *orig_shmem_enabled from selftests
+
+Dependencies:
++ Chao=E2=80=99s work on UPM, at
+  https://github.com/chao-p/linux/commits/privmem-v11.5
+
+Links to earlier patch series:
++ RFC v3: https://lore.kernel.org/lkml/cover.1680306489.git.ackerleytng@goo=
+gle.com/T/
++ RFC v2: https://lore.kernel.org/lkml/cover.1679428901.git.ackerleytng@goo=
+gle.com/T/
++ RFC v1: https://lore.kernel.org/lkml/cover.1676507663.git.ackerleytng@goo=
+gle.com/T/
+
+Ackerley Tng (2):
+  mm: restrictedmem: Allow userspace to specify mount for
+    memfd_restricted
+  selftests: restrictedmem: Check memfd_restricted()'s handling of
+    provided userspace mount
+
+ include/linux/syscalls.h                      |   2 +-
+ include/uapi/linux/restrictedmem.h            |   8 +
+ mm/restrictedmem.c                            |  73 ++-
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   1 +
+ .../selftests/mm/memfd_restricted_usermnt.c   | 529 ++++++++++++++++++
+ tools/testing/selftests/mm/run_vmtests.sh     |   3 +
+ 7 files changed, 611 insertions(+), 6 deletions(-)
+ create mode 100644 include/uapi/linux/restrictedmem.h
+ create mode 100644 tools/testing/selftests/mm/memfd_restricted_usermnt.c
+
+--
+2.40.0.577.gac1e443424-goog
