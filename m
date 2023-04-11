@@ -2,134 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE06DC76196
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 14:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B9DCC76196
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 14:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbjDKOHL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 10:07:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36602 "EHLO
+        id S229503AbjDKOOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 10:14:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbjDKOHK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 10:07:10 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956C419C;
-        Tue, 11 Apr 2023 07:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1681222029; x=1712758029;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iwXMraFk3rEELAWbRtbHrkEz6gUhWBvUZKer76tBfNQ=;
-  b=hxYyfBK6gnN44LuVjpjcWE7/3btCqyNo88aYI+IpCLVnsvqUu4EbUp2t
-   yYuL4hl9BTGH0BK5Yf6zRASqf/L+ZD6y/R83M832ZKoBTX2JK2cQTXb6X
-   dOobPUMoWKpzVmUQoYHuuyanZx4NkTAMvZGvYybjxMSmuiGcj6pL3KkgS
-   +FaZtM5dnC+lVC5Kl0MY3c0A91RqVapqcu0b1VNlGs6mixiNFUo/iZ8vl
-   HWLF9We7FCrSQ4OSoGEf7gHCns3JB5WY0ToKI4jIELPmBq5p1odsKNi/Y
-   6Mc2byM2id37epODVcON8yCqJPfXAlVfWDxC4nwmnyMZnpJCQu/zbdOIz
-   g==;
-X-IronPort-AV: E=Sophos;i="5.98,336,1673938800"; 
-   d="asc'?scan'208";a="220369799"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 11 Apr 2023 07:07:08 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 11 Apr 2023 07:07:08 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Tue, 11 Apr 2023 07:07:04 -0700
-Date:   Tue, 11 Apr 2023 15:06:49 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Evan Green <evan@rivosinc.com>
-CC:     Palmer Dabbelt <palmer@rivosinc.com>, <slewis@rivosinc.com>,
-        <heiko@sntech.de>, Conor Dooley <conor@kernel.org>,
-        <vineetg@rivosinc.com>, Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Samuel Holland <samuel@sholland.org>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v6 4/6] RISC-V: hwprobe: Support probing of misaligned
- access performance
-Message-ID: <20230411-prefix-rename-71ab4af0324a@wendy>
-References: <20230407231103.2622178-1-evan@rivosinc.com>
- <20230407231103.2622178-5-evan@rivosinc.com>
+        with ESMTP id S229490AbjDKOOn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 10:14:43 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF231B1;
+        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id c10-20020a17090abf0a00b0023d1bbd9f9eso11108895pjs.0;
+        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681222482; x=1683814482;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nUqBPGgh8CrNxczOidhg/CSqsuSy4JlqYBSAJ+z/y9s=;
+        b=Gu7+eyUOLclC1bTu8BcvYj14sC6QoGrw3NMzAIq+OpKET0Clg1rXkZkOAYAVNWpKgS
+         4sPHsUqgwrQi95ufUaMLK38qQrwVMIKkK0tfRxmt2QOkPnTA6NT7kNrMHEL2eBUuRrK+
+         GwIcQBD5HNK4f1EwsJ+NQnqIMhPCddh38R2fymNcDL7/GlirPWTIiRrZN70V2WNOEjBY
+         99bcfItjprKWxL3gH4SGTZwChBgUOGhqakf6niF3igEqtL5k0RB8uzLpl0QQYsgq3xja
+         Gb3wSqNGEfEYWkNfTuxBPQ1QceWaIzdHq8rt0OLhTeucqPd28FOd0pIFkhehHju4+CSs
+         7gHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681222482; x=1683814482;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nUqBPGgh8CrNxczOidhg/CSqsuSy4JlqYBSAJ+z/y9s=;
+        b=kTxW6iOJuusZAl0t4e99paoHBmvJJnOOJ6uyMfNBnudwLLbDSMZLuWHo42np1s++KW
+         VWze7YOVhkw8CSJVLfv4W5DuDCLIQNI8+JnJUNKLRIC3PSWn8J2gbN9E6ziIkc2JioO2
+         oV3kgoYBK1yCey4um03oIfJs8u03B1xJtt9DHqHYtmWya+4G+oN5JhOe082VfPDMp19Q
+         ri75BJdkRUIAWYPQmQk4aIdyUoPmQsy4k3na7KoD1hgLZmtaiq13jB81T/jmR0vt+Xdp
+         GlytKeUEKQrnVBqUsRxaQFRYN+oeZNwJ6z+TPuSqZLR+N2M6go+KzYkICb+v7wdBD/6L
+         w2lg==
+X-Gm-Message-State: AAQBX9fwB8pqY9rYR83gaaVkKWJAyOG7cA09MZ0/wMZkeWL4cdnwrANA
+        WAuL6FEz4oGFBvnzy+Qwo3k=
+X-Google-Smtp-Source: AKy350Yu36TtUThSJ9RIwGKPPMbCyhpU0MLUm4TlwkNqMALQCkJHYxd8RXFtTUPFEa2XbFYYLlKrOA==
+X-Received: by 2002:a17:902:cec6:b0:1a1:e112:4607 with SMTP id d6-20020a170902cec600b001a1e1124607mr3431694plg.50.1681222482287;
+        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
+Received: from localhost.localdomain (36-229-229-178.dynamic-ip.hinet.net. [36.229.229.178])
+        by smtp.gmail.com with ESMTPSA id s11-20020a170902988b00b001991f3d85acsm9691979plp.299.2023.04.11.07.14.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 07:14:42 -0700 (PDT)
+From:   Lin Yu Chen <starpt.official@gmail.com>
+To:     corbet@lwn.net
+Cc:     paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
+        josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lin Yu Chen <starpt.official@gmail.com>
+Subject: [PATCH] docs: Fix typo in Documentation/RCU/checklist.rst
+Date:   Tue, 11 Apr 2023 07:13:41 -0700
+Message-Id: <20230411141341.74133-1-starpt.official@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="YDuEwp07zFXzbIC1"
-Content-Disposition: inline
-In-Reply-To: <20230407231103.2622178-5-evan@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---YDuEwp07zFXzbIC1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This commit corrects the spelling of "not" to "note" to accurately
+convey the intended meaning.
 
-On Fri, Apr 07, 2023 at 04:11:01PM -0700, Evan Green wrote:
-> This allows userspace to select various routines to use based on the
-> performance of misaligned access on the target hardware.
->=20
-> Rather than adding DT bindings, this change taps into the alternatives
-> mechanism used to probe CPU errata. Add a new function pointer alongside
-> the vendor-specific errata_patch_func() that probes for desirable errata
-> (otherwise known as "features"). Unlike the errata_patch_func(), this
-> function is called on each CPU as it comes up, so it can save
-> feature information per-CPU.
->=20
-> The T-head C906 has fast unaligned access, both as defined by GCC [1],
-> and in performing a basic benchmark, which determined that byte copies
-> are >50% slower than a misaligned word copy of the same data size (source
-> for this test at [2]):
->=20
-> bytecopy size f000 count 50000 offset 0 took 31664899 us
-> wordcopy size f000 count 50000 offset 0 took 5180919 us
-> wordcopy size f000 count 50000 offset 1 took 13416949 us
->=20
-> [1] https://github.com/gcc-mirror/gcc/blob/master/gcc/config/riscv/riscv.=
-cc#L353
-> [2] https://pastebin.com/EPXvDHSW
->=20
-> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Evan Green <evan@rivosinc.com>
-> Reviewed-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
-> Tested-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
+Signed-off-by: Lin Yu Chen <starpt.official@gmail.com>
+---
+ Documentation/RCU/checklist.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think I had given you an R-b a few versions back, guess it was dropped
-due to changes or w/e :)
+diff --git a/Documentation/RCU/checklist.rst b/Documentation/RCU/checklist.rst
+index cc361fb01ed4..bd3c58c44bef 100644
+--- a/Documentation/RCU/checklist.rst
++++ b/Documentation/RCU/checklist.rst
+@@ -70,7 +70,7 @@ over a rather long period of time, but improvements are always welcome!
+ 	can serve as rcu_read_lock_sched(), but is less readable and
+ 	prevents lockdep from detecting locking issues.
+ 
+-	Please not that you *cannot* rely on code known to be built
++	Please note that you *cannot* rely on code known to be built
+ 	only in non-preemptible kernels.  Such code can and will break,
+ 	especially in kernels built with CONFIG_PREEMPT_COUNT=y.
+ 
+-- 
+2.25.1
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-Perhaps at some point the "errata" naming of those files should change,
-but today is not that day.
-
-Cheers,
-Conor.
-
---YDuEwp07zFXzbIC1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZDVpeQAKCRB4tDGHoIJi
-0t7jAQDMNiwdcIYzMff2OO0oRagi00n+9SjD1CMom7IerxVzoQD8DNnuZQ82JyZU
-KaysKejn3MqblyvB0zU+J9PRFOQyJA8=
-=Skce
------END PGP SIGNATURE-----
-
---YDuEwp07zFXzbIC1--
