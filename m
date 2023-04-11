@@ -2,176 +2,307 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7865CC77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 14:17:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250A1C77B70
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 15:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230305AbjDKORp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 10:17:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49456 "EHLO
+        id S230008AbjDKPDA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 11:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbjDKOR2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 10:17:28 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B4B5263;
-        Tue, 11 Apr 2023 07:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1681222641; x=1712758641;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l+JgXouqrG+N1yi4JFy3ghvDTExLHywE71wQs1yugEQ=;
-  b=CIh9J7rey7Czx1EfmdI/pIqWPGJrIN9zX7FUoqsCCTJUxAsxkLyxbbWn
-   0n3ZJBVtov25wQlJ6DbxumkqzTcIOcpa30A38eDSdcYogw6FgL5MeIb6x
-   /G/ltJnSZKb/69Th8Ua07kE+ulf6OZwVSMDPxEFxeQZT7zOKx9cftyETp
-   mo0UHTHXtnkRPtA5uDpvr9dLsfuLMO3xgyr4bVJU4jjVgVD5jIEr7XmH0
-   5MNntQ7Q6ntdZg78dJnH89dqwPsqmF4UF3qdpu/ybx1bqjEK8JGC6pRT9
-   LSNcBbCcRQ0XsdProjBtXx1XFFZShLSjSPuKUw52zZlOpKINUJvWqZngc
-   A==;
-X-IronPort-AV: E=Sophos;i="5.98,336,1673938800"; 
-   d="asc'?scan'208";a="205964165"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 11 Apr 2023 07:17:20 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 11 Apr 2023 07:17:19 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Tue, 11 Apr 2023 07:17:14 -0700
-Date:   Tue, 11 Apr 2023 15:16:58 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Evan Green <evan@rivosinc.com>
-CC:     Palmer Dabbelt <palmer@rivosinc.com>, <slewis@rivosinc.com>,
-        <heiko@sntech.de>, Conor Dooley <conor@kernel.org>,
-        <vineetg@rivosinc.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Guo Ren <guoren@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Jann Horn <jannh@google.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Samuel Holland <samuel@sholland.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v6 0/6] RISC-V Hardware Probing User Interface
-Message-ID: <20230411-primate-rice-a5c102f90c6c@wendy>
-References: <20230407231103.2622178-1-evan@rivosinc.com>
+        with ESMTP id S230230AbjDKPCl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 11:02:41 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 317A45591;
+        Tue, 11 Apr 2023 08:02:22 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id w13so26206644oik.2;
+        Tue, 11 Apr 2023 08:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681225341;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2WJpgC9tCR8udl5BovYzFlcONxJeVE/qdJ1S1reXt5E=;
+        b=VsL3u5pOE/5IW3p3ulEMJtpEvaImLs5+xtOp2Gxms1RMPA9RVBx5/L8A+UefiuApt1
+         x7bVqF2L8QNuiYODEVADMlCaVMntM/anO13q5izgGfJnMTY8U7P6I5aK+oDgitnOBaEh
+         qmFVeCdTutHisXuxKmbW6LXKQkpdH4j3B7twZIyDnsfwMMX7JV8V8SLPo8H+gRQ/iAzx
+         lf+K3PLIgXy14Pxk4bCaqZWNTmLMvckmqaSCTTDeM9kMKEK0hMvLnKD0Qkx0+YEC/ZRC
+         ITYRZKCUdpfFPzX9N2dak+kG7IbrtVZRaJ5EmYU4KFhIrs00dAShwAdv6xhPL2kRJc+n
+         CakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681225341;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2WJpgC9tCR8udl5BovYzFlcONxJeVE/qdJ1S1reXt5E=;
+        b=b1hL33WsWLac1nRKpWRgd8x1m5jBoQJW+Ys2g5230PHpSEPpmlkhbR1g/8IdZlz+o7
+         9FjG10feL8U1sL+glJzsHFfEcuUbMp10Lt3ce1LorUSByDt6ARj705ObBkZAvN+Q1yxX
+         x2RDX7JAw8ALapghc6S9ja7Ni1JNtDiHia+08ZQC639n/XP9sj2e6CgzYtqFYQnVgGa8
+         UdnOJam9yhM4JPD9tdmcbRk1qCaRg+dSoHbpj0zUnlNmMPljaCtcX/i6kgS3OVf29lT6
+         Y3mu1etR4G7dntbeK/lycNBFesyAiv54HXB9uWOKvvViwfPL5fWXYRO8sfKwpx00JxxA
+         RkLQ==
+X-Gm-Message-State: AAQBX9fXbH8zIE8Hy1/gcGtLVueB0fpgfcU5MOHO3zYYONRulVoDSBCl
+        2NfsrOjJvIbAsi2q4YlSsIFTTP/Ste1DqY3kMkQ=
+X-Google-Smtp-Source: AKy350YwtRIiyCDeEf6JFQH53X2u6nZHWvn5d3u/Drcf/pPiALqRx7i8rjGAzsLiwjvV95U1/m3LauiEIuV3O9FcwoI=
+X-Received: by 2002:a05:6808:2994:b0:384:1e6a:bf10 with SMTP id
+ ex20-20020a056808299400b003841e6abf10mr2176191oib.5.1681225341294; Tue, 11
+ Apr 2023 08:02:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="AMh/Lwu23Kj/r0q5"
-Content-Disposition: inline
-In-Reply-To: <20230407231103.2622178-1-evan@rivosinc.com>
+References: <20230410210608.1873968-1-robdclark@gmail.com> <20230410210608.1873968-2-robdclark@gmail.com>
+ <ZDU5vvc4V85E9hqP@phenom.ffwll.local>
+In-Reply-To: <ZDU5vvc4V85E9hqP@phenom.ffwll.local>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Tue, 11 Apr 2023 08:02:09 -0700
+Message-ID: <CAF6AEGuzfvC0v7bo_OD7mP6C9cA4mJeTvdM+i7e1hVS-Tv+AFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: Add fdinfo memory stats
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---AMh/Lwu23Kj/r0q5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 11, 2023 at 3:43=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
+te:
+>
+> On Mon, Apr 10, 2023 at 02:06:06PM -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Add a helper to dump memory stats to fdinfo.  For the things the drm
+> > core isn't aware of, use a callback.
+> >
+> > v2: Fix typos, change size units to match docs, use div_u64
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+>
+> Uh can't we wire this up by default? Having this as a per-driver opt-in
+> sounds like we'll get maximally fragmented drm fd_info, and since that's
+> uapi I don't think that's any good at all.
 
-Hey Evan,
+That is the reason for the centralized documentation of the props (and
+why for this one I added a helper, rather than continuing the current
+pattern of everyone rolling their own)..
 
-On Fri, Apr 07, 2023 at 04:10:57PM -0700, Evan Green wrote:
->=20
-> There's been a bunch of off-list discussions about this, including at
-> Plumbers.  The original plan was to do something involving providing an
-> ISA string to userspace, but ISA strings just aren't sufficient for a
-> stable ABI any more: in order to parse an ISA string users need the
-> version of the specifications that the string is written to, the version
-> of each extension (sometimes at a finer granularity than the RISC-V
-> releases/versions encode), and the expected use case for the ISA string
-> (ie, is it a U-mode or M-mode string).  That's a lot of complexity to
-> try and keep ABI compatible and it's probably going to continue to grow,
-> as even if there's no more complexity in the specifications we'll have
-> to deal with the various ISA string parsing oddities that end up all
-> over userspace.
->=20
-> Instead this patch set takes a very different approach and provides a set
-> of key/value pairs that encode various bits about the system.  The big
-> advantage here is that we can clearly define what these mean so we can
-> ensure ABI stability, but it also allows us to encode information that's
-> unlikely to ever appear in an ISA string (see the misaligned access
-> performance, for example).  The resulting interface looks a lot like
-> what arm64 and x86 do, and will hopefully fit well into something like
-> ACPI in the future.
->=20
-> The actual user interface is a syscall, with a vDSO function in front of
-> it. The vDSO function can answer some queries without a syscall at all,
-> and falls back to the syscall for cases it doesn't have answers to.
-> Currently we prepopulate it with an array of answers for all keys and
-> a CPU set of "all CPUs". This can be adjusted as necessary to provide
-> fast answers to the most common queries.
->=20
-> An example series in glibc exposing this syscall and using it in an
-> ifunc selector for memcpy can be found at [1].
->=20
-> I was asked about the performance delta between this and something like
-> sysfs. I created a small test program [2] and ran it on a Nezha D1
-> Allwinner board. Doing each operation 100000 times and dividing, these
-> operations take the following amount of time:
->  - open()+read()+close() of /sys/kernel/cpu_byteorder: 3.8us
->  - access("/sys/kernel/cpu_byteorder", R_OK): 1.3us
->  - riscv_hwprobe() vDSO and syscall: .0094us
->  - riscv_hwprobe() vDSO with no syscall: 0.0091us
->=20
-> These numbers get farther apart if we query multiple keys, as sysfs will
-> scale linearly with the number of keys, where the dedicated syscall
-> stays the same. To frame these numbers, I also did a tight
-> fork/exec/wait loop, which I measured as 4.8ms. So doing 4
-> open/read/close operations is a delta of about 0.3%, versus a single vDSO
-> call is a delta of essentially zero.
+We _could_ (and I had contemplated) doing this all in core if (a) we
+move madv to drm_gem_object, and (b) track
+drm_gem_get_pages()/drm_gem_put_pages().  I guess neither is totally
+unreasonable, pretty much all the non-ttm/non-cma GEM drivers have
+some form of madvise ioctl and use
+drm_gem_get_pages()/drm_gem_put_pages()..
 
-Two nits w.r.t. build bot complaints...
+BR,
+-R
 
-On patch 2:
-arch/riscv/include/uapi/asm/unistd.h:54:1: warning: initializer overrides p=
-rior initialization of this subobject [-Winitializer-overrides]
-I think this one is kinda spurious, all of the syscalls complain like
-this (and do on arm64 too IIRC). There was a patch from Guo somewhere to
-disable -Winitializer-overrides in this case, I should go find out what
-happened to it.
-
-On patch 4:
-arch/riscv/kernel/cpufeature.c:29:1: warning: symbol '__pcpu_scope_misalign=
-ed_access_speed' was not declared. Should it be static?
-
-Probably because cos cpufeature.c doesn't include the header of the same
-name... Perhaps Palmer could fix that one up on application?
-
-Cheers,
-Conor.
-
-
---AMh/Lwu23Kj/r0q5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZDVr2gAKCRB4tDGHoIJi
-0ohDAP4vO99mP1Aar7XOlBB+xPLraW90a9bDAoMU0IbNlORQPAD/dsc19K8yMIXX
-s/fnS3/GuvOs4S1Ty6FJFopQ+2J+HA8=
-=0uEU
------END PGP SIGNATURE-----
-
---AMh/Lwu23Kj/r0q5--
+> I think it's time we have
+> - drm_fd_info
+> - rolled out to all drivers in their fops
+> - with feature checks as appropriate
+> - push the driver-specific things into a drm_driver callback
+>
+> And I guess start peopling giving a hard time for making things needless
+> driver-specifict ... there's really no reason at all this is not
+> consistent across drivers.
+> -Daniel
+>
+> > ---
+> >  Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+> >  drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
+> >  include/drm/drm_file.h                | 10 ++++
+> >  3 files changed, 110 insertions(+)
+> >
+> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/=
+drm-usage-stats.rst
+> > index b46327356e80..b5e7802532ed 100644
+> > --- a/Documentation/gpu/drm-usage-stats.rst
+> > +++ b/Documentation/gpu/drm-usage-stats.rst
+> > @@ -105,6 +105,27 @@ object belong to this client, in the respective me=
+mory region.
+> >  Default unit shall be bytes with optional unit specifiers of 'KiB' or =
+'MiB'
+> >  indicating kibi- or mebi-bytes.
+> >
+> > +- drm-shared-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are shared with another file (ie. have =
+more
+> > +than a single handle).
+> > +
+> > +- drm-private-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are not shared with another file.
+> > +
+> > +- drm-resident-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are resident in system memory.
+> > +
+> > +- drm-purgeable-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are purgeable.
+> > +
+> > +- drm-active-memory: <uint> [KiB|MiB]
+> > +
+> > +The total size of buffers that are active on one or more rings.
+> > +
+> >  - drm-cycles-<str> <uint>
+> >
+> >  Engine identifier string must be the same as the one specified in the
+> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > index a51ff8cee049..085b01842a87 100644
+> > --- a/drivers/gpu/drm/drm_file.c
+> > +++ b/drivers/gpu/drm/drm_file.c
+> > @@ -42,6 +42,7 @@
+> >  #include <drm/drm_client.h>
+> >  #include <drm/drm_drv.h>
+> >  #include <drm/drm_file.h>
+> > +#include <drm/drm_gem.h>
+> >  #include <drm/drm_print.h>
+> >
+> >  #include "drm_crtc_internal.h"
+> > @@ -868,6 +869,84 @@ void drm_send_event(struct drm_device *dev, struct=
+ drm_pending_event *e)
+> >  }
+> >  EXPORT_SYMBOL(drm_send_event);
+> >
+> > +static void print_size(struct drm_printer *p, const char *stat, size_t=
+ sz)
+> > +{
+> > +     const char *units[] =3D {"", " KiB", " MiB"};
+> > +     unsigned u;
+> > +
+> > +     for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
+> > +             if (sz < SZ_1K)
+> > +                     break;
+> > +             sz =3D div_u64(sz, SZ_1K);
+> > +     }
+> > +
+> > +     drm_printf(p, "%s:\t%zu%s\n", stat, sz, units[u]);
+> > +}
+> > +
+> > +/**
+> > + * drm_print_memory_stats - Helper to print standard fdinfo memory sta=
+ts
+> > + * @file: the DRM file
+> > + * @p: the printer to print output to
+> > + * @status: callback to get driver tracked object status
+> > + *
+> > + * Helper to iterate over GEM objects with a handle allocated in the s=
+pecified
+> > + * file.  The optional status callback can return additional object st=
+ate which
+> > + * determines which stats the object is counted against.  The callback=
+ is called
+> > + * under table_lock.  Racing against object status change is "harmless=
+", and the
+> > + * callback can expect to not race against object destruction.
+> > + */
+> > +void drm_print_memory_stats(struct drm_file *file, struct drm_printer =
+*p,
+> > +                         enum drm_gem_object_status (*status)(struct d=
+rm_gem_object *))
+> > +{
+> > +     struct drm_gem_object *obj;
+> > +     struct {
+> > +             size_t shared;
+> > +             size_t private;
+> > +             size_t resident;
+> > +             size_t purgeable;
+> > +             size_t active;
+> > +     } size =3D {0};
+> > +     int id;
+> > +
+> > +     spin_lock(&file->table_lock);
+> > +     idr_for_each_entry (&file->object_idr, obj, id) {
+> > +             enum drm_gem_object_status s =3D 0;
+> > +
+> > +             if (status)
+> > +                     s =3D status(obj);
+> > +
+> > +             if (obj->handle_count > 1) {
+> > +                     size.shared +=3D obj->size;
+> > +             } else {
+> > +                     size.private +=3D obj->size;
+> > +             }
+> > +
+> > +             if (s & DRM_GEM_OBJECT_RESIDENT) {
+> > +                     size.resident +=3D obj->size;
+> > +                     s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
+> > +             }
+> > +
+> > +             if (s & DRM_GEM_OBJECT_ACTIVE) {
+> > +                     size.active +=3D obj->size;
+> > +                     s &=3D ~DRM_GEM_OBJECT_PURGEABLE;
+> > +             }
+> > +
+> > +             if (s & DRM_GEM_OBJECT_PURGEABLE)
+> > +                     size.purgeable +=3D obj->size;
+> > +     }
+> > +     spin_unlock(&file->table_lock);
+> > +
+> > +     print_size(p, "drm-shared-memory", size.shared);
+> > +     print_size(p, "drm-private-memory", size.private);
+> > +
+> > +     if (status) {
+> > +             print_size(p, "drm-resident-memory", size.resident);
+> > +             print_size(p, "drm-purgeable-memory", size.purgeable);
+> > +             print_size(p, "drm-active-memory", size.active);
+> > +     }
+> > +}
+> > +EXPORT_SYMBOL(drm_print_memory_stats);
+> > +
+> >  /**
+> >   * mock_drm_getfile - Create a new struct file for the drm device
+> >   * @minor: drm minor to wrap (e.g. #drm_device.primary)
+> > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > index 0d1f853092ab..7bd8a1374f39 100644
+> > --- a/include/drm/drm_file.h
+> > +++ b/include/drm/drm_file.h
+> > @@ -41,6 +41,7 @@
+> >  struct dma_fence;
+> >  struct drm_file;
+> >  struct drm_device;
+> > +struct drm_printer;
+> >  struct device;
+> >  struct file;
+> >
+> > @@ -438,6 +439,15 @@ void drm_send_event_timestamp_locked(struct drm_de=
+vice *dev,
+> >                                    struct drm_pending_event *e,
+> >                                    ktime_t timestamp);
+> >
+> > +enum drm_gem_object_status {
+> > +     DRM_GEM_OBJECT_RESIDENT  =3D BIT(0),
+> > +     DRM_GEM_OBJECT_PURGEABLE =3D BIT(1),
+> > +     DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
+> > +};
+> > +
+> > +void drm_print_memory_stats(struct drm_file *file, struct drm_printer =
+*p,
+> > +                         enum drm_gem_object_status (*status)(struct d=
+rm_gem_object *));
+> > +
+> >  struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int fl=
+ags);
+> >
+> >  #endif /* _DRM_FILE_H_ */
+> > --
+> > 2.39.2
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
