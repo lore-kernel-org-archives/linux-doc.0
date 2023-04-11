@@ -2,112 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82AFAC77B72
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 21:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F2FC77B73
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 21:45:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbjDKVU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 17:20:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43220 "EHLO
+        id S229769AbjDKVp5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 17:45:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbjDKVU2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 17:20:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66815FC0;
-        Tue, 11 Apr 2023 14:19:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 98812628A3;
-        Tue, 11 Apr 2023 21:19:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C98AC433EF;
-        Tue, 11 Apr 2023 21:19:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681247998;
-        bh=xYmomJOIpStQiY1yV+hCngqUM+Bx3dX+DeJaga9RHmM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rhhu/Cl5XMiHoIBrJ8flvp9biCJEEw+bFAY2Tfrd6WKtoMCdaN0XM7kf9Zddkvx9g
-         tOhd7zFD9dCfc+yOgSTxGks9FD5fdRn4gI24ko35zZGBMYVR43mu1kGcLI7fXEW4ah
-         edFiJ1xmHJy8zdo0CsDEX477PFOd1xenQmWk9A3dlASHOqDMdJ15IlGekOPGdV2U6L
-         GJt/+3xk8fqS/5CRpLc1agfzRWz+A+Vhd2+SicC88f6ropLraRixcdT8WE5XKXrmfp
-         j6yxmMv+s+6l70bbJVKEvoIBWQ8WzMPenMBdeWi8IbrjMlrqNnvrhSYgk2Ymp7A9OF
-         98rp+Z0eYgDKg==
-Date:   Tue, 11 Apr 2023 22:19:50 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v11 12/26] gunyah: vm_mgr: Add/remove user memory regions
-Message-ID: <20230411211940.GC23890@willie-the-truck>
-References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
- <20230304010632.2127470-13-quic_eberman@quicinc.com>
- <20230324183659.GB28266@willie-the-truck>
- <5d1c6160-6bc4-5246-2a0b-de5ddcbbc2c4@quicinc.com>
+        with ESMTP id S229776AbjDKVp4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 17:45:56 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EDF049C2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 14:45:53 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id y186so9824904yby.13
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 14:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1681249552; x=1683841552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QJHIYVc0csC12SHK/J/mtXalsO4pjHKd97C3GIyBGPs=;
+        b=DBlz2vm4moCxBbqcz1weaSasKWcg+Y71F5kVhWN7HJXD/ZN7d3htDBV70rbXGYWU3t
+         CXxT9fxqT9/QnzXL5Nd4wWfo4F0S9G27/nnohdAdRRK+4bONsmM4BvVBIzpOCbcwAeha
+         Xy/3h3dUEkfQn6vXeo0795aMl3/fNibaNdnltb95zNJoMMc7l+XJgqL5yZzvzIEqaHpF
+         HuYAWlfZWOnEM+Wye80CUORh4piSFA7w5AQbxTd97rqexAdvf8c6ZT1rwMrsR9PEU/VP
+         HGzyfkBtzRsmynNQmymKhDcCzgTJ+xjIpLPiLBbn6PV++RgHBtfpqB4xyg2F/X6/HjlC
+         QQ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681249552; x=1683841552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QJHIYVc0csC12SHK/J/mtXalsO4pjHKd97C3GIyBGPs=;
+        b=ebvFe2XNpG5B0HRx4k6/b3w8qpxK3byuCtY+ec/46MiA8BKLJWczk9iRrH2jfJzDqI
+         /n2D2myqgJWlHCpgSz/j4N2etA38CWdbnFu9SP7wBGpOoMVdT5II3EBWAcG1uzKgB+zS
+         7x+8OCXuxrQYm6SUBAj8SH3DSBlh6WJ9w3/hdtxz/HugMiMPNMLBWz+QsmFK5270ax7q
+         BoGvK2ig7MrpQBWz1WdmUYDM42Yl7XhYLaxIROh/4wD1h9S3KnSiJ1c1Dsl8F95Bk4zG
+         5+azAVWsXdJpid98fc28py9tWyEcvF8ecJPVPATVmYMF94tG5VAYuY9IlpKID70uQRDl
+         U7Hg==
+X-Gm-Message-State: AAQBX9cGaT+1gQDL2+slhTgeWCZnw1CmuBniXIDo407o2774iN2Cc1UM
+        7Qg7DjvWxIYomyH3D1cqlytMd4xskFkM4ht5C0/u
+X-Google-Smtp-Source: AKy350Yy44JQPhqwIxfCYnzm9J8mBAXlzIsXMzsUvsaWbKpTAmHS32TjoXQQ8RK1Y2npGScPRJOP30cnOuG8gOZrT1A=
+X-Received: by 2002:a25:e0c5:0:b0:b8b:fd23:5028 with SMTP id
+ x188-20020a25e0c5000000b00b8bfd235028mr2609635ybg.3.1681249552097; Tue, 11
+ Apr 2023 14:45:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d1c6160-6bc4-5246-2a0b-de5ddcbbc2c4@quicinc.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com> <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 11 Apr 2023 17:45:41 -0400
+Message-ID: <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 01:34:34PM -0700, Elliot Berman wrote:
-> On 3/24/2023 11:37 AM, Will Deacon wrote:
-> > On Fri, Mar 03, 2023 at 05:06:18PM -0800, Elliot Berman wrote:
+On Mon, Apr 10, 2023 at 3:10=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
+> > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wr=
+ote:
+> > >
+> > > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> > >
+> > > As is typical with LSMs, IPE uses securityfs as its interface with
+> > > userspace. for a complete list of the interfaces and the respective
+> > > inputs/outputs, please see the documentation under
+> > > admin-guide/LSM/ipe.rst
+> > >
+> > > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> >
+> > ...
+> >
+> > > ---
+> > >  security/ipe/Makefile    |   2 +
+> > >  security/ipe/fs.c        | 101 +++++++++
+> > >  security/ipe/fs.h        |  17 ++
+> > >  security/ipe/ipe.c       |   3 +
+> > >  security/ipe/ipe.h       |   2 +
+> > >  security/ipe/policy.c    | 135 ++++++++++++
+> > >  security/ipe/policy.h    |   7 +
+> > >  security/ipe/policy_fs.c | 459 +++++++++++++++++++++++++++++++++++++=
+++
+> > >  8 files changed, 726 insertions(+)
+> > >  create mode 100644 security/ipe/fs.c
+> > >  create mode 100644 security/ipe/fs.h
+> > >  create mode 100644 security/ipe/policy_fs.c
+
+...
+
+> > > +/**
+> > > + * ipe_update_policy - parse a new policy and replace @old with it.
+> > > + * @addr: Supplies a pointer to the i_private for saving policy.
+> > > + * @text: Supplies a pointer to the plain text policy.
+> > > + * @textlen: Supplies the length of @text.
+> > > + * @pkcs7: Supplies a pointer to a buffer containing a pkcs7 message=
+.
+> > > + * @pkcs7len: Supplies the length of @pkcs7len.
+> > > + *
+> > > + * @text/@textlen is mutually exclusive with @pkcs7/@pkcs7len - see
+> > > + * ipe_new_policy.
+> > > + *
+> > > + * Return:
+> > > + * * !IS_ERR   - OK
+> > > + * * -ENOENT   - Policy doesn't exist
+> > > + * * -EINVAL   - New policy is invalid
+> > > + */
+> > > +struct ipe_policy *ipe_update_policy(struct ipe_policy __rcu **addr,
+> > > +                                    const char *text, size_t textlen=
+,
+> > > +                                    const char *pkcs7, size_t pkcs7l=
+en)
+> > > +{
+> > > +       int rc =3D 0;
+> > > +       struct ipe_policy *old, *new;
 > > > +
-> > > +	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
-> > > +					FOLL_WRITE | FOLL_LONGTERM, mapping->pages);
-> > > +	if (pinned < 0) {
-> > > +		ret = pinned;
-> > > +		mapping->npages = 0; /* update npages for reclaim */
-> > > +		goto reclaim;
-> > > +	} else if (pinned != mapping->npages) {
-> > > +		ret = -EFAULT;
-> > > +		mapping->npages = pinned; /* update npages for reclaim */
-> > > +		goto reclaim;
-> > > +	}
-> > 
-> > I think Fuad mentioned this on an older version of these patches, but it
-> > looks like you're failing to account for the pinned memory here which is
-> > a security issue depending on who is able to issue the ioctl() calling
-> > into here.
-> > 
-> > Specifically, I'm thinking that your kXalloc() calls should be using
-> > GFP_KERNEL_ACCOUNT in this function and also that you should be calling
-> > account_locked_vm() for the pages being pinned.
-> > 
-> 
-> Added the accounting for the v12.
-> 
-> > Finally, what happens if userspace passes in a file mapping?
-> 
-> Userspace will get EBADADDR (-14) back when trying to launch the VM
-> (pin_user_pages_fast returns this as you might have been expecting). We
-> haven't yet had any need to support file-backed mappings.
+> > > +       old =3D ipe_get_policy_rcu(*addr);
+> > > +       if (!old) {
+> > > +               rc =3D -ENOENT;
+> > > +               goto err;
+> > > +       }
+> > > +
+> > > +       new =3D ipe_new_policy(text, textlen, pkcs7, pkcs7len);
+> > > +       if (IS_ERR(new)) {
+> > > +               rc =3D PTR_ERR(new);
+> > > +               goto err;
+> > > +       }
+> > > +
+> > > +       if (strcmp(new->parsed->name, old->parsed->name)) {
+> > > +               rc =3D -EINVAL;
+> > > +               goto err;
+> > > +       }
+> > > +
+> > > +       if (ver_to_u64(old) > ver_to_u64(new)) {
+> > > +               rc =3D -EINVAL;
+> > > +               goto err;
+> > > +       }
+> > > +
+> > > +       if (ipe_is_policy_active(old)) {
+> >
+> > I don't understand the is-active check, you want to make @new the new
+> > active policy regardless, right?  Could this is-active check ever be
+> > false?
+>
+> Actually this is needed. Policy updates can be applied to any deployed
+> policy, which may be saved in two places: the securityfs file node
+> and the ipe_active_policy pointer. To update a policy, this function firs=
+t
+> checks if the policy saved in the securityfs file node is currently activ=
+e.
+> If so, it updates the ipe_active_policy pointer to point to the new polic=
+y,
+> and finally updates the policy pointer in the securityfs to the new polic=
+y.
 
-Hmm, no, that's actually surprising to me. I'd have thought GUP would
-happily pin page-cache pages for file mappings, so I'm intrigued as to
-which FOLL_ flag is causing you to get an error code back. Can you
-enlighten me on where the failure originates, please?
+Ah, okay.  I must have forgotten, or not realized, that multiple
+policies could be loaded and not active.
 
-Will
+I guess this does make me wonder about keeping a non-active policy
+loaded in the kernel, what purpose does that serve?
+
+--=20
+paul-moore.com
