@@ -2,135 +2,319 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD05DC7619A
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 19:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E85C5C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 20:10:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbjDLT7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 15:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50456 "EHLO
+        id S230054AbjDLUKC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 16:10:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjDLT7m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 15:59:42 -0400
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE0402D55;
-        Wed, 12 Apr 2023 12:59:40 -0700 (PDT)
-Received: from [192.168.1.190] (ip5b426bea.dynamic.kabel-deutschland.de [91.66.107.234])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        (Authenticated sender: buczek)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id CD70C60027FEB;
-        Wed, 12 Apr 2023 21:59:38 +0200 (CEST)
-Message-ID: <9d598566-5729-630e-5025-b4173cf307e4@molgen.mpg.de>
-Date:   Wed, 12 Apr 2023 21:59:38 +0200
+        with ESMTP id S230010AbjDLUKB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 16:10:01 -0400
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D53FD61B3;
+        Wed, 12 Apr 2023 13:09:59 -0700 (PDT)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1842eb46746so15079166fac.4;
+        Wed, 12 Apr 2023 13:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681330199;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WJBfqgHDVPfKU8NYqpJEjIgLGTuDGEpHWnbrpLt7FQE=;
+        b=P6HsoZ0NO/iam4SNYEbrXw4BqROT0RRXrgJ56x/VXdrUO32o3wsGnWJlcvQ5kffrR2
+         Zd4+0RlZ1ieNb7R97RYmYIsqKoZbH2TjIW6m5fVv2lF+z9I9iv0fq0vxsvZZilWGYile
+         VKOiAnijri3ZrRanaWrQL+DL9+dkL1rVE57qLQNITZ/1s9333Seu0eNYkoEnUG5CZPD+
+         IwjBiUNNbxHp3HobiCjdKVtVWkMHjHJA0DDkECfia5oRkwIAjaqqWNdzNhbhFA+XNYO2
+         yku1PJNKqKZBovbVqFUe7oiv/GppRXV9JkT17ByV30ZEy6j1b2/mPxlfPVLiKV2qPKWE
+         X6Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681330199;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WJBfqgHDVPfKU8NYqpJEjIgLGTuDGEpHWnbrpLt7FQE=;
+        b=dEgD4oVj/IzKaEjutAr4X0LZ1l5b/SMZYvH+VjdRscO2weXfqWjbUagXumWG5eBnrP
+         d8RVmmyVnaX6Dja11YaHs8vGVhpuT+tGTG7bmxcXmq5VUkQsqn4bcm1lzvIW8hro2kg4
+         P3Oqp0OEGPX8U8+Bpxli9tnoCCsFH0PiuzR7Jwwor5ibbMTd4Ocn94hQ3dZ6H0C1cimC
+         4Jlhiy89VjtXi5HY22MX7hc/EX//RsUwszlyq6T6jfQjJ46N8GmanfmVswVXgB9swpCG
+         bZyKIzGoyUP89B00zEqK/0+safinlxp1tqxrQ8jaSTguqlxmuWNJdVi5aGT3S4JlVdZo
+         LUpw==
+X-Gm-Message-State: AAQBX9dLuDeIcUVf50LwME0Th2kZ3otaLAZpb0KfgliwmBNJJkz2GloR
+        ey9tI1QskEz81pqSE68bu6VDKj4Zt+w2JT5r450=
+X-Google-Smtp-Source: AKy350aZmcFxxAhjq8LuFNpT8Di/LKsi2s2OUu0hdtvPIfK+7c8LRJpt3pcAkoIfaq3PQlRent59Q5QZU0OwSwceIq8=
+X-Received: by 2002:a05:6870:fbaa:b0:17f:2918:2f46 with SMTP id
+ kv42-20020a056870fbaa00b0017f29182f46mr64463oab.5.1681330198644; Wed, 12 Apr
+ 2023 13:09:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
-Content-Language: en-US
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     axboe@kernel.dk, corbet@lwn.net, snitzer@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
-        kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org,
-        ming.lei@redhat.com, gregkh@linuxfoundation.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-3-sergei.shtepa@veeam.com>
- <793db44e-9e6d-d118-3f88-cdbffc9ad018@molgen.mpg.de>
- <ZDT9PjLeQgjVA16P@infradead.org>
- <50d131e3-7528-2064-fbe6-65482db46ae4@veeam.com>
-From:   Donald Buczek <buczek@molgen.mpg.de>
-In-Reply-To: <50d131e3-7528-2064-fbe6-65482db46ae4@veeam.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230410210608.1873968-1-robdclark@gmail.com> <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
+ <ZDWQfbUBhyJf1Ezx@phenom.ffwll.local> <CAF6AEGtYw4Dn80OtrnJESkkDXxhUdAr6Nuva+Jo3ExW8MXH++Q@mail.gmail.com>
+ <CAA8EJppnEwcHM++YUYZGrNXEha=-ZVAexBdkMVsU52PTOs4VnA@mail.gmail.com>
+ <CAF6AEGsE3NOe9TkEzrk5rr-D2PoKaxF5Yn3W8wWew8um6r2EXw@mail.gmail.com>
+ <d93f4256-4554-e031-9730-4ca2a7de6aaf@linaro.org> <ZDZntP+0wG6+QyHh@phenom.ffwll.local>
+ <ZDaoT44hqnIH4ZX3@intel.com>
+In-Reply-To: <ZDaoT44hqnIH4ZX3@intel.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Wed, 12 Apr 2023 13:09:47 -0700
+Message-ID: <CAF6AEGtOEwG+Wdh_7Nox8pqmWJ=nMs-GFEqTU42Mf=wOFGKfRQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 0/2] drm: fdinfo memory stats
+To:     Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Christopher Healy <healych@amazon.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sean Paul <sean@poorly.run>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/12/23 12:43, Sergei Shtepa wrote:
-> 
-> 
-> On 4/11/23 08:25, Christoph Hellwig wrote:
->> Subject:
->> Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
->> From:
->> Christoph Hellwig <hch@infradead.org>
->> Date:
->> 4/11/23, 08:25
->>
->> To:
->> Donald Buczek <buczek@molgen.mpg.de>
->> CC:
->> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
->>
->>
->> On Sat, Apr 08, 2023 at 05:30:19PM +0200, Donald Buczek wrote:
->>> Maybe detach the old filter and attach the new one instead? An atomic replace might be usefull and it wouldn't complicate the code to do that instead. If its the same filter, maybe just return success and don't go through ops->detach and ops->attach?
->> I don't think a replace makes any sense.  We might want multiple
->> filters eventually, but unless we have a good use case for even just
->> more than a single driver we can deal with that once needed.  The
->> interface is prepared to support multiple attached filters already.
->>
-> 
-> 
-> Thank you Donald for your comment. It got me thinking.
-> 
-> Despite the fact that only one filter is currently offered for the kernel,
-> I think that out-of-tree filters of block devices may appear very soon.
-> It would be good to think about it in advance.
-> And, I agree with Christophe, we would not like to redo the blk-filter interface
-> when new filters appear in the tree.
-> 
-> We can consider a block device as a resource that two actor want to take over.
-> There are two possible behavioral strategies:
-> 1. If one owner occupies a resource, then for other actors, the ownership
-> request will end with a refusal. The owner will not lose his resource.
-> 2. Any actor can take away a resource from the owner and inform him about its
-> loss using a callback.
-> 
-> I think the first strategy is safer. When calling ioctl BLKFILTER_ATTACH, the
-> kernel informs the actor that the resource is busy.
-> Of course, there is still an option to grab someone else's occupied resource.
-> To do this, he will have to call ioctl BLKFILTER_DETACH, specifying the name
-> of the filter that needs to be detached. It is assumed that such detached
-> should be performed by the same actor that attached it there.
-> 
-> If we replace the owner at each ioctl BLKFILTER_ATTACH, then we can get a
-> situation of competition between two actors. At the same time, they won't
-> even get a message that something is going wrong.
-> 
-> An example from life. The user compares different backup tools. Install one,
-> then another. Each uses its own filter (And why not? this is technically
-> possible).
-> With the first strategy, the second tool will make it clear to the user that
-> it cannot work, since the resource is already occupied by another.
-> The user will have to experiment first with one tool, uninstall it, and then
-> experiment with another.
-> With the second strategy, both tools will unload each other's filters. In the
-> best case, this will lead to disruption of their work. At a minimum, blksnap,
-> when detached, will reset the change tracker and each backup will perform a
-> full read of the block device. As a result, the user will receive distorted
-> data, the system will not work as planned, although there will be no error
-> message.
+On Wed, Apr 12, 2023 at 5:47=E2=80=AFAM Rodrigo Vivi <rodrigo.vivi@intel.co=
+m> wrote:
+>
+> On Wed, Apr 12, 2023 at 10:11:32AM +0200, Daniel Vetter wrote:
+> > On Wed, Apr 12, 2023 at 01:36:52AM +0300, Dmitry Baryshkov wrote:
+> > > On 11/04/2023 21:28, Rob Clark wrote:
+> > > > On Tue, Apr 11, 2023 at 10:36=E2=80=AFAM Dmitry Baryshkov
+> > > > <dmitry.baryshkov@linaro.org> wrote:
+> > > > >
+> > > > > On Tue, 11 Apr 2023 at 20:13, Rob Clark <robdclark@gmail.com> wro=
+te:
+> > > > > >
+> > > > > > On Tue, Apr 11, 2023 at 9:53=E2=80=AFAM Daniel Vetter <daniel@f=
+fwll.ch> wrote:
+> > > > > > >
+> > > > > > > On Tue, Apr 11, 2023 at 09:47:32AM -0700, Rob Clark wrote:
+> > > > > > > > On Mon, Apr 10, 2023 at 2:06=E2=80=AFPM Rob Clark <robdclar=
+k@gmail.com> wrote:
+> > > > > > > > >
+> > > > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > > > > >
+> > > > > > > > > Similar motivation to other similar recent attempt[1].  B=
+ut with an
+> > > > > > > > > attempt to have some shared code for this.  As well as do=
+cumentation.
+> > > > > > > > >
+> > > > > > > > > It is probably a bit UMA-centric, I guess devices with VR=
+AM might want
+> > > > > > > > > some placement stats as well.  But this seems like a reas=
+onable start.
+> > > > > > > > >
+> > > > > > > > > Basic gputop support: https://patchwork.freedesktop.org/s=
+eries/116236/
+> > > > > > > > > And already nvtop support: https://github.com/Syllo/nvtop=
+/pull/204
+> > > > > > > >
+> > > > > > > > On a related topic, I'm wondering if it would make sense to=
+ report
+> > > > > > > > some more global things (temp, freq, etc) via fdinfo?  Some=
+ of this,
+> > > > > > > > tools like nvtop could get by trawling sysfs or other drive=
+r specific
+> > > > > > > > ways.  But maybe it makes sense to have these sort of thing=
+s reported
+> > > > > > > > in a standardized way (even though they aren't really per-d=
+rm_file)
+> > > > > > >
+> > > > > > > I think that's a bit much layering violation, we'd essentiall=
+y have to
+> > > > > > > reinvent the hwmon sysfs uapi in fdinfo. Not really a busines=
+s I want to
+> > > > > > > be in :-)
+> > > > > >
+> > > > > > I guess this is true for temp (where there are thermal zones wi=
+th
+> > > > > > potentially multiple temp sensors.. but I'm still digging my wa=
+y thru
+> > > > > > the thermal_cooling_device stuff)
+> > > > >
+> > > > > It is slightly ugly. All thermal zones and cooling devices are vi=
+rtual
+> > > > > devices (so, even no connection to the particular tsens device). =
+One
+> > > > > can either enumerate them by checking
+> > > > > /sys/class/thermal/thermal_zoneN/type or enumerate them through
+> > > > > /sys/class/hwmon. For cooling devices again the only enumeration =
+is
+> > > > > through /sys/class/thermal/cooling_deviceN/type.
+> > > > >
+> > > > > Probably it should be possible to push cooling devices and therma=
+l
+> > > > > zones under corresponding providers. However I do not know if the=
+re is
+> > > > > a good way to correlate cooling device (ideally a part of GPU) to=
+ the
+> > > > > thermal_zone (which in our case is provided by tsens / temp_alarm
+> > > > > rather than GPU itself).
+> > > > >
+> > > > > >
+> > > > > > But what about freq?  I think, esp for cases where some "fw thi=
+ng" is
+> > > > > > controlling the freq we end up needing to use gpu counters to m=
+easure
+> > > > > > the freq.
+> > > > >
+> > > > > For the freq it is slightly easier: /sys/class/devfreq/*, devices=
+ are
+> > > > > registered under proper parent (IOW, GPU). So one can read
+> > > > > /sys/class/devfreq/3d00000.gpu/cur_freq or
+> > > > > /sys/bus/platform/devices/3d00000.gpu/devfreq/3d00000.gpu/cur_fre=
+q.
+> > > > >
+> > > > > However because of the components usage, there is no link from
+> > > > > /sys/class/drm/card0
+> > > > > (/sys/devices/platform/soc@0/ae00000.display-subsystem/ae01000.di=
+splay-controller/drm/card0)
+> > > > > to /sys/devices/platform/soc@0/3d00000.gpu, the GPU unit.
+> > > > >
+> > > > > Getting all these items together in a platform-independent way wo=
+uld
+> > > > > be definitely an important but complex topic.
+> > > >
+> > > > But I don't believe any of the pci gpu's use devfreq ;-)
+> > > >
+> > > > And also, you can't expect the CPU to actually know the freq when f=
+w
+> > > > is the one controlling freq.  We can, currently, have a reasonable
+> > > > approximation from devfreq but that stops if IFPC is implemented.  =
+And
+> > > > other GPUs have even less direct control.  So freq is a thing that =
+I
+> > > > don't think we should try to get from "common frameworks"
+> > >
+> > > I think it might be useful to add another passive devfreq governor ty=
+pe for
+> > > external frequencies. This way we can use the same interface to expor=
+t
+> > > non-CPU-controlled frequencies.
+> >
+> > Yeah this sounds like a decent idea to me too. It might also solve the =
+fun
+> > of various pci devices having very non-standard freq controls in sysfs
+> > (looking at least at i915 here ...)
+>
+> I also like the idea of having some common infrastructure for the GPU fre=
+q.
+>
+> hwmon have a good infrastructure, but they are more focused on individual
+> monitoring devices and not very welcomed to embedded monitoring and contr=
+ol.
+> I still want to check the opportunity to see if at least some freq contro=
+l
+> could be aligned there.
+>
+> Another thing that complicates that is that there are multiple frequency
+> domains and controls with multipliers in Intel GPU that are not very
+> standard or easy to integrate.
+>
+> On a quick glace this devfreq seems neat because it aligns with the cpufr=
+eq
+> and governors. But again it would be hard to align with the multiple doma=
+ins
+> and controls. But it deserves a look.
+>
+> I will take a look to both fronts for Xe: hwmon and devfreq. Right now on
+> Xe we have a lot less controls than i915, but I can imagine soon there
+> will be requirements to make that to grow and I fear that we end up just
+> like i915. So I will take a look before that happens.
 
-I had a more complicated scenario in mind. For example, some kind of live migration
-from one block device to another, when you switch from the filter which clones from the
-source device to the target device to the filter which just redirects from the source
-device to the target device as the last step.
+So it looks like i915 (dgpu only) and nouveau already use hwmon.. so
+maybe this is a good way to expose temp.  Maybe we can wire up some
+sort of helper for drivers which use thermal_cooling_device (which can
+be composed of multiple sensors) to give back an aggregate temp for
+hwmon to report?
 
-OTOH, that may be a very distant vision. Plus, one single and simple filter, which
-redirects I/O into a DM stack, would be enough or better anyway to do the more
-complicated things using the DM features, which include atomic replacement and
-stacking and everything.
+Freq could possibly be added to hwmon (ie. seems like a reasonable
+attribute to add).  Devfreq might also be an option but on arm it
+isn't necessarily associated with the drm device, whereas we could
+associate the hwmon with the drm device to make it easier for
+userspace to find.
 
-I don't have a strong opinion.
+BR,
+-R
 
-Best
-
-   Donald
--- 
-Donald Buczek
-buczek@molgen.mpg.de
-Tel: +49 30 8413 1433
+> >
+> > I guess it would minimally be a good idea if we could document this, or
+> > maybe have a reference implementation in nvtop or whatever the cool thi=
+ng
+> > is rn.
+> > -Daniel
+> >
+> > >
+> > > >
+> > > > BR,
+> > > > -R
+> > > >
+> > > > > >
+> > > > > > > What might be needed is better glue to go from the fd or fdin=
+fo to the
+> > > > > > > right hw device and then crawl around the hwmon in sysfs auto=
+matically. I
+> > > > > > > would not be surprised at all if we really suck on this, prob=
+ably more
+> > > > > > > likely on SoC than pci gpus where at least everything should =
+be under the
+> > > > > > > main pci sysfs device.
+> > > > > >
+> > > > > > yeah, I *think* userspace would have to look at /proc/device-tr=
+ee to
+> > > > > > find the cooling device(s) associated with the gpu.. at least I=
+ don't
+> > > > > > see a straightforward way to figure it out just for sysfs
+> > > > > >
+> > > > > > BR,
+> > > > > > -R
+> > > > > >
+> > > > > > > -Daniel
+> > > > > > >
+> > > > > > > >
+> > > > > > > > BR,
+> > > > > > > > -R
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > > [1] https://patchwork.freedesktop.org/series/112397/
+> > > > > > > > >
+> > > > > > > > > Rob Clark (2):
+> > > > > > > > >    drm: Add fdinfo memory stats
+> > > > > > > > >    drm/msm: Add memory stats to fdinfo
+> > > > > > > > >
+> > > > > > > > >   Documentation/gpu/drm-usage-stats.rst | 21 +++++++
+> > > > > > > > >   drivers/gpu/drm/drm_file.c            | 79 ++++++++++++=
++++++++++++++++
+> > > > > > > > >   drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
+> > > > > > > > >   drivers/gpu/drm/msm/msm_gpu.c         |  2 -
+> > > > > > > > >   include/drm/drm_file.h                | 10 ++++
+> > > > > > > > >   5 files changed, 134 insertions(+), 3 deletions(-)
+> > > > > > > > >
+> > > > > > > > > --
+> > > > > > > > > 2.39.2
+> > > > > > > > >
+> > > > > > >
+> > > > > > > --
+> > > > > > > Daniel Vetter
+> > > > > > > Software Engineer, Intel Corporation
+> > > > > > > http://blog.ffwll.ch
+> > > > >
+> > > > >
+> > > > >
+> > > > > --
+> > > > > With best wishes
+> > > > > Dmitry
+> > >
+> > > --
+> > > With best wishes
+> > > Dmitry
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
