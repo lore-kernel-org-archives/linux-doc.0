@@ -2,245 +2,195 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1379EC7619A
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 08:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C686C77B71
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 09:35:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229978AbjDLILq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 04:11:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52102 "EHLO
+        id S229995AbjDLJfQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 05:35:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbjDLILn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 04:11:43 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F2761B4
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 01:11:36 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-2f27a10f72bso165786f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 01:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1681287095; x=1683879095;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ApQh3OO8N/EkSlcg/GoWQjRUynfLNJg2zkmAQ0bDPGw=;
-        b=gfyWMUpShdnQKWyAjpTEdc2LlGQvtN0yklmxrUAwTj29EHlkO5IhoMlUjmWqHs/QD8
-         Mb7XfysniPM4irakrgTheWv1Pk91OvVsHCAzzqQyCbxRl8G5wB9UshcnPPA6YQ4eGZmy
-         QsJIeA5rz0iifCC/VUKfFFyWjgyIK9rVjnbmk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681287095; x=1683879095;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ApQh3OO8N/EkSlcg/GoWQjRUynfLNJg2zkmAQ0bDPGw=;
-        b=zeQia75TT8A8ulUoBlayNPvHjAqfqJZ/A4H7jT3Kdvbxp7WUloibKz9kl0cIyhY4y+
-         W+IHpV0ITwCi/rB02XQQ/MjpfCDda1Tunc/Zet2ouC+ZOURjQPI5487ryRRWpBWc0DP5
-         ouCHFBu+ncvcLkNPcmaNv+lHgq0kw8vBNPqeKksLaSMlK0A92Bn36X1BjWoQuA7JFx9e
-         yoV2g1kJdBxobgRcvWiNi6unpW5UIUqX3eFAVixG3u78ebB1dwNkMHaCZEJ6wEwyfDn+
-         OZ229lgz63GT81cD0W+Jdgv/7YJkChzU2n94NbrV3e9TsDAS2U1AAt44upfzCNZ8T9Jg
-         vctg==
-X-Gm-Message-State: AAQBX9cVJaTAR3LChyeh5bxOZJ9TXf9HQY4aWEv8i4/DI314FaKEPlKs
-        /K0sqw5f8nU1g9QKb6CMm54FDA==
-X-Google-Smtp-Source: AKy350bnBOA1yKbUJKGFfK7Ajlx+yHLgcIBWXcno+RB9JgfyhFepkx/MEZdWOedrsJ7jrgeu2MHhLQ==
-X-Received: by 2002:a5d:6588:0:b0:2e4:aa61:a50 with SMTP id q8-20020a5d6588000000b002e4aa610a50mr9004356wru.1.1681287094654;
-        Wed, 12 Apr 2023 01:11:34 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id m3-20020adfdc43000000b002c5691f13eesm16556148wrj.50.2023.04.12.01.11.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 01:11:34 -0700 (PDT)
-Date:   Wed, 12 Apr 2023 10:11:32 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Christopher Healy <healych@amazon.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sean Paul <sean@poorly.run>,
+        with ESMTP id S231571AbjDLJez (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 05:34:55 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2044.outbound.protection.outlook.com [40.107.212.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED27790;
+        Wed, 12 Apr 2023 02:34:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DDBQg5Ltmk6IyyMaCnyr9eFscdTLIC1eaGOb2sdRaUiPzafM+COLvHQ1vFnBEBgq2hOXP4A1+qs4XQZt/GR0dVN8lEiIvHbqjePd8bPG4kFisTPRTjMHVgqJwksSG7xn3mfey2D03cxxp6bhJUFMCJ4E5pePLED2At0wXn71LknEu95BjqU7fuR+lKkwahNlOPGoB2Q0efnnrBsoH9IEYM1Pa8mNtyhI9TtvodkEFp4jHZ+lEhn5wExfLJrevS05t7Jw7kF+NfJMnQlxkqsJt0+i2sek/9Tz/13dzTVFnoas9En6FWgbym2PAcJeBN3P1WOi/bZZKt9lldxC/kSHPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iE0klUOBZbYPO/mdIXqnbAJFbU2i0fBqb0LNCGnZzRA=;
+ b=fbO6BV2nz0EMrvtM6QW5EIoHovbn6O4Z5tGF/tCDOQz/iCV5V8t9qzSLaU3SqyrzVxmFHEPDNhghXLhxbLUfTIWtTk/hRXladeLgKr0I3AF3tl/3WhoamMcCIPHYl03236PuTgs9ITNmCEbnlfY1yRRmwmP7CyQWZn/dUB1A6fXw/d+JlPF3gUenUV7D4me6pClu9unfE9ckB9jmOM2dpfcj3Nj0Q94vvKWZcT6TtAUY9+k/RHy2M9ltvUTFja6uRVQHBWfb9h09EEi7Qskdr41aS/eKI0dGHi5XnfwI8Vjayvxt2uadk8Fg0E4kY8YrYHsgdEaNbLtvBAx+u7lvxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iE0klUOBZbYPO/mdIXqnbAJFbU2i0fBqb0LNCGnZzRA=;
+ b=uqq/8Sa9HuZQ2U2TyAULFIEwvPnLVqe9NAVtkOAt/+FiYu55ji9nOJPPMmtaEY+YninwlOOQreSpy9lkErXUsWyu1B4VIew6gFXwGKA0bbWkCtkNDRWeNW69QTpFlWAPf6g2F9TZhCBhudvrhCrYzZ+NdTRvMP7Zg4yAlUvgKpE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SJ0PR12MB5609.namprd12.prod.outlook.com (2603:10b6:a03:42c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Wed, 12 Apr
+ 2023 09:34:51 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6277.036; Wed, 12 Apr 2023
+ 09:34:51 +0000
+Message-ID: <bbbbbf34-2ea5-5344-30db-f976c5198d75@amd.com>
+Date:   Wed, 12 Apr 2023 11:34:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 0/7] drm: fdinfo memory stats
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         Boris Brezillon <boris.brezillon@collabora.com>,
-        freedreno@lists.freedesktop.org
-Subject: Re: [Freedreno] [PATCH v2 0/2] drm: fdinfo memory stats
-Message-ID: <ZDZntP+0wG6+QyHh@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
         Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Emil Velikov <emil.l.velikov@gmail.com>,
         Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        "open list:RADEON and AMDGPU DRM DRIVERS" 
+        <amd-gfx@lists.freedesktop.org>,
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        "moderated list:DRM DRIVERS FOR VIVANTE GPU IP" 
+        <etnaviv@lists.freedesktop.org>, Evan Quan <evan.quan@amd.com>,
+        Guchun Chen <guchun.chen@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
         Sean Paul <sean@poorly.run>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        freedreno@lists.freedesktop.org
-References: <20230410210608.1873968-1-robdclark@gmail.com>
- <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
- <ZDWQfbUBhyJf1Ezx@phenom.ffwll.local>
- <CAF6AEGtYw4Dn80OtrnJESkkDXxhUdAr6Nuva+Jo3ExW8MXH++Q@mail.gmail.com>
- <CAA8EJppnEwcHM++YUYZGrNXEha=-ZVAexBdkMVsU52PTOs4VnA@mail.gmail.com>
- <CAF6AEGsE3NOe9TkEzrk5rr-D2PoKaxF5Yn3W8wWew8um6r2EXw@mail.gmail.com>
- <d93f4256-4554-e031-9730-4ca2a7de6aaf@linaro.org>
+        Shashank Sharma <shashank.sharma@amd.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>
+References: <20230411225725.2032862-1-robdclark@gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230411225725.2032862-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0073.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1f::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d93f4256-4554-e031-9730-4ca2a7de6aaf@linaro.org>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB5609:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64bed3b7-92ef-4d48-1ef6-08db3b392a28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QXxfMHGKAAQwLH1MBNyZrm5IQSC7OOdp5P5R/JxbnOPR3pwAcMtHDUACjgDRwxJixZssIE8ThKNqHMFqTEfETjaD3FkD5NANzGwVj8vgLYC0th62YG+uBpedIPfoCP+BPSHs5A+VFy4bJ3RuLJZBKfh+qz5oqccrsdzBZ81JKvpcwSzAzEcwmRUlb3vJvMacPxUhyEWY5goWR0taMo/r0um0x7RWRXzNMLS7bpXOYavPTn9Z8W307K9zLDhR5wHB5ND9Umamx4RoWs+Uz5Kk4AcbymS2GPD5fDRrF6Yx2tebQ429T7WElvjQ4BPDsZONntzJhWORF+ZUoDLrmeRgoBXIfWiLHRozJlWTE2RSTSizMHExjLqJ/Th+UHkIOjOLHaJNmYo6vfVgmQFfKkfpXqq5vpXF9aEAearrjpB4TvcD/b4QaQLZEVyIAKOtuGh5SLwm2jPCwp8tYZeVvYPofkmv5C2q7CV28Zz44GipdbteLuxI+BXDiNpWUbIpQLXIv9jh2SN68Xw+VRBeUdCLEuDtSZeUic1uvnohtlFgLgbW/LON6nh5o0OwP8hB31a4M546e8S1wI85EgxIOZb/XcZmCtb7/0MyTqBZ2GUYlbiZyFwuCv86i91XgiCS/HGLKSaNiLKwXcL7dB21dTaGlw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(366004)(136003)(39860400002)(451199021)(478600001)(6512007)(54906003)(5660300002)(6506007)(186003)(66556008)(6486002)(966005)(316002)(2906002)(66946007)(4326008)(41300700001)(7416002)(6666004)(8936002)(8676002)(66476007)(38100700002)(31696002)(83380400001)(36756003)(2616005)(86362001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3NmcTFhc3lzVEJ4RlZ0TUtYSFRBM1pJWjkxbDhjSjRLS0tUeTBvNjhTaUxY?=
+ =?utf-8?B?NFEwRkVMZWh3MUxpZSs3TXpWMzkwNEQ3Z1NiUkRQL1A5T0tFUGxoTnNBc09y?=
+ =?utf-8?B?ci9Iam1jSTJNaVp1U2VlekROWmpVaGhPNXNUY2ExTjVuRUQrcWRsbVVWcmxz?=
+ =?utf-8?B?OXVWcTVZeVFuYXo1OVFjR1hFMGxkMFVTWGpIZVpoVW4yNWdmSTQxd01RcXhu?=
+ =?utf-8?B?UU9pR1BqQXRteGhVOHEyUzRiblNNSDY2YSt4OUlaZC9UUlhPLzZ0V2xoZURv?=
+ =?utf-8?B?YlJYOHIxem9WUFlNbVlXUXYva25mL1ZHUlVkaTd4U3V6MlhOd1VWVEhFb1Jx?=
+ =?utf-8?B?TXh6RDlXRnl4eXRsTWo5UEl0MnV1bmFMNWIveGhEN3dxamQvam12ZEJ5VEJ3?=
+ =?utf-8?B?SHNnSWNuc1NyS3hJNjNxSmR6R25BbjhxOFVkUHJieDFkeURLcmZ3Q2tJZ01C?=
+ =?utf-8?B?UnA3KzAzTitGZGRDQmR4VFZqenU4V2dvMmRKRDNwY3RoTUwrUWVGRjF0Qm5U?=
+ =?utf-8?B?Rk1IS2ExYzB3dkJzaUErTnlZdW5DaGY5Mm1LM0RLbjcvV1UwODhjdThmdzZu?=
+ =?utf-8?B?bE81aVJGZUlmK2JxQzFETzBnaUxNTTRYOUVGZGRld1J6NlhhSW41Vmh4Skxk?=
+ =?utf-8?B?ZmthWFlUMExzSVdZTDdsYk9JK2MyTWZUU0RKYmh0K0p1U1JTTURvVmdZaXVZ?=
+ =?utf-8?B?cTVTNVFyVVpHaVh3NmtiYjkySUlSUFVFT1VWQXEzQ0RLZkUxbnpnU0lCaGEz?=
+ =?utf-8?B?andrbWJSTk5BK1I0aGNrUEN3bTdtQXFLYmwxU3VtRnhBaTRKcm82RXFBd1h0?=
+ =?utf-8?B?ZVZaR1N2bTdsU3ZwekhmMTgvdWNpZ21BcGQrc1B2NHdselpYbXNPZG5ibGda?=
+ =?utf-8?B?a3VYRit3eURaNXRKcS9POUJmR3BOUk52anRlTGkzREVuNFlLdnVGYnJHYWNw?=
+ =?utf-8?B?ajhkZ1BrOVdMT0lqZ0dmNTk5eDhoeUZrenUwTXhQaVpqc3gwRmw4RU1DQVk2?=
+ =?utf-8?B?TU5JeFQzMjN4bktpSFdrQUJwUmdpVmlGcFJ2czQvZGxoUFJmNFUxN0RVUXRa?=
+ =?utf-8?B?NHo3dGN1L3dYOVlZRHFGdVZZTUlwbWpJdTRSNWVneTd5OVhDc0JaWi9MT1pH?=
+ =?utf-8?B?REpXdE5QUklpWWE0bTZiTWNHQ0tvUTJTZXNmUWR2dG8yMXQvelNXQXNWOENo?=
+ =?utf-8?B?aWJSYUlDNW5RajBpTm9JejVNRVFLOGo5SnFVMzJKNUZObW8yeHlBZExjZG53?=
+ =?utf-8?B?SWJXTHlTdTZYZHFnL1dFeEdNSGRnWGNGTU05QXFtSWxYZkNXTnl4UmpJbFVE?=
+ =?utf-8?B?aG1ISUhneTlLYy9DSnZjTW9rOExKOHozNjg0M3BrdHI4MTF5Skw4T09NbGtn?=
+ =?utf-8?B?d2VXZXUwWUZDWVk4WlMyTnVaQnE5NEVDOFoyR0lrMm01RmxiUFdPTWxwbkhJ?=
+ =?utf-8?B?ZDFiOXEzNjFwOUxNa2dkTm5JTWYvajltNGZta1lybi93ZDFkU2N1NzJTclRp?=
+ =?utf-8?B?ZTlsaDFxK3R3emNKNlU0d3E3RlNVS0NZZEgzb0EzODFUU1c5emtYMXJuemlN?=
+ =?utf-8?B?eUZxWFYyZHMycEorY2lHdGVROWdYVVdwdU5XL1RQcm5sVk54aU1BYXZLZ0F5?=
+ =?utf-8?B?OE0wcFM4NnFhTUpvMXd3bnFUNHh2RzEvbW9LRDVvdjAxRkQvVnJJeHJ3aDk3?=
+ =?utf-8?B?VkJHQllrQnpCTGJsekZ0amwxZ2w0MHBLcXlxMnhsOEVNNjFPS2tDNWtwTjdv?=
+ =?utf-8?B?OTVkYUd0blRFWUE5UW12aW8waHZ4Ly9NTW9Ta3B4UWQ3VUI2eHAyTUY4clVa?=
+ =?utf-8?B?NjdVRnJ5a0pQN2xzWnVINXRFcVRiNENzZGlJMXJ3VE0vV1hxK0I2THJSNytR?=
+ =?utf-8?B?NE02amJQWE1TZ3Q3MXZZTUd2bENoY0xOTmtxdUF6bElLUFhBMENJekY1N252?=
+ =?utf-8?B?NktaRHh5U2lxVHp2OXlZZnRLQnY4KytFNVhVdG0vYjVZRG9UWlNFZ09VVnJW?=
+ =?utf-8?B?N2lHNG9nVkVLaVZTRTd0RUhwQ01Ub2R2Tk5tTVU1UG8zYUJDT3UzSURld2Fr?=
+ =?utf-8?B?NktnZzZXbmp5OCtMQTEwajlGTml2aStvNDhtMEJJTE9PbjRBNXRWN1QzR2xm?=
+ =?utf-8?B?RExCOTRydWVlOE5tMERHRzlFK0cwVm1MbXNuVzBrV0JSU0V6c1B1TGM4Tjkr?=
+ =?utf-8?Q?7tY0fjpLH1fgYWww6YFJRkYQMJsLHfi6diY9bGxZpumA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64bed3b7-92ef-4d48-1ef6-08db3b392a28
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2023 09:34:51.3276
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n9spp2wRJW+iqGyVo5++TTHxI4WShdBi+Gw/mOXSbG7ZmeoLJXAn9XEUcpLku0Au
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5609
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 01:36:52AM +0300, Dmitry Baryshkov wrote:
-> On 11/04/2023 21:28, Rob Clark wrote:
-> > On Tue, Apr 11, 2023 at 10:36 AM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> > > 
-> > > On Tue, 11 Apr 2023 at 20:13, Rob Clark <robdclark@gmail.com> wrote:
-> > > > 
-> > > > On Tue, Apr 11, 2023 at 9:53 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > 
-> > > > > On Tue, Apr 11, 2023 at 09:47:32AM -0700, Rob Clark wrote:
-> > > > > > On Mon, Apr 10, 2023 at 2:06 PM Rob Clark <robdclark@gmail.com> wrote:
-> > > > > > > 
-> > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > > 
-> > > > > > > Similar motivation to other similar recent attempt[1].  But with an
-> > > > > > > attempt to have some shared code for this.  As well as documentation.
-> > > > > > > 
-> > > > > > > It is probably a bit UMA-centric, I guess devices with VRAM might want
-> > > > > > > some placement stats as well.  But this seems like a reasonable start.
-> > > > > > > 
-> > > > > > > Basic gputop support: https://patchwork.freedesktop.org/series/116236/
-> > > > > > > And already nvtop support: https://github.com/Syllo/nvtop/pull/204
-> > > > > > 
-> > > > > > On a related topic, I'm wondering if it would make sense to report
-> > > > > > some more global things (temp, freq, etc) via fdinfo?  Some of this,
-> > > > > > tools like nvtop could get by trawling sysfs or other driver specific
-> > > > > > ways.  But maybe it makes sense to have these sort of things reported
-> > > > > > in a standardized way (even though they aren't really per-drm_file)
-> > > > > 
-> > > > > I think that's a bit much layering violation, we'd essentially have to
-> > > > > reinvent the hwmon sysfs uapi in fdinfo. Not really a business I want to
-> > > > > be in :-)
-> > > > 
-> > > > I guess this is true for temp (where there are thermal zones with
-> > > > potentially multiple temp sensors.. but I'm still digging my way thru
-> > > > the thermal_cooling_device stuff)
-> > > 
-> > > It is slightly ugly. All thermal zones and cooling devices are virtual
-> > > devices (so, even no connection to the particular tsens device). One
-> > > can either enumerate them by checking
-> > > /sys/class/thermal/thermal_zoneN/type or enumerate them through
-> > > /sys/class/hwmon. For cooling devices again the only enumeration is
-> > > through /sys/class/thermal/cooling_deviceN/type.
-> > > 
-> > > Probably it should be possible to push cooling devices and thermal
-> > > zones under corresponding providers. However I do not know if there is
-> > > a good way to correlate cooling device (ideally a part of GPU) to the
-> > > thermal_zone (which in our case is provided by tsens / temp_alarm
-> > > rather than GPU itself).
-> > > 
-> > > > 
-> > > > But what about freq?  I think, esp for cases where some "fw thing" is
-> > > > controlling the freq we end up needing to use gpu counters to measure
-> > > > the freq.
-> > > 
-> > > For the freq it is slightly easier: /sys/class/devfreq/*, devices are
-> > > registered under proper parent (IOW, GPU). So one can read
-> > > /sys/class/devfreq/3d00000.gpu/cur_freq or
-> > > /sys/bus/platform/devices/3d00000.gpu/devfreq/3d00000.gpu/cur_freq.
-> > > 
-> > > However because of the components usage, there is no link from
-> > > /sys/class/drm/card0
-> > > (/sys/devices/platform/soc@0/ae00000.display-subsystem/ae01000.display-controller/drm/card0)
-> > > to /sys/devices/platform/soc@0/3d00000.gpu, the GPU unit.
-> > > 
-> > > Getting all these items together in a platform-independent way would
-> > > be definitely an important but complex topic.
-> > 
-> > But I don't believe any of the pci gpu's use devfreq ;-)
-> > 
-> > And also, you can't expect the CPU to actually know the freq when fw
-> > is the one controlling freq.  We can, currently, have a reasonable
-> > approximation from devfreq but that stops if IFPC is implemented.  And
-> > other GPUs have even less direct control.  So freq is a thing that I
-> > don't think we should try to get from "common frameworks"
-> 
-> I think it might be useful to add another passive devfreq governor type for
-> external frequencies. This way we can use the same interface to export
-> non-CPU-controlled frequencies.
+Am 12.04.23 um 00:56 schrieb Rob Clark:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Similar motivation to other similar recent attempt[1].  But with an
+> attempt to have some shared code for this.  As well as documentation.
+>
+> It is probably a bit UMA-centric, I guess devices with VRAM might want
+> some placement stats as well.  But this seems like a reasonable start.
+>
+> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+>
+> [1] https://patchwork.freedesktop.org/series/112397/
 
-Yeah this sounds like a decent idea to me too. It might also solve the fun
-of various pci devices having very non-standard freq controls in sysfs
-(looking at least at i915 here ...)
+I think the extra client id looks a bit superfluous since the ino of the 
+file should already be unique and IIRC we have been already using that one.
 
-I guess it would minimally be a good idea if we could document this, or
-maybe have a reference implementation in nvtop or whatever the cool thing
-is rn.
--Daniel
+Apart from that looks good to me,
+Christian.
 
-> 
-> > 
-> > BR,
-> > -R
-> > 
-> > > > 
-> > > > > What might be needed is better glue to go from the fd or fdinfo to the
-> > > > > right hw device and then crawl around the hwmon in sysfs automatically. I
-> > > > > would not be surprised at all if we really suck on this, probably more
-> > > > > likely on SoC than pci gpus where at least everything should be under the
-> > > > > main pci sysfs device.
-> > > > 
-> > > > yeah, I *think* userspace would have to look at /proc/device-tree to
-> > > > find the cooling device(s) associated with the gpu.. at least I don't
-> > > > see a straightforward way to figure it out just for sysfs
-> > > > 
-> > > > BR,
-> > > > -R
-> > > > 
-> > > > > -Daniel
-> > > > > 
-> > > > > > 
-> > > > > > BR,
-> > > > > > -R
-> > > > > > 
-> > > > > > 
-> > > > > > > [1] https://patchwork.freedesktop.org/series/112397/
-> > > > > > > 
-> > > > > > > Rob Clark (2):
-> > > > > > >    drm: Add fdinfo memory stats
-> > > > > > >    drm/msm: Add memory stats to fdinfo
-> > > > > > > 
-> > > > > > >   Documentation/gpu/drm-usage-stats.rst | 21 +++++++
-> > > > > > >   drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
-> > > > > > >   drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
-> > > > > > >   drivers/gpu/drm/msm/msm_gpu.c         |  2 -
-> > > > > > >   include/drm/drm_file.h                | 10 ++++
-> > > > > > >   5 files changed, 134 insertions(+), 3 deletions(-)
-> > > > > > > 
-> > > > > > > --
-> > > > > > > 2.39.2
-> > > > > > > 
-> > > > > 
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > http://blog.ffwll.ch
-> > > 
-> > > 
-> > > 
-> > > --
-> > > With best wishes
-> > > Dmitry
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+PS: For some reason only the two patches I was CCed on ended up in my 
+inbox, dri-devel swallowed all the rest and hasn't spit it out yet. Had 
+to dig up the rest from patchwork.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+>
+> Rob Clark (7):
+>    drm: Add common fdinfo helper
+>    drm/msm: Switch to fdinfo helper
+>    drm/amdgpu: Switch to fdinfo helper
+>    drm/i915: Switch to fdinfo helper
+>    drm/etnaviv: Switch to fdinfo helper
+>    drm: Add fdinfo memory stats
+>    drm/msm: Add memory stats to fdinfo
+>
+>   Documentation/gpu/drm-usage-stats.rst      |  21 ++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 ++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
+>   drivers/gpu/drm/drm_file.c                 | 115 +++++++++++++++++++++
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c      |  10 +-
+>   drivers/gpu/drm/i915/i915_driver.c         |   3 +-
+>   drivers/gpu/drm/i915/i915_drm_client.c     |  18 +---
+>   drivers/gpu/drm/i915/i915_drm_client.h     |   2 +-
+>   drivers/gpu/drm/msm/msm_drv.c              |  11 +-
+>   drivers/gpu/drm/msm/msm_gem.c              |  15 +++
+>   drivers/gpu/drm/msm/msm_gpu.c              |   2 -
+>   include/drm/drm_drv.h                      |   7 ++
+>   include/drm/drm_file.h                     |   5 +
+>   include/drm/drm_gem.h                      |  19 ++++
+>   15 files changed, 208 insertions(+), 41 deletions(-)
+>
+
