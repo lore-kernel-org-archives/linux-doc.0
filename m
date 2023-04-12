@@ -2,110 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89756C77B6E
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 22:01:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDAAC7619A
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 22:43:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbjDLWBp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 18:01:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
+        id S229526AbjDLWnX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 18:43:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229830AbjDLWBo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 18:01:44 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 408B459E1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 15:01:43 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-54f8a3ded60so42670727b3.8
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 15:01:43 -0700 (PDT)
+        with ESMTP id S229482AbjDLWnW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 18:43:22 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43E4065B3;
+        Wed, 12 Apr 2023 15:43:21 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1a3df25d44eso15395115ad.2;
+        Wed, 12 Apr 2023 15:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681336902; x=1683928902;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
-        b=itcYyHsTjH+BWioeMOzHRsDUxYxnEou8ifBndkBXI6TNX5xq/HUkT1AyyhCCB+jlgg
-         3qhGiIFyP5GPmeAb9F/cGYLL0T6ndH4Anu3KiFTJ2zgUv7rYRpICAgBSTO4SmMWQG2dj
-         4lYV/RthfLCJMCgdpXeycR2egix1Qp8q862Y6ehJoE8Zrk7VpCCp7zEkzxGBY8nv1lJY
-         RZQCmJ4imt199cSg173cMIapT9cfLep+3yZW0B5b36RF/xqQ9iUnS4egjGE1JSQeu6db
-         gbh/vWlrrOQUF9lx8wSU9AC22JYq+cM0a/46K9zgrM+CGG4alQS9oe5dHDfglVggicdO
-         Y9Wg==
+        d=gmail.com; s=20221208; t=1681339401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jsDArGzo8UwzIHTKg4ZFesLzSfYls6QtUAhhPvCnIR8=;
+        b=BR7mEMT/8rYu6AtMVIBgw3z4X+v7bZLyzLyaHfSGsNcVlWEC6X4Pt3CU+Q5aDWjSBw
+         OyPlCcyByobDFutdLcF7xCxDH0ZYocP9rSZ51lIsNTDU9Qvxb4SHi2qYp50yzATwVHHf
+         m6NWG7CkvHHOoxAEZP8+DA/PvRLnB1coRYRUltLjvi3dtAKFkazlEERm3+tq76mqhzQG
+         m6Y8ViwGmo1trvUjzF4A/ldXuMGdnSNzOOAW3OufH6/DY2rFl5erI6NjC80JdIIoNN9Z
+         pT/ufkyWe9KaWHs8kkT412BydAyrcC02JeTtesN13O8O0BCBvOe66XwMD90rPv1gK+aW
+         mzcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681336902; x=1683928902;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
-        b=kdK+aZDgX71InSB6lPXKnLbt8o2opDnuMIB2EIf2pjhZcRH82acKRhaoyf/2f9j0Hd
-         fT/nT5ihf3jn3CvS+GSbmIO6o2JD/cUJb4R/4RvrseoatIsbwEMQiLAyYKB3vv13v4PO
-         /A1I5e3KvM46FMGgpw3/gzN+LmH+6k4FbNQriyKl1bibW6z8l+7oBsCoNZOY7cjUh6CR
-         4EoxfLwF1R3bISbOVPKOB6S3Nr+pBvrInvxFzfmLgOW+8+/oca/XZanltPC4egCPO7qa
-         nrSJXCiGtJ2XQXxEAWagHzdq/gJvTFTBmgnL8YbFsiQvfubVPhmhAggBcI+7tE8Vzkfu
-         OzOA==
-X-Gm-Message-State: AAQBX9dAu+k4C5dfCBM0WiefWgA06Jy44d3Wn4LXCzHVQLBQm8POq+El
-        tYD6LBcuDWM7SNVU7y1h3nI46JYw3E8=
-X-Google-Smtp-Source: AKy350artxVLouCy5UXXqGRd6vaUaGCzjJlbptUimGvT0630mPFw3RBlFaQsm42qDt42zFcnXgHxxlmRTKU=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:cc07:0:b0:b8b:fe5f:2eaa with SMTP id
- l7-20020a25cc07000000b00b8bfe5f2eaamr43241ybf.2.1681336902548; Wed, 12 Apr
- 2023 15:01:42 -0700 (PDT)
-Date:   Wed, 12 Apr 2023 15:01:41 -0700
-In-Reply-To: <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
-Mime-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com> <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com> <20230119223704.GD2976263@ls.amr.corp.intel.com>
- <Y880FiYF7YCtsw/i@google.com> <20230213130102.two7q3kkcf254uof@amd.com>
- <20230221121135.GA1595130@chaop.bj.intel.com> <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
-Message-ID: <ZDcqRY6UMmpyf/so@google.com>
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-From:   Sean Christopherson <seanjc@google.com>
-To:     Michael Roth <michael.roth@amd.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
+        d=1e100.net; s=20221208; t=1681339401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jsDArGzo8UwzIHTKg4ZFesLzSfYls6QtUAhhPvCnIR8=;
+        b=L8Oy5uJ207ny+My3pcxqWFxBfU0bcvwnRbXbwDZuHyVh+aPHuxyPYaQ1PmwRGrh5A3
+         XedxmHl/dIN/NpviiHlQRMZs0NwtXOwWQwxwc1ofttIQHlloMALjRXzP9C8HRKOX1zaL
+         pVXSyxu1f5qT7ozGiFo3w5/qIPSJXdlErvpaweDohukud1oWeXcyrSsYBe1hwGIfxcO4
+         yk3Rxexf/IUFZNB/FEo4hLBwsLZ/0vv1w7t5cb5jlhU6KqiaHkMI3jD1fx548yjjBLcK
+         mPjgk1fzg6Zp0WbICxlGLx6jcLz5jC8UyWOLZy9ztTnz+fnGxUKmoK6Ti0DddlpwKj5U
+         Cggg==
+X-Gm-Message-State: AAQBX9f6Pr2rBzzYSHG/43NlVTjVcmphJ4pccNyOF41ucyiRCAOGmF2j
+        Dgoz0speVT1sups9e276muA=
+X-Google-Smtp-Source: AKy350ZlpBPdTHWwnoS3DWIIAHEnWpX3sJfsQunpB1ugPu/RcyTRvjmYquL2lY552tk9dZGjs5kFvw==
+X-Received: by 2002:a05:6a00:1508:b0:639:66e6:42d8 with SMTP id q8-20020a056a00150800b0063966e642d8mr667554pfu.19.1681339400671;
+        Wed, 12 Apr 2023 15:43:20 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+        by smtp.gmail.com with ESMTPSA id s21-20020aa78295000000b00627ed4e23e0sm12253844pfm.101.2023.04.12.15.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 15:43:20 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Clark <robdclark@chromium.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Evan Quan <evan.quan@amd.com>,
+        Guchun Chen <guchun.chen@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        intel-gfx@lists.freedesktop.org,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        Mario Limonciello <mario.limonciello@amd.com>,
+        =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+        Sean Paul <sean@poorly.run>,
+        Shashank Sharma <shashank.sharma@amd.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>
+Subject: [PATCH v4 0/6] drm: fdinfo memory stats
+Date:   Wed, 12 Apr 2023 15:42:52 -0700
+Message-Id: <20230412224311.23511-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 22, 2023, Michael Roth wrote:
-> On Tue, Feb 21, 2023 at 08:11:35PM +0800, Chao Peng wrote:
-> > >   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
-> > >   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
-> > 
-> > As many kernel APIs treat 'end' as exclusive, I would rather keep using
-> > exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
-> > and notifier callbacks) but fix it internally in the restrictedmem. E.g.
-> > all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
-> > See below for the change.
-> 
-> Yes I did feel like I was fighting the kernel a bit on that; your
-> suggestion seems like it would be a better fit.
+From: Rob Clark <robdclark@chromium.org>
 
-Comically belated +1, XArray is the odd one here.
+Similar motivation to other similar recent attempt[1].  But with an
+attempt to have some shared code for this.  As well as documentation.
+
+It is probably a bit UMA-centric, I guess devices with VRAM might want
+some placement stats as well.  But this seems like a reasonable start.
+
+Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+
+[1] https://patchwork.freedesktop.org/series/112397/
+
+Rob Clark (6):
+  drm: Add common fdinfo helper
+  drm/msm: Switch to fdinfo helper
+  drm/amdgpu: Switch to fdinfo helper
+  drm/i915: Switch to fdinfo helper
+  drm: Add fdinfo memory stats
+  drm/msm: Add memory stats to fdinfo
+
+ Documentation/gpu/drm-usage-stats.rst      |  31 +++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
+ drivers/gpu/drm/drm_file.c                 | 111 +++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_driver.c         |   3 +-
+ drivers/gpu/drm/i915/i915_drm_client.c     |  18 +---
+ drivers/gpu/drm/i915/i915_drm_client.h     |   2 +-
+ drivers/gpu/drm/msm/msm_drv.c              |  11 +-
+ drivers/gpu/drm/msm/msm_gem.c              |  15 +++
+ drivers/gpu/drm/msm/msm_gpu.c              |   2 -
+ include/drm/drm_drv.h                      |   7 ++
+ include/drm/drm_file.h                     |   5 +
+ include/drm/drm_gem.h                      |  30 ++++++
+ 14 files changed, 220 insertions(+), 36 deletions(-)
+
+-- 
+2.39.2
+
