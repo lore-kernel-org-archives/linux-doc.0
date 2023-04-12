@@ -2,134 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE20C7619A
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 10:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FDFEC7619A
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 12:11:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbjDLKyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 06:54:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52102 "EHLO
+        id S229714AbjDLMLh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 08:11:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjDLKyC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 06:54:02 -0400
-X-Greylist: delayed 595 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Apr 2023 03:54:00 PDT
-Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E106A68;
-        Wed, 12 Apr 2023 03:54:00 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.veeam.com (Postfix) with ESMTPS id 5E49F410B4;
-        Wed, 12 Apr 2023 06:44:03 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx1-2022; t=1681296243;
-        bh=TPNFqwLjRJ0dSpelUvGaISC1WZt9udnm/M5g6U8mfho=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=Jpb8mQX0tWPhAyC1eUZUt5p5BKcZObgs+b8rksCcYb9kgV/bhPACDz2ybdMU7fHbD
-         rKc02SQyUElrSx/P2moawjLbDIcR1lPCQnl1bRJ/AM0Er82gEZn+MOIdvX6hYuHbfO
-         TMaGu2Zj6hm1txK79Hfzij6tu7JDOIDSD9WthyTLuukW+fSoPSeePCYvZTyoNxrJQg
-         BlIWPLhcW06CmqJPl+ZDTtX+U+HRwgQmVXsuYaqYIlz/ERk1uvYNktDW8zPHYlJH7c
-         Wt72/OL8nsYim8iO4HeXtbcqqnz5lO2aG04x6BllElCSXLxUc88kqekrJZckD6hOah
-         OEnLHTcj0Vryg==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Wed, 12 Apr
- 2023 12:43:56 +0200
-Message-ID: <50d131e3-7528-2064-fbe6-65482db46ae4@veeam.com>
-Date:   Wed, 12 Apr 2023 12:43:40 +0200
+        with ESMTP id S229469AbjDLMLg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 08:11:36 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6DD2B4;
+        Wed, 12 Apr 2023 05:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681301495; x=1712837495;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ewT/IrLeXzhwmk8e73q3/ULj13sZtuYMfUJ09TlK3Rs=;
+  b=mP7D6/EWOW7Nj1eRrJ251nO0kIpSGJlAVBjYkd9cAOC3vkz/5jRWa6Mq
+   KuTL0W1P/EI2qvVt1OzdWGALYqSSDIZIIPbbkW17rVE5pgnEy7T/SzDDl
+   o8sqAENnxzlPKJ/kcLfdAEIdkKr6JsCmO3aiKk88lNq80w9LYYnKCmNIx
+   DGXvLhgGvlAzilsfSHp9XnHN0vThviQdLhjsrd19/XvxZ/BaKVMhC3nri
+   H2BNdlSw/mWO7O9ip+rwAJrv7GqnV118y/Vj9+8ElHw5i7Uyf5uTCfNtT
+   N5E1UjpAKUYKbykgKg0ylPY4th5C4Hr8+jDQdvWVPkdlvRgbxaoyWPQjy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="346550590"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="346550590"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 05:11:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="688934157"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="688934157"
+Received: from amurkovx-mobl.ger.corp.intel.com (HELO [10.213.229.123]) ([10.213.229.123])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 05:11:28 -0700
+Message-ID: <98bb3388-d671-dcf3-0247-649a702b5e11@linux.intel.com>
+Date:   Wed, 12 Apr 2023 13:10:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 0/7] drm: fdinfo memory stats
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Rob Clark <robdclark@gmail.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        "open list:RADEON and AMDGPU DRM DRIVERS" 
+        <amd-gfx@lists.freedesktop.org>,
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        "moderated list:DRM DRIVERS FOR VIVANTE GPU IP" 
+        <etnaviv@lists.freedesktop.org>, Evan Quan <evan.quan@amd.com>,
+        Guchun Chen <guchun.chen@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Sean Paul <sean@poorly.run>,
+        Shashank Sharma <shashank.sharma@amd.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>
+References: <20230411225725.2032862-1-robdclark@gmail.com>
+ <bbbbbf34-2ea5-5344-30db-f976c5198d75@amd.com>
 Content-Language: en-US
-To:     Christoph Hellwig <hch@infradead.org>,
-        Donald Buczek <buczek@molgen.mpg.de>
-CC:     <axboe@kernel.dk>, <corbet@lwn.net>, <snitzer@kernel.org>,
-        <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <kch@nvidia.com>,
-        <martin.petersen@oracle.com>, <vkoul@kernel.org>,
-        <ming.lei@redhat.com>, <gregkh@linuxfoundation.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-3-sergei.shtepa@veeam.com>
- <793db44e-9e6d-d118-3f88-cdbffc9ad018@molgen.mpg.de>
- <ZDT9PjLeQgjVA16P@infradead.org>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <ZDT9PjLeQgjVA16P@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: colmbx01.amust.local (172.31.112.31) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2924031554647062
-X-Veeam-MMEX: True
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <bbbbbf34-2ea5-5344-30db-f976c5198d75@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-
-On 4/11/23 08:25, Christoph Hellwig wrote:
-> Subject:
-> Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
-> From:
-> Christoph Hellwig <hch@infradead.org>
-> Date:
-> 4/11/23, 08:25
+On 12/04/2023 10:34, Christian König wrote:
+> Am 12.04.23 um 00:56 schrieb Rob Clark:
+>> From: Rob Clark <robdclark@chromium.org>
+>>
+>> Similar motivation to other similar recent attempt[1].  But with an
+>> attempt to have some shared code for this.  As well as documentation.
+>>
+>> It is probably a bit UMA-centric, I guess devices with VRAM might want
+>> some placement stats as well.  But this seems like a reasonable start.
+>>
+>> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+>> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+>>
+>> [1] https://patchwork.freedesktop.org/series/112397/
 > 
-> To:
-> Donald Buczek <buczek@molgen.mpg.de>
-> CC:
-> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-> 
-> 
-> On Sat, Apr 08, 2023 at 05:30:19PM +0200, Donald Buczek wrote:
->> Maybe detach the old filter and attach the new one instead? An atomic replace might be usefull and it wouldn't complicate the code to do that instead. If its the same filter, maybe just return success and don't go through ops->detach and ops->attach?
-> I don't think a replace makes any sense.  We might want multiple
-> filters eventually, but unless we have a good use case for even just
-> more than a single driver we can deal with that once needed.  The
-> interface is prepared to support multiple attached filters already.
-> 
+> I think the extra client id looks a bit superfluous since the ino of the 
+> file should already be unique and IIRC we have been already using that one.
 
+Do you mean file_inode(struct drm_file->filp)->i_ino ? That one would be 
+the same number for all clients which open the same device node so 
+wouldn't work.
 
-Thank you Donald for your comment. It got me thinking.
+I also don't think the atomic_add_return for client id works either, 
+since it can alias on overflow.
 
-Despite the fact that only one filter is currently offered for the kernel,
-I think that out-of-tree filters of block devices may appear very soon.
-It would be good to think about it in advance.
-And, I agree with Christophe, we would not like to redo the blk-filter interface
-when new filters appear in the tree.
+In i915 I use an xarray and __xa_alloc_cyclic.
 
-We can consider a block device as a resource that two actor want to take over.
-There are two possible behavioral strategies:
-1. If one owner occupies a resource, then for other actors, the ownership
-request will end with a refusal. The owner will not lose his resource.
-2. Any actor can take away a resource from the owner and inform him about its
-loss using a callback.
+Regards,
 
-I think the first strategy is safer. When calling ioctl BLKFILTER_ATTACH, the
-kernel informs the actor that the resource is busy.
-Of course, there is still an option to grab someone else's occupied resource.
-To do this, he will have to call ioctl BLKFILTER_DETACH, specifying the name
-of the filter that needs to be detached. It is assumed that such detached
-should be performed by the same actor that attached it there.
-
-If we replace the owner at each ioctl BLKFILTER_ATTACH, then we can get a
-situation of competition between two actors. At the same time, they won't
-even get a message that something is going wrong.
-
-An example from life. The user compares different backup tools. Install one,
-then another. Each uses its own filter (And why not? this is technically
-possible).
-With the first strategy, the second tool will make it clear to the user that
-it cannot work, since the resource is already occupied by another.
-The user will have to experiment first with one tool, uninstall it, and then
-experiment with another.
-With the second strategy, both tools will unload each other's filters. In the
-best case, this will lead to disruption of their work. At a minimum, blksnap,
-when detached, will reset the change tracker and each backup will perform a
-full read of the block device. As a result, the user will receive distorted
-data, the system will not work as planned, although there will be no error
-message.
-
+Tvrtko
