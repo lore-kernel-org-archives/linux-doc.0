@@ -2,80 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B32EC77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 13:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2489C77B6E
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 13:36:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbjDLNU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 09:20:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47202 "EHLO
+        id S229498AbjDLNgH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 09:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230201AbjDLNUz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 09:20:55 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABCE49C6;
-        Wed, 12 Apr 2023 06:20:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=bZzC89xBqHZIexKBrKT7HoQWF++KmQXNtlFaFL5/dGo=; b=Bhkm3OkIjTuzwz0FHS4ccrZ729
-        X+9ouvRCNj4+hh725FT0ZbIz83h7MSRBsjviLga0fOC3Gi+/58AqWhmWZ4HLkPfZ+zAgEZ30Lt4bQ
-        5V+tN6aiK87yw+UP4uKd/Xq8wkzGRB0jIPqd5tGcDb4yab66OsS8DDx7Czir6FBfOOWk8S06ajcM5
-        h/z9LKAO8jjk/51kYdA/se3GfD7Yk/PjRWg6haY9qLY18En+I4/m8ayilmZiDJYoX1ByFTi0Xn8RY
-        3yDCAtGg2tzKYmCqiX1lNjTfRKtVviFDpUIKFzx6bS+z6KQUiKzDlq/2qX5BqM66NQfurHTi82G3h
-        +jF0Jqiw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pmaOd-006tdK-Rk; Wed, 12 Apr 2023 13:20:23 +0000
-Date:   Wed, 12 Apr 2023 14:20:23 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v6 1/3] mm: add new api to enable ksm per process
-Message-ID: <ZDawF5FDjgYuEHSX@casper.infradead.org>
-References: <20230412031648.2206875-1-shr@devkernel.io>
- <20230412031648.2206875-2-shr@devkernel.io>
+        with ESMTP id S229469AbjDLNgG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 09:36:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34746592
+        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 06:35:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681306479;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=avnUO+n0BtEa4d40ZQG2oXgOaFPN9DVhnjMogjSitH8=;
+        b=Xeb/0xJElLv/x2I8MD/DQDpD58lunIZb/q6djhkEmuZJSOtBDjw/phqETFrM1XvcCkJJjU
+        UFAyeYYpnkhtjLr6RDrCktdy2tJ4uZ++JGJoMDr4G18AqZW6YE1ABgkyqa7jhsED0Y+ACD
+        7hFwGMvBNcOjvq3lVGWMAor61ZMR/S4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-221-wn9vsBKzM6ezusJIoGafmQ-1; Wed, 12 Apr 2023 09:34:38 -0400
+X-MC-Unique: wn9vsBKzM6ezusJIoGafmQ-1
+Received: by mail-ej1-f70.google.com with SMTP id b3-20020a170906038300b009489cf242c8so6053847eja.4
+        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 06:34:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681306477;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=avnUO+n0BtEa4d40ZQG2oXgOaFPN9DVhnjMogjSitH8=;
+        b=IQp2ZpvohDWVoPVsjn8/SVewHIPeN4uRbUyJBkLCmOavfEbfPmnUjxiXhR8QshKOA7
+         2CbzJFatMv+WDLiCZGlDCk/GToTu6n/W/CQT/JCvm+VbAdZAPG0Rx5Gfxn2OCVMbZr7W
+         yEFBxvnTrfdEKu5U8kKL2/uRA1ZHYkBKEkfJJcJzkOEiYbcb13OLYjiBLO/HKU8Tw9zC
+         EjnivBdkiy3THXooxMhKhihftEJ2qWO2MuiuHNUEBiiu1mwyMCBcXPm+DcRtgc7had/G
+         D/FsgPAfMib0/2L4rSYNBa9tWbne2ZaIPnpX8VTO/1fnXb3DS+3LqAAu9iFFiKoVA43K
+         m30w==
+X-Gm-Message-State: AAQBX9dDYUYIWvtiFgR2fbNGF4uyc5+H1yZJU9B/dCtZBTyZjBsaJr2Z
+        Vy4pUVp2srVgYL11rIIgxhsF49ITF6qMzCx4Os6VlldH5B0o//PLuG0Jja1yPIOqRodblY4NbLh
+        ux5h/B6dyewllup+XsfUr
+X-Received: by 2002:a17:906:99c8:b0:8e6:bcb6:469e with SMTP id s8-20020a17090699c800b008e6bcb6469emr2343001ejn.0.1681306476780;
+        Wed, 12 Apr 2023 06:34:36 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YgapZMeMC4Rm/QdXzs4rXyxXgFabYvm7ZL0sTQJ3wSeNGkMdybuNwlZL/acPVv3QhRoQAsuw==
+X-Received: by 2002:a17:906:99c8:b0:8e6:bcb6:469e with SMTP id s8-20020a17090699c800b008e6bcb6469emr2342948ejn.0.1681306475958;
+        Wed, 12 Apr 2023 06:34:35 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id 22-20020a170906319600b00930525d89e2sm7264423ejy.89.2023.04.12.06.34.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 06:34:35 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 00D35AA78D2; Wed, 12 Apr 2023 15:34:34 +0200 (CEST)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Kal Cutter Conley <kal.conley@dectris.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc:     =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+In-Reply-To: <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+References: <20230406130205.49996-1-kal.conley@dectris.com>
+ <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk>
+ <ZDBEng1KEEG5lOA6@boxer>
+ <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Wed, 12 Apr 2023 15:34:34 +0200
+Message-ID: <875ya12phx.fsf@toke.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230412031648.2206875-2-shr@devkernel.io>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 08:16:46PM -0700, Stefan Roesch wrote:
->  	case PR_SET_VMA:
->  		error = prctl_set_vma(arg2, arg3, arg4, arg5);
->  		break;
-> +#ifdef CONFIG_KSM
-> +	case PR_SET_MEMORY_MERGE:
-> +		if (mmap_write_lock_killable(me->mm))
-> +			return -EINTR;
-> +
-> +		if (arg2) {
-> +			int err = ksm_add_mm(me->mm);
-> +
-> +			if (!err)
-> +				ksm_add_vmas(me->mm);
+Kal Cutter Conley <kal.conley@dectris.com> writes:
 
-in the last version of this patch, you reported the error.  Now you
-swallow the error.  I have no idea which is correct, but you've
-changed the behaviour without explaining it, so I assume it's wrong.
+>> > > Add core AF_XDP support for chunk sizes larger than PAGE_SIZE. This
+>> > > enables sending/receiving jumbo ethernet frames up to the theoretical
+>> > > maxiumum of 64 KiB. For chunk sizes > PAGE_SIZE, the UMEM is required
+>> > > to consist of HugeTLB VMAs (and be hugepage aligned). Initially, only
+>> > > SKB mode is usable pending future driver work.
+>> >
+>> > Hmm, interesting. So how does this interact with XDP multibuf?
+>>
+>> To me it currently does not interact with mbuf in any way as it is enabled
+>> only for skb mode which linearizes the skb from what i see.
+>>
+>> I'd like to hear more about Kal's use case - Kal do you use AF_XDP in SKB
+>> mode on your side?
+>
+> Our use-case is to receive jumbo Ethernet frames up to 9000 bytes with
+> AF_XDP in zero-copy mode. This patchset is a step in this direction.
+> At the very least, it lets you test out the feature in SKB mode
+> pending future driver support. Currently, XDP multi-buffer does not
+> support AF_XDP at all. It could support it in theory, but I think it
+> would need some UAPI design work and a bit of implementation work.
+>
+> Also, I think that the approach taken in this patchset has some
+> advantages over XDP multi-buffer:
+>     (1) It should be possible to achieve higher performance
+>         (a) because the packet data is kept together
+>         (b) because you need to acquire and validate less descriptors
+> and touch the queue pointers less often.
+>     (2) It is a nicer user-space API.
+>         (a) Since the packet data is all available in one linear
+> buffer. This may even be a requirement to avoid an extra copy if the
+> data must be handed off contiguously to other code.
+>
+> The disadvantage of this patchset is requiring the user to allocate
+> HugeTLB pages which is an extra complication.
+>
+> I am not sure if this patchset would need to interact with XDP
+> multi-buffer at all directly. Does anyone have anything to add here?
 
-> +		} else {
-> +			clear_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
-> +		}
-> +		mmap_write_unlock(me->mm);
-> +		break;
-> +	case PR_GET_MEMORY_MERGE:
-> +		if (arg2 || arg3 || arg4 || arg5)
-> +			return -EINVAL;
-> +
-> +		error = !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
-> +		break;
+Well, I'm mostly concerned with having two different operation and
+configuration modes for the same thing. We'll probably need to support
+multibuf for AF_XDP anyway for the non-ZC path, which means we'll need
+to create a UAPI for that in any case. And having two APIs is just going
+to be more complexity to handle at both the documentation and
+maintenance level.
 
-Why do we need a GET?  Just for symmetry, or is there an actual need for
-it?
+It *might* be worth it to do this if the performance benefit is really
+compelling, but, well, you'd need to implement both and compare directly
+to know that for sure :)
+
+-Toke
 
