@@ -2,89 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 894ECC77B6E
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 18:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C2FC77B6E
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 18:42:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbjDLSit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 14:38:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48738 "EHLO
+        id S229992AbjDLSmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 14:42:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230260AbjDLSia (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 14:38:30 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1217230E5;
-        Wed, 12 Apr 2023 11:37:45 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id j8so10920566pjy.4;
-        Wed, 12 Apr 2023 11:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681324664; x=1683916664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l1XECP8wQGmDTAyM5631GbSa3D6PGwx6DxzWPpofMRU=;
-        b=C3eItOqtkLxgsOp+Tp65SbnO8LqInhzF9vSwarsWOUXRY+YIvmlljgxRS/MtqfKMVe
-         YKAH1NwIfJVHnB/i/i+3aS3Fn6F+cx8JzaFIAOFrW5GoegvrBUst6nz+RXx35yk5Sgt5
-         iet1kFIBAlLEPNbIEwuH1Z6GdACz0uxS4VMq7l/N4rGAgyGW3+00nH+jWdj/ZyNJHqBT
-         1M+tmuzK246KI8uRqEVDqQK19GXujPFF+kU6a2C8+WncdFjfLNv3velvfFWY82WVJHU2
-         jjl4oH5Tbd0f/JQ8tPCXMvVh4zk0KqMVbNPAa8vklfV6MTYF7uLANaIhJzZkyFPl0fMw
-         ga3A==
+        with ESMTP id S229980AbjDLSmQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 14:42:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5112711D
+        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 11:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681324880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=R3VT9Kq9nmC5BmqMQE6Z+3ROnKmsf5SjqX4tT+cT2cg=;
+        b=EWpkM+Xun1cBqe84ou9YhFWKsSpJCFuUZ2yjqOlHvMVAGurBpa2zeC7VfzdpV0PlfJLk+7
+        VB8+Zjc5TOIcUID1GK6coHfz2kgnppOMd6JbG334mrc0THiz1i7CLHNO5jQoC8xRfi+fYM
+        Xa5lenpDHdpVizVIhyDdRE4MooSNYJw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-30-T64wrqpfOIW-fGQzEr3QaQ-1; Wed, 12 Apr 2023 14:41:19 -0400
+X-MC-Unique: T64wrqpfOIW-fGQzEr3QaQ-1
+Received: by mail-wm1-f72.google.com with SMTP id bh18-20020a05600c3d1200b003f05a99b571so9097222wmb.8
+        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 11:41:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681324664; x=1683916664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1681324878; x=1683916878;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=l1XECP8wQGmDTAyM5631GbSa3D6PGwx6DxzWPpofMRU=;
-        b=U74KpVvIhaRE3o/HeXmhTxfEakqVdO6T7t/w6I3TJ+bhycJUMJ8FhcdBvf0MbMjOXt
-         WbNv+JmUfc9DcSD6/bJcVOQHlNgnKpdZRmOJqY9rhct3JwpvHTyfFWP0kWh4e+7ieaVI
-         IM2wNMe8bEca/p15LIp5HRERmB01OT0hTnGhvWAR5q3VCrESYclnFLGiX6sw8c/+s3aD
-         cJjxXFtYWDrf561qmYOW0xD7QsvqCrxjMHWACy3GiogBOuS8UsUS2Kcqsj5aJLfARv52
-         XN3md8wk26OsSxfUv4HJ4lMkQEKIHwmljWE0NcvuEAoX8e2uf4idnU/Uv+gtPtMbOCGF
-         kwSw==
-X-Gm-Message-State: AAQBX9ej3jzkwaRnzbkQznuIl1anrA8FCNsN2J6qDLuFv4nTYdUWncRM
-        C411GbINdcAonmDKMnS0Elw=
-X-Google-Smtp-Source: AKy350bBBZ0QYRKRh2qu1ggHSIBgOofz7rkL37srMW6LcxOvnaYjKyjoeqbGRZYyGwYwZfoLPpGE4A==
-X-Received: by 2002:a17:90a:b004:b0:246:fdcc:f84c with SMTP id x4-20020a17090ab00400b00246fdccf84cmr148220pjq.35.1681324664310;
-        Wed, 12 Apr 2023 11:37:44 -0700 (PDT)
-Received: from ubuntu.localdomain (36-229-229-178.dynamic-ip.hinet.net. [36.229.229.178])
-        by smtp.gmail.com with ESMTPSA id m9-20020a17090a5a4900b00246ea338c96sm1724272pji.53.2023.04.12.11.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 11:37:44 -0700 (PDT)
-From:   Lin Yu Chen <starpt.official@gmail.com>
-To:     corbet@lwn.net
-Cc:     rostedt@goodmis.org, mhiramat@kernel.org, mark.rutland@arm.com,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Lin Yu Chen <starpt.official@gmail.com>
-Subject: [PATCH] docs: trace: Fix typo in ftrace.rst
-Date:   Wed, 12 Apr 2023 11:37:39 -0700
-Message-Id: <20230412183739.89894-1-starpt.official@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=R3VT9Kq9nmC5BmqMQE6Z+3ROnKmsf5SjqX4tT+cT2cg=;
+        b=A1N0LgbgX3tlA28LjNYceU42+cy745rq1tlrB7faKnXOxFJz0P8+tZxiISrsvov1vV
+         oSO5vND2Esx9O+WNtm5pUQsb9y3xVZWHAGgGxTaOAB1q2vh5kZEwW9p4q0x0AX6rioyu
+         qFNvoYTnc118NaE5x3g+D4DcY5q/d8PL37EB9Jg57RRFz6hz78Xmdeccmn8IDFMUjKIh
+         qQCu6Iboj6HvlrJtMi0qXrcwohvBGdIMnKIiGXn94KDAXfFWrWEkhvEILmM7z0dpRkqG
+         ZxBxIOtE5khoWjTgh5PKV+5KSsqA06/scqF7rGDNPlEYHT7hnhnqm+S+Tvafx3HcpUQL
+         IwJQ==
+X-Gm-Message-State: AAQBX9cPa5NsdZqMSxkl9/jQQ6ccBAF3SJbIJF19dxUzOMA3ivzOjMa8
+        aW7bVCtbY+hB61UMrkzFq80GExNPEWxFosUYVRbHtHQLoqJ7rSkxEjoZxfaES0JBS/0+rtvPDpn
+        oXLJZcG5LMMgTMCiyREGD
+X-Received: by 2002:a5d:6b85:0:b0:2f0:2e3a:cc00 with SMTP id n5-20020a5d6b85000000b002f02e3acc00mr7416014wrx.17.1681324878291;
+        Wed, 12 Apr 2023 11:41:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b/QgGGwNJsH1wFuhM7bfB/1noybwNgk32aStiwxtIwKDydODiL5wj6bsintL3P/ESaIIORFg==
+X-Received: by 2002:a5d:6b85:0:b0:2f0:2e3a:cc00 with SMTP id n5-20020a5d6b85000000b002f02e3acc00mr7415997wrx.17.1681324877919;
+        Wed, 12 Apr 2023 11:41:17 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:4b00:c6fa:b613:dbdc:ab? (p200300cbc7024b00c6fab613dbdc00ab.dip0.t-ipconnect.de. [2003:cb:c702:4b00:c6fa:b613:dbdc:ab])
+        by smtp.gmail.com with ESMTPSA id k18-20020adff292000000b002f013fb708fsm502627wro.4.2023.04.12.11.41.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Apr 2023 11:41:17 -0700 (PDT)
+Message-ID: <30b948fe-7983-39dd-9565-9f92ffd9101b@redhat.com>
+Date:   Wed, 12 Apr 2023 20:41:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v6 1/3] mm: add new api to enable ksm per process
+Content-Language: en-US
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org, willy@infradead.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20230412031648.2206875-1-shr@devkernel.io>
+ <20230412031648.2206875-2-shr@devkernel.io>
+ <b3bac995-0d87-a4d7-b261-9cbe3aa901af@redhat.com>
+ <qvqw1qkpavxn.fsf@devbig1114.prn1.facebook.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <qvqw1qkpavxn.fsf@devbig1114.prn1.facebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is a typo in the sentence "A kernel developer must be
-conscience ...". The word conscience should be conscious.
-This patch fixes it.
+[...]
+> That will work.
+>> work? IOW, not exporting ksm_add_mm() and not passing a flag to __ksm_enter() --
+>> it would simply set MMF_VM_MERGEABLE ?
+>>
+> 
+> ksm_add_mm() is also used in prctl (kernel/sys.c). Do you want to make a
+> similar change there?
 
-Signed-off-by: Lin Yu Chen <starpt.official@gmail.com>
----
- Documentation/trace/ftrace.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes.
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index b927fb2b94dc..e8bca5fea7cc 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -3510,7 +3510,7 @@ directories, the rmdir will fail with EBUSY.
- Stack trace
- -----------
- Since the kernel has a fixed sized stack, it is important not to
--waste it in functions. A kernel developer must be conscience of
-+waste it in functions. A kernel developer must be conscious of
- what they allocate on the stack. If they add too much, the system
- can be in danger of a stack overflow, and corruption will occur,
- usually leading to a system panic.
+>>> + *
+>>> + * @vma:  Pointer to vma
+>>> + */
+>>> +void ksm_add_vma(struct vm_area_struct *vma)
+>>> +{
+>>> +	struct mm_struct *mm = vma->vm_mm;
+>>> +
+>>> +	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
+>>> +		__ksm_add_vma(vma);
+>>> +}
+>>> +
+>>> +/**
+>>> + * ksm_add_vmas - Mark all vma's of a process as mergeable
+>>> + *
+>>> + * @mm:  Pointer to mm
+>>> + */
+>>> +void ksm_add_vmas(struct mm_struct *mm)
+>>
+>> I'd suggest calling this
+>>
+> I guess you forgot your name suggestion?
+
+Yeah, I reconsidered because the first idea I had was not particularly 
+good. Maybe
+
+ksm_enable_for_all_vmas()
+
+But not so sure. If you think the "add" terminology is a good fit, keep 
+it like that.
+
+
+Thanks for bearing with me :)
+
 -- 
-2.25.1
+Thanks,
+
+David / dhildenb
 
