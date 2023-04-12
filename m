@@ -2,526 +2,227 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C3EBC77B6F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 16:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA3FC77B6E
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 17:10:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230201AbjDLQ44 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 12:56:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59620 "EHLO
+        id S229864AbjDLRKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 13:10:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbjDLQ4u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 12:56:50 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8E99017;
-        Wed, 12 Apr 2023 09:56:26 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 49621320098B;
-        Wed, 12 Apr 2023 12:48:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 12 Apr 2023 12:48:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1681318104; x=1681404504; bh=sc
-        mEOwqbnPS5gqPSEkaU6LjpECgptoW3US8TeIjHbcM=; b=Si/eL50z9Xi9fT7SJF
-        W78kz7zd+4AbAd8Z3tPD8MTS/PnSHCnDn6Nw4Yi0buUDVcQ6yWkLffFYnbWcnIkZ
-        Q4DtOpYn+uOUlBYVPkKhnUBRHtbcZll6Vp+eax4AuE8mJYPJSv7VJMiTF+DCqrSo
-        6pIc0JfWmDcHyEzVqe3ggCGpGQRsYUR3eFwqbPeMkAexmFnkj8T2j/98HdMFbLaG
-        nRc/HXOnFxaL3LU0m25AMst27uuWeDdLpsVaTh81vsimiBQa/y4Y8aJ1OYlBhYse
-        gJIabX258lq7M0mft69pGYP4xWqp4G2qc7FFRxk6nuUnSYCawL2ao4r1+1k5NfVJ
-        kSoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1681318104; x=1681404504; bh=scmEOwqbnPS5g
-        qPSEkaU6LjpECgptoW3US8TeIjHbcM=; b=UYN1CGR3PVERS+qYoWfER6Ed7lvm/
-        eujtI+CUtT8pondrpLNLYbhkEX24P7jdzX9V+jFlZ59EwUQm6ma2AnNIRSQvkJPd
-        QjFAQdZnf9Ds+L7/2vVDPxIW7Bc0YCdLvB2WA4H9Z9lCS/apC8nyqEFqjnwMY6U4
-        EbUDFOc/LCrfETP20XBCqffIKn1G3AE/olGdqbRG52L9L0Jl0Nx68PPhRlsc69uE
-        qECccQckk+iDXXUAg2QyvZVIgl8NX53/vzEHJCbyHjzGMJy1WpaVIEgoTFt0lPW6
-        iyWZmU9F+t5d8hUw0ckZuR27HMWABXow/VBSpl2Wyi8wSil+LmRoone5w==
-X-ME-Sender: <xms:2OA2ZNuYp8VZ3BKZXU-zOEJ0ZFZ3-mgpOPuCHOcrvEkOtckBILxlew>
-    <xme:2OA2ZGfzitcj_LYQ89XZTUto2Z3Yk4OeydXOWfePv1TKrtR6lMMab1X0JXqmVOm5z
-    YsEe6igPhwap9sRMHc>
-X-ME-Received: <xmr:2OA2ZAyFLElZShUNZ6itZXNeuCSOzRls9_TPZ9TtmIBKayiObw-1MFYz-apl5ev_3Rhck7X3UoGtqVhZF0QQZt0tAnSoZXhitbkxoHbDBbA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedguddtiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpefuthgv
-    fhgrnhcutfhovghstghhuceoshhhrhesuggvvhhkvghrnhgvlhdrihhoqeenucggtffrrg
-    htthgvrhhnpeevlefggffhheduiedtheejveehtdfhtedvhfeludetvdegieekgeeggfdu
-    geeutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hshhhrseguvghvkhgvrhhnvghlrdhioh
-X-ME-Proxy: <xmx:2OA2ZEPacHsllWW0bE1ZEs1XMEBXSls_fu-wUQnwNPKbQNNbSVeCJQ>
-    <xmx:2OA2ZN_kLH8Yjaw_uDS9O5vEk6yp2WzlZskUmLavU6ZjmHth3M3W7Q>
-    <xmx:2OA2ZEVpOFydTRByef3DV9XNI1TVW4VJakpd5QR4C9hSJATNYmNcwA>
-    <xmx:2OA2ZMYRzVy3j-cREclD0qjBZ8AuFmwRry_Lp8ofKDlDWzicO9Ph-A>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Apr 2023 12:48:23 -0400 (EDT)
-References: <20230412031648.2206875-1-shr@devkernel.io>
- <20230412031648.2206875-2-shr@devkernel.io>
- <b3bac995-0d87-a4d7-b261-9cbe3aa901af@redhat.com>
-User-agent: mu4e 1.10.1; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, willy@infradead.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v6 1/3] mm: add new api to enable ksm per process
-Date:   Wed, 12 Apr 2023 09:44:28 -0700
-In-reply-to: <b3bac995-0d87-a4d7-b261-9cbe3aa901af@redhat.com>
-Message-ID: <qvqw1qkpavxn.fsf@devbig1114.prn1.facebook.com>
+        with ESMTP id S229564AbjDLRKp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 13:10:45 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on20601.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eae::601])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0973118;
+        Wed, 12 Apr 2023 10:10:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VZ+Phni+HA/VcuEOvw7SVigOjxtFQfd9YDsgG3MxLqCZiqpsPXwKhMVU01f+XwFDJmQZ+wugiiZa0XK+XevHuUqGVwJlQIqN7q8ODeLP9mYXA/L+yFDJkvY3bifntl2TzifTyCZ6XYpcRCNt5DkV1e7GUgwp27AbsHrSuesPix+qS7gmt/tywfV5DLljqotLPp9mFkyJW46ync9eKS9zIovPHHl3O8ObQuAjgt3LqspxDC/4THFjb9vKnRzi/nWLGQNHq/BIUJV1nG2XX8Y8w8mb1SO4WW2yFKmJ5MSFnvlIPJmv0PeSxlhQoextvnRKoK94C74GLjbF//1258qtvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6q5NYrVN4YRUWNMiIoWaR5gQkSuuPEDXslDnU52cNQk=;
+ b=NlijC2cpW1/jHB9rS9XPSAuz9UXHCCkvASHNXW6YBXtw0LuEpTwY2eXggQLq7Jiedd/AYV6Kz1ogucgJruGv7EYa6L4dIn8k8pE0gcPWq0HUL9FmVkLPDp7lD+RXsVHTFfxlFQugO8KNekknHeCKv4L4Puyjq88KJD7HcPRzgQaSuPYSYSXSsshKgp5Ft068pCgOzf5B1t2KaXiWd73eJBdSZAZ+ckuDvs45BlOsFJmpUHDR0w53qFoDqOD2hyAz+Bz9FHU9fq0HHaonO7QbwIJ7hb7+WZJAb37jXIwxrJML3u5zFtBFE+LwFJoYPm9pe4Kuk7eh7kwaEjZphUludA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6q5NYrVN4YRUWNMiIoWaR5gQkSuuPEDXslDnU52cNQk=;
+ b=TggoZwNRLn7pvmDNU5+/o03+85j6vlomCUxOG7gG0f25d3y4DSGyDKAJQ8IJzBjKqO+CZsDFZW0/IfgSFbeD+agaKiT5XEceYNCHU33FESvb1vrfnquVH+eIQf1IqlP6JBQYNh/gpAug/M9AI9G5QpIRZRZDdtg9BRPnSf5xSmKl1NpIc5UE04195/+JV0VYO166qAYRPF2fAC+Uw5XJXkgRZlrHGk8xbDlBzqeyVt6M13Cbgyj774EcZ99bdR5pdmQanuYckQ3CL+7d2bIEnQPzxuRCDzkHW1WAvf1cgsGOCIdiPhuSxdfmIBTsesEJR2fHId+GCuzKzPTgYEVmXw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
+ by DM4PR12MB5891.namprd12.prod.outlook.com (2603:10b6:8:67::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Wed, 12 Apr
+ 2023 17:10:40 +0000
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::265:64aa:fb3e:288]) by IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::265:64aa:fb3e:288%5]) with mapi id 15.20.6277.034; Wed, 12 Apr 2023
+ 17:10:40 +0000
+Message-ID: <2c02147c-827a-030c-5aab-15b53e25e4c7@nvidia.com>
+Date:   Wed, 12 Apr 2023 10:10:34 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [V5 04/10] dt-bindings: timestamp: Add nvidia,gpio-controller
+To:     Rob Herring <robh@kernel.org>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+References: <20230406171837.11206-1-dipenp@nvidia.com>
+ <20230406171837.11206-5-dipenp@nvidia.com>
+ <20230412142903.GA2313008-robh@kernel.org>
+Content-Language: en-US
+X-Nvconfidentiality: public
+From:   Dipen Patel <dipenp@nvidia.com>
+In-Reply-To: <20230412142903.GA2313008-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0203.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::28) To IA1PR12MB6604.namprd12.prod.outlook.com
+ (2603:10b6:208:3a0::7)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|DM4PR12MB5891:EE_
+X-MS-Office365-Filtering-Correlation-Id: db83e991-af1d-4006-2c4c-08db3b78d77a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +zCghiKSEJ6yDu047FxMCxvQx89piyh/45G7Ht+gxAK4GHZTlP/Mtd5sgWCt30S6nkg9ZVRYCXf5yoJX3GwM8IdoF/kuobbBZJHLZFbjts+3/rQ/As7UMBNUVmC+k8jc2AlRfU7F0Uz3pUUmHr/RjxQ5NAm0lFFESZZryo+lk7+F7Rhj4d1lYxNBMfYmjnW4ywSVuwut/Ner+U8Sm8PHcIsiTSxp4xigU0ECwhjVjwTqp9P5E8hY3ghg+/uN1VPIBZeanWY5+z6p0KYanZXMxqKrqx12AmIX42p/pAoIJH+agPkf6S6+QjeibqYlFhuVZqEdj31d9A5haR/15f11wXiWAm/cWY2EjJXv1IAQ2GICtXW8KcKYKqRZEkSKszrFw2J6OfnSukqej+IL9QW+TdxVKAyRGWxsxL+q5so1TYFy2sqNSvwf9tH33KJc9BLQmwQV2RLLChknmqaJ7hqraFle9R8NUnB5tO2iERagd3UNmEw8SKoi3Jytw5nrzptPd7voC5nYzXeuCvI1DNs09jBZlVz1oIqL/frIJrGdy+pLcLVzaxld5NZvKzhVJqFJqD5OCZ3pJDxmOLAroLQnqdl25vJ6KQdlHkdSjGjWO9bpS7jav6UlU8YlORRpaUi8w96ZnFiHIoqIcC1GAl3AeA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(346002)(396003)(376002)(366004)(451199021)(31686004)(478600001)(6512007)(83380400001)(36756003)(31696002)(2616005)(86362001)(38100700002)(316002)(2906002)(53546011)(6506007)(26005)(186003)(5660300002)(6486002)(66476007)(6666004)(6916009)(66556008)(8936002)(41300700001)(8676002)(7416002)(66946007)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWJ5a1ZKaDZoQ1RqbWlrdnZLT1pNbFBaelZha1BtcDA2bmFSUHhlVmVqdlBa?=
+ =?utf-8?B?cTJMVTBtWFBobHVLTGpUTHdnUm12Wm9UVlhLVkJVNXBjUnFQaTd0bXR1VHM2?=
+ =?utf-8?B?Zm40K0ZHQkk2RDY4TVprV3VhZnczOGRHSGsxUWd1eHBFMk5yRmhYZWJwT1BQ?=
+ =?utf-8?B?VVRsWTI4MVpUU3doVCtSMlB1MEd5YStHZVo2WnBUdEJ0QUUxWmFsS0tPWWVr?=
+ =?utf-8?B?NU02b2dnMXhQWHBiUHFUTEtYRG9LOVVZZVIwUzlmbmM2Y3FDLzI4V2tnRHFv?=
+ =?utf-8?B?dllXSjArQkpxYkNFcTdiUDBOemZ5TVVUV09NM29XOHozUldUekVGL0JINS8w?=
+ =?utf-8?B?UkJRUm9BN1NISTZ4Y0xJWlhCS1V2Z0tURjd1bFlSRU9nT0VhQmNvNjB6ZnJj?=
+ =?utf-8?B?NVFQMEh5aE05OVFSYW9iR0VOeXVJNzd2ZGt6K1ZURXZZdDVWSTVGMVlFOWYx?=
+ =?utf-8?B?MGF1TEFtTXdOaEZ0b09QeVdNMTdlWlNHdmhmTmtNbWpLNG4rYWtkUzFvQm9S?=
+ =?utf-8?B?L2hmb1ZqbEdwUUVFYjZwY0QvTFhjWlJybzlwNHp4Z2JuMnlWODFEenIzVHlp?=
+ =?utf-8?B?VXpSRy96cnNUMnZLNVM3REdlMTVFWVczSnBNd0pUN3NHaDlncytreHJBUU55?=
+ =?utf-8?B?bmNMVGR3dDF2WVc3RmhqL1BEK3ZLdHRjSlEvK2hSVDMxbkhqMytUaHpJR0N5?=
+ =?utf-8?B?MCtVZmhKdWZLeXBiMTlTdmdBRFc2SlB5SVNjajJaNE1zWlBvUlRGL3FWcTlW?=
+ =?utf-8?B?eUJaVWdodVVoOUlNUHhXYkFOY3dqM0dHQXY3MjAwUHZncnBpOThCeGtuUGR1?=
+ =?utf-8?B?ZklNQmJ5NUx0UVEyQmV0UjA2NEc2ZGVBQzNtSW11eW56WjNnRlY2ZW5zbnVD?=
+ =?utf-8?B?TnVtRVp3ZGVjMm1LWlRjbTBkNG9WNlNTNXhXRVNEbXljN0N0ZzNGdXpFT01V?=
+ =?utf-8?B?TDlURkJsMGdMRmZ2N01aaEZYWTFqUktYNXFLVE1xdExkYTZ6QllaUU1xNzZJ?=
+ =?utf-8?B?TkxKa05OZmhZN3VmWDBnd1Y1ZUZILzVwZWJFd2haczhTM2NEakk2eVVRN05E?=
+ =?utf-8?B?VEFhTlQxNnVhWURUTlFYLzBTZ2xMaXBDWGZTRHdPendsRk9jWGttdkorYVlU?=
+ =?utf-8?B?WEdTQU91MWZGUFFVbnc3SHVJL0VkS1ZUYWpUSVpUeStVaEpHNkNzS2RxNXRr?=
+ =?utf-8?B?dDNGT0JMb0thR2JuY0kzck0vMk9LSzNYYTFOUkx1NG1CRm1zbk5GdDdZS0h0?=
+ =?utf-8?B?d21TcEdaN0ViM1JaOGJXanEvMTdsRURVcjVxVFNCL1l5QWZ1R1Y5YlRFWDdy?=
+ =?utf-8?B?ZmY2cHBwWS9NQUtWQWdaMFZtbFpuK2hpK2N5SGJLL1hiejcycitRdGtIRmtF?=
+ =?utf-8?B?dFhiZUZOWS9UdUFpZW1JaDlhZUZqNmV4WXh4QVROYitZeXJudEJxdFBZUW5Y?=
+ =?utf-8?B?U3lqMnlFT3RJVTlWUzFRSGxQNlYySHdtQkF1TkMvNmUwcFR2aEpNQVUyVmVv?=
+ =?utf-8?B?SFNZMUQwbGJIV1JkWEI0NFgwVG44SkhSL2trNXNoalM2RFJhKzVCQXhaK3Bi?=
+ =?utf-8?B?MmpPTGpOay82K3d0emRaR1A2eXFQUEV2cnBEWXY2WCtyMW11RVB5UWdpdUpK?=
+ =?utf-8?B?QjhmU216TnI1NThmL1c5Q2wyakI3NzJzcWtzd3NZY21YakEyYzlUbW1UaEFx?=
+ =?utf-8?B?WWhwaGJES042Y0hnZlA4c0VIM2NpNXNKcEtpaUNxc25PU0haTVpPaWd6Z3lG?=
+ =?utf-8?B?V2RYVGlXK3c5TWdiM3IrOEJsLzJ3TjlKYS9JMXpQcFk2UjR4TlQ4bjlqTHNq?=
+ =?utf-8?B?VnZhMXJuTnpmSkVIOWQvY1NxcEdSZWNQcWR3a2FxU05WUmFGMmNjTW5kOGYw?=
+ =?utf-8?B?QjA2V05EaGJ4V1lQQnRHRG03UVZLa2FoTFFjd29zQ2hHZGdQckxIVEVEaGkz?=
+ =?utf-8?B?U3U2djBjQ1pPSUplTHpzSzFocHhROU5GelN3SlFFVjE5L0tuaGUzUHNuZU1h?=
+ =?utf-8?B?UXovZmZPSEdJY0lCOGNIa3FmeG9Pa3RRMUlUT29UTXlHQmtjRDBGNTd5SWFM?=
+ =?utf-8?B?NGx2UTlmT2ZISWRJU2tGcEQ2bEszQThkOHZxZzZoTmJtQSt5Kzhqck5NbUtT?=
+ =?utf-8?Q?i4rr/Cygy0yMC69T/VgwezzBf?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db83e991-af1d-4006-2c4c-08db3b78d77a
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2023 17:10:40.4003
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T6CVweztjhWl/lmVr8/X4KX2gd6TClK1UFDDj8moNsrlV7pUK/cqBDKgB39697+o663/q43t80zK/iFrRyNjLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5891
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-David Hildenbrand <david@redhat.com> writes:
-
-> [...]
->
-> Thanks for giving mu sugegstions a churn. I think we can further
-> improve/simplify some things. I added some comments, but might have more
-> regarding MMF_VM_MERGE_ANY / MMF_VM_MERGEABLE.
->
-> [I'll try reowkring your patch after I send this mail to play with some
-> simplifications]
->
->>   arch/s390/mm/gmap.c            |   1 +
->>   include/linux/ksm.h            |  23 +++++--
->>   include/linux/sched/coredump.h |   1 +
->>   include/uapi/linux/prctl.h     |   2 +
->>   kernel/fork.c                  |   1 +
->>   kernel/sys.c                   |  23 +++++++
->>   mm/ksm.c                       | 111 ++++++++++++++++++++++++++-------
->>   mm/mmap.c                      |   7 +++
->>   8 files changed, 142 insertions(+), 27 deletions(-)
->> diff --git a/arch/s390/mm/gmap.c b/arch/s390/mm/gmap.c
->> index 5a716bdcba05..9d85e5589474 100644
->> --- a/arch/s390/mm/gmap.c
->> +++ b/arch/s390/mm/gmap.c
->> @@ -2591,6 +2591,7 @@ int gmap_mark_unmergeable(void)
->>   	int ret;
->>   	VMA_ITERATOR(vmi, mm, 0);
->>   +	clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
->
-> Okay, that should keep the existing mechanism working. (but users can still mess
-> it up)
->
-> Might be worth a comment
->
-> /*
->  * Make sure to disable KSM (if enabled for the whole process or
->  * individual VMAs). Note that nothing currently hinders user space
->  * from re-enabling it.
->  */
->
-
-I'll add the comment.
-
->>   	for_each_vma(vmi, vma) {
->>   		/* Copy vm_flags to avoid partial modifications in ksm_madvise */
->>   		vm_flags = vma->vm_flags;
->> diff --git a/include/linux/ksm.h b/include/linux/ksm.h
->> index 7e232ba59b86..f24f9faf1561 100644
->> --- a/include/linux/ksm.h
->> +++ b/include/linux/ksm.h
->> @@ -18,20 +18,29 @@
->>   #ifdef CONFIG_KSM
->>   int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->>   		unsigned long end, int advice, unsigned long *vm_flags);
->> -int __ksm_enter(struct mm_struct *mm);
->> -void __ksm_exit(struct mm_struct *mm);
->> +
->> +int ksm_add_mm(struct mm_struct *mm);
->> +void ksm_add_vma(struct vm_area_struct *vma);
->> +void ksm_add_vmas(struct mm_struct *mm);
->> +
->> +int __ksm_enter(struct mm_struct *mm, int flag);
->> +void __ksm_exit(struct mm_struct *mm, int flag);
->>     static inline int ksm_fork(struct mm_struct *mm, struct mm_struct *oldmm)
->>   {
->> +	if (test_bit(MMF_VM_MERGE_ANY, &oldmm->flags))
->> +		return ksm_add_mm(mm);
->
-> ksm_fork() runs before copying any VMAs. Copying the bit should be sufficient.
->
-> Would it be possible to rework to something like:
->
-> if (test_bit(MMF_VM_MERGE_ANY, &oldmm->flags))
-> 	set_bit(MMF_VM_MERGE_ANY, &mm->flags)
-> if (test_bit(MMF_VM_MERGEABLE, &oldmm->flags))
-> 	return __ksm_enter(mm);
->
-
-That will work.
-> work? IOW, not exporting ksm_add_mm() and not passing a flag to __ksm_enter() --
-> it would simply set MMF_VM_MERGEABLE ?
->
-
-ksm_add_mm() is also used in prctl (kernel/sys.c). Do you want to make a
-similar change there?
->
-> I rememebr proposing that enabling MMF_VM_MERGE_ANY would simply enable
-> MMF_VM_MERGEABLE.
->
->>   	if (test_bit(MMF_VM_MERGEABLE, &oldmm->flags))
->> -		return __ksm_enter(mm);
->> +		return __ksm_enter(mm, MMF_VM_MERGEABLE);
->>   	return 0;
->>   }
->>     static inline void ksm_exit(struct mm_struct *mm)
->>   {
->> -	if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
->> -		__ksm_exit(mm);
->> +	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
->> +		__ksm_exit(mm, MMF_VM_MERGE_ANY);
->> +	else if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
->> +		__ksm_exit(mm, MMF_VM_MERGEABLE);
->
-> Can we do
->
-> if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
-> 	__ksm_exit(mm);
->
-> And simply let __ksm_exit() clear both bits?
->
-Yes, I'll make the change.
->>   }
->>     /*
->> @@ -53,6 +62,10 @@ void folio_migrate_ksm(struct folio *newfolio, struct folio *folio);
->>     #else  /* !CONFIG_KSM */
+On 4/12/23 7:29 AM, Rob Herring wrote:
+> On Thu, Apr 06, 2023 at 10:18:31AM -0700, Dipen Patel wrote:
+>> The tegra always-on (AON) GPIO HTE/GTE provider depends on the AON
+>> GPIO controller where it needs to do namespace conversion between GPIO
+>> line number (belonging to AON GPIO controller instance) and the GTE
+>> slice bits. The patch introduces nvidia,gpio-controller property to
+>> represent that dependency.
 >>
->
-> [...]
->
->>   #endif /* _LINUX_SCHED_COREDUMP_H */
->> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
->> index 1312a137f7fb..759b3f53e53f 100644
->> --- a/include/uapi/linux/prctl.h
->> +++ b/include/uapi/linux/prctl.h
->> @@ -290,4 +290,6 @@ struct prctl_mm_map {
->>   #define PR_SET_VMA		0x53564d41
->>   # define PR_SET_VMA_ANON_NAME		0
->>   +#define PR_SET_MEMORY_MERGE		67
->> +#define PR_GET_MEMORY_MERGE		68
->>   #endif /* _LINUX_PRCTL_H */
->> diff --git a/kernel/fork.c b/kernel/fork.c
->> index f68954d05e89..1520697cf6c7 100644
->> --- a/kernel/fork.c
->> +++ b/kernel/fork.c
->> @@ -686,6 +686,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>   		if (vma_iter_bulk_store(&vmi, tmp))
->>   			goto fail_nomem_vmi_store;
->>   +		ksm_add_vma(tmp);
->
-> Is this really required? The relevant VMAs should have VM_MERGEABLE set.
->
-I'll fix it.
+>> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+>> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>> ---
+>>  .../timestamp/nvidia,tegra194-hte.yaml        | 36 ++++++++++++++++---
+>>  1 file changed, 31 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>> index 855dad3f2023..66eaa3fab8cc 100644
+>> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>> @@ -51,6 +51,12 @@ properties:
+>>        LIC instance has 11 slices and Tegra234 LIC has 17 slices.
+>>      enum: [3, 11, 17]
+>>  
+>> +  nvidia,gpio-controller:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description:
+>> +      The phandle to AON gpio controller instance. This is required to handle
+>> +      namespace conversion between GPIO and GTE.
+>> +
+>>    '#timestamp-cells':
+>>      description:
+>>        This represents number of line id arguments as specified by the
+>> @@ -59,6 +65,12 @@ properties:
+>>        mentioned in the nvidia GPIO device tree binding document.
+>>      const: 1
+>>  
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - "#timestamp-cells"
+>> +
+>>  allOf:
+>>    - if:
+>>        properties:
+>> @@ -94,11 +106,15 @@ allOf:
+>>          nvidia,slices:
+>>            const: 17
+>>  
+>> -required:
+>> -  - compatible
+>> -  - reg
+>> -  - interrupts
+>> -  - "#timestamp-cells"
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - nvidia,tegra234-gte-aon
+>> +    then:
+>> +      required:
+>> +        - nvidia,gpio-controller
+> 
+> Adding a new required property is an ABI break. But you just added this 
+> in patch 2. If this is required as part of nvidia,tegra234-gte-aon 
+> support, then it should all be 1 patch.
+Ok, will move this to one patch. For the ABI break, I have added appropriate
+code in the concerned driver to continue to be backward compatible.
 
->>   		mm->map_count++;
->>   		if (!(tmp->vm_flags & VM_WIPEONFORK))
->>   			retval = copy_page_range(tmp, mpnt);
->> diff --git a/kernel/sys.c b/kernel/sys.c
->> index 495cd87d9bf4..9bba163d2d04 100644
->> --- a/kernel/sys.c
->> +++ b/kernel/sys.c
->> @@ -15,6 +15,7 @@
->>   #include <linux/highuid.h>
->>   #include <linux/fs.h>
->>   #include <linux/kmod.h>
->> +#include <linux/ksm.h>
->>   #include <linux/perf_event.h>
->>   #include <linux/resource.h>
->>   #include <linux/kernel.h>
->> @@ -2661,6 +2662,28 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->>   	case PR_SET_VMA:
->>   		error = prctl_set_vma(arg2, arg3, arg4, arg5);
->>   		break;
->> +#ifdef CONFIG_KSM
->> +	case PR_SET_MEMORY_MERGE:
->> +		if (mmap_write_lock_killable(me->mm))
->> +			return -EINTR;
+> 
+>>  
+>>  additionalProperties: false
+>>  
+>> @@ -112,6 +128,16 @@ examples:
+>>                #timestamp-cells = <1>;
+>>      };
+>>  
+>> +  - |
+>> +    tegra234_hte_aon: timestamp@c1e0000 {
+>> +              compatible = "nvidia,tegra234-gte-aon";
+>> +              reg = <0xc1e0000 0x10000>;
+>> +              interrupts = <0 13 0x4>;
+>> +              nvidia,int-threshold = <1>;
+>> +              nvidia,gpio-controller = <&gpio_aon>;
+>> +              #timestamp-cells = <1>;
+>> +    };
 >> +
->> +		if (arg2) {
->> +			int err = ksm_add_mm(me->mm);
->> +
->> +			if (!err)
->> +				ksm_add_vmas(me->mm);
->> +		} else {
->> +			clear_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
->
-> Okay, so disabling doesn't actually unshare anything.
->
->> +		}
->> +		mmap_write_unlock(me->mm);
->> +		break;
->> +	case PR_GET_MEMORY_MERGE:
->> +		if (arg2 || arg3 || arg4 || arg5)
->> +			return -EINVAL;
->> +
->> +		error = !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
->> +		break;
->> +#endif
->>   	default:
->>   		error = -EINVAL;
->>   		break;
->> diff --git a/mm/ksm.c b/mm/ksm.c
->> index d7bd28199f6c..ab95ae0f9def 100644
->> --- a/mm/ksm.c
->> +++ b/mm/ksm.c
->> @@ -534,10 +534,33 @@ static int break_ksm(struct vm_area_struct *vma, unsigned long addr,
->>   	return (ret & VM_FAULT_OOM) ? -ENOMEM : 0;
->>   }
->>   +static bool vma_ksm_compatible(struct vm_area_struct *vma)
->> +{
->> +	if (vma->vm_flags & (VM_SHARED  | VM_MAYSHARE   | VM_PFNMAP  |
->> +			     VM_IO      | VM_DONTEXPAND | VM_HUGETLB |
->> +			     VM_MIXEDMAP))
->> +		return false;		/* just ignore the advice */
->> +
->> +	if (vma_is_dax(vma))
->> +		return false;
->> +
->> +#ifdef VM_SAO
->> +	if (vma->vm_flags & VM_SAO)
->> +		return false;
->> +#endif
->> +#ifdef VM_SPARC_ADI
->> +	if (vma->vm_flags & VM_SPARC_ADI)
->> +		return false;
->> +#endif
->> +
->> +	return true;
->> +}
->> +
->>   static struct vm_area_struct *find_mergeable_vma(struct mm_struct *mm,
->>   		unsigned long addr)
->>   {
->>   	struct vm_area_struct *vma;
->> +
->
-> unrelated change
->
-Removed.
+> 
+> Really need a whole other example for 1 property?
+The property affects Tegra234 Soc and beyond, This example is provided
+to showcase that and it also implies that old SoC Tegra194 is not affected
+by this new property. Havind said, that I have not issue removing this example. 
 
->>   	if (ksm_test_exit(mm))
->>   		return NULL;
->>   	vma = vma_lookup(mm, addr);
->> @@ -1065,6 +1088,7 @@ static int unmerge_and_remove_all_rmap_items(void)
->>     			mm_slot_free(mm_slot_cache, mm_slot);
->>   			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
->> +			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
->>   			mmdrop(mm);
->>   		} else
->>   			spin_unlock(&ksm_mmlist_lock);
->> @@ -2495,6 +2519,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
->>     		mm_slot_free(mm_slot_cache, mm_slot);
->>   		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
->> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
->>   		mmap_read_unlock(mm);
->>   		mmdrop(mm);
->>   	} else {
->> @@ -2571,6 +2596,63 @@ static int ksm_scan_thread(void *nothing)
->>   	return 0;
->>   }
->>   +static void __ksm_add_vma(struct vm_area_struct *vma)
->> +{
->> +	unsigned long vm_flags = vma->vm_flags;
->> +
->> +	if (vm_flags & VM_MERGEABLE)
->> +		return;
->> +
->> +	if (vma_ksm_compatible(vma)) {
->> +		vm_flags |= VM_MERGEABLE;
->> +		vm_flags_reset(vma, vm_flags);
->> +	}
->> +}
->> +
->> +/**
->> + * ksm_add_vma - Mark vma as mergeable
->
-> "if compatible"
->
-I'll added the above.
+> 
+>>    - |
+>>      tegra_hte_lic: timestamp@3aa0000 {
+>>                compatible = "nvidia,tegra194-gte-lic";
+>> -- 
+>> 2.17.1
+>>
 
->> + *
->> + * @vma:  Pointer to vma
->> + */
->> +void ksm_add_vma(struct vm_area_struct *vma)
->> +{
->> +	struct mm_struct *mm = vma->vm_mm;
->> +
->> +	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
->> +		__ksm_add_vma(vma);
->> +}
->> +
->> +/**
->> + * ksm_add_vmas - Mark all vma's of a process as mergeable
->> + *
->> + * @mm:  Pointer to mm
->> + */
->> +void ksm_add_vmas(struct mm_struct *mm)
->
-> I'd suggest calling this
->
-I guess you forgot your name suggestion?
-
->> +{
->> +	struct vm_area_struct *vma;
->> +
->> +	VMA_ITERATOR(vmi, mm, 0);
->> +	for_each_vma(vmi, vma)
->> +		__ksm_add_vma(vma);
->> +}
->> +
->> +/**
->> + * ksm_add_mm - Add mm to mm ksm list
->> + *
->> + * @mm:  Pointer to mm
->> + *
->> + * Returns 0 on success, otherwise error code
->> + */
->> +int ksm_add_mm(struct mm_struct *mm)
->> +{
->> +	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
->> +		return -EINVAL;
->> +	if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
->> +		return -EINVAL;
->> +
->> +	return __ksm_enter(mm, MMF_VM_MERGE_ANY);
->> +}
->> +
->>   int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->>   		unsigned long end, int advice, unsigned long *vm_flags)
->>   {
->> @@ -2579,28 +2661,13 @@ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->>     	switch (advice) {
->>   	case MADV_MERGEABLE:
->> -		/*
->> -		 * Be somewhat over-protective for now!
->> -		 */
->> -		if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
->> -				 VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
->> -				 VM_HUGETLB | VM_MIXEDMAP))
->> -			return 0;		/* just ignore the advice */
->> -
->> -		if (vma_is_dax(vma))
->> +		if (vma->vm_flags & VM_MERGEABLE)
->>   			return 0;
->> -
->> -#ifdef VM_SAO
->> -		if (*vm_flags & VM_SAO)
->> +		if (!vma_ksm_compatible(vma))
->>   			return 0;
->> -#endif
->> -#ifdef VM_SPARC_ADI
->> -		if (*vm_flags & VM_SPARC_ADI)
->> -			return 0;
->> -#endif
->>     		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
->> -			err = __ksm_enter(mm);
->> +			err = __ksm_enter(mm, MMF_VM_MERGEABLE);
->>   			if (err)
->>   				return err;
->>   		}
->> @@ -2626,7 +2693,7 @@ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->>   }
->>   EXPORT_SYMBOL_GPL(ksm_madvise);
->>   -int __ksm_enter(struct mm_struct *mm)
->> +int __ksm_enter(struct mm_struct *mm, int flag)
->>   {
->>   	struct ksm_mm_slot *mm_slot;
->>   	struct mm_slot *slot;
->> @@ -2659,7 +2726,7 @@ int __ksm_enter(struct mm_struct *mm)
->>   		list_add_tail(&slot->mm_node, &ksm_scan.mm_slot->slot.mm_node);
->>   	spin_unlock(&ksm_mmlist_lock);
->>   -	set_bit(MMF_VM_MERGEABLE, &mm->flags);
->> +	set_bit(flag, &mm->flags);
->>   	mmgrab(mm);
->>     	if (needs_wakeup)
->> @@ -2668,7 +2735,7 @@ int __ksm_enter(struct mm_struct *mm)
->>   	return 0;
->>   }
->>   -void __ksm_exit(struct mm_struct *mm)
->> +void __ksm_exit(struct mm_struct *mm, int flag)
->>   {
->>   	struct ksm_mm_slot *mm_slot;
->>   	struct mm_slot *slot;
->> @@ -2700,7 +2767,7 @@ void __ksm_exit(struct mm_struct *mm)
->>     	if (easy_to_free) {
->>   		mm_slot_free(mm_slot_cache, mm_slot);
->> -		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
->> +		clear_bit(flag, &mm->flags);
->>   		mmdrop(mm);
->>   	} else if (mm_slot) {
->>   		mmap_write_lock(mm);
->> diff --git a/mm/mmap.c b/mm/mmap.c
->> index 740b54be3ed4..483e182e0b9d 100644
->> --- a/mm/mmap.c
->> +++ b/mm/mmap.c
->> @@ -46,6 +46,7 @@
->>   #include <linux/pkeys.h>
->>   #include <linux/oom.h>
->>   #include <linux/sched/mm.h>
->> +#include <linux/ksm.h>
->>     #include <linux/uaccess.h>
->>   #include <asm/cacheflush.h>
->> @@ -2213,6 +2214,8 @@ int __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
->>   	/* vma_complete stores the new vma */
->>   	vma_complete(&vp, vmi, vma->vm_mm);
->>   +	ksm_add_vma(new);
->> +
->
-> Splitting a VMA shouldn't modify VM_MERGEABLE, so I assume this is not required?
->
-I'll fix it.
-
->>   	/* Success. */
->>   	if (new_below)
->>   		vma_next(vmi);
->> @@ -2664,6 +2667,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
->>   	if (file && vm_flags & VM_SHARED)
->>   		mapping_unmap_writable(file->f_mapping);
->>   	file = vma->vm_file;
->> +	ksm_add_vma(vma);
->>   expanded:
->>   	perf_event_mmap(vma);
->>   @@ -2936,6 +2940,7 @@ static int do_brk_flags(struct vma_iterator *vmi,
->> struct vm_area_struct *vma,
->>   		goto mas_store_fail;
->>     	mm->map_count++;
->> +	ksm_add_vma(vma);
->>   out:
->>   	perf_event_mmap(vma);
->>   	mm->total_vm += len >> PAGE_SHIFT;
->> @@ -3180,6 +3185,7 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
->>   		if (vma_link(mm, new_vma))
->>   			goto out_vma_link;
->>   		*need_rmap_locks = false;
->> +		ksm_add_vma(new_vma);
->
-> Copying shouldn't modify VM_MERGEABLE, so I think this is not required?
->
-I'll fix it.
-
->>   	}
->>   	validate_mm_mt(mm);
->>   	return new_vma;
->> @@ -3356,6 +3362,7 @@ static struct vm_area_struct *__install_special_mapping(
->>   	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
->>     	perf_event_mmap(vma);
->> +	ksm_add_vma(vma);
->
-> IIUC, special mappings will never be considered a reasonable target for KSM
-> (especially, because at least VM_DONTEXPAND is always set).
->
-> I think you can just drop this call.
-I dropped it.
