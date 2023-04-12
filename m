@@ -2,163 +2,199 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4270C7619A
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 01:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33240C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 03:20:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbjDLBuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 21:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53540 "EHLO
+        id S229712AbjDLDUE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 23:20:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbjDLBur (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 21:50:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A97504C24;
-        Tue, 11 Apr 2023 18:50:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F3BD62D28;
-        Wed, 12 Apr 2023 01:50:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C7CBC433D2;
-        Wed, 12 Apr 2023 01:50:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681264245;
-        bh=SQVkvpkkVpFYKUjaj0YFjy6WYRkxtetS3WPY8FhJEPI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BPK+P/FYXKkiqMG/hIEkXfS6Zspq+WXs66mXcekL5ZQ5FjFXjLM1BRGDE3yExAdhG
-         cJG2ckMFBtlg0B/yLt8AzYX7eVUHf9GK3rnYvjqr4EiAykkCp79imMw4TURqIQIaFl
-         wEOAeH7ixMB4ZMl1i4XMDicdoRe0vboSCuWqpX6i4gxMtQluQTo7vpVw7PYMgIvVOG
-         W8m44oxbWsViVW2nqch7MEiGvbuIM2mhvpAQea4f8aIUG7TAy2CbPbXvDbinl/IWLb
-         GCuRGuG+CHsiICHvQg2dixNPWm/AAEaMT1qGRx2VfDE2msuUYADzfW6OKA20xBZgfP
-         r9uReVN/Wz4DA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2 1/3] net: docs: update the sample code in driver.rst
-Date:   Tue, 11 Apr 2023 18:50:36 -0700
-Message-Id: <20230412015038.674023-2-kuba@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230412015038.674023-1-kuba@kernel.org>
-References: <20230412015038.674023-1-kuba@kernel.org>
+        with ESMTP id S229522AbjDLDUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 23:20:01 -0400
+Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C91710F8
+        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 20:20:00 -0700 (PDT)
+Received: by devbig1114.prn1.facebook.com (Postfix, from userid 425415)
+        id 95A5332C5B06; Tue, 11 Apr 2023 20:17:03 -0700 (PDT)
+From:   Stefan Roesch <shr@devkernel.io>
+To:     kernel-team@fb.com
+Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org, willy@infradead.org
+Subject: [PATCH v6 0/3] mm: process/cgroup ksm support
+Date:   Tue, 11 Apr 2023 20:16:45 -0700
+Message-Id: <20230412031648.2206875-1-shr@devkernel.io>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The sample code talks about single-queue devices and uses locks.
-Update it to something resembling more modern code.
-Make sure we mention use of READ_ONCE() / WRITE_ONCE().
+So far KSM can only be enabled by calling madvise for memory regions. To
+be able to use KSM for more workloads, KSM needs to have the ability to b=
+e
+enabled / disabled at the process / cgroup level.
 
-Change the comment which talked about consumer on the xmit side.
-AFAIU xmit is the producer and completions are a consumer.
+Use case 1:
+The madvise call is not available in the programming language. An example=
+ for
+this are programs with forked workloads using a garbage collected languag=
+e without
+pointers. In such a language madvise cannot be made available.
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
-Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: corbet@lwn.net
-CC: linux-doc@vger.kernel.org
----
- Documentation/networking/driver.rst | 61 +++++++++++++----------------
- 1 file changed, 27 insertions(+), 34 deletions(-)
+In addition the addresses of objects get moved around as they are garbage
+collected. KSM sharing needs to be enabled "from the outside" for these t=
+ype of
+workloads.
 
-diff --git a/Documentation/networking/driver.rst b/Documentation/networking/driver.rst
-index 4071f2c00f8b..4f5dfa9c022e 100644
---- a/Documentation/networking/driver.rst
-+++ b/Documentation/networking/driver.rst
-@@ -47,30 +47,43 @@ Instead it must maintain the queue properly.  For example,
- 
- .. code-block:: c
- 
-+	static u32 drv_tx_avail(struct drv_ring *dr)
-+	{
-+		u32 used = READ_ONCE(dr->prod) - READ_ONCE(dr->cons);
-+
-+		return dr->tx_ring_size - (used & bp->tx_ring_mask);
-+	}
-+
- 	static netdev_tx_t drv_hard_start_xmit(struct sk_buff *skb,
- 					       struct net_device *dev)
- 	{
- 		struct drv *dp = netdev_priv(dev);
-+		struct netdev_queue *txq;
-+		struct drv_ring *dr;
-+		int idx;
-+
-+		idx = skb_get_queue_mapping(skb);
-+		dr = dp->tx_rings[idx];
-+		txq = netdev_get_tx_queue(dev, idx);
- 
--		lock_tx(dp);
- 		//...
--		/* This is a hard error log it. */
--		if (TX_BUFFS_AVAIL(dp) <= (skb_shinfo(skb)->nr_frags + 1)) {
-+		/* This should be a very rare race - log it. */
-+		if (drv_tx_avail(dr) <= skb_shinfo(skb)->nr_frags + 1) {
- 			netif_stop_queue(dev);
--			unlock_tx(dp);
--			printk(KERN_ERR PFX "%s: BUG! Tx Ring full when queue awake!\n",
--			       dev->name);
-+			netdev_warn(dev, "Tx Ring full when queue awake!\n");
- 			return NETDEV_TX_BUSY;
- 		}
- 
- 		//... queue packet to card ...
--		//... update tx consumer index ...
- 
--		if (TX_BUFFS_AVAIL(dp) <= (MAX_SKB_FRAGS + 1))
--			netif_stop_queue(dev);
-+		netdev_tx_sent_queue(txq, skb->len);
-+
-+		//... update tx producer index using WRITE_ONCE() ...
-+
-+		if (!netif_txq_maybe_stop(txq, drv_tx_avail(dr),
-+					  MAX_SKB_FRAGS + 1, 2 * MAX_SKB_FRAGS))
-+			dr->stats.stopped++;
- 
--		//...
--		unlock_tx(dp);
- 		//...
- 		return NETDEV_TX_OK;
- 	}
-@@ -79,30 +92,10 @@ Instead it must maintain the queue properly.  For example,
- 
- .. code-block:: c
- 
--	if (netif_queue_stopped(dp->dev) &&
--	    TX_BUFFS_AVAIL(dp) > (MAX_SKB_FRAGS + 1))
--		netif_wake_queue(dp->dev);
--
--For a non-scatter-gather supporting card, the three tests simply become:
--
--.. code-block:: c
--
--		/* This is a hard error log it. */
--		if (TX_BUFFS_AVAIL(dp) <= 0)
--
--and:
--
--.. code-block:: c
--
--		if (TX_BUFFS_AVAIL(dp) == 0)
--
--and:
--
--.. code-block:: c
-+	//... update tx consumer index using WRITE_ONCE() ...
- 
--	if (netif_queue_stopped(dp->dev) &&
--	    TX_BUFFS_AVAIL(dp) > 0)
--		netif_wake_queue(dp->dev);
-+	netif_txq_completed_wake(txq, cmpl_pkts, cmpl_bytes,
-+				 drv_tx_avail(dr), 2 * MAX_SKB_FRAGS);
- 
- Lockless queue stop / wake helper macros
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- 
-2.39.2
+Use case 2:
+The same interpreter can also be used for workloads where KSM brings no
+benefit or even has overhead. We'd like to be able to enable KSM on a wor=
+kload
+by workload basis.
+
+Use case 3:
+With the madvise call sharing opportunities are only enabled for the curr=
+ent
+process: it is a workload-local decision. A considerable number of sharin=
+g
+opportunities may exist across multiple workloads or jobs (if they are pa=
+rt
+of the same security domain). Only a higler level entity like a job sched=
+uler
+or container can know for certain if its running one or more instances of=
+ a
+job. That job scheduler however doesn't have the necessary internal workl=
+oad
+knowledge to make targeted madvise calls.
+
+Security concerns:
+In previous discussions security concerns have been brought up. The probl=
+em is
+that an individual workload does not have the knowledge about what else i=
+s
+running on a machine. Therefore it has to be very conservative in what me=
+mory
+areas can be shared or not. However, if the system is dedicated to runnin=
+g
+multiple jobs within the same security domain, its the job scheduler that=
+ has
+the knowledge that sharing can be safely enabled and is even desirable.
+
+Performance:
+Experiments with using UKSM have shown a capacity increase of around 20%.
+
+
+1. New options for prctl system command
+This patch series adds two new options to the prctl system call. The firs=
+t
+one allows to enable KSM at the process level and the second one to query=
+ the
+setting.
+
+The setting will be inherited by child processes.
+
+With the above setting, KSM can be enabled for the seed process of a cgro=
+up
+and all processes in the cgroup will inherit the setting.
+
+2. Changes to KSM processing
+When KSM is enabled at the process level, the KSM code will iterate over =
+all
+the VMA's and enable KSM for the eligible VMA's.
+
+When forking a process that has KSM enabled, the setting will be inherite=
+d by
+the new child process.
+
+3. Add general_profit metric
+The general_profit metric of KSM is specified in the documentation, but n=
+ot
+calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
+sm.
+
+4. Add more metrics to ksm_stat
+This adds the process profit metric to /proc/<pid>/ksm_stat.
+
+5. Add more tests to ksm_tests
+This adds an option to specify the merge type to the ksm_tests. This allo=
+ws to
+test madvise and prctl KSM. It also adds a new option to query if prctl K=
+SM has
+been enabled. It adds a fork test to verify that the KSM process setting =
+is
+inherited by client processes.
+
+
+Changes:
+- V6:
+  - Fix error condition in prctl call
+  - Remove ksm_merge_type function and ksm_stat output
+  - Some minor changes like whitespace and removing a cast.
+ =20
+- V5:
+  - When the prctl system call is invoked, mark all compatible VMA
+    as mergeable
+  - Instead of checcking during scan if VMA is mergeable, mark the VMA
+    mergeable when the VMA is created (in case the VMA is compatible)
+    - Remove earlier changes, they are no longer necessary
+  - Unset the flag MMF_VM_MERGE_ANY in gmap_mark_unmergeable().
+  - When unsetting the MMF_VM_MERGE_ANY flag with prctl, only unset the
+    flag
+  - Remove pages_volatile function (with the simplar general_profit calcu=
+lation,
+    the function is no longer needed)
+  - Use simpler formula for calculation of general_profit
+
+- V4:
+  - removing check in prctl for MMF_VM_MERGEABLE in PR_SET_MEMORY_MERGE
+    handling
+  - Checking for VM_MERGEABLE AND MMF_VM_MERGE_ANY to avoid chaning vm_fl=
+ags
+    - This requires also checking that the vma is compatible. The
+      compatibility check is provided by a new helper
+    - processes which have set MMF_VM_MERGE_ANY, only need to call the
+      helper and not madvise.
+  - removed unmerge_vmas function, this function is no longer necessary,
+    clearing the MMF_VM_MERGE_ANY bit is sufficient
+
+- V3:
+  - folded patch 1 - 6
+  - folded patch 7 - 14
+  - folded patch 15 - 19
+  - Expanded on the use cases in the cover letter
+  - Added a section on security concerns to the cover letter
+
+- V2:
+  - Added use cases to the cover letter
+  - Removed the tracing patch from the patch series and posted it as an
+    individual patch
+  - Refreshed repo
+
+
+Stefan Roesch (3):
+  mm: add new api to enable ksm per process
+  mm: add new KSM process and sysfs knobs
+  selftests/mm: add new selftests for KSM
+
+ Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
+ Documentation/admin-guide/mm/ksm.rst          |   5 +-
+ arch/s390/mm/gmap.c                           |   1 +
+ fs/proc/base.c                                |   3 +
+ include/linux/ksm.h                           |  27 +-
+ include/linux/sched/coredump.h                |   1 +
+ include/uapi/linux/prctl.h                    |   2 +
+ kernel/fork.c                                 |   1 +
+ kernel/sys.c                                  |  23 ++
+ mm/ksm.c                                      | 132 +++++++--
+ mm/mmap.c                                     |   7 +
+ tools/include/uapi/linux/prctl.h              |   2 +
+ tools/testing/selftests/mm/Makefile           |   2 +-
+ tools/testing/selftests/mm/ksm_tests.c        | 254 +++++++++++++++---
+ 14 files changed, 400 insertions(+), 68 deletions(-)
+
+--=20
+2.31.1
 
