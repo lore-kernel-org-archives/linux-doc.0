@@ -2,131 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48688C77B6F
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Apr 2023 23:22:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4270C7619A
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 01:50:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbjDKXWL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Apr 2023 19:22:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
+        id S229733AbjDLBuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Apr 2023 21:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjDKXWI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 19:22:08 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F2232D73
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 16:22:04 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id e127so9965999ybf.8
-        for <linux-doc@vger.kernel.org>; Tue, 11 Apr 2023 16:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1681255323; x=1683847323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mjieG96zBNQQG2PDV49OxJZ6+3G2K7bw1ZbVf6U1lzk=;
-        b=JBJa4Zkia5CL2Y2OupdXMM4PasK18pInJvMWdC+fcjeXMUtF7Az9LU/h0gwzthGF+x
-         QFe+EM5gj0HfuwGanmiaXQwO3fOP8a4btCGAetQJYVHjOzucbpsePzuKkG8TR93btov3
-         ejiAzOSugxLP10TJ9faOUK77CIu/bvXaG3edhovV1FmhkPF7ahaMosgu3K9FFeA+6IjP
-         qeh/0RVlrXKpAWpHVnAzwGCVyfYKB4mFnhjuGQJsrwBkOB5Jy3rtKOUgPR1BJr7DIua1
-         Fk/CkDcSU3fo0g3DUTmWuoTiaScyOwO7RNznY6OmT+Asa5k3Dvwtdp4bTuSz6pIhq7XJ
-         tChQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681255323; x=1683847323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mjieG96zBNQQG2PDV49OxJZ6+3G2K7bw1ZbVf6U1lzk=;
-        b=5flNnDS3QRZLsXgjL8L1zLexxonGHbkph14dBCw7z7yyB/aJTs8dLC6+g3G7DsgHa/
-         gL8ofpE9POC/YB2/9at6uHlwWKS3wJXWT6hXd72pI4YYScHJG8B6X8aDTbhv0qbSNhT0
-         pcyJmWTcoNU8V2WBob08XGRIfqMe8yiBKaTQDcgvJr6/N6my/5EVlyrO3hTSD5jyKHOF
-         UJqNgkVPatnfbzhOUzAw6mNawjlgqXZXCbqCg8QNsPpQida1y3M/zyCpE7QXGrYyZLny
-         vYLUm12rqvee40jDAtrofJoq11yV0RQlEkQwUp9zVOMFsmGWkx/8kAVbnMjOdhPAyCUp
-         xeJg==
-X-Gm-Message-State: AAQBX9e1EI78UorekGxZUnxphjax4KzCEKov+P6LEez42d9VgC5NmiHH
-        vQTxGCkD60r8EMDL02c3/3JL69NT11FVYb7/aI9z
-X-Google-Smtp-Source: AKy350Y8Rhd9rHz1qCSxaAF3gL9UQq1FI0yq/mFrHh6N2pKJ6DGoHbpLYYEOHTWZcax61zY11aqLEAa5SLJ9oKG9DsM=
-X-Received: by 2002:a25:cace:0:b0:b8f:2f68:93b0 with SMTP id
- a197-20020a25cace000000b00b8f2f6893b0mr1197248ybg.3.1681255323520; Tue, 11
- Apr 2023 16:22:03 -0700 (PDT)
+        with ESMTP id S229707AbjDLBur (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Apr 2023 21:50:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A97504C24;
+        Tue, 11 Apr 2023 18:50:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F3BD62D28;
+        Wed, 12 Apr 2023 01:50:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C7CBC433D2;
+        Wed, 12 Apr 2023 01:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681264245;
+        bh=SQVkvpkkVpFYKUjaj0YFjy6WYRkxtetS3WPY8FhJEPI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BPK+P/FYXKkiqMG/hIEkXfS6Zspq+WXs66mXcekL5ZQ5FjFXjLM1BRGDE3yExAdhG
+         cJG2ckMFBtlg0B/yLt8AzYX7eVUHf9GK3rnYvjqr4EiAykkCp79imMw4TURqIQIaFl
+         wEOAeH7ixMB4ZMl1i4XMDicdoRe0vboSCuWqpX6i4gxMtQluQTo7vpVw7PYMgIvVOG
+         W8m44oxbWsViVW2nqch7MEiGvbuIM2mhvpAQea4f8aIUG7TAy2CbPbXvDbinl/IWLb
+         GCuRGuG+CHsiICHvQg2dixNPWm/AAEaMT1qGRx2VfDE2msuUYADzfW6OKA20xBZgfP
+         r9uReVN/Wz4DA==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next v2 1/3] net: docs: update the sample code in driver.rst
+Date:   Tue, 11 Apr 2023 18:50:36 -0700
+Message-Id: <20230412015038.674023-2-kuba@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230412015038.674023-1-kuba@kernel.org>
+References: <20230412015038.674023-1-kuba@kernel.org>
 MIME-Version: 1.0
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-8-git-send-email-wufan@linux.microsoft.com>
- <3723852.kQq0lBPeGt@x2> <CAHC9VhRqMrTuvVtwzJoK2U=6O1QuaQ8ceA6+qm=6ib0TOUEeSw@mail.gmail.com>
-In-Reply-To: <CAHC9VhRqMrTuvVtwzJoK2U=6O1QuaQ8ceA6+qm=6ib0TOUEeSw@mail.gmail.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 11 Apr 2023 19:21:52 -0400
-Message-ID: <CAHC9VhSt1TzpkqGKGXy-4RDBqSQ5+1D9D2JwN1Rw-5G=b=uy3g@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 07/16] uapi|audit|ipe: add ipe auditing support
-To:     Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, Fan Wu <wufan@linux.microsoft.com>,
-        dm-devel@redhat.com, linux-doc@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        roberto.sassu@huawei.com, linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-integrity@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 2, 2023 at 2:05=E2=80=AFPM Paul Moore <paul@paul-moore.com> wro=
-te:
-> On Tue, Jan 31, 2023 at 12:11=E2=80=AFPM Steve Grubb <sgrubb@redhat.com> =
-wrote:
-> > On Monday, January 30, 2023 5:57:22 PM EST Fan Wu wrote:
+The sample code talks about single-queue devices and uses locks.
+Update it to something resembling more modern code.
+Make sure we mention use of READ_ONCE() / WRITE_ONCE().
 
-...
+Change the comment which talked about consumer on the xmit side.
+AFAIU xmit is the producer and completions are a consumer.
 
-> > >   audit: MAC_POLICY_LOAD policy_name=3D"dmverity_roothash"
-> > >     policy_version=3D0.0.0 sha256=3DDC67AC19E05894EFB3170A8E55DE52979=
-4E248C2
-> > >     auid=3D4294967295 ses=3D4294967295 lsm=3Dipe res=3D1
-> >
-> > The MAC_POLICY_LOAD record type simply states the lsm that had it's pol=
-icy
-> > loaded. There isn't name, version, and hash information. I'd prefer to =
-see
-> > all users of this record type decide if it should be extended because t=
-hey
-> > also have that information available to record.
->
-> Not all LSMs which load policy have that information; as an example,
-> SELinux doesn't have the concept of a policy name or version.  The
-> SELinux policy version you might see in the kernel sources refers to
-> the policy format version and has no bearing on the actual policy
-> content beyond that dictated by the format.
->
-> If additional information is required by IPE, perhaps an auxiliary IPE
-> policy load record could be created with those additional fields.
+Reviewed-by: Eric Dumazet <edumazet@google.com>
+Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/driver.rst | 61 +++++++++++++----------------
+ 1 file changed, 27 insertions(+), 34 deletions(-)
 
-The issue of policy load audit records came up in an offline
-discussion with Fan today and I think it's worth talking about this a
-bit more to reach some consensus.
+diff --git a/Documentation/networking/driver.rst b/Documentation/networking/driver.rst
+index 4071f2c00f8b..4f5dfa9c022e 100644
+--- a/Documentation/networking/driver.rst
++++ b/Documentation/networking/driver.rst
+@@ -47,30 +47,43 @@ Instead it must maintain the queue properly.  For example,
+ 
+ .. code-block:: c
+ 
++	static u32 drv_tx_avail(struct drv_ring *dr)
++	{
++		u32 used = READ_ONCE(dr->prod) - READ_ONCE(dr->cons);
++
++		return dr->tx_ring_size - (used & bp->tx_ring_mask);
++	}
++
+ 	static netdev_tx_t drv_hard_start_xmit(struct sk_buff *skb,
+ 					       struct net_device *dev)
+ 	{
+ 		struct drv *dp = netdev_priv(dev);
++		struct netdev_queue *txq;
++		struct drv_ring *dr;
++		int idx;
++
++		idx = skb_get_queue_mapping(skb);
++		dr = dp->tx_rings[idx];
++		txq = netdev_get_tx_queue(dev, idx);
+ 
+-		lock_tx(dp);
+ 		//...
+-		/* This is a hard error log it. */
+-		if (TX_BUFFS_AVAIL(dp) <= (skb_shinfo(skb)->nr_frags + 1)) {
++		/* This should be a very rare race - log it. */
++		if (drv_tx_avail(dr) <= skb_shinfo(skb)->nr_frags + 1) {
+ 			netif_stop_queue(dev);
+-			unlock_tx(dp);
+-			printk(KERN_ERR PFX "%s: BUG! Tx Ring full when queue awake!\n",
+-			       dev->name);
++			netdev_warn(dev, "Tx Ring full when queue awake!\n");
+ 			return NETDEV_TX_BUSY;
+ 		}
+ 
+ 		//... queue packet to card ...
+-		//... update tx consumer index ...
+ 
+-		if (TX_BUFFS_AVAIL(dp) <= (MAX_SKB_FRAGS + 1))
+-			netif_stop_queue(dev);
++		netdev_tx_sent_queue(txq, skb->len);
++
++		//... update tx producer index using WRITE_ONCE() ...
++
++		if (!netif_txq_maybe_stop(txq, drv_tx_avail(dr),
++					  MAX_SKB_FRAGS + 1, 2 * MAX_SKB_FRAGS))
++			dr->stats.stopped++;
+ 
+-		//...
+-		unlock_tx(dp);
+ 		//...
+ 		return NETDEV_TX_OK;
+ 	}
+@@ -79,30 +92,10 @@ Instead it must maintain the queue properly.  For example,
+ 
+ .. code-block:: c
+ 
+-	if (netif_queue_stopped(dp->dev) &&
+-	    TX_BUFFS_AVAIL(dp) > (MAX_SKB_FRAGS + 1))
+-		netif_wake_queue(dp->dev);
+-
+-For a non-scatter-gather supporting card, the three tests simply become:
+-
+-.. code-block:: c
+-
+-		/* This is a hard error log it. */
+-		if (TX_BUFFS_AVAIL(dp) <= 0)
+-
+-and:
+-
+-.. code-block:: c
+-
+-		if (TX_BUFFS_AVAIL(dp) == 0)
+-
+-and:
+-
+-.. code-block:: c
++	//... update tx consumer index using WRITE_ONCE() ...
+ 
+-	if (netif_queue_stopped(dp->dev) &&
+-	    TX_BUFFS_AVAIL(dp) > 0)
+-		netif_wake_queue(dp->dev);
++	netif_txq_completed_wake(txq, cmpl_pkts, cmpl_bytes,
++				 drv_tx_avail(dr), 2 * MAX_SKB_FRAGS);
+ 
+ Lockless queue stop / wake helper macros
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- 
+2.39.2
 
-Currently only SELinux generates MAC_POLICY_LOAD records, and it
-contains all of the information that is present in the IPE example
-above with the exception of the 'policy_name', 'policy_version', and
-the policy digest.  I personally don't have a problem extending the
-MAC_POLICY_LOAD record with these fields, and leaving them unused/"?"
-in the SELinux generated records.  It's possible we may even want to
-use the policy digest field at some point, as it would be nice to be
-able to have some policy "key" within SELinux that could be used to
-help identify the loaded policy.
-
-The only catch is that we may want to find a better field name than
-just 'sha256', in the context of the MAC_POLICY_LOAD record it seems
-easily understood, but in the larger context of a full audit stream it
-might be too ambiguous.  We would also need to decide if we wanted to
-encode the digest algorithm in the field name, the field value, or
-have it as a separate field.  I might lean towards encoding it in the
-field value like this:
-
-  policy_digest=3Dsha256:XXXXX
-
-... however that is something that would need some discussion from the
-other folks on the To/CC line.
-
---=20
-paul-moore.com
