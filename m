@@ -2,529 +2,1578 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 667A3C77B6F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 15:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0068C77B6F
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 16:10:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbjDLPmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 11:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46720 "EHLO
+        id S229604AbjDLQKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 12:10:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230020AbjDLPmW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 11:42:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 578FF93C4
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 08:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681314039;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=f9cTySrVVdC3Yw/yefdF2WkGt4eF7d1m0UcDpsumnxY=;
-        b=SkASmuOSYhnyn9+VWoKEjRAGdWQ2yzwrLFWlyaxR1z7DLyVks64Z1Oy2ctUIA7J83IIWCQ
-        APuUmPmh1Ey7DFZP7j2BytKhFx6l2CUn5Bj8BplQ0MMn682gFgo/RmcDIjJk1byWADk2TM
-        XnyKOD+Ny27bY6ROUHE3NdXXq/KXemI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-195-D9FSW5xsP6C0WEGDroSDLA-1; Wed, 12 Apr 2023 11:40:35 -0400
-X-MC-Unique: D9FSW5xsP6C0WEGDroSDLA-1
-Received: by mail-wm1-f70.google.com with SMTP id bg10-20020a05600c3c8a00b003ef7b61e2fdso535565wmb.4
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 08:40:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681314034; x=1683906034;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f9cTySrVVdC3Yw/yefdF2WkGt4eF7d1m0UcDpsumnxY=;
-        b=mGtgzgbBk66z+EB+ogWtDBLGbUT532T4Btx7yOOUpoZNl/n4hHzQ3CfjVZPTqpyMOy
-         1tetdhD14O+JQ95LZI8TAtkAa1Nw3QwTrVh1T6dBeAxcYlhD4C2SxyyQRp3C0GMda2m6
-         HyCfadJVPdYzr/CXh16l9UB4qm3fiz8vxKiAL3AOJDrbMI668Pn3E2p00FUNNSjYZtKW
-         d+DB5X3eqflobc4MAkHF8KpJcEqpJoGMyu+Wk7m0m0DLJ1No59WPd9SauI9es7YwXhDo
-         lOF4fHlM1OA9FZ5mvtXiX67Y1IpaAKOQ45VTcZVpdvDMMaLiCZyr9QjprTpe9wtoqJSi
-         rvRg==
-X-Gm-Message-State: AAQBX9d7eIQWXxBVBJEqp/uGRX2HJsKQ9jW03F7IOrlyGY+mdojS3sCm
-        qs1ZalLbbChGSAxyE+2PhPeNXabC8tgShq1GLyuFos5azeU7geUHA0XREPhV2UF8rNKCzbbkzkI
-        zbqyWOUYRz3elDZgHdvS/
-X-Received: by 2002:adf:fd89:0:b0:2f2:3dbf:6922 with SMTP id d9-20020adffd89000000b002f23dbf6922mr7784755wrr.22.1681314034380;
-        Wed, 12 Apr 2023 08:40:34 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZtjcIo1ttqYiTSp44QJtDsYUaDtLaHFMgbEGNId2BSrsxGcphiAbGhJdQzBk6rYpcEXdIrZA==
-X-Received: by 2002:adf:fd89:0:b0:2f2:3dbf:6922 with SMTP id d9-20020adffd89000000b002f23dbf6922mr7784725wrr.22.1681314033926;
-        Wed, 12 Apr 2023 08:40:33 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c702:4b00:c6fa:b613:dbdc:ab? (p200300cbc7024b00c6fab613dbdc00ab.dip0.t-ipconnect.de. [2003:cb:c702:4b00:c6fa:b613:dbdc:ab])
-        by smtp.gmail.com with ESMTPSA id m13-20020a05600c4f4d00b003f09c489940sm2848184wmq.28.2023.04.12.08.40.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Apr 2023 08:40:33 -0700 (PDT)
-Message-ID: <b3bac995-0d87-a4d7-b261-9cbe3aa901af@redhat.com>
-Date:   Wed, 12 Apr 2023 17:40:32 +0200
+        with ESMTP id S229567AbjDLQKr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 12:10:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A911993;
+        Wed, 12 Apr 2023 09:10:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D97916360D;
+        Wed, 12 Apr 2023 16:10:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA6C0C433EF;
+        Wed, 12 Apr 2023 16:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681315841;
+        bh=pLYsdzs8irkNr/wT/uCiDKj+Sq3vovEpWME17pYplps=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DVtu2WQmp1jM6Ohy6b0PUuiG+ymRKmUYs3WDk8tBUc7F21nUfmVHyGkWQfRitvDLE
+         cQpp7yqxm30/XO/Y5luDE2xRb8g+P7w2xF4xi6gahTACzeAEZxKXOpaeWVcuWaSdMW
+         OEIK315hg8Kf4uQOd4cPFLVPfz4JA9o1+eNOoohm9xngv2LgKXlq/sQJ9qpSv07EIG
+         DUxUFTnKvxZEI7KQT3tK8bx3q2zs7z9hoPNv+Hzdz3QUHvR9pIOt18l7Eq37P6s6ut
+         dfpd7ZnrTtKIQEl3PYy/QFyt2aw9B4ZnTpISmRjyTAwgWYlcX3yqdQlhkYZI5PDjmz
+         7/0m96Zq5f4hA==
+Date:   Wed, 12 Apr 2023 21:40:36 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linuxppc-dev@lists.ozlabs.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 07/15] phy: fsl: Add Lynx 10G SerDes driver
+Message-ID: <ZDbX/DaExy6i/Lhh@matsya>
+References: <20230411184313.3679145-1-sean.anderson@seco.com>
+ <20230411184313.3679145-8-sean.anderson@seco.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US
-To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
-Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, hannes@cmpxchg.org, willy@infradead.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20230412031648.2206875-1-shr@devkernel.io>
- <20230412031648.2206875-2-shr@devkernel.io>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v6 1/3] mm: add new api to enable ksm per process
-In-Reply-To: <20230412031648.2206875-2-shr@devkernel.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230411184313.3679145-8-sean.anderson@seco.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[...]
-
-Thanks for giving mu sugegstions a churn. I think we can further 
-improve/simplify some things. I added some comments, but might have more 
-regarding MMF_VM_MERGE_ANY / MMF_VM_MERGEABLE.
-
-[I'll try reowkring your patch after I send this mail to play with some 
-simplifications]
-
->   arch/s390/mm/gmap.c            |   1 +
->   include/linux/ksm.h            |  23 +++++--
->   include/linux/sched/coredump.h |   1 +
->   include/uapi/linux/prctl.h     |   2 +
->   kernel/fork.c                  |   1 +
->   kernel/sys.c                   |  23 +++++++
->   mm/ksm.c                       | 111 ++++++++++++++++++++++++++-------
->   mm/mmap.c                      |   7 +++
->   8 files changed, 142 insertions(+), 27 deletions(-)
+On 11-04-23, 14:43, Sean Anderson wrote:
+> This adds support for the Lynx 10G "SerDes" devices found on various NXP
+> QorIQ SoCs. There may be up to four SerDes devices on each SoC, each
+> supporting up to eight lanes. Protocol support for each SerDes is highly
+> heterogeneous, with each SoC typically having a totally different
+> selection of supported protocols for each lane. Additionally, the SerDes
+> devices on each SoC also have differing support. One SerDes will
+> typically support Ethernet on most lanes, while the other will typically
+> support PCIe on most lanes.
 > 
-> diff --git a/arch/s390/mm/gmap.c b/arch/s390/mm/gmap.c
-> index 5a716bdcba05..9d85e5589474 100644
-> --- a/arch/s390/mm/gmap.c
-> +++ b/arch/s390/mm/gmap.c
-> @@ -2591,6 +2591,7 @@ int gmap_mark_unmergeable(void)
->   	int ret;
->   	VMA_ITERATOR(vmi, mm, 0);
->   
-> +	clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
-
-Okay, that should keep the existing mechanism working. (but users can 
-still mess it up)
-
-Might be worth a comment
-
-/*
-  * Make sure to disable KSM (if enabled for the whole process or
-  * individual VMAs). Note that nothing currently hinders user space
-  * from re-enabling it.
-  */
-
->   	for_each_vma(vmi, vma) {
->   		/* Copy vm_flags to avoid partial modifications in ksm_madvise */
->   		vm_flags = vma->vm_flags;
-> diff --git a/include/linux/ksm.h b/include/linux/ksm.h
-> index 7e232ba59b86..f24f9faf1561 100644
-> --- a/include/linux/ksm.h
-> +++ b/include/linux/ksm.h
-> @@ -18,20 +18,29 @@
->   #ifdef CONFIG_KSM
->   int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->   		unsigned long end, int advice, unsigned long *vm_flags);
-> -int __ksm_enter(struct mm_struct *mm);
-> -void __ksm_exit(struct mm_struct *mm);
+> There is wide hardware support for this SerDes. It is present on QorIQ
+> T-Series and Layerscape processors. Because each SoC typically has
+> specific instructions and exceptions for its SerDes, I have limited the
+> initial scope of this module to just the LS1046A and LS1088A.
+> Additionally, I have only added support for Ethernet protocols. There is
+> not a great need for dynamic reconfiguration for other protocols (except
+> perhaps for M.2 cards), so support for them may never be added.
+> 
+> Nevertheless, I have tried to provide an obvious path for adding support
+> for other SoCs as well as other protocols. SATA just needs support for
+> configuring LNmSSCR0. PCIe may need to configure the equalization
+> registers. It also uses multiple lanes. I have tried to write the driver
+> with multi-lane support in mind, so there should not need to be any
+> large changes. Although there are 6 protocols supported, I have only
+> tested SGMII and XFI. The rest have been implemented as described in
+> the datasheet. Most of these protocols should work "as-is", but
+> 10GBASE-KR will need PCS support for link training.
+> 
+> Unlike some other phys where e.g. PCIe x4 will use 4 separate phys all
+> configured for PCIe, this driver uses one phy configured to use 4 lanes.
+> This is because while the individual lanes may be configured
+> individually, the protocol selection acts on all lanes at once.
+> Additionally, the order which lanes should be configured in is specified
+> by the datasheet. To coordinate this, lanes are reserved in phy_init,
+> and released in phy_exit.
+> 
+> This driver was written with reference to the LS1046A reference manual.
+> However, it was informed by reference manuals for all processors with
+> mEMACs, especially the T4240 (which appears to have a "maxed-out"
+> configuration). The earlier P-series processors appear to be similar, but
+> have a different overall register layout (using "banks" instead of
+> separate SerDes). Perhaps this those use a "5G Lynx SerDes."
+> 
+> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+> ---
+> 
+> (no changes since v10)
+> 
+> Changes in v10:
+> - Fix debugging print with incorrect error variable
+> 
+> Changes in v9:
+> - Split off clock "driver" into its own patch to allow for better
+>   review.
+> - Add ability to defer lane initialization to phy_init. This allows
+>   for easier transitioning between firmware-managed serdes and Linux-
+>   managed serdes, as the consumer (such as dpaa2, which knows what the
+>   firmware is doing) has the last say on who gets control.
+> - phy-type -> fsl,phy
+> 
+> Changes in v8:
+> - Remove unused variable from lynx_ls_mode_init
+> 
+> Changes in v7:
+> - Break out call order into generic documentation
+> - Refuse to switch "major" protocols
+> - Update Kconfig to reflect restrictions
+> - Remove set/clear of "pcs reset" bit, since it doesn't seem to fix
+>   anything.
+> 
+> Changes in v6:
+> - Update MAINTAINERS to include new files
+> - Include bitfield.h and slab.h to allow compilation on non-arm64
+>   arches.
+> - Depend on COMMON_CLK and either layerscape/ppc
+> 
+> Changes in v5:
+> - Remove references to PHY_INTERFACE_MODE_1000BASEKX to allow this
+>   series to be applied directly to linux/master.
+> - Add fsl,lynx-10g.h to MAINTAINERS
+> 
+> Changes in v4:
+> - Rework all debug statements to remove use of __func__. Additional
+>   information has been provided as necessary.
+> - Consider alternative parent rates in round_rate and not in set_rate.
+>   Trying to modify out parent's rate in set_rate will deadlock.
+> - Explicitly perform a stop/reset sequence in set_rate. This way we
+>   always ensure that the PLL is properly stopped.
+> - Set the power-down bit when disabling the PLL. We can do this now that
+>   enable/disable aren't abused during the set rate sequence.
+> - Fix typos in QSGMII_OFFSET and XFI_OFFSET
+> - Rename LNmTECR0_TEQ_TYPE_PRE to LNmTECR0_TEQ_TYPE_POST to better
+>   reflect its function (adding post-cursor equalization).
+> - Use of_clk_hw_onecell_get instead of a custom function.
+> - Return struct clks from lynx_clks_init instead of embedding lynx_clk
+>   in lynx_priv.
+> - Rework PCCR helper functions; T-series SoCs differ from Layerscape SoCs
+>   primarily in the layout and offset of the PCCRs. This will help bring a
+>   cleaner abstraction layer. The caps have been removed, since this handles the
+>   only current usage.
+> - Convert to use new binding format. As a result of this, we no longer need to
+>   have protocols for PCIe or SATA. Additionally, modes now live in lynx_group
+>   instead of lynx_priv.
+> - Remove teq from lynx_proto_params, since it can be determined from
+>   preq_ratio/postq_ratio.
+> - Fix an early return from lynx_set_mode not releasing serdes->lock.
+> - Rename lynx_priv.conf to .cfg, since I kept mistyping it.
+> 
+> Changes in v3:
+> - Rename remaining references to QorIQ SerDes to Lynx 10G
+> - Fix PLL enable sequence by waiting for our reset request to be cleared
+>   before continuing. Do the same for the lock, even though it isn't as
+>   critical. Because we will delay for 1.5ms on average, use prepare
+>   instead of enable so we can sleep.
+> - Document the status of each protocol
+> - Fix offset of several bitfields in RECR0
+> - Take into account PLLRST_B, SDRST_B, and SDEN when considering whether
+>   a PLL is "enabled."
+> - Only power off unused lanes.
+> - Split mode lane mask into first/last lane (like group)
+> - Read modes from device tree
+> - Use caps to determine whether KX/KR are supported
+> - Move modes to lynx_priv
+> - Ensure that the protocol controller is not already in-use when we try
+>   to configure a new mode. This should only occur if the device tree is
+>   misconfigured (e.g. when QSGMII is selected on two lanes but there is
+>   only one QSGMII controller).
+> - Split PLL drivers off into their own file
+> - Add clock for "ext_dly" instead of writing the bit directly (and
+>   racing with any clock code).
+> - Use kasprintf instead of open-coding the snprintf dance
+> - Support 1000BASE-KX in lynx_lookup_proto. This still requires PCS
+>   support, so nothing is truly "enabled" yet.
+> 
+> Changes in v2:
+> - Rename driver to Lynx 10G (etc.)
+> - Fix not clearing group->pll after disabling it
+> - Support 1 and 2 phy-cells
+> - Power off lanes during probe
+> - Clear SGMIIaCR1_PCS_EN during probe
+> - Rename LYNX_PROTO_UNKNOWN to LYNX_PROTO_NONE
+> - Handle 1000BASE-KX in lynx_proto_mode_prep
+> 
+>  Documentation/driver-api/phy/index.rst    |    1 +
+>  Documentation/driver-api/phy/lynx_10g.rst |   58 +
+>  MAINTAINERS                               |    2 +
+>  drivers/phy/freescale/Kconfig             |   18 +-
+>  drivers/phy/freescale/Makefile            |    1 +
+>  drivers/phy/freescale/phy-fsl-lynx-10g.c  | 1224 +++++++++++++++++++++
+>  6 files changed, 1303 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/driver-api/phy/lynx_10g.rst
+>  create mode 100644 drivers/phy/freescale/phy-fsl-lynx-10g.c
+> 
+> diff --git a/Documentation/driver-api/phy/index.rst b/Documentation/driver-api/phy/index.rst
+> index 69ba1216de72..c9b7a4698dab 100644
+> --- a/Documentation/driver-api/phy/index.rst
+> +++ b/Documentation/driver-api/phy/index.rst
+> @@ -7,6 +7,7 @@ Generic PHY Framework
+>  .. toctree::
+>  
+>     phy
+> +   lynx_10g
+>     samsung-usb2
+>  
+>  .. only::  subproject and html
+> diff --git a/Documentation/driver-api/phy/lynx_10g.rst b/Documentation/driver-api/phy/lynx_10g.rst
+> new file mode 100644
+> index 000000000000..17f9a9580e24
+> --- /dev/null
+> +++ b/Documentation/driver-api/phy/lynx_10g.rst
+> @@ -0,0 +1,58 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +int ksm_add_mm(struct mm_struct *mm);
-> +void ksm_add_vma(struct vm_area_struct *vma);
-> +void ksm_add_vmas(struct mm_struct *mm);
+> +===========================
+> +Lynx 10G Phy (QorIQ SerDes)
+> +===========================
 > +
-> +int __ksm_enter(struct mm_struct *mm, int flag);
-> +void __ksm_exit(struct mm_struct *mm, int flag);
->   
->   static inline int ksm_fork(struct mm_struct *mm, struct mm_struct *oldmm)
->   {
-> +	if (test_bit(MMF_VM_MERGE_ANY, &oldmm->flags))
-> +		return ksm_add_mm(mm);
-
-ksm_fork() runs before copying any VMAs. Copying the bit should be 
-sufficient.
-
-Would it be possible to rework to something like:
-
-if (test_bit(MMF_VM_MERGE_ANY, &oldmm->flags))
-	set_bit(MMF_VM_MERGE_ANY, &mm->flags)
-if (test_bit(MMF_VM_MERGEABLE, &oldmm->flags))
-	return __ksm_enter(mm);
-
-work? IOW, not exporting ksm_add_mm() and not passing a flag to 
-__ksm_enter() -- it would simply set MMF_VM_MERGEABLE ?
-
-
-I rememebr proposing that enabling MMF_VM_MERGE_ANY would simply enable 
-MMF_VM_MERGEABLE.
-
->   	if (test_bit(MMF_VM_MERGEABLE, &oldmm->flags))
-> -		return __ksm_enter(mm);
-> +		return __ksm_enter(mm, MMF_VM_MERGEABLE);
->   	return 0;
->   }
->   
->   static inline void ksm_exit(struct mm_struct *mm)
->   {
-> -	if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
-> -		__ksm_exit(mm);
-> +	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
-> +		__ksm_exit(mm, MMF_VM_MERGE_ANY);
-> +	else if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
-> +		__ksm_exit(mm, MMF_VM_MERGEABLE);
-
-Can we do
-
-if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
-	__ksm_exit(mm);
-
-And simply let __ksm_exit() clear both bits?
-
->   }
->   
->   /*
-> @@ -53,6 +62,10 @@ void folio_migrate_ksm(struct folio *newfolio, struct folio *folio);
->   
->   #else  /* !CONFIG_KSM */
->   
-
-[...]
-
->   #endif /* _LINUX_SCHED_COREDUMP_H */
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 1312a137f7fb..759b3f53e53f 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -290,4 +290,6 @@ struct prctl_mm_map {
->   #define PR_SET_VMA		0x53564d41
->   # define PR_SET_VMA_ANON_NAME		0
->   
-> +#define PR_SET_MEMORY_MERGE		67
-> +#define PR_GET_MEMORY_MERGE		68
->   #endif /* _LINUX_PRCTL_H */
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index f68954d05e89..1520697cf6c7 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -686,6 +686,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->   		if (vma_iter_bulk_store(&vmi, tmp))
->   			goto fail_nomem_vmi_store;
->   
-> +		ksm_add_vma(tmp);
-
-Is this really required? The relevant VMAs should have VM_MERGEABLE set.
-
->   		mm->map_count++;
->   		if (!(tmp->vm_flags & VM_WIPEONFORK))
->   			retval = copy_page_range(tmp, mpnt);
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index 495cd87d9bf4..9bba163d2d04 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -15,6 +15,7 @@
->   #include <linux/highuid.h>
->   #include <linux/fs.h>
->   #include <linux/kmod.h>
-> +#include <linux/ksm.h>
->   #include <linux/perf_event.h>
->   #include <linux/resource.h>
->   #include <linux/kernel.h>
-> @@ -2661,6 +2662,28 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->   	case PR_SET_VMA:
->   		error = prctl_set_vma(arg2, arg3, arg4, arg5);
->   		break;
-> +#ifdef CONFIG_KSM
-> +	case PR_SET_MEMORY_MERGE:
-> +		if (mmap_write_lock_killable(me->mm))
-> +			return -EINTR;
+> +Using this phy
+> +--------------
 > +
-> +		if (arg2) {
-> +			int err = ksm_add_mm(me->mm);
+> +:c:func:`phy_get` just gets (or creates) a new :c:type:`phy` with the lanes
+> +described in the phandle. :c:func:`phy_init` is what actually reserves the
+> +lanes for use. Unlike some other drivers, when the phy is created, there is no
+> +default protocol. :c:func:`phy_set_mode <phy_set_mode_ext>` must be called in
+> +order to set the protocol.
 > +
-> +			if (!err)
-> +				ksm_add_vmas(me->mm);
-> +		} else {
-> +			clear_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
-
-Okay, so disabling doesn't actually unshare anything.
-
-> +		}
-> +		mmap_write_unlock(me->mm);
-> +		break;
-> +	case PR_GET_MEMORY_MERGE:
-> +		if (arg2 || arg3 || arg4 || arg5)
-> +			return -EINVAL;
+> +Supporting SoCs
+> +---------------
 > +
-> +		error = !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
-> +		break;
-> +#endif
->   	default:
->   		error = -EINVAL;
->   		break;
-> diff --git a/mm/ksm.c b/mm/ksm.c
-> index d7bd28199f6c..ab95ae0f9def 100644
-> --- a/mm/ksm.c
-> +++ b/mm/ksm.c
-> @@ -534,10 +534,33 @@ static int break_ksm(struct vm_area_struct *vma, unsigned long addr,
->   	return (ret & VM_FAULT_OOM) ? -ENOMEM : 0;
->   }
->   
-> +static bool vma_ksm_compatible(struct vm_area_struct *vma)
+> +Each new SoC needs a :c:type:`struct lynx_conf <lynx_conf>`, containing the
+> +number of lanes in each device, the endianness of the device, and the helper
+> +functions to use when selecting protocol controllers. For example, the
+> +configuration for the LS1046A is::
+> +
+> +    static const struct lynx_cfg ls1046a_cfg = {
+> +        .lanes = 4,
+> +        .endian = REGMAP_ENDIAN_BIG,
+> +        .mode_conflict = lynx_ls_mode_conflict,
+> +        .mode_apply = lynx_ls_mode_apply,
+> +        .mode_init = lynx_ls_mode_init,
+> +    };
+> +
+> +The ``mode_`` functions will generally be common to all SoCs in a series (e.g.
+> +all Layerscape SoCs or all T-series SoCs).
+> +
+> +In addition, you will need to add a device node as documented in
+> +``Documentation/devicetree/bindings/phy/fsl,lynx-10g.yaml``. This lets the
+> +driver know which lanes are available to configure.
+> +
+> +Supporting Protocols
+> +--------------------
+> +
+> +Each protocol is a combination of values which must be programmed into the lane
+> +registers. To add a new protocol, first add it to :c:type:`enum lynx_protocol
+> +<lynx_protocol>`. Add a new entry to ``lynx_proto_params``, and populate the
+> +appropriate fields. Modify ``lynx_lookup_proto`` to map the :c:type:`enum
+> +phy_mode <phy_mode>` to :c:type:`enum lynx_protocol <lynx_protocol>`. Finally,
+> +update the ``mode_conflict``, ``mode_apply``, and ``mode_init`` helpers to
+> +support your protocol.
+> +
+> +You may need to modify :c:func:`lynx_set_mode` in order to support your
+> +protocol. This can happen when you have added members to :c:type:`struct
+> +lynx_proto_params <lynx_proto_params>`. It can also happen if you have specific
+> +clocking requirements, or protocol-specific registers to program.
+> +
+> +Internal API Reference
+> +----------------------
+> +
+> +.. kernel-doc:: drivers/phy/freescale/phy-fsl-lynx-10g.c
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8da893681de6..870014ab14aa 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12198,7 +12198,9 @@ T:	git https://github.com/linux-test-project/ltp.git
+>  LYNX 10G SERDES DRIVER
+>  M:	Sean Anderson <sean.anderson@seco.com>
+>  S:	Maintained
+> +F:	Documentation/driver-api/phy/lynx_10g.rst
+>  F:	drivers/clk/clk-fsl-lynx-10g.c
+> +F:	drivers/phy/freescale/phy-fsl-lynx-10g.c
+>  F:	include/dt-bindings/clock/fsl,lynx-10g.h
+>  F:	include/linux/phy/lynx-10g.h
+>  
+> diff --git a/drivers/phy/freescale/Kconfig b/drivers/phy/freescale/Kconfig
+> index 5d461232276f..6bebe00f5889 100644
+> --- a/drivers/phy/freescale/Kconfig
+> +++ b/drivers/phy/freescale/Kconfig
+> @@ -49,7 +49,23 @@ config PHY_FSL_LYNX_28G
+>  	  Only useful for a restricted set of Ethernet protocols.
+>  
+>  config PHY_FSL_LYNX_10G
+> -	tristate
+> +	tristate "Freescale QorIQ Lynx 10G SerDes support"
+>  	depends on COMMON_CLK
+>  	depends on ARCH_LAYERSCAPE || PPC || COMPILE_TEST
+> +	select GENERIC_PHY
+>  	select REGMAP_MMIO
+> +	help
+> +	  This adds support for the Lynx "SerDes" devices found on various QorIQ
+> +	  SoCs. There may be up to four SerDes devices on each SoC, and each
+> +	  device supports up to eight lanes. The SerDes is configured by
+> +	  default by the RCW, but this module is necessary in order to support
+> +	  some modes (such as 2.5G SGMII or 1000BASE-KX), or clock setups (as
+> +	  only as subset of clock configurations are supported by the RCW).
+> +	  The hardware supports a variety of protocols, including Ethernet,
+> +	  SATA, PCIe, and more exotic links such as Interlaken and Aurora. This
+> +	  driver only supports Ethernet, but it will try not to touch lanes
+> +	  configured for other protocols.
+> +
+> +	  If you have a QorIQ processor and want to dynamically reconfigure your
+> +	  SerDes, say Y. If this driver is compiled as a module, it will be
+> +	  named phy-fsl-lynx-10g and clk-fsl-lynx-10g.
+> diff --git a/drivers/phy/freescale/Makefile b/drivers/phy/freescale/Makefile
+> index cedb328bc4d2..32ad795be7c6 100644
+> --- a/drivers/phy/freescale/Makefile
+> +++ b/drivers/phy/freescale/Makefile
+> @@ -3,4 +3,5 @@ obj-$(CONFIG_PHY_FSL_IMX8MQ_USB)	+= phy-fsl-imx8mq-usb.o
+>  obj-$(CONFIG_PHY_MIXEL_LVDS_PHY)	+= phy-fsl-imx8qm-lvds-phy.o
+>  obj-$(CONFIG_PHY_MIXEL_MIPI_DPHY)	+= phy-fsl-imx8-mipi-dphy.o
+>  obj-$(CONFIG_PHY_FSL_IMX8M_PCIE)	+= phy-fsl-imx8m-pcie.o
+> +obj-$(CONFIG_PHY_FSL_LYNX_10G)		+= phy-fsl-lynx-10g.o
+>  obj-$(CONFIG_PHY_FSL_LYNX_28G)		+= phy-fsl-lynx-28g.o
+> diff --git a/drivers/phy/freescale/phy-fsl-lynx-10g.c b/drivers/phy/freescale/phy-fsl-lynx-10g.c
+> new file mode 100644
+> index 000000000000..880f718b387f
+> --- /dev/null
+> +++ b/drivers/phy/freescale/phy-fsl-lynx-10g.c
+> @@ -0,0 +1,1224 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2022 Sean Anderson <sean.anderson@seco.com>
+> + *
+> + * This driver is for the Lynx 10G phys found on many QorIQ devices, including
+> + * the Layerscape series.
+> + */
+> +
+> +#include <dt-bindings/phy/phy.h>
+> +#include <linux/clk.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/phy.h>
+> +#include <linux/phy/lynx-10g.h>
+> +#include <linux/phy/phy.h>
+> +#include <linux/regmap.h>
+> +
+> +#define TCALCR		0x90
+> +#define TCALCR1		0x94
+> +#define RCALCR		0xa0
+> +#define RCALCR1		0xa4
+> +
+> +#define CALCR_CALRST_B	BIT(27)
+> +
+> +#define LS_PCCR_BASE	0x200
+> +#define PCCR_STRIDE	0x4
+> +
+> +#define LS_PCCRa(a)	(LS_PCCR_BASE + (a) * PCCR_STRIDE)
+> +
+> +#define PCCR8_SGMIIa_KX		BIT(3)
+> +#define PCCR8_SGMIIa_MASK	GENMASK(3, 0)
+> +#define PCCR8_SGMIIa_SHIFT(a)	(28 - (a) * 4)
+> +
+> +#define PCCR9_QSGMIIa_MASK	GENMASK(2, 0)
+> +#define PCCR9_QSGMIIa_SHIFT(a)	(28 - (a) * 4)
+> +
+> +#define PCCRB_XFIa_MASK		GENMASK(2, 0)
+> +#define PCCRB_XFIa_SHIFT(a)	(28 - (a) * 4)
+
+Sound like you can use FIELD_PREP, FIELD_GET instead of these
+
+> +
+> +#define LANE_BASE	0x800
+> +#define LANE_STRIDE	0x40
+> +#define LNm(m, off)	(LANE_BASE + (m) * LANE_STRIDE + (off))
+> +#define LNmGCR0(m)	LNm(m, 0x00)
+> +#define LNmGCR1(m)	LNm(m, 0x04)
+> +#define LNmSSCR0(m)	LNm(m, 0x0C)
+> +#define LNmRECR0(m)	LNm(m, 0x10)
+> +#define LNmRECR1(m)	LNm(m, 0x14)
+> +#define LNmTECR0(m)	LNm(m, 0x18)
+> +#define LNmSSCR1(m)	LNm(m, 0x1C)
+> +#define LNmTTLCR0(m)	LNm(m, 0x20)
+> +
+> +#define LNmGCR0_RPLL_LES	BIT(31)
+> +#define LNmGCR0_RRAT_SEL	GENMASK(29, 28)
+> +#define LNmGCR0_TPLL_LES	BIT(27)
+> +#define LNmGCR0_TRAT_SEL	GENMASK(25, 24)
+> +#define LNmGCR0_RRST_B		BIT(22)
+> +#define LNmGCR0_TRST_B		BIT(21)
+> +#define LNmGCR0_RX_PD		BIT(20)
+> +#define LNmGCR0_TX_PD		BIT(19)
+> +#define LNmGCR0_IF20BIT_EN	BIT(18)
+> +#define LNmGCR0_FIRST_LANE	BIT(16)
+> +#define LNmGCR0_TTRM_VM_SEL	GENMASK(13, 12)
+> +#define LNmGCR0_PROTS		GENMASK(11, 7)
+> +
+> +#define LNmGCR0_RAT_SEL_SAME		0b00
+> +#define LNmGCR0_RAT_SEL_HALF		0b01
+> +#define LNmGCR0_RAT_SEL_QUARTER		0b10
+> +#define LNmGCR0_RAT_SEL_DOUBLE		0b11
+> +
+> +#define LNmGCR0_PROTS_PCIE		0b00000
+> +#define LNmGCR0_PROTS_SGMII		0b00001
+> +#define LNmGCR0_PROTS_SATA		0b00010
+> +#define LNmGCR0_PROTS_XFI		0b01010
+> +
+> +#define LNmGCR1_RDAT_INV	BIT(31)
+> +#define LNmGCR1_TDAT_INV	BIT(30)
+> +#define LNmGCR1_OPAD_CTL	BIT(26)
+> +#define LNmGCR1_REIDL_TH	GENMASK(22, 20)
+> +#define LNmGCR1_REIDL_EX_SEL	GENMASK(19, 18)
+> +#define LNmGCR1_REIDL_ET_SEL	GENMASK(17, 16)
+> +#define LNmGCR1_REIDL_EX_MSB	BIT(15)
+> +#define LNmGCR1_REIDL_ET_MSB	BIT(14)
+> +#define LNmGCR1_REQ_CTL_SNP	BIT(13)
+> +#define LNmGCR1_REQ_CDR_SNP	BIT(12)
+> +#define LNmGCR1_TRSTDIR		BIT(7)
+> +#define LNmGCR1_REQ_BIN_SNP	BIT(6)
+> +#define LNmGCR1_ISLEW_RCTL	GENMASK(5, 4)
+> +#define LNmGCR1_OSLEW_RCTL	GENMASK(1, 0)
+> +
+> +#define LNmRECR0_RXEQ_BST	BIT(28)
+> +#define LNmRECR0_GK2OVD		GENMASK(27, 24)
+> +#define LNmRECR0_GK3OVD		GENMASK(19, 16)
+> +#define LNmRECR0_GK2OVD_EN	BIT(15)
+> +#define LNmRECR0_GK3OVD_EN	BIT(14)
+> +#define LNmRECR0_OSETOVD_EN	BIT(13)
+> +#define LNmRECR0_BASE_WAND	GENMASK(11, 10)
+> +#define LNmRECR0_OSETOVD	GENMASK(6, 0)
+> +
+> +#define LNmRECR0_BASE_WAND_OFF		0b00
+> +#define LNmRECR0_BASE_WAND_DEFAULT	0b01
+> +#define LNmRECR0_BASE_WAND_ALTERNATE	0b10
+> +#define LNmRECR0_BASE_WAND_OSETOVD	0b11
+> +
+> +#define LNmTECR0_TEQ_TYPE	GENMASK(29, 28)
+> +#define LNmTECR0_SGN_PREQ	BIT(26)
+> +#define LNmTECR0_RATIO_PREQ	GENMASK(25, 22)
+> +#define LNmTECR0_SGN_POST1Q	BIT(21)
+> +#define LNmTECR0_RATIO_PST1Q	GENMASK(20, 16)
+> +#define LNmTECR0_ADPT_EQ	GENMASK(13, 8)
+> +#define LNmTECR0_AMP_RED	GENMASK(5, 0)
+> +
+> +#define LNmTECR0_TEQ_TYPE_NONE		0b00
+> +#define LNmTECR0_TEQ_TYPE_POST		0b01
+> +#define LNmTECR0_TEQ_TYPE_BOTH		0b10
+> +
+> +#define LNmTTLCR0_FLT_SEL	GENMASK(29, 24)
+> +
+> +#define LS_SGMII_BASE	0x1800
+> +#define LS_QSGMII_BASE	0x1880
+> +#define LS_XFI_BASE	0x1980
+> +
+> +#define PCS_STRIDE	0x10
+> +#define CR_STRIDE	0x4
+> +#define PCSa(a, base, cr)	(base + (a) * PCS_STRIDE + (cr) * CR_STRIDE)
+> +
+> +#define PCSaCR1_MDEV_PORT	GENMASK(31, 27)
+> +
+> +#define LS_SGMIIaCR1(a)		PCSa(a, LS_SGMII_BASE, 1)
+> +#define SGMIIaCR1_SGPCS_EN	BIT(11)
+> +
+> +enum lynx_protocol {
+> +	LYNX_PROTO_NONE = 0,
+> +	LYNX_PROTO_SGMII,
+> +	LYNX_PROTO_SGMII25, /* Not tested */
+> +	LYNX_PROTO_1000BASEKX, /* Not tested */
+> +	LYNX_PROTO_QSGMII, /* Not tested */
+> +	LYNX_PROTO_XFI,
+> +	LYNX_PROTO_10GKR, /* Link training unimplemented */
+> +	LYNX_PROTO_LAST,
+> +};
+> +
+> +static const char lynx_proto_str[][16] = {
+> +	[LYNX_PROTO_NONE] = "unknown",
+> +	[LYNX_PROTO_SGMII] = "SGMII",
+> +	[LYNX_PROTO_SGMII25] = "2.5G SGMII",
+> +	[LYNX_PROTO_1000BASEKX] = "1000BASE-KX",
+> +	[LYNX_PROTO_QSGMII] = "QSGMII",
+> +	[LYNX_PROTO_XFI] = "XFI",
+> +	[LYNX_PROTO_10GKR] = "10GBASE-KR",
+> +};
+> +
+> +#define PROTO_MASK(proto) BIT(LYNX_PROTO_##proto)
+> +
+> +/**
+> + * struct lynx_proto_params - Parameters for configuring a protocol
+> + * @frate_khz: The PLL rate, in kHz
+> + * @rat_sel: The divider to get the line rate
+> + * @if20bit: Whether the proto is 20 bits or 10 bits
+> + * @prots: Lane protocol select
+> + * @reidl_th: Receiver electrical idle detection threshold
+> + * @reidl_ex: Exit electrical idle filter
+> + * @reidl_et: Enter idle filter
+> + * @slew: Slew control
+> + * @baseline_wander: Enable baseline wander correction
+> + * @gain: Adaptive equalization gain override
+> + * @offset_override: Adaptive equalization offset override
+> + * @preq_ratio: Ratio of full swing transition bit to pre-cursor
+> + * @postq_ratio: Ratio of full swing transition bit to first post-cursor.
+> + * @adpt_eq: Transmitter Adjustments for 8G/10G
+> + * @amp_red: Overall TX Amplitude Reduction
+> + * @flt_sel: TTL configuration selector
+> + */
+> +struct lynx_proto_params {
+> +	u32 frate_khz;
+> +	u8 rat_sel;
+> +	u8 prots;
+> +	u8 reidl_th;
+> +	u8 reidl_ex;
+> +	u8 reidl_et;
+> +	u8 slew;
+> +	u8 gain;
+> +	u8 baseline_wander;
+> +	u8 offset_override;
+> +	u8 preq_ratio;
+> +	u8 postq_ratio;
+> +	u8 adpt_eq;
+> +	u8 amp_red;
+> +	u8 flt_sel;
+> +	bool if20bit;
+> +};
+> +
+> +static const struct lynx_proto_params lynx_proto_params[] = {
+> +	[LYNX_PROTO_SGMII] = {
+> +		.frate_khz = 5000000,
+> +		.rat_sel = LNmGCR0_RAT_SEL_QUARTER,
+> +		.if20bit = false,
+> +		.prots = LNmGCR0_PROTS_SGMII,
+> +		.reidl_th = 0b001,
+> +		.reidl_ex = 0b011,
+> +		.reidl_et = 0b100,
+> +		.slew = 0b01,
+> +		.gain = 0b1111,
+> +		.offset_override = 0b0011111,
+> +		.adpt_eq = 0b110000,
+> +		.amp_red = 0b000110,
+> +		.flt_sel = 0b111001,
+> +	},
+> +	[LYNX_PROTO_1000BASEKX] = {
+> +		.frate_khz = 5000000,
+> +		.rat_sel = LNmGCR0_RAT_SEL_QUARTER,
+> +		.if20bit = false,
+> +		.prots = LNmGCR0_PROTS_SGMII,
+> +		.slew = 0b01,
+> +		.gain = 0b1111,
+> +		.offset_override = 0b0011111,
+> +		.adpt_eq = 0b110000,
+> +		.flt_sel = 0b111001,
+> +	},
+> +	[LYNX_PROTO_SGMII25] = {
+> +		.frate_khz = 3125000,
+> +		.rat_sel = LNmGCR0_RAT_SEL_SAME,
+> +		.if20bit = false,
+> +		.prots = LNmGCR0_PROTS_SGMII,
+> +		.slew = 0b10,
+> +		.offset_override = 0b0011111,
+> +		.postq_ratio = 0b00110,
+> +		.adpt_eq = 0b110000,
+> +	},
+> +	[LYNX_PROTO_QSGMII] = {
+> +		.frate_khz = 5000000,
+> +		.rat_sel = LNmGCR0_RAT_SEL_SAME,
+> +		.if20bit = true,
+> +		.prots = LNmGCR0_PROTS_SGMII,
+> +		.slew = 0b01,
+> +		.offset_override = 0b0011111,
+> +		.postq_ratio = 0b00110,
+> +		.adpt_eq = 0b110000,
+> +		.amp_red = 0b000010,
+> +	},
+> +	[LYNX_PROTO_XFI] = {
+> +		.frate_khz = 5156250,
+> +		.rat_sel = LNmGCR0_RAT_SEL_DOUBLE,
+> +		.if20bit = true,
+> +		.prots = LNmGCR0_PROTS_XFI,
+> +		.slew = 0b01,
+> +		.baseline_wander = LNmRECR0_BASE_WAND_DEFAULT,
+> +		.offset_override = 0b1011111,
+> +		.postq_ratio = 0b00011,
+> +		.adpt_eq = 0b110000,
+> +		.amp_red = 0b000111,
+> +	},
+> +	[LYNX_PROTO_10GKR] = {
+> +		.frate_khz = 5156250,
+> +		.rat_sel = LNmGCR0_RAT_SEL_DOUBLE,
+> +		.if20bit = true,
+> +		.prots = LNmGCR0_PROTS_XFI,
+> +		.slew = 0b01,
+> +		.baseline_wander = LNmRECR0_BASE_WAND_DEFAULT,
+> +		.offset_override = 0b1011111,
+> +		.preq_ratio = 0b0011,
+> +		.postq_ratio = 0b01100,
+> +		.adpt_eq = 0b110000,
+> +	},
+> +};
+> +
+> +/**
+> + * struct lynx_mode - A single configuration of a protocol controller
+> + * @protos: A bitmask of the &enum lynx_protocol this mode supports
+> + * @pccr: The number of the PCCR which contains this mode
+> + * @idx: The index of the protocol controller. For example, SGMIIB would have
+> + *       index 1.
+> + * @cfg: The value to program into the controller to select this mode
+> + *
+> + * The serdes has multiple protocol controllers which can be each be selected
+> + * independently. Depending on their configuration, they may use multiple lanes
+> + * at once (e.g. AUI or PCIe x4). Additionally, multiple protocols may be
+> + * supported by a single mode (XFI and 10GKR differ only in their protocol
+> + * parameters).
+> + */
+> +struct lynx_mode {
+> +	u16 protos;
+> +	u8 pccr;
+> +	u8 idx;
+> +	u8 cfg;
+> +};
+> +
+> +static_assert(LYNX_PROTO_LAST - 1 <=
+> +	      sizeof_field(struct lynx_mode, protos) * BITS_PER_BYTE);
+> +
+> +struct lynx_priv;
+> +
+> +/**
+> + * struct lynx_cfg - Configuration for a particular serdes
+> + * @lanes: Number of lanes
+> + * @endian: Endianness of the registers
+> + * @mode_conflict: Determine whether a protocol controller is already in use
+> + *                 (by another group).
+> + * @mode_apply: Apply a given protocol. This includes programming the
+> + *              appropriate config into the PCCR, as well as enabling/disabling
+> + *              any other registers (such as the enabling MDIO access).
+> + *              %LYNX_PROTO_NONE may be used to clear any associated registers.
+> + * @mode_init: Finish initializing a mode. All fields are filled in except for
+> + *             protos. Type is one of PHY_TYPE_*. mode->protos should be filled
+> + *             in, and the other fields should be sanity-checked.
+> + */
+> +struct lynx_cfg {
+> +	unsigned int lanes;
+> +	enum regmap_endian endian;
+> +	bool (*mode_conflict)(struct lynx_priv *serdes,
+> +			      const struct lynx_mode *mode);
+> +	void (*mode_apply)(struct lynx_priv *serdes,
+> +			   const struct lynx_mode *mode,
+> +			   enum lynx_protocol proto);
+> +	int (*mode_init)(struct lynx_priv *serdes, struct lynx_mode *mode,
+> +			 int type);
+> +};
+> +
+> +/**
+> + * struct lynx_group - Driver data for a group of lanes
+> + * @serdes: The parent serdes
+> + * @pll: The currently-used pll
+> + * @ex_dly: The ex_dly clock, if used
+> + * @modes: Valid protocol controller configurations
+> + * @mode_count: Number of modes in @modes
+> + * @first_lane: The first lane in the group
+> + * @last_lane: The last lane in the group
+> + * @proto: The currently-configured protocol
+> + * @initialized: Whether the complete state of @modes has been set
+> + * @prots: The protocol set up by the RCW
+> + */
+> +struct lynx_group {
+> +	struct lynx_priv *serdes;
+> +	struct clk *pll, *ex_dly;
+> +	const struct lynx_mode *modes;
+> +	size_t mode_count;
+> +	unsigned int first_lane;
+> +	unsigned int last_lane;
+> +	enum lynx_protocol proto;
+> +	bool initialized;
+> +	u8 prots;
+> +};
+> +
+> +/**
+> + * struct lynx_priv - Driver data for the serdes
+> + * @lock: A lock protecting "common" registers in @regmap, as well as the
+> + *        members of this struct. Lane-specific registers are protected by the
+> + *        phy's lock. PLL registers are protected by the clock's lock.
+> + * @dev: The serdes device
+> + * @regmap: The backing regmap
+> + * @cfg: SoC-specific configuration
+> + * @plls: The PLLs
+> + * @ex_dlys: The "ex_dly" clocks
+> + * @groups: Groups in the serdes
+> + * @group_count: Number of groups in @groups
+> + * @used_lanes: Bitmap of the lanes currently used by phys
+> + */
+> +struct lynx_priv {
+> +	struct mutex lock;
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +	const struct lynx_cfg *cfg;
+> +	struct clk *plls[2], *ex_dlys[2];
+> +	struct lynx_group *groups;
+> +	unsigned int group_count;
+> +	unsigned int used_lanes;
+> +};
+> +
+> +static u32 lynx_read(struct lynx_priv *serdes, u32 reg)
 > +{
-> +	if (vma->vm_flags & (VM_SHARED  | VM_MAYSHARE   | VM_PFNMAP  |
-> +			     VM_IO      | VM_DONTEXPAND | VM_HUGETLB |
-> +			     VM_MIXEDMAP))
-> +		return false;		/* just ignore the advice */
+> +	unsigned int ret = 0;
 > +
-> +	if (vma_is_dax(vma))
-> +		return false;
-> +
-> +#ifdef VM_SAO
-> +	if (vma->vm_flags & VM_SAO)
-> +		return false;
-> +#endif
-> +#ifdef VM_SPARC_ADI
-> +	if (vma->vm_flags & VM_SPARC_ADI)
-> +		return false;
-> +#endif
-> +
-> +	return true;
+> +	WARN_ON_ONCE(regmap_read(serdes->regmap, reg, &ret));
+> +	dev_vdbg(serdes->dev, "%.8x <= %.8x\n", ret, reg);
+> +	return ret;
 > +}
 > +
->   static struct vm_area_struct *find_mergeable_vma(struct mm_struct *mm,
->   		unsigned long addr)
->   {
->   	struct vm_area_struct *vma;
-> +
-
-unrelated change
-
->   	if (ksm_test_exit(mm))
->   		return NULL;
->   	vma = vma_lookup(mm, addr);
-> @@ -1065,6 +1088,7 @@ static int unmerge_and_remove_all_rmap_items(void)
->   
->   			mm_slot_free(mm_slot_cache, mm_slot);
->   			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
-> +			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
->   			mmdrop(mm);
->   		} else
->   			spin_unlock(&ksm_mmlist_lock);
-> @@ -2495,6 +2519,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
->   
->   		mm_slot_free(mm_slot_cache, mm_slot);
->   		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
-> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
->   		mmap_read_unlock(mm);
->   		mmdrop(mm);
->   	} else {
-> @@ -2571,6 +2596,63 @@ static int ksm_scan_thread(void *nothing)
->   	return 0;
->   }
->   
-> +static void __ksm_add_vma(struct vm_area_struct *vma)
+> +static void lynx_write(struct lynx_priv *serdes, u32 val, u32 reg)
 > +{
-> +	unsigned long vm_flags = vma->vm_flags;
+> +	dev_vdbg(serdes->dev, "%.8x => %.8x\n", val, reg);
+> +	WARN_ON_ONCE(regmap_write(serdes->regmap, reg, val));
+> +}
 > +
-> +	if (vm_flags & VM_MERGEABLE)
-> +		return;
+> +/*
+> + * This is tricky. If first_lane=1 and last_lane=0, the condition will see 2,
+> + * 1, 0. But the loop body will see 1, 0. We do this to avoid underflow. We
+> + * can't pull the same trick when incrementing, because then we might have to
+> + * start at -1 if (e.g.) first_lane = 0.
+> + */
+> +#define for_range(val, start, end) \
+> +	for (val = start < end ? start : start + 1; \
+> +	     start < end ? val <= end : val-- > end; \
+> +	     start < end ? val++ : 0)
+> +#define for_each_lane(lane, group) \
+> +	for_range(lane, group->first_lane, group->last_lane)
+> +#define for_each_lane_reverse(lane, group) \
+> +	for_range(lane, group->last_lane, group->first_lane)
 > +
-> +	if (vma_ksm_compatible(vma)) {
-> +		vm_flags |= VM_MERGEABLE;
-> +		vm_flags_reset(vma, vm_flags);
+> +static int lynx_power_on(struct phy *phy)
+> +{
+> +	int i;
+> +	struct lynx_group *group = phy_get_drvdata(phy);
+> +	u32 gcr0;
+> +
+> +	for_each_lane(i, group) {
+> +		gcr0 = lynx_read(group->serdes, LNmGCR0(i));
+> +		gcr0 &= ~(LNmGCR0_RX_PD | LNmGCR0_TX_PD);
+> +		lynx_write(group->serdes, gcr0, LNmGCR0(i));
+> +
+> +		usleep_range(15, 30);
+> +		gcr0 |= LNmGCR0_RRST_B | LNmGCR0_TRST_B;
+> +		lynx_write(group->serdes, gcr0, LNmGCR0(i));
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void lynx_power_off_group(struct lynx_group *group)
+> +{
+> +	int i;
+> +
+> +	for_each_lane_reverse(i, group) {
+> +		u32 gcr0 = lynx_read(group->serdes, LNmGCR0(i));
+> +
+> +		gcr0 |= LNmGCR0_RX_PD | LNmGCR0_TX_PD;
+> +		gcr0 &= ~(LNmGCR0_RRST_B | LNmGCR0_TRST_B);
+> +		lynx_write(group->serdes, gcr0, LNmGCR0(i));
 > +	}
 > +}
 > +
-> +/**
-> + * ksm_add_vma - Mark vma as mergeable
-
-"if compatible"
-
-> + *
-> + * @vma:  Pointer to vma
-> + */
-> +void ksm_add_vma(struct vm_area_struct *vma)
+> +static int lynx_power_off(struct phy *phy)
 > +{
-> +	struct mm_struct *mm = vma->vm_mm;
-> +
-> +	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
-> +		__ksm_add_vma(vma);
+> +	lynx_power_off_group(phy_get_drvdata(phy));
+> +	return 0;
 > +}
 > +
 > +/**
-> + * ksm_add_vmas - Mark all vma's of a process as mergeable
+> + * lynx_lane_bitmap() - Get a bitmap for a group of lanes
+> + * @group: The group of lanes
 > + *
-> + * @mm:  Pointer to mm
+> + * Return: A mask containing all bits between @group->first and @group->last
 > + */
-> +void ksm_add_vmas(struct mm_struct *mm)
-
-I'd suggest calling this
-
+> +static unsigned int lynx_lane_bitmap(struct lynx_group *group)
 > +{
-> +	struct vm_area_struct *vma;
-> +
-> +	VMA_ITERATOR(vmi, mm, 0);
-> +	for_each_vma(vmi, vma)
-> +		__ksm_add_vma(vma);
+> +	if (group->first_lane > group->last_lane)
+> +		return GENMASK(group->first_lane, group->last_lane);
+> +	else
+> +		return GENMASK(group->last_lane, group->first_lane);
 > +}
 > +
 > +/**
-> + * ksm_add_mm - Add mm to mm ksm list
+> + * lynx_lookup_mode() - Get the mode for a group/protocol combination
+> + * @group: The group of lanes to use
+> + * @proto: The protocol to use
 > + *
-> + * @mm:  Pointer to mm
-> + *
-> + * Returns 0 on success, otherwise error code
+> + * Return: An appropriate mode to use, or %NULL if none match.
 > + */
-> +int ksm_add_mm(struct mm_struct *mm)
+> +static const struct lynx_mode *lynx_lookup_mode(struct lynx_group *group,
+> +						enum lynx_protocol proto)
 > +{
-> +	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
+> +	int i;
+> +
+> +	for (i = 0; i < group->mode_count; i++) {
+> +		const struct lynx_mode *mode = &group->modes[i];
+> +
+> +		if (BIT(proto) & mode->protos)
+> +			return mode;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * lynx_init_late() - Initialize group modes after probe()
+> + * @group: The group of lanes to initialize
+> + *
+> + * Disable all modes for a group, taking care not to disable other groups'
+> + * current modes. This ensures that whenever we select a mode, nothing else is
+> + * interfering. Then, turn off the group.
+> + *
+> + * Return: 0 on success, or -%ENOMEM
+> + */
+> +static int lynx_init_late(struct lynx_group *group)
+> +{
+> +	int i, j;
+> +	struct lynx_priv *serdes = group->serdes;
+> +	const struct lynx_mode **modes;
+> +
+> +	modes = kcalloc(serdes->group_count, sizeof(*modes), GFP_KERNEL);
+> +	if (!modes)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < serdes->group_count; i++)
+> +		modes[i] = lynx_lookup_mode(&serdes->groups[i],
+> +					    serdes->groups[i].proto);
+> +
+> +	for (i = 0; i < group->mode_count; i++) {
+> +		for (j = 0; j < serdes->group_count; j++) {
+> +			if (!modes[j])
+> +				continue;
+> +
+> +			if (group->modes[i].pccr == modes[j]->pccr &&
+> +			    group->modes[i].idx == modes[j]->idx)
+> +				goto skip;
+> +		}
+> +
+> +		serdes->cfg->mode_apply(serdes, &group->modes[i],
+> +					LYNX_PROTO_NONE);
+> +skip:		;
+> +	}
+> +
+> +	kfree(modes);
+> +	lynx_power_off_group(group);
+> +	group->initialized = true;
+> +	return 0;
+> +}
+> +
+> +static int lynx_init(struct phy *phy)
+> +{
+> +	int ret = 0;
+> +	struct lynx_group *group = phy_get_drvdata(phy);
+> +	struct lynx_priv *serdes = group->serdes;
+> +	unsigned int lane_mask = lynx_lane_bitmap(group);
+> +
+> +	mutex_lock(&serdes->lock);
+> +	if (serdes->used_lanes & lane_mask) {
+> +		ret = -EBUSY;
+> +	} else {
+> +		if (!group->initialized)
+> +			ret = lynx_init_late(group);
+> +
+> +		if (!ret)
+> +			serdes->used_lanes |= lane_mask;
+> +	}
+> +	mutex_unlock(&serdes->lock);
+> +	return ret;
+> +}
+> +
+> +static int lynx_exit(struct phy *phy)
+> +{
+> +	struct lynx_group *group = phy_get_drvdata(phy);
+> +	struct lynx_priv *serdes = group->serdes;
+> +
+> +	clk_disable_unprepare(group->ex_dly);
+> +	group->ex_dly = NULL;
+> +
+> +	clk_disable_unprepare(group->pll);
+> +	clk_rate_exclusive_put(group->pll);
+> +	group->pll = NULL;
+> +
+> +	mutex_lock(&serdes->lock);
+> +	serdes->used_lanes &= ~lynx_lane_bitmap(group);
+> +	mutex_unlock(&serdes->lock);
+> +	return 0;
+> +}
+> +
+> +/**
+> + * lynx_lookup_proto() - Convert a phy-subsystem mode to a protocol
+> + * @mode: The mode to convert
+> + * @submode: The submode of @mode
+> + *
+> + * Return: A corresponding serdes-specific mode
+> + */
+> +static enum lynx_protocol lynx_lookup_proto(enum phy_mode mode, int submode)
+> +{
+> +	switch (mode) {
+> +	case PHY_MODE_ETHERNET:
+> +		switch (submode) {
+> +		case PHY_INTERFACE_MODE_SGMII:
+> +		case PHY_INTERFACE_MODE_1000BASEX:
+> +			return LYNX_PROTO_SGMII;
+> +		case PHY_INTERFACE_MODE_2500BASEX:
+> +			return LYNX_PROTO_SGMII25;
+> +		case PHY_INTERFACE_MODE_QSGMII:
+> +			return LYNX_PROTO_QSGMII;
+> +		case PHY_INTERFACE_MODE_XGMII:
+> +		case PHY_INTERFACE_MODE_10GBASER:
+> +			return LYNX_PROTO_XFI;
+> +		case PHY_INTERFACE_MODE_10GKR:
+> +			return LYNX_PROTO_10GKR;
+> +		default:
+> +			return LYNX_PROTO_NONE;
+> +		}
+> +	default:
+> +		return LYNX_PROTO_NONE;
+> +	}
+> +}
+> +
+> +static int lynx_validate(struct phy *phy, enum phy_mode phy_mode, int submode,
+> +			 union phy_configure_opts *opts)
+> +{
+> +	enum lynx_protocol proto;
+> +	struct lynx_group *group = phy_get_drvdata(phy);
+> +	const struct lynx_mode *mode;
+> +
+> +	proto = lynx_lookup_proto(phy_mode, submode);
+> +	if (proto == LYNX_PROTO_NONE)
 > +		return -EINVAL;
-> +	if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
+> +
+> +	/* Nothing to do */
+> +	if (proto == group->proto)
+> +		return 0;
+> +
+> +	/*
+> +	 * FIXME: At the moment we don't support switching between major
+> +	 * protocols. From what I can tell, the serdes is working fine, but
+> +	 * something goes wrong in the PCS.
+> +	 */
+> +	if (lynx_proto_params[proto].prots != group->prots)
 > +		return -EINVAL;
 > +
-> +	return __ksm_enter(mm, MMF_VM_MERGE_ANY);
+> +	mode = lynx_lookup_mode(group, proto);
+> +	if (!mode)
+> +		return -EINVAL;
+> +
+> +	return 0;
 > +}
 > +
->   int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->   		unsigned long end, int advice, unsigned long *vm_flags)
->   {
-> @@ -2579,28 +2661,13 @@ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->   
->   	switch (advice) {
->   	case MADV_MERGEABLE:
-> -		/*
-> -		 * Be somewhat over-protective for now!
-> -		 */
-> -		if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
-> -				 VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
-> -				 VM_HUGETLB | VM_MIXEDMAP))
-> -			return 0;		/* just ignore the advice */
-> -
-> -		if (vma_is_dax(vma))
-> +		if (vma->vm_flags & VM_MERGEABLE)
->   			return 0;
-> -
-> -#ifdef VM_SAO
-> -		if (*vm_flags & VM_SAO)
-> +		if (!vma_ksm_compatible(vma))
->   			return 0;
-> -#endif
-> -#ifdef VM_SPARC_ADI
-> -		if (*vm_flags & VM_SPARC_ADI)
-> -			return 0;
-> -#endif
->   
->   		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
-> -			err = __ksm_enter(mm);
-> +			err = __ksm_enter(mm, MMF_VM_MERGEABLE);
->   			if (err)
->   				return err;
->   		}
-> @@ -2626,7 +2693,7 @@ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
->   }
->   EXPORT_SYMBOL_GPL(ksm_madvise);
->   
-> -int __ksm_enter(struct mm_struct *mm)
-> +int __ksm_enter(struct mm_struct *mm, int flag)
->   {
->   	struct ksm_mm_slot *mm_slot;
->   	struct mm_slot *slot;
-> @@ -2659,7 +2726,7 @@ int __ksm_enter(struct mm_struct *mm)
->   		list_add_tail(&slot->mm_node, &ksm_scan.mm_slot->slot.mm_node);
->   	spin_unlock(&ksm_mmlist_lock);
->   
-> -	set_bit(MMF_VM_MERGEABLE, &mm->flags);
-> +	set_bit(flag, &mm->flags);
->   	mmgrab(mm);
->   
->   	if (needs_wakeup)
-> @@ -2668,7 +2735,7 @@ int __ksm_enter(struct mm_struct *mm)
->   	return 0;
->   }
->   
-> -void __ksm_exit(struct mm_struct *mm)
-> +void __ksm_exit(struct mm_struct *mm, int flag)
->   {
->   	struct ksm_mm_slot *mm_slot;
->   	struct mm_slot *slot;
-> @@ -2700,7 +2767,7 @@ void __ksm_exit(struct mm_struct *mm)
->   
->   	if (easy_to_free) {
->   		mm_slot_free(mm_slot_cache, mm_slot);
-> -		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
-> +		clear_bit(flag, &mm->flags);
->   		mmdrop(mm);
->   	} else if (mm_slot) {
->   		mmap_write_lock(mm);
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 740b54be3ed4..483e182e0b9d 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -46,6 +46,7 @@
->   #include <linux/pkeys.h>
->   #include <linux/oom.h>
->   #include <linux/sched/mm.h>
-> +#include <linux/ksm.h>
->   
->   #include <linux/uaccess.h>
->   #include <asm/cacheflush.h>
-> @@ -2213,6 +2214,8 @@ int __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
->   	/* vma_complete stores the new vma */
->   	vma_complete(&vp, vmi, vma->vm_mm);
->   
-> +	ksm_add_vma(new);
+> +#define abs_diff(a, b) ({ \
+> +	typeof(a) _a = (a); \
+> +	typeof(b) _b = (b); \
+> +	_a > _b ? _a - _b : _b - _a; \
+> +})
 > +
-
-Splitting a VMA shouldn't modify VM_MERGEABLE, so I assume this is not 
-required?
-
->   	/* Success. */
->   	if (new_below)
->   		vma_next(vmi);
-> @@ -2664,6 +2667,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
->   	if (file && vm_flags & VM_SHARED)
->   		mapping_unmap_writable(file->f_mapping);
->   	file = vma->vm_file;
-> +	ksm_add_vma(vma);
->   expanded:
->   	perf_event_mmap(vma);
->   
-> @@ -2936,6 +2940,7 @@ static int do_brk_flags(struct vma_iterator *vmi, struct vm_area_struct *vma,
->   		goto mas_store_fail;
->   
->   	mm->map_count++;
-> +	ksm_add_vma(vma);
->   out:
->   	perf_event_mmap(vma);
->   	mm->total_vm += len >> PAGE_SHIFT;
-> @@ -3180,6 +3185,7 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
->   		if (vma_link(mm, new_vma))
->   			goto out_vma_link;
->   		*need_rmap_locks = false;
-> +		ksm_add_vma(new_vma);
-
-Copying shouldn't modify VM_MERGEABLE, so I think this is not required?
-
->   	}
->   	validate_mm_mt(mm);
->   	return new_vma;
-> @@ -3356,6 +3362,7 @@ static struct vm_area_struct *__install_special_mapping(
->   	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
->   
->   	perf_event_mmap(vma);
-> +	ksm_add_vma(vma);
-
-IIUC, special mappings will never be considered a reasonable target for 
-KSM (especially, because at least VM_DONTEXPAND is always set).
-
-I think you can just drop this call.
+> +static int lynx_set_mode(struct phy *phy, enum phy_mode phy_mode, int submode)
+> +{
+> +	enum lynx_protocol proto;
+> +	const struct lynx_proto_params *params;
+> +	const struct lynx_mode *old_mode = NULL, *new_mode;
+> +	int i, pll, ret;
+> +	struct lynx_group *group = phy_get_drvdata(phy);
+> +	struct lynx_priv *serdes = group->serdes;
+> +	u32 tmp, teq;
+> +	u32 gcr0 = 0, gcr1 = 0, recr0 = 0, tecr0 = 0;
+> +	u32 gcr0_mask = 0, gcr1_mask = 0, recr0_mask = 0, tecr0_mask = 0;
+> +
+> +	proto = lynx_lookup_proto(phy_mode, submode);
+> +	if (proto == LYNX_PROTO_NONE) {
+> +		dev_dbg(&phy->dev, "unknown mode/submode %d/%d\n",
+> +			phy_mode, submode);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Nothing to do */
+> +	if (proto == group->proto)
+> +		return 0;
+> +
+> +	new_mode = lynx_lookup_mode(group, proto);
+> +	if (!new_mode) {
+> +		dev_dbg(&phy->dev, "could not find mode for %s on lanes %u to %u\n",
+> +			lynx_proto_str[proto], group->first_lane,
+> +			group->last_lane);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (group->proto != LYNX_PROTO_NONE) {
+> +		old_mode = lynx_lookup_mode(group, group->proto);
+> +		if (!old_mode) {
+> +			dev_err(&phy->dev, "could not find mode for %s\n",
+> +				lynx_proto_str[group->proto]);
+> +			return -EBUSY;
+> +		}
+> +	}
+> +
+> +	mutex_lock(&serdes->lock);
+> +	if (serdes->cfg->mode_conflict(serdes, new_mode)) {
+> +		dev_dbg(&phy->dev, "%s%c already in use\n",
+> +			lynx_proto_str[__ffs(new_mode->protos)],
+> +			'A' + new_mode->idx);
+> +		ret = -EBUSY;
+> +		goto out;
+> +	}
+> +
+> +	clk_disable_unprepare(group->ex_dly);
+> +	group->ex_dly = NULL;
+> +
+> +	clk_disable_unprepare(group->pll);
+> +	clk_rate_exclusive_put(group->pll);
+> +	group->pll = NULL;
+> +
+> +	/* First, try to use a PLL which already has the correct rate */
+> +	params = &lynx_proto_params[proto];
+> +	for (pll = 0; pll < ARRAY_SIZE(serdes->plls); pll++) {
+> +		struct clk *clk = serdes->plls[pll];
+> +		unsigned long rate = clk_get_rate(clk);
+> +		unsigned long error = abs_diff(rate, params->frate_khz);
+> +
+> +		dev_dbg(&phy->dev, "pll%d has rate %lu (error=%lu)\n", pll,
+> +			rate, error);
+> +		/* Accept up to 100ppm deviation */
+> +		if (error && params->frate_khz / error < 10000)
+> +			continue;
+> +
+> +		if (!clk_set_rate_exclusive(clk, rate))
+> +			goto got_pll;
+> +		/*
+> +		 * Someone else got a different rate first (or there was some
+> +		 * other error)
+> +		 */
+> +	}
+> +
+> +	/* If neither PLL has the right rate, try setting it */
+> +	for (pll = 0; pll < 2; pll++) {
+> +		ret = clk_set_rate_exclusive(serdes->plls[pll],
+> +					     params->frate_khz);
+> +		if (!ret)
+> +			goto got_pll;
+> +	}
+> +
+> +	dev_dbg(&phy->dev, "could not get a pll at %ukHz\n",
+> +		params->frate_khz);
+> +	goto out;
+> +
+> +got_pll:
+> +	group->pll = serdes->plls[pll];
+> +	ret = clk_prepare_enable(group->pll);
+> +	if (ret)
+> +		goto out;
+> +
+> +	gcr0_mask |= LNmGCR0_RRAT_SEL | LNmGCR0_TRAT_SEL;
+> +	gcr0_mask |= LNmGCR0_RPLL_LES | LNmGCR0_TPLL_LES;
+> +	gcr0_mask |= LNmGCR0_RRST_B | LNmGCR0_TRST_B;
+> +	gcr0_mask |= LNmGCR0_RX_PD | LNmGCR0_TX_PD;
+> +	gcr0_mask |= LNmGCR0_IF20BIT_EN | LNmGCR0_PROTS;
+> +	gcr0 |= FIELD_PREP(LNmGCR0_RPLL_LES, !pll);
+> +	gcr0 |= FIELD_PREP(LNmGCR0_TPLL_LES, !pll);
+> +	gcr0 |= FIELD_PREP(LNmGCR0_RRAT_SEL, params->rat_sel);
+> +	gcr0 |= FIELD_PREP(LNmGCR0_TRAT_SEL, params->rat_sel);
+> +	gcr0 |= FIELD_PREP(LNmGCR0_IF20BIT_EN, params->if20bit);
+> +	gcr0 |= FIELD_PREP(LNmGCR0_PROTS, params->prots);
+> +
+> +	gcr1_mask |= LNmGCR1_RDAT_INV | LNmGCR1_TDAT_INV;
+> +	gcr1_mask |= LNmGCR1_OPAD_CTL | LNmGCR1_REIDL_TH;
+> +	gcr1_mask |= LNmGCR1_REIDL_EX_SEL | LNmGCR1_REIDL_ET_SEL;
+> +	gcr1_mask |= LNmGCR1_REIDL_EX_MSB | LNmGCR1_REIDL_ET_MSB;
+> +	gcr1_mask |= LNmGCR1_REQ_CTL_SNP | LNmGCR1_REQ_CDR_SNP;
+> +	gcr1_mask |= LNmGCR1_TRSTDIR | LNmGCR1_REQ_BIN_SNP;
+> +	gcr1_mask |= LNmGCR1_ISLEW_RCTL | LNmGCR1_OSLEW_RCTL;
+> +	gcr1 |= FIELD_PREP(LNmGCR1_REIDL_TH, params->reidl_th);
+> +	gcr1 |= FIELD_PREP(LNmGCR1_REIDL_EX_SEL, params->reidl_ex & 3);
+> +	gcr1 |= FIELD_PREP(LNmGCR1_REIDL_ET_SEL, params->reidl_et & 3);
+> +	gcr1 |= FIELD_PREP(LNmGCR1_REIDL_EX_MSB, params->reidl_ex >> 2);
+> +	gcr1 |= FIELD_PREP(LNmGCR1_REIDL_ET_MSB, params->reidl_et >> 2);
+> +	gcr1 |= FIELD_PREP(LNmGCR1_TRSTDIR,
+> +			   group->first_lane > group->last_lane);
+> +	gcr1 |= FIELD_PREP(LNmGCR1_ISLEW_RCTL, params->slew);
+> +	gcr1 |= FIELD_PREP(LNmGCR1_OSLEW_RCTL, params->slew);
+> +
+> +	recr0_mask |= LNmRECR0_RXEQ_BST | LNmRECR0_BASE_WAND;
+> +	recr0_mask |= LNmRECR0_GK2OVD | LNmRECR0_GK3OVD;
+> +	recr0_mask |= LNmRECR0_GK2OVD_EN | LNmRECR0_GK3OVD_EN;
+> +	recr0_mask |= LNmRECR0_OSETOVD_EN | LNmRECR0_OSETOVD;
+> +	if (params->gain) {
+> +		recr0 |= FIELD_PREP(LNmRECR0_GK2OVD, params->gain);
+> +		recr0 |= FIELD_PREP(LNmRECR0_GK3OVD, params->gain);
+> +		recr0 |= LNmRECR0_GK2OVD_EN | LNmRECR0_GK3OVD_EN;
+> +	}
+> +	recr0 |= FIELD_PREP(LNmRECR0_BASE_WAND, params->baseline_wander);
+> +	recr0 |= FIELD_PREP(LNmRECR0_OSETOVD, params->offset_override);
+> +
+> +	tecr0_mask |= LNmTECR0_TEQ_TYPE;
+> +	tecr0_mask |= LNmTECR0_SGN_PREQ | LNmTECR0_RATIO_PREQ;
+> +	tecr0_mask |= LNmTECR0_SGN_POST1Q | LNmTECR0_RATIO_PST1Q;
+> +	tecr0_mask |= LNmTECR0_ADPT_EQ | LNmTECR0_AMP_RED;
+> +	teq = LNmTECR0_TEQ_TYPE_NONE;
+> +	if (params->postq_ratio) {
+> +		teq = LNmTECR0_TEQ_TYPE_POST;
+> +		tecr0 |= FIELD_PREP(LNmTECR0_SGN_POST1Q, 1);
+> +		tecr0 |= FIELD_PREP(LNmTECR0_RATIO_PST1Q, params->postq_ratio);
+> +	}
+> +	if (params->preq_ratio) {
+> +		teq = LNmTECR0_TEQ_TYPE_BOTH;
+> +		tecr0 |= FIELD_PREP(LNmTECR0_SGN_PREQ, 1);
+> +		tecr0 |= FIELD_PREP(LNmTECR0_RATIO_PREQ, params->preq_ratio);
+> +	}
+> +	tecr0 |= FIELD_PREP(LNmTECR0_TEQ_TYPE, teq);
+> +	tecr0 |= FIELD_PREP(LNmTECR0_ADPT_EQ, params->adpt_eq);
+> +	tecr0 |= FIELD_PREP(LNmTECR0_AMP_RED, params->amp_red);
+> +
+> +	for_each_lane(i, group) {
+> +		tmp = lynx_read(serdes, LNmGCR0(i));
+> +		tmp &= ~(LNmGCR0_RRST_B | LNmGCR0_TRST_B);
+> +		lynx_write(serdes, tmp, LNmGCR0(i));
+> +	}
+> +
+> +	ndelay(50);
+> +
+> +	/* Disable the old controller */
+> +	if (old_mode)
+> +		serdes->cfg->mode_apply(serdes, old_mode, LYNX_PROTO_NONE);
+> +
+> +	for_each_lane(i, group) {
+> +		tmp = lynx_read(serdes, LNmGCR0(i));
+> +		tmp &= ~gcr0_mask;
+> +		tmp |= gcr0;
+> +		tmp |= FIELD_PREP(LNmGCR0_FIRST_LANE, i == group->first_lane);
+> +		lynx_write(serdes, tmp, LNmGCR0(i));
+> +
+> +		tmp = lynx_read(serdes, LNmGCR1(i));
+> +		tmp &= ~gcr1_mask;
+> +		tmp |= gcr1;
+> +		lynx_write(serdes, tmp, LNmGCR1(i));
+> +
+> +		tmp = lynx_read(serdes, LNmRECR0(i));
+> +		tmp &= ~recr0_mask;
+> +		tmp |= recr0;
+> +		lynx_write(serdes, tmp, LNmRECR0(i));
+> +
+> +		tmp = lynx_read(serdes, LNmTECR0(i));
+> +		tmp &= ~tecr0_mask;
+> +		tmp |= tecr0;
+> +		lynx_write(serdes, tmp, LNmTECR0(i));
+> +
+> +		tmp = lynx_read(serdes, LNmTTLCR0(i));
+> +		tmp &= ~LNmTTLCR0_FLT_SEL;
+> +		tmp |= FIELD_PREP(LNmTTLCR0_FLT_SEL, params->flt_sel);
+> +		lynx_write(serdes, tmp, LNmTTLCR0(i));
+> +	}
+> +
+> +	ndelay(120);
+> +
+> +	for_each_lane_reverse(i, group) {
+> +		tmp = lynx_read(serdes, LNmGCR0(i));
+> +		tmp |= LNmGCR0_RRST_B | LNmGCR0_TRST_B;
+> +		lynx_write(serdes, tmp, LNmGCR0(i));
+> +	}
+> +
+> +	/* Enable the new controller */
+> +	serdes->cfg->mode_apply(serdes, new_mode, proto);
+> +	if (proto == LYNX_PROTO_1000BASEKX) {
+> +		group->ex_dly = serdes->ex_dlys[pll];
+> +		/* This should never fail since it's from our internal driver */
+> +		WARN_ON_ONCE(clk_prepare_enable(group->ex_dly));
+> +	}
+> +	group->proto = proto;
+> +
+> +	dev_dbg(&phy->dev, "set mode to %s on lanes %u to %u\n",
+> +		lynx_proto_str[proto], group->first_lane, group->last_lane);
+> +
+> +out:
+> +	mutex_unlock(&serdes->lock);
+> +	return ret;
+> +}
+> +
+> +static const struct phy_ops lynx_phy_ops = {
+> +	.init = lynx_init,
+> +	.exit = lynx_exit,
+> +	.power_on = lynx_power_on,
+> +	.power_off = lynx_power_off,
+> +	.set_mode = lynx_set_mode,
+> +	.validate = lynx_validate,
+> +	.owner = THIS_MODULE,
+> +};
+> +
+> +static int lynx_read_u32(struct device *dev, struct fwnode_handle *fwnode,
+> +			 const char *prop, u32 *val)
+> +{
+> +	int ret;
+> +
+> +	ret = fwnode_property_read_u32(fwnode, prop, val);
+> +	if (ret)
+> +		dev_err(dev, "could not read %s from %pfwP: %d\n", prop,
+> +			fwnode, ret);
+> +	return ret;
+> +}
+> +
+> +static int lynx_probe_group(struct lynx_priv *serdes, struct lynx_group *group,
+> +			    struct fwnode_handle *fwnode, bool initialize)
+> +{
+> +	int i, lane_count, ret;
+> +	struct device *dev = serdes->dev;
+> +	struct fwnode_handle *mode_node;
+> +	struct lynx_mode *modes;
+> +	struct phy *phy;
+> +	u32 *lanes = NULL;
+> +
+> +	group->serdes = serdes;
+> +
+> +	lane_count = fwnode_property_count_u32(fwnode, "reg");
+> +	if (lane_count < 0) {
+> +		dev_err(dev, "could not read %s from %pfwP: %d\n",
+> +			"reg", fwnode, lane_count);
+> +		return lane_count;
+> +	}
+> +
+> +	lanes = kcalloc(lane_count, sizeof(*lanes), GFP_KERNEL);
+> +	if (!lanes)
+> +		return -ENOMEM;
+> +
+> +	ret = fwnode_property_read_u32_array(fwnode, "reg", lanes, lane_count);
+> +	if (ret) {
+> +		dev_err(dev, "could not read %s from %pfwP: %d\n",
+> +			"reg", fwnode, ret);
+> +		goto out;
+> +	}
+> +
+> +	group->first_lane = lanes[0];
+> +	group->last_lane = lanes[lane_count - 1];
+> +	for (i = 0; i < lane_count; i++) {
+> +		u32 prots, gcr0;
+> +
+> +		if (lanes[i] > serdes->cfg->lanes) {
+> +			ret = -EINVAL;
+> +			dev_err(dev, "lane %d not in range 0 to %u\n",
+> +				i, serdes->cfg->lanes);
+> +			goto out;
+> +		}
+> +
+> +		if (lanes[i] != group->first_lane +
+> +				i * !!(group->last_lane - group->first_lane)) {
+> +			ret = -EINVAL;
+> +			dev_err(dev, "lane %d is not monotonic\n", i);
+> +			goto out;
+> +		}
+> +
+> +		gcr0 = lynx_read(serdes, LNmGCR0(lanes[i]));
+> +		prots = FIELD_GET(LNmGCR0_PROTS, gcr0);
+> +		if (i && group->prots != prots) {
+> +			ret = -EIO;
+> +			dev_err(dev, "lane %d protocol does not match lane 0\n",
+> +				lanes[i]);
+> +			goto out;
+> +		}
+> +		group->prots = prots;
+> +	}
+> +
+> +	fwnode_for_each_child_node(fwnode, mode_node)
+> +		group->mode_count++;
+> +
+> +	modes = devm_kcalloc(dev, group->mode_count, sizeof(*group->modes),
+> +			     GFP_KERNEL);
+> +	if (!modes) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	i = 0;
+> +	fwnode_for_each_child_node(fwnode, mode_node) {
+> +		struct lynx_mode *mode = &modes[i++];
+> +		u32 val;
+> +
+> +		ret = lynx_read_u32(dev, mode_node, "fsl,pccr", &val);
+> +		if (ret)
+> +			goto out;
+> +		mode->pccr = val;
+> +
+> +		ret = lynx_read_u32(dev, mode_node, "fsl,index", &val);
+> +		if (ret)
+> +			goto out;
+> +		mode->idx = val;
+> +
+> +		ret = lynx_read_u32(dev, mode_node, "fsl,cfg", &val);
+> +		if (ret)
+> +			goto out;
+> +		mode->cfg = val;
+> +
+> +		ret = lynx_read_u32(dev, mode_node, "fsl,type", &val);
+> +		if (ret)
+> +			goto out;
+> +
+> +		ret = serdes->cfg->mode_init(serdes, mode, val);
+> +		if (ret)
+> +			goto out;
+> +
+> +		dev_dbg(dev, "mode PCCR%X.%s%c_CFG=%x on lanes %u to %u\n",
+> +			mode->pccr, lynx_proto_str[__ffs(mode->protos)],
+> +			'A' + mode->idx, mode->cfg, group->first_lane,
+> +			group->last_lane);
+> +	}
+> +
+> +	WARN_ON(i != group->mode_count);
+> +	group->modes = modes;
+> +
+> +	if (initialize) {
+> +		/* Deselect anything configured by the RCW/bootloader */
+> +		for (i = 0; i < group->mode_count; i++)
+> +			serdes->cfg->mode_apply(serdes, &group->modes[i],
+> +						LYNX_PROTO_NONE);
+> +
+> +		/* Disable the lanes for now */
+> +		lynx_power_off_group(group);
+> +		group->initialized = true;
+> +	}
+> +
+> +	phy = devm_phy_create(dev, to_of_node(fwnode), &lynx_phy_ops);
+> +	ret = PTR_ERR_OR_ZERO(phy);
+> +	if (ret)
+> +		dev_err_probe(dev, ret, "could not create phy\n");
+> +	else
+> +		phy_set_drvdata(phy, group);
+> +
+> +out:
+> +	kfree(lanes);
+> +	return ret;
+> +}
+> +
+> +static int lynx_probe(struct platform_device *pdev)
+> +{
+> +	bool compat;
+> +	int ret, i = 0;
+> +	struct device *dev = &pdev->dev;
+> +	struct fwnode_handle *group_node;
+> +	struct lynx_priv *serdes;
+> +	struct phy_provider *provider;
+> +	struct regmap_config regmap_config = {
+> +		.reg_bits = 32,
+> +		.reg_stride = 4,
+> +		.val_bits = 32,
+> +		.disable_locking = true,
+> +	};
+> +	struct resource *res;
+> +	void __iomem *base;
+> +
+> +	serdes = devm_kzalloc(dev, sizeof(*serdes), GFP_KERNEL);
+> +	if (!serdes)
+> +		return -ENOMEM;
+> +
+> +	serdes->dev = dev;
+> +	platform_set_drvdata(pdev, serdes);
+> +	mutex_init(&serdes->lock);
+> +	serdes->cfg = device_get_match_data(dev);
+> +
+> +	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(base)) {
+> +		ret = PTR_ERR(base);
+> +		dev_err_probe(dev, ret, "could not get/map registers\n");
+> +		return ret;
+> +	}
+> +
+> +	regmap_config.val_format_endian = serdes->cfg->endian;
+> +	regmap_config.max_register = res->end - res->start;
+> +	serdes->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
+> +	if (IS_ERR(serdes->regmap)) {
+> +		ret = PTR_ERR(serdes->regmap);
+> +		dev_err_probe(dev, ret, "could not create regmap\n");
+> +		return ret;
+> +	}
+> +
+> +	compat = device_property_present(dev, "fsl,unused-lanes-reserved");
+> +	ret = lynx_clks_init(dev, serdes->regmap, serdes->plls,
+> +			     serdes->ex_dlys, compat);
+> +	if (ret)
+> +		return ret;
+> +
+> +	serdes->group_count = device_get_child_node_count(dev);
+> +	serdes->groups = devm_kcalloc(dev, serdes->group_count,
+> +				      sizeof(*serdes->groups), GFP_KERNEL);
+> +	if (!serdes->groups)
+> +		return -ENOMEM;
+> +
+> +	device_for_each_child_node(dev, group_node) {
+> +		ret = lynx_probe_group(serdes, &serdes->groups[i++],
+> +				       group_node, !compat);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	WARN_ON(i != serdes->group_count);
+> +
+> +	provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+> +	ret = PTR_ERR_OR_ZERO(provider);
+> +	if (ret)
+> +		dev_err_probe(dev, ret, "could not register phy provider\n");
+> +	else
+> +		dev_info(dev, "probed with %u lanes and %u groups\n",
+> +			 serdes->cfg->lanes, serdes->group_count);
+> +	return ret;
+> +}
+> +
+> +/*
+> + * These are common helpers for the PCCRs found on (most) Layerscape SoCs.
+> + * There is an earlier layout used on most T-series SoCs, as well as the
+> + * LS1020A/21A/22A.
+> + */
+> +
+> +static int lynx_ls_pccr_params(const struct lynx_mode *mode, u32 *off,
+> +			       u32 *shift, u32 *mask)
+> +{
+> +	if (mode->protos & PROTO_MASK(SGMII)) {
+> +		*off = LS_PCCRa(0x8);
+> +		*mask = PCCR8_SGMIIa_MASK;
+> +		*shift = PCCR8_SGMIIa_SHIFT(mode->idx);
+> +	} else if (mode->protos & PROTO_MASK(QSGMII)) {
+> +		*off = LS_PCCRa(0x9);
+> +		*mask = PCCR9_QSGMIIa_MASK;
+> +		*shift = PCCR9_QSGMIIa_SHIFT(mode->idx);
+> +	} else if (mode->protos & PROTO_MASK(XFI)) {
+> +		*off = LS_PCCRa(0xB);
+> +		*mask = PCCRB_XFIa_MASK;
+> +		*shift = PCCRB_XFIa_SHIFT(mode->idx);
+> +	} else {
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static bool lynx_ls_mode_conflict(struct lynx_priv *serdes,
+> +				  const struct lynx_mode *mode)
+> +{
+> +	u32 off, shift, mask;
+> +
+> +	if (WARN_ON_ONCE(lynx_ls_pccr_params(mode, &off, &shift, &mask)))
+> +		return true;
+> +
+> +	return (lynx_read(serdes, off) >> shift) & mask;
+> +}
+> +
+> +static void lynx_ls_mode_apply(struct lynx_priv *serdes,
+> +			       const struct lynx_mode *mode,
+> +			       enum lynx_protocol proto)
+> +{
+> +	u32 pccr, off, shift, mask;
+> +
+> +	if (WARN_ON_ONCE(proto != LYNX_PROTO_NONE &&
+> +			 !(mode->protos & BIT(proto))))
+> +		return;
+> +	if (WARN_ON_ONCE(lynx_ls_pccr_params(mode, &off, &shift, &mask)))
+> +		return;
+> +
+> +	dev_dbg(serdes->dev, "applying %s to PCCR%X.%s%c_CFG\n",
+> +		lynx_proto_str[proto], mode->pccr,
+> +		lynx_proto_str[__ffs(mode->protos)], 'A' + mode->idx);
+> +
+> +	pccr = lynx_read(serdes, off);
+> +	pccr &= ~(mask << shift);
+> +	if (proto != LYNX_PROTO_NONE)
+> +		pccr |= mode->cfg << shift;
+> +
+> +	if (proto == LYNX_PROTO_1000BASEKX)
+> +		pccr |= PCCR8_SGMIIa_KX << shift;
+> +	lynx_write(serdes, pccr, off);
+> +
+> +	if (mode->protos & PROTO_MASK(SGMII)) {
+> +		u32 cr1 = lynx_read(serdes, LS_SGMIIaCR1(mode->idx));
+> +
+> +		cr1 &= ~SGMIIaCR1_SGPCS_EN;
+> +		cr1 |= proto == LYNX_PROTO_NONE ? 0 : SGMIIaCR1_SGPCS_EN;
+> +		lynx_write(serdes, cr1, LS_SGMIIaCR1(mode->idx));
+> +	}
+> +}
+> +
+> +static int lynx_ls_mode_init(struct lynx_priv *serdes, struct lynx_mode *mode,
+> +			     int type)
+> +{
+> +	u32 max = 0, off, shift, mask;
+> +
+> +	if (mode->pccr >= 0x10) {
+> +		dev_err(serdes->dev, "PCCR index %u too large\n", mode->pccr);
+> +		return -EINVAL;
+> +	}
+> +
+> +	switch (type) {
+> +	case PHY_TYPE_2500BASEX:
+> +		mode->protos = PROTO_MASK(SGMII25);
+> +		fallthrough;
+> +	case PHY_TYPE_SGMII:
+> +		max = 8;
+> +		mode->protos |= PROTO_MASK(SGMII) | PROTO_MASK(1000BASEKX);
+> +		break;
+> +	case PHY_TYPE_QSGMII:
+> +		max = 4;
+> +		mode->protos = PROTO_MASK(QSGMII);
+> +		break;
+> +	case PHY_TYPE_10GBASER:
+> +		max = 8;
+> +		mode->protos = PROTO_MASK(XFI) | PROTO_MASK(10GKR);
+> +		break;
+> +	default:
+> +		dev_err(serdes->dev, "unknown mode type %d\n", type);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (mode->idx >= max) {
+> +		dev_err(serdes->dev, "%s index %u too large\n",
+> +			lynx_proto_str[__ffs(mode->protos)], mode->idx);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (WARN_ON_ONCE(lynx_ls_pccr_params(mode, &off, &shift, &mask)))
+> +		return -EINVAL;
+> +
+> +	if (!mode->cfg || mode->cfg & ~mask) {
+> +		dev_err(serdes->dev, "bad value %x for %s%c_CFG\n",
+> +			mode->cfg, lynx_proto_str[__ffs(mode->protos)],
+> +			'A' + mode->idx);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct lynx_cfg ls1046a_cfg = {
+> +	.lanes = 4,
+> +	.endian = REGMAP_ENDIAN_BIG,
+> +	.mode_conflict = lynx_ls_mode_conflict,
+> +	.mode_apply = lynx_ls_mode_apply,
+> +	.mode_init = lynx_ls_mode_init,
+> +};
+> +
+> +static const struct lynx_cfg ls1088a_cfg = {
+> +	.lanes = 4,
+> +	.endian = REGMAP_ENDIAN_LITTLE,
+> +	.mode_conflict = lynx_ls_mode_conflict,
+> +	.mode_apply = lynx_ls_mode_apply,
+> +	.mode_init = lynx_ls_mode_init,
+> +};
+> +
+> +static const struct of_device_id lynx_of_match[] = {
+> +	{ .compatible = "fsl,ls1046a-serdes", .data = &ls1046a_cfg },
+> +	{ .compatible = "fsl,ls1088a-serdes", .data = &ls1088a_cfg },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, lynx_of_match);
+> +
+> +static struct platform_driver lynx_driver = {
+> +	.probe = lynx_probe,
+> +	.driver = {
+> +		.name = "lynx_10g",
+> +		.of_match_table = lynx_of_match,
+> +	},
+> +};
+> +module_platform_driver(lynx_driver);
+> +
+> +MODULE_AUTHOR("Sean Anderson <sean.anderson@seco.com>");
+> +MODULE_DESCRIPTION("Lynx 10G SerDes driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.35.1.1320.gc452695387.dirty
 
 -- 
-Thanks,
-
-David / dhildenb
-
+~Vinod
