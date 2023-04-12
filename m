@@ -2,86 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7236C77B6E
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 13:57:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65987C77B6E
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 14:07:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjDLN55 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 09:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59508 "EHLO
+        id S229663AbjDLOHs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 10:07:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjDLN54 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 09:57:56 -0400
-X-Greylist: delayed 441 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Apr 2023 06:57:55 PDT
-Received: from utopia.booyaka.com (utopia.booyaka.com [74.50.51.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E3710F0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 06:57:54 -0700 (PDT)
-Received: (qmail 18260 invoked by uid 526); 12 Apr 2023 13:50:32 -0000
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 12 Apr 2023 13:50:32 -0000
-Date:   Wed, 12 Apr 2023 13:50:32 +0000 (UTC)
-From:   Paul Walmsley <paul@booyaka.com>
-To:     Evan Green <evan@rivosinc.com>
-cc:     Palmer Dabbelt <palmer@rivosinc.com>, heiko@sntech.de,
-        linux-doc@vger.kernel.org,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        vineetg@rivosinc.com, Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>, slewis@rivosinc.com,
-        Samuel Holland <samuel@sholland.org>,
-        linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Guo Ren <guoren@kernel.org>
-Subject: Re: [PATCH v6 4/6] RISC-V: hwprobe: Support probing of misaligned
- access performance
-In-Reply-To: <20230407231103.2622178-5-evan@rivosinc.com>
-Message-ID: <alpine.DEB.2.21.999.2304121350020.17765@utopia.booyaka.com>
-References: <20230407231103.2622178-1-evan@rivosinc.com> <20230407231103.2622178-5-evan@rivosinc.com>
-User-Agent: Alpine 2.21.999 (DEB 260 2018-02-26)
+        with ESMTP id S231251AbjDLOHq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 10:07:46 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B18C09033
+        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 07:07:20 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id w11so11514758plp.13
+        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 07:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1681308440;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ezr0Pa2G5CPCejRpgTKWLJ2fU/GGW7Xz3oIM+nnVa98=;
+        b=RUfxf6kD6IVsna+AcdeGpsOuyFBveZCvq4fj5TUDZEDOJMqYKtchhmzLkACtgRjcoG
+         c0nrY2rl7Jpm6mc9ZXCH7XpVnXkhQfAfisiZ6Q37g31KcI5eAclqRq0msdxE6vgM/P45
+         cdt6u3/iHu/QmUG9QPGq5X0oVet0CBytzJF0SMywaFud+I6Sao1MeFWBRHd6r/QlYysH
+         Ex3SZ1TNSlbeb110UJuhky/8YxGowIYvNxfyWc/iS6bkGkXoYmjKiFCgC/roxlytfFFL
+         PAzLy2MWPeGu1FWblrPfZGPiuqCrXQXxMl+jZGrZL0xQnHVt1ezlNytEn6Pb99sKTvBF
+         tLsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681308440;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ezr0Pa2G5CPCejRpgTKWLJ2fU/GGW7Xz3oIM+nnVa98=;
+        b=2pLU9LkhHGhyrRttpY2gYTQe+J2hfeorrHEZ4iuw43a2JoeggdRvUDO1ynwtemff+2
+         A3sIt9qTXrtWziDCBLHAgRsloBozrAexNK7laeaDZHIGcu7k2L4ztk9quhfbRrlxS58z
+         RSqDbwTHv9kJfQPRrMGTpGGE+TEDT+IfomHCvuSgHBtoVm8Q05aGPuvvIthLqjulBfuq
+         SjxiJyD8F65TvuTmg5r27VR9fDbMt1eN/klIJQM3ul0HinTYABf5jvFTW31U1EcVnRkN
+         3bE+BfG6gcg8Q9wuNqGa45m4k/VTx8FEJFYdFJNAlfW0bR5SLx4TJCbkps6gnX3xipop
+         R88Q==
+X-Gm-Message-State: AAQBX9cJUpKOZxc6tv9VVqwiAKhGAcBWHdKyaSfcmpH5yRNBz/5nSMzb
+        RMJ+EdtA0sIgIMdzLlJ0xRA3PhU9CylQaPl00V9EEi/c
+X-Google-Smtp-Source: AKy350aoVZivfdOILzQNFOY/Kl0qh9fiQnQGPIoXOeaWxhUQeXzRzX7ejWwCul5FRJunZAWmCLAiSg==
+X-Received: by 2002:a05:6a20:7a90:b0:da:f525:e629 with SMTP id u16-20020a056a207a9000b000daf525e629mr19924239pzh.53.1681308439909;
+        Wed, 12 Apr 2023 07:07:19 -0700 (PDT)
+Received: from C02FT5A6MD6R.lan ([111.201.131.102])
+        by smtp.gmail.com with ESMTPSA id f9-20020a63de09000000b00502e6bfedc0sm10473613pgg.0.2023.04.12.07.07.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 07:07:19 -0700 (PDT)
+From:   Gang Li <ligang.bdlg@bytedance.com>
+To:     John Hubbard <jhubbard@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Gang Li <ligang.bdlg@bytedance.com>
+Subject: [PATCH v6 0/2] sched/numa: add per-process numa_balancing
+Date:   Wed, 12 Apr 2023 22:06:58 +0800
+Message-Id: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 7 Apr 2023, Evan Green wrote:
+# Introduce
+Add PR_NUMA_BALANCING in prctl.
 
-> This allows userspace to select various routines to use based on the
-> performance of misaligned access on the target hardware.
-> 
-> Rather than adding DT bindings, this change taps into the alternatives
-> mechanism used to probe CPU errata. Add a new function pointer alongside
-> the vendor-specific errata_patch_func() that probes for desirable errata
-> (otherwise known as "features"). Unlike the errata_patch_func(), this
-> function is called on each CPU as it comes up, so it can save
-> feature information per-CPU.
-> 
-> The T-head C906 has fast unaligned access, both as defined by GCC [1],
-> and in performing a basic benchmark, which determined that byte copies
-> are >50% slower than a misaligned word copy of the same data size (source
-> for this test at [2]):
-> 
-> bytecopy size f000 count 50000 offset 0 took 31664899 us
-> wordcopy size f000 count 50000 offset 0 took 5180919 us
-> wordcopy size f000 count 50000 offset 1 took 13416949 us
-> 
-> [1] https://github.com/gcc-mirror/gcc/blob/master/gcc/config/riscv/riscv.cc#L353
-> [2] https://pastebin.com/EPXvDHSW
-> 
-> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Evan Green <evan@rivosinc.com>
-> Reviewed-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
-> Tested-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
+A large number of page faults will cause performance loss when numa
+balancing is performing. Thus those processes which care about worst-case
+performance need numa balancing disabled. Others, on the contrary, allow a
+temporary performance loss in exchange for higher average performance, so
+enable numa balancing is better for them.
 
-Reviewed-by: Paul Walmsley <paul.walmsley@sifive.com>
+Numa balancing can only be controlled globally by
+/proc/sys/kernel/numa_balancing. Due to the above case, we want to
+disable/enable numa_balancing per-process instead.
 
+Set per-process numa balancing:
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_DISABLE); //disable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_ENABLE);  //enable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_DEFAULT); //follow global
+Get numa_balancing state:
+	prctl(PR_NUMA_BALANCING, PR_GET_NUMA_BALANCING, &ret);
+	cat /proc/<pid>/status | grep NumaB_mode
 
-- Paul
+# Unixbench
+This is overhead of this patch, not performance improvement.
++-------------------+----------+
+|       NAME        | OVERHEAD |
++-------------------+----------+
+| Pipe_Throughput   |  0.98%   |
+| Context_Switching | -0.96%   |
+| Process_Creation  |  1.18%   |
++-------------------+----------+
+
+# Changes
+Changes in v6:
+- rebase on top of next-20230411
+- run Unixbench on physical machine
+- acked by John Hubbard <jhubbard@nvidia.com>
+
+Changes in v5:
+- replace numab_enabled with numa_balancing_mode (Peter Zijlstra)
+- make numa_balancing_enabled and numa_balancing_mode inline (Peter Zijlstra)
+- use static_branch_inc/dec instead of static_branch_enable/disable (Peter Zijlstra)
+- delete CONFIG_NUMA_BALANCING in task_tick_fair (Peter Zijlstra)
+- reword commit, use imperative mood (Bagas Sanjaya)
+- Unixbench overhead result
+
+Changes in v4:
+- code clean: add wrapper function `numa_balancing_enabled`
+
+Changes in v3:
+- Fix compile error.
+
+Changes in v2:
+- Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
+  enabled and disabled will ignore global setting, and default will follow
+  global setting.
+
+Gang Li (2):
+  sched/numa: use static_branch_inc/dec for sched_numa_balancing
+  sched/numa: add per-process numa_balancing
+
+ Documentation/filesystems/proc.rst   |  2 ++
+ fs/proc/task_mmu.c                   | 20 ++++++++++++
+ include/linux/mm_types.h             |  3 ++
+ include/linux/sched/numa_balancing.h | 45 ++++++++++++++++++++++++++
+ include/uapi/linux/prctl.h           |  8 +++++
+ kernel/fork.c                        |  4 +++
+ kernel/sched/core.c                  | 26 +++++++--------
+ kernel/sched/fair.c                  |  9 +++---
+ kernel/sys.c                         | 47 ++++++++++++++++++++++++++++
+ mm/mprotect.c                        |  6 ++--
+ 10 files changed, 151 insertions(+), 19 deletions(-)
+
+-- 
+2.20.1
+
