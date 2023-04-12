@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CAFC77B76
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 22:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50CCFC77B6C
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 22:44:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjDLWnZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 18:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
+        id S229553AbjDLWoA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 18:44:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbjDLWnY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 18:43:24 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D6B65B3;
-        Wed, 12 Apr 2023 15:43:23 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id pc4-20020a17090b3b8400b0024676052044so13296732pjb.1;
-        Wed, 12 Apr 2023 15:43:23 -0700 (PDT)
+        with ESMTP id S229897AbjDLWns (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 18:43:48 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D76B7DB9;
+        Wed, 12 Apr 2023 15:43:37 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-51870e745bfso782479a12.2;
+        Wed, 12 Apr 2023 15:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681339402;
+        d=gmail.com; s=20221208; t=1681339417;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/p/qDE2ikX+16GISXMOf5Sx657qFQJnEhjHYRNC2x2w=;
-        b=l4NSCNVBJ9Ay1odXd9M9YvurdYkrA4QQ8XIRYugfEVRjK1SiCvU60Ff89JKg+FqyIn
-         U0QLFE+z+lHrl14haFZmuYAVNGQIoxw/hrNA6dknnmbd9sZ4wWdAlqPtz3HAUEtouKF2
-         /LwdtqJL2YU11YrrMJI/+qOlp0+wJ/1r24weHBT9AR6aTIa4qO+7Nwq/NGsGTH0VD3vt
-         kW+kqp2ZXUGf/Xb02D+cRtpFiUOwPa8CHEs2A2MJv1nvQutZvSxHGL46wUljAVdPrt02
-         mBm1p3Eync8pH3zkqFzDsCJ9TxHsgYHFrsPe/gnq2ygMTWTchdlIl4v8/wmsJ/3L5eWV
-         WYDQ==
+        bh=geumVPtdfdeonNbJRvQRqI8DZnvMBPVyWVWG9NtZCuE=;
+        b=ATps2cQzsHjp2Awpl3uuwTjgh7vygigJUTrlBrNgwlzPytl1gYSdhpkH8e0PjnFWFU
+         kAODEM4CPn0vunvQGMwPw7W57CANlRTN1eMEB4bs+TZCtsxhR3IPkrXpyzbPCWSW8tRl
+         BdzHrm1X3RWXwDmNOOYE9+H/tAHvcxxdxVHEC8r0m5E/4zTcwnonBVaM4WMB9ry8c7Lv
+         6ENttFGk7zdFWXvyOm3iV4/XAKOvg8e+4NV3H6CViKepyJmEcq8Jghxkx56OoH+Qpiyr
+         ZJhYOTLji+bvvBtrK+mNGoDMQiCoPlOdkOzceBZ6+s8tpxQBezB4/x93lIJCmhfpilrz
+         lRtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681339402;
+        d=1e100.net; s=20221208; t=1681339417;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/p/qDE2ikX+16GISXMOf5Sx657qFQJnEhjHYRNC2x2w=;
-        b=aQ56aYmmV06T2vsqh6J50rkFg0ZVA5AJm2OfNnolSNdA9HcW5s5ldCbN9EbEeGjnWD
-         pLP58V39WBN7CjQxt11oTk5+or5QozrubqUZOs4kGZMJx7s1PjnEhKD7U8fvqgDuyPR9
-         mC2nsH1jCaN6SlRinF8Nmn0jx+wOIDGthcOcCj5N/7PEK78s3jDnUNxlV4qxUq6ces8i
-         ivULMaalEy4Zc6VHUI5Zfy/aLcx4XUGYa8uC2DHgyLKpOZSvQfLNJA7+y4eLamOEJHCt
-         m6vfpnY1GhFVu2o34f/guBijzOvS2/VSUqgtBiesRSuHk7M16/JQlXNVQVmb0T+bN5g1
-         bnoQ==
-X-Gm-Message-State: AAQBX9d9hYZEQZQ+K0wPZPtnd10JraEqZpTOtk3eqKzkSozus4ZnX9m1
-        VVv2IAATrLubX1KSyl3+qpE=
-X-Google-Smtp-Source: AKy350biUSQbBRrLD/UQ8o0ZmnAB83SqMkLx2IfftqY0y0MSs61iBX4gcX/ZxVa/TvXoG1QuRIo5ZA==
-X-Received: by 2002:a17:903:7c6:b0:1a6:52f9:d4c7 with SMTP id ko6-20020a17090307c600b001a652f9d4c7mr370020plb.60.1681339402470;
-        Wed, 12 Apr 2023 15:43:22 -0700 (PDT)
+        bh=geumVPtdfdeonNbJRvQRqI8DZnvMBPVyWVWG9NtZCuE=;
+        b=IOvZTU+JuYz0J/Slcv+1KfBGsmBVwKpFFV55N80epwu4O+dzNaP9D0Dkw1gm6jAY43
+         LdrASb92fo8pJ1d59BXYGIGlQi0Ckf0qYUPEAn2bWX82rX6LLSWrI9NbvXJP9UyKQwY8
+         J+t2x3qIxbK7PZ99EkQtyDr7/50pXrFegsMpdL6EmxTxXEd7roT6aj+UBVvZY/Y8gVL4
+         PEA0229lS92UWhkyV9R6PdVA9B1PQdzJXXeVzYkKqEh3ZmIF9Y0tsAfPM1vItwgd4c54
+         6VXFYV1LSP3cK281IcidtUTomTOAZKWwwtbyvH4fig2bYFEs4C4We6UeQ2PSvWLsKK/4
+         W00w==
+X-Gm-Message-State: AAQBX9d3U/NCzOTXmHycuF/LbGnKuaDNNOkbrN9EbdV7VgVA4lrwG8V3
+        +gi5ZFunpRrIEDJToTzqx+4=
+X-Google-Smtp-Source: AKy350aOV/Fin4M6YfXrVzZWWWswebj4K8aE7I12k8VMTPKtnpPu4nJTC6zaJQYB+P+9v/Ma92/e/A==
+X-Received: by 2002:a05:6a00:244c:b0:63a:65a9:10db with SMTP id d12-20020a056a00244c00b0063a65a910dbmr634262pfj.7.1681339416832;
+        Wed, 12 Apr 2023 15:43:36 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id m7-20020a1709026bc700b0019a5aa7eab0sm102772plt.54.2023.04.12.15.43.21
+        by smtp.gmail.com with ESMTPSA id t22-20020aa79396000000b00635d381b57csm7144133pfe.205.2023.04.12.15.43.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 15:43:22 -0700 (PDT)
+        Wed, 12 Apr 2023 15:43:36 -0700 (PDT)
 From:   Rob Clark <robdclark@gmail.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
@@ -67,9 +67,9 @@ Cc:     linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 1/6] drm: Add common fdinfo helper
-Date:   Wed, 12 Apr 2023 15:42:53 -0700
-Message-Id: <20230412224311.23511-2-robdclark@gmail.com>
+Subject: [PATCH v4 5/6] drm: Add fdinfo memory stats
+Date:   Wed, 12 Apr 2023 15:42:57 -0700
+Message-Id: <20230412224311.23511-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230412224311.23511-1-robdclark@gmail.com>
 References: <20230412224311.23511-1-robdclark@gmail.com>
@@ -81,141 +81,215 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Rob Clark <robdclark@chromium.org>
 
-Handle a bit of the boiler-plate in a single case, and make it easier to
-add some core tracked stats.
+Add support to dump GEM stats to fdinfo.
 
-v2: Update drm-usage-stats.rst, 64b client-id, rename drm_show_fdinfo
+v2: Fix typos, change size units to match docs, use div_u64
+v3: Do it in core
+v4: more kerneldoc
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- Documentation/gpu/drm-usage-stats.rst | 10 +++++++-
- drivers/gpu/drm/drm_file.c            | 35 +++++++++++++++++++++++++++
- include/drm/drm_drv.h                 |  7 ++++++
- include/drm/drm_file.h                |  4 +++
- 4 files changed, 55 insertions(+), 1 deletion(-)
+ Documentation/gpu/drm-usage-stats.rst | 21 ++++++++
+ drivers/gpu/drm/drm_file.c            | 76 +++++++++++++++++++++++++++
+ include/drm/drm_file.h                |  1 +
+ include/drm/drm_gem.h                 | 30 +++++++++++
+ 4 files changed, 128 insertions(+)
 
 diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index b46327356e80..2ab32c40e93c 100644
+index 2ab32c40e93c..80003e27e28e 100644
 --- a/Documentation/gpu/drm-usage-stats.rst
 +++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -126,7 +126,15 @@ percentage utilization of the engine, whereas drm-engine-<str> only reflects
- time active without considering what frequency the engine is operating as a
- percentage of it's maximum frequency.
+@@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
+ Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+ indicating kibi- or mebi-bytes.
  
-+Implementation Details
-+======================
++- drm-shared-memory: <uint> [KiB|MiB]
 +
-+Drivers should use drm_show_fdinfo() in their `struct file_operations`, and
-+implement &drm_driver.show_fdinfo if they wish to provide any stats which
-+are not provided by drm_show_fdinfo().  But even driver specific stats should
-+be documented above and where possible, aligned with other drivers.
++The total size of buffers that are shared with another file (ie. have more
++than a single handle).
 +
- Driver specific implementations
--===============================
-+-------------------------------
++- drm-private-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are not shared with another file.
++
++- drm-resident-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are resident in system memory.
++
++- drm-purgeable-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are purgeable.
++
++- drm-active-memory: <uint> [KiB|MiB]
++
++The total size of buffers that are active on one or more rings.
++
+ - drm-cycles-<str> <uint>
  
- :ref:`i915-usage-stats`
+ Engine identifier string must be the same as the one specified in the
 diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index a51ff8cee049..6d5bdd684ae2 100644
+index 6d5bdd684ae2..04a7ed7eba8e 100644
 --- a/drivers/gpu/drm/drm_file.c
 +++ b/drivers/gpu/drm/drm_file.c
-@@ -148,6 +148,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
-  */
- struct drm_file *drm_file_alloc(struct drm_minor *minor)
- {
-+	static atomic64_t ident = ATOMIC_INIT(0);
- 	struct drm_device *dev = minor->dev;
- 	struct drm_file *file;
- 	int ret;
-@@ -156,6 +157,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	if (!file)
- 		return ERR_PTR(-ENOMEM);
+@@ -42,6 +42,7 @@
+ #include <drm/drm_client.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
++#include <drm/drm_gem.h>
+ #include <drm/drm_print.h>
  
-+	/* Get a unique identifier for fdinfo: */
-+	file->client_id = atomic64_inc_return(&ident);
- 	file->pid = get_pid(task_pid(current));
- 	file->minor = minor;
- 
-@@ -868,6 +871,38 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+ #include "drm_crtc_internal.h"
+@@ -871,6 +872,79 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
  }
  EXPORT_SYMBOL(drm_send_event);
  
-+/**
-+ * drm_show_fdinfo - helper for drm file fops
-+ * @seq_file: output stream
-+ * @f: the device file instance
-+ *
-+ * Helper to implement fdinfo, for userspace to query usage stats, etc, of a
-+ * process using the GPU.  See also &drm_driver.show_fdinfo.
-+ *
-+ * For text output format description please see Documentation/gpu/drm-usage-stats.rst
-+ */
-+void drm_show_fdinfo(struct seq_file *m, struct file *f)
++static void print_size(struct drm_printer *p, const char *stat, size_t sz)
 +{
-+	struct drm_file *file = f->private_data;
-+	struct drm_device *dev = file->minor->dev;
-+	struct drm_printer p = drm_seq_file_printer(m);
++	const char *units[] = {"", " KiB", " MiB"};
++	unsigned u;
 +
-+	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
-+	drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
-+
-+	if (dev_is_pci(dev->dev)) {
-+		struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
-+		drm_printf(&p, "drm-pdev:\t%04x:%02x:%02x.%d\n",
-+			   pci_domain_nr(pdev->bus), pdev->bus->number,
-+			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
++	for (u = 0; u < ARRAY_SIZE(units) - 1; u++) {
++		if (sz < SZ_1K)
++			break;
++		sz = div_u64(sz, SZ_1K);
 +	}
 +
-+	if (dev->driver->show_fdinfo)
-+		dev->driver->show_fdinfo(&p, file);
++	drm_printf(p, "%s:\t%zu%s\n", stat, sz, units[u]);
 +}
-+EXPORT_SYMBOL(drm_show_fdinfo);
++
++static void print_memory_stats(struct drm_printer *p, struct drm_file *file)
++{
++	struct drm_gem_object *obj;
++	struct {
++		size_t shared;
++		size_t private;
++		size_t resident;
++		size_t purgeable;
++		size_t active;
++	} size = {0};
++	bool has_status = false;
++	int id;
++
++	spin_lock(&file->table_lock);
++	idr_for_each_entry (&file->object_idr, obj, id) {
++		enum drm_gem_object_status s = 0;
++
++		if (obj->funcs && obj->funcs->status) {
++			s = obj->funcs->status(obj);
++			has_status = true;
++		}
++
++		if (obj->handle_count > 1) {
++			size.shared += obj->size;
++		} else {
++			size.private += obj->size;
++		}
++
++		if (s & DRM_GEM_OBJECT_RESIDENT) {
++			size.resident += obj->size;
++		} else {
++			/* If already purged or not yet backed by pages, don't
++			 * count it as purgeable:
++			 */
++			s &= ~DRM_GEM_OBJECT_PURGEABLE;
++		}
++
++		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
++			size.active += obj->size;
++
++			/* If still active, don't count as purgeable: */
++			s &= ~DRM_GEM_OBJECT_PURGEABLE;
++		}
++
++		if (s & DRM_GEM_OBJECT_PURGEABLE)
++			size.purgeable += obj->size;
++	}
++	spin_unlock(&file->table_lock);
++
++	print_size(p, "drm-shared-memory", size.shared);
++	print_size(p, "drm-private-memory", size.private);
++	print_size(p, "drm-active-memory", size.active);
++
++	if (has_status) {
++		print_size(p, "drm-resident-memory", size.resident);
++		print_size(p, "drm-purgeable-memory", size.purgeable);
++	}
++}
 +
  /**
-  * mock_drm_getfile - Create a new struct file for the drm device
-  * @minor: drm minor to wrap (e.g. #drm_device.primary)
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 5b86bb7603e7..5edf2a13733b 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -401,6 +401,13 @@ struct drm_driver {
- 			       struct drm_device *dev, uint32_t handle,
- 			       uint64_t *offset);
+  * drm_show_fdinfo - helper for drm file fops
+  * @seq_file: output stream
+@@ -900,6 +974,8 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
  
-+	/**
-+	 * @show_fdinfo:
-+	 *
-+	 * Print device specific fdinfo.  See Documentation/gpu/drm-usage-stats.rst.
-+	 */
-+	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
+ 	if (dev->driver->show_fdinfo)
+ 		dev->driver->show_fdinfo(&p, file);
 +
- 	/** @major: driver major number */
- 	int major;
- 	/** @minor: driver minor number */
++	print_memory_stats(&p, file);
+ }
+ EXPORT_SYMBOL(drm_show_fdinfo);
+ 
 diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 0d1f853092ab..6de6d0e9c634 100644
+index 6de6d0e9c634..919284bb4f1d 100644
 --- a/include/drm/drm_file.h
 +++ b/include/drm/drm_file.h
-@@ -258,6 +258,9 @@ struct drm_file {
- 	/** @pid: Process that opened this file. */
- 	struct pid *pid;
+@@ -41,6 +41,7 @@
+ struct dma_fence;
+ struct drm_file;
+ struct drm_device;
++struct drm_printer;
+ struct device;
+ struct file;
  
-+	/** @client_id: A unique id for fdinfo */
-+	u64 client_id;
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 189fd618ca65..9ebd2820ad1f 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -42,6 +42,25 @@
+ struct iosys_map;
+ struct drm_gem_object;
+ 
++/**
++ * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
++ * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
++ * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
++ *
++ * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
++ * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_PURGEABLE if
++ * it still active or not resident, in which case drm_show_fdinfo() will not
++ * account for it as purgeable.  So drivers do not need to check if the buffer
++ * is idle and resident to return this bit.  (Ie. userspace can mark a buffer
++ * as purgeable even while it is still busy on the GPU.. it does not _actually_
++ * become puregeable until it becomes idle.  The status gem object func does
++ * not need to consider this.)
++ */
++enum drm_gem_object_status {
++	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
++	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
++};
 +
- 	/** @magic: Authentication magic, see @authenticated. */
- 	drm_magic_t magic;
+ /**
+  * struct drm_gem_object_funcs - GEM object functions
+  */
+@@ -174,6 +193,17 @@ struct drm_gem_object_funcs {
+ 	 */
+ 	int (*evict)(struct drm_gem_object *obj);
  
-@@ -437,6 +440,7 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
- void drm_send_event_timestamp_locked(struct drm_device *dev,
- 				     struct drm_pending_event *e,
- 				     ktime_t timestamp);
-+void drm_show_fdinfo(struct seq_file *m, struct file *f);
- 
- struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
- 
++	/**
++	 * @status:
++	 *
++	 * The optional status callback can return additional object state
++	 * which determines which stats the object is counted against.  The
++	 * callback is called under table_lock.  Racing against object status
++	 * change is "harmless", and the callback can expect to not race
++	 * against object destruction.
++	 */
++	enum drm_gem_object_status (*status)(struct drm_gem_object *obj);
++
+ 	/**
+ 	 * @vm_ops:
+ 	 *
 -- 
 2.39.2
 
