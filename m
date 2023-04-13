@@ -2,268 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB7FC77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 08:46:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EDEC77B61
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 09:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229895AbjDMIqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 04:46:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43944 "EHLO
+        id S229709AbjDMJGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 05:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbjDMIqf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 04:46:35 -0400
+        with ESMTP id S229707AbjDMJGy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 05:06:54 -0400
 Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 235B983C3
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 01:46:32 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-94cd6f4da9eso43173566b.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 01:46:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657891991
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 02:06:48 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id f26so29567419ejb.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 02:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1681375590; x=1683967590;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cU47L3sLeOYrkDWs84Myga16bAiwQGB6q0rl/Fg1mzk=;
-        b=ev61Sb/spDPgQ85fk+r6/L0drS29wujhVCQDZc1oIvnuDEGc8EEO3YjY6mLz3Fzv9o
-         EijAY1sQ6ptnmzi91HIZ/JPtrpRpzDuIvB7MyGIOWm6H8jTJMFPnTDT9GlaYiUwCKuzq
-         hb+oaLvnHIbJCdWDNIHUY4fdjbPvZcAKyijbU=
+        d=linaro.org; s=google; t=1681376807; x=1683968807;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UFx0Tegz+na2H8E8/SzrHR4EtntR/LNXLbl5VqgfAAI=;
+        b=lsJ2z0bXokcLYWx6io3xwLHcgn0faiH4+P0IvW9E10joQb+97+re0PuWf+bs3Ft6om
+         d9GTi9+eDNkO4KlWLcrJFEYRQgG716x1TFp+bClTgHAsMT5xZ1/xjc5XlVYTJR6bvyJo
+         HCCcu6lIrVhVxqNV7u3pQgAOzgzNXuqF/1rYfGyLTuBzEC0nVHqK9iPw7T1R5uwiuEos
+         yD+duCuzQqoA7w4Mcyq9x5tG0lWDFrEpwLwPkoheDpmpBSWONswoJML0mJJaTbWAh+ht
+         G7nf8Wt9aZMk4QuokT1JUELuS2OkOoWGj0kfgJL6HXQ9u/dXldme7qyIfGjtZXJ13UgI
+         DReg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681375590; x=1683967590;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1681376807; x=1683968807;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cU47L3sLeOYrkDWs84Myga16bAiwQGB6q0rl/Fg1mzk=;
-        b=VnRx7xUlzljAumHxqFklVFkir8a362GmvAGdmHPAWaPDI5W/7jMNNqTpLRpmkr2EbV
-         YeFZWcLpmku5NQg5Er933yUWBKG+6VwXRYTSSagOSQOojnxoVf0Ejc5vbv6I75wnHZO8
-         ek5RvOJWHqK+QrQeVI+KjGPyILRDE7jDI8iFdBvZqe8zRehHuWAZB7l9UUZ0a4DUkd1x
-         tiL8wrr5I7mzLz3VxFPKpSZMzcP+/mSmTn+aT3AHDEkvf39th+P5BKMV25oCN16WCSF6
-         V7oko3a7EfT8h4eHuSRCoEm9NeM8JlcQXd3VTKODGFbYCys6nWPt9O0Ve2z2RTBqFedY
-         TkPw==
-X-Gm-Message-State: AAQBX9c33H9DLV7GqeyZr3Ul1jCN5aOUx2ruN9gk/QTjQrZk4kdubUoa
-        0eKkgWBeRraD9BET/AVi6oEBug==
-X-Google-Smtp-Source: AKy350ayrJkpPJdsjI/YoN1IZKT+GlbEBPHLdDhM6jlRev4fxFd1ZU3slcUdb/yNo5zYIA0tiIY7GA==
-X-Received: by 2002:a17:906:150:b0:94e:4843:5e32 with SMTP id 16-20020a170906015000b0094e48435e32mr1674681ejh.5.1681375590474;
-        Thu, 13 Apr 2023 01:46:30 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id y14-20020a1709064b0e00b0094e60ac9678sm642373eju.122.2023.04.13.01.46.29
+        bh=UFx0Tegz+na2H8E8/SzrHR4EtntR/LNXLbl5VqgfAAI=;
+        b=IWXSApGdUdqISEqLKSSBoN8537tuk9FQn4a9E0/+gT9idxK6Lu45NHJnbBHxVaPuAa
+         JfpebWKFhAJyA1VsQ8n58uPNhdQim26QjuY7f2YZ3R8IHjSQCfFcEWmpvFxc0b9FUQN+
+         iFFTdCyYNze8X8IyhZjAwGNDjLyzvrYw+K2VN5WvP3vXjD3D3GMENZNwa4OxfcKcx2SP
+         pwpciFM73NxXSm+8MuAuTh5E69cX6qUB/K3+ks8PvbrRydyxYg66rado0kWore+4poEk
+         XjOioF+Qlt72OqFpJK0X3eMGdgIeVCSQ93/QHk7szMxdwj8MBgtSWqUggHLEhGeEmRhu
+         yKqg==
+X-Gm-Message-State: AAQBX9cHXIhhkAoDea6eCg7VsjrRARsR4IejHHnnBot2+nBN7E1Z+lJO
+        scd/l7XKMvH9Ds0HsDFGhEC8Hw==
+X-Google-Smtp-Source: AKy350bYyZoPIbN0SskyVMj2/knKJPoBCk/EFJg5yFIO6NYIS0yJuuL9UIj0eA50IFkR0rVmkRoIXA==
+X-Received: by 2002:a17:906:6b0e:b0:932:cec7:6801 with SMTP id q14-20020a1709066b0e00b00932cec76801mr1645505ejr.54.1681376806829;
+        Thu, 13 Apr 2023 02:06:46 -0700 (PDT)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:ec6f:1b33:ab3f:bfd7])
+        by smtp.gmail.com with ESMTPSA id xb9-20020a170907070900b0094e6a9c1d24sm693413ejb.12.2023.04.13.02.06.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Apr 2023 01:46:30 -0700 (PDT)
-Date:   Thu, 13 Apr 2023 10:46:28 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Clark <robdclark@chromium.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/6] drm: Add common fdinfo helper
-Message-ID: <ZDfBZIuiAuMhuULd@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230412224311.23511-1-robdclark@gmail.com>
- <20230412224311.23511-2-robdclark@gmail.com>
- <ce87917c-6cf1-b1e7-4782-61a7e47aa92d@amd.com>
+        Thu, 13 Apr 2023 02:06:46 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] Documentation/process: always CC responsible lists
+Date:   Thu, 13 Apr 2023 11:06:44 +0200
+Message-Id: <20230413090644.15734-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ce87917c-6cf1-b1e7-4782-61a7e47aa92d@amd.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 13, 2023 at 10:07:11AM +0200, Christian König wrote:
-> Am 13.04.23 um 00:42 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> > 
-> > Handle a bit of the boiler-plate in a single case, and make it easier to
-> > add some core tracked stats.
-> > 
-> > v2: Update drm-usage-stats.rst, 64b client-id, rename drm_show_fdinfo
-> > 
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   Documentation/gpu/drm-usage-stats.rst | 10 +++++++-
-> >   drivers/gpu/drm/drm_file.c            | 35 +++++++++++++++++++++++++++
-> >   include/drm/drm_drv.h                 |  7 ++++++
-> >   include/drm/drm_file.h                |  4 +++
-> >   4 files changed, 55 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> > index b46327356e80..2ab32c40e93c 100644
-> > --- a/Documentation/gpu/drm-usage-stats.rst
-> > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > @@ -126,7 +126,15 @@ percentage utilization of the engine, whereas drm-engine-<str> only reflects
-> >   time active without considering what frequency the engine is operating as a
-> >   percentage of it's maximum frequency.
-> > +Implementation Details
-> > +======================
-> > +
-> > +Drivers should use drm_show_fdinfo() in their `struct file_operations`, and
-> > +implement &drm_driver.show_fdinfo if they wish to provide any stats which
-> > +are not provided by drm_show_fdinfo().  But even driver specific stats should
-> > +be documented above and where possible, aligned with other drivers.
-> 
-> I'm really wondering if it wouldn't be less mid-layering if we let the
-> drivers call the drm function to print the common values instead of the
-> other way around?
+The "Select the recipients for your patch" part about CC-ing mailing
+lists is a bit vague and might be understood that only some lists should
+be Cc-ed.  That's not how most of maintainers expect.  For give code,
+associated mailing list must be CC-ed, because the list is used for
+reviewing and testing code.  Example are the Devicetree bindings
+patches, which are tested iff Devicetree mailing list is CC-ed.
 
-The idea is that we plug this into DRM_GEM_FOPS and then everyone gets it
-by default. So it's a bit a tradeoff between midlayering and having
-inconsistent uapi between drivers. And there's generic tools that parse
-this, so consistency across drivers is good.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-My gut feeling was that after a bit of experimenting with lots of
-different drivers for fdinfo stuff it's time to push for a bit more
-standardization and less fragmentation.
+---
 
-We can of course later on course-correct and shuffle things around again,
-e.g. by pushing more things into the gem_bo_fops->status hook (ttm and
-other memory manager libs could implement a decent one by default), or
-moving more into the drm_driver->show_fdinfo callback again.
+At least one person was arguing with me that CC-ing selective lists for
+his patch (e.g. skipping list X for code X) is okay, thus let's be more
+specific here.
+---
+ Documentation/process/submitting-patches.rst | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-If you look at kms we also shuffle things back&forth between core (for
-more consistency) and drivers (for more flexibility where needed).
-
-The important part here imo is that we start with some scaffolding to be
-able to do this. Like another thing that I think we want is some
-drm_fdinfo_print functions that make sure the formatting is guaranteed
-consistents and we don't trip up parsers (like some drivers use " \t" as
-separator instead of just "\t", I guess by accident).
-
-> Apart from thatquestion the patch looks good to me.
-
-Ack? Or want the above recorded in the commit message, I think it'd make
-sense to put it there.
--Daniel
-
-> 
-> Christian.
-> 
-> > +
-> >   Driver specific implementations
-> > -===============================
-> > +-------------------------------
-> >   :ref:`i915-usage-stats`
-> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> > index a51ff8cee049..6d5bdd684ae2 100644
-> > --- a/drivers/gpu/drm/drm_file.c
-> > +++ b/drivers/gpu/drm/drm_file.c
-> > @@ -148,6 +148,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
-> >    */
-> >   struct drm_file *drm_file_alloc(struct drm_minor *minor)
-> >   {
-> > +	static atomic64_t ident = ATOMIC_INIT(0);
-> >   	struct drm_device *dev = minor->dev;
-> >   	struct drm_file *file;
-> >   	int ret;
-> > @@ -156,6 +157,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
-> >   	if (!file)
-> >   		return ERR_PTR(-ENOMEM);
-> > +	/* Get a unique identifier for fdinfo: */
-> > +	file->client_id = atomic64_inc_return(&ident);
-> >   	file->pid = get_pid(task_pid(current));
-> >   	file->minor = minor;
-> > @@ -868,6 +871,38 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
-> >   }
-> >   EXPORT_SYMBOL(drm_send_event);
-> > +/**
-> > + * drm_show_fdinfo - helper for drm file fops
-> > + * @seq_file: output stream
-> > + * @f: the device file instance
-> > + *
-> > + * Helper to implement fdinfo, for userspace to query usage stats, etc, of a
-> > + * process using the GPU.  See also &drm_driver.show_fdinfo.
-> > + *
-> > + * For text output format description please see Documentation/gpu/drm-usage-stats.rst
-> > + */
-> > +void drm_show_fdinfo(struct seq_file *m, struct file *f)
-> > +{
-> > +	struct drm_file *file = f->private_data;
-> > +	struct drm_device *dev = file->minor->dev;
-> > +	struct drm_printer p = drm_seq_file_printer(m);
-> > +
-> > +	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
-> > +	drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
-> > +
-> > +	if (dev_is_pci(dev->dev)) {
-> > +		struct pci_dev *pdev = to_pci_dev(dev->dev);
-> > +
-> > +		drm_printf(&p, "drm-pdev:\t%04x:%02x:%02x.%d\n",
-> > +			   pci_domain_nr(pdev->bus), pdev->bus->number,
-> > +			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
-> > +	}
-> > +
-> > +	if (dev->driver->show_fdinfo)
-> > +		dev->driver->show_fdinfo(&p, file);
-> > +}
-> > +EXPORT_SYMBOL(drm_show_fdinfo);
-> > +
-> >   /**
-> >    * mock_drm_getfile - Create a new struct file for the drm device
-> >    * @minor: drm minor to wrap (e.g. #drm_device.primary)
-> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> > index 5b86bb7603e7..5edf2a13733b 100644
-> > --- a/include/drm/drm_drv.h
-> > +++ b/include/drm/drm_drv.h
-> > @@ -401,6 +401,13 @@ struct drm_driver {
-> >   			       struct drm_device *dev, uint32_t handle,
-> >   			       uint64_t *offset);
-> > +	/**
-> > +	 * @show_fdinfo:
-> > +	 *
-> > +	 * Print device specific fdinfo.  See Documentation/gpu/drm-usage-stats.rst.
-> > +	 */
-> > +	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
-> > +
-> >   	/** @major: driver major number */
-> >   	int major;
-> >   	/** @minor: driver minor number */
-> > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> > index 0d1f853092ab..6de6d0e9c634 100644
-> > --- a/include/drm/drm_file.h
-> > +++ b/include/drm/drm_file.h
-> > @@ -258,6 +258,9 @@ struct drm_file {
-> >   	/** @pid: Process that opened this file. */
-> >   	struct pid *pid;
-> > +	/** @client_id: A unique id for fdinfo */
-> > +	u64 client_id;
-> > +
-> >   	/** @magic: Authentication magic, see @authenticated. */
-> >   	drm_magic_t magic;
-> > @@ -437,6 +440,7 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
-> >   void drm_send_event_timestamp_locked(struct drm_device *dev,
-> >   				     struct drm_pending_event *e,
-> >   				     ktime_t timestamp);
-> > +void drm_show_fdinfo(struct seq_file *m, struct file *f);
-> >   struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
-> 
-
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 12d58ddc2b8a..486875fd73c0 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -231,20 +231,17 @@ patch.
+ Select the recipients for your patch
+ ------------------------------------
+ 
+-You should always copy the appropriate subsystem maintainer(s) on any patch
+-to code that they maintain; look through the MAINTAINERS file and the
+-source code revision history to see who those maintainers are.  The
+-script scripts/get_maintainer.pl can be very useful at this step (pass paths to
+-your patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
++You should always copy the appropriate subsystem maintainer(s) and list(s) on
++any patch to code that they maintain; look through the MAINTAINERS file and the
++source code revision history to see who those maintainers are.  The script
++scripts/get_maintainer.pl can be very useful at this step (pass paths to your
++patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
+ maintainer for the subsystem you are working on, Andrew Morton
+ (akpm@linux-foundation.org) serves as a maintainer of last resort.
+ 
+-You should also normally choose at least one mailing list to receive a copy
+-of your patch set.  linux-kernel@vger.kernel.org should be used by default
+-for all patches, but the volume on that list has caused a number of
+-developers to tune it out.  Look in the MAINTAINERS file for a
+-subsystem-specific list; your patch will probably get more attention there.
+-Please do not spam unrelated lists, though.
++linux-kernel@vger.kernel.org should be used by default for all patches, but the
++volume on that list has caused a number of developers to tune it out.  Please
++do not spam unrelated lists and unrelated people, though.
+ 
+ Many kernel-related lists are hosted on vger.kernel.org; you can find a
+ list of them at http://vger.kernel.org/vger-lists.html.  There are
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
