@@ -2,136 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1045C77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 16:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6057EC77B61
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 16:36:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjDMQda (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 12:33:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40292 "EHLO
+        id S229828AbjDMQgk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 12:36:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjDMQd3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 12:33:29 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C973AAD;
-        Thu, 13 Apr 2023 09:33:28 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 261CA5C00D1;
-        Thu, 13 Apr 2023 12:33:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 13 Apr 2023 12:33:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1681403607; x=1681490007; bh=E7
-        v8GvR/BA8ZybVtwk1BgUR7UNaro8OfYXIZQ2El7BY=; b=ViQZJZIU22yTNfIXLP
-        xff30J2t4m8/W4Cxx+Uv32Zj6vz41yqCPEbVWpXv1gvmj1lPhh5ikKTe0F5NBrPX
-        07Kw9by1MdmhjEixCyCg3c4a7j38kyNG5wJoWTdEDoVOZHleD2CNnE+kh5b9E6ze
-        vuSTwIBiV2diADtLTlPRyWmIGYie5u/WuM8/vDpMBWxZAm0X463lzuklBNMOsZc2
-        p6L/39L43RxMkGdkVZsI8dO2ADwLBOpf69aUjIBdiiT/ecOGEok5hSoGetFQmH9G
-        vABt4czEa++k/9PZ0P0G8ywTStOJqWaLgq2ZRVARy9GgZwmjap01zXFth/kwj2Z4
-        Fi/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1681403607; x=1681490007; bh=E7v8GvR/BA8Zy
-        bVtwk1BgUR7UNaro8OfYXIZQ2El7BY=; b=GO3ith22DKwoVSWx9DMWTK5XCro1D
-        EZlVCZ5TANUiZreKwDmm8WsGdVvrv98eXVLItMdzSK8R/4+bn+1krYW8uY5lg66U
-        Qb/tMzIh/0T/z+cO/rQMHBQ7HSjXV47XpFWtSN2YfSBeYiQtIk+qoCtGWuHiDGJQ
-        va9xYVjR8OaYOtYiE0eRxe+CgoWkG26AOdWemJ88sHoxztzkhw+u0NQgx4P7P+yR
-        0eDV2YWP+P0+b83JKsdcbEfdGX7UZZ+xQ8XGXstsoMOoezsFeClj/QNOPO8H/9kg
-        7Rrh5DSSRYHDa0OFGr6SVf0/YjOZjQJTPUxrgmjifORYZmds16ZfWrdYQ==
-X-ME-Sender: <xms:1i44ZLLwPpC7pfQnl9snOxcBI0uWqRURu5vbloAl0qFwOb3u7P1fmA>
-    <xme:1i44ZPKDGn8ScwgZauMFTHFojElFJuaE7sYyNU9d0f-KkuJJcX4R6eKCitzjg5px2
-    vn5YypNOuK05AwnP5w>
-X-ME-Received: <xmr:1i44ZDvyTWf2CtQnEdUC7WC7R8LVKTAos5WRYQHGIIMZTi5uc5FrAcmKLfvD1xO37UsURJQvBGAUzId6SGIJSac44U_BN-w-J50QwNaNIKI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekkedguddtfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpefuthgv
-    fhgrnhcutfhovghstghhuceoshhhrhesuggvvhhkvghrnhgvlhdrihhoqeenucggtffrrg
-    htthgvrhhnpedttdevfffgudeujefffeeutdekvddtffefleellefgfefgleejteeffedu
-    geduteenucffohhmrghinhepthgvshhtshdrthhoohhlshenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehshhhrseguvghvkhgvrhhnvghlrdhi
-    oh
-X-ME-Proxy: <xmx:1i44ZEaRGMFDbi6mcrtyICuUrVCweEurHu0RxZT82UL4G3Zt4fdx5A>
-    <xmx:1i44ZCaDxibspyokOSr1sxgvMDarZAq6ul_x4kiz7_zUtULY6lPbqQ>
-    <xmx:1i44ZICXSDiex0DDslZ88ERmPrXokxI5RdNs9dIlAPOzqut9xWVoMg>
-    <xmx:1y44ZImPLGl_eRuWkJVVDZB1pG6E7LNBuH4f1aUoo_CG5ZHj4ET3jg>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Apr 2023 12:33:25 -0400 (EDT)
-References: <20230412031648.2206875-1-shr@devkernel.io>
- <20230412031648.2206875-4-shr@devkernel.io>
- <7c5606cc-ca58-c505-b0d3-2eec29fe606a@redhat.com>
- <190bed16-7b7b-a880-9793-cdeb1baef29d@redhat.com>
-User-agent: mu4e 1.10.1; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, willy@infradead.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v6 3/3] selftests/mm: add new selftests for KSM
-Date:   Thu, 13 Apr 2023 09:32:21 -0700
-In-reply-to: <190bed16-7b7b-a880-9793-cdeb1baef29d@redhat.com>
-Message-ID: <qvqwfs93yc6m.fsf@devbig1114.prn1.facebook.com>
+        with ESMTP id S229479AbjDMQgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 12:36:39 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B02BD2727
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 09:36:36 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f04275b2bdso104315e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 09:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681403795; x=1683995795;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Luz0Qw0w9ZqnvhFtzZjcXX6GzM1RqYDZy0O1Aw36Dho=;
+        b=KJY7IATIbGi514kJ7FRgfvPH9tgEmqo9KPyiQPUGil2KvhdD62ffqRe6SWY/E8f+nR
+         S9h5/DMAAqtdcMbcCeInOxViyL44v/SfjGY6qWFOHzFeQ/KkU+AtC+3VOuya8yMueOK9
+         xZPJCTNC90XXxwGYH39hDdxdpNWd2Tnj2RPHh0Z6v55AXv5V54kc0pZeC0gRamAwz8EC
+         hPjPXG1ofsaZd7/0LBlKWDFKWTAL0E852Y7mm9gmvneulSccFEuR4lR3/0PAFq7GHqQl
+         5VdAaFoTnOFCtQ7EOYfeSlNF8bM2FS2qbo7GwRxiK1+KUN2v6u1R1rlEwUaOf38EV0D9
+         3Edw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681403795; x=1683995795;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Luz0Qw0w9ZqnvhFtzZjcXX6GzM1RqYDZy0O1Aw36Dho=;
+        b=DVsBkv3YpMg7tj18HEV84qyJFTcrQ5khdHU+26NcjmWaIf26Zwd95ccgIMCU7ELbry
+         Gc4s6UmjH7e4whddsNqtvM9XEnYtXEmc/tfoDp8bNjirzTevlc5kLbXHakdd7GVWigI7
+         LqliiG3dx+HFImvHQlRP0vLQrJ+oRdt8FfMulDreun9Q7PPHiZEHJY4vrU2OzeJs+WiT
+         NjxFRx0VP2EVAWyS5DbT8JWQmtIvb0E7Qp0YuLrL4bdHCqJREf5b5zaPVgzNcLwiRLPo
+         U9rtx3vdrVKeVlxhDvpoCxMAHI7hVj4mIKUunRucvk//z5Y4kJ7BRzgjS5NHITWizz6M
+         Ofmg==
+X-Gm-Message-State: AAQBX9ficIeFp/WJYpqnE3II8EFZkx4uEOqfXnjtSzCe1hXUlS/9WTci
+        1Q5avCW1i73zXhtfROAm89X8OCLzRWHSq/rkx8Wv6g==
+X-Google-Smtp-Source: AKy350ZSieiPnZr/0KXmH0IDRFEF/xE3INgqlezSfSLD/+T+SJfaTt5JUaP752jfm5RWRYGlsgxizNdw/mr0/RvNokw=
+X-Received: by 2002:a05:600c:5405:b0:3df:f3cb:e8ce with SMTP id
+ he5-20020a05600c540500b003dff3cbe8cemr709159wmb.7.1681403795029; Thu, 13 Apr
+ 2023 09:36:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230413161725.195417-1-alexghiti@rivosinc.com>
+In-Reply-To: <20230413161725.195417-1-alexghiti@rivosinc.com>
+From:   Ian Rogers <irogers@google.com>
+Date:   Thu, 13 Apr 2023 09:36:23 -0700
+Message-ID: <CAP-5=fW3wf8wQ2DyQbKnbsKJhZSdjomxnEp6GGF4Ar7qykZTjQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] riscv: Allow userspace to directly access perf counters
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, paranlee <p4ranlee@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-David Hildenbrand <david@redhat.com> writes:
-
-> On 13.04.23 15:07, David Hildenbrand wrote:
->> On 12.04.23 05:16, Stefan Roesch wrote:
->>> This adds three new tests to the selftests for KSM.  These tests use the
->>> new prctl API's to enable and disable KSM.
->>>
->>> 1) add new prctl flags to prctl header file in tools dir
->>>
->>>      This adds the new prctl flags to the include file prct.h in the
->>>      tools directory.  This makes sure they are available for testing.
->>>
->>> 2) add KSM prctl merge test
->>>
->>>      This adds the -t option to the ksm_tests program.  The -t flag
->>>      allows to specify if it should use madvise or prctl ksm merging.
->>>
->>> 3) add KSM get merge type test
->>>
->>>      This adds the -G flag to the ksm_tests program to query the KSM
->>>      status with prctl after KSM has been enabled with prctl.
->>>
->>> 4) add KSM fork test
->>>
->>>      Add fork test to verify that the MMF_VM_MERGE_ANY flag is inherited
->>>      by the child process.
->>>
->>> 5) add two functions for debugging merge outcome
->>>
->>>      This adds two functions to report the metrics in /proc/self/ksm_stat
->>>      and /sys/kernel/debug/mm/ksm.
->>>
->>> The debugging can be enabled with the following command line:
->>> make -C tools/testing/selftests TARGETS="mm" --keep-going \
->>>           EXTRA_CFLAGS=-DDEBUG=1
->> Would it make sense to instead have a "-D" (if still unused) runtime
->> options to print this data? Dead code that's not compiled is a bit
->> unfortunate as it can easily bit-rot.
->> This patch essentially does two things
->> 1) Add the option to run all tests/benchmarks with the PRCTL instead of
->> MADVISE
->> 2) Add some functional KSM tests for the new PRCTL (fork, enabling
->> works, disabling works).
->> The latter should rather go into ksm_functional_tests().
+On Thu, Apr 13, 2023 at 9:17=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
 >
+> riscv used to allow direct access to cycle/time/instret counters,
+> bypassing the perf framework, this patchset intends to allow the user to
+> mmap any counter when accessed through perf. But we can't break the
+> existing behaviour so we introduce a sysctl perf_user_access like arm64
+> does, which defaults to the legacy mode described above.
 >
-> "tools/testing/selftests/mm/ksm_functional_tests.c" is what I wanted to say.
+> The core of this patchset lies in patch 4, the first 3 patches are
+> simple fixes.
+>
+> base-commit-tag: v6.3-rc1
+>
+> Alexandre Ghiti (4):
+>   perf: Fix wrong comment about default event_idx
+>   include: riscv: Fix wrong include guard in riscv_pmu.h
+>   riscv: Make legacy counter enum match the HW numbering
+>   riscv: Enable perf counters user access only through perf
 
-I understood. I'll look into moving the fork check and the disabling
-into the functional tests for the next version.
+Presumably the test also needs patching:
+https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git/tree/tools/p=
+erf/tests/mmap-basic.c?h=3Dperf-tools-next#n287
+
+Thanks,
+Ian
+
+
+>  Documentation/admin-guide/sysctl/kernel.rst |  23 +++-
+>  arch/riscv/include/asm/perf_event.h         |   3 +
+>  arch/riscv/kernel/Makefile                  |   2 +-
+>  arch/riscv/kernel/perf_event.c              |  65 +++++++++++
+>  drivers/perf/riscv_pmu.c                    |  42 ++++++++
+>  drivers/perf/riscv_pmu_legacy.c             |  24 ++++-
+>  drivers/perf/riscv_pmu_sbi.c                | 113 ++++++++++++++++++--
+>  include/linux/perf/riscv_pmu.h              |   9 +-
+>  include/linux/perf_event.h                  |   3 +-
+>  tools/lib/perf/mmap.c                       |  65 +++++++++++
+>  10 files changed, 332 insertions(+), 17 deletions(-)
+>  create mode 100644 arch/riscv/kernel/perf_event.c
+>
+> --
+> 2.37.2
+>
