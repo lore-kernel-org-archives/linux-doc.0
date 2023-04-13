@@ -2,144 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82537C77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 17:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E16EC77B61
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 17:22:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbjDMRRT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 13:17:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47070 "EHLO
+        id S230112AbjDMRWR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 13:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjDMRRT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 13:17:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F11C7D8E;
-        Thu, 13 Apr 2023 10:17:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2405E6403A;
-        Thu, 13 Apr 2023 17:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE555C433D2;
-        Thu, 13 Apr 2023 17:17:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681406234;
-        bh=WVGfre3QBuukzcuJT8qpJQMfItIiegxThh0TEh6FLlE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MbSTT/OuM1W9kazwfGCuX7qMry/bvpClkZ6rzFpsmqQSpq/Ar9sPKGBiiRtvQA5Li
-         xdVDkmFJYHFppAe1nyI6Jtnki9ooxHLNj2pNwA0Chx7PMS2MNGvDr9zbaqif8eL3rz
-         UfzWQ5fVRYl9RCzgFNoWmr+2kxLjZpiTn0fYhIej7p2KEkGhghuN5ab3+rtCcOA7p8
-         CmIvdKtCSJjMglB0MTBxF6njyb9oL8ZRzlN0mcGUDtvK9RvW+KL6945ES2R/e9rtyF
-         RgSlWo8uZ9oCfK9g2FaiXLe3x8FC8Zyib4PuQpxSARaY1T5IUq0htYdbBbxtI8yDwb
-         cmtUzqIOYU4hA==
-Date:   Thu, 13 Apr 2023 20:17:10 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     "jiri@resnulli.us" <jiri@resnulli.us>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
-Subject: Re: [RFC PATCH v1] ice: add CGU info to devlink info callback
-Message-ID: <20230413171710.GW17993@unreal>
-References: <20230412133811.2518336-1-arkadiusz.kubalewski@intel.com>
- <20230413131726.GQ17993@unreal>
- <DM6PR11MB4657BB5D26421ECA7709C79B9B989@DM6PR11MB4657.namprd11.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR11MB4657BB5D26421ECA7709C79B9B989@DM6PR11MB4657.namprd11.prod.outlook.com>
+        with ESMTP id S229617AbjDMRWQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 13:22:16 -0400
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5119826A6
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 10:22:14 -0700 (PDT)
+Received: by mail-pg1-x54a.google.com with SMTP id 185-20020a6302c2000000b005135edbb985so4478809pgc.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 10:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681406534; x=1683998534;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MUWO1kZAYR92KIzOOxoAG6fgcpTDrbsTBnBgIaXB7SI=;
+        b=k9K7/cx14r1rZ44+YUmMJA/zyDFSnSwd4M/yoOo6MK1lBZbqEHHMPLqbgmJy4VHzWr
+         BHtqD7duSRrul042d0Suw2viax09pK0xMVdFhDXpoxoBfhFfIuBKNDsrnzf3PtlFwTe0
+         xZs14NrJu4rjfC+GuieNJRVga4Qv8eQWhGsY7num3+DbmUoQdqIvovvw7B75AYwZTkKG
+         iKlZHnMH6l41XSupS5sXqcJVcqX0LpFcpp/+2ct//bBU6UJaLCpcjq4ly/wd092FSy5B
+         RAM7fGGTnnv8Bkbvo6qpHrJ0vab0jDHA6Sxzq0hjEQ4MKc/Y3j5NGUn0fKFRnXbWoeyn
+         RO7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681406534; x=1683998534;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MUWO1kZAYR92KIzOOxoAG6fgcpTDrbsTBnBgIaXB7SI=;
+        b=HN7qDDaLTWgSF524Pmp+f1yX+frLaYFlqK8Dzr6G14toU08U/LB36ULS3Ap7d6xfJO
+         99y9aPaOAYWb8OWvDfjR6/J8zfD7xU8plMpcP36oim598hU2jkf0sgudxnuvnJmzB/eo
+         QNUVMN/QcP7rfeeeZvnoFtnKsZVQUxybROac2jMf/DesW2qI00J0Hg6kK6TCwkmWK0oR
+         Mc9NMpMxHSbu4AbSy+aLP8wP1IRRfnNNUEG8+kOzWwFZu5ufP569JIg7133SO2bMH2p2
+         TZ7k1BgDb0wfyoplxi2hzmCQYFpNXeCPItF1CCD8PazSBMm1tbtvB+HGIQ/O1TNWE26D
+         Eu0g==
+X-Gm-Message-State: AAQBX9clwN038/dZXMQRvHZ0EPikYVE0iWeO6L94scNedjgBVTj23FMG
+        hennrXSCs3zVfgP4gSf6UOYqXIe+QgcsDIE+vg==
+X-Google-Smtp-Source: AKy350buit0TKoFObhZndLsv+Oe7SecvOYrJwebJQwpxXJ4Pb+22Ci4SNV5J0w0/4fgc4zy9sZpOZtI2T9SDAix8Kg==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a17:90b:815:b0:246:a1b2:77fe with SMTP
+ id bk21-20020a17090b081500b00246a1b277femr2564960pjb.3.1681406533842; Thu, 13
+ Apr 2023 10:22:13 -0700 (PDT)
+Date:   Thu, 13 Apr 2023 17:22:12 +0000
+In-Reply-To: <20221202061347.1070246-2-chao.p.peng@linux.intel.com> (message
+ from Chao Peng on Fri,  2 Dec 2022 14:13:39 +0800)
+Mime-Version: 1.0
+Message-ID: <diqzh6tjofy3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        pbonzini@redhat.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
+        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
+        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
+        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
+        vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        chao.p.peng@linux.intel.com, kirill.shutemov@linux.intel.com,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com, qperret@google.com,
+        tabba@google.com, michael.roth@amd.com, mhocko@suse.com,
+        wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 13, 2023 at 02:04:33PM +0000, Kubalewski, Arkadiusz wrote:
-> >From: Leon Romanovsky <leon@kernel.org>
-> >Sent: Thursday, April 13, 2023 3:17 PM
-> >
-> >On Wed, Apr 12, 2023 at 03:38:11PM +0200, Arkadiusz Kubalewski wrote:
-> >> If Clock Generation Unit and dplls are present on NIC board user shall
-> >> know its details.
-> >> Provide the devlink info callback with a new:
-> >> - fixed type object `cgu.id` - hardware variant of onboard CGU
-> >> - running type object `fw.cgu` - CGU firmware version
-> >> - running type object `fw.cgu.build` - CGU configuration build version
-> >>
-> >> These information shall be known for debugging purposes.
-> >>
-> >> Test (on NIC board with CGU)
-> >> $ devlink dev info <bus_name>/<dev_name> | grep cgu
-> >>         cgu.id 8032
-> >>         fw.cgu 6021
-> >>         fw.cgu.build 0x1030001
-> >>
-> >> Test (on NIC board without CGU)
-> >> $ devlink dev info <bus_name>/<dev_name> | grep cgu -c
-> >> 0
-> >>
-> >> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-> >> ---
-> >>  Documentation/networking/devlink/ice.rst     | 14 +++++++++
-> >>  drivers/net/ethernet/intel/ice/ice_devlink.c | 30 ++++++++++++++++++++
-> >>  drivers/net/ethernet/intel/ice/ice_main.c    |  5 +++-
-> >>  drivers/net/ethernet/intel/ice/ice_ptp_hw.c  | 12 ++++----
-> >>  drivers/net/ethernet/intel/ice/ice_type.h    |  9 +++++-
-> >>  5 files changed, 62 insertions(+), 8 deletions(-)
-> >
-> ><...>
-> >
-> >>  Flash Update
-> >>  ============
-> >> diff --git a/drivers/net/ethernet/intel/ice/ice_devlink.c
-> >b/drivers/net/ethernet/intel/ice/ice_devlink.c
-> >> index bc44cc220818..06fe895739af 100644
-> >> --- a/drivers/net/ethernet/intel/ice/ice_devlink.c
-> >> +++ b/drivers/net/ethernet/intel/ice/ice_devlink.c
-> >> @@ -193,6 +193,33 @@ ice_info_pending_netlist_build(struct ice_pf
-> >>__always_unused *pf,
-> >>  		snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", netlist->hash);
-> >>  }
-> >>
-> >> +static void ice_info_cgu_id(struct ice_pf *pf, struct ice_info_ctx *ctx)
-> >> +{
-> >> +	if (ice_is_feature_supported(pf, ICE_F_CGU)) {
-> >> +		struct ice_hw *hw = &pf->hw;
-> >> +
-> >> +		snprintf(ctx->buf, sizeof(ctx->buf), "%u", hw->cgu.id);
-> >> +	}
-> >
-> >Please use kernel coding style - success oriented flow
-> >
-> >struct ice_hw *hw = &pf->hw;
-> >
-> >if (!ice_is_feature_supported(pf, ICE_F_CGU))
-> >  return;
-> >
-> >snprintf(ctx->buf, sizeof(ctx->buf), "%u", hw->cgu.id);
-> >
-> >
-> >However, it will be nice to have these callbacks only if CGU is
-> >supported, in such way you won't need any of ice_is_feature_supported()
-> >checks.
-> >
-> >Thanks
-> 
-> Sure, I will fix as suggested in the next version.
-> Although most important is to achieve common understanding and agreement if
-> This way is the right one. Maybe those devlink id's shall be defined as a
-> part of "include/net/devlink.h", so other vendors could use it?
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-Once second vendor materialize, it will be his responsibility to move
-common code to devlink.h.
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 
-> Also in such case probably naming might need to be unified.
-> 
-> Thank you!
-> Arkadiusz
+> Introduce 'memfd_restricted' system call with the ability to create
+> memory areas that are restricted from userspace access through ordinary
+> MMU operations (e.g. read/write/mmap). The memory content is expected to
+> be used through the new in-kernel interface by a third kernel module.
+
+> ...
+
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> new file mode 100644
+> index 000000000000..56953c204e5c
+> --- /dev/null
+> +++ b/mm/restrictedmem.c
+> @@ -0,0 +1,318 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include "linux/sbitmap.h"
+> +#include <linux/pagemap.h>
+> +#include <linux/pseudo_fs.h>
+> +#include <linux/shmem_fs.h>
+> +#include <linux/syscalls.h>
+> +#include <uapi/linux/falloc.h>
+> +#include <uapi/linux/magic.h>
+> +#include <linux/restrictedmem.h>
+> +
+> +struct restrictedmem_data {
+> +	struct mutex lock;
+> +	struct file *memfd;
+
+Can this be renamed to file, or lower_file (as in stacking filesystems)?
+
+It's a little confusing because this pointer doesn't actually refer to
+an fd.
+
+'memfd' is already used by udmabuf to refer to an actual fd [1], which
+makes this a little misleading.
+
+[1]  
+https://elixir.bootlin.com/linux/v6.2.10/source/tools/testing/selftests/drivers/dma-buf/udmabuf.c#L63
+
+> +	struct list_head notifiers;
+> +};
+> +
+> ...
+
