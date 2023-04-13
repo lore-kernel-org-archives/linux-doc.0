@@ -2,150 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ECE8C77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 21:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4248FC77B6E
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 22:07:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbjDMVVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 17:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49444 "EHLO
+        id S229870AbjDMWHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 18:07:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjDMVVL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 17:21:11 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED698A52;
-        Thu, 13 Apr 2023 14:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681420870; x=1712956870;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AKA702wfwd4hTzA6smF9r2CZKN4Rw0ra4U6x0QD6JK8=;
-  b=X8ycxHK4W8av08LzrQSxwxU2EyciMWxixQmkJItki/gh6ajsTLxxDCjy
-   k3Z2Iim4lKs9WtVHhW3vnGAc9msThRVeOHpJYPrFzKki3z1Gjx5fhRnMQ
-   +cMqp+Y39rnhSRTAs7Ik14vfCHhZrSEz3G8S+Hr+eCmIgFxPtfkeRwIFP
-   u09cPhWwRuFVzG603k7YejSMsRsygfP5m/rpTkHFQqcHC6ir5zX9irWRM
-   +SpHADWpXP2RtweBwRNzw08b6BqMxYtG5Tf3gwi5Er9NLI7nmYt+6FDYk
-   aJfZhc8E6eysZxcSnfHRVSTJa4FAqNm9uhhfxQpoXtDTmmZ2B+RFV3eDA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="333062564"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; 
-   d="scan'208";a="333062564"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 14:21:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="800938703"
-X-IronPort-AV: E=Sophos;i="5.99,194,1677571200"; 
-   d="scan'208";a="800938703"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 14:21:03 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pn4NK-000YxN-2T;
-        Thu, 13 Apr 2023 21:21:02 +0000
-Date:   Fri, 14 Apr 2023 05:20:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH 4/4] riscv: Enable perf counters user access only through
- perf
-Message-ID: <202304140522.RGhxahvD-lkp@intel.com>
-References: <20230413161725.195417-5-alexghiti@rivosinc.com>
+        with ESMTP id S229712AbjDMWHO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 18:07:14 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B7CE5B94
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 15:07:09 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-504e232fe47so2322003a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 15:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dectris.com; s=google; t=1681423628; x=1684015628;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=friaFVRW2nEkWI8GqaRgUP4OaK4hMpGVYJNwq+6sPzI=;
+        b=DsyluJJo6Gom9PRhwdltwR+7/pQj6HC8Ru3crTjYVpnCuwwCzmB5W4uIThpX0PvJfH
+         RQXx5BE/yFZKNZQEhsf0jjVUYf0wRWFp88Djf3hiZqURIlau4PmuAm6FjjXhc/Ylocze
+         kDOWE27v2wmPAQ1I8Kk1AviCLLFoPzwF8JpVA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681423628; x=1684015628;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=friaFVRW2nEkWI8GqaRgUP4OaK4hMpGVYJNwq+6sPzI=;
+        b=WgQIdxs8QTNSFo82MvMREkn3rzuh6KqITUX4rXr+QxTfW0/jWkII/MmGaF3ct6bixN
+         8+gB2t+ns7WvSohDfPm8m2JzpLz1J61xOa2nPK719WkoX0p1CCoZjUIFrnwkL09acGdy
+         uSDtnMx7gxzUJqrz+h6GO2Nvjg0mafLzlgHhmyqbpS4qne3QPyDnhFLnoOO9v/f+K2WB
+         RvTmb7zCZ0IRMdlmZkSEltVvy2qRk9Ok3qhWz4t7zED1YTHVuWRDSNJdGA5e9D1JtURi
+         B55+ub4ru6iAq/eVrWyykU2rTkrrV04df0NG4OOA8T+UYKm6uNV0ynYMXGAKfL2mcyF/
+         zDXw==
+X-Gm-Message-State: AAQBX9dT44+dJC5Dj7qgLTuDOUh9KmzytJNzFnMXuVju5bxPmqfG95uT
+        AjPj1LqXNflw78uNFEhaCp4vLYArnWCP8XYrxOkLNg==
+X-Google-Smtp-Source: AKy350bJvy2LkZU3ndK85yZddnes7jQSqL1w1K7DgMkkBqnQ05cq07nfQuXtaKhm9XsnkRGGmCcytGw90/9Hwy+wtLk=
+X-Received: by 2002:a50:a40a:0:b0:505:4fb:4430 with SMTP id
+ u10-20020a50a40a000000b0050504fb4430mr2047782edb.6.1681423628016; Thu, 13 Apr
+ 2023 15:07:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230413161725.195417-5-alexghiti@rivosinc.com>
+References: <20230406130205.49996-1-kal.conley@dectris.com>
+ <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk>
+ <ZDBEng1KEEG5lOA6@boxer> <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+ <875ya12phx.fsf@toke.dk> <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
+ <87ile011kz.fsf@toke.dk> <CAHApi-m4gu8SX_1rBtUwrw+1-Q3ERFEX-HPMcwcCK1OceirwuA@mail.gmail.com>
+ <87o7nrzeww.fsf@toke.dk>
+In-Reply-To: <87o7nrzeww.fsf@toke.dk>
+From:   Kal Cutter Conley <kal.conley@dectris.com>
+Date:   Fri, 14 Apr 2023 00:06:56 +0200
+Message-ID: <CAHApi-=BcdTD7KvE0OEzYya0RmDLDBS19NgtZsESADYXbySLOQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+To:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
+Cc:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexandre,
+> "More annoying" is not a great argument, though. You're basically saying
+> "please complicate your code so I don't have to complicate mine". And
+> since kernel API is essentially frozen forever, adding more of them
+> carries a pretty high cost, which is why kernel developers tend not to
+> be easily swayed by convenience arguments (if all you want is a more
+> convenient API, just build one on top of the kernel primitives and wrap
+> it into a library).
 
-kernel test robot noticed the following build errors:
+I was trying to make a fair comparison from the user's perspective
+between having to allocate huge pages and deal with discontiguous
+buffers. That was all.
 
-[auto build test ERROR on tip/perf/core]
-[also build test ERROR on acme/perf/core tip/master tip/auto-latest linus/master v6.3-rc6]
-[cannot apply to next-20230413]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/perf-Fix-wrong-comment-about-default-event_idx/20230414-002232
-patch link:    https://lore.kernel.org/r/20230413161725.195417-5-alexghiti%40rivosinc.com
-patch subject: [PATCH 4/4] riscv: Enable perf counters user access only through perf
-config: riscv-randconfig-r021-20230412 (https://download.01.org/0day-ci/archive/20230414/202304140522.RGhxahvD-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8ca9b21cbf2c0b91ee35356c01aef9da7d874e55
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexandre-Ghiti/perf-Fix-wrong-comment-about-default-event_idx/20230414-002232
-        git checkout 8ca9b21cbf2c0b91ee35356c01aef9da7d874e55
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304140522.RGhxahvD-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   arch/riscv/kernel/perf_event.c: In function 'arch_perf_update_userpage':
->> arch/riscv/kernel/perf_event.c:8:35: error: implicit declaration of function 'to_riscv_pmu' [-Werror=implicit-function-declaration]
-       8 |         struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
-         |                                   ^~~~~~~~~~~~
->> arch/riscv/kernel/perf_event.c:8:35: warning: initialization of 'struct riscv_pmu *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->> arch/riscv/kernel/perf_event.c:24:34: error: invalid use of undefined type 'struct riscv_pmu'
-      24 |         userpg->pmc_width = rvpmu->ctr_get_width(event->hw.idx) + 1;
-         |                                  ^~
-   cc1: some warnings being treated as errors
-
-
-vim +/to_riscv_pmu +8 arch/riscv/kernel/perf_event.c
-
-     4	
-     5	void arch_perf_update_userpage(struct perf_event *event,
-     6				       struct perf_event_mmap_page *userpg, u64 now)
-     7	{
-   > 8		struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
-     9		struct clock_read_data *rd;
-    10		unsigned int seq;
-    11		u64 ns;
-    12	
-    13		userpg->cap_user_time = 0;
-    14		userpg->cap_user_time_zero = 0;
-    15		userpg->cap_user_time_short = 0;
-    16		userpg->cap_user_rdpmc =
-    17			!!(event->hw.flags & PERF_EVENT_FLAG_USER_READ_CNT);
-    18	
-    19		/*
-    20		 * The counters are 64-bit but the priv spec doesn't mandate all the
-    21		 * bits to be implemented: that's why, counter width can vary based on
-    22		 * the cpu vendor.
-    23		 */
-  > 24		userpg->pmc_width = rvpmu->ctr_get_width(event->hw.idx) + 1;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+I think the "your code" distinction is a bit harsh. The kernel is a
+community project. Why isn't it "our" code? I am trying to add a
+feature that I think is generally useful to people. The kernel only
+exists to serve its users. I believe I am doing more good than harm
+sending these patches.
