@@ -2,127 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA80C77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 17:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82537C77B6E
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 17:17:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbjDMRIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 13:08:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41146 "EHLO
+        id S229908AbjDMRRT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 13:17:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjDMRIt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 13:08:49 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D4011B4;
-        Thu, 13 Apr 2023 10:08:48 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id e7so4836966wrc.12;
-        Thu, 13 Apr 2023 10:08:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681405727; x=1683997727;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vUAnBlFRSGBlwXwSQXAqm7P10EiEl+48o/NRTbPOIwI=;
-        b=HWYW8/RVFPxSHRWBcro0ZM0vclYoDzFo9NEifLGdrjORDSE6iDq9AwFwfenSd8GxEt
-         rfRXewl/Bk7aKC89XahV+cxJJK05ZfxJY1Dp8BnrMhAPCHXF7I83wXYNTPf2jfmZmVT1
-         GkUe8G3rSbx0xGKbSHUu3PI5f7NRRPzrcgUIA30sxCAzFKjb+37KblE4FEkktfMna2ja
-         nSI5tXZ/8XawREqOXVtRL81+F26lOMjqD1toA7oWuaBseU9a4dPlQTCmVx9ETv2rL7ub
-         EGOqzjQXE46D1peydsH0koKhuHs41ofPDUSD1Z7SIUAqvdyYrS5UTWfMYAfDE7RlNSCW
-         632w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681405727; x=1683997727;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vUAnBlFRSGBlwXwSQXAqm7P10EiEl+48o/NRTbPOIwI=;
-        b=Nb3s0eivY4JipZIF+kncI+IDPT7N/N5Wy72RATGSIwHbw39GuAd33VNJxnGK6l/OED
-         Bu0mAhwjRP89273hoLTjGs/CqWhik3eOzQZSyJ6Ttd9nCRi7iQFH9l4Fan62gAs9yGbe
-         VGH3Gc8vsJtNdZqgCt7b28bmX1ngb7ihjeaZNV1LBcSbOQEXBV4leHUDnIW0KmD81Xwb
-         UyVi+JHIpeg0PAScGutjYgS6XCHCSmbPcIUQKJgckSMZeb5aZLP6+M1k3Y17Dt34NqPF
-         OS0ltApbkqqbiWsOTLS8bYREg25hj1RM3I51CkuQjqY9saQYDYqUJN0ZXMpFdG4wcC6b
-         LGTQ==
-X-Gm-Message-State: AAQBX9eYqhqywrosyJJJtmwGnMBanm5M84ypf5SnHOGzYiI7fhRTFeqV
-        BMQab1dOCrL/5qj6VBNG+C/lq90i5V5ZGg==
-X-Google-Smtp-Source: AKy350arxfCCpaVx1w4hHZM1E1HpJLjfl+cRZdLDdeSnQNukXu4TUaQgzkTfOoR3xnpv2XCmUfu/vg==
-X-Received: by 2002:a5d:63c4:0:b0:2ef:f9d:6adf with SMTP id c4-20020a5d63c4000000b002ef0f9d6adfmr2154403wrw.35.1681405726957;
-        Thu, 13 Apr 2023 10:08:46 -0700 (PDT)
-Received: from [192.168.0.32] ([37.222.243.26])
-        by smtp.gmail.com with ESMTPSA id u8-20020a5d6ac8000000b002eaac3a9beesm1700208wrw.8.2023.04.13.10.08.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Apr 2023 10:08:45 -0700 (PDT)
-Message-ID: <5c1d69c8-d973-fa7b-1f14-c72729ff5594@gmail.com>
-Date:   Thu, 13 Apr 2023 19:08:41 +0200
+        with ESMTP id S229479AbjDMRRT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 13:17:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F11C7D8E;
+        Thu, 13 Apr 2023 10:17:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2405E6403A;
+        Thu, 13 Apr 2023 17:17:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE555C433D2;
+        Thu, 13 Apr 2023 17:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681406234;
+        bh=WVGfre3QBuukzcuJT8qpJQMfItIiegxThh0TEh6FLlE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MbSTT/OuM1W9kazwfGCuX7qMry/bvpClkZ6rzFpsmqQSpq/Ar9sPKGBiiRtvQA5Li
+         xdVDkmFJYHFppAe1nyI6Jtnki9ooxHLNj2pNwA0Chx7PMS2MNGvDr9zbaqif8eL3rz
+         UfzWQ5fVRYl9RCzgFNoWmr+2kxLjZpiTn0fYhIej7p2KEkGhghuN5ab3+rtCcOA7p8
+         CmIvdKtCSJjMglB0MTBxF6njyb9oL8ZRzlN0mcGUDtvK9RvW+KL6945ES2R/e9rtyF
+         RgSlWo8uZ9oCfK9g2FaiXLe3x8FC8Zyib4PuQpxSARaY1T5IUq0htYdbBbxtI8yDwb
+         cmtUzqIOYU4hA==
+Date:   Thu, 13 Apr 2023 20:17:10 +0300
+From:   Leon Romanovsky <leon@kernel.org>
+To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc:     "jiri@resnulli.us" <jiri@resnulli.us>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
+Subject: Re: [RFC PATCH v1] ice: add CGU info to devlink info callback
+Message-ID: <20230413171710.GW17993@unreal>
+References: <20230412133811.2518336-1-arkadiusz.kubalewski@intel.com>
+ <20230413131726.GQ17993@unreal>
+ <DM6PR11MB4657BB5D26421ECA7709C79B9B989@DM6PR11MB4657.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce
- GenieZone hypervisor support
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Yi-De Wu <yi-de.wu@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Jades Shih <jades.shih@mediatek.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Ivan Tseng <ivan.tseng@mediatek.com>,
-        My Chuang <my.chuang@mediatek.com>,
-        Shawn Hsiao <shawn.hsiao@mediatek.com>,
-        PeiLun Suei <peilun.suei@mediatek.com>,
-        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-        Liju Chen <liju-clr.chen@mediatek.com>
-References: <20230413090735.4182-1-yi-de.wu@mediatek.com>
- <20230413090735.4182-4-yi-de.wu@mediatek.com>
- <1aa701cc-92ca-71be-0663-df4bfae66c2f@linaro.org>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <1aa701cc-92ca-71be-0663-df4bfae66c2f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6PR11MB4657BB5D26421ECA7709C79B9B989@DM6PR11MB4657.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 13/04/2023 14:55, Krzysztof Kozlowski wrote:
-> On 13/04/2023 11:07, Yi-De Wu wrote:
->> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
->>
->> GenieZone is MediaTek proprietary hypervisor solution, and it is running
->> in EL2 stand alone as a type-I hypervisor. This patch exports a set of
->> ioctl interfaces for userspace VMM (e.g., crosvm) to operate guest VMs
->> lifecycle (creation, running, and destroy) on GenieZone.
->>
->> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
->> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
->> ---
->>   arch/arm64/include/uapi/asm/gzvm_arch.h       |  79 ++++
->>   drivers/soc/mediatek/Kconfig                  |   2 +
->>   drivers/soc/mediatek/Makefile                 |   1 +
->>   drivers/soc/mediatek/virt/geniezone/Kconfig   |  17 +
+On Thu, Apr 13, 2023 at 02:04:33PM +0000, Kubalewski, Arkadiusz wrote:
+> >From: Leon Romanovsky <leon@kernel.org>
+> >Sent: Thursday, April 13, 2023 3:17 PM
+> >
+> >On Wed, Apr 12, 2023 at 03:38:11PM +0200, Arkadiusz Kubalewski wrote:
+> >> If Clock Generation Unit and dplls are present on NIC board user shall
+> >> know its details.
+> >> Provide the devlink info callback with a new:
+> >> - fixed type object `cgu.id` - hardware variant of onboard CGU
+> >> - running type object `fw.cgu` - CGU firmware version
+> >> - running type object `fw.cgu.build` - CGU configuration build version
+> >>
+> >> These information shall be known for debugging purposes.
+> >>
+> >> Test (on NIC board with CGU)
+> >> $ devlink dev info <bus_name>/<dev_name> | grep cgu
+> >>         cgu.id 8032
+> >>         fw.cgu 6021
+> >>         fw.cgu.build 0x1030001
+> >>
+> >> Test (on NIC board without CGU)
+> >> $ devlink dev info <bus_name>/<dev_name> | grep cgu -c
+> >> 0
+> >>
+> >> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+> >> ---
+> >>  Documentation/networking/devlink/ice.rst     | 14 +++++++++
+> >>  drivers/net/ethernet/intel/ice/ice_devlink.c | 30 ++++++++++++++++++++
+> >>  drivers/net/ethernet/intel/ice/ice_main.c    |  5 +++-
+> >>  drivers/net/ethernet/intel/ice/ice_ptp_hw.c  | 12 ++++----
+> >>  drivers/net/ethernet/intel/ice/ice_type.h    |  9 +++++-
+> >>  5 files changed, 62 insertions(+), 8 deletions(-)
+> >
+> ><...>
+> >
+> >>  Flash Update
+> >>  ============
+> >> diff --git a/drivers/net/ethernet/intel/ice/ice_devlink.c
+> >b/drivers/net/ethernet/intel/ice/ice_devlink.c
+> >> index bc44cc220818..06fe895739af 100644
+> >> --- a/drivers/net/ethernet/intel/ice/ice_devlink.c
+> >> +++ b/drivers/net/ethernet/intel/ice/ice_devlink.c
+> >> @@ -193,6 +193,33 @@ ice_info_pending_netlist_build(struct ice_pf
+> >>__always_unused *pf,
+> >>  		snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", netlist->hash);
+> >>  }
+> >>
+> >> +static void ice_info_cgu_id(struct ice_pf *pf, struct ice_info_ctx *ctx)
+> >> +{
+> >> +	if (ice_is_feature_supported(pf, ICE_F_CGU)) {
+> >> +		struct ice_hw *hw = &pf->hw;
+> >> +
+> >> +		snprintf(ctx->buf, sizeof(ctx->buf), "%u", hw->cgu.id);
+> >> +	}
+> >
+> >Please use kernel coding style - success oriented flow
+> >
+> >struct ice_hw *hw = &pf->hw;
+> >
+> >if (!ice_is_feature_supported(pf, ICE_F_CGU))
+> >  return;
+> >
+> >snprintf(ctx->buf, sizeof(ctx->buf), "%u", hw->cgu.id);
+> >
+> >
+> >However, it will be nice to have these callbacks only if CGU is
+> >supported, in such way you won't need any of ice_is_feature_supported()
+> >checks.
+> >
+> >Thanks
 > 
-> Hypervisor drivers do not go to soc. Stop shoving there everything from
-> your downstream. Find appropriate directory, e.g. maybe drivers/virt.
+> Sure, I will fix as suggested in the next version.
+> Although most important is to achieve common understanding and agreement if
+> This way is the right one. Maybe those devlink id's shall be defined as a
+> part of "include/net/devlink.h", so other vendors could use it?
 
-Acked, what is the reason you want to add this to drivers/soc instead of 
-drivers/virt?
+Once second vendor materialize, it will be his responsibility to move
+common code to devlink.h.
 
-Regards,
-Matthias
-
-> See:
-> https://lore.kernel.org/all/20230304010632.2127470-1-quic_eberman@quicinc.com/
+> Also in such case probably naming might need to be unified.
 > 
-> You should follow that discussion as well and be sure that all concerns
-> raised for Gunyah are solved also here.
-> 
-> Best regards,
-> Krzysztof
-> 
+> Thank you!
+> Arkadiusz
