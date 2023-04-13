@@ -2,165 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 806AFC77B6E
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Apr 2023 23:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD49C77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 00:03:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbjDLXgM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 19:36:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41204 "EHLO
+        id S229615AbjDMADi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 20:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjDLXgL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 19:36:11 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 07DE419BE;
-        Wed, 12 Apr 2023 16:36:07 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 7CD3D21779D8; Wed, 12 Apr 2023 16:36:06 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7CD3D21779D8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1681342566;
-        bh=YPXWa/7TYeGcUcrSe6JmCqFPK2vN2hRqkpxy8Lf9hp8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YuvgGUEjnvrbLnB0mThO0/tNDZ+pzM/L8mr1DVspNRj6O+y0N8B/6epPpbYWZWjbK
-         G1mzu0i9tJ7cZl4x+x8Od4BO0L1b9Enskrn3H6DdyL1bIL3S4RtVPsZ/KFIcIROYQZ
-         0JLI4PQ8S0LdHkBOtrPDOXTqszDAjnr9JhbX5NBs=
-Date:   Wed, 12 Apr 2023 16:36:06 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
-Message-ID: <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
- <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
+        with ESMTP id S229593AbjDMADh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 20:03:37 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3E66A47;
+        Wed, 12 Apr 2023 17:03:36 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id cm18-20020a17090afa1200b0024713adf69dso872648pjb.3;
+        Wed, 12 Apr 2023 17:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681344216; x=1683936216;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pyutDkp5jrSZUQ7ZSCUPusZLIPe20FEF4eoH9aQqT9U=;
+        b=UKlpb+cigpV7szwbL/NVXYViJrjWbFojBNTvxQ7mTTikfFSfcMzWzCQ/O4yLyfeYs9
+         WO+FSQoDv/VI5mgMKoG7fwDuIRcyUYxHZFF26GwFjPkzra8QQ2xneaHdJL2UKRZpxLlb
+         9VwlEogRmjOA0vS2VLczf4zOgReqgfjKBg75G0sp3ItfvjEtC/YTb0O4vNOK03UxQobZ
+         v8aLtuXqZMOaMsvMIa6w5TWdigol1d+Z6H8imco42YqyrD5ZFRFygRubmubuegyjtE0B
+         O7tNapemKRqxRL0wgNEJUIPxjiYMC2tJoQnRgCCzywzU7RBEEuJ7YoXOCaWuXqw/WQBL
+         jhdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681344216; x=1683936216;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pyutDkp5jrSZUQ7ZSCUPusZLIPe20FEF4eoH9aQqT9U=;
+        b=Gr3rTPNsTAKpGH6KiuCpEbCToYSzl6ydcw88MDNHJfiNU1fsZ/0ogS/HTYHexTxRxS
+         trzEBM60evVpC0W1YZ292DwUgvfXKdRQbGRU6BQkIUC9AdiaUpslM2XOuCis9OiLFTie
+         p+GgxvYe8LCri06ejuYBnnektMlbmWtN9t4X7aO99s4WUIE3lX0ShtKON1gLh9QNLv2r
+         tISeaGg9Vj/R2P5lU+kdkrmHkmXzRAiGvYY0UejR77kxcBRhs503eGTyWLJ2wae6UKGW
+         o5k0jF0OIqsZ7XuN1lyvWeEkjYIoQCZt21wGAWeOxTU2vdactL5OYntOsgrRNr4qqpuR
+         UfKw==
+X-Gm-Message-State: AAQBX9dz0kaH3tiol3TI4JozZww+1zEn2+zZLQng6sbt+wfMFXOi3gD1
+        qYnpfM4yb+ykroOUYbwpReQ=
+X-Google-Smtp-Source: AKy350b5nRy45dcjnYkFzfHskXOi3Lp7CqvWMDpWUw5H2P+CRntPZh1X0IC4T25gVYwBpplY5m91nA==
+X-Received: by 2002:a17:902:c40f:b0:1a2:56f4:d369 with SMTP id k15-20020a170902c40f00b001a256f4d369mr142618plk.19.1681344215640;
+        Wed, 12 Apr 2023 17:03:35 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id jo10-20020a170903054a00b001a190baea88sm148167plb.97.2023.04.12.17.03.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 17:03:35 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 12 Apr 2023 14:03:32 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>
+Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
+Message-ID: <ZDdG1K0kTETZMTCu@slm.duckdns.org>
+References: <20230412153758.3088111-1-longman@redhat.com>
+ <ZDcGVebCpyktxyWh@slm.duckdns.org>
+ <1ce6a073-e573-0c32-c3d8-f67f3d389a28@redhat.com>
+ <ZDcS_yVCgh6g1LoM@slm.duckdns.org>
+ <e38f72aa-9705-cf0c-a565-fb790f16c53e@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <e38f72aa-9705-cf0c-a565-fb790f16c53e@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
-> On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft.com> wrote:
-> > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
-> > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wrote:
-> > > >
-> > > > From: Deven Bowers <deven.desai@linux.microsoft.com>
-> > > >
-> > > > As is typical with LSMs, IPE uses securityfs as its interface with
-> > > > userspace. for a complete list of the interfaces and the respective
-> > > > inputs/outputs, please see the documentation under
-> > > > admin-guide/LSM/ipe.rst
-> > > >
-> > > > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > >
-> > > ...
-> > >
-> > > > ---
-> > > >  security/ipe/Makefile    |   2 +
-> > > >  security/ipe/fs.c        | 101 +++++++++
-> > > >  security/ipe/fs.h        |  17 ++
-> > > >  security/ipe/ipe.c       |   3 +
-> > > >  security/ipe/ipe.h       |   2 +
-> > > >  security/ipe/policy.c    | 135 ++++++++++++
-> > > >  security/ipe/policy.h    |   7 +
-> > > >  security/ipe/policy_fs.c | 459 +++++++++++++++++++++++++++++++++++++++
-> > > >  8 files changed, 726 insertions(+)
-> > > >  create mode 100644 security/ipe/fs.c
-> > > >  create mode 100644 security/ipe/fs.h
-> > > >  create mode 100644 security/ipe/policy_fs.c
-> 
-> ...
-> 
-> > > > +/**
-> > > > + * ipe_update_policy - parse a new policy and replace @old with it.
-> > > > + * @addr: Supplies a pointer to the i_private for saving policy.
-> > > > + * @text: Supplies a pointer to the plain text policy.
-> > > > + * @textlen: Supplies the length of @text.
-> > > > + * @pkcs7: Supplies a pointer to a buffer containing a pkcs7 message.
-> > > > + * @pkcs7len: Supplies the length of @pkcs7len.
-> > > > + *
-> > > > + * @text/@textlen is mutually exclusive with @pkcs7/@pkcs7len - see
-> > > > + * ipe_new_policy.
-> > > > + *
-> > > > + * Return:
-> > > > + * * !IS_ERR   - OK
-> > > > + * * -ENOENT   - Policy doesn't exist
-> > > > + * * -EINVAL   - New policy is invalid
-> > > > + */
-> > > > +struct ipe_policy *ipe_update_policy(struct ipe_policy __rcu **addr,
-> > > > +                                    const char *text, size_t textlen,
-> > > > +                                    const char *pkcs7, size_t pkcs7len)
-> > > > +{
-> > > > +       int rc = 0;
-> > > > +       struct ipe_policy *old, *new;
-> > > > +
-> > > > +       old = ipe_get_policy_rcu(*addr);
-> > > > +       if (!old) {
-> > > > +               rc = -ENOENT;
-> > > > +               goto err;
-> > > > +       }
-> > > > +
-> > > > +       new = ipe_new_policy(text, textlen, pkcs7, pkcs7len);
-> > > > +       if (IS_ERR(new)) {
-> > > > +               rc = PTR_ERR(new);
-> > > > +               goto err;
-> > > > +       }
-> > > > +
-> > > > +       if (strcmp(new->parsed->name, old->parsed->name)) {
-> > > > +               rc = -EINVAL;
-> > > > +               goto err;
-> > > > +       }
-> > > > +
-> > > > +       if (ver_to_u64(old) > ver_to_u64(new)) {
-> > > > +               rc = -EINVAL;
-> > > > +               goto err;
-> > > > +       }
-> > > > +
-> > > > +       if (ipe_is_policy_active(old)) {
-> > >
-> > > I don't understand the is-active check, you want to make @new the new
-> > > active policy regardless, right?  Could this is-active check ever be
-> > > false?
-> >
-> > Actually this is needed. Policy updates can be applied to any deployed
-> > policy, which may be saved in two places: the securityfs file node
-> > and the ipe_active_policy pointer. To update a policy, this function first
-> > checks if the policy saved in the securityfs file node is currently active.
-> > If so, it updates the ipe_active_policy pointer to point to the new policy,
-> > and finally updates the policy pointer in the securityfs to the new policy.
-> 
-> Ah, okay.  I must have forgotten, or not realized, that multiple
-> policies could be loaded and not active.
-> 
-> I guess this does make me wonder about keeping a non-active policy
-> loaded in the kernel, what purpose does that serve?
-> 
+Hello,
 
-The non-active policy doesn't serve anything unless it is activated. User can
-even delete a policy if that is no longer needed. Non-active is just the default
-state when a new policy is loaded.
+On Wed, Apr 12, 2023 at 04:33:29PM -0400, Waiman Long wrote:
+> I think we can. You mean having a new "cpuset.cpus.isolated" cgroupfs file.
+> So there will be one in the root cgroup that defines all the isolated CPUs
+> one can have. It is then distributed down the hierarchy and can be claimed
+> only if a cgroup becomes an "isolated" partition. There will be a slight
 
-If IPE supports namespace, there is another use case where different containers
-can select different policies as the active policy from among multiple loaded
-policies. Deven has presented a demo of this during LSS 2021. But this goes
-beyond the scope of this version.
+Yeah, that seems a lot more congruent with the typical pattern.
 
--Fan
+> change in the semantics of an "isolated" partition, but I doubt there will
+> be much users out there.
 
-> -- 
-> paul-moore.com
+I haven't thought through it too hard but what prevents staying compatible
+with the current behavior?
+
+> If you are OK with this approach, I can modify my patch series to do that.
+
+Thanks.
+
+-- 
+tejun
