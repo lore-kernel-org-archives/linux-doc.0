@@ -2,57 +2,49 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD49C77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 00:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35AD8C77B6C
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 00:27:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbjDMADi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 20:03:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55560 "EHLO
+        id S229503AbjDMA1D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 20:27:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbjDMADh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 20:03:37 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3E66A47;
-        Wed, 12 Apr 2023 17:03:36 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id cm18-20020a17090afa1200b0024713adf69dso872648pjb.3;
-        Wed, 12 Apr 2023 17:03:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681344216; x=1683936216;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pyutDkp5jrSZUQ7ZSCUPusZLIPe20FEF4eoH9aQqT9U=;
-        b=UKlpb+cigpV7szwbL/NVXYViJrjWbFojBNTvxQ7mTTikfFSfcMzWzCQ/O4yLyfeYs9
-         WO+FSQoDv/VI5mgMKoG7fwDuIRcyUYxHZFF26GwFjPkzra8QQ2xneaHdJL2UKRZpxLlb
-         9VwlEogRmjOA0vS2VLczf4zOgReqgfjKBg75G0sp3ItfvjEtC/YTb0O4vNOK03UxQobZ
-         v8aLtuXqZMOaMsvMIa6w5TWdigol1d+Z6H8imco42YqyrD5ZFRFygRubmubuegyjtE0B
-         O7tNapemKRqxRL0wgNEJUIPxjiYMC2tJoQnRgCCzywzU7RBEEuJ7YoXOCaWuXqw/WQBL
-         jhdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681344216; x=1683936216;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pyutDkp5jrSZUQ7ZSCUPusZLIPe20FEF4eoH9aQqT9U=;
-        b=Gr3rTPNsTAKpGH6KiuCpEbCToYSzl6ydcw88MDNHJfiNU1fsZ/0ogS/HTYHexTxRxS
-         trzEBM60evVpC0W1YZ292DwUgvfXKdRQbGRU6BQkIUC9AdiaUpslM2XOuCis9OiLFTie
-         p+GgxvYe8LCri06ejuYBnnektMlbmWtN9t4X7aO99s4WUIE3lX0ShtKON1gLh9QNLv2r
-         tISeaGg9Vj/R2P5lU+kdkrmHkmXzRAiGvYY0UejR77kxcBRhs503eGTyWLJ2wae6UKGW
-         o5k0jF0OIqsZ7XuN1lyvWeEkjYIoQCZt21wGAWeOxTU2vdactL5OYntOsgrRNr4qqpuR
-         UfKw==
-X-Gm-Message-State: AAQBX9dz0kaH3tiol3TI4JozZww+1zEn2+zZLQng6sbt+wfMFXOi3gD1
-        qYnpfM4yb+ykroOUYbwpReQ=
-X-Google-Smtp-Source: AKy350b5nRy45dcjnYkFzfHskXOi3Lp7CqvWMDpWUw5H2P+CRntPZh1X0IC4T25gVYwBpplY5m91nA==
-X-Received: by 2002:a17:902:c40f:b0:1a2:56f4:d369 with SMTP id k15-20020a170902c40f00b001a256f4d369mr142618plk.19.1681344215640;
-        Wed, 12 Apr 2023 17:03:35 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
-        by smtp.gmail.com with ESMTPSA id jo10-20020a170903054a00b001a190baea88sm148167plb.97.2023.04.12.17.03.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 17:03:35 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 12 Apr 2023 14:03:32 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
+        with ESMTP id S229634AbjDMA1A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 20:27:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 746AB61AB
+        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 17:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681345568;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=haXTThtMgpsseSV6p+uwEaprdsyUVtg4Cg56AUYX6Mw=;
+        b=LizBN5IIyuJuPmTHazP4E8hqso4jnNlWhUSNMcJRuDqHtFNrBiLLVanOm+w+avHTFwV+2y
+        coB8H8EgTNqYxjUvv9unyFAhA0f8sg1ZH3YCa4e5/Z4nZ22WSfdA5C61RZ9q2LuFLkAEvE
+        5AzpMBYWr2jJEw7tlRTupk/eIb3Ka+Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-xD8WZDrPMrumTqyXbLUz9g-1; Wed, 12 Apr 2023 20:26:04 -0400
+X-MC-Unique: xD8WZDrPMrumTqyXbLUz9g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8CF9185A78B;
+        Thu, 13 Apr 2023 00:26:03 +0000 (UTC)
+Received: from [10.22.32.168] (unknown [10.22.32.168])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4D7DE40C6E70;
+        Thu, 13 Apr 2023 00:26:03 +0000 (UTC)
+Message-ID: <cd4c3f92-4a01-e636-7390-8c6a3d0cfe6c@redhat.com>
+Date:   Wed, 12 Apr 2023 20:26:03 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
+Content-Language: en-US
+To:     Tejun Heo <tj@kernel.org>
 Cc:     Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -62,40 +54,47 @@ Cc:     Zefan Li <lizefan.x@bytedance.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Valentin Schneider <vschneid@redhat.com>,
         Frederic Weisbecker <frederic@kernel.org>
-Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
-Message-ID: <ZDdG1K0kTETZMTCu@slm.duckdns.org>
 References: <20230412153758.3088111-1-longman@redhat.com>
  <ZDcGVebCpyktxyWh@slm.duckdns.org>
  <1ce6a073-e573-0c32-c3d8-f67f3d389a28@redhat.com>
  <ZDcS_yVCgh6g1LoM@slm.duckdns.org>
  <e38f72aa-9705-cf0c-a565-fb790f16c53e@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e38f72aa-9705-cf0c-a565-fb790f16c53e@redhat.com>
+ <ZDdG1K0kTETZMTCu@slm.duckdns.org>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <ZDdG1K0kTETZMTCu@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
 
-On Wed, Apr 12, 2023 at 04:33:29PM -0400, Waiman Long wrote:
-> I think we can. You mean having a new "cpuset.cpus.isolated" cgroupfs file.
-> So there will be one in the root cgroup that defines all the isolated CPUs
-> one can have. It is then distributed down the hierarchy and can be claimed
-> only if a cgroup becomes an "isolated" partition. There will be a slight
+On 4/12/23 20:03, Tejun Heo wrote:
+> Hello,
+>
+> On Wed, Apr 12, 2023 at 04:33:29PM -0400, Waiman Long wrote:
+>> I think we can. You mean having a new "cpuset.cpus.isolated" cgroupfs file.
+>> So there will be one in the root cgroup that defines all the isolated CPUs
+>> one can have. It is then distributed down the hierarchy and can be claimed
+>> only if a cgroup becomes an "isolated" partition. There will be a slight
+> Yeah, that seems a lot more congruent with the typical pattern.
+>
+>> change in the semantics of an "isolated" partition, but I doubt there will
+>> be much users out there.
+> I haven't thought through it too hard but what prevents staying compatible
+> with the current behavior?
 
-Yeah, that seems a lot more congruent with the typical pattern.
+It is possible to stay compatible with existing behavior. It is just 
+that a break from existing behavior will make the solution more clean.
 
-> change in the semantics of an "isolated" partition, but I doubt there will
-> be much users out there.
+So the new behavior will be:
 
-I haven't thought through it too hard but what prevents staying compatible
-with the current behavior?
+   If the "cpuset.cpus.isolated" isn't set, the existing rules applies. 
+If it is set, the new rule will be used.
 
-> If you are OK with this approach, I can modify my patch series to do that.
+Does that look reasonable to you?
 
-Thanks.
+Cheers,
+Longman
 
--- 
-tejun
