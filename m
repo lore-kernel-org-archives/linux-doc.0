@@ -2,343 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E03A1C77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 00:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D19C7619A
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 00:33:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbjDMA1p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 20:27:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
+        id S229526AbjDMAdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 20:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjDMA1n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 20:27:43 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C725E729B
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 17:27:40 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id z8so18766108lfb.12
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 17:27:40 -0700 (PDT)
+        with ESMTP id S229506AbjDMAdS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 20:33:18 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E2B2449D;
+        Wed, 12 Apr 2023 17:33:17 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id la3so13111306plb.11;
+        Wed, 12 Apr 2023 17:33:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681345659; x=1683937659;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1681345997; x=1683937997;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xDJelgOzNKd6ITIGgjXIICj67KNdoTBJg181sVqgBU0=;
-        b=m/7bHy5WjQe/exegf+eGD85VJoeZnRiHbQ1efrRTMD+0NR8lirTZ5VIQ6MtWj3WKc+
-         YSP3hlFLxcpuZmHzIyagDc+HDjadKZlng7bCEpdKDCIXA6lzz42HE/Fj1BSEzoO1P5SX
-         4xb4ir5ROZye1XoSorEzbvTSTu+6SlE5pd+NLZRIjE1sP/hyKg+ynAm3zqF45BcWXj1J
-         KDeona6hyU5dK+VDAG51Fn+Er0L3RbYeEbnBQGCMaMy7lwp59nuy7VW+M3s9zBjCHFQQ
-         2BTY4vIkUr+NyGVJowBLCXuzix3EM6F2EZq26HiHQ5ZCAErOdt2LPVywJwN5CddeILn3
-         AcdQ==
+        bh=qeVTMtCux2BOeObz5+AKrGQQdxp1bdVbjpePeClNJpo=;
+        b=k3ksXRI5boYH1PJ4aL51Taqw6hvtAg0KYVtZ5LSutd4bs+Ama7qpxAoSze4A7L0gpl
+         omUHyPRglIG6cycY06ZvINus+/9GsBNP02RktCm3rfaO9kZcr+52IgMeegbeUlkP6Ol4
+         GnazoLBbvVbzAzWqgpBN14eYhnsrg7iPxKjt972IuYhn1qhpJuaINoJQTyp5UolqC3Qb
+         60fnP8jse8Wk56KwrYncNxP9bcPeNiolIjfeD2lH5R8FbbY8XfaJxoGRREv/tqGaTITD
+         B5HenCw6mN5oXFjVd5BO0bvN9qPsuUcLTfEZmg9nlwkiEdsQg7Qa5l55m36Z+aDmNu5C
+         705g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681345659; x=1683937659;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1681345997; x=1683937997;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xDJelgOzNKd6ITIGgjXIICj67KNdoTBJg181sVqgBU0=;
-        b=NwcUJspZFqCIoh88Lle/bo4MS2GtZyusqggsM7c4gmVpChLL9WdjsUr41mI2EQlm9d
-         /ffC2w3QtRftUbKgRcuc+asv98WGc2DXYwkyR8Jw2b0ddqojGT7C+qALLLwCpFUn1ma7
-         gQhqChONsC4cjsWbsu27exk0ZVqf1y2UDpCLJc1TSMv1DxSXICYoopKk7iBzjVE4G5O/
-         tmMsjRIrUDlkTGhwNTAvWLVnKzY+aBI8oHUla+d6u7LWgviJ8hzaFPJyBt6Z4AdxIh/e
-         nfTj1xK5jopPYOo3CihvsQafULzjsPKZg6hpOO05oEmaPSuGlJGj0aI+F3dA8X4JMykg
-         Hz9Q==
-X-Gm-Message-State: AAQBX9cfS3GecPAqUo8gZDx/aCaWI3kvAssRK3hWvDFlEYiaGX5miXXi
-        ZJQnClnAyhz7t7fSsqQfRiR+Sg==
-X-Google-Smtp-Source: AKy350Ysb9u40mPkatwspVxrDb/u2LiGsFXwwbrVYnqsfrzuJxMcG5YfMRc64Pkg6YBUWwT7xA1tvQ==
-X-Received: by 2002:ac2:562b:0:b0:4e8:3cf8:5d64 with SMTP id b11-20020ac2562b000000b004e83cf85d64mr210849lff.37.1681345658878;
-        Wed, 12 Apr 2023 17:27:38 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
-        by smtp.gmail.com with ESMTPSA id q13-20020ac25a0d000000b004eafa060a6fsm45358lfn.145.2023.04.12.17.27.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Apr 2023 17:27:38 -0700 (PDT)
-Message-ID: <c6bad6df-c11e-edab-44d9-4ae4e17199f5@linaro.org>
-Date:   Thu, 13 Apr 2023 03:27:37 +0300
+        bh=qeVTMtCux2BOeObz5+AKrGQQdxp1bdVbjpePeClNJpo=;
+        b=VIGrCyQgUfhEppIBc2v5NKTa24XQXVuZ/bnxZeeT1mPAK0XeyoxBFBuMPKY3AViJQf
+         1Wh3syazzbAGNpiQZS7/e0tl7ujsb1sGeK7Y0HD1pGwXbnpLQRvZABgRcsh0Ut742KD2
+         xweaV9/0w20kO/d1lG6/cK2VFdTAAmAaD4g9Qlsy50vGbikBsuRXFK4H2DQIul2LFVcn
+         Gyaxyk7AxaPnDhMLB5RwWog8ImyCLdSza6FTpi05DfLE7rOXC5uY2wiToTvN2hJRotJk
+         dkcYj+5wbFOCPqZ9XAbDjkFYpI0AO/nSpM+VOouMfdmxc0Uagnsd60Dnb96y/Hd9lszw
+         rlzA==
+X-Gm-Message-State: AAQBX9fZNJmAHB+MOACqJ7XGLTLIni5vJPslKXAzrevp7HGlL00/vfRy
+        6iENbpEx7FvmNIBkkW+pT68=
+X-Google-Smtp-Source: AKy350YZNMZkgH+9uWTDQpdE2ql/ltywxQfXLvIF9L9t9EDDXuAjiEgjzlrJcnemUOsx2ulE8Xrclw==
+X-Received: by 2002:a05:6a20:dc9f:b0:c6:c0c1:b1fe with SMTP id ky31-20020a056a20dc9f00b000c6c0c1b1femr136728pzb.57.1681345996825;
+        Wed, 12 Apr 2023 17:33:16 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id u36-20020a634724000000b0050bd9c8c53dsm178076pga.23.2023.04.12.17.33.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 17:33:16 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 12 Apr 2023 14:33:15 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>
+Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
+Message-ID: <ZDdNy2NAfj2_1CbW@slm.duckdns.org>
+References: <20230412153758.3088111-1-longman@redhat.com>
+ <ZDcGVebCpyktxyWh@slm.duckdns.org>
+ <1ce6a073-e573-0c32-c3d8-f67f3d389a28@redhat.com>
+ <ZDcS_yVCgh6g1LoM@slm.duckdns.org>
+ <e38f72aa-9705-cf0c-a565-fb790f16c53e@redhat.com>
+ <ZDdG1K0kTETZMTCu@slm.duckdns.org>
+ <cd4c3f92-4a01-e636-7390-8c6a3d0cfe6c@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [Freedreno] [PATCH v2 0/2] drm: fdinfo memory stats
-Content-Language: en-GB
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Christopher Healy <healych@amazon.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sean Paul <sean@poorly.run>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        freedreno@lists.freedesktop.org
-References: <20230410210608.1873968-1-robdclark@gmail.com>
- <CAF6AEGvs4XMggPMthiJ89SiaUj3k+nY95OhxLZ5cD-01XPco4Q@mail.gmail.com>
- <ZDWQfbUBhyJf1Ezx@phenom.ffwll.local>
- <CAF6AEGtYw4Dn80OtrnJESkkDXxhUdAr6Nuva+Jo3ExW8MXH++Q@mail.gmail.com>
- <CAA8EJppnEwcHM++YUYZGrNXEha=-ZVAexBdkMVsU52PTOs4VnA@mail.gmail.com>
- <CAF6AEGsE3NOe9TkEzrk5rr-D2PoKaxF5Yn3W8wWew8um6r2EXw@mail.gmail.com>
- <d93f4256-4554-e031-9730-4ca2a7de6aaf@linaro.org>
- <ZDZntP+0wG6+QyHh@phenom.ffwll.local> <ZDaoT44hqnIH4ZX3@intel.com>
- <CAF6AEGtOEwG+Wdh_7Nox8pqmWJ=nMs-GFEqTU42Mf=wOFGKfRQ@mail.gmail.com>
- <CAA8EJpoNc+cD9gSZx09JBiV2PFHO3teryaRqx2Ah+1R6dJbybw@mail.gmail.com>
- <CAF6AEGtK2o6hPwTOhmFM5mncvgrCXL-fx4ukz1TQpRUZMjCV=w@mail.gmail.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAF6AEGtK2o6hPwTOhmFM5mncvgrCXL-fx4ukz1TQpRUZMjCV=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <cd4c3f92-4a01-e636-7390-8c6a3d0cfe6c@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/04/2023 23:34, Rob Clark wrote:
-> On Wed, Apr 12, 2023 at 1:19 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On Wed, 12 Apr 2023 at 23:09, Rob Clark <robdclark@gmail.com> wrote:
->>>
->>> On Wed, Apr 12, 2023 at 5:47 AM Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
->>>>
->>>> On Wed, Apr 12, 2023 at 10:11:32AM +0200, Daniel Vetter wrote:
->>>>> On Wed, Apr 12, 2023 at 01:36:52AM +0300, Dmitry Baryshkov wrote:
->>>>>> On 11/04/2023 21:28, Rob Clark wrote:
->>>>>>> On Tue, Apr 11, 2023 at 10:36 AM Dmitry Baryshkov
->>>>>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>>>>>
->>>>>>>> On Tue, 11 Apr 2023 at 20:13, Rob Clark <robdclark@gmail.com> wrote:
->>>>>>>>>
->>>>>>>>> On Tue, Apr 11, 2023 at 9:53 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->>>>>>>>>>
->>>>>>>>>> On Tue, Apr 11, 2023 at 09:47:32AM -0700, Rob Clark wrote:
->>>>>>>>>>> On Mon, Apr 10, 2023 at 2:06 PM Rob Clark <robdclark@gmail.com> wrote:
->>>>>>>>>>>>
->>>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
->>>>>>>>>>>>
->>>>>>>>>>>> Similar motivation to other similar recent attempt[1].  But with an
->>>>>>>>>>>> attempt to have some shared code for this.  As well as documentation.
->>>>>>>>>>>>
->>>>>>>>>>>> It is probably a bit UMA-centric, I guess devices with VRAM might want
->>>>>>>>>>>> some placement stats as well.  But this seems like a reasonable start.
->>>>>>>>>>>>
->>>>>>>>>>>> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
->>>>>>>>>>>> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
->>>>>>>>>>>
->>>>>>>>>>> On a related topic, I'm wondering if it would make sense to report
->>>>>>>>>>> some more global things (temp, freq, etc) via fdinfo?  Some of this,
->>>>>>>>>>> tools like nvtop could get by trawling sysfs or other driver specific
->>>>>>>>>>> ways.  But maybe it makes sense to have these sort of things reported
->>>>>>>>>>> in a standardized way (even though they aren't really per-drm_file)
->>>>>>>>>>
->>>>>>>>>> I think that's a bit much layering violation, we'd essentially have to
->>>>>>>>>> reinvent the hwmon sysfs uapi in fdinfo. Not really a business I want to
->>>>>>>>>> be in :-)
->>>>>>>>>
->>>>>>>>> I guess this is true for temp (where there are thermal zones with
->>>>>>>>> potentially multiple temp sensors.. but I'm still digging my way thru
->>>>>>>>> the thermal_cooling_device stuff)
->>>>>>>>
->>>>>>>> It is slightly ugly. All thermal zones and cooling devices are virtual
->>>>>>>> devices (so, even no connection to the particular tsens device). One
->>>>>>>> can either enumerate them by checking
->>>>>>>> /sys/class/thermal/thermal_zoneN/type or enumerate them through
->>>>>>>> /sys/class/hwmon. For cooling devices again the only enumeration is
->>>>>>>> through /sys/class/thermal/cooling_deviceN/type.
->>>>>>>>
->>>>>>>> Probably it should be possible to push cooling devices and thermal
->>>>>>>> zones under corresponding providers. However I do not know if there is
->>>>>>>> a good way to correlate cooling device (ideally a part of GPU) to the
->>>>>>>> thermal_zone (which in our case is provided by tsens / temp_alarm
->>>>>>>> rather than GPU itself).
->>>>>>>>
->>>>>>>>>
->>>>>>>>> But what about freq?  I think, esp for cases where some "fw thing" is
->>>>>>>>> controlling the freq we end up needing to use gpu counters to measure
->>>>>>>>> the freq.
->>>>>>>>
->>>>>>>> For the freq it is slightly easier: /sys/class/devfreq/*, devices are
->>>>>>>> registered under proper parent (IOW, GPU). So one can read
->>>>>>>> /sys/class/devfreq/3d00000.gpu/cur_freq or
->>>>>>>> /sys/bus/platform/devices/3d00000.gpu/devfreq/3d00000.gpu/cur_freq.
->>>>>>>>
->>>>>>>> However because of the components usage, there is no link from
->>>>>>>> /sys/class/drm/card0
->>>>>>>> (/sys/devices/platform/soc@0/ae00000.display-subsystem/ae01000.display-controller/drm/card0)
->>>>>>>> to /sys/devices/platform/soc@0/3d00000.gpu, the GPU unit.
->>>>>>>>
->>>>>>>> Getting all these items together in a platform-independent way would
->>>>>>>> be definitely an important but complex topic.
->>>>>>>
->>>>>>> But I don't believe any of the pci gpu's use devfreq ;-)
->>>>>>>
->>>>>>> And also, you can't expect the CPU to actually know the freq when fw
->>>>>>> is the one controlling freq.  We can, currently, have a reasonable
->>>>>>> approximation from devfreq but that stops if IFPC is implemented.  And
->>>>>>> other GPUs have even less direct control.  So freq is a thing that I
->>>>>>> don't think we should try to get from "common frameworks"
->>>>>>
->>>>>> I think it might be useful to add another passive devfreq governor type for
->>>>>> external frequencies. This way we can use the same interface to export
->>>>>> non-CPU-controlled frequencies.
->>>>>
->>>>> Yeah this sounds like a decent idea to me too. It might also solve the fun
->>>>> of various pci devices having very non-standard freq controls in sysfs
->>>>> (looking at least at i915 here ...)
->>>>
->>>> I also like the idea of having some common infrastructure for the GPU freq.
->>>>
->>>> hwmon have a good infrastructure, but they are more focused on individual
->>>> monitoring devices and not very welcomed to embedded monitoring and control.
->>>> I still want to check the opportunity to see if at least some freq control
->>>> could be aligned there.
->>>>
->>>> Another thing that complicates that is that there are multiple frequency
->>>> domains and controls with multipliers in Intel GPU that are not very
->>>> standard or easy to integrate.
->>>>
->>>> On a quick glace this devfreq seems neat because it aligns with the cpufreq
->>>> and governors. But again it would be hard to align with the multiple domains
->>>> and controls. But it deserves a look.
->>>>
->>>> I will take a look to both fronts for Xe: hwmon and devfreq. Right now on
->>>> Xe we have a lot less controls than i915, but I can imagine soon there
->>>> will be requirements to make that to grow and I fear that we end up just
->>>> like i915. So I will take a look before that happens.
->>>
->>> So it looks like i915 (dgpu only) and nouveau already use hwmon.. so
->>> maybe this is a good way to expose temp.  Maybe we can wire up some
->>> sort of helper for drivers which use thermal_cooling_device (which can
->>> be composed of multiple sensors) to give back an aggregate temp for
->>> hwmon to report?
->>
->> The thermal_device already registers the hwmon, see below. The
->> question is about linking that hwmon to the drm. Strictly speaking, I
->> don't think that we can reexport it in a clean way.
->>
->> # grep gpu /sys/class/hwmon/hwmon*/name
->> /sys/class/hwmon/hwmon15/name:gpu_top_thermal
->> /sys/class/hwmon/hwmon24/name:gpu_bottom_thermal
-> 
-> I can't get excited about userspace relying on naming conventions or
-> other heuristics like this.  
+Hello,
 
-As you can guess, me neither. We are not in 2.4 world anymore.
+On Wed, Apr 12, 2023 at 08:26:03PM -0400, Waiman Long wrote:
+> � If the "cpuset.cpus.isolated" isn't set, the existing rules applies. If it
+> is set, the new rule will be used.
+> 
+> Does that look reasonable to you?
 
-> Also, userspace's view of the world is
-> very much that there is a "gpu card", not a collection of parts.
-> (Windows seems to have the same view of the world.)  So we have the
-> component framework to assemble the various parts together into the
-> "device" that userspace expects to deal with.  We need to do something
-> similar for exposing temp and freq.
+Sounds a bit contrived. Does it need to be something defined in the root
+cgroup? The only thing that's needed is that a cgroup needs to claim CPUs
+exclusively without using them, right? Let's say we add a new interface
+file, say, cpuset.cpus.reserve which is always exclusive and can be consumed
+by children whichever way they want, wouldn't that be sufficient? Then,
+there would be nothing to describe in the root cgroup.
 
-I think we are lookin for something close to device links. We need to 
-create a userspace-visible link from one device to another across device 
-hierarchy. Current device_link API is tied to suspend/resume, but the 
-overall idea seems to be close enough (in my opinion).
-
-> 
->> # ls /sys/class/hwmon/hwmon15/ -l
->> lrwxrwxrwx    1 root     root             0 Jan 26 08:14 device ->
->> ../../thermal_zone15
->> -r--r--r--    1 root     root          4096 Jan 26 08:14 name
->> drwxr-xr-x    2 root     root             0 Jan 26 08:15 power
->> lrwxrwxrwx    1 root     root             0 Jan 26 08:12 subsystem ->
->> ../../../../../class/hwmon
->> -r--r--r--    1 root     root          4096 Jan 26 08:14 temp1_input
->> -rw-r--r--    1 root     root          4096 Jan 26 08:12 uevent
->>
->>> Freq could possibly be added to hwmon (ie. seems like a reasonable
->>> attribute to add).  Devfreq might also be an option but on arm it
->>> isn't necessarily associated with the drm device, whereas we could
->>> associate the hwmon with the drm device to make it easier for
->>> userspace to find.
->>
->> Possibly we can register a virtual 'passive' devfreq being driven by
->> another active devfreq device.
-> 
-> That's all fine and good, but it has the same problem that existing
-> hwmon's associated with the cooling-device have..
-> 
-> BR,
-> -R
-> 
->>>
->>> BR,
->>> -R
->>>
->>>>>
->>>>> I guess it would minimally be a good idea if we could document this, or
->>>>> maybe have a reference implementation in nvtop or whatever the cool thing
->>>>> is rn.
->>>>> -Daniel
->>>>>
->>>>>>
->>>>>>>
->>>>>>> BR,
->>>>>>> -R
->>>>>>>
->>>>>>>>>
->>>>>>>>>> What might be needed is better glue to go from the fd or fdinfo to the
->>>>>>>>>> right hw device and then crawl around the hwmon in sysfs automatically. I
->>>>>>>>>> would not be surprised at all if we really suck on this, probably more
->>>>>>>>>> likely on SoC than pci gpus where at least everything should be under the
->>>>>>>>>> main pci sysfs device.
->>>>>>>>>
->>>>>>>>> yeah, I *think* userspace would have to look at /proc/device-tree to
->>>>>>>>> find the cooling device(s) associated with the gpu.. at least I don't
->>>>>>>>> see a straightforward way to figure it out just for sysfs
->>>>>>>>>
->>>>>>>>> BR,
->>>>>>>>> -R
->>>>>>>>>
->>>>>>>>>> -Daniel
->>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> BR,
->>>>>>>>>>> -R
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>>> [1] https://patchwork.freedesktop.org/series/112397/
->>>>>>>>>>>>
->>>>>>>>>>>> Rob Clark (2):
->>>>>>>>>>>>     drm: Add fdinfo memory stats
->>>>>>>>>>>>     drm/msm: Add memory stats to fdinfo
->>>>>>>>>>>>
->>>>>>>>>>>>    Documentation/gpu/drm-usage-stats.rst | 21 +++++++
->>>>>>>>>>>>    drivers/gpu/drm/drm_file.c            | 79 +++++++++++++++++++++++++++
->>>>>>>>>>>>    drivers/gpu/drm/msm/msm_drv.c         | 25 ++++++++-
->>>>>>>>>>>>    drivers/gpu/drm/msm/msm_gpu.c         |  2 -
->>>>>>>>>>>>    include/drm/drm_file.h                | 10 ++++
->>>>>>>>>>>>    5 files changed, 134 insertions(+), 3 deletions(-)
->>>>>>>>>>>>
->>>>>>>>>>>> --
->>>>>>>>>>>> 2.39.2
->>>>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> --
->>>>>>>>>> Daniel Vetter
->>>>>>>>>> Software Engineer, Intel Corporation
->>>>>>>>>> http://blog.ffwll.ch
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> --
->>>>>>>> With best wishes
->>>>>>>> Dmitry
->>>>>>
->>>>>> --
->>>>>> With best wishes
->>>>>> Dmitry
->>>>>>
->>>>>
->>>>> --
->>>>> Daniel Vetter
->>>>> Software Engineer, Intel Corporation
->>>>> http://blog.ffwll.ch
->>
->>
->>
->> --
->> With best wishes
->> Dmitry
+Thanks.
 
 -- 
-With best wishes
-Dmitry
-
+tejun
