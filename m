@@ -2,85 +2,167 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9CDC77B61
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 11:09:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4739BC77B6F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 12:32:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjDMLJ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 07:09:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43748 "EHLO
+        id S229853AbjDMMcg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 08:32:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjDMLJz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 07:09:55 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 241CB7D9E;
-        Thu, 13 Apr 2023 04:09:50 -0700 (PDT)
-Received: from frapeml500002.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PxxcV34P2z6J6xl;
-        Thu, 13 Apr 2023 19:07:22 +0800 (CST)
-Received: from [10.81.209.180] (10.81.209.180) by
- frapeml500002.china.huawei.com (7.182.85.205) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 13 Apr 2023 13:09:47 +0200
-Message-ID: <f9aec7fa-4b7a-65a3-c060-6c69298fc73b@huawei.com>
-Date:   Thu, 13 Apr 2023 13:09:46 +0200
+        with ESMTP id S229593AbjDMMcf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 08:32:35 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5366A869A;
+        Thu, 13 Apr 2023 05:32:34 -0700 (PDT)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33D9Zih6004349;
+        Thu, 13 Apr 2023 08:32:10 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3px96s32bt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Apr 2023 08:32:10 -0400
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 33DCW9rr027393
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 13 Apr 2023 08:32:09 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Thu, 13 Apr
+ 2023 08:32:08 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Thu, 13 Apr 2023 08:32:08 -0400
+Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.214])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 33DCVs7G024870;
+        Thu, 13 Apr 2023 08:31:57 -0400
+From:   Daniel Matyas <daniel.matyas@analog.com>
+To:     <krzysztof.kozlowski@linaro.org>
+CC:     <corbet@lwn.net>, <daniel.matyas@analog.com>,
+        <devicetree@vger.kernel.org>, <jdelvare@suse.com>,
+        <krzysztof.kozlowski+dt@linaro.org>, <linux-doc@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux@roeck-us.net>, <robh+dt@kernel.org>
+Subject: Unclear what to do with compatibility 
+Date:   Thu, 13 Apr 2023 15:30:39 +0300
+Message-ID: <20230413123039.22473-1-daniel.matyas@analog.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <342b3e6c-fd1b-d256-bcc2-2b9bda206b60@linaro.org>
+References: <342b3e6c-fd1b-d256-bcc2-2b9bda206b60@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce buffers
-Content-Language: en-US
-To:     Christoph Hellwig <hch@lst.de>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Alexander Graf <graf@amazon.com>
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
- <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
- <20230328040724.GB25506@lst.de>
- <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
- <8cf7c515-9ce6-a2ed-0643-972aa3eba2fb@huaweicloud.com>
- <20230407055704.GD6803@lst.de> <20230407121555.4290a011@meshulam.tesarici.cz>
-From:   Petr Tesarik <petr.tesarik.ext@huawei.com>
-In-Reply-To: <20230407121555.4290a011@meshulam.tesarici.cz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.81.209.180]
-X-ClientProxiedBy: frapeml500008.china.huawei.com (7.182.85.71) To
- frapeml500002.china.huawei.com (7.182.85.205)
-X-CFilter-Loop: Reflected
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: sQXerFFFOgBPCQR0elnB-AjmC41saKru
+X-Proofpoint-ORIG-GUID: sQXerFFFOgBPCQR0elnB-AjmC41saKru
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-13_08,2023-04-13_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0
+ clxscore=1011 bulkscore=0 phishscore=0 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304130112
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/7/2023 12:15 PM, Petr Tesařík wrote:
-> On Fri, 7 Apr 2023 07:57:04 +0200
-> Christoph Hellwig <hch@lst.de> wrote:
->[...]>> (Btw, in case anyone is interested, we really need to get started
->> on moving the dma fields out of struct device into a sub-struct
->> only allocated for DMA capable busses)
-> 
-> I like this idea. In fact, my WIP topic branch now moves the swiotlb
-> fields into a separate struct, but I can surely go further and move all
-> DMA-related fields.
+MAX31827 is a low-power temperature switch with I2C interface.
 
-I have looked into this now, and it looks like a nice cleanup. The
-challenge is to get these patches reviewed by all affected maintainers,
-and it would be blocking my work on dynamically allocated bounce buffers.
+The device is a ±1°C accuracy from -40°C to +125°C
+(12 bits) local temperature switch and sensor with I2C/SM-
+Bus interface. The combination of small 6-bump wafer-lev-
+el package (WLP) and high accuracy makes this temper-
+ature sensor/switch ideal for a wide range of applications.
 
-How about moving only some fields initially (coherent override, cma and
-swiotlb)? These few are not used outside kernel/dma, but at least the
-swiotlb part makes my patches easier to follow. I can move the rest as
-soon as the dynamic patch series is merged.
+Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+---
+ .../bindings/hwmon/adi,max31827.yaml          | 51 +++++++++++++++++++
+ MAINTAINERS                                   |  7 +++
+ 2 files changed, 58 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
 
-Petr Tesarik
+diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+new file mode 100644
+index 000000000000..37177eb9c039
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/adi,max31827.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch
++
++maintainers:
++  - Daniel Matyas <daniel.matyas@analog.com>
++
++description: |
++  Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch with
++  I2C Interface
++  https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31827-MAX31829.pdf
++
++properties:
++  compatible:
++    enum:
++      - adi,max31827
++      - adi,max31828
++      - adi,max31829
++
 
+I am really sorry, but I do not understand what I should do.
+
+Should I add oneOf or items to the compatibility property?
+
++  reg:
++    maxItems: 1
++
++  vref-supply:
++    description:
++      Must have values in the interval (1.6V; 3.6V) in order for the device to
++      function correctly.
++
++required:
++  - compatible
++  - reg
++  - vref-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        temperature-sensor@42 {
++            compatible = "adi,max31827";
++            reg = <0x42>;
++            vref-supply = <&reg_vdd>;
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0e64787aace8..8af1296ff1a0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12535,6 +12535,13 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
+ F:	drivers/media/i2c/max2175*
+ F:	include/uapi/linux/max2175.h
+ 
++MAX31827 TEMPERATURE SWITCH DRIVER
++M:	Daniel Matyas <daniel.matyas@analog.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Supported
++W:	http://ez.analog.com/community/linux-device-drivers
++F:	Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
++
+ MAX6650 HARDWARE MONITOR AND FAN CONTROLLER DRIVER
+ L:	linux-hwmon@vger.kernel.org
+ S:	Orphan
+-- 
+2.34.1
+
+Best regards,
+Daniel
