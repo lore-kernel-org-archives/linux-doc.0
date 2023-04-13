@@ -2,202 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C56EDC77B79
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 03:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E722C77B6C
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 07:49:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbjDMDmG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 23:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
+        id S230229AbjDMHtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 03:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbjDMDmD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 23:42:03 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD8B26B3;
-        Wed, 12 Apr 2023 20:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681357322; x=1712893322;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JX88hhsS2KW2V7rBG3yf8RrisVNrFnqE6hp/x0xTETo=;
-  b=M9wc3r5/ctgNYiPMRERTBSyI84kXSHOXoXDuH28tygnVz3SLy127jdR0
-   YKTrO9I2Dei1kPBTPb64zhjQUVE0LVqV2e/hq3CNSG//0jhKzEn6Ks9gP
-   zYDK02KT9LrwP39x1I5G07Gz1xWcyPyXyr3YSVY3cLrVgwsGArk+XypbN
-   Mc5FQOlK6MMfcLqwLYruqGxorIiOGUIo9Vcij7n/UdTqS/nkydE2Eb19O
-   rwAWj/b0gbzrS/RpIqedyno9BT8Sc6OaaJP0R2KdCL+cDAMdCbHmCaAz/
-   V/3Lsw37rvGwzOThdLytpd3gktpUfa+yQoPMIBjZ8cKM8oa/AI2lYqLkn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="323699380"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="323699380"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 20:42:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="813222568"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="813222568"
-Received: from dayerton-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.209.52.214])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 20:42:00 -0700
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Erdem Aktas <erdemaktas@google.com>,
-        Dionna Amalie Glaze <dionnaglaze@google.com>,
-        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2 3/3] selftests/tdx: Test GetQuote TDX attestation feature
-Date:   Wed, 12 Apr 2023 20:41:08 -0700
-Message-Id: <20230413034108.1902712-4-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+        with ESMTP id S230143AbjDMHtd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 03:49:33 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F4C93D1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 00:49:06 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-94a34e3526fso328855066b.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 00:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681372144; x=1683964144;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0c4wLhFBCiAcjjbeOa5jABwRP5DFI69Pbg7hP6byo5Y=;
+        b=BceMhjYoTf/jVj4ZdOfZAmdXc1J1JKQQg2gDJBriG6HwIgqQa+TXhTrSgKSZqoDwGB
+         fxxNkkFJzz3+LPIPCcTrTXKUzkxMJKM15KMVbrHVfbNBhCLcgfhYV1M10c+aUBsJSiCt
+         6By92BXEHv2K4uCb2yNV5AQowESEtaDAb106riHjBqPBR5dXnbMbxbS2R65tGyqVEUrI
+         yhvp/oQ2CTyQUzXofZPoMMGkZTiH398qKqWOrfWU5M2rj8Cj/GGsudekAFQtnto+GRWt
+         B7nJbvo5WYPQQjH38U2tCqAOXitUQPyyxU36VtV8LtG4it4DbZL5PnPdj6iIg8vvKzNJ
+         vE7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681372144; x=1683964144;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0c4wLhFBCiAcjjbeOa5jABwRP5DFI69Pbg7hP6byo5Y=;
+        b=IVChl3v85Mw0FpFjivX8J7GMVsM2ydBs9ynUElK5+4oKpaXaTkXE+DlieL3J3aUC8n
+         AdlvzIs2iIVnNWAndRlwuSD6z/b7HA4lQbvm6z9LLh71mVrzWm7Ps6bf4/JBp1rDh5+r
+         jvk1Ut24Q9B/GD+w0/92s7AR7nQO9y2HtseVoSDK37cs/eNzxxKoT2x5FI3aZ84dD3DX
+         zA8x0qDW4dWskejcK7WXbIAr5klKcJyqO6jZOxQJW9pkIWV4GcJpwSz0IUQXHFfcJIbd
+         Tk1CM+S2vgbsV2hCRKxGsCQ9fFnTuyNH57M8SvwwBY9N9CgKcv4tiOg3iM4o2Pja3FU0
+         dVxA==
+X-Gm-Message-State: AAQBX9dZKFhnZ+WC2tGLiwvQGq/liMf4Xgut3jyICjUJRBX4SNZb1wqa
+        vspaDlBs6EwdFlMGEyOgKLezUg==
+X-Google-Smtp-Source: AKy350YbuGbPy57eqcdQLbG1h6GrL64vwjvVuJuqM/r/TYOQUCL0VheUuXgUL2yMgaNE1GwSq69GUA==
+X-Received: by 2002:aa7:c2d4:0:b0:501:fe52:d301 with SMTP id m20-20020aa7c2d4000000b00501fe52d301mr1684934edp.23.1681372144162;
+        Thu, 13 Apr 2023 00:49:04 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:ec6f:1b33:ab3f:bfd7? ([2a02:810d:15c0:828:ec6f:1b33:ab3f:bfd7])
+        by smtp.gmail.com with ESMTPSA id s2-20020aa7cb02000000b004bd6e3ed196sm463252edt.86.2023.04.13.00.49.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Apr 2023 00:49:03 -0700 (PDT)
+Message-ID: <342b3e6c-fd1b-d256-bcc2-2b9bda206b60@linaro.org>
+Date:   Thu, 13 Apr 2023 09:49:02 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 1/2] [PATCH v1 1/2] dt-bindings: hwmon: add MAX31827
+Content-Language: en-US
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230412153334.181852-1-daniel.matyas@analog.com>
+ <20230412153334.181852-2-daniel.matyas@analog.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230412153334.181852-2-daniel.matyas@analog.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In TDX guest, the second stage of the attestation process is Quote
-generation. This process is required to convert the locally generated
-TDREPORT into a remotely verifiable Quote. It involves sending the
-TDREPORT data to a Quoting Enclave (QE) which will verify the
-integerity of the TDREPORT and sign it with an attestation key.
+On 12/04/2023 17:33, Daniel Matyas wrote:
+> MAX31827 is a low-power temperature switch with I2C interface.
+> 
+> The device is a ±1°C accuracy from -40°C to +125°C
+> (12 bits) local temperature switch and sensor with I2C/SM-
+> Bus interface. The combination of small 6-bump wafer-lev-
+> el package (WLP) and high accuracy makes this temper-
+> ature sensor/switch ideal for a wide range of applications.
+> 
+> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> ---
+>  .../bindings/hwmon/adi,max31827.yaml          | 51 +++++++++++++++++++
+>  MAINTAINERS                                   |  7 +++
+>  2 files changed, 58 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> new file mode 100644
+> index 000000000000..37177eb9c039
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/adi,max31827.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch
+> +
+> +maintainers:
+> +  - Daniel Matyas <daniel.matyas@analog.com>
+> +
+> +description: |
+> +  Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch with
+> +  I2C Interface
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31827-MAX31829.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,max31827
+> +      - adi,max31828
+> +      - adi,max31829
 
-Intel's TDX attestation driver exposes TDX_CMD_GET_QUOTE IOCTL to
-allow user agent get the TD Quote.
+Why suddenly these are all incompatible? This is not what I suggested.
 
-Add a kernel selftest module to verify the Quote generation feature.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
 
-TD Quote generation involves following steps:
-
-* Get the TDREPORT data using TDX_CMD_GET_REPORT IOCTL.
-* Embed the TDREPORT data in quote buffer and request for quote
-  generation via TDX_CMD_GET_QUOTE IOCTL request.
-* Upon completion of the GetQuote request, check for non zero value
-  in the status field of Quote header to make sure the generated
-  quote is valid.
-
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Andi Kleen <ak@linux.intel.com>
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
- tools/testing/selftests/tdx/tdx_guest_test.c | 68 ++++++++++++++++++--
- 1 file changed, 62 insertions(+), 6 deletions(-)
-
-diff --git a/tools/testing/selftests/tdx/tdx_guest_test.c b/tools/testing/selftests/tdx/tdx_guest_test.c
-index 81d8cb88ea1a..2eccde54185b 100644
---- a/tools/testing/selftests/tdx/tdx_guest_test.c
-+++ b/tools/testing/selftests/tdx/tdx_guest_test.c
-@@ -18,6 +18,7 @@
- #define TDX_GUEST_DEVNAME "/dev/tdx_guest"
- #define HEX_DUMP_SIZE 8
- #define DEBUG 0
-+#define QUOTE_SIZE 8192
- 
- /**
-  * struct tdreport_type - Type header of TDREPORT_STRUCT.
-@@ -128,21 +129,29 @@ static void print_array_hex(const char *title, const char *prefix_str,
- 	printf("\n");
- }
- 
-+/* Helper function to get TDREPORT */
-+long get_tdreport0(int devfd, struct tdx_report_req *req)
-+{
-+	int i;
-+
-+	/* Generate sample report data */
-+	for (i = 0; i < TDX_REPORTDATA_LEN; i++)
-+		req->reportdata[i] = i;
-+
-+	return ioctl(devfd, TDX_CMD_GET_REPORT0, req);
-+}
-+
- TEST(verify_report)
- {
- 	struct tdx_report_req req;
- 	struct tdreport *tdreport;
--	int devfd, i;
-+	int devfd;
- 
- 	devfd = open(TDX_GUEST_DEVNAME, O_RDWR | O_SYNC);
- 	ASSERT_LT(0, devfd);
- 
--	/* Generate sample report data */
--	for (i = 0; i < TDX_REPORTDATA_LEN; i++)
--		req.reportdata[i] = i;
--
- 	/* Get TDREPORT */
--	ASSERT_EQ(0, ioctl(devfd, TDX_CMD_GET_REPORT0, &req));
-+	ASSERT_EQ(0, get_tdreport0(devfd, &req));
- 
- 	if (DEBUG) {
- 		print_array_hex("\n\t\tTDX report data\n", "",
-@@ -160,4 +169,51 @@ TEST(verify_report)
- 	ASSERT_EQ(0, close(devfd));
- }
- 
-+TEST(verify_quote)
-+{
-+	struct tdx_quote_hdr *quote_hdr;
-+	struct tdx_report_req rep_req;
-+	struct tdx_quote_req req;
-+	__u64 quote_buf_size;
-+	__u8 *quote_buf;
-+	int devfd;
-+
-+	/* Open attestation device */
-+	devfd = open(TDX_GUEST_DEVNAME, O_RDWR | O_SYNC);
-+
-+	ASSERT_LT(0, devfd);
-+
-+	/* Add size for quote header */
-+	quote_buf_size = sizeof(*quote_hdr) + QUOTE_SIZE;
-+
-+	/* Allocate quote buffer */
-+	quote_buf = malloc(quote_buf_size);
-+	ASSERT_NE(NULL, quote_buf);
-+
-+	quote_hdr = (struct tdx_quote_hdr *)quote_buf;
-+
-+	/* Initialize GetQuote header */
-+	quote_hdr->version = 1;
-+	quote_hdr->status  = GET_QUOTE_SUCCESS;
-+	quote_hdr->in_len  = TDX_REPORT_LEN;
-+	quote_hdr->out_len = 0;
-+
-+	/* Get TDREPORT data */
-+	ASSERT_EQ(0, get_tdreport0(devfd, &rep_req));
-+
-+	/* Fill GetQuote request */
-+	memcpy(quote_hdr->data, rep_req.tdreport, TDX_REPORT_LEN);
-+	req.buf	  = (__u64)quote_buf;
-+	req.len	  = quote_buf_size;
-+
-+	ASSERT_EQ(0, ioctl(devfd, TDX_CMD_GET_QUOTE, &req));
-+
-+	/* Check whether GetQuote request is successful */
-+	EXPECT_EQ(0, quote_hdr->status);
-+
-+	free(quote_buf);
-+
-+	ASSERT_EQ(0, close(devfd));
-+}
-+
- TEST_HARNESS_MAIN
--- 
-2.34.1
+Best regards,
+Krzysztof
 
