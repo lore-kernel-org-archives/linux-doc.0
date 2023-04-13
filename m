@@ -2,38 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A84EC77B61
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 09:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B18DAC77B6C
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 09:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjDMJIU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 05:08:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33012 "EHLO
+        id S230071AbjDMJIW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 05:08:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbjDMJIR (ORCPT
+        with ESMTP id S229814AbjDMJIR (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 05:08:17 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ABC82115;
-        Thu, 13 Apr 2023 02:08:11 -0700 (PDT)
-X-UUID: b2ea07e4d9da11eda9a90f0bb45854f4-20230413
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C2BD1FE9;
+        Thu, 13 Apr 2023 02:08:10 -0700 (PDT)
+X-UUID: b2cd488ed9da11edb6b9f13eb10bd0fe-20230413
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=vJHA62fePV8KQrTjmeo7P6N3t6CmbXBI+Yee42ikhhA=;
-        b=JTE0oSKbzx/HUynH0CeT7pZ1NvBqEiUx2DIp1Rqe5azePIbcoeCUQt0Ncuzmo03STT/h1wY1SrvBaYjdjaRxGHH196mFgxMvhLxSJqG6JwVn0Uhru8a0aKLeh03AZAxAb6rWKYr8CkmPgPZ8aRIcMXfraJXXD/RhoIMeyUe8JZY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:d699e2ff-2b66-47c4-ae56-af4a10e23262,IP:0,U
-        RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:25
-X-CID-META: VersionHash:120426c,CLOUDID:5fcfef83-cd9c-45f5-8134-710979e3df0e,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=6/PuYp06JANxyecmjfdkLJaYOHvRKSYhlev5QUYet24=;
+        b=i8oHJz+Tb42zhRG/Ecq97/bF4fDTQ3lZNe7weXKaGMIG6UtkqPBui+3E67lCWW13PQ1nZRPUHqj6OaOXDFNmZsjeQdITK1WD6bhF+NSsGzN0LLMmd4QvDxEL0FM2zwLwI2M+tfBzSmG+RBaAB0wOeL2b2KbvtuynZs5Pw6IAg+A=;
+X-CID-P-RULE: Spam_GS6885AD
+X-CID-O-INFO: VERSION:1.1.22,REQID:4028f8c9-7f03-4f3b-8ef4-14f6199d431d,IP:0,U
+        RL:0,TC:0,Content:49,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS6885AD,AC
+        TION:quarantine,TS:149
+X-CID-INFO: VERSION:1.1.22,REQID:4028f8c9-7f03-4f3b-8ef4-14f6199d431d,IP:0,URL
+        :0,TC:0,Content:49,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_US65DF41,ACTI
+        ON:quarantine,TS:149
+X-CID-META: VersionHash:120426c,CLOUDID:77cb34a1-8fcb-430b-954a-ba3f00fa94a5,B
+        ulkID:230413170805VK1B60VM,BulkQuantity:0,Recheck:0,SF:48|38|29|28|17|19,T
+        C:nil,Content:3,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-UUID: b2ea07e4d9da11eda9a90f0bb45854f4-20230413
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+X-UUID: b2cd488ed9da11edb6b9f13eb10bd0fe-20230413
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <yi-de.wu@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1529083461; Thu, 13 Apr 2023 17:08:04 +0800
+        with ESMTP id 1838058108; Thu, 13 Apr 2023 17:08:04 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.25; Thu, 13 Apr 2023 17:08:03 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -62,9 +66,9 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Ze-Yu Wang <ze-yu.wang@mediatek.com>,
         Liju Chen <liju-clr.chen@mediatek.com>,
         Yi-De Wu <yi-de.wu@mediatek.com>
-Subject: [PATCH v1 2/6] dt-bindings: hypervisor: Add binding for MediaTek GenieZone hypervisor
-Date:   Thu, 13 Apr 2023 17:07:31 +0800
-Message-ID: <20230413090735.4182-3-yi-de.wu@mediatek.com>
+Subject: [PATCH v1 1/6] docs: geniezone: Introduce GenieZone hypervisor
+Date:   Thu, 13 Apr 2023 17:07:30 +0800
+Message-ID: <20230413090735.4182-2-yi-de.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20230413090735.4182-1-yi-de.wu@mediatek.com>
 References: <20230413090735.4182-1-yi-de.wu@mediatek.com>
@@ -76,53 +80,58 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
 
-Add documentation for GenieZone(gzvm) node. This node informs gzvm
-driver to start probing if geniezone hypervisor is available and
-able to do virtual machine operations.
+GenieZone is MediaTek proprietary hypervisor solution, and it is running
+in EL2 stand alone as a type-I hypervisor. It is a pure EL2
+implementation which implies it does not rely any specific host VM, and
+this behavior improves GenieZone's security as it limits its interface.
 
 Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
 Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
 ---
- .../bindings/hypervisor/mediatek,gzvm.yaml    | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
+ Documentation/virt/geniezone/introduction.rst | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100644 Documentation/virt/geniezone/introduction.rst
 
-diff --git a/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml b/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
+diff --git a/Documentation/virt/geniezone/introduction.rst b/Documentation/virt/geniezone/introduction.rst
 new file mode 100644
-index 000000000000..35e1e5b18e47
+index 000000000000..1fffd6cbb4db
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
-@@ -0,0 +1,30 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hypervisor/mediatek,gzvm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/Documentation/virt/geniezone/introduction.rst
+@@ -0,0 +1,34 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+title: MediaTek GenieZone hypervisor
++======================
++GenieZone Introduction
++======================
 +
-+maintainers:
-+  - Yingshiuan Pan <yingshiuan.pan@mediatek.com>
 +
-+description:
-+  GenieZone is MediaTek proprietary hypervisor. This device node informs its
-+  driver, gzvm, to probe if platform supports running virtual machines.
++Overview
++========
++GenieZone is MediaTek proprietary hypervisor solution, and it is running in EL2
++stand alone as a type-I hypervisor. It is a pure EL2 implementation which
++implies it does not rely any specific host VM, and this behavior improves
++GenieZone's security as it limits its interface.
 +
-+properties:
-+  compatible:
-+    const: mediatek,gzvm
++To enable guest VMs running, a driver (gzvm) is provided for VMM (virtual
++machine monitor) to operate. Currently, the gzvm driver supports only crosvm.
 +
-+required:
-+  - compatible
 +
-+additionalProperties: false
++Supported Architecture
++======================
++GenieZone now only supports MediaTek arm64 SoC.
 +
-+examples:
-+  - |
-+    hypervisor {
-+        compatible = "mediatek,gzvm";
-+        status = "okay";
-+    };
++
++Platform Virtualization
++=======================
++We leverages arm64's timer virtualization and gic virtualization for timer and
++interrupts controller.
++
++
++Device Virtualizaton
++====================
++We adopts VMM's virtio devices emulations by passing io trap to VMM, and virtio
++is a well-known and widely used virtual device implementation.
++
 -- 
 2.18.0
 
