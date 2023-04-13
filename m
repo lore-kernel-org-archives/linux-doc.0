@@ -2,255 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9927C77B61
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 13:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 931A2C77B6E
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 13:08:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbjDMNHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 09:07:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38190 "EHLO
+        id S230106AbjDMNIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 09:08:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbjDMNHM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 09:07:12 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D31393D1;
-        Thu, 13 Apr 2023 06:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681391218; x=1712927218;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=LoGE80xffzbicXBgrWxTE0wJdR6NHDZ2ZOFGY3Zi3Uo=;
-  b=eJHXRKqYsdiEjTakMrPxuBTzjmI96XY7kSWOIpU62IPvKoItAfuxdKGo
-   IWsHhbcTLP8KAko/ZRC26TJXEwLdLazoFfKpQn3jOz4Q4KQAoQsbdp6Zz
-   3Z5w3QIc8U/M2mZh/8nnv3WptZ/wwNI/lupJDMnwnavy3bJSVYtgHFulF
-   0AsEYBXNsZZLW7KS4NyzbEL9dZTzXgAwIZ+qGWsZa5FkYIRQOFS8Ge/04
-   ITiuwC3kaPMJ/vnYe2KGXPNPJkNtnfmIGSOIUuRcmEkpnIN581NczbIpU
-   jUy2wB9JHwQWUvdLTTQx/i+0aHTuHcq20ixLf7Qg5kBeKvDmSIg+dOKeN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="409331739"
-X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="409331739"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 06:04:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="719819771"
-X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="719819771"
-Received: from mmcgar2x-mobl1.ger.corp.intel.com (HELO [10.213.231.135]) ([10.213.231.135])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 06:03:56 -0700
-Message-ID: <137052df-3551-86a0-c7d0-42935ebd5ac6@linux.intel.com>
-Date:   Thu, 13 Apr 2023 14:03:54 +0100
+        with ESMTP id S229877AbjDMNIa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 09:08:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19A89768
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 06:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681391258;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xu3cDrGly0wJnGXrRec8HvQ04SIjk5VxPaKdFOL3odc=;
+        b=VUfjnHpPFUyT8EVl+eiYEJZE6IrMjH/+eBDh9YmhanxeMugAeOFP7xZ0PNDxFu+BZLpovU
+        3WLHAfIsg3H03teVIOmeNKKvD91Ze4XiqMTF6dy98iaQ4mCzqwLKeMyyNPeNlbahfqX4WR
+        C61au3o+25km0TjtC3F4XadzvTvmz0Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-528-kDQN29mjP_OKyF-Cg7uJIg-1; Thu, 13 Apr 2023 09:07:37 -0400
+X-MC-Unique: kDQN29mjP_OKyF-Cg7uJIg-1
+Received: by mail-wm1-f69.google.com with SMTP id fm19-20020a05600c0c1300b003f0a9e986bcso401479wmb.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 06:07:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681391256; x=1683983256;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xu3cDrGly0wJnGXrRec8HvQ04SIjk5VxPaKdFOL3odc=;
+        b=l+sXK1NHaUUYOzXfKL9FgaWaNc01adWJRLYfr3l0N6gklkjJc28UlR/SKtShol45yY
+         D2SEy0t5TI6ewL4mwZgNTP3DtzR8tzotRxnlP+RoyB+/DSk18GOniiaFz5aeu4JQQCOW
+         gNztRMUxx/j0wtvdKY3ybaeahzpdOw4ibdpippFoe1vbpCjzFQBIzgGuL9cCgkGsFblg
+         9TQghy11/GKoMi9BSWry4G4wrVF96nyDldZz5ETbXCYMV+fk1osg2FmwcikW4P00VqYN
+         J2PgZBjsTRrENt7X48AuxLZyGj3rFGdBLxIUahKoA2UFu5ZRtDuqDJunivAJx0yL2SUf
+         +ZAQ==
+X-Gm-Message-State: AAQBX9fwpIPr3VvacYoH0/4eVBJaFEIyakho0RFKWi2Sy5JraSsyX+sZ
+        b+Z+NAp2ESzR7zzEaeBtw24RjmYbOak2UmtDkYVM8Tqd1jwW6O+j71AVPJgPnMAsDXAxfV4BXHw
+        ZKm3+E+es8Qaobjc+wyS0
+X-Received: by 2002:adf:d0cc:0:b0:2cf:ec75:8090 with SMTP id z12-20020adfd0cc000000b002cfec758090mr1405072wrh.14.1681391256422;
+        Thu, 13 Apr 2023 06:07:36 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZAf2dTIXalDT1vqm+8Q7R/XyJbZOQfYNc5Rhgq/eKzSYm1AAjZ4JIiIbog4wnJj4wKIcBFQA==
+X-Received: by 2002:adf:d0cc:0:b0:2cf:ec75:8090 with SMTP id z12-20020adfd0cc000000b002cfec758090mr1405053wrh.14.1681391256006;
+        Thu, 13 Apr 2023 06:07:36 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id v11-20020a5d43cb000000b002f490a0cd1asm1246303wrr.92.2023.04.13.06.07.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Apr 2023 06:07:35 -0700 (PDT)
+Message-ID: <7c5606cc-ca58-c505-b0d3-2eec29fe606a@redhat.com>
+Date:   Thu, 13 Apr 2023 15:07:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v4 1/6] drm: Add common fdinfo helper
+ Thunderbird/102.9.1
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Rob Clark <robdclark@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230412224311.23511-1-robdclark@gmail.com>
- <20230412224311.23511-2-robdclark@gmail.com>
- <ce87917c-6cf1-b1e7-4782-61a7e47aa92d@amd.com>
- <ZDfBZIuiAuMhuULd@phenom.ffwll.local>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZDfBZIuiAuMhuULd@phenom.ffwll.local>
+To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, hannes@cmpxchg.org, willy@infradead.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20230412031648.2206875-1-shr@devkernel.io>
+ <20230412031648.2206875-4-shr@devkernel.io>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v6 3/3] selftests/mm: add new selftests for KSM
+In-Reply-To: <20230412031648.2206875-4-shr@devkernel.io>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 12.04.23 05:16, Stefan Roesch wrote:
+> This adds three new tests to the selftests for KSM.  These tests use the
+> new prctl API's to enable and disable KSM.
+> 
+> 1) add new prctl flags to prctl header file in tools dir
+> 
+>     This adds the new prctl flags to the include file prct.h in the
+>     tools directory.  This makes sure they are available for testing.
+> 
+> 2) add KSM prctl merge test
+> 
+>     This adds the -t option to the ksm_tests program.  The -t flag
+>     allows to specify if it should use madvise or prctl ksm merging.
+> 
+> 3) add KSM get merge type test
+> 
+>     This adds the -G flag to the ksm_tests program to query the KSM
+>     status with prctl after KSM has been enabled with prctl.
+> 
+> 4) add KSM fork test
+> 
+>     Add fork test to verify that the MMF_VM_MERGE_ANY flag is inherited
+>     by the child process.
+> 
+> 5) add two functions for debugging merge outcome
+> 
+>     This adds two functions to report the metrics in /proc/self/ksm_stat
+>     and /sys/kernel/debug/mm/ksm.
+> 
+> The debugging can be enabled with the following command line:
+> make -C tools/testing/selftests TARGETS="mm" --keep-going \
+>          EXTRA_CFLAGS=-DDEBUG=1
 
-On 13/04/2023 09:46, Daniel Vetter wrote:
-> On Thu, Apr 13, 2023 at 10:07:11AM +0200, Christian König wrote:
->> Am 13.04.23 um 00:42 schrieb Rob Clark:
->>> From: Rob Clark <robdclark@chromium.org>
->>>
->>> Handle a bit of the boiler-plate in a single case, and make it easier to
->>> add some core tracked stats.
->>>
->>> v2: Update drm-usage-stats.rst, 64b client-id, rename drm_show_fdinfo
->>>
->>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>> ---
->>>    Documentation/gpu/drm-usage-stats.rst | 10 +++++++-
->>>    drivers/gpu/drm/drm_file.c            | 35 +++++++++++++++++++++++++++
->>>    include/drm/drm_drv.h                 |  7 ++++++
->>>    include/drm/drm_file.h                |  4 +++
->>>    4 files changed, 55 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
->>> index b46327356e80..2ab32c40e93c 100644
->>> --- a/Documentation/gpu/drm-usage-stats.rst
->>> +++ b/Documentation/gpu/drm-usage-stats.rst
->>> @@ -126,7 +126,15 @@ percentage utilization of the engine, whereas drm-engine-<str> only reflects
->>>    time active without considering what frequency the engine is operating as a
->>>    percentage of it's maximum frequency.
->>> +Implementation Details
->>> +======================
->>> +
->>> +Drivers should use drm_show_fdinfo() in their `struct file_operations`, and
->>> +implement &drm_driver.show_fdinfo if they wish to provide any stats which
->>> +are not provided by drm_show_fdinfo().  But even driver specific stats should
->>> +be documented above and where possible, aligned with other drivers.
->>
->> I'm really wondering if it wouldn't be less mid-layering if we let the
->> drivers call the drm function to print the common values instead of the
->> other way around?
-> 
-> The idea is that we plug this into DRM_GEM_FOPS and then everyone gets it
-> by default. So it's a bit a tradeoff between midlayering and having
-> inconsistent uapi between drivers. And there's generic tools that parse
-> this, so consistency across drivers is good.
-> 
-> My gut feeling was that after a bit of experimenting with lots of
-> different drivers for fdinfo stuff it's time to push for a bit more
-> standardization and less fragmentation.
-> 
-> We can of course later on course-correct and shuffle things around again,
-> e.g. by pushing more things into the gem_bo_fops->status hook (ttm and
-> other memory manager libs could implement a decent one by default), or
-> moving more into the drm_driver->show_fdinfo callback again.
-> 
-> If you look at kms we also shuffle things back&forth between core (for
-> more consistency) and drivers (for more flexibility where needed).
-> 
-> The important part here imo is that we start with some scaffolding to be
-> able to do this. Like another thing that I think we want is some
-> drm_fdinfo_print functions that make sure the formatting is guaranteed
-> consistents and we don't trip up parsers (like some drivers use " \t" as
-> separator instead of just "\t", I guess by accident).
+Would it make sense to instead have a "-D" (if still unused) runtime 
+options to print this data? Dead code that's not compiled is a bit 
+unfortunate as it can easily bit-rot.
 
-On this particular part I'd say it's even better to keep userspace on 
-their toes and not let them hardcode assumption about how much and what 
-whitespace characters to expect.
 
-Otherwise I agree that mid-layer or not can be changed later, as long as 
-my opens from elsewhere in the thread are closed before merging.
 
-Regards,
+This patch essentially does two things
 
-Tvrtko
+1) Add the option to run all tests/benchmarks with the PRCTL instead of 
+MADVISE
 
->> Apart from thatquestion the patch looks good to me.
-> 
-> Ack? Or want the above recorded in the commit message, I think it'd make
-> sense to put it there.
-> -Daniel
-> 
->>
->> Christian.
->>
->>> +
->>>    Driver specific implementations
->>> -===============================
->>> +-------------------------------
->>>    :ref:`i915-usage-stats`
->>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>> index a51ff8cee049..6d5bdd684ae2 100644
->>> --- a/drivers/gpu/drm/drm_file.c
->>> +++ b/drivers/gpu/drm/drm_file.c
->>> @@ -148,6 +148,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
->>>     */
->>>    struct drm_file *drm_file_alloc(struct drm_minor *minor)
->>>    {
->>> +	static atomic64_t ident = ATOMIC_INIT(0);
->>>    	struct drm_device *dev = minor->dev;
->>>    	struct drm_file *file;
->>>    	int ret;
->>> @@ -156,6 +157,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
->>>    	if (!file)
->>>    		return ERR_PTR(-ENOMEM);
->>> +	/* Get a unique identifier for fdinfo: */
->>> +	file->client_id = atomic64_inc_return(&ident);
->>>    	file->pid = get_pid(task_pid(current));
->>>    	file->minor = minor;
->>> @@ -868,6 +871,38 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
->>>    }
->>>    EXPORT_SYMBOL(drm_send_event);
->>> +/**
->>> + * drm_show_fdinfo - helper for drm file fops
->>> + * @seq_file: output stream
->>> + * @f: the device file instance
->>> + *
->>> + * Helper to implement fdinfo, for userspace to query usage stats, etc, of a
->>> + * process using the GPU.  See also &drm_driver.show_fdinfo.
->>> + *
->>> + * For text output format description please see Documentation/gpu/drm-usage-stats.rst
->>> + */
->>> +void drm_show_fdinfo(struct seq_file *m, struct file *f)
->>> +{
->>> +	struct drm_file *file = f->private_data;
->>> +	struct drm_device *dev = file->minor->dev;
->>> +	struct drm_printer p = drm_seq_file_printer(m);
->>> +
->>> +	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
->>> +	drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
->>> +
->>> +	if (dev_is_pci(dev->dev)) {
->>> +		struct pci_dev *pdev = to_pci_dev(dev->dev);
->>> +
->>> +		drm_printf(&p, "drm-pdev:\t%04x:%02x:%02x.%d\n",
->>> +			   pci_domain_nr(pdev->bus), pdev->bus->number,
->>> +			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
->>> +	}
->>> +
->>> +	if (dev->driver->show_fdinfo)
->>> +		dev->driver->show_fdinfo(&p, file);
->>> +}
->>> +EXPORT_SYMBOL(drm_show_fdinfo);
->>> +
->>>    /**
->>>     * mock_drm_getfile - Create a new struct file for the drm device
->>>     * @minor: drm minor to wrap (e.g. #drm_device.primary)
->>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->>> index 5b86bb7603e7..5edf2a13733b 100644
->>> --- a/include/drm/drm_drv.h
->>> +++ b/include/drm/drm_drv.h
->>> @@ -401,6 +401,13 @@ struct drm_driver {
->>>    			       struct drm_device *dev, uint32_t handle,
->>>    			       uint64_t *offset);
->>> +	/**
->>> +	 * @show_fdinfo:
->>> +	 *
->>> +	 * Print device specific fdinfo.  See Documentation/gpu/drm-usage-stats.rst.
->>> +	 */
->>> +	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
->>> +
->>>    	/** @major: driver major number */
->>>    	int major;
->>>    	/** @minor: driver minor number */
->>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->>> index 0d1f853092ab..6de6d0e9c634 100644
->>> --- a/include/drm/drm_file.h
->>> +++ b/include/drm/drm_file.h
->>> @@ -258,6 +258,9 @@ struct drm_file {
->>>    	/** @pid: Process that opened this file. */
->>>    	struct pid *pid;
->>> +	/** @client_id: A unique id for fdinfo */
->>> +	u64 client_id;
->>> +
->>>    	/** @magic: Authentication magic, see @authenticated. */
->>>    	drm_magic_t magic;
->>> @@ -437,6 +440,7 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
->>>    void drm_send_event_timestamp_locked(struct drm_device *dev,
->>>    				     struct drm_pending_event *e,
->>>    				     ktime_t timestamp);
->>> +void drm_show_fdinfo(struct seq_file *m, struct file *f);
->>>    struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
->>
-> 
+2) Add some functional KSM tests for the new PRCTL (fork, enabling 
+works, disabling works).
+
+The latter should rather go into ksm_functional_tests().
+
+[...]
+
+>   
+> -static int check_ksm_unmerge(int mapping, int prot, int timeout, size_t page_size)
+> +/* Verify that prctl ksm flag is inherited. */
+> +static int check_ksm_fork(void)
+> +{
+> +	int rc = KSFT_FAIL;
+> +	pid_t child_pid;
+> +
+> +	if (prctl(PR_SET_MEMORY_MERGE, 1)) {
+> +		perror("prctl");
+> +		return KSFT_FAIL;
+> +	}
+> +
+> +	child_pid = fork();
+> +	if (child_pid == 0) {
+> +		int is_on = prctl(PR_GET_MEMORY_MERGE, 0);
+> +
+> +		if (!is_on)
+> +			exit(KSFT_FAIL);
+> +
+> +		exit(KSFT_PASS);
+> +	}
+> +
+> +	if (child_pid < 0)
+> +		goto out;
+> +
+> +	if (waitpid(child_pid, &rc, 0) < 0)
+> +		rc = KSFT_FAIL;
+> +
+> +	if (prctl(PR_SET_MEMORY_MERGE, 0)) {
+> +		perror("prctl");
+> +		rc = KSFT_FAIL;
+> +	}
+> +
+> +out:
+> +	if (rc == KSFT_PASS)
+> +		printf("OK\n");
+> +	else
+> +		printf("Not OK\n");
+> +
+> +	return rc;
+> +}
+> +
+> +static int check_ksm_get_merge_type(void)
+> +{
+> +	if (prctl(PR_SET_MEMORY_MERGE, 1)) {
+> +		perror("prctl set");
+> +		return 1;
+> +	}
+> +
+> +	int is_on = prctl(PR_GET_MEMORY_MERGE, 0);
+> +
+> +	if (prctl(PR_SET_MEMORY_MERGE, 0)) {
+> +		perror("prctl set");
+> +		return 1;
+> +	}
+> +
+> +	int is_off = prctl(PR_GET_MEMORY_MERGE, 0);
+> +
+> +	if (is_on && is_off) {
+> +		printf("OK\n");
+> +		return KSFT_PASS;
+> +	}
+> +
+> +	printf("Not OK\n");
+> +	return KSFT_FAIL;
+> +}
+
+Yes, these two are better located in ksm_functional_tests() to just run 
+them both automatically when the test is executed.
+
+-- 
+Thanks,
+
+David / dhildenb
+
