@@ -2,117 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EDEC77B61
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 09:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB62C77B6C
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 09:08:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbjDMJGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 05:06:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
+        id S229874AbjDMJIR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 05:08:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbjDMJGy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 05:06:54 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657891991
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 02:06:48 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id f26so29567419ejb.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 02:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681376807; x=1683968807;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UFx0Tegz+na2H8E8/SzrHR4EtntR/LNXLbl5VqgfAAI=;
-        b=lsJ2z0bXokcLYWx6io3xwLHcgn0faiH4+P0IvW9E10joQb+97+re0PuWf+bs3Ft6om
-         d9GTi9+eDNkO4KlWLcrJFEYRQgG716x1TFp+bClTgHAsMT5xZ1/xjc5XlVYTJR6bvyJo
-         HCCcu6lIrVhVxqNV7u3pQgAOzgzNXuqF/1rYfGyLTuBzEC0nVHqK9iPw7T1R5uwiuEos
-         yD+duCuzQqoA7w4Mcyq9x5tG0lWDFrEpwLwPkoheDpmpBSWONswoJML0mJJaTbWAh+ht
-         G7nf8Wt9aZMk4QuokT1JUELuS2OkOoWGj0kfgJL6HXQ9u/dXldme7qyIfGjtZXJ13UgI
-         DReg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681376807; x=1683968807;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UFx0Tegz+na2H8E8/SzrHR4EtntR/LNXLbl5VqgfAAI=;
-        b=IWXSApGdUdqISEqLKSSBoN8537tuk9FQn4a9E0/+gT9idxK6Lu45NHJnbBHxVaPuAa
-         JfpebWKFhAJyA1VsQ8n58uPNhdQim26QjuY7f2YZ3R8IHjSQCfFcEWmpvFxc0b9FUQN+
-         iFFTdCyYNze8X8IyhZjAwGNDjLyzvrYw+K2VN5WvP3vXjD3D3GMENZNwa4OxfcKcx2SP
-         pwpciFM73NxXSm+8MuAuTh5E69cX6qUB/K3+ks8PvbrRydyxYg66rado0kWore+4poEk
-         XjOioF+Qlt72OqFpJK0X3eMGdgIeVCSQ93/QHk7szMxdwj8MBgtSWqUggHLEhGeEmRhu
-         yKqg==
-X-Gm-Message-State: AAQBX9cHXIhhkAoDea6eCg7VsjrRARsR4IejHHnnBot2+nBN7E1Z+lJO
-        scd/l7XKMvH9Ds0HsDFGhEC8Hw==
-X-Google-Smtp-Source: AKy350bYyZoPIbN0SskyVMj2/knKJPoBCk/EFJg5yFIO6NYIS0yJuuL9UIj0eA50IFkR0rVmkRoIXA==
-X-Received: by 2002:a17:906:6b0e:b0:932:cec7:6801 with SMTP id q14-20020a1709066b0e00b00932cec76801mr1645505ejr.54.1681376806829;
-        Thu, 13 Apr 2023 02:06:46 -0700 (PDT)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:ec6f:1b33:ab3f:bfd7])
-        by smtp.gmail.com with ESMTPSA id xb9-20020a170907070900b0094e6a9c1d24sm693413ejb.12.2023.04.13.02.06.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Apr 2023 02:06:46 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] Documentation/process: always CC responsible lists
-Date:   Thu, 13 Apr 2023 11:06:44 +0200
-Message-Id: <20230413090644.15734-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229482AbjDMJIQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 05:08:16 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2405319A9;
+        Thu, 13 Apr 2023 02:08:08 -0700 (PDT)
+X-UUID: b2acd338d9da11edb6b9f13eb10bd0fe-20230413
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=IJBhdLEftjKd/RMnGVYFfq0WyqFuvFWPZWbwN8VhW4c=;
+        b=HwqLloYfiwgtmvMZMDgMYLc4fyc2ujG+zhEyhGIQWwmENIbDkPSwaH6mStqOcpoYVigSSywSUcD2/bO3EiKLn/ljTgqyGjEuU7uFoxLlpAPz27LWi+gn124PCq7P8NvkUfv45dHqp/u+A3gc4DGncNNlVEGaEvXdveLjf6pB75w=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22,REQID:20c4eaad-0cfa-4d1a-b5ba-b0785c46c5a8,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:95
+X-CID-INFO: VERSION:1.1.22,REQID:20c4eaad-0cfa-4d1a-b5ba-b0785c46c5a8,IP:0,URL
+        :0,TC:0,Content:-5,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+        ON:quarantine,TS:95
+X-CID-META: VersionHash:120426c,CLOUDID:75cb34a1-8fcb-430b-954a-ba3f00fa94a5,B
+        ulkID:230413170805P1IX5SS6,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: b2acd338d9da11edb6b9f13eb10bd0fe-20230413
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <yi-de.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1434903257; Thu, 13 Apr 2023 17:08:04 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Thu, 13 Apr 2023 17:08:02 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Thu, 13 Apr 2023 17:08:02 +0800
+From:   Yi-De Wu <yi-de.wu@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Jades Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>,
+        Yi-De Wu <yi-de.wu@mediatek.com>
+Subject: [PATCH v1 0/6] GenieZone hypervisor drivers
+Date:   Thu, 13 Apr 2023 17:07:29 +0800
+Message-ID: <20230413090735.4182-1-yi-de.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The "Select the recipients for your patch" part about CC-ing mailing
-lists is a bit vague and might be understood that only some lists should
-be Cc-ed.  That's not how most of maintainers expect.  For give code,
-associated mailing list must be CC-ed, because the list is used for
-reviewing and testing code.  Example are the Devicetree bindings
-patches, which are tested iff Devicetree mailing list is CC-ed.
+This series is based on linux-next, tag: next-20230412.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+GenieZone is MediaTek proprietary hypervisor solution, and it is running
+in EL2 stand alone as a type-I hypervisor. It is a pure EL2
+implementation which implies it does not rely any specific host VM, and
+this behavior improves GenieZone's security as it limits its interface.
 
----
+To enable guest VMs running, a driver (gzvm) is provided for VMM (virtual
+machine monitor) to operate. Currently, the gzvm driver supports only
+crosvm.
 
-At least one person was arguing with me that CC-ing selective lists for
-his patch (e.g. skipping list X for code X) is okay, thus let's be more
-specific here.
----
- Documentation/process/submitting-patches.rst | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+This series supports ioctl interfaces for userspace VMM(eg., crosvm) to
+operate guest VMs lifecycle, irqchip for virtual interrupt handling,
+asynchronous notifcation mechanism for VMM.
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 12d58ddc2b8a..486875fd73c0 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -231,20 +231,17 @@ patch.
- Select the recipients for your patch
- ------------------------------------
- 
--You should always copy the appropriate subsystem maintainer(s) on any patch
--to code that they maintain; look through the MAINTAINERS file and the
--source code revision history to see who those maintainers are.  The
--script scripts/get_maintainer.pl can be very useful at this step (pass paths to
--your patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
-+You should always copy the appropriate subsystem maintainer(s) and list(s) on
-+any patch to code that they maintain; look through the MAINTAINERS file and the
-+source code revision history to see who those maintainers are.  The script
-+scripts/get_maintainer.pl can be very useful at this step (pass paths to your
-+patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
- maintainer for the subsystem you are working on, Andrew Morton
- (akpm@linux-foundation.org) serves as a maintainer of last resort.
- 
--You should also normally choose at least one mailing list to receive a copy
--of your patch set.  linux-kernel@vger.kernel.org should be used by default
--for all patches, but the volume on that list has caused a number of
--developers to tune it out.  Look in the MAINTAINERS file for a
--subsystem-specific list; your patch will probably get more attention there.
--Please do not spam unrelated lists, though.
-+linux-kernel@vger.kernel.org should be used by default for all patches, but the
-+volume on that list has caused a number of developers to tune it out.  Please
-+do not spam unrelated lists and unrelated people, though.
- 
- Many kernel-related lists are hosted on vger.kernel.org; you can find a
- list of them at http://vger.kernel.org/vger-lists.html.  There are
+Yi-De Wu (6):
+  docs: geniezone: Introduce GenieZone hypervisor
+  dt-bindings: hypervisor: Add binding for MediaTek GenieZone hypervisor
+  soc: mediatek: virt: geniezone: Introduce GenieZone hypervisor support
+  soc: mediatek: virt: geniezone: Introduce irqchip for virtual
+    interrupt injection
+  soc: mediatek: virt: geniezone: Add ioeventfd support
+  soc: mediatek: virt: geniezone: Add irqfd support
+
+ .../bindings/hypervisor/mediatek,gzvm.yaml    |  30 +
+ Documentation/virt/geniezone/introduction.rst |  34 +
+ arch/arm64/include/uapi/asm/gzvm_arch.h       |  79 ++
+ drivers/soc/mediatek/Kconfig                  |   2 +
+ drivers/soc/mediatek/Makefile                 |   1 +
+ drivers/soc/mediatek/virt/geniezone/Kconfig   |  17 +
+ drivers/soc/mediatek/virt/geniezone/Makefile  |   5 +
+ drivers/soc/mediatek/virt/geniezone/gzvm.h    | 126 +++
+ .../mediatek/virt/geniezone/gzvm_eventfd.c    | 749 ++++++++++++++++++
+ .../soc/mediatek/virt/geniezone/gzvm_hyp.h    |  72 ++
+ .../mediatek/virt/geniezone/gzvm_irqchip.c    | 107 +++
+ .../soc/mediatek/virt/geniezone/gzvm_main.c   | 233 ++++++
+ .../soc/mediatek/virt/geniezone/gzvm_vcpu.c   | 296 +++++++
+ drivers/soc/mediatek/virt/geniezone/gzvm_vm.c | 551 +++++++++++++
+ include/uapi/linux/gzvm_common.h              | 291 +++++++
+ 15 files changed, 2593 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
+ create mode 100644 Documentation/virt/geniezone/introduction.rst
+ create mode 100644 arch/arm64/include/uapi/asm/gzvm_arch.h
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/Kconfig
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/Makefile
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/gzvm.h
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/gzvm_eventfd.c
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/gzvm_hyp.h
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/gzvm_irqchip.c
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/gzvm_main.c
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/gzvm_vcpu.c
+ create mode 100644 drivers/soc/mediatek/virt/geniezone/gzvm_vm.c
+ create mode 100644 include/uapi/linux/gzvm_common.h
+
 -- 
-2.34.1
+2.18.0
 
