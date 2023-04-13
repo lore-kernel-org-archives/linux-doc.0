@@ -2,163 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 216A0C7619A
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 01:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADF3C7619A
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 01:17:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbjDMBHc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Apr 2023 21:07:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
+        id S229818AbjDMBRx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Apr 2023 21:17:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjDMBHc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 21:07:32 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 043C5618F
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 18:07:31 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id u184-20020a6385c1000000b005039e28b68cso5585318pgd.13
-        for <linux-doc@vger.kernel.org>; Wed, 12 Apr 2023 18:07:30 -0700 (PDT)
+        with ESMTP id S229628AbjDMBRu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Apr 2023 21:17:50 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5567F65AB;
+        Wed, 12 Apr 2023 18:17:47 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id c10-20020a17090abf0a00b0023d1bbd9f9eso16579775pjs.0;
+        Wed, 12 Apr 2023 18:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681348050; x=1683940050;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EBLbhNm3fsRbkajEjRmINqzacPrnC3sWkejBQFnfCeY=;
-        b=l81F5p/zxISuNsOTdPBgLBjqThC2vDQDK5Uw+271tLolnlAHCMjlZe8AeG/jf3nOrx
-         ExWxIQK7CKtblDvJ8H3VSzPnmPuqB/YeLXauyGbc5MYvJjSXVvNUPEsSQLuxsR77moKZ
-         UlTepofDb02LxLShDY5FjB4dpGfEQe3unZKqgtyJNvz/0ht5ta0+OYjQykpOh/ft4xiY
-         iCpoKLuH+PMrGysZjyKXtcxmXgl9ury1l15XbUM9kGssTvMz69Uh47nolIPDiQg/ZLYy
-         kWyCbb4PMZcJ8WgWH7QKSQOInzUxQhQDlNJXdkLhsMb661/+oYSUbCYk/vgAZ5pUqK7f
-         uA9w==
+        d=gmail.com; s=20221208; t=1681348667; x=1683940667;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aicWCnIBboKYj1UbmrIfysKq+w2Fw/6QRrG0gA3j6sY=;
+        b=gYjjpD3JLH90EnGPJ9RcpcnDr0n4+5DTGSITYkHo/YynUUF6qZzpx0oGXdeF8F7Xjg
+         AfXieG0P88XI6Nzkz1BFcevqb5GLWXPeccE5IJJamDBYFjnkb7Axu61u/6VjRPGr4EPZ
+         SpaOxhK7cWQeH9785nGjVxI3aDbmLIPcUpoGn6/YUyrNDAxcPayfy632I/kFjQlNGZ9h
+         wQ884KystVfhyecLHxVtIzMtMN6TwQ/C3+wN5tyZTC9lEbWTt3mZCbzrt1ix7k9RQlaI
+         em+DSJHooOoW+JhPsh1zOeS/ubqfeFOiyJp3P+gqlAPWLyl8zClupd7ddpGci462z9Dy
+         Uz6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681348050; x=1683940050;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EBLbhNm3fsRbkajEjRmINqzacPrnC3sWkejBQFnfCeY=;
-        b=Wc5lns829J2kMkPkX7fl8OqiIlV184CzYk7H+v2yN/YYrCFXM1RL3SuEPSO85wPyop
-         WzB0qn9JN0eezLjpMUFEjnpFWqHjNVE8YJ7qR6IE53Pnmtgmp0st4VMjkB3f7XHBTJGl
-         lm4PRowoZ0HZi805/BUhCkiQ04k8KO632SzfoFhwBTjuFqiJWLLq7plmNb9+LLlgFaET
-         AEGbRLEQoEDwfYAx2eVZZN2h1yjVFzfATC5NBviRLu+qpZFHduSQTdUVNKUOIfZfbDva
-         cNG3RVvq0AU5k4LVIBJUFTFfvzxVvAl8itp5v3hHPnETl2tNPf8uYwZEzltTo6kj79/r
-         zxiQ==
-X-Gm-Message-State: AAQBX9dBEhmHfuNN0aEFvm8OtZ8jEX0zI91FfRMEVsj6iuzpqjPSPzFm
-        +im7F2MDJo+8ucAmmLNmaMCDCXVTWj4=
-X-Google-Smtp-Source: AKy350Yi++EiqbAHiD3SnOi84M+UlU1LyPdYHPeuc+OePAq+A1CU6oZwmUR77MLD4jcxJ/2tHyPNMvmLNLU=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:902:d413:b0:19a:7f9c:66e3 with SMTP id
- b19-20020a170902d41300b0019a7f9c66e3mr13167ple.5.1681348050454; Wed, 12 Apr
- 2023 18:07:30 -0700 (PDT)
-Date:   Wed, 12 Apr 2023 18:07:28 -0700
-In-Reply-To: <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
-Mime-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com> <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
- <Y9B1yiRR8DpANAEo@google.com> <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
-Message-ID: <ZDdV0Fh7nDEnY/eW@google.com>
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Liam Merwick <liam.merwick@oracle.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        d=1e100.net; s=20221208; t=1681348667; x=1683940667;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aicWCnIBboKYj1UbmrIfysKq+w2Fw/6QRrG0gA3j6sY=;
+        b=UHw29F6Bw1xD8j6Ilfg9EcT7p16sO074IIQUsAAIVxlPZNHXz1YMIUHL+zIPg2QsZ8
+         I2CtX6U5gaK44ArWmGvwRCutg7YGofIOschfDWl0np+pBq9UmokUyzOC2feHaNuookQj
+         0I3VKkmEXwHrK/M3Q2P1tWWJIvKilbcoybgn7CMgUDCtCGyMYtka8xi/xM9be4juPmsc
+         rRNeSj9vHr84x8HykA6XOR3LK9X9ayS+xu7Le6rw3StbaOK2SeMlog87/9ezFlwmyzET
+         yWUygkIVaOf7sDS76dTv2t9VedFQ+wYKDrVXtRlCxju46ggt3bvKUYSkMtx7zICyEKMT
+         bDcA==
+X-Gm-Message-State: AAQBX9dtaBuk8eKmczAwF39VA6Y7xfC2K2ixnMZJgNYCe5ngIHnsAqAs
+        Mf+joGQRNSI2JUsTOkBl/AM=
+X-Google-Smtp-Source: AKy350a/jiXR/DITr89ik4jDNgNrPJf/RV36bugcrUsjN8kViaL9JrLCgTKL85oOd7tFrlD7UM7llA==
+X-Received: by 2002:a17:90a:f83:b0:23d:1aae:29e5 with SMTP id 3-20020a17090a0f8300b0023d1aae29e5mr84436pjz.20.1681348666504;
+        Wed, 12 Apr 2023 18:17:46 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id cs19-20020a17090af51300b002367325203fsm2055992pjb.50.2023.04.12.18.17.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 18:17:46 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 12 Apr 2023 15:17:44 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>
+Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
+Message-ID: <ZDdYOI9LB87ra2t_@slm.duckdns.org>
+References: <20230412153758.3088111-1-longman@redhat.com>
+ <ZDcGVebCpyktxyWh@slm.duckdns.org>
+ <1ce6a073-e573-0c32-c3d8-f67f3d389a28@redhat.com>
+ <ZDcS_yVCgh6g1LoM@slm.duckdns.org>
+ <e38f72aa-9705-cf0c-a565-fb790f16c53e@redhat.com>
+ <ZDdG1K0kTETZMTCu@slm.duckdns.org>
+ <cd4c3f92-4a01-e636-7390-8c6a3d0cfe6c@redhat.com>
+ <ZDdNy2NAfj2_1CbW@slm.duckdns.org>
+ <1b8d9128-d076-7d37-767d-11d6af314662@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1b8d9128-d076-7d37-767d-11d6af314662@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 25, 2023, Kirill A. Shutemov wrote:
-> On Wed, Jan 25, 2023 at 12:20:26AM +0000, Sean Christopherson wrote:
-> > On Tue, Jan 24, 2023, Liam Merwick wrote:
-> > > On 14/01/2023 00:37, Sean Christopherson wrote:
-> > > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > > This patch series implements KVM guest private memory for confidential
-> > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > > > > TDX-protected guest memory, machine check can happen which can further
-> > > > > crash the running host system, this is terrible for multi-tenant
-> > > > > configurations. The host accesses include those from KVM userspace like
-> > > > > QEMU. This series addresses KVM userspace induced crash by introducing
-> > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > > > > via a fd-based approach, but it can never access the guest memory
-> > > > > content.
-> > > > > 
-> > > > > The patch series touches both core mm and KVM code. I appreciate
-> > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > > > > reviews are always welcome.
-> > > > >    - 01: mm change, target for mm tree
-> > > > >    - 02-09: KVM change, target for KVM tree
-> > > > 
-> > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> > > > is available here:
-> > > > 
-> > > >    git@github.com:sean-jc/linux.git x86/upm_base_support
-> > > > 
-> > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> > > > a WIP.
-> > > > 
-> > > 
-> > > When running LTP (https://github.com/linux-test-project/ltp) on the v10
-> > > bits (and also with Sean's branch above) I encounter the following NULL
-> > > pointer dereference with testcases/kernel/syscalls/madvise/madvise01
-> > > (100% reproducible).
-> > > 
-> > > It appears that in restrictedmem_error_page()
-> > > inode->i_mapping->private_data is NULL in the
-> > > list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) but I
-> > > don't know why.
-> > 
-> > Kirill, can you take a look?  Or pass the buck to someone who can? :-)
+Hello, Waiman.
+
+On Wed, Apr 12, 2023 at 08:55:55PM -0400, Waiman Long wrote:
+> > Sounds a bit contrived. Does it need to be something defined in the root
+> > cgroup?
 > 
-> The patch below should help.
+> Yes, because we need to take away the isolated CPUs from the effective cpus
+> of the root cgroup. So it needs to start from the root. That is also why we
+> have the partition rule that the parent of a partition has to be a partition
+> root itself. With the new scheme, we don't need a special cgroup to hold the
+
+I'm following. The root is already a partition root and the cgroupfs control
+knobs are owned by the parent, so the root cgroup would own the first level
+cgroups' cpuset.cpus.reserve knobs. If the root cgroup wants to assign some
+CPUs exclusively to a first level cgroup, it can then set that cgroup's
+reserve knob accordingly (or maybe the better name is
+cpuset.cpus.exclusive), which will take those CPUs out of the root cgroup's
+partition and give them to the first level cgroup. The first level cgroup
+then is free to do whatever with those CPUs that now belong exclusively to
+the cgroup subtree.
+
+> isolated CPUs. The new root cgroup file will be enough to inform the system
+> what CPUs will have to be isolated.
 > 
-> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-> index 15c52301eeb9..39ada985c7c0 100644
-> --- a/mm/restrictedmem.c
-> +++ b/mm/restrictedmem.c
-> @@ -307,14 +307,29 @@ void restrictedmem_error_page(struct page *page, struct address_space *mapping)
->  
->  	spin_lock(&sb->s_inode_list_lock);
->  	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
-> -		struct restrictedmem *rm = inode->i_mapping->private_data;
->  		struct restrictedmem_notifier *notifier;
-> -		struct file *memfd = rm->memfd;
-> +		struct restrictedmem *rm;
->  		unsigned long index;
-> +		struct file *memfd;
->  
-> -		if (memfd->f_mapping != mapping)
-> +		if (atomic_read(&inode->i_count))
+> My current thinking is that the root's "cpuset.cpus.isolated" will start
+> with whatever have been set in the "isolcpus" or "nohz_full" boot command
+> line and can be extended from there but not shrank below that as there can
+> be additional isolation attributes with those isolated CPUs.
 
-Kirill, should this be
+I'm not sure we wanna tie with those automatically. I think it'd be
+confusing than helpful.
 
-		if (!atomic_read(&inode->i_count))
-			continue;
+Thanks.
 
-i.e. skip unreferenced inodes, not skip referenced inodes?
+-- 
+tejun
