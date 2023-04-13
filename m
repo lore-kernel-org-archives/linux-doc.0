@@ -2,112 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D281C77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 18:45:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56992C77B61
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 19:18:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbjDMSpx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 14:45:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36606 "EHLO
+        id S229961AbjDMTSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 15:18:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230240AbjDMSpp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 14:45:45 -0400
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D6383EA
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 11:45:19 -0700 (PDT)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-54f6fc7943eso182084847b3.3
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 11:45:18 -0700 (PDT)
+        with ESMTP id S229887AbjDMTSi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 15:18:38 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91B48A4F
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 12:18:09 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-514156b4976so1240192a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 12:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1681411518; x=1684003518;
+        d=atishpatra.org; s=google; t=1681413487; x=1684005487;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MGVZNEf7lrdlhRrTeBd55Bww7LzB9MuzQSkzPr2CJBo=;
-        b=Mz//iVq0iLRUBDqdpSQTRzwsSpaxXCXjqS6RHv1d1VOHtRY8fs4AypBj+EWV7f0QYU
-         37jxWb3BGNYK9Qk9NR+k2FL2bIBIdnvzdO3XHfdeFkDh0XDZVVqguEtOXVbFbz83aVMD
-         ZWN44QC57IVfG7F5tkht1YHW4f90qGBMYyWldECPJcq0FCcywI8Di4pXvbGWTq2nKTTN
-         id0/gUslCuCUKW4JYz3nLAh0/2bltS/FFpyoS0TxOkwoV+NWQsEb9C03CTMZWUp1nYuy
-         2znjWxpwX+mJ7abVCJi+Ea3ISlkSjo51iqyzEbQVJqo43csY/pIyfSJJWoRdsVUmywn1
-         pkVg==
+        bh=y8W8ucWRVnyg0FZIx99vKIcNt/oJO/XN1VRJ9eKQAS0=;
+        b=ZxYcvj4mgxHEh2k4eyG7rDgq81XaIFxIPZwF1CNwFKsnRNpSJZw+7kJwHzSw5Rerxg
+         CssT5oqe+UjzgcEwZvXxNyKQn0/GZ4F58sSMiEoWUuegeBhMohMF3Un9Q7ojGWs+cDtR
+         w822ZznJii3RTd7ULjAmuDpwhubxc1//sSz5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681411518; x=1684003518;
+        d=1e100.net; s=20221208; t=1681413487; x=1684005487;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MGVZNEf7lrdlhRrTeBd55Bww7LzB9MuzQSkzPr2CJBo=;
-        b=flTbSBQ+Zwqou2KpPABvURWLz7/he0AW/jCImBP5xUvBBmk+Yf3ZV95ruHGGV9guLY
-         6EPuU57t4iAidfs51AfEVZfIOB3yV+eAMttPWtn3M8BVKJVO/djO1n/GO7D8O2VBGy4M
-         9hoEDWt5/DlEK+rreWAEy6tEv5WmYt/R+Gm0l7qTgS0KvvbfW1Y9ZOUI63BvOqGpzpEv
-         O82FWVZdPqoR4PeBw4okjA7bVXL7rPlZ1VgS5/fCvkGa5/UUIjn1aOS5BbzIAvuVEhKo
-         kb4gE1aTGv11QuVrewhZfcLoxcBR3XhiGxykETVFeHX8Ox+bFq4j/TcPa9ii1hVRSJsJ
-         UmJQ==
-X-Gm-Message-State: AAQBX9doNvN/HWjm4igaI8pDrqNF3BNjjWjQYJZzpYOdd1viy8/6RPU3
-        S6Ctu/fzNfCGp3o7SrtyHCFDUxZzjF9rMxytpOda
-X-Google-Smtp-Source: AKy350ZSG4ZQ++QqMTXNV8xFD2qqYaKbcU1NDBLoxRwPk1AbUSa/40FcxEeI1OBDZ0AsmT83U2FNdY17CZtIHnOARvk=
-X-Received: by 2002:a81:ad0e:0:b0:545:6106:5334 with SMTP id
- l14-20020a81ad0e000000b0054561065334mr2002041ywh.8.1681411517875; Thu, 13 Apr
- 2023 11:45:17 -0700 (PDT)
+        bh=y8W8ucWRVnyg0FZIx99vKIcNt/oJO/XN1VRJ9eKQAS0=;
+        b=TyVJEKYH4IzGlC1PjO3E/+mkklz2LSNAieWm3ftfbUNjd32lDM6VXp/0yVt9kS97CN
+         FTkbH3CaDHpQfsiUrcYR+GK1JbNeZnapqpHUswmJLXGHjsDBx1sqOR3ZaVIdYk0XPJoU
+         +ERsf7ZRE0STD6L27PzRjs71cXkLM3ZO7pNkCQ8SrlJcn6AIcQigXFH/FncJ5k1GRwSj
+         Ti2j7kRDJd2GXpIUQ8l+L+1JV8UC0uV2VI+4MSGL4jQb1sDvRD0ogHCgxfQvd1d3P+u3
+         di6bAAOcCWehCkL54qtZ8e54c+H8nHAvZa+Jz+Ter7lIiOrnlnDsyAJFybvnKY1jWVzG
+         BBpw==
+X-Gm-Message-State: AAQBX9fRE8YHLvQGOO8TOOcJI3goiHLvS+/NFpS8/JWZPSr8NFmgt3n4
+        wzq/WhQMBJYYKYhYuFyNBZ9nj6QY0D6K+77NlNF9
+X-Google-Smtp-Source: AKy350bfGkRro00QQY4rqb+45vxFoI70kxyGbgpxd+11xoM2ikmW0Dhiadp9GZxwnHzh96oxN11shsrGP1raJr0DPsM=
+X-Received: by 2002:a05:6a00:140b:b0:63b:1a20:5ea2 with SMTP id
+ l11-20020a056a00140b00b0063b1a205ea2mr1782885pfu.1.1681413486955; Thu, 13 Apr
+ 2023 12:18:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
- <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com> <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-In-Reply-To: <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 13 Apr 2023 14:45:07 -0400
-Message-ID: <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
+References: <20230413161725.195417-1-alexghiti@rivosinc.com>
+In-Reply-To: <20230413161725.195417-1-alexghiti@rivosinc.com>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Fri, 14 Apr 2023 00:47:55 +0530
+Message-ID: <CAOnJCU+72PV1=o1c_TpogkmBT36278BneVWEMr1=tqX0CZi+ag@mail.gmail.com>
+Subject: Re: [PATCH 0/4] riscv: Allow userspace to directly access perf counters
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 7:36=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
-wrote:
-> On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
-> > On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft.com> wr=
-ote:
-> > > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
-> > > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com=
-> wrote:
-
-...
-
-> > I guess this does make me wonder about keeping a non-active policy
-> > loaded in the kernel, what purpose does that serve?
-> >
+On Thu, Apr 13, 2023 at 9:47=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
 >
-> The non-active policy doesn't serve anything unless it is activated. User=
- can
-> even delete a policy if that is no longer needed. Non-active is just the =
-default
-> state when a new policy is loaded.
+> riscv used to allow direct access to cycle/time/instret counters,
+> bypassing the perf framework, this patchset intends to allow the user to
+> mmap any counter when accessed through perf. But we can't break the
+> existing behaviour so we introduce a sysctl perf_user_access like arm64
+> does, which defaults to the legacy mode described above.
 >
-> If IPE supports namespace, there is another use case where different cont=
-ainers
-> can select different policies as the active policy from among multiple lo=
-aded
-> policies. Deven has presented a demo of this during LSS 2021. But this go=
-es
-> beyond the scope of this version.
 
-Do you plan to add namespace support at some point in the
-not-too-distant future?  If so, I'm okay with keeping support for
-multiple policies, but if you think you're only going to support one
-active policy at a time, it might be better to remove support for
-multiple (inactive) policies.
+It would be good provide additional direction for user space packages:
+
+The legacy behavior is supported for now in order to avoid breaking
+existing software.
+However, reading counters directly without perf interaction may
+provide incorrect values which
+the userspace software must avoid. We are hoping that the user space
+packages which
+read the cycle/instret directly, will move to the proper interface
+eventually if they actually need it.
+Most of the users are supposed to read "time" instead of "cycle" if
+they intend to read timestamps.
+
+The legacy sysctl option will be removed in the future. The plan is
+that the distros will
+set the default option to SYSCTL_USER_ACCESS which enables user
+counters only through perf
+sooner (as soon as they make sure the packages built for that distro
+don't read cycle/instret) directly.
+
+> The core of this patchset lies in patch 4, the first 3 patches are
+> simple fixes.
+>
+> base-commit-tag: v6.3-rc1
+>
+> Alexandre Ghiti (4):
+>   perf: Fix wrong comment about default event_idx
+>   include: riscv: Fix wrong include guard in riscv_pmu.h
+>   riscv: Make legacy counter enum match the HW numbering
+>   riscv: Enable perf counters user access only through perf
+>
+>  Documentation/admin-guide/sysctl/kernel.rst |  23 +++-
+>  arch/riscv/include/asm/perf_event.h         |   3 +
+>  arch/riscv/kernel/Makefile                  |   2 +-
+>  arch/riscv/kernel/perf_event.c              |  65 +++++++++++
+>  drivers/perf/riscv_pmu.c                    |  42 ++++++++
+>  drivers/perf/riscv_pmu_legacy.c             |  24 ++++-
+>  drivers/perf/riscv_pmu_sbi.c                | 113 ++++++++++++++++++--
+>  include/linux/perf/riscv_pmu.h              |   9 +-
+>  include/linux/perf_event.h                  |   3 +-
+>  tools/lib/perf/mmap.c                       |  65 +++++++++++
+>  10 files changed, 332 insertions(+), 17 deletions(-)
+>  create mode 100644 arch/riscv/kernel/perf_event.c
+>
+> --
+> 2.37.2
+>
+
 
 --=20
-paul-moore.com
+Regards,
+Atish
