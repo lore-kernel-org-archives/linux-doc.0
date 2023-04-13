@@ -2,159 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7DA7C77B61
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 12:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3575CC77B6E
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 12:51:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbjDMMnF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 08:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49844 "EHLO
+        id S229920AbjDMMvg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 08:51:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229840AbjDMMnB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 08:43:01 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAF593D6;
-        Thu, 13 Apr 2023 05:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681389779; x=1712925779;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AUmRE/yebNXpdkid5N0KqFC4R4ByzvArot+xXbENuPM=;
-  b=G5WkMOUjdpL23MjMI+gX0zVf4Y5L39/1y8Q0aSkiX0Dp75dBnCeyiUkM
-   ivT2VSIXgVLm8M4xg3f8omu3Gp/XuiCD4UHKIAGoz6CQDY6fzr76mKiDb
-   LqrqjKpb9JOEdmZf42DoDGbo/ajS59XcVmc1oKfGZOUvMHWIkA6QoDOp6
-   NL7OCXLmIt3s4zMLa7S/fZIWbtAwlYXVh+WYa+wJISkYKdS5UGlg8ASMw
-   ZM2axZFyAIWO4tbycpnDVlw+Uu/sf3Ofn/ZQnrbldTAlhNsySsVZe2StF
-   8s4GKnC3/jMZUaxzKqjmiJyuDrfGs6XFxXBMmcqdGyAOHJpwROIeWtG3S
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="342916935"
-X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="342916935"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 05:42:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="800801980"
-X-IronPort-AV: E=Sophos;i="5.99,193,1677571200"; 
-   d="scan'208";a="800801980"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 05:42:54 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pmwHo-000YgZ-2M;
-        Thu, 13 Apr 2023 12:42:48 +0000
-Date:   Thu, 13 Apr 2023 20:42:27 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yi-De Wu <yi-de.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-Cc:     oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Jades Shih <jades.shih@mediatek.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Ivan Tseng <ivan.tseng@mediatek.com>,
-        My Chuang <my.chuang@mediatek.com>,
-        Shawn Hsiao <shawn.hsiao@mediatek.com>,
-        PeiLun Suei <peilun.suei@mediatek.com>,
-        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-        Liju Chen <liju-clr.chen@mediatek.com>,
-        Yi-De Wu <yi-de.wu@mediatek.com>
-Subject: Re: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce
- GenieZone hypervisor support
-Message-ID: <202304132051.wGFK08qz-lkp@intel.com>
-References: <20230413090735.4182-4-yi-de.wu@mediatek.com>
+        with ESMTP id S229647AbjDMMvf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 08:51:35 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397671735
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 05:51:34 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id xi5so37135984ejb.13
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 05:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681390293; x=1683982293;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5a6F6EjtpQuuYBrblyKkvpovTCgK9Ou6bwQuEFgzR0c=;
+        b=TIY/GXedrjbai91Z7jH/yVbScack8jNXsScEJjGfsCLHK5G7RJmn83IgTMZxILZDHs
+         7Zp4bXPKQH5BFzscNfj3NPRTY3e0luXwEP/Bpcwou5Ll4ODXnPWOm0MwMwyMrHQrkPin
+         pTWADuu7lDmkOugcnFjNs4prBD2D/ki39Pnjra1xMoOihaHDN9pteBQ+7Fn1549mDQLo
+         cWOq0srGd+VBxB1C3g/IcmqyAiKckNqcGx6UQv/AclTiqzj+Bh9LQbAR107+Y4AujtTG
+         2C4kmiQj/2FRse0scGrKIBUWvhsi3I4ToPwWfw6Sa/s24q8yHMm9y5KJlAr6w3ur4GOe
+         Bd4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681390293; x=1683982293;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5a6F6EjtpQuuYBrblyKkvpovTCgK9Ou6bwQuEFgzR0c=;
+        b=KcJs3VP5hRVdpOklsnoDlUAAjhCEZzhloTC4IAFmOJmndetqI1kk//8XJ2aqS/y6Dx
+         if5BiEvf5r8QKLKVmKskE9Y26IuRZm+TIcAEuKSrsNvDdf6zeeSDPkdqDMyY1X2R6i5K
+         ZgcPp7WTsT0L2O5yMYfHVD6HJ4geYg2DgMt8rYr6YQRVgCaPFhRkWDv0UOgGn12/GrRV
+         NXH5byF8VyVrjneVUhDIjGLWopPr+vc7bGWrps2SXwRq62yuOYpE/VMyuMgqTffiD1IS
+         g3SQ78LXeY9v0+6uNkCAnAhZ54Ral9oho5Fo6NrzvFuhvOvwo5A/FQtPyob0cfKECXwM
+         9w0w==
+X-Gm-Message-State: AAQBX9foCu3JcjPaYAjB0WQub4z6NUsHz2FTcTLQYm60S7/6RpSMpOB5
+        Lu+OVQzvmh0IdO1upRS4F7bNLw==
+X-Google-Smtp-Source: AKy350Y8Lx5KHyZTys6FEbU91WQWHhK91LDJm3beK+Q/g1N1/oNpYDNhHXpWLTy+hVXx3aApKAaNJQ==
+X-Received: by 2002:a17:906:5008:b0:88f:a236:69e6 with SMTP id s8-20020a170906500800b0088fa23669e6mr2637763ejj.7.1681390292745;
+        Thu, 13 Apr 2023 05:51:32 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:5032:d2d4:ece5:b035? ([2a02:810d:15c0:828:5032:d2d4:ece5:b035])
+        by smtp.gmail.com with ESMTPSA id b22-20020a1709062b5600b009306ebc79d3sm953937ejg.59.2023.04.13.05.51.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Apr 2023 05:51:32 -0700 (PDT)
+Message-ID: <081a71b2-951b-76bc-82d5-687a9942450a@linaro.org>
+Date:   Thu, 13 Apr 2023 14:51:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230413090735.4182-4-yi-de.wu@mediatek.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: Unclear what to do with compatibility
+Content-Language: en-US
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     corbet@lwn.net, devicetree@vger.kernel.org, jdelvare@suse.com,
+        krzysztof.kozlowski+dt@linaro.org, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux@roeck-us.net, robh+dt@kernel.org
+References: <342b3e6c-fd1b-d256-bcc2-2b9bda206b60@linaro.org>
+ <20230413123039.22473-1-daniel.matyas@analog.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230413123039.22473-1-daniel.matyas@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yi-De,
+On 13/04/2023 14:30, Daniel Matyas wrote:
+> MAX31827 is a low-power temperature switch with I2C interface.
 
-kernel test robot noticed the following build warnings:
+You sent a new patch. With a weird subject. I don't understand exactly
+what is this.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk-dt/for-next arm64/for-next/core lwn/docs-next linus/master v6.3-rc6 next-20230412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> The device is a ±1°C accuracy from -40°C to +125°C
+> (12 bits) local temperature switch and sensor with I2C/SM-
+> Bus interface. The combination of small 6-bump wafer-lev-
+> el package (WLP) and high accuracy makes this temper-
+> ature sensor/switch ideal for a wide range of applications.
+> 
+> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> ---
+>  .../bindings/hwmon/adi,max31827.yaml          | 51 +++++++++++++++++++
+>  MAINTAINERS                                   |  7 +++
+>  2 files changed, 58 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> new file mode 100644
+> index 000000000000..37177eb9c039
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/adi,max31827.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch
+> +
+> +maintainers:
+> +  - Daniel Matyas <daniel.matyas@analog.com>
+> +
+> +description: |
+> +  Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch with
+> +  I2C Interface
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31827-MAX31829.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,max31827
+> +      - adi,max31828
+> +      - adi,max31829
+> +
+> 
+> I am really sorry, but I do not understand what I should do.
+> 
+> Should I add oneOf or items to the compatibility property?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230413-170932
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230413090735.4182-4-yi-de.wu%40mediatek.com
-patch subject: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce GenieZone hypervisor support
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230413/202304132051.wGFK08qz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2d01949ddd48b1bc2cc9849154afe60781068f39
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230413-170932
-        git checkout 2d01949ddd48b1bc2cc9849154afe60781068f39
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/soc/mediatek/virt/geniezone/
+The devices should be marked as compatible with each other, so you can
+drop useless match table entries.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304132051.wGFK08qz-lkp@intel.com/
+https://elixir.bootlin.com/linux/v6.3-rc6/source/Documentation/devicetree/bindings/sound/nvidia,tegra210-ope.yaml#L31
 
-All warnings (new ones prefixed by >>):
-
->> drivers/soc/mediatek/virt/geniezone/gzvm_vm.c:31:5: warning: no previous prototype for 'gzvm_gfn_to_pfn_memslot' [-Wmissing-prototypes]
-      31 | int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64 gfn, u64 *pfn)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
+and fix this in the driver.
 
 
-vim +/gzvm_gfn_to_pfn_memslot +31 drivers/soc/mediatek/virt/geniezone/gzvm_vm.c
+Best regards,
+Krzysztof
 
-    19	
-    20	
-    21	/**
-    22	 * @brief Translate gfn (guest ipa) to pfn (host pa), result is in @pfn
-    23	 *
-    24	 * Leverage KVM's `gfn_to_pfn_memslot`. Because `gfn_to_pfn_memslot` needs
-    25	 * kvm_memory_slot as parameter, this function populates necessary fileds
-    26	 * for calling `gfn_to_pfn_memslot`.
-    27	 *
-    28	 * @retval 0 succeed
-    29	 * @retval -EFAULT failed to convert
-    30	 */
-  > 31	int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64 gfn, u64 *pfn)
-    32	{
-    33		hfn_t __pfn;
-    34		struct kvm_memory_slot kvm_slot = {0};
-    35	
-    36		kvm_slot.base_gfn = memslot->base_gfn;
-    37		kvm_slot.npages = memslot->npages;
-    38		kvm_slot.dirty_bitmap = NULL;
-    39		kvm_slot.userspace_addr = memslot->userspace_addr;
-    40		kvm_slot.flags = memslot->flags;
-    41		kvm_slot.id = memslot->slot_id;
-    42		kvm_slot.as_id = 0;
-    43	
-    44		__pfn = gfn_to_pfn_memslot(&kvm_slot, gfn);
-    45		if (is_error_noslot_pfn(__pfn)) {
-    46			*pfn = 0;
-    47			return -EFAULT;
-    48		}
-    49	
-    50		*pfn = __pfn;
-    51		return 0;
-    52	}
-    53	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
