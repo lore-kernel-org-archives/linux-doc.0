@@ -2,275 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACEEC77B77
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 07:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D50C77B70
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 07:36:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbjDNHGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 03:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43648 "EHLO
+        id S229910AbjDNHgl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 03:36:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbjDNHGB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 03:06:01 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFA0630F5;
-        Fri, 14 Apr 2023 00:05:59 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33E6UlGG031289;
-        Fri, 14 Apr 2023 07:05:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=1h16hUb3V1HHJiseU1aSCsalqmOi0P1+ZAFDaD80Qt8=;
- b=dMSFJ7NbyEi/5vBUl7A2h6idvDX+qZ5LJJKCfiBRki8EZXV9r7Z3AXllfIlxD/mnYJKd
- 6WRfT0bXKQywz5ICcITY1suF7A1kB0RvRgCKlC75jV1Izj5WkqxScqykgXkwlX7h4phV
- ax3ci2KnyiQvqgG/UBKwppoxh89BMiySRe2tvSA2k6LOjvIocnBjIUry54OB/pOlBG4a
- t5S1rEGqV47+E0vKb0PKjHsWeDFK4dVZ83EhUan4D7/n3gYzcGMW150OficPpjqce7EW
- IgNnqDlWI7SQZsSS+4ZLOPGhhCQpzAz/twq8ljmN9Btci4ATJZsk167hMFNg9cbblAQc tg== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pxqf9964m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 14 Apr 2023 07:05:11 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33E759T8032286
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 14 Apr 2023 07:05:09 GMT
-Received: from [10.216.56.7] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
- 2023 00:05:04 -0700
-Message-ID: <3df1ec27-7e4d-1f84-ff20-94e8ea91c86f@quicinc.com>
-Date:   Fri, 14 Apr 2023 12:35:00 +0530
+        with ESMTP id S229791AbjDNHgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 03:36:39 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E4983D8
+        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 00:36:20 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id xd13so9524708ejb.4
+        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 00:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681457776; x=1684049776;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6BIZm7OVoNPgP6hAJjegDQgkQsNI+ED4GT7hk/PWCTI=;
+        b=KLRG03aT3upNVPSBhBy9mK+wVYK0Rg+7gOcMpROGPKro/27CtNuIHLDXg0n/BZo+cx
+         n1krkAKd10ib4EXHQ/9eKJKZWDylSuNY/OwMo0kvsaFT1o4WSAUJ56FUILTJBBm5Tm9m
+         eW7gEFThJZ9ZsOp3TsxQRBvT9TOT/hbGgW+R9H3uNxgkeJypfJSv4QzqCFJS1hCk9n/a
+         aYfb0fz4CfhE7SHunCg/qCYgYUXB6D1j5qykim9mzN4uaIMT4wKi8hg3fp7HM5JHcmEF
+         lCZy5tsEHnECWiUWdov0ES0MDacOf0aY+/Rm/rdJn0W68Gtwdj5U2jwRVaKiFWMxEcST
+         vcqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681457776; x=1684049776;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6BIZm7OVoNPgP6hAJjegDQgkQsNI+ED4GT7hk/PWCTI=;
+        b=FKh/vvfTACtz2o2TaltufNDx/gueWbO5jcMhd1QGhN+2IMKkBFK592zOQ3YOPw8iUs
+         O5zPm1jhihd705XeYhVf9new+OyuqhyUyziuadrisDl5rB57Le1crcf/xaQarQD9xdRb
+         tjEW1H/k3kXSmHKYd7xxrw1fV4rrb6gyU1MKaxhVPUHOTXYQSp9FbOvBv3YMvGwsw4VJ
+         87dBq3xiTX55PRao+KpmYtpQTWEy3McHT7J5Xeb1/Ibauc5XuW6GCu1KyLFs2ZQdfyQA
+         XoemUfgfJQslZWzmwbqeADOWLvZks7sxkv4GX8uI5YZ6mf/b0mIhJxorKyYKv/1ZEhf0
+         3cGA==
+X-Gm-Message-State: AAQBX9ee6ObLzntiyrAsvYLf6ing5m4w/93jf0tx4s63a4j76N+4X7zi
+        zQL4kroGB0uUFMTuQO5CptPkVQ==
+X-Google-Smtp-Source: AKy350ataZ2VxRZLVqcOMSGN9yHYPp2N5iuran36ny+AQ/gi+UjSIj45G6llauYBbyVOYStGbZPi3w==
+X-Received: by 2002:a17:906:2788:b0:94a:90e5:b2b6 with SMTP id j8-20020a170906278800b0094a90e5b2b6mr4995448ejc.58.1681457776525;
+        Fri, 14 Apr 2023 00:36:16 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:8a60:6b0f:105a:eefb? ([2a02:810d:15c0:828:8a60:6b0f:105a:eefb])
+        by smtp.gmail.com with ESMTPSA id j25-20020a170906095900b0094a70a89bffsm2018786ejd.205.2023.04.14.00.36.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Apr 2023 00:36:16 -0700 (PDT)
+Message-ID: <373eacb8-be3f-6b95-3e08-f0ff36f79891@linaro.org>
+Date:   Fri, 14 Apr 2023 09:36:15 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/6] remoteproc: qcom: Move minidump specific data to
- qcom_minidump.h
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [V6 0/9] Add Tegra234 HTE support
 Content-Language: en-US
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>, <will@kernel.org>
-CC:     <linux-arm-msm@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
-References: <1679491817-2498-1-git-send-email-quic_mojha@quicinc.com>
- <1679491817-2498-3-git-send-email-quic_mojha@quicinc.com>
- <e74fb30d-4268-86b1-cdf7-ad3d104c6c40@linaro.org>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <e74fb30d-4268-86b1-cdf7-ad3d104c6c40@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Kjd3iZFPQAyO7ZDiYAcbngj41D7Q5c2b
-X-Proofpoint-ORIG-GUID: Kjd3iZFPQAyO7ZDiYAcbngj41D7Q5c2b
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-14_02,2023-04-13_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 spamscore=0 phishscore=0 clxscore=1011
- mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304140063
+To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
+References: <20230414004455.19275-1-dipenp@nvidia.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230414004455.19275-1-dipenp@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks again for coming back on this.
-
-On 4/14/2023 4:02 AM, Srinivas Kandagatla wrote:
+On 14/04/2023 02:44, Dipen Patel wrote:
+> This patch series mainly adds support for the Tegra234 HTE provider. In
+> addition, it addresses dt binding comments which prompted code
+> changes in the existing HTE provider driver without breaking the
+> Tegra194 provider. The comments raised concern how existing code
+> retrieves gpio controller node
+> (the node is used to help namespace conversion between HTE and GPIOLIB).
+> To help simplify that process, new DT property is suggested which adds
+> gpio controller node in the HTE provider binding as phandle property. To
+> conlude this patch series:
+> - adds Tegra234 HTE provider
+> - modifies existing provider code to address new dt binding for Tegra234
+> without breaking it for the Tegra194 chip.
 > 
-> 
-> On 22/03/2023 13:30, Mukesh Ojha wrote:
->> Move minidump specific data types and macros to a separate internal
->> header(qcom_minidump.h) so that it can be shared among different
-> 
-> minidump.h should be good as we are already in include/soc/qcom/
+> The V1 patch series:
+> - Adds tegra Tegra234 HTE(timestamp) provider supports.
+> - Updates MAINTAINERS file for git tree, mail list fields.
+> - Updates devicetree and API documentations.
+> - Enables HTE subsystem, Tegra194 and Tegra234 HTE providers
+> by default in arm64 defconfig and dts files.
 
+All your emails miss PATCH prefix. Use `git format-patch` to generate
+proper versioned patch. Stripping important part messes up with our
+filters. We have quite a lot of emails, so proper filtering is important.
 
-Initially, i wanted to protect the content of qcom_minidump.h between 
-qcom_minidump.c and qcom_common.c
+Best regards,
+Krzysztof
 
-Ideally, here qcom_minidump.h should be supplier/provider header and can 
-be shared among above qcom_minidump.c and qcom_common.c but since they 
-are not in same directory, moved it inside include/soc/qcom/ as separate 
-header than consumer header minidump.h .
-
--Mukesh
-> 
-> --srini
-> 
->> Qualcomm drivers.
->>
->> There is no change in functional behavior after this.
->>
->> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
->> ---
->>   drivers/remoteproc/qcom_common.c | 56 
->> +---------------------------------
->>   include/soc/qcom/qcom_minidump.h | 66 
->> ++++++++++++++++++++++++++++++++++++++++
->>   2 files changed, 67 insertions(+), 55 deletions(-)
->>   create mode 100644 include/soc/qcom/qcom_minidump.h
->>
->> diff --git a/drivers/remoteproc/qcom_common.c 
->> b/drivers/remoteproc/qcom_common.c
->> index 805e525..88fc984 100644
->> --- a/drivers/remoteproc/qcom_common.c
->> +++ b/drivers/remoteproc/qcom_common.c
->> @@ -18,6 +18,7 @@
->>   #include <linux/slab.h>
->>   #include <linux/soc/qcom/mdt_loader.h>
->>   #include <linux/soc/qcom/smem.h>
->> +#include <soc/qcom/qcom_minidump.h>
->>   #include "remoteproc_internal.h"
->>   #include "qcom_common.h"
->> @@ -26,61 +27,6 @@
->>   #define to_smd_subdev(d) container_of(d, struct qcom_rproc_subdev, 
->> subdev)
->>   #define to_ssr_subdev(d) container_of(d, struct qcom_rproc_ssr, subdev)
->> -#define MAX_NUM_OF_SS           10
->> -#define MAX_REGION_NAME_LENGTH  16
->> -#define SBL_MINIDUMP_SMEM_ID    602
->> -#define MINIDUMP_REGION_VALID        ('V' << 24 | 'A' << 16 | 'L' << 
->> 8 | 'I' << 0)
->> -#define MINIDUMP_SS_ENCR_DONE        ('D' << 24 | 'O' << 16 | 'N' << 
->> 8 | 'E' << 0)
->> -#define MINIDUMP_SS_ENABLED        ('E' << 24 | 'N' << 16 | 'B' << 8 
->> | 'L' << 0)
->> -
->> -/**
->> - * struct minidump_region - Minidump region
->> - * @name        : Name of the region to be dumped
->> - * @seq_num:        : Use to differentiate regions with same name.
->> - * @valid        : This entry to be dumped (if set to 1)
->> - * @address        : Physical address of region to be dumped
->> - * @size        : Size of the region
->> - */
->> -struct minidump_region {
->> -    char    name[MAX_REGION_NAME_LENGTH];
->> -    __le32    seq_num;
->> -    __le32    valid;
->> -    __le64    address;
->> -    __le64    size;
->> -};
->> -
->> -/**
->> - * struct minidump_subsystem - Subsystem's SMEM Table of content
->> - * @status : Subsystem toc init status
->> - * @enabled : if set to 1, this region would be copied during coredump
->> - * @encryption_status: Encryption status for this subsystem
->> - * @encryption_required : Decides to encrypt the subsystem regions or 
->> not
->> - * @region_count : Number of regions added in this subsystem toc
->> - * @regions_baseptr : regions base pointer of the subsystem
->> - */
->> -struct minidump_subsystem {
->> -    __le32    status;
->> -    __le32    enabled;
->> -    __le32    encryption_status;
->> -    __le32    encryption_required;
->> -    __le32    region_count;
->> -    __le64    regions_baseptr;
->> -};
->> -
->> -/**
->> - * struct minidump_global_toc - Global Table of Content
->> - * @status : Global Minidump init status
->> - * @md_revision : Minidump revision
->> - * @enabled : Minidump enable status
->> - * @subsystems : Array of subsystems toc
->> - */
->> -struct minidump_global_toc {
->> -    __le32                status;
->> -    __le32                md_revision;
->> -    __le32                enabled;
->> -    struct minidump_subsystem    subsystems[MAX_NUM_OF_SS];
->> -};
->> -
->>   struct qcom_ssr_subsystem {
->>       const char *name;
->>       struct srcu_notifier_head notifier_list;
->> diff --git a/include/soc/qcom/qcom_minidump.h 
->> b/include/soc/qcom/qcom_minidump.h
->> new file mode 100644
->> index 0000000..84c8605
->> --- /dev/null
->> +++ b/include/soc/qcom/qcom_minidump.h
->> @@ -0,0 +1,66 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Qualcomm minidump shared data structures and macros
->> + *
->> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
->> reserved.
->> + */
->> +
->> +#ifndef _QCOM_MINIDUMP_H_
->> +#define _QCOM_MINIDUMP_H_
->> +
->> +#define MAX_NUM_OF_SS           10
->> +#define MAX_REGION_NAME_LENGTH  16
->> +#define SBL_MINIDUMP_SMEM_ID    602
->> +#define MINIDUMP_REGION_VALID        ('V' << 24 | 'A' << 16 | 'L' << 
->> 8 | 'I' << 0)
->> +#define MINIDUMP_SS_ENCR_DONE        ('D' << 24 | 'O' << 16 | 'N' << 
->> 8 | 'E' << 0)
->> +#define MINIDUMP_SS_ENABLED        ('E' << 24 | 'N' << 16 | 'B' << 8 
->> | 'L' << 0)
->> +
->> +/**
->> + * struct minidump_region - Minidump region
->> + * @name        : Name of the region to be dumped
->> + * @seq_num:        : Use to differentiate regions with same name.
->> + * @valid        : This entry to be dumped (if set to 1)
->> + * @address        : Physical address of region to be dumped
->> + * @size        : Size of the region
->> + */
->> +struct minidump_region {
->> +    char    name[MAX_REGION_NAME_LENGTH];
->> +    __le32    seq_num;
->> +    __le32    valid;
->> +    __le64    address;
->> +    __le64    size;
->> +};
->> +
->> +/**
->> + * struct minidump_subsystem - Subsystem's SMEM Table of content
->> + * @status : Subsystem toc init status
->> + * @enabled : if set to 1, this region would be copied during coredump
->> + * @encryption_status: Encryption status for this subsystem
->> + * @encryption_required : Decides to encrypt the subsystem regions or 
->> not
->> + * @region_count : Number of regions added in this subsystem toc
->> + * @regions_baseptr : regions base pointer of the subsystem
->> + */
->> +struct minidump_subsystem {
->> +    __le32    status;
->> +    __le32    enabled;
->> +    __le32    encryption_status;
->> +    __le32    encryption_required;
->> +    __le32    region_count;
->> +    __le64    regions_baseptr;
->> +};
->> +
->> +/**
->> + * struct minidump_global_toc - Global Table of Content
->> + * @status : Global Minidump init status
->> + * @md_revision : Minidump revision
->> + * @enabled : Minidump enable status
->> + * @subsystems : Array of subsystems toc
->> + */
->> +struct minidump_global_toc {
->> +    __le32                status;
->> +    __le32                md_revision;
->> +    __le32                enabled;
->> +    struct minidump_subsystem    subsystems[MAX_NUM_OF_SS];
->> +};
->> +
->> +#endif  /* _QCOM_MINIDUMP_H_ */
