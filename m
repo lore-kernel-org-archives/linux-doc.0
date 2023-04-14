@@ -2,196 +2,367 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 213EDC77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 02:37:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A97FC77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 03:06:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbjDNChr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 22:37:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56016 "EHLO
+        id S229567AbjDNDGQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 23:06:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjDNChq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 22:37:46 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2073.outbound.protection.outlook.com [40.107.100.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B1D40E4;
-        Thu, 13 Apr 2023 19:37:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QyOzTT2DsPNk7tQqPHZkdkvtRR/IFpUkDuAYd3tPrct6ghDWbXLoQ4X58SZYPZj2f2ZFRW9JX8TahNkOXzmbQlK8jHcGWpPOAh4e9et95I55eqd6ciF2JgKBXyRBoFL/yyII9DndsmEULFrjic8dI1LGzsckJ+FyEbwAJow0T1DcNGPVAcEqsnDhDi2jiljkpwleXUdHc+gk4NsqvKcehR8vCs985aYivu9+m8xkbwRbBc4oBi8nbUAMa3mQuZ/q8VoX5RenWPpkt1j/ig2xyV/vfZ5sac06guCh/FzG4olfaoCUArpK0k7jHrl/rJ3ySGWyIfEIvCPETa8qkNZu2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pQlvGw5K9RwJyeD3tPx3I991FUcfcV4mgwD40tAtlZY=;
- b=BOIif7DZzGRfC3ih7PS5Ll8mM4Z/8bDl7Wa9cXmNEPSPgXfxZawQyV+DQZq2RSekfp0Wlb3SiC0FAUd/7kdqdCHcQSn3CCraMpVw4ruuBXj+Cj2ZduF9kWRjkw15XrJ5Ss+VKWHCcUjS3JeWVvIrXpPpMKOA5vXKNUTnssXfE38UxOnuwpUJkmRF+jfboqhCZkCXBEeUvTrkSRNqsxMKOir/N1K4fF3BXOp7ahJPpQq13tXriTuxGUpo/QbLR/JtAf9p9yRlhpqNkmKzPX8+fNCJAxDRjtmz6x+TnskR4pN2eERMvyxMiyLB+1A9LFvU9lEU1cMlQTeWOuEU1zpXFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pQlvGw5K9RwJyeD3tPx3I991FUcfcV4mgwD40tAtlZY=;
- b=HVphdp2MkSVj+OH4QGxU4rIOW5FC53FKhx9LrVHR7KuU59VmPvHyPOYiK38M1wGSch4FrD6Rq7vhkdfiKcFnEZGezhj6JkL88Y3/UbIoPJMY883apLucXUF8DD4eWBzshYhLq95mAsOv8SW2VMjZpoY5JHv6Fi1hCl4ZVGYb9lI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW2PR12MB2379.namprd12.prod.outlook.com (2603:10b6:907:9::24)
- by IA0PR12MB7554.namprd12.prod.outlook.com (2603:10b6:208:43e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
- 2023 02:37:41 +0000
-Received: from MW2PR12MB2379.namprd12.prod.outlook.com
- ([fe80::42cb:32d6:2502:4cbd]) by MW2PR12MB2379.namprd12.prod.outlook.com
- ([fe80::42cb:32d6:2502:4cbd%3]) with mapi id 15.20.6298.030; Fri, 14 Apr 2023
- 02:37:41 +0000
-Message-ID: <225bdcc0-9351-63a7-f071-5536d495ada6@amd.com>
-Date:   Fri, 14 Apr 2023 08:07:27 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2 2/2] x86/Documentation: Add documentation about cluster
-Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
-        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
-        Jason@zx2c4.com, thomas.lendacky@amd.com, puwen@hygon.cn,
-        x86@kernel.org, linux-doc@vger.kernel.org,
-        oleksandr@natalenko.name, bagasdotme@gmail.com
-References: <20230413172918.1500-1-kprateek.nayak@amd.com>
- <20230413172918.1500-3-kprateek.nayak@amd.com>
- <1ea129d9-19cc-5f33-fc10-3e832679c5a2@intel.com>
-From:   K Prateek Nayak <kprateek.nayak@amd.com>
-In-Reply-To: <1ea129d9-19cc-5f33-fc10-3e832679c5a2@intel.com>
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S229546AbjDNDGP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 23:06:15 -0400
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1A2330DE
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 20:06:12 -0700 (PDT)
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230414030023epoutp02b28197600edb8b93110722defa7cf050~VreI7Pn1B0030800308epoutp02S
+        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 03:00:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230414030023epoutp02b28197600edb8b93110722defa7cf050~VreI7Pn1B0030800308epoutp02S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1681441223;
+        bh=XmlnYYLnquBdXwuz8EUaHHCgZ7HKmHIycehtiFaMkGQ=;
+        h=Subject:Reply-To:From:To:CC:Date:References:From;
+        b=TfjITh4Rol/+nrqsOTz6cpzqDypOJfW91Z0EoSPjaa8GHT/n6Mhscbul3tzkGDmth
+         COZcC6dgYEkHE/cwNbax1yQ71k/SMRJzIfAOip60SJPtFfHJklVcZ1w5ZZPtMBm0rX
+         pDZkJcejCvESQyCzNWo/DjzCOJQJpxjU7Pr9ihWU=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+        20230414030022epcas2p41f2601da8457ba9353857412c53fe270~VreIY7BnP1772317723epcas2p4M;
+        Fri, 14 Apr 2023 03:00:22 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.36.97]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 4PyLm56jzYz4x9Pq; Fri, 14 Apr
+        2023 03:00:21 +0000 (GMT)
+X-AuditID: b6c32a48-dc7ff700000025b2-74-6438c1c57724
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
+        epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        A0.48.09650.5C1C8346; Fri, 14 Apr 2023 12:00:21 +0900 (KST)
+Mime-Version: 1.0
+Subject: [PATCH] f2fs: add async reset zone command support
+Reply-To: daejun7.park@samsung.com
+Sender: Daejun Park <daejun7.park@samsung.com>
+From:   Daejun Park <daejun7.park@samsung.com>
+To:     "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
+        "chao@kernel.org" <chao@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mhiramat@kernel.org" <mhiramat@kernel.org>
+CC:     "linux-f2fs-devel@lists.sourceforge.net" 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-trace-kernel@vger.kernel.org" 
+        <linux-trace-kernel@vger.kernel.org>,
+        Seokhwan Kim <sukka.kim@samsung.com>,
+        beomsu kim <beomsu7.kim@samsung.com>,
+        Yonggil Song <yonggil.song@samsung.com>,
+        Daejun Park <daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
+Date:   Fri, 14 Apr 2023 11:59:21 +0900
+X-CMS-MailID: 20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0134.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:bf::22) To MW2PR12MB2379.namprd12.prod.outlook.com
- (2603:10b6:907:9::24)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2379:EE_|IA0PR12MB7554:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccfdafcd-5d9a-4de4-3aa5-08db3c9137ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4UeCxPuZctN2klyr4MW/Pw0qSGmLAbZ0/ExrIBOnXNzXybptY6iS7OK9pvDdUpMMmJO7hWobW1aKXpFAI7zrs95GRNo1DTzNtx9POn6Zy129OAtrbW1WZH12A0Y0eUUrWP66mhc6ffPE6e6K0UtOGUjarN4rX91mh90ZYX8h80sZJT+30j8PrP7hW8Ys20ml4JDWu9rFZsXSG25+mxi8ae8R2Py8pPsjkhsQp+sxSud/3O9cr6JxPIOx44GNfaSL5FQ9MqpVevmjJ7NfKQHLX/ysTtDTRM6n57ATEa+v4gunTF6RdkapvZRSLOBIV1uWcCas9H6vGTSEYWatGKAu15N4ORHh40AN21MM0n0qZItbBBkAEnMxiK8mLhNgCu0XzU96s8jSV2bWq/qM3SFrPOoMLxJge8T5T3w/j4WcvBLz/3QGHOAiYwG6K+3vbps0LpTZPJFpDWj79JwzfYIlDqwfCbM86d9iKYUEazPjtHnju6YOQ2zYsN20Oo6fXHMIfo1GqpXxMzAjlRiGf/B6wIn33/Yo2qauyd6JOowM54TJPpt1jDqKteOD3KCKsXpk8ouya9Slb50zyMqTbMA3Dt4aRIGS9Tc5YHdCvoJ0qG9xc9LZJ3LeAzx/TYnK+eQKxI62e/jjiBR3o+voiOFTYw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB2379.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(39860400002)(346002)(396003)(376002)(451199021)(36756003)(478600001)(6486002)(4326008)(66556008)(66476007)(8676002)(66946007)(41300700001)(316002)(83380400001)(2616005)(6666004)(186003)(6512007)(6506007)(53546011)(26005)(86362001)(31696002)(5660300002)(7416002)(38100700002)(8936002)(2906002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T1RpVW5CVFEyY1Y2YlZQQ0VRY0dsYlFvZy90WlkzYUNMcTM2ZHFIMGxTNTd6?=
- =?utf-8?B?SnJIdmxJRzF0WmJYRjBhZFc1U2d3OU9YOXFFT0RLRFJra1pYWk5kUy9saisw?=
- =?utf-8?B?eTB6Yjk3MXV0d1V1UEx5TFZvVHJEVXVqampxTHJPVGUrK1liUTcvaW1ZbzJR?=
- =?utf-8?B?SWtLbjg2U1g1eGkyNWJuRWxpTlZyak1JazBHWTF6aFlNK2piOUdqaHRDeGRT?=
- =?utf-8?B?NHJzYk5HVDZ0eDRhb3RQSHZFRHFHVkdZR0FGcG5UUjdQSUFqNEZJZmVUL0JR?=
- =?utf-8?B?OXhqVnJYYmwyeWJocm9mR2ZabjRmQzN0VUQycW9Mb0Njdmt6d2JZdnpqdjlo?=
- =?utf-8?B?dEZTOWxvSEoyQUo1K1pwREtyRUxZT1dybVNmNzdNOG5nWkh3L1A3alVaQ3hB?=
- =?utf-8?B?K0hvSVljVEluVjcxZHlFcGlPT0dQVFRZeFZhV3RWb0xGSWIrVHNFL081RkVO?=
- =?utf-8?B?MjBzYjU1RE1FODVzV2N5TDVybjhPb2xkdUhZbmVSMm12ck40aTFoQzBXa3dQ?=
- =?utf-8?B?Wmp6andCaGt6VFBYOVFrNGhtSXJxb0lJVk5oaTZnYjRsbVlTRE1NUExPRkpG?=
- =?utf-8?B?Tnk2MmN5MzBxMit1dUVMOTE0MmJkQlIweWJKRTFrdFhmTHBSeXpQbGladnJ1?=
- =?utf-8?B?K0RHb2lXSE0xNWRXRjdYSS9uZUc2a3p2ZlJpcDlGVUovZFFlOTlIVWFUNzJQ?=
- =?utf-8?B?YlZ5emFQK3dhL3VESjFWM3VtTkhJZWZ6K2NpcDFocHVDa1pBWmFwWUFCMmRs?=
- =?utf-8?B?SHhHd2VVdllWNDdFYXhlb0RTb0dIVnpYSGc4RFNpakpHYzN3dVVvRUhrZ1Jz?=
- =?utf-8?B?KzN6MXRldVQ2NE5jQnJ0ZnY0WnQ2Z2o0eGt3SC9aa1lxZ1lsMXVKTW8wcC80?=
- =?utf-8?B?aFRocHlXeEhUSTB6dG9jUGFWZTh0WklMM3A5RjNScEVkS3hKTjNZU1MxVGRo?=
- =?utf-8?B?RFRuQ2NDNEZYM0t4TC9Celc3cEE5clRSTTcxWG1JNElNUW5FdGVVcHhHcytF?=
- =?utf-8?B?dnZjeWxtRDAzWEszMmtHNHlUelBBQS9UYitVckRQVmlTQ2Q5QWNOcGo0TjJC?=
- =?utf-8?B?OWxpNlJEQ1loYUYvT0ZsU2NBYTFzQWd6NEVvNit3R0h0c2lzZHkrNmFaaFJR?=
- =?utf-8?B?YWQ3MjcrNWZ6TytJamtYeG5UVmpwdTB2RmkybmlwY0JnYU9WdVI0QmVlelB2?=
- =?utf-8?B?a1V1UEExRC9uVzJURkV6S2d6YmZPRnZFN3lITHZLdFBnMldTMkJSdUIxeGJ4?=
- =?utf-8?B?UGtkYmJidU96VWZpUHZERWRmcytlSkFzZWM1MGNGZlpXTEZxZDZZV2xWbkJm?=
- =?utf-8?B?K1RzNUl3VGdZQnBNc0p1bERETVpDZXhBUndZQjRjaWhLR2ZkOVBXcE5LUXFy?=
- =?utf-8?B?TmVqTk9HakdLRU9DTEd5dmtnaUl3UERBWWUxR3ZDRjJaMk5KcllCQmlidU9L?=
- =?utf-8?B?R1NRQ1BCaWlhdWdxODgwUGUxakVKQThjMXpaRlBRd3dUb0xScHhGc1NSOHZH?=
- =?utf-8?B?VGJYRE92cE13TVFNcFFtVzNsL2ZFQTRmdmltbXFFMDdtd3FTbHRDVXFYelc0?=
- =?utf-8?B?a3oxbmZFdGdTR0drYVpIdGpPMDBBSG1Lc3l0QVQ4Yno3MjhPMFR2T2Y0dHk1?=
- =?utf-8?B?S05NWmRKNXZtUVVYY3pxVjR2R2NtbkN1azNHU2xRRXpaMk1sdmhxc1p0OEEw?=
- =?utf-8?B?dmM2VlYwbDYrQWpid1Z5TGlnSVMzNzhFV1hmOGlUK2o2ek1HWGdmemF5Z0dO?=
- =?utf-8?B?MlpkQWgwczJ6dlNZS2dERGFKbVJCY3Rzd0IzSS9CL093L1R5M3NCdnU3RVFH?=
- =?utf-8?B?Y1dQVzZJb0tJcko4Yy9aNEVyZytPMW8xSVFjNm52TmZJWjYrZTlLRDFaY0xU?=
- =?utf-8?B?RUdmTjd4aU9aL3o3SUFreDhrbytsYzh4TnU4VnJ3emVGT09HN3h4RzVsVUk1?=
- =?utf-8?B?d0Zta1FDUFlMMVFFa29XekhFaWRBNmFsZWFpYU9USHF2TDArSlZ4TmZ2UTZw?=
- =?utf-8?B?aE5mODJmbG54TUxjRlRzaXpSMEJ2ZnpRS0xLdXVPWVBiVWdES3Q3N203bXcz?=
- =?utf-8?B?bmZZS0w2Um0vbVlNb0pRZE1zNDNXdjN5MjVTZzZBRHZWZFVicWJQMU9oQmtX?=
- =?utf-8?Q?9umBbf5BFx2rPxl8F2WlKx41f?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccfdafcd-5d9a-4de4-3aa5-08db3c9137ef
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2379.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2023 02:37:41.4230
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uqYkXwfQ4Mo4uvtiTo5M6XGXdyU7TcoEfmZ0vzF9gF+telrzwAxQv/Ur+R4uW6TZXs7GfZVV2FSAGk4g7TPBxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7554
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJJsWRmVeSWpSXmKPExsWy7bCmme7RgxYpBi+6TSwuzPvIbHF66lkm
+        iycH2hktXh7StFj1INziyfpZzBYL25awWFxa5G5xedccNosj68+yWCxermaxr+MBk8WqjrmM
+        FlPPH2Fy4PNo2XeL3WPTqk42j90LPjN5LO6bzOrRt2UVo8fnTXIBbFHZNhmpiSmpRQqpecn5
+        KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJuam2Si4+AbpumTlApyoplCXmlAKFAhKLi5X07WyK
+        8ktLUhUy8otLbJVSC1JyCswL9IoTc4tL89L18lJLrAwNDIxMgQoTsjM2fTrDUrDdvWJf91bm
+        BsYpVl2MHBwSAiYS/2cZdjFycQgJ7GCU6OmexAYS5xUQlPi7Q7iLkZNDWMBaYu2yLiYQW0hA
+        SWL9xVnsEHE9iVsP1zCC2GwCOhLTT9xnB5kjInCZUWLvioNgDrPAQWaJLfuPsYFUSQjwSsxo
+        f8oCYUtLbF++lRHC1pD4sayXGcIWlbi5+i07jP3+2HyoGhGJ1ntnoWoEJR783A0Vl5S4PXcT
+        VH2+xP8ry6HsGoltB+ZB2foS1zo2gu3lFfCV2H9zBlgvi4CqxJUDR6HmuEj8nvoc7E5mAXmJ
+        7W/nMIMCgllAU2L9Ln1IWClLHLnFAlHBJ9Fx+C87zFcNG39jZe+Y94QJwlaTWPdzPRPEGBmJ
+        W/MYJzAqzUIE9Cwka2chrF3AyLyKUSy1oDg3PbXYqMAEHrXJ+bmbGMFpVstjB+Pstx/0DjEy
+        cTAeYpTgYFYS4f3hYpoixJuSWFmVWpQfX1Sak1p8iNEU6OGJzFKiyfnARJ9XEm9oYmlgYmZm
+        aG5kamCuJM77sUM5RUggPbEkNTs1tSC1CKaPiYNTqoGpOnlFfVjjJKZVL0TDWU/HGP65sP//
+        vcaX+y0YdLuXLYl57F64Tkoitqqly1tRnM38aGKxWubyLqcGnafv0mL3Hgqa18z0fybrhekX
+        G0Nm3kr4cycpV3v/q9Xxy4IWu6orPq6s+7ZNIHzzn01P/i668mSXSLS2WdKsL558hg8/7NFc
+        tWmG28ndfSeORrtZhG+pdJLV9l6UcX6x5qJlV+/O/GQW4m/7+oft6qVPAw/Wfpven/lyfvaz
+        mWkpi4Lm1c7T+npLetId11aunbvnrbujUpX56uRM9VAOfUFlo/VWF3Rbl65ldnv6+G7xUs++
+        j3G/7ujFKJ5RCHtfMW3r8Zki2oZzfxqLhZuX8CqLtN89osRSnJFoqMVcVJwIALZ1V+M8BAAA
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a
+References: <CGME20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Dave,
+This patch enables submit reset zone command asynchornously. It helps
+decrease average latency of write IOs in high utilization scenario by
+faster checkpointing.
 
-Thank you for taking a look at the series.
+Signed-off-by: Daejun Park <daejun7.park@samsung.com>
+---
+ Documentation/filesystems/f2fs.rst |  4 ++
+ fs/f2fs/f2fs.h                     |  1 +
+ fs/f2fs/segment.c                  | 92 +++++++++++++++++++++++++++++-
+ fs/f2fs/super.c                    |  8 +++
+ include/trace/events/f2fs.h        | 18 +++++-
+ 5 files changed, 119 insertions(+), 4 deletions(-)
 
-On 4/13/2023 11:27 PM, Dave Hansen wrote:
-> On 4/13/23 10:29, K Prateek Nayak wrote:
->> +  - cluster_id:
->> +
->> +    A per-CPU variable containing:
->> +
->> +      - On Intel, the common upper bits of APIC ID of the list of CPUs sharing
->> +        the L2 Cache with lower bits set to 0.
->> +
->> +      - On AMD and Hygon, with Topology Extension, the common upper bits of the
->> +        Extended APIC ID of the list of CPUs sharing the L2 Cache, left shifted
->> +        to remove trailing 0s.
-> 
-> I think this is too much detail for Documentation.  We have the code if
-> anyone cares _this_ much.
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index 2055e72871fe..4cfabf831a79 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -342,6 +342,10 @@ discard_unit=%s		 Control discard unit, the argument can be "block", "segment"
+ 			 default, it is helpful for large sized SMR or ZNS devices to
+ 			 reduce memory cost by getting rid of fs metadata supports small
+ 			 discard.
++async_reset_zone         Enable the RESET WRITE POINTER command to be submitted asynchronously.
++                         With this option, the RESET WRITE POINTER command can be processed by
++                         the discard thread like a discard command. It can reduce checkpoint
++                         latency by asynchronously checking for completion of the RESET WRITE POINTER command.
+ memory=%s		 Control memory mode. This supports "normal" and "low" modes.
+ 			 "low" mode is introduced to support low memory devices.
+ 			 Because of the nature of low memory devices, in this mode, f2fs
+diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+index 4e2596dacbf1..021e55c5d1a8 100644
+--- a/fs/f2fs/f2fs.h
++++ b/fs/f2fs/f2fs.h
+@@ -167,6 +167,7 @@ struct f2fs_mount_info {
+ 					 * be aligned to this unit: block,
+ 					 * segment or section
+ 					 */
++	bool async_zone_reset;          /* async zone reset */
+ 	struct fscrypt_dummy_policy dummy_enc_policy; /* test dummy encryption */
+ 	block_t unusable_cap_perc;	/* percentage for cap */
+ 	block_t unusable_cap;		/* Amount of space allowed to be
+diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
+index 45128694eefa..60cfe97c9dbd 100644
+--- a/fs/f2fs/segment.c
++++ b/fs/f2fs/segment.c
+@@ -1189,6 +1189,46 @@ static void __init_discard_policy(struct f2fs_sb_info *sbi,
+ static void __update_discard_tree_range(struct f2fs_sb_info *sbi,
+ 				struct block_device *bdev, block_t lstart,
+ 				block_t start, block_t len);
++
++#ifdef CONFIG_BLK_DEV_ZONED
++static int __submit_zone_reset_cmd(struct f2fs_sb_info *sbi,
++				   struct discard_cmd *dc, blk_opf_t flag,
++				   struct list_head *wait_list,
++				   unsigned int *issued)
++{
++	struct discard_cmd_control *dcc = SM_I(sbi)->dcc_info;
++	struct block_device *bdev = dc->bdev;
++	struct bio *bio = bio_alloc(bdev, 0, REQ_OP_ZONE_RESET | flag, GFP_NOFS);
++	unsigned long flags;
++
++	trace_f2fs_issue_reset_zone(bdev, SECTOR_FROM_BLOCK(dc->di.start));
++
++	spin_lock_irqsave(&dc->lock, flags);
++	dc->state = D_SUBMIT;
++	dc->bio_ref++;
++	spin_unlock_irqrestore(&dc->lock, flags);
++
++	if (issued)
++		(*issued)++;
++
++	atomic_inc(&dcc->queued_discard);
++	dc->queued++;
++	list_move_tail(&dc->list, wait_list);
++
++	/* sanity check on discard range */
++	__check_sit_bitmap(sbi, dc->di.lstart, dc->di.lstart + dc->di.len);
++
++	bio->bi_iter.bi_sector = SECTOR_FROM_BLOCK(dc->di.start);
++	bio->bi_private = dc;
++	bio->bi_end_io = f2fs_submit_discard_endio;
++	submit_bio(bio);
++
++	atomic_inc(&dcc->issued_discard);
++
++	return 0;
++}
++#endif
++
+ /* this function is copied from blkdev_issue_discard from block/blk-lib.c */
+ static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
+ 				struct discard_policy *dpolicy,
+@@ -1210,6 +1250,11 @@ static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
+ 	if (is_sbi_flag_set(sbi, SBI_NEED_FSCK))
+ 		return 0;
+ 
++#ifdef CONFIG_BLK_DEV_ZONED
++	if (f2fs_sb_has_blkzoned(sbi) && bdev_is_zoned(bdev))
++		return __submit_zone_reset_cmd(sbi, dc, flag, wait_list, issued);
++#endif
++
+ 	trace_f2fs_issue_discard(bdev, dc->di.start, dc->di.len);
+ 
+ 	lstart = dc->di.lstart;
+@@ -1454,21 +1499,42 @@ static void __update_discard_tree_range(struct f2fs_sb_info *sbi,
+ 	}
+ }
+ 
++#ifdef CONFIG_BLK_DEV_ZONED
++static void __queue_zone_reset_cmd(struct f2fs_sb_info *sbi,
++		struct block_device *bdev, block_t blkstart, block_t blklen)
++{
++	block_t lblkstart = blkstart;
++
++	if (f2fs_is_multi_device(sbi)) {
++		int devi = f2fs_target_device_index(sbi, blkstart);
++
++		blkstart -= FDEV(devi).start_blk;
++	}
++
++	trace_f2fs_queue_reset_zone(bdev, blkstart);
++
++	mutex_lock(&SM_I(sbi)->dcc_info->cmd_lock);
++	__insert_discard_cmd(sbi, bdev, lblkstart, blkstart, blklen);
++	mutex_unlock(&SM_I(sbi)->dcc_info->cmd_lock);
++}
++#endif
++
+ static void __queue_discard_cmd(struct f2fs_sb_info *sbi,
+ 		struct block_device *bdev, block_t blkstart, block_t blklen)
+ {
+ 	block_t lblkstart = blkstart;
+ 
++	trace_f2fs_queue_discard(bdev, blkstart, blklen);
++
+ 	if (!f2fs_bdev_support_discard(bdev))
+ 		return;
+ 
+-	trace_f2fs_queue_discard(bdev, blkstart, blklen);
+-
+ 	if (f2fs_is_multi_device(sbi)) {
+ 		int devi = f2fs_target_device_index(sbi, blkstart);
+ 
+ 		blkstart -= FDEV(devi).start_blk;
+ 	}
++
+ 	mutex_lock(&SM_I(sbi)->dcc_info->cmd_lock);
+ 	__update_discard_tree_range(sbi, bdev, lblkstart, blkstart, blklen);
+ 	mutex_unlock(&SM_I(sbi)->dcc_info->cmd_lock);
+@@ -1719,7 +1785,22 @@ static void f2fs_wait_discard_bio(struct f2fs_sb_info *sbi, block_t blkaddr)
+ 	dc = __lookup_discard_cmd(sbi, blkaddr);
+ 	if (dc) {
+ 		if (dc->state == D_PREP) {
++#ifdef CONFIG_BLK_DEV_ZONED
++			if (f2fs_sb_has_blkzoned(sbi) &&
++			    bdev_is_zoned(dc->bdev)) {
++				struct discard_policy dpolicy;
++				/* force submit zone reset */
++				__init_discard_policy(sbi, &dpolicy,
++						      DPOLICY_FORCE, 1);
++				__submit_discard_cmd(sbi, &dpolicy, dc, NULL);
++				dc->ref++;
++				need_wait = true;
++			} else {
++				__punch_discard_cmd(sbi, dc, blkaddr);
++			}
++#else
+ 			__punch_discard_cmd(sbi, dc, blkaddr);
++#endif
+ 		} else {
+ 			dc->ref++;
+ 			need_wait = true;
+@@ -1869,6 +1950,13 @@ static int __f2fs_issue_discard_zone(struct f2fs_sb_info *sbi,
+ 				 blkstart, blklen);
+ 			return -EIO;
+ 		}
++
++		if (likely(!is_sbi_flag_set(sbi, SBI_POR_DOING)) &&
++			   F2FS_OPTION(sbi).async_zone_reset) {
++			__queue_zone_reset_cmd(sbi, bdev, lblkstart, blklen);
++			return 0;
++		}
++
+ 		trace_f2fs_issue_reset_zone(bdev, blkstart);
+ 		return blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
+ 					sector, nr_sects, GFP_NOFS);
+diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+index 7d0202f7b317..48198112cbbc 100644
+--- a/fs/f2fs/super.c
++++ b/fs/f2fs/super.c
+@@ -162,6 +162,7 @@ enum {
+ 	Opt_gc_merge,
+ 	Opt_nogc_merge,
+ 	Opt_discard_unit,
++	Opt_async_zone_reset,
+ 	Opt_memory_mode,
+ 	Opt_age_extent_cache,
+ 	Opt_err,
+@@ -241,6 +242,7 @@ static match_table_t f2fs_tokens = {
+ 	{Opt_gc_merge, "gc_merge"},
+ 	{Opt_nogc_merge, "nogc_merge"},
+ 	{Opt_discard_unit, "discard_unit=%s"},
++	{Opt_async_zone_reset, "async_zone_reset"},
+ 	{Opt_memory_mode, "memory=%s"},
+ 	{Opt_age_extent_cache, "age_extent_cache"},
+ 	{Opt_err, NULL},
+@@ -1249,6 +1251,9 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
+ 			}
+ 			kfree(name);
+ 			break;
++		case Opt_async_zone_reset:
++			F2FS_OPTION(sbi).async_zone_reset = true;
++			break;
+ 		case Opt_memory_mode:
+ 			name = match_strdup(&args[0]);
+ 			if (!name)
+@@ -2047,6 +2052,9 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
+ 	if (test_opt(sbi, ATGC))
+ 		seq_puts(seq, ",atgc");
+ 
++	if (F2FS_OPTION(sbi).async_zone_reset)
++		seq_puts(seq, ",async_zone_reset");
++
+ 	if (F2FS_OPTION(sbi).memory_mode == MEMORY_MODE_NORMAL)
+ 		seq_printf(seq, ",memory=%s", "normal");
+ 	else if (F2FS_OPTION(sbi).memory_mode == MEMORY_MODE_LOW)
+diff --git a/include/trace/events/f2fs.h b/include/trace/events/f2fs.h
+index 99cbc5949e3c..ee1477de8324 100644
+--- a/include/trace/events/f2fs.h
++++ b/include/trace/events/f2fs.h
+@@ -1512,7 +1512,7 @@ DEFINE_EVENT(f2fs_discard, f2fs_remove_discard,
+ 	TP_ARGS(dev, blkstart, blklen)
+ );
+ 
+-TRACE_EVENT(f2fs_issue_reset_zone,
++DECLARE_EVENT_CLASS(f2fs_reset_zone,
+ 
+ 	TP_PROTO(struct block_device *dev, block_t blkstart),
+ 
+@@ -1528,11 +1528,25 @@ TRACE_EVENT(f2fs_issue_reset_zone,
+ 		__entry->blkstart = blkstart;
+ 	),
+ 
+-	TP_printk("dev = (%d,%d), reset zone at block = 0x%llx",
++	TP_printk("dev = (%d,%d), zone at block = 0x%llx",
+ 		show_dev(__entry->dev),
+ 		(unsigned long long)__entry->blkstart)
+ );
+ 
++DEFINE_EVENT(f2fs_reset_zone, f2fs_queue_reset_zone,
++
++	TP_PROTO(struct block_device *dev, block_t blkstart),
++
++	TP_ARGS(dev, blkstart)
++);
++
++DEFINE_EVENT(f2fs_reset_zone, f2fs_issue_reset_zone,
++
++	TP_PROTO(struct block_device *dev, block_t blkstart),
++
++	TP_ARGS(dev, blkstart)
++);
++
+ TRACE_EVENT(f2fs_issue_flush,
+ 
+ 	TP_PROTO(struct block_device *dev, unsigned int nobarrier,
+-- 
+2.25.1
 
-Yes, I agree. I'll reword this as you suggested.
-
-> 
-> Also, I'm perplexed by the "left shifted" comment.  I don't see a lot of
-> left shifting in the patch.  Am I just missing it?
-
-In Patch1, cacheinfo_topoext_init_l2c_id() sets l2c_id as follows for AMD
-and Hygon processors:
-
-  bits = get_count_order(num_sharing_cache);
-  per_cpu(cpu_l2c_id, cpu) = c->apicid >> bits;
-
-For Intel, in init_intel_cacheinfo(), l2c_id is set as follows:
-
-  index_msb = get_count_order(num_threads_sharing);
-  l2_id = c->apicid & ~((1 << index_msb) - 1);
-  ...
-  per_cpu(cpu_l2c_id, cpu) = l2_id;
-
-In the former, only the upper bits that are same for all the threads in a
-cluster are retained, shifting out the lower bits, whereas in the latter
-the lower bits are set to 0s keeping the upper bits, common to all the
-threads on the cluster, as is. Let me know if I'm missing something.
-
-> 
-> Further, this makes it sound like all Intel CPUs have the cluster_id
-> populated.  I'm also not sure that folks reading this will have any
-> worldly idea what "Topology Extension" is.
-
-I agree, it becomes too technical.
-
-> 
-> Why don't we just say that some CPUs don't have this info?  That way we
-> don't need to spell out AMD vs. Intel or expect our users to go figuring
-> out of their CPU has "Topology Extension" or leaf 3 or wherever this
-> info is on Intel.
-> 
-> How about:
-> 
-> A per-CPU variable containing:
-> 
->    - Some upper bits extracted from the APIC ID.  CPUs which have the
->      same value in these bits share an L2 and have the same cluster_id.
-> 
->      CPUs for which L2 cache information is unavailable will show 65535
->      as the cluster_id.
-
-I'll reword the description based on your suggestion in the next version.
-
---
-Thanks and Regards,
-Prateek
