@@ -2,211 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B96C77B6E
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 15:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B116C77B6E
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 16:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230250AbjDNP36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 11:29:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51152 "EHLO
+        id S229464AbjDNQb6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 12:31:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230267AbjDNP3x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 11:29:53 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7571AAF38;
-        Fri, 14 Apr 2023 08:29:30 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id eo6-20020a05600c82c600b003ee5157346cso12148903wmb.1;
-        Fri, 14 Apr 2023 08:29:30 -0700 (PDT)
+        with ESMTP id S229651AbjDNQb5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 12:31:57 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376B5BB80
+        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 09:31:25 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-5068e99960fso10249a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 09:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681486169; x=1684078169;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HtvEF7ctih6jlBUmz6x/cmRorGRIdeQUmzhDbFqzUMQ=;
-        b=qGZQxhLElmhzJf9nLKo4r6pq51rc+4IyPDfzuvQ3gAUsJ6/Y65MzYa6I9BK0cz9KNF
-         stVUm/P2RdtVbOU1aGZISu5RMETCa/RffUliJ/MLHAEFLdSbyckAoXSVsH6b9egMRFIX
-         TgVSJX6L1Sg9SQ1eoWC/gn+tM235APmaoraCI2vruVNVLxcPKdTNrq841NStrTlE2/p1
-         wn7pTiP/S1Sy9RZ3VuwaDcRD92ap89W6450zE890yMDyXbzlcfczRj1CUBKYWmwMA9la
-         OHvDTRrPJPEIwLRPvasejlfJEFC2FhHQ95rmoy2cI6HgM8WEm8kENox7BXc2E+oOIXVK
-         BoMA==
+        d=dectris.com; s=google; t=1681489881; x=1684081881;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5b/9r03boRV4UanYn1RNmzB2JpdCWtq18uHUNH61CVs=;
+        b=pIQNUABRqfz5G9IJM9lizr0vPl0WgB7n4aWZwZUe/kF73YAamGDV377CeXdl3tawD9
+         kq34tFZFPldbRMdqDikQFALSsSWfziPQZwMO6nLRKUytsmCwRnBk7q4JsWELm6ADvBrs
+         wZwK5QNA4bcVQ9oZFNH1ueUmNoKf/StC9Cqds=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681486169; x=1684078169;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HtvEF7ctih6jlBUmz6x/cmRorGRIdeQUmzhDbFqzUMQ=;
-        b=P6/PY+yCc6sorVTgfBgmuJ5M7zdPI3jspOcGYoosPJKAbx3yDHPhlupm4xDQxTtikx
-         +mqz3lNeFRNSLwpIf7RghSOBR2SjCmmymA7uiROCSs8pmAIChfJYqI5PMbf3b2qlGLhE
-         Lc0hmm8J0f21w0I6qlJJe2W76y9B+TE6uGf289rrl1o3V7sH6A9YXarXCr7X/f58LH0a
-         PsYZU7YWXixKslO/IvI7kJvCnlxwqbmlGdeNMmHLhw1DL9oWXijc8/NzMKCZxSL7SOco
-         Y6+07APk4H9EDMLVP0+7xEE+Mi2UxkQ1gQS9VdSNt6eiDYptiwyTonSnQo+pPJdFiX6Q
-         D7jw==
-X-Gm-Message-State: AAQBX9ei+2CzTXa0s2T71fDSo4ZEQXC/cmg8emrha/YXdXyv6b+PMbOy
-        IZVvHn0jyPspi2VCmRS5+6o=
-X-Google-Smtp-Source: AKy350baTmaodBGZvLaW/t3L808sxui2s3mXy0yd4/BPSh2Or7HSibikk/nbTxRns3ESdPZBy2bm3g==
-X-Received: by 2002:a05:600c:2904:b0:3ee:3df6:e411 with SMTP id i4-20020a05600c290400b003ee3df6e411mr4750042wmd.28.1681486168723;
-        Fri, 14 Apr 2023 08:29:28 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id i8-20020a05600c354800b003f15e5a16b1sm880791wmq.30.2023.04.14.08.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Apr 2023 08:29:27 -0700 (PDT)
-Message-ID: <a2dcebee-7a2a-08b1-a35a-45a4a08c9d26@gmail.com>
-Date:   Fri, 14 Apr 2023 17:29:25 +0200
+        d=1e100.net; s=20221208; t=1681489881; x=1684081881;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5b/9r03boRV4UanYn1RNmzB2JpdCWtq18uHUNH61CVs=;
+        b=Fq4RE+poIQHmcz5E6cOytO5Ucnkx0Nl2vJ0O9AL710h/7QDWykzzZcy33i2ZgBfawn
+         3h5IEu6cexLOFil4KEaWIOZKazJj90utPU/O5pvDRPi6lF1DrZnn9E861pKSnB68QpIK
+         JZzLrx6WeKVaCClS1DphHQU+Gj19+UnRbnQA9S53AlzyubLOy70naqSlk7Op71tPjbPE
+         k4seGG2wSkC/yGEissiyGmmeuMBHwbHqmi9fNIlD2jel4yFaDdDWrN0ZD/WCppPP70KH
+         a8NTdrCoHNf+wtXLWsnUu1lkivcCGLvata2T8DiEmaoQ3pyUMj382Rs9oh4TVfP5OMG9
+         aVMw==
+X-Gm-Message-State: AAQBX9fxXN6tDFADMKveXXrypvGWyDBTlJsJ7PMnkZiFcOZhcoaTKuAz
+        C9I+SlQpZYdfGDgISuTGv9U6+h/vmOh20uz1SwlZEw==
+X-Google-Smtp-Source: AKy350bUZ57++7VK4dP3v5BNCxqMSaz7hr9w88c5ysZKzOGWRszBmAlziDfG3+QYYunvZFtN+5iKSE1BeEKmHbt6GFA=
+X-Received: by 2002:a50:8d43:0:b0:4fc:fc86:5f76 with SMTP id
+ t3-20020a508d43000000b004fcfc865f76mr3343019edt.6.1681489880762; Fri, 14 Apr
+ 2023 09:31:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v1 2/6] dt-bindings: hypervisor: Add binding for MediaTek
- GenieZone hypervisor
-Content-Language: en-US
-To:     =?UTF-8?B?WWktRGUgV3UgKOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?= 
-        <Yingshiuan.Pan@mediatek.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "will@kernel.org" <will@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        =?UTF-8?B?TVkgQ2h1YW5nICjojormmI7ouo0p?= <MY.Chuang@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?UTF-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= 
-        <PeiLun.Suei@mediatek.com>,
-        =?UTF-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?= 
-        <Liju-clr.Chen@mediatek.com>,
-        =?UTF-8?B?SmFkZXMgU2hpaCAo5pa95ZCR546oKQ==?= 
-        <jades.shih@mediatek.com>,
-        "dbrazdil@google.com" <dbrazdil@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        =?UTF-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?= 
-        <shawn.hsiao@mediatek.com>,
-        =?UTF-8?B?TWlsZXMgQ2hlbiAo6Zmz5rCR5qi6KQ==?= 
-        <Miles.Chen@mediatek.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        =?UTF-8?B?SXZhbiBUc2VuZyAo5pu+5b+X6LuSKQ==?= 
-        <ivan.tseng@mediatek.com>,
-        =?UTF-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= 
-        <Ze-yu.Wang@mediatek.com>
-References: <20230413090735.4182-1-yi-de.wu@mediatek.com>
- <20230413090735.4182-3-yi-de.wu@mediatek.com>
- <8ace9b0f-742a-7ebc-555f-1f8be04a5955@linaro.org>
- <7b4492efa4a1becbdfb79d23a0a0c0fe11dba5f4.camel@mediatek.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <7b4492efa4a1becbdfb79d23a0a0c0fe11dba5f4.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230406130205.49996-1-kal.conley@dectris.com>
+ <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk>
+ <ZDBEng1KEEG5lOA6@boxer> <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+ <875ya12phx.fsf@toke.dk> <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
+ <87ile011kz.fsf@toke.dk>
+In-Reply-To: <87ile011kz.fsf@toke.dk>
+From:   Kal Cutter Conley <kal.conley@dectris.com>
+Date:   Fri, 14 Apr 2023 18:36:04 +0200
+Message-ID: <CAHApi-=ODe-WtJ=m6bycQhKoQxb+kk2Yk9Fx5SgBsWUuWT_u-A@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+To:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
+Cc:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> In addition, presumably when using this mode, the other XDP actions
+> (XDP_PASS, XDP_REDIRECT to other targets) would stop working unless we
+> add special handling for that in the kernel? We'll definitely need to
+> handle that somehow...
 
-
-On 14/04/2023 10:35, Yi-De Wu (吳一德) wrote:
-> On Thu, 2023-04-13 at 15:05 +0200, Krzysztof Kozlowski wrote:
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> On 13/04/2023 11:07, Yi-De Wu wrote:
->>> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
->>>
->>> Add documentation for GenieZone(gzvm) node. This node informs gzvm
->>> driver to start probing if geniezone hypervisor is available and
->>
->> Subject: drop second/last, redundant "binding for". The "dt-bindings"
->> prefix is already stating that these are bindings.
->>
-> Thank you for the review comments. We would remove the "binding for"
-> wording in the subject on the next version.
-> 
->>> able to do virtual machine operations.
->>>
->>> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
->>> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
->>> ---
->>>   .../bindings/hypervisor/mediatek,gzvm.yaml    | 30
->>> +++++++++++++++++++
->>>   1 file changed, 30 insertions(+)
->>>   create mode 100644
->>> Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
->>> b/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
->>> new file mode 100644
->>> index 000000000000..35e1e5b18e47
->>> --- /dev/null
->>> +++
->>> b/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
->>> @@ -0,0 +1,30 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id:
->>> https://urldefense.com/v3/__http://devicetree.org/schemas/hypervisor/mediatek,gzvm.yaml*__;Iw!!CTRNKA9wMg0ARbw!lp4d4WBp26cpOeEGcKn_aHcNGfyl1Y--BYzfR8oR_0Xzr9TLvUELfOQAAdqHlLIOra1W_QdjVSJv0-HMpLesJmA3TPJSag$
->>> +$schema:
->>> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!lp4d4WBp26cpOeEGcKn_aHcNGfyl1Y--BYzfR8oR_0Xzr9TLvUELfOQAAdqHlLIOra1W_QdjVSJv0-HMpLesJmDSXil_Qw$
->>> +
->>> +title: MediaTek GenieZone hypervisor
->>> +
->>> +maintainers:
->>> +  - Yingshiuan Pan <yingshiuan.pan@mediatek.com>
->>> +
->>> +description:
->>> +  GenieZone is MediaTek proprietary hypervisor. This device node
->>> informs its
->>> +  driver, gzvm, to probe if platform supports running virtual
->>> machines.
->>
->> Do not describe Linux, we all know how driver binding works, but
->> hardware/firmware/hypervisor.
->>
-> Noted. We would enhance the description on next version.
-> 
->> I don't know if we actually want to support proprietary hypervisors.
->> There can be hundreds of them, one per each SoC manufacturer, and
->> they
->> can come with many ridiculous ideas.
->>
-> MediaTek, as a partner of Android, our GenieZone hypervisor has been
-> one of the backend options under Android Virtualization Framework(AVF)
-> now.
-> Thus, we'd like to donate these patches for better supporting the
-> Linux/Android ecosystem.
-> 
-> Reference link: https://crosvm.dev/book/hypervisors.html#geniezone
-> 
-
-What is the difference between geniezone and gunyah? Why will we need both of 
-them? Couldn't we just get one hypervisor implementation merged that includes 
-all the needed features. In the end it will be used with the same VMM.
-
-Regards,
-Matthias
-
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: mediatek,gzvm
->>> +
->>> +required:
->>> +  - compatible
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    hypervisor {
->>> +        compatible = "mediatek,gzvm";
->>> +        status = "okay";
->>
->> Drop status.
->>
->> Best regards,
->> Krzysztof
->>
+I am not familiar with all the details here. Do you know a reason why
+these cases would stop working / why special handling would be needed?
+For example, if I have a UMEM that uses hugepages and XDP_PASS is
+returned, then the data is just copied into an SKB right? SKBs can
+also be created directly from hugepages AFAIK. So I don't understand
+what the issue would be. Can someone explain this concern?
