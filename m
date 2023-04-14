@@ -2,437 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21B14C77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F113AC77B6F
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbjDNAMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 20:12:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44350 "EHLO
+        id S229721AbjDNApM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 20:45:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230458AbjDNAMM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:12 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD1A244B2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:09 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id e6-20020a25e706000000b00b7c653a0a4aso9636069ybh.23
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681431129; x=1684023129;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JIdXLIzbqoaS1yDLNUT0qQstKE8tePtbIkE0dhqmXxw=;
-        b=tYf5bMIhxkr3hMt+lIl1PwjzLoiSUpfQWFuv6YVcAfFgRdEoudCktx2A+d0JqBuvOp
-         z7jDltQapqSgAAhCbia4ma/bs6+Elmvi2Gje0GcQy+s+haBTRtk+BaqUdfLeOeW36uBM
-         6MypyFUJxdUxMweXKlUl7CO/Q1AO0eUVAwfsLrKRHXW02ZCD/fodZ/BhJs3hNjpCIo+Y
-         cIPpRQQptnvuiKd6Qf6tMjU2sO+NUQFKpX/Achfnm+Vek4M3QErvwjtnfJ6Clswfoz0b
-         wIt6IvVXO9FiMRR1epVuwOCV/qP/1d3QqZG2bG2qG2X3Hmji5CKuZuuD4fO544jPiWvf
-         +lTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681431129; x=1684023129;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JIdXLIzbqoaS1yDLNUT0qQstKE8tePtbIkE0dhqmXxw=;
-        b=dGZC5racWi+M8RfGHoTykg2i22YjlbbVwBxnkc23KvaH4EWiaCU9M42Z9BqkCPwy27
-         pSA2QB6JKRxTD+gx4Osm09IUVH0WtS3btyWe3lu0XPhsmZOsCX1CgpFpjae0m7iULWBy
-         OnYsf1+qCW5ImqhBgVnmgwIrO6HnRM4XQuesmP0rrikaJ5/E3xRV8ctT7Jr+dcRPkgex
-         CuuZhgVl2bo/PnkAqZ4ACYa7nUIfyMGRcPBtrTJxwBB8ykGN+B98O0oqL5fX0fVoNKKX
-         7WC+VLB+XJuxTl9A0yCxbO3IqHFZwDN4Quh5aO3OTL7GH70dQchjfrGo7fvAKGFvmYog
-         9P8A==
-X-Gm-Message-State: AAQBX9fJsPg1rmjU5DlKzbu735DyYFGYEwiYRYAmlysv4mHFZx8YGlaS
-        AtYjZmhxEAb+WR+MymWVYXS7Db1SzpyzGv9gXA==
-X-Google-Smtp-Source: AKy350aw1qXzddjDywjx3OQ/Kkf8aSm9qQ52ggrXe9lxiXXBS/UAEkiIAH3/1jEr1IF4yNFdix0pirr9uwMpC8d++w==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a25:d288:0:b0:b75:3fd4:1b31 with SMTP
- id j130-20020a25d288000000b00b753fd41b31mr2693074ybg.1.1681431128801; Thu, 13
- Apr 2023 17:12:08 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 00:11:55 +0000
-In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1681430907.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-Message-ID: <7b40fc4afa41e382d72f556399ed5e0808b969b5.1681430907.git.ackerleytng@google.com>
-Subject: [RFC PATCH 6/6] selftests: mm: Add selftest for memfd_restricted_bind()
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
-        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
-        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
-        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
-        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
-        muchun.song@linux.dev, feng.tang@intel.com, brgerst@gmail.com,
-        rdunlap@infradead.org, masahiroy@kernel.org,
-        mailhol.vincent@wanadoo.fr, Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229707AbjDNApL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:45:11 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12hn2212.outbound.protection.outlook.com [52.100.166.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C10C2691;
+        Thu, 13 Apr 2023 17:45:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BR+BFWMiRnUmRx9RK1xc5okFViJREhCmKbIbsRkhgsDLWsuN0RdN0ZNIv5b2ry7IU++bUrO3rXGhbBs6QAHdspmX6V5RMF9tmVcqaNjt54UH6AIa9NfRIHsk1JQRXAypxgmFuHZS96EFweQBGb74DBfNJnb57wVKrhQgTuVR72G7RRsiuO551nKMllJvY2YTtTlKJiBdh5wHdNUbZ/P7tjCryon5Ed6vjJLKyyC2UjKv/qNaXJmcPAK+nSeQpFOzzhBGgpFCK8lH1c8dk8CFg2Qj3hgrT01RUeyhMQPoxLP1GpZaM3nBWGZxeLIUKWZbBgrpu3TySChsRPj8FLjiSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kx/kpYZ7ir9/y4hkhUOBaWiXie83l6Pngi0Gj/5GgOI=;
+ b=DsliWIUfv75vxeOv2AhWOx4mc8LKRy3D5qs4zFS2oB+/1cZXWcNclXSzrXBOBUwXdkXAIcWqTT5GMXLXWpiysviDAVenlGh6/XbzGd5PvCvn8i8vV0lvfg2R3F6Yc1dNdWuLZ8RC/DRwM1/Av44UxOz4UHFajuEM6xY6FfcUUqjqZiLc7MWcVgUpE+WU/QuFyC6dlLZG+8OrB6NKdM6Q/Jqt+9jZvny5505cYKYLiNH1ys6d9cyUfn7UmRSiQTjRSZ9QzggJrU0MrNssu8wlQrHaNDD5YE6HCAu3O3UVsV9EUPjycamZ97IyX20hhUACVVOmCKislu3D32rDpMdqCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kx/kpYZ7ir9/y4hkhUOBaWiXie83l6Pngi0Gj/5GgOI=;
+ b=hysT+jL55GsRRKNwZ5Bk3AvPRHNJ8iKLFx7x4GG40peGgIaHvS2TpKX9d0nf+mBnzpPo+f+EwaVQr5W0sb4/4s/jRNjk2JpjhlUWRxZuNqSJYar+K1fOhSqv8t9eAlBlvg4wn2qdR5ucXuKCsLkaD7nbbQjK7kDo8I24fkL8rPHoQZ6RML+7lchhJYYSfXnTAZau8QPqztedW4soB2gsLfU9vYcX40r6InBXEpB5r0iLZ02cXlrf9TASaUZKynaZRvmKimcxi2HqchBAZEhJ6+WHtZJL/nQeL+/fyIHs4iwZMVr6QrgFWzX9ULmDg86+GevRZGHIZCCD0h+z2I5VHg==
+Received: from MW4PR04CA0135.namprd04.prod.outlook.com (2603:10b6:303:84::20)
+ by CH3PR12MB8879.namprd12.prod.outlook.com (2603:10b6:610:171::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
+ 2023 00:45:06 +0000
+Received: from CO1NAM11FT028.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:84:cafe::d7) by MW4PR04CA0135.outlook.office365.com
+ (2603:10b6:303:84::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.32 via Frontend
+ Transport; Fri, 14 Apr 2023 00:45:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1NAM11FT028.mail.protection.outlook.com (10.13.175.214) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6298.30 via Frontend Transport; Fri, 14 Apr 2023 00:45:06 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Thu, 13 Apr 2023
+ 17:45:00 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Thu, 13 Apr
+ 2023 17:44:59 -0700
+Received: from dipenp.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.986.37 via Frontend
+ Transport; Thu, 13 Apr 2023 17:44:59 -0700
+From:   Dipen Patel <dipenp@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh+dt@kernel.org>, <timestamp@lists.linux.dev>,
+        <krzysztof.kozlowski+dt@linaro.org>, <brgl@bgdev.pl>,
+        <corbet@lwn.net>, <gregkh@linuxfoundation.org>
+CC:     Dipen Patel <dipenp@nvidia.com>
+Subject: [V6 4/9] arm64: tegra: Add Tegra234 GTE nodes
+Date:   Thu, 13 Apr 2023 17:44:50 -0700
+Message-ID: <20230414004455.19275-5-dipenp@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230414004455.19275-1-dipenp@nvidia.com>
+References: <20230414004455.19275-1-dipenp@nvidia.com>
+X-NVConfidentiality: public
+MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT028:EE_|CH3PR12MB8879:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3edf3882-7daa-461c-ea8d-08db3c817de5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9CZSDJZ1D3MK8f7u5sJD401cNrrnJ0yKWFkn2sl/KMt2s6nmOxC7dmuABY5f67vQQL8sYXe04cnFWzc9I50SEiLH+Bd30Fmx3pxNaqS+432+0gz1iFz8ES9xxpo/lMloOVKU+ol4tJo3vekYaNeW8B34l0KDx+tTIx6UieTJ4cc6EB5datFE13pBT05dD3uPmSKkZQ8eYFdUgz3efckm716H/BX//Ffux0Tnp1svfRaPU/y5MymWE0J6cENjf+nelTy/A11nWTZKVLGX1K/eCUmBZON5OoMQ96/4XcUhoQ4NegSr984PYO1l52FhpAfMYbB7exKHVMJEYTtYrGt75YJtnCOcQAsP1WpMdNifLf4fQfpojz8D17diK+CItoyH5pfFIDzwJKa44Z8NDvUub+1JG9ykmIfzGjbFcpC/acCaJ9UXQIqRHEptJeGWwptTNAZ5eVzyT4Rig3/9ZKpifekEVLcUNKH7bHwMYP5mpSIn1WCVc1BRHXOMa+2gGBtuZuEJhkGDWODOF8ASuHdns6JsGUoE9cO/Df5//c11MvSG3j/PvJ4x0R5rqxTZwFLe1fQS5ZolDHNzwwqRhM+YKyF1hKkr1yekMm2Zn2I9SPxpm3iaZTMafSNA0yB2912cUN0TSEn9Vztq7uCrf38/kyjCnTr0bGwt1W9pWyhtBhFGYqPEKasajkaOKPdMcNu1IZas6oIqgXzePt4g9P+DVNshdgXtpHER8vwdyfXwhkXC/jZNd/BgEc7nkWzOD39pKjblDgaVSmIYroN2k+1Jr8ndJI2BrHrIsVM5GCw9jyQlRHtTqNKGNEIj2A2c68wC0VchOxT4vyRbE6cmDGoiR5wCCLjG0mFHWWVjimEHuSUrJHrrFLfnWVeMRsPtVuag
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(39860400002)(136003)(396003)(376002)(451199021)(5400799015)(36840700001)(40470700004)(46966006)(6666004)(7696005)(40460700003)(4326008)(36756003)(70586007)(70206006)(110136005)(2906002)(7416002)(86362001)(356005)(7636003)(41300700001)(5660300002)(8676002)(8936002)(82740400003)(82310400005)(921005)(316002)(34020700004)(478600001)(40480700001)(1076003)(336012)(26005)(426003)(2616005)(36860700001)(107886003)(186003)(47076005)(83380400001)(83996005)(2101003)(12100799027);DIR:OUT;SFP:1501;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2023 00:45:06.2787
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3edf3882-7daa-461c-ea8d-08db3c817de5
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT028.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8879
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This selftest uses memfd_restricted_bind() to set the mempolicy for a
-restrictedmem file, and then checks that pages were indeed allocated
-according to that policy.
+Add GTE LIC and AON GPIO nodes for the tegra234 SoC.
 
-Because restrictedmem pages are never mapped into userspace memory,
-the usual ways of checking which NUMA node the page was allocated
-on (e.g. /proc/pid/numa_maps) cannot be used.
-
-This selftest adds a small kernel module that overloads the ioctl
-syscall on /proc/restrictedmem to request a restrictedmem page and get
-the node it was allocated on. The page is freed within the ioctl handler.
-
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Signed-off-by: Dipen Patel <dipenp@nvidia.com>
 ---
- tools/testing/selftests/mm/.gitignore         |   1 +
- tools/testing/selftests/mm/Makefile           |   8 +
- .../selftests/mm/memfd_restricted_bind.c      | 139 ++++++++++++++++++
- .../mm/restrictedmem_testmod/Makefile         |  21 +++
- .../restrictedmem_testmod.c                   |  89 +++++++++++
- tools/testing/selftests/mm/run_vmtests.sh     |   6 +
- 6 files changed, 264 insertions(+)
- create mode 100644 tools/testing/selftests/mm/memfd_restricted_bind.c
- create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/Makefile
- create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/restrictedmem_testmod.c
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
-index fb6e4233374d..10c5701b9645 100644
---- a/tools/testing/selftests/mm/.gitignore
-+++ b/tools/testing/selftests/mm/.gitignore
-@@ -31,6 +31,7 @@ map_fixed_noreplace
- write_to_hugetlbfs
- hmm-tests
- memfd_restricted
-+memfd_restricted_bind
- memfd_secret
- soft-dirty
- split_huge_page_test
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index 5ec338ea1fed..4a6cf922db45 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -46,6 +46,8 @@ TEST_GEN_FILES += map_fixed_noreplace
- TEST_GEN_FILES += map_hugetlb
- TEST_GEN_FILES += map_populate
- TEST_GEN_FILES += memfd_restricted
-+TEST_GEN_FILES += memfd_restricted_bind
-+TEST_GEN_FILES += restrictedmem_testmod.ko
- TEST_GEN_FILES += memfd_secret
- TEST_GEN_FILES += migration
- TEST_GEN_FILES += mlock-random-test
-@@ -171,6 +173,12 @@ $(OUTPUT)/ksm_tests: LDLIBS += -lnuma
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+index 8fe8eda7654d..54790c6b6a2c 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+@@ -1156,6 +1156,14 @@
+ 			clock-names = "fuse";
+ 		};
  
- $(OUTPUT)/migration: LDLIBS += -lnuma
++		hte_lic: hardware-timestamp@3aa0000 {
++			compatible = "nvidia,tegra234-gte-lic";
++			reg = <0x0 0x3aa0000 0x0 0x10000>;
++			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
++			nvidia,int-threshold = <1>;
++			#timestamp-cells = <1>;
++		};
++
+ 		hsp_top0: hsp@3c00000 {
+ 			compatible = "nvidia,tegra234-hsp", "nvidia,tegra194-hsp";
+ 			reg = <0x0 0x03c00000 0x0 0xa0000>;
+@@ -1673,6 +1681,15 @@
+ 			#mbox-cells = <2>;
+ 		};
  
-+$(OUTPUT)/memfd_restricted_bind: LDLIBS += -lnuma
-+$(OUTPUT)/restrictedmem_testmod.ko: $(wildcard restrictedmem_testmod/Makefile restrictedmem_testmod/*.[ch])
-+	$(call msg,MOD,,$@)
-+	$(Q)$(MAKE) -C restrictedmem_testmod
-+	$(Q)cp restrictedmem_testmod/restrictedmem_testmod.ko $@
++		hte_aon: hardware-timestamp@c1e0000 {
++			compatible = "nvidia,tegra234-gte-aon";
++			reg = <0x0 0xc1e0000 0x0 0x10000>;
++			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
++			nvidia,int-threshold = <1>;
++			nvidia,gpio-controller = <&gpio_aon>;
++			#timestamp-cells = <1>;
++		};
 +
- local_config.mk local_config.h: check_config.sh
- 	/bin/sh ./check_config.sh $(CC)
- 
-diff --git a/tools/testing/selftests/mm/memfd_restricted_bind.c b/tools/testing/selftests/mm/memfd_restricted_bind.c
-new file mode 100644
-index 000000000000..64aa44c72d09
---- /dev/null
-+++ b/tools/testing/selftests/mm/memfd_restricted_bind.c
-@@ -0,0 +1,139 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <fcntl.h>
-+#include <linux/mempolicy.h>
-+#include <numa.h>
-+#include <sys/ioctl.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+
-+#include "../kselftest_harness.h"
-+
-+int memfd_restricted(int flags, int fd)
-+{
-+	return syscall(__NR_memfd_restricted, flags, fd);
-+}
-+
-+int memfd_restricted_bind(
-+	int fd, loff_t offset, unsigned long len, unsigned long mode,
-+	const unsigned long *nmask, unsigned long maxnode, unsigned int flags)
-+{
-+	struct file_range range = {
-+		.offset = offset,
-+		.len = len,
-+	};
-+
-+	return syscall(__NR_memfd_restricted_bind, fd, &range, mode, nmask, maxnode, flags);
-+}
-+
-+int memfd_restricted_bind_node(
-+	int fd, loff_t offset, unsigned long len,
-+	unsigned long mode, int node, unsigned int flags)
-+{
-+	int ret;
-+	struct bitmask *mask = numa_allocate_nodemask();
-+
-+	numa_bitmask_setbit(mask, node);
-+
-+	ret = memfd_restricted_bind(fd, offset, len, mode, mask->maskp, mask->size, flags);
-+
-+	numa_free_nodemask(mask);
-+
-+	return ret;
-+}
-+
-+/**
-+ * Allocates a page in restrictedmem_fd, reads the node that the page was
-+ * allocated it and returns it. Returns -1 on error.
-+ */
-+int read_node(int restrictedmem_fd, unsigned long offset)
-+{
-+	int ret;
-+	int fd;
-+
-+	fd = open("/proc/restrictedmem", O_RDWR);
-+	if (!fd)
-+		return -ENOTSUP;
-+
-+	ret = ioctl(fd, restrictedmem_fd, offset);
-+
-+	close(fd);
-+
-+	return ret;
-+}
-+
-+bool restrictedmem_testmod_loaded(void)
-+{
-+	struct stat buf;
-+
-+	return stat("/proc/restrictedmem", &buf) == 0;
-+}
-+
-+FIXTURE(restrictedmem_file)
-+{
-+	int fd;
-+	size_t page_size;
-+};
-+
-+FIXTURE_SETUP(restrictedmem_file)
-+{
-+	int fd;
-+	int ret;
-+	struct stat stat;
-+
-+	fd = memfd_restricted(0, -1);
-+	ASSERT_GT(fd, 0);
-+
-+#define RESTRICTEDMEM_TEST_NPAGES 16
-+	ret = ftruncate(fd, getpagesize() * RESTRICTEDMEM_TEST_NPAGES);
-+	ASSERT_EQ(ret, 0);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(ret, 0);
-+
-+	self->fd = fd;
-+	self->page_size = stat.st_blksize;
-+};
-+
-+FIXTURE_TEARDOWN(restrictedmem_file)
-+{
-+	int ret;
-+
-+	ret = close(self->fd);
-+	EXPECT_EQ(ret, 0);
-+}
-+
-+#define ASSERT_REQUIREMENTS()					\
-+	do {							\
-+		struct bitmask *mask = numa_get_membind();	\
-+		ASSERT_GT(numa_num_configured_nodes(), 1);	\
-+		ASSERT_TRUE(numa_bitmask_isbitset(mask, 0));	\
-+		ASSERT_TRUE(numa_bitmask_isbitset(mask, 1));	\
-+		numa_bitmask_free(mask);			\
-+		ASSERT_TRUE(restrictedmem_testmod_loaded());	\
-+	} while (0)
-+
-+TEST_F(restrictedmem_file, memfd_restricted_bind_works_as_expected)
-+{
-+	int ret;
-+	int node;
-+	int i;
-+	int node_bindings[] = { 1, 0, 1, 0, 1, 1, 0, 1 };
-+
-+	ASSERT_REQUIREMENTS();
-+
-+	for (i = 0; i < ARRAY_SIZE(node_bindings); i++) {
-+		ret = memfd_restricted_bind_node(
-+			self->fd, i * self->page_size, self->page_size,
-+			MPOL_BIND, node_bindings[i], 0);
-+		ASSERT_EQ(ret, 0);
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(node_bindings); i++) {
-+		node = read_node(self->fd, i * self->page_size);
-+		ASSERT_EQ(node, node_bindings[i]);
-+	}
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/mm/restrictedmem_testmod/Makefile b/tools/testing/selftests/mm/restrictedmem_testmod/Makefile
-new file mode 100644
-index 000000000000..11b1d5d15e3c
---- /dev/null
-+++ b/tools/testing/selftests/mm/restrictedmem_testmod/Makefile
-@@ -0,0 +1,21 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+RESTRICTEDMEM_TESTMOD_DIR := $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-+KDIR ?= $(abspath $(RESTRICTEDMEM_TESTMOD_DIR)/../../../../..)
-+
-+ifeq ($(V),1)
-+Q =
-+else
-+Q = @
-+endif
-+
-+MODULES = restrictedmem_testmod.ko
-+
-+obj-m += restrictedmem_testmod.o
-+CFLAGS_restrictedmem_testmod.o = -I$(src)
-+
-+all:
-+	+$(Q)make -C $(KDIR) M=$(RESTRICTEDMEM_TESTMOD_DIR) modules
-+
-+clean:
-+	+$(Q)make -C $(KDIR) M=$(RESTRICTEDMEM_TESTMOD_DIR) clean
-diff --git a/tools/testing/selftests/mm/restrictedmem_testmod/restrictedmem_testmod.c b/tools/testing/selftests/mm/restrictedmem_testmod/restrictedmem_testmod.c
-new file mode 100644
-index 000000000000..d35f55d26408
---- /dev/null
-+++ b/tools/testing/selftests/mm/restrictedmem_testmod/restrictedmem_testmod.c
-@@ -0,0 +1,89 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include "linux/printk.h"
-+#include "linux/types.h"
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/proc_fs.h>
-+#include <linux/restrictedmem.h>
-+
-+MODULE_DESCRIPTION("A kernel module to support restrictedmem testing");
-+MODULE_AUTHOR("ackerleytng@google.com");
-+MODULE_LICENSE("GPL");
-+
-+void dummy_op(struct restrictedmem_notifier *notifier, pgoff_t start, pgoff_t end)
-+{
-+}
-+
-+static const struct restrictedmem_notifier_ops dummy_notifier_ops = {
-+	.invalidate_start = dummy_op,
-+	.invalidate_end = dummy_op,
-+	.error = dummy_op,
-+};
-+
-+static struct restrictedmem_notifier dummy_notifier = {
-+	.ops = &dummy_notifier_ops,
-+};
-+
-+static long restrictedmem_testmod_ioctl(
-+	struct file *file, unsigned int cmd, unsigned long offset)
-+{
-+	long ret;
-+	struct fd f;
-+	struct page *page;
-+	pgoff_t start = offset >> PAGE_SHIFT;
-+
-+	f = fdget(cmd);
-+	if (!f.file)
-+		return -EBADF;
-+
-+	ret = -EINVAL;
-+	if (!file_is_restrictedmem(f.file))
-+		goto out;
-+
-+
-+	ret = restrictedmem_bind(f.file, start, start + 1, &dummy_notifier, true);
-+	if (ret)
-+		goto out;
-+
-+	ret = restrictedmem_get_page(f.file, (unsigned long)start, &page, NULL);
-+	if (ret)
-+		goto out;
-+
-+	ret = page_to_nid(page);
-+
-+	folio_put(page_folio(page));
-+
-+	restrictedmem_unbind(f.file, start, start + 1, &dummy_notifier);
-+
-+out:
-+	fdput(f);
-+
-+	return ret;
-+}
-+
-+static const struct proc_ops restrictedmem_testmod_ops = {
-+	.proc_ioctl = restrictedmem_testmod_ioctl,
-+};
-+
-+static struct proc_dir_entry *restrictedmem_testmod_entry;
-+
-+static int restrictedmem_testmod_init(void)
-+{
-+	restrictedmem_testmod_entry = proc_create(
-+		"restrictedmem", 0660, NULL, &restrictedmem_testmod_ops);
-+
-+	return 0;
-+}
-+
-+static void restrictedmem_testmod_exit(void)
-+{
-+	proc_remove(restrictedmem_testmod_entry);
-+}
-+
-+module_init(restrictedmem_testmod_init);
-+module_exit(restrictedmem_testmod_exit);
-diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
-index 53de84e3ec2c..bdc853d6afe4 100644
---- a/tools/testing/selftests/mm/run_vmtests.sh
-+++ b/tools/testing/selftests/mm/run_vmtests.sh
-@@ -40,6 +40,8 @@ separated by spaces:
- 	test memadvise(2) MADV_POPULATE_{READ,WRITE} options
- - memfd_restricted_
- 	test memfd_restricted(2)
-+- memfd_restricted_bind
-+	test memfd_restricted_bind(2)
- - memfd_secret
- 	test memfd_secret(2)
- - process_mrelease
-@@ -240,6 +242,10 @@ CATEGORY="madv_populate" run_test ./madv_populate
- 
- CATEGORY="memfd_restricted" run_test ./memfd_restricted
- 
-+test_selected "memfd_restricted_bind" && insmod ./restrictedmem_testmod.ko && \
-+  CATEGORY="memfd_restricted_bind" run_test ./memfd_restricted_bind && \
-+  rmmod restrictedmem_testmod > /dev/null
-+
- CATEGORY="memfd_secret" run_test ./memfd_secret
- 
- # KSM MADV_MERGEABLE test with 10 identical pages
+ 		gen2_i2c: i2c@c240000 {
+ 			compatible = "nvidia,tegra194-i2c";
+ 			reg = <0x0 0xc240000 0x0 0x100>;
 -- 
-2.40.0.634.g4ca3ef3211-goog
+2.17.1
 
