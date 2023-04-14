@@ -2,367 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A97FC77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 03:06:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E573FC77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 03:18:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjDNDGQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 23:06:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
+        id S229567AbjDNDSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 23:18:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbjDNDGP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 23:06:15 -0400
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1A2330DE
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 20:06:12 -0700 (PDT)
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230414030023epoutp02b28197600edb8b93110722defa7cf050~VreI7Pn1B0030800308epoutp02S
-        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 03:00:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230414030023epoutp02b28197600edb8b93110722defa7cf050~VreI7Pn1B0030800308epoutp02S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1681441223;
-        bh=XmlnYYLnquBdXwuz8EUaHHCgZ7HKmHIycehtiFaMkGQ=;
-        h=Subject:Reply-To:From:To:CC:Date:References:From;
-        b=TfjITh4Rol/+nrqsOTz6cpzqDypOJfW91Z0EoSPjaa8GHT/n6Mhscbul3tzkGDmth
-         COZcC6dgYEkHE/cwNbax1yQ71k/SMRJzIfAOip60SJPtFfHJklVcZ1w5ZZPtMBm0rX
-         pDZkJcejCvESQyCzNWo/DjzCOJQJpxjU7Pr9ihWU=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
-        20230414030022epcas2p41f2601da8457ba9353857412c53fe270~VreIY7BnP1772317723epcas2p4M;
-        Fri, 14 Apr 2023 03:00:22 +0000 (GMT)
-Received: from epsmges2p4.samsung.com (unknown [182.195.36.97]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 4PyLm56jzYz4x9Pq; Fri, 14 Apr
-        2023 03:00:21 +0000 (GMT)
-X-AuditID: b6c32a48-dc7ff700000025b2-74-6438c1c57724
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
-        epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-        A0.48.09650.5C1C8346; Fri, 14 Apr 2023 12:00:21 +0900 (KST)
-Mime-Version: 1.0
-Subject: [PATCH] f2fs: add async reset zone command support
-Reply-To: daejun7.park@samsung.com
-Sender: Daejun Park <daejun7.park@samsung.com>
-From:   Daejun Park <daejun7.park@samsung.com>
-To:     "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-        "chao@kernel.org" <chao@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>
-CC:     "linux-f2fs-devel@lists.sourceforge.net" 
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-trace-kernel@vger.kernel.org" 
-        <linux-trace-kernel@vger.kernel.org>,
-        Seokhwan Kim <sukka.kim@samsung.com>,
-        beomsu kim <beomsu7.kim@samsung.com>,
-        Yonggil Song <yonggil.song@samsung.com>,
-        Daejun Park <daejun7.park@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
-Date:   Fri, 14 Apr 2023 11:59:21 +0900
-X-CMS-MailID: 20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-CPGSPASS: Y
-X-CPGSPASS: Y
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJJsWRmVeSWpSXmKPExsWy7bCmme7RgxYpBi+6TSwuzPvIbHF66lkm
-        iycH2hktXh7StFj1INziyfpZzBYL25awWFxa5G5xedccNosj68+yWCxermaxr+MBk8WqjrmM
-        FlPPH2Fy4PNo2XeL3WPTqk42j90LPjN5LO6bzOrRt2UVo8fnTXIBbFHZNhmpiSmpRQqpecn5
-        KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJuam2Si4+AbpumTlApyoplCXmlAKFAhKLi5X07WyK
-        8ktLUhUy8otLbJVSC1JyCswL9IoTc4tL89L18lJLrAwNDIxMgQoTsjM2fTrDUrDdvWJf91bm
-        BsYpVl2MHBwSAiYS/2cZdjFycQgJ7GCU6OmexAYS5xUQlPi7Q7iLkZNDWMBaYu2yLiYQW0hA
-        SWL9xVnsEHE9iVsP1zCC2GwCOhLTT9xnB5kjInCZUWLvioNgDrPAQWaJLfuPsYFUSQjwSsxo
-        f8oCYUtLbF++lRHC1pD4sayXGcIWlbi5+i07jP3+2HyoGhGJ1ntnoWoEJR783A0Vl5S4PXcT
-        VH2+xP8ry6HsGoltB+ZB2foS1zo2gu3lFfCV2H9zBlgvi4CqxJUDR6HmuEj8nvoc7E5mAXmJ
-        7W/nMIMCgllAU2L9Ln1IWClLHLnFAlHBJ9Fx+C87zFcNG39jZe+Y94QJwlaTWPdzPRPEGBmJ
-        W/MYJzAqzUIE9Cwka2chrF3AyLyKUSy1oDg3PbXYqMAEHrXJ+bmbGMFpVstjB+Pstx/0DjEy
-        cTAeYpTgYFYS4f3hYpoixJuSWFmVWpQfX1Sak1p8iNEU6OGJzFKiyfnARJ9XEm9oYmlgYmZm
-        aG5kamCuJM77sUM5RUggPbEkNTs1tSC1CKaPiYNTqoGpOnlFfVjjJKZVL0TDWU/HGP65sP//
-        vcaX+y0YdLuXLYl57F64Tkoitqqly1tRnM38aGKxWubyLqcGnafv0mL3Hgqa18z0fybrhekX
-        G0Nm3kr4cycpV3v/q9Xxy4IWu6orPq6s+7ZNIHzzn01P/i668mSXSLS2WdKsL558hg8/7NFc
-        tWmG28ndfSeORrtZhG+pdJLV9l6UcX6x5qJlV+/O/GQW4m/7+oft6qVPAw/Wfpven/lyfvaz
-        mWkpi4Lm1c7T+npLetId11aunbvnrbujUpX56uRM9VAOfUFlo/VWF3Rbl65ldnv6+G7xUs++
-        j3G/7ujFKJ5RCHtfMW3r8Zki2oZzfxqLhZuX8CqLtN89osRSnJFoqMVcVJwIALZ1V+M8BAAA
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a
-References: <CGME20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
+        with ESMTP id S229457AbjDNDSH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 23:18:07 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2063.outbound.protection.outlook.com [40.107.223.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6712D40;
+        Thu, 13 Apr 2023 20:18:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=huVbV0zw7FUJAzgPl8jc82/AXUOSU1Zw53z4xM4RMt6yRxuMgSiTkrSaUKmRLSK9BwEXTG7vxDel00jOVQbam1WfKRh4Aa3u1CpiOFzJ+NuYz3tDprSL3X5OQEJBrdMHSqWbZlLCkRe3CZtb/XTMtjEgLZVJtLIN4IxYaVY28bgdF6h6BYNY1fAifQx1oUDvScUznRLgpPqnFvQaW7toMJ1iEmDA4HPuwJPo0gwivynkcdIhy8BIUDTruixcnwvyBQsPSsTB4uX4gIr6QIA9Bf4pEVhhCbAZyT87wY/9obz0/fXBXP19QlFgFf2IYGePXxSNKedClYxTu6euUX28+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ukHFr/Cf0CqMPD6Pu7nmWReon2YQpMPQj1LlU5zw4fE=;
+ b=BHDSWmnRyurwfcIPqQjhDIHOk878W5mbYpPp6n5/n81z5bVIdgmwe9zXuNmvwKa9VNqAy951/393DJAN1sCkzjZ6vgwTcdd9sWUytd0ahGsR04BUiZOy3ls7S8K/qncvbktf20JFXPsfyyLLjjgNXKVUaHb0J6RJ6ef0CnCz1ei113BU6WeKbxgSW+Cat6PsrwLHqed9zuImj8nivNMDdy+CYCX4XFp9tsl57NksPMRDIh1CRNlCc8BKK2kT63H5rEgAhn2oLV1eEYwjv6S0xVkbZEtHdxs5LjgeNJu0X9KLwVxEleX5w1z9spoGKXaMFxkVMRgYAL6sHcKQTtwPpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ukHFr/Cf0CqMPD6Pu7nmWReon2YQpMPQj1LlU5zw4fE=;
+ b=SBKEwcaTf6QSsHG0wesVGPe0PKA65CcMVgQ4NsxdlLJvdkRf/phxXZWxGCK9NNdZPV+9TEbbCipWh6/a22LbeI3Z6Ar/dMIm4Osc0MtE/w1naR9boOeoJp0w9xkfHQ5PKOuJKWKrBqyzoI8gT0LR2ewfYM3S5Gdsm/mUSocKcus=
+Received: from BN1PR13CA0023.namprd13.prod.outlook.com (2603:10b6:408:e2::28)
+ by SJ1PR12MB6361.namprd12.prod.outlook.com (2603:10b6:a03:455::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
+ 2023 03:18:02 +0000
+Received: from BN8NAM11FT010.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e2:cafe::25) by BN1PR13CA0023.outlook.office365.com
+ (2603:10b6:408:e2::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.7 via Frontend
+ Transport; Fri, 14 Apr 2023 03:18:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT010.mail.protection.outlook.com (10.13.177.53) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6298.33 via Frontend Transport; Fri, 14 Apr 2023 03:18:02 +0000
+Received: from BLR5CG134614W.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 13 Apr
+ 2023 22:17:56 -0500
+From:   K Prateek Nayak <kprateek.nayak@amd.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <hpa@zytor.com>, <corbet@lwn.net>,
+        <jgross@suse.com>, <andrew.cooper3@citrix.com>,
+        <peterz@infradead.org>, <Jason@zx2c4.com>,
+        <thomas.lendacky@amd.com>, <puwen@hygon.cn>, <x86@kernel.org>,
+        <linux-doc@vger.kernel.org>, <oleksandr@natalenko.name>,
+        <bagasdotme@gmail.com>
+Subject: [PATCH v2.1 2/2] x86/Documentation: Add documentation about cluster
+Date:   Fri, 14 Apr 2023 08:47:43 +0530
+Message-ID: <20230414031743.875-1-kprateek.nayak@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230413172918.1500-3-kprateek.nayak@amd.com>
+References: <20230413172918.1500-3-kprateek.nayak@amd.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT010:EE_|SJ1PR12MB6361:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53753226-852a-42c4-8af8-08db3c96db2a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eJyVKoAzQoRtmE7ZIReXP4qZfPwJELOUOuRrUJes5ZYm2w9sBPObAWFtx7kGSVhUrjj0TjUM1phneMDFB3nmMRzwt5I9RWI4zqrqFzASS07G6q103gq60rJ1D3Vl5nld4vhmppmMCwZnb0yRCedk0JzneVveS2xdtpxoewDEuLkhmEDh30KlDhQPH3BypYmfy4J24g5cafIuobn3MMN/DbP91AOm9t4up1KiM2jMnZgiZdnrRExx0OERxQXT3my7U9QQDgDGDROxmd0ecFZX+HtoHXy59b17F0RTHrt5Rlg1lVlsLh6B/B8E1lfhWNadEHRlU9qa3msPV1b7HmmnI5xEqvOlgEXp63RPwLppgjRMvOQosbeqF3ofpbv2aEZfhZuVliFsxNJAwJJF4/NFwJTiSiSSp8IRSTcwJAStfiRcep94oO2s5LL+GLEpsffcAxQFxjgMJn3SI5MQs64nZ2oQFHJM4/cpg571Gu0o600dX1zC9lj9Gq4Y7MnstgvgtrshQcsH3RPZhMWjamOflRHXuLL8XJr+SRy6nSVuELdE1ZkpTzQPRaK8TO8j+8DHsziLFg5rBwMdUFxKz5+dlpXSFZcjVSorXxBj4jNxygN6sCc847QC+RtmRZiEhZ0Y8wRqju4aqOKDHSUq9C8U+siQ9i3iOvVGMygneybH7OVotXyeormNChHd5B1glGarlV/3IgZLC9JDMed3D6lWqj0OoXLBzwSsgzfxy2z8mi4=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(376002)(396003)(346002)(451199021)(40470700004)(36840700001)(46966006)(40460700003)(316002)(41300700001)(81166007)(26005)(1076003)(7696005)(16526019)(86362001)(356005)(47076005)(6916009)(2616005)(36860700001)(82310400005)(426003)(83380400001)(82740400003)(336012)(36756003)(4326008)(186003)(54906003)(40480700001)(70586007)(70206006)(8676002)(8936002)(5660300002)(2906002)(6666004)(7416002)(478600001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2023 03:18:02.2347
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53753226-852a-42c4-8af8-08db3c96db2a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT010.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6361
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch enables submit reset zone command asynchornously. It helps
-decrease average latency of write IOs in high utilization scenario by
-faster checkpointing.
+x86 processors map cluster to the L2 cache. Add documentation stating
+the same, and provide more information on the values and API related to
+CPU clusters exposed by the kernel.
 
-Signed-off-by: Daejun Park <daejun7.park@samsung.com>
+Suggested-by: Dave Hansen <dave.hansen@intel.com> # cluster_id description
+Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 ---
- Documentation/filesystems/f2fs.rst |  4 ++
- fs/f2fs/f2fs.h                     |  1 +
- fs/f2fs/segment.c                  | 92 +++++++++++++++++++++++++++++-
- fs/f2fs/super.c                    |  8 +++
- include/trace/events/f2fs.h        | 18 +++++-
- 5 files changed, 119 insertions(+), 4 deletions(-)
+o v2->v2.1
+  - Reword the cluster_id description based on Dave's suggestions.
+o v1->v2
+  - Reworded the definition of cluster on x86 based on Peter's
+    suggestion.
+  - Fixed double spacing before and after the cluster section.
+---
+ Documentation/x86/topology.rst | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-index 2055e72871fe..4cfabf831a79 100644
---- a/Documentation/filesystems/f2fs.rst
-+++ b/Documentation/filesystems/f2fs.rst
-@@ -342,6 +342,10 @@ discard_unit=%s		 Control discard unit, the argument can be "block", "segment"
- 			 default, it is helpful for large sized SMR or ZNS devices to
- 			 reduce memory cost by getting rid of fs metadata supports small
- 			 discard.
-+async_reset_zone         Enable the RESET WRITE POINTER command to be submitted asynchronously.
-+                         With this option, the RESET WRITE POINTER command can be processed by
-+                         the discard thread like a discard command. It can reduce checkpoint
-+                         latency by asynchronously checking for completion of the RESET WRITE POINTER command.
- memory=%s		 Control memory mode. This supports "normal" and "low" modes.
- 			 "low" mode is introduced to support low memory devices.
- 			 Because of the nature of low memory devices, in this mode, f2fs
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index 4e2596dacbf1..021e55c5d1a8 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -167,6 +167,7 @@ struct f2fs_mount_info {
- 					 * be aligned to this unit: block,
- 					 * segment or section
- 					 */
-+	bool async_zone_reset;          /* async zone reset */
- 	struct fscrypt_dummy_policy dummy_enc_policy; /* test dummy encryption */
- 	block_t unusable_cap_perc;	/* percentage for cap */
- 	block_t unusable_cap;		/* Amount of space allowed to be
-diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-index 45128694eefa..60cfe97c9dbd 100644
---- a/fs/f2fs/segment.c
-+++ b/fs/f2fs/segment.c
-@@ -1189,6 +1189,46 @@ static void __init_discard_policy(struct f2fs_sb_info *sbi,
- static void __update_discard_tree_range(struct f2fs_sb_info *sbi,
- 				struct block_device *bdev, block_t lstart,
- 				block_t start, block_t len);
-+
-+#ifdef CONFIG_BLK_DEV_ZONED
-+static int __submit_zone_reset_cmd(struct f2fs_sb_info *sbi,
-+				   struct discard_cmd *dc, blk_opf_t flag,
-+				   struct list_head *wait_list,
-+				   unsigned int *issued)
-+{
-+	struct discard_cmd_control *dcc = SM_I(sbi)->dcc_info;
-+	struct block_device *bdev = dc->bdev;
-+	struct bio *bio = bio_alloc(bdev, 0, REQ_OP_ZONE_RESET | flag, GFP_NOFS);
-+	unsigned long flags;
-+
-+	trace_f2fs_issue_reset_zone(bdev, SECTOR_FROM_BLOCK(dc->di.start));
-+
-+	spin_lock_irqsave(&dc->lock, flags);
-+	dc->state = D_SUBMIT;
-+	dc->bio_ref++;
-+	spin_unlock_irqrestore(&dc->lock, flags);
-+
-+	if (issued)
-+		(*issued)++;
-+
-+	atomic_inc(&dcc->queued_discard);
-+	dc->queued++;
-+	list_move_tail(&dc->list, wait_list);
-+
-+	/* sanity check on discard range */
-+	__check_sit_bitmap(sbi, dc->di.lstart, dc->di.lstart + dc->di.len);
-+
-+	bio->bi_iter.bi_sector = SECTOR_FROM_BLOCK(dc->di.start);
-+	bio->bi_private = dc;
-+	bio->bi_end_io = f2fs_submit_discard_endio;
-+	submit_bio(bio);
-+
-+	atomic_inc(&dcc->issued_discard);
-+
-+	return 0;
-+}
-+#endif
-+
- /* this function is copied from blkdev_issue_discard from block/blk-lib.c */
- static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
- 				struct discard_policy *dpolicy,
-@@ -1210,6 +1250,11 @@ static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
- 	if (is_sbi_flag_set(sbi, SBI_NEED_FSCK))
- 		return 0;
+diff --git a/Documentation/x86/topology.rst b/Documentation/x86/topology.rst
+index 7f58010ea86a..9de14f3f7783 100644
+--- a/Documentation/x86/topology.rst
++++ b/Documentation/x86/topology.rst
+@@ -33,6 +33,7 @@ historical nature and should be cleaned up.
+ The topology of a system is described in the units of:
  
-+#ifdef CONFIG_BLK_DEV_ZONED
-+	if (f2fs_sb_has_blkzoned(sbi) && bdev_is_zoned(bdev))
-+		return __submit_zone_reset_cmd(sbi, dc, flag, wait_list, issued);
-+#endif
-+
- 	trace_f2fs_issue_discard(bdev, dc->di.start, dc->di.len);
+     - packages
++    - cluster
+     - cores
+     - threads
  
- 	lstart = dc->di.lstart;
-@@ -1454,21 +1499,42 @@ static void __update_discard_tree_range(struct f2fs_sb_info *sbi,
- 	}
- }
+@@ -90,6 +91,22 @@ Package-related topology information in the kernel:
+         Cache. In general, it is a number identifying an LLC uniquely on the
+         system.
  
-+#ifdef CONFIG_BLK_DEV_ZONED
-+static void __queue_zone_reset_cmd(struct f2fs_sb_info *sbi,
-+		struct block_device *bdev, block_t blkstart, block_t blklen)
-+{
-+	block_t lblkstart = blkstart;
++Clusters
++========
++A cluster consists of threads of one or more cores sharing the same L2 cache.
 +
-+	if (f2fs_is_multi_device(sbi)) {
-+		int devi = f2fs_target_device_index(sbi, blkstart);
++Cluster-related topology information in the kernel:
 +
-+		blkstart -= FDEV(devi).start_blk;
-+	}
++  - cluster_id:
 +
-+	trace_f2fs_queue_reset_zone(bdev, blkstart);
++    A per-CPU variable containing:
 +
-+	mutex_lock(&SM_I(sbi)->dcc_info->cmd_lock);
-+	__insert_discard_cmd(sbi, bdev, lblkstart, blkstart, blklen);
-+	mutex_unlock(&SM_I(sbi)->dcc_info->cmd_lock);
-+}
-+#endif
++      - Upper bits extracted from the APIC ID.  CPUs which have the same value
++        in these bits share an L2 and have the same cluster_id.
 +
- static void __queue_discard_cmd(struct f2fs_sb_info *sbi,
- 		struct block_device *bdev, block_t blkstart, block_t blklen)
- {
- 	block_t lblkstart = blkstart;
++        CPUs for which cluster information is unavailable will show 65535
++        (BAD_APICID) as the cluster_id.
++
+ Cores
+ =====
+ A core consists of 1 or more threads. It does not matter whether the threads
+@@ -125,6 +142,11 @@ Thread-related topology information in the kernel:
  
-+	trace_f2fs_queue_discard(bdev, blkstart, blklen);
-+
- 	if (!f2fs_bdev_support_discard(bdev))
- 		return;
+     The number of online threads is also printed in /proc/cpuinfo "siblings."
  
--	trace_f2fs_queue_discard(bdev, blkstart, blklen);
--
- 	if (f2fs_is_multi_device(sbi)) {
- 		int devi = f2fs_target_device_index(sbi, blkstart);
++  - topology_cluster_cpumask():
++
++    The cpumask contains all online threads in the cluster to which a thread
++    belongs.
++
+   - topology_sibling_cpumask():
  
- 		blkstart -= FDEV(devi).start_blk;
- 	}
-+
- 	mutex_lock(&SM_I(sbi)->dcc_info->cmd_lock);
- 	__update_discard_tree_range(sbi, bdev, lblkstart, blkstart, blklen);
- 	mutex_unlock(&SM_I(sbi)->dcc_info->cmd_lock);
-@@ -1719,7 +1785,22 @@ static void f2fs_wait_discard_bio(struct f2fs_sb_info *sbi, block_t blkaddr)
- 	dc = __lookup_discard_cmd(sbi, blkaddr);
- 	if (dc) {
- 		if (dc->state == D_PREP) {
-+#ifdef CONFIG_BLK_DEV_ZONED
-+			if (f2fs_sb_has_blkzoned(sbi) &&
-+			    bdev_is_zoned(dc->bdev)) {
-+				struct discard_policy dpolicy;
-+				/* force submit zone reset */
-+				__init_discard_policy(sbi, &dpolicy,
-+						      DPOLICY_FORCE, 1);
-+				__submit_discard_cmd(sbi, &dpolicy, dc, NULL);
-+				dc->ref++;
-+				need_wait = true;
-+			} else {
-+				__punch_discard_cmd(sbi, dc, blkaddr);
-+			}
-+#else
- 			__punch_discard_cmd(sbi, dc, blkaddr);
-+#endif
- 		} else {
- 			dc->ref++;
- 			need_wait = true;
-@@ -1869,6 +1950,13 @@ static int __f2fs_issue_discard_zone(struct f2fs_sb_info *sbi,
- 				 blkstart, blklen);
- 			return -EIO;
- 		}
-+
-+		if (likely(!is_sbi_flag_set(sbi, SBI_POR_DOING)) &&
-+			   F2FS_OPTION(sbi).async_zone_reset) {
-+			__queue_zone_reset_cmd(sbi, bdev, lblkstart, blklen);
-+			return 0;
-+		}
-+
- 		trace_f2fs_issue_reset_zone(bdev, blkstart);
- 		return blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
- 					sector, nr_sects, GFP_NOFS);
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 7d0202f7b317..48198112cbbc 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -162,6 +162,7 @@ enum {
- 	Opt_gc_merge,
- 	Opt_nogc_merge,
- 	Opt_discard_unit,
-+	Opt_async_zone_reset,
- 	Opt_memory_mode,
- 	Opt_age_extent_cache,
- 	Opt_err,
-@@ -241,6 +242,7 @@ static match_table_t f2fs_tokens = {
- 	{Opt_gc_merge, "gc_merge"},
- 	{Opt_nogc_merge, "nogc_merge"},
- 	{Opt_discard_unit, "discard_unit=%s"},
-+	{Opt_async_zone_reset, "async_zone_reset"},
- 	{Opt_memory_mode, "memory=%s"},
- 	{Opt_age_extent_cache, "age_extent_cache"},
- 	{Opt_err, NULL},
-@@ -1249,6 +1251,9 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
- 			}
- 			kfree(name);
- 			break;
-+		case Opt_async_zone_reset:
-+			F2FS_OPTION(sbi).async_zone_reset = true;
-+			break;
- 		case Opt_memory_mode:
- 			name = match_strdup(&args[0]);
- 			if (!name)
-@@ -2047,6 +2052,9 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
- 	if (test_opt(sbi, ATGC))
- 		seq_puts(seq, ",atgc");
+     The cpumask contains all online threads in the core to which a thread
+@@ -138,6 +160,10 @@ Thread-related topology information in the kernel:
  
-+	if (F2FS_OPTION(sbi).async_zone_reset)
-+		seq_puts(seq, ",async_zone_reset");
-+
- 	if (F2FS_OPTION(sbi).memory_mode == MEMORY_MODE_NORMAL)
- 		seq_printf(seq, ",memory=%s", "normal");
- 	else if (F2FS_OPTION(sbi).memory_mode == MEMORY_MODE_LOW)
-diff --git a/include/trace/events/f2fs.h b/include/trace/events/f2fs.h
-index 99cbc5949e3c..ee1477de8324 100644
---- a/include/trace/events/f2fs.h
-+++ b/include/trace/events/f2fs.h
-@@ -1512,7 +1512,7 @@ DEFINE_EVENT(f2fs_discard, f2fs_remove_discard,
- 	TP_ARGS(dev, blkstart, blklen)
- );
+     The physical package ID to which a thread belongs.
  
--TRACE_EVENT(f2fs_issue_reset_zone,
-+DECLARE_EVENT_CLASS(f2fs_reset_zone,
++  - topology_cluster_id();
++
++    The ID of the cluster to which a thread belongs.
++
+   - topology_core_id();
  
- 	TP_PROTO(struct block_device *dev, block_t blkstart),
- 
-@@ -1528,11 +1528,25 @@ TRACE_EVENT(f2fs_issue_reset_zone,
- 		__entry->blkstart = blkstart;
- 	),
- 
--	TP_printk("dev = (%d,%d), reset zone at block = 0x%llx",
-+	TP_printk("dev = (%d,%d), zone at block = 0x%llx",
- 		show_dev(__entry->dev),
- 		(unsigned long long)__entry->blkstart)
- );
- 
-+DEFINE_EVENT(f2fs_reset_zone, f2fs_queue_reset_zone,
-+
-+	TP_PROTO(struct block_device *dev, block_t blkstart),
-+
-+	TP_ARGS(dev, blkstart)
-+);
-+
-+DEFINE_EVENT(f2fs_reset_zone, f2fs_issue_reset_zone,
-+
-+	TP_PROTO(struct block_device *dev, block_t blkstart),
-+
-+	TP_ARGS(dev, blkstart)
-+);
-+
- TRACE_EVENT(f2fs_issue_flush,
- 
- 	TP_PROTO(struct block_device *dev, unsigned int nobarrier,
+     The ID of the core to which a thread belongs. It is also printed in /proc/cpuinfo
 -- 
-2.25.1
+2.34.1
 
