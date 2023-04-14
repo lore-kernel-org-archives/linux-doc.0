@@ -2,147 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EDAC77B6F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 10:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2221C77B70
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 11:01:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbjDNKse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 06:48:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52930 "EHLO
+        id S229775AbjDNLBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 07:01:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjDNKsd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 06:48:33 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4AE59C5;
-        Fri, 14 Apr 2023 03:48:32 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4516766031C9;
-        Fri, 14 Apr 2023 11:48:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681469303;
-        bh=FylSFIVBnE7RXP+PfgYkJCcaPRTztLjwILG6wpZ/BJI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=UWo5Cr6rDZb6UXxn1c6QDkxl9wIWtGPQLHecpLErzGMSW/rLafm9chY1DQnmoIMGs
-         mZ2GeVL5CidyylhE9IjbRidVWkPbFCxkf2vqWTeTfheeHsv6/DJu9JizqbuKfPYwVn
-         no5tVt4CEjnHDUiaidhbEgKcqnfTsR99dKJiDgnRNFbivJIe7X/L2E+GVomWh2F+YQ
-         JCzw8msfQdsrDlwydHVaHsU0je0J7SKtykzZItKwVuDcEtyov2KoZZCb/LtUs0vJy8
-         gj6FVTIQzoNtgbybuhAXQJlDmHsmGlt3jfYW98XrqcAlzWIZNFjqea5bIUOdaVLid8
-         rXd9P/7vM5Cdg==
-Message-ID: <a157c5e7-d90c-5b99-42bb-ae02b6677732@collabora.com>
-Date:   Fri, 14 Apr 2023 12:48:19 +0200
+        with ESMTP id S229450AbjDNLBM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 07:01:12 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE5F59C5;
+        Fri, 14 Apr 2023 04:01:07 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id o2so17929301plg.4;
+        Fri, 14 Apr 2023 04:01:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681470067; x=1684062067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SXpcj70JoUaJaQ0NFshY48FX4MFUJATqGyPFJPRajLc=;
+        b=EApi17XEoO7KVLD25sQ3EXFiWunGLgsXGTs5ZivpM9H0+tlXadOfm2LoeDTpiMvORF
+         pS1IuXe0wT6hrCKl90O3/JeOM0dhKy7ACjlNIjElFe/RfEBGlDthJQhz+PIXaj8fm75z
+         4pO6BaxQIYhKMjgtBfBmajBpoj99NOac/ryk2HZbZTugnV6gSlgWJng7knM7D4sXerD+
+         EEBzPCNvTDXRvFQxnsbTehkoEPc1t7oXu8LO4NfpHT22hWTdm6fqqlylY+SvGgpmOpES
+         DraSrGtOx/8K8XMdAPGtyMngsjXiTxkXOlwWYKBWId0xr3KJiibobtrxwsSL4HA8V8AA
+         esog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681470067; x=1684062067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SXpcj70JoUaJaQ0NFshY48FX4MFUJATqGyPFJPRajLc=;
+        b=P6qoUq1UcskdgaLrkWfSUKCVAKOlYQhYudwx0aW/PUHUbyZwJGWlUeAK2ty29JSHqh
+         YCRQv8NvxYYvhRv5o8/cFaruEY5l/0Ny6P9TuWyvdLL+ofboRNohFxxWgCOJkoG8HWK2
+         Cer7KrJRPsJOPLE4yjiZVJxugU47yi280WuQfVmjeJXrd8qD6gK13vqlnHL5tvnBGjl9
+         7u3xwoWCyylBe2XsJG+lvRifte2/iFxwQt1FrRM6d5MxbPL3cLkSy716XQ3EVo0j7Lx1
+         VaD8VJopbmHbhOqJx0iFgBbpsHF/qo/gv9BjfxfauZ8/lKSD84jfG+AN7aHcaiTSPAZt
+         abeg==
+X-Gm-Message-State: AAQBX9eZixw4fq41adtdyxWKmAXLM3u+Du0WvzFPxsNMD8Dx7ag1m94h
+        IY0aHD+N5UZp7otx1fxd7xT9jhcIZdfU2yssbvY=
+X-Google-Smtp-Source: AKy350ZW1b+1o62lbe6i9sQhHNGwG+haYfV47teIXXPHheQIdmgf7PdehSxkOUkwSyi3HrXGIoYZZQ==
+X-Received: by 2002:a17:902:ecc4:b0:19a:9880:175f with SMTP id a4-20020a170902ecc400b0019a9880175fmr2733094plh.51.1681470067189;
+        Fri, 14 Apr 2023 04:01:07 -0700 (PDT)
+Received: from CLOUDLIANG-MB2.tencent.com ([103.7.29.32])
+        by smtp.gmail.com with ESMTPSA id r4-20020a170902ea4400b00194caf3e975sm2835821plg.208.2023.04.14.04.01.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Apr 2023 04:01:06 -0700 (PDT)
+From:   Jinrong Liang <ljr.kernel@gmail.com>
+X-Google-Original-From: Jinrong Liang <cloudliang@tencent.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Like Xu <like.xu.linux@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jinrong Liang <cloudliang@tencent.com>,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] KVM: selftests: Add tests for pmu event filter
+Date:   Fri, 14 Apr 2023 19:00:49 +0800
+Message-Id: <20230414110056.19665-1-cloudliang@tencent.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce
- GenieZone hypervisor support
-Content-Language: en-US
-To:     =?UTF-8?B?WWktRGUgV3UgKOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?= 
-        <Yingshiuan.Pan@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "will@kernel.org" <will@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        =?UTF-8?B?TVkgQ2h1YW5nICjojormmI7ouo0p?= <MY.Chuang@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?UTF-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= 
-        <PeiLun.Suei@mediatek.com>,
-        =?UTF-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?= 
-        <Liju-clr.Chen@mediatek.com>,
-        =?UTF-8?B?SmFkZXMgU2hpaCAo5pa95ZCR546oKQ==?= 
-        <jades.shih@mediatek.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        =?UTF-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?= 
-        <shawn.hsiao@mediatek.com>,
-        =?UTF-8?B?TWlsZXMgQ2hlbiAo6Zmz5rCR5qi6KQ==?= 
-        <Miles.Chen@mediatek.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        =?UTF-8?B?SXZhbiBUc2VuZyAo5pu+5b+X6LuSKQ==?= 
-        <ivan.tseng@mediatek.com>,
-        =?UTF-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= 
-        <Ze-yu.Wang@mediatek.com>
-References: <20230413090735.4182-1-yi-de.wu@mediatek.com>
- <20230413090735.4182-4-yi-de.wu@mediatek.com>
- <1aa701cc-92ca-71be-0663-df4bfae66c2f@linaro.org>
- <5c1d69c8-d973-fa7b-1f14-c72729ff5594@gmail.com>
- <533a1a9b653cf63f1e5df7f95d1b23902809561d.camel@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <533a1a9b653cf63f1e5df7f95d1b23902809561d.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Il 14/04/23 10:43, Yi-De Wu (吳一德) ha scritto:
-> On Thu, 2023-04-13 at 19:08 +0200, Matthias Brugger wrote:
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> On 13/04/2023 14:55, Krzysztof Kozlowski wrote:
->>> On 13/04/2023 11:07, Yi-De Wu wrote:
->>>> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
->>>>
->>>> GenieZone is MediaTek proprietary hypervisor solution, and it is
->>>> running
->>>> in EL2 stand alone as a type-I hypervisor. This patch exports a
->>>> set of
->>>> ioctl interfaces for userspace VMM (e.g., crosvm) to operate
->>>> guest VMs
->>>> lifecycle (creation, running, and destroy) on GenieZone.
->>>>
->>>> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
->>>> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
->>>> ---
->>>>    arch/arm64/include/uapi/asm/gzvm_arch.h       |  79 ++++
->>>>    drivers/soc/mediatek/Kconfig                  |   2 +
->>>>    drivers/soc/mediatek/Makefile                 |   1 +
->>>>    drivers/soc/mediatek/virt/geniezone/Kconfig   |  17 +
->>>
->>> Hypervisor drivers do not go to soc. Stop shoving there everything
->>> from
->>> your downstream. Find appropriate directory, e.g. maybe
->>> drivers/virt.
->>
->> Acked, what is the reason you want to add this to drivers/soc instead
->> of
->> drivers/virt?
->>
->> Regards,
->> Matthias
->>
-> Noted. We would take your advice and move it from
-> drivers/soc/mediatek/virt to /drivers/virt on next version.
-> 
-> The reason we put it under our soc/ is that the drver is highly
-> propietary for mediatek's product and for aarch64 only. Maybe it's not
-> general enough to put in under /drivers/virt.
+From: Jinrong Liang <cloudliang@tencent.com>
 
-This is the same reason why mediatek-drm is in drivers/gpu/drm/ and the same why
-mediatek-cpufreq is in drivers/cpufreq/.
+Hi,
 
-I know that this is a MediaTek specific implementation, but it *is* a hypervisor
-driver, hence it belongs to the hypervisor drivers folder.
-It's not even granted that this will not support other MediaTek architectures in
-the future, but that's not a discussion to do right here and right now, and it's
-anyway irrelevant in this moment.
+This patch set adds some tests to ensure consistent PMU performance event
+filter behavior. Specifically, the patches aim to improve KVM's PMU event
+filter by strengthening the test coverage, adding documentation, and making
+other small changes. 
 
-By the way, good job with upstreaming your drivers targeting MediaTek Android SW!
-I'm enthusiast to see that.
+The first patch replaces int with uint32_t for nevents to ensure consistency
+and readability in the code. The second patch adds fixed_counter_bitmap to
+create_pmu_event_filter() to support the use of the same creator to control
+the use of guest fixed counters. The third patch adds test cases for
+unsupported input values in PMU filter, including unsupported "action"
+values, unsupported "flags" values, and unsupported "nevents" values. Also,
+it tests setting non-existent fixed counters in the fixed bitmap doesn't
+fail.
 
-Regards,
-Angelo
+The fourth patch updates the documentation for KVM_SET_PMU_EVENT_FILTER ioctl
+to include a detailed description of how fixed performance events are handled
+in the pmu filter. The fifth patch adds tests to cover that pmu_event_filter
+works as expected when applied to fixed performance counters, even if there
+is no fixed counter exists. The sixth patch adds a test to ensure that setting
+both generic and fixed performance event filters does not affect the consistency
+of the fixed performance filter behavior in KVM. The seventh patch adds a test
+to verify the behavior of the pmu event filter when an incomplete
+kvm_pmu_event_filter structure is used.
+
+These changes help to ensure that KVM's PMU event filter functions as expected
+in all supported use cases. These patches have been tested and verified to
+function properly.
+
+Thanks for your review and feedback.
+
+Sincerely,
+
+Jinrong Liang
+
+Jinrong Liang (7):
+  KVM: selftests: Replace int with uint32_t for nevents
+  KVM: selftests: Apply create_pmu_event_filter() to fixed ctrs
+  KVM: selftests: Test unavailable event filters are rejected
+  KVM: x86/pmu: Add documentation for fixed ctr on PMU filter
+  KVM: selftests: Check if pmu_event_filter meets expectations on fixed
+    ctrs
+  KVM: selftests: Check gp event filters without affecting fixed event
+    filters
+  KVM: selftests: Test pmu event filter with incompatible
+    kvm_pmu_event_filter
+
+ Documentation/virt/kvm/api.rst                |  21 ++
+ .../kvm/x86_64/pmu_event_filter_test.c        | 239 ++++++++++++++++--
+ 2 files changed, 243 insertions(+), 17 deletions(-)
+
+
+base-commit: a25497a280bbd7bbcc08c87ddb2b3909affc8402
+-- 
+2.31.1
 
