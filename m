@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8098EC7EE26
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24DF1C77B77
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbjDNAMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 20:12:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44028 "EHLO
+        id S230423AbjDNAMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 20:12:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230289AbjDNAMD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:03 -0400
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD5DC359A
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:02 -0700 (PDT)
-Received: by mail-pj1-x104a.google.com with SMTP id pm2-20020a17090b3c4200b002470b605406so1551828pjb.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:02 -0700 (PDT)
+        with ESMTP id S230028AbjDNAMH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:07 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5A83C21
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:06 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id t66-20020a254645000000b00b74680a7904so17509346yba.15
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681431122; x=1684023122;
+        d=google.com; s=20221208; t=1681431125; x=1684023125;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BkEj6q2IVKaYOP6wiiRLnj5ts2mBBZa+OIxL/GSTf98=;
-        b=hEKe7KJhnbtB7HOx0Et2GGRR4tPoUqzTdWnfUxGGsyi9EoTWrZhVqGnrZvvHuOndFb
-         TZMGSQ8vslsUBzDoxn9iNYO9LNL12Zs3VwW97btbxF/u5m0XCRPh93bGl4sbvEzqxT6/
-         vZR2E4QR8bsqooC9JFGEbUD4GNGVdkQWEnhHWe0gty7hNJfMUG+x6qUJrqOv1s31GKD5
-         /0uqMrvUHdk6drQi8pnb3EXthHB7+IGInrY92tJ9ElhNKYIt+IMYZonjXRQ9OCvmz8n+
-         DadYc4CMCAJvwcgOviymbXY411dscM1zCutEA5OdbSJuHP8nTNCFxIaU7gllAACoSnWm
-         TMoA==
+        bh=W+vIzhvgnDTeM5yLC6D6DMUdvSTbR9axXaSgRhroXf8=;
+        b=mW9eVt20/JcXUsgxb+xjqD4VG4js+2q/p5hJJDDZIcnukRm0syQv/TXqiec2heBNck
+         /LJ2OaI6hIksRPbp9XAhh99LqDjoZM2pQCkJ+bmJzc8yZHZYkwMAwFEhAsHbl30CzShC
+         AnjRJgdI7su71kGpp2x6zyUwFmi0ZsMW7HG1IhDvuRpLPR8dBsIbCcLfLX3bb41Nf7ID
+         fPGnb4gcd1xumZwEpzLDR6LXrZNMCwms/UiqwFrs/MG66By8fMMhSBTwwbfU9CItCsXE
+         IVTc6CfCREM1gKWUMxH19y2K58Mf0+JvqHllDRZBSVXeFCA0+XBcsiL9bPxv2h5LcfvI
+         JjvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681431122; x=1684023122;
+        d=1e100.net; s=20221208; t=1681431125; x=1684023125;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BkEj6q2IVKaYOP6wiiRLnj5ts2mBBZa+OIxL/GSTf98=;
-        b=Rih3U05YWAM3TlLoTTA/rywxcYvtSI/TvAvIzNyqnxIICSo1i+2wcZNPv4fEHLqTbK
-         umXSNwD7Zfe0kCbcmOG4nwaapQ2ExnifipqdgmtYHk9gGVImzCzdmtP3ZCXA7yDJNtts
-         RwOxb8z4fo98XDFwHKqioPXMxogQsyALXrTABnrJEW4T79CRxjoLkNYmjmyyw4zEaA4L
-         TdsraTWDFFkaenOjr5L3BKPRK/btoLOPSU639rAclk0AwzT8VZUfWcCkogN9cfVvZAEN
-         XxG5eNEKqvx5QfMYh2FgR+e5YBLESd6SNOD5O3x8gRFI1x5YPBHE1/0aq/OcOmhirckd
-         tKpQ==
-X-Gm-Message-State: AAQBX9eLudkmnc/Zz2K14hstAWXXBgLbZcQXycAj2QErHDs7lgpajwok
-        y3E4y28GbJ+UAQRFlyBWH/D6/Tk93Pcp5KBkbA==
-X-Google-Smtp-Source: AKy350avtllPlWwvIfTF15qlG1lqqPqwu/NAHA4tctgmwlguwviMhGUhrJ6084VLBRdQnA8mKuN5Lp3jk9IuHlWLyQ==
+        bh=W+vIzhvgnDTeM5yLC6D6DMUdvSTbR9axXaSgRhroXf8=;
+        b=O+Cg4yugrWb5xOB00ECERL1CsRRMgu2QGhyXn8XnAzer36oWQFyhBs4b2aPV6hr2W3
+         LzzA9ALXX0lpIKRIjd9L4YgeoTnGnydMUoDT0dPAq162wDhEDeCbHyrXcK3TZ1wAAjHL
+         BzQ1OIgabNBak3ZWHQo1ilkbZO6CC2nNfkkHXEAKqw2rvsibr9tbx92+I6dmpKZ8/cE0
+         qCAgCl6UhthTErVY3Z8fW/NRSmpgTbUf1AHolW2OaptLmVe8osVYwVwZSXm0s8T2c2OW
+         gQ/od9Qr6gZZcWQnD7cxN2KKoo5hW7CK6GhmoAFNfreo/9qG73vQLSoE9Y0Q2uLqV43s
+         hSBQ==
+X-Gm-Message-State: AAQBX9dmbnlueSgQpaHNPTNwOBz3FqRzIWzklzNA0s0O6oN5oFhKEvzC
+        Sf6KQWiCf1EdIVnVCOhvg/0TZxPkop59Vii0Wg==
+X-Google-Smtp-Source: AKy350b34CBn9n2raOJ+zF+ClQSsfsH/2Lr8AcQiejmlqBPjPibu2aqY4QIJU2kHR7dXtCx3CNEm4OqoAAxVmXTquQ==
 X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a63:1c09:0:b0:507:3e33:43e3 with SMTP
- id c9-20020a631c09000000b005073e3343e3mr240709pgc.7.1681431122125; Thu, 13
- Apr 2023 17:12:02 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 00:11:51 +0000
+ (user=ackerleytng job=sendgmr) by 2002:a81:4328:0:b0:545:4133:fc40 with SMTP
+ id q40-20020a814328000000b005454133fc40mr2444452ywa.9.1681431125361; Thu, 13
+ Apr 2023 17:12:05 -0700 (PDT)
+Date:   Fri, 14 Apr 2023 00:11:53 +0000
 In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
 Mime-Version: 1.0
 References: <cover.1681430907.git.ackerleytng@google.com>
 X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-Message-ID: <cf43d4daa5e8dba22d2416cf46f586afcff0a33e.1681430907.git.ackerleytng@google.com>
-Subject: [RFC PATCH 2/6] mm: mempolicy: Refactor out mpol_init_from_nodemask
+Message-ID: <17bb8e925c08f27c627cd1f2bbb2714daf590c1d.1681430907.git.ackerleytng@google.com>
+Subject: [RFC PATCH 4/6] mm: mempolicy: Add and expose mpol_create
 From:   Ackerley Tng <ackerleytng@google.com>
 To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -79,66 +79,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Refactor out mpol_init_from_nodemask() to simplify logic in do_mbind().
+mpol_create builds a mempolicy based on mode, nmask and maxnode.
 
-mpol_init_from_nodemask() will be used to perform similar
-functionality in do_memfd_restricted_bind() in a later patch.
+mpol_create is exposed for use in memfd_restricted_bind() in a later
+patch.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- mm/mempolicy.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+ include/linux/mempolicy.h |  2 ++
+ mm/mempolicy.c            | 39 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
+diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+index 9a2a2dd95432..15facd9de087 100644
+--- a/include/linux/mempolicy.h
++++ b/include/linux/mempolicy.h
+@@ -125,6 +125,8 @@ struct shared_policy {
+ };
+ 
+ int vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *dst);
++struct mempolicy *mpol_create(
++	unsigned long mode, const unsigned long __user *nmask, unsigned long maxnode)
+ void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol);
+ int __mpol_set_shared_policy(struct shared_policy *info, struct mempolicy *mpol,
+ 			     unsigned long pgoff_start, unsigned long npages);
 diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index a256a241fd1d..a2655b626731 100644
+index f3fa5494e4a8..f4fe241c17ff 100644
 --- a/mm/mempolicy.c
 +++ b/mm/mempolicy.c
-@@ -1254,6 +1254,25 @@ static struct page *new_page(struct page *page, unsigned long start)
+@@ -3181,3 +3181,42 @@ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
+ 		p += scnprintf(p, buffer + maxlen - p, ":%*pbl",
+ 			       nodemask_pr_args(&nodes));
  }
- #endif
- 
-+static long mpol_init_from_nodemask(struct mempolicy *mpol, const nodemask_t *nmask,
-+				    bool always_unlock)
++
++/**
++ * mpol_create - build mempolicy based on mode, nmask and maxnode
++ * @mode:  policy mode, as in MPOL_MODE_FLAGS
++ * @nmask:  node mask from userspace
++ * @maxnode:  number of valid bits in nmask
++ *
++ * Will allocate a new struct mempolicy that has to be released with
++ * mpol_put. Will also take and release the write lock mmap_lock in current->mm.
++ */
++struct mempolicy *mpol_create(
++	unsigned long mode, const unsigned long __user *nmask, unsigned long maxnode)
 +{
-+	long err;
-+	NODEMASK_SCRATCH(scratch);
++	int err;
++	unsigned short mode_flags;
++	nodemask_t nodes;
++	int lmode = mode;
++	struct mempolicy *mpol;
 +
-+	if (!scratch)
-+		return -ENOMEM;
++	err = sanitize_mpol_flags(&lmode, &mode_flags);
++	if (err)
++		return ERR_PTR(err);
 +
-+	/* Cannot take lock before allocating in NODEMASK_SCRATCH */
-+	mmap_write_lock(current->mm);
-+	err = mpol_set_nodemask(mpol, nmask, scratch);
-+	if (always_unlock || err)
-+		mmap_write_unlock(current->mm);
++	err = get_nodes(&nodes, nmask, maxnode);
++	if (err)
++		return ERR_PTR(err);
 +
-+	NODEMASK_SCRATCH_FREE(scratch);
-+	return err;
++	mpol = mpol_new(mode, mode_flags, &nodes);
++	if (IS_ERR(mpol))
++		return mpol;
++
++	err = mpol_init_from_nodemask(mpol, &nodes, true);
++	if (err) {
++		mpol_put(mpol);
++		return ERR_PTR(err);
++	}
++
++	return mpol;
 +}
-+
- static long do_mbind(unsigned long start, unsigned long len,
- 		     unsigned short mode, unsigned short mode_flags,
- 		     nodemask_t *nmask, unsigned long flags)
-@@ -1306,17 +1325,8 @@ static long do_mbind(unsigned long start, unsigned long len,
- 
- 		lru_cache_disable();
- 	}
--	{
--		NODEMASK_SCRATCH(scratch);
--		if (scratch) {
--			mmap_write_lock(mm);
--			err = mpol_set_nodemask(new, nmask, scratch);
--			if (err)
--				mmap_write_unlock(mm);
--		} else
--			err = -ENOMEM;
--		NODEMASK_SCRATCH_FREE(scratch);
--	}
-+
-+	err = mpol_init_from_nodemask(new, nmask, false);
- 	if (err)
- 		goto mpol_out;
- 
 -- 
 2.40.0.634.g4ca3ef3211-goog
 
