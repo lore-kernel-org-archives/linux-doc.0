@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24379C77B79
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8098EC7EE26
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230304AbjDNAMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 20:12:03 -0400
+        id S230369AbjDNAMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 20:12:09 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230142AbjDNAMC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:02 -0400
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53033C0B
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:00 -0700 (PDT)
-Received: by mail-pl1-x64a.google.com with SMTP id k7-20020a170902c40700b001a20f75cd40so8973234plk.22
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:00 -0700 (PDT)
+        with ESMTP id S230289AbjDNAMD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:03 -0400
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD5DC359A
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:02 -0700 (PDT)
+Received: by mail-pj1-x104a.google.com with SMTP id pm2-20020a17090b3c4200b002470b605406so1551828pjb.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681431120; x=1684023120;
+        d=google.com; s=20221208; t=1681431122; x=1684023122;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LGz+M9nFtzHbGGbLaqDB42+XLCRk5tnoOBaeHE6w0dg=;
-        b=S5LluL5NFzRfMffvrC48pA8vM9jBztEWtYOdVu6RC2ufBdtUUSqD+XyBpvK1yq+IN2
-         IHnZhiT1W0yssxQ4r7Y9clMkV6zvB2ogiOPODlbRwrRyDr07/qDDpZBBDVLk/N65uZzy
-         CN1ozoAyt0GCn/Q/UB/ZvGZUO3F2PMmedv6i9jH6jJ0uY0cAH01PJa7G0h1cPoPbYq3f
-         IdXBPJH4a6Ro/C6Sct1ltwBhbcLCAMsdz4Y30Y2jgpBNq+x1h2YwjODMyjFmoi8MJRCf
-         dDhFwUgzHhEfG/8I1Qg7KrBG7Crz9lPVWk5qe+WYi0MTtv3ZN9nLmsTMDMwmdbsD2L57
-         OQPA==
+        bh=BkEj6q2IVKaYOP6wiiRLnj5ts2mBBZa+OIxL/GSTf98=;
+        b=hEKe7KJhnbtB7HOx0Et2GGRR4tPoUqzTdWnfUxGGsyi9EoTWrZhVqGnrZvvHuOndFb
+         TZMGSQ8vslsUBzDoxn9iNYO9LNL12Zs3VwW97btbxF/u5m0XCRPh93bGl4sbvEzqxT6/
+         vZR2E4QR8bsqooC9JFGEbUD4GNGVdkQWEnhHWe0gty7hNJfMUG+x6qUJrqOv1s31GKD5
+         /0uqMrvUHdk6drQi8pnb3EXthHB7+IGInrY92tJ9ElhNKYIt+IMYZonjXRQ9OCvmz8n+
+         DadYc4CMCAJvwcgOviymbXY411dscM1zCutEA5OdbSJuHP8nTNCFxIaU7gllAACoSnWm
+         TMoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681431120; x=1684023120;
+        d=1e100.net; s=20221208; t=1681431122; x=1684023122;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LGz+M9nFtzHbGGbLaqDB42+XLCRk5tnoOBaeHE6w0dg=;
-        b=EG6RQmcfYp1cNN5URSekfpg6IY9CXeDSmc2AqTUnrC6Xgn9eNKCRgfrVpqMuvPynh/
-         8rq+oRbWDg9wVAIbHhczYh0Wqc4rRSMZPDj5EsPZm1tzDTrsh6YyVtRK5Erf+IDV5FkK
-         IfBnChn4ulYDK60CGZqx6Un20P+2RAo/PrNOakxWN6NxmYJyNMfsuylIbniohvR+zXdz
-         LPvMmL9hf3JnuIR5KmNRj053JFM8OO/V9A+bgprWVaKIrGMljGHtTtlSngPvWuxJXTPV
-         68qFVn639v9UYjCy+AyG6TsqN+FJ6SDfT9EJLOjRvB5115qmFgunip57goBwOTwqQRIl
-         qLww==
-X-Gm-Message-State: AAQBX9d7U0bJkJWjTlwMcQ2QNctYiFsP5KG31ufy1V2LtnNfotzSf4O+
-        DLU4d8gM/nAFBws8L0NFcV+xxnynHImjoji9kg==
-X-Google-Smtp-Source: AKy350YIYIzzkTKMTgAPyGCMhA2HHi565MHAj4RU3xofJGGDi/ggUb7Aj3J6+1abX8zL+AMGXGGHN+6shLHAP2f2mA==
+        bh=BkEj6q2IVKaYOP6wiiRLnj5ts2mBBZa+OIxL/GSTf98=;
+        b=Rih3U05YWAM3TlLoTTA/rywxcYvtSI/TvAvIzNyqnxIICSo1i+2wcZNPv4fEHLqTbK
+         umXSNwD7Zfe0kCbcmOG4nwaapQ2ExnifipqdgmtYHk9gGVImzCzdmtP3ZCXA7yDJNtts
+         RwOxb8z4fo98XDFwHKqioPXMxogQsyALXrTABnrJEW4T79CRxjoLkNYmjmyyw4zEaA4L
+         TdsraTWDFFkaenOjr5L3BKPRK/btoLOPSU639rAclk0AwzT8VZUfWcCkogN9cfVvZAEN
+         XxG5eNEKqvx5QfMYh2FgR+e5YBLESd6SNOD5O3x8gRFI1x5YPBHE1/0aq/OcOmhirckd
+         tKpQ==
+X-Gm-Message-State: AAQBX9eLudkmnc/Zz2K14hstAWXXBgLbZcQXycAj2QErHDs7lgpajwok
+        y3E4y28GbJ+UAQRFlyBWH/D6/Tk93Pcp5KBkbA==
+X-Google-Smtp-Source: AKy350avtllPlWwvIfTF15qlG1lqqPqwu/NAHA4tctgmwlguwviMhGUhrJ6084VLBRdQnA8mKuN5Lp3jk9IuHlWLyQ==
 X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:902:bd90:b0:19a:f9d9:28d4 with
- SMTP id q16-20020a170902bd9000b0019af9d928d4mr282396pls.3.1681431120479; Thu,
- 13 Apr 2023 17:12:00 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 00:11:50 +0000
+ (user=ackerleytng job=sendgmr) by 2002:a63:1c09:0:b0:507:3e33:43e3 with SMTP
+ id c9-20020a631c09000000b005073e3343e3mr240709pgc.7.1681431122125; Thu, 13
+ Apr 2023 17:12:02 -0700 (PDT)
+Date:   Fri, 14 Apr 2023 00:11:51 +0000
 In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
 Mime-Version: 1.0
 References: <cover.1681430907.git.ackerleytng@google.com>
 X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-Message-ID: <476aa5a107994d293dcdfc5a620cc52f625768c2.1681430907.git.ackerleytng@google.com>
-Subject: [RFC PATCH 1/6] mm: shmem: Refactor out shmem_shared_policy() function
+Message-ID: <cf43d4daa5e8dba22d2416cf46f586afcff0a33e.1681430907.git.ackerleytng@google.com>
+Subject: [RFC PATCH 2/6] mm: mempolicy: Refactor out mpol_init_from_nodemask
 From:   Ackerley Tng <ackerleytng@google.com>
 To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -79,63 +79,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Refactor out shmem_shared_policy() to allow reading of a file's shared
-mempolicy
+Refactor out mpol_init_from_nodemask() to simplify logic in do_mbind().
+
+mpol_init_from_nodemask() will be used to perform similar
+functionality in do_memfd_restricted_bind() in a later patch.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- include/linux/shmem_fs.h |  7 +++++++
- mm/shmem.c               | 10 ++++++----
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ mm/mempolicy.c | 32 +++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index d9e57485a686..bc1eeb4b4bd9 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -134,6 +134,13 @@ static inline bool shmem_file(struct file *file)
- 	return shmem_mapping(file->f_mapping);
- }
- 
-+static inline struct shared_policy *shmem_shared_policy(struct file *file)
-+{
-+	struct inode *inode = file_inode(file);
-+
-+	return &SHMEM_I(inode)->policy;
-+}
-+
- /*
-  * If fallocate(FALLOC_FL_KEEP_SIZE) has been used, there may be pages
-  * beyond i_size's notion of EOF, which fallocate has committed to reserving:
-diff --git a/mm/shmem.c b/mm/shmem.c
-index b053cd1f12da..4f801f398454 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -2248,20 +2248,22 @@ unsigned long shmem_get_unmapped_area(struct file *file,
- }
- 
- #ifdef CONFIG_NUMA
-+
- static int shmem_set_policy(struct vm_area_struct *vma, struct mempolicy *mpol)
- {
--	struct inode *inode = file_inode(vma->vm_file);
--	return mpol_set_shared_policy(&SHMEM_I(inode)->policy, vma, mpol);
-+	struct shared_policy *info;
-+
-+	info = shmem_shared_policy(vma->vm_file);
-+	return mpol_set_shared_policy(info, vma, mpol);
- }
- 
- static struct mempolicy *shmem_get_policy(struct vm_area_struct *vma,
- 					  unsigned long addr)
- {
--	struct inode *inode = file_inode(vma->vm_file);
- 	pgoff_t index;
- 
- 	index = ((addr - vma->vm_start) >> PAGE_SHIFT) + vma->vm_pgoff;
--	return mpol_shared_policy_lookup(&SHMEM_I(inode)->policy, index);
-+	return mpol_shared_policy_lookup(shmem_shared_policy(vma->vm_file), index);
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index a256a241fd1d..a2655b626731 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -1254,6 +1254,25 @@ static struct page *new_page(struct page *page, unsigned long start)
  }
  #endif
+ 
++static long mpol_init_from_nodemask(struct mempolicy *mpol, const nodemask_t *nmask,
++				    bool always_unlock)
++{
++	long err;
++	NODEMASK_SCRATCH(scratch);
++
++	if (!scratch)
++		return -ENOMEM;
++
++	/* Cannot take lock before allocating in NODEMASK_SCRATCH */
++	mmap_write_lock(current->mm);
++	err = mpol_set_nodemask(mpol, nmask, scratch);
++	if (always_unlock || err)
++		mmap_write_unlock(current->mm);
++
++	NODEMASK_SCRATCH_FREE(scratch);
++	return err;
++}
++
+ static long do_mbind(unsigned long start, unsigned long len,
+ 		     unsigned short mode, unsigned short mode_flags,
+ 		     nodemask_t *nmask, unsigned long flags)
+@@ -1306,17 +1325,8 @@ static long do_mbind(unsigned long start, unsigned long len,
+ 
+ 		lru_cache_disable();
+ 	}
+-	{
+-		NODEMASK_SCRATCH(scratch);
+-		if (scratch) {
+-			mmap_write_lock(mm);
+-			err = mpol_set_nodemask(new, nmask, scratch);
+-			if (err)
+-				mmap_write_unlock(mm);
+-		} else
+-			err = -ENOMEM;
+-		NODEMASK_SCRATCH_FREE(scratch);
+-	}
++
++	err = mpol_init_from_nodemask(new, nmask, false);
+ 	if (err)
+ 		goto mpol_out;
  
 -- 
 2.40.0.634.g4ca3ef3211-goog
