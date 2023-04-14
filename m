@@ -2,173 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21424C77B73
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 17:15:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D283C77B71
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 17:18:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbjDNRP6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 13:15:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40368 "EHLO
+        id S229628AbjDNRSt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 13:18:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230333AbjDNRP4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 13:15:56 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2050.outbound.protection.outlook.com [40.107.92.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63A559ED;
-        Fri, 14 Apr 2023 10:15:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IaSSIT8SD4sUvOzy7/vRGb/hOdQmph97JPbYhrw7Jv9l++tFJolHA7SXFw3xzhxIiveh/0lfB2nfYQWH9Rr0q+UtQWrXUnoZK7We7+TvAz0NcvOc/5bb5XvrkGzOJ2HZ3I83pqbnYDIAYhSKoiKf8xQVGVbIhQO2fSj0fNSl5pw1zSf/ZR5wVCIHXDgrj+2DOf8BY5r4vJ/392SmjbluJNPlHuNO7SAChB12/kPn3dUWHBwgxScYi2I7AMYIJxLpFKw8fGnAHTeJ4/mL7qlCCOdv4XtSV0RjI8immvqoSEehkH1tMoUhycfp/uSlLkHfCmrdX3Pahr239iLNtIEIJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uwqxn5I8jvKC30w0+A12yn0J67UwM1pTSs6MT7yzDhM=;
- b=dx7SDmEdGpac/guxOtN1h7lKXozgrP1voYHuYqrAsNK6naKURLkiRvqZ7wfSVessTHKoIVIa53wxj1oCEbDLuOLXajr7O796tC7asMTyxMsAwJ7CmEMn0BrTEm066oQ39anIVW241FcV2cfQeke7e0I5rhDEfzhv6O7WJw1N30xko20jM4CmCRqzxK0lCQQ6x18qS8k/kU60SWP43e5EC8gxHIWcgHhjxJVtDoQB7A0cfE8NG3cJ3GYjFERXlElBiUNsDjG8B3ZcWxp4ohAgkXDYdMfzBTjnR0LoGqppsSQtOdGX+FrrQIB6Q8OXjNK2UDTJj5V7lF5JP73RzBpO2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uwqxn5I8jvKC30w0+A12yn0J67UwM1pTSs6MT7yzDhM=;
- b=NjVTcaGQHY+Mvw0GcVEITq0lltEdIxOADASkd6r4ho+A2hs/tTEMIyPyh/0GJe6MT/1izpn5Po60iHpFvbp4x7CAMqyDEqbv3vIqDn+2WhJ+3cuvYMsheVr+JxV9lYKp78g69VvS6mxcWcMjogBk3+Wt13nr66g2OwvCu9kFlBePHTQDt1m9Vfl/j7wrBZ+xFdGpRcXmwnqZX9H9eqjeQmv0kyHMUGSp2fosed9Htfg8IxVIoezFN5dxcV0Rf1lgUB0VdhBc6Fx7MqbRfHb3OsQHyAdJVCPNRO2HZj0Pp7q2WtPueziLh6gYRUYwINOx7nUejcZKM0XNaiAnfBxiUQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
- by CH2PR12MB4326.namprd12.prod.outlook.com (2603:10b6:610:af::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
- 2023 17:15:52 +0000
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::265:64aa:fb3e:288]) by IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::265:64aa:fb3e:288%5]) with mapi id 15.20.6277.047; Fri, 14 Apr 2023
- 17:15:52 +0000
-Message-ID: <4b5e45e9-6aa8-7338-acc4-db06ca1fe025@nvidia.com>
-Date:   Fri, 14 Apr 2023 10:15:48 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [V6 0/9] Add Tegra234 HTE support
-Content-Language: en-US
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20230414004455.19275-1-dipenp@nvidia.com>
- <373eacb8-be3f-6b95-3e08-f0ff36f79891@linaro.org>
- <CACRpkdY6R9WvwOr3mVgrJcf9dVB4s13eu8juZkBt0Q+=gg2G2w@mail.gmail.com>
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-In-Reply-To: <CACRpkdY6R9WvwOr3mVgrJcf9dVB4s13eu8juZkBt0Q+=gg2G2w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR06CA0059.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::36) To IA1PR12MB6604.namprd12.prod.outlook.com
- (2603:10b6:208:3a0::7)
+        with ESMTP id S229689AbjDNRSs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 13:18:48 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CABD93A9C;
+        Fri, 14 Apr 2023 10:18:43 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33EGgm5P031366;
+        Fri, 14 Apr 2023 17:17:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=PHnCsKlX2VKhgBwGvCNwM50VyEkwpSDcgXFOlOFMHv0=;
+ b=A/rTOjNtZ3dtrQdZrIwBIBv3Wv3b5E2SHJyJjH7A3zfWcM+6+KVpoPc+bVcZgwOE4oda
+ +94kxeUKJp06uDiujg2Mdd2zxWattjPbwv2jxwHtgOZ5OJLzcxGRznYLaRjct0cyscHI
+ Swt/NmzlsgPat5nEA3ACDOfXFW7tsVDFDaXBWRvX+eHXrbIJPss4kh+aVeDZ03MkqHwi
+ 2BF0Ln9Uwy3O/a12NhHqVFUIKuleHD5o5EUrzf0AjKCHSz5bbvZXbZSQwhshT4aDLngC
+ B7OT24RvrvLO7604s52ITj2NSCpn2XKwRshC081eZirHfATnzbFeSv3d7ZwqB4bzXaWB mg== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pxe66kngr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 17:17:49 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EHHmam011887
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 17:17:48 GMT
+Received: from [10.110.60.111] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
+ 2023 10:17:47 -0700
+Message-ID: <85b92732-5310-92ed-0d33-458dec906495@quicinc.com>
+Date:   Fri, 14 Apr 2023 10:17:46 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|CH2PR12MB4326:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25bc863b-fbcd-49f3-4785-08db3d0be678
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KV7hoaYm/sxpvpL5rZ2gkpQraF+6Bu4BSCOCsYDJWGhJLpWcKJuCfHSTGjX9MIFgO7xBuslfW0uXoNRP+XSfKpTAzNpY0wdN3mrVS+nKXeLU+/HyyRvBamIlSWEDfOrfbKLF+p2gczXnT5o67VQ2wXsgBA4Uwts6H7Rrml8YJsIGMZX4xxwdufUlRD7l9ul1e8AQCz+LdyDViPyy6a0jOawGWsOEgMVprjtkmebR6r+AKokwR7Ul9g5s0oU5rg+/1CcTUSN9zqc5a+8wJI6YfDT0/kUaTUnjxLFk1MbH4DBkqot3SHvs4jP5YEgBW6XEV3NXWKewlNMhoDKZAwI+4QgIil6RwngdbGcPtHg9bnX6Z0l5oIahVjmNLm5cjURBM8nOKS93I95VTaou9F2QiiwHLYhveKG9js1JMJXI0KGoLH5Hl8fIW7XEsxUC9WEKCTqWVCSRD7kZKY93Z8AXFFeAoisrMObpErDb+zn0YFjONUzhb9KAaf5GYvAvlqp/8oqDPVX0/EMn81csfzYbn9zmFMY3MNZInQ9x6NNXAKXGYasiotiSP8Fy8FeCCgFl4xUN10VQ98lkDw90JU8NZedfieSOTjbyQugLwHDj/e4Rkf+GYyJLjLVny613dyB/RzNHubbSuMC+vzSmVUXdRwTFb6pGwT43gD80t/Q3Nl21WCbZEsDI2LnidV4QePgQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(396003)(376002)(136003)(346002)(451199021)(110136005)(53546011)(26005)(31686004)(6512007)(6506007)(186003)(83380400001)(2616005)(966005)(6486002)(6666004)(5660300002)(41300700001)(316002)(8936002)(8676002)(38100700002)(86362001)(478600001)(31696002)(66946007)(36756003)(4326008)(66556008)(66476007)(2906002)(7416002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWVCTGJ0ZXNWTlpRV3pBa0dBZHRROWExQlBXYS84ZSt1eDZYYy94elMvaHgz?=
- =?utf-8?B?NXZhRUlFT2F5T0NpVXo4amo5VVk2dlBwQVhvc0kxM09oYTd5QVdrK3FFSkth?=
- =?utf-8?B?aUd4SWxvdXJERml3amVGbVQ1ckhxTWtKbDlwczR3WlVoYUdrMFdzU1JYaVho?=
- =?utf-8?B?S2tKOTJTVytiY29yTkQrYUNZOHprbzJtOWpSK1BQWjljcXRzWGlSMUdHMllL?=
- =?utf-8?B?cnZiU1VIUXZPRlVsTHlGYWNiL2ZWU2lJb1VZcWFSbHI0dVdMU3ZRbERPUnl5?=
- =?utf-8?B?dEFyWXN4K1ovV1c1RmduZDVFeUZWTVIrc1dBSkwwcmZYaHh1VTRTWkM5UDcv?=
- =?utf-8?B?aHYwWWxVRTJlb0tmanFnNm8ybGY3ZUNQV2ZRTUhPSlhpYTRCeHRPNkU3cmdY?=
- =?utf-8?B?Q3cyVStYV1NkQTRVaHZnVE1rbnB3emdHM1IvL3h1eFVMSDIvenROUjdwY2xK?=
- =?utf-8?B?S2hMbnE2QkJGTU9VRkVEODlvVUFPbUY1YnVWY1JqMnVBak9aYVhjYVpLcEZJ?=
- =?utf-8?B?aTlhQThHSzR0RzZ5N1FaSnV3Z1pWcGlEaVJrdlJWVWF3a3g4MzZhOXJQbEpL?=
- =?utf-8?B?R0V4V0s3KzI1SU1XQ3hseW45d2psa0hKSy9XQzVSbTQrMHZYU1luK25HV1Qx?=
- =?utf-8?B?VVZxYWdoMzRCVFBCeDd1Wnpmb0w0TTNKc2tZNExaYVJRdlA0b01SVUoyajk0?=
- =?utf-8?B?NS9WRm0yeW9QZWZXeVhtSTdVYS9GOHV5MkgrRndOOTJ5KzVyU3ROc0x4OFBz?=
- =?utf-8?B?NHMrU1Avb0xOMTZPMkljMXk0S29pVXVPSEpiRVFaQTVTd2tIODJ3NlBhREVy?=
- =?utf-8?B?TUttZk1sT0JlTWFHNGlEZ0dRUHBpeEJzNGF4T2FUaDh0T0xtV3lLK2NLcmw2?=
- =?utf-8?B?WXh3TFQxS01DYkxRMGdTbXN4ak1XVmN1b0N5ZkYybVpUY09KbUVOcWptbVAx?=
- =?utf-8?B?NmRpNE1zZ3YvQk5idVZ0MXpQK3Bwc2RQSmFjWEsrRHpCV2twYUNnYkRnclpU?=
- =?utf-8?B?SzQ0V0hrak5ZZ1dPaWFKVUluNk8zOXlHeVI4RTRnZ2cxTlZ5NDQreklmYUx2?=
- =?utf-8?B?UkJtTDBuNG1VTkFMUnYrWDh2Wm9DOEMyUSthVHFTRFZRSDlRdXJ3QWozc3M0?=
- =?utf-8?B?Mzk0TkNXUFNYWHZKSmE3VXNpUmVQa29OZHVtVEJhQ3QyZ1RPeWtTbXhoZllx?=
- =?utf-8?B?QVNqLzZudU5BUkVodGlXYUU0SnRQeDN4U1RGMGRGRit2ekJDNHhzdmxPMnlD?=
- =?utf-8?B?bzZMeW1tdkxZMHM3Y2lMOTRFbkxBQmQ2TllzMkZTb0VJWnhRbVpFTzkvcFJm?=
- =?utf-8?B?SzcwRmJYOGFLYnpOT0p1TmlGQS8rYUtoV1NMMlBrWDU4eVNOSHRUaFFiQnRE?=
- =?utf-8?B?NzNNMVJWbG9yaXRmSVlQMFYweDVZakYrMWJ5V1pYR3F6QmhJT21oM2RCMnhH?=
- =?utf-8?B?dk5XTG4yZ0h1NTF6c0Ywd2VkWVN1MWQ0VHZ4aDdKaExDd21KYmxYMFZMcU5G?=
- =?utf-8?B?ZFZFVlFhS3MyM1JoR3RGZVVkd1hNaXBFbEJzemFFc0NnNFhkTlJ5TWVMWFhu?=
- =?utf-8?B?cUc0QlpZS25IRmdhZ0xkNit3ZEh6M2k5MnIvR1FpT1RxWkVEMGozS3pxS1pj?=
- =?utf-8?B?U2VFTGpCNkJPdm9jR3BJa3ZsS0JYZGVlL3JOVytLdy92bnc3eE9RTlZMZGFq?=
- =?utf-8?B?b2dDR1BRMkJVS2E2b3V5dFRVQ214enNZY0ZLblZBb2FMNjRNWjJZeUh2UUFm?=
- =?utf-8?B?VDE4S0VtblI0M3dGaTZtblFwS3hPWXV5VUhiSjd0b1VjNktLb1E3M2F4LzVt?=
- =?utf-8?B?TG9TVDdESmRjcm43TGs3MWdGR3Ntc1Nvd3ErMDdkNTBuVXY1bW9BczhzQzl0?=
- =?utf-8?B?T3M5N1h5eGtZVlgwK0dsdkxlclFTUDQ5Mk9HM2tFMkhleXhORytZSEtJQSts?=
- =?utf-8?B?Sk5WakhXMjNTcDdWWi9YUWE1bWd3M0NaQXVBaVcrNHdTM0doYVVmS1gvVmh2?=
- =?utf-8?B?VW5QSGZTbk1MZ3RIWDV1UHNwajNBeUcxSkRTd3lFd1o1YXpwcFA3R2lxdXdQ?=
- =?utf-8?B?S2N3RldhYTI0ZHlQSFhzSktWbVN5djZ2TlRzUHpxREdKejZvMThXQUdvUTA5?=
- =?utf-8?Q?3qY5Qf3fCEn7b/Uxgw22iHoc3?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25bc863b-fbcd-49f3-4785-08db3d0be678
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2023 17:15:52.6351
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kH5Hl/YXivcL0ahpdLFQ1C1/zmJPsuKZWUcrJeLNNtoVRfOLQSxgerEMCsuKdeiSwfXf9QoFz6Oq0We4XrKUcA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4326
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce
+ GenieZone hypervisor support
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        =?UTF-8?B?WWktRGUgV3UgKOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        =?UTF-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?= 
+        <Yingshiuan.Pan@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "will@kernel.org" <will@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        =?UTF-8?B?TVkgQ2h1YW5nICjojormmI7ouo0p?= <MY.Chuang@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= 
+        <PeiLun.Suei@mediatek.com>,
+        =?UTF-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?= 
+        <Liju-clr.Chen@mediatek.com>,
+        =?UTF-8?B?SmFkZXMgU2hpaCAo5pa95ZCR546oKQ==?= 
+        <jades.shih@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?= 
+        <shawn.hsiao@mediatek.com>,
+        =?UTF-8?B?TWlsZXMgQ2hlbiAo6Zmz5rCR5qi6KQ==?= 
+        <Miles.Chen@mediatek.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        =?UTF-8?B?SXZhbiBUc2VuZyAo5pu+5b+X6LuSKQ==?= 
+        <ivan.tseng@mediatek.com>,
+        =?UTF-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= 
+        <Ze-yu.Wang@mediatek.com>
+References: <20230413090735.4182-1-yi-de.wu@mediatek.com>
+ <20230413090735.4182-4-yi-de.wu@mediatek.com>
+ <1aa701cc-92ca-71be-0663-df4bfae66c2f@linaro.org>
+ <5c1d69c8-d973-fa7b-1f14-c72729ff5594@gmail.com>
+ <533a1a9b653cf63f1e5df7f95d1b23902809561d.camel@mediatek.com>
+ <7256414b-5553-e025-334f-b8df48f40c31@linaro.org>
+Content-Language: en-US
+From:   Trilok Soni <quic_tsoni@quicinc.com>
+In-Reply-To: <7256414b-5553-e025-334f-b8df48f40c31@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: wqjVgE8LIVOZn6RtkiAIA6zkpNIZCase
+X-Proofpoint-ORIG-GUID: wqjVgE8LIVOZn6RtkiAIA6zkpNIZCase
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-14_10,2023-04-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 clxscore=1011
+ mlxscore=0 suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304140152
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/14/23 1:07 AM, Linus Walleij wrote:
-> On Fri, Apr 14, 2023 at 9:36 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 14/04/2023 02:44, Dipen Patel wrote:
->>> This patch series mainly adds support for the Tegra234 HTE provider. In
->>> addition, it addresses dt binding comments which prompted code
->>> changes in the existing HTE provider driver without breaking the
->>> Tegra194 provider. The comments raised concern how existing code
->>> retrieves gpio controller node
->>> (the node is used to help namespace conversion between HTE and GPIOLIB).
->>> To help simplify that process, new DT property is suggested which adds
->>> gpio controller node in the HTE provider binding as phandle property. To
->>> conlude this patch series:
->>> - adds Tegra234 HTE provider
->>> - modifies existing provider code to address new dt binding for Tegra234
->>> without breaking it for the Tegra194 chip.
+On 4/14/2023 1:51 AM, Krzysztof Kozlowski wrote:
+> On 14/04/2023 10:43, Yi-De Wu (吳一德) wrote:
+>> On Thu, 2023-04-13 at 19:08 +0200, Matthias Brugger wrote:
+>>> External email : Please do not click links or open attachments until
+>>> you have verified the sender or the content.
 >>>
->>> The V1 patch series:
->>> - Adds tegra Tegra234 HTE(timestamp) provider supports.
->>> - Updates MAINTAINERS file for git tree, mail list fields.
->>> - Updates devicetree and API documentations.
->>> - Enables HTE subsystem, Tegra194 and Tegra234 HTE providers
->>> by default in arm64 defconfig and dts files.
+>>>
+>>> On 13/04/2023 14:55, Krzysztof Kozlowski wrote:
+>>>> On 13/04/2023 11:07, Yi-De Wu wrote:
+>>>>> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+>>>>>
+>>>>> GenieZone is MediaTek proprietary hypervisor solution, and it is
+>>>>> running
+>>>>> in EL2 stand alone as a type-I hypervisor. This patch exports a
+>>>>> set of
+>>>>> ioctl interfaces for userspace VMM (e.g., crosvm) to operate
+>>>>> guest VMs
+>>>>> lifecycle (creation, running, and destroy) on GenieZone.
+>>>>>
+>>>>> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+>>>>> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+>>>>> ---
+>>>>>    arch/arm64/include/uapi/asm/gzvm_arch.h       |  79 ++++
+>>>>>    drivers/soc/mediatek/Kconfig                  |   2 +
+>>>>>    drivers/soc/mediatek/Makefile                 |   1 +
+>>>>>    drivers/soc/mediatek/virt/geniezone/Kconfig   |  17 +
+>>>>
+>>>> Hypervisor drivers do not go to soc. Stop shoving there everything
+>>>> from
+>>>> your downstream. Find appropriate directory, e.g. maybe
+>>>> drivers/virt.
+>>>
+>>> Acked, what is the reason you want to add this to drivers/soc instead
+>>> of
+>>> drivers/virt?
+>>>
+>>> Regards,
+>>> Matthias
+>>>
+>> Noted. We would take your advice and move it from
+>> drivers/soc/mediatek/virt to /drivers/virt on next version.
 >>
->> All your emails miss PATCH prefix. Use `git format-patch` to generate
->> proper versioned patch. Stripping important part messes up with our
->> filters. We have quite a lot of emails, so proper filtering is important.
+>> The reason we put it under our soc/ is that the drver is highly
+>> propietary for mediatek's product and for aarch64 only. Maybe it's not
+>> general enough to put in under /drivers/virt.
 > 
-> At this point I would even recommend kernel maintainers to get b4
-> into the workflow:
-> https://people.kernel.org/monsieuricon/sending-a-kernel-patch-with-b4-part-1
+> If virt folks reject the driver, because it is highly proprietary, then
+> it is not suitable for soc/mediatek either.
+> 
+> Your argument is actually not helping you. It's rather a proof that this
+> driver might not be suitable for Linux kernel at all.
+> 
+>>
+> https://android-review.googlesource.com/c/kernel/common/+/2447547/1..2/drivers/virt/geniezone/gzvm.h#b91
+> 
+> I don't see there anything suggesting moving to soc/mediatek. Comment
+> from Trilok (+Cc) suggests that your code is simply not portable. Write
+> code which is portable and properly organized.
 
-Thanks for sharing...will have to look into it to avoid such mistakes.
-> 
-> This tool will also implement other desired behaviours and version
-> the patch set for you.
-> 
-> I am gradually adopting it for my own work, using it all the time when
-> applying patches but also getting better at using it for submitting
-> them. It has a small overhead (like learning and memorizing the
-> subcommands) but once you get used to it, it is really helpful.
-> 
-> Yours,
-> Linus Walleij
+Thanks for the CC. I don't know how different these patches are from the 
+ACK post, but if they are similar then I am surprised that patches of 
+that state are posted here since they will need lot of work to get it 
+reviewed here.
+
+Also, do you plan to open-source your hypervisor? I am not sure if that 
+is the requirement but it will be good to know if some version of your 
+Hypervisor is open-sourced or you have plan for that.
+
+---Trilok Soni
 
