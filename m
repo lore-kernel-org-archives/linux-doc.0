@@ -2,252 +2,379 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2E0C77B6F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 10:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABEDC77B6E
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 10:13:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230128AbjDNKGx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 06:06:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45686 "EHLO
+        id S229611AbjDNKNr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 06:13:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbjDNKGv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 06:06:51 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA9E97AB4;
-        Fri, 14 Apr 2023 03:06:38 -0700 (PDT)
+        with ESMTP id S229636AbjDNKNr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 06:13:47 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BFA67ECD;
+        Fri, 14 Apr 2023 03:13:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681466798; x=1713002798;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=r+Fj9VwAfcQHot8xVn93CVZVyh955gQ+bxd8unlNhqQ=;
-  b=IRdtEDFBsWst9Ij7Huxaf1ogRB4G/LARdnO6Vk/C6N55KHi1ydG50P3C
-   UxVTBjQWUCiYBe5qdbcVfcVeRvVowWW1x9We3i/dEnrg8zbYbOGU51r8h
-   dtHl0ehjLBdjnN0Dreu1N//nF5NJ0A2+/IoCKChjzl6z545XDsQV2yWJ+
-   BSBofCl+FK1E0due0epQUScJK4hshHSqVR27rr4zXu+AOhA9ty5cq4yMf
-   94luP8CFnXxYUx0Nd2Yp4JlvYuX0rgFqzSTpIe26AQf8UzPFdaFw7X45t
-   xDhdsZNs5D5wpJ3tSbx35N8PtRX/HmuBkIAwC5tqM44PraQaiXLMe96K3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="347149270"
+  t=1681467188; x=1713003188;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=cjLLIMHR+d6qP/BhWUSCR4eoe5tVu5Gp1jVzvOoek7o=;
+  b=imAitqjZ70M1xLGZO4XgJsr0yUhTiU/N5f1solxz1zHBDmRRhuRXqcm2
+   b1yGct7fWGetL428vdWykExadrnD8qXIkWBdSm0smqHrKBKg4jO7snyC9
+   tDkUNNVegqtA7+KGbS5VqpsLJNkrtsQWVviFt5xbn6mPCBynrJdCFI7eI
+   0zB+2LJiL/02X93oREz/CcnT1ubB9MWsxGPZAR3pH0xKOKpl4OI4dWRWc
+   6qRR9bnZELg6WTcqAV+UyL1U5N/5+Sk8uK3wN8CpsWVKP/FGAqopadaLA
+   lW5KscKqIaNs8xAdwoXEIT7Bnd5s76HWoYXUvgm1Dt8TLiA+sCXWp96oY
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="333202132"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="347149270"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 03:06:38 -0700
+   d="scan'208";a="333202132"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 03:12:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="813820549"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="667148528"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="813820549"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga004.jf.intel.com with ESMTP; 14 Apr 2023 03:06:37 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 14 Apr 2023 03:06:37 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 14 Apr 2023 03:06:37 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 14 Apr 2023 03:06:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zor3HhlhSZLq/kdkj3QVl5Hp7TR+l6OpmhmIkoIrc8iT9A4St8dgQ+BwnPqC8OL1YxSsJJi0YlAtlT1cZaLsgOAOdSEIctORbmk4YE5my9W9U7/6kAhry1LS2S1WTWaGdoHfFWdydfdiFTqEosAfmWT7NMdosBylgOJhkaHmpkwSDZRdN/rzZ8JXVemEO3k6vlVE7a9FytpqbZQrQYk74ydqV8TWAL/o8jayJyH+UB/+L1YVNoVnp4/2tq0aBxtG1jXnYv8JHXjGPdi9m0ey2eWupKVDpM4dUfkg+nLphf6nB+JDwwzMyEI+RB4cvAjSsh93D8NSbVXjhlW5wJVOig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KqHkfU8xHVRnVMGroximQJMS/Vjsu9bfSRuABwmrvuo=;
- b=ZqPOlyKC7S8BF9yPGVjH9PzjMn4sNmbls9jQPg8SQvEPx5WydPvD1BqUnTHSyRMZvlBuDZTKcJl0onuc+tyTR3bxz8hFUMfEa7+qITymIibOrSCGh+z1/EvWazoKlPvl/FoI179sOHd42luQ9SW1U3rxZ9YcWqTrqdMzbhgKAZyDnQ5HNNtl+/wpNo0FLbFg4L/bD3Wq9o8EXFKSz9SMJIrL7DiY3DKOyypyQBlJkrLBFGsU4lK+bRb0fTG7Eas++l8ACNGUOQq/jnP938+izsrAYZgSpPyvOAYazs4seAVnUr9ITkCXckgv8WvWVtPZC4TJPMkL4939wR95kU3h8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
- SA1PR11MB6687.namprd11.prod.outlook.com (2603:10b6:806:25a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
- 2023 10:06:35 +0000
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::f829:c44d:af33:e2c8]) by DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::f829:c44d:af33:e2c8%4]) with mapi id 15.20.6298.030; Fri, 14 Apr 2023
- 10:06:35 +0000
-From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-To:     Leon Romanovsky <leon@kernel.org>
-CC:     "jiri@resnulli.us" <jiri@resnulli.us>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
-Subject: RE: [RFC PATCH v1] ice: add CGU info to devlink info callback
-Thread-Topic: [RFC PATCH v1] ice: add CGU info to devlink info callback
-Thread-Index: AQHZbURL//7N1kf7H06LoNzMTKXBn68pOgwAgAAM6+CAADYQAIABGW5g
-Date:   Fri, 14 Apr 2023 10:06:35 +0000
-Message-ID: <DM6PR11MB4657E9390EC16B7BD47AC4979B999@DM6PR11MB4657.namprd11.prod.outlook.com>
-References: <20230412133811.2518336-1-arkadiusz.kubalewski@intel.com>
- <20230413131726.GQ17993@unreal>
- <DM6PR11MB4657BB5D26421ECA7709C79B9B989@DM6PR11MB4657.namprd11.prod.outlook.com>
- <20230413171710.GW17993@unreal>
-In-Reply-To: <20230413171710.GW17993@unreal>
-Accept-Language: pl-PL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|SA1PR11MB6687:EE_
-x-ms-office365-filtering-correlation-id: 665f79c9-4252-4de3-5d9b-08db3ccfee04
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: R1hh4uH7a2GGey4XpWbEy/a/O1Nib3mGDp7JJK5MzxivKBNB6FX42b/8i+GB18bo69OnMRdl/ZTKPfGIgcXAWPvyxoAJw9eR/HRYgW5qhS7qVkA5c+t06iP0E0gXbqMNdqhF2l1fFYpfyNtPuo46wL83uV8rdtVOYqdqPf3+aTjWrQ229adeGGzD8eP3yg4woibmL6CekgjbfEn+ityjpdBwSFmI760XHRybt0WqqB/3r/cEv7UWb2SFjv99TZjNjCY2sNzFwiR4VdqQBzVH2SIh4PBG0eyRe30r8su8P84Tv7IcZg9rxxv/T1pbSuAxfgIsy5OqmTvyeRzDifj/gkc5I5UDE45lRADZAiJB+mIASic7nmvGtuT+jzN0tPeWq4tT/hI9U5VFgw+l334QLn86jXnpE6O35SnXO8LvLc5DpNuklRXLuTCRf7Eu7Chm9Sq3G8yKlE1VBQlVJismVTRrzUxXKKA1/hjJTH8UKBj0YfaIqPKpnckVq5bk5xSsFCF84GeaNrExA4X2JdgDIusOR9PMjlTG+nolt36mHMXJwUxB7ik2xZVyJlf7Y8lwprCF1wXfZIY44G3lnSK1gSC4rmrj+Aj3DRBLnmjvkk4S/9NTJNI09yZZc7SKExNv
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(346002)(39860400002)(136003)(366004)(376002)(451199021)(71200400001)(7696005)(6916009)(66476007)(66556008)(64756008)(66946007)(76116006)(4326008)(66446008)(2906002)(7416002)(38070700005)(86362001)(38100700002)(122000001)(52536014)(41300700001)(82960400001)(5660300002)(33656002)(8936002)(8676002)(316002)(478600001)(55016003)(54906003)(9686003)(6506007)(26005)(186003)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xutkyTeFEUAeLu7yIcp4kqvM6NRsytAlJk3f6uTsL3dM6Rxw69yrn83uUA55?=
- =?us-ascii?Q?PcJgt3gtAGLs8I9gAUVnE04EcxUYUcp3oGpIHo67n42/dPCFdg57BrtqTafe?=
- =?us-ascii?Q?5eRX3znzwcryJXN8+acoMBshAMZiIax+YZ/+nmDAGtzvB1MUZpwehFXGFcR8?=
- =?us-ascii?Q?7T1b4rUcKzfQj/cZuUWQsoeqKpbn9ux/b2ldvN0cuWAE9U28+aqPiVdJk2zk?=
- =?us-ascii?Q?g/1uloDh7+byelItomwUdLQIysvszoVslF2+g4UOsJt/R3aepVQgpBiM72Il?=
- =?us-ascii?Q?uGPHh2LCqI0fDGoYx+rY3JrPaFgvOaFb/zWNWXkDTv/jLELW6J6rn9K6DIjT?=
- =?us-ascii?Q?bDWUZPuSrxwCKKpGOqAPrsWezkwK7kDAFhvo+Cm6WOBYHobd+0KC7NXJG5jk?=
- =?us-ascii?Q?Xl9IOCKohYYZScuTjbnSQcPNit+CDP+HD4YNW14r3EM9xl0eH1Rgx7PVMmBv?=
- =?us-ascii?Q?Fowni0cTkjogmrPDSomLak/BEwS8IorArxnjwQCvqDOYn7xQ/meViqkuGytW?=
- =?us-ascii?Q?5v8zxdxqStjYHd8OxTmf/ZTuK7tvZvcYMjQnDf51Z20wDGSjA00xDbUcNE/U?=
- =?us-ascii?Q?A25aFpFbXqbbR5at96OgEXej3BKSqFaxaxPV63E7BJakh6G/6APgbRlUVbT9?=
- =?us-ascii?Q?ZSM6ZU2TQxnQr68ld7Vklv0iiEN43fG2DVIT2yIFCr99lk2KfWgZqz+nMAcf?=
- =?us-ascii?Q?L8Z6zXseg6A3+ZTo+mrBJQ+Kaxsbe2FtKHOgJIdXdjnrB+3TEW88SgTyCu99?=
- =?us-ascii?Q?TNMIZo+/I+YNuGd/JzC5VIhJpFUhnODUggw2VBl+wewxWx7XA+nobHNkXenB?=
- =?us-ascii?Q?Iz/azsdS5tWrPksUXKCM6+1Z2z4f4PFdvE9M4bzuSl6o05Rz7pvpIjuEiMfo?=
- =?us-ascii?Q?5RMSpnTLlx/qfgDNtMww7zOSmgoClalN8ffdDvtfLL+1p2LFJsPyroG5p1IN?=
- =?us-ascii?Q?6/ypvjBqEfznRW5esAPxOT446S5wPP7uUWUVpk78969xWlW2qZBCR2lnxP7q?=
- =?us-ascii?Q?CAiebs8jgdUjj3yP3IhP20PcIy8qaCIcGIVkwwPDxUWnzSsJbq56viD9BTHm?=
- =?us-ascii?Q?9KvmqSx1BN7TsO/7S6oMV3mX+KsEEPFpzVEJ/z7kIbC+7Q6DrrcPxRffBs4f?=
- =?us-ascii?Q?2mpXmDGytXeQFvlVBD0ftdFNSXiouzcrYdpcP8nOquFhn+ny3aoXpuezmvB6?=
- =?us-ascii?Q?XNd54p1e9lGAlG7e3sNEV/hYti6iyvb+yTqoE0FGgYbdsATO/V9j7Aftzs3m?=
- =?us-ascii?Q?8mhp2CiNO6CUraZkrHiHQsCh7C+RNGp+jykC8Xl6SVk1cMmcCHaBZmPvIs6a?=
- =?us-ascii?Q?G37Nf+tTcSZZqt3UP9Hm4MVK+vuggotqF/7VctUZg7V8RarwM3IdM1eCXtob?=
- =?us-ascii?Q?b2EjZ99Y1UiYG8jeWY9DWI2MUs4HdzQePs5NxTYr2a4I3Ex5E0zN68uuaAfs?=
- =?us-ascii?Q?uUcpmFDIknCHJH7y9OPjpBid0Opmv1RX7faMiwwtpELmrG5saXn5ljc/dLdV?=
- =?us-ascii?Q?n00f+y9zq6o/XFIUEXtF48xGUJQ4NiGNRgP8ZtmDO50vYwCMqoeNVajsaHt9?=
- =?us-ascii?Q?E+smvE2FQmrfv/V4kNqOGRY3CJJ5eyua5joY5T663f9l+G2WADbiA952/+0/?=
- =?us-ascii?Q?oQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="667148528"
+Received: from sokeeffe-mobl.ger.corp.intel.com (HELO [10.213.222.60]) ([10.213.222.60])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 03:12:40 -0700
+Message-ID: <5278c52a-b69a-ef7b-bbf2-b65bba2bac64@linux.intel.com>
+Date:   Fri, 14 Apr 2023 11:12:38 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 665f79c9-4252-4de3-5d9b-08db3ccfee04
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2023 10:06:35.2213
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5n4JfIOclP76kI3DyZlTrX/nvIhKVrjfv2tDBTKq+zc+2AOMSQb2WdntvPW3DGGjSt/tlbKeV1vtt3PmD+4/GT3CS7rd6hI4qC6Uta9q0LI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6687
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 6/7] drm: Add fdinfo memory stats
+Content-Language: en-US
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20230411225725.2032862-1-robdclark@gmail.com>
+ <20230411225725.2032862-7-robdclark@gmail.com>
+ <29a8d9aa-c6ea-873f-ce0b-fb8199b13068@linux.intel.com>
+ <CAF6AEGsZsMx+Vy+4UQSx3X7w_QNvvjLqWxx=PnCLAOC9f-X2CQ@mail.gmail.com>
+ <ZDb1phnddSne79iN@phenom.ffwll.local>
+ <CAF6AEGvBeDVM12ac0j_PKSdcY83hNDhyrQs9-=h=dx_7AoMXLw@mail.gmail.com>
+ <ZDcEGoSPGr/oRLas@phenom.ffwll.local>
+ <c82fd8fa-9f4b-f62f-83be-25853f9ecf5e@linux.intel.com>
+ <ZDgDQ1PqtXwu8zqA@phenom.ffwll.local>
+ <ad8f2793-c1b3-a505-e93f-6cc52fded86d@linux.intel.com>
+ <ZDhgcqiOtJi6//TS@phenom.ffwll.local>
+ <8893ad56-8807-eb69-2185-b338725f0b18@linux.intel.com>
+ <CAKMK7uE+wxFFezLjZESvO+CyZjc9suptq9V2kC=ra3oB0wtDtA@mail.gmail.com>
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAKMK7uE+wxFFezLjZESvO+CyZjc9suptq9V2kC=ra3oB0wtDtA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->From: Leon Romanovsky <leon@kernel.org>
->Sent: Thursday, April 13, 2023 7:17 PM
->
->On Thu, Apr 13, 2023 at 02:04:33PM +0000, Kubalewski, Arkadiusz wrote:
->> >From: Leon Romanovsky <leon@kernel.org>
->> >Sent: Thursday, April 13, 2023 3:17 PM
->> >
->> >On Wed, Apr 12, 2023 at 03:38:11PM +0200, Arkadiusz Kubalewski wrote:
->> >> If Clock Generation Unit and dplls are present on NIC board user shal=
-l
->> >> know its details.
->> >> Provide the devlink info callback with a new:
->> >> - fixed type object `cgu.id` - hardware variant of onboard CGU
->> >> - running type object `fw.cgu` - CGU firmware version
->> >> - running type object `fw.cgu.build` - CGU configuration build versio=
-n
->> >>
->> >> These information shall be known for debugging purposes.
->> >>
->> >> Test (on NIC board with CGU)
->> >> $ devlink dev info <bus_name>/<dev_name> | grep cgu
->> >>         cgu.id 8032
->> >>         fw.cgu 6021
->> >>         fw.cgu.build 0x1030001
->> >>
->> >> Test (on NIC board without CGU)
->> >> $ devlink dev info <bus_name>/<dev_name> | grep cgu -c
->> >> 0
->> >>
->> >> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
->> >> ---
->> >>  Documentation/networking/devlink/ice.rst     | 14 +++++++++
->> >>  drivers/net/ethernet/intel/ice/ice_devlink.c | 30
->> >>++++++++++++++++++++
->> >>  drivers/net/ethernet/intel/ice/ice_main.c    |  5 +++-
->> >>  drivers/net/ethernet/intel/ice/ice_ptp_hw.c  | 12 ++++----
->> >>  drivers/net/ethernet/intel/ice/ice_type.h    |  9 +++++-
->> >>  5 files changed, 62 insertions(+), 8 deletions(-)
->> >
->> ><...>
->> >
->> >>  Flash Update
->> >>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> >> diff --git a/drivers/net/ethernet/intel/ice/ice_devlink.c
->> >b/drivers/net/ethernet/intel/ice/ice_devlink.c
->> >> index bc44cc220818..06fe895739af 100644
->> >> --- a/drivers/net/ethernet/intel/ice/ice_devlink.c
->> >> +++ b/drivers/net/ethernet/intel/ice/ice_devlink.c
->> >> @@ -193,6 +193,33 @@ ice_info_pending_netlist_build(struct ice_pf
->> >>__always_unused *pf,
->> >>  		snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", netlist-hash);
->> >>  }
->> >>
->> >> +static void ice_info_cgu_id(struct ice_pf *pf, struct ice_info_ctx *=
-ctx)
->> >> +{
->> >> +	if (ice_is_feature_supported(pf, ICE_F_CGU)) {
->> >> +		struct ice_hw *hw =3D &pf->hw;
->> >> +
->> >> +		snprintf(ctx->buf, sizeof(ctx->buf), "%u", hw->cgu.id);
->> >> +	}
->> >
->> >Please use kernel coding style - success oriented flow
->> >
->> >struct ice_hw *hw =3D &pf->hw;
->> >
->> >if (!ice_is_feature_supported(pf, ICE_F_CGU))
->> >  return;
->> >
->> >snprintf(ctx->buf, sizeof(ctx->buf), "%u", hw->cgu.id);
->> >
->> >
->> >However, it will be nice to have these callbacks only if CGU is
->> >supported, in such way you won't need any of ice_is_feature_supported()
->> >checks.
->> >
->> >Thanks
->>
->> Sure, I will fix as suggested in the next version.
->> Although most important is to achieve common understanding and agreement=
- if
->> This way is the right one. Maybe those devlink id's shall be defined as =
-a
->> part of "include/net/devlink.h", so other vendors could use it?
->
->Once second vendor materialize, it will be his responsibility to move
->common code to devlink.h.
->
 
-Makes sense, thanks for this explanation!
-Arkadiusz
-
->> Also in such case probably naming might need to be unified.
+On 14/04/2023 10:07, Daniel Vetter wrote:
+> On Fri, 14 Apr 2023 at 10:57, Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>> On 13/04/2023 21:05, Daniel Vetter wrote:
+>>> On Thu, Apr 13, 2023 at 05:40:21PM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 13/04/2023 14:27, Daniel Vetter wrote:
+>>>>> On Thu, Apr 13, 2023 at 01:58:34PM +0100, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> On 12/04/2023 20:18, Daniel Vetter wrote:
+>>>>>>> On Wed, Apr 12, 2023 at 11:42:07AM -0700, Rob Clark wrote:
+>>>>>>>> On Wed, Apr 12, 2023 at 11:17 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>>>>>>
+>>>>>>>>> On Wed, Apr 12, 2023 at 10:59:54AM -0700, Rob Clark wrote:
+>>>>>>>>>> On Wed, Apr 12, 2023 at 7:42 AM Tvrtko Ursulin
+>>>>>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> On 11/04/2023 23:56, Rob Clark wrote:
+>>>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>>>>>>>>
+>>>>>>>>>>>> Add support to dump GEM stats to fdinfo.
+>>>>>>>>>>>>
+>>>>>>>>>>>> v2: Fix typos, change size units to match docs, use div_u64
+>>>>>>>>>>>> v3: Do it in core
+>>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>>>>>>>>>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>       Documentation/gpu/drm-usage-stats.rst | 21 ++++++++
+>>>>>>>>>>>>       drivers/gpu/drm/drm_file.c            | 76 +++++++++++++++++++++++++++
+>>>>>>>>>>>>       include/drm/drm_file.h                |  1 +
+>>>>>>>>>>>>       include/drm/drm_gem.h                 | 19 +++++++
+>>>>>>>>>>>>       4 files changed, 117 insertions(+)
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>> index b46327356e80..b5e7802532ed 100644
+>>>>>>>>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>>>>>>>>>>>> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
+>>>>>>>>>>>>       Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>>>>>>>>>>>>       indicating kibi- or mebi-bytes.
+>>>>>>>>>>>>
+>>>>>>>>>>>> +- drm-shared-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +The total size of buffers that are shared with another file (ie. have more
+>>>>>>>>>>>> +than a single handle).
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +- drm-private-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +The total size of buffers that are not shared with another file.
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +- drm-resident-memory: <uint> [KiB|MiB]
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +The total size of buffers that are resident in system memory.
+>>>>>>>>>>>
+>>>>>>>>>>> I think this naming maybe does not work best with the existing
+>>>>>>>>>>> drm-memory-<region> keys.
+>>>>>>>>>>
+>>>>>>>>>> Actually, it was very deliberate not to conflict with the existing
+>>>>>>>>>> drm-memory-<region> keys ;-)
+>>>>>>>>>>
+>>>>>>>>>> I wouldn't have preferred drm-memory-{active,resident,...} but it
+>>>>>>>>>> could be mis-parsed by existing userspace so my hands were a bit tied.
+>>>>>>>>>>
+>>>>>>>>>>> How about introduce the concept of a memory region from the start and
+>>>>>>>>>>> use naming similar like we do for engines?
+>>>>>>>>>>>
+>>>>>>>>>>> drm-memory-$CATEGORY-$REGION: ...
+>>>>>>>>>>>
+>>>>>>>>>>> Then we document a bunch of categories and their semantics, for instance:
+>>>>>>>>>>>
+>>>>>>>>>>> 'size' - All reachable objects
+>>>>>>>>>>> 'shared' - Subset of 'size' with handle_count > 1
+>>>>>>>>>>> 'resident' - Objects with backing store
+>>>>>>>>>>> 'active' - Objects in use, subset of resident
+>>>>>>>>>>> 'purgeable' - Or inactive? Subset of resident.
+>>>>>>>>>>>
+>>>>>>>>>>> We keep the same semantics as with process memory accounting (if I got
+>>>>>>>>>>> it right) which could be desirable for a simplified mental model.
+>>>>>>>>>>>
+>>>>>>>>>>> (AMD needs to remind me of their 'drm-memory-...' keys semantics. If we
+>>>>>>>>>>> correctly captured this in the first round it should be equivalent to
+>>>>>>>>>>> 'resident' above. In any case we can document no category is equal to
+>>>>>>>>>>> which category, and at most one of the two must be output.)
+>>>>>>>>>>>
+>>>>>>>>>>> Region names we at most partially standardize. Like we could say
+>>>>>>>>>>> 'system' is to be used where backing store is system RAM and others are
+>>>>>>>>>>> driver defined.
+>>>>>>>>>>>
+>>>>>>>>>>> Then discrete GPUs could emit N sets of key-values, one for each memory
+>>>>>>>>>>> region they support.
+>>>>>>>>>>>
+>>>>>>>>>>> I think this all also works for objects which can be migrated between
+>>>>>>>>>>> memory regions. 'Size' accounts them against all regions while for
+>>>>>>>>>>> 'resident' they only appear in the region of their current placement, etc.
+>>>>>>>>>>
+>>>>>>>>>> I'm not too sure how to rectify different memory regions with this,
+>>>>>>>>>> since drm core doesn't really know about the driver's memory regions.
+>>>>>>>>>> Perhaps we can go back to this being a helper and drivers with vram
+>>>>>>>>>> just don't use the helper?  Or??
+>>>>>>>>>
+>>>>>>>>> I think if you flip it around to drm-$CATEGORY-memory{-$REGION}: then it
+>>>>>>>>> all works out reasonably consistently?
+>>>>>>>>
+>>>>>>>> That is basically what we have now.  I could append -system to each to
+>>>>>>>> make things easier to add vram/etc (from a uabi standpoint)..
+>>>>>>>
+>>>>>>> What you have isn't really -system, but everything. So doesn't really make
+>>>>>>> sense to me to mark this -system, it's only really true for integrated (if
+>>>>>>> they don't have stolen or something like that).
+>>>>>>>
+>>>>>>> Also my comment was more in reply to Tvrtko's suggestion.
+>>>>>>
+>>>>>> Right so my proposal was drm-memory-$CATEGORY-$REGION which I think aligns
+>>>>>> with the current drm-memory-$REGION by extending, rather than creating
+>>>>>> confusion with different order of key name components.
+>>>>>
+>>>>> Oh my comment was pretty much just bikeshed, in case someone creates a
+>>>>> $REGION that other drivers use for $CATEGORY. Kinda Rob's parsing point.
+>>>>> So $CATEGORY before the -memory.
+>>>>>
+>>>>> Otoh I don't think that'll happen, so I guess we can go with whatever more
+>>>>> folks like :-) I don't really care much personally.
+>>>>
+>>>> Okay I missed the parsing problem.
+>>>>
+>>>>>> AMD currently has (among others) drm-memory-vram, which we could define in
+>>>>>> the spec maps to category X, if category component is not present.
+>>>>>>
+>>>>>> Some examples:
+>>>>>>
+>>>>>> drm-memory-resident-system:
+>>>>>> drm-memory-size-lmem0:
+>>>>>> drm-memory-active-vram:
+>>>>>>
+>>>>>> Etc.. I think it creates a consistent story.
+>>>>>>
+>>>>>> Other than this, my two I think significant opens which haven't been
+>>>>>> addressed yet are:
+>>>>>>
+>>>>>> 1)
+>>>>>>
+>>>>>> Why do we want totals (not per region) when userspace can trivially
+>>>>>> aggregate if they want. What is the use case?
+>>>>>>
+>>>>>> 2)
+>>>>>>
+>>>>>> Current proposal limits the value to whole objects and fixates that by
+>>>>>> having it in the common code. If/when some driver is able to support sub-BO
+>>>>>> granularity they will need to opt out of the common printer at which point
+>>>>>> it may be less churn to start with a helper rather than mid-layer. Or maybe
+>>>>>> some drivers already support this, I don't know. Given how important VM BIND
+>>>>>> is I wouldn't be surprised.
+>>>>>
+>>>>> I feel like for drivers using ttm we want a ttm helper which takes care of
+>>>>> the region printing in hopefully a standard way. And that could then also
+>>>>> take care of all kinds of of partial binding and funny rules (like maybe
+>>>>> we want a standard vram region that addds up all the lmem regions on
+>>>>> intel, so that all dgpu have a common vram bucket that generic tools
+>>>>> understand?).
+>>>>
+>>>> First part yes, but for the second I would think we want to avoid any
+>>>> aggregation in the kernel which can be done in userspace just as well. Such
+>>>> total vram bucket would be pretty useless on Intel even since userspace
+>>>> needs to be region aware to make use of all resources. It could even be
+>>>> counter productive I think - "why am I getting out of memory when half of my
+>>>> vram is unused!?".
+>>>
+>>> This is not for intel-aware userspace. This is for fairly generic "gputop"
+>>> style userspace, which might simply have no clue or interest in what lmemX
+>>> means, but would understand vram.
+>>>
+>>> Aggregating makes sense.
 >>
->> Thank you!
->> Arkadiusz
+>> Lmem vs vram is now an argument not about aggregation but about
+>> standardizing regions names.
+>>
+>> One detail also is a change in philosophy compared to engine stats where
+>> engine names are not centrally prescribed and it was expected userspace
+>> will have to handle things generically and with some vendor specific
+>> knowledge.
+>>
+>> Like in my gputop patches. It doesn't need to understand what is what,
+>> it just finds what's there and presents it to the user.
+>>
+>> Come some accel driver with local memory it wouldn't be vram any more.
+>> Or even a headless data center GPU. So I really don't think it is good
+>> to hardcode 'vram' in the spec, or midlayer, or helpers.
+>>
+>> And for aggregation.. again, userspace can do it just as well. If we do
+>> it in kernel then immediately we have multiple sets of keys to output
+>> for any driver which wants to show the region view. IMO it is just
+>> pointless work in the kernel and more code in the kernel, when userspace
+>> can do it.
+>>
+>> Proposal A (one a discrete gpu, one category only):
+>>
+>> drm-resident-memory: x KiB
+>> drm-resident-memory-system: x KiB
+>> drm-resident-memory-vram: x KiB
+>>
+>> Two loops in the kernel, more parsing in userspace.
+>>
+>> Proposal B:
+>>
+>> drm-resident-memory-system: x KiB
+>> drm-resident-memory-vram: x KiB
+>>
+>> Can be one loop, one helper, less text for userspace to parse and it can
+>> still trivially show the total if so desired.
+>>
+>> For instance a helper (or two) with a common struct containing region
+>> names and totals, where a callback into the driver tallies under each
+>> region, as the drm helper is walking objects.
+> 
+> The difference is that Rob's patches exist, and consistently roll this
+> out across all drm drivers.
+> > You're patches don't exist, and encourage further fragmentation. And
+> my take here is that "the good enough, and real" wins above "perfect,
+> but maybe in a few years and inconsitently across drivers".
+
+There is fragmentation in this series already since two categories 
+depend on drivers implementing them. Resident is even IMO one of the 
+more interesting ones.
+
+> No one is stopping you from writing a ton of patches to get towards
+> the perfect state, and we still want to get there. But I don't see the
+> point in rejecting the good enough for now for that.
+
+I argued a few times already on what I see as problems and discussed 
+pros and cons, but I can write patches too.
+
+Regards,
+
+Tvrtko
+
+> It's kinda the same idea with scheduler stats, but the other way
+> round: Sure it'd have been great if we could have this consistently
+> across all drivers, but right now the scheduler situation just isn't
+> there to support that. I'm pushing a bit, but it's definitely years
+> away. So the pragmatic option there was to just roll things out
+> driver-by-driver, to get things going. It's not perfect at all, and it
+> would have been easy to nuke that entire fdinfo effort on those
+> grounds.
+> 
+> If you want maybe a todo.rst entry to cover this discussion and make
+> sure we do record the rough consensus of where we eventually want to
+> end up at?
+> 
+>>>>> It does mean we walk the bo list twice, but *shrug*. People have been
+>>>>> complaining about procutils for decades, they're still horrible, I think
+>>>>> walking bo lists twice internally in the ttm case is going to be ok. If
+>>>>> not, it's internals, we can change them again.
+>>>>>
+>>>>> Also I'd lean a lot more towards making ttm a helper and not putting that
+>>>>> into core, exactly because it's pretty clear we'll need more flexibility
+>>>>> when it comes to accurate stats for multi-region drivers.
+>>>>
+>>>> Exactly.
+>>>>
+>>>>> But for a first "how much gpu space does this app use" across everything I
+>>>>> think this is a good enough starting point.
+>>>>
+>>>> Okay so we agree this would be better as a helper and not in the core.
+>>>
+>>> Nope, if you mean with this = Rob's patch. I was talking about a
+>>> hypothetical region-aware extension for ttm-using drivers.
+>>>
+>>>> On the point are keys/semantics good enough as a starting point I am still
+>>>> not convinced kernel should aggregate and that instead we should start from
+>>>> day one by appending -system (or something) to Rob's proposed keys.
+>>>
+>>> It should imo. Inflicting driver knowledge on generic userspace makes not
+>>> much sense, we should start with the more generally useful stuff imo.
+>>> That's why there's the drm fdinfo spec and all that so it's not a
+>>> free-for-all.
+>>>
+>>> Also Rob's stuff is _not_ system. Check on a i915 dgpu if you want :-)
+>>
+>> I am well aware it adds up everything, that is beside the point.
+>>
+>> Drm-usage-stats.rst text needs to be more precise across all keys at least:
+>>
+>> +- drm-resident-memory: <uint> [KiB|MiB]
+>> +
+>> +The total size of buffers that are resident in system memory.
+>>
+>> But as said, I don't see the point in providing aggregated values.
+> 
+> The choice isn't between aggregated values and split values.
+> 
+> The choice is between no values (for most drivers) and split values on
+> some drivers, vs aggregated values for everyone (and still split
+> values for some).
+> -Daniel
