@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 294F3C77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C05C77B78
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbjDNAMR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 20:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44242 "EHLO
+        id S230428AbjDNAMS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 20:12:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230289AbjDNAMK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:10 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33B1C3586
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:08 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 81-20020a251854000000b00b8f5b60b760so3321404yby.19
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:08 -0700 (PDT)
+        with ESMTP id S230348AbjDNAMG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:06 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCC08359A
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:04 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id t66-20020a254645000000b00b74680a7904so17509300yba.15
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681431127; x=1684023127;
+        d=google.com; s=20221208; t=1681431124; x=1684023124;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xv2Sbflv1PdMqZUyau/vGtw69NpiI05I8fyTNzzRBtE=;
-        b=IeAvbh5LiWqeMu3W4lreAV4pEYXDzFTMIK++YoYtL9HONMbDl2n8JG1cJvXTxQ4W/Z
-         GxRYbHWg5mdzTkvevWjucHzalLOLaRJPEZSOdabNIZoeGxpZJ7sqGOpBbuMaxh+N9UO4
-         laslticySsTQ5Z1P33WcVcn5XKY3X/szRjrTAuUNdQOCywlR5EjataM835zXeQyYF84o
-         sNh45HAi3xIJdUtIf7JG4FaHzE4kQ9wGOth27DrwXDDPKWE4i8uvOAxFPGUJWILtbFqJ
-         B0wpIq7/vwtgTuDsvfcJaOD5/zbThG99OLcVYbtOP9o7ei2nNW7AfnDuSWHGLmDR7UAC
-         GOjQ==
+        bh=Gsr9n7GPJt3nQiq4GcQ+TdB+rTZDJHWVuXMgSAc/inc=;
+        b=kiDTePLk95tLtwi05EOCo6F4V5CaUODRfRqdJI4Zgzm9FQWvaGZtlrD6yXaeMKkBjy
+         8RYIMMqxVwtK8hcqiFL4L6XAaUQuBxXj0Ob3OL8FosXLKFkReuzMoaSCAc6uSho3g0AT
+         1Mad+18Vu1ODUbN+2p4Gx7UN/JCMROb9IKSQZwVC0SqUcslnNIKVGAjm6jXtAj4CVyW6
+         AubdJjVqBGvAcIQftDMGLDBeWf29B2Tvkh+iboimGU/GxdHwLZqBuIds+tebPgdOIXna
+         fQ+8mzrH61gD5Hs3hKsbNr1LXybHaYbyOLpWo62wPHciL4cbfv9pbXLpD+tC0w5oX1yN
+         Vaaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681431127; x=1684023127;
+        d=1e100.net; s=20221208; t=1681431124; x=1684023124;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xv2Sbflv1PdMqZUyau/vGtw69NpiI05I8fyTNzzRBtE=;
-        b=WJ/2sVPoTVcZX02N4TLXp5g0e8wbKMag2CiAKEzSdWML22b7wM/YXhUJgMTH4Wyipg
-         QpgYlqFha7QgO63M9rl/og08Rf34M3RjEEBfsSbLczyu5r8BGhA118Ww0XZ16u5XKDH0
-         lQM631tCA6RpuHUMBclt3/GtInvnZNWKc+sxVcDOfTi4ySulp/GKZyXnW6n3fZeVgTvU
-         GCBO+KpGGj6Xu9djNPszf1KqjlQG8n4EZQzYmj2Ble+K4ZK45YrNHt2dOs0SOkqj/wjk
-         LggohOrCKKzkRq9GRzQCAq6vCJNBvB0ctFeVE3S/RIxnvScSEFVNWqBlFl9khO2RexLm
-         U98w==
-X-Gm-Message-State: AAQBX9dgdEC3lEFfq0v0R3AAvUdMDcFkIfdNgILXg3qMGgAp7gAW/Vcn
-        ELiRBkugyBrCw5hrS4dXdFAvmHimgvmK/Zlhrw==
-X-Google-Smtp-Source: AKy350bz8+zUcgBBK3sJ0KBBaZXIEou5c04bKvPj9N3prJO/LHXQy58hyZlX1YHGEbHTNZX5qvCYitSezXVlLtbvug==
+        bh=Gsr9n7GPJt3nQiq4GcQ+TdB+rTZDJHWVuXMgSAc/inc=;
+        b=k/szbjEigcj+VOUfXJVaWQuHao0R9Z8fxFq2lBX7GdTI+7uCrJxNc1T0y7lSsUX4qT
+         bIj8yBfYPZKkMvU9AoT/fSMtMCYTo1wnt4aGiLOx3xPLbnlA/8X3BqASBS/BWHm7Iqjs
+         ycPZx4c6yD2uRr/eigFngGB/o1O1k+9uC0Xg/P8ObgJWcn7FZEJo8spKrjjPknqjq39C
+         tVTCDk8EMwVzfQ2oM92XJoVfD9Dn19WgDE+VNWtb7bQNylwLSJcZgQnl0Ncc+gNytePU
+         159eT3M3SeNQTthdVOd0eI5Ylhap53h9xfTVAr94EiCgmkqPMBQw7oXPJ5JysZ35Kw1G
+         1rGw==
+X-Gm-Message-State: AAQBX9eGguB7e8YBTD3nQeOxNsHFqXk38Ta/P61CgEj1CFPpSe8qZgrM
+        3GLcNkXlI/B9qCTNgTiOEkbdvyX3YPyeNJwTtw==
+X-Google-Smtp-Source: AKy350aRre2/mW24vntSSS5eHQnqj/lI3imd9ledXWOeS14bBFvJmCzkihwUza6OXJc/lSYwICNxvky6ENjOvWGfVA==
 X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a25:68cc:0:b0:a27:3ecc:ffe7 with SMTP
- id d195-20020a2568cc000000b00a273eccffe7mr5642963ybc.3.1681431127201; Thu, 13
- Apr 2023 17:12:07 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 00:11:54 +0000
+ (user=ackerleytng job=sendgmr) by 2002:a81:af0c:0:b0:54f:8566:495 with SMTP
+ id n12-20020a81af0c000000b0054f85660495mr2640217ywh.1.1681431123807; Thu, 13
+ Apr 2023 17:12:03 -0700 (PDT)
+Date:   Fri, 14 Apr 2023 00:11:52 +0000
 In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
 Mime-Version: 1.0
 References: <cover.1681430907.git.ackerleytng@google.com>
 X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-Message-ID: <de27d8bba0b7a5a15df93d04e56b62ed3d66e232.1681430907.git.ackerleytng@google.com>
-Subject: [RFC PATCH 5/6] mm: restrictedmem: Add memfd_restricted_bind() syscall
+Message-ID: <43e1c951125d6700586dbd332c2036db0f2f5f2d.1681430907.git.ackerleytng@google.com>
+Subject: [RFC PATCH 3/6] mm: mempolicy: Refactor out __mpol_set_shared_policy()
 From:   Ackerley Tng <ackerleytng@google.com>
 To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -79,243 +79,86 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-memfd_restricted_bind() sets the NUMA memory policy, which consists of
-a policy mode and zero or more nodes, for an offset within a
-restrictedmem file with file descriptor fd and continuing for len
-bytes.
+Refactor out __mpol_set_shared_policy() to remove dependency on struct
+vm_area_struct, since only 2 parameters from struct vm_area_struct are
+used.
 
-This is intended to be like mbind() but specially for restrictedmem
-files, which cannot be mmap()ed into userspace and hence has no memory
-addresses that can be used with mbind().
-
-Unlike mbind(), memfd_restricted_bind() will override any existing
-memory policy if a new memory policy is defined for the same ranges.
-
-For now, memfd_restricted_bind() does not perform migrations and no
-flags are supported.
-
-This syscall is specialised just for restrictedmem files because this
-functionality is not required by other files.
+__mpol_set_shared_policy() will be used in a later patch by
+restrictedmem_set_shared_policy().
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- arch/x86/entry/syscalls/syscall_32.tbl |  1 +
- arch/x86/entry/syscalls/syscall_64.tbl |  1 +
- include/linux/mempolicy.h              |  2 +-
- include/linux/syscalls.h               |  5 ++
- include/uapi/asm-generic/unistd.h      |  5 +-
- include/uapi/linux/mempolicy.h         |  7 ++-
- kernel/sys_ni.c                        |  1 +
- mm/restrictedmem.c                     | 75 ++++++++++++++++++++++++++
- scripts/checksyscalls.sh               |  1 +
- 9 files changed, 95 insertions(+), 3 deletions(-)
+ include/linux/mempolicy.h |  2 ++
+ mm/mempolicy.c            | 29 +++++++++++++++++++----------
+ 2 files changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index dc70ba90247e..c94e9ce46cc3 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -456,3 +456,4 @@
- 449	i386	futex_waitv		sys_futex_waitv
- 450	i386	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	i386	memfd_restricted	sys_memfd_restricted
-+452	i386	memfd_restricted_bind	sys_memfd_restricted_bind
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 06516abc8318..6bd86b45d63a 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -373,6 +373,7 @@
- 449	common	futex_waitv		sys_futex_waitv
- 450	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
- 451	common	memfd_restricted	sys_memfd_restricted
-+452	common	memfd_restricted_bind	sys_memfd_restricted_bind
- 
- #
- # Due to a historical design error, certain syscalls are numbered differently
 diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index 15facd9de087..af62233df0c0 100644
+index d232de7cdc56..9a2a2dd95432 100644
 --- a/include/linux/mempolicy.h
 +++ b/include/linux/mempolicy.h
-@@ -126,7 +126,7 @@ struct shared_policy {
+@@ -126,6 +126,8 @@ struct shared_policy {
  
  int vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *dst);
- struct mempolicy *mpol_create(
--	unsigned long mode, const unsigned long __user *nmask, unsigned long maxnode)
-+	unsigned long mode, const unsigned long __user *nmask, unsigned long maxnode);
  void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol);
- int __mpol_set_shared_policy(struct shared_policy *info, struct mempolicy *mpol,
- 			     unsigned long pgoff_start, unsigned long npages);
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 660be0bf89d5..852b202d3837 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1059,6 +1059,11 @@ asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long l
- 					    unsigned long home_node,
- 					    unsigned long flags);
- asmlinkage long sys_memfd_restricted(unsigned int flags);
-+asmlinkage long sys_memfd_restricted_bind(int fd, struct file_range __user *range,
-+					  unsigned long mode,
-+					  const unsigned long __user *nmask,
-+					  unsigned long maxnode,
-+					  unsigned int flags);
- 
- /*
-  * Architecture-specific system calls
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index e2ea7cd964f8..b5a1385bb4a7 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -889,10 +889,13 @@ __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
- #ifdef __ARCH_WANT_MEMFD_RESTRICTED
- #define __NR_memfd_restricted 451
- __SYSCALL(__NR_memfd_restricted, sys_memfd_restricted)
-+
-+#define __NR_memfd_restricted_bind 452
-+__SYSCALL(__NR_memfd_restricted_bind, sys_memfd_restricted_bind)
- #endif
- 
- #undef __NR_syscalls
--#define __NR_syscalls 452
-+#define __NR_syscalls 453
- 
- /*
-  * 32 bit systems traditionally used different
-diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
-index 046d0ccba4cd..979499abd253 100644
---- a/include/uapi/linux/mempolicy.h
-+++ b/include/uapi/linux/mempolicy.h
-@@ -6,9 +6,9 @@
- #ifndef _UAPI_LINUX_MEMPOLICY_H
- #define _UAPI_LINUX_MEMPOLICY_H
- 
-+#include <asm-generic/posix_types.h>
- #include <linux/errno.h>
- 
--
- /*
-  * Both the MPOL_* mempolicy mode and the MPOL_F_* optional mode flags are
-  * passed by the user to either set_mempolicy() or mbind() in an 'int' actual.
-@@ -72,4 +72,9 @@ enum {
- #define RECLAIM_WRITE	(1<<1)	/* Writeout pages during reclaim */
- #define RECLAIM_UNMAP	(1<<2)	/* Unmap pages during reclaim */
- 
-+struct file_range {
-+	__kernel_loff_t offset;
-+	__kernel_size_t len;
-+};
-+
- #endif /* _UAPI_LINUX_MEMPOLICY_H */
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index 7c4a32cbd2e7..db24d3fe6dc5 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -362,6 +362,7 @@ COND_SYSCALL(memfd_secret);
- 
- /* memfd_restricted */
- COND_SYSCALL(memfd_restricted);
-+COND_SYSCALL(memfd_restricted_bind);
- 
- /*
-  * Architecture specific weak syscall entries.
-diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-index 55e99e6c09a1..9c249722c61b 100644
---- a/mm/restrictedmem.c
-+++ b/mm/restrictedmem.c
-@@ -1,4 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
-+#include <linux/mempolicy.h>
- #include "linux/sbitmap.h"
- #include <linux/pagemap.h>
- #include <linux/pseudo_fs.h>
-@@ -359,3 +360,77 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
- 	return 0;
++int __mpol_set_shared_policy(struct shared_policy *info, struct mempolicy *mpol,
++			     unsigned long pgoff_start, unsigned long npages);
+ int mpol_set_shared_policy(struct shared_policy *info,
+ 				struct vm_area_struct *vma,
+ 				struct mempolicy *new);
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index a2655b626731..f3fa5494e4a8 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -2817,30 +2817,39 @@ void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol)
+ 	}
  }
- EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-+
-+static int restrictedmem_set_shared_policy(
-+	struct file *file, loff_t start, size_t len, struct mempolicy *mpol)
-+{
-+	struct restrictedmem *rm;
-+	unsigned long end;
-+
-+	if (!PAGE_ALIGNED(start))
-+		return -EINVAL;
-+
-+	len = PAGE_ALIGN(len);
-+	end = start + len;
-+
-+	if (end < start)
-+		return -EINVAL;
-+	if (end == start)
-+		return 0;
-+
-+	rm = file->f_mapping->private_data;
-+	return __mpol_set_shared_policy(shmem_shared_policy(rm->memfd), mpol,
-+					start >> PAGE_SHIFT, len >> PAGE_SHIFT);
-+}
-+
-+static long do_memfd_restricted_bind(
-+	int fd, loff_t offset, size_t len,
-+	unsigned long mode, const unsigned long __user *nmask,
-+	unsigned long maxnode, unsigned int flags)
-+{
-+	long ret;
-+	struct fd f;
-+	struct mempolicy *mpol;
-+
-+	/* None of the flags are supported */
-+	if (flags)
-+		return -EINVAL;
-+
-+	f = fdget_raw(fd);
-+	if (!f.file)
-+		return -EBADF;
-+
-+	if (!file_is_restrictedmem(f.file))
-+		return -EINVAL;
-+
-+	mpol = mpol_create(mode, nmask, maxnode);
-+	if (IS_ERR(mpol)) {
-+		ret = PTR_ERR(mpol);
-+		goto out;
-+	}
-+
-+	ret = restrictedmem_set_shared_policy(f.file, offset, len, mpol);
-+
-+	mpol_put(mpol);
-+
-+out:
-+	fdput(f);
-+
-+	return ret;
-+}
-+
-+SYSCALL_DEFINE6(memfd_restricted_bind, int, fd, struct file_range __user *, range,
-+		unsigned long, mode, const unsigned long __user *, nmask,
-+		unsigned long, maxnode, unsigned int, flags)
-+{
-+	loff_t offset;
-+	size_t len;
-+
-+	if (unlikely(get_user(offset, &range->offset)))
-+		return -EFAULT;
-+	if (unlikely(get_user(len, &range->len)))
-+		return -EFAULT;
-+
-+	return do_memfd_restricted_bind(fd, offset, len, mode, nmask,
-+					    maxnode, flags);
-+}
-diff --git a/scripts/checksyscalls.sh b/scripts/checksyscalls.sh
-index 3c4d2508226a..e253529cf1ec 100755
---- a/scripts/checksyscalls.sh
-+++ b/scripts/checksyscalls.sh
-@@ -46,6 +46,7 @@ cat << EOF
  
- #ifndef __ARCH_WANT_MEMFD_RESTRICTED
- #define __IGNORE_memfd_restricted
-+#define __IGNORE_memfd_restricted_bind
- #endif
+-int mpol_set_shared_policy(struct shared_policy *info,
+-			struct vm_area_struct *vma, struct mempolicy *npol)
++int __mpol_set_shared_policy(struct shared_policy *info, struct mempolicy *mpol,
++			     unsigned long pgoff_start, unsigned long npages)
+ {
+ 	int err;
+ 	struct sp_node *new = NULL;
+-	unsigned long sz = vma_pages(vma);
++	unsigned long pgoff_end = pgoff_start + npages;
  
- /* Missing flags argument */
+ 	pr_debug("set_shared_policy %lx sz %lu %d %d %lx\n",
+-		 vma->vm_pgoff,
+-		 sz, npol ? npol->mode : -1,
+-		 npol ? npol->flags : -1,
+-		 npol ? nodes_addr(npol->nodes)[0] : NUMA_NO_NODE);
++		 pgoff_start, npages,
++		 mpol ? mpol->mode : -1,
++		 mpol ? mpol->flags : -1,
++		 mpol ? nodes_addr(mpol->nodes)[0] : NUMA_NO_NODE);
+ 
+-	if (npol) {
+-		new = sp_alloc(vma->vm_pgoff, vma->vm_pgoff + sz, npol);
++	if (mpol) {
++		new = sp_alloc(pgoff_start, pgoff_end, mpol);
+ 		if (!new)
+ 			return -ENOMEM;
+ 	}
+-	err = shared_policy_replace(info, vma->vm_pgoff, vma->vm_pgoff+sz, new);
++
++	err = shared_policy_replace(info, pgoff_start, pgoff_end, new);
++
+ 	if (err && new)
+ 		sp_free(new);
++
+ 	return err;
+ }
+ 
++int mpol_set_shared_policy(struct shared_policy *info,
++			struct vm_area_struct *vma, struct mempolicy *mpol)
++{
++	return __mpol_set_shared_policy(info, mpol, vma->vm_pgoff, vma_pages(vma));
++}
++
+ /* Free a backing policy store on inode delete. */
+ void mpol_free_shared_policy(struct shared_policy *p)
+ {
 -- 
 2.40.0.634.g4ca3ef3211-goog
 
