@@ -2,156 +2,196 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C627CC77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 02:10:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 213EDC77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 02:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjDNCKY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 22:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40498 "EHLO
+        id S229582AbjDNChr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 22:37:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229799AbjDNCKX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 22:10:23 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ECF9469F;
-        Thu, 13 Apr 2023 19:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681438219; x=1712974219;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IeRnQ+CQcJwGbjz4GOR0Cyk0yJ9hc73wDuZH6+tv/hs=;
-  b=VVh5p2RbrIAjo6tMF+mJPdfARgoKhekd7hod6ZelYODYXzZVmz546dW5
-   p24eJOussYsgk/0qrTZvsYAO1LMo/m/48X3NayRYmyJsOzmXJ1IBjDd4f
-   UJPJydPvr1rQHE3lXOpc8byGJfNaAaILFDCWn/j70QlI0yYI26qlLWcZD
-   HbWyE8VJJgUbXksrDTbGxyPzQgW9nnSe8V7B9Jy0RTOzo1Fy96hgBXiY+
-   2aEas+MNdEcHPPIuBdoulp2UoqrHc4mVgS6Q5dmMa25udtlMLV/ZQGxGS
-   1Ym8FfJBCQAmD4MZOnsAyWs0umkxwVQASDrq/WzJK5nXFWPzONLFSEUXm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="372222356"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="372222356"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 19:10:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="720102853"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="720102853"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 13 Apr 2023 19:10:11 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pn8t8-000Z8D-0o;
-        Fri, 14 Apr 2023 02:10:10 +0000
-Date:   Fri, 14 Apr 2023 10:09:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH 4/4] riscv: Enable perf counters user access only through
- perf
-Message-ID: <202304140904.9oAVhFHu-lkp@intel.com>
-References: <20230413161725.195417-5-alexghiti@rivosinc.com>
+        with ESMTP id S229450AbjDNChq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 22:37:46 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2073.outbound.protection.outlook.com [40.107.100.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B1D40E4;
+        Thu, 13 Apr 2023 19:37:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QyOzTT2DsPNk7tQqPHZkdkvtRR/IFpUkDuAYd3tPrct6ghDWbXLoQ4X58SZYPZj2f2ZFRW9JX8TahNkOXzmbQlK8jHcGWpPOAh4e9et95I55eqd6ciF2JgKBXyRBoFL/yyII9DndsmEULFrjic8dI1LGzsckJ+FyEbwAJow0T1DcNGPVAcEqsnDhDi2jiljkpwleXUdHc+gk4NsqvKcehR8vCs985aYivu9+m8xkbwRbBc4oBi8nbUAMa3mQuZ/q8VoX5RenWPpkt1j/ig2xyV/vfZ5sac06guCh/FzG4olfaoCUArpK0k7jHrl/rJ3ySGWyIfEIvCPETa8qkNZu2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pQlvGw5K9RwJyeD3tPx3I991FUcfcV4mgwD40tAtlZY=;
+ b=BOIif7DZzGRfC3ih7PS5Ll8mM4Z/8bDl7Wa9cXmNEPSPgXfxZawQyV+DQZq2RSekfp0Wlb3SiC0FAUd/7kdqdCHcQSn3CCraMpVw4ruuBXj+Cj2ZduF9kWRjkw15XrJ5Ss+VKWHCcUjS3JeWVvIrXpPpMKOA5vXKNUTnssXfE38UxOnuwpUJkmRF+jfboqhCZkCXBEeUvTrkSRNqsxMKOir/N1K4fF3BXOp7ahJPpQq13tXriTuxGUpo/QbLR/JtAf9p9yRlhpqNkmKzPX8+fNCJAxDRjtmz6x+TnskR4pN2eERMvyxMiyLB+1A9LFvU9lEU1cMlQTeWOuEU1zpXFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pQlvGw5K9RwJyeD3tPx3I991FUcfcV4mgwD40tAtlZY=;
+ b=HVphdp2MkSVj+OH4QGxU4rIOW5FC53FKhx9LrVHR7KuU59VmPvHyPOYiK38M1wGSch4FrD6Rq7vhkdfiKcFnEZGezhj6JkL88Y3/UbIoPJMY883apLucXUF8DD4eWBzshYhLq95mAsOv8SW2VMjZpoY5JHv6Fi1hCl4ZVGYb9lI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW2PR12MB2379.namprd12.prod.outlook.com (2603:10b6:907:9::24)
+ by IA0PR12MB7554.namprd12.prod.outlook.com (2603:10b6:208:43e::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Fri, 14 Apr
+ 2023 02:37:41 +0000
+Received: from MW2PR12MB2379.namprd12.prod.outlook.com
+ ([fe80::42cb:32d6:2502:4cbd]) by MW2PR12MB2379.namprd12.prod.outlook.com
+ ([fe80::42cb:32d6:2502:4cbd%3]) with mapi id 15.20.6298.030; Fri, 14 Apr 2023
+ 02:37:41 +0000
+Message-ID: <225bdcc0-9351-63a7-f071-5536d495ada6@amd.com>
+Date:   Fri, 14 Apr 2023 08:07:27 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2 2/2] x86/Documentation: Add documentation about cluster
+Content-Language: en-US
+To:     Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
+        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
+        Jason@zx2c4.com, thomas.lendacky@amd.com, puwen@hygon.cn,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        oleksandr@natalenko.name, bagasdotme@gmail.com
+References: <20230413172918.1500-1-kprateek.nayak@amd.com>
+ <20230413172918.1500-3-kprateek.nayak@amd.com>
+ <1ea129d9-19cc-5f33-fc10-3e832679c5a2@intel.com>
+From:   K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <1ea129d9-19cc-5f33-fc10-3e832679c5a2@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0134.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::22) To MW2PR12MB2379.namprd12.prod.outlook.com
+ (2603:10b6:907:9::24)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230413161725.195417-5-alexghiti@rivosinc.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2379:EE_|IA0PR12MB7554:EE_
+X-MS-Office365-Filtering-Correlation-Id: ccfdafcd-5d9a-4de4-3aa5-08db3c9137ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4UeCxPuZctN2klyr4MW/Pw0qSGmLAbZ0/ExrIBOnXNzXybptY6iS7OK9pvDdUpMMmJO7hWobW1aKXpFAI7zrs95GRNo1DTzNtx9POn6Zy129OAtrbW1WZH12A0Y0eUUrWP66mhc6ffPE6e6K0UtOGUjarN4rX91mh90ZYX8h80sZJT+30j8PrP7hW8Ys20ml4JDWu9rFZsXSG25+mxi8ae8R2Py8pPsjkhsQp+sxSud/3O9cr6JxPIOx44GNfaSL5FQ9MqpVevmjJ7NfKQHLX/ysTtDTRM6n57ATEa+v4gunTF6RdkapvZRSLOBIV1uWcCas9H6vGTSEYWatGKAu15N4ORHh40AN21MM0n0qZItbBBkAEnMxiK8mLhNgCu0XzU96s8jSV2bWq/qM3SFrPOoMLxJge8T5T3w/j4WcvBLz/3QGHOAiYwG6K+3vbps0LpTZPJFpDWj79JwzfYIlDqwfCbM86d9iKYUEazPjtHnju6YOQ2zYsN20Oo6fXHMIfo1GqpXxMzAjlRiGf/B6wIn33/Yo2qauyd6JOowM54TJPpt1jDqKteOD3KCKsXpk8ouya9Slb50zyMqTbMA3Dt4aRIGS9Tc5YHdCvoJ0qG9xc9LZJ3LeAzx/TYnK+eQKxI62e/jjiBR3o+voiOFTYw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB2379.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(39860400002)(346002)(396003)(376002)(451199021)(36756003)(478600001)(6486002)(4326008)(66556008)(66476007)(8676002)(66946007)(41300700001)(316002)(83380400001)(2616005)(6666004)(186003)(6512007)(6506007)(53546011)(26005)(86362001)(31696002)(5660300002)(7416002)(38100700002)(8936002)(2906002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T1RpVW5CVFEyY1Y2YlZQQ0VRY0dsYlFvZy90WlkzYUNMcTM2ZHFIMGxTNTd6?=
+ =?utf-8?B?SnJIdmxJRzF0WmJYRjBhZFc1U2d3OU9YOXFFT0RLRFJra1pYWk5kUy9saisw?=
+ =?utf-8?B?eTB6Yjk3MXV0d1V1UEx5TFZvVHJEVXVqampxTHJPVGUrK1liUTcvaW1ZbzJR?=
+ =?utf-8?B?SWtLbjg2U1g1eGkyNWJuRWxpTlZyak1JazBHWTF6aFlNK2piOUdqaHRDeGRT?=
+ =?utf-8?B?NHJzYk5HVDZ0eDRhb3RQSHZFRHFHVkdZR0FGcG5UUjdQSUFqNEZJZmVUL0JR?=
+ =?utf-8?B?OXhqVnJYYmwyeWJocm9mR2ZabjRmQzN0VUQycW9Mb0Njdmt6d2JZdnpqdjlo?=
+ =?utf-8?B?dEZTOWxvSEoyQUo1K1pwREtyRUxZT1dybVNmNzdNOG5nWkh3L1A3alVaQ3hB?=
+ =?utf-8?B?K0hvSVljVEluVjcxZHlFcGlPT0dQVFRZeFZhV3RWb0xGSWIrVHNFL081RkVO?=
+ =?utf-8?B?MjBzYjU1RE1FODVzV2N5TDVybjhPb2xkdUhZbmVSMm12ck40aTFoQzBXa3dQ?=
+ =?utf-8?B?Wmp6andCaGt6VFBYOVFrNGhtSXJxb0lJVk5oaTZnYjRsbVlTRE1NUExPRkpG?=
+ =?utf-8?B?Tnk2MmN5MzBxMit1dUVMOTE0MmJkQlIweWJKRTFrdFhmTHBSeXpQbGladnJ1?=
+ =?utf-8?B?K0RHb2lXSE0xNWRXRjdYSS9uZUc2a3p2ZlJpcDlGVUovZFFlOTlIVWFUNzJQ?=
+ =?utf-8?B?YlZ5emFQK3dhL3VESjFWM3VtTkhJZWZ6K2NpcDFocHVDa1pBWmFwWUFCMmRs?=
+ =?utf-8?B?SHhHd2VVdllWNDdFYXhlb0RTb0dIVnpYSGc4RFNpakpHYzN3dVVvRUhrZ1Jz?=
+ =?utf-8?B?KzN6MXRldVQ2NE5jQnJ0ZnY0WnQ2Z2o0eGt3SC9aa1lxZ1lsMXVKTW8wcC80?=
+ =?utf-8?B?aFRocHlXeEhUSTB6dG9jUGFWZTh0WklMM3A5RjNScEVkS3hKTjNZU1MxVGRo?=
+ =?utf-8?B?RFRuQ2NDNEZYM0t4TC9Celc3cEE5clRSTTcxWG1JNElNUW5FdGVVcHhHcytF?=
+ =?utf-8?B?dnZjeWxtRDAzWEszMmtHNHlUelBBQS9UYitVckRQVmlTQ2Q5QWNOcGo0TjJC?=
+ =?utf-8?B?OWxpNlJEQ1loYUYvT0ZsU2NBYTFzQWd6NEVvNit3R0h0c2lzZHkrNmFaaFJR?=
+ =?utf-8?B?YWQ3MjcrNWZ6TytJamtYeG5UVmpwdTB2RmkybmlwY0JnYU9WdVI0QmVlelB2?=
+ =?utf-8?B?a1V1UEExRC9uVzJURkV6S2d6YmZPRnZFN3lITHZLdFBnMldTMkJSdUIxeGJ4?=
+ =?utf-8?B?UGtkYmJidU96VWZpUHZERWRmcytlSkFzZWM1MGNGZlpXTEZxZDZZV2xWbkJm?=
+ =?utf-8?B?K1RzNUl3VGdZQnBNc0p1bERETVpDZXhBUndZQjRjaWhLR2ZkOVBXcE5LUXFy?=
+ =?utf-8?B?TmVqTk9HakdLRU9DTEd5dmtnaUl3UERBWWUxR3ZDRjJaMk5KcllCQmlidU9L?=
+ =?utf-8?B?R1NRQ1BCaWlhdWdxODgwUGUxakVKQThjMXpaRlBRd3dUb0xScHhGc1NSOHZH?=
+ =?utf-8?B?VGJYRE92cE13TVFNcFFtVzNsL2ZFQTRmdmltbXFFMDdtd3FTbHRDVXFYelc0?=
+ =?utf-8?B?a3oxbmZFdGdTR0drYVpIdGpPMDBBSG1Lc3l0QVQ4Yno3MjhPMFR2T2Y0dHk1?=
+ =?utf-8?B?S05NWmRKNXZtUVVYY3pxVjR2R2NtbkN1azNHU2xRRXpaMk1sdmhxc1p0OEEw?=
+ =?utf-8?B?dmM2VlYwbDYrQWpid1Z5TGlnSVMzNzhFV1hmOGlUK2o2ek1HWGdmemF5Z0dO?=
+ =?utf-8?B?MlpkQWgwczJ6dlNZS2dERGFKbVJCY3Rzd0IzSS9CL093L1R5M3NCdnU3RVFH?=
+ =?utf-8?B?Y1dQVzZJb0tJcko4Yy9aNEVyZytPMW8xSVFjNm52TmZJWjYrZTlLRDFaY0xU?=
+ =?utf-8?B?RUdmTjd4aU9aL3o3SUFreDhrbytsYzh4TnU4VnJ3emVGT09HN3h4RzVsVUk1?=
+ =?utf-8?B?d0Zta1FDUFlMMVFFa29XekhFaWRBNmFsZWFpYU9USHF2TDArSlZ4TmZ2UTZw?=
+ =?utf-8?B?aE5mODJmbG54TUxjRlRzaXpSMEJ2ZnpRS0xLdXVPWVBiVWdES3Q3N203bXcz?=
+ =?utf-8?B?bmZZS0w2Um0vbVlNb0pRZE1zNDNXdjN5MjVTZzZBRHZWZFVicWJQMU9oQmtX?=
+ =?utf-8?Q?9umBbf5BFx2rPxl8F2WlKx41f?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccfdafcd-5d9a-4de4-3aa5-08db3c9137ef
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2379.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2023 02:37:41.4230
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uqYkXwfQ4Mo4uvtiTo5M6XGXdyU7TcoEfmZ0vzF9gF+telrzwAxQv/Ur+R4uW6TZXs7GfZVV2FSAGk4g7TPBxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7554
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexandre,
+Hello Dave,
 
-kernel test robot noticed the following build errors:
+Thank you for taking a look at the series.
 
-[auto build test ERROR on tip/perf/core]
-[also build test ERROR on acme/perf/core tip/master tip/auto-latest linus/master v6.3-rc6]
-[cannot apply to next-20230413]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 4/13/2023 11:27 PM, Dave Hansen wrote:
+> On 4/13/23 10:29, K Prateek Nayak wrote:
+>> +  - cluster_id:
+>> +
+>> +    A per-CPU variable containing:
+>> +
+>> +      - On Intel, the common upper bits of APIC ID of the list of CPUs sharing
+>> +        the L2 Cache with lower bits set to 0.
+>> +
+>> +      - On AMD and Hygon, with Topology Extension, the common upper bits of the
+>> +        Extended APIC ID of the list of CPUs sharing the L2 Cache, left shifted
+>> +        to remove trailing 0s.
+> 
+> I think this is too much detail for Documentation.  We have the code if
+> anyone cares _this_ much.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/perf-Fix-wrong-comment-about-default-event_idx/20230414-002232
-patch link:    https://lore.kernel.org/r/20230413161725.195417-5-alexghiti%40rivosinc.com
-patch subject: [PATCH 4/4] riscv: Enable perf counters user access only through perf
-config: riscv-randconfig-r036-20230412 (https://download.01.org/0day-ci/archive/20230414/202304140904.9oAVhFHu-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 9638da200e00bd069e6dd63604e14cbafede9324)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/8ca9b21cbf2c0b91ee35356c01aef9da7d874e55
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexandre-Ghiti/perf-Fix-wrong-comment-about-default-event_idx/20230414-002232
-        git checkout 8ca9b21cbf2c0b91ee35356c01aef9da7d874e55
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
+Yes, I agree. I'll reword this as you suggested.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304140904.9oAVhFHu-lkp@intel.com/
+> 
+> Also, I'm perplexed by the "left shifted" comment.  I don't see a lot of
+> left shifting in the patch.  Am I just missing it?
 
-All errors (new ones prefixed by >>):
+In Patch1, cacheinfo_topoext_init_l2c_id() sets l2c_id as follows for AMD
+and Hygon processors:
 
->> arch/riscv/kernel/perf_event.c:8:28: error: call to undeclared function 'to_riscv_pmu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
-                                     ^
->> arch/riscv/kernel/perf_event.c:8:20: error: incompatible integer to pointer conversion initializing 'struct riscv_pmu *' with an expression of type 'int' [-Wint-conversion]
-           struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
-                             ^       ~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kernel/perf_event.c:24:27: error: incomplete definition of type 'struct riscv_pmu'
-           userpg->pmc_width = rvpmu->ctr_get_width(event->hw.idx) + 1;
-                               ~~~~~^
-   arch/riscv/kernel/perf_event.c:8:9: note: forward declaration of 'struct riscv_pmu'
-           struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
-                  ^
-   3 errors generated.
+  bits = get_count_order(num_sharing_cache);
+  per_cpu(cpu_l2c_id, cpu) = c->apicid >> bits;
 
+For Intel, in init_intel_cacheinfo(), l2c_id is set as follows:
 
-vim +/to_riscv_pmu +8 arch/riscv/kernel/perf_event.c
+  index_msb = get_count_order(num_threads_sharing);
+  l2_id = c->apicid & ~((1 << index_msb) - 1);
+  ...
+  per_cpu(cpu_l2c_id, cpu) = l2_id;
 
-     4	
-     5	void arch_perf_update_userpage(struct perf_event *event,
-     6				       struct perf_event_mmap_page *userpg, u64 now)
-     7	{
-   > 8		struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
-     9		struct clock_read_data *rd;
-    10		unsigned int seq;
-    11		u64 ns;
-    12	
-    13		userpg->cap_user_time = 0;
-    14		userpg->cap_user_time_zero = 0;
-    15		userpg->cap_user_time_short = 0;
-    16		userpg->cap_user_rdpmc =
-    17			!!(event->hw.flags & PERF_EVENT_FLAG_USER_READ_CNT);
-    18	
-    19		/*
-    20		 * The counters are 64-bit but the priv spec doesn't mandate all the
-    21		 * bits to be implemented: that's why, counter width can vary based on
-    22		 * the cpu vendor.
-    23		 */
-  > 24		userpg->pmc_width = rvpmu->ctr_get_width(event->hw.idx) + 1;
+In the former, only the upper bits that are same for all the threads in a
+cluster are retained, shifting out the lower bits, whereas in the latter
+the lower bits are set to 0s keeping the upper bits, common to all the
+threads on the cluster, as is. Let me know if I'm missing something.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+> Further, this makes it sound like all Intel CPUs have the cluster_id
+> populated.  I'm also not sure that folks reading this will have any
+> worldly idea what "Topology Extension" is.
+
+I agree, it becomes too technical.
+
+> 
+> Why don't we just say that some CPUs don't have this info?  That way we
+> don't need to spell out AMD vs. Intel or expect our users to go figuring
+> out of their CPU has "Topology Extension" or leaf 3 or wherever this
+> info is on Intel.
+> 
+> How about:
+> 
+> A per-CPU variable containing:
+> 
+>    - Some upper bits extracted from the APIC ID.  CPUs which have the
+>      same value in these bits share an L2 and have the same cluster_id.
+> 
+>      CPUs for which L2 cache information is unavailable will show 65535
+>      as the cluster_id.
+
+I'll reword the description based on your suggestion in the next version.
+
+--
+Thanks and Regards,
+Prateek
