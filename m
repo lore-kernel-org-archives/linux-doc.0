@@ -2,142 +2,147 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFE3C77B6F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 10:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EDAC77B6F
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 10:48:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230273AbjDNKo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 06:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51260 "EHLO
+        id S229994AbjDNKse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 06:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbjDNKo5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 06:44:57 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DB5719AA
-        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 03:44:55 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-94a34a0b9e2so347537566b.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 03:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681469094; x=1684061094;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=99/2Xzq1k3jGcxmT1pTlyb+0p5jdof1SmGadkZ956E8=;
-        b=gjpb92BJlyi8AdRk2tXb6yIbRjNjmhPIjGoUt2NuU0q+EpYqyo3wONGmRD1PvavfsD
-         3EMTmNpcRpfwkCowxOmjE+xlw7lf9vxOMlVAldE5s1EDeZcUPR4udR2V5FXv/lVgTU/a
-         OIKwB7dOGs+wSZw6Cv/dE8mXplb70MkLuDyhswOglpMEgRd9GkBuewhN+8oaW9urSnNk
-         rKYjQlFyRam2rXBVRQZ6Hu1fxxH9VWK5AxxvWPXVeGNQ6evxRnM3DaWxY1slE9kzT2ir
-         iyKN3Ql0FWU47U5IFa9tz4j3s9ROVKl37k+PnvumIYZONanbc84xGAnXCMu7sZw2fMv3
-         kpWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681469094; x=1684061094;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=99/2Xzq1k3jGcxmT1pTlyb+0p5jdof1SmGadkZ956E8=;
-        b=CCHcNLlVMPhJAVzHBa3svKEa+hXbaz99fm5y5DGi21zfM+k6Jw8AHVgoOE1Upvotxf
-         O1oHib1qMpu2YFcV/JZrrBGMfOyc6O5cXsA30MFptN+IDq3H6U9fWwv8vu9KQqRTJZIl
-         BVKmVA8qw139GwVGg7WDwPNOuhgtQliX/S75HojhZdU9fY0vQNHQ1Fv6nGrleIzMysJX
-         dRQo6IAiFh8qUmIOndSgZoHmudueNC2auxLZ5bbQUqM56EMbiCozINr7khgmzfYYD1P/
-         KwoSq9tS610ZTBnGZ/j5eNYaH/eYe6NPqyFWIYV5WOb6TcRCIlMqCpf0QtMmevZKGzqK
-         FVVQ==
-X-Gm-Message-State: AAQBX9foGDik8DkI6NFEayKIK8lVVxq2IPeObg70+za5L6enWF90EvQc
-        OmVkCM87LlycPnV8EhuTi3hDZg==
-X-Google-Smtp-Source: AKy350YAZ4ObREDPTqX+3sDjKddkzxLRFtcc0tjO/9BvuuaM+s0ApmwT+Uw7xC7rJqvbc3fYPtVPzQ==
-X-Received: by 2002:aa7:c04f:0:b0:504:aae4:a034 with SMTP id k15-20020aa7c04f000000b00504aae4a034mr5907943edo.31.1681469094005;
-        Fri, 14 Apr 2023 03:44:54 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id o24-20020aa7c7d8000000b005067d089aafsm1003061eds.11.2023.04.14.03.44.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Apr 2023 03:44:53 -0700 (PDT)
-Message-ID: <6c01d2fc-3155-0dcd-f473-9cbd75dd69ec@linaro.org>
-Date:   Fri, 14 Apr 2023 11:44:51 +0100
+        with ESMTP id S229479AbjDNKsd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 06:48:33 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4AE59C5;
+        Fri, 14 Apr 2023 03:48:32 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4516766031C9;
+        Fri, 14 Apr 2023 11:48:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1681469303;
+        bh=FylSFIVBnE7RXP+PfgYkJCcaPRTztLjwILG6wpZ/BJI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=UWo5Cr6rDZb6UXxn1c6QDkxl9wIWtGPQLHecpLErzGMSW/rLafm9chY1DQnmoIMGs
+         mZ2GeVL5CidyylhE9IjbRidVWkPbFCxkf2vqWTeTfheeHsv6/DJu9JizqbuKfPYwVn
+         no5tVt4CEjnHDUiaidhbEgKcqnfTsR99dKJiDgnRNFbivJIe7X/L2E+GVomWh2F+YQ
+         JCzw8msfQdsrDlwydHVaHsU0je0J7SKtykzZItKwVuDcEtyov2KoZZCb/LtUs0vJy8
+         gj6FVTIQzoNtgbybuhAXQJlDmHsmGlt3jfYW98XrqcAlzWIZNFjqea5bIUOdaVLid8
+         rXd9P/7vM5Cdg==
+Message-ID: <a157c5e7-d90c-5b99-42bb-ae02b6677732@collabora.com>
+Date:   Fri, 14 Apr 2023 12:48:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 6/6] remoterproc: qcom: refactor to leverage exported
- minidump symbol
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v1 3/6] soc: mediatek: virt: geniezone: Introduce
+ GenieZone hypervisor support
 Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        catalin.marinas@arm.com, will@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-References: <1679491817-2498-1-git-send-email-quic_mojha@quicinc.com>
- <1679491817-2498-7-git-send-email-quic_mojha@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <1679491817-2498-7-git-send-email-quic_mojha@quicinc.com>
+To:     =?UTF-8?B?WWktRGUgV3UgKOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        =?UTF-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?= 
+        <Yingshiuan.Pan@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "will@kernel.org" <will@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        =?UTF-8?B?TVkgQ2h1YW5nICjojormmI7ouo0p?= <MY.Chuang@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= 
+        <PeiLun.Suei@mediatek.com>,
+        =?UTF-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?= 
+        <Liju-clr.Chen@mediatek.com>,
+        =?UTF-8?B?SmFkZXMgU2hpaCAo5pa95ZCR546oKQ==?= 
+        <jades.shih@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?= 
+        <shawn.hsiao@mediatek.com>,
+        =?UTF-8?B?TWlsZXMgQ2hlbiAo6Zmz5rCR5qi6KQ==?= 
+        <Miles.Chen@mediatek.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        =?UTF-8?B?SXZhbiBUc2VuZyAo5pu+5b+X6LuSKQ==?= 
+        <ivan.tseng@mediatek.com>,
+        =?UTF-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= 
+        <Ze-yu.Wang@mediatek.com>
+References: <20230413090735.4182-1-yi-de.wu@mediatek.com>
+ <20230413090735.4182-4-yi-de.wu@mediatek.com>
+ <1aa701cc-92ca-71be-0663-df4bfae66c2f@linaro.org>
+ <5c1d69c8-d973-fa7b-1f14-c72729ff5594@gmail.com>
+ <533a1a9b653cf63f1e5df7f95d1b23902809561d.camel@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <533a1a9b653cf63f1e5df7f95d1b23902809561d.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 22/03/2023 13:30, Mukesh Ojha wrote:
-> qcom_minidump driver provides qcom_minidump_subsystem_desc()
-> exported API which other driver can use it query subsystem
-> descriptor. Refactor qcom_minidump() to use this symbol.
+Il 14/04/23 10:43, Yi-De Wu (吳一德) ha scritto:
+> On Thu, 2023-04-13 at 19:08 +0200, Matthias Brugger wrote:
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> On 13/04/2023 14:55, Krzysztof Kozlowski wrote:
+>>> On 13/04/2023 11:07, Yi-De Wu wrote:
+>>>> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+>>>>
+>>>> GenieZone is MediaTek proprietary hypervisor solution, and it is
+>>>> running
+>>>> in EL2 stand alone as a type-I hypervisor. This patch exports a
+>>>> set of
+>>>> ioctl interfaces for userspace VMM (e.g., crosvm) to operate
+>>>> guest VMs
+>>>> lifecycle (creation, running, and destroy) on GenieZone.
+>>>>
+>>>> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+>>>> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+>>>> ---
+>>>>    arch/arm64/include/uapi/asm/gzvm_arch.h       |  79 ++++
+>>>>    drivers/soc/mediatek/Kconfig                  |   2 +
+>>>>    drivers/soc/mediatek/Makefile                 |   1 +
+>>>>    drivers/soc/mediatek/virt/geniezone/Kconfig   |  17 +
+>>>
+>>> Hypervisor drivers do not go to soc. Stop shoving there everything
+>>> from
+>>> your downstream. Find appropriate directory, e.g. maybe
+>>> drivers/virt.
+>>
+>> Acked, what is the reason you want to add this to drivers/soc instead
+>> of
+>> drivers/virt?
+>>
+>> Regards,
+>> Matthias
+>>
+> Noted. We would take your advice and move it from
+> drivers/soc/mediatek/virt to /drivers/virt on next version.
 > 
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> ---
->   drivers/remoteproc/qcom_common.c | 13 ++-----------
->   1 file changed, 2 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/remoteproc/qcom_common.c b/drivers/remoteproc/qcom_common.c
-> index 88fc984..240e9f7 100644
-> --- a/drivers/remoteproc/qcom_common.c
-> +++ b/drivers/remoteproc/qcom_common.c
-> @@ -94,19 +94,10 @@ void qcom_minidump(struct rproc *rproc, unsigned int minidump_id,
->   {
->   	int ret;
->   	struct minidump_subsystem *subsystem;
-> -	struct minidump_global_toc *toc;
->   
-> -	/* Get Global minidump ToC*/
-> -	toc = qcom_smem_get(QCOM_SMEM_HOST_ANY, SBL_MINIDUMP_SMEM_ID, NULL);
-> -
-> -	/* check if global table pointer exists and init is set */
-> -	if (IS_ERR(toc) || !toc->status) {
-> -		dev_err(&rproc->dev, "Minidump TOC not found in SMEM\n");
-> +	subsystem = qcom_minidump_subsystem_desc(minidump_id);
-> +	if (IS_ERR(subsystem))
->   		return;
+> The reason we put it under our soc/ is that the drver is highly
+> propietary for mediatek's product and for aarch64 only. Maybe it's not
+> general enough to put in under /drivers/virt.
 
-Sorry If I am missing something but I got lost looking at the below code 
-snippet in drivers/remoteproc/qcom_common.c
+This is the same reason why mediatek-drm is in drivers/gpu/drm/ and the same why
+mediatek-cpufreq is in drivers/cpufreq/.
 
+I know that this is a MediaTek specific implementation, but it *is* a hypervisor
+driver, hence it belongs to the hypervisor drivers folder.
+It's not even granted that this will not support other MediaTek architectures in
+the future, but that's not a discussion to do right here and right now, and it's
+anyway irrelevant in this moment.
 
--------------------->cut<-----------------------------
-	subsystem = qcom_minidump_subsystem_desc(minidump_id);
-	if (IS_ERR(subsystem))
-		return;
+By the way, good job with upstreaming your drivers targeting MediaTek Android SW!
+I'm enthusiast to see that.
 
-	/**
-	 * Collect minidump if SS ToC is valid and segment table
-	 * is initialized in memory and encryption status is set.
-	 */
-	if (subsystem->regions_baseptr == 0 ||
-	    le32_to_cpu(subsystem->status) != 1 ||
-	    le32_to_cpu(subsystem->enabled) != MINIDUMP_SS_ENABLED ||
-	    le32_to_cpu(subsystem->encryption_status) != MINIDUMP_SS_ENCR_DONE) {
-		dev_err(&rproc->dev, "Minidump not ready, skipping\n");
-		return;
-	}
--------------------->cut<-----------------------------
+Regards,
+Angelo
 
-where does "subsystem->regions_baseptr" for this ADSP minidump 
-descriptor get set?
-
-
---srini
-
-> -	}
-> -
-> -	/* Get subsystem table of contents using the minidump id */
-> -	subsystem = &toc->subsystems[minidump_id];
->   
->   	/**
->   	 * Collect minidump if SS ToC is valid and segment table
