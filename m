@@ -2,427 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E24C77B72
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 14:31:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E731C77B72
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 14:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbjDNObC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 10:31:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54488 "EHLO
+        id S230007AbjDNOql (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 10:46:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231129AbjDNOa6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 10:30:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6DFB759
-        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 07:29:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681482486;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3+7E0N5YimEKCEkRUQMjEBrkYWjsqKlWAyhl1179nqM=;
-        b=DCeBSflQqdESL8LLy0agNPGrcYPkYSIaLgDNz1srLbV1ULOtsxPTQkuXr2lelR2L8NiYYM
-        BEwvb86UmZ7zfURX13KMw1aupr+2OvUFl2ddam7AFEOOfIPs7WGU+vVRtHgk56yCrAXCEe
-        n7wWp/66r674PWijiinAs52tM3564N0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-NtKy14voNyy2GB6wRsx2pA-1; Fri, 14 Apr 2023 10:28:04 -0400
-X-MC-Unique: NtKy14voNyy2GB6wRsx2pA-1
-Received: by mail-wm1-f69.google.com with SMTP id m7-20020a05600c3b0700b003ee112e6df1so6229318wms.2
-        for <linux-doc@vger.kernel.org>; Fri, 14 Apr 2023 07:28:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681482483; x=1684074483;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3+7E0N5YimEKCEkRUQMjEBrkYWjsqKlWAyhl1179nqM=;
-        b=Z9Gn0yxqOMWnq2rfa4/VSQzJ47cSI1HkcStG+u0wcE0w8q2UF+OJgulyrnk22B0wzi
-         TxDHSg4uAbbUdU8PH7ohwRB3/Ak2dHmcrtrRJ8qmpj+gLgYshI/xoN8LB+fah89XrlCq
-         lLitBOXzUBzEpYUzMf6w74RPosz2CczFxcbLj5+GD4eKWU61L5MOh95wg5pbAsMYf/Lh
-         8utrEsdwQpBQ6L7IU59hSKj8d/v/vOUJkJSTeU3+AHUb2rf1HtTneBA3N5UrFTxQ9ovS
-         SKhuUAElCeZHwUNQXsefsERn67qHlaUnPev3cLIg4HhP5LxpskLNCK08ePFosijfL9nh
-         98rA==
-X-Gm-Message-State: AAQBX9dEke/FtcSD2oVROBn3kkHaTWN87XXBgEsIx6XITqYmOoZlfcyB
-        lb159aT8izZWcsAeUZbdHAcf3PRPBZf0W6wtmjszjYAbOZOw1de7QgdTIF6KJLE/23+I0ilVQ16
-        THNFVri8DlroVdJ/ZbGEr
-X-Received: by 2002:a7b:cb85:0:b0:3f0:9fef:1028 with SMTP id m5-20020a7bcb85000000b003f09fef1028mr4298083wmi.17.1681482483648;
-        Fri, 14 Apr 2023 07:28:03 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bXdpprtWQPV5vLzlkhmiMtNbIMroahWYPyjUn400ftnGsQ6ha2RCpyFzKpq1NLfQNPIfHK1g==
-X-Received: by 2002:a7b:cb85:0:b0:3f0:9fef:1028 with SMTP id m5-20020a7bcb85000000b003f09fef1028mr4298069wmi.17.1681482483270;
-        Fri, 14 Apr 2023 07:28:03 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c702:5700:cb5b:f73a:c650:1d9? (p200300cbc7025700cb5bf73ac65001d9.dip0.t-ipconnect.de. [2003:cb:c702:5700:cb5b:f73a:c650:1d9])
-        by smtp.gmail.com with ESMTPSA id y24-20020a7bcd98000000b003ee44b2effasm4412739wmj.12.2023.04.14.07.28.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Apr 2023 07:28:02 -0700 (PDT)
-Message-ID: <da0ded70-bb4d-2dab-233f-326ae7bfa626@redhat.com>
-Date:   Fri, 14 Apr 2023 16:28:01 +0200
+        with ESMTP id S229693AbjDNOqk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 10:46:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8503FB;
+        Fri, 14 Apr 2023 07:46:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 72BE46456A;
+        Fri, 14 Apr 2023 14:46:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51104C433D2;
+        Fri, 14 Apr 2023 14:46:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681483598;
+        bh=P29LENUU8RtK91AEGjjBHIhqRST6T4oensoXgJ9R+eI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GxVOkbUuJn6IAnbgJHXTbkppvlx207XD0Z2rQIWbSjeOATpbxl2iysVbWsWE3pGvj
+         UUMMq7fikCUxNy4s8Wf+N7t/Y2chjdIvw35vgxFRyGlAgszsNKR93mA3uyJdd0j+H/
+         t0/EqGUUCijQqrBE63NDun+NlGJ4ommyZhUz4qExltiCs2I8vJp6wdFcCo3FutkunD
+         4bVf1yppAMNrcmi+R2qab2BROR1xNz1KAvDquRKeDyP5ZZdBTYQ24b2Mb98ok5EEwB
+         P9qBrx3jc5xFD03gfGwUw6XhWbW8+YJKm+tKU0fM31SGjHKVvAsTLLihF9JA/gwhiq
+         Hd1oGyDA0z1oQ==
+Date:   Fri, 14 Apr 2023 07:46:37 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc:     "jiri@resnulli.us" <jiri@resnulli.us>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
+Subject: Re: [RFC PATCH v1] ice: add CGU info to devlink info callback
+Message-ID: <20230414074637.561010cc@kernel.org>
+In-Reply-To: <DM6PR11MB4657EF2201A5E110697C9E129B999@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20230412133811.2518336-1-arkadiusz.kubalewski@intel.com>
+        <20230412203500.36fb7c36@kernel.org>
+        <DM6PR11MB46577E14FE17ADA6D1E74E789B989@DM6PR11MB4657.namprd11.prod.outlook.com>
+        <20230413080405.30bbe3bd@kernel.org>
+        <DM6PR11MB4657EF2201A5E110697C9E129B999@DM6PR11MB4657.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US
-To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
-Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, hannes@cmpxchg.org, willy@infradead.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20230413233115.1878303-1-shr@devkernel.io>
- <20230413233115.1878303-4-shr@devkernel.io>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v7 3/3] selftests/mm: add new selftests for KSM
-In-Reply-To: <20230413233115.1878303-4-shr@devkernel.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for moving the functional tests. Some more feedback forksm_functional_tests change. Writing tests in the
-ksft testing framework can be a bit "special".
-
-
-I'm seeing some weird test failures due to
-
-prctl(PR_GET_MEMORY_MERGE, 0)
-
-Apparently, these go away when using
-
-prctl(PR_GET_MEMORY_MERGE, 0, 0, 0, 0)
-
-to explicitly force the other values to 0. Most probably, we should do that
-for PR_SET_MEMORY_MERGE as well (especially if we check for the arguments as
-well).
-
-[...]
-
-> @@ -15,8 +15,10 @@
->   #include <errno.h>
->   #include <fcntl.h>
->   #include <sys/mman.h>
-> +#include <sys/prctl.h>
->   #include <sys/syscall.h>
->   #include <sys/ioctl.h>
-> +#include <sys/wait.h>
->   #include <linux/userfaultfd.h>
->   
->   #include "../kselftest.h"
-> @@ -326,9 +328,80 @@ static void test_unmerge_uffd_wp(void)
->   }
->   #endif
->   
-> +/* Verify that KSM can be enabled / queried with prctl. */
-> +static void test_ksm_prctl(void)
-
-Maybe call this "test_prctl", because after all, these are all KSM tests.
-
-> +{
-> +	bool ret = false;
-> +	int is_on;
-> +	int is_off;
-> +
-> +	ksft_print_msg("[RUN] %s\n", __func__);
-> +
-> +	if (prctl(PR_SET_MEMORY_MERGE, 1)) {
-> +		perror("prctl set");
-> +		goto out;
-> +	}
-> +
-> +	is_on = prctl(PR_GET_MEMORY_MERGE, 0);
-> +	if (prctl(PR_SET_MEMORY_MERGE, 0)) {
-> +		perror("prctl set");
-> +		goto out;
-> +	}
-> +
-> +	is_off = prctl(PR_GET_MEMORY_MERGE, 0);
-> +	if (is_on && is_off)
-> +		ret = true;
-> +
-> +out:
-> +	ksft_test_result(ret, "prctl get / set\n");
-
-The test fails if the kernel does not support PR_SET_MEMORY_MERGE.
-
-
-I'd modify this test to:
-
-(1) skip if the first PR_SET_MEMORY_MERGE=1 failed with EINVAL.
-(2) distinguish for PR_GET_MEMORY_MERGE whether it returned an error or
-     whether it returned a wrong value. Feel free to keep that as is, whatever
-     you prefer.
-(3) exit early for all failures, you get exactly one expected skip/pass/fail for the
-     test and use specific test failure messages.
-(4) Pass "0" for all other arguments of prctl.
-
-
-Something like:
-
-static void test_prctl(void)
-{
-	int ret;
-
-	ksft_print_msg("[RUN] %s\n", __func__);
-
-	ret = prctl(PR_SET_MEMORY_MERGE, 1, 0, 0, 0);
-	if (ret < 0 && errno == EINVAL){
-		ksft_test_result_skip("PR_SET_MEMORY_MERGE not supported\n");
-		return;
-	} else if (ret) {
-		ksft_test_result_fail("PR_SET_MEMORY_MERGE=1 failed\n");
-		return;
-	}
-
-	ret = prctl(PR_GET_MEMORY_MERGE, 0, 0, 0, 0);
-	if (ret < 0) {
-		ksft_test_result_fail("PR_GET_MEMORY_MERGE failed\n");
-		return;
-	} else if (ret != 1) {
-		ksft_test_result_fail("PR_SET_MEMORY_MERGE=1 not effective\n");
-		return;
-	}
-
-	ret = prctl(PR_SET_MEMORY_MERGE, 0, 0, 0, 0);
-	if (ret){
-		ksft_test_result_fail("PR_SET_MEMORY_MERGE=0 failed\n");
-		return;
-	}
-
-	ret = prctl(PR_GET_MEMORY_MERGE, 0, 0, 0, 0);
-	if (ret < 0) {
-		ksft_test_result_fail("PR_GET_MEMORY_MERGE failed\n");
-		return;
-	} else if (ret != 0) {
-		ksft_test_result_fail("PR_SET_MEMORY_MERGE=0 not effective\n");
-		return;
-	}
-
-	ksft_test_result_pass("Setting/clearing PR_SET_MEMORY_MERGE works\n");
-}
-
-
-> +}
-> +
-> +/* Verify that prctl ksm flag is inherited. */
-> +static void test_ksm_fork(void)
-
-Maybe call it "test_prctl_fork"
-
-> +{
-> +	int status;
-> +	bool ret = false;
-> +	pid_t child_pid;
-> +
-> +	ksft_print_msg("[RUN] %s\n", __func__);
-> +
-> +	if (prctl(PR_SET_MEMORY_MERGE, 1)) {
-> +		ksft_test_result_fail("prctl failed\n");
-> +		goto out;
-> +	}
-> +
-> +	child_pid = fork();
-> +	if (child_pid == 0) {
-> +		int is_on = 
-> +
-> +		if (!is_on)
-> +			exit(-1);
-> +
-> +		exit(0);
-> +	}
-> +
-> +	if (child_pid < 0) {
-> +		ksft_test_result_fail("child pid < 0\n");
-> +		goto out;> +
-> +	if (waitpid(child_pid, &status, 0) < 0 || WEXITSTATUS(status) != 0) {
-> +		ksft_test_result_fail("wait pid < 0\n");
-> +		goto out;
-> +	}
-> +
-> +	if (prctl(PR_SET_MEMORY_MERGE, 0))
-> +		ksft_test_result_fail("prctl 2 failed\n");
-> +	else
-> +		ret = true;
-> +
-> +out:
-> +	ksft_test_result(ret, "ksm_flag is inherited\n");
-> +}
-
-Again, test fails if kernel support is not around.
-
-I'd modify this test to:
-
-(1) skip if the first PR_SET_MEMORY_MERGE=1 failed with EINVAL just as in the other test.
-(2) Use a simple exit(prctl(PR_GET_MEMORY_MERGE, 0, 0, 0, 0)); in the child.
-(3) exit early for all failures, you get exactly one expected skip/pass/fail for the
-     test and use specific test failure messages.
-(4) Split up the waitpid() check to test what failed.
-(5) Pass "0" for all other arguments of prctl.
-
-
-Something like:
-
-static void test_prctl_fork(void)
-{
-	int ret, status;
-	pid_t child_pid;
-
-	ksft_print_msg("[RUN] %s\n", __func__);
-
-	ret = prctl(PR_SET_MEMORY_MERGE, 1, 0, 0, 0);
-	if (ret < 0 && errno == EINVAL){
-		ksft_test_result_skip("PR_SET_MEMORY_MERGE not supported\n");
-		return;
-	} else if (ret) {
-		ksft_test_result_fail("PR_SET_MEMORY_MERGE=1 failed\n");
-		return;
-	}
-
-	child_pid = fork();
-	if (!child_pid) {
-		exit(prctl(PR_GET_MEMORY_MERGE, 0, 0, 0, 0));
-	} else if (child_pid < 0) {
-		ksft_test_result_fail("fork() failed\n");
-		return;
-	}
-
-	if (waitpid(child_pid, &status, 0) < 0) {
-		ksft_test_result_fail("waitpid() failed\n");
-		return;
-	} else if (WEXITSTATUS(status) != 1) {
-		ksft_test_result_fail("unexpected PR_GET_MEMORY_MERGE result in child\n");
-		return;
-	}
-
-	if (prctl(PR_SET_MEMORY_MERGE, 0, 0, 0, 0)) {
-		ksft_test_result_fail("PR_SET_MEMORY_MERGE=0 failed\n");
-		return;
-	}
-
-	ksft_test_result_pass("PR_SET_MEMORY_MERGE value is inherited\n");
-}
-
-
-
-> +
->   int main(int argc, char **argv)
->   {
-> -	unsigned int tests = 2;
-> +	unsigned int tests = 6;
-
-Assuming you execute exactly one ksft_test_result_skip/fail/pass on every path of your two
-test, this would become "4".
-
->   	int err;
->   
->   #ifdef __NR_userfaultfd
-> @@ -358,6 +431,8 @@ int main(int argc, char **argv)
->   #ifdef __NR_userfaultfd
->   	test_unmerge_uffd_wp();
->   #endif
-> +	test_ksm_prctl();
-> +	test_ksm_fork();
->   
-
-
-With above outlined changes (feel free to integrate what you consider valuable),
-on an older kernel I get:
-
-$ sudo ./ksm_functional_tests
-TAP version 13
-1..5
-# [RUN] test_unmerge
-ok 1 Pages were unmerged
-# [RUN] test_unmerge_discarded
-ok 2 Pages were unmerged
-# [RUN] test_unmerge_uffd_wp
-ok 3 Pages were unmerged
-# [RUN] test_prctl
-ok 4 # SKIP PR_SET_MEMORY_MERGE not supported
-# [RUN] test_prctl_fork
-ok 5 # SKIP PR_SET_MEMORY_MERGE not supported
-# Totals: pass:3 fail:0 xfail:0 xpass:0 skip:2 error:0
-
-
-On a kernel with your patch #1:
-
-# ./ksm_functional_tests
-TAP version 13
-1..5
-# [RUN] test_unmerge
-ok 1 Pages were unmerged
-# [RUN] test_unmerge_discarded
-ok 2 Pages were unmerged
-# [RUN] test_unmerge_uffd_wp
-ok 3 Pages were unmerged
-# [RUN] test_prctl
-ok 4 Setting/clearing PR_SET_MEMORY_MERGE works
-# [RUN] test_prctl_fork
-ok 5 PR_SET_MEMORY_MERGE value is inherited
-# Totals: pass:5 fail:0 xfail:0 xpass:0 skip:0 error:0
-
-
-
-
->   	err = ksft_get_fail_cnt();
->   	if (err)
-> diff --git a/tools/testing/selftests/mm/ksm_tests.c b/tools/testing/selftests/mm/ksm_tests.c
-> index f9eb4d67e0dd..35b3828d44b4 100644
-> --- a/tools/testing/selftests/mm/ksm_tests.c
-> +++ b/tools/testing/selftests/mm/ksm_tests.c
-> @@ -1,6 +1,8 @@
->   // SPDX-License-Identifier: GPL-2.0
-
-[...]
-
-
-Changes to ksm_tests mostly look good. Two comments:
-
-
-> -	if (ksm_merge_pages(map_ptr, page_size * page_count, start_time, timeout))
-> +	if (ksm_merge_pages(merge_type, map_ptr, page_size * page_count, start_time, timeout))
->   		goto err_out;
->   
->   	/* verify that the right number of pages are merged */
->   	if (assert_ksm_pages_count(page_count)) {
->   		printf("OK\n");
-> -		munmap(map_ptr, page_size * page_count);
-> +		if (merge_type == KSM_MERGE_MADVISE)
-> +			munmap(map_ptr, page_size * page_count);
-> +		else if (merge_type == KSM_MERGE_PRCTL)
-> +			prctl(PR_SET_MEMORY_MERGE, 0);
-
-Are you sure that we don't want to unmap here? I'd assume we want to unmap in either way.
-
-[...]
-
-> +		case 'd':
-> +			debug = 1;
-> +			break;
->   		case 's':
->   			size_MB = atoi(optarg);
->   			if (size_MB <= 0) {
->   				printf("Size must be greater than 0\n");
->   				return KSFT_FAIL;
->   			}
-> +		case 't':
-> +			{
-> +				int tmp = atoi(optarg);
-> +
-> +				if (tmp < 0 || tmp > KSM_MERGE_LAST) {
-> +					printf("Invalid merge type\n");
-> +					return KSFT_FAIL;
-> +				}
-> +				merge_type = atoi(optarg);
-
-You can simply reuse tmp
-
-merge_type = tmp;
-
-
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+On Fri, 14 Apr 2023 10:04:05 +0000 Kubalewski, Arkadiusz wrote:
+> Although I double checked, and it seems I wasn't clear on previous explan=
+ation.
+> Once FW update is possible with Intel's nvmupdate tools, the devlink FW u=
+pdate
+> also going to update CGU firmware (part of nvm-flash region), so after al=
+l this
+> seems a right place for this info.
+
+=F0=9F=91=8D=EF=B8=8F
