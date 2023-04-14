@@ -2,153 +2,211 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69680C77B76
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 15:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B96C77B6E
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 15:29:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbjDNPN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 11:13:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34756 "EHLO
+        id S230250AbjDNP36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 11:29:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230403AbjDNPNy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 11:13:54 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B441998;
-        Fri, 14 Apr 2023 08:13:51 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id q26so11603814lfe.9;
-        Fri, 14 Apr 2023 08:13:51 -0700 (PDT)
+        with ESMTP id S230267AbjDNP3x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 11:29:53 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7571AAF38;
+        Fri, 14 Apr 2023 08:29:30 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id eo6-20020a05600c82c600b003ee5157346cso12148903wmb.1;
+        Fri, 14 Apr 2023 08:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681485230; x=1684077230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K1i9POxXL2777GsR/j6INE2dl4zVKrOsk8Lf5CQ9YEg=;
-        b=H7IxpeBTfKCBd023oZLfPoA3qrnC7QnoznZHwxU3HNrafJZr+FWpYQg0u15SuiFThe
-         TjC2v/OrxLgT6CxRkRX6EefPmzQBoNKJpPgvHOMP/DnxPhZw/oWRMZzw4APivQ0EoP/0
-         NAoU4OgetX3g+EyqtNG1tWcS3ZMZPlcS/RDPFNggnAifyUUR6n3V3v2n/xA/chaeo3rD
-         SYklJjiI6hsqMCtjKU1XzypeZqXB57L/Kj4Iy6WyJu/WIfPZZRbSLzZuVAWAYZtAf88D
-         ukh4X5xSkCtzHUZ+Y3O+SelbwGuItURTe4cmodhVNfluz7UAiKc9Cczn7VEHVQlnEIdA
-         OMkQ==
+        d=gmail.com; s=20221208; t=1681486169; x=1684078169;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HtvEF7ctih6jlBUmz6x/cmRorGRIdeQUmzhDbFqzUMQ=;
+        b=qGZQxhLElmhzJf9nLKo4r6pq51rc+4IyPDfzuvQ3gAUsJ6/Y65MzYa6I9BK0cz9KNF
+         stVUm/P2RdtVbOU1aGZISu5RMETCa/RffUliJ/MLHAEFLdSbyckAoXSVsH6b9egMRFIX
+         TgVSJX6L1Sg9SQ1eoWC/gn+tM235APmaoraCI2vruVNVLxcPKdTNrq841NStrTlE2/p1
+         wn7pTiP/S1Sy9RZ3VuwaDcRD92ap89W6450zE890yMDyXbzlcfczRj1CUBKYWmwMA9la
+         OHvDTRrPJPEIwLRPvasejlfJEFC2FhHQ95rmoy2cI6HgM8WEm8kENox7BXc2E+oOIXVK
+         BoMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681485230; x=1684077230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K1i9POxXL2777GsR/j6INE2dl4zVKrOsk8Lf5CQ9YEg=;
-        b=G6WGVumeIi1k5AYNbCwv/pgP+IjXhlgWeJhTEIT8elaR/C3oDWzcnOKWvpsFshUWeJ
-         EF6IivkRI1yFmrHrm5ZCMqz83M+hKwJnwUujO4vsAm8h4FU8OpLTtDSr6ln0IgN37o4w
-         /YrO6UqdYerZ3Ey6ZCoGUCBc6fOTAqgc2IWo5H5hX6vjEEX6VfKRG34wuF9kGh4oXIpM
-         kTPy0833aynXD/dXkAACqjNQy4n/NLSaoXu11hHkcPEguUzwVO26vIjKVRaLDrRfla2i
-         YUvd1YKckvh8DNunriYdnhQkF74czA9awTwcNFOprgrOq7/rAZnldut45+FYkFXrqLrW
-         YMfA==
-X-Gm-Message-State: AAQBX9fKiickdzzUCyhlWMokh6qzIuu7FJuw3aj7L2ZGmuqKmGoztRDf
-        EX6SJailuBMms+vQ0jWLJdxmjJDf1xzFafndgYdHFTztQWr2Xg==
-X-Google-Smtp-Source: AKy350buEZ+jHD3FTo9kQO15nElpW2d75hlaGxdWtyuHa8fl7wxFZlvOq71mZFNNZVS9ySKKYCyu1ccOgdHBSQ0ubjU=
-X-Received: by 2002:ac2:5a0c:0:b0:4ec:4f38:10d6 with SMTP id
- q12-20020ac25a0c000000b004ec4f3810d6mr1951001lfn.2.1681485229598; Fri, 14 Apr
- 2023 08:13:49 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1681486169; x=1684078169;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HtvEF7ctih6jlBUmz6x/cmRorGRIdeQUmzhDbFqzUMQ=;
+        b=P6/PY+yCc6sorVTgfBgmuJ5M7zdPI3jspOcGYoosPJKAbx3yDHPhlupm4xDQxTtikx
+         +mqz3lNeFRNSLwpIf7RghSOBR2SjCmmymA7uiROCSs8pmAIChfJYqI5PMbf3b2qlGLhE
+         Lc0hmm8J0f21w0I6qlJJe2W76y9B+TE6uGf289rrl1o3V7sH6A9YXarXCr7X/f58LH0a
+         PsYZU7YWXixKslO/IvI7kJvCnlxwqbmlGdeNMmHLhw1DL9oWXijc8/NzMKCZxSL7SOco
+         Y6+07APk4H9EDMLVP0+7xEE+Mi2UxkQ1gQS9VdSNt6eiDYptiwyTonSnQo+pPJdFiX6Q
+         D7jw==
+X-Gm-Message-State: AAQBX9ei+2CzTXa0s2T71fDSo4ZEQXC/cmg8emrha/YXdXyv6b+PMbOy
+        IZVvHn0jyPspi2VCmRS5+6o=
+X-Google-Smtp-Source: AKy350baTmaodBGZvLaW/t3L808sxui2s3mXy0yd4/BPSh2Or7HSibikk/nbTxRns3ESdPZBy2bm3g==
+X-Received: by 2002:a05:600c:2904:b0:3ee:3df6:e411 with SMTP id i4-20020a05600c290400b003ee3df6e411mr4750042wmd.28.1681486168723;
+        Fri, 14 Apr 2023 08:29:28 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
+        by smtp.gmail.com with ESMTPSA id i8-20020a05600c354800b003f15e5a16b1sm880791wmq.30.2023.04.14.08.29.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Apr 2023 08:29:27 -0700 (PDT)
+Message-ID: <a2dcebee-7a2a-08b1-a35a-45a4a08c9d26@gmail.com>
+Date:   Fri, 14 Apr 2023 17:29:25 +0200
 MIME-Version: 1.0
-References: <20230403211548.6253-1-jorge.lopez2@hp.com> <ZCuMkdb6jeL4S8hz@debian.me>
- <CAOOmCE-5NHkYcmBP1GGpr=sEoxF9jkjj1LevekEm8R0wbrM4xQ@mail.gmail.com> <565e6575-91f7-9ca2-1505-17527b95a816@redhat.com>
-In-Reply-To: <565e6575-91f7-9ca2-1505-17527b95a816@redhat.com>
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-Date:   Fri, 14 Apr 2023 10:13:28 -0500
-Message-ID: <CAOOmCE9HurxZf57CjUSxAF5TXvMGukyfP6RbaTbkEeWyeRqcsQ@mail.gmail.com>
-Subject: Re: [PATCH v7] Introduction-of-HP-BIOSCFG-driver-documentation
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Mark Pearson <mpearson-lenovo@squebb.ca>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
-        Linux x86 Platform Drivers 
-        <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v1 2/6] dt-bindings: hypervisor: Add binding for MediaTek
+ GenieZone hypervisor
+Content-Language: en-US
+To:     =?UTF-8?B?WWktRGUgV3UgKOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        =?UTF-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?= 
+        <Yingshiuan.Pan@mediatek.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "will@kernel.org" <will@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        =?UTF-8?B?TVkgQ2h1YW5nICjojormmI7ouo0p?= <MY.Chuang@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= 
+        <PeiLun.Suei@mediatek.com>,
+        =?UTF-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?= 
+        <Liju-clr.Chen@mediatek.com>,
+        =?UTF-8?B?SmFkZXMgU2hpaCAo5pa95ZCR546oKQ==?= 
+        <jades.shih@mediatek.com>,
+        "dbrazdil@google.com" <dbrazdil@google.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?= 
+        <shawn.hsiao@mediatek.com>,
+        =?UTF-8?B?TWlsZXMgQ2hlbiAo6Zmz5rCR5qi6KQ==?= 
+        <Miles.Chen@mediatek.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        =?UTF-8?B?SXZhbiBUc2VuZyAo5pu+5b+X6LuSKQ==?= 
+        <ivan.tseng@mediatek.com>,
+        =?UTF-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= 
+        <Ze-yu.Wang@mediatek.com>
+References: <20230413090735.4182-1-yi-de.wu@mediatek.com>
+ <20230413090735.4182-3-yi-de.wu@mediatek.com>
+ <8ace9b0f-742a-7ebc-555f-1f8be04a5955@linaro.org>
+ <7b4492efa4a1becbdfb79d23a0a0c0fe11dba5f4.camel@mediatek.com>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <7b4492efa4a1becbdfb79d23a0a0c0fe11dba5f4.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi there,
 
-Version 9 review for the sysfs-class-firmware-attributes document was
-submitted and I look forward  to getting your comments.   I understand
-you have other things happening, but as soon as the document is
-finalized, I can move to submit the rest of the files.
 
-While the document review is ongoing,  I proceeded to address all
-comments made by Thomas, Hans, Bagas, and Mark regarding both
-documentation and source code changes.  The code compiles with W=3D1
-flag without any issues and the  refactoring proposed by Thomas was
-incorporated.  Testing on multiple platforms continues to validate the
-driver proper operation between reviews.
+On 14/04/2023 10:35, Yi-De Wu (吳一德) wrote:
+> On Thu, 2023-04-13 at 15:05 +0200, Krzysztof Kozlowski wrote:
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> On 13/04/2023 11:07, Yi-De Wu wrote:
+>>> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+>>>
+>>> Add documentation for GenieZone(gzvm) node. This node informs gzvm
+>>> driver to start probing if geniezone hypervisor is available and
+>>
+>> Subject: drop second/last, redundant "binding for". The "dt-bindings"
+>> prefix is already stating that these are bindings.
+>>
+> Thank you for the review comments. We would remove the "binding for"
+> wording in the subject on the next version.
+> 
+>>> able to do virtual machine operations.
+>>>
+>>> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+>>> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+>>> ---
+>>>   .../bindings/hypervisor/mediatek,gzvm.yaml    | 30
+>>> +++++++++++++++++++
+>>>   1 file changed, 30 insertions(+)
+>>>   create mode 100644
+>>> Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
+>>> b/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
+>>> new file mode 100644
+>>> index 000000000000..35e1e5b18e47
+>>> --- /dev/null
+>>> +++
+>>> b/Documentation/devicetree/bindings/hypervisor/mediatek,gzvm.yaml
+>>> @@ -0,0 +1,30 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id:
+>>> https://urldefense.com/v3/__http://devicetree.org/schemas/hypervisor/mediatek,gzvm.yaml*__;Iw!!CTRNKA9wMg0ARbw!lp4d4WBp26cpOeEGcKn_aHcNGfyl1Y--BYzfR8oR_0Xzr9TLvUELfOQAAdqHlLIOra1W_QdjVSJv0-HMpLesJmA3TPJSag$
+>>> +$schema:
+>>> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!lp4d4WBp26cpOeEGcKn_aHcNGfyl1Y--BYzfR8oR_0Xzr9TLvUELfOQAAdqHlLIOra1W_QdjVSJv0-HMpLesJmDSXil_Qw$
+>>> +
+>>> +title: MediaTek GenieZone hypervisor
+>>> +
+>>> +maintainers:
+>>> +  - Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+>>> +
+>>> +description:
+>>> +  GenieZone is MediaTek proprietary hypervisor. This device node
+>>> informs its
+>>> +  driver, gzvm, to probe if platform supports running virtual
+>>> machines.
+>>
+>> Do not describe Linux, we all know how driver binding works, but
+>> hardware/firmware/hypervisor.
+>>
+> Noted. We would enhance the description on next version.
+> 
+>> I don't know if we actually want to support proprietary hypervisors.
+>> There can be hundreds of them, one per each SoC manufacturer, and
+>> they
+>> can come with many ridiculous ideas.
+>>
+> MediaTek, as a partner of Android, our GenieZone hypervisor has been
+> one of the backend options under Android Virtualization Framework(AVF)
+> now.
+> Thus, we'd like to donate these patches for better supporting the
+> Linux/Android ecosystem.
+> 
+> Reference link: https://crosvm.dev/book/hypervisors.html#geniezone
+> 
+
+What is the difference between geniezone and gunyah? Why will we need both of 
+them? Couldn't we just get one hypervisor implementation merged that includes 
+all the needed features. In the end it will be used with the same VMM.
 
 Regards,
+Matthias
 
-Jorge
-
-
-
-On Thu, Apr 6, 2023 at 9:08=E2=80=AFAM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> Hi All,
->
-> FWIW I have been reading along with both the v6 and
-> this v7 posting.
->
-> Thomas, Mark, thank you for your review / feedback
-> on this series.
->
-> On 4/4/23 15:37, Jorge Lopez wrote:
-> > Hi Bagas,
-> >
-> >>
-> >> Where is the rest of patches if this is a series? Had they been merged=
-?
-> >>
-> >
-> > There is only one change as requested by  Thomas Wei=C3=9Fschuh
-> >
-> >> Feel free to ONLY submit the patch with the documentation for the next
-> >> revision. Then we can nail down the interface and initial functionalit=
-y
-> >> and you don't always have to adapt the code to the changing interface.
-> >
-> > Perhaps, I misunderstood Thomas request.   I will address a few other
-> > comments and will submit all files again.
->
-> I think that Thomas' suggestion to first focus on getting
-> the userspace API right and then implement the agreed
-> upon API is a good idea.
->
-> So for the next version just post only the documentation
-> patch again please.
->
-> Note it is not the intention to merge just the documentation
-> patch without merging the code first.
->
-> The idea is to first nail the API down and then modify
-> the code once to implement the agreed upon API.
->
-> Then once the API has been agreed upon post newer
-> versions which also include the code again.
->
-> And then once people are also happy with the code
-> we can merge both the code + documentation in one go.
->
-> Regards,
->
-> Hans
->
->
->
->
->
->
->
-> >
-> > Regards,
-> >
-> > Jorge
-> >
->
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: mediatek,gzvm
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +
+>>> +additionalProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    hypervisor {
+>>> +        compatible = "mediatek,gzvm";
+>>> +        status = "okay";
+>>
+>> Drop status.
+>>
+>> Best regards,
+>> Krzysztof
+>>
