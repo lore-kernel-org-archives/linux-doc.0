@@ -2,133 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF4A7C77B6E
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 11:02:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 469EEC77B72
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 11:15:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230513AbjDNLCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 07:02:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35098 "EHLO
+        id S230028AbjDNLO7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 07:14:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229832AbjDNLCG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 07:02:06 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4804C2D;
-        Fri, 14 Apr 2023 04:01:38 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id kh6so16359233plb.0;
-        Fri, 14 Apr 2023 04:01:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681470091; x=1684062091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9/8pDX/pU7JJmfGUenCJQ2UI8+BzuFusFiT+V1gcCtU=;
-        b=EP0sMfrrsKdFH6FjpOMzZRMpKo3oBbGHMOEmqm7cIDrtgbkR26QOjynrPDPBJ4CYQr
-         qc3XZKs5lTXbWdFsXlsTcjryDO2PqMJF5gUxalYuB3Vj5SKJxlWsYHV9ye6orcLv+At8
-         f6cNCaykJbW2IMqO1zNK3kl8QIE5S1XrcuqBaMbdHATOsKKThq62+srk9ckWqLSMsDB0
-         5mH0rkgfFle7Up3fwW8hBaMegz8J6lo95Mdize3MLc4NKiJdGey2ZW2/2StbcmdT5Jzl
-         A0AJGIUFkeUA/rz0+GIMs04+86HPrhpFHhgLljEturKfThgCTnimFBvw7yFyiPBTzgsu
-         3lGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681470091; x=1684062091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9/8pDX/pU7JJmfGUenCJQ2UI8+BzuFusFiT+V1gcCtU=;
-        b=exNFpRejGmRb9JiEXyqkL0oRTfT1waV89We27XamJjrkM9e7tbIGRNmZV5mTS+FPId
-         +F9JJ1zxENUHC/XE7hzInjouLk930KoJrHwPsEIiDec0Rx1hljQNBcjpGqhdYW/HJhNo
-         OtLfz5CqLmktxK31D7miKY2ru1OVFXq0C/PgeZ5Yvc999Gm4j4eYRN+qdzS8D7KSKDIk
-         87kSMhUxMF6ti+7Ku3TVlrV7tR7Apg6Hvu31XLpXRiWlz0yBfrloEhygOccCq/nhMECE
-         4uKH8NOIYhlXA4pfjhHIRpW9/+BXkj1e2LphBKU0aQwmZhGjLbcxtSeTgi9KOm30HYcG
-         WQ/w==
-X-Gm-Message-State: AAQBX9ePNOPT+JyWhE0zS23cAdYlno71OrkFNYZU0W+7yD7jxYI8/v2T
-        7W8oURkS4RAAau4CouFDV7A=
-X-Google-Smtp-Source: AKy350YQH6oU0EAAitXz0YQt2587Kcb68X3kT4Wh/x5JCN5bZaXwZhyWS9d7O3SBqH8d0UBqVnre8A==
-X-Received: by 2002:a17:902:7d8b:b0:1a6:487d:deab with SMTP id a11-20020a1709027d8b00b001a6487ddeabmr2258786plm.24.1681470091610;
-        Fri, 14 Apr 2023 04:01:31 -0700 (PDT)
-Received: from CLOUDLIANG-MB2.tencent.com ([103.7.29.32])
-        by smtp.gmail.com with ESMTPSA id r4-20020a170902ea4400b00194caf3e975sm2835821plg.208.2023.04.14.04.01.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 04:01:31 -0700 (PDT)
-From:   Jinrong Liang <ljr.kernel@gmail.com>
-X-Google-Original-From: Jinrong Liang <cloudliang@tencent.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Like Xu <like.xu.linux@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jinrong Liang <cloudliang@tencent.com>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] KVM: selftests: Test pmu event filter with incompatible kvm_pmu_event_filter
-Date:   Fri, 14 Apr 2023 19:00:56 +0800
-Message-Id: <20230414110056.19665-8-cloudliang@tencent.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230414110056.19665-1-cloudliang@tencent.com>
-References: <20230414110056.19665-1-cloudliang@tencent.com>
+        with ESMTP id S231236AbjDNLO4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 07:14:56 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 156147D94;
+        Fri, 14 Apr 2023 04:14:55 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33EBEZXp014608;
+        Fri, 14 Apr 2023 11:14:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=fPy1TqO2tYq9zpkFuktROtjj+BsSkhdXM14XPK6zJaY=;
+ b=l1p7TT2XTdYCqQYBMHsALsxwD5JiRBO0ez+BFEgmUevr+HQjP4yCt60xODwIMuVtFnc+
+ fxRg1/TaURu/+YOCG1u9VUnC58WtCBdnrabXbhKzTURHqKWTQ/8iByxxVApTptgXAoVv
+ iu4AyB32XoGJZGTaRK+XfXQ6dEMmoXkaaDaMUHN3TJxuvgmRWLPkqKJDr9jMBeyQYhB9
+ +zzBlnwaiBQ9kW6E05/2j29myGJSBt+d9fn4QoOrcAwYDo9CwbNcgCC5B2vxn0Qcxz+o
+ +6N1bHBYde+0Nyr19lzyXJyX2H+S5+zN/kqED7LhccNqEQM9fB68Fr/DWa7EOP6sjBmR 2g== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pxe66jxa4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 11:14:34 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EBEGdm029666
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 11:14:16 GMT
+Received: from [10.216.56.7] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
+ 2023 04:14:07 -0700
+Message-ID: <af23d650-3dec-9a51-566c-1eec2fa4b84b@quicinc.com>
+Date:   Fri, 14 Apr 2023 16:44:02 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 6/6] remoterproc: qcom: refactor to leverage exported
+ minidump symbol
+Content-Language: en-US
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>, <will@kernel.org>
+CC:     <linux-arm-msm@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <1679491817-2498-1-git-send-email-quic_mojha@quicinc.com>
+ <1679491817-2498-7-git-send-email-quic_mojha@quicinc.com>
+ <6c01d2fc-3155-0dcd-f473-9cbd75dd69ec@linaro.org>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <6c01d2fc-3155-0dcd-f473-9cbd75dd69ec@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: SwA_x-IY_04ZqvW12qKAk70gD3Qz7i5f
+X-Proofpoint-ORIG-GUID: SwA_x-IY_04ZqvW12qKAk70gD3Qz7i5f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-14_05,2023-04-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 clxscore=1015
+ mlxscore=0 suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304140102
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jinrong Liang <cloudliang@tencent.com>
 
-Add test to verify the behavior of the pmu event filter when an
-incomplete kvm_pmu_event_filter structure is used. By running the
-test, we can ensure that the pmu event filter correctly handles
-incomplete structures and does not allow events to be counted when
-they should not be.
 
-Signed-off-by: Jinrong Liang <cloudliang@tencent.com>
----
- .../kvm/x86_64/pmu_event_filter_test.c        | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+On 4/14/2023 4:14 PM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 22/03/2023 13:30, Mukesh Ojha wrote:
+>> qcom_minidump driver provides qcom_minidump_subsystem_desc()
+>> exported API which other driver can use it query subsystem
+>> descriptor. Refactor qcom_minidump() to use this symbol.
+>>
+>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>> ---
+>>   drivers/remoteproc/qcom_common.c | 13 ++-----------
+>>   1 file changed, 2 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/remoteproc/qcom_common.c 
+>> b/drivers/remoteproc/qcom_common.c
+>> index 88fc984..240e9f7 100644
+>> --- a/drivers/remoteproc/qcom_common.c
+>> +++ b/drivers/remoteproc/qcom_common.c
+>> @@ -94,19 +94,10 @@ void qcom_minidump(struct rproc *rproc, unsigned 
+>> int minidump_id,
+>>   {
+>>       int ret;
+>>       struct minidump_subsystem *subsystem;
+>> -    struct minidump_global_toc *toc;
+>> -    /* Get Global minidump ToC*/
+>> -    toc = qcom_smem_get(QCOM_SMEM_HOST_ANY, SBL_MINIDUMP_SMEM_ID, NULL);
+>> -
+>> -    /* check if global table pointer exists and init is set */
+>> -    if (IS_ERR(toc) || !toc->status) {
+>> -        dev_err(&rproc->dev, "Minidump TOC not found in SMEM\n");
+>> +    subsystem = qcom_minidump_subsystem_desc(minidump_id);
+>> +    if (IS_ERR(subsystem))
+>>           return;
+> 
+> Sorry If I am missing something but I got lost looking at the below code 
+> snippet in drivers/remoteproc/qcom_common.c
+> 
+> 
+> -------------------->cut<-----------------------------
+>      subsystem = qcom_minidump_subsystem_desc(minidump_id);
+>      if (IS_ERR(subsystem))
+>          return;
+> 
+>      /**
+>       * Collect minidump if SS ToC is valid and segment table
+>       * is initialized in memory and encryption status is set.
+>       */
+>      if (subsystem->regions_baseptr == 0 ||
+>          le32_to_cpu(subsystem->status) != 1 ||
+>          le32_to_cpu(subsystem->enabled) != MINIDUMP_SS_ENABLED ||
+>          le32_to_cpu(subsystem->encryption_status) != 
+> MINIDUMP_SS_ENCR_DONE) {
+>          dev_err(&rproc->dev, "Minidump not ready, skipping\n");
+>          return;
+>      }
+> -------------------->cut<-----------------------------
+> 
+> where does "subsystem->regions_baseptr" for this ADSP minidump 
+> descriptor get set?
 
-diff --git a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-index 9be4c6f8fb7e..a6b6e0d086ae 100644
---- a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-@@ -881,6 +881,24 @@ static bool fixed_ctr_is_allowed(uint8_t idx, uint32_t action, uint32_t bitmap)
- 		(action == KVM_PMU_EVENT_DENY && !(bitmap & BIT_ULL(idx)));
- }
- 
-+struct incompatible_pmu_event_filter {
-+	__u32 action;
-+	__u32 nevents;
-+	__u32 fixed_counter_bitmap;
-+};
-+
-+static uint64_t test_incompatible_filter(struct kvm_vcpu *vcpu, uint32_t action,
-+					 uint32_t bitmap)
-+{
-+	struct incompatible_pmu_event_filter err_f;
-+
-+	err_f.action = action;
-+	err_f.fixed_counter_bitmap = bitmap;
-+	ioctl((vcpu->vm)->fd, KVM_SET_PMU_EVENT_FILTER, &err_f.action);
-+
-+	return run_vcpu_to_sync(vcpu);
-+}
-+
- static void test_fixed_ctr_action_and_bitmap(struct kvm_vcpu *vcpu,
- 					     uint8_t fixed_ctr_idx,
- 					     uint8_t max_fixed_num)
-@@ -918,6 +936,11 @@ static void test_fixed_ctr_action_and_bitmap(struct kvm_vcpu *vcpu,
- 
- 			TEST_ASSERT(expected == !!count,
- 				    "Fixed event filter does not work as expected.");
-+
-+			/* Test incompatible event filter works as expected. */
-+			count = test_incompatible_filter(vcpu, actions[i], bitmap);
-+			TEST_ASSERT(expected == !!count,
-+				    "Incompatible filter does not work as expected.");
- 		}
- 	}
- }
--- 
-2.31.1
+Other co-processor such as adsp/cdsp/Mpss has their own way of 
+registering their region/segment (mostly they are static known
+regions) with minidump global infra and which could be happening
+from firmware side .
 
+
+-Mukesh
+
+> 
+> 
+> --srini
+> 
+>> -    }
+>> -
+>> -    /* Get subsystem table of contents using the minidump id */
+>> -    subsystem = &toc->subsystems[minidump_id];
+>>       /**
+>>        * Collect minidump if SS ToC is valid and segment table
