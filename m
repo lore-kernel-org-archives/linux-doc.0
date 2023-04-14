@@ -2,245 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0AD4C77B6E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Apr 2023 23:33:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE75AC77B76
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 00:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjDMXds (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Apr 2023 19:33:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59314 "EHLO
+        id S230205AbjDNAMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Apr 2023 20:12:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbjDMXdr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 19:33:47 -0400
-Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAF610C1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 16:33:46 -0700 (PDT)
-Received: by devbig1114.prn1.facebook.com (Postfix, from userid 425415)
-        id E18F335367C8; Thu, 13 Apr 2023 16:31:20 -0700 (PDT)
-From:   Stefan Roesch <shr@devkernel.io>
-To:     kernel-team@fb.com
-Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, willy@infradead.org
-Subject: [PATCH v7 0/3] mm: process/cgroup ksm support
-Date:   Thu, 13 Apr 2023 16:31:12 -0700
-Message-Id: <20230413233115.1878303-1-shr@devkernel.io>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
+        with ESMTP id S229681AbjDNAMB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Apr 2023 20:12:01 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F027135A1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:11:59 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 186-20020a2510c3000000b00b880000325bso33816004ybq.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Apr 2023 17:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681431119; x=1684023119;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i+pweVgTeWv08z0ELDTsB0Ltp1Ye2bcZK0KHo4GqVbw=;
+        b=SxumLiXBZqVvPSsO4nE95gXtUUxXVcRm2giZRY9/5ORZ+OjADqAAbFJkobyKcqmfCt
+         ePUsZvwKG04KkaahIzuPRZeniJUEzn01e6frQqq0jAgCaSwlASsR29xtCtNlSjb+T5pj
+         VEWY0EVxAPptAmO48HG5tvNAJPPxntiFot3tECFeEreHjLrDdGnAKPlTKHy30+MbbqI8
+         64DeVDk4CEwT4IFGcaTIdQJJ7t2C3BZm2t+9Gp59h71CPchlPnK0jhl4w3WF/G3NQ2HG
+         SBMasteYkoK5+FJ8YkRnsN77u+ShB1rljGgMoVKQvjdG4NVzxFbFqiD01CFCoQkbIqFa
+         aeNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681431119; x=1684023119;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i+pweVgTeWv08z0ELDTsB0Ltp1Ye2bcZK0KHo4GqVbw=;
+        b=gScIKOYPwv+WMx8H7UekBVLqsZfgfONp87FQfcNd623su+eU5WPcYaPxSoQyE5Xh7v
+         Nbgl65Gh/4xMtcLGQOHj99Ez7eesw1ST6hSyWRmfEMj1Yr5O+8rtR0BudEL3Az36gp2R
+         i9QR6AA/RzCDMvm5cjj068kRWXEhiKbhf/2WexWR9F+1mwOCSA2/2HGJhMed2vBIbA9K
+         m+/+75We0NPYxiDteuo+KbBO3ldkMYO3LWAEGzJU9vqGALEZn71oZy/kgErkIWXo2TF8
+         K5dkFOcVhinxzVhMGLUXKLbAzv9erxet8CT5Dmu4OnWVSKlWj5DI6daCRl2/2g4AGsFD
+         Tqsg==
+X-Gm-Message-State: AAQBX9dCWyG10YbmYIeV52v3KlK2PEH2VQXrU0E4C7nG4S0bQExnUbgM
+        IlkOwV8NrRLFttQ69O7Z9DGlND8cgp2XKDC1Sg==
+X-Google-Smtp-Source: AKy350aFyMPBdyqRFopcQD1OOk7RIztiWHN973sMgROTFTwCsBiX6bTJGMx6PuL8Cu3fjd47w7zygKuC4QNdUU7X4w==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a25:72d6:0:b0:b8f:55f6:e50f with SMTP
+ id n205-20020a2572d6000000b00b8f55f6e50fmr2609596ybc.1.1681431119162; Thu, 13
+ Apr 2023 17:11:59 -0700 (PDT)
+Date:   Fri, 14 Apr 2023 00:11:49 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
+Message-ID: <cover.1681430907.git.ackerleytng@google.com>
+Subject: [RFC PATCH 0/6] Setting memory policy for restrictedmem file
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
+        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
+        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
+        muchun.song@linux.dev, feng.tang@intel.com, brgerst@gmail.com,
+        rdunlap@infradead.org, masahiroy@kernel.org,
+        mailhol.vincent@wanadoo.fr, Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So far KSM can only be enabled by calling madvise for memory regions. To
-be able to use KSM for more workloads, KSM needs to have the ability to b=
+Hello,
+
+This patchset builds upon the memfd_restricted() system call that was
+discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
+series [1].
+
+The tree can be found at:
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-set-memory-=
+policy
+
+In this patchset, a new syscall is introduced, which allows userspace
+to set the memory policy (e.g. NUMA bindings) for a restrictedmem
+file, to the granularity of offsets within the file.
+
+The offset/length tuple is termed a file_range which is passed to the
+kernel via a pointer to get around the limit of 6 arguments for a
+syscall.
+
+The following other approaches were also considered:
+
+1. Pre-configuring a mount with a memory policy and providing that
+   mount to memfd_restricted() as proposed at [2].
+    + Pro: It allows choice of a specific backing mount with custom
+      memory policy configurations
+    + Con: Will need to create an entire new mount just to set memory
+      policy for a restrictedmem file; files on the same mount cannot
+      have different memory policies.
+
+2. Passing memory policy to the memfd_restricted() syscall at creation time=
+.
+    + Pro: Only need to make a single syscall to create a file with a
+      given memory policy
+    + Con: At creation time, the kernel doesn=E2=80=99t know the size of th=
 e
-enabled / disabled at the process / cgroup level.
+      restrictedmem file. Given that memory policy is stored in the
+      inode based on ranges (start, end), it is awkward for the kernel
+      to store the memory policy and then add hooks to set the memory
+      policy when allocation is done.
 
-Use case 1:
-The madvise call is not available in the programming language. An example=
- for
-this are programs with forked workloads using a garbage collected languag=
-e without
-pointers. In such a language madvise cannot be made available.
+3. A more generic fbind(): it seems like this new functionality is
+   really only needed for restrictedmem files, hence a separate,
+   specific syscall was proposed to avoid complexities with handling
+   conflicting policies that may be specified via other syscalls like
+   mbind()
 
-In addition the addresses of objects get moved around as they are garbage
-collected. KSM sharing needs to be enabled "from the outside" for these t=
-ype of
-workloads.
+TODOs
 
-Use case 2:
-The same interpreter can also be used for workloads where KSM brings no
-benefit or even has overhead. We'd like to be able to enable KSM on a wor=
-kload
-by workload basis.
++ Return -EINVAL if file_range is not within the size of the file and
+  tests for this
 
-Use case 3:
-With the madvise call sharing opportunities are only enabled for the curr=
-ent
-process: it is a workload-local decision. A considerable number of sharin=
-g
-opportunities may exist across multiple workloads or jobs (if they are pa=
-rt
-of the same security domain). Only a higler level entity like a job sched=
-uler
-or container can know for certain if its running one or more instances of=
- a
-job. That job scheduler however doesn't have the necessary internal workl=
-oad
-knowledge to make targeted madvise calls.
+Dependencies:
 
-Security concerns:
-In previous discussions security concerns have been brought up. The probl=
-em is
-that an individual workload does not have the knowledge about what else i=
-s
-running on a machine. Therefore it has to be very conservative in what me=
-mory
-areas can be shared or not. However, if the system is dedicated to runnin=
-g
-multiple jobs within the same security domain, its the job scheduler that=
- has
-the knowledge that sharing can be safely enabled and is even desirable.
++ Chao=E2=80=99s work on UPM [3]
 
-Performance:
-Experiments with using UKSM have shown a capacity increase of around 20%.
+[1] https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux=
+.intel.com/T/
+[2] https://lore.kernel.org/lkml/cover.1681176340.git.ackerleytng@google.co=
+m/T/
+[3] https://github.com/chao-p/linux/commits/privmem-v11.5
 
-Here are the metrics from an instagram workload (taken from a machine wit=
-h
-64GB main memory):
+---
 
-   full_scans: 445
-   general_profit: 20158298048
-   max_page_sharing: 256
-   merge_across_nodes: 1
-   pages_shared: 129547
-   pages_sharing: 5119146
-   pages_to_scan: 4000
-   pages_unshared: 1760924
-   pages_volatile: 10761341
-   run: 1
-   sleep_millisecs: 20
-   stable_node_chains: 167
-   stable_node_chains_prune_millisecs: 2000
-   stable_node_dups: 2751
-   use_zero_pages: 0
-   zero_pages_sharing: 0
+Ackerley Tng (6):
+  mm: shmem: Refactor out shmem_shared_policy() function
+  mm: mempolicy: Refactor out mpol_init_from_nodemask
+  mm: mempolicy: Refactor out __mpol_set_shared_policy()
+  mm: mempolicy: Add and expose mpol_create
+  mm: restrictedmem: Add memfd_restricted_bind() syscall
+  selftests: mm: Add selftest for memfd_restricted_bind()
 
-After the service is running for 30 minutes to an hour, 4 to 5 million sh=
-ared
-pages are common for this workload when using KSM.
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ include/linux/mempolicy.h                     |   4 +
+ include/linux/shmem_fs.h                      |   7 +
+ include/linux/syscalls.h                      |   5 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/uapi/linux/mempolicy.h                |   7 +-
+ kernel/sys_ni.c                               |   1 +
+ mm/mempolicy.c                                | 100 ++++++++++---
+ mm/restrictedmem.c                            |  75 ++++++++++
+ mm/shmem.c                                    |  10 +-
+ scripts/checksyscalls.sh                      |   1 +
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   8 +
+ .../selftests/mm/memfd_restricted_bind.c      | 139 ++++++++++++++++++
+ .../mm/restrictedmem_testmod/Makefile         |  21 +++
+ .../restrictedmem_testmod.c                   |  89 +++++++++++
+ tools/testing/selftests/mm/run_vmtests.sh     |   6 +
+ 18 files changed, 454 insertions(+), 27 deletions(-)
+ create mode 100644 tools/testing/selftests/mm/memfd_restricted_bind.c
+ create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/Makefi=
+le
+ create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/restri=
+ctedmem_testmod.c
 
-
-Detailed changes:
-
-1. New options for prctl system command
-This patch series adds two new options to the prctl system call. The firs=
-t
-one allows to enable KSM at the process level and the second one to query=
- the
-setting.
-
-The setting will be inherited by child processes.
-
-With the above setting, KSM can be enabled for the seed process of a cgro=
-up
-and all processes in the cgroup will inherit the setting.
-
-2. Changes to KSM processing
-When KSM is enabled at the process level, the KSM code will iterate over =
-all
-the VMA's and enable KSM for the eligible VMA's.
-
-When forking a process that has KSM enabled, the setting will be inherite=
-d by
-the new child process.
-
-3. Add general_profit metric
-The general_profit metric of KSM is specified in the documentation, but n=
-ot
-calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
-sm.
-
-4. Add more metrics to ksm_stat
-This adds the process profit metric to /proc/<pid>/ksm_stat.
-
-5. Add more tests to ksm_tests and ksm_functional_tests
-This adds an option to specify the merge type to the ksm_tests. This allo=
-ws to
-test madvise and prctl KSM.
-
-It also adds a two new tests to ksm_functional_tests: one to test the new
-prctl options and the other one is a fork test to verify that the KSM pro=
-cess
-setting is inherited by client processes.
-
-
-Changes:
-- V7:
-  - Removed ksm_add_mm() function
-  - added ksm_enable_merge_any() function
-  - Made ksm_add_vmas() function static
-  - Simplified ksm_fork function to only MMF_VM_MERGE_ANY bit
-  - Moved setting of bit MMF_VM_MERGE_ANY to ksm_enable_merge_any()
-  - Removed flag parameter from __ksm_enter
-  - Removed flag parameter from __ksm_exit
-  - Clear bit MMF_VM_MERGE_ANY in __ksm_exit
-  - call ksm_add_vma only in mmap_region() and do_brk_flags()
-
-  - Removed check_ksm_fork() and check_ksm_merge_type from ksm_tests
-  - Removed -F and -G command line options
-  - Removed enum options for above tests
-  - Added -d option to enable debug mode
-  - Added debug variable for storing debug option
-
-- V6:
-  - Fix error condition in prctl call
-  - Remove ksm_merge_type function and ksm_stat output
-  - Some minor changes like whitespace and removing a cast.
- =20
-- V5:
-  - When the prctl system call is invoked, mark all compatible VMA
-    as mergeable
-  - Instead of checcking during scan if VMA is mergeable, mark the VMA
-    mergeable when the VMA is created (in case the VMA is compatible)
-    - Remove earlier changes, they are no longer necessary
-  - Unset the flag MMF_VM_MERGE_ANY in gmap_mark_unmergeable().
-  - When unsetting the MMF_VM_MERGE_ANY flag with prctl, only unset the
-    flag
-  - Remove pages_volatile function (with the simplar general_profit calcu=
-lation,
-    the function is no longer needed)
-  - Use simpler formula for calculation of general_profit
-
-- V4:
-  - removing check in prctl for MMF_VM_MERGEABLE in PR_SET_MEMORY_MERGE
-    handling
-  - Checking for VM_MERGEABLE AND MMF_VM_MERGE_ANY to avoid chaning vm_fl=
-ags
-    - This requires also checking that the vma is compatible. The
-      compatibility check is provided by a new helper
-    - processes which have set MMF_VM_MERGE_ANY, only need to call the
-      helper and not madvise.
-  - removed unmerge_vmas function, this function is no longer necessary,
-    clearing the MMF_VM_MERGE_ANY bit is sufficient
-
-- V3:
-  - folded patch 1 - 6
-  - folded patch 7 - 14
-  - folded patch 15 - 19
-  - Expanded on the use cases in the cover letter
-  - Added a section on security concerns to the cover letter
-
-- V2:
-  - Added use cases to the cover letter
-  - Removed the tracing patch from the patch series and posted it as an
-    individual patch
-  - Refreshed repo
-
-
-
-Stefan Roesch (3):
-  mm: add new api to enable ksm per process
-  mm: add new KSM process and sysfs knobs
-  selftests/mm: add new selftests for KSM
-
- Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
- Documentation/admin-guide/mm/ksm.rst          |   5 +-
- arch/s390/mm/gmap.c                           |   7 +
- fs/proc/base.c                                |   3 +
- include/linux/ksm.h                           |  25 ++-
- include/linux/sched/coredump.h                |   1 +
- include/uapi/linux/prctl.h                    |   2 +
- kernel/sys.c                                  |  25 +++
- mm/ksm.c                                      | 127 +++++++++++--
- mm/mmap.c                                     |   3 +
- tools/include/uapi/linux/prctl.h              |   2 +
- tools/testing/selftests/mm/Makefile           |   2 +-
- .../selftests/mm/ksm_functional_tests.c       |  77 +++++++-
- tools/testing/selftests/mm/ksm_tests.c        | 175 ++++++++++++++----
- 14 files changed, 402 insertions(+), 60 deletions(-)
-
---=20
-2.31.1
-
+--
+2.40.0.634.g4ca3ef3211-goog
