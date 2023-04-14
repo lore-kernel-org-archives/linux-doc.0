@@ -2,88 +2,189 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 542DDC77B6E
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 06:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE7B2C77B71
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 06:33:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjDNGOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 02:14:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47326 "EHLO
+        id S229668AbjDNGdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 02:33:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjDNGOt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 02:14:49 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D54240F1;
-        Thu, 13 Apr 2023 23:14:48 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-94e8cdbc8ebso118085366b.2;
-        Thu, 13 Apr 2023 23:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681452887; x=1684044887;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SSpS3E1S1nYKNPJCN4kTXWUVOYv1fhq7FSwOkeeQFww=;
-        b=ISgWTdiyNpFBy7MuqU0pcBtm8u4GyGxkGdFBiXH0rzYJsuDeVevS8CwtN8hvZkOB3d
-         Y7P+os7CF/gZfTJ1P1qsefQmWNRdj1rMeK4FKNJQQzW5Zg8ftHX4UsRIDak+AXOAk1/Y
-         HHjlfyUAMV0/LCzVMqb0OkNGsqSx7bHhw4KKrMMlqZD/Qyp9xBY4pnYNUTvAnCglnBlr
-         iNRgZxK32sILPM+SVdvshzZpiHFSiny5ZonEuOr7IFXgEa/NPn2qvuQU8nnO4WsQwBWm
-         q40jA03hKMsgn3AJBQv5alIYN8l2otYMFkRYYhLix10SY9/hUHdW3Xf+OuOgjg1SU3+l
-         dfoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681452887; x=1684044887;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SSpS3E1S1nYKNPJCN4kTXWUVOYv1fhq7FSwOkeeQFww=;
-        b=URS6+mQPpht9Rsp0y4NU0a/I6jH8dTFQjoQgB4SyFTwAAj+1XyHH3XhBOfuaSTNdhB
-         vMvVRlQ4vEcaSh/FLniaKQBMW6/Sal+wEdfNGQy1GiHXksG2do2NLYWHTFp70scdxJZM
-         DbBUTnpG7gSwpht/ggK/nxLrhjgTvTXbxYkNdiVxeIUhiKA8L6UCoJd391xCSdtuS4HJ
-         vQjhqQsPv/KSNcJuFFSpflSGk+rBJxCxZBidjYoXGXD7IrPFZuA1pPKplLFSOxp1+GPt
-         cHW8Q0ZJoeml0WuhsCrYv75yoUx3NKMgWG6WyAWab/IgqruTIVzesef+v2IspeRsk2vb
-         92yw==
-X-Gm-Message-State: AAQBX9fRpPF29ij7WejtTHmjyVM0UaR7QseW5dFKPoi69Wc+omyQVi7Q
-        3d8DoJr0S/GCcE252Icxc4c=
-X-Google-Smtp-Source: AKy350bX9VkTffd+1wd2KOcfBuyy5KFxp45M9mzaVbuj84Ms9sEoq7RAIMJdfCiwdLCF2Y0jk4OEyw==
-X-Received: by 2002:aa7:c38a:0:b0:504:8b5c:a961 with SMTP id k10-20020aa7c38a000000b005048b5ca961mr4954397edq.18.1681452886588;
-        Thu, 13 Apr 2023 23:14:46 -0700 (PDT)
-Received: from felia.fritz.box ([188.193.217.32])
-        by smtp.gmail.com with ESMTPSA id j19-20020a508a93000000b00501c2a9e16dsm1751294edj.74.2023.04.13.23.14.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Apr 2023 23:14:46 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] docs: kmemleak: adjust to config renaming
-Date:   Fri, 14 Apr 2023 08:12:41 +0200
-Message-Id: <20230414061241.12754-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229989AbjDNGdP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 02:33:15 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4369455B4;
+        Thu, 13 Apr 2023 23:33:10 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id D950D219BF;
+        Fri, 14 Apr 2023 06:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1681453988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xslQPF17zT9apx+cU2US+PpxMshzU35IKYkk2wpIDLg=;
+        b=DJN+y564b8swWIzIhMyoJZmTzvSqa6m/5QtSbnrPb54+xfDbvOpGA38sWt+1Iy8fdfPh8j
+        /+hfnbGVW18WolgOUyQInIsmtDRk1oPV2dCNEN5y/6IV7iJSpAtkQDgSz9Z+XWZ5eKGQbL
+        /2OIoGOXmGQ9yUAigxFE1FWMOYCh4zM=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B0322139FC;
+        Fri, 14 Apr 2023 06:33:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id YpWfKqTzOGQiNgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Fri, 14 Apr 2023 06:33:08 +0000
+Date:   Fri, 14 Apr 2023 08:33:08 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
+        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
+        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+        joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, michael.roth@amd.com,
+        mingo@redhat.com, naoya.horiguchi@nec.com, pbonzini@redhat.com,
+        qperret@google.com, rppt@kernel.org, seanjc@google.com,
+        shuah@kernel.org, steven.price@arm.com, tabba@google.com,
+        tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz,
+        vkuznets@redhat.com, wanpengli@tencent.com, wei.w.wang@intel.com,
+        x86@kernel.org, yu.c.zhang@linux.intel.com, muchun.song@linux.dev,
+        feng.tang@intel.com, brgerst@gmail.com, rdunlap@infradead.org,
+        masahiroy@kernel.org, mailhol.vincent@wanadoo.fr
+Subject: Re: [RFC PATCH 0/6] Setting memory policy for restrictedmem file
+Message-ID: <ZDjzpKL9Omcox991@dhcp22.suse.cz>
+References: <cover.1681430907.git.ackerleytng@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit c87db8ca0902 ("kmemleak-test: fix kmemleak_test.c build logic")
-essentially renames the config DEBUG_KMEMLEAK_TEST to SAMPLE_KMEMLEAK, but
-misses to adjust the documentation.
+On Fri 14-04-23 00:11:49, Ackerley Tng wrote:
+> Hello,
+> 
+> This patchset builds upon the memfd_restricted() system call that was
+> discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
+> series [1].
+> 
+> The tree can be found at:
+> https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-set-memory-policy
+> 
+> In this patchset, a new syscall is introduced, which allows userspace
+> to set the memory policy (e.g. NUMA bindings) for a restrictedmem
+> file, to the granularity of offsets within the file.
+> 
+> The offset/length tuple is termed a file_range which is passed to the
+> kernel via a pointer to get around the limit of 6 arguments for a
+> syscall.
+> 
+> The following other approaches were also considered:
+> 
+> 1. Pre-configuring a mount with a memory policy and providing that
+>    mount to memfd_restricted() as proposed at [2].
+>     + Pro: It allows choice of a specific backing mount with custom
+>       memory policy configurations
+>     + Con: Will need to create an entire new mount just to set memory
+>       policy for a restrictedmem file; files on the same mount cannot
+>       have different memory policies.
 
-Adjust kmemleak documentation to this config renaming.
+Could you expand on this some more please? How many restricted
+files/mounts do we expect? My understanding was that this would be
+essentially a backing store for guest memory so it would scale with the
+number of guests.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- Documentation/dev-tools/kmemleak.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 2. Passing memory policy to the memfd_restricted() syscall at creation time.
+>     + Pro: Only need to make a single syscall to create a file with a
+>       given memory policy
+>     + Con: At creation time, the kernel doesn’t know the size of the
+>       restrictedmem file. Given that memory policy is stored in the
+>       inode based on ranges (start, end), it is awkward for the kernel
+>       to store the memory policy and then add hooks to set the memory
+>       policy when allocation is done.
+> 
+> 3. A more generic fbind(): it seems like this new functionality is
+>    really only needed for restrictedmem files, hence a separate,
+>    specific syscall was proposed to avoid complexities with handling
+>    conflicting policies that may be specified via other syscalls like
+>    mbind()
 
-diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tools/kmemleak.rst
-index 5483fd39ef29..2cb00b53339f 100644
---- a/Documentation/dev-tools/kmemleak.rst
-+++ b/Documentation/dev-tools/kmemleak.rst
-@@ -227,7 +227,7 @@ Testing with kmemleak-test
- --------------------------
- 
- To check if you have all set up to use kmemleak, you can use the kmemleak-test
--module, a module that deliberately leaks memory. Set CONFIG_DEBUG_KMEMLEAK_TEST
-+module, a module that deliberately leaks memory. Set CONFIG_SAMPLE_KMEMLEAK
- as module (it can't be used as built-in) and boot the kernel with kmemleak
- enabled. Load the module and perform a scan with::
- 
+I do not think it is a good idea to make the syscall restrict mem
+specific. History shows that users are much more creative when it comes
+to usecases than us. I do understand that the nature of restricted
+memory is that it is not mapable but memory policies without a mapping
+are a reasonable concept in genereal. After all this just tells where
+the memory should be allocated from. Do we need to implement that for
+any other fs? No, you can safely return EINVAL for anything but
+memfd_restricted fd for now but you shouldn't limit usecases upfront.
+
+> 
+> TODOs
+
+How do you query a policy for the specific fd? Are there any plans to
+add a syscall for that as well but you just wait for the direction for
+the set method?
+
+> + Return -EINVAL if file_range is not within the size of the file and
+>   tests for this
+> 
+> Dependencies:
+> 
+> + Chao’s work on UPM [3]
+> 
+> [1] https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.intel.com/T/
+> [2] https://lore.kernel.org/lkml/cover.1681176340.git.ackerleytng@google.com/T/
+> [3] https://github.com/chao-p/linux/commits/privmem-v11.5
+> 
+> ---
+> 
+> Ackerley Tng (6):
+>   mm: shmem: Refactor out shmem_shared_policy() function
+>   mm: mempolicy: Refactor out mpol_init_from_nodemask
+>   mm: mempolicy: Refactor out __mpol_set_shared_policy()
+>   mm: mempolicy: Add and expose mpol_create
+>   mm: restrictedmem: Add memfd_restricted_bind() syscall
+>   selftests: mm: Add selftest for memfd_restricted_bind()
+> 
+>  arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+>  include/linux/mempolicy.h                     |   4 +
+>  include/linux/shmem_fs.h                      |   7 +
+>  include/linux/syscalls.h                      |   5 +
+>  include/uapi/asm-generic/unistd.h             |   5 +-
+>  include/uapi/linux/mempolicy.h                |   7 +-
+>  kernel/sys_ni.c                               |   1 +
+>  mm/mempolicy.c                                | 100 ++++++++++---
+>  mm/restrictedmem.c                            |  75 ++++++++++
+>  mm/shmem.c                                    |  10 +-
+>  scripts/checksyscalls.sh                      |   1 +
+>  tools/testing/selftests/mm/.gitignore         |   1 +
+>  tools/testing/selftests/mm/Makefile           |   8 +
+>  .../selftests/mm/memfd_restricted_bind.c      | 139 ++++++++++++++++++
+>  .../mm/restrictedmem_testmod/Makefile         |  21 +++
+>  .../restrictedmem_testmod.c                   |  89 +++++++++++
+>  tools/testing/selftests/mm/run_vmtests.sh     |   6 +
+>  18 files changed, 454 insertions(+), 27 deletions(-)
+>  create mode 100644 tools/testing/selftests/mm/memfd_restricted_bind.c
+>  create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/Makefile
+>  create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/restrictedmem_testmod.c
+> 
+> --
+> 2.40.0.634.g4ca3ef3211-goog
+
 -- 
-2.17.1
-
+Michal Hocko
+SUSE Labs
