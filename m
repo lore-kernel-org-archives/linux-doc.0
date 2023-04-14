@@ -2,189 +2,275 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE7B2C77B71
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 06:33:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AACEEC77B77
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Apr 2023 07:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbjDNGdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 02:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
+        id S229591AbjDNHGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 03:06:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbjDNGdP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 02:33:15 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4369455B4;
-        Thu, 13 Apr 2023 23:33:10 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id D950D219BF;
-        Fri, 14 Apr 2023 06:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1681453988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xslQPF17zT9apx+cU2US+PpxMshzU35IKYkk2wpIDLg=;
-        b=DJN+y564b8swWIzIhMyoJZmTzvSqa6m/5QtSbnrPb54+xfDbvOpGA38sWt+1Iy8fdfPh8j
-        /+hfnbGVW18WolgOUyQInIsmtDRk1oPV2dCNEN5y/6IV7iJSpAtkQDgSz9Z+XWZ5eKGQbL
-        /2OIoGOXmGQ9yUAigxFE1FWMOYCh4zM=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B0322139FC;
-        Fri, 14 Apr 2023 06:33:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id YpWfKqTzOGQiNgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Fri, 14 Apr 2023 06:33:08 +0000
-Date:   Fri, 14 Apr 2023 08:33:08 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Ackerley Tng <ackerleytng@google.com>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, michael.roth@amd.com,
-        mingo@redhat.com, naoya.horiguchi@nec.com, pbonzini@redhat.com,
-        qperret@google.com, rppt@kernel.org, seanjc@google.com,
-        shuah@kernel.org, steven.price@arm.com, tabba@google.com,
-        tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz,
-        vkuznets@redhat.com, wanpengli@tencent.com, wei.w.wang@intel.com,
-        x86@kernel.org, yu.c.zhang@linux.intel.com, muchun.song@linux.dev,
-        feng.tang@intel.com, brgerst@gmail.com, rdunlap@infradead.org,
-        masahiroy@kernel.org, mailhol.vincent@wanadoo.fr
-Subject: Re: [RFC PATCH 0/6] Setting memory policy for restrictedmem file
-Message-ID: <ZDjzpKL9Omcox991@dhcp22.suse.cz>
-References: <cover.1681430907.git.ackerleytng@google.com>
+        with ESMTP id S229553AbjDNHGB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 03:06:01 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFA0630F5;
+        Fri, 14 Apr 2023 00:05:59 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33E6UlGG031289;
+        Fri, 14 Apr 2023 07:05:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=1h16hUb3V1HHJiseU1aSCsalqmOi0P1+ZAFDaD80Qt8=;
+ b=dMSFJ7NbyEi/5vBUl7A2h6idvDX+qZ5LJJKCfiBRki8EZXV9r7Z3AXllfIlxD/mnYJKd
+ 6WRfT0bXKQywz5ICcITY1suF7A1kB0RvRgCKlC75jV1Izj5WkqxScqykgXkwlX7h4phV
+ ax3ci2KnyiQvqgG/UBKwppoxh89BMiySRe2tvSA2k6LOjvIocnBjIUry54OB/pOlBG4a
+ t5S1rEGqV47+E0vKb0PKjHsWeDFK4dVZ83EhUan4D7/n3gYzcGMW150OficPpjqce7EW
+ IgNnqDlWI7SQZsSS+4ZLOPGhhCQpzAz/twq8ljmN9Btci4ATJZsk167hMFNg9cbblAQc tg== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pxqf9964m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 07:05:11 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33E759T8032286
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 07:05:09 GMT
+Received: from [10.216.56.7] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 14 Apr
+ 2023 00:05:04 -0700
+Message-ID: <3df1ec27-7e4d-1f84-ff20-94e8ea91c86f@quicinc.com>
+Date:   Fri, 14 Apr 2023 12:35:00 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/6] remoteproc: qcom: Move minidump specific data to
+ qcom_minidump.h
+Content-Language: en-US
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>, <will@kernel.org>
+CC:     <linux-arm-msm@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <1679491817-2498-1-git-send-email-quic_mojha@quicinc.com>
+ <1679491817-2498-3-git-send-email-quic_mojha@quicinc.com>
+ <e74fb30d-4268-86b1-cdf7-ad3d104c6c40@linaro.org>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <e74fb30d-4268-86b1-cdf7-ad3d104c6c40@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Kjd3iZFPQAyO7ZDiYAcbngj41D7Q5c2b
+X-Proofpoint-ORIG-GUID: Kjd3iZFPQAyO7ZDiYAcbngj41D7Q5c2b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-14_02,2023-04-13_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 spamscore=0 phishscore=0 clxscore=1011
+ mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304140063
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 14-04-23 00:11:49, Ackerley Tng wrote:
-> Hello,
-> 
-> This patchset builds upon the memfd_restricted() system call that was
-> discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
-> series [1].
-> 
-> The tree can be found at:
-> https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-set-memory-policy
-> 
-> In this patchset, a new syscall is introduced, which allows userspace
-> to set the memory policy (e.g. NUMA bindings) for a restrictedmem
-> file, to the granularity of offsets within the file.
-> 
-> The offset/length tuple is termed a file_range which is passed to the
-> kernel via a pointer to get around the limit of 6 arguments for a
-> syscall.
-> 
-> The following other approaches were also considered:
-> 
-> 1. Pre-configuring a mount with a memory policy and providing that
->    mount to memfd_restricted() as proposed at [2].
->     + Pro: It allows choice of a specific backing mount with custom
->       memory policy configurations
->     + Con: Will need to create an entire new mount just to set memory
->       policy for a restrictedmem file; files on the same mount cannot
->       have different memory policies.
+Thanks again for coming back on this.
 
-Could you expand on this some more please? How many restricted
-files/mounts do we expect? My understanding was that this would be
-essentially a backing store for guest memory so it would scale with the
-number of guests.
+On 4/14/2023 4:02 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 22/03/2023 13:30, Mukesh Ojha wrote:
+>> Move minidump specific data types and macros to a separate internal
+>> header(qcom_minidump.h) so that it can be shared among different
+> 
+> minidump.h should be good as we are already in include/soc/qcom/
 
-> 2. Passing memory policy to the memfd_restricted() syscall at creation time.
->     + Pro: Only need to make a single syscall to create a file with a
->       given memory policy
->     + Con: At creation time, the kernel doesn’t know the size of the
->       restrictedmem file. Given that memory policy is stored in the
->       inode based on ranges (start, end), it is awkward for the kernel
->       to store the memory policy and then add hooks to set the memory
->       policy when allocation is done.
-> 
-> 3. A more generic fbind(): it seems like this new functionality is
->    really only needed for restrictedmem files, hence a separate,
->    specific syscall was proposed to avoid complexities with handling
->    conflicting policies that may be specified via other syscalls like
->    mbind()
 
-I do not think it is a good idea to make the syscall restrict mem
-specific. History shows that users are much more creative when it comes
-to usecases than us. I do understand that the nature of restricted
-memory is that it is not mapable but memory policies without a mapping
-are a reasonable concept in genereal. After all this just tells where
-the memory should be allocated from. Do we need to implement that for
-any other fs? No, you can safely return EINVAL for anything but
-memfd_restricted fd for now but you shouldn't limit usecases upfront.
+Initially, i wanted to protect the content of qcom_minidump.h between 
+qcom_minidump.c and qcom_common.c
 
-> 
-> TODOs
+Ideally, here qcom_minidump.h should be supplier/provider header and can 
+be shared among above qcom_minidump.c and qcom_common.c but since they 
+are not in same directory, moved it inside include/soc/qcom/ as separate 
+header than consumer header minidump.h .
 
-How do you query a policy for the specific fd? Are there any plans to
-add a syscall for that as well but you just wait for the direction for
-the set method?
-
-> + Return -EINVAL if file_range is not within the size of the file and
->   tests for this
+-Mukesh
 > 
-> Dependencies:
+> --srini
 > 
-> + Chao’s work on UPM [3]
-> 
-> [1] https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.intel.com/T/
-> [2] https://lore.kernel.org/lkml/cover.1681176340.git.ackerleytng@google.com/T/
-> [3] https://github.com/chao-p/linux/commits/privmem-v11.5
-> 
-> ---
-> 
-> Ackerley Tng (6):
->   mm: shmem: Refactor out shmem_shared_policy() function
->   mm: mempolicy: Refactor out mpol_init_from_nodemask
->   mm: mempolicy: Refactor out __mpol_set_shared_policy()
->   mm: mempolicy: Add and expose mpol_create
->   mm: restrictedmem: Add memfd_restricted_bind() syscall
->   selftests: mm: Add selftest for memfd_restricted_bind()
-> 
->  arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
->  include/linux/mempolicy.h                     |   4 +
->  include/linux/shmem_fs.h                      |   7 +
->  include/linux/syscalls.h                      |   5 +
->  include/uapi/asm-generic/unistd.h             |   5 +-
->  include/uapi/linux/mempolicy.h                |   7 +-
->  kernel/sys_ni.c                               |   1 +
->  mm/mempolicy.c                                | 100 ++++++++++---
->  mm/restrictedmem.c                            |  75 ++++++++++
->  mm/shmem.c                                    |  10 +-
->  scripts/checksyscalls.sh                      |   1 +
->  tools/testing/selftests/mm/.gitignore         |   1 +
->  tools/testing/selftests/mm/Makefile           |   8 +
->  .../selftests/mm/memfd_restricted_bind.c      | 139 ++++++++++++++++++
->  .../mm/restrictedmem_testmod/Makefile         |  21 +++
->  .../restrictedmem_testmod.c                   |  89 +++++++++++
->  tools/testing/selftests/mm/run_vmtests.sh     |   6 +
->  18 files changed, 454 insertions(+), 27 deletions(-)
->  create mode 100644 tools/testing/selftests/mm/memfd_restricted_bind.c
->  create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/Makefile
->  create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/restrictedmem_testmod.c
-> 
-> --
-> 2.40.0.634.g4ca3ef3211-goog
-
--- 
-Michal Hocko
-SUSE Labs
+>> Qualcomm drivers.
+>>
+>> There is no change in functional behavior after this.
+>>
+>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>> ---
+>>   drivers/remoteproc/qcom_common.c | 56 
+>> +---------------------------------
+>>   include/soc/qcom/qcom_minidump.h | 66 
+>> ++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 67 insertions(+), 55 deletions(-)
+>>   create mode 100644 include/soc/qcom/qcom_minidump.h
+>>
+>> diff --git a/drivers/remoteproc/qcom_common.c 
+>> b/drivers/remoteproc/qcom_common.c
+>> index 805e525..88fc984 100644
+>> --- a/drivers/remoteproc/qcom_common.c
+>> +++ b/drivers/remoteproc/qcom_common.c
+>> @@ -18,6 +18,7 @@
+>>   #include <linux/slab.h>
+>>   #include <linux/soc/qcom/mdt_loader.h>
+>>   #include <linux/soc/qcom/smem.h>
+>> +#include <soc/qcom/qcom_minidump.h>
+>>   #include "remoteproc_internal.h"
+>>   #include "qcom_common.h"
+>> @@ -26,61 +27,6 @@
+>>   #define to_smd_subdev(d) container_of(d, struct qcom_rproc_subdev, 
+>> subdev)
+>>   #define to_ssr_subdev(d) container_of(d, struct qcom_rproc_ssr, subdev)
+>> -#define MAX_NUM_OF_SS           10
+>> -#define MAX_REGION_NAME_LENGTH  16
+>> -#define SBL_MINIDUMP_SMEM_ID    602
+>> -#define MINIDUMP_REGION_VALID        ('V' << 24 | 'A' << 16 | 'L' << 
+>> 8 | 'I' << 0)
+>> -#define MINIDUMP_SS_ENCR_DONE        ('D' << 24 | 'O' << 16 | 'N' << 
+>> 8 | 'E' << 0)
+>> -#define MINIDUMP_SS_ENABLED        ('E' << 24 | 'N' << 16 | 'B' << 8 
+>> | 'L' << 0)
+>> -
+>> -/**
+>> - * struct minidump_region - Minidump region
+>> - * @name        : Name of the region to be dumped
+>> - * @seq_num:        : Use to differentiate regions with same name.
+>> - * @valid        : This entry to be dumped (if set to 1)
+>> - * @address        : Physical address of region to be dumped
+>> - * @size        : Size of the region
+>> - */
+>> -struct minidump_region {
+>> -    char    name[MAX_REGION_NAME_LENGTH];
+>> -    __le32    seq_num;
+>> -    __le32    valid;
+>> -    __le64    address;
+>> -    __le64    size;
+>> -};
+>> -
+>> -/**
+>> - * struct minidump_subsystem - Subsystem's SMEM Table of content
+>> - * @status : Subsystem toc init status
+>> - * @enabled : if set to 1, this region would be copied during coredump
+>> - * @encryption_status: Encryption status for this subsystem
+>> - * @encryption_required : Decides to encrypt the subsystem regions or 
+>> not
+>> - * @region_count : Number of regions added in this subsystem toc
+>> - * @regions_baseptr : regions base pointer of the subsystem
+>> - */
+>> -struct minidump_subsystem {
+>> -    __le32    status;
+>> -    __le32    enabled;
+>> -    __le32    encryption_status;
+>> -    __le32    encryption_required;
+>> -    __le32    region_count;
+>> -    __le64    regions_baseptr;
+>> -};
+>> -
+>> -/**
+>> - * struct minidump_global_toc - Global Table of Content
+>> - * @status : Global Minidump init status
+>> - * @md_revision : Minidump revision
+>> - * @enabled : Minidump enable status
+>> - * @subsystems : Array of subsystems toc
+>> - */
+>> -struct minidump_global_toc {
+>> -    __le32                status;
+>> -    __le32                md_revision;
+>> -    __le32                enabled;
+>> -    struct minidump_subsystem    subsystems[MAX_NUM_OF_SS];
+>> -};
+>> -
+>>   struct qcom_ssr_subsystem {
+>>       const char *name;
+>>       struct srcu_notifier_head notifier_list;
+>> diff --git a/include/soc/qcom/qcom_minidump.h 
+>> b/include/soc/qcom/qcom_minidump.h
+>> new file mode 100644
+>> index 0000000..84c8605
+>> --- /dev/null
+>> +++ b/include/soc/qcom/qcom_minidump.h
+>> @@ -0,0 +1,66 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Qualcomm minidump shared data structures and macros
+>> + *
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + */
+>> +
+>> +#ifndef _QCOM_MINIDUMP_H_
+>> +#define _QCOM_MINIDUMP_H_
+>> +
+>> +#define MAX_NUM_OF_SS           10
+>> +#define MAX_REGION_NAME_LENGTH  16
+>> +#define SBL_MINIDUMP_SMEM_ID    602
+>> +#define MINIDUMP_REGION_VALID        ('V' << 24 | 'A' << 16 | 'L' << 
+>> 8 | 'I' << 0)
+>> +#define MINIDUMP_SS_ENCR_DONE        ('D' << 24 | 'O' << 16 | 'N' << 
+>> 8 | 'E' << 0)
+>> +#define MINIDUMP_SS_ENABLED        ('E' << 24 | 'N' << 16 | 'B' << 8 
+>> | 'L' << 0)
+>> +
+>> +/**
+>> + * struct minidump_region - Minidump region
+>> + * @name        : Name of the region to be dumped
+>> + * @seq_num:        : Use to differentiate regions with same name.
+>> + * @valid        : This entry to be dumped (if set to 1)
+>> + * @address        : Physical address of region to be dumped
+>> + * @size        : Size of the region
+>> + */
+>> +struct minidump_region {
+>> +    char    name[MAX_REGION_NAME_LENGTH];
+>> +    __le32    seq_num;
+>> +    __le32    valid;
+>> +    __le64    address;
+>> +    __le64    size;
+>> +};
+>> +
+>> +/**
+>> + * struct minidump_subsystem - Subsystem's SMEM Table of content
+>> + * @status : Subsystem toc init status
+>> + * @enabled : if set to 1, this region would be copied during coredump
+>> + * @encryption_status: Encryption status for this subsystem
+>> + * @encryption_required : Decides to encrypt the subsystem regions or 
+>> not
+>> + * @region_count : Number of regions added in this subsystem toc
+>> + * @regions_baseptr : regions base pointer of the subsystem
+>> + */
+>> +struct minidump_subsystem {
+>> +    __le32    status;
+>> +    __le32    enabled;
+>> +    __le32    encryption_status;
+>> +    __le32    encryption_required;
+>> +    __le32    region_count;
+>> +    __le64    regions_baseptr;
+>> +};
+>> +
+>> +/**
+>> + * struct minidump_global_toc - Global Table of Content
+>> + * @status : Global Minidump init status
+>> + * @md_revision : Minidump revision
+>> + * @enabled : Minidump enable status
+>> + * @subsystems : Array of subsystems toc
+>> + */
+>> +struct minidump_global_toc {
+>> +    __le32                status;
+>> +    __le32                md_revision;
+>> +    __le32                enabled;
+>> +    struct minidump_subsystem    subsystems[MAX_NUM_OF_SS];
+>> +};
+>> +
+>> +#endif  /* _QCOM_MINIDUMP_H_ */
