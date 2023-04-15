@@ -2,108 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBBCC77B71
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Apr 2023 00:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 453D8C77B71
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Apr 2023 02:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbjDOAyI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 20:54:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
+        id S230107AbjDOCYl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Apr 2023 22:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjDOAyH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 20:54:07 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09514EFB;
-        Fri, 14 Apr 2023 17:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681520045; x=1713056045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BaBaSZvIdqqeUdPYY6SOwnbn8OIbBnqhJrQSQnGFXNI=;
-  b=jcGYIL4p+9xqUvkfzBF52fKD5tm9hTCSdfO9fJnNMKgnRVO9uNgW92fm
-   vgbZf/WozTx1u0hMsHfkZKSDC0qaHlfGdnfGHaBtWWCK4nrtu9PI1c2/W
-   eZpO/rodK+nK196CJnIwgBWPGMwJNn/zySfWdeAIk9ETEntupmaLWAV64
-   2V9TZgxuhqjQ3+8Jqo47L/EH9gAUZH2ymnWLZI+Fg8tuSElYGAJ1vYNa1
-   Pq9DveN/RJf2XUXCkUrqpOKXd5cDSJCvcvxEH5pkQom9JEkKEJEuUK8ne
-   7cJDwk3Z2z64FNi/0P7AG/wGN+6CuCfiJNjRKy4owVGHWf8CivuL/cs05
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="342093259"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
-   d="scan'208";a="342093259"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 17:54:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="833736948"
-X-IronPort-AV: E=Sophos;i="5.99,198,1677571200"; 
-   d="scan'208";a="833736948"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2023 17:54:01 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pnUAy-000aC1-10;
-        Sat, 15 Apr 2023 00:54:00 +0000
-Date:   Sat, 15 Apr 2023 08:53:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jinrong Liang <ljr.kernel@gmail.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     oe-kbuild-all@lists.linux.dev, Like Xu <like.xu.linux@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jinrong Liang <cloudliang@tencent.com>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] KVM: x86/pmu: Add documentation for fixed ctr on PMU
- filter
-Message-ID: <202304150850.rx4UDDsB-lkp@intel.com>
-References: <20230414110056.19665-5-cloudliang@tencent.com>
+        with ESMTP id S229890AbjDOCYj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 22:24:39 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C578A4EFF;
+        Fri, 14 Apr 2023 19:24:38 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id kx14so298112pjb.1;
+        Fri, 14 Apr 2023 19:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681525478; x=1684117478;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BqrBTsQCd1zYQLBBnbx9i78rnLPlSR69UKclBOmOyak=;
+        b=V/53j83sAyKzQf0cEnoYCDALwJZ8dofdGfd2D47FMx6uKG5QS3ca5lUnhTKIGERUO7
+         YPbFrcdPnTvGEEs/+6PG9aCKmsjRsmlxFuwTFmAP4sViWb2MkWBbXgxpXslmFKBsccHb
+         +ZmJOjcMz2mC6+E2ZpsWg16q67ZW3UrhXRdJ34BoqofUEmKvZnXNWXJZ1rzYb4hinnxN
+         NnH1jwEH2K0JR7Z7Ght4z0jnZ6y/a5TfzX9xc3g9Vi0S2bHF+y2DFufN2ynLsPITJ2R/
+         ZxBjH1Hl6HvWATLlpEzoDHpAZ0GtoRSm8HQsHKthrBl6/3Ho8FMMOu4VZYKa5pZrhRjf
+         Ejzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681525478; x=1684117478;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BqrBTsQCd1zYQLBBnbx9i78rnLPlSR69UKclBOmOyak=;
+        b=Kz9sxZEB6v/S+ZQmscwnAU7uMRvWFkPXrzUVTmulG5CJTKsOUuUDd6LRvRwJGVjcl3
+         aQoqHR3WGRgKoe6e/Rq6xJBEkYtCMfQofbnXFdkofCGzTFmRWBLuZbrffsY9uR+xgeI+
+         eht1Zb6clFyZzradbg53a2xCIzhNmuEOJl3VYcEoBxLKeKMe0QkZTW2DNULavPqI9EJi
+         P5ojQocY/txBLQ9eVdYDLRljXhlVWGfW8CI9y1sKcTJacVu+ZHMUOkjoOQz3UzHISN+S
+         4x9Wa2KmRuUP1ECpTnaOk+zt6PaghhEiWiLk8BPuY07xAi51zVcrHlEUTBXV/sd69bvh
+         lETQ==
+X-Gm-Message-State: AAQBX9fwWkEt/b1phWyArA97XQ9nmB/DK2qYsFWcabgB/OpVmtV3fVtE
+        tjMADGiFtlO6KQDtYUha27E=
+X-Google-Smtp-Source: AKy350YVtRVHeejbHr380dl3a7mFahL3inmrQvvMV8RLOjHzafex1lS6y4tHSjBMWNkjTVqtlATpxg==
+X-Received: by 2002:a17:90b:4a8f:b0:23d:29c7:916f with SMTP id lp15-20020a17090b4a8f00b0023d29c7916fmr7382073pjb.32.1681525478022;
+        Fri, 14 Apr 2023 19:24:38 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-91.three.co.id. [180.214.233.91])
+        by smtp.gmail.com with ESMTPSA id a11-20020a17090aa50b00b002470e095920sm3313017pjq.40.2023.04.14.19.24.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Apr 2023 19:24:37 -0700 (PDT)
+Message-ID: <cf4fdb30-6f2e-ca3e-fbc0-b48f6949508d@gmail.com>
+Date:   Sat, 15 Apr 2023 09:24:28 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230414110056.19665-5-cloudliang@tencent.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2.1 2/2] x86/Documentation: Add documentation about
+ cluster
+To:     K Prateek Nayak <kprateek.nayak@amd.com>,
+        linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
+        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
+        Jason@zx2c4.com, thomas.lendacky@amd.com, puwen@hygon.cn,
+        x86@kernel.org, linux-doc@vger.kernel.org, oleksandr@natalenko.name
+References: <20230413172918.1500-3-kprateek.nayak@amd.com>
+ <20230414031743.875-1-kprateek.nayak@amd.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230414031743.875-1-kprateek.nayak@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jinrong,
+On 4/14/23 10:17, K Prateek Nayak wrote:
+> +  - cluster_id:
+> +
+> +    A per-CPU variable containing:
+> +
+> +      - Upper bits extracted from the APIC ID.  CPUs which have the same value
+> +        in these bits share an L2 and have the same cluster_id.
+> +
+> +        CPUs for which cluster information is unavailable will show 65535
+> +        (BAD_APICID) as the cluster_id.
 
-kernel test robot noticed the following build warnings:
+"... return cluster_id of 65535 (BAD_APICID)."
 
-[auto build test WARNING on a25497a280bbd7bbcc08c87ddb2b3909affc8402]
+>      The number of online threads is also printed in /proc/cpuinfo "siblings."
+>  
+> +  - topology_cluster_cpumask():
+> +
+> +    The cpumask contains all online threads in the cluster to which a thread
+> +    belongs.
+> +
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinrong-Liang/KVM-selftests-Replace-int-with-uint32_t-for-nevents/20230414-190401
-base:   a25497a280bbd7bbcc08c87ddb2b3909affc8402
-patch link:    https://lore.kernel.org/r/20230414110056.19665-5-cloudliang%40tencent.com
-patch subject: [PATCH 4/7] KVM: x86/pmu: Add documentation for fixed ctr on PMU filter
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/b0effe04478df3b33a26331f48540851c4d33173
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jinrong-Liang/KVM-selftests-Replace-int-with-uint32_t-for-nevents/20230414-190401
-        git checkout b0effe04478df3b33a26331f48540851c4d33173
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Looks OK.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304150850.rx4UDDsB-lkp@intel.com/
+>      The physical package ID to which a thread belongs.
+>  
+> +  - topology_cluster_id();
+> +
+> +    The ID of the cluster to which a thread belongs.
+> +
 
-All warnings (new ones prefixed by >>):
+Looks OK.
 
->> Documentation/virt/kvm/api.rst:5133: WARNING: Definition list ends without a blank line; unexpected unindent.
-
-vim +5133 Documentation/virt/kvm/api.rst
-
-  5130	
-  5131	  FixCtr[i]_is_allowed = (action == ALLOW) && (bitmap & BIT(i)) ||
-  5132	    (action == DENY) && !(bitmap & BIT(i));
-> 5133	  FixCtr[i]_is_denied = !FixCtr[i]_is_allowed;
-  5134	
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+An old man doll... just what I always wanted! - Clara
+
