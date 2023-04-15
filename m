@@ -2,131 +2,266 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 928ADC77B70
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Apr 2023 17:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99CF1C77B73
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Apr 2023 23:01:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbjDORiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Apr 2023 13:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49350 "EHLO
+        id S229946AbjDOXBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Apr 2023 19:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229720AbjDORiT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Apr 2023 13:38:19 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 058E755B1;
-        Sat, 15 Apr 2023 10:37:35 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id xd13so19666674ejb.4;
-        Sat, 15 Apr 2023 10:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681580252; x=1684172252;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LjLF8YJVlIoAVrd1Wc6EQsJn6IlLs+osyJa+45a2H+4=;
-        b=oUXO8xfkcdjlTNarUAttjz4iKfRgUqUoQF8hZnkRSGRMulnqzN1ut6yrYdLXtnwixu
-         mMa/b0DQ0aMcpVVtf+IFKipOSGtpHMU0fD2ZyarfAx1hL7bYGl5P3SmuHmjAoi45L2LF
-         obhlm32zXABsQKFRaQgth1xFqG//E9loWeTS3oejfcLgUhCSN3DdPFtcKKM3YDlx4zZd
-         +N3V5h7h4iPDWekAd4OGFdXHNLwJkxNt4oInz7qboX9vdhGSOKBILc/KhTmhQoyVdW1v
-         sIOAnLsCb+Tv9pUyayQcXub6wWZk+kq+JYilPIIQ3Drp8xYNIaXy9HMTD8Ss+uLtskeO
-         nw9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681580252; x=1684172252;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LjLF8YJVlIoAVrd1Wc6EQsJn6IlLs+osyJa+45a2H+4=;
-        b=UYyqaeAqN8gKVyZ6KvleCiuFVG+Ef2K/J6NDJ6r8xOFdhGliKq3S+DrwK2QlCgJcmw
-         IkPNvsL5MBRyr3xhrqBieN7BxYVv1c1F6m4rru0akOLOqtTa1WAoisgUWVKJhxrHcxmi
-         Laum8ir1eosDAl1ngLoMfMF9aDDFtqUHCUsyOFZ5yf7dz4GvZor5sKzV4jg3zdtvgnos
-         xrDEV10kkAbb+t+ZJIa4vpIJAEEypSGtrkkz3PNGYE0Pl8BgOpmkO/zvBwbq5X5/J/Iy
-         4D6H1ncrlaOBPw982Kjc7EBIew64BlPMCNpCzGE8/hw8E0n6j6aW/7+JwGgurmhnXfKO
-         EESg==
-X-Gm-Message-State: AAQBX9dzR0vxSvArO4i6aIgycT0/GufHx4VdDDK8fYfD/a7pRxCFB+O4
-        3zg3QnR55KZugB4vcZSeMg==
-X-Google-Smtp-Source: AKy350YxWwyqQk5FrYeHnmlYnbJge+4Kr9B5W6bmfsiMjFD6IZgFX7N+doEG9Vb9JQfg0ltY/DelJQ==
-X-Received: by 2002:a17:906:5502:b0:94f:ca5:c437 with SMTP id r2-20020a170906550200b0094f0ca5c437mr2818304ejp.24.1681580251723;
-        Sat, 15 Apr 2023 10:37:31 -0700 (PDT)
-Received: from p183 ([46.53.250.148])
-        by smtp.gmail.com with ESMTPSA id p25-20020a17090635d900b0094e75d3ba1bsm4054490ejb.131.2023.04.15.10.37.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 10:37:31 -0700 (PDT)
-Date:   Sat, 15 Apr 2023 20:37:29 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3] ELF: document some de-facto PT_* ABI quirks
-Message-ID: <88d3f1bb-f4e0-4c40-9304-3843513a1262@p183>
-References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
- <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
- <c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
- <87edp7jyu4.fsf@meer.lwn.net>
+        with ESMTP id S229600AbjDOXBp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Apr 2023 19:01:45 -0400
+Received: from 66-220-144-179.mail-mxout.facebook.com (66-220-144-179.mail-mxout.facebook.com [66.220.144.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1905710F0
+        for <linux-doc@vger.kernel.org>; Sat, 15 Apr 2023 16:01:41 -0700 (PDT)
+Received: by devbig1114.prn1.facebook.com (Postfix, from userid 425415)
+        id 1D51637C42BC; Sat, 15 Apr 2023 15:59:14 -0700 (PDT)
+From:   Stefan Roesch <shr@devkernel.io>
+To:     kernel-team@fb.com
+Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org, willy@infradead.org
+Subject: [PATCH v8 0/3] mm: process/cgroup ksm support
+Date:   Sat, 15 Apr 2023 15:59:10 -0700
+Message-Id: <20230415225913.3206647-1-shr@devkernel.io>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87edp7jyu4.fsf@meer.lwn.net>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
-program headers are slightly different.
+So far KSM can only be enabled by calling madvise for memory regions. To
+be able to use KSM for more workloads, KSM needs to have the ability to b=
+e
+enabled / disabled at the process / cgroup level.
 
-Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
----
+Use case 1:
+The madvise call is not available in the programming language. An example=
+ for
+this are programs with forked workloads using a garbage collected languag=
+e without
+pointers. In such a language madvise cannot be made available.
 
-	v3: move to Documentation/userspace-api/
-	v2: integrate into documentation build system
+In addition the addresses of objects get moved around as they are garbage
+collected. KSM sharing needs to be enabled "from the outside" for these t=
+ype of
+workloads.
 
- Documentation/userspace-api/ELF.rst   |   34 ++++++++++++++++++++++++++++++++++
- Documentation/userspace-api/index.rst |    1 +
- 2 files changed, 35 insertions(+)
+Use case 2:
+The same interpreter can also be used for workloads where KSM brings no
+benefit or even has overhead. We'd like to be able to enable KSM on a wor=
+kload
+by workload basis.
 
-new file mode 100644
---- /dev/null
-+++ b/Documentation/userspace-api/ELF.rst
-@@ -0,0 +1,34 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================================
-+Linux-specific ELF idiosyncrasies
-+=================================
-+
-+Definitions
-+===========
-+
-+"First" program header is the one with the smallest offset in the file:
-+e_phoff.
-+
-+"Last" program header is the one with the biggest offset in the file:
-+e_phoff + (e_phnum - 1) * sizeof(Elf_Phdr).
-+
-+PT_INTERP
-+=========
-+
-+First PT_INTERP program header is used to locate the filename of ELF
-+interpreter. Other PT_INTERP headers are ignored (since Linux 2.4.11).
-+
-+PT_GNU_STACK
-+============
-+
-+Last PT_GNU_STACK program header defines userspace stack executability
-+(since Linux 2.6.6). Other PT_GNU_STACK headers are ignored.
-+
-+PT_GNU_PROPERTY
-+===============
-+
-+ELF interpreter's last PT_GNU_PROPERTY program header is used (since
-+Linux 5.8). If interpreter doesn't have one, then the last PT_GNU_PROPERTY
-+program header of an executable is used. Other PT_GNU_PROPERTY headers
-+are ignored.
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -23,6 +23,7 @@ place where this information is gathered.
-    spec_ctrl
-    accelerators/ocxl
-    ebpf/index
-+   ELF
-    ioctl/index
-    iommu
-    iommufd
+Use case 3:
+With the madvise call sharing opportunities are only enabled for the curr=
+ent
+process: it is a workload-local decision. A considerable number of sharin=
+g
+opportunities may exist across multiple workloads or jobs (if they are pa=
+rt
+of the same security domain). Only a higler level entity like a job sched=
+uler
+or container can know for certain if its running one or more instances of=
+ a
+job. That job scheduler however doesn't have the necessary internal workl=
+oad
+knowledge to make targeted madvise calls.
+
+Security concerns:
+In previous discussions security concerns have been brought up. The probl=
+em is
+that an individual workload does not have the knowledge about what else i=
+s
+running on a machine. Therefore it has to be very conservative in what me=
+mory
+areas can be shared or not. However, if the system is dedicated to runnin=
+g
+multiple jobs within the same security domain, its the job scheduler that=
+ has
+the knowledge that sharing can be safely enabled and is even desirable.
+
+Performance:
+Experiments with using UKSM have shown a capacity increase of around 20%.
+
+Here are the metrics from an instagram workload (taken from a machine wit=
+h
+64GB main memory):
+
+   full_scans: 445
+   general_profit: 20158298048
+   max_page_sharing: 256
+   merge_across_nodes: 1
+   pages_shared: 129547
+   pages_sharing: 5119146
+   pages_to_scan: 4000
+   pages_unshared: 1760924
+   pages_volatile: 10761341
+   run: 1
+   sleep_millisecs: 20
+   stable_node_chains: 167
+   stable_node_chains_prune_millisecs: 2000
+   stable_node_dups: 2751
+   use_zero_pages: 0
+   zero_pages_sharing: 0
+
+After the service is running for 30 minutes to an hour, 4 to 5 million sh=
+ared
+pages are common for this workload when using KSM.
+
+
+Detailed changes:
+
+1. New options for prctl system command
+This patch series adds two new options to the prctl system call. The firs=
+t
+one allows to enable KSM at the process level and the second one to query=
+ the
+setting.
+
+The setting will be inherited by child processes.
+
+With the above setting, KSM can be enabled for the seed process of a cgro=
+up
+and all processes in the cgroup will inherit the setting.
+
+2. Changes to KSM processing
+When KSM is enabled at the process level, the KSM code will iterate over =
+all
+the VMA's and enable KSM for the eligible VMA's.
+
+When forking a process that has KSM enabled, the setting will be inherite=
+d by
+the new child process.
+
+3. Add general_profit metric
+The general_profit metric of KSM is specified in the documentation, but n=
+ot
+calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
+sm.
+
+4. Add more metrics to ksm_stat
+This adds the process profit metric to /proc/<pid>/ksm_stat.
+
+5. Add more tests to ksm_tests and ksm_functional_tests
+This adds an option to specify the merge type to the ksm_tests. This allo=
+ws to
+test madvise and prctl KSM.
+
+It also adds a two new tests to ksm_functional_tests: one to test the new
+prctl options and the other one is a fork test to verify that the KSM pro=
+cess
+setting is inherited by client processes.
+
+
+Changes:
+- V8:
+  - Refreshed to latest mm-unstable
+  - Added check for arg3 - arg5 in prctl function
+  - Don't return an error ksm_enable_merge_any if MMF_VM_MERGE_ANY bit is
+    already set
+
+  - unmap after merge in ksm_tests program
+  - use tmp variable in main function in ksm_tests program
+ =20
+  - Specify all 5 parameters in call to prctl in test programs
+  - Rename test_ksm_prctl() to test_prctl()
+  - Skip if first test in test_prctl failed with skip result
+  - Exit early for failures in test_prctl
+
+  - Rename test_ksm_fork() to test_prctl_fork()
+  - Similar changes to test_prctl also for test_prctl_fork()
+  - Change number of test
+ =20
+- V7:
+  - Removed ksm_add_mm() function
+  - added ksm_enable_merge_any() function
+  - Made ksm_add_vmas() function static
+  - Simplified ksm_fork function to only MMF_VM_MERGE_ANY bit
+  - Moved setting of bit MMF_VM_MERGE_ANY to ksm_enable_merge_any()
+  - Removed flag parameter from __ksm_enter
+  - Removed flag parameter from __ksm_exit
+  - Clear bit MMF_VM_MERGE_ANY in __ksm_exit
+  - call ksm_add_vma only in mmap_region() and do_brk_flags()
+
+  - Removed check_ksm_fork() and check_ksm_merge_type from ksm_tests
+  - Removed -F and -G command line options
+  - Removed enum options for above tests
+  - Added -d option to enable debug mode
+  - Added debug variable for storing debug option
+
+- V6:
+  - Fix error condition in prctl call
+  - Remove ksm_merge_type function and ksm_stat output
+  - Some minor changes like whitespace and removing a cast.
+ =20
+- V5:
+  - When the prctl system call is invoked, mark all compatible VMA
+    as mergeable
+  - Instead of checcking during scan if VMA is mergeable, mark the VMA
+    mergeable when the VMA is created (in case the VMA is compatible)
+    - Remove earlier changes, they are no longer necessary
+  - Unset the flag MMF_VM_MERGE_ANY in gmap_mark_unmergeable().
+  - When unsetting the MMF_VM_MERGE_ANY flag with prctl, only unset the
+    flag
+  - Remove pages_volatile function (with the simplar general_profit calcu=
+lation,
+    the function is no longer needed)
+  - Use simpler formula for calculation of general_profit
+
+- V4:
+  - removing check in prctl for MMF_VM_MERGEABLE in PR_SET_MEMORY_MERGE
+    handling
+  - Checking for VM_MERGEABLE AND MMF_VM_MERGE_ANY to avoid chaning vm_fl=
+ags
+    - This requires also checking that the vma is compatible. The
+      compatibility check is provided by a new helper
+    - processes which have set MMF_VM_MERGE_ANY, only need to call the
+      helper and not madvise.
+  - removed unmerge_vmas function, this function is no longer necessary,
+    clearing the MMF_VM_MERGE_ANY bit is sufficient
+
+- V3:
+  - folded patch 1 - 6
+  - folded patch 7 - 14
+  - folded patch 15 - 19
+  - Expanded on the use cases in the cover letter
+  - Added a section on security concerns to the cover letter
+
+- V2:
+  - Added use cases to the cover letter
+  - Removed the tracing patch from the patch series and posted it as an
+    individual patch
+  - Refreshed repo
+
+
+
+
+Stefan Roesch (3):
+  mm: add new api to enable ksm per process
+  mm: add new KSM process and sysfs knobs
+  selftests/mm: add new selftests for KSM
+
+ Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
+ Documentation/admin-guide/mm/ksm.rst          |   5 +-
+ arch/s390/mm/gmap.c                           |   7 +
+ fs/proc/base.c                                |   3 +
+ include/linux/ksm.h                           |  25 ++-
+ include/linux/sched/coredump.h                |   1 +
+ include/uapi/linux/prctl.h                    |   2 +
+ kernel/sys.c                                  |  27 +++
+ mm/ksm.c                                      | 127 +++++++++++--
+ mm/mmap.c                                     |   3 +
+ tools/include/uapi/linux/prctl.h              |   2 +
+ tools/testing/selftests/mm/Makefile           |   2 +-
+ .../selftests/mm/ksm_functional_tests.c       |  90 ++++++++-
+ tools/testing/selftests/mm/ksm_tests.c        | 172 ++++++++++++++----
+ 14 files changed, 415 insertions(+), 59 deletions(-)
+
+
+base-commit: f80a6c7a37be043f7b074d1e19638675315e3566
+--=20
+2.31.1
+
