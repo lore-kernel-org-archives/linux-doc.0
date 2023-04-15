@@ -2,112 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 836B9C77B71
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Apr 2023 03:24:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 088B1C7619A
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Apr 2023 08:22:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbjDODYO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Apr 2023 23:24:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34346 "EHLO
+        id S229732AbjDOIWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Apr 2023 04:22:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjDODYM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Apr 2023 23:24:12 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE1B84C3C;
-        Fri, 14 Apr 2023 20:24:11 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id fw22-20020a17090b129600b00247255b2f40so6608698pjb.1;
-        Fri, 14 Apr 2023 20:24:11 -0700 (PDT)
+        with ESMTP id S229890AbjDOIWO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Apr 2023 04:22:14 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301641BD9;
+        Sat, 15 Apr 2023 01:22:11 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id lh8so7681254plb.1;
+        Sat, 15 Apr 2023 01:22:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681529051; x=1684121051;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DNu94NMQ9GzAL+Jkh37nSsTNhTljtl3TXqyNQLLmIlA=;
-        b=gBOEzXcpc3N8u612RDt2T+UAxswu/9qsTeAFMEE92vl3q7GGWsz7C9Weah0pfMmtJv
-         U4bsnRLxmZl1x0KyTuZcXGtIZ+WvjcM3Gbjn/NwpScQgKmpmurUX2mASZ6nD9jP3TdU7
-         fDZ+AdeTMa97PU3R79YevKvaj7ml33u5CoK33GfgBtXVSoG7mnWJS2jiHbJYP22OrBXg
-         ehyT1xgCyJbh2x76n7PB4iz8+UtnO7v6/bXEUE+mVAn9g+KkQWlfwzF+AkCqk7hNiq1I
-         qErHOBfqbAD0e+VQWU04dEl58eLSkxCEHbt8W/InjBfh8zcEN9vMs7BUPaXahXVOYWNM
-         WrkQ==
+        d=gmail.com; s=20221208; t=1681546929; x=1684138929;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LrPwCHRKxX/7nUZU7PZjWjkHnyylgUC+HfUtdJ+I1OA=;
+        b=GmKn0pkY+y4gxAFJO8QRU2AssljFiRnHqLbkDjlQryQjgHRs366l0iqZE/+Zn1xOiO
+         WMkMnGDGN/dBIl6JfbefvxQeSkopMI5qtPC+rUt8UUk5z9/uITEsnkLIuD1PXyafC49r
+         /TsdyblUhi3ga8bQ/f+KY0E3wdCjEcmfk4VVSmj1yZUxW/OwWkysjXaL0lDypcsr1nJX
+         IH13ea1VH48ogvDimphguAOBOlAEnGM7kL5o82hA4NQsPohtQ2QeMR2bB7H5P0Y59wmr
+         NDzPPao+zgs2klPtDhmS1PKpFH9s0oTDB2U2FKcChNkF76hQfSlTpx8+/C1lDW16lb3j
+         OhkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681529051; x=1684121051;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DNu94NMQ9GzAL+Jkh37nSsTNhTljtl3TXqyNQLLmIlA=;
-        b=avdfb7/5xZp2yCKJLg1UUIrj+8CGoLCZ+/b9MokmMtJzmWRx/1/TTttKcufEO/BpHO
-         4LuTuNJtns4f6DyirF0bzNtnTrUC5M6pjvvPBn+77peqi4JnLN+lJVBg6A5AeS1VkblI
-         ZrAKHZMzqgYCdPNWYv2dIOKB7ranS5Sf0akk1ODp9yhCuDnFcb4fvhIdAPN/9FjI8zxa
-         BgoumJoKXGkdjWDBz/8QgDjGt5AIVBQQRHy5RP70B8YTX6P9DD7EIVX6K9l6bZvSMDkG
-         zntzzH3lWbJJ2jPbzd5OeZSf5Yl+tpsxvlWYjieZOEphVHGMTp8GLLJ0y7V3dLyjqxsr
-         fAyQ==
-X-Gm-Message-State: AAQBX9f3taFv+dlJOCTWnH9TDAO0qMjMHV2c4WeybH31QyFUAWsW7dY0
-        B7gjSss1Er0okYcooKU6VIE=
-X-Google-Smtp-Source: AKy350ZNOpTIV/cBRWGo0NPV4VfQVAkM+q4dx1s4qoFTG25nPW6JaCuowr4Pf17IV8cncLbpIJY9jQ==
-X-Received: by 2002:a17:90a:ba13:b0:247:160d:3a8e with SMTP id s19-20020a17090aba1300b00247160d3a8emr7894574pjr.22.1681529051023;
-        Fri, 14 Apr 2023 20:24:11 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-65.three.co.id. [180.214.233.65])
-        by smtp.gmail.com with ESMTPSA id oa4-20020a17090b1bc400b002469a865810sm5331106pjb.28.2023.04.14.20.24.10
+        d=1e100.net; s=20221208; t=1681546929; x=1684138929;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LrPwCHRKxX/7nUZU7PZjWjkHnyylgUC+HfUtdJ+I1OA=;
+        b=G7VYTXM9rnqxNB1vGWHtqP805RWTE9xWJHxafLcWdtOkhfvwFFbBEkilbsVfkqlGxo
+         tTMP340K53uGFpUWeHbrvQeAZQtx5zOp7/gFHWvP6nU4vVrUEVqGKVgllFA0SN2ObftL
+         OfcDR8tmc7fgjqclzBzMZR94uH9BQr6rCEV7crGI0nb1jz7CXfjhojddD2ooxmjC6iXZ
+         xOzgdbOqGl6MxIiU4fZnCVJWPpNRe53k/zZ17/FHRBdm/fVAv3txO1IkC6DI3iUHqEUB
+         3xpfeF8S0iorJfOm+5yQ7RW3ZM2tbG5EO1TK8I6nEml6PrshqANNCps+56n+/PiM8pOo
+         WzfA==
+X-Gm-Message-State: AAQBX9fWwkzKbQ7g/BxOTUACSgIONhdv9ZwGAEkknnw4OZX9dXkxOicQ
+        jlTD8w4oTOUWrwFjEwttiNfvL3PPpGD6mbBu4Fc=
+X-Google-Smtp-Source: AKy350YSz3vwB7wQXR4+sawo+URv8oaIToE1pI7vWvAkQXm3mUilnjYEnWDANYbg0bnktUmq3bF3xA==
+X-Received: by 2002:a17:902:ce81:b0:19a:b754:4053 with SMTP id f1-20020a170902ce8100b0019ab7544053mr7225719plg.26.1681546929572;
+        Sat, 15 Apr 2023 01:22:09 -0700 (PDT)
+Received: from localhost.localdomain ([45.137.97.138])
+        by smtp.gmail.com with ESMTPSA id jj14-20020a170903048e00b001a52c38350fsm762169plb.169.2023.04.15.01.22.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 20:24:10 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 1EB9D106677; Sat, 15 Apr 2023 10:24:06 +0700 (WIB)
-Date:   Sat, 15 Apr 2023 10:24:06 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jinrong Liang <ljr.kernel@gmail.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     Like Xu <like.xu.linux@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jinrong Liang <cloudliang@tencent.com>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] KVM: x86/pmu: Add documentation for fixed ctr on PMU
- filter
-Message-ID: <ZDoY1hOJfMwJk1SQ@debian.me>
-References: <20230414110056.19665-1-cloudliang@tencent.com>
- <20230414110056.19665-5-cloudliang@tencent.com>
+        Sat, 15 Apr 2023 01:22:09 -0700 (PDT)
+From:   Chunguang Wu <fullspring2018@gmail.com>
+To:     akpm@linux-foundation.org, corbet@lwn.net
+Cc:     adobriyan@gmail.com, rdunlap@infradead.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] fs/proc: add Kthread flag to /proc/$pid/status
+Date:   Sat, 15 Apr 2023 16:21:55 +0800
+Message-Id: <20230415082155.5298-1-fullspring2018@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230414110056.19665-5-cloudliang@tencent.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 14, 2023 at 07:00:53PM +0800, Jinrong Liang wrote:
-> +Specifically, KVM follows the following pseudo-code when determining whether to
-> +allow the guest FixCtr[i] to count its pre-defined fixed event:
-> +
-> +  FixCtr[i]_is_allowed = (action == ALLOW) && (bitmap & BIT(i)) ||
-> +    (action == DENY) && !(bitmap & BIT(i));
-> +  FixCtr[i]_is_denied = !FixCtr[i]_is_allowed;
-> +
+The command `ps -ef ` and `top -c` mark kernel thread by '['
+and ']', but sometimes the result is not correct.
+The task->flags in /proc/$pid/stat is good, but we need remember
+the value of PF_KTHREAD is 0x00200000 and convert dec to hex.
+If we have no binary program and shell script which read
+/proc/$pid/stat, we can know it directly by
+`cat /proc/$pid/status`.
 
-As kernel test robot has reported [1], you need to wrap the code above
-in a code block:
+Signed-off-by: Chunguang Wu <fullspring2018@gmail.com>
+---
+ Documentation/filesystems/proc.rst | 2 ++
+ fs/proc/array.c                    | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
----- >8 ----
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 036f5b1a39aff8..b5836767e0e76d 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5126,7 +5126,7 @@ Via this API, KVM userspace can also control the behavior of the VM's fixed
- counters (if any) by configuring the "action" and "fixed_counter_bitmap" fields.
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 9d5fd9424e8b..8a563684586c 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -179,6 +179,7 @@ read the file /proc/PID/status::
+   Gid:    100     100     100     100
+   FDSize: 256
+   Groups: 100 14 16
++  Kthread:    0
+   VmPeak:     5004 kB
+   VmSize:     5004 kB
+   VmLck:         0 kB
+@@ -256,6 +257,7 @@ It's slow but very precise.
+  NSpid                       descendant namespace process ID hierarchy
+  NSpgid                      descendant namespace process group ID hierarchy
+  NSsid                       descendant namespace session ID hierarchy
++ Kthread                     kernel thread flag, 1 is yes, 0 is no
+  VmPeak                      peak virtual memory size
+  VmSize                      total program size
+  VmLck                       locked memory size
+diff --git a/fs/proc/array.c b/fs/proc/array.c
+index 9b0315d34c58..fde6a0b92728 100644
+--- a/fs/proc/array.c
++++ b/fs/proc/array.c
+@@ -434,6 +434,13 @@ int proc_pid_status(struct seq_file *m, struct pid_namespace *ns,
  
- Specifically, KVM follows the following pseudo-code when determining whether to
--allow the guest FixCtr[i] to count its pre-defined fixed event:
-+allow the guest FixCtr[i] to count its pre-defined fixed event::
+ 	task_state(m, ns, pid, task);
  
-   FixCtr[i]_is_allowed = (action == ALLOW) && (bitmap & BIT(i)) ||
-     (action == DENY) && !(bitmap & BIT(i));
-
-Thanks.
-
-[1]: https://lore.kernel.org/linux-doc/202304150850.rx4UDDsB-lkp@intel.com/
-
++	seq_puts(m, "Kthread:\t");
++	if (task->flags & PF_KTHREAD) {
++		seq_puts(m, "1\n");
++	} else {
++		seq_puts(m, "0\n");
++	}
++
+ 	if (mm) {
+ 		task_mem(m, mm);
+ 		task_core_dumping(m, task);
 -- 
-An old man doll... just what I always wanted! - Clara
+2.39.1
+
