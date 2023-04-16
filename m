@@ -2,159 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B648C77B73
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 19:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75018C77B76
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 21:33:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjDPTBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Apr 2023 15:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50538 "EHLO
+        id S229488AbjDPVd5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Apr 2023 17:33:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbjDPTBn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 15:01:43 -0400
-X-Greylist: delayed 402 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 16 Apr 2023 12:01:41 PDT
-Received: from qs51p00im-qukt01071902.me.com (qs51p00im-qukt01071902.me.com [17.57.155.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB611BC8
-        for <linux-doc@vger.kernel.org>; Sun, 16 Apr 2023 12:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-        t=1681671298; bh=172UbA2HK1ZDKX3WV0R95NgDfbLml7OVlKVz4FbUmTM=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version;
-        b=SSeCKZRozPDWw6u0RPzwY/l6Yf2KSJ8QD1lFgBgp1V7IZGU4JNJ7YnBoQKlZe56is
-         +v9tzJ7Meu8mpifV2comWqHvSsosYli9EPqjVrdG/qsIw/1mHXiNj5jh0XxkaRMMJx
-         n7zqJrG3Nx67PCe+CPYP5waDc1woWYeA8lDiIhC/D4/8ANmZz5NFjRxt8w34IFToNV
-         c+ztDHP8lFmmx6Oc4IYRdes5DH5wIU4Vw/WiKn7U49AMXi+KpYA6WD7/gqQMgWVnV2
-         mLv+xwUE3pklR3s0I+oYLlt92Z1nE2GGuevXmKGHsIGajvb9ngu6eiVSIh0CKK+Lts
-         9pJRuf8/V0hQQ==
-Received: from localhost (qs51p00im-dlb-asmtp-mailmevip.me.com [17.57.155.28])
-        by qs51p00im-qukt01071902.me.com (Postfix) with ESMTPSA id 34C065EC0539;
-        Sun, 16 Apr 2023 18:54:58 +0000 (UTC)
-From:   Alain Volmat <avolmat@me.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alain Volmat <avolmat@me.com>, linux-doc@vger.kernel.org,
+        with ESMTP id S229458AbjDPVd4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 17:33:56 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631AD1FEF;
+        Sun, 16 Apr 2023 14:33:55 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id r9so5040698iot.6;
+        Sun, 16 Apr 2023 14:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681680835; x=1684272835;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2gy3kFSOdkDvzSy0w35GiiIQBcHUHIwrasUl9Oa3Jx8=;
+        b=errXwELZEzPDIHRC2szYREDSwC1VyoYlgifGrauB7RuTnJPXpvbGOzJYqBOaJL+Gf4
+         uZvB4KJVyOUi3CUXKJujK7QBLFVXMsb42kOdXDESoIwscK9MJWDWb5fypfSi9qoni5Kp
+         w1ibolryRpAW1U7LOSuNE32a1yx8fVQbR+5Kw0AVD9UfvYBLS6NAUMps/E1JBuvucRnR
+         XCs4RUdap7VlBcqtTpXUol4+dqog/ZQEpfnxEDUwZFCNe85thK8K2+k7GL7fYTnRi+hz
+         NSfbaH+WamWmPQKR3Lx0IoGpzeSK7fKmEetvFNuxLIbP6y+5GgXkDWTu+Zhlh0l15YLb
+         17BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681680835; x=1684272835;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2gy3kFSOdkDvzSy0w35GiiIQBcHUHIwrasUl9Oa3Jx8=;
+        b=ERMrlIuW4KkBhcdjW3Q2xqs5+UDEIA5XyPP6/lCGxRRbP9Fn0nv+30aB6p/bgOzoVx
+         jnMOZwcLzkR0GINz05MuUcGzhm7kXsF7umjowjqb/WttcaVnvZ94mVok86un5mAo9eWN
+         bELJbQXLk5daaPAMW0gtp7Hsk6SHnfc2VTxUxzOesk5tFXhb8FGKONWdXsMQ/0pOCBtb
+         CENOPRikdRq8OWC9AHm1UNocF2QdZm6F1rm3eMF/cOhTjrpopO8R2FaoyO3+uS2+SauI
+         CAjiZ+j1cYbuTbzgeThMgblo6t1WF3jD54g6V/U4AZxcA8G1Woan8Ni2+xsfYjOyZ62q
+         2msw==
+X-Gm-Message-State: AAQBX9fAOSsMgY/0zeh+BKFR3yJ1Rn8xrUGFlu3RAjSQ/46aMN2iRzfS
+        xT50tRru6fFrOwmrcqMugRDRhGgNUVE=
+X-Google-Smtp-Source: AKy350ZNWi0kZ8/te/K1qqoQvEOEoH2Mq1PWoxohXBZvSFupT5upL+8B/xmOtXXPNlWrJ4iwWAzzsw==
+X-Received: by 2002:a6b:e506:0:b0:760:ea10:757 with SMTP id y6-20020a6be506000000b00760ea100757mr2756166ioc.20.1681680834744;
+        Sun, 16 Apr 2023 14:33:54 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s2-20020a6bdc02000000b007587774bec7sm2674930ioc.54.2023.04.16.14.33.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Apr 2023 14:33:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sun, 16 Apr 2023 14:33:52 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Aleksa Savic <savicaleksa83@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, Jack Doan <me@jackdoan.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: arm: remove stih415/stih416 related entries
-Date:   Sun, 16 Apr 2023 20:53:48 +0200
-Message-Id: <20230416185349.18156-1-avolmat@me.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
+ Aquacomputer Aquastream XT
+Message-ID: <4edb2285-904f-4dee-8bf8-7fdf42b2b7ce@roeck-us.net>
+References: <20230416181702.9892-1-savicaleksa83@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: -qQ1b1e97ux5mrrU1wlaXenp_07_NNEZ
-X-Proofpoint-GUID: -qQ1b1e97ux5mrrU1wlaXenp_07_NNEZ
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.790,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-12=5F02:2020-02-14=5F02,2022-01-12=5F02,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- mlxlogscore=966 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2304160179
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230416181702.9892-1-savicaleksa83@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ST's STiH415 and STiH416 platforms support have been removed since
-a long time already.  This commit updates the sti related documentation
-overview to remove related entries and update the sti part to add
-STiH407/STiH410 and STiH418 platforms which are still actively
-supported.
+On Sun, Apr 16, 2023 at 08:17:01PM +0200, Aleksa Savic wrote:
+> Extend aquacomputer_d5next driver to expose various hardware sensors of the
+> Aquacomputer Aquastream XT watercooling pump, which communicates
+> through a proprietary USB HID protocol. Implemented by Leonard Anderweit
+> [1] [2].
+> 
+> Coolant temp, fan IC and external temp sensor readings are available, along
+> with speed and voltage of both the pump and optionally connected fan.
+> It also exposes pump current.
+> 
+> Additionally, serial number and firmware version are exposed through
+> debugfs.
+> 
+> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/46
+> [2] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/49
+> 
+> Originally-from: Leonard Anderweit <leonard.anderweit@gmail.com>
+> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
 
-Signed-off-by: Alain Volmat <avolmat@me.com>
----
-Patch once sent as part of serie: https://lore.kernel.org/all/20230209091659.1409-2-avolmat@me.com/
-Sending it individually.
+Applied.
 
- Documentation/arm/index.rst                |  2 --
- Documentation/arm/sti/overview.rst         | 10 +++-------
- Documentation/arm/sti/stih415-overview.rst | 14 --------------
- Documentation/arm/sti/stih416-overview.rst | 13 -------------
- 4 files changed, 3 insertions(+), 36 deletions(-)
- delete mode 100644 Documentation/arm/sti/stih415-overview.rst
- delete mode 100644 Documentation/arm/sti/stih416-overview.rst
-
-diff --git a/Documentation/arm/index.rst b/Documentation/arm/index.rst
-index ae42fe886f0d..8890ec4314c2 100644
---- a/Documentation/arm/index.rst
-+++ b/Documentation/arm/index.rst
-@@ -69,11 +69,9 @@ SoC-specific documents
- 
-    spear/overview
- 
--   sti/stih416-overview
-    sti/stih407-overview
-    sti/stih418-overview
-    sti/overview
--   sti/stih415-overview
- 
-    vfp/release-notes
- 
-diff --git a/Documentation/arm/sti/overview.rst b/Documentation/arm/sti/overview.rst
-index 70743617a74f..ae16aced800f 100644
---- a/Documentation/arm/sti/overview.rst
-+++ b/Documentation/arm/sti/overview.rst
-@@ -7,22 +7,18 @@ Introduction
- 
-   The ST Microelectronics Multimedia and Application Processors range of
-   CortexA9 System-on-Chip are supported by the 'STi' platform of
--  ARM Linux. Currently STiH415, STiH416 SOCs are supported with both
--  B2000 and B2020 Reference boards.
-+  ARM Linux. Currently STiH407, STiH410 and STiH418 are supported.
- 
- 
- configuration
- -------------
- 
--  A generic configuration is provided for both STiH415/416, and can be used as the
--  default by::
--
--	make stih41x_defconfig
-+  The configuration for the STi platform is supported via the multi_v7_defconfig.
- 
- Layout
- ------
- 
--  All the files for multiple machine families (STiH415, STiH416, and STiG125)
-+  All the files for multiple machine families (STiH407, STiH410, and STiH418)
-   are located in the platform code contained in arch/arm/mach-sti
- 
-   There is a generic board board-dt.c in the mach folder which support
-diff --git a/Documentation/arm/sti/stih415-overview.rst b/Documentation/arm/sti/stih415-overview.rst
-deleted file mode 100644
-index b67452d610c4..000000000000
---- a/Documentation/arm/sti/stih415-overview.rst
-+++ /dev/null
-@@ -1,14 +0,0 @@
--================
--STiH415 Overview
--================
--
--Introduction
--------------
--
--    The STiH415 is the next generation of HD, AVC set-top box processors
--    for satellite, cable, terrestrial and IP-STB markets.
--
--    Features:
--
--    - ARM Cortex-A9 1.0 GHz, dual-core CPU
--    - SATA2x2,USB 2.0x3, PCIe, Gbit Ethernet MACx2
-diff --git a/Documentation/arm/sti/stih416-overview.rst b/Documentation/arm/sti/stih416-overview.rst
-deleted file mode 100644
-index 93f17d74d8db..000000000000
---- a/Documentation/arm/sti/stih416-overview.rst
-+++ /dev/null
-@@ -1,13 +0,0 @@
--================
--STiH416 Overview
--================
--
--Introduction
--------------
--
--    The STiH416 is the next generation of HD, AVC set-top box processors
--    for satellite, cable, terrestrial and IP-STB markets.
--
--    Features
--    - ARM Cortex-A9 1.2 GHz dual core CPU
--    - SATA2x2,USB 2.0x3, PCIe, Gbit Ethernet MACx2
--- 
-2.34.1
-
+Thanks,
+Guenter
