@@ -2,266 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99CF1C77B73
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Apr 2023 23:01:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BCEAC77B70
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 00:25:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbjDOXBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Apr 2023 19:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44564 "EHLO
+        id S229451AbjDPAZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Apr 2023 20:25:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjDOXBp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Apr 2023 19:01:45 -0400
-Received: from 66-220-144-179.mail-mxout.facebook.com (66-220-144-179.mail-mxout.facebook.com [66.220.144.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1905710F0
-        for <linux-doc@vger.kernel.org>; Sat, 15 Apr 2023 16:01:41 -0700 (PDT)
-Received: by devbig1114.prn1.facebook.com (Postfix, from userid 425415)
-        id 1D51637C42BC; Sat, 15 Apr 2023 15:59:14 -0700 (PDT)
-From:   Stefan Roesch <shr@devkernel.io>
-To:     kernel-team@fb.com
-Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, willy@infradead.org
-Subject: [PATCH v8 0/3] mm: process/cgroup ksm support
-Date:   Sat, 15 Apr 2023 15:59:10 -0700
-Message-Id: <20230415225913.3206647-1-shr@devkernel.io>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S230099AbjDPAZx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Apr 2023 20:25:53 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE8EF35A9;
+        Sat, 15 Apr 2023 17:25:52 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id dx24so11056814ejb.11;
+        Sat, 15 Apr 2023 17:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681604751; x=1684196751;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AikccuILl/rWwVlUOcy4wtolB2YL8IX34+EVMpD42sg=;
+        b=dPCVE1VQ9k0Cuu8quWGycURV9SGO5kqGK2tGTmoickhgMNDpDqcBvl5IcL+XDpuhl3
+         cOWkJWembdBu9WvJy52kUQA2ZSXBiRBiKCBqFVzjviJFVC9Brxy3iw/ErGO6jsBpHYk3
+         S8G4PAKdZopqWjA7S4NdtvXkORXKKQqN1OI20eQ3ILhOJAwlk2Bal7PjzFxSuXSc1CQ8
+         Ttlog++cOP2dT+V1t2hhXvarZyGaZvsQqW6cK2Gjry3vMUL53+d15wQ4UOagzze5+Fat
+         x9ohAczNH1lDYPkB1IjdaaQ88fmk6W9MLBV72LT8BTvwgcYPdUH861TPzTUgvKIek4QS
+         cYHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681604751; x=1684196751;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AikccuILl/rWwVlUOcy4wtolB2YL8IX34+EVMpD42sg=;
+        b=TDRuc3NbJGuq0JPeJ1jmJ65fkcyIA3PxSKVXzdQML8MZ9aTf8CpGkPGe1na93cWLHk
+         /ZOMUIwDNDAbbF1h8e6/cS2Je8vQsDEeNqd9NobF0PlmrkxzRMoiNlkakQY571UCUHHR
+         UQgtHRXlGEkAlqD0q2zZihADBbEVlGX6PsrCkTjUXLiAEXSykuA/MlvIPOkHx6Hzn6mD
+         re/fUTr2evy/qRqoV3gHKB0AwOD+ZdcBAKrBsubYsfqUT4gb8HJAE38dFwFkvuLkeBtf
+         iYA4mkb576PbGQBT3j6N1GvUTBEFPyAsEVjeiAEflWf5CRTX4hB5wIqOhlXhEwkWu1xz
+         8S1g==
+X-Gm-Message-State: AAQBX9dG8ZnyrBDQ+inO9hYaHLtfFoxKPZrpLeyHdvaeUVHpRQNkbpzN
+        BgHYFnVQV7LzboFZ5fbXpH+pnwX9NSl75ObNV7E=
+X-Google-Smtp-Source: AKy350bwAxk4mfYw5rLmjnhLo0oyAebJps3Rkaf2Za1xbwAMpcl5KBQjhfMpWZzvodcmJLLEgxG23DeILztqemeHW6Q=
+X-Received: by 2002:a17:906:fcd8:b0:94e:2d:e94f with SMTP id
+ qx24-20020a170906fcd800b0094e002de94fmr1597507ejb.8.1681604751315; Sat, 15
+ Apr 2023 17:25:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230414110056.19665-1-cloudliang@tencent.com>
+ <20230414110056.19665-5-cloudliang@tencent.com> <ZDoY1hOJfMwJk1SQ@debian.me>
+In-Reply-To: <ZDoY1hOJfMwJk1SQ@debian.me>
+From:   Jinrong Liang <ljr.kernel@gmail.com>
+Date:   Sun, 16 Apr 2023 08:25:40 +0800
+Message-ID: <CAFg_LQVLzXUhgOkzO780D1HmtLJ6topwPNQJTYXFbR9L7+X17Q@mail.gmail.com>
+Subject: Re: [PATCH 4/7] KVM: x86/pmu: Add documentation for fixed ctr on PMU filter
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Like Xu <like.xu.linux@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jinrong Liang <cloudliang@tencent.com>,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So far KSM can only be enabled by calling madvise for memory regions. To
-be able to use KSM for more workloads, KSM needs to have the ability to b=
-e
-enabled / disabled at the process / cgroup level.
+Bagas Sanjaya <bagasdotme@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8815=E6=
+=97=A5=E5=91=A8=E5=85=AD 11:24=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Fri, Apr 14, 2023 at 07:00:53PM +0800, Jinrong Liang wrote:
+> > +Specifically, KVM follows the following pseudo-code when determining w=
+hether to
+> > +allow the guest FixCtr[i] to count its pre-defined fixed event:
+> > +
+> > +  FixCtr[i]_is_allowed =3D (action =3D=3D ALLOW) && (bitmap & BIT(i)) =
+||
+> > +    (action =3D=3D DENY) && !(bitmap & BIT(i));
+> > +  FixCtr[i]_is_denied =3D !FixCtr[i]_is_allowed;
+> > +
+>
+> As kernel test robot has reported [1], you need to wrap the code above
+> in a code block:
 
-Use case 1:
-The madvise call is not available in the programming language. An example=
- for
-this are programs with forked workloads using a garbage collected languag=
-e without
-pointers. In such a language madvise cannot be made available.
+I will make the changes as you suggested, i.e. wrap the code above in
+a code block.
 
-In addition the addresses of objects get moved around as they are garbage
-collected. KSM sharing needs to be enabled "from the outside" for these t=
-ype of
-workloads.
+Thanks.
 
-Use case 2:
-The same interpreter can also be used for workloads where KSM brings no
-benefit or even has overhead. We'd like to be able to enable KSM on a wor=
-kload
-by workload basis.
-
-Use case 3:
-With the madvise call sharing opportunities are only enabled for the curr=
-ent
-process: it is a workload-local decision. A considerable number of sharin=
-g
-opportunities may exist across multiple workloads or jobs (if they are pa=
-rt
-of the same security domain). Only a higler level entity like a job sched=
-uler
-or container can know for certain if its running one or more instances of=
- a
-job. That job scheduler however doesn't have the necessary internal workl=
-oad
-knowledge to make targeted madvise calls.
-
-Security concerns:
-In previous discussions security concerns have been brought up. The probl=
-em is
-that an individual workload does not have the knowledge about what else i=
-s
-running on a machine. Therefore it has to be very conservative in what me=
-mory
-areas can be shared or not. However, if the system is dedicated to runnin=
-g
-multiple jobs within the same security domain, its the job scheduler that=
- has
-the knowledge that sharing can be safely enabled and is even desirable.
-
-Performance:
-Experiments with using UKSM have shown a capacity increase of around 20%.
-
-Here are the metrics from an instagram workload (taken from a machine wit=
-h
-64GB main memory):
-
-   full_scans: 445
-   general_profit: 20158298048
-   max_page_sharing: 256
-   merge_across_nodes: 1
-   pages_shared: 129547
-   pages_sharing: 5119146
-   pages_to_scan: 4000
-   pages_unshared: 1760924
-   pages_volatile: 10761341
-   run: 1
-   sleep_millisecs: 20
-   stable_node_chains: 167
-   stable_node_chains_prune_millisecs: 2000
-   stable_node_dups: 2751
-   use_zero_pages: 0
-   zero_pages_sharing: 0
-
-After the service is running for 30 minutes to an hour, 4 to 5 million sh=
-ared
-pages are common for this workload when using KSM.
-
-
-Detailed changes:
-
-1. New options for prctl system command
-This patch series adds two new options to the prctl system call. The firs=
-t
-one allows to enable KSM at the process level and the second one to query=
- the
-setting.
-
-The setting will be inherited by child processes.
-
-With the above setting, KSM can be enabled for the seed process of a cgro=
-up
-and all processes in the cgroup will inherit the setting.
-
-2. Changes to KSM processing
-When KSM is enabled at the process level, the KSM code will iterate over =
-all
-the VMA's and enable KSM for the eligible VMA's.
-
-When forking a process that has KSM enabled, the setting will be inherite=
-d by
-the new child process.
-
-3. Add general_profit metric
-The general_profit metric of KSM is specified in the documentation, but n=
-ot
-calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
-sm.
-
-4. Add more metrics to ksm_stat
-This adds the process profit metric to /proc/<pid>/ksm_stat.
-
-5. Add more tests to ksm_tests and ksm_functional_tests
-This adds an option to specify the merge type to the ksm_tests. This allo=
-ws to
-test madvise and prctl KSM.
-
-It also adds a two new tests to ksm_functional_tests: one to test the new
-prctl options and the other one is a fork test to verify that the KSM pro=
-cess
-setting is inherited by client processes.
-
-
-Changes:
-- V8:
-  - Refreshed to latest mm-unstable
-  - Added check for arg3 - arg5 in prctl function
-  - Don't return an error ksm_enable_merge_any if MMF_VM_MERGE_ANY bit is
-    already set
-
-  - unmap after merge in ksm_tests program
-  - use tmp variable in main function in ksm_tests program
- =20
-  - Specify all 5 parameters in call to prctl in test programs
-  - Rename test_ksm_prctl() to test_prctl()
-  - Skip if first test in test_prctl failed with skip result
-  - Exit early for failures in test_prctl
-
-  - Rename test_ksm_fork() to test_prctl_fork()
-  - Similar changes to test_prctl also for test_prctl_fork()
-  - Change number of test
- =20
-- V7:
-  - Removed ksm_add_mm() function
-  - added ksm_enable_merge_any() function
-  - Made ksm_add_vmas() function static
-  - Simplified ksm_fork function to only MMF_VM_MERGE_ANY bit
-  - Moved setting of bit MMF_VM_MERGE_ANY to ksm_enable_merge_any()
-  - Removed flag parameter from __ksm_enter
-  - Removed flag parameter from __ksm_exit
-  - Clear bit MMF_VM_MERGE_ANY in __ksm_exit
-  - call ksm_add_vma only in mmap_region() and do_brk_flags()
-
-  - Removed check_ksm_fork() and check_ksm_merge_type from ksm_tests
-  - Removed -F and -G command line options
-  - Removed enum options for above tests
-  - Added -d option to enable debug mode
-  - Added debug variable for storing debug option
-
-- V6:
-  - Fix error condition in prctl call
-  - Remove ksm_merge_type function and ksm_stat output
-  - Some minor changes like whitespace and removing a cast.
- =20
-- V5:
-  - When the prctl system call is invoked, mark all compatible VMA
-    as mergeable
-  - Instead of checcking during scan if VMA is mergeable, mark the VMA
-    mergeable when the VMA is created (in case the VMA is compatible)
-    - Remove earlier changes, they are no longer necessary
-  - Unset the flag MMF_VM_MERGE_ANY in gmap_mark_unmergeable().
-  - When unsetting the MMF_VM_MERGE_ANY flag with prctl, only unset the
-    flag
-  - Remove pages_volatile function (with the simplar general_profit calcu=
-lation,
-    the function is no longer needed)
-  - Use simpler formula for calculation of general_profit
-
-- V4:
-  - removing check in prctl for MMF_VM_MERGEABLE in PR_SET_MEMORY_MERGE
-    handling
-  - Checking for VM_MERGEABLE AND MMF_VM_MERGE_ANY to avoid chaning vm_fl=
-ags
-    - This requires also checking that the vma is compatible. The
-      compatibility check is provided by a new helper
-    - processes which have set MMF_VM_MERGE_ANY, only need to call the
-      helper and not madvise.
-  - removed unmerge_vmas function, this function is no longer necessary,
-    clearing the MMF_VM_MERGE_ANY bit is sufficient
-
-- V3:
-  - folded patch 1 - 6
-  - folded patch 7 - 14
-  - folded patch 15 - 19
-  - Expanded on the use cases in the cover letter
-  - Added a section on security concerns to the cover letter
-
-- V2:
-  - Added use cases to the cover letter
-  - Removed the tracing patch from the patch series and posted it as an
-    individual patch
-  - Refreshed repo
-
-
-
-
-Stefan Roesch (3):
-  mm: add new api to enable ksm per process
-  mm: add new KSM process and sysfs knobs
-  selftests/mm: add new selftests for KSM
-
- Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
- Documentation/admin-guide/mm/ksm.rst          |   5 +-
- arch/s390/mm/gmap.c                           |   7 +
- fs/proc/base.c                                |   3 +
- include/linux/ksm.h                           |  25 ++-
- include/linux/sched/coredump.h                |   1 +
- include/uapi/linux/prctl.h                    |   2 +
- kernel/sys.c                                  |  27 +++
- mm/ksm.c                                      | 127 +++++++++++--
- mm/mmap.c                                     |   3 +
- tools/include/uapi/linux/prctl.h              |   2 +
- tools/testing/selftests/mm/Makefile           |   2 +-
- .../selftests/mm/ksm_functional_tests.c       |  90 ++++++++-
- tools/testing/selftests/mm/ksm_tests.c        | 172 ++++++++++++++----
- 14 files changed, 415 insertions(+), 59 deletions(-)
-
-
-base-commit: f80a6c7a37be043f7b074d1e19638675315e3566
---=20
-2.31.1
-
+>
+> ---- >8 ----
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
+rst
+> index 036f5b1a39aff8..b5836767e0e76d 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -5126,7 +5126,7 @@ Via this API, KVM userspace can also control the be=
+havior of the VM's fixed
+>  counters (if any) by configuring the "action" and "fixed_counter_bitmap"=
+ fields.
+>
+>  Specifically, KVM follows the following pseudo-code when determining whe=
+ther to
+> -allow the guest FixCtr[i] to count its pre-defined fixed event:
+> +allow the guest FixCtr[i] to count its pre-defined fixed event::
+>
+>    FixCtr[i]_is_allowed =3D (action =3D=3D ALLOW) && (bitmap & BIT(i)) ||
+>      (action =3D=3D DENY) && !(bitmap & BIT(i));
+>
+> Thanks.
+>
+> [1]: https://lore.kernel.org/linux-doc/202304150850.rx4UDDsB-lkp@intel.co=
+m/
+>
+> --
+> An old man doll... just what I always wanted! - Clara
