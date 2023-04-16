@@ -2,107 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AADF8C77B72
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 05:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B212C77B61
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 06:06:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbjDPFw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Apr 2023 01:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
+        id S229702AbjDPGG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Apr 2023 02:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbjDPFw5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 01:52:57 -0400
+        with ESMTP id S229472AbjDPGG5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 02:06:57 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B912D52;
-        Sat, 15 Apr 2023 22:52:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887571BC0;
+        Sat, 15 Apr 2023 23:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=6cjdWzQYlkKX8MCgRY2YnYvf/2Rcp0ennBO6jbnRXg8=; b=XrwqjHIV7CSsj2VhZZXbl6q1MP
-        HIUtD6rBI3uETQ+smSTFaXBHT4jIbR+HHxh+n4ATpeey2y0NjmfNI1D6ibsm4s0H/glybs/u7cAG2
-        TV2sqpZK2lt7CV+cya4SjUYJRIatisf7uOigiuuz02Pm7NmMNeiCvpttbDysG3xmQ5CT5/xPqB0pY
-        iG29i1JcQiBwmJ8HT7BDIRqOWGhkb2ZZkEw+vATMN3LO6ReVGAd555sgNKgIn76kIC0EvbKGbsWRu
-        W9xLzf4INEek5wSf2+6BhFwvwMYgyHfBbL4J6kQ/+leLlfS5WHfq/qYgUsjAFgiYARhXd33j6gGk2
-        1BwSNlVw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pnvJm-00DBqB-0w;
-        Sun, 16 Apr 2023 05:52:54 +0000
-Message-ID: <0589177d-c1f9-7320-b668-c103e34e8800@infradead.org>
-Date:   Sat, 15 Apr 2023 22:52:52 -0700
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=870+ju68AUkL3/ICw4Z6V/MOWACfncjZgY2GQzuwtCw=; b=ExDpi3BVATUPdHlZ6seMw2Iqsk
+        9sCYv3O6DKwnCLHyLpQVJ8ijk/2pv1T6DtXfsV0Jyk+8ho/61G52Klxkha0Hm5f+v8d49DVHjQm4y
+        T8R6SOJAKi5fZg2s7KELpuUwoD/y9noQczjAFqoS1D+F/0dxWahTrMfA9Z3QWc/5NLOUV5GTz4cTW
+        tUgQsF8wvWg499CoZOStihUiw461Ql6bbwePhkbwuT6IWpiJ7ZrmfUOVTx82WkEB9oLeyoCBEy7/3
+        uf4w8T4AGdBZjKQ7XAPnpsI1wL4pfNIQrOsC27t5Ut8lGFwFV4cD4PhhLTiDf6cLArckA9tTQzbAo
+        MzZPUNQg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1pnvWz-00DChS-0J;
+        Sun, 16 Apr 2023 06:06:33 +0000
+Date:   Sat, 15 Apr 2023 23:06:33 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Donald Buczek <buczek@molgen.mpg.de>, axboe@kernel.dk,
+        corbet@lwn.net, snitzer@kernel.org, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, willy@infradead.org, kch@nvidia.com,
+        martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com,
+        gregkh@linuxfoundation.org, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 02/11] block: Block Device Filtering Mechanism
+Message-ID: <ZDuQacsbY889iVYH@infradead.org>
+References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
+ <20230404140835.25166-3-sergei.shtepa@veeam.com>
+ <793db44e-9e6d-d118-3f88-cdbffc9ad018@molgen.mpg.de>
+ <ZDT9PjLeQgjVA16P@infradead.org>
+ <50d131e3-7528-2064-fbe6-65482db46ae4@veeam.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2] fs/proc: add Kthread flag to /proc/$pid/status
-Content-Language: en-US
-To:     Chunguang Wu <fullspring2018@gmail.com>, akpm@linux-foundation.org,
-        corbet@lwn.net
-Cc:     adobriyan@gmail.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230416052404.2920-1-fullspring2018@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230416052404.2920-1-fullspring2018@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50d131e3-7528-2064-fbe6-65482db46ae4@veeam.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 4/15/23 22:24, Chunguang Wu wrote:
-> The command `ps -ef ` and `top -c` mark kernel thread by '['
-> and ']', but sometimes the result is not correct.
-> The task->flags in /proc/$pid/stat is good, but we need remember
-> the value of PF_KTHREAD is 0x00200000 and convert dec to hex.
-> If we have no binary program and shell script which read
-> /proc/$pid/stat, we can know it directly by
-> `cat /proc/$pid/status`.
+On Wed, Apr 12, 2023 at 12:43:40PM +0200, Sergei Shtepa wrote:
+> We can consider a block device as a resource that two actor want to take over.
+> There are two possible behavioral strategies:
+> 1. If one owner occupies a resource, then for other actors, the ownership
+> request will end with a refusal. The owner will not lose his resource.
+> 2. Any actor can take away a resource from the owner and inform him about its
+> loss using a callback.
 > 
-> Signed-off-by: Chunguang Wu <fullspring2018@gmail.com>
+> I think the first strategy is safer. When calling ioctl BLKFILTER_ATTACH, the
+> kernel informs the actor that the resource is busy.
+> Of course, there is still an option to grab someone else's occupied resource.
+> To do this, he will have to call ioctl BLKFILTER_DETACH, specifying the name
+> of the filter that needs to be detached. It is assumed that such detached
+> should be performed by the same actor that attached it there.
 
-LGTM. Thanks.
+Yes.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> If we replace the owner at each ioctl BLKFILTER_ATTACH, then we can get a
+> situation of competition between two actors. At the same time, they won't
+> even get a message that something is going wrong.
 
-> ---
->  Documentation/filesystems/proc.rst | 2 ++
->  fs/proc/array.c                    | 2 ++
->  2 files changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 9d5fd9424e8b..8a563684586c 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -179,6 +179,7 @@ read the file /proc/PID/status::
->    Gid:    100     100     100     100
->    FDSize: 256
->    Groups: 100 14 16
-> +  Kthread:    0
->    VmPeak:     5004 kB
->    VmSize:     5004 kB
->    VmLck:         0 kB
-> @@ -256,6 +257,7 @@ It's slow but very precise.
->   NSpid                       descendant namespace process ID hierarchy
->   NSpgid                      descendant namespace process group ID hierarchy
->   NSsid                       descendant namespace session ID hierarchy
-> + Kthread                     kernel thread flag, 1 is yes, 0 is no
->   VmPeak                      peak virtual memory size
->   VmSize                      total program size
->   VmLck                       locked memory size
-> diff --git a/fs/proc/array.c b/fs/proc/array.c
-> index 9b0315d34c58..425824ad85e1 100644
-> --- a/fs/proc/array.c
-> +++ b/fs/proc/array.c
-> @@ -219,6 +219,8 @@ static inline void task_state(struct seq_file *m, struct pid_namespace *ns,
->  		seq_put_decimal_ull(m, "\t", task_session_nr_ns(p, pid->numbers[g].ns));
->  #endif
->  	seq_putc(m, '\n');
-> +
-> +	seq_printf(m, "Kthread:\t%c\n", p->flags & PF_KTHREAD ? '1' : '0');
->  }
->  
->  void render_sigset_t(struct seq_file *m, const char *header,
+> With the second strategy, both tools will unload each other's filters. In the
+> best case, this will lead to disruption of their work. At a minimum, blksnap,
+> when detached, will reset the change tracker and each backup will perform a
+> full read of the block device. As a result, the user will receive distorted
+> data, the system will not work as planned, although there will be no error
+> message.
 
--- 
-~Randy
+Exactly.  Silent replacement is a bad idea.  Maybe we can stupport
+multiple filters, but I'm not entirely sold on that either.  But
+silently replacing an existing one is a bad idea.
