@@ -2,93 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75018C77B76
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 21:33:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C52FC77B73
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 22:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbjDPVd5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Apr 2023 17:33:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57282 "EHLO
+        id S229500AbjDPWHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Apr 2023 18:07:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjDPVd4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 17:33:56 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631AD1FEF;
-        Sun, 16 Apr 2023 14:33:55 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id r9so5040698iot.6;
-        Sun, 16 Apr 2023 14:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681680835; x=1684272835;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2gy3kFSOdkDvzSy0w35GiiIQBcHUHIwrasUl9Oa3Jx8=;
-        b=errXwELZEzPDIHRC2szYREDSwC1VyoYlgifGrauB7RuTnJPXpvbGOzJYqBOaJL+Gf4
-         uZvB4KJVyOUi3CUXKJujK7QBLFVXMsb42kOdXDESoIwscK9MJWDWb5fypfSi9qoni5Kp
-         w1ibolryRpAW1U7LOSuNE32a1yx8fVQbR+5Kw0AVD9UfvYBLS6NAUMps/E1JBuvucRnR
-         XCs4RUdap7VlBcqtTpXUol4+dqog/ZQEpfnxEDUwZFCNe85thK8K2+k7GL7fYTnRi+hz
-         NSfbaH+WamWmPQKR3Lx0IoGpzeSK7fKmEetvFNuxLIbP6y+5GgXkDWTu+Zhlh0l15YLb
-         17BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681680835; x=1684272835;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2gy3kFSOdkDvzSy0w35GiiIQBcHUHIwrasUl9Oa3Jx8=;
-        b=ERMrlIuW4KkBhcdjW3Q2xqs5+UDEIA5XyPP6/lCGxRRbP9Fn0nv+30aB6p/bgOzoVx
-         jnMOZwcLzkR0GINz05MuUcGzhm7kXsF7umjowjqb/WttcaVnvZ94mVok86un5mAo9eWN
-         bELJbQXLk5daaPAMW0gtp7Hsk6SHnfc2VTxUxzOesk5tFXhb8FGKONWdXsMQ/0pOCBtb
-         CENOPRikdRq8OWC9AHm1UNocF2QdZm6F1rm3eMF/cOhTjrpopO8R2FaoyO3+uS2+SauI
-         CAjiZ+j1cYbuTbzgeThMgblo6t1WF3jD54g6V/U4AZxcA8G1Woan8Ni2+xsfYjOyZ62q
-         2msw==
-X-Gm-Message-State: AAQBX9fAOSsMgY/0zeh+BKFR3yJ1Rn8xrUGFlu3RAjSQ/46aMN2iRzfS
-        xT50tRru6fFrOwmrcqMugRDRhGgNUVE=
-X-Google-Smtp-Source: AKy350ZNWi0kZ8/te/K1qqoQvEOEoH2Mq1PWoxohXBZvSFupT5upL+8B/xmOtXXPNlWrJ4iwWAzzsw==
-X-Received: by 2002:a6b:e506:0:b0:760:ea10:757 with SMTP id y6-20020a6be506000000b00760ea100757mr2756166ioc.20.1681680834744;
-        Sun, 16 Apr 2023 14:33:54 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s2-20020a6bdc02000000b007587774bec7sm2674930ioc.54.2023.04.16.14.33.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Apr 2023 14:33:54 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sun, 16 Apr 2023 14:33:52 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Aleksa Savic <savicaleksa83@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, Jack Doan <me@jackdoan.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        with ESMTP id S229494AbjDPWHJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 18:07:09 -0400
+Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E19F211C;
+        Sun, 16 Apr 2023 15:07:07 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by sonata.ens-lyon.org (Postfix) with ESMTP id 684102018B;
+        Mon, 17 Apr 2023 00:07:04 +0200 (CEST)
+Received: from sonata.ens-lyon.org ([127.0.0.1])
+        by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 9aK28YQjlEw2; Mon, 17 Apr 2023 00:07:04 +0200 (CEST)
+Received: from begin.home (apoitiers-658-1-118-253.w92-162.abo.wanadoo.fr [92.162.65.253])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by sonata.ens-lyon.org (Postfix) with ESMTPSA id BDA6220189;
+        Mon, 17 Apr 2023 00:07:03 +0200 (CEST)
+Received: from samy by begin.home with local (Exim 4.96)
+        (envelope-from <samuel.thibault@ens-lyon.org>)
+        id 1poAWW-003eXA-0I;
+        Mon, 17 Apr 2023 00:07:04 +0200
+Date:   Mon, 17 Apr 2023 00:07:04 +0200
+From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
+To:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Aquastream XT
-Message-ID: <4edb2285-904f-4dee-8bf8-7fdf42b2b7ce@roeck-us.net>
-References: <20230416181702.9892-1-savicaleksa83@gmail.com>
+Subject: [PATCH] PPPoL2TP: Add more code snippets
+Message-ID: <20230416220704.xqk4q6uwjbujnqpv@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230416181702.9892-1-savicaleksa83@gmail.com>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 16, 2023 at 08:17:01PM +0200, Aleksa Savic wrote:
-> Extend aquacomputer_d5next driver to expose various hardware sensors of the
-> Aquacomputer Aquastream XT watercooling pump, which communicates
-> through a proprietary USB HID protocol. Implemented by Leonard Anderweit
-> [1] [2].
-> 
-> Coolant temp, fan IC and external temp sensor readings are available, along
-> with speed and voltage of both the pump and optionally connected fan.
-> It also exposes pump current.
-> 
-> Additionally, serial number and firmware version are exposed through
-> debugfs.
-> 
-> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/46
-> [2] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/49
-> 
-> Originally-from: Leonard Anderweit <leonard.anderweit@gmail.com>
-> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+The existing documentation was not telling that one has to create a PPP
+channel and a PPP interface to get PPPoL2TP data offloading working.
 
-Applied.
+Also, tunnel switching was not described, so that people were thinking
+it was not supported, while it actually is.
 
-Thanks,
-Guenter
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+
+---
+ Documentation/networking/l2tp.rst |   59 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 56 insertions(+), 3 deletions(-)
+
+--- a/Documentation/networking/l2tp.rst
++++ b/Documentation/networking/l2tp.rst
+@@ -387,11 +387,12 @@ Sample userspace code:
+   - Create session PPPoX data socket::
+ 
+         struct sockaddr_pppol2tp sax;
+-        int fd;
++        int ret;
+ 
+         /* Note, the tunnel socket must be bound already, else it
+          * will not be ready
+          */
++        int session_fd = socket(AF_PPPOX, SOCK_DGRAM, PX_PROTO_OL2TP);
+         sax.sa_family = AF_PPPOX;
+         sax.sa_protocol = PX_PROTO_OL2TP;
+         sax.pppol2tp.fd = tunnel_fd;
+@@ -406,12 +407,64 @@ Sample userspace code:
+         /* session_fd is the fd of the session's PPPoL2TP socket.
+          * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
+          */
+-        fd = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
+-        if (fd < 0 ) {
++        ret = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
++        if (ret < 0 ) {
+                 return -errno;
+         }
+         return 0;
+ 
++  - Create PPP channel::
++
++        int chindx;
++        ret = ioctl(session_fd, PPPIOCGCHAN, &chindx);
++        if (ret < 0)
++                return -errno;
++
++        int ppp_chan_fd = open("/dev/ppp", O_RDWR);
++
++        ret = ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx);
++        if (ret < 0)
++                return -errno;
++
++Non-data PPP frames will be available for read on `ppp_chan_fd`.
++
++  - Create PPP interface::
++
++        int ppp_if_fd = open("/dev/ppp", O_RDWR);
++
++        int ifunit;
++        ret = ioctl(ppp_if_fd, PPPIOCNEWUNIT, &ifunit);
++        if (ret < 0)
++                return -errno;
++
++        ret = ioctl(ppp_chan_fd, PPPIOCCONNECT, ifunit);
++        if (ret < 0)
++                return -errno;
++
++The ppp<ifunit> interface can then be configured as usual with SIOCSIFMTU,
++SIOCSIFADDR, SIOCSIFDSTADDR, SIOCSIFNETMASK, and activated by setting IFF_UP
++with SIOCSIFFLAGS
++
++  - Tunnel switching is supported by bridging channels::
++
++        int chindx;
++        ret = ioctl(session_fd, PPPIOCGCHAN, &chindx);
++        if (ret < 0)
++                return -errno;
++
++        int chindx2;
++        ret = ioctl(session_fd2, PPPIOCGCHAN, &chind2x);
++        if (ret < 0)
++                return -errno;
++
++        int ppp_chan_fd = open("/dev/ppp", O_RDWR);
++
++        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
++        if (ret < 0)
++                return -errno;
++
++        close(ppp_chan_fd);
++
+ Old L2TPv2-only API
+ -------------------
+ 
