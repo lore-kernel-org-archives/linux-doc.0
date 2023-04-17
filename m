@@ -2,107 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88735C77B77
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 15:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D7A8C77B77
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 15:10:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231254AbjDQPBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 11:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55480 "EHLO
+        id S230047AbjDQPKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 11:10:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231203AbjDQPBn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 11:01:43 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3343C4222
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 08:01:32 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-54feaa94819so66770587b3.2
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 08:01:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681743691; x=1684335691;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3vFLlBa5cMlD9b7ag9UYfdTMx74Bbs3yMKPPX9I4GwM=;
-        b=OGK68FoyuQQ0kL2O5HxgRSHt2QbHDboc5hKMwP4bRlcKJMMQAqRIjlauG70g4aXaoI
-         RCwv7FXMFfNLqRJZOBy613A+w5XRRmN2H2zNWfDKzF5SD1tHfZhrbVuBk4E+E75tEqrF
-         tTw3g4U6dgFgiOat04BE8cBNJSCGB9Eo6i59NNQJ7dGQyIov0yYTuF8P3+jFvyWWxfrn
-         0j0To2/U3XsPrjlbsK4GxsP+6fqJeqao+Umk0Hyn6UYVUGH6nHHmq6l0xMVKwPTxX5p+
-         rKay54diEn82iZ0UmBZY1V+E+USumHcN/suI4FJwOO5iMGVBjQ3QbXWAt22U12qkos0n
-         8hfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681743691; x=1684335691;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3vFLlBa5cMlD9b7ag9UYfdTMx74Bbs3yMKPPX9I4GwM=;
-        b=jeMOndKWy3eL+BAmdv2xTgkW/eMCGrGWX9MZsdw9Yi387pUZ+sBPXWZpZOVki5yDNQ
-         7QH3FwQ0o+gwUuf47MJd0D9O4kpER9mkIRFJIh1NvqFJ70W1AEcpL0NbSyFI+AikCLjI
-         jwawOMc5Xj6oxZDk/fFonbF6BTVFQU4SSTgxpKhBOKRcyx1NZAub6NawzF829fdtjyOB
-         E0Z9IIgdZLpah8b1GogsjK9DrvEQzhNqG1AW3uPgzkNHSxK4YwYPaC3GJhDPpCLBl2z/
-         liijASTmc7WNHcKr4GZKrBLW77XwjoCGzj07p5HNAIfJ+LLc5jsAQcew+Rr/IokqXLwQ
-         7SVA==
-X-Gm-Message-State: AAQBX9fgV2EosaUcZacwL0DgDaxA6/PwSGSJeVlSN16lEA69+oVKO9Dm
-        CqoFXGIeKaH8eoyP4y+OIn6dBOnJyrI=
-X-Google-Smtp-Source: AKy350b5nQcMgF9tvDaCScAgDkBQIzDDMu1+GFlUDC4dCSeKOYxYJW/fQSKubGNo1KBFDrJt/MuCx/ozRD0=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:ef02:0:b0:545:883a:544d with SMTP id
- o2-20020a81ef02000000b00545883a544dmr9382205ywm.9.1681743691396; Mon, 17 Apr
- 2023 08:01:31 -0700 (PDT)
-Date:   Mon, 17 Apr 2023 08:01:30 -0700
-In-Reply-To: <20230417143747.GA3639898@chaop.bj.intel.com>
-Mime-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com> <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com> <20230119223704.GD2976263@ls.amr.corp.intel.com>
- <Y880FiYF7YCtsw/i@google.com> <20230417143747.GA3639898@chaop.bj.intel.com>
-Message-ID: <ZD1fSl/LT6oBOOmg@google.com>
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S230075AbjDQPKK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 11:10:10 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EEB47ED8;
+        Mon, 17 Apr 2023 08:10:07 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id D98E15C0110;
+        Mon, 17 Apr 2023 11:10:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 17 Apr 2023 11:10:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
+        cc:cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+        1681744206; x=1681830606; bh=TS9dMLl1hXAh0cv6Px1UOsJTZ3pL/MLAgWs
+        qzx5qTU8=; b=lCW/YyIgXLHf2QfAPXj7gabdcE+BamOdn1rtThmbgmbaec1uWc+
+        tAr2LJF50C7qPUFwW71jKy5nswyjufmtHV/wyfpCDgO1AYPOoUfI1RA/IIKKnx8+
+        67hOTyu7SuKlG9yNvrFKGtPrGMikqR1Td5fl55zB3TO3/GZjfp5Cdr+ey57yIaaX
+        4yMt8IqAf6gvIAHmKjfHSZlzo6GLiQPV/GmILz/0eHG1CjXHb7+PWTFZS05soKr+
+        jYMrwB44jmyQE1fGWnPgygg58uczA2q2kgsOQuXagcTqoXEaQPrmvt0cmhcsykje
+        zwx7q57UyRtZ0RI3vTXm6mLoXOXUqeSAYiA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1681744206; x=1681830606; bh=TS9dMLl1hXAh0cv6Px1UOsJTZ3pL/MLAgWs
+        qzx5qTU8=; b=HIVkCOtlZRX+Th9ErFStcskg/WByy0+EjyvCwZZ2tp7GVQTO0w1
+        usZBUj+qF9W+RMX9qJ1p5UXXXLiS5vlvJm9ympTqYHOWcf6QvDRuM9nIE+AOZVNC
+        hbPq/P6owa3nHj6HJ4MlrVIR0rrZ+BHCUd8cHtDlYttGi+2n2Dh2wlLXubfcVb5Y
+        mPxu6+tqHelKujOtcFuK/1EenAoJJoxvnB0DrejQQEEByiNKXqR7NMmQaA9uTYwd
+        VHl1dGAHI0yDLUtUmOPLVquWQyxAPVeTsKL4w0/gE/px9jJ07jBrnRt+HqhIG7rX
+        PWjPsGlD/OGQl9q21vT2hD45hLbt3r3PVlw==
+X-ME-Sender: <xms:TmE9ZGLwkdGLtxH4ZFjo9I5p680UswwxFEqPZ7x4-OunAk1K7mbs1A>
+    <xme:TmE9ZOKBaTekLJ3CyxhRnu-K-RTOxONoklVo-nliRAhyICSp1hLxT9ljyD1gzerIM
+    X22txL58gHwF2h0>
+X-ME-Received: <xmr:TmE9ZGuxVRIt6ZdSqjTCZqdWApyNxldZrDOWHvD0NwQDqgSKA2YOQPvhqDbHEemjh8Wu9Ya7rxu81MVjYS5in2PO2k9S5GNahcnDFRI8gU-_Fu6OGu1S>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeliedgkeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpeeuvghr
+    nhguucfutghhuhgsvghrthcuoegsvghrnhgurdhstghhuhgsvghrthesfhgrshhtmhgrih
+    hlrdhfmheqnecuggftrfgrthhtvghrnhepkeehveekleekkeejhfehgeeftdffuddujeej
+    ieehheduueelleeghfeukeefvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepsggvrhhnugdrshgthhhusggvrhhtsehfrghsthhmrghilhdr
+    fhhm
+X-ME-Proxy: <xmx:TmE9ZLYYamkBhbP7w1f8kzKEX7aK184NtbrPVHd0vxsFbKutVPun8g>
+    <xmx:TmE9ZNbNawyxDDN3Sg5UzXQ6lYPmRMcCZtDGERHz8uUk685mHLmRlg>
+    <xmx:TmE9ZHCEA_tdP-kTY0YJPr24mpnFVL8P0u2BBT4gEZIjuuPbL67GJQ>
+    <xmx:TmE9ZMVU-DFkOqwQEnavFLhnQvmHz7kptwt4GhNKcWP_NM4g55xWpw>
+Feedback-ID: id8a24192:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 17 Apr 2023 11:10:05 -0400 (EDT)
+Message-ID: <48eca641-e810-fac5-0ff0-8762eed3f61e@fastmail.fm>
+Date:   Mon, 17 Apr 2023 17:10:03 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: sequential 1MB mmap read ends in 1 page sync read-ahead
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org
+References: <aae918da-833f-7ec5-ac8a-115d66d80d0e@fastmail.fm>
+ <df5c4698-46e1-cbfe-b1f6-cc054b12f6fe@fastmail.fm>
+ <ZDjRayNGU1zYn1pw@casper.infradead.org>
+ <1e88b8ed-5f17-c42e-9646-6a97efd9f99c@fastmail.fm>
+ <b8afbfba-a58d-807d-1bbc-3be4b5b08710@fastmail.fm>
+ <c59e54f9-6eae-3c35-bce8-ac03af84b3ed@fastmail.fm>
+ <ZDnNeKt1bPWb2PzC@casper.infradead.org>
+Content-Language: en-US, de-DE
+From:   Bernd Schubert <bernd.schubert@fastmail.fm>
+In-Reply-To: <ZDnNeKt1bPWb2PzC@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 17, 2023, Chao Peng wrote:
-> In case you started working on the code again, I have a branch [1]
-> originally planned as v11 candidate which I believe I addressed all the
-> discussions we had for v10 except the very latest one [2] and integrated
-> all the newly added selftests from Ackerley and myself. The branch was
-> based on your original upm_base_support and then rebased to your
-> kvm-x86/mmu head. Feel free to take anything you think useful( most of
-> them are trivial things but also some fixes for bugs).
 
-Nice!  I am going to work on splicing together the various series this week, I'll
-make sure to grab your work.
 
-Thanks much! 
+On 4/15/23 00:02, Matthew Wilcox wrote:
+> On Fri, Apr 14, 2023 at 10:47:39PM +0200, Bernd Schubert wrote:
+>>> Up to bs=512K it works fine, 1M (and for what it matters
+>>> already 768K) introduce the order=0 issue.
+>>
+>> Hmm, I replaced memcpy with dumb version, that copies byte by byte - problem
+>> gone. Is it possible that the optimized memcpy causes caused kind of random
+>> memory access and confuses mm / readahead?
+>> And somehow your memcpy or system is not doing that?
+> 
+> Oh, that would make sense!  If the memcpy() works high-to-low, then
+> you'd see exactly the behaviour you're reporting.  Whereas low-to-high
+> results in the behaviour I'm seeing.
+
+In my case it is not exactly high-to-low, it is more low, high, then 
+from high to low. Issue goes away with a sufficiently large RA size. And 
+RA behaves better when POSIX_MADV_SEQUENTIAL is not done.
+For sure memcpy implementation and cpu depending (I have tested on avx 
+and avx2 systems).
+
+> 
+> Hm.  I don't know what to do about that.  Maybe a "sufficiently large"
+> memcpy should call posix_madvise(src, n, POSIX_MADV_WILLNEED)
+
+
+What would speak against ignoring POSIX_MADV_SEQUENTIAL for RA when it 
+would detect that something breaks the contract?
+
+But then I don't know how much mmap/memcpy is used for large memcpy or 
+memcmp - maybe we should just document the issue right now in the mmap 
+man page? Especially that POSIX_MADV_SEQUENTIAL should be avoided?
+
+
+
+Thanks,
+Bernd
