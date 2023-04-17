@@ -2,100 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20DA2C77B7D
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 18:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83241C77B76
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 18:26:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229800AbjDQSGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 14:06:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
+        id S229713AbjDQS0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 14:26:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjDQSG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 14:06:27 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2205FAF15;
-        Mon, 17 Apr 2023 11:06:06 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 627AA21C1E42; Mon, 17 Apr 2023 11:06:05 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 627AA21C1E42
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1681754765;
-        bh=PjG74HOKXwe7va7p2A9jFByxA/BP+3mUkctDdGY/Zmw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ipOJl4sHtP4MosUagWDfkLRxaakERXlkvVNtSL+yWRdW+u/MZwdek29UIuC+s2Olc
-         iflWufz/4Z0zo7AOuyThvZFM1U7EPXcdfGops8XtfxDhvZsEXUt5hCBaejNJhNpHmD
-         E5bXgrGu6xGy+ERVXHDwBp1XqaykYLwf0ng09oug=
-Date:   Mon, 17 Apr 2023 11:06:05 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
-Message-ID: <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
- <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
- <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
+        with ESMTP id S229572AbjDQS0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 14:26:43 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C303C1F;
+        Mon, 17 Apr 2023 11:26:41 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id ey8so1909687qtb.3;
+        Mon, 17 Apr 2023 11:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681756001; x=1684348001;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=foj2FZg70HNMg3V5x0Kz+tnYOlrRauJivuG7dJ4srDk=;
+        b=QPo7rEYhug3JJgpy9Yfw4kT778/KMC6UTYG658AnGXtkntwskiuPTcwqIQ1mX97n1x
+         xtOZoCh6OzGNS3Y1JCFFua4dl6QrYwf+vLPV3HfJMezibkY2mFgevwj6zUfaEfSYrHyn
+         axMOsNu2+ZomDmbewpF15c76vf56UlxPp/5oHbU5B2WayY2MIEqTCR6hNn2iBk6oLN1P
+         vD44A1PChsqcBrI9/+DEwEg7yCugNpbYXOOfjbADGnZUhdoEzfeH+EdME75oLbSStYFi
+         h6JqLeE6kqBfhAJrCXkOZR6X1KaNIW44hYnSRmC/OhXGQEX9+vr8w50fxjBGFPAKwDAH
+         0Szw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681756001; x=1684348001;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=foj2FZg70HNMg3V5x0Kz+tnYOlrRauJivuG7dJ4srDk=;
+        b=VvhkIggBxDbChRGUuLZVSPJj+LGh3kdI6AJM8XaELwFxT5EBjXb+g1lfxx4G386SSb
+         C0IdO9GRoJEXI8tx9T3upqlv7jGGExSiCfHkjtYlGQ80mFPhficVvKq0f7Jl9E/k629Z
+         jPQval1USGdCmDphybxspNnrn1yffbO4U9Zgy3LV+Wxo6mm4H1z4jrM2K/IdSXVMqWec
+         /470vi/JmaEGXd/8azRxnT0DevHwPp9GnODjp3/QpSKyjvvbrdC5Rf4Idezixqby2S0o
+         x5Da2CtvfR6Bg/x4PdMh3AUh4GdK0NskIgrc9ZfDmrtwnDLOVOh6C5tJlD0nRO9C3yhn
+         ePng==
+X-Gm-Message-State: AAQBX9dnx6a28Mah3E6V/HD6okS9Tz/jKgAkmH0cy8F6z2HDUlBooERl
+        xiGCrgpyGoXraBqHePW7nW4=
+X-Google-Smtp-Source: AKy350ZwGxah12Zppxa0pFO2Ibp0e89Qq+9B+IHYw6c074kOEm7KrWZxdgcbNC+zEPm5ZKaMm0uf3A==
+X-Received: by 2002:a05:622a:102:b0:3ba:26a0:d0ee with SMTP id u2-20020a05622a010200b003ba26a0d0eemr20968539qtw.52.1681756000846;
+        Mon, 17 Apr 2023 11:26:40 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id r12-20020ae9d60c000000b007485ba3d794sm1016544qkk.105.2023.04.17.11.26.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Apr 2023 11:26:40 -0700 (PDT)
+Message-ID: <9a9b9c3e-c4c9-8fe3-7c06-850589bc853a@gmail.com>
+Date:   Mon, 17 Apr 2023 11:26:32 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [net-next PATCH v7 05/16] net: phy: Add a binding for PHY LEDs
+Content-Language: en-US
+To:     Christian Marangi <ansuelsmth@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
+References: <20230417151738.19426-1-ansuelsmth@gmail.com>
+ <20230417151738.19426-6-ansuelsmth@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20230417151738.19426-6-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 13, 2023 at 02:45:07PM -0400, Paul Moore wrote:
-> On Wed, Apr 12, 2023 at 7:36???PM Fan Wu <wufan@linux.microsoft.com> wrote:
-> > On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
-> > > On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft.com> wrote:
-> > > > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
-> > > > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+On 4/17/23 08:17, Christian Marangi wrote:
+> From: Andrew Lunn <andrew@lunn.ch>
 > 
-> ...
+> Define common binding parsing for all PHY drivers with LEDs using
+> phylib. Parse the DT as part of the phy_probe and add LEDs to the
+> linux LED class infrastructure. For the moment, provide a dummy
+> brightness function, which will later be replaced with a call into the
+> PHY driver. This allows testing since the LED core might otherwise
+> reject an LED whose brightness cannot be set.
 > 
-> > > I guess this does make me wonder about keeping a non-active policy
-> > > loaded in the kernel, what purpose does that serve?
-> > >
-> >
-> > The non-active policy doesn't serve anything unless it is activated. User can
-> > even delete a policy if that is no longer needed. Non-active is just the default
-> > state when a new policy is loaded.
-> >
-> > If IPE supports namespace, there is another use case where different containers
-> > can select different policies as the active policy from among multiple loaded
-> > policies. Deven has presented a demo of this during LSS 2021. But this goes
-> > beyond the scope of this version.
+> Add a dependency on LED_CLASS. It either needs to be built in, or not
+> enabled, since a modular build can result in linker errors.
 > 
-> Do you plan to add namespace support at some point in the
-> not-too-distant future?  If so, I'm okay with keeping support for
-> multiple policies, but if you think you're only going to support one
-> active policy at a time, it might be better to remove support for
-> multiple (inactive) policies.
-> 
-> -- 
-> paul-moore.com
+> Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 
-Another benefit of having multiple policies is that it provides isolation
-between different policies. For instance, if we have two policies named
-"policy_a" and "policy_b," we can ensure that only team a can update "policy_a,"
-and only team b can update "policy_b." This way, both teams can update
-their policy without affecting others. However, if there is only one policy
-in the system, both teams will have to operate on the same policy, making it
-less manageable.
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
 
-Besides, removing multiple (inactive) policies support will
-render the policy_name field meaningless, and we should only audit the policy
-hash. I am fine if we decide to go for the single policy option.
-
--Fan
