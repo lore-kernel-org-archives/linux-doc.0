@@ -2,183 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1971CC77B7A
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 21:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74413C77B72
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 22:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230424AbjDQVb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 17:31:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36236 "EHLO
+        id S229655AbjDQWmW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 18:42:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230342AbjDQVbZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 17:31:25 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A753546BC
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 14:31:23 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-552ae3e2cbeso61634617b3.13
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 14:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1681767083; x=1684359083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BCzVu2UsKp7hdLDjLx5y43eqwBluLCZhJw8zkmfWK7s=;
-        b=L4lIgMDUo+CoVwZROqgkHM1P5l8PMDt1tMF+3n6mYb/oTyl6jZZARiOyi4mY749zTf
-         kd6MKQWITu/+gFbXbDd8PRN889Ab1UneKVGjM8dJfGHZk1x69itMrG6mVAMXx6c94Kgj
-         wsnxittzLcJmNlQ2TmgAffk7LZPA0GjY7q3YVrjMNaQxDody759vfh8QxNsbIEZIbNpi
-         YEiGC7lB/ogD9pMXaYUg7qcmHjeO7XkF2svcHQ6pd/dMN/CipBYMhe50S/ctKhKU/5Xb
-         VduqXgJXIwtVunLI04d/oZ9995Fp6s9L0vc6khDXs8odobPBxwM6nmpDBHJfyzOBpVBf
-         lSXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681767083; x=1684359083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BCzVu2UsKp7hdLDjLx5y43eqwBluLCZhJw8zkmfWK7s=;
-        b=UL5T98WE7LOQhyIiMJ2o77cFqvR1U90k9qTd7GFaSoYWFrKYBWrDgZQF0ICR8u+iVq
-         pJ4ScvkBjzPl9jigVNw2Xv+Miy2W4Vh01XW7xc4gAsOLDzoTLW0JimuwGq+12YAkaC2/
-         K7HONlcsuLsQdQG3QoTxXTp3PNTXXj23jBCWZwp4vwvaQme/MG9SbTkbTnmm07VjfHhi
-         F26efO7uv2s+Lpy5f5Zn6x0A3QxBhaICG8dlj1s85vgm/9nKlUbB8+6+IJW0khUqK3R3
-         ZskiJap/5sKuIvUlPkHPgvAKLwPPnuR4by3BaGJu0nXoo7soYf7v8zFvuTj4hDzF4qmM
-         ZJQw==
-X-Gm-Message-State: AAQBX9fsK+ZFCTilCT6EyClyfdx5sVQSx0AQDzgK00nUjkO7pVyXsI9W
-        tGOsTDc49MqMFPoLM4ARjE0p5n+/NHDXPvsJOB5N
-X-Google-Smtp-Source: AKy350bgu9ZFLZmYkOlWaVpVvG9J/JdkBbU14XNGAtkoY2ENWGlUCNYD5NN6A3BCb0Ne4rd9gsfKQgsCVLB08+3wRKo=
-X-Received: by 2002:a81:c649:0:b0:54f:2b65:a865 with SMTP id
- q9-20020a81c649000000b0054f2b65a865mr10208390ywj.8.1681767082657; Mon, 17 Apr
- 2023 14:31:22 -0700 (PDT)
+        with ESMTP id S229477AbjDQWmV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 18:42:21 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0296846A0;
+        Mon, 17 Apr 2023 15:42:19 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33HMfcHK026562;
+        Mon, 17 Apr 2023 22:42:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ThdI2vVhVvUS1hsMYpkEhFDrFYSRDvOSV+xF6HW6x2s=;
+ b=GqijgJafos026x3Hrrw5c92brwF7kWGFLX5YfQ8V6nOtk0KXUItJcG0fTFPUl9adNVAu
+ CDswiV4isgLCElhDBUAP5y8n4SZ3/bQ2odE0Ggx6pnQiJMHe+B7HxXzcPyWsjspbaP2y
+ HIWrUnyqK+1/rKOL56kqrGb/Ig1ZOs//Kqf0613yxnk32X1Ymm70lzKDWNaF1YVyuHSu
+ NW/mO9x0s6GeEYz75U5r1Vm85oQKQik+mavyX6NVFdzAO3COSYfNdgEKhCdDk8ZO/T1J
+ vNQ8HHg3taE47MbGMBNTBgLbf/56iJ9GTPz2KPrvzesEqYJoaKxjDe5DyC+QAwIQAYaO ng== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q171gh8fs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 17 Apr 2023 22:42:00 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33HMfxaq027141
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 17 Apr 2023 22:41:59 GMT
+Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 17 Apr
+ 2023 15:41:58 -0700
+Message-ID: <274ad221-f397-b634-5742-fe6c9cb18843@quicinc.com>
+Date:   Mon, 17 Apr 2023 15:41:58 -0700
 MIME-Version: 1.0
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
- <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
- <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
- <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhSnKbhtgFxOAY7NYZyOkV4kEA0=mVsCyogLBSCJs0r_ig@mail.gmail.com> <20230417211826.GA6475@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-In-Reply-To: <20230417211826.GA6475@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 17 Apr 2023 17:31:11 -0400
-Message-ID: <CAHC9VhT9uTYrtEsXUvj5qaTpNL2ix762dE5AzUaSqzas8-frXA@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v11 22/26] virt: gunyah: Add proxy-scheduled vCPUs
+To:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
+ <20230304010632.2127470-23-quic_eberman@quicinc.com>
+ <98ad146d-492d-aa0c-4f6a-ba37e6bf74eb@linaro.org>
+Content-Language: en-US
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <98ad146d-492d-aa0c-4f6a-ba37e6bf74eb@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: VJu4-N-iNPmDz-8lNhuzwsk2eCSSOK6-
+X-Proofpoint-ORIG-GUID: VJu4-N-iNPmDz-8lNhuzwsk2eCSSOK6-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-17_14,2023-04-17_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=999 suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 phishscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304170200
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 5:18=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
-wrote:
-> On Mon, Apr 17, 2023 at 04:16:29PM -0400, Paul Moore wrote:
-> > On Mon, Apr 17, 2023 at 2:06???PM Fan Wu <wufan@linux.microsoft.com> wr=
-ote:
-> > > On Thu, Apr 13, 2023 at 02:45:07PM -0400, Paul Moore wrote:
-> > > > On Wed, Apr 12, 2023 at 7:36???PM Fan Wu <wufan@linux.microsoft.com=
-> wrote:
-> > > > > On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
-> > > > > > On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft=
-.com> wrote:
-> > > > > > > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
-> > > > > > > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.micro=
-soft.com> wrote:
-> > > >
-> > > > ...
-> > > >
-> > > > > > I guess this does make me wonder about keeping a non-active pol=
-icy
-> > > > > > loaded in the kernel, what purpose does that serve?
-> > > > > >
-> > > > >
-> > > > > The non-active policy doesn't serve anything unless it is activat=
-ed. User can
-> > > > > even delete a policy if that is no longer needed. Non-active is j=
-ust the default
-> > > > > state when a new policy is loaded.
-> > > > >
-> > > > > If IPE supports namespace, there is another use case where differ=
-ent containers
-> > > > > can select different policies as the active policy from among mul=
-tiple loaded
-> > > > > policies. Deven has presented a demo of this during LSS 2021. But=
- this goes
-> > > > > beyond the scope of this version.
-> > > >
-> > > > Do you plan to add namespace support at some point in the
-> > > > not-too-distant future?  If so, I'm okay with keeping support for
-> > > > multiple policies, but if you think you're only going to support on=
-e
-> > > > active policy at a time, it might be better to remove support for
-> > > > multiple (inactive) policies.
-> > > >
-> > > > --
-> > > > paul-moore.com
-> > >
-> > > Another benefit of having multiple policies is that it provides isola=
-tion
-> > > between different policies. For instance, if we have two policies nam=
-ed
-> > > "policy_a" and "policy_b," we can ensure that only team a can update =
-"policy_a,"
-> > > and only team b can update "policy_b." This way, both teams can updat=
-e
-> > > their policy without affecting others. However, if there is only one =
-policy
-> > > in the system, both teams will have to operate on the same policy, ma=
-king it
-> > > less manageable.
-> >
-> > That only really matters if both policies are active at the same time;
-> > if only one policy can be active at one point in time the only
-> > permission that matters is the one who can load/activate a policy.
-> >
-> > Allowing for multiple policies complicates the code.  If there is
-> > another feature that requires multiple policies, e.g. IPE namespaces,
-> > then that is okay.  However, if there is no feature which requires
-> > multiple active policies, supporting multiple loaded policies only
-> > increases the risk of an exploitable bug in the IPE code.
-> >
-> > > Besides, removing multiple (inactive) policies support will
-> > > render the policy_name field meaningless, and we should only audit th=
-e policy
-> > > hash. I am fine if we decide to go for the single policy option.
-> >
-> > Once again, I think it comes back to: do you still want to support IPE
-> > namespaces at some point in the future, and if so, when do you expect
-> > to work on that?
->
-> Yes, absolutely! We definitely have plans to support namespaces in the fu=
-ture.
-> However, it's worth mentioning that there are other tasks that we may nee=
-d
-> to prioritize due to their relatively lower complexity. For example, befo=
-re
-> we can fully implement namespaces, we need to address some other importan=
-t
-> aspects of the system, such as adding a policy language for integrity
-> enforcement on configuration files and defining trusted certificates
-> that can sign the root hash. Therefore, the timeline for implementing
-> namespaces will depend on the completion time of these tasks.
->
-> I understand your concerns, and we can proceed with a single policy desig=
-n
-> for the initial version.
 
-I think it's okay to stick with the multi-policy code for the initial
-submission, you've got the code now, and it's tested.  I just wanted
-to make sure there were plans to make use of it at some point, if not
-we might as well drop it now.  However, it sounds like you've got a
-plan to utilize the multi-policy support so that's fine with me.
 
---=20
-paul-moore.com
+On 3/31/2023 7:27 AM, Alex Elder wrote:
+> On 3/3/23 7:06 PM, Elliot Berman wrote:
+
+[snip]
+
+>> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+>> index caeb3b3a3e9a..e52265fa5715 100644
+>> --- a/include/uapi/linux/gunyah.h
+>> +++ b/include/uapi/linux/gunyah.h
+>> @@ -62,8 +62,32 @@ struct gh_vm_dtb_config {
+>>   #define GH_VM_START        _IO(GH_IOCTL_TYPE, 0x3)
+>> +/**
+>> + * GH_FN_VCPU - create a vCPU instance to control a vCPU
+>> + *
+>> + * gh_fn_desc is filled with &struct gh_fn_vcpu_arg
+>> + *
+>> + * The vcpu type will register with the VM Manager to expect to control
+>> + * vCPU number `vcpu_id`. It returns a file descriptor allowing 
+>> interaction with
+>> + * the vCPU. See the Gunyah vCPU API description sections for 
+>> interacting with
+>> + * the Gunyah vCPU file descriptors.
+>> + *
+>> + * Return: file descriptor to manipulate the vcpu. See GH_VCPU_* ioctls
+>> + */
+>> +#define GH_FN_VCPU         1
+> 
+> I think you should define GH_VN_VCPU, GN_FN_IRQFD, and GN_FN_IOEVENTFD
+> in an enumerated type.  Each has a type associated with it, and you can
+> add the explanation for the function in the kernel-doc comments above
+> thosse type definitions.
+> 
+
+I'd like to enumify the GH_FN_* macros, but one challenge I'm facing is 
+that it breaks the module alias implementation in patch 19.
+
+MODULE_ALIAS("ghfunc:"__stringify(_type))
+
+When the GH_FN_* are regular preprocessor macros backed by an integer, 
+the preprocessor will make the module alias ghfunc:0 (or ghfunc:1, etc). 
+This works well because I can do
+
+request_module("ghfunc:%d", type);
+
+If the function hasn't been registered and then gunyah_vcpu.ko gets 
+loaded automatically.
+
+With enum, compiler knows the value of GH_FN_VCPU and preprocessor will 
+make the module alias like ghfunc:GH_FN_VCPU.
+
+[snip]
+
+>> +
+>> +/*
+>> + * Gunyah presently sends max 4 bytes of exit_reason.
+>> + * If that changes, this macro can be safely increased without breaking
+>> + * userspace so long as struct gh_vcpu_run < PAGE_SIZE.
+> 
+> Is PAGE_SIZE allowed to be anything other than 4096 bytes?  Do you
+> expect this driver to work properly if the page size were configured
+> to be 16384 bytes?  In other words, is this a Gunyah constant, or
+> is it *really* the page size configured for Linux?
+> 
+
+Our implementations are only doing 4096 bytes. I expect the driver to 
+work properly when using 16k pages. This really is a Linux page. It's a 
+reflection of the alloc_page in gh_vcpu_bind().
+
+The exit reason is copied from hypervisor into field accessible by 
+userspace directly. Gunyah makes the exit reason size dynamic -- there's 
+no architectural limitation preventing the exit reason from being a 
+string or some lengthy data.
+
+As I was writing this response, I realized that I should be able to make 
+this a zero-length array and ensure that reason[] doesn't overflow 
+PAGE_SIZE...
+
+The comment was trying to explain that Linux itself imposes a limitation 
+on the maximum exit reason size. If we need to support longer exit 
+reason, we're OK to do so long as the total size doesn't overrun 
+PAGE_SIZE. There aren't any plans to need longer exit reasons than the 8 
+bytes mentioned today.
+
+Thanks,
+Elliot
