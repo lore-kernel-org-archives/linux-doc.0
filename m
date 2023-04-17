@@ -2,152 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D29C77B72
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 20:12:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28709C77B78
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 20:16:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230316AbjDQUMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 16:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
+        id S229738AbjDQUQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 16:16:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229870AbjDQUMb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 16:12:31 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A3C558D;
-        Mon, 17 Apr 2023 13:12:25 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id h24-20020a17090a9c1800b002404be7920aso27709582pjp.5;
-        Mon, 17 Apr 2023 13:12:25 -0700 (PDT)
+        with ESMTP id S229531AbjDQUQn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 16:16:43 -0400
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5343D46AC
+        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 13:16:41 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-54fbb713301so189007907b3.11
+        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 13:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681762345; x=1684354345;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=paul-moore.com; s=google; t=1681762600; x=1684354600;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uGGeQ34qFmH3qFSmAUdD5AsG5Jqn1gFFjidxM1csPmQ=;
-        b=WP1cGmhDXEaM2XoZQjksyWZjyjJ8/dPdSZFCLLz/R19MHv4d8SYoajJ3n7KJGGRP2d
-         QfL8ZCHeiRUBptfALCwXRF34t1z07YYlkovBk2/hsT8PJckcxJI+ZsBCXsg2pi9LvC1d
-         rggmvYF4ju/BUSXm2VA+2JY6fVH8vgjnf0fz97JefdsnlbPsqu6gE2y7kSOZ9r2ZtnIy
-         ygjwVBziEtNITmZ5gllCzuvyKpWojJLQwxnRhV3/072eKrNSg/4TfPqqi8S3Wpt3IGlm
-         aGZiitnwhALRhD1nKBOWbwppjuXsprBAvS5mBlN4oYjef76qBN+AMd4pN7SrTzRzxWlF
-         oqyg==
+        bh=mkFM4OddDI3MzXQTdAgqfF3VU3F/+LgzOjoA+7s8XA4=;
+        b=Ml35Br1S4fB3lQjg+85g3UBuNpD2qRSHHrPy7eSM2cIKJ0UHgLPilBvXvoOd26NpVQ
+         XScr4M6uxDpgNOv8wz3lwCYE24jCZFRGgOvMfIhHkdttvMie4TqlWXyoZi7H5u5YSb/G
+         jW/p817xKSmzxkgQXaPUdAbZpNp4DpLIB3lm+1FhoqzLTLUUqTavEQlTtnPv9HlQ8HMQ
+         e119/w9x96Z3IkM9ZXV6zNWtzvuCmN5sJD3GY4c5m6weNq50I9GDsXzCjT4/5MAIWwbl
+         /EqEfWvaLjxUeqvn7BVtzYa97LE8hT7Mu7aE7S+4t84d0NzWjqskd+G/HvvL/AJivftr
+         B7xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681762345; x=1684354345;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1681762600; x=1684354600;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uGGeQ34qFmH3qFSmAUdD5AsG5Jqn1gFFjidxM1csPmQ=;
-        b=PLg+Ms/uCM7q/5+HUPoU6AwCmbX/OPEcCbpv4lhLJ2PvM2UvPI9iKVbcEl2P9tACgi
-         AqgAa+IYoEtv0eY9EjalwXR7F6VGLsE0Cli/FDhNdjUFebsfa2wTrNQp/x8AUZWuh4OF
-         FKK/udILpTHi1Cjb+ID5RocWOl4xkZTlchKYAnGNG7SBdQ10Mf4uOx8Cz+7gdLW0XmIo
-         KP2fcIA7eKdFR6mg7CRaWu96BFHXHUjVxx1QzJNkHt76t7t5RXuQWm1x5wgc8yoxWLds
-         tKpUiCuThUao+YSxDLT+rOR4GReilOQ8fTAnvRVPD06460dCop4063fWHYAsUAYjZDEs
-         NK2w==
-X-Gm-Message-State: AAQBX9cYkmI0IZoZNYRfSKNuDrgRrFHoJ+g82QoNkS9DB8beJN7ofKlf
-        kfrDAS0TvzVLb1zrYpvVA3g=
-X-Google-Smtp-Source: AKy350apR+UW6/r809TtL7zmvsClieP2I6EjDtF1IFJX/9UC+3g2jKbrC6+C4/pk1uCM3wzNBU0ZUQ==
-X-Received: by 2002:a17:902:bc4b:b0:1a6:6a7c:9fde with SMTP id t11-20020a170902bc4b00b001a66a7c9fdemr140605plz.14.1681762345291;
-        Mon, 17 Apr 2023 13:12:25 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id w24-20020a17090aaf9800b0023d0c2f39f2sm9118078pjq.19.2023.04.17.13.12.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Apr 2023 13:12:24 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Clark <robdclark@gmail.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
-        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
-        GPU)
-Subject: [RFC 3/3] drm/msm: Add comm/cmdline fields
-Date:   Mon, 17 Apr 2023 13:12:12 -0700
-Message-Id: <20230417201215.448099-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230417201215.448099-1-robdclark@gmail.com>
-References: <20230417201215.448099-1-robdclark@gmail.com>
+        bh=mkFM4OddDI3MzXQTdAgqfF3VU3F/+LgzOjoA+7s8XA4=;
+        b=hfLOLTCQ6VBo778jiek/YxVhWV8so9E1joGktPewOFry5+duHeimQ4UA6oT6GQc5rR
+         4NssC4qUxxk7jKUebfEEKtlikE5elwqElz/eHtiMk5T1IXgtXRhKj0rMdUaLNlyzLEmG
+         Paz4a8SrdiwGMh1H2bYWGKxAz+Qi2O8wX4XNCnNCq2mtvKlUvYpr5jU4/jioyIB4+PYn
+         Lv3DW4DdNtzhpOeLgu6zOcJgGlRH5gGx/ORLKq9z7Ch9/oa4pYpdPRlRW6ZPHcjyqlPK
+         uiT74dw9hr1Yspc/pEaeQf/SPntewjCZDr86M8RjzZHAWgVT2/FbCSDQyF7RHjqH4eGI
+         9IGQ==
+X-Gm-Message-State: AAQBX9df4DFFFIDUx9BPg7nRhX1qO7DgxGyoEQuUdumvuJ2Frr0M+lt1
+        cKPYLZfPNf01rxvpo4yuekbM4AKnNR723qCmHt5S
+X-Google-Smtp-Source: AKy350ZxQlOfbob70cyzh//3Qo4gX/RJVSVzb07xLMzIeYlrCU36AjFdx5P2s2Fo1lBjmj4URw4Qp0a1MdAC8VUyDYc=
+X-Received: by 2002:a81:4524:0:b0:54f:aa4b:100c with SMTP id
+ s36-20020a814524000000b0054faa4b100cmr9804160ywa.8.1681762600389; Mon, 17 Apr
+ 2023 13:16:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
+ <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
+ <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com> <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 17 Apr 2023 16:16:29 -0400
+Message-ID: <CAHC9VhSnKbhtgFxOAY7NYZyOkV4kEA0=mVsCyogLBSCJs0r_ig@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Apr 17, 2023 at 2:06=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> On Thu, Apr 13, 2023 at 02:45:07PM -0400, Paul Moore wrote:
+> > On Wed, Apr 12, 2023 at 7:36???PM Fan Wu <wufan@linux.microsoft.com> wr=
+ote:
+> > > On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
+> > > > On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft.com=
+> wrote:
+> > > > > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
+> > > > > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft=
+.com> wrote:
+> >
+> > ...
+> >
+> > > > I guess this does make me wonder about keeping a non-active policy
+> > > > loaded in the kernel, what purpose does that serve?
+> > > >
+> > >
+> > > The non-active policy doesn't serve anything unless it is activated. =
+User can
+> > > even delete a policy if that is no longer needed. Non-active is just =
+the default
+> > > state when a new policy is loaded.
+> > >
+> > > If IPE supports namespace, there is another use case where different =
+containers
+> > > can select different policies as the active policy from among multipl=
+e loaded
+> > > policies. Deven has presented a demo of this during LSS 2021. But thi=
+s goes
+> > > beyond the scope of this version.
+> >
+> > Do you plan to add namespace support at some point in the
+> > not-too-distant future?  If so, I'm okay with keeping support for
+> > multiple policies, but if you think you're only going to support one
+> > active policy at a time, it might be better to remove support for
+> > multiple (inactive) policies.
+> >
+> > --
+> > paul-moore.com
+>
+> Another benefit of having multiple policies is that it provides isolation
+> between different policies. For instance, if we have two policies named
+> "policy_a" and "policy_b," we can ensure that only team a can update "pol=
+icy_a,"
+> and only team b can update "policy_b." This way, both teams can update
+> their policy without affecting others. However, if there is only one poli=
+cy
+> in the system, both teams will have to operate on the same policy, making=
+ it
+> less manageable.
 
-Normally this would be the same information that can be obtained in
-other ways.  But in some cases the process opening the drm fd is merely
-a sort of proxy for the actual process using the GPU.  This is the case
-for guest VM processes using the GPU via virglrenderer, in which case
-the msm native-context renderer in virglrenderer overrides the comm/
-cmdline to be the guest process's values.
+That only really matters if both policies are active at the same time;
+if only one policy can be active at one point in time the only
+permission that matters is the one who can load/activate a policy.
 
-Exposing this via fdinfo allows tools like gputop to show something more
-meaningful than just a bunch of "pcivirtio-gpu" users.
+Allowing for multiple policies complicates the code.  If there is
+another feature that requires multiple policies, e.g. IPE namespaces,
+then that is okay.  However, if there is no feature which requires
+multiple active policies, supporting multiple loaded policies only
+increases the risk of an exploitable bug in the IPE code.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- Documentation/gpu/drm-usage-stats.rst |  8 ++++++++
- drivers/gpu/drm/msm/msm_gpu.c         | 14 ++++++++++++++
- 2 files changed, 22 insertions(+)
+> Besides, removing multiple (inactive) policies support will
+> render the policy_name field meaningless, and we should only audit the po=
+licy
+> hash. I am fine if we decide to go for the single policy option.
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 8e00d53231e0..bc90bed455e3 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -148,6 +148,14 @@ percentage utilization of the engine, whereas drm-engine-<keystr> only reflects
- time active without considering what frequency the engine is operating as a
- percentage of it's maximum frequency.
- 
-+- drm-comm: <valstr>
-+
-+Returns the clients executable path.
-+
-+- drm-cmdline: <valstr>
-+
-+Returns the clients cmdline.
-+
- Implementation Details
- ======================
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index f0f4f845c32d..1150dcbf28aa 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -148,12 +148,26 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
- 	return 0;
- }
- 
-+static void get_comm_cmdline(struct msm_file_private *ctx, char **comm, char **cmd);
-+
- void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 			 struct drm_printer *p)
- {
-+	char *comm, *cmdline;
-+
-+	get_comm_cmdline(ctx, &comm, &cmdline);
-+
- 	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
- 	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
- 	drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
-+
-+	if (comm)
-+		drm_printf(p, "drm-comm:\t%s\n", comm);
-+	if (cmdline)
-+		drm_printf(p, "drm-cmdline:\t%s\n", cmdline);
-+
-+	kfree(comm);
-+	kfree(cmdline);
- }
- 
- int msm_gpu_hw_init(struct msm_gpu *gpu)
--- 
-2.39.2
+Once again, I think it comes back to: do you still want to support IPE
+namespaces at some point in the future, and if so, when do you expect
+to work on that?
 
+--=20
+paul-moore.com
