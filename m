@@ -2,115 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EE8C77B7C
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 16:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20DA2C77B7D
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 18:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbjDQQnI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 12:43:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56174 "EHLO
+        id S229800AbjDQSGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 14:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjDQQnH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 12:43:07 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D117D84;
-        Mon, 17 Apr 2023 09:43:06 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 49C1D5C007C;
-        Mon, 17 Apr 2023 12:43:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 17 Apr 2023 12:43:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1681749786; x=1681836186; bh=YD
-        e3y1T8NWWsjl/y28nmrnwl6G1y0u8s1lFy/i0ih80=; b=b+MrrqmkqnhWnXyJzS
-        +Hug34CJDBjbLk5mJEQi4cnFU/leVEaDstO0jkZZv3DZGS+QaNMEacn1E5hS985x
-        Rq2B/cmHgqjyF4t7EUcQ4IYgKTn9Km0262ErSAjFO2o/xjf/VhWNKnJjRenYuXBN
-        0US8Hr6b1oGQTDDh2PHEGXr9MntmpuCfdqOVQHadrOP3U48KHXHIS3eQ9rQe4HFb
-        wPN9xBMC7Ow5GuwKFEfSyOjTRoE7QXT61XkipHiu7kQe0ku/JH3GTs6Z9ppHkqn2
-        xGqVINFBYcGV9EicZAhEHzSjx3ny7545Okc25v4sGXa/YBP40GxWpMYV1+CBf/Sq
-        hyRw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1681749786; x=1681836186; bh=YDe3y1T8NWWsj
-        l/y28nmrnwl6G1y0u8s1lFy/i0ih80=; b=OmXJCtZ0e8x+NUyE3P6D2U2F1NBIO
-        dzCNJxBz85VvpX8WrqJOEZ1yp1D65nsJkLziTq8BrS4FmYvZgbxQ2G7R27EAWv21
-        0bx/yjSHqzRK8w8ZWaVp0WXL7frKJrHxZ2/wutn09xDw25NAvtTjmGeNpAG4pukv
-        ipewXi0x7D6siNWcJXqVqOCdICB0mjdMktmqEp4mXCKz2gY5quwFRpxnW+SP6oFp
-        eGxJ/kwLoB7YWA2CedgOceSWdbTP/bJwfDKYhnhXKGEptW/AxGPjYCG00JDU8l85
-        7UwsDoKqsDbsCopDPLy3xXsB6RxhyAJLqVBFaLEjZvkmzTedafLd6ojPw==
-X-ME-Sender: <xms:GXc9ZDd7ys3en2ywRjBvRYO3KyL-7CVOwfu2fx7HfTJTnrfsyOYTdA>
-    <xme:GXc9ZJP8kxrLKNvJOfaiEGJETZ0ugIRgwb0mjCQxutJPIHCV4F88HFrEuA0fpcW9q
-    zTp9iyGl6pr4OCcqus>
-X-ME-Received: <xmr:GXc9ZMj00o7AxdE8HsTepTFIaVI9nrbjelpIIea6TOL--SJQ5GSxcWfP3Z8tQHc2xE4e8nj62G1lsELIhj3OkvPHsrU_gmwTFHWXEk3igMPI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeliedguddtfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpefuthgv
-    fhgrnhcutfhovghstghhuceoshhhrhesuggvvhhkvghrnhgvlhdrihhoqeenucggtffrrg
-    htthgvrhhnpeevlefggffhheduiedtheejveehtdfhtedvhfeludetvdegieekgeeggfdu
-    geeutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hshhhrseguvghvkhgvrhhnvghlrdhioh
-X-ME-Proxy: <xmx:GXc9ZE9VAbXr0Oyq6ogSh_COHTHLrwA2XJfbDaUjP2Q5W3w_QLWhDg>
-    <xmx:GXc9ZPsQTqeXsUcrOo92rHCOuYyRSjhVxd1hIh5ulpnGPhA_ZB7dcQ>
-    <xmx:GXc9ZDFZyTH4Y-FB8pFdwyRY7CiS-9ov_tYC61NK96yGyoqf9FLQnw>
-    <xmx:Gnc9ZNJn4lxCpTZL4eruSA2Zoy52vH0BY-M6SIR2CU2C9VMwL4BZKA>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Apr 2023 12:43:04 -0400 (EDT)
-References: <20230415225913.3206647-1-shr@devkernel.io>
- <20230415225913.3206647-4-shr@devkernel.io>
- <355f42d1-4354-376d-ab27-7e55d06e64a6@redhat.com>
- <954d6b1f-5b4d-48e5-02fe-646b3e79f6e5@redhat.com>
-User-agent: mu4e 1.10.1; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, willy@infradead.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v8 3/3] selftests/mm: add new selftests for KSM
-Date:   Mon, 17 Apr 2023 09:42:39 -0700
-In-reply-to: <954d6b1f-5b4d-48e5-02fe-646b3e79f6e5@redhat.com>
-Message-ID: <qvqw1qkibgtk.fsf@devbig1114.prn1.facebook.com>
+        with ESMTP id S229575AbjDQSG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 14:06:27 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2205FAF15;
+        Mon, 17 Apr 2023 11:06:06 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id 627AA21C1E42; Mon, 17 Apr 2023 11:06:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 627AA21C1E42
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1681754765;
+        bh=PjG74HOKXwe7va7p2A9jFByxA/BP+3mUkctDdGY/Zmw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ipOJl4sHtP4MosUagWDfkLRxaakERXlkvVNtSL+yWRdW+u/MZwdek29UIuC+s2Olc
+         iflWufz/4Z0zo7AOuyThvZFM1U7EPXcdfGops8XtfxDhvZsEXUt5hCBaejNJhNpHmD
+         E5bXgrGu6xGy+ERVXHDwBp1XqaykYLwf0ng09oug=
+Date:   Mon, 17 Apr 2023 11:06:05 -0700
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
+Message-ID: <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
+ <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
+ <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Apr 13, 2023 at 02:45:07PM -0400, Paul Moore wrote:
+> On Wed, Apr 12, 2023 at 7:36???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> > On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
+> > > On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> > > > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
+> > > > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> 
+> ...
+> 
+> > > I guess this does make me wonder about keeping a non-active policy
+> > > loaded in the kernel, what purpose does that serve?
+> > >
+> >
+> > The non-active policy doesn't serve anything unless it is activated. User can
+> > even delete a policy if that is no longer needed. Non-active is just the default
+> > state when a new policy is loaded.
+> >
+> > If IPE supports namespace, there is another use case where different containers
+> > can select different policies as the active policy from among multiple loaded
+> > policies. Deven has presented a demo of this during LSS 2021. But this goes
+> > beyond the scope of this version.
+> 
+> Do you plan to add namespace support at some point in the
+> not-too-distant future?  If so, I'm okay with keeping support for
+> multiple policies, but if you think you're only going to support one
+> active policy at a time, it might be better to remove support for
+> multiple (inactive) policies.
+> 
+> -- 
+> paul-moore.com
 
-David Hildenbrand <david@redhat.com> writes:
+Another benefit of having multiple policies is that it provides isolation
+between different policies. For instance, if we have two policies named
+"policy_a" and "policy_b," we can ensure that only team a can update "policy_a,"
+and only team b can update "policy_b." This way, both teams can update
+their policy without affecting others. However, if there is only one policy
+in the system, both teams will have to operate on the same policy, making it
+less manageable.
 
-> On 17.04.23 16:35, David Hildenbrand wrote:
->>> +/* Verify that KSM can be enabled / queried with prctl. */
->>> +static void test_prctl(void)
->>> +{
->>> +	int ret;
->>> +
->>> +	ksft_print_msg("[RUN] %s\n", __func__);
->>> +
->>> +	ret = prctl(PR_SET_MEMORY_MERGE, 1, 0, 0, 0);
->>> +	if (ret < 0 && errno == EINVAL) {
->>> +		ksft_test_result_skip("PR_SET_MEMORY_MERGE not supported\n");
->>> +		return;
->>> +	} else if (ret) {
->>> +		ksft_test_result_fail("PR_SET_MEMORY_MERGE=1 failed\n");
->>> +	}
->> Just realized we're missing a "return;" in case of the failure here.
->>
->
->
-> And we should probably fix that as well:
->
-> ERROR: do not initialise globals to 0
-> #235: FILE: tools/testing/selftests/mm/ksm_tests.c:57:
-> +int debug = 0;
->
-> total: 1 errors, 0 warnings, 512 lines checked
+Besides, removing multiple (inactive) policies support will
+render the policy_name field meaningless, and we should only audit the policy
+hash. I am fine if we decide to go for the single policy option.
 
-I'll fix it in the next version.'
+-Fan
