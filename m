@@ -2,117 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ABE5C77B7C
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 18:29:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02352C77B76
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 20:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbjDQS3J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 14:29:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40168 "EHLO
+        id S229547AbjDQUHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 16:07:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbjDQS3I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 14:29:08 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A3449E7;
-        Mon, 17 Apr 2023 11:29:06 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id k65-20020a17090a3ec700b00247131783f7so10340947pjc.0;
-        Mon, 17 Apr 2023 11:29:06 -0700 (PDT)
+        with ESMTP id S229523AbjDQUHF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 16:07:05 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2817649CA;
+        Mon, 17 Apr 2023 13:07:01 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-514156b4976so1857234a12.3;
+        Mon, 17 Apr 2023 13:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681756145; x=1684348145;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VxqYMpGsUK5vHCXpzGQ9HBKFjTOWbMgTRrCGFMgYc54=;
-        b=PvowHmyjyHQp+Je7pcXZuKlB1P9H6MFm/AgV3qCiFXGNS9AFdSaVKbBi9kUoFUGvcA
-         P6KY/eNmpqIT6StsyNV3ESNIQD9OOqeZN3EWtWeSKtZEZ04tzy6S7Pwg3bjt6qYgq6jE
-         0NFl3F+UuvFlUBDp+cRLWwQDU9Zjwh2JUQnQD4sJXSMI/2y9DEbggke3KeYotnKWv7Lh
-         SF5G8RVn9QqNlqjRW+7yRPKAZRxVCBl8xKp6yFyweyJAs0pNwO2M1rMXfxXDV0Zqy1lc
-         L8KATagp+mZXQdh5Jk0JABlHFaW9xM0ozZcAhIOryO7UXr68zfFbuJw+gGL0ljKzRza6
-         Y/bA==
+        d=gmail.com; s=20221208; t=1681762020; x=1684354020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+deRgXi/6Ad9g6ku11D8GgcUGW5WpzR4IIRqP5WMoRs=;
+        b=JcGnCFJj/BBEdA0hbgG5EsNgb3iej6j4oPqs23GAUMRs4lmm9w4RDYVLZDPt0EJTt4
+         wlqQ/e7oA+qo3v3dViaATjMd95+LJOHFx/tebhZB+Fg8U5cou6MG5+7rTkGe0Lz8bvyw
+         2HvEWJuvnneTw2ZR0tXEtbPhfpknC/P5KXhspzRLswM1DU+2VYL83WoAncV2PFDEKj4U
+         wTzbSV9CrAWbER4qg4Fd0hA83F89rHDGKMlWZkXezznlbH8UV53X55KA7ytCvKUZmXq7
+         XEp+4LBUlivOCquwGpShgvBeLCbgUkwe4eZr/8dTnwg1lch+E+oJb46WFrDja53dtpsE
+         Kywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681756145; x=1684348145;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VxqYMpGsUK5vHCXpzGQ9HBKFjTOWbMgTRrCGFMgYc54=;
-        b=W4E5E5flPdSvEGbACHQbmEc/NG5JLJUFDscYOrGwulaP95bgKs+Au32yey6QlBUn4j
-         onlTzgwRRH0RtyNQ+25snyk+/Mb3mLww6vVmnNYGsbswGlrd9Nf42Q4Po9nd6bInhbVe
-         Sk9sU6lLno9wh+NVAHGGdMlr08JDwHYQ+9Kphn/NTTSTCZlE9VSl5PHtdu6lc6szeYAz
-         kIYR3WgedSToTsQ4xXz6i0s5r2yBEeDVTrtZ2bmG2nkfPncpXzWJ/YFXOJ3WOxrz2+K0
-         d7MsCNRVs9//ZnJGb0tRZyTMLh+CFxX4pVIH33ShlVh/1SUa3fOLgO3FiHkABeHghi8R
-         qG0w==
-X-Gm-Message-State: AAQBX9d8zZrQ/ig/+UOvVERHTNHzwvXk6HtECZO1hKuCS7A2B1/mYFmW
-        1gh1buL4lrX1Gt4SxQmGeXOUxREWuBUszA==
-X-Google-Smtp-Source: AKy350Zc5to7YXJJ8cONqo3uvWRsWWR5/ydZMeKO0mlNxmwvPabMZ0UtuGo6unBP8sKNgd2QAbZGFQ==
-X-Received: by 2002:a17:90b:4b91:b0:247:56b3:4f2 with SMTP id lr17-20020a17090b4b9100b0024756b304f2mr11824803pjb.7.1681756145609;
-        Mon, 17 Apr 2023 11:29:05 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id qa7-20020a17090b4fc700b00247164c1947sm306305pjb.0.2023.04.17.11.28.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 11:29:05 -0700 (PDT)
-Message-ID: <daf43ba4-22e1-7e07-57b8-ac4a3f82adc4@gmail.com>
-Date:   Mon, 17 Apr 2023 11:28:55 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [net-next PATCH v7 02/16] net: dsa: qca8k: add LEDs basic support
-Content-Language: en-US
-To:     Christian Marangi <ansuelsmth@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
+        d=1e100.net; s=20221208; t=1681762020; x=1684354020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+deRgXi/6Ad9g6ku11D8GgcUGW5WpzR4IIRqP5WMoRs=;
+        b=OQniKLiQ143yILsHN0Y94L9JoKcFC4BWznvFEbEjmEuqDq3crmy5u6vKSRgJbuzVRw
+         dSjgpfKiWPQ9ZnPmd+enZs5TAz7DlKQio2eE9mD/V9iEjOh6LXdHll/mPaB66aJRtRyc
+         17NYCs4V2WLkYUUkm2IjFRYUPwyXtQtQTwBMWT7o2xKtf2yWov7zMZ4dyp+IWkC849Uf
+         I21w0AsiF46Sp87wzeks8rr2bKwhxFE5d1amJK4VK0wS++27Kcf/Z1n6wqXzhC4w4Ec4
+         05+s0yRyTHQmXDFzig+i7mi5uV7OroEovJAGSMCYI54me8H6SseFHaAvTcpIjxfLA+mA
+         RYQw==
+X-Gm-Message-State: AAQBX9ciz9pyC4lmMdZq8VWTH5lAdpGxQ/BwwN+4578JaEBhiIbwgaYR
+        ggCTqimSLGQNhIIa5MQXJdI=
+X-Google-Smtp-Source: AKy350Y7ODBS8FdmIbWFAn8sdaIVRvcEuA/AmjNn1Ewxalqs6GptNrO4Daqa5keisv4BFAbDxr0Dyg==
+X-Received: by 2002:a05:6a00:1516:b0:63d:287f:fdf5 with SMTP id q22-20020a056a00151600b0063d287ffdf5mr4607205pfu.27.1681762020532;
+        Mon, 17 Apr 2023 13:07:00 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+        by smtp.gmail.com with ESMTPSA id e16-20020a62ee10000000b0063b5776b073sm7338454pfi.117.2023.04.17.13.06.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 13:07:00 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20230417151738.19426-1-ansuelsmth@gmail.com>
- <20230417151738.19426-3-ansuelsmth@gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230417151738.19426-3-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/docs: Fix usage stats typos
+Date:   Mon, 17 Apr 2023 13:06:56 -0700
+Message-Id: <20230417200657.447606-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/17/23 08:17, Christian Marangi wrote:
-> Add LEDs basic support for qca8k Switch Family by adding basic
-> brightness_set() support.
-> 
-> Since these LEDs refelect port status, the default label is set to
-> ":port". DT binding should describe the color and function of the
-> LEDs using standard LEDs api.
-> Each LED always have the device name as prefix. The device name is
-> composed from the mii bus id and the PHY addr resulting in example
-> names like:
-> - qca8k-0.0:00:amber:lan
-> - qca8k-0.0:00:white:lan
-> - qca8k-0.0:01:amber:lan
-> - qca8k-0.0:01:white:lan
-> 
-> These LEDs supports only blocking variant of the brightness_set()
-> function since they can sleep during access of the switch leds to set
-> the brightness.
-> 
-> While at it add to the qca8k header file each mode defined by the Switch
-> Documentation for future use.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+From: Rob Clark <robdclark@chromium.org>
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Fix a couple missing ':'s.
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ Documentation/gpu/drm-usage-stats.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index b46327356e80..72d069e5dacb 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -105,7 +105,7 @@ object belong to this client, in the respective memory region.
+ Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+ indicating kibi- or mebi-bytes.
+ 
+-- drm-cycles-<str> <uint>
++- drm-cycles-<str>: <uint>
+ 
+ Engine identifier string must be the same as the one specified in the
+ drm-engine-<str> tag and shall contain the number of busy cycles for the given
+@@ -117,7 +117,7 @@ larger value within a reasonable period. Upon observing a value lower than what
+ was previously read, userspace is expected to stay with that larger previous
+ value until a monotonic update is seen.
+ 
+-- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
++- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
+ 
+ Engine identifier string must be the same as the one specified in the
+ drm-engine-<str> tag and shall contain the maximum frequency for the given
 -- 
-Florian
+2.39.2
 
