@@ -2,66 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76590C77B70
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 12:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0150FC77B70
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 12:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbjDQMN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 08:13:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60850 "EHLO
+        id S231266AbjDQMlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 08:41:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230323AbjDQMNz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 08:13:55 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A395D4EF1;
-        Mon, 17 Apr 2023 05:13:20 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id j15so4428007ybl.10;
-        Mon, 17 Apr 2023 05:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681733598; x=1684325598;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SHhPz+EuIXTc1mVy+d6/xeEAaq2+DiiC9QI7fkSBxRM=;
-        b=BbNpNiGbmO3q3OE3llCQvT+0cvIcVVESgUqwP8dut5rK3te/4mV2aRs5xtYkhQvdru
-         iGRFHuEBEWCe//1QQNQLiUimO7oiSF4ir2Htu2JU6CmiYEafd+gXthH/+zfYPXh/t7h5
-         9NLD++wSaozK12jZ8chWzGHWcsLsKfJct47lB5Xb1F4MfkF7BwkwpIDl7MhBbUeW/M3B
-         npoj13RyjRsdrMbuvc3KzJT1ZIMl9ykYe5tbccpAht/h2ipRndQ1/5f68DI8YX2Qs17I
-         hE5aoarx/cm8AKuRLp57e6Dnme68istUazyQVeRZdsGnfZkSXKQrWDDP0e9WaAsOv3H5
-         oRoA==
+        with ESMTP id S231213AbjDQMkt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 08:40:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FAF3106
+        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 05:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681735208;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=d8R/DyfPuxRJq8lFo64wBLNVpfrgX/DMbIH8EiFz9DI=;
+        b=CNE3rGhMoPh0Sk0vr3J+KsLNBMrEO9lxjBwsymeTSG0vWgmton5xZKCcPnZHOo+FWD4Um1
+        PeSZBk/4hHfI0Hr5867kQftDHmTTRLIGpjS6frGnTV9H2E8dJfT+aIk7klSp39TZpPurj9
+        CT+0C0II7HK3hm89F3ogkL+vNOF6jeA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-316-kAkRDR9PM1GpLV5rqrttMg-1; Mon, 17 Apr 2023 08:40:07 -0400
+X-MC-Unique: kAkRDR9PM1GpLV5rqrttMg-1
+Received: by mail-ej1-f70.google.com with SMTP id hh16-20020a170906a95000b00948f41a40d3so10545633ejb.8
+        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 05:40:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681733598; x=1684325598;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1681735206; x=1684327206;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SHhPz+EuIXTc1mVy+d6/xeEAaq2+DiiC9QI7fkSBxRM=;
-        b=f6yjL6GyHXhP/MI2aa90uMnB0h/pYFhFhIYlzWMFHL240OhvQHqUebhPBKuf09OXiL
-         DvyzOMeleAwNzSppCF6fN8elIxXkGpq07o2xpBQRii8xx7FhOhsrBLFeb7Y+8w4rh4lY
-         QGAu4enB3bY4hVAYF5a4/5WaL6ripMAEvWf3mmm9oD47KDs5anS9r/ld3e2ew8v9pfT2
-         ffBvq1oT6KHGe37sVEbiYKZyDFzK5BD6fwgMMpT7FrumHOLu2/ssdjOPjHY+X/IgjnXh
-         L49KYa6nWulUB//4eoW2MW0unCjxEum4IjGFIUa5YD+LH5Ia4jBNV516hrO632FniJ2f
-         nJaw==
-X-Gm-Message-State: AAQBX9ed9/C3v1va5mGOqIaneLgJmZ/zS5ej810aEKlwYl35GlF0h+Tu
-        9FQz4ceo89dRdE07aHLCmc+WR4uqu1wzQ0dVGD0=
-X-Google-Smtp-Source: AKy350Zi96A5jujccZMknsThLjiF44PbqWdaH/fiFQYsDPOOiQsU6l9PuK4H5Co6mSVausbSA2EP4+TyOAKnpjlS0fg=
-X-Received: by 2002:a25:da0b:0:b0:b8f:6f3f:ed20 with SMTP id
- n11-20020a25da0b000000b00b8f6f3fed20mr7039281ybf.5.1681733597805; Mon, 17 Apr
- 2023 05:13:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230406130205.49996-1-kal.conley@dectris.com>
- <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk>
- <ZDBEng1KEEG5lOA6@boxer> <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
- <875ya12phx.fsf@toke.dk> <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
- <87ile011kz.fsf@toke.dk> <CAHApi-m4gu8SX_1rBtUwrw+1-Q3ERFEX-HPMcwcCK1OceirwuA@mail.gmail.com>
- <87o7nrzeww.fsf@toke.dk>
-In-Reply-To: <87o7nrzeww.fsf@toke.dk>
-From:   Magnus Karlsson <magnus.karlsson@gmail.com>
-Date:   Mon, 17 Apr 2023 14:13:06 +0200
-Message-ID: <CAJ8uoz3Rts2Xfhqq+0cm3GES=dMb2hTqPzGm515oG_nmt=-Nbg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
-To:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
+        bh=d8R/DyfPuxRJq8lFo64wBLNVpfrgX/DMbIH8EiFz9DI=;
+        b=ayQR5lvn3VH4kRcCYRa/RQ+8aszGPlO2TFKs/zUOYOroO/zFaSBmAEORK++dymaU7r
+         AzbmjPYyUzr/NCnRaoZYyBtUSS9hzS8xm0O0LSYD4umi3Qx/UFjBCcBp/JlpbT9xfiul
+         NA23O1mZe0IYDtMHpE5yJXHDTkIr7knCipXVEii7c0rWFOdZLdXXzPQXDruTO/7R+2Ss
+         zmS6KqHWeekzLS+Nt03c0qBU0SXFf2JnDJvSD3zW021NuQ1/E/WOWx/UoCY9AdZ9jkEj
+         KcK+h5uGR03lflpKcF9pPlwWj6LHzkM2gq2fNGoXnKa3vO7tVsJMsFtUHXHYx25SQ8Mz
+         kD0Q==
+X-Gm-Message-State: AAQBX9fCkxXdkzfGd0mUXgHrNCQm09XkSZbeoJc92nrh1jWCrcKj5dNx
+        o43Y9ucWRCvH1OjfZmKRsuoPH0fP820WBcfHytoSiGqVfHk3mx87VeppfcRkqqpfDcjpkmglotO
+        +sS47eknoKU2ZfeJVskBr
+X-Received: by 2002:a17:906:ae56:b0:932:1af9:7386 with SMTP id lf22-20020a170906ae5600b009321af97386mr7169616ejb.27.1681735206437;
+        Mon, 17 Apr 2023 05:40:06 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aW/kxO/780wfJlvoA8/SxGVLczSeSpBXtQ9jUSEU7Eij2vduEeVE6+vnyBY1Qt/CkYdfKc2w==
+X-Received: by 2002:a17:906:ae56:b0:932:1af9:7386 with SMTP id lf22-20020a170906ae5600b009321af97386mr7169594ejb.27.1681735206008;
+        Mon, 17 Apr 2023 05:40:06 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id 14-20020a17090601ce00b0094a671c2298sm1119966ejj.62.2023.04.17.05.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 05:40:05 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id B7E40AA8452; Mon, 17 Apr 2023 14:40:04 +0200 (CEST)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Magnus Karlsson <magnus.karlsson@gmail.com>
 Cc:     Kal Cutter Conley <kal.conley@dectris.com>,
         Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
         Magnus Karlsson <magnus.karlsson@intel.com>,
         Jonathan Lemon <jonathan.lemon@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -75,47 +75,64 @@ Cc:     Kal Cutter Conley <kal.conley@dectris.com>,
         John Fastabend <john.fastabend@gmail.com>,
         netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+In-Reply-To: <CAJ8uoz3Rts2Xfhqq+0cm3GES=dMb2hTqPzGm515oG_nmt=-Nbg@mail.gmail.com>
+References: <20230406130205.49996-1-kal.conley@dectris.com>
+ <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk>
+ <ZDBEng1KEEG5lOA6@boxer>
+ <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+ <875ya12phx.fsf@toke.dk>
+ <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
+ <87ile011kz.fsf@toke.dk>
+ <CAHApi-m4gu8SX_1rBtUwrw+1-Q3ERFEX-HPMcwcCK1OceirwuA@mail.gmail.com>
+ <87o7nrzeww.fsf@toke.dk>
+ <CAJ8uoz3Rts2Xfhqq+0cm3GES=dMb2hTqPzGm515oG_nmt=-Nbg@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Mon, 17 Apr 2023 14:40:04 +0200
+Message-ID: <87o7nmwul7.fsf@toke.dk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 13 Apr 2023 at 22:52, Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat=
-.com> wrote:
->
-> Kal Cutter Conley <kal.conley@dectris.com> writes:
->
-> >> Well, you mentioned yourself that:
-> >>
-> >> > The disadvantage of this patchset is requiring the user to allocate
-> >> > HugeTLB pages which is an extra complication.
-> >
-> > It's a small extra complication *for the user*. However, users that
-> > need this feature are willing to allocate hugepages. We are one such
-> > user. For us, having to deal with packets split into disjoint buffers
-> > (from the XDP multi-buffer paradigm) is a significantly more annoying
-> > complication than allocating hugepages (particularly on the RX side).
->
-> "More annoying" is not a great argument, though. You're basically saying
-> "please complicate your code so I don't have to complicate mine". And
-> since kernel API is essentially frozen forever, adding more of them
-> carries a pretty high cost, which is why kernel developers tend not to
-> be easily swayed by convenience arguments (if all you want is a more
-> convenient API, just build one on top of the kernel primitives and wrap
-> it into a library).
->
-> So you'll need to come up with either (1) a use case that you *can't*
-> solve without this new API (with specifics as to why that is the case),
-> or (2) a compelling performance benchmark showing the complexity is
-> worth it. Magnus indicated he would be able to produce the latter, in
-> which case I'm happy to be persuaded by the numbers.
+Magnus Karlsson <magnus.karlsson@gmail.com> writes:
 
-We will measure it and get back to you. Would be good with some numbers.
+> On Thu, 13 Apr 2023 at 22:52, Toke H=C3=B8iland-J=C3=B8rgensen <toke@redh=
+at.com> wrote:
+>>
+>> Kal Cutter Conley <kal.conley@dectris.com> writes:
+>>
+>> >> Well, you mentioned yourself that:
+>> >>
+>> >> > The disadvantage of this patchset is requiring the user to allocate
+>> >> > HugeTLB pages which is an extra complication.
+>> >
+>> > It's a small extra complication *for the user*. However, users that
+>> > need this feature are willing to allocate hugepages. We are one such
+>> > user. For us, having to deal with packets split into disjoint buffers
+>> > (from the XDP multi-buffer paradigm) is a significantly more annoying
+>> > complication than allocating hugepages (particularly on the RX side).
+>>
+>> "More annoying" is not a great argument, though. You're basically saying
+>> "please complicate your code so I don't have to complicate mine". And
+>> since kernel API is essentially frozen forever, adding more of them
+>> carries a pretty high cost, which is why kernel developers tend not to
+>> be easily swayed by convenience arguments (if all you want is a more
+>> convenient API, just build one on top of the kernel primitives and wrap
+>> it into a library).
+>>
+>> So you'll need to come up with either (1) a use case that you *can't*
+>> solve without this new API (with specifics as to why that is the case),
+>> or (2) a compelling performance benchmark showing the complexity is
+>> worth it. Magnus indicated he would be able to produce the latter, in
+>> which case I'm happy to be persuaded by the numbers.
+>
+> We will measure it and get back to you. Would be good with some
+> numbers.
 
-> In any case, however, the behaviour needs to be consistent wrt the rest
-> of XDP, so it's not as simple as just increasing the limit (as I
-> mentioned in my previous email).
->
-> -Toke
->
+Sounds good, thanks! :)
+
+-Toke
+
