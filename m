@@ -2,150 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28709C77B78
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 20:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1291DC77B76
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 20:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbjDQUQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 16:16:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
+        id S229521AbjDQUpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 16:45:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjDQUQn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 16:16:43 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5343D46AC
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 13:16:41 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-54fbb713301so189007907b3.11
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 13:16:41 -0700 (PDT)
+        with ESMTP id S229681AbjDQUpV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 16:45:21 -0400
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799F7449E;
+        Mon, 17 Apr 2023 13:45:20 -0700 (PDT)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-187dc84637aso6325430fac.2;
+        Mon, 17 Apr 2023 13:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1681762600; x=1684354600;
+        d=gmail.com; s=20221208; t=1681764319; x=1684356319;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mkFM4OddDI3MzXQTdAgqfF3VU3F/+LgzOjoA+7s8XA4=;
-        b=Ml35Br1S4fB3lQjg+85g3UBuNpD2qRSHHrPy7eSM2cIKJ0UHgLPilBvXvoOd26NpVQ
-         XScr4M6uxDpgNOv8wz3lwCYE24jCZFRGgOvMfIhHkdttvMie4TqlWXyoZi7H5u5YSb/G
-         jW/p817xKSmzxkgQXaPUdAbZpNp4DpLIB3lm+1FhoqzLTLUUqTavEQlTtnPv9HlQ8HMQ
-         e119/w9x96Z3IkM9ZXV6zNWtzvuCmN5sJD3GY4c5m6weNq50I9GDsXzCjT4/5MAIWwbl
-         /EqEfWvaLjxUeqvn7BVtzYa97LE8hT7Mu7aE7S+4t84d0NzWjqskd+G/HvvL/AJivftr
-         B7xw==
+        bh=6fpw6Zw0s5R3Qp1iH0xXMY6crGqEVCslknpiblwPum4=;
+        b=PbL9RlrcEvNtSBq5aFF1K+XHDmkI1FDrcYfuJUZi/GpvIqLh3TS1ne611uq7ZetEs7
+         wTsy6p5MIs1/M1NQGID3U8sN6mdCiFAqtLNe+1MlksdnJ4Q2BoVi9N4G4Wi32A2mcoIS
+         CRtbvVrcsxf8IStYHnSXI2//mFbzdQQNb976ojo0B/ZPO7rHgUXtzBClLCH3CrBP7Ivp
+         BB6UxkCNPc31gU5iVLET6tA2Dfznsf4FlRy49CqleR2cFoqqvVg7fFCUXHw/KFQi9MmZ
+         cchHkgfPOma52nHjRoG4lvsUSnl5tcgdf5u9T6N1pdIsMfaUHlJeeblnSdNkg7WW4wGY
+         vojg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681762600; x=1684354600;
+        d=1e100.net; s=20221208; t=1681764319; x=1684356319;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mkFM4OddDI3MzXQTdAgqfF3VU3F/+LgzOjoA+7s8XA4=;
-        b=hfLOLTCQ6VBo778jiek/YxVhWV8so9E1joGktPewOFry5+duHeimQ4UA6oT6GQc5rR
-         4NssC4qUxxk7jKUebfEEKtlikE5elwqElz/eHtiMk5T1IXgtXRhKj0rMdUaLNlyzLEmG
-         Paz4a8SrdiwGMh1H2bYWGKxAz+Qi2O8wX4XNCnNCq2mtvKlUvYpr5jU4/jioyIB4+PYn
-         Lv3DW4DdNtzhpOeLgu6zOcJgGlRH5gGx/ORLKq9z7Ch9/oa4pYpdPRlRW6ZPHcjyqlPK
-         uiT74dw9hr1Yspc/pEaeQf/SPntewjCZDr86M8RjzZHAWgVT2/FbCSDQyF7RHjqH4eGI
-         9IGQ==
-X-Gm-Message-State: AAQBX9df4DFFFIDUx9BPg7nRhX1qO7DgxGyoEQuUdumvuJ2Frr0M+lt1
-        cKPYLZfPNf01rxvpo4yuekbM4AKnNR723qCmHt5S
-X-Google-Smtp-Source: AKy350ZxQlOfbob70cyzh//3Qo4gX/RJVSVzb07xLMzIeYlrCU36AjFdx5P2s2Fo1lBjmj4URw4Qp0a1MdAC8VUyDYc=
-X-Received: by 2002:a81:4524:0:b0:54f:aa4b:100c with SMTP id
- s36-20020a814524000000b0054faa4b100cmr9804160ywa.8.1681762600389; Mon, 17 Apr
- 2023 13:16:40 -0700 (PDT)
+        bh=6fpw6Zw0s5R3Qp1iH0xXMY6crGqEVCslknpiblwPum4=;
+        b=UMdvJSOOchZ27Jdr1vjlshzH8Cwb1omwIMkOSemuyNKpDEFPx81qo0/o/TB8mHBT7R
+         5VGxQM5GW5ukBodw5H3JvtlwE4d64B96gGbtifFySrr+hdR1Y3rR/m5QJtsmtI7Ve+u6
+         ncIGo4yAh0ovNax/WIp4xon/uNl1O9Fhc6Zy6eQOkiofoYpa7/Zzk4KK44L2ibPGLphz
+         oXmxGaxTDqw60Q+wBqeZhEDRR+G9iRx0+vd6Mp8kLw46436GWKNWm7l05Mv34csWZpdT
+         DPJsgTSzTHBln3YnwYFyIhN0CsP8cZXeLCwApcKXAStJZpuZnTZrDsNlU/P4uqfXZQWa
+         kHhA==
+X-Gm-Message-State: AAQBX9ch/RBAEPhvjecR921jrtSr3TuJ5uyfDOQN44N3pN5gRsw9SwiB
+        DqEhnPPtoubUQ00uknlD0DmBTJrq7NE5x+O5Kgg=
+X-Google-Smtp-Source: AKy350YGawNtt/qIBtEhaGmjXWvU97vjeDYCYWAWwSsngIuB8jSH/zqF+G8k9jUHx6+c7HnX9gmC/4usZ8HmOXt9ftk=
+X-Received: by 2002:a05:6870:34b:b0:187:8ee8:5f5b with SMTP id
+ n11-20020a056870034b00b001878ee85f5bmr7174102oaf.5.1681764319699; Mon, 17 Apr
+ 2023 13:45:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
- <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
- <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com> <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-In-Reply-To: <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 17 Apr 2023 16:16:29 -0400
-Message-ID: <CAHC9VhSnKbhtgFxOAY7NYZyOkV4kEA0=mVsCyogLBSCJs0r_ig@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
+References: <20230417201215.448099-1-robdclark@gmail.com>
+In-Reply-To: <20230417201215.448099-1-robdclark@gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Mon, 17 Apr 2023 13:45:08 -0700
+Message-ID: <CAF6AEGumgsJJQXojapPAJOjmFo=MZ31DNmp9T+SErQ2GBKBLFg@mail.gmail.com>
+Subject: Re: [RFC 0/3] drm: Add comm/cmdline fdinfo fields
+To:     dri-devel@lists.freedesktop.org
+Cc:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Chia-I Wu <olvaffe@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <freedreno@lists.freedesktop.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 2:06=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
-wrote:
-> On Thu, Apr 13, 2023 at 02:45:07PM -0400, Paul Moore wrote:
-> > On Wed, Apr 12, 2023 at 7:36???PM Fan Wu <wufan@linux.microsoft.com> wr=
-ote:
-> > > On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
-> > > > On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft.com=
-> wrote:
-> > > > > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
-> > > > > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft=
-.com> wrote:
-> >
-> > ...
-> >
-> > > > I guess this does make me wonder about keeping a non-active policy
-> > > > loaded in the kernel, what purpose does that serve?
-> > > >
-> > >
-> > > The non-active policy doesn't serve anything unless it is activated. =
-User can
-> > > even delete a policy if that is no longer needed. Non-active is just =
-the default
-> > > state when a new policy is loaded.
-> > >
-> > > If IPE supports namespace, there is another use case where different =
-containers
-> > > can select different policies as the active policy from among multipl=
-e loaded
-> > > policies. Deven has presented a demo of this during LSS 2021. But thi=
-s goes
-> > > beyond the scope of this version.
-> >
-> > Do you plan to add namespace support at some point in the
-> > not-too-distant future?  If so, I'm okay with keeping support for
-> > multiple policies, but if you think you're only going to support one
-> > active policy at a time, it might be better to remove support for
-> > multiple (inactive) policies.
-> >
-> > --
-> > paul-moore.com
+On Mon, Apr 17, 2023 at 1:12=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
+te:
 >
-> Another benefit of having multiple policies is that it provides isolation
-> between different policies. For instance, if we have two policies named
-> "policy_a" and "policy_b," we can ensure that only team a can update "pol=
-icy_a,"
-> and only team b can update "policy_b." This way, both teams can update
-> their policy without affecting others. However, if there is only one poli=
-cy
-> in the system, both teams will have to operate on the same policy, making=
- it
-> less manageable.
+> From: Rob Clark <robdclark@chromium.org>
+>
+> When many of the things using the GPU are processes in a VM guest, the
+> actual client process is just a proxy.  The msm driver has a way to let
+> the proxy tell the kernel the actual VM client process's executable name
+> and command-line, which has until now been used simply for GPU crash
+> devcore dumps.  Lets also expose this via fdinfo so that tools can
+> expose who the actual user of the GPU is.
 
-That only really matters if both policies are active at the same time;
-if only one policy can be active at one point in time the only
-permission that matters is the one who can load/activate a policy.
+I should have also mentioned, in the VM/proxy scenario we have a
+single process with separate drm_file's for each guest VM process.  So
+it isn't an option to just change the proxy process's name to match
+the client.
 
-Allowing for multiple policies complicates the code.  If there is
-another feature that requires multiple policies, e.g. IPE namespaces,
-then that is okay.  However, if there is no feature which requires
-multiple active policies, supporting multiple loaded policies only
-increases the risk of an exploitable bug in the IPE code.
-
-> Besides, removing multiple (inactive) policies support will
-> render the policy_name field meaningless, and we should only audit the po=
-licy
-> hash. I am fine if we decide to go for the single policy option.
-
-Once again, I think it comes back to: do you still want to support IPE
-namespaces at some point in the future, and if so, when do you expect
-to work on that?
-
---=20
-paul-moore.com
+> Rob Clark (3):
+>   drm/doc: Relax fdinfo string constraints
+>   drm/msm: Rework get_comm_cmdline() helper
+>   drm/msm: Add comm/cmdline fields
+>
+>  Documentation/gpu/drm-usage-stats.rst   | 37 +++++++++++++++----------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +--
+>  drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+>  drivers/gpu/drm/msm/msm_gpu.c           | 27 +++++++++++++-----
+>  drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++--
+>  drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
+>  6 files changed, 58 insertions(+), 25 deletions(-)
+>
+> --
+> 2.39.2
+>
