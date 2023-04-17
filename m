@@ -2,131 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0568C77B77
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 15:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88735C77B77
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 15:01:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231194AbjDQPBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 11:01:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
+        id S231254AbjDQPBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 11:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230519AbjDQPBl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 11:01:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DBC81BF8
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 08:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681743629;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hLT0rP9zRrFGagsk4no7XW+N43K0c6wa29Y33hfsxZA=;
-        b=Se17SZmqN5XuI/wYq38EuCdMWVtaJN3+9L2TLB7YdIuwtsd4NE36BAPhLsa4O0DNaBXLB3
-        QQVGZ0ER3F+fqiHGOKpmiBqdIJ6XrZF/rwBTgF+kLSuYEF5Rmu0YhxgWMWZojzaN79nA/W
-        nR5XGLr1p7+TpRLFDq0GT/1hFlzhQRQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-180-Z2H31h7uM2uQxW9ax0i8LA-1; Mon, 17 Apr 2023 11:00:27 -0400
-X-MC-Unique: Z2H31h7uM2uQxW9ax0i8LA-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3f080f534acso9282415e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 08:00:27 -0700 (PDT)
+        with ESMTP id S231203AbjDQPBn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 11:01:43 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3343C4222
+        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 08:01:32 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-54feaa94819so66770587b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 08:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681743691; x=1684335691;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3vFLlBa5cMlD9b7ag9UYfdTMx74Bbs3yMKPPX9I4GwM=;
+        b=OGK68FoyuQQ0kL2O5HxgRSHt2QbHDboc5hKMwP4bRlcKJMMQAqRIjlauG70g4aXaoI
+         RCwv7FXMFfNLqRJZOBy613A+w5XRRmN2H2zNWfDKzF5SD1tHfZhrbVuBk4E+E75tEqrF
+         tTw3g4U6dgFgiOat04BE8cBNJSCGB9Eo6i59NNQJ7dGQyIov0yYTuF8P3+jFvyWWxfrn
+         0j0To2/U3XsPrjlbsK4GxsP+6fqJeqao+Umk0Hyn6UYVUGH6nHHmq6l0xMVKwPTxX5p+
+         rKay54diEn82iZ0UmBZY1V+E+USumHcN/suI4FJwOO5iMGVBjQ3QbXWAt22U12qkos0n
+         8hfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681743626; x=1684335626;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hLT0rP9zRrFGagsk4no7XW+N43K0c6wa29Y33hfsxZA=;
-        b=Roux8o2+3Nv2VAg858v+YQGiBmlHfLUjQoBZ4Y1Kxwb7GLg9xJxw9FD2MY3uqka96G
-         jpQGfvWezo3vrpicmp01ppR7krgCqXLdAKI7RAPbuTzILLdgDohqF5H/ItjNDkRrdsW+
-         LQ8XX2hjUjOy/aFUCFKrn7HN0gNyZwTB82qXg5zRtCCqnqOvaEx3dPcvhr+TTqgpkM9P
-         HoA3e4r+tZ+Uwp8+y/gERPUQWQiLkKLlAWPL8T2gx2IOhhpWKy/XI3U7cAL4/IX2e4Qv
-         hpJhtLQOYwfL+PKiMRTQfMeTHzCOXWQ4pti3RKyiCGOKuZlQdPAn/z2Ht/i295I6ndrz
-         gnUQ==
-X-Gm-Message-State: AAQBX9d5GPHDJsJjg2p+PqBtdP6NnaIVAVWJt4Nbf1ZRFEopU9ODyqIS
-        6LvZzsJYEOLDl56CYbcW9ILiM2SjMD4N4Z4afoGfEWIaJFOAMDgzPAXHqUCrr8f5sqT8KEujjVX
-        LcDAFbqAYi+I16YOoaWdx
-X-Received: by 2002:adf:ed4c:0:b0:2f5:3dfd:f4d2 with SMTP id u12-20020adfed4c000000b002f53dfdf4d2mr5640109wro.64.1681743626554;
-        Mon, 17 Apr 2023 08:00:26 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YsKOxwZX6am7dDPrBSxeyriaPLE8HJ1zejtvMwWin7cKY8fooXz/gsbQvRu662UxNAvKAkdA==
-X-Received: by 2002:adf:ed4c:0:b0:2f5:3dfd:f4d2 with SMTP id u12-20020adfed4c000000b002f53dfdf4d2mr5640088wro.64.1681743626208;
-        Mon, 17 Apr 2023 08:00:26 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c700:fc00:db07:68a9:6af5:ecdf? (p200300cbc700fc00db0768a96af5ecdf.dip0.t-ipconnect.de. [2003:cb:c700:fc00:db07:68a9:6af5:ecdf])
-        by smtp.gmail.com with ESMTPSA id v9-20020a5d6b09000000b002d97529b3bbsm10671612wrw.96.2023.04.17.08.00.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 08:00:25 -0700 (PDT)
-Message-ID: <b9f1fd7f-e362-8f6c-21db-e84dd82fdd00@redhat.com>
-Date:   Mon, 17 Apr 2023 17:00:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v8 1/3] mm: add new api to enable ksm per process
-Content-Language: en-US
-To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
-Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, hannes@cmpxchg.org, willy@infradead.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20230415225913.3206647-1-shr@devkernel.io>
- <20230415225913.3206647-2-shr@devkernel.io>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230415225913.3206647-2-shr@devkernel.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        d=1e100.net; s=20221208; t=1681743691; x=1684335691;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3vFLlBa5cMlD9b7ag9UYfdTMx74Bbs3yMKPPX9I4GwM=;
+        b=jeMOndKWy3eL+BAmdv2xTgkW/eMCGrGWX9MZsdw9Yi387pUZ+sBPXWZpZOVki5yDNQ
+         7QH3FwQ0o+gwUuf47MJd0D9O4kpER9mkIRFJIh1NvqFJ70W1AEcpL0NbSyFI+AikCLjI
+         jwawOMc5Xj6oxZDk/fFonbF6BTVFQU4SSTgxpKhBOKRcyx1NZAub6NawzF829fdtjyOB
+         E0Z9IIgdZLpah8b1GogsjK9DrvEQzhNqG1AW3uPgzkNHSxK4YwYPaC3GJhDPpCLBl2z/
+         liijASTmc7WNHcKr4GZKrBLW77XwjoCGzj07p5HNAIfJ+LLc5jsAQcew+Rr/IokqXLwQ
+         7SVA==
+X-Gm-Message-State: AAQBX9fgV2EosaUcZacwL0DgDaxA6/PwSGSJeVlSN16lEA69+oVKO9Dm
+        CqoFXGIeKaH8eoyP4y+OIn6dBOnJyrI=
+X-Google-Smtp-Source: AKy350b5nQcMgF9tvDaCScAgDkBQIzDDMu1+GFlUDC4dCSeKOYxYJW/fQSKubGNo1KBFDrJt/MuCx/ozRD0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:ef02:0:b0:545:883a:544d with SMTP id
+ o2-20020a81ef02000000b00545883a544dmr9382205ywm.9.1681743691396; Mon, 17 Apr
+ 2023 08:01:31 -0700 (PDT)
+Date:   Mon, 17 Apr 2023 08:01:30 -0700
+In-Reply-To: <20230417143747.GA3639898@chaop.bj.intel.com>
+Mime-Version: 1.0
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com> <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com> <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com> <20230417143747.GA3639898@chaop.bj.intel.com>
+Message-ID: <ZD1fSl/LT6oBOOmg@google.com>
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static void __ksm_add_vma(struct vm_area_struct *vma)
-> +{
-> +	unsigned long vm_flags = vma->vm_flags;
-> +
-> +	if (vm_flags & VM_MERGEABLE)
-> +		return;
-> +
-> +	if (vma_ksm_compatible(vma)) {
-> +		vm_flags |= VM_MERGEABLE;
-> +		vm_flags_reset(vma, vm_flags);
-> +	}
-> +}
+On Mon, Apr 17, 2023, Chao Peng wrote:
+> In case you started working on the code again, I have a branch [1]
+> originally planned as v11 candidate which I believe I addressed all the
+> discussions we had for v10 except the very latest one [2] and integrated
+> all the newly added selftests from Ackerley and myself. The branch was
+> based on your original upm_base_support and then rebased to your
+> kvm-x86/mmu head. Feel free to take anything you think useful( most of
+> them are trivial things but also some fixes for bugs).
 
-We can do the following simplification on top:
+Nice!  I am going to work on splicing together the various series this week, I'll
+make sure to grab your work.
 
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 905c8edce5cf..26e7f585d65d 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -2511,15 +2511,11 @@ static int ksm_scan_thread(void *nothing)
-
-  static void __ksm_add_vma(struct vm_area_struct *vma)
-  {
--	unsigned long vm_flags = vma->vm_flags;
--
--	if (vm_flags & VM_MERGEABLE)
-+	if (vma->vm_flags & VM_MERGEABLE)
-  		return;
-
--	if (vma_ksm_compatible(vma)) {
--		vm_flags |= VM_MERGEABLE;
--		vm_flags_reset(vma, vm_flags);
--	}
-+	if (vma_ksm_compatible(vma))
-+		vm_flags_set(vma, VM_MERGEABLE);
-  }
-
-  /**
--- 
-2.39.2
-
-
-I have some patches based on your patch set (handling/testing unmerging 
-whens setting PR_SET_MEMORY_MERGE=0. Will send out once you changes are 
-queued.
-
--- 
-Thanks,
-
-David / dhildenb
-
+Thanks much! 
