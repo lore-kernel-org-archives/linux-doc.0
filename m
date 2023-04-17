@@ -2,82 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9B62C77B73
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Apr 2023 22:43:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E83C77B73
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 00:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjDPWnU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Apr 2023 18:43:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42370 "EHLO
+        id S229556AbjDQAXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Apr 2023 20:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjDPWnU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 18:43:20 -0400
-Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C1341BDD;
-        Sun, 16 Apr 2023 15:43:19 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by sonata.ens-lyon.org (Postfix) with ESMTP id C769E20187;
-        Mon, 17 Apr 2023 00:43:17 +0200 (CEST)
-Received: from sonata.ens-lyon.org ([127.0.0.1])
-        by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id vX8EeMPoLeKL; Mon, 17 Apr 2023 00:43:17 +0200 (CEST)
-Received: from begin.home (apoitiers-658-1-118-253.w92-162.abo.wanadoo.fr [92.162.65.253])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by sonata.ens-lyon.org (Postfix) with ESMTPSA id 5F97F20186;
-        Mon, 17 Apr 2023 00:43:17 +0200 (CEST)
-Received: from samy by begin.home with local (Exim 4.96)
-        (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1poB5Y-003fMu-2g;
-        Mon, 17 Apr 2023 00:43:16 +0200
-Date:   Mon, 17 Apr 2023 00:43:16 +0200
-From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
-To:     Dominique Martinet <asmadeus@codewreck.org>
-Cc:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
-Message-ID: <20230416224316.xlvgjor65nejldwh@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230416220704.xqk4q6uwjbujnqpv@begin>
- <ZDx2IUYTmLSdzU6D@codewreck.org>
+        with ESMTP id S229473AbjDQAXg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Apr 2023 20:23:36 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA8E210C;
+        Sun, 16 Apr 2023 17:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681691016; x=1713227016;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=lzQbXWRU7YivvtCUE1XwPbL80+u+WR0OsIWR1+rgxS8=;
+  b=PcQ7xuElVku4UAgFT8UK0WUlEXOdbGxB3gqJ8pnzz6osZGGtEHjGNuxG
+   LhsXhF3swmEk0Fle/UDx+ZrTbnd7gdsjzszxJ8auid/Jb78CFs2jC8q+B
+   f8mQ0au4lSj7avwyjwmGZfzoJy8LeWGuRwCJ88JVAHbu506IJbgh1VK1o
+   68tB//YsgxL397eBzT729vkRxSyZHlgIbmYFn29k1UUdhQtnOKBgs5KJd
+   3gNGKjWkwHNFiMM7I4uxFMVm2VxrRWL9E3Xi0uNzWx/zmb6WWhO/ckjjL
+   2KMt0agEiYDWdLRaw/CH/8j9juOQV/9xBgtu3x8J5YxGwuwMgOOWBXIhL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="409986235"
+X-IronPort-AV: E=Sophos;i="5.99,203,1677571200"; 
+   d="scan'208";a="409986235"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2023 17:23:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="667930798"
+X-IronPort-AV: E=Sophos;i="5.99,203,1677571200"; 
+   d="scan'208";a="667930798"
+Received: from rfaria-mobl.amr.corp.intel.com (HELO [10.209.22.12]) ([10.209.22.12])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2023 17:23:34 -0700
+Message-ID: <7b068fc1-2d88-27c3-b561-0a6c36c589da@intel.com>
+Date:   Sun, 16 Apr 2023 17:23:34 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZDx2IUYTmLSdzU6D@codewreck.org>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2.1 2/2] x86/Documentation: Add documentation about
+ cluster
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        K Prateek Nayak <kprateek.nayak@amd.com>,
+        linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
+        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
+        Jason@zx2c4.com, thomas.lendacky@amd.com, puwen@hygon.cn,
+        x86@kernel.org, linux-doc@vger.kernel.org, oleksandr@natalenko.name
+References: <20230413172918.1500-3-kprateek.nayak@amd.com>
+ <20230414031743.875-1-kprateek.nayak@amd.com>
+ <cf4fdb30-6f2e-ca3e-fbc0-b48f6949508d@gmail.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <cf4fdb30-6f2e-ca3e-fbc0-b48f6949508d@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dominique Martinet, le lun. 17 avril 2023 07:26:41 +0900, a ecrit:
-> > +The ppp<ifunit> interface can then be configured as usual with SIOCSIFMTU,
-> > +SIOCSIFADDR, SIOCSIFDSTADDR, SIOCSIFNETMASK, and activated by setting IFF_UP
-> > +with SIOCSIFFLAGS
-> 
-> (That somewhat makes it sounds like the "new" netlink interface cannot
-> be used (e.g. ip command);
+On 4/14/23 19:24, Bagas Sanjaya wrote:
+> On 4/14/23 10:17, K Prateek Nayak wrote:
+>> +  - cluster_id:
+>> +
+>> +    A per-CPU variable containing:
+>> +
+>> +      - Upper bits extracted from the APIC ID.  CPUs which have the same value
+>> +        in these bits share an L2 and have the same cluster_id.
+>> +
+>> +        CPUs for which cluster information is unavailable will show 65535
+>> +        (BAD_APICID) as the cluster_id.
+> "... return cluster_id of 65535 (BAD_APICID)."
 
-Ah, right...
+Bagas, this is talking about a per-cpu variable.  Variables don't
+"return" things, functions do.
 
-> although I guess sommeone implementing this would be more likely to
-> use the ioctls than not so having the names can be a timesaver?)
+I also have a request: I'd really appreciate if you could avoid
+reviewing x86-related documentation.  The review comments that I've seen
+coming from you have not helped x86 documentation.  They've hurt the
+patches more than they have helped.
 
-It's indeed a timesaver to have the ioctl names, but perhaps we can
-replace this part with a pointer to a if-configuration documentation?
-
-> Also, this got me wondering if the 'if' fd can be closed immediately or
-> if the interface will be removed when the fd is closed (probably not?)
-
-Closing the fd would close the if, yes. AIUI one really has to keep the
-pppox socket (for stats), the ppp chan (for non-data ppp packets), and
-the ppp if (for the if).
-
-Samuel
