@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F651C77B76
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 15:23:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFDEEC7EE22
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Apr 2023 15:23:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbjDQPX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Apr 2023 11:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45216 "EHLO
+        id S231419AbjDQPXb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Apr 2023 11:23:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231340AbjDQPWk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 11:22:40 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA286CC12;
-        Mon, 17 Apr 2023 08:21:43 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-2f55ffdbaedso990132f8f.2;
-        Mon, 17 Apr 2023 08:21:43 -0700 (PDT)
+        with ESMTP id S231311AbjDQPXE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Apr 2023 11:23:04 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94428B44D;
+        Mon, 17 Apr 2023 08:21:51 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id hg25-20020a05600c539900b003f05a99a841so21227290wmb.3;
+        Mon, 17 Apr 2023 08:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681744899; x=1684336899;
+        d=gmail.com; s=20221208; t=1681744907; x=1684336907;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uJTkEZZQz1Xm9DGAcdJUpopRWa59pUHGOjNQ9ofW+JI=;
-        b=JwvmejdNADdlWH3gz/HGxo/4ta+utT9srnqx+wcn+i9SWy13iXfdE2mS1uFt9bbind
-         oE9yDqjIEqBeh/j5aCqFVDmZUcPXMn8tTzrAElS+jqTXOydzepW8dDX3tQ0f59A5rdi0
-         FpR3XBLDyOBUBneGa419h8GU3ZTmYTJbspAnM6t7llqvc6mMBV2OCMLLB/xN03NuJtmh
-         ZO00L4LN7ckJd4nSRoniYrePij4aDHAZBEimey1FeGqPgJtxOA09iXYe8pfOkcICFhEX
-         jnzvsWYMmV56/AbLL7j3xCinsmf0+4T3jUKQqLBwmV3Ef39l/87QKpF29zlph77b2++I
-         y46g==
+        bh=OppusVDPTknxRE+RqoeEhB3WmCzyqWgv0cWY8mHzosw=;
+        b=h6hEuTnPiYwjVilzvawD9txg5cYumU2jRZEeA6dcFsFHY12SyfhRYGAN+S1UpJ4lxK
+         qOM0iTNJBCE/w5l7Y6tQWN6RHt4HFS8pOlR/yxpD15rGjrfoUcolPi9O2Xvao1ny/k3+
+         c9nclFnknn4VwLTZ0601PDW7GqRc+MiTaETjT8HUxpac7OGmcimHdOrN8NraF5V4yXPC
+         sWxPJc2pDTkifSkEmmxApCpPTZsPqDf5fL86EyutpXsdCY6mVE9t35tCKEdCmo7LQ5NH
+         Ixk2yYGdG2UrIBJKX9xOZerSd2ynErllNKO0PYU5Oqcc1dbSU7Q4YLbXRrL142gsPPXZ
+         fEsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681744899; x=1684336899;
+        d=1e100.net; s=20221208; t=1681744907; x=1684336907;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uJTkEZZQz1Xm9DGAcdJUpopRWa59pUHGOjNQ9ofW+JI=;
-        b=FFBVl1mkceAKUoemUUh55LFkK9DgWh5YYbwzFtA/KoiGmZTCZRTleo+JGe7MS5JSSg
-         t/8o8GUbxllRcxj72BiP9ZY3WAyTkXkO5j19jneglQsToL3JhqK9eKrxmo4x3fmNmuKO
-         JPL/CdO6Ib9JjmiBc6Ec3OW3rvMo3XfFTMdJTRoFfJaFjyzmy7mnhmz6aFQuzbHWCOaj
-         YkI1oMUUS2KdJlc8ILq4bl76oIAqVLuqoTItWoxzcKeKPY3R4maWDgxx5mhZjO5QnvgB
-         d1Wu6Si/Xem8OHn5oi6isCERenxulvkUqCWfODOLxmHKHyTQ5O3x3iv9l5i8U8cuDwf2
-         c1UA==
-X-Gm-Message-State: AAQBX9ftLNh+vMU8Ap/MceqWoipARl0XDc6V/2bsq0U88u62prbFdCAl
-        fZaaQEJxHX2JVBItPJ89/0Q=
-X-Google-Smtp-Source: AKy350Z1iK+OSaFxPXE4V00SsLukB621IdcQfbrYZMVMsjihtpFkTemQ9mgTw5xgzHNxbAIPf9drtA==
-X-Received: by 2002:adf:f089:0:b0:2cf:e422:e28c with SMTP id n9-20020adff089000000b002cfe422e28cmr5443129wro.42.1681744898817;
-        Mon, 17 Apr 2023 08:21:38 -0700 (PDT)
+        bh=OppusVDPTknxRE+RqoeEhB3WmCzyqWgv0cWY8mHzosw=;
+        b=jnkUaxpwEJLmTfqVh5ZUyenqgh2VY04+0ZT3+xfTQmgIe6QJzRseAb1SJXwOTmnPfd
+         KXHTjSYj2OjR6UkBKYjRx6tG2YjZr8V3cV1b5TUT9X4KP6nmE3KUETEbf46Jp+CZC/Z6
+         PqKxjL6KMmTW9+nTmB3/FiXDksGoSaf4eZC4mKUCkDkdKfYdzgxpY+RTduE+xfZvliHg
+         Wroo8jFF1UKffGotGLgaEq5IEQQYD3z5HLTephCoOzeMMKZ288Ottdl9Eq3fhjAYq59m
+         MuNQkO6qWS4+ID2Symm99rN2u84o6WlkHEtMS3BjQM3SOTkZdh8lgt0kSUqsXP65FVrP
+         Yh/g==
+X-Gm-Message-State: AAQBX9cuDc3TtSoWto/CX/9ZJmatYEJOZv2o3rp7+sgo2LVFc5VsYHd0
+        yIlQtoIiysm+xySfAlWxh0M=
+X-Google-Smtp-Source: AKy350Z6k141t5UQYKP+f7l2sYiLN+AXLz6Ow2fM5djSVBa82EIaIGrUwqCYpmHiVYs8u06xUgL9mQ==
+X-Received: by 2002:a05:600c:204d:b0:3f1:75a9:5c0d with SMTP id p13-20020a05600c204d00b003f175a95c0dmr1645560wmg.26.1681744907449;
+        Mon, 17 Apr 2023 08:21:47 -0700 (PDT)
 Received: from localhost.localdomain (host-87-7-13-196.retail.telecomitalia.it. [87.7.13.196])
-        by smtp.googlemail.com with ESMTPSA id j15-20020a05600c1c0f00b003f173be2ccfsm3501354wms.2.2023.04.17.08.21.33
+        by smtp.googlemail.com with ESMTPSA id j15-20020a05600c1c0f00b003f173be2ccfsm3501354wms.2.2023.04.17.08.21.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Apr 2023 08:21:37 -0700 (PDT)
+        Mon, 17 Apr 2023 08:21:45 -0700 (PDT)
 From:   Christian Marangi <ansuelsmth@gmail.com>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -73,9 +73,9 @@ To:     Andrew Lunn <andrew@lunn.ch>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: [net-next PATCH v7 14/16] dt-bindings: net: phy: Document support for LEDs node
-Date:   Mon, 17 Apr 2023 17:17:36 +0200
-Message-Id: <20230417151738.19426-15-ansuelsmth@gmail.com>
+Subject: [net-next PATCH v7 16/16] Documentation: LEDs: Describe good names for network LEDs
+Date:   Mon, 17 Apr 2023 17:17:38 +0200
+Message-Id: <20230417151738.19426-17-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230417151738.19426-1-ansuelsmth@gmail.com>
 References: <20230417151738.19426-1-ansuelsmth@gmail.com>
@@ -85,83 +85,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document support for LEDs node in phy and add an example for it.
-PHY LED will have to match led pattern and should be treated as a
-generic led.
+From: Andrew Lunn <andrew@lunn.ch>
 
+Network LEDs can exist in both the MAC and the PHY. Naming is
+difficult because the netdev name is neither stable or unique, do to
+commands like ip link set name eth42 dev eth0, and network
+namesspaces.
+
+Give some example names where the MAC and the PHY have unique names
+based on device tree nodes, or PCI bus addresses.
+
+Since the LED can be used for anything which Linux supports for LEDs,
+avoid using names like activity or link, rather describe the location
+on the RJ-45, of what the RJ-45 is expected to be used for, WAN/LAN
+etc.
+
+Signed-off-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 ---
- .../devicetree/bindings/net/ethernet-phy.yaml | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ Documentation/leds/well-known-leds.txt | 30 ++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-index ac04f8efa35c..4f574532ee13 100644
---- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-+++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-@@ -197,6 +197,35 @@ properties:
-       PHY's that have configurable TX internal delays. If this property is
-       present then the PHY applies the TX delay.
+diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
+index 2160382c86be..e9c30dc75884 100644
+--- a/Documentation/leds/well-known-leds.txt
++++ b/Documentation/leds/well-known-leds.txt
+@@ -70,3 +70,33 @@ Good: "platform:*:charging" (allwinner sun50i)
+ * Screen
  
-+  leds:
-+    type: object
+ Good: ":backlight" (Motorola Droid 4)
 +
-+    properties:
-+      '#address-cells':
-+        const: 1
++* Ethernet LEDs
 +
-+      '#size-cells':
-+        const: 0
++Currently two types of Network LEDs are support, those controlled by
++the PHY and those by the MAC. In theory both can be present at the
++same time for one Linux netdev, hence the names need to differ between
++MAC and PHY.
 +
-+    patternProperties:
-+      '^led@[a-f0-9]+$':
-+        $ref: /schemas/leds/common.yaml#
++Do not use the netdev name, such as eth0, enp1s0. These are not stable
++and are not unique. They also don't differentiate between MAC and PHY.
 +
-+        properties:
-+          reg:
-+            maxItems: 1
-+            description:
-+              This define the LED index in the PHY or the MAC. It's really
-+              driver dependent and required for ports that define multiple
-+              LED for the same port.
++** MAC LEDs
 +
-+        required:
-+          - reg
++Good: f1070000.ethernet:white:WAN
++Good: mdio_mux-0.1:00:green:left
++Good: 0000:02:00.0:yellow:top
 +
-+        unevaluatedProperties: false
++The first part must uniquely name the MAC controller. Then follows the
++colour.  WAN/LAN should be used for a single LED. If there are
++multiple LEDs, use left/right, or top/bottom to indicate their
++position on the RJ45 socket.
 +
-+    additionalProperties: false
++** PHY LEDs
 +
- required:
-   - reg
- 
-@@ -204,6 +233,8 @@ additionalProperties: true
- 
- examples:
-   - |
-+    #include <dt-bindings/leds/common.h>
++Good: f1072004.mdio-mii:00: white:WAN
++Good: !mdio-mux!mdio@2!switch@0!mdio:01:green:right
++Good: r8169-0-200:00:yellow:bottom
 +
-     ethernet {
-         #address-cells = <1>;
-         #size-cells = <0>;
-@@ -219,5 +250,17 @@ examples:
-             reset-gpios = <&gpio1 4 1>;
-             reset-assert-us = <1000>;
-             reset-deassert-us = <2000>;
-+
-+            leds {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                led@0 {
-+                    reg = <0>;
-+                    color = <LED_COLOR_ID_WHITE>;
-+                    function = LED_FUNCTION_LAN;
-+                    default-state = "keep";
-+                };
-+            };
-         };
-     };
++The first part must uniquely name the PHY. This often means uniquely
++identifying the MDIO bus controller, and the address on the bus.
 -- 
 2.39.2
 
