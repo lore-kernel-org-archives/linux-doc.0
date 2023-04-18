@@ -2,183 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A054C77B71
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 08:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A77D6C77B71
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 08:35:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230359AbjDRIUB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 04:20:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33490 "EHLO
+        id S231244AbjDRIf2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 04:35:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230244AbjDRIUA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 04:20:00 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9EA420F;
-        Tue, 18 Apr 2023 01:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681805995; x=1713341995;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=BUDt7Leg5YNsBfAufyHE9J891sNBSaCcNnWZI81W9tU=;
-  b=WkLhIT85YvgBF50wY9kqg5NxFibXE6b84JSq2/dM0HYORnLx/YPEYLJK
-   xzRKiSOEh1dNQY0uFc4Cp4e8VMJ+2CN1lkshpVC6inFbaZp63ToVRR/f9
-   dWYvn4ooUKAO3Y2z6x9ZMgBcSp1ClNdbhfhYa3s/y54AtkwEUdcwbcDQ6
-   vWn3yRs01mrD3JfEbDajxYT9dyUw+YJVivga4BsHw/wyLM4vAkBams79A
-   SIfpQUDN7y138rLCbEVk5Nylbwpz7/xtVKedJ/I4c+KmsdpaS0o/aRi1L
-   zF+OOopLMlKF654vhabM0A7ZSOaQD3kMRRHQf3x8bC58XQz5G52D1zYOD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347858338"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="347858338"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 01:19:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="641288458"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="641288458"
-Received: from dilipban-mobl.ger.corp.intel.com (HELO [10.213.234.43]) ([10.213.234.43])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 01:19:51 -0700
-Message-ID: <a3edcd53-bcbe-7408-100c-3db52c897a18@linux.intel.com>
-Date:   Tue, 18 Apr 2023 09:19:49 +0100
+        with ESMTP id S231166AbjDRIfZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 04:35:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAB61FCA
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 01:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681806852;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Rv7GgXtXE5BwsWMierc+FyeJxK2YpNxYqQW013L/+7M=;
+        b=W3iqFd9RCEULWTJM7LDbwdM4juYzExrJi6Ft5iTL75e0R/4m+W32ryvTehA9PzyTdNHBVv
+        lLlhwzHyDbfz8y4TZlkt6KFdhxuldZ4u76HBKcaupdIxNUDFgXuGyefM7KCLRPcsZ5Wx4G
+        bOi1tthT7CZh3MwYimXen44ju1gRW8Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-672-XTUZFhw2O8uRw2AfvXJcxw-1; Tue, 18 Apr 2023 04:34:08 -0400
+X-MC-Unique: XTUZFhw2O8uRw2AfvXJcxw-1
+Received: by mail-wm1-f70.google.com with SMTP id az39-20020a05600c602700b003f172e1d5bbso2698301wmb.9
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 01:34:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681806847; x=1684398847;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rv7GgXtXE5BwsWMierc+FyeJxK2YpNxYqQW013L/+7M=;
+        b=BbI/U3oG00g5TkEYNDxpf2MizklSw1gm23gV3W/y6Q3pwBTK6qHSN41iWtkjpsKv54
+         ONIrlKNAIeMg9syWsvt3I6oEDV9Q3iBHxayCZZCg6EuEEYTuQsaQRmQkH7yFi9bqBr3Q
+         hauE9vBVCjfRDH00Ze1lu5rVNzuRb8mENTR6upQ/LfOaUpW2OVg3OOe9HjxnQLa9I62b
+         o2HDcmOeSHFfywJKSmceoJThafDiXH7qun91Co4icVWSBzxtKFzhXHBPKtjLWOiOeFVd
+         M0wv0g3IyiU3G5csemdbJgv/u4iVrtN0ei0/IREAgl6V+D/+Mc4Fo4QAKOisAgSk3eDO
+         V9AA==
+X-Gm-Message-State: AAQBX9dEpBi4xfWBp2y57tIsfFZKYoJD97vc0q6+8FJJqES69suLiwWv
+        KRgoEKmy78tO8GsyEB4pcmEyvZaqsmJxX7TRuhNsNIOty/wm3N7aWtlZNcxV3JM+dMdnMHAd0Rt
+        MEtq5qXzYJmhB7zpnW/QL
+X-Received: by 2002:a1c:cc05:0:b0:3ef:d8c6:4bc0 with SMTP id h5-20020a1ccc05000000b003efd8c64bc0mr12024313wmb.40.1681806847536;
+        Tue, 18 Apr 2023 01:34:07 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZAnXaPSvYcMlsYfwVlVoREfFWc5IGmWbn2t4pTzfp2bAd1gmhgH/3mQQN/vZnl6zfILt9UWw==
+X-Received: by 2002:a1c:cc05:0:b0:3ef:d8c6:4bc0 with SMTP id h5-20020a1ccc05000000b003efd8c64bc0mr12024293wmb.40.1681806847207;
+        Tue, 18 Apr 2023 01:34:07 -0700 (PDT)
+Received: from debian ([92.62.32.42])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05600c0a4700b003ef4cd057f5sm18266803wmq.4.2023.04.18.01.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Apr 2023 01:34:06 -0700 (PDT)
+Date:   Tue, 18 Apr 2023 10:34:03 +0200
+From:   Guillaume Nault <gnault@redhat.com>
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
+Message-ID: <ZD5V+z+cBaXvPbQa@debian>
+References: <20230416220704.xqk4q6uwjbujnqpv@begin>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC 1/3] drm/doc: Relax fdinfo string constraints
-Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230417201215.448099-1-robdclark@gmail.com>
- <20230417201215.448099-2-robdclark@gmail.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230417201215.448099-2-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230416220704.xqk4q6uwjbujnqpv@begin>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 17/04/2023 21:12, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, Apr 17, 2023 at 12:07:04AM +0200, Samuel Thibault wrote:
+> The existing documentation was not telling that one has to create a PPP
+> channel and a PPP interface to get PPPoL2TP data offloading working.
 > 
-> The restriction about no whitespace, etc, really only applies to the
-> usage of strings in keys.  Values can contain anything (other than
-> newline).
+> Also, tunnel switching was not described, so that people were thinking
+> it was not supported, while it actually is.
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+> 
 > ---
->   Documentation/gpu/drm-usage-stats.rst | 29 ++++++++++++++-------------
->   1 file changed, 15 insertions(+), 14 deletions(-)
+>  Documentation/networking/l2tp.rst |   59 ++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 56 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index 258bdcc8fb86..8e00d53231e0 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -24,7 +24,7 @@ File format specification
->   - All keys shall be prefixed with `drm-`.
->   - Whitespace between the delimiter and first non-whitespace character shall be
->     ignored when parsing.
-> -- Neither keys or values are allowed to contain whitespace characters.
-> +- Keys are not allowed to contain whitespace characters.
->   - Numerical key value pairs can end with optional unit string.
->   - Data type of the value is fixed as defined in the specification.
->   
-> @@ -39,12 +39,13 @@ Data types
->   ----------
->   
->   - <uint> - Unsigned integer without defining the maximum value.
-> -- <str> - String excluding any above defined reserved characters or whitespace.
-> +- <keystr> - String excluding any above defined reserved characters or whitespace.
-> +- <valstr> - String.
+> --- a/Documentation/networking/l2tp.rst
+> +++ b/Documentation/networking/l2tp.rst
+> @@ -387,11 +387,12 @@ Sample userspace code:
+>    - Create session PPPoX data socket::
+>  
+>          struct sockaddr_pppol2tp sax;
+> -        int fd;
+> +        int ret;
+>  
+>          /* Note, the tunnel socket must be bound already, else it
+>           * will not be ready
+>           */
+> +        int session_fd = socket(AF_PPPOX, SOCK_DGRAM, PX_PROTO_OL2TP);
 
-Makes sense I think. At least I can't remember that I had special reason 
-to word it as strict as it was. Lets give it some time to marinade so 
-for later:
+Please declare session_fd with the other variables.
+Also, check the return value of the socket() call.
 
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>          sax.sa_family = AF_PPPOX;
+>          sax.sa_protocol = PX_PROTO_OL2TP;
+>          sax.pppol2tp.fd = tunnel_fd;
+> @@ -406,12 +407,64 @@ Sample userspace code:
+>          /* session_fd is the fd of the session's PPPoL2TP socket.
+>           * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
+>           */
+> -        fd = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
+> -        if (fd < 0 ) {
+> +        ret = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
+> +        if (ret < 0 ) {
 
-Regards,
+Now you also need to close session_fd.
 
-Tvrtko
+>                  return -errno;
+>          }
+>          return 0;
+>  
+> +  - Create PPP channel::
+> +
+> +        int chindx;
+> +        ret = ioctl(session_fd, PPPIOCGCHAN, &chindx);
+> +        if (ret < 0)
+> +                return -errno;
+> +
+> +        int ppp_chan_fd = open("/dev/ppp", O_RDWR);
+> +
+> +        ret = ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx);
+> +        if (ret < 0)
+> +                return -errno;
+> +
+> +Non-data PPP frames will be available for read on `ppp_chan_fd`.
+> +
+> +  - Create PPP interface::
+> +
+> +        int ppp_if_fd = open("/dev/ppp", O_RDWR);
 
->   
->   Mandatory fully standardised keys
->   ---------------------------------
->   
-> -- drm-driver: <str>
-> +- drm-driver: <valstr>
->   
->   String shall contain the name this driver registered as via the respective
->   `struct drm_driver` data structure.
-> @@ -69,10 +70,10 @@ scope of each device, in which case `drm-pdev` shall be present as well.
->   Userspace should make sure to not double account any usage statistics by using
->   the above described criteria in order to associate data to individual clients.
->   
-> -- drm-engine-<str>: <uint> ns
-> +- drm-engine-<keystr>: <uint> ns
->   
->   GPUs usually contain multiple execution engines. Each shall be given a stable
-> -and unique name (str), with possible values documented in the driver specific
-> +and unique name (keystr), with possible values documented in the driver specific
->   documentation.
->   
->   Value shall be in specified time units which the respective GPU engine spent
-> @@ -84,16 +85,16 @@ larger value within a reasonable period. Upon observing a value lower than what
->   was previously read, userspace is expected to stay with that larger previous
->   value until a monotonic update is seen.
->   
-> -- drm-engine-capacity-<str>: <uint>
-> +- drm-engine-capacity-<keystr>: <uint>
->   
->   Engine identifier string must be the same as the one specified in the
-> -drm-engine-<str> tag and shall contain a greater than zero number in case the
-> +drm-engine-<keystr> tag and shall contain a greater than zero number in case the
->   exported engine corresponds to a group of identical hardware engines.
->   
->   In the absence of this tag parser shall assume capacity of one. Zero capacity
->   is not allowed.
->   
-> -- drm-memory-<str>: <uint> [KiB|MiB]
-> +- drm-memory-<keystr>: <uint> [KiB|MiB]
->   
->   Each possible memory type which can be used to store buffer objects by the
->   GPU in question shall be given a stable and unique name to be returned as the
-> @@ -126,10 +127,10 @@ The total size of buffers that are purgeable.
->   
->   The total size of buffers that are active on one or more rings.
->   
-> -- drm-cycles-<str>: <uint>
-> +- drm-cycles-<keystr>: <uint>
->   
->   Engine identifier string must be the same as the one specified in the
-> -drm-engine-<str> tag and shall contain the number of busy cycles for the given
-> +drm-engine-<keystr> tag and shall contain the number of busy cycles for the given
->   engine.
->   
->   Values are not required to be constantly monotonic if it makes the driver
-> @@ -138,12 +139,12 @@ larger value within a reasonable period. Upon observing a value lower than what
->   was previously read, userspace is expected to stay with that larger previous
->   value until a monotonic update is seen.
->   
-> -- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
-> +- drm-maxfreq-<keystr>: <uint> [Hz|MHz|KHz]
->   
->   Engine identifier string must be the same as the one specified in the
-> -drm-engine-<str> tag and shall contain the maximum frequency for the given
-> -engine.  Taken together with drm-cycles-<str>, this can be used to calculate
-> -percentage utilization of the engine, whereas drm-engine-<str> only reflects
-> +drm-engine-<keystr> tag and shall contain the maximum frequency for the given
-> +engine.  Taken together with drm-cycles-<keystr>, this can be used to calculate
-> +percentage utilization of the engine, whereas drm-engine-<keystr> only reflects
->   time active without considering what frequency the engine is operating as a
->   percentage of it's maximum frequency.
->   
+Check for errors please.
+
+> +
+> +        int ifunit;
+
+Also, keep kernel style formatting:
+  * All variable declarations in one block (ordered from longest to
+    shortest line).
+  * New line between variable declarations and code.
+
+> +        ret = ioctl(ppp_if_fd, PPPIOCNEWUNIT, &ifunit);
+
+You need to initialise ifunit first.
+Use -1 to let the kernel pick a free unit index.
+
+> +        if (ret < 0)
+> +                return -errno;
+> +
+> +        ret = ioctl(ppp_chan_fd, PPPIOCCONNECT, ifunit);
+> +        if (ret < 0)
+> +                return -errno;
+> +
+> +The ppp<ifunit> interface can then be configured as usual with SIOCSIFMTU,
+> +SIOCSIFADDR, SIOCSIFDSTADDR, SIOCSIFNETMASK, and activated by setting IFF_UP
+> +with SIOCSIFFLAGS
+> +
+> +  - Tunnel switching is supported by bridging channels::
+
+This is a PPP feature not an L2TP one. PPPIOCBRIDGECHAN's description
+belongs to Documentation/networking/ppp_generic.rst, where it's already
+documented. If documentation needs to be improved, that should be done
+there.
+
+If necessary, you can link to ppp_generic.rst here.
+
+Also, calling this feature 'tunnel switching' is misleading. Switching
+happens between L2TP sessions (or more generally between any PPP
+transports), not between L2TP tunnels (which are just L2TP session
+multiplexers).
+
