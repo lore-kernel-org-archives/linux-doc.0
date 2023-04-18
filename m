@@ -2,66 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDF4C6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 12:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A74BC6FD18
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 12:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232002AbjDRMq0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 08:46:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36128 "EHLO
+        id S232287AbjDRMzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 08:55:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231980AbjDRMqY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 08:46:24 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D4714F75
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 05:46:22 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-329627dabfbso32275275ab.0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 05:46:22 -0700 (PDT)
+        with ESMTP id S232267AbjDRMzg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 08:55:36 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E5DCCC25
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 05:55:35 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-32a7770f7baso5595805ab.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 05:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681821982; x=1684413982;
+        d=linaro.org; s=google; t=1681822534; x=1684414534;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=aWKwSo+FXlLTrRAVOGN2C4OAabPij9dLF7fKxSc3DYk=;
-        b=gj0HO7uJagRwA1ORIyOVM03tkZ2LBmCT36Agq63k77L3K78EOwVrZTuPbh7tlndYv7
-         nmlmJ5bI2oONn377Mx+AJUbuuzAr3CpLV5i5/veAB0Lvxx50vMNQ6lXiY/6L8p4EDmYM
-         cLiQntTWYCFTqU5kyus2jvXkJh85KiHzGnZQ8GWWpBPndXNN5HMCVXHh66TtGH2Ed1c6
-         0CtcGVIhTP4gwmqIZNf2Wu1HNSznW/uGwPF387jaPfFSKQfjLqIAWEMVbJbC4I8e9k2c
-         5Y2c5cpPV8HxCjA9kFgzox3XtqfHKcAf3BnvCj+vpikEJf5w5jc0XTLOV+gfgzBtAqzC
-         bhsA==
+        bh=ssndSN5/o6nxurAGdS8hKVXc9nslJH1ECG3jl8AZs3g=;
+        b=HngOU7vPHlC3qt1Fwhdc650hW/qZ0bzxdTRqxAI57zc5sCbyH3qm9vEDvEbA46rq+3
+         F/GckehCydgrudvQd9tDi+43knstriujkywRcpuqtUb3hUD1B7IB0uJtAenHmYZlsugF
+         OYeVzVttfxjxf6fyq9Ig4re6btJ+sK8d5Kuc3VfNRk1Ut+hUPI0r+mIB0FybuHf/MeCa
+         2cQ5tx6CTWBVR1uxVvk8BdnqSshHGJIRSs+wlZYRCI8zPu5VVHzwFdEz62/de/rNWiXQ
+         NItAHEaMzoAwnyVtIGmNXP5kCGsslKtll8KAJnDgtJGihJPUH1xhIbhaCzHrHVwQbUco
+         yofg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681821982; x=1684413982;
+        d=1e100.net; s=20221208; t=1681822534; x=1684414534;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aWKwSo+FXlLTrRAVOGN2C4OAabPij9dLF7fKxSc3DYk=;
-        b=K5ZGceVuS695EXW3N8t8sFjGGfmP2714P7Rl7iOEpifsWHLl8klreFIM+SY5/0N6Mg
-         p9Ba6rZOoYg8D2WgTmD1z4UWQbzJIBYS3KE1gpZu5A0xf3RjIJw2UUy/INEKSPiyb3Gg
-         f+N48RXe5CfnJQ/wArpQ2gd5z/EwALkkJ0rsmbIZJV9xZeVYF6IykdXRBBnfjqhTkc6f
-         civa7YbU2TNwhVPJqE47uSA6IyxKd/Q8a74jaR/NyDbij7MkOHRiX9ywgs8lWI9gIKWJ
-         Iz3QpfHbZ1uCPQguMS+TAndGYua3UQRGq2ck1gEJ+bSQSMgvpSg3+2lzjzLPLD/mWDAr
-         ZjMA==
-X-Gm-Message-State: AAQBX9ewB12P+SUFHlEnIdAZrJIzPRJNrXM1aehJKMKXnhvPqHu+MNyR
-        tDbEUT9WKQll4LNcjidsJOWh8A==
-X-Google-Smtp-Source: AKy350YDR3JepDrmTcd6UZ6PhjUVBbJ1Yivi4q/MOQ+1Za4ZU3x+3g9nnsHtHlSdIEEVGv4sSIuhhg==
-X-Received: by 2002:a05:6e02:10c7:b0:313:c32b:de26 with SMTP id s7-20020a056e0210c700b00313c32bde26mr11183052ilj.9.1681821981727;
-        Tue, 18 Apr 2023 05:46:21 -0700 (PDT)
+        bh=ssndSN5/o6nxurAGdS8hKVXc9nslJH1ECG3jl8AZs3g=;
+        b=OImW5EkZ5GhmOsInujqZNkcMTYICj619aShszJOzK5DjgK6+Gn1GMuEZjDFjveNkcy
+         mex7rl3zmdnPoEvXnLurNkwIAoNEW+/QeX5jCM9iX4P0A3LOpTMm/8UrwjhX046E6/7f
+         F4x/XOA+hdFZEf535eaP5vYfWGwWEFmPlRvqm+f+OqeDZZhKAeId7bTvSovI0SL+jmZY
+         ymc0b7J005Ry77vIcT/7D7mPrzzOW8AQsNGIwIoZ57q+2vjPODXxOQyjPzQF2CdtKKWv
+         7h9cyuc2wZRkT8l6O7kiRjhq896rWanHYAV8gZ+bYXoWObCc0RWfH+Z9z53crfdxQGYS
+         oL2w==
+X-Gm-Message-State: AAQBX9d/VtKz2WcTEBRpsr7aEpL0m6cQFTKCmJ3KFmG3zHc4TV2Bzw1e
+        6mrcGJXWvpxUszPBpISnUTIY9A==
+X-Google-Smtp-Source: AKy350aDjJnh8fM6l7KL4hLO4WISexCSqu7Hj4ikESAdghF/ET0l9snlZhpZbINx6FrqtLzq4PmNdQ==
+X-Received: by 2002:a92:d801:0:b0:32b:8bf:4d71 with SMTP id y1-20020a92d801000000b0032b08bf4d71mr5226237ilm.9.1681822534475;
+        Tue, 18 Apr 2023 05:55:34 -0700 (PDT)
 Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id p5-20020a027805000000b0040b64b68862sm2965285jac.165.2023.04.18.05.46.19
+        by smtp.googlemail.com with ESMTPSA id l5-20020a92d8c5000000b003158a3455bbsm3564604ilo.78.2023.04.18.05.55.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 05:46:21 -0700 (PDT)
-Message-ID: <7d97b0c3-9b0a-2e2f-13d9-b9969fd3c1d3@linaro.org>
-Date:   Tue, 18 Apr 2023 07:46:19 -0500
+        Tue, 18 Apr 2023 05:55:34 -0700 (PDT)
+Message-ID: <35e383da-2d4a-686d-5492-2ad3b8b4a039@linaro.org>
+Date:   Tue, 18 Apr 2023 07:55:31 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v11 22/26] virt: gunyah: Add proxy-scheduled vCPUs
+Subject: Re: [PATCH v11 24/26] virt: gunyah: Add irqfd interface
 Content-Language: en-US
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -74,130 +72,49 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
- <20230304010632.2127470-23-quic_eberman@quicinc.com>
- <98ad146d-492d-aa0c-4f6a-ba37e6bf74eb@linaro.org>
- <274ad221-f397-b634-5742-fe6c9cb18843@quicinc.com>
+ <20230304010632.2127470-25-quic_eberman@quicinc.com>
+ <a8dc6572-0a48-f772-2d8c-6329d632e0b4@linaro.org>
+ <c8e95fd5-5761-b9aa-2877-6a8827a76f21@quicinc.com>
 From:   Alex Elder <elder@linaro.org>
-In-Reply-To: <274ad221-f397-b634-5742-fe6c9cb18843@quicinc.com>
+In-Reply-To: <c8e95fd5-5761-b9aa-2877-6a8827a76f21@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/17/23 5:41 PM, Elliot Berman wrote:
-> 
-> 
-> On 3/31/2023 7:27 AM, Alex Elder wrote:
->> On 3/3/23 7:06 PM, Elliot Berman wrote:
-> 
-> [snip]
-> 
->>> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
->>> index caeb3b3a3e9a..e52265fa5715 100644
->>> --- a/include/uapi/linux/gunyah.h
->>> +++ b/include/uapi/linux/gunyah.h
->>> @@ -62,8 +62,32 @@ struct gh_vm_dtb_config {
->>>   #define GH_VM_START        _IO(GH_IOCTL_TYPE, 0x3)
->>> +/**
->>> + * GH_FN_VCPU - create a vCPU instance to control a vCPU
->>> + *
->>> + * gh_fn_desc is filled with &struct gh_fn_vcpu_arg
->>> + *
->>> + * The vcpu type will register with the VM Manager to expect to control
->>> + * vCPU number `vcpu_id`. It returns a file descriptor allowing 
->>> interaction with
->>> + * the vCPU. See the Gunyah vCPU API description sections for 
->>> interacting with
->>> + * the Gunyah vCPU file descriptors.
->>> + *
->>> + * Return: file descriptor to manipulate the vcpu. See GH_VCPU_* ioctls
->>> + */
->>> +#define GH_FN_VCPU         1
+On 4/17/23 5:55 PM, Elliot Berman wrote:
+>>>
+>>> +struct gh_fn_irqfd_arg {
+>>> +    __u32 fd;
 >>
->> I think you should define GH_VN_VCPU, GN_FN_IRQFD, and GN_FN_IOEVENTFD
->> in an enumerated type.  Each has a type associated with it, and you can
->> add the explanation for the function in the kernel-doc comments above
->> thosse type definitions.
+>> Should the "fd" field be signed?  Should it be an int?  (Perhaps
+>> you're trying to define a fixed kernel API, so __s32 if signed would
+>> be better.)
 >>
 > 
-> I'd like to enumify the GH_FN_* macros, but one challenge I'm facing is 
-> that it breaks the module alias implementation in patch 19.
-> 
-> MODULE_ALIAS("ghfunc:"__stringify(_type))
-> 
-> When the GH_FN_* are regular preprocessor macros backed by an integer, 
-> the preprocessor will make the module alias ghfunc:0 (or ghfunc:1, etc). 
-> This works well because I can do
-> 
-> request_module("ghfunc:%d", type);
-> 
-> If the function hasn't been registered and then gunyah_vcpu.ko gets 
-> loaded automatically.
-> 
-> With enum, compiler knows the value of GH_FN_VCPU and preprocessor will 
-> make the module alias like ghfunc:GH_FN_VCPU.
-> 
-> [snip]
-> 
->>> +
->>> +/*
->>> + * Gunyah presently sends max 4 bytes of exit_reason.
->>> + * If that changes, this macro can be safely increased without breaking
->>> + * userspace so long as struct gh_vcpu_run < PAGE_SIZE.
->>
->> Is PAGE_SIZE allowed to be anything other than 4096 bytes?  Do you
->> expect this driver to work properly if the page size were configured
->> to be 16384 bytes?  In other words, is this a Gunyah constant, or
->> is it *really* the page size configured for Linux?
->>
-> 
-> Our implementations are only doing 4096 bytes. I expect the driver to 
-> work properly when using 16k pages. This really is a Linux page. It's a 
-> reflection of the alloc_page in gh_vcpu_bind().
+> It looked to me like some interfaces use __u32 and some use __s32. Is 
+> one technically correct?
 
-OK.  I guess I'd be on the lookout for anything that uses 4096 when
-PAGE_SIZE is what's actually meant.  I have no idea what's involved
-with the hypervisor if you wanted to try something else, but if you
-haven't tested that, you could maybe do an early check in your probe
-function:
-	BUILD_BUG_ON(PAGE_SIZE != 4096);
+Good question.  It depends on how you use it.
 
-> The exit reason is copied from hypervisor into field accessible by 
-> userspace directly. Gunyah makes the exit reason size dynamic -- there's 
-> no architectural limitation preventing the exit reason from being a 
-> string or some lengthy data.
+It's a file descriptor, so it should be an int, and it appears
+that's always a 32-bit signed (for 32 and 64 bit machines).
+So the size seems to be right.
 
-Sounds good.  I like having statements like this tested, and maybe
-you have.  I.e., test with the exit_reason size something like 16
-bytes and ensure that works.  Testing this is not technically needed,
-but your comment suggests it can be done.
+Whether it's signed or not I think depends on whether you
+ever save an error value in this field.  I doubt you do,
+but if you do, it should be signed.  Otherwise, the largest
+value will never exceed INT_MAX/S32_MAX; and in that case
+either is fine.
 
-> As I was writing this response, I realized that I should be able to make 
-> this a zero-length array and ensure that reason[] doesn't overflow 
-> PAGE_SIZE...
-
-Maybe some good came out of it?
-
-> The comment was trying to explain that Linux itself imposes a limitation 
-> on the maximum exit reason size. If we need to support longer exit 
-
-Your comment isn't clear that Linux is what limits the size.
-This is all kind of picky though.  My main point was about
-the PAGE_SIZE assumption.
+Will Gunyah ever run on a 32-bit machine?
 
 					-Alex
-
-> reason, we're OK to do so long as the total size doesn't overrun 
-> PAGE_SIZE. There aren't any plans to need longer exit reasons than the 8 
-> bytes mentioned today.
-> 
-> Thanks,
-> Elliot
-
