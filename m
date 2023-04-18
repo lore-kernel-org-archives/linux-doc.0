@@ -2,119 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A74BC6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 12:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33876C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 13:38:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232287AbjDRMzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 08:55:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49742 "EHLO
+        id S231338AbjDRNiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 09:38:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232267AbjDRMzg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 08:55:36 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E5DCCC25
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 05:55:35 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-32a7770f7baso5595805ab.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 05:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681822534; x=1684414534;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ssndSN5/o6nxurAGdS8hKVXc9nslJH1ECG3jl8AZs3g=;
-        b=HngOU7vPHlC3qt1Fwhdc650hW/qZ0bzxdTRqxAI57zc5sCbyH3qm9vEDvEbA46rq+3
-         F/GckehCydgrudvQd9tDi+43knstriujkywRcpuqtUb3hUD1B7IB0uJtAenHmYZlsugF
-         OYeVzVttfxjxf6fyq9Ig4re6btJ+sK8d5Kuc3VfNRk1Ut+hUPI0r+mIB0FybuHf/MeCa
-         2cQ5tx6CTWBVR1uxVvk8BdnqSshHGJIRSs+wlZYRCI8zPu5VVHzwFdEz62/de/rNWiXQ
-         NItAHEaMzoAwnyVtIGmNXP5kCGsslKtll8KAJnDgtJGihJPUH1xhIbhaCzHrHVwQbUco
-         yofg==
+        with ESMTP id S230033AbjDRNit (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 09:38:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21ED54EC3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 06:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681825085;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZAhC7ZdJaysYGSfjJpbZBcTrJMmolepzxRQWBXZQBkM=;
+        b=KYssPd9kysup6haKoqzP79v3x6s9gZiDFeLay15JY2WtR+zLtwyHPbzOTgcwYXi0ksgGfJ
+        rls1/C9t2gfxfCf0kvDctyr7rjq5oUm1/+3OYEHmB6+rLBrmkCoDKvcPS3jEoD3a2JEOVE
+        y22jUvqKiYSvU6XbQPXlQeIYgP0g/so=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-512-qyfeJtqlNaG2quwp2MSPqw-1; Tue, 18 Apr 2023 09:38:04 -0400
+X-MC-Unique: qyfeJtqlNaG2quwp2MSPqw-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-2f55f0626a6so780818f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 06:38:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681822534; x=1684414534;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ssndSN5/o6nxurAGdS8hKVXc9nslJH1ECG3jl8AZs3g=;
-        b=OImW5EkZ5GhmOsInujqZNkcMTYICj619aShszJOzK5DjgK6+Gn1GMuEZjDFjveNkcy
-         mex7rl3zmdnPoEvXnLurNkwIAoNEW+/QeX5jCM9iX4P0A3LOpTMm/8UrwjhX046E6/7f
-         F4x/XOA+hdFZEf535eaP5vYfWGwWEFmPlRvqm+f+OqeDZZhKAeId7bTvSovI0SL+jmZY
-         ymc0b7J005Ry77vIcT/7D7mPrzzOW8AQsNGIwIoZ57q+2vjPODXxOQyjPzQF2CdtKKWv
-         7h9cyuc2wZRkT8l6O7kiRjhq896rWanHYAV8gZ+bYXoWObCc0RWfH+Z9z53crfdxQGYS
-         oL2w==
-X-Gm-Message-State: AAQBX9d/VtKz2WcTEBRpsr7aEpL0m6cQFTKCmJ3KFmG3zHc4TV2Bzw1e
-        6mrcGJXWvpxUszPBpISnUTIY9A==
-X-Google-Smtp-Source: AKy350aDjJnh8fM6l7KL4hLO4WISexCSqu7Hj4ikESAdghF/ET0l9snlZhpZbINx6FrqtLzq4PmNdQ==
-X-Received: by 2002:a92:d801:0:b0:32b:8bf:4d71 with SMTP id y1-20020a92d801000000b0032b08bf4d71mr5226237ilm.9.1681822534475;
-        Tue, 18 Apr 2023 05:55:34 -0700 (PDT)
-Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id l5-20020a92d8c5000000b003158a3455bbsm3564604ilo.78.2023.04.18.05.55.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 05:55:34 -0700 (PDT)
-Message-ID: <35e383da-2d4a-686d-5492-2ad3b8b4a039@linaro.org>
-Date:   Tue, 18 Apr 2023 07:55:31 -0500
+        d=1e100.net; s=20221208; t=1681825083; x=1684417083;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZAhC7ZdJaysYGSfjJpbZBcTrJMmolepzxRQWBXZQBkM=;
+        b=U2FApN6r6m1tg5Kr0MGEJbRrvcvzR3JpAkn7hCLO+dX7M2ln5+XrtTUJIwEgzfJjMJ
+         upmZoxnuMaRMacwb+QExkFykBAbLrryZe9EnOxVvb28Q7fA9C0wdVZTUETHkRnhCatBe
+         1PlfjB6JX8GHlkmKQEhRP2fiAieMZfRlQLChM0WDEpfprKYC7jO7tABGgrTZ0ByEx4Fh
+         uYaXLx8c0Orv7E4YyFSKegYeTPSs6+8aqliDtT6z/ZQDty7qlL41pcc7qOEMlPfHSiyl
+         8SupZyVxIO/KHKxkLD6FzPtZVGit3Qc/5pSMsyx+MYFde3MXP8aVrXu+P39R6Amy2Um4
+         k+6Q==
+X-Gm-Message-State: AAQBX9cVOAhlspUivJPJCh/ulf4bu8idc7uqaSfBzBp2wsGEUgd8aYhA
+        ynOS92f6oEY7xhnosMR68uRKMGjYComEQsgODT7xeP0ed0RsZkjCHnB3Vy49Tbq91pxYXJQN1LK
+        Z8oCBx3zB2NhWaakTAIWf
+X-Received: by 2002:a5d:5141:0:b0:2fb:cbdf:fb48 with SMTP id u1-20020a5d5141000000b002fbcbdffb48mr1808080wrt.3.1681825083589;
+        Tue, 18 Apr 2023 06:38:03 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aPtx6JemOL/ZAUA3CSIMFOXAwPyuMbBNOjlwcnlcNO3RvB3f+yLM18m91J8i9J7QgrGjtT5w==
+X-Received: by 2002:a5d:5141:0:b0:2fb:cbdf:fb48 with SMTP id u1-20020a5d5141000000b002fbcbdffb48mr1808055wrt.3.1681825083281;
+        Tue, 18 Apr 2023 06:38:03 -0700 (PDT)
+Received: from debian ([92.62.32.42])
+        by smtp.gmail.com with ESMTPSA id a8-20020a5d4568000000b002f61f08a9a6sm12769154wrc.50.2023.04.18.06.38.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Apr 2023 06:38:02 -0700 (PDT)
+Date:   Tue, 18 Apr 2023 15:38:00 +0200
+From:   Guillaume Nault <gnault@redhat.com>
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
+Message-ID: <ZD6dON0gl3DE8mYr@debian>
+References: <20230416220704.xqk4q6uwjbujnqpv@begin>
+ <ZD5V+z+cBaXvPbQa@debian>
+ <20230418085323.h6xij7w6d2o4kxxi@begin>
+ <ZD5dqwPblo4FOex1@debian>
+ <20230418091148.hh3b52zceacduex6@begin>
+ <ZD5uU8Wrz4cTSwqP@debian>
+ <20230418103140.cps6csryl2xhrazz@begin>
+ <ZD5+MouUk8YFVOX3@debian>
+ <20230418115409.aqsqi6pa4s4nhwgs@begin>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v11 24/26] virt: gunyah: Add irqfd interface
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
- <20230304010632.2127470-25-quic_eberman@quicinc.com>
- <a8dc6572-0a48-f772-2d8c-6329d632e0b4@linaro.org>
- <c8e95fd5-5761-b9aa-2877-6a8827a76f21@quicinc.com>
-From:   Alex Elder <elder@linaro.org>
-In-Reply-To: <c8e95fd5-5761-b9aa-2877-6a8827a76f21@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230418115409.aqsqi6pa4s4nhwgs@begin>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/17/23 5:55 PM, Elliot Berman wrote:
->>>
->>> +struct gh_fn_irqfd_arg {
->>> +    __u32 fd;
->>
->> Should the "fd" field be signed?  Should it be an int?  (Perhaps
->> you're trying to define a fixed kernel API, so __s32 if signed would
->> be better.)
->>
+On Tue, Apr 18, 2023 at 01:54:09PM +0200, Samuel Thibault wrote:
+> Guillaume Nault, le mar. 18 avril 2023 13:25:38 +0200, a ecrit:
+> > As I said in my previous reply, a simple L2TP example that goes until PPP
+> > channel and unit creation is fine. But any more advanced use of the PPP
+> > API should be documented in the PPP documentation.
 > 
-> It looked to me like some interfaces use __u32 and some use __s32. Is 
-> one technically correct?
+> When it's really advanced, yes. But here it's just about tunnel
+> bridging, which is a very common L2TP thing to do.
 
-Good question.  It depends on how you use it.
+I can't undestand why you absolutely want this covered in l2tp.rst.
+This feature also works on PPPoE.
 
-It's a file descriptor, so it should be an int, and it appears
-that's always a 32-bit signed (for 32 and 64 bit machines).
-So the size seems to be right.
+Also, it's probably a desirable feature, but certainly not a common
+thing on Linux. This interface was added a bit more than 2 years ago,
+which is really recent considering the age of the code. Appart from
+maybe go-l2tp, I don't know of any user.
 
-Whether it's signed or not I think depends on whether you
-ever save an error value in this field.  I doubt you do,
-but if you do, it should be signed.  Otherwise, the largest
-value will never exceed INT_MAX/S32_MAX; and in that case
-either is fine.
+> > I mean, these files document the API of their corresponding modules,
+> > their scope should be limitted to that (the PPP and L2TP layers are
+> > really different).
+> 
+> I wouldn't call
+> 
+> +        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
+> +        close(ppp_chan_fd);
+> +        if (ret < 0)
+> +                return -errno;
+> 
+> documentation...
 
-Will Gunyah ever run on a 32-bit machine?
+The documentation is in ppp_generic.rst. Does it really make sense to
+you to have the doc there and the sample code in l2tp.rst?
 
-					-Alex
+Anyway, I'm not going to argue any longer. You have my opinion.
+You're always free to ignore feedbacks.
+
+> > That shouldn't preclude anyone from describing how to combine L2TP, PPP
+> > and others to cover more advanced use cases. It's just better done in a
+> > different file.
+> 
+> A more complete example, yes. I don't plan on taking time to do it.
+> 
+> Samuel
+> 
+
