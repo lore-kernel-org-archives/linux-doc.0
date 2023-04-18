@@ -2,122 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78EE0C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 09:08:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE11C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 09:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231221AbjDRJIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 05:08:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44106 "EHLO
+        id S230340AbjDRJLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 05:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231315AbjDRJIT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 05:08:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3DD7AA9
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 02:07:15 -0700 (PDT)
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-422-ofmqb7H6NRyZui1cH-uXmQ-1; Tue, 18 Apr 2023 05:06:55 -0400
-X-MC-Unique: ofmqb7H6NRyZui1cH-uXmQ-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-3f08ed462c0so36557845e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 02:06:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681808814; x=1684400814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pRNrCYgGB848z5UzPrsHH5olhsaYvQSEqVGi0dF9+RM=;
-        b=kBhkDjuIzNTrc0Ildq6NBkGaK/Jtdy9XZP5a6Hay/fOeCMS3URCUF9rqWNYfIvSrLO
-         X9sxmX0JaEyS9AceIsrgAbfagWpC/lUnwtg6mO8HOIOxLadAZTDqYBQfEb3npmiv+ec3
-         WJk2JOE6Hp/PxbzXcU4+DJbBqu3gi0Oue/STNTslcIwu7RyP7FoU0PxHOdMsIC3W+fP5
-         uW9296Idqk8MO2d2fydOcPQ0Qlbvnl43EFPDbaIaM611TTUfQW/lDwL33eM/vVtR5Rok
-         Z4zH7tCBm5iuUvwNuXivhDF2DcSzv8CPdlh8X6uXcFWLu95QLyxWeFf7IoS/gxITTz1/
-         LO9g==
-X-Gm-Message-State: AAQBX9fzghA6dKoNJwxCCAKixC7K+pVGUNZd+xfYbEVodqOXD+gblzrP
-        NDGXn56kiPQvCCkLnyxqkiGuszwxBeXYJ41fCd5ulKu2o0lGbJc1tO8zrVXuPuGjdorcfL5NudK
-        z8hPIDHOoiR7dSENkh3i4
-X-Received: by 2002:adf:e946:0:b0:2f4:e2d5:401 with SMTP id m6-20020adfe946000000b002f4e2d50401mr1519790wrn.25.1681808814379;
-        Tue, 18 Apr 2023 02:06:54 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bz/rwcsf+s+AD4QbxZIhyM+n7t/iwWgYMWM6XYFAl0LJK2SNq+DkwwG58Zh35mwMuSCxt1rw==
-X-Received: by 2002:adf:e946:0:b0:2f4:e2d5:401 with SMTP id m6-20020adfe946000000b002f4e2d50401mr1519763wrn.25.1681808814032;
-        Tue, 18 Apr 2023 02:06:54 -0700 (PDT)
-Received: from debian ([92.62.32.42])
-        by smtp.gmail.com with ESMTPSA id x13-20020a5d60cd000000b002c54c9bd71fsm12429777wrt.93.2023.04.18.02.06.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 02:06:53 -0700 (PDT)
-Date:   Tue, 18 Apr 2023 11:06:51 +0200
-From:   Guillaume Nault <gnault@redhat.com>
-To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        with ESMTP id S230352AbjDRJLv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 05:11:51 -0400
+Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF6B10E0;
+        Tue, 18 Apr 2023 02:11:50 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by sonata.ens-lyon.org (Postfix) with ESMTP id 175AE20180;
+        Tue, 18 Apr 2023 11:11:49 +0200 (CEST)
+Received: from sonata.ens-lyon.org ([127.0.0.1])
+        by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id bKQ3-A0V8pgX; Tue, 18 Apr 2023 11:11:48 +0200 (CEST)
+Received: from begin.home (apoitiers-658-1-118-253.w92-162.abo.wanadoo.fr [92.162.65.253])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by sonata.ens-lyon.org (Postfix) with ESMTPSA id B380620177;
+        Tue, 18 Apr 2023 11:11:48 +0200 (CEST)
+Received: from samy by begin.home with local (Exim 4.96)
+        (envelope-from <samuel.thibault@ens-lyon.org>)
+        id 1pohNM-00BMWM-0m;
+        Tue, 18 Apr 2023 11:11:48 +0200
+Date:   Tue, 18 Apr 2023 11:11:48 +0200
+From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
+To:     Guillaume Nault <gnault@redhat.com>
+Cc:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
         edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
         pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
-Message-ID: <ZD5dqwPblo4FOex1@debian>
+Message-ID: <20230418091148.hh3b52zceacduex6@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Guillaume Nault <gnault@redhat.com>,
+        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230416220704.xqk4q6uwjbujnqpv@begin>
  <ZD5V+z+cBaXvPbQa@debian>
  <20230418085323.h6xij7w6d2o4kxxi@begin>
+ <ZD5dqwPblo4FOex1@debian>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418085323.h6xij7w6d2o4kxxi@begin>
+In-Reply-To: <ZD5dqwPblo4FOex1@debian>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 18, 2023 at 10:53:23AM +0200, Samuel Thibault wrote:
-> Guillaume Nault, le mar. 18 avril 2023 10:34:03 +0200, a ecrit:
-> > On Mon, Apr 17, 2023 at 12:07:04AM +0200, Samuel Thibault wrote:
-> > >          sax.sa_family = AF_PPPOX;
-> > >          sax.sa_protocol = PX_PROTO_OL2TP;
-> > >          sax.pppol2tp.fd = tunnel_fd;
-> > > @@ -406,12 +407,64 @@ Sample userspace code:
-> > >          /* session_fd is the fd of the session's PPPoL2TP socket.
-> > >           * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
-> > >           */
-> > > -        fd = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
-> > > -        if (fd < 0 ) {
-> > > +        ret = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
-> > > +        if (ret < 0 ) {
+Guillaume Nault, le mar. 18 avril 2023 11:06:51 +0200, a ecrit:
+> On Tue, Apr 18, 2023 at 10:53:23AM +0200, Samuel Thibault wrote:
+> > Guillaume Nault, le mar. 18 avril 2023 10:34:03 +0200, a ecrit:
+> > > On Mon, Apr 17, 2023 at 12:07:04AM +0200, Samuel Thibault wrote:
+> > > >          sax.sa_family = AF_PPPOX;
+> > > >          sax.sa_protocol = PX_PROTO_OL2TP;
+> > > >          sax.pppol2tp.fd = tunnel_fd;
+> > > > @@ -406,12 +407,64 @@ Sample userspace code:
+> > > >          /* session_fd is the fd of the session's PPPoL2TP socket.
+> > > >           * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
+> > > >           */
+> > > > -        fd = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
+> > > > -        if (fd < 0 ) {
+> > > > +        ret = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
+> > > > +        if (ret < 0 ) {
+> > > 
+> > > Now you also need to close session_fd.
 > > 
-> > Now you also need to close session_fd.
+> > ? No, we need it for PPPIOCGCHAN, and also PPPIOCGL2TPSTATS.
 > 
-> ? No, we need it for PPPIOCGCHAN, and also PPPIOCGL2TPSTATS.
+> connect() failed. You can't do anything with this socket.
 
-connect() failed. You can't do anything with this socket.
+Ah, you were talking about the failure case, ok.
 
-> I'll put return session_fd instead.
-
-What's the point of returning session_fd if connect() failed?
-How will the caller know if session_fd is connected or not?
-Why would it even be interested in a half-created session fd?
-
-> > > +The ppp<ifunit> interface can then be configured as usual with SIOCSIFMTU,
-> > > +SIOCSIFADDR, SIOCSIFDSTADDR, SIOCSIFNETMASK, and activated by setting IFF_UP
-> > > +with SIOCSIFFLAGS
-> > > +
-> > > +  - Tunnel switching is supported by bridging channels::
+> > > > +The ppp<ifunit> interface can then be configured as usual with SIOCSIFMTU,
+> > > > +SIOCSIFADDR, SIOCSIFDSTADDR, SIOCSIFNETMASK, and activated by setting IFF_UP
+> > > > +with SIOCSIFFLAGS
+> > > > +
+> > > > +  - Tunnel switching is supported by bridging channels::
+> > > 
+> > > This is a PPP feature not an L2TP one.
+> > > 
+> > > PPPIOCBRIDGECHAN's description
+> > > belongs to Documentation/networking/ppp_generic.rst, where it's already
+> > > documented.
 > > 
-> > This is a PPP feature not an L2TP one.
-> > 
-> > PPPIOCBRIDGECHAN's description
-> > belongs to Documentation/networking/ppp_generic.rst, where it's already
-> > documented.
+> > Yes but that's hard to find out when you're looking from the L2TP end.
 > 
-> Yes but that's hard to find out when you're looking from the L2TP end.
+> That's why I proposed linking to ppp_generic.rst.
 
-That's why I proposed linking to ppp_generic.rst.
+Yes, but it's still not obvious to L2TP people that it's a ppp channel
+that you have to bridge. Really, having that 20-line snippet available
+would have saved me some head-scratching time.
 
-> > If necessary, you can link to ppp_generic.rst here.
-> > 
-> > Also, calling this feature 'tunnel switching' is misleading.
-> 
-> That's how I have seen it is called in L2TP jargon.
-
-That still doesn't describe the kernel feature. We can add a 'so called
-"tunnel switching" in L2TP jargon' into parenthesis to give a hint to
-the people using this terminology.
-
-> Samuel
-> 
-
+Samuel
