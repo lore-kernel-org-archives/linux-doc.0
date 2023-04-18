@@ -2,245 +2,317 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF23BC77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 18:36:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DFE6C77B78
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 20:09:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232620AbjDRSgM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 14:36:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60658 "EHLO
+        id S229838AbjDRUJb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 16:09:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232100AbjDRSgL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 14:36:11 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAD693FE;
-        Tue, 18 Apr 2023 11:36:05 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33IFTHAf000641;
-        Tue, 18 Apr 2023 18:35:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=dayner3Ap6K5I4PS1bImybCpTxBjYhTjD9kt1+iUiYE=;
- b=Ny0Z0u/W1kkXO74tOc2kWOAc0ACK2+VnO0LWoj4ahWJFZbzLl8xBhy4iR8qfi6OTZtMd
- j/3mtpgIEoY3Hka5JdxndjFKuDM123wvbJZQnRfLLevzZ6SbzmIC8Mmq74Hkni1Q0D+v
- TTZUCsyTyH8c7PNKJCFVl5QfycbIhzqzT4zqD79FfLCiZi/cc0+QZwdX5uWWw53jhpy4
- AmQW8L9n1IP8Q81FwFPTE6BR8WxxM1LsBF50SfWrx2VXh+aUaEX9dF+XgyQjgQJoiCTR
- qIychAxLoKMOXgLSxJuF23N7pdAGqFVgTf6xwfChuZPyCXe9PwoiFY1lJu0UYuZAW89h KA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q19kg389q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Apr 2023 18:35:47 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33IIZkUB017678
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Apr 2023 18:35:46 GMT
-Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 18 Apr
- 2023 11:35:45 -0700
-Message-ID: <a6482ddd-c038-99ab-6c88-cbda31cf6fba@quicinc.com>
-Date:   Tue, 18 Apr 2023 11:35:45 -0700
+        with ESMTP id S232709AbjDRUJa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 16:09:30 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09654C1A;
+        Tue, 18 Apr 2023 13:09:27 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id op30so18429124qvb.3;
+        Tue, 18 Apr 2023 13:09:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681848567; x=1684440567;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Xg5F9Ci0hkJBxBq7QVw9BiTs6gsc0ux2HifS7G2AlYE=;
+        b=Bix6CT9DS37lPmB1vyxsYbpWsACo7F7e2GUlYs82UObZyv0QZBjWBeCohpkMTYjElS
+         MtNypgwTARLqzS0SBkCnQoghkITlJaqMyG35RsrbSfZCIr7oDTUrypQzBFEBbX6ChCQY
+         RzfWZqmwy8Ts9y/xg2yjXx+Wl3JpRvBdqSa8XSXHLZrUOkMwRqfuOREWPQKMdINABtMV
+         Ez0jSNV077YTFiv9DIqnfUZxFmAxK4/VrfBVQYmaBIU3SsAi/6NSBPOwdo6howUC2bdz
+         BZOcEqWvq2nFDn+pdneFoWVZALuIJZtUPc5SjYTNNbiQ53NMwFytvECleLV4TTEEEez0
+         oNQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681848567; x=1684440567;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xg5F9Ci0hkJBxBq7QVw9BiTs6gsc0ux2HifS7G2AlYE=;
+        b=OZ2btukF+XXgbbQ+Xm5pBGP56kXPWdQig0Bb7jgLOyt9vYyeIdUD7IOHOF+vbMZXRV
+         ce1kNz/j1w2xa6k5xIXtSRmxlcglba8WMFfYYiRVsa+Oa4/XxRf/y2k8xuX/oBWA+2h7
+         17wRngbxt7T1sk2AxVPqqGJWty+t4GBBO2Gv293e1sk9zaAqg5raVsNDpryFFQ/wALNc
+         rbnQjLqloFv52bc4jQhFN2PkAKyuMdPUY3uFnlHbw+v9cwWE97jRQ8DAVy/mDZGyKQPu
+         2xW72+Ixuvhdfh5qFXTngrXsVyNkTqkq7RTf11yMZ2OgLKwgNAL2TnexK3YLM2bv+mDC
+         j9Yg==
+X-Gm-Message-State: AAQBX9cSykcfbpbl5no7SUU22Cbcg8iWsgWhb5AH5I3/1pmMYsZKlO8W
+        iz1PfbqaoeGlsy+7t6FGK9s=
+X-Google-Smtp-Source: AKy350bpKIiDjNyHlfeDITolFHjL9zooOJQROAwUM4sxpRq7Q3yFHCjsVi8ZUlPMwU21hM9rkRzxMg==
+X-Received: by 2002:ad4:5ccc:0:b0:5f1:5d46:35a7 with SMTP id iu12-20020ad45ccc000000b005f15d4635a7mr5383106qvb.26.1681848566751;
+        Tue, 18 Apr 2023 13:09:26 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id w3-20020a0562140b2300b005e35629b7c4sm3934386qvj.3.2023.04.18.13.09.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Apr 2023 13:09:26 -0700 (PDT)
+Message-ID: <91dc1cfe-4fa7-7455-8334-044f966cd89a@gmail.com>
+Date:   Tue, 18 Apr 2023 13:09:13 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v11 22/26] virt: gunyah: Add proxy-scheduled vCPUs
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 0/9] mm: introduce Designated Movable Blocks
 Content-Language: en-US
-To:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
- <20230304010632.2127470-23-quic_eberman@quicinc.com>
- <98ad146d-492d-aa0c-4f6a-ba37e6bf74eb@linaro.org>
- <274ad221-f397-b634-5742-fe6c9cb18843@quicinc.com>
- <6d7ddd2c-526c-a131-1012-c09032579824@quicinc.com>
- <1c69a301-332b-3523-caeb-5d838bb5f5d2@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <1c69a301-332b-3523-caeb-5d838bb5f5d2@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     David Hildenbrand <david@redhat.com>,
+        Doug Berger <opendmb@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mel Gorman <mgorman@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@suse.com>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20221020215318.4193269-1-opendmb@gmail.com>
+ <bff78f19-fd40-d9be-6592-93a7a4a91587@gmail.com>
+ <0c4e35de-f790-5399-c812-ff90a4ab7531@redhat.com>
+ <c9f1b9f7-06d1-1425-62c1-caaaab1e230e@gmail.com>
+ <cbf408b3-82e8-79fe-0998-f4aed7117c95@redhat.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <cbf408b3-82e8-79fe-0998-f4aed7117c95@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EYUbIpJQPSE0K7NvBfjz8gCpg8izhvMk
-X-Proofpoint-ORIG-GUID: EYUbIpJQPSE0K7NvBfjz8gCpg8izhvMk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-18_13,2023-04-18_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- suspectscore=0 bulkscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304180152
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 4/18/2023 10:31 AM, Alex Elder wrote:
-> On 4/18/23 12:18 PM, Elliot Berman wrote:
->>
->>
->> On 4/17/2023 3:41 PM, Elliot Berman wrote:
->>>
->>>
->>> On 3/31/2023 7:27 AM, Alex Elder wrote:
->>>> On 3/3/23 7:06 PM, Elliot Berman wrote:
->>>
->>> [snip]
->>>
->>>>> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
->>>>> index caeb3b3a3e9a..e52265fa5715 100644
->>>>> --- a/include/uapi/linux/gunyah.h
->>>>> +++ b/include/uapi/linux/gunyah.h
->>>>> @@ -62,8 +62,32 @@ struct gh_vm_dtb_config {
->>>>>   #define GH_VM_START        _IO(GH_IOCTL_TYPE, 0x3)
->>>>> +/**
->>>>> + * GH_FN_VCPU - create a vCPU instance to control a vCPU
->>>>> + *
->>>>> + * gh_fn_desc is filled with &struct gh_fn_vcpu_arg
->>>>> + *
->>>>> + * The vcpu type will register with the VM Manager to expect to 
->>>>> control
->>>>> + * vCPU number `vcpu_id`. It returns a file descriptor allowing 
->>>>> interaction with
->>>>> + * the vCPU. See the Gunyah vCPU API description sections for 
->>>>> interacting with
->>>>> + * the Gunyah vCPU file descriptors.
->>>>> + *
->>>>> + * Return: file descriptor to manipulate the vcpu. See GH_VCPU_* 
->>>>> ioctls
->>>>> + */
->>>>> +#define GH_FN_VCPU         1
+On 1/5/23 05:29, David Hildenbrand wrote:
+> On 04.01.23 20:00, Florian Fainelli wrote:
+>> On 1/4/23 07:56, David Hildenbrand wrote:
+>>> On 04.01.23 00:43, Florian Fainelli wrote:
+>>>> On 10/20/22 14:53, Doug Berger wrote:
+>>>>> MOTIVATION:
+>>>>> Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+>>>>> controllers with each mapped in a different address range within
+>>>>> a Uniform Memory Architecture. Some users of these systems have
+>>>>> expressed the desire to locate ZONE_MOVABLE memory on each
+>>>>> memory controller to allow user space intensive processing to
+>>>>> make better use of the additional memory bandwidth.
+>>>>> Unfortunately, the historical monotonic layout of zones would
+>>>>> mean that if the lowest addressed memory controller contains
+>>>>> ZONE_MOVABLE memory then all of the memory available from
+>>>>> memory controllers at higher addresses must also be in the
+>>>>> ZONE_MOVABLE zone. This would force all kernel memory accesses
+>>>>> onto the lowest addressed memory controller and significantly
+>>>>> reduce the amount of memory available for non-movable
+>>>>> allocations.
+>>>>>
+>>>>> The main objective of this patch set is therefore to allow a
+>>>>> block of memory to be designated as part of the ZONE_MOVABLE
+>>>>> zone where it will always only be used by the kernel page
+>>>>> allocator to satisfy requests for movable pages. The term
+>>>>> Designated Movable Block is introduced here to represent such a
+>>>>> block. The favored implementation allows extension of the
+>>>>> 'movablecore' kernel parameter to allow specification of a base
+>>>>> address and support for multiple blocks. The existing
+>>>>> 'movablecore' mechanisms are retained.
+>>>>>
+>>>>> BACKGROUND:
+>>>>> NUMA architectures support distributing movablecore memory
+>>>>> across each node, but it is undesirable to introduce the
+>>>>> overhead and complexities of NUMA on systems that don't have a
+>>>>> Non-Uniform Memory Architecture.
+>>>>>
+>>>>> Commit 342332e6a925 ("mm/page_alloc.c: introduce kernelcore=mirror
+>>>>> option")
+>>>>> also depends on zone overlap to support sytems with multiple
+>>>>> mirrored ranges.
+>>>>>
+>>>>> Commit c6f03e2903c9 ("mm, memory_hotplug: remove zone restrictions")
+>>>>> embraced overlapped zones for memory hotplug.
+>>>>>
+>>>>> This commit set follows their lead to allow the ZONE_MOVABLE
+>>>>> zone to overlap other zones. Designated Movable Blocks are made
+>>>>> absent from overlapping zones and present within the
+>>>>> ZONE_MOVABLE zone.
+>>>>>
+>>>>> I initially investigated an implementation using a Designated
+>>>>> Movable migrate type in line with comments[1] made by Mel Gorman
+>>>>> regarding a "sticky" MIGRATE_MOVABLE type to avoid using
+>>>>> ZONE_MOVABLE. However, this approach was riskier since it was
+>>>>> much more instrusive on the allocation paths. Ultimately, the
+>>>>> progress made by the memory hotplug folks to expand the
+>>>>> ZONE_MOVABLE functionality convinced me to follow this approach.
+>>>>>
 >>>>
->>>> I think you should define GH_VN_VCPU, GN_FN_IRQFD, and GN_FN_IOEVENTFD
->>>> in an enumerated type.  Each has a type associated with it, and you can
->>>> add the explanation for the function in the kernel-doc comments above
->>>> thosse type definitions.
+>>>> Mel, David, does the sub-thread discussion with Doug help ensuring that
+>>>> all of the context is gathered before getting into a more detailed 
+>>>> patch
+>>>> review on a patch-by-patch basis?
 >>>>
+>>>> Eventually we may need a fairly firm answer as to whether the proposed
+>>>> approach has any chance of landing upstream in order to either 
+>>>> commit to
+>>>> in subsequent iterations of this patch set, or find an alternative.
 >>>
->>> I'd like to enumify the GH_FN_* macros, but one challenge I'm facing 
->>> is that it breaks the module alias implementation in patch 19.
 >>>
->>> MODULE_ALIAS("ghfunc:"__stringify(_type))
->>>
->>> When the GH_FN_* are regular preprocessor macros backed by an 
->>> integer, the preprocessor will make the module alias ghfunc:0 (or 
->>> ghfunc:1, etc). This works well because I can do
->>>
->>> request_module("ghfunc:%d", type);
->>>
->>> If the function hasn't been registered and then gunyah_vcpu.ko gets 
->>> loaded automatically.
->>>
->>> With enum, compiler knows the value of GH_FN_VCPU and preprocessor 
->>> will make the module alias like ghfunc:GH_FN_VCPU.
->>>
+>>> As raised, I'd appreciate if less intrusive alternatives could be
+>>> evaluated (e.g., fake NUMA nodes and being ablee to just use mbind(),
+>>> moving such memory to ZONE_MOVABLE after boot via something like 
+>>> daxctl).
 >>
->> I still like the idea of having enum for documentation and clarity. I 
->> noticed that nfnetlink.h saw the same problem for NFNL_SUBSYS_*.
+>> This is not an option with the environment we have to ultimately fit in
+>> which is Android TV utilizing the GKI kernel which does not enable NUMA
+>> and probably never will, and for similar reasons bringing a whole swath
+>> of user-space tools like daxctl may not be practical either, from both a
+>> logistical perspective (simply getting the tools built with bionic,
+>> accepted etc.) as well as system configuration perspective.
+
+(looks like I never replied to this email, whoops)
+
+> 
+> Adding feature A because people don't want to (! whoever the "people" 
+> are) enable feature B? I hope I don't have to tell you what I think 
+> about statements like this :)
+
+It is not just that NUMA is not wanted, it is also not a great fit, the 
+ARM CPU cluster and most peripherals that Linux cares about do have an 
+uniform memory access to the available DRAM controllers/DRAM chips.
+
+Only a subset of the peripherals, especially the real-time and high 
+bandwidth ones like video decoders and display that may not be uniformly 
+accessing DRAM. This stems from the fact that the memory controller(s) 
+on the System-on-Chip we work with have a star topology and they 
+schedule the accesses of each DRAM client (CPU, GPU, video decoder, 
+display, Ethernet, PCIe, etc) differently in order to guarantee a 
+certain quality of service.
+
+On a system with multiple DRAM controller / DRAM chips, you will 
+typically see video decoder + display instances #0 be serviced by DRAM 
+controller 0, and video decoder + display instance #1 be servied by DRAM 
+controller 1, and this is the only way to allow dual decode + display as 
+they are very bandwidth hungry.
+
+The splitting or load balancing is done on a PFN basis, DRAM pages below 
+a certain address are serviced by DRAM controller #0 and those above 
+another cut off are servied by DRAM controller #1.
+
+> 
+> If feature B is a problem, try stripping it down such that it can be 
+> enabled. If it's to hard to configure for your use case, maybe we can 
+> extend configuration options to avoid tools like daxctl for some special 
+> cases.
+
+I do not see the splitting of the notion of a 'memory node' object away 
+from CONFIG_NUMA going anywhere, and sorry to put that way, but this 
+would be requiring many months for a result that is not even clear, but 
+would be undone anytime someone is not aware of that larger effort.
+
+> 
+> But of course, only if feature B actually solves the problem.
+> 
+> One issue I have with DMB is actual use cases / users / requirements. 
+> Maybe requirements are defined somewhere cleanly and I missed them.
+
+That part is entirely fair, the requirements would be as follows:
+
+- we need to be able to control precisely across the available DRAM 
+range which specific PFNs fall within specific zones, and the 
+consequence is that we should also be able to have a non-monotonically 
+increasing definition of zones such that there is an appropriate balance 
+between zones and the underlying PFNs / backing DRAM controller instance
+
+- device driver(s) should be able to be allocate (via 
+alloc_contig_range() and friends) memory from specific regions of DRAM 
+which should be covered by an underlying zone/fallback/migrate set of 
+heuristics which maximizes the re-use of such memory when the driver is 
+not using it
+
+- the underlying zone/fallback/migrate type heuristics should not 
+"excessively" memory in reserve (CMA I am looking at you) but rather 
+should allow for all of the memory in ideal conditions to be "claimed" 
+by the device driver(s) if they desire so
+
+- it is acceptable to spend time compacting/reclaiming memory under 
+tight memory pressure since the transitions requiring said driver(s) to 
+allocate are slow path/control events
+
+We have other "soft" requirements which are mainly logistical such that:
+
+- the least amount of files are changed
+
+- there is no need for custom user-space to be running in order to 
+set-up the regions, aka plug & play is highly desirable
+
+- there is no dependency upon CONFIG_NUMA in order to simplify the 
+deployment
+
+- there is no overhead to the other users of the patch set and the 
+behavior is entirely opt-in
+
+> 
+> If we have clear requirements, we can talk about possible solutions. If 
+> we have a specific solution, it's harder to talk about requirements.
+> 
+>>  >>
+>>> I'm not convinced that these intrusive changes are worth it at this
+>>> point. Further, some of the assumptions (ZONE_MOVABLE == user space) are
+>>> not really future proof as I raised.
 >>
->> Is this compromise terrible and I should give up on the enum?
-> 
-> You know, I've seen this pattern in the kernel and never thought
-> too much about why it was done.  Maybe this is exactly the reason.
-> 
-> It sure *seems* like there might be some macro magic that might
-> cause the enum symbol's numeric value to be used but I think the
-> problem is that enums are C tokens, which are not evaluated at
-> preprocessor time.
-> 
-> You could probably skip the leading underscore, and do this as
-> it's done for nfnetlink_groups in that same header file.
-> 
-> Maybe somebody else can confirm, or has a better suggestion.
-> 
-
-In the preprocessor macro case, the preprocessor macro GH_FN_VCPU 
-expands to the GH_FN_VCPU enum value and stuck back as if I didn't have 
-the preprocessor macro in first place. I'm not sure why the preprocessor 
-macros are done for nfnetlink_groups. I saw one case where enum 
-kvm_device_type does the same, but that might be done because it was 
-converting preprocessor macro to enum.
-
-Just a guess -- maybe the preprocessor macro was preserved to support 
-userspace code doing this?
-
-#ifdef KVM_DEV_TYPE_FSL_MPIC_20
-...
-#endif
-
->                      -Alex
-> 
-> 
->> enum gh_fn_type {
->> /* _GH_FN_* macro required for MODULE_ALIAS, otherwise __stringify() 
->> trick
->>   * won't work anymore */
->> #define _GH_FN_VCPU        1
->>      GH_FN_VCPU        = _GH_FN_VCPU,
->> #define _GH_FN_IRQFD        2
->>      GH_FN_IRQFD        = _GH_FN_IRQFD,
->> #define _GH_FN_IOEVENTFD    3
->>      GH_FN_IOEVENTFD        = _GH_FN_IOEVENTFD,
->> };
+>> I find this patch set reasonably small in contrast to a lot of other mm/
+>> changes, what did you find intrusive specifically?
 >>
->>> [snip]
->>>
->>>>> +
->>>>> +/*
->>>>> + * Gunyah presently sends max 4 bytes of exit_reason.
->>>>> + * If that changes, this macro can be safely increased without 
->>>>> breaking
->>>>> + * userspace so long as struct gh_vcpu_run < PAGE_SIZE.
->>>>
->>>> Is PAGE_SIZE allowed to be anything other than 4096 bytes?  Do you
->>>> expect this driver to work properly if the page size were configured
->>>> to be 16384 bytes?  In other words, is this a Gunyah constant, or
->>>> is it *really* the page size configured for Linux?
->>>>
->>>
->>> Our implementations are only doing 4096 bytes. I expect the driver to 
->>> work properly when using 16k pages. This really is a Linux page. It's 
->>> a reflection of the alloc_page in gh_vcpu_bind().
->>>
->>> The exit reason is copied from hypervisor into field accessible by 
->>> userspace directly. Gunyah makes the exit reason size dynamic -- 
->>> there's no architectural limitation preventing the exit reason from 
->>> being a string or some lengthy data.
->>>
->>> As I was writing this response, I realized that I should be able to 
->>> make this a zero-length array and ensure that reason[] doesn't 
->>> overflow PAGE_SIZE...
->>>
->>> The comment was trying to explain that Linux itself imposes a 
->>> limitation on the maximum exit reason size. If we need to support 
->>> longer exit reason, we're OK to do so long as the total size doesn't 
->>> overrun PAGE_SIZE. There aren't any plans to need longer exit reasons 
->>> than the 8 bytes mentioned today.
->>>
->>> Thanks,
->>> Elliot
+>> AFAICT, there only assumption that is being made is that ZONE_MOVABLE
+>> contains memory that can be moved, but even if it did not in the future,
+>> there should hopefully be enough opportunities, given a large enough DMB
+>> region to service the allocation requests of its users. I will go back
+>> and read your comment to make sure I don't misunderstand it.
 > 
+> Let me clarify what ZONE_MOVABLE can and cannot do:
+> 
+> * We cannot assume that specific user space allocations are served from
+>    it, neither can we really modify behavior.
+> * We cannot assume that user space allocations won't be migrated off
+>    that zone to another zone.
+> * We cannot assume that no other (kernel) allocations will end up on it.
+> * We cannot make specific processes preferably consume memory from it.
+> 
+> Designing a feature that relies on any of these assumptions is IMHO wrong.
+> 
+> If you want an application to consume memory from a specific address 
+> range, there are some possible ways I can see:
+> 
+> (1) Model the special memory areas using fake NUMA nodes. e.g., mbind()
+>      the applications to these nodes. Use ZONE_MOVABLE to make sure we
+>      don't get unmovable allocations. The buddy will take care of it.
+> (2) Use some driver that manages that memory and provides that memory
+>      to an application by mmap()'ing it. The buddy won't manage it (no
+>      swap, migration ...). DEVDAX is one possible such driver.
+> (3) Use hugetlb and reserve them from the selected memory ranges.
+>      Make the application consume these hugetlb pages.
+> 
+> For a single node, without a special driver, it gets more complicated: 
+> We'd need new way to tell the buddy that these memory ranges are 
+> "special". I don't want to use the word "new zone" but that's most 
+> likely what it would have to be. Further, one would need a way to 
+> specify that only specific allocations should end up on these ranges.
+> 
+> Maybe I'm overthinking this. Having clear requirements such that we can 
+> try discussing solutions and exploring alternatives would be great.
+
+This was helpful. We do not need or want to control precisely or exactly 
+where and how applications are allocating memory from, we just need the 
+kernel to do a good enough job at re-using the memory defined in 
+ZONE_MOVABLE when there is no other consumer of the memory residing 
+there. We are perfectly fine with a rather opportunistic and not 
+deterministic approach as it does not require any specific support on 
+the user-space side. For instance using page_alloc.shuffle=1 as Doug 
+showed would be entirely acceptable even if it is fairly naive currently.
+
+Hope this helps.
+-- 
+Florian
+
