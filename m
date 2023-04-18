@@ -2,105 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE11C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 09:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDA74C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 09:33:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230340AbjDRJLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 05:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49128 "EHLO
+        id S231335AbjDRJdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 05:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230352AbjDRJLv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 05:11:51 -0400
-Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF6B10E0;
-        Tue, 18 Apr 2023 02:11:50 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by sonata.ens-lyon.org (Postfix) with ESMTP id 175AE20180;
-        Tue, 18 Apr 2023 11:11:49 +0200 (CEST)
-Received: from sonata.ens-lyon.org ([127.0.0.1])
-        by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id bKQ3-A0V8pgX; Tue, 18 Apr 2023 11:11:48 +0200 (CEST)
-Received: from begin.home (apoitiers-658-1-118-253.w92-162.abo.wanadoo.fr [92.162.65.253])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by sonata.ens-lyon.org (Postfix) with ESMTPSA id B380620177;
-        Tue, 18 Apr 2023 11:11:48 +0200 (CEST)
-Received: from samy by begin.home with local (Exim 4.96)
-        (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1pohNM-00BMWM-0m;
-        Tue, 18 Apr 2023 11:11:48 +0200
-Date:   Tue, 18 Apr 2023 11:11:48 +0200
-From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
-To:     Guillaume Nault <gnault@redhat.com>
-Cc:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
-Message-ID: <20230418091148.hh3b52zceacduex6@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Guillaume Nault <gnault@redhat.com>,
-        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230416220704.xqk4q6uwjbujnqpv@begin>
- <ZD5V+z+cBaXvPbQa@debian>
- <20230418085323.h6xij7w6d2o4kxxi@begin>
- <ZD5dqwPblo4FOex1@debian>
+        with ESMTP id S230123AbjDRJdq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 05:33:46 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F306A77
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 02:33:42 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4edcc885d8fso487317e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 02:33:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681810421; x=1684402421;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L5WXOPB3Y4MTTwsxf9PWuOZ+BaBJ0YphlGsakZvJs+w=;
+        b=piROnxjik+2/8Dv62cOus3n34UMiSOvIvZIPF9eI7/ArQzcwp1nxufhHkwzt+FRGI2
+         IPzl1e5Gb4zQMqV0EAGwCWRirvfvzG3+pk29rhByc6tDVmi85gF1LPsglMQNF2ELFvp2
+         3+xeWPl5d44dyiCVqBafSn8m0Z5NT9YZyhx+XYARcd27up8nO0VU1Fnq+cwjutZwF042
+         yCyd9WJtVEM4sBHZvNIIiPuthDLI5jBjC9LSrrMSh0ll/q3jA04OzjXUs8puGbEboSQ4
+         Tu4c1VbEjk5j2xtTavHalPvjWr9pQGn0XQ2hIhYwVWQN/UpQfIJjux/G7HI3F73/2jQu
+         kTRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681810421; x=1684402421;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L5WXOPB3Y4MTTwsxf9PWuOZ+BaBJ0YphlGsakZvJs+w=;
+        b=ZcELRjEv+iY+wsg2j8r8r6+sDs4CQ80q6fccd63qRvTOTh7eGAoFA4Vy/PCT39cvzr
+         W5zwtZUWrIgmVBvKjRLN3woXuKtKCgTPSul5k4wq/qheS19L/mEit1VhKuKwGuHRFxms
+         Xti7CiGISa/S66UqcAmp2ErcmOUkVOtLqRHNhvNQRapiykgElwdaUW4pN45whrr9Ihmd
+         dYlfmAvcnVAGFMYFqgGWlqb5u0ilHB+IJ+3RKARV4GmF2KajmQvNn0o7Iql3lYH0CATQ
+         YfpPDxcqgXgfvWs8xo7TM9snwp/+mQAlAtHmxwLyUJiTTEiMtq1eySNPBYcJF+l19N1Y
+         JZLQ==
+X-Gm-Message-State: AAQBX9dHywtySh5+L0zKvvGOqb281LZP4B1HIYGjfhPyw6H6pkYlAhmm
+        cN5vyLHaS6qOauTAXOxGgp0fVw==
+X-Google-Smtp-Source: AKy350YfDnqx0ekmnOPKbiqhXQUmmKOiIzrPgd/oF+uGgWd9KFMGoFe5h5owEJ0XYWkDm/hdL7V4iw==
+X-Received: by 2002:ac2:51b3:0:b0:4ec:a18e:f985 with SMTP id f19-20020ac251b3000000b004eca18ef985mr2854150lfk.13.1681810420962;
+        Tue, 18 Apr 2023 02:33:40 -0700 (PDT)
+Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
+        by smtp.gmail.com with ESMTPSA id f15-20020ac251af000000b004dc4becfcd6sm2319201lfk.54.2023.04.18.02.33.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Apr 2023 02:33:40 -0700 (PDT)
+Message-ID: <a0518750-367d-5ec9-f49f-77e90d51cbf5@linaro.org>
+Date:   Tue, 18 Apr 2023 11:33:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZD5dqwPblo4FOex1@debian>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RFC 0/3] drm: Add comm/cmdline fdinfo fields
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Chia-I Wu <olvaffe@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <freedreno@lists.freedesktop.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sean Paul <sean@poorly.run>
+References: <20230417201215.448099-1-robdclark@gmail.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230417201215.448099-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Guillaume Nault, le mar. 18 avril 2023 11:06:51 +0200, a ecrit:
-> On Tue, Apr 18, 2023 at 10:53:23AM +0200, Samuel Thibault wrote:
-> > Guillaume Nault, le mar. 18 avril 2023 10:34:03 +0200, a ecrit:
-> > > On Mon, Apr 17, 2023 at 12:07:04AM +0200, Samuel Thibault wrote:
-> > > >          sax.sa_family = AF_PPPOX;
-> > > >          sax.sa_protocol = PX_PROTO_OL2TP;
-> > > >          sax.pppol2tp.fd = tunnel_fd;
-> > > > @@ -406,12 +407,64 @@ Sample userspace code:
-> > > >          /* session_fd is the fd of the session's PPPoL2TP socket.
-> > > >           * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
-> > > >           */
-> > > > -        fd = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
-> > > > -        if (fd < 0 ) {
-> > > > +        ret = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
-> > > > +        if (ret < 0 ) {
-> > > 
-> > > Now you also need to close session_fd.
-> > 
-> > ? No, we need it for PPPIOCGCHAN, and also PPPIOCGL2TPSTATS.
+Looks like the 'PATCH' part of your subject was cut off!
+
+Konrad
+
+On 17.04.2023 22:12, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> connect() failed. You can't do anything with this socket.
-
-Ah, you were talking about the failure case, ok.
-
-> > > > +The ppp<ifunit> interface can then be configured as usual with SIOCSIFMTU,
-> > > > +SIOCSIFADDR, SIOCSIFDSTADDR, SIOCSIFNETMASK, and activated by setting IFF_UP
-> > > > +with SIOCSIFFLAGS
-> > > > +
-> > > > +  - Tunnel switching is supported by bridging channels::
-> > > 
-> > > This is a PPP feature not an L2TP one.
-> > > 
-> > > PPPIOCBRIDGECHAN's description
-> > > belongs to Documentation/networking/ppp_generic.rst, where it's already
-> > > documented.
-> > 
-> > Yes but that's hard to find out when you're looking from the L2TP end.
+> When many of the things using the GPU are processes in a VM guest, the
+> actual client process is just a proxy.  The msm driver has a way to let
+> the proxy tell the kernel the actual VM client process's executable name
+> and command-line, which has until now been used simply for GPU crash
+> devcore dumps.  Lets also expose this via fdinfo so that tools can
+> expose who the actual user of the GPU is.
 > 
-> That's why I proposed linking to ppp_generic.rst.
-
-Yes, but it's still not obvious to L2TP people that it's a ppp channel
-that you have to bridge. Really, having that 20-line snippet available
-would have saved me some head-scratching time.
-
-Samuel
+> Rob Clark (3):
+>   drm/doc: Relax fdinfo string constraints
+>   drm/msm: Rework get_comm_cmdline() helper
+>   drm/msm: Add comm/cmdline fields
+> 
+>  Documentation/gpu/drm-usage-stats.rst   | 37 +++++++++++++++----------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +--
+>  drivers/gpu/drm/msm/msm_drv.c           |  2 ++
+>  drivers/gpu/drm/msm/msm_gpu.c           | 27 +++++++++++++-----
+>  drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++--
+>  drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
+>  6 files changed, 58 insertions(+), 25 deletions(-)
+> 
