@@ -2,148 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B18C77B7D
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 15:26:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F8BC77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 16:43:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbjDRP0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 11:26:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44086 "EHLO
+        id S232541AbjDRQnZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 12:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231536AbjDRP0p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 11:26:45 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98A3812C90
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 08:26:23 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id u3so22224083ejj.12
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 08:26:23 -0700 (PDT)
+        with ESMTP id S232549AbjDRQnW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 12:43:22 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA5210277
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 09:43:19 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1a6670671e3so19996945ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 09:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681831582; x=1684423582;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s9M4Cy3RAneTyQNPZZI73IssUJ+/tbZ24lCmil8/wy0=;
-        b=htQXPSbwfbKehEj5O/7VedrIOI3id8b1ElfrdoQSSii8SiWKOLqlzSn6hWxhFIS8dg
-         4oqduLcxCDchk60CK9IA7cQrPgG2/ON/bOhTOkF72rA/FpQq8gkL8nH0c5u/XUvbfwoG
-         Lx1nWaGc9ruXXr9Vks/3SYMXKpEIjNpC3N1/neydjeKlWS/OAOJEvpg/P2djaizMOdDb
-         c7zkFjq7XmHLex1XKayPQHWTKnuyxqHZ420lhoLFaygx5xwDvU5uPIx192J6wf2NyNUs
-         B5Zz/GRuXQcipbrTJf+oyjWtJdDMJsnO7bzm87XX/sdMFXYNn2xkljaBlbJTSAAG9UuB
-         VvDA==
+        d=atishpatra.org; s=google; t=1681836199; x=1684428199;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EI0tXRwzJg1CxP2c/386HAhch5rVHFdN2/6jKvh2HxM=;
+        b=GkX06FUQ//rDOHadMgR8CxNTR8YS+xZB3cC9uP9/mD2fk0SxJVeaYx9NRU60KH0iZN
+         ck0EvZyVCu3Mi1tDqVXymDudsuoDaVhE1Q00Y6Lsx4oD5ylHi3J+D/Mh5LJ3f5RG1A8q
+         OFli+ciVF67TPTeFFb5kGKCqA7DLYPehR+w4A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681831582; x=1684423582;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s9M4Cy3RAneTyQNPZZI73IssUJ+/tbZ24lCmil8/wy0=;
-        b=cj1AuiSA+BPoGVREZ/uBmaqAwLTwrzLNAHDIDdMZTi4eVrbHftgnP7eegvQGCI8KSN
-         bc+6o94yHdYK4u4lcPnMHY5LwawLu/3EdhrnNZFUhrc0N60H5401ioiYFlLH0xNcoiNU
-         JqbG4oh6ENapLNaM4GgDfV+1EgPA3wk+3Fi7nzeABOS96ecSQ2getz70JNGzVRmgexim
-         ZMDNSKbK3dgK26OpJ/FZ6a96mOd9eJnWDk6hrI6jBB60nU0dttit6PKJl1nRanWPKXUM
-         ro2/vg5E99+LX2mwyZsDzC8XfmvpgxT5j1qnT6+L1BneGwvfEnOG+LJWGqoqbC5vpuj8
-         HBMQ==
-X-Gm-Message-State: AAQBX9dJ6uw1Q2DuSezbkaaG90p0zvXEE+H7L7Vu7YehDeS1oxWvr/fN
-        WHesZw3yLgSHQbCehJXwOZ6Ajg==
-X-Google-Smtp-Source: AKy350Y55KT8s6wtLY+JUO1aCm8Wql7NeBtVJbi/L7pgsU7v6MZvKexJNZSfPBUyTFJDx+wtKF8qXQ==
-X-Received: by 2002:a17:907:918c:b0:94d:f66c:3cdc with SMTP id bp12-20020a170907918c00b0094df66c3cdcmr9596474ejb.51.1681831582049;
-        Tue, 18 Apr 2023 08:26:22 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id gv35-20020a1709072be300b0094f07545d43sm5646849ejc.188.2023.04.18.08.26.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 08:26:21 -0700 (PDT)
-Message-ID: <bd7ad4a2-3cd0-9d6e-00b8-5592c67d7205@linaro.org>
-Date:   Tue, 18 Apr 2023 16:26:20 +0100
+        d=1e100.net; s=20221208; t=1681836199; x=1684428199;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EI0tXRwzJg1CxP2c/386HAhch5rVHFdN2/6jKvh2HxM=;
+        b=DV/h6qNly5wwPPB5YI3EJona4/+AuBsg9FLtJfGhmx+LLNyonmTZTJup6lM6fw2tEk
+         AeOSaZ+0JOpQR53PJPM8jh8OZUAUp9VcYKMZxgEX6myQFkJoCkcvWUn9kehyZvOXL4BI
+         qTB5UTiB2YetqygvmkkFRD9tgPcE7FJRe5yGQbnXt0osiDTNO5ZnVkSVLVk1Zb+UM3NF
+         phxCYeYCAiKr6kQC+An7h/aPSJqWiFIZLyx5152n2DwG8BWSKNRnKdMclQwRH1LC+6if
+         ONQ1s532BUhggl7GyJ44ad93jVVYm1Hj+66BaRT54dWlaoGH7iVjwWwZoIQf6cYqiiGn
+         cc9w==
+X-Gm-Message-State: AAQBX9dTQ/c5m2BzNEbYsEN22IXtpvjdFdUmZmNco3HUd/OP7kcjg6AI
+        VlrMTv9f8kdjA8IwpWs4X6HAQCJ+TmU+F31vVfV8
+X-Google-Smtp-Source: AKy350aVTDS4DC0sb8DZUPCXT0pwXJk0a0YNagw4pCKeLGyY+nYagZ7EbBKNjrvMvF/PkOAWLbNhYq7mBdKN1K9PSvc=
+X-Received: by 2002:a17:903:2346:b0:1a6:4543:d295 with SMTP id
+ c6-20020a170903234600b001a64543d295mr1115236plh.5.1681836199357; Tue, 18 Apr
+ 2023 09:43:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/6] docs: qcom: Add qualcomm minidump guide
-Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        catalin.marinas@arm.com, will@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Brian Masney <bmasney@redhat.com>
-References: <1679491817-2498-1-git-send-email-quic_mojha@quicinc.com>
- <1679491817-2498-4-git-send-email-quic_mojha@quicinc.com>
- <24ec8534-60a4-b308-0831-9ab6b983d902@linaro.org>
- <55d3dc01-8909-db69-fbac-60e7636febdc@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <55d3dc01-8909-db69-fbac-60e7636febdc@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230413161725.195417-1-alexghiti@rivosinc.com>
+ <CAOnJCU+72PV1=o1c_TpogkmBT36278BneVWEMr1=tqX0CZi+ag@mail.gmail.com> <aadca595b4a24e36932ba41e61f4e263@AcuMS.aculab.com>
+In-Reply-To: <aadca595b4a24e36932ba41e61f4e263@AcuMS.aculab.com>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Tue, 18 Apr 2023 22:13:07 +0530
+Message-ID: <CAOnJCUJ7mY+fh9VqE4dRntnVAEAc26=NnOCPUqkXk6ky__cUZQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] riscv: Allow userspace to directly access perf counters
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Apr 14, 2023 at 2:40=E2=80=AFAM David Laight <David.Laight@aculab.c=
+om> wrote:
+>
+> From: Atish Patra
+> > Sent: 13 April 2023 20:18
+> >
+> > On Thu, Apr 13, 2023 at 9:47=E2=80=AFPM Alexandre Ghiti <alexghiti@rivo=
+sinc.com> wrote:
+> > >
+> > > riscv used to allow direct access to cycle/time/instret counters,
+> > > bypassing the perf framework, this patchset intends to allow the user=
+ to
+> > > mmap any counter when accessed through perf. But we can't break the
+> > > existing behaviour so we introduce a sysctl perf_user_access like arm=
+64
+> > > does, which defaults to the legacy mode described above.
+> > >
+> >
+> > It would be good provide additional direction for user space packages:
+> >
+> > The legacy behavior is supported for now in order to avoid breaking
+> > existing software.
+> > However, reading counters directly without perf interaction may
+> > provide incorrect values which
+> > the userspace software must avoid. We are hoping that the user space
+> > packages which
+> > read the cycle/instret directly, will move to the proper interface
+> > eventually if they actually need it.
+> > Most of the users are supposed to read "time" instead of "cycle" if
+> > they intend to read timestamps.
+>
+> If you are trying to measure the performance of short code
+> fragments then you need pretty much raw access directly to
+> the cycle/clock count register.
+>
+> I've done this on x86 to compare the actual cycle times
+> of different implementations of the IP checksum loop
+> (and compare them to the theoretical limit).
+> The perf framework just added far too much latency,
+> only directly reading the cpu registers gave anything
+> like reliable (and consistent) answers.
+>
+
+This series allows direct access to the counters once configured
+through the perf.
+Earlier the cycle/instret counters are directly exposed to the
+userspace without kernel/perf frameworking knowing
+when/which user space application is reading it. That has security implicat=
+ions.
+
+With this series applied, the user space application just needs to
+configure the event (cycle/instret) through perf syscall.
+Once configured, the userspace application can find out the counter
+information from the mmap & directly
+read the counter. There is no latency while reading the counters.
+
+This mechanism allows stop/clear the counters when the requesting task
+is not running. It also takes care of context switching
+which may result in invalid values as you mentioned below. This is
+nothing new and all other arch (x86, ARM64) allow user space
+counter read through the same mechanism.
+
+Here is the relevant upstream discussion:
+https://lore.kernel.org/lkml/Y7wLa7I2hlz3rKw%2F@hirez.programming.kicks-ass=
+.net/T/
+
+ARM64:
+https://docs.kernel.org/arm64/perf.html?highlight=3Dperf_user_access#perf-u=
+serspace-pmu-hardware-counter-access
+
+example usage in x86:
+https://github.com/andikleen/pmu-tools/blob/master/jevents/rdpmc.c
+
+> Clearly process switches (especially cpu migrations) cause
+> problems, but they are obviously invalid values and can
+> be ignored.
+>
+> So while a lot of uses may be 'happy' with the values the
+> perf framework gives, sometimes you do need to directly
+> read the relevant registers.
+>
+>         David
+>
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1=
+ 1PT, UK
+> Registration No: 1397386 (Wales)
 
 
-On 18/04/2023 16:19, Mukesh Ojha wrote:
-> +@Brian
-> 
-> On 4/14/2023 4:01 AM, Srinivas Kandagatla wrote:
->>
->>
->> On 22/03/2023 13:30, Mukesh Ojha wrote:
->>> +Dump collection
->>> +---------------
->>> +
->>> +The solution supports extracting the minidump produced either over 
->>> USB or
->>> +stored to an attached storage device.
->>> +
->>> +By default, dumps are downloaded via USB to the attached x86_64 machine
->>> +running PCAT (Qualcomm tool) software. Upon download, we will see
->>
->> Are these both PCAT and dexter tools public?
-> 
-> I think, PCAT comes as part of Qcom Package Kit.
 
-yes, this is part of Qualcomm Package Manager.
-
-> 
-> Last time, I checked with @Brian, he was saying the they use PCAT 
-> software tool running on x86_64 machine attached to QCOM device to
-> get the dump(via USB) out of the device.
-> 
-> Dexter.exe seems private tool, that only requires if we use storage
-> (via ufs/emmc) to save minidump on the target device itself and later 
-> use adb to pull out the rawdump partition dump and pass it through
-> dexter to convert it to same binary blobs which we got directly through
-> PCAT.
-> 
-> I don't at least have any way to avoid dexter tool at the moment.
-> However, i will think if we can develop any script which does the
-> same.
-That would be nice!
-
---srini
-> 
-> -- Mukesh
-> 
->>
->> --srini
->>> +a set of binary blobs starts with name md_* in PCAT configured 
->>> directory
->>> +in x86_64 machine, so for above example from the client it will be
->>> +md_REGION_A.BIN. This binary blob depends on region content to 
->>> determine
->>> +whether it needs external parser support to get the content of the 
->>> region,
->>> +so for simple plain ASCII text we don't need any parsing and the 
->>> content
->>> +can be seen just opening the binary file.
->>> +
->>> +To collect the dump to attached storage type, one need to write 
->>> appropriate
->>> +value to IMEM register, in that case dumps are collected in rawdump
->>> +partition on the target device itself.
->>> +
->>> +One need to read the entire rawdump partition and pull out content to
->>> +save it onto the attached x86_64 machine over USB. Later, this rawdump
->>> +can be pass it to another tool dexter.exe(Qualcomm tool) which converts
->>> +this into the similar binary blobs which we have got it when 
->>> download type
->>> +was set to USB i.e a set of registered region as blobs and their name
->>> +starts with md_*.
->>> -- 2.7.4
+--=20
+Regards,
+Atish
