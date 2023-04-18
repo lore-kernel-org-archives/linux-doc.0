@@ -2,90 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA845C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 08:15:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A054C77B71
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 08:20:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbjDRIPE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 04:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57864 "EHLO
+        id S230359AbjDRIUB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 04:20:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230253AbjDRIPD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 04:15:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C898BB0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 01:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681805648;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EGmsPhYqXkM4h3lS3j2J6rFOa5Kg9NoDZ6FuRnesr/A=;
-        b=iaw/6TJLdbYvGXwx0bXs16DbnLaz1v+KxiwzeqCt9LxH/B7XarWtg3YNX6z+55zdi5qxwh
-        0PeVLrLUjavEZJx/bm8gw5KMtU1BEBmwgzn3xhHqoHgHIiHqq8TxUCRnNbok4pW9BUlgHz
-        V1rsLqcs4w6b7vV3DoFzx3Wbh9a4UhE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-447-OZFrH3MTOjeBnujwNbIirQ-1; Tue, 18 Apr 2023 04:14:05 -0400
-X-MC-Unique: OZFrH3MTOjeBnujwNbIirQ-1
-Received: by mail-wm1-f72.google.com with SMTP id c20-20020a05600c171400b003f173d94427so2393268wmn.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 01:14:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681805644; x=1684397644;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EGmsPhYqXkM4h3lS3j2J6rFOa5Kg9NoDZ6FuRnesr/A=;
-        b=Rc5mfmNaeB4haaBXr8hEAd6IfQ+owfgupTS2BtJpppcSVyKI9HtBSqg85F7ZtiAm3n
-         AoZLtFf2UhvJOGkXsdGqbdxMvW/ulq0FUHJ0s94Q57YkrNlVN8NfpLD+J6a5IajdChXX
-         otqXDqmzQfgNVxds4GQ/jRjPASsCThJfRFsz/Fj1CTV666hFxug/ct4Z76viFXYh03rC
-         lZlxze3fVix2awIjHv7B81c9kaVUug94n3jjVxs3mnV4+HcKGcI4069I9sfsV8dqIVQC
-         A5Y6nZs2Ns4PUwf7LQqKuXflL1aSlLgq8kY2H4kmBj9xtaagjrvCpaylWEEJJC2n2DU1
-         WHhw==
-X-Gm-Message-State: AAQBX9fUvGfRUUB9HOTCz4zJ9HdDUSID97A9/pz+m7RmTp7DImgtAR9v
-        KVQyFCcXSZG4vpQwwfI/DZj6Oa2pDQd7WffH5yGbcHm6m2T23snX28679DLduBxap4eHWMZz680
-        +QyKHActHdGrdZN0Up3SD
-X-Received: by 2002:a7b:cc94:0:b0:3f0:5beb:6f0 with SMTP id p20-20020a7bcc94000000b003f05beb06f0mr12966604wma.18.1681805644137;
-        Tue, 18 Apr 2023 01:14:04 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aA7v1tMPmHJ6euPAD3upj/mGQ0RZG5O7DSucBbGroxI9JcIp3kDKJehA+p1y5A4FmxtBeLPQ==
-X-Received: by 2002:a7b:cc94:0:b0:3f0:5beb:6f0 with SMTP id p20-20020a7bcc94000000b003f05beb06f0mr12966578wma.18.1681805643836;
-        Tue, 18 Apr 2023 01:14:03 -0700 (PDT)
-Received: from debian ([92.62.32.42])
-        by smtp.gmail.com with ESMTPSA id q25-20020a05600c331900b003f17b91c3adsm90863wmp.28.2023.04.18.01.14.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 01:14:03 -0700 (PDT)
-Date:   Tue, 18 Apr 2023 10:14:00 +0200
-From:   Guillaume Nault <gnault@redhat.com>
-To:     Dominique Martinet <asmadeus@codewreck.org>
-Cc:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
-Message-ID: <ZD5RSOrpUusamkQv@debian>
-References: <20230416220704.xqk4q6uwjbujnqpv@begin>
- <ZDx2IUYTmLSdzU6D@codewreck.org>
+        with ESMTP id S230244AbjDRIUA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 04:20:00 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9EA420F;
+        Tue, 18 Apr 2023 01:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681805995; x=1713341995;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BUDt7Leg5YNsBfAufyHE9J891sNBSaCcNnWZI81W9tU=;
+  b=WkLhIT85YvgBF50wY9kqg5NxFibXE6b84JSq2/dM0HYORnLx/YPEYLJK
+   xzRKiSOEh1dNQY0uFc4Cp4e8VMJ+2CN1lkshpVC6inFbaZp63ToVRR/f9
+   dWYvn4ooUKAO3Y2z6x9ZMgBcSp1ClNdbhfhYa3s/y54AtkwEUdcwbcDQ6
+   vWn3yRs01mrD3JfEbDajxYT9dyUw+YJVivga4BsHw/wyLM4vAkBams79A
+   SIfpQUDN7y138rLCbEVk5Nylbwpz7/xtVKedJ/I4c+KmsdpaS0o/aRi1L
+   zF+OOopLMlKF654vhabM0A7ZSOaQD3kMRRHQf3x8bC58XQz5G52D1zYOD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347858338"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="347858338"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 01:19:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="641288458"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="641288458"
+Received: from dilipban-mobl.ger.corp.intel.com (HELO [10.213.234.43]) ([10.213.234.43])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 01:19:51 -0700
+Message-ID: <a3edcd53-bcbe-7408-100c-3db52c897a18@linux.intel.com>
+Date:   Tue, 18 Apr 2023 09:19:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZDx2IUYTmLSdzU6D@codewreck.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC 1/3] drm/doc: Relax fdinfo string constraints
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     Rob Clark <robdclark@chromium.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20230417201215.448099-1-robdclark@gmail.com>
+ <20230417201215.448099-2-robdclark@gmail.com>
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230417201215.448099-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 07:26:41AM +0900, Dominique Martinet wrote:
-> Samuel Thibault wrote on Mon, Apr 17, 2023 at 12:07:04AM +0200:
-> (That somewhat makes it sounds like the "new" netlink interface cannot
-> be used (e.g. ip command); although I guess sommeone implementing this
-> would be more likely to use the ioctls than not so having the names can
-> be a timesaver?)
 
-I don't understand what you mean by 'the "new" netlink interface'. You
-can create a PPP interface either with the PPPIOCNEWUNIT ioctl or with
-netlink. But no matter how you create it, you need a /dev/ppp file
-descriptor associated to the PPP network device. Other than that, and
-no matter how you create them, PPP network devices can be used and
-configured like any other network interface. You absolutely can use
-"ip link" to manage you ppp interfaces.
+On 17/04/2023 21:12, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The restriction about no whitespace, etc, really only applies to the
+> usage of strings in keys.  Values can contain anything (other than
+> newline).
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   Documentation/gpu/drm-usage-stats.rst | 29 ++++++++++++++-------------
+>   1 file changed, 15 insertions(+), 14 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index 258bdcc8fb86..8e00d53231e0 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -24,7 +24,7 @@ File format specification
+>   - All keys shall be prefixed with `drm-`.
+>   - Whitespace between the delimiter and first non-whitespace character shall be
+>     ignored when parsing.
+> -- Neither keys or values are allowed to contain whitespace characters.
+> +- Keys are not allowed to contain whitespace characters.
+>   - Numerical key value pairs can end with optional unit string.
+>   - Data type of the value is fixed as defined in the specification.
+>   
+> @@ -39,12 +39,13 @@ Data types
+>   ----------
+>   
+>   - <uint> - Unsigned integer without defining the maximum value.
+> -- <str> - String excluding any above defined reserved characters or whitespace.
+> +- <keystr> - String excluding any above defined reserved characters or whitespace.
+> +- <valstr> - String.
 
+Makes sense I think. At least I can't remember that I had special reason 
+to word it as strict as it was. Lets give it some time to marinade so 
+for later:
+
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Regards,
+
+Tvrtko
+
+>   
+>   Mandatory fully standardised keys
+>   ---------------------------------
+>   
+> -- drm-driver: <str>
+> +- drm-driver: <valstr>
+>   
+>   String shall contain the name this driver registered as via the respective
+>   `struct drm_driver` data structure.
+> @@ -69,10 +70,10 @@ scope of each device, in which case `drm-pdev` shall be present as well.
+>   Userspace should make sure to not double account any usage statistics by using
+>   the above described criteria in order to associate data to individual clients.
+>   
+> -- drm-engine-<str>: <uint> ns
+> +- drm-engine-<keystr>: <uint> ns
+>   
+>   GPUs usually contain multiple execution engines. Each shall be given a stable
+> -and unique name (str), with possible values documented in the driver specific
+> +and unique name (keystr), with possible values documented in the driver specific
+>   documentation.
+>   
+>   Value shall be in specified time units which the respective GPU engine spent
+> @@ -84,16 +85,16 @@ larger value within a reasonable period. Upon observing a value lower than what
+>   was previously read, userspace is expected to stay with that larger previous
+>   value until a monotonic update is seen.
+>   
+> -- drm-engine-capacity-<str>: <uint>
+> +- drm-engine-capacity-<keystr>: <uint>
+>   
+>   Engine identifier string must be the same as the one specified in the
+> -drm-engine-<str> tag and shall contain a greater than zero number in case the
+> +drm-engine-<keystr> tag and shall contain a greater than zero number in case the
+>   exported engine corresponds to a group of identical hardware engines.
+>   
+>   In the absence of this tag parser shall assume capacity of one. Zero capacity
+>   is not allowed.
+>   
+> -- drm-memory-<str>: <uint> [KiB|MiB]
+> +- drm-memory-<keystr>: <uint> [KiB|MiB]
+>   
+>   Each possible memory type which can be used to store buffer objects by the
+>   GPU in question shall be given a stable and unique name to be returned as the
+> @@ -126,10 +127,10 @@ The total size of buffers that are purgeable.
+>   
+>   The total size of buffers that are active on one or more rings.
+>   
+> -- drm-cycles-<str>: <uint>
+> +- drm-cycles-<keystr>: <uint>
+>   
+>   Engine identifier string must be the same as the one specified in the
+> -drm-engine-<str> tag and shall contain the number of busy cycles for the given
+> +drm-engine-<keystr> tag and shall contain the number of busy cycles for the given
+>   engine.
+>   
+>   Values are not required to be constantly monotonic if it makes the driver
+> @@ -138,12 +139,12 @@ larger value within a reasonable period. Upon observing a value lower than what
+>   was previously read, userspace is expected to stay with that larger previous
+>   value until a monotonic update is seen.
+>   
+> -- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
+> +- drm-maxfreq-<keystr>: <uint> [Hz|MHz|KHz]
+>   
+>   Engine identifier string must be the same as the one specified in the
+> -drm-engine-<str> tag and shall contain the maximum frequency for the given
+> -engine.  Taken together with drm-cycles-<str>, this can be used to calculate
+> -percentage utilization of the engine, whereas drm-engine-<str> only reflects
+> +drm-engine-<keystr> tag and shall contain the maximum frequency for the given
+> +engine.  Taken together with drm-cycles-<keystr>, this can be used to calculate
+> +percentage utilization of the engine, whereas drm-engine-<keystr> only reflects
+>   time active without considering what frequency the engine is operating as a
+>   percentage of it's maximum frequency.
+>   
