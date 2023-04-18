@@ -2,212 +2,268 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DEACC77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 20:30:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 960E6C6FD18
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 23:40:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbjDRUad (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 16:30:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39458 "EHLO
+        id S231719AbjDRXkn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 19:40:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbjDRUac (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 16:30:32 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F19A266
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 13:30:31 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-517bfdf55c3so1158708a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 13:30:31 -0700 (PDT)
+        with ESMTP id S231740AbjDRXk2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 19:40:28 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ADE11444A
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 16:38:34 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id d2e1a72fcca58-63b68f53fd8so1460753b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 16:38:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1681849831; x=1684441831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=758KJFnubLFSsZj7NLSbl2wQ+MQOeQGEXb82zXsrHA8=;
-        b=JKWc07Hsa1AIwKVKIMzXI4sw331w8kX1TDKqtQB//KSPOSUQN+tk39Ofo87lgk87cs
-         A++4AkL4VO7Zo172B6EmKiVr7FrbMePdElPSloCsouI2E/r/+XOY/fDC60aCptlCrI9z
-         Pj+V02e4O7mTkISl5wP8rj3Y1EWU2fzkx9GVY=
+        d=google.com; s=20221208; t=1681861114; x=1684453114;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KZZcbhEIXep3CsDuGt1XX4NDaxpUgfaEfLEdZFPghSQ=;
+        b=hm9bDIHJQIeAjh+0Wi4XwWxk5FEWf9SU2iifaVaFm2SHEQi+MfvRomA6hNFQPypblO
+         ajskHfJ21yXbKIgYGAkYYUqP0Ygv5283TmzvvXkvGPLvNGcY8IspXO87zRQLxoMgm7+A
+         44LeeK44/TjVVWr4ejNfVV1NjMwkMAjVBZwnQccmKfvNgc/rCXeLfUDkrNJrLDo+aM/k
+         5pFpnDDsiw5EE9Dzm//Lga2qY9q3z+kEsegm3Xv/EsUZ8FyYGeSCyJOZ49dURNwlnL2q
+         Y5lq2y1JVNHacWD2DjdNMHYSACvPNhgvLrByCLzQkYOtXAP0CIMW0LotNLXFCHIJamQv
+         WJuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681849831; x=1684441831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=758KJFnubLFSsZj7NLSbl2wQ+MQOeQGEXb82zXsrHA8=;
-        b=JUlfrQwZG7Zg44S5/AqLfYX3PWb8SUz+22OfUX86+vR8niO+svtsXcsuGCIpFzGru9
-         8R9Xz76necENcaxFVSb/utZykrZatYl7xrQQHhd29wO952X/PZJKwUE55S5b4CMxKCys
-         H1Eh/DhLQKrSVMFFUzQnbLZAz90s/z/Fkw4mI9YxhUrKqg215mTiD09xfTl+dgLLQirp
-         aKu7ULEQyqF9YZfwjpcyWrAeH+jwRSSdp9NX2oo3yFqZgBMFKvSgn82cr07dWELqsmis
-         AaXu/f/HSXpf9rELSmcNybzBzEpiyHRXtefeWnULMkD41cWeoD6Qkj4wA6KZLoQ8M+Lh
-         5x8A==
-X-Gm-Message-State: AAQBX9cK5bty0sW2b804cF9rPDw2mdbXSEiADKnobaKWr4kIcNISuAVd
-        PLKrlgBHF8UBImkPcBFtKpr+CkDDOEJG+somsVqm
-X-Google-Smtp-Source: AKy350ZIg+M7FnY7uohsy0MLIS1rdUP3e5Y8mF0C/rJh0Ab5JDC3yj3RoFOx5gy5nC7akfL3LOBt0QioDaAyr1DFD3g=
-X-Received: by 2002:a17:90a:4706:b0:23d:1121:f211 with SMTP id
- h6-20020a17090a470600b0023d1121f211mr293761pjg.5.1681849830738; Tue, 18 Apr
- 2023 13:30:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230413161725.195417-1-alexghiti@rivosinc.com>
- <CAOnJCU+72PV1=o1c_TpogkmBT36278BneVWEMr1=tqX0CZi+ag@mail.gmail.com>
- <aadca595b4a24e36932ba41e61f4e263@AcuMS.aculab.com> <CAOnJCUJ7mY+fh9VqE4dRntnVAEAc26=NnOCPUqkXk6ky__cUZQ@mail.gmail.com>
- <CAP-5=fUYJEecmhQVuvbM4ZoDP_Hj=2RKOgR4cKepU072Uy3xyw@mail.gmail.com>
-In-Reply-To: <CAP-5=fUYJEecmhQVuvbM4ZoDP_Hj=2RKOgR4cKepU072Uy3xyw@mail.gmail.com>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Wed, 19 Apr 2023 02:00:18 +0530
-Message-ID: <CAOnJCULJfSN79MzAwhCrbVzG1rYyrPB3OraFmoZFBxuRCwq01w@mail.gmail.com>
-Subject: Re: [PATCH 0/4] riscv: Allow userspace to directly access perf counters
-To:     Ian Rogers <irogers@google.com>
-Cc:     David Laight <David.Laight@aculab.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        paranlee <p4ranlee@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20221208; t=1681861114; x=1684453114;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KZZcbhEIXep3CsDuGt1XX4NDaxpUgfaEfLEdZFPghSQ=;
+        b=QB5Ha17Mt75E6dFYki3tnMR2kEv22Er7FMjPQRah0WFm3GnbPJUrhbdRek9QK3oFBO
+         T9JKN6caMIy7n21BW07uTnY95UKdCv/H9VtKnwWwx2WTmFacuCpJK40Hr3JE2YloH2iw
+         rsYGcAF1T95eZ7FoeMLe9I8fvGG88Ay0ssQSLttv8ZFIq+He/3O9hN5Om72XwYbgg2Y1
+         JDzcXFZJ8J+A2JWoZhKHQpmSriqUbNQtHoq1eGqhL0im9lM4PVPvfl0RaphO9XyLUYP5
+         8VLK0j19+EHUhsH5hqLg5serfFR2oWXz+oR9d6HV7zm4hqdRygLiC1jXKqazrb/ScB5B
+         7GWA==
+X-Gm-Message-State: AAQBX9dyzxiABPDc5AqjbiUng07Ylj3LzQKopyg8ijCE26PZzRcubFFd
+        N8rbWhjGvIAvugy9awtTAlQ8WtfWeQqY65875g==
+X-Google-Smtp-Source: AKy350Y4yrZy3jVvN3wQp7+RZBqQNJ9wdfC4ADrLjc4RYHgu0a5KoOvNA6U3D5YLtIMfO6ES8yW87Yjz2s2FcMbRug==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a17:903:41c5:b0:19a:7bd4:5b0d with
+ SMTP id u5-20020a17090341c500b0019a7bd45b0dmr1394106ple.8.1681861113900; Tue,
+ 18 Apr 2023 16:38:33 -0700 (PDT)
+Date:   Tue, 18 Apr 2023 23:38:32 +0000
+In-Reply-To: <ZDnAuGKrCO2wgjlG@google.com> (message from Sean Christopherson
+ on Fri, 14 Apr 2023 14:08:08 -0700)
+Mime-Version: 1.0
+Message-ID: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     chao.p.peng@linux.intel.com, xiaoyao.li@intel.com,
+        isaku.yamahata@gmail.com, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, pbonzini@redhat.com, corbet@lwn.net,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
+        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
+        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
+        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
+        vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        kirill.shutemov@linux.intel.com, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
+        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 18, 2023 at 11:46=E2=80=AFPM Ian Rogers <irogers@google.com> wr=
-ote:
->
-> On Tue, Apr 18, 2023 at 9:43=E2=80=AFAM Atish Patra <atishp@atishpatra.or=
-g> wrote:
-> >
-> > On Fri, Apr 14, 2023 at 2:40=E2=80=AFAM David Laight <David.Laight@acul=
-ab.com> wrote:
-> > >
-> > > From: Atish Patra
-> > > > Sent: 13 April 2023 20:18
-> > > >
-> > > > On Thu, Apr 13, 2023 at 9:47=E2=80=AFPM Alexandre Ghiti <alexghiti@=
-rivosinc.com> wrote:
-> > > > >
-> > > > > riscv used to allow direct access to cycle/time/instret counters,
-> > > > > bypassing the perf framework, this patchset intends to allow the =
-user to
-> > > > > mmap any counter when accessed through perf. But we can't break t=
-he
-> > > > > existing behaviour so we introduce a sysctl perf_user_access like=
- arm64
-> > > > > does, which defaults to the legacy mode described above.
-> > > > >
-> > > >
-> > > > It would be good provide additional direction for user space packag=
-es:
-> > > >
-> > > > The legacy behavior is supported for now in order to avoid breaking
-> > > > existing software.
-> > > > However, reading counters directly without perf interaction may
-> > > > provide incorrect values which
-> > > > the userspace software must avoid. We are hoping that the user spac=
-e
-> > > > packages which
-> > > > read the cycle/instret directly, will move to the proper interface
-> > > > eventually if they actually need it.
-> > > > Most of the users are supposed to read "time" instead of "cycle" if
-> > > > they intend to read timestamps.
-> > >
-> > > If you are trying to measure the performance of short code
-> > > fragments then you need pretty much raw access directly to
-> > > the cycle/clock count register.
-> > >
-> > > I've done this on x86 to compare the actual cycle times
-> > > of different implementations of the IP checksum loop
-> > > (and compare them to the theoretical limit).
-> > > The perf framework just added far too much latency,
-> > > only directly reading the cpu registers gave anything
-> > > like reliable (and consistent) answers.
-> > >
-> >
-> > This series allows direct access to the counters once configured
-> > through the perf.
-> > Earlier the cycle/instret counters are directly exposed to the
-> > userspace without kernel/perf frameworking knowing
-> > when/which user space application is reading it. That has security impl=
-ications.
-> >
-> > With this series applied, the user space application just needs to
-> > configure the event (cycle/instret) through perf syscall.
-> > Once configured, the userspace application can find out the counter
-> > information from the mmap & directly
-> > read the counter. There is no latency while reading the counters.
-> >
-> > This mechanism allows stop/clear the counters when the requesting task
-> > is not running. It also takes care of context switching
-> > which may result in invalid values as you mentioned below. This is
-> > nothing new and all other arch (x86, ARM64) allow user space
-> > counter read through the same mechanism.
-> >
-> > Here is the relevant upstream discussion:
-> > https://lore.kernel.org/lkml/Y7wLa7I2hlz3rKw%2F@hirez.programming.kicks=
--ass.net/T/
-> >
-> > ARM64:
-> > https://docs.kernel.org/arm64/perf.html?highlight=3Dperf_user_access#pe=
-rf-userspace-pmu-hardware-counter-access
-> >
-> > example usage in x86:
-> > https://github.com/andikleen/pmu-tools/blob/master/jevents/rdpmc.c
->
-> The canonical implementation of this should be:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/t=
-ools/lib/perf/mmap.c#n400
+Sean Christopherson <seanjc@google.com> writes:
 
-Thanks for sharing the libperf implementation.
+> On Tue, Mar 28, 2023, Chao Peng wrote:
+>> On Fri, Mar 24, 2023 at 10:29:25AM +0800, Xiaoyao Li wrote:
+>> > On 3/24/2023 10:10 AM, Chao Peng wrote:
+>> > > On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
+>> > > > On Wed, Mar 08, 2023 at 03:40:26PM +0800,
+>> > > > Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>> > > >
+>> > > > > On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
+>> > > > > > Chao Peng <chao.p.peng@linux.intel.com> writes:
+>> > > > > >
+>> > > > > > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean  
+>> Christopherson wrote:
+>> > > > > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+>> > > > > > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64  
+>> gpa)
+>> > > > > > > +{
+>> > > > > > > +	if (!offset)
+>> > > > > > > +		return true;
+>> > > > > > > +	if (!gpa)
+>> > > > > > > +		return false;
+>> > > > > > > +
+>> > > > > > > +	return !!(count_trailing_zeros(offset) >=  
+>> count_trailing_zeros(gpa));
+>> > > >
+>> > > > This check doesn't work expected. For example, offset = 2GB,  
+>> gpa=4GB
+>> > > > this check fails.
+>> > >
+>> > > This case is expected to fail as Sean initially suggested[*]:
+>> > >    I would rather reject memslot if the gfn has lesser alignment than
+>> > >    the offset. I'm totally ok with this approach _if_ there's a use  
+>> case.
+>> > >    Until such a use case presents itself, I would rather be  
+>> conservative
+>> > >    from a uAPI perspective.
+>> > >
+>> > > I understand that we put tighter restriction on this but if you see  
+>> such
+>> > > restriction is really a big issue for real usage, instead of a
+>> > > theoretical problem, then we can loosen the check here. But at that  
+>> time
+>> > > below code is kind of x86 specific and may need improve.
+>> > >
+>> > > BTW, in latest code, I replaced count_trailing_zeros() with fls64():
+>> > >    return !!(fls64(offset) >= fls64(gpa));
+>> >
+>> > wouldn't it be !!(ffs64(offset) <= ffs64(gpa)) ?
 
-> which is updated in these patches but the tests are not:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/t=
-ools/perf/tests/mmap-basic.c#n287
-> Which appears to be an oversight. The tests display some differences
+>> As the function document explains, here we want to return true when
+>> ALIGNMENT(offset) >= ALIGNMENT(gpa), so '>=' is what we need.
 
-Yes. It's an oversight. We should make sure that perf mmap tests pass
-for RISC-V as well.
+>> It's worthy clarifying that in Sean's original suggestion he actually
+>> mentioned the opposite. He said 'reject memslot if the gfn has lesser
+>> alignment than the offset', but I wonder this is his purpose, since
+>> if ALIGNMENT(offset) < ALIGNMENT(gpa), we wouldn't be possible to map
+>> the page as largepage. Consider we have below config:
 
+>>    gpa=2M, offset=1M
 
-> between x86 and aarch64 that have assumed userspace hardware counter
-> access, and everything else that it is assumed don't.
->
-> Thanks,
-> Ian
->
-> > > Clearly process switches (especially cpu migrations) cause
-> > > problems, but they are obviously invalid values and can
-> > > be ignored.
-> > >
-> > > So while a lot of uses may be 'happy' with the values the
-> > > perf framework gives, sometimes you do need to directly
-> > > read the relevant registers.
-> > >
-> > >         David
-> > >
-> > > -
-> > > Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes,=
- MK1 1PT, UK
-> > > Registration No: 1397386 (Wales)
-> >
-> >
-> >
-> > --
-> > Regards,
-> > Atish
+>> In this case KVM tries to map gpa at 2M as 2M hugepage but the physical
+>> page at the offset(1M) in private_fd cannot provide the 2M page due to
+>> misalignment.
 
+>> But as we discussed in the off-list thread, here we do find a real use
+>> case indicating this check is too strict. i.e. QEMU immediately fails
+>> when launch a guest > 2G memory. For this case QEMU splits guest memory
+>> space into two slots:
 
+>>    Slot#1(ram_below_4G): gpa=0x0, offset=0x0, size=2G
+>>    Slot#2(ram_above_4G): gpa=4G,  offset=2G,  size=totalsize-2G
 
---
-Regards,
-Atish
+>> This strict alignment check fails for slot#2 because offset(2G) has less
+>> alignment than gpa(4G). To allow this, one solution can revert to my
+>> previous change in kvm_alloc_memslot_metadata() to disallow hugepage
+>> only when the offset/gpa are not aligned to related page size.
+
+>> Sean, How do you think?
+
+> I agree, a pure alignment check is too restrictive, and not really what I  
+> intended
+> despite past me literally saying that's what I wanted :-)  I think I may  
+> have also
+> inverted the "less alignment" statement, but luckily I believe that ends  
+> up being
+> a moot point.
+
+> The goal is to avoid having to juggle scenarios where KVM wants to create  
+> a hugepage,
+> but restrictedmem can't provide one because of a misaligned file offset.   
+> I think
+> the rule we want is that the offset must be aligned to the largest page  
+> size allowed
+> by the memslot _size_.  E.g. on x86, if the memslot size is >=1GiB then  
+> the offset
+> must be 1GiB or beter, ditto for >=2MiB and >=4KiB (ignoring that 4KiB is  
+> already a
+> requirement).
+
+> We could loosen that to say the largest size allowed by the memslot, but  
+> I don't
+> think that's worth the effort unless it's trivially easy to implement in  
+> code,
+> e.g. KVM could technically allow a 4KiB aligned offset if the memslot is  
+> 2MiB
+> sized but only 4KiB aligned on the GPA.  I doubt there's a real use case  
+> for such
+> a memslot, so I want to disallow that unless it's super easy to implement.
+
+Checking my understanding here about why we need this alignment check:
+
+When KVM requests a page from restrictedmem, KVM will provide an offset
+into the file in terms of 4K pages.
+
+When shmem is configured to use hugepages, shmem_get_folio() will round
+the requested offset down to the nearest hugepage-aligned boundary in
+shmem_alloc_hugefolio().
+
+Example of problematic configuration provided to
+KVM_SET_USER_MEMORY_REGION2:
+
++ shmem configured to use 1GB pages
++ restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
++ memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
++ KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
+
+restrictedmem_get_page() and shmem_get_folio() returns the page for
+offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
+0x0. This is allocating outside the range that KVM is supposed to use,
+since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
+supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
+
+IIUC shmem will actually just round down (0x4000 rounded down to nearest
+1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
+to 0x4000 in the file were supposed to be used by something else, there
+might be issues.
+
+Hence, this alignment check ensures that rounding down of any offsets
+provided by KVM (based on page size configured in the backing file
+provided) to restrictedmem_get_page() must not go below the offset
+provided to KVM_SET_USER_MEMORY_REGION2.
+
+Enforcing alignment of restrictedmem_offset based on the currently-set
+page size in the backing file (i.e. shmem) may not be effective, since
+the size of the pages in the backing file can be adjusted to a larger
+size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
+end up allocating outside the range that KVM was provided with.
+
+Hence, to be safe, we should check alignment to the max page size across
+all backing filesystems, so the constraint is
+
+     rounding down restrictedmem_offset to
+     min(max page size across all backing filesystems,
+         max page size that fits in memory_size) == restrictedmem_offset
+
+which is the same check as
+
+     restrictedmem_offset must be aligned to min(max page size across all
+     backing filesystems, max page size that fits in memory_size)
+
+which can safely reduce to
+
+     restrictedmem_offset must be aligned to max page size that fits in
+     memory_size
+
+since "max page size that fits in memory_size" is probably <= to "max
+page size across all backing filesystems", and if it's larger, it'll
+just be a tighter constraint.
+
+If the above understanding is correct:
+
++ We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
+   IIUC shmem will just round down and allocate without checking bounds.
+
+     + I think this is okay because holes in the restrictedmem file (in
+       terms of offset) made to accommodate this constraint don't cost us
+       anything anyway(?) Are they just arbitrary offsets in a file? In
+       our case, this file is usually a new and empty file.
+
+     + In the case of migration of a restrictedmem file between two KVM
+       VMs, this constraint would cause a problem is if the largest
+       possible page size on the destination machine is larger than that
+       of the source machine. In that case, we might have to move the
+       data in the file to a different offset (a separate problem).
+
++ On this note, it seems like there is no check for when the range is
+   smaller than the allocated page? Like if the range provided is 4KB in
+   size, but shmem is then configured to use a 1GB page, will we end up
+   allocating past the end of the range?
