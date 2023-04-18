@@ -2,181 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B4A4C77B71
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 05:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E416CC77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 08:09:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbjDRFjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 01:39:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36370 "EHLO
+        id S229901AbjDRIJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 04:09:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjDRFjT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 01:39:19 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79E65B97;
-        Mon, 17 Apr 2023 22:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681796357; x=1713332357;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=G/juK7tVF+wMOv+mhRmkRntW8+4Cjn26LSpgm7qlaBY=;
-  b=ULDNznlQqyXYNrE+Y4xWDwXe0KyiORJ8/3+tS4uYIMGKgBTIyOoGg5J2
-   nnT0hx5L+/3HlckgfiZFG9nPsPSpV/9DezdrVlCa47EsVmZA/O9pZBh81
-   VlzuTOQCBwj5XJrQbTS0fBPurT6Aq/T5j3d63pFUk3oa+VU4YQF8rh+tv
-   acXHOXxJOng9AQbeUUVb2kiOgAyZMT9hOK2W9WkEJ0S79xLCMgriTcIBp
-   vdF2EaVpoVn8WO5gD/JnEGu8vZ/B3s0/C3LITQ2jtlZ2JEXuok1vSR6NG
-   koGpt5UG8rLiz8x5QY2WKK7aZ7+cNmtiZGg1CXIo0Gp1Aca8ItoLf+QSn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347829818"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="347829818"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 22:39:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="937115105"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="937115105"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Apr 2023 22:39:09 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 17 Apr 2023 22:39:03 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 17 Apr 2023 22:39:03 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 17 Apr 2023 22:38:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=deBVbIDXD1Qgr2KjPtq+PFGMjryJ9bHbIpnlb1UVPpWQ9VMLNFhTmn/aiiDT3TBUH/CWbqTgU4EonCaYA2eaa0pnHd+QwfV/hX86VHUh4FOsqNLxcxF3wtFePVfC9epoMeDdnZe2yy9MjPAtDE46Je560uUZ8tbI3J6EX0eL++ciGXgdGxuaEqcrYy3tL11FF55gezU7/1iRmORNbgH2/E6v07Utibe8LecrfgjliDRa9G1QTfw5HebCMgWDiPza7ZJaF0S76hVC+2rTFpFKHmV0pggmPBPxqeNT1MgxPWgHKbNw4PHiUuZsomioe4m4HwpecTPGF05EBOqTgQzrMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+yp+1MctwVDE/OWh01s0zXhs7gNTq4aUPoWiyrbkonw=;
- b=EoiQ9ex6V2skNtZ2RHCWvOMpoyKq746OjjGpAHDGViYppdIjGzgLBsUQYBqcksI9OmhL/R21lLe4PAXbGDqV08X1yc5d1chL9IyU6d0pY0p0slyoCeANeWweQXyFcPAJiy40suhJYcP61OP4UA26D6SqZxw7g5AWZWQ4ZhqQlQ98UAduvf9OkOKTNUt+971PzNvHvlIu3U+MAR3Dj5JvOhB7YFIs1BIlwocwwVCWwzEewhFQS4+R7+cP0L4HaYz1VC9NaEXD4W7m6UdPKLaGdcinaVwqQARt0Pg+cSHo4f24d0F0UNA7ZGQEX7N9FxT275Jy67h/mN6sx6J+NBwANA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by BL3PR11MB6385.namprd11.prod.outlook.com (2603:10b6:208:3b5::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
- 2023 05:38:56 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::f7ec:aae9:1e7b:e004]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::f7ec:aae9:1e7b:e004%5]) with mapi id 15.20.6298.030; Tue, 18 Apr 2023
- 05:38:56 +0000
-Date:   Tue, 18 Apr 2023 01:38:51 -0400
-From:   Rodrigo Vivi <rodrigo.vivi@intel.com>
-To:     Rob Clark <robdclark@gmail.com>
-CC:     <dri-devel@lists.freedesktop.org>,
-        Rob Clark <robdclark@chromium.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/docs: Fix usage stats typos
-Message-ID: <ZD4s6/6hUlA2UXgU@intel.com>
-References: <20230417200657.447606-1-robdclark@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230417200657.447606-1-robdclark@gmail.com>
-X-ClientProxiedBy: SJ0PR13CA0207.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::32) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+        with ESMTP id S231264AbjDRIJY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 04:09:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B747EFC
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 01:08:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681805229;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9LaUC9tg4G2l6nVpqrdOieDitZKZLzXClLpOb7J+e8k=;
+        b=cW0BHTlxd1PAQVhvbwlE2R+n2EfvR2JDbKr/WMMnD23pa8NRNFtKtKc1lBiqsPDVlT+5TM
+        xpnOUYo2OqiZSFfrFxKqzVE+F5XBK/QWXRmEjxCMTajN7KJJUcs2yjQm5hUv29hQIV34i/
+        1mMHwzofUH8rt0OR16Wr4m6mz95vIS0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-70-4fePVcbLMsKRVofs-SxgYw-1; Tue, 18 Apr 2023 04:03:57 -0400
+X-MC-Unique: 4fePVcbLMsKRVofs-SxgYw-1
+Received: by mail-wm1-f69.google.com with SMTP id d8-20020a05600c3ac800b003edf7d484d4so8773776wms.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 01:03:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681805036; x=1684397036;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9LaUC9tg4G2l6nVpqrdOieDitZKZLzXClLpOb7J+e8k=;
+        b=dqMyWFUDzrXd96Kdp2cjUtfFZ37E0TphS6RZ6l+Wpd56C09nD4x51KXzw9ZPUsEdx+
+         K4OPBOH0P38pX4W9d5GmnaqbdRkFSi0kPFWe+zdFSKIKTDclYqbpL0S1SUHib21AB/bl
+         HPd8qVP4PLbJqrul1OUaHEfvw1SxRaUlTRkuawsRvu+KYessvPFbvGzIdtgyi05rLoby
+         Kswlo2aoDerJwth8cgSf3ew9+GbXH0ELUldp8bCGuLkmS6lgIGGKZX28UL63+y3AALHr
+         lFSh05uwW8O/0pl164pe6IMDfTEJh40xprHDymUj5gCZ+GIva2jvaux4cSihu4vh3zEI
+         lDww==
+X-Gm-Message-State: AAQBX9f/fduGx8NpUTarDuIF3PyRiPo+GZGSQ0c8lYu9UP5lkpcxkiaI
+        Z1mL7WXjLpGiqnXk2NBeRAC/n7KjXtaj1gj4kIgqAgQ9WVPL4uK0kNuOF3LLTaz+i/JNElueD9l
+        RZI0RVrpO6o1WZLo5QupG
+X-Received: by 2002:a7b:cd10:0:b0:3ee:672d:caa3 with SMTP id f16-20020a7bcd10000000b003ee672dcaa3mr13809179wmj.18.1681805036825;
+        Tue, 18 Apr 2023 01:03:56 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YgRexEYOBjpcJXKFiZdltKyrmIp9qx+iJEmZye/XjE1blMO25oLBRoJBR3OVmGLoZhVR2fng==
+X-Received: by 2002:a7b:cd10:0:b0:3ee:672d:caa3 with SMTP id f16-20020a7bcd10000000b003ee672dcaa3mr13809158wmj.18.1681805036491;
+        Tue, 18 Apr 2023 01:03:56 -0700 (PDT)
+Received: from debian ([92.62.32.42])
+        by smtp.gmail.com with ESMTPSA id 26-20020a05600c021a00b003f17848673fsm1720374wmi.27.2023.04.18.01.03.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Apr 2023 01:03:56 -0700 (PDT)
+Date:   Tue, 18 Apr 2023 10:03:53 +0200
+From:   Guillaume Nault <gnault@redhat.com>
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
+Message-ID: <ZD5O6VzyEAggakb2@debian>
+References: <20230416220704.xqk4q6uwjbujnqpv@begin>
+ <ZDx2IUYTmLSdzU6D@codewreck.org>
+ <20230416224316.xlvgjor65nejldwh@begin>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BL3PR11MB6385:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1dac454-4b9e-4839-2fa5-08db3fcf33b8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RMM+ZuG4UfFtR4V5GJYY2ZRNRAj+Cbhr7eE3fG++t75Mx7kld91cOQK9uCN+FtxYdNNF0+hgMcuqr8AovYeAZ4XV2oMn/PkRhOQrXpR6fznpKdI0lTFQlcz38hpMX6xVqMYzC0RtdcU7Jfm3FjsUWHewU/qX7rl+wwczgp0MqKDh54BwHhQWSERV29mOeffxrp+7/n3ERfSCCm5luNe9zxUTfrRMI58jUjQfzVnzSXBLf0xgbiWeB26CZBXsT3+ttuHypJcLLJPXN89z5DlxN+RBd1JbEWedqKfV9vdRaKH16jxApBZ0UxnBCBLekOQxOtVSTGbw7u1FhSFLH6qJzLF0Y11ihDW/hPlZcLd+kV87Go5DKUzkWm4DpPBM/o8ttwI/gz+SozA+rPouREWXJazJhmJOcPNp8R/vNdPY1r9lxMh9ee+0tI6DgcLnLUJvc/wNFqEKq+JrznHXooamrN/zRJXtanPCDTQ9mufPK823cdvqyFlnN5LNDqGJV2VUjnvImlzYPEi1fFCWUnHrqR5nnOCwsQYBPP8Z0e9dqXGkzrJGJn/oSFC8kwWByHXt
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6059.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(136003)(346002)(366004)(376002)(396003)(451199021)(36756003)(44832011)(38100700002)(5660300002)(2906002)(8676002)(8936002)(41300700001)(86362001)(6916009)(478600001)(54906003)(2616005)(26005)(6506007)(6512007)(186003)(6666004)(6486002)(4326008)(66556008)(66476007)(66946007)(316002)(83380400001)(82960400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Vk+oH0XL4QndzENOrBHBQpDEgu00//PklBfeniDGiZFYkOTWq17oyrlzhPd9?=
- =?us-ascii?Q?MAb+2KM/XadnJxAICfNni6LIh9302pYls6yra6xFG2vH3zEb+9NB23lL824+?=
- =?us-ascii?Q?lJKOeHvmGyoti/HzqSRinMQ8MEsKGRWQpsh09ELHchnvde2mi5COY8dSZGXD?=
- =?us-ascii?Q?5oBsCxstRa78YqN1W5A7T92l/goMFHzbPJTQR0He/wW25h2AbR04qZRQBbhB?=
- =?us-ascii?Q?cU+TwEC4cpHu5rKUR30IRqo1kbbKFuE9LcKLO7j8bbgQ8k1oKHLfuiuN8RqQ?=
- =?us-ascii?Q?aVDbE8QyxgV3sAOIeYjlXWyTuglVcuzKWBUKNoT09eN91d1SrjcVAEach8wJ?=
- =?us-ascii?Q?YPK2cfikuLFwQJ8GnBUzkUkyDkHRwFnuLcwxHvSsYPl0/+UN2B7U3+BqD9SR?=
- =?us-ascii?Q?u2YDcfj50kPLHyvpotsbgYNI3sulu4plv17KrRSC46B8GlKdwsb1REiHKyfV?=
- =?us-ascii?Q?qKR/jbLZ0ooUJvgX1XBOfkVfhOw4/bsz0Zh4NxEQz+zlMpAiJhkkscNmsx0v?=
- =?us-ascii?Q?i6HISsgzXIJK4jS1YIfwn8cZ1dgCabDT9y3fkknCzPxsaGvjo2InBzRwbOMH?=
- =?us-ascii?Q?odipLUPblkwUaZvkKEjbVG0IuPcrrBbOCvqZVvt/u1gMYfey96N4Yc3MSH8D?=
- =?us-ascii?Q?PUd+RBDSN8btSsKthyjTMj4VEl5kg4u8V+ovfNZRk+qNbIIGiSk5a5MjDbx7?=
- =?us-ascii?Q?SXYhtncSUt5DKBg8zxOjJBl1rIt6FgepkI18aSP84bMEKWTMRFuA/LSGrWL4?=
- =?us-ascii?Q?MrF5Sx9u3wIMoaS7dbE/vPnJOZk0hV2eF3DS01mROn7cUUu8bsC21yjsq0J5?=
- =?us-ascii?Q?kayDZipA5ce+IxcAAYZC8F5J/Fg665gC2Ua9oUnht9AALlrtm/pOj+0XZroT?=
- =?us-ascii?Q?isn/ao8nNwRbZESHdRPvt6wpea4F3NwEWlh19u54J8TD3igaE1txuCmwBF3c?=
- =?us-ascii?Q?bDKVC+S+7/Cb2y/BdE/qB63X/Kk9TdnVQSD6aiI9fklPt1UMK58uen4JFOCN?=
- =?us-ascii?Q?f67bZ44uePyLl3MurGWGYEctmtV8V4zVyTkz15ahVe/vpmgFbCZUh2vwwIXE?=
- =?us-ascii?Q?GpnTXVYGOxQQcsVs07GMcQMyNQdCr+wkvrjopY0w3q3HD0fJwVBEeVeAP9he?=
- =?us-ascii?Q?hJ2sN3WHVClqWG1c06nb2v1sPoJ/JmCGhQMT+1BRh5+6vpZOyIiUp5Mpdvg8?=
- =?us-ascii?Q?DpsUfm2AGexSrx3KwY5wcUMkdQQNXYhXe/bqZkDjKLnhdUG7S6e2It62QRTe?=
- =?us-ascii?Q?2YVJaP/kWiD9+4ru3/EUs0FkJvJpLKLPtnKjRhAR18HlBp5TZG4BBlhFqlB+?=
- =?us-ascii?Q?ayTxJgg5mbUS/tqAetttJpOBfnfXZXh+BbTkQftrE4zapKc4GT07K94s0Q4d?=
- =?us-ascii?Q?iPHuvBp5/+akaX+agA16+85FgklrP3B2PjZCdZSKGe7kEeJJn47258ycjYAt?=
- =?us-ascii?Q?QGusjdEQgRG+6wNjHQ60NnB93F6P0A+hfDXc0f54wfgMYvF9jBBjXV/HyMvB?=
- =?us-ascii?Q?BkkjFrU+dEPGl3gxbdkzpTqL7Jo7TQeQOrL3DdBLiCVBmqj18EmyKWYVGOvb?=
- =?us-ascii?Q?ROZGb3iAhSUTQxE35NgbBGwLgfORCoLcMzAPnZHlOBZWnpQfh96MfNG07LNm?=
- =?us-ascii?Q?9g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1dac454-4b9e-4839-2fa5-08db3fcf33b8
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2023 05:38:56.4076
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CHLJW/0SDCiWZ6YnvRLq9N0YHhxmSGitS0p7Hg5hA++jJOb6XUOU/gOJ920fRy9Vxd0kohECjuPyFW5nc4C3Kw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6385
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230416224316.xlvgjor65nejldwh@begin>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 01:06:56PM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, Apr 17, 2023 at 12:43:16AM +0200, Samuel Thibault wrote:
+> Dominique Martinet, le lun. 17 avril 2023 07:26:41 +0900, a ecrit:
+> > Also, this got me wondering if the 'if' fd can be closed immediately or
+> > if the interface will be removed when the fd is closed (probably not?)
 > 
-> Fix a couple missing ':'s.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Closing the fd would close the if, yes. AIUI one really has to keep the
+> pppox socket (for stats), the ppp chan (for non-data ppp packets), and
+> the ppp if (for the if).
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+L2TP has control and data packets. The L2TP socket is there to handle
+L2TP control packets in user space, as the kernel only handles L2TP
+data packets. You have to keep the L2TP session socket open, otherwise
+you can't handle the session anymore.
 
-> ---
->  Documentation/gpu/drm-usage-stats.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Then there are the PPP file descriptors. A PPP channel is used to send
+and receive PPP frames. It has to be associated with a lower transport,
+for example an L2TP session if you want to encapsulate PPP into L2TP.
+But that could be something else (a PPPoE session, a serial link, etc.).
+Same as for L2TP session sockets, you need to keep the PPP channel fd
+open, otherwise you can't handle the PPP session anymore.
+
+Finally there are PPP units. A PPP unit represents the PPP networking
+device (like ppp0). A PPP unit has to be associated with a PPP channel
+(or several PPP channels for multilink PPP, but better avoid that). A
+PPP unit doesn't know how to send packets, it delegates that to its PPP
+channels.
+
+You can avoid creating PPP units if you don't need a PPP network
+device. In particular, if you're forwarding a PPP session between a
+PPPoE and an L2TP session (or between two different L2TP sesions), you
+typically don't need to create any PPP unit. You handle the initial LCP
+negociation and PPP authentication using a PPP channel on the incoming
+side, then you create another PPP channel on the other side (where you
+want to forward the incoming PPP session) and finally bridge them
+together with PPPIOCBRIDGECHAN.
+
+> Samuel
 > 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index b46327356e80..72d069e5dacb 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -105,7 +105,7 @@ object belong to this client, in the respective memory region.
->  Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->  indicating kibi- or mebi-bytes.
->  
-> -- drm-cycles-<str> <uint>
-> +- drm-cycles-<str>: <uint>
->  
->  Engine identifier string must be the same as the one specified in the
->  drm-engine-<str> tag and shall contain the number of busy cycles for the given
-> @@ -117,7 +117,7 @@ larger value within a reasonable period. Upon observing a value lower than what
->  was previously read, userspace is expected to stay with that larger previous
->  value until a monotonic update is seen.
->  
-> -- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
-> +- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
->  
->  Engine identifier string must be the same as the one specified in the
->  drm-engine-<str> tag and shall contain the maximum frequency for the given
-> -- 
-> 2.39.2
-> 
+
