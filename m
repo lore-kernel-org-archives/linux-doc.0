@@ -2,74 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8947C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 11:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F4CC77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 11:58:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231547AbjDRLrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 07:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56424 "EHLO
+        id S231483AbjDRL56 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 07:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbjDRLrJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 07:47:09 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7252F65BF;
-        Tue, 18 Apr 2023 04:46:40 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 40AFD1C0AB3; Tue, 18 Apr 2023 13:46:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1681818381;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vFfTEWZN/QfJxsdttGPsJNhEC2b2eErSmVYMSIiXHn8=;
-        b=NqD/kBaNYpSxueau2Ond/wNTUnAKS65SUiqmQQfaDj3VOukpDoSnzQtfcwLaGr0n8Kop7c
-        9i02+BLTiPt9N4xYfNODul+TwQoj3Ir0sPOl3br9U5rIzcPuKER62zskghD5vNNhBadmg1
-        kKoMQY7HLb7hoG0tpihe4vNeY1W+pvA=
-Date:   Tue, 18 Apr 2023 13:46:20 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Alexander Dahl <ada@thorsis.com>
-Cc:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee@kernel.org>,
-        Fabio Baltieri <fabio.baltieri@gmail.com>
-Subject: Re: [PATCH] docs: leds: ledtrig-oneshot: Fix spelling mistake
-Message-ID: <ZD6DDHJpzYiO7G/l@duo.ucw.cz>
-References: <20230418113402.188391-1-ada@thorsis.com>
+        with ESMTP id S231485AbjDRLz4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 07:55:56 -0400
+Received: from sonata.ens-lyon.org (domu-toccata.ens-lyon.fr [140.77.166.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE4419EC9;
+        Tue, 18 Apr 2023 04:54:12 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by sonata.ens-lyon.org (Postfix) with ESMTP id C075C2014A;
+        Tue, 18 Apr 2023 13:54:10 +0200 (CEST)
+Received: from sonata.ens-lyon.org ([127.0.0.1])
+        by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id AVlKHqG3c8RX; Tue, 18 Apr 2023 13:54:10 +0200 (CEST)
+Received: from begin.home (apoitiers-658-1-118-253.w92-162.abo.wanadoo.fr [92.162.65.253])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by sonata.ens-lyon.org (Postfix) with ESMTPSA id 6C9052013E;
+        Tue, 18 Apr 2023 13:54:10 +0200 (CEST)
+Received: from samy by begin.home with local (Exim 4.96)
+        (envelope-from <samuel.thibault@ens-lyon.org>)
+        id 1pojuT-00Bypv-39;
+        Tue, 18 Apr 2023 13:54:09 +0200
+Date:   Tue, 18 Apr 2023 13:54:09 +0200
+From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
+To:     Guillaume Nault <gnault@redhat.com>
+Cc:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
+Message-ID: <20230418115409.aqsqi6pa4s4nhwgs@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Guillaume Nault <gnault@redhat.com>,
+        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230416220704.xqk4q6uwjbujnqpv@begin>
+ <ZD5V+z+cBaXvPbQa@debian>
+ <20230418085323.h6xij7w6d2o4kxxi@begin>
+ <ZD5dqwPblo4FOex1@debian>
+ <20230418091148.hh3b52zceacduex6@begin>
+ <ZD5uU8Wrz4cTSwqP@debian>
+ <20230418103140.cps6csryl2xhrazz@begin>
+ <ZD5+MouUk8YFVOX3@debian>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="agLCbShxrR2XL0x1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418113402.188391-1-ada@thorsis.com>
+In-Reply-To: <ZD5+MouUk8YFVOX3@debian>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Guillaume Nault, le mar. 18 avril 2023 13:25:38 +0200, a ecrit:
+> As I said in my previous reply, a simple L2TP example that goes until PPP
+> channel and unit creation is fine. But any more advanced use of the PPP
+> API should be documented in the PPP documentation.
 
---agLCbShxrR2XL0x1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When it's really advanced, yes. But here it's just about tunnel
+bridging, which is a very common L2TP thing to do.
 
-On Tue 2023-04-18 13:34:02, Alexander Dahl wrote:
-> It's no comparision, but a "first this, then that" situation.
->=20
-> Signed-off-by: Alexander Dahl <ada@thorsis.com>
+> I mean, these files document the API of their corresponding modules,
+> their scope should be limitted to that (the PPP and L2TP layers are
+> really different).
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+I wouldn't call
 
++        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
++        close(ppp_chan_fd);
++        if (ret < 0)
++                return -errno;
 
+documentation...
 
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+> That shouldn't preclude anyone from describing how to combine L2TP, PPP
+> and others to cover more advanced use cases. It's just better done in a
+> different file.
 
---agLCbShxrR2XL0x1
-Content-Type: application/pgp-signature; name="signature.asc"
+A more complete example, yes. I don't plan on taking time to do it.
 
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZD6DDAAKCRAw5/Bqldv6
-8vf3AKCx+edVFtllBS6M1DflWeTErqnY/gCgv81JZn3sSDHDtfIqfXlHNvcaeDc=
-=4kXR
------END PGP SIGNATURE-----
-
---agLCbShxrR2XL0x1--
+Samuel
