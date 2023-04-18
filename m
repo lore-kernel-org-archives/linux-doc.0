@@ -2,139 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71911C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 14:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1737C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 14:33:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232329AbjDROSc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 10:18:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55762 "EHLO
+        id S231713AbjDROdP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 10:33:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231658AbjDROSb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 10:18:31 -0400
+        with ESMTP id S231384AbjDROdO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 10:33:14 -0400
 Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 752F5D3;
-        Tue, 18 Apr 2023 07:18:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ADED83FC;
+        Tue, 18 Apr 2023 07:33:13 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-        by sonata.ens-lyon.org (Postfix) with ESMTP id 7BB632018D;
-        Tue, 18 Apr 2023 16:18:22 +0200 (CEST)
+        by sonata.ens-lyon.org (Postfix) with ESMTP id C82DA2018B;
+        Tue, 18 Apr 2023 16:33:11 +0200 (CEST)
 Received: from sonata.ens-lyon.org ([127.0.0.1])
         by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EmVoFXTU2Zj2; Tue, 18 Apr 2023 16:18:22 +0200 (CEST)
+        with ESMTP id ggrempUKGqz6; Tue, 18 Apr 2023 16:33:11 +0200 (CEST)
 Received: from begin (unknown [109.190.253.11])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by sonata.ens-lyon.org (Postfix) with ESMTPSA id EBD1A20181;
-        Tue, 18 Apr 2023 16:18:21 +0200 (CEST)
+        by sonata.ens-lyon.org (Postfix) with ESMTPSA id 95A4520181;
+        Tue, 18 Apr 2023 16:33:11 +0200 (CEST)
 Received: from samy by begin with local (Exim 4.96)
         (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1pomA0-00C83w-2Z;
-        Tue, 18 Apr 2023 16:18:20 +0200
-Date:   Tue, 18 Apr 2023 16:18:20 +0200
+        id 1pomOJ-00C9qp-0h;
+        Tue, 18 Apr 2023 16:33:07 +0200
+Date:   Tue, 18 Apr 2023 16:33:07 +0200
 From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
-To:     Guillaume Nault <gnault@redhat.com>
-Cc:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
-Message-ID: <20230418141820.gxueo5pz2vvre442@begin>
+To:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+        edumazet@google.com
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCHv2] PPPoL2TP: Add more code snippets
+Message-ID: <20230418143307.hth4yjkopy5se4md@begin>
 Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Guillaume Nault <gnault@redhat.com>,
         James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
         edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
         pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230416220704.xqk4q6uwjbujnqpv@begin>
- <ZD5V+z+cBaXvPbQa@debian>
- <20230418085323.h6xij7w6d2o4kxxi@begin>
- <ZD5dqwPblo4FOex1@debian>
- <20230418091148.hh3b52zceacduex6@begin>
- <ZD5uU8Wrz4cTSwqP@debian>
- <20230418103140.cps6csryl2xhrazz@begin>
- <ZD5+MouUk8YFVOX3@debian>
- <20230418115409.aqsqi6pa4s4nhwgs@begin>
- <ZD6dON0gl3DE8mYr@debian>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZD6dON0gl3DE8mYr@debian>
-Organization: I am not organized
 User-Agent: NeoMutt/20170609 (1.8.3)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Guillaume Nault, le mar. 18 avril 2023 15:38:00 +0200, a ecrit:
-> On Tue, Apr 18, 2023 at 01:54:09PM +0200, Samuel Thibault wrote:
-> > Guillaume Nault, le mar. 18 avril 2023 13:25:38 +0200, a ecrit:
-> > > As I said in my previous reply, a simple L2TP example that goes until PPP
-> > > channel and unit creation is fine. But any more advanced use of the PPP
-> > > API should be documented in the PPP documentation.
-> > 
-> > When it's really advanced, yes. But here it's just about tunnel
-> > bridging, which is a very common L2TP thing to do.
-> 
-> I can't undestand why you absolutely want this covered in l2tp.rst.
+The existing documentation was not telling that one has to create a PPP
+channel and a PPP interface to get PPPoL2TP data offloading working.
 
-Because that's where people working on L2TP software will look for it.
+Also, tunnel switching was not mentioned, so that people were thinking
+it was not supported, while it actually is.
 
-> This feature also works on PPPoE.
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-Then PPPoE documentation shouls also contain mentions of it.
+---
+Difference from v1:
+- follow kernel coding style
+- check for failures
+- also mention netlink and ip for configuring the link
+- fix bridging channels
 
-Note (and I'll repeat myself again below) I'm not talking about
-*documentation* (which belongs to ppp_generic.rst, but *mentions* of it.
+ Documentation/networking/l2tp.rst |   97 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 93 insertions(+), 4 deletions(-)
 
-Networking is complex. If each protocol only speaks for itself and
-doesn't take the effort of showing how they glue with others, it's hard
-for people to grasp the whole ideas.
-
-> Also, it's probably a desirable feature, but certainly not a common
-> thing on Linux. This interface was added a bit more than 2 years ago,
-> which is really recent considering the age of the code.
-
-Yes, and in ISPs we have been in need for it for something like
-decades. I can find RFC drafts around 2000.
-
-Or IPs have just baked their own kernel implementation (xl2tpd,
-accel-ppp, etc.)
-
-> Appart from maybe go-l2tp, I don't know of any user.
-
-Because it's basically undocumented from the point of view of L2TP
-people.
-
-> > > I mean, these files document the API of their corresponding modules,
-> > > their scope should be limitted to that (the PPP and L2TP layers are
-> > > really different).
-> > 
-> > I wouldn't call
-> > 
-> > +        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
-> > +        close(ppp_chan_fd);
-> > +        if (ret < 0)
-> > +                return -errno;
-> > 
-> > documentation...
-> 
-> The documentation is in ppp_generic.rst.
-
-Yes. and I *definitely* agree on that, and exactly what I'm all talking
-about. I'm here just arguing about putting these _*_4 lines of code_*_
-example in l2tp.rst, _*_nothing more_*_. See the subject of this thread:
-"code snippets". Not documentation.
-
-> Does it really make sense to you to have the doc there
-
-There is basically no doc in what I am proposing.
-
-> and the sample code in l2tp.rst?
-
-Yes, because then L2TP people can be sure to understand how things plug
-altogether before writing code...
-
-... instead of having to try various things until understanding how it's
-all supposed to fit altogether.
-
-Samuel
+--- a/Documentation/networking/l2tp.rst
++++ b/Documentation/networking/l2tp.rst
+@@ -387,11 +387,16 @@ Sample userspace code:
+   - Create session PPPoX data socket::
+ 
+         struct sockaddr_pppol2tp sax;
+-        int fd;
++        int session_fd;
++        int ret;
+ 
+         /* Note, the tunnel socket must be bound already, else it
+          * will not be ready
+          */
++        session_fd = socket(AF_PPPOX, SOCK_DGRAM, PX_PROTO_OL2TP);
++        if (session_fd < 0)
++                return -errno;
++
+         sax.sa_family = AF_PPPOX;
+         sax.sa_protocol = PX_PROTO_OL2TP;
+         sax.pppol2tp.fd = tunnel_fd;
+@@ -406,11 +411,95 @@ Sample userspace code:
+         /* session_fd is the fd of the session's PPPoL2TP socket.
+          * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
+          */
+-        fd = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
+-        if (fd < 0 ) {
++        ret = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
++        if (ret < 0 ) {
++                close(session_fd);
++                return -errno;
++        }
++
++        return session_fd;
++
++L2TP control packets will still be available for read on `tunnel_fd`.
++
++  - Create PPP channel::
++
++        int chindx;
++        int ppp_chan_fd;
++
++        ret = ioctl(session_fd, PPPIOCGCHAN, &chindx);
++        if (ret < 0)
++                return -errno;
++
++        ppp_chan_fd = open("/dev/ppp", O_RDWR);
++        if (ppp_chan_fd < 0)
++                return -errno;
++
++        ret = ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx);
++        if (ret < 0) {
++                close(ppp_chan_fd);
+                 return -errno;
+         }
+-        return 0;
++
++        return ppp_chan_fd;
++
++Non-data PPP frames will be available for read on `ppp_chan_fd`.
++
++  - Create PPP interface::
++
++        int ppp_if_fd;
++        int ifunit = -1;
++
++        ppp_if_fd = open("/dev/ppp", O_RDWR);
++        if (ppp_chan_fd < 0)
++                return -errno;
++
++        ret = ioctl(ppp_if_fd, PPPIOCNEWUNIT, &ifunit);
++        if (ret < 0) {
++                close(ppp_if_fd);
++                return -errno;
++        }
++
++        ret = ioctl(ppp_chan_fd, PPPIOCCONNECT, ifunit);
++        if (ret < 0) {
++                close(ppp_if_fd);
++                return -errno;
++        }
++
++        return ppp_chan_fd;
++
++The ppp<ifunit> interface can then be configured as usual with netlink's
++RTM_NEWLINK, RTM_NEWADDR, RTM_NEWROUTE, or ioctl's SIOCSIFMTU, SIOCSIFADDR,
++SIOCSIFDSTADDR, SIOCSIFNETMASK, SIOCSIFFLAGS, or with the `ip` command.
++
++  - L2TP session bridging (also called L2TP tunnel switching or L2TP multihop)
++is supported by bridging the ppp channels of the two L2TP sessions to be
++bridged::
++
++        int chindx1;
++        int chindx2;
++        int ppp_chan_fd;
++
++        ret = ioctl(session_fd1, PPPIOCGCHAN, &chindx1);
++        if (ret < 0)
++                return -errno;
++
++        ret = ioctl(session_fd2, PPPIOCGCHAN, &chind2x);
++        if (ret < 0)
++                return -errno;
++
++        ppp_chan_fd = open("/dev/ppp", O_RDWR);
++        ret = ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx1);
++        if (ret < 0) {
++                close(ppp_chan_fd);
++                return -errno;
++        }
++
++        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
++        close(ppp_chan_fd);
++        if (ret < 0)
++                return -errno;
++
++See more details for the PPP side in ppp_generic.rst.
+ 
+ Old L2TPv2-only API
+ -------------------
