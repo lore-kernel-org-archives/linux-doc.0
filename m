@@ -2,92 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F4CC77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 11:58:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7F3BC77B78
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 12:41:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231483AbjDRL56 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 07:57:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
+        id S231851AbjDRMlW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 08:41:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231485AbjDRLz4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 07:55:56 -0400
-Received: from sonata.ens-lyon.org (domu-toccata.ens-lyon.fr [140.77.166.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE4419EC9;
-        Tue, 18 Apr 2023 04:54:12 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by sonata.ens-lyon.org (Postfix) with ESMTP id C075C2014A;
-        Tue, 18 Apr 2023 13:54:10 +0200 (CEST)
-Received: from sonata.ens-lyon.org ([127.0.0.1])
-        by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id AVlKHqG3c8RX; Tue, 18 Apr 2023 13:54:10 +0200 (CEST)
-Received: from begin.home (apoitiers-658-1-118-253.w92-162.abo.wanadoo.fr [92.162.65.253])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S231853AbjDRMlU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 08:41:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D1013F8C;
+        Tue, 18 Apr 2023 05:41:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sonata.ens-lyon.org (Postfix) with ESMTPSA id 6C9052013E;
-        Tue, 18 Apr 2023 13:54:10 +0200 (CEST)
-Received: from samy by begin.home with local (Exim 4.96)
-        (envelope-from <samuel.thibault@ens-lyon.org>)
-        id 1pojuT-00Bypv-39;
-        Tue, 18 Apr 2023 13:54:09 +0200
-Date:   Tue, 18 Apr 2023 13:54:09 +0200
-From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
-To:     Guillaume Nault <gnault@redhat.com>
-Cc:     James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
-Message-ID: <20230418115409.aqsqi6pa4s4nhwgs@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Guillaume Nault <gnault@redhat.com>,
-        James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
-        edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230416220704.xqk4q6uwjbujnqpv@begin>
- <ZD5V+z+cBaXvPbQa@debian>
- <20230418085323.h6xij7w6d2o4kxxi@begin>
- <ZD5dqwPblo4FOex1@debian>
- <20230418091148.hh3b52zceacduex6@begin>
- <ZD5uU8Wrz4cTSwqP@debian>
- <20230418103140.cps6csryl2xhrazz@begin>
- <ZD5+MouUk8YFVOX3@debian>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 87E03632EE;
+        Tue, 18 Apr 2023 12:41:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DE97C433EF;
+        Tue, 18 Apr 2023 12:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1681821672;
+        bh=Tjcn1bBBGUm5nKUGLkls5OpQmOhSCTAFSd0dYAHhLTM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kU+GxWPjd9tE9UNqxaxwJSpX/lJniODy5awEtgu9twvN/+HTnyef+44w5p4x5lZ45
+         bdoEvqPk3TIJ2Nj9qNB4+uFcsNzu07cvZVr6iHmpdkUi8MPeUNAm395vQd+CAtdTuJ
+         zefAnMaNEaKmkj1w/gJrrY5WCxv0+/vZx3R1wSAA=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     stable@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        linux-iio@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 5.15 89/91] counter: fix docum. build problems after filename change
+Date:   Tue, 18 Apr 2023 14:22:33 +0200
+Message-Id: <20230418120308.650334974@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230418120305.520719816@linuxfoundation.org>
+References: <20230418120305.520719816@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZD5+MouUk8YFVOX3@debian>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Guillaume Nault, le mar. 18 avril 2023 13:25:38 +0200, a ecrit:
-> As I said in my previous reply, a simple L2TP example that goes until PPP
-> channel and unit creation is fine. But any more advanced use of the PPP
-> API should be documented in the PPP documentation.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-When it's really advanced, yes. But here it's just about tunnel
-bridging, which is a very common L2TP thing to do.
+commit 7110acbdab462b8f2bc30e216c331cbd68c00af9 upstream.
 
-> I mean, these files document the API of their corresponding modules,
-> their scope should be limitted to that (the PPP and L2TP layers are
-> really different).
+Fix documentation build warnings due to a source file being
+renamed.
 
-I wouldn't call
+WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-version 1.8.5 -export ../drivers/counter/counter.c' failed with return code 2
 
-+        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
-+        close(ppp_chan_fd);
-+        if (ret < 0)
-+                return -errno;
+Error: Cannot open file ../drivers/counter/counter.c
 
-documentation...
+Fixes: aaec1a0f76ec ("counter: Internalize sysfs interface code")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
+Cc: linux-iio@vger.kernel.org
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+Link: https://lore.kernel.org/r/20211005055157.22937-1-rdunlap@infradead.org
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/driver-api/generic-counter.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> That shouldn't preclude anyone from describing how to combine L2TP, PPP
-> and others to cover more advanced use cases. It's just better done in a
-> different file.
+--- a/Documentation/driver-api/generic-counter.rst
++++ b/Documentation/driver-api/generic-counter.rst
+@@ -247,7 +247,7 @@ for defining a counter device.
+ .. kernel-doc:: include/linux/counter.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/counter/counter.c
++.. kernel-doc:: drivers/counter/counter-core.c
+    :export:
+ 
+ Implementation
 
-A more complete example, yes. I don't plan on taking time to do it.
 
-Samuel
