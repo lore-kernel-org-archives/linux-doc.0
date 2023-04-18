@@ -2,314 +2,270 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE6DBC77B71
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 05:08:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0341CC77B71
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 05:17:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbjDRFI1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 01:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52190 "EHLO
+        id S230203AbjDRFRF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 01:17:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjDRFI1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 01:08:27 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8A72D60
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 22:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681794504; x=1713330504;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=H4hgf8LU6/CPLSp5FudF7gD+4HUp3QE6KX9/Q5iLPkA=;
-  b=gMU5ewbMvOHAJ6Xnxs8n9uQog4EqSoRItRCLx4b8txuyNxLLYS29nQkY
-   OJiGkM1s7ylJKhx3AI9MM2l5I2MN/2M6b9ovvXjvTxihMYevMoPXSmz6K
-   EzwY5QWnBYm8iFl6EfTpJHVKdTDSkK7tmEgalAPhyKAszRXbB4nWfT99M
-   Soag/SI3Xw3Sk36S/DDsZ8AExOkgEmXxf8ymOeQfNgC0RSfbZSoGJ25JM
-   mfKlKAoOjvYpHrh9v0sUxzrIrwTOcupCcM0wPKxsmG801rmxyO1uH5daJ
-   pZtDJeGwmNVOK1WZq6Kij0sPWJFN9wCWdzWxzQbE6vm9Q8nSDyhhn961T
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="333876413"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="333876413"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 22:08:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="684433375"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="684433375"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Apr 2023 22:08:21 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1podZl-000d0Z-0a;
-        Tue, 18 Apr 2023 05:08:21 +0000
-Date:   Tue, 18 Apr 2023 13:08:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dinh Nguyen <dinh.nguyen@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [dinguyen:for_next_hwmon_v2 7/7] htmldocs:
- Documentation/hwmon/index.rst:20: WARNING: toctree contains reference to
- nonexisting document 'hwmon/socfpga-hwmon'
-Message-ID: <202304181343.qCPTq6Yz-lkp@intel.com>
+        with ESMTP id S230000AbjDRFRB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 01:17:01 -0400
+Received: from 66-220-144-179.mail-mxout.facebook.com (66-220-144-179.mail-mxout.facebook.com [66.220.144.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F1359D7
+        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 22:16:59 -0700 (PDT)
+Received: by devbig1114.prn1.facebook.com (Postfix, from userid 425415)
+        id C84683AA01EF; Mon, 17 Apr 2023 22:14:10 -0700 (PDT)
+From:   Stefan Roesch <shr@devkernel.io>
+To:     kernel-team@fb.com
+Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org, willy@infradead.org
+Subject: [PATCH v9 0/3] mm: process/cgroup ksm support
+Date:   Mon, 17 Apr 2023 22:13:39 -0700
+Message-Id: <20230418051342.1919757-1-shr@devkernel.io>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git for_next_hwmon_v2
-head:   06b5c9bde5bd2cc4c857e1a379043c23ec608072
-commit: 06b5c9bde5bd2cc4c857e1a379043c23ec608072 [7/7] hwmon: (socfpga) Add hardware monitoring support on SoCFPGA platforms
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git/commit/?id=06b5c9bde5bd2cc4c857e1a379043c23ec608072
-        git remote add dinguyen https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git
-        git fetch --no-tags dinguyen for_next_hwmon_v2
-        git checkout 06b5c9bde5bd2cc4c857e1a379043c23ec608072
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+So far KSM can only be enabled by calling madvise for memory regions. To
+be able to use KSM for more workloads, KSM needs to have the ability to b=
+e
+enabled / disabled at the process / cgroup level.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304181343.qCPTq6Yz-lkp@intel.com/
+Use case 1:
+The madvise call is not available in the programming language. An example=
+ for
+this are programs with forked workloads using a garbage collected languag=
+e without
+pointers. In such a language madvise cannot be made available.
 
-All warnings (new ones prefixed by >>):
+In addition the addresses of objects get moved around as they are garbage
+collected. KSM sharing needs to be enabled "from the outside" for these t=
+ype of
+workloads.
 
->> Documentation/hwmon/index.rst:20: WARNING: toctree contains reference to nonexisting document 'hwmon/socfpga-hwmon'
+Use case 2:
+The same interpreter can also be used for workloads where KSM brings no
+benefit or even has overhead. We'd like to be able to enable KSM on a wor=
+kload
+by workload basis.
 
-vim +20 Documentation/hwmon/index.rst
+Use case 3:
+With the madvise call sharing opportunities are only enabled for the curr=
+ent
+process: it is a workload-local decision. A considerable number of sharin=
+g
+opportunities may exist across multiple workloads or jobs (if they are pa=
+rt
+of the same security domain). Only a higler level entity like a job sched=
+uler
+or container can know for certain if its running one or more instances of=
+ a
+job. That job scheduler however doesn't have the necessary internal workl=
+oad
+knowledge to make targeted madvise calls.
 
-7ebd8b66dd9e5a Mauro Carvalho Chehab                      2019-04-17   19  
-7ebd8b66dd9e5a Mauro Carvalho Chehab                      2019-04-17  @20  .. toctree::
-7ebd8b66dd9e5a Mauro Carvalho Chehab                      2019-04-17   21     :maxdepth: 1
-7ebd8b66dd9e5a Mauro Carvalho Chehab                      2019-04-17   22  
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   23     abituguru
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   24     abituguru3
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   25     acpi_power_meter
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   26     ad7314
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   27     adc128d818
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   28     adm1021
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   29     adm1025
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   30     adm1026
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   31     adm1031
-09b08ac9e8d586 Beniamin Bia                               2020-01-14   32     adm1177
-9514a22866ba13 Alexandru Tachici                          2020-08-12   33     adm1266
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   34     adm1275
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   35     adm9240
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   36     ads7828
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   37     adt7410
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   38     adt7411
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   39     adt7462
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   40     adt7470
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   41     adt7475
-8c78f0dee4371a Johannes Cornelis Draaijer (datdenkikniet  2021-01-07   42)    aht10
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   43     amc6821
-0e35f63f7f4eeb Aleksa Savic                               2021-08-28   44     aquacomputer_d5next
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   45     asb100
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   46     asc7621
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   47     aspeed-pwm-tacho
-0314c6ac9e98d7 Eugene Shalygin                            2022-01-24   48     asus_ec_sensors
-548820e21ce105 Denis Pauk                                 2021-11-16   49     asus_wmi_sensors
-4406d36dfdf1fb Michael Walle                              2020-04-20   50     bcm54140
-61412ef12a8450 Tao Ren                                    2019-10-29   51     bel-pfe
-15b2703e5e0230 Chris Packham                              2021-03-17   52     bpa-rs600
-87976ce2825d9f Serge Semin                                2020-05-28   53     bt1-pvt
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   54     coretemp
-40c3a445422579 Marius Zachmann                            2020-06-26   55     corsair-cpro
-d115b51e0e5671 Wilken Gottwalt                            2020-10-27   56     corsair-psu
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   57     da9052
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   58     da9055
-4a1288f1c1cf58 Giovanni Mascellani                        2019-11-22   59     dell-smm-hwmon
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   60     dme1737
-3efbcee8d40297 Robert Marko                               2021-06-07   61     dps920ab
-5b46903d8bf372 Guenter Roeck                              2019-11-28   62     drivetemp
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   63     ds1621
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   64     ds620
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   65     emc1403
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   66     emc2103
-005cc9b4f11183 Michael Shych                              2022-08-10   67     emc2305
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   68     emc6w201
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   69     f71805f
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   70     f71882fg
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   71     fam15h_power
-1734b4135a62fd Václav Kubernát                            2021-04-14   72     fsp-3y
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   73     ftsteutates
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   74     g760a
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   75     g762
-3bce5377ef66a8 Tim Harvey                                 2020-05-15   76     gsc-hwmon
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   77     gl518sm
-90905f7c40910a Nick Hawkins                               2023-01-03   78     gxp-fan-ctrl
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   79     hih6130
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   80     ibmaem
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   81     ibm-cffps
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   82     ibmpowernv
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   83     ina209
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   84     ina2xx
-eacb52f010a807 Nathan Rossi                               2021-11-02   85     ina238
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   86     ina3221
-865e4fc013ba58 Xu Yilun                                   2020-09-21   87     intel-m10-bmc-hwmon
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   88     ir35221
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   89     ir38064
-e20a7198a20fcd Chris Packham                              2021-03-01   90     ir36021
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   91     isl68137
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   92     it87
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   93     jc42
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   94     k10temp
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   95     k8temp
-c8f55be4a1c7b4 Michael Walle                              2022-04-01   96     lan966x
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   97     lineage-pem
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   98     lm25066
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22   99     lm63
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  100     lm70
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  101     lm73
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  102     lm75
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  103     lm77
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  104     lm78
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  105     lm80
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  106     lm83
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  107     lm85
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  108     lm87
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  109     lm90
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  110     lm92
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  111     lm93
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  112     lm95234
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  113     lm95245
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  114     lochnagar
-e10d9e4ca1d9d7 Guenter Roeck                              2022-05-18  115     lt7182s
-b0bd407e94b036 Alexandru Tachici                          2020-12-03  116     ltc2992
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  117     ltc2945
-9f90fd652bed0a Nuno Sá                                    2019-10-21  118     ltc2947
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  119     ltc2978
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  120     ltc2990
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  121     ltc3815
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  122     ltc4151
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  123     ltc4215
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  124     ltc4245
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  125     ltc4260
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  126     ltc4261
-12d36c8362d090 Tao Ren                                    2020-11-23  127     max127
-1e4063329fe865 Erik Rosen                                 2021-04-19  128     max15301
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  129     max16064
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  130     max16065
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  131     max1619
-2138f8853a00b2 Guenter Roeck                              2019-12-14  132     max16601
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  133     max1668
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  134     max197
-cce209581a61d0 Guenter Roeck                              2019-12-05  135     max20730
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  136     max20751
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  137     max31722
-d21ed22ba7b110 Guenter Roeck                              2019-11-23  138     max31730
-8e27c2fd61bb99 Ibrahim Tilki                              2022-09-10  139     max31760
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  140     max31785
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  141     max31790
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  142     max34440
-e8ac01e5db329c Arun Saravanan Balachandran                2021-09-13  143     max6620
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  144     max6639
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  145     max6642
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  146     max6650
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  147     max6697
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  148     max8688
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  149     mc13783-adc
-a66c9147916fef Mario Kicherer                             2023-01-18  150     mc34vr500
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  151     mcp3021
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  152     menf21bmc
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  153     mlxreg-fan
-f20f7363e7e1d2 Fabio Estevam                              2021-05-21  154     mp2888
-9d8c4f0c0170a8 Mauro Carvalho Chehab                      2020-10-27  155     mp2975
-e1c5cd7e8af0f5 Howard.Chiu@quantatw.com                   2021-12-09  156     mp5023
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  157     nct6683
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  158     nct6775
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  159     nct7802
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  160     nct7904
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  161     npcm750-pwm-fan
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  162     nsa320
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  163     ntc_thermistor
-82e3430dfa8c32 Jonas Malaco                               2021-03-19  164     nzxt-kraken2
-53e68c20aeb1e2 Aleksandr Mezin                            2021-10-31  165     nzxt-smart2
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  166     occ
-ed264e8a7d18c5 Joaquín Ignacio Aramendía                  2022-11-04  167     oxp-sensors
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  168     pc87360
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  169     pc87427
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  170     pcf8591
-bf8e0cd8d6b2c9 Erik Rosen                                 2021-06-09  171     pim4328
-d0cd978513f2e3 Marcello Sylvester Bauer                   2022-02-21  172     pli1209bc
-7537862a90b8b9 Charles                                    2020-12-02  173     pm6764tr
-bdcfb955acc94a Jae Hyun Yoo                               2022-02-08  174     peci-cputemp
-bdcfb955acc94a Jae Hyun Yoo                               2022-02-08  175     peci-dimmtemp
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  176     pmbus
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  177     powr1220
-899df7b41cc4b6 Mauro Carvalho Chehab                      2019-07-22  178     pxe1610
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  179     pwm-fan
-d014538aa38561 xiao.ma                                    2020-12-01  180     q54sj108a2
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  181     raspberrypi-hwmon
-04165fb73f9b8e Akshay Gupta                               2021-07-26  182     sbrmi
-6ec3fcf556fe44 Kun Yi                                     2020-12-11  183     sbtsi_temp
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  184     sch5627
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  185     sch5636
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  186     scpi-hwmon
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  187     sht15
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  188     sht21
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  189     sht3x
-505c2549373f3a Navin Sankar Velliangiri                   2021-05-24  190     sht4x
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  191     shtc1
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  192     sis5595
-3f697027bcb095 Michael Walle                              2020-09-14  193     sl28cpld
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  194     smm665
-694144b215fc07 Quan Nguyen                                2022-09-29  195     smpro-hwmon
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  196     smsc47b397
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  197     smsc47m192
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  198     smsc47m1
-06b5c9bde5bd2c Dinh Nguyen                                2023-04-13  199     socfpga-hwmon
-4d05e3a0f53ae6 Mauro Carvalho Chehab                      2020-09-09  200     sparx5-temp
-42bfe7dd0f9918 Erik Rosen                                 2021-02-18  201     stpddc60
-de34a405325078 Alistair Francis                           2022-01-24  202     sy7636a-hwmon
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  203     tc654
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  204     tc74
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  205     thmc50
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  206     tmp102
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  207     tmp103
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  208     tmp108
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  209     tmp401
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  210     tmp421
-007e433cf03733 Guenter Roeck                              2022-02-22  211     tmp464
-59dfa75e5d82a1 Eric Tremblay                              2019-11-12  212     tmp513
-fff7b8ab225547 Robert Marko                               2021-01-21  213     tps23861
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  214     tps40422
-6f4a0daea43060 Guenter Roeck                              2020-02-01  215     tps53679
-cc842bd57e779e Duke Du                                    2022-09-12  216     tps546d24
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  217     twl4030-madc-hwmon
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  218     ucd9000
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  219     ucd9200
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  220     vexpress
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  221     via686a
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  222     vt1211
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  223     w83627ehf
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  224     w83627hf
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  225     w83773g
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  226     w83781d
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  227     w83791d
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  228     w83792d
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  229     w83793
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  230     w83795
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  231     w83l785ts
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  232     w83l786ng
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  233     wm831x
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  234     wm8350
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  235     xgene-hwmon
-971dfd8cdcd60f Vadim Pasternak                            2020-01-13  236     xdpe12284
-9054416afcb443 Greg.Schwendimann@infineon.com             2022-04-27  237     xdpe152c4
-f786dbbe6f2683 Mauro Carvalho Chehab                      2019-04-22  238     zl6100
-7ebd8b66dd9e5a Mauro Carvalho Chehab                      2019-04-17  239  
+Security concerns:
+In previous discussions security concerns have been brought up. The probl=
+em is
+that an individual workload does not have the knowledge about what else i=
+s
+running on a machine. Therefore it has to be very conservative in what me=
+mory
+areas can be shared or not. However, if the system is dedicated to runnin=
+g
+multiple jobs within the same security domain, its the job scheduler that=
+ has
+the knowledge that sharing can be safely enabled and is even desirable.
 
-:::::: The code at line 20 was first introduced by commit
-:::::: 7ebd8b66dd9e5a0b65e5ee5e2b8e7ca382ec97b7 docs: hwmon: Add an index file and rename docs to *.rst
+Performance:
+Experiments with using UKSM have shown a capacity increase of around 20%.
 
-:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-:::::: CC: Guenter Roeck <linux@roeck-us.net>
+Here are the metrics from an instagram workload (taken from a machine wit=
+h
+64GB main memory):
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+   full_scans: 445
+   general_profit: 20158298048
+   max_page_sharing: 256
+   merge_across_nodes: 1
+   pages_shared: 129547
+   pages_sharing: 5119146
+   pages_to_scan: 4000
+   pages_unshared: 1760924
+   pages_volatile: 10761341
+   run: 1
+   sleep_millisecs: 20
+   stable_node_chains: 167
+   stable_node_chains_prune_millisecs: 2000
+   stable_node_dups: 2751
+   use_zero_pages: 0
+   zero_pages_sharing: 0
+
+After the service is running for 30 minutes to an hour, 4 to 5 million sh=
+ared
+pages are common for this workload when using KSM.
+
+
+Detailed changes:
+
+1. New options for prctl system command
+This patch series adds two new options to the prctl system call. The firs=
+t
+one allows to enable KSM at the process level and the second one to query=
+ the
+setting.
+
+The setting will be inherited by child processes.
+
+With the above setting, KSM can be enabled for the seed process of a cgro=
+up
+and all processes in the cgroup will inherit the setting.
+
+2. Changes to KSM processing
+When KSM is enabled at the process level, the KSM code will iterate over =
+all
+the VMA's and enable KSM for the eligible VMA's.
+
+When forking a process that has KSM enabled, the setting will be inherite=
+d by
+the new child process.
+
+3. Add general_profit metric
+The general_profit metric of KSM is specified in the documentation, but n=
+ot
+calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
+sm.
+
+4. Add more metrics to ksm_stat
+This adds the process profit metric to /proc/<pid>/ksm_stat.
+
+5. Add more tests to ksm_tests and ksm_functional_tests
+This adds an option to specify the merge type to the ksm_tests. This allo=
+ws to
+test madvise and prctl KSM.
+
+It also adds a two new tests to ksm_functional_tests: one to test the new
+prctl options and the other one is a fork test to verify that the KSM pro=
+cess
+setting is inherited by client processes.
+
+
+Changes:
+- V9:
+  - simplify __ksm_add_vma()
+  - Adding return to test_prctl() in ksm_functional_tests.c
+  - Removing assignment in defining debug variable in ksm_tests.c
+ =20
+- V8:
+  - Refreshed to latest mm-unstable
+  - Added check for arg3 - arg5 in prctl function
+  - Don't return an error ksm_enable_merge_any if MMF_VM_MERGE_ANY bit is
+    already set
+
+  - unmap after merge in ksm_tests program
+  - use tmp variable in main function in ksm_tests program
+ =20
+  - Specify all 5 parameters in call to prctl in test programs
+  - Rename test_ksm_prctl() to test_prctl()
+  - Skip if first test in test_prctl failed with skip result
+  - Exit early for failures in test_prctl
+
+  - Rename test_ksm_fork() to test_prctl_fork()
+  - Similar changes to test_prctl also for test_prctl_fork()
+  - Change number of test
+ =20
+- V7:
+  - Removed ksm_add_mm() function
+  - added ksm_enable_merge_any() function
+  - Made ksm_add_vmas() function static
+  - Simplified ksm_fork function to only MMF_VM_MERGE_ANY bit
+  - Moved setting of bit MMF_VM_MERGE_ANY to ksm_enable_merge_any()
+  - Removed flag parameter from __ksm_enter
+  - Removed flag parameter from __ksm_exit
+  - Clear bit MMF_VM_MERGE_ANY in __ksm_exit
+  - call ksm_add_vma only in mmap_region() and do_brk_flags()
+
+  - Removed check_ksm_fork() and check_ksm_merge_type from ksm_tests
+  - Removed -F and -G command line options
+  - Removed enum options for above tests
+  - Added -d option to enable debug mode
+  - Added debug variable for storing debug option
+
+- V6:
+  - Fix error condition in prctl call
+  - Remove ksm_merge_type function and ksm_stat output
+  - Some minor changes like whitespace and removing a cast.
+ =20
+- V5:
+  - When the prctl system call is invoked, mark all compatible VMA
+    as mergeable
+  - Instead of checcking during scan if VMA is mergeable, mark the VMA
+    mergeable when the VMA is created (in case the VMA is compatible)
+    - Remove earlier changes, they are no longer necessary
+  - Unset the flag MMF_VM_MERGE_ANY in gmap_mark_unmergeable().
+  - When unsetting the MMF_VM_MERGE_ANY flag with prctl, only unset the
+    flag
+  - Remove pages_volatile function (with the simplar general_profit calcu=
+lation,
+    the function is no longer needed)
+  - Use simpler formula for calculation of general_profit
+
+- V4:
+  - removing check in prctl for MMF_VM_MERGEABLE in PR_SET_MEMORY_MERGE
+    handling
+  - Checking for VM_MERGEABLE AND MMF_VM_MERGE_ANY to avoid chaning vm_fl=
+ags
+    - This requires also checking that the vma is compatible. The
+      compatibility check is provided by a new helper
+    - processes which have set MMF_VM_MERGE_ANY, only need to call the
+      helper and not madvise.
+  - removed unmerge_vmas function, this function is no longer necessary,
+    clearing the MMF_VM_MERGE_ANY bit is sufficient
+
+- V3:
+  - folded patch 1 - 6
+  - folded patch 7 - 14
+  - folded patch 15 - 19
+  - Expanded on the use cases in the cover letter
+  - Added a section on security concerns to the cover letter
+
+- V2:
+  - Added use cases to the cover letter
+  - Removed the tracing patch from the patch series and posted it as an
+    individual patch
+  - Refreshed repo
+
+
+
+Stefan Roesch (3):
+  mm: add new api to enable ksm per process
+  mm: add new KSM process and sysfs knobs
+  selftests/mm: add new selftests for KSM
+
+ Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
+ Documentation/admin-guide/mm/ksm.rst          |   5 +-
+ arch/s390/mm/gmap.c                           |   7 +
+ fs/proc/base.c                                |   3 +
+ include/linux/ksm.h                           |  25 ++-
+ include/linux/sched/coredump.h                |   1 +
+ include/uapi/linux/prctl.h                    |   2 +
+ kernel/sys.c                                  |  27 +++
+ mm/ksm.c                                      | 125 +++++++++++--
+ mm/mmap.c                                     |   3 +
+ tools/include/uapi/linux/prctl.h              |   2 +
+ tools/testing/selftests/mm/Makefile           |   2 +-
+ .../selftests/mm/ksm_functional_tests.c       |  91 ++++++++-
+ tools/testing/selftests/mm/ksm_tests.c        | 172 ++++++++++++++----
+ 14 files changed, 414 insertions(+), 59 deletions(-)
+
+
+base-commit: f80a6c7a37be043f7b074d1e19638675315e3566
+--=20
+2.31.1
+
