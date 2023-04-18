@@ -2,106 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDA74C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 09:33:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DECFC77B78
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 10:18:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231335AbjDRJdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 05:33:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38450 "EHLO
+        id S229761AbjDRKSL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 06:18:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbjDRJdq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 05:33:46 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F306A77
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 02:33:42 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4edcc885d8fso487317e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 02:33:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681810421; x=1684402421;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L5WXOPB3Y4MTTwsxf9PWuOZ+BaBJ0YphlGsakZvJs+w=;
-        b=piROnxjik+2/8Dv62cOus3n34UMiSOvIvZIPF9eI7/ArQzcwp1nxufhHkwzt+FRGI2
-         IPzl1e5Gb4zQMqV0EAGwCWRirvfvzG3+pk29rhByc6tDVmi85gF1LPsglMQNF2ELFvp2
-         3+xeWPl5d44dyiCVqBafSn8m0Z5NT9YZyhx+XYARcd27up8nO0VU1Fnq+cwjutZwF042
-         yCyd9WJtVEM4sBHZvNIIiPuthDLI5jBjC9LSrrMSh0ll/q3jA04OzjXUs8puGbEboSQ4
-         Tu4c1VbEjk5j2xtTavHalPvjWr9pQGn0XQ2hIhYwVWQN/UpQfIJjux/G7HI3F73/2jQu
-         kTRQ==
+        with ESMTP id S231205AbjDRKSF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 06:18:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9605C4C18
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 03:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681813036;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ApoV6tQ/8bWNgsumqAtwyvPE2nYx/deLF6XAnhG6Ezo=;
+        b=cVic9unN2TPZRQuhhQEIbhWhVOh//CdqCNGjlXp1W9IqLr3qfn2FBQZWhba6K4EjtjoJhe
+        GKxuu20Y52VfOsobZL6EbGr1ALzdfPmTDuMdXYBC1UPPKLY/2PTmMVqDlpPM0XQ0zjh0I7
+        obPhnU8itGgQk8WijFy92gaR1M74q3Y=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-659-QxlIySBaPNKG7kBt3TcMYg-1; Tue, 18 Apr 2023 06:17:01 -0400
+X-MC-Unique: QxlIySBaPNKG7kBt3TcMYg-1
+Received: by mail-ed1-f72.google.com with SMTP id u19-20020a50a413000000b0050670a8cb7dso8385425edb.13
+        for <linux-doc@vger.kernel.org>; Tue, 18 Apr 2023 03:17:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681810421; x=1684402421;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L5WXOPB3Y4MTTwsxf9PWuOZ+BaBJ0YphlGsakZvJs+w=;
-        b=ZcELRjEv+iY+wsg2j8r8r6+sDs4CQ80q6fccd63qRvTOTh7eGAoFA4Vy/PCT39cvzr
-         W5zwtZUWrIgmVBvKjRLN3woXuKtKCgTPSul5k4wq/qheS19L/mEit1VhKuKwGuHRFxms
-         Xti7CiGISa/S66UqcAmp2ErcmOUkVOtLqRHNhvNQRapiykgElwdaUW4pN45whrr9Ihmd
-         dYlfmAvcnVAGFMYFqgGWlqb5u0ilHB+IJ+3RKARV4GmF2KajmQvNn0o7Iql3lYH0CATQ
-         YfpPDxcqgXgfvWs8xo7TM9snwp/+mQAlAtHmxwLyUJiTTEiMtq1eySNPBYcJF+l19N1Y
-         JZLQ==
-X-Gm-Message-State: AAQBX9dHywtySh5+L0zKvvGOqb281LZP4B1HIYGjfhPyw6H6pkYlAhmm
-        cN5vyLHaS6qOauTAXOxGgp0fVw==
-X-Google-Smtp-Source: AKy350YfDnqx0ekmnOPKbiqhXQUmmKOiIzrPgd/oF+uGgWd9KFMGoFe5h5owEJ0XYWkDm/hdL7V4iw==
-X-Received: by 2002:ac2:51b3:0:b0:4ec:a18e:f985 with SMTP id f19-20020ac251b3000000b004eca18ef985mr2854150lfk.13.1681810420962;
-        Tue, 18 Apr 2023 02:33:40 -0700 (PDT)
-Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
-        by smtp.gmail.com with ESMTPSA id f15-20020ac251af000000b004dc4becfcd6sm2319201lfk.54.2023.04.18.02.33.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 02:33:40 -0700 (PDT)
-Message-ID: <a0518750-367d-5ec9-f49f-77e90d51cbf5@linaro.org>
-Date:   Tue, 18 Apr 2023 11:33:38 +0200
+        d=1e100.net; s=20221208; t=1681813020; x=1684405020;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ApoV6tQ/8bWNgsumqAtwyvPE2nYx/deLF6XAnhG6Ezo=;
+        b=DR9mdOWqrRbHTcyFbEBvmx4Ou9p+SyBLTFKC20eqvOeiyLd/mHhtkB9NcglEMj4ofk
+         t9sshMb3ytoQXbKpzssB8NBSmV7YlDKudOEzaaITJAUyUb0h2E00G62pwxzzoKDOJsDn
+         aRier5FoOxjO98MtPlmPbeDDNZU4px+UWmzeY4VE/Ds1sAwxeG63U0A+wQVzqrNge4RY
+         OzR0MfahrHIGiqyDiUS8cS5aBh8h2zkwup4paXHHCiLuygZeA1t6Fcr02FbvfSqBetra
+         jYmIiN5ak77QTh3cD0qkvM7m7mgEVhWZIWSAA0ePlBRC2grzplxwTMkrMWMn0iA188QD
+         NZ4w==
+X-Gm-Message-State: AAQBX9c9seLh7fkwXDT3XcrKGIchjoQQDuNuQeoLjWPQ28iMIpKKRwSy
+        XLPuqVZFy+T162qdbhmxLemYmwoxPlCy7czFtZeDDQHnEAfA/E4BMZjVALmY5mOHA/EgXSk3dh3
+        5oW4Qhl7dTm156h3mW/Em
+X-Received: by 2002:a17:907:838d:b0:947:4828:4399 with SMTP id mv13-20020a170907838d00b0094748284399mr7869354ejc.12.1681813020428;
+        Tue, 18 Apr 2023 03:17:00 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a+9FUztTLaTcXx8PE3l5G/TqPZEC561sVQryR4LTqFxkdQ1s67cLIsu1//A4fVbtZjLVD1Og==
+X-Received: by 2002:a17:907:838d:b0:947:4828:4399 with SMTP id mv13-20020a170907838d00b0094748284399mr7869332ejc.12.1681813020026;
+        Tue, 18 Apr 2023 03:17:00 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id z17-20020a170906715100b0093f822321fesm7835354ejj.137.2023.04.18.03.16.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Apr 2023 03:16:59 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 99F12AA85EB; Tue, 18 Apr 2023 12:16:58 +0200 (CEST)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Kal Cutter Conley <kal.conley@dectris.com>
+Cc:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        =?utf-8?B?QmrDtnJu?= =?utf-8?B?IFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+In-Reply-To: <CAHApi-=ODe-WtJ=m6bycQhKoQxb+kk2Yk9Fx5SgBsWUuWT_u-A@mail.gmail.com>
+References: <20230406130205.49996-1-kal.conley@dectris.com>
+ <20230406130205.49996-2-kal.conley@dectris.com> <87sfdckgaa.fsf@toke.dk>
+ <ZDBEng1KEEG5lOA6@boxer>
+ <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+ <875ya12phx.fsf@toke.dk>
+ <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
+ <87ile011kz.fsf@toke.dk>
+ <CAHApi-=ODe-WtJ=m6bycQhKoQxb+kk2Yk9Fx5SgBsWUuWT_u-A@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Tue, 18 Apr 2023 12:16:58 +0200
+Message-ID: <874jpdwl45.fsf@toke.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [RFC 0/3] drm: Add comm/cmdline fdinfo fields
-Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Akhil P Oommen <quic_akhilpo@quicinc.com>,
-        Chia-I Wu <olvaffe@gmail.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <freedreno@lists.freedesktop.org>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sean Paul <sean@poorly.run>
-References: <20230417201215.448099-1-robdclark@gmail.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230417201215.448099-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Looks like the 'PATCH' part of your subject was cut off!
+Kal Cutter Conley <kal.conley@dectris.com> writes:
 
-Konrad
+>> In addition, presumably when using this mode, the other XDP actions
+>> (XDP_PASS, XDP_REDIRECT to other targets) would stop working unless we
+>> add special handling for that in the kernel? We'll definitely need to
+>> handle that somehow...
+>
+> I am not familiar with all the details here. Do you know a reason why
+> these cases would stop working / why special handling would be needed?
+> For example, if I have a UMEM that uses hugepages and XDP_PASS is
+> returned, then the data is just copied into an SKB right? SKBs can
+> also be created directly from hugepages AFAIK. So I don't understand
+> what the issue would be. Can someone explain this concern?
 
-On 17.04.2023 22:12, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> When many of the things using the GPU are processes in a VM guest, the
-> actual client process is just a proxy.  The msm driver has a way to let
-> the proxy tell the kernel the actual VM client process's executable name
-> and command-line, which has until now been used simply for GPU crash
-> devcore dumps.  Lets also expose this via fdinfo so that tools can
-> expose who the actual user of the GPU is.
-> 
-> Rob Clark (3):
->   drm/doc: Relax fdinfo string constraints
->   drm/msm: Rework get_comm_cmdline() helper
->   drm/msm: Add comm/cmdline fields
-> 
->  Documentation/gpu/drm-usage-stats.rst   | 37 +++++++++++++++----------
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +--
->  drivers/gpu/drm/msm/msm_drv.c           |  2 ++
->  drivers/gpu/drm/msm/msm_gpu.c           | 27 +++++++++++++-----
->  drivers/gpu/drm/msm/msm_gpu.h           | 12 ++++++--
->  drivers/gpu/drm/msm/msm_submitqueue.c   |  1 +
->  6 files changed, 58 insertions(+), 25 deletions(-)
-> 
+Well, I was asking :) It may well be that the SKB path just works; did
+you test this? Pretty sure XDP_REDIRECT to another device won't, though?
+
+-Toke
+
