@@ -2,270 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0341CC77B71
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 05:17:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B4A4C77B71
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Apr 2023 05:39:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbjDRFRF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Apr 2023 01:17:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54876 "EHLO
+        id S230143AbjDRFjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Apr 2023 01:39:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbjDRFRB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 01:17:01 -0400
-Received: from 66-220-144-179.mail-mxout.facebook.com (66-220-144-179.mail-mxout.facebook.com [66.220.144.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F1359D7
-        for <linux-doc@vger.kernel.org>; Mon, 17 Apr 2023 22:16:59 -0700 (PDT)
-Received: by devbig1114.prn1.facebook.com (Postfix, from userid 425415)
-        id C84683AA01EF; Mon, 17 Apr 2023 22:14:10 -0700 (PDT)
-From:   Stefan Roesch <shr@devkernel.io>
-To:     kernel-team@fb.com
-Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, willy@infradead.org
-Subject: [PATCH v9 0/3] mm: process/cgroup ksm support
-Date:   Mon, 17 Apr 2023 22:13:39 -0700
-Message-Id: <20230418051342.1919757-1-shr@devkernel.io>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S229518AbjDRFjT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Apr 2023 01:39:19 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79E65B97;
+        Mon, 17 Apr 2023 22:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681796357; x=1713332357;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=G/juK7tVF+wMOv+mhRmkRntW8+4Cjn26LSpgm7qlaBY=;
+  b=ULDNznlQqyXYNrE+Y4xWDwXe0KyiORJ8/3+tS4uYIMGKgBTIyOoGg5J2
+   nnT0hx5L+/3HlckgfiZFG9nPsPSpV/9DezdrVlCa47EsVmZA/O9pZBh81
+   VlzuTOQCBwj5XJrQbTS0fBPurT6Aq/T5j3d63pFUk3oa+VU4YQF8rh+tv
+   acXHOXxJOng9AQbeUUVb2kiOgAyZMT9hOK2W9WkEJ0S79xLCMgriTcIBp
+   vdF2EaVpoVn8WO5gD/JnEGu8vZ/B3s0/C3LITQ2jtlZ2JEXuok1vSR6NG
+   koGpt5UG8rLiz8x5QY2WKK7aZ7+cNmtiZGg1CXIo0Gp1Aca8ItoLf+QSn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="347829818"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="347829818"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 22:39:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="937115105"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="937115105"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga006.fm.intel.com with ESMTP; 17 Apr 2023 22:39:09 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 17 Apr 2023 22:39:03 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 17 Apr 2023 22:39:03 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 17 Apr 2023 22:38:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=deBVbIDXD1Qgr2KjPtq+PFGMjryJ9bHbIpnlb1UVPpWQ9VMLNFhTmn/aiiDT3TBUH/CWbqTgU4EonCaYA2eaa0pnHd+QwfV/hX86VHUh4FOsqNLxcxF3wtFePVfC9epoMeDdnZe2yy9MjPAtDE46Je560uUZ8tbI3J6EX0eL++ciGXgdGxuaEqcrYy3tL11FF55gezU7/1iRmORNbgH2/E6v07Utibe8LecrfgjliDRa9G1QTfw5HebCMgWDiPza7ZJaF0S76hVC+2rTFpFKHmV0pggmPBPxqeNT1MgxPWgHKbNw4PHiUuZsomioe4m4HwpecTPGF05EBOqTgQzrMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+yp+1MctwVDE/OWh01s0zXhs7gNTq4aUPoWiyrbkonw=;
+ b=EoiQ9ex6V2skNtZ2RHCWvOMpoyKq746OjjGpAHDGViYppdIjGzgLBsUQYBqcksI9OmhL/R21lLe4PAXbGDqV08X1yc5d1chL9IyU6d0pY0p0slyoCeANeWweQXyFcPAJiy40suhJYcP61OP4UA26D6SqZxw7g5AWZWQ4ZhqQlQ98UAduvf9OkOKTNUt+971PzNvHvlIu3U+MAR3Dj5JvOhB7YFIs1BIlwocwwVCWwzEewhFQS4+R7+cP0L4HaYz1VC9NaEXD4W7m6UdPKLaGdcinaVwqQARt0Pg+cSHo4f24d0F0UNA7ZGQEX7N9FxT275Jy67h/mN6sx6J+NBwANA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by BL3PR11MB6385.namprd11.prod.outlook.com (2603:10b6:208:3b5::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
+ 2023 05:38:56 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::f7ec:aae9:1e7b:e004]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::f7ec:aae9:1e7b:e004%5]) with mapi id 15.20.6298.030; Tue, 18 Apr 2023
+ 05:38:56 +0000
+Date:   Tue, 18 Apr 2023 01:38:51 -0400
+From:   Rodrigo Vivi <rodrigo.vivi@intel.com>
+To:     Rob Clark <robdclark@gmail.com>
+CC:     <dri-devel@lists.freedesktop.org>,
+        Rob Clark <robdclark@chromium.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/docs: Fix usage stats typos
+Message-ID: <ZD4s6/6hUlA2UXgU@intel.com>
+References: <20230417200657.447606-1-robdclark@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230417200657.447606-1-robdclark@gmail.com>
+X-ClientProxiedBy: SJ0PR13CA0207.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::32) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BL3PR11MB6385:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1dac454-4b9e-4839-2fa5-08db3fcf33b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RMM+ZuG4UfFtR4V5GJYY2ZRNRAj+Cbhr7eE3fG++t75Mx7kld91cOQK9uCN+FtxYdNNF0+hgMcuqr8AovYeAZ4XV2oMn/PkRhOQrXpR6fznpKdI0lTFQlcz38hpMX6xVqMYzC0RtdcU7Jfm3FjsUWHewU/qX7rl+wwczgp0MqKDh54BwHhQWSERV29mOeffxrp+7/n3ERfSCCm5luNe9zxUTfrRMI58jUjQfzVnzSXBLf0xgbiWeB26CZBXsT3+ttuHypJcLLJPXN89z5DlxN+RBd1JbEWedqKfV9vdRaKH16jxApBZ0UxnBCBLekOQxOtVSTGbw7u1FhSFLH6qJzLF0Y11ihDW/hPlZcLd+kV87Go5DKUzkWm4DpPBM/o8ttwI/gz+SozA+rPouREWXJazJhmJOcPNp8R/vNdPY1r9lxMh9ee+0tI6DgcLnLUJvc/wNFqEKq+JrznHXooamrN/zRJXtanPCDTQ9mufPK823cdvqyFlnN5LNDqGJV2VUjnvImlzYPEi1fFCWUnHrqR5nnOCwsQYBPP8Z0e9dqXGkzrJGJn/oSFC8kwWByHXt
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6059.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(136003)(346002)(366004)(376002)(396003)(451199021)(36756003)(44832011)(38100700002)(5660300002)(2906002)(8676002)(8936002)(41300700001)(86362001)(6916009)(478600001)(54906003)(2616005)(26005)(6506007)(6512007)(186003)(6666004)(6486002)(4326008)(66556008)(66476007)(66946007)(316002)(83380400001)(82960400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Vk+oH0XL4QndzENOrBHBQpDEgu00//PklBfeniDGiZFYkOTWq17oyrlzhPd9?=
+ =?us-ascii?Q?MAb+2KM/XadnJxAICfNni6LIh9302pYls6yra6xFG2vH3zEb+9NB23lL824+?=
+ =?us-ascii?Q?lJKOeHvmGyoti/HzqSRinMQ8MEsKGRWQpsh09ELHchnvde2mi5COY8dSZGXD?=
+ =?us-ascii?Q?5oBsCxstRa78YqN1W5A7T92l/goMFHzbPJTQR0He/wW25h2AbR04qZRQBbhB?=
+ =?us-ascii?Q?cU+TwEC4cpHu5rKUR30IRqo1kbbKFuE9LcKLO7j8bbgQ8k1oKHLfuiuN8RqQ?=
+ =?us-ascii?Q?aVDbE8QyxgV3sAOIeYjlXWyTuglVcuzKWBUKNoT09eN91d1SrjcVAEach8wJ?=
+ =?us-ascii?Q?YPK2cfikuLFwQJ8GnBUzkUkyDkHRwFnuLcwxHvSsYPl0/+UN2B7U3+BqD9SR?=
+ =?us-ascii?Q?u2YDcfj50kPLHyvpotsbgYNI3sulu4plv17KrRSC46B8GlKdwsb1REiHKyfV?=
+ =?us-ascii?Q?qKR/jbLZ0ooUJvgX1XBOfkVfhOw4/bsz0Zh4NxEQz+zlMpAiJhkkscNmsx0v?=
+ =?us-ascii?Q?i6HISsgzXIJK4jS1YIfwn8cZ1dgCabDT9y3fkknCzPxsaGvjo2InBzRwbOMH?=
+ =?us-ascii?Q?odipLUPblkwUaZvkKEjbVG0IuPcrrBbOCvqZVvt/u1gMYfey96N4Yc3MSH8D?=
+ =?us-ascii?Q?PUd+RBDSN8btSsKthyjTMj4VEl5kg4u8V+ovfNZRk+qNbIIGiSk5a5MjDbx7?=
+ =?us-ascii?Q?SXYhtncSUt5DKBg8zxOjJBl1rIt6FgepkI18aSP84bMEKWTMRFuA/LSGrWL4?=
+ =?us-ascii?Q?MrF5Sx9u3wIMoaS7dbE/vPnJOZk0hV2eF3DS01mROn7cUUu8bsC21yjsq0J5?=
+ =?us-ascii?Q?kayDZipA5ce+IxcAAYZC8F5J/Fg665gC2Ua9oUnht9AALlrtm/pOj+0XZroT?=
+ =?us-ascii?Q?isn/ao8nNwRbZESHdRPvt6wpea4F3NwEWlh19u54J8TD3igaE1txuCmwBF3c?=
+ =?us-ascii?Q?bDKVC+S+7/Cb2y/BdE/qB63X/Kk9TdnVQSD6aiI9fklPt1UMK58uen4JFOCN?=
+ =?us-ascii?Q?f67bZ44uePyLl3MurGWGYEctmtV8V4zVyTkz15ahVe/vpmgFbCZUh2vwwIXE?=
+ =?us-ascii?Q?GpnTXVYGOxQQcsVs07GMcQMyNQdCr+wkvrjopY0w3q3HD0fJwVBEeVeAP9he?=
+ =?us-ascii?Q?hJ2sN3WHVClqWG1c06nb2v1sPoJ/JmCGhQMT+1BRh5+6vpZOyIiUp5Mpdvg8?=
+ =?us-ascii?Q?DpsUfm2AGexSrx3KwY5wcUMkdQQNXYhXe/bqZkDjKLnhdUG7S6e2It62QRTe?=
+ =?us-ascii?Q?2YVJaP/kWiD9+4ru3/EUs0FkJvJpLKLPtnKjRhAR18HlBp5TZG4BBlhFqlB+?=
+ =?us-ascii?Q?ayTxJgg5mbUS/tqAetttJpOBfnfXZXh+BbTkQftrE4zapKc4GT07K94s0Q4d?=
+ =?us-ascii?Q?iPHuvBp5/+akaX+agA16+85FgklrP3B2PjZCdZSKGe7kEeJJn47258ycjYAt?=
+ =?us-ascii?Q?QGusjdEQgRG+6wNjHQ60NnB93F6P0A+hfDXc0f54wfgMYvF9jBBjXV/HyMvB?=
+ =?us-ascii?Q?BkkjFrU+dEPGl3gxbdkzpTqL7Jo7TQeQOrL3DdBLiCVBmqj18EmyKWYVGOvb?=
+ =?us-ascii?Q?ROZGb3iAhSUTQxE35NgbBGwLgfORCoLcMzAPnZHlOBZWnpQfh96MfNG07LNm?=
+ =?us-ascii?Q?9g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1dac454-4b9e-4839-2fa5-08db3fcf33b8
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2023 05:38:56.4076
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CHLJW/0SDCiWZ6YnvRLq9N0YHhxmSGitS0p7Hg5hA++jJOb6XUOU/gOJ920fRy9Vxd0kohECjuPyFW5nc4C3Kw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6385
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So far KSM can only be enabled by calling madvise for memory regions. To
-be able to use KSM for more workloads, KSM needs to have the ability to b=
-e
-enabled / disabled at the process / cgroup level.
+On Mon, Apr 17, 2023 at 01:06:56PM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Fix a couple missing ':'s.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Use case 1:
-The madvise call is not available in the programming language. An example=
- for
-this are programs with forked workloads using a garbage collected languag=
-e without
-pointers. In such a language madvise cannot be made available.
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-In addition the addresses of objects get moved around as they are garbage
-collected. KSM sharing needs to be enabled "from the outside" for these t=
-ype of
-workloads.
-
-Use case 2:
-The same interpreter can also be used for workloads where KSM brings no
-benefit or even has overhead. We'd like to be able to enable KSM on a wor=
-kload
-by workload basis.
-
-Use case 3:
-With the madvise call sharing opportunities are only enabled for the curr=
-ent
-process: it is a workload-local decision. A considerable number of sharin=
-g
-opportunities may exist across multiple workloads or jobs (if they are pa=
-rt
-of the same security domain). Only a higler level entity like a job sched=
-uler
-or container can know for certain if its running one or more instances of=
- a
-job. That job scheduler however doesn't have the necessary internal workl=
-oad
-knowledge to make targeted madvise calls.
-
-Security concerns:
-In previous discussions security concerns have been brought up. The probl=
-em is
-that an individual workload does not have the knowledge about what else i=
-s
-running on a machine. Therefore it has to be very conservative in what me=
-mory
-areas can be shared or not. However, if the system is dedicated to runnin=
-g
-multiple jobs within the same security domain, its the job scheduler that=
- has
-the knowledge that sharing can be safely enabled and is even desirable.
-
-Performance:
-Experiments with using UKSM have shown a capacity increase of around 20%.
-
-Here are the metrics from an instagram workload (taken from a machine wit=
-h
-64GB main memory):
-
-   full_scans: 445
-   general_profit: 20158298048
-   max_page_sharing: 256
-   merge_across_nodes: 1
-   pages_shared: 129547
-   pages_sharing: 5119146
-   pages_to_scan: 4000
-   pages_unshared: 1760924
-   pages_volatile: 10761341
-   run: 1
-   sleep_millisecs: 20
-   stable_node_chains: 167
-   stable_node_chains_prune_millisecs: 2000
-   stable_node_dups: 2751
-   use_zero_pages: 0
-   zero_pages_sharing: 0
-
-After the service is running for 30 minutes to an hour, 4 to 5 million sh=
-ared
-pages are common for this workload when using KSM.
-
-
-Detailed changes:
-
-1. New options for prctl system command
-This patch series adds two new options to the prctl system call. The firs=
-t
-one allows to enable KSM at the process level and the second one to query=
- the
-setting.
-
-The setting will be inherited by child processes.
-
-With the above setting, KSM can be enabled for the seed process of a cgro=
-up
-and all processes in the cgroup will inherit the setting.
-
-2. Changes to KSM processing
-When KSM is enabled at the process level, the KSM code will iterate over =
-all
-the VMA's and enable KSM for the eligible VMA's.
-
-When forking a process that has KSM enabled, the setting will be inherite=
-d by
-the new child process.
-
-3. Add general_profit metric
-The general_profit metric of KSM is specified in the documentation, but n=
-ot
-calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
-sm.
-
-4. Add more metrics to ksm_stat
-This adds the process profit metric to /proc/<pid>/ksm_stat.
-
-5. Add more tests to ksm_tests and ksm_functional_tests
-This adds an option to specify the merge type to the ksm_tests. This allo=
-ws to
-test madvise and prctl KSM.
-
-It also adds a two new tests to ksm_functional_tests: one to test the new
-prctl options and the other one is a fork test to verify that the KSM pro=
-cess
-setting is inherited by client processes.
-
-
-Changes:
-- V9:
-  - simplify __ksm_add_vma()
-  - Adding return to test_prctl() in ksm_functional_tests.c
-  - Removing assignment in defining debug variable in ksm_tests.c
- =20
-- V8:
-  - Refreshed to latest mm-unstable
-  - Added check for arg3 - arg5 in prctl function
-  - Don't return an error ksm_enable_merge_any if MMF_VM_MERGE_ANY bit is
-    already set
-
-  - unmap after merge in ksm_tests program
-  - use tmp variable in main function in ksm_tests program
- =20
-  - Specify all 5 parameters in call to prctl in test programs
-  - Rename test_ksm_prctl() to test_prctl()
-  - Skip if first test in test_prctl failed with skip result
-  - Exit early for failures in test_prctl
-
-  - Rename test_ksm_fork() to test_prctl_fork()
-  - Similar changes to test_prctl also for test_prctl_fork()
-  - Change number of test
- =20
-- V7:
-  - Removed ksm_add_mm() function
-  - added ksm_enable_merge_any() function
-  - Made ksm_add_vmas() function static
-  - Simplified ksm_fork function to only MMF_VM_MERGE_ANY bit
-  - Moved setting of bit MMF_VM_MERGE_ANY to ksm_enable_merge_any()
-  - Removed flag parameter from __ksm_enter
-  - Removed flag parameter from __ksm_exit
-  - Clear bit MMF_VM_MERGE_ANY in __ksm_exit
-  - call ksm_add_vma only in mmap_region() and do_brk_flags()
-
-  - Removed check_ksm_fork() and check_ksm_merge_type from ksm_tests
-  - Removed -F and -G command line options
-  - Removed enum options for above tests
-  - Added -d option to enable debug mode
-  - Added debug variable for storing debug option
-
-- V6:
-  - Fix error condition in prctl call
-  - Remove ksm_merge_type function and ksm_stat output
-  - Some minor changes like whitespace and removing a cast.
- =20
-- V5:
-  - When the prctl system call is invoked, mark all compatible VMA
-    as mergeable
-  - Instead of checcking during scan if VMA is mergeable, mark the VMA
-    mergeable when the VMA is created (in case the VMA is compatible)
-    - Remove earlier changes, they are no longer necessary
-  - Unset the flag MMF_VM_MERGE_ANY in gmap_mark_unmergeable().
-  - When unsetting the MMF_VM_MERGE_ANY flag with prctl, only unset the
-    flag
-  - Remove pages_volatile function (with the simplar general_profit calcu=
-lation,
-    the function is no longer needed)
-  - Use simpler formula for calculation of general_profit
-
-- V4:
-  - removing check in prctl for MMF_VM_MERGEABLE in PR_SET_MEMORY_MERGE
-    handling
-  - Checking for VM_MERGEABLE AND MMF_VM_MERGE_ANY to avoid chaning vm_fl=
-ags
-    - This requires also checking that the vma is compatible. The
-      compatibility check is provided by a new helper
-    - processes which have set MMF_VM_MERGE_ANY, only need to call the
-      helper and not madvise.
-  - removed unmerge_vmas function, this function is no longer necessary,
-    clearing the MMF_VM_MERGE_ANY bit is sufficient
-
-- V3:
-  - folded patch 1 - 6
-  - folded patch 7 - 14
-  - folded patch 15 - 19
-  - Expanded on the use cases in the cover letter
-  - Added a section on security concerns to the cover letter
-
-- V2:
-  - Added use cases to the cover letter
-  - Removed the tracing patch from the patch series and posted it as an
-    individual patch
-  - Refreshed repo
-
-
-
-Stefan Roesch (3):
-  mm: add new api to enable ksm per process
-  mm: add new KSM process and sysfs knobs
-  selftests/mm: add new selftests for KSM
-
- Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
- Documentation/admin-guide/mm/ksm.rst          |   5 +-
- arch/s390/mm/gmap.c                           |   7 +
- fs/proc/base.c                                |   3 +
- include/linux/ksm.h                           |  25 ++-
- include/linux/sched/coredump.h                |   1 +
- include/uapi/linux/prctl.h                    |   2 +
- kernel/sys.c                                  |  27 +++
- mm/ksm.c                                      | 125 +++++++++++--
- mm/mmap.c                                     |   3 +
- tools/include/uapi/linux/prctl.h              |   2 +
- tools/testing/selftests/mm/Makefile           |   2 +-
- .../selftests/mm/ksm_functional_tests.c       |  91 ++++++++-
- tools/testing/selftests/mm/ksm_tests.c        | 172 ++++++++++++++----
- 14 files changed, 414 insertions(+), 59 deletions(-)
-
-
-base-commit: f80a6c7a37be043f7b074d1e19638675315e3566
---=20
-2.31.1
-
+> ---
+>  Documentation/gpu/drm-usage-stats.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index b46327356e80..72d069e5dacb 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -105,7 +105,7 @@ object belong to this client, in the respective memory region.
+>  Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>  indicating kibi- or mebi-bytes.
+>  
+> -- drm-cycles-<str> <uint>
+> +- drm-cycles-<str>: <uint>
+>  
+>  Engine identifier string must be the same as the one specified in the
+>  drm-engine-<str> tag and shall contain the number of busy cycles for the given
+> @@ -117,7 +117,7 @@ larger value within a reasonable period. Upon observing a value lower than what
+>  was previously read, userspace is expected to stay with that larger previous
+>  value until a monotonic update is seen.
+>  
+> -- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
+> +- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
+>  
+>  Engine identifier string must be the same as the one specified in the
+>  drm-engine-<str> tag and shall contain the maximum frequency for the given
+> -- 
+> 2.39.2
+> 
