@@ -2,184 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F205C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 14:35:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6318CC77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 14:38:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232741AbjDSOff (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 10:35:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36774 "EHLO
+        id S233148AbjDSOie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 10:38:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232587AbjDSOfd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 10:35:33 -0400
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA48E2703;
-        Wed, 19 Apr 2023 07:35:30 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 91D492B06805;
-        Wed, 19 Apr 2023 10:35:25 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 19 Apr 2023 10:35:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1681914925; x=1681922125; bh=Ut
-        qJg87sclxB8kmKKjm1dWi2X4vfjejVvTPZmHeTPGw=; b=G/roXKLhk54CD8O/zz
-        DKOt+KTNmyPZq5TIMil3xkVjiJd4gTK4vjA1iahL90dev069v5N6GP6D4X6S6QHQ
-        WvYaQZRGXnUiawwq3737yfdLPM2FOqs0nwDb7kNkl5nEB+zj4GrWnuK/Kpldb/Q/
-        KnMEA8pt7JkCJ+uTC/cvsYNEDCBt4czLcz09XIeWKn6tV59dg5QJLPtoBdbmT/EY
-        n6ATaxC8nX7Gmf3KCQDLWQWIxVie3bO/EC39/Hz6xlFqWSSNQRyKJ2f6pdFxgHR4
-        MhmcUGyiZMhTk52DLlrVJJosS9E95J7dPuHvPLnK8g4ANCtUf10ccU/yv1WcWyVC
-        yKWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1681914925; x=1681922125; bh=UtqJg87sclxB8
-        kmKKjm1dWi2X4vfjejVvTPZmHeTPGw=; b=Ayoqp8BoVyIaTqYKSvWcxI+q7xXHr
-        U+07R4ERCxUYUq9YFS4IqW+Gp+PHOE9ohJpaIuy3LN0j+q7mtre99MEphni+CUi9
-        GtHvEkeMTNUO4uqC9evL9j2oAnCozJ6LR8DD3f/kodBPsj2ygXPb1r+HDejWXVn7
-        4LAysEHDz3DVFtZL89xxbtsWqphFWxgpWNewdaa1+F1eebn0gCrxeDdXX8yCuouy
-        u75OYXRGMFXHyqklWYD2DE7ZEOLnRrGJ0S0bdwI/TDq59f97r0HzBBFAjIzg6ZxM
-        MvrlEEl3DLz6yob+G9qptjb/YVCkVWlk99w394m3NYhW9ZlG5SBEnnSMw==
-X-ME-Sender: <xms:K_w_ZAAcnt0IFxlEu-sWYxxCFj4E5HCrdO6gr4X0MJfFAiGmxaV84w>
-    <xme:K_w_ZCgIcIHgK9Z_PsDoB7b-8pvkx6wG9Mbj9U1d8bQhT3GT-hf-oSqbx10GP8B9f
-    Jhbjv9YwQGYOZs3ACg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedttddgjeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:K_w_ZDnBR_BAFwoanwfv8B7_PSBstC3_JVczRuVfTB6V2PuNb39qew>
-    <xmx:K_w_ZGznlZkjeBrmRL2dmDP6FxH9drM_zy3lWKa4ZN2-MD9ep5xGag>
-    <xmx:K_w_ZFRVkk5niRZjuNrSLjU3rJcwPSBhzMaC4kF6tovakEg27aFodQ>
-    <xmx:Lfw_ZOCz7NLW2Y2zhw3Ebr9-jzkAqBwZ7jwfeV0CSme0H9PGF0Ss2-wPCx8>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 04D1AB60086; Wed, 19 Apr 2023 10:35:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-372-g43825cb665-fm-20230411.003-g43825cb6
-Mime-Version: 1.0
-Message-Id: <d0cf8fa6-d1d2-4a61-ac54-1a268030febc@app.fastmail.com>
-In-Reply-To: <487a20e7-2894-218a-47e9-b222aef4ec6e@huawei.com>
-References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-24-sunilvl@ventanamicro.com>
- <dcd04005-2dba-4ccc-a235-a809220f9dbd@app.fastmail.com>
- <487a20e7-2894-218a-47e9-b222aef4ec6e@huawei.com>
-Date:   Wed, 19 Apr 2023 16:34:34 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Weili Qian" <qianweili@huawei.com>,
-        "Sunil V L" <sunilvl@ventanamicro.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-acpi@vger.kernel.org, linux-crypto@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev
-Cc:     "Jonathan Corbet" <corbet@lwn.net>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>, "Len Brown" <lenb@kernel.org>,
-        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Zhou Wang" <wangzhou1@hisilicon.com>,
-        "Herbert Xu" <herbert@gondor.apana.org.au>,
-        "Marc Zyngier" <maz@kernel.org>,
-        "Maximilian Luz" <luzmaximilian@gmail.com>,
-        "Hans de Goede" <hdegoede@redhat.com>,
-        "Mark Gross" <markgross@kernel.org>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Tom Rix" <trix@redhat.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>
-Subject: Re: [PATCH V4 23/23] crypto: hisilicon/qm: Workaround to enable build with
- RISC-V clang
-Content-Type: text/plain
+        with ESMTP id S233085AbjDSOid (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 10:38:33 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8137C3C17;
+        Wed, 19 Apr 2023 07:38:31 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id he11-20020a05600c540b00b003ef6d684102so1568822wmb.3;
+        Wed, 19 Apr 2023 07:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681915110; x=1684507110;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=pRLB4jafvDSF5N3zbFXDTvNqa3CWokYQT7DnSmldu+s=;
+        b=B6s2epmCAFJBrmAoB93mRJYd/ff0qly363oyJkb5paDWH4zH4tdPVJFuITaSc1N72l
+         U4HOTyjY88hj/udELRS4uSsrNpX5Vpe17ZUdi4PI3fI7mxs93bxsNH/lHXhAtxTrYF3X
+         i9RchJQa5d4MWGxMb7ZxqdEbEsXlWy5QyUpsoiS9jq/wk84HwkYHCeDhdlaDpOvN+Htu
+         Oxt4nxTx6igTQpl1D/YjYYQFslkA/GlMXAAK6XWyLulRa2HfeYEP30j0TSAF5jggaNRw
+         6jP7dxN14tx+r8E/mw9Lp7VGwEfMhTVokzsg46F+eIHoMyLbe57euwMka7/nx7vlLAPc
+         jXDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681915110; x=1684507110;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pRLB4jafvDSF5N3zbFXDTvNqa3CWokYQT7DnSmldu+s=;
+        b=T8aSBHJlNG46OLRHSqbty/MNf1skaCeraAf5Gj1QKZ1ejAn711d925OQOGQNvaotd4
+         rjZWk2P3l4MwODynOxEwNvLS3nzzhqHkzY49W7p2D8+TnUJmZKQYyhvfTEO56csGOpcR
+         zOfjdFA3fHBovzzbjD+9JmZPniH3U5eucbJUCDvomI3AudahbXzzkVbMMrU+La5Qxf80
+         Rvwcy8SWmEou1UhbmkonlSzTtiXJXkfXmvyt9VVlxt+6l18Rjmi+3ui2+OyLtMx45oLq
+         vPy8KFOxUXXYO2FcTTEp9R6HakeZ6Z9Nt8jlk8NxOocP/Vu7R98H6O/FnX96q9fiZRy3
+         DP6A==
+X-Gm-Message-State: AAQBX9c74N46jhIt65zZs2arG+tYdbr/WgTfRKP8BjCK6qg0JkOPBO3J
+        Ly1/3oknkxNEy93hHssl6Jo=
+X-Google-Smtp-Source: AKy350aAVpJgiBuQowINe7K2XwUMEspk5c7HruQFKHK8h6zPcSaAvxR/p4r/S6XEU+mKmXvjSgNJ6w==
+X-Received: by 2002:a1c:4c02:0:b0:3f1:78a7:6bd2 with SMTP id z2-20020a1c4c02000000b003f178a76bd2mr5488015wmf.27.1681915109688;
+        Wed, 19 Apr 2023 07:38:29 -0700 (PDT)
+Received: from Ansuel-xps. (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
+        by smtp.gmail.com with ESMTPSA id m14-20020a056000008e00b002c71b4d476asm15911066wrx.106.2023.04.19.07.38.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 07:38:28 -0700 (PDT)
+Message-ID: <643ffce4.050a0220.73dcc.1bec@mx.google.com>
+X-Google-Original-Message-ID: <ZD/84vlr8Pe7ntT2@Ansuel-xps.>
+Date:   Wed, 19 Apr 2023 16:38:26 +0200
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+        Jonathan McDowell <noodles@earth.li>
+Subject: Re: [net-next PATCH v7 13/16] ARM: dts: qcom: ipq8064-rb3011: Add
+ Switch LED for each port
+References: <20230417151738.19426-1-ansuelsmth@gmail.com>
+ <20230417151738.19426-14-ansuelsmth@gmail.com>
+ <289b7604-d32d-49d9-8f06-87147d6fd473@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <289b7604-d32d-49d9-8f06-87147d6fd473@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 11, 2023, at 13:42, Weili Qian wrote:
-> On 2023/4/5 16:16, Arnd Bergmann wrote:
->> On Tue, Apr 4, 2023, at 20:20, Sunil V L wrote:
->>> With CONFIG_ACPI enabled for RISC-V, this driver gets enabled in
->>> allmodconfig build. The gcc tool chain builds this driver removing the
->>> inline arm64 assembly code. However, clang for RISC-V tries to build
->>> the arm64 assembly and below error is seen.
->>>
->>> drivers/crypto/hisilicon/qm.c:627:10: error: invalid output constraint 
->>> '+Q' in asm
->>>                        "+Q" (*((char __iomem *)fun_base))
->>>                        ^
->>> It appears that RISC-V clang is not smart enough to detect
->>> IS_ENABLED(CONFIG_ARM64) and remove the dead code.
->>>
->>> As a workaround, move this check to preprocessing stage which works
->>> with the RISC-V clang tool chain.
->>>
->>> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
->> 
->> Your patch looks correct for this particular problem, but I
->> see that there are a couple of other issues in the same function:
->> 
->>> -	}
->>> +#if IS_ENABLED(CONFIG_ARM64)
->>> +	unsigned long tmp0 = 0, tmp1 = 0;
->>>
->>>  	asm volatile("ldp %0, %1, %3\n"
->>>  		     "stp %0, %1, %2\n"
->>> @@ -627,6 +623,11 @@ static void qm_mb_write(struct hisi_qm *qm, const 
->>> void *src)
->>>  		       "+Q" (*((char __iomem *)fun_base))
->>>  		     : "Q" (*((char *)src))
->>>  		     : "memory");
->> 
->> For the arm64 version:
->> 
->> - the "dmb oshst" barrier needs to come before the stp, not after
->>   it,  otherwise there is no guarantee that data written to memory
->>   is visible by the device when the mailbox gets triggered
->> - The input/output arguments need to be pointers to 128-bit types,
->>   either a struct or a __uint128_t
->> - this lacks a byteswap on big-endian kernels
-> Sorry for the late reply.
->
-> - the execution order relies on the data dependency between ldp and stp:
->   load "src" to "tmp0" and "tmp1", then
->   store "tmp0" and "tmp1" to "fun_base";
+On Wed, Apr 19, 2023 at 02:53:45PM +0200, Krzysztof Kozlowski wrote:
+> On 17/04/2023 17:17, Christian Marangi wrote:
+> > Add Switch LED for each port for MikroTik RB3011UiAS-RM.
+> > 
+> > MikroTik RB3011UiAS-RM is a 10 port device with 2 qca8337 switch chips
+> > connected.
+> > 
+> > It was discovered that in the hardware design all 3 Switch LED trace of
+> > the related port is connected to the same LED. This was discovered by
+> > setting to 'always on' the related led in the switch regs and noticing
+> > that all 3 LED for the specific port (for example for port 1) cause the
+> > connected LED for port 1 to turn on. As an extra test we tried enabling
+> > 2 different LED for the port resulting in the LED turned off only if
+> > every led in the reg was off.
+> > 
+> > Aside from this funny and strange hardware implementation, the device
+> > itself have one green LED for each port, resulting in 10 green LED one
+> > for each of the 10 supported port.
+> > 
+> > Cc: Jonathan McDowell <noodles@earth.li>
+> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > ---
+> >  arch/arm/boot/dts/qcom-ipq8064-rb3011.dts | 120 ++++++++++++++++++++++
+> 
+> Please do not send the DTS patches to the net-next, but to the Qualcomm
+> SoC maintainers. The DTS must not be mixed with driver code.
+> 
 
-Not entirely sure how that data dependency would help serialize
-the store into the DMA buffer against the device access. The problem
-here is not the qm_mailbox structure but the data pointed to by the
-'u64 base' (e.g. struct qm_eqc *eqc) which may still be in a store
-buffer waiting to make it to physical memory at the time the mailbox
-store triggers the DMA from the device.
+Hi,
 
->   The "dmb oshst" is used to ensure that the stp instruction has been executed
->   before CPU checking mailbox status. Whether the execution order
->   cannot be guaranteed via data dependency?
+sorry for the mess, it was asked to give an user of the LED feature for
+qca8k so I was a bit confused on where to include it and at the end I
+decided to put it in this series.
 
-There is no need to have barriers between MMIO operations, they
-are implicitly serialized already. In this case specifically,
-the read is even on the same address as the write. Note that the
-"dmb oshst" does not actually guarantee that the store has made it
-to the device, as (at least on PCIe semantics) it can be posted,
-but the read from the same address does guarantee that the write
-is completed first, and this may be required to ensure that it does
-not complete after the mutex_unlock().
+What was the correct way? 2 different series and reference the DT one in
+the net-next? (or not targetting net-next at all?)
 
-> - The input argument "src" is struct "struct qm_mailbox".
-> - Before call this funcion, the data has been byteswapped.
->
-> 	mailbox->w0 = cpu_to_le16((cmd) |
-> 		((op) ? 0x1 << QM_MB_OP_SHIFT : 0) |
-> 		(0x1 << QM_MB_BUSY_SHIFT));
-> 	mailbox->queue_num = cpu_to_le16(queue);
-> 	mailbox->base_l = cpu_to_le32(lower_32_bits(base));
-> 	mailbox->base_h = cpu_to_le32(upper_32_bits(base));
-> 	mailbox->rsvd = 0;
 
-Right, this bit does look correct.
 
-      Arnd
+-- 
+	Ansuel
