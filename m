@@ -2,337 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCE7C77B78
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 20:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77EECC6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 22:34:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231407AbjDSU24 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 16:28:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45408 "EHLO
+        id S232592AbjDSWeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 18:34:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbjDSU2y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 16:28:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA41B7D9A;
-        Wed, 19 Apr 2023 13:28:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 34D3463875;
-        Wed, 19 Apr 2023 20:28:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 290CEC433EF;
-        Wed, 19 Apr 2023 20:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681936124;
-        bh=MSsSheeg5fGf437QacQci3glGSqLc1kiU4gOJI2sAtI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wnoj4+N+sye7VKuYWb7LXqDKB+f0FwQCzzCzrOUGmB6Xi8SNq199ziBXI4sCahXKh
-         63ErzGOvZ/BwAUvBQqd6UEOHUXzGWAclaAkTxaLNJdIV2Th3229JTc5QQ3y7BdjueY
-         XuT4CW5cE23vEGu9Q4nsEdqkHd4r4ue82QAFD5Gvl8zTusx9qNmYRoe4C/kpLEUtnh
-         CEl9L/bMnYJNq7c8556C2pnQmenllgBcaPHFPxeCf2p2Fwr8Rz5ePdBBP87T8vGJ5v
-         4hmJgZCSO526xn9PvcVv72mddSAW0PLAun0W/KVdtZon1/uNk363lj4z+vru8bTCKX
-         BO4fFk6oXiKVw==
-Date:   Wed, 19 Apr 2023 13:28:42 -0700
-From:   Jaegeuk Kim <jaegeuk@kernel.org>
-To:     Daejun Park <daejun7.park@samsung.com>
-Cc:     "chao@kernel.org" <chao@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "linux-f2fs-devel@lists.sourceforge.net" 
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-trace-kernel@vger.kernel.org" 
-        <linux-trace-kernel@vger.kernel.org>,
-        Seokhwan Kim <sukka.kim@samsung.com>,
-        beomsu kim <beomsu7.kim@samsung.com>,
-        Yonggil Song <yonggil.song@samsung.com>
-Subject: Re: [PATCH] f2fs: add async reset zone command support
-Message-ID: <ZEBO+qOLXbnYusw5@google.com>
-References: <CGME20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
- <20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
+        with ESMTP id S229991AbjDSWeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 18:34:25 -0400
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C6410D5
+        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 15:33:50 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-54f8af6dfa9so3802967b3.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 15:33:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1681943486; x=1684535486;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/ZrPULhZIKJV34C2bhX8PcgMIHgEG0C+dg13xBQhh0w=;
+        b=BucwJja0NZZouiHsE6IPRymXHfvuN2GBpf0QYn9Cs4UXJmQWr2yTyDz9Sni6cXQ+KS
+         Xad4+fwH0ZaJjAw8T641ngy+qwMOSbEyOeief8pa4za57y/iMMVYaWGo0mMV+S/Un443
+         o07RiDXDWbUPjqUq6tAoSnYgCxaFj93eK4sMOmlJPumrGmc4naLgVCIsY+t1833jzsA8
+         bDt1Whc4YXeVBHNcDG7uAwSrBJevfFOc8i+TiwayDT5NPfW9hzjokkRyUj5AYItgwhQr
+         AFc0xlAGydRl4ENEgMnfS86yhCC1zMc0lqfJ3DpALd2NqEQlRrPiut7SlGyvxehYrJ3T
+         YNDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681943486; x=1684535486;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/ZrPULhZIKJV34C2bhX8PcgMIHgEG0C+dg13xBQhh0w=;
+        b=UY5n1b11sIRAJ8keByTp5FMLM8G2uBxv/iQ52TACsHUc2jgWogPV1ND7WaWA9cfbII
+         ufyi92WzKu/CKD5I58gSW7v/EVLHI9IaHk0YtoSZOfc78ZSJmZnKPR7kZOD6G7Euv9nB
+         3Yh2ZQMgv/SNHUDbpoCxdDHSnTH9DOZ1CLRBfcgtsX4PSd0XzgwtwUIJnnJaMZgENScr
+         ljDhguQtASXoW81emWBnD4OYKSWYVzzrvJGjyapWFAEarisItuqx91jVKfMfZzo8DjUL
+         xI94gl6CxEWjR9y8OEcb7dOfKcMzmNJ4R2hJjjWCT3J5Kb7OXvG2vcIcHkeVLk/Wo8yu
+         Ai7Q==
+X-Gm-Message-State: AAQBX9e/g/1Vpp2x/fEXCoIMOchYUj+pUzfx/OiwNXt+Fz0G8nuMbQg7
+        aiRsJ/YzOaD5itO9RPtBQxlMuI2Zls/I8KsRzQk=
+X-Google-Smtp-Source: AKy350Yn+z+rdiDG8ySW4WCMw+0zQ/ws73YT2f1f1XxWKOrSMbU2byidZa3yVOwPBeUzkNz7+7uMJA==
+X-Received: by 2002:a17:902:654a:b0:1a8:1c9a:f68 with SMTP id d10-20020a170902654a00b001a81c9a0f68mr3322962pln.36.1681942790785;
+        Wed, 19 Apr 2023 15:19:50 -0700 (PDT)
+Received: from dread.disaster.area (pa49-180-41-174.pa.nsw.optusnet.com.au. [49.180.41.174])
+        by smtp.gmail.com with ESMTPSA id ji2-20020a170903324200b001a4ee6ec809sm11964287plb.46.2023.04.19.15.19.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 15:19:50 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1ppG9T-005QFi-2w; Thu, 20 Apr 2023 08:19:47 +1000
+Date:   Thu, 20 Apr 2023 08:19:47 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux XFS Development <linux-xfs@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Documentation: xfs: Extend table marker on deprecated
+ mount options table
+Message-ID: <20230419221947.GU3223426@dread.disaster.area>
+References: <20230419094921.27279-1-bagasdotme@gmail.com>
+ <20230419151536.GM360895@frogsfrogsfrogs>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
+In-Reply-To: <20230419151536.GM360895@frogsfrogsfrogs>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/14, Daejun Park wrote:
-> This patch enables submit reset zone command asynchornously. It helps
-> decrease average latency of write IOs in high utilization scenario by
-> faster checkpointing.
+On Wed, Apr 19, 2023 at 08:15:36AM -0700, Darrick J. Wong wrote:
+> On Wed, Apr 19, 2023 at 04:49:21PM +0700, Bagas Sanjaya wrote:
+> > Sphinx reports htmldocs warning on deprecated mount options table:
+> > 
+> > /home/bagas/repo/linux-kernel/Documentation/admin-guide/xfs.rst:243: WARNING: Malformed table.
+> > Text in column margin in table line 5.
+> > 
+> > ===========================     ================
+> >   Name                          Removal Schedule
+> > ===========================     ================
+> > Mounting with V4 filesystem     September 2030
+> > Mounting ascii-ci filesystem    September 2030
+> > ikeep/noikeep                   September 2025
+> > attr2/noattr2                   September 2025
+> > ===========================     ================
+> > 
+> > Extend the table markers to take account of the second name entry
+> > ("Mounting ascii-ci filesystem"), which is now the widest and
+> > to fix the above warning.
+> > 
+> > Fixes: 7ba83850ca2691 ("xfs: deprecate the ascii-ci feature")
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > 
-> Signed-off-by: Daejun Park <daejun7.park@samsung.com>
-> ---
->  Documentation/filesystems/f2fs.rst |  4 ++
->  fs/f2fs/f2fs.h                     |  1 +
->  fs/f2fs/segment.c                  | 92 +++++++++++++++++++++++++++++-
->  fs/f2fs/super.c                    |  8 +++
->  include/trace/events/f2fs.h        | 18 +++++-
->  5 files changed, 119 insertions(+), 4 deletions(-)
+> Looks good.  Dave, could you take this through the xfs tree whenever you
+> push the duplicate #include fixes, please?
 > 
-> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-> index 2055e72871fe..4cfabf831a79 100644
-> --- a/Documentation/filesystems/f2fs.rst
-> +++ b/Documentation/filesystems/f2fs.rst
-> @@ -342,6 +342,10 @@ discard_unit=%s		 Control discard unit, the argument can be "block", "segment"
->  			 default, it is helpful for large sized SMR or ZNS devices to
->  			 reduce memory cost by getting rid of fs metadata supports small
->  			 discard.
-> +async_reset_zone         Enable the RESET WRITE POINTER command to be submitted asynchronously.
-> +                         With this option, the RESET WRITE POINTER command can be processed by
-> +                         the discard thread like a discard command. It can reduce checkpoint
-> +                         latency by asynchronously checking for completion of the RESET WRITE POINTER command.
+> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 
-Do we need to set this by default instead of mount option?
+Applied.
 
->  memory=%s		 Control memory mode. This supports "normal" and "low" modes.
->  			 "low" mode is introduced to support low memory devices.
->  			 Because of the nature of low memory devices, in this mode, f2fs
-> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-> index 4e2596dacbf1..021e55c5d1a8 100644
-> --- a/fs/f2fs/f2fs.h
-> +++ b/fs/f2fs/f2fs.h
-> @@ -167,6 +167,7 @@ struct f2fs_mount_info {
->  					 * be aligned to this unit: block,
->  					 * segment or section
->  					 */
-> +	bool async_zone_reset;          /* async zone reset */
->  	struct fscrypt_dummy_policy dummy_enc_policy; /* test dummy encryption */
->  	block_t unusable_cap_perc;	/* percentage for cap */
->  	block_t unusable_cap;		/* Amount of space allowed to be
-> diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-> index 45128694eefa..60cfe97c9dbd 100644
-> --- a/fs/f2fs/segment.c
-> +++ b/fs/f2fs/segment.c
-> @@ -1189,6 +1189,46 @@ static void __init_discard_policy(struct f2fs_sb_info *sbi,
->  static void __update_discard_tree_range(struct f2fs_sb_info *sbi,
->  				struct block_device *bdev, block_t lstart,
->  				block_t start, block_t len);
-> +
-> +#ifdef CONFIG_BLK_DEV_ZONED
-> +static int __submit_zone_reset_cmd(struct f2fs_sb_info *sbi,
-> +				   struct discard_cmd *dc, blk_opf_t flag,
-> +				   struct list_head *wait_list,
-> +				   unsigned int *issued)
-> +{
-> +	struct discard_cmd_control *dcc = SM_I(sbi)->dcc_info;
-> +	struct block_device *bdev = dc->bdev;
-> +	struct bio *bio = bio_alloc(bdev, 0, REQ_OP_ZONE_RESET | flag, GFP_NOFS);
-> +	unsigned long flags;
-> +
-> +	trace_f2fs_issue_reset_zone(bdev, SECTOR_FROM_BLOCK(dc->di.start));
-> +
-> +	spin_lock_irqsave(&dc->lock, flags);
-> +	dc->state = D_SUBMIT;
-> +	dc->bio_ref++;
-> +	spin_unlock_irqrestore(&dc->lock, flags);
-> +
-> +	if (issued)
-> +		(*issued)++;
-> +
-> +	atomic_inc(&dcc->queued_discard);
-> +	dc->queued++;
-> +	list_move_tail(&dc->list, wait_list);
-> +
-> +	/* sanity check on discard range */
-> +	__check_sit_bitmap(sbi, dc->di.lstart, dc->di.lstart + dc->di.len);
-> +
-> +	bio->bi_iter.bi_sector = SECTOR_FROM_BLOCK(dc->di.start);
-> +	bio->bi_private = dc;
-> +	bio->bi_end_io = f2fs_submit_discard_endio;
-> +	submit_bio(bio);
-> +
-> +	atomic_inc(&dcc->issued_discard);
-> +
-> +	return 0;
-> +}
-> +#endif
-> +
->  /* this function is copied from blkdev_issue_discard from block/blk-lib.c */
->  static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
->  				struct discard_policy *dpolicy,
-> @@ -1210,6 +1250,11 @@ static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
->  	if (is_sbi_flag_set(sbi, SBI_NEED_FSCK))
->  		return 0;
->  
-> +#ifdef CONFIG_BLK_DEV_ZONED
-> +	if (f2fs_sb_has_blkzoned(sbi) && bdev_is_zoned(bdev))
-> +		return __submit_zone_reset_cmd(sbi, dc, flag, wait_list, issued);
-> +#endif
-> +
->  	trace_f2fs_issue_discard(bdev, dc->di.start, dc->di.len);
->  
->  	lstart = dc->di.lstart;
-> @@ -1454,21 +1499,42 @@ static void __update_discard_tree_range(struct f2fs_sb_info *sbi,
->  	}
->  }
->  
-> +#ifdef CONFIG_BLK_DEV_ZONED
-> +static void __queue_zone_reset_cmd(struct f2fs_sb_info *sbi,
-> +		struct block_device *bdev, block_t blkstart, block_t blklen)
-> +{
-> +	block_t lblkstart = blkstart;
-> +
-> +	if (f2fs_is_multi_device(sbi)) {
-> +		int devi = f2fs_target_device_index(sbi, blkstart);
-> +
-> +		blkstart -= FDEV(devi).start_blk;
-> +	}
-> +
-> +	trace_f2fs_queue_reset_zone(bdev, blkstart);
-> +
-> +	mutex_lock(&SM_I(sbi)->dcc_info->cmd_lock);
-> +	__insert_discard_cmd(sbi, bdev, lblkstart, blkstart, blklen);
-> +	mutex_unlock(&SM_I(sbi)->dcc_info->cmd_lock);
-> +}
-> +#endif
-> +
->  static void __queue_discard_cmd(struct f2fs_sb_info *sbi,
->  		struct block_device *bdev, block_t blkstart, block_t blklen)
->  {
->  	block_t lblkstart = blkstart;
->  
-> +	trace_f2fs_queue_discard(bdev, blkstart, blklen);
-> +
->  	if (!f2fs_bdev_support_discard(bdev))
->  		return;
->  
-> -	trace_f2fs_queue_discard(bdev, blkstart, blklen);
-> -
->  	if (f2fs_is_multi_device(sbi)) {
->  		int devi = f2fs_target_device_index(sbi, blkstart);
->  
->  		blkstart -= FDEV(devi).start_blk;
->  	}
-> +
->  	mutex_lock(&SM_I(sbi)->dcc_info->cmd_lock);
->  	__update_discard_tree_range(sbi, bdev, lblkstart, blkstart, blklen);
->  	mutex_unlock(&SM_I(sbi)->dcc_info->cmd_lock);
-> @@ -1719,7 +1785,22 @@ static void f2fs_wait_discard_bio(struct f2fs_sb_info *sbi, block_t blkaddr)
->  	dc = __lookup_discard_cmd(sbi, blkaddr);
->  	if (dc) {
->  		if (dc->state == D_PREP) {
-> +#ifdef CONFIG_BLK_DEV_ZONED
-> +			if (f2fs_sb_has_blkzoned(sbi) &&
-> +			    bdev_is_zoned(dc->bdev)) {
-> +				struct discard_policy dpolicy;
-> +				/* force submit zone reset */
-> +				__init_discard_policy(sbi, &dpolicy,
-> +						      DPOLICY_FORCE, 1);
-> +				__submit_discard_cmd(sbi, &dpolicy, dc, NULL);
-> +				dc->ref++;
-> +				need_wait = true;
-> +			} else {
-> +				__punch_discard_cmd(sbi, dc, blkaddr);
-
-Can be consolidated in both cases below.
-
-> +			}
-> +#else
->  			__punch_discard_cmd(sbi, dc, blkaddr);
-> +#endif
->  		} else {
->  			dc->ref++;
->  			need_wait = true;
-> @@ -1869,6 +1950,13 @@ static int __f2fs_issue_discard_zone(struct f2fs_sb_info *sbi,
->  				 blkstart, blklen);
->  			return -EIO;
->  		}
-> +
-> +		if (likely(!is_sbi_flag_set(sbi, SBI_POR_DOING)) &&
-> +			   F2FS_OPTION(sbi).async_zone_reset) {
-> +			__queue_zone_reset_cmd(sbi, bdev, lblkstart, blklen);
-> +			return 0;
-> +		}
-
-Can make a sigle case above and below, if we set this by default.
-
-> +
->  		trace_f2fs_issue_reset_zone(bdev, blkstart);
->  		return blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
->  					sector, nr_sects, GFP_NOFS);
-> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-> index 7d0202f7b317..48198112cbbc 100644
-> --- a/fs/f2fs/super.c
-> +++ b/fs/f2fs/super.c
-> @@ -162,6 +162,7 @@ enum {
->  	Opt_gc_merge,
->  	Opt_nogc_merge,
->  	Opt_discard_unit,
-> +	Opt_async_zone_reset,
->  	Opt_memory_mode,
->  	Opt_age_extent_cache,
->  	Opt_err,
-> @@ -241,6 +242,7 @@ static match_table_t f2fs_tokens = {
->  	{Opt_gc_merge, "gc_merge"},
->  	{Opt_nogc_merge, "nogc_merge"},
->  	{Opt_discard_unit, "discard_unit=%s"},
-> +	{Opt_async_zone_reset, "async_zone_reset"},
->  	{Opt_memory_mode, "memory=%s"},
->  	{Opt_age_extent_cache, "age_extent_cache"},
->  	{Opt_err, NULL},
-> @@ -1249,6 +1251,9 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
->  			}
->  			kfree(name);
->  			break;
-> +		case Opt_async_zone_reset:
-> +			F2FS_OPTION(sbi).async_zone_reset = true;
-> +			break;
->  		case Opt_memory_mode:
->  			name = match_strdup(&args[0]);
->  			if (!name)
-> @@ -2047,6 +2052,9 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
->  	if (test_opt(sbi, ATGC))
->  		seq_puts(seq, ",atgc");
->  
-> +	if (F2FS_OPTION(sbi).async_zone_reset)
-> +		seq_puts(seq, ",async_zone_reset");
-> +
->  	if (F2FS_OPTION(sbi).memory_mode == MEMORY_MODE_NORMAL)
->  		seq_printf(seq, ",memory=%s", "normal");
->  	else if (F2FS_OPTION(sbi).memory_mode == MEMORY_MODE_LOW)
-> diff --git a/include/trace/events/f2fs.h b/include/trace/events/f2fs.h
-> index 99cbc5949e3c..ee1477de8324 100644
-> --- a/include/trace/events/f2fs.h
-> +++ b/include/trace/events/f2fs.h
-> @@ -1512,7 +1512,7 @@ DEFINE_EVENT(f2fs_discard, f2fs_remove_discard,
->  	TP_ARGS(dev, blkstart, blklen)
->  );
->  
-> -TRACE_EVENT(f2fs_issue_reset_zone,
-> +DECLARE_EVENT_CLASS(f2fs_reset_zone,
->  
->  	TP_PROTO(struct block_device *dev, block_t blkstart),
->  
-> @@ -1528,11 +1528,25 @@ TRACE_EVENT(f2fs_issue_reset_zone,
->  		__entry->blkstart = blkstart;
->  	),
->  
-> -	TP_printk("dev = (%d,%d), reset zone at block = 0x%llx",
-> +	TP_printk("dev = (%d,%d), zone at block = 0x%llx",
->  		show_dev(__entry->dev),
->  		(unsigned long long)__entry->blkstart)
->  );
->  
-> +DEFINE_EVENT(f2fs_reset_zone, f2fs_queue_reset_zone,
-> +
-> +	TP_PROTO(struct block_device *dev, block_t blkstart),
-> +
-> +	TP_ARGS(dev, blkstart)
-> +);
-> +
-> +DEFINE_EVENT(f2fs_reset_zone, f2fs_issue_reset_zone,
-> +
-> +	TP_PROTO(struct block_device *dev, block_t blkstart),
-> +
-> +	TP_ARGS(dev, blkstart)
-> +);
-> +
->  TRACE_EVENT(f2fs_issue_flush,
->  
->  	TP_PROTO(struct block_device *dev, unsigned int nobarrier,
-> -- 
-> 2.25.1
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
