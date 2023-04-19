@@ -2,123 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54681C77B7C
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 09:49:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3072CC6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 10:05:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232630AbjDSJth (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 05:49:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45294 "EHLO
+        id S230026AbjDSKFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 06:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232584AbjDSJte (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 05:49:34 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B714C15;
-        Wed, 19 Apr 2023 02:49:33 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1a686260adcso31896505ad.0;
-        Wed, 19 Apr 2023 02:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681897773; x=1684489773;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1RaefLVX9DcDHKamXvN6qTKAhJWPXQiGVdb1gX1FLg4=;
-        b=Di0Lm1H6XGJyPzYXXL3w3VIi9KGKw7JnjGTe0Q8P5OwFZbX1nx+J6Ng/ZopCvTavEo
-         ta0dcgYVeCMx6zEONboWRw05vZ25qF13kbaXF+m35DYLN1MLB2p/SUea2Q64QZBNz4rh
-         OTWmZV1HuyoF/Qp4vt4QcKY0QR3wKBD1uKTY11fOs84tLulxByWkX89i0TMD2RQw7PPv
-         QlaNVlWGdu+9EHurIngddXcLQBRh93LosG963VsQnKWMIkE+xvEKHIIkw53x7aejLV6y
-         tSZ8yX7usJ4RgjTQBBmE7wG1KG2lwZbUjeaQoOvIxdyfcFTBq+eqnLMKiB1yZ7wA5MtY
-         wrkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681897773; x=1684489773;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1RaefLVX9DcDHKamXvN6qTKAhJWPXQiGVdb1gX1FLg4=;
-        b=RbnjVyLwVPrRip99zGxG6aJ1Z5+PZAMvwi7CiWRhK8nqMEDwNmCcLIWwlS59HfgJJi
-         bCpWpa6a9DDY70UTPpcSux9TQ96u8OBRkLuQpPlUZIuZ9h6bc9qrgaTIGsgG04FFFta1
-         8OJeyQlvBF0Z/6KBTbCQWb+o9H9l0ddPE10h8lTIbJl+wIk4u2hUlibApBo8CUBCvL1e
-         LCZxfyj7eOAMyCCskkvaY2iMyfACEuoV9nWEYvpfiZ58RsVmDXpYKd6Iu+6WtwuBu2sk
-         eZ6bekqvvyPxtzGaZsXqUZ9ttf+mY9LA2KpKzuKSBUzVdcrjr3nPWWGFpaFOT6TnXTYH
-         4Mdw==
-X-Gm-Message-State: AAQBX9elzuxCZyeoYRigAADnurCIkbz8jCqG7/AFASIYo2Fzl3hnGKcj
-        nbl18aEIpHjnY2rVHirRYfs=
-X-Google-Smtp-Source: AKy350bodp6uDTTSsZJlX1SgWrBHI3LJAieac9ltbMQf2PBrwO88Lfagsy6IjzttJ398PEbvHeG7Fg==
-X-Received: by 2002:a17:903:24f:b0:1a1:c8b3:3fe1 with SMTP id j15-20020a170903024f00b001a1c8b33fe1mr5747097plh.31.1681897772950;
-        Wed, 19 Apr 2023 02:49:32 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-72.three.co.id. [180.214.232.72])
-        by smtp.gmail.com with ESMTPSA id bi2-20020a170902bf0200b001a6dc4f4a8csm5244855plb.73.2023.04.19.02.49.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Apr 2023 02:49:32 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 312BF106894; Wed, 19 Apr 2023 16:49:30 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux XFS Development <linux-xfs@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     "Darrick J. Wong" <djwong@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] Documentation: xfs: Extend table marker on deprecated mount options table
-Date:   Wed, 19 Apr 2023 16:49:21 +0700
-Message-Id: <20230419094921.27279-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S229850AbjDSKFP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 06:05:15 -0400
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F542E7;
+        Wed, 19 Apr 2023 03:05:13 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.229])
+        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4Q1bl13kmqz9xFHH;
+        Wed, 19 Apr 2023 17:55:41 +0800 (CST)
+Received: from A2101119013HW2.china.huawei.com (unknown [10.45.152.239])
+        by APP1 (Coremail) with SMTP id LxC2BwAXi_aYvD9k7TY6Ag--.1944S2;
+        Wed, 19 Apr 2023 11:04:29 +0100 (CET)
+From:   Petr Tesarik <petrtesarik@huaweicloud.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Ondrej Zary <linux@zary.sk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Petr Tesarik <petr.tesarik.ext@huawei.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Won Chung <wonchung@google.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+        iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
+Cc:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>, petr@tesarici.cz
+Subject: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce buffers
+Date:   Wed, 19 Apr 2023 12:03:52 +0200
+Message-Id: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2002; i=bagasdotme@gmail.com; h=from:subject; bh=dV8YIb7nbrySnv92KDySGI4qjdvV1R97MlSmF4/4G4w=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCn2OxUtbN+1P19qIse1/2fIc1lGm4OuF8+Zae+9evcNa 6DTWd8PHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZhIdxjDf4fkOGaPxqLUH2qV q9sFd3aFC18OWenR7jg7eEffyddpUQz/k90Nv/6+6PjWts9UyL6Fv3Ff1fSl1rMK1Df3FU4SWtr ICgA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: LxC2BwAXi_aYvD9k7TY6Ag--.1944S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw18WF1rGrW5WFyrCry5CFg_yoW5Ww15pF
+        Wak34jvrn8tryxu3yxCr4xWa4rGan5ZFW7Ga9Yvwn5ZrW5urn2vw12yrW3J3s8Gr4fXF4Y
+        qF1qvr15CFyrur7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I
+        0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
+        rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
+        IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x02
+        64kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
+        IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
+        6rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+        8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2
+        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
+        DU0xZFpf9x07jeKZXUUUUU=
+X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx reports htmldocs warning on deprecated mount options table:
+From: Petr Tesarik <petr.tesarik.ext@huawei.com>
 
-/home/bagas/repo/linux-kernel/Documentation/admin-guide/xfs.rst:243: WARNING: Malformed table.
-Text in column margin in table line 5.
+The goal of my work is to provide more flexibility in the sizing of
+SWIOTLB.
 
-===========================     ================
-  Name                          Removal Schedule
-===========================     ================
-Mounting with V4 filesystem     September 2030
-Mounting ascii-ci filesystem    September 2030
-ikeep/noikeep                   September 2025
-attr2/noattr2                   September 2025
-===========================     ================
+The software IO TLB was designed with these assumptions:
 
-Extend the table markers to take account of the second name entry
-("Mounting ascii-ci filesystem"), which is now the widest and
-to fix the above warning.
+1. It would not be used much, especially on 64-bit systems.
+2. A small fixed memory area (64 MiB by default) is sufficient to
+   handle the few cases which require a bounce buffer.
+3. 64 MiB is little enough that it has no impact on the rest of the
+   system.
 
-Fixes: 7ba83850ca2691 ("xfs: deprecate the ascii-ci feature")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- This patch is targeted for next merge window (6.4-rc1).
+First, if SEV is active, all DMA must be done through shared
+unencrypted pages, and SWIOTLB is used to make this happen without
+changing device drivers. The software IO TLB size is increased to
+6% of total memory in sev_setup_arch(), but that is more of an
+approximation. The actual requirements may vary depending on the
+amount of I/O and which drivers are used. These factors may not be
+know at boot time, i.e. when SWIOTLB is allocated.
 
- Documentation/admin-guide/xfs.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Second, other colleagues have noticed that they can reliably get
+rid of occasional OOM kills on an Arm embedded device by reducing
+the SWIOTLB size. This can be achieved with a kernel parameter, but
+determining the right value puts additional burden on pre-release
+testing, which could be avoided if SWIOTLB is allocated small and
+grows only when necessary.
 
-diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
-index e85a9404d5c082..3a9c041d7f6c31 100644
---- a/Documentation/admin-guide/xfs.rst
-+++ b/Documentation/admin-guide/xfs.rst
-@@ -236,14 +236,14 @@ the dates listed above.
- Deprecated Mount Options
- ========================
- 
--===========================     ================
-+============================    ================
-   Name				Removal Schedule
--===========================     ================
-+============================    ================
- Mounting with V4 filesystem     September 2030
- Mounting ascii-ci filesystem    September 2030
- ikeep/noikeep			September 2025
- attr2/noattr2			September 2025
--===========================     ================
-+============================    ================
- 
- 
- Removed Mount Options
+Changes from v1-devel-v7:
+- Add comments to acquire/release barriers
+- Fix whitespace issues reported by checkpatch.pl
 
-base-commit: 798352cb25d2c27affbb5c733ed28430057228ca
+Changes from v1-devel-v6:
+- Provide long description of functions
+- Fix kernel-doc (Returns: to Return:)
+- Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
+
+Changes from RFC:
+- Track dynamic buffers per device instead of per swiotlb
+- Use a linked list instead of a maple tree
+- Move initialization of swiotlb fields of struct device to a
+  helper function
+- Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
+- Introduce per-device flag if dynamic buffers are in use
+- Add one more user of DMA_ATTR_MAY_SLEEP
+- Add kernel-doc comments for new (and some old) code
+- Properly escape '*' in dma-attributes.rst
+
+Petr Tesarik (7):
+  swiotlb: Use a helper to initialize swiotlb fields in struct device
+  swiotlb: Move code around in preparation for dynamic bounce buffers
+  dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
+  swiotlb: Dynamically allocated bounce buffers
+  swiotlb: Add a boot option to enable dynamic bounce buffers
+  drm: Use DMA_ATTR_MAY_SLEEP from process context
+  swiotlb: per-device flag if there are dynamically allocated buffers
+
+ .../admin-guide/kernel-parameters.txt         |   6 +-
+ Documentation/core-api/dma-attributes.rst     |  10 +
+ drivers/base/core.c                           |   4 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
+ drivers/gpu/drm/drm_prime.c                   |   2 +-
+ include/linux/device.h                        |  12 +
+ include/linux/dma-mapping.h                   |   6 +
+ include/linux/swiotlb.h                       |  54 ++-
+ kernel/dma/swiotlb.c                          | 382 ++++++++++++++++--
+ 9 files changed, 443 insertions(+), 35 deletions(-)
+
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
 
