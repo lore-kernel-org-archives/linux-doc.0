@@ -2,173 +2,270 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95462C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 10:08:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 551E9C6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 10:27:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233062AbjDSKIR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 06:08:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33572 "EHLO
+        id S232065AbjDSK1z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 06:27:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233065AbjDSKHe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 06:07:34 -0400
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A5F14443;
-        Wed, 19 Apr 2023 03:07:26 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.227])
-        by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4Q1bnX3fTjz9v7V0;
-        Wed, 19 Apr 2023 17:57:52 +0800 (CST)
-Received: from A2101119013HW2.china.huawei.com (unknown [10.45.152.239])
-        by APP1 (Coremail) with SMTP id LxC2BwAXi_aYvD9k7TY6Ag--.1944S9;
-        Wed, 19 Apr 2023 11:06:42 +0100 (CET)
-From:   Petr Tesarik <petrtesarik@huaweicloud.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Ondrej Zary <linux@zary.sk>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Petr Tesarik <petr.tesarik.ext@huawei.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Won Chung <wonchung@google.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-        iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
-Cc:     Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>, petr@tesarici.cz
-Subject: [PATCH v2 7/7] swiotlb: per-device flag if there are dynamically allocated buffers
-Date:   Wed, 19 Apr 2023 12:03:59 +0200
-Message-Id: <08ec2c2baa9a24d2eae5d5107868fd6df0f7dd1c.1681898595.git.petr.tesarik.ext@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+        with ESMTP id S231580AbjDSK1y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 06:27:54 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0B75FD2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 03:27:52 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2a8b1b51dbdso24655901fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 03:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681900070; x=1684492070;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tDd5mN3VS3Vj6X7xMYUn4KLaHr63M/aDSb54e2lT7f8=;
+        b=v4CgfFB1KweWmKC8lOdb58VUuOwsPnAbxhAOIoQnz9aNlCnwMnwema+HRDhueWBkIg
+         x9s1xhDkZwAla+lt3d1IawWzOlz4g2ivzYXsdzaDZA8mCmeuNp7LSk4McmBatz6eJewn
+         g6A8IryRDR24HAQAnbt84ypyaDHwcNMyhq2lkwvVOhWdbG1gFACv1aa/IJCEEdict8xE
+         iuvCwghsBhiNh8JOqjqElgSv33QRB0GGKQVRqZN4oHb0QNgiYamLW65OgXAt171LGOCy
+         Og9CPQR7DLrFNt2xXPmmT8+IZTKxtK6fzd/lq7f0eecDy3zsiTtQpqMRgWOiVDkrDDyS
+         jcvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681900070; x=1684492070;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tDd5mN3VS3Vj6X7xMYUn4KLaHr63M/aDSb54e2lT7f8=;
+        b=Iav58W1/sVwpAM5sPl+WdJ5OLEru0bunGEy9v09ZH7AU2f9cDMP3P5m/+QOWuhIIko
+         FmwkQxkDnRuXMbYzS5Fi0OSVOzXosb8I+T3AUT1IwuIXbEw9krqC6lMO1HHP4q49kOu2
+         tPL3DWtQdFxlk/vCaIGALp6JxvOu+dvLfj6DIkCgzJ48hmkkfmkljL+o0IMVOhXb2sww
+         8tU5dytRlY4lDBJOJQtsI7mRGGYiJYMerXsQtqyIlZzq+RSjVPNOXq7Jgyjw6H+24u5v
+         Y9nyj5GQnU7o4TlBeqzG7JxXoDCjdCA61IiElKNVRciD/F1SJUImNyjXm5cnqn0OUoBI
+         RcEQ==
+X-Gm-Message-State: AAQBX9cKj1KRdtEyMFOixZ16erpIuLgOUpFyF9aIlJjUXTMfPG0Nx6JT
+        5cpQEZwMvBEmXZzik5DKQpxy+g==
+X-Google-Smtp-Source: AKy350ZXceJp19cd10eLZOEKjNw4HzTu4LLGCryZVainNTw/H44zmT24et4GhMQFSDQOHtTm7nclAA==
+X-Received: by 2002:ac2:488f:0:b0:4e8:5e39:6238 with SMTP id x15-20020ac2488f000000b004e85e396238mr3105494lfc.42.1681900070268;
+        Wed, 19 Apr 2023 03:27:50 -0700 (PDT)
+Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
+        by smtp.gmail.com with ESMTPSA id q12-20020ac25fcc000000b004eafa77e435sm2636220lfg.146.2023.04.19.03.27.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Apr 2023 03:27:49 -0700 (PDT)
+Message-ID: <deabba9d-5f6c-06c0-22d0-9bebeef3ad15@linaro.org>
+Date:   Wed, 19 Apr 2023 12:27:47 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LxC2BwAXi_aYvD9k7TY6Ag--.1944S9
-X-Coremail-Antispam: 1UD129KBjvJXoWxWr1UWr47Jw1kZw4UKF48Zwb_yoW5uFW3pF
-        y8uF98KF4qqFykZ3sF9w47uF47uw4q93y3CrWFgr1Fkry5X34rWF4kCry2y34rJr409F4x
-        XryjvrWrAF17Ww7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUmEb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-        Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-        rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-        AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E
-        14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrV
-        C2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE
-        7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262
-        kKe7AKxVWUtVW8ZwCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E
-        4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
-        WUWwC2zVAF1VAY17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-        6r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcI
-        k0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4U
-        JVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU8yxR3UUUUU==
-X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 6/8] arm64: dts: qcom: Add PMI632 PMIC
+Content-Language: en-US
+To:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230414-pmi632-v2-0-98bafa909c36@z3ntu.xyz>
+ <20230414-pmi632-v2-6-98bafa909c36@z3ntu.xyz>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230414-pmi632-v2-6-98bafa909c36@z3ntu.xyz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Petr Tesarik <petr.tesarik.ext@huawei.com>
 
-Do not walk the list of dynamically allocated bounce buffers if the
-list is empty. This avoids taking dma_io_tlb_dyn_lock for devices
-which do not use any dynamically allocated bounce buffers.
 
-When unmapping the last dynamically allocated bounce buffer, the
-flag is set to false as soon as possible to allow skipping the
-spinlock even before the list itself is updated.
+On 18.04.2023 18:43, Luca Weiss wrote:
+> The PMI632, commonly found on SoCs with SDM632 has various standard
+> functions like ADC, GPIOs, LPG and more.
+> 
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> ---
+Looks good!
 
-Signed-off-by: Petr Tesarik <petr.tesarik.ext@huawei.com>
----
- include/linux/device.h  | 4 ++++
- include/linux/swiotlb.h | 6 +++++-
- kernel/dma/swiotlb.c    | 6 ++++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index e12d6092bb9c..131b6db7fb3f 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -511,6 +511,9 @@ struct device_physical_location {
-  * @dma_io_tlb_dyn_slots:
-  *		Dynamically allocated bounce buffers for this device.
-  *		Not for driver use.
-+ * @dma_io_tlb_have_dyn:
-+ *		Does this device have any dynamically allocated bounce
-+ *		buffers? Not for driver use.
-  * @archdata:	For arch-specific additions.
-  * @of_node:	Associated device tree node.
-  * @fwnode:	Associated device node supplied by platform firmware.
-@@ -618,6 +621,7 @@ struct device {
- 	struct io_tlb_mem *dma_io_tlb_mem;
- 	spinlock_t dma_io_tlb_dyn_lock;
- 	struct list_head dma_io_tlb_dyn_slots;
-+	bool dma_io_tlb_have_dyn;
- #endif
- 	/* arch specific additions */
- 	struct dev_archdata	archdata;
-diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index e614aa0f4f64..9ca4812b5977 100644
---- a/include/linux/swiotlb.h
-+++ b/include/linux/swiotlb.h
-@@ -143,7 +143,11 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
- 
- 	return mem &&
- 		(is_swiotlb_fixed(mem, paddr) ||
--		 (mem->allow_dyn && is_swiotlb_dyn(dev, paddr)));
-+		 /* Pairs with smp_store_release() in swiotlb_dyn_map()
-+		  * and swiotlb_dyn_unmap().
-+		  */
-+		 (smp_load_acquire(&dev->dma_io_tlb_have_dyn) &&
-+		  is_swiotlb_dyn(dev, paddr)));
- }
- 
- static inline bool is_swiotlb_force_bounce(struct device *dev)
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 4899fb0e4331..9b4faed7ef8f 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -685,6 +685,9 @@ static phys_addr_t swiotlb_dyn_map(struct device *dev, phys_addr_t orig_addr,
- 
- 	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
- 	list_add(&slot->node, &dev->dma_io_tlb_dyn_slots);
-+	if (!dev->dma_io_tlb_have_dyn)
-+		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
-+		smp_store_release(&dev->dma_io_tlb_have_dyn, true);
- 	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
- 
- 	return page_to_phys(slot->page);
-@@ -711,6 +714,9 @@ static void swiotlb_dyn_unmap(struct device *dev, phys_addr_t tlb_addr,
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
-+	if (list_is_singular(&dev->dma_io_tlb_dyn_slots))
-+		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
-+		smp_store_release(&dev->dma_io_tlb_have_dyn, false);
- 	slot = lookup_dyn_slot_locked(dev, tlb_addr);
- 	list_del(&slot->node);
- 	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
--- 
-2.25.1
-
+Konrad
+>  arch/arm64/boot/dts/qcom/pmi632.dtsi | 165 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 165 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/pmi632.dtsi b/arch/arm64/boot/dts/qcom/pmi632.dtsi
+> new file mode 100644
+> index 000000000000..4eb79e0ce40a
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/pmi632.dtsi
+> @@ -0,0 +1,165 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/*
+> + * Copyright (C) 2023 Luca Weiss <luca@z3ntu.xyz>
+> + */
+> +
+> +#include <dt-bindings/iio/qcom,spmi-vadc.h>
+> +#include <dt-bindings/interrupt-controller/irq.h>
+> +#include <dt-bindings/spmi/spmi.h>
+> +
+> +/ {
+> +	thermal-zones {
+> +		pmi632-thermal {
+> +			polling-delay-passive = <100>;
+> +			polling-delay = <0>;
+> +
+> +			thermal-sensors = <&pmi632_temp>;
+> +
+> +			trips {
+> +				trip0 {
+> +					temperature = <95000>;
+> +					hysteresis = <0>;
+> +					type = "passive";
+> +				};
+> +
+> +				trip1 {
+> +					temperature = <115000>;
+> +					hysteresis = <0>;
+> +					type = "hot";
+> +				};
+> +
+> +				trip2 {
+> +					temperature = <125000>;
+> +					hysteresis = <0>;
+> +					type = "critical";
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&spmi_bus {
+> +	pmic@2 {
+> +		compatible = "qcom,pmi632", "qcom,spmi-pmic";
+> +		reg = <0x2 SPMI_USID>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		pmi632_temp: temp-alarm@2400 {
+> +			compatible = "qcom,spmi-temp-alarm";
+> +			reg = <0x2400>;
+> +			interrupts = <0x2 0x24 0x0 IRQ_TYPE_EDGE_BOTH>;
+> +			#thermal-sensor-cells = <0>;
+> +		};
+> +
+> +		pmi632_adc: adc@3100 {
+> +			compatible = "qcom,spmi-adc5";
+> +			reg = <0x3100>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			#io-channel-cells = <1>;
+> +			interrupts = <0x2 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			channel@0 {
+> +				reg = <ADC5_REF_GND>;
+> +				qcom,pre-scaling = <1 1>;
+> +				label = "ref_gnd";
+> +			};
+> +
+> +			channel@1 {
+> +				reg = <ADC5_1P25VREF>;
+> +				qcom,pre-scaling = <1 1>;
+> +				label = "vref_1p25";
+> +			};
+> +
+> +			channel@6 {
+> +				reg = <ADC5_DIE_TEMP>;
+> +				qcom,pre-scaling = <1 1>;
+> +				label = "die_temp";
+> +			};
+> +
+> +			channel@7 {
+> +				reg = <ADC5_USB_IN_I>;
+> +				qcom,pre-scaling = <1 1>;
+> +				label = "usb_in_i_uv";
+> +			};
+> +
+> +			channel@8 {
+> +				reg = <ADC5_USB_IN_V_16>;
+> +				qcom,pre-scaling = <1 16>;
+> +				label = "usb_in_v_div_16";
+> +			};
+> +
+> +			channel@9 {
+> +				reg = <ADC5_CHG_TEMP>;
+> +				qcom,pre-scaling = <1 1>;
+> +				label = "chg_temp";
+> +			};
+> +
+> +			channel@4b {
+> +				reg = <ADC5_BAT_ID_100K_PU>;
+> +				qcom,hw-settle-time = <200>;
+> +				qcom,pre-scaling = <1 1>;
+> +				qcom,ratiometric;
+> +				label = "bat_id";
+> +			};
+> +
+> +			channel@83 {
+> +				reg = <ADC5_VPH_PWR>;
+> +				qcom,pre-scaling = <1 3>;
+> +				label = "vph_pwr";
+> +			};
+> +
+> +			channel@84 {
+> +				reg = <ADC5_VBAT_SNS>;
+> +				qcom,pre-scaling = <1 3>;
+> +				label = "vbat_sns";
+> +			};
+> +		};
+> +
+> +		pmi632_adc_tm: adc-tm@3500 {
+> +			compatible = "qcom,spmi-adc-tm5";
+> +			reg = <0x3500>;
+> +			interrupts = <0x2 0x35 0x0 IRQ_TYPE_EDGE_RISING>;
+> +			#thermal-sensor-cells = <1>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			status = "disabled";
+> +		};
+> +
+> +		pmi632_sdam_7: nvram@b600 {
+> +			compatible = "qcom,spmi-sdam";
+> +			reg = <0xb600>;
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +			ranges = <0 0xb600 0x100>;
+> +		};
+> +
+> +		pmi632_gpios: gpio@c000 {
+> +			compatible = "qcom,pmi632-gpio", "qcom,spmi-gpio";
+> +			reg = <0xc000>;
+> +			gpio-controller;
+> +			gpio-ranges = <&pmi632_gpios 0 0 8>;
+> +			#gpio-cells = <2>;
+> +			interrupt-controller;
+> +			#interrupt-cells = <2>;
+> +		};
+> +	};
+> +
+> +	pmic@3 {
+> +		compatible = "qcom,pmi632", "qcom,spmi-pmic";
+> +		reg = <0x3 SPMI_USID>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		pmi632_lpg: pwm {
+> +			compatible = "qcom,pmi632-lpg";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			#pwm-cells = <2>;
+> +
+> +			status = "disabled";
+> +		};
+> +	};
+> +};
+> 
