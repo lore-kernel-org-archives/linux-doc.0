@@ -2,168 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98732C6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 10:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04AFDC77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 12:01:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232742AbjDSK6J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 06:58:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59726 "EHLO
+        id S232976AbjDSMA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 08:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231895AbjDSK6I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 06:58:08 -0400
-X-Greylist: delayed 512 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 19 Apr 2023 03:57:58 PDT
-Received: from mail.katalix.com (mail.katalix.com [IPv6:2a05:d01c:827:b342:16d0:7237:f32a:8096])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 309D883D8;
-        Wed, 19 Apr 2023 03:57:57 -0700 (PDT)
-Received: from localhost (82-69-49-219.dsl.in-addr.zen.co.uk [82.69.49.219])
-        (Authenticated sender: tom)
-        by mail.katalix.com (Postfix) with ESMTPSA id 7EED684C45;
-        Wed, 19 Apr 2023 11:49:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=katalix.com; s=mail;
-        t=1681901363; bh=iVVLIE5L1lv50wYWj5uM1b8QK2rm1y1nKcE7860TRbY=;
-        h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-         Content-Disposition:In-Reply-To:From;
-        z=Date:=20Wed,=2019=20Apr=202023=2011:49:23=20+0100|From:=20Tom=20P
-         arkin=20<tparkin@katalix.com>|To:=20Samuel=20Thibault=20<samuel.th
-         ibault@ens-lyon.org>,=0D=0A=09Guillaume=20Nault=20<gnault@redhat.c
-         om>,=0D=0A=09James=20Chapman=20<jchapman@katalix.com>,=20edumazet@
-         google.com,=0D=0A=09davem@davemloft.net,=20kuba@kernel.org,=20pabe
-         ni@redhat.com,=0D=0A=09corbet@lwn.net,=20netdev@vger.kernel.org,=2
-         0linux-doc@vger.kernel.org,=0D=0A=09linux-kernel@vger.kernel.org|S
-         ubject:=20Re:=20[PATCH]=20PPPoL2TP:=20Add=20more=20code=20snippets
-         |Message-ID:=20<20230419104923.GA13324@katalix.com>|References:=20
-         <ZD5V+z+cBaXvPbQa@debian>=0D=0A=20<20230418085323.h6xij7w6d2o4kxxi
-         @begin>=0D=0A=20<ZD5dqwPblo4FOex1@debian>=0D=0A=20<20230418091148.
-         hh3b52zceacduex6@begin>=0D=0A=20<ZD5uU8Wrz4cTSwqP@debian>=0D=0A=20
-         <20230418103140.cps6csryl2xhrazz@begin>=0D=0A=20<ZD5+MouUk8YFVOX3@
-         debian>=0D=0A=20<20230418115409.aqsqi6pa4s4nhwgs@begin>=0D=0A=20<Z
-         D6dON0gl3DE8mYr@debian>=0D=0A=20<20230418141820.gxueo5pz2vvre442@b
-         egin>|MIME-Version:=201.0|Content-Disposition:=20inline|In-Reply-T
-         o:=20<20230418141820.gxueo5pz2vvre442@begin>;
-        b=InE1w+opVpnbLv6A44O5YRc+SAbWnaij3nz8QiyX+3OLYsancHsI9Q5KDHuI4a65G
-         +9Rt9+kgFQRck1sWASt771vt7o1PC/w9u3H076BdlsRrT4Ck2YQs5FT68shYKfVQSg
-         pnD3EJz8Y4I2LSNtVXGRRhxkUP+W1DezQfhxzJmHTMnL7/wBLP9gNCGJyMJwO9pr3D
-         UbhHeMmFDCPVcoLJLAJwSmsyzmpmSRx9aHGvyUXIqiLaOFx0MnSTkp+MRkgLgWFpaT
-         ES9wKa/fbXPTLcMNRaweoptkm750xTYyj2elCCv1c4HqhbTdH1teeZpz9OHjTzixFr
-         3WIgY15hwLQyw==
-Date:   Wed, 19 Apr 2023 11:49:23 +0100
-From:   Tom Parkin <tparkin@katalix.com>
-To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Guillaume Nault <gnault@redhat.com>,
-        James Chapman <jchapman@katalix.com>, edumazet@google.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PPPoL2TP: Add more code snippets
-Message-ID: <20230419104923.GA13324@katalix.com>
-References: <ZD5V+z+cBaXvPbQa@debian>
- <20230418085323.h6xij7w6d2o4kxxi@begin>
- <ZD5dqwPblo4FOex1@debian>
- <20230418091148.hh3b52zceacduex6@begin>
- <ZD5uU8Wrz4cTSwqP@debian>
- <20230418103140.cps6csryl2xhrazz@begin>
- <ZD5+MouUk8YFVOX3@debian>
- <20230418115409.aqsqi6pa4s4nhwgs@begin>
- <ZD6dON0gl3DE8mYr@debian>
- <20230418141820.gxueo5pz2vvre442@begin>
+        with ESMTP id S232428AbjDSMAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 08:00:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9EBF9EE7;
+        Wed, 19 Apr 2023 05:00:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CD40163E38;
+        Wed, 19 Apr 2023 12:00:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 26F76C4339B;
+        Wed, 19 Apr 2023 12:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681905624;
+        bh=kL7MXaHfZUb5tJRqat4CTB+HjhFYT3TLVG/TA9D/yOU=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=DyKJ7lZEgtxMcBtN3hFQTRgImJ0r78sfGAFkj0/1IpnBOGNsodsEKSA9n0/0u0zCO
+         SgdGBFEnVUCVGNcpn/Ixzg07lTnEoadfHZM4weInv6uDSQC+j0CJ1RugD/nQc8zwmw
+         E8PTmOC86u/lnpdLrK75GluGpZ9SrXGcd+dYzkcgt+yXotoUcyFs3p4hDqNpU5buzO
+         qFucbkE1pCfekMm8Bs7nIlumeB8LyAjG71S9QQu5COc77iM+C+pK2Z+fnfnT+SnZi/
+         MR0UaF2bXx6TEF5b74pA63/E6RUiJ9UPY/tCxKwchlVvt9AIQhuMjJgYRSAJ+b/fuz
+         RRji8WNy9Cycw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 00DF7E3309C;
+        Wed, 19 Apr 2023 12:00:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
-Content-Disposition: inline
-In-Reply-To: <20230418141820.gxueo5pz2vvre442@begin>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next PATCH v7 00/16] net: Add basic LED support for switch/phy
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <168190562399.2268.16556585281655823731.git-patchwork-notify@kernel.org>
+Date:   Wed, 19 Apr 2023 12:00:23 +0000
+References: <20230417151738.19426-1-ansuelsmth@gmail.com>
+In-Reply-To: <20230417151738.19426-1-ansuelsmth@gmail.com>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     andrew@lunn.ch, f.fainelli@gmail.com, olteanv@gmail.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, hkallweit1@gmail.com,
+        linux@armlinux.org.uk, corbet@lwn.net, gregory.clement@bootlin.com,
+        sebastian.hesselbarth@gmail.com, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, pavel@ucw.cz,
+        lee@kernel.org, john@phrozen.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello:
 
---YiEDa0DAkWCtVeE4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-On  Tue, Apr 18, 2023 at 16:18:20 +0200, Samuel Thibault wrote:
-> Guillaume Nault, le mar. 18 avril 2023 15:38:00 +0200, a ecrit:
-> > On Tue, Apr 18, 2023 at 01:54:09PM +0200, Samuel Thibault wrote:
-> > > Guillaume Nault, le mar. 18 avril 2023 13:25:38 +0200, a ecrit:
-> > > > As I said in my previous reply, a simple L2TP example that goes unt=
-il PPP
-> > > > channel and unit creation is fine. But any more advanced use of the=
- PPP
-> > > > API should be documented in the PPP documentation.
-> > >=20
-> > > When it's really advanced, yes. But here it's just about tunnel
-> > > bridging, which is a very common L2TP thing to do.
-> >=20
-> > I can't undestand why you absolutely want this covered in l2tp.rst.
->=20
-> Because that's where people working on L2TP software will look for it.
+On Mon, 17 Apr 2023 17:17:22 +0200 you wrote:
+> This is a continue of [1]. It was decided to take a more gradual
+> approach to implement LEDs support for switch and phy starting with
+> basic support and then implementing the hw control part when we have all
+> the prereq done.
+> 
+> This series implements only the brightness_set() and blink_set() ops.
+> An example of switch implementation is done with qca8k.
+> 
+> [...]
 
-Sorry to have not commented earlier, and thank you Samuel for working
-on improving the L2TP documentation.
+Here is the summary with links:
+  - [net-next,v7,01/16] net: dsa: qca8k: move qca8k_port_to_phy() to header
+    https://git.kernel.org/netdev/net-next/c/3e8b4d6277fd
+  - [net-next,v7,02/16] net: dsa: qca8k: add LEDs basic support
+    https://git.kernel.org/netdev/net-next/c/1e264f9d2918
+  - [net-next,v7,03/16] net: dsa: qca8k: add LEDs blink_set() support
+    https://git.kernel.org/netdev/net-next/c/91acadcc6e59
+  - [net-next,v7,04/16] leds: Provide stubs for when CLASS_LED & NEW_LEDS are disabled
+    https://git.kernel.org/netdev/net-next/c/e5029edd5393
+  - [net-next,v7,05/16] net: phy: Add a binding for PHY LEDs
+    https://git.kernel.org/netdev/net-next/c/01e5b728e9e4
+  - [net-next,v7,06/16] net: phy: phy_device: Call into the PHY driver to set LED brightness
+    https://git.kernel.org/netdev/net-next/c/684818189b04
+  - [net-next,v7,07/16] net: phy: marvell: Add software control of the LEDs
+    https://git.kernel.org/netdev/net-next/c/2d3960e58ef7
+  - [net-next,v7,08/16] net: phy: phy_device: Call into the PHY driver to set LED blinking
+    https://git.kernel.org/netdev/net-next/c/4e901018432e
+  - [net-next,v7,09/16] net: phy: marvell: Implement led_blink_set()
+    https://git.kernel.org/netdev/net-next/c/ea9e86485dec
+  - [net-next,v7,10/16] dt-bindings: net: ethernet-controller: Document support for LEDs node
+    https://git.kernel.org/netdev/net-next/c/57b6c752c5c0
+  - [net-next,v7,11/16] dt-bindings: net: dsa: qca8k: add LEDs definition example
+    https://git.kernel.org/netdev/net-next/c/ed617bc022f4
+  - [net-next,v7,12/16] ARM: dts: qcom: ipq8064-rb3011: Drop unevaluated properties in switch nodes
+    https://git.kernel.org/netdev/net-next/c/939595c79d12
+  - [net-next,v7,13/16] ARM: dts: qcom: ipq8064-rb3011: Add Switch LED for each port
+    https://git.kernel.org/netdev/net-next/c/09930f1fb875
+  - [net-next,v7,14/16] dt-bindings: net: phy: Document support for LEDs node
+    https://git.kernel.org/netdev/net-next/c/18a24b694a2b
+  - [net-next,v7,15/16] arm: mvebu: dt: Add PHY LED support for 370-rd WAN port
+    https://git.kernel.org/netdev/net-next/c/380a8fe1b2f4
+  - [net-next,v7,16/16] Documentation: LEDs: Describe good names for network LEDs
+    https://git.kernel.org/netdev/net-next/c/c693ea2fd6e3
 
-I think documentation like l2tp.rst is best when it provides a high
-level overview of how things fit together.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-When it comes to actually implementing a userspace L2TP/PPP daemon,
-I feel that at a certain point you're better off referring to existing
-userspace code alongside the kernel sources themselves, as any summary is
-inevitably going to leave gaps.  From that perspective I'd almost sooner
-we didn't have the code snippet in l2tp.rst.
 
-That said, I can't see the harm in improving the code snippet, given
-that we have it already.  Having no mention of PPPIOCBRIDGECHAN given
-that it can be used to implement tunnel switching is an oversight
-really.
-
-FWIW I agree the term "tunnel switching" is a bit misleading, and of
-course the PPP ioctl supports bridging any flavour of channel, not
-just PPPoL2TP.  However from the L2TP perspective people perhaps have
-something along the lines of this IETF draft in mind:
-
-https://datatracker.ietf.org/doc/html/draft-ietf-l2tpext-tunnel-switching-08
-
-=2E..which we could perhaps link to to clarify the intent in the context
-of the L2TP codebase?
-
-> > Also, it's probably a desirable feature, but certainly not a common
-> > thing on Linux. This interface was added a bit more than 2 years ago,
-> > which is really recent considering the age of the code.
->=20
-> Yes, and in ISPs we have been in need for it for something like
-> decades. I can find RFC drafts around 2000.
->=20
-> Or IPs have just baked their own kernel implementation (xl2tpd,
-> accel-ppp, etc.)
-
-Yes.  It's sad that support wasn't available sooner in the kernel, but
-I'm not sure that's indicative of lack of desire for the feature
-necessarily.
-
-> > Appart from maybe go-l2tp, I don't know of any user.
->=20
-
-I confirm that go-l2tp does use it :-)
-
---=20
-Tom Parkin
-Katalix Systems Ltd
-https://katalix.com
-Catalysts for your Embedded Linux software development
-
---YiEDa0DAkWCtVeE4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEsUkgyDzMwrj81nq0lIwGZQq6i9AFAmQ/xyYACgkQlIwGZQq6
-i9At8QgAsFZhEpP2qxWypS68H5NKarIfFYarOkKszlZYYGSxuSFsx1uNYGc/m6dM
-EfB4N00yMNLIhUU7gimjytfZXVTFYyoAZ4ZIxSdngkyJiSMkwGdccSlu/nTbCFwa
-NbfC5v3e2/liDGDleT1CrpxrBD6IBNzG6PzUti3BhG8wJoODy2xyRbS2bDDFkjMr
-GUF9rRVxlIt/+V8iOPKBvlib7mLPyRh7lSOELQqWVKLLosuaAtb5NW8vNfpnRLxz
-2rg307GafbG/zgFJcDHKaYjUT2AaoEC44eh0laOFZgbUr9lJtSejjRIQROQQ00uJ
-MngGtrhkFgaUEDs/cILtSqlU6G/nBA==
-=gtf3
------END PGP SIGNATURE-----
-
---YiEDa0DAkWCtVeE4--
