@@ -2,121 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC96C77B75
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 12:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEE3C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 12:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232440AbjDSMxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 08:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37590 "EHLO
+        id S232974AbjDSM6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 08:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232921AbjDSMxu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 08:53:50 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B67B47C
-        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 05:53:48 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id xi5so81345713ejb.13
-        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 05:53:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681908827; x=1684500827;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p0N26j4yQXe74e+ivxmlhFDmNYunjLTGE2X1AOgnduA=;
-        b=WYoY7KPFhRVS4KLzydaQSNQzYa2dWzZKW2yW8rpjs01sSODWUBXWzbIfn4vA9H6uK0
-         s5kSjt85Lz2Ghc7SRuksA1JggdACvcAtj/8GGETZebpBIzb4refKMx6Cbko5WvD0hckk
-         F1bZEYSwgX6qySecvsW5wNqpNILssGorZCBJdNF1PS13CQOa64wcpwwn1Iq70zwAMspL
-         6KoGWU76d6E+Zcklv/i5KTKkdmaY/32ieN5wneFh+gYNjysrhKL5bcRh13Df0Ov2CF5F
-         clw07YZvcQiDBXzB8llq7WVhGI/SgaNgW5ZV6v9GFdCd3u/X2KMBtv9pRQFNszezcfZy
-         kKdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681908827; x=1684500827;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p0N26j4yQXe74e+ivxmlhFDmNYunjLTGE2X1AOgnduA=;
-        b=Fnl3h/CzuleZp8oo4+KclRIMUL/TIIXcKV702b6XfGFS2f8OrvBUSs+SLcmaQFDRN4
-         iOj/orsTSpYrKSke7k7uMvwKRrevn44IY1apWwwGbMLuUVsnXtKtSwAkA+ieCXQ/8PjB
-         8PT1uM6OdPlshLhPnix2uJnwEDFavsDuYxdc5FwsvuGLCpspsUgM5hFqOEoHM3wThL+V
-         kREIOW7mOtMklWzZNoA+v3yNT3ClAN7yTUxAHWf9GNRHI4FIZn5GTRGoWqAnH8TaUwPE
-         2ccaSV6D70PdbgsWE48mSa/gjYluuFTTbi0FQQRHGCtPASl32G9+hJNzRcB8Tea2RK2C
-         Ztfg==
-X-Gm-Message-State: AAQBX9d3OPDnO3ZmapMsKjyGoFonhv60en7tzQMAwND/m6SPLVI0ydHm
-        t6y1+el5Ht24G7Do9frFm1bLJQ==
-X-Google-Smtp-Source: AKy350bBAaFNCpPlZzVexPb06lfEEFm/VEOm9rkda8D24LkFidQ/l3ZzXLJDLeOkUaIfhIETMTQqNg==
-X-Received: by 2002:a17:906:1ec8:b0:906:3373:cfe9 with SMTP id m8-20020a1709061ec800b009063373cfe9mr14669488ejj.10.1681908827214;
-        Wed, 19 Apr 2023 05:53:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:b7d8:d88b:1fac:c802? ([2a02:810d:15c0:828:b7d8:d88b:1fac:c802])
-        by smtp.gmail.com with ESMTPSA id wy5-20020a170906fe0500b0094f1d0bad81sm6336798ejb.139.2023.04.19.05.53.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Apr 2023 05:53:46 -0700 (PDT)
-Message-ID: <289b7604-d32d-49d9-8f06-87147d6fd473@linaro.org>
-Date:   Wed, 19 Apr 2023 14:53:45 +0200
+        with ESMTP id S232921AbjDSM6k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 08:58:40 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B716959D7;
+        Wed, 19 Apr 2023 05:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681909119; x=1713445119;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=kHCtTrMakUKm93V29cpT/FOERYkY1HGbzu5MDvGCI4Y=;
+  b=SCnx0qRHJ1gxVdo45Fa7gJYIZqVDeBSNi+wJC/q0V4Bm9vINBMe2GsUl
+   SlfcUUxKAMRYGE8V55Ob0Tk6ZSz7ZCJ1TKxB5fhlvlC2l3AsSdEpusEGM
+   ybJMkorJXCDoUulDCaPL0p+AjLOzgEa4Kn/a8/9QkEzA+ZDBUYphsIqmW
+   9sIQhm9GsyFZQTBE+4vxNqxFFZVw2QVjuCwCAGOlIKOLRQppyoYMfpkEn
+   ljeY56XOWodGsbJ41PlROnBydbHdMUesmA6MWuviicf5bpHojNYINYuhz
+   Bfsj+vu0shj33KysIjtgSF8F/BR+ILXyfZ6YOKdVoSiiLzZPUXCtgJsLL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="344189324"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="344189324"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 05:58:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="802912479"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="802912479"
+Received: from hbourgeo-mobl2.ger.corp.intel.com ([10.249.34.207])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 05:58:30 -0700
+Date:   Wed, 19 Apr 2023 15:58:28 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Babu Moger <babu.moger@amd.com>
+cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, pawan.kumar.gupta@linux.intel.com,
+        jarkko@kernel.org, adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+Subject: Re: [PATCH v4 1/7] x86/resctrl: Add multiple tasks to the resctrl
+ group at once
+In-Reply-To: <168177444676.1758847.11474266921067437724.stgit@bmoger-ubuntu>
+Message-ID: <d046eebf-15b-2d23-b8f6-5dd06b49d0d3@linux.intel.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177444676.1758847.11474266921067437724.stgit@bmoger-ubuntu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [net-next PATCH v7 13/16] ARM: dts: qcom: ipq8064-rb3011: Add
- Switch LED for each port
-Content-Language: en-US
-To:     Christian Marangi <ansuelsmth@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-Cc:     Jonathan McDowell <noodles@earth.li>
-References: <20230417151738.19426-1-ansuelsmth@gmail.com>
- <20230417151738.19426-14-ansuelsmth@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230417151738.19426-14-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17/04/2023 17:17, Christian Marangi wrote:
-> Add Switch LED for each port for MikroTik RB3011UiAS-RM.
+On Mon, 17 Apr 2023, Babu Moger wrote:
+
+> The resctrl task assignment for MONITOR or CONTROL group needs to be
+> done one at a time. For example:
 > 
-> MikroTik RB3011UiAS-RM is a 10 port device with 2 qca8337 switch chips
-> connected.
+>   $mount -t resctrl resctrl /sys/fs/resctrl/
+>   $mkdir /sys/fs/resctrl/clos1
+>   $echo 123 > /sys/fs/resctrl/clos1/tasks
+>   $echo 456 > /sys/fs/resctrl/clos1/tasks
+>   $echo 789 > /sys/fs/resctrl/clos1/tasks
 > 
-> It was discovered that in the hardware design all 3 Switch LED trace of
-> the related port is connected to the same LED. This was discovered by
-> setting to 'always on' the related led in the switch regs and noticing
-> that all 3 LED for the specific port (for example for port 1) cause the
-> connected LED for port 1 to turn on. As an extra test we tried enabling
-> 2 different LED for the port resulting in the LED turned off only if
-> every led in the reg was off.
+> This is not user-friendly when dealing with hundreds of tasks.
 > 
-> Aside from this funny and strange hardware implementation, the device
-> itself have one green LED for each port, resulting in 10 green LED one
-> for each of the 10 supported port.
+> It can be improved by supporting the multiple task id assignment in
+> one command with the tasks separated by commas. For example:
 > 
-> Cc: Jonathan McDowell <noodles@earth.li>
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+>   $echo 123,456,789 > /sys/fs/resctrl/clos1/tasks
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
->  arch/arm/boot/dts/qcom-ipq8064-rb3011.dts | 120 ++++++++++++++++++++++
+>  Documentation/x86/resctrl.rst          |    9 ++++++++-
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   31 ++++++++++++++++++++++++++++++-
+>  2 files changed, 38 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+> index 387ccbcb558f..f28ed1443a6a 100644
+> --- a/Documentation/x86/resctrl.rst
+> +++ b/Documentation/x86/resctrl.rst
+> @@ -292,7 +292,14 @@ All groups contain the following files:
+>  "tasks":
+>  	Reading this file shows the list of all tasks that belong to
+>  	this group. Writing a task id to the file will add a task to the
+> -	group. If the group is a CTRL_MON group the task is removed from
+> +	group. Multiple tasks can be added by separating the task ids
+> +	with commas. Tasks will be assigned sequentially in the order it
+> +	is entered.
 
-Please do not send the DTS patches to the net-next, but to the Qualcomm
-SoC maintainers. The DTS must not be mixed with driver code.
+"Tasks ... it is ..." doesn't sound correct.
 
-Best regards,
-Krzysztof
+> Failures while assigning the tasks will be aborted
+> +	immediately and tasks next in the sequence will not be assigned.
+> +	Users may need to retry them again. Failure details possibly with
+> +	pid will be logged in /sys/fs/resctrl/info/last_cmd_status file.
+> +
+> +	If the group is a CTRL_MON group the task is removed from
+>  	whichever previous CTRL_MON group owned the task and also from
+>  	any MON group that owned the task. If the group is a MON group,
+>  	then the task must already belong to the CTRL_MON parent of this
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 6ad33f355861..df5bd13440b0 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -696,18 +696,41 @@ static ssize_t rdtgroup_tasks_write(struct kernfs_open_file *of,
+>  				    char *buf, size_t nbytes, loff_t off)
+>  {
+>  	struct rdtgroup *rdtgrp;
+> +	char *pid_str;
+>  	int ret = 0;
+>  	pid_t pid;
+>  
+> -	if (kstrtoint(strstrip(buf), 0, &pid) || pid < 0)
+> +	if (nbytes == 0)
+>  		return -EINVAL;
+> +
+> +	buf[nbytes - 1] = '\0';
+> +
+>  	rdtgrp = rdtgroup_kn_lock_live(of->kn);
+>  	if (!rdtgrp) {
+>  		rdtgroup_kn_unlock(of->kn);
+>  		return -ENOENT;
+>  	}
+> +
+> +next:
+> +	if (!buf || buf[0] == '\0')
+> +		goto unlock;
+> +
+>  	rdt_last_cmd_clear();
+>  
+> +	pid_str = strim(strsep(&buf, ","));
+> +
+> +	if (kstrtoint(pid_str, 0, &pid)) {
+> +		rdt_last_cmd_printf("Task list parsing error\n");
+> +		ret = -EINVAL;
+> +		goto unlock;
+> +	}
+> +
+> +	if (pid < 0) {
+> +		rdt_last_cmd_printf("Invalid pid %d value\n", pid);
+> +		ret = -EINVAL;
+> +		goto unlock;
+> +	}
+> +
+>  	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED ||
+>  	    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
+>  		ret = -EINVAL;
+> @@ -716,6 +739,12 @@ static ssize_t rdtgroup_tasks_write(struct kernfs_open_file *of,
+>  	}
+>  
+>  	ret = rdtgroup_move_task(pid, rdtgrp, of);
+> +	if (ret) {
+> +		rdt_last_cmd_printf("Error while processing task %d\n", pid);
+> +		goto unlock;
+> +	} else {
+> +		goto next;
+> +	}
+
+Why is this not changed into a while () loop??
+
+>  
+>  unlock:
+>  	rdtgroup_kn_unlock(of->kn);
+> 
+> 
+
+
+-- 
+ i.
 
