@@ -2,429 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6D0C77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 14:15:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 811FBC6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 14:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbjDSOPo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 10:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39520 "EHLO
+        id S232262AbjDSOaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 10:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232890AbjDSOP0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 10:15:26 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C837716FB1;
-        Wed, 19 Apr 2023 07:14:47 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33JBIIBx016030;
-        Wed, 19 Apr 2023 14:13:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=Id4uVjwXoscLl4Y0e98lOkqoloRZbS6hh1+6aGuwkvo=;
- b=TvVgFzzWkOwzPuPebaJlwSM7+nDpqIO8AeF+1FJHA84LO3m4nMSj18omBjhrTFsg4gl2
- ogE6wgJBWFGQH6kZpZXMR4ttHm27myHqJbQg2jWOTWkPF4WR+HLfMda0EduT4aSr3hOL
- XiuTM0Rc0HgZz6Fzev64o37mTcPrXsrpAjsJRiyjcO3znSA+IVIi2RLZ4xLH1k6NZ8Ok
- /cWt+ELBmMkTum+Jad611GxuBw1U6hgJAT4RcnN41OTCD0cFq7RyMBkk86oA2bOGvlar
- xztKW+T01w68yU8kdNH8IRduB2RpGCC/l/ubq8cEHYp07OK8qu9qMogLStNLUwGH53l8 KQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q1w21b229-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 Apr 2023 14:13:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33JEDvnn001891
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 Apr 2023 14:13:57 GMT
-Received: from jinlmao-gv.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 19 Apr 2023 07:13:53 -0700
-From:   Mao Jinlong <quic_jinlmao@quicinc.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>
-CC:     Mao Jinlong <quic_jinlmao@quicinc.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Hao Zhang <quic_hazha@quicinc.com>
-Subject: [PATCH v2] stm: class: Add MIPI OST protocol support
-Date:   Wed, 19 Apr 2023 22:13:28 +0800
-Message-ID: <20230419141328.37472-1-quic_jinlmao@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S233194AbjDSO34 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 10:29:56 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B639E11D;
+        Wed, 19 Apr 2023 07:29:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dzwUU2Hj8gWeN3i1d9qczfnP1ax1wHGLzQb3aetEOXqvj1L23XhahIrq6Clgc+Q3wGs9LzYoVxS/+4J1kM5gvNpC8nKer1VzvUDv3+Oz0oE1+iEdDCKSzaGiFxAA9FAC9qFuTfTTdLDdS2VwxU9GK0s7Olb7g3jPFYAmZ5jpuVmUZk6aGrTAAfcivtP7ElCHgYUIq2tN6usZf3QDR8XdBkFN2HbMEjPWLYkKBoL4hRkonNgygiTROoXpByUBydHGwLPcOX710joJWABA2eF1nvSRa4sOcZALKckXkiJ+di14wFCJTS0YU3wEt95GMjSjlDTSpRV586+yngKvVFve6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=besdw75AmfmSYNorhwN6t7sE5iRlo3ONSGwlVUT7+P8=;
+ b=eZBjUNnj9rlpPhHvwjkDs5NRBI0958s6pDlWMSFWiqrmlzCgY1zO+/agMkA/o48lldGpnQPk36hzd8nsFYVgx+FWOEo74mL8nkBn6aoSbohH4cx0DEc5N/3X0ALItRAaCXKQlwM9mZq/TX7Rpzw/qQS44X21A+HbvZMcHRWw+GerRyuap5ZBtECcXLKdKiwOEGUuu5FvFmSG2G6rkQT/myyV5KeNR/mSWvdvSChTYRZYvL5bdLUBUEOQi/x+kTj8m19tz98fLeBroRELUGGaTkV7hsV6NPK0Ml3D183oB1vhCCWoSTF7+j+ZvjOVGLR8akRTnqiGT5XkDNPxo0CMkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=besdw75AmfmSYNorhwN6t7sE5iRlo3ONSGwlVUT7+P8=;
+ b=wbYc1Fkuh5n+nnh2UOAhIs+q08XevBunTNNU5PIrYAjQIRDQuLPnPrfMxKBndLIhReykQ5ElACcQeIgyPsoT09dTIfoqMJ4qu5RF7xbJIpzGC1j1z5xNNvS5U57Gle9lr48VWkyKF7YHpL/c7b6R/iw6q6+vTyUk3g9SDrtVA1M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM6PR12MB4299.namprd12.prod.outlook.com (2603:10b6:5:223::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Wed, 19 Apr
+ 2023 14:29:50 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::57ca:ec64:35da:a5b1]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::57ca:ec64:35da:a5b1%7]) with mapi id 15.20.6298.045; Wed, 19 Apr 2023
+ 14:29:50 +0000
+Message-ID: <cff27f42-2cf7-afbe-38eb-eef0a100bb27@amd.com>
+Date:   Wed, 19 Apr 2023 09:29:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v4 3/7] x86/resctrl: Rename rftype flags for consistency
+Content-Language: en-US
+To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu>
+ <168177446947.1758847.11380042804869155387.stgit@bmoger-ubuntu>
+ <6cf118d1-efbb-6c6e-225d-c93a1875eb0@linux.intel.com>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <6cf118d1-efbb-6c6e-225d-c93a1875eb0@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0P221CA0031.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:610:11d::13) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: hRjNNcSDHr8pcnb-3s97ZZw0UQA2JOZz
-X-Proofpoint-GUID: hRjNNcSDHr8pcnb-3s97ZZw0UQA2JOZz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-19_09,2023-04-18_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
- mlxscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 clxscore=1011
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304190127
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM6PR12MB4299:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0579a6f8-326e-41ff-b493-08db40e28868
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ecxp6vH3CV6BugghOHmGy8ZrXNZbxhsoOGtjpXdS8O16lIpMQh7NfTO+UkEj/c8Tv71xqSSsw728XjWSG14HjEhHg8N/aA790rd8o/iX47RBZNGc/Wzh1j2ymv5T8gxHCaWwMPxNDUIg0KViil6QsxNMnAxzLw3JGtbM6BYtNicq5STjmIra4jlEHblPsmMtiZGFe0vg7G86Eiy0fMnT0Ax9UcwtcXA7d0GH5sjcfrw5x0orR1xaflY5zpl7nxUNzaf29aM1h1E+okGzA7yG/lHeBMOS4x/G3ys2n38CUnVD7W9767SWO53XuqCg7UIQUKgvaNaUsFOsAfIj26ajlWn47NBM/hUq8lDNAKVjjWflvYWTjD+dsFdgZX0hBONEfj2zGas8mFZL4825I2x/BSYwyOjOpkjRqqXW24e9+3/+kgqBpvohlTrzCuKhEfYQ45fvQdRsQBoH4DANtMYhHEtJBXyaTVY8eEc85L7aY8d034Xi8uCxejLj7jSQXcxadoeW2aVqb75EdI7zuRDTIXFtjjfnta7JS5T71eljwazZy0KWQmT9sSB2IVzzFSqBfpMf2Ax1mfeM0H7sZwuYN5DTtt9l9lOFFv1CkmT2sCDUcjRYVi0rzPQvu5VAKo7hHX0G0bnDdOi2+obO8Lbmmw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(346002)(376002)(366004)(39860400002)(451199021)(2906002)(3450700001)(8936002)(38100700002)(8676002)(7406005)(7416002)(5660300002)(36756003)(86362001)(31696002)(6486002)(6666004)(6512007)(6506007)(26005)(54906003)(478600001)(2616005)(31686004)(83380400001)(53546011)(186003)(316002)(4326008)(6916009)(66556008)(66476007)(66946007)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QThsVFY2U3Z0V1E1blBXV3Z2SjNuMjVpa1NiTHhtKzdEdUwxaXdhSCs4QXN1?=
+ =?utf-8?B?L1EvQy9QdUVicnZpeGJUUVlNN2xmY2tZUis3bnVhVmU4V2pvZUV5WW14Q2N5?=
+ =?utf-8?B?ZDNXeHY0U0NBVVYwa2wxOUVUMFpVVWdYVGtrWmlRWGtVUklrb1QxMUNXeFBq?=
+ =?utf-8?B?QXNROWFyYWVZWGZGL1hFL1pyZnd1cHBMZml5bXVUWjdjSnhNZGpEeWZlbUxQ?=
+ =?utf-8?B?K3pFUXZjZWF3b3NZeWo0UnYvNUVHTVF5cmF5QWFERVZBOG96K3RFamFKMTdT?=
+ =?utf-8?B?ZzRTQWh1QmFyOGFMbVdCKzR2ajJLa3JQZG1idlRrYnZwOHFOcjMyVVJtSmQr?=
+ =?utf-8?B?ZFpnV3oyUDB5L3BNaGVvL2srZzhMR1VnVVFOWjN6ZEUxZUFMdDBwV2ZoQXk0?=
+ =?utf-8?B?Q1Z0MFdVZVFqTnVyelJUbVJvQ29mcXRQamNKT1BQd28zbXZFUUMvb3c1bVVI?=
+ =?utf-8?B?UEZlL0xpZi83RmZSNFFOL2Z0eFMxamltZEc2eFpXb2F1clZLNEtJWVYzS3lT?=
+ =?utf-8?B?b2owVFlVZXcvb3pWblhzNGIwYzl5TUV4QWVwb0UyWTlFRG1SUVYvZEVrZGVP?=
+ =?utf-8?B?M0I2WGRpcCtzU1lhZjJra0ZMeHEzbjhCQnJzNURyaDVRN3F0Y3VJZjhFckVB?=
+ =?utf-8?B?cXdWVkhOSzhlRWlMZlhlUklTbEFEazZaRXBYMEtyNGJXV3dEaXhMZzc0dE1j?=
+ =?utf-8?B?cVRzT2pSb01Fd1lla3JrREZrVWsrWnFiRys5cVUyc2RSMEFkZkg4ZFN6Zk12?=
+ =?utf-8?B?Rk5BSVRQUnRHT1ZPVlIvY3N5WklOaXA1U1E1K3NIczErYVo5OVJ1V2tXMERC?=
+ =?utf-8?B?di9adWtORW5SUnhiVkFJNHZ4QitjK2N3SjRrSXZkTUcxRlc5QmhsN0g1Qzdi?=
+ =?utf-8?B?bXo3TU9TMnBtWHdkY01wSGVhSVpWZzNtUkRpdTFZV2lndlhIdkg3a2JsUlRq?=
+ =?utf-8?B?bG0zMjhZNVF2MW5nZzV5TkwwbXRjWDNUd050UnVkdGFkWFgrQjM5c3U1UHEx?=
+ =?utf-8?B?NWxyRFlMQVJkUVJkRnQ2VUlaTkxZcVhxb2lBK3IvZjg2cjZUdTUrZkNTTGJz?=
+ =?utf-8?B?TE5SVWhXckk3SG5MeG9Ea3M2bE9DZHhobDNLV3FSR1JDdk9MUXZTWTZXSUs5?=
+ =?utf-8?B?RjBWbWtHMTZYY2l5R3RzM3VTZXEvNmJYWGpwNzZBWktaVFVuU3c3RG9SQnZO?=
+ =?utf-8?B?cjZ4YzdFYWJtaUhIUlM0TzQxYUN0S1FiVEc1R1NxdkhKdDllSkg3dkcrSWxM?=
+ =?utf-8?B?NUhyaFgxWU82Zi96Tk1CMm9RSUF0cy8xaDFKbU5jNzdRdW1zemlrN3R2elRC?=
+ =?utf-8?B?b2JaVStuY015V21GdmpLN1pnbDd3d3VWeHMwdkpISmRmV3ZxbzRZQTNBSVE2?=
+ =?utf-8?B?U0hYY1hLRHpFTVk0S1UwRmpNSU9DL1lpVHd3R09zYmU2NjBodHgrMzBTY1B4?=
+ =?utf-8?B?VFdVUUd2cmQvS2VPMmE5ZVp2QVlLUy9yajRDUXQzUEVyMmQrTTdGY1lYRGZI?=
+ =?utf-8?B?aktvdGZXQ1Z0azJlNXdnVnpVd2Q0cTdzTnZNZHhhREd4ZEtSTU1ESC9qUU8z?=
+ =?utf-8?B?bHhPd3NDT2Q2aTZBclh2Nkg3RGJPdzJ5Mjc2cVB2Ry9Qa2hMcXI0a1pDU3hp?=
+ =?utf-8?B?TDhDb2EzZ053MlpCakZqVFBPUWNYY3kxVEVoK0tTN0N6cExPMWc5SjlLVk4r?=
+ =?utf-8?B?L1BzSlJlRjZnQm9QNzRZeEN2Zk5HSEhKQndZOG1aQjhreU5XenhpMzBEUzFx?=
+ =?utf-8?B?WU5tUTQvcHJaQkJKTUovMXEreUlVbG9rRXdzZm85TFdrbm5Yc2Z5c00vajZu?=
+ =?utf-8?B?MEJEdGFMWm1CeUx5MXIyLzZiTkxtVllPQ1VXZ0ZCeExZa3VmbTdzd05Wb05v?=
+ =?utf-8?B?d3R4bEwyaDBWTnpoUXJIYkIzN1dIN0U0WjJPTHkwSnNhRkY5TFRQUFpJUXlY?=
+ =?utf-8?B?cFlUTlRVaDlLNEEvQStWRjNpRkxZbHhCSzBibi9RdDIxdzdFN2thU3VoM3Vj?=
+ =?utf-8?B?bHpHTVl1VWhYSndlS0JLTE53R0NXSjVodFhMOFJyS2p0TlJHcCtaSGxXc2Jq?=
+ =?utf-8?B?Qk5mMTIzZXVWWTR0MzEvajJVRmlJNlY3T0tibXB1S0dORm9UbzM5K2Z1N1BK?=
+ =?utf-8?Q?N3Mw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0579a6f8-326e-41ff-b493-08db40e28868
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 14:29:50.1609
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /Oro4roN8I0cbKP5saRVPZ6F35DqLm9pIt8Wxt39wEGJroFO76PvOUVKxW4d6UB+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4299
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MIPI OST(Open System Trace) protocol support for stm to format
-the traces. OST over STP packet consists of Header/Payload/End. In
-header, there will be STARTSIMPLE/VERSION/ENTITY/PROTOCOL. STARTSIMPLE
-is used to signal the beginning of a simplified OST base protocol
-packet.The Entity ID field is a one byte unsigned number that identifies
-the source. FLAG packet is used for END token.
+Hi Jarvinen,
 
-Signed-off-by: Tingwei Zhang <quic_tingweiz@quicinc.com>
-Signed-off-by: Yuanfang Zhang <quic_yuanfang@quicinc.com>
-Signed-off-by: Mao Jinlong <quic_jinlmao@quicinc.com>
----
- .../ABI/testing/configfs-stp-policy-p_ost     |  13 ++
- Documentation/trace/p_ost.rst                 |  40 ++++
- drivers/hwtracing/stm/Kconfig                 |  14 ++
- drivers/hwtracing/stm/Makefile                |   2 +
- drivers/hwtracing/stm/p_ost.c                 | 213 ++++++++++++++++++
- 5 files changed, 282 insertions(+)
- create mode 100644 Documentation/ABI/testing/configfs-stp-policy-p_ost
- create mode 100644 Documentation/trace/p_ost.rst
- create mode 100644 drivers/hwtracing/stm/p_ost.c
+On 4/19/23 07:44, Ilpo Järvinen wrote:
+> On Mon, 17 Apr 2023, Babu Moger wrote:
+> 
+>> The rftype flags have two different prefixes even though they are used
+>> for the same purpose. Change the prefix to RFTYPE_ for all the flags.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>>  arch/x86/kernel/cpu/resctrl/internal.h |    8 +++---
+>>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   42 ++++++++++++++++----------------
+>>  2 files changed, 25 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+>> index 62767774810d..c4fc5a1c630c 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+>> @@ -248,10 +248,10 @@ struct rdtgroup {
+>>  #define RFTYPE_TOP			BIT(6)
+>>  #define RFTYPE_RES_CACHE		BIT(8)
+>>  #define RFTYPE_RES_MB			BIT(9)
+>> -#define RF_CTRL_INFO			(RFTYPE_INFO | RFTYPE_CTRL)
+>> -#define RF_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
+>> -#define RF_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
+>> -#define RF_CTRL_BASE			(RFTYPE_BASE | RFTYPE_CTRL)
+>> +#define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
+>> +#define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
+>> +#define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
+>> +#define RFTYPE_CTRL_BASE		(RFTYPE_BASE | RFTYPE_CTRL)
+>>  
+>>  /* List of all resource groups */
+>>  extern struct list_head rdt_all_groups;
+> 
+> This needs to be changed as well:
+> 
+>  * @fflags:  File specific RF_* or RFTYPE_* flags
 
-diff --git a/Documentation/ABI/testing/configfs-stp-policy-p_ost b/Documentation/ABI/testing/configfs-stp-policy-p_ost
-new file mode 100644
-index 000000000000..7ad11ae21760
---- /dev/null
-+++ b/Documentation/ABI/testing/configfs-stp-policy-p_ost
-@@ -0,0 +1,13 @@
-+What:		/config/stp-policy/<device>:p_ost.<policy>/<node>/entity_available
-+Date:		April 2023
-+KernelVersion:	6.3
-+Description:
-+		Show entity that p_ost supports, RO.
-+
-+What:		/config/stp-policy/<device>:p_ost.<policy>/<node>/entity
-+Date:		April 2023
-+KernelVersion:	6.3
-+Description:
-+		Set the entity which is to identify the source, RW.
-+		The available entity can be gotten by reading entity_available.
-+
-diff --git a/Documentation/trace/p_ost.rst b/Documentation/trace/p_ost.rst
-new file mode 100644
-index 000000000000..8d7afa341b9e
---- /dev/null
-+++ b/Documentation/trace/p_ost.rst
-@@ -0,0 +1,40 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================
-+MIPI OST over STP
-+===================
-+
-+The OST(Open System Trace) driver is used with STM class devices to
-+generate standardized trace stream. Trace sources can be identified
-+by different entity ids.
-+
-+CONFIG_STM_PROTO_OST is for p_ost driver enablement. Once this config
-+is enabled, you can select the p_ost protocol by command below:
-+
-+# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy
-+
-+The policy name format is extended like this:
-+    <device_name>:<protocol_name>.<policy_name>
-+
-+With coresight-stm device, it will be look like "stm0:p_ost.policy".
-+
-+You can check if the protocol is set successfully by:
-+# cat /sys/kernel/config/stp-policy/stm0:p_ost.policy/protocol
-+p_ost
-+
-+With MIPI OST protocol driver, the attributes for each protocol node is:
-+# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
-+# ls /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
-+channels  entity    masters
-+
-+The entity here is the set the entity that p_ost supports. Currently
-+p_ost supports ftrace and console entity.
-+
-+Get current available entity that p_ost supports:
-+# cat /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity_available
-+ftrace console
-+
-+Set entity:
-+# echo 'ftrace' > /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity
-+
-+See Documentation/ABI/testing/configfs-stp-policy-p_ost for more details.
-diff --git a/drivers/hwtracing/stm/Kconfig b/drivers/hwtracing/stm/Kconfig
-index eda6b11d40a1..daa4aa09f64d 100644
---- a/drivers/hwtracing/stm/Kconfig
-+++ b/drivers/hwtracing/stm/Kconfig
-@@ -40,6 +40,20 @@ config STM_PROTO_SYS_T
- 
- 	  If you don't know what this is, say N.
- 
-+config STM_PROTO_OST
-+	tristate "MIPI OST STM framing protocol driver"
-+	default CONFIG_STM
-+	help
-+	  This is an implementation of MIPI OST protocol to be used
-+	  over the STP transport. In addition to the data payload, it
-+	  also carries additional metadata for entity, better
-+	  means of trace source identification, etc.
-+
-+	  The receiving side must be able to decode this protocol in
-+	  addition to the MIPI STP, in order to extract the data.
-+
-+	  If you don't know what this is, say N.
-+
- config STM_DUMMY
- 	tristate "Dummy STM driver"
- 	help
-diff --git a/drivers/hwtracing/stm/Makefile b/drivers/hwtracing/stm/Makefile
-index 1692fcd29277..715fc721891e 100644
---- a/drivers/hwtracing/stm/Makefile
-+++ b/drivers/hwtracing/stm/Makefile
-@@ -5,9 +5,11 @@ stm_core-y		:= core.o policy.o
- 
- obj-$(CONFIG_STM_PROTO_BASIC) += stm_p_basic.o
- obj-$(CONFIG_STM_PROTO_SYS_T) += stm_p_sys-t.o
-+obj-$(CONFIG_STM_PROTO_OST) += stm_p_ost.o
- 
- stm_p_basic-y		:= p_basic.o
- stm_p_sys-t-y		:= p_sys-t.o
-+stm_p_ost-y		:= p_ost.o
- 
- obj-$(CONFIG_STM_DUMMY)	+= dummy_stm.o
- 
-diff --git a/drivers/hwtracing/stm/p_ost.c b/drivers/hwtracing/stm/p_ost.c
-new file mode 100644
-index 000000000000..fe99b68569d3
---- /dev/null
-+++ b/drivers/hwtracing/stm/p_ost.c
-@@ -0,0 +1,213 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ *
-+ * MIPI OST framing protocol for STM devices.
-+ */
-+
-+#include <linux/configfs.h>
-+#include <linux/module.h>
-+#include <linux/device.h>
-+#include <linux/slab.h>
-+#include <linux/stm.h>
-+#include "stm.h"
-+
-+
-+#define OST_TOKEN_STARTSIMPLE		(0x10)
-+#define OST_VERSION_MIPI1		(0x10 << 8)
-+
-+/* entity id to identify the source*/
-+#define OST_ENTITY_FTRACE		(0x01 << 16)
-+#define OST_ENTITY_CONSOLE		(0x02 << 16)
-+
-+#define OST_CONTROL_PROTOCOL		(0x0 << 24)
-+
-+/*
-+ * OST Base Protocol Header
-+ *
-+ * Position	Bits	Field Name
-+ *      0       8       STARTSIMPLE
-+ *      1       8       Version
-+ *      2       8       Entity ID
-+ *      3       8       protocol ID
-+ */
-+#define DATA_HEADER (OST_TOKEN_STARTSIMPLE | OST_VERSION_MIPI1 | \
-+			OST_CONTROL_PROTOCOL)
-+
-+#define STM_MAKE_VERSION(ma, mi)	((ma << 8) | mi)
-+#define STM_HEADER_MAGIC		(0x5953)
-+
-+enum ost_entity_type {
-+	OST_ENTITY_TYPE_NONE,
-+	OST_ENTITY_TYPE_FTRACE,
-+	OST_ENTITY_TYPE_CONSOLE,
-+};
-+
-+static const char * const str_ost_entity_type[] = {
-+	[OST_ENTITY_TYPE_NONE]		= "none",
-+	[OST_ENTITY_TYPE_FTRACE]	= "ftrace",
-+	[OST_ENTITY_TYPE_CONSOLE]	= "console",
-+};
-+
-+struct ost_policy_node {
-+	enum ost_entity_type	entity_type;
-+};
-+
-+struct ost_output {
-+	struct ost_policy_node	node;
-+};
-+
-+/* Set default entity type as none */
-+static void ost_policy_node_init(void *priv)
-+{
-+	struct ost_policy_node *pn = priv;
-+
-+	pn->entity_type = OST_ENTITY_TYPE_NONE;
-+}
-+
-+static int ost_output_open(void *priv, struct stm_output *output)
-+{
-+	struct ost_policy_node *pn = priv;
-+	struct ost_output *opriv;
-+
-+	opriv = kzalloc(sizeof(*opriv), GFP_ATOMIC);
-+	if (!opriv)
-+		return -ENOMEM;
-+
-+	memcpy(&opriv->node, pn, sizeof(opriv->node));
-+	output->pdrv_private = opriv;
-+	return 0;
-+}
-+
-+static void ost_output_close(struct stm_output *output)
-+{
-+	kfree(output->pdrv_private);
-+}
-+
-+static ssize_t ost_t_policy_entity_show(struct config_item *item,
-+				char *page)
-+{
-+	struct ost_policy_node *pn = to_pdrv_policy_node(item);
-+
-+	return scnprintf(page, PAGE_SIZE, "%s\n",
-+			str_ost_entity_type[pn->entity_type]);
-+}
-+
-+static ssize_t
-+ost_t_policy_entity_store(struct config_item *item, const char *page,
-+			size_t count)
-+{
-+	struct mutex *mutexp = &item->ci_group->cg_subsys->su_mutex;
-+	struct ost_policy_node *pn = to_pdrv_policy_node(item);
-+	char str[10] = "";
-+
-+	mutex_lock(mutexp);
-+	if (sscanf(page, "%s", str) != 1)
-+		return -EINVAL;
-+	mutex_unlock(mutexp);
-+
-+	if (!strcmp(str, str_ost_entity_type[OST_ENTITY_TYPE_FTRACE]))
-+		pn->entity_type = OST_ENTITY_TYPE_FTRACE;
-+	else if (!strcmp(str, str_ost_entity_type[OST_ENTITY_TYPE_CONSOLE]))
-+		pn->entity_type = OST_ENTITY_TYPE_CONSOLE;
-+	else
-+		return -EINVAL;
-+	return count;
-+}
-+CONFIGFS_ATTR(ost_t_policy_, entity);
-+
-+static ssize_t ost_t_policy_entity_available_show(struct config_item *item,
-+				char *page)
-+{
-+	return scnprintf(page, PAGE_SIZE, "%s\n", "ftrace console");
-+}
-+CONFIGFS_ATTR_RO(ost_t_policy_, entity_available);
-+
-+static struct configfs_attribute *ost_t_policy_attrs[] = {
-+	&ost_t_policy_attr_entity,
-+	&ost_t_policy_attr_entity_available,
-+	NULL,
-+};
-+
-+static ssize_t notrace ost_write(struct stm_data *data,
-+		struct stm_output *output, unsigned int chan,
-+		const char *buf, size_t count)
-+{
-+	unsigned int c = output->channel + chan;
-+	unsigned int m = output->master;
-+	const unsigned char nil = 0;
-+	u32 header = DATA_HEADER;
-+	u8 trc_hdr[16];
-+	ssize_t sz;
-+
-+	struct ost_output *op = output->pdrv_private;
-+
-+	/*
-+	 * Identify the source by entity type.
-+	 * If entity type is not set, return error value.
-+	 */
-+	if (op->node.entity_type == OST_ENTITY_TYPE_FTRACE) {
-+		header |= OST_ENTITY_FTRACE;
-+	} else if (op->node.entity_type == OST_ENTITY_TYPE_CONSOLE) {
-+		header |= OST_ENTITY_CONSOLE;
-+	} else {
-+		pr_debug("p_ost: Entity must be set for trace data.");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * STP framing rules for OST frames:
-+	 *   * the first packet of the OST frame is marked;
-+	 *   * the last packet is a FLAG with timestamped tag.
-+	 */
-+	/* Message layout: HEADER / DATA / TAIL */
-+	/* HEADER */
-+	sz = data->packet(data, m, c, STP_PACKET_DATA, STP_PACKET_MARKED,
-+			  4, (u8 *)&header);
-+	if (sz <= 0)
-+		return sz;
-+
-+	/* DATA */
-+	*(u16 *)(trc_hdr) = STM_MAKE_VERSION(0, 4);
-+	*(u16 *)(trc_hdr + 2) = STM_HEADER_MAGIC;
-+	*(u32 *)(trc_hdr + 4) = raw_smp_processor_id();
-+	*(u64 *)(trc_hdr + 8) = task_tgid_nr(get_current());
-+	sz = stm_data_write(data, m, c, false, trc_hdr, sizeof(trc_hdr));
-+	if (sz <= 0)
-+		return sz;
-+
-+	sz = stm_data_write(data, m, c, false, buf, count);
-+
-+	/* TAIL */
-+	if (sz > 0)
-+		data->packet(data, m, c, STP_PACKET_FLAG,
-+			STP_PACKET_TIMESTAMPED, 0, &nil);
-+
-+	return sz;
-+}
-+
-+static const struct stm_protocol_driver ost_pdrv = {
-+	.owner			= THIS_MODULE,
-+	.name			= "p_ost",
-+	.write			= ost_write,
-+	.policy_attr		= ost_t_policy_attrs,
-+	.output_open		= ost_output_open,
-+	.output_close		= ost_output_close,
-+	.policy_node_init	= ost_policy_node_init,
-+};
-+
-+static int ost_stm_init(void)
-+{
-+	return stm_register_protocol(&ost_pdrv);
-+}
-+
-+static void ost_stm_exit(void)
-+{
-+	stm_unregister_protocol(&ost_pdrv);
-+}
-+
-+module_init(ost_stm_init);
-+module_exit(ost_stm_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("MIPI Open System Trace STM framing protocol driver");
+Yes. Thanks for pointing that. Will correct it in next revision.
 -- 
-2.17.1
-
+Thanks
+Babu Moger
