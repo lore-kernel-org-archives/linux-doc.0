@@ -2,252 +2,191 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41849C77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 13:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9247C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 13:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232842AbjDSNFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 09:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46192 "EHLO
+        id S233157AbjDSNVL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 09:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232784AbjDSNFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 09:05:45 -0400
-Received: from mx2.veeam.com (mx2.veeam.com [64.129.123.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F0259D5;
-        Wed, 19 Apr 2023 06:05:42 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx2.veeam.com (Postfix) with ESMTPS id 80B4240927;
-        Wed, 19 Apr 2023 09:05:39 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx2-2022; t=1681909539;
-        bh=PBdvaByQFO7/eGwjYwOju/3gTuH/19py1gOtnj75fJo=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=i+2WsxP00NUx+Vg+041BDKHE0UMxTbgobVdKBcnT0C7SZ28Nw9G2M8msObK8B3Wyi
-         Q2JjhMeTKvsiU07tI6lZuMO1UaXuAedQ1+FWBcqWHjnVRs0etegnHFq0W7d1b42E6k
-         uGwXmAbotzMN+Md4Q/NSe52kUnk0oxBas80k+z/2D2tiqeqziljJThh7Xu7jYSXFQ9
-         BP/bQQmHE7rWbMovonPXi1qZjvbZ1Y4cY7O97BpU/DzfOzYlfyUcltTxv6HOZv2Me7
-         6ARSGZbhnVFxtLflkm6fVsfWBzz0T8KCBAQbavdyiFpHr4SrjpVK12dmqbBAaQg4Gj
-         IqbOJdBrDwYzA==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Wed, 19 Apr
- 2023 15:05:32 +0200
-Content-Type: multipart/mixed;
-        boundary="------------PiDQm2ZJ7J9tIkTJ66DMrhJd"
-Message-ID: <c05fd3e7-5610-4f63-9012-df1b808d9536@veeam.com>
-Date:   Wed, 19 Apr 2023 15:05:22 +0200
+        with ESMTP id S233409AbjDSNVJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 09:21:09 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12B615464;
+        Wed, 19 Apr 2023 06:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681910462; x=1713446462;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=dwsCK/g+yR3m/NRJzizD8LYI/UOtsmhYlgVedbUwfzc=;
+  b=gDvIf1JW1D+Bi5t8rXt/sX9f/iktC/Q7YcKNCqLc41uqmuP7TcWIpdUR
+   7aqmhemVaKfsFUMyyEYi9WHX2Tczo+TmRoyUlj1XDxfd9odUd3wJ/hGfD
+   luOHOne9kUAb8GgIDU5m9qeyRkvWIgEmayG0rB9+aQ8S43DWGxASA29iw
+   YzgQQYyPfR1P0gpZ9NErhdw7OPKEgWRatp4O0czJUGT/wyT5QreQu1Hbl
+   /quDoSuJyVWmSbp2OmAGp7Bopz1b+inWMCzWEdMKIz0Bmgw3dr1oKituC
+   rdtYqWcIq+ZuxKsYBdf2DcNWV8lQp+lwKzO4E+QS9fSuoCFH9BcUfy/E7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="345445495"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="345445495"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 06:21:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="802916016"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="802916016"
+Received: from hbourgeo-mobl2.ger.corp.intel.com ([10.249.34.207])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 06:20:53 -0700
+Date:   Wed, 19 Apr 2023 16:20:50 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Babu Moger <babu.moger@amd.com>
+cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, pawan.kumar.gupta@linux.intel.com,
+        jarkko@kernel.org, adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+Subject: Re: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
+ debug option
+In-Reply-To: <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu>
+Message-ID: <56497126-8f60-e590-bb13-b3739114375@linux.intel.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
-Content-Language: en-US
-To:     Donald Buczek <buczek@molgen.mpg.de>, <axboe@kernel.dk>,
-        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <kch@nvidia.com>,
-        <martin.petersen@oracle.com>, <vkoul@kernel.org>,
-        <ming.lei@redhat.com>, <gregkh@linuxfoundation.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-4-sergei.shtepa@veeam.com>
- <cb0cc2f1-48cb-8b15-35af-33a31ccc922c@molgen.mpg.de>
- <86068780-bab3-2fc2-3f6f-1868be119b38@veeam.com>
- <a1854604-cec1-abd5-1d49-6cf6a19ee7a1@veeam.com>
- <1dc227d0-9528-9b77-63ff-b49b0579caa1@molgen.mpg.de>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <1dc227d0-9528-9b77-63ff-b49b0579caa1@molgen.mpg.de>
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: atlmbx02.amust.local (172.18.32.172) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A292403155467776B
-X-Veeam-MMEX: True
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---------------PiDQm2ZJ7J9tIkTJ66DMrhJd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+On Mon, 17 Apr 2023, Babu Moger wrote:
 
+> Add the debug files to the resctrl hierarchy.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  arch/x86/kernel/cpu/resctrl/internal.h |    1 +
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   54 +++++++++++++++++++++++++++++++-
+>  2 files changed, 54 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+> index 1eac07ebc31b..855109abb480 100644
+> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> @@ -288,6 +288,7 @@ struct rdtgroup {
+>  #define RFTYPE_TOP			BIT(4)
+>  #define RFTYPE_RES_CACHE		BIT(5)
+>  #define RFTYPE_RES_MB			BIT(6)
+> +#define RFTYPE_DEBUG			BIT(7)
+>  #define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
+>  #define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
+>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 15ded0dd5b09..1ec4359348c2 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -1880,6 +1880,7 @@ static struct rftype res_common_files[] = {
+>  		.mode		= 0444,
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.seq_show	= rdtgroup_rmid_show,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_DEBUG,
+>  	},
+>  	{
+>  		.name		= "schemata",
+> @@ -1909,6 +1910,7 @@ static struct rftype res_common_files[] = {
+>  		.mode		= 0444,
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.seq_show	= rdtgroup_closid_show,
+> +		.fflags		= RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
+>  	},
+>  
+>  };
+> @@ -2420,6 +2422,49 @@ static int mkdir_mondata_all(struct kernfs_node *parent_kn,
+>  			     struct rdtgroup *prgrp,
+>  			     struct kernfs_node **mon_data_kn);
+>  
+> +static void resctrl_add_debug_files(void)
+> +{
+> +	struct rftype *rfts, *rft;
+> +	int len;
+> +
+> +	rfts = res_common_files;
+> +	len = ARRAY_SIZE(res_common_files);
+> +
+> +	lockdep_assert_held(&rdtgroup_mutex);
+> +
+> +	for (rft = rfts; rft < rfts + len; rft++) {
+> +		if (rft->fflags & RFTYPE_DEBUG) {
+> +			rft->fflags &= ~RFTYPE_DEBUG;
 
+I don't fully follow why you need to play with ->fflags like this.
 
-On 4/18/23 16:48, Donald Buczek wrote:
-> Subject:
-> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
-> From:
-> Donald Buczek <buczek@molgen.mpg.de>
-> Date:
-> 4/18/23, 16:48
-> 
-> To:
-> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
-> CC:
-> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-> 
-> 
-> On 4/18/23 12:31, Sergei Shtepa wrote:
->>
->>
->> On 4/14/23 14:34, Sergei Shtepa wrote:
->>> Subject:
->>> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
->>> From:
->>> Sergei Shtepa <sergei.shtepa@veeam.com>
->>> Date:
->>> 4/14/23, 14:34
->>>
->>> To:
->>> Donald Buczek <buczek@molgen.mpg.de>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
->>> CC:
->>> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
->>>
->>>
->>>
->>> On 4/12/23 21:38, Donald Buczek wrote:
->>>> Subject:
->>>> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
->>>> From:
->>>> Donald Buczek <buczek@molgen.mpg.de>
->>>> Date:
->>>> 4/12/23, 21:38
->>>>
->>>> To:
->>>> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
->>>> CC:
->>>> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
->>>>
->>>>
->>>> I think, you can trigger all kind of user-after-free when userspace deletes a snapshot image or the snapshot image and the tracker while the disk device snapshot image is kept alive (mounted or just opened) and doing I/O.
->>>>
->>>> Here is what I did to provoke that:
->>>>
->>>> root@dose:~# s=$(blksnap snapshot_create -d /dev/vdb)
->>>> root@dose:~# blksnap snapshot_appendstorage -i $s -f /scratch/local/test.dat
->>>> device path: '/dev/block/253:2'
->>>> allocate range: ofs=11264624 cnt=2097152
->>>> root@dose:~# blksnap snapshot_take -i $s
->>>> root@dose:~# mount /dev/blksnap-image_253\:16 /mnt
->>>> root@dose:~# dd if=/dev/zero of=/mnt/x.x &
->>>> [1] 2514
->>>> root@dose:~# blksnap snapshot_destroy -i $s
->>>> dd: writing to '/mnt/x.x': No space left on device
->>>> 1996041+0 records in
->>>> 1996040+0 records out
->>>> 1021972480 bytes (1.0 GB, 975 MiB) copied, 8.48923 s, 120 MB/s
->>>> [1]+  Exit 1                  dd if=/dev/zero of=/mnt/x.x
->>>>
->>> Thanks!
->>> I am very glad that the blksnap tool turned out to be useful in the review.
->>> This snapshot deletion scenario is not the most typical, but of course it is
->>> quite possible.
->>> I will need to solve this problem and add such a scenario to the test suite.
->>>
->>
->> Hi!
->>
->> I have redesign the logic of ownership of the diff_area structure.
->> See patch in attach or commit.
->> Link: https://github.com/SergeiShtepa/linux/commit/7e927c381dcd2b2293be8315897a224d111b6f88
->> A test script for such a scenario has been added.
->> Link: https://github.com/veeam/blksnap/commit/fd0559dfedf094901d08bbf185fed288f0156433
->>
->> I will be glad of any feedback.
-> 
-> Great, Thanks!
-> 
-> However, there are two leftover calls to diff_area_free() with its old prototype:
-> 
->  CC [M]  drivers/block/blksnap/diff_area.o
-> drivers/block/blksnap/diff_area.c: In function ‘diff_area_new’:
-> drivers/block/blksnap/diff_area.c:283:18: error: passing argument 1 of ‘diff_area_free’ from incompatible pointer type [-Werror=incompatible-pointer-types]
->   283 |   diff_area_free(diff_area);
->       |                  ^~~~~~~~~
->       |                  |
->       |                  struct diff_area *
-> drivers/block/blksnap/diff_area.c:110:34: note: expected ‘struct kref *’ but argument is of type ‘struct diff_area *’
->   110 | void diff_area_free(struct kref *kref)
->       |                     ~~~~~~~~~~~~~^~~~
-> cc1: some warnings being treated as errors
-> make[4]: *** [scripts/Makefile.build:252: drivers/block/blksnap/diff_area.o] Error 1
-> make[3]: *** [scripts/Makefile.build:494: drivers/block/blksnap] Error 2
-> make[2]: *** [scripts/Makefile.build:494: drivers/block] Error 2
-> make[1]: *** [scripts/Makefile.build:494: drivers] Error 2
-> make: *** [Makefile:2025: .] Error 2
-> 
-> The other one:
-> 
-> buczek@dose:/scratch/local/linux (blksnap-test)$ make drivers/block/blksnap/tracker.o
->   CALL    scripts/checksyscalls.sh
->   DESCEND objtool
->   INSTALL libsubcmd_headers
->   CC [M]  drivers/block/blksnap/tracker.o
-> drivers/block/blksnap/tracker.c: In function ‘tracker_free’:
-> drivers/block/blksnap/tracker.c:26:25: error: passing argument 1 of ‘diff_area_free’ from incompatible pointer type [-Werror=incompatible-pointer-types]
->    26 |   diff_area_free(tracker->diff_area);
->       |                  ~~~~~~~^~~~~~~~~~~
->       |                         |
->       |                         struct diff_area *
-> In file included from drivers/block/blksnap/tracker.c:12:
-> drivers/block/blksnap/diff_area.h:116:34: note: expected ‘struct kref *’ but argument is of type ‘struct diff_area *’
->   116 | void diff_area_free(struct kref *kref);
->       |                     ~~~~~~~~~~~~~^~~~
-> cc1: some warnings being treated as errors
-> make[4]: *** [scripts/Makefile.build:252: drivers/block/blksnap/tracker.o] Error 1
-> make[3]: *** [scripts/Makefile.build:494: drivers/block/blksnap] Error 2
-> make[2]: *** [scripts/Makefile.build:494: drivers/block] Error 2
-> make[1]: *** [scripts/Makefile.build:494: drivers] Error 2
-> make: *** [Makefile:2025: .] Error 2
-> 
-> Am I missing something?
+Is it for the ->fflags test in rdtgroup_add_files()? Can't you just do 
+some extra masking there for RFTYPE_DEBUG based on resctrl_debug which 
+you already keep?
 
-Thanks!
+> +			rdtgroup_add_file(rdtgroup_default.kn, rft);
+> +		}
+> +	}
+> +
+> +	kernfs_activate(rdtgroup_default.kn);
+> +}
+> +
+> +static void resctrl_remove_debug_files(void)
+> +{
+> +	struct rftype *rfts, *rft;
+> +	int len;
+> +
+> +	rfts = res_common_files;
+> +	len = ARRAY_SIZE(res_common_files);
+> +
+> +	lockdep_assert_held(&rdtgroup_mutex);
+> +
+> +	for (rft = rfts; rft < rfts + len; rft++) {
+> +		if (!strcmp(rft->name, "mon_hw_id")) {
+> +			rft->fflags |= RFTYPE_DEBUG;
+> +			kernfs_remove_by_name(rdtgroup_default.kn, rft->name);
+> +		} else if (!strcmp(rft->name, "ctrl_hw_id")) {
+> +			rft->fflags |= RFTYPE_DEBUG;
+> +			kernfs_remove_by_name(rdtgroup_default.kn, rft->name);
+> +		}
+> +	}
+> +
+> +	kernfs_activate(rdtgroup_default.kn);
+> +}
+> +
+>  static int rdt_enable_ctx(struct rdt_fs_context *ctx)
+>  {
+>  	int ret = 0;
+> @@ -2433,8 +2478,10 @@ static int rdt_enable_ctx(struct rdt_fs_context *ctx)
+>  	if (!ret && ctx->enable_mba_mbps)
+>  		ret = set_mba_sc(true);
+>  
+> -	if (!ret && ctx->enable_debug)
+> +	if (!ret && ctx->enable_debug) {
+>  		resctrl_debug = true;
+> +		resctrl_add_debug_files();
+> +	}
+>  
+>  	return ret;
+>  }
+> @@ -2851,6 +2898,11 @@ static void rdt_kill_sb(struct super_block *sb)
+>  
+>  	set_mba_sc(false);
+>  
+> +	if (resctrl_debug) {
+> +		resctrl_remove_debug_files();
+> +		resctrl_debug = false;
 
-It seems to me that I missed something.
-The biggest mystery for me is why I was able to build and test the kernel.
-I think it's some kind of incremental build effect.
-I was only able to see the problem after 'make clean'.
+Logically, this false assignment belongs to the earlier patch.
 
-Patches in attach and https://github.com/SergeiShtepa/linux/tree/blksnap-master
---------------PiDQm2ZJ7J9tIkTJ66DMrhJd
-Content-Type: text/x-patch; charset="UTF-8";
-	name="blksnap_cleanup_comment.patch"
-Content-Disposition: attachment; filename="blksnap_cleanup_comment.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9kaWZmX2FyZWEuaCBiL2RyaXZl
-cnMvYmxvY2svYmxrc25hcC9kaWZmX2FyZWEuaAppbmRleCBjYjNlMDk4MDljMGYuLjg4MzEx
-N2RiYTc2MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ibG9jay9ibGtzbmFwL2RpZmZfYXJlYS5o
-CisrKyBiL2RyaXZlcnMvYmxvY2svYmxrc25hcC9kaWZmX2FyZWEuaApAQCAtMTM4LDYgKzEz
-OCw1IEBAIGJvb2wgZGlmZl9hcmVhX2NvdyhzdHJ1Y3QgYmlvICpiaW8sIHN0cnVjdCBkaWZm
-X2FyZWEgKmRpZmZfYXJlYSwKIAogYm9vbCBkaWZmX2FyZWFfc3VibWl0X2NodW5rKHN0cnVj
-dCBkaWZmX2FyZWEgKmRpZmZfYXJlYSwgc3RydWN0IGJpbyAqYmlvKTsKIHZvaWQgZGlmZl9h
-cmVhX3J3X2NodW5rKHN0cnVjdCBrcmVmICprcmVmKTsKLS8vdm9pZCBkaWZmX2FyZWFfdGhy
-b3R0bGluZ19pbyhzdHJ1Y3QgZGlmZl9hcmVhICpkaWZmX2FyZWEpOwogCiAjZW5kaWYgLyog
-X19CTEtTTkFQX0RJRkZfQVJFQV9IICovCg==
---------------PiDQm2ZJ7J9tIkTJ66DMrhJd
-Content-Type: text/x-patch; charset="UTF-8";
-	name="blksnap_fix_diff_area_put.patch"
-Content-Disposition: attachment; filename="blksnap_fix_diff_area_put.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9kaWZmX2FyZWEuYyBiL2RyaXZl
-cnMvYmxvY2svYmxrc25hcC9kaWZmX2FyZWEuYwppbmRleCA1YTNmNGQ3NGE5MmYuLjBlNTMw
-ZDI0ZDU2MyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ibG9jay9ibGtzbmFwL2RpZmZfYXJlYS5j
-CisrKyBiL2RyaXZlcnMvYmxvY2svYmxrc25hcC9kaWZmX2FyZWEuYwpAQCAtMjgwLDcgKzI4
-MCw3IEBAIHN0cnVjdCBkaWZmX2FyZWEgKmRpZmZfYXJlYV9uZXcoZGV2X3QgZGV2X2lkLCBz
-dHJ1Y3QgZGlmZl9zdG9yYWdlICpkaWZmX3N0b3JhZ2UpCiAJfQogCiAJaWYgKHJldCkgewot
-CQlkaWZmX2FyZWFfZnJlZShkaWZmX2FyZWEpOworCQlkaWZmX2FyZWFfcHV0KGRpZmZfYXJl
-YSk7CiAJCXJldHVybiBFUlJfUFRSKHJldCk7CiAJfQogCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2Jsb2NrL2Jsa3NuYXAvdHJhY2tlci5jIGIvZHJpdmVycy9ibG9jay9ibGtzbmFwL3RyYWNr
-ZXIuYwppbmRleCA2ZDJjNzdlNGM5MGYuLmQ5ODA0OGRjNWJlZCAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ibG9jay9ibGtzbmFwL3RyYWNrZXIuYworKysgYi9kcml2ZXJzL2Jsb2NrL2Jsa3Nu
-YXAvdHJhY2tlci5jCkBAIC0yMyw3ICsyMyw3IEBAIHZvaWQgdHJhY2tlcl9mcmVlKHN0cnVj
-dCBrcmVmICprcmVmKQogCQkgTUlOT1IodHJhY2tlci0+ZGV2X2lkKSk7CiAKIAlpZiAodHJh
-Y2tlci0+ZGlmZl9hcmVhKQotCQlkaWZmX2FyZWFfZnJlZSh0cmFja2VyLT5kaWZmX2FyZWEp
-OworCQlkaWZmX2FyZWFfcHV0KHRyYWNrZXItPmRpZmZfYXJlYSk7CiAJaWYgKHRyYWNrZXIt
-PmNidF9tYXApCiAJCWNidF9tYXBfZGVzdHJveSh0cmFja2VyLT5jYnRfbWFwKTsKIAo=
-
---------------PiDQm2ZJ7J9tIkTJ66DMrhJd--
+-- 
+ i.
