@@ -2,71 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D6DFC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 12:22:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C95C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 12:44:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232242AbjDSMWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 08:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
+        id S229471AbjDSMoo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 08:44:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233269AbjDSMWF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 08:22:05 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116E8AF16;
-        Wed, 19 Apr 2023 05:22:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=3727NmUMcKOHnmbIl6QjHpZThXQiWOr0LA3853eLbMg=; b=3T/f3TbTMdCCzOrAy1sR3I9Kc2
-        iqMNzM2wINtFVJNS0zpfAQ4CErijw2EarjY/Yjat2KYowuB1YVh+09gJbHkivukwc05RFrVW34wnP
-        yEL0SYDO0t4D9AkEOirxtCSZ3tCrcbQrDRTCStdxCLArR6nV/FnBZANc8pE+1vKILJDs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1pp6oo-00Ah50-L1; Wed, 19 Apr 2023 14:21:50 +0200
-Date:   Wed, 19 Apr 2023 14:21:50 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v7 00/16] net: Add basic LED support for
- switch/phy
-Message-ID: <0501856b-2db7-4a7d-803d-ba18682d6a6c@lunn.ch>
-References: <20230417151738.19426-1-ansuelsmth@gmail.com>
- <20230418212746.7db8096e@kernel.org>
+        with ESMTP id S232607AbjDSMon (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 08:44:43 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052CA3C1E;
+        Wed, 19 Apr 2023 05:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681908283; x=1713444283;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=6B/yWg6hmnuhemiHCCm7Th3yqadpTRIk5dtsS7F24aI=;
+  b=fXevyc0VpN2ON/5XNdeBZKtLRhHUM1ffGJvQAb9grbcHCvjhaTsHlmC3
+   Um2WUhMQWLHlupvxB2c3FTTTpGHgZHeGX+Tz2ObVRk3Io6N1nYyydaNsD
+   hrZI/OgVjRch+5Lg7KN7VsNWimU6Ok1WcuqgLWPBhxKBmaoL+HRsYglp6
+   iuCCy/DRbK/NINU4f2MNYjfIoPj2a8JkqbNbTmziNNGRlHp1Uxo2xT7Y0
+   KSk5XZG8B59MUDsyrX8I+tDz4mrw52Oxs7cRg0XOjvh6jfBPuaObJWpJ6
+   HsVP6ctP2YTFvoE4riAsvFnkE3IzEC+s4UJa5oG4lv2APHBKwMeAytpOY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="334244588"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="334244588"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 05:44:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="641739533"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="641739533"
+Received: from hbourgeo-mobl2.ger.corp.intel.com ([10.249.34.207])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 05:44:33 -0700
+Date:   Wed, 19 Apr 2023 15:44:30 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Babu Moger <babu.moger@amd.com>
+cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, pawan.kumar.gupta@linux.intel.com,
+        jarkko@kernel.org, adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+Subject: Re: [PATCH v4 3/7] x86/resctrl: Rename rftype flags for
+ consistency
+In-Reply-To: <168177446947.1758847.11380042804869155387.stgit@bmoger-ubuntu>
+Message-ID: <6cf118d1-efbb-6c6e-225d-c93a1875eb0@linux.intel.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177446947.1758847.11380042804869155387.stgit@bmoger-ubuntu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230418212746.7db8096e@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> IIRC we were supposed to take these via netdev with acks from Pavel/Lee.
-> So we need acks on patches 4/5/16 ? If there is a repost, could you
-> take out the arch/arm patches? They should not go via netdev, we'll try
-> to filter them out when applying but mistakes happen.
+On Mon, 17 Apr 2023, Babu Moger wrote:
 
-Ah, mute point now, the whole patchset has been merged.
+> The rftype flags have two different prefixes even though they are used
+> for the same purpose. Change the prefix to RFTYPE_ for all the flags.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  arch/x86/kernel/cpu/resctrl/internal.h |    8 +++---
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   42 ++++++++++++++++----------------
+>  2 files changed, 25 insertions(+), 25 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+> index 62767774810d..c4fc5a1c630c 100644
+> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> @@ -248,10 +248,10 @@ struct rdtgroup {
+>  #define RFTYPE_TOP			BIT(6)
+>  #define RFTYPE_RES_CACHE		BIT(8)
+>  #define RFTYPE_RES_MB			BIT(9)
+> -#define RF_CTRL_INFO			(RFTYPE_INFO | RFTYPE_CTRL)
+> -#define RF_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
+> -#define RF_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
+> -#define RF_CTRL_BASE			(RFTYPE_BASE | RFTYPE_CTRL)
+> +#define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
+> +#define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
+> +#define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
+> +#define RFTYPE_CTRL_BASE		(RFTYPE_BASE | RFTYPE_CTRL)
+>  
+>  /* List of all resource groups */
+>  extern struct list_head rdt_all_groups;
 
-    Andrew
+This needs to be changed as well:
+
+ * @fflags:  File specific RF_* or RFTYPE_* flags
+
+
+-- 
+ i.
+
