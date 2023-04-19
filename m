@@ -2,176 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 811FBC6FD18
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 14:30:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F205C6FD18
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 14:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232262AbjDSOaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 10:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59676 "EHLO
+        id S232741AbjDSOff (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 10:35:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233194AbjDSO34 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 10:29:56 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B639E11D;
-        Wed, 19 Apr 2023 07:29:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dzwUU2Hj8gWeN3i1d9qczfnP1ax1wHGLzQb3aetEOXqvj1L23XhahIrq6Clgc+Q3wGs9LzYoVxS/+4J1kM5gvNpC8nKer1VzvUDv3+Oz0oE1+iEdDCKSzaGiFxAA9FAC9qFuTfTTdLDdS2VwxU9GK0s7Olb7g3jPFYAmZ5jpuVmUZk6aGrTAAfcivtP7ElCHgYUIq2tN6usZf3QDR8XdBkFN2HbMEjPWLYkKBoL4hRkonNgygiTROoXpByUBydHGwLPcOX710joJWABA2eF1nvSRa4sOcZALKckXkiJ+di14wFCJTS0YU3wEt95GMjSjlDTSpRV586+yngKvVFve6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=besdw75AmfmSYNorhwN6t7sE5iRlo3ONSGwlVUT7+P8=;
- b=eZBjUNnj9rlpPhHvwjkDs5NRBI0958s6pDlWMSFWiqrmlzCgY1zO+/agMkA/o48lldGpnQPk36hzd8nsFYVgx+FWOEo74mL8nkBn6aoSbohH4cx0DEc5N/3X0ALItRAaCXKQlwM9mZq/TX7Rpzw/qQS44X21A+HbvZMcHRWw+GerRyuap5ZBtECcXLKdKiwOEGUuu5FvFmSG2G6rkQT/myyV5KeNR/mSWvdvSChTYRZYvL5bdLUBUEOQi/x+kTj8m19tz98fLeBroRELUGGaTkV7hsV6NPK0Ml3D183oB1vhCCWoSTF7+j+ZvjOVGLR8akRTnqiGT5XkDNPxo0CMkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=besdw75AmfmSYNorhwN6t7sE5iRlo3ONSGwlVUT7+P8=;
- b=wbYc1Fkuh5n+nnh2UOAhIs+q08XevBunTNNU5PIrYAjQIRDQuLPnPrfMxKBndLIhReykQ5ElACcQeIgyPsoT09dTIfoqMJ4qu5RF7xbJIpzGC1j1z5xNNvS5U57Gle9lr48VWkyKF7YHpL/c7b6R/iw6q6+vTyUk3g9SDrtVA1M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DM6PR12MB4299.namprd12.prod.outlook.com (2603:10b6:5:223::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Wed, 19 Apr
- 2023 14:29:50 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57ca:ec64:35da:a5b1]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57ca:ec64:35da:a5b1%7]) with mapi id 15.20.6298.045; Wed, 19 Apr 2023
- 14:29:50 +0000
-Message-ID: <cff27f42-2cf7-afbe-38eb-eef0a100bb27@amd.com>
-Date:   Wed, 19 Apr 2023 09:29:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v4 3/7] x86/resctrl: Rename rftype flags for consistency
-Content-Language: en-US
-To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu>
- <168177446947.1758847.11380042804869155387.stgit@bmoger-ubuntu>
- <6cf118d1-efbb-6c6e-225d-c93a1875eb0@linux.intel.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <6cf118d1-efbb-6c6e-225d-c93a1875eb0@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0P221CA0031.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:610:11d::13) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM6PR12MB4299:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0579a6f8-326e-41ff-b493-08db40e28868
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ecxp6vH3CV6BugghOHmGy8ZrXNZbxhsoOGtjpXdS8O16lIpMQh7NfTO+UkEj/c8Tv71xqSSsw728XjWSG14HjEhHg8N/aA790rd8o/iX47RBZNGc/Wzh1j2ymv5T8gxHCaWwMPxNDUIg0KViil6QsxNMnAxzLw3JGtbM6BYtNicq5STjmIra4jlEHblPsmMtiZGFe0vg7G86Eiy0fMnT0Ax9UcwtcXA7d0GH5sjcfrw5x0orR1xaflY5zpl7nxUNzaf29aM1h1E+okGzA7yG/lHeBMOS4x/G3ys2n38CUnVD7W9767SWO53XuqCg7UIQUKgvaNaUsFOsAfIj26ajlWn47NBM/hUq8lDNAKVjjWflvYWTjD+dsFdgZX0hBONEfj2zGas8mFZL4825I2x/BSYwyOjOpkjRqqXW24e9+3/+kgqBpvohlTrzCuKhEfYQ45fvQdRsQBoH4DANtMYhHEtJBXyaTVY8eEc85L7aY8d034Xi8uCxejLj7jSQXcxadoeW2aVqb75EdI7zuRDTIXFtjjfnta7JS5T71eljwazZy0KWQmT9sSB2IVzzFSqBfpMf2Ax1mfeM0H7sZwuYN5DTtt9l9lOFFv1CkmT2sCDUcjRYVi0rzPQvu5VAKo7hHX0G0bnDdOi2+obO8Lbmmw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(346002)(376002)(366004)(39860400002)(451199021)(2906002)(3450700001)(8936002)(38100700002)(8676002)(7406005)(7416002)(5660300002)(36756003)(86362001)(31696002)(6486002)(6666004)(6512007)(6506007)(26005)(54906003)(478600001)(2616005)(31686004)(83380400001)(53546011)(186003)(316002)(4326008)(6916009)(66556008)(66476007)(66946007)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QThsVFY2U3Z0V1E1blBXV3Z2SjNuMjVpa1NiTHhtKzdEdUwxaXdhSCs4QXN1?=
- =?utf-8?B?L1EvQy9QdUVicnZpeGJUUVlNN2xmY2tZUis3bnVhVmU4V2pvZUV5WW14Q2N5?=
- =?utf-8?B?ZDNXeHY0U0NBVVYwa2wxOUVUMFpVVWdYVGtrWmlRWGtVUklrb1QxMUNXeFBq?=
- =?utf-8?B?QXNROWFyYWVZWGZGL1hFL1pyZnd1cHBMZml5bXVUWjdjSnhNZGpEeWZlbUxQ?=
- =?utf-8?B?K3pFUXZjZWF3b3NZeWo0UnYvNUVHTVF5cmF5QWFERVZBOG96K3RFamFKMTdT?=
- =?utf-8?B?ZzRTQWh1QmFyOGFMbVdCKzR2ajJLa3JQZG1idlRrYnZwOHFOcjMyVVJtSmQr?=
- =?utf-8?B?ZFpnV3oyUDB5L3BNaGVvL2srZzhMR1VnVVFOWjN6ZEUxZUFMdDBwV2ZoQXk0?=
- =?utf-8?B?Q1Z0MFdVZVFqTnVyelJUbVJvQ29mcXRQamNKT1BQd28zbXZFUUMvb3c1bVVI?=
- =?utf-8?B?UEZlL0xpZi83RmZSNFFOL2Z0eFMxamltZEc2eFpXb2F1clZLNEtJWVYzS3lT?=
- =?utf-8?B?b2owVFlVZXcvb3pWblhzNGIwYzl5TUV4QWVwb0UyWTlFRG1SUVYvZEVrZGVP?=
- =?utf-8?B?M0I2WGRpcCtzU1lhZjJra0ZMeHEzbjhCQnJzNURyaDVRN3F0Y3VJZjhFckVB?=
- =?utf-8?B?cXdWVkhOSzhlRWlMZlhlUklTbEFEazZaRXBYMEtyNGJXV3dEaXhMZzc0dE1j?=
- =?utf-8?B?cVRzT2pSb01Fd1lla3JrREZrVWsrWnFiRys5cVUyc2RSMEFkZkg4ZFN6Zk12?=
- =?utf-8?B?Rk5BSVRQUnRHT1ZPVlIvY3N5WklOaXA1U1E1K3NIczErYVo5OVJ1V2tXMERC?=
- =?utf-8?B?di9adWtORW5SUnhiVkFJNHZ4QitjK2N3SjRrSXZkTUcxRlc5QmhsN0g1Qzdi?=
- =?utf-8?B?bXo3TU9TMnBtWHdkY01wSGVhSVpWZzNtUkRpdTFZV2lndlhIdkg3a2JsUlRq?=
- =?utf-8?B?bG0zMjhZNVF2MW5nZzV5TkwwbXRjWDNUd050UnVkdGFkWFgrQjM5c3U1UHEx?=
- =?utf-8?B?NWxyRFlMQVJkUVJkRnQ2VUlaTkxZcVhxb2lBK3IvZjg2cjZUdTUrZkNTTGJz?=
- =?utf-8?B?TE5SVWhXckk3SG5MeG9Ea3M2bE9DZHhobDNLV3FSR1JDdk9MUXZTWTZXSUs5?=
- =?utf-8?B?RjBWbWtHMTZYY2l5R3RzM3VTZXEvNmJYWGpwNzZBWktaVFVuU3c3RG9SQnZO?=
- =?utf-8?B?cjZ4YzdFYWJtaUhIUlM0TzQxYUN0S1FiVEc1R1NxdkhKdDllSkg3dkcrSWxM?=
- =?utf-8?B?NUhyaFgxWU82Zi96Tk1CMm9RSUF0cy8xaDFKbU5jNzdRdW1zemlrN3R2elRC?=
- =?utf-8?B?b2JaVStuY015V21GdmpLN1pnbDd3d3VWeHMwdkpISmRmV3ZxbzRZQTNBSVE2?=
- =?utf-8?B?U0hYY1hLRHpFTVk0S1UwRmpNSU9DL1lpVHd3R09zYmU2NjBodHgrMzBTY1B4?=
- =?utf-8?B?VFdVUUd2cmQvS2VPMmE5ZVp2QVlLUy9yajRDUXQzUEVyMmQrTTdGY1lYRGZI?=
- =?utf-8?B?aktvdGZXQ1Z0azJlNXdnVnpVd2Q0cTdzTnZNZHhhREd4ZEtSTU1ESC9qUU8z?=
- =?utf-8?B?bHhPd3NDT2Q2aTZBclh2Nkg3RGJPdzJ5Mjc2cVB2Ry9Qa2hMcXI0a1pDU3hp?=
- =?utf-8?B?TDhDb2EzZ053MlpCakZqVFBPUWNYY3kxVEVoK0tTN0N6cExPMWc5SjlLVk4r?=
- =?utf-8?B?L1BzSlJlRjZnQm9QNzRZeEN2Zk5HSEhKQndZOG1aQjhreU5XenhpMzBEUzFx?=
- =?utf-8?B?WU5tUTQvcHJaQkJKTUovMXEreUlVbG9rRXdzZm85TFdrbm5Yc2Z5c00vajZu?=
- =?utf-8?B?MEJEdGFMWm1CeUx5MXIyLzZiTkxtVllPQ1VXZ0ZCeExZa3VmbTdzd05Wb05v?=
- =?utf-8?B?d3R4bEwyaDBWTnpoUXJIYkIzN1dIN0U0WjJPTHkwSnNhRkY5TFRQUFpJUXlY?=
- =?utf-8?B?cFlUTlRVaDlLNEEvQStWRjNpRkxZbHhCSzBibi9RdDIxdzdFN2thU3VoM3Vj?=
- =?utf-8?B?bHpHTVl1VWhYSndlS0JLTE53R0NXSjVodFhMOFJyS2p0TlJHcCtaSGxXc2Jq?=
- =?utf-8?B?Qk5mMTIzZXVWWTR0MzEvajJVRmlJNlY3T0tibXB1S0dORm9UbzM5K2Z1N1BK?=
- =?utf-8?Q?N3Mw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0579a6f8-326e-41ff-b493-08db40e28868
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 14:29:50.1609
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /Oro4roN8I0cbKP5saRVPZ6F35DqLm9pIt8Wxt39wEGJroFO76PvOUVKxW4d6UB+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4299
+        with ESMTP id S232587AbjDSOfd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 10:35:33 -0400
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA48E2703;
+        Wed, 19 Apr 2023 07:35:30 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id 91D492B06805;
+        Wed, 19 Apr 2023 10:35:25 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 19 Apr 2023 10:35:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1681914925; x=1681922125; bh=Ut
+        qJg87sclxB8kmKKjm1dWi2X4vfjejVvTPZmHeTPGw=; b=G/roXKLhk54CD8O/zz
+        DKOt+KTNmyPZq5TIMil3xkVjiJd4gTK4vjA1iahL90dev069v5N6GP6D4X6S6QHQ
+        WvYaQZRGXnUiawwq3737yfdLPM2FOqs0nwDb7kNkl5nEB+zj4GrWnuK/Kpldb/Q/
+        KnMEA8pt7JkCJ+uTC/cvsYNEDCBt4czLcz09XIeWKn6tV59dg5QJLPtoBdbmT/EY
+        n6ATaxC8nX7Gmf3KCQDLWQWIxVie3bO/EC39/Hz6xlFqWSSNQRyKJ2f6pdFxgHR4
+        MhmcUGyiZMhTk52DLlrVJJosS9E95J7dPuHvPLnK8g4ANCtUf10ccU/yv1WcWyVC
+        yKWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1681914925; x=1681922125; bh=UtqJg87sclxB8
+        kmKKjm1dWi2X4vfjejVvTPZmHeTPGw=; b=Ayoqp8BoVyIaTqYKSvWcxI+q7xXHr
+        U+07R4ERCxUYUq9YFS4IqW+Gp+PHOE9ohJpaIuy3LN0j+q7mtre99MEphni+CUi9
+        GtHvEkeMTNUO4uqC9evL9j2oAnCozJ6LR8DD3f/kodBPsj2ygXPb1r+HDejWXVn7
+        4LAysEHDz3DVFtZL89xxbtsWqphFWxgpWNewdaa1+F1eebn0gCrxeDdXX8yCuouy
+        u75OYXRGMFXHyqklWYD2DE7ZEOLnRrGJ0S0bdwI/TDq59f97r0HzBBFAjIzg6ZxM
+        MvrlEEl3DLz6yob+G9qptjb/YVCkVWlk99w394m3NYhW9ZlG5SBEnnSMw==
+X-ME-Sender: <xms:K_w_ZAAcnt0IFxlEu-sWYxxCFj4E5HCrdO6gr4X0MJfFAiGmxaV84w>
+    <xme:K_w_ZCgIcIHgK9Z_PsDoB7b-8pvkx6wG9Mbj9U1d8bQhT3GT-hf-oSqbx10GP8B9f
+    Jhbjv9YwQGYOZs3ACg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedttddgjeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:K_w_ZDnBR_BAFwoanwfv8B7_PSBstC3_JVczRuVfTB6V2PuNb39qew>
+    <xmx:K_w_ZGznlZkjeBrmRL2dmDP6FxH9drM_zy3lWKa4ZN2-MD9ep5xGag>
+    <xmx:K_w_ZFRVkk5niRZjuNrSLjU3rJcwPSBhzMaC4kF6tovakEg27aFodQ>
+    <xmx:Lfw_ZOCz7NLW2Y2zhw3Ebr9-jzkAqBwZ7jwfeV0CSme0H9PGF0Ss2-wPCx8>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 04D1AB60086; Wed, 19 Apr 2023 10:35:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-372-g43825cb665-fm-20230411.003-g43825cb6
+Mime-Version: 1.0
+Message-Id: <d0cf8fa6-d1d2-4a61-ac54-1a268030febc@app.fastmail.com>
+In-Reply-To: <487a20e7-2894-218a-47e9-b222aef4ec6e@huawei.com>
+References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
+ <20230404182037.863533-24-sunilvl@ventanamicro.com>
+ <dcd04005-2dba-4ccc-a235-a809220f9dbd@app.fastmail.com>
+ <487a20e7-2894-218a-47e9-b222aef4ec6e@huawei.com>
+Date:   Wed, 19 Apr 2023 16:34:34 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Weili Qian" <qianweili@huawei.com>,
+        "Sunil V L" <sunilvl@ventanamicro.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-acpi@vger.kernel.org, linux-crypto@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev
+Cc:     "Jonathan Corbet" <corbet@lwn.net>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>, "Len Brown" <lenb@kernel.org>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Zhou Wang" <wangzhou1@hisilicon.com>,
+        "Herbert Xu" <herbert@gondor.apana.org.au>,
+        "Marc Zyngier" <maz@kernel.org>,
+        "Maximilian Luz" <luzmaximilian@gmail.com>,
+        "Hans de Goede" <hdegoede@redhat.com>,
+        "Mark Gross" <markgross@kernel.org>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        "Tom Rix" <trix@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>
+Subject: Re: [PATCH V4 23/23] crypto: hisilicon/qm: Workaround to enable build with
+ RISC-V clang
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jarvinen,
+On Tue, Apr 11, 2023, at 13:42, Weili Qian wrote:
+> On 2023/4/5 16:16, Arnd Bergmann wrote:
+>> On Tue, Apr 4, 2023, at 20:20, Sunil V L wrote:
+>>> With CONFIG_ACPI enabled for RISC-V, this driver gets enabled in
+>>> allmodconfig build. The gcc tool chain builds this driver removing the
+>>> inline arm64 assembly code. However, clang for RISC-V tries to build
+>>> the arm64 assembly and below error is seen.
+>>>
+>>> drivers/crypto/hisilicon/qm.c:627:10: error: invalid output constraint 
+>>> '+Q' in asm
+>>>                        "+Q" (*((char __iomem *)fun_base))
+>>>                        ^
+>>> It appears that RISC-V clang is not smart enough to detect
+>>> IS_ENABLED(CONFIG_ARM64) and remove the dead code.
+>>>
+>>> As a workaround, move this check to preprocessing stage which works
+>>> with the RISC-V clang tool chain.
+>>>
+>>> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+>> 
+>> Your patch looks correct for this particular problem, but I
+>> see that there are a couple of other issues in the same function:
+>> 
+>>> -	}
+>>> +#if IS_ENABLED(CONFIG_ARM64)
+>>> +	unsigned long tmp0 = 0, tmp1 = 0;
+>>>
+>>>  	asm volatile("ldp %0, %1, %3\n"
+>>>  		     "stp %0, %1, %2\n"
+>>> @@ -627,6 +623,11 @@ static void qm_mb_write(struct hisi_qm *qm, const 
+>>> void *src)
+>>>  		       "+Q" (*((char __iomem *)fun_base))
+>>>  		     : "Q" (*((char *)src))
+>>>  		     : "memory");
+>> 
+>> For the arm64 version:
+>> 
+>> - the "dmb oshst" barrier needs to come before the stp, not after
+>>   it,  otherwise there is no guarantee that data written to memory
+>>   is visible by the device when the mailbox gets triggered
+>> - The input/output arguments need to be pointers to 128-bit types,
+>>   either a struct or a __uint128_t
+>> - this lacks a byteswap on big-endian kernels
+> Sorry for the late reply.
+>
+> - the execution order relies on the data dependency between ldp and stp:
+>   load "src" to "tmp0" and "tmp1", then
+>   store "tmp0" and "tmp1" to "fun_base";
 
-On 4/19/23 07:44, Ilpo Järvinen wrote:
-> On Mon, 17 Apr 2023, Babu Moger wrote:
-> 
->> The rftype flags have two different prefixes even though they are used
->> for the same purpose. Change the prefix to RFTYPE_ for all the flags.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->>  arch/x86/kernel/cpu/resctrl/internal.h |    8 +++---
->>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   42 ++++++++++++++++----------------
->>  2 files changed, 25 insertions(+), 25 deletions(-)
->>
->> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
->> index 62767774810d..c4fc5a1c630c 100644
->> --- a/arch/x86/kernel/cpu/resctrl/internal.h
->> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
->> @@ -248,10 +248,10 @@ struct rdtgroup {
->>  #define RFTYPE_TOP			BIT(6)
->>  #define RFTYPE_RES_CACHE		BIT(8)
->>  #define RFTYPE_RES_MB			BIT(9)
->> -#define RF_CTRL_INFO			(RFTYPE_INFO | RFTYPE_CTRL)
->> -#define RF_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
->> -#define RF_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
->> -#define RF_CTRL_BASE			(RFTYPE_BASE | RFTYPE_CTRL)
->> +#define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
->> +#define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
->> +#define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
->> +#define RFTYPE_CTRL_BASE		(RFTYPE_BASE | RFTYPE_CTRL)
->>  
->>  /* List of all resource groups */
->>  extern struct list_head rdt_all_groups;
-> 
-> This needs to be changed as well:
-> 
->  * @fflags:  File specific RF_* or RFTYPE_* flags
+Not entirely sure how that data dependency would help serialize
+the store into the DMA buffer against the device access. The problem
+here is not the qm_mailbox structure but the data pointed to by the
+'u64 base' (e.g. struct qm_eqc *eqc) which may still be in a store
+buffer waiting to make it to physical memory at the time the mailbox
+store triggers the DMA from the device.
 
-Yes. Thanks for pointing that. Will correct it in next revision.
--- 
-Thanks
-Babu Moger
+>   The "dmb oshst" is used to ensure that the stp instruction has been executed
+>   before CPU checking mailbox status. Whether the execution order
+>   cannot be guaranteed via data dependency?
+
+There is no need to have barriers between MMIO operations, they
+are implicitly serialized already. In this case specifically,
+the read is even on the same address as the write. Note that the
+"dmb oshst" does not actually guarantee that the store has made it
+to the device, as (at least on PCIe semantics) it can be posted,
+but the read from the same address does guarantee that the write
+is completed first, and this may be required to ensure that it does
+not complete after the mutex_unlock().
+
+> - The input argument "src" is struct "struct qm_mailbox".
+> - Before call this funcion, the data has been byteswapped.
+>
+> 	mailbox->w0 = cpu_to_le16((cmd) |
+> 		((op) ? 0x1 << QM_MB_OP_SHIFT : 0) |
+> 		(0x1 << QM_MB_BUSY_SHIFT));
+> 	mailbox->queue_num = cpu_to_le16(queue);
+> 	mailbox->base_l = cpu_to_le32(lower_32_bits(base));
+> 	mailbox->base_h = cpu_to_le32(upper_32_bits(base));
+> 	mailbox->rsvd = 0;
+
+Right, this bit does look correct.
+
+      Arnd
