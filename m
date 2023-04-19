@@ -2,234 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9639C77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 09:22:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8125C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Apr 2023 09:33:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232838AbjDSJWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 05:22:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49864 "EHLO
+        id S232838AbjDSJdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 05:33:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232829AbjDSJV7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 05:21:59 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DD8465A9
-        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 02:21:58 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-2f625d52275so3101286f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 02:21:58 -0700 (PDT)
+        with ESMTP id S230467AbjDSJdu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 05:33:50 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45DAB13850;
+        Wed, 19 Apr 2023 02:33:22 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1a6862e47b1so25507945ad.0;
+        Wed, 19 Apr 2023 02:33:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1681896116; x=1684488116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wAmu28kxLfR9NTfen8lHbOqBR0jDTxdhWjN1lCSkxww=;
-        b=qWvcZD73Z6cOha96J3xLud8w5LQTe6iScTpVZFAPXvGLo0CnNN2dehEAXwaBIO3eok
-         XIc6PcDg9XXobUFHr9efZeKcYdlrg8srbqjND0jGsJlJAZ4dTtcIVFXTFuhz7AIBQvEg
-         ZZVGkOudvVLfFTdXxb2Jd9XiDTdVZ5nVIteGKUuUYdpCgCNj8LS8NISEpRcnoW47g8Kr
-         QCLnR0ufv7AaHwPv8mIHoKK8U+FeW68U43gohfAdwa905Q+NgPfEUn9v8z4Rpoc2GeZl
-         VY8USDNsGy2k+wd7tEhTYxE08TvDrwrrIXfwlmNRDIG8cp5hWe1J/AaFMuAToObpTndD
-         b6IA==
+        d=gmail.com; s=20221208; t=1681896801; x=1684488801;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SHQjdr6xQX6rVc+yLxshGaDbTdbSdHT2A5ieawzy8mY=;
+        b=L7HHRdtm8tgBW0B+XsbYJlMPFRMoc3tuD33L1yugeJrWVMynKi43fHHYNhs5rdzRse
+         nagluNdkL8fB5FUbT2EyTnoK5lrKBm+6vMCv/qblPzJZzhMx7t4e3A+UQmYI06lUmfpx
+         1qCAuxrVjcVxYgeYhs+QzlrHylL3Qw6trNIRUM1oNN3YQy5tsU6KEjmqJ0TsYb/CeWo+
+         vgOiNWjWAu8EpD8tm8w95mueFG6J6XCdur3jztBY/OEXJEFb9f0wPy1vZnJ54zqFfzH0
+         f+o3hs7WhOCCY1mle0lT7n1Ox+H5U3dhutHW9wVk6hyKiijgdS6CHIJRUOgzgs8yPf/v
+         PcQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681896116; x=1684488116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wAmu28kxLfR9NTfen8lHbOqBR0jDTxdhWjN1lCSkxww=;
-        b=Tc6NpskFgN2AkoTndMf1WkUdw3SOM3cq9V3S8c/nagRVuGk3iyat+dC0sviMPHO2gM
-         cwcvEdFoNDQL3y5aAz00XljcVQg1j0ur2eBAWQnfiDS44JUsV8yWSNQ7IRYUYb+NaCtG
-         /Rjt0NsqRJ94uYAnJen5b537sBJGhFMPvfAqC363iylpSHCSB2fFLV5dpqaHKXdPkGNa
-         DFWnKAqA3Bb2aNAzzTQKrLX1ANYlEGVrjTR2Hut1oTsijKTM+HofBvZ1mnON7e6dY9PN
-         56s2lT4RsQ6UKP6RqcX9vQ8HnrhNJbfQrQoro37z+NssdmmA+uZH4uF0DYijTib5nxY+
-         Xh+A==
-X-Gm-Message-State: AAQBX9fMISNRApPJEpKzubGPvV1Ph1OdPt4uE33xtdAGRWv3fPsrQM1A
-        tYJRqFOdWg7xcGb9hou6OWAy27ABmA3K7gGRMbHStQ==
-X-Google-Smtp-Source: AKy350b9MkaNChMF/AjQaCfRI1fZFovklEGmb+podkO111Slr+0lmRQslEdedi7oC6DvmLa1dCn56Gj7l/AUZ4rU7zQ=
-X-Received: by 2002:a5d:4811:0:b0:2f8:2d4:74ef with SMTP id
- l17-20020a5d4811000000b002f802d474efmr4221973wrq.43.1681896116610; Wed, 19
- Apr 2023 02:21:56 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1681896801; x=1684488801;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHQjdr6xQX6rVc+yLxshGaDbTdbSdHT2A5ieawzy8mY=;
+        b=ls5Sq52kaWCbKwnbsGya7sns8+VSBMQl1ILlUyORW/XNf+dasmhlPSjbdS4OiLqfXK
+         CZBiiQviahX98G5UeF2zyifp8J+gc6Puy6pJS0e833H629/C3V0l4pJfwXs54nT6dcbl
+         jC6jW8lf1Dm/ou/bsJT6KaXkRI+476jWs47w68WMf87nusitMOCyV8YmSQCZorY+i39g
+         KQldT5aUzNBRGV6lmZrN+SlQZlQ+xpxfmxmXCjfbd0mGh/SCXpBzYIzy69UBl4bTRAt4
+         caSBwf5zTffPoMWdks4GkJ16iRBut+HRM1zZxs6NooDZ6yh8tiLZihPjtKY6T2hDb1D8
+         jzXg==
+X-Gm-Message-State: AAQBX9eoce/7KRSPjOz+PebumlfuttJM2u++h3s4iFrZzYPSE84Kgv0h
+        0GsEZJIDgoYKYQfEXrfn+L8=
+X-Google-Smtp-Source: AKy350Zpu0QjmvvLijeA9/SV64LadQ7oRxXhuupmTqLWGuSVtWk4lwX59ElpMMfD12Gm0ZMkGI3TCQ==
+X-Received: by 2002:a17:902:d14d:b0:1a5:150f:8558 with SMTP id t13-20020a170902d14d00b001a5150f8558mr4200509plt.17.1681896801552;
+        Wed, 19 Apr 2023 02:33:21 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-72.three.co.id. [180.214.232.72])
+        by smtp.gmail.com with ESMTPSA id jf1-20020a170903268100b001a1ccb37847sm11032209plb.146.2023.04.19.02.33.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 02:33:21 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id F0328106895; Wed, 19 Apr 2023 16:33:17 +0700 (WIB)
+Date:   Wed, 19 Apr 2023 16:33:17 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux x86 <x86@kernel.org>,
+        Linux Architectures <linux-arch@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Semantic conflict between x86 doc cleanup and CET shadow stack doc
+Message-ID: <ZD+1XVjMvm8EvCzN@debian.me>
 MIME-Version: 1.0
-References: <20230413161725.195417-1-alexghiti@rivosinc.com>
- <CAOnJCU+72PV1=o1c_TpogkmBT36278BneVWEMr1=tqX0CZi+ag@mail.gmail.com>
- <aadca595b4a24e36932ba41e61f4e263@AcuMS.aculab.com> <CAOnJCUJ7mY+fh9VqE4dRntnVAEAc26=NnOCPUqkXk6ky__cUZQ@mail.gmail.com>
- <CAP-5=fUYJEecmhQVuvbM4ZoDP_Hj=2RKOgR4cKepU072Uy3xyw@mail.gmail.com> <CAOnJCULJfSN79MzAwhCrbVzG1rYyrPB3OraFmoZFBxuRCwq01w@mail.gmail.com>
-In-Reply-To: <CAOnJCULJfSN79MzAwhCrbVzG1rYyrPB3OraFmoZFBxuRCwq01w@mail.gmail.com>
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-Date:   Wed, 19 Apr 2023 11:21:45 +0200
-Message-ID: <CAHVXubjhORBEDok_Zhq5p_Yv4Ty4Hct84dWJZXzo48+40N=CGg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] riscv: Allow userspace to directly access perf counters
-To:     Atish Patra <atishp@atishpatra.org>
-Cc:     Ian Rogers <irogers@google.com>,
-        David Laight <David.Laight@aculab.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        paranlee <p4ranlee@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="C8K9WK0xaNmvRngq"
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ian,
 
-On Tue, Apr 18, 2023 at 10:30=E2=80=AFPM Atish Patra <atishp@atishpatra.org=
-> wrote:
->
-> On Tue, Apr 18, 2023 at 11:46=E2=80=AFPM Ian Rogers <irogers@google.com> =
-wrote:
-> >
-> > On Tue, Apr 18, 2023 at 9:43=E2=80=AFAM Atish Patra <atishp@atishpatra.=
-org> wrote:
-> > >
-> > > On Fri, Apr 14, 2023 at 2:40=E2=80=AFAM David Laight <David.Laight@ac=
-ulab.com> wrote:
-> > > >
-> > > > From: Atish Patra
-> > > > > Sent: 13 April 2023 20:18
-> > > > >
-> > > > > On Thu, Apr 13, 2023 at 9:47=E2=80=AFPM Alexandre Ghiti <alexghit=
-i@rivosinc.com> wrote:
-> > > > > >
-> > > > > > riscv used to allow direct access to cycle/time/instret counter=
-s,
-> > > > > > bypassing the perf framework, this patchset intends to allow th=
-e user to
-> > > > > > mmap any counter when accessed through perf. But we can't break=
- the
-> > > > > > existing behaviour so we introduce a sysctl perf_user_access li=
-ke arm64
-> > > > > > does, which defaults to the legacy mode described above.
-> > > > > >
-> > > > >
-> > > > > It would be good provide additional direction for user space pack=
-ages:
-> > > > >
-> > > > > The legacy behavior is supported for now in order to avoid breaki=
-ng
-> > > > > existing software.
-> > > > > However, reading counters directly without perf interaction may
-> > > > > provide incorrect values which
-> > > > > the userspace software must avoid. We are hoping that the user sp=
-ace
-> > > > > packages which
-> > > > > read the cycle/instret directly, will move to the proper interfac=
-e
-> > > > > eventually if they actually need it.
-> > > > > Most of the users are supposed to read "time" instead of "cycle" =
-if
-> > > > > they intend to read timestamps.
-> > > >
-> > > > If you are trying to measure the performance of short code
-> > > > fragments then you need pretty much raw access directly to
-> > > > the cycle/clock count register.
-> > > >
-> > > > I've done this on x86 to compare the actual cycle times
-> > > > of different implementations of the IP checksum loop
-> > > > (and compare them to the theoretical limit).
-> > > > The perf framework just added far too much latency,
-> > > > only directly reading the cpu registers gave anything
-> > > > like reliable (and consistent) answers.
-> > > >
-> > >
-> > > This series allows direct access to the counters once configured
-> > > through the perf.
-> > > Earlier the cycle/instret counters are directly exposed to the
-> > > userspace without kernel/perf frameworking knowing
-> > > when/which user space application is reading it. That has security im=
-plications.
-> > >
-> > > With this series applied, the user space application just needs to
-> > > configure the event (cycle/instret) through perf syscall.
-> > > Once configured, the userspace application can find out the counter
-> > > information from the mmap & directly
-> > > read the counter. There is no latency while reading the counters.
-> > >
-> > > This mechanism allows stop/clear the counters when the requesting tas=
-k
-> > > is not running. It also takes care of context switching
-> > > which may result in invalid values as you mentioned below. This is
-> > > nothing new and all other arch (x86, ARM64) allow user space
-> > > counter read through the same mechanism.
-> > >
-> > > Here is the relevant upstream discussion:
-> > > https://lore.kernel.org/lkml/Y7wLa7I2hlz3rKw%2F@hirez.programming.kic=
-ks-ass.net/T/
-> > >
-> > > ARM64:
-> > > https://docs.kernel.org/arm64/perf.html?highlight=3Dperf_user_access#=
-perf-userspace-pmu-hardware-counter-access
-> > >
-> > > example usage in x86:
-> > > https://github.com/andikleen/pmu-tools/blob/master/jevents/rdpmc.c
-> >
-> > The canonical implementation of this should be:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/tools/lib/perf/mmap.c#n400
->
-> Thanks for sharing the libperf implementation.
->
-> > which is updated in these patches but the tests are not:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/tools/perf/tests/mmap-basic.c#n287
-> > Which appears to be an oversight. The tests display some differences
->
-> Yes. It's an oversight. We should make sure that perf mmap tests pass
-> for RISC-V as well.
+--C8K9WK0xaNmvRngq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, that's an oversight, I had a local test adapted from this one but
-forgot to update it afterwards, I'll do that in the next version.
+Hi,
 
-Thanks for your quick feedbacks and sorry for being late,
+I see semantic conflict on next-20230418 between commit ff61f0791ce969 ("do=
+cs:
+move x86 documentation into Documentation/arch/") and 54759b257eadb0
+("Documentation/x86: Add CET shadow stack description"), which isn't noticed
+when both jc_docs and tip trees were merged. The conflict triggers Sphinx t=
+able
+of contents warnings:
 
-Alex
+Documentation/arch/x86/index.rst:7: WARNING: toctree contains reference to =
+nonexisting document 'arch/x86/shstk'
+Documentation/x86/shstk.rst: WARNING: document isn't included in any toctree
 
+The fixup for the next merge window (when Linus pull both trees) should be
+moving also CET shadow stack doc to Documentation/arch/x86/ (in line with
+ff61f0791ce969).
 
->
->
-> > between x86 and aarch64 that have assumed userspace hardware counter
-> > access, and everything else that it is assumed don't.
-> >
-> > Thanks,
-> > Ian
-> >
-> > > > Clearly process switches (especially cpu migrations) cause
-> > > > problems, but they are obviously invalid values and can
-> > > > be ignored.
-> > > >
-> > > > So while a lot of uses may be 'happy' with the values the
-> > > > perf framework gives, sometimes you do need to directly
-> > > > read the relevant registers.
-> > > >
-> > > >         David
-> > > >
-> > > > -
-> > > > Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keyne=
-s, MK1 1PT, UK
-> > > > Registration No: 1397386 (Wales)
-> > >
-> > >
-> > >
-> > > --
-> > > Regards,
-> > > Atish
->
->
->
-> --
-> Regards,
-> Atish
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--C8K9WK0xaNmvRngq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZD+1WAAKCRD2uYlJVVFO
+oxEmAP4pz1M71LW/uTNJpoaZ2PWjYJndPoZmPbrQltqOyzSoywD+O79BWakhmcFO
+s4Hos7cgTj6LY37TRdYe41P6m9AKJA4=
+=8kH4
+-----END PGP SIGNATURE-----
+
+--C8K9WK0xaNmvRngq--
