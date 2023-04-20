@@ -2,234 +2,185 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 682E9C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 08:35:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE723C77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 09:05:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234447AbjDTIfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 04:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35232 "EHLO
+        id S233937AbjDTJFv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 05:05:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233977AbjDTIfp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 04:35:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCCBB3C31;
-        Thu, 20 Apr 2023 01:35:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 683A460EFE;
-        Thu, 20 Apr 2023 08:35:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96937C433EF;
-        Thu, 20 Apr 2023 08:35:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681979742;
-        bh=Y4j7IF7cCoXO6FT5Vh2T3yfPGAaX4YyQhrHeBzavQfw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gxWPeaPaDMkESOpb8oRfhVEN1mZzLuWTOBMIoSqOoPuoagxBkqU4sviyrWfny1L+U
-         5Sn6+T8C1LjvrxnSyyxDRBBLKTuVUwCIhD/fgeSY5dicJjwgeyTTmrZT9yNfQBpd8c
-         VJ7LttX9T7jmDRT87FMwSH0XsghxAD/ECAjK71s7s3W+Mo/jUEs4zSpvqB9NgyJu9R
-         tQCVsEBKUEUNWbVU1labculVhGIAjhoo7rvBVhQkKq0qAk85pw6czrgsmBOfjvi8fD
-         2O5uLgG4LwMD5JoNCYXWQojRmv9SIsLgC41ldSkgo2NMEaQcBB5UCOeZ54fRCko9Sf
-         K6/TUvU9G7JXQ==
-Date:   Thu, 20 Apr 2023 10:35:28 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Ackerley Tng <ackerleytng@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        Hugh Dickins <hughd@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        Pankaj Gupta <pankaj.gupta@amd.com>,
-        linux-arch@vger.kernel.org, arnd@arndb.de, linmiaohe@huawei.com,
-        naoya.horiguchi@nec.com, tabba@google.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20230420-lahmlegen-schule-586f6c19cf8f@brauner>
-References: <20220818132421.6xmjqduempmxnnu2@box>
- <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <20230413-anlegen-ergibt-cbefffe0b3de@brauner>
- <ZDiCG/7OgDI0SwMR@google.com>
- <20230418-anfallen-irdisch-6993a61be10b@brauner>
- <ZECMM9bjgGRdyXRy@google.com>
+        with ESMTP id S233918AbjDTJFM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 05:05:12 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066197A82;
+        Thu, 20 Apr 2023 01:59:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681981165; x=1713517165;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=q0Y83utopegjLaggA2Xkz05LGdX922bzA+sNOFJyeAY=;
+  b=EBCvZ9Nfke76s9jPB0V/EzXh4brAZZr4EdeqgusIKbQADiNubPvmVVW9
+   Ikc/kKo5csfeV6JCfgYPZtS0WeUb1yuTBlqRVb/zVy07ocqTVHQHb4aOy
+   xf9pJWm1+qX2zF7YcJqMnz4nss3sgjPMOvKOrtoT2JKLpsscxqXyGBHyn
+   z68eDFSEfkFdVrnAy0/VfcsG+jkCNUYB/pq+KDobDeN6rshgshhdN3Y60
+   PezS1RgjnJN6oHDjmk8JB3t/TSb7byAvTNJNFXgz/jQpxfmR0BjREH6np
+   uvSkVciP7Y0RCYNs8XRKDNoFh1g/btKOAZsMlsnx7iEmSyK06onAF7GrO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="373572161"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="373572161"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 01:59:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021517546"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="1021517546"
+Received: from akirasen-mobl.amr.corp.intel.com ([10.252.32.100])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 01:59:16 -0700
+Date:   Thu, 20 Apr 2023 11:59:13 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     "Moger, Babu" <babu.moger@amd.com>
+cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+Subject: Re: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
+ debug option
+In-Reply-To: <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
+Message-ID: <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu> <56497126-8f60-e590-bb13-b3739114375@linux.intel.com> <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZECMM9bjgGRdyXRy@google.com>
+Content-Type: multipart/mixed; BOUNDARY="8323329-353585656-1681981002=:2051"
+Content-ID: <60e2175a-39f2-8ea0-1482-debe437a1fb9@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 19, 2023 at 05:49:55PM -0700, Sean Christopherson wrote:
-> On Wed, Apr 19, 2023, Christian Brauner wrote:
-> > On Thu, Apr 13, 2023 at 03:28:43PM -0700, Sean Christopherson wrote:
-> > > > But if you want to preserve the inode number and device number of the
-> > > > relevant tmpfs instance but still report memfd restricted as your
-> > > > filesystem type
-> > > 
-> > > Unless I missed something along the way, reporting memfd_restricted as a distinct
-> > > filesystem is very much a non-goal.  AFAIK it's purely a side effect of the
-> > > proposed implementation.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-353585656-1681981002=:2051
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <ae2428aa-843f-4ba1-4343-d66a1e4ba57e@linux.intel.com>
+
+On Wed, 19 Apr 2023, Moger, Babu wrote:
+
+> 
+> 
+> On 4/19/23 08:20, Ilpo Järvinen wrote:
+> > On Mon, 17 Apr 2023, Babu Moger wrote:
 > > 
-> > In the current implementation you would have to put in effort to fake
-> > this. For example, you would need to also implement ->statfs
-> > super_operation where you'd need to fill in the details of the tmpfs
-> > instance. At that point all that memfd_restricted fs code that you've
-> > written is nothing but deadweight, I would reckon.
-> 
-> After digging a bit, I suspect the main reason Kirill implemented an overlay to
-> inode_operations was to prevent modifying the file size via ->setattr().  Relying
-> on shmem_setattr() to unmap entries in KVM's MMU wouldn't work because, by design,
-> the memory can't be mmap()'d into host userspace. 
-> 
-> 	if (attr->ia_valid & ATTR_SIZE) {
-> 		if (memfd->f_inode->i_size)
-> 			return -EPERM;
-> 
-> 		if (!PAGE_ALIGNED(attr->ia_size))
-> 			return -EINVAL;	
-> 	}
-> 
-> But I think we can solve this particular problem by using F_SEAL_{GROW,SHRINK} or
-> SHMEM_LONGPIN.  For a variety of reasons, I'm leaning more and more toward making
-> this a KVM ioctl() instead of a dedicated syscall, at which point we can be both
-> more flexible and more draconian, e.g. let userspace provide the file size at the
-> time of creation, but make the size immutable, at least by default.
-> 
-> > > After giving myself a bit of a crash course in file systems, would something like
-> > > the below have any chance of (a) working, (b) getting merged, and (c) being
-> > > maintainable?
-> > > 
-> > > The idea is similar to a stacking filesystem, but instead of stacking, restrictedmem
-> > > hijacks a f_ops and a_ops to create a lightweight shim around tmpfs.  There are
-> > > undoubtedly issues and edge cases, I'm just looking for a quick "yes, this might
-> > > be doable" or a "no, that's absolutely bonkers, don't try it".
+> >> Add the debug files to the resctrl hierarchy.
+> >>
+> >> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> >> ---
+> >>  arch/x86/kernel/cpu/resctrl/internal.h |    1 +
+> >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   54 +++++++++++++++++++++++++++++++-
+> >>  2 files changed, 54 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+> >> index 1eac07ebc31b..855109abb480 100644
+> >> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> >> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> >> @@ -288,6 +288,7 @@ struct rdtgroup {
+> >>  #define RFTYPE_TOP			BIT(4)
+> >>  #define RFTYPE_RES_CACHE		BIT(5)
+> >>  #define RFTYPE_RES_MB			BIT(6)
+> >> +#define RFTYPE_DEBUG			BIT(7)
+> >>  #define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
+> >>  #define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
+> >>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
+> >> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> >> index 15ded0dd5b09..1ec4359348c2 100644
+> >> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> >> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> >> @@ -1880,6 +1880,7 @@ static struct rftype res_common_files[] = {
+> >>  		.mode		= 0444,
+> >>  		.kf_ops		= &rdtgroup_kf_single_ops,
+> >>  		.seq_show	= rdtgroup_rmid_show,
+> >> +		.fflags		= RFTYPE_BASE | RFTYPE_DEBUG,
+> >>  	},
+> >>  	{
+> >>  		.name		= "schemata",
+> >> @@ -1909,6 +1910,7 @@ static struct rftype res_common_files[] = {
+> >>  		.mode		= 0444,
+> >>  		.kf_ops		= &rdtgroup_kf_single_ops,
+> >>  		.seq_show	= rdtgroup_closid_show,
+> >> +		.fflags		= RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
+> >>  	},
+> >>  
+> >>  };
+> >> @@ -2420,6 +2422,49 @@ static int mkdir_mondata_all(struct kernfs_node *parent_kn,
+> >>  			     struct rdtgroup *prgrp,
+> >>  			     struct kernfs_node **mon_data_kn);
+> >>  
+> >> +static void resctrl_add_debug_files(void)
+> >> +{
+> >> +	struct rftype *rfts, *rft;
+> >> +	int len;
+> >> +
+> >> +	rfts = res_common_files;
+> >> +	len = ARRAY_SIZE(res_common_files);
+> >> +
+> >> +	lockdep_assert_held(&rdtgroup_mutex);
+> >> +
+> >> +	for (rft = rfts; rft < rfts + len; rft++) {
+> >> +		if (rft->fflags & RFTYPE_DEBUG) {
+> >> +			rft->fflags &= ~RFTYPE_DEBUG;
 > > 
-> > Maybe, but I think it's weird.
-> 
-> Yeah, agreed.
-> 
-> > _Replacing_ f_ops isn't something that's unprecedented. It happens everytime
-> > a character device is opened (see fs/char_dev.c:chrdev_open()). And debugfs
-> > does a similar (much more involved) thing where it replaces it's proxy f_ops
-> > with the relevant subsystem's f_ops. The difference is that in both cases the
-> > replace happens at ->open() time; and the replace is done once. Afterwards
-> > only the newly added f_ops are relevant.
+> > I don't fully follow why you need to play with ->fflags like this.
 > > 
-> > In your case you'd be keeping two sets of {f,a}_ops; one usable by
-> > userspace and another only usable by in-kernel consumers. And there are
-> > some concerns (non-exhaustive list), I think:
+> > Is it for the ->fflags test in rdtgroup_add_files()? Can't you just do 
+> > some extra masking there for RFTYPE_DEBUG based on resctrl_debug which 
+> > you already keep?
+> 
+> Actually with this change, I can remove all these tricks here.
+> I don't have to change the check "if (rft->fflags && ((fflags &
+> rft->fflags) == rft->fflags)) {"
+> 
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 1ec4359348c2..b560c44817bb 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -1925,6 +1925,9 @@ static int rdtgroup_add_files(struct kernfs_node
+> *kn, unsigned long fflags)
+> 
+>         lockdep_assert_held(&rdtgroup_mutex);
+> 
+> +       if (resctrl_debug)
+> +               fflags |= RFTYPE_DEBUG;
+
+Yes, looks good.
+
+It matches to the idea I had in my mind but doesn't require putting it 
+into the if condition itself.
+
+> +
+>         for (rft = rfts; rft < rfts + len; rft++) {
+>                 if (rft->fflags && ((fflags & rft->fflags) == rft->fflags)) {
+>                         ret = rdtgroup_add_file(kn, rft);
+> 
+> 
 > > 
-> > * {f,a}_ops weren't designed for this. IOW, one set of {f,a}_ops is
-> >   authoritative per @file and it is left to the individual subsystems to
-> >   maintain driver specific ops (see the sunrpc stuff or sockets).
-> > * lifetime management for the two sets of {f,a}_ops: If the ops belong
-> >   to a module then you need to make sure that the module can't get
-> >   unloaded while you're using the fops. Might not be a concern in this
-> >   case.
-> 
-> Ah, whereas I assume the owner of inode_operations is pinned by ??? (dentry?)
-> holding a reference to the inode?
+> >> +			rdtgroup_add_file(rdtgroup_default.kn, rft);
+> >> +		}
+> >> +	}
 
-I don't think it would be possible to safely replace inode_operations
-after the inode's been made visible in caches.
 
-It works with file_operations because when a file is opened a new struct
-file is allocated which isn't reachable anywhere before fd_install() is
-called. So it is possible to replace f_ops in the default
-f->f_op->open() method (which is what devices do as the inode is located
-on e.g., ext4/xfs/tmpfs but the functionality of the device usually
-provided by some driver/module through its file_operations). The default
-f_ops are taken from i_fop of the inode.
-
-The lifetime of the file_/inode_operations will be aligned with the
-lifetime of the module they're originating from. If only
-file_/inode_operations are used from within the same module then there
-should never be any lifetime concerns.
-
-So an inode doesn't explictly pin file_/inode_operations because there's
-usually no need to do that and it be weird if each new inode would take
-a reference on the f_ops/i_ops on the off-chance that someone _might_
-open the file. Let alone the overhead of calling try_module_get()
-everytime a new inode is added to the cache. There are various fs
-objects - the superblock which is pinning the filesystem/module - that
-exceed the lifetime of inodes and dentries. Both also may be dropped
-from their respective caches and readded later.
-
-Pinning of the module for f_ops is done because it is possible that some
-filesystem/driver might want to use the file_operations of some other
-filesystem/driver by default and they are in separate modules. So the
-fops_get() in do_dentry_open is there because it's not guaranteed that
-file_/inode_operations originate from the same module as the inode
-that's opened. If the module is still alive during the open then a
-reference to its f_ops is taken if not then the open will fail with
-ENODEV.
-
-That's to the best of my knowledge.
-
-> 
-> > * brittleness: Not all f_ops for example deal with userspace
-> >   functionality some deal with cleanup when the file is closed like
-> >   ->release(). So it's delicate to override that functionality with
-> >   custom f_ops. Restricted memfds could easily forget to cleanup
-> >   resources.
-> > * Potential for confusion why there's two sets of {f,a}_ops.
-> > * f_ops specifically are generic across a vast amount of consumers and
-> >   are subject to change. If memfd_restricted() has specific requirements
-> >   because of this weird double-use they won't be taken into account.
-> > 
-> > I find this hard to navigate tbh and it feels like taking a shortcut to
-> > avoid building a proper api.
-> 
-> Agreed.  At the very least, it would be better to take an explicit dependency on
-> whatever APIs are being used instead of somewhat blindly bouncing through ->fallocate().
-> I think that gives us a clearer path to getting something merged too, as we'll
-> need Acks on making specific functions visible, i.e. will give MM maintainers
-> something concrete to react too.
-> 
-> > If you only care about a specific set of operations specific to memfd
-> > restricte that needs to be available to in-kernel consumers, I wonder if you
-> > shouldn't just go one step further then your proposal below and build a
-> > dedicated minimal ops api.
-> 
-> This is actually very doable for shmem.  Unless I'm missing something, because
-> our use case doesn't allow mmap(), swap, or migration, a good chunk of
-> shmem_fallocate() is simply irrelevant.  The result is only ~100 lines of code,
-> and quite straightforward.
-> 
-> My biggest concern, outside of missing a detail in shmem, is adding support for
-> HugeTLBFS, which is likely going to be requested/needed sooner than later.  At a
-> glance, hugetlbfs_fallocate() is quite a bit more complex, i.e. not something I'm
-> keen to duplicate.  But that's also a future problem to some extent, as it's
-> purely kernel internals; the uAPI side of things doesn't seem like it'll be messy
-> at all.
-> 
-> Thanks again!
-
-Sure thing.
+-- 
+ i.
+--8323329-353585656-1681981002=:2051--
