@@ -2,402 +2,203 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C866C77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 18:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDBAC77B72
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 19:18:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231187AbjDTSoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 14:44:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53178 "EHLO
+        id S231298AbjDTTSW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 15:18:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229878AbjDTSoW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 14:44:22 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41681BE2
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 11:44:19 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1a50cb65c92so12891535ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 11:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1682016259; x=1684608259;
-        h=message-id:to:from:cc:in-reply-to:subject:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=aJKg4Mh6vZ3WSZ/pRsR5MqO6auYwg4i+qfpcnb6vsx0=;
-        b=pDtWzYePueUfAyEs1dD3G5MmmwsYjH3HOdqJpxVtnhjO/giDVKF04/5yfz/S8s2Sh0
-         elTr7KDImtJhEyNym5LHyHnzTgTVCu+2igwJA9H8e/rS6ZGcv6w72PjRoYLyN33a++Kq
-         8dGFjTvjJII+3lCYLn58It4rGntekoiazVyFUkHcA2Ed8ALO7xAI8tH/s8n1zdjcTsr5
-         7LPeUVjL7zjPpuvHNJDUxY9xfdldBR5YZ+dlZ3BoH2MSA9SJKFbLaPaMmVlD8X5hCQMg
-         0fk2+He8qR+fmn7BalSGpUX5VQAGugwFDJSw87wP6WV7uWuQ3jSfYPhHtKovKbsPczm5
-         cptA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682016259; x=1684608259;
-        h=message-id:to:from:cc:in-reply-to:subject:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aJKg4Mh6vZ3WSZ/pRsR5MqO6auYwg4i+qfpcnb6vsx0=;
-        b=BG7PsEsHVKuwioKBwkJK7nwdDVO3mf9PfRMFK+mO5r2MhtLnE2WwPHAIML08TRCRkV
-         CWcrYO61B+gy+qj9+RouURAd+F/kT+3kpeIRWv29g9sFI202Jl581kZTwoFzHdqL6MqY
-         5vTGAtMyoj7CsbYeFQ+jZA0WFNcxrqlxwA4Oa5jjrv1t3yOaGn/CQcs0AmvomoGCbhG0
-         KYcRSSKIQ9DxsDZMcLFB+V2woqlkZBWZrkHBXFcKY7YV7g1iPpDYQoM2qMpALYZr9JUH
-         fGIrjDsM+QCQgMvVdH7OWk4f9cdQ3WuU7dHcmHtCxtc9Lj90Is9ZWau6UGUbxkfljdW/
-         F6Jw==
-X-Gm-Message-State: AAQBX9fEOvLLeyDLk9QmYWPhIGbQLDS1Yep42snF7Ss4CHIE8DndUOsj
-        XrBjwAQWP3eLFsSQVwhi6E6NUQ==
-X-Google-Smtp-Source: AKy350bEoGeFmyYpnjAL7o4p0QHicwFCutcvSCUFHSVKd4cxLIE2/w5arf6iT10TJKpTFLX8oVN9jA==
-X-Received: by 2002:a17:903:230d:b0:1a6:a6e7:8846 with SMTP id d13-20020a170903230d00b001a6a6e78846mr3033873plh.40.1682016259026;
-        Thu, 20 Apr 2023 11:44:19 -0700 (PDT)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id w15-20020a170902d70f00b001a6c58e95d7sm1437886ply.269.2023.04.20.11.44.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 11:44:18 -0700 (PDT)
-Date:   Thu, 20 Apr 2023 11:44:18 -0700 (PDT)
-X-Google-Original-Date: Thu, 20 Apr 2023 11:44:05 PDT (-0700)
-Subject:     Re: [PATCH v9 1/1] riscv: Allow to downgrade paging mode from the command line
-In-Reply-To: <mhng-04c8dd83-22b9-462e-9ecd-622128769635@palmer-ri-x1c9a>
-CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>, bjorn@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, alexghiti@rivosinc.com,
-        Bjorn Topel <bjorn@rivosinc.com>
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     alexghiti@rivosinc.com
-Message-ID: <mhng-ecd68703-9cc0-48a4-be15-f82f2b4fbe22@palmer-ri-x1c9a>
+        with ESMTP id S229468AbjDTTSW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 15:18:22 -0400
+Received: from mx4.veeam.com (mx4.veeam.com [104.41.138.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280622717;
+        Thu, 20 Apr 2023 12:18:20 -0700 (PDT)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx4.veeam.com (Postfix) with ESMTPS id D6D3D5EC2C;
+        Thu, 20 Apr 2023 22:18:17 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx4-2022; t=1682018298;
+        bh=vsr/Ac17+CKt1Rl6NRF3sVIwqaOJqgYSiqwTXnsdphI=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+        b=KHMUcCZPq5iG48/N9iQw1JOODCqqqu8sWQJ1VwWH1mTWSXRYUsDz+iHmQVY/7kWeK
+         eiQTGcC9rk0wHByjmQmgVXZVVUnlwlBrPQFJZKoqq9/+GILi3lHpd0GC1DsoGyWFpP
+         IXDgZOwan8Q+1tpTpV7T7TQ4/XbphuEjpSrLicR7aNPRxd527/CSG3vyv36DdPd5mp
+         kpR9sk2z/w7FGSAQ/hJu31/0NgGytQQlAPnvJ8sSaondl7jOoq4pdtzYTvOJTkdqP2
+         O3a7hPVC2jGtSHoDqF43RPokohbcgzAf+Mvy0OA8te7XNcxbIxqIvxl/R6pQ2jhn+g
+         DJNaW4XLo8Vnw==
+Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
+ (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Thu, 20 Apr
+ 2023 21:18:10 +0200
+Content-Type: multipart/mixed;
+        boundary="------------HHEWogh5LchE01j4khkGxhzV"
+Message-ID: <b6516901-b7ba-cde9-644c-84dfdef012ad@veeam.com>
+Date:   Thu, 20 Apr 2023 21:17:58 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
+Content-Language: en-US
+To:     Donald Buczek <buczek@molgen.mpg.de>, <axboe@kernel.dk>,
+        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <willy@infradead.org>, <kch@nvidia.com>,
+        <martin.petersen@oracle.com>, <vkoul@kernel.org>,
+        <ming.lei@redhat.com>, <gregkh@linuxfoundation.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
+ <20230404140835.25166-4-sergei.shtepa@veeam.com>
+ <cb0cc2f1-48cb-8b15-35af-33a31ccc922c@molgen.mpg.de>
+ <86068780-bab3-2fc2-3f6f-1868be119b38@veeam.com>
+ <a1854604-cec1-abd5-1d49-6cf6a19ee7a1@veeam.com>
+ <1dc227d0-9528-9b77-63ff-b49b0579caa1@molgen.mpg.de>
+ <c05fd3e7-5610-4f63-9012-df1b808d9536@veeam.com>
+ <955ede49-bb69-2ab2-d256-a329fe1b728c@molgen.mpg.de>
+ <3b589d44-3fbd-1f4f-8efb-9b334c26a20f@molgen.mpg.de>
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+In-Reply-To: <3b589d44-3fbd-1f4f-8efb-9b334c26a20f@molgen.mpg.de>
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: atlmbx02.amust.local (172.18.32.172) To
+ prgmbx01.amust.local (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2924031554677167
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 Apr 2023 10:36:43 PDT (-0700), Palmer Dabbelt wrote:
-> On Tue, 28 Mar 2023 22:09:51 PDT (-0700), alexghiti@rivosinc.com wrote:
->> Add 2 early command line parameters that allow to downgrade satp mode
->> (using the same naming as x86):
->> - "no5lvl": use a 4-level page table (down from sv57 to sv48)
->> - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
->>
->> Note that going through the device tree to get the kernel command line
->> works with ACPI too since the efi stub creates a device tree anyway with
->> the command line.
->>
->> In KASAN kernels, we can't use the libfdt that early in the boot process
->> since we are not ready to execute instrumented functions. So instead of
->> using the "generic" libfdt, we compile our own versions of those functions
->> that are not instrumented and that are prefixed so that they do not
->> conflict with the generic ones. We also need the non-instrumented versions
->> of the string functions and the prefixed versions of memcpy/memmove.
->>
->> This is largely inspired by commit aacd149b6238 ("arm64: head: avoid
->> relocating the kernel twice for KASLR") from which I removed compilation
->> flags that were not relevant to RISC-V at the moment (LTO, SCS, pie).
->>
->> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->> Tested-by: Björn Töpel <bjorn@rivosinc.com>
->> Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
->> ---
->>  .../admin-guide/kernel-parameters.txt         |  5 +-
->>  arch/riscv/kernel/Makefile                    |  2 +
->>  arch/riscv/kernel/pi/Makefile                 | 39 ++++++++++++
->>  arch/riscv/kernel/pi/cmdline_early.c          | 62 +++++++++++++++++++
->>  arch/riscv/kernel/vmlinux.lds.S               |  8 +++
->>  arch/riscv/lib/memcpy.S                       |  2 +
->>  arch/riscv/lib/memmove.S                      |  2 +
->>  arch/riscv/lib/strlen.S                       |  1 +
->>  arch/riscv/mm/init.c                          | 36 +++++++++--
->>  9 files changed, 150 insertions(+), 7 deletions(-)
->>  create mode 100644 arch/riscv/kernel/pi/Makefile
->>  create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 6221a1d057dd..accc400b43f1 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -3576,7 +3576,10 @@
->>  			emulation library even if a 387 maths coprocessor
->>  			is present.
->>
->> -	no5lvl		[X86-64] Disable 5-level paging mode. Forces
->> +	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
->> +			kernel to use 3-level paging instead.
->> +
->> +	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
->>  			kernel to use 4-level paging instead.
->>
->>  	nofsgsbase	[X86] Disables FSGSBASE instructions.
->> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
->> index 4cf303a779ab..aa22f87faeae 100644
->> --- a/arch/riscv/kernel/Makefile
->> +++ b/arch/riscv/kernel/Makefile
->> @@ -89,3 +89,5 @@ obj-$(CONFIG_EFI)		+= efi.o
->>  obj-$(CONFIG_COMPAT)		+= compat_syscall_table.o
->>  obj-$(CONFIG_COMPAT)		+= compat_signal.o
->>  obj-$(CONFIG_COMPAT)		+= compat_vdso/
->> +
->> +obj-$(CONFIG_64BIT)		+= pi/
->> diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
->> new file mode 100644
->> index 000000000000..42c58f4ab53b
->> --- /dev/null
->> +++ b/arch/riscv/kernel/pi/Makefile
->> @@ -0,0 +1,39 @@
->> +# SPDX-License-Identifier: GPL-2.0
->> +# This file was copied from arm64/kernel/pi/Makefile.
->> +
->> +KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
->> +		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
->> +		   $(call cc-option,-mbranch-protection=none) \
->> +		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
->> +		   -D__DISABLE_EXPORTS -ffreestanding \
->> +		   -fno-asynchronous-unwind-tables -fno-unwind-tables \
->> +		   $(call cc-option,-fno-addrsig)
->> +
->> +KBUILD_CFLAGS	+= -mcmodel=medany
->> +
->> +CFLAGS_cmdline_early.o += -D__NO_FORTIFY
->> +CFLAGS_lib-fdt_ro.o += -D__NO_FORTIFY
->> +
->> +GCOV_PROFILE	:= n
->> +KASAN_SANITIZE	:= n
->> +KCSAN_SANITIZE	:= n
->> +UBSAN_SANITIZE	:= n
->> +KCOV_INSTRUMENT	:= n
->> +
->> +$(obj)/%.pi.o: OBJCOPYFLAGS := --prefix-symbols=__pi_ \
->> +			       --remove-section=.note.gnu.property \
->> +			       --prefix-alloc-sections=.init
->> +$(obj)/%.pi.o: $(obj)/%.o FORCE
->> +	$(call if_changed,objcopy)
->> +
->> +$(obj)/lib-%.o: $(srctree)/lib/%.c FORCE
->> +	$(call if_changed_rule,cc_o_c)
->> +
->> +$(obj)/string.o: $(srctree)/lib/string.c FORCE
->> +	$(call if_changed_rule,cc_o_c)
->> +
->> +$(obj)/ctype.o: $(srctree)/lib/ctype.c FORCE
->> +	$(call if_changed_rule,cc_o_c)
->> +
->> +obj-y		:= cmdline_early.pi.o string.pi.o ctype.pi.o lib-fdt.pi.o lib-fdt_ro.pi.o
->> +extra-y		:= $(patsubst %.pi.o,%.o,$(obj-y))
->> diff --git a/arch/riscv/kernel/pi/cmdline_early.c b/arch/riscv/kernel/pi/cmdline_early.c
->> new file mode 100644
->> index 000000000000..05652d13c746
->> --- /dev/null
->> +++ b/arch/riscv/kernel/pi/cmdline_early.c
->> @@ -0,0 +1,62 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +#include <linux/types.h>
->> +#include <linux/init.h>
->> +#include <linux/libfdt.h>
->> +#include <linux/string.h>
->> +#include <asm/pgtable.h>
->> +#include <asm/setup.h>
->> +
->> +static char early_cmdline[COMMAND_LINE_SIZE];
->> +
->> +/*
->> + * Declare the functions that are exported (but prefixed) here so that LLVM
->> + * does not complain it lacks the 'static' keyword (which, if added, makes
->> + * LLVM complain because the function is actually unused in this file).
->> + */
->> +u64 set_satp_mode_from_cmdline(uintptr_t dtb_pa);
->> +
->> +static char *get_early_cmdline(uintptr_t dtb_pa)
->> +{
->> +	const char *fdt_cmdline = NULL;
->> +	unsigned int fdt_cmdline_size = 0;
->> +	int chosen_node;
->> +
->> +	if (!IS_ENABLED(CONFIG_CMDLINE_FORCE)) {
->> +		chosen_node = fdt_path_offset((void *)dtb_pa, "/chosen");
->> +		if (chosen_node >= 0) {
->> +			fdt_cmdline = fdt_getprop((void *)dtb_pa, chosen_node,
->> +						  "bootargs", NULL);
->> +			if (fdt_cmdline) {
->> +				fdt_cmdline_size = strlen(fdt_cmdline);
->> +				strscpy(early_cmdline, fdt_cmdline,
->> +					COMMAND_LINE_SIZE);
->> +			}
->> +		}
->> +	}
->> +
->> +	if (IS_ENABLED(CONFIG_CMDLINE_EXTEND) ||
->> +	    IS_ENABLED(CONFIG_CMDLINE_FORCE) ||
->> +	    fdt_cmdline_size == 0 /* CONFIG_CMDLINE_FALLBACK */) {
->> +		strncat(early_cmdline, CONFIG_CMDLINE,
->> +			COMMAND_LINE_SIZE - fdt_cmdline_size);
->> +	}
->> +
->> +	return early_cmdline;
->> +}
->> +
->> +static u64 match_noXlvl(char *cmdline)
->> +{
->> +	if (strstr(cmdline, "no4lvl"))
->> +		return SATP_MODE_48;
->> +	else if (strstr(cmdline, "no5lvl"))
->> +		return SATP_MODE_57;
->> +
->> +	return 0;
->> +}
->> +
->> +u64 set_satp_mode_from_cmdline(uintptr_t dtb_pa)
->> +{
->> +	char *cmdline = get_early_cmdline(dtb_pa);
->> +
->> +	return match_noXlvl(cmdline);
->> +}
->> diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
->> index 615ff5842690..b12a843ad426 100644
->> --- a/arch/riscv/kernel/vmlinux.lds.S
->> +++ b/arch/riscv/kernel/vmlinux.lds.S
->> @@ -83,6 +83,14 @@ SECTIONS
->>  	/* Start of init data section */
->>  	__init_data_begin = .;
->>  	INIT_DATA_SECTION(16)
->> +
->> +	/* Those sections result from the compilation of kernel/pi/string.c */
->> +	.init.pidata : {
->> +		*(.init.srodata.cst8*)
->> +		*(.init__bug_table*)
->> +		*(.init.sdata*)
->> +	}
->> +
->>  	.init.bss : {
->>  		*(.init.bss)	/* from the EFI stub */
->>  	}
->> diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
->> index 51ab716253fa..1a40d01a9543 100644
->> --- a/arch/riscv/lib/memcpy.S
->> +++ b/arch/riscv/lib/memcpy.S
->> @@ -106,3 +106,5 @@ WEAK(memcpy)
->>  6:
->>  	ret
->>  END(__memcpy)
->> +SYM_FUNC_ALIAS(__pi_memcpy, __memcpy)
->> +SYM_FUNC_ALIAS(__pi___memcpy, __memcpy)
->> diff --git a/arch/riscv/lib/memmove.S b/arch/riscv/lib/memmove.S
->> index e0609e1f0864..838ff2022fe3 100644
->> --- a/arch/riscv/lib/memmove.S
->> +++ b/arch/riscv/lib/memmove.S
->> @@ -314,3 +314,5 @@ return_from_memmove:
->>
->>  SYM_FUNC_END(memmove)
->>  SYM_FUNC_END(__memmove)
->> +SYM_FUNC_ALIAS(__pi_memmove, __memmove)
->> +SYM_FUNC_ALIAS(__pi___memmove, __memmove)
->> diff --git a/arch/riscv/lib/strlen.S b/arch/riscv/lib/strlen.S
->> index 15bb8f3aa959..9d0055616f7b 100644
->> --- a/arch/riscv/lib/strlen.S
->> +++ b/arch/riscv/lib/strlen.S
->> @@ -131,3 +131,4 @@ strlen_zbb:
->>  .option pop
->>  #endif
->>  SYM_FUNC_END(strlen)
->> +SYM_FUNC_ALIAS(__pi_strlen, strlen)
->> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
->> index bce899b180cd..3ad771571c2d 100644
->> --- a/arch/riscv/mm/init.c
->> +++ b/arch/riscv/mm/init.c
->> @@ -746,6 +746,8 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
->>  #endif /* CONFIG_STRICT_KERNEL_RWX */
->>
->>  #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
->> +u64 __pi_set_satp_mode_from_cmdline(uintptr_t dtb_pa);
->> +
->>  static void __init disable_pgtable_l5(void)
->>  {
->>  	pgtable_l5_enabled = false;
->> @@ -760,17 +762,39 @@ static void __init disable_pgtable_l4(void)
->>  	satp_mode = SATP_MODE_39;
->>  }
->>
->> +static int __init print_no4lvl(char *p)
->> +{
->> +	pr_info("Disabled 4-level and 5-level paging");
->> +	return 0;
->> +}
->> +early_param("no4lvl", print_no4lvl);
->> +
->> +static int __init print_no5lvl(char *p)
->> +{
->> +	pr_info("Disabled 5-level paging");
->> +	return 0;
->> +}
->> +early_param("no5lvl", print_no5lvl);
->> +
->>  /*
->>   * There is a simple way to determine if 4-level is supported by the
->>   * underlying hardware: establish 1:1 mapping in 4-level page table mode
->>   * then read SATP to see if the configuration was taken into account
->>   * meaning sv48 is supported.
->>   */
->> -static __init void set_satp_mode(void)
->> +static __init void set_satp_mode(uintptr_t dtb_pa)
->>  {
->>  	u64 identity_satp, hw_satp;
->>  	uintptr_t set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
->> -	bool check_l4 = false;
->> +	u64 satp_mode_cmdline = __pi_set_satp_mode_from_cmdline(dtb_pa);
->> +
->> +	if (satp_mode_cmdline == SATP_MODE_57) {
->> +		disable_pgtable_l5();
->> +	} else if (satp_mode_cmdline == SATP_MODE_48) {
->> +		disable_pgtable_l5();
->> +		disable_pgtable_l4();
->> +		return;
->> +	}
->>
->>  	create_p4d_mapping(early_p4d,
->>  			set_satp_mode_pmd, (uintptr_t)early_pud,
->> @@ -789,7 +813,8 @@ static __init void set_satp_mode(void)
->>  retry:
->>  	create_pgd_mapping(early_pg_dir,
->>  			   set_satp_mode_pmd,
->> -			   check_l4 ? (uintptr_t)early_pud : (uintptr_t)early_p4d,
->> +			   pgtable_l5_enabled ?
->> +				(uintptr_t)early_p4d : (uintptr_t)early_pud,
->>  			   PGDIR_SIZE, PAGE_TABLE);
->>
->>  	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
->> @@ -800,9 +825,8 @@ static __init void set_satp_mode(void)
->>  	local_flush_tlb_all();
->>
->>  	if (hw_satp != identity_satp) {
->> -		if (!check_l4) {
->> +		if (pgtable_l5_enabled) {
->>  			disable_pgtable_l5();
->> -			check_l4 = true;
->>  			memset(early_pg_dir, 0, PAGE_SIZE);
->>  			goto retry;
->>  		}
->> @@ -1031,7 +1055,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
->>  #endif
->>
->>  #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
->> -	set_satp_mode();
->> +	set_satp_mode(dtb_pa);
->>  #endif
->>
->>  	/*
->
-> Alex found that we're missing -fpie, which was causing the LLVM boot
-> failures.  I'm just going to squash in
->
-> diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
-> index 42c58f4ab53b..5d7cb991f2b8 100644
-> --- a/arch/riscv/kernel/pi/Makefile
-> +++ b/arch/riscv/kernel/pi/Makefile
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  # This file was copied from arm64/kernel/pi/Makefile.
->
-> -KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
-> +KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) -fpie \
->  		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
->  		   $(call cc-option,-mbranch-protection=none) \
->  		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
+--------------HHEWogh5LchE01j4khkGxhzV
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Looks like we got a bit ahead of ourselves, this trips up some warnings 
-like
 
-riscv64-unknown-linux-gnu-ld: warning: orphan section `.got' from `init/main.o' being placed in section `.got'
-riscv64-unknown-linux-gnu-ld: warning: orphan section `.got.plt' from `init/main.o' being placed in section `.got.plt'
 
-I'm going to drop this for now, Alex is looking at a better fix.  Sorry 
-for the churn!
+On 4/20/23 16:44, Donald Buczek wrote:
+> Subject:
+> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
+> From:
+> Donald Buczek <buczek@molgen.mpg.de>
+> Date:
+> 4/20/23, 16:44
+> 
+> To:
+> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+> CC:
+> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+> 
+> 
+> On 4/19/23 21:42, Donald Buczek wrote:
+>> Dear Sergei,
+>>
+>> On 4/19/23 15:05, Sergei Shtepa wrote:
+>>> [...]
+>>>
+>>> Patches in attach and https://nam10.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FSergeiShtepa%2Flinux%2Ftree%2Fblksnap-master&data=05%7C01%7Csergei.shtepa%40veeam.com%7Cccc78e2cdf7845c6c0cd08db41add281%7Cba07baab431b49edadd7cbc3542f5140%7C1%7C0%7C638175987085694967%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=RdrWqUwvk7gjfSRYvrPfz2E0%2BIOY6IQxK4xvpzJqcnk%3D&reserved=0
+>>
+>> Thanks. I can confirm that this fixes the reported problem and I no longer can trigger the UAF. 😄
+>>
+>> Tested-Bny: Donald Buczek <buczek@molgen.mpg.de>
+>>
+>> Maybe you can add me to the cc list for v4 as I'm not subscribed to the lists.
+> 
+> 
+> Sorry, found another one. Reproducer:
+> 
+> =====
+> #! /bin/bash
+> set -xe
+> modprobe blksnap
+> test -e /scratch/local/test.dat || fallocate -l 1G /scratch/local/test.dat
+> s=$(blksnap snapshot_create -d /dev/vdb)
+> blksnap snapshot_appendstorage -i $s -f /scratch/local/test.dat
+> blksnap snapshot_take -i $s
+> s2=$(blksnap snapshot_create -d /dev/vdb)
+> blksnap snapshot_destroy -i $s2
+> blksnap snapshot_destroy -i $s
+> =====
+> 
+> 
+> [20382.402921] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was created
+> [20382.535933] blksnap-image: Create snapshot image device for original device [253:16]
+> [20382.542405] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was taken successfully
+> [20382.572564] blksnap-snapshot: Snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966 was created
+> [20382.600521] blksnap-snapshot: Destroy snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
+> [20382.602373] blksnap-snapshot: Release snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
+> [20382.722137] blksnap-snapshot: Destroy snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
+> [20382.724033] blksnap-snapshot: Release snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
+> [20382.725850] ==================================================================
+> [20382.727641] BUG: KASAN: wild-memory-access in snapshot_free+0x73/0x170 [blksnap]
+> [20382.729326] Write of size 8 at addr dead000000000108 by task blksnap/8297
+> ...
+
+Great! Thanks.
+
+There is no protection against re-adding a block device to the snapshot.
+I'll take care of it.
+
+And small update. I have made a correction to the bio allocation algorithm
+for saving and loading chunks. Please, see attach and commit.
+Link: https://github.com/SergeiShtepa/linux/commit/2628dd193fd3d563d26d5ccc82d35b2e11bbda38
+But cases of large chunks or very large disks have not yet been covered
+by tests, yet. 
+
+I also had concerns that the snapshot writing algorithm was not working
+correctly. But the concerns were in vain. The new test is working.
+Link: https://github.com/veeam/blksnap/blob/stable-v2.0/tests/6000-snapimage_write.sh
+
+--------------HHEWogh5LchE01j4khkGxhzV
+Content-Type: text/x-patch; charset="UTF-8";
+	name="fix_page_inx_increment.patch"
+Content-Disposition: attachment; filename="fix_page_inx_increment.patch"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9jaHVuay5jIGIvZHJpdmVycy9i
+bG9jay9ibGtzbmFwL2NodW5rLmMKaW5kZXggNzMxMTNjNzE0YWMxLi4wNmZkZDZjOTBlMGEg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9jaHVuay5jCisrKyBiL2RyaXZl
+cnMvYmxvY2svYmxrc25hcC9jaHVuay5jCkBAIC0yODMsMjUgKzI4MywyNiBAQCB2b2lkIGNo
+dW5rX3N0b3JlKHN0cnVjdCBjaHVuayAqY2h1bmspCiAJYmlvX3NldF9mbGFnKGJpbywgQklP
+X0ZJTFRFUkVEKTsKIAogCXdoaWxlIChjb3VudCkgeworCQlzdHJ1Y3QgYmlvICpuZXh0Owog
+CQlzZWN0b3JfdCBwb3J0aW9uID0gbWluX3Qoc2VjdG9yX3QsIGNvdW50LCBQQUdFX1NFQ1RP
+UlMpOwogCQl1bnNpZ25lZCBpbnQgYnl0ZXMgPSBwb3J0aW9uIDw8IFNFQ1RPUl9TSElGVDsK
+IAogCQlpZiAoYmlvX2FkZF9wYWdlKGJpbywgY2h1bmstPmRpZmZfYnVmZmVyLT5wYWdlc1tw
+YWdlX2lkeF0sCi0JCQkJIGJ5dGVzLCAwKSAhPSBieXRlcykgewotCQkJc3RydWN0IGJpbyAq
+bmV4dDsKKwkJCQkgYnl0ZXMsIDApID09IGJ5dGVzKSB7CisJCQlwYWdlX2lkeCsrOworCQkJ
+Y291bnQgLT0gcG9ydGlvbjsKKwkJCWNvbnRpbnVlOworCQl9CiAKLQkJCW5leHQgPSBiaW9f
+YWxsb2NfYmlvc2V0KGJkZXYsCi0JCQkJCWNhbGNfbWF4X3ZlY3MoY291bnQpLAorCQkvKiBD
+cmVhdGUgbmV4dCBiaW8gKi8KKwkJbmV4dCA9IGJpb19hbGxvY19iaW9zZXQoYmRldiwgY2Fs
+Y19tYXhfdmVjcyhjb3VudCksCiAJCQkJCVJFUV9PUF9XUklURSB8IFJFUV9TWU5DIHwgUkVR
+X0ZVQSwKIAkJCQkJR0ZQX05PSU8sICZjaHVua19pb19iaW9zZXQpOwotCQkJbmV4dC0+Ymlf
+aXRlci5iaV9zZWN0b3IgPSBiaW9fZW5kX3NlY3RvcihiaW8pOwotCQkJYmlvX3NldF9mbGFn
+KG5leHQsIEJJT19GSUxURVJFRCk7Ci0JCQliaW9fY2hhaW4oYmlvLCBuZXh0KTsKLQkJCXN1
+Ym1pdF9iaW9fbm9hY2N0KGJpbyk7Ci0JCQliaW8gPSBuZXh0OwotCQl9Ci0JCXBhZ2VfaWR4
+Kys7Ci0JCWNvdW50IC09IHBvcnRpb247CisJCW5leHQtPmJpX2l0ZXIuYmlfc2VjdG9yID0g
+YmlvX2VuZF9zZWN0b3IoYmlvKTsKKwkJYmlvX3NldF9mbGFnKG5leHQsIEJJT19GSUxURVJF
+RCk7CisJCWJpb19jaGFpbihiaW8sIG5leHQpOworCQlzdWJtaXRfYmlvX25vYWNjdChiaW8p
+OworCQliaW8gPSBuZXh0OwogCX0KIAogCWNiaW8gPSBjb250YWluZXJfb2YoYmlvLCBzdHJ1
+Y3QgY2h1bmtfYmlvLCBiaW8pOwpAQCAtMzQyLDI0ICszNDMsMjYgQEAgc3RhdGljIHN0cnVj
+dCBiaW8gKl9fY2h1bmtfbG9hZChzdHJ1Y3QgY2h1bmsgKmNodW5rKQogCWJpb19zZXRfZmxh
+ZyhiaW8sIEJJT19GSUxURVJFRCk7CiAKIAl3aGlsZSAoY291bnQpIHsKKwkJc3RydWN0IGJp
+byAqbmV4dDsKIAkJc2VjdG9yX3QgcG9ydGlvbiA9IG1pbl90KHNlY3Rvcl90LCBjb3VudCwg
+UEFHRV9TRUNUT1JTKTsKIAkJdW5zaWduZWQgaW50IGJ5dGVzID0gcG9ydGlvbiA8PCBTRUNU
+T1JfU0hJRlQ7CiAKIAkJaWYgKGJpb19hZGRfcGFnZShiaW8sIGNodW5rLT5kaWZmX2J1ZmZl
+ci0+cGFnZXNbcGFnZV9pZHhdLAotCQkJCSBieXRlcywgMCkgIT0gYnl0ZXMpIHsKLQkJCXN0
+cnVjdCBiaW8gKm5leHQ7Ci0KLQkJCW5leHQgPSBiaW9fYWxsb2NfYmlvc2V0KGJkZXYsIGNh
+bGNfbWF4X3ZlY3MoY291bnQpLAotCQkJCQkJUkVRX09QX1JFQUQsIEdGUF9OT0lPLAotCQkJ
+CQkJJmNodW5rX2lvX2Jpb3NldCk7Ci0JCQluZXh0LT5iaV9pdGVyLmJpX3NlY3RvciA9IGJp
+b19lbmRfc2VjdG9yKGJpbyk7Ci0JCQliaW9fc2V0X2ZsYWcobmV4dCwgQklPX0ZJTFRFUkVE
+KTsKLQkJCWJpb19jaGFpbihiaW8sIG5leHQpOwotCQkJc3VibWl0X2Jpb19ub2FjY3QoYmlv
+KTsKLQkJCWJpbyA9IG5leHQ7CisJCQkJIGJ5dGVzLCAwKSA9PSBieXRlcykgeworCQkJcGFn
+ZV9pZHgrKzsKKwkJCWNvdW50IC09IHBvcnRpb247CisJCQljb250aW51ZTsKIAkJfQotCQlw
+YWdlX2lkeCsrOwotCQljb3VudCAtPSBwb3J0aW9uOworCisJCS8qIENyZWF0ZSBuZXh0IGJp
+byAqLworCQluZXh0ID0gYmlvX2FsbG9jX2Jpb3NldChiZGV2LCBjYWxjX21heF92ZWNzKGNv
+dW50KSwKKwkJCQkJUkVRX09QX1JFQUQsIEdGUF9OT0lPLAorCQkJCQkmY2h1bmtfaW9fYmlv
+c2V0KTsKKwkJbmV4dC0+YmlfaXRlci5iaV9zZWN0b3IgPSBiaW9fZW5kX3NlY3RvcihiaW8p
+OworCQliaW9fc2V0X2ZsYWcobmV4dCwgQklPX0ZJTFRFUkVEKTsKKwkJYmlvX2NoYWluKGJp
+bywgbmV4dCk7CisJCXN1Ym1pdF9iaW9fbm9hY2N0KGJpbyk7CisJCWJpbyA9IG5leHQ7CiAJ
+fQogCXJldHVybiBiaW87CiB9Cg==
+
+--------------HHEWogh5LchE01j4khkGxhzV--
