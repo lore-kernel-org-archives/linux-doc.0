@@ -2,197 +2,233 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF0EFC7618E
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 23:33:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC28DC77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 23:34:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233074AbjDTXdA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 19:33:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60090 "EHLO
+        id S231295AbjDTXeG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 19:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233189AbjDTXcw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 19:32:52 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A843335AE;
-        Thu, 20 Apr 2023 16:32:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-        t=1682033556; i=w_armin@gmx.de;
-        bh=B0qhcNR9k6p0oKbOIizHquPVXpIVRFaO0y8NW2qQJoc=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=NxEDBl8OuUFu3QnmFILoO2EMsNoF6dj5ESLN4wZCOArG7trJyppwWJNqJQeNuEMgl
-         6TBM5FVUylu69ebRk5/z0dHcINi3Kz9uFPEdJSJ7DeJgYwUIihVM+NphaB6uUzVHDR
-         NA2vASebZn/UPqaVlJPW/p9ByuGgtBiKpzIwZTEZnTHYo487nJaRJ6i1zkyXtvsw1I
-         ZaIq8i/rezS/2/bKSlHdKo22utBDrZJXLPRLfHf4V5owrTuMKBVGbmqntceyKLvZUG
-         hMSHh410w8TMs2uzGhnf8OWkJPL+ABhRHRYelsC6yCfga6c9pL1QpMUf1OZH57pDeO
-         0swUX8dq6gkKg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1N7R1J-1qNIqc4AGL-017kzy; Fri, 21 Apr 2023 01:32:36 +0200
-From:   Armin Wolf <W_Armin@gmx.de>
-To:     hdegoede@redhat.com, markgross@kernel.org
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] platform/x86: wmi: Add device specific documentation
-Date:   Fri, 21 Apr 2023 01:32:26 +0200
-Message-Id: <20230420233226.14561-5-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230420233226.14561-1-W_Armin@gmx.de>
-References: <20230420233226.14561-1-W_Armin@gmx.de>
+        with ESMTP id S231610AbjDTXeF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 19:34:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA26525A;
+        Thu, 20 Apr 2023 16:33:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6DE6163FBC;
+        Thu, 20 Apr 2023 23:33:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68C95C433EF;
+        Thu, 20 Apr 2023 23:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682033585;
+        bh=44fALB1gyCAVWw/ps3sUDunYe/woUgIEQAkGTnp+U58=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QBoaVwtl/RJ8pFwsutBKHX18kkwVQc5EcLJ6/3XbFNL2gxwogTXN3f+2KCUiIgNtO
+         8CV7z9GIGUAoqE5iwAMACr8RgUrxDbeeMe7Hgjit2eeiliu7mC2KSed+/1cAgHhCdh
+         NQTtD54+EstzcyIvaFNoF4qDLRxBgQ7BUsjizhO/Kk/E3rl21EDotUUZqnyUEqUtNo
+         t0S6AEzE4oclPAVkv4sTZHSTF0fRzqOBgR591ao65YUIjrpcjLs3ElCSHhTWLo1m47
+         j2QMogpavIH20EPE+dCvTD8eouMu3ureZL7HDuRG+gJpG246dMYMWc9XMSjOKYPatm
+         KMIdEfgOE1ang==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        mkubecek@suse.cz, Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        dnlplm@gmail.com, linux-doc@vger.kernel.org, saeedm@nvidia.com,
+        tariqt@nvidia.com, leonro@nvidia.com
+Subject: [PATCH net-next] net: ethtool: coalesce: try to make user settings stick twice
+Date:   Thu, 20 Apr 2023 16:33:02 -0700
+Message-Id: <20230420233302.944382-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XOPJV0Ar20HvejJHD0KNW0I2FFCa79KHcXCANZShI99X0xroJGg
- xVl2K7+mFnNocrvL24ewdxchEfb0F6EoQIoHFlH8LllUW8uciNx3I5I8flng7nzEInGeaso
- G6ufo/FCYbn166GB5lyLOf7SFiiVRFu/i7vwfegEihU/Fk7StnIX6F0MpZ7l2LPhDLZijfv
- ejDoic33FnQH3wNzcbmww==
-UI-OutboundReport: notjunk:1;M01:P0:8nAaYfCL+R8=;/vxLV/dC7gh2JAdBeMEgVkxZHfo
- MCq07KJ7NmwEzO/m6dvxp4c9YlKQQFo5hSwAhuJ/qyCJlGBC7w0tvsbsjR9NrWvww4b1WUp9y
- JYL22XO1NvZSE7qp7+uQyzLQ9Xbal6y7+voKkjcNID/DlpLu7DsnQSy+Jk9bas1+iz8sreSV5
- S4IW5EmgvVHSwDY8xVaYOvzHdfnuYiCwCiagiPA56Zz/3kCerpVgZcxLZoikBeZuhk90pG5Xd
- JwgRLEg5wo4Xtw/FV/Pw0U9IodKI9brF94dzoJSeyH1F58Cwmsj2c5/ZtceGieHicmJRQYnU0
- GX6lrOhq4S8Uv9TBSvEHFO5q5tC7I2qqVJAngkSqeOCfZxv+v+0rttfW84XhMClLC4VclUAcT
- pJtFm/MrXplZxQ5wP8SdM69W3s83FTZA2ZVJtWuA6dp538CGMpK6ZyavOHPmmZTN2IJhYUXZT
- ZYJ6BYvVPVCdueKjFRNT+J1jDKKzF+mKz0lGGsvkZBjoenOFkRZM9mcW2w0czgUotqieaGJU3
- /BNL/uOtYfFXq/BqeuiV3lgebsjps9eArg2fHsenz/NCSvvNtHtRhsobQX5OoYc/WKIVpqAMX
- yjbARotWGC99GhY5lFfhFYJLyGORBKKzUS4S/j1Uvb5SPlCqNmxJlPUQvohLmsrwZNUqbHOjP
- K0sC87Jy9DLdUZNMQvl+AZMZ54De0VjjLFy0VY6DTVIIBnt6MYEHSm0PxZvU+U5iMJwnmKilS
- w2yAxUbnrh2eI8FdHg0Pdggrzf3yPebJEdt4rq9g+l9LbBTdR7sF6R/wuJErZaf2QESMF88Yj
- MgWzNURnzhQ+O5R09NBdUe60IklmkD5fkFBO+P0gMISfUKZv9wLnMRZgfh2GPz/lz1wWM3B68
- YR1dM7nj5P6GWyHKPqh9G2vJkMgENxBIPxMD82tAAt3bk9d56zjWjHoowPSAaurGYxhe6UM6p
- ewEH4EbFJX7Hk2bw31ibWuyO2M0=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a place for device-specific documentation of WMI drivers.
-The first entry is documentation for the wmi-bmof driver, with
-additional documentation being expected to follow.
+SET_COALESCE may change operation mode and parameters in one call.
+Changing operation mode may cause the driver to reset the parameter
+values to what is a reasonable default for new operation mode.
 
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- .../ABI/stable/sysfs-platform-wmi-bmof        |  7 ++++++
- Documentation/wmi/devices/index.rst           | 22 +++++++++++++++++++
- Documentation/wmi/devices/wmi-bmof.rst        | 22 +++++++++++++++++++
- Documentation/wmi/index.rst                   |  1 +
- MAINTAINERS                                   |  7 ++++++
- 5 files changed, 59 insertions(+)
- create mode 100644 Documentation/ABI/stable/sysfs-platform-wmi-bmof
- create mode 100644 Documentation/wmi/devices/index.rst
- create mode 100644 Documentation/wmi/devices/wmi-bmof.rst
+Since driver does not know which parameters come from user and which
+are echoed back from ->get, driver may ignore the parameters when
+switching operation modes.
 
-diff --git a/Documentation/ABI/stable/sysfs-platform-wmi-bmof b/Documentat=
-ion/ABI/stable/sysfs-platform-wmi-bmof
-new file mode 100644
-index 000000000000..a786504b6027
-=2D-- /dev/null
-+++ b/Documentation/ABI/stable/sysfs-platform-wmi-bmof
-@@ -0,0 +1,7 @@
-+What:		/sys/bus/wmi/devices/05901221-D566-11D1-B2F0-00A0C9062910[-X]/bmof
-+Date:		Jun 2017
-+KernelVersion:	4.13
-+Description:
-+		Binary MOF metadata used to decribe the details of available ACPI WMI i=
-nterfaces.
-+
-+		See Documentation/wmi/devices/wmi-bmof.rst for details.
-diff --git a/Documentation/wmi/devices/index.rst b/Documentation/wmi/devic=
-es/index.rst
-new file mode 100644
-index 000000000000..c08735a9d7df
-=2D-- /dev/null
-+++ b/Documentation/wmi/devices/index.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+Driver-specific Documentation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+This section provides information about various devices supported by
-+the Linux kernel, their protocols and driver details.
-+
-+.. toctree::
-+   :maxdepth: 1
-+   :numbered:
-+   :glob:
-+
-+   *
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =3D=3D=3D=3D=3D=3D=3D
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/wmi/devices/wmi-bmof.rst b/Documentation/wmi/de=
-vices/wmi-bmof.rst
-new file mode 100644
-index 000000000000..b558fa46190c
-=2D-- /dev/null
-+++ b/Documentation/wmi/devices/wmi-bmof.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-+WMI embedded Binary MOF driver
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-+
-+Introduction
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Many machines embed WMI Binary MOF metadata used to describe the details =
-of their ACPI WMI interfaces.
-+The data can be decoded with tools like `bmfdec <https://github.com/pali/=
-bmfdec>`_ to obtain a
-+human readable WMI interface description, which is useful for developing =
-new WMI drivers.
-+
-+The Binary MOF data can be retrieved from the ``bmof`` sysfs attribute of=
- the associated WMI device.
-+Please note that multiple WMI devices containing Binary MOF data can exis=
-t on a given system.
-+
-+WMI interface
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The Binary MOF WMI device is identified by the WMI GUID ``05901221-D566-1=
-1D1-B2F0-00A0C9062910``.
-+The Binary MOF can be obtained by doing a WMI data block query. The resul=
-t is then returned as
-+an ACPI buffer with a variable size.
-diff --git a/Documentation/wmi/index.rst b/Documentation/wmi/index.rst
-index b29933a86380..537cff188e14 100644
-=2D-- a/Documentation/wmi/index.rst
-+++ b/Documentation/wmi/index.rst
-@@ -8,6 +8,7 @@ WMI Subsystem
-    :maxdepth: 1
+This used to be inevitable for ioctl() but in netlink we know which
+parameters are actually specified by the user.
 
-    acpi-interface
-+   devices/index
+We could inform which parameters were set by the user but this would
+lead to a lot of code duplication in the drivers. Instead try to call
+the drivers twice if both mode and params are changed. The set method
+already checks if any params need updating so in case the driver did
+the right thing the first time around - there will be no second call
+to it's ->set method (only an extra call to ->get()).
 
- .. only::  subproject and html
+For mlx5 for example before this patch we'd see:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 979d37176429..4d5b1f6d77f6 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22556,6 +22556,13 @@ L:	linux-wireless@vger.kernel.org
- S:	Odd fixes
- F:	drivers/net/wireless/wl3501*
+ # ethtool -C eth0 adaptive-rx on  adaptive-tx on
+ # ethtool -C eth0 adaptive-rx off adaptive-tx off \
+		   tx-usecs 123 rx-usecs 123
+ Adaptive RX: off  TX: off
+ rx-usecs: 3
+ rx-frames: 32
+ tx-usecs: 16
+ tx-frames: 32
+ [...]
 
-+WMI BINARY MOF DRIVER
-+L:	platform-drivers-x86@vger.kernel.org
-+S:	Orphan
-+F:	Documentation/ABI/stable/sysfs-platform-wmi-bmof
-+F:	Documentation/wmi/devices/wmi-bmof.rst
-+F:	drivers/platform/x86/wmi-bmof.c
+After the change:
+
+ # ethtool -C eth0 adaptive-rx on  adaptive-tx on
+ # ethtool -C eth0 adaptive-rx off adaptive-tx off \
+		   tx-usecs 123 rx-usecs 123
+ Adaptive RX: off  TX: off
+ rx-usecs: 123
+ rx-frames: 32
+ tx-usecs: 123
+ tx-frames: 32
+ [...]
+
+This only works for netlink, so it's a small discrepancy between
+netlink and ioctl(). Since we anticipate most users to move to
+netlink I believe it's worth making their lives easier.
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+mlx5 folks, LMK if you have a good idea of fixing this in the driver
+instead, that may be cleaner, but I can't think of a good way :(
+
+CC: corbet@lwn.net
+CC: dnlplm@gmail.com
+CC: linux-doc@vger.kernel.org
+
+CC: saeedm@nvidia.com
+CC: tariqt@nvidia.com
+CC: leonro@nvidia.com
+---
+ Documentation/networking/ethtool-netlink.rst |  4 ++
+ net/ethtool/coalesce.c                       | 54 ++++++++++++++++----
+ 2 files changed, 47 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index cd0973d4ba01..2540c70952ff 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -1099,6 +1099,10 @@ such that the corresponding bit in ``ethtool_ops::supported_coalesce_params``
+ is not set), regardless of their values. Driver may impose additional
+ constraints on coalescing parameters and their values.
+ 
++Compared to requests issued via the ``ioctl()`` netlink version of this request
++will try harder to make sure that values specified by the user have been applied
++and may call the driver twice.
 +
- WOLFSON MICROELECTRONICS DRIVERS
- L:	patches@opensource.cirrus.com
- S:	Supported
-=2D-
-2.30.2
+ 
+ PAUSE_GET
+ =========
+diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
+index 443e7e642c96..01a59ce211c8 100644
+--- a/net/ethtool/coalesce.c
++++ b/net/ethtool/coalesce.c
+@@ -254,13 +254,14 @@ ethnl_set_coalesce_validate(struct ethnl_req_info *req_info,
+ }
+ 
+ static int
+-ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info)
++__ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
++		     bool *dual_change)
+ {
+ 	struct kernel_ethtool_coalesce kernel_coalesce = {};
+ 	struct net_device *dev = req_info->dev;
+ 	struct ethtool_coalesce coalesce = {};
++	bool mod_mode = false, mod = false;
+ 	struct nlattr **tb = info->attrs;
+-	bool mod = false;
+ 	int ret;
+ 
+ 	ret = dev->ethtool_ops->get_coalesce(dev, &coalesce, &kernel_coalesce,
+@@ -268,6 +269,7 @@ ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	/* Update values */
+ 	ethnl_update_u32(&coalesce.rx_coalesce_usecs,
+ 			 tb[ETHTOOL_A_COALESCE_RX_USECS], &mod);
+ 	ethnl_update_u32(&coalesce.rx_max_coalesced_frames,
+@@ -286,10 +288,6 @@ ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info)
+ 			 tb[ETHTOOL_A_COALESCE_TX_MAX_FRAMES_IRQ], &mod);
+ 	ethnl_update_u32(&coalesce.stats_block_coalesce_usecs,
+ 			 tb[ETHTOOL_A_COALESCE_STATS_BLOCK_USECS], &mod);
+-	ethnl_update_bool32(&coalesce.use_adaptive_rx_coalesce,
+-			    tb[ETHTOOL_A_COALESCE_USE_ADAPTIVE_RX], &mod);
+-	ethnl_update_bool32(&coalesce.use_adaptive_tx_coalesce,
+-			    tb[ETHTOOL_A_COALESCE_USE_ADAPTIVE_TX], &mod);
+ 	ethnl_update_u32(&coalesce.pkt_rate_low,
+ 			 tb[ETHTOOL_A_COALESCE_PKT_RATE_LOW], &mod);
+ 	ethnl_update_u32(&coalesce.rx_coalesce_usecs_low,
+@@ -312,17 +310,25 @@ ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info)
+ 			 tb[ETHTOOL_A_COALESCE_TX_MAX_FRAMES_HIGH], &mod);
+ 	ethnl_update_u32(&coalesce.rate_sample_interval,
+ 			 tb[ETHTOOL_A_COALESCE_RATE_SAMPLE_INTERVAL], &mod);
+-	ethnl_update_u8(&kernel_coalesce.use_cqe_mode_tx,
+-			tb[ETHTOOL_A_COALESCE_USE_CQE_MODE_TX], &mod);
+-	ethnl_update_u8(&kernel_coalesce.use_cqe_mode_rx,
+-			tb[ETHTOOL_A_COALESCE_USE_CQE_MODE_RX], &mod);
+ 	ethnl_update_u32(&kernel_coalesce.tx_aggr_max_bytes,
+ 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES], &mod);
+ 	ethnl_update_u32(&kernel_coalesce.tx_aggr_max_frames,
+ 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES], &mod);
+ 	ethnl_update_u32(&kernel_coalesce.tx_aggr_time_usecs,
+ 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS], &mod);
+-	if (!mod)
++
++	/* Update operation modes */
++	ethnl_update_bool32(&coalesce.use_adaptive_rx_coalesce,
++			    tb[ETHTOOL_A_COALESCE_USE_ADAPTIVE_RX], &mod_mode);
++	ethnl_update_bool32(&coalesce.use_adaptive_tx_coalesce,
++			    tb[ETHTOOL_A_COALESCE_USE_ADAPTIVE_TX], &mod_mode);
++	ethnl_update_u8(&kernel_coalesce.use_cqe_mode_tx,
++			tb[ETHTOOL_A_COALESCE_USE_CQE_MODE_TX], &mod_mode);
++	ethnl_update_u8(&kernel_coalesce.use_cqe_mode_rx,
++			tb[ETHTOOL_A_COALESCE_USE_CQE_MODE_RX], &mod_mode);
++
++	*dual_change = mod && mod_mode;
++	if (!mod && !mod_mode)
+ 		return 0;
+ 
+ 	ret = dev->ethtool_ops->set_coalesce(dev, &coalesce, &kernel_coalesce,
+@@ -330,6 +336,32 @@ ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info)
+ 	return ret < 0 ? ret : 1;
+ }
+ 
++static int
++ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info)
++{
++	bool dual_change;
++	int err, ret;
++
++	/* SET_COALESCE may change operation mode and parameters in one call.
++	 * Changing operation mode may cause the driver to reset the parameter
++	 * values, and therefore ignore user input (driver does not know which
++	 * parameters come from user and which are echoed back from ->get).
++	 * To not complicate the drivers if user tries to change both the mode
++	 * and parameters at once - call the driver twice.
++	 */
++	err = __ethnl_set_coalesce(req_info, info, &dual_change);
++	if (err < 0)
++		return err;
++	ret = err;
++
++	if (ret && dual_change) {
++		err = __ethnl_set_coalesce(req_info, info, &dual_change);
++		if (err < 0)
++			return err;
++	}
++	return ret;
++}
++
+ const struct ethnl_request_ops ethnl_coalesce_request_ops = {
+ 	.request_cmd		= ETHTOOL_MSG_COALESCE_GET,
+ 	.reply_cmd		= ETHTOOL_MSG_COALESCE_GET_REPLY,
+-- 
+2.39.2
 
