@@ -2,97 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC321C77B72
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 10:15:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF141C77B72
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 10:48:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234730AbjDTKOn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 06:14:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54798 "EHLO
+        id S234802AbjDTKsP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 06:48:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231268AbjDTKOI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 06:14:08 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 535111735
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 03:12:11 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4edc114c716so447219e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 03:12:11 -0700 (PDT)
+        with ESMTP id S234442AbjDTKr6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 06:47:58 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1FFA59FB;
+        Thu, 20 Apr 2023 03:46:33 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id d9443c01a7336-1a6715ee82fso10457275ad.1;
+        Thu, 20 Apr 2023 03:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681985529; x=1684577529;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B1gg5qH9FVKEIvZx9IgwaMQ/p/pcxPmbM2nNSvflA+Y=;
-        b=oGF+NGmUcuKNfYKptKRvcA/mqBwJP3vVKuFesYiVXRdyTFgOoercusxcIZm6AB4RE8
-         /wRmO/0CDcuj9QTn+vHkn6mrx/DuytmBsRSzskfwvb0UDt3Gf6H0c3kE9rOL763teqFl
-         IeHCZIap55eiRWQFwdNU9nDGVj5cWc/nVmvjIM7tqxBkrRWdCoSm3HSMHPCo3tLuyUB+
-         zNZLX5K8573+XXXjDBREn7WlXbSCjv2O153I2thYxjoJ1PFi5xTmzksQv0SF2vk28b0+
-         u0gJwnTPdUCAKmZgt637xMuWdIqW6AgN2R4HzYxUXecvTMz9WyYgRVksLixG7kmkYWnJ
-         RiJg==
+        d=gmail.com; s=20221208; t=1681987591; x=1684579591;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5sJLm2eZDLGyvgcqE6hU5/8akA+8FZvgsZbAI5V7+q8=;
+        b=BREUkprKElekPshq95yFel0+NzSA4KDOwZHZPe7vvNAY3L1AQqV28YS4XwmImyhWry
+         B1Zd7hv86yjcGARx0s+3jFI9KxJSgUSmxf5ly6VNz2W5ZnIQV642F2r35WV2HYeafJik
+         EVFZ2oCWKRl+nAD/kObcQyIAoULfhJfZ+1ftoUlH1Wq+ccuq+r+aqtsjCuxw66na9Mly
+         DuZEAyVqNTx/6cmqs3CVbgAFE5V5fmjbYe7SJlM2sLZZ3FnzzEKsUJhqnmb8Wbh7NGD4
+         gRPE/POudezGEBqKXidlWoAXcnC7pc1hdUUYF8hpdd8cUvT83Cgj+2Rtpt4bt/8+AAVw
+         o5Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681985529; x=1684577529;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B1gg5qH9FVKEIvZx9IgwaMQ/p/pcxPmbM2nNSvflA+Y=;
-        b=N42/gXDmmeCQl7+gW1Vg2SmkTtPU4Wp4hXk9q07R1WeXGci2KU2penhU1JUx14S/u6
-         9HgkdaMmorwBkrllLZ3oxllQGKUgyzNr3he4DEp7nSfu3IZJJb+jviW9tupknprDRPUc
-         w4+V/AWepX88/DR99SA2wDQwabv+ziuyRFP9tKgptrgz1ri/mSlke6y1gVtlSy4Hl8kr
-         fClSVeolOMDlGQqv9dgHs2q3ucG2UVt8VUFYTsoZgyTl8H+UVtlBstihXWpxJ98nRFPZ
-         pmuXq27oGjw32wfiqzhvuUjXiC2XCrOZGKTb5NQVzmzns5y7sNFr8JpdUGDlNw06KC6k
-         Ix0g==
-X-Gm-Message-State: AAQBX9c9R2ghkbNe1lhN2ve8AcNVDTFhy9x6AXrYqHifZ0SJ86BkyFmj
-        hBOGU94PXJA1PzlOp+JQ9m2h3vOU+Plc8tCvHpQ=
-X-Google-Smtp-Source: AKy350ZLeDAg/Z65XdnFNNxyJxECDLyd0G1w1LAFz9U3aeC7C/mcAJ4Bbx0in4YxGwlg5oYVk58TSQ==
-X-Received: by 2002:a05:6512:204:b0:4ed:befc:9b4e with SMTP id a4-20020a056512020400b004edbefc9b4emr363243lfo.3.1681985529604;
-        Thu, 20 Apr 2023 03:12:09 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
-        by smtp.gmail.com with ESMTPSA id f21-20020ac251b5000000b004cb45148027sm166060lfk.203.2023.04.20.03.12.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 03:12:09 -0700 (PDT)
-Message-ID: <d757326e-9dd1-36ea-9340-2a95c3cce70c@linaro.org>
-Date:   Thu, 20 Apr 2023 13:12:08 +0300
+        d=1e100.net; s=20221208; t=1681987591; x=1684579591;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5sJLm2eZDLGyvgcqE6hU5/8akA+8FZvgsZbAI5V7+q8=;
+        b=OJqs4okI4bf0pUTcPabb+IAm3emqKsYWj2zqFHfCH53QEqoBkBhpkONSZNGGCoIIbB
+         wYMqFTItXoMwGSx2MSTsnIPBzyc/Opqwfxtymos1mtnLGuqJ9hRmfnPKw63ztVwmJx/c
+         SdWBoeUqGDJxNCfgwNUjNTYdFaNXIyjOR9AZ4CT39C7YbuATxlTo4AAHYVIxv/2WGG3a
+         HgrzSmPXX69ApDmiwZP0ziKBvPEM++0b85DxHZLx1BZZxdpR8QPO2kYK81yfkLZeBGSg
+         t9YbDXd9j21Mfq3tcWPgFBla+zf3yEonRcVBFBRbR6Psv1kN6kgulQokoNt+xgOdFdE2
+         9QDw==
+X-Gm-Message-State: AAQBX9eHd0dC5Cr35PSlZXIGAm16chwYwZn3VzHCWX2fHBWZ/ceFrTLW
+        vXQIHRAonMD9Bg8eCOA2Y3I=
+X-Google-Smtp-Source: AKy350YcGvKbHgIr9RG8fAMRfIMCduezmkcl9FWHyuLkRYL48/eiHCggGZFmAWls1eV9FOlQGKFsTQ==
+X-Received: by 2002:a17:902:e5d1:b0:1a6:f0d5:3e21 with SMTP id u17-20020a170902e5d100b001a6f0d53e21mr1554174plf.32.1681987591105;
+        Thu, 20 Apr 2023 03:46:31 -0700 (PDT)
+Received: from CLOUDLIANG-MB2.tencent.com ([103.7.29.32])
+        by smtp.gmail.com with ESMTPSA id ju18-20020a170903429200b001a526805b86sm923735plb.191.2023.04.20.03.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Apr 2023 03:46:30 -0700 (PDT)
+From:   Jinrong Liang <ljr.kernel@gmail.com>
+X-Google-Original-From: Jinrong Liang <ljrcore@126.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Like Xu <like.xu.linux@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jinrong Liang <cloudliang@tencent.com>,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] KVM: selftests: Add tests for pmu event filter
+Date:   Thu, 20 Apr 2023 18:46:15 +0800
+Message-Id: <20230420104622.12504-1-ljrcore@126.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/8] pinctrl: qcom: spmi-gpio: Add PMI632 support
-Content-Language: en-GB
-To:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
-        phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230414-pmi632-v2-0-98bafa909c36@z3ntu.xyz>
- <20230414-pmi632-v2-2-98bafa909c36@z3ntu.xyz>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230414-pmi632-v2-2-98bafa909c36@z3ntu.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/04/2023 19:43, Luca Weiss wrote:
-> Add support for the 8 GPIOs found on PMI632.
-> 
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
->   drivers/pinctrl/qcom/pinctrl-spmi-gpio.c | 1 +
->   1 file changed, 1 insertion(+)
+From: Jinrong Liang <cloudliang@tencent.com>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Jinrong Liang <cloudliang@tencent.com>
 
+Hi,
+
+This patch set adds some tests to ensure consistent PMU performance event
+filter behavior. Specifically, the patches aim to improve KVM's PMU event
+filter by strengthening the test coverage, adding documentation, and making
+other small changes. 
+
+The first patch replaces int with uint32_t for nevents to ensure consistency
+and readability in the code. The second patch adds fixed_counter_bitmap to
+create_pmu_event_filter() to support the use of the same creator to control
+the use of guest fixed counters. The third patch adds test cases for
+unsupported input values in PMU filter, including unsupported "action"
+values, unsupported "flags" values, and unsupported "nevents" values. Also,
+it tests setting non-existent fixed counters in the fixed bitmap doesn't
+fail.
+
+The fourth patch updates the documentation for KVM_SET_PMU_EVENT_FILTER ioctl
+to include a detailed description of how fixed performance events are handled
+in the pmu filter. The fifth patch adds tests to cover that pmu_event_filter
+works as expected when applied to fixed performance counters, even if there
+is no fixed counter exists. The sixth patch adds a test to ensure that setting
+both generic and fixed performance event filters does not affect the consistency
+of the fixed performance filter behavior in KVM. The seventh patch adds a test
+to verify the behavior of the pmu event filter when an incomplete
+kvm_pmu_event_filter structure is used.
+
+These changes help to ensure that KVM's PMU event filter functions as expected
+in all supported use cases. These patches have been tested and verified to
+function properly.
+
+Thanks for your review and feedback.
+
+Sincerely,
+Jinrong Liang
+
+Previous:
+https://lore.kernel.org/kvm/20230414110056.19665-1-cloudliang@tencent.com
+
+v2:
+- Wrap the code from the documentation in a block of code; (Bagas Sanjaya)
+
+Jinrong Liang (7):
+  KVM: selftests: Replace int with uint32_t for nevents
+  KVM: selftests: Apply create_pmu_event_filter() to fixed ctrs
+  KVM: selftests: Test unavailable event filters are rejected
+  KVM: x86/pmu: Add documentation for fixed ctr on PMU filter
+  KVM: selftests: Check if pmu_event_filter meets expectations on fixed
+    ctrs
+  KVM: selftests: Check gp event filters without affecting fixed event
+    filters
+  KVM: selftests: Test pmu event filter with incompatible
+    kvm_pmu_event_filter
+
+ Documentation/virt/kvm/api.rst                |  21 ++
+ .../kvm/x86_64/pmu_event_filter_test.c        | 239 ++++++++++++++++--
+ 2 files changed, 243 insertions(+), 17 deletions(-)
+
+
+base-commit: a25497a280bbd7bbcc08c87ddb2b3909affc8402
 -- 
-With best wishes
-Dmitry
+2.31.1
 
