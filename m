@@ -2,264 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE57C7618E
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 20:57:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3686FC77B76
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 23:32:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231968AbjDTU5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 16:57:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36538 "EHLO
+        id S232114AbjDTXcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 19:32:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbjDTU5t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 16:57:49 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42694233
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 13:57:46 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b8f39b41c7aso1377230276.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 13:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682024265; x=1684616265;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5yzTg1HjZXhyiiyjfkjQABzGLu2Q1ap1FIlFZzPamAM=;
-        b=CBi4oyy3PbOkEIks6OuRCzZBUXoTmT1Azzv/BL5OSDeard16zpdwuFwJlGAzZec/8h
-         urN1PYynIvVibXD5+uQTxPJZ0cHysiFJa4tRbnEz0v8IfgMv5+0XJV+boTC4GkmIwGcC
-         Ni/qexVXdD3RGT3PUthBE2VL1J4jTWfz+gg0nHT5u6hKz/W4PBqDIVhbcDqQHSMI4YsC
-         RbczTQAMKtIdf5OBPXhrTP1oKGPq8t84NaI1mHdTi3Wz5Sxo9nCiFFi0vnfPkXHaBbMv
-         c0gZvLkSkOMzvqSdvbNFL93bnyzHiQNR0SP1hunSJYMKsYebdnbKlOnh7GHLvHm7fOhY
-         f4WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682024265; x=1684616265;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5yzTg1HjZXhyiiyjfkjQABzGLu2Q1ap1FIlFZzPamAM=;
-        b=G3pjr7EAr24JaZ6ywGXvrgwBbcSaVB/vCx1WjxXVsebHc83GJP27A1DF6rt9bzBaoS
-         7hgS3rUyN1ytw1BJUXwWq9dPnzuswXwOjOrh05r9HQ254U6B23K4M9Xf5Pe09ZRk3A0s
-         hdH2Zv/LQlkuxKGD6S5MER0PS45T6KnuTgVQ5VNmyafXL+6SyM3Ay7A7XhiFKIX7/sVn
-         NPeeVPzkr63A3IlM8GcDJTblIY6EGlDfaiY87AmkKR3+d19311Tv28LB4ju2dHoQ5lLD
-         P/e8jpQcA/koiJO6wrsYUorj/srIvJUOSYoOvfJpNrkRhg5oOPIK4maoR0Q0fthKMRWP
-         Nc2g==
-X-Gm-Message-State: AAQBX9eut4yRuquPDW5QH3Sa1NJ3UdNPKN5w5tTWrrmc1vzfcs1nTS6O
-        sYxrG3Kf7LtKAOyzElAZGzLZdjk3PA==
-X-Google-Smtp-Source: AKy350biCQsQsBH/ynN5GE4QuylXbnxvdaHRCye7LUQ+dAisidmDp5bnNQq+MYru8DJv003y3BvdLq6ovg==
-X-Received: from rmoar-specialist.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:45d3])
- (user=rmoar job=sendgmr) by 2002:a25:cc0c:0:b0:b8b:f584:6b73 with SMTP id
- l12-20020a25cc0c000000b00b8bf5846b73mr162050ybf.10.1682024265828; Thu, 20 Apr
- 2023 13:57:45 -0700 (PDT)
-Date:   Thu, 20 Apr 2023 20:57:34 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-Message-ID: <20230420205734.1288498-1-rmoar@google.com>
-Subject: [KTAP V2 PATCH] ktap_v2: add test metadata
-From:   Rae Moar <rmoar@google.com>
-To:     frowand.list@gmail.com, davidgow@google.com,
-        skhan@linuxfoundation.org, keescook@chromium.org,
-        Tim.Bird@sony.com, brendanhiggins@google.com
-Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@lists.linux.dev,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rae Moar <rmoar@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229839AbjDTXcl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 19:32:41 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64279172A;
+        Thu, 20 Apr 2023 16:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1682033549; i=w_armin@gmx.de;
+        bh=NGlN7WhKpCXC32UorWAt3fK4hRHpP3AFfPfRXp8ykXk=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=rzPvR6LVsGc7av6bFcK6y4RpNJz5+JHjZnhmT5+o8xg9i30zl/Be7M9it45Sat+MA
+         r9RAEAEbYNsBqtAZYt4q91szzdSeMUSyS6ngxqtosizg5PizGfDXhEvYBmNIVYYZbR
+         8O7I8Y+R5QNZ7TDDBfwDiNi9Jdg2MgRlyR0EirBsOjaaH6ZsZJJakvXZI+o4IvIPy9
+         F7bCCpr+3lTpO4WaCFE0ec1aRl0t2Xg5Ps5bfwkO957FkaXVSm4DsN3EBNh33GMGOX
+         cm/ceC/JRNKS26xh/eIByTVbcboYecXudz29mtIu1ufnSkgvHhIvLqBkja/p96uOOK
+         rDknXJ6XlYmwA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MC34h-1q1UfY1hIj-00CNlD; Fri, 21 Apr 2023 01:32:29 +0200
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     hdegoede@redhat.com, markgross@kernel.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] platform/x86: wmi: Add subsystem documentation
+Date:   Fri, 21 Apr 2023 01:32:22 +0200
+Message-Id: <20230420233226.14561-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:VosZo3WIQjkYCBzzJ6OwPTI8whtbxtKrvTXnqoF79ThWaP/+Yo5
+ OHewk3zzr1J4/T+8rfBDT8jZGvOmpyRVMxk2AdJzK2l3dlDakB8N+tjO/T7wRB3tHHxA+Au
+ mUaic5TJ9c3R0qmvkVGHypY+/yvyCwVebCX+ncdEi/iAD5xhTt7kuMl7yznI4RxpXChyVBc
+ oLFa7UWXup+mJKdV6Ku+Q==
+UI-OutboundReport: notjunk:1;M01:P0:qEjxGZMQOQs=;mmH3Zu9IknHgqH+NfH/F7iwTmjC
+ O7YipxZZmRiAK235ISk2+jLTkKURfNUD+P6FzaqbVtvzU1rIjO09/rFTGhjei8/wwlih73P/B
+ v6aTE9WAect+yBLLfRhl0dVzERaco0YBGEJUgXhyNQhY1vAsVxd6tRwwH0fbAt1Z6ab5BFAx/
+ ne7pTYmLqvJ4jLs3FbK/1beEyMpXKVuLs1zAI24ksIhdteSsOuMxZEQZSBLdmt03kGOp29UXg
+ cqJoP1fsf/92ovoPTfj3ecyqRtA6rH1PgDLJD5clnBv2RqnTfpMNGuW/+G3eKBRjJC8dDjIqo
+ qXxtK/REi+qMTI5XqixYzRzPLCXCiouOwqZdpZjT6lJoNvqvN7oiOnazNmHaHYB+0ufmHzQGK
+ 95vQWEXjuDdbZtyHh4aem3hP7OA/dINN2854kEpdgO0TzeDUNeHO7QilkeqQJn8/qrzUdg9xB
+ OrIAvXIi3lCrlWiXP6NGOFylLdDjqooz97gHVNbEhI4470B4ufFLPWJvhrGdvGKGcedolkbDC
+ m8nblw6RFHDToKYhQtWPCHnTBJ/z5qWSyinuHkza1yiaZXB7pRXqsw11S6gBsBhpghLzqoGBh
+ JVW8RVoyjauMUKmHuaipDTf7o4ns+6+STv4uxspDXo3B7HeW/Yum5Dmw7CXGj+LzD/IbDaQLy
+ pNHfI0maimK4SabNzCJR23dacYeNGZAqP9jVhxRxJZER0WumVqIepTDgl4rXWjRfhkrTspxYM
+ VBnJGj0N0SP4pxeO0pwkWpKm2I34VYIYqS8jGmmQrqwsFDsfjFpaE7wD6lQA08Qu2HDAAHXBP
+ +iNTuqD+WmK9QITpypspj1q9Bz2/MEo7iIVOqwVMUdYbe6+NabkYheSOMVCXOuampU1cBB5V8
+ 82uMW44n9v7SPKGwBe2u+hw5ynWIVTq6CS/ScW2t/Aampd/o3MFOHEBkzGTeQqOYi6yhOrXK0
+ KMgbuAXVjJ6/jOKXCM4bdj94cQo=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add specification for declaring test metadata to the KTAP v2 spec.
+Currently, there is no recent documentation available for writing WMI
+drivers using the modern bus-based interface. This leads to developers
+using the deprecated GUID-based interface when developing new drivers,
+causing issues with notification handling when multiple WMI devices sharin=
+g
+the same notification ID are present. There is also no way for WMI
+drivers to add device specific documentation at the moment.
+Add documentation for the WMI subsystem to solve those issues. The
+device specific documentation currently onyl include documentation for
+the wmi-bmof driver, but more is expected to follow.
 
-The purpose of test metadata is to allow for the declaration of essential
-testing information in KTAP output. This information includes test
-names, test configuration info, test attributes, and test files.
+Armin Wolf (4):
+  platform/x86: wmi: Add kernel doc comments
+  platform/x86: wmi: Mark GUID-based WMI interface as deprecated
+  platform/x86: wmi: Add documentation
+  platform/x86: wmi: Add device specific documentation
 
-There have been similar ideas around the idea of test metadata such as test
-prefixes and test name lines. However, I propose this specification as an
-overall fix for these issues.
+ .../ABI/stable/sysfs-platform-wmi-bmof        |  7 ++
+ Documentation/driver-api/index.rst            |  1 +
+ Documentation/driver-api/wmi.rst              | 19 ++++
+ Documentation/subsystem-apis.rst              |  1 +
+ Documentation/wmi/acpi-interface.rst          | 86 +++++++++++++++++++
+ Documentation/wmi/devices/index.rst           | 22 +++++
+ Documentation/wmi/devices/wmi-bmof.rst        | 22 +++++
+ Documentation/wmi/index.rst                   | 19 ++++
+ MAINTAINERS                                   |  9 ++
+ drivers/platform/x86/wmi.c                    | 63 ++++++++++----
+ include/linux/wmi.h                           | 41 ++++++++-
+ 11 files changed, 272 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/ABI/stable/sysfs-platform-wmi-bmof
+ create mode 100644 Documentation/driver-api/wmi.rst
+ create mode 100644 Documentation/wmi/acpi-interface.rst
+ create mode 100644 Documentation/wmi/devices/index.rst
+ create mode 100644 Documentation/wmi/devices/wmi-bmof.rst
+ create mode 100644 Documentation/wmi/index.rst
 
-These test metadata lines are a form of diagnostic lines with the
-format: "# <metadata_type>: <data>". As a type of diagnostic line, test
-metadata lines are compliant with KTAP v1, which will help to not
-interfere too much with current parsers.
-
-Specifically the "# Subtest:" line is derived from the TAP 14 spec:
-https://testanything.org/tap-version-14-specification.html.
-
-The proposed location for test metadata is in the test header, between the
-version line and the test plan line. Note including diagnostic lines in
-the test header is a depature from KTAP v1.
-
-This location provides two main benefits:
-
-First, metadata will be printed prior to when subtests are run. Then if a
-test fails, test metadata can help discern which test is causing the issue
-and potentially why.
-
-Second, this location ensures that the lines will not be accidentally
-parsed as a subtest's diagnostic lines because the lines are bordered by
-the version line and plan line.
-
-Here is an example of test metadata:
-
- KTAP version 2
- # Config: CONFIG_TEST=y
- 1..1
-     KTAP version 2
-     # Subtest: test_suite
-     # File: /sys/kernel/...
-     # Attributes: slow
-     # Other: example_test
-     1..2
-     ok 1 test_1
-     ok 2 test_2
- ok 1 test_suite
-
-Here is a link to a version of the KUnit parser that is able to parse test
-metadata lines for KTAP version 2. Note this includes test metadata
-lines for the main level of KTAP.
-
-Link: https://kunit-review.googlesource.com/c/linux/+/5809
-
-Signed-off-by: Rae Moar <rmoar@google.com>
----
-
-Hi everyone,
-
-I would like to use this proposal similar to an RFC to gather ideas on the
-topic of test metadata. Let me know what you think.
-
-I am also interested in brainstorming a list of recognized metadata types.
-Providing recognized metadata types would be helpful in parsing and
-displaying test metadata in a useful way.
-
-Current ideas:
-- "# Subtest: <test_name>" to indicate test name (name must match
-  corresponding result line)
-- "# Attributes: <attributes list>" to indicate test attributes (list
-  separated by commas)
-- "# File: <file_path>" to indicate file used in testing
-
-Any other ideas?
-
-Note this proposal replaces two of my previous proposals: "ktap_v2: add
-recognized test name line" and "ktap_v2: allow prefix to KTAP lines."
-
-Thanks!
--Rae
-
-Note: this patch is based on Frank's ktap_spec_version_2 branch.
-
- Documentation/dev-tools/ktap.rst | 51 ++++++++++++++++++++++++++++++--
- 1 file changed, 48 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-index ff77f4aaa6ef..a2d0a196c115 100644
---- a/Documentation/dev-tools/ktap.rst
-+++ b/Documentation/dev-tools/ktap.rst
-@@ -17,7 +17,9 @@ KTAP test results describe a series of tests (which may be nested: i.e., test
- can have subtests), each of which can contain both diagnostic data -- e.g., log
- lines -- and a final result. The test structure and results are
- machine-readable, whereas the diagnostic data is unstructured and is there to
--aid human debugging.
-+aid human debugging. One exception to this is test metadata lines - a type
-+of diagnostic lines. Test metadata is located between the version line and
-+plan line of a test and can be machine-readable.
- 
- KTAP output is built from four different types of lines:
- - Version lines
-@@ -28,8 +30,7 @@ KTAP output is built from four different types of lines:
- In general, valid KTAP output should also form valid TAP output, but some
- information, in particular nested test results, may be lost. Also note that
- there is a stagnant draft specification for TAP14, KTAP diverges from this in
--a couple of places (notably the "Subtest" header), which are described where
--relevant later in this document.
-+a couple of places, which are described where relevant later in this document.
- 
- Version lines
- -------------
-@@ -166,6 +167,45 @@ even if they do not start with a "#": this is to capture any other useful
- kernel output which may help debug the test. It is nevertheless recommended
- that tests always prefix any diagnostic output they have with a "#" character.
- 
-+Test metadata lines
-+-------------------
-+
-+Test metadata lines are a type of diagnostic lines used to the declare the
-+name of a test and other helpful testing information in the test header.
-+These lines are often helpful for parsing and for providing context during
-+crashes.
-+
-+Test metadata lines must follow the format: "# <metadata_type>: <data>".
-+These lines must be located between the version line and the plan line
-+within a test header.
-+
-+There are a few currently recognized metadata types:
-+- "# Subtest: <test_name>" to indicate test name (name must match
-+  corresponding result line)
-+- "# Attributes: <attributes list>" to indicate test attributes (list
-+  separated by commas)
-+- "# File: <file_path>" to indicate file used in testing
-+
-+As a rule, the "# Subtest:" line is generally first to declare the test
-+name. Note that metadata lines do not necessarily need to use a
-+recognized metadata type.
-+
-+An example of using metadata lines:
-+
-+::
-+
-+        KTAP version 2
-+        1..1
-+        # File: /sys/kernel/...
-+          KTAP version 2
-+          # Subtest: example
-+          # Attributes: slow, example_test
-+          1..1
-+          ok 1 test_1
-+        # example passed
-+        ok 1 example
-+
-+
- Unknown lines
- -------------
- 
-@@ -206,6 +246,7 @@ An example of a test with two nested subtests:
- 	KTAP version 2
- 	1..1
- 	  KTAP version 2
-+	  # Subtest: example
- 	  1..2
- 	  ok 1 test_1
- 	  not ok 2 test_2
-@@ -219,6 +260,7 @@ An example format with multiple levels of nested testing:
- 	KTAP version 2
- 	1..2
- 	  KTAP version 2
-+	  # Subtest: example_test_1
- 	  1..2
- 	    KTAP version 2
- 	    1..2
-@@ -254,6 +296,7 @@ Example KTAP output
- 	KTAP version 2
- 	1..1
- 	  KTAP version 2
-+	  # Subtest: main_test
- 	  1..3
- 	    KTAP version 2
- 	    1..1
-@@ -261,11 +304,13 @@ Example KTAP output
- 	    ok 1 test_1
- 	  ok 1 example_test_1
- 	    KTAP version 2
-+            # Attributes: slow
- 	    1..2
- 	    ok 1 test_1 # SKIP test_1 skipped
- 	    ok 2 test_2
- 	  ok 2 example_test_2
- 	    KTAP version 2
-+	    # Subtest: example_test_3
- 	    1..3
- 	    ok 1 test_1
- 	    # test_2: FAIL
-
-base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
--- 
-2.40.0.396.gfff15efe05-goog
+=2D-
+2.30.2
 
