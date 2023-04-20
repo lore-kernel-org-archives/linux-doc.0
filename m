@@ -2,101 +2,402 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE97CC77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 17:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C866C77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 18:44:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231128AbjDTRtj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 13:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49700 "EHLO
+        id S231187AbjDTSoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 14:44:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229779AbjDTRti (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 13:49:38 -0400
-X-Greylist: delayed 523 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 20 Apr 2023 10:49:32 PDT
-Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc09])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD23226BF
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 10:49:32 -0700 (PDT)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Q2Q1C69WSzMqQVD;
-        Thu, 20 Apr 2023 19:40:47 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Q2Q196HmLzMppF8;
-        Thu, 20 Apr 2023 19:40:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1682012447;
-        bh=C42CG0yEhZ3//t6vNF4EAp/UK1VoZRlM/xbyZMTq9sw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Ww1/qKoHdAKBnghB3zJAndSHHtlhWFME+1v84JiiUfZsB7CaOOqVsLbd0uITMgTCt
-         VvjQ/4XR7CHTonbqvGTXfTB8WETF74lCX0tx9l329juYD85bDx6iqcoL0DbZoes+0b
-         o+4McyPqybIf2i8Shqgmo4gSkoEP6pUNjKaAPGJU=
-Message-ID: <a4dc7c12-b485-2eb2-add5-4f7a387a50fa@digikod.net>
-Date:   Thu, 20 Apr 2023 19:40:44 +0200
-MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH -next v2 0/6] landlock: add chmod and chown support
-Content-Language: en-US
-To:     xiujianfeng <xiujianfeng@huawei.com>, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
-        corbet@lwn.net
-Cc:     linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, roberto.sassu@huawei.com,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <d55baf4d-01d3-e4d7-e07f-9658d1606a8c@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <d55baf4d-01d3-e4d7-e07f-9658d1606a8c@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Infomaniak-Routing: alpha
+        with ESMTP id S229878AbjDTSoW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 14:44:22 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41681BE2
+        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 11:44:19 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1a50cb65c92so12891535ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 11:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1682016259; x=1684608259;
+        h=message-id:to:from:cc:in-reply-to:subject:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=aJKg4Mh6vZ3WSZ/pRsR5MqO6auYwg4i+qfpcnb6vsx0=;
+        b=pDtWzYePueUfAyEs1dD3G5MmmwsYjH3HOdqJpxVtnhjO/giDVKF04/5yfz/S8s2Sh0
+         elTr7KDImtJhEyNym5LHyHnzTgTVCu+2igwJA9H8e/rS6ZGcv6w72PjRoYLyN33a++Kq
+         8dGFjTvjJII+3lCYLn58It4rGntekoiazVyFUkHcA2Ed8ALO7xAI8tH/s8n1zdjcTsr5
+         7LPeUVjL7zjPpuvHNJDUxY9xfdldBR5YZ+dlZ3BoH2MSA9SJKFbLaPaMmVlD8X5hCQMg
+         0fk2+He8qR+fmn7BalSGpUX5VQAGugwFDJSw87wP6WV7uWuQ3jSfYPhHtKovKbsPczm5
+         cptA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682016259; x=1684608259;
+        h=message-id:to:from:cc:in-reply-to:subject:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aJKg4Mh6vZ3WSZ/pRsR5MqO6auYwg4i+qfpcnb6vsx0=;
+        b=BG7PsEsHVKuwioKBwkJK7nwdDVO3mf9PfRMFK+mO5r2MhtLnE2WwPHAIML08TRCRkV
+         CWcrYO61B+gy+qj9+RouURAd+F/kT+3kpeIRWv29g9sFI202Jl581kZTwoFzHdqL6MqY
+         5vTGAtMyoj7CsbYeFQ+jZA0WFNcxrqlxwA4Oa5jjrv1t3yOaGn/CQcs0AmvomoGCbhG0
+         KYcRSSKIQ9DxsDZMcLFB+V2woqlkZBWZrkHBXFcKY7YV7g1iPpDYQoM2qMpALYZr9JUH
+         fGIrjDsM+QCQgMvVdH7OWk4f9cdQ3WuU7dHcmHtCxtc9Lj90Is9ZWau6UGUbxkfljdW/
+         F6Jw==
+X-Gm-Message-State: AAQBX9fEOvLLeyDLk9QmYWPhIGbQLDS1Yep42snF7Ss4CHIE8DndUOsj
+        XrBjwAQWP3eLFsSQVwhi6E6NUQ==
+X-Google-Smtp-Source: AKy350bEoGeFmyYpnjAL7o4p0QHicwFCutcvSCUFHSVKd4cxLIE2/w5arf6iT10TJKpTFLX8oVN9jA==
+X-Received: by 2002:a17:903:230d:b0:1a6:a6e7:8846 with SMTP id d13-20020a170903230d00b001a6a6e78846mr3033873plh.40.1682016259026;
+        Thu, 20 Apr 2023 11:44:19 -0700 (PDT)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id w15-20020a170902d70f00b001a6c58e95d7sm1437886ply.269.2023.04.20.11.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Apr 2023 11:44:18 -0700 (PDT)
+Date:   Thu, 20 Apr 2023 11:44:18 -0700 (PDT)
+X-Google-Original-Date: Thu, 20 Apr 2023 11:44:05 PDT (-0700)
+Subject:     Re: [PATCH v9 1/1] riscv: Allow to downgrade paging mode from the command line
+In-Reply-To: <mhng-04c8dd83-22b9-462e-9ecd-622128769635@palmer-ri-x1c9a>
+CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>, bjorn@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, alexghiti@rivosinc.com,
+        Bjorn Topel <bjorn@rivosinc.com>
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alexghiti@rivosinc.com
+Message-ID: <mhng-ecd68703-9cc0-48a4-be15-f82f2b4fbe22@palmer-ri-x1c9a>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 18/04/2023 12:53, xiujianfeng wrote:
-> Hi Mickael,
-> 
-> Sorry about the long silence on this work, As we known this work depends
-> on another work about changing argument from struct dentry to struct
-> path for some attr/xattr related lsm hooks, I'm stuck with this thing,
-> because IMA/EVM is a special security module which is not LSM-based
-> currently, and severely coupled with the file system. so I am waiting
-> for Roberto Sassu' work (Move IMA and EVM to the LSM infrastructure) to
-> be ready, I think it can make my work more easy. you can find
-> Roberto'work here,
-> https://lwn.net/ml/linux-kernel/20230303181842.1087717-1-roberto.sassu@huaweicloud.com/
-> 
-> Any good idea are welcome, thanks.
-
-Thanks for the update Xiu.
-
-Which part would be needed from Roberto's patch series?
-
-
-> 
-> 
-> On 2022/8/27 19:12, Xiu Jianfeng wrote:
->> v2:
->>   * abstract walk_to_visible_parent() helper
->>   * chmod and chown rights only take affect on directory's context
->>   * add testcase for fchmodat/lchown/fchownat
->>   * fix other review issues
+On Thu, 20 Apr 2023 10:36:43 PDT (-0700), Palmer Dabbelt wrote:
+> On Tue, 28 Mar 2023 22:09:51 PDT (-0700), alexghiti@rivosinc.com wrote:
+>> Add 2 early command line parameters that allow to downgrade satp mode
+>> (using the same naming as x86):
+>> - "no5lvl": use a 4-level page table (down from sv57 to sv48)
+>> - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
 >>
->> Xiu Jianfeng (6):
->>    landlock: expand access_mask_t to u32 type
->>    landlock: abstract walk_to_visible_parent() helper
->>    landlock: add chmod and chown support
->>    landlock/selftests: add selftests for chmod and chown
->>    landlock/samples: add chmod and chown support
->>    landlock: update chmod and chown support in document
+>> Note that going through the device tree to get the kernel command line
+>> works with ACPI too since the efi stub creates a device tree anyway with
+>> the command line.
 >>
->>   Documentation/userspace-api/landlock.rst     |   9 +-
->>   include/uapi/linux/landlock.h                |  10 +-
->>   samples/landlock/sandboxer.c                 |  13 +-
->>   security/landlock/fs.c                       | 110 ++++++--
->>   security/landlock/limits.h                   |   2 +-
->>   security/landlock/ruleset.h                  |   2 +-
->>   security/landlock/syscalls.c                 |   2 +-
->>   tools/testing/selftests/landlock/base_test.c |   2 +-
->>   tools/testing/selftests/landlock/fs_test.c   | 267 ++++++++++++++++++-
->>   9 files changed, 386 insertions(+), 31 deletions(-)
+>> In KASAN kernels, we can't use the libfdt that early in the boot process
+>> since we are not ready to execute instrumented functions. So instead of
+>> using the "generic" libfdt, we compile our own versions of those functions
+>> that are not instrumented and that are prefixed so that they do not
+>> conflict with the generic ones. We also need the non-instrumented versions
+>> of the string functions and the prefixed versions of memcpy/memmove.
 >>
+>> This is largely inspired by commit aacd149b6238 ("arm64: head: avoid
+>> relocating the kernel twice for KASLR") from which I removed compilation
+>> flags that were not relevant to RISC-V at the moment (LTO, SCS, pie).
+>>
+>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+>> Tested-by: Björn Töpel <bjorn@rivosinc.com>
+>> Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
+>> ---
+>>  .../admin-guide/kernel-parameters.txt         |  5 +-
+>>  arch/riscv/kernel/Makefile                    |  2 +
+>>  arch/riscv/kernel/pi/Makefile                 | 39 ++++++++++++
+>>  arch/riscv/kernel/pi/cmdline_early.c          | 62 +++++++++++++++++++
+>>  arch/riscv/kernel/vmlinux.lds.S               |  8 +++
+>>  arch/riscv/lib/memcpy.S                       |  2 +
+>>  arch/riscv/lib/memmove.S                      |  2 +
+>>  arch/riscv/lib/strlen.S                       |  1 +
+>>  arch/riscv/mm/init.c                          | 36 +++++++++--
+>>  9 files changed, 150 insertions(+), 7 deletions(-)
+>>  create mode 100644 arch/riscv/kernel/pi/Makefile
+>>  create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 6221a1d057dd..accc400b43f1 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -3576,7 +3576,10 @@
+>>  			emulation library even if a 387 maths coprocessor
+>>  			is present.
+>>
+>> -	no5lvl		[X86-64] Disable 5-level paging mode. Forces
+>> +	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
+>> +			kernel to use 3-level paging instead.
+>> +
+>> +	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
+>>  			kernel to use 4-level paging instead.
+>>
+>>  	nofsgsbase	[X86] Disables FSGSBASE instructions.
+>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+>> index 4cf303a779ab..aa22f87faeae 100644
+>> --- a/arch/riscv/kernel/Makefile
+>> +++ b/arch/riscv/kernel/Makefile
+>> @@ -89,3 +89,5 @@ obj-$(CONFIG_EFI)		+= efi.o
+>>  obj-$(CONFIG_COMPAT)		+= compat_syscall_table.o
+>>  obj-$(CONFIG_COMPAT)		+= compat_signal.o
+>>  obj-$(CONFIG_COMPAT)		+= compat_vdso/
+>> +
+>> +obj-$(CONFIG_64BIT)		+= pi/
+>> diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
+>> new file mode 100644
+>> index 000000000000..42c58f4ab53b
+>> --- /dev/null
+>> +++ b/arch/riscv/kernel/pi/Makefile
+>> @@ -0,0 +1,39 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +# This file was copied from arm64/kernel/pi/Makefile.
+>> +
+>> +KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+>> +		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
+>> +		   $(call cc-option,-mbranch-protection=none) \
+>> +		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
+>> +		   -D__DISABLE_EXPORTS -ffreestanding \
+>> +		   -fno-asynchronous-unwind-tables -fno-unwind-tables \
+>> +		   $(call cc-option,-fno-addrsig)
+>> +
+>> +KBUILD_CFLAGS	+= -mcmodel=medany
+>> +
+>> +CFLAGS_cmdline_early.o += -D__NO_FORTIFY
+>> +CFLAGS_lib-fdt_ro.o += -D__NO_FORTIFY
+>> +
+>> +GCOV_PROFILE	:= n
+>> +KASAN_SANITIZE	:= n
+>> +KCSAN_SANITIZE	:= n
+>> +UBSAN_SANITIZE	:= n
+>> +KCOV_INSTRUMENT	:= n
+>> +
+>> +$(obj)/%.pi.o: OBJCOPYFLAGS := --prefix-symbols=__pi_ \
+>> +			       --remove-section=.note.gnu.property \
+>> +			       --prefix-alloc-sections=.init
+>> +$(obj)/%.pi.o: $(obj)/%.o FORCE
+>> +	$(call if_changed,objcopy)
+>> +
+>> +$(obj)/lib-%.o: $(srctree)/lib/%.c FORCE
+>> +	$(call if_changed_rule,cc_o_c)
+>> +
+>> +$(obj)/string.o: $(srctree)/lib/string.c FORCE
+>> +	$(call if_changed_rule,cc_o_c)
+>> +
+>> +$(obj)/ctype.o: $(srctree)/lib/ctype.c FORCE
+>> +	$(call if_changed_rule,cc_o_c)
+>> +
+>> +obj-y		:= cmdline_early.pi.o string.pi.o ctype.pi.o lib-fdt.pi.o lib-fdt_ro.pi.o
+>> +extra-y		:= $(patsubst %.pi.o,%.o,$(obj-y))
+>> diff --git a/arch/riscv/kernel/pi/cmdline_early.c b/arch/riscv/kernel/pi/cmdline_early.c
+>> new file mode 100644
+>> index 000000000000..05652d13c746
+>> --- /dev/null
+>> +++ b/arch/riscv/kernel/pi/cmdline_early.c
+>> @@ -0,0 +1,62 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +#include <linux/types.h>
+>> +#include <linux/init.h>
+>> +#include <linux/libfdt.h>
+>> +#include <linux/string.h>
+>> +#include <asm/pgtable.h>
+>> +#include <asm/setup.h>
+>> +
+>> +static char early_cmdline[COMMAND_LINE_SIZE];
+>> +
+>> +/*
+>> + * Declare the functions that are exported (but prefixed) here so that LLVM
+>> + * does not complain it lacks the 'static' keyword (which, if added, makes
+>> + * LLVM complain because the function is actually unused in this file).
+>> + */
+>> +u64 set_satp_mode_from_cmdline(uintptr_t dtb_pa);
+>> +
+>> +static char *get_early_cmdline(uintptr_t dtb_pa)
+>> +{
+>> +	const char *fdt_cmdline = NULL;
+>> +	unsigned int fdt_cmdline_size = 0;
+>> +	int chosen_node;
+>> +
+>> +	if (!IS_ENABLED(CONFIG_CMDLINE_FORCE)) {
+>> +		chosen_node = fdt_path_offset((void *)dtb_pa, "/chosen");
+>> +		if (chosen_node >= 0) {
+>> +			fdt_cmdline = fdt_getprop((void *)dtb_pa, chosen_node,
+>> +						  "bootargs", NULL);
+>> +			if (fdt_cmdline) {
+>> +				fdt_cmdline_size = strlen(fdt_cmdline);
+>> +				strscpy(early_cmdline, fdt_cmdline,
+>> +					COMMAND_LINE_SIZE);
+>> +			}
+>> +		}
+>> +	}
+>> +
+>> +	if (IS_ENABLED(CONFIG_CMDLINE_EXTEND) ||
+>> +	    IS_ENABLED(CONFIG_CMDLINE_FORCE) ||
+>> +	    fdt_cmdline_size == 0 /* CONFIG_CMDLINE_FALLBACK */) {
+>> +		strncat(early_cmdline, CONFIG_CMDLINE,
+>> +			COMMAND_LINE_SIZE - fdt_cmdline_size);
+>> +	}
+>> +
+>> +	return early_cmdline;
+>> +}
+>> +
+>> +static u64 match_noXlvl(char *cmdline)
+>> +{
+>> +	if (strstr(cmdline, "no4lvl"))
+>> +		return SATP_MODE_48;
+>> +	else if (strstr(cmdline, "no5lvl"))
+>> +		return SATP_MODE_57;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +u64 set_satp_mode_from_cmdline(uintptr_t dtb_pa)
+>> +{
+>> +	char *cmdline = get_early_cmdline(dtb_pa);
+>> +
+>> +	return match_noXlvl(cmdline);
+>> +}
+>> diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
+>> index 615ff5842690..b12a843ad426 100644
+>> --- a/arch/riscv/kernel/vmlinux.lds.S
+>> +++ b/arch/riscv/kernel/vmlinux.lds.S
+>> @@ -83,6 +83,14 @@ SECTIONS
+>>  	/* Start of init data section */
+>>  	__init_data_begin = .;
+>>  	INIT_DATA_SECTION(16)
+>> +
+>> +	/* Those sections result from the compilation of kernel/pi/string.c */
+>> +	.init.pidata : {
+>> +		*(.init.srodata.cst8*)
+>> +		*(.init__bug_table*)
+>> +		*(.init.sdata*)
+>> +	}
+>> +
+>>  	.init.bss : {
+>>  		*(.init.bss)	/* from the EFI stub */
+>>  	}
+>> diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
+>> index 51ab716253fa..1a40d01a9543 100644
+>> --- a/arch/riscv/lib/memcpy.S
+>> +++ b/arch/riscv/lib/memcpy.S
+>> @@ -106,3 +106,5 @@ WEAK(memcpy)
+>>  6:
+>>  	ret
+>>  END(__memcpy)
+>> +SYM_FUNC_ALIAS(__pi_memcpy, __memcpy)
+>> +SYM_FUNC_ALIAS(__pi___memcpy, __memcpy)
+>> diff --git a/arch/riscv/lib/memmove.S b/arch/riscv/lib/memmove.S
+>> index e0609e1f0864..838ff2022fe3 100644
+>> --- a/arch/riscv/lib/memmove.S
+>> +++ b/arch/riscv/lib/memmove.S
+>> @@ -314,3 +314,5 @@ return_from_memmove:
+>>
+>>  SYM_FUNC_END(memmove)
+>>  SYM_FUNC_END(__memmove)
+>> +SYM_FUNC_ALIAS(__pi_memmove, __memmove)
+>> +SYM_FUNC_ALIAS(__pi___memmove, __memmove)
+>> diff --git a/arch/riscv/lib/strlen.S b/arch/riscv/lib/strlen.S
+>> index 15bb8f3aa959..9d0055616f7b 100644
+>> --- a/arch/riscv/lib/strlen.S
+>> +++ b/arch/riscv/lib/strlen.S
+>> @@ -131,3 +131,4 @@ strlen_zbb:
+>>  .option pop
+>>  #endif
+>>  SYM_FUNC_END(strlen)
+>> +SYM_FUNC_ALIAS(__pi_strlen, strlen)
+>> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+>> index bce899b180cd..3ad771571c2d 100644
+>> --- a/arch/riscv/mm/init.c
+>> +++ b/arch/riscv/mm/init.c
+>> @@ -746,6 +746,8 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
+>>  #endif /* CONFIG_STRICT_KERNEL_RWX */
+>>
+>>  #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
+>> +u64 __pi_set_satp_mode_from_cmdline(uintptr_t dtb_pa);
+>> +
+>>  static void __init disable_pgtable_l5(void)
+>>  {
+>>  	pgtable_l5_enabled = false;
+>> @@ -760,17 +762,39 @@ static void __init disable_pgtable_l4(void)
+>>  	satp_mode = SATP_MODE_39;
+>>  }
+>>
+>> +static int __init print_no4lvl(char *p)
+>> +{
+>> +	pr_info("Disabled 4-level and 5-level paging");
+>> +	return 0;
+>> +}
+>> +early_param("no4lvl", print_no4lvl);
+>> +
+>> +static int __init print_no5lvl(char *p)
+>> +{
+>> +	pr_info("Disabled 5-level paging");
+>> +	return 0;
+>> +}
+>> +early_param("no5lvl", print_no5lvl);
+>> +
+>>  /*
+>>   * There is a simple way to determine if 4-level is supported by the
+>>   * underlying hardware: establish 1:1 mapping in 4-level page table mode
+>>   * then read SATP to see if the configuration was taken into account
+>>   * meaning sv48 is supported.
+>>   */
+>> -static __init void set_satp_mode(void)
+>> +static __init void set_satp_mode(uintptr_t dtb_pa)
+>>  {
+>>  	u64 identity_satp, hw_satp;
+>>  	uintptr_t set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
+>> -	bool check_l4 = false;
+>> +	u64 satp_mode_cmdline = __pi_set_satp_mode_from_cmdline(dtb_pa);
+>> +
+>> +	if (satp_mode_cmdline == SATP_MODE_57) {
+>> +		disable_pgtable_l5();
+>> +	} else if (satp_mode_cmdline == SATP_MODE_48) {
+>> +		disable_pgtable_l5();
+>> +		disable_pgtable_l4();
+>> +		return;
+>> +	}
+>>
+>>  	create_p4d_mapping(early_p4d,
+>>  			set_satp_mode_pmd, (uintptr_t)early_pud,
+>> @@ -789,7 +813,8 @@ static __init void set_satp_mode(void)
+>>  retry:
+>>  	create_pgd_mapping(early_pg_dir,
+>>  			   set_satp_mode_pmd,
+>> -			   check_l4 ? (uintptr_t)early_pud : (uintptr_t)early_p4d,
+>> +			   pgtable_l5_enabled ?
+>> +				(uintptr_t)early_p4d : (uintptr_t)early_pud,
+>>  			   PGDIR_SIZE, PAGE_TABLE);
+>>
+>>  	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
+>> @@ -800,9 +825,8 @@ static __init void set_satp_mode(void)
+>>  	local_flush_tlb_all();
+>>
+>>  	if (hw_satp != identity_satp) {
+>> -		if (!check_l4) {
+>> +		if (pgtable_l5_enabled) {
+>>  			disable_pgtable_l5();
+>> -			check_l4 = true;
+>>  			memset(early_pg_dir, 0, PAGE_SIZE);
+>>  			goto retry;
+>>  		}
+>> @@ -1031,7 +1055,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>>  #endif
+>>
+>>  #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
+>> -	set_satp_mode();
+>> +	set_satp_mode(dtb_pa);
+>>  #endif
+>>
+>>  	/*
+>
+> Alex found that we're missing -fpie, which was causing the LLVM boot
+> failures.  I'm just going to squash in
+>
+> diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
+> index 42c58f4ab53b..5d7cb991f2b8 100644
+> --- a/arch/riscv/kernel/pi/Makefile
+> +++ b/arch/riscv/kernel/pi/Makefile
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  # This file was copied from arm64/kernel/pi/Makefile.
+>
+> -KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+> +KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) -fpie \
+>  		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
+>  		   $(call cc-option,-mbranch-protection=none) \
+>  		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
+
+Looks like we got a bit ahead of ourselves, this trips up some warnings 
+like
+
+riscv64-unknown-linux-gnu-ld: warning: orphan section `.got' from `init/main.o' being placed in section `.got'
+riscv64-unknown-linux-gnu-ld: warning: orphan section `.got.plt' from `init/main.o' being placed in section `.got.plt'
+
+I'm going to drop this for now, Alex is looking at a better fix.  Sorry 
+for the churn!
