@@ -2,78 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22D43C77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 13:51:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D8F9C77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 14:00:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbjDTNvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 09:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53508 "EHLO
+        id S231732AbjDTOAf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 10:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230342AbjDTNvP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 09:51:15 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C135B98;
-        Thu, 20 Apr 2023 06:51:11 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S231771AbjDTOAd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 10:00:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6724B61A8;
+        Thu, 20 Apr 2023 07:00:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9C5582AE;
-        Thu, 20 Apr 2023 13:51:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9C5582AE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1681998670; bh=/HYRZYBMpyNaQ4v0vpG/OhEOPSI9xHRsqndtnAocw4E=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=bhC8AhpYrKjnmG0JnaW5RjTdER8iwG3G9nb9BVcOk0OWAqZvcmFSN+uKIUl12S50F
-         9laIZQSjgAjxGM/PVJLj+W/FrOvzr3BH5VVoX87cvtjl4C/vHvyPZrP0HbZvCw90Jp
-         WAcl4prNQZpTyHiOsaNNz+mkN6YzzVK6vUYj7wvmFk/NKnKrCnLTe6Slza7Ps8LEZo
-         xl2lJ8YHebgy4ADc2T7yNAimxczjySSTobX4BbeTMCtB0F8Jxy3g1HN+ZXgbSQHzgo
-         GQuh9SmuyoAesda/zFn2MvfWTvaNk8M1m1C1I5Vfj2Rhthd6wxZIf9AUWsz/XMHVMh
-         By7WDlZJoyZxg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Zipeng Zhang <zhangzipeng0@foxmail.com>
-Cc:     ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
-        boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-        nathan@kernel.org, ndesaulniers@google.com, trix@redhat.com,
-        masahiroy@kernel.org, codeagain@codeagain.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
-        Zipeng Zhang <zhangzipeng0@foxmail.com>
-Subject: Re: [PATCH] Documentation/process/changes: Escape --options to fix
- Sphinx output
-In-Reply-To: <tencent_CB1A298D31FD221496FF657CD7EF406E6605@qq.com>
-References: <tencent_CB1A298D31FD221496FF657CD7EF406E6605@qq.com>
-Date:   Thu, 20 Apr 2023 07:51:09 -0600
-Message-ID: <87sfcuu0fm.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CFA4C60B8D;
+        Thu, 20 Apr 2023 14:00:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5153C4339B;
+        Thu, 20 Apr 2023 14:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681999218;
+        bh=65k7doVH3SaHC6RwPm/kmxL5Qia06u75ugTrJ/+Kj2s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q1D+CNzFAveKuoDma3AcWYDYS0Fr2rujDp1LSBfjdGuHkMSkBeDZQqC6A6EznW2Ae
+         riuItMHwa6y432te7bWQijt7IH2jzyeMa3REjo7F9pRt3ZNleOcL4FpYuXHzzMkXDR
+         lSaPhRNtqhN0Tqkog+aryGtV1LgV8LuaBt2TZ91uIXPczgNHaF6+7VLuHKj5xQmLEW
+         v98GfkL5bH71I6wdTc+y3vwmR6AjNwcjsn86TB8xS8ljPZ9Pp93zG17aIUTptgeLQu
+         BR9wM490eACQPgz/hF8+rnA7LvrNWxkEKItF6MseJNKWvfyXvQ/+io0kBfo96aGnkJ
+         Shz+l6sMm6jXA==
+Date:   Thu, 20 Apr 2023 15:00:13 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Pavel Machek <pavel@ucw.cz>,
+        Fabio Baltieri <fabio.baltieri@gmail.com>
+Subject: Re: [PATCH] docs: leds: ledtrig-oneshot: Fix spelling mistake
+Message-ID: <20230420140013.GF996918@google.com>
+References: <20230418113402.188391-1-ada@thorsis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230418113402.188391-1-ada@thorsis.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Zipeng Zhang <zhangzipeng0@foxmail.com> writes:
+On Tue, 18 Apr 2023, Alexander Dahl wrote:
 
-> Add an escape character to resolve the problem of
-> "--version" being displayed as "=E2=80=93version".
->
-> Without such escaping, -- is rendered as =E2=80=93 (en dash).
->
-> Signed-off-by: Zipeng Zhang <zhangzipeng0@foxmail.com>
+> It's no comparision, but a "first this, then that" situation.
+
+"comparison"  :)
+
+> Signed-off-by: Alexander Dahl <ada@thorsis.com>
 > ---
->  Documentation/process/changes.rst | 38 +++++++++++++++----------------
->  1 file changed, 19 insertions(+), 19 deletions(-)
+>  Documentation/leds/ledtrig-oneshot.rst | 2 +-
+"  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for working on improving the documentation!
+I fixed your spelling mistake in the commit fixing a spelling mistake.
 
-I understand where you are coming from, but this may be one of those
-cases where the readability of the plain-text documentation has to win
-out.  Those backslashes are ugly and seem unlikely to be maintained
-going forward.
+Applied, thanks
 
-The right solution, if it is possible, is to convince Sphinx to stop
-messing with "--" altogether.  Substituting em-dashes is of limited
-cosmetic value and, I think, is something we could do without.
-
-Thanks,
-
-jon
+-- 
+Lee Jones [李琼斯]
