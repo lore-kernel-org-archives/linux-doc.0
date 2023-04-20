@@ -2,127 +2,282 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02889C77B72
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 09:43:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FD0C77B78
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 10:02:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234496AbjDTJnW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 05:43:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57718 "EHLO
+        id S233429AbjDTKCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 06:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234224AbjDTJm5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 05:42:57 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5939A4EEC;
-        Thu, 20 Apr 2023 02:41:00 -0700 (PDT)
+        with ESMTP id S233978AbjDTKCY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 06:02:24 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F582703;
+        Thu, 20 Apr 2023 03:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681983660; x=1713519660;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=SJZGrNGmLN2kZK2Jr9vAjtwWFXN9KIm1PDWUodF12fo=;
-  b=DicMO4cT4wajUyGEf/f1RdqtA6daoomS//AUpETHledau0yr3h0SpMmo
-   QtbxQlMrGYwsb7UoVbnIduNJ7S+10/nFBF6zWs90hFUDL7fMoiXrrq72D
-   XES7jLXWM88iXBygyKkYn1AHhMNPzyilLnVBuE3MVyuu/K50xik3G050M
-   7jLp66uV8W9KiOvXCyfluWkM/Z9YKL2+gT1rIxyorzK+UfQPhmyqwqIRc
-   aJybrwbCVR12qAsM4mo3HgruL/jOPNjBeVOg9E0FPvRjHy44Iv49zU6yo
-   8AIoj9+SZH1fBtyjMVl+/uC9iLDloDdT5gthQegT60+1Bs2s5+rNku+ue
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="343165355"
+  t=1681984942; x=1713520942;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=BJ8FeGpPWT+byd7+7AOk70gXCbuSUqNXSNoscAHOLMc=;
+  b=F6z8VLyRsuYQ0hONjs99X+HmPl9Ex1jsKwm03EyIvA4m5ZvMkgEc7n3i
+   h4BN3uKHqu88yflWA9tEgn36DQVOQrFSsQQ+RiePrRzkxCkFWz8AtdCpc
+   UMgA2qSwssDT/7/dbcwcZddUKKuTSNlXsTK3er+NJeQJap01IVZmPBKYC
+   o96Wxwm44qO/5vA4xf+9yAnmVKXq9YrUHRUoQjpsolUC8lr+GUypPUicz
+   G68ZxdgNaJ/Nh+IbA5fUSsCk78cXKq+mA+Myq5azTRrj6BsjPsflS7RNp
+   fKR75BdtXSAUbU9EjHxNF7bWAJaBrTPb0dYEzO6akwf3SIMA5RX9Ep0Ye
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="326019861"
 X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
-   d="scan'208";a="343165355"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 02:38:59 -0700
+   d="scan'208";a="326019861"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 03:02:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="691847837"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021531041"
 X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
-   d="scan'208";a="691847837"
-Received: from akirasen-mobl.amr.corp.intel.com ([10.252.32.100])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 02:38:51 -0700
-Date:   Thu, 20 Apr 2023 12:38:50 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     "Moger, Babu" <babu.moger@amd.com>
-cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        bagasdotme@gmail.com, eranian@google.com,
-        christophe.leroy@csgroup.eu, jarkko@kernel.org,
-        adrian.hunter@intel.com, quic_jiles@quicinc.com,
-        peternewman@google.com
-Subject: Re: [PATCH v4 1/7] x86/resctrl: Add multiple tasks to the resctrl
- group at once
-In-Reply-To: <36ef8031-40a7-3324-7b4e-4510f11a488b@amd.com>
-Message-ID: <a0f1bb9a-7cc4-b4af-9ad8-6dc03217d5a8@linux.intel.com>
-References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177444676.1758847.11474266921067437724.stgit@bmoger-ubuntu> <d046eebf-15b-2d23-b8f6-5dd06b49d0d3@linux.intel.com> <36ef8031-40a7-3324-7b4e-4510f11a488b@amd.com>
+   d="scan'208";a="1021531041"
+Received: from ubik.fi.intel.com (HELO localhost) ([10.237.72.184])
+  by fmsmga005.fm.intel.com with ESMTP; 20 Apr 2023 03:02:17 -0700
+From:   Alexander Shishkin <alexander.shishkin@linux.intel.com>
+To:     Mao Jinlong <quic_jinlmao@quicinc.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>
+Cc:     Mao Jinlong <quic_jinlmao@quicinc.com>,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Hao Zhang <quic_hazha@quicinc.com>,
+        alexander.shishkin@linux.intel.com
+Subject: Re: [PATCH v2] stm: class: Add MIPI OST protocol support
+In-Reply-To: <20230419141328.37472-1-quic_jinlmao@quicinc.com>
+References: <20230419141328.37472-1-quic_jinlmao@quicinc.com>
+Date:   Thu, 20 Apr 2023 13:02:16 +0300
+Message-ID: <87cz3yyiqf.fsf@ubik.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-2094653454-1681983541=:2051"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Mao Jinlong <quic_jinlmao@quicinc.com> writes:
 
---8323329-2094653454-1681983541=:2051
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+> Add MIPI OST(Open System Trace) protocol support for stm to format
+> the traces. OST over STP packet consists of Header/Payload/End. In
+> header, there will be STARTSIMPLE/VERSION/ENTITY/PROTOCOL. STARTSIMPLE
+> is used to signal the beginning of a simplified OST base protocol
+> packet.The Entity ID field is a one byte unsigned number that identifies
+> the source. FLAG packet is used for END token.
 
-On Wed, 19 Apr 2023, Moger, Babu wrote:
+We'd need a better explanation of what OST is, maybe a link to the spec
+if one exists.
 
-> Hi Jarvinen,
-> 
-> On 4/19/23 07:58, Ilpo Järvinen wrote:
-> > On Mon, 17 Apr 2023, Babu Moger wrote:
-> > 
-> >> The resctrl task assignment for MONITOR or CONTROL group needs to be
-> >> done one at a time. For example:
-> >>
-> >>   $mount -t resctrl resctrl /sys/fs/resctrl/
-> >>   $mkdir /sys/fs/resctrl/clos1
-> >>   $echo 123 > /sys/fs/resctrl/clos1/tasks
-> >>   $echo 456 > /sys/fs/resctrl/clos1/tasks
-> >>   $echo 789 > /sys/fs/resctrl/clos1/tasks
-> >>
-> >> This is not user-friendly when dealing with hundreds of tasks.
-> >>
-> >> It can be improved by supporting the multiple task id assignment in
-> >> one command with the tasks separated by commas. For example:
-> >>
-> >>   $echo 123,456,789 > /sys/fs/resctrl/clos1/tasks
-> >>
-> >> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> >> ---
-> >>  Documentation/x86/resctrl.rst          |    9 ++++++++-
-> >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   31 ++++++++++++++++++++++++++++++-
-> >>  2 files changed, 38 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
-> >> index 387ccbcb558f..f28ed1443a6a 100644
-> >> --- a/Documentation/x86/resctrl.rst
-> >> +++ b/Documentation/x86/resctrl.rst
-> >> @@ -292,7 +292,14 @@ All groups contain the following files:
-> >>  "tasks":
-> >>  	Reading this file shows the list of all tasks that belong to
-> >>  	this group. Writing a task id to the file will add a task to the
-> >> -	group. If the group is a CTRL_MON group the task is removed from
-> >> +	group. Multiple tasks can be added by separating the task ids
-> >> +	with commas. Tasks will be assigned sequentially in the order it
-> >> +	is entered.
-> > 
-> > "Tasks ... it is ..." doesn't sound correct.
-> 
-> How about "Tasks will be assigned sequentially in the order they are entered."
+Another thing that this patch does is adding source identification,
+which needs to be described better.
 
-It sounds better.
+[...]
 
--- 
- i.
+> +CONFIG_STM_PROTO_OST is for p_ost driver enablement. Once this config
+> +is enabled, you can select the p_ost protocol by command below:
+> +
+> +# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy
+> +
+> +The policy name format is extended like this:
+> +    <device_name>:<protocol_name>.<policy_name>
+> +
+> +With coresight-stm device, it will be look like "stm0:p_ost.policy".
 
---8323329-2094653454-1681983541=:2051--
+The part about protocol selection should probably be in stm.rst
+instead.
+
+> +You can check if the protocol is set successfully by:
+> +# cat /sys/kernel/config/stp-policy/stm0:p_ost.policy/protocol
+> +p_ost
+
+A successful mkdir is technically enough.
+
+> +With MIPI OST protocol driver, the attributes for each protocol node is:
+> +# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
+> +# ls /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
+> +channels  entity    masters
+
+Where's "entity_available"?
+
+> +The entity here is the set the entity that p_ost supports. Currently
+> +p_ost supports ftrace and console entity.
+> +
+> +Get current available entity that p_ost supports:
+> +# cat /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity_available
+> +ftrace console
+> +
+> +Set entity:
+> +# echo 'ftrace' > /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity
+
+This is not a very good example, as it will flag everything that goes
+through STM as "ftrace", which is probably not what anybody wants.
+
+The bigger question is, why do we need to set the source type (for
+which "entity" is not a very good name, btw) in the configfs when
+corresponding stm source drivers already carry this information.
+There should be a way to propagate the source type from stm source
+driver to the protocol driver without relying on the user to set it
+correctly.
+
+> +See Documentation/ABI/testing/configfs-stp-policy-p_ost for more details.
+> diff --git a/drivers/hwtracing/stm/Kconfig b/drivers/hwtracing/stm/Kconfig
+> index eda6b11d40a1..daa4aa09f64d 100644
+> --- a/drivers/hwtracing/stm/Kconfig
+> +++ b/drivers/hwtracing/stm/Kconfig
+> @@ -40,6 +40,20 @@ config STM_PROTO_SYS_T
+>  
+>  	  If you don't know what this is, say N.
+>  
+> +config STM_PROTO_OST
+> +	tristate "MIPI OST STM framing protocol driver"
+> +	default CONFIG_STM
+> +	help
+> +	  This is an implementation of MIPI OST protocol to be used
+> +	  over the STP transport. In addition to the data payload, it
+> +	  also carries additional metadata for entity, better
+> +	  means of trace source identification, etc.
+
+What does "entity" mean here?
+
+[...]
+
+> +#define OST_TOKEN_STARTSIMPLE		(0x10)
+> +#define OST_VERSION_MIPI1		(0x10 << 8)
+
+Either write them as bits (BIT(12)) or as a hex value (0x1000).
+
+> +/* entity id to identify the source*/
+> +#define OST_ENTITY_FTRACE		(0x01 << 16)
+> +#define OST_ENTITY_CONSOLE		(0x02 << 16)
+> +
+> +#define OST_CONTROL_PROTOCOL		(0x0 << 24)
+
+Zero, really? At this point I'm wondering if this code has even been
+tested.
+
+[...]
+
+> +static ssize_t
+> +ost_t_policy_entity_store(struct config_item *item, const char *page,
+> +			size_t count)
+> +{
+> +	struct mutex *mutexp = &item->ci_group->cg_subsys->su_mutex;
+> +	struct ost_policy_node *pn = to_pdrv_policy_node(item);
+> +	char str[10] = "";
+> +
+> +	mutex_lock(mutexp);
+> +	if (sscanf(page, "%s", str) != 1)
+> +		return -EINVAL;
+> +	mutex_unlock(mutexp);
+
+You forgot to release the mutex in the error path.
+Also, why do you need a mutex around sscanf() in the first place?
+Also, the sscanf() can overrun str.
+
+> +	if (!strcmp(str, str_ost_entity_type[OST_ENTITY_TYPE_FTRACE]))
+> +		pn->entity_type = OST_ENTITY_TYPE_FTRACE;
+> +	else if (!strcmp(str, str_ost_entity_type[OST_ENTITY_TYPE_CONSOLE]))
+> +		pn->entity_type = OST_ENTITY_TYPE_CONSOLE;
+
+Why can't you strcmp() on the page directly?
+Also, this is where you do want to hold the mutex.
+Also, what if there are more source types?
+
+> +	else
+> +		return -EINVAL;
+> +	return count;
+> +}
+> +CONFIGFS_ATTR(ost_t_policy_, entity);
+> +
+> +static ssize_t ost_t_policy_entity_available_show(struct config_item *item,
+> +				char *page)
+> +{
+> +	return scnprintf(page, PAGE_SIZE, "%s\n", "ftrace console");
+
+Don't hardcode these.
+
+> +}
+> +CONFIGFS_ATTR_RO(ost_t_policy_, entity_available);
+> +
+> +static struct configfs_attribute *ost_t_policy_attrs[] = {
+> +	&ost_t_policy_attr_entity,
+> +	&ost_t_policy_attr_entity_available,
+> +	NULL,
+> +};
+> +
+> +static ssize_t notrace ost_write(struct stm_data *data,
+> +		struct stm_output *output, unsigned int chan,
+> +		const char *buf, size_t count)
+> +{
+> +	unsigned int c = output->channel + chan;
+> +	unsigned int m = output->master;
+> +	const unsigned char nil = 0;
+> +	u32 header = DATA_HEADER;
+> +	u8 trc_hdr[16];
+> +	ssize_t sz;
+> +
+> +	struct ost_output *op = output->pdrv_private;
+
+As said above, the stm source driver that calls here already knows its
+own source type, there's no need to store it separately.
+
+> +
+> +	/*
+> +	 * Identify the source by entity type.
+> +	 * If entity type is not set, return error value.
+> +	 */
+> +	if (op->node.entity_type == OST_ENTITY_TYPE_FTRACE) {
+> +		header |= OST_ENTITY_FTRACE;
+> +	} else if (op->node.entity_type == OST_ENTITY_TYPE_CONSOLE) {
+> +		header |= OST_ENTITY_CONSOLE;
+> +	} else {
+> +		pr_debug("p_ost: Entity must be set for trace data.");
+
+You forgot a newline.
+Also, this message seems to be quite useless: it's either a nop or a
+dmesg storm. In general, it's a bad idea to printk() in the write
+callback.
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * STP framing rules for OST frames:
+> +	 *   * the first packet of the OST frame is marked;
+> +	 *   * the last packet is a FLAG with timestamped tag.
+> +	 */
+> +	/* Message layout: HEADER / DATA / TAIL */
+> +	/* HEADER */
+> +	sz = data->packet(data, m, c, STP_PACKET_DATA, STP_PACKET_MARKED,
+> +			  4, (u8 *)&header);
+> +	if (sz <= 0)
+> +		return sz;
+> +
+> +	/* DATA */
+> +	*(u16 *)(trc_hdr) = STM_MAKE_VERSION(0, 4);
+> +	*(u16 *)(trc_hdr + 2) = STM_HEADER_MAGIC;
+> +	*(u32 *)(trc_hdr + 4) = raw_smp_processor_id();
+> +	*(u64 *)(trc_hdr + 8) = task_tgid_nr(get_current());
+
+What's the value in exporting PIDs when there are PID namespaces? How is
+this useful? Also, neither console nor ftrace are required to come in a
+task context.
+
+I already asked in the previous version, why is trc_hdr not a struct?
+
+There also used to be a timestamp field in trc_hdr, what happened to it?
+
+Regards,
+--
+Alex
