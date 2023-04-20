@@ -2,88 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17EEEC77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 16:16:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F27AC77B72
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 17:17:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232972AbjDTQP7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 12:15:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39452 "EHLO
+        id S230459AbjDTRRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 13:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231341AbjDTQP6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 12:15:58 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD703596;
-        Thu, 20 Apr 2023 09:15:57 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4038C2AE;
-        Thu, 20 Apr 2023 16:15:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4038C2AE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1682007357; bh=dIoh7Uzva2QsUh5vyGcccNj94Y882Db73hATcucqawE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VANjqdpHV1W5XdXIB/wV+x8VC4ql3kGUs/Per8arX/UNuGOuxeKFb/7Av0anFrvms
-         k2opc6Z1dgRJBQh0L+vo4aO3IZ6rk1D1BicOJephalElMdkwyzKggqcxWNqG4OVJLo
-         KloTTSAaHOH4IGy3uYVMjyqnHdaIJTj7zO3MOaqMsisjTVETjJkOO66AcYdmNbZn3D
-         xcJNJf0KQeN4YWpLFn2TkGN+FDvBF6CFmG6Ph9Y320FpFKBVDL1z2sFaliP6/C7v4y
-         FTZSDSMqKbWjWmDM4+nEUU8ASgxHKz0/vH/CfYklDAAipUkksA5j/Ri8cMe226p3TD
-         Mktp/fj4YA+LA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Brian Masney <bmasney@redhat.com>, sboyd@kernel.org
-Cc:     linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mturquette@baylibre.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: clk: add documentation to log which clocks have
- been disabled
-In-Reply-To: <20230411192153.289688-1-bmasney@redhat.com>
-References: <20230411192153.289688-1-bmasney@redhat.com>
-Date:   Thu, 20 Apr 2023 10:15:56 -0600
-Message-ID: <87y1mmsf5v.fsf@meer.lwn.net>
+        with ESMTP id S229563AbjDTRRC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 13:17:02 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A52FE67;
+        Thu, 20 Apr 2023 10:17:00 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id n193so2645755ybf.12;
+        Thu, 20 Apr 2023 10:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682011019; x=1684603019;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iR3MrYbDMYps02FpM6CgXLeP0ow7vP9dNqGf0sKZVkU=;
+        b=feAhS6Gn5OV5Nz56PvCNsQQbwHKpP2XUJx+Rxk3BWh2G0DJ8XgpcrpkMYqNtu2PlxG
+         Ymcju82iy+Ky3oowVt6Dl5q7FfQinxh53sBwmmWDmuaiZ19/HY9hBEySYF/fWeAsVCk1
+         EGEwfyfTG/+QXWyaq5pjQsqEZszr4a4D6vces80Bgj02hvwL1RGiLaJpwswAQO2lzym3
+         gJOaK96xyucW0NKY5tFxOvX9YoUQJRZGHqdlQo6AyCyFaHeyCDMrx7uIkIdm9ffC9OhA
+         nl+P+DestXdIoa40lCbxAwcBW61PIpAu7bnP1blZU9hqih5lTYKIcu3teBJTP8FmgHUo
+         cprg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682011019; x=1684603019;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iR3MrYbDMYps02FpM6CgXLeP0ow7vP9dNqGf0sKZVkU=;
+        b=UL9AAI2lAksCTPTbYyyvqond/72ROj4XYh481DvyweqqcSIpc4tJViGGjywYACLpXW
+         f3FMCLwmmc8YFwWTtwNyvyVXUhV8jyojrmLRHTcrsOb0HnbiOct+Y4VLxk90vmWDNj8m
+         QHAP7wZd/B6TgnnaiHLXFyv2SbDXV25w936FV8jQJhUKSIIhqH7DICTgoVhh0UD5ImmX
+         hPW35Rjh/oU5toShvm8GJmj2pvytuyxPmHl07+uLtPNO9YbR6iQ3cikvYG+lw4kw9AR0
+         R6G84iNlXjJ6JnpEXay9/c4KcmufADXfyzB/HPT90Nd53qddybl1gdyV5rCS09fOwFj5
+         OCCA==
+X-Gm-Message-State: AAQBX9cynSo3gUgiu4R0BIpL+Y21h76myEwDuiJUrPpkVReTI2F9vCkD
+        qxR5r9DERP5eNc6Bc1nJUGW0I8jouhktdS6QkuQ=
+X-Google-Smtp-Source: AKy350b+9jyLFlcvFZTFwaDafV4O6IuCCJNUZWmUt4dda8BcGy2rSeuJ9k+2jdOPTM1SqvEljb+qQWNrtFbjMzzfWxA=
+X-Received: by 2002:a25:183:0:b0:b8f:545f:aa0a with SMTP id
+ 125-20020a250183000000b00b8f545faa0amr1973346ybb.31.1682011019151; Thu, 20
+ Apr 2023 10:16:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <tencent_CB1A298D31FD221496FF657CD7EF406E6605@qq.com>
+ <87sfcuu0fm.fsf@meer.lwn.net> <87o7nitvd4.fsf@meer.lwn.net>
+In-Reply-To: <87o7nitvd4.fsf@meer.lwn.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 20 Apr 2023 19:16:48 +0200
+Message-ID: <CANiq72k7gVJ1gjN-qbkUM_hh=1QEb8ezKb8FnaD9hnF2kka8Ng@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/process/changes: Escape --options to fix
+ Sphinx output
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Zipeng Zhang <zhangzipeng0@foxmail.com>, ojeda@kernel.org,
+        alex.gaynor@gmail.com, wedsonaf@gmail.com, boqun.feng@gmail.com,
+        gary@garyguo.net, bjorn3_gh@protonmail.com, nathan@kernel.org,
+        ndesaulniers@google.com, trix@redhat.com, masahiroy@kernel.org,
+        codeagain@codeagain.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Brian Masney <bmasney@redhat.com> writes:
-
-> The existing clk documentation has a section that talks about the
-> clk_ignore_unused kernel parameter. Add additional documentation that
-> describes how to log which clocks the kernel disables on bootup. This
-> will log messages like the following to the console on bootup:
+On Thu, Apr 20, 2023 at 5:40=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
 >
->     [    1.268115] clk: Disabling unused clocks
->     [    1.272167] clk_disable: gcc_usb_clkref_en
->     [    1.276389] clk_disable: gcc_usb30_sec_sleep_clk
->     [    1.281131] clk_disable: gcc_usb30_prim_sleep_clk
->     ...
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  Documentation/driver-api/clk.rst | 5 +++++
->  1 file changed, 5 insertions(+)
+> We have long disabled the "html_use_smartypants" option to prevent Sphinx
+> from mangling "--" sequences (among others).  Unfortunately, Sphinx chang=
+ed
+> that option to "smartquotes" in the 1.6.6 release, and seemingly didn't s=
+ee
+> fit to warn about the use of the obsolete option, resulting in the
+> aforementioned mangling returning.  Disable this behavior again and hope
+> that the option name stays stable for a while.
 
-I've applied this, but...
+I think it was deprecated in v1.6, and removed in v1.7. There seems to
+be code for printing a deprecation warning during v1.6, though.
 
-> diff --git a/Documentation/driver-api/clk.rst b/Documentation/driver-api/clk.rst
-> index 3cad45d14187..2199c0042e75 100644
-> --- a/Documentation/driver-api/clk.rst
-> +++ b/Documentation/driver-api/clk.rst
-> @@ -258,6 +258,11 @@ clocks properly but rely on them being on from the bootloader, bypassing
->  the disabling means that the driver will remain functional while the issues
->  are sorted out.
->  
-> +You can see which clocks have been disabled by booting your kernel with these
-> +parameters:
+> +# If true, Docutils "smart quotes will be used to convert quotes and das=
+hes
 
-...I took the liberty of making that "parameters::" so that the options
-would be formatted as a literal block.
+Missing quote in "smart quotes"? Or maybe Saxon genitive?
 
-> + tp_printk trace_event=clk:clk_disable
-> +
->  To bypass this disabling, include "clk_ignore_unused" in the bootargs to the
->  kernel.
+Other than that, sounds good to me!
 
-Thanks,
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
-jon
+Cheers,
+Miguel
