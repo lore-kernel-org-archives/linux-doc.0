@@ -2,995 +2,486 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22851C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 06:23:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B4FC77B72
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 07:55:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233647AbjDTGXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 02:23:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34162 "EHLO
+        id S233984AbjDTHzH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 03:55:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233891AbjDTGWt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 02:22:49 -0400
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2133.outbound.protection.outlook.com [40.107.215.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E29549DB;
-        Wed, 19 Apr 2023 23:22:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LcuFUU1CkK1tR5N3aPhFdm9qW69FQe98OZ0aKfMKw7UPjj5W5LyZsq2NWEbg71GYiPeY4VD+yOg7FgBZxYGncVn/o3pxAP7xJP9LzIdOVSivoRK2ytfddyAIUwzTVh2WDP5uTA3tnWpkPCFSIUd0jJG8DyIbHmsy3syf574GYYR9EGfH3vdLBSbI57Rr8Of4GAywblToDPb/WYYcVs2Nb99JVbb3WpdJsFSPM3qr2xzNZQSEmLlXBn00crcdvO3p/Zdtd9xdPEmQlFVCN69AkL65Y1mlrUQzf9lWiqk7QjeqQMXurxRPDWGoK89L+BHyA5Kv3diY8iaUKl4N1rF+Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vNnOfv7I4a3O3fU+6knwwQIFHQirOGhOHnG4fyUXaw8=;
- b=eMQEix5Z/b6bc5FV4q+8+T1F1EePcApxel1i+MC39hXyDuIluVYbpGhoPzDOx9u12Zv9+qXNgDx5iADUWmr588ho6+bYzl4qohissWZ0i0+G/WygEb1DtLzRsxbAaN8S62ipHMylu00vM/LMSjQd8bPoCC19aFRMQwiXmH5NctTH+GrjCvPTulTG6YVSnZy3tnR6B6qoMzz1URVHjgFBH7If4jrNiiNrcY6GGF5C6aABw1l+N3rVkt7Su/sciMukTbGW1hdhLFW5cwa7qxdY/2cnxYyaMYOCleK4laVd3psuXtVydF8KhoAWZPHHr/OQA3gTML8J5NI4SmaaucPYkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vNnOfv7I4a3O3fU+6knwwQIFHQirOGhOHnG4fyUXaw8=;
- b=Kg7ZOKhuxFELsmGNPrBbs3FO33kTvPlblVxnetKZwmG0wcrqNvTF5wWlhuC6YnUiJ5EVi2WW9iYHt81Eqd+EcuSZO4w2/MMesvsWi8RuDxIfjgq0urL4fQFL6OdclkJxQDA+DrjKODYwQjNoyO/K2l/6DP6rNH52Dmxx5YbAwsToFpn3H1IPiTr8fE4WNKzsVLQh8yg2eniK0/sFHY+NNH8FCfcDRM3z++liTrf6sNIAVvbQOGFsuh3vmCf5aI+PAI16cyYXI/rjbB4zVzuhewWKAXlfJ8ZCw21pWLuzpyECn63GzTGP8IBdJlMBVcL9NG+yVCzcHiO8FGEYzNrs+A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by PUZPR06MB5649.apcprd06.prod.outlook.com (2603:1096:301:fe::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.20; Thu, 20 Apr
- 2023 06:22:25 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::76d6:4828:7e80:2965]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::76d6:4828:7e80:2965%7]) with mapi id 15.20.6319.022; Thu, 20 Apr 2023
- 06:22:25 +0000
-From:   Yangtao Li <frank.li@vivo.com>
-To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Yangtao Li <frank.li@vivo.com>, kernel test robot <lkp@intel.com>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v6] f2fs: support FAULT_LOCK type fault injection
-Date:   Thu, 20 Apr 2023 14:22:05 +0800
-Message-Id: <20230420062207.26879-1-frank.li@vivo.com>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR03CA0104.apcprd03.prod.outlook.com
- (2603:1096:4:7c::32) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|PUZPR06MB5649:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2fc687e1-efcf-4d90-505d-08db41679b62
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LOGA0VCAe9uUQlWDAUWO/ih9Ay8NlH082m5Nrc8SXPxJW8SVIU8hgjJgnaxOuuU9B2FYhG8EWKYHYya9dFxmR6sEf/8jXymh7JY3GfP9KwIltmVMup+Pta/KsqdeuzCuP/UeL8Haa+HGtMMlaAEcYoGMJZkuyhyiFrYj5mRLzKtX7vtXn6F7v7pV6JAI0zdTMcaEV2ZEEB2hgvDY5SH+iszSl3oWdskm2K5AgihtY6CBSS94P92zH2AN/PH8DwLNz1XXZfQi0dOV7PlC+2qHwSDTlB6cCZJ2KOscpPshkvO+0uE4l5efL7DOnvs3jmjyq99YI+J1yXm9RvZvkk3MtCNdg0M/SvFF8rFOfzo8KIVVYx5QtPAbF69a1RQZQwa+3rKiECY8QdXBfcsmXErGh1nHjXXrEAEEucRN5l1R51gsburNwPqmrgeE5Qx7ADUuQoMVM1hKmkTsiBf3SINsf+sGBBjFAvSohyUExxQzSDQ0ynPcrfONiCeuuHZpO0jEPp0xqt+DoRnuo+yCp1Q3Xf7dwfVrTEmpugxKL6kyft1jjKU55+l90AbXMF5ewBykb9geJEeNCcNvlejBExBteqMx/+8g03oJVK7I1Qs2ZI4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(376002)(346002)(366004)(39860400002)(451199021)(30864003)(2906002)(52116002)(2616005)(478600001)(6666004)(86362001)(966005)(26005)(6506007)(6512007)(1076003)(6486002)(186003)(36756003)(41300700001)(54906003)(8676002)(8936002)(38100700002)(19627235002)(4326008)(66556008)(66476007)(83380400001)(66946007)(110136005)(316002)(38350700002)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K+o5Oo+3T6Qp2ExrHAUPs8dbKNFLUCWswq67dUn1QbpE0A0cpoau5p3CLC76?=
- =?us-ascii?Q?iLgulMTmjwMLODCvajvjY/MNpscJTrnYMpc9XXH8BviVUz4duCNtHxcPPtYc?=
- =?us-ascii?Q?KzpgUavs2ht5wTyzfy1kQIJ25w5nNnpfnWqFLVp5Qgrr2Rtqe4GFkzYxvXoL?=
- =?us-ascii?Q?+VdEg26X/q48JTpZA5F6dS+xnXfS8iuqpwyOJuIs0nFAd3UkS7VPTaacnL+c?=
- =?us-ascii?Q?FC+oH/mocgkl5hNMDPTGZf4Hx3w73nrow8+AqagxjGpjzf03W9qpxuyY3XFV?=
- =?us-ascii?Q?KKkeQRk0RUSVoUCzkFGAAQaVPcfWPgZkJgnStfzIrkOehVJW4yeYXlTJvG0V?=
- =?us-ascii?Q?GZ6NPXx1FTztmswC7+HPdW4w6XRii+S95Nu49dEQCtVY74C+g78ciEago05G?=
- =?us-ascii?Q?jNFOkiFxdO6VLlGa2lVp50LicyJMbip72QWfB4uoMu6xrNe0cRY6W03Omdc9?=
- =?us-ascii?Q?+4TaiyJqmMHDkAXeHmIkg3IsLrSfWQdiJ+3rJeVpEuay0Bdd8obO1rzSJ4Iq?=
- =?us-ascii?Q?gK+msWDDZGLKn8V4H9tsCULTzamL7FV3q35+q2cxvqQDbUv+6YEXjsfMs/xm?=
- =?us-ascii?Q?sutj8dyk5FlBQT/5WyfiWNiqMiLeD2cxVOi2krm5FnVIM9izXx0/m8UVj7gI?=
- =?us-ascii?Q?4h9PjP6B+m9V8rQT01VmVW4Y6kzKyPnk0/z++KZ8piWd5ssRhrxwV2iMUUcg?=
- =?us-ascii?Q?MVUZ528nvjHXHoNXdQJWSP61UvymkB9lV4ijjFYRwUUPitpjxpkm32p+GcQE?=
- =?us-ascii?Q?mC/8ju6n72jZN01maUuGPri5SFAKXdj1hyT7ywtL5eelZJAB0GSHFib4uCK2?=
- =?us-ascii?Q?R06WTd2cL9vCnD2PDUmznu75AHNcILhrhzYtXV2pgK11YL2/twb/Omo97mBY?=
- =?us-ascii?Q?8lK3iZU5hopYkNkCojEvWxMLbEK06vFgsxWrI0BRF+PXSVLq/Sfl1dsxHW5v?=
- =?us-ascii?Q?Dt7uRXEVHzTNKtdPcrJ3LqLnWPOm3zRYJh27/U94uP7dUeDFv47fyPHO2xIn?=
- =?us-ascii?Q?Sx8eV+gutvWLYttuNvFxR7PB/A4ZPX32+KVISQa9DtxPksmBt/6lg0gpGCZv?=
- =?us-ascii?Q?j8IRvR07jawgZmMTgDcHCNcd2a0CuZE0k65RW2jk2q6qBbfKXauQptT6kGe4?=
- =?us-ascii?Q?tBtdIwRtN9WsPliBUrI8+I7LQBFDcEe/CVyVljvp180QQ9P4S8JBGNeHwHx2?=
- =?us-ascii?Q?TK5TnI9ujhinNfVNT8nt5AdUaXWR6cPGxs0n+45cQcAYnpz5Az2VdgZiHWsW?=
- =?us-ascii?Q?bD4hlUkQNvHCCSBMy3CSjFuhoqFlpnXPthAyJorAztpriLx2zMJIW2YA4Qmn?=
- =?us-ascii?Q?3ryjpusb2JOBJC5Dq+U0prgCz6+Hi7dZwBNKbvQoMQbEg+N5jmUGyrFeY3Yj?=
- =?us-ascii?Q?u3ELTQ9ikrPkxsjNe7xll5taFrgETMGuFX7Yjsc8x3QORW+gUK+0AHNR7ojS?=
- =?us-ascii?Q?+LR+mqKau2bGKjGRcyBTBtwmo52//aal/KOqPqKepnj6VgVqJh7sY/v5zFAm?=
- =?us-ascii?Q?IUNtVLsJzGw5xdQjwtcFjWUEnJu+EY/sPbBsYWRDHm/6sNYVJfqK93wC+bho?=
- =?us-ascii?Q?9SduUiiVbquuHTN/0h9GtEEk7CWqih0ZmsHTcFeZ?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fc687e1-efcf-4d90-505d-08db41679b62
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2023 06:22:25.0897
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tByBUIIYZhvzyz7IWE85waB52bPJ16gZHHSO6DTM8D9x7dTXnXxQy9L0ct/l34ON4VZO9Nm1jZyFMCB9bvxccA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5649
+        with ESMTP id S234205AbjDTHyw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 03:54:52 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF8475594
+        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 00:54:25 -0700 (PDT)
+Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230420075324epoutp031045eac165d0d62996112d9465cbfa0a~XlVsqMj7U1254812548epoutp03D
+        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 07:53:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230420075324epoutp031045eac165d0d62996112d9465cbfa0a~XlVsqMj7U1254812548epoutp03D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1681977204;
+        bh=u/he+tnT0S3DzCzQsDeYtXW936+iPDollN9ZkSpsd1k=;
+        h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+        b=gfqeQMAub17DjsgBSwgz+FojWX9dybSRDGqIDc2bNoUMFL7SA5wxCX5EhBy3+pf1q
+         AH8tPsyzsEy+L+rsJjo0LGUd6sMtqsBEZX0SxU3C1OHO7S8ACjzD6V8RAb7BFVxcVz
+         Hlxb7jQ8UNJh81rDVwFjb5NrDzsVGDS5JBo70HRI=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+        20230420075323epcas2p44f3203170f313178323b59fe344ebcfa~XlVsDs5NN3125231252epcas2p4G;
+        Thu, 20 Apr 2023 07:53:23 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.36.97]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4Q28zR33Nbz4x9QG; Thu, 20 Apr
+        2023 07:53:23 +0000 (GMT)
+X-AuditID: b6c32a48-023fa700000025b2-15-6440ef7394db
+Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
+        epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        C9.FD.09650.37FE0446; Thu, 20 Apr 2023 16:53:23 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE:(2) [PATCH] f2fs: add async reset zone command support
+Reply-To: daejun7.park@samsung.com
+Sender: Daejun Park <daejun7.park@samsung.com>
+From:   Daejun Park <daejun7.park@samsung.com>
+To:     Jaegeuk Kim <jaegeuk@kernel.org>,
+        Daejun Park <daejun7.park@samsung.com>
+CC:     "chao@kernel.org" <chao@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mhiramat@kernel.org" <mhiramat@kernel.org>,
+        "linux-f2fs-devel@lists.sourceforge.net" 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-trace-kernel@vger.kernel.org" 
+        <linux-trace-kernel@vger.kernel.org>,
+        Seokhwan Kim <sukka.kim@samsung.com>,
+        beomsu kim <beomsu7.kim@samsung.com>,
+        Yonggil Song <yonggil.song@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <ZEBO+qOLXbnYusw5@google.com>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20230420075222epcms2p2a0a00e26b5c70d90950eed750822e5fc@epcms2p2>
+Date:   Thu, 20 Apr 2023 16:52:22 +0900
+X-CMS-MailID: 20230420075222epcms2p2a0a00e26b5c70d90950eed750822e5fc
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDJsWRmVeSWpSXmKPExsWy7bCmqW7xe4cUg/kvxCwuzPvIbHF66lkm
+        iycH2hktXh7StFj1INziyfpZzBYL25awWFxa5G5xedccNosj68+yWCxermaxr+MBk8WqjrmM
+        FlPPH2Fy4PNo2XeL3WPTqk42j90LPjN5LO6bzOrRt2UVo8fnTXIBbFHZNhmpiSmpRQqpecn5
+        KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJuam2Si4+AbpumTlApyoplCXmlAKFAhKLi5X07WyK
+        8ktLUhUy8otLbJVSC1JyCswL9IoTc4tL89L18lJLrAwNDIxMgQoTsjN6pn1hKrj3iLHiw5Lt
+        rA2Mm+8wdjFyckgImEi0X9zE3sXIxSEksINR4ujXmyxdjBwcvAKCEn93CIPUCAs4SXQtvsMK
+        YgsJKEmsvziLHSKuJ3Hr4RqwOWwCOhLTT9wHi4sI+Ei86FzLDDKTWWA/i8Ts18tYIZbxSsxo
+        f8oCYUtLbF++FayZU0BLYsuG+UwQcQ2JH8t6mSFsUYmbq9+yw9jvj82HOlpEovXeWagaQYkH
+        P3dDxSUlbs/dBFWfL/H/ynIou0Zi24F5ULa+xLWOjWA38Ar4Siyb9gasl0VAVeLq2UtQt7lI
+        LN8+FeweZgFtiWULXzODwoRZQFNi/S59EFNCQFniyC0WiAo+iY7Df9lhPmzY+Bsre8e8J1Af
+        qkms+7meaQKj8ixEQM9CsmsWwq4FjMyrGMVSC4pz01OLjQpM4LGbnJ+7iRGcbLU8djDOfvtB
+        7xAjEwfjIUYJDmYlEd4zrlYpQrwpiZVVqUX58UWlOanFhxhNgb6cyCwlmpwPTPd5JfGGJpYG
+        JmZmhuZGpgbmSuK8HzuUU4QE0hNLUrNTUwtSi2D6mDg4pRqY8iy+uax7y9SsfZDzQPyrTqcz
+        PDWL/ZctdIkWmWDCHr42jcFUvaxP8Ppb9QMqr9Mf9UWbG0iKb9P/ffqhicHFrgLn096reg79
+        +smb01T1M4u/dEoIg3yVYG7js/P88e//mQdYhxipv+G4JLeTf2nTNiEtvkk/m1S0axt3+yb4
+        vbrW8LI5tPjBtZsa+Sstv07d1O3zwmaZ2uUIW+OmqPR071oHL5sImU+GPIHpu//rKTxv2FeX
+        cj/HivPFfet1q40/xH2fM2Mue2FU3IXvewQ2bV7cGTs31bT92+UsltBVs62fyb72X+geL/9i
+        P9P01bWbDY52fXrK8GtWiqbUdoXXFUzuP1n75yVW7J+W/FqJpTgj0VCLuag4EQCpXhFcPwQA
+        AA==
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a
+References: <ZEBO+qOLXbnYusw5@google.com>
+        <20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p5>
+        <CGME20230414025921epcms2p5736ebf6a215201e0c2a2c1a3f73ee06a@epcms2p2>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Similar to FAULT_LOCK_OP, this patch supports to inject fault into
-variant of _trylock(), including:
-  - inode_trylock
-  - down_read_trylock
-  - down_write_trylock
-  - mutex_trylock
-  - sb_start_write_trylock
-  - trylock_page
+Hi Jeageuk,
 
-Usage:
-  a) echo 524288 > /sys/fs/f2fs/<dev>/inject_type or
-  b) mount -o fault_type=524288 <dev> <mountpoint>
+Thanks for helpful review.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202304031801.hGbHuuBP-lkp@intel.com/
-Suggested-by: Chao Yu <chao@kernel.org>
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
----
-v6:
--rebase
- Documentation/ABI/testing/sysfs-fs-f2fs |  1 +
- Documentation/filesystems/f2fs.rst      |  1 +
- fs/f2fs/checkpoint.c                    |  6 +-
- fs/f2fs/compress.c                      |  2 +-
- fs/f2fs/data.c                          |  8 +--
- fs/f2fs/extent_cache.c                  |  6 +-
- fs/f2fs/f2fs.h                          | 73 ++++++++++++++++++++++---
- fs/f2fs/file.c                          | 31 ++++++-----
- fs/f2fs/gc.c                            | 12 ++--
- fs/f2fs/namei.c                         |  4 +-
- fs/f2fs/node.c                          | 28 +++++-----
- fs/f2fs/segment.c                       | 27 ++++-----
- fs/f2fs/shrinker.c                      | 10 ++--
- fs/f2fs/super.c                         |  7 ++-
- fs/f2fs/sysfs.c                         |  2 +-
- fs/f2fs/xattr.c                         | 15 ++---
- 16 files changed, 146 insertions(+), 87 deletions(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
-index 8140fc98f5ae..5ada174cf30c 100644
---- a/Documentation/ABI/testing/sysfs-fs-f2fs
-+++ b/Documentation/ABI/testing/sysfs-fs-f2fs
-@@ -708,6 +708,7 @@ Description:	Support configuring fault injection type, should be
- 		FAULT_DQUOT_INIT         0x000010000
- 		FAULT_LOCK_OP            0x000020000
- 		FAULT_BLKADDR            0x000040000
-+		FAULT_LOCK               0x000080000
- 		===================      ===========
- 
- What:		/sys/fs/f2fs/<disk>/discard_io_aware_gran
-diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-index c57745375edb..fafae551df9e 100644
---- a/Documentation/filesystems/f2fs.rst
-+++ b/Documentation/filesystems/f2fs.rst
-@@ -206,6 +206,7 @@ fault_type=%d		 Support configuring fault injection type, should be
- 			 FAULT_DQUOT_INIT	  0x000010000
- 			 FAULT_LOCK_OP		  0x000020000
- 			 FAULT_BLKADDR		  0x000040000
-+			 FAULT_LOCK		  0x000080000
- 			 ===================	  ===========
- mode=%s			 Control block allocation mode which supports "adaptive"
- 			 and "lfs". In "lfs" mode, there should be no random
-diff --git a/fs/f2fs/checkpoint.c b/fs/f2fs/checkpoint.c
-index 64b3860f50ee..2887d62b4a17 100644
---- a/fs/f2fs/checkpoint.c
-+++ b/fs/f2fs/checkpoint.c
-@@ -389,7 +389,7 @@ static int f2fs_write_meta_pages(struct address_space *mapping,
- 		goto skip_write;
- 
- 	/* if locked failed, cp will flush dirty pages instead */
--	if (!f2fs_down_write_trylock(&sbi->cp_global_sem))
-+	if (!f2fs_down_write_trylock(sbi, &sbi->cp_global_sem))
- 		goto skip_write;
- 
- 	trace_f2fs_writepages(mapping->host, wbc, META);
-@@ -1182,7 +1182,7 @@ static bool __need_flush_quota(struct f2fs_sb_info *sbi)
- 	if (!is_journalled_quota(sbi))
- 		return false;
- 
--	if (!f2fs_down_write_trylock(&sbi->quota_sem))
-+	if (!f2fs_down_write_trylock(sbi, &sbi->quota_sem))
- 		return true;
- 	if (is_sbi_flag_set(sbi, SBI_QUOTA_SKIP_FLUSH)) {
- 		ret = false;
-@@ -1228,7 +1228,7 @@ static int block_operations(struct f2fs_sb_info *sbi)
- 		f2fs_unlock_all(sbi);
- 
- 		/* only failed during mount/umount/freeze/quotactl */
--		locked = down_read_trylock(&sbi->sb->s_umount);
-+		locked = f2fs_raw_down_read_trylock(sbi, &sbi->sb->s_umount);
- 		f2fs_quota_sync(sbi->sb, -1);
- 		if (locked)
- 			up_read(&sbi->sb->s_umount);
-diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
-index 11653fa79289..b94c3d5087f3 100644
---- a/fs/f2fs/compress.c
-+++ b/fs/f2fs/compress.c
-@@ -1228,7 +1228,7 @@ static int f2fs_write_compressed_pages(struct compress_ctx *cc,
- 		 * checkpoint. This can only happen to quota writes which can cause
- 		 * the below discard race condition.
- 		 */
--		f2fs_down_read(&sbi->node_write);
-+		f2fs_down_read(sbi, &sbi->node_write);
- 	} else if (!f2fs_trylock_op(sbi)) {
- 		goto out_free;
- 	}
-diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-index 8df225014304..872ed5554c26 100644
---- a/fs/f2fs/data.c
-+++ b/fs/f2fs/data.c
-@@ -680,7 +680,7 @@ static void __submit_merged_write_cond(struct f2fs_sb_info *sbi,
- 			enum page_type btype = PAGE_TYPE_OF_BIO(type);
- 			struct f2fs_bio_info *io = sbi->write_io[btype] + temp;
- 
--			f2fs_down_read(&io->io_rwsem);
-+			f2fs_down_read(sbi, &io->io_rwsem);
- 			ret = __has_merged_page(io->bio, inode, page, ino);
- 			f2fs_up_read(&io->io_rwsem);
- 		}
-@@ -884,7 +884,7 @@ void f2fs_submit_merged_ipu_write(struct f2fs_sb_info *sbi,
- 		if (list_empty(head))
- 			continue;
- 
--		f2fs_down_read(&io->bio_list_lock);
-+		f2fs_down_read(sbi, &io->bio_list_lock);
- 		list_for_each_entry(be, head, list) {
- 			if (target)
- 				found = (target == be->bio);
-@@ -1447,7 +1447,7 @@ static int __allocate_data_block(struct dnode_of_data *dn, int seg_type)
- static void f2fs_map_lock(struct f2fs_sb_info *sbi, int flag)
- {
- 	if (flag == F2FS_GET_BLOCK_PRE_AIO)
--		f2fs_down_read(&sbi->node_change);
-+		f2fs_down_read(sbi, &sbi->node_change);
- 	else
- 		f2fs_lock_op(sbi);
- }
-@@ -2839,7 +2839,7 @@ int f2fs_write_single_data_page(struct page *page, int *submitted,
- 		 * the below discard race condition.
- 		 */
- 		if (IS_NOQUOTA(inode))
--			f2fs_down_read(&sbi->node_write);
-+			f2fs_down_read(sbi, &sbi->node_write);
- 
- 		fio.need_lock = LOCK_DONE;
- 		err = f2fs_do_write_data_page(&fio);
-diff --git a/fs/f2fs/extent_cache.c b/fs/f2fs/extent_cache.c
-index bea6ab9d846a..bab36a42bacf 100644
---- a/fs/f2fs/extent_cache.c
-+++ b/fs/f2fs/extent_cache.c
-@@ -917,7 +917,7 @@ static unsigned int __shrink_extent_tree(struct f2fs_sb_info *sbi, int nr_shrink
- 	if (!atomic_read(&eti->total_zombie_tree))
- 		goto free_node;
- 
--	if (!mutex_trylock(&eti->extent_tree_lock))
-+	if (!f2fs_mutex_trylock(sbi, &eti->extent_tree_lock))
- 		goto out;
- 
- 	/* 1. remove unreferenced extent tree */
-@@ -943,7 +943,7 @@ static unsigned int __shrink_extent_tree(struct f2fs_sb_info *sbi, int nr_shrink
- 
- free_node:
- 	/* 2. remove LRU extent entries */
--	if (!mutex_trylock(&eti->extent_tree_lock))
-+	if (!f2fs_mutex_trylock(sbi, &eti->extent_tree_lock))
- 		goto out;
- 
- 	remained = nr_shrink - (node_cnt + tree_cnt);
-@@ -955,7 +955,7 @@ static unsigned int __shrink_extent_tree(struct f2fs_sb_info *sbi, int nr_shrink
- 		en = list_first_entry(&eti->extent_list,
- 					struct extent_node, list);
- 		et = en->et;
--		if (!write_trylock(&et->lock)) {
-+		if (!f2fs_write_trylock(sbi, &et->lock)) {
- 			/* refresh this extent node's position in extent list */
- 			list_move_tail(&en->list, &eti->extent_list);
- 			continue;
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index d8cb1dc09f9f..2bbac3a15c5a 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -61,6 +61,7 @@ enum {
- 	FAULT_DQUOT_INIT,
- 	FAULT_LOCK_OP,
- 	FAULT_BLKADDR,
-+	FAULT_LOCK,
- 	FAULT_MAX,
- };
- 
-@@ -2079,27 +2080,76 @@ static inline int f2fs_rwsem_is_contended(struct f2fs_rwsem *sem)
- 	return rwsem_is_contended(&sem->internal_rwsem);
- }
- 
--static inline void f2fs_down_read(struct f2fs_rwsem *sem)
-+static inline int f2fs_down_read_trylock(struct f2fs_sb_info *sbi,
-+					struct f2fs_rwsem *sem)
-+{
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
-+	return down_read_trylock(&sem->internal_rwsem);
-+}
-+
-+static inline void f2fs_down_read(struct f2fs_sb_info *sbi, struct f2fs_rwsem *sem)
- {
- #ifdef CONFIG_F2FS_UNFAIR_RWSEM
--	wait_event(sem->read_waiters, down_read_trylock(&sem->internal_rwsem));
-+	wait_event(sem->read_waiters, f2fs_down_read_trylock(sbi, sem));
- #else
- 	down_read(&sem->internal_rwsem);
- #endif
- }
- 
--static inline int f2fs_down_read_trylock(struct f2fs_rwsem *sem)
-+static inline int f2fs_raw_down_read_trylock(struct f2fs_sb_info *sbi,
-+					struct rw_semaphore *sem)
- {
--	return down_read_trylock(&sem->internal_rwsem);
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
-+	return down_read_trylock(sem);
-+}
-+
-+static inline int f2fs_inode_trylock(struct f2fs_sb_info *sbi,
-+					struct inode *inode)
-+{
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
-+	return down_write_trylock(&inode->i_rwsem);
-+}
-+
-+static inline int f2fs_mutex_trylock(struct f2fs_sb_info *sbi,
-+					struct mutex *lock)
-+{
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
-+	return mutex_trylock(lock);
-+}
-+
-+static inline int f2fs_trylock_page(struct f2fs_sb_info *sbi, struct page *page)
-+{
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
-+	return trylock_page(page);
-+}
-+
-+static inline int f2fs_write_trylock(struct f2fs_sb_info *sbi, rwlock_t *lock)
-+{
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
-+	return write_trylock(lock);
-+}
-+
-+static inline bool f2fs_sb_start_write_trylock(struct f2fs_sb_info *sbi)
-+{
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
-+	return sb_start_write_trylock(sbi->sb);
- }
- 
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
--static inline void f2fs_down_read_nested(struct f2fs_rwsem *sem, int subclass)
-+static inline void f2fs_down_read_nested(struct f2fs_sb_info *sbi,
-+					struct f2fs_rwsem *sem, int subclass)
- {
- 	down_read_nested(&sem->internal_rwsem, subclass);
- }
- #else
--#define f2fs_down_read_nested(sem, subclass) f2fs_down_read(sem)
-+#define f2fs_down_read_nested(sbi, sem, subclass) f2fs_down_read(sbi, sem)
- #endif
- 
- static inline void f2fs_up_read(struct f2fs_rwsem *sem)
-@@ -2112,8 +2162,11 @@ static inline void f2fs_down_write(struct f2fs_rwsem *sem)
- 	down_write(&sem->internal_rwsem);
- }
- 
--static inline int f2fs_down_write_trylock(struct f2fs_rwsem *sem)
-+static inline int f2fs_down_write_trylock(struct f2fs_sb_info *sbi,
-+					struct f2fs_rwsem *sem)
- {
-+	if (time_to_inject(sbi, FAULT_LOCK))
-+		return 0;
- 	return down_write_trylock(&sem->internal_rwsem);
- }
- 
-@@ -2127,14 +2180,16 @@ static inline void f2fs_up_write(struct f2fs_rwsem *sem)
- 
- static inline void f2fs_lock_op(struct f2fs_sb_info *sbi)
- {
--	f2fs_down_read(&sbi->cp_rwsem);
-+	f2fs_down_read(sbi, &sbi->cp_rwsem);
- }
- 
- static inline int f2fs_trylock_op(struct f2fs_sb_info *sbi)
- {
-+	struct f2fs_rwsem *sem = &sbi->cp_rwsem;
-+
- 	if (time_to_inject(sbi, FAULT_LOCK_OP))
- 		return 0;
--	return f2fs_down_read_trylock(&sbi->cp_rwsem);
-+	return down_read_trylock(&sem->internal_rwsem);
- }
- 
- static inline void f2fs_unlock_op(struct f2fs_sb_info *sbi)
-diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
-index 720be239955d..ad4a3d79ddf5 100644
---- a/fs/f2fs/file.c
-+++ b/fs/f2fs/file.c
-@@ -316,7 +316,7 @@ static int f2fs_do_sync_file(struct file *file, loff_t start, loff_t end,
- 	 * Both of fdatasync() and fsync() are able to be recovered from
- 	 * sudden-power-off.
- 	 */
--	f2fs_down_read(&F2FS_I(inode)->i_sem);
-+	f2fs_down_read(sbi, &F2FS_I(inode)->i_sem);
- 	cp_reason = need_do_checkpoint(inode);
- 	f2fs_up_read(&F2FS_I(inode)->i_sem);
- 
-@@ -2466,7 +2466,7 @@ static int f2fs_ioc_gc(struct file *filp, unsigned long arg)
- 		return ret;
- 
- 	if (!sync) {
--		if (!f2fs_down_write_trylock(&sbi->gc_lock)) {
-+		if (!f2fs_down_write_trylock(sbi, &sbi->gc_lock)) {
- 			ret = -EBUSY;
- 			goto out;
- 		}
-@@ -2510,7 +2510,7 @@ static int __f2fs_ioc_gc_range(struct file *filp, struct f2fs_gc_range *range)
- 
- do_more:
- 	if (!range->sync) {
--		if (!f2fs_down_write_trylock(&sbi->gc_lock)) {
-+		if (!f2fs_down_write_trylock(sbi, &sbi->gc_lock)) {
- 			ret = -EBUSY;
- 			goto out;
- 		}
-@@ -2805,7 +2805,7 @@ static int f2fs_move_file_range(struct file *file_in, loff_t pos_in,
- 	inode_lock(src);
- 	if (src != dst) {
- 		ret = -EBUSY;
--		if (!inode_trylock(dst))
-+		if (!f2fs_inode_trylock(sbi, dst))
- 			goto out;
- 	}
- 
-@@ -2855,7 +2855,7 @@ static int f2fs_move_file_range(struct file *file_in, loff_t pos_in,
- 	f2fs_down_write(&F2FS_I(src)->i_gc_rwsem[WRITE]);
- 	if (src != dst) {
- 		ret = -EBUSY;
--		if (!f2fs_down_write_trylock(&F2FS_I(dst)->i_gc_rwsem[WRITE]))
-+		if (!f2fs_down_write_trylock(sbi, &F2FS_I(dst)->i_gc_rwsem[WRITE]))
- 			goto out_src;
- 	}
- 
-@@ -2975,7 +2975,7 @@ static int f2fs_ioc_flush_device(struct file *filp, unsigned long arg)
- 	end_segno = min(start_segno + range.segments, dev_end_segno);
- 
- 	while (start_segno < end_segno) {
--		if (!f2fs_down_write_trylock(&sbi->gc_lock)) {
-+		if (!f2fs_down_write_trylock(sbi, &sbi->gc_lock)) {
- 			ret = -EBUSY;
- 			goto out;
- 		}
-@@ -3325,7 +3325,7 @@ static int f2fs_ioc_getfslabel(struct file *filp, unsigned long arg)
- 	if (!vbuf)
- 		return -ENOMEM;
- 
--	f2fs_down_read(&sbi->sb_lock);
-+	f2fs_down_read(sbi, &sbi->sb_lock);
- 	count = utf16s_to_utf8s(sbi->raw_super->volume_name,
- 			ARRAY_SIZE(sbi->raw_super->volume_name),
- 			UTF16_LITTLE_ENDIAN, vbuf, MAX_VOLUME_NAME);
-@@ -4335,12 +4335,12 @@ static ssize_t f2fs_dio_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 	trace_f2fs_direct_IO_enter(inode, iocb, count, READ);
- 
- 	if (iocb->ki_flags & IOCB_NOWAIT) {
--		if (!f2fs_down_read_trylock(&fi->i_gc_rwsem[READ])) {
-+		if (!f2fs_down_read_trylock(sbi, &fi->i_gc_rwsem[READ])) {
- 			ret = -EAGAIN;
- 			goto out;
- 		}
- 	} else {
--		f2fs_down_read(&fi->i_gc_rwsem[READ]);
-+		f2fs_down_read(sbi, &fi->i_gc_rwsem[READ]);
- 	}
- 
- 	/*
-@@ -4582,11 +4582,11 @@ static ssize_t f2fs_dio_write_iter(struct kiocb *iocb, struct iov_iter *from,
- 			goto out;
- 		}
- 
--		if (!f2fs_down_read_trylock(&fi->i_gc_rwsem[WRITE])) {
-+		if (!f2fs_down_read_trylock(sbi, &fi->i_gc_rwsem[WRITE])) {
- 			ret = -EAGAIN;
- 			goto out;
- 		}
--		if (do_opu && !f2fs_down_read_trylock(&fi->i_gc_rwsem[READ])) {
-+		if (do_opu && !f2fs_down_read_trylock(sbi, &fi->i_gc_rwsem[READ])) {
- 			f2fs_up_read(&fi->i_gc_rwsem[WRITE]);
- 			ret = -EAGAIN;
- 			goto out;
-@@ -4596,9 +4596,9 @@ static ssize_t f2fs_dio_write_iter(struct kiocb *iocb, struct iov_iter *from,
- 		if (ret)
- 			goto out;
- 
--		f2fs_down_read(&fi->i_gc_rwsem[WRITE]);
-+		f2fs_down_read(sbi, &fi->i_gc_rwsem[WRITE]);
- 		if (do_opu)
--			f2fs_down_read(&fi->i_gc_rwsem[READ]);
-+			f2fs_down_read(sbi, &fi->i_gc_rwsem[READ]);
- 	}
- 
- 	/*
-@@ -4675,13 +4675,14 @@ static ssize_t f2fs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 	const loff_t orig_pos = iocb->ki_pos;
- 	const size_t orig_count = iov_iter_count(from);
-+	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
- 	loff_t target_size;
- 	bool dio;
- 	bool may_need_sync = true;
- 	int preallocated;
- 	ssize_t ret;
- 
--	if (unlikely(f2fs_cp_error(F2FS_I_SB(inode)))) {
-+	if (unlikely(f2fs_cp_error(sbi))) {
- 		ret = -EIO;
- 		goto out;
- 	}
-@@ -4692,7 +4693,7 @@ static ssize_t f2fs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	}
- 
- 	if (iocb->ki_flags & IOCB_NOWAIT) {
--		if (!inode_trylock(inode)) {
-+		if (!f2fs_inode_trylock(sbi, inode)) {
- 			ret = -EAGAIN;
- 			goto out;
- 		}
-diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c
-index 61c5f9d26018..3a7947f7895a 100644
---- a/fs/f2fs/gc.c
-+++ b/fs/f2fs/gc.c
-@@ -76,7 +76,7 @@ static int gc_thread_func(void *data)
- 			f2fs_stop_checkpoint(sbi, false,
- 					STOP_CP_REASON_FAULT_INJECT);
- 
--		if (!sb_start_write_trylock(sbi->sb)) {
-+		if (!f2fs_sb_start_write_trylock(sbi)) {
- 			stat_other_skip_bggc_count(sbi);
- 			continue;
- 		}
-@@ -104,7 +104,7 @@ static int gc_thread_func(void *data)
- 		if (foreground) {
- 			f2fs_down_write(&sbi->gc_lock);
- 			goto do_gc;
--		} else if (!f2fs_down_write_trylock(&sbi->gc_lock)) {
-+		} else if (!f2fs_down_write_trylock(sbi, &sbi->gc_lock)) {
- 			stat_other_skip_bggc_count(sbi);
- 			goto next;
- 		}
-@@ -1573,7 +1573,7 @@ static int gc_data_segment(struct f2fs_sb_info *sbi, struct f2fs_summary *sum,
- 				return submitted;
- 			}
- 
--			if (!f2fs_down_write_trylock(
-+			if (!f2fs_down_write_trylock(sbi,
- 				&F2FS_I(inode)->i_gc_rwsem[WRITE])) {
- 				iput(inode);
- 				sbi->skipped_gc_rwsem++;
-@@ -1616,11 +1616,11 @@ static int gc_data_segment(struct f2fs_sb_info *sbi, struct f2fs_summary *sum,
- 			int err;
- 
- 			if (S_ISREG(inode->i_mode)) {
--				if (!f2fs_down_write_trylock(&fi->i_gc_rwsem[WRITE])) {
-+				if (!f2fs_down_write_trylock(sbi, &fi->i_gc_rwsem[WRITE])) {
- 					sbi->skipped_gc_rwsem++;
- 					continue;
- 				}
--				if (!f2fs_down_write_trylock(
-+				if (!f2fs_down_write_trylock(sbi,
- 						&fi->i_gc_rwsem[READ])) {
- 					sbi->skipped_gc_rwsem++;
- 					f2fs_up_write(&fi->i_gc_rwsem[WRITE]);
-@@ -2142,7 +2142,7 @@ int f2fs_resize_fs(struct f2fs_sb_info *sbi, __u64 block_count)
- 	secs = div_u64(shrunk_blocks, BLKS_PER_SEC(sbi));
- 
- 	/* stop other GC */
--	if (!f2fs_down_write_trylock(&sbi->gc_lock))
-+	if (!f2fs_down_write_trylock(sbi, &sbi->gc_lock))
- 		return -EAGAIN;
- 
- 	/* stop CP to protect MAIN_SEC in free_segment_range */
-diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-index 77a71276ecb1..4d4426cda93a 100644
---- a/fs/f2fs/namei.c
-+++ b/fs/f2fs/namei.c
-@@ -144,7 +144,7 @@ static void set_compress_new_inode(struct f2fs_sb_info *sbi, struct inode *dir,
- 		return;
- 
- 	/* Don't compress hot files. */
--	f2fs_down_read(&sbi->sb_lock);
-+	f2fs_down_read(sbi, &sbi->sb_lock);
- 	cold_count = le32_to_cpu(sbi->raw_super->extension_count);
- 	hot_count = sbi->raw_super->hot_ext_count;
- 	for (i = cold_count; i < cold_count + hot_count; i++)
-@@ -185,7 +185,7 @@ static void set_file_temperature(struct f2fs_sb_info *sbi, struct inode *inode,
- 	__u8 (*extlist)[F2FS_EXTENSION_LEN] = sbi->raw_super->extension_list;
- 	int i, cold_count, hot_count;
- 
--	f2fs_down_read(&sbi->sb_lock);
-+	f2fs_down_read(sbi, &sbi->sb_lock);
- 	cold_count = le32_to_cpu(sbi->raw_super->extension_count);
- 	hot_count = sbi->raw_super->hot_ext_count;
- 	for (i = 0; i < cold_count + hot_count; i++)
-diff --git a/fs/f2fs/node.c b/fs/f2fs/node.c
-index bd1dad523796..bd108b0feb45 100644
---- a/fs/f2fs/node.c
-+++ b/fs/f2fs/node.c
-@@ -383,7 +383,7 @@ int f2fs_need_dentry_mark(struct f2fs_sb_info *sbi, nid_t nid)
- 	struct nat_entry *e;
- 	bool need = false;
- 
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 	e = __lookup_nat_cache(nm_i, nid);
- 	if (e) {
- 		if (!get_nat_flag(e, IS_CHECKPOINTED) &&
-@@ -400,7 +400,7 @@ bool f2fs_is_checkpointed_node(struct f2fs_sb_info *sbi, nid_t nid)
- 	struct nat_entry *e;
- 	bool is_cp = true;
- 
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 	e = __lookup_nat_cache(nm_i, nid);
- 	if (e && !get_nat_flag(e, IS_CHECKPOINTED))
- 		is_cp = false;
-@@ -414,7 +414,7 @@ bool f2fs_need_inode_block_update(struct f2fs_sb_info *sbi, nid_t ino)
- 	struct nat_entry *e;
- 	bool need_update = true;
- 
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 	e = __lookup_nat_cache(nm_i, ino);
- 	if (e && get_nat_flag(e, HAS_LAST_FSYNC) &&
- 			(get_nat_flag(e, IS_CHECKPOINTED) ||
-@@ -517,7 +517,7 @@ int f2fs_try_to_free_nats(struct f2fs_sb_info *sbi, int nr_shrink)
- 	struct f2fs_nm_info *nm_i = NM_I(sbi);
- 	int nr = nr_shrink;
- 
--	if (!f2fs_down_write_trylock(&nm_i->nat_tree_lock))
-+	if (!f2fs_down_write_trylock(sbi, &nm_i->nat_tree_lock))
- 		return 0;
- 
- 	spin_lock(&nm_i->nat_list_lock);
-@@ -561,7 +561,7 @@ int f2fs_get_node_info(struct f2fs_sb_info *sbi, nid_t nid,
- 	ni->nid = nid;
- retry:
- 	/* Check nat cache */
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 	e = __lookup_nat_cache(nm_i, nid);
- 	if (e) {
- 		ni->ino = nat_get_ino(e);
-@@ -580,7 +580,7 @@ int f2fs_get_node_info(struct f2fs_sb_info *sbi, nid_t nid,
- 	if (!f2fs_rwsem_is_locked(&sbi->cp_global_sem) || checkpoint_context) {
- 		down_read(&curseg->journal_rwsem);
- 	} else if (f2fs_rwsem_is_contended(&nm_i->nat_tree_lock) ||
--				!down_read_trylock(&curseg->journal_rwsem)) {
-+				!f2fs_raw_down_read_trylock(sbi, &curseg->journal_rwsem)) {
- 		f2fs_up_read(&nm_i->nat_tree_lock);
- 		goto retry;
- 	}
-@@ -1618,10 +1618,10 @@ static int __write_node_page(struct page *page, bool atomic, bool *submitted,
- 		goto redirty_out;
- 
- 	if (wbc->for_reclaim) {
--		if (!f2fs_down_read_trylock(&sbi->node_write))
-+		if (!f2fs_down_read_trylock(sbi, &sbi->node_write))
- 			goto redirty_out;
- 	} else {
--		f2fs_down_read(&sbi->node_write);
-+		f2fs_down_read(sbi, &sbi->node_write);
- 	}
- 
- 	/* This page is already truncated */
-@@ -1982,7 +1982,7 @@ int f2fs_sync_node_pages(struct f2fs_sb_info *sbi,
- lock_node:
- 			if (wbc->sync_mode == WB_SYNC_ALL)
- 				lock_page(page);
--			else if (!trylock_page(page))
-+			else if (!f2fs_trylock_page(sbi, page))
- 				continue;
- 
- 			if (unlikely(page->mapping != NODE_MAPPING(sbi))) {
-@@ -2233,7 +2233,7 @@ bool f2fs_nat_bitmap_enabled(struct f2fs_sb_info *sbi)
- 	unsigned int i;
- 	bool ret = true;
- 
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 	for (i = 0; i < nm_i->nat_blocks; i++) {
- 		if (!test_bit_le(i, nm_i->nat_block_bitmap)) {
- 			ret = false;
-@@ -2423,7 +2423,7 @@ static void scan_free_nid_bits(struct f2fs_sb_info *sbi)
- 	unsigned int i, idx;
- 	nid_t nid;
- 
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 
- 	for (i = 0; i < nm_i->nat_blocks; i++) {
- 		if (!test_bit_le(i, nm_i->nat_block_bitmap))
-@@ -2481,7 +2481,7 @@ static int __f2fs_build_free_nids(struct f2fs_sb_info *sbi,
- 	f2fs_ra_meta_pages(sbi, NAT_BLOCK_OFFSET(nid), FREE_NID_PAGES,
- 							META_NAT, true);
- 
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 
- 	while (1) {
- 		if (!test_bit_le(NAT_BLOCK_OFFSET(nid),
-@@ -2636,7 +2636,7 @@ int f2fs_try_to_free_nids(struct f2fs_sb_info *sbi, int nr_shrink)
- 	if (nm_i->nid_cnt[FREE_NID] <= MAX_FREE_NIDS)
- 		return 0;
- 
--	if (!mutex_trylock(&nm_i->build_lock))
-+	if (!f2fs_mutex_trylock(sbi, &nm_i->build_lock))
- 		return 0;
- 
- 	while (nr_shrink && nm_i->nid_cnt[FREE_NID] > MAX_FREE_NIDS) {
-@@ -2959,7 +2959,7 @@ void f2fs_enable_nat_bits(struct f2fs_sb_info *sbi)
- 	struct f2fs_nm_info *nm_i = NM_I(sbi);
- 	unsigned int nat_ofs;
- 
--	f2fs_down_read(&nm_i->nat_tree_lock);
-+	f2fs_down_read(sbi, &nm_i->nat_tree_lock);
- 
- 	for (nat_ofs = 0; nat_ofs < nm_i->nat_blocks; nat_ofs++) {
- 		unsigned int valid = 0, nid_ofs = 0;
-diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-index 641bd8cc54da..77bee39498cd 100644
---- a/fs/f2fs/segment.c
-+++ b/fs/f2fs/segment.c
-@@ -2807,7 +2807,7 @@ static void __f2fs_init_atgc_curseg(struct f2fs_sb_info *sbi)
- 	if (!sbi->am.atgc_enabled)
- 		return;
- 
--	f2fs_down_read(&SM_I(sbi)->curseg_lock);
-+	f2fs_down_read(sbi, &SM_I(sbi)->curseg_lock);
- 
- 	mutex_lock(&curseg->curseg_mutex);
- 	down_write(&SIT_I(sbi)->sentry_lock);
-@@ -2956,7 +2956,7 @@ void f2fs_allocate_segment_for_resize(struct f2fs_sb_info *sbi, int type,
- 	struct curseg_info *curseg = CURSEG_I(sbi, type);
- 	unsigned int segno;
- 
--	f2fs_down_read(&SM_I(sbi)->curseg_lock);
-+	f2fs_down_read(sbi, &SM_I(sbi)->curseg_lock);
- 	mutex_lock(&curseg->curseg_mutex);
- 	down_write(&SIT_I(sbi)->sentry_lock);
- 
-@@ -3003,7 +3003,7 @@ static void __allocate_new_segment(struct f2fs_sb_info *sbi, int type,
- 
- void f2fs_allocate_new_section(struct f2fs_sb_info *sbi, int type, bool force)
- {
--	f2fs_down_read(&SM_I(sbi)->curseg_lock);
-+	f2fs_down_read(sbi, &SM_I(sbi)->curseg_lock);
- 	down_write(&SIT_I(sbi)->sentry_lock);
- 	__allocate_new_segment(sbi, type, true, force);
- 	up_write(&SIT_I(sbi)->sentry_lock);
-@@ -3014,7 +3014,7 @@ void f2fs_allocate_new_segments(struct f2fs_sb_info *sbi)
- {
- 	int i;
- 
--	f2fs_down_read(&SM_I(sbi)->curseg_lock);
-+	f2fs_down_read(sbi, &SM_I(sbi)->curseg_lock);
- 	down_write(&SIT_I(sbi)->sentry_lock);
- 	for (i = CURSEG_HOT_DATA; i <= CURSEG_COLD_DATA; i++)
- 		__allocate_new_segment(sbi, i, false, false);
-@@ -3322,7 +3322,7 @@ void f2fs_allocate_data_block(struct f2fs_sb_info *sbi, struct page *page,
- 	struct seg_entry *se = NULL;
- 	bool segment_full = false;
- 
--	f2fs_down_read(&SM_I(sbi)->curseg_lock);
-+	f2fs_down_read(sbi, &SM_I(sbi)->curseg_lock);
- 
- 	mutex_lock(&curseg->curseg_mutex);
- 	down_write(&sit_i->sentry_lock);
-@@ -3451,17 +3451,18 @@ void f2fs_update_device_state(struct f2fs_sb_info *sbi, nid_t ino,
- static void do_write_page(struct f2fs_summary *sum, struct f2fs_io_info *fio)
- {
- 	int type = __get_segment_type(fio);
--	bool keep_order = (f2fs_lfs_mode(fio->sbi) && type == CURSEG_COLD_DATA);
-+	struct f2fs_sb_info *sbi = fio->sbi;
-+	bool keep_order = (f2fs_lfs_mode(sbi) && type == CURSEG_COLD_DATA);
- 
- 	if (keep_order)
--		f2fs_down_read(&fio->sbi->io_order_lock);
-+		f2fs_down_read(sbi, &sbi->io_order_lock);
- reallocate:
--	f2fs_allocate_data_block(fio->sbi, fio->page, fio->old_blkaddr,
-+	f2fs_allocate_data_block(sbi, fio->page, fio->old_blkaddr,
- 			&fio->new_blkaddr, sum, type, fio);
--	if (GET_SEGNO(fio->sbi, fio->old_blkaddr) != NULL_SEGNO) {
--		invalidate_mapping_pages(META_MAPPING(fio->sbi),
-+	if (GET_SEGNO(sbi, fio->old_blkaddr) != NULL_SEGNO) {
-+		invalidate_mapping_pages(META_MAPPING(sbi),
- 					fio->old_blkaddr, fio->old_blkaddr);
--		f2fs_invalidate_compress_page(fio->sbi, fio->old_blkaddr);
-+		f2fs_invalidate_compress_page(sbi, fio->old_blkaddr);
- 	}
- 
- 	/* writeout dirty page into bdev */
-@@ -3471,10 +3472,10 @@ static void do_write_page(struct f2fs_summary *sum, struct f2fs_io_info *fio)
- 		goto reallocate;
- 	}
- 
--	f2fs_update_device_state(fio->sbi, fio->ino, fio->new_blkaddr, 1);
-+	f2fs_update_device_state(sbi, fio->ino, fio->new_blkaddr, 1);
- 
- 	if (keep_order)
--		f2fs_up_read(&fio->sbi->io_order_lock);
-+		f2fs_up_read(&sbi->io_order_lock);
- }
- 
- void f2fs_do_write_meta_page(struct f2fs_sb_info *sbi, struct page *page,
-diff --git a/fs/f2fs/shrinker.c b/fs/f2fs/shrinker.c
-index 83d6fb97dcae..675758b509ee 100644
---- a/fs/f2fs/shrinker.c
-+++ b/fs/f2fs/shrinker.c
-@@ -40,17 +40,16 @@ static unsigned long __count_extent_cache(struct f2fs_sb_info *sbi,
- unsigned long f2fs_shrink_count(struct shrinker *shrink,
- 				struct shrink_control *sc)
- {
--	struct f2fs_sb_info *sbi;
- 	struct list_head *p;
- 	unsigned long count = 0;
- 
- 	spin_lock(&f2fs_list_lock);
- 	p = f2fs_list.next;
- 	while (p != &f2fs_list) {
--		sbi = list_entry(p, struct f2fs_sb_info, s_list);
-+		struct f2fs_sb_info *sbi = list_entry(p, struct f2fs_sb_info, s_list);
- 
- 		/* stop f2fs_put_super */
--		if (!mutex_trylock(&sbi->umount_mutex)) {
-+		if (!f2fs_mutex_trylock(sbi, &sbi->umount_mutex)) {
- 			p = p->next;
- 			continue;
- 		}
-@@ -80,7 +79,6 @@ unsigned long f2fs_shrink_scan(struct shrinker *shrink,
- 				struct shrink_control *sc)
- {
- 	unsigned long nr = sc->nr_to_scan;
--	struct f2fs_sb_info *sbi;
- 	struct list_head *p;
- 	unsigned int run_no;
- 	unsigned long freed = 0;
-@@ -91,13 +89,13 @@ unsigned long f2fs_shrink_scan(struct shrinker *shrink,
- 	} while (run_no == 0);
- 	p = f2fs_list.next;
- 	while (p != &f2fs_list) {
--		sbi = list_entry(p, struct f2fs_sb_info, s_list);
-+		struct f2fs_sb_info *sbi = list_entry(p, struct f2fs_sb_info, s_list);
- 
- 		if (sbi->shrinker_run_no == run_no)
- 			break;
- 
- 		/* stop f2fs_put_super */
--		if (!mutex_trylock(&sbi->umount_mutex)) {
-+		if (!f2fs_mutex_trylock(sbi, &sbi->umount_mutex)) {
- 			p = p->next;
- 			continue;
- 		}
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 9f15b03037db..4aa4b12e455d 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -62,6 +62,7 @@ const char *f2fs_fault_name[FAULT_MAX] = {
- 	[FAULT_DQUOT_INIT]	= "dquot initialize",
- 	[FAULT_LOCK_OP]		= "lock_op",
- 	[FAULT_BLKADDR]		= "invalid blkaddr",
-+	[FAULT_LOCK]		= "lock",
- };
- 
- void f2fs_build_fault_attr(struct f2fs_sb_info *sbi, unsigned int rate,
-@@ -2831,7 +2832,7 @@ int f2fs_quota_sync(struct super_block *sb, int type)
- 		 *			      f2fs_down_read(quota_sem)
- 		 */
- 		f2fs_lock_op(sbi);
--		f2fs_down_read(&sbi->quota_sem);
-+		f2fs_down_read(sbi, &sbi->quota_sem);
- 
- 		ret = f2fs_quota_sync_file(sbi, cnt);
- 
-@@ -2961,7 +2962,7 @@ static int f2fs_dquot_commit(struct dquot *dquot)
- 	struct f2fs_sb_info *sbi = F2FS_SB(dquot->dq_sb);
- 	int ret;
- 
--	f2fs_down_read_nested(&sbi->quota_sem, SINGLE_DEPTH_NESTING);
-+	f2fs_down_read_nested(sbi, &sbi->quota_sem, SINGLE_DEPTH_NESTING);
- 	ret = dquot_commit(dquot);
- 	if (ret < 0)
- 		set_sbi_flag(sbi, SBI_QUOTA_NEED_REPAIR);
-@@ -2974,7 +2975,7 @@ static int f2fs_dquot_acquire(struct dquot *dquot)
- 	struct f2fs_sb_info *sbi = F2FS_SB(dquot->dq_sb);
- 	int ret;
- 
--	f2fs_down_read(&sbi->quota_sem);
-+	f2fs_down_read(sbi, &sbi->quota_sem);
- 	ret = dquot_acquire(dquot);
- 	if (ret < 0)
- 		set_sbi_flag(sbi, SBI_QUOTA_NEED_REPAIR);
-diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-index 8ea05340bad9..dccc0a122c25 100644
---- a/fs/f2fs/sysfs.c
-+++ b/fs/f2fs/sysfs.c
-@@ -738,7 +738,7 @@ static ssize_t f2fs_sbi_store(struct f2fs_attr *a,
- 					a->struct_type == GC_THREAD);
- 
- 	if (gc_entry) {
--		if (!down_read_trylock(&sbi->sb->s_umount))
-+		if (!f2fs_raw_down_read_trylock(sbi, &sbi->sb->s_umount))
- 			return -EAGAIN;
- 	}
- 	ret = __sbi_store(a, sbi, buf, count);
-diff --git a/fs/f2fs/xattr.c b/fs/f2fs/xattr.c
-index d92edbbdc30e..bb00c7e889da 100644
---- a/fs/f2fs/xattr.c
-+++ b/fs/f2fs/xattr.c
-@@ -513,6 +513,7 @@ static inline int write_all_xattrs(struct inode *inode, __u32 hsize,
- int f2fs_getxattr(struct inode *inode, int index, const char *name,
- 		void *buffer, size_t buffer_size, struct page *ipage)
- {
-+	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
- 	struct f2fs_xattr_entry *entry = NULL;
- 	int error;
- 	unsigned int size, len;
-@@ -527,7 +528,7 @@ int f2fs_getxattr(struct inode *inode, int index, const char *name,
- 	if (len > F2FS_NAME_LEN)
- 		return -ERANGE;
- 
--	f2fs_down_read(&F2FS_I(inode)->i_xattr_sem);
-+	f2fs_down_read(sbi, &F2FS_I(inode)->i_xattr_sem);
- 	error = lookup_all_xattrs(inode, ipage, index, len, name,
- 				&entry, &base_addr, &base_size, &is_inline);
- 	f2fs_up_read(&F2FS_I(inode)->i_xattr_sem);
-@@ -552,19 +553,20 @@ int f2fs_getxattr(struct inode *inode, int index, const char *name,
- 	}
- 	error = size;
- out:
--	xattr_free(F2FS_I_SB(inode), base_addr, is_inline);
-+	xattr_free(sbi, base_addr, is_inline);
- 	return error;
- }
- 
- ssize_t f2fs_listxattr(struct dentry *dentry, char *buffer, size_t buffer_size)
- {
- 	struct inode *inode = d_inode(dentry);
-+	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
- 	struct f2fs_xattr_entry *entry;
- 	void *base_addr, *last_base_addr;
- 	int error;
- 	size_t rest = buffer_size;
- 
--	f2fs_down_read(&F2FS_I(inode)->i_xattr_sem);
-+	f2fs_down_read(sbi, &F2FS_I(inode)->i_xattr_sem);
- 	error = read_all_xattrs(inode, NULL, &base_addr);
- 	f2fs_up_read(&F2FS_I(inode)->i_xattr_sem);
- 	if (error)
-@@ -581,12 +583,11 @@ ssize_t f2fs_listxattr(struct dentry *dentry, char *buffer, size_t buffer_size)
- 
- 		if ((void *)(entry) + sizeof(__u32) > last_base_addr ||
- 			(void *)XATTR_NEXT_ENTRY(entry) > last_base_addr) {
--			f2fs_err(F2FS_I_SB(inode), "inode (%lu) has corrupted xattr",
-+			f2fs_err(sbi, "inode (%lu) has corrupted xattr",
- 						inode->i_ino);
--			set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-+			set_sbi_flag(sbi, SBI_NEED_FSCK);
- 			error = -EFSCORRUPTED;
--			f2fs_handle_error(F2FS_I_SB(inode),
--						ERROR_CORRUPTED_XATTR);
-+			f2fs_handle_error(sbi, ERROR_CORRUPTED_XATTR);
- 			goto cleanup;
- 		}
- 
--- 
-2.39.0
-
+>=20
+> On 04/14, Daejun Park wrote:
+> > This patch enables submit reset zone command asynchornously. It helps
+> > decrease average latency of write IOs in high utilization scenario by
+> > faster checkpointing.
+> >=20
+> > Signed-off-by: Daejun Park <daejun7.park=40samsung.com>
+> > ---
+> > =C2=A0Documentation/filesystems/f2fs.rst=20=7C=20=C2=A04=20++=0D=0A>=20=
+>=20=C2=A0fs/f2fs/f2fs.h=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=7C=20=C2=A01=20+=0D=0A>=20>=20=
+=C2=A0fs/f2fs/segment.c=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=7C=2092=20+++++++++++++++++++++++++++++-=0D=
+=0A>=20>=20=C2=A0fs/f2fs/super.c=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7C=20=C2=A08=20+++=0D=0A>=
+=20>=20=C2=A0include/trace/events/f2fs.h=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=7C=2018=20+++++-=0D=0A>=20>=20=C2=A05=20files=20changed,=20119=20insert=
+ions(+),=204=20deletions(-)=0D=0A>=20>=20=0D=0A>=20>=20diff=20--git=20a/Doc=
+umentation/filesystems/f2fs.rst=20b/Documentation/filesystems/f2fs.rst=0D=
+=0A>=20>=20index=202055e72871fe..4cfabf831a79=20100644=0D=0A>=20>=20---=20a=
+/Documentation/filesystems/f2fs.rst=0D=0A>=20>=20+++=20b/Documentation/file=
+systems/f2fs.rst=0D=0A>=20>=20=40=40=20-342,6=20+342,10=20=40=40=20discard_=
+unit=3D%s=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20Control=20discard=20unit,=20the=20argument=20can=20be=20=22block=
+=22,=20=22segment=22=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20default,=20it=20is=20helpful=20for=20large=20sized=20SMR=20or=20ZNS=20de=
+vices=20to=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20reduce=20=
+memory=20cost=20by=20getting=20rid=20of=20fs=20metadata=20supports=20small=
+=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20discard.=0D=0A>=20=
+>=20+async_reset_zone=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20Enable=20the=20=
+RESET=20WRITE=20POINTER=20command=20to=20be=20submitted=20asynchronously.=
+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20With=20this=20option,=20=
+the=20RESET=20WRITE=20POINTER=20command=20can=20be=20processed=20by=0D=0A>=
+=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20the=20discard=20thread=20like=
+=20a=20discard=20command.=20It=20can=20reduce=20checkpoint=0D=0A>=20>=20+=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20latency=20by=20asynchronously=20checkin=
+g=20for=20completion=20of=20the=20RESET=20WRITE=20POINTER=20command.=0D=0A>=
+=20=0D=0A>=20Do=20we=20need=20to=20set=20this=20by=20default=20instead=20of=
+=20mount=20option?=0D=0A=0D=0AI=20think=20it=20is=20good=20idea.=20I=20will=
+=20make=20this=20feature=20by=20default.=0D=0A=0D=0A>=20=0D=0A>=20>=20=C2=
+=A0memory=3D%s=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20Control=20memory=20mode.=20This=20supports=20=22normal=22=20=
+and=20=22low=22=20modes.=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=22low=22=20mode=20is=20introduced=20to=20support=20low=20memory=20de=
+vices.=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20Because=20of=
+=20the=20nature=20of=20low=20memory=20devices,=20in=20this=20mode,=20f2fs=
+=0D=0A>=20>=20diff=20--git=20a/fs/f2fs/f2fs.h=20b/fs/f2fs/f2fs.h=0D=0A>=20>=
+=20index=204e2596dacbf1..021e55c5d1a8=20100644=0D=0A>=20>=20---=20a/fs/f2fs=
+/f2fs.h=0D=0A>=20>=20+++=20b/fs/f2fs/f2fs.h=0D=0A>=20>=20=40=40=20-167,6=20=
++167,7=20=40=40=20struct=20f2fs_mount_info=20=7B=0D=0A>=20>=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20*=20be=20aligned=20to=20this=20unit:=20block,=0D=
+=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20segment=20or=20secti=
+on=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*/=0D=0A>=20>=20+=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0bool=20async_zone_reset;=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=20async=20zone=20reset=20*/=0D=0A>=20>=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0struct=20fscrypt_dummy_policy=20d=
+ummy_enc_policy;=20/*=20test=20dummy=20encryption=20*/=0D=0A>=20>=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0block_t=20unusable_cap_perc;=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0/*=20percentage=20for=20cap=20*/=0D=0A>=20>=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0block_t=20unusable_cap;=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=20Amount=
+=20of=20space=20allowed=20to=20be=0D=0A>=20>=20diff=20--git=20a/fs/f2fs/seg=
+ment.c=20b/fs/f2fs/segment.c=0D=0A>=20>=20index=2045128694eefa..60cfe97c9db=
+d=20100644=0D=0A>=20>=20---=20a/fs/f2fs/segment.c=0D=0A>=20>=20+++=20b/fs/f=
+2fs/segment.c=0D=0A>=20>=20=40=40=20-1189,6=20+1189,46=20=40=40=20static=20=
+void=20__init_discard_policy(struct=20f2fs_sb_info=20*sbi,=0D=0A>=20>=20=C2=
+=A0static=20void=20__update_discard_tree_range(struct=20f2fs_sb_info=20*sbi=
+,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0struct=20block_device=20*bdev,=20block_t=20lstart,=0D=0A>=20=
+>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0block_t=20start,=20block_t=20len);=0D=0A>=20>=20+=0D=0A>=20>=20+=23if=
+def=20CONFIG_BLK_DEV_ZONED=0D=0A>=20>=20+static=20int=20__submit_zone_reset=
+_cmd(struct=20f2fs_sb_info=20*sbi,=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20struct=20discard_c=
+md=20*dc,=20blk_opf_t=20flag,=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20struct=20list_head=20*wa=
+it_list,=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20unsigned=20int=20*issued)=0D=0A>=20>=20+=7B=
+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0struct=20discard_cmd_con=
+trol=20*dcc=20=3D=20SM_I(sbi)->dcc_info;=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0struct=20block_device=20*bdev=20=3D=20dc->bdev;=0D=0A>=20=
+>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0struct=20bio=20*bio=20=3D=20bio_al=
+loc(bdev,=200,=20REQ_OP_ZONE_RESET=20=7C=20flag,=20GFP_NOFS);=0D=0A>=20>=20=
++=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0unsigned=20long=20flags;=0D=0A>=20>=20=
++=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0trace_f2fs_issue_reset_=
+zone(bdev,=20SECTOR_FROM_BLOCK(dc->di.start));=0D=0A>=20>=20+=0D=0A>=20>=20=
++=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0spin_lock_irqsave(&dc->lock,=20flags);=
+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0dc->state=20=3D=20D_SUBM=
+IT;=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0dc->bio_ref++;=0D=0A>=
+=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0spin_unlock_irqrestore(&dc->loc=
+k,=20flags);=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0if=20(issued)=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0(*issued)++;=0D=0A>=20>=20+=0D=0A>=20>=20+=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0atomic_inc(&dcc->queued_discard);=0D=0A>=
+=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0dc->queued++;=0D=0A>=20>=20+=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0list_move_tail(&dc->list,=20wait_list);=0D=
+=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=20sanity=
+=20check=20on=20discard=20range=20*/=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0__check_sit_bitmap(sbi,=20dc->di.lstart,=20dc->di.lstart=20+=20=
+dc->di.len);=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0bio->bi_iter.bi_sector=20=3D=20SECTOR_FROM_BLOCK(dc->di.start);=0D=0A>=
+=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0bio->bi_private=20=3D=20dc;=0D=
+=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0bio->bi_end_io=20=3D=20f2fs=
+_submit_discard_endio;=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0su=
+bmit_bio(bio);=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0atomic_inc(&dcc->issued_discard);=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0return=200;=0D=0A>=20>=20+=7D=0D=0A>=20>=20+=
+=23endif=0D=0A>=20>=20+=0D=0A>=20>=20=C2=A0/*=20this=20function=20is=20copi=
+ed=20from=20blkdev_issue_discard=20from=20block/blk-lib.c=20*/=0D=0A>=20>=
+=20=C2=A0static=20int=20__submit_discard_cmd(struct=20f2fs_sb_info=20*sbi,=
+=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0struct=20discard_policy=20*dpolicy,=0D=0A>=20>=20=40=40=20-1=
+210,6=20+1250,11=20=40=40=20static=20int=20__submit_discard_cmd(struct=20f2=
+fs_sb_info=20*sbi,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0i=
+f=20(is_sbi_flag_set(sbi,=20SBI_NEED_FSCK))=0D=0A>=20>=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=200;=0D=
+=0A>=20>=20=C2=A0=0D=0A>=20>=20+=23ifdef=20CONFIG_BLK_DEV_ZONED=0D=0A>=20>=
+=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(f2fs_sb_has_blkzoned(sbi)=20&=
+&=20bdev_is_zoned(bdev))=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=20__submit_zone_reset_cmd(sbi,=
+=20dc,=20flag,=20wait_list,=20issued);=0D=0A>=20>=20+=23endif=0D=0A>=20>=20=
++=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0trace_f2fs_issue_d=
+iscard(bdev,=20dc->di.start,=20dc->di.len);=0D=0A>=20>=20=C2=A0=0D=0A>=20>=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0lstart=20=3D=20dc->di.lstart;=
+=0D=0A>=20>=20=40=40=20-1454,21=20+1499,42=20=40=40=20static=20void=20__upd=
+ate_discard_tree_range(struct=20f2fs_sb_info=20*sbi,=0D=0A>=20>=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>=20>=20=C2=A0=7D=0D=0A>=20>=20=
+=C2=A0=0D=0A>=20>=20+=23ifdef=20CONFIG_BLK_DEV_ZONED=0D=0A>=20>=20+static=
+=20void=20__queue_zone_reset_cmd(struct=20f2fs_sb_info=20*sbi,=0D=0A>=20>=
+=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0struct=20block_device=20*bdev,=20block_t=20blkstart,=20block_t=20blklen)=
+=0D=0A>=20>=20+=7B=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0block_=
+t=20lblkstart=20=3D=20blkstart;=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0if=20(f2fs_is_multi_device(sbi))=20=7B=0D=0A>=20>=
+=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0int=20devi=20=3D=20f2fs_target_device_index(sbi,=20blkstart);=0D=0A>=20>=
+=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0blkstart=20-=3D=20FDEV(devi).start_blk;=0D=0A>=20>=20+=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0trace_f2fs_queue_reset_zone(bdev,=20blkstart);=
+=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_loc=
+k(&SM_I(sbi)->dcc_info->cmd_lock);=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0__insert_discard_cmd(sbi,=20bdev,=20lblkstart,=20blkstart,=20bl=
+klen);=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_unlock(&SM_I=
+(sbi)->dcc_info->cmd_lock);=0D=0A>=20>=20+=7D=0D=0A>=20>=20+=23endif=0D=0A>=
+=20>=20+=0D=0A>=20>=20=C2=A0static=20void=20__queue_discard_cmd(struct=20f2=
+fs_sb_info=20*sbi,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0struct=20block_device=20*bdev,=20block_=
+t=20blkstart,=20block_t=20blklen)=0D=0A>=20>=20=C2=A0=7B=0D=0A>=20>=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0block_t=20lblkstart=20=3D=20blkstart=
+;=0D=0A>=20>=20=C2=A0=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0tra=
+ce_f2fs_queue_discard(bdev,=20blkstart,=20blklen);=0D=0A>=20>=20+=0D=0A>=20=
+>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(=21f2fs_bdev_support_di=
+scard(bdev))=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0return;=0D=0A>=20>=20=C2=A0=0D=0A>=20>=20-=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0trace_f2fs_queue_discard(bdev,=20blkstart,=
+=20blklen);=0D=0A>=20>=20-=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0if=20(f2fs_is_multi_device(sbi))=20=7B=0D=0A>=20>=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0int=20dev=
+i=20=3D=20f2fs_target_device_index(sbi,=20blkstart);=0D=0A>=20>=20=C2=A0=0D=
+=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0blkstart=20-=3D=20FDEV(devi).start_blk;=0D=0A>=20>=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>=20>=20+=0D=0A>=20>=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_lock(&SM_I(sbi)->dcc_info->cmd_lo=
+ck);=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0__update_discar=
+d_tree_range(sbi,=20bdev,=20lblkstart,=20blkstart,=20blklen);=0D=0A>=20>=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_unlock(&SM_I(sbi)->dcc_info=
+->cmd_lock);=0D=0A>=20>=20=40=40=20-1719,7=20+1785,22=20=40=40=20static=20v=
+oid=20f2fs_wait_discard_bio(struct=20f2fs_sb_info=20*sbi,=20block_t=20blkad=
+dr)=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0dc=20=3D=20__loo=
+kup_discard_cmd(sbi,=20blkaddr);=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0if=20(dc)=20=7B=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(dc->state=20=3D=3D=20=
+D_PREP)=20=7B=0D=0A>=20>=20+=23ifdef=20CONFIG_BLK_DEV_ZONED=0D=0A>=20>=20+=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(f2fs_sb_has_blkzoned(sbi)=20&&=0D=0A=
+>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0bdev_is_zoned(d=
+c->bdev))=20=7B=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0struct=20discard_policy=20dpolicy;=0D=0A>=20>=20+=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=20f=
+orce=20submit=20zone=20reset=20*/=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0__init_discard_policy(sbi,=20&dpo=
+licy,=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0DPOLICY_FORCE,=201);=0D=0A>=20>=20+=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0__subm=
+it_discard_cmd(sbi,=20&dpolicy,=20dc,=20NULL);=0D=0A>=20>=20+=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0dc->ref++;=0D=0A>=
+=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0need_wait=20=3D=20true;=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=7D=20else=20=7B=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0__punch_discard_cmd(sbi,=20dc,=20blkaddr);=0D=0A=
+>=20=0D=0A>=20Can=20be=20consolidated=20in=20both=20cases=20below.=0D=0A=0D=
+=0AHow=20do=20you=20think=20this=20modification=20as=20below.=0D=0A=0D=0A=
+=20=20=20=20=20=20=20=20if=20(dc)=20=7B=0D=0A=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20if=20(dc->state=20=3D=3D=20D_PREP)=20=7B=0D=0A=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20if=20(f2fs_s=
+b_has_blkzoned(sbi)=20&&=0D=0A=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20bdev_is_zoned(dc->bdev))=20=7B=0D=0A=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20struct=20discard_policy=20dpolicy;=0D=0A=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20/*=20force=20submit=20zone=20reset=20*/=0D=0A=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+__init_discard_policy(sbi,=20&dpolicy,=0D=0A=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20DPOLICY_FORCE,=201=
+);=0D=0A=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20__submit_discard_cmd(sbi,=20&dpolicy,=20dc,=
+=20NULL);=0D=0A=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20dc->ref++;=0D=0A=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+need_wait=20=3D=20true;=0D=0A=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=7D=20else=20=7B=0D=0A=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20__p=
+unch_discard_cmd(sbi,=20dc,=20blkaddr);=0D=0A=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=7D=0D=0A=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=7D=20else=20=7B=0D=0A=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20dc->ref++;=0D=0A=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20need_wait=20=3D=
+=20true;=0D=0A=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=7D=0D=0A=20=
+=20=20=20=20=20=20=20=7D=0D=0A=0D=0A>=20=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=7D=0D=0A>=20>=20+=23else=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0__punch_discard_cmd(sbi,=20dc,=20blkaddr);=0D=0A>=20>=20+=
+=23endif=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=7D=20else=20=7B=0D=0A>=20>=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0dc->ref++;=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0need_wait=20=3D=20true;=0D=0A>=20>=20=40=40=20-1869,6=20+1950,13=
+=20=40=40=20static=20int=20__f2fs_issue_discard_zone(struct=20f2fs_sb_info=
+=20*sbi,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20blkstart,=20blklen);=0D=0A>=20>=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0return=20-EIO;=0D=0A>=20>=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>=20>=
+=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0if=20(likely(=21is_sbi_flag_set(sbi,=20SBI_POR_DOING))=20=
+&&=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20F2FS_OPTION(=
+sbi).async_zone_reset)=20=7B=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0__queue_zone_reset_cmd(sbi,=20bdev,=20lblkstart,=20blklen);=0D=0A>=20>=
+=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=200;=0D=0A>=20>=20+=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>=
+=20=0D=0A>=20Can=20make=20a=20sigle=20case=20above=20and=20below,=20if=20we=
+=20set=20this=20by=20default.=0D=0A=0D=0AI=20can=20remove=20=22F2FS_OPTION(=
+sbi).async_zone_reset=22,=20but=20I=20think=20the=20checking=0D=0A=20=22SBI=
+_POR_DOING=22=20statement=20can=20not=20be=20removed.=20Because=20check_zon=
+e_write_pointer()=0D=0A=20and=20fix_curseg_write_pointer()=20use=20this=20_=
+_f2fs_issue_discard_zone()=20for=20sending=0D=0A=20reset=20write=20pointer=
+=20command=20synchronously.=0D=0A=0D=0A>=20>=20+=0D=0A>=20>=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0trace_f2f=
+s_issue_reset_zone(bdev,=20blkstart);=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=20blkdev_zone_=
+mgmt(bdev,=20REQ_OP_ZONE_RESET,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0sector,=20nr_sects,=20GFP_NOFS);=0D=0A>=20>=20diff=20--git=20a/fs/f2f=
+s/super.c=20b/fs/f2fs/super.c=0D=0A>=20>=20index=207d0202f7b317..48198112cb=
+bc=20100644=0D=0A>=20>=20---=20a/fs/f2fs/super.c=0D=0A>=20>=20+++=20b/fs/f2=
+fs/super.c=0D=0A>=20>=20=40=40=20-162,6=20+162,7=20=40=40=20enum=20=7B=0D=
+=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0Opt_gc_merge,=0D=0A>=
+=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0Opt_nogc_merge,=0D=0A>=20>=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0Opt_discard_unit,=0D=0A>=20>=
+=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0Opt_async_zone_reset,=0D=0A>=20>=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0Opt_memory_mode,=0D=0A>=20>=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0Opt_age_extent_cache,=0D=0A>=20>=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0Opt_err,=0D=0A>=20>=20=40=40=20-2=
+41,6=20+242,7=20=40=40=20static=20match_table_t=20f2fs_tokens=20=3D=20=7B=
+=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7BOpt_gc_merge,=20=
+=22gc_merge=22=7D,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=7BOpt_nogc_merge,=20=22nogc_merge=22=7D,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=7BOpt_discard_unit,=20=22discard_unit=3D%s=22=7D,=
+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7BOpt_async_zone_reset,=
+=20=22async_zone_reset=22=7D,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=7BOpt_memory_mode,=20=22memory=3D%s=22=7D,=0D=0A>=20>=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7BOpt_age_extent_cache,=20=22age_exten=
+t_cache=22=7D,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7BOp=
+t_err,=20NULL=7D,=0D=0A>=20>=20=40=40=20-1249,6=20+1251,9=20=40=40=20static=
+=20int=20parse_options(struct=20super_block=20*sb,=20char=20*options,=20boo=
+l=20is_remount)=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=
+=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0kfree(name);=0D=0A>=20>=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0break;=0D=0A>=20>=20+=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0case=20Opt_asyn=
+c_zone_reset:=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0F2FS_OPTION(=
+sbi).async_zone_reset=20=3D=20true;=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0break;=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0case=20Opt_memory_mode:=0D=0A>=20>=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0name=20=3D=20match_strdup(&args=5B0=5D)=
+;=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(=21name)=0D=0A>=
+=20>=20=40=40=20-2047,6=20+2052,9=20=40=40=20static=20int=20f2fs_show_optio=
+ns(struct=20seq_file=20*seq,=20struct=20dentry=20*root)=0D=0A>=20>=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(test_opt(sbi,=20ATGC))=0D=0A>=20>=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0seq_puts(seq,=20=22,atgc=22);=0D=0A>=20>=20=C2=A0=0D=0A>=20>=20+=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(F2FS_OPTION(sbi).async_zone_reset)=
+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0seq_puts(seq,=20=22,async_zone_reset=22);=0D=0A>=20>=20+=0D=0A>=
+=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(F2FS_OPTION(sbi).mem=
+ory_mode=20=3D=3D=20MEMORY_MODE_NORMAL)=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0seq_printf(seq,=20=
+=22,memory=3D%s=22,=20=22normal=22);=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0else=20if=20(F2FS_OPTION(sbi).memory_mode=20=3D=3D=20MEMO=
+RY_MODE_LOW)=0D=0A>=20>=20diff=20--git=20a/include/trace/events/f2fs.h=20b/=
+include/trace/events/f2fs.h=0D=0A>=20>=20index=2099cbc5949e3c..ee1477de8324=
+=20100644=0D=0A>=20>=20---=20a/include/trace/events/f2fs.h=0D=0A>=20>=20+++=
+=20b/include/trace/events/f2fs.h=0D=0A>=20>=20=40=40=20-1512,7=20+1512,7=20=
+=40=40=20DEFINE_EVENT(f2fs_discard,=20f2fs_remove_discard,=0D=0A>=20>=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0TP_ARGS(dev,=20blkstart,=20blklen)=
+=0D=0A>=20>=20=C2=A0);=0D=0A>=20>=20=C2=A0=0D=0A>=20>=20-TRACE_EVENT(f2fs_i=
+ssue_reset_zone,=0D=0A>=20>=20+DECLARE_EVENT_CLASS(f2fs_reset_zone,=0D=0A>=
+=20>=20=C2=A0=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0TP_PRO=
+TO(struct=20block_device=20*dev,=20block_t=20blkstart),=0D=0A>=20>=20=C2=A0=
+=0D=0A>=20>=20=40=40=20-1528,11=20+1528,25=20=40=40=20TRACE_EVENT(f2fs_issu=
+e_reset_zone,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0__entry->blkstart=20=3D=20blkstart;=0D=0A>=20=
+>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0),=0D=0A>=20>=20=C2=A0=0D=0A>=
+=20>=20-=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0TP_printk(=22dev=20=3D=20(%d,%d=
+),=20reset=20zone=20at=20block=20=3D=200x%llx=22,=0D=0A>=20>=20+=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0TP_printk(=22dev=20=3D=20(%d,%d),=20zone=20at=20=
+block=20=3D=200x%llx=22,=0D=0A>=20>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0show_dev(__entry->dev),=0D=0A>=20=
+>=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0(unsigned=20long=20long)__entry->blkstart)=0D=0A>=20>=20=C2=A0);=
+=0D=0A>=20>=20=C2=A0=0D=0A>=20>=20+DEFINE_EVENT(f2fs_reset_zone,=20f2fs_que=
+ue_reset_zone,=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0TP_PROTO(struct=20block_device=20*dev,=20block_t=20blkstart),=0D=0A>=
+=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0TP_ARGS(dev,=20b=
+lkstart)=0D=0A>=20>=20+);=0D=0A>=20>=20+=0D=0A>=20>=20+DEFINE_EVENT(f2fs_re=
+set_zone,=20f2fs_issue_reset_zone,=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0TP_PROTO(struct=20block_device=20*dev,=20block_t=
+=20blkstart),=0D=0A>=20>=20+=0D=0A>=20>=20+=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0TP_ARGS(dev,=20blkstart)=0D=0A>=20>=20+);=0D=0A>=20>=20+=0D=0A>=20>=
+=20=C2=A0TRACE_EVENT(f2fs_issue_flush,=0D=0A>=20>=20=C2=A0=0D=0A>=20>=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0TP_PROTO(struct=20block_device=20*de=
+v,=20unsigned=20int=20nobarrier,=0D=0A>=20>=20--=20=0D=0A>=20>=202.25.1=0D=
+=0A>=20=0D=0A=0D=0AThanks,=0D=0ADaejun
