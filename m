@@ -2,133 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB549C77B7C
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 17:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47357C77B7A
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 17:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231279AbjDTRhO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 13:37:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39480 "EHLO
+        id S231423AbjDTRkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 13:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231246AbjDTRhN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 13:37:13 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E5C959EA
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 10:36:47 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-63d2ba63dddso1141617b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 10:36:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1682012206; x=1684604206;
-        h=to:from:cc:content-transfer-encoding:mime-version:date:message-id
-         :subject:references:in-reply-to:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QCEy80G5HOek7evJubycy60H7TmBgXN6S6jqg8NE5AA=;
-        b=qt34Ca8pJyfInnsKvQsJ+ATBCHwkD8yXhCNubTccdEm/zIin+n/JcbELHJ/pMGu5MD
-         8vOKkfU1vdV1wENziP8ftZ/SDgzOnklFq26flU1X2bGDp8mLRs77RpZGKHq8Ht/KwiOA
-         fr1kR3jCo8PiqehFpMbwCkSKYX4Y3xMb7Za90C+lrr/1yKWQLAnKRYWc2sYI1SbCVkwq
-         bowcnC98V441QK4Lfiwf3ZUB2lVP0Tr0W0wujC42ZvBXRXTnaMgYK2meYa9Uu0p+s4qO
-         hj2vCz+La3rz6wS3jMsw82niKWKymLdYox/MVL/XPkxwSiISAR4yjgG+0nMkOAbJsA+T
-         kX6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682012206; x=1684604206;
-        h=to:from:cc:content-transfer-encoding:mime-version:date:message-id
-         :subject:references:in-reply-to:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QCEy80G5HOek7evJubycy60H7TmBgXN6S6jqg8NE5AA=;
-        b=RgeI6tQ8tBl9gyjNR2ukIt5WxZxFUsNb3JvNA6TJPFm6PfxOX/99/ORdGjzg1bUMN3
-         kU+UzhIJ8RWcLYg+czwKD7VjD/BjDU1pQrL6R1mcFG96/7UBYojYXJ8tTdAqKPVT9BV0
-         3kdjs8FQ8y3LZId8b9H9GtgHLMxu3RlChVZIz9mW4lQnyIurwjUx6SC2UdDgqRAwzGhy
-         /+XRx4LhCxScrul+5e5CC8TZEX+46H54PmTRj4+qFBz6gnVpBr9GdQy7BGHOeQyq9Kf4
-         6apGQ7xi02yTa446l/D7zeGwSfCH0FfeC3suiNe9mVbvvDZde4jYUYH0QGH/DppJiiI+
-         ulTg==
-X-Gm-Message-State: AAQBX9f6dhun0lLlSV7+OpTA6VHh/IA5aDxiZX/xIfBYATYWgePL3BJU
-        9Jn+FrblTuN/N+y1fPUswVCVVA==
-X-Google-Smtp-Source: AKy350anLRbb1718rY21erAN2i76dk/7U/I6A0UD9q7UMYTl2QG0KvWi1Xv/8e0rt+P8WT3wygV06g==
-X-Received: by 2002:a05:6a20:d906:b0:ef:bd:38 with SMTP id jd6-20020a056a20d90600b000ef00bd0038mr2856576pzb.55.1682012206529;
-        Thu, 20 Apr 2023 10:36:46 -0700 (PDT)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id fd22-20020a056a002e9600b0063b6e3e5a39sm1522819pfb.52.2023.04.20.10.36.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 10:36:46 -0700 (PDT)
-In-Reply-To: <20230407231103.2622178-1-evan@rivosinc.com>
-References: <20230407231103.2622178-1-evan@rivosinc.com>
-Subject: Re: [PATCH v6 0/6] RISC-V Hardware Probing User Interface
-Message-Id: <168201218504.13763.1031176103296142331.b4-ty@rivosinc.com>
-Date:   Thu, 20 Apr 2023 10:36:25 -0700
-MIME-Version: 1.0
+        with ESMTP id S230334AbjDTRkY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 13:40:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2826E114;
+        Thu, 20 Apr 2023 10:40:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A34D964B07;
+        Thu, 20 Apr 2023 17:40:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0229BC4339C;
+        Thu, 20 Apr 2023 17:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682012422;
+        bh=g0ksG6nfP361Le8p/mc0obDjhA3uxSOnBqsqKl8TFic=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=H+O4QULsjgMwJYS6AYt1YJg55l10HlZgTvndw5KVKTuHyJgzu/k33R4yXrFpPO5B9
+         GxOXfy/0sGByAnoopEwTaHdyugG7tdLJMiI64YuL7/C/AcStOmZOLGEBwcwQbgC9BV
+         WY9lGxTse50ZgmDnlyef44MrIqjCSNmDbbdusf88T5rRUGATui1MKMc4xgYOIxFTP3
+         g57+yZiDB6UNrjaNfMs9PR9RpM66Fl6Ijx0pOKQQNFkM5HrCn7xqDZ3i1GspQUkMhz
+         qpYUrNgVFdbMyKUWVpQjfBYys27G1Y0KPgww9V6AaUOueLFmgChE7RYkqF8nwYECZd
+         I6BH3IxR3oTSw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DD154C395C8;
+        Thu, 20 Apr 2023 17:40:21 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-901c5
-Cc:     slewis@rivosinc.com, heiko@sntech.de,
-        Conor Dooley <conor@kernel.org>,
-        Vineet Gupta <vineetg@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Jann Horn <jannh@google.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Samuel Holland <samuel@sholland.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:     Evan Green <evan@rivosinc.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v9 0/1] riscv: Allow to downgrade paging mode from the command
+ line
+From:   patchwork-bot+linux-riscv@kernel.org
+Message-Id: <168201242189.9373.3633169603042394509.git-patchwork-notify@kernel.org>
+Date:   Thu, 20 Apr 2023 17:40:21 +0000
+References: <20230329050951.66085-1-alexghiti@rivosinc.com>
+In-Reply-To: <20230329050951.66085-1-alexghiti@rivosinc.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     linux-riscv@lists.infradead.org, corbet@lwn.net,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, conor@kernel.org, ardb@kernel.org,
+        bjorn@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello:
 
-On Fri, 07 Apr 2023 16:10:57 -0700, Evan Green wrote:
-> There's been a bunch of off-list discussions about this, including at
-> Plumbers.  The original plan was to do something involving providing an
-> ISA string to userspace, but ISA strings just aren't sufficient for a
-> stable ABI any more: in order to parse an ISA string users need the
-> version of the specifications that the string is written to, the version
-> of each extension (sometimes at a finer granularity than the RISC-V
-> releases/versions encode), and the expected use case for the ISA string
-> (ie, is it a U-mode or M-mode string).  That's a lot of complexity to
-> try and keep ABI compatible and it's probably going to continue to grow,
-> as even if there's no more complexity in the specifications we'll have
-> to deal with the various ISA string parsing oddities that end up all
-> over userspace.
+This patch was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
+
+On Wed, 29 Mar 2023 07:09:50 +0200 you wrote:
+> This new version gets rid of the limitation that prevented KASAN kernels
+> to use the newly introduced parameters.
+> 
+> While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
+> avoid relocating the kernel twice for KASLR"): it allows to use the fdt
+> functions very early in the boot process with KASAN enabled by simply
+> compiling a new version of those functions without instrumentation.
 > 
 > [...]
 
-Applied, thanks!
+Here is the summary with links:
+  - [v9,1/1] riscv: Allow to downgrade paging mode from the command line
+    https://git.kernel.org/riscv/c/c070bcfdb2fa
 
-[1/6] RISC-V: Move struct riscv_cpuinfo to new header
-      https://git.kernel.org/palmer/c/ff77cf5b2e03
-[2/6] RISC-V: Add a syscall for HW probing
-      https://git.kernel.org/palmer/c/ea3de9ce8aa2
-[3/6] RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
-      https://git.kernel.org/palmer/c/00e76e2c6a2b
-[4/6] RISC-V: hwprobe: Support probing of misaligned access performance
-      https://git.kernel.org/palmer/c/62a31d6e38bd
-[5/6] selftests: Test the new RISC-V hwprobe interface
-      https://git.kernel.org/palmer/c/287dcc2b0c83
-[6/6] RISC-V: Add hwprobe vDSO function and data
-      https://git.kernel.org/palmer/c/aa5af0aa90ba
-
-Best regards,
+You are awesome, thank you!
 -- 
-Palmer Dabbelt <palmer@rivosinc.com>
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
