@@ -2,304 +2,203 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6044C77B75
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 00:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03DBEC77B7C
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 00:51:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232055AbjDTAcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 20:32:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39942 "EHLO
+        id S233189AbjDTAvA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Apr 2023 20:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231950AbjDTAcM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 20:32:12 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94EF061A7
-        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 17:32:08 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3ee6c339cceso172575e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 17:32:08 -0700 (PDT)
+        with ESMTP id S232996AbjDTAuc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 20:50:32 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B693976AB
+        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 17:50:07 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id v200-20020a252fd1000000b00b8f548a72bbso985266ybv.9
+        for <linux-doc@vger.kernel.org>; Wed, 19 Apr 2023 17:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681950727; x=1684542727;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cpHsbQZOI2szya5getePPbZFizdtNLAvh8GmFlwAN1M=;
-        b=ysPLUsQMbedXCyQYZr6Zc+fSt8NWoLdVDcqcVZDHhCrCDaB2sk6rhO14ftB7Jzggai
-         cVizcqRRor6XZZATBcC+Q5hAviYJW6j84oNJYMS9tlWqa54/Pl+veZlWD37xLZk3abmk
-         gpO4AFFVZuCznXvk946oY0x/ygmv4NsGux2cbs+vd0xuZ8EljM6IzQUd37HOvFZcJ2i0
-         5S3EnekxS0JmeXrrTdh0WIw/79II6znLakNv9k9n/OvrhR9O18k2UGFvYZ4gT9wZDVhW
-         StRsYpOeMeYj+Yv0Th1ngB3fz+qDAknM0kw1O7NtNRq99eyDTfj4vP12sDUbhJl+foEI
-         ep0A==
+        d=google.com; s=20221208; t=1681951797; x=1684543797;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
+        b=0KQvDXHLR89BVxU2oI9O1ZusFid2YKHOcipULiVP6+PSDHwriZYqd2A06zVvzb+5zg
+         +1pAM1zXlSNPZvINL7u8jaguPJCIxfMpOP+rF/bo3e7YipW5A5h9Z1uQ5Ne2aQDNcW6c
+         EcQXFII0XVCoUfr19ADWbM/w1kzMojqRNFL4dpL0bA9tYUhTVMdjBXnH0ldjTdoS4rfS
+         B4qULmS58/9Ub/zlvy0EPJx+IEG/RXiTWy5ry2WStJSaH5TR16lXIzvnkE2V+5Qqr+ic
+         KCotEARF8eci5Ax95+I+ZNzK3NrfAcOPUHTnTLXEbEOQev6PRHk+rxhdkpcXFMAn0sKn
+         YqLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681950727; x=1684542727;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cpHsbQZOI2szya5getePPbZFizdtNLAvh8GmFlwAN1M=;
-        b=EVzI3UzV1itr+bThMeSwoa+csqlqcViLKAkbqORCUNKyYthHcu81jFk46SEdVpAMNs
-         azMcfFB/W1s5DquIq0Cc3GN0Tzki9nQVG3KmNWFMHxDhcYB0ncMkwaxCPZA45Q0mPCaq
-         oX8jNBUDEy8lKQkbuuuDJjmNuvWPPgSq4rw2DG0fM6e6evUe3VDCp8CL+B6TVvCy78F7
-         MYZCLYA5JOplG+s5cg1w86ed/O3YwwAGhS9+b3bPa86P8MZsZCQ9bwCMlfUHn7JvpDJA
-         GFyV2n1En9s4mDzOFrU5f2VB85qwPH/0Xr2Nw/P7vUwif9HVjBTZ/aCJ6gPzwJI74Sex
-         LVyg==
-X-Gm-Message-State: AAQBX9d+mNIkI7yGbKyInGxsqLw6dBtoBmxgN3ek2xEQGAbPxlIt6d1l
-        Yh4OGt1VNW1by/RS3lk4w8DwLW2VWFehAwBKABybvg==
-X-Google-Smtp-Source: AKy350aBel/7MtmlYCMSjJPTLJNrhcBDWM1l1EErpsirii/9U3cgHvYfQURMqtj3yNFdf/eUjBr+4QIODnFlFBR70+I=
-X-Received: by 2002:a05:600c:314c:b0:3f1:7490:e5a4 with SMTP id
- h12-20020a05600c314c00b003f17490e5a4mr90071wmo.6.1681950726866; Wed, 19 Apr
- 2023 17:32:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230413161725.195417-1-alexghiti@rivosinc.com>
- <CAOnJCU+72PV1=o1c_TpogkmBT36278BneVWEMr1=tqX0CZi+ag@mail.gmail.com>
- <aadca595b4a24e36932ba41e61f4e263@AcuMS.aculab.com> <CAOnJCUJ7mY+fh9VqE4dRntnVAEAc26=NnOCPUqkXk6ky__cUZQ@mail.gmail.com>
- <CAP-5=fUYJEecmhQVuvbM4ZoDP_Hj=2RKOgR4cKepU072Uy3xyw@mail.gmail.com>
- <CAOnJCULJfSN79MzAwhCrbVzG1rYyrPB3OraFmoZFBxuRCwq01w@mail.gmail.com>
- <CAHVXubjhORBEDok_Zhq5p_Yv4Ty4Hct84dWJZXzo48+40N=CGg@mail.gmail.com>
- <CAP-5=fX6kaZt68UbMMZzW-zs0RyRWoOS-Tq5NwekWj8k9Shx6g@mail.gmail.com> <CAOnJCU+5EQp-AqrwJpBo6ZPWfybwaGyD3zcC0YrCAsSY4=fqdw@mail.gmail.com>
-In-Reply-To: <CAOnJCU+5EQp-AqrwJpBo6ZPWfybwaGyD3zcC0YrCAsSY4=fqdw@mail.gmail.com>
-From:   Ian Rogers <irogers@google.com>
-Date:   Wed, 19 Apr 2023 17:31:50 -0700
-Message-ID: <CAP-5=fUrTSXZwR2rV34AXbNCYcV1wnFyfzhNuRgBLXofsjnE_g@mail.gmail.com>
-Subject: Re: [PATCH 0/4] riscv: Allow userspace to directly access perf counters
-To:     Atish Patra <atishp@atishpatra.org>
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        paranlee <p4ranlee@gmail.com>,
-        David Laight <David.Laight@aculab.com>,
+        d=1e100.net; s=20221208; t=1681951797; x=1684543797;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
+        b=SPP4I+JFtFId5rOXlLi59ZI07fVlbDhHxb9O9Zr3G2ykHyElRrj9xxCetdd0AbciyG
+         MKyOKOKYv72Bk+nNNwGHznh4QOr3WZPChQkzSlpQFxLpIwUKV0OgkBlFnmkSWIcu3ppU
+         FdO/MxG+18qY+T/Zzlmg0r0NaKxcHtv/Dn4pmaLLuhseC9Y9oakyTmTKqA9uP48+JbKw
+         xGOKJpyKjDZiWjdLC+AMr2QvK4rlMh0RMw8+/ofBFnWXolIJLamTjvunOIqla3OS9lao
+         0uVhUKnOP4i1wenL+Yq+ywEwk5hoixRcmXg9aeC+hyMNzzmQqDnvzRjLLwtljIFVKk5P
+         5CLw==
+X-Gm-Message-State: AAQBX9ek5XjqBqXdb7FVV7ucr+bJLxYLNXOSteV3loE5eUeOR5sIXUM0
+        BzqFHpJjX7vYzjJrBvVUT5V4js78xYs=
+X-Google-Smtp-Source: AKy350ZW3QSDcu1b4uay718+0UKdCoR5698g0B4gA8e9kbzHBPJ0H7w91zco9M9KgDo6hSqXOcwRuk93omk=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:d24c:0:b0:b95:460c:1776 with SMTP id
+ j73-20020a25d24c000000b00b95460c1776mr766347ybg.13.1681951797267; Wed, 19 Apr
+ 2023 17:49:57 -0700 (PDT)
+Date:   Wed, 19 Apr 2023 17:49:55 -0700
+In-Reply-To: <20230418-anfallen-irdisch-6993a61be10b@brauner>
+Mime-Version: 1.0
+References: <20220818132421.6xmjqduempmxnnu2@box> <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com> <20230413-anlegen-ergibt-cbefffe0b3de@brauner>
+ <ZDiCG/7OgDI0SwMR@google.com> <20230418-anfallen-irdisch-6993a61be10b@brauner>
+Message-ID: <ZECMM9bjgGRdyXRy@google.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+From:   Sean Christopherson <seanjc@google.com>
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Ackerley Tng <ackerleytng@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Hugh Dickins <hughd@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        Pankaj Gupta <pankaj.gupta@amd.com>,
+        linux-arch@vger.kernel.org, arnd@arndb.de, linmiaohe@huawei.com,
+        naoya.horiguchi@nec.com, tabba@google.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 19, 2023 at 4:22=E2=80=AFPM Atish Patra <atishp@atishpatra.org>=
- wrote:
->
-> On Wed, Apr 19, 2023 at 11:13=E2=80=AFPM Ian Rogers <irogers@google.com> =
-wrote:
-> >
-> > On Wed, Apr 19, 2023 at 2:21=E2=80=AFAM Alexandre Ghiti <alexghiti@rivo=
-sinc.com> wrote:
-> > >
-> > > Hi Ian,
-> > >
-> > > On Tue, Apr 18, 2023 at 10:30=E2=80=AFPM Atish Patra <atishp@atishpat=
-ra.org> wrote:
-> > > >
-> > > > On Tue, Apr 18, 2023 at 11:46=E2=80=AFPM Ian Rogers <irogers@google=
-.com> wrote:
-> > > > >
-> > > > > On Tue, Apr 18, 2023 at 9:43=E2=80=AFAM Atish Patra <atishp@atish=
-patra.org> wrote:
-> > > > > >
-> > > > > > On Fri, Apr 14, 2023 at 2:40=E2=80=AFAM David Laight <David.Lai=
-ght@aculab.com> wrote:
-> > > > > > >
-> > > > > > > From: Atish Patra
-> > > > > > > > Sent: 13 April 2023 20:18
-> > > > > > > >
-> > > > > > > > On Thu, Apr 13, 2023 at 9:47=E2=80=AFPM Alexandre Ghiti <al=
-exghiti@rivosinc.com> wrote:
-> > > > > > > > >
-> > > > > > > > > riscv used to allow direct access to cycle/time/instret c=
-ounters,
-> > > > > > > > > bypassing the perf framework, this patchset intends to al=
-low the user to
-> > > > > > > > > mmap any counter when accessed through perf. But we can't=
- break the
-> > > > > > > > > existing behaviour so we introduce a sysctl perf_user_acc=
-ess like arm64
-> > > > > > > > > does, which defaults to the legacy mode described above.
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > It would be good provide additional direction for user spac=
-e packages:
-> > > > > > > >
-> > > > > > > > The legacy behavior is supported for now in order to avoid =
-breaking
-> > > > > > > > existing software.
-> > > > > > > > However, reading counters directly without perf interaction=
- may
-> > > > > > > > provide incorrect values which
-> > > > > > > > the userspace software must avoid. We are hoping that the u=
-ser space
-> > > > > > > > packages which
-> > > > > > > > read the cycle/instret directly, will move to the proper in=
-terface
-> > > > > > > > eventually if they actually need it.
-> > > > > > > > Most of the users are supposed to read "time" instead of "c=
-ycle" if
-> > > > > > > > they intend to read timestamps.
-> > > > > > >
-> > > > > > > If you are trying to measure the performance of short code
-> > > > > > > fragments then you need pretty much raw access directly to
-> > > > > > > the cycle/clock count register.
-> > > > > > >
-> > > > > > > I've done this on x86 to compare the actual cycle times
-> > > > > > > of different implementations of the IP checksum loop
-> > > > > > > (and compare them to the theoretical limit).
-> > > > > > > The perf framework just added far too much latency,
-> > > > > > > only directly reading the cpu registers gave anything
-> > > > > > > like reliable (and consistent) answers.
-> > > > > > >
-> > > > > >
-> > > > > > This series allows direct access to the counters once configure=
-d
-> > > > > > through the perf.
-> > > > > > Earlier the cycle/instret counters are directly exposed to the
-> > > > > > userspace without kernel/perf frameworking knowing
-> > > > > > when/which user space application is reading it. That has secur=
-ity implications.
-> > > > > >
-> > > > > > With this series applied, the user space application just needs=
- to
-> > > > > > configure the event (cycle/instret) through perf syscall.
-> > > > > > Once configured, the userspace application can find out the cou=
-nter
-> > > > > > information from the mmap & directly
-> > > > > > read the counter. There is no latency while reading the counter=
-s.
-> > > > > >
-> > > > > > This mechanism allows stop/clear the counters when the requesti=
-ng task
-> > > > > > is not running. It also takes care of context switching
-> > > > > > which may result in invalid values as you mentioned below. This=
- is
-> > > > > > nothing new and all other arch (x86, ARM64) allow user space
-> > > > > > counter read through the same mechanism.
-> > > > > >
-> > > > > > Here is the relevant upstream discussion:
-> > > > > > https://lore.kernel.org/lkml/Y7wLa7I2hlz3rKw%2F@hirez.programmi=
-ng.kicks-ass.net/T/
-> > > > > >
-> > > > > > ARM64:
-> > > > > > https://docs.kernel.org/arm64/perf.html?highlight=3Dperf_user_a=
-ccess#perf-userspace-pmu-hardware-counter-access
-> > > > > >
-> > > > > > example usage in x86:
-> > > > > > https://github.com/andikleen/pmu-tools/blob/master/jevents/rdpm=
-c.c
-> > > > >
-> > > > > The canonical implementation of this should be:
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/tree/tools/lib/perf/mmap.c#n400
-> > > >
-> > > > Thanks for sharing the libperf implementation.
-> > > >
-> > > > > which is updated in these patches but the tests are not:
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/tree/tools/perf/tests/mmap-basic.c#n287
-> > > > > Which appears to be an oversight. The tests display some differen=
-ces
-> > > >
-> > > > Yes. It's an oversight. We should make sure that perf mmap tests pa=
-ss
-> > > > for RISC-V as well.
-> > >
-> > > Yes, that's an oversight, I had a local test adapted from this one bu=
-t
-> > > forgot to update it afterwards, I'll do that in the next version.
-> > >
-> > > Thanks for your quick feedbacks and sorry for being late,
-> > >
-> > > Alex
-> >
-> > Thanks Alex, there was an equally likely chance that I wasn't
-> > understanding things :-) Is there any information on RISC-V PMU
-> > testing? I know ParanLee is interested. It'd be awesome to have
->
-> Are you looking for something specific to RISC-V general or perf on RISC-=
-V?
-> All the RISC-V PMU patches have been upstream for a while (both in the
-> Qemu & Linux kernel).
-> Perf should work out-of-the box when you boot the latest kernel in the
-> latest version of the Qemu.
->
-> Initial KVM[1] patches support got merged during the last merge
-> window. It doesn't support
-> event sampling yet. We are working on that.
->
-> [1] https://lore.kernel.org/lkml/20230207095529.1787260-1-atishp@rivosinc=
-.com/
+On Wed, Apr 19, 2023, Christian Brauner wrote:
+> On Thu, Apr 13, 2023 at 03:28:43PM -0700, Sean Christopherson wrote:
+> > > But if you want to preserve the inode number and device number of the
+> > > relevant tmpfs instance but still report memfd restricted as your
+> > > filesystem type
+> > 
+> > Unless I missed something along the way, reporting memfd_restricted as a distinct
+> > filesystem is very much a non-goal.  AFAIK it's purely a side effect of the
+> > proposed implementation.
+> 
+> In the current implementation you would have to put in effort to fake
+> this. For example, you would need to also implement ->statfs
+> super_operation where you'd need to fill in the details of the tmpfs
+> instance. At that point all that memfd_restricted fs code that you've
+> written is nothing but deadweight, I would reckon.
 
-Cool, it'd be nice to have a recipe for this from x86 Linux :-)
+After digging a bit, I suspect the main reason Kirill implemented an overlay to
+inode_operations was to prevent modifying the file size via ->setattr().  Relying
+on shmem_setattr() to unmap entries in KVM's MMU wouldn't work because, by design,
+the memory can't be mmap()'d into host userspace. 
 
-> > something say on:
-> > https://perf.wiki.kernel.org/index.php/Main_Page
-> > on how to run tests, perhaps on QEMU or known to work boards. We can
-> > also just drop a link on there if there is information. We can also
-> > add the RISC-V PMU information to the links here:
-> > https://perf.wiki.kernel.org/index.php/Useful_Links
-> >
->
-> I did not see any arch specific information there. Let us know what
-> would be good to
-> add there and we would be happy to add.
+	if (attr->ia_valid & ATTR_SIZE) {
+		if (memfd->f_inode->i_size)
+			return -EPERM;
 
-I was specifically thinking under Manuals where the Intel, AMD and ARM
-manuals are, links to the RISC-V documentation could be added.
+		if (!PAGE_ALIGNED(attr->ia_size))
+			return -EINVAL;	
+	}
 
-Thanks,
-Ian
+But I think we can solve this particular problem by using F_SEAL_{GROW,SHRINK} or
+SHMEM_LONGPIN.  For a variety of reasons, I'm leaning more and more toward making
+this a KVM ioctl() instead of a dedicated syscall, at which point we can be both
+more flexible and more draconian, e.g. let userspace provide the file size at the
+time of creation, but make the size immutable, at least by default.
 
-> > Thanks,
-> > Ian
-> >
-> > >
-> > > >
-> > > >
-> > > > > between x86 and aarch64 that have assumed userspace hardware coun=
-ter
-> > > > > access, and everything else that it is assumed don't.
-> > > > >
-> > > > > Thanks,
-> > > > > Ian
-> > > > >
-> > > > > > > Clearly process switches (especially cpu migrations) cause
-> > > > > > > problems, but they are obviously invalid values and can
-> > > > > > > be ignored.
-> > > > > > >
-> > > > > > > So while a lot of uses may be 'happy' with the values the
-> > > > > > > perf framework gives, sometimes you do need to directly
-> > > > > > > read the relevant registers.
-> > > > > > >
-> > > > > > >         David
-> > > > > > >
-> > > > > > > -
-> > > > > > > Registered Address Lakeside, Bramley Road, Mount Farm, Milton=
- Keynes, MK1 1PT, UK
-> > > > > > > Registration No: 1397386 (Wales)
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > --
-> > > > > > Regards,
-> > > > > > Atish
-> > > >
-> > > >
-> > > >
-> > > > --
-> > > > Regards,
-> > > > Atish
->
->
->
-> --
-> Regards,
-> Atish
+> > After giving myself a bit of a crash course in file systems, would something like
+> > the below have any chance of (a) working, (b) getting merged, and (c) being
+> > maintainable?
+> > 
+> > The idea is similar to a stacking filesystem, but instead of stacking, restrictedmem
+> > hijacks a f_ops and a_ops to create a lightweight shim around tmpfs.  There are
+> > undoubtedly issues and edge cases, I'm just looking for a quick "yes, this might
+> > be doable" or a "no, that's absolutely bonkers, don't try it".
+> 
+> Maybe, but I think it's weird.
+
+Yeah, agreed.
+
+> _Replacing_ f_ops isn't something that's unprecedented. It happens everytime
+> a character device is opened (see fs/char_dev.c:chrdev_open()). And debugfs
+> does a similar (much more involved) thing where it replaces it's proxy f_ops
+> with the relevant subsystem's f_ops. The difference is that in both cases the
+> replace happens at ->open() time; and the replace is done once. Afterwards
+> only the newly added f_ops are relevant.
+> 
+> In your case you'd be keeping two sets of {f,a}_ops; one usable by
+> userspace and another only usable by in-kernel consumers. And there are
+> some concerns (non-exhaustive list), I think:
+> 
+> * {f,a}_ops weren't designed for this. IOW, one set of {f,a}_ops is
+>   authoritative per @file and it is left to the individual subsystems to
+>   maintain driver specific ops (see the sunrpc stuff or sockets).
+> * lifetime management for the two sets of {f,a}_ops: If the ops belong
+>   to a module then you need to make sure that the module can't get
+>   unloaded while you're using the fops. Might not be a concern in this
+>   case.
+
+Ah, whereas I assume the owner of inode_operations is pinned by ??? (dentry?)
+holding a reference to the inode?
+
+> * brittleness: Not all f_ops for example deal with userspace
+>   functionality some deal with cleanup when the file is closed like
+>   ->release(). So it's delicate to override that functionality with
+>   custom f_ops. Restricted memfds could easily forget to cleanup
+>   resources.
+> * Potential for confusion why there's two sets of {f,a}_ops.
+> * f_ops specifically are generic across a vast amount of consumers and
+>   are subject to change. If memfd_restricted() has specific requirements
+>   because of this weird double-use they won't be taken into account.
+> 
+> I find this hard to navigate tbh and it feels like taking a shortcut to
+> avoid building a proper api.
+
+Agreed.  At the very least, it would be better to take an explicit dependency on
+whatever APIs are being used instead of somewhat blindly bouncing through ->fallocate().
+I think that gives us a clearer path to getting something merged too, as we'll
+need Acks on making specific functions visible, i.e. will give MM maintainers
+something concrete to react too.
+
+> If you only care about a specific set of operations specific to memfd
+> restricte that needs to be available to in-kernel consumers, I wonder if you
+> shouldn't just go one step further then your proposal below and build a
+> dedicated minimal ops api.
+
+This is actually very doable for shmem.  Unless I'm missing something, because
+our use case doesn't allow mmap(), swap, or migration, a good chunk of
+shmem_fallocate() is simply irrelevant.  The result is only ~100 lines of code,
+and quite straightforward.
+
+My biggest concern, outside of missing a detail in shmem, is adding support for
+HugeTLBFS, which is likely going to be requested/needed sooner than later.  At a
+glance, hugetlbfs_fallocate() is quite a bit more complex, i.e. not something I'm
+keen to duplicate.  But that's also a future problem to some extent, as it's
+purely kernel internals; the uAPI side of things doesn't seem like it'll be messy
+at all.
+
+Thanks again!
