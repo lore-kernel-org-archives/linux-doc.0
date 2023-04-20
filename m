@@ -2,110 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F74C77B7C
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 16:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70FB6C77B72
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 16:07:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234406AbjDTQGl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 12:06:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60214 "EHLO
+        id S229724AbjDTQHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 12:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234321AbjDTQGk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 12:06:40 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3666A48;
-        Thu, 20 Apr 2023 09:05:58 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id z6so7561096ejc.5;
-        Thu, 20 Apr 2023 09:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682006757; x=1684598757;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EIrWFxNQFlhme+9qVbuyjFRPmgNp9vvWt4N75xCa6m4=;
-        b=a9rxcvGAOssBpy4B7PyIEPBItlmSNahxnycgB4kVPzpIz6OZ9CMc7H97kEQ8rirzr1
-         g4e//k/2hJlZY2UcTf/ZV7W78D0oif+QDSD8y/Rjn3IS8zvtuB+EizeU3l7A1BdTG049
-         /TJWVOz7m+8Q0LcUIHXBV6oCE8u8hCi8ncoqi1GYe/MbKP6mPGOlXoG+YVsOwtANwTGX
-         hE03Mn2G4krPSPrc1K/FPi1bTYIyLwIqQRteyPxens4/5ubijN1xjmZtZ6xEWcBqVc0o
-         933H5jxC2QivNsdcAo30+PfZbexvs7vECbotqh6MI5YhKteAcECf5k46gh7EosS7RUg7
-         bZUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682006757; x=1684598757;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EIrWFxNQFlhme+9qVbuyjFRPmgNp9vvWt4N75xCa6m4=;
-        b=Q1r7eBXFNHjTW2+pUwrJeWi0bJ3D9gLvh5fg/Jev8A5MQrfokmifJJhILMlhXsx0YH
-         lOe4jgrKZRXwhxPahpRLNhDuynbOt3scPKnKTyON5OtiVa5q9EnuOx6+rjiVtn+BRsZb
-         8hWkDQWvC/yD9uEPOFbHTtQUTVUxlzuyhWfsur6VCv2pCOgzwnEibtTZmTiTvkoLgE36
-         Qz1cotI9fza55L6H5mfoqRY51Q7gBhg4AFs0MbReppJSC1P8aoMVW1+7RSRTWuNDuQSQ
-         n23lr4Pf0IIdfc/xCYTIqR/kSrbuvAzTY5jVkLXVnTPl03tCvFF8YSWsflUZCnaUjeS+
-         s3ng==
-X-Gm-Message-State: AAQBX9el0LyXMRI/tSd+cbc227SckVB90EGVRB/0lGaUUDipgLVsYySo
-        UbdIS5KLnwKElMSF/me1XLE=
-X-Google-Smtp-Source: AKy350YlLeT7OF1W7F6jluIK5b7JRjgtxjCjjoHaFXqLQ9oKKT4V6FsG5KV+u9+otG5Z3zZDBE9Jrg==
-X-Received: by 2002:a17:906:1c06:b0:94b:d57e:9d4b with SMTP id k6-20020a1709061c0600b0094bd57e9d4bmr2070785ejg.2.1682006756729;
-        Thu, 20 Apr 2023 09:05:56 -0700 (PDT)
-Received: from orome (p200300e41f053a00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f05:3a00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id l22-20020a170906795600b0094f25ae0821sm887732ejo.31.2023.04.20.09.05.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 09:05:56 -0700 (PDT)
-Date:   Thu, 20 Apr 2023 18:05:54 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dipen Patel <dipenp@nvidia.com>
-Cc:     jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
-Subject: Re: [V6 4/9] arm64: tegra: Add Tegra234 GTE nodes
-Message-ID: <ZEFi4vKVtstiAno3@orome>
-References: <20230414004455.19275-1-dipenp@nvidia.com>
- <20230414004455.19275-5-dipenp@nvidia.com>
+        with ESMTP id S229933AbjDTQHt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 12:07:49 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3882D1A6;
+        Thu, 20 Apr 2023 09:07:49 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B88A32AE;
+        Thu, 20 Apr 2023 16:07:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B88A32AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1682006868; bh=RmhSgmfwbLsDlw+PV+8aziv/ELTqn0omTb/nks3j6vk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Wgp4lVDFhIS81hjPlkFruN9Tp6I6JYtvH+JVH8SG9bIIZy6wFiGNDasgtIfhoVw41
+         mLEGuBOcBD+Wbt9dbiF5cGKOKATVDUV93rFal/QK+5eBPq26exOwdqdsvevwrDeDuY
+         TjyAvqJMzLSzgmU4lEvyYxec/g3hS60j8V4m8wkOBAdtQ5QjIe+Z8jEd9gFEHrHEie
+         JJjd2dW0XDU0xopTS5VyKlm7t1vV1kmgChABg7HQ+axIa9w8PJkW5RUtXyczqaNXqU
+         L5Q3n+Br++3LaghdZ1jwE5/FXCSmiFEtXDNMkFlHg5xpfk/CN2WLqn2gQxPojzK8Ok
+         o2ZGN0DV9nogg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Alexey Dobriyan <adobriyan@gmail.com>, akpm@linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v3] ELF: document some de-facto PT_* ABI quirks
+In-Reply-To: <88d3f1bb-f4e0-4c40-9304-3843513a1262@p183>
+References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
+ <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
+ <c4233c97-306c-4db8-9667-34fc31ec4aed@p183> <87edp7jyu4.fsf@meer.lwn.net>
+ <88d3f1bb-f4e0-4c40-9304-3843513a1262@p183>
+Date:   Thu, 20 Apr 2023 10:07:48 -0600
+Message-ID: <87fs8utu3v.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="NPoYIIrP4+2LC65A"
-Content-Disposition: inline
-In-Reply-To: <20230414004455.19275-5-dipenp@nvidia.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Alexey Dobriyan <adobriyan@gmail.com> writes:
 
---NPoYIIrP4+2LC65A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Apr 13, 2023 at 05:44:50PM -0700, Dipen Patel wrote:
-> Add GTE LIC and AON GPIO nodes for the tegra234 SoC.
->=20
-> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
+> program headers are slightly different.
+>
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 > ---
->  arch/arm64/boot/dts/nvidia/tegra234.dtsi | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>
+> 	v3: move to Documentation/userspace-api/
+> 	v2: integrate into documentation build system
+>
+>  Documentation/userspace-api/ELF.rst   |   34 ++++++++++++++++++++++++++++++++++
+>  Documentation/userspace-api/index.rst |    1 +
+>  2 files changed, 35 insertions(+)
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Applied, thanks.
 
---NPoYIIrP4+2LC65A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmRBYuIACgkQ3SOs138+
-s6EhoQ/+NM3QPHuY/4aEUx5uEy94QwELsFH6cn5FTtmq3kevgv+fjstZ1Ojxy3Nf
-tx34APCxIWm85Bs6qI+xs7o0ikd+WrttTV6CxQhpOiptO88eDr3vT2aN6bSqTBR7
-LR5HvaOnn06pRkYHbMGM6OTRLCAEU5J7Cz3C+n1oG6mE6405ImpAAImYZMyPH7Be
-ITbUFGF+ZH6cucAlxvoi5GnBn8zoN9hYgLphhQs7qOqSqV+bVxVBvFJq2ZXBhQPp
-CKHvoKdN6aWcynnLiPDZsZ1uvVfjV/iOUMwgb/lyl5SW/nrXQqipBPN6l5ONvG2F
-xUt/auV2Ipsn3x8vlEKts2qrzVwl9ojiy6Is/hUp95L/srpJUeix0zPGU38thBSp
-aVbsNXy6T2yQCpjFE9kVO3uuIvJGsOqSp6tt4CYrrEryt93ktU9dEjREbkaLRDRa
-5oSnzNVDKmzith3Zi7uPUL7eKvtQflnMbCOhn2HvAyVcjijyWxaQvqYuDC9tZhs/
-31R8aSgpVF8in6IkQnztLgEdXehAi4yuq9TWOeKRgVJUYAXBfmg+kfXchmRVlxVl
-d5UNYfEqmPjjxRbJPL7491G8JXtV6V53RrSuEuZizMdUgT3Qp2ut4J+DaTXMHiSc
-NBfvENpdOfv8MBtwt7Rs/kyZZJC5D9RT5jKMomseLewcNM+X6ho=
-=vZgG
------END PGP SIGNATURE-----
-
---NPoYIIrP4+2LC65A--
+jon
