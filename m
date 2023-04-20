@@ -2,203 +2,264 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDBAC77B72
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 19:18:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE57C7618E
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 20:57:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231298AbjDTTSW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 15:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43138 "EHLO
+        id S231968AbjDTU5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 16:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjDTTSW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 15:18:22 -0400
-Received: from mx4.veeam.com (mx4.veeam.com [104.41.138.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280622717;
-        Thu, 20 Apr 2023 12:18:20 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx4.veeam.com (Postfix) with ESMTPS id D6D3D5EC2C;
-        Thu, 20 Apr 2023 22:18:17 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx4-2022; t=1682018298;
-        bh=vsr/Ac17+CKt1Rl6NRF3sVIwqaOJqgYSiqwTXnsdphI=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=KHMUcCZPq5iG48/N9iQw1JOODCqqqu8sWQJ1VwWH1mTWSXRYUsDz+iHmQVY/7kWeK
-         eiQTGcC9rk0wHByjmQmgVXZVVUnlwlBrPQFJZKoqq9/+GILi3lHpd0GC1DsoGyWFpP
-         IXDgZOwan8Q+1tpTpV7T7TQ4/XbphuEjpSrLicR7aNPRxd527/CSG3vyv36DdPd5mp
-         kpR9sk2z/w7FGSAQ/hJu31/0NgGytQQlAPnvJ8sSaondl7jOoq4pdtzYTvOJTkdqP2
-         O3a7hPVC2jGtSHoDqF43RPokohbcgzAf+Mvy0OA8te7XNcxbIxqIvxl/R6pQ2jhn+g
-         DJNaW4XLo8Vnw==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Thu, 20 Apr
- 2023 21:18:10 +0200
-Content-Type: multipart/mixed;
-        boundary="------------HHEWogh5LchE01j4khkGxhzV"
-Message-ID: <b6516901-b7ba-cde9-644c-84dfdef012ad@veeam.com>
-Date:   Thu, 20 Apr 2023 21:17:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
-Content-Language: en-US
-To:     Donald Buczek <buczek@molgen.mpg.de>, <axboe@kernel.dk>,
-        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <kch@nvidia.com>,
-        <martin.petersen@oracle.com>, <vkoul@kernel.org>,
-        <ming.lei@redhat.com>, <gregkh@linuxfoundation.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-4-sergei.shtepa@veeam.com>
- <cb0cc2f1-48cb-8b15-35af-33a31ccc922c@molgen.mpg.de>
- <86068780-bab3-2fc2-3f6f-1868be119b38@veeam.com>
- <a1854604-cec1-abd5-1d49-6cf6a19ee7a1@veeam.com>
- <1dc227d0-9528-9b77-63ff-b49b0579caa1@molgen.mpg.de>
- <c05fd3e7-5610-4f63-9012-df1b808d9536@veeam.com>
- <955ede49-bb69-2ab2-d256-a329fe1b728c@molgen.mpg.de>
- <3b589d44-3fbd-1f4f-8efb-9b334c26a20f@molgen.mpg.de>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <3b589d44-3fbd-1f4f-8efb-9b334c26a20f@molgen.mpg.de>
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: atlmbx02.amust.local (172.18.32.172) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2924031554677167
-X-Veeam-MMEX: True
+        with ESMTP id S231610AbjDTU5t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 16:57:49 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42694233
+        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 13:57:46 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b8f39b41c7aso1377230276.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 13:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1682024265; x=1684616265;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5yzTg1HjZXhyiiyjfkjQABzGLu2Q1ap1FIlFZzPamAM=;
+        b=CBi4oyy3PbOkEIks6OuRCzZBUXoTmT1Azzv/BL5OSDeard16zpdwuFwJlGAzZec/8h
+         urN1PYynIvVibXD5+uQTxPJZ0cHysiFJa4tRbnEz0v8IfgMv5+0XJV+boTC4GkmIwGcC
+         Ni/qexVXdD3RGT3PUthBE2VL1J4jTWfz+gg0nHT5u6hKz/W4PBqDIVhbcDqQHSMI4YsC
+         RbczTQAMKtIdf5OBPXhrTP1oKGPq8t84NaI1mHdTi3Wz5Sxo9nCiFFi0vnfPkXHaBbMv
+         c0gZvLkSkOMzvqSdvbNFL93bnyzHiQNR0SP1hunSJYMKsYebdnbKlOnh7GHLvHm7fOhY
+         f4WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682024265; x=1684616265;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5yzTg1HjZXhyiiyjfkjQABzGLu2Q1ap1FIlFZzPamAM=;
+        b=G3pjr7EAr24JaZ6ywGXvrgwBbcSaVB/vCx1WjxXVsebHc83GJP27A1DF6rt9bzBaoS
+         7hgS3rUyN1ytw1BJUXwWq9dPnzuswXwOjOrh05r9HQ254U6B23K4M9Xf5Pe09ZRk3A0s
+         hdH2Zv/LQlkuxKGD6S5MER0PS45T6KnuTgVQ5VNmyafXL+6SyM3Ay7A7XhiFKIX7/sVn
+         NPeeVPzkr63A3IlM8GcDJTblIY6EGlDfaiY87AmkKR3+d19311Tv28LB4ju2dHoQ5lLD
+         P/e8jpQcA/koiJO6wrsYUorj/srIvJUOSYoOvfJpNrkRhg5oOPIK4maoR0Q0fthKMRWP
+         Nc2g==
+X-Gm-Message-State: AAQBX9eut4yRuquPDW5QH3Sa1NJ3UdNPKN5w5tTWrrmc1vzfcs1nTS6O
+        sYxrG3Kf7LtKAOyzElAZGzLZdjk3PA==
+X-Google-Smtp-Source: AKy350biCQsQsBH/ynN5GE4QuylXbnxvdaHRCye7LUQ+dAisidmDp5bnNQq+MYru8DJv003y3BvdLq6ovg==
+X-Received: from rmoar-specialist.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:45d3])
+ (user=rmoar job=sendgmr) by 2002:a25:cc0c:0:b0:b8b:f584:6b73 with SMTP id
+ l12-20020a25cc0c000000b00b8bf5846b73mr162050ybf.10.1682024265828; Thu, 20 Apr
+ 2023 13:57:45 -0700 (PDT)
+Date:   Thu, 20 Apr 2023 20:57:34 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
+Message-ID: <20230420205734.1288498-1-rmoar@google.com>
+Subject: [KTAP V2 PATCH] ktap_v2: add test metadata
+From:   Rae Moar <rmoar@google.com>
+To:     frowand.list@gmail.com, davidgow@google.com,
+        skhan@linuxfoundation.org, keescook@chromium.org,
+        Tim.Bird@sony.com, brendanhiggins@google.com
+Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@lists.linux.dev,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rae Moar <rmoar@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---------------HHEWogh5LchE01j4khkGxhzV
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Add specification for declaring test metadata to the KTAP v2 spec.
 
+The purpose of test metadata is to allow for the declaration of essential
+testing information in KTAP output. This information includes test
+names, test configuration info, test attributes, and test files.
 
+There have been similar ideas around the idea of test metadata such as test
+prefixes and test name lines. However, I propose this specification as an
+overall fix for these issues.
 
-On 4/20/23 16:44, Donald Buczek wrote:
-> Subject:
-> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
-> From:
-> Donald Buczek <buczek@molgen.mpg.de>
-> Date:
-> 4/20/23, 16:44
-> 
-> To:
-> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
-> CC:
-> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-> 
-> 
-> On 4/19/23 21:42, Donald Buczek wrote:
->> Dear Sergei,
->>
->> On 4/19/23 15:05, Sergei Shtepa wrote:
->>> [...]
->>>
->>> Patches in attach and https://nam10.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FSergeiShtepa%2Flinux%2Ftree%2Fblksnap-master&data=05%7C01%7Csergei.shtepa%40veeam.com%7Cccc78e2cdf7845c6c0cd08db41add281%7Cba07baab431b49edadd7cbc3542f5140%7C1%7C0%7C638175987085694967%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=RdrWqUwvk7gjfSRYvrPfz2E0%2BIOY6IQxK4xvpzJqcnk%3D&reserved=0
->>
->> Thanks. I can confirm that this fixes the reported problem and I no longer can trigger the UAF. 😄
->>
->> Tested-Bny: Donald Buczek <buczek@molgen.mpg.de>
->>
->> Maybe you can add me to the cc list for v4 as I'm not subscribed to the lists.
-> 
-> 
-> Sorry, found another one. Reproducer:
-> 
-> =====
-> #! /bin/bash
-> set -xe
-> modprobe blksnap
-> test -e /scratch/local/test.dat || fallocate -l 1G /scratch/local/test.dat
-> s=$(blksnap snapshot_create -d /dev/vdb)
-> blksnap snapshot_appendstorage -i $s -f /scratch/local/test.dat
-> blksnap snapshot_take -i $s
-> s2=$(blksnap snapshot_create -d /dev/vdb)
-> blksnap snapshot_destroy -i $s2
-> blksnap snapshot_destroy -i $s
-> =====
-> 
-> 
-> [20382.402921] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was created
-> [20382.535933] blksnap-image: Create snapshot image device for original device [253:16]
-> [20382.542405] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was taken successfully
-> [20382.572564] blksnap-snapshot: Snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966 was created
-> [20382.600521] blksnap-snapshot: Destroy snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
-> [20382.602373] blksnap-snapshot: Release snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
-> [20382.722137] blksnap-snapshot: Destroy snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
-> [20382.724033] blksnap-snapshot: Release snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
-> [20382.725850] ==================================================================
-> [20382.727641] BUG: KASAN: wild-memory-access in snapshot_free+0x73/0x170 [blksnap]
-> [20382.729326] Write of size 8 at addr dead000000000108 by task blksnap/8297
-> ...
+These test metadata lines are a form of diagnostic lines with the
+format: "# <metadata_type>: <data>". As a type of diagnostic line, test
+metadata lines are compliant with KTAP v1, which will help to not
+interfere too much with current parsers.
 
-Great! Thanks.
+Specifically the "# Subtest:" line is derived from the TAP 14 spec:
+https://testanything.org/tap-version-14-specification.html.
 
-There is no protection against re-adding a block device to the snapshot.
-I'll take care of it.
+The proposed location for test metadata is in the test header, between the
+version line and the test plan line. Note including diagnostic lines in
+the test header is a depature from KTAP v1.
 
-And small update. I have made a correction to the bio allocation algorithm
-for saving and loading chunks. Please, see attach and commit.
-Link: https://github.com/SergeiShtepa/linux/commit/2628dd193fd3d563d26d5ccc82d35b2e11bbda38
-But cases of large chunks or very large disks have not yet been covered
-by tests, yet. 
+This location provides two main benefits:
 
-I also had concerns that the snapshot writing algorithm was not working
-correctly. But the concerns were in vain. The new test is working.
-Link: https://github.com/veeam/blksnap/blob/stable-v2.0/tests/6000-snapimage_write.sh
+First, metadata will be printed prior to when subtests are run. Then if a
+test fails, test metadata can help discern which test is causing the issue
+and potentially why.
 
---------------HHEWogh5LchE01j4khkGxhzV
-Content-Type: text/x-patch; charset="UTF-8";
-	name="fix_page_inx_increment.patch"
-Content-Disposition: attachment; filename="fix_page_inx_increment.patch"
-Content-Transfer-Encoding: base64
+Second, this location ensures that the lines will not be accidentally
+parsed as a subtest's diagnostic lines because the lines are bordered by
+the version line and plan line.
 
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9jaHVuay5jIGIvZHJpdmVycy9i
-bG9jay9ibGtzbmFwL2NodW5rLmMKaW5kZXggNzMxMTNjNzE0YWMxLi4wNmZkZDZjOTBlMGEg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9jaHVuay5jCisrKyBiL2RyaXZl
-cnMvYmxvY2svYmxrc25hcC9jaHVuay5jCkBAIC0yODMsMjUgKzI4MywyNiBAQCB2b2lkIGNo
-dW5rX3N0b3JlKHN0cnVjdCBjaHVuayAqY2h1bmspCiAJYmlvX3NldF9mbGFnKGJpbywgQklP
-X0ZJTFRFUkVEKTsKIAogCXdoaWxlIChjb3VudCkgeworCQlzdHJ1Y3QgYmlvICpuZXh0Owog
-CQlzZWN0b3JfdCBwb3J0aW9uID0gbWluX3Qoc2VjdG9yX3QsIGNvdW50LCBQQUdFX1NFQ1RP
-UlMpOwogCQl1bnNpZ25lZCBpbnQgYnl0ZXMgPSBwb3J0aW9uIDw8IFNFQ1RPUl9TSElGVDsK
-IAogCQlpZiAoYmlvX2FkZF9wYWdlKGJpbywgY2h1bmstPmRpZmZfYnVmZmVyLT5wYWdlc1tw
-YWdlX2lkeF0sCi0JCQkJIGJ5dGVzLCAwKSAhPSBieXRlcykgewotCQkJc3RydWN0IGJpbyAq
-bmV4dDsKKwkJCQkgYnl0ZXMsIDApID09IGJ5dGVzKSB7CisJCQlwYWdlX2lkeCsrOworCQkJ
-Y291bnQgLT0gcG9ydGlvbjsKKwkJCWNvbnRpbnVlOworCQl9CiAKLQkJCW5leHQgPSBiaW9f
-YWxsb2NfYmlvc2V0KGJkZXYsCi0JCQkJCWNhbGNfbWF4X3ZlY3MoY291bnQpLAorCQkvKiBD
-cmVhdGUgbmV4dCBiaW8gKi8KKwkJbmV4dCA9IGJpb19hbGxvY19iaW9zZXQoYmRldiwgY2Fs
-Y19tYXhfdmVjcyhjb3VudCksCiAJCQkJCVJFUV9PUF9XUklURSB8IFJFUV9TWU5DIHwgUkVR
-X0ZVQSwKIAkJCQkJR0ZQX05PSU8sICZjaHVua19pb19iaW9zZXQpOwotCQkJbmV4dC0+Ymlf
-aXRlci5iaV9zZWN0b3IgPSBiaW9fZW5kX3NlY3RvcihiaW8pOwotCQkJYmlvX3NldF9mbGFn
-KG5leHQsIEJJT19GSUxURVJFRCk7Ci0JCQliaW9fY2hhaW4oYmlvLCBuZXh0KTsKLQkJCXN1
-Ym1pdF9iaW9fbm9hY2N0KGJpbyk7Ci0JCQliaW8gPSBuZXh0OwotCQl9Ci0JCXBhZ2VfaWR4
-Kys7Ci0JCWNvdW50IC09IHBvcnRpb247CisJCW5leHQtPmJpX2l0ZXIuYmlfc2VjdG9yID0g
-YmlvX2VuZF9zZWN0b3IoYmlvKTsKKwkJYmlvX3NldF9mbGFnKG5leHQsIEJJT19GSUxURVJF
-RCk7CisJCWJpb19jaGFpbihiaW8sIG5leHQpOworCQlzdWJtaXRfYmlvX25vYWNjdChiaW8p
-OworCQliaW8gPSBuZXh0OwogCX0KIAogCWNiaW8gPSBjb250YWluZXJfb2YoYmlvLCBzdHJ1
-Y3QgY2h1bmtfYmlvLCBiaW8pOwpAQCAtMzQyLDI0ICszNDMsMjYgQEAgc3RhdGljIHN0cnVj
-dCBiaW8gKl9fY2h1bmtfbG9hZChzdHJ1Y3QgY2h1bmsgKmNodW5rKQogCWJpb19zZXRfZmxh
-ZyhiaW8sIEJJT19GSUxURVJFRCk7CiAKIAl3aGlsZSAoY291bnQpIHsKKwkJc3RydWN0IGJp
-byAqbmV4dDsKIAkJc2VjdG9yX3QgcG9ydGlvbiA9IG1pbl90KHNlY3Rvcl90LCBjb3VudCwg
-UEFHRV9TRUNUT1JTKTsKIAkJdW5zaWduZWQgaW50IGJ5dGVzID0gcG9ydGlvbiA8PCBTRUNU
-T1JfU0hJRlQ7CiAKIAkJaWYgKGJpb19hZGRfcGFnZShiaW8sIGNodW5rLT5kaWZmX2J1ZmZl
-ci0+cGFnZXNbcGFnZV9pZHhdLAotCQkJCSBieXRlcywgMCkgIT0gYnl0ZXMpIHsKLQkJCXN0
-cnVjdCBiaW8gKm5leHQ7Ci0KLQkJCW5leHQgPSBiaW9fYWxsb2NfYmlvc2V0KGJkZXYsIGNh
-bGNfbWF4X3ZlY3MoY291bnQpLAotCQkJCQkJUkVRX09QX1JFQUQsIEdGUF9OT0lPLAotCQkJ
-CQkJJmNodW5rX2lvX2Jpb3NldCk7Ci0JCQluZXh0LT5iaV9pdGVyLmJpX3NlY3RvciA9IGJp
-b19lbmRfc2VjdG9yKGJpbyk7Ci0JCQliaW9fc2V0X2ZsYWcobmV4dCwgQklPX0ZJTFRFUkVE
-KTsKLQkJCWJpb19jaGFpbihiaW8sIG5leHQpOwotCQkJc3VibWl0X2Jpb19ub2FjY3QoYmlv
-KTsKLQkJCWJpbyA9IG5leHQ7CisJCQkJIGJ5dGVzLCAwKSA9PSBieXRlcykgeworCQkJcGFn
-ZV9pZHgrKzsKKwkJCWNvdW50IC09IHBvcnRpb247CisJCQljb250aW51ZTsKIAkJfQotCQlw
-YWdlX2lkeCsrOwotCQljb3VudCAtPSBwb3J0aW9uOworCisJCS8qIENyZWF0ZSBuZXh0IGJp
-byAqLworCQluZXh0ID0gYmlvX2FsbG9jX2Jpb3NldChiZGV2LCBjYWxjX21heF92ZWNzKGNv
-dW50KSwKKwkJCQkJUkVRX09QX1JFQUQsIEdGUF9OT0lPLAorCQkJCQkmY2h1bmtfaW9fYmlv
-c2V0KTsKKwkJbmV4dC0+YmlfaXRlci5iaV9zZWN0b3IgPSBiaW9fZW5kX3NlY3RvcihiaW8p
-OworCQliaW9fc2V0X2ZsYWcobmV4dCwgQklPX0ZJTFRFUkVEKTsKKwkJYmlvX2NoYWluKGJp
-bywgbmV4dCk7CisJCXN1Ym1pdF9iaW9fbm9hY2N0KGJpbyk7CisJCWJpbyA9IG5leHQ7CiAJ
-fQogCXJldHVybiBiaW87CiB9Cg==
+Here is an example of test metadata:
 
---------------HHEWogh5LchE01j4khkGxhzV--
+ KTAP version 2
+ # Config: CONFIG_TEST=y
+ 1..1
+     KTAP version 2
+     # Subtest: test_suite
+     # File: /sys/kernel/...
+     # Attributes: slow
+     # Other: example_test
+     1..2
+     ok 1 test_1
+     ok 2 test_2
+ ok 1 test_suite
+
+Here is a link to a version of the KUnit parser that is able to parse test
+metadata lines for KTAP version 2. Note this includes test metadata
+lines for the main level of KTAP.
+
+Link: https://kunit-review.googlesource.com/c/linux/+/5809
+
+Signed-off-by: Rae Moar <rmoar@google.com>
+---
+
+Hi everyone,
+
+I would like to use this proposal similar to an RFC to gather ideas on the
+topic of test metadata. Let me know what you think.
+
+I am also interested in brainstorming a list of recognized metadata types.
+Providing recognized metadata types would be helpful in parsing and
+displaying test metadata in a useful way.
+
+Current ideas:
+- "# Subtest: <test_name>" to indicate test name (name must match
+  corresponding result line)
+- "# Attributes: <attributes list>" to indicate test attributes (list
+  separated by commas)
+- "# File: <file_path>" to indicate file used in testing
+
+Any other ideas?
+
+Note this proposal replaces two of my previous proposals: "ktap_v2: add
+recognized test name line" and "ktap_v2: allow prefix to KTAP lines."
+
+Thanks!
+-Rae
+
+Note: this patch is based on Frank's ktap_spec_version_2 branch.
+
+ Documentation/dev-tools/ktap.rst | 51 ++++++++++++++++++++++++++++++--
+ 1 file changed, 48 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+index ff77f4aaa6ef..a2d0a196c115 100644
+--- a/Documentation/dev-tools/ktap.rst
++++ b/Documentation/dev-tools/ktap.rst
+@@ -17,7 +17,9 @@ KTAP test results describe a series of tests (which may be nested: i.e., test
+ can have subtests), each of which can contain both diagnostic data -- e.g., log
+ lines -- and a final result. The test structure and results are
+ machine-readable, whereas the diagnostic data is unstructured and is there to
+-aid human debugging.
++aid human debugging. One exception to this is test metadata lines - a type
++of diagnostic lines. Test metadata is located between the version line and
++plan line of a test and can be machine-readable.
+ 
+ KTAP output is built from four different types of lines:
+ - Version lines
+@@ -28,8 +30,7 @@ KTAP output is built from four different types of lines:
+ In general, valid KTAP output should also form valid TAP output, but some
+ information, in particular nested test results, may be lost. Also note that
+ there is a stagnant draft specification for TAP14, KTAP diverges from this in
+-a couple of places (notably the "Subtest" header), which are described where
+-relevant later in this document.
++a couple of places, which are described where relevant later in this document.
+ 
+ Version lines
+ -------------
+@@ -166,6 +167,45 @@ even if they do not start with a "#": this is to capture any other useful
+ kernel output which may help debug the test. It is nevertheless recommended
+ that tests always prefix any diagnostic output they have with a "#" character.
+ 
++Test metadata lines
++-------------------
++
++Test metadata lines are a type of diagnostic lines used to the declare the
++name of a test and other helpful testing information in the test header.
++These lines are often helpful for parsing and for providing context during
++crashes.
++
++Test metadata lines must follow the format: "# <metadata_type>: <data>".
++These lines must be located between the version line and the plan line
++within a test header.
++
++There are a few currently recognized metadata types:
++- "# Subtest: <test_name>" to indicate test name (name must match
++  corresponding result line)
++- "# Attributes: <attributes list>" to indicate test attributes (list
++  separated by commas)
++- "# File: <file_path>" to indicate file used in testing
++
++As a rule, the "# Subtest:" line is generally first to declare the test
++name. Note that metadata lines do not necessarily need to use a
++recognized metadata type.
++
++An example of using metadata lines:
++
++::
++
++        KTAP version 2
++        1..1
++        # File: /sys/kernel/...
++          KTAP version 2
++          # Subtest: example
++          # Attributes: slow, example_test
++          1..1
++          ok 1 test_1
++        # example passed
++        ok 1 example
++
++
+ Unknown lines
+ -------------
+ 
+@@ -206,6 +246,7 @@ An example of a test with two nested subtests:
+ 	KTAP version 2
+ 	1..1
+ 	  KTAP version 2
++	  # Subtest: example
+ 	  1..2
+ 	  ok 1 test_1
+ 	  not ok 2 test_2
+@@ -219,6 +260,7 @@ An example format with multiple levels of nested testing:
+ 	KTAP version 2
+ 	1..2
+ 	  KTAP version 2
++	  # Subtest: example_test_1
+ 	  1..2
+ 	    KTAP version 2
+ 	    1..2
+@@ -254,6 +296,7 @@ Example KTAP output
+ 	KTAP version 2
+ 	1..1
+ 	  KTAP version 2
++	  # Subtest: main_test
+ 	  1..3
+ 	    KTAP version 2
+ 	    1..1
+@@ -261,11 +304,13 @@ Example KTAP output
+ 	    ok 1 test_1
+ 	  ok 1 example_test_1
+ 	    KTAP version 2
++            # Attributes: slow
+ 	    1..2
+ 	    ok 1 test_1 # SKIP test_1 skipped
+ 	    ok 2 test_2
+ 	  ok 2 example_test_2
+ 	    KTAP version 2
++	    # Subtest: example_test_3
+ 	    1..3
+ 	    ok 1 test_1
+ 	    # test_2: FAIL
+
+base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+-- 
+2.40.0.396.gfff15efe05-goog
+
