@@ -2,86 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B36C77B75
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 02:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30055C77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 04:22:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231860AbjDTCV4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Apr 2023 22:21:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35106 "EHLO
+        id S233076AbjDTEWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 00:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbjDTCVz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Apr 2023 22:21:55 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0A336423A;
-        Wed, 19 Apr 2023 19:21:52 -0700 (PDT)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8AxYeW_oUBk8jwfAA--.48952S3;
-        Thu, 20 Apr 2023 10:21:51 +0800 (CST)
-Received: from [10.130.0.149] (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Axlry+oUBkj2QwAA--.14S3;
-        Thu, 20 Apr 2023 10:21:51 +0800 (CST)
-Subject: Re: [PATCH v2 0/6] LoongArch: Add kernel address sanitizer support
-To:     Qing Zhang <zhangqing@loongson.cn>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20230404084148.744-1-zhangqing@loongson.cn>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, loongarch@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <7991cc06-cf68-8e2a-b008-760cb7b17f01@loongson.cn>
-Date:   Thu, 20 Apr 2023 10:21:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+        with ESMTP id S230102AbjDTEWA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 00:22:00 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 018362D4C;
+        Wed, 19 Apr 2023 21:21:57 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1a66911f5faso6382155ad.0;
+        Wed, 19 Apr 2023 21:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681964517; x=1684556517;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U8/f0BqrN3fbOh9nFqGySKf3YgZn5uXubEX6E6rTisE=;
+        b=O4/gcXpyzQKh8KK1KxMFoppJ2K3Na6/K0myKKH2izfyrXf1ZW4NEG0UerBett+T+qJ
+         GOiagxnkqcxd2foosvnWzNrHN8mZ56L0OtSaPHwy3+Kmvgd4WPY3iBj9b8lrczp44vO2
+         hlyuX4b952suPUrM/rFZpK+6NvhglbsLbRN2EYfUi7lisox6nSPuZTwMJXa1G5lcbU+y
+         RlSJeY9IdhxbsYCwYeNI751K/sOdbsZT5RZAdOZzgOW9668dMU5fOzkP8OrESyzC2osp
+         LXp/dogbaFV22Nee/vKdaVvh5NnJF85yZBKt88+y1fXDYfVqkq7gZsNDmqmQZX18d4+5
+         4Rlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681964517; x=1684556517;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U8/f0BqrN3fbOh9nFqGySKf3YgZn5uXubEX6E6rTisE=;
+        b=OR1SPeahekKJSUweanfREmy6ls1eGXHBoxab4+mnMhyVUlqn7RIM6+7Xx60fE2TyHj
+         kAgjwbaiRCJVqEVeORmx5Y4htsRWfgbbCJ9tSsaiUwAxNP22mzkH5wlJLNr9ah2zXe2L
+         fIGf+LzyGXLNdufASG0sBUSExqBx2PGa15EPc0hBbxuPgKtwzR209P7R/og0F6zcTOQv
+         HJzmRUNaaxul9jgQV4aI/I3Af4EMZ9GSB7RcPyq5OcNZo2A1glVNPnqxvTmTWEjjfFGG
+         6OWeqUyHrpgsCWHJOr0FPXqr5/uYL08aKroYfktXENPgjKiRUPH9UakqaFkcmBioKl5X
+         VhMg==
+X-Gm-Message-State: AAQBX9cW0g6Rb/SjJCndzPaAqEi8yAZQOr9Uw7GOxHY3cRbb0JKKwVQc
+        zmXneOZm1xq4bJRt0+N0Ft0=
+X-Google-Smtp-Source: AKy350Zp2PCGi3/SwlJA+xWhwsGyKosdq4R6FG4kxjtw7Rw6J/eKGAkqwdaHeb3JDZ6gUruEyilM2A==
+X-Received: by 2002:a17:902:f683:b0:1a8:17db:e252 with SMTP id l3-20020a170902f68300b001a817dbe252mr174219plg.34.1681964517386;
+        Wed, 19 Apr 2023 21:21:57 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-9.three.co.id. [180.214.233.9])
+        by smtp.gmail.com with ESMTPSA id iz12-20020a170902ef8c00b001a212a93295sm226115plb.189.2023.04.19.21.21.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Apr 2023 21:21:56 -0700 (PDT)
+Message-ID: <16276cc1-2214-ef84-d5d8-d0c1a9681a0d@gmail.com>
+Date:   Thu, 20 Apr 2023 11:21:50 +0700
 MIME-Version: 1.0
-In-Reply-To: <20230404084148.744-1-zhangqing@loongson.cn>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Axlry+oUBkj2QwAA--.14S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-        ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
-        BjDU0xBIdaVrnRJUUUmFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
-        xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
-        j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxV
-        AFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7Cj
-        xVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zV
-        CFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2
-        z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2
-        IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4c8EcI0En4kS14v26r1q6r43MxAqzxv2
-        6xkF7I0En4kS14v26r1q6r43MxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r
-        1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-        b7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0x
-        vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-        cVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-        nxnUUI43ZEXa7IU8l38UUUUUU==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: Semantic conflict between x86 doc cleanup and CET shadow stack
+ doc
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux x86 <x86@kernel.org>,
+        Linux Architectures <linux-arch@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mark Brown <broonie@kernel.org>
+References: <ZD+1XVjMvm8EvCzN@debian.me> <87mt34atxg.fsf@meer.lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87mt34atxg.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+On 4/19/23 20:22, Jonathan Corbet wrote:
+> https://lore.kernel.org/lkml/20230331142016.0a6f8f6b%40canb.auug.org.au/
+> 
 
-On 04/04/2023 04:41 PM, Qing Zhang wrote:
-> Kernel Address Sanitizer (KASAN) is a dynamic memory safety error detector
-> designed to find out-of-bounds and use-after-free bugs, Generic KASAN is
-> supported on LoongArch now.
+Thanks for the pointer 😌.
 
-For now, the arch-independent code (patch #5 and #6) has been
-received tags,
+But I wonder why bronnie doesn't do this fixup...
 
-   Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-
-What's the merge plan for this?
-Take it as a whole through the loongarch-next tree?
-
-Thanks,
-Tiezhu
+-- 
+An old man doll... just what I always wanted! - Clara
 
