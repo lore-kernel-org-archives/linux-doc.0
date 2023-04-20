@@ -2,81 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47357C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 17:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE97CC77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 17:49:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231423AbjDTRkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 13:40:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42322 "EHLO
+        id S231128AbjDTRtj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 13:49:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230334AbjDTRkY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 13:40:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2826E114;
-        Thu, 20 Apr 2023 10:40:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A34D964B07;
-        Thu, 20 Apr 2023 17:40:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0229BC4339C;
-        Thu, 20 Apr 2023 17:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682012422;
-        bh=g0ksG6nfP361Le8p/mc0obDjhA3uxSOnBqsqKl8TFic=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=H+O4QULsjgMwJYS6AYt1YJg55l10HlZgTvndw5KVKTuHyJgzu/k33R4yXrFpPO5B9
-         GxOXfy/0sGByAnoopEwTaHdyugG7tdLJMiI64YuL7/C/AcStOmZOLGEBwcwQbgC9BV
-         WY9lGxTse50ZgmDnlyef44MrIqjCSNmDbbdusf88T5rRUGATui1MKMc4xgYOIxFTP3
-         g57+yZiDB6UNrjaNfMs9PR9RpM66Fl6Ijx0pOKQQNFkM5HrCn7xqDZ3i1GspQUkMhz
-         qpYUrNgVFdbMyKUWVpQjfBYys27G1Y0KPgww9V6AaUOueLFmgChE7RYkqF8nwYECZd
-         I6BH3IxR3oTSw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DD154C395C8;
-        Thu, 20 Apr 2023 17:40:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229779AbjDTRti (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 13:49:38 -0400
+X-Greylist: delayed 523 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 20 Apr 2023 10:49:32 PDT
+Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc09])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD23226BF
+        for <linux-doc@vger.kernel.org>; Thu, 20 Apr 2023 10:49:32 -0700 (PDT)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Q2Q1C69WSzMqQVD;
+        Thu, 20 Apr 2023 19:40:47 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Q2Q196HmLzMppF8;
+        Thu, 20 Apr 2023 19:40:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1682012447;
+        bh=C42CG0yEhZ3//t6vNF4EAp/UK1VoZRlM/xbyZMTq9sw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Ww1/qKoHdAKBnghB3zJAndSHHtlhWFME+1v84JiiUfZsB7CaOOqVsLbd0uITMgTCt
+         VvjQ/4XR7CHTonbqvGTXfTB8WETF74lCX0tx9l329juYD85bDx6iqcoL0DbZoes+0b
+         o+4McyPqybIf2i8Shqgmo4gSkoEP6pUNjKaAPGJU=
+Message-ID: <a4dc7c12-b485-2eb2-add5-4f7a387a50fa@digikod.net>
+Date:   Thu, 20 Apr 2023 19:40:44 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v9 0/1] riscv: Allow to downgrade paging mode from the command
- line
-From:   patchwork-bot+linux-riscv@kernel.org
-Message-Id: <168201242189.9373.3633169603042394509.git-patchwork-notify@kernel.org>
-Date:   Thu, 20 Apr 2023 17:40:21 +0000
-References: <20230329050951.66085-1-alexghiti@rivosinc.com>
-In-Reply-To: <20230329050951.66085-1-alexghiti@rivosinc.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     linux-riscv@lists.infradead.org, corbet@lwn.net,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, conor@kernel.org, ardb@kernel.org,
-        bjorn@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+User-Agent: 
+Subject: Re: [PATCH -next v2 0/6] landlock: add chmod and chown support
+Content-Language: en-US
+To:     xiujianfeng <xiujianfeng@huawei.com>, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
+        corbet@lwn.net
+Cc:     linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, roberto.sassu@huawei.com,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <d55baf4d-01d3-e4d7-e07f-9658d1606a8c@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <d55baf4d-01d3-e4d7-e07f-9658d1606a8c@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Infomaniak-Routing: alpha
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
 
-This patch was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
-
-On Wed, 29 Mar 2023 07:09:50 +0200 you wrote:
-> This new version gets rid of the limitation that prevented KASAN kernels
-> to use the newly introduced parameters.
+On 18/04/2023 12:53, xiujianfeng wrote:
+> Hi Mickael,
 > 
-> While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
-> avoid relocating the kernel twice for KASLR"): it allows to use the fdt
-> functions very early in the boot process with KASAN enabled by simply
-> compiling a new version of those functions without instrumentation.
+> Sorry about the long silence on this work, As we known this work depends
+> on another work about changing argument from struct dentry to struct
+> path for some attr/xattr related lsm hooks, I'm stuck with this thing,
+> because IMA/EVM is a special security module which is not LSM-based
+> currently, and severely coupled with the file system. so I am waiting
+> for Roberto Sassu' work (Move IMA and EVM to the LSM infrastructure) to
+> be ready, I think it can make my work more easy. you can find
+> Roberto'work here,
+> https://lwn.net/ml/linux-kernel/20230303181842.1087717-1-roberto.sassu@huaweicloud.com/
 > 
-> [...]
+> Any good idea are welcome, thanks.
 
-Here is the summary with links:
-  - [v9,1/1] riscv: Allow to downgrade paging mode from the command line
-    https://git.kernel.org/riscv/c/c070bcfdb2fa
+Thanks for the update Xiu.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Which part would be needed from Roberto's patch series?
 
 
+> 
+> 
+> On 2022/8/27 19:12, Xiu Jianfeng wrote:
+>> v2:
+>>   * abstract walk_to_visible_parent() helper
+>>   * chmod and chown rights only take affect on directory's context
+>>   * add testcase for fchmodat/lchown/fchownat
+>>   * fix other review issues
+>>
+>> Xiu Jianfeng (6):
+>>    landlock: expand access_mask_t to u32 type
+>>    landlock: abstract walk_to_visible_parent() helper
+>>    landlock: add chmod and chown support
+>>    landlock/selftests: add selftests for chmod and chown
+>>    landlock/samples: add chmod and chown support
+>>    landlock: update chmod and chown support in document
+>>
+>>   Documentation/userspace-api/landlock.rst     |   9 +-
+>>   include/uapi/linux/landlock.h                |  10 +-
+>>   samples/landlock/sandboxer.c                 |  13 +-
+>>   security/landlock/fs.c                       | 110 ++++++--
+>>   security/landlock/limits.h                   |   2 +-
+>>   security/landlock/ruleset.h                  |   2 +-
+>>   security/landlock/syscalls.c                 |   2 +-
+>>   tools/testing/selftests/landlock/base_test.c |   2 +-
+>>   tools/testing/selftests/landlock/fs_test.c   | 267 ++++++++++++++++++-
+>>   9 files changed, 386 insertions(+), 31 deletions(-)
+>>
