@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE723C77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 09:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02889C77B72
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Apr 2023 09:43:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233937AbjDTJFv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Apr 2023 05:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55350 "EHLO
+        id S234496AbjDTJnW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Apr 2023 05:43:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233918AbjDTJFM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 05:05:12 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066197A82;
-        Thu, 20 Apr 2023 01:59:26 -0700 (PDT)
+        with ESMTP id S234224AbjDTJm5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Apr 2023 05:42:57 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5939A4EEC;
+        Thu, 20 Apr 2023 02:41:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681981165; x=1713517165;
+  t=1681983660; x=1713519660;
   h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=q0Y83utopegjLaggA2Xkz05LGdX922bzA+sNOFJyeAY=;
-  b=EBCvZ9Nfke76s9jPB0V/EzXh4brAZZr4EdeqgusIKbQADiNubPvmVVW9
-   Ikc/kKo5csfeV6JCfgYPZtS0WeUb1yuTBlqRVb/zVy07ocqTVHQHb4aOy
-   xf9pJWm1+qX2zF7YcJqMnz4nss3sgjPMOvKOrtoT2JKLpsscxqXyGBHyn
-   z68eDFSEfkFdVrnAy0/VfcsG+jkCNUYB/pq+KDobDeN6rshgshhdN3Y60
-   PezS1RgjnJN6oHDjmk8JB3t/TSb7byAvTNJNFXgz/jQpxfmR0BjREH6np
-   uvSkVciP7Y0RCYNs8XRKDNoFh1g/btKOAZsMlsnx7iEmSyK06onAF7GrO
+   references:mime-version;
+  bh=SJZGrNGmLN2kZK2Jr9vAjtwWFXN9KIm1PDWUodF12fo=;
+  b=DicMO4cT4wajUyGEf/f1RdqtA6daoomS//AUpETHledau0yr3h0SpMmo
+   QtbxQlMrGYwsb7UoVbnIduNJ7S+10/nFBF6zWs90hFUDL7fMoiXrrq72D
+   XES7jLXWM88iXBygyKkYn1AHhMNPzyilLnVBuE3MVyuu/K50xik3G050M
+   7jLp66uV8W9KiOvXCyfluWkM/Z9YKL2+gT1rIxyorzK+UfQPhmyqwqIRc
+   aJybrwbCVR12qAsM4mo3HgruL/jOPNjBeVOg9E0FPvRjHy44Iv49zU6yo
+   8AIoj9+SZH1fBtyjMVl+/uC9iLDloDdT5gthQegT60+1Bs2s5+rNku+ue
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="373572161"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="343165355"
 X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
-   d="scan'208";a="373572161"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 01:59:25 -0700
+   d="scan'208";a="343165355"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 02:38:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021517546"
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="691847837"
 X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
-   d="scan'208";a="1021517546"
+   d="scan'208";a="691847837"
 Received: from akirasen-mobl.amr.corp.intel.com ([10.252.32.100])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 01:59:16 -0700
-Date:   Thu, 20 Apr 2023 11:59:13 +0300 (EEST)
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 02:38:51 -0700
+Date:   Thu, 20 Apr 2023 12:38:50 +0300 (EEST)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     "Moger, Babu" <babu.moger@amd.com>
 cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
@@ -56,14 +56,13 @@ cc:     corbet@lwn.net, Reinette Chatre <reinette.chatre@intel.com>,
         christophe.leroy@csgroup.eu, jarkko@kernel.org,
         adrian.hunter@intel.com, quic_jiles@quicinc.com,
         peternewman@google.com
-Subject: Re: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
- debug option
-In-Reply-To: <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
-Message-ID: <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com>
-References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu> <56497126-8f60-e590-bb13-b3739114375@linux.intel.com> <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
+Subject: Re: [PATCH v4 1/7] x86/resctrl: Add multiple tasks to the resctrl
+ group at once
+In-Reply-To: <36ef8031-40a7-3324-7b4e-4510f11a488b@amd.com>
+Message-ID: <a0f1bb9a-7cc4-b4af-9ad8-6dc03217d5a8@linux.intel.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177444676.1758847.11474266921067437724.stgit@bmoger-ubuntu> <d046eebf-15b-2d23-b8f6-5dd06b49d0d3@linux.intel.com> <36ef8031-40a7-3324-7b4e-4510f11a488b@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-353585656-1681981002=:2051"
-Content-ID: <60e2175a-39f2-8ea0-1482-debe437a1fb9@linux.intel.com>
+Content-Type: multipart/mixed; boundary="8323329-2094653454-1681983541=:2051"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,116 +70,59 @@ X-Mailing-List: linux-doc@vger.kernel.org
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-353585656-1681981002=:2051
-Content-Type: text/plain; CHARSET=ISO-8859-15
+--8323329-2094653454-1681983541=:2051
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
-Content-ID: <ae2428aa-843f-4ba1-4343-d66a1e4ba57e@linux.intel.com>
 
 On Wed, 19 Apr 2023, Moger, Babu wrote:
 
+> Hi Jarvinen,
 > 
-> 
-> On 4/19/23 08:20, Ilpo Järvinen wrote:
+> On 4/19/23 07:58, Ilpo JÃ¤rvinen wrote:
 > > On Mon, 17 Apr 2023, Babu Moger wrote:
 > > 
-> >> Add the debug files to the resctrl hierarchy.
+> >> The resctrl task assignment for MONITOR or CONTROL group needs to be
+> >> done one at a time. For example:
+> >>
+> >>   $mount -t resctrl resctrl /sys/fs/resctrl/
+> >>   $mkdir /sys/fs/resctrl/clos1
+> >>   $echo 123 > /sys/fs/resctrl/clos1/tasks
+> >>   $echo 456 > /sys/fs/resctrl/clos1/tasks
+> >>   $echo 789 > /sys/fs/resctrl/clos1/tasks
+> >>
+> >> This is not user-friendly when dealing with hundreds of tasks.
+> >>
+> >> It can be improved by supporting the multiple task id assignment in
+> >> one command with the tasks separated by commas. For example:
+> >>
+> >>   $echo 123,456,789 > /sys/fs/resctrl/clos1/tasks
 > >>
 > >> Signed-off-by: Babu Moger <babu.moger@amd.com>
 > >> ---
-> >>  arch/x86/kernel/cpu/resctrl/internal.h |    1 +
-> >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   54 +++++++++++++++++++++++++++++++-
-> >>  2 files changed, 54 insertions(+), 1 deletion(-)
+> >>  Documentation/x86/resctrl.rst          |    9 ++++++++-
+> >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   31 ++++++++++++++++++++++++++++++-
+> >>  2 files changed, 38 insertions(+), 2 deletions(-)
 > >>
-> >> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-> >> index 1eac07ebc31b..855109abb480 100644
-> >> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> >> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> >> @@ -288,6 +288,7 @@ struct rdtgroup {
-> >>  #define RFTYPE_TOP			BIT(4)
-> >>  #define RFTYPE_RES_CACHE		BIT(5)
-> >>  #define RFTYPE_RES_MB			BIT(6)
-> >> +#define RFTYPE_DEBUG			BIT(7)
-> >>  #define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)
-> >>  #define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)
-> >>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
-> >> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> >> index 15ded0dd5b09..1ec4359348c2 100644
-> >> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> >> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> >> @@ -1880,6 +1880,7 @@ static struct rftype res_common_files[] = {
-> >>  		.mode		= 0444,
-> >>  		.kf_ops		= &rdtgroup_kf_single_ops,
-> >>  		.seq_show	= rdtgroup_rmid_show,
-> >> +		.fflags		= RFTYPE_BASE | RFTYPE_DEBUG,
-> >>  	},
-> >>  	{
-> >>  		.name		= "schemata",
-> >> @@ -1909,6 +1910,7 @@ static struct rftype res_common_files[] = {
-> >>  		.mode		= 0444,
-> >>  		.kf_ops		= &rdtgroup_kf_single_ops,
-> >>  		.seq_show	= rdtgroup_closid_show,
-> >> +		.fflags		= RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
-> >>  	},
-> >>  
-> >>  };
-> >> @@ -2420,6 +2422,49 @@ static int mkdir_mondata_all(struct kernfs_node *parent_kn,
-> >>  			     struct rdtgroup *prgrp,
-> >>  			     struct kernfs_node **mon_data_kn);
-> >>  
-> >> +static void resctrl_add_debug_files(void)
-> >> +{
-> >> +	struct rftype *rfts, *rft;
-> >> +	int len;
-> >> +
-> >> +	rfts = res_common_files;
-> >> +	len = ARRAY_SIZE(res_common_files);
-> >> +
-> >> +	lockdep_assert_held(&rdtgroup_mutex);
-> >> +
-> >> +	for (rft = rfts; rft < rfts + len; rft++) {
-> >> +		if (rft->fflags & RFTYPE_DEBUG) {
-> >> +			rft->fflags &= ~RFTYPE_DEBUG;
+> >> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+> >> index 387ccbcb558f..f28ed1443a6a 100644
+> >> --- a/Documentation/x86/resctrl.rst
+> >> +++ b/Documentation/x86/resctrl.rst
+> >> @@ -292,7 +292,14 @@ All groups contain the following files:
+> >>  "tasks":
+> >>  	Reading this file shows the list of all tasks that belong to
+> >>  	this group. Writing a task id to the file will add a task to the
+> >> -	group. If the group is a CTRL_MON group the task is removed from
+> >> +	group. Multiple tasks can be added by separating the task ids
+> >> +	with commas. Tasks will be assigned sequentially in the order it
+> >> +	is entered.
 > > 
-> > I don't fully follow why you need to play with ->fflags like this.
-> > 
-> > Is it for the ->fflags test in rdtgroup_add_files()? Can't you just do 
-> > some extra masking there for RFTYPE_DEBUG based on resctrl_debug which 
-> > you already keep?
+> > "Tasks ... it is ..." doesn't sound correct.
 > 
-> Actually with this change, I can remove all these tricks here.
-> I don't have to change the check "if (rft->fflags && ((fflags &
-> rft->fflags) == rft->fflags)) {"
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 1ec4359348c2..b560c44817bb 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1925,6 +1925,9 @@ static int rdtgroup_add_files(struct kernfs_node
-> *kn, unsigned long fflags)
-> 
->         lockdep_assert_held(&rdtgroup_mutex);
-> 
-> +       if (resctrl_debug)
-> +               fflags |= RFTYPE_DEBUG;
+> How about "Tasks will be assigned sequentially in the order they are entered."
 
-Yes, looks good.
-
-It matches to the idea I had in my mind but doesn't require putting it 
-into the if condition itself.
-
-> +
->         for (rft = rfts; rft < rfts + len; rft++) {
->                 if (rft->fflags && ((fflags & rft->fflags) == rft->fflags)) {
->                         ret = rdtgroup_add_file(kn, rft);
-> 
-> 
-> > 
-> >> +			rdtgroup_add_file(rdtgroup_default.kn, rft);
-> >> +		}
-> >> +	}
-
+It sounds better.
 
 -- 
  i.
---8323329-353585656-1681981002=:2051--
+
+--8323329-2094653454-1681983541=:2051--
