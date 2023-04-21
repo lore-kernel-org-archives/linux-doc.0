@@ -2,120 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0388DC7618E
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 15:09:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C35C77B7D
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 15:27:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232561AbjDUPJl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 11:09:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47500 "EHLO
+        id S232867AbjDUP1v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 11:27:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232591AbjDUPJk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 11:09:40 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B23C65E;
-        Fri, 21 Apr 2023 08:09:39 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id 6014B15EEDB;
-        Fri, 21 Apr 2023 17:09:36 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1682089776; bh=BWdF8z+Q4fHskCMdX9OlN7iuNNB0swY4xAF8ICY1DyI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=4WKHAoTZ1XkQpR4HDx+niy1Xp297GkNpDbpU02kcMSoqrBRoCq8rG/OISPpMuJxuy
-         q5RKezTTYGpdkIEKkgR39K8Aq9G16B+P5b1+S7+TpVNnArPkjEewCEUwVyeb0ohWOi
-         lzdp8loaooCtfN67mU3OiWoi8hHTiKKxBtAyNQgF+4iVLFZn23l6ZkQ6/3IUd0dFk2
-         hiHlki0XcnRaCFkxbRqGKOGuxlMQsLKZEejcd4m3zxFAx2MsGROJVLRSxFGE8HQeST
-         TbISxT3HqlwcMMqxXnkRQSX7jUCZ/RRdUGcuKSw0zbbtmX+Ua12CM95aRbes3PgYMi
-         nLjBQpYggDqJA==
-Date:   Fri, 21 Apr 2023 17:09:34 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Alexander Graf <graf@amazon.com>
-Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce
- buffers
-Message-ID: <20230421170934.185a03a0@meshulam.tesarici.cz>
-In-Reply-To: <4bd8ce51-5874-0aa3-bc82-fec0cee9b8f1@arm.com>
-References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
-        <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
-        <20230328040724.GB25506@lst.de>
-        <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
-        <8cf7c515-9ce6-a2ed-0643-972aa3eba2fb@huaweicloud.com>
-        <20230407055704.GD6803@lst.de>
-        <20230407121555.4290a011@meshulam.tesarici.cz>
-        <20230421150349.35966e0b@meshulam.tesarici.cz>
-        <4bd8ce51-5874-0aa3-bc82-fec0cee9b8f1@arm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
+        with ESMTP id S232862AbjDUP1u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 11:27:50 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFCADBBB2
+        for <linux-doc@vger.kernel.org>; Fri, 21 Apr 2023 08:27:46 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-50506ac462bso2646536a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Apr 2023 08:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dectris.com; s=google; t=1682090865; x=1684682865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gx5GxGtrrjOAGUdwY+1Co2nSlcyUyAY3EIxCkRgyP34=;
+        b=PxSombqCkAsg664VeNNmDxvmdjYf4dVj/5vyCqT9TwatG1st3eDRZnY9a5R4md+08R
+         Wlj29tQkP0zchjP27MtI4tzvWqid3espmDxOLkS0u8O6ChXIbmPMFUBTkEXVXwV9/2rO
+         G2km4+cC+4xjckG50ka0axJFD8eDMEfWiG8fo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682090865; x=1684682865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gx5GxGtrrjOAGUdwY+1Co2nSlcyUyAY3EIxCkRgyP34=;
+        b=PULAw4x/Q1YU+rGKT6LTCdtrmKL1jiV9vemVW8ztl9thy6JbX7fosk3M2MCoQigkyu
+         UgkLJb2bbPJbXg28sfgccr4Efz5iAi/rkBVNjQ31Q8nkAtDNyKBQRMDrcOjPYpH3A0uZ
+         9fi1N9FgXBgRbM9GmFMyE7qGQXSYvSUUkFrMVSpDr3Eu3ZMVXMzmI6mUj7wRxarNZ00f
+         HmlzW7AbjnG5MpsmsKY9mZtzpF3x9jBfWUQNZ3vmGHDtzRJD1wRWaopLqtIxk0hP2c4S
+         Pazwypo+G29HlWfWCBFEyMnxqPBGQJ0El4e+hLmCZ83IAad39komKTcl6qSrR3JgNu++
+         OPAw==
+X-Gm-Message-State: AAQBX9cAZE6cINKNJMOPW9sfQlmJ4S0ewTKkDUhneVTodMZIXhhR2ZBa
+        wuOsEgyLnldJdOs4LyHWR/1FKbGdISoVQG+W3ak2jw==
+X-Google-Smtp-Source: AKy350Y68zZjWdPdSC6TpDMd7z4/NcQ7/qcne2yDz4AxGzEmekWkM42mEM6MlU1Eb30cHq26JDtT+nSbORqAIO55DgA=
+X-Received: by 2002:aa7:d81a:0:b0:504:98f1:464c with SMTP id
+ v26-20020aa7d81a000000b0050498f1464cmr5176775edq.23.1682090865240; Fri, 21
+ Apr 2023 08:27:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20230406130205.49996-2-kal.conley@dectris.com>
+ <87sfdckgaa.fsf@toke.dk> <ZDBEng1KEEG5lOA6@boxer> <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+ <875ya12phx.fsf@toke.dk> <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
+ <87ile011kz.fsf@toke.dk> <CAHApi-=ODe-WtJ=m6bycQhKoQxb+kk2Yk9Fx5SgBsWUuWT_u-A@mail.gmail.com>
+ <874jpdwl45.fsf@toke.dk> <CAHApi-kcaMRPj4mEPs87_4Z6iO5qEpzOOcbVza7vxURqCtpz=Q@mail.gmail.com>
+ <ZEJZYa8WT6A9VpOJ@boxer>
+In-Reply-To: <ZEJZYa8WT6A9VpOJ@boxer>
+From:   Kal Cutter Conley <kal.conley@dectris.com>
+Date:   Fri, 21 Apr 2023 17:27:33 +0200
+Message-ID: <CAHApi-ngO=hYTL449hUuV_b4mAa4NVS6eE5Uya1dZM6fEE7rPA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc:     =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Robin,
+> Here is the comparison between multi-buffer and jumbo frames that I did
+> for ZC ice driver. Configured MTU was 8192 as this is the frame size for
+> aligned mode when working with huge pages. I am presenting plain numbers
+> over here from xdpsock.
+>
+> Mbuf, packet size = 8192 - XDP_PACKET_HEADROOM
+> 885,705pps - rxdrop frame_size=4096
+> 806,307pps - l2fwd frame_size=4096
+> 877,989pps - rxdrop frame_size=2048
+> 773,331pps - l2fwd frame_size=2048
+>
+> Jumbo, packet size = 8192 - XDP_PACKET_HEADROOM
+> 893,530pps - rxdrop frame_size=8192
+> 841,860pps - l2fwd frame_size=8192
 
-On Fri, 21 Apr 2023 15:58:18 +0100
-Robin Murphy <robin.murphy@arm.com> wrote:
+Thanks so much for sharing these initial results! Do you have similar
+measurements for ~9000 byte packets in unaligned mode? We typically
+receive packets larger than 8192 bytes.
 
-> On 2023-04-21 14:03, Petr Tesa=C5=99=C3=ADk wrote:
->[...]
-> > Here my question: What did you want for DMA fields?
-> >=20
-> > A. Only grouping those fields in their own struct?
-> > B. Or move the definition to another include file (cf. MAINTAINERS)?
-> > C. Or store a pointer in struct device? =20
->=20
-> dev->dma_parms is already this, and IIRC still has some very old=20
-> comments somewhere about consolidating the other DMA-related fields in=20
-> there.
+>
+> Kal might say that multi-buffer numbers are imaginary as these patches
+> were never shown to the public ;) but now that we have extensive test
+> suite I am fixing some last issues that stand out, so we are asking for
+> some more patience over here... overall i was expecting that they will be
+> much worse when compared to jumbo frames, but then again i believe this
+> implementation is not ideal and can be improved. Nevertheless, jumbo
+> frames support has its value.
 
-Thank you for the hint! I have actually seen dma_parms, but since it
-can be NULL and was initialized from various drivers, it did not occur
-to me that NULL simply means not DMA-capable.
-
-This is really helpful.
-
-Petr T
-
-> > Since you mentioned "allocated", it sounds like you want to achieve C,
-> > but:
-> >=20
-> > 1. Is it worth the extra dereference for every use?
-> > 2. How should the struct be allocated? Presumably not with kmalloc() in
-> >     device_initialize(), because I don't know how to determine if a
-> >     device is DMA capable this low in the call stack. So, should it be
-> >     allocated together with the containing structure? AFAICS this would
-> >     mean changing nearly all device drivers... =20
->=20
-> The bus code knows whether it's a DMA-capable bus or not, and as such=20
-> should already be providing a .dma_configure method and/or performing=20
-> some initialisation of DMA fields. Many of the ones that would need to=20
-> are already providing dma_parms, in fact.
->=20
-> Thanks,
-> Robin.
->=20
-> >=20
-> > As you can see, I need some more guidance from you before I can start
-> > working on this. ;-)
-> >=20
-> > Petr T =20
-
+You made me chuckle ;-) Any measurements people can provide are
+helpful, even if they must be taken with a grain of salt. ;-). How
+much of your test suite can be upstreamed in the future? My assumption
+was the difference should be measurable, at least you have confirmed
+that. :-)
