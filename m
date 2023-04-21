@@ -2,289 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFBB7C7618E
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 18:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F36C77B76
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 21:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232739AbjDUSsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 14:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53214 "EHLO
+        id S231535AbjDUVF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 17:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbjDUSsD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 14:48:03 -0400
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2048.outbound.protection.outlook.com [40.107.102.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6555E188;
-        Fri, 21 Apr 2023 11:48:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KOp6MxkZ8clDLg/sWM1XUzMTSbQidBdPS7kt0TJl/4AyH0xjWk7vXisH5ClQcMVce/LELcLGdY3sdpERy/e0KHCO6j0YhaQMs7IpyIcJeaxdQbPwU8jbH9rz+WJ9WZpkecVr5Dwe8jTGPWmKja8dyplDWAEkW3T6mCOt6yYz9gWtLUXTAFwNtkU92wSP4CDOCkbzUyT6YdARALqb8K48xSopIQX+1dw7rnF7tprg91qlJ/NolSNUe0NbindRpX3yM/29mXRyK2oOyhPwFhb3Y0Ehus5ZLdtBEIzHI02hFXSJRWyactMLHQpJ8/owcUsu1BAXefL0EQOYdHjVQ7zEOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ba9BW0u1Ujz0cbrKbGfG8+ddVymxym4XV0k2njdIp70=;
- b=CkylOaEzZK4i2bmDWg/wkaLxQFVUMVVEeQ0QLUqqIq4NrrOhZkIrg5Fl08HHj75ysp/x1Bb30BR9wXkkAFad+UD6JENXNRGyiQtYL7S2yuiWq6qaFMxX8FdQSwJp7X3YOwTXVRlfR3ESq9fqITCC0R+YQfSwwkMqmqlu9/+JLKfkCO1nRHrpbili1KEVgVrb7IIIBxY7edsbagbH3kDvmr5NocgfQdsdU9aJzARTVG6dv/gm7XQJ67qxSddUb/gPp5Y33CyP6Q+8+iJxJ5h5p5uBxIoYfJFGbDeofzgtGAQ6b6xsKBX52VkgHY29JBPPySqLCn99WtcNMizDgps9DQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ba9BW0u1Ujz0cbrKbGfG8+ddVymxym4XV0k2njdIp70=;
- b=qO+huP7593hHAEVi3mbRqTCf4nZWroV0HmOMhogHT+XDHtNlKAcZjXG8ibEjKWLjO2U6TIjuzMEBtgBlvqvB00p0BmBlwYIvXe22zAmpLJ+7ISb9+F/Kk0AnXSR1tn0+5gi/WvxtRR4PaptunoJ9nm8w8MjpMQWdgiZDiTUDjr4=
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by BN9PR12MB5273.namprd12.prod.outlook.com (2603:10b6:408:11e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Fri, 21 Apr
- 2023 18:47:58 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57ca:ec64:35da:a5b1]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57ca:ec64:35da:a5b1%7]) with mapi id 15.20.6319.022; Fri, 21 Apr 2023
- 18:47:58 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     =?iso-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-        "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
-        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
-        "peternewman@google.com" <peternewman@google.com>
-Subject: RE: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
- debug option
-Thread-Topic: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
- debug option
-Thread-Index: AQHZcYVFe4Kw2QyGKUeIFETbFlcnCq8yoHoA///t9ICAAVtIgIACNJgw
-Date:   Fri, 21 Apr 2023 18:47:58 +0000
-Message-ID: <MW3PR12MB4553359D41816826AA001A1095609@MW3PR12MB4553.namprd12.prod.outlook.com>
-References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu>
- <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu>
- <56497126-8f60-e590-bb13-b3739114375@linux.intel.com>
- <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
- <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com>
-In-Reply-To: <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-04-21T18:47:56Z;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=6fc0cb64-d472-4e26-9a22-b2307ee9ccef;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2023-04-21T18:47:56Z
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: b4042e09-1a1a-4ef5-baf4-f9c8dde2a74e
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|BN9PR12MB5273:EE_
-x-ms-office365-filtering-correlation-id: bf2d2380-8868-4658-e9a8-08db4298ed13
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NCjyRIvYQtvk///SXpMq6XhTy1kcJh9j90Y1JUPLgJ9VPM8b0CIKD8vz2EEfqdkRgRAmWmgb88YeiUcjsWlOt/uFobJb0VOGKxJeGi2adLs+24iVo56Ttgc6bc08t4y3uwpIMAzu1gahVbp17vRkgBjJ0/vgwk29rMhCEzM6lHHU0l6+IydouXoVcf2jYraK2UcVYljxlOKuiyjJYiecHZBI1eSCu8s0PA0X654GCJU+jaxzLVoh41dUH3Pw/AWX14DtmnHPfISjcG7RlMKOGIlLV/V7dwgql4TWiEHwSOiyBnXGvsjm+L0byRGJnOOwqfSJdKWncY6MskRxrAD0aVFQfucEhsgqJRP6Scw0yZMezW3Je0K3nlGXd99qWhfC5oySa0rRJMzCJQBWSr6WODjQoppllqfkmOd2wxZG8DEg4+LWQw9TKTp9Frm/d8+3NL0fL77bzFf9MYJE4MFfe8VDHNacjzv+NuAs7oxIFAI1NUVhBtpvvPoC4cPqbvsM6YYaUN5Fg/avZcxkQHN5Ggu9XUPnvI67QjrOU3ZySG6OpsdtvH94aI0LR+ncVobOEcpaQFy1srdSeMr7A/Q2A+sUstRT9t1N4I7O8W+uGXzY9iYbrEix1BoNWhTk9/hq
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(39860400002)(376002)(346002)(136003)(451199021)(38100700002)(33656002)(38070700005)(2906002)(86362001)(55016003)(71200400001)(7696005)(186003)(66574015)(53546011)(83380400001)(9686003)(6506007)(26005)(316002)(66556008)(66476007)(76116006)(66946007)(66446008)(478600001)(64756008)(4326008)(6916009)(7406005)(41300700001)(7416002)(52536014)(122000001)(8676002)(54906003)(8936002)(5660300002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?taL6a0nxR2eAIlhNx4lbxSVD2Ez21q8Y+ZV5yP3Rx+7dkjbYE61THARR8t?=
- =?iso-8859-1?Q?1ZLzIJCzw6xIXgVUYVTtqBCMdfDdf35UPD5RZUy6RV0P9l192KqThShUW8?=
- =?iso-8859-1?Q?3tPP4iK8ji8KWSh7i+CwCw2SOm714WpZBqWyD060Ah9JHi7OSFWMrtYT6Z?=
- =?iso-8859-1?Q?US5pk+utZUESnPBEjM2LoFzcvbe0mt4cUmddWLYO2z4tqw3xVDtubOsser?=
- =?iso-8859-1?Q?soMin5qtkzgrXRk5Di/YgHC7xEOteAOPRxBZXxR9HOc2YsTRXTMce3S7bN?=
- =?iso-8859-1?Q?FhFVSDeGm7me3zOY2Q6sc3qvjx8yIK50zBHs0HhEJIISrcBYxjCJCcM0Iu?=
- =?iso-8859-1?Q?MsOZ2u/jT4yZnZn3PykQCO+ohtvzO/rA4O0nN/OJxmoimOf8waHH0KLmId?=
- =?iso-8859-1?Q?6cpMvygwXwliKkovIwwUv+1s7CdO1dRnfrWYNs85o+pIWoSIkb/Reeef8w?=
- =?iso-8859-1?Q?pAp2J5DpIClu5gRHBVHRflrQaWAcOdAZW2X8hVZO3dScz2eIXmMWRvBV3a?=
- =?iso-8859-1?Q?KFYKehsG8Vul3ao7b4AVIs1hD4eViqG56YL/bL4iLMDI+XBUG+VNkLCO/s?=
- =?iso-8859-1?Q?xGRjG46LCycbYLIjocQfgObuvevk965+UuuSMs6Hrc5lPRfRivWRfl8vwG?=
- =?iso-8859-1?Q?bp9KUOVtuZCeJhJUgYYCzF/qrgQFh0xcUCxPPEcWmTTsafspGKHpTYkmzI?=
- =?iso-8859-1?Q?xUnC7nM1vK0x6S7KsonuUOzN8h3nqjlivXdnfw/eBDTQRRYiq77UnJCvPA?=
- =?iso-8859-1?Q?nRf8o6XnvoN94OQQQ4I9djsdMZvt7CKWTxBQc2WeY5uVE+0Rf8IY902lRd?=
- =?iso-8859-1?Q?NaU/Kiuc3QunCpo1GL7xZWenNmJojKVjDk9FRO/pkNn/ZSH4GH5C8AF9Bc?=
- =?iso-8859-1?Q?jUUPPPM9Etm+fG1iU/1uia+U26szGgoL+sEkOR0jHouMxmY+ZAIvD3lxJ0?=
- =?iso-8859-1?Q?+X3AFSwi63NyYIORHuVDesgfYOZsOORctyKYPqXpAr8Rv0ICVuekgqM5iU?=
- =?iso-8859-1?Q?DZjYuzYGSSFvFX4jC5BPdI/1h6EGqFSHe9E2REk4pT4lbrKeFAeaocjA+/?=
- =?iso-8859-1?Q?MvqVnt09GLKJHjWMEl84L2hopG8FCiDf5QlJbCoCdkpTrsAkDzzTwIWlQW?=
- =?iso-8859-1?Q?zJu+Lh8bk0iDrXDP12bwKF5kGmRggQn7Omj99pHzr0UPM8IA8yxUhn7Tt4?=
- =?iso-8859-1?Q?JqzAqrLjsc/EaImA4OlBdPxOwKXkzXdjmewDRvJs/a/QwJSuCHbpwqSG5M?=
- =?iso-8859-1?Q?MRjeAlNCxWqDtkr8tQQimLp0B3oNTOqE7xW5gf9qbWP2c2KmvaDhbCg0uW?=
- =?iso-8859-1?Q?7r/WvWeTWaoyUuqpjo58P0kvKzaGU7w2RKXL/cVLA6vsX8Tt+9ZftJhVho?=
- =?iso-8859-1?Q?Li2yf/C3i5TUsP7i1yUzGjYZpAtyOyuMs4kdF6I5jM9ROugJxIYwDXlCbU?=
- =?iso-8859-1?Q?0rSG+BCsEMdT8f8fGAGGzI3htX+72+NU466A4FjZ9J9EtBBdg65vO6H9Xy?=
- =?iso-8859-1?Q?cdXrfjqG/7mFlbVdLng++JAaRbkeRGhtiLeTTL2ZVo+fWlBdqXtsDiCchm?=
- =?iso-8859-1?Q?jsoOm9TTeaR5EJEvN0sY7LMUh0/3RXdSAYRW9TyrIqTudsp00I+YqLcV6U?=
- =?iso-8859-1?Q?Ba4AGi4t837eQ=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232081AbjDUVF6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 17:05:58 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 553FA2106;
+        Fri, 21 Apr 2023 14:05:51 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-956ff2399c9so285412566b.3;
+        Fri, 21 Apr 2023 14:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682111150; x=1684703150;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=BHJwicqGedpG3F45WxlpSv7ibTlnrQxRCpEjPy9k+UY=;
+        b=EiPNTj7FOsR9jYvy+BFpZTnvmGPO4T7ZLWayDyxqY16yij1n9HDhbp88L7y06tCI5b
+         nUd4P1R/bgRrFPMtRRI0HMglmnN3cPH2rFPbJJydzo8th11izdn/GyVshi500Y4aw6Kp
+         CywzdQpkjiiMexX7RzdouqPOKnfS99OvR+0SdR0QaIt3eHslE5BveF7ox9fBSn+pCZbP
+         afohXYrnB0Yw3Jp5sDDPUtMfoaaYsyEeqhTft61E30KTrTz1Q0RzGDqIitULtMHIJzGL
+         vEEMTvc5y8h/mfByQg3zcFZpRrnLE7H6rluQ+b2uuiURpDXVCIJvk1K5Ofpf0NDE2nZ5
+         xv1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682111150; x=1684703150;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BHJwicqGedpG3F45WxlpSv7ibTlnrQxRCpEjPy9k+UY=;
+        b=em1Ze3MEfhQkuLKcN8RALlcO/N3L/qIJYxs6FR4mDj0RSjj5ltT5cYUS6+5afC6z88
+         9ybdVvd1REsp3AbT/RjT3qaOYHUmhldewT4q+9AwUT6if0XkZ3KLgN5MndyDOKAklt8y
+         +4CnJODY14/3A9wqI//3kO6YAu5iVSKtNxljz9T1HdGPunlyEu+1CX4hE6Ds9YLCX/BV
+         e2pguUGURQKBYFylqzWNkFm1G9pfGcKMqu0imPIAh8qAG9WlIuIYq8mP2GfUaipJlCOp
+         kSO5HxiwvRNYexJUyyAVWw/5+AH/sJnztorqlAmG+CJv9F9Ys+v8dQpTBhvEEUw1o5Tz
+         uZYQ==
+X-Gm-Message-State: AAQBX9cjgJpdW6oHdf+W9O8ffn0d7K7EBfBT0Im7k1tdCoV7sulpTejF
+        TbOz8NnQc312feXBQH0Q+r+mIyoJ/Pxb2g==
+X-Google-Smtp-Source: AKy350anXib8Ph/A8pReLEBo7X/Uzp+usxKrbTsnYo4I6jmCBLdfVNd29+URbjAWOlmML79yWrzykQ==
+X-Received: by 2002:a17:906:e090:b0:94f:5a9:9fdb with SMTP id gh16-20020a170906e09000b0094f05a99fdbmr3415173ejb.67.1682111149740;
+        Fri, 21 Apr 2023 14:05:49 -0700 (PDT)
+Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
+        by smtp.gmail.com with ESMTPSA id lh21-20020a170906f8d500b0094eeab34ad5sm2460104ejb.124.2023.04.21.14.05.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 14:05:48 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+        id 4F7C2BE2DE0; Fri, 21 Apr 2023 23:05:47 +0200 (CEST)
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     stable <stable@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Salvatore Bonaccorso <carnil@debian.org>
+Subject: [PATCH] docs: futex: Fix kernel-doc references after code split-up preparation
+Date:   Fri, 21 Apr 2023 23:05:31 +0200
+Message-Id: <20230421210531.1816665-1-carnil@debian.org>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf2d2380-8868-4658-e9a8-08db4298ed13
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2023 18:47:58.2508
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uLsfUcs5pWMcG7jjkTSmVpcFm1Lev3FM7e0AZY5egl5HGsuUHGOvUcvicUc6w1qD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5273
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[AMD Official Use Only - General]
+In upstream commit 77e52ae35463 ("futex: Move to kernel/futex/") the
+futex code from kernel/futex.c was moved into kernel/futex/core in
+preparation of the split-up of the implementation in various files.
 
+Point kernel-doc references to the new files as otherwise the
+documentation shows errors on build:
 
+[...]
+Error: Cannot open file ./kernel/futex.c
+Error: Cannot open file ./kernel/futex.c
+[...]
+WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 3.4.3 -internal ./kernel/futex.c' failed with return code 2
 
-> -----Original Message-----
-> From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-> Sent: Thursday, April 20, 2023 3:59 AM
-> To: Moger, Babu <Babu.Moger@amd.com>
-> Cc: corbet@lwn.net; Reinette Chatre <reinette.chatre@intel.com>;
-> tglx@linutronix.de; mingo@redhat.com; bp@alien8.de; fenghua.yu@intel.com;
-> dave.hansen@linux.intel.com; x86@kernel.org; hpa@zytor.com;
-> paulmck@kernel.org; akpm@linux-foundation.org; quic_neeraju@quicinc.com;
-> rdunlap@infradead.org; damien.lemoal@opensource.wdc.com;
-> songmuchun@bytedance.com; peterz@infradead.org; jpoimboe@kernel.org;
-> pbonzini@redhat.com; chang.seok.bae@intel.com;
-> pawan.kumar.gupta@linux.intel.com; jmattson@google.com;
-> daniel.sneddon@linux.intel.com; Das1, Sandipan <Sandipan.Das@amd.com>;
-> tony.luck@intel.com; james.morse@arm.com; linux-doc@vger.kernel.org;
-> LKML <linux-kernel@vger.kernel.org>; bagasdotme@gmail.com;
-> eranian@google.com; christophe.leroy@csgroup.eu; jarkko@kernel.org;
-> adrian.hunter@intel.com; quic_jiles@quicinc.com; peternewman@google.com
-> Subject: Re: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted wit=
-h
-> debug option
->=20
-> On Wed, 19 Apr 2023, Moger, Babu wrote:
->=20
-> >
-> >
-> > On 4/19/23 08:20, Ilpo J=E4rvinen wrote:
-> > > On Mon, 17 Apr 2023, Babu Moger wrote:
-> > >
-> > >> Add the debug files to the resctrl hierarchy.
-> > >>
-> > >> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> > >> ---
-> > >>  arch/x86/kernel/cpu/resctrl/internal.h |    1 +
-> > >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   54
-> +++++++++++++++++++++++++++++++-
-> > >>  2 files changed, 54 insertions(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h
-> > >> b/arch/x86/kernel/cpu/resctrl/internal.h
-> > >> index 1eac07ebc31b..855109abb480 100644
-> > >> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> > >> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> > >> @@ -288,6 +288,7 @@ struct rdtgroup {
-> > >>  #define RFTYPE_TOP			BIT(4)
-> > >>  #define RFTYPE_RES_CACHE		BIT(5)
-> > >>  #define RFTYPE_RES_MB			BIT(6)
-> > >> +#define RFTYPE_DEBUG			BIT(7)
-> > >>  #define RFTYPE_CTRL_INFO		(RFTYPE_INFO |
-> RFTYPE_CTRL)
-> > >>  #define RFTYPE_MON_INFO			(RFTYPE_INFO |
-> RFTYPE_MON)
-> > >>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO |
-> RFTYPE_TOP)
-> > >> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > >> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > >> index 15ded0dd5b09..1ec4359348c2 100644
-> > >> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > >> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > >> @@ -1880,6 +1880,7 @@ static struct rftype res_common_files[] =3D {
-> > >>  		.mode		=3D 0444,
-> > >>  		.kf_ops		=3D &rdtgroup_kf_single_ops,
-> > >>  		.seq_show	=3D rdtgroup_rmid_show,
-> > >> +		.fflags		=3D RFTYPE_BASE | RFTYPE_DEBUG,
-> > >>  	},
-> > >>  	{
-> > >>  		.name		=3D "schemata",
-> > >> @@ -1909,6 +1910,7 @@ static struct rftype res_common_files[] =3D {
-> > >>  		.mode		=3D 0444,
-> > >>  		.kf_ops		=3D &rdtgroup_kf_single_ops,
-> > >>  		.seq_show	=3D rdtgroup_closid_show,
-> > >> +		.fflags		=3D RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
-> > >>  	},
-> > >>
-> > >>  };
-> > >> @@ -2420,6 +2422,49 @@ static int mkdir_mondata_all(struct
-> kernfs_node *parent_kn,
-> > >>  			     struct rdtgroup *prgrp,
-> > >>  			     struct kernfs_node **mon_data_kn);
-> > >>
-> > >> +static void resctrl_add_debug_files(void) {
-> > >> +	struct rftype *rfts, *rft;
-> > >> +	int len;
-> > >> +
-> > >> +	rfts =3D res_common_files;
-> > >> +	len =3D ARRAY_SIZE(res_common_files);
-> > >> +
-> > >> +	lockdep_assert_held(&rdtgroup_mutex);
-> > >> +
-> > >> +	for (rft =3D rfts; rft < rfts + len; rft++) {
-> > >> +		if (rft->fflags & RFTYPE_DEBUG) {
-> > >> +			rft->fflags &=3D ~RFTYPE_DEBUG;
-> > >
-> > > I don't fully follow why you need to play with ->fflags like this.
-> > >
-> > > Is it for the ->fflags test in rdtgroup_add_files()? Can't you just
-> > > do some extra masking there for RFTYPE_DEBUG based on resctrl_debug
-> > > which you already keep?
-> >
-> > Actually with this change, I can remove all these tricks here.
-> > I don't have to change the check "if (rft->fflags && ((fflags &
-> > rft->fflags) =3D=3D rft->fflags)) {"
-> >
-> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > index 1ec4359348c2..b560c44817bb 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > @@ -1925,6 +1925,9 @@ static int rdtgroup_add_files(struct kernfs_node
-> > *kn, unsigned long fflags)
-> >
-> >         lockdep_assert_held(&rdtgroup_mutex);
-> >
-> > +       if (resctrl_debug)
-> > +               fflags |=3D RFTYPE_DEBUG;
->=20
-> Yes, looks good.
->=20
-> It matches to the idea I had in my mind but doesn't require putting it in=
-to the if
-> condition itself.
-Without if condition?  How?  Let me know.
-Thanks
-Babu
+There is no direct upstream commit for this change. It is made in
+analogy to commit bc67f1c454fb ("docs: futex: Fix kernel-doc
+references") applied as consequence of the restructuring of the futex
+code.
+
+Fixes: 77e52ae35463 ("futex: Move to kernel/futex/")
+Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+---
+ Documentation/kernel-hacking/locking.rst                    | 2 +-
+ Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index 6ed806e6061b..a6d89efede79 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -1358,7 +1358,7 @@ Mutex API reference
+ Futex API reference
+ ===================
+ 
+-.. kernel-doc:: kernel/futex.c
++.. kernel-doc:: kernel/futex/core.c
+    :internal:
+ 
+ Further reading
+diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+index bf1acd6204ef..192ab8e28125 100644
+--- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+@@ -1400,7 +1400,7 @@ Riferimento per l'API dei Mutex
+ Riferimento per l'API dei Futex
+ ===============================
+ 
+-.. kernel-doc:: kernel/futex.c
++.. kernel-doc:: kernel/futex/core.c
+    :internal:
+ 
+ Approfondimenti
+-- 
+2.40.0
+
