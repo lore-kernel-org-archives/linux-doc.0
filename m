@@ -2,177 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA0AC7618E
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 09:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F1BDC77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 10:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231721AbjDUJze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 05:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60650 "EHLO
+        id S231261AbjDUK1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 06:27:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231731AbjDUJzd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 05:55:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 184039ED5
-        for <linux-doc@vger.kernel.org>; Fri, 21 Apr 2023 02:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682070897;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PU5EzJ54+PKjP4fyHsqL6OGsZoIpT5Q384KSWXkirPU=;
-        b=I8H06KW5oyJ1D56SzO/217oDAHIZFpJDV778KUWl3m4zYzoBH84EVTIfEjP/DAJYTJWiDB
-        Tiz1ny/AL4UYrpyWqyPLT9baDhH+Xl+k5ie25G85Updxe9KKNG4MyaV4vRyB3Fk9T0yfWK
-        JKEXulm++16Ssr8sYUPakoUdz89kTEE=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-194-ltVAKAFMOWON8Udtu8Rm3Q-1; Fri, 21 Apr 2023 05:54:55 -0400
-X-MC-Unique: ltVAKAFMOWON8Udtu8Rm3Q-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-94f2d9389afso118876666b.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Apr 2023 02:54:55 -0700 (PDT)
+        with ESMTP id S229520AbjDUK1I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 06:27:08 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF82E63;
+        Fri, 21 Apr 2023 03:27:07 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-552d64d1d2eso17556727b3.1;
+        Fri, 21 Apr 2023 03:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682072827; x=1684664827;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1jDlW0W3MhjA8VbvOr9JFFYadMRZj0oB2XjEN8u/ZQs=;
+        b=Jq29MVaVXQLS7/50058udG92P2tJ0UekckHnIlgksme797+yXQe/r1AZ4lHs6wJmM3
+         68UCR52u1/x0QZPBwDYQC/+6TpzG3a8XR8OnW+Usfo6Lna4M1f7uF7w9BeRa1aD06cMl
+         zGL9krAi1vZ3U5UyV+Dl4j5XfFhrXqTgk/dPt3WpF1wqAXu44UUqaWLHNcjgV8b3zGjU
+         dutK14XNfjEG+u2galkQfJXW/wAtUUJeqXrDXCeEVrEdt33M8X4iB/PsrMPsSqmyizi5
+         xGCiDATgeh9PHT84RlBa7BJERI6ne2eFDP3lBcKxKS1LVBKsCtxb2+PJ0gnXGCFR8QLp
+         pBmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682070895; x=1684662895;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PU5EzJ54+PKjP4fyHsqL6OGsZoIpT5Q384KSWXkirPU=;
-        b=UUK+lR2x80B0yPptvRdkJtIc/Fu/m7DRfI/0sZ8Mz/4JxLsFY1vbq8U24CifMDrMnn
-         g6luTZZ+t5YOAI0Z9XYgsB5Vq93yzXYt8WOhG2jSliZ2tsk4YL6sh7ccrmhTxx9umtyb
-         Km5v6pD7n3cDqCaXV7MHJtw9utpcWyeLte1dJVwMCK3glod54PRsqAhVzTcWpWx4MaQa
-         iRTe/TMbPrAh6ZZdND45X3LGYToaJNCLnk5UoFJGjp7PCjuOHe2frR5swfvAmpr/Q9Rb
-         hfmMuvT0RTWyTZJND7OnprFd2oEE1Z7mo6aNM5aH3g2QSo5+YbsIA3Fr2jhj0VsR2b1X
-         K/ew==
-X-Gm-Message-State: AAQBX9cNMcIgIflfQE6/S6lMkUH9gQjcyxYiEw86x5yd5Y2+6B0bsJJp
-        BTly+5PKWg8qKuL98sF7ePCdSZu9uYC6HaC/n+difn7fZmBFSnruWsIQfqhsAtBWdLnYIpLH7/U
-        Fvpjj8PlRSiUkrMUMc3DC
-X-Received: by 2002:a17:906:70cb:b0:947:df9e:4082 with SMTP id g11-20020a17090670cb00b00947df9e4082mr1592741ejk.35.1682070894657;
-        Fri, 21 Apr 2023 02:54:54 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YcSK1ugfdii2y4sj9PtoHsSwjf3tWw/0Cyxo4TxC3m/vg1fQhtemTqWj26RF9Sy4plUsX0qw==
-X-Received: by 2002:a17:906:70cb:b0:947:df9e:4082 with SMTP id g11-20020a17090670cb00b00947df9e4082mr1592719ejk.35.1682070894153;
-        Fri, 21 Apr 2023 02:54:54 -0700 (PDT)
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id a13-20020a1709066d4d00b0094a9b9c4979sm1843430ejt.88.2023.04.21.02.54.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Apr 2023 02:54:53 -0700 (PDT)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 8DC8DAA903F; Fri, 21 Apr 2023 11:54:52 +0200 (CEST)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Kal Cutter Conley <kal.conley@dectris.com>
-Cc:     =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
-In-Reply-To: <ZEJZYa8WT6A9VpOJ@boxer>
-References: <20230406130205.49996-2-kal.conley@dectris.com>
- <87sfdckgaa.fsf@toke.dk> <ZDBEng1KEEG5lOA6@boxer>
- <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
- <875ya12phx.fsf@toke.dk>
- <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
- <87ile011kz.fsf@toke.dk>
- <CAHApi-=ODe-WtJ=m6bycQhKoQxb+kk2Yk9Fx5SgBsWUuWT_u-A@mail.gmail.com>
- <874jpdwl45.fsf@toke.dk>
- <CAHApi-kcaMRPj4mEPs87_4Z6iO5qEpzOOcbVza7vxURqCtpz=Q@mail.gmail.com>
- <ZEJZYa8WT6A9VpOJ@boxer>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Fri, 21 Apr 2023 11:54:52 +0200
-Message-ID: <87r0sdsgpf.fsf@toke.dk>
+        d=1e100.net; s=20221208; t=1682072827; x=1684664827;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1jDlW0W3MhjA8VbvOr9JFFYadMRZj0oB2XjEN8u/ZQs=;
+        b=KLABm/XCsEGu28leMiOFFn3eYtWTTf5JGXJSebveygdRwMcD/A4EciKXTZ0uuYIIn/
+         1Zqdkf69Z0E6g3W/cjw+wFhounEXWG+9/MrFiQUEaEZoZjvFQTIYi/EcU/v11Er0T0rX
+         XJVSZm6d7JP0BzvhxmVttmWOBhTNVUt7imBEAmeqlZ5JOTRVAf4CNFVWlx8BpnYsBIs6
+         cps16XtuhCP2pD1X0cdzfKf1j8G78+ruHmIqDRc7hYxAqmM1WW9sNSBJGm40j5Z5IMPB
+         VMugrV1FH13bb2c/30ZxraY9/+tg8O/6urX2luZjT9QTmcmM/YyomvHZC3ghkaWJtZyj
+         uIMw==
+X-Gm-Message-State: AAQBX9fmdLbpDvP3aZYSmZQYiFailEz6RUPLn6SD3He3f214JmemTTMp
+        B65X6RgwLAYmB7mwOEJuDoT1a4rMC51NNADEMVZlhC7Xd1JjoO3I
+X-Google-Smtp-Source: AKy350Z7RE8rSiaLK/lDI02fKHY8C/Hkm8qnkU6IUdScLzIa6Hrc+QXATCBAVcaBw4SmzH5UZ0SVAeWWaxXJZEHiMro=
+X-Received: by 2002:a81:6fd5:0:b0:541:6d79:9291 with SMTP id
+ k204-20020a816fd5000000b005416d799291mr1599574ywc.43.1682072827166; Fri, 21
+ Apr 2023 03:27:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230412224311.23511-1-robdclark@gmail.com> <20230412224311.23511-6-robdclark@gmail.com>
+In-Reply-To: <20230412224311.23511-6-robdclark@gmail.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Fri, 21 Apr 2023 11:26:55 +0100
+Message-ID: <CACvgo525ogS4LSZDUyaqjSqjJWj=qLRkphji5469=3obFXoMrQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] drm: Add fdinfo memory stats
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Christopher Healy <healych@amazon.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Clark <robdclark@chromium.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Maciej Fijalkowski <maciej.fijalkowski@intel.com> writes:
+On Wed, 12 Apr 2023 at 23:43, Rob Clark <robdclark@gmail.com> wrote:
 
-> On Tue, Apr 18, 2023 at 01:12:00PM +0200, Kal Cutter Conley wrote:
->
-> Hi there,
->
->> > >> In addition, presumably when using this mode, the other XDP actions
->> > >> (XDP_PASS, XDP_REDIRECT to other targets) would stop working unless we
->> > >> add special handling for that in the kernel? We'll definitely need to
->> > >> handle that somehow...
->> > >
->> > > I am not familiar with all the details here. Do you know a reason why
->> > > these cases would stop working / why special handling would be needed?
->> > > For example, if I have a UMEM that uses hugepages and XDP_PASS is
->> > > returned, then the data is just copied into an SKB right? SKBs can
->> > > also be created directly from hugepages AFAIK. So I don't understand
->> > > what the issue would be. Can someone explain this concern?
->> >
->> > Well, I was asking :) It may well be that the SKB path just works; did
->> > you test this? Pretty sure XDP_REDIRECT to another device won't, though?
->
-> for XDP_PASS we have to allocate a new buffer and copy the contents from
-> current xdp_buff that was backed by xsk_buff_pool and give the current one
-> back to pool. I am not sure if __napi_alloc_skb() is always capable of
-> handling len > PAGE_SIZE - i believe there might a particular combination
-> of settings that allows it, but if not we should have a fallback path that
-> would iterate over data and copy this to a certain (linear + frags) parts.
-> This implies non-zero effort that is needed for jumbo frames ZC support.
->
-> I can certainly test this out and play with it - maybe this just works, I
-> didn't check yet. Even if it does, then we need some kind of temporary
-> mechanism that will forbid loading ZC jumbo frames due to what Toke
-> brought up.
+> +/**
+> + * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
+> + * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
+> + * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
+> + *
+> + * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
+> + * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_PURGEABLE if
+> + * it still active or not resident, in which case drm_show_fdinfo() will not
 
-Yeah, this was exactly the kind of thing I was worried about (same for
-XDP_REDIRECT). Thanks for fleshing it out a bit :)
+nit: s/can/can be/;s/if it still/if it is still/
 
->> >
->> 
->> I was also asking :-)
->> 
->> I tested that the SKB path is usable today with this patch.
->> Specifically, sending and receiving large jumbo packets with AF_XDP
->> and that a non-multi-buffer XDP program could access the whole packet.
->> I have not specifically tested XDP_REDIRECT to another device or
->> anything with ZC since that is not possible without driver support.
->> 
->> My feeling is, there wouldn't be non-trivial issues here since this
->> patchset changes nothing except allowing the maximum chunk size to be
->> larger. The driver either supports larger MTUs with XDP enabled or it
->> doesn't. If it doesn't, the frames are dropped anyway. Also, chunk
->> size mismatches between two XSKs (e.g. with XDP_REDIRECT) would be
->> something supported or not supported irrespective of this patchset.
->
-> Here is the comparison between multi-buffer and jumbo frames that I did
-> for ZC ice driver. Configured MTU was 8192 as this is the frame size for
-> aligned mode when working with huge pages. I am presenting plain numbers
-> over here from xdpsock.
->
-> Mbuf, packet size = 8192 - XDP_PACKET_HEADROOM
-> 885,705pps - rxdrop frame_size=4096
-> 806,307pps - l2fwd frame_size=4096
-> 877,989pps - rxdrop frame_size=2048
-> 773,331pps - l2fwd frame_size=2048
->
-> Jumbo, packet size = 8192 - XDP_PACKET_HEADROOM
-> 893,530pps - rxdrop frame_size=8192
-> 841,860pps - l2fwd frame_size=8192
->
-> Kal might say that multi-buffer numbers are imaginary as these patches
-> were never shown to the public ;) but now that we have extensive test
-> suite I am fixing some last issues that stand out, so we are asking for
-> some more patience over here... overall i was expecting that they will be
-> much worse when compared to jumbo frames, but then again i believe this
-> implementation is not ideal and can be improved. Nevertheless, jumbo
-> frames support has its value.
+> + * account for it as purgeable.  So drivers do not need to check if the buffer
+> + * is idle and resident to return this bit.  (Ie. userspace can mark a buffer
+> + * as purgeable even while it is still busy on the GPU.. it does not _actually_
+> + * become puregeable until it becomes idle.  The status gem object func does
 
-Thank you for doing these! Okay, so that's between 1-4% improvement (vs
-the 4k frags). I dunno, I wouldn't consider that a slam dunk; would
-depend on the additional complexity if it is worth it to do both, IMO...
+nit: s/puregeable/purgeable/
 
--Toke
 
+I think we want a similar note in the drm-usage-stats.rst file.
+
+With the above the whole series is:
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+
+Fwiw: Keeping the i915 patch as part of this series would be great.
+Sure i915_drm_client->id becomes dead code, but it's a piece one can
+live with for a release or two. Then again it's not my call to make.
+
+HTH
+Emil
