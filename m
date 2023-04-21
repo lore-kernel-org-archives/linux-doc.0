@@ -2,220 +2,289 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43DCEC77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 17:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFBB7C7618E
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 18:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232653AbjDURcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 13:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37214 "EHLO
+        id S232739AbjDUSsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 14:48:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231398AbjDURcp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 13:32:45 -0400
-Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC115251;
-        Fri, 21 Apr 2023 10:32:44 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.veeam.com (Postfix) with ESMTPS id B47E542C5F;
-        Fri, 21 Apr 2023 13:32:37 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx1-2022; t=1682098357;
-        bh=M+1V4ydzTe0AfjmGTaWFeBSLPi8tCtQ5EdkpUA6ZDHI=;
-        h=Date:Subject:From:To:CC:References:In-Reply-To:From;
-        b=Z14/coI3vCO/aP0mheruNc2s9l/iUzmZ0sf6rQroEwlU4nFqg/FKHBCrxfZHZYe15
-         sJ73rQepbpWlN6CzLRSjU5JGQFZKqGMOlHISnr4ojcKQ0dTBTPvdU3LErBLSbMmfmf
-         gd5FibSx5C5L8n/tBNHRT7i+eTnWnBhVZY7VfHuFyy/5TWfe6mC3BoosHl1UcYysIU
-         a9ww1tmSih3v3+0lv2FNcpEUCMrxLSFsbVfI87bTP5rEbMcRT31VPzdarELtsvF8gz
-         llghCvIPaUymOyzFGYOKh2rque0nM6YYjPIKkbkF8fjGU4eYzbsXoQWXnGBoecu1To
-         QoNPnEcYtvvaA==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Fri, 21 Apr
- 2023 19:32:34 +0200
-Content-Type: multipart/mixed;
-        boundary="------------Uz7N2hSro1BXgYQbTl7hDQWx"
-Message-ID: <a670606b-ad27-ff7c-f74c-e36269f2ddfc@veeam.com>
-Date:   Fri, 21 Apr 2023 19:32:25 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
+        with ESMTP id S229987AbjDUSsD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 14:48:03 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2048.outbound.protection.outlook.com [40.107.102.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6555E188;
+        Fri, 21 Apr 2023 11:48:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KOp6MxkZ8clDLg/sWM1XUzMTSbQidBdPS7kt0TJl/4AyH0xjWk7vXisH5ClQcMVce/LELcLGdY3sdpERy/e0KHCO6j0YhaQMs7IpyIcJeaxdQbPwU8jbH9rz+WJ9WZpkecVr5Dwe8jTGPWmKja8dyplDWAEkW3T6mCOt6yYz9gWtLUXTAFwNtkU92wSP4CDOCkbzUyT6YdARALqb8K48xSopIQX+1dw7rnF7tprg91qlJ/NolSNUe0NbindRpX3yM/29mXRyK2oOyhPwFhb3Y0Ehus5ZLdtBEIzHI02hFXSJRWyactMLHQpJ8/owcUsu1BAXefL0EQOYdHjVQ7zEOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ba9BW0u1Ujz0cbrKbGfG8+ddVymxym4XV0k2njdIp70=;
+ b=CkylOaEzZK4i2bmDWg/wkaLxQFVUMVVEeQ0QLUqqIq4NrrOhZkIrg5Fl08HHj75ysp/x1Bb30BR9wXkkAFad+UD6JENXNRGyiQtYL7S2yuiWq6qaFMxX8FdQSwJp7X3YOwTXVRlfR3ESq9fqITCC0R+YQfSwwkMqmqlu9/+JLKfkCO1nRHrpbili1KEVgVrb7IIIBxY7edsbagbH3kDvmr5NocgfQdsdU9aJzARTVG6dv/gm7XQJ67qxSddUb/gPp5Y33CyP6Q+8+iJxJ5h5p5uBxIoYfJFGbDeofzgtGAQ6b6xsKBX52VkgHY29JBPPySqLCn99WtcNMizDgps9DQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ba9BW0u1Ujz0cbrKbGfG8+ddVymxym4XV0k2njdIp70=;
+ b=qO+huP7593hHAEVi3mbRqTCf4nZWroV0HmOMhogHT+XDHtNlKAcZjXG8ibEjKWLjO2U6TIjuzMEBtgBlvqvB00p0BmBlwYIvXe22zAmpLJ+7ISb9+F/Kk0AnXSR1tn0+5gi/WvxtRR4PaptunoJ9nm8w8MjpMQWdgiZDiTUDjr4=
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by BN9PR12MB5273.namprd12.prod.outlook.com (2603:10b6:408:11e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Fri, 21 Apr
+ 2023 18:47:58 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::57ca:ec64:35da:a5b1]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::57ca:ec64:35da:a5b1%7]) with mapi id 15.20.6319.022; Fri, 21 Apr 2023
+ 18:47:58 +0000
+From:   "Moger, Babu" <Babu.Moger@amd.com>
+To:     =?iso-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+Subject: RE: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
+ debug option
+Thread-Topic: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
+ debug option
+Thread-Index: AQHZcYVFe4Kw2QyGKUeIFETbFlcnCq8yoHoA///t9ICAAVtIgIACNJgw
+Date:   Fri, 21 Apr 2023 18:47:58 +0000
+Message-ID: <MW3PR12MB4553359D41816826AA001A1095609@MW3PR12MB4553.namprd12.prod.outlook.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu>
+ <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu>
+ <56497126-8f60-e590-bb13-b3739114375@linux.intel.com>
+ <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
+ <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com>
+In-Reply-To: <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     Donald Buczek <buczek@molgen.mpg.de>, <axboe@kernel.dk>,
-        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <kch@nvidia.com>,
-        <martin.petersen@oracle.com>, <vkoul@kernel.org>,
-        <ming.lei@redhat.com>, <gregkh@linuxfoundation.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-4-sergei.shtepa@veeam.com>
- <cb0cc2f1-48cb-8b15-35af-33a31ccc922c@molgen.mpg.de>
- <86068780-bab3-2fc2-3f6f-1868be119b38@veeam.com>
- <a1854604-cec1-abd5-1d49-6cf6a19ee7a1@veeam.com>
- <1dc227d0-9528-9b77-63ff-b49b0579caa1@molgen.mpg.de>
- <c05fd3e7-5610-4f63-9012-df1b808d9536@veeam.com>
- <955ede49-bb69-2ab2-d256-a329fe1b728c@molgen.mpg.de>
- <3b589d44-3fbd-1f4f-8efb-9b334c26a20f@molgen.mpg.de>
- <b6516901-b7ba-cde9-644c-84dfdef012ad@veeam.com>
-In-Reply-To: <b6516901-b7ba-cde9-644c-84dfdef012ad@veeam.com>
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2924031554677065
-X-Veeam-MMEX: True
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-04-21T18:47:56Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=6fc0cb64-d472-4e26-9a22-b2307ee9ccef;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2023-04-21T18:47:56Z
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: b4042e09-1a1a-4ef5-baf4-f9c8dde2a74e
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|BN9PR12MB5273:EE_
+x-ms-office365-filtering-correlation-id: bf2d2380-8868-4658-e9a8-08db4298ed13
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NCjyRIvYQtvk///SXpMq6XhTy1kcJh9j90Y1JUPLgJ9VPM8b0CIKD8vz2EEfqdkRgRAmWmgb88YeiUcjsWlOt/uFobJb0VOGKxJeGi2adLs+24iVo56Ttgc6bc08t4y3uwpIMAzu1gahVbp17vRkgBjJ0/vgwk29rMhCEzM6lHHU0l6+IydouXoVcf2jYraK2UcVYljxlOKuiyjJYiecHZBI1eSCu8s0PA0X654GCJU+jaxzLVoh41dUH3Pw/AWX14DtmnHPfISjcG7RlMKOGIlLV/V7dwgql4TWiEHwSOiyBnXGvsjm+L0byRGJnOOwqfSJdKWncY6MskRxrAD0aVFQfucEhsgqJRP6Scw0yZMezW3Je0K3nlGXd99qWhfC5oySa0rRJMzCJQBWSr6WODjQoppllqfkmOd2wxZG8DEg4+LWQw9TKTp9Frm/d8+3NL0fL77bzFf9MYJE4MFfe8VDHNacjzv+NuAs7oxIFAI1NUVhBtpvvPoC4cPqbvsM6YYaUN5Fg/avZcxkQHN5Ggu9XUPnvI67QjrOU3ZySG6OpsdtvH94aI0LR+ncVobOEcpaQFy1srdSeMr7A/Q2A+sUstRT9t1N4I7O8W+uGXzY9iYbrEix1BoNWhTk9/hq
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(39860400002)(376002)(346002)(136003)(451199021)(38100700002)(33656002)(38070700005)(2906002)(86362001)(55016003)(71200400001)(7696005)(186003)(66574015)(53546011)(83380400001)(9686003)(6506007)(26005)(316002)(66556008)(66476007)(76116006)(66946007)(66446008)(478600001)(64756008)(4326008)(6916009)(7406005)(41300700001)(7416002)(52536014)(122000001)(8676002)(54906003)(8936002)(5660300002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?taL6a0nxR2eAIlhNx4lbxSVD2Ez21q8Y+ZV5yP3Rx+7dkjbYE61THARR8t?=
+ =?iso-8859-1?Q?1ZLzIJCzw6xIXgVUYVTtqBCMdfDdf35UPD5RZUy6RV0P9l192KqThShUW8?=
+ =?iso-8859-1?Q?3tPP4iK8ji8KWSh7i+CwCw2SOm714WpZBqWyD060Ah9JHi7OSFWMrtYT6Z?=
+ =?iso-8859-1?Q?US5pk+utZUESnPBEjM2LoFzcvbe0mt4cUmddWLYO2z4tqw3xVDtubOsser?=
+ =?iso-8859-1?Q?soMin5qtkzgrXRk5Di/YgHC7xEOteAOPRxBZXxR9HOc2YsTRXTMce3S7bN?=
+ =?iso-8859-1?Q?FhFVSDeGm7me3zOY2Q6sc3qvjx8yIK50zBHs0HhEJIISrcBYxjCJCcM0Iu?=
+ =?iso-8859-1?Q?MsOZ2u/jT4yZnZn3PykQCO+ohtvzO/rA4O0nN/OJxmoimOf8waHH0KLmId?=
+ =?iso-8859-1?Q?6cpMvygwXwliKkovIwwUv+1s7CdO1dRnfrWYNs85o+pIWoSIkb/Reeef8w?=
+ =?iso-8859-1?Q?pAp2J5DpIClu5gRHBVHRflrQaWAcOdAZW2X8hVZO3dScz2eIXmMWRvBV3a?=
+ =?iso-8859-1?Q?KFYKehsG8Vul3ao7b4AVIs1hD4eViqG56YL/bL4iLMDI+XBUG+VNkLCO/s?=
+ =?iso-8859-1?Q?xGRjG46LCycbYLIjocQfgObuvevk965+UuuSMs6Hrc5lPRfRivWRfl8vwG?=
+ =?iso-8859-1?Q?bp9KUOVtuZCeJhJUgYYCzF/qrgQFh0xcUCxPPEcWmTTsafspGKHpTYkmzI?=
+ =?iso-8859-1?Q?xUnC7nM1vK0x6S7KsonuUOzN8h3nqjlivXdnfw/eBDTQRRYiq77UnJCvPA?=
+ =?iso-8859-1?Q?nRf8o6XnvoN94OQQQ4I9djsdMZvt7CKWTxBQc2WeY5uVE+0Rf8IY902lRd?=
+ =?iso-8859-1?Q?NaU/Kiuc3QunCpo1GL7xZWenNmJojKVjDk9FRO/pkNn/ZSH4GH5C8AF9Bc?=
+ =?iso-8859-1?Q?jUUPPPM9Etm+fG1iU/1uia+U26szGgoL+sEkOR0jHouMxmY+ZAIvD3lxJ0?=
+ =?iso-8859-1?Q?+X3AFSwi63NyYIORHuVDesgfYOZsOORctyKYPqXpAr8Rv0ICVuekgqM5iU?=
+ =?iso-8859-1?Q?DZjYuzYGSSFvFX4jC5BPdI/1h6EGqFSHe9E2REk4pT4lbrKeFAeaocjA+/?=
+ =?iso-8859-1?Q?MvqVnt09GLKJHjWMEl84L2hopG8FCiDf5QlJbCoCdkpTrsAkDzzTwIWlQW?=
+ =?iso-8859-1?Q?zJu+Lh8bk0iDrXDP12bwKF5kGmRggQn7Omj99pHzr0UPM8IA8yxUhn7Tt4?=
+ =?iso-8859-1?Q?JqzAqrLjsc/EaImA4OlBdPxOwKXkzXdjmewDRvJs/a/QwJSuCHbpwqSG5M?=
+ =?iso-8859-1?Q?MRjeAlNCxWqDtkr8tQQimLp0B3oNTOqE7xW5gf9qbWP2c2KmvaDhbCg0uW?=
+ =?iso-8859-1?Q?7r/WvWeTWaoyUuqpjo58P0kvKzaGU7w2RKXL/cVLA6vsX8Tt+9ZftJhVho?=
+ =?iso-8859-1?Q?Li2yf/C3i5TUsP7i1yUzGjYZpAtyOyuMs4kdF6I5jM9ROugJxIYwDXlCbU?=
+ =?iso-8859-1?Q?0rSG+BCsEMdT8f8fGAGGzI3htX+72+NU466A4FjZ9J9EtBBdg65vO6H9Xy?=
+ =?iso-8859-1?Q?cdXrfjqG/7mFlbVdLng++JAaRbkeRGhtiLeTTL2ZVo+fWlBdqXtsDiCchm?=
+ =?iso-8859-1?Q?jsoOm9TTeaR5EJEvN0sY7LMUh0/3RXdSAYRW9TyrIqTudsp00I+YqLcV6U?=
+ =?iso-8859-1?Q?Ba4AGi4t837eQ=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf2d2380-8868-4658-e9a8-08db4298ed13
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2023 18:47:58.2508
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uLsfUcs5pWMcG7jjkTSmVpcFm1Lev3FM7e0AZY5egl5HGsuUHGOvUcvicUc6w1qD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5273
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---------------Uz7N2hSro1BXgYQbTl7hDQWx
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+[AMD Official Use Only - General]
 
 
 
-On 4/20/23 21:17, Sergei Shtepa wrote:
-> Subject:
-> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
-> From:
-> Sergei Shtepa <sergei.shtepa@veeam.com>
-> Date:
-> 4/20/23, 21:17
-> 
-> To:
-> Donald Buczek <buczek@molgen.mpg.de>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
-> CC:
-> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-> 
-> 
-> 
-> On 4/20/23 16:44, Donald Buczek wrote:
->> Subject:
->> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
->> From:
->> Donald Buczek <buczek@molgen.mpg.de>
->> Date:
->> 4/20/23, 16:44
->>
->> To:
->> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
->> CC:
->> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
->>
->>
->> On 4/19/23 21:42, Donald Buczek wrote:
->>> Dear Sergei,
->>>
->>> On 4/19/23 15:05, Sergei Shtepa wrote:
->>>> [...]
->>>>
->>>> Patches in attach and https://github.com/SergeiShtepa/linux/tree/blksnap-master
->>> Thanks. I can confirm that this fixes the reported problem and I no longer can trigger the UAF. 😄
->>>
->>> Tested-Bny: Donald Buczek <buczek@molgen.mpg.de>
->>>
->>> Maybe you can add me to the cc list for v4 as I'm not subscribed to the lists.
->>
->> Sorry, found another one. Reproducer:
->>
->> =====
->> #! /bin/bash
->> set -xe
->> modprobe blksnap
->> test -e /scratch/local/test.dat || fallocate -l 1G /scratch/local/test.dat
->> s=$(blksnap snapshot_create -d /dev/vdb)
->> blksnap snapshot_appendstorage -i $s -f /scratch/local/test.dat
->> blksnap snapshot_take -i $s
->> s2=$(blksnap snapshot_create -d /dev/vdb)
->> blksnap snapshot_destroy -i $s2
->> blksnap snapshot_destroy -i $s
->> =====
->>
->>
->> [20382.402921] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was created
->> [20382.535933] blksnap-image: Create snapshot image device for original device [253:16]
->> [20382.542405] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was taken successfully
->> [20382.572564] blksnap-snapshot: Snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966 was created
->> [20382.600521] blksnap-snapshot: Destroy snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
->> [20382.602373] blksnap-snapshot: Release snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
->> [20382.722137] blksnap-snapshot: Destroy snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
->> [20382.724033] blksnap-snapshot: Release snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
->> [20382.725850] ==================================================================
->> [20382.727641] BUG: KASAN: wild-memory-access in snapshot_free+0x73/0x170 [blksnap]
->> [20382.729326] Write of size 8 at addr dead000000000108 by task blksnap/8297
->> ...
-> Great! Thanks.
-> 
-> There is no protection against re-adding a block device to the snapshot.
-> I'll take care of it.
-> 
-
-Hi!
-
-I think the fix turned out to be quite beautiful.
-Now you will get an error "Device or resource busy".
-Fix in attach and on github.
-Link: https://github.com/SergeiShtepa/linux/commit/43a5d3dd9858f092b734187b6a62ce75acaa47c7
-
---------------Uz7N2hSro1BXgYQbTl7hDQWx
-Content-Type: text/x-patch; charset="UTF-8";
-	name="fix_no_protection_re-adding.patch"
-Content-Disposition: attachment;
-	filename="fix_no_protection_re-adding.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9zbmFwc2hvdC5jIGIvZHJpdmVy
-cy9ibG9jay9ibGtzbmFwL3NuYXBzaG90LmMKaW5kZXggMWYyOGZmNTlkNzYyLi44MDYzY2M0
-YjkyOWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svYmxrc25hcC9zbmFwc2hvdC5jCisr
-KyBiL2RyaXZlcnMvYmxvY2svYmxrc25hcC9zbmFwc2hvdC5jCkBAIC0yOCw3ICsyOCw3IEBA
-IHN0YXRpYyB2b2lkIHNuYXBzaG90X2ZyZWUoc3RydWN0IGtyZWYgKmtyZWYpCiAKIAkJdHJh
-Y2tlciA9IGxpc3RfZmlyc3RfZW50cnkoJnNuYXBzaG90LT50cmFja2Vycywgc3RydWN0IHRy
-YWNrZXIsCiAJCQkJCSAgIGxpbmspOwotCQlsaXN0X2RlbCgmdHJhY2tlci0+bGluayk7CisJ
-CWxpc3RfZGVsX2luaXQoJnRyYWNrZXItPmxpbmspOwogCQl0cmFja2VyX3JlbGVhc2Vfc25h
-cHNob3QodHJhY2tlcik7CiAJCXRyYWNrZXJfcHV0KHRyYWNrZXIpOwogCX0KQEAgLTE2MCwx
-NCArMTYwLDE3IEBAIGludCBzbmFwc2hvdF9hZGRfZGV2aWNlKGNvbnN0IHV1aWRfdCAqaWQs
-IHN0cnVjdCB0cmFja2VyICp0cmFja2VyKQogCQl9CiAJfQogCWlmICghcmV0KSB7Ci0JCXRy
-YWNrZXJfZ2V0KHRyYWNrZXIpOwotCQlsaXN0X2FkZF90YWlsKCZ0cmFja2VyLT5saW5rLCAm
-c25hcHNob3QtPnRyYWNrZXJzKTsKKwkJaWYgKGxpc3RfZW1wdHkoJnRyYWNrZXItPmxpbmsp
-KSB7CisJCQl0cmFja2VyX2dldCh0cmFja2VyKTsKKwkJCWxpc3RfYWRkX3RhaWwoJnRyYWNr
-ZXItPmxpbmssICZzbmFwc2hvdC0+dHJhY2tlcnMpOworCQl9IGVsc2UKKwkJCXJldCA9IC1F
-QlVTWTsKIAl9CiAJdXBfd3JpdGUoJnNuYXBzaG90LT5yd19sb2NrKTsKIAogCXNuYXBzaG90
-X3B1dChzbmFwc2hvdCk7CiAKLQlyZXR1cm4gMDsKKwlyZXR1cm4gcmV0OwogfQogCiBpbnQg
-c25hcHNob3RfZGVzdHJveShjb25zdCB1dWlkX3QgKmlkKQpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ibG9jay9ibGtzbmFwL3RyYWNrZXIuYyBiL2RyaXZlcnMvYmxvY2svYmxrc25hcC90cmFj
-a2VyLmMKaW5kZXggZDk4MDQ4ZGM1YmVkLi4wMDhjYzdmMGY4MWUgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvYmxvY2svYmxrc25hcC90cmFja2VyLmMKKysrIGIvZHJpdmVycy9ibG9jay9ibGtz
-bmFwL3RyYWNrZXIuYwpAQCAtNzksNiArNzksNyBAQCBzdGF0aWMgc3RydWN0IGJsa2ZpbHRl
-ciAqdHJhY2tlcl9hdHRhY2goc3RydWN0IGJsb2NrX2RldmljZSAqYmRldikKIAkJcmV0dXJu
-IEVSUl9QVFIoLUVOT01FTSk7CiAJfQogCisJbXV0ZXhfaW5pdCgmdHJhY2tlci0+Y3RsX2xv
-Y2spOwogCUlOSVRfTElTVF9IRUFEKCZ0cmFja2VyLT5saW5rKTsKIAlrcmVmX2luaXQoJnRy
-YWNrZXItPmtyZWYpOwogCXRyYWNrZXItPmRldl9pZCA9IGJkZXYtPmJkX2RldjsKQEAgLTIz
-NCwxMiArMjM1LDE3IEBAIHN0YXRpYyBpbnQgKCpjb25zdCBjdGxfdGFibGVbXSkoc3RydWN0
-IHRyYWNrZXIgKnRyYWNrZXIsCiBzdGF0aWMgaW50IHRyYWNrZXJfY3RsKHN0cnVjdCBibGtm
-aWx0ZXIgKmZsdCwgY29uc3QgdW5zaWduZWQgaW50IGNtZCwKIAkJICAgICAgIF9fdTggX191
-c2VyICpidWYsIF9fdTMyICpwbGVuKQogeworCWludCByZXQgPSAwOwogCXN0cnVjdCB0cmFj
-a2VyICp0cmFja2VyID0gY29udGFpbmVyX29mKGZsdCwgc3RydWN0IHRyYWNrZXIsIGZpbHRl
-cik7CiAKIAlpZiAoY21kID4gQVJSQVlfU0laRShjdGxfdGFibGUpKQogCQlyZXR1cm4gLUVO
-T1RUWTsKIAotCXJldHVybiBjdGxfdGFibGVbY21kXSh0cmFja2VyLCBidWYsIHBsZW4pOwor
-CW11dGV4X2xvY2soJnRyYWNrZXItPmN0bF9sb2NrKTsKKwlyZXQgPSBjdGxfdGFibGVbY21k
-XSh0cmFja2VyLCBidWYsIHBsZW4pOworCW11dGV4X3VubG9jaygmdHJhY2tlci0+Y3RsX2xv
-Y2spOworCisJcmV0dXJuIHJldDsKIH0KIAogc3RhdGljIHN0cnVjdCBibGtmaWx0ZXJfb3Bl
-cmF0aW9ucyB0cmFja2VyX29wcyA9IHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svYmxr
-c25hcC90cmFja2VyLmggYi9kcml2ZXJzL2Jsb2NrL2Jsa3NuYXAvdHJhY2tlci5oCmluZGV4
-IGQwOTcyOTk0ZDUyOC4uZGJmODI5NWY5NTE4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2Jsb2Nr
-L2Jsa3NuYXAvdHJhY2tlci5oCisrKyBiL2RyaXZlcnMvYmxvY2svYmxrc25hcC90cmFja2Vy
-LmgKQEAgLTE5LDYgKzE5LDkgQEAgc3RydWN0IGRpZmZfYXJlYTsKICAqCiAgKiBAZmlsdGVy
-OgogICoJVGhlIGJsb2NrIGRldmljZSBmaWx0ZXIgc3RydWN0dXJlLgorICogQGN0bF9sb2Nr
-OgorICoJVGhlIG11dGV4IGJsb2NrcyBzaW11bHRhbmVvdXMgbWFuYWdlbWVudCBvZiB0aGUg
-dHJhY2tlciBmcm9tIGRpZmZlcmVudAorICoJdHJlYWRzLgogICogQGxpbms6CiAgKglMaXN0
-IGhlYWRlci4gQWxsb3dzIHRvIGNvbWJpbmUgdHJhY2tlcnMgaW50byBhIGxpc3QgaW4gYSBz
-bmFwc2hvdC4KICAqIEBrcmVmOgpAQCAtNDEsNiArNDQsNyBAQCBzdHJ1Y3QgZGlmZl9hcmVh
-OwogICovCiBzdHJ1Y3QgdHJhY2tlciB7CiAJc3RydWN0IGJsa2ZpbHRlciBmaWx0ZXI7CisJ
-c3RydWN0IG11dGV4IGN0bF9sb2NrOwogCXN0cnVjdCBsaXN0X2hlYWQgbGluazsKIAlzdHJ1
-Y3Qga3JlZiBrcmVmOwogCWRldl90IGRldl9pZDsK
-
---------------Uz7N2hSro1BXgYQbTl7hDQWx--
+> -----Original Message-----
+> From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+> Sent: Thursday, April 20, 2023 3:59 AM
+> To: Moger, Babu <Babu.Moger@amd.com>
+> Cc: corbet@lwn.net; Reinette Chatre <reinette.chatre@intel.com>;
+> tglx@linutronix.de; mingo@redhat.com; bp@alien8.de; fenghua.yu@intel.com;
+> dave.hansen@linux.intel.com; x86@kernel.org; hpa@zytor.com;
+> paulmck@kernel.org; akpm@linux-foundation.org; quic_neeraju@quicinc.com;
+> rdunlap@infradead.org; damien.lemoal@opensource.wdc.com;
+> songmuchun@bytedance.com; peterz@infradead.org; jpoimboe@kernel.org;
+> pbonzini@redhat.com; chang.seok.bae@intel.com;
+> pawan.kumar.gupta@linux.intel.com; jmattson@google.com;
+> daniel.sneddon@linux.intel.com; Das1, Sandipan <Sandipan.Das@amd.com>;
+> tony.luck@intel.com; james.morse@arm.com; linux-doc@vger.kernel.org;
+> LKML <linux-kernel@vger.kernel.org>; bagasdotme@gmail.com;
+> eranian@google.com; christophe.leroy@csgroup.eu; jarkko@kernel.org;
+> adrian.hunter@intel.com; quic_jiles@quicinc.com; peternewman@google.com
+> Subject: Re: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted wit=
+h
+> debug option
+>=20
+> On Wed, 19 Apr 2023, Moger, Babu wrote:
+>=20
+> >
+> >
+> > On 4/19/23 08:20, Ilpo J=E4rvinen wrote:
+> > > On Mon, 17 Apr 2023, Babu Moger wrote:
+> > >
+> > >> Add the debug files to the resctrl hierarchy.
+> > >>
+> > >> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> > >> ---
+> > >>  arch/x86/kernel/cpu/resctrl/internal.h |    1 +
+> > >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   54
+> +++++++++++++++++++++++++++++++-
+> > >>  2 files changed, 54 insertions(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h
+> > >> b/arch/x86/kernel/cpu/resctrl/internal.h
+> > >> index 1eac07ebc31b..855109abb480 100644
+> > >> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> > >> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> > >> @@ -288,6 +288,7 @@ struct rdtgroup {
+> > >>  #define RFTYPE_TOP			BIT(4)
+> > >>  #define RFTYPE_RES_CACHE		BIT(5)
+> > >>  #define RFTYPE_RES_MB			BIT(6)
+> > >> +#define RFTYPE_DEBUG			BIT(7)
+> > >>  #define RFTYPE_CTRL_INFO		(RFTYPE_INFO |
+> RFTYPE_CTRL)
+> > >>  #define RFTYPE_MON_INFO			(RFTYPE_INFO |
+> RFTYPE_MON)
+> > >>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO |
+> RFTYPE_TOP)
+> > >> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > >> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > >> index 15ded0dd5b09..1ec4359348c2 100644
+> > >> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > >> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > >> @@ -1880,6 +1880,7 @@ static struct rftype res_common_files[] =3D {
+> > >>  		.mode		=3D 0444,
+> > >>  		.kf_ops		=3D &rdtgroup_kf_single_ops,
+> > >>  		.seq_show	=3D rdtgroup_rmid_show,
+> > >> +		.fflags		=3D RFTYPE_BASE | RFTYPE_DEBUG,
+> > >>  	},
+> > >>  	{
+> > >>  		.name		=3D "schemata",
+> > >> @@ -1909,6 +1910,7 @@ static struct rftype res_common_files[] =3D {
+> > >>  		.mode		=3D 0444,
+> > >>  		.kf_ops		=3D &rdtgroup_kf_single_ops,
+> > >>  		.seq_show	=3D rdtgroup_closid_show,
+> > >> +		.fflags		=3D RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
+> > >>  	},
+> > >>
+> > >>  };
+> > >> @@ -2420,6 +2422,49 @@ static int mkdir_mondata_all(struct
+> kernfs_node *parent_kn,
+> > >>  			     struct rdtgroup *prgrp,
+> > >>  			     struct kernfs_node **mon_data_kn);
+> > >>
+> > >> +static void resctrl_add_debug_files(void) {
+> > >> +	struct rftype *rfts, *rft;
+> > >> +	int len;
+> > >> +
+> > >> +	rfts =3D res_common_files;
+> > >> +	len =3D ARRAY_SIZE(res_common_files);
+> > >> +
+> > >> +	lockdep_assert_held(&rdtgroup_mutex);
+> > >> +
+> > >> +	for (rft =3D rfts; rft < rfts + len; rft++) {
+> > >> +		if (rft->fflags & RFTYPE_DEBUG) {
+> > >> +			rft->fflags &=3D ~RFTYPE_DEBUG;
+> > >
+> > > I don't fully follow why you need to play with ->fflags like this.
+> > >
+> > > Is it for the ->fflags test in rdtgroup_add_files()? Can't you just
+> > > do some extra masking there for RFTYPE_DEBUG based on resctrl_debug
+> > > which you already keep?
+> >
+> > Actually with this change, I can remove all these tricks here.
+> > I don't have to change the check "if (rft->fflags && ((fflags &
+> > rft->fflags) =3D=3D rft->fflags)) {"
+> >
+> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > index 1ec4359348c2..b560c44817bb 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > @@ -1925,6 +1925,9 @@ static int rdtgroup_add_files(struct kernfs_node
+> > *kn, unsigned long fflags)
+> >
+> >         lockdep_assert_held(&rdtgroup_mutex);
+> >
+> > +       if (resctrl_debug)
+> > +               fflags |=3D RFTYPE_DEBUG;
+>=20
+> Yes, looks good.
+>=20
+> It matches to the idea I had in my mind but doesn't require putting it in=
+to the if
+> condition itself.
+Without if condition?  How?  Let me know.
+Thanks
+Babu
