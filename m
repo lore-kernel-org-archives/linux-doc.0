@@ -2,141 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C04DC77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 12:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51034C7618E
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 12:18:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbjDUL7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 07:59:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
+        id S229792AbjDUMSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 08:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231519AbjDUL7R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 07:59:17 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42B923585;
-        Fri, 21 Apr 2023 04:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682078355; x=1713614355;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=GlskIVbpC/T4dBmlRS8eqI09qaAdrtmiII1F3Y+p6K0=;
-  b=UnbW9gNe5H8MndovTbl7rDYiaWTOH8O0G9VmZtLL+TkBmzqj8q1uWZvG
-   726fynghcl4VvEZgUXgonSFNMgOkbE64VHR4UAnAWi612XG1H0BQbAiyP
-   U2BpesfzjM58OzKeL7XhCG9t5x5Fbg/UQjz6LKEtt8sdv7SPOPrHuX6tb
-   THM7CcKdb4AlyoBPrxNtGNea36CZ79qgn8irAWjj6+fZus9Nw5S+E+6RS
-   nUZhq8XdMzeHF9ya4eDbpzlqdiQhyA7CpaOip9P4AfWygMZNnKoqiNfMc
-   PD6zS3WF2A6LH0ixhkG8PglUbi9nTiOdurZfY6DvJDy92IWzyQio46vh8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="345994919"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="345994919"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 04:59:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="938458823"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="938458823"
-Received: from vhavelx-mobl2.ger.corp.intel.com (HELO [10.213.192.37]) ([10.213.192.37])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 04:59:10 -0700
-Message-ID: <e16dc626-30bf-be19-8668-bdc14dfd051a@linux.intel.com>
-Date:   Fri, 21 Apr 2023 12:59:09 +0100
+        with ESMTP id S231802AbjDUMR7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 08:17:59 -0400
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD5A38A46;
+        Fri, 21 Apr 2023 05:17:57 -0700 (PDT)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-555f0997639so1999637b3.0;
+        Fri, 21 Apr 2023 05:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682079477; x=1684671477;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PHRVcnws9JLHYb2wrhNrf1jZ5IsjgkEFjyMKPY6FWck=;
+        b=rviAZLkZIV57HNRn+L1+3Dd2eKzJHk7dyKa6l6w+g1oAPe4m1MFkhXteATOMJb2btt
+         Cb/Jr1m00wKeqUM8vt2yOSESakT6DNaUudhpNmkEkAufqEq+mcgEquZ0ZFHKK/zsbotF
+         3GQpLFyJiOv4fM/Erc9+mRJXnvbm6+HHtzeMHqgP8wVQicqZEaggfbzoeXvWaeisrgc9
+         +2/soSCmvBY0SYMKEEsOEBi6rXuoqpveqnsJNs5ZJksBZmXQTNh0Iet62EJKT+2OGFW6
+         l6MnT1MYIgGrg05Y0yqtMeEP2s8wmfs19pSUs3MKigfO8uSrGEi+65aat7kp/ZivcnD6
+         S1+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682079477; x=1684671477;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PHRVcnws9JLHYb2wrhNrf1jZ5IsjgkEFjyMKPY6FWck=;
+        b=Hrp492agKjUIWzTKcAQsmxDezTQZzYJLcy6U+oowkqJUKBuWqFo1JFfvGBbUdAUOm5
+         83s3wCPpv/EYaKUmK2m50A5pvVPar8Xus7uSkyc8KOSrXH6bGN981zsOOFpyuYkId64D
+         IaOS9aHcLcsA4A3RvszrkE/CN4kvXkIGRPpcWMx6zFjGyhIfYataqvap/cfTZ5/vaZz2
+         CPLpV0l5Bb9Taw5MMULTip/pyIi9el6qIam2FuzhunIHcdlSqqc6yPZ5W6gYKEhPc2yc
+         ZpPKUn0X8T64GIBxvuf5zeZBsO40lxUMIhd/WeNmO5HBoZtpIVFaTUcdJOjNFpyX7FrZ
+         DytQ==
+X-Gm-Message-State: AAQBX9fX3llza+IvA2RrAuPAtOtxal4UweEQuBIw1AV3MOqqbvr+O1d/
+        x7YuFpLXQLu5fWng1cvgkfYTj7LWMNSjVHyEn70=
+X-Google-Smtp-Source: AKy350YRasU3Zk7MW/yw6YHwoAeIthS7e/jQyPasXKsvsAp+v5Ko4XsCvFg7t4DmatytjcDgKmc52dVbLHLv0r+m3yA=
+X-Received: by 2002:a81:1710:0:b0:53c:70c5:45d2 with SMTP id
+ 16-20020a811710000000b0053c70c545d2mr3252193ywx.0.1682079476830; Fri, 21 Apr
+ 2023 05:17:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 5/6] drm: Add fdinfo memory stats
-Content-Language: en-US
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Christopher Healy <healych@amazon.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Clark <robdclark@chromium.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
+References: <20230406130205.49996-2-kal.conley@dectris.com>
+ <87sfdckgaa.fsf@toke.dk> <ZDBEng1KEEG5lOA6@boxer> <CAHApi-nuD7iSY7fGPeMYiNf8YX3dG27tJx1=n8b_i=ZQdZGZbw@mail.gmail.com>
+ <875ya12phx.fsf@toke.dk> <CAHApi-=rMHt7uR8Sw1Vw+MHDrtkyt=jSvTvwz8XKV7SEb01CmQ@mail.gmail.com>
+ <87ile011kz.fsf@toke.dk> <CAHApi-=ODe-WtJ=m6bycQhKoQxb+kk2Yk9Fx5SgBsWUuWT_u-A@mail.gmail.com>
+ <874jpdwl45.fsf@toke.dk> <CAHApi-kcaMRPj4mEPs87_4Z6iO5qEpzOOcbVza7vxURqCtpz=Q@mail.gmail.com>
+ <ZEJZYa8WT6A9VpOJ@boxer>
+In-Reply-To: <ZEJZYa8WT6A9VpOJ@boxer>
+From:   Magnus Karlsson <magnus.karlsson@gmail.com>
+Date:   Fri, 21 Apr 2023 14:17:45 +0200
+Message-ID: <CAJ8uoz39jty9S+=Wjh6RuOseZOjCe3oO1mAHEBGbmT3CA5sHiA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/3] xsk: Support UMEM chunk_size > PAGE_SIZE
+To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc:     Kal Cutter Conley <kal.conley@dectris.com>,
+        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230412224311.23511-1-robdclark@gmail.com>
- <20230412224311.23511-6-robdclark@gmail.com>
- <CACvgo525ogS4LSZDUyaqjSqjJWj=qLRkphji5469=3obFXoMrQ@mail.gmail.com>
- <f2a423c2-302a-024a-cf65-199f4be6caec@linux.intel.com>
- <CACvgo53dP03r1BuxntyyoYjua5k6XPvVhu4iTGqXJq31UMUgxg@mail.gmail.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CACvgo53dP03r1BuxntyyoYjua5k6XPvVhu4iTGqXJq31UMUgxg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 21 Apr 2023 at 11:44, Maciej Fijalkowski
+<maciej.fijalkowski@intel.com> wrote:
+>
+> On Tue, Apr 18, 2023 at 01:12:00PM +0200, Kal Cutter Conley wrote:
+>
+> Hi there,
+>
+> > > >> In addition, presumably when using this mode, the other XDP actions
+> > > >> (XDP_PASS, XDP_REDIRECT to other targets) would stop working unless we
+> > > >> add special handling for that in the kernel? We'll definitely need to
+> > > >> handle that somehow...
+> > > >
+> > > > I am not familiar with all the details here. Do you know a reason why
+> > > > these cases would stop working / why special handling would be needed?
+> > > > For example, if I have a UMEM that uses hugepages and XDP_PASS is
+> > > > returned, then the data is just copied into an SKB right? SKBs can
+> > > > also be created directly from hugepages AFAIK. So I don't understand
+> > > > what the issue would be. Can someone explain this concern?
+> > >
+> > > Well, I was asking :) It may well be that the SKB path just works; did
+> > > you test this? Pretty sure XDP_REDIRECT to another device won't, though?
+>
+> for XDP_PASS we have to allocate a new buffer and copy the contents from
+> current xdp_buff that was backed by xsk_buff_pool and give the current one
+> back to pool. I am not sure if __napi_alloc_skb() is always capable of
+> handling len > PAGE_SIZE - i believe there might a particular combination
+> of settings that allows it, but if not we should have a fallback path that
+> would iterate over data and copy this to a certain (linear + frags) parts.
+> This implies non-zero effort that is needed for jumbo frames ZC support.
 
-On 21/04/2023 12:45, Emil Velikov wrote:
-> On Fri, 21 Apr 2023 at 12:23, Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
-> 
->> On 21/04/2023 11:26, Emil Velikov wrote:
->>> On Wed, 12 Apr 2023 at 23:43, Rob Clark <robdclark@gmail.com> wrote:
->>>
->>>> +/**
->>>> + * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
->>>> + * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
->>>> + * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
->>>> + *
->>>> + * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
->>>> + * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_PURGEABLE if
->>>> + * it still active or not resident, in which case drm_show_fdinfo() will not
->>>
->>> nit: s/can/can be/;s/if it still/if it is still/
->>>
->>>> + * account for it as purgeable.  So drivers do not need to check if the buffer
->>>> + * is idle and resident to return this bit.  (Ie. userspace can mark a buffer
->>>> + * as purgeable even while it is still busy on the GPU.. it does not _actually_
->>>> + * become puregeable until it becomes idle.  The status gem object func does
->>>
->>> nit: s/puregeable/purgeable/
->>>
->>>
->>> I think we want a similar note in the drm-usage-stats.rst file.
->>>
->>> With the above the whole series is:
->>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
->>
->> Have you maybe noticed my slightly alternative proposal? (*) I am not a
->> fan of putting this flavour of accounting into the core with no way to
->> opt out. I think it leaves no option but to add more keys in the future
->> for any driver which will not be happy with the core accounting.
->>
->> *) https://patchwork.freedesktop.org/series/116581/
->>
-> 
-> Indeed I saw it. Not a fan of it, I'm afraid.
+Thinking aloud, could not our multi-buffer work help with this? Sounds
+quite similar to operations that we have to do in that patch set. And
+if so, would it not be prudent to get the multi-buffer support in
+there first, then implement these things on top of that? What do you
+think?
 
-Hard to guess the reasons. :)
-
-Anyway, at a minimum I suggest that if the no opt out version has to go 
-in, it is clearly documented drm-*-memory-* is *not* about the full 
-memory use of the client, but about memory belonging to user visible 
-buffer objects *only*. Possibly going as far as naming the keys as 
-drm-user-bo-memory-... That way there is a way to implement proper 
-drm-*-memory- in the future.
-
-Regards,
-
-Tvrtko
-
->>> Fwiw: Keeping the i915 patch as part of this series would be great.
->>> Sure i915_drm_client->id becomes dead code, but it's a piece one can
->>> live with for a release or two. Then again it's not my call to make.
->>
->> Rob can take the i915 patch from my RFC too.
->>
-> 
-> Indeed.
-> 
-> -Emil
+> I can certainly test this out and play with it - maybe this just works, I
+> didn't check yet. Even if it does, then we need some kind of temporary
+> mechanism that will forbid loading ZC jumbo frames due to what Toke
+> brought up.
+>
+> > >
+> >
+> > I was also asking :-)
+> >
+> > I tested that the SKB path is usable today with this patch.
+> > Specifically, sending and receiving large jumbo packets with AF_XDP
+> > and that a non-multi-buffer XDP program could access the whole packet.
+> > I have not specifically tested XDP_REDIRECT to another device or
+> > anything with ZC since that is not possible without driver support.
+> >
+> > My feeling is, there wouldn't be non-trivial issues here since this
+> > patchset changes nothing except allowing the maximum chunk size to be
+> > larger. The driver either supports larger MTUs with XDP enabled or it
+> > doesn't. If it doesn't, the frames are dropped anyway. Also, chunk
+> > size mismatches between two XSKs (e.g. with XDP_REDIRECT) would be
+> > something supported or not supported irrespective of this patchset.
+>
+> Here is the comparison between multi-buffer and jumbo frames that I did
+> for ZC ice driver. Configured MTU was 8192 as this is the frame size for
+> aligned mode when working with huge pages. I am presenting plain numbers
+> over here from xdpsock.
+>
+> Mbuf, packet size = 8192 - XDP_PACKET_HEADROOM
+> 885,705pps - rxdrop frame_size=4096
+> 806,307pps - l2fwd frame_size=4096
+> 877,989pps - rxdrop frame_size=2048
+> 773,331pps - l2fwd frame_size=2048
+>
+> Jumbo, packet size = 8192 - XDP_PACKET_HEADROOM
+> 893,530pps - rxdrop frame_size=8192
+> 841,860pps - l2fwd frame_size=8192
+>
+> Kal might say that multi-buffer numbers are imaginary as these patches
+> were never shown to the public ;) but now that we have extensive test
+> suite I am fixing some last issues that stand out, so we are asking for
+> some more patience over here... overall i was expecting that they will be
+> much worse when compared to jumbo frames, but then again i believe this
+> implementation is not ideal and can be improved. Nevertheless, jumbo
+> frames support has its value.
