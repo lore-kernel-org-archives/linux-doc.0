@@ -2,167 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EEC1C77B71
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 14:50:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0788EC77B71
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 14:58:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232495AbjDUOuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 10:50:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34318 "EHLO
+        id S233086AbjDUO64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 10:58:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232389AbjDUOuh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 10:50:37 -0400
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB161AB;
-        Fri, 21 Apr 2023 07:50:35 -0700 (PDT)
-Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-547299bf5d8so1300691eaf.3;
-        Fri, 21 Apr 2023 07:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682088635; x=1684680635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uRjexQPiKz+B2BoQne8GUJoVgOLR1S5xgnBzy2+vwS4=;
-        b=S7tpiJ76bxam24ay+dcwU+lkgG2ZoXHiFLIxoeyfj0+byI5iBcx2l450tz/2E9W8Wv
-         b2h1L2cKiG0giw0hS0j98+cO3L366V7krcddHCwHkASJvfLpeM1FNBX29DeFzKVh3G34
-         a7b/LCvTbz5lb1xvsNRe1aDyrIZsxnCXKJpbsDu6xDE9mCJT3BNOINWuQIRouVYItqSR
-         kFKqhN1jMPp49WdARMC+fHrYBKjrrzAV2Ur6+K8MVn5ogGN8b/LAW60v9wpnfwGVi2ch
-         BDETaur+SB248K1SD7jdeJlFEBGJj7fplxuO+978tWeU85YbmzhZcOSHTvnuH1lmYFI5
-         6H7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682088635; x=1684680635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uRjexQPiKz+B2BoQne8GUJoVgOLR1S5xgnBzy2+vwS4=;
-        b=DpzCDc+dPQlpOl8U2fgfMG5fi5BoJWTnD3ZGXE22Of6jBsJR7tDyFa8atkGAP8lIcO
-         FLfzVJG86vk9lQp7ydJl7A3VYJ++VBV+VSI4jPxoqKO59AcreqNLyc+rGfH5lT/RHkYU
-         uZ2Isnb5SFM/iI4eogJp5aVLu4iG4ckBGaxV+5mwCLCC/X/lHowvi5V1BI9xPOr2O6YP
-         jZjdXSexHnNv2RJD7N2iXn9yrYmKlEW1HhO22+LaRjY3d3gDisa3KH5ADxLOBBOzqio5
-         X3nJvMtSaEhnAr2XsLPz2jMSWrrEp8Vh9WutYtcRwa9nr19QkO/UzJ3p/7G7yKXJ6nTW
-         sp1g==
-X-Gm-Message-State: AAQBX9fdAJwQs0zcAn7yb1b2tUlUs/EFfDlcANpFR0ghVGF2c1XNoujB
-        Oe0Cio3E5wRZrDECoQ+MLZvbaIGfKwFB8ta/ubE=
-X-Google-Smtp-Source: AKy350bmODRxJ669T9aGlnSwZYMJcgHKiq97d08P1iIzkniXSqIQpuU4ytOyTsxnikkTRNNNv7oGLN7hwliarNBmLVQ=
-X-Received: by 2002:a05:6808:f03:b0:38d:ef77:d720 with SMTP id
- m3-20020a0568080f0300b0038def77d720mr3059404oiw.52.1682088635133; Fri, 21 Apr
- 2023 07:50:35 -0700 (PDT)
+        with ESMTP id S233151AbjDUO6h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 10:58:37 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E0C3514F60;
+        Fri, 21 Apr 2023 07:58:27 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C877D1480;
+        Fri, 21 Apr 2023 07:59:10 -0700 (PDT)
+Received: from [10.57.23.51] (unknown [10.57.23.51])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8010A3F6C4;
+        Fri, 21 Apr 2023 07:58:24 -0700 (PDT)
+Message-ID: <4bd8ce51-5874-0aa3-bc82-fec0cee9b8f1@arm.com>
+Date:   Fri, 21 Apr 2023 15:58:18 +0100
 MIME-Version: 1.0
-References: <20230412224311.23511-1-robdclark@gmail.com> <20230412224311.23511-6-robdclark@gmail.com>
- <CACvgo525ogS4LSZDUyaqjSqjJWj=qLRkphji5469=3obFXoMrQ@mail.gmail.com>
- <f2a423c2-302a-024a-cf65-199f4be6caec@linux.intel.com> <CACvgo53dP03r1BuxntyyoYjua5k6XPvVhu4iTGqXJq31UMUgxg@mail.gmail.com>
- <e16dc626-30bf-be19-8668-bdc14dfd051a@linux.intel.com>
-In-Reply-To: <e16dc626-30bf-be19-8668-bdc14dfd051a@linux.intel.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 21 Apr 2023 07:50:24 -0700
-Message-ID: <CAF6AEGv1B3gzM5sazA5kaPbU29aP-njygx-nOnsVjip1ZwERLg@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] drm: Add fdinfo memory stats
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     Emil Velikov <emil.l.velikov@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Christopher Healy <healych@amazon.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Clark <robdclark@chromium.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce buffers
+Content-Language: en-GB
+To:     =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Alexander Graf <graf@amazon.com>
+References: <cover.1679309810.git.petr.tesarik.ext@huawei.com>
+ <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com>
+ <20230328040724.GB25506@lst.de>
+ <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
+ <8cf7c515-9ce6-a2ed-0643-972aa3eba2fb@huaweicloud.com>
+ <20230407055704.GD6803@lst.de> <20230407121555.4290a011@meshulam.tesarici.cz>
+ <20230421150349.35966e0b@meshulam.tesarici.cz>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230421150349.35966e0b@meshulam.tesarici.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 21, 2023 at 4:59=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 21/04/2023 12:45, Emil Velikov wrote:
-> > On Fri, 21 Apr 2023 at 12:23, Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >
-> >> On 21/04/2023 11:26, Emil Velikov wrote:
-> >>> On Wed, 12 Apr 2023 at 23:43, Rob Clark <robdclark@gmail.com> wrote:
-> >>>
-> >>>> +/**
-> >>>> + * enum drm_gem_object_status - bitmask of object state for fdinfo =
-reporting
-> >>>> + * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not =
-unpinned)
-> >>>> + * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspa=
-ce
-> >>>> + *
-> >>>> + * Bitmask of status used for fdinfo memory stats, see &drm_gem_obj=
-ect_funcs.status
-> >>>> + * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_P=
-URGEABLE if
-> >>>> + * it still active or not resident, in which case drm_show_fdinfo()=
- will not
-> >>>
-> >>> nit: s/can/can be/;s/if it still/if it is still/
-> >>>
-> >>>> + * account for it as purgeable.  So drivers do not need to check if=
- the buffer
-> >>>> + * is idle and resident to return this bit.  (Ie. userspace can mar=
-k a buffer
-> >>>> + * as purgeable even while it is still busy on the GPU.. it does no=
-t _actually_
-> >>>> + * become puregeable until it becomes idle.  The status gem object =
-func does
-> >>>
-> >>> nit: s/puregeable/purgeable/
-> >>>
-> >>>
-> >>> I think we want a similar note in the drm-usage-stats.rst file.
-> >>>
-> >>> With the above the whole series is:
-> >>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> >>
-> >> Have you maybe noticed my slightly alternative proposal? (*) I am not =
-a
-> >> fan of putting this flavour of accounting into the core with no way to
-> >> opt out. I think it leaves no option but to add more keys in the futur=
-e
-> >> for any driver which will not be happy with the core accounting.
-> >>
-> >> *) https://patchwork.freedesktop.org/series/116581/
-> >>
-> >
-> > Indeed I saw it. Not a fan of it, I'm afraid.
->
-> Hard to guess the reasons. :)
->
-> Anyway, at a minimum I suggest that if the no opt out version has to go
-> in, it is clearly documented drm-*-memory-* is *not* about the full
-> memory use of the client, but about memory belonging to user visible
-> buffer objects *only*. Possibly going as far as naming the keys as
-> drm-user-bo-memory-... That way there is a way to implement proper
-> drm-*-memory- in the future.
+On 2023-04-21 14:03, Petr Tesařík wrote:
+> Hi Christoph!
+> 
+> I'd like to follow up on this sub-thread:
+> 
+> On Fri, 7 Apr 2023 12:15:55 +0200
+> Petr Tesařík <petr@tesarici.cz> wroe:
+> 
+>> On Fri, 7 Apr 2023 07:57:04 +0200
+>> Christoph Hellwig <hch@lst.de> wrote:
+>> [...]
+>>> (Btw, in case anyone is interested, we really need to get started
+>>> on moving the dma fields out of struct device into a sub-struct
+>>> only allocated for DMA capable busses)
+>>
+>> I like this idea. In fact, my WIP topic branch now moves the swiotlb
+>> fields into a separate struct,
+> 
+> As you have noticed, I have removed that commit again in v2.
+> 
+> The reason is that I'm not sure about the intended goal. I have looked
+> around for examples of moving fields out of struct device and found
+> different approaches:
+> 
+> A. struct dev_msi_info
+>     The MSI fields are merely grouped in a separate struct, which is
+>     defined in device.h and embedded in struct device. I don't see much
+>     benefit.
+> 
+> B. struct dev_pm_info
+>     This struct is also embedded in struct device, but it is defined in
+>     <linux/pm.h>, which is mentioned in MAINTAINERS. The benefit is that
+>     further changes are reviewed by this maintainer. The downside is
+>     that device.h includes pm.h.
+> 
+> C. struct dev_pin_info
+>     This struct is merely declared in device.h and defined
+>     pinctrl/devinfo.h (which is not included). Only a pointer to this
+>     struct is stored in struct device. Of course, the pointer must be
+>     initialized (and released) somehow.
+> 
+> Here my question: What did you want for DMA fields?
+> 
+> A. Only grouping those fields in their own struct?
+> B. Or move the definition to another include file (cf. MAINTAINERS)?
+> C. Or store a pointer in struct device?
 
-I'll go back to the helper approach, just been distracted by a few
-other balls in the air.. should hopefully get to it in the next couple
-days
+dev->dma_parms is already this, and IIRC still has some very old 
+comments somewhere about consolidating the other DMA-related fields in 
+there.
 
-BR,
--R
+> Since you mentioned "allocated", it sounds like you want to achieve C,
+> but:
+> 
+> 1. Is it worth the extra dereference for every use?
+> 2. How should the struct be allocated? Presumably not with kmalloc() in
+>     device_initialize(), because I don't know how to determine if a
+>     device is DMA capable this low in the call stack. So, should it be
+>     allocated together with the containing structure? AFAICS this would
+>     mean changing nearly all device drivers...
 
-> Regards,
->
-> Tvrtko
->
-> >>> Fwiw: Keeping the i915 patch as part of this series would be great.
-> >>> Sure i915_drm_client->id becomes dead code, but it's a piece one can
-> >>> live with for a release or two. Then again it's not my call to make.
-> >>
-> >> Rob can take the i915 patch from my RFC too.
-> >>
-> >
-> > Indeed.
-> >
-> > -Emil
+The bus code knows whether it's a DMA-capable bus or not, and as such 
+should already be providing a .dma_configure method and/or performing 
+some initialisation of DMA fields. Many of the ones that would need to 
+are already providing dma_parms, in fact.
+
+Thanks,
+Robin.
+
+> 
+> As you can see, I need some more guidance from you before I can start
+> working on this. ;-)
+> 
+> Petr T
