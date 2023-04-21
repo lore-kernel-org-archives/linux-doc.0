@@ -2,107 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F1BDC77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 10:27:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDFEC77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Apr 2023 10:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231261AbjDUK1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 06:27:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59576 "EHLO
+        id S230335AbjDUKqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 06:46:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjDUK1I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 06:27:08 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF82E63;
-        Fri, 21 Apr 2023 03:27:07 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-552d64d1d2eso17556727b3.1;
-        Fri, 21 Apr 2023 03:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682072827; x=1684664827;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1jDlW0W3MhjA8VbvOr9JFFYadMRZj0oB2XjEN8u/ZQs=;
-        b=Jq29MVaVXQLS7/50058udG92P2tJ0UekckHnIlgksme797+yXQe/r1AZ4lHs6wJmM3
-         68UCR52u1/x0QZPBwDYQC/+6TpzG3a8XR8OnW+Usfo6Lna4M1f7uF7w9BeRa1aD06cMl
-         zGL9krAi1vZ3U5UyV+Dl4j5XfFhrXqTgk/dPt3WpF1wqAXu44UUqaWLHNcjgV8b3zGjU
-         dutK14XNfjEG+u2galkQfJXW/wAtUUJeqXrDXCeEVrEdt33M8X4iB/PsrMPsSqmyizi5
-         xGCiDATgeh9PHT84RlBa7BJERI6ne2eFDP3lBcKxKS1LVBKsCtxb2+PJ0gnXGCFR8QLp
-         pBmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682072827; x=1684664827;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1jDlW0W3MhjA8VbvOr9JFFYadMRZj0oB2XjEN8u/ZQs=;
-        b=KLABm/XCsEGu28leMiOFFn3eYtWTTf5JGXJSebveygdRwMcD/A4EciKXTZ0uuYIIn/
-         1Zqdkf69Z0E6g3W/cjw+wFhounEXWG+9/MrFiQUEaEZoZjvFQTIYi/EcU/v11Er0T0rX
-         XJVSZm6d7JP0BzvhxmVttmWOBhTNVUt7imBEAmeqlZ5JOTRVAf4CNFVWlx8BpnYsBIs6
-         cps16XtuhCP2pD1X0cdzfKf1j8G78+ruHmIqDRc7hYxAqmM1WW9sNSBJGm40j5Z5IMPB
-         VMugrV1FH13bb2c/30ZxraY9/+tg8O/6urX2luZjT9QTmcmM/YyomvHZC3ghkaWJtZyj
-         uIMw==
-X-Gm-Message-State: AAQBX9fmdLbpDvP3aZYSmZQYiFailEz6RUPLn6SD3He3f214JmemTTMp
-        B65X6RgwLAYmB7mwOEJuDoT1a4rMC51NNADEMVZlhC7Xd1JjoO3I
-X-Google-Smtp-Source: AKy350Z7RE8rSiaLK/lDI02fKHY8C/Hkm8qnkU6IUdScLzIa6Hrc+QXATCBAVcaBw4SmzH5UZ0SVAeWWaxXJZEHiMro=
-X-Received: by 2002:a81:6fd5:0:b0:541:6d79:9291 with SMTP id
- k204-20020a816fd5000000b005416d799291mr1599574ywc.43.1682072827166; Fri, 21
- Apr 2023 03:27:07 -0700 (PDT)
+        with ESMTP id S229818AbjDUKqa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 06:46:30 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B9E83FC;
+        Fri, 21 Apr 2023 03:46:28 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 11EA96602040;
+        Fri, 21 Apr 2023 11:46:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1682073986;
+        bh=xy1oqjU5V/MfMlLIxJBwQthAmE3+07DxTdM+2r5CRK4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Jjamna4sOjLQkH1nkuIHUE36adS3B1KZwwMxTmygRn+u3/pxkEYo1F5PkmJVw4239
+         wJ2unj8E4sgzv5F/dTBIm4We4BM1YRFVftcf1/unkDQWK2Gd8rlwkOk9isIcl8ZU4K
+         u3XVV6sZQ+x6LNMVcVXbvfWEV7n0cWBzE/lFdNDolnKXKo1R0RgZY1KEKNYJjymDZe
+         1pjNjYuBEHtQJtRZME2qyikHAFFiWNiovamiotKiNxWQ1hFWpN/6yOaGatSU0+IjMt
+         oBZ1VO0ap3BM0VFBCdynQBNuj87otIdpOiix9tBW/8hGrk0GbKGltZP8Kp2AIPgw2M
+         F57uTnKdV+DXQ==
+Date:   Fri, 21 Apr 2023 12:46:22 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+        donald.robson@imgtec.com
+Subject: Re: [PATCH drm-next v3 04/15] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230421124622.6386cd60@collabora.com>
+In-Reply-To: <20230404012741.116502-5-dakr@redhat.com>
+References: <20230404012741.116502-1-dakr@redhat.com>
+        <20230404012741.116502-5-dakr@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230412224311.23511-1-robdclark@gmail.com> <20230412224311.23511-6-robdclark@gmail.com>
-In-Reply-To: <20230412224311.23511-6-robdclark@gmail.com>
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Fri, 21 Apr 2023 11:26:55 +0100
-Message-ID: <CACvgo525ogS4LSZDUyaqjSqjJWj=qLRkphji5469=3obFXoMrQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] drm: Add fdinfo memory stats
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Christopher Healy <healych@amazon.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Clark <robdclark@chromium.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 12 Apr 2023 at 23:43, Rob Clark <robdclark@gmail.com> wrote:
+On Tue,  4 Apr 2023 03:27:30 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
 > +/**
-> + * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
-> + * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
-> + * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
+> + * drm_gpuva_prealloc_create - creates a preallocated node to store a
+> + * &drm_gpuva entry.
 > + *
-> + * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
-> + * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_PURGEABLE if
-> + * it still active or not resident, in which case drm_show_fdinfo() will not
+> + * Returns: the &drm_gpuva_prealloc object on success, NULL on failure
+> + */
+> +struct drm_gpuva_prealloc *
+> +drm_gpuva_prealloc_create(void)
+> +{
+> +	struct drm_gpuva_prealloc *pa;
+> +
+> +	pa = kzalloc(sizeof(*pa), GFP_KERNEL);
+> +	if (!pa)
+> +		return NULL;
+> +
+> +	if (mas_preallocate(&pa->mas, GFP_KERNEL)) {
 
-nit: s/can/can be/;s/if it still/if it is still/
+mas_preallocate() needs a valid tree field to calculate the number
+of nodes to pre-allocate. I guess we're missing a MA_STATE_INIT() here,
+and we need to pass a gpuva_mgr object to this helper.
 
-> + * account for it as purgeable.  So drivers do not need to check if the buffer
-> + * is idle and resident to return this bit.  (Ie. userspace can mark a buffer
-> + * as purgeable even while it is still busy on the GPU.. it does not _actually_
-> + * become puregeable until it becomes idle.  The status gem object func does
-
-nit: s/puregeable/purgeable/
-
-
-I think we want a similar note in the drm-usage-stats.rst file.
-
-With the above the whole series is:
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-
-Fwiw: Keeping the i915 patch as part of this series would be great.
-Sure i915_drm_client->id becomes dead code, but it's a piece one can
-live with for a release or two. Then again it's not my call to make.
-
-HTH
-Emil
+> +		kfree(pa);
+> +		return NULL;
+> +	}
+> +
+> +	return pa;
+> +}
+> +EXPORT_SYMBOL(drm_gpuva_prealloc_create);
