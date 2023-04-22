@@ -2,117 +2,212 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F653C6FD18
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 07:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF345C77B78
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 07:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbjDVHCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Apr 2023 03:02:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34908 "EHLO
+        id S229575AbjDVHiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Apr 2023 03:38:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjDVHCW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Apr 2023 03:02:22 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED00E77;
-        Sat, 22 Apr 2023 00:02:20 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-506b2a08877so4176369a12.2;
-        Sat, 22 Apr 2023 00:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682146939; x=1684738939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QJug3HFwwM76eXtI/ZybFRMLVPjmd4+EsYAZDkR3Svc=;
-        b=lmyF6Sny0Ee4vR1YKrh+LsX4kbjs57R0D6Dis5iMQyJRizAgaXBKzng6zok6xJGRQa
-         oWhniLhC10eeEXu02sFgOWgHqNlSIdmFi7CVjMGPENWjBeg/NRZDKc7RbTmS0Rqgr98+
-         jT06lAomWeU1hd4mQedfvpt2tVjh1cLyQ49uYKZf5bou8EuYoa9a+KGk4631MGo81Q7E
-         vcnXi52WeqqnDAZdL+sXyHJUjzL++C/sI1mFjtyR1lKoZ1IPzVtYRDeVzrYJ9ruzOsW9
-         jEiFu+97NcTZPsBszU2Xa3osRO3zLXc0xFn1hg7hkMUpLZ9MOuZfsooMzf/hzinLKvA3
-         l5LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682146939; x=1684738939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QJug3HFwwM76eXtI/ZybFRMLVPjmd4+EsYAZDkR3Svc=;
-        b=kt3IBCq8Sygf9xj81OXat6LbiJQoUvLb361rQQzJJEFODDSeuQsh7lNEpc1vAIK+h9
-         hZ3UciGbhKhR0FuCYyIAcuPKAHdHzEMmeWnFiZBqKTA3DaJfI0G1mroXK3+j5AHfc2Ui
-         Zx4TxPW43Hz3Y0lmYfEJFjU6+S2c6c6KYQPHsNDW8sISNN1/OLt2vheZqtzK2q/KbYTU
-         5Qs5znnfs01f4ruETUzaJRby0nk5Qosxh1PlF0MvcL0A4Tl4nA0pCRG3Yr7NEPUnmvOT
-         D0vYd8q3ml/CB0RCiICWAogvOqrsORv4tESlr/zCLBhtGvZ56puYoVF1ZWjYxQIS0wRT
-         7eQg==
-X-Gm-Message-State: AAQBX9feEncf2butR4s7rAHpfzru0srz4wfZseMgNvgggQF0HFy+j0Mz
-        E7F/tJRRhtDYLdGk4VnrbN4=
-X-Google-Smtp-Source: AKy350Y8MzEpCSpS5sm68AXROV3Oy3lqZE1tHP/SiPTaj2HSXCKP5XLd96iOIzInN5hQ8QgIMmey7g==
-X-Received: by 2002:aa7:d713:0:b0:506:7385:9653 with SMTP id t19-20020aa7d713000000b0050673859653mr7039392edq.39.1682146938962;
-        Sat, 22 Apr 2023 00:02:18 -0700 (PDT)
-Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
-        by smtp.gmail.com with ESMTPSA id e9-20020a50fb89000000b00504ada6d718sm2534634edq.38.2023.04.22.00.02.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Apr 2023 00:02:17 -0700 (PDT)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Received: by eldamar.lan (Postfix, from userid 1000)
-        id 0A8ACBE2DE0; Sat, 22 Apr 2023 09:02:17 +0200 (CEST)
-Date:   Sat, 22 Apr 2023 09:02:17 +0200
-From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     stable <stable@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        with ESMTP id S229451AbjDVHiN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Apr 2023 03:38:13 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1931BD4;
+        Sat, 22 Apr 2023 00:38:07 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33M7a2hp005462;
+        Sat, 22 Apr 2023 07:37:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=SvleGGkVmvA21/UbjS6Lgcgdr8SdW8ozYHLKe1Ta1Ls=;
+ b=hvIBV/Ykv6e9pQSZAOs/HtLRyShwKnMN+6AaYRzCiXkVYYe35VBlC4ONoL8tNyAEIl3C
+ VY0/T5WdcBZ9OjBNWD1xzvx2PfEqbNj9g7rE6gKiS4h/YVimXyH6GTYvEVxyIRNExNQ4
+ kOEi0zGEGSnx0zZaWeHBFdaBG1nTIKJ+F5I/JGM9MR5ztvSelTKB66RRYSSBLb3ALmfI
+ +r7UfYjlu3DgsqDk3HtaGkamJpDg+g7X8X6QnFl2oQ4OPwh+lskUX8zF75Yuh6bR9t0S
+ 3iBd0fjkIYDxHT2u4crzNOxsdVWudzIvl5AfS+KJK5HRJ9Csz/nY3UscDv6BbdJs4rRp QA== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q48e1r5mn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 22 Apr 2023 07:37:53 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33M7bq5Z003864
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 22 Apr 2023 07:37:52 GMT
+Received: from hazha-gv.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Sat, 22 Apr 2023 00:37:46 -0700
+From:   Hao Zhang <quic_hazha@quicinc.com>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 stable-5.10.y stable-5.15.y] docs: futex: Fix
- kernel-doc references after code split-up preparation
-Message-ID: <ZEOGeVyvOx6/xypo@eldamar.lan>
-References: <20230421221741.1827866-1-carnil@debian.org>
- <bc5a2d13-4829-0c5a-837d-8842e16cd997@infradead.org>
+CC:     Hao Zhang <quic_hazha@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH v3 2/3] dt-bindings: arm: Add Coresight Dummy Trace
+Date:   Sat, 22 Apr 2023 15:37:13 +0800
+Message-ID: <20230422073714.38844-3-quic_hazha@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230422073714.38844-1-quic_hazha@quicinc.com>
+References: <20230422073714.38844-1-quic_hazha@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bc5a2d13-4829-0c5a-837d-8842e16cd997@infradead.org>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: JnabgeTynP75g-Kpp9ZRPX63LJhsIZDk
+X-Proofpoint-ORIG-GUID: JnabgeTynP75g-Kpp9ZRPX63LJhsIZDk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-21_08,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 adultscore=0 bulkscore=0
+ mlxlogscore=912 priorityscore=1501 mlxscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304220064
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
+Add new coresight-dummy.yaml file describing the bindings required
+to define coresight dummy trace in the device trees.
 
-On Fri, Apr 21, 2023 at 05:03:15PM -0700, Randy Dunlap wrote:
-> Please see https://lore.kernel.org/all/20211012135549.14451-1-andrealmeid@collabora.com/
-> 
-> Don't know what has happened to it though.  :(
+Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+---
+ .../bindings/arm/arm,coresight-dummy.yaml     | 101 ++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
 
-It was applied, as bc67f1c454fb ("docs: futex: Fix kernel-doc
-references") in 5.16-rc1. But 5.10.y and 5.15.y picked up from the
-refactoring only 77e52ae35463 ("futex: Move to kernel/futex/"). 
+diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+new file mode 100644
+index 000000000000..48d864aefaaa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+@@ -0,0 +1,101 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/arm/arm,coresight-dummy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ARM Coresight Dummy component
++
++description: |
++  Coresight Dummy Trace Module is for the specific devices that kernel
++  don't have permission to access or configure, e.g., CoreSight TPDMs
++  on Qualcomm platforms. So there need driver to register dummy devices
++  as Coresight devices. It may also be used to define components that
++  may not have any programming interfaces (e.g, static links), so that
++  paths can be established in the driver. Provide Coresight API for
++  dummy device operations, such as enabling and disabling dummy devices.
++  Build the Coresight path for dummy sink or dummy source for debugging.
++
++  The primary use case of the coresight dummy is to build path in kernel
++  side for dummy sink and dummy source.
++
++maintainers:
++  - Mao Jinlong <quic_jinlmao@quicinc.com>
++  - Tao Zhang <quic_taozha@quicinc.com>
++  - Hao Zhang <quic_hazha@quicinc.com>
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - arm,coresight-dummy-sink
++          - arm,coresight-dummy-source
++
++  out-ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port:
++        description: Output connection from the source to Coresight
++          Trace bus.
++        $ref: /schemas/graph.yaml#/properties/port
++
++  in-ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port:
++        description: Input connection from the Coresight Trace bus to
++          dummy sink, such as Embedded USB debugger(EUD).
++        $ref: /schemas/graph.yaml#/properties/port
++
++required:
++  - compatible
++
++if:
++  # If the compatible contains the below value
++  properties:
++    compatible:
++      contains:
++        const: arm,coresight-dummy-sink
++
++then:
++  required:
++    - in-ports
++
++else:
++  required:
++    - out-ports
++
++additionalProperties: false
++
++examples:
++  # Minimum dummy sink definition. Dummy sink connect to coresight replicator.
++  - |
++    sink {
++      compatible = "arm,coresight-dummy-sink";
++
++      in-ports {
++        port {
++          eud_in_replicator_swao: endpoint {
++            remote-endpoint = <&replicator_swao_out_eud>;
++          };
++        };
++      };
++    };
++
++  # Minimum dummy source definition. Dummy source connect to coresight funnel.
++  - |
++    source {
++      compatible = "arm,coresight-dummy-source";
++
++      out-ports {
++        port {
++          dummy_riscv_out_funnel_swao: endpoint {
++            remote-endpoint = <&funnel_swao_in_dummy_riscv>;
++          };
++        };
++      };
++    };
++
++...
+-- 
+2.17.1
 
-So this change is a specific backport of subset of it, to 5.10.y and
-5.15.y thus the commit message:
-
-> On 4/21/23 15:17, Salvatore Bonaccorso wrote:
-> > In upstream commit 77e52ae35463 ("futex: Move to kernel/futex/") the
-> > futex code from kernel/futex.c was moved into kernel/futex/core.c in
-> > preparation of the split-up of the implementation in various files.
-> > 
-> > Point kernel-doc references to the new files as otherwise the
-> > documentation shows errors on build:
-> > 
-> >     [...]
-> >     Error: Cannot open file ./kernel/futex.c
-> >     Error: Cannot open file ./kernel/futex.c
-> >     [...]
-> >     WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 3.4.3 -internal ./kernel/futex.c' failed with return code 2
-> > 
-> > There is no direct upstream commit for this change. It is made in
-> > analogy to commit bc67f1c454fb ("docs: futex: Fix kernel-doc
-> > references") applied as consequence of the restructuring of the futex
-> > code.
-
-Here pointing out explicitly that there is no (direct) upstream commit
-for it. 
-
-Hope this helps,
-
-Regards,
-Salvatore
