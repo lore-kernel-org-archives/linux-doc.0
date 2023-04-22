@@ -2,119 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0789C77B61
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 00:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7F8C77B76
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 02:28:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233819AbjDVADf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 20:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45762 "EHLO
+        id S229530AbjDVC2w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 22:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233765AbjDVADV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 20:03:21 -0400
+        with ESMTP id S229451AbjDVC2t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 22:28:49 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6265726B5;
-        Fri, 21 Apr 2023 17:03:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA66A2109;
+        Fri, 21 Apr 2023 19:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=38uIKrEkm/KHYjQ9Ld2WXvwa9CxwZa7VCqEcFp/aR3U=; b=B9ID0WJg5NwnBuxfJ/ItrM5eb0
-        wDirm9AZhAj6AcqEcFoinxIjZX1dnypg6RBnfcNTOldLtDU+Tbb2Y6xUC3dOOmEEtSyta56OTCX4P
-        L/JK+aaSRsEwS2giC6+bUg3wVxrfv94OG3K/XwlIZpsgB+K2mpbuUghA1Hd/4RnCGWgefxoy8CGka
-        j+rQyfPUpUZho0VRFLR7qnKy/O1RCq19JaNu+3X1n6ny1BfMYuUyWCcGTzI7pDGKxIn7/rnJSHooU
-        5YLkUBRwP095/yvt8k0diIj2e6mUQMhzLfbeIoqllvXm1yWitz4Ox8UCxsPY0qNQZmizIyVOBnl1g
-        0g/SHlmQ==;
+        bh=dStA0e+b1SYRzzHmgaCFWHkx9F8OF2AyMoR08H/BjKE=; b=aYr/TqY3YKOCT0wiQSBP9PTn1Q
+        CqDmOTuvfuoBWjWRWe48KGXzRZCFpK1iN0372q8noNvtvzPDIM4Voet2L/I5igPUhStYTpfFKDgcb
+        wHR+zJEDc17kgwxAp7TWdhl7gtmLwuNW2Pxfl4LvRGT2a7YfjVC+TKpH9eXRGezBr8L+T4bwfEHkI
+        d3bDx4Js1wyTS1SQG8h5D8UwSMHL8pJl9fVti/AYZlgdcKuI1CcLVsMVx9KlYnNSky7stIvHDgpA2
+        xwouw2fvE+tAMsgybep26Rf1FxViO+NDa5LhsjCOQnhks22f55SwkY/mGHCPH6RgjvxVHUgOpvGgf
+        moj5IHNQ==;
 Received: from [2601:1c2:980:9ec0::2764]
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pq0ii-00C7Mx-2a;
-        Sat, 22 Apr 2023 00:03:16 +0000
-Message-ID: <bc5a2d13-4829-0c5a-837d-8842e16cd997@infradead.org>
-Date:   Fri, 21 Apr 2023 17:03:15 -0700
+        id 1pq2zR-00CGC0-03;
+        Sat, 22 Apr 2023 02:28:41 +0000
+Message-ID: <3d151775-f72a-2261-2a2b-0a81214cca5c@infradead.org>
+Date:   Fri, 21 Apr 2023 19:28:34 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 stable-5.10.y stable-5.15.y] docs: futex: Fix
- kernel-doc references after code split-up preparation
+Subject: Re: [PATCH 4/4] platform/x86: wmi: Add device specific documentation
 Content-Language: en-US
-To:     Salvatore Bonaccorso <carnil@debian.org>,
-        stable <stable@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20230421221741.1827866-1-carnil@debian.org>
+To:     Armin Wolf <W_Armin@gmx.de>, hdegoede@redhat.com,
+        markgross@kernel.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230420233226.14561-1-W_Armin@gmx.de>
+ <20230420233226.14561-5-W_Armin@gmx.de>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230421221741.1827866-1-carnil@debian.org>
+In-Reply-To: <20230420233226.14561-5-W_Armin@gmx.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Please see https://lore.kernel.org/all/20211012135549.14451-1-andrealmeid@collabora.com/
+Hi,
 
-Don't know what has happened to it though.  :(
+On 4/20/23 16:32, Armin Wolf wrote:
+> diff --git a/Documentation/wmi/devices/wmi-bmof.rst b/Documentation/wmi/devices/wmi-bmof.rst
+> new file mode 100644
+> index 000000000000..b558fa46190c
+> --- /dev/null
+> +++ b/Documentation/wmi/devices/wmi-bmof.rst
+> @@ -0,0 +1,22 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +==============================
+> +WMI embedded Binary MOF driver
+> +==============================
+> +
 
+Please tell the reader what MOF means.
 
-On 4/21/23 15:17, Salvatore Bonaccorso wrote:
-> In upstream commit 77e52ae35463 ("futex: Move to kernel/futex/") the
-> futex code from kernel/futex.c was moved into kernel/futex/core.c in
-> preparation of the split-up of the implementation in various files.
-> 
-> Point kernel-doc references to the new files as otherwise the
-> documentation shows errors on build:
-> 
->     [...]
->     Error: Cannot open file ./kernel/futex.c
->     Error: Cannot open file ./kernel/futex.c
->     [...]
->     WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 3.4.3 -internal ./kernel/futex.c' failed with return code 2
-> 
-> There is no direct upstream commit for this change. It is made in
-> analogy to commit bc67f1c454fb ("docs: futex: Fix kernel-doc
-> references") applied as consequence of the restructuring of the futex
-> code.
-> 
-> Fixes: 77e52ae35463 ("futex: Move to kernel/futex/")
-> Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
-> ---
-> v1->v2:
->  - Fix typo in description about new target file for futex.c code
->  - Indent block with build log output
-> 
->  Documentation/kernel-hacking/locking.rst                    | 2 +-
->  Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-> index 6ed806e6061b..a6d89efede79 100644
-> --- a/Documentation/kernel-hacking/locking.rst
-> +++ b/Documentation/kernel-hacking/locking.rst
-> @@ -1358,7 +1358,7 @@ Mutex API reference
->  Futex API reference
->  ===================
->  
-> -.. kernel-doc:: kernel/futex.c
-> +.. kernel-doc:: kernel/futex/core.c
->     :internal:
->  
->  Further reading
-> diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-> index bf1acd6204ef..192ab8e28125 100644
-> --- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-> +++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-> @@ -1400,7 +1400,7 @@ Riferimento per l'API dei Mutex
->  Riferimento per l'API dei Futex
->  ===============================
->  
-> -.. kernel-doc:: kernel/futex.c
-> +.. kernel-doc:: kernel/futex/core.c
->     :internal:
->  
->  Approfondimenti
+It would be good in drivers/platform/x86/Kconfig also did that.
+
+> +Introduction
+> +============
+> +
+> +Many machines embed WMI Binary MOF metadata used to describe the details of their ACPI WMI interfaces.
+> +The data can be decoded with tools like `bmfdec <https://github.com/pali/bmfdec>`_ to obtain a
+> +human readable WMI interface description, which is useful for developing new WMI drivers.
+> +
+> +The Binary MOF data can be retrieved from the ``bmof`` sysfs attribute of the associated WMI device.
+> +Please note that multiple WMI devices containing Binary MOF data can exist on a given system.
+> +
+> +WMI interface
+> +=============
+> +
+> +The Binary MOF WMI device is identified by the WMI GUID ``05901221-D566-11D1-B2F0-00A0C9062910``.
+> +The Binary MOF can be obtained by doing a WMI data block query. The result is then returned as
+> +an ACPI buffer with a variable size.
 
 -- 
 ~Randy
