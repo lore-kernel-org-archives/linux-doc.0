@@ -2,86 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F5BC7618E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 08:45:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A7EDC77B76
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 17:21:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229513AbjDVIpo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Apr 2023 04:45:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54020 "EHLO
+        id S229774AbjDVRVI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Apr 2023 13:21:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjDVIpm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Apr 2023 04:45:42 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A5919AD
-        for <linux-doc@vger.kernel.org>; Sat, 22 Apr 2023 01:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682153141; x=1713689141;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OKLVh8xQIvVz2h33ZlYrUsdYNd0jGrEn+uL2RURhDwk=;
-  b=nWVqFjlidQOI/+qB2kTIKW1plJ0nz50CdHPcWYf+MtRXDkpupMTC1Abn
-   NhZ+zTq38AUB7J8vL3GUdSsRzzGtiEpaTY+Fj0/dytx+s1mv8861Wer13
-   nH4iXAlDm3EfLqHJ6gftGy/eXnvHjD073Y12YO9IblSqeF0FeC1yKl+SE
-   WbHkBcqw2oqfhnmxMffGzv1V/MzvE5qcXoNg78Rmn86jbnFccoHXKncR8
-   FmfG7UsYZhrWXBWXbDkSJGMcj0B+fQeMMqJvpY1emsLFxq1iB4wtfzmFN
-   l3s4ugEu9i1lxSxeELqSj3oJR7Ucf3ejMOTarlzUgN7s8f5tHuGhNF/4p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="432417118"
-X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="432417118"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 01:45:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="836408951"
-X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="836408951"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2023 01:45:40 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pq8sF-000hCW-24;
-        Sat, 22 Apr 2023 08:45:39 +0000
-Date:   Sat, 22 Apr 2023 16:44:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-doc@vger.kernel.org
-Subject: [mgr:v6.3/topic/rk3568-vepu-h264-stateless-bootlin 1/4] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-ctrl-type-h264-encode-params (if the link has no caption the label must
- precede a section header)
-Message-ID: <202304221631.JP3Qrgqz-lkp@intel.com>
+        with ESMTP id S229709AbjDVRVH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Apr 2023 13:21:07 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B5C7268D
+        for <linux-doc@vger.kernel.org>; Sat, 22 Apr 2023 10:21:03 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-63b73203e0aso19909732b3a.1
+        for <linux-doc@vger.kernel.org>; Sat, 22 Apr 2023 10:21:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isovalent.com; s=google; t=1682184062; x=1684776062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h/Iwxwf19giRiaEj5owcf/YVCgHFbeN6M1lbc9444FQ=;
+        b=JhcABvhIW3GaMteWwLpvP3Hqr+PKPr65wM6hF2XYPgsbVIf5G3jUigiNV7UBMuO/OZ
+         5VV208S3eHWQ88O5LcGnojDROcVJyh4vPE0U97yhevpbQ1/WvNxrLSMQmJL7psmYqubC
+         iHcVAgxgqqoBzfp5OuCJ3IBb3jIaqvf4wOkeCpjwTqHP4X6WJeBRsdlHnZHUwMpeYFsy
+         S4lxW+f47PyZrEDsAUHG1qJ99TgQushsf7xeNZoO4esAoF2M0ea/2UyARJJpXB4Gkd5n
+         Px5Azge+0Pw32ZyLtg6w5snLZkJLata5KepdiGHDBv+TD/rgjBY1NnGqnX1yL3ANu4wg
+         oZRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682184062; x=1684776062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h/Iwxwf19giRiaEj5owcf/YVCgHFbeN6M1lbc9444FQ=;
+        b=Ejap8tgCtgmnIB6HYcv5NNqrQdzEnACezabj0++vKRuwRv17UgIrcP23Mz0HNPehxS
+         wynqDYBguGcOG38yelLmMqf/Jh4pE0wtoLvTGTPJqWipZCIeUfEiInIQGaaL4ATAWsCk
+         fuZzIJ8qQ5u3SZV1bx+WsWeTWjwfgWvkuTf6l3SLDBKTf3SDZoxHSZ1yK0rhXUXjCYax
+         uajKT0pTcBgBypr4Zr0IuxsS6Xd4xWwBserY8SwPx4/UjWMfWTys776KaZ0WvkrAXa1K
+         J6h4aTsbZaRB8BwCBuYgQhZYYem70PGC2iXF7jxRKt15vnPP34DlfnVMuCx9gnvhI3w0
+         eYrg==
+X-Gm-Message-State: AAQBX9fciybdrNx+xQVieAWL4kG3+sTg6wYAb5f7uMSwarApksmn7ad9
+        SILS/KermV/Bbak8qr5g1KdvjQ==
+X-Google-Smtp-Source: AKy350asm2xC4ELk9HOxk7QtNVh+S4xezinZtxnPHSV0fB2CGfYqFycRx1aGPk56NPBu5P8sTvQ1pQ==
+X-Received: by 2002:a17:902:cecb:b0:1a6:8527:8e0f with SMTP id d11-20020a170902cecb00b001a685278e0fmr9432486plg.10.1682184062380;
+        Sat, 22 Apr 2023 10:21:02 -0700 (PDT)
+Received: from carnotaurus.. (c-73-252-184-87.hsd1.ca.comcast.net. [73.252.184.87])
+        by smtp.gmail.com with ESMTPSA id p8-20020a1709026b8800b001a04ff0e2eesm4261673plk.58.2023.04.22.10.21.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Apr 2023 10:21:01 -0700 (PDT)
+From:   Joe Stringer <joe@isovalent.com>
+To:     bpf@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev,
+        bagasdotme@gmail.com, maxtram95@gmail.com, john.fastabend@gmail.com
+Subject: [PATCH bpf-next v5 1/2] docs/bpf: Add table to describe LRU properties
+Date:   Sat, 22 Apr 2023 10:20:53 -0700
+Message-Id: <20230422172054.3355436-1-joe@isovalent.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.pengutronix.de/git/mgr/linux v6.3/topic/rk3568-vepu-h264-stateless-bootlin
-head:   d0897ac6844c86a8d8d6f90d4116eb068184010c
-commit: 17faa1883b0680d2e17b0d56a9e52e60c09e5d13 [1/4] media: Introduce Hantro V4L2 H.264 stateless encoding API
-reproduce:
-        git remote add mgr https://git.pengutronix.de/git/mgr/linux
-        git fetch --no-tags mgr v6.3/topic/rk3568-vepu-h264-stateless-bootlin
-        git checkout 17faa1883b0680d2e17b0d56a9e52e60c09e5d13
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Depending on the map type and flags for LRU, different properties are
+global or percpu. Add a table to describe these.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304221631.JP3Qrgqz-lkp@intel.com/
+Signed-off-by: Joe Stringer <joe@isovalent.com>
+---
+v5: Use bold rather than verbatim for column header
+v4: Initial posting
+---
+ Documentation/bpf/map_hash.rst | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-h264-encode-params (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-h264-encode-rc (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-h264-encode-feedback (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
+diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
+index 8669426264c6..1314dfc5e7e1 100644
+--- a/Documentation/bpf/map_hash.rst
++++ b/Documentation/bpf/map_hash.rst
+@@ -29,7 +29,16 @@ will automatically evict the least recently used entries when the hash
+ table reaches capacity. An LRU hash maintains an internal LRU list that
+ is used to select elements for eviction. This internal LRU list is
+ shared across CPUs but it is possible to request a per CPU LRU list with
+-the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.
++the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.  The
++following table outlines the properties of LRU maps depending on the a
++map type and the flags used to create the map.
++
++======================== ========================= ================================
++Flag                     ``BPF_MAP_TYPE_LRU_HASH`` ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
++======================== ========================= ================================
++**BPF_F_NO_COMMON_LRU**  Per-CPU LRU, global map   Per-CPU LRU, per-cpu map
++**!BPF_F_NO_COMMON_LRU** Global LRU, global map    Global LRU, per-cpu map
++======================== ========================= ================================
+ 
+ Usage
+ =====
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
