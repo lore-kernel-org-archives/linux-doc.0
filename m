@@ -2,106 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 441EAC7618E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 03:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E2FC6FD18
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 05:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbjDVDrl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 23:47:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41738 "EHLO
+        id S229536AbjDVFoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Apr 2023 01:44:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjDVDrk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 23:47:40 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402A51FF1;
-        Fri, 21 Apr 2023 20:47:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682135259; x=1713671259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uSLCXbVVatEMzVoM1qtANKX2CM4Zh2BjCrV2sdtYG+A=;
-  b=iD5+UXhKmDeKAg+w1kvAo+ygMMs6+bqp2gXf4Fc/mS3Ne+07VQCqt+SM
-   8+C4fqEpiTMV7KNv7bwaoYXvFYikA08A7Q9DFa1KMKAtXDvDbMd0ovvMw
-   bOq8B0zUbRVQ345T+uROD5yCRFQvzNlAb8yZ9yZkFnG7MvPhFvu2tQ7Cu
-   ueSJ0fb7kwzT8JGRxzssGgAe7dwZtGRO5W06XLapi93OcrRRZ85mIXRmY
-   1tGscbZeAadSbz/1+b2AHwygAj0vR2dBwnb3sO3K84yQ3A4+DXAeYIuLH
-   bttyddSKwizWP2pevWZLaVoxKZoFGWlMWo/TASgSen+CyTDfpKG7rju5j
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="343610975"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="343610975"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 20:47:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="816640029"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="816640029"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Apr 2023 20:47:34 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pq4Dl-000h2s-1a;
-        Sat, 22 Apr 2023 03:47:33 +0000
-Date:   Sat, 22 Apr 2023 11:47:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Rae Moar <rmoar@google.com>, frowand.list@gmail.com,
-        davidgow@google.com, skhan@linuxfoundation.org,
-        keescook@chromium.org, Tim.Bird@sony.com, brendanhiggins@google.com
-Cc:     oe-kbuild-all@lists.linux.dev, corbet@lwn.net,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@lists.linux.dev, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Rae Moar <rmoar@google.com>
-Subject: Re: [KTAP V2 PATCH] ktap_v2: add test metadata
-Message-ID: <202304221132.H0D5OLHS-lkp@intel.com>
-References: <20230420205734.1288498-1-rmoar@google.com>
+        with ESMTP id S229504AbjDVFoX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Apr 2023 01:44:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB46C1BC6;
+        Fri, 21 Apr 2023 22:44:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6105D609D1;
+        Sat, 22 Apr 2023 05:44:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C8CC433EF;
+        Sat, 22 Apr 2023 05:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1682142261;
+        bh=548omaBy8eoqc944JBzv8PKC3A65fKx3oFNKIC3BVk0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oJIZyz0QZAqcqfin1m5zmyKIQ9hLJuJUoIXv6HeqiSexSpRSR+qxu3bMb5e57uinB
+         Lo/9+apfeCgs9rn4GWw30m+iRFgLgUSDCMKmlWrbOIBmc5nGm2WAoV49beWW/XlFNY
+         qCBWrvS1sqGaxI/vyQFgU/xGvYeYC74jxi4GFFVM=
+Date:   Sat, 22 Apr 2023 07:44:18 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Salvatore Bonaccorso <carnil@debian.org>
+Cc:     stable <stable@vger.kernel.org>, Sasha Levin <sashal@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 stable-5.10.y stable-5.15.y] docs: futex: Fix
+ kernel-doc references after code split-up preparation
+Message-ID: <ZEN0MsKMQXTqGwk-@kroah.com>
+References: <20230421221741.1827866-1-carnil@debian.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230420205734.1288498-1-rmoar@google.com>
+In-Reply-To: <20230421221741.1827866-1-carnil@debian.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rae,
+On Sat, Apr 22, 2023 at 12:17:42AM +0200, Salvatore Bonaccorso wrote:
+> In upstream commit 77e52ae35463 ("futex: Move to kernel/futex/") the
+> futex code from kernel/futex.c was moved into kernel/futex/core.c in
+> preparation of the split-up of the implementation in various files.
+> 
+> Point kernel-doc references to the new files as otherwise the
+> documentation shows errors on build:
+> 
+>     [...]
+>     Error: Cannot open file ./kernel/futex.c
+>     Error: Cannot open file ./kernel/futex.c
+>     [...]
+>     WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 3.4.3 -internal ./kernel/futex.c' failed with return code 2
+> 
+> There is no direct upstream commit for this change. It is made in
+> analogy to commit bc67f1c454fb ("docs: futex: Fix kernel-doc
+> references") applied as consequence of the restructuring of the futex
+> code.
+> 
+> Fixes: 77e52ae35463 ("futex: Move to kernel/futex/")
+> Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+> ---
+> v1->v2:
+>  - Fix typo in description about new target file for futex.c code
+>  - Indent block with build log output
+> 
+>  Documentation/kernel-hacking/locking.rst                    | 2 +-
+>  Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-kernel test robot noticed the following build warnings:
+<formletter>
 
-[auto build test WARNING on 906f02e42adfbd5ae70d328ee71656ecb602aaf5]
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/ktap_v2-add-test-metadata/20230421-045838
-base:   906f02e42adfbd5ae70d328ee71656ecb602aaf5
-patch link:    https://lore.kernel.org/r/20230420205734.1288498-1-rmoar%40google.com
-patch subject: [KTAP V2 PATCH] ktap_v2: add test metadata
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/9a01de0a8d8f9f09023184d9df00aa98a559c871
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rae-Moar/ktap_v2-add-test-metadata/20230421-045838
-        git checkout 9a01de0a8d8f9f09023184d9df00aa98a559c871
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304221132.H0D5OLHS-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/dev-tools/ktap.rst:184: WARNING: Unexpected indentation.
->> Documentation/dev-tools/ktap.rst:185: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-vim +184 Documentation/dev-tools/ktap.rst
-
-   181	
-   182	There are a few currently recognized metadata types:
-   183	- "# Subtest: <test_name>" to indicate test name (name must match
- > 184	  corresponding result line)
- > 185	- "# Attributes: <attributes list>" to indicate test attributes (list
-   186	  separated by commas)
-   187	- "# File: <file_path>" to indicate file used in testing
-   188	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+</formletter>
