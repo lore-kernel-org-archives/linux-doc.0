@@ -2,164 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46923C77B76
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 03:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 441EAC7618E
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 03:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbjDVDjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Apr 2023 23:39:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39506 "EHLO
+        id S229554AbjDVDrl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Apr 2023 23:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjDVDjQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 23:39:16 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D2919BE;
-        Fri, 21 Apr 2023 20:39:15 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-63b620188aeso3543732b3a.0;
-        Fri, 21 Apr 2023 20:39:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682134754; x=1684726754;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mEx+TGIuJZnBbxwHguTzi/50faZQmv8dGRGGLL12C4I=;
-        b=IVe4HnCH5LxkQR2cBe2YVPTyj7/nGXDsIosU/ZNdQWLltEbZq2AEJea7Jp2LBAuYU6
-         WPrL50LdGvV3ntGRNMCgAH+CPkTr+/zAQYHno14L8vOa/v3HAIKkTOQc2VYUhJEQ4jUJ
-         7fpGLhseQxMIv64HIW51ARbEfJYcpF3lXo4J/hOiWLejOtxU+SYQpT0X1pXTtahRKRKg
-         U3iZ870rXwixXKyXuGwVsN3+SHG3KQ3SvMVT5XrlEBSmU2w3F+JxQXdMWv0YUum1GQG5
-         x8gJ+Gnpm23EX3sZuPVJ8zdu7bwZqIs1yzNHuoXGfw4SehPYb6rrImCJ2OPzw+3k4Z7X
-         W6vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682134754; x=1684726754;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mEx+TGIuJZnBbxwHguTzi/50faZQmv8dGRGGLL12C4I=;
-        b=Gt9LQHNbIEgsgvvpCwLP+CFIcshBO3UwWV5zbg8+vR5hCVeJ+HTztMRabt7Cn1fm2F
-         doDYyRC+2TancHhGgdxQYYOEE77JJXM/Jwy84XMppUqYPua0tWb1K6IariykT7delAWM
-         ua8TFdq5+SzEmxMtTWKP7feNnVaTY+EieU1H7Bkc5ywI4WxBg+NHmdNQ8ULWtRwnq53/
-         qQJbSrYLVVFzZfDzkNbf3FAlWOMX50esbhJpmbrvbgztCz3Me4aI2cZA0Gy5RNdv8dMq
-         hJQnto3PkFaQdVe6tTaC1yDmvXZbUZUOrOh594CdXcOp9dulHvf03rU0W+EgZFxfb1DB
-         yhNQ==
-X-Gm-Message-State: AAQBX9cOSPRVREbcZGILxdAjgXZfrUMb2PkOJxOYpf+El3vXBOJzQikl
-        l+apCpWinaoD3y0G8dRDRznj6551SMY=
-X-Google-Smtp-Source: AKy350bYLUdGxPB8nwMsacn/ZsQl6UidLcqdKvd25SIxOengymObyOzrqfuR04RPAulzpdLSag2+Gw==
-X-Received: by 2002:a05:6a21:3389:b0:ef:a31b:af8b with SMTP id yy9-20020a056a21338900b000efa31baf8bmr9544028pzb.24.1682134754347;
-        Fri, 21 Apr 2023 20:39:14 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id e17-20020a635011000000b0050f9b7e64fasm3157733pgb.77.2023.04.21.20.39.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Apr 2023 20:39:13 -0700 (PDT)
-Message-ID: <7e3b424d-2aba-3326-29c8-2ccdbfb12f70@gmail.com>
-Date:   Sat, 22 Apr 2023 12:39:11 +0900
+        with ESMTP id S229451AbjDVDrk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Apr 2023 23:47:40 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402A51FF1;
+        Fri, 21 Apr 2023 20:47:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682135259; x=1713671259;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uSLCXbVVatEMzVoM1qtANKX2CM4Zh2BjCrV2sdtYG+A=;
+  b=iD5+UXhKmDeKAg+w1kvAo+ygMMs6+bqp2gXf4Fc/mS3Ne+07VQCqt+SM
+   8+C4fqEpiTMV7KNv7bwaoYXvFYikA08A7Q9DFa1KMKAtXDvDbMd0ovvMw
+   bOq8B0zUbRVQ345T+uROD5yCRFQvzNlAb8yZ9yZkFnG7MvPhFvu2tQ7Cu
+   ueSJ0fb7kwzT8JGRxzssGgAe7dwZtGRO5W06XLapi93OcrRRZ85mIXRmY
+   1tGscbZeAadSbz/1+b2AHwygAj0vR2dBwnb3sO3K84yQ3A4+DXAeYIuLH
+   bttyddSKwizWP2pevWZLaVoxKZoFGWlMWo/TASgSen+CyTDfpKG7rju5j
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="343610975"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
+   d="scan'208";a="343610975"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 20:47:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="816640029"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
+   d="scan'208";a="816640029"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 21 Apr 2023 20:47:34 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pq4Dl-000h2s-1a;
+        Sat, 22 Apr 2023 03:47:33 +0000
+Date:   Sat, 22 Apr 2023 11:47:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Rae Moar <rmoar@google.com>, frowand.list@gmail.com,
+        davidgow@google.com, skhan@linuxfoundation.org,
+        keescook@chromium.org, Tim.Bird@sony.com, brendanhiggins@google.com
+Cc:     oe-kbuild-all@lists.linux.dev, corbet@lwn.net,
+        guillaume.tucker@collabora.com, dlatypov@google.com,
+        kernelci@lists.linux.dev, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rae Moar <rmoar@google.com>
+Subject: Re: [KTAP V2 PATCH] ktap_v2: add test metadata
+Message-ID: <202304221132.H0D5OLHS-lkp@intel.com>
+References: <20230420205734.1288498-1-rmoar@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <87o7nitvd4.fsf@meer.lwn.net>
-Subject: Re: [PATCH] Documentation/process/changes: Escape --options to fix
- Sphinx output
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87o7nitvd4.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230420205734.1288498-1-rmoar@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Dropped most CCs]
+Hi Rae,
 
-Hi Jon,
+kernel test robot noticed the following build warnings:
 
-On Thu, 20 Apr 2023 09:40:39 -0600, Jonathan Corbet wrote:
-> Jonathan Corbet <corbet@lwn.net> writes:
->=20
->> The right solution, if it is possible, is to convince Sphinx to stop
->> messing with "--" altogether.  Substituting em-dashes is of limited
->> cosmetic value and, I think, is something we could do without.
->=20
-> Ah ... I get it now.  We *did* disable this once by disabling the
-> "html_use_smartypants" option in conf.py.  The Sphinx folks changed the=
+[auto build test WARNING on 906f02e42adfbd5ae70d328ee71656ecb602aaf5]
 
-> name of that option in the 1.6.6 release, though, silently turning that=
+url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/ktap_v2-add-test-metadata/20230421-045838
+base:   906f02e42adfbd5ae70d328ee71656ecb602aaf5
+patch link:    https://lore.kernel.org/r/20230420205734.1288498-1-rmoar%40google.com
+patch subject: [KTAP V2 PATCH] ktap_v2: add test metadata
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/9a01de0a8d8f9f09023184d9df00aa98a559c871
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rae-Moar/ktap_v2-add-test-metadata/20230421-045838
+        git checkout 9a01de0a8d8f9f09023184d9df00aa98a559c871
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-> behavior back on.  It only took us five years to notice...  I think I'l=
-l
-> just drop the attached patch into docs-next.
->=20
-> Thanks for bringing this up!
->=20
-> jon
->=20
-> ------------8<-----------------
-> From 995addeb4ab2a2c4beaf8b90a4dc8c1d64735d29 Mon Sep 17 00:00:00 2001
-> From: Jonathan Corbet <corbet@lwn.net>
-> Date: Thu, 20 Apr 2023 09:34:35 -0600
-> Subject: [PATCH] docs: turn off "smart quotes" in the HTML build
->=20
-> We have long disabled the "html_use_smartypants" option to prevent Sphi=
-nx
-> from mangling "--" sequences (among others).  Unfortunately, Sphinx cha=
-nged
-> that option to "smartquotes" in the 1.6.6 release, and seemingly didn't=
- see
-> fit to warn about the use of the obsolete option, resulting in the
-> aforementioned mangling returning.  Disable this behavior again and hop=
-e
-> that the option name stays stable for a while.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304221132.H0D5OLHS-lkp@intel.com/
 
-Hi,
-Whereas the summary reads "docs: turn off "smart quotes" in the HTML buil=
-d",
-the change is also effective in the LaTeX/PDF build.
+All warnings (new ones prefixed by >>):
 
-BTW, Jon, don't you test build pdfdocs these days?
+>> Documentation/dev-tools/ktap.rst:184: WARNING: Unexpected indentation.
+>> Documentation/dev-tools/ktap.rst:185: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-The fix to the pdfdocs build error from Tomi [1] is not yet picked up
-either by Mauro or you ... :-/
+vim +184 Documentation/dev-tools/ktap.rst
 
-[1] https://lore.kernel.org/linux-doc/29380b3e-1daa-3aef-1749-dbd9960ba62=
-0@gmail.com/
+   181	
+   182	There are a few currently recognized metadata types:
+   183	- "# Subtest: <test_name>" to indicate test name (name must match
+ > 184	  corresponding result line)
+ > 185	- "# Attributes: <attributes list>" to indicate test attributes (list
+   186	  separated by commas)
+   187	- "# File: <file_path>" to indicate file used in testing
+   188	
 
-I waited to see if there is anybody else who hits this build error.
-It looks like I am alone!
-
-If there is so few interest in pdfdocs, it might not be worth keeping
-kernel documentation compatible with PDF build.=20
-
-        Thanks, Akira
-
->=20
-> Reported-by: Zipeng Zhang <zhangzipeng0@foxmail.com>
-> Link: https://lore.kernel.org/lkml/tencent_CB1A298D31FD221496FF657CD7EF=
-406E6605@qq.com
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/conf.py | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index db16814f182f..3d1f74f76e64 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -343,9 +343,10 @@ sys.stderr.write("Using %s theme\n" % html_theme)
->  # so a file named "default.css" will overwrite the builtin "default.cs=
-s".
->  html_static_path =3D ['sphinx-static']
-> =20
-> -# If true, SmartyPants will be used to convert quotes and dashes to
-> -# typographically correct entities.
-> -html_use_smartypants =3D False
-> +# If true, Docutils "smart quotes will be used to convert quotes and d=
-ashes
-> +# to typographically correct entities.  This will convert "--" to "=E2=
-=80=94",
-> +# which is not always what we want, so disable it.
-> +smartquotes =3D False
-> =20
->  # Custom sidebar templates, maps document names to template names.
->  # Note that the RTD theme ignores this
-> --=20
-> 2.40.0
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
