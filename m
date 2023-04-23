@@ -2,89 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B05C6FD18
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Apr 2023 14:26:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA24AC77B60
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Apr 2023 15:55:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbjDWO0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Apr 2023 10:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46348 "EHLO
+        id S229498AbjDWPzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Apr 2023 11:55:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230269AbjDWO0t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Apr 2023 10:26:49 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68CBC211D;
-        Sun, 23 Apr 2023 07:26:37 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1a5197f00e9so29945375ad.1;
-        Sun, 23 Apr 2023 07:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682259997; x=1684851997;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hDbIntu1UOpJwHdFve9fpGJWyayD8KIlufUr0WwNJSo=;
-        b=Ijgdn5SI4/jYVJ/JoB3fYabmjKi8mK5UBs9FGq6kbTAEqR/557qSm824tCrQW2a/5d
-         GNWGzps4K/u7aLe8YAZuHRtNuuHoBJzce+87l5GU+pHBUeRZGq7knP5S5+myY1qU38Pf
-         Gyi7oy0ICXuC66GlsvpxaEiuOITcVzHWIumVrFt3lRQE+fUbVj85EEGejxG+KjBnFlvb
-         e5W+hRsxu438NJoBGwCkGw2vYS/vWp8yd0W3sPxUyuHAryVqinV3AiIRrdOKmlVzzBRV
-         zHTUgd+g4LYWcHswJnDcWExkQ/XCZoJNQGBOTGbR372/WgxXCILdDdLrBbPtzlNbZ2on
-         yMsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682259997; x=1684851997;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hDbIntu1UOpJwHdFve9fpGJWyayD8KIlufUr0WwNJSo=;
-        b=QLxjkBYxuJyGDHc7AMWhprrhMr8uMgQl6w6QbDicWjMt2saSAiVw1B1QLEQ+wJ+s9v
-         ygyGmBWnTvC/j2rSWZFjCqix4AJM4fUyDpEVJT+mhUOAfE9+OORRCESXnGF9pXDy8LoB
-         nNPz5Yc/sdNxEnO/mc2oML919zcV5+uaJL137wkaZ77OuoATZ0YKLFVeOzZkRzmPeS06
-         xcfxojXoJnj9gpF+cK/aA0Gws3xA81IJPQGSzO57Vg3j46ngrfNbz0hitPbUIKd3Q6J6
-         KwZII/P2hx1iy0qj8gafg3oVdi0NzXFEcfEdB/Saft/OPO6klNqeWkfcGPs1xGMIOj1r
-         aCsQ==
-X-Gm-Message-State: AAQBX9cOjkIOzGR9sPFhIdY8hyOznfyTQPGVjmAx1n7dwH4HSHJURlaw
-        czak0VG96qn76xQjveXJ5Tk=
-X-Google-Smtp-Source: AKy350aoN241w7nbxKmiEzOtYF0nSPMYkpeFuUU9y0F40NjrExcFXuUWa/u9dTd8fj7PzRYupvy6kQ==
-X-Received: by 2002:a17:902:e5cd:b0:1a6:5487:3f97 with SMTP id u13-20020a170902e5cd00b001a654873f97mr13878348plf.64.1682259996750;
-        Sun, 23 Apr 2023 07:26:36 -0700 (PDT)
-Received: from localhost ([2605:59c8:148:ba10:5905:623a:c41:59e1])
-        by smtp.gmail.com with ESMTPSA id 17-20020a170902c11100b001a6801fd9easm5136730pli.176.2023.04.23.07.26.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Apr 2023 07:26:36 -0700 (PDT)
-Date:   Sun, 23 Apr 2023 07:26:35 -0700
-From:   John Fastabend <john.fastabend@gmail.com>
-To:     Joe Stringer <joe@isovalent.com>, bpf@vger.kernel.org
+        with ESMTP id S229453AbjDWPzX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Apr 2023 11:55:23 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01952E70;
+        Sun, 23 Apr 2023 08:55:21 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 7D6AD35E;
+        Sun, 23 Apr 2023 15:55:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D6AD35E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1682265321; bh=Eq7I91rvkJgR1lXQO6Y7qo5YQsJ2G/Qu3dWfTJsNRl8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=H0hjvH0nrBX2pTgA8en1Cputc4qzLmxHL1pGrPTRcwR+k9ZyNRXJSNzvONjOImAgm
+         UvR5yzXUf5xqd0z0Fkks7EYFs9uowQ/2CIQFZbokmc6pjxetnwedSv6+onxvTl96ki
+         SET+R1cMjgrAa3mmoAPbW/QSVkgGkXLLDMLd+vBHqex4bhNaiicF1QCjS4Qzu0FUoh
+         4NuzYZjJgPKNgMTOCIK5f7eSlipqqHHTYigA955hriHFhNbmlu96G2Ze2uzwgtIXgX
+         f5soMGecqgLIGZ+ByycmFc86in7oH6QO6QPgHDDGsFb0ZPLkluMPZiH6W0v7JmC+qM
+         SdsDM49oaDUAw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev,
-        bagasdotme@gmail.com, maxtram95@gmail.com, john.fastabend@gmail.com
-Message-ID: <6445401b297a1_19af02083@john.notmuch>
-In-Reply-To: <20230422172054.3355436-2-joe@isovalent.com>
-References: <20230422172054.3355436-1-joe@isovalent.com>
- <20230422172054.3355436-2-joe@isovalent.com>
-Subject: RE: [PATCH bpf-next v5 2/2] docs/bpf: Add LRU internals description
- and graph
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] Documentation/process/changes: Escape --options to fix
+ Sphinx output
+In-Reply-To: <7e3b424d-2aba-3326-29c8-2ccdbfb12f70@gmail.com>
+References: <87o7nitvd4.fsf@meer.lwn.net>
+ <7e3b424d-2aba-3326-29c8-2ccdbfb12f70@gmail.com>
+Date:   Sun, 23 Apr 2023 09:55:20 -0600
+Message-ID: <87leiioaon.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joe Stringer wrote:
-> Extend the bpf hashmap docs to include a brief description of the
-> internals of the LRU map type (setting appropriate API expectations),
-> including the original commit message from Martin and a variant on the
-> graph that I had presented during my Linux Plumbers Conference 2022 talk
-> on "Pressure feedback for LRU map types"[0].
-> 
-> The node names in the dot file correspond roughly to the functions where
-> the logic for those decisions or steps is defined, to help curious
-> developers to cross-reference and update this logic if the details of
-> the LRU implementation ever differ from this description.
-> 
-> [0]: https://lpc.events/event/16/contributions/1368/
-> 
-> Signed-off-by: Joe Stringer <joe@isovalent.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-Acked-by: John Fastabend <john.fastabend@gmail.com>
+> Whereas the summary reads "docs: turn off "smart quotes" in the HTML build",
+> the change is also effective in the LaTeX/PDF build.
+
+True...so the title is a bit off, but it is a fix for that build too,
+right? 
+
+> BTW, Jon, don't you test build pdfdocs these days?
+
+I will confess that I don't do it as often as I should.  As you may have
+noticed, it takes a little while to run, and the interest in PDF output
+is pretty low these days.
+
+> The fix to the pdfdocs build error from Tomi [1] is not yet picked up
+> either by Mauro or you ... :-/
+>
+> [1] https://lore.kernel.org/linux-doc/29380b3e-1daa-3aef-1749-dbd9960ba620@gmail.com/
+
+Media docs patches normally go through the media tree, just like the
+original bug did; I had assumed that would happen here as well.
+Seemingly not, so I've just picked those patches up into docs-next.
+
+> I waited to see if there is anybody else who hits this build error.
+> It looks like I am alone!
+>
+> If there is so few interest in pdfdocs, it might not be worth keeping
+> kernel documentation compatible with PDF build. 
+
+Interest is low, but not zero, and I'd prefer to keep it working.  It
+really helps when somebody tells me that it breaks (it is rather
+fragile, alas)!
+
+One of these days I would really like to make a serious attempt to see
+if rst2pdf has any hope of ever working for us.  Taking latex out of the
+picture would simplify so many things.
+
+Thanks,
+
+jon
