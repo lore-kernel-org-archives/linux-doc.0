@@ -2,161 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BA3C7618E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Apr 2023 20:01:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D3DC77B60
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Apr 2023 14:26:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbjDVUBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Apr 2023 16:01:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36378 "EHLO
+        id S229996AbjDWO0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Apr 2023 10:26:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbjDVUBe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Apr 2023 16:01:34 -0400
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9A031FE3;
-        Sat, 22 Apr 2023 13:01:32 -0700 (PDT)
-Received: from [192.168.1.190] (ip5b42332c.dynamic.kabel-deutschland.de [91.66.51.44])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: buczek)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 83D7461E4052B;
-        Sat, 22 Apr 2023 22:01:29 +0200 (CEST)
-Message-ID: <3972fe6d-34f4-3a9b-b939-494fd19f1bfb@molgen.mpg.de>
-Date:   Sat, 22 Apr 2023 22:01:29 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
-Content-Language: en-US
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
-        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
-Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
-        kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org,
-        ming.lei@redhat.com, gregkh@linuxfoundation.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20230404140835.25166-1-sergei.shtepa@veeam.com>
- <20230404140835.25166-4-sergei.shtepa@veeam.com>
- <cb0cc2f1-48cb-8b15-35af-33a31ccc922c@molgen.mpg.de>
- <86068780-bab3-2fc2-3f6f-1868be119b38@veeam.com>
- <a1854604-cec1-abd5-1d49-6cf6a19ee7a1@veeam.com>
- <1dc227d0-9528-9b77-63ff-b49b0579caa1@molgen.mpg.de>
- <c05fd3e7-5610-4f63-9012-df1b808d9536@veeam.com>
- <955ede49-bb69-2ab2-d256-a329fe1b728c@molgen.mpg.de>
- <3b589d44-3fbd-1f4f-8efb-9b334c26a20f@molgen.mpg.de>
- <b6516901-b7ba-cde9-644c-84dfdef012ad@veeam.com>
- <a670606b-ad27-ff7c-f74c-e36269f2ddfc@veeam.com>
-From:   Donald Buczek <buczek@molgen.mpg.de>
-In-Reply-To: <a670606b-ad27-ff7c-f74c-e36269f2ddfc@veeam.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229476AbjDWO0R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Apr 2023 10:26:17 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC82AA9;
+        Sun, 23 Apr 2023 07:26:15 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-63b67a26069so5037772b3a.0;
+        Sun, 23 Apr 2023 07:26:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682259975; x=1684851975;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XcKUbMruOsqkDexw5FTEAcEah3bFZ275+DG3/6wvTW8=;
+        b=VwkNE4KGxYxh6Cm1sfBaC8E7XRAhfYukj605PaKpaQlbHwSsm0dBhUUI3ZbGaZsvAq
+         IG66IpPnIJikSlNkd3VMIp9ZrNAVMlSdW1+yeRvnweTCNH5BxHYk4QtXhwC8/3HCay9U
+         is/T5uf2u9eZz9O6Z/XzWm35TL7CxpRR2q5L5umfbV44sOTZV3OewmhRyCScWJBvuLc1
+         JY3L7jzsofu8S8LBzoLWOk/JaVuJyHQvujMR9pKzSqxY/qxbkTLGONaAY8LKlxeE3O5+
+         2+cCTxSuOBni/eeOXmAQbAfs01oyPCEvoa01QByffgZvVssQi3CvNv7SVu4q5T7dUsbE
+         dTig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682259975; x=1684851975;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XcKUbMruOsqkDexw5FTEAcEah3bFZ275+DG3/6wvTW8=;
+        b=NUVjvVgQrN8+Cw2INDRGRpFLnvY2b5lomZ5J4De7AoBQkO5L962MtgFDgNxMkFDgv1
+         Riw5oq4JYwiTJ2Cd1QogAs2KrAtoQqWjSZk6zGffp5ruzvGcjoww+SrN5IetLqItesrv
+         6gcme/vlznCfis3vKSsPEBTxUeP/doOd5uEPHGpcoylVuoLPWpD9rEWoQR8qAk1liGow
+         X7fO6RSy3Viv8hKdyEl4VkDHcCbNhL8qcCQceGs2XcjwqCE7WDxMkaZNz7hca40dckga
+         ZCH+NUDdaxhOK2xhGOGll4Ylj0V+JSr4BxvpaL20A32oSGy5tGCUhKXO0N1rVOy07AIX
+         qtzg==
+X-Gm-Message-State: AAQBX9fJR7yHijVMuEOMZEFKfYlYEHFVbJFaM8Y9G0Qy+8PIAa/vos1l
+        Dq9/Y8vX4J8RX+FAwmSNCcJ3YIPelv4=
+X-Google-Smtp-Source: AKy350bECV2TJjOPpxNuCylXi8WPZ9a2W16re5JU0QMDMGE7F881gjqiGD2kc680zy4q+uFraQjL4A==
+X-Received: by 2002:a05:6a21:3703:b0:ef:f558:b80 with SMTP id yl3-20020a056a21370300b000eff5580b80mr9228052pzb.58.1682259975239;
+        Sun, 23 Apr 2023 07:26:15 -0700 (PDT)
+Received: from localhost ([2605:59c8:148:ba10:5905:623a:c41:59e1])
+        by smtp.gmail.com with ESMTPSA id c8-20020a654208000000b00502e7115cbdsm5136838pgq.51.2023.04.23.07.26.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Apr 2023 07:26:14 -0700 (PDT)
+Date:   Sun, 23 Apr 2023 07:26:13 -0700
+From:   John Fastabend <john.fastabend@gmail.com>
+To:     Joe Stringer <joe@isovalent.com>, bpf@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev,
+        bagasdotme@gmail.com, maxtram95@gmail.com, john.fastabend@gmail.com
+Message-ID: <644540052bcaa_19af020828@john.notmuch>
+In-Reply-To: <20230422172054.3355436-1-joe@isovalent.com>
+References: <20230422172054.3355436-1-joe@isovalent.com>
+Subject: RE: [PATCH bpf-next v5 1/2] docs/bpf: Add table to describe LRU
+ properties
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 4/21/23 19:32, Sergei Shtepa wrote:
+Joe Stringer wrote:
+> Depending on the map type and flags for LRU, different properties are
+> global or percpu. Add a table to describe these.
 > 
+> Signed-off-by: Joe Stringer <joe@isovalent.com>
+> ---
+> v5: Use bold rather than verbatim for column header
+> v4: Initial posting
+> ---
+>  Documentation/bpf/map_hash.rst | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> On 4/20/23 21:17, Sergei Shtepa wrote:
->> Subject:
->> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
->> From:
->> Sergei Shtepa <sergei.shtepa@veeam.com>
->> Date:
->> 4/20/23, 21:17
->>
->> To:
->> Donald Buczek <buczek@molgen.mpg.de>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
->> CC:
->> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
->>
->>
->>
->> On 4/20/23 16:44, Donald Buczek wrote:
->>> Subject:
->>> Re: [PATCH v3 03/11] documentation: Block Devices Snapshots Module
->>> From:
->>> Donald Buczek <buczek@molgen.mpg.de>
->>> Date:
->>> 4/20/23, 16:44
->>>
->>> To:
->>> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
->>> CC:
->>> viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org, kch@nvidia.com, martin.petersen@oracle.com, vkoul@kernel.org, ming.lei@redhat.com, gregkh@linuxfoundation.org, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
->>>
->>>
->>> On 4/19/23 21:42, Donald Buczek wrote:
->>>> Dear Sergei,
->>>>
->>>> On 4/19/23 15:05, Sergei Shtepa wrote:
->>>>> [...]
->>>>>
->>>>> Patches in attach and https://github.com/SergeiShtepa/linux/tree/blksnap-master
->>>> Thanks. I can confirm that this fixes the reported problem and I no longer can trigger the UAF. 😄
->>>>
->>>> Tested-Bny: Donald Buczek <buczek@molgen.mpg.de>
->>>>
->>>> Maybe you can add me to the cc list for v4 as I'm not subscribed to the lists.
->>>
->>> Sorry, found another one. Reproducer:
->>>
->>> =====
->>> #! /bin/bash
->>> set -xe
->>> modprobe blksnap
->>> test -e /scratch/local/test.dat || fallocate -l 1G /scratch/local/test.dat
->>> s=$(blksnap snapshot_create -d /dev/vdb)
->>> blksnap snapshot_appendstorage -i $s -f /scratch/local/test.dat
->>> blksnap snapshot_take -i $s
->>> s2=$(blksnap snapshot_create -d /dev/vdb)
->>> blksnap snapshot_destroy -i $s2
->>> blksnap snapshot_destroy -i $s
->>> =====
->>>
->>>
->>> [20382.402921] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was created
->>> [20382.535933] blksnap-image: Create snapshot image device for original device [253:16]
->>> [20382.542405] blksnap-snapshot: Snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa was taken successfully
->>> [20382.572564] blksnap-snapshot: Snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966 was created
->>> [20382.600521] blksnap-snapshot: Destroy snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
->>> [20382.602373] blksnap-snapshot: Release snapshot 4b2d571d-9a24-419d-96c2-8d64a07c4966
->>> [20382.722137] blksnap-snapshot: Destroy snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
->>> [20382.724033] blksnap-snapshot: Release snapshot ff1c54f1-3e8c-4c99-bb26-35e82dc1c9fa
->>> [20382.725850] ==================================================================
->>> [20382.727641] BUG: KASAN: wild-memory-access in snapshot_free+0x73/0x170 [blksnap]
->>> [20382.729326] Write of size 8 at addr dead000000000108 by task blksnap/8297
->>> ...
->> Great! Thanks.
->>
->> There is no protection against re-adding a block device to the snapshot.
->> I'll take care of it.
->>
+> diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
+> index 8669426264c6..1314dfc5e7e1 100644
+> --- a/Documentation/bpf/map_hash.rst
+> +++ b/Documentation/bpf/map_hash.rst
+> @@ -29,7 +29,16 @@ will automatically evict the least recently used entries when the hash
+>  table reaches capacity. An LRU hash maintains an internal LRU list that
+>  is used to select elements for eviction. This internal LRU list is
+>  shared across CPUs but it is possible to request a per CPU LRU list with
+> -the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.
+> +the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.  The
+> +following table outlines the properties of LRU maps depending on the a
+> +map type and the flags used to create the map.
+> +
+> +======================== ========================= ================================
+> +Flag                     ``BPF_MAP_TYPE_LRU_HASH`` ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
+> +======================== ========================= ================================
+> +**BPF_F_NO_COMMON_LRU**  Per-CPU LRU, global map   Per-CPU LRU, per-cpu map
+> +**!BPF_F_NO_COMMON_LRU** Global LRU, global map    Global LRU, per-cpu map
+> +======================== ========================= ================================
+>  
+>  Usage
+>  =====
+> -- 
+> 2.34.1
 > 
-> Hi!
-> 
-> I think the fix turned out to be quite beautiful.
-> Now you will get an error "Device or resource busy".
-> Fix in attach and on github.
-> Link: https://github.com/SergeiShtepa/linux/commit/43a5d3dd9858f092b734187b6a62ce75acaa47c7
 
-I can confirm, that this fixes the problem.
-
-     root@dose:~# blksnap snapshot_create -d /dev/vda -d /dev/vda
-     fdcd3ee3-a25f-4c2a-93d7-2d951520e938
-     Operation already in progress
-     root@dose:~# echo $?
-     1
-
-
-Tested-By: Donald Buczek <buczek@molgen.mpg.de>
-
-Best
-   Donald
-
--- 
-Donald Buczek
-buczek@molgen.mpg.de
-Tel: +49 30 8413 1433
+Acked-by: John Fastabend <john.fastabend@gmail.com>
