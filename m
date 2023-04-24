@@ -2,47 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FEECC77B61
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 23:18:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ADE6C77B7F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 23:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233220AbjDXXSe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 19:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38564 "EHLO
+        id S233314AbjDXXSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 19:18:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232312AbjDXXSH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 19:18:07 -0400
+        with ESMTP id S233243AbjDXXSU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 19:18:20 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C78AD29;
-        Mon, 24 Apr 2023 16:17:27 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33OMUE2P014920;
-        Mon, 24 Apr 2023 23:16:54 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65DDBA25C;
+        Mon, 24 Apr 2023 16:17:39 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33OKtd84009206;
+        Mon, 24 Apr 2023 23:16:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=j4uN95jBfSpp5x9jJrGbb4x+lnSaTBBhkvpC35runU4=;
- b=NH5/qFpu0U9UcUQEMHKrB9NJb8VIX9slGZ9lRsZQ03CvbVjf/xJLyoopuh9J8pwrveuX
- g8drV/tA4YdvBg1UuQfPt6cJJWrTMv+sf//CbumoOWZqUJVwYd3p9VSd4jG+ZWgIXAJk
- y5g/5VztEBF0OVDQ26R+//NuwcZuEhiUN+vAUeIivB3KdZ5SCN89vuIQ+93hUEySbzym
- jAZdVswc42W+zO1hlC/sXfQ9NP8YlK/Hqws0NXYZL0xsjO+QLOs1GSwqa/gVUIlnJ05F
- nsxe2ldqavVfv32FpplSIQN4PZ6pR1x4pnsPaZReltMCTizYwlXWxIApxYL9Vnp06mXf 7A== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q5mnnhypy-1
+ bh=rX5SgbSyp7z9Zo8ElCjJ9oWGR1pEs911ZLKUcc0VHQk=;
+ b=jEqoqiJ5+X7ispukTOahwjLnz+qIoCMvtLU1ESqhxQVObyx8ubcQcSZ1XSvUYLEw9Qqm
+ R9lfMI1Di5vtXX+gotccKC4FSj4Sb34lzIpO1hTL7OxN/d55x4vvCExwWvMlXjmvDMhf
+ Q8OTdmoYa//xf9742n60FIxmWcRBUknvW2Xy1eX7tRwWdIj7wGWeK4iJ3xBP9mzbfIEP
+ sYlR+jzbdUacK4iw8s22ovOySFhjweeFDGOnhh90cEGRJSSp8c8kjsytOB/CkPpr4GtS
+ joMBzKPkgXFD6/Mig4M4e+5h4Z8m710NcG1jZVYRRsPj3TOCn9qM2fJP2MGtI1loxBOJ 7A== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q5tjf16mn-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 Apr 2023 23:16:54 +0000
+        Mon, 24 Apr 2023 23:16:57 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33ONGrbq030027
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33ONGugv030119
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 Apr 2023 23:16:53 GMT
+        Mon, 24 Apr 2023 23:16:56 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Mon, 24 Apr 2023 16:16:52 -0700
+ 15.2.986.42; Mon, 24 Apr 2023 16:16:55 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
@@ -58,14 +56,15 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v12 17/25] virt: gunyah: Translate gh_rm_hyp_resource into gunyah_resource
-Date:   Mon, 24 Apr 2023 16:15:50 -0700
-Message-ID: <20230424231558.70911-18-quic_eberman@quicinc.com>
+Subject: [PATCH v12 19/25] virt: gunyah: Add resource tickets
+Date:   Mon, 24 Apr 2023 16:15:52 -0700
+Message-ID: <20230424231558.70911-20-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230424231558.70911-1-quic_eberman@quicinc.com>
 References: <20230424231558.70911-1-quic_eberman@quicinc.com>
@@ -77,320 +76,248 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: J2ak8L9TqOv1pWqCu0xR5MGq8ZkKEhtq
-X-Proofpoint-ORIG-GUID: J2ak8L9TqOv1pWqCu0xR5MGq8ZkKEhtq
+X-Proofpoint-GUID: enbT-lKgfFoESv_tnHZ28eOqVKV1me9l
+X-Proofpoint-ORIG-GUID: enbT-lKgfFoESv_tnHZ28eOqVKV1me9l
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-24_11,2023-04-21_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 adultscore=0 mlxlogscore=931 spamscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304240211
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When booting a Gunyah virtual machine, the host VM may gain capabilities
-to interact with resources for the guest virtual machine. Examples of
-such resources are vCPUs or message queues. To use those resources, we
-need to translate the RM response into a gunyah_resource structure which
-are useful to Linux drivers. Presently, Linux drivers need only to know
-the type of resource, the capability ID, and an interrupt.
+Some VM functions need to acquire Gunyah resources. For instance, Gunyah
+vCPUs are exposed to the host as a resource. The Gunyah vCPU function
+will register a resource ticket and be able to interact with the
+hypervisor once the resource ticket is filled.
 
-On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
-ID number and always a SPI.
+Resource tickets are the mechanism for functions to acquire ownership of
+Gunyah resources. Gunyah functions can be created before the VM's
+resources are created and made available to Linux. A resource ticket
+identifies a type of resource and a label of a resource which the ticket
+holder is interested in.
+
+Resources are created by Gunyah as configured in the VM's devicetree
+configuration. Gunyah doesn't process the label and that makes it
+possible for userspace to create multiple resources with the same label.
+Resource ticket owners need to be prepared for populate to be called
+multiple times if userspace created multiple resources with the same
+label.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- arch/arm64/include/asm/gunyah.h |  24 +++++
- drivers/virt/gunyah/rsc_mgr.c   | 162 +++++++++++++++++++++++++++++++-
- include/linux/gunyah.h          |   3 +
- include/linux/gunyah_rsc_mgr.h  |   3 +
- 4 files changed, 191 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/include/asm/gunyah.h
+ drivers/virt/gunyah/vm_mgr.c  | 117 +++++++++++++++++++++++++++++++++-
+ drivers/virt/gunyah/vm_mgr.h  |   4 ++
+ include/linux/gunyah_vm_mgr.h |  14 ++++
+ 3 files changed, 134 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/gunyah.h b/arch/arm64/include/asm/gunyah.h
-new file mode 100644
-index 000000000000..c83d983b0f4e
---- /dev/null
-+++ b/arch/arm64/include/asm/gunyah.h
-@@ -0,0 +1,24 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+#ifndef _ASM_GUNYAH_H
-+#define _ASM_GUNYAH_H
-+
-+#include <linux/irq.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+static inline int arch_gh_fill_irq_fwspec_params(u32 virq, struct irq_fwspec *fwspec)
-+{
-+	/* Assume that Gunyah gave us an SPI; defensively check it */
-+	if (WARN_ON(virq < 32 || virq > 1019))
-+		return -EINVAL;
-+
-+	fwspec->param_count = 3;
-+	fwspec->param[0] = GIC_SPI;
-+	fwspec->param[1] = virq - 32;
-+	fwspec->param[2] = IRQ_TYPE_EDGE_RISING;
-+	return 0;
-+}
-+
-+#endif
-diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
-index 99c5d03bb698..d1d74bdd8378 100644
---- a/drivers/virt/gunyah/rsc_mgr.c
-+++ b/drivers/virt/gunyah/rsc_mgr.c
-@@ -17,6 +17,8 @@
- #include <linux/platform_device.h>
- #include <linux/miscdevice.h>
- 
-+#include <asm/gunyah.h>
-+
- #include "rsc_mgr.h"
- #include "vm_mgr.h"
- 
-@@ -133,6 +135,7 @@ struct gh_rm_connection {
-  * @send_lock: synchronization to allow only one request to be sent at a time
-  * @nh: notifier chain for clients interested in RM notification messages
-  * @miscdev: /dev/gunyah
-+ * @irq_domain: Domain to translate Gunyah hwirqs to Linux irqs
-  */
- struct gh_rm {
- 	struct device *dev;
-@@ -151,6 +154,7 @@ struct gh_rm {
- 	struct blocking_notifier_head nh;
- 
- 	struct miscdevice miscdev;
-+	struct irq_domain *irq_domain;
- };
- 
- /**
-@@ -191,6 +195,133 @@ static inline int gh_rm_remap_error(enum gh_rm_error rm_error)
- 	}
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index e4b0a595589c..8fd59203792e 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -184,6 +184,99 @@ void gh_vm_function_unregister(struct gh_vm_function *fn)
  }
+ EXPORT_SYMBOL_GPL(gh_vm_function_unregister);
  
-+struct gh_irq_chip_data {
-+	u32 gh_virq;
-+};
-+
-+static struct irq_chip gh_rm_irq_chip = {
-+	.name			= "Gunyah",
-+	.irq_enable		= irq_chip_enable_parent,
-+	.irq_disable		= irq_chip_disable_parent,
-+	.irq_ack		= irq_chip_ack_parent,
-+	.irq_mask		= irq_chip_mask_parent,
-+	.irq_mask_ack		= irq_chip_mask_ack_parent,
-+	.irq_unmask		= irq_chip_unmask_parent,
-+	.irq_eoi		= irq_chip_eoi_parent,
-+	.irq_set_affinity	= irq_chip_set_affinity_parent,
-+	.irq_set_type		= irq_chip_set_type_parent,
-+	.irq_set_wake		= irq_chip_set_wake_parent,
-+	.irq_set_vcpu_affinity	= irq_chip_set_vcpu_affinity_parent,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_get_irqchip_state	= irq_chip_get_parent_state,
-+	.irq_set_irqchip_state	= irq_chip_set_parent_state,
-+	.flags			= IRQCHIP_SET_TYPE_MASKED |
-+				  IRQCHIP_SKIP_SET_WAKE |
-+				  IRQCHIP_MASK_ON_SUSPEND,
-+};
-+
-+static int gh_rm_irq_domain_alloc(struct irq_domain *d, unsigned int virq, unsigned int nr_irqs,
-+				 void *arg)
++int gh_vm_add_resource_ticket(struct gh_vm *ghvm, struct gh_vm_resource_ticket *ticket)
 +{
-+	struct gh_irq_chip_data *chip_data, *spec = arg;
-+	struct irq_fwspec parent_fwspec;
-+	struct gh_rm *rm = d->host_data;
-+	u32 gh_virq = spec->gh_virq;
-+	int ret;
-+
-+	if (nr_irqs != 1)
-+		return -EINVAL;
-+
-+	chip_data = kzalloc(sizeof(*chip_data), GFP_KERNEL);
-+	if (!chip_data)
-+		return -ENOMEM;
-+
-+	chip_data->gh_virq = gh_virq;
-+
-+	ret = irq_domain_set_hwirq_and_chip(d, virq, chip_data->gh_virq, &gh_rm_irq_chip,
-+						chip_data);
-+	if (ret)
-+		goto err_free_irq_data;
-+
-+	parent_fwspec.fwnode = d->parent->fwnode;
-+	ret = arch_gh_fill_irq_fwspec_params(chip_data->gh_virq, &parent_fwspec);
-+	if (ret) {
-+		dev_err(rm->dev, "virq translation failed %u: %d\n", chip_data->gh_virq, ret);
-+		goto err_free_irq_data;
-+	}
-+
-+	ret = irq_domain_alloc_irqs_parent(d, virq, nr_irqs, &parent_fwspec);
-+	if (ret)
-+		goto err_free_irq_data;
-+
-+	return ret;
-+err_free_irq_data:
-+	kfree(chip_data);
-+	return ret;
-+}
-+
-+static void gh_rm_irq_domain_free_single(struct irq_domain *d, unsigned int virq)
-+{
-+	struct irq_data *irq_data;
-+
-+	irq_data = irq_domain_get_irq_data(d, virq);
-+	if (!irq_data)
-+		return;
-+
-+	kfree(irq_data->chip_data);
-+	irq_data->chip_data = NULL;
-+}
-+
-+static void gh_rm_irq_domain_free(struct irq_domain *d, unsigned int virq, unsigned int nr_irqs)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < nr_irqs; i++)
-+		gh_rm_irq_domain_free_single(d, virq);
-+}
-+
-+static const struct irq_domain_ops gh_rm_irq_domain_ops = {
-+	.alloc		= gh_rm_irq_domain_alloc,
-+	.free		= gh_rm_irq_domain_free,
-+};
-+
-+struct gh_resource *gh_rm_alloc_resource(struct gh_rm *rm, struct gh_rm_hyp_resource *hyp_resource)
-+{
++	struct gh_vm_resource_ticket *iter;
 +	struct gh_resource *ghrsc;
-+	int ret;
++	int ret = 0;
 +
-+	ghrsc = kzalloc(sizeof(*ghrsc), GFP_KERNEL);
-+	if (!ghrsc)
-+		return NULL;
-+
-+	ghrsc->type = hyp_resource->type;
-+	ghrsc->capid = le64_to_cpu(hyp_resource->cap_id);
-+	ghrsc->irq = IRQ_NOTCONNECTED;
-+	ghrsc->rm_label = le32_to_cpu(hyp_resource->resource_label);
-+	if (hyp_resource->virq) {
-+		struct gh_irq_chip_data irq_data = {
-+			.gh_virq = le32_to_cpu(hyp_resource->virq),
-+		};
-+
-+		ret = irq_domain_alloc_irqs(rm->irq_domain, 1, NUMA_NO_NODE, &irq_data);
-+		if (ret < 0) {
-+			dev_err(rm->dev,
-+				"Failed to allocate interrupt for resource %d label: %d: %d\n",
-+				ghrsc->type, ghrsc->rm_label, ghrsc->irq);
-+		} else {
-+			ghrsc->irq = ret;
++	mutex_lock(&ghvm->resources_lock);
++	list_for_each_entry(iter, &ghvm->resource_tickets, vm_list) {
++		if (iter->resource_type == ticket->resource_type && iter->label == ticket->label) {
++			ret = -EEXIST;
++			goto out;
 +		}
 +	}
 +
-+	return ghrsc;
-+}
++	if (!try_module_get(ticket->owner)) {
++		ret = -ENODEV;
++		goto out;
++	}
 +
-+void gh_rm_free_resource(struct gh_resource *ghrsc)
++	list_add(&ticket->vm_list, &ghvm->resource_tickets);
++	INIT_LIST_HEAD(&ticket->resources);
++
++	list_for_each_entry(ghrsc, &ghvm->resources, list) {
++		if (ghrsc->type == ticket->resource_type && ghrsc->rm_label == ticket->label) {
++			if (ticket->populate(ticket, ghrsc))
++				list_move(&ghrsc->list, &ticket->resources);
++		}
++	}
++out:
++	mutex_unlock(&ghvm->resources_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_vm_add_resource_ticket);
++
++void gh_vm_remove_resource_ticket(struct gh_vm *ghvm, struct gh_vm_resource_ticket *ticket)
 +{
-+	irq_dispose_mapping(ghrsc->irq);
-+	kfree(ghrsc);
++	struct gh_resource *ghrsc, *iter;
++
++	mutex_lock(&ghvm->resources_lock);
++	list_for_each_entry_safe(ghrsc, iter, &ticket->resources, list) {
++		ticket->unpopulate(ticket, ghrsc);
++		list_move(&ghrsc->list, &ghvm->resources);
++	}
++
++	module_put(ticket->owner);
++	list_del(&ticket->vm_list);
++	mutex_unlock(&ghvm->resources_lock);
++}
++EXPORT_SYMBOL_GPL(gh_vm_remove_resource_ticket);
++
++static void gh_vm_add_resource(struct gh_vm *ghvm, struct gh_resource *ghrsc)
++{
++	struct gh_vm_resource_ticket *ticket;
++
++	mutex_lock(&ghvm->resources_lock);
++	list_for_each_entry(ticket, &ghvm->resource_tickets, vm_list) {
++		if (ghrsc->type == ticket->resource_type && ghrsc->rm_label == ticket->label) {
++			if (ticket->populate(ticket, ghrsc))
++				list_add(&ghrsc->list, &ticket->resources);
++			else
++				list_add(&ghrsc->list, &ghvm->resources);
++			/* unconditonal -- we prevent multiple identical
++			 * resource tickets so there will not be some other
++			 * ticket elsewhere in the list if populate() failed.
++			 */
++			goto found;
++		}
++	}
++	list_add(&ghrsc->list, &ghvm->resources);
++found:
++	mutex_unlock(&ghvm->resources_lock);
 +}
 +
- static int gh_rm_init_connection_payload(struct gh_rm_connection *connection, void *msg,
- 					size_t hdr_size, size_t msg_size)
++static void gh_vm_clean_resources(struct gh_vm *ghvm)
++{
++	struct gh_vm_resource_ticket *ticket, *titer;
++	struct gh_resource *ghrsc, *riter;
++
++	mutex_lock(&ghvm->resources_lock);
++	if (!list_empty(&ghvm->resource_tickets)) {
++		dev_warn(ghvm->parent, "Dangling resource tickets:\n");
++		list_for_each_entry_safe(ticket, titer, &ghvm->resource_tickets, vm_list) {
++			dev_warn(ghvm->parent, "  %pS\n", ticket->populate);
++			gh_vm_remove_resource_ticket(ghvm, ticket);
++		}
++	}
++
++	list_for_each_entry_safe(ghrsc, riter, &ghvm->resources, list) {
++		gh_rm_free_resource(ghrsc);
++	}
++	mutex_unlock(&ghvm->resources_lock);
++}
++
+ static int gh_vm_rm_notification_status(struct gh_vm *ghvm, void *data)
  {
-@@ -661,6 +792,8 @@ static int gh_identify(void)
+ 	struct gh_rm_vm_status_payload *payload = data;
+@@ -266,6 +359,9 @@ static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
+ 	init_waitqueue_head(&ghvm->vm_status_wait);
+ 	INIT_WORK(&ghvm->free_work, gh_vm_free);
+ 	kref_init(&ghvm->kref);
++	mutex_init(&ghvm->resources_lock);
++	INIT_LIST_HEAD(&ghvm->resources);
++	INIT_LIST_HEAD(&ghvm->resource_tickets);
+ 	INIT_LIST_HEAD(&ghvm->functions);
+ 	ghvm->vm_status = GH_RM_VM_STATUS_NO_STATE;
  
- static int gh_rm_drv_probe(struct platform_device *pdev)
+@@ -275,9 +371,11 @@ static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
+ static int gh_vm_start(struct gh_vm *ghvm)
  {
-+	struct irq_domain *parent_irq_domain;
-+	struct device_node *parent_irq_node;
- 	struct gh_msgq_tx_data *msg;
- 	struct gh_rm *rm;
- 	int ret;
-@@ -701,15 +834,41 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_cache;
+ 	struct gh_vm_mem *mapping;
++	struct gh_rm_hyp_resources *resources;
++	struct gh_resource *ghrsc;
+ 	u64 dtb_offset;
+ 	u32 mem_handle;
+-	int ret;
++	int ret, i, n;
  
-+	parent_irq_node = of_irq_find_parent(pdev->dev.of_node);
-+	if (!parent_irq_node) {
-+		dev_err(&pdev->dev, "Failed to find interrupt parent of resource manager\n");
-+		ret = -ENODEV;
-+		goto err_msgq;
+ 	down_write(&ghvm->status_lock);
+ 	if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE) {
+@@ -337,6 +435,22 @@ static int gh_vm_start(struct gh_vm *ghvm)
+ 	}
+ 	ghvm->vm_status = GH_RM_VM_STATUS_READY;
+ 
++	ret = gh_rm_get_hyp_resources(ghvm->rm, ghvm->vmid, &resources);
++	if (ret) {
++		dev_warn(ghvm->parent, "Failed to get hypervisor resources for VM: %d\n", ret);
++		goto err;
 +	}
 +
-+	parent_irq_domain = irq_find_host(parent_irq_node);
-+	if (!parent_irq_domain) {
-+		dev_err(&pdev->dev, "Failed to find interrupt parent domain of resource manager\n");
-+		ret = -ENODEV;
-+		goto err_msgq;
++	for (i = 0, n = le32_to_cpu(resources->n_entries); i < n; i++) {
++		ghrsc = gh_rm_alloc_resource(ghvm->rm, &resources->entries[i]);
++		if (!ghrsc) {
++			ret = -ENOMEM;
++			goto err;
++		}
++
++		gh_vm_add_resource(ghvm, ghrsc);
 +	}
 +
-+	rm->irq_domain = irq_domain_add_hierarchy(parent_irq_domain, 0, 0, pdev->dev.of_node,
-+							&gh_rm_irq_domain_ops, NULL);
-+	if (!rm->irq_domain) {
-+		dev_err(&pdev->dev, "Failed to add irq domain\n");
-+		ret = -ENODEV;
-+		goto err_msgq;
-+	}
-+	rm->irq_domain->host_data = rm;
-+
-+	rm->miscdev.parent = &pdev->dev;
- 	rm->miscdev.name = "gunyah";
- 	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
- 	rm->miscdev.fops = &gh_dev_fops;
+ 	ret = gh_rm_vm_start(ghvm->rm, ghvm->vmid);
+ 	if (ret) {
+ 		dev_warn(ghvm->parent, "Failed to start VM: %d\n", ret);
+@@ -458,6 +572,7 @@ static void gh_vm_free(struct work_struct *work)
+ 		gh_vm_stop(ghvm);
  
- 	ret = misc_register(&rm->miscdev);
- 	if (ret)
--		goto err_msgq;
-+		goto err_irq_domain;
+ 	gh_vm_remove_functions(ghvm);
++	gh_vm_clean_resources(ghvm);
  
- 	return 0;
-+err_irq_domain:
-+	irq_domain_remove(rm->irq_domain);
- err_msgq:
- 	mbox_free_channel(gh_msgq_chan(&rm->msgq));
- 	gh_msgq_remove(&rm->msgq);
-@@ -723,6 +882,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
- 	struct gh_rm *rm = platform_get_drvdata(pdev);
+ 	if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE &&
+ 	    ghvm->vm_status != GH_RM_VM_STATUS_LOAD &&
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index c4bec1469ae8..e5e0c92d4cb1 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -7,6 +7,7 @@
+ #define _GH_VM_MGR_H
  
- 	misc_deregister(&rm->miscdev);
-+	irq_domain_remove(rm->irq_domain);
- 	mbox_free_channel(gh_msgq_chan(&rm->msgq));
- 	gh_msgq_remove(&rm->msgq);
- 	kmem_cache_destroy(rm->cache);
-diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-index 982e27d10d57..4b398b59c2c5 100644
---- a/include/linux/gunyah.h
-+++ b/include/linux/gunyah.h
-@@ -27,6 +27,9 @@ struct gh_resource {
- 	enum gh_resource_type type;
- 	u64 capid;
- 	unsigned int irq;
-+
-+	struct list_head list;
-+	u32 rm_label;
+ #include <linux/gunyah_rsc_mgr.h>
++#include <linux/gunyah_vm_mgr.h>
+ #include <linux/list.h>
+ #include <linux/kref.h>
+ #include <linux/miscdevice.h>
+@@ -52,6 +53,9 @@ struct gh_vm {
+ 	struct list_head memory_mappings;
+ 	struct mutex fn_lock;
+ 	struct list_head functions;
++	struct mutex resources_lock;
++	struct list_head resources;
++	struct list_head resource_tickets;
  };
  
- /**
-diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
-index 7c599654ea30..e74e867583f5 100644
---- a/include/linux/gunyah_rsc_mgr.h
-+++ b/include/linux/gunyah_rsc_mgr.h
-@@ -139,6 +139,9 @@ int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 vmid,
- 				struct gh_rm_hyp_resources **resources);
- int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
+ int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region);
+diff --git a/include/linux/gunyah_vm_mgr.h b/include/linux/gunyah_vm_mgr.h
+index f609c44d2af3..266b24579636 100644
+--- a/include/linux/gunyah_vm_mgr.h
++++ b/include/linux/gunyah_vm_mgr.h
+@@ -82,4 +82,18 @@ void gh_vm_function_unregister(struct gh_vm_function *f);
+ 	module_gh_vm_function(_name);					\
+ 	MODULE_ALIAS_GH_VM_FUNCTION(_type, _idx)
  
-+struct gh_resource *gh_rm_alloc_resource(struct gh_rm *rm, struct gh_rm_hyp_resource *hyp_resource);
-+void gh_rm_free_resource(struct gh_resource *ghrsc);
++struct gh_vm_resource_ticket {
++	struct list_head vm_list; /* for gh_vm's resource tickets list */
++	struct list_head resources; /* resources associated with this ticket */
++	enum gh_resource_type resource_type;
++	u32 label;
 +
- struct gh_rm_platform_ops {
- 	int (*pre_mem_share)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
- 	int (*post_mem_reclaim)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
++	struct module *owner;
++	bool (*populate)(struct gh_vm_resource_ticket *ticket, struct gh_resource *ghrsc);
++	void (*unpopulate)(struct gh_vm_resource_ticket *ticket, struct gh_resource *ghrsc);
++};
++
++int gh_vm_add_resource_ticket(struct gh_vm *ghvm, struct gh_vm_resource_ticket *ticket);
++void gh_vm_remove_resource_ticket(struct gh_vm *ghvm, struct gh_vm_resource_ticket *ticket);
++
+ #endif
 -- 
 2.40.0
 
