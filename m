@@ -2,112 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3E7C7618E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 17:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C04C77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 17:19:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231972AbjDXRRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 13:17:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47046 "EHLO
+        id S232120AbjDXRTD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 13:19:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231827AbjDXRRS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 13:17:18 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6337A65A1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 10:17:16 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-5068e99960fso8146379a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 10:17:16 -0700 (PDT)
+        with ESMTP id S232085AbjDXRTC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 13:19:02 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73806A55
+        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 10:19:00 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-63b50a02bffso4029618b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 10:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent.com; s=google; t=1682356635; x=1684948635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bzs6FO+61DdPWf12/xl4T+/amfUemTj+EeZsv8C3WD8=;
-        b=E5InqhAtoXFnvQIX0NMlXMDFpYpLCfXGrcNDvDPrQN8g+T1/HnyUwJHoK2EX9PdD82
-         JFVJM00/6RvpLgtDQJTjdOx7n5xIfJ6bLTuld6X1QF4KDMb1QAWxRyZTyqDeNQ/aw6gu
-         vlTnSpmwTj9cNRnqYN10jevYK/DlVSRzNui9tMfIb+gYwkqLz7s4Fc6yc5tjRxRk1Qax
-         T1g4swfEiyuRRkRF7VpGot0Uk01t3Se7NbAy8lwe3GUv0k2hYFSMF2J1t4JY9XnIwLFl
-         0IchDJuqty+P56/A3yer3SdSXWdsxGJ4/JgIaxsb8SKGCXd8J6vkxSR5bpydBRtUhPOw
-         aZqw==
+        d=isovalent.com; s=google; t=1682356739; x=1684948739;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a38sU0BVWLQ44397c5Qn/dNcocAQ8ZH17k9el5DRSzA=;
+        b=FAysqXWvfxHxpdw5VxbuKVZGy3vrZ+RvptRhxEhXV2MJl3v+wrRwW61C6LWwVOC60n
+         peb9q1u7ScStJMIgximwh9Ca3z+YBFEkVoBkDeN/8bUaLlqUH3U5/FEnNBZY6vinLDic
+         6Trs3rcEOIDBNejNOk6CFLb7o9NicmDD2aLbSTd/jFi67Mqkr/oZuscdBzVHWmDYq/b6
+         NbVw53gXjBoVQlkXQDeTrWOQhEfgNM3wNe9gtVFwy30DIyP8/lo8CefJTyoJX94HN5if
+         GdwMX/+dkZsy0OE1jqWckOgGkAwSmBIl89pYQqrBw5byU2wuDg9hNbgEjFoCg3nMKpKO
+         XXzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682356635; x=1684948635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Bzs6FO+61DdPWf12/xl4T+/amfUemTj+EeZsv8C3WD8=;
-        b=cfUs/R2r88w3LoWxJHnLVw4k35+/8p8AMPHGu8PPhu+Ek2CuY5WDDpxVqD0wQQPF0F
-         HgT5wY0z0KOlDZX3L2QlNxwqPbXVngqaOQ6bnzOeZMlL5lvJNCmnSDAw8Gq0ZdvHbeJp
-         pNw4pyv6XGqEF6nJC+hdCYNWUTThLoxsLjgZlyl9u2NFVw2QzewyNHPGuR3aXf/KaSuM
-         FtiEUvVBgZWM5fXS8fjBz5aTaQjYKn8iC8YGNvoqntx2cauvMTza7/mQe5P0C/ZfMVnt
-         RIyKSdYXALOOta+h/tbAQMvPvi2v+G2mU/NXFqVfAYAXCo5aAydWw8qjc+LFNuB/AacW
-         wHUg==
-X-Gm-Message-State: AAQBX9dp5ejfG8zEejR6OjdCM+CTHpmHRJnMW9s/1EGu6EBI+ow23B5f
-        X2IZ6yY9U6st/5piSCOt64e9dHB4M6it5gp2KM4jFNv5KGPnPBw5
-X-Google-Smtp-Source: AKy350Z9k1WElKK/0OpgV+S3KsNqmGmwHXM/f5pAh4OyM83smJJgNWacpwVFM98g0R73O/bQJEillt1T0NWEvtLUrQE=
-X-Received: by 2002:aa7:d90d:0:b0:506:77e5:d157 with SMTP id
- a13-20020aa7d90d000000b0050677e5d157mr13370358edr.19.1682356634818; Mon, 24
- Apr 2023 10:17:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230422175256.3396430-1-joe@isovalent.com> <a1d39a73-9793-2e1f-550a-aa3495cd9414@infradead.org>
-In-Reply-To: <a1d39a73-9793-2e1f-550a-aa3495cd9414@infradead.org>
+        d=1e100.net; s=20221208; t=1682356739; x=1684948739;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a38sU0BVWLQ44397c5Qn/dNcocAQ8ZH17k9el5DRSzA=;
+        b=JXzu95pISksx24BP5R9QdnHj/j0ZrPJ9ZD0+JhGxL7bj6k14hfuvmHSr9CG75UjdpP
+         CdhXfvexbyT9AXpE1xVS3CBLN4PKuUIgnoFC23MJW5ijHzAbvyJFL8wdxmLVUe/g+Dpf
+         AVEnKjtvFzLHYkSqDPK6ZegDgFuL52xwDSJQpZT6PnuXpFC/xJHidgT40yPLYG2kFBzo
+         7QQQApb9mLcuiTffNoOz9zrEgGaDYmkam/tuFiJM6FjdC/iGjSVNSOVaeN3q+pNgc0qc
+         5hJiCncjtud1+zSdtsk7V9WHQgI+azzJN5fLaCyL4xmWmum5MgWmoYD4WFrsWG6JJLBK
+         zL+g==
+X-Gm-Message-State: AAQBX9cWD5eFllPaev7pdUc0JKXSseZjjv1wjt07e6ka1cw2myJZtGO2
+        4EtE1re57aX5SfZD1UHClJJseUMjmAw5D/W4VrM=
+X-Google-Smtp-Source: AKy350ZSafi65mIsC48pRVJ2RG+WH9jsRqiNEMuLHqe4lXLIlF8X4WXv8fO55smHDKDAU3EupyJc0g==
+X-Received: by 2002:a05:6a00:1a01:b0:63b:89ba:fc9c with SMTP id g1-20020a056a001a0100b0063b89bafc9cmr18613973pfv.27.1682356739560;
+        Mon, 24 Apr 2023 10:18:59 -0700 (PDT)
+Received: from carnotaurus.. (c-73-252-184-87.hsd1.ca.comcast.net. [73.252.184.87])
+        by smtp.gmail.com with ESMTPSA id l18-20020a62be12000000b0063b7b811ce8sm7620177pff.205.2023.04.24.10.18.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Apr 2023 10:18:59 -0700 (PDT)
 From:   Joe Stringer <joe@isovalent.com>
-Date:   Mon, 24 Apr 2023 10:17:03 -0700
-Message-ID: <CADa=RywRFzMy_1_xfmmPyrUKGOJ6ziVAFzG2RLdTM7w0H1LfRQ@mail.gmail.com>
-Subject: Re: [PATCH linux-doc v2] docs/doc-guide: Clarify how to write tables
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net
+Subject: [PATCH linux-doc v3] docs/doc-guide: Clarify how to write tables
+Date:   Mon, 24 Apr 2023 10:18:50 -0700
+Message-Id: <20230424171850.3612317-1-joe@isovalent.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 22, 2023 at 11:31=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
->
-> Hi,
->
-> On 4/22/23 10:52, Joe Stringer wrote:
-> > Prior to this commit, the kernel docs writing guide spent over a page
-> > describing exactly how *not* to write tables into the kernel docs,
-> > without providing a example about the desired format.
-> > > This patch provides a positive example first in the guide so that it'=
-s
-> > harder to miss, then leaves the existing less desirable approach below
-> > for contributors to follow if they have some stronger justification for
-> > why to use that approach.
-> >
-> > Signed-off-by: Joe Stringer <joe@isovalent.com>
-> > ---
-> > v2: Simplify recommendation for either simple or grid table syntax
-> >     Remove example, link to rST user reference
-> > ---
-> >  Documentation/doc-guide/sphinx.rst | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-gui=
-de/sphinx.rst
-> > index 23edb427e76f..77ac7dc27715 100644
-> > --- a/Documentation/doc-guide/sphinx.rst
-> > +++ b/Documentation/doc-guide/sphinx.rst
-> > @@ -313,9 +313,18 @@ the documentation build system will automatically =
-turn a reference to
-> >  function name exists.  If you see ``c:func:`` use in a kernel document=
-,
-> >  please feel free to remove it.
-> >
-> > +Tables
-> > +------
-> > +
-> > +ReStructuredText provides several options for table syntax. Kernel sty=
-le for
-> > +tables is prefer *simple table* syntax or *grid table* syntax. See the
->
->    tables is to prefer
-> or
->    tables prefers
->
-> Otherwise LGTM. It's good to have positive examples, not just negative on=
-es.
+Prior to this commit, the kernel docs writing guide spent over a page
+describing exactly how *not* to write tables into the kernel docs,
+without providing a example about the desired format.
 
-Thanks, I'll fix this up and send a fresh version.
+This patch provides a positive example first in the guide so that it's
+harder to miss, then leaves the existing less desirable approach below
+for contributors to follow if they have some stronger justification for
+why to use that approach.
+
+Signed-off-by: Joe Stringer <joe@isovalent.com>
+---
+v3: Fix grammar mistake
+v2: Simplify recommendation for either simple or grid table syntax
+    Remove example, link to rST user reference
+---
+ Documentation/doc-guide/sphinx.rst | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 23edb427e76f..cd8ad7904491 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -313,9 +313,18 @@ the documentation build system will automatically turn a reference to
+ function name exists.  If you see ``c:func:`` use in a kernel document,
+ please feel free to remove it.
+ 
++Tables
++------
++
++ReStructuredText provides several options for table syntax. Kernel style for
++tables is to prefer *simple table* syntax or *grid table* syntax. See the
++`reStructuredText user reference for table syntax`_ for more details.
++
++.. _reStructuredText user reference for table syntax:
++   https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
+ 
+ list tables
+------------
++~~~~~~~~~~~
+ 
+ The list-table formats can be useful for tables that are not easily laid
+ out in the usual Sphinx ASCII-art formats.  These formats are nearly
+-- 
+2.34.1
+
