@@ -2,87 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA24AC77B60
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Apr 2023 15:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CCAC77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 06:05:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjDWPzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Apr 2023 11:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46290 "EHLO
+        id S231176AbjDXGFT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 02:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjDWPzX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Apr 2023 11:55:23 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01952E70;
-        Sun, 23 Apr 2023 08:55:21 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7D6AD35E;
-        Sun, 23 Apr 2023 15:55:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D6AD35E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1682265321; bh=Eq7I91rvkJgR1lXQO6Y7qo5YQsJ2G/Qu3dWfTJsNRl8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=H0hjvH0nrBX2pTgA8en1Cputc4qzLmxHL1pGrPTRcwR+k9ZyNRXJSNzvONjOImAgm
-         UvR5yzXUf5xqd0z0Fkks7EYFs9uowQ/2CIQFZbokmc6pjxetnwedSv6+onxvTl96ki
-         SET+R1cMjgrAa3mmoAPbW/QSVkgGkXLLDMLd+vBHqex4bhNaiicF1QCjS4Qzu0FUoh
-         4NuzYZjJgPKNgMTOCIK5f7eSlipqqHHTYigA955hriHFhNbmlu96G2Ze2uzwgtIXgX
-         f5soMGecqgLIGZ+ByycmFc86in7oH6QO6QPgHDDGsFb0ZPLkluMPZiH6W0v7JmC+qM
-         SdsDM49oaDUAw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] Documentation/process/changes: Escape --options to fix
- Sphinx output
-In-Reply-To: <7e3b424d-2aba-3326-29c8-2ccdbfb12f70@gmail.com>
-References: <87o7nitvd4.fsf@meer.lwn.net>
- <7e3b424d-2aba-3326-29c8-2ccdbfb12f70@gmail.com>
-Date:   Sun, 23 Apr 2023 09:55:20 -0600
-Message-ID: <87leiioaon.fsf@meer.lwn.net>
+        with ESMTP id S231178AbjDXGEv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 02:04:51 -0400
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3784EE0;
+        Sun, 23 Apr 2023 23:03:23 -0700 (PDT)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id C5E5D67373; Mon, 24 Apr 2023 08:03:13 +0200 (CEST)
+Date:   Mon, 24 Apr 2023 08:03:13 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Alexander Graf <graf@amazon.com>
+Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce
+ buffers
+Message-ID: <20230424060313.GB9805@lst.de>
+References: <cover.1679309810.git.petr.tesarik.ext@huawei.com> <0334a54332ab75312c9de825548b616439dcc9f5.1679309810.git.petr.tesarik.ext@huawei.com> <20230328040724.GB25506@lst.de> <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com> <8cf7c515-9ce6-a2ed-0643-972aa3eba2fb@huaweicloud.com> <20230407055704.GD6803@lst.de> <20230407121555.4290a011@meshulam.tesarici.cz> <20230421150349.35966e0b@meshulam.tesarici.cz> <4bd8ce51-5874-0aa3-bc82-fec0cee9b8f1@arm.com> <20230421170934.185a03a0@meshulam.tesarici.cz>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230421170934.185a03a0@meshulam.tesarici.cz>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+On Fri, Apr 21, 2023 at 05:09:34PM +0200, Petr Tesařík wrote:
+> > > A. Only grouping those fields in their own struct?
+> > > B. Or move the definition to another include file (cf. MAINTAINERS)?
+> > > C. Or store a pointer in struct device?  
+> > 
+> > dev->dma_parms is already this, and IIRC still has some very old 
+> > comments somewhere about consolidating the other DMA-related fields in 
+> > there.
+> 
+> Thank you for the hint! I have actually seen dma_parms, but since it
+> can be NULL and was initialized from various drivers, it did not occur
+> to me that NULL simply means not DMA-capable.
 
-> Whereas the summary reads "docs: turn off "smart quotes" in the HTML build",
-> the change is also effective in the LaTeX/PDF build.
-
-True...so the title is a bit off, but it is a fix for that build too,
-right? 
-
-> BTW, Jon, don't you test build pdfdocs these days?
-
-I will confess that I don't do it as often as I should.  As you may have
-noticed, it takes a little while to run, and the interest in PDF output
-is pretty low these days.
-
-> The fix to the pdfdocs build error from Tomi [1] is not yet picked up
-> either by Mauro or you ... :-/
->
-> [1] https://lore.kernel.org/linux-doc/29380b3e-1daa-3aef-1749-dbd9960ba620@gmail.com/
-
-Media docs patches normally go through the media tree, just like the
-original bug did; I had assumed that would happen here as well.
-Seemingly not, so I've just picked those patches up into docs-next.
-
-> I waited to see if there is anybody else who hits this build error.
-> It looks like I am alone!
->
-> If there is so few interest in pdfdocs, it might not be worth keeping
-> kernel documentation compatible with PDF build. 
-
-Interest is low, but not zero, and I'd prefer to keep it working.  It
-really helps when somebody tells me that it breaks (it is rather
-fragile, alas)!
-
-One of these days I would really like to make a serious attempt to see
-if rst2pdf has any hope of ever working for us.  Taking latex out of the
-picture would simplify so many things.
-
-Thanks,
-
-jon
+Yes, dma_parms are still optional.  A much better hint is the dma_mask
+itself, which for historic reasons is implemented in a completely
+awfull way as a pointer to something stored in the containing struture,
+which all kinds of platform devices or minor buses doing nasty hacks
+there.
