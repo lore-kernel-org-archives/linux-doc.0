@@ -2,86 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44718C77B61
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 08:03:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4203C7618E
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 08:52:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231250AbjDXIDV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 04:03:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
+        id S231387AbjDXIwu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 04:52:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjDXIDU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 04:03:20 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C188499
-        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 01:03:19 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-54f851bcd4fso48309437b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 01:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682323398; x=1684915398;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XH2Lqzu08gkcssZt2/R0XUTpz7KzoWVd+cVQ+NRECjc=;
-        b=B3P6ON3K/L5I+eOl3+sfH1ltNCzsYHMTc62CxV4kJ7JUaGnXF39hNW2w/CcrMOiCP3
-         +B62InAj3p2XPkO5dCvO9Hkq0cNNEj/D3a2C8zl/0N7IhTpIyw6ODbes2UU/4WZVwcAS
-         1QXS6yBXcKPB8tkUefPZSEWPUYDaWzd7BH+wIPb26j0e0wiV/6QBRGjEaSFIrf94SAb3
-         SNZt0LdY9cAqgDYwlWadtkl03nXejkR2y/Y/dCqlZ6NJzJvZTHRmorRpO9iPo0Qhtn09
-         Ig3Pb185p+/+/FDnJzZbw+F6OOa43bxlfDc6irdKelkghdMW/rRx//LTbugQqXgZtCP7
-         YQRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682323398; x=1684915398;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XH2Lqzu08gkcssZt2/R0XUTpz7KzoWVd+cVQ+NRECjc=;
-        b=dZlaZ59NncpF8N/rjtSKt3pkKqAG3U4CQkHbPzz0utLE0GVwU54djmnD6aLsojtrmO
-         Atsmuro7SWk3EP9gxy1UJZluYj/MWBJBvf6CsPiV1YZEl2w8HJpni96+kjPmADN/k5NX
-         kbXKBpmy3hJ4UTzoEAJr1ilySu9JTVzIpLQXBTRofLCW3PqxM6+fOlsf+JDPWtYlfrh4
-         6BSLGZhJq6Y9qY6GAUmhXYGhHHVcCSQM29NZFOduUY7uHhXk6sSX0WHeB9UMEysjMcJm
-         e8edzN6zc6U4Y7ycSPktLpYLeQNFT9ISkUp4oYMVCxvie0Y8fI/Pc3BeYQzpeFoIUIhg
-         dA/w==
-X-Gm-Message-State: AAQBX9dHZSx+Efd8deqd9PVfrtNBcq8EiDzHuNvZgL1ZFu5NeUIkE/sV
-        jtyzPww+bfIuYgJ5bMJm/OwUqf71sQTcRg==
-X-Google-Smtp-Source: AKy350aiApqOvLrglstNylz49OjbAj9RoxHq6uW0ETfoFMgDHszHJOFWE5GSDIFln6WiPVPi5rOOxA==
-X-Received: by 2002:a0d:d7cc:0:b0:54c:11e2:d32 with SMTP id z195-20020a0dd7cc000000b0054c11e20d32mr7073408ywd.27.1682323398527;
-        Mon, 24 Apr 2023 01:03:18 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:18f9:fa9:c12a:ac60])
-        by smtp.gmail.com with ESMTPSA id x4-20020a0dee04000000b0054629ed8300sm2773911ywe.80.2023.04.24.01.03.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Apr 2023 01:03:18 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH] docs/admin-guide/mm/ksm.rst fix intraface -> interface typo
-Date:   Mon, 24 Apr 2023 09:03:05 +0100
-Message-Id: <20230424080305.2985-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.39.0
+        with ESMTP id S231272AbjDXIws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 04:52:48 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 515BE193;
+        Mon, 24 Apr 2023 01:52:43 -0700 (PDT)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Q4f4w3rg2zKv7Y;
+        Mon, 24 Apr 2023 16:51:44 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 24 Apr 2023 16:52:40 +0800
+Message-ID: <5fc97b5b-e76f-99c7-7314-6bb16851f66e@huawei.com>
+Date:   Mon, 24 Apr 2023 16:52:40 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH -next v2 0/6] landlock: add chmod and chown support
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>,
+        <shuah@kernel.org>, <corbet@lwn.net>
+CC:     <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <roberto.sassu@huawei.com>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <d55baf4d-01d3-e4d7-e07f-9658d1606a8c@huawei.com>
+ <a4dc7c12-b485-2eb2-add5-4f7a387a50fa@digikod.net>
+From:   xiujianfeng <xiujianfeng@huawei.com>
+Content-Language: en-US
+In-Reply-To: <a4dc7c12-b485-2eb2-add5-4f7a387a50fa@digikod.net>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.110.112]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typo from 'intraface' to 'interface' in admin guide for KSM.
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/admin-guide/mm/ksm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index eed51a910c94..ca0c3a384f85 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -20,7 +20,7 @@ content which can be replaced by a single write-protected page (which
- is automatically copied if a process later wants to update its
- content). The amount of pages that KSM daemon scans in a single pass
- and the time between the passes are configured using :ref:`sysfs
--intraface <ksm_sysfs>`
-+interface <ksm_sysfs>`
- 
- KSM only merges anonymous (private) pages, never pagecache (file) pages.
- KSM's merged pages were originally locked into kernel memory, but can now
--- 
-2.39.0
+On 2023/4/21 1:40, Mickaël Salaün wrote:
+> 
+> On 18/04/2023 12:53, xiujianfeng wrote:
+>> Hi Mickael,
+>>
+>> Sorry about the long silence on this work, As we known this work depends
+>> on another work about changing argument from struct dentry to struct
+>> path for some attr/xattr related lsm hooks, I'm stuck with this thing,
+>> because IMA/EVM is a special security module which is not LSM-based
+>> currently, and severely coupled with the file system. so I am waiting
+>> for Roberto Sassu' work (Move IMA and EVM to the LSM infrastructure) to
+>> be ready, I think it can make my work more easy. you can find
+>> Roberto'work here,
+>> https://lwn.net/ml/linux-kernel/20230303181842.1087717-1-roberto.sassu@huaweicloud.com/
+>>
+>> Any good idea are welcome, thanks.
+> 
+> Thanks for the update Xiu.
+> 
+> Which part would be needed from Roberto's patch series?
+> 
+As we discussed before, the two access rights that need to be added and
+their usage is as below:
+LANDLOCK_ACCESS_FS_WRITE_METADATA controls
+1.inode_setattr
+2.inode_setxattr
+3.inode_removexattr
+4.inode_set_acl
+5.inode_remove_acl
+LANDLOCK_ACCESS_FS_READ_METADATA controls
+1.inode_getattr
+2.inode_get_acl
+3.inode_getxattr
+4.inode_listxattr
 
+all these APIs should be changed to use struct path instead of dentry,
+and then several vfs APIs as follows are invovled:
+notify_change,
+__vfs_setxattr_locked,
+__vfs_removexattr_locked,
+__vfs_setxattr_noperm
+vfs_set_acl
+vfs_remove_acl
+vfs_getxattr
+vfs_listxattr
+vfs_get_acl
+and also include some LSM hooks such as inode_post_setxattr and
+inode_setsecctx.
+
+Since the original places where pass dentry to security_inode_xxx may
+not have any struct path, we have to pass it from the top caller, so
+this also touches lots of filesystems(e.g. cachefiles, ecryptfs, ksmbd,
+nfsd, overlayfs...).
+
+Other LSMs such as selinux, smack can be easy to refator because they
+are LSM-based, and if VFS passes path to security_inode_xxx and they can
+just use path->dentry instead inside they own modules.
+
+AS for IMA/EVM, unfortunately they are not LSM-based and coupled with
+the file system. To make things worse, there is a recursive dependency
+situation during the update of extended attribute which happen as follows:
+
+__vfs_setxattr_noperm
+  => security_inode_post_setxattr
+    => evm_inode_post_setxattr
+      => evm_update_evmxattr
+=> __vfs_setxattr_noperm
+
+To change the argument of __vfs_setxattr_noperm from a dentry to the
+path structure, the two EVM functions would have to be altered as well.
+However, evm_update_evmxattr is called by 3 other EVM functions who
+lives in the very heart of the complicated EVM framework. Any change to
+them would cause a nasty chain reaction in EVM and, as IMA would trigger
+EVM directly, in IMA as well.
+
+There is another callchain as follow:
+ima_appraise_measurement
+  =>evm_verifyxattr
+    =>evm_verifyxattr
+      =>evm_verify_hmac
+	=>evm_calc_hash
+	   =>evm_calc_hmac_or_hash
+	     =>vfs_getxattr
+Passing struct path into vfs_getxattr() would also affect this
+callchain. Currently ima_appraise_measurment accepts a struct file, and
+dentry is generated from file_dentry(file) in order to mitigate a
+deadlock issue involving overlayfs(commit e71b9dff0634ed). Once
+&file->f_path is passed through this callchain, and someone wants the
+dentry, it will be using file->f_path.dentry, which is different from
+file_dentry(file). In the overlayfs scenario, may this cause an issue?
+
+The patchset of moving IMA and EVM into the LSM infrastructe would be
+helpfull but still can not completely resolve this situation. more
+refactor would be needed in EVM. That's all that's happening right now.
+
+> 
+>>
+>>
+>> On 2022/8/27 19:12, Xiu Jianfeng wrote:
+>>> v2:
+>>>   * abstract walk_to_visible_parent() helper
+>>>   * chmod and chown rights only take affect on directory's context
+>>>   * add testcase for fchmodat/lchown/fchownat
+>>>   * fix other review issues
+>>>
+>>> Xiu Jianfeng (6):
+>>>    landlock: expand access_mask_t to u32 type
+>>>    landlock: abstract walk_to_visible_parent() helper
+>>>    landlock: add chmod and chown support
+>>>    landlock/selftests: add selftests for chmod and chown
+>>>    landlock/samples: add chmod and chown support
+>>>    landlock: update chmod and chown support in document
+>>>
+>>>   Documentation/userspace-api/landlock.rst     |   9 +-
+>>>   include/uapi/linux/landlock.h                |  10 +-
+>>>   samples/landlock/sandboxer.c                 |  13 +-
+>>>   security/landlock/fs.c                       | 110 ++++++--
+>>>   security/landlock/limits.h                   |   2 +-
+>>>   security/landlock/ruleset.h                  |   2 +-
+>>>   security/landlock/syscalls.c                 |   2 +-
+>>>   tools/testing/selftests/landlock/base_test.c |   2 +-
+>>>   tools/testing/selftests/landlock/fs_test.c   | 267 ++++++++++++++++++-
+>>>   9 files changed, 386 insertions(+), 31 deletions(-)
+>>>
