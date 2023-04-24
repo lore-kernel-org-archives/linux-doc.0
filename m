@@ -2,215 +2,325 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9C7C7618E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 22:30:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 320D2C77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 23:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232505AbjDXWaf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 18:30:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47188 "EHLO
+        id S232258AbjDXXQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 19:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232797AbjDXWaS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 18:30:18 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA47719BA;
-        Mon, 24 Apr 2023 15:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-        t=1682375399; i=w_armin@gmx.de;
-        bh=5sBozmCf1BEgGSGkQpQ5TyvhvOpqQjnfZg8RI7c13lk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=FC5JywkA/v5UxGhp8hi3nxL80rlZlTGfNrFD1a2FKtJ60+MKzi+d8Nksv97tNglu3
-         q0FxY8612TUoitJkt5zEsZfGEAEb4IjitLlzI+W/4WKVYzt2DCKJV+08bCocRqqsKD
-         bPV3B91ffGYh8tiIllxEUkTg2mIPS53a9DdF4QhbeQxLKYVIO4r4BsJuGZ7jULr3YG
-         MTzZRjaARA5OISsRwcYaCuMqM7iF30ycjcmUDOP7fJpr6Wu8Hhfxg8LkElRhbXC83s
-         fyPau81CN/0Yi9fPHcigm0vqAD7nNlKuZkUeLzZWm+h0u18G6s664m3VvgRkEPuXqo
-         kODP61Oxy7r/Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MTzf6-1phpGX1oVW-00R1oW; Tue, 25 Apr 2023 00:29:59 +0200
-From:   Armin Wolf <W_Armin@gmx.de>
-To:     hdegoede@redhat.com, markgross@kernel.org, rdunlap@infradead.org
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] platform/x86: wmi: Add device specific documentation
-Date:   Tue, 25 Apr 2023 00:29:39 +0200
-Message-Id: <20230424222939.208137-5-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230424222939.208137-1-W_Armin@gmx.de>
-References: <20230424222939.208137-1-W_Armin@gmx.de>
+        with ESMTP id S229755AbjDXXQg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 19:16:36 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6B4126;
+        Mon, 24 Apr 2023 16:16:34 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33ON3LFe019448;
+        Mon, 24 Apr 2023 23:16:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=iQ7VnyxO1qPvs8HMUoEtRg5bjjSA+GabCMD0yY6tri8=;
+ b=DmD+ZoTrL0nF1Zt0sErjgv0Q3WDfXVMM1kVCdh3cTKRjyXTbt9hQWHj0zYsuvOVKkydB
+ Rx87lJuN/RP6653rEf2asL7Vci/OvJej5uTmWPrwnm7+06AfHzIPY6nOAKm8+DhoUAbE
+ fV1RqZ22UjGQw4L+EpbbU56XNSnjSt595OEDNF7b+RgRcZ8rCEpksbalDItTqrn089Ln
+ 58nDSzyTRCGmmevvNJk6nSKG20YKOZYGyQgybkpEcqNB/YiZToFZoAyMFHtQX4T/7vPC
+ TwUSxFNbvMZQY/erpvy5thV3vYr3vrSB6qjixCtofQrTJItnPxB+j0VYjhmUTmTTpYKE fg== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q5wrb0q0v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 Apr 2023 23:16:16 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33ONGExx024094
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 Apr 2023 23:16:14 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Mon, 24 Apr 2023 16:16:13 -0700
+From:   Elliot Berman <quic_eberman@quicinc.com>
+To:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC:     Elliot Berman <quic_eberman@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v12 00/25] Drivers for Gunyah hypervisor
+Date:   Mon, 24 Apr 2023 16:15:33 -0700
+Message-ID: <20230424231558.70911-1-quic_eberman@quicinc.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7+O4enu/7tBLqmAzdJ19x3VYC6p81wTc2Dcvcw2qlO/LUffLERb
- u/8VvAuNUSQdNEyYsgw173I+QYxGCtgRrTSlFW0B2mnnlheRktdqrtbe+H0+98750UXoEbR
- 1lVD2oERS6EteadvPBY7xLdyMsoPgDJLJMcMf7jqXuml9sfaPx4vVNddA5rfv1TVck9gZ5U
- DoqIhLHzmUWm8rEECS16Q==
-UI-OutboundReport: notjunk:1;M01:P0:loTMlzO8HN0=;r3JaavTxwMUfj/S5WPf6y8yap4K
- DOI7NZPNEEh//RJrvbktQw1wA9+YApoiVOiMFpu7IS3mvbmPrIW3nOITznzKa36ZUKTO6SH//
- Pfi4Bf+XTVkmdZZyZ2+yfs6X6wdIn/feM77tNyK1wtyCEuUO3fyKzEWvJLjUm/YFWmmlJMGgP
- osZX2ZETorSIhCV0AK9eQhy0P8p1PI/RVsFa2dnjoztplSOK90UJVW0QGEpgcm2bc7rGxC8Od
- U60Xoh9lHrIR660ZPopVmItpU8Iy3QafykhD2A1VhNXwKPgky8Tt7556O2xvCh8mOz3GyQRnY
- wtsQkya+PtLUBqqzdfhQ4QUtYxRnwsLa44ofx+GrzyU/X2JXlXDi7C2cNRSrKnEKOGyBFz5mO
- oRRRjaL+V7d+eSPvFyLyyZXPQTewAoMU2tnz+8nHHd8qCeu/Dfioyonrb8Z6Wdf04Zl4Yd/kw
- AgMdEYk8vsCiWeMRkRVvoiv826on997cRUbgK+fW+66K6y7hHLcAPF4QT1FTl212kOPIoa9Kw
- JkLgdMyuLEQSwgX0vLv8S2Nc7GVX9lGK16CCuD/Swpz5wuyJ10fy/Lzzt4Tglb29ugpsoUMwR
- 7pud+fjZ8gu3zw2N2JJJNCL6nY7gvqIlsMmzI71+WEW+InH4kVqEQSB/iQzDMA1YiYm5WZQjP
- TmiMTmgPyX/RaSqRNxPVsu56qxrkJeuVCdHMbKKpJnOsgpAx8isvoiXwddvYi6EI29Ks6D5Do
- DpEtCudvkNOHR9J5dZAVhqfda2LN57IJibeWxWgKhu2ow38uSBslz/DVm3Y+vf6k8ulCPT2Mb
- +WJCnOSeY8e/eqkrU+zB/9Akqr2JQRvhSzxIIJvmKMwIf59RBle2hMafNwU1DOmbVlzSZcfma
- PqE7e3U653MZZiSvOcqCcFGRxVuKlF2Aw018o/Z8unf2E+cSwcqZTHbg3RDfY8NhFXSPb5tTp
- k4EGVb81m4NMelmNJrGI+qjoG/s=
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 9bkZh2CRg-KqnWeW2DywNuu1opP-c0rH
+X-Proofpoint-ORIG-GUID: 9bkZh2CRg-KqnWeW2DywNuu1opP-c0rH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-24_11,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
+ bulkscore=0 clxscore=1015 malwarescore=0 suspectscore=0 spamscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304240211
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a place for device-specific documentation of WMI drivers.
-The first entry is documentation for the wmi-bmof driver, with
-additional documentation being expected to follow.
+Gunyah is a Type-1 hypervisor independent of any
+high-level OS kernel, and runs in a higher CPU privilege level. It does
+not depend on any lower-privileged OS kernel/code for its core
+functionality. This increases its security and can support a much smaller
+trusted computing base than a Type-2 hypervisor.
 
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- .../ABI/stable/sysfs-platform-wmi-bmof        |  7 ++++++
- Documentation/wmi/devices/index.rst           | 22 ++++++++++++++++
- Documentation/wmi/devices/wmi-bmof.rst        | 25 +++++++++++++++++++
- Documentation/wmi/index.rst                   |  1 +
- MAINTAINERS                                   |  7 ++++++
- drivers/platform/x86/Kconfig                  |  4 +--
- 6 files changed, 64 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/stable/sysfs-platform-wmi-bmof
- create mode 100644 Documentation/wmi/devices/index.rst
- create mode 100644 Documentation/wmi/devices/wmi-bmof.rst
+Gunyah is an open source hypervisor. The source repo is available at
+https://github.com/quic/gunyah-hypervisor.
 
-diff --git a/Documentation/ABI/stable/sysfs-platform-wmi-bmof b/Documentat=
-ion/ABI/stable/sysfs-platform-wmi-bmof
-new file mode 100644
-index 000000000000..a786504b6027
-=2D-- /dev/null
-+++ b/Documentation/ABI/stable/sysfs-platform-wmi-bmof
-@@ -0,0 +1,7 @@
-+What:		/sys/bus/wmi/devices/05901221-D566-11D1-B2F0-00A0C9062910[-X]/bmof
-+Date:		Jun 2017
-+KernelVersion:	4.13
-+Description:
-+		Binary MOF metadata used to decribe the details of available ACPI WMI i=
-nterfaces.
-+
-+		See Documentation/wmi/devices/wmi-bmof.rst for details.
-diff --git a/Documentation/wmi/devices/index.rst b/Documentation/wmi/devic=
-es/index.rst
-new file mode 100644
-index 000000000000..c08735a9d7df
-=2D-- /dev/null
-+++ b/Documentation/wmi/devices/index.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+Driver-specific Documentation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+This section provides information about various devices supported by
-+the Linux kernel, their protocols and driver details.
-+
-+.. toctree::
-+   :maxdepth: 1
-+   :numbered:
-+   :glob:
-+
-+   *
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =3D=3D=3D=3D=3D=3D=3D
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/wmi/devices/wmi-bmof.rst b/Documentation/wmi/de=
-vices/wmi-bmof.rst
-new file mode 100644
-index 000000000000..ca1ee9a29be3
-=2D-- /dev/null
-+++ b/Documentation/wmi/devices/wmi-bmof.rst
-@@ -0,0 +1,25 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-+WMI embedded Binary MOF driver
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-+
-+Introduction
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Many machines embed WMI Binary MOF (Managed Object Format) metadata used =
-to
-+describe the details of their ACPI WMI interfaces. The data can be decode=
-d
-+with tools like `bmfdec <https://github.com/pali/bmfdec>`_ to obtain a
-+human readable WMI interface description, which is useful for developing
-+new WMI drivers.
-+
-+The Binary MOF data can be retrieved from the ``bmof`` sysfs attribute of=
- the
-+associated WMI device. Please note that multiple WMI devices containing B=
-inary
-+MOF data can exist on a given system.
-+
-+WMI interface
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The Binary MOF WMI device is identified by the WMI GUID ``05901221-D566-1=
-1D1-B2F0-00A0C9062910``.
-+The Binary MOF can be obtained by doing a WMI data block query. The resul=
-t is
-+then returned as an ACPI buffer with a variable size.
-diff --git a/Documentation/wmi/index.rst b/Documentation/wmi/index.rst
-index b29933a86380..537cff188e14 100644
-=2D-- a/Documentation/wmi/index.rst
-+++ b/Documentation/wmi/index.rst
-@@ -8,6 +8,7 @@ WMI Subsystem
-    :maxdepth: 1
+The diagram below shows the architecture.
 
-    acpi-interface
-+   devices/index
+::
 
- .. only::  subproject and html
+         VM A                    VM B
+     +-----+ +-----+  | +-----+ +-----+ +-----+
+     |     | |     |  | |     | |     | |     |
+ EL0 | APP | | APP |  | | APP | | APP | | APP |
+     |     | |     |  | |     | |     | |     |
+     +-----+ +-----+  | +-----+ +-----+ +-----+
+ ---------------------|-------------------------
+     +--------------+ | +----------------------+
+     |              | | |                      |
+ EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
+     |              | | |                      |
+     +--------------+ | +----------------------+
+ --------hvc/smc------|------hvc/smc------------
+     +----------------------------------------+
+     |                                        |
+ EL2 |            Gunyah Hypervisor           |
+     |                                        |
+     +----------------------------------------+
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 979d37176429..4d5b1f6d77f6 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22556,6 +22556,13 @@ L:	linux-wireless@vger.kernel.org
- S:	Odd fixes
- F:	drivers/net/wireless/wl3501*
+Gunyah provides these following features.
 
-+WMI BINARY MOF DRIVER
-+L:	platform-drivers-x86@vger.kernel.org
-+S:	Orphan
-+F:	Documentation/ABI/stable/sysfs-platform-wmi-bmof
-+F:	Documentation/wmi/devices/wmi-bmof.rst
-+F:	drivers/platform/x86/wmi-bmof.c
-+
- WOLFSON MICROELECTRONICS DRIVERS
- L:	patches@opensource.cirrus.com
- S:	Supported
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 22052031c719..3d5dd9e997a6 100644
-=2D-- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -43,8 +43,8 @@ config WMI_BMOF
- 	default ACPI_WMI
- 	help
- 	  Say Y here if you want to be able to read a firmware-embedded
--	  WMI Binary MOF data. Using this requires userspace tools and may be
--	  rather tedious.
-+	  WMI Binary MOF (Managed Object Format) data. Using this requires
-+	  userspace tools and may be rather tedious.
+- Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
+physical CPUs and enables time-sharing of the CPUs.
+- Memory Management: Gunyah tracks memory ownership and use of all memory
+under its control. Memory partitioning between VMs is a fundamental
+security feature.
+- Interrupt Virtualization: All interrupts are handled in the hypervisor
+and routed to the assigned VM.
+- Inter-VM Communication: There are several different mechanisms provided
+for communicating between VMs.
+- Device Virtualization: Para-virtualization of devices is supported using
+inter-VM communication. Low level system features and devices such as
+interrupt controllers are supported with emulation where required.
 
- 	  To compile this driver as a module, choose M here: the module will
- 	  be called wmi-bmof.
-=2D-
-2.30.2
+This series adds the basic framework for detecting that Linux is running
+under Gunyah as a virtual machine, communication with the Gunyah Resource
+Manager, and a sample virtual machine manager capable of launching virtual machines.
+
+The series relies on two other patches posted separately:
+ - https://lore.kernel.org/all/20230213181832.3489174-1-quic_eberman@quicinc.com/
+ - https://lore.kernel.org/all/20230213232537.2040976-2-quic_eberman@quicinc.com/
+
+Changes in v12:
+ - Stylistic/cosmetic tweaks suggested by Alex
+ - Remove patch "virt: gunyah: Identify hypervisor version" and squash the
+   check that we're running under a reasonable Gunyah hypervisor into RM driver
+ - Refactor platform hooks into a separate module per suggestion from Srini
+ - GFP_KERNEL_ACCOUNT and account_locked_vm() for page pinning
+ - enum-ify related constants
+ - Allow removal of VM functions by function-specific comparison -- specifically to allow
+   removing irqfd by label only and not requiring original FD to be provided.
+
+Changes in v11: https://lore.kernel.org/all/20230304010632.2127470-1-quic_eberman@quicinc.com/
+ - Rename struct gh_vm_dtb_config:gpa -> guest_phys_addr & overflow checks for this
+ - More docstrings throughout
+ - Make resp_buf and resp_buf_size optional
+ - Replace deprecated idr with xarray
+ - Refconting on misc device instead of RM's platform device
+ - Renaming variables, structs, etc. from gunyah_ -> gh_
+ - Drop removal of user mem regions
+ - Drop mem_lend functionality; to converge with restricted_memfd later
+
+Changes in v10: https://lore.kernel.org/all/20230214211229.3239350-1-quic_eberman@quicinc.com/
+ - Fix bisectability (end result of series is same, --fixups applied to wrong commits)
+ - Convert GH_ERROR_* and GH_RM_ERROR_* to enums
+ - Correct race condition between allocating/freeing user memory
+ - Replace offsetof with struct_size
+ - Series-wide renaming of functions to be more consistent
+ - VM shutdown & restart support added in vCPU and VM Manager patches
+ - Convert VM function name (string) to type (number)
+ - Convert VM function argument to value (which could be a pointer) to remove memory wastage for arguments
+ - Remove defensive checks of hypervisor correctness
+ - Clean ups to ioeventfd as suggested by Srivatsa
+
+Changes in v9: https://lore.kernel.org/all/20230120224627.4053418-1-quic_eberman@quicinc.com/
+ - Refactor Gunyah API flags to be exposed as feature flags at kernel level
+ - Move mbox client cleanup into gunyah_msgq_remove()
+ - Simplify gh_rm_call return value and response payload
+ - Missing clean-up/error handling/little endian fixes as suggested by Srivatsa and Alex in v8 series
+
+Changes in v8: https://lore.kernel.org/all/20221219225850.2397345-1-quic_eberman@quicinc.com/
+ - Treat VM manager as a library of RM
+ - Add patches 21-28 as RFC to support proxy-scheduled vCPUs and necessary bits to support virtio
+   from Gunyah userspace
+
+Changes in v7: https://lore.kernel.org/all/20221121140009.2353512-1-quic_eberman@quicinc.com/
+ - Refactor to remove gunyah RM bus
+ - Refactor allow multiple RM device instances
+ - Bump UAPI to start at 0x0
+ - Refactor QCOM SCM's platform hooks to allow CONFIG_QCOM_SCM=Y/CONFIG_GUNYAH=M combinations
+
+Changes in v6: https://lore.kernel.org/all/20221026185846.3983888-1-quic_eberman@quicinc.com/
+ - *Replace gunyah-console with gunyah VM Manager*
+ - Move include/asm-generic/gunyah.h into include/linux/gunyah.h
+ - s/gunyah_msgq/gh_msgq/
+ - Minor tweaks and documentation tidying based on comments from Jiri, Greg, Arnd, Dmitry, and Bagas.
+
+Changes in v5: https://lore.kernel.org/all/20221011000840.289033-1-quic_eberman@quicinc.com/
+ - Dropped sysfs nodes
+ - Switch from aux bus to Gunyah RM bus for the subdevices
+ - Cleaning up RM console
+
+Changes in v4: https://lore.kernel.org/all/20220928195633.2348848-1-quic_eberman@quicinc.com/
+ - Tidied up documentation throughout based on questions/feedback received
+ - Switched message queue implementation to use mailboxes
+ - Renamed "gunyah_device" as "gunyah_resource"
+
+Changes in v3: https://lore.kernel.org/all/20220811214107.1074343-1-quic_eberman@quicinc.com/
+ - /Maintained/Supported/ in MAINTAINERS
+ - Tidied up documentation throughout based on questions/feedback received
+ - Moved hypercalls into arch/arm64/gunyah/; following hyper-v's implementation
+ - Drop opaque typedefs
+ - Move sysfs nodes under /sys/hypervisor/gunyah/
+ - Moved Gunyah console driver to drivers/tty/
+ - Reworked gh_device design to drop the Gunyah bus.
+
+Changes in v2: https://lore.kernel.org/all/20220801211240.597859-1-quic_eberman@quicinc.com/
+ - DT bindings clean up
+ - Switch hypercalls to follow SMCCC 
+
+v1: https://lore.kernel.org/all/20220223233729.1571114-1-quic_eberman@quicinc.com/
+
+Elliot Berman (25):
+  docs: gunyah: Introduce Gunyah Hypervisor
+  dt-bindings: Add binding for gunyah hypervisor
+  gunyah: Common types and error codes for Gunyah hypercalls
+  virt: gunyah: Add hypercalls to identify Gunyah
+  virt: gunyah: msgq: Add hypercalls to send and receive messages
+  mailbox: Add Gunyah message queue mailbox
+  gunyah: rsc_mgr: Add resource manager RPC core
+  gunyah: rsc_mgr: Add VM lifecycle RPC
+  gunyah: vm_mgr: Introduce basic VM Manager
+  gunyah: rsc_mgr: Add RPC for sharing memory
+  gunyah: vm_mgr: Add/remove user memory regions
+  gunyah: vm_mgr: Add ioctls to support basic non-proxy VM boot
+  samples: Add sample userspace Gunyah VM Manager
+  gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
+  firmware: qcom_scm: Register Gunyah platform ops
+  docs: gunyah: Document Gunyah VM Manager
+  virt: gunyah: Translate gh_rm_hyp_resource into gunyah_resource
+  gunyah: vm_mgr: Add framework for VM Functions
+  virt: gunyah: Add resource tickets
+  virt: gunyah: Add IO handlers
+  virt: gunyah: Add proxy-scheduled vCPUs
+  virt: gunyah: Add hypercalls for sending doorbell
+  virt: gunyah: Add irqfd interface
+  virt: gunyah: Add ioeventfd
+  MAINTAINERS: Add Gunyah hypervisor drivers section
+
+ .../bindings/firmware/gunyah-hypervisor.yaml  |  82 ++
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ Documentation/virt/gunyah/index.rst           | 114 +++
+ Documentation/virt/gunyah/message-queue.rst   |  71 ++
+ Documentation/virt/gunyah/vm-manager.rst      | 142 +++
+ Documentation/virt/index.rst                  |   1 +
+ MAINTAINERS                                   |  13 +
+ arch/arm64/Kbuild                             |   1 +
+ arch/arm64/gunyah/Makefile                    |   3 +
+ arch/arm64/gunyah/gunyah_hypercall.c          | 140 +++
+ arch/arm64/include/asm/gunyah.h               |  24 +
+ drivers/mailbox/Makefile                      |   2 +
+ drivers/mailbox/gunyah-msgq.c                 | 210 ++++
+ drivers/virt/Kconfig                          |   2 +
+ drivers/virt/Makefile                         |   1 +
+ drivers/virt/gunyah/Kconfig                   |  59 ++
+ drivers/virt/gunyah/Makefile                  |  11 +
+ drivers/virt/gunyah/gunyah_ioeventfd.c        | 117 +++
+ drivers/virt/gunyah/gunyah_irqfd.c            | 167 ++++
+ drivers/virt/gunyah/gunyah_platform_hooks.c   |  80 ++
+ drivers/virt/gunyah/gunyah_qcom.c             | 147 +++
+ drivers/virt/gunyah/gunyah_vcpu.c             | 456 +++++++++
+ drivers/virt/gunyah/rsc_mgr.c                 | 910 ++++++++++++++++++
+ drivers/virt/gunyah/rsc_mgr.h                 |  19 +
+ drivers/virt/gunyah/rsc_mgr_rpc.c             | 500 ++++++++++
+ drivers/virt/gunyah/vm_mgr.c                  | 792 +++++++++++++++
+ drivers/virt/gunyah/vm_mgr.h                  |  70 ++
+ drivers/virt/gunyah/vm_mgr_mm.c               | 256 +++++
+ include/linux/gunyah.h                        | 207 ++++
+ include/linux/gunyah_rsc_mgr.h                | 162 ++++
+ include/linux/gunyah_vm_mgr.h                 | 124 +++
+ include/uapi/linux/gunyah.h                   | 293 ++++++
+ samples/Kconfig                               |  10 +
+ samples/Makefile                              |   1 +
+ samples/gunyah/.gitignore                     |   2 +
+ samples/gunyah/Makefile                       |   6 +
+ samples/gunyah/gunyah_vmm.c                   | 270 ++++++
+ samples/gunyah/sample_vm.dts                  |  68 ++
+ 38 files changed, 5534 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ create mode 100644 Documentation/virt/gunyah/index.rst
+ create mode 100644 Documentation/virt/gunyah/message-queue.rst
+ create mode 100644 Documentation/virt/gunyah/vm-manager.rst
+ create mode 100644 arch/arm64/gunyah/Makefile
+ create mode 100644 arch/arm64/gunyah/gunyah_hypercall.c
+ create mode 100644 arch/arm64/include/asm/gunyah.h
+ create mode 100644 drivers/mailbox/gunyah-msgq.c
+ create mode 100644 drivers/virt/gunyah/Kconfig
+ create mode 100644 drivers/virt/gunyah/Makefile
+ create mode 100644 drivers/virt/gunyah/gunyah_ioeventfd.c
+ create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
+ create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
+ create mode 100644 drivers/virt/gunyah/gunyah_qcom.c
+ create mode 100644 drivers/virt/gunyah/gunyah_vcpu.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+ create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+ create mode 100644 drivers/virt/gunyah/vm_mgr.c
+ create mode 100644 drivers/virt/gunyah/vm_mgr.h
+ create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
+ create mode 100644 include/linux/gunyah.h
+ create mode 100644 include/linux/gunyah_rsc_mgr.h
+ create mode 100644 include/linux/gunyah_vm_mgr.h
+ create mode 100644 include/uapi/linux/gunyah.h
+ create mode 100644 samples/gunyah/.gitignore
+ create mode 100644 samples/gunyah/Makefile
+ create mode 100644 samples/gunyah/gunyah_vmm.c
+ create mode 100644 samples/gunyah/sample_vm.dts
+
+
+base-commit: d71ee0d6ee72138dd4fda646a955a15286c46544
+-- 
+2.40.0
 
