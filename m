@@ -2,230 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEE9C7618E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 15:12:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3E7C7618E
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 17:17:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbjDXPMw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 11:12:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55304 "EHLO
+        id S231972AbjDXRRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 13:17:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbjDXPMp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 11:12:45 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC5F11BC;
-        Mon, 24 Apr 2023 08:12:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682349163; x=1713885163;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=creu1FWEWXekS0GSi/hyE65nvjBle1W5o/SEndVTiPg=;
-  b=gR1zjWVzvg5pFOyPG1ur6NKh/BnhDGNtac5xwXX63kLgTHD0Ofv1LCdi
-   KcZrZU9iL/oI+kwZlnJZf7A4G5TWuhc+EHyP6/kszvaO0LkPtgQx7GDJ1
-   7cVu6G0G92dKjH1mjXD6NizBcN6n4VQvkoIea0ODowhfdpcYkhPyKyJ4+
-   zA1xelI4VlsNCXzpJIaJLyjRh3EeX3n9T1JR6ysTS1qflzbnogatwts+5
-   axs+MqzX5XhRoGwv6xdHr1/QvlGH3dgl2Fd1r6uW9UzGo8HU5MnksmJe3
-   YSCPCT5/rrvg6fo1ynwKx8p7wHmIi74Mtnacpvc+FLF2JaRldvTDAAv/4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="343965155"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="343965155"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 08:12:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="867511061"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="867511061"
-Received: from wlwpo-8.amr.corp.intel.com ([10.251.215.143])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 08:12:33 -0700
-Date:   Mon, 24 Apr 2023 18:12:29 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-        "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
-        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
-        "peternewman@google.com" <peternewman@google.com>
-Subject: RE: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
- debug option
-In-Reply-To: <MW3PR12MB4553359D41816826AA001A1095609@MW3PR12MB4553.namprd12.prod.outlook.com>
-Message-ID: <ff99af93-5121-5a27-e24f-6354b9dffa1f@linux.intel.com>
-References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu> <56497126-8f60-e590-bb13-b3739114375@linux.intel.com> <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
- <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com> <MW3PR12MB4553359D41816826AA001A1095609@MW3PR12MB4553.namprd12.prod.outlook.com>
+        with ESMTP id S231827AbjDXRRS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 13:17:18 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6337A65A1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 10:17:16 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-5068e99960fso8146379a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Apr 2023 10:17:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isovalent.com; s=google; t=1682356635; x=1684948635;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bzs6FO+61DdPWf12/xl4T+/amfUemTj+EeZsv8C3WD8=;
+        b=E5InqhAtoXFnvQIX0NMlXMDFpYpLCfXGrcNDvDPrQN8g+T1/HnyUwJHoK2EX9PdD82
+         JFVJM00/6RvpLgtDQJTjdOx7n5xIfJ6bLTuld6X1QF4KDMb1QAWxRyZTyqDeNQ/aw6gu
+         vlTnSpmwTj9cNRnqYN10jevYK/DlVSRzNui9tMfIb+gYwkqLz7s4Fc6yc5tjRxRk1Qax
+         T1g4swfEiyuRRkRF7VpGot0Uk01t3Se7NbAy8lwe3GUv0k2hYFSMF2J1t4JY9XnIwLFl
+         0IchDJuqty+P56/A3yer3SdSXWdsxGJ4/JgIaxsb8SKGCXd8J6vkxSR5bpydBRtUhPOw
+         aZqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682356635; x=1684948635;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Bzs6FO+61DdPWf12/xl4T+/amfUemTj+EeZsv8C3WD8=;
+        b=cfUs/R2r88w3LoWxJHnLVw4k35+/8p8AMPHGu8PPhu+Ek2CuY5WDDpxVqD0wQQPF0F
+         HgT5wY0z0KOlDZX3L2QlNxwqPbXVngqaOQ6bnzOeZMlL5lvJNCmnSDAw8Gq0ZdvHbeJp
+         pNw4pyv6XGqEF6nJC+hdCYNWUTThLoxsLjgZlyl9u2NFVw2QzewyNHPGuR3aXf/KaSuM
+         FtiEUvVBgZWM5fXS8fjBz5aTaQjYKn8iC8YGNvoqntx2cauvMTza7/mQe5P0C/ZfMVnt
+         RIyKSdYXALOOta+h/tbAQMvPvi2v+G2mU/NXFqVfAYAXCo5aAydWw8qjc+LFNuB/AacW
+         wHUg==
+X-Gm-Message-State: AAQBX9dp5ejfG8zEejR6OjdCM+CTHpmHRJnMW9s/1EGu6EBI+ow23B5f
+        X2IZ6yY9U6st/5piSCOt64e9dHB4M6it5gp2KM4jFNv5KGPnPBw5
+X-Google-Smtp-Source: AKy350Z9k1WElKK/0OpgV+S3KsNqmGmwHXM/f5pAh4OyM83smJJgNWacpwVFM98g0R73O/bQJEillt1T0NWEvtLUrQE=
+X-Received: by 2002:aa7:d90d:0:b0:506:77e5:d157 with SMTP id
+ a13-20020aa7d90d000000b0050677e5d157mr13370358edr.19.1682356634818; Mon, 24
+ Apr 2023 10:17:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-737270251-1682331682=:2038"
-Content-ID: <8c5736a4-4c1a-25f2-44b6-83d2cd225350@linux.intel.com>
+References: <20230422175256.3396430-1-joe@isovalent.com> <a1d39a73-9793-2e1f-550a-aa3495cd9414@infradead.org>
+In-Reply-To: <a1d39a73-9793-2e1f-550a-aa3495cd9414@infradead.org>
+From:   Joe Stringer <joe@isovalent.com>
+Date:   Mon, 24 Apr 2023 10:17:03 -0700
+Message-ID: <CADa=RywRFzMy_1_xfmmPyrUKGOJ6ziVAFzG2RLdTM7w0H1LfRQ@mail.gmail.com>
+Subject: Re: [PATCH linux-doc v2] docs/doc-guide: Clarify how to write tables
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-737270251-1682331682=:2038
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <1685ac52-bb85-bc24-b4c-4c7e8bcec817@linux.intel.com>
-
-On Fri, 21 Apr 2023, Moger, Babu wrote:
-> > -----Original Message-----
-> > From: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> > Sent: Thursday, April 20, 2023 3:59 AM
-> > To: Moger, Babu <Babu.Moger@amd.com>
-> > Cc: corbet@lwn.net; Reinette Chatre <reinette.chatre@intel.com>;
-> > tglx@linutronix.de; mingo@redhat.com; bp@alien8.de; fenghua.yu@intel.com;
-> > dave.hansen@linux.intel.com; x86@kernel.org; hpa@zytor.com;
-> > paulmck@kernel.org; akpm@linux-foundation.org; quic_neeraju@quicinc.com;
-> > rdunlap@infradead.org; damien.lemoal@opensource.wdc.com;
-> > songmuchun@bytedance.com; peterz@infradead.org; jpoimboe@kernel.org;
-> > pbonzini@redhat.com; chang.seok.bae@intel.com;
-> > pawan.kumar.gupta@linux.intel.com; jmattson@google.com;
-> > daniel.sneddon@linux.intel.com; Das1, Sandipan <Sandipan.Das@amd.com>;
-> > tony.luck@intel.com; james.morse@arm.com; linux-doc@vger.kernel.org;
-> > LKML <linux-kernel@vger.kernel.org>; bagasdotme@gmail.com;
-> > eranian@google.com; christophe.leroy@csgroup.eu; jarkko@kernel.org;
-> > adrian.hunter@intel.com; quic_jiles@quicinc.com; peternewman@google.com
-> > Subject: Re: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
-> > debug option
-> > 
-> > On Wed, 19 Apr 2023, Moger, Babu wrote:
-> > 
-> > >
-> > >
-> > > On 4/19/23 08:20, Ilpo Järvinen wrote:
-> > > > On Mon, 17 Apr 2023, Babu Moger wrote:
-> > > >
-> > > >> Add the debug files to the resctrl hierarchy.
-> > > >>
-> > > >> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> > > >> ---
-> > > >>  arch/x86/kernel/cpu/resctrl/internal.h |    1 +
-> > > >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   54
-> > +++++++++++++++++++++++++++++++-
-> > > >>  2 files changed, 54 insertions(+), 1 deletion(-)
-> > > >>
-> > > >> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h
-> > > >> b/arch/x86/kernel/cpu/resctrl/internal.h
-> > > >> index 1eac07ebc31b..855109abb480 100644
-> > > >> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> > > >> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> > > >> @@ -288,6 +288,7 @@ struct rdtgroup {
-> > > >>  #define RFTYPE_TOP			BIT(4)
-> > > >>  #define RFTYPE_RES_CACHE		BIT(5)
-> > > >>  #define RFTYPE_RES_MB			BIT(6)
-> > > >> +#define RFTYPE_DEBUG			BIT(7)
-> > > >>  #define RFTYPE_CTRL_INFO		(RFTYPE_INFO |
-> > RFTYPE_CTRL)
-> > > >>  #define RFTYPE_MON_INFO			(RFTYPE_INFO |
-> > RFTYPE_MON)
-> > > >>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO |
-> > RFTYPE_TOP)
-> > > >> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > >> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > >> index 15ded0dd5b09..1ec4359348c2 100644
-> > > >> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > >> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > >> @@ -1880,6 +1880,7 @@ static struct rftype res_common_files[] = {
-> > > >>  		.mode		= 0444,
-> > > >>  		.kf_ops		= &rdtgroup_kf_single_ops,
-> > > >>  		.seq_show	= rdtgroup_rmid_show,
-> > > >> +		.fflags		= RFTYPE_BASE | RFTYPE_DEBUG,
-> > > >>  	},
-> > > >>  	{
-> > > >>  		.name		= "schemata",
-> > > >> @@ -1909,6 +1910,7 @@ static struct rftype res_common_files[] = {
-> > > >>  		.mode		= 0444,
-> > > >>  		.kf_ops		= &rdtgroup_kf_single_ops,
-> > > >>  		.seq_show	= rdtgroup_closid_show,
-> > > >> +		.fflags		= RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
-> > > >>  	},
-> > > >>
-> > > >>  };
-> > > >> @@ -2420,6 +2422,49 @@ static int mkdir_mondata_all(struct
-> > kernfs_node *parent_kn,
-> > > >>  			     struct rdtgroup *prgrp,
-> > > >>  			     struct kernfs_node **mon_data_kn);
-> > > >>
-> > > >> +static void resctrl_add_debug_files(void) {
-> > > >> +	struct rftype *rfts, *rft;
-> > > >> +	int len;
-> > > >> +
-> > > >> +	rfts = res_common_files;
-> > > >> +	len = ARRAY_SIZE(res_common_files);
-> > > >> +
-> > > >> +	lockdep_assert_held(&rdtgroup_mutex);
-> > > >> +
-> > > >> +	for (rft = rfts; rft < rfts + len; rft++) {
-> > > >> +		if (rft->fflags & RFTYPE_DEBUG) {
-> > > >> +			rft->fflags &= ~RFTYPE_DEBUG;
-> > > >
-> > > > I don't fully follow why you need to play with ->fflags like this.
-> > > >
-> > > > Is it for the ->fflags test in rdtgroup_add_files()? Can't you just
-> > > > do some extra masking there for RFTYPE_DEBUG based on resctrl_debug
-> > > > which you already keep?
-> > >
-> > > Actually with this change, I can remove all these tricks here.
-> > > I don't have to change the check "if (rft->fflags && ((fflags &
-> > > rft->fflags) == rft->fflags)) {"
-> > >
-> > > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > index 1ec4359348c2..b560c44817bb 100644
-> > > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > @@ -1925,6 +1925,9 @@ static int rdtgroup_add_files(struct kernfs_node
-> > > *kn, unsigned long fflags)
-> > >
-> > >         lockdep_assert_held(&rdtgroup_mutex);
-> > >
-> > > +       if (resctrl_debug)
-> > > +               fflags |= RFTYPE_DEBUG;
-> > 
-> > Yes, looks good.
-> > 
-> > It matches to the idea I had in my mind but doesn't require putting it 
-> > into the if condition itself.
+On Sat, Apr 22, 2023 at 11:31=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
 >
-> Without if condition?  How?  Let me know.
+> Hi,
+>
+> On 4/22/23 10:52, Joe Stringer wrote:
+> > Prior to this commit, the kernel docs writing guide spent over a page
+> > describing exactly how *not* to write tables into the kernel docs,
+> > without providing a example about the desired format.
+> > > This patch provides a positive example first in the guide so that it'=
+s
+> > harder to miss, then leaves the existing less desirable approach below
+> > for contributors to follow if they have some stronger justification for
+> > why to use that approach.
+> >
+> > Signed-off-by: Joe Stringer <joe@isovalent.com>
+> > ---
+> > v2: Simplify recommendation for either simple or grid table syntax
+> >     Remove example, link to rST user reference
+> > ---
+> >  Documentation/doc-guide/sphinx.rst | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-gui=
+de/sphinx.rst
+> > index 23edb427e76f..77ac7dc27715 100644
+> > --- a/Documentation/doc-guide/sphinx.rst
+> > +++ b/Documentation/doc-guide/sphinx.rst
+> > @@ -313,9 +313,18 @@ the documentation build system will automatically =
+turn a reference to
+> >  function name exists.  If you see ``c:func:`` use in a kernel document=
+,
+> >  please feel free to remove it.
+> >
+> > +Tables
+> > +------
+> > +
+> > +ReStructuredText provides several options for table syntax. Kernel sty=
+le for
+> > +tables is prefer *simple table* syntax or *grid table* syntax. See the
+>
+>    tables is to prefer
+> or
+>    tables prefers
+>
+> Otherwise LGTM. It's good to have positive examples, not just negative on=
+es.
 
-I was referring to the if condition within the loop, not to doing it
-without some conditional (I had an (resctrl_debug ? RFTYPE_DEBUG : 0)
-construct in my mind).
-
-To remove if, it would, of course, be possible to use another static 
-file-level variable but it doesn't seem justified. I think what you 
-proposed is fine for this use and looks clean.
-
--- 
- i.
---8323329-737270251-1682331682=:2038--
+Thanks, I'll fix this up and send a fresh version.
