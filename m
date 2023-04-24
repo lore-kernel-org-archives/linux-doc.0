@@ -2,86 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB635C77B76
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 21:30:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A73C77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 22:30:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232809AbjDXVaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 17:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38170 "EHLO
+        id S231992AbjDXWaa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 18:30:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232681AbjDXVaV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 17:30:21 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 833A46198;
-        Mon, 24 Apr 2023 14:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=M2D/TWPKxXfKGm9ptSRC6XjyJPx/YeFNWRMxLsuDqUw=; b=fm2O+/eTMsMTmAELlXGXZ1MaJj
-        acakCSYKEPGQu74EEFr7CVuGyhtIMxNwBRnhHR3zs760fOdmFl61rNGYbr5cWkgjIx5Wxxky4ciVB
-        LDT14/oz5CBTJhROhosXgBBB5uGaAHZcNglueEim+J150cT5d6NlXgpDywJw+0EZ1bcOI9QzgxIeo
-        Gs6iVb9haX0t4HSAizdDeVAcyKn7U8updDeXoQsKRQresWjRSRmGn8pqh8mKfab93Kva+o/lKP6FG
-        TPFkN7722dn0XtSmyko8nlmvpdIJOJTYiOKwNy8hTnb9NO7d3Ox/n55t1eCTrjaVmG2b7Vg9EAUey
-        n4ctdpFw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pr3lB-00HDQw-1Z;
-        Mon, 24 Apr 2023 21:30:09 +0000
-Message-ID: <3eadc4aa-1271-8ac6-0b29-7faa99234724@infradead.org>
-Date:   Mon, 24 Apr 2023 14:30:08 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/4] platform/x86: wmi: Add kernel doc comments
-Content-Language: en-US
-To:     Armin Wolf <W_Armin@gmx.de>, hdegoede@redhat.com,
-        markgross@kernel.org
+        with ESMTP id S232399AbjDXWaI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 18:30:08 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0855F61B3;
+        Mon, 24 Apr 2023 15:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1682375389; i=w_armin@gmx.de;
+        bh=acj7MjZssQd6iVJtWK9G4mZt4XTGSOZZ6U7g33Agxrc=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=PBfY6K/IqJ15g6IEF24HH+VQKVu0Smlie9233P7abZlCuMsD98yhjtHsrsCYZUp4o
+         MD7LUx4c7jA5pIRlH+oGU/C8fBjTXhvzgNl1BSsJUWHykMgATj5NeaIeg61Y9HBMpt
+         d2iXG+pHLcrIBKokhe4UhDFUcSTWd0bggKeaoNmGoxLAKVDSX1qip+YqhIZ7va7Cui
+         XaTpomlndPc5wtn5gc19L+jMjw/Nv3f+2O931siC/k2BZeb0lVE+a2aueAXX47JNX4
+         3aN/rVZRjMMlr1zFkaHV8P9COsuPEQuidVJpWaCvREAhbJgmQP/91RhVDDbDEwMIY+
+         x7WWle1t4B3NA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1M3DNt-1pruhU1NmP-003fuD; Tue, 25 Apr 2023 00:29:49 +0200
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     hdegoede@redhat.com, markgross@kernel.org, rdunlap@infradead.org
 Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230420233226.14561-1-W_Armin@gmx.de>
- <20230420233226.14561-2-W_Armin@gmx.de>
- <5a8effb3-e176-5a2f-4650-17765384e60c@infradead.org>
- <ca9bac63-8700-3b37-0674-b1c16a137d2d@gmx.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ca9bac63-8700-3b37-0674-b1c16a137d2d@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH v2 0/4] platform/x86: wmi: Add subsystem documentation
+Date:   Tue, 25 Apr 2023 00:29:35 +0200
+Message-Id: <20230424222939.208137-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:bCiOkL9kSiizjHyxEVl+fhG2Do4FjhanHynhIPahm4cxFRkVQh4
+ gmjvc1pC2ofyc8LjqiMusLebOPNUWdfV7IGiJVnxtdfCkoNZWvtvjWHsv1nP3PSuVgt4FJM
+ k0m4XyZ4TRzC7nKq3ECXSKq3KTtdwn/GHGCb5u8ehb1gPwOqplNY16wi63wXbtMk5rjZT7T
+ +lemoG4nuuPuRP0Nsn2fA==
+UI-OutboundReport: notjunk:1;M01:P0:kHRGcxxyzKQ=;sqSHSbGA6xtxoyjd+PfqCGBglyG
+ dzM64Jz/SJhm8EJ4HVU2GJwKcjy8qOMU3Prumt9MbCbHpapIIqWqarZBj1X2EJFr8wKiumUGe
+ ttHiakBza/1wdK5xc+arz1Z38Wp3QlnFC2iDBgwX7nrP3TVvApD7TIcumIzq5u+GG75JQNMxX
+ aV4XJDOBcjgV0XEB94gK9/bIZXsO161XUSb2pmz+NjIRGkxH7bHLs3WOPnX124yuGg2jZvFZC
+ 13jZ1/K2U9u4/DzBja/N3TgcWPLr6BFLXqJ00espIlTi+bYgNawjzEgpMNeBzvEB3Drw5NLw7
+ DPVarZx63CL84t+maKFJowhvrBPXAr2TVeeWMA4mIRQvwa9lMwggZj6HCYVXf0u2mMMPR67TU
+ HN8jTy0IYac4wNwFpBYSPhekchefAIEuHARLqFt5wQb5Ak0iVB9Qhhdjws46ENbonYkg5MMbh
+ ustNHTUsTyxsOGbYFTskFleUz5JBuvddakblXpLfu1cHkACKaLYK7vADt3xtoKBXkDexu2mml
+ Qz7lAhXzbqDAsxjdGo/IYnwlFQLyNLREXKTUm/Z54VxAMyRFkz9M957+3mLFOxUEniGKdL8OX
+ B8F1Q2vZiaf6/DE5DO3iohRfbQahOEUFOk3QEZR/vM4hCYV5H76eQ02zD6GQKS6CsLayR3DTq
+ 4lMW+nmKCYMbVc71Zny/2inYGpLXkFx0KDZh8bMvWBFy4kGtrKjOtJWI64YBxIbscrsohqa0b
+ Fy+rruVUb4MeK30/wkGXOF9/9uM+vmIjq34k0jMz6o/Sg05z4r7d6FnMyMK2G54jviyc3in7g
+ iMBtUiqmto6j0X6H+CMnwKkiGEjRzMo/q6LyRoBc6SkhwbW3ccY6D92ama2/Ec1v6d5zNWZIR
+ Htrz1L7OrYjfcZYqWRXSLcyshEh/C6iXF2rwuQ2vZLoSoDv2IsIUfCOju+mz63Mz7SgyzGim4
+ uRk7mjK8/CDTFz+c4gwAP4K9NLc=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Currently, there is no recent documentation available for writing WMI
+drivers using the modern bus-based interface. This leads to developers
+using the deprecated GUID-based interface when developing new drivers,
+causing issues with notification handling when multiple WMI devices sharin=
+g
+the same notification ID are present. There is also no way for WMI
+drivers to add device specific documentation at the moment.
+Add documentation for the WMI subsystem to solve those issues. The
+device specific documentation currently onyl include documentation for
+the wmi-bmof driver, but more is expected to follow.
+=2D--
+Changes in v2:
+- spelling fixes
+- tell readers that MOF means Managed Object Format
+- 80-cloumn limit
 
+Armin Wolf (4):
+  platform/x86: wmi: Add kernel doc comments
+  platform/x86: wmi: Mark GUID-based WMI interface as deprecated
+  platform/x86: wmi: Add documentation
+  platform/x86: wmi: Add device specific documentation
 
-On 4/24/23 14:20, Armin Wolf wrote:
-> Am 22.04.23 um 04:54 schrieb Randy Dunlap:
-> 
->> Hi,
->>
->> On 4/20/23 16:32, Armin Wolf wrote:
->>> Add kernel doc comments useful for documenting the functions/structs
->>> used to interact with the WMI driver core.
->>>
->>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->>> ---
->>>   drivers/platform/x86/wmi.c | 51 +++++++++++++++++++++++++++++++-------
->>>   include/linux/wmi.h        | 41 +++++++++++++++++++++++++++---
->>>   2 files changed, 80 insertions(+), 12 deletions(-)
->>>
+ .../ABI/stable/sysfs-platform-wmi-bmof        |  7 ++
+ Documentation/driver-api/index.rst            |  1 +
+ Documentation/driver-api/wmi.rst              | 21 ++++
+ Documentation/subsystem-apis.rst              |  1 +
+ Documentation/wmi/acpi-interface.rst          | 96 +++++++++++++++++++
+ Documentation/wmi/devices/index.rst           | 22 +++++
+ Documentation/wmi/devices/wmi-bmof.rst        | 25 +++++
+ Documentation/wmi/index.rst                   | 19 ++++
+ MAINTAINERS                                   |  9 ++
+ drivers/platform/x86/Kconfig                  |  4 +-
+ drivers/platform/x86/wmi.c                    | 63 +++++++++---
+ include/linux/wmi.h                           | 41 +++++++-
+ 12 files changed, 289 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/ABI/stable/sysfs-platform-wmi-bmof
+ create mode 100644 Documentation/driver-api/wmi.rst
+ create mode 100644 Documentation/wmi/acpi-interface.rst
+ create mode 100644 Documentation/wmi/devices/index.rst
+ create mode 100644 Documentation/wmi/devices/wmi-bmof.rst
+ create mode 100644 Documentation/wmi/index.rst
 
->>> +/**
->>> + * struct wmi_device - WMI device structure
->>> + * @dev: Device associated with this WMI device
->>> + * @setable: True for devices implementing the Set Control Method
->> private: fields are not normally documented in kernel-doc.
-> 
-> Hi,
-> 
-> since @setable is only used internally by the WMI driver core, i thought it might
-> be beneficial to exclude it from the normal driver interface documentation and only
-> use it for subsystem-internal documentation.
+=2D-
+2.30.2
 
-OK then. :)
-
--- 
-~Randy
