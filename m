@@ -2,67 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C09A0C7EE20
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 19:49:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C00CC77B61
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 20:13:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232803AbjDXTtu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 15:49:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48316 "EHLO
+        id S230340AbjDXUNp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 16:13:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232445AbjDXTtj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 15:49:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67B056589;
-        Mon, 24 Apr 2023 12:49:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 751C2628C8;
-        Mon, 24 Apr 2023 19:49:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DD0BBC433EF;
-        Mon, 24 Apr 2023 19:49:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682365742;
-        bh=lKKVpKhUbM6Hgwfd2VivsiOonwGFlzaXjY3kicfqv7c=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=C3mToSZU88p5vtWHOswm13tSIrWuET+daWO6x14H/7ZWJiWlwD6W8jYiBTHTG8+Mt
-         OylcEoV4CgZYbUJZQOA75HsSTdWpeC7HulRD6S+mMlj72KjXsfVKuwemwT5KnqgWqV
-         +/3e8HQ4DJIiIvHHQKA+oXxtOL7/RAKMRuwtaGZ5Cj6aynli8MmjW4TYZN4V11koaI
-         fxIrA4ZIWw21RiOSKCg/ikpR7q6G5uqwdNkDZzX/aBJlIwom295snPh2do1FvLHDKG
-         SQILv471rovZCbC8yZFmvo1SWZo6jtnYxbDmJWEDiTMNUvnzd54pfmdW62NxJoGYZG
-         iistHHibq8eTQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C93CEE5FFC7;
-        Mon, 24 Apr 2023 19:49:02 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation for 6.4
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87edo9m82m.fsf@meer.lwn.net>
-References: <87edo9m82m.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87edo9m82m.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.4
-X-PR-Tracked-Commit-Id: 7e8472c820f04517ae5d5a27c1aecfa2263a0aa5
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c23f28975abc2eb02cecc8bc1f2c95473a59ed2e
-Message-Id: <168236574281.6990.4645097250893085809.pr-tracker-bot@kernel.org>
-Date:   Mon, 24 Apr 2023 19:49:02 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+        with ESMTP id S229798AbjDXUNo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 16:13:44 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA6D6AB;
+        Mon, 24 Apr 2023 13:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=SiIDFSU+Z62/XXEHoFp/GyZ6qQOEWoiUcfBeDnbRlro=; b=Lz7wKaxTd2xFXJnfX+OnBeK30T
+        f7G6zAMnxpddqjQIbNU0fpdUtd50O+uwAk9YAweBcXMcu6jF2rdhP8VtLTuYArRb+DV8TGChYgh5j
+        1DUI4FWMBvr8A6xTIZj9/CuYkQ/mpkK9QIVpJzgv4F8DGLhiII4MC9Ki8AbYneznrt2b4ClcDDL/7
+        VNIncW96J7ayjCipRDQm1/Pi8E1B1gw8sHWL5+k9YXGdQxh4uDwxJWM2lnrIbC4n3HQ1RhlqO/wMb
+        SFCpBmiw2nsc5+ur87E2wJ5OnHlrJK/OemD6I+K6Mj90r5C8KcCbbCW3P+H43YFGEmE3mnh09fwys
+        0/OkisNg==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pr2ZC-00H7Uw-0M;
+        Mon, 24 Apr 2023 20:13:42 +0000
+Message-ID: <eaff180e-cc09-8997-b7d4-9b0d8c2897d3@infradead.org>
+Date:   Mon, 24 Apr 2023 13:13:41 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH linux-doc v3] docs/doc-guide: Clarify how to write tables
+Content-Language: en-US
+To:     Joe Stringer <joe@isovalent.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net
+References: <20230424171850.3612317-1-joe@isovalent.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230424171850.3612317-1-joe@isovalent.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Mon, 24 Apr 2023 12:46:57 -0600:
 
-> git://git.lwn.net/linux.git tags/docs-6.4
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c23f28975abc2eb02cecc8bc1f2c95473a59ed2e
+On 4/24/23 10:18, Joe Stringer wrote:
+> Prior to this commit, the kernel docs writing guide spent over a page
+> describing exactly how *not* to write tables into the kernel docs,
+> without providing a example about the desired format.
+> 
+> This patch provides a positive example first in the guide so that it's
+> harder to miss, then leaves the existing less desirable approach below
+> for contributors to follow if they have some stronger justification for
+> why to use that approach.
+> 
+> Signed-off-by: Joe Stringer <joe@isovalent.com>
 
-Thank you!
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+> v3: Fix grammar mistake
+> v2: Simplify recommendation for either simple or grid table syntax
+>     Remove example, link to rST user reference
+> ---
+>  Documentation/doc-guide/sphinx.rst | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+> index 23edb427e76f..cd8ad7904491 100644
+> --- a/Documentation/doc-guide/sphinx.rst
+> +++ b/Documentation/doc-guide/sphinx.rst
+> @@ -313,9 +313,18 @@ the documentation build system will automatically turn a reference to
+>  function name exists.  If you see ``c:func:`` use in a kernel document,
+>  please feel free to remove it.
+>  
+> +Tables
+> +------
+> +
+> +ReStructuredText provides several options for table syntax. Kernel style for
+> +tables is to prefer *simple table* syntax or *grid table* syntax. See the
+> +`reStructuredText user reference for table syntax`_ for more details.
+> +
+> +.. _reStructuredText user reference for table syntax:
+> +   https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
+>  
+>  list tables
+> ------------
+> +~~~~~~~~~~~
+>  
+>  The list-table formats can be useful for tables that are not easily laid
+>  out in the usual Sphinx ASCII-art formats.  These formats are nearly
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+~Randy
