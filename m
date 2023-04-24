@@ -2,262 +2,230 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7015FC77B61
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 12:10:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEE9C7618E
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Apr 2023 15:12:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231688AbjDXMKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 08:10:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57098 "EHLO
+        id S230072AbjDXPMw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Apr 2023 11:12:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbjDXMKB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 08:10:01 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 232C5F2;
-        Mon, 24 Apr 2023 05:09:59 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCA9CD75;
-        Mon, 24 Apr 2023 05:10:42 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E87953F64C;
-        Mon, 24 Apr 2023 05:09:55 -0700 (PDT)
-Message-ID: <6ca3de6d-eaba-f9c1-1809-90902a69564a@arm.com>
-Date:   Mon, 24 Apr 2023 13:09:54 +0100
+        with ESMTP id S229967AbjDXPMp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 11:12:45 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC5F11BC;
+        Mon, 24 Apr 2023 08:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682349163; x=1713885163;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=creu1FWEWXekS0GSi/hyE65nvjBle1W5o/SEndVTiPg=;
+  b=gR1zjWVzvg5pFOyPG1ur6NKh/BnhDGNtac5xwXX63kLgTHD0Ofv1LCdi
+   KcZrZU9iL/oI+kwZlnJZf7A4G5TWuhc+EHyP6/kszvaO0LkPtgQx7GDJ1
+   7cVu6G0G92dKjH1mjXD6NizBcN6n4VQvkoIea0ODowhfdpcYkhPyKyJ4+
+   zA1xelI4VlsNCXzpJIaJLyjRh3EeX3n9T1JR6ysTS1qflzbnogatwts+5
+   axs+MqzX5XhRoGwv6xdHr1/QvlGH3dgl2Fd1r6uW9UzGo8HU5MnksmJe3
+   YSCPCT5/rrvg6fo1ynwKx8p7wHmIi74Mtnacpvc+FLF2JaRldvTDAAv/4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="343965155"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="343965155"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 08:12:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="867511061"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="867511061"
+Received: from wlwpo-8.amr.corp.intel.com ([10.251.215.143])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 08:12:33 -0700
+Date:   Mon, 24 Apr 2023 18:12:29 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+Subject: RE: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
+ debug option
+In-Reply-To: <MW3PR12MB4553359D41816826AA001A1095609@MW3PR12MB4553.namprd12.prod.outlook.com>
+Message-ID: <ff99af93-5121-5a27-e24f-6354b9dffa1f@linux.intel.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu> <168177451010.1758847.568218491528297451.stgit@bmoger-ubuntu> <56497126-8f60-e590-bb13-b3739114375@linux.intel.com> <933d8ae2-d8b7-7436-5918-f639405c9ecb@amd.com>
+ <346622f4-3ea9-c19c-6175-3346ffc6016@linux.intel.com> <MW3PR12MB4553359D41816826AA001A1095609@MW3PR12MB4553.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 1/3] Coresight: Add coresight dummy driver
-Content-Language: en-US
-To:     Hao Zhang <quic_hazha@quicinc.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20230422073714.38844-1-quic_hazha@quicinc.com>
- <20230422073714.38844-2-quic_hazha@quicinc.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20230422073714.38844-2-quic_hazha@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; BOUNDARY="8323329-737270251-1682331682=:2038"
+Content-ID: <8c5736a4-4c1a-25f2-44b6-83d2cd225350@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/04/2023 08:37, Hao Zhang wrote:
-> Some Coresight devices that kernel don't have permission to access or
-> configure. So there need driver to register dummy devices as Coresight
-> devices. It may also be used to define components that may not have
-> any programming interfaces (e.g, static links), so that paths can be
-> established in the driver. Provide Coresight API for dummy device
-> operations, such as enabling and disabling dummy devices. Build the
-> Coresight path for dummy sink or dummy source for debugging.
-> 
-> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
-> ---
->   drivers/hwtracing/coresight/Kconfig           |  11 ++
->   drivers/hwtracing/coresight/Makefile          |   1 +
->   drivers/hwtracing/coresight/coresight-dummy.c | 179 ++++++++++++++++++
->   include/linux/coresight.h                     |   1 +
->   4 files changed, 192 insertions(+)
->   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
-> 
-> diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
-> index 2b5bbfffbc4f..06f0a7594169 100644
-> --- a/drivers/hwtracing/coresight/Kconfig
-> +++ b/drivers/hwtracing/coresight/Kconfig
-> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
->   
->   	  To compile this driver as a module, choose M here: the module will be
->   	  called coresight-tpda.
-> +
-> +config CORESIGHT_DUMMY
-> +	tristate "Dummy driver support"
-> +	help
-> +	  Enables support for dummy driver. Dummy driver can be used for
-> +	  CoreSight sources/sinks that are owned and configured by some
-> +	  other subsystem and use Linux drivers to configure rest of trace
-> +	  path.
-> +
-> +	  To compile this driver as a module, choose M here: the module will be
-> +	  called coresight-dummy.
->   endif
-> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index 33bcc3f7b8ae..995d3b2c76df 100644
-> --- a/drivers/hwtracing/coresight/Makefile
-> +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
->   coresight-cti-y := coresight-cti-core.o	coresight-cti-platform.o \
->   		   coresight-cti-sysfs.o
->   obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
-> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
-> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c b/drivers/hwtracing/coresight/coresight-dummy.c
-> new file mode 100644
-> index 000000000000..1fb8b3d1c170
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
-> @@ -0,0 +1,179 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/coresight.h>
-> +#include <linux/of.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include "coresight-priv.h"
-> +#include "coresight-trace-id.h"
-> +
-> +struct dummy_drvdata {
-> +	struct device			*dev;
-> +	struct coresight_device		*csdev;
-> +	int				traceid;
-> +};
-> +
-> +DEFINE_CORESIGHT_DEVLIST(source_devs, "dummy_source");
-> +DEFINE_CORESIGHT_DEVLIST(sink_devs, "dummy_sink");
-> +
-> +static int dummy_source_enable(struct coresight_device *csdev,
-> +			       struct perf_event *event, u32 mode)
-> +{
-> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +	dev_dbg(drvdata->dev, "Dummy source enabled\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static void dummy_source_disable(struct coresight_device *csdev,
-> +				 struct perf_event *event)
-> +{
-> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +	dev_dbg(drvdata->dev, "Dummy source disabled\n");
-> +}
-> +
-> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
-> +				void *data)
-> +{
-> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +	dev_dbg(drvdata->dev, "Dummy sink enabled\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static int dummy_sink_disable(struct coresight_device *csdev)
-> +{
-> +	struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +
-> +	dev_dbg(drvdata->dev, "Dummy sink disabled\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct coresight_ops_source dummy_source_ops = {
-> +	.enable	= dummy_source_enable,
-> +	.disable = dummy_source_disable,
-> +};
-> +
-> +static const struct coresight_ops dummy_source_cs_ops = {
-> +	.source_ops = &dummy_source_ops,
-> +};
-> +
-> +static const struct coresight_ops_sink dummy_sink_ops = {
-> +	.enable	= dummy_sink_enable,
-> +	.disable = dummy_sink_disable,
-> +};
-> +
-> +static const struct coresight_ops dummy_sink_cs_ops = {
-> +	.sink_ops = &dummy_sink_ops,
-> +};
-> +
-> +static int dummy_probe(struct platform_device *pdev)
-> +{
-> +	int trace_id;
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *node = dev->of_node;
-> +	struct coresight_platform_data *pdata;
-> +	struct dummy_drvdata *drvdata;
-> +	struct coresight_desc desc = { 0 };
-> +
-> +	if (of_device_is_compatible(node, "arm,coresight-dummy-source")) {
-> +		trace_id = coresight_trace_id_get_system_id();
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Why is this needed ? If at all we need something, this must be
-explicitly asked for. How is this used ?
+--8323329-737270251-1682331682=:2038
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <1685ac52-bb85-bc24-b4c-4c7e8bcec817@linux.intel.com>
 
+On Fri, 21 Apr 2023, Moger, Babu wrote:
+> > -----Original Message-----
+> > From: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> > Sent: Thursday, April 20, 2023 3:59 AM
+> > To: Moger, Babu <Babu.Moger@amd.com>
+> > Cc: corbet@lwn.net; Reinette Chatre <reinette.chatre@intel.com>;
+> > tglx@linutronix.de; mingo@redhat.com; bp@alien8.de; fenghua.yu@intel.com;
+> > dave.hansen@linux.intel.com; x86@kernel.org; hpa@zytor.com;
+> > paulmck@kernel.org; akpm@linux-foundation.org; quic_neeraju@quicinc.com;
+> > rdunlap@infradead.org; damien.lemoal@opensource.wdc.com;
+> > songmuchun@bytedance.com; peterz@infradead.org; jpoimboe@kernel.org;
+> > pbonzini@redhat.com; chang.seok.bae@intel.com;
+> > pawan.kumar.gupta@linux.intel.com; jmattson@google.com;
+> > daniel.sneddon@linux.intel.com; Das1, Sandipan <Sandipan.Das@amd.com>;
+> > tony.luck@intel.com; james.morse@arm.com; linux-doc@vger.kernel.org;
+> > LKML <linux-kernel@vger.kernel.org>; bagasdotme@gmail.com;
+> > eranian@google.com; christophe.leroy@csgroup.eu; jarkko@kernel.org;
+> > adrian.hunter@intel.com; quic_jiles@quicinc.com; peternewman@google.com
+> > Subject: Re: [PATCH v4 7/7] x86/resctrl: Add debug files when mounted with
+> > debug option
+> > 
+> > On Wed, 19 Apr 2023, Moger, Babu wrote:
+> > 
+> > >
+> > >
+> > > On 4/19/23 08:20, Ilpo Järvinen wrote:
+> > > > On Mon, 17 Apr 2023, Babu Moger wrote:
+> > > >
+> > > >> Add the debug files to the resctrl hierarchy.
+> > > >>
+> > > >> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> > > >> ---
+> > > >>  arch/x86/kernel/cpu/resctrl/internal.h |    1 +
+> > > >>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   54
+> > +++++++++++++++++++++++++++++++-
+> > > >>  2 files changed, 54 insertions(+), 1 deletion(-)
+> > > >>
+> > > >> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h
+> > > >> b/arch/x86/kernel/cpu/resctrl/internal.h
+> > > >> index 1eac07ebc31b..855109abb480 100644
+> > > >> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> > > >> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> > > >> @@ -288,6 +288,7 @@ struct rdtgroup {
+> > > >>  #define RFTYPE_TOP			BIT(4)
+> > > >>  #define RFTYPE_RES_CACHE		BIT(5)
+> > > >>  #define RFTYPE_RES_MB			BIT(6)
+> > > >> +#define RFTYPE_DEBUG			BIT(7)
+> > > >>  #define RFTYPE_CTRL_INFO		(RFTYPE_INFO |
+> > RFTYPE_CTRL)
+> > > >>  #define RFTYPE_MON_INFO			(RFTYPE_INFO |
+> > RFTYPE_MON)
+> > > >>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO |
+> > RFTYPE_TOP)
+> > > >> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > >> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > >> index 15ded0dd5b09..1ec4359348c2 100644
+> > > >> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > >> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > >> @@ -1880,6 +1880,7 @@ static struct rftype res_common_files[] = {
+> > > >>  		.mode		= 0444,
+> > > >>  		.kf_ops		= &rdtgroup_kf_single_ops,
+> > > >>  		.seq_show	= rdtgroup_rmid_show,
+> > > >> +		.fflags		= RFTYPE_BASE | RFTYPE_DEBUG,
+> > > >>  	},
+> > > >>  	{
+> > > >>  		.name		= "schemata",
+> > > >> @@ -1909,6 +1910,7 @@ static struct rftype res_common_files[] = {
+> > > >>  		.mode		= 0444,
+> > > >>  		.kf_ops		= &rdtgroup_kf_single_ops,
+> > > >>  		.seq_show	= rdtgroup_closid_show,
+> > > >> +		.fflags		= RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
+> > > >>  	},
+> > > >>
+> > > >>  };
+> > > >> @@ -2420,6 +2422,49 @@ static int mkdir_mondata_all(struct
+> > kernfs_node *parent_kn,
+> > > >>  			     struct rdtgroup *prgrp,
+> > > >>  			     struct kernfs_node **mon_data_kn);
+> > > >>
+> > > >> +static void resctrl_add_debug_files(void) {
+> > > >> +	struct rftype *rfts, *rft;
+> > > >> +	int len;
+> > > >> +
+> > > >> +	rfts = res_common_files;
+> > > >> +	len = ARRAY_SIZE(res_common_files);
+> > > >> +
+> > > >> +	lockdep_assert_held(&rdtgroup_mutex);
+> > > >> +
+> > > >> +	for (rft = rfts; rft < rfts + len; rft++) {
+> > > >> +		if (rft->fflags & RFTYPE_DEBUG) {
+> > > >> +			rft->fflags &= ~RFTYPE_DEBUG;
+> > > >
+> > > > I don't fully follow why you need to play with ->fflags like this.
+> > > >
+> > > > Is it for the ->fflags test in rdtgroup_add_files()? Can't you just
+> > > > do some extra masking there for RFTYPE_DEBUG based on resctrl_debug
+> > > > which you already keep?
+> > >
+> > > Actually with this change, I can remove all these tricks here.
+> > > I don't have to change the check "if (rft->fflags && ((fflags &
+> > > rft->fflags) == rft->fflags)) {"
+> > >
+> > > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > index 1ec4359348c2..b560c44817bb 100644
+> > > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > > @@ -1925,6 +1925,9 @@ static int rdtgroup_add_files(struct kernfs_node
+> > > *kn, unsigned long fflags)
+> > >
+> > >         lockdep_assert_held(&rdtgroup_mutex);
+> > >
+> > > +       if (resctrl_debug)
+> > > +               fflags |= RFTYPE_DEBUG;
+> > 
+> > Yes, looks good.
+> > 
+> > It matches to the idea I had in my mind but doesn't require putting it 
+> > into the if condition itself.
+>
+> Without if condition?  How?  Let me know.
 
-> +		if (trace_id < 0)
-> +			return trace_id;
-> +
-> +		desc.name = coresight_alloc_device_name(&source_devs, dev);
-> +		if (!desc.name)
-> +			return -ENOMEM;
-> +
-> +		desc.type = CORESIGHT_DEV_TYPE_SOURCE;
-> +		desc.subtype.source_subtype =
-> +					CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
-> +		desc.ops = &dummy_source_cs_ops;
-> +	} else if (of_device_is_compatible(node, "arm,coresight-dummy-sink")) {
-> +		desc.name = coresight_alloc_device_name(&sink_devs, dev);
-> +		if (!desc.name)
-> +			return -ENOMEM;
-> +
-> +		desc.type = CORESIGHT_DEV_TYPE_SINK;
-> +		desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_DUMMY;
-> +		desc.ops = &dummy_sink_cs_ops;
-> +	} else {
-> +		dev_err(dev, "Device type not set\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	pdata = coresight_get_platform_data(dev);
-> +	if (IS_ERR(pdata))
-> +		return PTR_ERR(pdata);
-> +	pdev->dev.platform_data = pdata;
-> +
-> +	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-> +	if (!drvdata)
-> +		return -ENOMEM;
+I was referring to the if condition within the loop, not to doing it
+without some conditional (I had an (resctrl_debug ? RFTYPE_DEBUG : 0)
+construct in my mind).
 
-If we have allocated a traceid, we must clean it up here and/or at 
-device removal.
+To remove if, it would, of course, be possible to use another static 
+file-level variable but it doesn't seem justified. I think what you 
+proposed is fine for this use and looks clean.
 
-> +
-> +	drvdata->dev = &pdev->dev;
-> +	platform_set_drvdata(pdev, drvdata);
-> +
-> +	desc.pdata = pdev->dev.platform_data;
-> +	desc.dev = &pdev->dev;
-> +	drvdata->csdev = coresight_register(&desc);
-> +	if (IS_ERR(drvdata->csdev))
-> +		return PTR_ERR(drvdata->csdev);
-> +
-> +	drvdata->traceid = (u8)trace_id;
-
-Where/how is this used ?
-
-Suzuki
-
+-- 
+ i.
+--8323329-737270251-1682331682=:2038--
