@@ -2,205 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6144C77B61
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 15:02:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE21C6FD18
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 15:14:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234197AbjDYPCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 11:02:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
+        id S233893AbjDYPOt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 11:14:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230192AbjDYPCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 11:02:42 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BBC40F2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 08:02:40 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-54ee0b6ee72so47325507b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 08:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682434959; x=1685026959;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pZ3BGGNQ6rZtpR453LXsl6Itbxm0bwQy5BQoZPJ3oOU=;
-        b=gUsxX26NXCZ6r14dXeXTp21glO0SrEWZa0rLsi3b4nj9YECEk48w42dZ5zaVPa7WY/
-         VEQpikWRZ8Jv85GYPAwmZ4OIBWRu7lUH9EV+MOxZD9iV6G4Yz0SKw641h9NbsLZc+yef
-         aF7N3A2XQ3Qbw55iU5AV/KuK1BvM8NFrT1xyOA/e5KBFsZbEWAXo1L0X42nn8wUFapMf
-         mUzCwhzdaTYHiUybm/V5DUKF0QzrYT8mWu0OL+/XsLbacOgIunGO40YmgbKi/nZsxfAN
-         3IadH7enSVVuLeKUZv5uu42FK34DVvzvZIVy3onO8tQRi1MC7axcQ7EIBWNLi4uvTiMk
-         AS1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682434959; x=1685026959;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pZ3BGGNQ6rZtpR453LXsl6Itbxm0bwQy5BQoZPJ3oOU=;
-        b=Vuglp201Avm0F15yY6Cy5bA6d1que/e7yq1LjfmOdvz5KDkImBNL9QN2EPgSbdUKLP
-         qN/pdimdsLIuAqTxWLNGWeE6Xx8dmc78ZU8G6rxVS4+ROfHFzkrgUao5pdcGACob0Nhu
-         zntHAVLRMelbMvayVoLjTP6wr+LrDm9P/kl/hy0YXJznmBt8EDVQE6B8F8HbxRZM846M
-         MXvZ/cxuWVBRLA0WTFRinwnrHZBWeDesFC6o5kx5yaB3wDlak9TXC/MlOY0ppkfc3R0l
-         cImctTLYVoYt1Yobybf5iqnJwdWN8OlFZZi0WNEi3SnqubbsOb3ZWM/RkcHLE6RnTEP/
-         rhxg==
-X-Gm-Message-State: AAQBX9fUCi+TApFlMf3FPDIJfdtf+eqyO/HmewrC1yxKImZLf000BgmN
-        JeCt7hnOWyaugjkZlbwNmpeZA1vA+Tk=
-X-Google-Smtp-Source: AKy350YDAZbkOQRK5g6tYkXR/oEveOOfRFHQC7RKfIoKTzQYKWd2HI7WCN0BwwrDGeWs5JNKrBjyDPSMfRs=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:b60f:0:b0:54f:bb6f:3deb with SMTP id
- u15-20020a81b60f000000b0054fbb6f3debmr8642876ywh.4.1682434959555; Tue, 25 Apr
- 2023 08:02:39 -0700 (PDT)
-Date:   Tue, 25 Apr 2023 08:02:38 -0700
-In-Reply-To: <20230327141816.2648615-1-carlos.bilbao@amd.com>
-Mime-Version: 1.0
-References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
-Message-ID: <ZEfrjtgGgm1lpadq@google.com>
-Subject: Re: [PATCH] docs: security: Confidential computing intro and threat model
-From:   Sean Christopherson <seanjc@google.com>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ardb@kernel.org, kraxel@redhat.com,
-        dovmurik@linux.ibm.com, elena.reshetova@intel.com,
-        dave.hansen@linux.intel.com, Dhaval.Giani@amd.com,
-        michael.day@amd.com, pavankumar.paluri@amd.com,
-        David.Kaplan@amd.com, Reshma.Lal@amd.com, Jeremy.Powell@amd.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com,
-        alexander.shishkin@linux.intel.com, thomas.lendacky@amd.com,
-        tglx@linutronix.de, dgilbert@redhat.com,
-        gregkh@linuxfoundation.org, dinechin@redhat.com,
-        linux-coco@lists.linux.dev, berrange@redhat.com, mst@redhat.com,
-        tytso@mit.edu, jikos@kernel.org, joro@8bytes.org, leon@kernel.org,
-        richard.weinberger@gmail.com, lukas@wunner.de, jejb@linux.ibm.com,
-        cdupontd@redhat.com, jasowang@redhat.com, sameo@rivosinc.com,
-        bp@alien8.de, security@kernel.org
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S234451AbjDYPOs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 11:14:48 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A0B12C95
+        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 08:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682435687; x=1713971687;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hCanmosjEEaHzsMLRRa/xs06q7TpjmZvHistM5aNiag=;
+  b=OnXV5JCAQf4cX5xOrgWkTR2KROwr5G8BCT/GvlEeYnbXWrs+TSC304KP
+   93K/CmNg/Z/FrCWFVoQw7kEFjgYShm07+oJG+0KF54ndnbr2v2qMZLvGX
+   yi4CptomCtZp8cRPo1KyVYrUlqEQjndtGxhVvkkBF7yFNUzUUGh7oO/3C
+   YRN7zxSVp54AWszYuOFpSilockypoEB7lWsQUCBBHE/FxzNg7Q0QOfiiH
+   xRO6s9+DTnrSxGxZg/5DynHPN5LLInc7DC5aCVuqI49Bs8vaDKd+LlRPu
+   FPmw7H5BQd+8g1BKbskKV0RsKSrYmjcmTivnVO0xab4Qdsyr24W5djggI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="346824122"
+X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
+   d="scan'208";a="346824122"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 08:14:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="670919274"
+X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
+   d="scan'208";a="670919274"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 25 Apr 2023 08:14:45 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1prKNQ-000jU8-11;
+        Tue, 25 Apr 2023 15:14:44 +0000
+Date:   Tue, 25 Apr 2023 23:14:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [mhiramat:topic/fprobe-event-ext 10/10] htmldocs: Warning:
+ Documentation/trace/fprobetrace.rst references a file that doesn't exist:
+ Documentation/trace/fprobes.rst
+Message-ID: <202304252325.leoH4z6R-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 27, 2023, Carlos Bilbao wrote:
-> +Kernel developers working on confidential computing for the cloud operate
-> +under a set of assumptions regarding the Linux kernel threat model that
-> +differ from the traditional view. In order to effectively engage with the
-> +linux-coco mailing list and contribute to its initiatives, one must have a
-> +thorough familiarity with these concepts. This document provides a concise,
-> +architecture-agnostic introduction to help developers gain a foundational
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-event-ext
+head:   356a6c2bfcfb9c9b9149dd63b22b2f1621290b9b
+commit: 356a6c2bfcfb9c9b9149dd63b22b2f1621290b9b [10/10] Documentation: tracing/probes: Add fprobe event tracing document
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/commit/?id=356a6c2bfcfb9c9b9149dd63b22b2f1621290b9b
+        git remote add mhiramat https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git
+        git fetch --no-tags mhiramat topic/fprobe-event-ext
+        git checkout 356a6c2bfcfb9c9b9149dd63b22b2f1621290b9b
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Heh, vendor agnostic maybe, but certainly not architecture agnostic.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304252325.leoH4z6R-lkp@intel.com/
 
-> +understanding of the subject.
-> +
-> +Overview and terminology
-> +========================
-> +
-> +Confidential Cloud Computing (CoCo) refers to a set of HW and SW
+All warnings (new ones prefixed by >>):
 
-As per Documentation/security/secrets/coco.rst and every discussion I've observed,
-CoCo is Confidential Computing.  "Cloud" is not part of the definition.  That's
-true even if this discussion is restricted to CoCo VMs, e.g. see pKVM.
+>> Warning: Documentation/trace/fprobetrace.rst references a file that doesn't exist: Documentation/trace/fprobes.rst
 
-> +virtualization technologies that allow Cloud Service Providers (CSPs) to
-
-Again, CoCo isn't just for cloud use cases.
-
-> +provide stronger security guarantees to their clients (usually referred to
-> +as tenants) by excluding all the CSP's infrastructure and SW out of the
-> +tenant's Trusted Computing Base (TCB).
-
-This is inaccurate, the provider may still have software and/or hardware in the TCB.
-
-And for the cloud use case, I very, very strongly object to implying that the goal
-of CoCo is to exclude the CSP from the TCB.  Getting out of the TCB is the goal for
-_some_ CSPs, but it is not a fundamental tenant of CoCo.  This viewpoint is heavily
-tainted by Intel's and AMD's current offerings, which effectively disallow third
-party code for reasons that have nothing to do with security.
-
-https://lore.kernel.org/all/Y+aP8rHr6H3LIf%2Fc@google.com
-
-> +While the concrete implementation details differ between technologies, all
-> +of these mechanisms provide increased confidentiality and integrity of CoCo
-> +guest memory and execution state (vCPU registers), more tightly controlled
-> +guest interrupt injection,
-
-This is highly dependent on how "interrupt" is defined, and how "controlled" is
-defined.
-
-> as well as some additional mechanisms to control guest-host page mapping.
-
-This is flat out wrong for SNP for any reasonable definition of "page mapping".
-SNP has _zero_ "control" over page tables, which is most people think of when they
-see "page mapping".
-
-> More details on the x86-specific solutions can be
-> +found in
-> +:doc:`Intel Trust Domain Extensions (TDX) </x86/tdx>` and
-> +:doc:`AMD Memory Encryption </x86/amd-memory-encryption>`.
-
-So by the above definition, vanilla SEV and SEV-ES can't be considered CoCo.  SEV
-doesn't provide anything besides increased confidentiality of guest memory, and
-SEV-ES doesn't provide integrity or validation of physical page assignment.
-
-> +The basic CoCo layout includes the host, guest, the interfaces that
-> +communicate guest and host, a platform capable of supporting CoCo,
-
-CoCo VMs...
-
-> and an intermediary between the guest virtual machine (VM) and the
-> underlying platform that acts as security manager::
-
-Having an intermediary is very much an implementation detail.
-
-> +Confidential Computing threat model and security objectives
-> +===========================================================
-> +
-> +Confidential Cloud Computing adds a new type of attacker to the above list:
-> +an untrusted and potentially malicious host.
-
-I object to splattering "malicious host" everywhere.  Many people are going to
-read this and interpret "host" as "the CSP", and then make assumptions like
-"CoCo assumes the CSP is malicious!".  AIUI, the vast majority of use cases aren't
-concerned so much about "the CSP" being malicious, but rather they're concerned
-about new attack vectors that come with running code/VMs on a stack that is
-managed by a third party, on hardware that doesn't reside in a secured facility,
-etc.
-
-> +While the traditional hypervisor has unlimited access to guest data and
-> +can leverage this access to attack the guest, the CoCo systems mitigate
-> +such attacks by adding security features like guest data confidentiality
-> +and integrity protection. This threat model assumes that those features
-> +are available and intact.
-
-Again, if you're claiming integrity is a key tenant, then SEV and SEV-ES can't be
-considered CoCo.
-
-> +The **Linux kernel CoCo security objectives** can be summarized as follows:
-> +
-> +1. Preserve the confidentiality and integrity of CoCo guest private memory.
-
-So, registers are fair game?
-
-> +2. Prevent privileged escalation from a host into a CoCo guest Linux kernel.
-> +
-> +The above security objectives result in two primary **Linux kernel CoCo
-> +assets**:
-> +
-> +1. Guest kernel execution context.
-> +2. Guest kernel private memory.
-
-...
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7f86d02cb427..4a16727bf7f9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5307,6 +5307,12 @@ S:	Orphan
->  W:	http://accessrunner.sourceforge.net/
->  F:	drivers/usb/atm/cxacru.c
->  
-> +CONFIDENTIAL COMPUTING THREAT MODEL
-
-This is not generic CoCo documentation, it's specific to CoCo VMs.  E.g. SGX is
-most definitely considered a CoCo feature, and it has no dependencies whatsoever
-on virtualization.
-
-> +M:	Elena Reshetova <elena.reshetova@intel.com>
-> +M:	Carlos Bilbao <carlos.bilbao@amd.com>
-
-I would love to see an M: or R: entry for someone that is actually _using_ CoCo.
-
-IMO, this document is way too Intel/AMD centric.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
