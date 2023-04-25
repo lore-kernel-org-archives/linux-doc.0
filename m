@@ -2,72 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C640C77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 03:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2D1C77B61
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 07:28:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233226AbjDYDIV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Apr 2023 23:08:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42984 "EHLO
+        id S232851AbjDYH2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 03:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233080AbjDYDIQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Apr 2023 23:08:16 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0A4AD32;
-        Mon, 24 Apr 2023 20:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=AD+WFqnr7WOdrfSSyEl2rF/OdljOscWhoPEezj0bUv0=; b=joLfqcnqssIPIDpyLil0zqosUK
-        6mulgUBMZOH30QotgPAtS6mclR37z4nxKbbGaTbBeeNNQZOtxAoJs2Z8gZwV7/RSC7rVPAEanM3nw
-        pOEnAEZqWDlOg3uHU+WKJWz1cg6uJic45Mnu2OBs0FptpmRCqZLPonB9jWtviwQmQjfIxJAe3Kg14
-        upw8UkL88630q+qT2b2bOlSxoHVgtiuOsu9DdpIRBn1/AHyTWnLeppARydEJhbqLTLDyOxFGSuHZL
-        uR+vWSG4jzfRER76FOkkT3w4OMBZHcrof6bn2xdgj2oEcKuFOvSbdBybH4CJhripnHbmFfCAovxbH
-        N67PL/AQ==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pr92K-0004kc-0s;
-        Tue, 25 Apr 2023 03:08:12 +0000
-Message-ID: <c56349d2-594a-bba0-3e88-40125fca3589@infradead.org>
-Date:   Mon, 24 Apr 2023 20:08:11 -0700
+        with ESMTP id S233620AbjDYH1y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 03:27:54 -0400
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF35CC0F;
+        Tue, 25 Apr 2023 00:27:13 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3047ff3269aso997751f8f.0;
+        Tue, 25 Apr 2023 00:27:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682407623; x=1684999623;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=anbzC7fpaMxRgKbGTHCf+Ypir7RbEsM4mAuu7bHFScU=;
+        b=bgEl7WVxOhfc7V/EGpfWhH30TEreSYY9q/2hg7fBURjoHiiho7lr79vrO+0HOFsbr9
+         MMBL97H69YVMQy1gps10Moucx1jEmNljRPX0R5e6dlP2CxaSp/s6sXxC331cz7U6Eqf7
+         GakaR26Jd+9s5SYuO2/CfqhpyCv6RHqwLqp5XMc4JKr6ZxcXUMRXkETZ6tji3t2a7Lyq
+         3r21n0FyNAPv1yQd+NpbCCE/w0hvpf3eR6vDHx3XSQMllSrP9fbUUFTgx4xZTi3fMNG/
+         KzURjzrupc0978suMCqmqeF6hYCyA1/iRLV46AW0vIcBlJTZAFSX7esEfUXcSgKdq75j
+         nhIA==
+X-Gm-Message-State: AAQBX9cFptGHy+8Q36/gof+ncOA5dXDFd1s7VbD8q7cncI/sorMg6OEy
+        FxRRlK5a+q8o+q/8Nkvt5aQ=
+X-Google-Smtp-Source: AKy350biIUtO/kChzZEbsFdXOlPYfTzgcNJYccIpGUOz2HRwvvSh7SLB74CXnN+snvu/SLYpl1P5EA==
+X-Received: by 2002:a5d:4c4d:0:b0:2d7:a062:ec8 with SMTP id n13-20020a5d4c4d000000b002d7a0620ec8mr11277270wrt.41.1682407623105;
+        Tue, 25 Apr 2023 00:27:03 -0700 (PDT)
+Received: from costa-tp.redhat.com ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
+        by smtp.gmail.com with ESMTPSA id c16-20020a05600c0ad000b003f198dfbbfcsm8411489wmr.19.2023.04.25.00.27.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Apr 2023 00:27:02 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Rong Tao <rtoax@foxmail.com>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] docs: split subtitle of Submitting patches
+Date:   Tue, 25 Apr 2023 10:26:43 +0300
+Message-Id: <20230425072644.868535-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/4] platform/x86: wmi: Mark GUID-based WMI interface
- as deprecated
-Content-Language: en-US
-To:     Armin Wolf <W_Armin@gmx.de>, hdegoede@redhat.com,
-        markgross@kernel.org
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230424222939.208137-1-W_Armin@gmx.de>
- <20230424222939.208137-3-W_Armin@gmx.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230424222939.208137-3-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Motivation:
+
+The original long page title in the left Content pane spans three lines:
+
+Submitting patches: the essential
+  guide to getting your code into
+  the kernel
+
+Issues:
+- It is not readable.
+- It further inflates already overpopulated Contents pane.
+
+The solution:
+- Split the long title to title and subtitle.
+- Vertical bar '|' in Sphinx-doc introduces empty line to
+  make the subtitle closer to the title than to the following text.
 
 
-On 4/24/23 15:29, Armin Wolf wrote:
-> The WMI driver core supports a more mordern bus-based interface for
-> interacting with WMI devices. The older GUID-based interface depends
-> on each WMI GUID and notification id being unique on a given system,
-> which turned out is not the case.
-> Mark the older interface as deprecated since new WMI drivers should
-> use the bus-based interface to avoid this issues.
-> 
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
->  drivers/platform/x86/wmi.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/process/submitting-patches.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 7a5619fecb38..051eba1bbc7f 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -1,7 +1,10 @@
+ .. _submittingpatches:
+ 
+-Submitting patches: the essential guide to getting your code into the kernel
+-============================================================================
++Submitting patches
++==================
++The essential guide to getting your code into the kernel
++
++|
+ 
+ For a person or company who wishes to submit a change to the Linux
+ kernel, the process can sometimes be daunting if you're not familiar
 -- 
-~Randy
+2.40.0
+
