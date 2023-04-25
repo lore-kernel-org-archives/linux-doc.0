@@ -2,204 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E2DC77B7F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 23:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8761FC77B61
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 23:47:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236311AbjDYXBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 19:01:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32948 "EHLO
+        id S236934AbjDYXra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 19:47:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236231AbjDYXBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 19:01:10 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2EEB21E
-        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b92309d84c1so31328317276.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682463666; x=1685055666;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
-        b=C4AljZcb5zSEki65YN1EEhXpKoY2+BQjkZw0lA37fbXw5J94rINcczlcHQKioosXoz
-         QYJO7B3PQHsCBBmLZHmB2bdJerRvszbD8Z0QkB4l66SvwAArYTtc7JH15w/nYT/SE5u5
-         vwm/eMEJk1TY+eEPX82hBLbrKJ9kTJikXcAr57e2kixe1dolatDoyNrc44iwLTBRVolO
-         bfADSu5kj9Pbljxty8CvVBHkrXGW31eBuRDxicojfWBD4NefEdirxSFfQsz+fSqmBEth
-         Qzgwwtz8KWzAJnphFlQcihCJZ0/hpd4K50BVsMO7BpnBpVR4VQKe84Z8OdOHhFvQF7fh
-         tpww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682463666; x=1685055666;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
-        b=Y78ABg33r1Ap0k0jzJGGIKyOC7dhjn9U399W1ow1b1oqIPmo/XJ+ratjWMiRaALO02
-         u8WZM8CJ4u0RXmJeGyANMbttQ5bLjfoCeSlJ6ovLesm7eGGMCJA5p0I1ivLv0JRmuDz/
-         V2H88fPNHnX7a384KoA1jfnzgsG58dH5mnKNryh/ZQCvLokcF1TNx5thtrDg4K8qx5DB
-         TCS2lk26aX/Y39Kfgy+OfDJZBmlXjP+G0gCZJuJ6q+weJU2EIYvc57Mg5YOo25mG/x09
-         Qv7R7XhYI70/WneQBBRYUEiJdCv3PFbRiRDq8t6ZM0CMVuVYU9+vNleXRNOXBuI7k59l
-         Vg2g==
-X-Gm-Message-State: AC+VfDwnuIXnj16mgTZknPq7cCC9+Si0rJ19Q0E99SSykIJNR5nflQij
-        Iks9Bnx0FHMRa38Q/HV+81dQyzNd4Bo=
-X-Google-Smtp-Source: ACHHUZ7zn8PbJQ/UuE69mi5lwaIaGdUdtx9hP2cvpdZFHM9mCc7INsMunl92AGHkpHAOjQl1AWoM2QO/O/0=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:690c:986:b0:54c:15ad:11e4 with SMTP id
- ce6-20020a05690c098600b0054c15ad11e4mr342131ywb.0.1682463665939; Tue, 25 Apr
- 2023 16:01:05 -0700 (PDT)
-Date:   Tue, 25 Apr 2023 16:01:04 -0700
-In-Reply-To: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
-Mime-Version: 1.0
-References: <ZDnAuGKrCO2wgjlG@google.com> <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
-Message-ID: <ZEhbsHqBapHtdrg7@google.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-From:   Sean Christopherson <seanjc@google.com>
-To:     Ackerley Tng <ackerleytng@google.com>
-Cc:     chao.p.peng@linux.intel.com, xiaoyao.li@intel.com,
-        isaku.yamahata@gmail.com, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, pbonzini@redhat.com, corbet@lwn.net,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
-        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
-        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
-        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
-        vannapurve@google.com, yu.c.zhang@linux.intel.com,
-        kirill.shutemov@linux.intel.com, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
-        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S236930AbjDYXra (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 19:47:30 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB115B21D;
+        Tue, 25 Apr 2023 16:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682466448; x=1714002448;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=gwYmHxSxBa9XWWXJLTvM7oTx/sNtQBJUu39HebGwMEw=;
+  b=hDbfoh9KFdVIrzyjl49oOh8Wvk/d5+RxbTZOoGXwZB8hhr4wOaJnyqks
+   6oSzBjeXdez/NuvmDhKZdkcLuu3e+ekflrA8lvQIMPL18RTeoOCGaGIp1
+   dgAqDfVUpGdzQNBCFDv49V+OyRxbIOHqL+oY7JkYv7PlLD9g7o3FGhfZE
+   RMkKRWNKaTtUe3LIM8a/QsSs1+mDoiBomnHBH1oS5YbCepWTrJpQnrje4
+   UtFwJwJYAbILsJcakgKCKcBpQhGBguyeiy7pduIR14zdDY4Scg+npfVr5
+   2oZHDfwGVmWfQbQfhESE35n2wKbZcPVwVSW+7ya0tefUsrWmQBJQi/ysj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="326541486"
+X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
+   d="scan'208";a="326541486"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 16:47:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="644014868"
+X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
+   d="scan'208";a="644014868"
+Received: from mmhacket-mobl.amr.corp.intel.com (HELO [10.209.15.30]) ([10.209.15.30])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 16:47:27 -0700
+Message-ID: <0da37de8-6036-f475-d80d-92c77fb7cbaa@linux.intel.com>
+Date:   Tue, 25 Apr 2023 16:47:27 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [PATCH v2 1/3] x86/tdx: Add TDX Guest event notify interrupt
+ support
+Content-Language: en-US
+To:     "Huang, Kai" <kai.huang@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>
+Cc:     "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "Yu, Guorui" <guorui.yu@linux.alibaba.com>,
+        "qinkun@apache.org" <qinkun@apache.org>,
+        "wander@redhat.com" <wander@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "chongc@google.com" <chongc@google.com>,
+        "Aktas, Erdem" <erdemaktas@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "dionnaglaze@google.com" <dionnaglaze@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Du, Fan" <fan.du@intel.com>
+References: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20230413034108.1902712-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <632a9a27abb5da053caedbbc6bcb7d5e15b2322c.camel@intel.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <632a9a27abb5da053caedbbc6bcb7d5e15b2322c.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 18, 2023, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> > I agree, a pure alignment check is too restrictive, and not really what I
-> > intended despite past me literally saying that's what I wanted :-)  I think
-> > I may have also inverted the "less alignment" statement, but luckily I
-> > believe that ends up being a moot point.
-> 
-> > The goal is to avoid having to juggle scenarios where KVM wants to create a
-> > hugepage, but restrictedmem can't provide one because of a misaligned file
-> > offset.  I think the rule we want is that the offset must be aligned to the
-> > largest page size allowed by the memslot _size_.  E.g. on x86, if the
-> > memslot size is >=1GiB then the offset must be 1GiB or beter, ditto for
-> > >=2MiB and >=4KiB (ignoring that 4KiB is already a requirement).
-> 
-> > We could loosen that to say the largest size allowed by the memslot, but I
-> > don't think that's worth the effort unless it's trivially easy to implement
-> > in code, e.g. KVM could technically allow a 4KiB aligned offset if the
-> > memslot is 2MiB sized but only 4KiB aligned on the GPA.  I doubt there's a
-> > real use case for such a memslot, so I want to disallow that unless it's
-> > super easy to implement.
-> 
-> Checking my understanding here about why we need this alignment check:
-> 
-> When KVM requests a page from restrictedmem, KVM will provide an offset
-> into the file in terms of 4K pages.
-> 
-> When shmem is configured to use hugepages, shmem_get_folio() will round
-> the requested offset down to the nearest hugepage-aligned boundary in
-> shmem_alloc_hugefolio().
-> 
-> Example of problematic configuration provided to
-> KVM_SET_USER_MEMORY_REGION2:
-> 
-> + shmem configured to use 1GB pages
-> + restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
-> + memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
-> + KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
-> 
-> restrictedmem_get_page() and shmem_get_folio() returns the page for
-> offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
-> 0x0. This is allocating outside the range that KVM is supposed to use,
-> since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
-> supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
-> 
-> IIUC shmem will actually just round down (0x4000 rounded down to nearest
-> 1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
-> to 0x4000 in the file were supposed to be used by something else, there
-> might be issues.
-> 
-> Hence, this alignment check ensures that rounding down of any offsets
-> provided by KVM (based on page size configured in the backing file
-> provided) to restrictedmem_get_page() must not go below the offset
-> provided to KVM_SET_USER_MEMORY_REGION2.
-> 
-> Enforcing alignment of restrictedmem_offset based on the currently-set
-> page size in the backing file (i.e. shmem) may not be effective, since
-> the size of the pages in the backing file can be adjusted to a larger
-> size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
-> end up allocating outside the range that KVM was provided with.
-> 
-> Hence, to be safe, we should check alignment to the max page size across
-> all backing filesystems, so the constraint is
-> 
->     rounding down restrictedmem_offset to
->     min(max page size across all backing filesystems,
->         max page size that fits in memory_size) == restrictedmem_offset
-> 
-> which is the same check as
-> 
->     restrictedmem_offset must be aligned to min(max page size across all
->     backing filesystems, max page size that fits in memory_size)
-> 
-> which can safely reduce to
-> 
->     restrictedmem_offset must be aligned to max page size that fits in
->     memory_size
-> 
-> since "max page size that fits in memory_size" is probably <= to "max
-> page size across all backing filesystems", and if it's larger, it'll
-> just be a tighter constraint.
+Hi Kai,
 
-Yes?  The alignment check isn't strictly required, KVM _could_ deal with the above
-scenario, it's just a lot simpler and safer for KVM if the file offset needs to
-be sanely aligned.
-
-> If the above understanding is correct:
+On 4/14/23 6:34 AM, Huang, Kai wrote:
+> On Wed, 2023-04-12 at 20:41 -0700, Kuppuswamy Sathyanarayanan wrote:
+>> Host-guest event notification via configured interrupt vector is useful
+>> in cases where a guest makes an asynchronous request and needs a
+>> callback from the host to indicate the completion or to let the host
+>> notify the guest about events like device removal. One usage example is,
+>> callback requirement of GetQuote asynchronous hypercall.
+>>
+>> In TDX guest, SetupEventNotifyInterrupt hypercall can be used by the
+>> guest to specify which interrupt vector to use as an event-notify
+>> vector from the VMM. Details about the SetupEventNotifyInterrupt
+>> hypercall can be found in TDX Guest-Host Communication Interface
+>> (GHCI) Specification, section "VP.VMCALL<SetupEventNotifyInterrupt>".
+>>
+>> As per design, VMM will post the event completion IRQ using the same
+>> CPU on which SetupEventNotifyInterrupt hypercall request is received.
+>> So allocate an IRQ vector from "x86_vector_domain", and set the CPU
+>> affinity of the IRQ vector to the CPU on which
+>> SetupEventNotifyInterrupt hypercall is made.
+>>
+>> Add tdx_register_event_irq_cb()/tdx_unregister_event_irq_cb()
+>> interfaces to allow drivers register/unregister event noficiation
+> 			      ^
+> 			      to register/unregister
+>> handlers.
+>>
+>>
 > 
-> + We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
->   IIUC shmem will just round down and allocate without checking bounds.
+> [...]
 > 
->     + I think this is okay because holes in the restrictedmem file (in
->       terms of offset) made to accommodate this constraint don't cost us
->       anything anyway(?) Are they just arbitrary offsets in a file? In
->       our case, this file is usually a new and empty file.
-> 
->     + In the case of migration of a restrictedmem file between two KVM
->       VMs, this constraint would cause a problem is if the largest
->       possible page size on the destination machine is larger than that
->       of the source machine. In that case, we might have to move the
->       data in the file to a different offset (a separate problem).
 
-Hmm, I was thinking this would be a non-issue because the check would be tied to
-the max page _possible_ page size irrespective of hardware support, but that would
-be problematic if KVM ever supports 512GiB pages.  I'm not sure that speculatively
-requiring super huge memslots to be 512GiB aligned is sensible.
+With suggested changes, the final version looks like below.
 
-Aha!  If we go with a KVM ioctl(), a clean way around this is tie the alignment
-requirement to the memfd flags, e.g. if userspace requests the memfd to be backed
-by PMD hugepages, then the memslot offset needs to be 2MiB aligned on x86.  That
-will continue to work if (big if) KVM supports 512GiB pages because the "legacy"
-memfd would still be capped at 2MiB pages.
++/**
++ * tdx_event_irq_init() - Register IRQ for event notification from the VMM to
++ *                       the TDX Guest.
++ *
++ * Use SetupEventNotifyInterrupt TDVMCALL to register the event notification
++ * IRQ with the VMM, which is used by the VMM to notify the TDX guest when
++ * needed, for instance, when VMM finishes the GetQuote request from the TDX
++ * guest. The VMM always notifies the TDX guest via the same CPU on which the
++ * SetupEventNotifyInterrupt TDVMCALL is called. For simplicity, just allocate
++ * an IRQ (and a vector) directly from x86_vector_domain for such notification
++ * and pin the IRQ to the same CPU on which TDVMCALL is called.
++ *
++ * Since tdx_event_irq_init() is triggered via early_initcall(), it will be
++ * called before secondary CPUs bring up, so no special logic is required to
++ * ensure that the same CPU is used for SetupEventNotifyInterrupt TDVMCALL and
++ * IRQ allocation.
++ */
++static int __init tdx_event_irq_init(void)
++{
++       struct irq_affinity_desc desc;
++       struct irq_alloc_info info;
++       struct irq_cfg *cfg;
++       int irq;
++
++       if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
++               return 0;
++
++       init_irq_alloc_info(&info, NULL);
++
++       cpumask_set_cpu(smp_processor_id(), &desc.mask);
++
++       irq = __irq_domain_alloc_irqs(x86_vector_domain, -1, 1, cpu_to_node(0),
++                                     &info, false, &desc);
++       if (irq <= 0) {
++               pr_err("Event notification IRQ allocation failed %d\n", irq);
++               return -EIO;
++       }
++
++       irq_set_handler(irq, handle_edge_irq);
++
++       /*
++        * The IRQ cannot be migrated because VMM always notifies the TDX
++        * guest on the same CPU on which the SetupEventNotifyInterrupt
++        * TDVMCALL is called. Set the IRQ with IRQF_NOBALANCING to prevent
++        * its affinity from being changed.
++        */
++       if (request_irq(irq, tdx_event_irq_handler, IRQF_NOBALANCING,
++                       "tdx_event_irq", NULL)) {
++               pr_err("Event notification IRQ request failed\n");
++               goto err_free_domain_irqs;
++       }
++
++       cfg = irq_cfg(irq);
++
++       if (_tdx_hypercall(TDVMCALL_SETUP_NOTIFY_INTR, cfg->vector, 0, 0, 0)) {
++               pr_err("Event notification hypercall failed\n");
++               goto err_free_irqs;
++       }
++
++       tdx_event_irq = irq;
++
++       return 0;
++
++err_free_irqs:
++       free_irq(irq, NULL);
++err_free_domain_irqs:
++       irq_domain_free_irqs(irq, 1);
++
++       return -EIO;
++}
++early_initcall(tdx_event_irq_init)
 
-Architectures that support variable hugepage sizes might need to do something
-else, but I don't think that possibility affects what x86 can/can't do.
 
-> + On this note, it seems like there is no check for when the range is
->   smaller than the allocated page? Like if the range provided is 4KB in
->   size, but shmem is then configured to use a 1GB page, will we end up
->   allocating past the end of the range?
 
-No, KVM already gracefully handles situations like this.  Well, x86 does, I assume
-other architectures do too :-)
 
-As above, the intent of the extra restriction is so that KVM doen't need even more
-weird code (read: math) to gracefully handle the new edge cases that would come with
-fd-only memslots.
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
