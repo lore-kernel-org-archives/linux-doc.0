@@ -2,79 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A723BC77B61
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 12:06:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A79AC77B7C
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 12:51:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233368AbjDYMG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 08:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
+        id S234178AbjDYMvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 08:51:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232881AbjDYMG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 08:06:27 -0400
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80573AA9;
-        Tue, 25 Apr 2023 05:06:21 -0700 (PDT)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 568171AFC;
-        Tue, 25 Apr 2023 14:06:19 +0200 (CEST)
-Authentication-Results: ext-mx-out001.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1682424376; x=1684238777; bh=1quTiAqVzsZGhgLkkRVbglXHFhLg3FUJ99F
-        n/BliYRU=; b=nJKedt0dV1ma7iwyLMYLzlGN8s0LqMGVyCbFURjHRpprhBVxQrI
-        IJtd44HC/MXPkQVbgm/owXS38tIHBDeip9KB0Hubj9gF2oqghW3yAz/ES6dn8sTj
-        TeI76x6ukdb5oDHv2CRHP2iuBq6cSKNom9MW0XKvT10RYil2po2RxYulcFxqxfac
-        KxL0Ensq43asxcEO8be4Xrja/7I47AqUb7h1S6+n4RXiJwC+9FkcHPxgqWK5n4Rr
-        Xcn8qc+038smmL/arnFcLKGPnapshoziaAP84LUneMGxQynEegDoapQnqk/o7t5r
-        j1F4AZ0LHImwCtOzbZX7NGMvaiGzdDky7OZKvnmNq7NZWzOi+1s1uJIXAbE7qatB
-        XQdzk2VgtphEloCz9sVoaGSQYkSnWfcK39rgDXhOrMUuZrUjnTFjkCv14GF1FT6/
-        nf7YtZuItQQ2Vqg8PW2yi4CUKR/i6g/LXHczxE/rm+jsmVf1PCZiTHrTyJJsNJTG
-        IVdOFx3jPz0VBoUJoChdc7oiBMvoHRewwmF7+gyD35ZJX1h6PB1QUelw6Uz1quJK
-        D1ALsgXpDlRISAbCAjgRYIMPxGs/fgWBPBxA6VcY7o6Okyodt8J2cqYPL9rfaMBr
-        CMlPK3TE2/EQKot914La3FDRsUVX6XrzKGPi2kGmXLAExOxSyl8ZhEeA=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Q0RLDHaGpSLY; Tue, 25 Apr 2023 14:06:16 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 5D45116A7;
-        Tue, 25 Apr 2023 14:06:15 +0200 (CEST)
-Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 83128DD5;
-        Tue, 25 Apr 2023 14:06:14 +0200 (CEST)
+        with ESMTP id S234174AbjDYMvi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 08:51:38 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0EEADBB8D;
+        Tue, 25 Apr 2023 05:51:36 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E1934B3;
+        Tue, 25 Apr 2023 05:52:20 -0700 (PDT)
+Received: from [192.168.1.3] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E5B7F3F64C;
+        Tue, 25 Apr 2023 05:51:33 -0700 (PDT)
+Message-ID: <108babe4-20cb-e637-e7da-7d04127d2a9e@arm.com>
+Date:   Tue, 25 Apr 2023 13:51:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 0/4] devres: Provide krealloc_array
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jean Delvare <jdelvare@suse.com>,
+        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@roeck-us.net,
+        michal.simek@amd.com, Jonathan.Cameron@huawei.com,
+        andriy.shevchenko@linux.intel.com
+References: <20230320145710.1120469-1-james.clark@arm.com>
+From:   James Clark <james.clark@arm.com>
+In-Reply-To: <20230320145710.1120469-1-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Date:   Tue, 25 Apr 2023 14:06:13 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Fabio Fantoni <fantonifabio@tiscali.it>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc:it_IT: fix some typos
-In-Reply-To: <20230425110158.9755-1-fantonifabio@tiscali.it>
-References: <20230425110158.9755-1-fantonifabio@tiscali.it>
-Message-ID: <91b1a96e1bfcdbe0ea47bcd2aa268989@vaga.pv.it>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-04-25 13:01, Fabio Fantoni wrote:
-> Fix of some typos spotted reading documentation in italian and latest
-> changes for 6.4
+
+
+On 20/03/2023 14:57, James Clark wrote:
+> Changes since v2:
+>  
+>  * Remove change in qcom_geni_serial.c in the last commmit and replace
+>    it with a comment instead
+>  * Whitespace fix
 > 
-> Signed-off-by: Fabio Fantoni <fantonifabio@tiscali.it>
+> Changes since v1:
+> 
+>  * Style fix
+> 
+> -----------------------
+> 
+> Hi,
+> 
+> I had a use for a devm realloc_array in a separate change, so I've
+> added one and updated all the obvious existing uses of it that I could
+> find. This is basically a copy paste of the one in slab.h
+> 
+> Applies to v6.3-rc3
+> 
+> Thanks
+> James
+> 
+> James Clark (4):
+>   devres: Provide krealloc_array
+>   hwmon: pmbus: Use devm_krealloc_array
+>   iio: adc: Use devm_krealloc_array
+>   serial: qcom_geni: Comment use of devm_krealloc rather than
+>     devm_krealloc_array
+> 
+>  .../driver-api/driver-model/devres.rst          |  1 +
+>  drivers/hwmon/pmbus/pmbus_core.c                |  6 +++---
+>  drivers/iio/adc/xilinx-ams.c                    |  9 +++------
+>  drivers/iio/adc/xilinx-xadc-core.c              | 17 +++++++----------
+>  drivers/tty/serial/qcom_geni_serial.c           |  5 +++++
+>  include/linux/device.h                          | 11 +++++++++++
+>  6 files changed, 30 insertions(+), 19 deletions(-)
+> 
 
-Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Hi Greg,
 
-Thanks Fabio for the fixes.
+Is it possible to take this one? Or at least the first commit?
 
-> ---
->  Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 +-
->  Documentation/translations/it_IT/process/deprecated.rst     | 2 +-
->  .../translations/it_IT/process/submitting-patches.rst       | 6 +++---
->  3 files changed, 5 insertions(+), 5 deletions(-)
+Thanks
+James
