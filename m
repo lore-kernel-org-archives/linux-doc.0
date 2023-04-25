@@ -2,316 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E20C77B76
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 20:56:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E2DC77B7F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 23:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232235AbjDYUza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 16:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50146 "EHLO
+        id S236311AbjDYXBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 19:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232164AbjDYUzF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 16:55:05 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E60D146D3;
-        Tue, 25 Apr 2023 13:55:03 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-b953887e70eso8897660276.1;
-        Tue, 25 Apr 2023 13:55:03 -0700 (PDT)
+        with ESMTP id S236231AbjDYXBK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 19:01:10 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2EEB21E
+        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b92309d84c1so31328317276.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682456103; x=1685048103;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OU/Nt9B7XN1sCdbr/6eEb0oLClGSXdVDLD5Mdz4L6mI=;
-        b=DxsvyX9FhAGMU+w31NsiCPMJpBjiSmiusOxrrqMuWc7O2JrI3lOOhib9NUZ8evbkVb
-         hnpe+Dv76iu91frLgDA9nGUkKbjFzq0OvBXo0Xoy5xb+tpmzXuaDlwJQYj5J/J53DSjE
-         3v3ta/aG3bSsUUMmV78xGQmvmXq8YucDwfmouyPZOA9/J4waeSO8XWxhagfzpRzcXzAI
-         svko/KEuM58pa4AkiN3pHR7OQ1eIAZ26Cqn/5dxBes0BDJmsgrCcnAOUZ7nOQJVkEKW/
-         7k7i8gws9nQro3wQwqHnMi1d292dOmYhyF5+UUwSdrLE7o2eARF2luNFPTWuEy0N0H2v
-         xkhg==
+        d=google.com; s=20221208; t=1682463666; x=1685055666;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
+        b=C4AljZcb5zSEki65YN1EEhXpKoY2+BQjkZw0lA37fbXw5J94rINcczlcHQKioosXoz
+         QYJO7B3PQHsCBBmLZHmB2bdJerRvszbD8Z0QkB4l66SvwAArYTtc7JH15w/nYT/SE5u5
+         vwm/eMEJk1TY+eEPX82hBLbrKJ9kTJikXcAr57e2kixe1dolatDoyNrc44iwLTBRVolO
+         bfADSu5kj9Pbljxty8CvVBHkrXGW31eBuRDxicojfWBD4NefEdirxSFfQsz+fSqmBEth
+         Qzgwwtz8KWzAJnphFlQcihCJZ0/hpd4K50BVsMO7BpnBpVR4VQKe84Z8OdOHhFvQF7fh
+         tpww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682456103; x=1685048103;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OU/Nt9B7XN1sCdbr/6eEb0oLClGSXdVDLD5Mdz4L6mI=;
-        b=M4XEUwR49qLlR/xGAC5lHZyV5JzRld8G6WbTimFJSGbGSsNHDiPVza9yWVZeBjBgHG
-         IwgoIU5CT9N10MYMOrNQ0C2UTefrCx6pqJVQYXNNVoRZoxPypfqClkGWoFklGLjsxwq3
-         vhWtjadVsRw5TQpndxAnidpk7is3ApMxWLmLFDKO5kmuGItulo+iHNSQOvyjn5KuRWBb
-         iMZ4GZDK5lUrdfx/MLOiMPqx1TuddOBEYjZProxf4Z+6v7/VdBqdII4bjs2gtEcLTxAF
-         S3OZmd1BFOM8McB1CUYa/nBIu4DyHTjcCyWX+lYs77rKzct6uruF1MQ6uC80IRk3OTZS
-         lJCw==
-X-Gm-Message-State: AAQBX9dD3spzdEJE7bTzrlPosc5R/TIGv/9FcQ7b4vXILcmb1WQdM3jo
-        SfTqkw6ekNjbqEWgtIv2rIA=
-X-Google-Smtp-Source: AKy350ZBOeq+FuyZ+QGosrfgyVeMEZ16y1tOuiCk4iWVjMIHrX23nwDvyYSFgFY7ng6MxhuoZh/xcw==
-X-Received: by 2002:a25:4105:0:b0:b99:75f:8f24 with SMTP id o5-20020a254105000000b00b99075f8f24mr12009761yba.30.1682456102630;
-        Tue, 25 Apr 2023 13:55:02 -0700 (PDT)
-Received: from ?IPV6:2600:1700:2442:6db0:7dac:d9da:d59f:fcdb? ([2600:1700:2442:6db0:7dac:d9da:d59f:fcdb])
-        by smtp.gmail.com with ESMTPSA id o68-20020a254147000000b00b8f5b078eacsm3687976yba.39.2023.04.25.13.55.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Apr 2023 13:55:02 -0700 (PDT)
-Message-ID: <ce5b723d-2395-8974-ba62-1ee519732218@gmail.com>
-Date:   Tue, 25 Apr 2023 15:55:01 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [KTAP V2 PATCH] ktap_v2: add test metadata
-Content-Language: en-US
-To:     Rae Moar <rmoar@google.com>, davidgow@google.com,
-        skhan@linuxfoundation.org, keescook@chromium.org,
-        Tim.Bird@sony.com, brendanhiggins@google.com
-Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@lists.linux.dev,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230420205734.1288498-1-rmoar@google.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-In-Reply-To: <20230420205734.1288498-1-rmoar@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        d=1e100.net; s=20221208; t=1682463666; x=1685055666;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
+        b=Y78ABg33r1Ap0k0jzJGGIKyOC7dhjn9U399W1ow1b1oqIPmo/XJ+ratjWMiRaALO02
+         u8WZM8CJ4u0RXmJeGyANMbttQ5bLjfoCeSlJ6ovLesm7eGGMCJA5p0I1ivLv0JRmuDz/
+         V2H88fPNHnX7a384KoA1jfnzgsG58dH5mnKNryh/ZQCvLokcF1TNx5thtrDg4K8qx5DB
+         TCS2lk26aX/Y39Kfgy+OfDJZBmlXjP+G0gCZJuJ6q+weJU2EIYvc57Mg5YOo25mG/x09
+         Qv7R7XhYI70/WneQBBRYUEiJdCv3PFbRiRDq8t6ZM0CMVuVYU9+vNleXRNOXBuI7k59l
+         Vg2g==
+X-Gm-Message-State: AC+VfDwnuIXnj16mgTZknPq7cCC9+Si0rJ19Q0E99SSykIJNR5nflQij
+        Iks9Bnx0FHMRa38Q/HV+81dQyzNd4Bo=
+X-Google-Smtp-Source: ACHHUZ7zn8PbJQ/UuE69mi5lwaIaGdUdtx9hP2cvpdZFHM9mCc7INsMunl92AGHkpHAOjQl1AWoM2QO/O/0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:986:b0:54c:15ad:11e4 with SMTP id
+ ce6-20020a05690c098600b0054c15ad11e4mr342131ywb.0.1682463665939; Tue, 25 Apr
+ 2023 16:01:05 -0700 (PDT)
+Date:   Tue, 25 Apr 2023 16:01:04 -0700
+In-Reply-To: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Mime-Version: 1.0
+References: <ZDnAuGKrCO2wgjlG@google.com> <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Message-ID: <ZEhbsHqBapHtdrg7@google.com>
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+From:   Sean Christopherson <seanjc@google.com>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     chao.p.peng@linux.intel.com, xiaoyao.li@intel.com,
+        isaku.yamahata@gmail.com, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, pbonzini@redhat.com, corbet@lwn.net,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
+        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
+        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
+        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
+        vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        kirill.shutemov@linux.intel.com, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
+        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/20/23 15:57, Rae Moar wrote:
-> Add specification for declaring test metadata to the KTAP v2 spec.
+On Tue, Apr 18, 2023, Ackerley Tng wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> > I agree, a pure alignment check is too restrictive, and not really what I
+> > intended despite past me literally saying that's what I wanted :-)  I think
+> > I may have also inverted the "less alignment" statement, but luckily I
+> > believe that ends up being a moot point.
 > 
-> The purpose of test metadata is to allow for the declaration of essential
-> testing information in KTAP output. This information includes test
-> names, test configuration info, test attributes, and test files.
+> > The goal is to avoid having to juggle scenarios where KVM wants to create a
+> > hugepage, but restrictedmem can't provide one because of a misaligned file
+> > offset.  I think the rule we want is that the offset must be aligned to the
+> > largest page size allowed by the memslot _size_.  E.g. on x86, if the
+> > memslot size is >=1GiB then the offset must be 1GiB or beter, ditto for
+> > >=2MiB and >=4KiB (ignoring that 4KiB is already a requirement).
 > 
-> There have been similar ideas around the idea of test metadata such as test
-> prefixes and test name lines. However, I propose this specification as an
-> overall fix for these issues.
+> > We could loosen that to say the largest size allowed by the memslot, but I
+> > don't think that's worth the effort unless it's trivially easy to implement
+> > in code, e.g. KVM could technically allow a 4KiB aligned offset if the
+> > memslot is 2MiB sized but only 4KiB aligned on the GPA.  I doubt there's a
+> > real use case for such a memslot, so I want to disallow that unless it's
+> > super easy to implement.
+> 
+> Checking my understanding here about why we need this alignment check:
+> 
+> When KVM requests a page from restrictedmem, KVM will provide an offset
+> into the file in terms of 4K pages.
+> 
+> When shmem is configured to use hugepages, shmem_get_folio() will round
+> the requested offset down to the nearest hugepage-aligned boundary in
+> shmem_alloc_hugefolio().
+> 
+> Example of problematic configuration provided to
+> KVM_SET_USER_MEMORY_REGION2:
+> 
+> + shmem configured to use 1GB pages
+> + restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
+> + memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
+> + KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
+> 
+> restrictedmem_get_page() and shmem_get_folio() returns the page for
+> offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
+> 0x0. This is allocating outside the range that KVM is supposed to use,
+> since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
+> supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
+> 
+> IIUC shmem will actually just round down (0x4000 rounded down to nearest
+> 1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
+> to 0x4000 in the file were supposed to be used by something else, there
+> might be issues.
+> 
+> Hence, this alignment check ensures that rounding down of any offsets
+> provided by KVM (based on page size configured in the backing file
+> provided) to restrictedmem_get_page() must not go below the offset
+> provided to KVM_SET_USER_MEMORY_REGION2.
+> 
+> Enforcing alignment of restrictedmem_offset based on the currently-set
+> page size in the backing file (i.e. shmem) may not be effective, since
+> the size of the pages in the backing file can be adjusted to a larger
+> size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
+> end up allocating outside the range that KVM was provided with.
+> 
+> Hence, to be safe, we should check alignment to the max page size across
+> all backing filesystems, so the constraint is
+> 
+>     rounding down restrictedmem_offset to
+>     min(max page size across all backing filesystems,
+>         max page size that fits in memory_size) == restrictedmem_offset
+> 
+> which is the same check as
+> 
+>     restrictedmem_offset must be aligned to min(max page size across all
+>     backing filesystems, max page size that fits in memory_size)
+> 
+> which can safely reduce to
+> 
+>     restrictedmem_offset must be aligned to max page size that fits in
+>     memory_size
+> 
+> since "max page size that fits in memory_size" is probably <= to "max
+> page size across all backing filesystems", and if it's larger, it'll
+> just be a tighter constraint.
 
-This seems like a cleaner approach.
+Yes?  The alignment check isn't strictly required, KVM _could_ deal with the above
+scenario, it's just a lot simpler and safer for KVM if the file offset needs to
+be sanely aligned.
 
+> If the above understanding is correct:
 > 
-> These test metadata lines are a form of diagnostic lines with the
-> format: "# <metadata_type>: <data>". As a type of diagnostic line, test
-> metadata lines are compliant with KTAP v1, which will help to not
-> interfere too much with current parsers.
+> + We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
+>   IIUC shmem will just round down and allocate without checking bounds.
 > 
-> Specifically the "# Subtest:" line is derived from the TAP 14 spec:
-> https://testanything.org/tap-version-14-specification.html.
+>     + I think this is okay because holes in the restrictedmem file (in
+>       terms of offset) made to accommodate this constraint don't cost us
+>       anything anyway(?) Are they just arbitrary offsets in a file? In
+>       our case, this file is usually a new and empty file.
 > 
-> The proposed location for test metadata is in the test header, between the
-> version line and the test plan line. Note including diagnostic lines in
-> the test header is a depature from KTAP v1.
-> 
-> This location provides two main benefits:
-> 
-> First, metadata will be printed prior to when subtests are run. Then if a
-> test fails, test metadata can help discern which test is causing the issue
-> and potentially why.
-> 
-> Second, this location ensures that the lines will not be accidentally
-> parsed as a subtest's diagnostic lines because the lines are bordered by
-> the version line and plan line.
+>     + In the case of migration of a restrictedmem file between two KVM
+>       VMs, this constraint would cause a problem is if the largest
+>       possible page size on the destination machine is larger than that
+>       of the source machine. In that case, we might have to move the
+>       data in the file to a different offset (a separate problem).
 
-I like that.
+Hmm, I was thinking this would be a non-issue because the check would be tied to
+the max page _possible_ page size irrespective of hardware support, but that would
+be problematic if KVM ever supports 512GiB pages.  I'm not sure that speculatively
+requiring super huge memslots to be 512GiB aligned is sensible.
 
-> 
-> Here is an example of test metadata:
-> 
->  KTAP version 2
->  # Config: CONFIG_TEST=y
->  1..1
->      KTAP version 2
->      # Subtest: test_suite
->      # File: /sys/kernel/...
->      # Attributes: slow
->      # Other: example_test
->      1..2
->      ok 1 test_1
->      ok 2 test_2
->  ok 1 test_suite
-> 
-> Here is a link to a version of the KUnit parser that is able to parse test
-> metadata lines for KTAP version 2. Note this includes test metadata
-> lines for the main level of KTAP.
-> 
-> Link: https://kunit-review.googlesource.com/c/linux/+/5809
-> 
-> Signed-off-by: Rae Moar <rmoar@google.com>
-> ---
-> 
-> Hi everyone,
-> 
-> I would like to use this proposal similar to an RFC to gather ideas on the
-> topic of test metadata. Let me know what you think.
-> 
-> I am also interested in brainstorming a list of recognized metadata types.
-> Providing recognized metadata types would be helpful in parsing and
-> displaying test metadata in a useful way.
-> 
-> Current ideas:
-> - "# Subtest: <test_name>" to indicate test name (name must match
->   corresponding result line)
+Aha!  If we go with a KVM ioctl(), a clean way around this is tie the alignment
+requirement to the memfd flags, e.g. if userspace requests the memfd to be backed
+by PMD hugepages, then the memslot offset needs to be 2MiB aligned on x86.  That
+will continue to work if (big if) KVM supports 512GiB pages because the "legacy"
+memfd would still be capped at 2MiB pages.
 
-I would prefer "Test" to "Subtest" because the type should be allowed for the
-top level test, as well as for subtest levels.
+Architectures that support variable hugepage sizes might need to do something
+else, but I don't think that possibility affects what x86 can/can't do.
 
-> - "# Attributes: <attributes list>" to indicate test attributes (list
->   separated by commas)
-> - "# File: <file_path>" to indicate file used in testing
-> 
-> Any other ideas?
+> + On this note, it seems like there is no check for when the range is
+>   smaller than the allocated page? Like if the range provided is 4KB in
+>   size, but shmem is then configured to use a 1GB page, will we end up
+>   allocating past the end of the range?
 
-(Already used in an example above...)
+No, KVM already gracefully handles situations like this.  Well, x86 does, I assume
+other architectures do too :-)
 
-- "# Config: <config_option list> to indicate kernel configuration options
-  (list separated by commas)
-
-    config_option format:
-      Option XXX is enabled: CONFIG_XXX=y
-      Option XXX is not enabled: CONFIG_XXX=n
-      Option XXX is text: CONFIG_XXX="a text string"
-
-Linux .config format is "#CONFIG_XXX is not set",
-but this would be harder to parse in a list.
-
-A text config option also complicates parsing of a list.  Maybe there
-should not be a list, instead have a separate "# Config:" line for
-each config option.
-
-I would like to bifurcate the name space of metadata types, to names
-specified in the standard vs names not in the standard that can be
-used on an experimental or for future use in existing tests.
-
-I can think of at least two ways to implement this:
-
-(1) types that are in the specification all begin with a specific prefix,
-such as "ktap_" (bike shedding on naming welcomed), so the examples woudld be
-
-  # ktap_test:
-  # ktap_attributes:
-  # ktap_file:
-  # ktap_config:
-
-(2) types that are _not_ in the specification all begin with a specific prefix,
-such as "custom_" (bike shedding on naming welcomed).
-
-> 
-> Note this proposal replaces two of my previous proposals: "ktap_v2: add
-> recognized test name line" and "ktap_v2: allow prefix to KTAP lines."
-> 
-> Thanks!
-> -Rae
-> 
-> Note: this patch is based on Frank's ktap_spec_version_2 branch.
-> 
->  Documentation/dev-tools/ktap.rst | 51 ++++++++++++++++++++++++++++++--
->  1 file changed, 48 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-> index ff77f4aaa6ef..a2d0a196c115 100644
-> --- a/Documentation/dev-tools/ktap.rst
-> +++ b/Documentation/dev-tools/ktap.rst
-> @@ -17,7 +17,9 @@ KTAP test results describe a series of tests (which may be nested: i.e., test
->  can have subtests), each of which can contain both diagnostic data -- e.g., log
->  lines -- and a final result. The test structure and results are
->  machine-readable, whereas the diagnostic data is unstructured and is there to
-> -aid human debugging.
-> +aid human debugging. One exception to this is test metadata lines - a type
-> +of diagnostic lines. Test metadata is located between the version line and
-> +plan line of a test and can be machine-readable.
->  
->  KTAP output is built from four different types of lines:
->  - Version lines
-> @@ -28,8 +30,7 @@ KTAP output is built from four different types of lines:
->  In general, valid KTAP output should also form valid TAP output, but some
->  information, in particular nested test results, may be lost. Also note that
->  there is a stagnant draft specification for TAP14, KTAP diverges from this in
-> -a couple of places (notably the "Subtest" header), which are described where
-> -relevant later in this document.
-> +a couple of places, which are described where relevant later in this document.
->  
->  Version lines
->  -------------
-> @@ -166,6 +167,45 @@ even if they do not start with a "#": this is to capture any other useful
->  kernel output which may help debug the test. It is nevertheless recommended
->  that tests always prefix any diagnostic output they have with a "#" character.
->  
-> +Test metadata lines
-> +-------------------
-> +
-> +Test metadata lines are a type of diagnostic lines used to the declare the
-> +name of a test and other helpful testing information in the test header.
-> +These lines are often helpful for parsing and for providing context during
-> +crashes.
-> +
-> +Test metadata lines must follow the format: "# <metadata_type>: <data>".
-> +These lines must be located between the version line and the plan line
-> +within a test header.
-> +
-> +There are a few currently recognized metadata types:
-> +- "# Subtest: <test_name>" to indicate test name (name must match
-> +  corresponding result line)
-> +- "# Attributes: <attributes list>" to indicate test attributes (list
-> +  separated by commas)
-> +- "# File: <file_path>" to indicate file used in testing
-> +
-> +As a rule, the "# Subtest:" line is generally first to declare the test
-> +name. Note that metadata lines do not necessarily need to use a
-> +recognized metadata type.
-> +
-> +An example of using metadata lines:
-> +
-> +::
-> +
-> +        KTAP version 2
-> +        1..1
-> +        # File: /sys/kernel/...
-> +          KTAP version 2
-> +          # Subtest: example
-> +          # Attributes: slow, example_test
-> +          1..1
-> +          ok 1 test_1
-> +        # example passed
-> +        ok 1 example
-> +
-> +
->  Unknown lines
->  -------------
->  
-> @@ -206,6 +246,7 @@ An example of a test with two nested subtests:
->  	KTAP version 2
->  	1..1
->  	  KTAP version 2
-> +	  # Subtest: example
->  	  1..2
->  	  ok 1 test_1
->  	  not ok 2 test_2
-> @@ -219,6 +260,7 @@ An example format with multiple levels of nested testing:
->  	KTAP version 2
->  	1..2
->  	  KTAP version 2
-> +	  # Subtest: example_test_1
->  	  1..2
->  	    KTAP version 2
->  	    1..2
-> @@ -254,6 +296,7 @@ Example KTAP output
->  	KTAP version 2
->  	1..1
->  	  KTAP version 2
-> +	  # Subtest: main_test
->  	  1..3
->  	    KTAP version 2
->  	    1..1
-> @@ -261,11 +304,13 @@ Example KTAP output
->  	    ok 1 test_1
->  	  ok 1 example_test_1
->  	    KTAP version 2
-> +            # Attributes: slow
->  	    1..2
->  	    ok 1 test_1 # SKIP test_1 skipped
->  	    ok 2 test_2
->  	  ok 2 example_test_2
->  	    KTAP version 2
-> +	    # Subtest: example_test_3
->  	    1..3
->  	    ok 1 test_1
->  	    # test_2: FAIL
-> 
-> base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
-
+As above, the intent of the extra restriction is so that KVM doen't need even more
+weird code (read: math) to gracefully handle the new edge cases that would come with
+fd-only memslots.
