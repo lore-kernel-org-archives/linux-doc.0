@@ -2,91 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 040A6C6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 17:48:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA121C77B61
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 18:46:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234904AbjDYRsf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 13:48:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47302 "EHLO
+        id S234562AbjDYSq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 14:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234847AbjDYRsa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 13:48:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4091412C95;
-        Tue, 25 Apr 2023 10:48:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CADCF62F60;
-        Tue, 25 Apr 2023 17:48:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 873A1C433D2;
-        Tue, 25 Apr 2023 17:48:26 +0000 (UTC)
-Date:   Tue, 25 Apr 2023 13:48:24 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Costa Shulyupin <costa.shul@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH] docs: move tracing tools
-Message-ID: <20230425134824.5d57c431@gandalf.local.home>
-In-Reply-To: <20230425130231.912349-1-costa.shul@redhat.com>
-References: <20230425130231.912349-1-costa.shul@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S233976AbjDYSq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 14:46:58 -0400
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6966965A9;
+        Tue, 25 Apr 2023 11:46:57 -0700 (PDT)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-187b70ab997so32750024fac.0;
+        Tue, 25 Apr 2023 11:46:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682448416; x=1685040416;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KUQiQ/cycrAa4n9iZRt3Zgr4LfG6yW1fRE0hcsRmUfQ=;
+        b=WoQcwEWCWwJYkurfoN5o3Hr75SbTZikgSbisRbGrm70/l/sIK4lGpbj9xrdw2DUTft
+         rFsLrHMiFNH2/nkwj2EDvF17aLNO6Hq9d9x29YSgR73onUKmD8QuyBn4FbjMkdLGPHvV
+         oLsywOWk7tOB5VidrGR+C0KVzDQemLrQY4RkkFQejrUb6EIdML+t1tVcMIWjXmvGtfH+
+         8VdoJpWzdjy1AmU7Mf6ZvcFh80/b4wUEsglAEeLvNtiHa0VsNePUyb79ukjwiWU1gBkj
+         lNacryLIGFRgw7WcHPp0jX3uNcJ+Sfcee/FIzu/8wP5hRS4EC52iMXWkhIrODzfZ82ZL
+         3A1Q==
+X-Gm-Message-State: AAQBX9eLADV8c+aw1Twg35kXb6OUbKnirkxX4N9ll2zsxN3Gvwhv0wdG
+        Rhbj7CWzE5S7sMHqVUvtcA==
+X-Google-Smtp-Source: AKy350a9gR40wr81MPVCWEPH2D/7sm+9b9p11s31OwD5EHu62Pt7kbhb85SbKjjVrnX0z5MDz6Fg4A==
+X-Received: by 2002:a05:6830:130e:b0:6a1:2c80:5a3f with SMTP id p14-20020a056830130e00b006a12c805a3fmr9233595otq.19.1682448416562;
+        Tue, 25 Apr 2023 11:46:56 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id p26-20020a9d695a000000b006a13dd5c8a2sm5991901oto.5.2023.04.25.11.46.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Apr 2023 11:46:56 -0700 (PDT)
+Received: (nullmailer pid 2070614 invoked by uid 1000);
+        Tue, 25 Apr 2023 18:46:54 -0000
+Date:   Tue, 25 Apr 2023 13:46:54 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Hao Zhang <quic_hazha@quicinc.com>
+Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] dt-bindings: arm: Add Coresight Dummy Trace
+Message-ID: <20230425184654.GA2063541-robh@kernel.org>
+References: <20230422073714.38844-1-quic_hazha@quicinc.com>
+ <20230422073714.38844-3-quic_hazha@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230422073714.38844-3-quic_hazha@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 Apr 2023 16:02:30 +0300
-Costa Shulyupin <costa.shul@redhat.com> wrote:
-
-> from list of development tools to user tools
-> because these tools work on running kernel
-> and are invoked from user mode
-
-Wait what? No!
-
-The trace/ directory has a lot that is kernel internal only. Yes, it may
-explain how user space can interact with it, but it's also how internal
-kernel processes can use the ftrace infrastructure, and also explains a lot
-of the kernel design of that code.
-
-NACK!
-
--- Steve
-
-
+On Sat, Apr 22, 2023 at 03:37:13PM +0800, Hao Zhang wrote:
+> Add new coresight-dummy.yaml file describing the bindings required
+> to define coresight dummy trace in the device trees.
 > 
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
 > ---
->  Documentation/index.rst       | 1 -
->  Documentation/tools/index.rst | 1 +
->  2 files changed, 1 insertion(+), 1 deletion(-)
+>  .../bindings/arm/arm,coresight-dummy.yaml     | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
 > 
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 9dfdc826618c..81e1af951731 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -56,7 +56,6 @@ Various other manuals with useful information for all kernel developers.
->     dev-tools/index
->     dev-tools/testing-overview
->     kernel-hacking/index
-> -   trace/index
->     fault-injection/index
->     livepatch/index
->     rust/index
-> diff --git a/Documentation/tools/index.rst b/Documentation/tools/index.rst
-> index 80488e290e10..6a9a44f7f88a 100644
-> --- a/Documentation/tools/index.rst
-> +++ b/Documentation/tools/index.rst
-> @@ -12,6 +12,7 @@ more additions are needed here:
->  
->     rtla/index
->     rv/index
-> +   ../trace/index
->  
->  .. only::  subproject and html
->  
+> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+> new file mode 100644
+> index 000000000000..48d864aefaaa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+> @@ -0,0 +1,101 @@
+> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/arm/arm,coresight-dummy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM Coresight Dummy component
+> +
+> +description: |
+> +  Coresight Dummy Trace Module is for the specific devices that kernel
+> +  don't have permission to access or configure, e.g., CoreSight TPDMs
+> +  on Qualcomm platforms. So there need driver to register dummy devices
+> +  as Coresight devices. It may also be used to define components that
+> +  may not have any programming interfaces (e.g, static links), so that
+> +  paths can be established in the driver. Provide Coresight API for
+> +  dummy device operations, such as enabling and disabling dummy devices.
+> +  Build the Coresight path for dummy sink or dummy source for debugging.
+> +
+> +  The primary use case of the coresight dummy is to build path in kernel
+> +  side for dummy sink and dummy source.
 
+I could imagine the OS wanting to know more information than just 
+'dummy'. Is data from an unknown source useful? Likewise, don't you want 
+to know where you are sending data too?
+
+> +
+> +maintainers:
+> +  - Mao Jinlong <quic_jinlmao@quicinc.com>
+> +  - Tao Zhang <quic_taozha@quicinc.com>
+> +  - Hao Zhang <quic_hazha@quicinc.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+
+Don't need oneOf as there is only one entry.
+
+> +          - arm,coresight-dummy-sink
+> +          - arm,coresight-dummy-source
+> +
+> +  out-ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port:
+> +        description: Output connection from the source to Coresight
+> +          Trace bus.
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +
+> +  in-ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port:
+> +        description: Input connection from the Coresight Trace bus to
+> +          dummy sink, such as Embedded USB debugger(EUD).
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +
+> +required:
+> +  - compatible
+> +
+> +if:
+> +  # If the compatible contains the below value
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: arm,coresight-dummy-sink
+> +
+> +then:
+> +  required:
+> +    - in-ports
+> +
+> +else:
+> +  required:
+> +    - out-ports
+
+This still allows the nodes when they don't make sense. I think this 
+needs to be 2 schema files. The only common part is 'compatible' and 
+that's not even shared.
+
+Rob
