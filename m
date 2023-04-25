@@ -2,104 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B791BC77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 14:32:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6144C77B61
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 15:02:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233990AbjDYOck (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 10:32:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42928 "EHLO
+        id S234197AbjDYPCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 11:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbjDYOcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 10:32:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A22D4EC0;
-        Tue, 25 Apr 2023 07:32:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 02B1262E53;
-        Tue, 25 Apr 2023 14:32:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACECEC4339B;
-        Tue, 25 Apr 2023 14:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682433157;
-        bh=7RpIH8pPGjDhRtE9/Kdc51ixqRzPM/NZxvw0ejyXGV4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WS1zZ3CS2VXAufJewBP0pT3wmeUdW+sboDNdHxucQDaMg+JS0MOGO0iXkjlHVlkcl
-         4tSTKKdsKZPLywKPG/tSx+bna6F2HO4rE+LwNrE4dFqrXC/Dnxj2icYa4Qw2wl1f46
-         q3xCGYjCg9RhCF4aKhb6kQ/tnNwFd6Jjhb4aN7Zoj2eqMmCfxVQZZYM2TrAlCMsK+l
-         +3qRdkCkY3wxnpTqBb9b3g7HLpWZSt5qLRDzUor8wcq4xUqHaHZv9ryiG/Hd2zBhSb
-         vcUOUY809sMdwYeBAN6oHSO4DM75SaL6ebdOmcZrjwUEmxs19ipcre9kJCZccvuqKO
-         u3XFkrgTgeRDg==
-Date:   Tue, 25 Apr 2023 23:32:33 +0900
-From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     rostedt@goodmis.org, corbet@lwn.net, shuah@kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH tracing 0/3] tracing: support > 8 byte filter predicates
-Message-Id: <20230425233233.2ad5168c630b4c1349ab3398@kernel.org>
-In-Reply-To: <1682414197-13173-1-git-send-email-alan.maguire@oracle.com>
-References: <1682414197-13173-1-git-send-email-alan.maguire@oracle.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230192AbjDYPCm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 11:02:42 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BBC40F2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 08:02:40 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-54ee0b6ee72so47325507b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 08:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1682434959; x=1685026959;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pZ3BGGNQ6rZtpR453LXsl6Itbxm0bwQy5BQoZPJ3oOU=;
+        b=gUsxX26NXCZ6r14dXeXTp21glO0SrEWZa0rLsi3b4nj9YECEk48w42dZ5zaVPa7WY/
+         VEQpikWRZ8Jv85GYPAwmZ4OIBWRu7lUH9EV+MOxZD9iV6G4Yz0SKw641h9NbsLZc+yef
+         aF7N3A2XQ3Qbw55iU5AV/KuK1BvM8NFrT1xyOA/e5KBFsZbEWAXo1L0X42nn8wUFapMf
+         mUzCwhzdaTYHiUybm/V5DUKF0QzrYT8mWu0OL+/XsLbacOgIunGO40YmgbKi/nZsxfAN
+         3IadH7enSVVuLeKUZv5uu42FK34DVvzvZIVy3onO8tQRi1MC7axcQ7EIBWNLi4uvTiMk
+         AS1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682434959; x=1685026959;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pZ3BGGNQ6rZtpR453LXsl6Itbxm0bwQy5BQoZPJ3oOU=;
+        b=Vuglp201Avm0F15yY6Cy5bA6d1que/e7yq1LjfmOdvz5KDkImBNL9QN2EPgSbdUKLP
+         qN/pdimdsLIuAqTxWLNGWeE6Xx8dmc78ZU8G6rxVS4+ROfHFzkrgUao5pdcGACob0Nhu
+         zntHAVLRMelbMvayVoLjTP6wr+LrDm9P/kl/hy0YXJznmBt8EDVQE6B8F8HbxRZM846M
+         MXvZ/cxuWVBRLA0WTFRinwnrHZBWeDesFC6o5kx5yaB3wDlak9TXC/MlOY0ppkfc3R0l
+         cImctTLYVoYt1Yobybf5iqnJwdWN8OlFZZi0WNEi3SnqubbsOb3ZWM/RkcHLE6RnTEP/
+         rhxg==
+X-Gm-Message-State: AAQBX9fUCi+TApFlMf3FPDIJfdtf+eqyO/HmewrC1yxKImZLf000BgmN
+        JeCt7hnOWyaugjkZlbwNmpeZA1vA+Tk=
+X-Google-Smtp-Source: AKy350YDAZbkOQRK5g6tYkXR/oEveOOfRFHQC7RKfIoKTzQYKWd2HI7WCN0BwwrDGeWs5JNKrBjyDPSMfRs=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:b60f:0:b0:54f:bb6f:3deb with SMTP id
+ u15-20020a81b60f000000b0054fbb6f3debmr8642876ywh.4.1682434959555; Tue, 25 Apr
+ 2023 08:02:39 -0700 (PDT)
+Date:   Tue, 25 Apr 2023 08:02:38 -0700
+In-Reply-To: <20230327141816.2648615-1-carlos.bilbao@amd.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
+Message-ID: <ZEfrjtgGgm1lpadq@google.com>
+Subject: Re: [PATCH] docs: security: Confidential computing intro and threat model
+From:   Sean Christopherson <seanjc@google.com>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ardb@kernel.org, kraxel@redhat.com,
+        dovmurik@linux.ibm.com, elena.reshetova@intel.com,
+        dave.hansen@linux.intel.com, Dhaval.Giani@amd.com,
+        michael.day@amd.com, pavankumar.paluri@amd.com,
+        David.Kaplan@amd.com, Reshma.Lal@amd.com, Jeremy.Powell@amd.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com,
+        alexander.shishkin@linux.intel.com, thomas.lendacky@amd.com,
+        tglx@linutronix.de, dgilbert@redhat.com,
+        gregkh@linuxfoundation.org, dinechin@redhat.com,
+        linux-coco@lists.linux.dev, berrange@redhat.com, mst@redhat.com,
+        tytso@mit.edu, jikos@kernel.org, joro@8bytes.org, leon@kernel.org,
+        richard.weinberger@gmail.com, lukas@wunner.de, jejb@linux.ibm.com,
+        cdupontd@redhat.com, jasowang@redhat.com, sameo@rivosinc.com,
+        bp@alien8.de, security@kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 Apr 2023 10:16:34 +0100
-Alan Maguire <alan.maguire@oracle.com> wrote:
+On Mon, Mar 27, 2023, Carlos Bilbao wrote:
+> +Kernel developers working on confidential computing for the cloud operate
+> +under a set of assumptions regarding the Linux kernel threat model that
+> +differ from the traditional view. In order to effectively engage with the
+> +linux-coco mailing list and contribute to its initiatives, one must have a
+> +thorough familiarity with these concepts. This document provides a concise,
+> +architecture-agnostic introduction to help developers gain a foundational
 
-> For cases like IPv6 addresses, having a means to supply tracing
-> predicates for fields with more than 8 bytes would be convenient.
-> This series provides a simple way to support this by allowing
-> simple ==, != memory comparison with the predicate supplied when
-> the size of the field exceeds 8 bytes.  For example, to trace
-> ::1, the predicate
-> 
-> 	"dst == 0x00000000000000000000000000000001"
-> 
-> ..could be used.
+Heh, vendor agnostic maybe, but certainly not architecture agnostic.
 
-Nice!
-And I also would like to use something like "dst == ipv6(::1)" because
-it seems easy to make a mistake on the number of zeros.
+> +understanding of the subject.
+> +
+> +Overview and terminology
+> +========================
+> +
+> +Confidential Cloud Computing (CoCo) refers to a set of HW and SW
 
-Can we add such type casting feature to the filter?
+As per Documentation/security/secrets/coco.rst and every discussion I've observed,
+CoCo is Confidential Computing.  "Cloud" is not part of the definition.  That's
+true even if this discussion is restricted to CoCo VMs, e.g. see pKVM.
 
-Thank you,
+> +virtualization technologies that allow Cloud Service Providers (CSPs) to
 
-> 
-> Patch 1 provides the support for > 8 byte fields via a memcmp()-style
-> predicate. Patch 2 adds tests for filter predicates, and patch 3
-> documents the fact that for > 8 bytes. only == and != are supported.
-> 
-> Changes since RFC [1]:
-> 
-> - originally a fix was intermixed with the new functionality as
->   patch 1 in series [1]; the fix landed separately
-> - small tweaks to how filter predicates are defined via fn_num as
->   opposed to via fn directly
-> 
-> [1] https://lore.kernel.org/lkml/1659910883-18223-1-git-send-email-alan.maguire@oracle.com/
-> 
-> Alan Maguire (3):
->   tracing: support > 8 byte array filter predicates
->   selftests/ftrace: add test coverage for filter predicates
->   tracing: document > 8 byte numeric filtering support
-> 
->  Documentation/trace/events.rst                |  9 +++
->  kernel/trace/trace_events_filter.c            | 55 +++++++++++++++-
->  .../selftests/ftrace/test.d/event/filter.tc   | 62 +++++++++++++++++++
->  3 files changed, 125 insertions(+), 1 deletion(-)
->  create mode 100644 tools/testing/selftests/ftrace/test.d/event/filter.tc
-> 
-> -- 
-> 2.31.1
-> 
+Again, CoCo isn't just for cloud use cases.
 
+> +provide stronger security guarantees to their clients (usually referred to
+> +as tenants) by excluding all the CSP's infrastructure and SW out of the
+> +tenant's Trusted Computing Base (TCB).
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+This is inaccurate, the provider may still have software and/or hardware in the TCB.
+
+And for the cloud use case, I very, very strongly object to implying that the goal
+of CoCo is to exclude the CSP from the TCB.  Getting out of the TCB is the goal for
+_some_ CSPs, but it is not a fundamental tenant of CoCo.  This viewpoint is heavily
+tainted by Intel's and AMD's current offerings, which effectively disallow third
+party code for reasons that have nothing to do with security.
+
+https://lore.kernel.org/all/Y+aP8rHr6H3LIf%2Fc@google.com
+
+> +While the concrete implementation details differ between technologies, all
+> +of these mechanisms provide increased confidentiality and integrity of CoCo
+> +guest memory and execution state (vCPU registers), more tightly controlled
+> +guest interrupt injection,
+
+This is highly dependent on how "interrupt" is defined, and how "controlled" is
+defined.
+
+> as well as some additional mechanisms to control guest-host page mapping.
+
+This is flat out wrong for SNP for any reasonable definition of "page mapping".
+SNP has _zero_ "control" over page tables, which is most people think of when they
+see "page mapping".
+
+> More details on the x86-specific solutions can be
+> +found in
+> +:doc:`Intel Trust Domain Extensions (TDX) </x86/tdx>` and
+> +:doc:`AMD Memory Encryption </x86/amd-memory-encryption>`.
+
+So by the above definition, vanilla SEV and SEV-ES can't be considered CoCo.  SEV
+doesn't provide anything besides increased confidentiality of guest memory, and
+SEV-ES doesn't provide integrity or validation of physical page assignment.
+
+> +The basic CoCo layout includes the host, guest, the interfaces that
+> +communicate guest and host, a platform capable of supporting CoCo,
+
+CoCo VMs...
+
+> and an intermediary between the guest virtual machine (VM) and the
+> underlying platform that acts as security manager::
+
+Having an intermediary is very much an implementation detail.
+
+> +Confidential Computing threat model and security objectives
+> +===========================================================
+> +
+> +Confidential Cloud Computing adds a new type of attacker to the above list:
+> +an untrusted and potentially malicious host.
+
+I object to splattering "malicious host" everywhere.  Many people are going to
+read this and interpret "host" as "the CSP", and then make assumptions like
+"CoCo assumes the CSP is malicious!".  AIUI, the vast majority of use cases aren't
+concerned so much about "the CSP" being malicious, but rather they're concerned
+about new attack vectors that come with running code/VMs on a stack that is
+managed by a third party, on hardware that doesn't reside in a secured facility,
+etc.
+
+> +While the traditional hypervisor has unlimited access to guest data and
+> +can leverage this access to attack the guest, the CoCo systems mitigate
+> +such attacks by adding security features like guest data confidentiality
+> +and integrity protection. This threat model assumes that those features
+> +are available and intact.
+
+Again, if you're claiming integrity is a key tenant, then SEV and SEV-ES can't be
+considered CoCo.
+
+> +The **Linux kernel CoCo security objectives** can be summarized as follows:
+> +
+> +1. Preserve the confidentiality and integrity of CoCo guest private memory.
+
+So, registers are fair game?
+
+> +2. Prevent privileged escalation from a host into a CoCo guest Linux kernel.
+> +
+> +The above security objectives result in two primary **Linux kernel CoCo
+> +assets**:
+> +
+> +1. Guest kernel execution context.
+> +2. Guest kernel private memory.
+
+...
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7f86d02cb427..4a16727bf7f9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5307,6 +5307,12 @@ S:	Orphan
+>  W:	http://accessrunner.sourceforge.net/
+>  F:	drivers/usb/atm/cxacru.c
+>  
+> +CONFIDENTIAL COMPUTING THREAT MODEL
+
+This is not generic CoCo documentation, it's specific to CoCo VMs.  E.g. SGX is
+most definitely considered a CoCo feature, and it has no dependencies whatsoever
+on virtualization.
+
+> +M:	Elena Reshetova <elena.reshetova@intel.com>
+> +M:	Carlos Bilbao <carlos.bilbao@amd.com>
+
+I would love to see an M: or R: entry for someone that is actually _using_ CoCo.
+
+IMO, this document is way too Intel/AMD centric.
