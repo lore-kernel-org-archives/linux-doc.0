@@ -2,91 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5124BC6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 13:02:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC0AC77B61
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 13:21:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233361AbjDYNCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 09:02:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35608 "EHLO
+        id S234016AbjDYNVC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 09:21:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233322AbjDYNCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 09:02:42 -0400
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C6018F;
-        Tue, 25 Apr 2023 06:02:41 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f18335a870so37199065e9.0;
-        Tue, 25 Apr 2023 06:02:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682427760; x=1685019760;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U2ASUOIyunU653b3hIoNRkaW7evYIbPbMl1nNELwvTY=;
-        b=RqbF3fXtI7lAXqpUWBMTetY6AHqmcbpRX5QIIFhAtPv6A2sazRYJdCVQasGowExWDE
-         Io4eWkYRO1pnEqfX2KDL0l/0m7MIsc/h8HRmrnhGMQJ6YHuImMZYADqZJOi+XevJv6PZ
-         Jhb1Mpz3IqwQoDZss0ThdZa1jnVsCxTAz9FrzzYFIrMmQTEdf6XV2MHvLmIlOMVHpM6q
-         XESK/cLBY7B7UPMEXdYCskl8SvTGqULCKh0CE9K3hLd3Iwg2CjpTdX+HuoGYODreOK/v
-         kZGXNHXJ+XhZKvUF2/tJjjWW7p9VEXSyq6BCxA19LPpRH8ibZpkFO3pS4HOTntiGF/1Y
-         p7HA==
-X-Gm-Message-State: AAQBX9fBBW4QyaQnnah2Zb+whyk0GljCkQ5fKRTwnTph2cye5kB8eJhp
-        4lFCOo3EG3jTwGzW7+AB5l8=
-X-Google-Smtp-Source: AKy350avZVKPbbCDMPoU5rGqky8x6+SOM0NP9UxMlnpmsalD3Urhdi4hXTlnW2eFN/jlTxpN+A+DlA==
-X-Received: by 2002:a05:600c:22d4:b0:3f1:82c6:2d80 with SMTP id 20-20020a05600c22d400b003f182c62d80mr10726539wmg.5.1682427759701;
-        Tue, 25 Apr 2023 06:02:39 -0700 (PDT)
-Received: from costa-tp.redhat.com ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
-        by smtp.gmail.com with ESMTPSA id g11-20020a05600c310b00b003f0aefcc457sm18429945wmo.45.2023.04.25.06.02.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 06:02:38 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] docs: move tracing tools
-Date:   Tue, 25 Apr 2023 16:02:30 +0300
-Message-Id: <20230425130231.912349-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S234009AbjDYNVB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 09:21:01 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 261A32D52;
+        Tue, 25 Apr 2023 06:20:56 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Q5MwY6SF8zpT8Q;
+        Tue, 25 Apr 2023 21:17:01 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 25 Apr
+ 2023 21:20:53 +0800
+Message-ID: <db4ba964-1c09-1d8a-bfc4-8fe50debfc6c@huawei.com>
+Date:   Tue, 25 Apr 2023 21:20:53 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v4 0/2] support allocating crashkernel above 4G
+ explicitly on riscv
+Content-Language: en-US
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
+CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
+References: <20230410130553.3226347-1-chenjiahao16@huawei.com>
+In-Reply-To: <20230410130553.3226347-1-chenjiahao16@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-from list of development tools to user tools
-because these tools work on running kernel
-and are invoked from user mode
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/index.rst       | 1 -
- Documentation/tools/index.rst | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+On 2023/4/10 21:05, Chen Jiahao wrote:
+> On riscv, the current crash kernel allocation logic is trying to
+> allocate within 32bit addressible memory region by default, if
+> failed, try to allocate without 4G restriction.
+>
+> In need of saving DMA zone memory while allocating a relatively large
+> crash kernel region, allocating the reserved memory top down in
+> high memory, without overlapping the DMA zone, is a mature solution.
+> Hence this patchset introduces the parameter option crashkernel=X,[high,low].
+>
+> One can reserve the crash kernel from high memory above DMA zone range
+> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+> below 4G with "crashkernel=X,low". Besides, there are few rules need
+> to take notice:
+> 1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
+>     is specified.
+> 2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
+>     and there is enough memory to be allocated under 4G.
+> 3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
+>     specified, a 128M low memory will be allocated automatically for
+>     swiotlb bounce buffer.
+> See Documentation/admin-guide/kernel-parameters.txt for more information.
+>
+> To verify loading the crashkernel, adapted kexec-tools is attached below:
+> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+>
+> Following test cases have been performed as expected:
+> 1) crashkernel=256M                          //low=256M
+> 2) crashkernel=1G                            //low=1G
+> 3) crashkernel=4G                            //high=4G, low=128M(default)
+> 4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
+> 5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
+> 6) crashkernel=4G,high                       //high=4G, low=128M(default)
+> 7) crashkernel=256M,low                      //low=0M, invalid
+> 8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
+> 9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
+> 10) crashkernel=512M@0xd0000000              //low=512M
+> 11) crashkernel=1G@0xe0000000                //high=0M, low=0M, no enough low memory, failed
+>
+> Changes since [v4]:
+> 1. Update some imprecise code comments for cmdline parsing.
+>
+> Changes since [v3]:
+> 1. Update to print warning and return explicitly on failure when
+>     crashkernel=size@offset is specified. Not changing the result
+>     in this case but making the logic more straightforward.
+> 2. Some minor cleanup.
+>
+> Changes since [v2]:
+> 1. Update the allocation logic to ensure the high crashkernel
+>     region is reserved strictly above dma32_phys_limit.
+> 2. Clean up some minor format problems.
+>
+> Chen Jiahao (2):
+>    riscv: kdump: Implement crashkernel=X,[high,low]
+>    docs: kdump: Update the crashkernel description for riscv
+>
+>   .../admin-guide/kernel-parameters.txt         | 15 ++--
+>   arch/riscv/kernel/setup.c                     |  5 ++
+>   arch/riscv/mm/init.c                          | 71 +++++++++++++++++--
+>   3 files changed, 79 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 9dfdc826618c..81e1af951731 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -56,7 +56,6 @@ Various other manuals with useful information for all kernel developers.
-    dev-tools/index
-    dev-tools/testing-overview
-    kernel-hacking/index
--   trace/index
-    fault-injection/index
-    livepatch/index
-    rust/index
-diff --git a/Documentation/tools/index.rst b/Documentation/tools/index.rst
-index 80488e290e10..6a9a44f7f88a 100644
---- a/Documentation/tools/index.rst
-+++ b/Documentation/tools/index.rst
-@@ -12,6 +12,7 @@ more additions are needed here:
- 
-    rtla/index
-    rv/index
-+   ../trace/index
- 
- .. only::  subproject and html
- 
--- 
-2.40.0
+Hi folks,
+
+The current version has fix all problems up-to-date, please let me know
+if there is any other bug, or somewhere not quiet correct. Thanks for
+looking into this.
+
+Best Regards,
+Jiahao
 
