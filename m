@@ -2,88 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8B38C6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 08:48:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38578C77B71
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 09:16:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233108AbjDYIs5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 04:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39518 "EHLO
+        id S233663AbjDYJQv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 05:16:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233416AbjDYIsp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 04:48:45 -0400
-Received: from mail.tkos.co.il (wiki.tkos.co.il [84.110.109.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1911B448C;
-        Tue, 25 Apr 2023 01:48:44 -0700 (PDT)
-Received: from tarshish (unknown [10.0.8.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.tkos.co.il (Postfix) with ESMTPS id 5DF854403E5;
-        Tue, 25 Apr 2023 11:29:37 +0300 (IDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-        s=default; t=1682411377;
-        bh=UkMtkcMa++6iafnSwjpqXocSH7XxdlGS73FZYqAy42c=;
-        h=References:From:To:Cc:Subject:Date:In-reply-to:From;
-        b=ER6tN7Ne7zbJaKJK/SgUbaqWD+EMpWJnlUNmkipwMGUUdFvlDkd5yNleCADsygJJG
-         DJtmLxs/Rq8XvEP9dLbKKmeeCJo7gJ5BMbB4bwQ63bOtpb/mdh/m+21QygRpg98tQz
-         e43fbIzITzWGsKYelX1pKhK0yIfY1vyAgvryR4WeEqOfV1fK4dXF60o4ODU/8qmK01
-         Y/E187SOV1rgJbSz7RfZd7GHwmF/Cf1q2aqPZnCRdHwhKEwk+uaqBK5lf/7zp0aPG1
-         AbBjRi44jzdzxcLBz6u5PkWxRub0+CTnPg7VKcio1TRTA/7tV5Fv0okzLYffH+R8HC
-         0n4imCKraTr4Q==
-References: <9e137548c4e76e0d8deef6d49460cb37897934ca.1682333574.git.baruch@tkos.co.il>
-User-agent: mu4e 1.9.21; emacs 28.2
-From:   Baruch Siach <baruch@tkos.co.il>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] docs: dt: fix documented Primecell compatible
- string
-Date:   Tue, 25 Apr 2023 11:31:15 +0300
-In-reply-to: <9e137548c4e76e0d8deef6d49460cb37897934ca.1682333574.git.baruch@tkos.co.il>
-Message-ID: <878regbbr7.fsf@tarshish>
-MIME-Version: 1.0
-Content-Type: text/plain
+        with ESMTP id S233428AbjDYJQu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 05:16:50 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8AA2685;
+        Tue, 25 Apr 2023 02:16:49 -0700 (PDT)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33P0i0ZW005234;
+        Tue, 25 Apr 2023 09:16:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2023-03-30;
+ bh=uEvv3LAyU/zfvFvoOcm942rAaxSYCfXplaAMUlb7W6o=;
+ b=1VMGomFVkEsfbBS33eMP4Tk269b1nYwJ687E5J/zysOcG9XQzRAgMkRtDtZkEyfKywVi
+ F0JY9WmLP5savx6SJ5bRNjDmuFASGEhf6WsNFrojt1lDsIegADlryCTiqSHs7lJZlrR+
+ ieiRbV63zbCfO2xyZEUBpWYZFDdoRF1IGN8izTJmwrXAD1h+wtdg9xFSQ0A2amrbOs+7
+ /XbJumwzi8VoghLwd5x64ZSMMX8zSfBz62B/mX0sdfMnXNjuBj0/OfNHx6UcjjRXTG98
+ TzAKQ1vLuuZoYui/tx5uNQ502dqmSCg9kRwuqtn9Gj4cKLaV6HBdihJytH2zn8cF2/02 1Q== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3q476tvun9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 25 Apr 2023 09:16:44 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 33P7roOg025226;
+        Tue, 25 Apr 2023 09:16:44 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3q461cdwcm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 25 Apr 2023 09:16:44 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33P93LCR024482;
+        Tue, 25 Apr 2023 09:16:43 GMT
+Received: from myrouter.uk.oracle.com (dhcp-10-175-181-126.vpn.oracle.com [10.175.181.126])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3q461cdwa1-2;
+        Tue, 25 Apr 2023 09:16:43 +0000
+From:   Alan Maguire <alan.maguire@oracle.com>
+To:     rostedt@goodmis.org, mhiramat@kernel.org
+Cc:     corbet@lwn.net, shuah@kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH tracing 1/3] tracing: support > 8 byte array filter predicates
+Date:   Tue, 25 Apr 2023 10:16:35 +0100
+Message-Id: <1682414197-13173-2-git-send-email-alan.maguire@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1682414197-13173-1-git-send-email-alan.maguire@oracle.com>
+References: <1682414197-13173-1-git-send-email-alan.maguire@oracle.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-25_03,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ malwarescore=0 mlxscore=0 spamscore=0 adultscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304250082
+X-Proofpoint-GUID: LZoWkMPiAxPu9ZSGPpVbSovH5u3HcKa6
+X-Proofpoint-ORIG-GUID: LZoWkMPiAxPu9ZSGPpVbSovH5u3HcKa6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob, Krzysztof,
+For > 8 byte values, allow simple binary '==', '!=' predicates
+where the user passes in a hex ASCII representation of the
+desired value.  This representation must match the field size
+exactly, and a simple memory comparison between predicate and
+actual values is carried out.  This will allow predicates with
+for example IPv6 addresses to be supported, such as filtering
+on ::1
 
-On Mon, Apr 24 2023, Baruch Siach wrote:
-> Only arm,primecell is documented as compatible string for Primecell
-> peripherals. Current code agrees with that.
+ cd /sys/kernel/debug/tracing/events/tcp/tcp_receive_reset
+ echo "saddr_v6 == 0x00000000000000000000000000000001" > filter
 
-Once again my patches do not show up in patchwork. But they do show in
-lore:
+Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+---
+ kernel/trace/trace_events_filter.c | 55 +++++++++++++++++++++++++++++-
+ 1 file changed, 54 insertions(+), 1 deletion(-)
 
-  https://lore.kernel.org/linux-devicetree/9e137548c4e76e0d8deef6d49460cb37897934ca.1682333574.git.baruch@tkos.co.il/
-
-FYI,
-baruch
-
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-> ---
-> v2:
->
->   Split the translation update to a separate patch
-> ---
->  Documentation/devicetree/usage-model.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/usage-model.rst b/Documentation/devicetree/usage-model.rst
-> index b6a287955ee5..0717426856b2 100644
-> --- a/Documentation/devicetree/usage-model.rst
-> +++ b/Documentation/devicetree/usage-model.rst
-> @@ -415,6 +415,6 @@ When using the DT, this creates problems for of_platform_populate()
->  because it must decide whether to register each node as either a
->  platform_device or an amba_device.  This unfortunately complicates the
->  device creation model a little bit, but the solution turns out not to
-> -be too invasive.  If a node is compatible with "arm,amba-primecell", then
-> +be too invasive.  If a node is compatible with "arm,primecell", then
->  of_platform_populate() will register it as an amba_device instead of a
->  platform_device.
-
+diff --git a/kernel/trace/trace_events_filter.c b/kernel/trace/trace_events_filter.c
+index 1dad64267878..4f4f53b7302d 100644
+--- a/kernel/trace/trace_events_filter.c
++++ b/kernel/trace/trace_events_filter.c
+@@ -67,6 +67,7 @@ enum filter_pred_fn {
+ 	FILTER_PRED_FN_FUNCTION,
+ 	FILTER_PRED_FN_,
+ 	FILTER_PRED_TEST_VISITED,
++	FILTER_PRED_FN_MEMCMP,
+ };
+ 
+ struct filter_pred {
+@@ -622,8 +623,11 @@ predicate_parse(const char *str, int nr_parens, int nr_preds,
+ 	kfree(op_stack);
+ 	kfree(inverts);
+ 	if (prog_stack) {
+-		for (i = 0; prog_stack[i].pred; i++)
++		for (i = 0; prog_stack[i].pred; i++) {
++			if (prog_stack[i].pred->fn_num == FILTER_PRED_FN_MEMCMP)
++				kfree((u8 *)prog_stack[i].pred->val);
+ 			kfree(prog_stack[i].pred);
++		}
+ 		kfree(prog_stack);
+ 	}
+ 	return ERR_PTR(ret);
+@@ -890,6 +894,14 @@ static int filter_pred_function(struct filter_pred *pred, void *event)
+ 	return pred->op == OP_EQ ? ret : !ret;
+ }
+ 
++static int filter_pred_memcmp(struct filter_pred *pred, void *event)
++{
++	u8 *mem = (u8 *)(event + pred->offset);
++	u8 *cmp = (u8 *)(pred->val);
++
++	return (memcmp(mem, cmp, pred->field->size) == 0) ^ pred->not;
++}
++
+ /*
+  * regex_match_foo - Basic regex callbacks
+  *
+@@ -1353,6 +1365,8 @@ static int filter_pred_fn_call(struct filter_pred *pred, void *event)
+ 		return filter_pred_function(pred, event);
+ 	case FILTER_PRED_TEST_VISITED:
+ 		return test_pred_visited_fn(pred, event);
++	case FILTER_PRED_FN_MEMCMP:
++		return filter_pred_memcmp(pred, event);
+ 	default:
+ 		return 0;
+ 	}
+@@ -1631,6 +1645,45 @@ static int parse_pred(const char *str, void *data,
+ 		/* go past the last quote */
+ 		i++;
+ 
++	} else if (str[i] == '0' && tolower(str[i + 1]) == 'x' &&
++		   field->size > 8) {
++		u8 *pred_val;
++
++		/* For sizes > 8 bytes, we store a binary representation
++		 * for comparison; only '==' and '!=' are supported.
++		 * To keep things simple, the predicate value must specify
++		 * a value that matches the field size exactly, with leading
++		 * 0s if necessary.
++		 */
++		if (pred->op != OP_EQ && pred->op != OP_NE) {
++			parse_error(pe, FILT_ERR_ILLEGAL_FIELD_OP, pos + i);
++			goto err_free;
++		}
++
++		/* skip required 0x */
++		s += 2;
++		i += 2;
++
++		while (isalnum(str[i]))
++			i++;
++
++		len = i - s;
++		if (len != (field->size * 2)) {
++			parse_error(pe, FILT_ERR_ILLEGAL_FIELD_OP, pos + s);
++			goto err_free;
++		}
++
++		pred_val = kzalloc(field->size, GFP_KERNEL);
++		if (hex2bin(pred_val, str + s, field->size)) {
++			parse_error(pe, FILT_ERR_ILLEGAL_INTVAL, pos + s);
++			kfree(pred_val);
++			goto err_free;
++		}
++		pred->val = (u64)pred_val;
++		pred->fn_num = FILTER_PRED_FN_MEMCMP;
++		if (pred->op == OP_NE)
++			pred->not = 1;
++
+ 	} else if (isdigit(str[i]) || str[i] == '-') {
+ 
+ 		/* Make sure the field is not a string */
 -- 
-                                                     ~. .~   Tk Open Systems
-=}------------------------------------------------ooO--U--Ooo------------{=
-   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
+2.31.1
+
