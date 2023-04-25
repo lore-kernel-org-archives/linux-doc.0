@@ -2,112 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31CE1C6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 13:00:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5124BC6FD18
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 13:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234112AbjDYNA3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 09:00:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33422 "EHLO
+        id S233361AbjDYNCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 09:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233952AbjDYNA1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 09:00:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E7313C30;
-        Tue, 25 Apr 2023 06:00:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6850260D56;
-        Tue, 25 Apr 2023 13:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8F6C43442;
-        Tue, 25 Apr 2023 13:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1682427625;
-        bh=XO4S6eeVuuK3+SDKORRmedfITWuDoW1zGPNl7NOvUEI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KtEhLdOBnurJeUJQrhRpFGl4Tgyhno3iPi3QkHG0mf7kYqcYUz0XDHj8NVORHsFjx
-         cuawNStCPmhSv7qK6pr/mI1oQYw3t77Gy8g73tMUvgf+I7J3Ae+s/tqokcG2PBgBgy
-         RODcFuC1A27hV1/r7wFxS6rcI72EY/QIEr7eXUNQ=
-Date:   Tue, 25 Apr 2023 15:00:22 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     James Clark <james.clark@arm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jean Delvare <jdelvare@suse.com>,
-        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux@roeck-us.net,
-        michal.simek@amd.com, Jonathan.Cameron@huawei.com,
-        andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH v3 0/4] devres: Provide krealloc_array
-Message-ID: <ZEfO5kXIBVifamC4@kroah.com>
-References: <20230320145710.1120469-1-james.clark@arm.com>
- <108babe4-20cb-e637-e7da-7d04127d2a9e@arm.com>
+        with ESMTP id S233322AbjDYNCm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 09:02:42 -0400
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C6018F;
+        Tue, 25 Apr 2023 06:02:41 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f18335a870so37199065e9.0;
+        Tue, 25 Apr 2023 06:02:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682427760; x=1685019760;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U2ASUOIyunU653b3hIoNRkaW7evYIbPbMl1nNELwvTY=;
+        b=RqbF3fXtI7lAXqpUWBMTetY6AHqmcbpRX5QIIFhAtPv6A2sazRYJdCVQasGowExWDE
+         Io4eWkYRO1pnEqfX2KDL0l/0m7MIsc/h8HRmrnhGMQJ6YHuImMZYADqZJOi+XevJv6PZ
+         Jhb1Mpz3IqwQoDZss0ThdZa1jnVsCxTAz9FrzzYFIrMmQTEdf6XV2MHvLmIlOMVHpM6q
+         XESK/cLBY7B7UPMEXdYCskl8SvTGqULCKh0CE9K3hLd3Iwg2CjpTdX+HuoGYODreOK/v
+         kZGXNHXJ+XhZKvUF2/tJjjWW7p9VEXSyq6BCxA19LPpRH8ibZpkFO3pS4HOTntiGF/1Y
+         p7HA==
+X-Gm-Message-State: AAQBX9fBBW4QyaQnnah2Zb+whyk0GljCkQ5fKRTwnTph2cye5kB8eJhp
+        4lFCOo3EG3jTwGzW7+AB5l8=
+X-Google-Smtp-Source: AKy350avZVKPbbCDMPoU5rGqky8x6+SOM0NP9UxMlnpmsalD3Urhdi4hXTlnW2eFN/jlTxpN+A+DlA==
+X-Received: by 2002:a05:600c:22d4:b0:3f1:82c6:2d80 with SMTP id 20-20020a05600c22d400b003f182c62d80mr10726539wmg.5.1682427759701;
+        Tue, 25 Apr 2023 06:02:39 -0700 (PDT)
+Received: from costa-tp.redhat.com ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
+        by smtp.gmail.com with ESMTPSA id g11-20020a05600c310b00b003f0aefcc457sm18429945wmo.45.2023.04.25.06.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Apr 2023 06:02:38 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] docs: move tracing tools
+Date:   Tue, 25 Apr 2023 16:02:30 +0300
+Message-Id: <20230425130231.912349-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <108babe4-20cb-e637-e7da-7d04127d2a9e@arm.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 25, 2023 at 01:51:31PM +0100, James Clark wrote:
-> 
-> 
-> On 20/03/2023 14:57, James Clark wrote:
-> > Changes since v2:
-> >  
-> >  * Remove change in qcom_geni_serial.c in the last commmit and replace
-> >    it with a comment instead
-> >  * Whitespace fix
-> > 
-> > Changes since v1:
-> > 
-> >  * Style fix
-> > 
-> > -----------------------
-> > 
-> > Hi,
-> > 
-> > I had a use for a devm realloc_array in a separate change, so I've
-> > added one and updated all the obvious existing uses of it that I could
-> > find. This is basically a copy paste of the one in slab.h
-> > 
-> > Applies to v6.3-rc3
-> > 
-> > Thanks
-> > James
-> > 
-> > James Clark (4):
-> >   devres: Provide krealloc_array
-> >   hwmon: pmbus: Use devm_krealloc_array
-> >   iio: adc: Use devm_krealloc_array
-> >   serial: qcom_geni: Comment use of devm_krealloc rather than
-> >     devm_krealloc_array
-> > 
-> >  .../driver-api/driver-model/devres.rst          |  1 +
-> >  drivers/hwmon/pmbus/pmbus_core.c                |  6 +++---
-> >  drivers/iio/adc/xilinx-ams.c                    |  9 +++------
-> >  drivers/iio/adc/xilinx-xadc-core.c              | 17 +++++++----------
-> >  drivers/tty/serial/qcom_geni_serial.c           |  5 +++++
-> >  include/linux/device.h                          | 11 +++++++++++
-> >  6 files changed, 30 insertions(+), 19 deletions(-)
-> > 
-> 
-> Hi Greg,
-> 
-> Is it possible to take this one? Or at least the first commit?
+from list of development tools to user tools
+because these tools work on running kernel
+and are invoked from user mode
 
-It's the middle of the merge window, no one can take anything new,
-sorry.  Please wait for -rc1 to come out and then resend.
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/index.rst       | 1 -
+ Documentation/tools/index.rst | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 9dfdc826618c..81e1af951731 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -56,7 +56,6 @@ Various other manuals with useful information for all kernel developers.
+    dev-tools/index
+    dev-tools/testing-overview
+    kernel-hacking/index
+-   trace/index
+    fault-injection/index
+    livepatch/index
+    rust/index
+diff --git a/Documentation/tools/index.rst b/Documentation/tools/index.rst
+index 80488e290e10..6a9a44f7f88a 100644
+--- a/Documentation/tools/index.rst
++++ b/Documentation/tools/index.rst
+@@ -12,6 +12,7 @@ more additions are needed here:
+ 
+    rtla/index
+    rv/index
++   ../trace/index
+ 
+ .. only::  subproject and html
+ 
+-- 
+2.40.0
 
-greg k-h
