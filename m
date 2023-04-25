@@ -2,110 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F9DC6FD18
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 11:12:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A723BC77B61
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Apr 2023 12:06:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233676AbjDYLMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 07:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33692 "EHLO
+        id S233368AbjDYMG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Apr 2023 08:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233322AbjDYLMi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 07:12:38 -0400
-X-Greylist: delayed 610 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Apr 2023 04:12:32 PDT
-Received: from smtp.tiscali.it (santino-notr.mail.tiscali.it [213.205.33.215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F29CAE73
-        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 04:12:32 -0700 (PDT)
-Received: from localhost.localdomain ([82.50.13.242])
-        by santino.mail.tiscali.it with 
-        id oz2K290035DLhyi01z2KTg; Tue, 25 Apr 2023 11:02:19 +0000
-x-auth-user: fantonifabio@tiscali.it
-From:   Fabio Fantoni <fantonifabio@tiscali.it>
-To:     corbet@lwn.net
-Cc:     federico.vaga@vaga.pv.it, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Fabio Fantoni <fantonifabio@tiscali.it>
-Subject: [PATCH] doc:it_IT: fix some typos
-Date:   Tue, 25 Apr 2023 13:01:58 +0200
-Message-Id: <20230425110158.9755-1-fantonifabio@tiscali.it>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S232881AbjDYMG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 08:06:27 -0400
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80573AA9;
+        Tue, 25 Apr 2023 05:06:21 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id 568171AFC;
+        Tue, 25 Apr 2023 14:06:19 +0200 (CEST)
+Authentication-Results: ext-mx-out001.mykolab.com (amavisd-new);
+        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+        header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1682424376; x=1684238777; bh=1quTiAqVzsZGhgLkkRVbglXHFhLg3FUJ99F
+        n/BliYRU=; b=nJKedt0dV1ma7iwyLMYLzlGN8s0LqMGVyCbFURjHRpprhBVxQrI
+        IJtd44HC/MXPkQVbgm/owXS38tIHBDeip9KB0Hubj9gF2oqghW3yAz/ES6dn8sTj
+        TeI76x6ukdb5oDHv2CRHP2iuBq6cSKNom9MW0XKvT10RYil2po2RxYulcFxqxfac
+        KxL0Ensq43asxcEO8be4Xrja/7I47AqUb7h1S6+n4RXiJwC+9FkcHPxgqWK5n4Rr
+        Xcn8qc+038smmL/arnFcLKGPnapshoziaAP84LUneMGxQynEegDoapQnqk/o7t5r
+        j1F4AZ0LHImwCtOzbZX7NGMvaiGzdDky7OZKvnmNq7NZWzOi+1s1uJIXAbE7qatB
+        XQdzk2VgtphEloCz9sVoaGSQYkSnWfcK39rgDXhOrMUuZrUjnTFjkCv14GF1FT6/
+        nf7YtZuItQQ2Vqg8PW2yi4CUKR/i6g/LXHczxE/rm+jsmVf1PCZiTHrTyJJsNJTG
+        IVdOFx3jPz0VBoUJoChdc7oiBMvoHRewwmF7+gyD35ZJX1h6PB1QUelw6Uz1quJK
+        D1ALsgXpDlRISAbCAjgRYIMPxGs/fgWBPBxA6VcY7o6Okyodt8J2cqYPL9rfaMBr
+        CMlPK3TE2/EQKot914La3FDRsUVX6XrzKGPi2kGmXLAExOxSyl8ZhEeA=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Q0RLDHaGpSLY; Tue, 25 Apr 2023 14:06:16 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by mx.kolabnow.com (Postfix) with ESMTPS id 5D45116A7;
+        Tue, 25 Apr 2023 14:06:15 +0200 (CEST)
+Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 83128DD5;
+        Tue, 25 Apr 2023 14:06:14 +0200 (CEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tiscali.it; s=smtp;
-        t=1682420540; bh=3be052tQCPQFRoxGAIepL6ULuIzfWsFIYHBqOVLM3MU=;
-        h=From:To:Cc:Subject:Date;
-        b=SljS0bTbIdBfHZpp+iD1MPiEsWh9bsWNuD3MM3F8EMflsZoSNm7nkQyyNmyLonS8B
-         /WyRaJORdYb5FDkn7Onvv7cFL78d7DFlGgwlI8Ewoq2qY58agqlw9Qox/xi5U36BGg
-         PS4oChmfNyfxLs9ZPM+XeLWE6jpp1hIwElyRy65s=
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 25 Apr 2023 14:06:13 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Fabio Fantoni <fantonifabio@tiscali.it>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: fix some typos
+In-Reply-To: <20230425110158.9755-1-fantonifabio@tiscali.it>
+References: <20230425110158.9755-1-fantonifabio@tiscali.it>
+Message-ID: <91b1a96e1bfcdbe0ea47bcd2aa268989@vaga.pv.it>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix of some typos spotted reading documentation in italian and latest
-changes for 6.4
+On 2023-04-25 13:01, Fabio Fantoni wrote:
+> Fix of some typos spotted reading documentation in italian and latest
+> changes for 6.4
+> 
+> Signed-off-by: Fabio Fantoni <fantonifabio@tiscali.it>
 
-Signed-off-by: Fabio Fantoni <fantonifabio@tiscali.it>
----
- Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 +-
- Documentation/translations/it_IT/process/deprecated.rst     | 2 +-
- .../translations/it_IT/process/submitting-patches.rst       | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
+Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index a9e781d2e323..4c21cf60f775 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -1030,7 +1030,7 @@ alle corse critiche, dovreste usare timer_delete_sync()
- (``include/linux/timer.h``) per gestire questo caso.
- 
- Prima di rilasciare un temporizzatore dovreste chiamare la funzione
--timer_shutdown() o timer_shutdown_sync() di modo che non venga più ricarmato.
-+timer_shutdown() o timer_shutdown_sync() di modo che non venga più riarmato.
- Ogni successivo tentativo di riarmare il temporizzatore verrà silenziosamente
- ignorato.
- 
-diff --git a/Documentation/translations/it_IT/process/deprecated.rst b/Documentation/translations/it_IT/process/deprecated.rst
-index 57b501f0dfa4..ba0ed7dc154c 100644
---- a/Documentation/translations/it_IT/process/deprecated.rst
-+++ b/Documentation/translations/it_IT/process/deprecated.rst
-@@ -386,7 +386,7 @@ combinazione con struct_size() e flex_array_size()::
- Ci sono due casi speciali dove è necessario usare la macro DECLARE_FLEX_ARRAY()
- (da notare che la stessa macro è chiamata __DECLARE_FLEX_ARRAY() nei file di
- intestazione UAPI). Uno è quando l'array flessibile è l'unico elemento di una
--struttura, e l'altro è quando è parti un unione. Per motivi non tecnici, entrambi
-+struttura, e l'altro quando è parte di un unione. Per motivi non tecnici, entrambi
- i casi d'uso non sono permessi dalla specifica C99. Per esempio, per
- convertire il seguente codice::
- 
-diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
-index 447b18792e61..f91c8092844f 100644
---- a/Documentation/translations/it_IT/process/submitting-patches.rst
-+++ b/Documentation/translations/it_IT/process/submitting-patches.rst
-@@ -532,7 +532,7 @@ manutentori che qualche verifica è stata fatta, fornisce un mezzo per trovare
- persone che possano verificare il codice in futuro, e garantisce che queste
- stesse persone ricevano credito per il loro lavoro.
- 
--Reviewd-by:, invece, indica che la patch è stata revisionata ed è stata
-+Reviewed-by:, invece, indica che la patch è stata revisionata ed è stata
- considerata accettabile in accordo con la dichiarazione dei revisori:
- 
- Dichiarazione di svista dei revisori
-@@ -563,13 +563,13 @@ una modifica che si ritiene appropriata e senza alcun problema tecnico
- importante.  Qualsiasi revisore interessato (quelli che lo hanno fatto)
- possono offrire il proprio Reviewed-by per la patch.  Questa etichetta serve
- a dare credito ai revisori e a informare i manutentori sul livello di revisione
--che è stato fatto sulla patch.  L'etichetta Reviewd-by, quando fornita da
-+che è stato fatto sulla patch.  L'etichetta Reviewed-by, quando fornita da
- revisori conosciuti per la loro conoscenza sulla materia in oggetto e per la
- loro serietà nella revisione, accrescerà le probabilità che la vostra patch
- venga integrate nel kernel.
- 
- Quando si riceve una email sulla lista di discussione da un tester o
--un revisore, le etichette Tested-by o Reviewd-by devono essere
-+un revisore, le etichette Tested-by o Reviewed-by devono essere
- aggiunte dall'autore quando invierà nuovamente la patch. Tuttavia, se
- la patch è cambiata in modo significativo, queste etichette potrebbero
- non avere più senso e quindi andrebbero rimosse. Solitamente si tiene traccia
--- 
-2.25.1
+Thanks Fabio for the fixes.
 
+> ---
+>  Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 +-
+>  Documentation/translations/it_IT/process/deprecated.rst     | 2 +-
+>  .../translations/it_IT/process/submitting-patches.rst       | 6 +++---
+>  3 files changed, 5 insertions(+), 5 deletions(-)
