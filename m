@@ -2,99 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CDFBC77B78
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 14:12:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 452BDC77B7C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 14:39:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240949AbjDZOMW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 10:12:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52352 "EHLO
+        id S241357AbjDZOjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 10:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbjDZOMV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 10:12:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940E46A52;
-        Wed, 26 Apr 2023 07:12:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 33F2063672;
-        Wed, 26 Apr 2023 14:12:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 980A7C433D2;
-        Wed, 26 Apr 2023 14:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682518339;
-        bh=akfknqOJ7XH7SYpGWnDMom1hlgSbj88cifnxq0fhJDQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=U4cWFC/bf1VepzDUnpGDkW7avfmVShX30/zd3LOKgXfOBXumOZtcHl8HFKff8X0TU
-         Amh64TRRXRhOJWfq79pKvjePzFKnRTysRSg+o//4xuJ1gmYs3ITNdOejxiUzabmodn
-         2aUqfTtmxUOjAXCUt0lwDrJnFrE4PuJm14Pg4nnrah85TcEYeZXNrir2e2JDW+C8qW
-         fKxOUMLx8UTCaqfoGIijbg5l6ykdEUxsTO8++zjyh33ypea2U3KpyhsSsDJDZFv7zU
-         JIreusfMEbHLZda6rBhs6NztY6K1SmtZ8XJB6WA6ZoaU00yJDq3aKz0RxygEI3FvoP
-         o230hz2dF3vyw==
-Date:   Wed, 26 Apr 2023 23:12:15 +0900
-From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, corbet@lwn.net,
-        shuah@kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH tracing 0/3] tracing: support > 8 byte filter predicates
-Message-Id: <20230426231215.9f3c43a345fc0b7f047988a9@kernel.org>
-In-Reply-To: <57d8f27c-7737-8af9-490b-a33b2783fc9f@oracle.com>
-References: <1682414197-13173-1-git-send-email-alan.maguire@oracle.com>
-        <20230425233233.2ad5168c630b4c1349ab3398@kernel.org>
-        <9c4cebb7-514c-f7fd-1f95-50837460eb66@oracle.com>
-        <20230425132028.7d16e04c@gandalf.local.home>
-        <57d8f27c-7737-8af9-490b-a33b2783fc9f@oracle.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        with ESMTP id S240794AbjDZOjA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 10:39:00 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD03559FB;
+        Wed, 26 Apr 2023 07:38:59 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-63b4bf2d74aso5675698b3a.2;
+        Wed, 26 Apr 2023 07:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682519939; x=1685111939;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=3BCGjGAwt9nzDcLjFkEGmcEFFk7XHVfGUcpqHbAcKNw=;
+        b=cmMOdBE3C5NBm/2htsHx9odWgajCNLikfdgI4VUEL7OVeVDSzY05jJdiFnOykoJF5s
+         5RI44vTJZOBViD1wSXM4KAn8DXihiJc27ywWv89fHIQ8oiyIkTMUbOPBdIQd7DsMaEw+
+         389DWmJ9LAu8D+ct6ELhdPsX1g+LTWPE2pYxrsySX/v191l96+HrvaD8Rp9lTGjy1flR
+         hv4V2ag2VV32HSQKjd9bmimuOtfa92m6efCtwnR9SEwQXR8EMs9NnaZAeOzaZAtQiUKN
+         icQJdv9QztX/oXXl8fNmUko8lecLvZijAAIbfldAez+EaEO70YL98A7G4bdiNNq5lrgh
+         kIlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682519939; x=1685111939;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3BCGjGAwt9nzDcLjFkEGmcEFFk7XHVfGUcpqHbAcKNw=;
+        b=Af0JLU3KCXilmYTMeGpKoo9xNAtZmFzrguEmz2a0Ut0mNbiMbbuRp4/ooenEaOsSEH
+         iyfbzZnCUTr5okobt+d32BSJkzQhkRFxulI20tRSzWMKcoK/HB5XpQeWg4QhS8RhaXV1
+         qlvylEHZGtqwW2QCrHY687UFe+ghD2UAziL+I1tNI9stjC4vxheHDMyttn6Qy9HCDLVc
+         IfMZLHJUHPLIlOr7mpxgiAMuPDgGmpHxplm0fPJqh4hpLs6qh03K+HoqSJkO5iMKmmof
+         OXx0q0fKIdCgaKCjT++eBh+rfmFeiNILLOAY1WQcrGnV1DKu8zPmaOVTAtK4FjDZWYvt
+         eQPA==
+X-Gm-Message-State: AAQBX9dqQjP5yVjHEiYnETMw5lb5l06mPrXFH2U0DPHZ6pEhgptODPlS
+        mA0UHAoIXbJimIKsiwltUCE=
+X-Google-Smtp-Source: AKy350Ze6vJVynaE/sosyjaaJ5tbcOIT47nnb+gn9nXczWmDoem3JCnORWv9plbtWgGj1XJAKRY2Fg==
+X-Received: by 2002:a05:6a20:4394:b0:f0:2501:349b with SMTP id i20-20020a056a20439400b000f02501349bmr24646831pzl.25.1682519939069;
+        Wed, 26 Apr 2023 07:38:59 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j9-20020a056a00234900b0062dfe944c61sm11448152pfj.218.2023.04.26.07.38.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Apr 2023 07:38:58 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <abe1301a-8bdf-3e5f-9e52-71f0f77d519b@roeck-us.net>
+Date:   Wed, 26 Apr 2023 07:38:56 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 0/2] Hwmon driver for MAX31827 temperature switch
+Content-Language: en-US
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230426124049.258359-1-daniel.matyas@analog.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20230426124049.258359-1-daniel.matyas@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 26 Apr 2023 09:51:00 +0100
-Alan Maguire <alan.maguire@oracle.com> wrote:
-
-> On 25/04/2023 18:20, Steven Rostedt wrote:
-> > On Tue, 25 Apr 2023 18:15:03 +0100
-> > Alan Maguire <alan.maguire@oracle.com> wrote:
-> > 
-> >> that's a great idea; what would be the most consistent ftrace syntax
-> >> for this do you think? I noticed that hist triggers append a modifier
-> >> to the field name so would something like
-> >>
-> >> "dst.ipv6 == ::1"
-> > 
-> > Yeah, I think just having ":" in the name without quotes can help the filter
-> > know that it's a ipv6 id.
-> > 
-> > Hmm, although we may want to do the same for mac addresses. But we can
-> > determine the difference by the field size. If it's 6 bytes, it's a mac, if
-> > it's 128 bits, then ipv6.
-> >
+On 4/26/23 05:40, Daniel Matyas wrote:
+> Removed of_match_table and kept only id_table. Removed other device id's
+> from id_table (I have them only in the devicetree-binding).
 > 
-> good idea! so what about the following
+
+Please explain. Without of_match_table, it is not possible to bind the driver
+using devicetree data. What is the point of that ?
+
+Guenter
+
+> Added mutex protection where it was needed.
 > 
-> - 16 byte field with ':'; convert from IPv6 address before memcmp()ing
-> - 6 byte field with ':'; convert from MAC address before memcmp()ing
-> - 4 byte field with '.'; convert from IPv4 address before memcmp()ing
-> - 0x prefix, any other size; basic memcmp
-
-This looks good to me :)
-
-Thanks!
-
+> Daniel Matyas (2):
+>    dt-bindings: hwmon: add MAX31827
+>    hwmon: max31827: add MAX31827 driver
 > 
-> ? Thanks!
+>   .../bindings/hwmon/adi,max31827.yaml          |  54 +++
+>   Documentation/hwmon/index.rst                 |   1 +
+>   Documentation/hwmon/max31827.rst              |  83 ++++
+>   MAINTAINERS                                   |   9 +
+>   drivers/hwmon/Kconfig                         |  11 +
+>   drivers/hwmon/Makefile                        |   2 +-
+>   drivers/hwmon/max31827.c                      | 406 ++++++++++++++++++
+>   7 files changed, 565 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+>   create mode 100644 Documentation/hwmon/max31827.rst
+>   create mode 100644 drivers/hwmon/max31827.c
 > 
-> Alan
->  
-> > -- Steve
-> > 
 
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
