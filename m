@@ -2,96 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F88FC7618E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 16:46:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E2D6C77B7C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 16:47:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjDZQqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 12:46:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48548 "EHLO
+        id S231500AbjDZQr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 12:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231704AbjDZQp6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 12:45:58 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62BB3659E
-        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 09:45:57 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1a68f2345c5so58326045ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 09:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1682527556; x=1685119556;
-        h=to:from:content-transfer-encoding:mime-version:date:message-id
-         :subject:references:in-reply-to:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yatjVq4XJpKuYfqw9iU5Uu3id4cVfMvHZW+dyEQj7X4=;
-        b=ROPYuwymJIXdKR2mNFiFbms7bF34DxQulcyPoD2s8ls+l6DB2FjVlZvO7u5GF9MPuQ
-         cdFwxm/1Wdzy7TIPTZ69Wr+YgUHOotkVJ7lnAfWkJ+f+59O5mxxR14YA5dVdOLDcas7l
-         VrI6xsoMmtJ5Pv5IDSUJMq66LuSfXGyLRS8Qnv97ZkKXvzCn2wsVN9nRn1cVtoxSSXiT
-         e0t5pUo4xzsce/7smaQtXT2frKjr1syw+iTOxFq/frawwnHjPZD+orX6kCf+XxBV2eN3
-         1w+aG0j+ES+k3qrwnew12cvsaYLIY7zrqWLSFckf6BVWDB/+mI8M3pzDq0G5ogsIjjQk
-         UAuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682527556; x=1685119556;
-        h=to:from:content-transfer-encoding:mime-version:date:message-id
-         :subject:references:in-reply-to:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yatjVq4XJpKuYfqw9iU5Uu3id4cVfMvHZW+dyEQj7X4=;
-        b=QhhbMs3KlD+iF3QrGgRizmpotzN+GloTpx3smfzEIEEUTjg9b91V8UIq7FwieQiUe4
-         tYJWnj3EF04UmHrzNGJVkLoUk7iF/FPOtX6WDJACkP6YtzuQfc/75w1OcfROjsCxDmXZ
-         HOFusBVh6sjdH5yk6MVsQ7fNriQNiXdi/HQ9hTgnBCkG0YbfxQr2G6Y6Ri0G+AEU3351
-         FesY3MoJybgq9ZGN5YVgPw/WM0Ewa+z+T4WKTkGnMYcrKyL/fgquB5n19kNUHoDdHKsH
-         GHc4Wl8vSazh9qP2oBP1T/SErAFnN/3TXhT/PqZOcJ3m5g5XleofMLGbAWpH8c52k4Iz
-         ieEA==
-X-Gm-Message-State: AAQBX9cbCNEVU9eISjZvgXiRzqMi0yvsDvjieoWDnz/Imfb8YCRTGGCL
-        bc4562Y8OocZvvr733Sb4ncKwg==
-X-Google-Smtp-Source: AKy350aLlCXNGnDpwf2/bJmKJLs42syuWY18ObpLSP7pw47h7IOSJhgDcejLVqj4h9oiMCZCX1X0WQ==
-X-Received: by 2002:a17:902:fb86:b0:1a5:4ff:33c0 with SMTP id lg6-20020a170902fb8600b001a504ff33c0mr18747856plb.12.1682527556692;
-        Wed, 26 Apr 2023 09:45:56 -0700 (PDT)
-Received: from localhost ([135.180.227.0])
-        by smtp.gmail.com with ESMTPSA id f2-20020a170902ab8200b001a0448731c2sm10176955plr.47.2023.04.26.09.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 09:45:56 -0700 (PDT)
-In-Reply-To: <20230424092313.178699-1-alexghiti@rivosinc.com>
-References: <20230424092313.178699-1-alexghiti@rivosinc.com>
-Subject: Re: [PATCH v10 0/1] riscv: Allow to downgrade paging mode from the
- command line
-Message-Id: <168252462351.26895.11552045445752621188.b4-ty@rivosinc.com>
-Date:   Wed, 26 Apr 2023 08:57:03 -0700
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-901c5
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S231137AbjDZQrZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 12:47:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09153599;
+        Wed, 26 Apr 2023 09:47:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C11E63787;
+        Wed, 26 Apr 2023 16:47:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60921C433EF;
+        Wed, 26 Apr 2023 16:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682527644;
+        bh=LQIlZBXyvbpRW/w7bY9aSuiYQzw21Inh3Gti8/6IHO0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=sKZvNectox1rW/0Kt+dYBwGPPJyiXg/4k6NvGpRI/m3H/I1ZyTCgo54bLncGXM15x
+         1AQ5mmloG8jT8XJd8KasLmwdRAm0lFLwFMG9Io4HoxUyA0rqXdOlBXI2zrxNazX81q
+         WKgBJBQ6k/Peg/xD7UpueXtlG1s4ySQovbI/kAsmeZAOEU2+nZQBXhZJPyj4ph2Sfe
+         ajKQQm31OtiPNfdz33ot6Y5A8HBt3UNngT3WVqjDNLSpv0L7cYv8dJhTI+f7bqnZZ6
+         DLunByvUsKVa91qD51NoR05GAJDp/UH86hcoNCzQYq4g6dMPlRBqmsSU8gSMCH5uPM
+         G4gwU3FQgRP/w==
+From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To:     Sunil V L <sunilvl@ventanamicro.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-acpi@vger.kernel.org, linux-crypto@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        =C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
+        Albert Ou <aou@eecs.berkeley.edu>, Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V4 05/23] ACPI: OSL: Make should_use_kmap() 0 for RISC-V
+In-Reply-To: <20230404182037.863533-6-sunilvl@ventanamicro.com>
+References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
+ <20230404182037.863533-6-sunilvl@ventanamicro.com>
+Date:   Wed, 26 Apr 2023 18:47:20 +0200
+Message-ID: <87a5yua8vb.fsf@all.your.base.are.belong.to.us>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Sunil V L <sunilvl@ventanamicro.com> writes:
 
-On Mon, 24 Apr 2023 11:23:12 +0200, Alexandre Ghiti wrote:
-> his new version gets rid of the limitation that prevented KASAN kernels
-> to use the newly introduced parameters.
-> 
-> While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
-> avoid relocating the kernel twice for KASLR"): it allows to use the fdt
-> functions very early in the boot process with KASAN enabled by simply
-> compiling a new version of those functions without instrumentation.
-> 
-> [...]
+> Without this, if the tables are larger than 4K,
+> acpi_map() will fail.
+>
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>  drivers/acpi/osl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
+> index 3269a888fb7a..f725813d0cce 100644
+> --- a/drivers/acpi/osl.c
+> +++ b/drivers/acpi/osl.c
+> @@ -276,7 +276,7 @@ acpi_map_lookup_virt(void __iomem *virt, acpi_size si=
+ze)
+>  	return NULL;
+>  }
+>=20=20
+> -#if defined(CONFIG_IA64) || defined(CONFIG_ARM64)
+> +#if defined(CONFIG_IA64) || defined(CONFIG_ARM64) || defined(CONFIG_RISC=
+V)
+>  /* ioremap will take care of cache attributes */
+>  #define should_use_kmap(pfn)   0
 
-Applied, thanks!
+An observation, which can be addressed later; The acpi_os_ioremap()
+(called when the config above is enabled for RV), does not have an arch
+specific implementation for RISC-V. The generic one calls
+ioremap_cached(), which on RISC-V defaults to ioremap() -- caching
+disabled/_PAGE_IO.
 
-[1/1] riscv: Allow to downgrade paging mode from the command line
-      https://git.kernel.org/palmer/c/26e7aacb83df
+That is probably not what we want, but rather something similar that
+arm64 does.
 
-Best regards,
--- 
-Palmer Dabbelt <palmer@rivosinc.com>
 
+Bj=C3=B6rn
