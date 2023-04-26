@@ -2,39 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A130EC77B60
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 12:15:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D47C7618E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 12:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240808AbjDZMPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 08:15:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33754 "EHLO
+        id S240630AbjDZM0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 08:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240806AbjDZMPc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 08:15:32 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D322121;
-        Wed, 26 Apr 2023 05:15:30 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S240601AbjDZM0l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 08:26:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631D01702;
+        Wed, 26 Apr 2023 05:26:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id AAF5B1638D9;
-        Wed, 26 Apr 2023 14:15:22 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1682511323; bh=pe2UYZizOeio6nSoi1Td4szdHUc2e4dqr0KHdYi4A/M=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=kK6XN5om/s4+bL7JgU298eKq8z6ZaYnBhwZ6NHI/7cfcpx+CraI/5CnKciTYPRDaE
-         oNRqFdAQetZP/ZEYqzaMm4g8P7dpOMOdjbMCZ3kfK5KMmuo6JEDZUWA1mjcJk+uJda
-         jq0GI99tm0lPRCrtchUwW5dZR6RwTmoI0T0ZxWrF1i4NXTyYgwKiMjsR1xHFwr0WdF
-         jPYPa50+d84XT3FoddAgv4HS5tAFbFRukSwNOLD6ytM6AWFbu39ZOxAEuCKrPCXFpS
-         R7uOHvYVM5cwzThS34J7vf4y0Jz7GKapbhm91/CG2E/4bhAcuRL3rckqwB4Apsk9UJ
-         vMVuxLErWtiGg==
-Date:   Wed, 26 Apr 2023 14:15:20 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Petr Tesarik <petrtesarik@huaweicloud.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 00F7162FD7;
+        Wed, 26 Apr 2023 12:26:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C57C433EF;
+        Wed, 26 Apr 2023 12:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1682511999;
+        bh=cdI2zaKgoeVH8+lh7QkDEcGOwMPtzMzzDqC1Ob1nKds=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qnOqm7ybgwu+DC68iZtWPjdOTym6MH7XxTN2/p31qzx99QWiUJFxjFpek/am/RsjL
+         J78JpEkD/lO49If6n8utrPfZrNtelum+LW9DYynU1hPJC7QnHXYzPZdECqdd0aVD7D
+         VlWhKvBu7PcmbTjDYaHQSB/lz1VE7E3fYaXez6xA=
+Date:   Wed, 26 Apr 2023 14:26:36 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -63,60 +61,67 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Won Chung <wonchung@google.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-        iommu@lists.linux.dev (open list:DMA MAPPING HELPERS),
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
         Roberto Sassu <roberto.sassu@huawei.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>
 Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
  bounce buffers
-Message-ID: <20230426141520.0caf4386@meshulam.tesarici.cz>
-In-Reply-To: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+Message-ID: <2023042617-wobble-enlighten-9361@gregkh>
 References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
+ <20230426141520.0caf4386@meshulam.tesarici.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230426141520.0caf4386@meshulam.tesarici.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesařík wrote:
+> Hi,
+> 
+> On Wed, 19 Apr 2023 12:03:52 +0200
+> Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> 
+> > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > 
+> > The goal of my work is to provide more flexibility in the sizing of
+> > SWIOTLB.
+> > 
+> > The software IO TLB was designed with these assumptions:
+> > 
+> > 1. It would not be used much, especially on 64-bit systems.
+> > 2. A small fixed memory area (64 MiB by default) is sufficient to
+> >    handle the few cases which require a bounce buffer.
+> > 3. 64 MiB is little enough that it has no impact on the rest of the
+> >    system.
+> > 
+> > First, if SEV is active, all DMA must be done through shared
+> > unencrypted pages, and SWIOTLB is used to make this happen without
+> > changing device drivers. The software IO TLB size is increased to
+> > 6% of total memory in sev_setup_arch(), but that is more of an
+> > approximation. The actual requirements may vary depending on the
+> > amount of I/O and which drivers are used. These factors may not be
+> > know at boot time, i.e. when SWIOTLB is allocated.
+> > 
+> > Second, other colleagues have noticed that they can reliably get
+> > rid of occasional OOM kills on an Arm embedded device by reducing
+> > the SWIOTLB size. This can be achieved with a kernel parameter, but
+> > determining the right value puts additional burden on pre-release
+> > testing, which could be avoided if SWIOTLB is allocated small and
+> > grows only when necessary.
+> 
+> Now that merging into 6.4 has begun, what about this patch series? I'm
+> eager to get some feedback (positive or negative) and respin the next
+> version.
 
-On Wed, 19 Apr 2023 12:03:52 +0200
-Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+It's the merge window, we can't add new things that haven't been in
+linux-next already.   Please resubmit it after -rc1 is out.
 
-> From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> 
-> The goal of my work is to provide more flexibility in the sizing of
-> SWIOTLB.
-> 
-> The software IO TLB was designed with these assumptions:
-> 
-> 1. It would not be used much, especially on 64-bit systems.
-> 2. A small fixed memory area (64 MiB by default) is sufficient to
->    handle the few cases which require a bounce buffer.
-> 3. 64 MiB is little enough that it has no impact on the rest of the
->    system.
-> 
-> First, if SEV is active, all DMA must be done through shared
-> unencrypted pages, and SWIOTLB is used to make this happen without
-> changing device drivers. The software IO TLB size is increased to
-> 6% of total memory in sev_setup_arch(), but that is more of an
-> approximation. The actual requirements may vary depending on the
-> amount of I/O and which drivers are used. These factors may not be
-> know at boot time, i.e. when SWIOTLB is allocated.
-> 
-> Second, other colleagues have noticed that they can reliably get
-> rid of occasional OOM kills on an Arm embedded device by reducing
-> the SWIOTLB size. This can be achieved with a kernel parameter, but
-> determining the right value puts additional burden on pre-release
-> testing, which could be avoided if SWIOTLB is allocated small and
-> grows only when necessary.
+thanks,
 
-Now that merging into 6.4 has begun, what about this patch series? I'm
-eager to get some feedback (positive or negative) and respin the next
-version.
-
-Petr T
+greg k-h
