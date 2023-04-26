@@ -2,129 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21135C77B7E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 19:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3133BC7618E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 20:04:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233358AbjDZTx4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 15:53:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
+        id S236414AbjDZUEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 16:04:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbjDZTxz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 15:53:55 -0400
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97651BCB
-        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 12:53:54 -0700 (PDT)
-Received: by mail-pj1-x104a.google.com with SMTP id 98e67ed59e1d1-24bf43fae6bso1151255a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 12:53:54 -0700 (PDT)
+        with ESMTP id S236319AbjDZUEV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 16:04:21 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E249196;
+        Wed, 26 Apr 2023 13:04:19 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-959a3e2dc72so818305766b.2;
+        Wed, 26 Apr 2023 13:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682538834; x=1685130834;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UcyBowT/7snrKRgrt26A0bjGirGSsCbvk5IYXN32HYY=;
-        b=CuidvLgO7z5aVRbyi2cxF8vMwPPNTmcByG3DJ8NEOcVe3pCT0eXWZCsKQGraTkbjGb
-         4hbjD82vdnbjArnYR0vPXmtn/K2NYzEIa6GZk3RYRZcQ86pEsJEOILpvt0zH+DdIh86M
-         ffZ931f+gaGp84zpzHvRMCo3GvNBJkjL+UCbYgWEmDmR7lYZ+8mTq1o6ejVruQisWeC9
-         lRVgdjaN7rDBJhYqvaod9OTfpzYSt3rTCMpPj1f8ZXA0CQIkcinSLPYutZ8SgksXJbS5
-         TllB/S+PKzuHiyv/7x/yV/hviGV1R0FcgfZ0iJ3AFMVJ/2sK/o88ygPxT19/fSVM6uxR
-         bwjg==
+        d=gmail.com; s=20221208; t=1682539457; x=1685131457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVVzdfDeFtpeDI1B5wTHnT9bN6QBqirmvI6/E1JB1OM=;
+        b=bAFBRFC5fmhcz7uBAM3rucCPE8wYoRSAURnMifNLN8rCToLhJaTsS5bMoPDtigyV6Z
+         P9sIn4oabLDJqrMf8FEq3ZGl8NltwKFGuEdWa9vLVPwXAjIkT9P+P9rmXQuOCUjJq5dM
+         dseMWhFk5c9DVR4Z+RxSl6BpSEMQzhlM1Dr34DiMv//Nv5NhN2YfSaF+RZVsscbGPoOe
+         N0BNTYLlDyFeegRAa9jmnnqkmjyGZ5OWuLhQaihfE8GChxXfodU+l4UecZexqSG+R3RU
+         IMlQTMlLBI4QEvEu8LkwtJD7C9mP9qG8FtOLBxNafxoA1vuzBLyftaMfMDtuKwPKKFE0
+         cXDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682538834; x=1685130834;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UcyBowT/7snrKRgrt26A0bjGirGSsCbvk5IYXN32HYY=;
-        b=jpE+CVFbcbsU2sM3vXgxu07y7flrtAOD65J+tACUspvrpz6a5RSyv+2yqUmsamzD5c
-         rEoOAChf3zINBE6W+ZTUUmnFs73pqbT39N1FeyZCFVWyA5U4PEu4u3PAdIwXxpyh7TaS
-         hgUhIe4LCSkTq3jKnz6BL/0w76nuKodxor04sB06Ta4cYOl/GJHPH1iMIdwQap3RoMoG
-         Le4N1e3Hy+wNG583qaDcgJfT06lkQVrveLcE6q9fIiWZv31K3wG5ecxG+6cMAMYuBX2F
-         r1BQ/xHPaa/nj+KY4yVN160atOaEomw7o9tHCQJ24H2hN72BmPNs7d3jBjuWfNqPTn5N
-         3JVg==
-X-Gm-Message-State: AC+VfDxXCmymYyGzO71tY1fyc3USADioAmwcSw7uoGVF5JWoep0PtB9/
-        icfeN/R0PKtR13gfF51+9LHkanwxphE=
-X-Google-Smtp-Source: ACHHUZ7RI4MX7FcPrIeTC5Ho80NQDYQuerP8eAeDqvdf0/r1i6zP/B09U0lrSgLPqQyKFDHUPKT0f/XOgrU=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:2c82:b0:24b:dbeb:d3b4 with SMTP id
- n2-20020a17090a2c8200b0024bdbebd3b4mr1869198pjd.0.1682538834276; Wed, 26 Apr
- 2023 12:53:54 -0700 (PDT)
-Date:   Wed, 26 Apr 2023 12:53:52 -0700
-In-Reply-To: <9021d861-cde6-a51a-7d8c-b3f67eaa01d8@amd.com>
-Mime-Version: 1.0
-References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
- <ZEfrjtgGgm1lpadq@google.com> <DM8PR11MB575046B6DAA17B41FFED8080E7659@DM8PR11MB5750.namprd11.prod.outlook.com>
- <9fa5ce43-584d-878d-227a-fb458254c00a@amd.com> <ZElIjw7Ca6N2mYHe@google.com> <9021d861-cde6-a51a-7d8c-b3f67eaa01d8@amd.com>
-Message-ID: <ZEmBULXp24oMxaUH@google.com>
-Subject: Re: [PATCH] docs: security: Confidential computing intro and threat model
-From:   Sean Christopherson <seanjc@google.com>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     Elena Reshetova <elena.reshetova@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
-        "michael.day@amd.com" <michael.day@amd.com>,
-        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
-        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
-        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
-        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "mst@redhat.com" <mst@redhat.com>, "tytso@mit.edu" <tytso@mit.edu>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "cdupontd@redhat.com" <cdupontd@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "sameo@rivosinc.com" <sameo@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "security@kernel.org" <security@kernel.org>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Rajnesh Kanwal <rkanwal@rivosinc.com>,
-        Dylan Reid <dylan@rivosinc.com>,
-        Ravi Sahita <ravi@rivosinc.com>
-Content-Type: text/plain; charset="us-ascii"
+        d=1e100.net; s=20221208; t=1682539457; x=1685131457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nVVzdfDeFtpeDI1B5wTHnT9bN6QBqirmvI6/E1JB1OM=;
+        b=h67YO9VC5FNKLeBqXIUm3fCTlVr4aP/gidhmuvAdbT6SLomXs3iYecTmCKB/x81SaM
+         dMmgUJ2UZ0R9zMrVzA36AMNLVjTk+NcDLZ6aUxy0hwia8/pklc6cGOkp9JtcGWQ3c85C
+         U14jqLhVWdt9KzsAy0PFglQ3icuHr7ov8Er2WmzNzo8nZ6vFgokQ7JlukgFldOFwzGaB
+         A8Eo+dfChYxBuTmoJmxM3nTmuwnAy36DcUs97x1B4tak4oULu3RMP2GMrvj4wm83IhUI
+         bC4C/omU1ZGE+0xjatgDdRBdNmP3JD+ZV2pScT/AhhmIiWbb6ksNebZ5onYbFtpJ017k
+         gRwQ==
+X-Gm-Message-State: AAQBX9f09OB1eekuQ5ZqIfo7WFEwWMsb6EPPWhNjhHgfTospPJWV/aX1
+        b3AySKcBiII/8z3XHJ2UpqA=
+X-Google-Smtp-Source: AKy350bG73dnu+Fh5OoG8SMPYaI+9lonhLBnm8bGYY2yIqxjvB4fZdBGzi3XAg/0dXwIHAr4j24VeQ==
+X-Received: by 2002:a17:906:fa14:b0:94e:ffab:296a with SMTP id lo20-20020a170906fa1400b0094effab296amr17132364ejb.73.1682539457181;
+        Wed, 26 Apr 2023 13:04:17 -0700 (PDT)
+Received: from caracal.museclub.art (p200300cf9f34d700b52838dc6de8d706.dip0.t-ipconnect.de. [2003:cf:9f34:d700:b528:38dc:6de8:d706])
+        by smtp.googlemail.com with ESMTPSA id d9-20020a17090694c900b0095354acf666sm8705943ejy.92.2023.04.26.13.04.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Apr 2023 13:04:16 -0700 (PDT)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     Michael Carns <mike@carns.com>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG Crosshair X670E Hero.
+Date:   Wed, 26 Apr 2023 22:03:44 +0200
+Message-Id: <20230426200345.65765-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.40.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 26, 2023, Carlos Bilbao wrote:
-> On 4/26/23 10:51 AM, Sean Christopherson wrote:
-> > This document is named confidential-computing.rst, not tdx-and-snp.rst.  Not
-> > explicitly mentioning SEV doesn't magically warp reality to make descriptions like
-> > this one from security/secrets/coco.rst disappear:
-> > 
-> >   Introduction                                                                    
-> >   ============                                                                    
-> >                                                                                 
-> >   Confidential Computing (coco) hardware such as AMD SEV (Secure Encrypted        
-> >   Virtualization) allows guest owners to inject secrets into the VMs              
-> >   memory without the host/hypervisor being able to read them.
-> > 
-> > My complaint about this document being too Intel/AMD centric isn't that it doesn't
-> > mention other implementations, it's that the doc describes CoCo purely from the
-> > narrow viewpoint of Intel TDX and AMD SNP, and to be blunt, reads like a press
-> > release and not an objective overview of CoCo.
-> 
-> Be specific about the parts of the document that you feel are too
-> AMD/Intel centric, and we will correct them.
+From: Michael Carns <mike@carns.com>
 
-The whole thing?  There aren't specific parts that are too SNP/TDX centric, the
-entire tone and approach of the document is wrong.  As I responded to Dave, I
-would feel differently if the document were named tdx-and-snp-threat-model.rst,
-but this patch proposes a generic confidential-computing.rst and presents the
-SNP+TDX confidential VM use case as if it's the *only* confidential computing use
-case.
+Only the temp sensors that I can verify are present.  HWINFO in
+Windows shows other accumulated data and statistics (time since
+installed, total power used, etc) that I have not attempted to find.
+
+Signed-off-by: Michael Carns <mike@carns.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst |  1 +
+ drivers/hwmon/asus-ec-sensors.c         | 30 +++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
+
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index c92c1d3839e4..7e3cd5b6686f 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -14,6 +14,7 @@ Supported boards:
+  * ROG CROSSHAIR VIII FORMULA
+  * ROG CROSSHAIR VIII HERO
+  * ROG CROSSHAIR VIII IMPACT
++ * ROG CROSSHAIR X670E HERO
+  * ROG MAXIMUS XI HERO
+  * ROG MAXIMUS XI HERO (WI-FI)
+  * ROG STRIX B550-E GAMING
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index e5be0cf472fc..f52a539eb33e 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -101,6 +101,8 @@ enum ec_sensors {
+ 	ec_sensor_temp_chipset,
+ 	/* CPU temperature [℃] */
+ 	ec_sensor_temp_cpu,
++	/* CPU package temperature [℃] */
++	ec_sensor_temp_cpu_package,
+ 	/* motherboard temperature [℃] */
+ 	ec_sensor_temp_mb,
+ 	/* "T_Sensor" temperature sensor reading [℃] */
+@@ -139,6 +141,7 @@ enum ec_sensors {
+ 
+ #define SENSOR_TEMP_CHIPSET BIT(ec_sensor_temp_chipset)
+ #define SENSOR_TEMP_CPU BIT(ec_sensor_temp_cpu)
++#define SENSOR_TEMP_CPU_PACKAGE BIT(ec_sensor_temp_cpu_package)
+ #define SENSOR_TEMP_MB BIT(ec_sensor_temp_mb)
+ #define SENSOR_TEMP_T_SENSOR BIT(ec_sensor_temp_t_sensor)
+ #define SENSOR_TEMP_VRM BIT(ec_sensor_temp_vrm)
+@@ -161,6 +164,7 @@ enum board_family {
+ 	family_unknown,
+ 	family_amd_400_series,
+ 	family_amd_500_series,
++	family_amd_600_series,
+ 	family_intel_300_series,
+ 	family_intel_600_series
+ };
+@@ -233,6 +237,19 @@ static const struct ec_sensor_info sensors_family_amd_500[] = {
+ 		EC_SENSOR("Extra_3", hwmon_temp, 1, 0x01, 0x0c),
+ };
+ 
++static const struct ec_sensor_info sensors_family_amd_600[] = {
++	[ec_sensor_temp_cpu] = EC_SENSOR("CPU", hwmon_temp, 1, 0x00, 0x30),
++	[ec_sensor_temp_cpu_package] = EC_SENSOR("CPU Package", hwmon_temp, 1, 0x00, 0x31),
++	[ec_sensor_temp_mb] =
++	EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x32),
++	[ec_sensor_temp_vrm] =
++		EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x33),
++	[ec_sensor_temp_water_in] =
++		EC_SENSOR("Water_In", hwmon_temp, 1, 0x01, 0x00),
++	[ec_sensor_temp_water_out] =
++		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
++};
++
+ static const struct ec_sensor_info sensors_family_intel_300[] = {
+ 	[ec_sensor_temp_chipset] =
+ 		EC_SENSOR("Chipset", hwmon_temp, 1, 0x00, 0x3a),
+@@ -319,6 +336,14 @@ static const struct ec_board_info board_info_pro_ws_x570_ace = {
+ 	.family = family_amd_500_series,
+ };
+ 
++static const struct ec_board_info board_info_crosshair_x670e_hero = {
++	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
++		SENSOR_TEMP_MB | SENSOR_TEMP_VRM |
++		SENSOR_SET_TEMP_WATER,
++	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
++	.family = family_amd_600_series,
++};
++
+ static const struct ec_board_info board_info_crosshair_viii_dark_hero = {
+ 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR |
+@@ -463,6 +488,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_crosshair_viii_hero),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG CROSSHAIR VIII HERO (WI-FI)",
+ 					&board_info_crosshair_viii_hero),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG CROSSHAIR X670E HERO",
++					&board_info_crosshair_x670e_hero),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS XI HERO",
+ 					&board_info_maximus_xi_hero),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS XI HERO (WI-FI)",
+@@ -946,6 +973,9 @@ static int asus_ec_probe(struct platform_device *pdev)
+ 	case family_amd_500_series:
+ 		ec_data->sensors_info = sensors_family_amd_500;
+ 		break;
++	case family_amd_600_series:
++		ec_data->sensors_info = sensors_family_amd_600;
++		break;
+ 	case family_intel_300_series:
+ 		ec_data->sensors_info = sensors_family_intel_300;
+ 		break;
+-- 
+2.40.0
+
