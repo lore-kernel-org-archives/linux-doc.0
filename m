@@ -2,148 +2,379 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66097C77B60
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 21:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC09C77B7C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 21:57:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232197AbjDZVdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 17:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56176 "EHLO
+        id S234109AbjDZV5P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 17:57:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239500AbjDZVdL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 17:33:11 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E879B1708
-        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 14:33:08 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id d2e1a72fcca58-63b54cd223dso8506975b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 14:33:08 -0700 (PDT)
+        with ESMTP id S232360AbjDZV5P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 17:57:15 -0400
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6E7C1;
+        Wed, 26 Apr 2023 14:57:13 -0700 (PDT)
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-187af4a5437so5670684fac.0;
+        Wed, 26 Apr 2023 14:57:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682544788; x=1685136788;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q6gblr+rFHKZD7TQERahHneNEtjZ/bNSKQPsJJcCZzo=;
-        b=64Yxcr1gv5G1ETQLzD3H47rDdo9llnuvTFEaz75CzsReyyURjw7U8DWGnhmfXVvgtZ
-         YyjiJSDUQj2A/nCNiitga4A5xU3qn7GA8HHODEzZFqstJ6xPwdWcKfVPsA/8yP6Gai8v
-         pqcDFk3HITVbGtpz6z6qskA9c4AfU1GVXBltqvK+7jsS8ezrnFSS9gYo/v+NwdF1wU8q
-         6U+Mkl74emXIw3FxE0fq6KRi66kPzgnHmDMcnbf6+jP8x37zNl+zx4xo8JHU/F2bf/vX
-         1pzG/Na/2k6qt2JrHeWhVVSdK2MdhHAKZnc/Tm6KiWNw9es1T3MVQDxRUmKKfvKG8PfG
-         yl6g==
+        d=gmail.com; s=20221208; t=1682546232; x=1685138232;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oD7/aZPWXMbOzrPn/edlHT09GwXmGROZVgC42Y9X8mY=;
+        b=s0j9q0vaVvkz/0qrS0+oL17U9BRIn04FmDMASAQKVBd8Cuk0XlrR73psEqHcGefCa3
+         W6oYF8wcncBthEzIFtYkyTi3Lhfmmbdl96TtZy2C4YMk6BeyqTRsDGdZ7ANdJVkgj/EN
+         i7iVJr6bqeVrxBUcNLJ4uOi7tyCc0EGfomWIGU4npdsRNIzKsAeIOR7rXRTEvXWDQgf+
+         nD9lNeT06ns0lrdg94QX+kln/PzxEkIdmg7zYpzjKUam+oC8giEoJLcAvuJk0+THBnDm
+         sWtzj+IGuCumsJ324sJ8uql2TlEglk8OGRr5v5V/WPfn/VYiQcVRyRHrJSZKrpPEAhGt
+         8VbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682544788; x=1685136788;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q6gblr+rFHKZD7TQERahHneNEtjZ/bNSKQPsJJcCZzo=;
-        b=D89mblbsARG8SH3trSu3Tur+Rlkm2nddFQmJUw8jipO3gmdoRFBB7pFu6GnSoyWml1
-         Wo5IVls8+1CFEr3NxYbwI0FeG1CLhDdp/vTmsyz6ImVH/ws5uq9EcyrdF79ET8UN0UUE
-         euAB77NQW2abw9haFy9U2FL2lpTtW0HdG5bpdNLBT/vQOpvETV1ovr3PYApfbEcVYYxL
-         zcv0dPcmb+hKFE7L2UQoPNqIkMa9ah2PGjFFAPiyVusazpthPyZqjLtgsIIyPcX3supP
-         ffdvkoFuEgmAh/YgMLIpRUSVv9ejzByB+Jgx/hqE86hnYBOHJwkkc7redZ8ZZCBCUtsr
-         1bYA==
-X-Gm-Message-State: AAQBX9dzxN4N3QlSqkC84QvMDxD3MECOyes+j/eGQrdr2O6fIq37VY62
-        lSaT9CbZFPwo5JP/P7Kdf075wg9+DZM=
-X-Google-Smtp-Source: AKy350Ywg746UTmjxVc3lRngXV/2GRWirJY3Wo6T7fLxvcZc5uWOilbZIUGF50vH2Wq5XgJ7IPSdZv2Jrbc=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6a00:134b:b0:63d:5dcd:bc06 with SMTP id
- k11-20020a056a00134b00b0063d5dcdbc06mr8678577pfu.5.1682544788341; Wed, 26 Apr
- 2023 14:33:08 -0700 (PDT)
-Date:   Wed, 26 Apr 2023 14:33:06 -0700
-In-Reply-To: <04383d21-b71e-93dd-5f4c-b39f5bc21937@amd.com>
-Mime-Version: 1.0
-References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
- <ZEfrjtgGgm1lpadq@google.com> <DM8PR11MB575046B6DAA17B41FFED8080E7659@DM8PR11MB5750.namprd11.prod.outlook.com>
- <9fa5ce43-584d-878d-227a-fb458254c00a@amd.com> <ZElIjw7Ca6N2mYHe@google.com>
- <9021d861-cde6-a51a-7d8c-b3f67eaa01d8@amd.com> <ZEmBULXp24oMxaUH@google.com> <04383d21-b71e-93dd-5f4c-b39f5bc21937@amd.com>
-Message-ID: <ZEmYR0fWl05lGW0d@google.com>
-Subject: Re: [PATCH] docs: security: Confidential computing intro and threat model
-From:   Sean Christopherson <seanjc@google.com>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     Elena Reshetova <elena.reshetova@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
-        "michael.day@amd.com" <michael.day@amd.com>,
-        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
-        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
-        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
-        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "mst@redhat.com" <mst@redhat.com>, "tytso@mit.edu" <tytso@mit.edu>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "cdupontd@redhat.com" <cdupontd@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "sameo@rivosinc.com" <sameo@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "security@kernel.org" <security@kernel.org>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Rajnesh Kanwal <rkanwal@rivosinc.com>,
-        Dylan Reid <dylan@rivosinc.com>,
-        Ravi Sahita <ravi@rivosinc.com>
-Content-Type: text/plain; charset="us-ascii"
+        d=1e100.net; s=20221208; t=1682546232; x=1685138232;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oD7/aZPWXMbOzrPn/edlHT09GwXmGROZVgC42Y9X8mY=;
+        b=eBxM85NVOAFuMFJFqwi7PlaHBWX83cKHzmkP1t+4qaZnejrlTU64rwJqpMz/wp/xIP
+         s/6RYAs4Bc+fSSbwpF/sEtq/NpkOLMF1RnDGI29pk0FJbq2Zi0DUYjnTXIrc1fjWRr9s
+         FnAYXYo22QZ4BxdbbMyB3QIO9LhELxFOZRoLygD1B6YHOwtUsRcDyefb4HVfDgzXVc+N
+         FjCpx/k0XSfUUB1tQ5M7Ln9yUVMJDEDKZpZWIF5TM/P9Bc3JtdAjVVMkD4TuW9L9rJX7
+         xnxqj+KudAe3I71Nq5a0sw5N9AmteQRPOrm+dzP30vWNrH+cqFZe9VTwdmXMQzyTM3bm
+         +h6w==
+X-Gm-Message-State: AAQBX9cuVuKEIy4uDuMlsNQvljOEVorswmgnIktvqqn967eKH2N9kpMC
+        CPXLctZ5djKbAANsuCC+5TA=
+X-Google-Smtp-Source: AKy350bZ11ByC/hX6kRdVTlnJMIeceQfdVAd0fnSJRcFtP6pheTgpqHuHv0sGlvuppBjTlEUpRa4qg==
+X-Received: by 2002:a05:6871:72a:b0:18e:2e25:a68 with SMTP id f42-20020a056871072a00b0018e2e250a68mr11741443oap.15.1682546232383;
+        Wed, 26 Apr 2023 14:57:12 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:d566:c174:e87d:7b51? ([2600:1700:2442:6db0:d566:c174:e87d:7b51])
+        by smtp.gmail.com with ESMTPSA id n3-20020a056870e40300b00172ac40356csm7028594oag.50.2023.04.26.14.57.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Apr 2023 14:57:11 -0700 (PDT)
+Message-ID: <bfb72bc1-747a-fbac-f253-b1c68a82536b@gmail.com>
+Date:   Wed, 26 Apr 2023 16:57:10 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [KTAP V2 PATCH] ktap_v2: add test metadata
+Content-Language: en-US
+To:     Rae Moar <rmoar@google.com>
+Cc:     davidgow@google.com, skhan@linuxfoundation.org,
+        keescook@chromium.org, Tim.Bird@sony.com,
+        brendanhiggins@google.com, corbet@lwn.net,
+        guillaume.tucker@collabora.com, dlatypov@google.com,
+        kernelci@lists.linux.dev, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230420205734.1288498-1-rmoar@google.com>
+ <ce5b723d-2395-8974-ba62-1ee519732218@gmail.com>
+ <CA+GJov5nG3fXz9KX-DdkpJ2R98f1LD=rnURomzvUzHHsAODr8A@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <CA+GJov5nG3fXz9KX-DdkpJ2R98f1LD=rnURomzvUzHHsAODr8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 26, 2023, Carlos Bilbao wrote:
-> On 4/26/23 2:53 PM, Sean Christopherson wrote:
-> > On Wed, Apr 26, 2023, Carlos Bilbao wrote:
-> >> On 4/26/23 10:51 AM, Sean Christopherson wrote:
-> >>> This document is named confidential-computing.rst, not tdx-and-snp.rst.  Not
-> >>> explicitly mentioning SEV doesn't magically warp reality to make descriptions like
-> >>> this one from security/secrets/coco.rst disappear:
-> >>>
-> >>>   Introduction                                                                    
-> >>>   ============                                                                    
-> >>>                                                                                 
-> >>>   Confidential Computing (coco) hardware such as AMD SEV (Secure Encrypted        
-> >>>   Virtualization) allows guest owners to inject secrets into the VMs              
-> >>>   memory without the host/hypervisor being able to read them.
-> >>>
-> >>> My complaint about this document being too Intel/AMD centric isn't that it doesn't
-> >>> mention other implementations, it's that the doc describes CoCo purely from the
-> >>> narrow viewpoint of Intel TDX and AMD SNP, and to be blunt, reads like a press
-> >>> release and not an objective overview of CoCo.
-> >>
-> >> Be specific about the parts of the document that you feel are too
-> >> AMD/Intel centric, and we will correct them.
-> > 
-> > The whole thing?  There aren't specific parts that are too SNP/TDX centric, the
-> > entire tone and approach of the document is wrong.  As I responded to Dave, I
-> > would feel differently if the document were named tdx-and-snp-threat-model.rst,
-> > but this patch proposes a generic confidential-computing.rst and presents the
-> > SNP+TDX confidential VM use case as if it's the *only* confidential computing use
-> > case.
+On 4/26/23 11:18, Rae Moar wrote:
+> On Tue, Apr 25, 2023 at 4:55 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>>
+>> On 4/20/23 15:57, Rae Moar wrote:
+>>> Add specification for declaring test metadata to the KTAP v2 spec.
+>>>
+>>> The purpose of test metadata is to allow for the declaration of essential
+>>> testing information in KTAP output. This information includes test
+>>> names, test configuration info, test attributes, and test files.
+>>>
+>>> There have been similar ideas around the idea of test metadata such as test
+>>> prefixes and test name lines. However, I propose this specification as an
+>>> overall fix for these issues.
+>>
+>> This seems like a cleaner approach.
+>>
+>>>
+>>> These test metadata lines are a form of diagnostic lines with the
+>>> format: "# <metadata_type>: <data>". As a type of diagnostic line, test
+>>> metadata lines are compliant with KTAP v1, which will help to not
+>>> interfere too much with current parsers.
+>>>
+>>> Specifically the "# Subtest:" line is derived from the TAP 14 spec:
+>>> https://testanything.org/tap-version-14-specification.html.
+>>>
+>>> The proposed location for test metadata is in the test header, between the
+>>> version line and the test plan line. Note including diagnostic lines in
+>>> the test header is a depature from KTAP v1.
+>>>
+>>> This location provides two main benefits:
+>>>
+>>> First, metadata will be printed prior to when subtests are run. Then if a
+>>> test fails, test metadata can help discern which test is causing the issue
+>>> and potentially why.
+>>>
+>>> Second, this location ensures that the lines will not be accidentally
+>>> parsed as a subtest's diagnostic lines because the lines are bordered by
+>>> the version line and plan line.
+>>
+>> I like that.
+>>
+>>>
+>>> Here is an example of test metadata:
+>>>
+>>>  KTAP version 2
+>>>  # Config: CONFIG_TEST=y
+>>>  1..1
+>>>      KTAP version 2
+>>>      # Subtest: test_suite
+>>>      # File: /sys/kernel/...
+>>>      # Attributes: slow
+>>>      # Other: example_test
+>>>      1..2
+>>>      ok 1 test_1
+>>>      ok 2 test_2
+>>>  ok 1 test_suite
+>>>
+>>> Here is a link to a version of the KUnit parser that is able to parse test
+>>> metadata lines for KTAP version 2. Note this includes test metadata
+>>> lines for the main level of KTAP.
+>>>
+>>> Link: https://kunit-review.googlesource.com/c/linux/+/5809
+>>>
+>>> Signed-off-by: Rae Moar <rmoar@google.com>
+>>> ---
+>>>
+>>> Hi everyone,
+>>>
+>>> I would like to use this proposal similar to an RFC to gather ideas on the
+>>> topic of test metadata. Let me know what you think.
+>>>
+>>> I am also interested in brainstorming a list of recognized metadata types.
+>>> Providing recognized metadata types would be helpful in parsing and
+>>> displaying test metadata in a useful way.
+>>>
+>>> Current ideas:
+>>> - "# Subtest: <test_name>" to indicate test name (name must match
+>>>   corresponding result line)
+>>
+>> I would prefer "Test" to "Subtest" because the type should be allowed for the
+>> top level test, as well as for subtest levels.
 > 
-> What part of us describing the current Linux kernel threat model or
-> defining basic concepts of confidential computing is SNP/TDX centric?
+> Hi Frank!
 > 
-> IMHO, simply stating that "the whole thing" is wrong and that you don't
-> like the "tone", is not making a good enough case for us to change
-> anything, including the name of the document.
+> Yes, I can see the reasoning to switch to "Test". Although this is a
+> departure from current behavior, it would be clearer. I am happy to
+> make this change.
+> 
+>>
+>>> - "# Attributes: <attributes list>" to indicate test attributes (list
+>>>   separated by commas)
 
-I honestly don't know how to respond since you are either unable or unwilling to
-see the problems with naming a document "confidential computing" and then talking
-only about one very, very specific flavor of confidential computing as if that is
-the only flavor of confidential computing.
+Should the spec say that <attributes list> is test specific (and defined by
+the test) and not defined in the ktap specification?
 
-So if you want to push this doc as is, please add my
+I think there is a balance between under specifying and over specifying
+within the ktap specification.  But I think the specification should
+be clear about what definition is left open to the test implementations.
 
-Nacked-by: Sean Christopherson <seanjc@google.com>
+My wishy washy thought for the general case is that the ktap specification
+should leave as much as choice as possible to the test implementers,
+but should provide as much detail as needed to provide general guidance
+to parser implementers.
+
+>>> - "# File: <file_path>" to indicate file used in testing
+
+nit question: Should both relative paths and absolute paths be allowed
+for <file_path>?  I think both have value in different contexts.
+
+>>>
+>>> Any other ideas?
+>>
+>> (Already used in an example above...)
+>>
+>> - "# Config: <config_option list> to indicate kernel configuration options
+>>   (list separated by commas)
+>>
+>>     config_option format:
+>>       Option XXX is enabled: CONFIG_XXX=y
+>>       Option XXX is not enabled: CONFIG_XXX=n
+>>       Option XXX is text: CONFIG_XXX="a text string"
+>>
+> 
+> I like this addition of the "Config" metadata. I also like all of
+> these format options, including the text string option. Although, I
+> would be interested in adding "Option XXX is loadable as a module:
+> CONFIG_XXX=m" to the format list.
+
+Yes, definitely.  I thought I was blanking on an additional form
+of a config option when I wrote that.
+
+> 
+>> Linux .config format is "#CONFIG_XXX is not set",
+>> but this would be harder to parse in a list.
+>>
+>> A text config option also complicates parsing of a list.  Maybe there
+>> should not be a list, instead have a separate "# Config:" line for
+>> each config option.
+> 
+> I'm not sure how to deal with multiple config options. I am split
+> between either using a list or multiple "Config" lines. I would be
+> happy with either approach. Maybe a list would be slightly better,
+> since it is slightly closer to the defined behavior for the attributes
+> metadata line.
+
+I slightly prefer the single option per line. :-)
+
+> 
+>>
+>> I would like to bifurcate the name space of metadata types, to names
+>> specified in the standard vs names not in the standard that can be
+>> used on an experimental or for future use in existing tests.
+>>
+>> I can think of at least two ways to implement this:
+>>
+>> (1) types that are in the specification all begin with a specific prefix,
+>> such as "ktap_" (bike shedding on naming welcomed), so the examples woudld be
+>>
+>>   # ktap_test:
+>>   # ktap_attributes:
+>>   # ktap_file:
+>>   # ktap_config:
+>>
+>> (2) types that are _not_ in the specification all begin with a specific prefix,
+>> such as "custom_" (bike shedding on naming welcomed).
+>>
+> 
+> This is an interesting proposal. I like this idea of using a prefix. I
+> would be happy to add this. I like "ktap_" and "custom_".
+
+Those prefixes look good to me.
+
+-Frank
+
+> 
+> Thanks!
+> -Rae
+> 
+>>>
+>>> Note this proposal replaces two of my previous proposals: "ktap_v2: add
+>>> recognized test name line" and "ktap_v2: allow prefix to KTAP lines."
+>>>
+>>> Thanks!
+>>> -Rae
+>>>
+>>> Note: this patch is based on Frank's ktap_spec_version_2 branch.
+>>>
+>>>  Documentation/dev-tools/ktap.rst | 51 ++++++++++++++++++++++++++++++--
+>>>  1 file changed, 48 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+>>> index ff77f4aaa6ef..a2d0a196c115 100644
+>>> --- a/Documentation/dev-tools/ktap.rst
+>>> +++ b/Documentation/dev-tools/ktap.rst
+>>> @@ -17,7 +17,9 @@ KTAP test results describe a series of tests (which may be nested: i.e., test
+>>>  can have subtests), each of which can contain both diagnostic data -- e.g., log
+>>>  lines -- and a final result. The test structure and results are
+>>>  machine-readable, whereas the diagnostic data is unstructured and is there to
+>>> -aid human debugging.
+>>> +aid human debugging. One exception to this is test metadata lines - a type
+>>> +of diagnostic lines. Test metadata is located between the version line and
+>>> +plan line of a test and can be machine-readable.
+>>>
+>>>  KTAP output is built from four different types of lines:
+>>>  - Version lines
+>>> @@ -28,8 +30,7 @@ KTAP output is built from four different types of lines:
+>>>  In general, valid KTAP output should also form valid TAP output, but some
+>>>  information, in particular nested test results, may be lost. Also note that
+>>>  there is a stagnant draft specification for TAP14, KTAP diverges from this in
+>>> -a couple of places (notably the "Subtest" header), which are described where
+>>> -relevant later in this document.
+>>> +a couple of places, which are described where relevant later in this document.
+>>>
+>>>  Version lines
+>>>  -------------
+>>> @@ -166,6 +167,45 @@ even if they do not start with a "#": this is to capture any other useful
+>>>  kernel output which may help debug the test. It is nevertheless recommended
+>>>  that tests always prefix any diagnostic output they have with a "#" character.
+>>>
+>>> +Test metadata lines
+>>> +-------------------
+>>> +
+>>> +Test metadata lines are a type of diagnostic lines used to the declare the
+>>> +name of a test and other helpful testing information in the test header.
+>>> +These lines are often helpful for parsing and for providing context during
+>>> +crashes.
+>>> +
+>>> +Test metadata lines must follow the format: "# <metadata_type>: <data>".
+>>> +These lines must be located between the version line and the plan line
+>>> +within a test header.
+>>> +
+>>> +There are a few currently recognized metadata types:
+>>> +- "# Subtest: <test_name>" to indicate test name (name must match
+>>> +  corresponding result line)
+>>> +- "# Attributes: <attributes list>" to indicate test attributes (list
+>>> +  separated by commas)
+>>> +- "# File: <file_path>" to indicate file used in testing
+>>> +
+>>> +As a rule, the "# Subtest:" line is generally first to declare the test
+>>> +name. Note that metadata lines do not necessarily need to use a
+>>> +recognized metadata type.
+>>> +
+>>> +An example of using metadata lines:
+>>> +
+>>> +::
+>>> +
+>>> +        KTAP version 2
+>>> +        1..1
+>>> +        # File: /sys/kernel/...
+>>> +          KTAP version 2
+>>> +          # Subtest: example
+>>> +          # Attributes: slow, example_test
+>>> +          1..1
+>>> +          ok 1 test_1
+>>> +        # example passed
+>>> +        ok 1 example
+>>> +
+>>> +
+>>>  Unknown lines
+>>>  -------------
+>>>
+>>> @@ -206,6 +246,7 @@ An example of a test with two nested subtests:
+>>>       KTAP version 2
+>>>       1..1
+>>>         KTAP version 2
+>>> +       # Subtest: example
+>>>         1..2
+>>>         ok 1 test_1
+>>>         not ok 2 test_2
+>>> @@ -219,6 +260,7 @@ An example format with multiple levels of nested testing:
+>>>       KTAP version 2
+>>>       1..2
+>>>         KTAP version 2
+>>> +       # Subtest: example_test_1
+>>>         1..2
+>>>           KTAP version 2
+>>>           1..2
+>>> @@ -254,6 +296,7 @@ Example KTAP output
+>>>       KTAP version 2
+>>>       1..1
+>>>         KTAP version 2
+>>> +       # Subtest: main_test
+>>>         1..3
+>>>           KTAP version 2
+>>>           1..1
+>>> @@ -261,11 +304,13 @@ Example KTAP output
+>>>           ok 1 test_1
+>>>         ok 1 example_test_1
+>>>           KTAP version 2
+>>> +            # Attributes: slow
+>>>           1..2
+>>>           ok 1 test_1 # SKIP test_1 skipped
+>>>           ok 2 test_2
+>>>         ok 2 example_test_2
+>>>           KTAP version 2
+>>> +         # Subtest: example_test_3
+>>>           1..3
+>>>           ok 1 test_1
+>>>           # test_2: FAIL
+>>>
+>>> base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+>>
+
