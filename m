@@ -2,111 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29506C77B61
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 02:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4D3C7618E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 04:29:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238472AbjDZCQF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Apr 2023 22:16:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59974 "EHLO
+        id S239023AbjDZE3U convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 00:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238460AbjDZCQE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Apr 2023 22:16:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D405265
-        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 19:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682475319;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Ru4Fi6lXtJSomc5yGnliYFfsBReQZOeqKk/Wi8U9wyg=;
-        b=gPmv1xfBUO1vt0SVt0+s6Fb1gEW5rSnJhvIoRHhscKmARLCmM0sryO03D4+/HwtVoYZzBh
-        9u4AiVrX/w5E6tsixXHoy23shIzVUude1+HzlwIYZ9so7oCxGu9YRJwCq8YbkB8aIWAXWF
-        7LdjBk3DT0jUhnQ6S3gnt3oopqyaxL4=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-584-dPtEBDgCPlWDh6a1Fc4euA-1; Tue, 25 Apr 2023 22:15:18 -0400
-X-MC-Unique: dPtEBDgCPlWDh6a1Fc4euA-1
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-24781ab929bso3636997a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 19:15:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682475317; x=1685067317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ru4Fi6lXtJSomc5yGnliYFfsBReQZOeqKk/Wi8U9wyg=;
-        b=dm33PIBURiY8LYwIEq0v2NH07pFTSe4OEpwsQHKdzsPK4WMaN9dTK9LEUc7BpfDrWC
-         Cot8KqaJV8HSMbp46Zj5k8RppEkbz8MKI5dNs9Tl2g6NbE0xbVmC/AsCKoKofJMrzVGo
-         QoWBRwT/R3kufrSDiZ0n9FY0H3xsSeTOEtwfZRNFszvuzqN2fhg0N3nv+rxfV3t7f6qZ
-         YJVx+t8ah7fBwbeYKr85EdMXa3OlKD5Z5yAhPsCgE6DAgQZ7Jtss7YsgFIMSDOB8TRFO
-         N/ydRrGEmWu1Qzs51Up8h1m2YH2kANNEr+vVifIYeYEgxwtLXpRVC3FK2l9qj8+vvKbm
-         3hyw==
-X-Gm-Message-State: AAQBX9d6jMPj9U64ZMsF3L8+kE1o49mszi2tjaP7tnNZzouHdnf6QciT
-        iJsiiPZNB7Kof8RF32yn6EMa3A+zFC75vG9c6ZwQS5A807Dtdz5T4v8IBYKsm8MVXDCUXpEHlXZ
-        UJIceZ346yA6HrQ5guIDq
-X-Received: by 2002:a17:90b:350a:b0:24b:8480:39d6 with SMTP id ls10-20020a17090b350a00b0024b848039d6mr13730504pjb.0.1682475317492;
-        Tue, 25 Apr 2023 19:15:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aNzw25n2T4Kg6l2sulIWfKq7mZH5YYPtYzlWnAaxRdkWp7vw0jmEXwvdkYbvVMATVQOvnhOg==
-X-Received: by 2002:a17:90b:350a:b0:24b:8480:39d6 with SMTP id ls10-20020a17090b350a00b0024b848039d6mr13730491pjb.0.1682475317165;
-        Tue, 25 Apr 2023 19:15:17 -0700 (PDT)
-Received: from localhost.localdomain.com ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id pw12-20020a17090b278c00b00246ba2b48f3sm12308903pjb.3.2023.04.25.19.15.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 19:15:16 -0700 (PDT)
-From:   Tao Liu <ltao@redhat.com>
-To:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
-        src.res@email.cn
-Cc:     linux-doc@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Tao Liu <ltao@redhat.com>
-Subject: [PATCH] Remove the unnecessary unicode character
-Date:   Wed, 26 Apr 2023 10:14:52 +0800
-Message-Id: <20230426021452.9745-1-ltao@redhat.com>
-X-Mailer: git-send-email 2.33.1
+        with ESMTP id S239347AbjDZE3R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 00:29:17 -0400
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B05210D
+        for <linux-doc@vger.kernel.org>; Tue, 25 Apr 2023 21:29:15 -0700 (PDT)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-106-jtyXA9uGN4G54fFbdg1izQ-1; Wed, 26 Apr 2023 00:29:11 -0400
+X-MC-Unique: jtyXA9uGN4G54fFbdg1izQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55311A0F381;
+        Wed, 26 Apr 2023 04:29:11 +0000 (UTC)
+Received: from nomad.redhat.com (vpn2-54-28.bne.redhat.com [10.64.54.28])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3205840C2064;
+        Wed, 26 Apr 2023 04:29:08 +0000 (UTC)
+From:   Dave Airlie <airlied@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Dave Airlie <airlied@redhat.com>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linux-modules@vger.kernel.org
+Subject: [PATCH 1/2] docs: module: start adding some docs for MODULE_ macros.
+Date:   Wed, 26 Apr 2023 14:29:05 +1000
+Message-Id: <20230426042906.724352-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is a non-printable unicode char '\u202a' or "0xe2 0x80 0xaa" in hex
-in the translation doc. It is unnecessary and should be removed for better
-text formatting when using editors like vi.
+From: Dave Airlie <airlied@redhat.com>
 
-Signed-off-by: Tao Liu <ltao@redhat.com>
+In order to add a new macro, Luis suggested converting some docs
+for the new ones.
+
+This tries to keep exisiting module_init, module_exit where they are,
+and adds the new docs to the module section.
+
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-modules@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- Documentation/translations/zh_CN/process/magic-number.rst | 2 +-
- Documentation/translations/zh_TW/process/magic-number.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/core-api/kernel-api.rst |  3 ++
+ Documentation/driver-api/basics.rst   |  2 +-
+ include/linux/module.h                | 76 ++++++++++++++++++---------
+ 3 files changed, 54 insertions(+), 27 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Documentation/translations/zh_CN/process/magic-number.rst
-index 0617ce125e12..6f22b728d4e7 100644
---- a/Documentation/translations/zh_CN/process/magic-number.rst
-+++ b/Documentation/translations/zh_CN/process/magic-number.rst
-@@ -25,7 +25,7 @@ Linux 魔术数
-         	...
-         };
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index 62f961610773..0b78b1a3e8a2 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -226,6 +226,9 @@ Module Loading
+ .. kernel-doc:: kernel/kmod.c
+    :export:
  
--当你以后给内核添加增强功能的时候，请遵守这条规则！这样就会节省数不清的调试时间，特别是一些古怪的情况，例如，数组超出范围并且重新写了超出部分。遵守这个规则，‪这些情况可以被快速地，安全地避免。
-+当你以后给内核添加增强功能的时候，请遵守这条规则！这样就会节省数不清的调试时间，特别是一些古怪的情况，例如，数组超出范围并且重新写了超出部分。遵守这个规则，这些情况可以被快速地，安全地避免。
++.. kernel-doc:: include/linux/module.h
++   :no-identifiers: module_init module_exit klp_modinfo
++
+ Inter Module support
+ --------------------
  
- 		Theodore Ts'o
- 		  31 Mar 94
-diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
-index f3f7082e17c6..a3dd87cadc26 100644
---- a/Documentation/translations/zh_TW/process/magic-number.rst
-+++ b/Documentation/translations/zh_TW/process/magic-number.rst
-@@ -28,7 +28,7 @@ Linux 魔術數
-         	...
-         };
+diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+index 4b4d8e28d3be..fea42d6cad80 100644
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -5,7 +5,7 @@ Driver Entry and Exit points
+ ----------------------------
  
--當你以後給內核添加增強功能的時候，請遵守這條規則！這樣就會節省數不清的調試時間，特別是一些古怪的情況，例如，數組超出範圍並且重新寫了超出部分。遵守這個規則，‪這些情況可以被快速地，安全地避免。
-+當你以後給內核添加增強功能的時候，請遵守這條規則！這樣就會節省數不清的調試時間，特別是一些古怪的情況，例如，數組超出範圍並且重新寫了超出部分。遵守這個規則，這些情況可以被快速地，安全地避免。
+ .. kernel-doc:: include/linux/module.h
+-   :internal:
++   :identifiers: module_init module_exit
  
- 		Theodore Ts'o
- 		  31 Mar 94
+ Driver device table
+ -------------------
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 4435ad9439ab..f9d072a7e198 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -182,23 +182,27 @@ extern void cleanup_module(void);
+ #define MODULE_FILE	MODULE_INFO(file, KBUILD_MODFILE);
+ #endif
+ 
+-/*
++/**
++ * MODULE_LICENSE - module license
++ * @_license: license covering this module.
++ *
+  * The following license idents are currently accepted as indicating free
+  * software modules
+  *
+- *	"GPL"				[GNU Public License v2]
+- *	"GPL v2"			[GNU Public License v2]
+- *	"GPL and additional rights"	[GNU Public License v2 rights and more]
+- *	"Dual BSD/GPL"			[GNU Public License v2
+- *					 or BSD license choice]
+- *	"Dual MIT/GPL"			[GNU Public License v2
+- *					 or MIT license choice]
+- *	"Dual MPL/GPL"			[GNU Public License v2
+- *					 or Mozilla license choice]
++ *    "GPL"                        [GNU Public License v2]
+  *
+- * The following other idents are available
++ *    "GPL v2"                     [GNU Public License v2]
+  *
+- *	"Proprietary"			[Non free products]
++ *    "GPL and additional rights"  [GNU Public License v2 rights and more]
++ *
++ *    "Dual BSD/GPL"               [GNU Public License v2 or BSD license choice]
++ *
++ *    "Dual MIT/GPL"               [GNU Public License v2 or MIT license choice]
++ *
++ *    "Dual MPL/GPL"               [GNU Public License v2 or Mozilla license choice]
++ *
++ * The following other idents are available
++ *    "Proprietary"                [Non free products]
+  *
+  * Both "GPL v2" and "GPL" (the latter also in dual licensed strings) are
+  * merely stating that the module is licensed under the GPL v2, but are not
+@@ -221,20 +225,26 @@ extern void cleanup_module(void);
+  * is a GPL combined work.
+  *
+  * This exists for several reasons
+- * 1.	So modinfo can show license info for users wanting to vet their setup
+- *	is free
++ *
++ * 1.	So modinfo can show license info for users wanting to vet their setup is free
++ *
+  * 2.	So the community can ignore bug reports including proprietary modules
++ *
+  * 3.	So vendors can do likewise based on their own policies
+  */
+ #define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license, _license)
+ 
+-/*
+- * Author(s), use "Name <email>" or just "Name", for multiple
+- * authors use multiple MODULE_AUTHOR() statements/lines.
++/**
++ * MODULE_AUTHOR - Module author
++ * @_author: Author(s), use "Name <email>" or just "Name", for multiple
++ *           authors use multiple MODULE_AUTHOR() statements/lines.
+  */
+ #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
+ 
+-/* What your module does. */
++/**
++ * MODULE_DESCRIPTION - Module description
++ * @_description: What your module does.
++ */
+ #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _description)
+ 
+ #ifdef MODULE
+@@ -246,19 +256,23 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
+ #define MODULE_DEVICE_TABLE(type, name)
+ #endif
+ 
+-/* Version of form [<epoch>:]<version>[-<extra-version>].
++/**
++ * MODULE_VERSION: version of module
++ * @_version: version in the form below
++ *
++ * Version of form [<epoch>:]<version>[-<extra-version>].
+  * Or for CVS/RCS ID version, everything but the number is stripped.
+  * <epoch>: A (small) unsigned integer which allows you to start versions
+  * anew. If not mentioned, it's zero.  eg. "2:1.0" is after
+  * "1:2.0".
+-
++ *
+  * <version>: The <version> may contain only alphanumerics and the
+- * character `.'.  Ordered by numeric sort for numeric parts,
++ * character '.'.  Ordered by numeric sort for numeric parts,
+  * ascii sort for ascii parts (as per RPM or DEB algorithm).
+-
++ *
+  * <extraversion>: Like <version>, but inserted for local
+  * customizations, eg "rh3" or "rusty1".
+-
++ *
+  * Using this automatically adds a checksum of the .c files and the
+  * local headers in "srcversion".
+  */
+@@ -284,11 +298,21 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
+ 		}
+ #endif
+ 
+-/* Optional firmware file (or files) needed by the module
+- * format is simply firmware file name.  Multiple firmware
+- * files require multiple MODULE_FIRMWARE() specifiers */
++/**
++ * MODULE_FIRMWARE - Optional firmware files needed by the module
++ * @_firmware: firmware file name
++ *
++ * Multiple firmware files require multiple MODULE_FIRMWARE() specifiers.
++ */
+ #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+ 
++/**
++ * MODULE_IMPORT_NS - Set the symbol namespace for the module.
++ * @ns: symbol namespace to import the module into.
++ *
++ * This adds a modinfo tag 'import_ns' to the module. This is observed
++ * by userspace at module loading time.
++ */
+ #define MODULE_IMPORT_NS(ns)	MODULE_INFO(import_ns, __stringify(ns))
+ 
+ struct notifier_block;
 -- 
-2.33.1
+2.39.2
 
