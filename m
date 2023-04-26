@@ -2,126 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D47C7618E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 12:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BCBEC7618E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 12:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240630AbjDZM0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 08:26:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
+        id S240530AbjDZMnd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 08:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240601AbjDZM0l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 08:26:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631D01702;
-        Wed, 26 Apr 2023 05:26:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 00F7162FD7;
-        Wed, 26 Apr 2023 12:26:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C57C433EF;
-        Wed, 26 Apr 2023 12:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1682511999;
-        bh=cdI2zaKgoeVH8+lh7QkDEcGOwMPtzMzzDqC1Ob1nKds=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qnOqm7ybgwu+DC68iZtWPjdOTym6MH7XxTN2/p31qzx99QWiUJFxjFpek/am/RsjL
-         J78JpEkD/lO49If6n8utrPfZrNtelum+LW9DYynU1hPJC7QnHXYzPZdECqdd0aVD7D
-         VlWhKvBu7PcmbTjDYaHQSB/lz1VE7E3fYaXez6xA=
-Date:   Wed, 26 Apr 2023 14:26:36 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        with ESMTP id S240503AbjDZMnc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 08:43:32 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93EE26B8;
+        Wed, 26 Apr 2023 05:42:59 -0700 (PDT)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33QC3sHE030568;
+        Wed, 26 Apr 2023 08:41:54 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3q69tgstkt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 26 Apr 2023 08:41:54 -0400
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 33QCfrH9055259
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 26 Apr 2023 08:41:53 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Wed, 26 Apr
+ 2023 08:41:52 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Wed, 26 Apr 2023 08:41:52 -0400
+Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.214])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 33QCfabG007637;
+        Wed, 26 Apr 2023 08:41:39 -0400
+From:   Daniel Matyas <daniel.matyas@analog.com>
+CC:     Daniel Matyas <daniel.matyas@analog.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Ondrej Zary <linux@zary.sk>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Petr Tesarik <petr.tesarik.ext@huawei.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Won Chung <wonchung@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
- bounce buffers
-Message-ID: <2023042617-wobble-enlighten-9361@gregkh>
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <20230426141520.0caf4386@meshulam.tesarici.cz>
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v3 0/2] Hwmon driver for MAX31827 temperature switch
+Date:   Wed, 26 Apr 2023 15:40:44 +0300
+Message-ID: <20230426124049.258359-1-daniel.matyas@analog.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230426141520.0caf4386@meshulam.tesarici.cz>
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: 3KyfBKNOltwzu48e15GFaiydW99z2GYF
+X-Proofpoint-ORIG-GUID: 3KyfBKNOltwzu48e15GFaiydW99z2GYF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-26_05,2023-04-26_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ bulkscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 mlxscore=0
+ spamscore=0 priorityscore=1501 mlxlogscore=714 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304260113
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesařík wrote:
-> Hi,
-> 
-> On Wed, 19 Apr 2023 12:03:52 +0200
-> Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
-> 
-> > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> > 
-> > The goal of my work is to provide more flexibility in the sizing of
-> > SWIOTLB.
-> > 
-> > The software IO TLB was designed with these assumptions:
-> > 
-> > 1. It would not be used much, especially on 64-bit systems.
-> > 2. A small fixed memory area (64 MiB by default) is sufficient to
-> >    handle the few cases which require a bounce buffer.
-> > 3. 64 MiB is little enough that it has no impact on the rest of the
-> >    system.
-> > 
-> > First, if SEV is active, all DMA must be done through shared
-> > unencrypted pages, and SWIOTLB is used to make this happen without
-> > changing device drivers. The software IO TLB size is increased to
-> > 6% of total memory in sev_setup_arch(), but that is more of an
-> > approximation. The actual requirements may vary depending on the
-> > amount of I/O and which drivers are used. These factors may not be
-> > know at boot time, i.e. when SWIOTLB is allocated.
-> > 
-> > Second, other colleagues have noticed that they can reliably get
-> > rid of occasional OOM kills on an Arm embedded device by reducing
-> > the SWIOTLB size. This can be achieved with a kernel parameter, but
-> > determining the right value puts additional burden on pre-release
-> > testing, which could be avoided if SWIOTLB is allocated small and
-> > grows only when necessary.
-> 
-> Now that merging into 6.4 has begun, what about this patch series? I'm
-> eager to get some feedback (positive or negative) and respin the next
-> version.
+Removed of_match_table and kept only id_table. Removed other device id's
+from id_table (I have them only in the devicetree-binding).
 
-It's the merge window, we can't add new things that haven't been in
-linux-next already.   Please resubmit it after -rc1 is out.
+Added mutex protection where it was needed.
 
-thanks,
+Daniel Matyas (2):
+  dt-bindings: hwmon: add MAX31827
+  hwmon: max31827: add MAX31827 driver
 
-greg k-h
+ .../bindings/hwmon/adi,max31827.yaml          |  54 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/max31827.rst              |  83 ++++
+ MAINTAINERS                                   |   9 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   2 +-
+ drivers/hwmon/max31827.c                      | 406 ++++++++++++++++++
+ 7 files changed, 565 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+ create mode 100644 Documentation/hwmon/max31827.rst
+ create mode 100644 drivers/hwmon/max31827.c
+
+-- 
+2.34.1
+
