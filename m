@@ -2,107 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E2D6C77B7C
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 16:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B994C77B78
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Apr 2023 18:42:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231500AbjDZQr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 12:47:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49632 "EHLO
+        id S234120AbjDZSmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 14:42:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231137AbjDZQrZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 12:47:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09153599;
-        Wed, 26 Apr 2023 09:47:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S233259AbjDZSms (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 14:42:48 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C55BA7D9C;
+        Wed, 26 Apr 2023 11:42:46 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C11E63787;
-        Wed, 26 Apr 2023 16:47:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60921C433EF;
-        Wed, 26 Apr 2023 16:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682527644;
-        bh=LQIlZBXyvbpRW/w7bY9aSuiYQzw21Inh3Gti8/6IHO0=;
+        by ms.lwn.net (Postfix) with ESMTPSA id 2BAEF8B2;
+        Wed, 26 Apr 2023 18:42:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2BAEF8B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1682534566; bh=CKeKX1+7XNw8e7cdzJZHwaKHO4QWwRY4xQrnsdSITnk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sKZvNectox1rW/0Kt+dYBwGPPJyiXg/4k6NvGpRI/m3H/I1ZyTCgo54bLncGXM15x
-         1AQ5mmloG8jT8XJd8KasLmwdRAm0lFLwFMG9Io4HoxUyA0rqXdOlBXI2zrxNazX81q
-         WKgBJBQ6k/Peg/xD7UpueXtlG1s4ySQovbI/kAsmeZAOEU2+nZQBXhZJPyj4ph2Sfe
-         ajKQQm31OtiPNfdz33ot6Y5A8HBt3UNngT3WVqjDNLSpv0L7cYv8dJhTI+f7bqnZZ6
-         DLunByvUsKVa91qD51NoR05GAJDp/UH86hcoNCzQYq4g6dMPlRBqmsSU8gSMCH5uPM
-         G4gwU3FQgRP/w==
-From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-acpi@vger.kernel.org, linux-crypto@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Len Brown <lenb@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Weili Qian <qianweili@huawei.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Marc Zyngier <maz@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V4 05/23] ACPI: OSL: Make should_use_kmap() 0 for RISC-V
-In-Reply-To: <20230404182037.863533-6-sunilvl@ventanamicro.com>
-References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-6-sunilvl@ventanamicro.com>
-Date:   Wed, 26 Apr 2023 18:47:20 +0200
-Message-ID: <87a5yua8vb.fsf@all.your.base.are.belong.to.us>
+        b=IDe8kjL0q8lxpYPlw1a7pJ6YTzUkpRiAU7tUqq1Aekzeq/8qr71L/RLo1tGO6EoYv
+         dY3RzplqioxO0gppTZGzMJZRMcUhFs7i8Y/xJ7t9klhvViJdnuBZMdXzMXlB5Hkvxh
+         iAmNyNmMlmuhcY8DIVAHK+L8r+BD1C3TC4yKEaj6TZOJcAOxjCnJ9jRkX3NNO3SZi7
+         fzjfn6oTvk1UL8FldRkcv/Q38fTLd/8b+FIpUFGqzinXosLBPymhw3MPcX/lsUfH/6
+         GgekouEe6gU/ppnQlZwtuVEEfKxaqmdh84FWU9LbB68FA5ONgzMg2Okk35iprONgWU
+         1KrGkdLjUo3mA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Fabio Fantoni <fantonifabio@tiscali.it>
+Cc:     federico.vaga@vaga.pv.it, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Fabio Fantoni <fantonifabio@tiscali.it>
+Subject: Re: [PATCH] doc:it_IT: fix some typos
+In-Reply-To: <20230425110158.9755-1-fantonifabio@tiscali.it>
+References: <20230425110158.9755-1-fantonifabio@tiscali.it>
+Date:   Wed, 26 Apr 2023 12:42:45 -0600
+Message-ID: <87o7nah4d6.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sunil V L <sunilvl@ventanamicro.com> writes:
+Fabio Fantoni <fantonifabio@tiscali.it> writes:
 
-> Without this, if the tables are larger than 4K,
-> acpi_map() will fail.
+> Fix of some typos spotted reading documentation in italian and latest
+> changes for 6.4
 >
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Signed-off-by: Fabio Fantoni <fantonifabio@tiscali.it>
 > ---
->  drivers/acpi/osl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
-> index 3269a888fb7a..f725813d0cce 100644
-> --- a/drivers/acpi/osl.c
-> +++ b/drivers/acpi/osl.c
-> @@ -276,7 +276,7 @@ acpi_map_lookup_virt(void __iomem *virt, acpi_size si=
-ze)
->  	return NULL;
->  }
->=20=20
-> -#if defined(CONFIG_IA64) || defined(CONFIG_ARM64)
-> +#if defined(CONFIG_IA64) || defined(CONFIG_ARM64) || defined(CONFIG_RISC=
-V)
->  /* ioremap will take care of cache attributes */
->  #define should_use_kmap(pfn)   0
+>  Documentation/translations/it_IT/kernel-hacking/locking.rst | 2 +-
+>  Documentation/translations/it_IT/process/deprecated.rst     | 2 +-
+>  .../translations/it_IT/process/submitting-patches.rst       | 6 +++---
+>  3 files changed, 5 insertions(+), 5 deletions(-)
 
-An observation, which can be addressed later; The acpi_os_ioremap()
-(called when the config above is enabled for RV), does not have an arch
-specific implementation for RISC-V. The generic one calls
-ioremap_cached(), which on RISC-V defaults to ioremap() -- caching
-disabled/_PAGE_IO.
+Applied, thanks.
 
-That is probably not what we want, but rather something similar that
-arm64 does.
-
-
-Bj=C3=B6rn
+jon
