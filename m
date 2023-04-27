@@ -2,115 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F155BC77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 16:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1C3C77B7E
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 16:57:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244081AbjD0Qqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 12:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
+        id S244116AbjD0Q5B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 12:57:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243734AbjD0Qqv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 12:46:51 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF9E40DA;
-        Thu, 27 Apr 2023 09:46:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=oCSISiBhQ6jeXLv+1vbq+8sBDufgGTcMCBny1IuJcBA=; b=jPsj+NvQ6JhhLQOlQGZSpOSoFr
-        KyvtLIUbux6Rwe0+w+gjmpnSfXrPp34k1WkvkKBE9b5M706N29HEe9G9ldQxTljzBljfUyzwT+rGO
-        qfXD/yWxb8ZRl+Xi+gfMh/WEYtiTyW6s9TL3PMod9pj12JgOCnn5POjk3LG9SKsspbG6selS3z+lQ
-        s//+wQsCVdBOQXP+ZozIMEseKUhCtJCt2FECNCitS+r/gMoG8dU/pFr3vFPxxwI/d01vyNEI3gOja
-        GWQaiHW31r6ACZz9qrwUIHfb65TjChiIKvKz1ZOnYX0t5aOYZlsw3HRHBO3XAWYPpzV74sWZDnow1
-        sPOaNYUw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1ps4lQ-0071jA-18;
-        Thu, 27 Apr 2023 16:46:36 +0000
-Message-ID: <8ebcfabb-0be3-f45c-c4f8-99ebc34f658e@infradead.org>
-Date:   Thu, 27 Apr 2023 09:46:31 -0700
+        with ESMTP id S243606AbjD0Q5A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 12:57:00 -0400
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C6C1FF2;
+        Thu, 27 Apr 2023 09:56:59 -0700 (PDT)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6a5eea94963so8285447a34.3;
+        Thu, 27 Apr 2023 09:56:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682614619; x=1685206619;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=adzTnoqQu8CXoqBn4BhcDQSGdUaLpEBvIJrGFhq9F+M=;
+        b=Jb3/eGspd4EbNCYE9WH0ieut75ezZvtglWlAq1HQc2Na3B+cdni7BX8yljq5pXYj4l
+         Bls18AW0wEw/uindh4DR8FUkAuAkAZhhx80Z3QfEJNPXzxPRUgAR//enY39SOXq/3L58
+         c3J7z+RgyeQK5l5BMHA/gJsN9IAF6IF7HytACXUV/7DW3lqeEWvfUCP2P+8VpyenizqR
+         rMLPWzgZCzzM5+j1PPA7SrQIWGncIJGfisnR8OVbXnvM5ew5deogL0fjePLhgMhjf5Mm
+         s9UQlcjjUUWSc6ZUBCE7rh04eVx8gl2qz4Sph8nb8np/FQCx3R7IBHpnCPvg/n8kQwQi
+         lkHA==
+X-Gm-Message-State: AC+VfDyyGovrkECTUsHHv8aubPL57KJDuInWQAymvTFqWVUsLarfdRdU
+        HDlDi6JrlNYQrifXq7GgKw==
+X-Google-Smtp-Source: ACHHUZ4WbAgm6mHF+EBLdzXdbD8uGdC6c66fveOsrGxmFr2p5/phM8bCSG22UGmREHTQLNM8j79E7g==
+X-Received: by 2002:a05:6830:147:b0:6a6:2f82:5018 with SMTP id j7-20020a056830014700b006a62f825018mr1136700otp.25.1682614618576;
+        Thu, 27 Apr 2023 09:56:58 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r24-20020a056830121800b006a647f65d03sm6148250otp.41.2023.04.27.09.56.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Apr 2023 09:56:58 -0700 (PDT)
+Received: (nullmailer pid 3161712 invoked by uid 1000);
+        Thu, 27 Apr 2023 16:56:57 -0000
+Date:   Thu, 27 Apr 2023 11:56:57 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: add MAX31827
+Message-ID: <168261461678.3161673.9376006927072972936.robh@kernel.org>
+References: <20230426124049.258359-1-daniel.matyas@analog.com>
+ <20230426124049.258359-2-daniel.matyas@analog.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] docs: security: Confidential computing intro and threat
- model
-Content-Language: en-US
-To:     jejb@linux.ibm.com, "Reshetova, Elena" <elena.reshetova@intel.com>,
-        "Christopherson, , Sean" <seanjc@google.com>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
-        "michael.day@amd.com" <michael.day@amd.com>,
-        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
-        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
-        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
-        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "mst@redhat.com" <mst@redhat.com>, "tytso@mit.edu" <tytso@mit.edu>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "cdupontd@redhat.com" <cdupontd@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "sameo@rivosinc.com" <sameo@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "security@kernel.org" <security@kernel.org>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Rajnesh Kanwal <rkanwal@rivosinc.com>,
-        Dylan Reid <dylan@rivosinc.com>,
-        Ravi Sahita <ravi@rivosinc.com>
-References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
- <ZEfrjtgGgm1lpadq@google.com>
- <DM8PR11MB575046B6DAA17B41FFED8080E7659@DM8PR11MB5750.namprd11.prod.outlook.com>
- <7502e1af0615c08167076ff452fc69ebf316c730.camel@linux.ibm.com>
- <ZElOfzn37kmesy7e@google.com>
- <DM8PR11MB57509EBCB1E2146C1768A6EEE76A9@DM8PR11MB5750.namprd11.prod.outlook.com>
- <efda0be02fb0b5bf23aec11b5398d20908a821ba.camel@linux.ibm.com>
- <DM8PR11MB57502E1C09CDE4842B7F9B30E76A9@DM8PR11MB5750.namprd11.prod.outlook.com>
- <8f212b0dfa9eb00ccc7acc5bf1483c9615277590.camel@linux.ibm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <8f212b0dfa9eb00ccc7acc5bf1483c9615277590.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230426124049.258359-2-daniel.matyas@analog.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+On Wed, 26 Apr 2023 15:40:45 +0300, Daniel Matyas wrote:
+> MAX31827 is a low-power temperature switch with I2C interface.
+> 
+> The device is a ±1°C accuracy from -40°C to +125°C
+> (12 bits) local temperature switch and sensor with I2C/SM-
+> Bus interface. The combination of small 6-bump wafer-lev-
+> el package (WLP) and high accuracy makes this temper-
+> ature sensor/switch ideal for a wide range of applications.
+> 
+> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> ---
+>  .../bindings/hwmon/adi,max31827.yaml          | 54 +++++++++++++++++++
+>  MAINTAINERS                                   |  7 +++
+>  2 files changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> 
 
-On 4/27/23 09:16, James Bottomley wrote:
-> Public but not open source is still a problem.  The federal government
-> has walked into several cloud accounts demanding a source code security
-> review, which means the code was made public to them but not generally.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Apparently we have different definitions of "public".
-I don't call that public.
-
-> Without all customers or some third party being able to build the code
-> and verify it (or ideally supply it ... think something like Red Hat
-> built the OVMF code this cloud is using and you can prove it using
-> their build signatures) how do you know the source you're given
-> corresponds to the binary the signature verifies.
-
-
--- 
-~Randy
