@@ -2,242 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 049B6C77B7C
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 02:14:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD3E4C77B61
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 05:18:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242557AbjD0CO7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 22:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57592 "EHLO
+        id S242556AbjD0FS2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 01:18:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242804AbjD0CO6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 22:14:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADFA04219
-        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 19:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682561609;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=QDBq73uOalrM4tKroB29WOkkL6N6HI1enBv2lSURmmI=;
-        b=Y8+Mbm0HL9WvAQLUs5QFDTwEQJo6iBJatygUM+pVdPOVTKb6qBZI4X+6Q5Map+2UuEsC/7
-        8K0rSnPTlcxvk3m9r7svG2DgnK0DbvaVuj8/b8fBzVwLCCaNDDfF7uN24MYZkLOF5Srel5
-        UbarUQQE6/TAbkflc/az5riPqE4d8pE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-8zon_suPN4Oswz06NwHtTA-1; Wed, 26 Apr 2023 22:13:25 -0400
-X-MC-Unique: 8zon_suPN4Oswz06NwHtTA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A27FD8828C2;
-        Thu, 27 Apr 2023 02:13:24 +0000 (UTC)
-Received: from localhost (ovpn-12-30.pek2.redhat.com [10.72.12.30])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 59462492B03;
-        Thu, 27 Apr 2023 02:13:22 +0000 (UTC)
-Date:   Thu, 27 Apr 2023 10:13:19 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Chen Jiahao <chenjiahao16@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        conor.dooley@microchip.com, guoren@kernel.org, heiko@sntech.de,
-        bjorn@rivosinc.com, alex@ghiti.fr, akpm@linux-foundation.org,
-        atishp@rivosinc.com, thunder.leizhen@huawei.com, horms@kernel.org
-Subject: Re: [PATCH -next v4 1/2] riscv: kdump: Implement
- crashkernel=X,[high,low]
-Message-ID: <ZEnaPzx3O9NWixIR@MiWiFi-R3L-srv>
-References: <20230410130553.3226347-1-chenjiahao16@huawei.com>
- <20230410130553.3226347-2-chenjiahao16@huawei.com>
+        with ESMTP id S239395AbjD0FS1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 01:18:27 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F791FC9
+        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 22:18:00 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-63b64a32fd2so10101299b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 22:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1682572680; x=1685164680;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GMaPzJXWrSlkjaxg9I3D2+BQ3FkGijEWz0HmGH4ctBg=;
+        b=K8Ar7FjGTpx9OUTYuvFL8WOi2JYgRtANCY+k0zhV++uZlFYfg1dv2kzq6tPqv4V++e
+         ohR6AHy7h2lfsx104z40E8MmhPD7vAtzVo93Id0EeA2ndo4QgWycBGroBI6FCC0nR5WZ
+         1H3nrbYRRwa9yww+/GwXkMDJeYxz0zLPsGiFlH+Pqh1Q5ajqQ/Ll7yDnAbhKJ/agGr2d
+         7vau+aJ7N4K1IJz7io/UzmQfMEkl1uRsHnVh8dGIZdvaRpxloPhDyij3sklcPpblRAA8
+         hMK9F6dnjYNup9A9M0Eo6OFqxlOl7BmvqxzEnWkWIOPPKDV+tld31O1Om7XBqgD3naLd
+         KgZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682572680; x=1685164680;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GMaPzJXWrSlkjaxg9I3D2+BQ3FkGijEWz0HmGH4ctBg=;
+        b=MSuUQwngn7o1OaZCFlV9lt2UtTo3ZbfMBjlmBnQS45glP/rSS8gCyLcb3TEPBBgAeZ
+         0J7VfLI3ArcvGX9nprc7LJ6JW/Xn6WktobKWcKcgxdNxV+KVOBW2O/4LKrjmGdXyzCRf
+         ffFU0DOGYtUopndy5PS3cFmlnvHRPorG4EI9dqkpgVQWd6ro0QmSns9ViKSrpVJeaQ4p
+         PMi5Nt0EmPFLjuFUlZICRKW56xUbAowQ+/l1ns5hFH1KDyMVvcxiP/sGBrEKFEql7l58
+         X5Sc2ZXXnhyeFD3QIRlBKfOYG5nOxBAti1jWRupOrKY1+bw6ykOos+erRm5lUhIuno1a
+         NAQw==
+X-Gm-Message-State: AC+VfDzwfP/ecvY0SeZ0zsw1vMOSWPb8nm/xYXc485AZVb+8vLP/F2m4
+        qI7OTopdrDajF5koItOcjC918Q==
+X-Google-Smtp-Source: ACHHUZ6dMpsvHqTKYBR1bclPnIJa3Hb0cd8DQ0u1EuX8+QOryRHNOKFNSfUKpJmSLfW2IWk6sObczw==
+X-Received: by 2002:a05:6a21:3945:b0:ee:d553:5cee with SMTP id ac5-20020a056a21394500b000eed5535ceemr407699pzc.16.1682572680001;
+        Wed, 26 Apr 2023 22:18:00 -0700 (PDT)
+Received: from [10.2.117.253] ([61.213.176.6])
+        by smtp.gmail.com with ESMTPSA id w68-20020a636247000000b00520f4ecd71esm10529815pgb.93.2023.04.26.22.17.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Apr 2023 22:17:59 -0700 (PDT)
+Message-ID: <9ba3577b-0098-86da-ff2e-636cb5a8ae1a@bytedance.com>
+Date:   Thu, 27 Apr 2023 13:17:52 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230410130553.3226347-2-chenjiahao16@huawei.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v6 0/2] sched/numa: add per-process numa_balancing
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Mel Gorman <mgorman@suse.de>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>
+References: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
+From:   Gang Li <ligang.bdlg@bytedance.com>
+In-Reply-To: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/10/23 at 09:05pm, Chen Jiahao wrote:
-> On riscv, the current crash kernel allocation logic is trying to
-> allocate within 32bit addressible memory region by default, if
-> failed, try to allocate without 4G restriction.
-> 
-> In need of saving DMA zone memory while allocating a relatively large
-> crash kernel region, allocating the reserved memory top down in
-> high memory, without overlapping the DMA zone, is a mature solution.
-> Here introduce the parameter option crashkernel=X,[high,low].
-> 
-> One can reserve the crash kernel from high memory above DMA zone range
-> by explicitly passing "crashkernel=X,high"; or reserve a memory range
-> below 4G with "crashkernel=X,low".
-> 
-> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
-> Acked-by: Guo Ren <guoren@kernel.org>
-> Reviewed-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  arch/riscv/kernel/setup.c |  5 +++
->  arch/riscv/mm/init.c      | 71 ++++++++++++++++++++++++++++++++++++---
->  2 files changed, 71 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index 5d3184cbf518..ea84e5047c23 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -176,6 +176,11 @@ static void __init init_resources(void)
->  		if (ret < 0)
->  			goto error;
->  	}
-> +	if (crashk_low_res.start != crashk_low_res.end) {
-> +		ret = add_resource(&iomem_resource, &crashk_low_res);
-> +		if (ret < 0)
-> +			goto error;
-> +	}
->  #endif
->  
->  #ifdef CONFIG_CRASH_DUMP
-> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> index 478d6763a01a..70f6cb281ed1 100644
-> --- a/arch/riscv/mm/init.c
-> +++ b/arch/riscv/mm/init.c
-> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
->  }
->  #endif /* CONFIG_MMU */
->  
-> +/* Reserve 128M low memory by default for swiotlb buffer */
-> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
-> +
-> +static int __init reserve_crashkernel_low(unsigned long long low_size)
-> +{
-> +	unsigned long long low_base;
-> +
-> +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
-> +	if (!low_base) {
-> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-> +		low_base, low_base + low_size, low_size >> 20);
-> +
-> +	crashk_low_res.start = low_base;
-> +	crashk_low_res.end = low_base + low_size - 1;
-> +
-> +	return 0;
-> +}
-> +
->  /*
->   * reserve_crashkernel() - reserves memory for crash kernel
->   *
-> @@ -1163,8 +1185,12 @@ static void __init reserve_crashkernel(void)
->  {
->  	unsigned long long crash_base = 0;
->  	unsigned long long crash_size = 0;
-> +	unsigned long long crash_low_size = 0;
->  	unsigned long search_start = memblock_start_of_DRAM();
->  	unsigned long search_end = memblock_end_of_DRAM();
-> +	unsigned long search_low_max = (unsigned long)dma32_phys_limit;
-> +	char *cmdline = boot_command_line;
-> +	bool fixed_base = false;
->  
->  	int ret = 0;
->  
-> @@ -1180,14 +1206,34 @@ static void __init reserve_crashkernel(void)
->  		return;
->  	}
->  
-> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
->  				&crash_size, &crash_base);
-> -	if (ret || !crash_size)
-> +	if (ret == -ENOENT) {
-> +		/* Fallback to crashkernel=X,[high,low] */
-> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
-> +		if (ret || !crash_size)
-> +			return;
-> +
-> +		/*
-> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
-> +		 * is passed.
-> +		 */
-> +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-> +		if (ret == -ENOENT)
-> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +		else if (ret)
-> +			return;
-> +
-> +		search_start = search_low_max;
-> +	} else if (ret || !crash_size) {
-> +		/* Invalid argument value specified */
->  		return;
-> +	}
->  
->  	crash_size = PAGE_ALIGN(crash_size);
->  
->  	if (crash_base) {
-> +		fixed_base = true;
->  		search_start = crash_base;
->  		search_end = crash_base + crash_size;
->  	}
-> @@ -1201,16 +1247,31 @@ static void __init reserve_crashkernel(void)
->  	 */
->  	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
->  					       search_start,
-> -					       min(search_end, (unsigned long) SZ_4G));
-> +					       min(search_end, search_low_max));
+Hi,
 
-Here, it seems not right in case crashkernel=,high is specified. In that
-case, search_start == search_low_max, then the min(search_end,
-search_low_max) will get search_low_max too. Then you make the fallback
-in below code block to try to get crashkernel reservation above 4G. This
-doesn't comply with the crashkernel=,high grammer which has been
-implemented in other architectures.
+Looks like there are no objections or comments. Do you have any ideas?
 
-For crashkernel=,high, user explicitly require memory reservation above
-4G. Why does crashkernel=,high is needed? E.g on big end server with
-huge memory, while the low memory under 4G is limited and precious.
-Hence, user want to put the main crashkernel reservation above 4G to
-contain kdump kernel/initrd and run user space program, while with few
-low memory for pci device driver. E.g crashkernel=2G,high, it won't
-impact much if there's huge memory above 4G and get crashkernel
-reservation there. However, it impacts a lot if it reserves memory
-below 4G.
+Can we merge this patch in the next merge window.
 
-I would strongly suggest that risc-v also reserve memory from above 4G
-for crashkernel=,high, then fallback to below 4G. That's consistent with
-crashkernel=,high grammer.
+Thanks!
 
->  	if (crash_base == 0) {
-> -		/* Try again without restricting region to 32bit addressible memory */
-> +		if (fixed_base) {
-> +			pr_warn("crashkernel: allocating failed with given size@offset\n");
-> +			return;
-> +		}
-> +
-> +		/* Try again above the region of 32bit addressible memory */
->  		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
-> -						search_start, search_end);
-> +						       max(search_start, search_low_max),
-> +						       search_end);
->  		if (crash_base == 0) {
->  			pr_warn("crashkernel: couldn't allocate %lldKB\n",
->  				crash_size >> 10);
->  			return;
->  		}
-> +
-> +		if (!crash_low_size)
-> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +	}
-> +
-> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
-> +	    crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-> +		memblock_phys_free(crash_base, crash_size);
-> +		return;
->  	}
->  
->  	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
-> -- 
-> 2.31.1
+On 2023/4/12 22:06, Gang Li wrote:
+> # Introduce
+> Add PR_NUMA_BALANCING in prctl.
 > 
-
+> A large number of page faults will cause performance loss when numa
+> balancing is performing. Thus those processes which care about worst-case
+> performance need numa balancing disabled. Others, on the contrary, allow a
+> temporary performance loss in exchange for higher average performance, so
+> enable numa balancing is better for them.
+> 
+> Numa balancing can only be controlled globally by
+> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
+> disable/enable numa_balancing per-process instead.
+> 
