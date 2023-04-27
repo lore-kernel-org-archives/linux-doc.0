@@ -2,146 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A25C77B61
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 17:20:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2791C7EE33
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 17:37:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244241AbjD0RU6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 13:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32842 "EHLO
+        id S244623AbjD0RhM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 13:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243737AbjD0RU4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 13:20:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126FE106
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 10:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682616001;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aPZaawwQwmja+K3dcGcTuaq8agrRF4dPj3IVyzF/XkQ=;
-        b=Wu4Fk/YZ+MXRNgzENRT9ckQhaGkCu/13u1V4EWqgWCAP9TbtPPdTuEP2kKylTDPL9OvqvR
-        UfMdLC5veSHkfpohVLfyeUV7QSZ/lFomvnt/xCJOcd60tBAIGo17hHfQn9rl2u+k1t7FEZ
-        xdVbg0wi2s1oEbLpSR4N6X0o2pX1P5U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-80-0CylumSyM6WFtbwCcHpu0w-1; Thu, 27 Apr 2023 13:20:00 -0400
-X-MC-Unique: 0CylumSyM6WFtbwCcHpu0w-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f080f534acso56344825e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 10:20:00 -0700 (PDT)
+        with ESMTP id S244489AbjD0Rgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 13:36:51 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F414B4EFE;
+        Thu, 27 Apr 2023 10:36:46 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-63b62d2f729so6858915b3a.1;
+        Thu, 27 Apr 2023 10:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682617006; x=1685209006;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qSPrRqzjKTfa3hSIin6R7kDcOmN9/fb4F3XrRQLNNSk=;
+        b=CmilNWaVrgGeMDWGnDWLrL96nyaagp9fK1LYuDbpAKN5n8ExdLxTyJiGG+/hiWEbzR
+         UeminMdfH4J/a1+Paz2ChTfmM9TpAFd5GO1LNWDQr5ZJ0uFoIhOD9+ghVB4fGKp2qTJh
+         nsnPhG+b008SMLac+1p2CQ1JnymG+EXU3FZWnhCfPxCLPJO/4MBly8xzIJemroslmjmG
+         AHd40gNUVILZSg5m/OH7ILO744tMP07WfW3sk3O6R0EawONe/Cne5Z006K7KUDmWuggg
+         oCFTPzoPScyD/rCgz/lYihGyRscUKirIT2HM6GX61LFd3jx22AoUAq0p4OEV6n5GQJcM
+         YvcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682615999; x=1685207999;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aPZaawwQwmja+K3dcGcTuaq8agrRF4dPj3IVyzF/XkQ=;
-        b=bTKbD3Fx1479pxAY2n+4Hxgngi5SVoV0QQVkeJyDS0wvs9yWa3karEbQx5JOV2p9vi
-         0jszP4QlZtaxjx3Y7I9b5TRuamtzL6gztLh4nRd7+SnWAUiTAvKXd0isVeJ6waYbF18B
-         rGsh9md/5j7quXynoNncIvY0RTFMRWyQ274XVlB/h4Vc5gH+WhxHT2C88s/jZ4u+P/Qh
-         5qCQe5wSKyDs1pJvwZJOmV1s0zZBhafE7OnhSS/sHyt+IDVJP7J2uwsd1nslU8KxkHhD
-         IWVmhvUk0edTiPQCFc3AvjzitZ4TC5SJtxyGLSzTM1tenvHdVbJp7lVZRVZ/GMrQ8fCa
-         hyxg==
-X-Gm-Message-State: AC+VfDx8se7Z3gxla37+mO+mxOutpkkwTbDR2Tq476HGRHwnzKTUnqYa
-        9P5x9HHi3/KAuOB2iMsmmaIRIxvCOBcAw1TTYhHNDO4rLDZw0RJc3IiAygPpojWAiEV80i4WEWr
-        UOO1E6uIZCPuC6tx117xI
-X-Received: by 2002:a1c:7211:0:b0:3f1:728a:1881 with SMTP id n17-20020a1c7211000000b003f1728a1881mr2052018wmc.31.1682615999325;
-        Thu, 27 Apr 2023 10:19:59 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ70FFgxaq7kngAV3kmqtfIdd11f8yMp/CFv4NyF+1cHylAzDbnw4IznX9hsPqVdLe7DOiNRfg==
-X-Received: by 2002:a1c:7211:0:b0:3f1:728a:1881 with SMTP id n17-20020a1c7211000000b003f1728a1881mr2051980wmc.31.1682615998938;
-        Thu, 27 Apr 2023 10:19:58 -0700 (PDT)
-Received: from redhat.com ([2.52.19.183])
-        by smtp.gmail.com with ESMTPSA id n20-20020a7bc5d4000000b003f17b96793dsm25084430wmk.37.2023.04.27.10.19.54
+        d=1e100.net; s=20221208; t=1682617006; x=1685209006;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qSPrRqzjKTfa3hSIin6R7kDcOmN9/fb4F3XrRQLNNSk=;
+        b=hSfbounLqvUlufRSkJiGV8D3lwyuo5VDe20BH6oWoSThgDIDjQv6puMsy8061Hq7iu
+         MYOaeEYzxVc71i+3E7NyFa8R1Mf6rZnNEiM9uAjzpHpuC+V1vxNE4qppudWJtncOfA1m
+         pLHsYeWZvxnvmewue3GrRU7zoAMWx8nOcd2mAifAEkxC6s7zNmBwrGxhBwPCt8mJyltP
+         XtNo0ulXnpTCgIfx1tVNfoR4vjUsOm2XCnV34RIiUbZo/1HBJmbxuB939wWw8Mgby6PI
+         HAbg9OEnK99Gj3RmBE6O6EfAm7EDQYhlN4/4FGo7VBGkiPmVyAOJ3/NKRlot9wyMI7DU
+         hhNQ==
+X-Gm-Message-State: AC+VfDyLDvz45p6wITbnldl6VCN4HyVVBm31e7/XhsPTtfRAD3caqZSH
+        s7s+es0MmaV7PVTUC5R22GCsO2YnVvo=
+X-Google-Smtp-Source: ACHHUZ4gKV/E6QGhxmD8BAioA1wGruis436PMRQ2CSTP4QqxnHh7zTTP/T0kEzT8UbN1V7xftbfj7g==
+X-Received: by 2002:a05:6a00:2d05:b0:640:ddf8:607a with SMTP id fa5-20020a056a002d0500b00640ddf8607amr3095816pfb.14.1682617006227;
+        Thu, 27 Apr 2023 10:36:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x4-20020a628604000000b00639fc7124c2sm13790995pfd.148.2023.04.27.10.36.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Apr 2023 10:19:58 -0700 (PDT)
-Date:   Thu, 27 Apr 2023 13:19:52 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     "Reshetova, Elena" <elena.reshetova@intel.com>,
-        "Christopherson, , Sean" <seanjc@google.com>,
-        Carlos Bilbao <carlos.bilbao@amd.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
-        "michael.day@amd.com" <michael.day@amd.com>,
-        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
-        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
-        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
-        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "cdupontd@redhat.com" <cdupontd@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "sameo@rivosinc.com" <sameo@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "security@kernel.org" <security@kernel.org>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Rajnesh Kanwal <rkanwal@rivosinc.com>,
-        Dylan Reid <dylan@rivosinc.com>,
-        Ravi Sahita <ravi@rivosinc.com>
-Subject: Re: [PATCH] docs: security: Confidential computing intro and threat
- model
-Message-ID: <20230427131542-mutt-send-email-mst@kernel.org>
-References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
- <ZEfrjtgGgm1lpadq@google.com>
- <DM8PR11MB575046B6DAA17B41FFED8080E7659@DM8PR11MB5750.namprd11.prod.outlook.com>
- <7502e1af0615c08167076ff452fc69ebf316c730.camel@linux.ibm.com>
- <ZElOfzn37kmesy7e@google.com>
- <DM8PR11MB57509EBCB1E2146C1768A6EEE76A9@DM8PR11MB5750.namprd11.prod.outlook.com>
- <efda0be02fb0b5bf23aec11b5398d20908a821ba.camel@linux.ibm.com>
+        Thu, 27 Apr 2023 10:36:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Thu, 27 Apr 2023 10:36:44 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc:     Michael Carns <mike@carns.com>, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ROG Crosshair X670E Hero.
+Message-ID: <9809f1da-d911-403f-a2b7-8e102b046ed7@roeck-us.net>
+References: <20230426200345.65765-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <efda0be02fb0b5bf23aec11b5398d20908a821ba.camel@linux.ibm.com>
+In-Reply-To: <20230426200345.65765-1-eugene.shalygin@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 27, 2023 at 09:18:08AM -0400, James Bottomley wrote:
-> I think the problem is that the tenor of the document is that the CSP
-> should be seen as the enemy of the tenant. Whereas all CSP's want to be
-> seen as the partner of the tenant (admittedly so they can upsell
-> services). In particular, even if you adopt (b) there are several
-> reasons why you'd use confidential computing:
+On Wed, Apr 26, 2023 at 10:03:44PM +0200, Eugene Shalygin wrote:
+> From: Michael Carns <mike@carns.com>
 > 
->    1. Protection from other tenants who break containment in the cloud.
->       These tenants could exfiltrate data from Non-CoCo VMs, but likely
->       would be detected before they had time to launch an attack using
->       vulnerabilities in the current linux device drivers.
->    2. Legal data security.  There's a lot of value in a CSP being able
->       to make the legal statement that it does not have access to a
->       customer data because of CoCo.
->    3. Insider threats (bribe a CSP admin employee).  This one might get
->       as far as trying to launch an attack on a CoCo VM, but having
->       checks at the CSP to detect and defeat this would work instead of
->       every insider threat having to be defeated inside the VM.
+> Only the temp sensors that I can verify are present.  HWINFO in
+> Windows shows other accumulated data and statistics (time since
+> installed, total power used, etc) that I have not attempted to find.
+> 
+> Signed-off-by: Michael Carns <mike@carns.com>
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-And generally, all these are instances of adopting a zero trust
-architecture, right? Many CSPs have no need to access VM memory
-so they would rather not have the ability.
+Applied to hwmon-next.
 
--- 
-MST
-
+Thanks,
+Guenter
