@@ -2,82 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2791C7EE33
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 17:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E80A5C7EE22
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 17:51:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244623AbjD0RhM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 13:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41718 "EHLO
+        id S244403AbjD0RvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 13:51:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244489AbjD0Rgv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 13:36:51 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F414B4EFE;
-        Thu, 27 Apr 2023 10:36:46 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-63b62d2f729so6858915b3a.1;
-        Thu, 27 Apr 2023 10:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682617006; x=1685209006;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qSPrRqzjKTfa3hSIin6R7kDcOmN9/fb4F3XrRQLNNSk=;
-        b=CmilNWaVrgGeMDWGnDWLrL96nyaagp9fK1LYuDbpAKN5n8ExdLxTyJiGG+/hiWEbzR
-         UeminMdfH4J/a1+Paz2ChTfmM9TpAFd5GO1LNWDQr5ZJ0uFoIhOD9+ghVB4fGKp2qTJh
-         nsnPhG+b008SMLac+1p2CQ1JnymG+EXU3FZWnhCfPxCLPJO/4MBly8xzIJemroslmjmG
-         AHd40gNUVILZSg5m/OH7ILO744tMP07WfW3sk3O6R0EawONe/Cne5Z006K7KUDmWuggg
-         oCFTPzoPScyD/rCgz/lYihGyRscUKirIT2HM6GX61LFd3jx22AoUAq0p4OEV6n5GQJcM
-         YvcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682617006; x=1685209006;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qSPrRqzjKTfa3hSIin6R7kDcOmN9/fb4F3XrRQLNNSk=;
-        b=hSfbounLqvUlufRSkJiGV8D3lwyuo5VDe20BH6oWoSThgDIDjQv6puMsy8061Hq7iu
-         MYOaeEYzxVc71i+3E7NyFa8R1Mf6rZnNEiM9uAjzpHpuC+V1vxNE4qppudWJtncOfA1m
-         pLHsYeWZvxnvmewue3GrRU7zoAMWx8nOcd2mAifAEkxC6s7zNmBwrGxhBwPCt8mJyltP
-         XtNo0ulXnpTCgIfx1tVNfoR4vjUsOm2XCnV34RIiUbZo/1HBJmbxuB939wWw8Mgby6PI
-         HAbg9OEnK99Gj3RmBE6O6EfAm7EDQYhlN4/4FGo7VBGkiPmVyAOJ3/NKRlot9wyMI7DU
-         hhNQ==
-X-Gm-Message-State: AC+VfDyLDvz45p6wITbnldl6VCN4HyVVBm31e7/XhsPTtfRAD3caqZSH
-        s7s+es0MmaV7PVTUC5R22GCsO2YnVvo=
-X-Google-Smtp-Source: ACHHUZ4gKV/E6QGhxmD8BAioA1wGruis436PMRQ2CSTP4QqxnHh7zTTP/T0kEzT8UbN1V7xftbfj7g==
-X-Received: by 2002:a05:6a00:2d05:b0:640:ddf8:607a with SMTP id fa5-20020a056a002d0500b00640ddf8607amr3095816pfb.14.1682617006227;
-        Thu, 27 Apr 2023 10:36:46 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x4-20020a628604000000b00639fc7124c2sm13790995pfd.148.2023.04.27.10.36.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Apr 2023 10:36:45 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 27 Apr 2023 10:36:44 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc:     Michael Carns <mike@carns.com>, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ROG Crosshair X670E Hero.
-Message-ID: <9809f1da-d911-403f-a2b7-8e102b046ed7@roeck-us.net>
-References: <20230426200345.65765-1-eugene.shalygin@gmail.com>
+        with ESMTP id S243982AbjD0RvW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 13:51:22 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CFC210D;
+        Thu, 27 Apr 2023 10:51:21 -0700 (PDT)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id DD897CCBE1;
+        Thu, 27 Apr 2023 17:50:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1682617849; bh=NIY1N6khezq9+ZTcdf4CI2PZJx2zYchLwM1fp6lZo0A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=aXEMnvun3ENv8iPHd1MiLBtsE5FXHEqngQMklwv+OslGFTyAdx9vqOnq8xShhCEg8
+         +0cqiUeamn2INSEdAz7NDlFZU70J9NNbqnAuwo/H2kbdGg2ph3hEco01xg0Qs4Wtnr
+         2WXv4VZNp1i33nchNq6wUl9EyUd3WxUh4R8YyEEk=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Lee Jones <lee@kernel.org>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 8/8] Documentation: leds: Add "rgb:status" path
+Date:   Thu, 27 Apr 2023 19:50:47 +0200
+Message-ID: <5823752.MhkbZ0Pkbq@z3ntu.xyz>
+In-Reply-To: <20230427160559.GC50521@google.com>
+References: <20230414-pmi632-v2-0-98bafa909c36@z3ntu.xyz>
+ <20230414-pmi632-v2-8-98bafa909c36@z3ntu.xyz>
+ <20230427160559.GC50521@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426200345.65765-1-eugene.shalygin@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 26, 2023 at 10:03:44PM +0200, Eugene Shalygin wrote:
-> From: Michael Carns <mike@carns.com>
+On Donnerstag, 27. April 2023 18:05:59 CEST Lee Jones wrote:
+> On Tue, 18 Apr 2023, Luca Weiss wrote:
+> > The path /sys/class/leds/rgb:status is already widely used with the
+> > qcom-lpg driver and others. Document it.
 > 
-> Only the temp sensors that I can verify are present.  HWINFO in
-> Windows shows other accumulated data and statistics (time since
-> installed, total power used, etc) that I have not attempted to find.
+> Where is this used?
 > 
-> Signed-off-by: Michael Carns <mike@carns.com>
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+> $ grep status drivers/leds/rgb/leds-qcom-lpg.c
+> <no results>
 
-Applied to hwmon-next.
+This is set in devicetree, e.g. from qcom-msm8974pro-fairphone-fp2.dts[0]:
 
-Thanks,
-Guenter
+    color = <LED_COLOR_ID_RGB>;
+    function = LED_FUNCTION_STATUS;
+
+And then something in the LED core sets the name based on that, I'd have
+to dig to find where exactly.
+
+Regards
+Luca
+
+[0] https://github.com/torvalds/linux/blob/master/arch/arm/boot/dts/qcom-msm8974pro-fairphone-fp2.dts#L105-L106
+
+> 
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > ---
+> > 
+> >  Documentation/leds/well-known-leds.txt | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/Documentation/leds/well-known-leds.txt
+> > b/Documentation/leds/well-known-leds.txt index 2160382c86be..439d4dac4472
+> > 100644
+> > --- a/Documentation/leds/well-known-leds.txt
+> > +++ b/Documentation/leds/well-known-leds.txt
+> > @@ -58,6 +58,7 @@ LEDs on notebook body, indicating that sound input /
+> > output is muted.> 
+> >  * System notification
+> > 
+> > +Good: "rgb:status"
+> > 
+> >  Legacy: "status-led:{red,green,blue}" (Motorola Droid 4)
+> >  Legacy: "lp5523:{r,g,b}" (Nokia N900)
+
+
+
+
