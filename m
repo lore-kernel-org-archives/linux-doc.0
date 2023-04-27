@@ -2,106 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 190B7C7EE22
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 08:38:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11424C77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 09:23:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243173AbjD0Iih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 04:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48416 "EHLO
+        id S243276AbjD0JXL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 05:23:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243162AbjD0Iig (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 04:38:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 219F34ECB
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 01:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682584668;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=FT26bsZTksy9w0Z5ZkQBGS3kpOjEM/lIdHfF+ktDpPI=;
-        b=BcKGl1KoXj0TKaqryAjfZYX+zc/IlwU9MqKw8ce58arZ+ciZU/7GVmYjl+nWvuKeIKEumc
-        HQGmocSGhL/Z2VQlrvrmEAiIqvmxiJLprZwtxfYa4aSVxkAsgdUXlgK3GAU0tE66f0DZfA
-        GYtKM9SRweJXjyT+EC0xfTItALZLaTE=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-272--zYOfHtrNZG8Xq9HiHkYyg-1; Thu, 27 Apr 2023 04:37:46 -0400
-X-MC-Unique: -zYOfHtrNZG8Xq9HiHkYyg-1
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-63b5e149e1fso5533818b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 01:37:46 -0700 (PDT)
+        with ESMTP id S243246AbjD0JXK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 05:23:10 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 437342D64
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 02:23:03 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-63b35789313so5859530b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 02:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1682587382; x=1685179382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b4tmAtbJaHWfTAbFkdGyP1UUwCahMULqyPQK3zTjGzc=;
+        b=YRR8+nwiwBRWdu+ISCLSUieKCxjJzKGl6+oqhEO/3BRqOIOSZ8Qko6ouC9u7p2HpTX
+         gdnzmSG1RwEXmBdnDiO0OZMpDHopOb7UfbKa85eHey0TP0gQd3q1yv1tTPeaxeWx2qIu
+         kY2Mj84whu79JeOW5KjI+dW1EjDkrG8S/u0DbgVxwLqXWdjQfebgAN//TuFJsvpHCzMe
+         WdXHvCJQVo9P4UaFl9zY0C7wB0iXNSnzvnt4mHaUmyeayfGP7okRyh6CZxuwWIpMngbd
+         bYPmen8R4y4/TyTosIADLMAPn3mwYVLIBKA0NA7bBzvfqscFUwnmsFtr4siJ+1x47S6b
+         7PJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682584666; x=1685176666;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FT26bsZTksy9w0Z5ZkQBGS3kpOjEM/lIdHfF+ktDpPI=;
-        b=c/R64yqBcaUDjk/HRncKGGqSk87n/meotRPb9L0Elp6wh2Xjk7PxFoQ7myKhzJIJqb
-         XxXlPG95QzNf+VufSrXxuBbClHpM/NFQUTOYgG94nmkP7Dxp0H/gUs5WnnEJ9u1DbZ72
-         +2VxOG1mgugiM60q+MlcyKhbJG/X9B0Ja3TMfhltePVTAYlLwtukfonZbqbpa/7z7wj7
-         zfU4bQ3fdTSxGhr+flSKEdgh8PC4wNBGlTL7nNVZLg1mIosbBczbbKuglgrvq9wPkItD
-         vjuCq2DSg/+Vrns6RlbP5fs+rdc1+epxKUr5zmSLg9aS/YQjzmzugQdW1UZ8cAd72qO2
-         ZbyQ==
-X-Gm-Message-State: AC+VfDy5gzL7V3iBeSdtTnSLrbE4uDO0fA/V1s9LKlAFr8UQdCyJW8M2
-        5Q3J/kMGH2g7bOBsj7/cQeBNh1dqkPb2KEB08Z9BhlDwAaMDU6x/qQ5DW3HF80xu0T1Cccxgh3E
-        oMOUrTM/dE3UWDzw41EcR
-X-Received: by 2002:a05:6a00:18a6:b0:63b:854e:8459 with SMTP id x38-20020a056a0018a600b0063b854e8459mr1320904pfh.31.1682584665848;
-        Thu, 27 Apr 2023 01:37:45 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ40DrCNhHatZ2coz2Ut05aumESlJ+c2+DlbJvx0NkNxsZ6d1inQLpc7uIfqPl1ShuB2Djet7g==
-X-Received: by 2002:a05:6a00:18a6:b0:63b:854e:8459 with SMTP id x38-20020a056a0018a600b0063b854e8459mr1320882pfh.31.1682584665497;
-        Thu, 27 Apr 2023 01:37:45 -0700 (PDT)
-Received: from nsharma-mac.redhat.com ([2405:201:a400:c036:a55b:cfa9:5cf:adad])
-        by smtp.gmail.com with ESMTPSA id t2-20020a628102000000b0063b1e7ffc5fsm12591223pfd.39.2023.04.27.01.37.40
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 27 Apr 2023 01:37:44 -0700 (PDT)
-From:   Natesh Sharma <nsharma@redhat.com>
-To:     corbet@lwn.net, chenhuacai@kernel.org, dave.hansen@linux.intel.com,
-        geert@linux-m68k.org, axboe@kernel.dk, linux@zary.sk
+        d=1e100.net; s=20221208; t=1682587382; x=1685179382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b4tmAtbJaHWfTAbFkdGyP1UUwCahMULqyPQK3zTjGzc=;
+        b=XB8a5wX6H/kykznNUhbTCO2UYE898ZX6zJQykavuni3MLhxeqYEYo0c6xMMCPcuK5Q
+         lFvr18HzAsMPvhqcoCNYNUKrUqZeSLGr8bTKe/T5dBl7uzShGEB9VX9vdbf4EvdDZNA/
+         VoNBs6t8yE46mJgfvn0EoZq2LFAFUINL55ZxbrguMTkZCkfK7wa5aCKE+NpNSn6pPNlI
+         M8+TkOs/IvwKF12MbNH6WKLigYVWhUUxEtx8VM4DlTenVmeY2H25pr1QLo8VDmxpfLj1
+         KiFZrc9PEkAv+YJj7jcLF/XXuUgvXn1l9uoKesfd5i7VnL/gNDNaL12KRIUW6cchm6Ma
+         wK+Q==
+X-Gm-Message-State: AC+VfDxJIxLFkteQfV9vTBhhSsKneYVvdUSXW3aCd3GsQn+RCYq/vSng
+        dpbOvTUj0DxVRwjQGOkkDJ3o/w==
+X-Google-Smtp-Source: ACHHUZ7RWci9fHcfj1Kz5md3jazQZh7oA/8a9iSA8EEYdE24w8faCyvnC3O4ecPFfRxC69G0cl789g==
+X-Received: by 2002:a05:6a00:22ca:b0:63b:5c82:e21a with SMTP id f10-20020a056a0022ca00b0063b5c82e21amr1814185pfj.1.1682587382560;
+        Thu, 27 Apr 2023 02:23:02 -0700 (PDT)
+Received: from sunil-laptop ([2409:4071:6e90:4e5:b276:2557:8da6:6c7e])
+        by smtp.gmail.com with ESMTPSA id i66-20020a62c145000000b0063d318699f9sm12712205pfg.48.2023.04.27.02.22.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Apr 2023 02:23:02 -0700 (PDT)
+Date:   Thu, 27 Apr 2023 14:52:50 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Palmer Dabbelt <palmer@dabbelt.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Natesh Sharma <nsharma@redhat.com>
-Subject: [PATCH] docs: admin-guide: Add information about intel_pstate active mode
-Date:   Thu, 27 Apr 2023 14:07:06 +0530
-Message-Id: <20230427083706.49882-1-nsharma@redhat.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, lenb@kernel.org, daniel.lezcano@linaro.org,
+        tglx@linutronix.de, qianweili@huawei.com, wangzhou1@hisilicon.com,
+        herbert@gondor.apana.org.au, Marc Zyngier <maz@kernel.org>,
+        luzmaximilian@gmail.com, hdegoede@redhat.com, markgross@kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com, trix@redhat.com,
+        rafael@kernel.org, davem@davemloft.net, rafael.j.wysocki@intel.com
+Subject: Re: [PATCH V4 08/23] RISC-V: ACPI: Cache and retrieve the RINTC
+ structure
+Message-ID: <ZEo+6rwM+c6DvlMM@sunil-laptop>
+References: <20230404182037.863533-9-sunilvl@ventanamicro.com>
+ <mhng-fd6c3622-ce6c-4895-8dc9-7dbaa2ab14f4@palmer-ri-x1c9a>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mhng-fd6c3622-ce6c-4895-8dc9-7dbaa2ab14f4@palmer-ri-x1c9a>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Information about intel_pstate active mode is added in the doc.
-This operation mode could be used to set on the hardware when it's
-not activated. Status of the mode could be checked from sysfs file
-i.e., /sys/devices/system/cpu/intel_pstate/status.
-The information is already available in cpu-freq/intel-pstate.txt
-documentation.
+Hi Palmer,
 
-Link: https://www.kernel.org/doc/Documentation/cpu-freq/intel-pstate.txt
+On Wed, Apr 26, 2023 at 11:45:00AM -0700, Palmer Dabbelt wrote:
+> On Tue, 04 Apr 2023 11:20:22 PDT (-0700), sunilvl@ventanamicro.com wrote:
+> > RINTC structures in the MADT provide mapping between the hartid
+> > and the CPU. This is required many times even at run time like
+> > cpuinfo. So, instead of parsing the ACPI table every time, cache
+> > the RINTC structures and provide a function to get the correct
+> > RINTC structure for a given cpu.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >  arch/riscv/include/asm/acpi.h |  2 ++
+> >  arch/riscv/kernel/acpi.c      | 60 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 62 insertions(+)
+> > 
+> > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> > index 9be52b6ffae1..1606dce8992e 100644
+> > --- a/arch/riscv/include/asm/acpi.h
+> > +++ b/arch/riscv/include/asm/acpi.h
+> > @@ -59,6 +59,8 @@ static inline bool acpi_has_cpu_in_madt(void)
+> > 
+> >  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> > 
+> > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
+> > +u32 get_acpi_id_for_cpu(int cpu);
+> >  #endif /* CONFIG_ACPI */
+> > 
+> >  #endif /*_ASM_ACPI_H*/
+> > diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> > index 81d448c41714..40ab55309c70 100644
+> > --- a/arch/riscv/kernel/acpi.c
+> > +++ b/arch/riscv/kernel/acpi.c
+> > @@ -24,6 +24,66 @@ EXPORT_SYMBOL(acpi_disabled);
+> >  int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
+> >  EXPORT_SYMBOL(acpi_pci_disabled);
+> > 
+> > +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
+> > +
+> > +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
+> > +{
+> > +	struct acpi_madt_rintc *rintc = (struct acpi_madt_rintc *)header;
+> > +	int cpuid;
+> > +
+> > +	if (!(rintc->flags & ACPI_MADT_ENABLED))
+> > +		return 0;
+> > +
+> > +	cpuid = riscv_hartid_to_cpuid(rintc->hart_id);
+> 
+> Unless I'm missing something, this races with CPUs coming online.  Maybe
+> that's a rare enough case we don't care, but I think we'd also just have
+> simpler logic if we fixed it...
+> 
+This depend only on cpuid_to_hartid_map filled up. I wish I could
+initialize this RINTC mapping in setup_smp() itself like ARM64. But in
+RISC-V, this file smpboot.c gets built only when CONFIG_SMP is enabled.
+Hence, we need to initialize this array outside of setup_smp().
 
-Signed-off-by: Natesh Sharma <nsharma@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I can update the code to initialize this from setup_arch() immediately
+after setup_smp() if ACPI is enabled. That should avoid the global
+variable check also. Let me know if you prefer this.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bbecbd5797a3..10f3c8d1bb46 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2104,6 +2104,14 @@
- 			disable
- 			  Do not enable intel_pstate as the default
- 			  scaling driver for the supported processors
-+                        active
-+                          Use intel_pstate driver to bypass the scaling governors
-+                          layer of cpufreq and provides it own algorithms for p-state
-+                          selection. There are two P-state selection algorithms provided
-+                          by intel_pstate in the active mode: powersave and performance.
-+                          The way they both operate depends on whether or not the hardware
-+                          managed P-states (HWP) feature has been enabled in the processor
-+                          and possibly on the processor model.
- 			passive
- 			  Use intel_pstate as a scaling driver, but configure it
- 			  to work with generic cpufreq governors (instead of
--- 
-2.39.2 (Apple Git-143)
+> > +	/*
+> > +	 * When CONFIG_SMP is disabled, mapping won't be created for
+> > +	 * all cpus.
+> > +	 * CPUs more than NR_CPUS, will be ignored.
+> > +	 */
+> > +	if (cpuid >= 0 && cpuid < NR_CPUS)
+> > +		cpu_madt_rintc[cpuid] = *rintc;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int acpi_init_rintc_array(void)
+> > +{
+> > +	if (acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, 0) > 0)
+> > +		return 0;
+> > +
+> > +	return -ENODEV;
+> > +}
+> > +
+> > +/*
+> > + * Instead of parsing (and freeing) the ACPI table, cache
+> > + * the RINTC structures since they are frequently used
+> > + * like in  cpuinfo.
+> > + */
+> > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> > +{
+> > +	static bool rintc_init_done;
+> 
+> ... basically just get rid of this global variable, and instead have a
+> 
+>    if (!&cpu_madt_rintc[cpu])
+>        ... parse ...
+>    return &cpu_madt_rintc[cpu];
+> 
+> that'd probably let us get rid of a handful of these helpers too, as now
+> it's just a call to the parsing bits.
+> 
+I am afraid this (!&cpu_madt_rintc[cpu]) check won't work since we are
+not caching the RINTC pointers but actual contents itself. So, the
+address is always valid. However, as per Drew's earlier feedback I am
+going to reduce one helper. I am planning to send the next version of
+this patch once 6.4 rc1 is available since the ACPICA patches are merged
+now.
 
+> > +
+> > +	if (!rintc_init_done) {
+> > +		if (acpi_init_rintc_array()) {
+> > +			pr_err("No valid RINTC entries exist\n");
+> > +			return NULL;
+> > +		}
+> > +
+> > +		rintc_init_done = true;
+> > +	}
+> > +
+> > +	return &cpu_madt_rintc[cpu];
+> > +}
+> > +
+> > +u32 get_acpi_id_for_cpu(int cpu)
+> > +{
+> > +	struct acpi_madt_rintc *rintc = acpi_cpu_get_madt_rintc(cpu);
+> > +
+> > +	BUG_ON(!rintc);
+> 
+> We should have some better error reporting here.  It looks like all the
+> callerss of get_acpi_id_for_cpu() are tolerant of a nonsense ID being
+> returned, so maybe we just pr_warn() something users can understand and then
+> return -1 or something?
+> 
+
+RINTC is mandatory for ACPI systems. Also, all 32bit values are valid
+for UID. So, there is no bogus value we can return. 
+
+Actually, I just realized this check is redundant. It will never be NULL
+since it is a static array. So, we can just get rid of the BUG.
+
+Thanks!
+Sunil
