@@ -2,197 +2,437 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 003F4C77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 17:59:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A41AAC77B73
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 18:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjD0R7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 13:59:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38842 "EHLO
+        id S244196AbjD0S1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 14:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243708AbjD0R7U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 13:59:20 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CDF53A91;
-        Thu, 27 Apr 2023 10:59:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a7DfTTt2lnLiamPjtmjVAQPixFZRv/iWHqCi7EARrMXYKXzJILBozIbTpuqvmJwTkV9ETBOSMoLJLaXiwyCRrGDdQrruupHVrzIOBNDdySYaJeTOpXMhnZm9Gf69ICcL0vxfHBJ4UbLcUGy1Cn9hxSZN/lODEh0WXQpB3lROutOelGESdcDCq9RlvqbxJl0PE6nBs7W+RWeiTN2CRn+E6ZYlIwuHucTLTYViBPIaODF26EfIT7N3YxnpP+yb3thkYyXlkRRQDhIan/gXzJ4OL3vrmC2kT9tz2TXa/TNHJpp92KY2qfaDxhMY754+pIzB3bxWiMxTDXurJFptJtsabg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DIUqSxTOMAtKAepGZPw+pOk9t7NryFZndtTZ8aZ7Q+Y=;
- b=UrXQpSgxtmVoQSOTKa7JmO3opYOd3cFPMAdXWZHnoaSl0nA2CrUhpZxez/DyKpSduDHsNU4h+Z0p+8SI8+4v0013LMf6IbpW7kpvTcZb3xC7uMarX+zSB1PpaFxBkisc0bQBFO/G+UH2p+wyZILXVhYq0hZlcHSBDYnAkwcE5t7oCu+ZPzir0L2pLI6/cZUB00wxU027EKgwjQwsMGSVLje4/1ziJbsThV23mjYd00qbGZEA5KbSkQVo8//jIzazhqq62iZ5gdqkU386h3cxfclIkf526OQdIJu17nKn6cmWvYVm8zqU7JLKowH4zAgoZ84/syRdhfvk6TF8JmQRzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DIUqSxTOMAtKAepGZPw+pOk9t7NryFZndtTZ8aZ7Q+Y=;
- b=Q3+lQQ1geY/3/Vb+eFMm99qTQswIxwWVMSagp0r8COwgEUMJRPu0C1ALjrr9hxeNWgSFh2lqDro3rPouVoM/5mLzyXt29r2vsIHD1/6y+zjXu1CHib/PkKpaUzwNcUCeQtRJh8I9OAzGsrsY+a7+hjbs2x39sbJxyMdjcDpCFoc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by MN0PR12MB5811.namprd12.prod.outlook.com (2603:10b6:208:377::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21; Thu, 27 Apr
- 2023 17:59:14 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::fcfe:62dd:e938:3a84]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::fcfe:62dd:e938:3a84%7]) with mapi id 15.20.6340.021; Thu, 27 Apr 2023
- 17:59:14 +0000
-Message-ID: <069c8e3e-5776-b350-7a61-c86e4e448c1c@amd.com>
-Date:   Thu, 27 Apr 2023 12:59:09 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH] docs: security: Confidential computing intro and threat
- model
+        with ESMTP id S229650AbjD0S1g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 14:27:36 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF31E3C28;
+        Thu, 27 Apr 2023 11:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682620054; x=1714156054;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=vrhZsR4G0e9wwdyW2OyanyEtEaLdk/hx/K7AG3zLBIA=;
+  b=YPuZlAxtXGv5dbf5WdVS73r0lngxR4p0CvhJMwEkKMzxDQGEByRmNIpW
+   uls7c6DYtdarQpQJsjTRZ+HlA/Te09+2QNYvnZ2wXGKUJWwW4xhlnyTNq
+   z7CXNaed09zujvxEr6w10MiKxz5A1g4FF6zq2oadYsZh/YAfNmO88dDix
+   +Sx4JYS3g+PstnOG08kzL1I46aABe8G2u2k0TOFlXRORYwLGdrEFt3KUt
+   acFg5zG357+OFysRLc4AYdiIemsbg+aB/oAAxLjCBgkm3TqsxVeAlVETd
+   FQmV06TVJKGg0d7a7iX8zxY4QZIxH5XmsJlrhww3gUQAL0KiJtw+y0ni6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="344987328"
+X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
+   d="scan'208";a="344987328"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 11:27:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="725021296"
+X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
+   d="scan'208";a="725021296"
+Received: from mhammon-mobl.amr.corp.intel.com (HELO [10.212.181.179]) ([10.212.181.179])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 11:27:33 -0700
+Message-ID: <35a7839d-b970-fbe6-3dff-7774255dda62@linux.intel.com>
+Date:   Thu, 27 Apr 2023 11:27:32 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [PATCH v2 2/3] virt: tdx-guest: Add Quote generation support
+To:     Dionna Amalie Glaze <dionnaglaze@google.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20230413034108.1902712-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <CAAH4kHaBLvxLF+9CmAsLdVYtDM5SVzra2PVMu94v0ydRp3fiSQ@mail.gmail.com>
 Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Elena Reshetova <elena.reshetova@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
-        "michael.day@amd.com" <michael.day@amd.com>,
-        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
-        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
-        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
-        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "mst@redhat.com" <mst@redhat.com>, "tytso@mit.edu" <tytso@mit.edu>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "cdupontd@redhat.com" <cdupontd@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "sameo@rivosinc.com" <sameo@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "security@kernel.org" <security@kernel.org>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Rajnesh Kanwal <rkanwal@rivosinc.com>,
-        Dylan Reid <dylan@rivosinc.com>,
-        Ravi Sahita <ravi@rivosinc.com>, suzuki.poulose@arm.com,
-        atishp@rivosinc.com
-References: <ZEfrjtgGgm1lpadq@google.com>
- <DM8PR11MB575046B6DAA17B41FFED8080E7659@DM8PR11MB5750.namprd11.prod.outlook.com>
- <9fa5ce43-584d-878d-227a-fb458254c00a@amd.com> <ZElIjw7Ca6N2mYHe@google.com>
- <9021d861-cde6-a51a-7d8c-b3f67eaa01d8@amd.com> <ZEmBULXp24oMxaUH@google.com>
- <04383d21-b71e-93dd-5f4c-b39f5bc21937@amd.com> <ZEmYR0fWl05lGW0d@google.com>
- <DM8PR11MB57502652613A19C1A65D10BDE76A9@DM8PR11MB5750.namprd11.prod.outlook.com>
- <c99d6a6b-cb8b-c62d-7305-6b739a8c0671@amd.com> <ZEqSRTirPCxjy6M4@google.com>
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <ZEqSRTirPCxjy6M4@google.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <CAAH4kHaBLvxLF+9CmAsLdVYtDM5SVzra2PVMu94v0ydRp3fiSQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN6PR08CA0008.namprd08.prod.outlook.com
- (2603:10b6:805:66::21) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|MN0PR12MB5811:EE_
-X-MS-Office365-Filtering-Correlation-Id: de3bc4d0-1cc6-49ef-5a7a-08db47491c93
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ov1GOi9VftN9gZcsTKZz7xJuMc4/TlRx6NaucFZ/x/TSnKIwJaYmoY6awr5ofYS9eHxqmNN4VBVw2uEBhjGM6Jo5I1ohHuODz/f8UBMSCY165i2kHdfoZvo4iAahXtmgrFwrEukdyi/Sqp31LchJVPZuwv9vr/H+ahUcBg8bFVY68q5SFNupqwAoTxQbBfIdMzhe55/bvrMgk7//mhS3FXMZf2a2iJ6l9l7+7oyrrfgD4EF0x9sb/Pu/kbJt2vnthu2kjM1hziNuk5+yyIRbA+KB3GeTVBZG9qGO1dCLWwY0oLT7h72VYo6dFtARvvQ5GPqPxCOHtVs21+Ix3bLIb3mNgpmS91BUNJWxZvmq69cCfUC5Ej0tqDWth1+TXhGYG/Keazk88vdL2D9aBRPzR6P5kJk4j232uARSWUL0EwR0xjZgvRHr/x62qFXfABG7ZSdZf0+XLwN7hGEh+NygUYT4klTbgJU7Vo9RpHySOFOnwwgOljJUfp87CxanZ0oJdMaPGKBs25TXiu/GXVL9rq4EPMsxk/eGUK9U/X/2g2/2Dsmv0pZKJqaukittdDlHca57fGLlW6XtC/M1HqMAAakgmYG9FfQEtuG/N6ux6pu1fvAJgPkMkXoUnTcGGup0WEJhL/EX0X731Li/sn3TSg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(39860400002)(376002)(366004)(136003)(451199021)(31686004)(2616005)(186003)(6506007)(6512007)(53546011)(86362001)(6916009)(4326008)(316002)(66476007)(31696002)(66556008)(66946007)(7406005)(44832011)(2906002)(38100700002)(41300700001)(478600001)(54906003)(8936002)(36756003)(5660300002)(8676002)(6486002)(6666004)(966005)(7416002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWJYZytJMEdBbWVwZkFiM3RzeDEwSjJ4WURJelJka0l4cnkzVEdWZGJZNmhT?=
- =?utf-8?B?U0phN0JrcXZtSG84UklOUEZTUkFxdmpEdnpkOVdSYWpDYmRlZVRsd2tsSSsy?=
- =?utf-8?B?RWdTN2VSVG1LdnVTZXllOFhYR2VpaGk5R0hRK1NlU2ZDYStnWk0zdHBoOWRI?=
- =?utf-8?B?TFloVEdicmxPQlF0UG43VDBvdnhaWjlWcW15aEZucHJmUnFzMlVYTjhTVDRn?=
- =?utf-8?B?MkF2TENzaXBhYVp6T0l1MW9TZk5KVlhDemxIWW41R0FFRElHSXFVZFl6MXh6?=
- =?utf-8?B?UTJScXBVeE9qK0Z2ZXhSVjBQM2FPS2FXL0pZWmZUOWR4SkFyWHBJZ0dmQVhU?=
- =?utf-8?B?djYrR2RXT2Y4UTV4b1VyK3ZKc3BBbnVxRTlTUStUbDV6S3IyUzJYZmdCQXMy?=
- =?utf-8?B?aVk4aDNVOG5HMXIyb3FYeVVrRlBQU1dxMExxZGsvNGlnVzJRZzZEZ3ZUZjg1?=
- =?utf-8?B?QSs5c3ZScjlLL1dyZE9CeWp2NER3VjFUSE52UllVdlVRakMrSElnNGZBTzFR?=
- =?utf-8?B?MmJ1S1dtWXJLYTlCYnF1c2MyLzk3dGFyQkJ6NmJzOG40aWdQMVRwK0NicGs5?=
- =?utf-8?B?bmZtY3cvMU5lTFoxbGxnUW9qUjJ6TG9VVnZveEYzODNhbkxJRGJoeG84bDVa?=
- =?utf-8?B?UGh4a1hmMXJQU0M5OGFGYzFIRnJjVjlwaXBxZHRQWDlBc2cwbzU2Nnpic2Na?=
- =?utf-8?B?eWE0dGVXTTNnanhBdEdtK0ErZk9NdU1RaXc2NTJpczFMcjcwV2V1Yml1b1Jk?=
- =?utf-8?B?YU5rTVI4WHJEYVdjQzJBSGM4UWtiRVR4QWFzVHhUd20vRHNIbktDTUlMSUIz?=
- =?utf-8?B?NnJrSEpqc1NmL0t3SkpNMFVFU2ZMOGg5VkYzZ1l0Z1l3aStNRmkzY1N6RDZI?=
- =?utf-8?B?QnhzckJ0YTFjVHJhcCtxdjRFa0FHM1A3NnUzQXBDNUd2WDl4RWlCZE1rTnBn?=
- =?utf-8?B?MW5JSnpTeHhCZ3ZhcFEvYVFTTklLTUh3R2Q4dWE2cE9EdmlhNkI0b3hNYmtH?=
- =?utf-8?B?YWx0cmZPc2JpeVdiY3RsNlJBbmpQVDBrSDBha003RitOTFZhOHoxZWJtRkw5?=
- =?utf-8?B?KzkxdFFXL2tRWHltZHpCVDhZQ3NwMW1FNFhZaG5KZGR5OUE3c21pTWo0TklY?=
- =?utf-8?B?VWFJM29GVm5VOGtlRDEzcjFlT3AvcXcvU3JHZlc4SmplNkxMZ3BTNmdIU24v?=
- =?utf-8?B?dldxTGhybVlLa0hNZDFyR1Z3aXRsZEQyb0JPR2w3eVRISXloYTJXc2dNR3ZC?=
- =?utf-8?B?dldmSTY1MlR6a2p4dWhKV21wUG85TFVncXQ5dXBKbElRZExza0Y5UFp5MGJN?=
- =?utf-8?B?QVMxdUpWRDJGQ2UyajA5YnhLWC8ycStUSXpNRi9OZlk3ZDNjc0tOemExK25B?=
- =?utf-8?B?RXExWWlnL3FmbVI2WmRaRjUxN3l0Vk54QTRKSEpqWWFKZ0cvU0ZBSnlOanc5?=
- =?utf-8?B?QStsZktxd1k0UVhqdUNBZlNDNzFRNTlPV3JHWStKWmErY3JlUndLZzdtMTMw?=
- =?utf-8?B?RlVHb1NnU3pTbzFSUjBhbWFqSmFvT0dLV1pUeDdOajNQalYrNDMyeDN1cis2?=
- =?utf-8?B?QXo2OXdLMUtmUkt1d24rSnMvc3hhVGQwS2oxQURBZFlubWNuRW51WkpodW0z?=
- =?utf-8?B?KzdVTGp4eStsK2c2dE5Yc2NRTGUvUTliQmZZUTVoaUJTOTFTTGIxbU5TK0c2?=
- =?utf-8?B?WjVsd0U0ekRhSW1JSjdRUjJXR0pPMHVScm45dFVGandoeGlyejdOVEdNaFl6?=
- =?utf-8?B?ZC9VL25wTVpsa0FjTUlzb1ZNMGV1UlpaMDVtVUJnZHNsNE9VekRuSHJJbmdL?=
- =?utf-8?B?VUsyU2FMME1uekYwZkpPeXRmdE11TjI0TGE0dktWOWFadCtaQmQvanhHU29i?=
- =?utf-8?B?S0VuZWJxQTRKYjc4cFBscnVjdTNZZlMySjlMb0VxZlI1cSthaXh2TUZzUTJh?=
- =?utf-8?B?MzM0M1BUU3ZHR2lMUHhHK1JFUUxYZ255b3BpbEZsT2pVTk5LV2VtbzBvRkpT?=
- =?utf-8?B?VnBLSmVPa0o0RWtuTVQ2SFZiTS92MXBGZFZDMkE2UVhKVGo2OEdaUGRsNVBa?=
- =?utf-8?B?STBYcEYzWU5ma0o4L0pHdWphVHNwR2xiSFJuNlZPT1ZuSFBycFVJN1hCclgz?=
- =?utf-8?B?U2xCeTNwZ25jbkZKYTNxbHF1N2xFWnFkeXRaNTUyWHRnVEM5czhSYWJudVJ2?=
- =?utf-8?Q?OwfwQvkAyUTDbvFhj7lg+f8JUWHLEuLM0swNbwlI1am8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de3bc4d0-1cc6-49ef-5a7a-08db47491c93
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2023 17:59:14.3132
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mNlEDWTcN2str8Ou8iG5Jg8LE2UVCAI/ORx59jeJVOiuUsOFFdr4E1Qu0AU4WEwdXyiLA0lwF/2nq2dmLVOhrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5811
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/27/23 10:18 AM, Sean Christopherson wrote:
-> On Thu, Apr 27, 2023, Carlos Bilbao wrote:
->> On 4/27/23 7:29 AM, Reshetova, Elena wrote:
->>> I agree with Dave that I think the goal of this document is not to come up with a
->>> fancy name (I am fine with call it anything), but to introduce kernel developers to the 
->>> new Linux threat model angle for this-particular-use-case-of-confidential-computing.
->>> So that when we submit the hardening mechanisms in the future people are 
->>> already familiar with why we need to do this and we don’t have to repeat this story 
->>> again and again. 
->>
->> Yes! To reiterate, there's two things we definitely wish to do:
->>
->> 1. Narrow down the problem: This new document can be specific to CoCo in
->>    virtual environments. v2 should be clear about that.
-> 
-> Then rename the document as I already suggested.  If you want to claim
-> confidential-computing.rst, then IMO such a doc needs to be written something
-> like the surprisingly good Wikipedia article[*].  Until one of those two things
-> happens, my NAK stands.
-> 
-> [*] https://en.wikipedia.org/wiki/Confidential_computing
+Hi Dionna Amalie Glaze,
 
-That's "mea culpa". I should have made it clearer in my previous emails that
-changing the name is a non-issue. Also that we are very interested in
-feedback from other CoCo flavors. In this regard, we've reached out to ARM
-and RISC-V folks. Hopefully, they help us improve the doc and we can add
-them as maintainers. Whenever we have a v2, I'd like to CC people from CSP
-sector (Oracle, etc.) as well.
+Thanks for the review.
 
-Thanks,
-Carlos
+On 4/26/23 8:40 AM, Dionna Amalie Glaze wrote:
+> On Wed, Apr 12, 2023 at 8:42 PM Kuppuswamy Sathyanarayanan
+> <sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
+>>
+>> In TDX guest, the second stage in attestation process is to send the
+>> TDREPORT to QE/QGS to generate the TD Quote. For platforms that does
+> 
+> Is it common to state TDREPORT when TDREPORT_STRUCT is meant? Here and below.
+> The GHCI documentation seems to use the two as synonyms but doesn't
+> explicitly say so.
+
+In general, we just use the term "TDREPORT" to refer to the generated
+report. TDREPORT_STRUCT is mainly used when we want to make reference to
+the structure of the TDREPORT in the GHCI specification (very rarely used).
+Also, as you mentioned, even in GHCI specification, both terms are used
+as synonyms.
+
+> 
+> nit: platforms that do not
+> 
+>> not support communication channels like vsock or TCP/IP, implement
+>> support to get TD Quote using hypercall. GetQuote hypercall can be used
+>> by the TD guest to request VMM facilitate the Quote generation via
+> 
+> nit: request the VMM to facilitate
+> 
+>> QE/QGS. More details about GetQuote hypercall can be found in TDX
+>> Guest-Host Communication Interface (GHCI) for Intel TDX 1.0, section
+>> titled "TDG.VP.VMCALL<GetQuote>".
+>>
+>> Add support for TDX_CMD_GET_QUOTE IOCTL to allow attestation agent
+> 
+> nit: an attestation agent to
+> 
+>> submit GetQuote requests from the user space using GetQuote hypercall.
+>>
+>> Since GetQuote is an asynchronous request hypercall, VMM will use
+>> callback interrupt vector configured by SetupEventNotifyInterrupt
+> 
+> nit: a callback interrupt vector configured by the SetupEventNotifyInterrupt
+> 
+>> hypercall to notify the guest about Quote generation completion or
+>> failure. So register an IRQ handler for it.
+>>
+>> GetQuote TDVMCALL requires TD guest pass a 4K aligned shared buffer
+>> with TDREPORT data as input, which is further used by the VMM to copy
+>> the TD Quote result after successful Quote generation. To create the
+>> shared buffer, allocate the required memory using alloc_pages() and
+>> mark it shared using set_memory_decrypted() in tdx_guest_init(). This
+>> buffer will be re-used for GetQuote requests in TDX_CMD_GET_QUOTE
+> 
+> suggestion: will be cleared and re-used
+> 
+>> IOCTL handler.
+>>
+>> Although this method will reserve a fixed chunk of memory for
+>> GetQuote requests during the init time, it is preferable to the
+> 
+> The reservation isn't just during the init time. The reservation is
+> for the lifetime of the driver.
+
+I think I can remove the "during the init time" part.
+
+> 
+>> alternative choice of allocating/freeing the shared buffer in the
+>> TDX_CMD_GET_QUOTE IOCTL handler, which will damage the direct map.
+>>
+> 
+> Why does allocation during the ioctl damage the direct map and
+> allocation on init doesn't?> I would suggest rephrasing to say that you're avoiding multiple
+> bookkeeping round-trips with the VMM for direct map updates.
+
+How about the following?
+
+Although this method reserves a fixed chunk of memory for GetQuote
+requests, such one-time allocation is preferable to the alternative
+choice of repeatedly allocating/freeing the shared buffer in the
+TDX_CMD_GET_QUOTE IOCTL handler, which will damage the direct map (because
+the sharing/unsharing process modifies the direct map). This allocation
+model is similar to that used by the AMD SEV guest driver.
+
+
+> 
+>> Reviewed-by: Tony Luck <tony.luck@intel.com>
+>> Reviewed-by: Andi Kleen <ak@linux.intel.com>
+>> Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+>> Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+>> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+>> ---
+>>
+>> Changes since v1:
+>>  * Removed platform bus device support.
+>>  * Instead of allocating the shared buffers using DMA APIs in IOCTL
+>>    handler, allocated it once in tdx_guest_init() and re-used it in
+>>    GetQuote IOCTL handler.
+>>  * To simplify the design, removed the support for parallel GetQuote
+>>    requests. It can be added when there is a real requirement for it.
+>>  * Fixed commit log and comments to reflect the latest changes.
+>>
+>>  Documentation/virt/coco/tdx-guest.rst   |  11 ++
+>>  arch/x86/coco/tdx/tdx.c                 |  40 ++++++
+>>  arch/x86/include/asm/tdx.h              |   2 +
+>>  drivers/virt/coco/tdx-guest/tdx-guest.c | 168 +++++++++++++++++++++++-
+>>  include/uapi/linux/tdx-guest.h          |  43 ++++++
+>>  5 files changed, 263 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/virt/coco/tdx-guest.rst b/Documentation/virt/coco/tdx-guest.rst
+>> index 46e316db6bb4..54601dcd5864 100644
+>> --- a/Documentation/virt/coco/tdx-guest.rst
+>> +++ b/Documentation/virt/coco/tdx-guest.rst
+>> @@ -42,6 +42,17 @@ ABI. However, in the future, if the TDX Module supports more than one subtype,
+>>  a new IOCTL CMD will be created to handle it. To keep the IOCTL naming
+>>  consistent, a subtype index is added as part of the IOCTL CMD.
+>>
+>> +2.2 TDX_CMD_GET_QUOTE
+>> +----------------------
+>> +
+>> +:Input parameters: struct tdx_quote_req
+>> +:Output: Return 0 on success, -EIO on TDCALL failure or standard error number
+>> +         on common failures. Upon successful execution, QUOTE data is copied
+>> +         to tdx_quote_req.buf.
+>> +
+>> +The TDX_CMD_GET_QUOTE IOCTL can be used by attestation software to generate
+>> +QUOTE for the given TDREPORT using TDG.VP.VMCALL<GetQuote> hypercall.
+>> +
+>>  Reference
+>>  ---------
+>>
+>> diff --git a/arch/x86/coco/tdx/tdx.c b/arch/x86/coco/tdx/tdx.c
+>> index 26f6e2eaf5c8..09b5925eec67 100644
+>> --- a/arch/x86/coco/tdx/tdx.c
+>> +++ b/arch/x86/coco/tdx/tdx.c
+>> @@ -33,6 +33,7 @@
+>>  #define TDVMCALL_MAP_GPA               0x10001
+>>  #define TDVMCALL_REPORT_FATAL_ERROR    0x10003
+>>  #define TDVMCALL_SETUP_NOTIFY_INTR     0x10004
+>> +#define TDVMCALL_GET_QUOTE             0x10002
+>>
+>>  /* MMIO direction */
+>>  #define EPT_READ       0
+>> @@ -198,6 +199,45 @@ static void __noreturn tdx_panic(const char *msg)
+>>                 __tdx_hypercall(&args, 0);
+>>  }
+>>
+>> +/**
+>> + * tdx_hcall_get_quote() - Wrapper to request TD Quote using GetQuote
+>> + *                         hypercall.
+>> + * @tdquote: Address of the direct mapped shared kernel buffer which
+>> + *          contains TDREPORT data. The same buffer will be used by
+>> + *          VMM to store the generated TD Quote output.
+>> + * @size: size of the tdquote buffer.
+>> + *
+>> + * Refer to section titled "TDG.VP.VMCALL<GetQuote>" in the TDX GHCI
+>> + * v1.0 specification for more information on GetQuote hypercall.
+>> + * It is used in the TDX guest driver module to get the TD Quote.
+>> + *
+>> + * Return 0 on success or error code on failure.
+>> + */
+>> +int tdx_hcall_get_quote(u8 *tdquote, size_t size)
+>> +{
+>> +       struct tdx_hypercall_args args = {0};
+>> +
+>> +       /*
+>> +        * TDX guest driver is the only user of this function and it uses
+>> +        * the kernel mapped memory. So use virt_to_phys() to get the
+>> +        * physical address of the TDQuote buffer without any additional
+>> +        * checks for memory type.
+>> +        */
+>> +       args.r10 = TDX_HYPERCALL_STANDARD;
+>> +       args.r11 = TDVMCALL_GET_QUOTE;
+>> +       args.r12 = cc_mkdec(virt_to_phys(tdquote));
+>> +       args.r13 = size;
+>> +
+>> +       /*
+>> +        * Pass the physical address of TDREPORT to the VMM and
+>> +        * trigger the Quote generation. It is not a blocking
+>> +        * call, hence completion of this request will be notified to
+>> +        * the TD guest via a callback interrupt.
+>> +        */
+>> +       return __tdx_hypercall(&args, 0);
+>> +}
+>> +EXPORT_SYMBOL_GPL(tdx_hcall_get_quote);
+>> +
+>>  static void tdx_parse_tdinfo(u64 *cc_mask)
+>>  {
+>>         struct tdx_module_output out;
+>> diff --git a/arch/x86/include/asm/tdx.h b/arch/x86/include/asm/tdx.h
+>> index 8807fe1b1f3f..a72bd7b96564 100644
+>> --- a/arch/x86/include/asm/tdx.h
+>> +++ b/arch/x86/include/asm/tdx.h
+>> @@ -75,6 +75,8 @@ int tdx_register_event_irq_cb(tdx_event_irq_cb_t handler, void *data);
+>>
+>>  int tdx_unregister_event_irq_cb(tdx_event_irq_cb_t handler, void *data);
+>>
+>> +int tdx_hcall_get_quote(u8 *tdquote, size_t size);
+>> +
+>>  #else
+>>
+>>  static inline void tdx_early_init(void) { };
+>> diff --git a/drivers/virt/coco/tdx-guest/tdx-guest.c b/drivers/virt/coco/tdx-guest/tdx-guest.c
+>> index 5e44a0fa69bd..a275d6b55f33 100644
+>> --- a/drivers/virt/coco/tdx-guest/tdx-guest.c
+>> +++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
+>> @@ -12,12 +12,105 @@
+>>  #include <linux/mod_devicetable.h>
+>>  #include <linux/string.h>
+>>  #include <linux/uaccess.h>
+>> +#include <linux/set_memory.h>
+>>
+>>  #include <uapi/linux/tdx-guest.h>
+>>
+>>  #include <asm/cpu_device_id.h>
+>>  #include <asm/tdx.h>
+>>
+>> +#define GET_QUOTE_MAX_SIZE             (4 * PAGE_SIZE)
+>> +
+>> +/**
+>> + * struct quote_entry - Quote request struct
+>> + * @valid: Flag to check validity of the GetQuote request.
+>> + * @buf: Kernel buffer to share data with VMM (size is page aligned).
+>> + * @buf_len: Size of the buf in bytes.
+>> + * @compl: Completion object to track completion of GetQuote request.
+>> + */
+>> +struct quote_entry {
+>> +       bool valid;
+>> +       void *buf;
+>> +       size_t buf_len;
+>> +       struct completion compl;
+>> +};
+>> +
+>> +/* Quote data entry */
+>> +static struct quote_entry *qentry;
+>> +
+>> +/* Lock to streamline quote requests */
+>> +static DEFINE_MUTEX(quote_lock);
+>> +
+>> +static int quote_cb_handler(void *dev_id)
+>> +{
+>> +       struct quote_entry *entry = dev_id;
+>> +       struct tdx_quote_hdr *quote_hdr = entry->buf;
+>> +
+>> +       if (entry->valid && quote_hdr->status != GET_QUOTE_IN_FLIGHT)
+>> +               complete(&entry->compl);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static void free_shared_pages(void *buf, size_t len)
+>> +{
+>> +       unsigned int count = PAGE_ALIGN(len) >> PAGE_SHIFT;
+>> +
+>> +       if (!buf)
+>> +               return;
+>> +
+>> +       set_memory_encrypted((unsigned long)buf, count);
+>> +
+>> +       __free_pages(virt_to_page(buf), get_order(len));
+>> +}
+>> +
+>> +static void *alloc_shared_pages(size_t len)
+>> +{
+>> +       unsigned int count = PAGE_ALIGN(len) >> PAGE_SHIFT;
+>> +       struct page *page;
+>> +       int ret;
+>> +
+>> +       page = alloc_pages(GFP_KERNEL, get_order(len));
+>> +       if (!page)
+>> +               return NULL;
+>> +
+>> +       ret = set_memory_decrypted((unsigned long)page_address(page), count);
+>> +       if (ret) {
+>> +               __free_pages(page, get_order(len));
+>> +               return NULL;
+>> +       }
+>> +
+>> +       return page_address(page);
+>> +}
+>> +
+>> +static struct quote_entry *alloc_quote_entry(size_t len)
+>> +{
+>> +       struct quote_entry *entry = NULL;
+>> +       size_t new_len = PAGE_ALIGN(len);
+>> +
+>> +       entry = kmalloc(sizeof(*entry), GFP_KERNEL);
+>> +       if (!entry)
+>> +               return NULL;
+>> +
+>> +       entry->buf = alloc_shared_pages(new_len);
+>> +       if (!entry->buf) {
+>> +               kfree(entry);
+>> +               return NULL;
+>> +       }
+>> +
+>> +       entry->buf_len = new_len;
+>> +       init_completion(&entry->compl);
+>> +       entry->valid = false;
+>> +
+>> +       return entry;
+>> +}
+>> +
+>> +static void free_quote_entry(struct quote_entry *entry)
+>> +{
+>> +       free_shared_pages(entry->buf, entry->buf_len);
+>> +       kfree(entry);
+>> +}
+>> +
+>>  static long tdx_get_report0(struct tdx_report_req __user *req)
+>>  {
+>>         u8 *reportdata, *tdreport;
+>> @@ -53,12 +146,59 @@ static long tdx_get_report0(struct tdx_report_req __user *req)
+>>         return ret;
+>>  }
+>>
+>> +static long tdx_get_quote(struct tdx_quote_req __user *ureq)
+>> +{
+>> +       struct tdx_quote_req req;
+>> +       long ret;
+>> +
+>> +       if (copy_from_user(&req, ureq, sizeof(req)))
+>> +               return -EFAULT;
+>> +
+>> +       mutex_lock(&quote_lock);
+>> +
+>> +       if (!req.len || req.len > qentry->buf_len) {
+>> +               ret = -EINVAL;
+>> +               goto quote_failed;
+>> +       }
+>> +
+> 
+> Since the qentry is reused across calls, I think you need to clear it
+> out before repopulating it with maybe less data:
+> 
+> memset(qentry->buf, 0, qentry->buf_len)
+
+Good point. I will fix it.
+
+> 
+> I'm not particularly clear on why there is a length though, since the
+> buffer should always be a TDREPORT_STRUCT. I guess version updates
+> could expand the size.
+
+Since ABI cannot be changed, added it to handle future changes.
+
+> 
+>> +       if (copy_from_user(qentry->buf, (void __user *)req.buf, req.len)) {
+>> +               ret = -EFAULT;
+>> +               goto quote_failed;
+>> +       }
+>> +
+>> +       qentry->valid = true;
+> 
+> Is the valid field used anywhere? I only see it written and never read.
+
+It is used in quote_cb_handler().
+
+
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
