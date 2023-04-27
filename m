@@ -2,235 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE3BC77B61
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 13:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1D5C77B61
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 13:18:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243650AbjD0NNV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 09:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36050 "EHLO
+        id S243521AbjD0NSp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 09:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243367AbjD0NNU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 09:13:20 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B5640CF
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 06:13:17 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-953343581a4so1295957066b.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 06:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1682601195; x=1685193195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ymSyk174Q/aRoWNbYUHHG8erPdr3iK0BpQYJmy801k=;
-        b=HIgpg5N7XJjzbxz+z7IgxgVQ5128JI4dtyixvRnwGndbaq5YVIPtJHd+DaOorca26k
-         cr99XyR833joae9EIrXDFvGYDfgdx97lSuMToDnUqFhu9JA7SVMQJHER3oDi1Rp3QEOF
-         mLPJ2w5t3aMH0JrLeMU3g1mTm+pQghwAf7n/nH6OPPuRRH8u1MJicYy4tnsZoD/6nenc
-         EeThR0OHBw47zlfBPnB+cq15TJ0QLrtuGCvLMwLcZZYUg6DqV/RYw9pkk1E3rpyPuXst
-         ayDxj8TjQBJExMKsUnsMDqZQTfzm6bZlQ6b/oOXxuNOUqTuU/9i+0PZUQfGkDAoFnKXE
-         v4wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682601195; x=1685193195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9ymSyk174Q/aRoWNbYUHHG8erPdr3iK0BpQYJmy801k=;
-        b=ZfL71WGwqUSbww7tC9TEMVC3EjO0i8Ve2Q/DUEy+wlWdvpcXOnDl0Ab58y9/8ohNdd
-         uqNAUg1FpawLQ+RFkKCCxR1o2hn+qYfz4rLvjGcH925Rga229ydzYd4UXoT7JxJEkllN
-         OSJVFhBzTqqvJw4pes6uocMI/4VeE1EpOGCqqdq2t0JHqNo4o+Fa+qzIvyMKn+fEAqx8
-         5CbloqFtQ94qgnBRW0xUPN34BVZPCyLdYyXOs9C4d73bdIHN4T3Xt7jeQqh9YF4QYEeE
-         bCFudy0cn4wlvmFJs4JPvKDKdPLEa4xDz3fP5RYaSI2m7oaYylMTe4RgoWmZJ4yiog4Y
-         Gn7g==
-X-Gm-Message-State: AC+VfDwN1TCiVcHnS+I5cqsqZGQSKtjbbq064rpr1sonf9QSEh3gcaa8
-        iPJZkWkZwwkMwHfie+tOwREMLw==
-X-Google-Smtp-Source: ACHHUZ4WhZAaEZw48L4mS8JWz5hV+DtJHTNQLlKB9/bS0XJh3GNfgim97pYJpFirPWLxY6K5pRGJaA==
-X-Received: by 2002:a17:907:7da9:b0:94b:cd7c:59f4 with SMTP id oz41-20020a1709077da900b0094bcd7c59f4mr1742934ejc.16.1682601195517;
-        Thu, 27 Apr 2023 06:13:15 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id t25-20020a17090616d900b009534603453dsm9503863ejd.131.2023.04.27.06.13.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Apr 2023 06:13:14 -0700 (PDT)
-Date:   Thu, 27 Apr 2023 15:13:13 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-acpi@vger.kernel.org, linux-crypto@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, llvm@lists.linux.dev,
-        corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, lenb@kernel.org, daniel.lezcano@linaro.org,
-        tglx@linutronix.de, qianweili@huawei.com, wangzhou1@hisilicon.com,
-        herbert@gondor.apana.org.au, Marc Zyngier <maz@kernel.org>,
-        luzmaximilian@gmail.com, hdegoede@redhat.com, markgross@kernel.org,
-        nathan@kernel.org, ndesaulniers@google.com, trix@redhat.com,
-        rafael@kernel.org, davem@davemloft.net, rafael.j.wysocki@intel.com
-Subject: Re: [PATCH V4 08/23] RISC-V: ACPI: Cache and retrieve the RINTC
- structure
-Message-ID: <q7bug5j62ceniiif5joz5i73g7lbyebawbokcang4ctit4i634@e5bd6zqozbau>
-References: <20230404182037.863533-9-sunilvl@ventanamicro.com>
- <mhng-fd6c3622-ce6c-4895-8dc9-7dbaa2ab14f4@palmer-ri-x1c9a>
- <ZEo+6rwM+c6DvlMM@sunil-laptop>
- <qqukqrc45zqyjh5bwpjpuiweogwtapuw7qqjjpubjwvteum6ig@esjfwqdivhpa>
- <ZEpUCD+eq/NL7LXJ@sunil-laptop>
+        with ESMTP id S229847AbjD0NSo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 09:18:44 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9158422A;
+        Thu, 27 Apr 2023 06:18:41 -0700 (PDT)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33RD6sQb012934;
+        Thu, 27 Apr 2023 13:18:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=/lstpXN2vGkxxqC9YpAB8qo7hpqQRqqUJMQCS3pLVzY=;
+ b=istvzlOKRErYhJsoTlhcalorZI0p2C+cYW66FjBFUxHYCm0ky0GgoXZSgIfJr3jJ6dwX
+ Eb+4qqLl3+A5vR0ATSdLXKXijWzVthngiYCqdR1ksMY3uPtUlQrDhrsbwPHz2NxE/aJs
+ vStZiFQoW8b9S74koUgxgYw+Ug5t7erJZlqTypHnFmNWsP/xlEKAmZRgfzK6oQVd0H+z
+ CgIASBT5Hrrx0jwJdAGRtWgpDiOkZPmPEY29GBVzNjuNvovqmGuEvsaJjhfzfWrRk2wr
+ 4uCf2ejKDsrCCSL1qfc/velS6G+OaG7qD9NecG38si1UyKEIGEAnv7mFUmCF7bnh3FgY YA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q7s7017vy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Apr 2023 13:18:19 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33RD8fK1028281;
+        Thu, 27 Apr 2023 13:18:18 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com [169.47.144.26])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3q7s7017ua-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Apr 2023 13:18:17 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+        by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33R9AVnZ032137;
+        Thu, 27 Apr 2023 13:18:15 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+        by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3q47782hwb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Apr 2023 13:18:15 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+        by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 33RDIEnV26018240
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 Apr 2023 13:18:14 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5A49658065;
+        Thu, 27 Apr 2023 13:18:14 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C107D5805D;
+        Thu, 27 Apr 2023 13:18:09 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.211.118.80])
+        by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+        Thu, 27 Apr 2023 13:18:09 +0000 (GMT)
+Message-ID: <efda0be02fb0b5bf23aec11b5398d20908a821ba.camel@linux.ibm.com>
+Subject: Re: [PATCH] docs: security: Confidential computing intro and threat
+ model
+From:   James Bottomley <jejb@linux.ibm.com>
+Reply-To: jejb@linux.ibm.com
+To:     "Reshetova, Elena" <elena.reshetova@intel.com>,
+        "Christopherson, , Sean" <seanjc@google.com>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "ardb@kernel.org" <ardb@kernel.org>,
+        "kraxel@redhat.com" <kraxel@redhat.com>,
+        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
+        "michael.day@amd.com" <michael.day@amd.com>,
+        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
+        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
+        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
+        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
+        "sathyanarayanan.kuppuswamy@linux.intel.com" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "alexander.shishkin@linux.intel.com" 
+        <alexander.shishkin@linux.intel.com>,
+        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "dgilbert@redhat.com" <dgilbert@redhat.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "dinechin@redhat.com" <dinechin@redhat.com>,
+        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
+        "berrange@redhat.com" <berrange@redhat.com>,
+        "mst@redhat.com" <mst@redhat.com>, "tytso@mit.edu" <tytso@mit.edu>,
+        "jikos@kernel.org" <jikos@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
+        "lukas@wunner.de" <lukas@wunner.de>,
+        "cdupontd@redhat.com" <cdupontd@redhat.com>,
+        "jasowang@redhat.com" <jasowang@redhat.com>,
+        "sameo@rivosinc.com" <sameo@rivosinc.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "security@kernel.org" <security@kernel.org>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Rajnesh Kanwal <rkanwal@rivosinc.com>,
+        Dylan Reid <dylan@rivosinc.com>,
+        Ravi Sahita <ravi@rivosinc.com>
+Date:   Thu, 27 Apr 2023 09:18:08 -0400
+In-Reply-To: <DM8PR11MB57509EBCB1E2146C1768A6EEE76A9@DM8PR11MB5750.namprd11.prod.outlook.com>
+References: <20230327141816.2648615-1-carlos.bilbao@amd.com>
+         <ZEfrjtgGgm1lpadq@google.com>
+         <DM8PR11MB575046B6DAA17B41FFED8080E7659@DM8PR11MB5750.namprd11.prod.outlook.com>
+         <7502e1af0615c08167076ff452fc69ebf316c730.camel@linux.ibm.com>
+         <ZElOfzn37kmesy7e@google.com>
+         <DM8PR11MB57509EBCB1E2146C1768A6EEE76A9@DM8PR11MB5750.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZEpUCD+eq/NL7LXJ@sunil-laptop>
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IGQ-KdP6GQ4s2nFXoLZiSSgnfTQ8UkTQ
+X-Proofpoint-ORIG-GUID: Oqd7gBwBaadzT3cFwFaurjBPqQY0MmQI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-27_07,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ priorityscore=1501 mlxlogscore=999 impostorscore=0 phishscore=0
+ suspectscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304270116
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 27, 2023 at 04:22:56PM +0530, Sunil V L wrote:
-> On Thu, Apr 27, 2023 at 12:25:42PM +0200, Andrew Jones wrote:
-> > On Thu, Apr 27, 2023 at 02:52:50PM +0530, Sunil V L wrote:
-> > > Hi Palmer,
+On Thu, 2023-04-27 at 12:43 +0000, Reshetova, Elena wrote:
+> 
+> > On Wed, Apr 26, 2023, James Bottomley wrote:
+> > > On Wed, 2023-04-26 at 13:32 +0000, Reshetova, Elena wrote:
+[...]
+> > > > the practical deployment can differ of course. We can rephrase
+> > > > that it "allows to exclude all the CSP's infrastructure and SW
+> > > > out of tenant's TCB."
 > > > 
-> > > On Wed, Apr 26, 2023 at 11:45:00AM -0700, Palmer Dabbelt wrote:
-> > > > On Tue, 04 Apr 2023 11:20:22 PDT (-0700), sunilvl@ventanamicro.com wrote:
-> > > > > RINTC structures in the MADT provide mapping between the hartid
-> > > > > and the CPU. This is required many times even at run time like
-> > > > > cpuinfo. So, instead of parsing the ACPI table every time, cache
-> > > > > the RINTC structures and provide a function to get the correct
-> > > > > RINTC structure for a given cpu.
-> > > > > 
-> > > > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > > > > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > > ---
-> > > > >  arch/riscv/include/asm/acpi.h |  2 ++
-> > > > >  arch/riscv/kernel/acpi.c      | 60 +++++++++++++++++++++++++++++++++++
-> > > > >  2 files changed, 62 insertions(+)
-> > > > > 
-> > > > > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
-> > > > > index 9be52b6ffae1..1606dce8992e 100644
-> > > > > --- a/arch/riscv/include/asm/acpi.h
-> > > > > +++ b/arch/riscv/include/asm/acpi.h
-> > > > > @@ -59,6 +59,8 @@ static inline bool acpi_has_cpu_in_madt(void)
-> > > > > 
-> > > > >  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
-> > > > > 
-> > > > > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
-> > > > > +u32 get_acpi_id_for_cpu(int cpu);
-> > > > >  #endif /* CONFIG_ACPI */
-> > > > > 
-> > > > >  #endif /*_ASM_ACPI_H*/
-> > > > > diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
-> > > > > index 81d448c41714..40ab55309c70 100644
-> > > > > --- a/arch/riscv/kernel/acpi.c
-> > > > > +++ b/arch/riscv/kernel/acpi.c
-> > > > > @@ -24,6 +24,66 @@ EXPORT_SYMBOL(acpi_disabled);
-> > > > >  int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
-> > > > >  EXPORT_SYMBOL(acpi_pci_disabled);
-> > > > > 
-> > > > > +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
-> > > > > +
-> > > > > +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
-> > > > > +{
-> > > > > +	struct acpi_madt_rintc *rintc = (struct acpi_madt_rintc *)header;
-> > > > > +	int cpuid;
-> > > > > +
-> > > > > +	if (!(rintc->flags & ACPI_MADT_ENABLED))
-> > > > > +		return 0;
-> > > > > +
-> > > > > +	cpuid = riscv_hartid_to_cpuid(rintc->hart_id);
-> > > > 
-> > > > Unless I'm missing something, this races with CPUs coming online.  Maybe
-> > > > that's a rare enough case we don't care, but I think we'd also just have
-> > > > simpler logic if we fixed it...
-> > > > 
-> > > This depend only on cpuid_to_hartid_map filled up. I wish I could
-> > > initialize this RINTC mapping in setup_smp() itself like ARM64. But in
-> > > RISC-V, this file smpboot.c gets built only when CONFIG_SMP is enabled.
-> > > Hence, we need to initialize this array outside of setup_smp().
-> > > 
-> > > I can update the code to initialize this from setup_arch() immediately
-> > > after setup_smp() if ACPI is enabled. That should avoid the global
-> > > variable check also. Let me know if you prefer this.
-> > > 
-> > > > > +	/*
-> > > > > +	 * When CONFIG_SMP is disabled, mapping won't be created for
-> > > > > +	 * all cpus.
-> > > > > +	 * CPUs more than NR_CPUS, will be ignored.
-> > > > > +	 */
-> > > > > +	if (cpuid >= 0 && cpuid < NR_CPUS)
-> > > > > +		cpu_madt_rintc[cpuid] = *rintc;
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > > +static int acpi_init_rintc_array(void)
-> > > > > +{
-> > > > > +	if (acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, 0) > 0)
-> > > > > +		return 0;
-> > > > > +
-> > > > > +	return -ENODEV;
-> > > > > +}
-> > > > > +
-> > > > > +/*
-> > > > > + * Instead of parsing (and freeing) the ACPI table, cache
-> > > > > + * the RINTC structures since they are frequently used
-> > > > > + * like in  cpuinfo.
-> > > > > + */
-> > > > > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
-> > > > > +{
-> > > > > +	static bool rintc_init_done;
-> > > > 
-> > > > ... basically just get rid of this global variable, and instead have a
-> > > > 
-> > > >    if (!&cpu_madt_rintc[cpu])
-> > > >        ... parse ...
-> > > >    return &cpu_madt_rintc[cpu];
-> > > > 
-> > > > that'd probably let us get rid of a handful of these helpers too, as now
-> > > > it's just a call to the parsing bits.
-> > > > 
-> > > I am afraid this (!&cpu_madt_rintc[cpu]) check won't work since we are
-> > > not caching the RINTC pointers but actual contents itself. So, the
-> > > address is always valid. However, as per Drew's earlier feedback I am
-> > > going to reduce one helper. I am planning to send the next version of
-> > > this patch once 6.4 rc1 is available since the ACPICA patches are merged
-> > > now.
-> > > 
-> > > > > +
-> > > > > +	if (!rintc_init_done) {
-> > > > > +		if (acpi_init_rintc_array()) {
-> > > > > +			pr_err("No valid RINTC entries exist\n");
-> > > > > +			return NULL;
-> > > > > +		}
-> > > > > +
-> > > > > +		rintc_init_done = true;
-> > > > > +	}
-> > > > > +
-> > > > > +	return &cpu_madt_rintc[cpu];
-> > > > > +}
-> > > > > +
-> > > > > +u32 get_acpi_id_for_cpu(int cpu)
-> > > > > +{
-> > > > > +	struct acpi_madt_rintc *rintc = acpi_cpu_get_madt_rintc(cpu);
-> > > > > +
-> > > > > +	BUG_ON(!rintc);
-> > > > 
-> > > > We should have some better error reporting here.  It looks like all the
-> > > > callerss of get_acpi_id_for_cpu() are tolerant of a nonsense ID being
-> > > > returned, so maybe we just pr_warn() something users can understand and then
-> > > > return -1 or something?
-> > > > 
-> > > 
-> > > RINTC is mandatory for ACPI systems. Also, all 32bit values are valid
-> > > for UID. So, there is no bogus value we can return. 
-> > > 
-> > > Actually, I just realized this check is redundant. It will never be NULL
-> > > since it is a static array. So, we can just get rid of the BUG.
+> > > That's getting even more inaccurate.  To run  in a Cloud with
+> > > CoCo you usually have to insert some provided code, like OVMF
+> > > and, for AMD, the SVSM.  These are often customized by the CSP to
+> > > suit the cloud infrastructure, so you're running their code.  The
+> > > goal, I think, is to make sure you only run code you trust (some
+> > > of which may come from the CSP) in your TCB, which is very
+> > > different from the statement above.
 > > 
-> > It can be NULL on the first call of acpi_cpu_get_madt_rintc(), which is
-> > a good time to BUG if there's isn't an RINTC.
-> > 
-> Sorry, I mean if we change the initialization to get called from
-> setup_arch, then we can get rid of this check along with global variable
-> check, correct?
+> > Yes.  And taking things a step further, if we were to ask security
+> > concious users what they would choose to have in their TCB: (a)
+> > closed-source firmware written by a hardware vendor, or (b) open-
+> > source software that is provided by CSPs, I am betting the
+> > overwhelming majority would choose (b).
+> 
+> As I already replied in my earlier message from yesterday, yes, this
+> is the choice that anyone has and it is free to make this choice. No
+> questions asked. (Btw, please note that the above statement is not
+> 100% accurate since the source code for intel TDX module is at least
+> public). However, if as you said the majority choose (b), why do they
+> need to enable the Confidential cloud computing technologies like TDX
+> or SEV-SNP? If they choose (b), then the whole threat model described
+> in this document do not simply apply to them and they can forget
+> about anything that we try to describe here. 
 
-Sounds good to me, but now I think we're pushing the question of whether
-to BUG or not on a missing RINTC to that new init function, because
-otherwise we'll still end up in get_acpi_id_for_cpu() eventually with
-or without a valid rintc from which we get the uid (and the uid has no
-specified bogus value).
+I think the problem is that the tenor of the document is that the CSP
+should be seen as the enemy of the tenant. Whereas all CSP's want to be
+seen as the partner of the tenant (admittedly so they can upsell
+services). In particular, even if you adopt (b) there are several
+reasons why you'd use confidential computing:
 
-Thanks,
-drew
+   1. Protection from other tenants who break containment in the cloud.
+      These tenants could exfiltrate data from Non-CoCo VMs, but likely
+      would be detected before they had time to launch an attack using
+      vulnerabilities in the current linux device drivers.
+   2. Legal data security.  There's a lot of value in a CSP being able
+      to make the legal statement that it does not have access to a
+      customer data because of CoCo.
+   3. Insider threats (bribe a CSP admin employee).  This one might get
+      as far as trying to launch an attack on a CoCo VM, but having
+      checks at the CSP to detect and defeat this would work instead of
+      every insider threat having to be defeated inside the VM.
+
+In all of those cases (which are not exhaustive) you can regard the CSP
+as a partner of the tenant when it comes to preventing and detecting
+threats to the CoCo VM, so extreme device driver hardening becomes far
+less relevant to these fairly considerable use cases.
+
+> Now from the pure security point of view the choice between (a) and
+> (b) is not so easily done imo. Usually we take into account many
+> factors that affect the risk/chances that certain piece of SW has a
+> higher risk of having vulnerabilities. This includes the size of the
+> codebase, its complexity, its attack surface exposure towards
+> external interfaces, level of testing, whenever the code is public,
+> code dependency chains, etc. Smaller codebase with no dependencies
+> and small set of exposed interfaces is usually easier to review from
+> security point of view given that the code is public. 
+
+This reads like an argument that, from a security point of view,
+smaller proprietary code is better than larger, open source, code. I
+really don't think we want to open this can of worms. Most industry
+players have already bought the idea that open source improves security
+because even if you can't rely on the community entirely, you can take
+the code to a third party for analysis.
+
+James
+
