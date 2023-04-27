@@ -2,274 +2,242 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2407C77B60
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 00:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 049B6C77B7C
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 02:14:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242556AbjD0AUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Apr 2023 20:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45082 "EHLO
+        id S242557AbjD0CO7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Apr 2023 22:14:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242985AbjD0ATT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 20:19:19 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5423B448D;
-        Wed, 26 Apr 2023 17:19:07 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-2f58125b957so7127692f8f.3;
-        Wed, 26 Apr 2023 17:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682554746; x=1685146746;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fTXQkDrZZKZ9NP+ZntA7z4ey4eFFetW9y6L1uqW2c2o=;
-        b=BdLd3Hpesr5MPJ+MQ55+Cy9vElb4yiFY1Ai/b1ACb5byzGZBsPTkhjw3IEJThFTTKk
-         zL+Wxak75rupCNVj6ZHimUQoFPKCWzNdhzNBCS4okH1nyYndjp6GudCJLR0FTsyMtmKk
-         yveLdKxoxSsMhj9FdEgb6h+sqKyobNagGAzENFIUib8u3S95cQM2Zz3KBAOITcogkhoZ
-         /y77C8BCxB2m1sFMsrzQqYBordGzMTtgdCrbur3sBqVH4T7SISlN0XOA84f3bKuQ3b0I
-         qXHSg26PEq67V8NML+Jkorv4QiuXb1CnYd3tim9/zEijLy+r67dAT9uxK6UZE5Q9CH0L
-         h+Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682554746; x=1685146746;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fTXQkDrZZKZ9NP+ZntA7z4ey4eFFetW9y6L1uqW2c2o=;
-        b=Kqz+4u7gfHQlCHcDGYjtWV+x0cpJg0KvJs4cOXTOwNd5+H5XvBU64PFPPIe5z3bxB8
-         M4uL+FodyCdJU8FruLnXZHA8n+KTuobS8knQjGZa5Ab31fwmgOTzNeVixMzRcMY+H+cE
-         0oXgFQCxGWn4l3iDFY4oDY7PYk1Hu85wmydOCSbhUDnSGsEm1kMr6vQpFauB2A2aEbfG
-         8E3cTbwQfYROu21xtL0zNo5fGzSxYvCpJFgAXLvx5JYja30+fQNZTXeAHDi0o0l0tI0C
-         FDWl3et1Gn5IYP1y/mblKTa8mQYjUtgusfEdqZRqWawgD1sLXmeV415JTt8VA3f5yCDl
-         B3HQ==
-X-Gm-Message-State: AAQBX9dUsMg8p/dIK+lsMzNEiqZQgey37ZphVq+prfssRZjD4FePdLWC
-        kVte6Z2G2qp3t5PvLr77hI8=
-X-Google-Smtp-Source: AKy350Ysp+3nhBb0hxVO4QFQ94CQgUWZUGxe+lx0npA0tp1+RiBjF2kiSuLfZOpJ0MdhPauopmovtg==
-X-Received: by 2002:a5d:6585:0:b0:2f5:953a:4f59 with SMTP id q5-20020a5d6585000000b002f5953a4f59mr15096148wru.5.1682554745432;
-        Wed, 26 Apr 2023 17:19:05 -0700 (PDT)
-Received: from localhost.localdomain (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
-        by smtp.googlemail.com with ESMTPSA id r3-20020adfda43000000b003047ae72b14sm8624916wrl.82.2023.04.26.17.19.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 17:19:05 -0700 (PDT)
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 11/11] net: dsa: qca8k: implement hw_control ops
-Date:   Thu, 27 Apr 2023 02:15:41 +0200
-Message-Id: <20230427001541.18704-12-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230427001541.18704-1-ansuelsmth@gmail.com>
-References: <20230427001541.18704-1-ansuelsmth@gmail.com>
+        with ESMTP id S242804AbjD0CO6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Apr 2023 22:14:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADFA04219
+        for <linux-doc@vger.kernel.org>; Wed, 26 Apr 2023 19:13:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1682561609;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QDBq73uOalrM4tKroB29WOkkL6N6HI1enBv2lSURmmI=;
+        b=Y8+Mbm0HL9WvAQLUs5QFDTwEQJo6iBJatygUM+pVdPOVTKb6qBZI4X+6Q5Map+2UuEsC/7
+        8K0rSnPTlcxvk3m9r7svG2DgnK0DbvaVuj8/b8fBzVwLCCaNDDfF7uN24MYZkLOF5Srel5
+        UbarUQQE6/TAbkflc/az5riPqE4d8pE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-610-8zon_suPN4Oswz06NwHtTA-1; Wed, 26 Apr 2023 22:13:25 -0400
+X-MC-Unique: 8zon_suPN4Oswz06NwHtTA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A27FD8828C2;
+        Thu, 27 Apr 2023 02:13:24 +0000 (UTC)
+Received: from localhost (ovpn-12-30.pek2.redhat.com [10.72.12.30])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 59462492B03;
+        Thu, 27 Apr 2023 02:13:22 +0000 (UTC)
+Date:   Thu, 27 Apr 2023 10:13:19 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Chen Jiahao <chenjiahao16@huawei.com>
+Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        conor.dooley@microchip.com, guoren@kernel.org, heiko@sntech.de,
+        bjorn@rivosinc.com, alex@ghiti.fr, akpm@linux-foundation.org,
+        atishp@rivosinc.com, thunder.leizhen@huawei.com, horms@kernel.org
+Subject: Re: [PATCH -next v4 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Message-ID: <ZEnaPzx3O9NWixIR@MiWiFi-R3L-srv>
+References: <20230410130553.3226347-1-chenjiahao16@huawei.com>
+ <20230410130553.3226347-2-chenjiahao16@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230410130553.3226347-2-chenjiahao16@huawei.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement hw_control ops to drive Switch LEDs based on hardware events.
+On 04/10/23 at 09:05pm, Chen Jiahao wrote:
+> On riscv, the current crash kernel allocation logic is trying to
+> allocate within 32bit addressible memory region by default, if
+> failed, try to allocate without 4G restriction.
+> 
+> In need of saving DMA zone memory while allocating a relatively large
+> crash kernel region, allocating the reserved memory top down in
+> high memory, without overlapping the DMA zone, is a mature solution.
+> Here introduce the parameter option crashkernel=X,[high,low].
+> 
+> One can reserve the crash kernel from high memory above DMA zone range
+> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+> below 4G with "crashkernel=X,low".
+> 
+> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+> Acked-by: Guo Ren <guoren@kernel.org>
+> Reviewed-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  arch/riscv/kernel/setup.c |  5 +++
+>  arch/riscv/mm/init.c      | 71 ++++++++++++++++++++++++++++++++++++---
+>  2 files changed, 71 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> index 5d3184cbf518..ea84e5047c23 100644
+> --- a/arch/riscv/kernel/setup.c
+> +++ b/arch/riscv/kernel/setup.c
+> @@ -176,6 +176,11 @@ static void __init init_resources(void)
+>  		if (ret < 0)
+>  			goto error;
+>  	}
+> +	if (crashk_low_res.start != crashk_low_res.end) {
+> +		ret = add_resource(&iomem_resource, &crashk_low_res);
+> +		if (ret < 0)
+> +			goto error;
+> +	}
+>  #endif
+>  
+>  #ifdef CONFIG_CRASH_DUMP
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 478d6763a01a..70f6cb281ed1 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -1152,6 +1152,28 @@ static inline void setup_vm_final(void)
+>  }
+>  #endif /* CONFIG_MMU */
+>  
+> +/* Reserve 128M low memory by default for swiotlb buffer */
+> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
+> +
+> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+> +{
+> +	unsigned long long low_base;
+> +
+> +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
+> +	if (!low_base) {
+> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+> +		low_base, low_base + low_size, low_size >> 20);
+> +
+> +	crashk_low_res.start = low_base;
+> +	crashk_low_res.end = low_base + low_size - 1;
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * reserve_crashkernel() - reserves memory for crash kernel
+>   *
+> @@ -1163,8 +1185,12 @@ static void __init reserve_crashkernel(void)
+>  {
+>  	unsigned long long crash_base = 0;
+>  	unsigned long long crash_size = 0;
+> +	unsigned long long crash_low_size = 0;
+>  	unsigned long search_start = memblock_start_of_DRAM();
+>  	unsigned long search_end = memblock_end_of_DRAM();
+> +	unsigned long search_low_max = (unsigned long)dma32_phys_limit;
+> +	char *cmdline = boot_command_line;
+> +	bool fixed_base = false;
+>  
+>  	int ret = 0;
+>  
+> @@ -1180,14 +1206,34 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
+> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>  				&crash_size, &crash_base);
+> -	if (ret || !crash_size)
+> +	if (ret == -ENOENT) {
+> +		/* Fallback to crashkernel=X,[high,low] */
+> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+> +		if (ret || !crash_size)
+> +			return;
+> +
+> +		/*
+> +		 * crashkernel=Y,low is valid only when crashkernel=X,high
+> +		 * is passed.
+> +		 */
+> +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+> +		if (ret == -ENOENT)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +		else if (ret)
+> +			return;
+> +
+> +		search_start = search_low_max;
+> +	} else if (ret || !crash_size) {
+> +		/* Invalid argument value specified */
+>  		return;
+> +	}
+>  
+>  	crash_size = PAGE_ALIGN(crash_size);
+>  
+>  	if (crash_base) {
+> +		fixed_base = true;
+>  		search_start = crash_base;
+>  		search_end = crash_base + crash_size;
+>  	}
+> @@ -1201,16 +1247,31 @@ static void __init reserve_crashkernel(void)
+>  	 */
+>  	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>  					       search_start,
+> -					       min(search_end, (unsigned long) SZ_4G));
+> +					       min(search_end, search_low_max));
 
-Netdev trigger is the declared supported trigger for hw control
-operation and supports the following mode:
-- tx
-- rx
+Here, it seems not right in case crashkernel=,high is specified. In that
+case, search_start == search_low_max, then the min(search_end,
+search_low_max) will get search_low_max too. Then you make the fallback
+in below code block to try to get crashkernel reservation above 4G. This
+doesn't comply with the crashkernel=,high grammer which has been
+implemented in other architectures.
 
-When hw_control_set is called, LEDs are set to follow the requested
-mode.
-Each LEDs will blink at 4Hz by default.
+For crashkernel=,high, user explicitly require memory reservation above
+4G. Why does crashkernel=,high is needed? E.g on big end server with
+huge memory, while the low memory under 4G is limited and precious.
+Hence, user want to put the main crashkernel reservation above 4G to
+contain kdump kernel/initrd and run user space program, while with few
+low memory for pci device driver. E.g crashkernel=2G,high, it won't
+impact much if there's huge memory above 4G and get crashkernel
+reservation there. However, it impacts a lot if it reserves memory
+below 4G.
 
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- drivers/net/dsa/qca/qca8k-leds.c | 156 +++++++++++++++++++++++++++++++
- 1 file changed, 156 insertions(+)
+I would strongly suggest that risc-v also reserve memory from above 4G
+for crashkernel=,high, then fallback to below 4G. That's consistent with
+crashkernel=,high grammer.
 
-diff --git a/drivers/net/dsa/qca/qca8k-leds.c b/drivers/net/dsa/qca/qca8k-leds.c
-index 1ecb29953600..54d3ff46e00a 100644
---- a/drivers/net/dsa/qca/qca8k-leds.c
-+++ b/drivers/net/dsa/qca/qca8k-leds.c
-@@ -30,6 +30,43 @@ qca8k_get_enable_led_reg(int port_num, int led_num, struct qca8k_led_pattern_en
- 	return 0;
- }
- 
-+static int
-+qca8k_get_control_led_reg(int port_num, int led_num, struct qca8k_led_pattern_en *reg_info)
-+{
-+	reg_info->reg = QCA8K_LED_CTRL_REG(led_num);
-+
-+	/* 6 total control rule:
-+	 * 3 control rules for phy0-3 that applies to all their leds
-+	 * 3 control rules for phy4
-+	 */
-+	if (port_num == 4)
-+		reg_info->shift = QCA8K_LED_PHY4_CONTROL_RULE_SHIFT;
-+	else
-+		reg_info->shift = QCA8K_LED_PHY0123_CONTROL_RULE_SHIFT;
-+
-+	return 0;
-+}
-+
-+static int
-+qca8k_parse_netdev(unsigned long rules, u32 *offload_trigger)
-+{
-+	/* Parsing specific to netdev trigger */
-+	if (test_bit(TRIGGER_NETDEV_TX, &rules))
-+		*offload_trigger |= QCA8K_LED_TX_BLINK_MASK;
-+	if (test_bit(TRIGGER_NETDEV_RX, &rules))
-+		*offload_trigger |= QCA8K_LED_RX_BLINK_MASK;
-+
-+	if (rules && !*offload_trigger)
-+		return -EOPNOTSUPP;
-+
-+	/* Enable some default rule by default to the requested mode:
-+	 * - Blink at 4Hz by default
-+	 */
-+	*offload_trigger |= QCA8K_LED_BLINK_4HZ;
-+
-+	return 0;
-+}
-+
- static int
- qca8k_led_brightness_set(struct qca8k_led *led,
- 			 enum led_brightness brightness)
-@@ -135,6 +172,119 @@ qca8k_cled_blink_set(struct led_classdev *ldev,
- 	return 0;
- }
- 
-+static int
-+qca8k_cled_trigger_offload(struct led_classdev *ldev, bool enable)
-+{
-+	struct qca8k_led *led = container_of(ldev, struct qca8k_led, cdev);
-+
-+	struct qca8k_led_pattern_en reg_info;
-+	struct qca8k_priv *priv = led->priv;
-+	u32 mask, val = QCA8K_LED_ALWAYS_OFF;
-+
-+	qca8k_get_enable_led_reg(led->port_num, led->led_num, &reg_info);
-+
-+	if (enable)
-+		val = QCA8K_LED_RULE_CONTROLLED;
-+
-+	if (led->port_num == 0 || led->port_num == 4) {
-+		mask = QCA8K_LED_PATTERN_EN_MASK;
-+		val <<= QCA8K_LED_PATTERN_EN_SHIFT;
-+	} else {
-+		mask = QCA8K_LED_PHY123_PATTERN_EN_MASK;
-+	}
-+
-+	return regmap_update_bits(priv->regmap, reg_info.reg, mask << reg_info.shift,
-+				  val << reg_info.shift);
-+}
-+
-+static bool
-+qca8k_cled_hw_control_status(struct led_classdev *ldev)
-+{
-+	struct qca8k_led *led = container_of(ldev, struct qca8k_led, cdev);
-+
-+	struct qca8k_led_pattern_en reg_info;
-+	struct qca8k_priv *priv = led->priv;
-+	u32 val;
-+
-+	qca8k_get_enable_led_reg(led->port_num, led->led_num, &reg_info);
-+
-+	regmap_read(priv->regmap, reg_info.reg, &val);
-+
-+	val >>= reg_info.shift;
-+
-+	if (led->port_num == 0 || led->port_num == 4) {
-+		val &= QCA8K_LED_PATTERN_EN_MASK;
-+		val >>= QCA8K_LED_PATTERN_EN_SHIFT;
-+	} else {
-+		val &= QCA8K_LED_PHY123_PATTERN_EN_MASK;
-+	}
-+
-+	return val == QCA8K_LED_RULE_CONTROLLED;
-+}
-+
-+static int
-+qca8k_cled_hw_control_is_supported(struct led_classdev *ldev, unsigned long rules)
-+{
-+	u32 offload_trigger = 0;
-+
-+	return qca8k_parse_netdev(rules, &offload_trigger);
-+}
-+
-+static int
-+qca8k_cled_hw_control_set(struct led_classdev *ldev, unsigned long rules)
-+{
-+	struct qca8k_led *led = container_of(ldev, struct qca8k_led, cdev);
-+	struct qca8k_led_pattern_en reg_info;
-+	struct qca8k_priv *priv = led->priv;
-+	u32 offload_trigger = 0;
-+	int ret;
-+
-+	ret = qca8k_parse_netdev(rules, &offload_trigger);
-+	if (ret)
-+		return ret;
-+
-+	ret = qca8k_cled_trigger_offload(ldev, true);
-+	if (ret)
-+		return ret;
-+
-+	qca8k_get_control_led_reg(led->port_num, led->led_num, &reg_info);
-+
-+	return regmap_update_bits(priv->regmap, reg_info.reg,
-+				  QCA8K_LED_RULE_MASK << reg_info.shift,
-+				  offload_trigger << reg_info.shift);
-+}
-+
-+static int
-+qca8k_cled_hw_control_get(struct led_classdev *ldev, unsigned long *rules)
-+{
-+	struct qca8k_led *led = container_of(ldev, struct qca8k_led, cdev);
-+	struct qca8k_led_pattern_en reg_info;
-+	struct qca8k_priv *priv = led->priv;
-+	u32 val;
-+	int ret;
-+
-+	/* With hw control not active return err */
-+	if (!qca8k_cled_hw_control_status(ldev))
-+		return -EINVAL;
-+
-+	qca8k_get_control_led_reg(led->port_num, led->led_num, &reg_info);
-+
-+	ret = regmap_read(priv->regmap, reg_info.reg, &val);
-+	if (ret)
-+		return ret;
-+
-+	val >>= reg_info.shift;
-+	val &= QCA8K_LED_RULE_MASK;
-+
-+	/* Parsing specific to netdev trigger */
-+	if (val & QCA8K_LED_TX_BLINK_MASK)
-+		set_bit(TRIGGER_NETDEV_TX, rules);
-+	if (val & QCA8K_LED_RX_BLINK_MASK)
-+		set_bit(TRIGGER_NETDEV_RX, rules);
-+
-+	return 0;
-+}
-+
- static int
- qca8k_parse_port_leds(struct qca8k_priv *priv, struct fwnode_handle *port, int port_num)
- {
-@@ -193,6 +343,12 @@ qca8k_parse_port_leds(struct qca8k_priv *priv, struct fwnode_handle *port, int p
- 		port_led->cdev.brightness_set_blocking = qca8k_cled_brightness_set_blocking;
- 		port_led->cdev.brightness_get = qca8k_cled_brightness_get;
- 		port_led->cdev.blink_set = qca8k_cled_blink_set;
-+		port_led->cdev.hw_control_is_supported = qca8k_cled_hw_control_is_supported;
-+		port_led->cdev.hw_control_set = qca8k_cled_hw_control_set;
-+		port_led->cdev.hw_control_get = qca8k_cled_hw_control_get;
-+		port_led->cdev.hw_control_trigger = "netdev";
-+		port_led->cdev.trigger_supported_flags_mask = BIT(TRIGGER_NETDEV_TX) |
-+							      BIT(TRIGGER_NETDEV_RX);
- 		init_data.default_label = ":port";
- 		init_data.devicename = "qca8k";
- 		init_data.fwnode = led;
--- 
-2.39.2
+>  	if (crash_base == 0) {
+> -		/* Try again without restricting region to 32bit addressible memory */
+> +		if (fixed_base) {
+> +			pr_warn("crashkernel: allocating failed with given size@offset\n");
+> +			return;
+> +		}
+> +
+> +		/* Try again above the region of 32bit addressible memory */
+>  		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+> -						search_start, search_end);
+> +						       max(search_start, search_low_max),
+> +						       search_end);
+>  		if (crash_base == 0) {
+>  			pr_warn("crashkernel: couldn't allocate %lldKB\n",
+>  				crash_size >> 10);
+>  			return;
+>  		}
+> +
+> +		if (!crash_low_size)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +	}
+> +
+> +	if ((crash_base > dma32_phys_limit - crash_low_size) &&
+> +	    crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+> +		memblock_phys_free(crash_base, crash_size);
+> +		return;
+>  	}
+>  
+>  	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
+> -- 
+> 2.31.1
+> 
 
