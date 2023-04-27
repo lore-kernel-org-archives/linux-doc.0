@@ -2,77 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54A9CC77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 14:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37154C77B61
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Apr 2023 15:18:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243276AbjD0OjY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 10:39:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57832 "EHLO
+        id S244137AbjD0PSR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 11:18:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244130AbjD0OjW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 10:39:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84450423E
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 07:38:37 -0700 (PDT)
+        with ESMTP id S243404AbjD0PSP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 11:18:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361DA4224
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 08:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682606316;
+        s=mimecast20190719; t=1682608649;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=n38a/ap8JEojwB1X8Ga+6cVJFz2FjJPXkJ9o2gq99yI=;
-        b=iRRmQzwt2MClDW8xZP4tMfLyXzO1MuZGmU5/AT4D+zAA568N6kMy+DSN9AOgwX4BHuP7Tz
-        +9zHPh9aZVCsj98TL400ex6yz0mBDvI4FilkMAzZs0ttbmujFTcRDojIrWrPG0leLmf3KD
-        AF+aJjbQ8HpK/FUnvK8U0LLlZVwpSB0=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-527-jbWBZQekMvytWMmjWuSVFQ-1; Thu, 27 Apr 2023 10:38:33 -0400
-X-MC-Unique: jbWBZQekMvytWMmjWuSVFQ-1
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-5464cf41fbdso5727229eaf.2
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 07:38:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682606312; x=1685198312;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n38a/ap8JEojwB1X8Ga+6cVJFz2FjJPXkJ9o2gq99yI=;
-        b=LgInPgYsNhzJdj+zaiLN0mbsx718/k7hAf53TUTdLpxx6pbt9Rd5b3hFrwks58fB65
-         RFsz9jyS078UHFFDAPisLOk5po/P8aYAQOS7TR9cylW6ZXViHY1l9rc0G9FTrZt9YFEh
-         HX1In1YkUx8ySrOBO8auNUE0OX3RkULUfjeUap8lW9LidP2VW9SnYWeT3zl3wXKCpSNM
-         cVLG9v2z0k284+lwbqJiucgUkoEVXObaWLGnMvTLBqudGjbSnXYcwEHPvUz3qBqwv0kH
-         aTaHY7Z1HrgnrGSI1vch9EtkY+IJgkIINwwFoBrGGH7aBZuJ/WFB/sC/6Rr57EZ6bfpD
-         zxLw==
-X-Gm-Message-State: AC+VfDz6rd1bvV6goIVdkmG2QGcdyB5i1wPIQwQ+Vv1QLFBAMd//PKi3
-        v4mzVj0dbDTezfTFreh5MCnwAAhXUH7sLxXA63eeluwKpxIlW9gknxXiSMYaJBraTYos/5aM+2e
-        LP8VN41BtnaEEQ+xTWdv2YNtQKibh2KYgfaDv
-X-Received: by 2002:a05:6820:502:b0:547:5593:d6 with SMTP id m2-20020a056820050200b00547559300d6mr1327449ooj.5.1682606311908;
-        Thu, 27 Apr 2023 07:38:31 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5C8xnwX/1ZRGPFzQnse0x6PxyxWI9ZUENosmWDrP95UdVMWcVgBQdD9vv1aM8F2y4SEzeyrs/y39WXiyX3poY=
-X-Received: by 2002:a05:6820:502:b0:547:5593:d6 with SMTP id
- m2-20020a056820050200b00547559300d6mr1327440ooj.5.1682606311705; Thu, 27 Apr
- 2023 07:38:31 -0700 (PDT)
+        bh=r+17+KTOOVGjge09dstY847TPVDvwXA1kCLuEc8Dqts=;
+        b=a0AFTsQ01O0ieae61qX2gnVvECjURK1gfnOmMxDHc+tFWFDzJj6xApcseKKepR/iEgWWux
+        ameFQZqWSEoN/iVVAUTcPQ1KrBfuEGT78vt36Q3Jf3gpo9DTX/XABEyiJjZRzdrdyYqJTS
+        Fhnyr7OSdTmCLDljQGOqlbg2OOLN0QU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-74-eDukie4rOsKb8xEVznIMOQ-1; Thu, 27 Apr 2023 11:17:16 -0400
+X-MC-Unique: eDukie4rOsKb8xEVznIMOQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2EE551C3A074;
+        Thu, 27 Apr 2023 15:17:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.41])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 52231492C3E;
+        Thu, 27 Apr 2023 15:17:03 +0000 (UTC)
+Date:   Thu, 27 Apr 2023 10:17:01 -0500
+From:   Eric Blake <eblake@redhat.com>
+To:     josef@toxicpanda.com, linux-block@vger.kernel.org,
+        nbd@other.debian.org
+Cc:     philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+        christoph.boehmwalder@linbit.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] nbd: s/handle/cookie/
+Message-ID: <7xvuavcyhqfygrp3ak3iw5jiatbp3fcrhx6teeyqcrrjhdtjn4@ordpaqvft67k>
+References: <20230410180611.1051618-1-eblake@redhat.com>
 MIME-Version: 1.0
-References: <20230427101241.1273752-1-costa.shul@redhat.com>
- <87ildhfobe.fsf@meer.lwn.net> <CADDUTFwGHytziCux07cXO0eYDUXYh3Scp=Qm96N+1wAX3ELDeg@mail.gmail.com>
- <87a5ytflht.fsf@meer.lwn.net>
-In-Reply-To: <87a5ytflht.fsf@meer.lwn.net>
-From:   Costa Shulyupin <costa.shul@redhat.com>
-Date:   Thu, 27 Apr 2023 17:38:20 +0300
-Message-ID: <CADDUTFzkFmY9y=Yr5mbyGNF4mY4LOJyTe159UT+NhmTV8svsZQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: redirect from old arch to the new one
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230410180611.1051618-1-eblake@redhat.com>
+User-Agent: NeoMutt/20230407
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> is there an actual problem needing to be solved here?
+ping
 
-There is not an actual problem. Only a potential.
+On Mon, Apr 10, 2023 at 01:06:07PM -0500, Eric Blake wrote:
+> v2 was here: https://lkml.org/lkml/2023/3/17/1107
+> since then:
+> - squash patch 2/5 and 3/5 into 3/4 [Ming]
+> - add Josef's R-b
+> - tweak commit messages to match commits in userspace NBD (code itself
+>   is unchanged, modulo the patch squash)
+> 
+> Eric Blake (4):
+>   uapi nbd: improve doc links to userspace spec
+>   uapi nbd: add cookie alias to handle
+>   block nbd: use req.cookie instead of req.handle
+>   docs nbd: userspace NBD now favors github over sourceforge
+> 
+>  Documentation/admin-guide/blockdev/nbd.rst |  2 +-
+>  drivers/block/nbd.c                        |  6 +++---
+>  include/uapi/linux/nbd.h                   | 25 +++++++++++++++++-----
+>  3 files changed, 24 insertions(+), 9 deletions(-)
+> 
+> 
+> base-commit: 09a9639e56c01c7a00d6c0ca63f4c7c41abe075d
+> -- 
+> 2.39.2
+> 
 
-Thanks,
-Costa
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
