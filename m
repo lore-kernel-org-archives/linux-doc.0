@@ -2,141 +2,206 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0DE3C77B60
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 09:37:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D0FC77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 09:56:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345490AbjD1JhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 05:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
+        id S1346008AbjD1J4m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 05:56:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbjD1JhG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 05:37:06 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F1753AB2;
-        Fri, 28 Apr 2023 02:37:05 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id d9443c01a7336-1a8097c1ccfso97844835ad.1;
-        Fri, 28 Apr 2023 02:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682674624; x=1685266624;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WTEzTPu2IUqI1aWq3K0d1qux/fcUnEztVJOEixtCdn0=;
-        b=RaiDNepmv9Qqx/jrvOwZq+WoNJf2ZVNNzl4ji2b3okLdKMX+7B3KMZL2cFT9mTB7ot
-         Bi3MJzit+ncFn4FVvOR/TjWXYitG3oEujevSGG9UfjJR65GhO8ANWdfp/CB8mziqJw6w
-         ASO5bJ4z8tn8ODnT3oO2mOj+at+zlWzQ5t64LQ0nahw5QWmSiOqq6aBKefQC/fkF4DLd
-         WYPqY8hmVFM4CEZX6eWj23Si/xVbiZIfC1PvqWSN7xl888AjzsRCYL32K1inCg+wLoIT
-         zmmRSYbUYm2YgOsyn2V+SIsoAT0LR93l6og3veH8T0lM2c73pCa8EMihimYNvh5qo3n/
-         MzjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682674624; x=1685266624;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WTEzTPu2IUqI1aWq3K0d1qux/fcUnEztVJOEixtCdn0=;
-        b=JW5paXlo/Vv11D89FWAcxtKFy8zuG+ONEJp20rlY+bu2oI+1SAKcH3VNTaT2WGDLZw
-         rVeFf+PwBy1tk0Tuiyi5eK7VN5HzXG2VHTOGSj5oR4xVHuwH9OI2ZoceL39gfloDO8f0
-         hYyU5XLltv3ivE4FKDxomFKqz+wZCzeHZJWoM8AzAApLP5VcKDs29+Pc5ZS+UhfR0lXR
-         XRBO9S5MwUa+QlOkdaaZ8M/sGy4smR+df7J/gr8+FdqEnCzD4S58UJdkCKWM3Ukm0R6u
-         Qj0iNNEM86JOgzBnS23PZxznmhglOaI2NLqZMTRZVJMqoFwU5mzidiSCxIowELvn61f1
-         2fqg==
-X-Gm-Message-State: AC+VfDxWVkuxImuiqRM+/sysitxsXms7nknqt7sjikGI0d6WBR3Or8P8
-        KSIwHlw4kVgEqPl+SDLPOwk=
-X-Google-Smtp-Source: ACHHUZ4DjfNE11FGNiMCbCrke+rYMVWKogo2JxoZLEfw/P7rLMcKpdWVjpQcH2dQuoOaSJ8hsfrYjw==
-X-Received: by 2002:a17:903:124f:b0:1a6:7fac:1b7d with SMTP id u15-20020a170903124f00b001a67fac1b7dmr5547750plh.59.1682674624574;
-        Fri, 28 Apr 2023 02:37:04 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id n19-20020a170902969300b001a6db2bef16sm12872864plp.303.2023.04.28.02.37.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Apr 2023 02:37:04 -0700 (PDT)
-From:   xu xin <xu.xin.sc@gmail.com>
-X-Google-Original-From: xu xin <xu.xin16@zte.com.cn>
-To:     shr@devkernel.io
-Cc:     akpm@linux-foundation.org, bagasdotme@gmail.com, david@redhat.com,
-        hannes@cmpxchg.org, kernel-team@fb.com, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        mhocko@suse.com, riel@surriel.com, willy@infradead.org,
-        yang.yang29@zte.com.cn, xu.xin16@zte.com.cn
-Subject: [PATCH v9 2/3] mm: add new KSM process and sysfs knobs
-Date:   Fri, 28 Apr 2023 17:36:59 +0800
-Message-Id: <20230428093659.23962-1-xu.xin16@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230418051342.1919757-3-shr@devkernel.io>
-References: <20230418051342.1919757-3-shr@devkernel.io>
+        with ESMTP id S1345643AbjD1J4M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 05:56:12 -0400
+Received: from out187-19.us.a.mail.aliyun.com (out187-19.us.a.mail.aliyun.com [47.90.187.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09E715B95;
+        Fri, 28 Apr 2023 02:55:21 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R431e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018047208;MF=houwenlong.hwl@antgroup.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---.STCEQ.F_1682675669;
+Received: from localhost(mailfrom:houwenlong.hwl@antgroup.com fp:SMTPD_---.STCEQ.F_1682675669)
+          by smtp.aliyun-inc.com;
+          Fri, 28 Apr 2023 17:54:29 +0800
+From:   "Hou Wenlong" <houwenlong.hwl@antgroup.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Thomas Garnier" <thgarnie@chromium.org>,
+        "Lai Jiangshan" <jiangshan.ljs@antgroup.com>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Hou Wenlong" <houwenlong.hwl@antgroup.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Wang Yong" <yongw.kernel@gmail.com>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        "Jiapeng Chong" <jiapeng.chong@linux.alibaba.com>,
+        "Alexander Lobakin" <alexandr.lobakin@intel.com>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        "Michael Roth" <michael.roth@amd.com>,
+        "David Hildenbrand" <david@redhat.com>,
+        "Nikunj A Dadhania" <nikunj@amd.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH RFC 43/43] x86/boot: Extend relocate range for PIE kernel image
+Date:   Fri, 28 Apr 2023 17:51:23 +0800
+Message-Id: <872c71b61815d2dc582f3e3a9e7069fb4f6436eb.1682673543.git.houwenlong.hwl@antgroup.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
+References: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> This adds the general_profit KSM sysfs knob and the process profit metric
-> knobs to ksm_stat.
-> 
-> 1) expose general_profit metric
-> 
->    The documentation mentions a general profit metric, however this
->    metric is not calculated.  In addition the formula depends on the size
->    of internal structures, which makes it more difficult for an
->    administrator to make the calculation.  Adding the metric for a better
->    user experience.
-> 
-> 2) document general_profit sysfs knob
-> 
-> 3) calculate ksm process profit metric
-> 
->    The ksm documentation mentions the process profit metric and how to
->    calculate it.  This adds the calculation of the metric.
-> 
-> 4) mm: expose ksm process profit metric in ksm_stat
-> 
->    This exposes the ksm process profit metric in /proc/<pid>/ksm_stat.
->    The documentation mentions the formula for the ksm process profit
->    metric, however it does not calculate it.  In addition the formula
->    depends on the size of internal structures.  So it makes sense to
->    expose it.
->
+Allow PIE kernel image to be relocated in unused holes in top 512G of
+address space.
 
-Hi, Stefan, I think you should give some credits to me about my contributions on
-the concept and formula of ksm profit (process wide and system wide),  it's kind
-of idea stealing.
+Suggested-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
+Signed-off-by: Hou Wenlong <houwenlong.hwl@antgroup.com>
+Cc: Thomas Garnier <thgarnie@chromium.org>
+Cc: Kees Cook <keescook@chromium.org>
+---
+ Documentation/x86/x86_64/mm.rst  |  4 +++
+ arch/x86/Kconfig                 | 11 +++++++
+ arch/x86/boot/compressed/kaslr.c | 55 ++++++++++++++++++++++++++++++++
+ arch/x86/boot/compressed/misc.c  |  4 ++-
+ arch/x86/boot/compressed/misc.h  |  9 ++++++
+ 5 files changed, 82 insertions(+), 1 deletion(-)
 
-
-Besides, the idea of Process control KSM was proposed by me last year although you use
-prctl instead of /proc fs. you even didn't CC my email. I think you should CC my email
-(xu.xin16@zte.com.cn) as least.
+diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
+index 35e5e18c83d0..b456501a5b69 100644
+--- a/Documentation/x86/x86_64/mm.rst
++++ b/Documentation/x86/x86_64/mm.rst
+@@ -149,6 +149,10 @@ Note that if CONFIG_RANDOMIZE_MEMORY is enabled, the direct mapping of all
+ physical memory, vmalloc/ioremap space and virtual memory map are randomized.
+ Their order is preserved but their base will be offset early at boot time.
  
-> 5) document new procfs ksm knobs
-> 
-> Signed-off-by: Stefan Roesch <shr@devkernel.io>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Rik van Riel <riel@surriel.com>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
->  Documentation/ABI/testing/sysfs-kernel-mm-ksm |  8 +++++++
->  Documentation/admin-guide/mm/ksm.rst          |  5 ++++-
->  fs/proc/base.c                                |  3 +++
->  include/linux/ksm.h                           |  4 ++++
->  mm/ksm.c                                      | 21 +++++++++++++++++++
->  5 files changed, 40 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-ksm b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
-> index d244674a9480..6041a025b65a 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-mm-ksm
-> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
-> @@ -51,3 +51,11 @@ Description:	Control merging pages across different NUMA nodes.
->  
->  		When it is set to 0 only pages from the same node are merged,
->  		otherwise pages from all nodes can be merged together (default).
-> +
-> +What:		/sys/kernel/mm/ksm/general_profit
-> +Date:		April 2023
-> +KernelVersion:  6.4
-> +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
-> +Description:	Measure how effective KSM is.
-> +		general_profit: how effective is KSM. The formula for the
-> +		calculation is in Documentation/admin-guide/mm/ksm.rst.
-> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
++Note that if EXTENDED_RANDOMIZE_BASE is enabled, the kernel image area
++including kernel image, module area and fixmap area is randomized as a whole
++in top 512G of address space.
++
+ Be very careful vs. KASLR when changing anything here. The KASLR address
+ range must not overlap with anything except the KASAN shadow area, which is
+ correct as KASAN disables KASLR.
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 9f8020991184..6d18d4333389 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2266,6 +2266,17 @@ config RANDOMIZE_BASE
+ 
+ 	  If unsure, say Y.
+ 
++config EXTENDED_RANDOMIZE_BASE
++	bool "Randomize the address of the kernel image (PIE)"
++	default y
++	depends on X86_PIE && RANDOMIZE_BASE
++	help
++	  This packs kernel image, module area and fixmap area as a
++	  whole, and allows it to be randomized in top 512G of virtual
++	  address space when PIE is enabled.
++
++	  If unsure, say Y.
++
+ # Relocation on x86 needs some additional build support
+ config X86_NEED_RELOCS
+ 	def_bool y
+diff --git a/arch/x86/boot/compressed/kaslr.c b/arch/x86/boot/compressed/kaslr.c
+index 454757fbdfe5..e0e092fe7fe2 100644
+--- a/arch/x86/boot/compressed/kaslr.c
++++ b/arch/x86/boot/compressed/kaslr.c
+@@ -871,3 +871,58 @@ void choose_random_location(unsigned long input,
+ 		random_addr = find_random_virt_addr(LOAD_PHYSICAL_ADDR, output_size);
+ 	*virt_addr = random_addr;
+ }
++
++#ifdef CONFIG_EXTENDED_RANDOMIZE_BASE
++struct kernel_image_slot {
++	unsigned long start;
++	unsigned long end;
++	unsigned long pud_slots;
++};
++
++/*
++ * Currently, there are two unused hole in top 512G, see
++ * Documentation/x86/x86_64/mm.rst, use the hole as the kernel image base.
++ */
++struct kernel_image_slot available_slots[] = {
++	{
++		.start = 0xffffff8000000000UL,
++		.end = 0xffffffeeffffffffUL,
++	},
++	{
++		.start = 0xffffffff00000000UL,
++		.end = 0xffffffffffffffffUL,
++	},
++};
++
++unsigned long pie_randomize(void)
++{
++	unsigned long total, slot;
++	int i;
++
++	if (cmdline_find_option_bool("nokaslr"))
++		return 0;
++
++	total = 0;
++	for (i = 0; i < ARRAY_SIZE(available_slots); i++) {
++		available_slots[i].pud_slots = (available_slots[i].end -
++						available_slots[i].start + 1UL) /
++						PUD_SIZE - 1UL;
++		total += available_slots[i].pud_slots;
++	}
++
++	slot = kaslr_get_random_long("PIE slot") % total;
++	for (i = 0; i < ARRAY_SIZE(available_slots); i++) {
++		if (slot < available_slots[i].pud_slots)
++			break;
++
++		slot -= available_slots[i].pud_slots;
++	}
++
++	if (i == ARRAY_SIZE(available_slots) || slot >= available_slots[i].pud_slots) {
++		warn("PIE randomize disabled: available slots are bad!");
++		return 0;
++	}
++
++	return (available_slots[i].start + slot * PUD_SIZE) - __START_KERNEL_map;
++}
++#endif
+diff --git a/arch/x86/boot/compressed/misc.c b/arch/x86/boot/compressed/misc.c
+index 014ff222bf4b..e111b55edb8b 100644
+--- a/arch/x86/boot/compressed/misc.c
++++ b/arch/x86/boot/compressed/misc.c
+@@ -210,8 +210,10 @@ static void handle_relocations(void *output, unsigned long output_len,
+ 	 * needed if KASLR has chosen a different starting address offset
+ 	 * from __START_KERNEL_map.
+ 	 */
+-	if (IS_ENABLED(CONFIG_X86_64))
++	if (IS_ENABLED(CONFIG_X86_64)) {
+ 		delta = virt_addr - LOAD_PHYSICAL_ADDR;
++		delta += pie_randomize();
++	}
+ 
+ 	if (!delta) {
+ 		debug_putstr("No relocation needed... ");
+diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/misc.h
+index 2f155a0e3041..f50717092902 100644
+--- a/arch/x86/boot/compressed/misc.h
++++ b/arch/x86/boot/compressed/misc.h
+@@ -113,6 +113,15 @@ static inline void choose_random_location(unsigned long input,
+ }
+ #endif
+ 
++#ifdef CONFIG_EXTENDED_RANDOMIZE_BASE
++unsigned long pie_randomize(void);
++#else
++static inline unsigned long pie_randomize(void)
++{
++	return 0;
++}
++#endif
++
+ /* cpuflags.c */
+ bool has_cpuflag(int flag);
+ 
+-- 
+2.31.1
+
