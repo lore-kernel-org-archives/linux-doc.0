@@ -2,136 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A193BC77B7C
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 14:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C934CC77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 14:43:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbjD1O3n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 10:29:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38590 "EHLO
+        id S1345812AbjD1Onw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 10:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbjD1O3m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 10:29:42 -0400
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FE91BEE;
-        Fri, 28 Apr 2023 07:29:40 -0700 (PDT)
-Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-5476a2780a0so4595054eaf.3;
-        Fri, 28 Apr 2023 07:29:40 -0700 (PDT)
+        with ESMTP id S230410AbjD1Onw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 10:43:52 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B12F346BB
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 07:43:50 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-54fb89e1666so80933767b3.3
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 07:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682692180; x=1685284180;
+        d=paul-moore.com; s=google; t=1682693030; x=1685285030;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lYzqB28RMSFODBuTMB/KY5cl7Tjsfy3OkCWgNjZ6ZLE=;
-        b=kh97gIflH3BI4ERsMSHvjFc0yOO2bt2fLm/uIbDsDrqqCu8s1sBxd1qDVEdBRIXaVx
-         iL5RpT2zMNzyg+NFwLpVdMi4AybUyNQoR4/KTIyCNQ6rbL1F0DeQ5KmZHZmRbVrbxMMI
-         EVvL2F+CnVM44ANsh30EStkooMTY3pgBJcPpfXLKde2v/nu6v57pykRxydjH1nTW2/FA
-         TfRXpk1QRjR02exKoXYK2MUCINulVfTlZ+sUo+7AckhEWV6lOlDp77IYs7xS8lGE0Ir4
-         PzdyIuMruilIAnr8RxZgmYIczOd6F8olt3vtZ53rzCG7Ai88S1HDJjafAmDY7EMzhuzg
-         t0MQ==
+        bh=ENY4FP1NqCXozMR3NGmRVnsIVYYqkrTXbZLhDqjIH9U=;
+        b=BUX2oPD1DAJUi92Gw0HP/uZjQmQQJmuVAw3YE4wWmEIxvQVRM0VgB5ydbi1KrO+1N7
+         kd31GUw8NSJWm+eyF4CjGTBca786e4SFPdeVfC/WvQjvXO0YEAyNTsboDc5BGA01TH0o
+         Ai/64JfopJNcphbmJ1ncSJo22IrvWjiToyqq51fiBIbZl1/VbaZh9pu/JdQQCPJGD67v
+         qd2zLf2j4XT4nby/ArIqLu5O7zxXrwMAXkTdfEtO/C/BXJChOrA6iftl6QhYavvpHguj
+         W6A/I22+ybtPp5ouI+2ysRxf/Mepei3hdGIsrL4ZM1uyTKCsXgjtS2vH0lsvgBCt+iVh
+         w9pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682692180; x=1685284180;
+        d=1e100.net; s=20221208; t=1682693030; x=1685285030;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lYzqB28RMSFODBuTMB/KY5cl7Tjsfy3OkCWgNjZ6ZLE=;
-        b=MWmUCjKe7xfzVYh1vNOYIdjUgz3AD5meYKS1aNgGxs9CA1N9HdDvHyxszFZI6dbDfj
-         PgNY5HOy2reKj5sIXjsgOvOttcsb3dTC+/LmfUr1l8Y+IQ8T64Ka/27ZD8j/9VJlE0b/
-         TgWGI6bllc+unwodaF4ONDdHe0Ch/olwkkhw8DCbjvx8reMF/Vr3TIRR/VSolxQ3mLuf
-         U7Xc2mt202AmarOYFbWrswZ02nZCAuyeTyGITu5hmceD6e5+7FZZGhQxRt9E1YlK+r6t
-         h00kosi3HMa1A06hKwO8SJ7eoLQ4wda4rH/yXtd4kqdaAbioBuWBoIpcuYzznPmS/nBQ
-         S8Lw==
-X-Gm-Message-State: AC+VfDznPb+X3KBwEPuk8P4i/GA2MVfYVz+SlButIJJPizB0DXy2n18J
-        tA8QOy1PouqisWsB1/m2vnwzBrplJ05nep8ath0=
-X-Google-Smtp-Source: ACHHUZ5KCaCwW1hvzW8OWPVzp040UD7tuDkE/lZ6cadmhT2Hjv5r9AbIl/f2DmSYTc/uRNg/F3c8gxInAbFvh4+1rRI=
-X-Received: by 2002:a05:6808:5da:b0:38e:e0c3:5cce with SMTP id
- d26-20020a05680805da00b0038ee0c35ccemr2440343oij.18.1682692180051; Fri, 28
- Apr 2023 07:29:40 -0700 (PDT)
+        bh=ENY4FP1NqCXozMR3NGmRVnsIVYYqkrTXbZLhDqjIH9U=;
+        b=DxMd1xHNAZwfkLcWsv36LPZaVv+D3TBrU4xZEXlJNy5zkrcWTUuzsZvGkc3q5zSMDU
+         IuPXPb6vtIB1tOaojZwbLJJRQ4oMbv6gniJIhjnv7C7j2Ggr4RywHu8cSrALau9sL0gk
+         ZdYznDEv3a9iq7PuM7pabRuf/Pcq8Ww4SxI5Pq0jTjvVdoRPFU4eR5rxP7/H42emg9pc
+         nETXGOx43LalSxEqU72S4TLGXvefvlUtZiM84hGntVyLDY7ipLKOxQiRKb0sw28Vu+sj
+         0+bKdBDxPch8QVml/qfblx7TJ1e0PHJL7IuZBhEi0qvGPSEZhybtsm6WUVAjNQtZjCdr
+         3xIQ==
+X-Gm-Message-State: AC+VfDx0obc0YFPBFDRovUCLVzJKfqieC0+hfR0yo7hdRKPyAgEQqWnG
+        jENuPA96XgSy7ZWUfhDVbwbKztEKI9f2cosP4Gcz
+X-Google-Smtp-Source: ACHHUZ5nGGXZLBgK3Mv6Fgxuoin7FjVgfDs4dvEZYUJUffdOyZPqoBviwFPv23h1xj96UnnWXRz0l6ajrzD2puwsPI8=
+X-Received: by 2002:a0d:e28b:0:b0:533:1853:9a1f with SMTP id
+ l133-20020a0de28b000000b0053318539a1fmr4032243ywe.39.1682693029791; Fri, 28
+ Apr 2023 07:43:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230427175340.1280952-1-robdclark@gmail.com> <20230427175340.1280952-2-robdclark@gmail.com>
- <0be60cda-6b8b-5844-c4fe-b711e7279cc7@amd.com>
-In-Reply-To: <0be60cda-6b8b-5844-c4fe-b711e7279cc7@amd.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 28 Apr 2023 07:29:28 -0700
-Message-ID: <CAF6AEGtd=fP1_JnD6-V7U_ZNnD1VG-rZean6mNDTLHsqZJdeYw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] drm/docs: Fix usage stats typos
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
+References: <20230428030916.2966-1-rdunlap@infradead.org>
+In-Reply-To: <20230428030916.2966-1-rdunlap@infradead.org>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 28 Apr 2023 10:43:39 -0400
+Message-ID: <CAHC9VhQoa5yw2e1jiN844pxNXXT+CosJn9ip7ysFnsnUbQUi2Q@mail.gmail.com>
+Subject: Re: [PATCH] lsm: move hook comments docs to security/security.c
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        linux-security-module@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 28, 2023 at 1:50=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On Thu, Apr 27, 2023 at 11:09=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
 >
-> Am 27.04.23 um 19:53 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Fix a couple missing ':'s.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Fix one kernel-doc warning, but invesigating that led to other
+> kernel-doc movement (lsm_hooks.h to security.c) that needs to be
+> fixed also.
 >
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> include/linux/lsm_hooks.h:1: warning: no structured comments found
 >
-> Since this is a pretty clear fix I suggest to get this pushed to reduce
-> the number of patches in the set.
+> Fixes: e261301c851a ("lsm: move the remaining LSM hook comments to securi=
+ty/security.c")
+> Fixes: 1cd2aca64a5d ("lsm: move the io_uring hook comments to security/se=
+curity.c")
+> Fixes: 452b670c7222 ("lsm: move the perf hook comments to security/securi=
+ty.c")
+> Fixes: 55e853201a9e ("lsm: move the bpf hook comments to security/securit=
+y.c")
+> Fixes: b14faf9c94a6 ("lsm: move the audit hook comments to security/secur=
+ity.c")
+> Fixes: 1427ddbe5cc1 ("lsm: move the binder hook comments to security/secu=
+rity.c")
+> Fixes: 43fad2821876 ("lsm: move the sysv hook comments to security/securi=
+ty.c")
+> Fixes: ecc419a44535 ("lsm: move the key hook comments to security/securit=
+y.c")
+> Fixes: 742b99456e86 ("lsm: move the xfrm hook comments to security/securi=
+ty.c")
+> Fixes: ac318aed5498 ("lsm: move the Infiniband hook comments to security/=
+security.c")
+> Fixes: 4a49f592e931 ("lsm: move the SCTP hook comments to security/securi=
+ty.c")
+> Fixes: 6b6bbe8c02a1 ("lsm: move the socket hook comments to security/secu=
+rity.c")
+> Fixes: 2c2442fd46cd ("lsm: move the AF_UNIX hook comments to security/sec=
+urity.c")
+> Fixes: 2bcf51bf2f03 ("lsm: move the netlink hook comments to security/sec=
+urity.c")
+> Fixes: 130c53bfee4b ("lsm: move the task hook comments to security/securi=
+ty.c")
+> Fixes: a0fd6480de48 ("lsm: move the file hook comments to security/securi=
+ty.c")
+> Fixes: 9348944b775d ("lsm: move the kernfs hook comments to security/secu=
+rity.c")
+> Fixes: 916e32584dfa ("lsm: move the inode hook comments to security/secur=
+ity.c")
+> Fixes: 08526a902cc4 ("lsm: move the filesystem hook comments to security/=
+security.c")
+> Fixes: 36819f185590 ("lsm: move the fs_context hook comments to security/=
+security.c")
+> Fixes: 1661372c912d ("lsm: move the program execution hook comments to se=
+curity/security.c")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: linux-security-module@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: KP Singh <kpsingh@kernel.org>
+> Cc: bpf@vger.kernel.org
+> ---
+>  Documentation/bpf/prog_lsm.rst             |    2 +-
+>  Documentation/security/lsm-development.rst |    6 +++---
+>  Documentation/security/lsm.rst             |    2 +-
+>  3 files changed, 5 insertions(+), 5 deletions(-)
 
-Thanks, this is fine by me if someone wants to push it for me.  Note
-that the later .rst updates in this series depend on this so if/when
-they are merged it probably should be the same tree
+Thanks Randy.  Did you want to take this via the doc tree, or would
+you prefer if I pulled this into the LSM tree?
 
-BR,
--R
+Acked-by: Paul Moore <paul@paul-moore.com>
 
-> Christian.
->
-> > ---
-> >   Documentation/gpu/drm-usage-stats.rst | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/=
-drm-usage-stats.rst
-> > index b46327356e80..72d069e5dacb 100644
-> > --- a/Documentation/gpu/drm-usage-stats.rst
-> > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > @@ -105,7 +105,7 @@ object belong to this client, in the respective mem=
-ory region.
-> >   Default unit shall be bytes with optional unit specifiers of 'KiB' or=
- 'MiB'
-> >   indicating kibi- or mebi-bytes.
-> >
-> > -- drm-cycles-<str> <uint>
-> > +- drm-cycles-<str>: <uint>
-> >
-> >   Engine identifier string must be the same as the one specified in the
-> >   drm-engine-<str> tag and shall contain the number of busy cycles for =
-the given
-> > @@ -117,7 +117,7 @@ larger value within a reasonable period. Upon obser=
-ving a value lower than what
-> >   was previously read, userspace is expected to stay with that larger p=
-revious
-> >   value until a monotonic update is seen.
-> >
-> > -- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
-> > +- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
-> >
-> >   Engine identifier string must be the same as the one specified in the
-> >   drm-engine-<str> tag and shall contain the maximum frequency for the =
-given
->
+--=20
+paul-moore.com
