@@ -2,103 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23620C77B60
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 16:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EAC1C77B7E
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 17:53:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346032AbjD1QmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 12:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59934 "EHLO
+        id S1346387AbjD1Rxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 13:53:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230162AbjD1QmY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 12:42:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B66559A;
-        Fri, 28 Apr 2023 09:42:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DD67364424;
-        Fri, 28 Apr 2023 16:42:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3844C433D2;
-        Fri, 28 Apr 2023 16:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682700136;
-        bh=8f3xlIuJBJy0e1z40MwDrRaRu7kCPeeuA62gQe3zkSE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uIIbfG3MqQp8Nc29xBp2uy2Wqd3JTv1DCf/2Qzk+s2EwNa55podo3Af53/6cKlaUV
-         3fz9IQgdG0xeRN4iEO/452tI40cK2RQVdxtUH6NMJMr7D//ZtSCo2lqSuTAR2utPNA
-         6D3o4n5rAqEgVtePrqUKOJ1JITCtVvS8HODf3CPMSuSY+cDrvKSZYn3/SWtC5l49e5
-         eDJ29vlbrmgz30N4wLIIme9Zxphv6b+kSx6sB1NOlPpdguWzmTlqzsfNdgNuaNMvnk
-         L3wftmk474Rc5TLCZRQTnDfZe4AzO7VkfRNoeQSD8Hi+Sn5VemscISncVLfatde4xF
-         6CcVbAFZqT23A==
-Date:   Fri, 28 Apr 2023 17:42:12 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, wangdeming@inspur.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shibata@linuxfoundation.org
-Subject: Re: [PATCH] Documentation/translations/ja_JP/SubmittingPatches: fix
- some typos
-Message-ID: <20230428-wired-germproof-5a243f7ef652@spud>
-References: <20230428091018.1558-1-wangdeming@inspur.com>
- <71c91ae5-2ed7-cfd5-7b7f-6cb5a0141816@gmail.com>
- <871qk4awn2.fsf@meer.lwn.net>
+        with ESMTP id S229599AbjD1Rxs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 13:53:48 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155153C1E;
+        Fri, 28 Apr 2023 10:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682704427; x=1714240427;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aRx7+mpDK8aR3HdTkR8Ocvm6w1M4ROBM1nP0BJX1Q1U=;
+  b=cxDfTD8UPJVQpc41IkSLZthX5SKrCss4/k48m+erTyhK/YjgBmJI+4YG
+   oWWp9lEsZ8HgrfbMW2K30BaGXyb18AP98s69hYV8QzMs/+OhdzJN598lO
+   23yb4LejbT+WieooB25rdjgbnchGsZnOMJLYWDnv4v4vK5XIrej2hT/Bp
+   6U+JsotFNjYQqPMOgvMbc5HDVWaX/I4qmHFRkW1Q+KyjvQLEMx9vXt3tZ
+   PvtO3q697AJCcwwVBkmylVA4upvu0zWHvwAN69SZNE0ocmuhxslfWi5hH
+   oiipUSuXQ5Mtfg4FwYoIi49SjBidLXeb/l2orGp+EdUw3yph6esuWfKRF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349839385"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="349839385"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 10:53:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="688899459"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="688899459"
+Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 28 Apr 2023 10:53:40 -0700
+Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1psSHr-0000aR-0S;
+        Fri, 28 Apr 2023 17:53:39 +0000
+Date:   Sat, 29 Apr 2023 01:53:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yi-De Wu <yi-de.wu@mediatek.com>,
+        Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        David Bradil <dbrazdil@google.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>
+Subject: Re: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor
+ support
+Message-ID: <202304290120.5Ad0n6XR-lkp@intel.com>
+References: <20230428103622.18291-4-yi-de.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="obG4pUMAARmeQell"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871qk4awn2.fsf@meer.lwn.net>
+In-Reply-To: <20230428103622.18291-4-yi-de.wu@mediatek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Yi-De,
 
---obG4pUMAARmeQell
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build errors:
 
-On Fri, Apr 28, 2023 at 08:50:41AM -0600, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
->=20
-> > Your patch is rejected by "git am".
-> >
-> > In the header part of your email, I see these fields:
-> >
-> >> X-Mailer: git-send-email 2.31.1
-> >> MIME-Version: 1.0
-> >> Content-Type: text/plain; charset=3D"y"
-> >> Content-Transfer-Encoding: 8bit
-> >
-> > This looks broken.
-> > Please make sure your email header has a proper Content-Type
-> > as shown below:
-> >
-> >     Content-Type: text/plain; charset=3DUTF-8
->=20
-> This something that git send-email does on occasion; it's truly
-> obnoxious, and I have no idea why.
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on robh/for-next arnd-asm-generic/master linus/master v6.3 next-20230427]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If you have special characters in your patch/cover, git send-email will
-prompt you to declare a encoding. The message is something like:
+url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230428103622.18291-4-yi-de.wu%40mediatek.com
+patch subject: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor support
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230429/202304290120.5Ad0n6XR-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0e3f05a6e4547eb309032d047115a47d8f59641d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
+        git checkout 0e3f05a6e4547eb309032d047115a47d8f59641d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-| The following files are 8bit, but do not declare a Content-Transfer-Encod=
-ing.
-| 0000-cover-letter.patch
-| Which 8bit encoding should I declare [UTF-8]?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290120.5Ad0n6XR-lkp@intel.com/
 
-It's very easy to assume that pressing y to accept UTF-8 is the right
-thing to do, rather than pressing enter for the default.
+All errors (new ones prefixed by >>):
 
---obG4pUMAARmeQell
-Content-Type: application/pgp-signature; name="signature.asc"
+>> usr/include/linux/gzvm.h:15: included file 'asm-x86/gzvm_arch.h' is not exported
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZEv3VAAKCRB4tDGHoIJi
-0kJkAQD+44cVTxgqSXpoCUoSxBzU3k3Oo33DODhUh67TK+NPCAEA9Lo1mwZSg3p7
-VbDlhPJilTVYUn55dpUTXxJBhYxx6gg=
-=O4fM
------END PGP SIGNATURE-----
-
---obG4pUMAARmeQell--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
