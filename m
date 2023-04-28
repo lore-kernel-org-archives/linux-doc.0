@@ -2,118 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81400C77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 15:35:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B6A8C7EE24
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 16:06:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346476AbjD1PfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 11:35:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49272 "EHLO
+        id S229523AbjD1QGF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 12:06:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346539AbjD1PfN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 11:35:13 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DA2210C;
-        Fri, 28 Apr 2023 08:35:12 -0700 (PDT)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33SF3oxp020054;
-        Fri, 28 Apr 2023 15:35:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2023-03-30;
- bh=RSxC4dWNE/2O3qu1GoLDyqzY8ygixzh0e37oJcbfFXY=;
- b=iE5bg7XhGAAl+xGcwP7EklzRB8jLyYEGDDv1PWq2bjXYArMTddijJXlsRkXULWl8fvYZ
- OsYz69q1GOeeLUEBcE9VC3BC0AhwyQsIESr3fIysJHbn8jRkkdWgPLndqyLsp/qs5Dw1
- oGzovernceL5RcvS2iR1hzUy89KerdDBUqiLiQ0sX/s0EugMZ25cL/wclsk9lkS9D+om
- 1MlpnOZ6BlmIM1rbxttfZiGBHPqBnh/mRbXokZolrGeC+vsZamXM9CbZs7ijIQaTsc7a
- ysO2bWwMIOG8nBGf39BjfW5fbVttC/mI0Mvqd6JiuvSX/cEV7Duit7hOVavAMj27RxHs UA== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3q476u6ged-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 28 Apr 2023 15:35:08 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 33SE5vmh028177;
-        Fri, 28 Apr 2023 15:35:07 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3q461b4rvq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 28 Apr 2023 15:35:07 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33SFYqUM028134;
-        Fri, 28 Apr 2023 15:35:07 GMT
-Received: from myrouter.uk.oracle.com (dhcp-10-175-188-60.vpn.oracle.com [10.175.188.60])
-        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3q461b4rm0-7;
-        Fri, 28 Apr 2023 15:35:06 +0000
-From:   Alan Maguire <alan.maguire@oracle.com>
-To:     rostedt@goodmis.org, mhiramat@kernel.org
-Cc:     corbet@lwn.net, shuah@kernel.org,
-        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alan Maguire <alan.maguire@oracle.com>
-Subject: [PATCH v2 tracing 6/6] tracing: document IPv4, IPv6, MAC address and > 8 byte numeric filtering support
-Date:   Fri, 28 Apr 2023 16:34:49 +0100
-Message-Id: <1682696089-27937-7-git-send-email-alan.maguire@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1682696089-27937-1-git-send-email-alan.maguire@oracle.com>
-References: <1682696089-27937-1-git-send-email-alan.maguire@oracle.com>
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_04,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304280125
-X-Proofpoint-GUID: jp-r6OidS0SqBkV1800aMVkzMX12rjV8
-X-Proofpoint-ORIG-GUID: jp-r6OidS0SqBkV1800aMVkzMX12rjV8
+        with ESMTP id S229974AbjD1QGD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 12:06:03 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C91EE2D63
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 09:06:00 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-b8f51500a82so14867305276.2
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 09:06:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1682697960; x=1685289960;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b5lwLxqW5VKmY2A43cr9IwcGLbMR5CgyRtASHDDCzvw=;
+        b=Kgk4Eae1aP7UAuXMG2GCAySB2r0ZPNhQeU0yBcvJXJ6/0PIs4s7Ld+qmjhc7YMDJK8
+         3CHZHe+bkXTnnwKbXaypBSa9guGEx3TJDS/789EPghQfEh2m3QBTGkLfeX9kYi8F6i9i
+         YkrJ8FfhMdQbI0+Z1N3DpVbQ/F0NpEgDwHZcaFwC7KEEbTIKjW2hiUGxXwD/4ydBuAC6
+         A55pwq8Txjyp/zqzRvmxQpvZb3mWtxi2BlSAgQTmHbdrD0rqISv9QNCKGLB83iOOjzsw
+         /4GiOStfqQptBAeQmBGlX493AGsDpxdF2NASt1uCp/5ZLIJDbqt3D7sqalAc0gop2J75
+         wtKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682697960; x=1685289960;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b5lwLxqW5VKmY2A43cr9IwcGLbMR5CgyRtASHDDCzvw=;
+        b=IVk2QBkF51bck2NmhpWnBdoSa2FMwE8O/5M/m/jsD+Ql5n9D5WEnR30EaOwpcccKNn
+         OL2GZID/YuYBqGoanTHnPnrhFsCib1zluI5zXOEHXbqAM3RbEFwP0sUxHVd2x5K9q+yD
+         GBh3rNFSiEHwh/2sgWNAbU5yRYmdl3V/0hiA3+TN78cycNBo7Qc9BpLwh4XS2t4e461a
+         dPSwva5JnxroM4iTFeZRiHVrkcvwxZ5pkTVi9VMYPlM7Kkx/EZmiYr/GY8cVWjwAZekl
+         sjiEsOGaKHaN19uj1hwXgeiXFctLJgmNRJA54W1bqLbOaHYlaTa0ig22OqFqIj4iAWpy
+         enpg==
+X-Gm-Message-State: AC+VfDzOIFoQ2tqNI76JxEE6h+RHyw2z5NM+xMDxQ8bHdmJNAgrkvS4o
+        P/a0DHqvee4ZvgQn9LChCVpIWQbb2lOaG+vXdSbn
+X-Google-Smtp-Source: ACHHUZ6FGZWVLRbJ0Vtr4MD2R/979p76yJnZwYUUc8G4bL5ujRwJBt2UCfCS3wLLk3W8UDR0BgoH5jCuz8afYiz+U5A=
+X-Received: by 2002:a25:34c7:0:b0:b8e:e918:33ac with SMTP id
+ b190-20020a2534c7000000b00b8ee91833acmr4602032yba.1.1682697959947; Fri, 28
+ Apr 2023 09:05:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230428030916.2966-1-rdunlap@infradead.org> <CAHC9VhQoa5yw2e1jiN844pxNXXT+CosJn9ip7ysFnsnUbQUi2Q@mail.gmail.com>
+ <7a8df04e-ee81-8b4a-152f-1588b8d6cb42@infradead.org>
+In-Reply-To: <7a8df04e-ee81-8b4a-152f-1588b8d6cb42@infradead.org>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 28 Apr 2023 12:05:49 -0400
+Message-ID: <CAHC9VhS0KjFRjamDZsUCZHDRk1bg08JH0iFJi9SN3ZqMOg2+xQ@mail.gmail.com>
+Subject: Re: [PATCH] lsm: move hook comments docs to security/security.c
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        linux-security-module@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document that only == and != predicates are supported for
-IPv4, IPv6 and MAC addresses.
+On Fri, Apr 28, 2023 at 10:46=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
+> On 4/28/23 07:43, Paul Moore wrote:
+> > On Thu, Apr 27, 2023 at 11:09=E2=80=AFPM Randy Dunlap <rdunlap@infradea=
+d.org> wrote:
+> >>
+> >> Fix one kernel-doc warning, but invesigating that led to other
+> >> kernel-doc movement (lsm_hooks.h to security.c) that needs to be
+> >> fixed also.
+> >>
+> >> include/linux/lsm_hooks.h:1: warning: no structured comments found
+> >>
+> >> Fixes: e261301c851a ("lsm: move the remaining LSM hook comments to sec=
+urity/security.c")
+> >> Fixes: 1cd2aca64a5d ("lsm: move the io_uring hook comments to security=
+/security.c")
+> >> Fixes: 452b670c7222 ("lsm: move the perf hook comments to security/sec=
+urity.c")
+> >> Fixes: 55e853201a9e ("lsm: move the bpf hook comments to security/secu=
+rity.c")
+> >> Fixes: b14faf9c94a6 ("lsm: move the audit hook comments to security/se=
+curity.c")
+> >> Fixes: 1427ddbe5cc1 ("lsm: move the binder hook comments to security/s=
+ecurity.c")
+> >> Fixes: 43fad2821876 ("lsm: move the sysv hook comments to security/sec=
+urity.c")
+> >> Fixes: ecc419a44535 ("lsm: move the key hook comments to security/secu=
+rity.c")
+> >> Fixes: 742b99456e86 ("lsm: move the xfrm hook comments to security/sec=
+urity.c")
+> >> Fixes: ac318aed5498 ("lsm: move the Infiniband hook comments to securi=
+ty/security.c")
+> >> Fixes: 4a49f592e931 ("lsm: move the SCTP hook comments to security/sec=
+urity.c")
+> >> Fixes: 6b6bbe8c02a1 ("lsm: move the socket hook comments to security/s=
+ecurity.c")
+> >> Fixes: 2c2442fd46cd ("lsm: move the AF_UNIX hook comments to security/=
+security.c")
+> >> Fixes: 2bcf51bf2f03 ("lsm: move the netlink hook comments to security/=
+security.c")
+> >> Fixes: 130c53bfee4b ("lsm: move the task hook comments to security/sec=
+urity.c")
+> >> Fixes: a0fd6480de48 ("lsm: move the file hook comments to security/sec=
+urity.c")
+> >> Fixes: 9348944b775d ("lsm: move the kernfs hook comments to security/s=
+ecurity.c")
+> >> Fixes: 916e32584dfa ("lsm: move the inode hook comments to security/se=
+curity.c")
+> >> Fixes: 08526a902cc4 ("lsm: move the filesystem hook comments to securi=
+ty/security.c")
+> >> Fixes: 36819f185590 ("lsm: move the fs_context hook comments to securi=
+ty/security.c")
+> >> Fixes: 1661372c912d ("lsm: move the program execution hook comments to=
+ security/security.c")
+> >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> >> Cc: Paul Moore <paul@paul-moore.com>
+> >> Cc: James Morris <jmorris@namei.org>
+> >> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> >> Cc: linux-security-module@vger.kernel.org
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >> Cc: linux-doc@vger.kernel.org
+> >> Cc: KP Singh <kpsingh@kernel.org>
+> >> Cc: bpf@vger.kernel.org
+> >> ---
+> >>  Documentation/bpf/prog_lsm.rst             |    2 +-
+> >>  Documentation/security/lsm-development.rst |    6 +++---
+> >>  Documentation/security/lsm.rst             |    2 +-
+> >>  3 files changed, 5 insertions(+), 5 deletions(-)
+> >
+> > Thanks Randy.  Did you want to take this via the doc tree, or would
+> > you prefer if I pulled this into the LSM tree?
+>
+> I think that the LSM tree would be appropriate for it.
 
-For values > 8 bytes in size, only == and != filter predicates are
-supported; document this also.
+Fair enough, I just merged this into the lsm/stable-6.4 branch and
+I'll send this up to Linus shortly.
 
-Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
----
- Documentation/trace/events.rst | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index f5fcb8e1218f..6a75e4e256c9 100644
---- a/Documentation/trace/events.rst
-+++ b/Documentation/trace/events.rst
-@@ -182,10 +182,31 @@ The field-names available for use in filters can be found in the
- 
- The relational-operators depend on the type of the field being tested:
- 
-+For IPv4, IPv6 and MAC addresses, the available operators are:
-+
-+==, !=
-+
-+For example
-+
-+"dst == 127.0.0.1"
-+
-+"src != ::1"
-+
-+"mac_addr == ab:cd:ef:12:34:56"
-+
- The operators available for numeric fields are:
- 
- ==, !=, <, <=, >, >=, &
- 
-+For numeric fields larger than 8 bytes, only
-+
-+==, !=
-+
-+...are allowed, and values for comparison must match field size exactly.
-+For example, to match the "::1" IPv6 address:
-+
-+"dst == 0x00000000000000000000000000000001"
-+
- And for string fields they are:
- 
- ==, !=, ~
--- 
-2.31.1
-
+--=20
+paul-moore.com
