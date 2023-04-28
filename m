@@ -2,140 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 676A8C77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 00:24:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 497E9C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 01:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344256AbjD1AY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 20:24:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58346 "EHLO
+        id S1344334AbjD1BPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 21:15:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344037AbjD1AY1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 20:24:27 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DF11D2D51;
-        Thu, 27 Apr 2023 17:24:25 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F72D2F4;
-        Thu, 27 Apr 2023 17:25:09 -0700 (PDT)
-Received: from [10.57.23.190] (unknown [10.57.23.190])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 665683F587;
-        Thu, 27 Apr 2023 17:24:24 -0700 (PDT)
-Message-ID: <7d7cafea-37b2-a050-7247-6c0234cb4f4c@arm.com>
-Date:   Fri, 28 Apr 2023 01:24:20 +0100
+        with ESMTP id S229971AbjD1BPb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 21:15:31 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE8A2703
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 18:15:29 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-63d32d21f95so1903776b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 18:15:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1682644529; x=1685236529;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KdAMIiYmqSQz1GbWDTNHZpSZR6NUQD27x8IVMPn6Rlk=;
+        b=sa+18BQfIXdO34J2oBZ5fSNZDw2+/e2xdxFJ6iVqaxb1QxklxwVdWMI6yAs6m/RXcG
+         hfCvJZzISTfabi+tC/OLXZyJxmQaWFrefjil/FlgPAPMdVKcCqbLhRn+h8eIWvXlS8iJ
+         /I/b9TjLaNJB9EVoYkWPxoRdY4h6oGKU7HwGje2SXoKok/o3pDz+eEsBMclToXbyGCZG
+         mFWMsHrQiSG51MpgLF6Vm4jULI7sg02cU6J3SmaHgwSwUU0fEn/C0JuSqoGjF2+SJ95c
+         LdX+qb1fRPWe/Sy/EGOigwFdj+uTAUfnCPj7I+qWoFvYbU7FOqL4/hDVkR0bpJetnn2J
+         DT4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682644529; x=1685236529;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KdAMIiYmqSQz1GbWDTNHZpSZR6NUQD27x8IVMPn6Rlk=;
+        b=JeTS+nxBv8DEQwWFNDW0iW71Gi5h5Pm09iIf+A9EAuQvisHNVWL710vr5w8SWHPL1J
+         zmmqcvaWvoGkoJ0k3t5hyTBwkg12QAkVJ6ud9tQvwmpmqcC0cyWq37HWb2ZRIIkrbpLU
+         zkgODfP0n+qYmEKlmgZaF/08S+xJHUrDu1KlB9ajnBKUdWSiuBlJIcJNxd5zQg553PpM
+         kEtPNuNR4Trbba3XVRBwXDXYH1cP+UTTEWzduMmF8xotIjaOAkQCv6JlP9YMWrUzZxMb
+         04kcNAOvSXutu9DarnY52Lp40SYUPAuCnFITlhIQkqRShaxUeQNlMCK8dD7E1035Bwn2
+         f9iA==
+X-Gm-Message-State: AC+VfDzMt2QOL06g2yGusdCD2Zsf36DTWDd3uetZI8Jz5CKHJhxVHLZW
+        j/Ylt5W44/z+TApZ15mVPtF4Jw==
+X-Google-Smtp-Source: ACHHUZ7X+opn2Ubw1AwkQMzsSBun7dBZmvM343LIKmA46Kxphf9kLViwUZGrEMzvdhctRRtKV/mFeQ==
+X-Received: by 2002:a05:6a20:7f99:b0:f6:d60d:dbc8 with SMTP id d25-20020a056a207f9900b000f6d60ddbc8mr3325695pzj.2.1682644529298;
+        Thu, 27 Apr 2023 18:15:29 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id om12-20020a17090b3a8c00b002405d3bbe42sm13893828pjb.0.2023.04.27.18.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Apr 2023 18:15:28 -0700 (PDT)
+From:   Jens Axboe <axboe@kernel.dk>
+To:     josef@toxicpanda.com, linux-block@vger.kernel.org,
+        nbd@other.debian.org, Eric Blake <eblake@redhat.com>
+Cc:     philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+        christoph.boehmwalder@linbit.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20230410180611.1051618-1-eblake@redhat.com>
+References: <20230410180611.1051618-1-eblake@redhat.com>
+Subject: Re: [PATCH v3 0/4] nbd: s/handle/cookie/
+Message-Id: <168264452819.133910.16210912670607469975.b4-ty@kernel.dk>
+Date:   Thu, 27 Apr 2023 19:15:28 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] perf: ampere: Add support for Ampere SoC PMUs
-Content-Language: en-GB
-To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20230427215325.1067752-1-ilkka@os.amperecomputing.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230427215325.1067752-1-ilkka@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-00303
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-04-27 22:53, Ilkka Koskinen wrote:
-> Add support for Ampere SoC PMUs. This driver supports MCU PMU
-> available in the AmpereOne SoC.
+
+On Mon, 10 Apr 2023 13:06:07 -0500, Eric Blake wrote:
+> v2 was here: https://lkml.org/lkml/2023/3/17/1107
+> since then:
+> - squash patch 2/5 and 3/5 into 3/4 [Ming]
+> - add Josef's R-b
+> - tweak commit messages to match commits in userspace NBD (code itself
+>   is unchanged, modulo the patch squash)
 > 
-> Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
-> ---
->   .../admin-guide/perf/ampere-soc-pmu.rst       |  36 +
->   Documentation/admin-guide/perf/index.rst      |   1 +
->   drivers/perf/Kconfig                          |  10 +
->   drivers/perf/Makefile                         |   1 +
->   drivers/perf/ampere_soc_pmu.c                 | 724 ++++++++++++++++++
->   5 files changed, 772 insertions(+)
->   create mode 100644 Documentation/admin-guide/perf/ampere-soc-pmu.rst
->   create mode 100644 drivers/perf/ampere_soc_pmu.c
-> 
-> diff --git a/Documentation/admin-guide/perf/ampere-soc-pmu.rst b/Documentation/admin-guide/perf/ampere-soc-pmu.rst
-> new file mode 100644
-> index 000000000000..5161fbd1c548
-> --- /dev/null
-> +++ b/Documentation/admin-guide/perf/ampere-soc-pmu.rst
-> @@ -0,0 +1,36 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============================================
-> +Ampere SoC Performance Monitoring Unit (PMU)
-> +============================================
-> +
-> +Ampere SoC PMU is a generic PMU IP. At the first phase it's used for counting
-> +MCU events on AmpereOne.
-> +
-> +MCU PMU events
-> +--------------
-> +
-> +The PMU driver registers a PMU device for every supported PMU instance on each
-> +SoC. See /sys/devices/AMPC0100:<nn>/.
-> +
-> +The PMU driver supports setting filters for "rank", "bank", and "threshold". The
-> +filter settings are device specific and shared between all the relevant events.
-> +The default value for all the filters is zero. The filters can be modified by
-> +setting them with the last event of the particular device. All the previous
-> +settings are overwritten.
+> [...]
 
-Yeah, that doesn't really work... what is the "last event" relative to? 
-Order of arguments to arbitrary tools? Order of perf_event_open 
-syscalls? Order in which events are actually scheduled on the PMU? 
-(which users can't even control - think event rotation)
+Applied, thanks!
 
-To be practical I think you'll have to handle this the same way as 
-arm_smmuv3_pmu's global filtering, and only allow events with matching 
-filter configs to be scheduled together.
+[1/4] uapi nbd: improve doc links to userspace spec
+      commit: daf376a366fd2d469d66ab83dfdc074777462bab
+[2/4] uapi nbd: add cookie alias to handle
+      commit: 2686eb845da7762ee98b17e578b0c081aafb77b9
+[3/4] block nbd: use req.cookie instead of req.handle
+      commit: bd9e9916c32fd4b4fb4e879e05bd1568ee02ec93
+[4/4] docs nbd: userspace NBD now favors github over sourceforge
+      commit: 952aa344bf4305ab6fa0d9962ef8c2caa2afef4c
 
-[...]
-> +#define SOC_PMEVCNTR0_LO	0x000
-> +#define SOC_PMEVCNTR0_HI	0x004
-> +#define SOC_PMCCNTR_LO		0x0F8
-> +#define SOC_PMCCNTR_HI		0x0FC
-> +
-> +#define SOC_PMEVTYPER0		0x400
-> +
-> +#define SOC_PMELCSR		0xA10
-> +
-> +#define SOC_PMCNTENSET		0xC00
-> +#define SOC_PMCNTENCLR		0xC20
-> +#define SOC_PMINTENSET		0xC40
-> +#define SOC_PMINTENCLR		0xC60
-> +#define SOC_PMOVSCLR		0xC80
-> +#define SOC_PMOVSSET		0xCC0
-> +
-> +#define SOC_PMAUXR0		0xD80
-> +#define SOC_PMAUXR1		0xD84
-> +#define SOC_PMAUXR2		0xD88
-> +#define SOC_PMAUXR3		0xD8C
-> +
-> +#define SOC_PMCFGR		0xE00
-> +#define SOC_PMCR		0xE04
-> +#define PMU_PMCR_E		BIT(0)
-> +#define PMU_PMCR_P		BIT(1)
-> +
-> +#define SOC_PMAUTHSTATUS	0xFB8
-> +#define SOC_PMDEVARCH		0xFBC
-> +#define SOC_PMDEVTYPE		0xFCC
-> +#define SOC_PMPIDR4		0xFD0
-> +#define SOC_PMPIDR0		0xFE0
-> +#define SOC_PMPIDR1		0xFE4
-> +#define SOC_PMPIDR2		0xFE8
-> +#define SOC_PMPIDR3		0xFEC
-> +#define SOC_PMCIDR0		0xFF0
-> +#define SOC_PMCIDR1		0xFF4
-> +#define SOC_PMCIDR2		0xFF8
-> +#define SOC_PMCIDR3		0xFFC
+Best regards,
+-- 
+Jens Axboe
 
-This register map quite clearly follows the Arm CoreSight PMU 
-architecture. Nice to see it being used, but would you mind having a go 
-at hooking up your imp-def bits to the existing arm_cspmu driver?
 
-Thanks,
-Robin.
+
