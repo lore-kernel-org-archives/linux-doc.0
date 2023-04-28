@@ -2,117 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E34C77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 12:24:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ACCAC7EE22
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 12:25:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbjD1MYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 08:24:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33916 "EHLO
+        id S1345978AbjD1MZ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 08:25:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbjD1MYW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 08:24:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 505ADE54;
-        Fri, 28 Apr 2023 05:24:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B4A4760C25;
-        Fri, 28 Apr 2023 12:24:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2EBC433EF;
-        Fri, 28 Apr 2023 12:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682684660;
-        bh=bJ4kd4DhI0XWEY91KoBUmIja7FGFyv2ovxrLHacsvhU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=EjttAvDmLcZc2GIi/5FZLJYLdTppIaJdQIrj2NzUaFToF2L28MefxXkANc45kLJoZ
-         MuuIZCqWvO5w1v+F90iFdjXCbd5Nikhi6P19iXMKsoQALbBIFuf1m6ak70hsBV9eeM
-         jD2Gsi5uaAkEGPUKPFIJdZaAimeGCpaRPI/Okirvfv8OLfJlcHM3x1ru5ibGMhRHHn
-         5gyoydSK6maApOFU/QIc+sqh0Oqa7vOzrUWc6FLeADEfzyEsPmIGbq8CCxZwYVNEDj
-         v5NMpiqe3rDGiSBylp+HOx0WMbxIN7Yx0IZdT0PedHy/kKnrDIylhYNNYSAj5S9E//
-         sCbNOLG1m6kCg==
-Date:   Fri, 28 Apr 2023 13:24:15 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Costa Shulyupin <costa.shul@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH] docs: redirect from old arch to the new one
-Message-ID: <20230428132415.0d0f5a03@sal.lan>
-In-Reply-To: <20230427101241.1273752-1-costa.shul@redhat.com>
-References: <20230427101241.1273752-1-costa.shul@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+        with ESMTP id S1345837AbjD1MZ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 08:25:56 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBB535BB3
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 05:25:49 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f09b4a1584so67645555e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 05:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1682684748; x=1685276748;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FCZD7/skKxELiLiQ/Kgtq9xL2gK3ugZhkE8UlBHv94Q=;
+        b=uUgsJRet2rXqZzO39tKpNe1PPCmGNTTEXDP7+XoXX1WhwC7n6SFii4fWBlBlWhWUDh
+         Cnf3M/2voFfRkjanUwYgCBz2zCXELwRizuCZBuFMvKdhaRKabEg5/MXCGrzW+C6B6KJw
+         mX+2F7apsDTDVgcLM6qxspDdmRl8vNGYIGdV09Q4ePTOB33MExIIjbOChffFbCNI8qoT
+         IZdbIkrfFL1rjadYFEWADsvwPALuUxud15Tap5wnQgVssXZJAIpGqFxnqiCbs9SjDET1
+         C7TPKyeBELoVR5mTyMPLZTyX9Clh0qZRpKcsOhjsNYZ73uRCw0qLpuqVYlgdzd7Fkeow
+         60Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682684748; x=1685276748;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCZD7/skKxELiLiQ/Kgtq9xL2gK3ugZhkE8UlBHv94Q=;
+        b=RSIU3yP9idKVbb2jk/b+lU9fivB9VVZq+V3OrhevEGYMwFpLy+NuNniU8AP0SkeIbc
+         tpic7+BKGe/xNu1B9tk/4eRe3ohCQ2YpjUtrTJjBtsJCnrhU/j44iI8w2UBKnuIVkbjC
+         2L6ypstBIoSB7otN3gCMTNfHY8TXK7UWlyRzKcje94ErA+D2WFebd7lOrpUUH2AOszE2
+         wU6GSd4i7klZy1tkYVK+tJ4ChdYEEzAQ8c5LapdLzSK08jNc6xSDWiEegrKxhLkMJgIJ
+         bWt/SxWCy/WtK6o7JsVEXCoQmOyVkEapJB/U1Rh6E4Ko9sDWHnhU/vKpXX/aQX8Tp5Hg
+         PiMg==
+X-Gm-Message-State: AC+VfDwhlm3Gqe53Dx0pH/UxNZ97JMYUySX8e0Qxqwq1vJs3d1mql8kp
+        FY17EaD7mGhiWLx57GqpH863aQ==
+X-Google-Smtp-Source: ACHHUZ7jrGfG5E3rVbh1rlyewG/33jkn7z+iNaDOwZOeE24lokjSTMXbm+oex+abJk6U0bKResFC0Q==
+X-Received: by 2002:a05:600c:d7:b0:3f1:93c2:4df6 with SMTP id u23-20020a05600c00d700b003f193c24df6mr3758700wmm.12.1682684748414;
+        Fri, 28 Apr 2023 05:25:48 -0700 (PDT)
+Received: from [172.23.2.142] ([195.167.132.10])
+        by smtp.gmail.com with ESMTPSA id i40-20020a05600c4b2800b003ee6aa4e6a9sm27367821wmp.5.2023.04.28.05.25.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Apr 2023 05:25:47 -0700 (PDT)
+Message-ID: <00e293fc-e5f7-d451-5547-def284ac2214@linaro.org>
+Date:   Fri, 28 Apr 2023 14:25:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 0/7] GenieZone hypervisor drivers
+Content-Language: en-US
+To:     Yi-De Wu <yi-de.wu@mediatek.com>,
+        Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        David Bradil <dbrazdil@google.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>
+References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230428103622.18291-1-yi-de.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 27 Apr 2023 13:12:39 +0300
-Costa Shulyupin <costa.shul@redhat.com> escreveu:
-
-> Due to a recent reorganization of 'CPU Architectures', the links to
-> the documentation from external resources were rendered invalid.
-> This is a common challenge when attempting to make changes
-> while maintaining backward compatibility. To address this issue,
-> a commit has been made which uses sphinx extension to seamlessly
-> redirect users from the old location of the page to the new one.
+On 28/04/2023 12:36, Yi-De Wu wrote:
+> This series is based on linux-next, tag: next-20230427.
 > 
+> Changes in v2:
+> - Refactor: move to drivers/virt/geniezone
+> - Refactor: decouple arch-dependent and arch-independent
+> - Check pending signal before entering guest context
+> - Fix reviewer's comments
 > 
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> ---
->  Documentation/conf.py                 | 8 +++++++-
->  Documentation/sphinx/requirements.txt | 1 +
->  2 files changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 37314afd1ac8..514bfe6a8166 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -55,7 +55,13 @@ needs_sphinx = '1.7'
->  extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
->                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
->                'maintainers_include', 'sphinx.ext.autosectionlabel',
-> -              'kernel_abi', 'kernel_feat']
-> +              'kernel_abi', 'kernel_feat',
-> +              'sphinx_reredirects',
-> +]
 
+Please explain what is Geniezone, where we can find it, what's the plan
+for open-sourcing it etc.
 
-Besides Jon's comment, if we add something like this, please make
-such extension optional (in a similar way to what we do for 
-sphinx.ext.imgmath), as this is only pertinent on websites meant
-to provide  the Kernel documentation.
+That's what cover letter is for.
 
-> +
-> +redirects = {
-> +     "arch.html": "arch/index.html",
-> +}
+Best regards,
+Krzysztof
 
-I suspect that maintaining a list of all redirects here can be
-painful, as, from time to time, we see documentation churns.
-
-We should likely need some script to check what renames happened
-since a previous Kernel version, generating it automatically.
-
-Again, as this is something that only applies to websites hosting
-documentation, IMO the best would be to have a separate file
-("conf_redirects.py") included on conf.py, that will be
-auto-generated by a script that would receive, as input, the
-initial Kernel version where redirects should be preserved.
-
-Regards,
-Mauro
-
->  
->  if major >= 3:
->      if (major > 3) or (minor > 0 or patch >= 2):
-> diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
-> index 335b53df35e2..0b067e985edb 100644
-> --- a/Documentation/sphinx/requirements.txt
-> +++ b/Documentation/sphinx/requirements.txt
-> @@ -1,3 +1,4 @@
->  # jinja2>=3.1 is not compatible with Sphinx<4.0
->  jinja2<3.1
->  Sphinx==2.4.4
-> +sphinx_reredirects
