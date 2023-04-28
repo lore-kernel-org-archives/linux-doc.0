@@ -2,99 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F9DC77B7F
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 10:18:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F38C77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 10:36:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346001AbjD1KSX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 06:18:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57130 "EHLO
+        id S1345420AbjD1Kgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 06:36:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345595AbjD1KSU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 06:18:20 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3162D49;
-        Fri, 28 Apr 2023 03:18:19 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 265436602097;
-        Fri, 28 Apr 2023 11:18:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1682677097;
-        bh=Yk5D9b+oPUkoCZwzeMIIJtHOgvXide7fZoW+I8ghpV0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mhhECMNxkLs1iW+QaB2pRm8nUySryOtAT9Y4NOyMqr2EqHYzZmpOT+adaU6/ID1a9
-         no1OdnK+ALZIj8/C7cBWw20X2bNzE89ZFuf6mYMbos909zeCh8D7m0E2UFsLyi3fri
-         MJloqfSnhMn9R9NfMh89i03ukNYFMrsV08bymj3SSPhXtXvaNygxNTThFredKI91aT
-         E3NP3647tgYI23H9PtLyuLvhEXAJoK4jHGAjfi09ZqIlAzfKWTKK6G/5bZj9bKGvUX
-         sM8uGnfSD66AngdfS1WteFdbKzplq4xmhjx4GPFm5NVhHHnboQ0n6DZdSmsdshX2G0
-         mCGmVSSVOfJmw==
-Date:   Fri, 28 Apr 2023 12:18:13 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
-        bskeggs@redhat.com, Liam.Howlett@oracle.com,
-        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
-        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v3 04/15] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <20230428121813.309ea609@collabora.com>
-In-Reply-To: <20230404012741.116502-5-dakr@redhat.com>
-References: <20230404012741.116502-1-dakr@redhat.com>
-        <20230404012741.116502-5-dakr@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+        with ESMTP id S230159AbjD1Kgh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 06:36:37 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 679D71FD4;
+        Fri, 28 Apr 2023 03:36:31 -0700 (PDT)
+X-UUID: 87030bdae5b011ed9cb5633481061a41-20230428
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=adkXrrnEZGPRbZSglcGKLdD759QITaY+HgrVCM5K9Y8=;
+        b=HRhYoyYlFHM9xvD/rKT/KsTnGG9L1GrgxexeeCviVNkjD9rngkDausF4/Sz9+vEX4lUtSI64pAoDVszB5ajZz/5rlx6+R7JaIUoDsYiw69Y+kMFloc5m86B2FElGrbsISEg4z3wHfs7+ZwfquxEId7XYllAPvYToqo8W6sLrmRk=;
+X-CID-UNFAMILIAR: 1
+X-CID-P-RULE: Spam_GS6885AD
+X-CID-O-INFO: VERSION:1.1.22,REQID:9459ec68-3204-49b8-aad8-a156337d5545,IP:0,U
+        RL:0,TC:0,Content:100,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS6885AD,A
+        CTION:quarantine,TS:200
+X-CID-INFO: VERSION:1.1.22,REQID:9459ec68-3204-49b8-aad8-a156337d5545,IP:0,URL
+        :0,TC:0,Content:100,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_HTS54396,ACT
+        ION:quarantine,TS:200
+X-CID-META: VersionHash:120426c,CLOUDID:d92d386a-2f20-4998-991c-3b78627e4938,B
+        ulkID:230428183627VRSLIXLA,BulkQuantity:0,Recheck:0,SF:38|29|28|16|19|48|8
+        01,TC:nil,Content:3,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:ni
+        l,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: 87030bdae5b011ed9cb5633481061a41-20230428
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+        (envelope-from <yi-de.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1781620514; Fri, 28 Apr 2023 18:36:26 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 28 Apr 2023 18:36:25 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Fri, 28 Apr 2023 18:36:25 +0800
+From:   Yi-De Wu <yi-de.wu@mediatek.com>
+To:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Yi-De Wu <yi-de.wu@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arch@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        David Bradil <dbrazdil@google.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>
+Subject: [PATCH v2 1/7] docs: geniezone: Introduce GenieZone hypervisor
+Date:   Fri, 28 Apr 2023 18:36:16 +0800
+Message-ID: <20230428103622.18291-2-yi-de.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20230428103622.18291-1-yi-de.wu@mediatek.com>
+References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  4 Apr 2023 03:27:30 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
 
-> +struct drm_gpuva_manager {
-> +	/**
-> +	 * @name: the name of the DRM GPU VA space
-> +	 */
-> +	const char *name;
-> +
-> +	/**
-> +	 * @mm_start: start of the VA space
-> +	 */
-> +	u64 mm_start;
-> +
-> +	/**
-> +	 * @mm_range: length of the VA space
-> +	 */
-> +	u64 mm_range;
-> +
-> +	/**
-> +	 * @mtree: the &maple_tree to track GPU VA mappings
-> +	 */
-> +	struct maple_tree mtree;
-> +
-> +	/**
-> +	 * @kernel_alloc_node:
-> +	 *
-> +	 * &drm_gpuva representing the address space cutout reserved for
-> +	 * the kernel
-> +	 */
-> +	struct drm_gpuva kernel_alloc_node;
-> +
-> +	/**
-> +	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
-> +	 */
-> +	struct drm_gpuva_fn_ops *ops;
+GenieZone is MediaTek proprietary hypervisor solution, and it is running
+in EL2 stand alone as a type-I hypervisor. It is a pure EL2
+implementation which implies it does not rely any specific host VM, and
+this behavior improves GenieZone's security as it limits its interface.
 
-Any reason for not making that a const object (same goes for all the
-functions being passed a drm_gpuva_fn_ops)?
+Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+---
+ Documentation/virt/geniezone/introduction.rst | 34 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 Documentation/virt/geniezone/introduction.rst
 
-> +};
+diff --git a/Documentation/virt/geniezone/introduction.rst b/Documentation/virt/geniezone/introduction.rst
+new file mode 100644
+index 000000000000..1fffd6cbb4db
+--- /dev/null
++++ b/Documentation/virt/geniezone/introduction.rst
+@@ -0,0 +1,34 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================
++GenieZone Introduction
++======================
++
++
++Overview
++========
++GenieZone is MediaTek proprietary hypervisor solution, and it is running in EL2
++stand alone as a type-I hypervisor. It is a pure EL2 implementation which
++implies it does not rely any specific host VM, and this behavior improves
++GenieZone's security as it limits its interface.
++
++To enable guest VMs running, a driver (gzvm) is provided for VMM (virtual
++machine monitor) to operate. Currently, the gzvm driver supports only crosvm.
++
++
++Supported Architecture
++======================
++GenieZone now only supports MediaTek arm64 SoC.
++
++
++Platform Virtualization
++=======================
++We leverages arm64's timer virtualization and gic virtualization for timer and
++interrupts controller.
++
++
++Device Virtualizaton
++====================
++We adopts VMM's virtio devices emulations by passing io trap to VMM, and virtio
++is a well-known and widely used virtual device implementation.
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4b8971cba764..db8915114b86 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8694,6 +8694,12 @@ F:	include/vdso/
+ F:	kernel/time/vsyscall.c
+ F:	lib/vdso/
+ 
++GENIEZONE HYPERVISOR DRIVER
++M:	Yingshiuan Pan <yingshiuan.pan@mediatek.com>
++M:	Ze-Yu Wang <ze-yu.wang@mediatek.com>
++M:	Yi-De Wu <yi-de.wu@mediatek.com>
++F:	Documentation/virt/geniezone/
++
+ GENWQE (IBM Generic Workqueue Card)
+ M:	Frank Haverkamp <haver@linux.ibm.com>
+ S:	Supported
+-- 
+2.18.0
+
