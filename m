@@ -2,111 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECCBDC77B60
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 14:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 147FFC77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 14:50:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbjD1Oqx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 10:46:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45802 "EHLO
+        id S229585AbjD1Oup (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 10:50:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230016AbjD1Oqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 10:46:52 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F8B4EF4;
-        Fri, 28 Apr 2023 07:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=VEmXz+ylVr+WaJKCgmNsQp/Rc39N+DEL3hqlNMcb+RY=; b=DaFcvaX5gVCgJvaEB94d8hXJaW
-        9SGmLALmCYdK0lv14NfgRaqWksjyp6oBLvlabKvl+H8qwPT4BJln8WEmsJ214ZAEW0dc+A6m3wP5f
-        xMG6E6Yk3fzbb34AjJHxQaR/aqjOr99cwpQy6lG9eC5/927yGCYfAZjG3QtKhZbV35CNogv38XHCq
-        5tuV7onoFTwvVb10tNDgYqIkPIa11h5IZL7FuQW9dR7e7xSxH196CCm/1/kC1E7ktLLZuMmaiOtbt
-        ptuO9peEdhOEVRnR+PVBHs686x6e3b264xgQBBcYt0aZTWeNtg1XZjO+7rvNdrSSk+/9EFvIVA2Hn
-        H5Db0BLQ==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1psPMd-00B1Ia-0P;
-        Fri, 28 Apr 2023 14:46:23 +0000
-Message-ID: <7a8df04e-ee81-8b4a-152f-1588b8d6cb42@infradead.org>
-Date:   Fri, 28 Apr 2023 07:46:19 -0700
+        with ESMTP id S229526AbjD1Oun (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 10:50:43 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08C826A5;
+        Fri, 28 Apr 2023 07:50:42 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 8683B37E;
+        Fri, 28 Apr 2023 14:50:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8683B37E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1682693442; bh=Smvf1SZe/VpXmNmj4kak6qasoAtMRIIGN77Gamt5xbU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=E0z4uHk1q4di8eEFomIrW7kpUDyr+hhkxCM0SGh2zgNg8dMa2v/zf3xzbSZ9gNtMc
+         gZoUUUseYYxtoS+IOf27cbqmUACPv7KWIFscw2QFwWp79uWPKGOQdgQ87k38ZJjHEg
+         ZxyQqIma1dO54VMuDslC8vz8HiNYbhnJFBCvTqFxXGJuuRoQYNXcx4QcKjwjIXKuLo
+         5H8A4JKkrrITrTinDKQcFynglDr8LTsizThtdl7Kr4p4sVtfo08+jKDjsbFk9G7/Ek
+         2dkHZCJxSdLST4vwUX94qb6e3JOZG/An/m1hdnnAI7BCuOBPVfJxkZLA+g3AVj3Mcn
+         HbbNqcJ3W/ngA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>, wangdeming@inspur.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shibata@linuxfoundation.org
+Subject: Re: [PATCH] Documentation/translations/ja_JP/SubmittingPatches: fix
+ some typos
+In-Reply-To: <71c91ae5-2ed7-cfd5-7b7f-6cb5a0141816@gmail.com>
+References: <20230428091018.1558-1-wangdeming@inspur.com>
+ <71c91ae5-2ed7-cfd5-7b7f-6cb5a0141816@gmail.com>
+Date:   Fri, 28 Apr 2023 08:50:41 -0600
+Message-ID: <871qk4awn2.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] lsm: move hook comments docs to security/security.c
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     linux-kernel@vger.kernel.org, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        linux-security-module@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org
-References: <20230428030916.2966-1-rdunlap@infradead.org>
- <CAHC9VhQoa5yw2e1jiN844pxNXXT+CosJn9ip7ysFnsnUbQUi2Q@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAHC9VhQoa5yw2e1jiN844pxNXXT+CosJn9ip7ysFnsnUbQUi2Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Akira Yokosawa <akiyks@gmail.com> writes:
 
+> Your patch is rejected by "git am".
+>
+> In the header part of your email, I see these fields:
+>
+>> X-Mailer: git-send-email 2.31.1
+>> MIME-Version: 1.0
+>> Content-Type: text/plain; charset="y"
+>> Content-Transfer-Encoding: 8bit
+>
+> This looks broken.
+> Please make sure your email header has a proper Content-Type
+> as shown below:
+>
+>     Content-Type: text/plain; charset=UTF-8
 
-On 4/28/23 07:43, Paul Moore wrote:
-> On Thu, Apr 27, 2023 at 11:09 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> Fix one kernel-doc warning, but invesigating that led to other
->> kernel-doc movement (lsm_hooks.h to security.c) that needs to be
->> fixed also.
->>
->> include/linux/lsm_hooks.h:1: warning: no structured comments found
->>
->> Fixes: e261301c851a ("lsm: move the remaining LSM hook comments to security/security.c")
->> Fixes: 1cd2aca64a5d ("lsm: move the io_uring hook comments to security/security.c")
->> Fixes: 452b670c7222 ("lsm: move the perf hook comments to security/security.c")
->> Fixes: 55e853201a9e ("lsm: move the bpf hook comments to security/security.c")
->> Fixes: b14faf9c94a6 ("lsm: move the audit hook comments to security/security.c")
->> Fixes: 1427ddbe5cc1 ("lsm: move the binder hook comments to security/security.c")
->> Fixes: 43fad2821876 ("lsm: move the sysv hook comments to security/security.c")
->> Fixes: ecc419a44535 ("lsm: move the key hook comments to security/security.c")
->> Fixes: 742b99456e86 ("lsm: move the xfrm hook comments to security/security.c")
->> Fixes: ac318aed5498 ("lsm: move the Infiniband hook comments to security/security.c")
->> Fixes: 4a49f592e931 ("lsm: move the SCTP hook comments to security/security.c")
->> Fixes: 6b6bbe8c02a1 ("lsm: move the socket hook comments to security/security.c")
->> Fixes: 2c2442fd46cd ("lsm: move the AF_UNIX hook comments to security/security.c")
->> Fixes: 2bcf51bf2f03 ("lsm: move the netlink hook comments to security/security.c")
->> Fixes: 130c53bfee4b ("lsm: move the task hook comments to security/security.c")
->> Fixes: a0fd6480de48 ("lsm: move the file hook comments to security/security.c")
->> Fixes: 9348944b775d ("lsm: move the kernfs hook comments to security/security.c")
->> Fixes: 916e32584dfa ("lsm: move the inode hook comments to security/security.c")
->> Fixes: 08526a902cc4 ("lsm: move the filesystem hook comments to security/security.c")
->> Fixes: 36819f185590 ("lsm: move the fs_context hook comments to security/security.c")
->> Fixes: 1661372c912d ("lsm: move the program execution hook comments to security/security.c")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Paul Moore <paul@paul-moore.com>
->> Cc: James Morris <jmorris@namei.org>
->> Cc: "Serge E. Hallyn" <serge@hallyn.com>
->> Cc: linux-security-module@vger.kernel.org
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: KP Singh <kpsingh@kernel.org>
->> Cc: bpf@vger.kernel.org
->> ---
->>  Documentation/bpf/prog_lsm.rst             |    2 +-
->>  Documentation/security/lsm-development.rst |    6 +++---
->>  Documentation/security/lsm.rst             |    2 +-
->>  3 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> Thanks Randy.  Did you want to take this via the doc tree, or would
-> you prefer if I pulled this into the LSM tree?
-> 
-> Acked-by: Paul Moore <paul@paul-moore.com>
-> 
+This something that git send-email does on occasion; it's truly
+obnoxious, and I have no idea why.  I end up fixing up patches by hand
+when I see it.  If the change itself is OK, I can manage it from here.
 
-I think that the LSM tree would be appropriate for it.
+Thanks,
 
-Thanks.
-
--- 
-~Randy
+jon
