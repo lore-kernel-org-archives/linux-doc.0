@@ -2,107 +2,208 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8B1C77B60
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 06:26:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34AC3C77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 07:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbjD1G0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 02:26:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
+        id S1345297AbjD1HLI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 03:11:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230002AbjD1G0H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 02:26:07 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 26A4A30C2
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 23:26:04 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.110.102])
-        by gateway (Coremail) with SMTP id _____8AxX+v4ZktkFAcCAA--.3387S3;
-        Fri, 28 Apr 2023 14:26:00 +0800 (CST)
-Received: from [192.168.100.131] (unknown [112.20.110.102])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxHLP2Zktk7fI_AA--.21016S3;
-        Fri, 28 Apr 2023 14:25:58 +0800 (CST)
-Message-ID: <aae533d7-0274-1723-2c6a-8a343bd1b8c7@loongson.cn>
-Date:   Fri, 28 Apr 2023 14:25:58 +0800
+        with ESMTP id S229680AbjD1HLG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 03:11:06 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F4671FC6;
+        Fri, 28 Apr 2023 00:11:02 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33S6eC60017888;
+        Fri, 28 Apr 2023 07:09:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=r4S9H1vwWoK1+kiA09br/m7C1/tdA0ux38+UdY8IJC8=;
+ b=TRgDOuAiuEa7voWD8LojLP65cAU+eYPwSaHvdK8MyLjAWhoKHKVjVex0r8j+e6P6NBP8
+ A3ckaa63DGxZrxEQVe3dsuVAhpsUloRGI5SvHgnx8yFZmzJgN9JispzTuwEIZFSG1Vi2
+ 5eIYT+CBb95fCbyHFrCyZcxT6Nhko+nw/AS1oj3l0mspDNjiOFGxAkWmGEPsIdR8Bprw
+ N54eM/U5n29mxQAbexncaXDiPBO0Kd+FuelWQqrnCKhZwTs5hsoSyuWdcLAPSGerrxp/
+ g/RiwBtmVgjjuH43HPbJSqUpUYM6Hcv4KQRXVilx6YLej+qiYdW9tMR/2JgRTD1LRNt/ Ow== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q7wq89b8t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 28 Apr 2023 07:09:52 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33S79pGx032698
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 28 Apr 2023 07:09:51 GMT
+Received: from [10.253.9.121] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 28 Apr
+ 2023 00:09:45 -0700
+Message-ID: <336ce7b0-45f6-85e1-14a3-9e8c94a2f6fd@quicinc.com>
+Date:   Fri, 28 Apr 2023 15:09:43 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] Remove the unnecessary unicode character
-To:     Tao Liu <ltao@redhat.com>, alexs@kernel.org, corbet@lwn.net,
-        src.res@email.cn
-Cc:     linux-doc@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-References: <20230426021452.9745-1-ltao@redhat.com>
+Subject: Re: [PATCH v3 2/3] dt-bindings: arm: Add Coresight Dummy Trace
 Content-Language: en-US
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20230426021452.9745-1-ltao@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxHLP2Zktk7fI_AA--.21016S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxGrW7WrW8WFW8Ww18Jw17GFg_yoW5Wr4fpr
-        W2g34fK3WIyr12yrZrGw4xXFy8GFnrGa12ga17tas3Krn5uFsFqrsxKr98tasxXry8WFW2
-        qF48Kr409Fy2v3JanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
-        ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
-        M2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zV
-        CFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2
-        z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2
-        IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxY
-        O2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
-        WUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
-        Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rV
-        WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4U
-        YxBIdaVFxhVjvjDU0xZFpf9x07je0PfUUUUU=
+To:     Rob Herring <robh@kernel.org>
+CC:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        "Yuanfang Zhang" <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20230422073714.38844-1-quic_hazha@quicinc.com>
+ <20230422073714.38844-3-quic_hazha@quicinc.com>
+ <20230425184654.GA2063541-robh@kernel.org>
+From:   Hao Zhang <quic_hazha@quicinc.com>
+In-Reply-To: <20230425184654.GA2063541-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: iS1NqngkcR_LxwoJA8zQZjsldTzjbUq6
+X-Proofpoint-ORIG-GUID: iS1NqngkcR_LxwoJA8zQZjsldTzjbUq6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-28_02,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxlogscore=935
+ bulkscore=0 suspectscore=0 phishscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304280057
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Rob,
 
-在 4/26/23 10:14, Tao Liu 写道:
-> There is a non-printable unicode char '\u202a' or "0xe2 0x80 0xaa" in hex
-> in the translation doc. It is unnecessary and should be removed for better
-> text formatting when using editors like vi.
->
-> Signed-off-by: Tao Liu <ltao@redhat.com>
+On 4/26/2023 2:46 AM, Rob Herring wrote:
+> On Sat, Apr 22, 2023 at 03:37:13PM +0800, Hao Zhang wrote:
+>> Add new coresight-dummy.yaml file describing the bindings required
+>> to define coresight dummy trace in the device trees.
+>>
+>> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+>> ---
+>>   .../bindings/arm/arm,coresight-dummy.yaml     | 101 ++++++++++++++++++
+>>   1 file changed, 101 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+>> new file mode 100644
+>> index 000000000000..48d864aefaaa
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+>> @@ -0,0 +1,101 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/arm/arm,coresight-dummy.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: ARM Coresight Dummy component
+>> +
+>> +description: |
+>> +  Coresight Dummy Trace Module is for the specific devices that kernel
+>> +  don't have permission to access or configure, e.g., CoreSight TPDMs
+>> +  on Qualcomm platforms. So there need driver to register dummy devices
+>> +  as Coresight devices. It may also be used to define components that
+>> +  may not have any programming interfaces (e.g, static links), so that
+>> +  paths can be established in the driver. Provide Coresight API for
+>> +  dummy device operations, such as enabling and disabling dummy devices.
+>> +  Build the Coresight path for dummy sink or dummy source for debugging.
+>> +
+>> +  The primary use case of the coresight dummy is to build path in kernel
+>> +  side for dummy sink and dummy source.
+> 
+> I could imagine the OS wanting to know more information than just
+> 'dummy'. Is data from an unknown source useful? Likewise, don't you want
+> to know where you are sending data too?
+> 
+The necessary information for Coresight is connection between different 
+components, so there is in-port for dummy sink and out-port for dummy 
+source. We can get the whole path from the source to sink in device tree.
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
+>> +
+>> +maintainers:
+>> +  - Mao Jinlong <quic_jinlmao@quicinc.com>
+>> +  - Tao Zhang <quic_taozha@quicinc.com>
+>> +  - Hao Zhang <quic_hazha@quicinc.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    oneOf:
+>> +      - enum:
+> 
+> Don't need oneOf as there is only one entry.
+> 
+OK, I will remove it in the next version of patch.
+>> +          - arm,coresight-dummy-sink
+>> +          - arm,coresight-dummy-source
+>> +
+>> +  out-ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port:
+>> +        description: Output connection from the source to Coresight
+>> +          Trace bus.
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +
+>> +  in-ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port:
+>> +        description: Input connection from the Coresight Trace bus to
+>> +          dummy sink, such as Embedded USB debugger(EUD).
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +
+>> +required:
+>> +  - compatible
+>> +
+>> +if:
+>> +  # If the compatible contains the below value
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        const: arm,coresight-dummy-sink
+>> +
+>> +then:
+>> +  required:
+>> +    - in-ports
+>> +
+>> +else:
+>> +  required:
+>> +    - out-ports
+> 
+> This still allows the nodes when they don't make sense. I think this
+> needs to be 2 schema files. The only common part is 'compatible' and
+> that's not even shared.
+>  > Rob
+Dummy driver is very simple, the only goal of it is to build a path in 
+kernel for subsystem, so we want to handle dummy source and sink in a 
+generic framework.
 
 Thanks,
-
-Yanteng
-
-> ---
->   Documentation/translations/zh_CN/process/magic-number.rst | 2 +-
->   Documentation/translations/zh_TW/process/magic-number.rst | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Documentation/translations/zh_CN/process/magic-number.rst
-> index 0617ce125e12..6f22b728d4e7 100644
-> --- a/Documentation/translations/zh_CN/process/magic-number.rst
-> +++ b/Documentation/translations/zh_CN/process/magic-number.rst
-> @@ -25,7 +25,7 @@ Linux 魔术数
->           	...
->           };
->   
-> -当你以后给内核添加增强功能的时候，请遵守这条规则！这样就会节省数不清的调试时间，特别是一些古怪的情况，例如，数组超出范围并且重新写了超出部分。遵守这个规则，‪这些情况可以被快速地，安全地避免。
-> +当你以后给内核添加增强功能的时候，请遵守这条规则！这样就会节省数不清的调试时间，特别是一些古怪的情况，例如，数组超出范围并且重新写了超出部分。遵守这个规则，这些情况可以被快速地，安全地避免。
->   
->   		Theodore Ts'o
->   		  31 Mar 94
-> diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
-> index f3f7082e17c6..a3dd87cadc26 100644
-> --- a/Documentation/translations/zh_TW/process/magic-number.rst
-> +++ b/Documentation/translations/zh_TW/process/magic-number.rst
-> @@ -28,7 +28,7 @@ Linux 魔術數
->           	...
->           };
->   
-> -當你以後給內核添加增強功能的時候，請遵守這條規則！這樣就會節省數不清的調試時間，特別是一些古怪的情況，例如，數組超出範圍並且重新寫了超出部分。遵守這個規則，‪這些情況可以被快速地，安全地避免。
-> +當你以後給內核添加增強功能的時候，請遵守這條規則！這樣就會節省數不清的調試時間，特別是一些古怪的情況，例如，數組超出範圍並且重新寫了超出部分。遵守這個規則，這些情況可以被快速地，安全地避免。
->   
->   		Theodore Ts'o
->   		  31 Mar 94
-
+Hao
