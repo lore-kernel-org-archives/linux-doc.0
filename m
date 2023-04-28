@@ -2,121 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D29C77B7C
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 14:52:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8A3C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 15:14:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbjD1Owg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 10:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48566 "EHLO
+        id S1346358AbjD1PON (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 11:14:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230366AbjD1Owf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 10:52:35 -0400
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8038B213A;
-        Fri, 28 Apr 2023 07:52:34 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-b99e0ffbabbso8368999276.1;
-        Fri, 28 Apr 2023 07:52:34 -0700 (PDT)
+        with ESMTP id S1346355AbjD1POJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 11:14:09 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2E555AD;
+        Fri, 28 Apr 2023 08:14:08 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1a814fe0ddeso745565ad.2;
+        Fri, 28 Apr 2023 08:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682694848; x=1685286848;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2G5YGVJMpaYxgR8YDEHDAec3LMDJyqn+fzyMxvzxI+0=;
+        b=brVUMje2rJvkyiQGSjQQzsS/UTcLgnZ1Lwt79IqdoccAm62kk27VXknofgDMUAA6Ke
+         cYpayxlQhxqyVr5jYblJzVBMCJXFT8cr91SGWdEoEvOKgYAUg57jVm5H/GCUHODNqrL/
+         3vMooYLQH0k886U2c0q8Mel0L8s15qGG6Ll9OuN6zwGAilkQqyeTV0HxmWcgeH0X7AAQ
+         G17k5KWqFp067xRtLCTeolekyiaA+1k3fNAtT/VLWL6OtB9tiZJqeL09eLpkUxzgY0UG
+         vnrmjVrq3eTAo4wtbQH3iPivOy5IonoI28lU0T87l0ZgaW9khnSVDiHVMZc2492jSTEM
+         Ex5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682693553; x=1685285553;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=gaFAPotc4Tet+5Lkq4Wes2jlNlqpTRGPPd/XZUEUiMw=;
-        b=doKCwnAh12tTbCQ7uzqUkqSPhYgos32YyykESneiFDy5O4iE4WQ+CrpOIfh9TtkwHW
-         PowiYFNT/rLpSQKsa/aOJxRKI9VPK9ZQRA5WQpDtnjiYcGhiu7/9uGUID+Op+Wabhvs0
-         XZlpVjowOpvaUoflylYVk7ttNsTTieVZrWmyVOim8Q00P6VziILzfhAuEk5FjY/DkJsQ
-         yMFwy6vpLDLBvU0G9gGw2b7uaeMvrcMDNASPx65P5cEBgvkSDXkarTzGr60C3xPXeUny
-         N09K/0Guhawvio+1s4vwtcYB3rugPhg07Pt4NGqtpyAgKVbUdluWZctKhaWi9+FzW9h9
-         H/ZQ==
-X-Gm-Message-State: AC+VfDyB6eS3snCvWLocgSmhDcNv6nkOtIASjETnRbo3NbjsqoqIhvCd
-        y7meAibK0YzuADO+KjN9ug==
-X-Google-Smtp-Source: ACHHUZ5NBWHe8QhTsN+gWIF0zuKZ1dCFoewZMy4/csM/yFA+609U4TQP8o3KAwNDbQ5ThRLXTaLv6A==
-X-Received: by 2002:a25:1586:0:b0:b9a:6d87:f4cf with SMTP id 128-20020a251586000000b00b9a6d87f4cfmr4095959ybv.2.1682693553378;
-        Fri, 28 Apr 2023 07:52:33 -0700 (PDT)
-Received: from robh_at_kernel.org (75-148-192-78-Houston.hfc.comcastbusiness.net. [75.148.192.78])
-        by smtp.gmail.com with ESMTPSA id a16-20020a056902057000b00b96816d3790sm5149099ybt.36.2023.04.28.07.52.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Apr 2023 07:52:32 -0700 (PDT)
-Received: (nullmailer pid 3983 invoked by uid 1000);
-        Fri, 28 Apr 2023 14:52:31 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+        d=1e100.net; s=20221208; t=1682694848; x=1685286848;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2G5YGVJMpaYxgR8YDEHDAec3LMDJyqn+fzyMxvzxI+0=;
+        b=SFsAdH/rFM8SHmJdi7XhaU/ijr3MHjJQK6s02nAIdUdNHsY+ACiEoxJzjE43wrMSpu
+         r2vCktCioh8ukzaXFEr1rJy1f90yMDBCXGVrTLAwOY0yGfQUiRMYWAn0pD5QNdWJ4++5
+         o2VGEixOLWbM7B+ZSDZcXChivdEsqR0TvWtJi3zT8oTzydZY3sHbPEjiX5aT7ST35znu
+         v3r1E6Flbt/nq8bSzaghTSUqM2zMnLgUF7Lmn9Ir15XWGPLS4H9CjM1OURHT5PwmmOx7
+         EgEIkeoV91YSlb4rdWmnhfv34oRUh1fYI07h9pGHuVzcXtqcX7OYTd1rxZl4N4N09NNd
+         Wp7g==
+X-Gm-Message-State: AC+VfDykyWljPFsyDVOMxb6/H3HfdQg9yt/NUmv6t2rYW8Fis3RYZXH9
+        PjxbYR0zqxMqKQuOJkDkpdo=
+X-Google-Smtp-Source: ACHHUZ59NMfbLgX1zFUs0psmfAfD4RnHSdPcJ6aGXqizBLnVu2QjWGasnDp6eX0PNHIyp9kRIUInlw==
+X-Received: by 2002:a17:902:d488:b0:1a6:961e:fd0b with SMTP id c8-20020a170902d48800b001a6961efd0bmr6609119plg.4.1682694848276;
+        Fri, 28 Apr 2023 08:14:08 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id fv23-20020a17090b0e9700b0023d0290afbdsm15134556pjb.4.2023.04.28.08.14.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Apr 2023 08:14:07 -0700 (PDT)
+Message-ID: <86db3414-bebc-7470-a9ed-cfc092093563@gmail.com>
+Date:   Sat, 29 Apr 2023 00:14:01 +0900
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Yi-De Wu <yi-de.wu@mediatek.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Liju Chen <liju-clr.chen@mediatek.com>,
-        PeiLun Suei <peilun.suei@mediatek.com>,
-        Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Ivan Tseng <ivan.tseng@mediatek.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-doc@vger.kernel.org, Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miles Chen <miles.chen@mediatek.com>,
-        linux-mediatek@lists.infradead.org, linux-arch@vger.kernel.org,
-        Jade Shih <jades.shih@mediatek.com>,
-        linux-kernel@vger.kernel.org, My Chuang <my.chuang@mediatek.com>,
-        Shawn Hsiao <shawn.hsiao@mediatek.com>,
-        devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Will Deacon <will@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        David Bradil <dbrazdil@google.com>
-In-Reply-To: <20230428103622.18291-3-yi-de.wu@mediatek.com>
-References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
- <20230428103622.18291-3-yi-de.wu@mediatek.com>
-Message-Id: <168269352006.3076.11433928748883862569.robh@kernel.org>
-Subject: Re: [PATCH v2 2/7] dt-bindings: hypervisor: Add MediaTek GenieZone
- hypervisor
-Date:   Fri, 28 Apr 2023 09:52:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] Documentation/translations/ja_JP/SubmittingPatches: fix
+ some typos
+To:     Jonathan Corbet <corbet@lwn.net>, wangdeming@inspur.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shibata@linuxfoundation.org
+References: <20230428091018.1558-1-wangdeming@inspur.com>
+ <71c91ae5-2ed7-cfd5-7b7f-6cb5a0141816@gmail.com>
+ <871qk4awn2.fsf@meer.lwn.net>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <871qk4awn2.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On Fri, 28 Apr 2023 18:36:17 +0800, Yi-De Wu wrote:
-> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+On Fri, 28 Apr 2023 08:50:41 -0600, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
 > 
-> Add documentation for GenieZone(gzvm) node. This node informs gzvm
-> driver to start probing if geniezone hypervisor is available and
-> able to do virtual machine operations.
+>> Your patch is rejected by "git am".
+>>
+>> In the header part of your email, I see these fields:
+>>
+>>> X-Mailer: git-send-email 2.31.1
+>>> MIME-Version: 1.0
+>>> Content-Type: text/plain; charset="y"
+>>> Content-Transfer-Encoding: 8bit
+>>
+>> This looks broken.
+>> Please make sure your email header has a proper Content-Type
+>> as shown below:
+>>
+>>     Content-Type: text/plain; charset=UTF-8
 > 
-> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
-> ---
->  .../hypervisor/mediatek,geniezone-hyp.yaml    | 31 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 32 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hypervisor/mediatek,geniezone-hyp.yaml
+> This something that git send-email does on occasion; it's truly
+> obnoxious, and I have no idea why.  I end up fixing up patches by hand
+> when I see it.  If the change itself is OK, I can manage it from here.
+
+The change looks OK.
+
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+
+        Thanks, Akira
+
 > 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/hypervisor/mediatek,geniezone-hyp.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/hypervisor/mediatek,geniezone-hyp.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230428103622.18291-3-yi-de.wu@mediatek.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+> Thanks,
+> 
+> jon
