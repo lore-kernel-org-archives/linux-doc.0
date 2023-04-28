@@ -2,97 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 497E9C77B7C
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 01:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1CC2C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 01:29:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344334AbjD1BPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 21:15:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49536 "EHLO
+        id S1344711AbjD1B3X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Apr 2023 21:29:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbjD1BPb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 21:15:31 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE8A2703
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 18:15:29 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-63d32d21f95so1903776b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 18:15:29 -0700 (PDT)
+        with ESMTP id S1344630AbjD1B3W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 21:29:22 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15042724
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 18:29:20 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1a7ff4a454eso457055ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 18:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1682644529; x=1685236529;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KdAMIiYmqSQz1GbWDTNHZpSZR6NUQD27x8IVMPn6Rlk=;
-        b=sa+18BQfIXdO34J2oBZ5fSNZDw2+/e2xdxFJ6iVqaxb1QxklxwVdWMI6yAs6m/RXcG
-         hfCvJZzISTfabi+tC/OLXZyJxmQaWFrefjil/FlgPAPMdVKcCqbLhRn+h8eIWvXlS8iJ
-         /I/b9TjLaNJB9EVoYkWPxoRdY4h6oGKU7HwGje2SXoKok/o3pDz+eEsBMclToXbyGCZG
-         mFWMsHrQiSG51MpgLF6Vm4jULI7sg02cU6J3SmaHgwSwUU0fEn/C0JuSqoGjF2+SJ95c
-         LdX+qb1fRPWe/Sy/EGOigwFdj+uTAUfnCPj7I+qWoFvYbU7FOqL4/hDVkR0bpJetnn2J
-         DT4g==
+        d=google.com; s=20221208; t=1682645360; x=1685237360;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cDQryB2NkV6iOjfYv+oDQDtHOKarGgoQkHlUF2y61dM=;
+        b=jgF8VM6nwW/wHzLI+NPkqovh9OvMp+9g2ZK71Vva5HYarKNRN9vjD9AjSXnBvksmtL
+         tP+3OiB7iJgvULjxQsQArWySGAFJagWeSR9KC1lLr2DL08OuBvVIXGbCkkwJTMDIjxA9
+         kAXOdLtzhHc/1DG5+kqVyZVeyJX3+OgBZ82jMq5R5/135yzNVXKdBg5hQWiDoiiUNL8s
+         pVAAXGo8vMkciOa0Wa2S6ZWHmc5dzbkwRAKCR3OwlCiAkZLnu/FsUvCD5tpOctqCQD4h
+         OFsSVnquIX5+SWdoiGq9FnVU0ufd8DmpuTUACjIuzFe4R7dRZsPqu0i22HvBavWcm1qo
+         YnIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682644529; x=1685236529;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KdAMIiYmqSQz1GbWDTNHZpSZR6NUQD27x8IVMPn6Rlk=;
-        b=JeTS+nxBv8DEQwWFNDW0iW71Gi5h5Pm09iIf+A9EAuQvisHNVWL710vr5w8SWHPL1J
-         zmmqcvaWvoGkoJ0k3t5hyTBwkg12QAkVJ6ud9tQvwmpmqcC0cyWq37HWb2ZRIIkrbpLU
-         zkgODfP0n+qYmEKlmgZaF/08S+xJHUrDu1KlB9ajnBKUdWSiuBlJIcJNxd5zQg553PpM
-         kEtPNuNR4Trbba3XVRBwXDXYH1cP+UTTEWzduMmF8xotIjaOAkQCv6JlP9YMWrUzZxMb
-         04kcNAOvSXutu9DarnY52Lp40SYUPAuCnFITlhIQkqRShaxUeQNlMCK8dD7E1035Bwn2
-         f9iA==
-X-Gm-Message-State: AC+VfDzMt2QOL06g2yGusdCD2Zsf36DTWDd3uetZI8Jz5CKHJhxVHLZW
-        j/Ylt5W44/z+TApZ15mVPtF4Jw==
-X-Google-Smtp-Source: ACHHUZ7X+opn2Ubw1AwkQMzsSBun7dBZmvM343LIKmA46Kxphf9kLViwUZGrEMzvdhctRRtKV/mFeQ==
-X-Received: by 2002:a05:6a20:7f99:b0:f6:d60d:dbc8 with SMTP id d25-20020a056a207f9900b000f6d60ddbc8mr3325695pzj.2.1682644529298;
-        Thu, 27 Apr 2023 18:15:29 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id om12-20020a17090b3a8c00b002405d3bbe42sm13893828pjb.0.2023.04.27.18.15.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Apr 2023 18:15:28 -0700 (PDT)
-From:   Jens Axboe <axboe@kernel.dk>
-To:     josef@toxicpanda.com, linux-block@vger.kernel.org,
-        nbd@other.debian.org, Eric Blake <eblake@redhat.com>
-Cc:     philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
-        christoph.boehmwalder@linbit.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20230410180611.1051618-1-eblake@redhat.com>
-References: <20230410180611.1051618-1-eblake@redhat.com>
-Subject: Re: [PATCH v3 0/4] nbd: s/handle/cookie/
-Message-Id: <168264452819.133910.16210912670607469975.b4-ty@kernel.dk>
-Date:   Thu, 27 Apr 2023 19:15:28 -0600
+        d=1e100.net; s=20221208; t=1682645360; x=1685237360;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cDQryB2NkV6iOjfYv+oDQDtHOKarGgoQkHlUF2y61dM=;
+        b=Ao6G1nb2KZCNvVbJZBcscp0/y0SdrjaNzeGadOggT20zhKGv9+IXg6QpHQnuHL4aGd
+         7Mz4rMAxeHRjm6SElcOB3uNAaPak3C+6g4cwGPSi0BodCcSptTQwY859ae+RSs0S29Oj
+         PGG+LtullNJQBVlWagdIboMAcTcPisKTEGvwB7fZTAyPhXEP5bkvyXvpCaVZiRwRo7XM
+         nQrVleJI2o+R4oe26uSQSRnCxG7E97zZWzWIhF3kD4aRxsqCGa48OsF1duIhJU6BTQcB
+         t+47sKPBXqxYWIIqw0wr6CdUZXEwHdu9KtEVfy/xjw37hmgcleW+7q0b/nC/mLa4bMy/
+         kHTg==
+X-Gm-Message-State: AC+VfDyLy0jnAsInqQY+NOr7N9qn8EMTCcGpId8G3R2O0VOV2gisFi8f
+        opvhXQYNf+t45K8Txoc4mgOVzf3f8mQQ9spqtqdcJg==
+X-Google-Smtp-Source: ACHHUZ7S3SgdNPPYby223Abz3M3r/m16fAwU7XDht72rGOUuyOcox1wByB6KpOCCrZg8phPTxeoazzlCo4FoIYmj+GY=
+X-Received: by 2002:a17:902:cec4:b0:1a1:c3bf:810b with SMTP id
+ d4-20020a170902cec400b001a1c3bf810bmr136641plg.6.1682645360176; Thu, 27 Apr
+ 2023 18:29:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-00303
+References: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20230413034108.1902712-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <CAAH4kHaBLvxLF+9CmAsLdVYtDM5SVzra2PVMu94v0ydRp3fiSQ@mail.gmail.com> <35a7839d-b970-fbe6-3dff-7774255dda62@linux.intel.com>
+In-Reply-To: <35a7839d-b970-fbe6-3dff-7774255dda62@linux.intel.com>
+From:   Dionna Amalie Glaze <dionnaglaze@google.com>
+Date:   Thu, 27 Apr 2023 18:29:07 -0700
+Message-ID: <CAAH4kHbRmeK3SuEeryWnaU_daFcqPF==gU0H=fneJ2q9OmdG0g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] virt: tdx-guest: Add Quote generation support
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+>
+> How about the following?
+>
+> Although this method reserves a fixed chunk of memory for GetQuote
+> requests, such one-time allocation is preferable to the alternative
+> choice of repeatedly allocating/freeing the shared buffer in the
+> TDX_CMD_GET_QUOTE IOCTL handler, which will damage the direct map (because
+> the sharing/unsharing process modifies the direct map). This allocation
+> model is similar to that used by the AMD SEV guest driver.
+>
+>
 
-On Mon, 10 Apr 2023 13:06:07 -0500, Eric Blake wrote:
-> v2 was here: https://lkml.org/lkml/2023/3/17/1107
-> since then:
-> - squash patch 2/5 and 3/5 into 3/4 [Ming]
-> - add Josef's R-b
-> - tweak commit messages to match commits in userspace NBD (code itself
->   is unchanged, modulo the patch squash)
-> 
-> [...]
+Yes, this is clear, thank you.
 
-Applied, thanks!
 
-[1/4] uapi nbd: improve doc links to userspace spec
-      commit: daf376a366fd2d469d66ab83dfdc074777462bab
-[2/4] uapi nbd: add cookie alias to handle
-      commit: 2686eb845da7762ee98b17e578b0c081aafb77b9
-[3/4] block nbd: use req.cookie instead of req.handle
-      commit: bd9e9916c32fd4b4fb4e879e05bd1568ee02ec93
-[4/4] docs nbd: userspace NBD now favors github over sourceforge
-      commit: 952aa344bf4305ab6fa0d9962ef8c2caa2afef4c
-
-Best regards,
 -- 
-Jens Axboe
-
-
-
+-Dionna Glaze, PhD (she/her)
