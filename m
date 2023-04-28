@@ -2,146 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B6A8C7EE24
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 16:06:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B8F2C77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 16:20:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjD1QGF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 12:06:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37748 "EHLO
+        id S1346135AbjD1QTw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 12:19:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229974AbjD1QGD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 12:06:03 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C91EE2D63
-        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 09:06:00 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-b8f51500a82so14867305276.2
-        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 09:06:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1682697960; x=1685289960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b5lwLxqW5VKmY2A43cr9IwcGLbMR5CgyRtASHDDCzvw=;
-        b=Kgk4Eae1aP7UAuXMG2GCAySB2r0ZPNhQeU0yBcvJXJ6/0PIs4s7Ld+qmjhc7YMDJK8
-         3CHZHe+bkXTnnwKbXaypBSa9guGEx3TJDS/789EPghQfEh2m3QBTGkLfeX9kYi8F6i9i
-         YkrJ8FfhMdQbI0+Z1N3DpVbQ/F0NpEgDwHZcaFwC7KEEbTIKjW2hiUGxXwD/4ydBuAC6
-         A55pwq8Txjyp/zqzRvmxQpvZb3mWtxi2BlSAgQTmHbdrD0rqISv9QNCKGLB83iOOjzsw
-         /4GiOStfqQptBAeQmBGlX493AGsDpxdF2NASt1uCp/5ZLIJDbqt3D7sqalAc0gop2J75
-         wtKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682697960; x=1685289960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b5lwLxqW5VKmY2A43cr9IwcGLbMR5CgyRtASHDDCzvw=;
-        b=IVk2QBkF51bck2NmhpWnBdoSa2FMwE8O/5M/m/jsD+Ql5n9D5WEnR30EaOwpcccKNn
-         OL2GZID/YuYBqGoanTHnPnrhFsCib1zluI5zXOEHXbqAM3RbEFwP0sUxHVd2x5K9q+yD
-         GBh3rNFSiEHwh/2sgWNAbU5yRYmdl3V/0hiA3+TN78cycNBo7Qc9BpLwh4XS2t4e461a
-         dPSwva5JnxroM4iTFeZRiHVrkcvwxZ5pkTVi9VMYPlM7Kkx/EZmiYr/GY8cVWjwAZekl
-         sjiEsOGaKHaN19uj1hwXgeiXFctLJgmNRJA54W1bqLbOaHYlaTa0ig22OqFqIj4iAWpy
-         enpg==
-X-Gm-Message-State: AC+VfDzOIFoQ2tqNI76JxEE6h+RHyw2z5NM+xMDxQ8bHdmJNAgrkvS4o
-        P/a0DHqvee4ZvgQn9LChCVpIWQbb2lOaG+vXdSbn
-X-Google-Smtp-Source: ACHHUZ6FGZWVLRbJ0Vtr4MD2R/979p76yJnZwYUUc8G4bL5ujRwJBt2UCfCS3wLLk3W8UDR0BgoH5jCuz8afYiz+U5A=
-X-Received: by 2002:a25:34c7:0:b0:b8e:e918:33ac with SMTP id
- b190-20020a2534c7000000b00b8ee91833acmr4602032yba.1.1682697959947; Fri, 28
- Apr 2023 09:05:59 -0700 (PDT)
+        with ESMTP id S1346148AbjD1QTu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 12:19:50 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C86E524B;
+        Fri, 28 Apr 2023 09:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682698785; x=1714234785;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mJSFhPkeknNj2O1iNEZ3l9oQeY99f0eWfnaVt0hI+2w=;
+  b=byi9cyMyPuqVZoKPTMXBXHIdGLGCrNOJZlG+xtH3VxuqHXiQqToydZxz
+   Xt0hd3ZHdYtXJ6zIPyX2TJ4BcI7IML3l/Psb8Nfzj52TSnXiDUxDOC28r
+   IpWOiiGWHco5jTgSc+Z7XDiKRaZ7iGFUok/ICeu0mqSQz0Ge8Vr4LT/x4
+   abS+/UApNO9jIIo8p1kjrrj29utYP/HsKq9uPe5o2dRRPBHrvzjxMvg3l
+   E2kzAAs5hdPz566nusAH8kaUxgStbzAWvlqyTsS3Tujta+6zqa+GSNPIO
+   QI18/NoUiEETTl95R7Rh3FywLtyHBUB00jaZhRQUyPmt7cAP11xLSkYLG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349816349"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="349816349"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 09:19:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="819061758"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="819061758"
+Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 28 Apr 2023 09:19:38 -0700
+Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1psQor-0000Y9-1I;
+        Fri, 28 Apr 2023 16:19:37 +0000
+Date:   Sat, 29 Apr 2023 00:19:34 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yi-De Wu <yi-de.wu@mediatek.com>,
+        Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        David Bradil <dbrazdil@google.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>
+Subject: Re: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor
+ support
+Message-ID: <202304290052.49kcXbnl-lkp@intel.com>
+References: <20230428103622.18291-4-yi-de.wu@mediatek.com>
 MIME-Version: 1.0
-References: <20230428030916.2966-1-rdunlap@infradead.org> <CAHC9VhQoa5yw2e1jiN844pxNXXT+CosJn9ip7ysFnsnUbQUi2Q@mail.gmail.com>
- <7a8df04e-ee81-8b4a-152f-1588b8d6cb42@infradead.org>
-In-Reply-To: <7a8df04e-ee81-8b4a-152f-1588b8d6cb42@infradead.org>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 28 Apr 2023 12:05:49 -0400
-Message-ID: <CAHC9VhS0KjFRjamDZsUCZHDRk1bg08JH0iFJi9SN3ZqMOg2+xQ@mail.gmail.com>
-Subject: Re: [PATCH] lsm: move hook comments docs to security/security.c
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        linux-security-module@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230428103622.18291-4-yi-de.wu@mediatek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 28, 2023 at 10:46=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
-> On 4/28/23 07:43, Paul Moore wrote:
-> > On Thu, Apr 27, 2023 at 11:09=E2=80=AFPM Randy Dunlap <rdunlap@infradea=
-d.org> wrote:
-> >>
-> >> Fix one kernel-doc warning, but invesigating that led to other
-> >> kernel-doc movement (lsm_hooks.h to security.c) that needs to be
-> >> fixed also.
-> >>
-> >> include/linux/lsm_hooks.h:1: warning: no structured comments found
-> >>
-> >> Fixes: e261301c851a ("lsm: move the remaining LSM hook comments to sec=
-urity/security.c")
-> >> Fixes: 1cd2aca64a5d ("lsm: move the io_uring hook comments to security=
-/security.c")
-> >> Fixes: 452b670c7222 ("lsm: move the perf hook comments to security/sec=
-urity.c")
-> >> Fixes: 55e853201a9e ("lsm: move the bpf hook comments to security/secu=
-rity.c")
-> >> Fixes: b14faf9c94a6 ("lsm: move the audit hook comments to security/se=
-curity.c")
-> >> Fixes: 1427ddbe5cc1 ("lsm: move the binder hook comments to security/s=
-ecurity.c")
-> >> Fixes: 43fad2821876 ("lsm: move the sysv hook comments to security/sec=
-urity.c")
-> >> Fixes: ecc419a44535 ("lsm: move the key hook comments to security/secu=
-rity.c")
-> >> Fixes: 742b99456e86 ("lsm: move the xfrm hook comments to security/sec=
-urity.c")
-> >> Fixes: ac318aed5498 ("lsm: move the Infiniband hook comments to securi=
-ty/security.c")
-> >> Fixes: 4a49f592e931 ("lsm: move the SCTP hook comments to security/sec=
-urity.c")
-> >> Fixes: 6b6bbe8c02a1 ("lsm: move the socket hook comments to security/s=
-ecurity.c")
-> >> Fixes: 2c2442fd46cd ("lsm: move the AF_UNIX hook comments to security/=
-security.c")
-> >> Fixes: 2bcf51bf2f03 ("lsm: move the netlink hook comments to security/=
-security.c")
-> >> Fixes: 130c53bfee4b ("lsm: move the task hook comments to security/sec=
-urity.c")
-> >> Fixes: a0fd6480de48 ("lsm: move the file hook comments to security/sec=
-urity.c")
-> >> Fixes: 9348944b775d ("lsm: move the kernfs hook comments to security/s=
-ecurity.c")
-> >> Fixes: 916e32584dfa ("lsm: move the inode hook comments to security/se=
-curity.c")
-> >> Fixes: 08526a902cc4 ("lsm: move the filesystem hook comments to securi=
-ty/security.c")
-> >> Fixes: 36819f185590 ("lsm: move the fs_context hook comments to securi=
-ty/security.c")
-> >> Fixes: 1661372c912d ("lsm: move the program execution hook comments to=
- security/security.c")
-> >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> >> Cc: Paul Moore <paul@paul-moore.com>
-> >> Cc: James Morris <jmorris@namei.org>
-> >> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> >> Cc: linux-security-module@vger.kernel.org
-> >> Cc: Jonathan Corbet <corbet@lwn.net>
-> >> Cc: linux-doc@vger.kernel.org
-> >> Cc: KP Singh <kpsingh@kernel.org>
-> >> Cc: bpf@vger.kernel.org
-> >> ---
-> >>  Documentation/bpf/prog_lsm.rst             |    2 +-
-> >>  Documentation/security/lsm-development.rst |    6 +++---
-> >>  Documentation/security/lsm.rst             |    2 +-
-> >>  3 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > Thanks Randy.  Did you want to take this via the doc tree, or would
-> > you prefer if I pulled this into the LSM tree?
->
-> I think that the LSM tree would be appropriate for it.
+Hi Yi-De,
 
-Fair enough, I just merged this into the lsm/stable-6.4 branch and
-I'll send this up to Linus shortly.
+kernel test robot noticed the following build errors:
 
---=20
-paul-moore.com
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on robh/for-next arnd-asm-generic/master linus/master v6.3 next-20230427]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230428103622.18291-4-yi-de.wu%40mediatek.com
+patch subject: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor support
+config: x86_64-randconfig-a004 (https://download.01.org/0day-ci/archive/20230429/202304290052.49kcXbnl-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/0e3f05a6e4547eb309032d047115a47d8f59641d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
+        git checkout 0e3f05a6e4547eb309032d047115a47d8f59641d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290052.49kcXbnl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> usr/include/linux/gzvm.h:15: included file 'asm-x86/gzvm_arch.h' is not exported
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
