@@ -2,118 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B8F2C77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 16:20:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C14C77B61
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 16:37:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346135AbjD1QTw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 12:19:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
+        id S229943AbjD1Qhj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 12:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346148AbjD1QTu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 12:19:50 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C86E524B;
-        Fri, 28 Apr 2023 09:19:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682698785; x=1714234785;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mJSFhPkeknNj2O1iNEZ3l9oQeY99f0eWfnaVt0hI+2w=;
-  b=byi9cyMyPuqVZoKPTMXBXHIdGLGCrNOJZlG+xtH3VxuqHXiQqToydZxz
-   Xt0hd3ZHdYtXJ6zIPyX2TJ4BcI7IML3l/Psb8Nfzj52TSnXiDUxDOC28r
-   IpWOiiGWHco5jTgSc+Z7XDiKRaZ7iGFUok/ICeu0mqSQz0Ge8Vr4LT/x4
-   abS+/UApNO9jIIo8p1kjrrj29utYP/HsKq9uPe5o2dRRPBHrvzjxMvg3l
-   E2kzAAs5hdPz566nusAH8kaUxgStbzAWvlqyTsS3Tujta+6zqa+GSNPIO
-   QI18/NoUiEETTl95R7Rh3FywLtyHBUB00jaZhRQUyPmt7cAP11xLSkYLG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349816349"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="349816349"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 09:19:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="819061758"
-X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="819061758"
-Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Apr 2023 09:19:38 -0700
-Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1psQor-0000Y9-1I;
-        Fri, 28 Apr 2023 16:19:37 +0000
-Date:   Sat, 29 Apr 2023 00:19:34 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yi-De Wu <yi-de.wu@mediatek.com>,
-        Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        David Bradil <dbrazdil@google.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Jade Shih <jades.shih@mediatek.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Ivan Tseng <ivan.tseng@mediatek.com>,
-        My Chuang <my.chuang@mediatek.com>,
-        Shawn Hsiao <shawn.hsiao@mediatek.com>,
-        PeiLun Suei <peilun.suei@mediatek.com>,
-        Liju Chen <liju-clr.chen@mediatek.com>
-Subject: Re: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor
- support
-Message-ID: <202304290052.49kcXbnl-lkp@intel.com>
-References: <20230428103622.18291-4-yi-de.wu@mediatek.com>
+        with ESMTP id S229470AbjD1Qhi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 12:37:38 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF2F46A0;
+        Fri, 28 Apr 2023 09:37:37 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 9E77C32004E7;
+        Fri, 28 Apr 2023 12:37:34 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 28 Apr 2023 12:37:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
+        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1682699854; x=1682786254; bh=MK
+        +DVxYVvN3aGFxjAA+kdeuA5RkH2tMSRdWjdfgxhi4=; b=Cv33vzwqRcNlMFEPWF
+        PU1UKASrD3g0RRDuEazKxFD+Ss6dbx/MzNxqcxOCNCwEfSAPETaDpP7Z6dYbJU9A
+        TvtqpuZUOOQSUZSmdHwy9niUbTVRoca2ADpXtMXC2Qwkped5gawIrQhsIZ/czmns
+        bZrDK9/41dzRYayBYt1C6f3ZXFq4mRDZiRHEoPoAR079kYZNhwU1b1uo/MvYicbE
+        P1kGKFnDVuB9q7KmtCO7/czCxry7O6fjjTbduAPjQLLwks6vYVg0H06YNLVGcjI3
+        l1VreTG7tH1GR8/mVUIqzlkH+RhhC4zbY62apxc2YzPuSr5+IrmXw3QP8pcvwLjd
+        bm8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1682699854; x=1682786254; bh=MK+DVxYVvN3aG
+        FxjAA+kdeuA5RkH2tMSRdWjdfgxhi4=; b=Ci7+E8b3jFFPujr459ftatWO7AoLl
+        NW4aG1wRCxPYfAPFWbMneqt+v2Me0fxZz4vfabRhAssubeQa1+jD7bI279JaO8vd
+        US72syhK0W3PbY0AeWPyKSmKmkwoxN5BgQI+GGB2Mx7HMTDYawfBiPZCQ3ISRVxC
+        XFU/paA0Z5HsAa1UNrpMzsv1Quimy9RQvNhMk2z1V2RW1unSIyPl6Vp+iG4Eqjhi
+        Qk0ZTlp9fSywv42ixfTR01k9SKWMpbpUibp1uu3e5f+eqcuQO+f3cWDSaedgvH0Q
+        LY3B75Uva3RkD/RZXM2rNhwoSPPIf586QYCg84BrxlFHcRrvDx2XTZQRQ==
+X-ME-Sender: <xms:TfZLZDqCq5wS_8DOltEKgtdrmOWuTllTZqm41G1Sz_8IqLmljzYz5Q>
+    <xme:TfZLZNqqdG17NqcfvHipie_Wk-2CJjhlN2C6BvyJ5lq613bOOClX3aOixtCd3XYay
+    PyPJRdYMynqR8prAX8>
+X-ME-Received: <xmr:TfZLZAPzhPAN3NWDDW7Joj23y0acmz-VYo2Yh9Ia1GiSiTMQd7gj_U3XDiO6moMrihfCerPvviEFvfgBpgqaH9GYTQClOTrxIY-a7e-6DZ8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedukedguddtfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfhgfhffvvefuffgjkfggtgesth
+    dtofdttdertdenucfhrhhomhepufhtvghfrghnucftohgvshgthhcuoehshhhrseguvghv
+    khgvrhhnvghlrdhioheqnecuggftrfgrthhtvghrnhepfeeludefhfegvdffieeuhfdvud
+    etvdetfefgieegffduhfegffeuudevkeeiuedunecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomhepshhhrhesuggvvhhkvghrnhgvlhdrihho
+X-ME-Proxy: <xmx:TfZLZG6Wl8B72hXV-JwoBT_HgqT4CWuPNN7976QsuvgG6yTS0l7ddQ>
+    <xmx:TfZLZC6lXX_f3ScmzJSfmAJ1fVuViam42JSbMPqlgiheHVEpjTzIQw>
+    <xmx:TfZLZOhElQjsudGScdYmhrmVEYhu0oON2a6zIx15OvtMbvy1amWZkg>
+    <xmx:TvZLZCwIv7t-WGPmelZs7TA-XzXVXQtubFNTJH_023UHVMCiDZM_oQ>
+Feedback-ID: i84614614:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 28 Apr 2023 12:37:32 -0400 (EDT)
+References: <20230418051342.1919757-3-shr@devkernel.io>
+ <20230428093659.23962-1-xu.xin16@zte.com.cn>
+User-agent: mu4e 1.10.1; emacs 28.2.50
+From:   Stefan Roesch <shr@devkernel.io>
+To:     xu xin <xu.xin.sc@gmail.com>
+Cc:     akpm@linux-foundation.org, bagasdotme@gmail.com, david@redhat.com,
+        hannes@cmpxchg.org, kernel-team@fb.com, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        mhocko@suse.com, riel@surriel.com, willy@infradead.org,
+        yang.yang29@zte.com.cn, xu.xin16@zte.com.cn
+Subject: Re: [PATCH v9 2/3] mm: add new KSM process and sysfs knobs
+Date:   Fri, 28 Apr 2023 09:27:29 -0700
+In-reply-to: <20230428093659.23962-1-xu.xin16@zte.com.cn>
+Message-ID: <qvqwjzxwrmif.fsf@devbig1114.prn1.facebook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230428103622.18291-4-yi-de.wu@mediatek.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yi-De,
 
-kernel test robot noticed the following build errors:
+xu xin <xu.xin.sc@gmail.com> writes:
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on robh/for-next arnd-asm-generic/master linus/master v6.3 next-20230427]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>> This adds the general_profit KSM sysfs knob and the process profit metric
+>> knobs to ksm_stat.
+>>
+>> 1) expose general_profit metric
+>>
+>>    The documentation mentions a general profit metric, however this
+>>    metric is not calculated.  In addition the formula depends on the size
+>>    of internal structures, which makes it more difficult for an
+>>    administrator to make the calculation.  Adding the metric for a better
+>>    user experience.
+>>
+>> 2) document general_profit sysfs knob
+>>
+>> 3) calculate ksm process profit metric
+>>
+>>    The ksm documentation mentions the process profit metric and how to
+>>    calculate it.  This adds the calculation of the metric.
+>>
+>> 4) mm: expose ksm process profit metric in ksm_stat
+>>
+>>    This exposes the ksm process profit metric in /proc/<pid>/ksm_stat.
+>>    The documentation mentions the formula for the ksm process profit
+>>    metric, however it does not calculate it.  In addition the formula
+>>    depends on the size of internal structures.  So it makes sense to
+>>    expose it.
+>>
+>
+> Hi, Stefan, I think you should give some credits to me about my contributions on
+> the concept and formula of ksm profit (process wide and system wide),  it's kind
+> of idea stealing.
+>
+>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230428103622.18291-4-yi-de.wu%40mediatek.com
-patch subject: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor support
-config: x86_64-randconfig-a004 (https://download.01.org/0day-ci/archive/20230429/202304290052.49kcXbnl-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/0e3f05a6e4547eb309032d047115a47d8f59641d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-        git checkout 0e3f05a6e4547eb309032d047115a47d8f59641d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+I wasn't aware the formula that is described in the documentation is
+from you. I simply implemented the documented metrics. If you came up
+with it, happy to give you credit.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304290052.49kcXbnl-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> usr/include/linux/gzvm.h:15: included file 'asm-x86/gzvm_arch.h' is not exported
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> Besides, the idea of Process control KSM was proposed by me last year although you use
+> prctl instead of /proc fs. you even didn't CC my email. I think you should CC my email
+> (xu.xin16@zte.com.cn) as least.
+>
+>> 5) document new procfs ksm knobs
+>>
+>> Signed-off-by: Stefan Roesch <shr@devkernel.io>
+>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> Acked-by: David Hildenbrand <david@redhat.com>
+>> Cc: David Hildenbrand <david@redhat.com>
+>> Cc: Johannes Weiner <hannes@cmpxchg.org>
+>> Cc: Michal Hocko <mhocko@suse.com>
+>> Cc: Rik van Riel <riel@surriel.com>
+>> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+>> ---
+>>  Documentation/ABI/testing/sysfs-kernel-mm-ksm |  8 +++++++
+>>  Documentation/admin-guide/mm/ksm.rst          |  5 ++++-
+>>  fs/proc/base.c                                |  3 +++
+>>  include/linux/ksm.h                           |  4 ++++
+>>  mm/ksm.c                                      | 21 +++++++++++++++++++
+>>  5 files changed, 40 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-ksm b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
+>> index d244674a9480..6041a025b65a 100644
+>> --- a/Documentation/ABI/testing/sysfs-kernel-mm-ksm
+>> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
+>> @@ -51,3 +51,11 @@ Description:	Control merging pages across different NUMA nodes.
+>>
+>>  		When it is set to 0 only pages from the same node are merged,
+>>  		otherwise pages from all nodes can be merged together (default).
+>> +
+>> +What:		/sys/kernel/mm/ksm/general_profit
+>> +Date:		April 2023
+>> +KernelVersion:  6.4
+>> +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+>> +Description:	Measure how effective KSM is.
+>> +		general_profit: how effective is KSM. The formula for the
+>> +		calculation is in Documentation/admin-guide/mm/ksm.rst.
+>> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
