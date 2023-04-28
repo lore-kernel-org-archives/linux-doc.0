@@ -2,206 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D0FC77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 09:56:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F9DC77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 10:18:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346008AbjD1J4m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 05:56:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37082 "EHLO
+        id S1346001AbjD1KSX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 06:18:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345643AbjD1J4M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 05:56:12 -0400
-Received: from out187-19.us.a.mail.aliyun.com (out187-19.us.a.mail.aliyun.com [47.90.187.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09E715B95;
-        Fri, 28 Apr 2023 02:55:21 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R431e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018047208;MF=houwenlong.hwl@antgroup.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---.STCEQ.F_1682675669;
-Received: from localhost(mailfrom:houwenlong.hwl@antgroup.com fp:SMTPD_---.STCEQ.F_1682675669)
-          by smtp.aliyun-inc.com;
-          Fri, 28 Apr 2023 17:54:29 +0800
-From:   "Hou Wenlong" <houwenlong.hwl@antgroup.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Thomas Garnier" <thgarnie@chromium.org>,
-        "Lai Jiangshan" <jiangshan.ljs@antgroup.com>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Hou Wenlong" <houwenlong.hwl@antgroup.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Wang Yong" <yongw.kernel@gmail.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Jiapeng Chong" <jiapeng.chong@linux.alibaba.com>,
-        "Alexander Lobakin" <alexandr.lobakin@intel.com>,
-        "Mike Rapoport" <rppt@kernel.org>,
-        "Michael Roth" <michael.roth@amd.com>,
-        "David Hildenbrand" <david@redhat.com>,
-        "Nikunj A Dadhania" <nikunj@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH RFC 43/43] x86/boot: Extend relocate range for PIE kernel image
-Date:   Fri, 28 Apr 2023 17:51:23 +0800
-Message-Id: <872c71b61815d2dc582f3e3a9e7069fb4f6436eb.1682673543.git.houwenlong.hwl@antgroup.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
-References: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
+        with ESMTP id S1345595AbjD1KSU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 06:18:20 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3162D49;
+        Fri, 28 Apr 2023 03:18:19 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 265436602097;
+        Fri, 28 Apr 2023 11:18:17 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1682677097;
+        bh=Yk5D9b+oPUkoCZwzeMIIJtHOgvXide7fZoW+I8ghpV0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mhhECMNxkLs1iW+QaB2pRm8nUySryOtAT9Y4NOyMqr2EqHYzZmpOT+adaU6/ID1a9
+         no1OdnK+ALZIj8/C7cBWw20X2bNzE89ZFuf6mYMbos909zeCh8D7m0E2UFsLyi3fri
+         MJloqfSnhMn9R9NfMh89i03ukNYFMrsV08bymj3SSPhXtXvaNygxNTThFredKI91aT
+         E3NP3647tgYI23H9PtLyuLvhEXAJoK4jHGAjfi09ZqIlAzfKWTKK6G/5bZj9bKGvUX
+         sM8uGnfSD66AngdfS1WteFdbKzplq4xmhjx4GPFm5NVhHHnboQ0n6DZdSmsdshX2G0
+         mCGmVSSVOfJmw==
+Date:   Fri, 28 Apr 2023 12:18:13 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-next v3 04/15] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230428121813.309ea609@collabora.com>
+In-Reply-To: <20230404012741.116502-5-dakr@redhat.com>
+References: <20230404012741.116502-1-dakr@redhat.com>
+        <20230404012741.116502-5-dakr@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Allow PIE kernel image to be relocated in unused holes in top 512G of
-address space.
+On Tue,  4 Apr 2023 03:27:30 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-Suggested-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
-Signed-off-by: Hou Wenlong <houwenlong.hwl@antgroup.com>
-Cc: Thomas Garnier <thgarnie@chromium.org>
-Cc: Kees Cook <keescook@chromium.org>
----
- Documentation/x86/x86_64/mm.rst  |  4 +++
- arch/x86/Kconfig                 | 11 +++++++
- arch/x86/boot/compressed/kaslr.c | 55 ++++++++++++++++++++++++++++++++
- arch/x86/boot/compressed/misc.c  |  4 ++-
- arch/x86/boot/compressed/misc.h  |  9 ++++++
- 5 files changed, 82 insertions(+), 1 deletion(-)
+> +struct drm_gpuva_manager {
+> +	/**
+> +	 * @name: the name of the DRM GPU VA space
+> +	 */
+> +	const char *name;
+> +
+> +	/**
+> +	 * @mm_start: start of the VA space
+> +	 */
+> +	u64 mm_start;
+> +
+> +	/**
+> +	 * @mm_range: length of the VA space
+> +	 */
+> +	u64 mm_range;
+> +
+> +	/**
+> +	 * @mtree: the &maple_tree to track GPU VA mappings
+> +	 */
+> +	struct maple_tree mtree;
+> +
+> +	/**
+> +	 * @kernel_alloc_node:
+> +	 *
+> +	 * &drm_gpuva representing the address space cutout reserved for
+> +	 * the kernel
+> +	 */
+> +	struct drm_gpuva kernel_alloc_node;
+> +
+> +	/**
+> +	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
+> +	 */
+> +	struct drm_gpuva_fn_ops *ops;
 
-diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
-index 35e5e18c83d0..b456501a5b69 100644
---- a/Documentation/x86/x86_64/mm.rst
-+++ b/Documentation/x86/x86_64/mm.rst
-@@ -149,6 +149,10 @@ Note that if CONFIG_RANDOMIZE_MEMORY is enabled, the direct mapping of all
- physical memory, vmalloc/ioremap space and virtual memory map are randomized.
- Their order is preserved but their base will be offset early at boot time.
- 
-+Note that if EXTENDED_RANDOMIZE_BASE is enabled, the kernel image area
-+including kernel image, module area and fixmap area is randomized as a whole
-+in top 512G of address space.
-+
- Be very careful vs. KASLR when changing anything here. The KASLR address
- range must not overlap with anything except the KASAN shadow area, which is
- correct as KASAN disables KASLR.
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 9f8020991184..6d18d4333389 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -2266,6 +2266,17 @@ config RANDOMIZE_BASE
- 
- 	  If unsure, say Y.
- 
-+config EXTENDED_RANDOMIZE_BASE
-+	bool "Randomize the address of the kernel image (PIE)"
-+	default y
-+	depends on X86_PIE && RANDOMIZE_BASE
-+	help
-+	  This packs kernel image, module area and fixmap area as a
-+	  whole, and allows it to be randomized in top 512G of virtual
-+	  address space when PIE is enabled.
-+
-+	  If unsure, say Y.
-+
- # Relocation on x86 needs some additional build support
- config X86_NEED_RELOCS
- 	def_bool y
-diff --git a/arch/x86/boot/compressed/kaslr.c b/arch/x86/boot/compressed/kaslr.c
-index 454757fbdfe5..e0e092fe7fe2 100644
---- a/arch/x86/boot/compressed/kaslr.c
-+++ b/arch/x86/boot/compressed/kaslr.c
-@@ -871,3 +871,58 @@ void choose_random_location(unsigned long input,
- 		random_addr = find_random_virt_addr(LOAD_PHYSICAL_ADDR, output_size);
- 	*virt_addr = random_addr;
- }
-+
-+#ifdef CONFIG_EXTENDED_RANDOMIZE_BASE
-+struct kernel_image_slot {
-+	unsigned long start;
-+	unsigned long end;
-+	unsigned long pud_slots;
-+};
-+
-+/*
-+ * Currently, there are two unused hole in top 512G, see
-+ * Documentation/x86/x86_64/mm.rst, use the hole as the kernel image base.
-+ */
-+struct kernel_image_slot available_slots[] = {
-+	{
-+		.start = 0xffffff8000000000UL,
-+		.end = 0xffffffeeffffffffUL,
-+	},
-+	{
-+		.start = 0xffffffff00000000UL,
-+		.end = 0xffffffffffffffffUL,
-+	},
-+};
-+
-+unsigned long pie_randomize(void)
-+{
-+	unsigned long total, slot;
-+	int i;
-+
-+	if (cmdline_find_option_bool("nokaslr"))
-+		return 0;
-+
-+	total = 0;
-+	for (i = 0; i < ARRAY_SIZE(available_slots); i++) {
-+		available_slots[i].pud_slots = (available_slots[i].end -
-+						available_slots[i].start + 1UL) /
-+						PUD_SIZE - 1UL;
-+		total += available_slots[i].pud_slots;
-+	}
-+
-+	slot = kaslr_get_random_long("PIE slot") % total;
-+	for (i = 0; i < ARRAY_SIZE(available_slots); i++) {
-+		if (slot < available_slots[i].pud_slots)
-+			break;
-+
-+		slot -= available_slots[i].pud_slots;
-+	}
-+
-+	if (i == ARRAY_SIZE(available_slots) || slot >= available_slots[i].pud_slots) {
-+		warn("PIE randomize disabled: available slots are bad!");
-+		return 0;
-+	}
-+
-+	return (available_slots[i].start + slot * PUD_SIZE) - __START_KERNEL_map;
-+}
-+#endif
-diff --git a/arch/x86/boot/compressed/misc.c b/arch/x86/boot/compressed/misc.c
-index 014ff222bf4b..e111b55edb8b 100644
---- a/arch/x86/boot/compressed/misc.c
-+++ b/arch/x86/boot/compressed/misc.c
-@@ -210,8 +210,10 @@ static void handle_relocations(void *output, unsigned long output_len,
- 	 * needed if KASLR has chosen a different starting address offset
- 	 * from __START_KERNEL_map.
- 	 */
--	if (IS_ENABLED(CONFIG_X86_64))
-+	if (IS_ENABLED(CONFIG_X86_64)) {
- 		delta = virt_addr - LOAD_PHYSICAL_ADDR;
-+		delta += pie_randomize();
-+	}
- 
- 	if (!delta) {
- 		debug_putstr("No relocation needed... ");
-diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/misc.h
-index 2f155a0e3041..f50717092902 100644
---- a/arch/x86/boot/compressed/misc.h
-+++ b/arch/x86/boot/compressed/misc.h
-@@ -113,6 +113,15 @@ static inline void choose_random_location(unsigned long input,
- }
- #endif
- 
-+#ifdef CONFIG_EXTENDED_RANDOMIZE_BASE
-+unsigned long pie_randomize(void);
-+#else
-+static inline unsigned long pie_randomize(void)
-+{
-+	return 0;
-+}
-+#endif
-+
- /* cpuflags.c */
- bool has_cpuflag(int flag);
- 
--- 
-2.31.1
+Any reason for not making that a const object (same goes for all the
+functions being passed a drm_gpuva_fn_ops)?
 
+> +};
