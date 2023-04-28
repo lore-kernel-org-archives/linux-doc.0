@@ -2,70 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A04C77B61
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 09:11:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0DE3C77B60
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 09:37:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbjD1JLg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 05:11:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44796 "EHLO
+        id S1345490AbjD1JhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 05:37:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjD1JLe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 05:11:34 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Apr 2023 02:11:29 PDT
-Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B071E2D67;
-        Fri, 28 Apr 2023 02:11:29 -0700 (PDT)
-Received: from ssh248.corpemail.net
-        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id YFN00120;
-        Fri, 28 Apr 2023 17:10:20 +0800
-Received: from localhost.localdomain (10.200.104.82) by
- jtjnmail201619.home.langchao.com (10.100.2.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 17:10:21 +0800
-From:   Deming Wang <wangdeming@inspur.com>
-To:     <corbet@lwn.net>, <fujimotokosuke0@gmail.com>,
-        <shibata@linuxfoundation.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Deming Wang <wangdeming@inspur.com>
-Subject: [PATCH] Documentation/translations/ja_JP/SubmittingPatches: fix some typos
-Date:   Fri, 28 Apr 2023 05:10:18 -0400
-Message-ID: <20230428091018.1558-1-wangdeming@inspur.com>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S229680AbjD1JhG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 05:37:06 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F1753AB2;
+        Fri, 28 Apr 2023 02:37:05 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id d9443c01a7336-1a8097c1ccfso97844835ad.1;
+        Fri, 28 Apr 2023 02:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682674624; x=1685266624;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WTEzTPu2IUqI1aWq3K0d1qux/fcUnEztVJOEixtCdn0=;
+        b=RaiDNepmv9Qqx/jrvOwZq+WoNJf2ZVNNzl4ji2b3okLdKMX+7B3KMZL2cFT9mTB7ot
+         Bi3MJzit+ncFn4FVvOR/TjWXYitG3oEujevSGG9UfjJR65GhO8ANWdfp/CB8mziqJw6w
+         ASO5bJ4z8tn8ODnT3oO2mOj+at+zlWzQ5t64LQ0nahw5QWmSiOqq6aBKefQC/fkF4DLd
+         WYPqY8hmVFM4CEZX6eWj23Si/xVbiZIfC1PvqWSN7xl888AjzsRCYL32K1inCg+wLoIT
+         zmmRSYbUYm2YgOsyn2V+SIsoAT0LR93l6og3veH8T0lM2c73pCa8EMihimYNvh5qo3n/
+         MzjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682674624; x=1685266624;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WTEzTPu2IUqI1aWq3K0d1qux/fcUnEztVJOEixtCdn0=;
+        b=JW5paXlo/Vv11D89FWAcxtKFy8zuG+ONEJp20rlY+bu2oI+1SAKcH3VNTaT2WGDLZw
+         rVeFf+PwBy1tk0Tuiyi5eK7VN5HzXG2VHTOGSj5oR4xVHuwH9OI2ZoceL39gfloDO8f0
+         hYyU5XLltv3ivE4FKDxomFKqz+wZCzeHZJWoM8AzAApLP5VcKDs29+Pc5ZS+UhfR0lXR
+         XRBO9S5MwUa+QlOkdaaZ8M/sGy4smR+df7J/gr8+FdqEnCzD4S58UJdkCKWM3Ukm0R6u
+         Qj0iNNEM86JOgzBnS23PZxznmhglOaI2NLqZMTRZVJMqoFwU5mzidiSCxIowELvn61f1
+         2fqg==
+X-Gm-Message-State: AC+VfDxWVkuxImuiqRM+/sysitxsXms7nknqt7sjikGI0d6WBR3Or8P8
+        KSIwHlw4kVgEqPl+SDLPOwk=
+X-Google-Smtp-Source: ACHHUZ4DjfNE11FGNiMCbCrke+rYMVWKogo2JxoZLEfw/P7rLMcKpdWVjpQcH2dQuoOaSJ8hsfrYjw==
+X-Received: by 2002:a17:903:124f:b0:1a6:7fac:1b7d with SMTP id u15-20020a170903124f00b001a67fac1b7dmr5547750plh.59.1682674624574;
+        Fri, 28 Apr 2023 02:37:04 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id n19-20020a170902969300b001a6db2bef16sm12872864plp.303.2023.04.28.02.37.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Apr 2023 02:37:04 -0700 (PDT)
+From:   xu xin <xu.xin.sc@gmail.com>
+X-Google-Original-From: xu xin <xu.xin16@zte.com.cn>
+To:     shr@devkernel.io
+Cc:     akpm@linux-foundation.org, bagasdotme@gmail.com, david@redhat.com,
+        hannes@cmpxchg.org, kernel-team@fb.com, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        mhocko@suse.com, riel@surriel.com, willy@infradead.org,
+        yang.yang29@zte.com.cn, xu.xin16@zte.com.cn
+Subject: [PATCH v9 2/3] mm: add new KSM process and sysfs knobs
+Date:   Fri, 28 Apr 2023 17:36:59 +0800
+Message-Id: <20230428093659.23962-1-xu.xin16@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230418051342.1919757-3-shr@devkernel.io>
+References: <20230418051342.1919757-3-shr@devkernel.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.200.104.82]
-X-ClientProxiedBy: Jtjnmail201617.home.langchao.com (10.100.2.17) To
- jtjnmail201619.home.langchao.com (10.100.2.19)
-tUid:   20234281710205c6d46daffd72b31717b16de9d57a623
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix of  typos spotted reading documentation in Japanese.
+> This adds the general_profit KSM sysfs knob and the process profit metric
+> knobs to ksm_stat.
+> 
+> 1) expose general_profit metric
+> 
+>    The documentation mentions a general profit metric, however this
+>    metric is not calculated.  In addition the formula depends on the size
+>    of internal structures, which makes it more difficult for an
+>    administrator to make the calculation.  Adding the metric for a better
+>    user experience.
+> 
+> 2) document general_profit sysfs knob
+> 
+> 3) calculate ksm process profit metric
+> 
+>    The ksm documentation mentions the process profit metric and how to
+>    calculate it.  This adds the calculation of the metric.
+> 
+> 4) mm: expose ksm process profit metric in ksm_stat
+> 
+>    This exposes the ksm process profit metric in /proc/<pid>/ksm_stat.
+>    The documentation mentions the formula for the ksm process profit
+>    metric, however it does not calculate it.  In addition the formula
+>    depends on the size of internal structures.  So it makes sense to
+>    expose it.
+>
 
-Signed-off-by: Deming Wang <wangdeming@inspur.com>
----
- Documentation/translations/ja_JP/SubmittingPatches | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi, Stefan, I think you should give some credits to me about my contributions on
+the concept and formula of ksm profit (process wide and system wide),  it's kind
+of idea stealing.
 
-diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
-index 04deb77b20c6..5334db471744 100644
---- a/Documentation/translations/ja_JP/SubmittingPatches
-+++ b/Documentation/translations/ja_JP/SubmittingPatches
-@@ -450,7 +450,7 @@ Reviewed-by: タグは、それとは異なり、下記のレビューア宣言
-             状況においてその宣言した目的や機能が正しく実現することに関して、
-             いかなる保証もしない(特にどこかで明示しない限り)。
+
+Besides, the idea of Process control KSM was proposed by me last year although you use
+prctl instead of /proc fs. you even didn't CC my email. I think you should CC my email
+(xu.xin16@zte.com.cn) as least.
  
--Reviewd-by タグはそのパッチがカーネルに対して適切な修正であって、深刻な技術的
-+Reviewed-by タグはそのパッチがカーネルに対して適切な修正であって、深刻な技術的
- 問題を残していないという意見の宣言です。興味のあるレビューアは誰でも(レビュー
- 作業を終えたら)パッチに対して Reviewed-by タグを提示できます。このタグは
- レビューアの寄与をクレジットする働き、レビューの進捗の度合いをメンテナに
--- 
-2.27.0
-
+> 5) document new procfs ksm knobs
+> 
+> Signed-off-by: Stefan Roesch <shr@devkernel.io>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Rik van Riel <riel@surriel.com>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> ---
+>  Documentation/ABI/testing/sysfs-kernel-mm-ksm |  8 +++++++
+>  Documentation/admin-guide/mm/ksm.rst          |  5 ++++-
+>  fs/proc/base.c                                |  3 +++
+>  include/linux/ksm.h                           |  4 ++++
+>  mm/ksm.c                                      | 21 +++++++++++++++++++
+>  5 files changed, 40 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-ksm b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
+> index d244674a9480..6041a025b65a 100644
+> --- a/Documentation/ABI/testing/sysfs-kernel-mm-ksm
+> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
+> @@ -51,3 +51,11 @@ Description:	Control merging pages across different NUMA nodes.
+>  
+>  		When it is set to 0 only pages from the same node are merged,
+>  		otherwise pages from all nodes can be merged together (default).
+> +
+> +What:		/sys/kernel/mm/ksm/general_profit
+> +Date:		April 2023
+> +KernelVersion:  6.4
+> +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+> +Description:	Measure how effective KSM is.
+> +		general_profit: how effective is KSM. The formula for the
+> +		calculation is in Documentation/admin-guide/mm/ksm.rst.
+> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
