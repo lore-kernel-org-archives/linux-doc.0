@@ -2,312 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F120C77B60
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 05:36:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8B1C77B60
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 06:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229770AbjD1Fg2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 01:36:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52120 "EHLO
+        id S230087AbjD1G0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 02:26:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjD1Fg1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 01:36:27 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58143581;
-        Thu, 27 Apr 2023 22:36:25 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33S4wSXY017050;
-        Fri, 28 Apr 2023 05:36:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=gV+97s9mO3CoKC30qh5+p/FM5NfCZi8frpBlCRZKE58=;
- b=ZQYP5UEQT58dNaI637Y3xlDHBnrG9jPc9qVP9zwbIxbZKgpiWnqpl4VzLvg4r/BBSNee
- SJDZMF6ZNJ6VkrUg4gc/9mtl/yHjYeuduQPEuMNJp5grQWcHsykLvDsQzEdYvjTDXjhA
- Cy7Spd4BMT3B8mTU15D3g1Xo+1ldDdbdMZw1Nusdxesd9QAdBPobpSH+JZegGfzp/5FS
- NdOwBqUDxAYmKkMrWSAN9Dqtpf8eTbcE8/4jZmTnBQVSkP6XVqleqgJpNnQrGo32ZXFM
- NMKsqtYPbf5Nk5fARseofo7NUaCWteS0ZuKNxts7nr3BS6NHIHASLNPWq5bMgvBzWOVP Qw== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q7thv1sdq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 28 Apr 2023 05:36:00 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33S5ZxoP025523
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 28 Apr 2023 05:35:59 GMT
-Received: from [10.253.9.121] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 27 Apr
- 2023 22:35:52 -0700
-Message-ID: <d0be9671-bb32-e306-0a0f-c706837df994@quicinc.com>
-Date:   Fri, 28 Apr 2023 13:35:50 +0800
+        with ESMTP id S230002AbjD1G0H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 02:26:07 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 26A4A30C2
+        for <linux-doc@vger.kernel.org>; Thu, 27 Apr 2023 23:26:04 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.110.102])
+        by gateway (Coremail) with SMTP id _____8AxX+v4ZktkFAcCAA--.3387S3;
+        Fri, 28 Apr 2023 14:26:00 +0800 (CST)
+Received: from [192.168.100.131] (unknown [112.20.110.102])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxHLP2Zktk7fI_AA--.21016S3;
+        Fri, 28 Apr 2023 14:25:58 +0800 (CST)
+Message-ID: <aae533d7-0274-1723-2c6a-8a343bd1b8c7@loongson.cn>
+Date:   Fri, 28 Apr 2023 14:25:58 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 1/3] Coresight: Add coresight dummy driver
+Subject: Re: [PATCH] Remove the unnecessary unicode character
+To:     Tao Liu <ltao@redhat.com>, alexs@kernel.org, corbet@lwn.net,
+        src.res@email.cn
+Cc:     linux-doc@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+References: <20230426021452.9745-1-ltao@redhat.com>
 Content-Language: en-US
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <coresight@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        "Yuanfang Zhang" <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>,
-        "Bjorn Andersson" <andersson@kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20230422073714.38844-1-quic_hazha@quicinc.com>
- <20230422073714.38844-2-quic_hazha@quicinc.com>
- <6ca3de6d-eaba-f9c1-1809-90902a69564a@arm.com>
-From:   Hao Zhang <quic_hazha@quicinc.com>
-In-Reply-To: <6ca3de6d-eaba-f9c1-1809-90902a69564a@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20230426021452.9745-1-ltao@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ITz-8bbq86jgnRZCwb7DL9F5gsuStwLT
-X-Proofpoint-ORIG-GUID: ITz-8bbq86jgnRZCwb7DL9F5gsuStwLT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_02,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 bulkscore=0
- malwarescore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0 phishscore=0
- spamscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304280045
+X-CM-TRANSID: AQAAf8BxHLP2Zktk7fI_AA--.21016S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxGrW7WrW8WFW8Ww18Jw17GFg_yoW5Wr4fpr
+        W2g34fK3WIyr12yrZrGw4xXFy8GFnrGa12ga17tas3Krn5uFsFqrsxKr98tasxXry8WFW2
+        qF48Kr409Fy2v3JanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+        ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+        M2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zV
+        CFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2
+        z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2
+        IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxY
+        O2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
+        WUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
+        Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rV
+        WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4U
+        YxBIdaVFxhVjvjDU0xZFpf9x07je0PfUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
 
-On 4/24/2023 8:09 PM, Suzuki K Poulose wrote:
-> On 22/04/2023 08:37, Hao Zhang wrote:
->> Some Coresight devices that kernel don't have permission to access or
->> configure. So there need driver to register dummy devices as Coresight
->> devices. It may also be used to define components that may not have
->> any programming interfaces (e.g, static links), so that paths can be
->> established in the driver. Provide Coresight API for dummy device
->> operations, such as enabling and disabling dummy devices. Build the
->> Coresight path for dummy sink or dummy source for debugging.
->>
->> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
->> ---
->>   drivers/hwtracing/coresight/Kconfig           |  11 ++
->>   drivers/hwtracing/coresight/Makefile          |   1 +
->>   drivers/hwtracing/coresight/coresight-dummy.c | 179 ++++++++++++++++++
->>   include/linux/coresight.h                     |   1 +
->>   4 files changed, 192 insertions(+)
->>   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
->>
->> diff --git a/drivers/hwtracing/coresight/Kconfig 
->> b/drivers/hwtracing/coresight/Kconfig
->> index 2b5bbfffbc4f..06f0a7594169 100644
->> --- a/drivers/hwtracing/coresight/Kconfig
->> +++ b/drivers/hwtracing/coresight/Kconfig
->> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
->>         To compile this driver as a module, choose M here: the module 
->> will be
->>         called coresight-tpda.
->> +
->> +config CORESIGHT_DUMMY
->> +    tristate "Dummy driver support"
->> +    help
->> +      Enables support for dummy driver. Dummy driver can be used for
->> +      CoreSight sources/sinks that are owned and configured by some
->> +      other subsystem and use Linux drivers to configure rest of trace
->> +      path.
->> +
->> +      To compile this driver as a module, choose M here: the module 
->> will be
->> +      called coresight-dummy.
->>   endif
->> diff --git a/drivers/hwtracing/coresight/Makefile 
->> b/drivers/hwtracing/coresight/Makefile
->> index 33bcc3f7b8ae..995d3b2c76df 100644
->> --- a/drivers/hwtracing/coresight/Makefile
->> +++ b/drivers/hwtracing/coresight/Makefile
->> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
->>   coresight-cti-y := coresight-cti-core.o    coresight-cti-platform.o \
->>              coresight-cti-sysfs.o
->>   obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
->> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
->> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c 
->> b/drivers/hwtracing/coresight/coresight-dummy.c
->> new file mode 100644
->> index 000000000000..1fb8b3d1c170
->> --- /dev/null
->> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
->> @@ -0,0 +1,179 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
->> reserved.
->> + */
->> +
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/coresight.h>
->> +#include <linux/of.h>
->> +#include <linux/pm_runtime.h>
->> +
->> +#include "coresight-priv.h"
->> +#include "coresight-trace-id.h"
->> +
->> +struct dummy_drvdata {
->> +    struct device            *dev;
->> +    struct coresight_device        *csdev;
->> +    int                traceid;
->> +};
->> +
->> +DEFINE_CORESIGHT_DEVLIST(source_devs, "dummy_source");
->> +DEFINE_CORESIGHT_DEVLIST(sink_devs, "dummy_sink");
->> +
->> +static int dummy_source_enable(struct coresight_device *csdev,
->> +                   struct perf_event *event, u32 mode)
->> +{
->> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
->> +
->> +    dev_dbg(drvdata->dev, "Dummy source enabled\n");
->> +
->> +    return 0;
->> +}
->> +
->> +static void dummy_source_disable(struct coresight_device *csdev,
->> +                 struct perf_event *event)
->> +{
->> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
->> +
->> +    dev_dbg(drvdata->dev, "Dummy source disabled\n");
->> +}
->> +
->> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
->> +                void *data)
->> +{
->> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
->> +
->> +    dev_dbg(drvdata->dev, "Dummy sink enabled\n");
->> +
->> +    return 0;
->> +}
->> +
->> +static int dummy_sink_disable(struct coresight_device *csdev)
->> +{
->> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
->> +
->> +    dev_dbg(drvdata->dev, "Dummy sink disabled\n");
->> +
->> +    return 0;
->> +}
->> +
->> +static const struct coresight_ops_source dummy_source_ops = {
->> +    .enable    = dummy_source_enable,
->> +    .disable = dummy_source_disable,
->> +};
->> +
->> +static const struct coresight_ops dummy_source_cs_ops = {
->> +    .source_ops = &dummy_source_ops,
->> +};
->> +
->> +static const struct coresight_ops_sink dummy_sink_ops = {
->> +    .enable    = dummy_sink_enable,
->> +    .disable = dummy_sink_disable,
->> +};
->> +
->> +static const struct coresight_ops dummy_sink_cs_ops = {
->> +    .sink_ops = &dummy_sink_ops,
->> +};
->> +
->> +static int dummy_probe(struct platform_device *pdev)
->> +{
->> +    int trace_id;
->> +    struct device *dev = &pdev->dev;
->> +    struct device_node *node = dev->of_node;
->> +    struct coresight_platform_data *pdata;
->> +    struct dummy_drvdata *drvdata;
->> +    struct coresight_desc desc = { 0 };
->> +
->> +    if (of_device_is_compatible(node, "arm,coresight-dummy-source")) {
->> +        trace_id = coresight_trace_id_get_system_id();
-> 
-> Why is this needed ? If at all we need something, this must be
-> explicitly asked for. How is this used ?
->  >
->> +        if (trace_id < 0)
->> +            return trace_id;
->> +
->> +        desc.name = coresight_alloc_device_name(&source_devs, dev);
->> +        if (!desc.name)
->> +            return -ENOMEM;
->> +
->> +        desc.type = CORESIGHT_DEV_TYPE_SOURCE;
->> +        desc.subtype.source_subtype =
->> +                    CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
->> +        desc.ops = &dummy_source_cs_ops;
->> +    } else if (of_device_is_compatible(node, 
->> "arm,coresight-dummy-sink")) {
->> +        desc.name = coresight_alloc_device_name(&sink_devs, dev);
->> +        if (!desc.name)
->> +            return -ENOMEM;
->> +
->> +        desc.type = CORESIGHT_DEV_TYPE_SINK;
->> +        desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_DUMMY;
->> +        desc.ops = &dummy_sink_cs_ops;
->> +    } else {
->> +        dev_err(dev, "Device type not set\n");
->> +        return -EINVAL;
->> +    }
->> +
->> +    pdata = coresight_get_platform_data(dev);
->> +    if (IS_ERR(pdata))
->> +        return PTR_ERR(pdata);
->> +    pdev->dev.platform_data = pdata;
->> +
->> +    drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
->> +    if (!drvdata)
->> +        return -ENOMEM;
-> 
-> If we have allocated a traceid, we must clean it up here and/or at 
-> device removal.
->  >> +
->> +    drvdata->dev = &pdev->dev;
->> +    platform_set_drvdata(pdev, drvdata);
->> +
->> +    desc.pdata = pdev->dev.platform_data;
->> +    desc.dev = &pdev->dev;
->> +    drvdata->csdev = coresight_register(&desc);
->> +    if (IS_ERR(drvdata->csdev))
->> +        return PTR_ERR(drvdata->csdev);
->> +
->> +    drvdata->traceid = (u8)trace_id;
-> 
-> Where/how is this used ?
-> 
-> Suzuki
-> 
-This is required for ATID filtering funtion which is our HW design for 
-ETR, we need to set traceid/atid for etm, stm and tpda. Therefore, it's 
-needed if the type of dummy source is etm. This part is waiting for 
-upstream. I will remove it now and upstream it as the part of ATID 
-filtering in the further.
+在 4/26/23 10:14, Tao Liu 写道:
+> There is a non-printable unicode char '\u202a' or "0xe2 0x80 0xaa" in hex
+> in the translation doc. It is unnecessary and should be removed for better
+> text formatting when using editors like vi.
+>
+> Signed-off-by: Tao Liu <ltao@redhat.com>
+
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+
 
 Thanks,
-Hao
+
+Yanteng
+
+> ---
+>   Documentation/translations/zh_CN/process/magic-number.rst | 2 +-
+>   Documentation/translations/zh_TW/process/magic-number.rst | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Documentation/translations/zh_CN/process/magic-number.rst
+> index 0617ce125e12..6f22b728d4e7 100644
+> --- a/Documentation/translations/zh_CN/process/magic-number.rst
+> +++ b/Documentation/translations/zh_CN/process/magic-number.rst
+> @@ -25,7 +25,7 @@ Linux 魔术数
+>           	...
+>           };
+>   
+> -当你以后给内核添加增强功能的时候，请遵守这条规则！这样就会节省数不清的调试时间，特别是一些古怪的情况，例如，数组超出范围并且重新写了超出部分。遵守这个规则，‪这些情况可以被快速地，安全地避免。
+> +当你以后给内核添加增强功能的时候，请遵守这条规则！这样就会节省数不清的调试时间，特别是一些古怪的情况，例如，数组超出范围并且重新写了超出部分。遵守这个规则，这些情况可以被快速地，安全地避免。
+>   
+>   		Theodore Ts'o
+>   		  31 Mar 94
+> diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
+> index f3f7082e17c6..a3dd87cadc26 100644
+> --- a/Documentation/translations/zh_TW/process/magic-number.rst
+> +++ b/Documentation/translations/zh_TW/process/magic-number.rst
+> @@ -28,7 +28,7 @@ Linux 魔術數
+>           	...
+>           };
+>   
+> -當你以後給內核添加增強功能的時候，請遵守這條規則！這樣就會節省數不清的調試時間，特別是一些古怪的情況，例如，數組超出範圍並且重新寫了超出部分。遵守這個規則，‪這些情況可以被快速地，安全地避免。
+> +當你以後給內核添加增強功能的時候，請遵守這條規則！這樣就會節省數不清的調試時間，特別是一些古怪的情況，例如，數組超出範圍並且重新寫了超出部分。遵守這個規則，這些情況可以被快速地，安全地避免。
+>   
+>   		Theodore Ts'o
+>   		  31 Mar 94
+
