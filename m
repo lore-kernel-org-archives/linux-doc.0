@@ -2,128 +2,312 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9EFC7EE21
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 03:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F120C77B60
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 05:36:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345251AbjD1DKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Apr 2023 23:10:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48212 "EHLO
+        id S229770AbjD1Fg2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Apr 2023 01:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345218AbjD1DKT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Apr 2023 23:10:19 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A427A30D2;
-        Thu, 27 Apr 2023 20:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=HPYgfypTw1vIYU6R0OqK5IQj1qxUl03tjuR1IIa/a8c=; b=j/v0+ju9xbMPnDp2E4/bEYP8IT
-        gyhT7SrJOmn5lNnQjR/Xx/G161RjDzXwX7wcW4qyxN7GYDlVppbqBvuYrkHuje0yYnUuRevKNLCwk
-        7O/Pq/qWplbwui5hkzJWZ07klRcQgWjqTAyt3E9N0CD9NgCaXM0XaMiBs+NFjbFEjM4SICSgyD48J
-        z0rvQP01xtWEvrCe03kRJH6ZIvBXqrUWxMXTqd0R8G0b6TnMG0eRnuh9r7IoUt1ENLvYLTnqD+qV+
-        +lwSR0G9J0prR+hMb+DK8XiU23oIMM8GGM8R7QZ5qlfM7Nynw+zYwoPV/T2g/3MD1yIsGfneEDa7s
-        q8NTHZ8g==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1psEU1-0082Yk-34;
-        Fri, 28 Apr 2023 03:09:18 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        linux-security-module@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org
-Subject: [PATCH] lsm: move hook comments docs to security/security.c
-Date:   Thu, 27 Apr 2023 20:09:16 -0700
-Message-Id: <20230428030916.2966-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S229512AbjD1Fg1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 01:36:27 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58143581;
+        Thu, 27 Apr 2023 22:36:25 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33S4wSXY017050;
+        Fri, 28 Apr 2023 05:36:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=gV+97s9mO3CoKC30qh5+p/FM5NfCZi8frpBlCRZKE58=;
+ b=ZQYP5UEQT58dNaI637Y3xlDHBnrG9jPc9qVP9zwbIxbZKgpiWnqpl4VzLvg4r/BBSNee
+ SJDZMF6ZNJ6VkrUg4gc/9mtl/yHjYeuduQPEuMNJp5grQWcHsykLvDsQzEdYvjTDXjhA
+ Cy7Spd4BMT3B8mTU15D3g1Xo+1ldDdbdMZw1Nusdxesd9QAdBPobpSH+JZegGfzp/5FS
+ NdOwBqUDxAYmKkMrWSAN9Dqtpf8eTbcE8/4jZmTnBQVSkP6XVqleqgJpNnQrGo32ZXFM
+ NMKsqtYPbf5Nk5fARseofo7NUaCWteS0ZuKNxts7nr3BS6NHIHASLNPWq5bMgvBzWOVP Qw== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q7thv1sdq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 28 Apr 2023 05:36:00 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33S5ZxoP025523
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 28 Apr 2023 05:35:59 GMT
+Received: from [10.253.9.121] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 27 Apr
+ 2023 22:35:52 -0700
+Message-ID: <d0be9671-bb32-e306-0a0f-c706837df994@quicinc.com>
+Date:   Fri, 28 Apr 2023 13:35:50 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 1/3] Coresight: Add coresight dummy driver
+Content-Language: en-US
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        "Yuanfang Zhang" <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20230422073714.38844-1-quic_hazha@quicinc.com>
+ <20230422073714.38844-2-quic_hazha@quicinc.com>
+ <6ca3de6d-eaba-f9c1-1809-90902a69564a@arm.com>
+From:   Hao Zhang <quic_hazha@quicinc.com>
+In-Reply-To: <6ca3de6d-eaba-f9c1-1809-90902a69564a@arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ITz-8bbq86jgnRZCwb7DL9F5gsuStwLT
+X-Proofpoint-ORIG-GUID: ITz-8bbq86jgnRZCwb7DL9F5gsuStwLT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-28_02,2023-04-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 bulkscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0 phishscore=0
+ spamscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304280045
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix one kernel-doc warning, but invesigating that led to other
-kernel-doc movement (lsm_hooks.h to security.c) that needs to be
-fixed also.
+Hi Suzuki,
 
-include/linux/lsm_hooks.h:1: warning: no structured comments found
+On 4/24/2023 8:09 PM, Suzuki K Poulose wrote:
+> On 22/04/2023 08:37, Hao Zhang wrote:
+>> Some Coresight devices that kernel don't have permission to access or
+>> configure. So there need driver to register dummy devices as Coresight
+>> devices. It may also be used to define components that may not have
+>> any programming interfaces (e.g, static links), so that paths can be
+>> established in the driver. Provide Coresight API for dummy device
+>> operations, such as enabling and disabling dummy devices. Build the
+>> Coresight path for dummy sink or dummy source for debugging.
+>>
+>> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+>> ---
+>>   drivers/hwtracing/coresight/Kconfig           |  11 ++
+>>   drivers/hwtracing/coresight/Makefile          |   1 +
+>>   drivers/hwtracing/coresight/coresight-dummy.c | 179 ++++++++++++++++++
+>>   include/linux/coresight.h                     |   1 +
+>>   4 files changed, 192 insertions(+)
+>>   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
+>>
+>> diff --git a/drivers/hwtracing/coresight/Kconfig 
+>> b/drivers/hwtracing/coresight/Kconfig
+>> index 2b5bbfffbc4f..06f0a7594169 100644
+>> --- a/drivers/hwtracing/coresight/Kconfig
+>> +++ b/drivers/hwtracing/coresight/Kconfig
+>> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
+>>         To compile this driver as a module, choose M here: the module 
+>> will be
+>>         called coresight-tpda.
+>> +
+>> +config CORESIGHT_DUMMY
+>> +    tristate "Dummy driver support"
+>> +    help
+>> +      Enables support for dummy driver. Dummy driver can be used for
+>> +      CoreSight sources/sinks that are owned and configured by some
+>> +      other subsystem and use Linux drivers to configure rest of trace
+>> +      path.
+>> +
+>> +      To compile this driver as a module, choose M here: the module 
+>> will be
+>> +      called coresight-dummy.
+>>   endif
+>> diff --git a/drivers/hwtracing/coresight/Makefile 
+>> b/drivers/hwtracing/coresight/Makefile
+>> index 33bcc3f7b8ae..995d3b2c76df 100644
+>> --- a/drivers/hwtracing/coresight/Makefile
+>> +++ b/drivers/hwtracing/coresight/Makefile
+>> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
+>>   coresight-cti-y := coresight-cti-core.o    coresight-cti-platform.o \
+>>              coresight-cti-sysfs.o
+>>   obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
+>> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
+>> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c 
+>> b/drivers/hwtracing/coresight/coresight-dummy.c
+>> new file mode 100644
+>> index 000000000000..1fb8b3d1c170
+>> --- /dev/null
+>> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
+>> @@ -0,0 +1,179 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + */
+>> +
+>> +#include <linux/kernel.h>
+>> +#include <linux/module.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/coresight.h>
+>> +#include <linux/of.h>
+>> +#include <linux/pm_runtime.h>
+>> +
+>> +#include "coresight-priv.h"
+>> +#include "coresight-trace-id.h"
+>> +
+>> +struct dummy_drvdata {
+>> +    struct device            *dev;
+>> +    struct coresight_device        *csdev;
+>> +    int                traceid;
+>> +};
+>> +
+>> +DEFINE_CORESIGHT_DEVLIST(source_devs, "dummy_source");
+>> +DEFINE_CORESIGHT_DEVLIST(sink_devs, "dummy_sink");
+>> +
+>> +static int dummy_source_enable(struct coresight_device *csdev,
+>> +                   struct perf_event *event, u32 mode)
+>> +{
+>> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+>> +
+>> +    dev_dbg(drvdata->dev, "Dummy source enabled\n");
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static void dummy_source_disable(struct coresight_device *csdev,
+>> +                 struct perf_event *event)
+>> +{
+>> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+>> +
+>> +    dev_dbg(drvdata->dev, "Dummy source disabled\n");
+>> +}
+>> +
+>> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
+>> +                void *data)
+>> +{
+>> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+>> +
+>> +    dev_dbg(drvdata->dev, "Dummy sink enabled\n");
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int dummy_sink_disable(struct coresight_device *csdev)
+>> +{
+>> +    struct dummy_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+>> +
+>> +    dev_dbg(drvdata->dev, "Dummy sink disabled\n");
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static const struct coresight_ops_source dummy_source_ops = {
+>> +    .enable    = dummy_source_enable,
+>> +    .disable = dummy_source_disable,
+>> +};
+>> +
+>> +static const struct coresight_ops dummy_source_cs_ops = {
+>> +    .source_ops = &dummy_source_ops,
+>> +};
+>> +
+>> +static const struct coresight_ops_sink dummy_sink_ops = {
+>> +    .enable    = dummy_sink_enable,
+>> +    .disable = dummy_sink_disable,
+>> +};
+>> +
+>> +static const struct coresight_ops dummy_sink_cs_ops = {
+>> +    .sink_ops = &dummy_sink_ops,
+>> +};
+>> +
+>> +static int dummy_probe(struct platform_device *pdev)
+>> +{
+>> +    int trace_id;
+>> +    struct device *dev = &pdev->dev;
+>> +    struct device_node *node = dev->of_node;
+>> +    struct coresight_platform_data *pdata;
+>> +    struct dummy_drvdata *drvdata;
+>> +    struct coresight_desc desc = { 0 };
+>> +
+>> +    if (of_device_is_compatible(node, "arm,coresight-dummy-source")) {
+>> +        trace_id = coresight_trace_id_get_system_id();
+> 
+> Why is this needed ? If at all we need something, this must be
+> explicitly asked for. How is this used ?
+>  >
+>> +        if (trace_id < 0)
+>> +            return trace_id;
+>> +
+>> +        desc.name = coresight_alloc_device_name(&source_devs, dev);
+>> +        if (!desc.name)
+>> +            return -ENOMEM;
+>> +
+>> +        desc.type = CORESIGHT_DEV_TYPE_SOURCE;
+>> +        desc.subtype.source_subtype =
+>> +                    CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
+>> +        desc.ops = &dummy_source_cs_ops;
+>> +    } else if (of_device_is_compatible(node, 
+>> "arm,coresight-dummy-sink")) {
+>> +        desc.name = coresight_alloc_device_name(&sink_devs, dev);
+>> +        if (!desc.name)
+>> +            return -ENOMEM;
+>> +
+>> +        desc.type = CORESIGHT_DEV_TYPE_SINK;
+>> +        desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_DUMMY;
+>> +        desc.ops = &dummy_sink_cs_ops;
+>> +    } else {
+>> +        dev_err(dev, "Device type not set\n");
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    pdata = coresight_get_platform_data(dev);
+>> +    if (IS_ERR(pdata))
+>> +        return PTR_ERR(pdata);
+>> +    pdev->dev.platform_data = pdata;
+>> +
+>> +    drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
+>> +    if (!drvdata)
+>> +        return -ENOMEM;
+> 
+> If we have allocated a traceid, we must clean it up here and/or at 
+> device removal.
+>  >> +
+>> +    drvdata->dev = &pdev->dev;
+>> +    platform_set_drvdata(pdev, drvdata);
+>> +
+>> +    desc.pdata = pdev->dev.platform_data;
+>> +    desc.dev = &pdev->dev;
+>> +    drvdata->csdev = coresight_register(&desc);
+>> +    if (IS_ERR(drvdata->csdev))
+>> +        return PTR_ERR(drvdata->csdev);
+>> +
+>> +    drvdata->traceid = (u8)trace_id;
+> 
+> Where/how is this used ?
+> 
+> Suzuki
+> 
+This is required for ATID filtering funtion which is our HW design for 
+ETR, we need to set traceid/atid for etm, stm and tpda. Therefore, it's 
+needed if the type of dummy source is etm. This part is waiting for 
+upstream. I will remove it now and upstream it as the part of ATID 
+filtering in the further.
 
-Fixes: e261301c851a ("lsm: move the remaining LSM hook comments to security/security.c")
-Fixes: 1cd2aca64a5d ("lsm: move the io_uring hook comments to security/security.c")
-Fixes: 452b670c7222 ("lsm: move the perf hook comments to security/security.c")
-Fixes: 55e853201a9e ("lsm: move the bpf hook comments to security/security.c")
-Fixes: b14faf9c94a6 ("lsm: move the audit hook comments to security/security.c")
-Fixes: 1427ddbe5cc1 ("lsm: move the binder hook comments to security/security.c")
-Fixes: 43fad2821876 ("lsm: move the sysv hook comments to security/security.c")
-Fixes: ecc419a44535 ("lsm: move the key hook comments to security/security.c")
-Fixes: 742b99456e86 ("lsm: move the xfrm hook comments to security/security.c")
-Fixes: ac318aed5498 ("lsm: move the Infiniband hook comments to security/security.c")
-Fixes: 4a49f592e931 ("lsm: move the SCTP hook comments to security/security.c")
-Fixes: 6b6bbe8c02a1 ("lsm: move the socket hook comments to security/security.c")
-Fixes: 2c2442fd46cd ("lsm: move the AF_UNIX hook comments to security/security.c")
-Fixes: 2bcf51bf2f03 ("lsm: move the netlink hook comments to security/security.c")
-Fixes: 130c53bfee4b ("lsm: move the task hook comments to security/security.c")
-Fixes: a0fd6480de48 ("lsm: move the file hook comments to security/security.c")
-Fixes: 9348944b775d ("lsm: move the kernfs hook comments to security/security.c")
-Fixes: 916e32584dfa ("lsm: move the inode hook comments to security/security.c")
-Fixes: 08526a902cc4 ("lsm: move the filesystem hook comments to security/security.c")
-Fixes: 36819f185590 ("lsm: move the fs_context hook comments to security/security.c")
-Fixes: 1661372c912d ("lsm: move the program execution hook comments to security/security.c")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Paul Moore <paul@paul-moore.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: linux-security-module@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: KP Singh <kpsingh@kernel.org>
-Cc: bpf@vger.kernel.org
----
- Documentation/bpf/prog_lsm.rst             |    2 +-
- Documentation/security/lsm-development.rst |    6 +++---
- Documentation/security/lsm.rst             |    2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff -- a/Documentation/bpf/prog_lsm.rst b/Documentation/bpf/prog_lsm.rst
---- a/Documentation/bpf/prog_lsm.rst
-+++ b/Documentation/bpf/prog_lsm.rst
-@@ -18,7 +18,7 @@ LSM hook:
- .. c:function:: int file_mprotect(struct vm_area_struct *vma, unsigned long reqprot, unsigned long prot);
- 
- Other LSM hooks which can be instrumented can be found in
--``include/linux/lsm_hooks.h``.
-+``security/security.c``.
- 
- eBPF programs that use Documentation/bpf/btf.rst do not need to include kernel
- headers for accessing information from the attached eBPF program's context.
-diff -- a/Documentation/security/lsm-development.rst b/Documentation/security/lsm-development.rst
---- a/Documentation/security/lsm-development.rst
-+++ b/Documentation/security/lsm-development.rst
-@@ -11,7 +11,7 @@ that end users and distros can make a mo
- LSMs suit their requirements.
- 
- For extensive documentation on the available LSM hook interfaces, please
--see ``include/linux/lsm_hooks.h`` and associated structures:
-+see ``security/security.c`` and associated structures:
- 
--.. kernel-doc:: include/linux/lsm_hooks.h
--   :internal:
-+.. kernel-doc:: security/security.c
-+   :export:
-diff -- a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
---- a/Documentation/security/lsm.rst
-+++ b/Documentation/security/lsm.rst
-@@ -98,7 +98,7 @@ associate these values with real securit
- LSM hooks are maintained in lists. A list is maintained for each
- hook, and the hooks are called in the order specified by CONFIG_LSM.
- Detailed documentation for each hook is
--included in the `include/linux/lsm_hooks.h` header file.
-+included in the `security/security.c` source file.
- 
- The LSM framework provides for a close approximation of
- general security module stacking. It defines
+Thanks,
+Hao
