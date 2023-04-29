@@ -2,195 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 504B4C77B7C
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Apr 2023 20:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4421DC77B7F
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Apr 2023 22:55:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbjD2UHb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Apr 2023 16:07:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41360 "EHLO
+        id S230455AbjD2Wzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Apr 2023 18:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbjD2UHa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Apr 2023 16:07:30 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B038AF7
-        for <linux-doc@vger.kernel.org>; Sat, 29 Apr 2023 13:07:28 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-63b7588005fso991702b3a.0
-        for <linux-doc@vger.kernel.org>; Sat, 29 Apr 2023 13:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1682798848; x=1685390848;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GPEqh8k2qdo+NeTZc6tPzCNg8vzJgNMkZZxTJJ82cVc=;
-        b=CesUnoPpobeQ2vi5Uq289J04jpYmmsKF1v97GIvbSAOLF9eW2BPzblYzd84BU5tSud
-         y1DUBRT8Q+c5WubZqOMxKOwsMMVdNAX2FLqxysqfdhlBQW5YBoP69vINYpYlpfaUB53F
-         EN6pHvadBT4/e8ZiBj6gAz3bsQs+1XpXY5ZCYW+JB7M2329N9o7kB8eeAvfP5X8r+NMY
-         iMuTznt72Rcpc6CeH+9mKoC803DZagcwR1X3GSNHBVB/KEyAuzP7a+KmCVNSDCwhK1E+
-         1ay1BgalmYKhiJXxvvOoHE237ZmnJRl6R8+lE7d8YU+QF5ZySpHBMtumsDiMnde7GaSe
-         Xdig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682798848; x=1685390848;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GPEqh8k2qdo+NeTZc6tPzCNg8vzJgNMkZZxTJJ82cVc=;
-        b=ayJjfTkYuHzcYrBz46QPMcC3ADVu62Iteg8RJOhiBJslaBBT2ut1yXg2wTbO9+uphd
-         MGrFMWmxE4/Ju59mxgDqjKZrrslf4+0a5FwZI7bv0/0y+xmeCEFUWOnXo0wxdRie5fXL
-         3BJS6jCT9emYE0yYDaguIlYiw5t5pEmQQxEm/MEd4qcgAxi7r73vSNPF56Ny197I8sVO
-         UwvqAsaHjz7Q0XjkK0ntyCBwCtvEoB9HS8lbKMFFuT7b3coA6nnpTsiIbA9OLPBOVxix
-         vsesUFjEl1KQAxRoINexyFfqqg+bS+MoklXN9SwmGtQu1dCkbdGpQpZyZY3vL4pxV+AR
-         qOIg==
-X-Gm-Message-State: AC+VfDygiP8mx3P7RcYPcKtQ3Dl+KP61ID311Bv22vPyfA2x1HvZMig7
-        Rbr/pwxtwoR1udUxkCVksgDUWg==
-X-Google-Smtp-Source: ACHHUZ7vRoRMpKih9uT6u2biyCmOg5cRRUaCfmME/Xfykcc4K5L91I3hl8zMkHpswkQldje/7mqS9A==
-X-Received: by 2002:a05:6a20:72a7:b0:f0:662b:337 with SMTP id o39-20020a056a2072a700b000f0662b0337mr12264886pzk.60.1682798847993;
-        Sat, 29 Apr 2023 13:07:27 -0700 (PDT)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id u6-20020a656706000000b005143448896csm12225770pgf.58.2023.04.29.13.07.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Apr 2023 13:07:27 -0700 (PDT)
-Date:   Sat, 29 Apr 2023 13:07:27 -0700 (PDT)
-X-Google-Original-Date: Sat, 29 Apr 2023 13:07:04 PDT (-0700)
-Subject:     Re: [PATCH 3/3] RISC-V: hwprobe: Expose Zba and Zbb
-In-Reply-To: <20230429-gruffly-chrome-fd94628cc5ff@spud>
-CC:     Evan Green <evan@rivosinc.com>, aou@eecs.berkeley.edu,
-        abrestic@rivosinc.com, ajones@ventanamicro.com,
-        coelacanthus@outlook.com,
-        Conor Dooley <conor.dooley@microchip.com>,
-        heiko.stuebner@vrull.eu, corbet@lwn.net,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     Conor Dooley <conor@kernel.org>
-Message-ID: <mhng-8585bbf5-7d6a-4e09-9c5f-8c6f36092b76@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S230353AbjD2Wzn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Apr 2023 18:55:43 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C7ADE;
+        Sat, 29 Apr 2023 15:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1682808930; i=w_armin@gmx.de;
+        bh=OPVah3fGgiFDxtemCf8HhtgjxqFM4GudTMA58n/qrqg=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=n3pyPON8ToRzN9zU24IWOAsIgtuJmV9Y+1AVeTsBmx2htwdYmJ70zx9H5ooOltxAv
+         f03FPekgMENIepTWIXeLlVtbuP6PjkjbxvZwzW6pOFOLU31AiAtdWoVPCrWriDikIC
+         uegD7pnPGotauBVOvEBhccFlNwFCxyeyWxa0MGUuctSbKHYg+YQpesHNlPeYf1LA42
+         id7O23vFPl9USeMdm6RsK17sSzVDRGl4IIIKNMwfP9vNUWH10vBvFrw0fyoNpiLc/l
+         QSktCg5mAbaPbOCjM8l8wFuahI0MOhnWdBJFYybzHoorQCjKD90j8Hg/Kw3lH2wDaz
+         2CyPICCHcJuDg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1MWASY-1pmuF93rqc-00Xe6z; Sun, 30 Apr 2023 00:55:30 +0200
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     hdegoede@redhat.com, markgross@kernel.org
+Cc:     corbet@lwn.net, platform-driver-x86@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] platform/x86: dell-ddv: Update ABI documentation
+Date:   Sun, 30 Apr 2023 00:55:25 +0200
+Message-Id: <20230429225525.10507-2-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230429225525.10507-1-W_Armin@gmx.de>
+References: <20230429225525.10507-1-W_Armin@gmx.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:IkdI6Yin7g1agGdxzczipPFzmKmyhclawkTmmmdxepL/Nk4/4en
+ r1S9+rKZCaPsBnlV7swakSdQqV3UZBADEDERilt3SbTESYvt9nbYzyGrldUj7mw/916dBAw
+ BM4PaQBFNmS4U4qLDe7RFNzxLxkaLi6br421uBmyKojcRC0/nfiVoH3LBBCbGLgeFnvArbC
+ MP0lRUqZ75rocy0x4tesQ==
+UI-OutboundReport: notjunk:1;M01:P0:NucOP6JeLGo=;nx8EOk6dhE4hbOh9HTCkmd26eET
+ ii6KQePZj2OY2lgMmMAhxqu1OoQ95BtJ9g13SbtuN3LIrXceFzPo9+MS8YS6WiFczXFbOGVRP
+ dFElhL7ABv4PAbiBltN1n9blWYrOI9xWoo4nU9Oqpx59dpT5WlaAI0KcYoiiwll66ZKYTlSeE
+ 90IzXf3mNC3EjFAmI6wysYlW1dNchLuEeKQ9DJHUGERCDo/zfipYK3XS2Og7J10B0gMLCJL8m
+ mTdZ7f6jJItnAL2IikDkGtNKLEGhgLx2Xd33cSkIHmmsl1WJJegVWUpDjba6j8EFh4qNUjt6W
+ l0mR/HgozVIPjCIZUG+7cDZwpKqh2Ktpee0fBEhA9jsvVSXmPQmAJOuprofvgEkNWdTb2AiPW
+ EQdW5LWBInijaVCEQLrz3bVqLpuIjzOgrdu/wCHbmClxRcMJ0expoHR8sA10fNCUqu+JUFaqW
+ ag91cr97EEz5xMZqWAPmGyzs1Owp07lZ4S9zFRa2Suu0/kHN0L6bZ6egkAcpX2q16kVxx3IPu
+ tONtWRYK6AIOx+vhQXeZ5AwrnWHtxK1LN0Xg/OEoP5SrmzHHPslaY1ifFwR/WyQs/nM7DJy4U
+ T/N6X2YHqnOZrF8t/iqozrTLjOwFv4lROAz1e3V8yN33nmS+5ix+l+/NqfdNeNPL7lDFhu0B5
+ DOI8o4fnarMXZqaoc84uRrSM80ZNEYPNfEPwWOAKQqZYNByyCKQsW5p1y4pbudz8MNUjfONgG
+ 4nbqR0dun9ptkcTSPMHTRUGN38/se5wWSSUltOPrhFsLj2fucSVtMm059Ilqm0v3CBKVnL+Ds
+ RJfoYq8ISam3ZNUfCtgawR3MTyeja2cDB+oMRvaqUWjMp2bD2L1iXQlF/h1P4+BN9IW6S9R45
+ LMEFH4HGG4w3SZqdq64hUwjkDHCPkVK6k3cQWEQVOj3N551jK0EpCFvST/bpKTIXaDac0Kj1V
+ CZuoZyK+V9+uYndyoYeqxQdXDjc=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 29 Apr 2023 06:40:51 PDT (-0700), Conor Dooley wrote:
-> On Fri, Apr 28, 2023 at 12:06:08PM -0700, Evan Green wrote:
->> Add two new bits to the IMA_EXT_0 key for ZBA and ZBB extensions. These
->> are accurately reported per CPU.
->> 
->> Signed-off-by: Evan Green <evan@rivosinc.com>
->> 
->> ---
->> 
->>  Documentation/riscv/hwprobe.rst       |  7 +++++
->>  arch/riscv/include/uapi/asm/hwprobe.h |  2 ++
->>  arch/riscv/kernel/sys_riscv.c         | 43 ++++++++++++++++++++++-----
->>  3 files changed, 45 insertions(+), 7 deletions(-)
->> 
->> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
->> index 9f0dd62dcb5d..21f444a38359 100644
->> --- a/Documentation/riscv/hwprobe.rst
->> +++ b/Documentation/riscv/hwprobe.rst
->> @@ -64,6 +64,13 @@ The following keys are defined:
->>    * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
->>      by version 2.2 of the RISC-V ISA manual.
->>  
->> +  * :c:macro:`RISCV_HWPROBE_EXT_ZBA`: The Zba address generation extension is
->> +       supported, as defined in version 1.0 of the Bit-Manipulation ISA
->> +       extensions.
->> +
->> +  * :c:macro:`RISCV_HWPROBE_IMA_ZBB`: The Zbb extension is supporte, as defined
->
-> Why is one EXT_ZBA and the other is IMA_ZBB? You do not use IMA below,
-> so I assume this is a copy-paste mistake.
+Synchronize the ABI documentation with the driver documentation
+and direct users to the latter in case they are interested in
+more detailed information.
 
-Looks like it.  Either way this was too late for the current merge 
-window, so no big deal.
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ .../ABI/testing/debugfs-dell-wmi-ddv          | 29 ++++++++++++++-----
+ .../ABI/testing/sysfs-platform-dell-wmi-ddv   |  4 ++-
+ 2 files changed, 24 insertions(+), 9 deletions(-)
 
->
-> Also, s/supporte/supported.
->
-> Otherwise, looks fine.
-> Cheers,
-> Conor.
->
->> +       in version 1.0 of the Bit-Manipulation ISA extensions.
->> +
->>  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
->>    information about the selected set of processors.
->>  
->> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
->> index 8d745a4ad8a2..ef3b060d4e8d 100644
->> --- a/arch/riscv/include/uapi/asm/hwprobe.h
->> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
->> @@ -25,6 +25,8 @@ struct riscv_hwprobe {
->>  #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
->>  #define		RISCV_HWPROBE_IMA_FD		(1 << 0)
->>  #define		RISCV_HWPROBE_IMA_C		(1 << 1)
->> +#define		RISCV_HWPROBE_EXT_ZBA		(1 << 2)
->> +#define		RISCV_HWPROBE_EXT_ZBB		(1 << 3)
->>  #define RISCV_HWPROBE_KEY_CPUPERF_0	5
->>  #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
->>  #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
->> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
->> index 5db29683ebee..adfcb6b64db7 100644
->> --- a/arch/riscv/kernel/sys_riscv.c
->> +++ b/arch/riscv/kernel/sys_riscv.c
->> @@ -121,6 +121,41 @@ static void hwprobe_arch_id(struct riscv_hwprobe *pair,
->>  	pair->value = id;
->>  }
->>  
->> +static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
->> +			     const struct cpumask *cpus)
->> +{
->> +	int cpu;
->> +	u64 missing = 0;
->> +
->> +	pair->value = 0;
->> +	if (has_fpu())
->> +		pair->value |= RISCV_HWPROBE_IMA_FD;
->> +
->> +	if (riscv_isa_extension_available(NULL, c))
->> +		pair->value |= RISCV_HWPROBE_IMA_C;
->> +
->> +	/*
->> +	 * Loop through and record extensions that 1) anyone has, and 2) anyone
->> +	 * doesn't have.
->> +	 */
->> +	for_each_cpu(cpu, cpus) {
->> +		struct riscv_isainfo *isainfo = &hart_isa[cpu];
->> +
->> +		if (riscv_isa_extension_available(isainfo->isa, ZBA))
->> +			pair->value |= RISCV_HWPROBE_EXT_ZBA;
->> +		else
->> +			missing |= RISCV_HWPROBE_EXT_ZBA;
->> +
->> +		if (riscv_isa_extension_available(isainfo->isa, ZBB))
->> +			pair->value |= RISCV_HWPROBE_EXT_ZBB;
->> +		else
->> +			missing |= RISCV_HWPROBE_EXT_ZBB;
->> +	}
->> +
->> +	/* Now turn off reporting features if any CPU is missing it. */
->> +	pair->value &= ~missing;
->> +}
->> +
->>  static u64 hwprobe_misaligned(const struct cpumask *cpus)
->>  {
->>  	int cpu;
->> @@ -164,13 +199,7 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
->>  		break;
->>  
->>  	case RISCV_HWPROBE_KEY_IMA_EXT_0:
->> -		pair->value = 0;
->> -		if (has_fpu())
->> -			pair->value |= RISCV_HWPROBE_IMA_FD;
->> -
->> -		if (riscv_isa_extension_available(NULL, c))
->> -			pair->value |= RISCV_HWPROBE_IMA_C;
->> -
->> +		hwprobe_isa_ext0(pair, cpus);
->>  		break;
->>  
->>  	case RISCV_HWPROBE_KEY_CPUPERF_0:
->> -- 
->> 2.25.1
->> 
+diff --git a/Documentation/ABI/testing/debugfs-dell-wmi-ddv b/Documentatio=
+n/ABI/testing/debugfs-dell-wmi-ddv
+index fbcc5d6f7388..81cfc788be15 100644
+=2D-- a/Documentation/ABI/testing/debugfs-dell-wmi-ddv
++++ b/Documentation/ABI/testing/debugfs-dell-wmi-ddv
+@@ -3,19 +3,32 @@ Date:		September 2022
+ KernelVersion:	6.1
+ Contact:	Armin Wolf <W_Armin@gmx.de>
+ Description:
+-		This file contains the contents of the fan sensor information buffer,
+-		which contains fan sensor entries and a terminating character (0xFF).
++		This file contains the contents of the fan sensor information
++		buffer, which contains fan sensor entries and a terminating
++		character (0xFF).
+
+-		Each fan sensor entry consists of three bytes with an unknown meaning,
+-		interested people may use this file for reverse-engineering.
++		Each fan sensor entry contains:
++
++		- fan type (single byte)
++		- fan speed in RPM (two bytes, little endian)
++
++		See Documentation/wmi/devices/dell-wmi-ddv.rst for details.
+
+ What:		/sys/kernel/debug/dell-wmi-ddv-<wmi_device_name>/thermal_sensor_in=
+formation
+ Date:		September 2022
+ KernelVersion:	6.1
+ Contact:	Armin Wolf <W_Armin@gmx.de>
+ Description:
+-		This file contains the contents of the thermal sensor information buffe=
+r,
+-		which contains thermal sensor entries and a terminating character (0xFF=
+).
++		This file contains the contents of the thermal sensor information
++		buffer, which contains thermal sensor entries and a terminating
++		character (0xFF).
++
++		Each thermal sensor entry contains:
++
++		- thermal type (single byte)
++		- current temperature (single byte)
++		- min. temperature (single byte)
++		- max. temperature (single byte)
++		- unknown field (single byte)
+
+-		Each thermal sensor entry consists of five bytes with an unknown meanin=
+g,
+-		interested people may use this file for reverse-engineering.
++		See Documentation/wmi/devices/dell-wmi-ddv.rst for details.
+diff --git a/Documentation/ABI/testing/sysfs-platform-dell-wmi-ddv b/Docum=
+entation/ABI/testing/sysfs-platform-dell-wmi-ddv
+index 1d97ad615c66..a9d39d9e8865 100644
+=2D-- a/Documentation/ABI/testing/sysfs-platform-dell-wmi-ddv
++++ b/Documentation/ABI/testing/sysfs-platform-dell-wmi-ddv
+@@ -3,5 +3,7 @@ Date:		September 2022
+ KernelVersion:	6.1
+ Contact:	Armin Wolf <W_Armin@gmx.de>
+ Description:
+-		Reports the Dell ePPID (electronic Dell Piece Part Identification)
++		Reports the Dell ePPID (electronic Piece Part Identification)
+ 		of the ACPI battery.
++
++		See Documentation/wmi/devices/dell-wmi-ddv.rst for details.
+=2D-
+2.30.2
+
