@@ -2,150 +2,202 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62788C77B7C
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Apr 2023 22:48:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB5BAC77B60
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Apr 2023 06:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346502AbjD1Ws5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Apr 2023 18:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54328 "EHLO
+        id S231204AbjD2GTs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Apr 2023 02:19:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230436AbjD1Ws4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Apr 2023 18:48:56 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D06526A5;
-        Fri, 28 Apr 2023 15:48:55 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33SMmaWK014260;
-        Fri, 28 Apr 2023 22:48:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=QF94rjS2z1vD5ApVZ2dn+CkuXnR8dw5vfvE0RTDVXh8=;
- b=H1pJRhNbZIdjGS5iLism4xT9RJTsUV9F16y+GJxd9hFY2592DvqNcmF5iHkAUo8MgJty
- fnr5jkCZCzxQKyPWW8b7l9o2YuXd7JZhshth884JRUArkh2jwPjrUxHNn31hdXp209g6
- yUQIamDK4D+nYGWLZBxb51Jrhuk72MWoJdTvXlMk9qTSuInr+AqyJhbVPXo9Mu2BQqOo
- j/rlX+JqFneDzqBP8w6m5CHhjJ5H7vNq9vk1EbDyLcCht0wTjqaDf4ld+2Cx/VG4xTMW
- jz9Q+B0UjjxopCz94csuXDu5Y2eWyGv+K0wNvYDL9nvt8hKQifilFSn/Hlk9HYSt4mvJ cg== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8jun8jnn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 28 Apr 2023 22:48:36 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33SMmZx0009857
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 28 Apr 2023 22:48:35 GMT
-Received: from [10.110.78.181] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 28 Apr
- 2023 15:48:34 -0700
-Message-ID: <70acccee-22d7-0d35-b943-346a435b9eab@quicinc.com>
-Date:   Fri, 28 Apr 2023 15:48:33 -0700
+        with ESMTP id S229498AbjD2GTr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Apr 2023 02:19:47 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB752117
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 23:19:45 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-24986ade373so698537a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 28 Apr 2023 23:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=atishpatra.org; s=google; t=1682749185; x=1685341185;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yTMjDk3SOgiCPjxuLxhArxtC95/xlU4WSt6SJxU0e7Y=;
+        b=XyLmSLRRw5vhwFunIep9bCU9Ptv8zJooq6+MLDBGrovDSvagRv6kBI6twD+YR78KiG
+         BeEetk1c26wanqo2urmTL/brQ9DSTPDvQi403y65gx4fJSSvfG/Xk14q2glr2oRKHS/T
+         h2ievV6hgV6lbgRlb6Vj2FQy/RghnjYGNW+f4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682749185; x=1685341185;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yTMjDk3SOgiCPjxuLxhArxtC95/xlU4WSt6SJxU0e7Y=;
+        b=FaNweoQn4zPzMZfvXMth4ErasOjiU3vRIhXTVQW5NY04E5XcbtbCZWyh9R16sD5j20
+         HW0W7oDOEYH5r9uCRjXjozXzMIvVG7AmXDfkPZRRFqH4geIbSwyfzPecwLOYUfE0GlHH
+         /5xBMdnQIZ6L93mWhisvY6So2fXAs4D/USdlNIBM1o3456RRNMc6qsw1OHNit1yh48+D
+         QLT3FQrJNpaKr3rXWabc30mA/2rO0wIgjHLjGdpxDecDzSRg+wSZzAtxHzYkjRA4HOBW
+         dCrlqm3FbgGSufsgZE9hnaEfnrKMt1d89v6vMkOickDlpLmCK1UPDtu0TYyGf9WiUHt7
+         4yHw==
+X-Gm-Message-State: AC+VfDxCue730fOx2WKAyifZWQikX5/coNX/O+A8iJQ8i0SWSfIxz+36
+        P6GBgLm7UpRQUnQvX0wF9vc6x/oUxokmHz3dOzNk
+X-Google-Smtp-Source: ACHHUZ4LhwwR0e1B330AbEkd5AimnCzdBqVUhs/POzba4tZ0rYglv0TK7U3GChiM2m5G/Kut356agp6Sgo1hYtHMuJk=
+X-Received: by 2002:a17:90b:1b03:b0:246:681c:71fd with SMTP id
+ nu3-20020a17090b1b0300b00246681c71fdmr7622447pjb.6.1682749184993; Fri, 28 Apr
+ 2023 23:19:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor
- support
-Content-Language: en-US
-To:     Marc Zyngier <maz@kernel.org>, Yi-De Wu <yi-de.wu@mediatek.com>
-CC:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+References: <20230413161725.195417-1-alexghiti@rivosinc.com>
+ <20230413161725.195417-5-alexghiti@rivosinc.com> <kwvrls2m6swp443brn27jwcsdhovtc4kxrkqustxpqgf7zqltw@xlhsrndkf4om>
+ <CAHVXubh_y9Uw2xsgsQrVZEcb9bCLBLUCo74GOm-czsSawHxk4g@mail.gmail.com> <3bwxedsrovutzhlmlnozeuvz4zqnr32kuef2mdzmnbniajh6vb@we6jzlwkfuof>
+In-Reply-To: <3bwxedsrovutzhlmlnozeuvz4zqnr32kuef2mdzmnbniajh6vb@we6jzlwkfuof>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Sat, 29 Apr 2023 11:49:33 +0530
+Message-ID: <CAOnJCU+xL1qP0zj9rD0d9nix-tSd-yfQnToDXCdHveTKQN_rUA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] riscv: Enable perf counters user access only through perf
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arch@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        David Bradil <dbrazdil@google.com>,
-        Jade Shih <jades.shih@mediatek.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Ivan Tseng <ivan.tseng@mediatek.com>,
-        My Chuang <my.chuang@mediatek.com>,
-        Shawn Hsiao <shawn.hsiao@mediatek.com>,
-        PeiLun Suei <peilun.suei@mediatek.com>,
-        Liju Chen <liju-clr.chen@mediatek.com>
-References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
- <20230428103622.18291-4-yi-de.wu@mediatek.com>
- <904abf67ec4ba7d37fc1e500e8a2dbd1@kernel.org>
-From:   Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <904abf67ec4ba7d37fc1e500e8a2dbd1@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 6UvFND-TZbp9AA4jPqH0KdgtcDq1-F5h
-X-Proofpoint-ORIG-GUID: 6UvFND-TZbp9AA4jPqH0KdgtcDq1-F5h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_07,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
- clxscore=1011 bulkscore=0 mlxlogscore=696 priorityscore=1501
- malwarescore=0 phishscore=0 mlxscore=0 spamscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304280190
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        David Abdurachmanov <davidlt@rivosinc.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Andreas Schwab <schwab@suse.de>, mafm@debian.org,
+        aurel32@debian.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marc,
+On Wed, Apr 26, 2023 at 6:55=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
+om> wrote:
+>
+> On Wed, Apr 26, 2023 at 03:17:01PM +0200, Alexandre Ghiti wrote:
+> > On Wed, Apr 26, 2023 at 2:57=E2=80=AFPM Andrew Jones <ajones@ventanamic=
+ro.com> wrote:
+> > >
+> > > On Thu, Apr 13, 2023 at 06:17:25PM +0200, Alexandre Ghiti wrote:
+> > > > We used to unconditionnally expose the cycle and instret csrs to
+> > > > userspace, which gives rise to security concerns.
+> > > >
+> > > > So only allow access to hw counters from userspace through the perf
+> > > > framework which will handle context switchs, per-task events...etc.=
+ But
+> > > > as we cannot break userspace, we give the user the choice to go bac=
+k to
+> > > > the previous behaviour by setting the sysctl perf_user_access.
+> > > >
+> > > > We also introduce a means to directly map the hardware counters to
+> > > > userspace, thus avoiding the need for syscalls whenever an applicat=
+ion
+> > > > wants to access counters values.
+> > > >
+> > > > Note that arch_perf_update_userpage is a copy of arm64 code.
+> > > >
+> > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > > ---
+> > > >  Documentation/admin-guide/sysctl/kernel.rst |  23 +++-
+> > > >  arch/riscv/include/asm/perf_event.h         |   3 +
+> > > >  arch/riscv/kernel/Makefile                  |   2 +-
+> > > >  arch/riscv/kernel/perf_event.c              |  65 +++++++++++
+> > > >  drivers/perf/riscv_pmu.c                    |  42 ++++++++
+> > > >  drivers/perf/riscv_pmu_legacy.c             |  17 +++
+> > > >  drivers/perf/riscv_pmu_sbi.c                | 113 ++++++++++++++++=
+++--
+> > > >  include/linux/perf/riscv_pmu.h              |   3 +
+> > > >  tools/lib/perf/mmap.c                       |  65 +++++++++++
+> > > >  9 files changed, 322 insertions(+), 11 deletions(-)
+> > > >  create mode 100644 arch/riscv/kernel/perf_event.c
+> > > >
+> > > > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Document=
+ation/admin-guide/sysctl/kernel.rst
+> > > > index 4b7bfea28cd7..02b2a40a3647 100644
+> > > > --- a/Documentation/admin-guide/sysctl/kernel.rst
+> > > > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> > > > @@ -941,16 +941,31 @@ enabled, otherwise writing to this file will =
+return ``-EBUSY``.
+> > > >  The default value is 8.
+> > > >
+> > > >
+> > > > -perf_user_access (arm64 only)
+> > > > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > +perf_user_access (arm64 and riscv only)
+> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > +
+> > > > +Controls user space access for reading perf event counters.
+> > > >
+> > > > -Controls user space access for reading perf event counters. When s=
+et to 1,
+> > > > -user space can read performance monitor counter registers directly=
+.
+> > > > +arm64
+> > > > +=3D=3D=3D=3D=3D
+> > > >
+> > > >  The default value is 0 (access disabled).
+> > > > +When set to 1, user space can read performance monitor counter reg=
+isters
+> > > > +directly.
+> > > >
+> > > >  See Documentation/arm64/perf.rst for more information.
+> > > >
+> > > > +riscv
+> > > > +=3D=3D=3D=3D=3D
+> > > > +
+> > > > +When set to 0, user access is disabled.
+> > > > +
+> > > > +When set to 1, user space can read performance monitor counter reg=
+isters
+> > > > +directly only through perf, any direct access without perf interve=
+ntion will
+> > > > +trigger an illegal instruction.
+> > > > +
+> > > > +The default value is 2, it enables the legacy mode, that is user s=
+pace has
+> > > > +direct access to cycle, time and insret CSRs only.
+> > >
+> > > I think this default value should be a Kconfig symbol, allowing kerne=
+ls to
+> > > be built with a secure default.
+> >
+> > Actually I was more in favor of having the default to 1 (ie the secure
+> > option) and let the distros deal with the legacy mode (via a sysctl
+> > parameter on the command line) as long as user-space has not been
+> > fixed: does that make sense?
+>
+> Yes, I'd prefer that too. I assumed the default was 2 in this patch
+> because we couldn't set it to 1 for some reason.
+>
 
-> 
-> [...]
-> 
->> +/**
->> + * gzvm_gfn_to_pfn_memslot() - Translate gfn (guest ipa) to pfn (host 
->> pa),
->> + *                   result is in @pfn
->> + *
->> + * Leverage KVM's gfn_to_pfn_memslot(). Because gfn_to_pfn_memslot() 
->> needs
->> + * kvm_memory_slot as parameter, this function populates necessary 
->> fileds
->> + * for calling gfn_to_pfn_memslot().
->> + *
->> + * Return:
->> + * * 0            - Succeed
->> + * * -EFAULT        - Failed to convert
->> + */
->> +static int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64
->> gfn, u64 *pfn)
->> +{
->> +    hfn_t __pfn;
->> +    struct kvm_memory_slot kvm_slot = {0};
->> +
->> +    kvm_slot.base_gfn = memslot->base_gfn;
->> +    kvm_slot.npages = memslot->npages;
->> +    kvm_slot.dirty_bitmap = NULL;
->> +    kvm_slot.userspace_addr = memslot->userspace_addr;
->> +    kvm_slot.flags = memslot->flags;
->> +    kvm_slot.id = memslot->slot_id;
->> +    kvm_slot.as_id = 0;
->> +
->> +    __pfn = gfn_to_pfn_memslot(&kvm_slot, gfn);
-> 
-> Again, I absolutely oppose this horror. This is internal to KVM,
-> and we want to be able to change this without having to mess
-> with your own code that we cannot test anyway.
-> 
-> What if we start using the extra fields that you don't populate
-> as they mean nothing to you? Or add a backpointer to the kvm
-> structure to do fancy accounting?
-> 
-> You have your own hypervisor, that's well and good. Since your
-> main argument is that it is supposed to be standalone, make it
-> *really* standalone and don't use KVM as a prop.
+I would prefer that too. However, it was set to 2 because it would break
+the user space application depending on the legacy behavior as soon as the
+patches are upstream. That is the reason
+palmer suggested keeping the default value to 2 in order to avoid that.
+
++distro folks (cc'd)
+If the distro maintainer can confirm that this would be a non-issue, I am o=
+kay
+with setting the default to 1.
 
 
-Agreed, same comments were made earlier too. I would prefer that 
-GenieZone have its own identify rather than sharing the 
-APIs/data-structures here.
+> Thanks,
+> drew
 
----Trilok Soni
+
+
+--=20
+Regards,
+Atish
