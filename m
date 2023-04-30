@@ -2,88 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A433C77B7C
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Apr 2023 22:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FBEC77B73
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Apr 2023 23:20:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231810AbjD3Wmh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Apr 2023 18:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45602 "EHLO
+        id S229831AbjD3XUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Apr 2023 19:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjD3Wmg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 18:42:36 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A83C1A6;
-        Sun, 30 Apr 2023 15:42:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=IUE5amqL9BucAB7kjVHcdUTO9lbn54HNTdXpB2O3GWo=; b=S5G4muzsQiNHompW+/7NLfCi/j
-        a1S/2mXy0uwc0m2pZSf/OvblklkSFzoQNL9rCj6Q21uM4CqsPKPDA+5xQTuYV0T27F5q19uwMmzDf
-        WYBhCwtFMjSUkxndoLQJoFsViJ0BSq/G196+VTFiPeNYZ/Z33GjdA0kQ3HKGT33Ui2h4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1ptFkJ-00BZoa-Fk; Mon, 01 May 2023 00:42:19 +0200
-Date:   Mon, 1 May 2023 00:42:19 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 05/11] leds: trigger: netdev: introduce validating
- requested mode
-Message-ID: <43f6a729-7003-4d52-b806-964dec4f9447@lunn.ch>
-References: <20230427001541.18704-1-ansuelsmth@gmail.com>
- <20230427001541.18704-6-ansuelsmth@gmail.com>
+        with ESMTP id S229531AbjD3XU3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 19:20:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9ABF1B9;
+        Sun, 30 Apr 2023 16:20:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6658360EAB;
+        Sun, 30 Apr 2023 23:20:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67117C433D2;
+        Sun, 30 Apr 2023 23:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682896826;
+        bh=Wby4jXsEn2wWUqVyugy9IuYPaC6jAOlmbTtdvi9V4vI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KT6OpYn9ZbW4V75+jRcBMPQCEF9gho+yjl3y9zBcpb8rhVvamCL8DZF4Ouhci2ZFh
+         sJ496HtpJtXz5rJ0eGRiqtLpPntMZowuseux1dgTETN5LziyOFLNlnzPrUuBbLz24M
+         y+YcMYlgnEDKQwGFf2UyjPvy9EV3CPqoKj1wnEbe7JwNiBrtQFYHJVHy0MdnHwXcrw
+         Y7wlMrCMnfs/ykwyfYaQCUaISqvuIXSgWCwuGnrNz75x440+YwSpGPetoGN26wu+sz
+         PSyBDfIPxk7D3mp0w3NzL29GfDDmuXIguWhk9vWzVbt6fbBPSSzD41r09ib9kZZUK3
+         lia+vPYT/644Q==
+Date:   Mon, 1 May 2023 00:20:21 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Costa Shulyupin <costa.shul@redhat.com>, linux-doc@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: redirect from old arch to the new one
+Message-ID: <20230501002021.44800b38@sal.lan>
+In-Reply-To: <87r0s4b0pe.fsf@meer.lwn.net>
+References: <20230427101241.1273752-1-costa.shul@redhat.com>
+        <20230428132415.0d0f5a03@sal.lan>
+        <87r0s4b0pe.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230427001541.18704-6-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> @@ -168,7 +174,7 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
->  				     size_t size, enum led_trigger_netdev_modes attr)
->  {
->  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> -	unsigned long state;
-> +	unsigned long state, new_mode = trigger_data->mode;
->  	int ret;
->  	int bit;
->  
-> @@ -186,12 +192,18 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
->  		return -EINVAL;
->  	}
->  
-> -	cancel_delayed_work_sync(&trigger_data->work);
-> -
->  	if (state)
-> -		set_bit(bit, &trigger_data->mode);
-> +		set_bit(bit, &new_mode);
->  	else
-> -		clear_bit(bit, &trigger_data->mode);
-> +		clear_bit(bit, &new_mode);
-> +
-> +	ret = validate_requested_mode(trigger_data, new_mode);
-> +	if (ret)
-> +		return ret;
-> +
-> +	cancel_delayed_work_sync(&trigger_data->work);
-> +
-> +	trigger_data->mode = new_mode;
->  
->  	set_baseline_state(trigger_data);
+Em Fri, 28 Apr 2023 07:22:53 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-I think you need to hold the trigger_data lock here, otherwise there
-are potential race conditions.
+> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+> 
+> > Again, as this is something that only applies to websites hosting
+> > documentation, IMO the best would be to have a separate file
+> > ("conf_redirects.py") included on conf.py, that will be
+> > auto-generated by a script that would receive, as input, the
+> > initial Kernel version where redirects should be preserved.  
+> 
+> ...but again...I think we should observe an actual problem before we
+> start adding any of this.  Otherwise we'll just end up carrying a bunch
+> of cruft indefinitely.
 
-    Andrew
+Agreed. Just saying that, if this is a real problem, a custom conf.py
+would be the best approach. 
+
+Btw, if I'm not mistaken, our building system already allows it via:
+
+	make SPHINX_CONF=conf-redirects.py htmldocs
+
+I suspect that it would be possible to add redirects extension and
+its parameters on it, if someone ever needs it. No need to carry
+such stuff at the Kernel upstream, as this would very likely limited
+to some web sites that would be interested on keeping links to
+old documentation's location.
+
+Regards,
+Mauro
