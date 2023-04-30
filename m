@@ -2,84 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1992C77B60
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Apr 2023 13:27:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 039C8C77B73
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Apr 2023 17:55:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbjD3N13 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Apr 2023 09:27:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35620 "EHLO
+        id S229998AbjD3Rz0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Apr 2023 13:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjD3N12 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 09:27:28 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53CF173E
-        for <linux-doc@vger.kernel.org>; Sun, 30 Apr 2023 06:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682861247; x=1714397247;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XofC74Ap5B0v7tVY0cYTcavAFRiZYubZBMJ5LcA0oJQ=;
-  b=epHHhj6p84GazBPtOsjKe9sHf1NOQdShutJQ5uad+NTiF8WvNne63jrc
-   2bR6/C2QIK24aYtPzYFCDRudQryg/ModPqSqRkiacio/qWMeskFpSsbws
-   /a+kO8G7PnZjzIkXW65rcwEX7pzdsgiv2LS58mg8x4H4HR7xJys7Smjw4
-   oeBVlWLV5hFfR3BmaoRgpSG9gkCgofAwTUmn/sbnY4OBNbIkEXICgVbDx
-   Pyxf9NLPIkBQLQDp7Hb3pn7CWQCY7T5VsbakKkmB8FJW33PpHtHyRVyLC
-   l0VCO0Nfc0IVWajr36spi8X4WaWgMEfj0HO30/brVNsiHV77m3UhtaSkK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="348064474"
-X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="348064474"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 06:27:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="695503384"
-X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="695503384"
-Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 Apr 2023 06:27:26 -0700
-Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pt75J-0001f3-0o;
-        Sun, 30 Apr 2023 13:27:25 +0000
-Date:   Sun, 30 Apr 2023 21:26:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Isaku Yamahata <isaku.yamahata@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream-workaround 59/338] htmldocs:
- Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected
- indentation.
-Message-ID: <202304302142.pMntaRx9-lkp@intel.com>
+        with ESMTP id S229596AbjD3RzZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 13:55:25 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE8101992;
+        Sun, 30 Apr 2023 10:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=yIlvZOfuTjNn6HkPZw086p3Bn1dl9M6rzGcnCz91xaY=; b=Jr+GGNS2rmQ+rHMRGFgXmAsRDY
+        TWhd/rhdXcCUQ8v/KfzazpEYnjj4vXsP/yixKkrUhngYMUDqscI6Ne2uEgOI53qoicB1F3WQqSJAG
+        d9LGC9xDyIjPWH9MLQhAEeye89AhFvO64Usns9my8YD/g1EFk5+qRzvRrg3pByOCPUzY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1ptBGT-00BYzN-Ft; Sun, 30 Apr 2023 19:55:13 +0200
+Date:   Sun, 30 Apr 2023 19:55:13 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 08/11] leds: trigger: netdev: add support for LED hw
+ control
+Message-ID: <d2c86cf0-d57f-4358-9765-3983a145e1ab@lunn.ch>
+References: <20230427001541.18704-1-ansuelsmth@gmail.com>
+ <20230427001541.18704-9-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230427001541.18704-9-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   abaa3072a8763b7a6276df61d205bf33eb2f31a5
-commit: f87c5d4e1ce057414738d7f1ec7d0a6897906d2e [59/338] x86/virt/tdx: Export TD config params of TDX module via sysfs
-reproduce:
-        # https://github.com/intel/tdx/commit/f87c5d4e1ce057414738d7f1ec7d0a6897906d2e
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout f87c5d4e1ce057414738d7f1ec7d0a6897906d2e
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Thu, Apr 27, 2023 at 02:15:38AM +0200, Christian Marangi wrote:
+> Add support for LED hw control for the netdev trigger.
+> 
+> The trigger on calling set_baseline_state to configure a new mode, will
+> do various check to verify if hw control can be used for the requested
+> mode in the validate_requested_mode() function.
+> 
+> It will first check if the LED driver supports hw control for the netdev
+> trigger, then will check if the requested mode are in the trigger mode
+> mask and finally will call hw_control_set() to apply the requested mode.
+> 
+> To use such mode, interval MUST be set to the default value and net_dev
+> MUST be empty. If one of these 2 value are not valid, hw control will
+> never be used and normal software fallback is used.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  drivers/leds/trigger/ledtrig-netdev.c | 52 +++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> index 8cd876647a27..61bc19fd0c7a 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -68,6 +68,13 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
+>  	int current_brightness;
+>  	struct led_classdev *led_cdev = trigger_data->led_cdev;
+>  
+> +	/* Already validated, hw control is possible with the requested mode */
+> +	if (trigger_data->hw_control) {
+> +		led_cdev->hw_control_set(led_cdev, trigger_data->mode);
+> +
+> +		return;
+> +	}
+> +
+>  	current_brightness = led_cdev->brightness;
+>  	if (current_brightness)
+>  		led_cdev->blink_brightness = current_brightness;
+> @@ -95,6 +102,51 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
+>  static int validate_requested_mode(struct led_netdev_data *trigger_data,
+>  				   unsigned long mode, bool *can_use_hw_control)
+>  {
+> +	unsigned int interval = atomic_read(&trigger_data->interval);
+> +	unsigned long hw_supported_mode, hw_mode = 0, sw_mode = 0;
+> +	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> +	unsigned long default_interval = msecs_to_jiffies(50);
+> +	bool force_sw = false;
+> +	int i, ret;
+> +
+> +	hw_supported_mode = led_cdev->trigger_supported_flags_mask;
+> +
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304302142.pMntaRx9-lkp@intel.com/
+> +		if (interval == default_interval && !trigger_data->net_dev &&
+> +		    !force_sw && test_bit(i, &hw_supported_mode))
+> +			set_bit(i, &hw_mode);
+> +		else
+> +			set_bit(i, &sw_mode);
+> +	}
+> +
 
-All warnings (new ones prefixed by >>):
+> +	/* Check if the requested mode is supported */
+> +	ret = led_cdev->hw_control_is_supported(led_cdev, hw_mode);
+> +	if (ret)
+> +		return ret;
 
->> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected indentation.
+Hi Christian
 
-vim +2 Documentation/ABI/testing/sysfs-firmware-tdx
+What is the purpose of led_cdev->trigger_supported_flags_mask? I don't
+see why it is needed when you are also going to ask the PHY if it can
+support the specific blink pattern the user is requesting.
 
-   > 2	Date:           March 2023
+The problem i have with the Marvell PHY, and other PHYs i've looked at
+datasheets for, is that hardware does not work like this. It has a
+collection of blinking modes, which are a mixture of link speeds, rx
+activity, and tx activity. It supports just a subset of all
+possibilities.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+I think this function can be simplified. Simply ask the LED via
+hw_control_is_supported() does it support this mode. If yes, offload
+it, if not use software blinking.
+
+    Andrew
