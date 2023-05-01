@@ -2,88 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1399AC77B61
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 13:31:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76097C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 15:02:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232592AbjEANb0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 09:31:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57424 "EHLO
+        id S232372AbjEAPCD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 11:02:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232456AbjEANbZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 09:31:25 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD76710DC;
-        Mon,  1 May 2023 06:31:24 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 10E5D31A;
-        Mon,  1 May 2023 13:31:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 10E5D31A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1682947884; bh=/rKIweSHI02rJxXKnCYdSb6MwADDoPC+NZUBY7Y5bEE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=OSe4i2M4kNMpT07pSbJ57tVfvfKLRZMNtesEncNfhNHpCfcXdvzhPg2mUoDtkOb95
-         YVCWde5tW82mYtCePFEDX9XgxXc3Y4Zj52a8NYu/9l9WbWCaivg0+ui79mUIBlV9qH
-         RaudZsd502CPEMkodxacUQh8xJ8S+Q87TxDWL6Xw6tyUL0DVZzkGIVXm8vI5K6QZOR
-         oY9HkVuzt9lqcvbu8ZDcOD23xhXrjQdirixd84etbHHCpBB/wFIZKWcazhnmvy4LBi
-         zimiSvGT8BDQZvYHle9M+NBBcfPRq4OyL7pl800vFDcqmgVnBsZkDOSrySAb2fEyvb
-         2vENeJVZCCRuw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
+        with ESMTP id S232249AbjEAPCC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 11:02:02 -0400
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE459109;
+        Mon,  1 May 2023 08:02:00 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3063433fa66so52613f8f.3;
+        Mon, 01 May 2023 08:02:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682953319; x=1685545319;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0bzRuzupDZbNo5pnSdpKGGKbE//IS+zCF9197CXAuYU=;
+        b=IhczvEBl6qxzzUsXqsgGJ9+pUwb4LUj4F/ZRhQo5oRUHAf3t3Rd7/zPlR/nMxAuS5P
+         P0DGklDo5M8+hc7Wf/svgVoy/TuBf9lP1cfgKICd2UAYyXWb9bIS2Ol2USj7bvqJtHuw
+         6p9R0+eM7uCG6IHRxI/Dvxlvg/VSS8GjeZdExxv4mpx/q/wg/Z/Lpg975LDfSawQ16YG
+         lt/exVopg0ruAMUMkhNbIo/60UUELDQgYI7RPlK/Km1KlAdSnyRS3+kXrxcnO1c8gyhg
+         RrkzDlmq7l2VlbL95ksGtJPa3TyDMNyuMEBDW0NumcZxyjvby9sumtCHhHea3LU3mopS
+         HwEA==
+X-Gm-Message-State: AC+VfDzEl66EV+EwZ9DP2m1j5stmTVzdrvINGQ4GMnCHkwkaoz2MZuwV
+        sAzxH/1TWLDQonXawzo3g8lf/RM0nczp2A==
+X-Google-Smtp-Source: ACHHUZ5s4p7kyRRBpk0y/o3oOdW5pHRnd9vyxo7PPBy/C78YN0IvOSdaucxyAvgLxKYnFJmCvoYgBA==
+X-Received: by 2002:adf:cc90:0:b0:2f6:ece3:76a with SMTP id p16-20020adfcc90000000b002f6ece3076amr10234863wrj.8.1682953319086;
+        Mon, 01 May 2023 08:01:59 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
+        by smtp.gmail.com with ESMTPSA id b2-20020adff902000000b00304aba2cfcbsm12117046wrr.7.2023.05.01.08.01.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 May 2023 08:01:58 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] docs: automatic redirects for moved pages
-In-Reply-To: <20230501021338.182770-1-costa.shul@redhat.com>
-References: <20230501021338.182770-1-costa.shul@redhat.com>
-Date:   Mon, 01 May 2023 07:31:23 -0600
-Message-ID: <87lei89o0k.fsf@meer.lwn.net>
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] docs: consolidate human interface subsystems
+Date:   Mon,  1 May 2023 18:01:11 +0300
+Message-Id: <20230501150111.274666-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Costa Shulyupin <costa.shul@redhat.com> writes:
+to make the page more organized as requested
 
-> Problems:
-> - The documentation is not well-organized
-> - Relocating pages disrupts external links to
->   the documentation and causes confusion for users
->
-> Benefits:
-> - Users can easily access relocated pages from external resources
-> - Using redirects frees up options for reorganizing the documentation
->
-> The solution:
-> - To prevent the need for ongoing maintenance, extract renames
->   from git log since specified age
-> - Input the renames into sphinx_reredirects module
->
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
->
-> ---
->
-> Changes:
-> - added the extraction of renames from Git.
->
-> ---
->  Documentation/Makefile                |  8 +++++++-
->  Documentation/conf.py                 | 17 ++++++++++++++++-
->  Documentation/sphinx/requirements.txt |  1 +
->  3 files changed, 24 insertions(+), 2 deletions(-)
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/subsystem-apis.rst | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-So this adds another time-consuming process to the docs build,
-generating over 2600 redirects, and breaking the build if it's not done
-in a git tree.  All for a problem that still has not actually been
-demonstrated to exist.
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index b51f38527e14..287799ee2419 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -10,6 +10,18 @@ is taken directly from the kernel source, with supplemental material added
+ as needed (or at least as we managed to add it — probably *not* all that is
+ needed).
+ 
++Human interaces
++---------------
++
++.. toctree::
++   :maxdepth: 1
++
++   input/index
++   hid/index
++   sound/index
++   gpu/index
++   fb/index
++
+ **Fixme**: much more organizational work is needed here.
+ 
+ .. toctree::
+@@ -22,9 +34,7 @@ needed).
+    block/index
+    cdrom/index
+    cpu-freq/index
+-   fb/index
+    fpga/index
+-   hid/index
+    i2c/index
+    iio/index
+    isdn/index
+@@ -40,12 +50,9 @@ needed).
+    w1/index
+    watchdog/index
+    virt/index
+-   input/index
+    hwmon/index
+-   gpu/index
+    accel/index
+    security/index
+-   sound/index
+    crypto/index
+    filesystems/index
+    mm/index
+-- 
+2.40.0
 
-Costa, I appreciate that you are trying to help, but this is getting
-worse, not better.  Please, let's wait until an actual problem arises,
-then we can talk about the best way to address it.
-
-Thanks,
-
-jon
