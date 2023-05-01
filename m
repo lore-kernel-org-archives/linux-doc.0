@@ -2,123 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E153C77B7F
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 18:15:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08557C7EE25
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 18:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231528AbjEASPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 14:15:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47268 "EHLO
+        id S232467AbjEASpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 14:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231137AbjEASPH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 14:15:07 -0400
-X-Greylist: delayed 1662 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 May 2023 11:15:05 PDT
-Received: from out-61.mta1.migadu.com (out-61.mta1.migadu.com [95.215.58.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 473511997
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 11:15:05 -0700 (PDT)
-Date:   Mon, 1 May 2023 11:14:45 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1682964902;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=b6T2XIeT8518y54zvjorB3kR8+9w+3ujz9aAR//CBsM=;
-        b=mSi6IKlT1RXSlUBLoPvq7jMrN2IDhBeePAQolSvVEaweLRyurIvLVwuABJN9Jpfic1Yvl3
-        LVunGzZxNirFmh6ufKgjfRW52yn83tu+sfI5PXb6yM4xtBHMfTQkPxdaHjp58szJhD01u8
-        vJeI+Y6gcJWP3T42UbTxsYN31rZoJ38=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Roman Gushchin <roman.gushchin@linux.dev>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, kent.overstreet@linux.dev,
-        mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFABlUB/RZM6lUyl@P9FQF9L96D>
-References: <20230501165450.15352-1-surenb@google.com>
- <ZE/7FZbd31qIzrOc@P9FQF9L96D>
- <CAJuCfpHU3ZMsNuqi1gSxzAWKr2D3VkiaTY0BEUQgM-QHNxRtSg@mail.gmail.com>
+        with ESMTP id S229927AbjEASpK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 14:45:10 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52688C6;
+        Mon,  1 May 2023 11:45:08 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-24df758db1cso1011021a91.2;
+        Mon, 01 May 2023 11:45:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682966708; x=1685558708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4TtnDaucJ1/IdFz7cgpnnbthTRQAkVtjilDPnFIRFQ=;
+        b=W9VggSOnJQ/2lFEqhx94aKQ83hIbovdIhoKb7OiLLzq75wkWPswXIcRqrzXxm2NApG
+         pB27DUyrbrhmVkZrrMX4YHlRzVF4tGS68nJ8Ejm8/BroZ+7hMHJuWQDTjuahOxhawRX2
+         R16bnE4Y30VLSXXwBMvtqz8tiD2ZXfTrhNCDBskt/ZknqAIGxoIei8hIn2gsyuOvFZJT
+         gcvTDoUkwne1R9te7FHSfKEIs+OMrGDJPRnXrfVYvm9LGAlMfDrZKhf3rH0KGi67d7/N
+         6nggw95HVE442Z2Z2BWGqs5xyzseMQ8dW3H1P1Jmk/kb8zbLKv3rSGLZgQP6m91kkrJp
+         zt+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682966708; x=1685558708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l4TtnDaucJ1/IdFz7cgpnnbthTRQAkVtjilDPnFIRFQ=;
+        b=ThZDm6Ss6OGR4T05fU8QYPc2tCTVjBLUgfiDpUI4e0tq3Ckbytf+qFH5dKJUxQOZVZ
+         FXOzotuNV6SjCraBnQHwYZPLcLPK8tLucSTCi4HW66X1JOiGWBH4ZofPMfWqlVoUOdlI
+         vwjemODrsblVWhktrXKPMeTJhxugXgj8b6a9un8PNbIJMPm0Da6tq5i1l8BIgP9PLxrK
+         CFZ8u/iVo/qQJXD8atV8WTLOHqOFTvYolLm55Ncp52ip+CXI+jWI+WKTX8d0sAoix8kE
+         b5HVo3JrvMfl9r2cWCSkIj8DUgLBLY1zUGSXfkfg7jB8tcB6Azy9XrH7jMu167S+m9zu
+         lB6A==
+X-Gm-Message-State: AC+VfDxYwTnwaolJeRbyb53UFpi+iVX8GgFeKMgldWlwBJfbbctoOuc2
+        PLutiTOJntdwohVOy0focHY=
+X-Google-Smtp-Source: ACHHUZ5eAVBIqpAYEQNPFjADJrF0hyhOUOXr1qE6lR8ApK2ME+3UgTkS6x8bvceg5F1jcgxm+mDnDg==
+X-Received: by 2002:a17:90a:bd98:b0:23d:16d6:2f05 with SMTP id z24-20020a17090abd9800b0023d16d62f05mr14722184pjr.22.1682966707721;
+        Mon, 01 May 2023 11:45:07 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+        by smtp.gmail.com with ESMTPSA id 9-20020a17090a0f0900b0024c1f1cdf98sm6413617pjy.13.2023.05.01.11.45.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 May 2023 11:45:07 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Chia-I Wu <olvaffe@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Guchun Chen <guchun.chen@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+        Sean Paul <sean@poorly.run>,
+        Shashank Sharma <shashank.sharma@amd.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>
+Subject: [PATCH v3 0/9] drm: fdinfo memory stats
+Date:   Mon,  1 May 2023 11:44:46 -0700
+Message-Id: <20230501184502.1620335-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpHU3ZMsNuqi1gSxzAWKr2D3VkiaTY0BEUQgM-QHNxRtSg@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 01, 2023 at 11:08:05AM -0700, Suren Baghdasaryan wrote:
-> On Mon, May 1, 2023 at 10:47 AM Roman Gushchin <roman.gushchin@linux.dev> wrote:
-> >
-> > On Mon, May 01, 2023 at 09:54:10AM -0700, Suren Baghdasaryan wrote:
-> > > Performance overhead:
-> > > To evaluate performance we implemented an in-kernel test executing
-> > > multiple get_free_page/free_page and kmalloc/kfree calls with allocation
-> > > sizes growing from 8 to 240 bytes with CPU frequency set to max and CPU
-> > > affinity set to a specific CPU to minimize the noise. Below is performance
-> > > comparison between the baseline kernel, profiling when enabled, profiling
-> > > when disabled (nomem_profiling=y) and (for comparison purposes) baseline
-> > > with CONFIG_MEMCG_KMEM enabled and allocations using __GFP_ACCOUNT:
-> > >
-> > >                       kmalloc                 pgalloc
-> > > Baseline (6.3-rc7)    9.200s                  31.050s
-> > > profiling disabled    9.800 (+6.52%)          32.600 (+4.99%)
-> > > profiling enabled     12.500 (+35.87%)        39.010 (+25.60%)
-> > > memcg_kmem enabled    41.400 (+350.00%)       70.600 (+127.38%)
-> >
-> > Hm, this makes me think we have a regression with memcg_kmem in one of
-> > the recent releases. When I measured it a couple of years ago, the overhead
-> > was definitely within 100%.
-> >
-> > Do you understand what makes the your profiling drastically faster than kmem?
-> 
-> I haven't profiled or looked into kmem overhead closely but I can do
-> that. I just wanted to see how the overhead compares with the existing
-> accounting mechanisms.
+From: Rob Clark <robdclark@chromium.org>
 
-It's a good idea and I generally think that +25-35% for kmalloc/pgalloc
-should be ok for the production use, which is great!
-In the reality, most workloads are not that sensitive to the speed of
-memory allocation.
+Similar motivation to other similar recent attempt[1].  But with an
+attempt to have some shared code for this.  As well as documentation.
 
-> 
-> For kmalloc, the overhead is low because after we create the vector of
-> slab_ext objects (which is the same as what memcg_kmem does), memory
-> profiling just increments a lazy counter (which in many cases would be
-> a per-cpu counter).
+It is probably a bit UMA-centric, I guess devices with VRAM might want
+some placement stats as well.  But this seems like a reasonable start.
 
-So does kmem (this is why I'm somewhat surprised by the difference).
+Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+And already nvtop support: https://github.com/Syllo/nvtop/pull/204
 
-> memcg_kmem operates on cgroup hierarchy with
-> additional overhead associated with that. I'm guessing that's the
-> reason for the big difference between these mechanisms but, I didn't
-> look into the details to understand memcg_kmem performance.
+I've combined the separate series to add comm/cmdline override onto
+the end of this, simply out of convenience (they would otherwise
+conflict in a bunch of places).
 
-I suspect recent rt-related changes and also the wide usage of
-rcu primitives in the kmem code. I'll try to look closer as well.
+v2: Extend things to allow for multiple regions other than just system
+    "memory", make drm_show_memory_stats() a helper so that, drivers
+    can use it or not based on their needs (but in either case, re-
+    use drm_print_memory_stats()
+v3: Docs fixes
 
-Thanks!
+[1] https://patchwork.freedesktop.org/series/112397/
+
+Rob Clark (9):
+  drm/docs: Fix usage stats typos
+  drm: Add common fdinfo helper
+  drm/msm: Switch to fdinfo helper
+  drm/amdgpu: Switch to fdinfo helper
+  drm: Add fdinfo memory stats
+  drm/msm: Add memory stats to fdinfo
+  drm/doc: Relax fdinfo string constraints
+  drm/fdinfo: Add comm/cmdline override fields
+  drm/msm: Wire up comm/cmdline override for fdinfo
+
+ Documentation/gpu/drm-usage-stats.rst      | 101 ++++++++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
+ drivers/gpu/drm/drm_file.c                 | 147 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  24 +++-
+ drivers/gpu/drm/msm/msm_drv.c              |  15 ++-
+ drivers/gpu/drm/msm/msm_gem.c              |  15 +++
+ drivers/gpu/drm/msm/msm_gpu.c              |   2 -
+ drivers/gpu/drm/msm/msm_gpu.h              |  10 ++
+ include/drm/drm_drv.h                      |   7 +
+ include/drm/drm_file.h                     |  51 +++++++
+ include/drm/drm_gem.h                      |  30 +++++
+ 13 files changed, 376 insertions(+), 47 deletions(-)
+
+-- 
+2.39.2
+
