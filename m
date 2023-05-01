@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C5DC77B61
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 17:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC49BC77B7C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 17:00:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232698AbjEARAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 13:00:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60818 "EHLO
+        id S233186AbjEARAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 13:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233041AbjEAQ7A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 12:59:00 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAFFA30FC
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 09:56:16 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b9a7e65b34aso4868707276.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 09:56:16 -0700 (PDT)
+        with ESMTP id S232356AbjEAQ7D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 12:59:03 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AA630FD
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 09:56:17 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b922aa3725fso5385666276.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 09:56:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682960176; x=1685552176;
+        d=google.com; s=20221208; t=1682960160; x=1685552160;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=utmd4o6Wxf9dKKkm5+p28Q6keQxRmEnIpppKzQNbjdk=;
-        b=yzTHI1C2zJou5AH/p8lPs0VsHNeDHmv3kTFdxuBKDy961uXVpU9fU3i66ZX+sGZxop
-         K9tHzqQGK2fyGSX0IUIKHt297nLCAVUUQ9uE+ycaL5j8vF1Uq5qjYO9IBdKFeRBRz+JV
-         h0XCiQt2rQy/vjGuvtAMwYO/Ef8AO0zgdlUV7UkjU/4j8KZorjx6YpJycy3NjV+U1jmW
-         8YeCYGEoAGbwFJFnuS6l7DE88NDAQo1cCW0vxXj2MMAEUI8zWICBIQThmt4kh65kKXHV
-         qjMw8B7CVE+Aq4G5oCD+SKPBqvWYSqi0ooDgoVvg+pFWLmMj9ApTsyrB4ZzuvS1F+m6r
-         BcdQ==
+        bh=3JQAU/dBFDp2j3prOKpx9pu61B2aRzHMn5ijo1mj0wk=;
+        b=Nr4QXyj/etzJlAh8i4e3XnDFrHrok+4KAhChzrGdGYpNpzqnTzNz+b7TDzIFPvjVWJ
+         9m6bX+drGU9A6fH4AYp0HUvbrb0fCoSPBmCg7BeIb7knPz8EfEfG9cPbzcBJ5VX+RXOe
+         xKxhA1OiVlh84AEwzHBh+cMUHvzUPF37NpWH9RACZgYBnn9nhrwQ+ZtD6LOD5aF3vQAg
+         h9QGbAMavYpJls9fxf3kDm4J6+Qn0mT0BuRWWAvY6omxOHY3anv02SbqbukFuexGdvmI
+         uLtak6s/1IGom0RtuY8qFrrhQXG4Ym0F7I61Qiqk5+0EJAXYPW/dDKZJd/GArGchifG6
+         ytrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682960176; x=1685552176;
+        d=1e100.net; s=20221208; t=1682960160; x=1685552160;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=utmd4o6Wxf9dKKkm5+p28Q6keQxRmEnIpppKzQNbjdk=;
-        b=JMQuVme9XJ+J2HYbpbXbjGC5LDVF/R4DdjqXGg1boz9UKB7ybhBwJWUv3I7Ht8gO3a
-         moqBmotObCdsWjNVR+tS4UDOxKsjgmPlyoTIzPZ4OfOx8JTa6A7fWELjBV9FWB8LOlCV
-         UDjQbYcaYr7QkCDFmZdRWVKoY88F05f2VEsdmG8S0zt1KEzxbKRa/2gfrg7KCTcc9i4r
-         xpvnyyh4s+MIWxmyiukseEpnILI8W1l30lrFJuO7xqsuRzQEBU5RUxVbJD3F/LjVl/9l
-         DyVJzjxgzcQN7ZpWAqsXCvk+IZTeRLTOghaUSZbBWiNSsWdiqVv0D0GhQuxO/1ah908E
-         UAFg==
-X-Gm-Message-State: AC+VfDz46ZQBflnqaDY8TQb3cphW070uxTKW/y6mVO3rR7F+A4FPGPl/
-        DdY82xHoUIYe9ZAmQ60qH240VKnxH8g=
-X-Google-Smtp-Source: ACHHUZ6rEGe63NZRZF75NXTRoii6CEu/OB0qev1Vk2mogA+wxCpKeVLUFvVGVJNb6NKt9hysxhJvTpNQ+Ho=
+        bh=3JQAU/dBFDp2j3prOKpx9pu61B2aRzHMn5ijo1mj0wk=;
+        b=ZJgMNrjv2fwgyyT4ragznVdwW2+3joPEi2G2RY+OIChX2p2/FPyNi0mzmfTM9FvIZs
+         rXOsba+7QKhF2y9oLVkMOKFhGrY+SWdt1cyVFWN/LgoksJ5GW3j4cCMg92PTmoRr9vgb
+         9SNnlIgDBURyQOtPM7eiOqHhA4uUYU4c/QRbRTQIoFs6mhQbs4EwiFpzfKFKg8Nu6bq2
+         Awf5ONLoQ092/mUuyw1jjQlm83janQtw/kRRO3nIKfuAFUxIjSskQm0IdXX+L4WIAopG
+         3GdGNeLLbU2g58H9MXscwyfU1pdljKtqPXW861WQvWjlo7ks1RbQU1LjYJ74G7an+tfV
+         xtyw==
+X-Gm-Message-State: AC+VfDysEt09EqdND6sPivNUvBhZ+psVGVZcPu8xU/y8rwcYkqzJFSQl
+        rmap9s1vmsGAaqB27VXgZqo0CShaBLI=
+X-Google-Smtp-Source: ACHHUZ5flxShenE/t9NPL/moLDuNx9TkwM/Lf/8wW54V2Eq3VJ/wRhfgfjc0frmw2aZZoQxo3iYMAN5xHBU=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:6d24:3efd:facc:7ac4])
- (user=surenb job=sendgmr) by 2002:a05:6902:100e:b0:b8b:f584:6b73 with SMTP id
- w14-20020a056902100e00b00b8bf5846b73mr5602392ybt.10.1682960176468; Mon, 01
- May 2023 09:56:16 -0700 (PDT)
-Date:   Mon,  1 May 2023 09:54:40 -0700
+ (user=surenb job=sendgmr) by 2002:a25:2484:0:b0:b95:e649:34b6 with SMTP id
+ k126-20020a252484000000b00b95e64934b6mr8454589ybk.1.1682960160542; Mon, 01
+ May 2023 09:56:00 -0700 (PDT)
+Date:   Mon,  1 May 2023 09:54:33 -0700
 In-Reply-To: <20230501165450.15352-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20230501165450.15352-1-surenb@google.com>
 X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-Message-ID: <20230501165450.15352-31-surenb@google.com>
-Subject: [PATCH 30/40] mm: percpu: Add codetag reference into pcpuobj_ext
+Message-ID: <20230501165450.15352-24-surenb@google.com>
+Subject: [PATCH 23/40] lib: add codetag reference into slabobj_ext
 From:   Suren Baghdasaryan <surenb@google.com>
 To:     akpm@linux-foundation.org
 Cc:     kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
@@ -87,87 +87,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
+To store code tag for every slab object, a codetag reference is embedded
+into slabobj_ext when CONFIG_MEM_ALLOC_PROFILING=y.
 
-To store codetag for every per-cpu allocation, a codetag reference is
-embedded into pcpuobj_ext when CONFIG_MEM_ALLOC_PROFILING=y. Hooks to
-use the newly introduced codetag are added.
-
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 ---
- mm/percpu-internal.h | 11 +++++++++--
- mm/percpu.c          | 26 ++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+), 2 deletions(-)
+ include/linux/memcontrol.h | 5 +++++
+ lib/Kconfig.debug          | 1 +
+ mm/slab.h                  | 4 ++++
+ 3 files changed, 10 insertions(+)
 
-diff --git a/mm/percpu-internal.h b/mm/percpu-internal.h
-index 2433e7b24172..c5d1d6723a66 100644
---- a/mm/percpu-internal.h
-+++ b/mm/percpu-internal.h
-@@ -36,9 +36,12 @@ struct pcpuobj_ext {
- #ifdef CONFIG_MEMCG_KMEM
- 	struct obj_cgroup	*cgroup;
- #endif
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	union codetag_ref	tag;
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 5e2da63c525f..c7f21b15b540 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -1626,7 +1626,12 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_data_t *pgdat, int order,
+  * if MEMCG_DATA_OBJEXTS is set.
+  */
+ struct slabobj_ext {
++#ifdef CONFIG_MEMCG_KMEM
+ 	struct obj_cgroup *objcg;
 +#endif
- };
++#ifdef CONFIG_MEM_ALLOC_PROFILING
++	union codetag_ref ref;
++#endif
+ } __aligned(8);
  
--#ifdef CONFIG_MEMCG_KMEM
-+#if defined(CONFIG_MEMCG_KMEM) || defined(CONFIG_MEM_ALLOC_PROFILING)
- #define NEED_PCPUOBJ_EXT
- #endif
+ static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_item idx)
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index d3aa5ee0bf0d..4157c2251b07 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -968,6 +968,7 @@ config MEM_ALLOC_PROFILING
+ 	select CODE_TAGGING
+ 	select LAZY_PERCPU_COUNTER
+ 	select PAGE_EXTENSION
++	select SLAB_OBJ_EXT
+ 	help
+ 	  Track allocation source code and record total allocation size
+ 	  initiated at that code location. The mechanism can be used to track
+diff --git a/mm/slab.h b/mm/slab.h
+index bec202bdcfb8..f953e7c81e98 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -418,6 +418,10 @@ int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
  
-@@ -79,7 +82,11 @@ struct pcpu_chunk {
- 
- static inline bool need_pcpuobj_ext(void)
+ static inline bool need_slab_obj_ext(void)
  {
--	return !mem_cgroup_kmem_disabled();
-+	if (IS_ENABLED(CONFIG_MEM_ALLOC_PROFILING))
-+		return true;
-+	if (!mem_cgroup_kmem_disabled())
-+		return true;
-+	return false;
- }
- 
- extern spinlock_t pcpu_lock;
-diff --git a/mm/percpu.c b/mm/percpu.c
-index 95b26a6b718d..4e2592f2e58f 100644
---- a/mm/percpu.c
-+++ b/mm/percpu.c
-@@ -1701,6 +1701,32 @@ static void pcpu_memcg_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
- }
- #endif /* CONFIG_MEMCG_KMEM */
- 
 +#ifdef CONFIG_MEM_ALLOC_PROFILING
-+static void pcpu_alloc_tag_alloc_hook(struct pcpu_chunk *chunk, int off,
-+				      size_t size)
-+{
-+	if (mem_alloc_profiling_enabled() && likely(chunk->obj_exts)) {
-+		alloc_tag_add(&chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].tag,
-+			      current->alloc_tag, size);
-+	}
-+}
-+
-+static void pcpu_alloc_tag_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
-+{
-+	if (mem_alloc_profiling_enabled() && likely(chunk->obj_exts))
-+		alloc_tag_sub_noalloc(&chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].tag, size);
-+}
-+#else
-+static void pcpu_alloc_tag_alloc_hook(struct pcpu_chunk *chunk, int off,
-+				      size_t size)
-+{
-+}
-+
-+static void pcpu_alloc_tag_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
-+{
-+}
++	if (mem_alloc_profiling_enabled())
++		return true;
 +#endif
-+
- /**
-  * pcpu_alloc - the percpu allocator
-  * @size: size of area to allocate in bytes
+ 	/*
+ 	 * CONFIG_MEMCG_KMEM creates vector of obj_cgroup objects conditionally
+ 	 * inside memcg_slab_post_alloc_hook. No other users for now.
 -- 
 2.40.1.495.gc816e09b53d-goog
 
