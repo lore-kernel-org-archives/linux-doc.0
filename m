@@ -2,205 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B73C2C77B61
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 10:29:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F18C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 12:09:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232268AbjEAK3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 06:29:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
+        id S232430AbjEAMJK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 08:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbjEAK3g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 06:29:36 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D241B7
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 03:29:34 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-2f9b9aa9d75so1309925f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 03:29:34 -0700 (PDT)
+        with ESMTP id S232268AbjEAMJJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 08:09:09 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC58199
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 05:09:06 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-50bc5197d33so1863992a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 05:09:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20221208.gappssmtp.com; s=20221208; t=1682936973; x=1685528973;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rWWgbJng3QlsGMyIJqreh5oaPIaSgIU51OJYfzdQOEs=;
-        b=Parphb/6pDkmvdzTHfBkKhRuyFB2PBQ7wnTzGkzoiSyHwidlGuqZhQOYEpzt2Dnwzq
-         MAWgBgYPIkEwtzFC2PgDixd0LijCGaD4BwAAkynUl674eKsVSKKOY8EADXToyaK4EWn0
-         W3mUyEcbedVNbYazYflgDeAhnmsJHq9d/WJDDwjQWBYvZz5F5yiTdmVcZJgOVMTAO1CU
-         NUI40aeRyGsjAPjF+C2W9G0I4nlAmPyWBNRYB4fDfiHuv4QyzDxPeNqjMIswoApQV1YB
-         jH+OUvE71SF4/dMeMeCVOtbS/bbJzzPE1O+kpIAkFcvaPaiN8J9HB+Eqyk7KeHpz4xA2
-         tHGQ==
+        d=linaro.org; s=google; t=1682942944; x=1685534944;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gG7AJoEMw0rRspVk4H1YTti4Qp6HxLF9oYggD49na4g=;
+        b=yAYB56ZGD8i0s28msYYig6NEyd8G3EXeKQDSXAbOuli+5zy6woOEOT2bELIEHlG0k3
+         DcYo64KI9OwU1BpALLTQYNszeDR4mLbfagvuP6ki7fUfDSDpuXTfGe5Qhicd0BIA4S+8
+         5AjMnj/k2SMQ+YUyh0TTuYf6fYUHRqoivLkzUCGKBcVuNBFetGi6X4Vdk8TKTQFgMcjR
+         XVIEatfIDnkEdatudJRChSKCzqouLqPo5Wr15R6PBb+VY3OMlx6RNLqBf7dt6aJA73EK
+         Sfr75d6S+Bpj2+WScnIwTCe2M97f5QOXMump0vlyonLlXSwt/nMjuqBXBNw2XAquZqDu
+         C0tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682936973; x=1685528973;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rWWgbJng3QlsGMyIJqreh5oaPIaSgIU51OJYfzdQOEs=;
-        b=hVQqqvJXQ536B8vNBaIFoaBne3WvESVeLxIZOLCK5UVC/okhPm0zlnC2RQCMP4KZve
-         +ay8m4xhAvxgbblkLW2l3HOhd2167+OzfwkQsuvvY7jyLfvEAH+O5GMamL2YgGu8cnQv
-         BVlZZZcITqJrvRjZ63gOHAijFJ2m+8LmuqPk0qeAIWBOzr6c4sib5Ifg4yhRhyVk2io1
-         nnckSjXcaWJ3Jaxe0GyshYhedb0LUu6G29vKuL5/0V0rAk6rZEVFn7d1DtAqe+Tr5LyD
-         eCchtZDhEk1NNg8tsFhEcUcVXlESU5v9xRnuQ4INMXtpuPtqknlD9Hep4puwEs5k2F1b
-         qMtQ==
-X-Gm-Message-State: AC+VfDw1g4lL3rsAeKH1s+bFbck8llaWMo1W+j9ESjWS7yWQRTBPk//b
-        prvDmq7ZnWYaj+YAYpFlWg32NAPU0R6tAvZxPYGhxA==
-X-Google-Smtp-Source: ACHHUZ4/5DlSz4ZKMdiwfULaU9Jzfkp7OiWVIIfSpb+pzBRWZYW11FoDM126mfYFtjemcBUjFPagMttEJCEYqwgNt1I=
-X-Received: by 2002:a5d:5703:0:b0:306:2c01:4f08 with SMTP id
- a3-20020a5d5703000000b003062c014f08mr2844543wrv.21.1682936972778; Mon, 01 May
- 2023 03:29:32 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682942944; x=1685534944;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gG7AJoEMw0rRspVk4H1YTti4Qp6HxLF9oYggD49na4g=;
+        b=K8vcG/sh9+NZwgDwNeuGEcj6uad7j6FONzVw2dMoFi2JRezrp0cuUDIvlq8LL4tEz4
+         B0Nhb6XpmFZAJVtvx5XT5wcFdWa+RKa00DLNpWgHyFoJ38gJzKJg5pr8rbh1EPHyumrc
+         taq7MhsD8akb/yvceEBtWNDGcPpCr/a/mOnY0GrnqqPbxj4F2nLrVtrd8K5omLe82P92
+         ixO0r/2NfVzYcG2E5rRNmmqTdUU5KjVFOfn/jPf7edzWfzcgq6+vJTfxsXHoen8DLOz3
+         v22k+ZnuIXldAdIawwdHzoYx1J9XXR6KJy9MoHf2vVUSnrq/MnWu6XmutT17y+D1v4wc
+         Dx5Q==
+X-Gm-Message-State: AC+VfDxi8Y9Kk16mYZQ0040qSa3j4V+Jb8R7IlPHnAy5KqAHoJPQ8J8F
+        I7yZdyRX2s9LSnuPKNWEvrcVfyiIgMmfImeCbriLfQ==
+X-Google-Smtp-Source: ACHHUZ4X5StXV0KODOMIVGaetq7o+934RXdaULRDFcBOof+98iIbj1SLCeEnCqQB8aaaklMV3yG/6A==
+X-Received: by 2002:a17:907:a410:b0:94e:dd68:aba1 with SMTP id sg16-20020a170907a41000b0094edd68aba1mr12205032ejc.67.1682942944567;
+        Mon, 01 May 2023 05:09:04 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:637a:fd0c:58fd:9f00? ([2a02:810d:15c0:828:637a:fd0c:58fd:9f00])
+        by smtp.gmail.com with ESMTPSA id lh11-20020a170906f8cb00b0094a789256dcsm14815590ejb.111.2023.05.01.05.09.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 May 2023 05:09:04 -0700 (PDT)
+Message-ID: <03806421-73ac-0d82-f1cb-e54c2e8f27e9@linaro.org>
+Date:   Mon, 1 May 2023 14:09:02 +0200
 MIME-Version: 1.0
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <CAHbf0-HwQhFsYW8cp0t9660877b9tTxZBego7VSfx0ayAwKePQ@mail.gmail.com> <20230428110735.4348511d@meshulam.tesarici.cz>
-In-Reply-To: <20230428110735.4348511d@meshulam.tesarici.cz>
-From:   Mike Lothian <mike@fireburn.co.uk>
-Date:   Mon, 1 May 2023 11:29:21 +0100
-Message-ID: <CAHbf0-HnctoNN3AQoCeCfd-d7ppKBhWJHD+EbfmbfeTkbS1jqg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce buffers
-To:     =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Ondrej Zary <linux@zary.sk>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Petr Tesarik <petr.tesarik.ext@huawei.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Won Chung <wonchung@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v2 1/2] docs: dt: fix documented Primecell compatible
+ string
+Content-Language: en-US
+To:     Baruch Siach <baruch@tkos.co.il>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <9e137548c4e76e0d8deef6d49460cb37897934ca.1682333574.git.baruch@tkos.co.il>
+ <878regbbr7.fsf@tarshish> <9569ef0d-0d94-3ff9-468b-152fe949e7b5@linaro.org>
+ <878re8741n.fsf@tarshish>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <878re8741n.fsf@tarshish>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi
+On 01/05/2023 12:01, Baruch Siach wrote:
+> Hi Krzysztof,
+> 
+> On Mon, May 01 2023, Krzysztof Kozlowski wrote:
+>> On 25/04/2023 10:31, Baruch Siach wrote:
+>>> On Mon, Apr 24 2023, Baruch Siach wrote:
+>>>> Only arm,primecell is documented as compatible string for Primecell
+>>>> peripherals. Current code agrees with that.
+>>>
+>>> Once again my patches do not show up in patchwork. But they do show in
+>>> lore:
+>>>
+>>>   https://lore.kernel.org/linux-devicetree/9e137548c4e76e0d8deef6d49460cb37897934ca.1682333574.git.baruch@tkos.co.il/
+>>
+>> You used subject prefix which targets Doc subsystem, but did not Cc Doc
+>> maintainers (get_maintainers do not print them). If you target Rob's
+>> Patchwork, probably you need to fix subject prefix. There is no "dt" prefix.
+> 
+> Thanks for the tip.
+> 
+> All previous commits touching Documentation/devicetree/usage-model.rst
+> use 'docs' for subject prefix, including one from Rob. I followed this
+> example.
 
-I've not had any issues since using this, but I imagine most people
-won't know how to set swiotlb=3Ddynamic if they start seeing this (when
-it lands)
+Hm, I see Rob and others indeed used "dt:". I guess Rob's filters might
+need some updates?
 
-Any clue as to why this broke last cycle?
 
-Thanks
+Best regards,
+Krzysztof
 
-Mike
-
-On Fri, 28 Apr 2023 at 10:07, Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wro=
-te:
->
-> On Fri, 28 Apr 2023 09:53:38 +0100
-> Mike Lothian <mike@fireburn.co.uk> wrote:
->
-> > On Wed, 19 Apr 2023 at 11:05, Petr Tesarik <petrtesarik@huaweicloud.com=
-> wrote:
-> > >
-> > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> > >
-> > > The goal of my work is to provide more flexibility in the sizing of
-> > > SWIOTLB.
-> > >
-> > > The software IO TLB was designed with these assumptions:
-> > >
-> > > 1. It would not be used much, especially on 64-bit systems.
-> > > 2. A small fixed memory area (64 MiB by default) is sufficient to
-> > >    handle the few cases which require a bounce buffer.
-> > > 3. 64 MiB is little enough that it has no impact on the rest of the
-> > >    system.
-> > >
-> > > First, if SEV is active, all DMA must be done through shared
-> > > unencrypted pages, and SWIOTLB is used to make this happen without
-> > > changing device drivers. The software IO TLB size is increased to
-> > > 6% of total memory in sev_setup_arch(), but that is more of an
-> > > approximation. The actual requirements may vary depending on the
-> > > amount of I/O and which drivers are used. These factors may not be
-> > > know at boot time, i.e. when SWIOTLB is allocated.
-> > >
-> > > Second, other colleagues have noticed that they can reliably get
-> > > rid of occasional OOM kills on an Arm embedded device by reducing
-> > > the SWIOTLB size. This can be achieved with a kernel parameter, but
-> > > determining the right value puts additional burden on pre-release
-> > > testing, which could be avoided if SWIOTLB is allocated small and
-> > > grows only when necessary.
-> > >
-> > > Changes from v1-devel-v7:
-> > > - Add comments to acquire/release barriers
-> > > - Fix whitespace issues reported by checkpatch.pl
-> > >
-> > > Changes from v1-devel-v6:
-> > > - Provide long description of functions
-> > > - Fix kernel-doc (Returns: to Return:)
-> > > - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
-> > >
-> > > Changes from RFC:
-> > > - Track dynamic buffers per device instead of per swiotlb
-> > > - Use a linked list instead of a maple tree
-> > > - Move initialization of swiotlb fields of struct device to a
-> > >   helper function
-> > > - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
-> > > - Introduce per-device flag if dynamic buffers are in use
-> > > - Add one more user of DMA_ATTR_MAY_SLEEP
-> > > - Add kernel-doc comments for new (and some old) code
-> > > - Properly escape '*' in dma-attributes.rst
-> > >
-> > > Petr Tesarik (7):
-> > >   swiotlb: Use a helper to initialize swiotlb fields in struct device
-> > >   swiotlb: Move code around in preparation for dynamic bounce buffers
-> > >   dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
-> > >   swiotlb: Dynamically allocated bounce buffers
-> > >   swiotlb: Add a boot option to enable dynamic bounce buffers
-> > >   drm: Use DMA_ATTR_MAY_SLEEP from process context
-> > >   swiotlb: per-device flag if there are dynamically allocated buffers
-> > >
-> > >  .../admin-guide/kernel-parameters.txt         |   6 +-
-> > >  Documentation/core-api/dma-attributes.rst     |  10 +
-> > >  drivers/base/core.c                           |   4 +-
-> > >  drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
-> > >  drivers/gpu/drm/drm_prime.c                   |   2 +-
-> > >  include/linux/device.h                        |  12 +
-> > >  include/linux/dma-mapping.h                   |   6 +
-> > >  include/linux/swiotlb.h                       |  54 ++-
-> > >  kernel/dma/swiotlb.c                          | 382 ++++++++++++++++=
---
-> > >  9 files changed, 443 insertions(+), 35 deletions(-)
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > Hi
-> >
-> > Is this a potential fix for
-> > https://bugzilla.kernel.org/show_bug.cgi?id=3D217310 where I'm manually
-> > setting bigger buffers to keep my wifi working?
->
-> Yes. With these patches applied, your system should run just fine with
-> swiotlb=3Ddynamic. However, keep in mind that this implementation adds a
-> bit of overhead. In short, it trades a bit of performance for not
-> having to figure out the optimal swiotlb size at boot time.
->
-> Petr T
