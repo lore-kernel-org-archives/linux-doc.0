@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06840C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 03:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05634C7EE24
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 03:13:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232616AbjEADGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Apr 2023 23:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56936 "EHLO
+        id S232300AbjEADNb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Apr 2023 23:13:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232718AbjEADEx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 23:04:53 -0400
+        with ESMTP id S232477AbjEADLw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 23:11:52 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9407B49F1;
-        Sun, 30 Apr 2023 20:01:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15CC42683;
+        Sun, 30 Apr 2023 20:04:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 75224617AE;
-        Mon,  1 May 2023 03:01:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F60C4339C;
-        Mon,  1 May 2023 03:01:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3038261735;
+        Mon,  1 May 2023 03:03:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14951C433D2;
+        Mon,  1 May 2023 03:03:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682910094;
-        bh=XrRMnwZ563HQAnjTuNUPv0WJ5LqBf+x88FLmTsUhB4I=;
+        s=k20201202; t=1682910237;
+        bh=1DYDFf1uyOGVlcd2/gRZMWEeuOceywkhPSgNDUYZ8N4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PdIDFfZgXPFRgPT/WGAbnLASKnxQkIaGbrdDKahMpOYAyOjQoNcRF3St+6KL7DlW7
-         FF3KLzj1gxTFvrsrGMrCwcPdWm0MzlC6e8DZCiX50flhfAI0H3iHCTT04TZX0OwlyF
-         DF1wyq+DvMAoB5pL/x/kFTBXtB6LvH4Vn7X1UChuDADrLZxroHlTwdVvHgZuBASplh
-         DPE68FwnqcGa8q6kGhvZ3lELaFg/6xQ3kuW4ZmsyGBTi80DHlbnzppE2yAAf3Q9aya
-         pHqmRSPyU5fwvr2Znc6G5sZek6cj9OB0aCumWenB75q/owc9+t9BFe92G87ANK3rkt
-         dVjddp6wtd2WQ==
+        b=oULH/UdXsVolAvZtp7wOZ+IAmV6dvsDhLvlFvz3N1OQ86fcnaxf70BIVQbwEfOloV
+         UgrnDytjJD/xnvCS5BUs1ITzeoEwY4USF5NEQwEBDiqbLO1TvU4MSdtFF86b3Rl76Q
+         9SdzUriGxLr3YsKFz58ePLGMTt8XwyLnGpFAgeTWJdlQNT3iGUaXpAuGUKyJKN5dns
+         8KM2lOQFjWOKdLUwNOpXAUdzfy++Aaq9kw4wJzUBtGGBX9j3FQ4BnP4uLPXM4FvaIu
+         q8Ak11me1IchvxMylhe7ItIkSF8z0dhZhnaaq/UwuFV2M1qL5EcYB2QG4HnqmqWiDv
+         5tfTTjFk+9NPw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Shanker Donthineni <sdonthineni@nvidia.com>,
@@ -40,12 +40,12 @@ Cc:     Shanker Donthineni <sdonthineni@nvidia.com>,
         catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
         mark.rutland@arm.com, lpieralisi@kernel.org, tglx@linutronix.de,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 29/37] irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
-Date:   Sun, 30 Apr 2023 22:59:37 -0400
-Message-Id: <20230501025945.3253774-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 26/33] irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
+Date:   Sun, 30 Apr 2023 23:02:20 -0400
+Message-Id: <20230501030227.3254266-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501025945.3253774-1-sashal@kernel.org>
-References: <20230501025945.3253774-1-sashal@kernel.org>
+In-Reply-To: <20230501030227.3254266-1-sashal@kernel.org>
+References: <20230501030227.3254266-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -123,10 +123,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  6 files changed, 156 insertions(+), 34 deletions(-)
 
 diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index ec5f889d76819..e31f6c0687041 100644
+index 808ade4cc008a..55492fea44276 100644
 --- a/Documentation/arm64/silicon-errata.rst
 +++ b/Documentation/arm64/silicon-errata.rst
-@@ -172,6 +172,8 @@ stable kernels.
+@@ -170,6 +170,8 @@ stable kernels.
  +----------------+-----------------+-----------------+-----------------------------+
  | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
  +----------------+-----------------+-----------------+-----------------------------+
@@ -241,7 +241,7 @@ index dd7c3d5e8b0bb..890eb454599a3 100644
  	if (!soc_dev_attr)
  		return -ENOMEM;
 diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index caa952c40ff92..08505fdf890c1 100644
+index 7ef9f5e696d31..a29a426e4eed7 100644
 --- a/drivers/irqchip/Kconfig
 +++ b/drivers/irqchip/Kconfig
 @@ -35,6 +35,7 @@ config ARM_GIC_V3
@@ -253,10 +253,10 @@ index caa952c40ff92..08505fdf890c1 100644
  config ARM_GIC_V3_ITS
  	bool
 diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-index 997104d4338e7..7191a05c0b22f 100644
+index 34d58567b78d1..2182f87d2d12e 100644
 --- a/drivers/irqchip/irq-gic-v3.c
 +++ b/drivers/irqchip/irq-gic-v3.c
-@@ -24,6 +24,9 @@
+@@ -23,6 +23,9 @@
  #include <linux/irqchip/arm-gic-common.h>
  #include <linux/irqchip/arm-gic-v3.h>
  #include <linux/irqchip/irq-partition-percpu.h>
@@ -266,7 +266,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  
  #include <asm/cputype.h>
  #include <asm/exception.h>
-@@ -47,6 +50,7 @@ struct redist_region {
+@@ -46,6 +49,7 @@ struct redist_region {
  
  struct gic_chip_data {
  	struct fwnode_handle	*fwnode;
@@ -274,7 +274,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  	void __iomem		*dist_base;
  	struct redist_region	*redist_regions;
  	struct rdists		rdists;
-@@ -59,6 +63,10 @@ struct gic_chip_data {
+@@ -58,6 +62,10 @@ struct gic_chip_data {
  	struct partition_desc	**ppi_descs;
  };
  
@@ -285,7 +285,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  static struct gic_chip_data gic_data __read_mostly;
  static DEFINE_STATIC_KEY_TRUE(supports_deactivate_key);
  
-@@ -188,6 +196,39 @@ static inline bool gic_irq_in_rdist(struct irq_data *d)
+@@ -187,6 +195,39 @@ static inline bool gic_irq_in_rdist(struct irq_data *d)
  	}
  }
  
@@ -325,7 +325,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  static inline void __iomem *gic_dist_base(struct irq_data *d)
  {
  	switch (get_intid_range(d)) {
-@@ -346,7 +387,7 @@ static int gic_peek_irq(struct irq_data *d, u32 offset)
+@@ -345,7 +386,7 @@ static int gic_peek_irq(struct irq_data *d, u32 offset)
  	if (gic_irq_in_rdist(d))
  		base = gic_data_rdist_sgi_base();
  	else
@@ -334,7 +334,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  
  	return !!(readl_relaxed(base + offset + (index / 32) * 4) & mask);
  }
-@@ -597,7 +638,7 @@ static int gic_set_type(struct irq_data *d, unsigned int type)
+@@ -596,7 +637,7 @@ static int gic_set_type(struct irq_data *d, unsigned int type)
  	if (gic_irq_in_rdist(d))
  		base = gic_data_rdist_sgi_base();
  	else
@@ -343,7 +343,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  
  	offset = convert_offset_index(d, GICD_ICFGR, &index);
  
-@@ -1719,6 +1760,43 @@ static bool gic_enable_quirk_hip06_07(void *data)
+@@ -1718,6 +1759,43 @@ static bool gic_enable_quirk_hip06_07(void *data)
  	return false;
  }
  
@@ -387,7 +387,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  static const struct gic_quirk gic_quirks[] = {
  	{
  		.desc	= "GICv3: Qualcomm MSM8996 broken firmware",
-@@ -1750,6 +1828,12 @@ static const struct gic_quirk gic_quirks[] = {
+@@ -1749,6 +1827,12 @@ static const struct gic_quirk gic_quirks[] = {
  		.mask	= 0xe8f00fff,
  		.init	= gic_enable_quirk_cavium_38539,
  	},
@@ -400,7 +400,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  	{
  	}
  };
-@@ -1817,7 +1901,8 @@ static void gic_enable_nmi_support(void)
+@@ -1816,7 +1900,8 @@ static void gic_enable_nmi_support(void)
  		gic_chip.flags |= IRQCHIP_SUPPORTS_NMI;
  }
  
@@ -410,7 +410,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  				 struct redist_region *rdist_regs,
  				 u32 nr_redist_regions,
  				 u64 redist_stride,
-@@ -1833,6 +1918,7 @@ static int __init gic_init_bases(void __iomem *dist_base,
+@@ -1832,6 +1917,7 @@ static int __init gic_init_bases(void __iomem *dist_base,
  		pr_info("GIC: Using split EOI/Deactivate mode\n");
  
  	gic_data.fwnode = handle;
@@ -418,7 +418,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  	gic_data.dist_base = dist_base;
  	gic_data.redist_regions = rdist_regs;
  	gic_data.nr_redist_regions = nr_redist_regions;
-@@ -1860,10 +1946,13 @@ static int __init gic_init_bases(void __iomem *dist_base,
+@@ -1859,10 +1945,13 @@ static int __init gic_init_bases(void __iomem *dist_base,
  	gic_data.domain = irq_domain_create_tree(handle, &gic_irq_domain_ops,
  						 &gic_data);
  	gic_data.rdists.rdist = alloc_percpu(typeof(*gic_data.rdists.rdist));
@@ -436,7 +436,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  
  	if (WARN_ON(!gic_data.domain) || WARN_ON(!gic_data.rdists.rdist)) {
  		err = -ENOMEM;
-@@ -2069,6 +2158,7 @@ static void __iomem *gic_of_iomap(struct device_node *node, int idx,
+@@ -2068,6 +2157,7 @@ static void __iomem *gic_of_iomap(struct device_node *node, int idx,
  
  static int __init gic_of_init(struct device_node *node, struct device_node *parent)
  {
@@ -444,7 +444,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  	void __iomem *dist_base;
  	struct redist_region *rdist_regs;
  	struct resource res;
-@@ -2082,6 +2172,8 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
+@@ -2081,6 +2171,8 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
  		return PTR_ERR(dist_base);
  	}
  
@@ -453,7 +453,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  	err = gic_validate_dist_version(dist_base);
  	if (err) {
  		pr_err("%pOF: no distributor detected, giving up\n", node);
-@@ -2113,8 +2205,8 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
+@@ -2112,8 +2204,8 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
  
  	gic_enable_of_quirks(node, gic_quirks, &gic_data);
  
@@ -464,7 +464,7 @@ index 997104d4338e7..7191a05c0b22f 100644
  	if (err)
  		goto out_unmap_rdist;
  
-@@ -2430,8 +2522,9 @@ gic_acpi_init(union acpi_subtable_headers *header, const unsigned long end)
+@@ -2429,8 +2521,9 @@ gic_acpi_init(union acpi_subtable_headers *header, const unsigned long end)
  		goto out_redist_unmap;
  	}
  
