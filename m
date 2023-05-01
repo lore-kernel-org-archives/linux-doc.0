@@ -2,118 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A74C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 19:26:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81785C77B7C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 19:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232879AbjEAT02 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 15:26:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
+        id S233459AbjEATix (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 15:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233195AbjEAT0Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 15:26:25 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD783585;
-        Mon,  1 May 2023 12:26:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=31TjznsBOkdR5oAIp2LjKpSdXSSIBsN8UEHGaYYmYms=; b=oej7/PFu12q7bn/5uMLuk4bS6+
-        QIKRq8APfLXPYOPK1MxNB1uw29L3Fbc6l5/840+cBCfloSpxZZ3ejNuWYmrRsxAJeZd7gbZaw5PfC
-        iVStWNRATM6k81Qquj5tqJRADDDfFQl0nJNo8+/2FUHQ/R7SgrUUljdsrSVe2ZmXuDgkFsLeZWLq8
-        mau4sP8SlpxEH2ilt+KvjSINmefWPlYeGH19zHQhReQYpmvCUb6R8nM2DfrdunEXE7b5V0Q/1Utuf
-        77+t3Lro5e7VzCvka09gdIt4rY8OjdjEMR13JWCw4jAy2ff5n2BVWBXkEpyQOHDX3ut3N6lPbZCr0
-        +ydRAfkg==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1ptZ9t-00GgdA-2D;
-        Mon, 01 May 2023 19:26:01 +0000
-Message-ID: <0754e279-ae06-9b57-f655-cc7cc9eb6ecb@infradead.org>
-Date:   Mon, 1 May 2023 12:26:01 -0700
+        with ESMTP id S233232AbjEATih (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 15:38:37 -0400
+X-Greylist: delayed 131 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 May 2023 12:38:11 PDT
+Received: from out-44.mta1.migadu.com (out-44.mta1.migadu.com [IPv6:2001:41d0:203:375::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E113C3E
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 12:38:11 -0700 (PDT)
+Date:   Mon, 1 May 2023 15:37:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1682969889;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=541SBwyTjoC6k6Jt8ATpGdLRFrI++rPhwZtbphGiRj8=;
+        b=lnRRPNHDnF956aCf54S4b+95wpSdnMmfllJ+6mgP3DVbBtmrb4enc8FuntmqzwjK58Ko7c
+        it/LA23okYPlPhL1EmutvgUcpOO1uJdahdi7yk4z9T9+7XExEeC1ejFxjJ/ZhIL438pW5Q
+        o4DgZYkgJup7Fn/8Y5iYBiJhhdnxzVA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Kent Overstreet <kent.overstreet@linux.dev>
+To:     Roman Gushchin <roman.gushchin@linux.dev>
+Cc:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+        mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
+        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
+        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, peterx@redhat.com, david@redhat.com,
+        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+        pasha.tatashin@soleen.com, yosryahmed@google.com,
+        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
+        andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH 00/40] Memory allocation profiling
+Message-ID: <ZFAVFlrRtpVgxJ0q@moria.home.lan>
+References: <20230501165450.15352-1-surenb@google.com>
+ <ZE/7FZbd31qIzrOc@P9FQF9L96D>
+ <CAJuCfpHU3ZMsNuqi1gSxzAWKr2D3VkiaTY0BEUQgM-QHNxRtSg@mail.gmail.com>
+ <ZFABlUB/RZM6lUyl@P9FQF9L96D>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] docs: consolidate human interface subsystems
-Content-Language: en-US
-To:     87h6sw9iq0.fsf@meer.lwn.net, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230501154258.277866-1-costa.shul@redhat.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230501154258.277866-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZFABlUB/RZM6lUyl@P9FQF9L96D>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Mon, May 01, 2023 at 11:14:45AM -0700, Roman Gushchin wrote:
+> It's a good idea and I generally think that +25-35% for kmalloc/pgalloc
+> should be ok for the production use, which is great!
+> In the reality, most workloads are not that sensitive to the speed of
+> memory allocation.
 
-On 5/1/23 08:42, Costa Shulyupin wrote:
-> to make the page more organized as requested
+:)
+
+My main takeaway has been "the slub fast path is _really_ fast". No
+disabling of preemption, no atomic instructions, just a non locked
+double word cmpxchg - it's a slick piece of work.
+
+> > For kmalloc, the overhead is low because after we create the vector of
+> > slab_ext objects (which is the same as what memcg_kmem does), memory
+> > profiling just increments a lazy counter (which in many cases would be
+> > a per-cpu counter).
 > 
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> ---
-> Changes:
-> - fixed typo
+> So does kmem (this is why I'm somewhat surprised by the difference).
 > 
-> ---
->  Documentation/subsystem-apis.rst | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
+> > memcg_kmem operates on cgroup hierarchy with
+> > additional overhead associated with that. I'm guessing that's the
+> > reason for the big difference between these mechanisms but, I didn't
+> > look into the details to understand memcg_kmem performance.
 > 
-> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-> index b51f38527e14..287799ee2419 100644
-> --- a/Documentation/subsystem-apis.rst
-> +++ b/Documentation/subsystem-apis.rst
-> @@ -10,6 +10,18 @@ is taken directly from the kernel source, with supplemental material added
->  as needed (or at least as we managed to add it — probably *not* all that is
->  needed).
->  
-> +Human interfaces
-> +---------------
+> I suspect recent rt-related changes and also the wide usage of
+> rcu primitives in the kmem code. I'll try to look closer as well.
 
-Did you test this?
-I would expect a complaint about the underline not being long enough,
-although I didn't test it either...
-
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   input/index
-> +   hid/index
-> +   sound/index
-> +   gpu/index
-> +   fb/index
-> +
->  **Fixme**: much more organizational work is needed here.
->  
->  .. toctree::
-> @@ -22,9 +34,7 @@ needed).
->     block/index
->     cdrom/index
->     cpu-freq/index
-> -   fb/index
->     fpga/index
-> -   hid/index
->     i2c/index
->     iio/index
->     isdn/index
-> @@ -40,12 +50,9 @@ needed).
->     w1/index
->     watchdog/index
->     virt/index
-> -   input/index
->     hwmon/index
-> -   gpu/index
->     accel/index
->     security/index
-> -   sound/index
->     crypto/index
->     filesystems/index
->     mm/index
-
-Thanks.
--- 
-~Randy
+Happy to give you something to compare against :)
