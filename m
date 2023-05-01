@@ -2,106 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 914DBC77B61
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 08:21:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E577C77B61
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 09:54:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232272AbjEAIVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 04:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44638 "EHLO
+        id S232132AbjEAJyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 05:54:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232208AbjEAIVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 04:21:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD8211C
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 01:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682929263;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=FT26bsZTksy9w0Z5ZkQBGS3kpOjEM/lIdHfF+ktDpPI=;
-        b=X6E3kYC0JxZztsypqXX0y5JongHs2b5hlUsjjsB6tiKiJWQk+sm9/unk7MxRO0arQV+zWk
-        MEf6jdHgYUT2Q5jVhTOkVYXgRu6DD9gUqs8foxb9H7xJbVEuSJIP3WkVMn7rBLoWm+TMOX
-        eBfGhi1ulPd3MyZkqJnXj0iNlGSwi+I=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-423-RWXqx7JAM6O91p_9GWIxwA-1; Mon, 01 May 2023 04:21:02 -0400
-X-MC-Unique: RWXqx7JAM6O91p_9GWIxwA-1
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-24de504c5fcso1594303a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 01:21:02 -0700 (PDT)
+        with ESMTP id S229861AbjEAJyB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 05:54:01 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A421E4A
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 02:53:56 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-95369921f8eso381065866b.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 02:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1682934834; x=1685526834;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2LAaaX3T1102gejNKuIMfwgpgomPZOYq3AaB4DZgS2M=;
+        b=COZ6qAXyDJLCOXzJXDsLdMqZM434wQCv0uDnV2J73w8sWz8MioHIy0gY+0P2KGIiRb
+         58BiHfD9UtcepfvZZhB3wb3AYDtuuqGUWQubTUVpXDTCchOegxaAme4NKfwTd7NiQJKY
+         jobW+FwpbUv6woqc2KMjVlP8ELxp5FXNG+qnkxyXhSW4DvxRJBLxm6uX8Ky94tODisgQ
+         mJDdIq1GWgQaqApbcHHdnV8DTrPP+AZCU269IdD2p+H2Lfs1bpub/5Sjig/6wIzFm7de
+         RIAEeMjkzeBHV/K++nlDkoSwPpaXEkSbTEDGXgg6xdCNzTQwAW9F+TEjLm61fKYvxckJ
+         Y86w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682929261; x=1685521261;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FT26bsZTksy9w0Z5ZkQBGS3kpOjEM/lIdHfF+ktDpPI=;
-        b=ZDniL/qMBZbF+AbCrrvEaBf4lxYmPronLLDgyqvsNBMa/nzFI9q2m/xVazgUP1QnE/
-         Myiyy1dOFfQwz2MIXCp5Z0yp3MIR9rQ6GU/PpeQ+6CidRanbeftWITosAHvWvuXpejLp
-         sPWsHH4Pf+zMnJSuzJW1NGIaFkVqeGUHVefMqvY2Fv9w5GDQEJ9VSTkQthxGnN7conud
-         7ePhM8og9cEsu9li4+3OGgnsMVlLzyQqOIUVsh0YrS4M4PlI4wojX6gK+NzrPn7BWR6x
-         SfK/V5i7cHx8nhiWToOj/ars//iV8tY/o4jKDr9OnjgrxnfLPthkDBGx395R4sQaiAll
-         j7CA==
-X-Gm-Message-State: AC+VfDxIWlnM14Hj2j+QcS8W47kWIwCB0NUR53QJTeZq27A7+tXXsRbV
-        /wEQV6ohCi4BhLGSBAYvi/Sib/JRdQ70vYRFfK1gY88UfXbSX/mRqBfVdMB2Ggr3L/Qosibgyt9
-        R5uTrsWwgxHBtWsH+rGG3
-X-Received: by 2002:a17:902:9a48:b0:19a:b754:4053 with SMTP id x8-20020a1709029a4800b0019ab7544053mr14265284plv.26.1682929261473;
-        Mon, 01 May 2023 01:21:01 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6HfJhry47T9KbwOD+9oM8pm5mDg19vNl2hJAA8LhH1GM6W6FydZaTthxFQQf7IjvvgqsJGVQ==
-X-Received: by 2002:a17:902:9a48:b0:19a:b754:4053 with SMTP id x8-20020a1709029a4800b0019ab7544053mr14265271plv.26.1682929261227;
-        Mon, 01 May 2023 01:21:01 -0700 (PDT)
-Received: from nsharma-mac.redhat.com ([49.37.74.43])
-        by smtp.gmail.com with ESMTPSA id j1-20020a17090276c100b001a80ae1196fsm17375015plt.39.2023.05.01.01.20.57
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 01 May 2023 01:21:00 -0700 (PDT)
-From:   Natesh Sharma <nsharma@redhat.com>
-To:     corbet@lwn.net, chenhuacai@kernel.org, dave.hansen@linux.intel.com,
-        geert@linux-m68k.org, axboe@kernel.dk, linux@zary.sk
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Natesh Sharma <nsharma@redhat.com>
-Subject: [PATCH] docs: admin-guide: Add information about intel_pstate active mode
-Date:   Mon,  1 May 2023 13:50:50 +0530
-Message-Id: <20230501082050.74131-1-nsharma@redhat.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+        d=1e100.net; s=20221208; t=1682934834; x=1685526834;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2LAaaX3T1102gejNKuIMfwgpgomPZOYq3AaB4DZgS2M=;
+        b=a1C8STQZVHFDEVMGNeejGiezILIVyPevB3xuMBObsPb8wBW4TW0aNfkYX5ZiDLiRHh
+         FgubReVZXm6UStQup4MfQYLDkXHmY7bgsIrSNHrx7Kgn5KIX+fFZxa9H+ekd59GVeJy2
+         05K9K556fttuLYCtqaeL7ZaS1/U7IHvTi7OLNc3YIdoCFUfCBHzbWiDGrpjGoESBLgzQ
+         t6w/geMto/dolaaPlbRbqa69SwpuHciVOkcyNFq/IUBxrl7VYpiJ5hvWHYT63vFN5GMD
+         FTEtlq8YarOMR+L+PFgTn8ynUB128z8oDHy0KTp08D/mfly+gBzgmKPfSJJ6wOOZkJ2n
+         /adQ==
+X-Gm-Message-State: AC+VfDxc0J6ZaJ+9jxFr3TBBmuU9W6EtYD+OlMC2R5ju0Q+Z9tsjdmHr
+        rY5ECHF0G8Q10qtopZmuhcEbtg==
+X-Google-Smtp-Source: ACHHUZ4TN6CiMt7jfmu82h2+5M0Puw5ke/1EkQwBWppoXUIN5oBKNEUpvIVsWTKjWC0uIPvSqsjcBg==
+X-Received: by 2002:a17:907:97ca:b0:95e:ce4b:b333 with SMTP id js10-20020a17090797ca00b0095ece4bb333mr14048400ejc.53.1682934834504;
+        Mon, 01 May 2023 02:53:54 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:637a:fd0c:58fd:9f00? ([2a02:810d:15c0:828:637a:fd0c:58fd:9f00])
+        by smtp.gmail.com with ESMTPSA id z16-20020a1709063ad000b0094f71500bfesm14540877ejd.4.2023.05.01.02.53.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 May 2023 02:53:53 -0700 (PDT)
+Message-ID: <9569ef0d-0d94-3ff9-468b-152fe949e7b5@linaro.org>
+Date:   Mon, 1 May 2023 11:53:53 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v2 1/2] docs: dt: fix documented Primecell compatible
+ string
+Content-Language: en-US
+To:     Baruch Siach <baruch@tkos.co.il>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+References: <9e137548c4e76e0d8deef6d49460cb37897934ca.1682333574.git.baruch@tkos.co.il>
+ <878regbbr7.fsf@tarshish>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <878regbbr7.fsf@tarshish>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Information about intel_pstate active mode is added in the doc.
-This operation mode could be used to set on the hardware when it's
-not activated. Status of the mode could be checked from sysfs file
-i.e., /sys/devices/system/cpu/intel_pstate/status.
-The information is already available in cpu-freq/intel-pstate.txt
-documentation.
+On 25/04/2023 10:31, Baruch Siach wrote:
+> Hi Rob, Krzysztof,
+> 
+> On Mon, Apr 24 2023, Baruch Siach wrote:
+>> Only arm,primecell is documented as compatible string for Primecell
+>> peripherals. Current code agrees with that.
+> 
+> Once again my patches do not show up in patchwork. But they do show in
+> lore:
+> 
+>   https://lore.kernel.org/linux-devicetree/9e137548c4e76e0d8deef6d49460cb37897934ca.1682333574.git.baruch@tkos.co.il/
+> 
 
-Link: https://www.kernel.org/doc/Documentation/cpu-freq/intel-pstate.txt
+You used subject prefix which targets Doc subsystem, but did not Cc Doc
+maintainers (get_maintainers do not print them). If you target Rob's
+Patchwork, probably you need to fix subject prefix. There is no "dt" prefix.
 
-Signed-off-by: Natesh Sharma <nsharma@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bbecbd5797a3..10f3c8d1bb46 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2104,6 +2104,14 @@
- 			disable
- 			  Do not enable intel_pstate as the default
- 			  scaling driver for the supported processors
-+                        active
-+                          Use intel_pstate driver to bypass the scaling governors
-+                          layer of cpufreq and provides it own algorithms for p-state
-+                          selection. There are two P-state selection algorithms provided
-+                          by intel_pstate in the active mode: powersave and performance.
-+                          The way they both operate depends on whether or not the hardware
-+                          managed P-states (HWP) feature has been enabled in the processor
-+                          and possibly on the processor model.
- 			passive
- 			  Use intel_pstate as a scaling driver, but configure it
- 			  to work with generic cpufreq governors (instead of
--- 
-2.39.2 (Apple Git-143)
+Best regards,
+Krzysztof
 
