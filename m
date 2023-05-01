@@ -2,149 +2,247 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B509BC77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 17:03:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AEDC77B7C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 17:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233035AbjEARDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 13:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40138 "EHLO
+        id S232709AbjEARFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 13:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233203AbjEARCe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 13:02:34 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7236F421B
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 09:57:11 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-55a42c22300so22440157b3.2
-        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 09:57:11 -0700 (PDT)
+        with ESMTP id S233719AbjEARFU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 13:05:20 -0400
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD395592;
+        Mon,  1 May 2023 09:59:19 -0700 (PDT)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-18f4a6d2822so17568548fac.1;
+        Mon, 01 May 2023 09:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682960200; x=1685552200;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=voe2xx017YXPnsPA1F569u968pU4cdVPLrVyFh58V3A=;
-        b=XY3g0fA5IrJ+YzYe2wUQ0ftZyFUg7ny2GrTo3NPiBlk4iPlMC/kY+SH8g6iLrwV+KV
-         Xw+if+jca7PJgAtbAXeVriY1aFJ/EteLLOMZx1AdK6gJrXbG1uRZWDO/40Axb4AODOAW
-         bu8B0l1k4HzrQxgM9N1NQnABkM6L6EHe4PLk5Qr9MgkaJ72bwWRTz68SbwPhkOTfAlCN
-         aIInpOCqjYNQr/7r19P8lUnDyjtSJAnNSRwk6D0bpZ0QASPWz9H1GwXTn8bC79Kr3VsJ
-         to3IBoyJHWuDBBn4X4nEQDSitAsGc5WJp6sVno05l5o1QoTuKQpKB8qBzlmM5zczDq7s
-         CPoA==
+        d=gmail.com; s=20221208; t=1682960312; x=1685552312;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k/SEaAflvpetMi4+nxY06+P/T33MSQGH6sSrAaXI1BA=;
+        b=r0nFRQ420je1KUNVV1fjvkaxY8mGnW4c0nNzaSdCTY96lsVdUrsIc9aP6a8nlDITeH
+         iudvN3i23BRSdk5DRkQhVREKcFMshE1558fLxMjvWsaE8WMY/FA/DLa/UWH/n3In0ClD
+         Ccz4QU/Gfg3xqrjHJrhzqH2athEIFp29haLGlIrxLBhrFhZtquZpkc/gyeeZksqAUJwp
+         6xt65IWqWInuICIwc5XOdEfSjNyipsC5KAYuItr/781IUZZ6d6iBqzeHEm8VkCq/vKiy
+         UUDEPfGVzYM57SjozYEamh1Lptd6/LckWWQYcSaoxgOnh/0n8uiLcRfJxtXE4GmDaUmx
+         6Mtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682960200; x=1685552200;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=voe2xx017YXPnsPA1F569u968pU4cdVPLrVyFh58V3A=;
-        b=eg+ipnNWuRCX3c5qO0aSxx41J01xsWhHQRGHvxzdy+a9V0L4y75ftTguvjiGxRHjSf
-         IRUKEzmxvyDOyr5dHycCsy7Q0GLb1HPTwlYBWxwAerMT2Ce2QNYoNlwFtclPheB6a0il
-         J4j5XSV2716uxtQ+XPcL7pTfNeZcC3cTVmCV3ztOX2ZpydUJoCa/xNCxaRzhcLmE4zgR
-         GPzd0OAp7CHMEDk1jOZax2+9uxcJtrX9ehFUQ3WorDMOrNOYXqg7ILwM1WOfPbZ3JaU8
-         QyYZapddGlYXTd3J5IMlGeOSQlf4hoF4AYiaCdP+tfnOB670X6lpFGYLbdKIw4bLcI53
-         nQvg==
-X-Gm-Message-State: AC+VfDxqJh119kDI7M588hMbDQfUYK9oVV25gLraumR7pIlkAF9L8n/z
-        1QYYgGTWA+x5DPxf5KOvQ35E6e2qkIo=
-X-Google-Smtp-Source: ACHHUZ7TphX74FdXdGj2KrrIAly5W9cbCjXqr70LC9E11i/xFawgHPr35IiqOdTvLYzAxeQM5sfRxSe2CSI=
-X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:6d24:3efd:facc:7ac4])
- (user=surenb job=sendgmr) by 2002:a81:de0c:0:b0:559:e97a:cb21 with SMTP id
- k12-20020a81de0c000000b00559e97acb21mr4262900ywj.9.1682960199781; Mon, 01 May
- 2023 09:56:39 -0700 (PDT)
-Date:   Mon,  1 May 2023 09:54:50 -0700
-In-Reply-To: <20230501165450.15352-1-surenb@google.com>
-Mime-Version: 1.0
-References: <20230501165450.15352-1-surenb@google.com>
-X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-Message-ID: <20230501165450.15352-41-surenb@google.com>
-Subject: [PATCH 40/40] MAINTAINERS: Add entries for code tagging and memory
- allocation profiling
-From:   Suren Baghdasaryan <surenb@google.com>
-To:     akpm@linux-foundation.org
-Cc:     kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
-        dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
-        corbet@lwn.net, void@manifault.com, peterz@infradead.org,
-        juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        surenb@google.com, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-        cgroups@vger.kernel.org
+        d=1e100.net; s=20221208; t=1682960312; x=1685552312;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k/SEaAflvpetMi4+nxY06+P/T33MSQGH6sSrAaXI1BA=;
+        b=WSnhwPcvWG5mNjfGrFXWiML44GpUSROE8pNtcSmizo4HupItQC3dUZoWwi7fG+VQm8
+         Y57KAiwnzRR5hGWABM+Xt8wOzWETJyZ1N8MWlbKTdsO06Sb1IwVgbS6OSVVmiCF6McCH
+         HXhqrpw6oePYQA9RlV5w6TUwTkxLcaZuc7b54/KASr0OzJz40aH0PxiZq7IVHbQvEdMN
+         O/1YKdGO8Bxtd+9jGVFPbmUwguTiuge/vQ0UauxErgbhPxPhKhDEaC6itkF3NMiJamGn
+         ZNQJGQSRpP7L//Vsi8if0F+EHKCtmXTYs3/zKxJY69r6qIDwycjPB45B2tf0UnXLH3/i
+         jjiA==
+X-Gm-Message-State: AC+VfDxqVlQkueTg5Qxs4vV1aK8r0yJqY4frPbQLXTERgm4tPUsuKkmX
+        KymuKFr/9h1g24qN2WKPj8XEF3aR+aZp5fTusd0=
+X-Google-Smtp-Source: ACHHUZ7Vsn3Anj6mP2QaI4Qq50jdI1PMMkNhHYR4SnlhoFhmDZ6byO7UP7PKxiZi4wAEDY66lRfjKnnrkTBGQ913Gs4=
+X-Received: by 2002:a05:6808:116:b0:38d:ed4a:52f4 with SMTP id
+ b22-20020a056808011600b0038ded4a52f4mr6442335oie.14.1682960311714; Mon, 01
+ May 2023 09:58:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230427175340.1280952-1-robdclark@gmail.com> <20230427175340.1280952-9-robdclark@gmail.com>
+ <135ff649-e50c-50f4-55ba-a1b615865e02@linux.intel.com>
+In-Reply-To: <135ff649-e50c-50f4-55ba-a1b615865e02@linux.intel.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Mon, 1 May 2023 09:58:20 -0700
+Message-ID: <CAF6AEGvKnPgtna4yjN56mMjCLqpjs8B8K152VWxmPs1NdY78vA@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] drm/fdinfo: Add comm/cmdline override fields
+To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
+On Fri, Apr 28, 2023 at 4:05=E2=80=AFAM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 27/04/2023 18:53, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > These are useful in particular for VM scenarios where the process which
+> > has opened to drm device file is just a proxy for the real user in a VM
+> > guest.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   Documentation/gpu/drm-usage-stats.rst | 18 ++++++++++++++++++
+> >   drivers/gpu/drm/drm_file.c            | 15 +++++++++++++++
+> >   include/drm/drm_file.h                | 19 +++++++++++++++++++
+> >   3 files changed, 52 insertions(+)
+> >
+> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/=
+drm-usage-stats.rst
+> > index 58dc0d3f8c58..e4877cf8089c 100644
+> > --- a/Documentation/gpu/drm-usage-stats.rst
+> > +++ b/Documentation/gpu/drm-usage-stats.rst
+> > @@ -73,6 +73,24 @@ scope of each device, in which case `drm-pdev` shall=
+ be present as well.
+> >   Userspace should make sure to not double account any usage statistics=
+ by using
+> >   the above described criteria in order to associate data to individual=
+ clients.
+> >
+> > +- drm-comm-override: <valstr>
+> > +
+> > +Returns the client executable override string.  Some drivers support l=
+etting
+> > +userspace override this in cases where the userspace is simply a "prox=
+y".
+> > +Such as is the case with virglrenderer drm native context, where the h=
+ost
+> > +process is just forwarding command submission, etc, from guest userspa=
+ce.
+> > +This allows the proxy to make visible the executable name of the actua=
+l
+> > +app in the VM guest.
+> > +
+> > +- drm-cmdline-override: <valstr>
+> > +
+> > +Returns the client cmdline override string.  Some drivers support lett=
+ing
+> > +userspace override this in cases where the userspace is simply a "prox=
+y".
+> > +Such as is the case with virglrenderer drm native context, where the h=
+ost
+> > +process is just forwarding command submission, etc, from guest userspa=
+ce.
+> > +This allows the proxy to make visible the cmdline of the actual app in=
+ the
+> > +VM guest.
+>
+> Perhaps it would be okay to save space here by not repeating the
+> description, like:
+>
+> drm-comm-override: <valstr>
+> drm-cmdline-override: <valstr>
+>
+> Long description blah blah...
+> This allows the proxy to make visible the _executable name *and* command
+> line_ blah blah..
+>
+> > +
+> >   Utilization
+> >   ^^^^^^^^^^^
+> >
+> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > index 9321eb0bf020..d7514c313af1 100644
+> > --- a/drivers/gpu/drm/drm_file.c
+> > +++ b/drivers/gpu/drm/drm_file.c
+> > @@ -178,6 +178,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *m=
+inor)
+> >       spin_lock_init(&file->master_lookup_lock);
+> >       mutex_init(&file->event_read_lock);
+> >
+> > +     mutex_init(&file->override_lock);
+> > +
+> >       if (drm_core_check_feature(dev, DRIVER_GEM))
+> >               drm_gem_open(dev, file);
+> >
+> > @@ -292,6 +294,8 @@ void drm_file_free(struct drm_file *file)
+> >       WARN_ON(!list_empty(&file->event_list));
+> >
+> >       put_pid(file->pid);
+> > +     kfree(file->override_comm);
+> > +     kfree(file->override_cmdline);
+> >       kfree(file);
+> >   }
+> >
+> > @@ -995,6 +999,17 @@ void drm_show_fdinfo(struct seq_file *m, struct fi=
+le *f)
+> >                          PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
+> >       }
+> >
+> > +     mutex_lock(&file->override_lock);
+>
+> You could add a fast unlocked check before taking the mutex for no risk
+> apart a transient false negative. For 99.9999% of userspace it would
+> mean no pointless lock/unlock cycle.
 
-The new code & libraries added are being maintained - mark them as such.
+I'm not sure I get your point?  This needs to be serialized against
+userspace setting the override values
 
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- MAINTAINERS | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+>
+> > +     if (file->override_comm) {
+> > +             drm_printf(&p, "drm-comm-override:\t%s\n",
+> > +                        file->override_comm);
+> > +     }
+> > +     if (file->override_cmdline) {
+> > +             drm_printf(&p, "drm-cmdline-override:\t%s\n",
+> > +                        file->override_cmdline);
+> > +     }
+> > +     mutex_unlock(&file->override_lock);
+> > +
+> >       if (dev->driver->show_fdinfo)
+> >               dev->driver->show_fdinfo(&p, file);
+> >   }
+> > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > index 1339e925af52..604d05fa6f0c 100644
+> > --- a/include/drm/drm_file.h
+> > +++ b/include/drm/drm_file.h
+> > @@ -370,6 +370,25 @@ struct drm_file {
+> >        */
+> >       struct drm_prime_file_private prime;
+> >
+> > +     /**
+> > +      * @comm: Overridden task comm
+> > +      *
+> > +      * Accessed under override_lock
+> > +      */
+> > +     char *override_comm;
+> > +
+> > +     /**
+> > +      * @cmdline: Overridden task cmdline
+> > +      *
+> > +      * Accessed under override_lock
+> > +      */
+> > +     char *override_cmdline;
+> > +
+> > +     /**
+> > +      * @override_lock: Serialize access to override_comm and override=
+_cmdline
+> > +      */
+> > +     struct mutex override_lock;
+> > +
+>
+> I don't think this should go to drm just yet though. Only one driver can
+> make use of it so I'd leave it for later and print from msm_show_fdinfo
+> for now.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3889d1adf71f..6f3b79266204 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5116,6 +5116,13 @@ S:	Supported
- F:	Documentation/process/code-of-conduct-interpretation.rst
- F:	Documentation/process/code-of-conduct.rst
- 
-+CODE TAGGING
-+M:	Suren Baghdasaryan <surenb@google.com>
-+M:	Kent Overstreet <kent.overstreet@linux.dev>
-+S:	Maintained
-+F:	include/linux/codetag.h
-+F:	lib/codetag.c
-+
- COMEDI DRIVERS
- M:	Ian Abbott <abbotti@mev.co.uk>
- M:	H Hartley Sweeten <hsweeten@visionengravers.com>
-@@ -11658,6 +11665,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
- F:	drivers/video/backlight/ktz8866.c
- 
-+LAZY PERCPU COUNTERS
-+M:	Kent Overstreet <kent.overstreet@linux.dev>
-+S:	Maintained
-+F:	include/linux/lazy-percpu-counter.h
-+F:	lib/lazy-percpu-counter.c
-+
- L3MDEV
- M:	David Ahern <dsahern@kernel.org>
- L:	netdev@vger.kernel.org
-@@ -13468,6 +13481,15 @@ F:	mm/memblock.c
- F:	mm/mm_init.c
- F:	tools/testing/memblock/
- 
-+MEMORY ALLOCATION PROFILING
-+M:	Suren Baghdasaryan <surenb@google.com>
-+M:	Kent Overstreet <kent.overstreet@linux.dev>
-+S:	Maintained
-+F:	include/linux/alloc_tag.h
-+F:	include/linux/codetag_ctx.h
-+F:	lib/alloc_tag.c
-+F:	lib/pgalloc_tag.c
-+
- MEMORY CONTROLLER DRIVERS
- M:	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
- L:	linux-kernel@vger.kernel.org
--- 
-2.40.1.495.gc816e09b53d-goog
+This was my original approach but danvet asked that it be moved into
+drm for consistency across drivers.  (And really, I want the in-flight
+amd and intel native-context stuff to motivate adding similar features
+to amdgpu/i915/xe.)
 
+BR,
+-R
+
+> Regards,
+>
+> Tvrtko
+>
+> >       /* private: */
+> >   #if IS_ENABLED(CONFIG_DRM_LEGACY)
+> >       unsigned long lock_count; /* DRI1 legacy lock count */
