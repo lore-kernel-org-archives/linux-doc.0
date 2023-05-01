@@ -2,81 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FBEC77B73
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Apr 2023 23:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE24C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 02:09:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbjD3XUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Apr 2023 19:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50610 "EHLO
+        id S230235AbjEACJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Apr 2023 22:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjD3XU3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 19:20:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9ABF1B9;
-        Sun, 30 Apr 2023 16:20:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6658360EAB;
-        Sun, 30 Apr 2023 23:20:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67117C433D2;
-        Sun, 30 Apr 2023 23:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682896826;
-        bh=Wby4jXsEn2wWUqVyugy9IuYPaC6jAOlmbTtdvi9V4vI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KT6OpYn9ZbW4V75+jRcBMPQCEF9gho+yjl3y9zBcpb8rhVvamCL8DZF4Ouhci2ZFh
-         sJ496HtpJtXz5rJ0eGRiqtLpPntMZowuseux1dgTETN5LziyOFLNlnzPrUuBbLz24M
-         y+YcMYlgnEDKQwGFf2UyjPvy9EV3CPqoKj1wnEbe7JwNiBrtQFYHJVHy0MdnHwXcrw
-         Y7wlMrCMnfs/ykwyfYaQCUaISqvuIXSgWCwuGnrNz75x440+YwSpGPetoGN26wu+sz
-         PSyBDfIPxk7D3mp0w3NzL29GfDDmuXIguWhk9vWzVbt6fbBPSSzD41r09ib9kZZUK3
-         lia+vPYT/644Q==
-Date:   Mon, 1 May 2023 00:20:21 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>, linux-doc@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs: redirect from old arch to the new one
-Message-ID: <20230501002021.44800b38@sal.lan>
-In-Reply-To: <87r0s4b0pe.fsf@meer.lwn.net>
-References: <20230427101241.1273752-1-costa.shul@redhat.com>
-        <20230428132415.0d0f5a03@sal.lan>
-        <87r0s4b0pe.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+        with ESMTP id S229531AbjEACJs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Apr 2023 22:09:48 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93607E48;
+        Sun, 30 Apr 2023 19:09:47 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-63b733fd00bso1474742b3a.0;
+        Sun, 30 Apr 2023 19:09:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682906987; x=1685498987;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5Eyk0PLYhUbjWE4n42jdym7EnheKNlKKYg75uVcYf1E=;
+        b=ej2DORolgq6APTgaWGF1rTxecNFSAGY5zNWHqwVAspQ+BEOHZDJl9TcpsOppeV1lAq
+         0NUUH7Q+8cV6fMf4exeSQFzbHTefqWRHGfI4I3pS5D5G1B+eAW3KHLMnTY8bRBiH2ksU
+         ICcFD4USx3vGd6v3ZKhIPPB1hbPTuyYL0JGin8RwiDqupEd/m0INjonmUH8Udg4KZdmM
+         7GNUjQTo614dgYHJyj7Ir67CVRNezwK/NGzh/FdvrLHIkGf/o7N7v28oCEBTDI1Gsqti
+         KaWgnbSf6nc1iaFsCd9ZiEB+Mr7zxsQw/xKFyAD/kGm9m+6fhsyENX8wl97fnsCOVCGP
+         P3PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682906987; x=1685498987;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Eyk0PLYhUbjWE4n42jdym7EnheKNlKKYg75uVcYf1E=;
+        b=AtDjeH8ceShkKC1dZoYIwHmP5kqnmT0OenPx1M4s78omQeojXH01SLcWT5IeoZJObj
+         vo6DiSCCslkpXL2ET4i5JZV6gV8HoO1liYVigu5ZCYjxUoUfiayCA/80GqHUv6FsELJf
+         ntsIb1lnI4jidtQky57PQFj1+z9HZESP96KY3FbEHQag7HNKWfBuvC+w1KW+Pxc4YyIK
+         9pzrStj7Aglh0rZu4Iz/tz/TmsvA12ZvpMCdM2/iGPy0TtG3u2j04rmIK2JFB4sKWtsA
+         0DdAsOl70u5YeyJeSs2t8btXn/sLgV+vACn4a60EbjGriGQLDTJe6LJeJH/zuZ5JbO9O
+         Ezfw==
+X-Gm-Message-State: AC+VfDwrLO+Iv6Lz8T8WV44vty6rEB9AgKFrlZQ07fIJT3xdT9hXnKYF
+        Q9EPxTk/7nOSOytITy1Z1QU=
+X-Google-Smtp-Source: ACHHUZ69nIYLcyx16E+QD4v/GxJx1YWnJb6Yvw3BH6GzJZBaGWcw5IirZSSt9zK4kdUWwtnp2goVqg==
+X-Received: by 2002:a05:6a20:7f97:b0:f3:67da:9db5 with SMTP id d23-20020a056a207f9700b000f367da9db5mr16782949pzj.38.1682906986948;
+        Sun, 30 Apr 2023 19:09:46 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-13.three.co.id. [180.214.232.13])
+        by smtp.gmail.com with ESMTPSA id w132-20020a62828a000000b00639eb4480f3sm18879586pfd.76.2023.04.30.19.09.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 30 Apr 2023 19:09:46 -0700 (PDT)
+Message-ID: <87275ef5-11bd-0574-5178-ad6119f3fa33@gmail.com>
+Date:   Mon, 1 May 2023 09:09:38 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 4/4] riscv: Enable perf counters user access only through
+ perf
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230413161725.195417-1-alexghiti@rivosinc.com>
+ <20230413161725.195417-5-alexghiti@rivosinc.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230413161725.195417-5-alexghiti@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 28 Apr 2023 07:22:53 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On 4/13/23 23:17, Alexandre Ghiti wrote:
+> +The default value is 2, it enables the legacy mode, that is user space has
+> +direct access to cycle, time and insret CSRs only.
+>  
 
-> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
-> 
-> > Again, as this is something that only applies to websites hosting
-> > documentation, IMO the best would be to have a separate file
-> > ("conf_redirects.py") included on conf.py, that will be
-> > auto-generated by a script that would receive, as input, the
-> > initial Kernel version where redirects should be preserved.  
-> 
-> ...but again...I think we should observe an actual problem before we
-> start adding any of this.  Otherwise we'll just end up carrying a bunch
-> of cruft indefinitely.
+"The default value is 2, which enables legacy mode (user space has direct
+access to cycle, time, and insret CSRs only)."
 
-Agreed. Just saying that, if this is a real problem, a custom conf.py
-would be the best approach. 
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Btw, if I'm not mistaken, our building system already allows it via:
-
-	make SPHINX_CONF=conf-redirects.py htmldocs
-
-I suspect that it would be possible to add redirects extension and
-its parameters on it, if someone ever needs it. No need to carry
-such stuff at the Kernel upstream, as this would very likely limited
-to some web sites that would be interested on keeping links to
-old documentation's location.
-
-Regards,
-Mauro
