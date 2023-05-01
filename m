@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC49BC77B7C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 17:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AF9AC7EE26
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 17:00:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233186AbjEARAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 13:00:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59610 "EHLO
+        id S233195AbjEARAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 13:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232356AbjEAQ7D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 12:59:03 -0400
+        with ESMTP id S232871AbjEAQ7i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 12:59:38 -0400
 Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AA630FD
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 09:56:17 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b922aa3725fso5385666276.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 09:56:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 349A13593
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 09:56:23 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b9a8075bd7cso4837246276.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 09:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682960160; x=1685552160;
+        d=google.com; s=20221208; t=1682960167; x=1685552167;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3JQAU/dBFDp2j3prOKpx9pu61B2aRzHMn5ijo1mj0wk=;
-        b=Nr4QXyj/etzJlAh8i4e3XnDFrHrok+4KAhChzrGdGYpNpzqnTzNz+b7TDzIFPvjVWJ
-         9m6bX+drGU9A6fH4AYp0HUvbrb0fCoSPBmCg7BeIb7knPz8EfEfG9cPbzcBJ5VX+RXOe
-         xKxhA1OiVlh84AEwzHBh+cMUHvzUPF37NpWH9RACZgYBnn9nhrwQ+ZtD6LOD5aF3vQAg
-         h9QGbAMavYpJls9fxf3kDm4J6+Qn0mT0BuRWWAvY6omxOHY3anv02SbqbukFuexGdvmI
-         uLtak6s/1IGom0RtuY8qFrrhQXG4Ym0F7I61Qiqk5+0EJAXYPW/dDKZJd/GArGchifG6
-         ytrA==
+        bh=YfoToyHVT1LJlGJVQ6MuRV3hbhaLXh5d5qfc4HkIPik=;
+        b=Db2dTvDWbMM6MtFyLXOOyG+p1K651ww8uL+kJDohPMMG6EWYrhfJFGluhHEW0wqXl5
+         UKPrByNQ1Z4QXnisfDyfKX7dbeY+3mxaMGuFVRBjDUr3JiqQISt6WeUr2I6JPah8BGyR
+         FjdvJFEuIXgNlkkoVLLQxMPMSKPuyrjPesVcRR9te3ugJsI7tT+EXrko3AZ8ov2CcY8R
+         JR28aghvPN6+RkIPURXyrGkWco+xEzOLoyotOADRZq9o/XJ68RcgnDEgHpMVXMMei422
+         +DGh+VKx3LXxPBgO4eeggvJc6/61DcK7Fvg52O8gRCKPK/nk5YYM+Q4LDqT5D1RFb4LF
+         rBwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682960160; x=1685552160;
+        d=1e100.net; s=20221208; t=1682960167; x=1685552167;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3JQAU/dBFDp2j3prOKpx9pu61B2aRzHMn5ijo1mj0wk=;
-        b=ZJgMNrjv2fwgyyT4ragznVdwW2+3joPEi2G2RY+OIChX2p2/FPyNi0mzmfTM9FvIZs
-         rXOsba+7QKhF2y9oLVkMOKFhGrY+SWdt1cyVFWN/LgoksJ5GW3j4cCMg92PTmoRr9vgb
-         9SNnlIgDBURyQOtPM7eiOqHhA4uUYU4c/QRbRTQIoFs6mhQbs4EwiFpzfKFKg8Nu6bq2
-         Awf5ONLoQ092/mUuyw1jjQlm83janQtw/kRRO3nIKfuAFUxIjSskQm0IdXX+L4WIAopG
-         3GdGNeLLbU2g58H9MXscwyfU1pdljKtqPXW861WQvWjlo7ks1RbQU1LjYJ74G7an+tfV
-         xtyw==
-X-Gm-Message-State: AC+VfDysEt09EqdND6sPivNUvBhZ+psVGVZcPu8xU/y8rwcYkqzJFSQl
-        rmap9s1vmsGAaqB27VXgZqo0CShaBLI=
-X-Google-Smtp-Source: ACHHUZ5flxShenE/t9NPL/moLDuNx9TkwM/Lf/8wW54V2Eq3VJ/wRhfgfjc0frmw2aZZoQxo3iYMAN5xHBU=
+        bh=YfoToyHVT1LJlGJVQ6MuRV3hbhaLXh5d5qfc4HkIPik=;
+        b=GXHWTyNplRx7haM1nDPJjnRFJCarAoUwtBIY6AqGUWKQPsvD3bv+VbRqSQRcJLJABv
+         k6BrFdKrt4Ci+w6Ep6GyPioPrBYBZlCc3ka5rVocw8vhWaixxFungPf5YLJG+Us5gPQX
+         InkaRkxKbiHf0Rf/AzcKMN+lZuFwR1kqVP0Fk3wZlzrwlnoiLW+8iISwkl9W0p79UXjE
+         KbzgJeqiWV7ocfeZAxVgzDdE3u0Spo0dv8BgRqpO5e0iXhQF4339xtmWqZROkeB40AcP
+         Zi+8A9hSOQXKM6dFdwAjvIz5ybNTQEwwytnZyejmBcimDa37+WT/f3yakoVTFLxHp0Ew
+         cEWA==
+X-Gm-Message-State: AC+VfDwQjhz7ZQ4ENqYtgzoqLvXMdsgZl0VUpLHp0g4LJNVZ4Q+/GuNT
+        d5Ip0uWJSaCrJXsVGCr+skUDdEsooUk=
+X-Google-Smtp-Source: ACHHUZ40g7B5Nzrue3Inkynn2rCW8wBzh6gvt9xgi1/WmwP7LCTtOXWTAuDa8Mc648etXigh7Ci0w5kPSCE=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:6d24:3efd:facc:7ac4])
- (user=surenb job=sendgmr) by 2002:a25:2484:0:b0:b95:e649:34b6 with SMTP id
- k126-20020a252484000000b00b95e64934b6mr8454589ybk.1.1682960160542; Mon, 01
- May 2023 09:56:00 -0700 (PDT)
-Date:   Mon,  1 May 2023 09:54:33 -0700
+ (user=surenb job=sendgmr) by 2002:a25:c0ca:0:b0:b9a:7cd6:ba7a with SMTP id
+ c193-20020a25c0ca000000b00b9a7cd6ba7amr5449586ybf.12.1682960167516; Mon, 01
+ May 2023 09:56:07 -0700 (PDT)
+Date:   Mon,  1 May 2023 09:54:36 -0700
 In-Reply-To: <20230501165450.15352-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20230501165450.15352-1-surenb@google.com>
 X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-Message-ID: <20230501165450.15352-24-surenb@google.com>
-Subject: [PATCH 23/40] lib: add codetag reference into slabobj_ext
+Message-ID: <20230501165450.15352-27-surenb@google.com>
+Subject: [PATCH 26/40] mm/slub: Mark slab_free_freelist_hook() __always_inline
 From:   Suren Baghdasaryan <surenb@google.com>
 To:     akpm@linux-foundation.org
 Cc:     kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
@@ -87,62 +87,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To store code tag for every slab object, a codetag reference is embedded
-into slabobj_ext when CONFIG_MEM_ALLOC_PROFILING=y.
+From: Kent Overstreet <kent.overstreet@linux.dev>
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+It seems we need to be more forceful with the compiler on this one.
+
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/memcontrol.h | 5 +++++
- lib/Kconfig.debug          | 1 +
- mm/slab.h                  | 4 ++++
- 3 files changed, 10 insertions(+)
+ mm/slub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 5e2da63c525f..c7f21b15b540 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -1626,7 +1626,12 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_data_t *pgdat, int order,
-  * if MEMCG_DATA_OBJEXTS is set.
-  */
- struct slabobj_ext {
-+#ifdef CONFIG_MEMCG_KMEM
- 	struct obj_cgroup *objcg;
-+#endif
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	union codetag_ref ref;
-+#endif
- } __aligned(8);
+diff --git a/mm/slub.c b/mm/slub.c
+index 8f57fd086f69..9dd57b3384a1 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -1781,7 +1781,7 @@ static __always_inline bool slab_free_hook(struct kmem_cache *s,
+ 	return kasan_slab_free(s, x, init);
+ }
  
- static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_item idx)
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index d3aa5ee0bf0d..4157c2251b07 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -968,6 +968,7 @@ config MEM_ALLOC_PROFILING
- 	select CODE_TAGGING
- 	select LAZY_PERCPU_COUNTER
- 	select PAGE_EXTENSION
-+	select SLAB_OBJ_EXT
- 	help
- 	  Track allocation source code and record total allocation size
- 	  initiated at that code location. The mechanism can be used to track
-diff --git a/mm/slab.h b/mm/slab.h
-index bec202bdcfb8..f953e7c81e98 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -418,6 +418,10 @@ int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
- 
- static inline bool need_slab_obj_ext(void)
+-static inline bool slab_free_freelist_hook(struct kmem_cache *s,
++static __always_inline bool slab_free_freelist_hook(struct kmem_cache *s,
+ 					   void **head, void **tail,
+ 					   int *cnt)
  {
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	if (mem_alloc_profiling_enabled())
-+		return true;
-+#endif
- 	/*
- 	 * CONFIG_MEMCG_KMEM creates vector of obj_cgroup objects conditionally
- 	 * inside memcg_slab_post_alloc_hook. No other users for now.
 -- 
 2.40.1.495.gc816e09b53d-goog
 
