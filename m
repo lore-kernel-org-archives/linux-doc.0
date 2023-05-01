@@ -2,108 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1319C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 10:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B73C2C77B61
+	for <linux-doc@archiver.kernel.org>; Mon,  1 May 2023 10:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbjEAKQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 06:16:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51534 "EHLO
+        id S232268AbjEAK3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 06:29:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjEAKQl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 06:16:41 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC34AE6;
-        Mon,  1 May 2023 03:16:39 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-94f161ee14fso78145966b.0;
-        Mon, 01 May 2023 03:16:39 -0700 (PDT)
+        with ESMTP id S229537AbjEAK3g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 06:29:36 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D241B7
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 03:29:34 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-2f9b9aa9d75so1309925f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 03:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682936198; x=1685528198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=93TBlzDzoT1wtp8An/95IHkU2ENlETSYZYDB2GGro8w=;
-        b=sTjGdt9kxizaGq0cMEqXozsjwqpOak96bF/ispjSAjjx4TKex54FFHoU/aAjHUsfg6
-         6pVl8lftP6u6eVu70MR+0R2D22wu+YgwMBnRranzfrwhmUAl1f5MKxdqUMivO8avT4Fe
-         J419B8HhXlx5Gmazxy5Wd16J7qFfwYvarFpEXnPSy3JDndmi3LjdH/9uEFv23Io3d+3G
-         9/2E++rzy5Q+mQNp7KOB1Lfriig1kocdJ7G9S8V/0QZdCbu/OJJloGXeMaAKr+gdIHTC
-         9toKT170vXKOMzu8kpTz9gz60c9lyPxabrdBXojpy1q6g6P6WAOJzkRd/ekRX7Z/IGZu
-         Sayw==
+        d=fireburn-co-uk.20221208.gappssmtp.com; s=20221208; t=1682936973; x=1685528973;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rWWgbJng3QlsGMyIJqreh5oaPIaSgIU51OJYfzdQOEs=;
+        b=Parphb/6pDkmvdzTHfBkKhRuyFB2PBQ7wnTzGkzoiSyHwidlGuqZhQOYEpzt2Dnwzq
+         MAWgBgYPIkEwtzFC2PgDixd0LijCGaD4BwAAkynUl674eKsVSKKOY8EADXToyaK4EWn0
+         W3mUyEcbedVNbYazYflgDeAhnmsJHq9d/WJDDwjQWBYvZz5F5yiTdmVcZJgOVMTAO1CU
+         NUI40aeRyGsjAPjF+C2W9G0I4nlAmPyWBNRYB4fDfiHuv4QyzDxPeNqjMIswoApQV1YB
+         jH+OUvE71SF4/dMeMeCVOtbS/bbJzzPE1O+kpIAkFcvaPaiN8J9HB+Eqyk7KeHpz4xA2
+         tHGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682936198; x=1685528198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=93TBlzDzoT1wtp8An/95IHkU2ENlETSYZYDB2GGro8w=;
-        b=EDrUSEx4MIOtKS8Lwz05HZsTKUlmxr3TSIo5yX3mNhUKGSu5ErZEsuRWiirUIsBhAw
-         b6bVDWZpwYg56vBvlLzp1kNGT44T298KeHWiIH65aE+DgZ6e2it3Y1CS7z8OsZ6LtWCS
-         oGUFSbf+laJLvaSHIn+DwNWbJc7KJhPdKALdR/noYBDoGg0kz7V+3t06FDD3cVgJNgl4
-         +zEy5vTp7VcbxUyaN9VsMe8jp5PZn6FKlnHrIRIzBdOA5v1P16/NtD+a2tEbJHCLPbZO
-         OcsFj7q2LdRqHHHXniA1envhwCNHn5gm8iGSgnz5akv5lXipgJsufl5hNgVfxJuVLt/5
-         O7Fg==
-X-Gm-Message-State: AC+VfDw6qyxv9RV0LXhnol/kB8zmdiAq/T5cr9jvoHGhPH2DIXNkZ9hD
-        bmLGubgBQG45nfoiynBC8I0=
-X-Google-Smtp-Source: ACHHUZ5JCVLg6Vd1xQS7WcqurRX9+ZHoyD7a601rkTEbwcCPZpjAT/5x0iwRqtZAY7lHlu7F9o6owA==
-X-Received: by 2002:a17:906:5352:b0:94f:4ec3:f0e7 with SMTP id j18-20020a170906535200b0094f4ec3f0e7mr11395200ejo.2.1682936198106;
-        Mon, 01 May 2023 03:16:38 -0700 (PDT)
-Received: from ivan-B550MH.. ([37.252.94.55])
-        by smtp.gmail.com with ESMTPSA id gq18-20020a170906e25200b0094eeda0df09sm14749458ejb.179.2023.05.01.03.16.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 03:16:37 -0700 (PDT)
-From:   Ivan Orlov <ivan.orlov0322@gmail.com>
-To:     perex@perex.cz, tiwai@suse.com, corbet@lwn.net
-Cc:     Ivan Orlov <ivan.orlov0322@gmail.com>, alsa-devel@alsa-project.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org, himadrispandya@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] ALSA: docs: Extend module parameters description
-Date:   Mon,  1 May 2023 14:16:34 +0400
-Message-Id: <20230501101634.476297-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1682936973; x=1685528973;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rWWgbJng3QlsGMyIJqreh5oaPIaSgIU51OJYfzdQOEs=;
+        b=hVQqqvJXQ536B8vNBaIFoaBne3WvESVeLxIZOLCK5UVC/okhPm0zlnC2RQCMP4KZve
+         +ay8m4xhAvxgbblkLW2l3HOhd2167+OzfwkQsuvvY7jyLfvEAH+O5GMamL2YgGu8cnQv
+         BVlZZZcITqJrvRjZ63gOHAijFJ2m+8LmuqPk0qeAIWBOzr6c4sib5Ifg4yhRhyVk2io1
+         nnckSjXcaWJ3Jaxe0GyshYhedb0LUu6G29vKuL5/0V0rAk6rZEVFn7d1DtAqe+Tr5LyD
+         eCchtZDhEk1NNg8tsFhEcUcVXlESU5v9xRnuQ4INMXtpuPtqknlD9Hep4puwEs5k2F1b
+         qMtQ==
+X-Gm-Message-State: AC+VfDw1g4lL3rsAeKH1s+bFbck8llaWMo1W+j9ESjWS7yWQRTBPk//b
+        prvDmq7ZnWYaj+YAYpFlWg32NAPU0R6tAvZxPYGhxA==
+X-Google-Smtp-Source: ACHHUZ4/5DlSz4ZKMdiwfULaU9Jzfkp7OiWVIIfSpb+pzBRWZYW11FoDM126mfYFtjemcBUjFPagMttEJCEYqwgNt1I=
+X-Received: by 2002:a5d:5703:0:b0:306:2c01:4f08 with SMTP id
+ a3-20020a5d5703000000b003062c014f08mr2844543wrv.21.1682936972778; Mon, 01 May
+ 2023 03:29:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+ <CAHbf0-HwQhFsYW8cp0t9660877b9tTxZBego7VSfx0ayAwKePQ@mail.gmail.com> <20230428110735.4348511d@meshulam.tesarici.cz>
+In-Reply-To: <20230428110735.4348511d@meshulam.tesarici.cz>
+From:   Mike Lothian <mike@fireburn.co.uk>
+Date:   Mon, 1 May 2023 11:29:21 +0100
+Message-ID: <CAHbf0-HnctoNN3AQoCeCfd-d7ppKBhWJHD+EbfmbfeTkbS1jqg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce buffers
+To:     =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Ondrej Zary <linux@zary.sk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Petr Tesarik <petr.tesarik.ext@huawei.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Won Chung <wonchung@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Common ALSA module parameters look a little bit confusing because of the
-description lacking, and it took me a while to understand the purpose of
-their existence. To figure it out I asked the question about them to the
-"alsa-devel" mailing list, and Takashi Iwai answered me with the text I
-appended to the ALSA documentation in this patch.
+Hi
 
-These common module parameters aren't used a lot nowadays, but as I
-understand they are important for providing compatibility with some
-existing user-space apps. So in my opinion it is a good idea to document
-why we need them.
+I've not had any issues since using this, but I imagine most people
+won't know how to set swiotlb=3Ddynamic if they start seeing this (when
+it lands)
 
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
- Documentation/sound/alsa-configuration.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Any clue as to why this broke last cycle?
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index af71c68f1e4e..829c672d9fe6 100644
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -133,6 +133,19 @@ enable
-     enable card;
-     Default: enabled, for PCI and ISA PnP cards
- 
-+These options are used for either specifying the order of instances or
-+controlling enabling and disabling of each one of the devices if there
-+are multiple devices bound with the same driver. For example, there are
-+many machines which have two HD-audio controllers (one for HDMI/DP
-+audio and another for onboard analog). In most cases, the second one is
-+in primary usage, and people would like to assign it as the first
-+appearing card. They can do it by specifying "index=1,0" module
-+parameter, which will swap the assignment slots.
-+
-+Today, with the sound backend like PulseAudio and PipeWire which
-+supports dynamic configuration, it's of little use, but that was a
-+help for static configuration in the past.
-+
- Module snd-adlib
- ----------------
- 
--- 
-2.34.1
+Thanks
 
+Mike
+
+On Fri, 28 Apr 2023 at 10:07, Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wro=
+te:
+>
+> On Fri, 28 Apr 2023 09:53:38 +0100
+> Mike Lothian <mike@fireburn.co.uk> wrote:
+>
+> > On Wed, 19 Apr 2023 at 11:05, Petr Tesarik <petrtesarik@huaweicloud.com=
+> wrote:
+> > >
+> > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > >
+> > > The goal of my work is to provide more flexibility in the sizing of
+> > > SWIOTLB.
+> > >
+> > > The software IO TLB was designed with these assumptions:
+> > >
+> > > 1. It would not be used much, especially on 64-bit systems.
+> > > 2. A small fixed memory area (64 MiB by default) is sufficient to
+> > >    handle the few cases which require a bounce buffer.
+> > > 3. 64 MiB is little enough that it has no impact on the rest of the
+> > >    system.
+> > >
+> > > First, if SEV is active, all DMA must be done through shared
+> > > unencrypted pages, and SWIOTLB is used to make this happen without
+> > > changing device drivers. The software IO TLB size is increased to
+> > > 6% of total memory in sev_setup_arch(), but that is more of an
+> > > approximation. The actual requirements may vary depending on the
+> > > amount of I/O and which drivers are used. These factors may not be
+> > > know at boot time, i.e. when SWIOTLB is allocated.
+> > >
+> > > Second, other colleagues have noticed that they can reliably get
+> > > rid of occasional OOM kills on an Arm embedded device by reducing
+> > > the SWIOTLB size. This can be achieved with a kernel parameter, but
+> > > determining the right value puts additional burden on pre-release
+> > > testing, which could be avoided if SWIOTLB is allocated small and
+> > > grows only when necessary.
+> > >
+> > > Changes from v1-devel-v7:
+> > > - Add comments to acquire/release barriers
+> > > - Fix whitespace issues reported by checkpatch.pl
+> > >
+> > > Changes from v1-devel-v6:
+> > > - Provide long description of functions
+> > > - Fix kernel-doc (Returns: to Return:)
+> > > - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
+> > >
+> > > Changes from RFC:
+> > > - Track dynamic buffers per device instead of per swiotlb
+> > > - Use a linked list instead of a maple tree
+> > > - Move initialization of swiotlb fields of struct device to a
+> > >   helper function
+> > > - Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
+> > > - Introduce per-device flag if dynamic buffers are in use
+> > > - Add one more user of DMA_ATTR_MAY_SLEEP
+> > > - Add kernel-doc comments for new (and some old) code
+> > > - Properly escape '*' in dma-attributes.rst
+> > >
+> > > Petr Tesarik (7):
+> > >   swiotlb: Use a helper to initialize swiotlb fields in struct device
+> > >   swiotlb: Move code around in preparation for dynamic bounce buffers
+> > >   dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
+> > >   swiotlb: Dynamically allocated bounce buffers
+> > >   swiotlb: Add a boot option to enable dynamic bounce buffers
+> > >   drm: Use DMA_ATTR_MAY_SLEEP from process context
+> > >   swiotlb: per-device flag if there are dynamically allocated buffers
+> > >
+> > >  .../admin-guide/kernel-parameters.txt         |   6 +-
+> > >  Documentation/core-api/dma-attributes.rst     |  10 +
+> > >  drivers/base/core.c                           |   4 +-
+> > >  drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
+> > >  drivers/gpu/drm/drm_prime.c                   |   2 +-
+> > >  include/linux/device.h                        |  12 +
+> > >  include/linux/dma-mapping.h                   |   6 +
+> > >  include/linux/swiotlb.h                       |  54 ++-
+> > >  kernel/dma/swiotlb.c                          | 382 ++++++++++++++++=
+--
+> > >  9 files changed, 443 insertions(+), 35 deletions(-)
+> > >
+> > > --
+> > > 2.25.1
+> > >
+> >
+> > Hi
+> >
+> > Is this a potential fix for
+> > https://bugzilla.kernel.org/show_bug.cgi?id=3D217310 where I'm manually
+> > setting bigger buffers to keep my wifi working?
+>
+> Yes. With these patches applied, your system should run just fine with
+> swiotlb=3Ddynamic. However, keep in mind that this implementation adds a
+> bit of overhead. In short, it trades a bit of performance for not
+> having to figure out the optimal swiotlb size at boot time.
+>
+> Petr T
