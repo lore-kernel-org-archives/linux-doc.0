@@ -2,80 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F12C77B7E
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 10:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2799EC77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 10:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232094AbjEBKGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 06:06:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
+        id S233001AbjEBKfK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 06:35:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbjEBKGs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 06:06:48 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F4B44EC0
-        for <linux-doc@vger.kernel.org>; Tue,  2 May 2023 03:06:46 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:f07a:92a2:297:162b])
-        by laurent.telenet-ops.be with bizsmtp
-        id rm6k2900E5FQxRj01m6k0e; Tue, 02 May 2023 12:06:45 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ptmu8-000ykv-GQ;
-        Tue, 02 May 2023 12:06:44 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ptmuC-00AtHh-Ez;
-        Tue, 02 May 2023 12:06:44 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Daniel Latypov <dlatypov@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] Documentation: kunit: Modular tests should not depend on KUNIT=y
-Date:   Tue,  2 May 2023 12:06:38 +0200
-Message-Id: <b403478fc67715f955b8ff40c5c99ba7cc966063.1683021926.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S233642AbjEBKe3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 06:34:29 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70765B9E;
+        Tue,  2 May 2023 03:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683023603; x=1714559603;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JjmFOFCQElte7wpPb4geFbfte6KiNN1TzHhEdZpVTvs=;
+  b=kBaGDRTEojPR7ZTSNsm4+PRkYkBZbGkITIuaVyQkSVxDsIp9ua+Vg89c
+   GIaG49S3K0k3IFqYTvIv7cjP8BaReebb1ezUbWh7jTNq8FuKNwwrqK1SX
+   JAgpwqQac/EE0pcsj+H4CT8VBH/EG5BeAIWiMf57jftjrZlZTlx+CldrR
+   ejY3R6/bSDbcWdcv3xiqNsmGTKorsEC9NkRYfYunALG4O/47Jog85a2aJ
+   kHRvd/9R1KQ8rrus5TazDAZXa7DFHWEEip6032RrnfOUZfOrZjbE+12/L
+   S7MbQQ0hM/U8q3JiyChgjck8YlQllTIvKDPwTWLLOekq9v3oogae6ZDnV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="413805464"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
+   d="scan'208";a="413805464"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 03:33:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="726702165"
+X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
+   d="scan'208";a="726702165"
+Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 02 May 2023 03:33:21 -0700
+Received: from kbuild by e3434d64424d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ptnJx-0000zQ-0O;
+        Tue, 02 May 2023 10:33:21 +0000
+Date:   Tue, 2 May 2023 18:33:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org
+Subject: htmldocs:
+ Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3997: WARNING:
+ Literal block expected; none found.
+Message-ID: <202305021822.4U6XOvGf-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When the documentation was updated for modular tests, the dependency on
-"KUNIT=y" was forgotten to be updated, now encouraging people to create
-tests that cannot be enabled when the KUNIT framework itself is modular.
-Fix this by changing the dependency to "KUNIT".
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   865fdb08197e657c59e74a35fa32362b12397f58
+commit: 4d421eebe1465d94b95867dd025385dc3d661f9b ALSA: docs: writing-an-alsa-driver.rst: polishing
+date:   11 days ago
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4d421eebe1465d94b95867dd025385dc3d661f9b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4d421eebe1465d94b95867dd025385dc3d661f9b
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Document when it is appropriate (and required) to depend on "KUNIT=y".
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305021822.4U6XOvGf-lkp@intel.com/
 
-Fixes: c9ef2d3e3f3b3e56 ("KUnit: Docs: make start.rst example Kconfig follow style.rst")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/dev-tools/kunit/start.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-index c736613c9b199bff..9619a044093042ce 100644
---- a/Documentation/dev-tools/kunit/start.rst
-+++ b/Documentation/dev-tools/kunit/start.rst
-@@ -256,9 +256,12 @@ Now we are ready to write the test cases.
- 
- 	config MISC_EXAMPLE_TEST
- 		tristate "Test for my example" if !KUNIT_ALL_TESTS
--		depends on MISC_EXAMPLE && KUNIT=y
-+		depends on MISC_EXAMPLE && KUNIT
- 		default KUNIT_ALL_TESTS
- 
-+Note: If your test does not support being built as a loadable module (which is
-+discouraged), replace tristate by bool, and depend on KUNIT=y instead of KUNIT.
-+
- 3. Add the following lines to ``drivers/misc/Makefile``:
- 
- .. code-block:: make
+>> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3997: WARNING: Literal block expected; none found.
+>> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4009: WARNING: Unexpected indentation.
+
+vim +3997 Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3994  
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  3995     Suppose you have a file xyz.c. Add the following two lines::
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3996  
+7ddedebb03b7ec Takashi Iwai       2016-09-29 @3997    snd-xyz-objs := xyz.o
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3998    obj-$(CONFIG_SND_XYZ) += snd-xyz.o
+7ddedebb03b7ec Takashi Iwai       2016-09-29  3999  
+7ddedebb03b7ec Takashi Iwai       2016-09-29  4000  2. Create the Kconfig entry
+7ddedebb03b7ec Takashi Iwai       2016-09-29  4001  
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4002     Add the new entry of Kconfig for your xyz driver::
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4003  
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4004    config SND_XYZ
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4005      tristate "Foobar XYZ"
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4006      depends on SND
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4007      select SND_PCM
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4008      help
+4d421eebe1465d Oswald Buddenhagen 2023-04-21 @4009        Say Y here to include support for Foobar XYZ soundcard.
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4010        To compile this driver as a module, choose M here:
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4011        the module will be called snd-xyz.
+4d421eebe1465d Oswald Buddenhagen 2023-04-21  4012  
+
+:::::: The code at line 3997 was first introduced by commit
+:::::: 7ddedebb03b7ec030c528ebacdd43e45373476e3 ALSA: doc: ReSTize writing-an-alsa-driver document
+
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
