@@ -2,71 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD426C7EE22
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 16:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D990C77B7E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 16:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233747AbjEBQvA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 12:51:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38532 "EHLO
+        id S233578AbjEBQyu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 12:54:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234062AbjEBQu7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 12:50:59 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 852B11BF6;
-        Tue,  2 May 2023 09:50:57 -0700 (PDT)
+        with ESMTP id S234423AbjEBQys (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 12:54:48 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89143268F;
+        Tue,  2 May 2023 09:54:30 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 23E7544A;
-        Tue,  2 May 2023 16:50:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 23E7544A
+        by ms.lwn.net (Postfix) with ESMTPSA id 16C4131A;
+        Tue,  2 May 2023 16:54:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 16C4131A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1683046256; bh=tCSPNCpvcve/k22DjTIu5RayNrviaTp6n/wonrqJyFE=;
+        t=1683046470; bh=18zSXR3CgMMgMvGwsfV4DF/jTisqSwmkNE64YkGLoLQ=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=KFC7nX7EUzpQhIRdzVOT4yaswRMhBNZeg+5E5j2cTeFanFqNpSUN1RXa67M6eVdeF
-         W3DZ5+53H5a/s8DERYYwemZT+C0sN9C7YrzxVlBLiASDHh5dXBrzKWUi10NpmhuI6E
-         y8oU7sPjMHmm20WTIcX1axVqlpbK/4NVuTJgstcEJl6Skik0LGyHR83hmUBdanjrSo
-         o5bAGgtzzU7cgd4hVWKz8vowAFRC173aMcHmZHFVY8uR858ojIds6NKtc36TqefISw
-         dmL3Rw2us9Al/Vj+Dp8G2N9nApE8GLtvddEIqFZZlCpMTnWN0NW1UVoGt726/G8hS6
-         xs/yaYFMQuwOQ==
+        b=U3FLVD+pBY/o5T9Qrc+EoRTuqUSRxPSb3D/OI/qa5vLJU3DN3UGmxiUUtyPKqq9g+
+         lYOAHzyvV2F3iuBtOyRfpNWfR2ju6WB/lhRhC5aa0y3S1KOo5rYwBWtP4FuWH/A0Ms
+         GsPeUeMHzxfjwik+z83CHdwVIm3N6shA8jAFYMy0L98t/RSnQXXWzd9bJq53epTUXR
+         vdKL/TCkS1xR3sfbpTMmegtF8bo/Oi29HTRPV2Zk8Hi6CZyAd8uxuNr4ah54Nm9yw8
+         op0UEvACmN9YwcbSYuV3O8DJl6Z+op3mfZNMrLFt0oapneBuQHS5i5groemp1Q4ejF
+         IphRJq0oJMkqg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        John Stultz <jstultz@google.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] Documentation: timers: hrtimers: Make hybrid union
- historical
-In-Reply-To: <87v8ha4tvh.ffs@tglx>
-References: <59250a3d1c2c827b5c1833169a6e652ca6a784e6.1683021785.git.geert+renesas@glider.be>
- <87v8ha4tvh.ffs@tglx>
-Date:   Tue, 02 May 2023 10:50:55 -0600
-Message-ID: <874jou8yog.fsf@meer.lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Deming Wang <wangdeming@inspur.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shibata@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs/ja_JP/SubmittingPatches: fix typo of Reviewd
+In-Reply-To: <64790637-279a-a1ca-292b-f9f1fac69f14@gmail.com>
+References: <20230502010157.1655-1-wangdeming@inspur.com>
+ <64790637-279a-a1ca-292b-f9f1fac69f14@gmail.com>
+Date:   Tue, 02 May 2023 10:54:29 -0600
+Message-ID: <87zg6m7jy2.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thomas Gleixner <tglx@linutronix.de> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> On Tue, May 02 2023 at 12:05, Geert Uytterhoeven wrote:
+> Anyway, Jon might just pick this one with his edit of changelog.
 >
->> Non-scalar time was removed from the ktime hybrid union in v3.17, and
->> the union itself followed suit in v4.10.
->>
->> Make it clear that ktime_t is always a 64bit scalar type, to avoid
->> confusing the casual reader.
->>
->> While at it, fix a spelling mistake.
->>
->> Fixes: 24e4a8c3e8868874 ("ktime: Kill non-scalar ktime_t implementation for 2038")
->> Fixes: 2456e855354415bf ("ktime: Get rid of the union")
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> So (again),
 >
-> Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
 
-Applied, thanks.
+I've done exactly that, thanks.
 
 jon
