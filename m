@@ -2,84 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E902C77B7C
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 00:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BF3C77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 01:02:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232991AbjEBAxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 20:53:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48748 "EHLO
+        id S233001AbjEBBC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 21:02:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232654AbjEBAxv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 20:53:51 -0400
-Received: from out-61.mta1.migadu.com (out-61.mta1.migadu.com [IPv6:2001:41d0:203:375::3d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F37B93A8F
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 17:53:49 -0700 (PDT)
-Date:   Mon, 1 May 2023 20:53:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1682988827;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HE6/29tmaJsag6zI8A6kmxQ69S3GfTZnUjmZGEHLawo=;
-        b=ci4cChjLz5Nx1p0M1HRMt5So3sz9KA0GgxxfJ3Xwor6CW087TfNJ7iQTl4/3c0JNtoSbDN
-        lpQ8ZWLAifEJkjQ0tAmFUrtzJU1c3/fVq5bvHHW3PTJu3ar2FleeqU5hFkYQxLtn/8ayrd
-        /Rktc0wIh6rpWmQBBJpcnipz4wb3Wbs=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-        mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-        roman.gushchin@linux.dev, mgorman@suse.de, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
-        Andy Shevchenko <andy@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Noralf =?utf-8?B?VHLDr8K/wr1ubmVz?= <noralf@tronnes.org>
-Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in
- string_get_size's output
-Message-ID: <ZFBfD96zDCh2RcVN@moria.home.lan>
-References: <20230501165450.15352-1-surenb@google.com>
- <20230501165450.15352-2-surenb@google.com>
- <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
- <ZFAUj+Q+hP7cWs4w@moria.home.lan>
- <CAHp75VeJ_a6j3uweLN5-woSQUtN5u36c2gkoiXhnJa1HXJdoyQ@mail.gmail.com>
+        with ESMTP id S231608AbjEBBC0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 21:02:26 -0400
+Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B06523A9C;
+        Mon,  1 May 2023 18:02:22 -0700 (PDT)
+Received: from ssh248.corpemail.net
+        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id XWE00114;
+        Tue, 02 May 2023 09:02:14 +0800
+Received: from localhost.localdomain (10.200.104.82) by
+ jtjnmail201619.home.langchao.com (10.100.2.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 2 May 2023 09:02:17 +0800
+From:   Deming Wang <wangdeming@inspur.com>
+To:     <corbet@lwn.net>, <fujimotokosuke0@gmail.com>,
+        <shibata@linuxfoundation.org>
+CC:     <akiyks@gmail.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Deming Wang <wangdeming@inspur.com>
+Subject: [PATCH] docs/ja_JP/SubmittingPatches: fix typo of Reviewd
+Date:   Mon, 1 May 2023 21:01:57 -0400
+Message-ID: <20230502010157.1655-1-wangdeming@inspur.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VeJ_a6j3uweLN5-woSQUtN5u36c2gkoiXhnJa1HXJdoyQ@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.200.104.82]
+X-ClientProxiedBy: Jtjnmail201618.home.langchao.com (10.100.2.18) To
+ jtjnmail201619.home.langchao.com (10.100.2.19)
+tUid:   2023502090214ecbadf59a02977aac4af6e63c57dbaa5
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 01, 2023 at 10:57:07PM +0300, Andy Shevchenko wrote:
-> But why do we need that? What's the use case?
+We should use the Reviewed replace the Reviewd.
 
-It looks like we missed you on the initial CC, here's the use case:
-https://lore.kernel.org/linux-fsdevel/ZFAsm0XTqC%2F%2Ff4FP@P9FQF9L96D/T/#mdda814a8c569e2214baa31320912b0ef83432fa9
+Signed-off-by: Deming Wang <wangdeming@inspur.com>
+---
+ Documentation/translations/ja_JP/SubmittingPatches | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
+index 04deb77b20c6..5334db471744 100644
+--- a/Documentation/translations/ja_JP/SubmittingPatches
++++ b/Documentation/translations/ja_JP/SubmittingPatches
+@@ -450,7 +450,7 @@ Reviewed-by: タグは、それとは異なり、下記のレビューア宣言
+             状況においてその宣言した目的や機能が正しく実現することに関して、
+             いかなる保証もしない(特にどこかで明示しない限り)。
+ 
+-Reviewd-by タグはそのパッチがカーネルに対して適切な修正であって、深刻な技術的
++Reviewed-by タグはそのパッチがカーネルに対して適切な修正であって、深刻な技術的
+ 問題を残していないという意見の宣言です。興味のあるレビューアは誰でも(レビュー
+ 作業を終えたら)パッチに対して Reviewed-by タグを提示できます。このタグは
+ レビューアの寄与をクレジットする働き、レビューの進捗の度合いをメンテナに
+-- 
+2.27.0
+
