@@ -2,148 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9CEC77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 11:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA94EC77B7E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 11:43:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233644AbjEBLZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 07:25:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39622 "EHLO
+        id S233537AbjEBLnL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 07:43:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233158AbjEBLZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 07:25:58 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F558100;
-        Tue,  2 May 2023 04:25:24 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-5286344e1d4so3331754a12.3;
-        Tue, 02 May 2023 04:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683026708; x=1685618708;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+7ReMNdnROs/Fh8JrLZGt15/0ISu5r890dI+IDPkSo=;
-        b=nVSTUXTp708ovqdxJ7PlaLUG8coc1+sI98n7oe1tLEJq5P4aX3dqLgu/HG4kLSPv4P
-         VyxPfyXzhzi9TiGruAkLlLy+TX71FTFbneCYb4s4u22XgP6qrgNMY3CAKFVw2X7EfeDP
-         6uWq3jlYM5CfnK4KzQs+M6/I1VR6llOk5dImu8+tMLRBdn+bhPifG3M8QK9Gty6vcUG6
-         ENykAGheoQurnGZwHLI3ZbQQo2Rg3QfL8/u9TGusciYsryT1r3ZLpMCyEglHY65fMwvb
-         HoyizLO6fPonNtRmcahPEkSG9TSTceKC/FufmWsQH+X9kaiaXqNanm1GWlTMD6hCOjID
-         7esg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683026708; x=1685618708;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5+7ReMNdnROs/Fh8JrLZGt15/0ISu5r890dI+IDPkSo=;
-        b=POp2oCnqAQGjZOnKASahyVWLjsWQsiSqL4P9OrJ+q47QNBebnA8suu9BuFYhFq1t5D
-         EM+eYmoT6E+EjEBJZhepsvJVWxuGulJAirCvTG7SSzjCUpu9h7637AG+mal1yIHTnRar
-         Y4eK/mnrd20KAEXQa6aDhGUH6Baunk81kMZzIVndNPgciL3+DwTTh0L51/GMJYxSQV4s
-         qrlRN4MZ0YgvMw6Ng5nbb7K+0/p5pVPkDRwdx7VBBZYE79hMhIEjAlY9ppCfq+jHPg7Q
-         eMAondl/5fMC9estVl1vuOuUZ3cAW+/8lKuUD0joIEsU0cKKJTfXw6UxEdBzlXImONwH
-         JgTQ==
-X-Gm-Message-State: AC+VfDwFSroglc28Avk4/k2D0KqO1vvGiuADS6mgFOiBgU0UhdUx4ISd
-        uh8SI+U5P1/6XY5N3PSuf/VQyrsTYDvqRg==
-X-Google-Smtp-Source: ACHHUZ7mpkh5ODjxKBcwTlpkc1Xeiu3oirFBlWTpTtu9Stq/9nXPentJn5HrEpfVgRuEY3GIlvu06w==
-X-Received: by 2002:a17:90b:4c8d:b0:246:61ae:2fbb with SMTP id my13-20020a17090b4c8d00b0024661ae2fbbmr18306648pjb.41.1683026708455;
-        Tue, 02 May 2023 04:25:08 -0700 (PDT)
-Received: from Dommie-Laptop.. (111-248-114-205.dynamic-ip.hinet.net. [111.248.114.205])
-        by smtp.gmail.com with ESMTPSA id jh19-20020a170903329300b001a239325f1csm19590017plb.100.2023.05.02.04.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 04:25:08 -0700 (PDT)
-From:   Yan-Jie Wang <yanjiewtw@gmail.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Avi Kivity <avi@redhat.com>,
-        Yan-Jie Wang <yanjiewtw@gmail.com>,
-        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>, trivial@kernel.org,
-        kvm@vger.kernel.org
-Subject: [PATCH] docs: clarify KVM related kernel parameters' descriptions
-Date:   Tue,  2 May 2023 19:25:02 +0800
-Message-Id: <20230502112502.14859-1-yanjiewtw@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S233618AbjEBLnL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 07:43:11 -0400
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15FBB2123;
+        Tue,  2 May 2023 04:43:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1683027787;
+        bh=VIXlwaAodrWp8Vhxz+WDa3KoUpXUVVhKJac+yTw3JPY=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=Jhl+sztrOwEDjtwmne5HQU6aXLKSFxkGsV+GqvMXCULQnVptmMOy46lcJn8TJD2nV
+         Cz4FiICRD0fpyV2EVDrJ/+oCA0F64UjfFbcIL0QFb5f/iutLKwDLAAC08nsVf2C0sW
+         PW2yXp5dIH6OPPlm4jB3q1u314n26v1FRt3YM0EM=
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 5D7531285DD9;
+        Tue,  2 May 2023 07:43:07 -0400 (EDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id WKKGlZO_O65L; Tue,  2 May 2023 07:43:07 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1683027787;
+        bh=VIXlwaAodrWp8Vhxz+WDa3KoUpXUVVhKJac+yTw3JPY=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=Jhl+sztrOwEDjtwmne5HQU6aXLKSFxkGsV+GqvMXCULQnVptmMOy46lcJn8TJD2nV
+         Cz4FiICRD0fpyV2EVDrJ/+oCA0F64UjfFbcIL0QFb5f/iutLKwDLAAC08nsVf2C0sW
+         PW2yXp5dIH6OPPlm4jB3q1u314n26v1FRt3YM0EM=
+Received: from [IPv6:2601:5c4:4302:c21::a774] (unknown [IPv6:2601:5c4:4302:c21::a774])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 32CE21285C64;
+        Tue,  2 May 2023 07:43:01 -0400 (EDT)
+Message-ID: <2f5ebe8a9ce8471906a85ef092c1e50cfd7ddecd.camel@HansenPartnership.com>
+Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in
+ string_get_size's output
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Kent Overstreet <kent.overstreet@linux.dev>
+Cc:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+        mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+        roman.gushchin@linux.dev, mgorman@suse.de, willy@infradead.org,
+        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
+        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, peterx@redhat.com, david@redhat.com,
+        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+        pasha.tatashin@soleen.com, yosryahmed@google.com,
+        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
+        andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
+        Andy Shevchenko <andy@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Noralf =?ISO-8859-1?Q?Tr=EF=BF=BDnnes?= <noralf@tronnes.org>
+Date:   Tue, 02 May 2023 07:42:59 -0400
+In-Reply-To: <ZFCA2FF+9MI8LI5i@moria.home.lan>
+References: <20230501165450.15352-1-surenb@google.com>
+         <20230501165450.15352-2-surenb@google.com>
+         <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
+         <ZFAUj+Q+hP7cWs4w@moria.home.lan>
+         <b6b472b65b76e95bb4c7fc7eac1ee296fdbb64fd.camel@HansenPartnership.com>
+         <ZFCA2FF+9MI8LI5i@moria.home.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The descriptions of certain KVM related kernel parameters can be
-ambiguous and confusing. They state 'Disable ...,' which implies that
-setting them to 1 would disable the associated features or options,
-when in fact the opposite is true.
+On Mon, 2023-05-01 at 23:17 -0400, Kent Overstreet wrote:
+> On Mon, May 01, 2023 at 10:22:18PM -0400, James Bottomley wrote:
+> > It is not used just for debug.  It's used all over the kernel for
+> > printing out device sizes.  The output mostly goes to the kernel
+> > print buffer, so it's anyone's guess as to what, if any, tools are
+> > parsing it, but the concern about breaking log parsers seems to be
+> > a valid one.
+> 
+> Ok, there is sd_print_capacity() - but who in their right mind would
+> be trying to scrape device sizes, in human readable units,
 
-This commit addresses this issue by revising the descriptions of these
-parameters to make their intended behavior clear.
+If you bother to google "kernel log parser", you'll discover it's quite
+an active area which supports a load of company business models.
 
-Signed-off-by: Yan-Jie Wang <yanjiewtw@gmail.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+>  from log messages when it's available in sysfs/procfs (actually, is
+> it in sysfs? if not, that's an oversight) in more reasonable units?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9e5bab29685f..cc5abb3d54b9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2552,10 +2552,10 @@
- 			on the ratio, such that a page is zapped after 1 hour on average.
- 
- 	kvm-amd.nested=	[KVM,AMD] Allow nested virtualization in KVM/SVM.
--			Default is 1 (enabled)
-+			Default is 1 (allow)
- 
--	kvm-amd.npt=	[KVM,AMD] Disable nested paging (virtualized MMU)
--			for all guests.
-+	kvm-amd.npt=	[KVM,AMD] Enable nested paging (virtualized MMU)
-+			for all guests on capable AMD chips.
- 			Default is 1 (enabled) if in 64-bit or 32-bit PAE mode.
- 
- 	kvm-arm.mode=
-@@ -2602,12 +2602,12 @@
- 			Format: <integer>
- 			Default: 5
- 
--	kvm-intel.ept=	[KVM,Intel] Disable extended page tables
-+	kvm-intel.ept=	[KVM,Intel] Enable extended page tables
- 			(virtualized MMU) support on capable Intel chips.
- 			Default is 1 (enabled)
- 
- 	kvm-intel.emulate_invalid_guest_state=
--			[KVM,Intel] Disable emulation of invalid guest state.
-+			[KVM,Intel] Enable emulation of invalid guest state.
- 			Ignored if kvm-intel.enable_unrestricted_guest=1, as
- 			guest state is never invalid for unrestricted guests.
- 			This param doesn't apply to nested guests (L2), as KVM
-@@ -2615,7 +2615,7 @@
- 			Default is 1 (enabled)
- 
- 	kvm-intel.flexpriority=
--			[KVM,Intel] Disable FlexPriority feature (TPR shadow).
-+			[KVM,Intel] Enable FlexPriority feature (TPR shadow).
- 			Default is 1 (enabled)
- 
- 	kvm-intel.nested=
-@@ -2623,7 +2623,7 @@
- 			Default is 0 (disabled)
- 
- 	kvm-intel.unrestricted_guest=
--			[KVM,Intel] Disable unrestricted guest feature
-+			[KVM,Intel] Enable unrestricted guest feature
- 			(virtualized real and unpaged mode) on capable
- 			Intel chips. Default is 1 (enabled)
- 
-@@ -2639,7 +2639,7 @@
- 
- 			Default is cond (do L1 cache flush in specific instances)
- 
--	kvm-intel.vpid=	[KVM,Intel] Disable Virtual Processor Identification
-+	kvm-intel.vpid=	[KVM,Intel] Enable Virtual Processor Identification
- 			feature (tagged TLBs) on capable Intel chips.
- 			Default is 1 (enabled)
- 
+It's not in sysfs, no.  As aren't a lot of things, which is why log
+parsing for system monitoring is big business.
 
-base-commit: 865fdb08197e657c59e74a35fa32362b12397f58
--- 
-2.34.1
+> Correct me if I'm wrong, but I've yet to hear about kernel log
+> messages being consider a stable interface, and this seems a bit out
+> there.
+
+It might not be listed as stable, but when it's known there's a large
+ecosystem out there consuming it we shouldn't break it just because you
+feel like it.  You should have a good reason and the break should be
+unavoidable.  I wanted my output in a particular form so I thought I'd
+change everyone else's output as well isn't a good reason and it only
+costs a couple of lines to avoid.
+
+> But, you did write the code :)
+> 
+> > > If someone raises a specific objection we'll do something
+> > > different, otherwise I think standardizing on what userspace
+> > > tooling already parses is a good idea.
+> > 
+> > If you want to omit the space, why not simply add your own
+> > variant?  A string_get_size_nospace() which would use most of the
+> > body of this one as a helper function but give its own snprintf
+> > format string at the end.  It's only a couple of lines longer as a
+> > patch and has the bonus that it definitely wouldn't break anything
+> > by altering an existing output.
+> 
+> I'm happy to do that - I just wanted to post this version first to
+> see if we can avoid the fragmentation and do a bit of standardizing
+> with how everything else seems to do that.
+
+What fragmentation?  To do this properly you move the whole of the
+current function to a helper which takes a format sting, say with a
+double underscore prefix, then the existing function and what you want
+become one line additions calling the helper with their specific format
+string.  There's no fragmentation of the base function at all.
+
+James
+
 
