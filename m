@@ -2,111 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2799EC77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 10:35:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9CEC77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 11:26:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233001AbjEBKfK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 06:35:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38102 "EHLO
+        id S233644AbjEBLZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 07:25:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233642AbjEBKe3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 06:34:29 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70765B9E;
-        Tue,  2 May 2023 03:33:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683023603; x=1714559603;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JjmFOFCQElte7wpPb4geFbfte6KiNN1TzHhEdZpVTvs=;
-  b=kBaGDRTEojPR7ZTSNsm4+PRkYkBZbGkITIuaVyQkSVxDsIp9ua+Vg89c
-   GIaG49S3K0k3IFqYTvIv7cjP8BaReebb1ezUbWh7jTNq8FuKNwwrqK1SX
-   JAgpwqQac/EE0pcsj+H4CT8VBH/EG5BeAIWiMf57jftjrZlZTlx+CldrR
-   ejY3R6/bSDbcWdcv3xiqNsmGTKorsEC9NkRYfYunALG4O/47Jog85a2aJ
-   kHRvd/9R1KQ8rrus5TazDAZXa7DFHWEEip6032RrnfOUZfOrZjbE+12/L
-   S7MbQQ0hM/U8q3JiyChgjck8YlQllTIvKDPwTWLLOekq9v3oogae6ZDnV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="413805464"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="413805464"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 03:33:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="726702165"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="726702165"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 May 2023 03:33:21 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ptnJx-0000zQ-0O;
-        Tue, 02 May 2023 10:33:21 +0000
-Date:   Tue, 2 May 2023 18:33:15 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org
-Subject: htmldocs:
- Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3997: WARNING:
- Literal block expected; none found.
-Message-ID: <202305021822.4U6XOvGf-lkp@intel.com>
+        with ESMTP id S233158AbjEBLZ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 07:25:58 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F558100;
+        Tue,  2 May 2023 04:25:24 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-5286344e1d4so3331754a12.3;
+        Tue, 02 May 2023 04:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683026708; x=1685618708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5+7ReMNdnROs/Fh8JrLZGt15/0ISu5r890dI+IDPkSo=;
+        b=nVSTUXTp708ovqdxJ7PlaLUG8coc1+sI98n7oe1tLEJq5P4aX3dqLgu/HG4kLSPv4P
+         VyxPfyXzhzi9TiGruAkLlLy+TX71FTFbneCYb4s4u22XgP6qrgNMY3CAKFVw2X7EfeDP
+         6uWq3jlYM5CfnK4KzQs+M6/I1VR6llOk5dImu8+tMLRBdn+bhPifG3M8QK9Gty6vcUG6
+         ENykAGheoQurnGZwHLI3ZbQQo2Rg3QfL8/u9TGusciYsryT1r3ZLpMCyEglHY65fMwvb
+         HoyizLO6fPonNtRmcahPEkSG9TSTceKC/FufmWsQH+X9kaiaXqNanm1GWlTMD6hCOjID
+         7esg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683026708; x=1685618708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5+7ReMNdnROs/Fh8JrLZGt15/0ISu5r890dI+IDPkSo=;
+        b=POp2oCnqAQGjZOnKASahyVWLjsWQsiSqL4P9OrJ+q47QNBebnA8suu9BuFYhFq1t5D
+         EM+eYmoT6E+EjEBJZhepsvJVWxuGulJAirCvTG7SSzjCUpu9h7637AG+mal1yIHTnRar
+         Y4eK/mnrd20KAEXQa6aDhGUH6Baunk81kMZzIVndNPgciL3+DwTTh0L51/GMJYxSQV4s
+         qrlRN4MZ0YgvMw6Ng5nbb7K+0/p5pVPkDRwdx7VBBZYE79hMhIEjAlY9ppCfq+jHPg7Q
+         eMAondl/5fMC9estVl1vuOuUZ3cAW+/8lKuUD0joIEsU0cKKJTfXw6UxEdBzlXImONwH
+         JgTQ==
+X-Gm-Message-State: AC+VfDwFSroglc28Avk4/k2D0KqO1vvGiuADS6mgFOiBgU0UhdUx4ISd
+        uh8SI+U5P1/6XY5N3PSuf/VQyrsTYDvqRg==
+X-Google-Smtp-Source: ACHHUZ7mpkh5ODjxKBcwTlpkc1Xeiu3oirFBlWTpTtu9Stq/9nXPentJn5HrEpfVgRuEY3GIlvu06w==
+X-Received: by 2002:a17:90b:4c8d:b0:246:61ae:2fbb with SMTP id my13-20020a17090b4c8d00b0024661ae2fbbmr18306648pjb.41.1683026708455;
+        Tue, 02 May 2023 04:25:08 -0700 (PDT)
+Received: from Dommie-Laptop.. (111-248-114-205.dynamic-ip.hinet.net. [111.248.114.205])
+        by smtp.gmail.com with ESMTPSA id jh19-20020a170903329300b001a239325f1csm19590017plb.100.2023.05.02.04.25.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 04:25:08 -0700 (PDT)
+From:   Yan-Jie Wang <yanjiewtw@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Avi Kivity <avi@redhat.com>,
+        Yan-Jie Wang <yanjiewtw@gmail.com>,
+        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>, trivial@kernel.org,
+        kvm@vger.kernel.org
+Subject: [PATCH] docs: clarify KVM related kernel parameters' descriptions
+Date:   Tue,  2 May 2023 19:25:02 +0800
+Message-Id: <20230502112502.14859-1-yanjiewtw@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   865fdb08197e657c59e74a35fa32362b12397f58
-commit: 4d421eebe1465d94b95867dd025385dc3d661f9b ALSA: docs: writing-an-alsa-driver.rst: polishing
-date:   11 days ago
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4d421eebe1465d94b95867dd025385dc3d661f9b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4d421eebe1465d94b95867dd025385dc3d661f9b
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+The descriptions of certain KVM related kernel parameters can be
+ambiguous and confusing. They state 'Disable ...,' which implies that
+setting them to 1 would disable the associated features or options,
+when in fact the opposite is true.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305021822.4U6XOvGf-lkp@intel.com/
+This commit addresses this issue by revising the descriptions of these
+parameters to make their intended behavior clear.
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Yan-Jie Wang <yanjiewtw@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
->> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3997: WARNING: Literal block expected; none found.
->> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4009: WARNING: Unexpected indentation.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9e5bab29685f..cc5abb3d54b9 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2552,10 +2552,10 @@
+ 			on the ratio, such that a page is zapped after 1 hour on average.
+ 
+ 	kvm-amd.nested=	[KVM,AMD] Allow nested virtualization in KVM/SVM.
+-			Default is 1 (enabled)
++			Default is 1 (allow)
+ 
+-	kvm-amd.npt=	[KVM,AMD] Disable nested paging (virtualized MMU)
+-			for all guests.
++	kvm-amd.npt=	[KVM,AMD] Enable nested paging (virtualized MMU)
++			for all guests on capable AMD chips.
+ 			Default is 1 (enabled) if in 64-bit or 32-bit PAE mode.
+ 
+ 	kvm-arm.mode=
+@@ -2602,12 +2602,12 @@
+ 			Format: <integer>
+ 			Default: 5
+ 
+-	kvm-intel.ept=	[KVM,Intel] Disable extended page tables
++	kvm-intel.ept=	[KVM,Intel] Enable extended page tables
+ 			(virtualized MMU) support on capable Intel chips.
+ 			Default is 1 (enabled)
+ 
+ 	kvm-intel.emulate_invalid_guest_state=
+-			[KVM,Intel] Disable emulation of invalid guest state.
++			[KVM,Intel] Enable emulation of invalid guest state.
+ 			Ignored if kvm-intel.enable_unrestricted_guest=1, as
+ 			guest state is never invalid for unrestricted guests.
+ 			This param doesn't apply to nested guests (L2), as KVM
+@@ -2615,7 +2615,7 @@
+ 			Default is 1 (enabled)
+ 
+ 	kvm-intel.flexpriority=
+-			[KVM,Intel] Disable FlexPriority feature (TPR shadow).
++			[KVM,Intel] Enable FlexPriority feature (TPR shadow).
+ 			Default is 1 (enabled)
+ 
+ 	kvm-intel.nested=
+@@ -2623,7 +2623,7 @@
+ 			Default is 0 (disabled)
+ 
+ 	kvm-intel.unrestricted_guest=
+-			[KVM,Intel] Disable unrestricted guest feature
++			[KVM,Intel] Enable unrestricted guest feature
+ 			(virtualized real and unpaged mode) on capable
+ 			Intel chips. Default is 1 (enabled)
+ 
+@@ -2639,7 +2639,7 @@
+ 
+ 			Default is cond (do L1 cache flush in specific instances)
+ 
+-	kvm-intel.vpid=	[KVM,Intel] Disable Virtual Processor Identification
++	kvm-intel.vpid=	[KVM,Intel] Enable Virtual Processor Identification
+ 			feature (tagged TLBs) on capable Intel chips.
+ 			Default is 1 (enabled)
+ 
 
-vim +3997 Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-
-7ddedebb03b7ec Takashi Iwai       2016-09-29  3994  
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  3995     Suppose you have a file xyz.c. Add the following two lines::
-7ddedebb03b7ec Takashi Iwai       2016-09-29  3996  
-7ddedebb03b7ec Takashi Iwai       2016-09-29 @3997    snd-xyz-objs := xyz.o
-7ddedebb03b7ec Takashi Iwai       2016-09-29  3998    obj-$(CONFIG_SND_XYZ) += snd-xyz.o
-7ddedebb03b7ec Takashi Iwai       2016-09-29  3999  
-7ddedebb03b7ec Takashi Iwai       2016-09-29  4000  2. Create the Kconfig entry
-7ddedebb03b7ec Takashi Iwai       2016-09-29  4001  
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4002     Add the new entry of Kconfig for your xyz driver::
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4003  
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4004    config SND_XYZ
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4005      tristate "Foobar XYZ"
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4006      depends on SND
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4007      select SND_PCM
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4008      help
-4d421eebe1465d Oswald Buddenhagen 2023-04-21 @4009        Say Y here to include support for Foobar XYZ soundcard.
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4010        To compile this driver as a module, choose M here:
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4011        the module will be called snd-xyz.
-4d421eebe1465d Oswald Buddenhagen 2023-04-21  4012  
-
-:::::: The code at line 3997 was first introduced by commit
-:::::: 7ddedebb03b7ec030c528ebacdd43e45373476e3 ALSA: doc: ReSTize writing-an-alsa-driver document
-
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
-
+base-commit: 865fdb08197e657c59e74a35fa32362b12397f58
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
