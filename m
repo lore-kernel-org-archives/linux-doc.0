@@ -2,90 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E757C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 17:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D87C77B7E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 18:01:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233167AbjEBRQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 13:16:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54394 "EHLO
+        id S233837AbjEBSBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 14:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234300AbjEBRQK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 13:16:10 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5008C10D5;
-        Tue,  2 May 2023 10:16:09 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229584AbjEBSBV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 14:01:21 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D161E83;
+        Tue,  2 May 2023 11:01:19 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BA0F844A;
-        Tue,  2 May 2023 17:16:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BA0F844A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1683047768; bh=HLjhLmEt6uZUUg5tiAvtcISQ613CriNHuNgTGoABfDY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VwxYl2gNXwlcMCTlCGtKRlYSwwcxCZ97K77RZxNTQgFZhIYIysmQxY9Z7Wd4niqlq
-         igK+TdvnFtAAeUQQEDkR6iydK4VT/USiw6gkrqqNBy6EgevgFjymiDRTeROkfE89ez
-         40cXM75Tou2hjNqZFhSBAxaiVakTobJhFc/fJVCMDfI02bPPiQAVhmBaI1fKiy9seI
-         1gge2tOzK4bXdlzuRoyyeftyqoHgyKy+ac1nnKBL1SRp6xdQbBkknWtNr3DIGa6kJT
-         SpcGTeP153GwSsis6FAf4AWlZeyJN/S21CRlcLepsNufLmn/ii6b48O58hRykjJg0a
-         //fDsQ/eymiRA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mauriciofb@gmail.com, Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH] docs/sp_SP: Add translation of process/adding-syscalls
-In-Reply-To: <fc88992d-dfda-0265-5199-d6cae3ba3260@amd.com>
-References: <20230315143526.1213813-1-carlos.bilbao@amd.com>
- <fc88992d-dfda-0265-5199-d6cae3ba3260@amd.com>
-Date:   Tue, 02 May 2023 11:16:07 -0600
-Message-ID: <87ilda7iy0.fsf@meer.lwn.net>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 344D9219DE;
+        Tue,  2 May 2023 18:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1683050478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+0f0hUbsvSFR9UE93IS6I2zL3LHIPpph9neOljoj1mE=;
+        b=D9fKqMwcb2qgqBv1yX/t/aA1+iNYzYkHC8ljzAS23401NpcT72tQ1UUPhm4T5mPjk9LeE+
+        FxS1WzcrgEP124Sgfj6zwUF1ZRXILfcmvYFjj+j2XPhHdmpSxxPdVltqCYcH9Phq3Z/J9A
+        KJ1Ekc6Yu3tQ+vei+SkgSkXSJTszLDA=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F0312134FB;
+        Tue,  2 May 2023 18:01:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id U2LJOe1PUWSWbgAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Tue, 02 May 2023 18:01:17 +0000
+Date:   Tue, 2 May 2023 20:01:16 +0200
+From:   Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>
+Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
+Message-ID: <jqkf7jkuyxqiupmxmdbmpnbpojub2pjsz3oogwncmwqdghlsgk@phsqzirmmlyl>
+References: <ZDdNy2NAfj2_1CbW@slm.duckdns.org>
+ <1b8d9128-d076-7d37-767d-11d6af314662@redhat.com>
+ <ZDdYOI9LB87ra2t_@slm.duckdns.org>
+ <9862da55-5f41-24c3-f3bb-4045ccf24b2e@redhat.com>
+ <226cb2da-e800-6531-4e57-cbf991022477@redhat.com>
+ <ZDmFLfII8EUX_ocY@slm.duckdns.org>
+ <c61ca9d0-c514-fb07-c2f2-3629e8898984@redhat.com>
+ <ZDmOjeBVsIcgSLIV@slm.duckdns.org>
+ <60ec12dc-943c-b8f0-8b6f-97c5d332144c@redhat.com>
+ <46d26abf-a725-b924-47fa-4419b20bbc02@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dk2c7how7kjjrmdw"
+Content-Disposition: inline
+In-Reply-To: <46d26abf-a725-b924-47fa-4419b20bbc02@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> Hello Jon,
->
-> I applied on top of my most recent docs-next version:
->
-> 0b656310bfc33c5e044df9cf6013df8280ec69cc ("docs/admin-guide/mm/ksm.rst fix
-> intraface -> interface typo")
->
-> and it worked, and make htmldocs too. Could you please tell me what errors
-> or warnings are you experiencing?
+--dk2c7how7kjjrmdw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-How did you try to apply it?  I get the dreaded:
+Hello.
 
-  Applying: docs/sp_SP: Add translation of process/adding-syscalls
-  error: patch failed: Documentation/translations/sp_SP/process/index.rst:18
-  error: Documentation/translations/sp_SP/process/index.rst: patch does not apply
-  Patch failed at 0001 docs/sp_SP: Add translation of process/adding-syscalls
+The previous thread arrived incomplete to me, so I respond to the last
+message only. Point me to a message URL if it was covered.
 
-The problem was this hunk:
+On Fri, Apr 14, 2023 at 03:06:27PM -0400, Waiman Long <longman@redhat.com> =
+wrote:
+> Below is a draft of the new cpuset.cpus.reserve cgroupfs file:
+>=20
+> =A0 cpuset.cpus.reserve
+> =A0=A0=A0=A0=A0=A0=A0 A read-write multiple values file which exists on a=
+ll
+> =A0=A0=A0=A0=A0=A0=A0 cpuset-enabled cgroups.
+>=20
+> =A0=A0=A0=A0=A0=A0=A0 It lists the reserved CPUs to be used for the creat=
+ion of
+> =A0=A0=A0=A0=A0=A0=A0 child partitions.=A0 See the section on "cpuset.cpu=
+s.partition"
+> =A0=A0=A0=A0=A0=A0=A0 below for more information on cpuset partition.=A0 =
+These reserved
+> =A0=A0=A0=A0=A0=A0=A0 CPUs should be a subset of "cpuset.cpus" and will b=
+e mutually
+> =A0=A0=A0=A0=A0=A0=A0 exclusive of "cpuset.cpus.effective" when used sinc=
+e these
+> =A0=A0=A0=A0=A0=A0=A0 reserved CPUs cannot be used by tasks in the curren=
+t cgroup.
+>=20
+> =A0=A0=A0=A0=A0=A0=A0 There are two modes for partition CPUs reservation -
+> =A0=A0=A0=A0=A0=A0=A0 auto or manual.=A0 The system starts up in auto mod=
+e where
+> =A0=A0=A0=A0=A0=A0=A0 "cpuset.cpus.reserve" will be set automatically whe=
+n valid
+> =A0=A0=A0=A0=A0=A0=A0 child partitions are created and users don't need t=
+o touch the
+> =A0=A0=A0=A0=A0=A0=A0 file at all.=A0 This mode has the limitation that t=
+he parent of a
+> =A0=A0=A0=A0=A0=A0=A0 partition must be a partition root itself.=A0 So ch=
+ild partition
+> =A0=A0=A0=A0=A0=A0=A0 has to be created one-by-one from the cgroup root d=
+own.
+>=20
+> =A0=A0=A0=A0=A0=A0=A0 To enable the creation of a partition down in the h=
+ierarchy
+> =A0=A0=A0=A0=A0=A0=A0 without the intermediate cgroups to be partition ro=
+ots,
 
-diff --git a/Documentation/translations/sp_SP/process/index.rst
-b/Documentation/translations/sp_SP/process/index.rst
-index 351bcd3921ba..a0ff2e132c54 100644
---- a/Documentation/translations/sp_SP/process/index.rst
-+++ b/Documentation/translations/sp_SP/process/index.rst
-@@ -18,3 +18,4 @@
-    email-clients
-    programming-language
-    deprecated
-+   adding-syscalls
+Why would be this needed? Owning a CPU (a resource) must logically be
+passed all the way from root to the target cgroup, i.e. this is
+expressed by valid partitioning down to given level.
 
-I have your addition of magic-number.rst applied, you seemingly did not
-when the patch was generated.
+>         one
+> =A0=A0=A0=A0=A0=A0=A0 has to turn on the manual reservation mode by writi=
+ng directly
+> =A0=A0=A0=A0=A0=A0=A0 to "cpuset.cpus.reserve" with a value different fro=
+m its
+> =A0=A0=A0=A0=A0=A0=A0 current value.=A0 By distributing the reserve CPUs =
+down the cgroup
+> =A0=A0=A0=A0=A0=A0=A0 hierarchy to the parent of the target cgroup, this =
+target cgroup
+> =A0=A0=A0=A0=A0=A0=A0 can be switched to become a partition root if its "=
+cpuset.cpus"
+> =A0=A0=A0=A0=A0=A0=A0 is a subset of the set of valid reserve CPUs in its=
+ parent.
 
-Figuring these things out takes time.  Next time something like this
-happens, can you just regenerate the patch against the current tree and
-resend?
+level n
+`- level n+1
+   cpuset.cpus	// these are actually configured by "owner" of level n
+   cpuset.cpus.partition // similrly here, level n decides if child is a pa=
+rtition
 
-Anyway, I've applied it.
+I.e. what would be level n/cpuset.cpus.reserve good for when it can
+directly control level n+1/cpuset.cpus?
 
 Thanks,
+Michal
 
-jon
+--dk2c7how7kjjrmdw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCZFFP6gAKCRAkDQmsBEOq
+uf5WAP0TD4xZbzbRrza4aMPH3HGxMt5QxQoqQyFnCnecSe4ThwEA80+zGnGxZQv9
+yMROHtPHn2tZGEg0+1iKitQk/7QCnA0=
+=hh88
+-----END PGP SIGNATURE-----
+
+--dk2c7how7kjjrmdw--
