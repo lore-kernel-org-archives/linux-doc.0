@@ -2,169 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8297C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 17:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E757C77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 17:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234138AbjEBRMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 13:12:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52122 "EHLO
+        id S233167AbjEBRQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 13:16:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233743AbjEBRMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 13:12:40 -0400
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5860C0
-        for <linux-doc@vger.kernel.org>; Tue,  2 May 2023 10:12:36 -0700 (PDT)
-Received: by mail-pg1-x549.google.com with SMTP id 41be03b00d2f7-51f10bda596so1824123a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 May 2023 10:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1683047556; x=1685639556;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQpsXa7PF6SfkNDRVYWe/pXw7LrZqwM+ndclXY8TsRA=;
-        b=C43MRsCeJjlHRny0ujP2/WrWk7SuBq+T0iec7sTyuUJCtuy2gOVBMk6xF+njks3r8b
-         iaHC8zvlhYdXVfFEIlS64AfFZlAUKc6V/+XV73g1rO1YWbs/QjNlnR8c8rbd9OZwbsav
-         ucmm0mYAIA7SDeYN87XmItw5hU1/H8cwITnbs9dhYLmJvTRVsHacVPu4GfjyC0sriUS3
-         Zmg0KEofgoQYlmUEer4zXwgoOD8bgHAGREE+tAkj2GsCjbCFvNxxyWSj1kYhtCl/kBhW
-         mrH8bwK5YOTLcXEfFBmIjwOCnYPUI9AtmywcgEtYj7PQ79gI0bzLCRNxRbMZosi3SgXQ
-         rO/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683047556; x=1685639556;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQpsXa7PF6SfkNDRVYWe/pXw7LrZqwM+ndclXY8TsRA=;
-        b=I4jrq/AUAna03ZQ6ZGc5ygoZAhoaeQQJmLY3usEMBQAjmyS+QNzAgzYsx1uZAlut22
-         mDa2qwVhFchCApJDfmWAGNbRSDkqbaBy0oqMewzToVSrlhSxtaT/F5cG+atdQ802Rnbp
-         Ij3mgW7YaHj0kpdzNeO6/+L8oxV9sn/05re5ETV+MChoVWHeRE8tYJR6DiXRPpUAfQzB
-         FJ+rrGe6ekp7zAG0nJXYtO9JgOIhH/Tx+imAc3lE8tfALhpBc2Y7T7EQIkkLLP/Lfs6h
-         ztXXHETRM60DdzlDeBl61SZXzhQ7lZ0IoTSfegmhlGH65rE+66Y5VM3qw68z0yYUnb7Y
-         Y7Og==
-X-Gm-Message-State: AC+VfDxSjg2+JXX3hc3auN1g3fHty+gmqP4UxiB6HpjMoNR53QAU/S2i
-        ynh0AjmT5Gzmledl2OzMys49KwBG5f8=
-X-Google-Smtp-Source: ACHHUZ6OGEbCDRyibiyEFmgXDoP74gBZmGkJmylBe5G97Pc5W9DviG/PDug9EqNO9adU8DJr2OhNI5d1W8M=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a63:8741:0:b0:513:e029:d172 with SMTP id
- i62-20020a638741000000b00513e029d172mr4555521pge.12.1683047556207; Tue, 02
- May 2023 10:12:36 -0700 (PDT)
-Date:   Tue, 2 May 2023 10:12:34 -0700
-In-Reply-To: <20230502112502.14859-1-yanjiewtw@gmail.com>
-Mime-Version: 1.0
-References: <20230502112502.14859-1-yanjiewtw@gmail.com>
-Message-ID: <ZFFEgptZg1P367F7@google.com>
-Subject: Re: [PATCH] docs: clarify KVM related kernel parameters' descriptions
-From:   Sean Christopherson <seanjc@google.com>
-To:     Yan-Jie Wang <yanjiewtw@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Avi Kivity <avi@redhat.com>,
-        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>, trivial@kernel.org,
-        kvm@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S234300AbjEBRQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 13:16:10 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5008C10D5;
+        Tue,  2 May 2023 10:16:09 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id BA0F844A;
+        Tue,  2 May 2023 17:16:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BA0F844A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1683047768; bh=HLjhLmEt6uZUUg5tiAvtcISQ613CriNHuNgTGoABfDY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=VwxYl2gNXwlcMCTlCGtKRlYSwwcxCZ97K77RZxNTQgFZhIYIysmQxY9Z7Wd4niqlq
+         igK+TdvnFtAAeUQQEDkR6iydK4VT/USiw6gkrqqNBy6EgevgFjymiDRTeROkfE89ez
+         40cXM75Tou2hjNqZFhSBAxaiVakTobJhFc/fJVCMDfI02bPPiQAVhmBaI1fKiy9seI
+         1gge2tOzK4bXdlzuRoyyeftyqoHgyKy+ac1nnKBL1SRp6xdQbBkknWtNr3DIGa6kJT
+         SpcGTeP153GwSsis6FAf4AWlZeyJN/S21CRlcLepsNufLmn/ii6b48O58hRykjJg0a
+         //fDsQ/eymiRA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mauriciofb@gmail.com, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs/sp_SP: Add translation of process/adding-syscalls
+In-Reply-To: <fc88992d-dfda-0265-5199-d6cae3ba3260@amd.com>
+References: <20230315143526.1213813-1-carlos.bilbao@amd.com>
+ <fc88992d-dfda-0265-5199-d6cae3ba3260@amd.com>
+Date:   Tue, 02 May 2023 11:16:07 -0600
+Message-ID: <87ilda7iy0.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 02, 2023, Yan-Jie Wang wrote:
-> The descriptions of certain KVM related kernel parameters can be
-> ambiguous and confusing. They state 'Disable ...,' which implies that
-> setting them to 1 would disable the associated features or options,
-> when in fact the opposite is true.
-> 
-> This commit addresses this issue by revising the descriptions of these
-> parameters to make their intended behavior clear.
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-Less wrong perhaps, but IMO the actual behavior is still not captured, and from
-a certain perspective the existing "Disable" verbiage better reflects how/when
-most users would actually want to explicitly set a param.
+> Hello Jon,
+>
+> I applied on top of my most recent docs-next version:
+>
+> 0b656310bfc33c5e044df9cf6013df8280ec69cc ("docs/admin-guide/mm/ksm.rst fix
+> intraface -> interface typo")
+>
+> and it worked, and make htmldocs too. Could you please tell me what errors
+> or warnings are you experiencing?
 
-Rather than commit one way or the other, what about reworking the descriptions
-using this as a template?  E.g. state that the param controls something, state
-the default and use that to communicate that 1==enabled, and then, when appropriate,
-clarify that KVM disables (or in some cases ignores) params if hardware doesn't
-support the related feature(s).
+How did you try to apply it?  I get the dreaded:
 
-	kvm-intel.ept=	[KVM,Intel] Control KVM's use of Extended Page Tables,
-			a.k.a. Two-Dimensional Page Tables.  Default is 1
-			(enabled).  Disabled by KVM if hardware lacks support
-			for EPT.
+  Applying: docs/sp_SP: Add translation of process/adding-syscalls
+  error: patch failed: Documentation/translations/sp_SP/process/index.rst:18
+  error: Documentation/translations/sp_SP/process/index.rst: patch does not apply
+  Patch failed at 0001 docs/sp_SP: Add translation of process/adding-syscalls
 
-> 
-> Signed-off-by: Yan-Jie Wang <yanjiewtw@gmail.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 9e5bab29685f..cc5abb3d54b9 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2552,10 +2552,10 @@
->  			on the ratio, such that a page is zapped after 1 hour on average.
->  
->  	kvm-amd.nested=	[KVM,AMD] Allow nested virtualization in KVM/SVM.
+The problem was this hunk:
 
-Eh, I don't see any reason to have this one say "allow" instead of "enable/disable".
+diff --git a/Documentation/translations/sp_SP/process/index.rst
+b/Documentation/translations/sp_SP/process/index.rst
+index 351bcd3921ba..a0ff2e132c54 100644
+--- a/Documentation/translations/sp_SP/process/index.rst
++++ b/Documentation/translations/sp_SP/process/index.rst
+@@ -18,3 +18,4 @@
+    email-clients
+    programming-language
+    deprecated
++   adding-syscalls
 
-> -			Default is 1 (enabled)
-> +			Default is 1 (allow)
->  
-> -	kvm-amd.npt=	[KVM,AMD] Disable nested paging (virtualized MMU)
-> -			for all guests.
-> +	kvm-amd.npt=	[KVM,AMD] Enable nested paging (virtualized MMU)
-> +			for all guests on capable AMD chips.
->  			Default is 1 (enabled) if in 64-bit or 32-bit PAE mode.
->  
->  	kvm-arm.mode=
-> @@ -2602,12 +2602,12 @@
->  			Format: <integer>
->  			Default: 5
->  
-> -	kvm-intel.ept=	[KVM,Intel] Disable extended page tables
-> +	kvm-intel.ept=	[KVM,Intel] Enable extended page tables
->  			(virtualized MMU) support on capable Intel chips.
->  			Default is 1 (enabled)
->  
->  	kvm-intel.emulate_invalid_guest_state=
-> -			[KVM,Intel] Disable emulation of invalid guest state.
-> +			[KVM,Intel] Enable emulation of invalid guest state.
->  			Ignored if kvm-intel.enable_unrestricted_guest=1, as
->  			guest state is never invalid for unrestricted guests.
->  			This param doesn't apply to nested guests (L2), as KVM
-> @@ -2615,7 +2615,7 @@
->  			Default is 1 (enabled)
->  
->  	kvm-intel.flexpriority=
-> -			[KVM,Intel] Disable FlexPriority feature (TPR shadow).
-> +			[KVM,Intel] Enable FlexPriority feature (TPR shadow).
->  			Default is 1 (enabled)
->  
->  	kvm-intel.nested=
-> @@ -2623,7 +2623,7 @@
->  			Default is 0 (disabled)
+I have your addition of magic-number.rst applied, you seemingly did not
+when the patch was generated.
 
-Heh, kvm-intel.nested has been enabled by default for quite some time.  Can you
-fix that up too?
+Figuring these things out takes time.  Next time something like this
+happens, can you just regenerate the patch against the current tree and
+resend?
 
->  
->  	kvm-intel.unrestricted_guest=
-> -			[KVM,Intel] Disable unrestricted guest feature
-> +			[KVM,Intel] Enable unrestricted guest feature
->  			(virtualized real and unpaged mode) on capable
->  			Intel chips. Default is 1 (enabled)
->  
-> @@ -2639,7 +2639,7 @@
->  
->  			Default is cond (do L1 cache flush in specific instances)
->  
-> -	kvm-intel.vpid=	[KVM,Intel] Disable Virtual Processor Identification
-> +	kvm-intel.vpid=	[KVM,Intel] Enable Virtual Processor Identification
->  			feature (tagged TLBs) on capable Intel chips.
->  			Default is 1 (enabled)
->  
-> 
-> base-commit: 865fdb08197e657c59e74a35fa32362b12397f58
-> -- 
-> 2.34.1
-> 
+Anyway, I've applied it.
+
+Thanks,
+
+jon
