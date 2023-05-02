@@ -2,69 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BF3C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 01:02:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB7EC77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 01:28:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233001AbjEBBC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 21:02:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50532 "EHLO
+        id S232827AbjEBB21 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 21:28:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231608AbjEBBC0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 21:02:26 -0400
-Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B06523A9C;
-        Mon,  1 May 2023 18:02:22 -0700 (PDT)
-Received: from ssh248.corpemail.net
-        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id XWE00114;
-        Tue, 02 May 2023 09:02:14 +0800
-Received: from localhost.localdomain (10.200.104.82) by
- jtjnmail201619.home.langchao.com (10.100.2.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 2 May 2023 09:02:17 +0800
-From:   Deming Wang <wangdeming@inspur.com>
-To:     <corbet@lwn.net>, <fujimotokosuke0@gmail.com>,
-        <shibata@linuxfoundation.org>
-CC:     <akiyks@gmail.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Deming Wang <wangdeming@inspur.com>
-Subject: [PATCH] docs/ja_JP/SubmittingPatches: fix typo of Reviewd
-Date:   Mon, 1 May 2023 21:01:57 -0400
-Message-ID: <20230502010157.1655-1-wangdeming@inspur.com>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S229863AbjEBB21 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 21:28:27 -0400
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0F035AE
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 18:28:25 -0700 (PDT)
+Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-1924a23ddb7so11644398fac.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 18:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1682990905; x=1685582905;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7mVH6+bWUcuKUF/qKwIgPR0gD6lIVpcYINT4JISpC94=;
+        b=P9fppIss2OxfjULIXvdy+dUX9w7PEVRop13j86caNUW0bBs6C3/wQSOOYO3cSMJtjc
+         ihPHtbEIVh4by3RpqOVqh6TeH5TRE4WC6Co4o4k3dMbyB0lgaMEEGof1fwKOkTEK1glf
+         AuFI2se8mKywLPekgTqxP320UZ0MMV0U29UiLdWUptUQubbBRYA1uinapXGRIR2IvQiD
+         7lNS1CY5aalCpYBAShhxplpZZSpD2DKbUWgbHpZEn8cVN9e8x5T4y2vxao2EkDWbh7pS
+         G4QZTcE6knoEB0E870EGK119fD4LHTea7plc+p6aDdf+8XHQSeTfxb3VXfJShGGoXlmp
+         iT3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682990905; x=1685582905;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7mVH6+bWUcuKUF/qKwIgPR0gD6lIVpcYINT4JISpC94=;
+        b=jmDqucI7OlawOJC4JqSWjYNDahhJQ8Iltr0TfVhaX19Z2NIWVsoaDDzPRWGCTdeBns
+         mRQMrh9n9j2g9obwQukGFKoq8yVtAU3Y+iVDxjGZv6+vAUxy+1wPJ6Iem8423if8xPIQ
+         th32OPhIxZgRex+rGtCwXSXMmSJY+rGNwhmfu8r9C+J9eqoc1DirBqdSI1XHoP9xpcGh
+         jlrDNT+Or272GSDPDLthnOxufwiyyYnmFqlE9R6cIXFfSgkbuJ4rbrqL4lEL7zpQwbVS
+         aUDqMZo/xC978FfK4EL7Y9K04CtWlx7jC1xLUdD2DCNYHWFdbAHOOwRs2d3hauoBJJmG
+         NY5Q==
+X-Gm-Message-State: AC+VfDx3J6JXJn/QMd8aBhoZCEPc0gvvQvsUX4LbL5fwfDzABy8Qf6fX
+        98el0wpHXiEjt7fo/6T5aW2jFA==
+X-Google-Smtp-Source: ACHHUZ6GSw2x3VDmZQX5TJwpmEs67OpnyMp9mprjr4us96mcsrPP3CnY/k1sZeNeHVZjlquWpmBpGQ==
+X-Received: by 2002:a05:6808:8f1:b0:38e:467f:fee3 with SMTP id d17-20020a05680808f100b0038e467ffee3mr6754306oic.29.1682990904854;
+        Mon, 01 May 2023 18:28:24 -0700 (PDT)
+Received: from sunil-laptop ([2409:4071:6e87:a073:45c:9455:55ad:4703])
+        by smtp.gmail.com with ESMTPSA id p203-20020acaf1d4000000b0038cabfcb3ccsm12099517oih.15.2023.05.01.18.28.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 May 2023 18:28:24 -0700 (PDT)
+Date:   Tue, 2 May 2023 06:58:07 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Andrew Jones <ajones@ventanamicro.com>
+Subject: Re: [PATCH V4 13/23] RISC-V: cpufeature: Add ACPI support in
+ riscv_fill_hwcap()
+Message-ID: <ZFBnJ/7TWTBpPZm0@sunil-laptop>
+References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
+ <20230404182037.863533-14-sunilvl@ventanamicro.com>
+ <20230429-voucher-tutor-715fd4f6c24e@spud>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.200.104.82]
-X-ClientProxiedBy: Jtjnmail201618.home.langchao.com (10.100.2.18) To
- jtjnmail201619.home.langchao.com (10.100.2.19)
-tUid:   2023502090214ecbadf59a02977aac4af6e63c57dbaa5
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230429-voucher-tutor-715fd4f6c24e@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We should use the Reviewed replace the Reviewd.
-
-Signed-off-by: Deming Wang <wangdeming@inspur.com>
----
- Documentation/translations/ja_JP/SubmittingPatches | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
-index 04deb77b20c6..5334db471744 100644
---- a/Documentation/translations/ja_JP/SubmittingPatches
-+++ b/Documentation/translations/ja_JP/SubmittingPatches
-@@ -450,7 +450,7 @@ Reviewed-by: タグは、それとは異なり、下記のレビューア宣言
-             状況においてその宣言した目的や機能が正しく実現することに関して、
-             いかなる保証もしない(特にどこかで明示しない限り)。
- 
--Reviewd-by タグはそのパッチがカーネルに対して適切な修正であって、深刻な技術的
-+Reviewed-by タグはそのパッチがカーネルに対して適切な修正であって、深刻な技術的
- 問題を残していないという意見の宣言です。興味のあるレビューアは誰でも(レビュー
- 作業を終えたら)パッチに対して Reviewed-by タグを提示できます。このタグは
- レビューアの寄与をクレジットする働き、レビューの進捗の度合いをメンテナに
--- 
-2.27.0
-
+On Sat, Apr 29, 2023 at 11:31:20AM +0100, Conor Dooley wrote:
+> Hey Sunil,
+> 
+> On Tue, Apr 04, 2023 at 11:50:27PM +0530, Sunil V L wrote:
+> 
+> > @@ -103,14 +109,36 @@ void __init riscv_fill_hwcap(void)
+> >  
+> >  	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
+> >  
+> > -	for_each_of_cpu_node(node) {
+> > +	if (!acpi_disabled) {
+> > +		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
+> > +		if (ACPI_FAILURE(status))
+> > +			return;
+> > +	}
+> > +
+> > +	for_each_possible_cpu(cpu) {
+> >  		unsigned long this_hwcap = 0;
+> >  		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
+> >  		const char *temp;
+> >  
+> > -		if (of_property_read_string(node, "riscv,isa", &isa)) {
+> > -			pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
+> > -			continue;
+> > +		if (acpi_disabled) {
+> > +			node = of_cpu_device_node_get(cpu);
+> > +			if (node) {
+> > +				rc = of_property_read_string(node, "riscv,isa", &isa);
+> > +				of_node_put(node);
+> > +				if (rc) {
+> > +					pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
+> > +					continue;
+> > +				}
+> > +			} else {
+> > +				pr_warn("Unable to find cpu node\n");
+> > +				continue;
+> 
+> I was poking at this the last few days and went back to look at the ACPI
+> code again. Is there a reason we don't do early-return here? IOW:
+> 
+> 	node = of_cpu_device_node_get(cpu);
+> 	if (!node) {
+> 		pr_warn()
+> 		continue;
+> 	}
+> 
+> 	rc = of_property_read_string(node, "riscv,isa", &isa);
+> 	of_node_put(node);
+> 	if (rc) {
+> 		pr_warn();
+> 		continue;
+> 	}
+> 
+This looks better. Will update when I send the next revision of the
+series. Thank you!, Conor.
