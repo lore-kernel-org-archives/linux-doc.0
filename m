@@ -2,128 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F4FCC7EE26
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 05:34:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC71BC77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 05:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233286AbjEBFej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 01:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55102 "EHLO
+        id S233499AbjEBFiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 01:38:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233519AbjEBFeg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 01:34:36 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCAB40DD;
-        Mon,  1 May 2023 22:34:35 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-5f45fad3be1so30437386d6.0;
-        Mon, 01 May 2023 22:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683005674; x=1685597674;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qrcuuma9akhRKA9cVsiv9Wp3Fts3/L+OpcqEI96PfXk=;
-        b=QF1HVjPTepvbrQ9oJRLkb6f8AJvX+hO2zQE2ZY/l3fUgEFOfqL1wf8m0RGFQ4awGlN
-         sWkxd9j28poLLl8dBgEc54m1kLx91P31/J3vbCIAx0/CoGXAsbwCOE363uYJGP9GkB5b
-         3lymi+vNqj9QoS17H6nGkbM5o+IGDFDB9cd/G6K1hJSdkvWt972kMNAdb/+wzno7m9jZ
-         f0XwZxnSXtuHXZc3vW87bizP3VIj3Spc6/Cesx4fCw9piQPSAItNDleA+xpCa+67Mn+G
-         vzbu6giNBfMNRicZ3wSxkGrbLyqmcdrr5AdLiwR1ViUDz037I1qTRRGrjMrCbz3a2XiY
-         9TDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683005674; x=1685597674;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qrcuuma9akhRKA9cVsiv9Wp3Fts3/L+OpcqEI96PfXk=;
-        b=aSE8tbD0/3vqzvoIlK7v8nw454064FFpohwnHCAJT/TmfNuS/HioLhubgjbYomF8vi
-         RDbPtyu5yRItJAt/ziDoYJEbnz34Jk+YpOrePJcBGq92iRdHGnvr+DxIvbaMPgBGub3V
-         5QCTyV13EW48DvD8BHqewTp1qRde4IKSJvSjZVUw44KlmVZUXsCU198pmq/FOcgPQYcl
-         z5nuc3egP2nNiO8CZgik1jZAThO5VJXTN1GwcfBl1lxGpznlzUfJ1xTVcviSdRqPxw3k
-         URoWeZomVpufLp+hcdLUKK0sQo8/BBZgBNfkco7VC0cnuREBu0dms8AA7YWJJaNj3byV
-         9cxw==
-X-Gm-Message-State: AC+VfDzNBIlQEUtnfdULqB97tvctAPuFt2bG2Oywxj/B4YxgPuzS2/+6
-        4cgFi2DfsRjMeGOpS9V8skc473k70MP7/cKwQg4=
-X-Google-Smtp-Source: ACHHUZ6UI2cU+vYPscYDDBkkT3Plhp9qvN6okFjmkrVKfQQGe2MFQv7qiNq0uAhkrc7LvrOfXehK4e+SQ+W+CPsbV3k=
-X-Received: by 2002:a05:6214:d04:b0:56e:aeaa:95b2 with SMTP id
- 4-20020a0562140d0400b0056eaeaa95b2mr3054068qvh.9.1683005674261; Mon, 01 May
- 2023 22:34:34 -0700 (PDT)
+        with ESMTP id S233286AbjEBFiR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 01:38:17 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F77E52;
+        Mon,  1 May 2023 22:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683005895; x=1714541895;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IbzAOE6Ia8T4XdxydP/sh8DuUMvMcKuaOuf20lN87z4=;
+  b=XMNbqxsImiCusydzRTolLYdiBQZvoLyAjsXwGMQpY4qzeRlwvAIyCwoi
+   dJnqwvb6z4FbeGxTrGIKMIiFZETeGP8YX3xMw3i/t/1zIfaREtCj3ooPU
+   A1XI9H6A/q/eIyFPZb7jOiG0K+F7bfFsguL0M/O8rc34cndUnumk6TKHO
+   2tY2WbI9XxfwL6+TR/jkLdJUjBuH27uT8I0TeAFoIJS7Z5hhTlHDSA06r
+   aSv3obMPHz/A7DaHCbneap7wjje/pDyyDQnfm0a2M+iRJ0VEkq2bWxEm4
+   jxxUPTUEfb1KeZ7PmQ1Zg0VnJyyDmH6drz1cVVOyS6FMwdVSx4abB4pBU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="351292743"
+X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
+   d="scan'208";a="351292743"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 22:38:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="785545764"
+X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
+   d="scan'208";a="785545764"
+Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 01 May 2023 22:38:14 -0700
+Received: from kbuild by e3434d64424d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ptiiL-0000s6-0Z;
+        Tue, 02 May 2023 05:38:13 +0000
+Date:   Tue, 2 May 2023 13:37:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] docs: consolidate human interface subsystems
+Message-ID: <202305021306.dKifEdb7-lkp@intel.com>
+References: <20230501154258.277866-1-costa.shul@redhat.com>
 MIME-Version: 1.0
-References: <20230501165450.15352-1-surenb@google.com> <20230501165450.15352-2-surenb@google.com>
- <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
- <ZFAUj+Q+hP7cWs4w@moria.home.lan> <b6b472b65b76e95bb4c7fc7eac1ee296fdbb64fd.camel@HansenPartnership.com>
- <ZFCA2FF+9MI8LI5i@moria.home.lan>
-In-Reply-To: <ZFCA2FF+9MI8LI5i@moria.home.lan>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 2 May 2023 08:33:57 +0300
-Message-ID: <CAHp75VdK2bgU8P+-np7ScVWTEpLrz+muG-R15SXm=ETXnjaiZg@mail.gmail.com>
-Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in string_get_size's output
-To:     Kent Overstreet <kent.overstreet@linux.dev>
-Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
-        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
-        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
-        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-        paulmck@kernel.org, pasha.tatashin@soleen.com,
-        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
-        Andy Shevchenko <andy@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        =?UTF-8?B?Tm9yYWxmIFRyw6/Cv8K9bm5lcw==?= <noralf@tronnes.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230501154258.277866-1-costa.shul@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 2, 2023 at 6:18=E2=80=AFAM Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
-> On Mon, May 01, 2023 at 10:22:18PM -0400, James Bottomley wrote:
+Hi Costa,
 
-...
+kernel test robot noticed the following build warnings:
 
-> > > If someone raises a specific objection we'll do something different,
-> > > otherwise I think standardizing on what userspace tooling already
-> > > parses is a good idea.
-> >
-> > If you want to omit the space, why not simply add your own variant?  A
-> > string_get_size_nospace() which would use most of the body of this one
-> > as a helper function but give its own snprintf format string at the
-> > end.  It's only a couple of lines longer as a patch and has the bonus
-> > that it definitely wouldn't break anything by altering an existing
-> > output.
->
-> I'm happy to do that - I just wanted to post this version first to see
-> if we can avoid the fragmentation and do a bit of standardizing with
-> how everything else seems to do that.
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Actually instead of producing zillions of variants, do a %p extension
-to the printf() and that's it. We have, for example, %pt with T and
-with space to follow users that want one or the other variant. Same
-can be done with string_get_size().
+url:    https://github.com/intel-lab-lkp/linux/commits/Costa-Shulyupin/docs-consolidate-human-interface-subsystems/20230501-234438
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20230501154258.277866-1-costa.shul%40redhat.com
+patch subject: [PATCH v2] docs: consolidate human interface subsystems
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/2df620e4b9e2c2827f8a5519f6c266e9e5ef85be
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Costa-Shulyupin/docs-consolidate-human-interface-subsystems/20230501-234438
+        git checkout 2df620e4b9e2c2827f8a5519f6c266e9e5ef85be
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
---=20
-With Best Regards,
-Andy Shevchenko
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305021306.dKifEdb7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/subsystem-apis.rst:14: WARNING: Title underline too short.
+
+vim +14 Documentation/subsystem-apis.rst
+
+    12	
+    13	Human interfaces
+  > 14	---------------
+    15	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
