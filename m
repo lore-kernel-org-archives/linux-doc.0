@@ -2,144 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB7EC77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 01:28:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D883C7EE29
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 01:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbjEBB21 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 21:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33162 "EHLO
+        id S233202AbjEBBvP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 21:51:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbjEBB21 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 21:28:27 -0400
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0F035AE
-        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 18:28:25 -0700 (PDT)
-Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-1924a23ddb7so11644398fac.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 May 2023 18:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1682990905; x=1685582905;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7mVH6+bWUcuKUF/qKwIgPR0gD6lIVpcYINT4JISpC94=;
-        b=P9fppIss2OxfjULIXvdy+dUX9w7PEVRop13j86caNUW0bBs6C3/wQSOOYO3cSMJtjc
-         ihPHtbEIVh4by3RpqOVqh6TeH5TRE4WC6Co4o4k3dMbyB0lgaMEEGof1fwKOkTEK1glf
-         AuFI2se8mKywLPekgTqxP320UZ0MMV0U29UiLdWUptUQubbBRYA1uinapXGRIR2IvQiD
-         7lNS1CY5aalCpYBAShhxplpZZSpD2DKbUWgbHpZEn8cVN9e8x5T4y2vxao2EkDWbh7pS
-         G4QZTcE6knoEB0E870EGK119fD4LHTea7plc+p6aDdf+8XHQSeTfxb3VXfJShGGoXlmp
-         iT3A==
+        with ESMTP id S231608AbjEBBvO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 21:51:14 -0400
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3698A30CF;
+        Mon,  1 May 2023 18:51:13 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3062678861fso1564775f8f.0;
+        Mon, 01 May 2023 18:51:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682990905; x=1685582905;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7mVH6+bWUcuKUF/qKwIgPR0gD6lIVpcYINT4JISpC94=;
-        b=jmDqucI7OlawOJC4JqSWjYNDahhJQ8Iltr0TfVhaX19Z2NIWVsoaDDzPRWGCTdeBns
-         mRQMrh9n9j2g9obwQukGFKoq8yVtAU3Y+iVDxjGZv6+vAUxy+1wPJ6Iem8423if8xPIQ
-         th32OPhIxZgRex+rGtCwXSXMmSJY+rGNwhmfu8r9C+J9eqoc1DirBqdSI1XHoP9xpcGh
-         jlrDNT+Or272GSDPDLthnOxufwiyyYnmFqlE9R6cIXFfSgkbuJ4rbrqL4lEL7zpQwbVS
-         aUDqMZo/xC978FfK4EL7Y9K04CtWlx7jC1xLUdD2DCNYHWFdbAHOOwRs2d3hauoBJJmG
-         NY5Q==
-X-Gm-Message-State: AC+VfDx3J6JXJn/QMd8aBhoZCEPc0gvvQvsUX4LbL5fwfDzABy8Qf6fX
-        98el0wpHXiEjt7fo/6T5aW2jFA==
-X-Google-Smtp-Source: ACHHUZ6GSw2x3VDmZQX5TJwpmEs67OpnyMp9mprjr4us96mcsrPP3CnY/k1sZeNeHVZjlquWpmBpGQ==
-X-Received: by 2002:a05:6808:8f1:b0:38e:467f:fee3 with SMTP id d17-20020a05680808f100b0038e467ffee3mr6754306oic.29.1682990904854;
-        Mon, 01 May 2023 18:28:24 -0700 (PDT)
-Received: from sunil-laptop ([2409:4071:6e87:a073:45c:9455:55ad:4703])
-        by smtp.gmail.com with ESMTPSA id p203-20020acaf1d4000000b0038cabfcb3ccsm12099517oih.15.2023.05.01.18.28.11
+        d=1e100.net; s=20221208; t=1682992271; x=1685584271;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TNyrpU7tvbNFLr00b0UkT0J+lENE3vJhw2P346SQMpo=;
+        b=BCuztcCH4htXQOJSN386EAU0pa+BMKGwY4R3cPISNnGOIx4ZgXYYWlE3bqqNTboEdg
+         j1yiVbGPg2nkAuIfcqZpGw7xyTAZGticKYKlKy8rZ9J78Hd/G27My5GPU8pZwZ+6GoHG
+         JZY336D+uHux/Z6SC78ASZWuNFWkHTcSR04Ej0Sz5F++l5E8US+aMNWs1DKgB4LyrWTY
+         VW3jpZM/A43gLzJCI0dFvPdjojaJRyfpauGSWuX6EPR1SDUdaeYWNCdbpoNe/Mt4xrth
+         dP5w7OGKmHy1Qqbo/mkBHf7RxNvREo9XmCnEDWZcsRJyxANoeQpKa+HkI9wikWz5ej2j
+         Pg9Q==
+X-Gm-Message-State: AC+VfDyN6RoXv2coqGnOYldPcgsX/UnqJXPvroRN7ieJHqLENIUTgKp8
+        YQUdfuyB78lfsmCpkp7fVm4=
+X-Google-Smtp-Source: ACHHUZ4oFZ3aVUKqG35t1gvcum6lP5hqKSDt3WDjDTuJOz2/M+ydprx3aNUSbEwbd9JyL/DZAccL0Q==
+X-Received: by 2002:adf:ec04:0:b0:2f9:a798:602c with SMTP id x4-20020adfec04000000b002f9a798602cmr10900635wrn.12.1682992271083;
+        Mon, 01 May 2023 18:51:11 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
+        by smtp.gmail.com with ESMTPSA id f11-20020adffccb000000b002f90a75b843sm29486846wrs.117.2023.05.01.18.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 18:28:24 -0700 (PDT)
-Date:   Tue, 2 May 2023 06:58:07 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Len Brown <lenb@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Weili Qian <qianweili@huawei.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Marc Zyngier <maz@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Andrew Jones <ajones@ventanamicro.com>
-Subject: Re: [PATCH V4 13/23] RISC-V: cpufeature: Add ACPI support in
- riscv_fill_hwcap()
-Message-ID: <ZFBnJ/7TWTBpPZm0@sunil-laptop>
-References: <20230404182037.863533-1-sunilvl@ventanamicro.com>
- <20230404182037.863533-14-sunilvl@ventanamicro.com>
- <20230429-voucher-tutor-715fd4f6c24e@spud>
+        Mon, 01 May 2023 18:51:10 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     Costa Shulyupin <costa.shul@redhat.com>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3] docs: consolidate human interface subsystems
+Date:   Tue,  2 May 2023 04:50:40 +0300
+Message-Id: <20230502015040.329394-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <0754e279-ae06-9b57-f655-cc7cc9eb6ecb@infradead.org>
+References: <0754e279-ae06-9b57-f655-cc7cc9eb6ecb@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230429-voucher-tutor-715fd4f6c24e@spud>
+Content-Type: text/plain; charset=true
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 29, 2023 at 11:31:20AM +0100, Conor Dooley wrote:
-> Hey Sunil,
-> 
-> On Tue, Apr 04, 2023 at 11:50:27PM +0530, Sunil V L wrote:
-> 
-> > @@ -103,14 +109,36 @@ void __init riscv_fill_hwcap(void)
-> >  
-> >  	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
-> >  
-> > -	for_each_of_cpu_node(node) {
-> > +	if (!acpi_disabled) {
-> > +		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
-> > +		if (ACPI_FAILURE(status))
-> > +			return;
-> > +	}
-> > +
-> > +	for_each_possible_cpu(cpu) {
-> >  		unsigned long this_hwcap = 0;
-> >  		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
-> >  		const char *temp;
-> >  
-> > -		if (of_property_read_string(node, "riscv,isa", &isa)) {
-> > -			pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
-> > -			continue;
-> > +		if (acpi_disabled) {
-> > +			node = of_cpu_device_node_get(cpu);
-> > +			if (node) {
-> > +				rc = of_property_read_string(node, "riscv,isa", &isa);
-> > +				of_node_put(node);
-> > +				if (rc) {
-> > +					pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
-> > +					continue;
-> > +				}
-> > +			} else {
-> > +				pr_warn("Unable to find cpu node\n");
-> > +				continue;
-> 
-> I was poking at this the last few days and went back to look at the ACPI
-> code again. Is there a reason we don't do early-return here? IOW:
-> 
-> 	node = of_cpu_device_node_get(cpu);
-> 	if (!node) {
-> 		pr_warn()
-> 		continue;
-> 	}
-> 
-> 	rc = of_property_read_string(node, "riscv,isa", &isa);
-> 	of_node_put(node);
-> 	if (rc) {
-> 		pr_warn();
-> 		continue;
-> 	}
-> 
-This looks better. Will update when I send the next revision of the
-series. Thank you!, Conor.
+to make the page more organized as requested
+
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+Changes:
+- fixed typo
+- fixed underline
+
+---
+ Documentation/subsystem-apis.rst | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index b51f38527e14..287799ee2419 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -10,6 +10,18 @@ is taken directly from the kernel source, with supplemental material added
+ as needed (or at least as we managed to add it — probably *not* all that is
+ needed).
+ 
++Human interfaces
++----------------
++
++.. toctree::
++   :maxdepth: 1
++
++   input/index
++   hid/index
++   sound/index
++   gpu/index
++   fb/index
++
+ **Fixme**: much more organizational work is needed here.
+ 
+ .. toctree::
+@@ -22,9 +34,7 @@ needed).
+    block/index
+    cdrom/index
+    cpu-freq/index
+-   fb/index
+    fpga/index
+-   hid/index
+    i2c/index
+    iio/index
+    isdn/index
+@@ -40,12 +50,9 @@ needed).
+    w1/index
+    watchdog/index
+    virt/index
+-   input/index
+    hwmon/index
+-   gpu/index
+    accel/index
+    security/index
+-   sound/index
+    crypto/index
+    filesystems/index
+    mm/index
+-- 
+2.40.0
+
