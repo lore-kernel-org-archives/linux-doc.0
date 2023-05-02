@@ -2,68 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43935C77B7E
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 15:48:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 311E2C7EE26
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 15:50:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233781AbjEBPsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 11:48:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56426 "EHLO
+        id S234512AbjEBPuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 11:50:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232627AbjEBPsX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 11:48:23 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A88010D;
-        Tue,  2 May 2023 08:48:21 -0700 (PDT)
+        with ESMTP id S234247AbjEBPun (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 11:50:43 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B74E10D;
+        Tue,  2 May 2023 08:50:42 -0700 (PDT)
 From:   Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1683042499;
+        s=2020; t=1683042640;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=LS2fEnHsAGqEzKrFxb5zVFQIH3oA+8oYM3tRiuzQm7o=;
-        b=tY/ZWHFhvvZE3rATE/m7Hpf6+JTJovfsgXxjqhIY+LozPfzpFPp5eAPxEsCFeUDma1AY5Q
-        nC31se5ad5PWhhM6YoI4esC628CJSstBRPFEBzMAM2PE6HufUQ71vRVdTcZi4yYJZF2jSr
-        wAVVlbh+pJ876l1P53ehk3qRwU5bysd4zt6IE0BmHk9UXOMlO9S989sR8Iwv4Be8+fQ/QP
-        YFirnqX838JW7t0mRrxJSx/nKzH7BiVDdLFrtDrnO3YCKFu3ixE3e4NgI7uVzWDI6oDTJC
-        t6uNgGWs1eyJcbRRxYLf1C5mbxX4rVus4rReSe1uHZlNtnZhofboV7t1pv2QwQ==
+        bh=wZImvKcn9w5NAAzZW4fltpVUcvOYAB8X7GMAppUmOCM=;
+        b=Rg36uIn8HqQozHE5vCsIPmEh3+AKn8L/7mv0O+pIdezEvZYANTd8V4nXCmyt4xNIpJtbzz
+        vp5LlYfmVMY6J2aaFI0emPF10CJrdqRyePOtdaqVRUpJ6x7WMyw6YImGz1rh35Q7ntYsts
+        VxFcZ5qcn8lCImyR0dvWAiq1WVirQQR6z6zLur8HfIWFzomdUKBIblZed9MGVhU9x2/J8a
+        TXGag7CJDamjpDxiPPgFlEf/7PmwP9mXDgWSG2GxgYvbMpt42zIMQ+WrSi6+Do+CEfK8VI
+        cAyWUPURMmsKM4zLL7iTdAZpt32TC0jVgu0CVGxApXC30zcp+k511wT6VGIMEw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1683042499;
+        s=2020e; t=1683042640;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=LS2fEnHsAGqEzKrFxb5zVFQIH3oA+8oYM3tRiuzQm7o=;
-        b=IF8m7wXH28hQ2UoMgBUgfSaRT9CDHCIvDPflRdGIiyOeF4K08hnSSTW5B2svb2X0PGd4fR
-        7V2b2iJlDricwJBw==
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        John Stultz <jstultz@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] Documentation: timers: hrtimers: Make hybrid union
- historical
-In-Reply-To: <59250a3d1c2c827b5c1833169a6e652ca6a784e6.1683021785.git.geert+renesas@glider.be>
-References: <59250a3d1c2c827b5c1833169a6e652ca6a784e6.1683021785.git.geert+renesas@glider.be>
-Date:   Tue, 02 May 2023 17:48:18 +0200
-Message-ID: <87v8ha4tvh.ffs@tglx>
+        bh=wZImvKcn9w5NAAzZW4fltpVUcvOYAB8X7GMAppUmOCM=;
+        b=jGVgjOBDtcwcveZg1C1OmELpfcEfP+gY1s7aMPQ6Q+XcAxO84Fib8uN7aOVmPEPoz9qHUW
+        gKPfyJOAEnP069BQ==
+To:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc:     kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+        dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+        corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+        juri.lelli@redhat.com, ldufour@linux.ibm.com,
+        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+        mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
+        mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+        dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+        rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        surenb@google.com, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+        cgroups@vger.kernel.org
+Subject: Re: [PATCH 28/40] timekeeping: Fix a circular include dependency
+In-Reply-To: <20230501165450.15352-29-surenb@google.com>
+References: <20230501165450.15352-1-surenb@google.com>
+ <20230501165450.15352-29-surenb@google.com>
+Date:   Tue, 02 May 2023 17:50:39 +0200
+Message-ID: <87sfce4trk.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 02 2023 at 12:05, Geert Uytterhoeven wrote:
-
-> Non-scalar time was removed from the ktime hybrid union in v3.17, and
-> the union itself followed suit in v4.10.
+On Mon, May 01 2023 at 09:54, Suren Baghdasaryan wrote:
+> From: Kent Overstreet <kent.overstreet@linux.dev>
 >
-> Make it clear that ktime_t is always a 64bit scalar type, to avoid
-> confusing the casual reader.
+> This avoids a circular header dependency in an upcoming patch by only
+> making hrtimer.h depend on percpu-defs.h
 >
-> While at it, fix a spelling mistake.
->
-> Fixes: 24e4a8c3e8868874 ("ktime: Kill non-scalar ktime_t implementation for 2038")
-> Fixes: 2456e855354415bf ("ktime: Get rid of the union")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
 
 Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
