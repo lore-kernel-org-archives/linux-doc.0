@@ -2,117 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D883C7EE29
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 01:51:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E30C77B7C
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 02:22:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbjEBBvP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 May 2023 21:51:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37948 "EHLO
+        id S232653AbjEBCWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 May 2023 22:22:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231608AbjEBBvO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 21:51:14 -0400
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3698A30CF;
-        Mon,  1 May 2023 18:51:13 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3062678861fso1564775f8f.0;
-        Mon, 01 May 2023 18:51:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682992271; x=1685584271;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TNyrpU7tvbNFLr00b0UkT0J+lENE3vJhw2P346SQMpo=;
-        b=BCuztcCH4htXQOJSN386EAU0pa+BMKGwY4R3cPISNnGOIx4ZgXYYWlE3bqqNTboEdg
-         j1yiVbGPg2nkAuIfcqZpGw7xyTAZGticKYKlKy8rZ9J78Hd/G27My5GPU8pZwZ+6GoHG
-         JZY336D+uHux/Z6SC78ASZWuNFWkHTcSR04Ej0Sz5F++l5E8US+aMNWs1DKgB4LyrWTY
-         VW3jpZM/A43gLzJCI0dFvPdjojaJRyfpauGSWuX6EPR1SDUdaeYWNCdbpoNe/Mt4xrth
-         dP5w7OGKmHy1Qqbo/mkBHf7RxNvREo9XmCnEDWZcsRJyxANoeQpKa+HkI9wikWz5ej2j
-         Pg9Q==
-X-Gm-Message-State: AC+VfDyN6RoXv2coqGnOYldPcgsX/UnqJXPvroRN7ieJHqLENIUTgKp8
-        YQUdfuyB78lfsmCpkp7fVm4=
-X-Google-Smtp-Source: ACHHUZ4oFZ3aVUKqG35t1gvcum6lP5hqKSDt3WDjDTuJOz2/M+ydprx3aNUSbEwbd9JyL/DZAccL0Q==
-X-Received: by 2002:adf:ec04:0:b0:2f9:a798:602c with SMTP id x4-20020adfec04000000b002f9a798602cmr10900635wrn.12.1682992271083;
-        Mon, 01 May 2023 18:51:11 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
-        by smtp.gmail.com with ESMTPSA id f11-20020adffccb000000b002f90a75b843sm29486846wrs.117.2023.05.01.18.51.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 18:51:10 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3] docs: consolidate human interface subsystems
-Date:   Tue,  2 May 2023 04:50:40 +0300
-Message-Id: <20230502015040.329394-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <0754e279-ae06-9b57-f655-cc7cc9eb6ecb@infradead.org>
-References: <0754e279-ae06-9b57-f655-cc7cc9eb6ecb@infradead.org>
+        with ESMTP id S233181AbjEBCWf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 May 2023 22:22:35 -0400
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E931C40C5;
+        Mon,  1 May 2023 19:22:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1682994147;
+        bh=XleaLi6oRjXtfe2D7RhL/bXb9kAyYfGf1xyiXtDlQDk=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=B3+pvvNt1nRN8hRoSXjf3I4ybVi/EDboNnvLeMqv3k3o/5KuewFLsQ2LIIO45T87D
+         dmw9Bza7VZEKEtygO+CQeSy7CBK508rzVVZKe8uhSLnG5n4AwGQmHHjTyQBjyKut87
+         W4mECobpPwTueeG1X8Y0LfbxM9hzHFolb5i0L6ew=
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 554B4128648F;
+        Mon,  1 May 2023 22:22:27 -0400 (EDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id XSNGV24ZawPq; Mon,  1 May 2023 22:22:27 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1682994146;
+        bh=XleaLi6oRjXtfe2D7RhL/bXb9kAyYfGf1xyiXtDlQDk=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=m6bYz5hNQXdxoZ5NOAcJ2JFL0kL9SDAdXRGd+EFNCj+3OnfQ3+swh//Kmg4+1ZxnT
+         /vAaVHfPpqrg0q8i1pJguyqq2gnSLJOdqlrDbhqXY73Dx/2yBSTryYz6FylsmhHOQk
+         kWyP5cXIJTuLLvuvIQl6DHYlZBed/Vghiiim+rwE=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::c14])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 25B2E1285C64;
+        Mon,  1 May 2023 22:22:21 -0400 (EDT)
+Message-ID: <b6b472b65b76e95bb4c7fc7eac1ee296fdbb64fd.camel@HansenPartnership.com>
+Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in
+ string_get_size's output
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Kent Overstreet <kent.overstreet@linux.dev>,
+        Suren Baghdasaryan <surenb@google.com>,
+        akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
+        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+        paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
+        Andy Shevchenko <andy@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Noralf =?ISO-8859-1?Q?Tr=EF=BF=BDnnes?= <noralf@tronnes.org>
+Date:   Mon, 01 May 2023 22:22:18 -0400
+In-Reply-To: <ZFAUj+Q+hP7cWs4w@moria.home.lan>
+References: <20230501165450.15352-1-surenb@google.com>
+         <20230501165450.15352-2-surenb@google.com>
+         <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
+         <ZFAUj+Q+hP7cWs4w@moria.home.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=true
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to make the page more organized as requested
+On Mon, 2023-05-01 at 15:35 -0400, Kent Overstreet wrote:
+> On Mon, May 01, 2023 at 11:13:15AM -0700, Davidlohr Bueso wrote:
+> > On Mon, 01 May 2023, Suren Baghdasaryan wrote:
+> > 
+> > > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > > 
+> > > Previously, string_get_size() outputted a space between the
+> > > number and the units, i.e.
+> > >  9.88 MiB
+> > > 
+> > > This changes it to
+> > >  9.88MiB
+> > > 
+> > > which allows it to be parsed correctly by the 'sort -h' command.
+> > 
+> > Wouldn't this break users that already parse it the current way?
+> 
+> It's not impossible - but it's not used in very many places and we
+> wouldn't be printing in human-readable units if it was meant to be
+> parsed - it's mainly used for debug output currently.
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
-Changes:
-- fixed typo
-- fixed underline
+It is not used just for debug.  It's used all over the kernel for
+printing out device sizes.  The output mostly goes to the kernel print
+buffer, so it's anyone's guess as to what, if any, tools are parsing
+it, but the concern about breaking log parsers seems to be a valid one.
 
----
- Documentation/subsystem-apis.rst | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+> If someone raises a specific objection we'll do something different,
+> otherwise I think standardizing on what userspace tooling already
+> parses is a good idea.
 
-diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-index b51f38527e14..287799ee2419 100644
---- a/Documentation/subsystem-apis.rst
-+++ b/Documentation/subsystem-apis.rst
-@@ -10,6 +10,18 @@ is taken directly from the kernel source, with supplemental material added
- as needed (or at least as we managed to add it — probably *not* all that is
- needed).
- 
-+Human interfaces
-+----------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   input/index
-+   hid/index
-+   sound/index
-+   gpu/index
-+   fb/index
-+
- **Fixme**: much more organizational work is needed here.
- 
- .. toctree::
-@@ -22,9 +34,7 @@ needed).
-    block/index
-    cdrom/index
-    cpu-freq/index
--   fb/index
-    fpga/index
--   hid/index
-    i2c/index
-    iio/index
-    isdn/index
-@@ -40,12 +50,9 @@ needed).
-    w1/index
-    watchdog/index
-    virt/index
--   input/index
-    hwmon/index
--   gpu/index
-    accel/index
-    security/index
--   sound/index
-    crypto/index
-    filesystems/index
-    mm/index
--- 
-2.40.0
+If you want to omit the space, why not simply add your own variant?  A
+string_get_size_nospace() which would use most of the body of this one
+as a helper function but give its own snprintf format string at the
+end.  It's only a couple of lines longer as a patch and has the bonus
+that it definitely wouldn't break anything by altering an existing
+output.
+
+James
 
