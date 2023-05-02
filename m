@@ -2,117 +2,271 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A77C7EE21
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 22:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8EF6C77B75
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 22:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbjEBW2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 18:28:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51516 "EHLO
+        id S230257AbjEBWwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 18:52:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229810AbjEBW2J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 18:28:09 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456961716
-        for <linux-doc@vger.kernel.org>; Tue,  2 May 2023 15:28:08 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-b9246a5f3feso7172955276.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 May 2023 15:28:08 -0700 (PDT)
+        with ESMTP id S229667AbjEBWwF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 18:52:05 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 865F54213
+        for <linux-doc@vger.kernel.org>; Tue,  2 May 2023 15:51:22 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1aad5245632so28084405ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 02 May 2023 15:51:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1683066487; x=1685658487;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lwFGIxh3mR4IxnfjO7Fh/+VSIOsZ1HZ3AsHMkzhJzVc=;
-        b=LV4Xm+Pf/B+mhX6Eux2/d4iyrBd+wh5nhjdM+6mLRXMO0SKOeWUfAlVseraSM1dEGE
-         zp84L/n/KBh/e0R29D/3dwDFGaI3EmTrw4gip9y8rvwrtj6zd510NLG9bCl8vpjqlLk6
-         o2KkipHhztX/aduTGfL4R2o2kOeTZ9dixM84r1Sqyq6Qo6RT5YMk02pcMg+hrqkPPtkf
-         btppu9GSiN7ZpCPLog7vQNKAz5X0GBqCYIc6rYgC6Xgwc7lFXuKzu5gZRkmivJTBYDGs
-         RXlaV1cyEDnI8lJFyjWOkhHyQhdqvPPGPVyeXM4agzscC27+w9gcBgbcS8H8+y6pNjoT
-         HrDQ==
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683067820; x=1685659820;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=g8QAkHheKqFpH2L93tPDJOTqznflZZjkS+pV5SBVWTE=;
+        b=xLl94DvDD7xAPKjQEHhSkMSzWZfqUaCPIgpsfNNGTJy75L+Dhb0EQkIvsrYT7WWRQx
+         wyTlZKx3XfmZ3vSL1O7jem1NnxxZL4//8rtlORY9ztDJ6rOc3Z71E8fNTCdWUkEYu1Vz
+         d8ghK4g6nSEpHgoPg3Hqj7HIwKVMcR16Ne5q2xGcmR02ed7wf1kzCrDUXPzOn5N1iaZ/
+         zK5AHzXU+6wmWAko7cr8CSaJE81yLtI0Y+Q4gJwMGo5tD1JbUWQilBVdBoOxiucCIdkt
+         dMDo0uK0FWEfewBswmsl8vjQdzoc/L8KUeQKJhg/zra8yWKJKKPAHYHINPI83hQKTVFU
+         f5XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683066487; x=1685658487;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lwFGIxh3mR4IxnfjO7Fh/+VSIOsZ1HZ3AsHMkzhJzVc=;
-        b=ZrzCKSiQesXJiAhlxdRh37YUxGRTthXjU5U5QzPHjZZThh/9JzTMFyAy2xpt2UCAOR
-         lL+UQ+cUzja4+QfZqF0mK44veTvwbw1zn8/epyYqnyA5a/a8BzZCOPFE2+OgEpfkz97M
-         oibEVNZIBqoj9ECLGdDXiOxmkkOnhsG7fE9VrsgEEa88yvhZhuLVZcYFuSkltATowZqk
-         GFjcVDcfR+6n7n5wyMd51zcwFfKp3kUAGylBvUfxePsza+6N5eQEblbdBeaP7WDKfr04
-         wZyn7m7CHi7ydXHmh6x3O5mT+djZpFS/0duXUpBZT/SPlwbGi1aNCgIwXe0dhTb/Iwva
-         BFeA==
-X-Gm-Message-State: AC+VfDyz8LE/mB+mAFgmsSBapfipsVWRB9vnE/8myhugkxNCej1mpfV4
-        9HUjft0pU/Rb0k9uVUAYbrNB/3DVxhoS7q2ijMiP0g==
-X-Google-Smtp-Source: ACHHUZ429eSlqZEB+CY548Pp/dt5SSi39y/Hd6nprAFMirATPj3cxRLNBRv8xuZqzR4rjXejkS2Zjep2a9MBdAJUsCs=
-X-Received: by 2002:a25:ad91:0:b0:b96:9160:8da4 with SMTP id
- z17-20020a25ad91000000b00b9691608da4mr17677838ybi.17.1683066487198; Tue, 02
- May 2023 15:28:07 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683067820; x=1685659820;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g8QAkHheKqFpH2L93tPDJOTqznflZZjkS+pV5SBVWTE=;
+        b=D4UZKy/ZejxkGfla3QBqweTEd9TFva90D/vzMvWQSqfZ0KEQ8rzKCUwKu476bh80lw
+         KNh0hPkv+XEaHvtNlh5udGoRKAUXJrLrfqf6I5juNhgeN20kUHsThA7luSVJyVvEIIgF
+         XX7/Ezrm4nH7n8gPFrcJDRtXfJxBH5G2nBh6zimjK9rsOnNtgyRmWCRLG9yBIfm1PlcL
+         lqpdtWCLWdaFlUXDaY1rBuvWE4WWIe3/Uh/LJF+6+Gas9l/9vbBC8M7Vzl3ya/4uZePK
+         lUVJ9+3Io9x9XWop0383CTQL9Lea7EjFZJPIuDHxYCRTf6qMcy184MZnRZvAVCK3Uw98
+         y4cQ==
+X-Gm-Message-State: AC+VfDwl+WxU+/X1EaWi4xdw8gzBQrJ7SEvNcOJxtH+noCeu9l+Q1hUg
+        JlgHwcedq/UL7XKkVSmrgLjkHg==
+X-Google-Smtp-Source: ACHHUZ4WZJOOWGxbRgG+qjvrGZC/VqujqCF5F7vLtDxFg5sAT++GARS59Yi815zJEuANbIKudFWS3w==
+X-Received: by 2002:a17:902:db03:b0:1a9:7707:80b1 with SMTP id m3-20020a170902db0300b001a9770780b1mr23452836plx.67.1683067820093;
+        Tue, 02 May 2023 15:50:20 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
+        by smtp.gmail.com with ESMTPSA id r12-20020a170902be0c00b00194d14d8e54sm20215564pls.96.2023.05.02.15.50.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 15:50:19 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1ptyp6-00AcrA-Ao; Wed, 03 May 2023 08:50:16 +1000
+Date:   Wed, 3 May 2023 08:50:16 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Kent Overstreet <kent.overstreet@linux.dev>,
+        Suren Baghdasaryan <surenb@google.com>,
+        akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
+        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+        paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
+        Andy Shevchenko <andy@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Noralf =?iso-8859-1?B?VHLvv71ubmVz?= <noralf@tronnes.org>
+Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in
+ string_get_size's output
+Message-ID: <20230502225016.GJ2155823@dread.disaster.area>
+References: <20230501165450.15352-1-surenb@google.com>
+ <20230501165450.15352-2-surenb@google.com>
+ <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
+ <ZFAUj+Q+hP7cWs4w@moria.home.lan>
+ <b6b472b65b76e95bb4c7fc7eac1ee296fdbb64fd.camel@HansenPartnership.com>
+ <ZFCA2FF+9MI8LI5i@moria.home.lan>
+ <2f5ebe8a9ce8471906a85ef092c1e50cfd7ddecd.camel@HansenPartnership.com>
 MIME-Version: 1.0
-References: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20230413034108.1902712-3-sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <20230413034108.1902712-3-sathyanarayanan.kuppuswamy@linux.intel.com>
-From:   Chong Cai <chongc@google.com>
-Date:   Tue, 2 May 2023 15:27:53 -0700
-Message-ID: <CALRH0CjQhSzWhpjS2+Wp1xWswyK=eNmBGVpbVGr4sM0tMZT5pQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] virt: tdx-guest: Add Quote generation support
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Erdem Aktas <erdemaktas@google.com>,
-        Dionna Amalie Glaze <dionnaglaze@google.com>,
-        Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2f5ebe8a9ce8471906a85ef092c1e50cfd7ddecd.camel@HansenPartnership.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 8:42=E2=80=AFPM Kuppuswamy Sathyanarayanan
-<sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
->
-> In TDX guest, the second stage in attestation process is to send the
-> TDREPORT to QE/QGS to generate the TD Quote. For platforms that does
-> not support communication channels like vsock or TCP/IP, implement
-> support to get TD Quote using hypercall. GetQuote hypercall can be used
-> by the TD guest to request VMM facilitate the Quote generation via
-> QE/QGS. More details about GetQuote hypercall can be found in TDX
-> Guest-Host Communication Interface (GHCI) for Intel TDX 1.0, section
-> titled "TDG.VP.VMCALL<GetQuote>".
->
-> Add support for TDX_CMD_GET_QUOTE IOCTL to allow attestation agent
-> submit GetQuote requests from the user space using GetQuote hypercall.
->
-> Since GetQuote is an asynchronous request hypercall, VMM will use
-> callback interrupt vector configured by SetupEventNotifyInterrupt
-> hypercall to notify the guest about Quote generation completion or
-> failure. So register an IRQ handler for it.
->
-> GetQuote TDVMCALL requires TD guest pass a 4K aligned shared buffer
-> with TDREPORT data as input, which is further used by the VMM to copy
-> the TD Quote result after successful Quote generation. To create the
-> shared buffer, allocate the required memory using alloc_pages() and
-> mark it shared using set_memory_decrypted() in tdx_guest_init(). This
-> buffer will be re-used for GetQuote requests in TDX_CMD_GET_QUOTE
-> IOCTL handler.
->
-> Although this method will reserve a fixed chunk of memory for
-> GetQuote requests during the init time, it is preferable to the
-> alternative choice of allocating/freeing the shared buffer in the
-> TDX_CMD_GET_QUOTE IOCTL handler, which will damage the direct map.
+On Tue, May 02, 2023 at 07:42:59AM -0400, James Bottomley wrote:
+> On Mon, 2023-05-01 at 23:17 -0400, Kent Overstreet wrote:
+> > On Mon, May 01, 2023 at 10:22:18PM -0400, James Bottomley wrote:
+> > > It is not used just for debug.  It's used all over the kernel for
+> > > printing out device sizes.  The output mostly goes to the kernel
+> > > print buffer, so it's anyone's guess as to what, if any, tools are
+> > > parsing it, but the concern about breaking log parsers seems to be
+> > > a valid one.
+> > 
+> > Ok, there is sd_print_capacity() - but who in their right mind would
+> > be trying to scrape device sizes, in human readable units,
+> 
+> If you bother to google "kernel log parser", you'll discover it's quite
+> an active area which supports a load of company business models.
 
-Thanks Sathyanarayanan for the work. The patch looks good. Reserving a fixe=
-d
-chunk of memory for GetQuote makes sense to me.
+That doesn't mean log messages are unchangable ABI. Indeed, we had
+the whole "printk_index_emit()" addition recently to create
+an external index of printk message formats for such applications to
+use. [*]
 
-And just want to re-emphasize that the TDVMCALL approach is important for
-many use cases that cannot depend on virtio/vsock.
+> >  from log messages when it's available in sysfs/procfs (actually, is
+> > it in sysfs? if not, that's an oversight) in more reasonable units?
+> 
+> It's not in sysfs, no.  As aren't a lot of things, which is why log
+> parsing for system monitoring is big business.
+
+And that big business is why printk_index_emit() exists to allow
+them to easily determine how log messages change format and come and
+go across different kernel versions.
+
+> > Correct me if I'm wrong, but I've yet to hear about kernel log
+> > messages being consider a stable interface, and this seems a bit out
+> > there.
+> 
+> It might not be listed as stable, but when it's known there's a large
+> ecosystem out there consuming it we shouldn't break it just because you
+> feel like it.
+
+But we've solved this problem already, yes?
+
+If the userspace applications are not using the kernel printk format
+index to detect such changes between kernel version, then they
+should be. This makes trivial issues like whether we have a space or
+not between units is completely irrelevant because the entry in the
+printk format index for the log output we emit will match whatever
+is output by the kernel....
+
+Cheers,
+
+Dave.
+
+[*]
+commit 337015573718b161891a3473d25f59273f2e626b
+Author: Chris Down <chris@chrisdown.name>
+Date:   Tue Jun 15 17:52:53 2021 +0100
+
+    printk: Userspace format indexing support
+    
+    We have a number of systems industry-wide that have a subset of their
+    functionality that works as follows:
+    
+    1. Receive a message from local kmsg, serial console, or netconsole;
+    2. Apply a set of rules to classify the message;
+    3. Do something based on this classification (like scheduling a
+       remediation for the machine), rinse, and repeat.
+    
+    As a couple of examples of places we have this implemented just inside
+    Facebook, although this isn't a Facebook-specific problem, we have this
+    inside our netconsole processing (for alarm classification), and as part
+    of our machine health checking. We use these messages to determine
+    fairly important metrics around production health, and it's important
+    that we get them right.
+    
+    While for some kinds of issues we have counters, tracepoints, or metrics
+    with a stable interface which can reliably indicate the issue, in order
+    to react to production issues quickly we need to work with the interface
+    which most kernel developers naturally use when developing: printk.
+    
+    Most production issues come from unexpected phenomena, and as such
+    usually the code in question doesn't have easily usable tracepoints or
+    other counters available for the specific problem being mitigated. We
+    have a number of lines of monitoring defence against problems in
+    production (host metrics, process metrics, service metrics, etc), and
+    where it's not feasible to reliably monitor at another level, this kind
+    of pragmatic netconsole monitoring is essential.
+    
+    As one would expect, monitoring using printk is rather brittle for a
+    number of reasons -- most notably that the message might disappear
+    entirely in a new version of the kernel, or that the message may change
+    in some way that the regex or other classification methods start to
+    silently fail.
+    
+    One factor that makes this even harder is that, under normal operation,
+    many of these messages are never expected to be hit. For example, there
+    may be a rare hardware bug which one wants to detect if it was to ever
+    happen again, but its recurrence is not likely or anticipated. This
+    precludes using something like checking whether the printk in question
+    was printed somewhere fleetwide recently to determine whether the
+    message in question is still present or not, since we don't anticipate
+    that it should be printed anywhere, but still need to monitor for its
+    future presence in the long-term.
+    
+    This class of issue has happened on a number of occasions, causing
+    unhealthy machines with hardware issues to remain in production for
+    longer than ideal. As a recent example, some monitoring around
+    blk_update_request fell out of date and caused semi-broken machines to
+    remain in production for longer than would be desirable.
+    
+    Searching through the codebase to find the message is also extremely
+    fragile, because many of the messages are further constructed beyond
+    their callsite (eg. btrfs_printk and other module-specific wrappers,
+    each with their own functionality). Even if they aren't, guessing the
+    format and formulation of the underlying message based on the aesthetics
+    of the message emitted is not a recipe for success at scale, and our
+    previous issues with fleetwide machine health checking demonstrate as
+    much.
+    
+    This provides a solution to the issue of silently changed or deleted
+    printks: we record pointers to all printk format strings known at
+    compile time into a new .printk_index section, both in vmlinux and
+    modules. At runtime, this can then be iterated by looking at
+    <debugfs>/printk/index/<module>, which emits the following format, both
+    readable by humans and able to be parsed by machines:
+    
+        $ head -1 vmlinux; shuf -n 5 vmlinux
+        # <level[,flags]> filename:line function "format"
+        <5> block/blk-settings.c:661 disk_stack_limits "%s: Warning: Device %s is misaligned\n"
+        <4> kernel/trace/trace.c:8296 trace_create_file "Could not create tracefs '%s' entry\n"
+        <6> arch/x86/kernel/hpet.c:144 _hpet_print_config "hpet: %s(%d):\n"
+        <6> init/do_mounts.c:605 prepare_namespace "Waiting for root device %s...\n"
+        <6> drivers/acpi/osl.c:1410 acpi_no_auto_serialize_setup "ACPI: auto-serialization disabled\n"
+    
+    This mitigates the majority of cases where we have a highly-specific
+    printk which we want to match on, as we can now enumerate and check
+    whether the format changed or the printk callsite disappeared entirely
+    in userspace. This allows us to catch changes to printks we monitor
+    earlier and decide what to do about it before it becomes problematic.
+    
+    There is no additional runtime cost for printk callers or printk itself,
+    and the assembly generated is exactly the same.
+    
+    Signed-off-by: Chris Down <chris@chrisdown.name>
+    Cc: Petr Mladek <pmladek@suse.com>
+    Cc: Jessica Yu <jeyu@kernel.org>
+    Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+    Cc: John Ogness <john.ogness@linutronix.de>
+    Cc: Steven Rostedt <rostedt@goodmis.org>
+    Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    Cc: Johannes Weiner <hannes@cmpxchg.org>
+    Cc: Kees Cook <keescook@chromium.org>
+    Reviewed-by: Petr Mladek <pmladek@suse.com>
+    Tested-by: Petr Mladek <pmladek@suse.com>
+    Reported-by: kernel test robot <lkp@intel.com>
+    Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+    Acked-by: Jessica Yu <jeyu@kernel.org> # for module.{c,h}
+    Signed-off-by: Petr Mladek <pmladek@suse.com>
+    Link: https://lore.kernel.org/r/e42070983637ac5e384f17fbdbe86d19c7b212a5.1623775748.git.chris@chrisdown.name
+
+-- 
+Dave Chinner
+david@fromorbit.com
