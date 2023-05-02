@@ -2,58 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D990C77B7E
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 16:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D74A2C77B7E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 16:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233578AbjEBQyu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 12:54:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40954 "EHLO
+        id S234359AbjEBQz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 12:55:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234423AbjEBQys (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 12:54:48 -0400
+        with ESMTP id S234400AbjEBQzU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 12:55:20 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89143268F;
-        Tue,  2 May 2023 09:54:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D0430F5
+        for <linux-doc@vger.kernel.org>; Tue,  2 May 2023 09:55:14 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 16C4131A;
-        Tue,  2 May 2023 16:54:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 16C4131A
+        by ms.lwn.net (Postfix) with ESMTPSA id C935031A;
+        Tue,  2 May 2023 16:55:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C935031A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1683046470; bh=18zSXR3CgMMgMvGwsfV4DF/jTisqSwmkNE64YkGLoLQ=;
+        t=1683046514; bh=bt4LPq744zslTyRHQEVAXieEFzUUEC2OE3DAM9c8cys=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=U3FLVD+pBY/o5T9Qrc+EoRTuqUSRxPSb3D/OI/qa5vLJU3DN3UGmxiUUtyPKqq9g+
-         lYOAHzyvV2F3iuBtOyRfpNWfR2ju6WB/lhRhC5aa0y3S1KOo5rYwBWtP4FuWH/A0Ms
-         GsPeUeMHzxfjwik+z83CHdwVIm3N6shA8jAFYMy0L98t/RSnQXXWzd9bJq53epTUXR
-         vdKL/TCkS1xR3sfbpTMmegtF8bo/Oi29HTRPV2Zk8Hi6CZyAd8uxuNr4ah54Nm9yw8
-         op0UEvACmN9YwcbSYuV3O8DJl6Z+op3mfZNMrLFt0oapneBuQHS5i5groemp1Q4ejF
-         IphRJq0oJMkqg==
+        b=CwNPfEKoJfP5gtt989gcQpfFwpL2w/8jf5xsiq9o/0PaPwjwdTYz5vksR+ULss/Pi
+         qn40Xo3S35Dy6TyKWYNeB4USlTP9WVDqJrj0YTRC09QTFTnP94d7IWuBKcZoGTzAeQ
+         uh0yWlLHJmPZg7A0gchcAd9UORYmLGO1egtZBWDuhkLvPR0W2/7yaI1LrYlPp7ZMPW
+         gBZ+VSIwEPj2SjRGAcTqrEDmhEpcpRzEesN5Y+g7w2ql0fqXDCCXe5GWNOCxmArsjk
+         +dfUAwA0FukfvCyOsTF/CdmOeEcHq7Yo5SmMRiZYt1IEJuFbYwhh1w9PdkAEl3vWuM
+         bvMEDsoSGKrdQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Deming Wang <wangdeming@inspur.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shibata@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] docs/ja_JP/SubmittingPatches: fix typo of Reviewd
-In-Reply-To: <64790637-279a-a1ca-292b-f9f1fac69f14@gmail.com>
-References: <20230502010157.1655-1-wangdeming@inspur.com>
- <64790637-279a-a1ca-292b-f9f1fac69f14@gmail.com>
-Date:   Tue, 02 May 2023 10:54:29 -0600
-Message-ID: <87zg6m7jy2.fsf@meer.lwn.net>
+To:     Tao Liu <ltao@redhat.com>, alexs@kernel.org, siyanteng@loongson.cn,
+        src.res@email.cn
+Cc:     linux-doc@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Tao Liu <ltao@redhat.com>
+Subject: Re: [PATCH] Remove the unnecessary unicode character
+In-Reply-To: <20230426021452.9745-1-ltao@redhat.com>
+References: <20230426021452.9745-1-ltao@redhat.com>
+Date:   Tue, 02 May 2023 10:55:13 -0600
+Message-ID: <87v8ha7jwu.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Tao Liu <ltao@redhat.com> writes:
 
-> Anyway, Jon might just pick this one with his edit of changelog.
+> There is a non-printable unicode char '\u202a' or "0xe2 0x80 0xaa" in hex
+> in the translation doc. It is unnecessary and should be removed for better
+> text formatting when using editors like vi.
 >
-> So (again),
->
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+> Signed-off-by: Tao Liu <ltao@redhat.com>
+> ---
+>  Documentation/translations/zh_CN/process/magic-number.rst | 2 +-
+>  Documentation/translations/zh_TW/process/magic-number.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-I've done exactly that, thanks.
+Applied, thanks.
 
 jon
