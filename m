@@ -2,177 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C2C1C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 16:00:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD426C7EE22
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 16:51:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234643AbjEBQAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 12:00:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37646 "EHLO
+        id S233747AbjEBQvA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 12:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234661AbjEBQAg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 12:00:36 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A36E40F7;
-        Tue,  2 May 2023 09:00:33 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-3062c1e7df8so1815260f8f.1;
-        Tue, 02 May 2023 09:00:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683043232; x=1685635232;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=k2Qjj4J2QVS6E2WwvS7hIj33LnIvaIzNxIftN5wfh5k=;
-        b=B5tpiBn1yYsDx6uA2yL6fh/eKiWy7z1jl57c/Y/LBE+sMmdW/sxsuYXzTnLN1xAhUf
-         aI8haoVSdQofqR8wCoHrVisw+ejVRZoRIkII4AXf9YnGJ9nso5oFESEKjfXtAxeM48Cq
-         KQhB4Kb6Xt3trALiZSZUDJpS1T0LvKyNkEOLnoYD8BUMyPrLS96wWe9b5EXzAXamNhEz
-         2x7b3GswjbkK6g5ouwND4PLtZV4oiG/DiuSu2vfBhlRlZDZ6PT+r/nB0FjTUsC2UJ9Ws
-         864RwLoGZLVJJ3lFAlAoO831G56km3Y/LZe2B1gLy/lBzj0Elbfw9DvXWXe6he8mKVrH
-         1xqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683043232; x=1685635232;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k2Qjj4J2QVS6E2WwvS7hIj33LnIvaIzNxIftN5wfh5k=;
-        b=lwyV0e0ZX4X6qCEh2kWYmh5Y0j+GFW/dRFC6givjj02XRBVGv5PM2fEYYSnRLRvsD8
-         /PBJR2s70OPaU7tTNKc5xlglPmJ1VrNmeB8vfFXvG1T7iFK+vR+PY1HDF1xCpNSDeMoR
-         DX4y0D8n4QjrR4/MIJsF6VrsE17hHIddIKoWgt9MPSWc4Q6brUBURuW+52c4ygNuvIgs
-         qvfYSdw1n3SSFlV6AL++DsoYYFYk9S4TI8pJ8f6wxz+htXnfTJ88o3MPsgevydwvgWp2
-         E1K0/mJEmlBfr77BITliUIRLpE8UrnQgEn4KNb4o0Aho2PsFCDk/iEeP9sOAENAuQmoU
-         WZWQ==
-X-Gm-Message-State: AC+VfDxu1UhPS+VDdnfS55zZcWg6LyBtZIueoDeFmWcRJTxmuPNFMV+g
-        eI6RUVArKuJ737OQHtnNciA=
-X-Google-Smtp-Source: ACHHUZ6s1EAJEBgbHny09eQlPTJ+1OymgLdTQ2UByJxCsNR8mRXDrVDy5fn0HmL6hBnELTLmvUtf8Q==
-X-Received: by 2002:a5d:4c8c:0:b0:306:2a46:4b11 with SMTP id z12-20020a5d4c8c000000b003062a464b11mr6178283wrs.43.1683043231975;
-        Tue, 02 May 2023 09:00:31 -0700 (PDT)
-Received: from Ansuel-xps. ([176.201.39.129])
-        by smtp.gmail.com with ESMTPSA id o17-20020a5d4751000000b003063a92bbf5sm1297780wrs.70.2023.05.02.09.00.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 09:00:31 -0700 (PDT)
-Message-ID: <6451339f.5d0a0220.88ec5.8829@mx.google.com>
-X-Google-Original-Message-ID: <ZFEzncaVV/MqzQ69@Ansuel-xps.>
-Date:   Tue, 2 May 2023 18:00:29 +0200
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 08/11] leds: trigger: netdev: add support for LED hw
- control
-References: <20230427001541.18704-1-ansuelsmth@gmail.com>
- <20230427001541.18704-9-ansuelsmth@gmail.com>
- <d2c86cf0-d57f-4358-9765-3983a145e1ab@lunn.ch>
+        with ESMTP id S234062AbjEBQu7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 12:50:59 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 852B11BF6;
+        Tue,  2 May 2023 09:50:57 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 23E7544A;
+        Tue,  2 May 2023 16:50:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 23E7544A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1683046256; bh=tCSPNCpvcve/k22DjTIu5RayNrviaTp6n/wonrqJyFE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=KFC7nX7EUzpQhIRdzVOT4yaswRMhBNZeg+5E5j2cTeFanFqNpSUN1RXa67M6eVdeF
+         W3DZ5+53H5a/s8DERYYwemZT+C0sN9C7YrzxVlBLiASDHh5dXBrzKWUi10NpmhuI6E
+         y8oU7sPjMHmm20WTIcX1axVqlpbK/4NVuTJgstcEJl6Skik0LGyHR83hmUBdanjrSo
+         o5bAGgtzzU7cgd4hVWKz8vowAFRC173aMcHmZHFVY8uR858ojIds6NKtc36TqefISw
+         dmL3Rw2us9Al/Vj+Dp8G2N9nApE8GLtvddEIqFZZlCpMTnWN0NW1UVoGt726/G8hS6
+         xs/yaYFMQuwOQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        John Stultz <jstultz@google.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] Documentation: timers: hrtimers: Make hybrid union
+ historical
+In-Reply-To: <87v8ha4tvh.ffs@tglx>
+References: <59250a3d1c2c827b5c1833169a6e652ca6a784e6.1683021785.git.geert+renesas@glider.be>
+ <87v8ha4tvh.ffs@tglx>
+Date:   Tue, 02 May 2023 10:50:55 -0600
+Message-ID: <874jou8yog.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d2c86cf0-d57f-4358-9765-3983a145e1ab@lunn.ch>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 30, 2023 at 07:55:13PM +0200, Andrew Lunn wrote:
-> On Thu, Apr 27, 2023 at 02:15:38AM +0200, Christian Marangi wrote:
-> > Add support for LED hw control for the netdev trigger.
-> > 
-> > The trigger on calling set_baseline_state to configure a new mode, will
-> > do various check to verify if hw control can be used for the requested
-> > mode in the validate_requested_mode() function.
-> > 
-> > It will first check if the LED driver supports hw control for the netdev
-> > trigger, then will check if the requested mode are in the trigger mode
-> > mask and finally will call hw_control_set() to apply the requested mode.
-> > 
-> > To use such mode, interval MUST be set to the default value and net_dev
-> > MUST be empty. If one of these 2 value are not valid, hw control will
-> > never be used and normal software fallback is used.
-> > 
-> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> > ---
-> >  drivers/leds/trigger/ledtrig-netdev.c | 52 +++++++++++++++++++++++++++
-> >  1 file changed, 52 insertions(+)
-> > 
-> > diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-> > index 8cd876647a27..61bc19fd0c7a 100644
-> > --- a/drivers/leds/trigger/ledtrig-netdev.c
-> > +++ b/drivers/leds/trigger/ledtrig-netdev.c
-> > @@ -68,6 +68,13 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
-> >  	int current_brightness;
-> >  	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> >  
-> > +	/* Already validated, hw control is possible with the requested mode */
-> > +	if (trigger_data->hw_control) {
-> > +		led_cdev->hw_control_set(led_cdev, trigger_data->mode);
-> > +
-> > +		return;
-> > +	}
-> > +
-> >  	current_brightness = led_cdev->brightness;
-> >  	if (current_brightness)
-> >  		led_cdev->blink_brightness = current_brightness;
-> > @@ -95,6 +102,51 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
-> >  static int validate_requested_mode(struct led_netdev_data *trigger_data,
-> >  				   unsigned long mode, bool *can_use_hw_control)
-> >  {
-> > +	unsigned int interval = atomic_read(&trigger_data->interval);
-> > +	unsigned long hw_supported_mode, hw_mode = 0, sw_mode = 0;
-> > +	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> > +	unsigned long default_interval = msecs_to_jiffies(50);
-> > +	bool force_sw = false;
-> > +	int i, ret;
-> > +
-> > +	hw_supported_mode = led_cdev->trigger_supported_flags_mask;
-> > +
-> 
-> > +		if (interval == default_interval && !trigger_data->net_dev &&
-> > +		    !force_sw && test_bit(i, &hw_supported_mode))
-> > +			set_bit(i, &hw_mode);
-> > +		else
-> > +			set_bit(i, &sw_mode);
-> > +	}
-> > +
-> 
-> > +	/* Check if the requested mode is supported */
-> > +	ret = led_cdev->hw_control_is_supported(led_cdev, hw_mode);
-> > +	if (ret)
-> > +		return ret;
-> 
-> Hi Christian
-> 
-> What is the purpose of led_cdev->trigger_supported_flags_mask? I don't
-> see why it is needed when you are also going to ask the PHY if it can
-> support the specific blink pattern the user is requesting.
+Thomas Gleixner <tglx@linutronix.de> writes:
 
-The idea is to have a place where a trigger can quickly check the single
-mode supported before the entire mode map is validated, but I understand
-that this can totally be dropped with some extra code from both trigger
-and LED driver.
+> On Tue, May 02 2023 at 12:05, Geert Uytterhoeven wrote:
+>
+>> Non-scalar time was removed from the ktime hybrid union in v3.17, and
+>> the union itself followed suit in v4.10.
+>>
+>> Make it clear that ktime_t is always a 64bit scalar type, to avoid
+>> confusing the casual reader.
+>>
+>> While at it, fix a spelling mistake.
+>>
+>> Fixes: 24e4a8c3e8868874 ("ktime: Kill non-scalar ktime_t implementation for 2038")
+>> Fixes: 2456e855354415bf ("ktime: Get rid of the union")
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
 
-While refactoring the netdev triger mode validation I notice it was very
-handy and simplified the check logic having a mask of the single mode
-supported. But this might be not needed for now and we can think of a
-better approach later when we will introduce hardware only modes.
+Applied, thanks.
 
-> 
-> The problem i have with the Marvell PHY, and other PHYs i've looked at
-> datasheets for, is that hardware does not work like this. It has a
-> collection of blinking modes, which are a mixture of link speeds, rx
-> activity, and tx activity. It supports just a subset of all
-> possibilities.
-> 
-> I think this function can be simplified. Simply ask the LED via
-> hw_control_is_supported() does it support this mode. If yes, offload
-> it, if not use software blinking.
-
-Yep, I will consider dropping it to slim this series even further.
-
-> 
->     Andrew
-
--- 
-	Ansuel
+jon
