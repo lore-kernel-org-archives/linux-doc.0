@@ -2,102 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC71BC77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 05:38:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCE74C7EE25
+	for <linux-doc@archiver.kernel.org>; Tue,  2 May 2023 06:22:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233499AbjEBFiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 01:38:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58596 "EHLO
+        id S229457AbjEBGWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 02:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233286AbjEBFiR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 01:38:17 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F77E52;
-        Mon,  1 May 2023 22:38:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683005895; x=1714541895;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IbzAOE6Ia8T4XdxydP/sh8DuUMvMcKuaOuf20lN87z4=;
-  b=XMNbqxsImiCusydzRTolLYdiBQZvoLyAjsXwGMQpY4qzeRlwvAIyCwoi
-   dJnqwvb6z4FbeGxTrGIKMIiFZETeGP8YX3xMw3i/t/1zIfaREtCj3ooPU
-   A1XI9H6A/q/eIyFPZb7jOiG0K+F7bfFsguL0M/O8rc34cndUnumk6TKHO
-   2tY2WbI9XxfwL6+TR/jkLdJUjBuH27uT8I0TeAFoIJS7Z5hhTlHDSA06r
-   aSv3obMPHz/A7DaHCbneap7wjje/pDyyDQnfm0a2M+iRJ0VEkq2bWxEm4
-   jxxUPTUEfb1KeZ7PmQ1Zg0VnJyyDmH6drz1cVVOyS6FMwdVSx4abB4pBU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="351292743"
-X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="351292743"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 22:38:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="785545764"
-X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="785545764"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 May 2023 22:38:14 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ptiiL-0000s6-0Z;
-        Tue, 02 May 2023 05:38:13 +0000
-Date:   Tue, 2 May 2023 13:37:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Costa Shulyupin <costa.shul@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] docs: consolidate human interface subsystems
-Message-ID: <202305021306.dKifEdb7-lkp@intel.com>
-References: <20230501154258.277866-1-costa.shul@redhat.com>
+        with ESMTP id S229495AbjEBGWL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 02:22:11 -0400
+X-Greylist: delayed 32695 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 May 2023 23:22:09 PDT
+Received: from out-11.mta0.migadu.com (out-11.mta0.migadu.com [91.218.175.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D1B10EB
+        for <linux-doc@vger.kernel.org>; Mon,  1 May 2023 23:22:09 -0700 (PDT)
+Date:   Tue, 2 May 2023 02:21:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1683008526;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Mq+P+Or5S2cDa8uRDb0VbMIKnPfazrh1Ie3ittG4NpA=;
+        b=XXE5oA4K0foSqGpEMs5DFo9JRWgR09BYr3Ma0eT30ZOhwthVb3O/V+qRUxwdfKHZL4Mint
+        oPKMfW+hpt8eyu2fmB/QtHlqyNk7CkkrzpA8PgAk0M84iBkx6GuS79HBOZsj7ELnwo8Pve
+        C4RczgcqhGYjzbqdsVwlXHhdT/Cxqoc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Kent Overstreet <kent.overstreet@linux.dev>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
+        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+        paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
+        Andy Shevchenko <andy@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Noralf =?utf-8?B?VHLDr8K/wr1ubmVz?= <noralf@tronnes.org>
+Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in
+ string_get_size's output
+Message-ID: <ZFCsAZFMhPWIQIpk@moria.home.lan>
+References: <20230501165450.15352-1-surenb@google.com>
+ <20230501165450.15352-2-surenb@google.com>
+ <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
+ <ZFAUj+Q+hP7cWs4w@moria.home.lan>
+ <b6b472b65b76e95bb4c7fc7eac1ee296fdbb64fd.camel@HansenPartnership.com>
+ <ZFCA2FF+9MI8LI5i@moria.home.lan>
+ <CAHp75VdK2bgU8P+-np7ScVWTEpLrz+muG-R15SXm=ETXnjaiZg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230501154258.277866-1-costa.shul@redhat.com>
+In-Reply-To: <CAHp75VdK2bgU8P+-np7ScVWTEpLrz+muG-R15SXm=ETXnjaiZg@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Costa,
+On Tue, May 02, 2023 at 08:33:57AM +0300, Andy Shevchenko wrote:
+> Actually instead of producing zillions of variants, do a %p extension
+> to the printf() and that's it. We have, for example, %pt with T and
+> with space to follow users that want one or the other variant. Same
+> can be done with string_get_size().
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Costa-Shulyupin/docs-consolidate-human-interface-subsystems/20230501-234438
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20230501154258.277866-1-costa.shul%40redhat.com
-patch subject: [PATCH v2] docs: consolidate human interface subsystems
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/2df620e4b9e2c2827f8a5519f6c266e9e5ef85be
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Costa-Shulyupin/docs-consolidate-human-interface-subsystems/20230501-234438
-        git checkout 2df620e4b9e2c2827f8a5519f6c266e9e5ef85be
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305021306.dKifEdb7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/subsystem-apis.rst:14: WARNING: Title underline too short.
-
-vim +14 Documentation/subsystem-apis.rst
-
-    12	
-    13	Human interfaces
-  > 14	---------------
-    15	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+God no.
