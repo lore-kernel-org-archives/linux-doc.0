@@ -2,110 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D97C7EE2A
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 02:07:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2955C77B78
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 03:54:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbjECCHs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 May 2023 22:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39714 "EHLO
+        id S229497AbjECDy0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 May 2023 23:54:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjECCHr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 22:07:47 -0400
-Received: from out-1.mta1.migadu.com (out-1.mta1.migadu.com [IPv6:2001:41d0:203:375::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BCA2272A
-        for <linux-doc@vger.kernel.org>; Tue,  2 May 2023 19:07:36 -0700 (PDT)
-Date:   Tue, 2 May 2023 22:07:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1683079654;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cpRynykubcluzGzuthbmrNkuNIeg8BzMwNks1+1YuhA=;
-        b=v2LisaB7EAiYUc1+uIQeLvUn9sUnaliIsnvchC6IYmBRNpj565Pcae8UgINnbfoPSrDzf1
-        dhyCKwDr9an9QOzJ3GvxlEwxpH2prnH3+mWfvk7cXKMy3v56CXygiL+SUSayiuSFsOEU6I
-        BkOshCOA3yKQ/GtZDDIOPbmb5F9macw=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
-        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
-        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
-        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-        paulmck@kernel.org, pasha.tatashin@soleen.com,
-        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
-        Andy Shevchenko <andy@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Noralf =?utf-8?B?VHLDr8K/wr1ubmVz?= <noralf@tronnes.org>
-Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in
- string_get_size's output
-Message-ID: <ZFHB2ATrPIsjObm/@moria.home.lan>
-References: <20230501165450.15352-1-surenb@google.com>
- <20230501165450.15352-2-surenb@google.com>
- <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
- <ZFAUj+Q+hP7cWs4w@moria.home.lan>
- <b6b472b65b76e95bb4c7fc7eac1ee296fdbb64fd.camel@HansenPartnership.com>
- <ZFCA2FF+9MI8LI5i@moria.home.lan>
- <CAHp75VdK2bgU8P+-np7ScVWTEpLrz+muG-R15SXm=ETXnjaiZg@mail.gmail.com>
- <ZFCsAZFMhPWIQIpk@moria.home.lan>
- <CAHp75VdvRshCthpFOjtmajVgCS_8YoJBGbLVukPwU+t79Jgmww@mail.gmail.com>
+        with ESMTP id S229487AbjECDyZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 May 2023 23:54:25 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B741730;
+        Tue,  2 May 2023 20:54:24 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1aaf2ede38fso32476155ad.2;
+        Tue, 02 May 2023 20:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683086063; x=1685678063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6q3+C/O6BV/0gC+jrMbg3MwoGAyt7Cv6nHU3v3zys3I=;
+        b=rDNoWnGhJwAj76Ge80sW8/InyLnBi7jwU23z97T9EoARIFUNIbUaF+GQ2D6DSU+vll
+         BsowuuPL6I9xhwUYyaiYWWm3C01pX1qNTK7LzYk/ZiqHGEhsel0iJBK5GbeC5O/cIUkL
+         dryGwMTYB0/Lsxn6sOHxgqg0DWg6rCzHVtKM6OfSmGKsvLXR1l6emV6kQY8nKt6ppTM8
+         K/k1e28rmsxf4toOeLGhuN/YtinfmiH6IjLZGLmiYE4+q512hzPS9bGYvhb2la5246Ka
+         cdqT1bMUPyYmrk6CgHTVwxzc7wR1NU2mAmSVJgTUU9GMskLiEM/Lfa3XUrwrP6/sBLay
+         ErgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683086063; x=1685678063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6q3+C/O6BV/0gC+jrMbg3MwoGAyt7Cv6nHU3v3zys3I=;
+        b=TMu3lRfxienkkazSMuH+fqtcuixaxCO60VNn6qZhk0L4dztKHMbafn8zWN9l0k0LwN
+         V0nHfCSTCi/x/e6BxTGFdbfaiJ4zn29wFuTpZ2X2al6UB/UqikYqn/5OfpVu0bkjKTa4
+         fqySOsZgncq/vrdsVWzaPavqcC4KTTZOZ5U54cTKMxZdDBJt0DMoi2QN1qkGd47WyeG0
+         K/tcMlwoFgjGCQMP69a0VDt4feNYPPESbxvVMvOim4hk6KUndktCrY8hpMuvcHJyiQ44
+         iuoMaA9WfAvJAX4WnUEPM/mZs1wpptLgBW+HuyBRHRiVfDLtyn2gtk3Mau6FN27rcndH
+         xsuA==
+X-Gm-Message-State: AC+VfDwKN3iuzbpJpKS+ZPwoELnvNvtlEK4L7GWsGTbOCnrikSnhWj6Q
+        oKXAaHyGV1PsDk5M8pSdfPM=
+X-Google-Smtp-Source: ACHHUZ4FXkEzCEQcEM1H8rckNkqvjTZZ1HLLDrm2ZrxU2DPEZFArr8JYzLEEi7yxud81InKVTsb4jg==
+X-Received: by 2002:a17:902:e88d:b0:1a6:6fe3:df8d with SMTP id w13-20020a170902e88d00b001a66fe3df8dmr899006plg.8.1683086063246;
+        Tue, 02 May 2023 20:54:23 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-11.three.co.id. [180.214.233.11])
+        by smtp.gmail.com with ESMTPSA id c7-20020a170902aa4700b001a1faeac240sm20512918plr.186.2023.05.02.20.54.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 20:54:22 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id EA49D10622E; Wed,  3 May 2023 10:54:19 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux ALSA Subsystem Development <alsa-devel@alsa-project.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] ALSA: docs: Fix code block indentation in ALSA driver example
+Date:   Wed,  3 May 2023 10:54:16 +0700
+Message-Id: <20230503035416.62722-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2821; i=bagasdotme@gmail.com; h=from:subject; bh=6LXELRL34BN4LPhBXSHO4pfAXrYd4OlwOyi8Y9pLNbI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCmBt16EPVP9HMJw1cC8qGTVAZcZf8692rCv/c3y4A//r 828EGOb3FHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJqLcz/HdaG928N+2fsO23 7GWPuuIr9ObPqFrxL47fLLTKoTT8rQzD//LruWeVlM387uu+VpnT0rnkSfrzML3a7PZ5HdJPUph mMQIA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VdvRshCthpFOjtmajVgCS_8YoJBGbLVukPwU+t79Jgmww@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 02, 2023 at 06:19:27PM +0300, Andy Shevchenko wrote:
-> On Tue, May 2, 2023 at 9:22 AM Kent Overstreet
-> <kent.overstreet@linux.dev> wrote:
-> > On Tue, May 02, 2023 at 08:33:57AM +0300, Andy Shevchenko wrote:
-> > > Actually instead of producing zillions of variants, do a %p extension
-> > > to the printf() and that's it. We have, for example, %pt with T and
-> > > with space to follow users that want one or the other variant. Same
-> > > can be done with string_get_size().
-> >
-> > God no.
-> 
-> Any elaboration what's wrong with that?
+Sphinx reports htmldocs warnings:
 
-I'm really not a fan of %p extensions in general (they are what people
-reach for because we can't standardize on a common string output API),
-but when we'd be passing it bare integers the lack of type safety would
-be a particularly big footgun.
+Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3997: WARNING: Literal block expected; none found.
+Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4004: WARNING: Literal block expected; none found.
+Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4009: WARNING: Unexpected indentation.
+Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4035: WARNING: Literal block expected; none found.
 
-> God no for zillion APIs for almost the same. Today you want space,
-> tomorrow some other (special) delimiter.
+These are due to indentation of example driver snippets which is outside
+the code block scope.
 
-No, I just want to delete the space and output numbers the same way
-everyone else does. And if we are stuck with two string_get_size()
-functions, %p extensions in no way improve the situation.
+Fix these by indenting code blocks in question to the scope.
+
+Fixes: 4d421eebe1465d ("ALSA: docs: writing-an-alsa-driver.rst: polishing")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/linux-doc/202305021822.4U6XOvGf-lkp@intel.com/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ .../kernel-api/writing-an-alsa-driver.rst     | 22 +++++++++----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+index c0f97b5e424969..4335c98b3d828f 100644
+--- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
++++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+@@ -3994,21 +3994,21 @@ Driver with A Single Source File
+ 
+    Suppose you have a file xyz.c. Add the following two lines::
+ 
+-  snd-xyz-objs := xyz.o
+-  obj-$(CONFIG_SND_XYZ) += snd-xyz.o
++     snd-xyz-objs := xyz.o
++     obj-$(CONFIG_SND_XYZ) += snd-xyz.o
+ 
+ 2. Create the Kconfig entry
+ 
+    Add the new entry of Kconfig for your xyz driver::
+ 
+-  config SND_XYZ
+-    tristate "Foobar XYZ"
+-    depends on SND
+-    select SND_PCM
+-    help
+-      Say Y here to include support for Foobar XYZ soundcard.
+-      To compile this driver as a module, choose M here:
+-      the module will be called snd-xyz.
++     config SND_XYZ
++       tristate "Foobar XYZ"
++       depends on SND
++       select SND_PCM
++       help
++         Say Y here to include support for Foobar XYZ soundcard.
++         To compile this driver as a module, choose M here:
++         the module will be called snd-xyz.
+ 
+ The line ``select SND_PCM`` specifies that the driver xyz supports PCM.
+ In addition to SND_PCM, the following components are supported for
+@@ -4032,7 +4032,7 @@ located in the new subdirectory, sound/pci/xyz.
+ 1. Add a new directory (``sound/pci/xyz``) in ``sound/pci/Makefile``
+    as below::
+ 
+-  obj-$(CONFIG_SND) += sound/pci/xyz/
++     obj-$(CONFIG_SND) += sound/pci/xyz/
+ 
+ 
+ 2. Under the directory ``sound/pci/xyz``, create a Makefile::
+
+base-commit: 348551ddaf311c76b01cdcbaf61b6fef06a49144
+-- 
+An old man doll... just what I always wanted! - Clara
+
