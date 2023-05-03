@@ -2,62 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 383CDC77B75
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 06:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0EF5C77B7F
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 06:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbjECGG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 May 2023 02:06:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60228 "EHLO
+        id S229598AbjECGJF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 May 2023 02:09:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjECGGy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 02:06:54 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 723772D69;
-        Tue,  2 May 2023 23:06:53 -0700 (PDT)
+        with ESMTP id S229556AbjECGJE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 02:09:04 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5082C2700;
+        Tue,  2 May 2023 23:09:03 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 198E81FFD8;
-        Wed,  3 May 2023 06:06:52 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 0EEA61FFD8;
+        Wed,  3 May 2023 06:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1683094012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1683094142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=uJyauCRKA1OKuD2J2BLjbo+7WdRbLAPXODKeyqBieVA=;
-        b=bgNahnK0jIVhMQdwFI6wxSrA5z8mhlcU207HYujRgIwZ/+ar1qIoI8UvxTuEosCA81sM7D
-        Se2gi2Aoc7w9u/DS5aCq6YAhw1GRaRsG+q8v+c3BgYyJ7B5PcgjFI03H+3m+mxokRgmK5I
-        Q95bU+4Kf4ZkGpRvCJ40Xm8rjY1geh8=
+        bh=+t49PqzNz0xM/24vPeyfoW+k2vwxVL++9FCvg5c33FM=;
+        b=GtK0AlUp22O8tQ30XoNOh0ITR251rdWnN7/BwCI8DHmSg/0iIdcFdPtmTaCQxXOmFmMEUS
+        dPBvUkv058Y5gnCSMR/XMGCm8CmE1dznZ96hAS1X8O8Ri4gPeDj1MMjWVXCh6bO6U7dULh
+        sNkRrpz70L4DVeetXVYKVkN9yqZuPfk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1683094012;
+        s=susede2_ed25519; t=1683094142;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=uJyauCRKA1OKuD2J2BLjbo+7WdRbLAPXODKeyqBieVA=;
-        b=fogcCL2iwIwnpNvbJwTouByyjpBdGNss0x0Jr1gUDCt833IsJdqiRIS7P19jTUTaV0V8Yr
-        lhQXN8IGLQ3P6lBg==
+        bh=+t49PqzNz0xM/24vPeyfoW+k2vwxVL++9FCvg5c33FM=;
+        b=onBur/FKJUp/7Ddlghcp9lxSTWbqnP5Ups4+6hQriBvywfQ84siBfr8dFU3E1otYMsHI6D
+        MtMibOV1FDf5ZHDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D6DEC13584;
-        Wed,  3 May 2023 06:06:51 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB68E13584;
+        Wed,  3 May 2023 06:09:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id NyWKM/v5UWTiJQAAMHmgww
-        (envelope-from <tiwai@suse.de>); Wed, 03 May 2023 06:06:51 +0000
-Date:   Wed, 03 May 2023 08:06:51 +0200
-Message-ID: <87ildane2s.wl-tiwai@suse.de>
+        id OPqlMH36UWTPJgAAMHmgww
+        (envelope-from <tiwai@suse.de>); Wed, 03 May 2023 06:09:01 +0000
+Date:   Wed, 03 May 2023 08:09:01 +0200
+Message-ID: <87fs8endz6.wl-tiwai@suse.de>
 From:   Takashi Iwai <tiwai@suse.de>
-To:     Ivan Orlov <ivan.orlov0322@gmail.com>
-Cc:     perex@perex.cz, tiwai@suse.com, corbet@lwn.net,
-        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        himadrispandya@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] ALSA: docs: Extend module parameters description
-In-Reply-To: <20230501101634.476297-1-ivan.orlov0322@gmail.com>
-References: <20230501101634.476297-1-ivan.orlov0322@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux ALSA Subsystem Development <alsa-devel@alsa-project.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] ALSA: docs: Fix code block indentation in ALSA driver example
+In-Reply-To: <20230503035416.62722-1-bagasdotme@gmail.com>
+References: <20230503035416.62722-1-bagasdotme@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
@@ -65,21 +70,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 01 May 2023 12:16:34 +0200,
-Ivan Orlov wrote:
+On Wed, 03 May 2023 05:54:16 +0200,
+Bagas Sanjaya wrote:
 > 
-> Common ALSA module parameters look a little bit confusing because of the
-> description lacking, and it took me a while to understand the purpose of
-> their existence. To figure it out I asked the question about them to the
-> "alsa-devel" mailing list, and Takashi Iwai answered me with the text I
-> appended to the ALSA documentation in this patch.
+> Sphinx reports htmldocs warnings:
 > 
-> These common module parameters aren't used a lot nowadays, but as I
-> understand they are important for providing compatibility with some
-> existing user-space apps. So in my opinion it is a good idea to document
-> why we need them.
+> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:3997: WARNING: Literal block expected; none found.
+> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4004: WARNING: Literal block expected; none found.
+> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4009: WARNING: Unexpected indentation.
+> Documentation/sound/kernel-api/writing-an-alsa-driver.rst:4035: WARNING: Literal block expected; none found.
 > 
-> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+> These are due to indentation of example driver snippets which is outside
+> the code block scope.
+> 
+> Fix these by indenting code blocks in question to the scope.
+> 
+> Fixes: 4d421eebe1465d ("ALSA: docs: writing-an-alsa-driver.rst: polishing")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/linux-doc/202305021822.4U6XOvGf-lkp@intel.com/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 Thanks, applied.
 
