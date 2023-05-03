@@ -2,217 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A87C77B78
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 17:22:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEADEC77B7F
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 17:40:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbjECRWl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 May 2023 13:22:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57462 "EHLO
+        id S229874AbjECRk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 May 2023 13:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbjECRWk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 13:22:40 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F93210F1;
-        Wed,  3 May 2023 10:22:39 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 343GmLI0019257;
-        Wed, 3 May 2023 17:04:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=3j6qKMufK1xOS3WjPDSg9QQXFKVRPXyyQTDI+AWUpgI=;
- b=ihSW94Fxv8BF+qz/loxVJczsOPRnVmMCC/uRdbKBcYgyV3HijWNH6rDBVBqdOtMw+JHG
- ue1qFjbgzzCCJI3lhRgCUgErKK1M1ZtSDbjRZbYH/vaWO9mxOsRb8zKWWRxIpj74KkSy
- AHm+hzzXFrwSiDcLHrqGD6hqunm3P3jeYq/mnI8abpk2Z3y1WMhk3LS8vEkIk1xYU18C
- QJsWvZYoqx6gdzztSvWaLJvi9oIc4I0j1PAKldLqzu/Bq5c6tgOdW8wliPQxRxNE7/sj
- XebdbZF4OoONDKuHcFKq4S2X5LGJ+p4m7vXd+NjJyOLenEROege+bpxQn+2iOS93QHhb pg== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qbk7sh7qy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 03 May 2023 17:04:12 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 343H44fs005070
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 3 May 2023 17:04:04 GMT
-Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 3 May 2023 10:03:58 -0700
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-To:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
-        <linux-gpio@vger.kernel.org>, <srinivas.kandagatla@linaro.org>
-CC:     <linux-arm-msm@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, "Mukesh Ojha" <quic_mojha@quicinc.com>
-Subject: [PATCH v3 12/18] soc: qcom: Register pstore frontend region with minidump
-Date:   Wed, 3 May 2023 22:32:26 +0530
-Message-ID: <1683133352-10046-13-git-send-email-quic_mojha@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
-References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
+        with ESMTP id S229522AbjECRk5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 13:40:57 -0400
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32451AC
+        for <linux-doc@vger.kernel.org>; Wed,  3 May 2023 10:40:55 -0700 (PDT)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-55a8e9e2c53so26459417b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 May 2023 10:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1683135654; x=1685727654;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VnWJwoqbKS+XkHViPIVupavn1s9FL+9QLrnitzrqP5g=;
+        b=eK3o90MKtG0sAxJkQzBjjPPdgC8Naf0DW8LSnzzFyGy7r2iplN6tx8LRS+K1pesqQ/
+         +dlPpm9XhI5MpmbmybPkhrAEcSQe8jXQWxke9zLF0oWZbujbmGNiLr16iUXkN33UUHSx
+         XBXGIEWcktzdHazuLFLqwBuOkd1R9zqRh1rR05EQP6mEIW+Y870cMvkQ+YZdkTbO3EXe
+         JnQPUyB6BIyM6BqPoFJBWX+ubIIjmGY6Y6TRZTV6HlKG9bq6FA2QoEZiVTg495moZLJm
+         8j7J7Vy9fMLWKuo3JHmpkQUMBoO2kqt3hu+UuR0WJjg5iixGZu5y4Lvke1eQTwl5WZQa
+         NpXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683135654; x=1685727654;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VnWJwoqbKS+XkHViPIVupavn1s9FL+9QLrnitzrqP5g=;
+        b=CTg84z6R7Z+hfL+sGII8ThkHlcRk06gNDCNRAX6IPnm72BO3mb/KZdegFSa8+ha7AF
+         uUAUOOrjIBJGkQ6gY/ZJ4GY12rrFZvUEnGMF7XK/HdjnuduQlVlcW87tnsDnE3t56tst
+         znSL12w5jIEJWoiVU3EHgyl6k2IdNO5yuXEb+xP8fXIciSRLCYyiRMUvDDRdk0ObNsue
+         lk/OOX520Q+8Pjulgk1jaCWb30hR4XigaLD/3HFJWLiGXPGx4mGmltgVJM3sFATWiq70
+         Vhs52DoEc0wfoitzIzByaE5Z3sfaZxDNq5FHo94KyyCcd5xkl/PJSke+6j91tfQinxHO
+         SXSQ==
+X-Gm-Message-State: AC+VfDxnesNo62yWllm0u/HR4WZycaYSSj4ECAfb2rkvkkhX4mCYnfnm
+        Ufkx1J7jCpmyw1r5cnJHAbERc/Bhc0wazuCeFet+RA==
+X-Google-Smtp-Source: ACHHUZ5+xgmBEFDJhkEbV6hOZk2BeNhUs5riMMl8CEWVIZEPl5lRwY7k05WxOPH80Nz6y5uKgnKRw8/1iWaKnQTfG2Y=
+X-Received: by 2002:a25:1885:0:b0:b92:3f59:26e with SMTP id
+ 127-20020a251885000000b00b923f59026emr18942712yby.41.1683135654167; Wed, 03
+ May 2023 10:40:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: KciCwc0YGPllTPgHlxaAHCpumGHprIXZ
-X-Proofpoint-GUID: KciCwc0YGPllTPgHlxaAHCpumGHprIXZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-03_12,2023-05-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305030146
+References: <20230501165450.15352-1-surenb@google.com> <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
+ <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com> <20230503122839.0d9934c5@gandalf.local.home>
+In-Reply-To: <20230503122839.0d9934c5@gandalf.local.home>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 3 May 2023 10:40:42 -0700
+Message-ID: <CAJuCfpFYq7CZS4y2ZiF+AJHRKwnyhmZCk_uuTwFse26DxGh-qQ@mail.gmail.com>
+Subject: Re: [PATCH 00/40] Memory allocation profiling
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org,
+        kent.overstreet@linux.dev, vbabka@suse.cz, hannes@cmpxchg.org,
+        roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
+        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+        paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, bsegall@google.com, bristot@redhat.com,
+        vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+        iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+        elver@google.com, dvyukov@google.com, shakeelb@google.com,
+        songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+        minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since qcom_pstore_minidump driver creates platform device
-for qualcomm devices, so it knows the physical addresses
-of the frontend region now. Let's register the regions
-with qcom_minidump driver.
+On Wed, May 3, 2023 at 9:28=E2=80=AFAM Steven Rostedt <rostedt@goodmis.org>=
+ wrote:
+>
+> On Wed, 3 May 2023 08:09:28 -0700
+> Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> > There is another issue, which I think can be solved in a smart way but
+> > will either affect performance or would require more memory. With the
+> > tracing approach we don't know beforehand how many individual
+> > allocation sites exist, so we have to allocate code tags (or similar
+> > structures for counting) at runtime vs compile time. We can be smart
+> > about it and allocate in batches or even preallocate more than we need
+> > beforehand but, as I said, it will require some kind of compromise.
+>
+> This approach is actually quite common, especially since tagging every
+> instance is usually overkill, as if you trace function calls in a running
+> kernel, you will find that only a small percentage of the kernel ever
+> executes. It's possible that you will be allocating a lot of tags that wi=
+ll
+> never be used. If run time allocation is possible, that is usually the
+> better approach.
 
-Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
----
- drivers/soc/qcom/qcom_pstore_minidump.c | 80 ++++++++++++++++++++++++++++++++-
- 1 file changed, 79 insertions(+), 1 deletion(-)
+True but the memory overhead should not be prohibitive here. As a
+ballpark number, on my machine I see there are 4838 individual
+allocation locations and each codetag structure is 32 bytes, so that's
+152KB.
 
-diff --git a/drivers/soc/qcom/qcom_pstore_minidump.c b/drivers/soc/qcom/qcom_pstore_minidump.c
-index 8d58500..c2bba4e 100644
---- a/drivers/soc/qcom/qcom_pstore_minidump.c
-+++ b/drivers/soc/qcom/qcom_pstore_minidump.c
-@@ -11,6 +11,8 @@
- #include <linux/pstore_ram.h>
- #include <soc/qcom/qcom_minidump.h>
- 
-+#define QCOM_PSTORE_TYPE_MAX	4
-+
- struct qcom_ramoops_config {
- 	unsigned long	record_size;
- 	unsigned long	console_size;
-@@ -24,6 +26,11 @@ struct qcom_ramoops_config {
- struct qcom_ramoops_dd {
- 	struct ramoops_platform_data qcom_ramoops_pdata;
- 	struct platform_device *ramoops_pdev;
-+	struct device *dev;
-+	struct qcom_apss_minidump_region *record_region;
-+	struct qcom_apss_minidump_region *console_region;
-+	struct qcom_apss_minidump_region *pmsg_region;
-+	struct qcom_apss_minidump_region *ftrace_region;
- };
- 
- static struct qcom_ramoops_config default_ramoops_config = {
-@@ -35,6 +42,64 @@ static struct qcom_ramoops_config default_ramoops_config = {
- };
- 
- static struct qcom_ramoops_dd *qcom_rdd;
-+
-+static int
-+__qcom_ramoops_minidump_region_register(struct qcom_apss_minidump_region *md_region,
-+					const char *name, phys_addr_t phys_addr,
-+					unsigned long size)
-+{
-+	int ret;
-+
-+	if (!size)
-+		return 0;
-+
-+	md_region = devm_kzalloc(qcom_rdd->dev, sizeof(*md_region), GFP_KERNEL);
-+	if (!md_region)
-+		return -ENOMEM;
-+
-+	strlcpy(md_region->name, name, sizeof(md_region->name));
-+	md_region->phys_addr = phys_addr;
-+	md_region->virt_addr = phys_to_virt(phys_addr);
-+	md_region->size = size;
-+	ret = qcom_apss_minidump_region_register(md_region);
-+	if (ret)
-+		dev_err(qcom_rdd->dev,
-+			"failed to add %s in minidump: err: %d\n", name, ret);
-+
-+	return ret;
-+}
-+
-+static int
-+qcom_ramoops_minidump_region_register(struct ramoops_platform_data *qcom_ramoops_data)
-+{
-+	phys_addr_t phys_addr;
-+	int ret = 0;
-+
-+	phys_addr = qcom_ramoops_data->mem_address;
-+	ret = __qcom_ramoops_minidump_region_register(qcom_rdd->record_region,
-+			"KDMESG", phys_addr, qcom_ramoops_data->record_size);
-+	if (ret)
-+		return ret;
-+
-+	phys_addr += qcom_ramoops_data->record_size;
-+	ret = __qcom_ramoops_minidump_region_register(qcom_rdd->console_region,
-+			"KCONSOLE", phys_addr, qcom_ramoops_data->console_size);
-+	if (ret)
-+		return ret;
-+
-+	phys_addr += qcom_ramoops_data->console_size;
-+	ret = __qcom_ramoops_minidump_region_register(qcom_rdd->pmsg_region,
-+			"KPMSG", phys_addr, qcom_ramoops_data->pmsg_size);
-+	if (ret)
-+		return ret;
-+
-+	phys_addr += qcom_ramoops_data->pmsg_size;
-+	ret = __qcom_ramoops_minidump_region_register(qcom_rdd->ftrace_region,
-+			"KFTRACE", phys_addr, qcom_ramoops_data->ftrace_size);
-+
-+	return ret;
-+}
-+
- static int qcom_ramoops_probe(struct platform_device *pdev)
- {
- 	struct device_node *of_node = pdev->dev.of_node;
-@@ -59,6 +124,7 @@ static int qcom_ramoops_probe(struct platform_device *pdev)
- 	if (!qcom_rdd)
- 		return -ENOMEM;
- 
-+	qcom_rdd->dev = &pdev->dev;
- 	cfg = of_device_get_match_data(&pdev->dev);
- 	if (!cfg) {
- 		dev_err(&pdev->dev, "failed to get supported matched data\n");
-@@ -81,13 +147,25 @@ static int qcom_ramoops_probe(struct platform_device *pdev)
- 		ret = PTR_ERR(qcom_rdd->ramoops_pdev);
- 		dev_err(&pdev->dev, "could not create platform device: %ld\n", ret);
- 		qcom_rdd->ramoops_pdev = NULL;
-+		return ret;
- 	}
- 
--	return ret;
-+	return qcom_ramoops_minidump_region_register(pdata);
- }
- 
- static int qcom_ramoops_remove(struct platform_device *pdev)
- {
-+	struct ramoops_platform_data *pdata;
-+
-+	pdata = &qcom_rdd->qcom_ramoops_pdata;
-+	if (pdata->record_size)
-+		qcom_apss_minidump_region_unregister(qcom_rdd->record_region);
-+	if (pdata->console_size)
-+		qcom_apss_minidump_region_unregister(qcom_rdd->console_region);
-+	if (pdata->pmsg_size)
-+		qcom_apss_minidump_region_unregister(qcom_rdd->pmsg_region);
-+	if (pdata->ftrace_size)
-+		qcom_apss_minidump_region_unregister(qcom_rdd->ftrace_region);
- 	platform_device_unregister(qcom_rdd->ramoops_pdev);
- 	qcom_rdd->ramoops_pdev = NULL;
- 
--- 
-2.7.4
-
+>
+> -- Steve
