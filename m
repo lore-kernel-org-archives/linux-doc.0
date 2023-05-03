@@ -2,75 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35A55C7EE21
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 19:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 073F0C77B7F
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 19:41:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjECTNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 May 2023 15:13:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41388 "EHLO
+        id S229938AbjECTlY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 May 2023 15:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjECTNE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 15:13:04 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4179E7AAF;
-        Wed,  3 May 2023 12:13:03 -0700 (PDT)
-Received: from zn.tnic (p5de8e8ea.dip0.t-ipconnect.de [93.232.232.234])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B681A1EC0674;
-        Wed,  3 May 2023 21:13:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1683141181;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=L/8fxhHQV9gUmxp73tGqFoK9bK/rX7AQ4vVPU8ZIH0I=;
-        b=KcU0BTLrM12dhsRj+QLZSG0/+RmUKUiYJfiYee8JlzdiNbgVFD/LmgeqgPH66sbzspCphX
-        bqQXAAnTIVKkGkWa5UKHtB5PoYSIhviQ5VRtBo8QE52D5xzSpgI5rqz3rUcKRpD07YdiXO
-        lnMXaXWkqPpgYFEw1Wfi0/RkoaQnTVI=
-Date:   Wed, 3 May 2023 21:12:56 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Sohil Mehta <sohil.mehta@intel.com>
-Cc:     Juergen Gross <jgross@suse.com>, mikelley@microsoft.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
-Message-ID: <20230503191256.GGZFKyOLi12JS/HuXD@fat_crate.local>
-References: <20230502120931.20719-1-jgross@suse.com>
- <26e6947c-6c56-d8c0-1baf-1ff006258679@intel.com>
+        with ESMTP id S229481AbjECTlX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 15:41:23 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D65CF76A0
+        for <linux-doc@vger.kernel.org>; Wed,  3 May 2023 12:41:21 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-b9ef06cb784so2160066276.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 May 2023 12:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1683142881; x=1685734881;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7eRiiP2JCtlxvX+BHzTjXxhFfE3xb3L5Tko5xVivHIc=;
+        b=njnY9/ZTWcA0YQLoTf3TUMfGQMs6qBR8x/WiO3YJ4m2rgzn9gPgiVmWeEd3meHgQOd
+         veIE13lp/BEBibiOOZUNO+WD2iQQwInbq0mORyd3+wLWSUTFkhmbMs6fl3Tqmd3D0D5p
+         V+y4b3/jKL+G7UEO8JQopzaWcrHdBR+imlq/VrwTOp1569eYFHFfi9pD7I53OyaoPSYd
+         tj72nQLogAXIm5Pv95noTQ1YRpRrtHa+Dymto/1ndku51s0fuH/R0nkRvqq+7WbyeTBe
+         or08gvlkQ55RtNC4M9pq8YNpCVr1Dsrvti1RMiJ42Ynp3MHUq3DPU/4MOuwmbk5VuygM
+         Oy2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683142881; x=1685734881;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7eRiiP2JCtlxvX+BHzTjXxhFfE3xb3L5Tko5xVivHIc=;
+        b=LM+Xv756xiIll6lkHbCUFUpYX8OXE+eIffjeqG2Ue17UJuvBlampovo9IQqFY46uqx
+         zO8HKOfn2QSQD/BXk/7cGrCoeNC1UD5YTt38NpSj37Ft2ucoxmpvkEJc+h5Rpa6ffb7z
+         sQGYrX4bnkVGOzwl5bi0xBq3m6fqCn/Rycrk75Isv/z5yESHGU+tUeFpHSAG8HiaQZgg
+         PCTSgKP1E8Ede3aOyKHsa3ijonza8FimXjlO3xIpdDAKdVVltZxHjT1r6ejBfeuVaH+G
+         8TicSgjdWiUfhQLdVUhd4ylq4KU1Z2gMRkAnie6CMAiut0HaaDdbjO8bzuGYNFj8T+dr
+         GEjA==
+X-Gm-Message-State: AC+VfDyawNp01TdCt3ZLJJsvaoS3dHF7dY0dBUOBSlcpjaxoluZii4mm
+        njggoZc5ImVC5XsS0qq4wHF/rsCm2BMsAaDijpAvpg==
+X-Google-Smtp-Source: ACHHUZ4RFT+eYjp8zpqFQpuduTlyNDeYqB8fD0xjOEnMllgaLgM5ug7v5zBN549JMpsUAooBfYdYqk6S3BpMrYkFeqQ=
+X-Received: by 2002:a25:308a:0:b0:b9a:38b2:8069 with SMTP id
+ w132-20020a25308a000000b00b9a38b28069mr18330170ybw.6.1683142880244; Wed, 03
+ May 2023 12:41:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <26e6947c-6c56-d8c0-1baf-1ff006258679@intel.com>
+References: <ZFIMaflxeHS3uR/A@dhcp22.suse.cz> <ZFIOfb6/jHwLqg6M@moria.home.lan>
+ <ZFISlX+mSx4QJDK6@dhcp22.suse.cz> <ZFIVtB8JyKk0ddA5@moria.home.lan>
+ <ZFKNZZwC8EUbOLMv@slm.duckdns.org> <20230503180726.GA196054@cmpxchg.org>
+ <ZFKlrP7nLn93iIRf@slm.duckdns.org> <ZFKqh5Dh93UULdse@slm.duckdns.org>
+ <ZFKubD/lq7oB4svV@moria.home.lan> <ZFKu6zWA00AzArMF@slm.duckdns.org> <ZFKxcfqkUQ60zBB_@slm.duckdns.org>
+In-Reply-To: <ZFKxcfqkUQ60zBB_@slm.duckdns.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 3 May 2023 12:41:08 -0700
+Message-ID: <CAJuCfpEPkCJZO2svT-GfmpJ+V-jSLyFDKM_atnqPVRBKtzgtnQ@mail.gmail.com>
+Subject: Re: [PATCH 00/40] Memory allocation profiling
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Kent Overstreet <kent.overstreet@linux.dev>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org,
+        vbabka@suse.cz, roman.gushchin@linux.dev, mgorman@suse.de,
+        dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+        corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+        juri.lelli@redhat.com, ldufour@linux.ibm.com,
+        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, peterx@redhat.com, david@redhat.com,
+        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+        nathan@kernel.org, dennis@kernel.org, muchun.song@linux.dev,
+        rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 03, 2023 at 11:14:25AM -0700, Sohil Mehta wrote:
-> A Nit -> Documentation/process/maintainer-tip.rst suggests:
-> "The condensed patch description in the subject line should start with a
-> uppercase letter and ..."
+On Wed, May 3, 2023 at 12:09=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
+>
+> On Wed, May 03, 2023 at 08:58:51AM -1000, Tejun Heo wrote:
+> > On Wed, May 03, 2023 at 02:56:44PM -0400, Kent Overstreet wrote:
+> > > On Wed, May 03, 2023 at 08:40:07AM -1000, Tejun Heo wrote:
+> > > > > Yeah, easy / default visibility argument does make sense to me.
+> > > >
+> > > > So, a bit of addition here. If this is the thrust, the debugfs part=
+ seems
+> > > > rather redundant, right? That's trivially obtainable with tracing /=
+ bpf and
+> > > > in a more flexible and performant manner. Also, are we happy with r=
+ecording
+> > > > just single depth for persistent tracking?
 
-Yeah, good point.
+IIUC, by single depth you mean no call stack capturing?
+If so, that's the idea behind the context capture feature so that we
+can enable it on specific allocations only after we determine there is
+something interesting there. So, with low-cost persistent tracking we
+can determine the suspects and then pay some more to investigate those
+suspects in more detail.
 
-But my patch massaging script does that automatically so no need to
-resend.
+> > >
+> > > Not sure what you're envisioning?
+> > >
+> > > I'd consider the debugfs interface pretty integral; it's much more
+> > > discoverable for users, and it's hardly any code out of the whole
+> > > patchset.
+> >
+> > You can do the same thing with a bpftrace one liner tho. That's rather
+> > difficult to beat.
 
-Thx.
+debugfs seemed like a natural choice for such information. If another
+interface is more appropriate I'm happy to explore that.
 
--- 
-Regards/Gruss,
-    Boris.
+>
+> Ah, shit, I'm an idiot. Sorry. I thought allocations was under /proc and
+> allocations.ctx under debugfs. I meant allocations.ctx is redundant.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Do you mean that we could display allocation context in
+debugfs/allocations file (for the allocations which we explicitly
+enabled context capturing)?
+
+>
+> Thanks.
+>
+> --
+> tejun
