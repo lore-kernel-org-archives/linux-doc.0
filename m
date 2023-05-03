@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13204C7EE22
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 09:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0808BC7EE2C
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 09:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbjECJne (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 May 2023 05:43:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41950 "EHLO
+        id S229606AbjECJnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 May 2023 05:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbjECJn3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 05:43:29 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393D9525E;
+        with ESMTP id S229873AbjECJnb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 05:43:31 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F1AA5263;
         Wed,  3 May 2023 02:43:10 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-63b60366047so3517270b3a.1;
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-24df4ecdb87so2530739a91.0;
         Wed, 03 May 2023 02:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1683106989; x=1685698989;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VdsI+hHV1SMet6yGeXUXOJdAJPqVlRG1VZCMzWt5U/M=;
-        b=RUGLltaJzJHfMlOrUd7mLzmkL+OCnUg8YTR4vdy9KmncZFHMf27GhuScl9aFI9cpnX
-         oMEIOWxz8M4uAnRbiA8JjcTtzC2hFo1oO9FSaCtXniYO2Qtv536bGWmI+ps3pKSbhtDZ
-         4GAouanyptWEIWyES8oGEbJdBucmuRMzp9gqTBGuOSD6NLQSoSuwyhs4BYzxa1zmHP+S
-         l5DIBFZyuQ6aFGk5YxjTgrb+uvndEMdaE8Yk27OppRECTHaVuEci/88lqt1X1R541kdU
-         XAmgjhlZIRc9qMG6gOobcg/41yA6xj+bwEmRlVSCipW1uiAIvbqU9avyMPXACuv9zfbF
-         JabA==
+        bh=lf1muhsbXKVkAwjXlKT/F7FUM0glVIhlYmlwBoDu1aY=;
+        b=YM2916vWfm7x9AMOkdWOmzG7o1YqSh7s6l13OGUlMKGKTJyEHUVKWOM8ufj9V5kGxG
+         SMyufMgf0+DpWUzDcvkWrZ/H4Itx+Xcwm2u9Jh5Z2iDrVhq+0vnevfZPzuPAfqwDYkph
+         tBQ2mUauBjlpMdfihD3aFsniVPRxhu16sPa35HS/wX3yG/3+lG/jnKSCx4HHDp/Ma5Ad
+         WQHWHtcwWoXShw824+Hx3TQ9GNlX2a6VZgV1Z6WQDGDdu+Zj7cQXrl0YC6tj8dFHLFN+
+         EGgXcikNnR5N52veoo3UmYAG5+CUK6cmw+Ohkfiafw4mg+nDVOUJmo1vcxiqhwwgthIy
+         CzUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1683106989; x=1685698989;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VdsI+hHV1SMet6yGeXUXOJdAJPqVlRG1VZCMzWt5U/M=;
-        b=gfkZrfEeTNJYVVsuJIN/QAviBAihwH+juOXS7YLwmhqid8l2dw7to5NrhipQeiU8Jk
-         2Qbl8qK/zUCdWzr6ztJsr5aUf83RQOl9a6hEjB3gCq4iAvARqDtVLtqNvpW8itUXQeN/
-         9awH3Xfda7ceSHiPU+BIbvw4s5fPuvhMf0woPeZBviAfmfVzbXFJy3/VyGRiztL1U+xP
-         op12S2QtSAur/x6sm/7dlwHEpv2pBTNGApR1/7X3Pysc0/pEXESCL5BbZYNfR3WBbzwZ
-         gdEnRNNPKRChh/qppwnHRMNoTZU+VgBeJpmZhjwnsWP5X3USnhIztcHYMZTZuBicdSfV
-         rRVQ==
-X-Gm-Message-State: AC+VfDymNdDez5o8T4TJbSu9KweCespIGDRRShMwnxWoQwYcIpeJf/2T
-        ArCjaEXPP1M8QSvF2sUi4Ag=
-X-Google-Smtp-Source: ACHHUZ5IqNxLGOmjmTTtU8NedjrsbKCHPIyEkw64UhHFJJMJAy5lwynVr/PZaidTFYzXNcSTzEfHVw==
-X-Received: by 2002:a05:6a00:1a55:b0:63b:7ac8:1be4 with SMTP id h21-20020a056a001a5500b0063b7ac81be4mr29927714pfv.25.1683106989398;
+        bh=lf1muhsbXKVkAwjXlKT/F7FUM0glVIhlYmlwBoDu1aY=;
+        b=WUbW//fzFsMc0J/GDRZsi+lGI/ckEYZUehzLj1b6rXyUfaCLoA0L9GgIhpwuQhbK7J
+         Iwvd3Bq/vVysp3WHyxsCmovcFAzUvufp8YsPyTQwP+STx+HAmmRaSNTwP6YfZeXyWBgy
+         nbeE3iK9UVaSMuEwISOldoGXenzfxZBx1zsbC5P/qjFD8an8tkAAyS6pme5t8mgn+Tm/
+         HUgKLQRLkX7AvlOTj/anfkY5j5yvbrXSyFhGB15tmTNfFKuzd42ZH85vSRpk2XImgVB2
+         UqhJe+ILLwFK3yaJlL3A7RQY+TRrULVmlgjPJVicjDxyl9jOMa06ybm6wLYp+2yCfD95
+         gYjw==
+X-Gm-Message-State: AC+VfDwDYtNNNpKwxtreQxGefeXtlG110Ri/G2CvnitDmkz9OLLsUGPe
+        fCTfyAbdUC50o4kMs7u45DM=
+X-Google-Smtp-Source: ACHHUZ6D3bEwAna5pJ35KiqvNz1/3tcxtz47rD6lwT8t6NI81BCMEJ7K454Tv1UfL8Rgdp0GnF9Xkw==
+X-Received: by 2002:a17:90a:7f82:b0:23a:ad68:25a7 with SMTP id m2-20020a17090a7f8200b0023aad6825a7mr20214530pjl.2.1683106989559;
         Wed, 03 May 2023 02:43:09 -0700 (PDT)
 Received: from debian.me (subs03-180-214-233-11.three.co.id. [180.214.233.11])
-        by smtp.gmail.com with ESMTPSA id j12-20020a056a00174c00b00634b91326a9sm23972464pfc.143.2023.05.03.02.43.08
+        by smtp.gmail.com with ESMTPSA id pf8-20020a17090b1d8800b00247abbb157fsm942966pjb.31.2023.05.03.02.43.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 03 May 2023 02:43:08 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id DBE1A10624C; Wed,  3 May 2023 16:43:04 +0700 (WIB)
+        id A25321055AC; Wed,  3 May 2023 16:43:04 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Linux Networking <netdev@vger.kernel.org>,
         Linux Random Direct Memory Access 
@@ -70,51 +70,58 @@ Cc:     Saeed Mahameed <saeedm@nvidia.com>,
         Maher Sanalla <msanalla@nvidia.com>,
         Rahul Rameshbabu <rrameshbabu@nvidia.com>,
         Moshe Shemesh <moshe@nvidia.com>
-Subject: [PATCH net 3/4] Documentation: net/mlx5: Add blank line separator before numbered lists
-Date:   Wed,  3 May 2023 16:42:48 +0700
-Message-Id: <20230503094248.28931-4-bagasdotme@gmail.com>
+Subject: [PATCH net 1/4] Documentation: net/mlx5: Wrap vnic reporter devlink commands in code blocks
+Date:   Wed,  3 May 2023 16:42:46 +0700
+Message-Id: <20230503094248.28931-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230503094248.28931-1-bagasdotme@gmail.com>
 References: <20230503094248.28931-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1586; i=bagasdotme@gmail.com; h=from:subject; bh=cqUxta75B9+HXP24ZKCVQuvthnc3qFBlG7NEmCz80qo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDClBOtNF3U1EZXzdRfxevsi99FO5cGf6/CW3rK5++H2e4 Qa/R65rRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZyUpnhn+3XVNfrgR4iRba6 LMuLjbmCv570XD5bP0gw9tDUydLeLYwM051yVz4tSxWZu3mPUuNRgzcMu/O/1hsfEzkqJXqT30m IDwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2073; i=bagasdotme@gmail.com; h=from:subject; bh=tMWudNgiUasGarVpCzAepBusDqbWwgKJHD+hWHPr4uY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDClBOtMEvaW5Txo2aX94pLHw1pwXE+R+/np0NVBwkYSE1 Kzl0w24O0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRqc4M/2OcC4RdFe7dFnE/ 670zTYTvotamKcni+QFFfydv2HcpUZWRYeexBza9y8Ryz6r/9P2UtIrdNHjR8g2ianyTTFzecl5 I5AQA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The doc forgets to add separator before numbered lists, which causes the
-lists to be appended to previous paragraph inline instead.
+Sphinx reports htmldocs warnings:
 
-Add the missing separator.
+Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst:287: WARNING: Unexpected indentation.
+Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst:288: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst:290: WARNING: Unexpected indentation.
 
-Fixes: f2d51e579359b7 ("net/mlx5: Separate mlx5 driver documentation into multiple pages")
+Fix above warnings by wrapping diagnostic devlink commands in "vnic
+reporter" section in code blocks to be consistent with other devlink
+command snippets.
+
+Fixes: b0bc615df488ab ("net/mlx5: Add vnic devlink health reporter to PFs/VFs")
+Fixes: cf14af140a5ad0 ("net/mlx5e: Add vnic devlink health reporter to representors")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- .../device_drivers/ethernet/mellanox/mlx5/devlink.rst           | 2 ++
- 1 file changed, 2 insertions(+)
+ .../device_drivers/ethernet/mellanox/mlx5/devlink.rst     | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst
-index 00687425d8b72d..f962c0975d8428 100644
+index 3a7a714cc08f0a..0f0598caea145f 100644
 --- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst
 +++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst
-@@ -40,6 +40,7 @@ flow_steering_mode: Device flow steering mode
- ---------------------------------------------
- The flow steering mode parameter controls the flow steering mode of the driver.
- Two modes are supported:
-+
- 1. 'dmfs' - Device managed flow steering.
- 2. 'smfs' - Software/Driver managed flow steering.
+@@ -283,10 +283,14 @@ nic_receive_steering_discard: number of packets that completed RX flow
+ steering but were discarded due to a mismatch in flow table.
  
-@@ -99,6 +100,7 @@ between representors and stacked devices.
- By default metadata is enabled on the supported devices in E-switch.
- Metadata is applicable only for E-switch in switchdev mode and
- users may disable it when NONE of the below use cases will be in use:
+ User commands examples:
+-- Diagnose PF/VF vnic counters
 +
- 1. HCA is in Dual/multi-port RoCE mode.
- 2. VF/SF representor bonding (Usually used for Live migration)
- 3. Stacked devices
++- Diagnose PF/VF vnic counters::
++
+         $ devlink health diagnose pci/0000:82:00.1 reporter vnic
++
+ - Diagnose representor vnic counters (performed by supplying devlink port of the
+-  representor, which can be obtained via devlink port command)
++  representor, which can be obtained via devlink port command)::
++
+         $ devlink health diagnose pci/0000:82:00.1/65537 reporter vnic
+ 
+ NOTE: This command can run over all interfaces such as PF/VF and representor ports.
 -- 
 An old man doll... just what I always wanted! - Clara
 
