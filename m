@@ -2,58 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C7CBC7EE21
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 20:12:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2CBC77B78
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 20:15:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbjECUM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 May 2023 16:12:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
+        id S230139AbjECUP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 May 2023 16:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230016AbjECUMY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 16:12:24 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 167319013
-        for <linux-doc@vger.kernel.org>; Wed,  3 May 2023 13:11:58 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-74e4f839ae4so257346685a.0
-        for <linux-doc@vger.kernel.org>; Wed, 03 May 2023 13:11:58 -0700 (PDT)
+        with ESMTP id S230064AbjECUPz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 16:15:55 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CA883E3
+        for <linux-doc@vger.kernel.org>; Wed,  3 May 2023 13:15:26 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-b9d8b2e1576so8055313276.2
+        for <linux-doc@vger.kernel.org>; Wed, 03 May 2023 13:15:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20221208.gappssmtp.com; s=20221208; t=1683144713; x=1685736713;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6aQuySOZ5f1xPp5M/IH7FdCb3YCBcIXK77oTLJoa1To=;
-        b=B77wj2uaBiAWD8idxLhj65ewWhJv33njFprJjaUykYSV+6Yt7L5dCUa5lIV4RnTCul
-         77+cSySse1ya6C7PyiB0e9SPkdj1lshr0RenyoypDVR8ikg/OEorh8RVaMkmDyZXhpHv
-         oV4cTXFAC8UYttofZrb1JTodalX4rrORDCcsv+1Jx7UbO7bLKPm1QGHzfh1gWH9APa83
-         /Rf/B+R6oZeNNgEfgORGaxElO0hO+QyuC06nrse5RwbHwLMFubuPNkiSJbC3/nSMBWBu
-         ZZk1an8YPsQoRYqubaG4Ci1ht8gXo9iEZqN3Zi7lvLJvcUkK5IQDe48usFI3QGu+5mjm
-         PenQ==
+        d=google.com; s=20221208; t=1683144920; x=1685736920;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fJv5xHBTJjNv/pix2rgh9sMW7sCnrk66nOy29HPAlus=;
+        b=UCO8xAxPQELEnJ5Z/+6POOiyN0vC8Y3LS4oWyDMuhEhZvFzcfiun+ebWGPwrO+pD6P
+         oaWSGqmefHbl5lAEiPf5lmUVnYEfPjsrvltc8OpHClJDRLqR0c6JCt2K4/o8XHiKCVdf
+         J53ZnSfM4WQ/BqrKp+eVl6M1p/n6Qe+G3n50PB19Uzdxt6cKRczUS8ApWupvLyGowGSr
+         nGY8DkG6nB+Z74vkrN7ka4kE+r+AVY9ut3CcNzBfOZ5eIHL+qS/vkhlLgZTTLFk7Q8GU
+         5cYkPlXWlkK/9gZow1krRfzsVVYIijdz+900Nl7CuaPdx5c8WOD0aSivErWELXWkx49V
+         I4sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683144713; x=1685736713;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6aQuySOZ5f1xPp5M/IH7FdCb3YCBcIXK77oTLJoa1To=;
-        b=Fl/nhWRtCZDdJQznGXucAm8ZdEZILIOJj5TOFtN67FO15dsN7unp8oK/VpN/C093+H
-         DA50Jvj1vHdfxkqz8DXniINlWe+phhn9s0pMYKfedN62DgG5tjjnkY0uVFSUSI8f0cq0
-         xR+7FYXqGY9L5X+KsuzfHGgnyUMxno/woR2+jUw0GGQyrcnM1nqQZm92LatNviiSCLYT
-         Va1RQSyUB0BLvZXFMqCmIA1eMN/CCdYCvr3mCN10VIRhjnHdAIhFdBKi79j35vYtahkP
-         fS9k7F/wAOvhPmx7ypYM1Ypbr35hqJsmrWoMhsuuBYmevsvAhmzIfKa/pkn4DUaJ1VRX
-         B7pA==
-X-Gm-Message-State: AC+VfDztULUaa4yJp+IfpduHW+oqZvyuz/0jydv1169pLtJMk9avymHL
-        DycB4DpjsRPVQUgTRO5OLMGXQQ==
-X-Google-Smtp-Source: ACHHUZ5CnnpIpmUeZ/FYpffmDL5OkaJstg4Fl9o3UD/YbGdgvGCcQtxmC6WZwKNTGrttYwJeKB4QiQ==
-X-Received: by 2002:ac8:5e0d:0:b0:3e6:9716:ba58 with SMTP id h13-20020ac85e0d000000b003e69716ba58mr2436956qtx.26.1683144712859;
-        Wed, 03 May 2023 13:11:52 -0700 (PDT)
-Received: from localhost (2603-7000-0c01-2716-8f57-5681-ccd3-4a2e.res6.spectrum.com. [2603:7000:c01:2716:8f57:5681:ccd3:4a2e])
-        by smtp.gmail.com with ESMTPSA id ed27-20020a05620a491b00b0074e2da97de4sm10761665qkb.33.2023.05.03.13.11.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 13:11:52 -0700 (PDT)
-Date:   Wed, 3 May 2023 16:11:50 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Tejun Heo <tj@kernel.org>,
-        Kent Overstreet <kent.overstreet@linux.dev>,
+        d=1e100.net; s=20221208; t=1683144920; x=1685736920;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fJv5xHBTJjNv/pix2rgh9sMW7sCnrk66nOy29HPAlus=;
+        b=PzvrN4ugWwqmej02p8YCugvcuqYbTLWIoFYnK/+nQo0kSFh6312jI89gltxgLGBkHN
+         fR9pRLXNMCv6Gd/zTweQKEgf/kbqtTgjQH+V1QkJkFbZYkGirOorydWwhwO305nRm//5
+         4Skwo5/Acmg0DJ9mj6A7rdgM7JVZSgHeapO7tJ/LTMXkdAT29ilcDtORaMX6bPgjTUOh
+         zLKhQCycIh7RsHi8t7bpG8AILsQv1Et6jsL1KpafeDpHxbLNwxWliIFvzEosmFlJU0kf
+         BtZKde96/OC4KLoFcqVgs3UyvoPkf06Cg5+jXLAn81xeNHJ+kScR+YMUqlSRW35afr9s
+         KQEw==
+X-Gm-Message-State: AC+VfDyJ3XK8QiRsq6mE2bqXKNEqmoD9ch73VD/cDAuIPfis05CQ3lSG
+        ji5BX0hhOgy9/kc/2lzYNi70rvbIIZv5nIGLiS5u7g==
+X-Google-Smtp-Source: ACHHUZ7mImQ/1wXTYz0SIgMaa2LSNhSdXyURzMfJt6GpNMGuq33NeGKiMX4mFybM8LMTHwiJs7q6jFVMM1TC3F7btJ0=
+X-Received: by 2002:a25:2b45:0:b0:b8e:db20:eccf with SMTP id
+ r66-20020a252b45000000b00b8edb20eccfmr22508398ybr.55.1683144919429; Wed, 03
+ May 2023 13:15:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <ZFIVtB8JyKk0ddA5@moria.home.lan> <ZFKNZZwC8EUbOLMv@slm.duckdns.org>
+ <20230503180726.GA196054@cmpxchg.org> <ZFKlrP7nLn93iIRf@slm.duckdns.org>
+ <ZFKqh5Dh93UULdse@slm.duckdns.org> <ZFKubD/lq7oB4svV@moria.home.lan>
+ <ZFKu6zWA00AzArMF@slm.duckdns.org> <ZFKxcfqkUQ60zBB_@slm.duckdns.org>
+ <CAJuCfpEPkCJZO2svT-GfmpJ+V-jSLyFDKM_atnqPVRBKtzgtnQ@mail.gmail.com>
+ <ZFK6pwOelIlhV8Bm@slm.duckdns.org> <ZFK9XMSzOBxIFOHm@slm.duckdns.org>
+In-Reply-To: <ZFK9XMSzOBxIFOHm@slm.duckdns.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 3 May 2023 13:14:57 -0700
+Message-ID: <CAJuCfpE4YD_BumqFf2-NC8KS9D+kq0s_o4gRyWAH-WK4SgqUbA@mail.gmail.com>
+Subject: Re: [PATCH 00/40] Memory allocation profiling
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Kent Overstreet <kent.overstreet@linux.dev>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org,
         vbabka@suse.cz, roman.gushchin@linux.dev, mgorman@suse.de,
         dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
@@ -82,33 +89,61 @@ Cc:     Tejun Heo <tj@kernel.org>,
         kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
         Alexei Starovoitov <ast@kernel.org>,
         Andrii Nakryiko <andrii@kernel.org>
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <20230503201150.GB197627@cmpxchg.org>
-References: <ZFKNZZwC8EUbOLMv@slm.duckdns.org>
- <20230503180726.GA196054@cmpxchg.org>
- <ZFKlrP7nLn93iIRf@slm.duckdns.org>
- <ZFKqh5Dh93UULdse@slm.duckdns.org>
- <ZFKubD/lq7oB4svV@moria.home.lan>
- <ZFKu6zWA00AzArMF@slm.duckdns.org>
- <ZFKxcfqkUQ60zBB_@slm.duckdns.org>
- <CAJuCfpEPkCJZO2svT-GfmpJ+V-jSLyFDKM_atnqPVRBKtzgtnQ@mail.gmail.com>
- <ZFK6pwOelIlhV8Bm@slm.duckdns.org>
- <CAJuCfpG4TmRpT5iU7bJmKcjW2Tghstdo1b=qEG=tDsmtJQYuWA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpG4TmRpT5iU7bJmKcjW2Tghstdo1b=qEG=tDsmtJQYuWA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 03, 2023 at 01:08:40PM -0700, Suren Baghdasaryan wrote:
-> On Wed, May 3, 2023 at 12:49 PM Tejun Heo <tj@kernel.org> wrote:
-> > * Improving memory allocation visibility makes sense to me. To me, a more
-> >   natural place for that feels like /proc/allocations next to other memory
-> >   info files rather than under debugfs.
-> 
-> TBH I would love that if this approach is acceptable.
+On Wed, May 3, 2023 at 1:00=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
+>
+> Hello,
+>
+> On Wed, May 03, 2023 at 09:48:55AM -1000, Tejun Heo wrote:
+> > > If so, that's the idea behind the context capture feature so that we
+> > > can enable it on specific allocations only after we determine there i=
+s
+> > > something interesting there. So, with low-cost persistent tracking we
+> > > can determine the suspects and then pay some more to investigate thos=
+e
+> > > suspects in more detail.
+> >
+> > Yeah, I was wondering whether it'd be useful to have that configurable =
+so
+> > that it'd be possible for a user to say "I'm okay with the cost, please
+> > track more context per allocation". Given that tracking the immediate c=
+aller
+> > is already a huge improvement and narrowing it down from there using
+> > existing tools shouldn't be that difficult, I don't think this is a blo=
+cker
+> > in any way. It just bothers me a bit that the code is structured so tha=
+t
+> > source line is the main abstraction.
+>
+> Another related question. So, the reason for macro'ing stuff is needed is
+> because you want to print the line directly from kernel, right?
 
-Ack
+The main reason is because we want to inject a code tag at the
+location of the call. If we have a code tag injected at every
+allocation call, then finding the allocation counter (code tag) to
+operate takes no time.
+
+> Is that
+> really necessary? Values from __builtin_return_address() can easily be
+> printed out as function+offset from kernel which already gives most of th=
+e
+> necessary information for triaging and mapping that back to source line f=
+rom
+> userspace isn't difficult. Wouldn't using __builtin_return_address() make
+> the whole thing a lot simpler?
+
+If we do that we have to associate that address with the allocation
+counter at runtime on the first allocation and look it up on all
+following allocations. That introduces the overhead which we are
+trying to avoid by using macros.
+
+>
+> Thanks.
+>
+> --
+> tejun
