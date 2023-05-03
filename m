@@ -2,135 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC989C77B75
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 08:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E55C77B78
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 08:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229609AbjECILK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 May 2023 04:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40332 "EHLO
+        id S229717AbjECIQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 May 2023 04:16:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbjECILJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 04:11:09 -0400
-Received: from out-3.mta1.migadu.com (out-3.mta1.migadu.com [IPv6:2001:41d0:203:375::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 923D91716
-        for <linux-doc@vger.kernel.org>; Wed,  3 May 2023 01:10:38 -0700 (PDT)
-Date:   Wed, 3 May 2023 04:05:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1683101119;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Af+2O/2Jo9IC9XECoO60Ibec+DnzA9yRBnuv4Bp8O9Y=;
-        b=rqHkCee1X71Oj3G6VysOrsK/rdJHy9B0yyXfZMJ4T4TWGYp3bKIJl27dUenlhtN0eAw3EY
-        9wtRJDXX0Vxp+Xc6ZM2YYwJwQELwnDdfgbU2buAGO1Vb841r/qxmb4h0I2pylWL1m2aZFQ
-        DMBUFXd/kgyZZl04aMULTG8rjWs+sv0=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFIVtB8JyKk0ddA5@moria.home.lan>
-References: <20230501165450.15352-1-surenb@google.com>
- <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
- <ZFIOfb6/jHwLqg6M@moria.home.lan>
- <ZFISlX+mSx4QJDK6@dhcp22.suse.cz>
+        with ESMTP id S229668AbjECIQl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 04:16:41 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D44133;
+        Wed,  3 May 2023 01:16:40 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-24b725d6898so3219434a91.2;
+        Wed, 03 May 2023 01:16:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683101800; x=1685693800;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pt6d2Jmrjanphi5K9FsZqei3BF1VkXGJynqoFhQrNAU=;
+        b=A1PmfxYpF3qoblfNK97dC3AaNBpv8mzSiBzfJzOe/r/dDffJoz8dLm/L/rTuwNChSB
+         i/T7vwAnfcPP8yMq+mzhD6kghQIgOpFyPZA/OuGh7jmZLGu95PfDBmHmzzZFca8l3T/H
+         FrP/vINoqkv6RfCjTTb9/r3yH0cr2IJXKAsRYYm9ZKYElvgfK4HwAyTQTAiT+tgYoZeg
+         GXiKODKDviOVVmBMDVqnsFni4VHqJB5lETxGX9rSXmVsuLEZk7h9uQi9vpeCNpH/aY6B
+         j2X9eQcXUlgxDbQ5hNRNi5pRjqxPzQ7B5jr0Kh9xCcxofidqDzT84LloX1bQBdKRIyxG
+         yznQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683101800; x=1685693800;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pt6d2Jmrjanphi5K9FsZqei3BF1VkXGJynqoFhQrNAU=;
+        b=W6nh7NgFAVRrniODhisQeQEhT5rDIGtDLMJlXsK03UAWkLpxWTTOT2ffSPv1LzWjE2
+         kf4pUJcxqSWTujJbLnmccckjOQ82ypOcDH5GiTdrMzEN6AdSovccrimVuX9TRSymQv9G
+         lLQhntk3NWzZ9w33CWooDVTyeZiDfqyrL86MBbLhOydzGTafc9slMvIWxraCgb2laZ2n
+         +GdtgW7XYuqPheIzix34Yn3TF31pKACe1rXUa5hlnV4VP6cybhVeBm77iT6Nf7vUKfZV
+         8bsqJ3jsHuV1Ec78fxUilXujuhxEUMH533wuj5jBx8XZ2xX0gstBWaenJH4gN2w3mja9
+         Vbmg==
+X-Gm-Message-State: AC+VfDxqpH7Xo01nwhlhzguqOFFVv/DBZVQMHPMLo5ogg1Qjyv/S6c2w
+        rlRyfz/BOJWXJshvLA+NewGO6uWZFeAU7A==
+X-Google-Smtp-Source: ACHHUZ5c+uSXzzvsjjEu7IrVNqAZfNFOJtUWmm9R5rbVE3FpAuKkTLL7AHlscaEdbpoQoJHUqNgYUw==
+X-Received: by 2002:a17:90a:8409:b0:246:82ac:b6cf with SMTP id j9-20020a17090a840900b0024682acb6cfmr20226075pjn.11.1683101799738;
+        Wed, 03 May 2023 01:16:39 -0700 (PDT)
+Received: from Dommie-Laptop.. (111-248-114-205.dynamic-ip.hinet.net. [111.248.114.205])
+        by smtp.gmail.com with ESMTPSA id jx12-20020a17090b46cc00b0024e0141353dsm782148pjb.28.2023.05.03.01.16.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 May 2023 01:16:39 -0700 (PDT)
+From:   Yan-Jie Wang <yanjiewtw@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Avi Kivity <avi@redhat.com>,
+        Yan-Jie Wang <yanjiewtw@gmail.com>,
+        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>, trivial@kernel.org,
+        kvm@vger.kernel.org
+Subject: [PATCH v2] docs: clarify KVM related kernel parameters' descriptions
+Date:   Wed,  3 May 2023 16:15:31 +0800
+Message-Id: <20230503081530.19956-1-yanjiewtw@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230502112502.14859-1-yanjiewtw@gmail.com>
+References: <20230502112502.14859-1-yanjiewtw@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZFISlX+mSx4QJDK6@dhcp22.suse.cz>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 03, 2023 at 09:51:49AM +0200, Michal Hocko wrote:
-> Your answers have shown your insight into tracing is very limited. I
-> have a clear recollection there were many suggestions on how to get what
-> you need and willingness to help out. Repeating your previous position
-> will not help much to be honest with you.
+The descriptions of certain KVM related kernel parameters can be
+confusing. They state "Disable ...," which may make people think that
+setting them to 1 will disable the associated feature when in fact the
+opposite is true.
 
-Please enlighten us, oh wise one.
+This commit addresses this issue by revising the descriptions of these
+parameters by using "Control..." rather than "Enable/Disable...".
+1==enabled or 0==disabled can be communicated by the description of
+default value such as "1 (enabled)" or "0 (disabled)".
 
-> > > - It has been brought up that this is duplicating functionality already
-> > >   available via existing tracing infrastructure. You should make it very
-> > >   clear why that is not suitable for the job
-> > 
-> > Tracing people _claimed_ this, but never demonstrated it.
-> 
-> The burden is on you and Suren. You are proposing the implement an
-> alternative tracing infrastructure.
+Also update the description of KVM's default value for kvm-intel.nested
+as it is enabled by default.
 
-No, we're still waiting on the tracing people to _demonstrate_, not
-claim, that this is at all possible in a comparable way with tracing. 
+Signed-off-by: Yan-Jie Wang <yanjiewtw@gmail.com>
+---
+Changes in v2:
+- Revise the descriptions based on Sean's suggesstion.
+- Fix the wrong default value of kvm-intel.nested
+---
+ .../admin-guide/kernel-parameters.txt         | 53 ++++++++++---------
+ 1 file changed, 29 insertions(+), 24 deletions(-)
 
-It's not on us to make your argument for you, and before making
-accusations about honesty you should try to be more honest yourself.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9e5bab29685f..450c9d3af3ed 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2551,12 +2551,13 @@
+ 			If the value is 0 (the default), KVM will pick a period based
+ 			on the ratio, such that a page is zapped after 1 hour on average.
+ 
+-	kvm-amd.nested=	[KVM,AMD] Allow nested virtualization in KVM/SVM.
+-			Default is 1 (enabled)
++	kvm-amd.nested=	[KVM,AMD] Control nested virtualization feature in
++			KVM/SVM. Default is 1 (enabled).
+ 
+-	kvm-amd.npt=	[KVM,AMD] Disable nested paging (virtualized MMU)
+-			for all guests.
+-			Default is 1 (enabled) if in 64-bit or 32-bit PAE mode.
++	kvm-amd.npt=	[KVM,AMD] Control KVM's use of Nested Page Tables,
++			a.k.a. Two-Dimensional Page Tables. Default is 1
++			(enabled). Disable by KVM if hardware lacks support
++			for NPT.
+ 
+ 	kvm-arm.mode=
+ 			[KVM,ARM] Select one of KVM/arm64's modes of operation.
+@@ -2602,30 +2603,33 @@
+ 			Format: <integer>
+ 			Default: 5
+ 
+-	kvm-intel.ept=	[KVM,Intel] Disable extended page tables
+-			(virtualized MMU) support on capable Intel chips.
+-			Default is 1 (enabled)
++	kvm-intel.ept=	[KVM,Intel] Control KVM's use of Extended Page Tables,
++			a.k.a. Two-Dimensional Page Tables.  Default is 1
++			(enabled). Disable by KVM if hardware lacks support
++			for EPT.
+ 
+ 	kvm-intel.emulate_invalid_guest_state=
+-			[KVM,Intel] Disable emulation of invalid guest state.
+-			Ignored if kvm-intel.enable_unrestricted_guest=1, as
+-			guest state is never invalid for unrestricted guests.
+-			This param doesn't apply to nested guests (L2), as KVM
+-			never emulates invalid L2 guest state.
+-			Default is 1 (enabled)
++			[KVM,Intel] Control whether to emulate invalid guest
++			state. Ignored if kvm-intel.enable_unrestricted_guest=1,
++			as guest state is never invalid for unrestricted
++			guests. This param doesn't apply to nested guests (L2),
++			as KVM never emulates invalid L2 guest state.
++			Default is 1 (enabled).
+ 
+ 	kvm-intel.flexpriority=
+-			[KVM,Intel] Disable FlexPriority feature (TPR shadow).
+-			Default is 1 (enabled)
++			[KVM,Intel] Control KVM's use of FlexPriority feature
++			(TPR shadow). Default is 1 (enabled). Disalbe by KVM if
++			hardware lacks support for it.
+ 
+ 	kvm-intel.nested=
+-			[KVM,Intel] Enable VMX nesting (nVMX).
+-			Default is 0 (disabled)
++			[KVM,Intel] Control nested virtualization feature in
++			KVM/VMX. Default is 1 (enabled).
+ 
+ 	kvm-intel.unrestricted_guest=
+-			[KVM,Intel] Disable unrestricted guest feature
+-			(virtualized real and unpaged mode) on capable
+-			Intel chips. Default is 1 (enabled)
++			[KVM,Intel] Control KVM's use of unrestricted guest
++			feature (virtualized real and unpaged mode). Default
++			is 1 (enabled). Disable by KVM if EPT is disabled or
++			hardware lacks support for it.
+ 
+ 	kvm-intel.vmentry_l1d_flush=[KVM,Intel] Mitigation for L1 Terminal Fault
+ 			CVE-2018-3620.
+@@ -2639,9 +2643,10 @@
+ 
+ 			Default is cond (do L1 cache flush in specific instances)
+ 
+-	kvm-intel.vpid=	[KVM,Intel] Disable Virtual Processor Identification
+-			feature (tagged TLBs) on capable Intel chips.
+-			Default is 1 (enabled)
++	kvm-intel.vpid=	[KVM,Intel] Control KVM's use of Virtual Processor
++			Identification feature (tagged TLBs). Default is 1
++			(enabled). Disable by KVM if hardware lacks support
++			for it.
+ 
+ 	l1d_flush=	[X86,INTEL]
+ 			Control mitigation for L1D based snooping vulnerability.
 
-The expectations you're trying to level have never been the norm in the
-kernel community, sorry. When there's a technical argument about the
-best way to do something, _code wins_ and we've got working code to do
-something that hasn't been possible previously.
+base-commit: 865fdb08197e657c59e74a35fa32362b12397f58
+-- 
+2.34.1
 
-There's absolutely no rule that "tracing has to be the one and only tool
-for kernel visibility".
-
-I'm considering the tracing discussion closed until someone in the
-pro-tracing camp shows something new.
-
-> > > - We already have page_owner infrastructure that provides allocation
-> > >   tracking data. Why it cannot be used/extended?
-> > 
-> > Page owner is also very high overhead,
-> 
-> Is there any data to prove that claim? I would be really surprised that
-> page_owner would give higher overhead than page tagging with profiling
-> enabled (there is an allocation for each allocation request!!!). We can
-> discuss the bare bone page tagging comparision to page_owner because of
-> the full stack unwinding but is that overhead really prohibitively costly?
-> Can we reduce that by trimming the unwinder information?
-
-Honestly, this isn't terribly relevant, because as noted before page
-owner is limited to just page allocations.
-
-> 
-> > and the output is not very user
-> > friendly (tracking full call stack means many related overhead gets
-> > split, not generally what you want), and it doesn't cover slab.
-> 
-> Is this something we cannot do anything about? Have you explored any
-> potential ways?
-> 
-> > This tracks _all_ memory allocations - slab, page, vmalloc, percpu.
-
-Michel, the discussions with you seem to perpetually go in circles; it's
-clear you're negative on the patchset, you keep raising the same
-objections while refusing to concede a single point.
-
-I believe I've answered enough, so I'll leave off further discussions
-with you.
