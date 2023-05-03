@@ -2,206 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46953C77B78
-	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 07:16:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31933C7EE25
+	for <linux-doc@archiver.kernel.org>; Wed,  3 May 2023 07:27:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbjECHQG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 May 2023 03:16:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
+        id S229797AbjECH1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 May 2023 03:27:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjECHQF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 03:16:05 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B54035B0;
-        Wed,  3 May 2023 00:16:02 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-1928860f63eso984941fac.0;
-        Wed, 03 May 2023 00:16:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683098161; x=1685690161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nlNv/F2pCSwWbexWZ5JR+V38LaHDUWBt53s7CUexmGA=;
-        b=ovKuIJlCtQLxpA1qPNder/rFAq3YErdm0kDt3aYHjNYsKAaO1onRL+QOyIWR6UuBzZ
-         0/qng6/4ZsCXc2btT/2t3T//F9EK4ebxBNCoVbfYFq06+vwVZVjtIuRt6ciVc1YyK7oK
-         lfChm+YSlHIsGL+T67udLNJhKsb+6u9rrrZP6k2xAWb9DRxRWRceUzUyKNiAGOhomV5p
-         GFnXnq00I+FNCrPcKfF4nwyyNO/eN7puqGTNogJu7QE6/SdJJSgCQoEcf1RBu8yA8Snm
-         IFEONcKddHEFUpovi2YGJy+p2YU2NqF18PEuLnZZcatNcn+Rv3+as3otSFF+HI3L/gUo
-         Yahw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683098161; x=1685690161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nlNv/F2pCSwWbexWZ5JR+V38LaHDUWBt53s7CUexmGA=;
-        b=d2gbldjQFR6gBZAOVMMQrtJUGdgiXVCdzRb37d+Ffn8SfkE8xdDXwa706FAxzxDIdZ
-         lnkivvl2W+7vpDfM/sPE/3UPUgqujapKx8UkmotLlfTpH/SZ5d6pL4npDmWVjsLxEAPD
-         1MxsKXP3gu5dCtKMTnFoHpKA+RWy4qXMATQ/SeH0Y9HGW9pDyc13Lvd8UPRlgOl89K2p
-         HOG1O/CGYJq5jSrShRX7qBOMGkquVwAXcEqzjKMRwRKYwnjwMMkvIlMx5YPoimyhCRqF
-         2E/UmYR4TgHG67UtBiYzUAcVt0eBvgkrVff88RVOSjrHPN7KO2zetDd2tlhleAhhsuym
-         nUvQ==
-X-Gm-Message-State: AC+VfDy7egTsNZ6oqccl+pdfo/OlOxwaalb6W/5moJ6lleUlEsU0mxIL
-        06n3JGY39UmMVF9725lUyTdq1medQslKub9rZfM=
-X-Google-Smtp-Source: ACHHUZ5frZJz6/JDagRgAf6f8HQ7KkaW2AVcePOplDlQJ8kqBupFAFLwS1odqZCAvx1T4kZWKyl79GVw7YYUzvNeAGs=
-X-Received: by 2002:a05:6870:9890:b0:18e:7c5e:b58c with SMTP id
- eg16-20020a056870989000b0018e7c5eb58cmr9395162oab.9.1683098161344; Wed, 03
- May 2023 00:16:01 -0700 (PDT)
+        with ESMTP id S229866AbjECH03 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 May 2023 03:26:29 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61CA64492;
+        Wed,  3 May 2023 00:25:42 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 41461223BB;
+        Wed,  3 May 2023 07:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1683098730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JWB7/k68Y9sA1GCsD2EpPdE47UaCuB2lkBwAJ+0gleQ=;
+        b=u+3Vi8PDtD1nO4vnIaCnVOnGVWxCooEKxlih7nwzwBoIABaUsMZNalVX3UFdT8KyULNZpI
+        1iiWSQzVJsauYg7cw5OcJnQ0BnNF6UIzF03uSFM+FZE2F5K6J9/dawzlxNATjEUvVZFh6I
+        cw6AIimCL2WPRicPuZ7gocwKQRBYpGY=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1A7741331F;
+        Wed,  3 May 2023 07:25:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Rjr6BWoMUmQBTQAAMHmgww
+        (envelope-from <mhocko@suse.com>); Wed, 03 May 2023 07:25:30 +0000
+Date:   Wed, 3 May 2023 09:25:29 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, kent.overstreet@linux.dev,
+        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
+        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
+        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, peterx@redhat.com, david@redhat.com,
+        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+        pasha.tatashin@soleen.com, yosryahmed@google.com,
+        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
+        andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH 00/40] Memory allocation profiling
+Message-ID: <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
+References: <20230501165450.15352-1-surenb@google.com>
 MIME-Version: 1.0
-References: <20230502112502.14859-1-yanjiewtw@gmail.com> <ZFFEgptZg1P367F7@google.com>
-In-Reply-To: <ZFFEgptZg1P367F7@google.com>
-From:   Yan-Jie Wang <yanjiewtw@gmail.com>
-Date:   Wed, 3 May 2023 15:15:50 +0800
-Message-ID: <CAAM15DyHiCiA=hFHANi+Z0h5aqbs3Lb2tEg1+BA6=LiYgQ7Agw@mail.gmail.com>
-Subject: Re: [PATCH] docs: clarify KVM related kernel parameters' descriptions
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Avi Kivity <avi@redhat.com>,
-        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>, trivial@kernel.org,
-        kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230501165450.15352-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you, Sean.
+On Mon 01-05-23 09:54:10, Suren Baghdasaryan wrote:
+> Memory allocation profiling infrastructure provides a low overhead
+> mechanism to make all kernel allocations in the system visible. It can be
+> used to monitor memory usage, track memory hotspots, detect memory leaks,
+> identify memory regressions.
+> 
+> To keep the overhead to the minimum, we record only allocation sizes for
+> every allocation in the codebase. With that information, if users are
+> interested in more detailed context for a specific allocation, they can
+> enable in-depth context tracking, which includes capturing the pid, tgid,
+> task name, allocation size, timestamp and call stack for every allocation
+> at the specified code location.
+[...]
+> Implementation utilizes a more generic concept of code tagging, introduced
+> as part of this patchset. Code tag is a structure identifying a specific
+> location in the source code which is generated at compile time and can be
+> embedded in an application-specific structure. A number of applications
+> for code tagging have been presented in the original RFC [1].
+> Code tagging uses the old trick of "define a special elf section for
+> objects of a given type so that we can iterate over them at runtime" and
+> creates a proper library for it. 
+> 
+> To profile memory allocations, we instrument page, slab and percpu
+> allocators to record total memory allocated in the associated code tag at
+> every allocation in the codebase. Every time an allocation is performed by
+> an instrumented allocator, the code tag at that location increments its
+> counter by allocation size. Every time the memory is freed the counter is
+> decremented. To decrement the counter upon freeing, allocated object needs
+> a reference to its code tag. Page allocators use page_ext to record this
+> reference while slab allocators use memcg_data (renamed into more generic
+> slabobj_ext) of the slab page.
+[...]
+> [1] https://lore.kernel.org/all/20220830214919.53220-1-surenb@google.com/
+[...]
+>  70 files changed, 2765 insertions(+), 554 deletions(-)
 
-I will revise the patch accordingly and submit a new version as well
-as update the description of kvm-intel.nested to reflect that it is
-enabled by default.
+Sorry for cutting the cover considerably but I believe I have quoted the
+most important/interesting parts here. The approach is not fundamentally
+different from the previous version [1] and there was a significant
+discussion around this approach. The cover letter doesn't summarize nor
+deal with concerns expressed previous AFAICS. So let me bring those up
+back. At least those I find the most important:
+- This is a big change and it adds a significant maintenance burden
+  because each allocation entry point needs to be handled specifically.
+  The cost will grow with the intended coverage especially there when
+  allocation is hidden in a library code.
+- It has been brought up that this is duplicating functionality already
+  available via existing tracing infrastructure. You should make it very
+  clear why that is not suitable for the job
+- We already have page_owner infrastructure that provides allocation
+  tracking data. Why it cannot be used/extended?
 
-On Wed, May 3, 2023 at 1:12=E2=80=AFAM Sean Christopherson <seanjc@google.c=
-om> wrote:
->
-> On Tue, May 02, 2023, Yan-Jie Wang wrote:
-> > The descriptions of certain KVM related kernel parameters can be
-> > ambiguous and confusing. They state 'Disable ...,' which implies that
-> > setting them to 1 would disable the associated features or options,
-> > when in fact the opposite is true.
-> >
-> > This commit addresses this issue by revising the descriptions of these
-> > parameters to make their intended behavior clear.
->
-> Less wrong perhaps, but IMO the actual behavior is still not captured, an=
-d from
-> a certain perspective the existing "Disable" verbiage better reflects how=
-/when
-> most users would actually want to explicitly set a param.
->
-> Rather than commit one way or the other, what about reworking the descrip=
-tions
-> using this as a template?  E.g. state that the param controls something, =
-state
-> the default and use that to communicate that 1=3D=3Denabled, and then, wh=
-en appropriate,
-> clarify that KVM disables (or in some cases ignores) params if hardware d=
-oesn't
-> support the related feature(s).
->
->         kvm-intel.ept=3D  [KVM,Intel] Control KVM's use of Extended Page =
-Tables,
->                         a.k.a. Two-Dimensional Page Tables.  Default is 1
->                         (enabled).  Disabled by KVM if hardware lacks sup=
-port
->                         for EPT.
->
-> >
-> > Signed-off-by: Yan-Jie Wang <yanjiewtw@gmail.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
-ation/admin-guide/kernel-parameters.txt
-> > index 9e5bab29685f..cc5abb3d54b9 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -2552,10 +2552,10 @@
-> >                       on the ratio, such that a page is zapped after 1 =
-hour on average.
-> >
-> >       kvm-amd.nested=3D [KVM,AMD] Allow nested virtualization in KVM/SV=
-M.
->
-> Eh, I don't see any reason to have this one say "allow" instead of "enabl=
-e/disable".
->
-> > -                     Default is 1 (enabled)
-> > +                     Default is 1 (allow)
-> >
-> > -     kvm-amd.npt=3D    [KVM,AMD] Disable nested paging (virtualized MM=
-U)
-> > -                     for all guests.
-> > +     kvm-amd.npt=3D    [KVM,AMD] Enable nested paging (virtualized MMU=
-)
-> > +                     for all guests on capable AMD chips.
-> >                       Default is 1 (enabled) if in 64-bit or 32-bit PAE=
- mode.
-> >
-> >       kvm-arm.mode=3D
-> > @@ -2602,12 +2602,12 @@
-> >                       Format: <integer>
-> >                       Default: 5
-> >
-> > -     kvm-intel.ept=3D  [KVM,Intel] Disable extended page tables
-> > +     kvm-intel.ept=3D  [KVM,Intel] Enable extended page tables
-> >                       (virtualized MMU) support on capable Intel chips.
-> >                       Default is 1 (enabled)
-> >
-> >       kvm-intel.emulate_invalid_guest_state=3D
-> > -                     [KVM,Intel] Disable emulation of invalid guest st=
-ate.
-> > +                     [KVM,Intel] Enable emulation of invalid guest sta=
-te.
-> >                       Ignored if kvm-intel.enable_unrestricted_guest=3D=
-1, as
-> >                       guest state is never invalid for unrestricted gue=
-sts.
-> >                       This param doesn't apply to nested guests (L2), a=
-s KVM
-> > @@ -2615,7 +2615,7 @@
-> >                       Default is 1 (enabled)
-> >
-> >       kvm-intel.flexpriority=3D
-> > -                     [KVM,Intel] Disable FlexPriority feature (TPR sha=
-dow).
-> > +                     [KVM,Intel] Enable FlexPriority feature (TPR shad=
-ow).
-> >                       Default is 1 (enabled)
-> >
-> >       kvm-intel.nested=3D
-> > @@ -2623,7 +2623,7 @@
-> >                       Default is 0 (disabled)
->
-> Heh, kvm-intel.nested has been enabled by default for quite some time.  C=
-an you
-> fix that up too?
->
-> >
-> >       kvm-intel.unrestricted_guest=3D
-> > -                     [KVM,Intel] Disable unrestricted guest feature
-> > +                     [KVM,Intel] Enable unrestricted guest feature
-> >                       (virtualized real and unpaged mode) on capable
-> >                       Intel chips. Default is 1 (enabled)
-> >
-> > @@ -2639,7 +2639,7 @@
-> >
-> >                       Default is cond (do L1 cache flush in specific in=
-stances)
-> >
-> > -     kvm-intel.vpid=3D [KVM,Intel] Disable Virtual Processor Identific=
-ation
-> > +     kvm-intel.vpid=3D [KVM,Intel] Enable Virtual Processor Identifica=
-tion
-> >                       feature (tagged TLBs) on capable Intel chips.
-> >                       Default is 1 (enabled)
-> >
-> >
-> > base-commit: 865fdb08197e657c59e74a35fa32362b12397f58
-> > --
-> > 2.34.1
-> >
+Thanks!
+-- 
+Michal Hocko
+SUSE Labs
