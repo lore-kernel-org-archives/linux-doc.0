@@ -2,102 +2,269 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70711C77B7C
-	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 06:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEB2C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 07:13:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbjEDGVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 May 2023 02:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39878 "EHLO
+        id S229721AbjEDHNB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 May 2023 03:13:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbjEDGVq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 02:21:46 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE285198A;
-        Wed,  3 May 2023 23:21:43 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-5083bd8e226so2675a12.3;
-        Wed, 03 May 2023 23:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683181302; x=1685773302;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sdb7gDmzA/OxsJ8oOXOihmXXjZdQ7p+LmmhLEKFuDak=;
-        b=Bx7iJpPeZaagU7I/xMfJMspxMOtxyFL+/s79rDidoxakV9/QqlEPidcnhSfpvA9tYg
-         mRbG0ZWOMdpTCaQ/073232XQSalFQT1KT4mw1y/pmCj96SBSu9ZTQZ+0LpnAH/TDkVSM
-         e+qen5HULM7NFLvUzvH+3sKtGtwjyAiMNiZVya4Ptpq0SlL5nZAIUWlHV/yeIUGtWw9U
-         bQa6zEEMxnH99LVja7oo8bp50tUwnu17nmcqzhKNM+2OTmikoM3pEUAk4K/fCanVQm9R
-         WfgG2mGiBKO02mykM5kY4IwS0uHcY9xS4lUWHSnjtO37asYv+K8PSMdHURvSxN33u6Hu
-         pv0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683181302; x=1685773302;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sdb7gDmzA/OxsJ8oOXOihmXXjZdQ7p+LmmhLEKFuDak=;
-        b=eXcPfhXTLF2J+Pt4lN5e8tseTxgi8SICVUJHeKpiVHuiZd6OFOCYzga+MPDAWeylCb
-         hZkNlmspGFV7hwrcoO0kIZKDcj/Oaf0VebjIP8fGnRumy8DUVb9ZZ5L9h3VxYn01yVOm
-         wdmLdFhfuEuECPfcyCrDxCf8uaAy8lsl/IlVbBM0KG17kjSmYxFAXJbkq9wQA9gLmU7l
-         FGTp/CYJRjJZNwWbcwW6h1bngn1FgmBoU9lCui0THrGHArlpLLfTIrZlhPCoTpGXD6wQ
-         cTTLUjG5PB5LQ42lyVEyTWhzNpZ2GCOA3h72h4oppwHhBOgTca97FsO6rM2i8ILC6xoK
-         Ao/g==
-X-Gm-Message-State: AC+VfDxNY1jaOOoJtkkhK5Q8JhLyn5Qplb4LS4qh6c6nWZgftVFLr4lF
-        BfJa3l+abo35mbYquFllNgU2llDzZbEUV3cYbhI=
-X-Google-Smtp-Source: ACHHUZ7r/yVa5bvFkK+1XXEjZWHNeSrTzRUpn8NAF1qy9eZ7rlXUXzdir1dN2fW5UOiL/fdjzP7FeBuhXze1cSB4wRA=
-X-Received: by 2002:a17:907:7e8e:b0:94f:7edf:8fa1 with SMTP id
- qb14-20020a1709077e8e00b0094f7edf8fa1mr6230887ejc.32.1683181301725; Wed, 03
- May 2023 23:21:41 -0700 (PDT)
+        with ESMTP id S229565AbjEDHNA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 03:13:00 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3F61731;
+        Thu,  4 May 2023 00:12:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683184378; x=1714720378;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=qj1wck1TWKOGkDr9B7emjEC/rEymNm/6ACMT/q/Eu84=;
+  b=TwUGdRlK/o1v60IG+0OAYSRCl7aatPpRvkUPL6iuLohlGtTGQ6mW3N89
+   y0YT5LPP/byhxS/fVZsh7aYqHTITxkTStmJo4lvhsg6M+B7kAdOOKI3WX
+   4JnaBuFJuxhf6N0bkxhn+p0F3djzfm4MFibf0vPBzkC8WcjhAVXrg4kZc
+   eEk7bIfK+/LA7C+RHMf410hB9crdQElhcoy0sBGdj5rLmjV4AOIOd3Xmv
+   QF8vMR7xqzY3PubIcTGj7uFQrtkRYq99ceFaM1uJNO07AUDvOtWhDUnGN
+   jB74tULzEh7EZfFnbBXkr5D5RUFehwLEE+maloyRbbKrNqcljWsUvUz+W
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="348896362"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
+   d="scan'208";a="348896362"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 00:12:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="871246728"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
+   d="scan'208";a="871246728"
+Received: from sesfandi-mobl.amr.corp.intel.com (HELO [10.209.32.119]) ([10.209.32.119])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 00:12:57 -0700
+Message-ID: <6d4a23ee-e30b-3b7c-f911-56b5b1d125dc@linux.intel.com>
+Date:   Thu, 4 May 2023 00:12:56 -0700
 MIME-Version: 1.0
-References: <20230424231558.70911-1-quic_eberman@quicinc.com> <20230424231558.70911-7-quic_eberman@quicinc.com>
-In-Reply-To: <20230424231558.70911-7-quic_eberman@quicinc.com>
-From:   Jassi Brar <jassisinghbrar@gmail.com>
-Date:   Thu, 4 May 2023 01:21:30 -0500
-Message-ID: <CABb+yY3ojsGNm1w+QSn2BnbOMdcQZAV+=UYiMiBrs=jujP=pSg@mail.gmail.com>
-Subject: Re: [PATCH v12 06/25] mailbox: Add Gunyah message queue mailbox
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [PATCH v2 2/3] virt: tdx-guest: Add Quote generation support
+Content-Language: en-US
+To:     "Huang, Kai" <kai.huang@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>, "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>
+Cc:     "Yu, Guorui" <guorui.yu@linux.alibaba.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "wander@redhat.com" <wander@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "chongc@google.com" <chongc@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "qinkun@apache.org" <qinkun@apache.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "Aktas, Erdem" <erdemaktas@google.com>,
+        "dionnaglaze@google.com" <dionnaglaze@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Du, Fan" <fan.du@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20230413034108.1902712-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <f33fe0bfb5b6e603bd259942d017076aa5e0015f.camel@intel.com>
+ <dc7228c1-d37b-205a-ba81-3fc709fc51a8@linux.intel.com>
+ <81c54b8e844d20fe080ddd65458a6036ee22ed33.camel@intel.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <81c54b8e844d20fe080ddd65458a6036ee22ed33.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 24, 2023 at 6:16=E2=80=AFPM Elliot Berman <quic_eberman@quicinc=
-.com> wrote:
->
-> Gunyah message queues are a unidirectional inter-VM pipe for messages up
-> to 1024 bytes. This driver supports pairing a receiver message queue and
-> a transmitter message queue to expose a single mailbox channel.
->
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->  Documentation/virt/gunyah/message-queue.rst |   8 +
->  drivers/mailbox/Makefile                    |   2 +
->  drivers/mailbox/gunyah-msgq.c               | 210 ++++++++++++++++++++
->  include/linux/gunyah.h                      |  57 ++++++
->
-include/linux/gunyah.h  and
-Documentation/virt/gunyah/message-queue.rst would need to exist for
-this patch to apply.
-If you made this patch as the first in series, then I could apply.
+Hi Kai,
 
-cheers.
+On 5/1/23 5:48 AM, Huang, Kai wrote:
+> On Sun, 2023-04-30 at 23:03 -0700, Sathyanarayanan Kuppuswamy wrote:
+>> Hi Kai,
+>>
+>> On 4/28/23 6:49 AM, Huang, Kai wrote:
+
+[...]
+
+> 
+>>
+>>>
+>>>> +	args.r10 = TDX_HYPERCALL_STANDARD;
+>>>> +	args.r11 = TDVMCALL_GET_QUOTE;
+>>>> +	args.r12 = cc_mkdec(virt_to_phys(tdquote));
+> 
+> Btw can we just use __pa()?  To be honest I am ignorant on the difference
+> between virt_to_phys() and __pa(), i.e. when should we use which.
+
+The following link explains the difference. 
+
+https://lkml.indiana.edu/hypermail/linux/kernel/0607.0/1607.html
+
+In x86 ARCH, virt_to_phys() directly calls __pa(). So both are same.
+
+But it looks like the recommendation is to use virt_to_phys().
+
+
+> 
+> Also, you _may_ want to add a comment why "cc_mkdec()" is used.  By the nature
+> of this TDVMCALL, it's obvious the buffer needs to be shared, and the VMM must
+> check whether the buffer is actually shared, no matter whether the "shared-bit"
+> is set here or not.
+> 
+> So to me it's just requested by the GHCI spec that we need to include the
+> "shared-bit", but it _seems_ the GHCI spec doesn't explicitly say we need to do
+> that because it only says "Shared buffer as input".  So looks a comment can help
+> to clarify a little bit.
+
+I will add it.
+
+>>>
+>>>> +
+>>>> +/**
+>>>> + * struct quote_entry - Quote request struct
+>>>> + * @valid: Flag to check validity of the GetQuote request.
+>>>> + * @buf: Kernel buffer to share data with VMM (size is page aligned).
+>>>> + * @buf_len: Size of the buf in bytes.
+>>>> + * @compl: Completion object to track completion of GetQuote request.
+>>>> + */
+>>>> +struct quote_entry {
+>>>> +	bool valid;
+>>>> +	void *buf;
+>>>> +	size_t buf_len;
+>>>> +	struct completion compl;
+>>>> +};
+>>>
+>>> We have a static global @qentry below.
+>>>
+>>> The buffer size is a fixed size (16K), why do we need @buf_len here?
+>>
+>> I have added it to support buf length changes in future (like adding a
+>> command line option to allow user change the GET_QUOTE_MAX_SIZE).  Also,
+>> IMO, using buf_len is more readable than just using GET_QUOTE_MAX_SIZE
+>> macro in all places.
+>>
+>>>
+>>> And why do we need @valid?  It seems ...
+>>
+>> As a precaution against spurious event notification. I also believe that in
+>> the future, event notification IRQs may be used for other purposes such as
+>> vTPM or other TDVMCALL services, and that this handler may be triggered
+>> without a valid GetQuote request. So, before we process the IRQ, I want to
+>> make sure we have a valid buffer.
+> 
+> OK.  This is an shared IRQ basically, so we need to track whether we have any
+> GetQuote request pending.
+> 
+> However I am wondering whether we need a dedicated @valid for this purpose.  If
+> I read correctly, we will make sure the buffer is zero-ed when there's no
+> request pending, thus can we just use some member in 'tdx_quote_hdr' to track?
+> 
+> For instance, per-GHCI the 'version' must be set to 1 for a valid request.  And
+> I think in a foreseeable future we can also assume @in_len being the size of
+> TDREPORT_STRUCT.  Can we use one of them (i.e. version) for this purpose?
+
+IMO, it is better to track it from the guest end (with a dedicated @valid). Since
+quote request buffer is shared with the VMM, we should not just rely on its value
+to decide whether we have an active request. If needed, in addition to the "@valid"
+check we can also include check for @version. Also, I think we will not lose much
+using a "bool" value to track the quote buffer valid status.
+
+
+
+>>>> diff --git a/include/uapi/linux/tdx-guest.h b/include/uapi/linux/tdx-guest.h
+>>>> index a6a2098c08ff..500cdfa025ad 100644
+>>>> --- a/include/uapi/linux/tdx-guest.h
+>>>> +++ b/include/uapi/linux/tdx-guest.h
+>>>> @@ -17,6 +17,12 @@
+>>>>  /* Length of TDREPORT used in TDG.MR.REPORT TDCALL */
+>>>>  #define TDX_REPORT_LEN                  1024
+>>>>  
+>>>> +/* TD Quote status codes */
+>>>> +#define GET_QUOTE_SUCCESS               0
+>>>> +#define GET_QUOTE_IN_FLIGHT             0xffffffffffffffff
+>>>> +#define GET_QUOTE_ERROR                 0x8000000000000000
+>>>> +#define GET_QUOTE_SERVICE_UNAVAILABLE   0x8000000000000001
+>>>> +
+>>>>  /**
+>>>>   * struct tdx_report_req - Request struct for TDX_CMD_GET_REPORT0 IOCTL.
+>>>>   *
+>>>> @@ -30,6 +36,35 @@ struct tdx_report_req {
+>>>>  	__u8 tdreport[TDX_REPORT_LEN];
+>>>>  };
+>>>>  
+>>>> +/* struct tdx_quote_hdr: Format of Quote request buffer header.
+>>>> + * @version: Quote format version, filled by TD.
+>>>> + * @status: Status code of Quote request, filled by VMM.
+>>>> + * @in_len: Length of TDREPORT, filled by TD.
+>>>> + * @out_len: Length of Quote data, filled by VMM.
+>>>> + * @data: Quote data on output or TDREPORT on input.
+>>>> + *
+>>>> + * More details of Quote data header can be found in TDX
+>>>> + * Guest-Host Communication Interface (GHCI) for Intel TDX 1.0,
+>>>> + * section titled "TDG.VP.VMCALL<GetQuote>"
+>>>> + */
+>>>> +struct tdx_quote_hdr {
+>>>> +	__u64 version;
+>>>> +	__u64 status;
+>>>> +	__u32 in_len;
+>>>> +	__u32 out_len;
+>>>> +	__u64 data[];
+>>>> +};
+>>>
+>>> This structure is weird.  It's a header, but it contains the dynamic-size
+>>> buffer.  If you have __data[] in this structure, then it is already a buffer for
+>>> the entire Quote, no?  Then should we just call it 'struct tdx_quote'?
+>>>
+>>> Or do you want to remove __data[]?
+>>
+>> I can name it as struct tdx_quote_data
+> 
+> If go with route, why not just 'tdx_quote', or 'tdx_tdquote'?
+> 
+> Or, actually I think 'tdx_quote' (or 'tdx_tdquote') seems to be the format of
+> the _true_ Quote, so perhaps we want 'struct tdx_quote_req_buf'?
+> 
+
+Since this buffer is used for both request/response, we can just use
+struct tdx_quote_buf.
+
+>>
+>>>
+>>>> +
+>>>> +/* struct tdx_quote_req: Request struct for TDX_CMD_GET_QUOTE IOCTL.
+>>>> + * @buf: Address of user buffer that includes TDREPORT. Upon successful
+>>>> + *	 completion of IOCTL, output is copied back to the same buffer.
+>>>
+>>> This description isn't precise.  "user buffer that includes TDREPORT" doesn't
+>>> tell application writer where to put the TDREPORT at all.  We need to explicitly
+>>> call out the buffer starts with 'tdx_quote_hdr' followed by TDREPORT
+>>> immediately.
+>>
+>> I have specified it in struct tdx_quote_hdr.data help content.
+> 
+> Perhaps I missed something but I didn't say at any place this is clearly
+> documented.  The comment around @data above certainly doesn't.
+> 
+> Just say something like:
+> 
+> 	@buf: The userspace pointer which points to the
+> 	      'struct tdx_quote_req_buf' (whatever the final name)
+> 
+>>
+>>>  
+>>>> + * @len: Length of the Quote buffer.
+>>>> + */
+>>>> +struct tdx_quote_req {
+>>>> +	__u64 buf;
+>>>> +	__u64 len;
+>>>> +};
+>>>> +
+>>>>  /*
+> 
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
