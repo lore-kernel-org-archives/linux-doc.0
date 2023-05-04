@@ -2,983 +2,690 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98905C7EE21
-	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 12:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBA9C7EE21
+	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 12:49:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbjEDMjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 May 2023 08:39:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59042 "EHLO
+        id S229880AbjEDMtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 May 2023 08:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbjEDMjv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 08:39:51 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0DCE618C;
-        Thu,  4 May 2023 05:39:47 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 344CLHh7028480;
-        Thu, 4 May 2023 12:39:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=btjLldsqIP8rx4oxXqefzwM95gS49EgMiboZDeYoueo=;
- b=GzChUuQbhoKsRdWBAp4C1ya8m+QO84ixs7vVyck9UqFNkyWxo+ZoRXJr7D1vWTS+kG9o
- V5x6Ixecydd6PXoCORq9teG8rmB4KSCFz94vnPfCbUKcFTN3E/8nBbrQa5PWNgLBAhkc
- ID0Tvf4ODnl7d2apfDw5uvwjrhQwqk3FvoWMekdX6UrWh96BlkyGlKdPS12dNzrsYIqG
- CeI4Byv29dMx9ZNAi+NAifh4h+YBBPOSkBlVnDy3kErZpUDsalgk39pjx0+mTabcKE+V
- 7Ox4QJk2C5eoQki2aN8uKWGpFfThjxocjav7SyWH/VxTd/y6lHajMLtThzRi0xZGiRlR qw== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qc7a40tfm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 04 May 2023 12:39:18 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 344Cd1sG001762
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 4 May 2023 12:39:01 GMT
-Received: from [10.216.46.158] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 4 May 2023
- 05:38:53 -0700
-Message-ID: <23b493f4-1a01-8d03-fc12-d588b2c6fd74@quicinc.com>
-Date:   Thu, 4 May 2023 18:08:48 +0530
+        with ESMTP id S229846AbjEDMtO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 08:49:14 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BCC46BC;
+        Thu,  4 May 2023 05:49:12 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1aaea43def7so2758395ad.2;
+        Thu, 04 May 2023 05:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683204552; x=1685796552;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=3eTx8//Xlq98RhegbKOFCwEKS6An67n30e6DTdIdf/s=;
+        b=RX+xe3/tFv2H00KARY7JR976csVy4Ps03Qll6tetmq+bU94GpMcCDKMwctZSS8qWaP
+         8Z5NZ1EL2RNhUySojkPdwxt9pkZ1KSmwDIBugCyJYgHqEo00pggCfEuLf2lnLqzt98B4
+         xHJG/d8aemBrYvnUkqqUnyxJzd+sG52BN1bSJj2uuD7Yz675S+XuJnUC6zCp2hEzAUKm
+         ESmxyQkLpU4ojPfPRC93yy4qMCdt94y/nILkviDADuJP2xxsmgiBk1DXOFZ79NMS59ZQ
+         dBNA8FXM6wXyPATozl7znsK8BkioGvyDKp/PUuXaOpjWRrSvIAJ3VFrbr/rfT1ycqAuw
+         yReQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683204552; x=1685796552;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3eTx8//Xlq98RhegbKOFCwEKS6An67n30e6DTdIdf/s=;
+        b=EUtTN+WZUJHz2chZWqd37DBzaDIAyxA89/YC+9HyeiGJ5j3VLzQ6kaDkuPIuGQxyJz
+         8DW6ZfZfnWYttUAXwltee7XpKm9zQuRh8nLjT1I4t08doY7TfKv0O4x/Rmdug02uCAt4
+         MnPJk9vrjfhHHc5Q8JOzQ+wwztw7Itis4xbafL+HYb2jxYJGdgSMNH5wNtSYIs8zQmXa
+         uAuPNBLqC462fjQSKDY9SqxCwZ5XuanO9nPG6zOTy8kuLvGP193nCWW5eK3UwYJgpimb
+         thPhUxeh4u8XPZeFMNyBzm45fkQWh5YRqPo8MlnH25pcbZs8Ksbu031c9WoQZjI1fqSV
+         zNrA==
+X-Gm-Message-State: AC+VfDwqwncW4ne7TF7ZuEg9D0Itg7cDEAA/5bU+Tl+U4uq31JpzVCd0
+        q79b7XVGgIKFxfquZgXtNiE=
+X-Google-Smtp-Source: ACHHUZ6YjD63LVluTvhKWFdhd3g8wHAqPS09Nx27vrwSvNZszsR+OmxttTgWYqzfsznJP1GXJDZ0zg==
+X-Received: by 2002:a17:902:aa81:b0:1aa:f53a:5e47 with SMTP id d1-20020a170902aa8100b001aaf53a5e47mr2865082plr.16.1683204552056;
+        Thu, 04 May 2023 05:49:12 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w4-20020a170902904400b001aaf7927003sm7267273plz.210.2023.05.04.05.49.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 May 2023 05:49:11 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <bceeb864-0639-bcf9-495f-8aa1de299a86@roeck-us.net>
+Date:   Thu, 4 May 2023 05:49:09 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 04/18] soc: qcom: Add Qualcomm minidump kernel driver
+Subject: Re: [PATCH v4 2/2] hwmon: max31827: add MAX31827 driver
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
-        <linux-gpio@vger.kernel.org>, <srinivas.kandagatla@linaro.org>
-CC:     <linux-arm-msm@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
-References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
- <1683133352-10046-5-git-send-email-quic_mojha@quicinc.com>
- <c6f730b6-f702-91d4-4abd-71546e02f869@linaro.org>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <c6f730b6-f702-91d4-4abd-71546e02f869@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: mkLASUwkqUlKXbRm9AV9EcIarOswZ3Fq
-X-Proofpoint-ORIG-GUID: mkLASUwkqUlKXbRm9AV9EcIarOswZ3Fq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-04_08,2023-05-04_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- malwarescore=0 priorityscore=1501 adultscore=0 clxscore=1015
- mlxlogscore=999 mlxscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305040104
+To:     Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230504093933.70660-1-daniel.matyas@analog.com>
+ <20230504093933.70660-2-daniel.matyas@analog.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20230504093933.70660-2-daniel.matyas@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 5/4/23 02:39, Daniel Matyas wrote:
+> MAX31827 is a low-power temperature switch with I2C interface.
+> 
+> The device is a ±1°C accuracy from -40°C to +125°C
+> (12 bits) local temperature switch and sensor with I2C/SM-
+> Bus interface. The combination of small 6-bump wafer-lev-
+> el package (WLP) and high accuracy makes this temper-
+> ature sensor/switch ideal for a wide range of applications.
+> 
+> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
 
+Please provide change logs with your patches.
 
-On 5/4/2023 5:06 PM, Krzysztof Kozlowski wrote:
-> On 03/05/2023 19:02, Mukesh Ojha wrote:
->> Minidump is a best effort mechanism to collect useful and predefined
->> data for first level of debugging on end user devices running on
->> Qualcomm SoCs. It is built on the premise that System on Chip (SoC)
->> or subsystem part of SoC crashes, due to a range of hardware and
->> software bugs. Hence, the ability to collect accurate data is only
->> a best-effort. The data collected could be invalid or corrupted,
->> data collection itself could fail, and so on.
->>
->> Qualcomm devices in engineering mode provides a mechanism for
->> generating full system ramdumps for post mortem debugging. But in some
->> cases it's however not feasible to capture the entire content of RAM.
->> The minidump mechanism provides the means for selecting region should
->> be included in the ramdump. The solution supports extracting the
->> ramdump/minidump produced either over USB or stored to an attached
->> storage device.
->>
->> The core of minidump feature is part of Qualcomm's boot firmware code.
->> It initializes shared memory(SMEM), which is a part of DDR and
->> allocates a small section of it to minidump table i.e also called
->> global table of content (G-ToC). Each subsystem (APSS, ADSP, ...) has
->> their own table of segments to be included in the minidump, all
->> references from a descriptor in SMEM (G-ToC). Each segment/region has
->> some details like name, physical address and it's size etc. and it
->> could be anywhere scattered in the DDR.
->>
->> Minidump kernel driver adds the capability to add linux region to be
->> dumped as part of ram dump collection. It provides appropriate symbol
->> to check its enablement and register client regions.
->>
->> To simplify post mortem debugging, it creates and maintain an ELF
->> header as first region that gets updated upon registration
->> of a new region.
->>
->> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
->> ---
->>   drivers/soc/qcom/Kconfig         |  14 +
->>   drivers/soc/qcom/Makefile        |   1 +
->>   drivers/soc/qcom/qcom_minidump.c | 581 +++++++++++++++++++++++++++++++++++++++
->>   drivers/soc/qcom/smem.c          |   8 +
->>   include/soc/qcom/qcom_minidump.h |  61 +++-
->>   5 files changed, 663 insertions(+), 2 deletions(-)
->>   create mode 100644 drivers/soc/qcom/qcom_minidump.c
->>
->> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
->> index a491718..15c931e 100644
->> --- a/drivers/soc/qcom/Kconfig
->> +++ b/drivers/soc/qcom/Kconfig
->> @@ -279,4 +279,18 @@ config QCOM_INLINE_CRYPTO_ENGINE
->>   	tristate
->>   	select QCOM_SCM
->>   
->> +config QCOM_MINIDUMP
->> +	tristate "QCOM Minidump Support"
->> +	depends on ARCH_QCOM || COMPILE_TEST
->> +	select QCOM_SMEM
->> +	help
->> +	  Enablement of core minidump feature is controlled from boot firmware
->> +	  side, and this config allow linux to query and manages APPS minidump
->> +	  table.
->> +
->> +	  Client drivers can register their internal data structures and debug
->> +	  messages as part of the minidump region and when the SoC is crashed,
->> +	  these selective regions will be dumped instead of the entire DDR.
->> +	  This saves significant amount of time and/or storage space.
->> +
->>   endmenu
->> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
->> index 0f43a88..1ebe081 100644
->> --- a/drivers/soc/qcom/Makefile
->> +++ b/drivers/soc/qcom/Makefile
->> @@ -33,3 +33,4 @@ obj-$(CONFIG_QCOM_RPMPD) += rpmpd.o
->>   obj-$(CONFIG_QCOM_KRYO_L2_ACCESSORS) +=	kryo-l2-accessors.o
->>   obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
->>   obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= ice.o
->> +obj-$(CONFIG_QCOM_MINIDUMP) += qcom_minidump.o
->> diff --git a/drivers/soc/qcom/qcom_minidump.c b/drivers/soc/qcom/qcom_minidump.c
->> new file mode 100644
->> index 0000000..d107a86
->> --- /dev/null
->> +++ b/drivers/soc/qcom/qcom_minidump.c
->> @@ -0,0 +1,581 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +
->> +/*
->> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#include <linux/elf.h>
->> +#include <linux/err.h>
->> +#include <linux/errno.h>
->> +#include <linux/export.h>
->> +#include <linux/init.h>
->> +#include <linux/io.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/string.h>
->> +#include <linux/soc/qcom/smem.h>
->> +#include <soc/qcom/qcom_minidump.h>
->> +
->> +/**
->> + * struct minidump_elfhdr - Minidump table elf header
->> + * @ehdr: Elf main header
->> + * @shdr: Section header
->> + * @phdr: Program header
->> + * @elf_offset: Section offset in elf
->> + * @strtable_idx: String table current index position
->> + */
->> +struct minidump_elfhdr {
->> +	struct elfhdr		*ehdr;
->> +	struct elf_shdr		*shdr;
->> +	struct elf_phdr		*phdr;
->> +	size_t			elf_offset;
->> +	size_t			strtable_idx;
->> +};
->> +
->> +/**
->> + * struct minidump - Minidump driver private data
->> + * @md_gbl_toc	: Global TOC pointer
->> + * @md_apss_toc	: Application Subsystem TOC pointer
->> + * @md_regions	: High level OS region base pointer
->> + * @elf		: Minidump elf header
->> + * @dev		: Minidump device
->> + */
->> +struct minidump {
->> +	struct minidump_global_toc	*md_gbl_toc;
->> +	struct minidump_subsystem	*md_apss_toc;
->> +	struct minidump_region		*md_regions;
->> +	struct minidump_elfhdr		elf;
->> +	struct device			*dev;
->> +};
->> +
->> +/*
->> + * In some of the Old Qualcomm devices, boot firmware statically allocates 300
->> + * as total number of supported region (including all co-processors) in
->> + * minidump table out of which linux was using 201. In future, this limitation
->> + * from boot firmware might get removed by allocating the region dynamically.
->> + * So, keep it compatible with older devices, we can keep the current limit for
->> + * Linux to 201.
->> + */
->> +#define MAX_NUM_ENTRIES	  201
->> +#define MAX_STRTBL_SIZE	  (MAX_NUM_ENTRIES * MAX_REGION_NAME_LENGTH)
->> +
->> +static struct minidump *__md;
-> 
-> No, no file scope or global scope statics.
+Thanks,
+Guenter
 
-Sorry, this is done as per recommendation given here [1] and this 
-matches both driver/firmware/qcom_scm.c and driver/soc/qcom/smem.c
-implementations.
+> ---
+>   Documentation/hwmon/index.rst    |   1 +
+>   Documentation/hwmon/max31827.rst |  83 ++++++
+>   MAINTAINERS                      |   2 +
+>   drivers/hwmon/Kconfig            |  11 +
+>   drivers/hwmon/Makefile           |   2 +-
+>   drivers/hwmon/max31827.c         | 428 +++++++++++++++++++++++++++++++
+>   6 files changed, 526 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/hwmon/max31827.rst
+>   create mode 100644 drivers/hwmon/max31827.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index f1fe75f596a5..965a830ea766 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -139,6 +139,7 @@ Hardware Monitoring Kernel Drivers
+>      max31760
+>      max31785
+>      max31790
+> +   max31827
+>      max34440
+>      max6620
+>      max6639
+> diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
+> new file mode 100644
+> index 000000000000..5b94ad62baa3
+> --- /dev/null
+> +++ b/Documentation/hwmon/max31827.rst
+> @@ -0,0 +1,83 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver max31827
+> +======================
+> +
+> +Supported chips:
+> +
+> +  * Maxim MAX31827
+> +
+> +    Prefix: 'max31827'
+> +
+> +    Addresses scanned: I2C 0x40 - 0x5f
+> +
+> +    Datasheet: Publicly available at the Analog Devices website
+> +
+> +  * Maxim MAX31828
+> +
+> +    Prefix: 'max31828'
+> +
+> +    Addresses scanned: I2C 0x40 - 0x5f
+> +
+> +    Datasheet: Publicly available at the Analog Devices website
+> +
+> +  * Maxim MAX31829
+> +
+> +    Prefix: 'max31829'
+> +
+> +    Addresses scanned: I2C 0x40 - 0x5f
+> +
+> +    Datasheet: Publicly available at the Analog Devices website
+> +
+> +
+> +Authors:
+> +	- Daniel Matyas <daniel.matyas@analog.com>
+> +
+> +Description
+> +-----------
+> +
+> +The chips supported by this driver are quite similar. The only difference
+> +between them is found in the default power-on behaviour of the chips. While the
+> +MAX31827's fault queue is set to 1, the other two chip's fault queue is set to
+> +4. Besides this, the MAX31829's alarm active state is high, while the other two
+> +chip's alarms are active on low. It is important to note that the chips can be
+> +configured to operate in the same manner with 1 write operation to the
+> +configuration register. From here on, we will refer to all these chips as
+> +MAX31827.
+> +
+> +MAX31827 implements a temperature sensor with a 6 WLP packaging scheme. This
+> +sensor measures the temperature of the chip itself.
+> +
+> +MAX31827 has low and over temperature alarms with an effective value and a
+> +hysteresis value: -40 and -30 degrees for under temperature alarm and +100 and
+> ++90 degrees for over temperature alarm.
+> +
+> +The alarm can be configured in comparator and interrupt mode. Currently only
+> +comparator mode is implemented. In Comparator mode, the OT/UT status bits have a
+> +value of 1 when the temperature rises above the TH value or falls below TL,
+> +which is also subject to the Fault Queue selection. OT status returns to 0 when
+> +the temperature drops below the TH_HYST value or when shutdown mode is entered.
+> +Similarly, UT status returns to 0 when the temperature rises above TL_HYST value
+> +or when shutdown mode is entered.
+> +
+> +Putting the MAX31827 into shutdown mode also resets the OT/UT status bits. Note
+> +that if the mode is changed while OT/UT status bits are set, an OT/UT status
+> +reset may be required before it begins to behave normally. To prevent this,
+> +it is recommended to perform a read of the configuration/status register to
+> +clear the status bits before changing the operating mode.
+> +
+> +The conversions can be manual with the one-shot functionality and automatic with
+> +a set frequency. When powered on, the chip measures temperatures with 1 conv/s.
+> +Enabling the device when it is already enabled has the side effect of setting
+> +the conversion frequency to 1 conv/s. The conversion time varies depending on
+> +the resolution. The conversion time doubles with every bit of increased
+> +resolution. For 10 bit resolution 35ms are needed, while for 12 bit resolution
+> +(default) 140ms. When chip is in shutdown mode and a read operation is
+> +requested, one-shot is triggered, the device waits for 140 (conversion time) + 1
+> +(error) ms, and only after that is the temperature value register read.
+> +
+> +Notes
+> +-----
+> +
+> +Currently fault queue, alarm polarity and resolution cannot be modified.
+> +PEC is not implemented either.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0997a0490c97..fabc8869b13b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12541,6 +12541,8 @@ L:	linux-hwmon@vger.kernel.org
+>   S:	Supported
+>   W:	http://ez.analog.com/community/linux-device-drivers
+>   F:	Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+> +F:	Documentation/hwmon/max31827.rst
+> +F:	drivers/hwmon/max31827.c
+>   
+>   MAX6650 HARDWARE MONITOR AND FAN CONTROLLER DRIVER
+>   L:	linux-hwmon@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 5b3b76477b0e..1e8546b3a8f2 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1097,6 +1097,17 @@ config SENSORS_MAX31760
+>   	  This driver can also be built as a module. If so, the module
+>   	  will be called max31760.
+>   
+> +config MAX31827
+> +	tristate "MAX31827 low-power temperature switch and similar devices"
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	help
+> +	  If you say yes here you get support for MAX31827, MAX31828 and
+> +	  MAX31829 low-power temperature switches and sensors connected with I2C.
+> +
+> +	  This driver can also be built as a module.  If so, the module
+> +	  will be called max31827.
+> +
+>   config SENSORS_MAX6620
+>   	tristate "Maxim MAX6620 fan controller"
+>   	depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 88712b5031c8..dfb9aaf979bb 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -149,6 +149,7 @@ obj-$(CONFIG_SENSORS_MAX6642)	+= max6642.o
+>   obj-$(CONFIG_SENSORS_MAX6650)	+= max6650.o
+>   obj-$(CONFIG_SENSORS_MAX6697)	+= max6697.o
+>   obj-$(CONFIG_SENSORS_MAX31790)	+= max31790.o
+> +obj-$(CONFIG_MAX31827) += max31827.o
+>   obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
+>   obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
+>   obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
+> @@ -223,4 +224,3 @@ obj-$(CONFIG_SENSORS_PECI)	+= peci/
+>   obj-$(CONFIG_PMBUS)		+= pmbus/
+>   
+>   ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
+> -
+> diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
+> new file mode 100644
+> index 000000000000..48ab62f76f7b
+> --- /dev/null
+> +++ b/drivers/hwmon/max31827.c
+> @@ -0,0 +1,428 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * max31827.c - Support for Maxim Low-Power Switch
+> + *
+> + * Copyright (c) 2023 Daniel Matyas <daniel.matyas@analog.com>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/delay.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/i2c.h>
+> +#include <linux/mutex.h>
+> +#include <linux/regmap.h>
+> +
+> +#define MAX31827_T_REG	0x0
+> +#define MAX31827_CONFIGURATION_REG	0x2
+> +#define MAX31827_TH_REG	0x4
+> +#define MAX31827_TL_REG 0x6
+> +#define MAX31827_TH_HYST_REG	0x8
+> +#define MAX31827_TL_HYST_REG	0xA
+> +
+> +#define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
+> +#define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
+> +#define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK BIT(14)
+> +#define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK BIT(15)
+> +
+> +#define MAX31827_12_BIT_CNV_TIME	141
+> +
+> +#define MAX31827_CNV_1_DIV_64_HZ	0x1
+> +#define MAX31827_CNV_1_DIV_32_HZ	0x2
+> +#define MAX31827_CNV_1_DIV_16_HZ	0x3
+> +#define MAX31827_CNV_1_DIV_4_HZ		0x4
+> +#define MAX31827_CNV_1_HZ	0x5
+> +#define MAX31827_CNV_4_HZ	0x6
+> +#define MAX31827_CNV_8_HZ	0x7
+> +
+> +#define LONG_MASK	0xFFFFFFFFFFFFFFFF
+> +
+> +#define MAX31827_16_BIT_TO_M_DGR(x)	((long)(~(~(x) & LONG_MASK)) * 1000 >> 4)
+> +#define MAX31827_M_DGR_TO_16_BIT(x)	(((x) << 4) / 1000)
+> +#define MAX31827_DEVICE_ENABLE(x)	((x) ? 0xA : 0x0)
+> +
+> +struct max31827_state {
+> +	/*
+> +	 * Prevent simultaneous access to the i2c client.
+> +	 */
+> +	struct mutex lock;
+> +	struct regmap *regmap;
+> +	bool enable;
+> +};
+> +
+> +static const struct regmap_config max31827_regmap = {
+> +	.reg_bits = 8,
+> +	.val_bits = 16,
+> +	.max_register = 0xA,
+> +};
+> +
+> +static int write_alarm_val(struct max31827_state *st, unsigned int reg,
+> +			   long val)
+> +{
+> +	unsigned int cfg;
+> +	unsigned int tmp;
+> +	int ret;
+> +
+> +	val = MAX31827_M_DGR_TO_16_BIT(val);
+> +
+> +	/*
+> +	 * Before the Temperature Threshold Alarm and Alarm Hysteresis Threshold
+> +	 * register values are changed over I2C, the part must be in shutdown
+> +	 * mode.
+> +	 *
+> +	 * Mutex is used to ensure, that some other process doesn't change the
+> +	 * configuration register.
+> +	 */
+> +	mutex_lock(&st->lock);
+> +
+> +	if (!st->enable)
+> +		return regmap_write(st->regmap, reg, val);
+> +
+> +	ret = regmap_read(st->regmap, MAX31827_CONFIGURATION_REG, &cfg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	tmp = cfg & ~(MAX31827_CONFIGURATION_1SHOT_MASK |
+> +		      MAX31827_CONFIGURATION_CNV_RATE_MASK);
+> +	ret = regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, tmp);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(st->regmap, reg, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, cfg);
+> +
+> +	mutex_unlock(&st->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static umode_t max31827_is_visible(const void *state,
+> +				   enum hwmon_sensor_types type, u32 attr,
+> +				   int channel)
+> +{
+> +	if (type == hwmon_temp) {
+> +		switch (attr) {
+> +		case hwmon_temp_enable:
+> +		case hwmon_temp_max:
+> +		case hwmon_temp_min:
+> +		case hwmon_temp_max_hyst:
+> +		case hwmon_temp_min_hyst:
+> +			return 0644;
+> +		case hwmon_temp_input:
+> +		case hwmon_temp_min_alarm:
+> +		case hwmon_temp_max_alarm:
+> +			return 0444;
+> +		default:
+> +			return 0;
+> +		}
+> +	} else if (type == hwmon_chip) {
+> +		if (attr == hwmon_chip_update_interval)
+> +			return 0644;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int max31827_read(struct device *dev, enum hwmon_sensor_types type,
+> +			 u32 attr, int channel, long *val)
+> +{
+> +	struct max31827_state *st = dev_get_drvdata(dev);
+> +	unsigned int uval;
+> +	int ret;
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_enable:
+> +			ret = regmap_read(st->regmap,
+> +					  MAX31827_CONFIGURATION_REG, &uval);
+> +			uval = FIELD_GET(MAX31827_CONFIGURATION_1SHOT_MASK |
+> +					 MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> +					 uval);
+> +			*val = !!uval;
+> +
+> +			break;
+> +		case hwmon_temp_input:
+> +			mutex_lock(&st->lock);
+> +
+> +			if (!st->enable) {
+> +				/*
+> +				 * This operation requires mutex protection,
+> +				 * because the chip configuration should not
+> +				 * be changed during the conversion process.
+> +				 */
+> +
+> +				ret = regmap_update_bits(st->regmap,
+> +							 MAX31827_CONFIGURATION_REG,
+> +							 MAX31827_CONFIGURATION_1SHOT_MASK,
+> +							 1);
+> +				if (ret)
+> +					return ret;
+> +
+> +				msleep(MAX31827_12_BIT_CNV_TIME);
+> +			}
+> +			ret = regmap_read(st->regmap, MAX31827_T_REG, &uval);
+> +
+> +			mutex_unlock(&st->lock);
+> +
+> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
+> +
+> +			break;
+> +		case hwmon_temp_max:
+> +			ret = regmap_read(st->regmap, MAX31827_TH_REG, &uval);
+> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
+> +			break;
+> +		case hwmon_temp_max_hyst:
+> +			ret = regmap_read(st->regmap, MAX31827_TH_HYST_REG,
+> +					  &uval);
+> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
+> +			break;
+> +		case hwmon_temp_max_alarm:
+> +			ret = regmap_read(st->regmap,
+> +					  MAX31827_CONFIGURATION_REG, &uval);
+> +			*val = FIELD_GET(MAX31827_CONFIGURATION_O_TEMP_STAT_MASK,
+> +					 uval);
+> +			break;
+> +		case hwmon_temp_min:
+> +			ret = regmap_read(st->regmap, MAX31827_TL_REG, &uval);
+> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
+> +			break;
+> +		case hwmon_temp_min_hyst:
+> +			ret = regmap_read(st->regmap, MAX31827_TL_HYST_REG,
+> +					  &uval);
+> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
+> +			break;
+> +		case hwmon_temp_min_alarm:
+> +			ret = regmap_read(st->regmap,
+> +					  MAX31827_CONFIGURATION_REG, &uval);
+> +			*val = FIELD_GET(MAX31827_CONFIGURATION_U_TEMP_STAT_MASK,
+> +					 uval);
+> +			break;
+> +		default:
+> +			ret = -EOPNOTSUPP;
+> +			break;
+> +		}
+> +
+> +		break;
+> +
+> +	case hwmon_chip:
+> +		if (attr == hwmon_chip_update_interval) {
+> +			ret = regmap_read(st->regmap,
+> +					  MAX31827_CONFIGURATION_REG, &uval);
+> +			uval = FIELD_GET(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> +					 uval);
+> +			switch (uval) {
+> +			case MAX31827_CNV_1_DIV_64_HZ:
+> +				*val = 64000;
+> +				break;
+> +			case MAX31827_CNV_1_DIV_32_HZ:
+> +				*val = 32000;
+> +				break;
+> +			case MAX31827_CNV_1_DIV_16_HZ:
+> +				*val = 16000;
+> +				break;
+> +			case MAX31827_CNV_1_DIV_4_HZ:
+> +				*val = 4000;
+> +				break;
+> +			case MAX31827_CNV_1_HZ:
+> +				*val = 1000;
+> +				break;
+> +			case MAX31827_CNV_4_HZ:
+> +				*val = 250;
+> +				break;
+> +			case MAX31827_CNV_8_HZ:
+> +				*val = 125;
+> +				break;
+> +			default:
+> +				*val = 0;
+> +				break;
+> +			}
+> +		}
+> +		break;
+> +
+> +	default:
+> +		ret = -EOPNOTSUPP;
+> +		break;
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
+> +			  u32 attr, int channel, long val)
+> +{
+> +	struct max31827_state *st = dev_get_drvdata(dev);
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_enable:
+> +			if (val >> 1)
+> +				return -EOPNOTSUPP;
+> +
+> +			st->enable = val;
+> +
+> +			return regmap_update_bits(st->regmap,
+> +						  MAX31827_CONFIGURATION_REG,
+> +						  MAX31827_CONFIGURATION_1SHOT_MASK |
+> +						  MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> +						  MAX31827_DEVICE_ENABLE(val));
+> +
+> +		case hwmon_temp_max:
+> +			return write_alarm_val(st, MAX31827_TH_REG, val);
+> +
+> +		case hwmon_temp_max_hyst:
+> +			return write_alarm_val(st, MAX31827_TH_HYST_REG, val);
+> +
+> +		case hwmon_temp_min:
+> +			return write_alarm_val(st, MAX31827_TL_REG, val);
+> +
+> +		case hwmon_temp_min_hyst:
+> +			return write_alarm_val(st, MAX31827_TL_HYST_REG, val);
+> +
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +
+> +	case hwmon_chip:
+> +		if (attr == hwmon_chip_update_interval) {
+> +			switch (val) {
+> +			case 125:
+> +				val = MAX31827_CNV_8_HZ;
+> +				break;
+> +			case 250:
+> +				val = MAX31827_CNV_4_HZ;
+> +				break;
+> +			case 1000:
+> +				val = MAX31827_CNV_1_HZ;
+> +				break;
+> +			case 4000:
+> +				val = MAX31827_CNV_1_DIV_4_HZ;
+> +				break;
+> +			case 16000:
+> +				val = MAX31827_CNV_1_DIV_16_HZ;
+> +				break;
+> +			case 32000:
+> +				val = MAX31827_CNV_1_DIV_32_HZ;
+> +				break;
+> +			case 64000:
+> +				val = MAX31827_CNV_1_DIV_64_HZ;
+> +				break;
+> +			default:
+> +				val = 0;
+> +				break;
+> +			}
+> +
+> +			if (!val)
+> +				return -EOPNOTSUPP;
+> +
+> +			val = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> +					 val);
+> +
+> +			return regmap_update_bits(st->regmap,
+> +						  MAX31827_CONFIGURATION_REG,
+> +						  MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> +						  val);
+> +		}
+> +		break;
+> +
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static int max31827_init_client(struct max31827_state *st)
+> +{
+> +	st->enable = true;
+> +
+> +	return regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
+> +				  MAX31827_CONFIGURATION_1SHOT_MASK |
+> +					  MAX31827_CONFIGURATION_CNV_RATE_MASK,
+> +				  MAX31827_DEVICE_ENABLE(1));
+> +}
+> +
+> +static const struct hwmon_channel_info *max31827_info[] = {
+> +	HWMON_CHANNEL_INFO(temp, HWMON_T_ENABLE | HWMON_T_INPUT | HWMON_T_MIN |
+> +					 HWMON_T_MIN_HYST | HWMON_T_MIN_ALARM |
+> +					 HWMON_T_MAX | HWMON_T_MAX_HYST |
+> +					 HWMON_T_MAX_ALARM),
+> +	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
+> +	NULL,
+> +};
+> +
+> +static const struct hwmon_ops max31827_hwmon_ops = {
+> +	.is_visible = max31827_is_visible,
+> +	.read = max31827_read,
+> +	.write = max31827_write,
+> +};
+> +
+> +static const struct hwmon_chip_info max31827_chip_info = {
+> +	.ops = &max31827_hwmon_ops,
+> +	.info = max31827_info,
+> +};
+> +
+> +static int max31827_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct device *hwmon_dev;
+> +	struct max31827_state *st;
+> +	int err;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_WORD_DATA))
+> +		return -EOPNOTSUPP;
+> +
+> +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
+> +	if (!st)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&st->lock);
+> +
+> +	st->regmap = devm_regmap_init_i2c(client, &max31827_regmap);
+> +	if (IS_ERR(st->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(st->regmap),
+> +				     "Failed to allocate regmap.\n");
+> +
+> +	err = max31827_init_client(st);
+> +	if (err)
+> +		return err;
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, st,
+> +							 &max31827_chip_info,
+> +							 NULL);
+> +
+> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +}
+> +
+> +static const struct i2c_device_id max31827_i2c_ids[] = {
+> +	{ "max31827", 0 },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, max31827_i2c_ids);
+> +
+> +static const struct of_device_id max31827_of_match[] = {
+> +	{ .compatible = "max31827" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, max31827_of_match);
+> +
+> +static struct i2c_driver max31827_driver = {
+> +	.class = I2C_CLASS_HWMON,
+> +	.driver = {
+> +		.name = "max31827",
+> +		.of_match_table = max31827_of_match,
+> +	},
+> +	.probe_new = max31827_probe,
+> +	.id_table = max31827_i2c_ids,
+> +};
+> +module_i2c_driver(max31827_driver);
+> +
+> +MODULE_AUTHOR("Daniel Matyas <daniel.matyas@analog.com>");
+> +MODULE_DESCRIPTION("Maxim MAX31827 low-power temperature switch driver");
+> +MODULE_LICENSE("GPL");
 
-[1]
-https://lore.kernel.org/lkml/f74dfcde-e59b-a9b3-9bbc-a8de644f6740@linaro.org/
-
-> 
->> +static DEFINE_MUTEX(minidump_lock);
-> 
-> Neither this.
-> 
-> Also you need to clearly express what is protected by newn lock.
-
-Sure, will keep proper reasoning why global lock reasoning.
-
-"
-Since it is possible to call this file's exported function before
-this driver's probe get called or it's probe is happening in parallel
-so it needs global lock to protect this case.
-
-"
-
-> 
->> +
->> +static struct elf_shdr *elf_shdr_entry_addr(struct elfhdr *ehdr, int idx)
->> +{
->> +	struct elf_shdr *eshdr = (struct elf_shdr *)((size_t)ehdr + ehdr->e_shoff);
->> +
->> +	return &eshdr[idx];
->> +}
->> +
->> +static struct elf_phdr *elf_phdr_entry_addr(struct elfhdr *ehdr, int idx)
->> +{
->> +	struct elf_phdr *ephdr = (struct elf_phdr *)((size_t)ehdr + ehdr->e_phoff);
->> +
->> +	return &ephdr[idx];
->> +}
->> +
->> +static char *elf_str_table_start(struct elfhdr *ehdr)
->> +{
->> +	struct elf_shdr *eshdr;
->> +
->> +	if (ehdr->e_shstrndx == SHN_UNDEF)
->> +		return NULL;
->> +
->> +	eshdr = elf_shdr_entry_addr(ehdr, ehdr->e_shstrndx);
->> +	return (char *)ehdr + eshdr->sh_offset;
->> +}
->> +
->> +static char *elf_lookup_string(struct elfhdr *ehdr, int offset)
->> +{
->> +	char *strtab = elf_str_table_start(ehdr);
->> +
->> +	if (!strtab || (__md->elf.strtable_idx < offset))
->> +		return NULL;
->> +
->> +	return strtab + offset;
->> +}
->> +
->> +static unsigned int append_str_to_strtable(const char *name)
->> +{
->> +	char *strtab = elf_str_table_start(__md->elf.ehdr);
->> +	unsigned int old_idx = __md->elf.strtable_idx;
->> +	unsigned int ret;
->> +
->> +	if (!strtab || !name)
->> +		return 0;
->> +
->> +	ret = old_idx;
->> +	old_idx += strscpy((strtab + old_idx), name, MAX_REGION_NAME_LENGTH);
->> +	__md->elf.strtable_idx = old_idx + 1;
->> +	return ret;
->> +}
->> +
->> +static int
->> +get_apss_minidump_region_index(const struct qcom_apss_minidump_region *region)
->> +{
->> +	struct minidump_region *mdr;
->> +	unsigned int i;
->> +	unsigned int count;
->> +
->> +	count = le32_to_cpu(__md->md_apss_toc->region_count);
->> +	for (i = 0; i < count; i++) {
->> +		mdr = &__md->md_regions[i];
->> +		if (!strcmp(mdr->name, region->name))
->> +			return i;
->> +	}
->> +	return -ENOENT;
->> +}
->> +
->> +static void
->> +qcom_apss_minidump_update_elf_header(const struct qcom_apss_minidump_region *region)
-> 
-> You need to name everything shorter. Neither functions nor structs are
-> making it easy to follow.
-
-Sure !!
-
-Thought of being very much descriptive here :-)
-
-> 
->> +{
->> +	struct elfhdr *ehdr = __md->elf.ehdr;
->> +	struct elf_shdr *shdr;
->> +	struct elf_phdr *phdr;
->> +
->> +	shdr = elf_shdr_entry_addr(ehdr, ehdr->e_shnum++);
->> +	phdr = elf_phdr_entry_addr(ehdr, ehdr->e_phnum++);
->> +
->> +	shdr->sh_type = SHT_PROGBITS;
->> +	shdr->sh_name = append_str_to_strtable(region->name);
->> +	shdr->sh_addr = (elf_addr_t)region->virt_addr;
->> +	shdr->sh_size = region->size;
->> +	shdr->sh_flags = SHF_WRITE;
->> +	shdr->sh_offset = __md->elf.elf_offset;
->> +	shdr->sh_entsize = 0;
->> +
->> +	phdr->p_type = PT_LOAD;
->> +	phdr->p_offset = __md->elf.elf_offset;
->> +	phdr->p_vaddr = (elf_addr_t)region->virt_addr;
->> +	phdr->p_paddr = region->phys_addr;
->> +	phdr->p_filesz = phdr->p_memsz = region->size;
->> +	phdr->p_flags = PF_R | PF_W;
->> +	__md->elf.elf_offset += shdr->sh_size;
->> +}
->> +
->> +static void
->> +qcom_apss_minidump_add_region(const struct qcom_apss_minidump_region *region)
->> +{
->> +	struct minidump_region *mdr;
->> +	unsigned int region_cnt = le32_to_cpu(__md->md_apss_toc->region_count);
->> +
->> +	mdr = &__md->md_regions[region_cnt];
->> +	strscpy(mdr->name, region->name, sizeof(mdr->name));
->> +	mdr->address = cpu_to_le64(region->phys_addr);
->> +	mdr->size = cpu_to_le64(region->size);
->> +	mdr->valid = cpu_to_le32(MINIDUMP_REGION_VALID);
->> +	region_cnt++;
->> +	__md->md_apss_toc->region_count = cpu_to_le32(region_cnt);
->> +}
->> +
->> +static bool
->> +qcom_apss_minidump_valid_region(const struct qcom_apss_minidump_region *region)
->> +{
->> +	return region &&
->> +		strnlen(region->name, MAX_NAME_LENGTH) < MAX_NAME_LENGTH &&
->> +		region->virt_addr &&
->> +		region->size &&
->> +		IS_ALIGNED(region->size, 4);
->> +}
->> +
->> +static int qcom_apss_minidump_add_elf_header(void)
->> +{
->> +	struct qcom_apss_minidump_region elfregion;
->> +	struct elfhdr *ehdr;
->> +	struct elf_shdr *shdr;
->> +	struct elf_phdr *phdr;
->> +	unsigned int  elfh_size;
->> +	unsigned int strtbl_off;
->> +	unsigned int phdr_off;
->> +	char *banner;
->> +	unsigned int banner_len;
->> +
->> +	banner_len = strlen(linux_banner);
->> +	/*
->> +	 * Header buffer contains:
->> +	 * ELF header, (MAX_NUM_ENTRIES + 4) of Section and Program ELF headers,
->> +	 * where, 4 additional entries, one for empty header, one for string table
->> +	 * one for minidump table and one for linux banner.
->> +	 *
->> +	 * Linux banner is stored in minidump to aid post mortem tools to determine
->> +	 * the kernel version.
->> +	 */
->> +	elfh_size = sizeof(*ehdr);
->> +	elfh_size += MAX_STRTBL_SIZE;
->> +	elfh_size += banner_len + 1;
->> +	elfh_size += ((sizeof(*shdr) + sizeof(*phdr)) * (MAX_NUM_ENTRIES + 4));
->> +	elfh_size = ALIGN(elfh_size, 4);
->> +
->> +	__md->elf.ehdr = kzalloc(elfh_size, GFP_KERNEL);
->> +	if (!__md->elf.ehdr)
->> +		return -ENOMEM;
->> +
->> +	/* Register ELF header as first region */
->> +	strscpy(elfregion.name, "KELF_HEADER", sizeof(elfregion.name));
->> +	elfregion.virt_addr = __md->elf.ehdr;
->> +	elfregion.phys_addr = virt_to_phys(__md->elf.ehdr);
->> +	elfregion.size = elfh_size;
->> +	qcom_apss_minidump_add_region(&elfregion);
->> +
->> +	ehdr = __md->elf.ehdr;
->> +	/* Assign Section/Program headers offset */
->> +	__md->elf.shdr = shdr = (struct elf_shdr *)(ehdr + 1);
->> +	__md->elf.phdr = phdr = (struct elf_phdr *)(shdr + MAX_NUM_ENTRIES);
->> +	phdr_off = sizeof(*ehdr) + (sizeof(*shdr) * MAX_NUM_ENTRIES);
->> +
->> +	memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
->> +	ehdr->e_ident[EI_CLASS] = ELF_CLASS;
->> +	ehdr->e_ident[EI_DATA] = ELF_DATA;
->> +	ehdr->e_ident[EI_VERSION] = EV_CURRENT;
->> +	ehdr->e_ident[EI_OSABI] = ELF_OSABI;
->> +	ehdr->e_type = ET_CORE;
->> +	ehdr->e_machine  = ELF_ARCH;
->> +	ehdr->e_version = EV_CURRENT;
->> +	ehdr->e_ehsize = sizeof(*ehdr);
->> +	ehdr->e_phoff = phdr_off;
->> +	ehdr->e_phentsize = sizeof(*phdr);
->> +	ehdr->e_shoff = sizeof(*ehdr);
->> +	ehdr->e_shentsize = sizeof(*shdr);
->> +	ehdr->e_shstrndx = 1;
->> +
->> +	__md->elf.elf_offset = elfh_size;
->> +
->> +	/*
->> +	 * The zeroth index of the section header is reserved and is rarely used.
->> +	 * Set the section header as null (SHN_UNDEF) and move to the next one.
->> +	 * 2nd Section is String table.
->> +	 */
->> +	__md->elf.strtable_idx = 1;
->> +	strtbl_off = sizeof(*ehdr) + ((sizeof(*phdr) + sizeof(*shdr)) * MAX_NUM_ENTRIES);
->> +	shdr++;
->> +	shdr->sh_type = SHT_STRTAB;
->> +	shdr->sh_offset = (elf_addr_t)strtbl_off;
->> +	shdr->sh_size = MAX_STRTBL_SIZE;
->> +	shdr->sh_entsize = 0;
->> +	shdr->sh_flags = 0;
->> +	shdr->sh_name = append_str_to_strtable("STR_TBL");
->> +	shdr++;
->> +
->> +	/* 3rd Section is Linux banner */
->> +	banner = (char *)ehdr + strtbl_off + MAX_STRTBL_SIZE;
->> +	memcpy(banner, linux_banner, banner_len);
->> +
->> +	shdr->sh_type = SHT_PROGBITS;
->> +	shdr->sh_offset = (elf_addr_t)(strtbl_off + MAX_STRTBL_SIZE);
->> +	shdr->sh_size = banner_len + 1;
->> +	shdr->sh_addr = (elf_addr_t)linux_banner;
->> +	shdr->sh_entsize = 0;
->> +	shdr->sh_flags = SHF_WRITE;
->> +	shdr->sh_name = append_str_to_strtable("linux_banner");
->> +
->> +	phdr->p_type = PT_LOAD;
->> +	phdr->p_offset = (elf_addr_t)(strtbl_off + MAX_STRTBL_SIZE);
->> +	phdr->p_vaddr = (elf_addr_t)linux_banner;
->> +	phdr->p_paddr = virt_to_phys(linux_banner);
->> +	phdr->p_filesz = phdr->p_memsz = banner_len + 1;
->> +	phdr->p_flags = PF_R | PF_W;
->> +
->> +	/*
->> +	 * Above are some prdefined sections/program header used
->> +	 * for debug, update their count here.
->> +	 */
->> +	ehdr->e_phnum = 1;
->> +	ehdr->e_shnum = 3;
->> +
->> +	return 0;
->> +}
->> +
->> +/**
->> + * qcom_minidump_subsystem_desc() - Get minidump subsystem descriptor.
->> + * @minidump_index: minidump index for a subsystem in minidump table
->> + *
->> + * Return: minidump subsystem descriptor address on success and error
->> + * on failure
->> + */
->> +struct minidump_subsystem *qcom_minidump_subsystem_desc(unsigned int minidump_index)
->> +{
->> +	struct minidump_subsystem *md_ss_toc;
->> +
->> +	mutex_lock(&minidump_lock);
->> +	if (!__md) {
->> +		md_ss_toc = ERR_PTR(-EPROBE_DEFER);
->> +		goto unlock;
->> +	}
->> +
->> +	md_ss_toc = &__md->md_gbl_toc->subsystems[minidump_index];
->> +unlock:
->> +	mutex_unlock(&minidump_lock);
->> +	return md_ss_toc;
->> +}
->> +EXPORT_SYMBOL_GPL(qcom_minidump_subsystem_desc);
->> +
->> +/**
->> + * qcom_apss_minidump_region_register() - Register a region in Minidump table.
->> + * @region: minidump region.
->> + *
->> + * Return: On success, it returns 0, otherwise a negative error value on failure.
->> + */
->> +int qcom_apss_minidump_region_register(const struct qcom_apss_minidump_region *region)
->> +{
->> +	unsigned int num_region;
->> +	int ret;
->> +
->> +	if (!__md)
->> +		return -EPROBE_DEFER;
->> +
->> +	if (!qcom_apss_minidump_valid_region(region))
->> +		return -EINVAL;
->> +
->> +	mutex_lock(&minidump_lock);
->> +	ret = get_apss_minidump_region_index(region);
->> +	if (ret >= 0) {
->> +		dev_info(__md->dev, "%s region is already registered\n", region->name);
->> +		ret = -EEXIST;
->> +		goto unlock;
->> +	}
->> +
->> +	/* Check if there is a room for a new entry */
->> +	num_region = le32_to_cpu(__md->md_apss_toc->region_count);
->> +	if (num_region >= MAX_NUM_ENTRIES) {
->> +		dev_err(__md->dev, "maximum region limit %u reached\n", num_region);
->> +		ret = -ENOSPC;
->> +		goto unlock;
->> +	}
->> +
->> +	qcom_apss_minidump_add_region(region);
->> +	qcom_apss_minidump_update_elf_header(region);
->> +	ret = 0;
->> +unlock:
->> +	mutex_unlock(&minidump_lock);
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(qcom_apss_minidump_region_register);
->> +
->> +static int
->> +qcom_apss_minidump_clear_header(const struct qcom_apss_minidump_region *region)
->> +{
->> +	struct elfhdr *ehdr = __md->elf.ehdr;
->> +	struct elf_shdr *shdr;
->> +	struct elf_shdr *tmp_shdr;
->> +	struct elf_phdr *phdr;
->> +	struct elf_phdr *tmp_phdr;
->> +	unsigned int phidx;
->> +	unsigned int shidx;
->> +	unsigned int len;
->> +	unsigned int i;
->> +	char *shname;
->> +
->> +	for (i = 0; i < ehdr->e_phnum; i++) {
->> +		phdr = elf_phdr_entry_addr(ehdr, i);
->> +		if (phdr->p_paddr == region->phys_addr &&
->> +		    phdr->p_memsz == region->size)
->> +			break;
->> +	}
->> +
->> +	if (i == ehdr->e_phnum) {
->> +		dev_err(__md->dev, "Cannot find program header entry in elf\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	phidx = i;
->> +	for (i = 0; i < ehdr->e_shnum; i++) {
->> +		shdr = elf_shdr_entry_addr(ehdr, i);
->> +		shname = elf_lookup_string(ehdr, shdr->sh_name);
->> +		if (shname && !strcmp(shname, region->name) &&
->> +		    shdr->sh_addr == (elf_addr_t)region->virt_addr &&
->> +		    shdr->sh_size == region->size)
->> +			break;
->> +	}
->> +
->> +	if (i == ehdr->e_shnum) {
->> +		dev_err(__md->dev, "Cannot find section header entry in elf\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	shidx = i;
->> +	if (shdr->sh_offset != phdr->p_offset) {
->> +		dev_err(__md->dev, "Invalid entry details for region: %s\n", region->name);
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Clear name in string table */
->> +	len = strlen(shname) + 1;
->> +	memmove(shname, shname + len,
->> +		__md->elf.strtable_idx - shdr->sh_name - len);
->> +	__md->elf.strtable_idx -= len;
->> +
->> +	/* Clear program header */
->> +	tmp_phdr = elf_phdr_entry_addr(ehdr, phidx);
->> +	for (i = phidx; i < ehdr->e_phnum - 1; i++) {
->> +		tmp_phdr = elf_phdr_entry_addr(ehdr, i + 1);
->> +		phdr = elf_phdr_entry_addr(ehdr, i);
->> +		memcpy(phdr, tmp_phdr, sizeof(struct elf_phdr));
->> +		phdr->p_offset = phdr->p_offset - region->size;
->> +	}
->> +	memset(tmp_phdr, 0, sizeof(struct elf_phdr));
->> +	ehdr->e_phnum--;
->> +
->> +	/* Clear section header */
->> +	tmp_shdr = elf_shdr_entry_addr(ehdr, shidx);
->> +	for (i = shidx; i < ehdr->e_shnum - 1; i++) {
->> +		tmp_shdr = elf_shdr_entry_addr(ehdr, i + 1);
->> +		shdr = elf_shdr_entry_addr(ehdr, i);
->> +		memcpy(shdr, tmp_shdr, sizeof(struct elf_shdr));
->> +		shdr->sh_offset -= region->size;
->> +		shdr->sh_name -= len;
->> +	}
->> +
->> +	memset(tmp_shdr, 0, sizeof(struct elf_shdr));
->> +	ehdr->e_shnum--;
->> +	__md->elf.elf_offset -= region->size;
->> +
->> +	return 0;
->> +}
->> +
->> +/**
->> + * qcom_apss_minidump_region_unregister() - Unregister region from Minidump table.
->> + * @region: minidump region.
->> + *
->> + * Return: On success, it returns 0 and negative error value on failure.
->> + */
->> +int qcom_apss_minidump_region_unregister(const struct qcom_apss_minidump_region *region)
->> +{
->> +	struct minidump_region *mdr;
->> +	unsigned int num_region;
->> +	unsigned int idx;
->> +	int ret;
->> +
->> +	if (!region)
->> +		return -EINVAL;
->> +
->> +	mutex_lock(&minidump_lock);
->> +	if (!__md) {
->> +		ret = -EPROBE_DEFER;
->> +		goto unlock;
->> +	}
->> +
->> +	idx = get_apss_minidump_region_index(region);
->> +	if (idx < 0) {
->> +		dev_err(__md->dev, "%s region is not present\n", region->name);
->> +		ret = idx;
->> +		goto unlock;
->> +	}
->> +
->> +	mdr = &__md->md_regions[0];
->> +	num_region = le32_to_cpu(__md->md_apss_toc->region_count);
->> +	/*
->> +	 * Left shift all the regions exist after this removed region
->> +	 * index by 1 to fill the gap and zero out the last region
->> +	 * present at the end.
->> +	 */
->> +	memmove(&mdr[idx], &mdr[idx + 1],
->> +		(num_region - idx - 1) * sizeof(struct minidump_region));
->> +	memset(&mdr[num_region - 1], 0, sizeof(struct minidump_region));
->> +	ret = qcom_apss_minidump_clear_header(region);
->> +	if (ret) {
->> +		dev_err(__md->dev, "Failed to remove region: %s\n", region->name);
->> +		goto unlock;
->> +	}
->> +
->> +	num_region--;
->> +	__md->md_apss_toc->region_count = cpu_to_le32(num_region);
->> +unlock:
->> +	mutex_unlock(&minidump_lock);
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(qcom_apss_minidump_region_unregister);
->> +
->> +static int qcom_minidump_init_apss_subsystem(struct minidump *md)
->> +{
->> +	struct minidump_subsystem *apsstoc;
->> +
->> +	apsstoc = &md->md_gbl_toc->subsystems[MINIDUMP_APSS_DESC];
->> +	md->md_regions = devm_kcalloc(md->dev, MAX_NUM_ENTRIES,
->> +				      sizeof(struct minidump_region), GFP_KERNEL);
->> +	if (!md->md_regions)
->> +		return -ENOMEM;
->> +
->> +	md->md_apss_toc = apsstoc;
->> +	apsstoc->regions_baseptr = cpu_to_le64(virt_to_phys(md->md_regions));
->> +	apsstoc->enabled = cpu_to_le32(MINIDUMP_SS_ENABLED);
->> +	apsstoc->status = cpu_to_le32(1);
->> +	apsstoc->region_count = cpu_to_le32(0);
->> +
->> +	/* Tell bootloader not to encrypt the regions of this subsystem */
->> +	apsstoc->encryption_status = cpu_to_le32(MINIDUMP_SS_ENCR_DONE);
->> +	apsstoc->encryption_required = cpu_to_le32(MINIDUMP_SS_ENCR_NOTREQ);
->> +
->> +	return 0;
->> +}
->> +
->> +static int qcom_minidump_probe(struct platform_device *pdev)
->> +{
->> +	struct minidump_global_toc *mdgtoc;
->> +	struct minidump *md;
->> +	size_t size;
->> +	int ret;
->> +
->> +	md = devm_kzalloc(&pdev->dev, sizeof(*md), GFP_KERNEL);
->> +	if (!md)
->> +		return -ENOMEM;
->> +
->> +	mdgtoc = qcom_smem_get(QCOM_SMEM_HOST_ANY, SBL_MINIDUMP_SMEM_ID, &size);
->> +	if (IS_ERR(mdgtoc)) {
->> +		ret = PTR_ERR(mdgtoc);
->> +		dev_err(&pdev->dev, "Couldn't find minidump smem item: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	if (size < sizeof(*mdgtoc) || !mdgtoc->status) {
->> +		ret = -EINVAL;
->> +		dev_err(&pdev->dev, "minidump table is not initialized: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	mutex_lock(&minidump_lock);
->> +	md->dev = &pdev->dev;
->> +	md->md_gbl_toc = mdgtoc;
-> 
-> What are you protecting here? It's not possible to have concurrent
-> access to md, is it?
-
-Check qcom_apss_minidump_region_{register/unregister} and it is possible
-that these API gets called parallel to this probe.
-
-I agree, i made a mistake in not protecting __md in {register} API
-but did it unregister API in this patch, which i have fixed in later patch.
-
-> 
->> +	ret = qcom_minidump_init_apss_subsystem(md);
->> +	if (ret) {
->> +		dev_err(&pdev->dev, "apss minidump initialization failed: %d\n", ret);
->> +		goto unlock;
->> +	}
->> +
->> +	__md = md;
-> 
-> No. This is a platform device, so it can have multiple instances.
-
-It can have only one instance that is created from SMEM driver probe.
-
-> 
->> +	/* First entry would be ELF header */
->> +	ret = qcom_apss_minidump_add_elf_header();
->> +	if (ret) {
->> +		dev_err(&pdev->dev, "Failed to add elf header: %d\n", ret);
->> +		memset(md->md_apss_toc, 0, sizeof(struct minidump_subsystem));
->> +		__md = NULL;
->> +	}
->> +
->> +unlock:
->> +	mutex_unlock(&minidump_lock);
->> +	return ret;
->> +}
->> +
->> +static int qcom_minidump_remove(struct platform_device *pdev)
->> +{
->> +	memset(__md->md_apss_toc, 0, sizeof(struct minidump_subsystem));
->> +	__md = NULL;
-> 
-> Don't use __ in variable names. Drop it everywhere.
-
-As i said above, this is being followed in other drivers, so followed
-it here as per recommendation.
-
-Let @srini comeback on this.
-
-> 
->> +
->> +	return 0;
->> +}
->> +
->> +static struct platform_driver qcom_minidump_driver = {
->> +	.probe = qcom_minidump_probe,
->> +	.remove = qcom_minidump_remove,
->> +	.driver  = {
->> +		.name = "qcom-minidump",
->> +	},
->> +};
->> +
->> +module_platform_driver(qcom_minidump_driver);
->> +
->> +MODULE_DESCRIPTION("Qualcomm APSS minidump driver");
->> +MODULE_LICENSE("GPL v2");
->> +MODULE_ALIAS("platform:qcom-minidump");
->> diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
->> index 6be7ea9..d459656 100644
->> --- a/drivers/soc/qcom/smem.c
->> +++ b/drivers/soc/qcom/smem.c
->> @@ -279,6 +279,7 @@ struct qcom_smem {
->>   
->>   	u32 item_count;
->>   	struct platform_device *socinfo;
->> +	struct platform_device *minidump;
->>   	struct smem_ptable *ptable;
->>   	struct smem_partition global_partition;
->>   	struct smem_partition partitions[SMEM_HOST_COUNT];
->> @@ -1151,12 +1152,19 @@ static int qcom_smem_probe(struct platform_device *pdev)
->>   	if (IS_ERR(smem->socinfo))
->>   		dev_dbg(&pdev->dev, "failed to register socinfo device\n");
->>   
->> +	smem->minidump = platform_device_register_data(&pdev->dev, "qcom-minidump",
->> +						      PLATFORM_DEVID_NONE, NULL,
->> +						      0);
->> +	if (IS_ERR(smem->minidump))
->> +		dev_dbg(&pdev->dev, "failed to register minidump device\n");
->> +
->>   	return 0;
->>   }
->>   
->>   static int qcom_smem_remove(struct platform_device *pdev)
->>   {
->>   	platform_device_unregister(__smem->socinfo);
->> +	platform_device_unregister(__smem->minidump);
-> 
-> Wrong order. You registered first socinfo, right?
-
-Any order is fine here, they are not dependent.
-But, will fix this.
-
-> 
->>   
->>   	hwspin_lock_free(__smem->hwlock);
->>   	__smem = NULL;
->> diff --git a/include/soc/qcom/qcom_minidump.h b/include/soc/qcom/qcom_minidump.h
->> index 84c8605..1872668 100644
->> --- a/include/soc/qcom/qcom_minidump.h
->> +++ b/include/soc/qcom/qcom_minidump.h
->> @@ -1,6 +1,7 @@
->>   /* SPDX-License-Identifier: GPL-2.0-only */
->>   /*
->> - * Qualcomm minidump shared data structures and macros
->> + * This file contain Qualcomm minidump data structures and macros shared with
->> + * boot firmware and also apss minidump client's data structure
->>    *
->>    * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
->>    */
->> @@ -9,12 +10,27 @@
->>   #define _QCOM_MINIDUMP_H_
->>   
->>   #define MAX_NUM_OF_SS           10
->> +#define MAX_NAME_LENGTH		12
->>   #define MAX_REGION_NAME_LENGTH  16
->> +
->> +#define MINIDUMP_REVISION	1
->>   #define SBL_MINIDUMP_SMEM_ID	602
->> +
->> +/* Application processor minidump descriptor */
->> +#define MINIDUMP_APSS_DESC	0
->> +#define SMEM_ENTRY_SIZE		40
->> +
->>   #define MINIDUMP_REGION_VALID		('V' << 24 | 'A' << 16 | 'L' << 8 | 'I' << 0)
->> +#define MINIDUMP_REGION_INVALID		('I' << 24 | 'N' << 16 | 'V' << 8 | 'A' << 0)
->> +#define MINIDUMP_REGION_INIT		('I' << 24 | 'N' << 16 | 'I' << 8 | 'T' << 0)
->> +#define MINIDUMP_REGION_NOINIT		0
->> +
->> +#define MINIDUMP_SS_ENCR_REQ		(0 << 24 | 'Y' << 16 | 'E' << 8 | 'S' << 0)
->> +#define MINIDUMP_SS_ENCR_NOTREQ		(0 << 24 | 0 << 16 | 'N' << 8 | 'R' << 0)
->> +#define MINIDUMP_SS_ENCR_NONE		('N' << 24 | 'O' << 16 | 'N' << 8 | 'E' << 0)
->>   #define MINIDUMP_SS_ENCR_DONE		('D' << 24 | 'O' << 16 | 'N' << 8 | 'E' << 0)
->> +#define MINIDUMP_SS_ENCR_START		('S' << 24 | 'T' << 16 | 'R' << 8 | 'T' << 0)
->>   #define MINIDUMP_SS_ENABLED		('E' << 24 | 'N' << 16 | 'B' << 8 | 'L' << 0)
->> -
-> 
-> Why removing this?
-
-Ok, will keep it.
-
-> 
->>   /**
->>    * struct minidump_region - Minidump region
->>    * @name		: Name of the region to be dumped
->> @@ -63,4 +79,45 @@ struct minidump_global_toc {
->>   	struct minidump_subsystem	subsystems[MAX_NUM_OF_SS];
->>   };
->>   
->> +/**
->> + * struct qcom_apss_minidump_region - APSS Minidump region information
->> + *
->> + * @name:	Entry name, Minidump will dump binary with this name.
->> + * @virt_addr:  Virtual address of the entry.
->> + * @phys_addr:	Physical address of the entry to dump.
->> + * @size:	Number of byte to dump from @address location,
->> + *		and it should be 4 byte aligned.
->> + */
->> +struct qcom_apss_minidump_region {
->> +	char		name[MAX_NAME_LENGTH];
->> +	void		*virt_addr;
->> +	phys_addr_t	phys_addr;
->> +	size_t		size;
->> +};
-> 
-> You expose way too much internals in global header.
-
-This suppose to shared with all minidump clients.
-
-As already discussed in earlier patch, will keep the one which get
-shared with remoteproc as differnet header if the people who have
-reviewed till now agree to this common stuff.
-
-> 
->> +
->> +#if IS_ENABLED(CONFIG_QCOM_MINIDUMP)
->> +extern struct minidump_subsystem *
-> 
-> No externs.
-
-ok.
-
-> The header is unreadable.
-> 
->> +qcom_minidump_subsystem_desc(unsigned int minidump_index);
->> +extern int
->> +qcom_apss_minidump_region_register(const struct qcom_apss_minidump_region *region);
->> +extern int
->> +qcom_apss_minidump_region_unregister(const struct qcom_apss_minidump_region *region);
-> 
-> Blank line
-> 
->> +#else
-> 
-> Blank line
-> 
->> +static inline
->> +struct minidump_subsystem *qcom_minidump_subsystem_desc(unsigned int minidump_index)
->> +{
->> +	return NULL;
->> +}
-> 
-> Blank line
-> 
->> +static inline int
->> +qcom_apss_minidump_region_register(const struct qcom_apss_minidump_region *region)
->> +{
->> +	/* Return quietly, if minidump is not enabled */
->> +	return 0;
->> +}
-> 
-> 
->> +static inline int
->> +qcom_apss_minidump_region_unregister(const struct qcom_apss_minidump_region *region)
->> +{
->> +	return 0;
->> +}
-> 
->> +#endif
-> 
-> /* CONFIG_QCOM_MINIDUMP */
-> 
->>   #endif  /* _QCOM_MINIDUMP_H_ */
-
-Noted, thanks.
-
-> 
-> Best regards,
-> Krzysztof
-> 
