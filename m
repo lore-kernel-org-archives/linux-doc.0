@@ -2,217 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 022DCC77B78
-	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 09:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6966AC7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 10:40:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229891AbjEDJH3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 May 2023 05:07:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33432 "EHLO
+        id S229930AbjEDKkh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 May 2023 06:40:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229718AbjEDJH1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 05:07:27 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 076C78F;
-        Thu,  4 May 2023 02:07:24 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 9956B33923;
-        Thu,  4 May 2023 09:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1683191243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+qJXmRqw+FfGzaNlkZLDu9Le9CEnkyHeMqv8Le5oQts=;
-        b=ANDPuuGSLrqGeihHM91AJqPDxRdii3XkVbscUjditUheMtvnk8aFBqZLYzfGOSm4Wpep5y
-        MN0JxYMPYvRX9Ro+qxZW6USNL5DsbvnuexjUyhsNUQ1F8AiMfWl8V+BA7+Nj2/Wdmi4sGz
-        dYzHf3+YdyqXWoFquZFW6OeAMIcZ5Gc=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6EB8613444;
-        Thu,  4 May 2023 09:07:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id zaOgGst1U2SVTAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 04 May 2023 09:07:23 +0000
-Date:   Thu, 4 May 2023 11:07:22 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, kent.overstreet@linux.dev,
-        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFN1yswCd9wRgYPR@dhcp22.suse.cz>
-References: <20230501165450.15352-1-surenb@google.com>
- <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
- <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com>
+        with ESMTP id S229915AbjEDKkf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 06:40:35 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BABDB4EDC;
+        Thu,  4 May 2023 03:40:33 -0700 (PDT)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3449XJjr026664;
+        Thu, 4 May 2023 06:40:15 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3qca678amw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 04 May 2023 06:40:14 -0400
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 344AeD0o056870
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 4 May 2023 06:40:13 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Thu, 4 May 2023 06:40:12 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Thu, 4 May 2023 06:40:12 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Thu, 4 May 2023 06:40:12 -0400
+Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.214])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 344AdtQJ012745;
+        Thu, 4 May 2023 06:39:58 -0400
+From:   Daniel Matyas <daniel.matyas@analog.com>
+CC:     Daniel Matyas <daniel.matyas@analog.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v4 1/2] dt-bindings: hwmon: add MAX31827
+Date:   Thu, 4 May 2023 12:39:30 +0300
+Message-ID: <20230504093933.70660-1-daniel.matyas@analog.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com>
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: mgnzufv0GoJSOMbELjfVOl1xHWPiTpa5
+X-Proofpoint-ORIG-GUID: mgnzufv0GoJSOMbELjfVOl1xHWPiTpa5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_06,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 adultscore=0 bulkscore=0 phishscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305040086
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 03-05-23 08:09:28, Suren Baghdasaryan wrote:
-> On Wed, May 3, 2023 at 12:25 AM Michal Hocko <mhocko@suse.com> wrote:
-[...]
-> Thanks for summarizing!
-> 
-> > At least those I find the most important:
-> > - This is a big change and it adds a significant maintenance burden
-> >   because each allocation entry point needs to be handled specifically.
-> >   The cost will grow with the intended coverage especially there when
-> >   allocation is hidden in a library code.
-> 
-> Do you mean with more allocations in the codebase more codetags will
-> be generated? Is that the concern?
+MAX31827 is a low-power temperature switch with I2C interface.
 
-No. I am mostly concerned about the _maintenance_ overhead. For the
-bare tracking (without profiling and thus stack traces) only those
-allocations that are directly inlined into the consumer are really
-of any use. That increases the code impact of the tracing because any
-relevant allocation location has to go through the micro surgery. 
+The device is a ±1°C accuracy from -40°C to +125°C
+(12 bits) local temperature switch and sensor with I2C/SM-
+Bus interface. The combination of small 6-bump wafer-lev-
+el package (WLP) and high accuracy makes this temper-
+ature sensor/switch ideal for a wide range of applications.
 
-e.g. is it really interesting to know that there is a likely memory
-leak in seq_file proper doing and allocation? No as it is the specific
-implementation using seq_file that is leaking most likely. There are
-other examples like that See?
+Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+---
+ .../bindings/hwmon/adi,max31827.yaml          | 54 +++++++++++++++++++
+ MAINTAINERS                                   |  7 +++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
 
-> Or maybe as you commented in
-> another patch that context capturing feature does not limit how many
-> stacks will be captured?
-
-That is a memory overhead which can be really huge and it would be nice
-to be more explicit about that in the cover letter. It is a downside for
-sure but not something that has a code maintenance impact and it is an
-opt-in so it can be enabled only when necessary.
-
-Quite honestly, though, the more I look into context capturing part it
-seems to me that there is much more to be reconsidered there and if you
-really want to move forward with the code tagging part then you should
-drop that for now. It would make the whole series smaller and easier to
-digest.
-
-> > - It has been brought up that this is duplicating functionality already
-> >   available via existing tracing infrastructure. You should make it very
-> >   clear why that is not suitable for the job
-> 
-> I experimented with using tracing with _RET_IP_ to implement this
-> accounting. The major issue is the _RET_IP_ to codetag lookup runtime
-> overhead which is orders of magnitude higher than proposed code
-> tagging approach. With code tagging proposal, that link is resolved at
-> compile time. Since we want this mechanism deployed in production, we
-> want to keep the overhead to the absolute minimum.
-> You asked me before how much overhead would be tolerable and the
-> answer will always be "as small as possible". This is especially true
-> for slab allocators which are ridiculously fast and regressing them
-> would be very noticable (due to the frequent use).
-
-It would have been more convincing if you had some numbers at hands.
-E.g. this is a typical workload we are dealing with. With the compile
-time tags we are able to learn this with that much of cost. With a dynamic
-tracing we are able to learn this much with that cost. See? As small as
-possible is a rather vague term that different people will have a very
-different idea about.
-
-> There is another issue, which I think can be solved in a smart way but
-> will either affect performance or would require more memory. With the
-> tracing approach we don't know beforehand how many individual
-> allocation sites exist, so we have to allocate code tags (or similar
-> structures for counting) at runtime vs compile time. We can be smart
-> about it and allocate in batches or even preallocate more than we need
-> beforehand but, as I said, it will require some kind of compromise.
-
-I have tried our usual distribution config (only vmlinux without modules
-so the real impact will be larger as we build a lot of stuff into
-modules) just to get an idea:
-   text    data     bss     dec     hex filename
-28755345        17040322        19845124        65640791        3e99957 vmlinux.before
-28867168        17571838        19386372        65825378        3ec6a62 vmlinux.after
-
-Less than 1% for text 3% for data.  This is not all that terrible
-for an initial submission and a more dynamic approach could be added
-later. E.g. with a smaller pre-allocated hash table that could be
-expanded lazily. Anyway not something I would be losing sleep over. This
-can always be improved later on.
-
-> I understand that code tagging creates additional maintenance burdens
-> but I hope it also produces enough benefits that people will want
-> this. The cost is also hopefully amortized when additional
-> applications like the ones we presented in RFC [1] are built using the
-> same framework.
-
-TBH I am much more concerned about the maintenance burden on the MM side
-than the actual code tagging itslef which is much more self contained. I
-haven't seen other potential applications of the same infrastructure and
-maybe the code impact would be much smaller than in the MM proper. Our
-allocator API is really hairy and convoluted.
-
-> > - We already have page_owner infrastructure that provides allocation
-> >   tracking data. Why it cannot be used/extended?
-> 
-> 1. The overhead.
-
-Do you have any numbers?
-
-> 2. Covers only page allocators.
-
-Yes this sucks.
-> 
-> I didn't think about extending the page_owner approach to slab
-> allocators but I suspect it would not be trivial. I don't see
-> attaching an owner to every slab object to be a scalable solution. The
-> overhead would again be of concern here.
-
-This would have been a nice argument to mention in the changelog so that
-we know that you have considered that option at least. Why should I (as
-a reviewer) wild guess that?
-
-> I should point out that there was one important technical concern
-> about lack of a kill switch for this feature, which was an issue for
-> distributions that can't disable the CONFIG flag. In this series we
-> addressed that concern.
-
-Thanks, that is certainly appreciated. I haven't looked deeper into that
-part but from the cover letter I have understood that CONFIG_MEM_ALLOC_PROFILING
-implies unconditional page_ext and therefore the memory overhead
-assosiated with that. There seems to be a killswitch nomem_profiling but
-from a quick look it doesn't seem to disable page_ext allocations. I
-might be missing something there of course. Having a highlevel
-describtion for that would be really nice as well.
-
-> [1] https://lore.kernel.org/all/20220830214919.53220-1-surenb@google.com/
-
+diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+new file mode 100644
+index 000000000000..2dc8b07b4d3b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/adi,max31827.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch
++
++maintainers:
++  - Daniel Matyas <daniel.matyas@analog.com>
++
++description: |
++  Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch with
++  I2C Interface
++  https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31827-MAX31829.pdf
++
++properties:
++  compatible:
++    oneOf:
++      - const: adi,max31827
++      - items:
++          - enum:
++              - adi,max31828
++              - adi,max31829
++          - const: adi,max31827
++
++  reg:
++    maxItems: 1
++
++  vref-supply:
++    description:
++      Must have values in the interval (1.6V; 3.6V) in order for the device to
++      function correctly.
++
++required:
++  - compatible
++  - reg
++  - vref-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        temperature-sensor@42 {
++            compatible = "adi,max31827";
++            reg = <0x42>;
++            vref-supply = <&reg_vdd>;
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c6545eb54104..0997a0490c97 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12535,6 +12535,13 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
+ F:	drivers/media/i2c/max2175*
+ F:	include/uapi/linux/max2175.h
+ 
++MAX31827 TEMPERATURE SWITCH DRIVER
++M:	Daniel Matyas <daniel.matyas@analog.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Supported
++W:	http://ez.analog.com/community/linux-device-drivers
++F:	Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
++
+ MAX6650 HARDWARE MONITOR AND FAN CONTROLLER DRIVER
+ L:	linux-hwmon@vger.kernel.org
+ S:	Orphan
 -- 
-Michal Hocko
-SUSE Labs
+2.34.1
+
