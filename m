@@ -2,143 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 004DBC7EE22
-	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 16:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9489AC7EE22
+	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 16:34:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjEDQW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 May 2023 12:22:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47824 "EHLO
+        id S229848AbjEDQev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 May 2023 12:34:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjEDQWY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 12:22:24 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB8F525C
-        for <linux-doc@vger.kernel.org>; Thu,  4 May 2023 09:22:22 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-3064099f9b6so499002f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 May 2023 09:22:22 -0700 (PDT)
+        with ESMTP id S229927AbjEDQeq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 12:34:46 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE1E3C0C
+        for <linux-doc@vger.kernel.org>; Thu,  4 May 2023 09:34:36 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-956eacbe651so138866466b.3
+        for <linux-doc@vger.kernel.org>; Thu, 04 May 2023 09:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1683217340; x=1685809340;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gsk62XwjD8JjQowiDifvFLPW2uokrx3QTotNr7V9c/A=;
-        b=6NGLeWA30bcHwOn4ghW5tWONP3tIeVXLoIAwGSOlF40SYraEbii/SQhzrJIho8Ivb6
-         Hpkk6vNh9E5t/cw05230dMqe0m+/H6ie+h8h31p+GrZCCgkTxJbXyMjFGjZkhz3bV6dG
-         vSjHZI0HIdPfHSmqobGMchd9amOB1v/ceZjRFhmXUrjm4M4cWFnS99GIAMxh/gj5liXv
-         4tj0lHTy81/1Wbpb012EhMfXD9LTcX1fI/Tm4TbQO8kVMc6YZQrPrde4R4+RJt2s2OWX
-         VOgAgJHhDqiDK83jUMMdRLdqlv9RhFWhmjzvFXehDDJFCUBnHdRe0JsvmE5LyyU2xx97
-         symQ==
+        d=linaro.org; s=google; t=1683218075; x=1685810075;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nszTvAg6fphYuzaPSYnd3w5WMHZrZJJaEUI5zTnvsx4=;
+        b=dhxD37R48wLSmMqoo+yOvb619nXn47MDnAlUoME6jFo/UJ4C+dA44spBJdEsQXo/BB
+         ZJATJlWpYr1F5QCJ6s4RbliW9MHK/oFSkY0nYFR4f0yiNMmYfywayOEQedzYAybRAfgf
+         l926ylMz4mrzTXBojvCkJGyiiK4Nt/Z5vnxxDPKwxpzhN8BnWyhI/3Z3fqL0sARvjGL3
+         nEqAjz6mwz7o5kO33wL8e4wrte01H86lLz7FmFbBcYDnJfOE+HEmf+MVoK+XrfQByDpC
+         YLwdqYNtyB4F+0X8T4psmNmW2EkRXtWJoHu47vmhJk6a1mzVnGPmJcViYA00Qi45MKpn
+         NCJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683217340; x=1685809340;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gsk62XwjD8JjQowiDifvFLPW2uokrx3QTotNr7V9c/A=;
-        b=GgTqhJ7XizYXKhM/IJ7In5xhda3qlK0BsUeIfgBZw7cgPenE1C/qwtvnV5fMHXdPWC
-         PL5dDv3nZB1MNAyoPylgG3ith63cn2YdwyL51XZdPpvEGStWqxazeZAO3nip5KvWiGVo
-         RGbvms71b3LtnKXOxevzMCkqzYWAV/+iG82x9Y5DoIah4YsBfxHE8nPOHwhH6DU+w7eg
-         DMeE+q4PXiPjP6KRManxMHIN5ne1F/X97IKm3VWSBq2uw+rUyXuQv2ciKqo2o95Why3X
-         b/7GKxhQHO7GJZ3Wp/MpVpNmgIa/8UTaiRjisAnaPvebZiCYr/IBmjaV2MLStMv4uCG+
-         c4gA==
-X-Gm-Message-State: AC+VfDy/J4FkJQ3pfBvhNrV583VYo0QUOOR2YnYytTP5blkoJR0L0Ohq
-        bNqNu6ByLXFn/EyeNnfTPhfQtfXNzxauPbT+R84X2Q==
-X-Google-Smtp-Source: ACHHUZ6W7LU6+7sJ+JIBNyUc93OdZBrKmPb6kgAM40ObN2WRJqo/GOAU298MN4AghxYk5WmY9UXzE3DSoSxQENd3Lcc=
-X-Received: by 2002:a05:6000:120a:b0:2fc:7b62:f459 with SMTP id
- e10-20020a056000120a00b002fc7b62f459mr2840579wrx.32.1683217340407; Thu, 04
- May 2023 09:22:20 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683218075; x=1685810075;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nszTvAg6fphYuzaPSYnd3w5WMHZrZJJaEUI5zTnvsx4=;
+        b=l9LsgHgcOVB5Hq+BnHlFyNKTARk6z/qyRaWrdHkZAJGuujVAUt956t+mkNlQBL30Xk
+         h2wyZ/YsOtH71HZ7fMRYxDtV++rJ8qzT3VDeTTg1TOLD/WwzThdcaHuobsYgrq2Bg+O9
+         E/E8ZxsiPlUdRIFig9SuWysQbO5OJ+81keh+Ghfg5JDlGYoS78k+KKOORXQgo7zaqQ83
+         r3oM7cpWrWbEGT7pKr6jCt5sjAJBWP/JfT/msPjD/Zk8yp0ALKtcBsDVbkJYElTcyNmh
+         Q2qfTfHY+bG4jpMCdAUtoOhx+tNFae+qSPC4SLnKOVaWgpRd0AhsZYejN9wPhUjM1UEb
+         8dZw==
+X-Gm-Message-State: AC+VfDxF4k4frXIA55idPF+rTed60qMzx9E4753RHrtiKo3S7Dbj3ovJ
+        MD6wUnuGtehM4VBvVGIZPVJ5CQ==
+X-Google-Smtp-Source: ACHHUZ7UTw09BUZkzS6zw6s3B83bTJ2iIzEWu8O3/gcd5QbYIqL3Pcttt0DLEfeqNgf6m6beVNV0ow==
+X-Received: by 2002:a17:907:a412:b0:961:be96:b0e0 with SMTP id sg18-20020a170907a41200b00961be96b0e0mr6847612ejc.73.1683218075231;
+        Thu, 04 May 2023 09:34:35 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:bdb9:99c4:33a5:6114? ([2a02:810d:15c0:828:bdb9:99c4:33a5:6114])
+        by smtp.gmail.com with ESMTPSA id n20-20020a1709065db400b00965b439027csm802967ejv.195.2023.05.04.09.34.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 May 2023 09:34:34 -0700 (PDT)
+Message-ID: <500e5abc-fb71-8468-a6b0-3ced2676b57c@linaro.org>
+Date:   Thu, 4 May 2023 18:34:32 +0200
 MIME-Version: 1.0
-References: <20230501165450.15352-1-surenb@google.com> <20230501165450.15352-36-surenb@google.com>
- <ZFIPmnrSIdJ5yusM@dhcp22.suse.cz> <CAJuCfpGsvWupMbasqvwcMYsOOPxTQqi1ed5+=vyu-yoPQwwybg@mail.gmail.com>
- <ZFNoVfb+1W4NAh74@dhcp22.suse.cz>
-In-Reply-To: <ZFNoVfb+1W4NAh74@dhcp22.suse.cz>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 4 May 2023 09:22:07 -0700
-Message-ID: <CAJuCfpGUtw6cbjLsksGJKATZfTV0FEYRXwXT0pZV83XqQydBgg@mail.gmail.com>
-Subject: Re: [PATCH 35/40] lib: implement context capture support for tagged allocations
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     akpm@linux-foundation.org, kent.overstreet@linux.dev,
-        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v3 04/18] soc: qcom: Add Qualcomm minidump kernel driver
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
+        srinivas.kandagatla@linaro.org
+Cc:     linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
+ <1683133352-10046-5-git-send-email-quic_mojha@quicinc.com>
+ <c6f730b6-f702-91d4-4abd-71546e02f869@linaro.org>
+ <23b493f4-1a01-8d03-fc12-d588b2c6fd74@quicinc.com>
+ <575a422d-6224-06b7-628c-8487b47882e9@linaro.org>
+In-Reply-To: <575a422d-6224-06b7-628c-8487b47882e9@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 4, 2023 at 1:09=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrote=
-:
->
-> On Wed 03-05-23 08:24:19, Suren Baghdasaryan wrote:
-> > On Wed, May 3, 2023 at 12:39=E2=80=AFAM Michal Hocko <mhocko@suse.com> =
-wrote:
-> > >
-> > > On Mon 01-05-23 09:54:45, Suren Baghdasaryan wrote:
-> > > [...]
-> > > > +struct codetag_ctx *alloc_tag_create_ctx(struct alloc_tag *tag, si=
-ze_t size)
-> > > > +{
-> > > > +     struct alloc_call_ctx *ac_ctx;
-> > > > +
-> > > > +     /* TODO: use a dedicated kmem_cache */
-> > > > +     ac_ctx =3D kmalloc(sizeof(struct alloc_call_ctx), GFP_KERNEL)=
-;
-> > >
-> > > You cannot really use GFP_KERNEL here. This is post_alloc_hook path a=
-nd
-> > > that has its own gfp context.
-> >
-> > I missed that. Would it be appropriate to use the gfp_flags parameter
-> > of post_alloc_hook() here?
->
-> No. the original allocation could have been GFP_USER based and you do
-> not want these allocations to pullute other zones potentially. You want
-> GFP_KERNEL compatible subset of that mask.
+On 04/05/2023 17:21, Krzysztof Kozlowski wrote:
+>>>
+>>>> +	ret = qcom_minidump_init_apss_subsystem(md);
+>>>> +	if (ret) {
+>>>> +		dev_err(&pdev->dev, "apss minidump initialization failed: %d\n", ret);
+>>>> +		goto unlock;
+>>>> +	}
+>>>> +
+>>>> +	__md = md;
+>>>
+>>> No. This is a platform device, so it can have multiple instances.
+>>
+>> It can have only one instance that is created from SMEM driver probe.
+> 
+> Anyone can instantiate more of them.... how did you solve it?
 
-Ack.
+To clarify - sprinkling more of singletons makes everything tightly
+coupled, difficult to debug and non-portable. You cannot have two
+instances, you have to control concurrent initialization by yourself in
+each of such singletons.
 
->
-> But even then I really detest an additional allocation from this context
-> for every single allocation request. There GFP_NOWAIT allocation for
-> steckdepot but that is at least cached and generally not allocating.
-> This will allocate for every single allocation.
+I understand sometimes they are unavoidable, for example when this does
+not map to hardware property. However here you have the parent - smem -
+which can return you valid instance. Thus you avoid entire problem of
+file-scope variables.
 
-A small correction here. alloc_tag_create_ctx() is used only for
-allocations which we requested to capture the context. So, this last
-sentence is true for allocations we specifically marked to capture the
-context, not in general.
+Best regards,
+Krzysztof
 
-> There must be a better way.
-
-Yeah, agree, it would be good to avoid allocations in this path. Any
-specific ideas on how to improve this? Pooling/caching perhaps? I
-think kmem_cache does some of that already but maybe something else?
-Thanks,
-Suren.
-
-> --
-> Michal Hocko
-> SUSE Labs
