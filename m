@@ -2,690 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBA9C7EE21
-	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 12:49:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B459C7EE21
+	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 12:58:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbjEDMtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 May 2023 08:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35982 "EHLO
+        id S230497AbjEDM6X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 May 2023 08:58:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbjEDMtO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 08:49:14 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BCC46BC;
-        Thu,  4 May 2023 05:49:12 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1aaea43def7so2758395ad.2;
-        Thu, 04 May 2023 05:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683204552; x=1685796552;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=3eTx8//Xlq98RhegbKOFCwEKS6An67n30e6DTdIdf/s=;
-        b=RX+xe3/tFv2H00KARY7JR976csVy4Ps03Qll6tetmq+bU94GpMcCDKMwctZSS8qWaP
-         8Z5NZ1EL2RNhUySojkPdwxt9pkZ1KSmwDIBugCyJYgHqEo00pggCfEuLf2lnLqzt98B4
-         xHJG/d8aemBrYvnUkqqUnyxJzd+sG52BN1bSJj2uuD7Yz675S+XuJnUC6zCp2hEzAUKm
-         ESmxyQkLpU4ojPfPRC93yy4qMCdt94y/nILkviDADuJP2xxsmgiBk1DXOFZ79NMS59ZQ
-         dBNA8FXM6wXyPATozl7znsK8BkioGvyDKp/PUuXaOpjWRrSvIAJ3VFrbr/rfT1ycqAuw
-         yReQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683204552; x=1685796552;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3eTx8//Xlq98RhegbKOFCwEKS6An67n30e6DTdIdf/s=;
-        b=EUtTN+WZUJHz2chZWqd37DBzaDIAyxA89/YC+9HyeiGJ5j3VLzQ6kaDkuPIuGQxyJz
-         8DW6ZfZfnWYttUAXwltee7XpKm9zQuRh8nLjT1I4t08doY7TfKv0O4x/Rmdug02uCAt4
-         MnPJk9vrjfhHHc5Q8JOzQ+wwztw7Itis4xbafL+HYb2jxYJGdgSMNH5wNtSYIs8zQmXa
-         uAuPNBLqC462fjQSKDY9SqxCwZ5XuanO9nPG6zOTy8kuLvGP193nCWW5eK3UwYJgpimb
-         thPhUxeh4u8XPZeFMNyBzm45fkQWh5YRqPo8MlnH25pcbZs8Ksbu031c9WoQZjI1fqSV
-         zNrA==
-X-Gm-Message-State: AC+VfDwqwncW4ne7TF7ZuEg9D0Itg7cDEAA/5bU+Tl+U4uq31JpzVCd0
-        q79b7XVGgIKFxfquZgXtNiE=
-X-Google-Smtp-Source: ACHHUZ6YjD63LVluTvhKWFdhd3g8wHAqPS09Nx27vrwSvNZszsR+OmxttTgWYqzfsznJP1GXJDZ0zg==
-X-Received: by 2002:a17:902:aa81:b0:1aa:f53a:5e47 with SMTP id d1-20020a170902aa8100b001aaf53a5e47mr2865082plr.16.1683204552056;
-        Thu, 04 May 2023 05:49:12 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w4-20020a170902904400b001aaf7927003sm7267273plz.210.2023.05.04.05.49.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 May 2023 05:49:11 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <bceeb864-0639-bcf9-495f-8aa1de299a86@roeck-us.net>
-Date:   Thu, 4 May 2023 05:49:09 -0700
+        with ESMTP id S230225AbjEDM6W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 08:58:22 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 267B0619A;
+        Thu,  4 May 2023 05:58:18 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3449ILrK001703;
+        Thu, 4 May 2023 12:57:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=J1bg+67OkOUP3/dK1K1LsKhWG0uCqMtDTWZMZgrQfbc=;
+ b=Jnd2L3BKOh0hzEf3BHp6OarNMGf67ji3SisnK50NmboWbvZNLNDemWXht0+7/zDtKq+w
+ ub5SOCF/iXg13rcImAV+5CzZ68H31uqW5SF4dmqoX5+8jbXqyHkgok3AM4tXVowX5cX4
+ Wh9kXPHm43ctsrADpiQbAHHXTyPsDxjgxi2U/Du1YNKaFviiPMRZhbzrPvGMMNbYetNc
+ 5GQ6IVgDvq6Xz/p6SksudKW1u5Nf7JDrFhRzoczkbuq2D1lbQBEENQdq08FJDfVi2AnZ
+ Ir3jyRN3JrHwfmTfSocBFN2VZgqShaDC1o1LExP3i8oM2v4bfcSPZsIu3aF1yEYbNt8H dw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qc5041466-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 04 May 2023 12:57:58 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 344CvuxW007531
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 4 May 2023 12:57:56 GMT
+Received: from [10.216.46.158] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 4 May 2023
+ 05:57:48 -0700
+Message-ID: <d80868bf-610d-7e79-d279-da704efb38f0@quicinc.com>
+Date:   Thu, 4 May 2023 18:27:45 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v4 2/2] hwmon: max31827: add MAX31827 driver
+Subject: Re: [PATCH v3 02/18] remoteproc: qcom: Move minidump specific data to
+ qcom_minidump.h
 Content-Language: en-US
-To:     Daniel Matyas <daniel.matyas@analog.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230504093933.70660-1-daniel.matyas@analog.com>
- <20230504093933.70660-2-daniel.matyas@analog.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20230504093933.70660-2-daniel.matyas@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
+        <linux-gpio@vger.kernel.org>, <srinivas.kandagatla@linaro.org>
+CC:     <linux-arm-msm@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
+ <1683133352-10046-3-git-send-email-quic_mojha@quicinc.com>
+ <fe94ed5c-c444-436d-720a-c96538c1026d@linaro.org>
+ <e69862cc-4185-a7a2-07b2-15e331c4678a@quicinc.com>
+ <659a9637-f82c-054b-99a8-dc25416c8e13@linaro.org>
+ <33ea7c3b-4317-5aff-5e6a-af6e093d45a0@quicinc.com>
+ <1a4f4b55-6284-6149-4c7b-7b45fa1de291@linaro.org>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <1a4f4b55-6284-6149-4c7b-7b45fa1de291@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 9cR2SwDduMYBWJe-GF40DEwl8u4KK33H
+X-Proofpoint-ORIG-GUID: 9cR2SwDduMYBWJe-GF40DEwl8u4KK33H
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_08,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=1 phishscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ spamscore=1 priorityscore=1501 mlxlogscore=222 mlxscore=1 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2305040106
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/4/23 02:39, Daniel Matyas wrote:
-> MAX31827 is a low-power temperature switch with I2C interface.
+
+
+On 5/4/2023 6:06 PM, Krzysztof Kozlowski wrote:
+> On 04/05/2023 14:26, Mukesh Ojha wrote:
+>>
+>>
+>> On 5/4/2023 5:33 PM, Krzysztof Kozlowski wrote:
+>>> On 04/05/2023 13:58, Mukesh Ojha wrote:
+>>>>
+>>>>
+>>>> On 5/4/2023 5:08 PM, Krzysztof Kozlowski wrote:
+>>>>> On 03/05/2023 19:02, Mukesh Ojha wrote:
+>>>>>> Move minidump specific data types and macros to a separate internal
+>>>>>> header(qcom_minidump.h) so that it can be shared among different
+>>>>>> Qualcomm drivers.
+>>>>>
+>>>>> No, this is not internal header. You moved it to global header.
+>>>>>
+>>>>> There is no reason driver internals should be exposed to other unrelated
+>>>>> subsystems.
+>>>>>
+>>>>>>
+>>>>>> There is no change in functional behavior after this.
+>>>>>
+>>>>> It is. You made all these internal symbols available to others.
+>>>>>
+>>>>>>
+>>>>>
+>>>>> This comes without justification why other drivers needs to access
+>>>>> private and internal data. It does not look correct design. NAK.
+>>>>
+>>>> Thanks for catching outdated commit text, will fix the commit with
+>>>> more descriptive reasoning.
+>>>>
+>>>> It has to be global so that co-processor minidump and apss minidump can
+>>>> share data structure and they are lying in different directory.
+>>>>
+>>>
+>>> Then you should not share all the internals of memory layout but only
+>>> few pieces necessary to talk with minidump driver. The minidump driver
+>>> should organize everything how it wants.
+>>
+>> These are core data structure which is shared with boot firmware and the
+>> one's are moved here all are required by minidump driver .
 > 
-> The device is a ±1°C accuracy from -40°C to +125°C
-> (12 bits) local temperature switch and sensor with I2C/SM-
-> Bus interface. The combination of small 6-bump wafer-lev-
-> el package (WLP) and high accuracy makes this temper-
-> ature sensor/switch ideal for a wide range of applications.
+> I am not sure if I understand correctly. If they are all required by
+> minidump driver, then this must not be in include, but stay with
+> minidump. Remoteproc then should not touch it.
 > 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
-
-Please provide change logs with your patches.
-
-Thanks,
-Guenter
-
-> ---
->   Documentation/hwmon/index.rst    |   1 +
->   Documentation/hwmon/max31827.rst |  83 ++++++
->   MAINTAINERS                      |   2 +
->   drivers/hwmon/Kconfig            |  11 +
->   drivers/hwmon/Makefile           |   2 +-
->   drivers/hwmon/max31827.c         | 428 +++++++++++++++++++++++++++++++
->   6 files changed, 526 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/hwmon/max31827.rst
->   create mode 100644 drivers/hwmon/max31827.c
+> I don't understand why internals of minidump should be important for
+> remoteproc. If they are, means you broken encapsulation.
 > 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index f1fe75f596a5..965a830ea766 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -139,6 +139,7 @@ Hardware Monitoring Kernel Drivers
->      max31760
->      max31785
->      max31790
-> +   max31827
->      max34440
->      max6620
->      max6639
-> diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-> new file mode 100644
-> index 000000000000..5b94ad62baa3
-> --- /dev/null
-> +++ b/Documentation/hwmon/max31827.rst
-> @@ -0,0 +1,83 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver max31827
-> +======================
-> +
-> +Supported chips:
-> +
-> +  * Maxim MAX31827
-> +
-> +    Prefix: 'max31827'
-> +
-> +    Addresses scanned: I2C 0x40 - 0x5f
-> +
-> +    Datasheet: Publicly available at the Analog Devices website
-> +
-> +  * Maxim MAX31828
-> +
-> +    Prefix: 'max31828'
-> +
-> +    Addresses scanned: I2C 0x40 - 0x5f
-> +
-> +    Datasheet: Publicly available at the Analog Devices website
-> +
-> +  * Maxim MAX31829
-> +
-> +    Prefix: 'max31829'
-> +
-> +    Addresses scanned: I2C 0x40 - 0x5f
-> +
-> +    Datasheet: Publicly available at the Analog Devices website
-> +
-> +
-> +Authors:
-> +	- Daniel Matyas <daniel.matyas@analog.com>
-> +
-> +Description
-> +-----------
-> +
-> +The chips supported by this driver are quite similar. The only difference
-> +between them is found in the default power-on behaviour of the chips. While the
-> +MAX31827's fault queue is set to 1, the other two chip's fault queue is set to
-> +4. Besides this, the MAX31829's alarm active state is high, while the other two
-> +chip's alarms are active on low. It is important to note that the chips can be
-> +configured to operate in the same manner with 1 write operation to the
-> +configuration register. From here on, we will refer to all these chips as
-> +MAX31827.
-> +
-> +MAX31827 implements a temperature sensor with a 6 WLP packaging scheme. This
-> +sensor measures the temperature of the chip itself.
-> +
-> +MAX31827 has low and over temperature alarms with an effective value and a
-> +hysteresis value: -40 and -30 degrees for under temperature alarm and +100 and
-> ++90 degrees for over temperature alarm.
-> +
-> +The alarm can be configured in comparator and interrupt mode. Currently only
-> +comparator mode is implemented. In Comparator mode, the OT/UT status bits have a
-> +value of 1 when the temperature rises above the TH value or falls below TL,
-> +which is also subject to the Fault Queue selection. OT status returns to 0 when
-> +the temperature drops below the TH_HYST value or when shutdown mode is entered.
-> +Similarly, UT status returns to 0 when the temperature rises above TL_HYST value
-> +or when shutdown mode is entered.
-> +
-> +Putting the MAX31827 into shutdown mode also resets the OT/UT status bits. Note
-> +that if the mode is changed while OT/UT status bits are set, an OT/UT status
-> +reset may be required before it begins to behave normally. To prevent this,
-> +it is recommended to perform a read of the configuration/status register to
-> +clear the status bits before changing the operating mode.
-> +
-> +The conversions can be manual with the one-shot functionality and automatic with
-> +a set frequency. When powered on, the chip measures temperatures with 1 conv/s.
-> +Enabling the device when it is already enabled has the side effect of setting
-> +the conversion frequency to 1 conv/s. The conversion time varies depending on
-> +the resolution. The conversion time doubles with every bit of increased
-> +resolution. For 10 bit resolution 35ms are needed, while for 12 bit resolution
-> +(default) 140ms. When chip is in shutdown mode and a read operation is
-> +requested, one-shot is triggered, the device waits for 140 (conversion time) + 1
-> +(error) ms, and only after that is the temperature value register read.
-> +
-> +Notes
-> +-----
-> +
-> +Currently fault queue, alarm polarity and resolution cannot be modified.
-> +PEC is not implemented either.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0997a0490c97..fabc8869b13b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12541,6 +12541,8 @@ L:	linux-hwmon@vger.kernel.org
->   S:	Supported
->   W:	http://ez.analog.com/community/linux-device-drivers
->   F:	Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> +F:	Documentation/hwmon/max31827.rst
-> +F:	drivers/hwmon/max31827.c
->   
->   MAX6650 HARDWARE MONITOR AND FAN CONTROLLER DRIVER
->   L:	linux-hwmon@vger.kernel.org
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 5b3b76477b0e..1e8546b3a8f2 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -1097,6 +1097,17 @@ config SENSORS_MAX31760
->   	  This driver can also be built as a module. If so, the module
->   	  will be called max31760.
->   
-> +config MAX31827
-> +	tristate "MAX31827 low-power temperature switch and similar devices"
-> +	depends on I2C
-> +	select REGMAP_I2C
-> +	help
-> +	  If you say yes here you get support for MAX31827, MAX31828 and
-> +	  MAX31829 low-power temperature switches and sensors connected with I2C.
-> +
-> +	  This driver can also be built as a module.  If so, the module
-> +	  will be called max31827.
-> +
->   config SENSORS_MAX6620
->   	tristate "Maxim MAX6620 fan controller"
->   	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 88712b5031c8..dfb9aaf979bb 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -149,6 +149,7 @@ obj-$(CONFIG_SENSORS_MAX6642)	+= max6642.o
->   obj-$(CONFIG_SENSORS_MAX6650)	+= max6650.o
->   obj-$(CONFIG_SENSORS_MAX6697)	+= max6697.o
->   obj-$(CONFIG_SENSORS_MAX31790)	+= max31790.o
-> +obj-$(CONFIG_MAX31827) += max31827.o
->   obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
->   obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
->   obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
-> @@ -223,4 +224,3 @@ obj-$(CONFIG_SENSORS_PECI)	+= peci/
->   obj-$(CONFIG_PMBUS)		+= pmbus/
->   
->   ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
-> -
-> diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
-> new file mode 100644
-> index 000000000000..48ab62f76f7b
-> --- /dev/null
-> +++ b/drivers/hwmon/max31827.c
-> @@ -0,0 +1,428 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * max31827.c - Support for Maxim Low-Power Switch
-> + *
-> + * Copyright (c) 2023 Daniel Matyas <daniel.matyas@analog.com>
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/delay.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/i2c.h>
-> +#include <linux/mutex.h>
-> +#include <linux/regmap.h>
-> +
-> +#define MAX31827_T_REG	0x0
-> +#define MAX31827_CONFIGURATION_REG	0x2
-> +#define MAX31827_TH_REG	0x4
-> +#define MAX31827_TL_REG 0x6
-> +#define MAX31827_TH_HYST_REG	0x8
-> +#define MAX31827_TL_HYST_REG	0xA
-> +
-> +#define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
-> +#define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
-> +#define MAX31827_CONFIGURATION_U_TEMP_STAT_MASK BIT(14)
-> +#define MAX31827_CONFIGURATION_O_TEMP_STAT_MASK BIT(15)
-> +
-> +#define MAX31827_12_BIT_CNV_TIME	141
-> +
-> +#define MAX31827_CNV_1_DIV_64_HZ	0x1
-> +#define MAX31827_CNV_1_DIV_32_HZ	0x2
-> +#define MAX31827_CNV_1_DIV_16_HZ	0x3
-> +#define MAX31827_CNV_1_DIV_4_HZ		0x4
-> +#define MAX31827_CNV_1_HZ	0x5
-> +#define MAX31827_CNV_4_HZ	0x6
-> +#define MAX31827_CNV_8_HZ	0x7
-> +
-> +#define LONG_MASK	0xFFFFFFFFFFFFFFFF
-> +
-> +#define MAX31827_16_BIT_TO_M_DGR(x)	((long)(~(~(x) & LONG_MASK)) * 1000 >> 4)
-> +#define MAX31827_M_DGR_TO_16_BIT(x)	(((x) << 4) / 1000)
-> +#define MAX31827_DEVICE_ENABLE(x)	((x) ? 0xA : 0x0)
-> +
-> +struct max31827_state {
-> +	/*
-> +	 * Prevent simultaneous access to the i2c client.
-> +	 */
-> +	struct mutex lock;
-> +	struct regmap *regmap;
-> +	bool enable;
-> +};
-> +
-> +static const struct regmap_config max31827_regmap = {
-> +	.reg_bits = 8,
-> +	.val_bits = 16,
-> +	.max_register = 0xA,
-> +};
-> +
-> +static int write_alarm_val(struct max31827_state *st, unsigned int reg,
-> +			   long val)
-> +{
-> +	unsigned int cfg;
-> +	unsigned int tmp;
-> +	int ret;
-> +
-> +	val = MAX31827_M_DGR_TO_16_BIT(val);
-> +
-> +	/*
-> +	 * Before the Temperature Threshold Alarm and Alarm Hysteresis Threshold
-> +	 * register values are changed over I2C, the part must be in shutdown
-> +	 * mode.
-> +	 *
-> +	 * Mutex is used to ensure, that some other process doesn't change the
-> +	 * configuration register.
-> +	 */
-> +	mutex_lock(&st->lock);
-> +
-> +	if (!st->enable)
-> +		return regmap_write(st->regmap, reg, val);
-> +
-> +	ret = regmap_read(st->regmap, MAX31827_CONFIGURATION_REG, &cfg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	tmp = cfg & ~(MAX31827_CONFIGURATION_1SHOT_MASK |
-> +		      MAX31827_CONFIGURATION_CNV_RATE_MASK);
-> +	ret = regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, tmp);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(st->regmap, reg, val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, cfg);
-> +
-> +	mutex_unlock(&st->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static umode_t max31827_is_visible(const void *state,
-> +				   enum hwmon_sensor_types type, u32 attr,
-> +				   int channel)
-> +{
-> +	if (type == hwmon_temp) {
-> +		switch (attr) {
-> +		case hwmon_temp_enable:
-> +		case hwmon_temp_max:
-> +		case hwmon_temp_min:
-> +		case hwmon_temp_max_hyst:
-> +		case hwmon_temp_min_hyst:
-> +			return 0644;
-> +		case hwmon_temp_input:
-> +		case hwmon_temp_min_alarm:
-> +		case hwmon_temp_max_alarm:
-> +			return 0444;
-> +		default:
-> +			return 0;
-> +		}
-> +	} else if (type == hwmon_chip) {
-> +		if (attr == hwmon_chip_update_interval)
-> +			return 0644;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int max31827_read(struct device *dev, enum hwmon_sensor_types type,
-> +			 u32 attr, int channel, long *val)
-> +{
-> +	struct max31827_state *st = dev_get_drvdata(dev);
-> +	unsigned int uval;
-> +	int ret;
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_enable:
-> +			ret = regmap_read(st->regmap,
-> +					  MAX31827_CONFIGURATION_REG, &uval);
-> +			uval = FIELD_GET(MAX31827_CONFIGURATION_1SHOT_MASK |
-> +					 MAX31827_CONFIGURATION_CNV_RATE_MASK,
-> +					 uval);
-> +			*val = !!uval;
-> +
-> +			break;
-> +		case hwmon_temp_input:
-> +			mutex_lock(&st->lock);
-> +
-> +			if (!st->enable) {
-> +				/*
-> +				 * This operation requires mutex protection,
-> +				 * because the chip configuration should not
-> +				 * be changed during the conversion process.
-> +				 */
-> +
-> +				ret = regmap_update_bits(st->regmap,
-> +							 MAX31827_CONFIGURATION_REG,
-> +							 MAX31827_CONFIGURATION_1SHOT_MASK,
-> +							 1);
-> +				if (ret)
-> +					return ret;
-> +
-> +				msleep(MAX31827_12_BIT_CNV_TIME);
-> +			}
-> +			ret = regmap_read(st->regmap, MAX31827_T_REG, &uval);
-> +
-> +			mutex_unlock(&st->lock);
-> +
-> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
-> +
-> +			break;
-> +		case hwmon_temp_max:
-> +			ret = regmap_read(st->regmap, MAX31827_TH_REG, &uval);
-> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
-> +			break;
-> +		case hwmon_temp_max_hyst:
-> +			ret = regmap_read(st->regmap, MAX31827_TH_HYST_REG,
-> +					  &uval);
-> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
-> +			break;
-> +		case hwmon_temp_max_alarm:
-> +			ret = regmap_read(st->regmap,
-> +					  MAX31827_CONFIGURATION_REG, &uval);
-> +			*val = FIELD_GET(MAX31827_CONFIGURATION_O_TEMP_STAT_MASK,
-> +					 uval);
-> +			break;
-> +		case hwmon_temp_min:
-> +			ret = regmap_read(st->regmap, MAX31827_TL_REG, &uval);
-> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
-> +			break;
-> +		case hwmon_temp_min_hyst:
-> +			ret = regmap_read(st->regmap, MAX31827_TL_HYST_REG,
-> +					  &uval);
-> +			*val = MAX31827_16_BIT_TO_M_DGR(uval);
-> +			break;
-> +		case hwmon_temp_min_alarm:
-> +			ret = regmap_read(st->regmap,
-> +					  MAX31827_CONFIGURATION_REG, &uval);
-> +			*val = FIELD_GET(MAX31827_CONFIGURATION_U_TEMP_STAT_MASK,
-> +					 uval);
-> +			break;
-> +		default:
-> +			ret = -EOPNOTSUPP;
-> +			break;
-> +		}
-> +
-> +		break;
-> +
-> +	case hwmon_chip:
-> +		if (attr == hwmon_chip_update_interval) {
-> +			ret = regmap_read(st->regmap,
-> +					  MAX31827_CONFIGURATION_REG, &uval);
-> +			uval = FIELD_GET(MAX31827_CONFIGURATION_CNV_RATE_MASK,
-> +					 uval);
-> +			switch (uval) {
-> +			case MAX31827_CNV_1_DIV_64_HZ:
-> +				*val = 64000;
-> +				break;
-> +			case MAX31827_CNV_1_DIV_32_HZ:
-> +				*val = 32000;
-> +				break;
-> +			case MAX31827_CNV_1_DIV_16_HZ:
-> +				*val = 16000;
-> +				break;
-> +			case MAX31827_CNV_1_DIV_4_HZ:
-> +				*val = 4000;
-> +				break;
-> +			case MAX31827_CNV_1_HZ:
-> +				*val = 1000;
-> +				break;
-> +			case MAX31827_CNV_4_HZ:
-> +				*val = 250;
-> +				break;
-> +			case MAX31827_CNV_8_HZ:
-> +				*val = 125;
-> +				break;
-> +			default:
-> +				*val = 0;
-> +				break;
-> +			}
-> +		}
-> +		break;
-> +
-> +	default:
-> +		ret = -EOPNOTSUPP;
-> +		break;
-> +	}
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int max31827_write(struct device *dev, enum hwmon_sensor_types type,
-> +			  u32 attr, int channel, long val)
-> +{
-> +	struct max31827_state *st = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_enable:
-> +			if (val >> 1)
-> +				return -EOPNOTSUPP;
-> +
-> +			st->enable = val;
-> +
-> +			return regmap_update_bits(st->regmap,
-> +						  MAX31827_CONFIGURATION_REG,
-> +						  MAX31827_CONFIGURATION_1SHOT_MASK |
-> +						  MAX31827_CONFIGURATION_CNV_RATE_MASK,
-> +						  MAX31827_DEVICE_ENABLE(val));
-> +
-> +		case hwmon_temp_max:
-> +			return write_alarm_val(st, MAX31827_TH_REG, val);
-> +
-> +		case hwmon_temp_max_hyst:
-> +			return write_alarm_val(st, MAX31827_TH_HYST_REG, val);
-> +
-> +		case hwmon_temp_min:
-> +			return write_alarm_val(st, MAX31827_TL_REG, val);
-> +
-> +		case hwmon_temp_min_hyst:
-> +			return write_alarm_val(st, MAX31827_TL_HYST_REG, val);
-> +
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +
-> +	case hwmon_chip:
-> +		if (attr == hwmon_chip_update_interval) {
-> +			switch (val) {
-> +			case 125:
-> +				val = MAX31827_CNV_8_HZ;
-> +				break;
-> +			case 250:
-> +				val = MAX31827_CNV_4_HZ;
-> +				break;
-> +			case 1000:
-> +				val = MAX31827_CNV_1_HZ;
-> +				break;
-> +			case 4000:
-> +				val = MAX31827_CNV_1_DIV_4_HZ;
-> +				break;
-> +			case 16000:
-> +				val = MAX31827_CNV_1_DIV_16_HZ;
-> +				break;
-> +			case 32000:
-> +				val = MAX31827_CNV_1_DIV_32_HZ;
-> +				break;
-> +			case 64000:
-> +				val = MAX31827_CNV_1_DIV_64_HZ;
-> +				break;
-> +			default:
-> +				val = 0;
-> +				break;
-> +			}
-> +
-> +			if (!val)
-> +				return -EOPNOTSUPP;
-> +
-> +			val = FIELD_PREP(MAX31827_CONFIGURATION_CNV_RATE_MASK,
-> +					 val);
-> +
-> +			return regmap_update_bits(st->regmap,
-> +						  MAX31827_CONFIGURATION_REG,
-> +						  MAX31827_CONFIGURATION_CNV_RATE_MASK,
-> +						  val);
-> +		}
-> +		break;
-> +
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int max31827_init_client(struct max31827_state *st)
-> +{
-> +	st->enable = true;
-> +
-> +	return regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
-> +				  MAX31827_CONFIGURATION_1SHOT_MASK |
-> +					  MAX31827_CONFIGURATION_CNV_RATE_MASK,
-> +				  MAX31827_DEVICE_ENABLE(1));
-> +}
-> +
-> +static const struct hwmon_channel_info *max31827_info[] = {
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_ENABLE | HWMON_T_INPUT | HWMON_T_MIN |
-> +					 HWMON_T_MIN_HYST | HWMON_T_MIN_ALARM |
-> +					 HWMON_T_MAX | HWMON_T_MAX_HYST |
-> +					 HWMON_T_MAX_ALARM),
-> +	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
-> +	NULL,
-> +};
-> +
-> +static const struct hwmon_ops max31827_hwmon_ops = {
-> +	.is_visible = max31827_is_visible,
-> +	.read = max31827_read,
-> +	.write = max31827_write,
-> +};
-> +
-> +static const struct hwmon_chip_info max31827_chip_info = {
-> +	.ops = &max31827_hwmon_ops,
-> +	.info = max31827_info,
-> +};
-> +
-> +static int max31827_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct device *hwmon_dev;
-> +	struct max31827_state *st;
-> +	int err;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_WORD_DATA))
-> +		return -EOPNOTSUPP;
-> +
-> +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
-> +	if (!st)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&st->lock);
-> +
-> +	st->regmap = devm_regmap_init_i2c(client, &max31827_regmap);
-> +	if (IS_ERR(st->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(st->regmap),
-> +				     "Failed to allocate regmap.\n");
-> +
-> +	err = max31827_init_client(st);
-> +	if (err)
-> +		return err;
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, st,
-> +							 &max31827_chip_info,
-> +							 NULL);
-> +
-> +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> +}
-> +
-> +static const struct i2c_device_id max31827_i2c_ids[] = {
-> +	{ "max31827", 0 },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, max31827_i2c_ids);
-> +
-> +static const struct of_device_id max31827_of_match[] = {
-> +	{ .compatible = "max31827" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, max31827_of_match);
-> +
-> +static struct i2c_driver max31827_driver = {
-> +	.class = I2C_CLASS_HWMON,
-> +	.driver = {
-> +		.name = "max31827",
-> +		.of_match_table = max31827_of_match,
-> +	},
-> +	.probe_new = max31827_probe,
-> +	.id_table = max31827_i2c_ids,
-> +};
-> +module_i2c_driver(max31827_driver);
-> +
-> +MODULE_AUTHOR("Daniel Matyas <daniel.matyas@analog.com>");
-> +MODULE_DESCRIPTION("Maxim MAX31827 low-power temperature switch driver");
-> +MODULE_LICENSE("GPL");
+>>
+>> If you follow here[1], i raised by concern to make this particular one's
+>> as private and later to avoid confusion went with single header.
+>> But if others agree, I will keep the one that get shared with minidump
+>> as separate one or if relative path of headers are allowed that can make
+>> it private between these drivers(which i don't think, will be allowed or
+>> recommended).
+> 
+> Let's be specific: why MD_REGION_VALID must be available for remoteproc
+> or any other driver after introducing qcom minidump driver?
 
+Forget about this driver for a moment.
+
+I am not sure  how much you know about existing qcom_minidump()
+implementation and why is it there in first place in remoteproc
+code in driver/remoteproc/qcom_common.c
+
+The idea is, remoteproc co-processor like adsp/cdsp etc. may have their
+static predefined region (segments) to be collected on their crash which 
+is what exactly existing qcom_minidump() is doing.
+
+Now, after this minidump series, APSS (linux) will have it's
+own of collecting linux client region independent of whether
+remoteproc minidump collection.
+
+I think, are you hinting to move all minidump related code from 
+remoteproc to qcom_minidump driver, is this what are you trying
+to say ?
+
+-- Mukesh
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
