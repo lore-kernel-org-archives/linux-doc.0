@@ -2,153 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B676C7EE29
-	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 14:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE51C77B7C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 May 2023 14:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbjEDObV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 May 2023 10:31:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34202 "EHLO
+        id S230329AbjEDOoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 May 2023 10:44:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230464AbjEDObT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 10:31:19 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395368A7E
-        for <linux-doc@vger.kernel.org>; Thu,  4 May 2023 07:31:18 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-b8f34bca001so784094276.3
-        for <linux-doc@vger.kernel.org>; Thu, 04 May 2023 07:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1683210677; x=1685802677;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JS6msPuToyJynO3sTVIKpHDiqUqJNNgVeQDo4ExI+FY=;
-        b=B5odhRz5pl82Qodj9r2guUYfauBi1/TsFjLxRQqEz3zjcJjd//DMmZjNJKPPi7+nQ5
-         xuKBZ6j/WQW0W3dcKfsj589Fsc+uJ6BYPO2OLNobtTmF3hvusxOFblAjFzy4VuEOrD27
-         shVv5j4flGfZP5ZKf0oD9z3I5mcfEgazfAAXF3El44hYhX1ZRJaYFp+RYh8KC456HFZc
-         kSCAd/ObzJ2UJVsrp6Z49s4y6jg7flU32RKu03oDmXNXsZW8yRicseUXEdJ33k/uoDns
-         3t9BrSAOH3jBGP78RFzGvpDDNA510GhlcIeVQC/3SRIP7nZ/gPC/uJcOwTrT82pyTD6i
-         AF6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683210677; x=1685802677;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JS6msPuToyJynO3sTVIKpHDiqUqJNNgVeQDo4ExI+FY=;
-        b=hdOsfzwZxEm8X9f5ONk6RPfoeggAhx4T7qOo/o55xyzxF+g0iTEcosnuo4bjScbfOM
-         sBkipV9oAgbkGrPcOsP2ZEZl+RKoSNiYGENaQ+jAI4825PkgejGxhEneBtSIZYh0/VIp
-         DSYcGoiTOseEAkI2YMKN2roN7G44OEyBZ+toyFWy4IvJ158wlsH9+RtM++uBmDPw0Mg0
-         Qm/6FfHn6PsjXdXVXBSy2QyzNtfG3aODNoBbGQwxyDT7rz5LUZZXc2AFne5otKexNnsL
-         +dLxkv/lTVsztteDV+KC1zLCg0IoPmL0KJW8D7PD9TxZVDVgCPt7CrZ5J5PQeC/dQPUV
-         b/xg==
-X-Gm-Message-State: AC+VfDxu4DQ3/ps7/mcIH3EPtP0kygcOzG+jEJ616yp/8VspQ4f5JUTx
-        +mpgcVaFGoHGh+TzfPyXNwIOlDGg6R7sarI9RKdSAg==
-X-Google-Smtp-Source: ACHHUZ5E9WXnTl16LxgdrH+7bPTNFRvDYVSM0w82lR/qVCCtHXAzvUBD8IG8coi/bDLOeNuU/XqnEJgf+6xYt7++7Tk=
-X-Received: by 2002:a25:cec1:0:b0:b99:4ac6:3c75 with SMTP id
- x184-20020a25cec1000000b00b994ac63c75mr122983ybe.10.1683210677091; Thu, 04
- May 2023 07:31:17 -0700 (PDT)
+        with ESMTP id S230430AbjEDOoX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 10:44:23 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DC1212D;
+        Thu,  4 May 2023 07:44:22 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3444xV5g003734;
+        Thu, 4 May 2023 14:43:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=o4esY378CGg1puYP89nqAn0HOXZL3EM2geQTdW+QLbo=;
+ b=UPjpZb1qGSrKjQlftJhEQMMfNElvZE5HXMYbduhMmh+I8D8HTIJ4osVqWHSyJJbHPlI0
+ q2fXy1DD3CjMY5psdeBH2epFAVaeMdgvWObQ0OlL8r8Hx4ms1Ij/UjZTn4Oeo7xPJNY9
+ 749ItGS5Y8UN9orbYR3FoF0/+/FKRmrvfOSlT6jjBl+Ju6dv3dVBuo54ODSDtuUDHGBR
+ z+5d1BDldYXKOork3mbqfURg/uZIIsz5vu7iIennM3UnIIX6gXbEekL4/ANGY97TAroR
+ HX9q8mOdrY318alLjohhZXF6Q24QIvo2ytNpfNnq+PXqvuba6F54QMPNLKuI/YZSVTgF Dg== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qc652h9yt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 04 May 2023 14:43:45 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 344EhiWo016505
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 4 May 2023 14:43:44 GMT
+Received: from [10.216.46.158] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 4 May 2023
+ 07:43:37 -0700
+Message-ID: <2fb1658a-3a38-7eb4-0e6e-d8c61981bdab@quicinc.com>
+Date:   Thu, 4 May 2023 20:13:34 +0530
 MIME-Version: 1.0
-References: <20230501165450.15352-1-surenb@google.com> <20230501165450.15352-35-surenb@google.com>
- <ZFIO3tXCbmTn53uv@dhcp22.suse.cz> <CAJuCfpHrZ4kWYFPvA3W9J+CmNMuOtGa_ZMXE9fOmKsPQeNt2tg@mail.gmail.com>
- <ZFNnKHR2nCSimjQf@dhcp22.suse.cz>
-In-Reply-To: <ZFNnKHR2nCSimjQf@dhcp22.suse.cz>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 4 May 2023 07:31:05 -0700
-Message-ID: <CAJuCfpF7WeVuJpmZN3KEu=FAUH34xfYG4wPg-YNjxj+GtmdBXQ@mail.gmail.com>
-Subject: Re: [PATCH 34/40] lib: code tagging context capture support
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     akpm@linux-foundation.org, kent.overstreet@linux.dev,
-        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 07/18] arm64: defconfig: Enable Qualcomm minidump
+ driver
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
+        <linux-gpio@vger.kernel.org>, <srinivas.kandagatla@linaro.org>
+CC:     <linux-arm-msm@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
+ <1683133352-10046-8-git-send-email-quic_mojha@quicinc.com>
+ <ad9915b2-56ff-3f95-7c92-fae597d6ed43@linaro.org>
+ <4325c2e7-8ca1-7e45-db14-5ba8bc83f5d7@quicinc.com>
+ <a4118697-d575-6499-ed8e-656e51ca0da3@linaro.org>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <a4118697-d575-6499-ed8e-656e51ca0da3@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: VXrFV397fZXsjxuO3pxir-3bNZM62dOx
+X-Proofpoint-ORIG-GUID: VXrFV397fZXsjxuO3pxir-3bNZM62dOx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_10,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ mlxlogscore=945 mlxscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305040120
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 4, 2023 at 1:04=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrote=
-:
->
-> On Wed 03-05-23 08:18:39, Suren Baghdasaryan wrote:
-> > On Wed, May 3, 2023 at 12:36=E2=80=AFAM Michal Hocko <mhocko@suse.com> =
-wrote:
-> > >
-> > > On Mon 01-05-23 09:54:44, Suren Baghdasaryan wrote:
-> > > [...]
-> > > > +static inline void add_ctx(struct codetag_ctx *ctx,
-> > > > +                        struct codetag_with_ctx *ctc)
-> > > > +{
-> > > > +     kref_init(&ctx->refcount);
-> > > > +     spin_lock(&ctc->ctx_lock);
-> > > > +     ctx->flags =3D CTC_FLAG_CTX_PTR;
-> > > > +     ctx->ctc =3D ctc;
-> > > > +     list_add_tail(&ctx->node, &ctc->ctx_head);
-> > > > +     spin_unlock(&ctc->ctx_lock);
-> > >
-> > > AFAIU every single tracked allocation will get its own codetag_ctx.
-> > > There is no aggregation per allocation site or anything else. This lo=
-oks
-> > > like a scalability and a memory overhead red flag to me.
-> >
-> > True. The allocations here would not be limited. We could introduce a
-> > global limit to the amount of memory that we can use to store contexts
-> > and maybe reuse the oldest entry (in LRU fashion) when we hit that
-> > limit?
->
-> Wouldn't it make more sense to aggregate same allocations? Sure pids
-> get recycled but quite honestly I am not sure that information is all
-> that interesting. Precisely because of the recycle and short lived
-> processes reasons. I think there is quite a lot to think about the
-> detailed context tracking.
 
-That would be a nice optimization. I'll need to look into the
-implementation details. Thanks for the idea.
 
->
-> > >
-> > > > +}
-> > > > +
-> > > > +static inline void rem_ctx(struct codetag_ctx *ctx,
-> > > > +                        void (*free_ctx)(struct kref *refcount))
-> > > > +{
-> > > > +     struct codetag_with_ctx *ctc =3D ctx->ctc;
-> > > > +
-> > > > +     spin_lock(&ctc->ctx_lock);
-> > >
-> > > This could deadlock when allocator is called from the IRQ context.
-> >
-> > I see. spin_lock_irqsave() then?
->
-> yes. I have checked that the lock is not held over the all list
-> traversal which is good but the changelog could be more explicit about
-> the iterators and lock hold times implications.
+On 5/4/2023 6:02 PM, Krzysztof Kozlowski wrote:
+> On 04/05/2023 13:45, Mukesh Ojha wrote:
+>>
+>>
+>> On 5/4/2023 4:53 PM, Krzysztof Kozlowski wrote:
+>>> On 03/05/2023 19:02, Mukesh Ojha wrote:
+>>>> Previous patches add the Qualcomm minidump driver support, so
+>>>> lets enable minidump config so that it can be used by kernel
+>>>> clients.
+>>>>
+>>>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>>>
+>>> This patchset is split too much. Defconfig change is one change. Not two
+>>> or three.
+>>>
+>>>> ---
+>>>>    arch/arm64/configs/defconfig | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+>>>> index a24609e..831c942 100644
+>>>> --- a/arch/arm64/configs/defconfig
+>>>> +++ b/arch/arm64/configs/defconfig
+>>>> @@ -1250,6 +1250,7 @@ CONFIG_QCOM_STATS=m
+>>>>    CONFIG_QCOM_WCNSS_CTRL=m
+>>>>    CONFIG_QCOM_APR=m
+>>>>    CONFIG_QCOM_ICC_BWMON=m
+>>>> +CONFIG_QCOM_MINIDUMP=y
+>>>
+>>> This must be a module.
+>>
+>> Why do you think this should be a module ?
+>>
+>> Is it because, it is lying here among others '=m' ?
+> 
+> Because we want and insist on everything being a module. That's the
+> generic rule. There are exceptions, so if this justifies being an
+> exception, please bring appropriate arguments.
+> 
+>>
+>> Or you have some other reasoning ? like it is for qcom specific
+>> soc and can not be used outside ? but that is not true for
+>> all configs mentioned here.
+>>
+>> The reason behind making it as '=y' was, to collect information from
+>> core kernel data structure as well as the information like percpu data,
+>> run queue, irq stat kind of information on kernel crash on a target
+>> running some perf configuration(android phone).
+> 
+> I don't understand why =m stops you from all that.
 
-Ack. Will add more information.
+How do i get kernel symbol address from a modules
+can we use kallsyms_lookup_name from modules ?
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+--Mukesh
+
+  What's more, I don't
+> understand why do you refer to the Android here. This is a development
+> and debugging Linux defconfig, not Android reference config for vendors...
+> 
+> Best regards,
+> Krzysztof
+> 
