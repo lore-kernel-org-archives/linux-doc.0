@@ -2,69 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA78C77B7F
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 14:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5AC8C7EE22
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 14:40:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbjEEOil (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 10:38:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33564 "EHLO
+        id S232376AbjEEOkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 10:40:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231764AbjEEOil (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 10:38:41 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C0CF1991;
-        Fri,  5 May 2023 07:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683297520; x=1714833520;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PUgpExWS/DnhiAjBBBKEofIsIASJDAnwJ4/ps5m0Kg0=;
-  b=hVHIo+Hrg3Gl6QpD2unDfzAMjQIoMFYUm/Ed2d3zPBxboywY2aIh2FRx
-   8/IGfgwTjRi/pfVU3lLOpgalZTijocaSjSbhzUOO2ljZU81b0FHzg05Bj
-   j+5XGSz3MaB4MlWOMCe636OcShwfhZNl2TxNSDTyZT4PQj1ZMRMX04lNx
-   j7iKcGe4T8xHMgiBrs5NLPT0to0nN87l2F/RkwL/gS6CrqmtwomB+7WIx
-   b4gGFf3Hw6bYqzptnb34jYb1j837pqT+lcijSXiIcu2HV/2lGZ5rPR5UK
-   nwL6nbWYDPPYEIp2W5xJB3af5nYyxaGTd0aJUzEXw0Nmk5+7G5z2AZceD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="349256428"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="349256428"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 07:38:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="1027518594"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="1027518594"
-Received: from annguyen-mobl2.amr.corp.intel.com (HELO [10.209.140.100]) ([10.209.140.100])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 07:38:39 -0700
-Message-ID: <a7e4998b-23b0-0018-57e7-7f6faa12e6db@intel.com>
-Date:   Fri, 5 May 2023 07:38:37 -0700
+        with ESMTP id S229591AbjEEOkQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 10:40:16 -0400
+Received: from m228-4.mailgun.net (m228-4.mailgun.net [159.135.228.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BFF18911
+        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 07:39:57 -0700 (PDT)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=equiv.tech; q=dns/txt;
+ s=mx; t=1683297596; x=1683304796; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Subject: Cc: To: To: From: From: Date:
+ Sender: Sender; bh=1zV5HkaO4AcJ2oJf1urH6etlYKt5oTziBWscnFyDS8k=;
+ b=n+LvbNTlTR2M84lzJEseOk1nD6juue+aeZkwijoJpEL9FbziPK70KE89+n3EyvMdrBdZnBBidJg+IXfcU5u7YW7nDGOWGVpqNuHzP0Vb8QOCp6sndu2sklYhImQTMf64nfUp3ehcVEO+oJKM+mHJ9IJWkSf4ewjwhzecAp0Aw+8PiQPOPpWnhHNhjy7XJMXyR86hhvcX8EOeMCQR5LW0PPYL4LHihipJMFqIon0mKhaI3xZlUVjL4Qr5vovp5Pr67rjIEtOIl/uKlmFEnMgju4EPwjrxnFnGjJNCE1oxq02G68us8SB5NWj26EEnWHTQKNXwgiMtSUmZ0RcBbranbQ==
+X-Mailgun-Sending-Ip: 159.135.228.4
+X-Mailgun-Sid: WyIxNjU3YyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5M2Q1YWIiXQ==
+Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by f5ac2268c446 with SMTP id
+ 6455153cf77227a8301b0174 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 May 2023 14:39:56 GMT
+Sender: james@equiv.tech
+Date:   Fri, 5 May 2023 07:39:55 -0700
+From:   James Seo <james@equiv.tech>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     James Seo <james@equiv.tech>, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC 02/11] hwmon: (core) Rename last parameter of
+ devm_hwmon_register_with_info()
+Message-ID: <ZFUVO4ECF0Xlcmx8@equiv.tech>
+References: <20230504075752.1320967-1-james@equiv.tech>
+ <20230504075752.1320967-3-james@equiv.tech>
+ <ff6efe53-2173-1372-a1ca-c0928cf8a160@roeck-us.net>
+ <ZFUBZyG5eoz2TpZX@equiv.tech>
+ <ec28c2c2-4623-0d92-00bc-b8cd53c965b2@roeck-us.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [tip:master 4/4] htmldocs: Warning: arch/x86/Kconfig references a
- file that doesn't exist: Documentation/x86/shstk.rst
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-References: <202305050705.5V1x1V3i-lkp@intel.com>
- <aa2efa2f-70ea-09b4-f21b-8e69f18fad1e@infradead.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <aa2efa2f-70ea-09b4-f21b-8e69f18fad1e@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ec28c2c2-4623-0d92-00bc-b8cd53c965b2@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/4/23 17:17, Randy Dunlap wrote:
-> which has been moved to Documentation/arch/x86/shstk.rst.
+On Fri, May 05, 2023 at 06:30:53AM -0700, Guenter Roeck wrote:
+> On 5/5/23 06:15, James Seo wrote:
+>> On Thu, May 04, 2023 at 08:29:57AM -0700, Guenter Roeck wrote:
+>> 
+>> Hello,
+>> 
+>> Of course arbitrarily changing variable names is pointless. But this
+>> patch fulfills the intent of 848ba0a2f20dc121a3ef5272a24641d2bd963d8b,
+>> which makes this change for devm_hwmon_device_register_with_info() in
+>> hwmon-kernel-api.txt and in hwmon.h - but not in hwmon.c. The same
+>> commit makes the same change for hwmon_device_register_with_info() in
+>> all three files, so it obviously should have been in tree already.
+>> 
+>> The other reason for this patch is that for the purpose of generating
+>> function documentation from kerneldocs, it is not feasible to call
+>> this parameter "extra_groups" in the kerneldoc and still call it
+>> "groups" in the function itself. Doing so results in the lines
+>> "const struct attribute_group **groups / undescribed" and no mention
+>> of "extra_groups" in the generated document. Leaving things as is, so
+>> that [devm_]hwmon_device_register_with_info() have different names
+>> for this parameter, is potentially confusing and more noticeable to
+>> to the eye than I would like once rendered.
+>> 
+>> Is this good enough to proceed? And as a subsystem maintainer, is
+>> there anything else, specifically or in general, that you would like
+> 
+> Marginally. That should have been explained in more detail in the
+> description.
 
-There's currently a pull request for this x86/shstk branch in Linus's
-inbox.  If he pulls it, we'll send along a fix on top.  If not, we'll
-fix it up before the next merge window.  No biggie.
+OK, I will add more detail.
+
+> 
+>> to see addressed?
+>> 
+> 
+> I don't know. There are changes which seem to be more based on POV
+> than real improvement (such as the removal of the credit from the
+> PMBus document). I'll have to verify each and every reference to determine
+> if the change is appropriate. Also, the changes are substantial.
+
+Yes, sorry. At some point comparing a local make htmldocs build to
+docs.kernel.org became much easier to follow than slogging through
+diffs, and some of the markup only makes sense once rendered next to
+the automatic cross-references that Sphinx adds.
+
+> It will take a lot of time for me to review, and right now I do not have
+> that time. I have a hard time keeping up with code reviews.
+> 
+> Guenter
+> 
+
+No rush. Your time is always appreciated. As I have gathered some
+feedback from Bagas, I will submit the smaller changes as a PATCH
+series in a day or two and an updated RFC series that you can
+tackle at your leisure.
+
+James
