@@ -2,88 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66738C7EE22
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 15:12:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E13C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 15:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232457AbjEEPMP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 11:12:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47644 "EHLO
+        id S232951AbjEEP0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 11:26:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232167AbjEEPMO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 11:12:14 -0400
-Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC1F52719
-        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 08:12:13 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=equiv.tech; q=dns/txt;
- s=mx; t=1683299532; x=1683306732; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Subject: Cc: To: To: From: From: Date:
- Sender: Sender; bh=tS7xyyS1d338vedGR9uNdjyBtszw/bt2Ba9e0ooE/S4=;
- b=CmXrEbG9aE2zwsJwFmz7tPCHP1nowWCKF8VfgcFcX9e+ssFB96+U5OBTVY5y3POPtUFjYHAvpPrs2Do//lDYyABg4jQp9ieHGrbUfNZT/FU67TTd/goGM0OeOCIASr+nxqKcj6/bCZbIdtnuFP6jM8iyM6WxWM/Ef4inoZ6YG8cEF9LdTo1rrjeBOhLRftu469lHtnZadzxZl5+X2FeTnb41JAVFE/nW1/z87DwEYTCiQwXoLqWAr1dmr40bNCez34RptFUf15JM24yQwJVFtrHUhaGR1v36fpLidR3ALUQPQwSBwgGq/qsP5jfeOQsewoWMqgSb3eUYBrfri8X0Ig==
-X-Mailgun-Sending-Ip: 159.135.228.13
-X-Mailgun-Sid: WyIxNjU3YyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5M2Q1YWIiXQ==
-Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by fd43d426ea96 with SMTP id
- 64551ccce31b292e1f0659c7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 May 2023 15:12:12 GMT
-Sender: james@equiv.tech
-Date:   Fri, 5 May 2023 08:12:11 -0700
-From:   James Seo <james@equiv.tech>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     James Seo <james@equiv.tech>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        with ESMTP id S232955AbjEEP0Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 11:26:24 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 14C9E1A107;
+        Fri,  5 May 2023 08:25:18 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 292E51FB;
+        Fri,  5 May 2023 08:26:02 -0700 (PDT)
+Received: from e130256.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E80D13F5A1;
+        Fri,  5 May 2023 08:25:16 -0700 (PDT)
+From:   Hongyan Xia <hongyan.xia2@arm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Hongyan Xia <hongyan.xia2@arm.com>,
+        Qais Yousef <qyousef@layalina.io>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC 08/11] Documentation/hwmon: Revise userspace tools
- documentation
-Message-ID: <ZFUcy9SLiE8SwOzR@equiv.tech>
-References: <20230504075752.1320967-1-james@equiv.tech>
- <20230504075752.1320967-9-james@equiv.tech>
- <ZFSOIXLCnd01ofBv@debian.me>
+Subject: [PATCH] sched/documentation: elaborate on uclamp limitations
+Date:   Fri,  5 May 2023 16:24:39 +0100
+Message-Id: <20230505152440.142265-1-hongyan.xia2@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZFSOIXLCnd01ofBv@debian.me>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 05, 2023 at 12:03:29PM +0700, Bagas Sanjaya wrote:
-> On Thu, May 04, 2023 at 12:57:49AM -0700, James Seo wrote:
-> > +If needed, sources may be found at https://hwmon.wiki.kernel.org/lm_sensors.
-> > +Basic compilation, installation, and uninstallation may be accomplished with
-> > +``make all``, ``make install``, and ``make uninstall``, respectively.
-> > +
-> 
-> The sources is on GitHub:
-> 
-> ---- >8 ----
-> diff --git a/Documentation/hwmon/userspace-tools.rst b/Documentation/hwmon/userspace-tools.rst
-> index 79c932954e4af5..fd96ea92f72eea 100644
-> --- a/Documentation/hwmon/userspace-tools.rst
-> +++ b/Documentation/hwmon/userspace-tools.rst
-> @@ -44,9 +44,9 @@ Most Linux distributions provide the ``lm-sensors`` suite as a package.
->  It is recommended that you use this package for ease of installation.
->  Please consult your Linux distribution's documentation for more information.
->  
-> -If needed, sources may be found at https://hwmon.wiki.kernel.org/lm_sensors.
-> -Basic compilation, installation, and uninstallation may be accomplished with
-> -``make all``, ``make install``, and ``make uninstall``, respectively.
-> +If the distribution package isn't available, sources can be obtained at
-> +`GitHub <https://github.com/lm-sensors/lm-sensors>`_.
-> +See ``INSTALL`` in the sources for how to build the suite.
->  
->  Usage
->  -----
-> 
-> Thanks.
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
+The story in 5.2 about util_avg abruptly jumping from 300 when
+Fmax/Fmin == 3 to 1024 when Fmax/Fmin == 4 hides some details about how
+clock_pelt works behind the scenes. Explicitly mention it to make it
+easier for readers to follow.
 
-The document previously mentioned the old official lm-sensors site,
-so I thought I should mention the current one, which has a GitHub link
-anyway. But I will change this and add a link to the current site
-separately.
+Signed-off-by: Hongyan Xia <hongyan.xia2@arm.com>
+Cc: Qais Yousef <qyousef@layalina.io>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+---
+ Documentation/scheduler/sched-util-clamp.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Thanks.
+diff --git a/Documentation/scheduler/sched-util-clamp.rst b/Documentation/scheduler/sched-util-clamp.rst
+index 74d5b7c6431d..524df07bceba 100644
+--- a/Documentation/scheduler/sched-util-clamp.rst
++++ b/Documentation/scheduler/sched-util-clamp.rst
+@@ -669,6 +669,19 @@ but not proportional to Fmax/Fmin.
+ 
+         p0->util_avg = 300 + small_error
+ 
++The reason why util_avg is around 300 even though it runs for 900 at Fmin is:
++Although running at Fmin reduces the rate of rq_clock_pelt() to 1/3 thus
++accumulates util_sum at 1/3 of the rate at Fmax, the clock period
++(rq_clock_pelt() now minus previous rq_clock_pelt()) in:
++
++::
++
++        util_sum / clock period = util_avg
++
++does not shrink to 1/3, since rq->clock_pelt is periodically synchronized with
++rq->clock_task as long as there's idle time. As a result, we get util_avg of
++about 300, not 900.
++
+ Now if the ratio of Fmax/Fmin is 4, the maximum value becomes:
+ 
+ ::
+@@ -682,6 +695,10 @@ this happens, then the _actual_ util_avg will become:
+ 
+         p0->util_avg = 1024
+ 
++This is because rq->clock_pelt is no longer synchronized with the task clock.
++The clock period therefore is proportionally shrunk by the same ratio of
++(Fmax/Fmin), giving us a maximal util_avg of 1024.
++
+ If task p1 wakes up on this CPU, which have:
+ 
+ ::
+-- 
+2.34.1
 
-James
