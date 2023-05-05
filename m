@@ -2,123 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3313BC77B7C
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 13:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88BCFC7EE23
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 13:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232605AbjEENbB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 09:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55294 "EHLO
+        id S231936AbjEENe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 09:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232599AbjEENbA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 09:31:00 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39BBB203CD;
-        Fri,  5 May 2023 06:30:57 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1aaec9ad820so16236335ad.0;
-        Fri, 05 May 2023 06:30:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683293456; x=1685885456;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=jdXhOVy2KMLa5873OS7jS/gpPkG+MRIdvwBG6rYttG8=;
-        b=a1MWLmJTX6yJ9OtYpzs066urW8nsFrP8te/CvF8bR5wQG9LYs/fV8EWGjrSuJN16+j
-         qc/s3SG8LpYKl4iMH8UYBYjEM2L4zoWv0WAjMAYjB25KZd0Yj+1mJE3RyHDL4SWXwxTz
-         ohIdeI1Pz5kFmpYfNGwaKT+5MQwvrM+B+QyQqVMOFQLVsgPCJyCtEajM14VGRe0hGxUf
-         y2RswLv7QAa54lBPEZLpSw5lVgvgoSS8kpE38cxkzeFCGKZ0lqSVI8IOdDeHLljsqZwR
-         hJKAdqf4YHPGE96YQVz3m7iRXQHkcKOlDjV6dQ73T1x/y3oOT//UPcrZzbMdOw8y8l0N
-         efRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683293456; x=1685885456;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jdXhOVy2KMLa5873OS7jS/gpPkG+MRIdvwBG6rYttG8=;
-        b=fNzv1n/Y0s4ykFxpZ68VzbroMhR1PTSfdZzNp6jhza/J/n75HImV52QhHFvOHxFJ8s
-         pYkMGz1JYKgcJjKFbGWQFTlsOZFjEHQAcQ0XVyKIGzSiJv7XWMXS1DsJwujjEV9KGOjS
-         5gPCihsuOIw+Be6VZGBcrNL/bx4tegVarZBM6wSFDlMJGa9YS48qa+Y9wLw5TAkEcf5c
-         xgUCmIOsLaEbC5VzElvgfROK9A+TbguEN84qGBknnhItzqeyJRm0j9J0G29T+MlI83S6
-         1JMwTFTXP9h3yOgqNjWEnYBS/HilrUPw+ssMojYICd+GlMxyuiaFI1+vlvoIgcHK+y9X
-         KGGg==
-X-Gm-Message-State: AC+VfDzY0qGvufIn5hOhIhvIdHHDLXh9SNE7iSlYpioaolu32PYxSg6k
-        WdRE+4CYKXbVZ96FiYK2Vw8qyb5isFA=
-X-Google-Smtp-Source: ACHHUZ74MgHysUIp/rpLKSwYZzxTBWmIQ69hMTJKMa+Lkxx1JidvezZz2gxkNG4h7ilFI9TSlmr9ow==
-X-Received: by 2002:a17:90a:8a18:b0:246:b973:de35 with SMTP id w24-20020a17090a8a1800b00246b973de35mr1601732pjn.4.1683293456564;
-        Fri, 05 May 2023 06:30:56 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q4-20020a17090a304400b0024e2230fdafsm7094681pjl.54.2023.05.05.06.30.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 May 2023 06:30:55 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ec28c2c2-4623-0d92-00bc-b8cd53c965b2@roeck-us.net>
-Date:   Fri, 5 May 2023 06:30:53 -0700
+        with ESMTP id S232656AbjEENer (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 09:34:47 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EC3B20744;
+        Fri,  5 May 2023 06:34:45 -0700 (PDT)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6DC352E0;
+        Fri,  5 May 2023 13:34:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6DC352E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1683293684; bh=w04Zo7BcX+6Af1rwKux5ePS/r/kQhsU0gpGtqtR4SZw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=C1VF1ZUvQF8OvDl6RXc5JnI0y/YZ3Yeu2BFssQEuo3t3GpDzJl/+O4CRyhrsQzwbq
+         16J2Ig9CWlMXsx/kCJxpOxNXIGNIfuxCJ34XMlugCMB9DaWSjduEPFNJQl1fDvoGuO
+         aKqZioqs7bKpKZm/8LDqYCreaDDnguGIW/XAlYf8AlBi8LJnx6iZM24JZf/4sW2ntQ
+         DOHeyt/2qEfFMhUjwGxoDypaQT79FrScdyeZt4dCQVNKd+BmxrkW5WN+IkRJOCThnm
+         G7vOBdXldsN1qL+nyxzrbJoCwhKtc+S53ZqyiYg1TBsrN75RUDgAPFIqL9aw1Adl7M
+         Z6J7TKVL2eH2A==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Finn Thain <fthain@linux-m68k.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux SCSI <linux-scsi@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>,
+        Oliver Neukum <oliver@neukum.org>,
+        Ali Akcaagac <aliakc@web.de>,
+        Jamie Lenehan <lenehan@twibble.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [PATCH 3/3] Documentation: scsi: dc395x: Remove reference to
+ 2.4 driver
+In-Reply-To: <d919a2e1-5749-13f8-7867-1f17277190f4@linux-m68k.org>
+References: <20230505082704.16228-1-bagasdotme@gmail.com>
+ <20230505082704.16228-4-bagasdotme@gmail.com>
+ <d919a2e1-5749-13f8-7867-1f17277190f4@linux-m68k.org>
+Date:   Fri, 05 May 2023 07:34:43 -0600
+Message-ID: <87pm7enbpo.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC 02/11] hwmon: (core) Rename last parameter of
- devm_hwmon_register_with_info()
-Content-Language: en-US
-To:     James Seo <james@equiv.tech>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230504075752.1320967-1-james@equiv.tech>
- <20230504075752.1320967-3-james@equiv.tech>
- <ff6efe53-2173-1372-a1ca-c0928cf8a160@roeck-us.net>
- <ZFUBZyG5eoz2TpZX@equiv.tech>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <ZFUBZyG5eoz2TpZX@equiv.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/5/23 06:15, James Seo wrote:
-> On Thu, May 04, 2023 at 08:29:57AM -0700, Guenter Roeck wrote:
->> Please please please no such changes. I don't want to have to deal with
->> patch wars just because people believe variables should have other names.
->>
->> Such changes add zero value unless one counts wasted review time as a "value".
->>
->> Guenter
->>
-> 
-> Hello,
-> 
-> Of course arbitrarily changing variable names is pointless. But this
-> patch fulfills the intent of 848ba0a2f20dc121a3ef5272a24641d2bd963d8b,
-> which makes this change for devm_hwmon_device_register_with_info() in
-> hwmon-kernel-api.txt and in hwmon.h - but not in hwmon.c. The same
-> commit makes the same change for hwmon_device_register_with_info() in
-> all three files, so it obviously should have been in tree already.
-> 
-> The other reason for this patch is that for the purpose of generating
-> function documentation from kerneldocs, it is not feasible to call
-> this parameter "extra_groups" in the kerneldoc and still call it
-> "groups" in the function itself. Doing so results in the lines
-> "const struct attribute_group **groups / undescribed" and no mention
-> of "extra_groups" in the generated document. Leaving things as is, so
-> that [devm_]hwmon_device_register_with_info() have different names
-> for this parameter, is potentially confusing and more noticeable to
-> to the eye than I would like once rendered.
-> 
-> Is this good enough to proceed? And as a subsystem maintainer, is
-> there anything else, specifically or in general, that you would like
+Finn Thain <fthain@linux-m68k.org> writes:
 
-Marginally. That should have been explained in more detail in the
-description.
+> On Fri, 5 May 2023, Bagas Sanjaya wrote:
+>
+>> The 2.4 driver link returns 404. 
+>
+> It's still potentially useful:
+> https://web.archive.org/web/20140129181343/http://www.garloff.de/kurt/linux/dc395/
+>
+>> As no one runs 2.4 kernel anymore,
+>
+> Would it make a difference if someone does run that? Were you planning to 
+> delete the source code for the 2.4 kernel too?
 
-> to see addressed?
-> 
+Most of the 2.4 code has indeed been deleted *from current kernels*.
+It's not clear to me why 2.4 documentation should be immune to that same
+process.  If we keep every 20-year-old reference, our docs will be even
+cruftier and less useful than they are now.
 
-I don't know. There are changes which seem to be more based on POV
-than real improvement (such as the removal of the credit from the
-PMBus document). I'll have to verify each and every reference to determine
-if the change is appropriate. Also, the changes are substantial.
-It will take a lot of time for me to review, and right now I do not have
-that time. I have a hard time keeping up with code reviews.
+Thanks,
 
-Guenter
-
+jon
