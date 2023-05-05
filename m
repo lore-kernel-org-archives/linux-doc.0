@@ -2,125 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA91C77B75
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 16:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2313BC7EE24
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 16:19:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232021AbjEEQDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 12:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49128 "EHLO
+        id S231670AbjEEQTK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 12:19:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231852AbjEEQDy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 12:03:54 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4A91637D;
-        Fri,  5 May 2023 09:03:52 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6439df6c268so712504b3a.0;
-        Fri, 05 May 2023 09:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683302632; x=1685894632;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zQKJTg5ApR448/3rL3jZGIW7r7Tt+TftEzg/PrUenB8=;
-        b=KdeViUdQB/XlTtwKjiqtdqzxGXJNnUwIDquRJ+lSj2VGU9tE1P0MAkcVPmNkcz6vHB
-         fDXCRHapjvFVEV3o1VGhvwLDLqnYkDZk590OXp4RU/dg1K9J4irJGis253sNeWuqWAHu
-         N/LRTdnrS4B20Cwt15aQB3erb35WH+otXfr8XUrmfXJ5F0YNoIEPGGTqcVdo6AqE2RYy
-         J7XuI0QXsJZknjLlLhZHvKE2H0pbe5RlsDzZgofl+XV4kim3baGkMM9j0zEi/klPxtaQ
-         onIuV02H251+0B0rKEGb09NzWZixob41Xeurhro2dcypBvg34lEmo7vXh51YUQDZ8RoK
-         gZmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683302632; x=1685894632;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zQKJTg5ApR448/3rL3jZGIW7r7Tt+TftEzg/PrUenB8=;
-        b=GTV0qp6FaGmPvFv3RTQzaYPCHbR7md7FnKfQzYIoVfnp+VCaZBNukhaSODfWDSHGl/
-         1twdFFz4rn3bRzvcqe1GBAQXCjl3zz6qp0p2zR5qE9pFHJWEuCYUH2RqJlNDdtR0YRkR
-         bqwk7COcxxGB4Ojd+40etKmXA1ojhtcnaaN8eMpBfCVWCwMqBFnfkmpJJo3eF6Q0TxF6
-         VBfd7JMuig3Ruj2m/LPshZ+T6UFEP8beOvPaBno9aoyfzIOvAwk0SvmX2V7pK05YVZ7N
-         AYoWimlU+Ni+XsPQkCTnxSOOvvKxDKQxaIpX9UQ6sZkkxr5ctp7OF0Bplezy82vAcpFd
-         qu4g==
-X-Gm-Message-State: AC+VfDzP7qfgSVZ7Z/JVSHV7wJUCtv1dPM6ImmgJKk4wyKzkqyCxcA4t
-        PyeKlucpOT90Ln3Afay4J7c=
-X-Google-Smtp-Source: ACHHUZ4rGO4G5r8RKJhtCl5hnX5yV4ufmU+sPfN+IDho1ZxP3Bk9vj/mp3idARfflddFuXx+MlxxOw==
-X-Received: by 2002:a17:902:a5c6:b0:1aa:d706:e0e5 with SMTP id t6-20020a170902a5c600b001aad706e0e5mr1732585plq.47.1683302631602;
-        Fri, 05 May 2023 09:03:51 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
-        by smtp.gmail.com with ESMTPSA id d7-20020a170902c18700b001a04d27ee92sm1938725pld.241.2023.05.05.09.03.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 09:03:49 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Fri, 5 May 2023 06:03:48 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>
-Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
-Message-ID: <ZFUo5IYAIwTEKR4_@slm.duckdns.org>
-References: <226cb2da-e800-6531-4e57-cbf991022477@redhat.com>
- <ZDmFLfII8EUX_ocY@slm.duckdns.org>
- <c61ca9d0-c514-fb07-c2f2-3629e8898984@redhat.com>
- <ZDmOjeBVsIcgSLIV@slm.duckdns.org>
- <60ec12dc-943c-b8f0-8b6f-97c5d332144c@redhat.com>
- <46d26abf-a725-b924-47fa-4419b20bbc02@redhat.com>
- <jqkf7jkuyxqiupmxmdbmpnbpojub2pjsz3oogwncmwqdghlsgk@phsqzirmmlyl>
- <f2bd7b1e-190e-1d08-f085-b4cae36fb5be@redhat.com>
- <ZFGOTHQj3k5rzmyR@blackbook>
- <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
+        with ESMTP id S230163AbjEEQTJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 12:19:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC90217FE2;
+        Fri,  5 May 2023 09:19:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4845263F15;
+        Fri,  5 May 2023 16:19:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDE1C433EF;
+        Fri,  5 May 2023 16:19:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683303547;
+        bh=9eVD8TLEEJTPz7yUDaY/tcM4ySNHmYkUZSsW6auAYhI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=loLHgZ6lqZrIKBgo3yKKid4OzVFYz+8ZiKK82DAcPHoYWv38JEZTzJBc/0Jilf3Ac
+         13ZT853kkIOz5s92U2aLs8Qsw3/pa5XZXTWrM7RLBw1djPdirH/b7e328JT1KQDfo5
+         Ia02U9yr3HawpR+b0VyOH8cI2VeNJrHrSxmbVFpT3yoROBJG7kA8FvP3nIX4blUvei
+         1+YXY4yq6kvmuJAt1kUewv/TelPNq3i/P251E+XOAquYRG4fANOUEKMcFwQTJW2bcf
+         3FEbGZUddqObaXNkWfTnpVbHzIE26/z88HVTnkB5sY9x/JYwY+Z5S7f7VIT7tH5VvM
+         nkytUGk7g4Aow==
+Date:   Fri, 5 May 2023 18:19:01 +0200
+From:   Simon Horman <horms@kernel.org>
+To:     Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
+        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v6 02/14] Documentation/x86: Secure Launch kernel
+ documentation
+Message-ID: <ZFUsdbkulMLlU3XA@kernel.org>
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-3-ross.philipson@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
+In-Reply-To: <20230504145023.835096-3-ross.philipson@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 03, 2023 at 11:01:36PM -0400, Waiman Long wrote:
+On Thu, May 04, 2023 at 02:50:11PM +0000, Ross Philipson wrote:
+> Introduce background, overview and configuration/ABI information
+> for the Secure Launch kernel feature.
 > 
-> On 5/2/23 18:27, Michal Koutný wrote:
-> > On Tue, May 02, 2023 at 05:26:17PM -0400, Waiman Long <longman@redhat.com> wrote:
-> > > In the new scheme, the available cpus are still directly passed down to a
-> > > descendant cgroup. However, isolated CPUs (or more generally CPUs dedicated
-> > > to a partition) have to be exclusive. So what the cpuset.cpus.reserve does
-> > > is to identify those exclusive CPUs that can be excluded from the
-> > > effective_cpus of the parent cgroups before they are claimed by a child
-> > > partition. Currently this is done automatically when a child partition is
-> > > created off a parent partition root. The new scheme will break it into 2
-> > > separate steps without the requirement that the parent of a partition has to
-> > > be a partition root itself.
-> > new scheme
-> >    1st step:
-> >    echo C >p/cpuset.cpus.reserve
-> >    # p/cpuset.cpus.effective == A-C (1)
-> >    2nd step (claim):
-> >    echo C' >p/c/cpuset.cpus # C'⊆C
-> >    echo root >p/c/cpuset.cpus.partition
+> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+
+Hi Ross and Daniel,
+
+some minor nits from my side.
+
+> ---
+>  Documentation/security/index.rst                   |   1 +
+>  Documentation/security/launch-integrity/index.rst  |  10 +
+>  .../security/launch-integrity/principles.rst       | 313 ++++++++++++
+>  .../launch-integrity/secure_launch_details.rst     | 564 +++++++++++++++++++++
+>  .../launch-integrity/secure_launch_overview.rst    | 220 ++++++++
+>  5 files changed, 1108 insertions(+)
+>  create mode 100644 Documentation/security/launch-integrity/index.rst
+>  create mode 100644 Documentation/security/launch-integrity/principles.rst
+>  create mode 100644 Documentation/security/launch-integrity/secure_launch_details.rst
+>  create mode 100644 Documentation/security/launch-integrity/secure_launch_overview.rst
 > 
-> It is something like that. However, the current scheme of automatic
-> reservation is also supported, i.e. cpuset.cpus.reserve will be set
-> automatically when the child cgroup becomes a valid partition as long as the
-> cpuset.cpus.reserve file is not written to. This is for backward
-> compatibility.
-> 
-> Once it is written to, automatic mode will end and users have to manually
-> set it afterward.
+> diff --git a/Documentation/security/index.rst b/Documentation/security/index.rst
+> index 6ed8d2f..fade37e 100644
+> --- a/Documentation/security/index.rst
+> +++ b/Documentation/security/index.rst
+> @@ -18,3 +18,4 @@ Security Documentation
+>     digsig
+>     landlock
+>     secrets/index
+> +   launch-integrity/index
+> diff --git a/Documentation/security/launch-integrity/index.rst b/Documentation/security/launch-integrity/index.rst
+> new file mode 100644
+> index 0000000..28eed91d
+> --- /dev/null
+> +++ b/Documentation/security/launch-integrity/index.rst
+> @@ -0,0 +1,10 @@
 
-I really don't like the implicit switching behavior. This is interface
-behavior modifying internal state that userspace can't view or control
-directly. Regardless of how the rest of the discussion develops, this part
-should be improved (e.g. would it work to always try to auto-reserve if the
-cpu isn't already reserved?).
+I believe an SPDX tag should go at the top of each .rst file.
 
-Thanks.
+> +=====================================
+> +System Launch Integrity documentation
+> +=====================================
+> +
+> +.. toctree::
+> +
+> +   principles
+> +   secure_launch_overview
+> +   secure_launch_details
+> +
+> diff --git a/Documentation/security/launch-integrity/principles.rst b/Documentation/security/launch-integrity/principles.rst
+> new file mode 100644
+> index 0000000..73cf063
+> --- /dev/null
+> +++ b/Documentation/security/launch-integrity/principles.rst
+> @@ -0,0 +1,313 @@
+> +=======================
+> +System Launch Integrity
+> +=======================
+> +
+> +This document serves to establish a common understanding of what is system
+> +launch, the integrity concern for system launch, and why using a Root of Trust
+> +(RoT) from a Dynamic Launch may be desired. Through out this document
+> +terminology from the Trusted Computing Group (TCG) and National Institue for
 
--- 
-tejun
+s/Institue/Institute/
+
+...
+
+> +Trust Chains
+> +============
+> +
+> +Bulding upon the understanding of security mechanisms to establish load-time
+
+s/Bulding/Building/
+
+...
+
+> diff --git a/Documentation/security/launch-integrity/secure_launch_details.rst b/Documentation/security/launch-integrity/secure_launch_details.rst
+
+...
+
+> +Secure Launch Resource Table
+> +============================
+> +
+> +The Secure Launch Resource Table (SLRT) is a platform-agnostic, standard format
+> +for providing information for the pre-launch environment and to pass
+> +information to the post-launch environment. The table is populated by one or
+> +more bootloaders in the boot chain and used by Secure Launch on how to setup
+> +the environment during post-launch. The details for the SLRT are documented
+> +in the TrenchBoot Secure Launch Specifcation [3]_.
+
+s/Specifcation/Specification/
+
+...
