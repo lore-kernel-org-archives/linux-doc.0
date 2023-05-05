@@ -2,104 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10FF8C7EE22
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 08:28:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82BD7C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 08:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231390AbjEEI2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 04:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57630 "EHLO
+        id S231430AbjEEIjx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 04:39:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231454AbjEEI2Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 04:28:24 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F4D19D7E;
-        Fri,  5 May 2023 01:27:17 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1aaf91ae451so13505655ad.1;
-        Fri, 05 May 2023 01:27:17 -0700 (PDT)
+        with ESMTP id S230444AbjEEIjw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 04:39:52 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74C618876;
+        Fri,  5 May 2023 01:39:50 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-24e4f674356so1385831a91.3;
+        Fri, 05 May 2023 01:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683275237; x=1685867237;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mG2sc9wYDLtXCv1Z997jO8Q7UbIkluJ8RfwLUnYFcWs=;
-        b=JkU70bS1wgDa0LIQYLU3RMxuc292TFKgXTBQv7VjwC4Pj5f/rJD6WHE9QhxmOEkSs3
-         kI2mLyeFS5S/8nesMnfGGb2bwYHpTDj4CCZmDvjp9zcxJHT83hwAspHHohpvzwg3ReEc
-         Olp+0pFT6LD7OlekdWRfHf/uuPxNN/uUNI12OYP09Xzd9nb/uN4V66rCfUknG0NT9eGE
-         rVQoAuIqwzPg7T7Si9f1oREAXoHGi0kssQDyUG/l8MwT3eRVAn49ChV7Nir3N0W/KYR9
-         kKSbOP1ng1AzmWWEgqq6+0cXpamr4QQ7qfLKsHLQv4YxtkOLrWojw+kNOUEPYD8zrGlq
-         Tq/w==
+        d=gmail.com; s=20221208; t=1683275990; x=1685867990;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5aRZSqqSGHolTlh1jtoDKdcPZUN/607EWF6b0DkrsH0=;
+        b=AZK4dSGaMIFsre3ab92ohSTLZERw1D4UVGxEBRjOtKP6UhdmDSBcr8z0sm901npXrG
+         mWUooB0uHfaLjnmx7bfX1yx+wRSHgQsx4tLIA4huIQrbAiarI6jvfGE1nfn/xSB0A89l
+         t6mKGCVygg6b2/gLC4N6mWNU39w8dUQLO8K6lLO/j9eruFTh/Hmbg6SLuwv+pb6ySicp
+         eexkrTwLz8PrhTPSZnAE48CBGL3lK5qeCNmkq0OLRWpZauERfD7pcXFXqLVgeGbx5j67
+         3rLwWjyGlmZROMsmlX0gAsAHyAM1A+F83Nn4OTesBSFWvjv2aYpVxpSm78AGf0YEnIta
+         b7OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683275237; x=1685867237;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mG2sc9wYDLtXCv1Z997jO8Q7UbIkluJ8RfwLUnYFcWs=;
-        b=XBJXuEDJqHBGSjyeqgNPhzjNYZfR1RiAPO6gCFlW9o3ZeC1sxErXAI3KjUJ3hR6Xyo
-         O3XtpvfeFdPF0lc6e6QIs+YcJ9V3D4muJsTIAt9vMZiI3wWXBMonJba6e82Mu9zuDS7p
-         AQVbovQueBfH4R1TuiGYaERwwDbSqANSU9oy+X7QJKM+3aGEC/jkMB2WR5QedquE2nUZ
-         Ma/euhRlS/p8/d/nzq5ukTcnyoIHCXTV0ugxe1HyzIQCEBvxUCJ3hKKigoE0PUIj53eZ
-         znU7r5DzLU2rSOs42s5CRdTF/1f3ftUWEmx1clHZfTgC7cxZul0pJMAFfngxtt7LnsOW
-         7ONQ==
-X-Gm-Message-State: AC+VfDxu7CtHdm1mUj/kQn9wZ3NRibe3gMQML4sxaRWfJjXiascB0VMI
-        nkGaDrdACITEfCRxmIQjFyOaVveRMEo=
-X-Google-Smtp-Source: ACHHUZ6OHa40KVYj0XiMR8HeFrRCYDRkv1Np8zR78Gd6xHhtd+BO35jPmcNj2HOb/Bgt2WW3vencww==
-X-Received: by 2002:a17:902:d509:b0:19e:ab29:1ec2 with SMTP id b9-20020a170902d50900b0019eab291ec2mr587394plg.65.1683275236785;
-        Fri, 05 May 2023 01:27:16 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683275990; x=1685867990;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5aRZSqqSGHolTlh1jtoDKdcPZUN/607EWF6b0DkrsH0=;
+        b=Ja43UoPVcSP9LfPeihJ8aylyudcP0mPEVC+daMvzo1jyt2pA9CNh3Uv/AIZkJnCnqu
+         iKJTT+MOoIEtrMkuXj/iDgi/dyY4GYQayGf6cbRjvhObvEPZF2meQ/98/hNM4IsKE+qv
+         eaUQCkerGjCIs7gl8jQvYbSOTLZuiSxd/YeLk2mp9sjAbKJ+YFIau6kCjFfmHYtfVE4C
+         aJDkxZoOW0pkcPzk2LRfpGbWsc6Gbc99cbU7rFl5+8E1PVQ+WnOT1diT8w0Ci5A6zNHm
+         22IVCkVymY8MwGfugPG/XtUX+Si0VbP9VbrgY5o/q2FIKim6l201awmsjwJasZiyvkLF
+         wrVQ==
+X-Gm-Message-State: AC+VfDxwZGlsWcBWV9e3+g7i2h6nQGoBBOiTsS7Q03xfaWu7YozSd1YP
+        c9FRWUwhW1nAGSD0ybKuAYU=
+X-Google-Smtp-Source: ACHHUZ4UH5k0im9tHcDD0dnFM8xRvkntB8xfaghRqc4oSAV95zeDV+5tHiAc0U5MZUzLoIsVrIWOYA==
+X-Received: by 2002:a17:90a:e645:b0:247:35f8:81d2 with SMTP id ep5-20020a17090ae64500b0024735f881d2mr699164pjb.29.1683275990015;
+        Fri, 05 May 2023 01:39:50 -0700 (PDT)
 Received: from debian.me (subs32-116-206-28-14.three.co.id. [116.206.28.14])
-        by smtp.gmail.com with ESMTPSA id iw5-20020a170903044500b001a64ed4621csm1081649plb.182.2023.05.05.01.27.16
+        by smtp.gmail.com with ESMTPSA id v13-20020a17090a0c8d00b00246b1b4a3ffsm12895140pja.0.2023.05.05.01.39.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 01:27:16 -0700 (PDT)
+        Fri, 05 May 2023 01:39:49 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 337D610627F; Fri,  5 May 2023 15:27:12 +0700 (WIB)
+        id 9BAC3106281; Fri,  5 May 2023 15:39:46 +0700 (WIB)
+Date:   Fri, 5 May 2023 15:39:46 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux SCSI <linux-scsi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>
-Cc:     Oliver Neukum <oliver@neukum.org>, Ali Akcaagac <aliakc@web.de>,
-        Jamie Lenehan <lenehan@twibble.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 2/3] Documentation: scsi: dc395x: Replace non-functional twibble.org list
-Date:   Fri,  5 May 2023 15:27:03 +0700
-Message-Id: <20230505082704.16228-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230505082704.16228-1-bagasdotme@gmail.com>
-References: <20230505082704.16228-1-bagasdotme@gmail.com>
+To:     Ross Philipson <ross.philipson@oracle.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org
+Cc:     dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
+        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v6 00/14] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+Message-ID: <ZFTA0kg98XxeP2Hh@debian.me>
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1039; i=bagasdotme@gmail.com; h=from:subject; bh=Chb21dgeS65e00gjc5YnM1xptca/AXZCUk/KdO7719I=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkhe6+f9JF/fTJr61shDnbn3H+hr/5Mv32xSWX9120vh OxiZOfLdJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAi9kmMDG9sQh9vN1K9UXvO MO9V4D0li54Pd56pL3NVCi98aO8t/prhr5S6bfgChxc3fL1jBT9s7ZzIMtHnlTOPA5e15twpy7a W8wEA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="8WmKHbH6zHIoE+UF"
+Content-Disposition: inline
+In-Reply-To: <20230504145023.835096-1-ross.philipson@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that the mailing list has been replaced in MAINTAINERS with
-linux-scsi list, do the same in the documentation.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/scsi/dc395x.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+--8WmKHbH6zHIoE+UF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/scsi/dc395x.rst b/Documentation/scsi/dc395x.rst
-index d779e782b1cbe1..c413b629809bcd 100644
---- a/Documentation/scsi/dc395x.rst
-+++ b/Documentation/scsi/dc395x.rst
-@@ -15,9 +15,8 @@ This is a 2.5 only driver. For a 2.4 driver please see the original
- driver (which this driver started from) at
- http://www.garloff.de/kurt/linux/dc395/
- 
--Problems, questions and patches should be submitted to the mailing
--list. Details on the list, including archives, are available at
--http://lists.twibble.org/mailman/listinfo/dc395x/
-+Problems, questions and patches should be submitted to the `Linux SCSI
-+mailing list <linux-scsi@vger.kernel.org>`_.
- 
- Parameters
- ----------
--- 
+On Thu, May 04, 2023 at 02:50:09PM +0000, Ross Philipson wrote:
+> This patchset provides detailed documentation of DRTM, the approach used =
+for
+> adding the capbility, and relevant API/ABI documentation. In addition to =
+the
+> documentation the patch set introduces Intel TXT support as the first pla=
+tform
+> for Linux Secure Launch.
+
+I'd like to apply this series, but on what commit it is based on? I
+don't see any branch containing this series version in trenchboot tree
+[1].
+
+Thanks.
+
+[1]: https://github.com/TrenchBoot/linux
+
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--8WmKHbH6zHIoE+UF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFTA0gAKCRD2uYlJVVFO
+o32tAQDw4tpfR8Ba+q25skoHxrAI3+hK4yJ0HkwQNobWGCAvRQD/Yq0tZ28KagpK
+QjB72gS5Kql0kR9GkjUSvUZRkt138ws=
+=ApTD
+-----END PGP SIGNATURE-----
+
+--8WmKHbH6zHIoE+UF--
