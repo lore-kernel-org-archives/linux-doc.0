@@ -2,80 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE46C7EE22
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 13:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D54CC77B7F
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 13:29:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232412AbjEENP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 09:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40174 "EHLO
+        id S232565AbjEEN3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 09:29:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232386AbjEENPY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 09:15:24 -0400
+        with ESMTP id S232549AbjEEN3U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 09:29:20 -0400
 Received: from m228-4.mailgun.net (m228-4.mailgun.net [159.135.228.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DD5A1E9BF
-        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 06:15:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 894031F490
+        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 06:29:19 -0700 (PDT)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=equiv.tech; q=dns/txt;
- s=mx; t=1683292520; x=1683299720; h=In-Reply-To: Content-Type: MIME-Version:
+ s=mx; t=1683293358; x=1683300558; h=In-Reply-To: Content-Type: MIME-Version:
  References: Message-ID: Subject: Subject: Cc: To: To: From: From: Date:
- Sender: Sender; bh=WDYF6zI6A8OgkexxWkY88lLpFyBLDctri05ND1Dd0Zc=;
- b=fXtkMs064kya+6RpMb5Rst1QCs6BuPvpidmKVW0At3pFf/nDn0L21SbJbhssNVPX7aGUHXQMZOKxfqsPwnFSkeJGFU1w68OAsdL6p6Mj8wBXyHLgRDDk070jTTmFfBdhxRv9XRgrLFl0YRog5cPH5QWsbY9HLLhrSm7Qi7SbnC2l1ZvIEOZel/jJxwTN0EMohY5lCCNItjtxI8o2UEwir9j+0VaD/BOKSPPqJ0BVBff/WjTpk9m1tBAtULZ1FxZ0LFUu12TSn2LPh3KCXwsvDFCdhPiqtzPW3mdpT0K2nOV+FZuKf7tbR1DXegT78cQGamMAd6VO2FgH5DUnoE1Rng==
+ Sender: Sender; bh=aO9K7NPvdxrmC7vIMAsNBMR6TnQRDey4237WbWDA7Gs=;
+ b=mUz36zLYO4r7gqamR1EJ+UJuScQfvp84RsuZQ5VaVR32hz1G2ZuZSi91A1P6ObDsTGmplLZ5Pr0chJGDMJm1RLY3txN1MeDxzM4hCTYLlU3DOyw2GRAsUZ5D65p9Ty5Y4ETtAN9ojnsUNgt1co7kFVAiSRxGXZLNBZ0V1uD6lDr2gwmQOggCmBWYAI6v/oM+DYjSWGE0KO5YGJ/M+9sTjiZuN8GSyXtWtgxRincKKgnXjY4L+A/kQVSrNlta0YgerARO+hXfd6RJN9r33WLSFkFJlYrT4OPEPtMYFy+6WqCONTH0uVkRuCNKJ9lzCB0ydUzoX641YK/VTgBk/AQ72Q==
 X-Mailgun-Sending-Ip: 159.135.228.4
 X-Mailgun-Sid: WyIxNjU3YyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5M2Q1YWIiXQ==
-Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by 897f46a039a2 with SMTP id
- 645501688290b6a11e251401 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 May 2023 13:15:19 GMT
+Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by 242c85f0262a with SMTP id
+ 645504ae3cb0b25455ddf087 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 May 2023 13:29:18 GMT
 Sender: james@equiv.tech
-Date:   Fri, 5 May 2023 06:15:19 -0700
+Date:   Fri, 5 May 2023 06:29:17 -0700
 From:   James Seo <james@equiv.tech>
-To:     Guenter Roeck <linux@roeck-us.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
 Cc:     James Seo <james@equiv.tech>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC 02/11] hwmon: (core) Rename last parameter of
- devm_hwmon_register_with_info()
-Message-ID: <ZFUBZyG5eoz2TpZX@equiv.tech>
+Subject: Re: [RFC 04/11] Documentation/hwmon: Revise hwmon kernel API
+ reference
+Message-ID: <ZFUErfFIalIFEtlu@equiv.tech>
 References: <20230504075752.1320967-1-james@equiv.tech>
- <20230504075752.1320967-3-james@equiv.tech>
- <ff6efe53-2173-1372-a1ca-c0928cf8a160@roeck-us.net>
+ <20230504075752.1320967-5-james@equiv.tech>
+ <ZFSEIahcPf2QUYDv@debian.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ff6efe53-2173-1372-a1ca-c0928cf8a160@roeck-us.net>
+In-Reply-To: <ZFSEIahcPf2QUYDv@debian.me>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 04, 2023 at 08:29:57AM -0700, Guenter Roeck wrote:
-> Please please please no such changes. I don't want to have to deal with
-> patch wars just because people believe variables should have other names.
+On Fri, May 05, 2023 at 11:20:49AM +0700, Bagas Sanjaya wrote:
 > 
-> Such changes add zero value unless one counts wasted review time as a "value".
+> I forget to mention this.
 > 
-> Guenter
->
+> Elsewhere in the doc tree (Documentation/), metadata is usually marked
+> up like:
+> 
+> ---- >8 ----
+> diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
+> index cf084e04052228..541835f7826352 100644
+> --- a/Documentation/hwmon/hwmon-kernel-api.rst
+> +++ b/Documentation/hwmon/hwmon-kernel-api.rst
+> @@ -2,7 +2,7 @@
+>  The Linux Hardware Monitoring kernel API
+>  ========================================
+>  
+> -Guenter Roeck
+> +:Author: Guenter Roeck
+>  
+>  .. contents::
+>  
+> Thanks.
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+Hi,
 
-Hello,
+Thanks for reviewing.
 
-Of course arbitrarily changing variable names is pointless. But this
-patch fulfills the intent of 848ba0a2f20dc121a3ef5272a24641d2bd963d8b,
-which makes this change for devm_hwmon_device_register_with_info() in
-hwmon-kernel-api.txt and in hwmon.h - but not in hwmon.c. The same
-commit makes the same change for hwmon_device_register_with_info() in
-all three files, so it obviously should have been in tree already.
-
-The other reason for this patch is that for the purpose of generating
-function documentation from kerneldocs, it is not feasible to call
-this parameter "extra_groups" in the kerneldoc and still call it
-"groups" in the function itself. Doing so results in the lines
-"const struct attribute_group **groups / undescribed" and no mention
-of "extra_groups" in the generated document. Leaving things as is, so
-that [devm_]hwmon_device_register_with_info() have different names
-for this parameter, is potentially confusing and more noticeable to
-to the eye than I would like once rendered.
-
-Is this good enough to proceed? And as a subsystem maintainer, is
-there anything else, specifically or in general, that you would like
-to see addressed?
+I will add the :Author: tag to this document.
 
 James
 
