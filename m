@@ -2,210 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E900FC77B75
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 12:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C0BCC77B7F
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 12:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232080AbjEEMFo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 08:05:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58480 "EHLO
+        id S231563AbjEEMKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 08:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232065AbjEEMFo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 08:05:44 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B283755A8
-        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 05:05:42 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1aae46e62e9so11913855ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 05 May 2023 05:05:42 -0700 (PDT)
+        with ESMTP id S231968AbjEEMKj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 08:10:39 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E3CB1AEF4
+        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 05:10:38 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-33164ec77ccso552895ab.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 May 2023 05:10:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683288342; x=1685880342;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NWXugzf9IwHfTkCjdGSHgOMZEK8Ay75ykttzhebpUiU=;
-        b=MoZOxXq9olSI26ve+QVUvreFy9I9MRIXESMUrHNeIjgS5/+xdLE0FVbj59UlK0dXpo
-         Q/e8zaee6rgmO4GHx5yoaRQGUspVlyNXRfRySTLh5DzY4a1E0UiK3Hv9jIJgi5T7e1Bk
-         XR1H0/3hihiZr6fXhJIAYrynGI3y50rEivNnNauUJ9KPTPyuI518qRiUK/kIxhu+Pno9
-         vZxWBgZrNry2ERbCaYItbfH3or7E7rhUqbjHlLmAASiQvxgjEVX06jciXovgtZVhJxwK
-         pmVNl4dz4CSr8gdfh6Sm6ut98FjZ9xhwd9aoWakMgBjWfQq8MPA043RTcNTW/J6tBVrx
-         R0ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683288342; x=1685880342;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20221208; t=1683288638; x=1685880638;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NWXugzf9IwHfTkCjdGSHgOMZEK8Ay75ykttzhebpUiU=;
-        b=K7do19DOeCceYXqboKF35SpKK65I6+MJpXrZZNySha++dFC6+180WqdvIe2X3kqDTO
-         EwOLeLynGaqqcS4hj7QMW5C0HYBZEVNqjycvJbzoRlIi1SfLg8/iwPCDSk3vNcrMA9K+
-         Ey8hDGFAKH5jvR6t1m+gOKTkWQAu/uGdNdE4jH+x+QwLyMp+Ag9XakqhSTrkhrsvWzpg
-         c9Fta+PoUW3SIpBtVmFd2TNpGpOagASnEpg6iKE3Mp3+zoRPl5tXM+8dDBkx8DWFUH0R
-         03OjFsvT/EEOSrDzhTekcRneO+k7d51CaRVrNrAnpBkdmcDHwd5ct6qmudw15yqS8hD9
-         kVew==
-X-Gm-Message-State: AC+VfDyDN6pWrWU+ZHXU0h7JPmMTKJCsct7DvnQHrEJTE8p1DIAxq2cI
-        Zm5c4ndN61G19GNBn1h7iA1Vmw==
-X-Google-Smtp-Source: ACHHUZ5krNkiPeRVhHxeYrz0et4F4wGWS5JLUD/rLBhKxSpjJ0ze4Kz+k3UrsgXBdBFupw0mQlVyAA==
-X-Received: by 2002:a17:902:6901:b0:1a1:956e:5417 with SMTP id j1-20020a170902690100b001a1956e5417mr985308plk.22.1683288341941;
-        Fri, 05 May 2023 05:05:41 -0700 (PDT)
-Received: from leoy-yangtze.lan ([107.151.177.135])
-        by smtp.gmail.com with ESMTPSA id v24-20020a17090331d800b001a245b49731sm1623301ple.128.2023.05.05.05.05.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 05:05:41 -0700 (PDT)
-Date:   Fri, 5 May 2023 20:05:29 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc:     Hao Zhang <quic_hazha@quicinc.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] dt-bindings: arm: Add Coresight Dummy Trace
-Message-ID: <20230505120529.GB898031@leoy-yangtze.lan>
-References: <20230505092422.32217-1-quic_hazha@quicinc.com>
- <20230505092422.32217-3-quic_hazha@quicinc.com>
- <958ae925-dee2-3273-0cd6-b5edc891ba70@arm.com>
+        bh=tidKINGncTA+p8ufXsH97B8VbplL15U4SOqjeLKOv9Y=;
+        b=Qa1lnDP3l0k8Xxa+71SWmPWHhAK4xR5nm2JTccTw0ouSLk777GR+fKH3/I/fWY4wCH
+         4+5wSsRkFXN8UPLVVNxvBZmDxKMDebkojJbgjT5eeZCZnZ0ChXWwfaC52b7hBuk/63z6
+         H+t5gTucE9URBCD0dHYHCOZbIn82h3iPFZWCv3UZqdwBFxEy1NslnVGpd3wFdU2cjsS+
+         ZpDBzZmBRPKr6yNgP3bJrLaj+cLxgkqWJiwRRg8uSa8r9np9JKl36uf6vMFAhuhGc+/S
+         XM2hCGTp5Zpc9yv025hX/+dEpUNOV6IWCl+df2WLbr11O/ZLp0hMjeGjbMfNAOma6R7S
+         4Z0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683288638; x=1685880638;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tidKINGncTA+p8ufXsH97B8VbplL15U4SOqjeLKOv9Y=;
+        b=k4td35tFyJPPqaiDeQxRX22ADmmeFAkFjRCa5EZRcoY8U3tlOv5XLeUegxRn/8YpVF
+         28NiUiFzt5ZGDci2yWuMROJsertor7gCP/oh2a9VXHMQ/0Z7wclUm0fbOut2dx9CeEyn
+         w/KyXt/cYIUSHC1L+Hp8rnuqHrCEy8rSTF7ohxu7uLEpW9rYjh63xqQCG4E3gymP/S+Z
+         oRxOznamYYirLuAS2pJ6iwT4stKX1JARZ9wCEBqFbsjymaWKfYbV7c4vSx92YbXCH9+S
+         zEX/v+Ak/UQW9POcb+cogoIlowSHBwdxbg9L6natImg/Nd/zPlv3Qe6wbm8JGc1OXaIj
+         lnoA==
+X-Gm-Message-State: AC+VfDw4tckvYAqAw7A8uRH/Kb9ux7ICJi9WQKKUpM+Y6DHEwbfYvXJZ
+        x2VRCIcoY571IMMAt7GwIdBKzXTcBqWjk7OognYFPA==
+X-Google-Smtp-Source: ACHHUZ6+Sz9wXGNsJ54naDmeqrAHxiUZczPWVTomwvEYzipZXiygcBekORjvmD8FIQXG1o8L2hCtcBkjM4L0mNtEMX4=
+X-Received: by 2002:a05:6e02:1609:b0:329:3f69:539e with SMTP id
+ t9-20020a056e02160900b003293f69539emr158778ilu.2.1683288637752; Fri, 05 May
+ 2023 05:10:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <958ae925-dee2-3273-0cd6-b5edc891ba70@arm.com>
+References: <20230505113315.3307723-1-liujian56@huawei.com> <20230505113315.3307723-5-liujian56@huawei.com>
+In-Reply-To: <20230505113315.3307723-5-liujian56@huawei.com>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Fri, 5 May 2023 14:10:26 +0200
+Message-ID: <CANn89iJL3ywLwig8U6JKG6itL7Fr=ab_dv7Pz1YDiDvCiR-Fog@mail.gmail.com>
+Subject: Re: [PATCH 4/9] softirq: Allow early break
+To:     Liu Jian <liujian56@huawei.com>
+Cc:     corbet@lwn.net, paulmck@kernel.org, frederic@kernel.org,
+        quic_neeraju@quicinc.com, joel@joelfernandes.org,
+        josh@joshtriplett.org, boqun.feng@gmail.com, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        qiang1.zhang@intel.com, jstultz@google.com, tglx@linutronix.de,
+        sboyd@kernel.org, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, peterz@infradead.org, frankwoo@google.com,
+        Rhinewuwu@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 05, 2023 at 11:54:03AM +0100, Suzuki Kuruppassery Poulose wrote:
+On Fri, May 5, 2023 at 1:24=E2=80=AFPM Liu Jian <liujian56@huawei.com> wrot=
+e:
+>
+> From: Peter Zijlstra <peterz@infradead.org>
+>
+> Allow terminating the softirq processing loop without finishing the
+> vectors.
+>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Signed-off-by: Liu Jian <liujian56@huawei.com>
+> ---
+>  kernel/softirq.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+>
+> diff --git a/kernel/softirq.c b/kernel/softirq.c
+> index 48a81d8ae49a..e2cad5d108c8 100644
+> --- a/kernel/softirq.c
+> +++ b/kernel/softirq.c
+> @@ -582,6 +582,9 @@ asmlinkage __visible void __softirq_entry __do_softir=
+q(void)
+>                                prev_count, preempt_count());
+>                         preempt_count_set(prev_count);
+>                 }
+> +
+> +               if (pending && __softirq_needs_break(start))
+> +                       break;
 
-[...]
+This means that some softirq may starve, because
 
-> > +title: ARM Coresight Dummy component
-> > +
-> > +description: |
-> > +  Coresight Dummy Trace Module is for the specific devices that kernel
-> > +  don't have permission to access or configure, e.g., CoreSight TPDMs
-> > +  on Qualcomm platforms. So there need driver to register dummy devices
-> > +  as Coresight devices. It may also be used to define components that
-> > +  may not have any programming interfaces (e.g, static links), so that
-> > +  paths can be established in the driver. Provide Coresight API for
-> > +  dummy device operations, such as enabling and disabling dummy devices.
-> > +  Build the Coresight path for dummy sink or dummy source for debugging. > +
-> > +  The primary use case of the coresight dummy is to build path in kernel
-> > +  side for dummy sink and dummy source.
-> > +
-> > +maintainers:
-> > +  - Mao Jinlong <quic_jinlmao@quicinc.com>
-> > +  - Tao Zhang <quic_taozha@quicinc.com>
-> > +  - Hao Zhang <quic_hazha@quicinc.com>
-> > +  - Yuanfang Zhang <quic_yuanfang@quicinc.com>
-> 
-> Given this is a generic "CoreSight" component, I would prefer to have the
-> CoreSight subsystem maintainers listed here (too). I don't mind
-> the entries above, but would like to make sure that the subsystem
-> people are aware of the changes happening here. Please use:
-> 
-> Mike Leach <mike.leach@linaro.org>
-> Suzuki K Poulose <suzuki.poulose@arm.com>
-> Leo Yan <leo.yan@linaro.org>
+for_each_set_bit(vec_nr, &pending, NR_SOFTIRQS)
 
-Given I am spending little time on CoreSight reviewing, I'd like to
-use James Clark's email address to replace my own; I believe this
-would benefit long term maintenance.
+Always iterate using the same order (of bits)
 
-  James Clark <james.clark@arm.com>
 
-Thanks!
 
-> With the above:
-> 
-> Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - arm,coresight-dummy-sink
-> > +          - arm,coresight-dummy-source
-> > +
-> > +  out-ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port:
-> > +        description: Output connection from the source to Coresight
-> > +          Trace bus.
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +
-> > +  in-ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port:
-> > +        description: Input connection from the Coresight Trace bus to
-> > +          dummy sink, such as Embedded USB debugger(EUD).
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +
-> > +required:
-> > +  - compatible
-> > +
-> > +if:
-> > +  # If the compatible contains the below value
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: arm,coresight-dummy-sink
-> > +
-> > +then:
-> > +  required:
-> > +    - in-ports
-> > +
-> > +else:
-> > +  required:
-> > +    - out-ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  # Minimum dummy sink definition. Dummy sink connect to coresight replicator.
-> > +  - |
-> > +    sink {
-> > +      compatible = "arm,coresight-dummy-sink";
-> > +
-> > +      in-ports {
-> > +        port {
-> > +          eud_in_replicator_swao: endpoint {
-> > +            remote-endpoint = <&replicator_swao_out_eud>;
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > +
-> > +  # Minimum dummy source definition. Dummy source connect to coresight funnel.
-> > +  - |
-> > +    source {
-> > +      compatible = "arm,coresight-dummy-source";
-> > +
-> > +      out-ports {
-> > +        port {
-> > +          dummy_riscv_out_funnel_swao: endpoint {
-> > +            remote-endpoint = <&funnel_swao_in_dummy_riscv>;
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > +
-> > +...
-> 
+
+>         }
+>
+>         if (!IS_ENABLED(CONFIG_PREEMPT_RT) &&
+> @@ -590,13 +593,14 @@ asmlinkage __visible void __softirq_entry __do_soft=
+irq(void)
+>
+>         local_irq_disable();
+>
+> -       pending =3D local_softirq_pending();
+> -       if (pending) {
+> -               if (!__softirq_needs_break(start) && --max_restart)
+> -                       goto restart;
+> +       if (pending)
+> +               or_softirq_pending(pending);
+> +       else if ((pending =3D local_softirq_pending()) &&
+> +                !__softirq_needs_break(start) &&
+> +                --max_restart)
+> +               goto restart;
+>
+> -               wakeup_softirqd();
+> -       }
+> +       wakeup_softirqd();
+>
+>         account_softirq_exit(current);
+>         lockdep_softirq_end(in_hardirq);
+> --
+> 2.34.1
+>
