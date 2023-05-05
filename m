@@ -2,116 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7732C77B7C
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 08:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A69AC77B7C
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 09:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231515AbjEEIkY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 04:40:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39586 "EHLO
+        id S231636AbjEEJQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 05:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231490AbjEEIkX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 04:40:23 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F44E18868;
-        Fri,  5 May 2023 01:40:21 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id DC8F022A20;
-        Fri,  5 May 2023 08:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1683276019; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/0NvfINDngaX81zK/8XuAzfIOyZoSgVhu9auLhp95+8=;
-        b=N7Hh14VsXyzhdip98WZKHL6vi++Ot45f7xe1XG1LXAkD8DEJNNJwpr4HSGIxEz/MZq1bfG
-        KUwErWXXaSTBD69btoSMDYsSKukSj3gDTrJzJv4JPQtavr86N6hSjezAAulivmJwR+mrLN
-        xGzDPAbAKNp+pIZ7BzXA3dFlbRMDVYo=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AB98313488;
-        Fri,  5 May 2023 08:40:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id VIvmKfPAVGSkQwAAMHmgww
-        (envelope-from <mhocko@suse.com>); Fri, 05 May 2023 08:40:19 +0000
-Date:   Fri, 5 May 2023 10:40:19 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, kent.overstreet@linux.dev,
-        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 35/40] lib: implement context capture support for tagged
- allocations
-Message-ID: <ZFTA8xVzxWc345Ug@dhcp22.suse.cz>
-References: <20230501165450.15352-1-surenb@google.com>
- <20230501165450.15352-36-surenb@google.com>
- <ZFIPmnrSIdJ5yusM@dhcp22.suse.cz>
- <CAJuCfpGsvWupMbasqvwcMYsOOPxTQqi1ed5+=vyu-yoPQwwybg@mail.gmail.com>
- <ZFNoVfb+1W4NAh74@dhcp22.suse.cz>
- <CAJuCfpGUtw6cbjLsksGJKATZfTV0FEYRXwXT0pZV83XqQydBgg@mail.gmail.com>
+        with ESMTP id S231469AbjEEJQa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 05:16:30 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D43191F6
+        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 02:16:28 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f1950f5628so15269255e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 05 May 2023 02:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683278187; x=1685870187;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R8QM5puJROCr66b4Sdd07Ua1MuyFEDfA7m/IRGmTO5I=;
+        b=ZqazEs3gI0yIF4d1sbz/+w07uVVu51V4eFrfD/ea8LUczOqIJp7PVSD9Btj04Oo9gQ
+         JVNsu+M0X5qbSqSTNB08nOHUCoRurSJpEawAYWeQSbUhBlMGS419CS8Bz2oIrj1RFCIv
+         ORhiZEWRykAh8Tq0NJTlxvnGPPmwlSpGQzrtIzvXCPOg+FZvdXRKzSEmgE2Y+4KLWk6f
+         f5E+rHkTOfV0iiWefczv/4CmIDYnYif2ltcqJ+viEZ0aIvK08ciLV5otxFw9GR7dLXaB
+         DoSXpiMirldQKiHg7JoTdilS/5ugdEFqM4FxMk/Ry4NoE/EpxU0vAqTnfbV3o97ne3pU
+         IqZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683278187; x=1685870187;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R8QM5puJROCr66b4Sdd07Ua1MuyFEDfA7m/IRGmTO5I=;
+        b=EdHn2BG7EEw/6MCya66c0OpR7purpTAYgiChS3j/9LXM+G1/WntMOTYEi+pDBMu3/l
+         avJFnnR1Eph40hoH0GI7uj2NSFNsXYv/BF4AQvwSnuRhX80tFyu70/utgczbiyWdGuzA
+         RGRm2OJqT10S/ValHyfqUX0USLaBvRdY+KIMJ1Fam316xttxE+vL9MrE9nZWHJaKPt5g
+         G/qfrypgIAokCfIUCDVnOXzemy4s4VbW1Karq1Aq0QIZSUCZR2WBR4kfpFPrlxDX/phL
+         FdxuhSdgj4YMLjbdheQ6GcCi/gCYaa78bWc8ddwaawscxuJEaMtn1P38d/57v1SwQXRU
+         qhaQ==
+X-Gm-Message-State: AC+VfDzAHRaajoNwf3KkuQP8EtsumpVMvzUSJRoWrgzESpnz/ApgIfDW
+        gzItdb0Qr9FYqYJ7VgJSbapaqQ==
+X-Google-Smtp-Source: ACHHUZ4B4N/FxcLqEkR6agepmE+jWYp6diDS8oVzqu4M9U5OQSZG+yuRxLBahAeE3t86XU17oZxTyw==
+X-Received: by 2002:a05:600c:d7:b0:3f1:9be0:b39f with SMTP id u23-20020a05600c00d700b003f19be0b39fmr573250wmm.8.1683278187357;
+        Fri, 05 May 2023 02:16:27 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t8-20020a7bc3c8000000b003ee9c8cc631sm7275167wmj.23.2023.05.05.02.16.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 May 2023 02:16:25 -0700 (PDT)
+Date:   Fri, 5 May 2023 12:16:22 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux SCSI <linux-scsi@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>,
+        Oliver Neukum <oliver@neukum.org>,
+        Ali Akcaagac <aliakc@web.de>,
+        Jamie Lenehan <lenehan@twibble.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Drop DC395x list and site
+Message-ID: <b86a4837-3c31-4bf4-aff3-67abd7a4f5f2@kili.mountain>
+References: <20230505082704.16228-1-bagasdotme@gmail.com>
+ <20230505082704.16228-2-bagasdotme@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpGUtw6cbjLsksGJKATZfTV0FEYRXwXT0pZV83XqQydBgg@mail.gmail.com>
+In-Reply-To: <20230505082704.16228-2-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 04-05-23 09:22:07, Suren Baghdasaryan wrote:
-[...]
-> > But even then I really detest an additional allocation from this context
-> > for every single allocation request. There GFP_NOWAIT allocation for
-> > steckdepot but that is at least cached and generally not allocating.
-> > This will allocate for every single allocation.
-> 
-> A small correction here. alloc_tag_create_ctx() is used only for
-> allocations which we requested to capture the context. So, this last
-> sentence is true for allocations we specifically marked to capture the
-> context, not in general.
+On Fri, May 05, 2023 at 03:27:02PM +0700, Bagas Sanjaya wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8d5bc223f3053b..35de3289a8af04 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5692,10 +5692,8 @@ DC395x SCSI driver
+>  M:	Oliver Neukum <oliver@neukum.org>
+>  M:	Ali Akcaagac <aliakc@web.de>
+>  M:	Jamie Lenehan <lenehan@twibble.org>
+> -L:	dc395x@twibble.org
+> +L:	linux-scsi@vger.kernel.org
 
-Ohh, right. I have misunderstood that part. Slightly better, still
-potentially a scalability issue because hard to debug memory leaks
-usually use a generic caches (for kmalloc). So this might be still a lot
-of objects to track.
+Other people do this too, but is there really any reason to include
+the linux-scsi@vger.kernel.org list?  drivers/scsi/ will already
+include it.
 
-> > There must be a better way.
-> 
-> Yeah, agree, it would be good to avoid allocations in this path. Any
-> specific ideas on how to improve this? Pooling/caching perhaps? I
-> think kmem_cache does some of that already but maybe something else?
+regards,
+dan carpenter
 
-The best I can come up with is a preallocated hash table to store
-references to stack depots with some additional data associated. The
-memory overhead could be still quite big but the hash tables could be
-resized lazily.
--- 
-Michal Hocko
-SUSE Labs
