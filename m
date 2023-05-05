@@ -2,193 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21254C7EE22
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 10:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF20FC7EE22
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 11:24:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231769AbjEEKyO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 06:54:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49142 "EHLO
+        id S231698AbjEELY3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 07:24:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjEEKyK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 06:54:10 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A3B34F4;
-        Fri,  5 May 2023 03:54:08 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A18C51FB;
-        Fri,  5 May 2023 03:54:52 -0700 (PDT)
-Received: from [10.57.21.147] (unknown [10.57.21.147])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6EF23F64C;
-        Fri,  5 May 2023 03:54:04 -0700 (PDT)
-Message-ID: <958ae925-dee2-3273-0cd6-b5edc891ba70@arm.com>
-Date:   Fri, 5 May 2023 11:54:03 +0100
+        with ESMTP id S229568AbjEELY2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 07:24:28 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 094701A124;
+        Fri,  5 May 2023 04:24:26 -0700 (PDT)
+Received: from canpemm500010.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QCSsH57DqzZfkS;
+        Fri,  5 May 2023 19:20:19 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by canpemm500010.china.huawei.com
+ (7.192.105.118) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 5 May
+ 2023 19:24:23 +0800
+From:   Liu Jian <liujian56@huawei.com>
+To:     <corbet@lwn.net>, <paulmck@kernel.org>, <frederic@kernel.org>,
+        <quic_neeraju@quicinc.com>, <joel@joelfernandes.org>,
+        <josh@joshtriplett.org>, <boqun.feng@gmail.com>,
+        <rostedt@goodmis.org>, <mathieu.desnoyers@efficios.com>,
+        <jiangshanlai@gmail.com>, <qiang1.zhang@intel.com>,
+        <jstultz@google.com>, <tglx@linutronix.de>, <sboyd@kernel.org>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <peterz@infradead.org>, <frankwoo@google.com>,
+        <Rhinewuwu@google.com>
+CC:     <liujian56@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <rcu@vger.kernel.org>,
+        <netdev@vger.kernel.org>
+Subject: [PATCH 0/9] fix softlockup in run_timer_softirq
+Date:   Fri, 5 May 2023 19:33:06 +0800
+Message-ID: <20230505113315.3307723-1-liujian56@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v4 2/3] dt-bindings: arm: Add Coresight Dummy Trace
-To:     Hao Zhang <quic_hazha@quicinc.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20230505092422.32217-1-quic_hazha@quicinc.com>
- <20230505092422.32217-3-quic_hazha@quicinc.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20230505092422.32217-3-quic_hazha@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.101.6]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500010.china.huawei.com (7.192.105.118)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/05/2023 10:24, Hao Zhang wrote:
-> Add new coresight-dummy.yaml file describing the bindings required
-> to define coresight dummy trace in the device trees.
-> 
-> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
-> ---
->   .../bindings/arm/arm,coresight-dummy.yaml     | 102 ++++++++++++++++++
->   1 file changed, 102 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
-> new file mode 100644
-> index 000000000000..126518863eea
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
-> @@ -0,0 +1,102 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/arm/arm,coresight-dummy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ARM Coresight Dummy component
-> +
-> +description: |
-> +  Coresight Dummy Trace Module is for the specific devices that kernel
-> +  don't have permission to access or configure, e.g., CoreSight TPDMs
-> +  on Qualcomm platforms. So there need driver to register dummy devices
-> +  as Coresight devices. It may also be used to define components that
-> +  may not have any programming interfaces (e.g, static links), so that
-> +  paths can be established in the driver. Provide Coresight API for
-> +  dummy device operations, such as enabling and disabling dummy devices.
-> +  Build the Coresight path for dummy sink or dummy source for debugging. > +
-> +  The primary use case of the coresight dummy is to build path in kernel
-> +  side for dummy sink and dummy source.
-> +
-> +maintainers:
-> +  - Mao Jinlong <quic_jinlmao@quicinc.com>
-> +  - Tao Zhang <quic_taozha@quicinc.com>
-> +  - Hao Zhang <quic_hazha@quicinc.com>
-> +  - Yuanfang Zhang <quic_yuanfang@quicinc.com>
+I encountered the run_timer_softirq lockup issue[1] many times during fuzz
+tests. We analyze __run_timers() and find the following problem.
 
-Given this is a generic "CoreSight" component, I would prefer to have 
-the CoreSight subsystem maintainers listed here (too). I don't mind
-the entries above, but would like to make sure that the subsystem
-people are aware of the changes happening here. Please use:
+In the while loop of __run_timers(), because there are too many timers or
+improper timer handler functions, if the processing time of the expired
+timers is always greater than the time wheel's next_expiry, the function
+will loop infinitely.
 
-Mike Leach <mike.leach@linaro.org>
-Suzuki K Poulose <suzuki.poulose@arm.com>
-Leo Yan <leo.yan@linaro.org>
+Here base on Peter's softirq_needs_break patchset[2], use the timeout/break
+logic jump out of the loop.
 
-With the above:
+[1] https://lore.kernel.org/lkml/fb8d80434b2148e78c0032c6c70a8b4d@huawei.com/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=core/softirq
 
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Liu Jian (1):
+  softirq, timer: Use softirq_needs_break()
 
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - arm,coresight-dummy-sink
-> +          - arm,coresight-dummy-source
-> +
-> +  out-ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port:
-> +        description: Output connection from the source to Coresight
-> +          Trace bus.
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +
-> +  in-ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port:
-> +        description: Input connection from the Coresight Trace bus to
-> +          dummy sink, such as Embedded USB debugger(EUD).
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +
-> +required:
-> +  - compatible
-> +
-> +if:
-> +  # If the compatible contains the below value
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: arm,coresight-dummy-sink
-> +
-> +then:
-> +  required:
-> +    - in-ports
-> +
-> +else:
-> +  required:
-> +    - out-ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Minimum dummy sink definition. Dummy sink connect to coresight replicator.
-> +  - |
-> +    sink {
-> +      compatible = "arm,coresight-dummy-sink";
-> +
-> +      in-ports {
-> +        port {
-> +          eud_in_replicator_swao: endpoint {
-> +            remote-endpoint = <&replicator_swao_out_eud>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +  # Minimum dummy source definition. Dummy source connect to coresight funnel.
-> +  - |
-> +    source {
-> +      compatible = "arm,coresight-dummy-source";
-> +
-> +      out-ports {
-> +        port {
-> +          dummy_riscv_out_funnel_swao: endpoint {
-> +            remote-endpoint = <&funnel_swao_in_dummy_riscv>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
+Peter Zijlstra (8):
+  softirq: Rewrite softirq processing loop
+  softirq: Use sched_clock() based timeout
+  softirq: Factor loop termination condition
+  softirq: Allow early break
+  softirq: Context aware timeout
+  softirq: Provide a softirq_needs_break() API
+  softirq,net: Use softirq_needs_break()
+  softirq,rcu: Use softirq_needs_break()
+
+ Documentation/admin-guide/sysctl/net.rst | 11 +--
+ include/linux/interrupt.h                |  5 ++
+ kernel/rcu/tree.c                        | 29 ++-----
+ kernel/rcu/tree_nocb.h                   |  2 +-
+ kernel/softirq.c                         | 97 +++++++++++++++---------
+ kernel/time/timer.c                      | 12 ++-
+ net/core/dev.c                           |  6 +-
+ net/core/dev.h                           |  1 -
+ net/core/sysctl_net_core.c               |  8 --
+ 9 files changed, 86 insertions(+), 85 deletions(-)
+
+-- 
+2.34.1
 
