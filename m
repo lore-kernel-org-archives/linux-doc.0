@@ -2,81 +2,210 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBCC7C77B73
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 00:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7449C7EE23
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 03:50:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbjEEARW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 May 2023 20:17:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37464 "EHLO
+        id S230090AbjEEDuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 May 2023 23:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjEEARV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 20:17:21 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D40F12086;
-        Thu,  4 May 2023 17:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=8P6fcTVxsMF519vNXnL9K7OSXAWwfB2dslsfi2BADrA=; b=U85b1ouWKxJgMjYKeI2BS1kt/x
-        1ecu6ZjrDAB0Gece6y8Tx62OpQCKvlBJdTuEQH1ijqjEPEIYfXhdrPw5xBNcRwq3Eg538brhB4ZDO
-        qYBPpLKlOD+CEw2fY6xAK3UO3dlR1OX/b/GYuwDkubtVfmXSdD9Og87O21QZYcdEwBoY11WxJnG3T
-        wVT882c1dhHpCYHVJ87FU4NcmWYtqAPyJIL0yWBspd07tmrKb+Dre5PJE83hgZPu6APwO/37MGxyi
-        XCtSutKM39jB+BDXHWfv29ow2fnQ37ebje+7qxW5HAnJZ02bCoWm8OqJh2XVSo+odiOgaviY69G4J
-        eGqPdczw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1puj8M-009NV4-03;
-        Fri, 05 May 2023 00:17:14 +0000
-Message-ID: <aa2efa2f-70ea-09b4-f21b-8e69f18fad1e@infradead.org>
-Date:   Thu, 4 May 2023 17:17:12 -0700
+        with ESMTP id S229502AbjEEDut (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 May 2023 23:50:49 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DE4A5D6;
+        Thu,  4 May 2023 20:50:46 -0700 (PDT)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QCGnL1S84zTk0X;
+        Fri,  5 May 2023 11:46:14 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 5 May 2023 11:50:44 +0800
+Message-ID: <758e8a34-30a4-1f4c-adff-8f0ce2d11b07@huawei.com>
+Date:   Fri, 5 May 2023 11:50:43 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [tip:master 4/4] htmldocs: Warning: arch/x86/Kconfig references a
- file that doesn't exist: Documentation/x86/shstk.rst
-To:     kernel test robot <lkp@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        x86@kernel.org, Ingo Molnar <mingo@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <202305050705.5V1x1V3i-lkp@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH -next v2 0/6] landlock: add chmod and chown support
 Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202305050705.5V1x1V3i-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>,
+        <shuah@kernel.org>, <corbet@lwn.net>
+CC:     <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <roberto.sassu@huawei.com>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+        Christian Brauner <brauner@kernel.org>
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <d55baf4d-01d3-e4d7-e07f-9658d1606a8c@huawei.com>
+ <a4dc7c12-b485-2eb2-add5-4f7a387a50fa@digikod.net>
+ <5fc97b5b-e76f-99c7-7314-6bb16851f66e@huawei.com>
+ <99c0648d-deec-c7e2-a54f-94a7f6a3a50f@digikod.net>
+From:   xiujianfeng <xiujianfeng@huawei.com>
+In-Reply-To: <99c0648d-deec-c7e2-a54f-94a7f6a3a50f@digikod.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.110.112]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 5/4/23 16:13, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
-> head:   da1c4f07aa4dd227a57103fef1215e7cef3f35a9
-> commit: da1c4f07aa4dd227a57103fef1215e7cef3f35a9 [4/4] Merge branch 'x86/shstk'
-> reproduce:
->         # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=da1c4f07aa4dd227a57103fef1215e7cef3f35a9
->         git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
->         git fetch --no-tags tip master
->         git checkout da1c4f07aa4dd227a57103fef1215e7cef3f35a9
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->         make htmldocs
+On 2023/4/26 21:58, Mickaël Salaün wrote:
 > 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202305050705.5V1x1V3i-lkp@intel.com/
 > 
-> All warnings (new ones prefixed by >>):
+> On 24/04/2023 10:52, xiujianfeng wrote:
+>>
+>>
+>> On 2023/4/21 1:40, Mickaël Salaün wrote:
+>>>
+>>> On 18/04/2023 12:53, xiujianfeng wrote:
+>>>> Hi Mickael,
+>>>>
+>>>> Sorry about the long silence on this work, As we known this work
+>>>> depends
+>>>> on another work about changing argument from struct dentry to struct
+>>>> path for some attr/xattr related lsm hooks, I'm stuck with this thing,
+>>>> because IMA/EVM is a special security module which is not LSM-based
+>>>> currently, and severely coupled with the file system. so I am waiting
+>>>> for Roberto Sassu' work (Move IMA and EVM to the LSM infrastructure) to
+>>>> be ready, I think it can make my work more easy. you can find
+>>>> Roberto'work here,
+>>>> https://lwn.net/ml/linux-kernel/20230303181842.1087717-1-roberto.sassu@huaweicloud.com/
+>>>>
+>>>> Any good idea are welcome, thanks.
+>>>
+>>> Thanks for the update Xiu.
+>>>
+>>> Which part would be needed from Roberto's patch series?
+>>>
+>> As we discussed before, the two access rights that need to be added and
+>> their usage is as below:
+>> LANDLOCK_ACCESS_FS_WRITE_METADATA controls
+>> 1.inode_setattr
+>> 2.inode_setxattr
+>> 3.inode_removexattr
+>> 4.inode_set_acl
+>> 5.inode_remove_acl
+>> LANDLOCK_ACCESS_FS_READ_METADATA controls
+>> 1.inode_getattr
+>> 2.inode_get_acl
+>> 3.inode_getxattr
+>> 4.inode_listxattr
+>>
+>> all these APIs should be changed to use struct path instead of dentry,
+>> and then several vfs APIs as follows are invovled:
+>> notify_change,
+>> __vfs_setxattr_locked,
+>> __vfs_removexattr_locked,
+>> __vfs_setxattr_noperm
+>> vfs_set_acl
+>> vfs_remove_acl
+>> vfs_getxattr
+>> vfs_listxattr
+>> vfs_get_acl
+>> and also include some LSM hooks such as inode_post_setxattr and
+>> inode_setsecctx.
+>>
+>> Since the original places where pass dentry to security_inode_xxx may
+>> not have any struct path, we have to pass it from the top caller, so
+>> this also touches lots of filesystems(e.g. cachefiles, ecryptfs, ksmbd,
+>> nfsd, overlayfs...).
+>>
+>> Other LSMs such as selinux, smack can be easy to refator because they
+>> are LSM-based, and if VFS passes path to security_inode_xxx and they can
+>> just use path->dentry instead inside they own modules.
+>>
+>> AS for IMA/EVM, unfortunately they are not LSM-based and coupled with
+>> the file system. To make things worse, there is a recursive dependency
+>> situation during the update of extended attribute which happen as
+>> follows:
+>>
+>> __vfs_setxattr_noperm
+>>    => security_inode_post_setxattr
+>>      => evm_inode_post_setxattr
+>>        => evm_update_evmxattr
+>> => __vfs_setxattr_noperm
+>>
+>> To change the argument of __vfs_setxattr_noperm from a dentry to the
+>> path structure, the two EVM functions would have to be altered as well.
+>> However, evm_update_evmxattr is called by 3 other EVM functions who
+>> lives in the very heart of the complicated EVM framework. Any change to
+>> them would cause a nasty chain reaction in EVM and, as IMA would trigger
+>> EVM directly, in IMA as well.
+>>
+>> There is another callchain as follow:
+>> ima_appraise_measurement
+>>    =>evm_verifyxattr
+>>      =>evm_verifyxattr
+>>        =>evm_verify_hmac
+>>     =>evm_calc_hash
+>>        =>evm_calc_hmac_or_hash
+>>          =>vfs_getxattr
+>> Passing struct path into vfs_getxattr() would also affect this
+>> callchain. Currently ima_appraise_measurment accepts a struct file, and
+>> dentry is generated from file_dentry(file) in order to mitigate a
+>> deadlock issue involving overlayfs(commit e71b9dff0634ed). Once
+>> &file->f_path is passed through this callchain, and someone wants the
+>> dentry, it will be using file->f_path.dentry, which is different from
+>> file_dentry(file). In the overlayfs scenario, may this cause an issue?
 > 
->>> Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/shstk.rst
+> I might be OK, but this need to be tested.
+> 
+>>
+>> The patchset of moving IMA and EVM into the LSM infrastructe would be
+>> helpfull but still can not completely resolve this situation. more
+>> refactor would be needed in EVM. That's all that's happening right now.
+> 
+> OK, thanks for the detailed explanation!
+> 
+> I guess you could start with easier hooks (e.g. inode_getattr and
+> inode_setattr) to see if there is potentially other implications, and
+> incrementally build on that.
 
-which has been moved to Documentation/arch/x86/shstk.rst.
+I was thinking to get everything done at once, but it looks like we are
+having some troubles, so it's good advice to separate it into small
+works and upstream them on by one, Thanks.
 
-+cc: linux-doc
+Currently inode_getattr already takes a struct path argument in the
+mainline, I would send the patches about inode_setattr refactor and
+discuss the problem of file_dentry() on that thread.
 
--- 
-~Randy
+> 
+> 
+>>
+>>>
+>>>>
+>>>>
+>>>> On 2022/8/27 19:12, Xiu Jianfeng wrote:
+>>>>> v2:
+>>>>>    * abstract walk_to_visible_parent() helper
+>>>>>    * chmod and chown rights only take affect on directory's context
+>>>>>    * add testcase for fchmodat/lchown/fchownat
+>>>>>    * fix other review issues
+>>>>>
+>>>>> Xiu Jianfeng (6):
+>>>>>     landlock: expand access_mask_t to u32 type
+>>>>>     landlock: abstract walk_to_visible_parent() helper
+>>>>>     landlock: add chmod and chown support
+>>>>>     landlock/selftests: add selftests for chmod and chown
+>>>>>     landlock/samples: add chmod and chown support
+>>>>>     landlock: update chmod and chown support in document
+>>>>>
+>>>>>    Documentation/userspace-api/landlock.rst     |   9 +-
+>>>>>    include/uapi/linux/landlock.h                |  10 +-
+>>>>>    samples/landlock/sandboxer.c                 |  13 +-
+>>>>>    security/landlock/fs.c                       | 110 ++++++--
+>>>>>    security/landlock/limits.h                   |   2 +-
+>>>>>    security/landlock/ruleset.h                  |   2 +-
+>>>>>    security/landlock/syscalls.c                 |   2 +-
+>>>>>    tools/testing/selftests/landlock/base_test.c |   2 +-
+>>>>>    tools/testing/selftests/landlock/fs_test.c   | 267
+>>>>> ++++++++++++++++++-
+>>>>>    9 files changed, 386 insertions(+), 31 deletions(-)
+>>>>>
