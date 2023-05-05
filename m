@@ -2,128 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C30BBC77B7D
-	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 10:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21254C7EE22
+	for <linux-doc@archiver.kernel.org>; Fri,  5 May 2023 10:54:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjEEKIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 06:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33484 "EHLO
+        id S231769AbjEEKyO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 06:54:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjEEKIS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 06:08:18 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E902813859;
-        Fri,  5 May 2023 03:08:16 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 8F2165C028C;
-        Fri,  5 May 2023 06:08:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 05 May 2023 06:08:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1683281294; x=1683367694; bh=V4D6xLrOnK5ka
-        emJE3ljBJy5a0XXQgxZIK3WV5Xq8Vo=; b=ZeqM/lChYCWtP5MuNAloVu5jSa7pW
-        9EaB8Ti9632juuvtWwdhVdcUkFa0+vWz8zuI2mHh7ys8X3YlYs4Ls0CQBEmgrKoJ
-        DSZqQngcz8Vb8HhmR3Qq0pqGfO8MdJngDKwF7gL8yAjN+xdMk1NyoPyygIykXj+g
-        jeqLX6huhwyQqjR+DLhnAwRY5fd9ux8jM94r0Diao2M1NIGmkCFqOIRMBHqVGtNW
-        ZkxayzR2Rl+teGzFMLyO5s7bTlo3qwShGr6h5w9scDgk+MRXl7sYD9GqtsFME7nT
-        86C8vOHXY1NeSvThG9zQojWjYdyxmMwAdYNsE4NOkzpOOR5EFACYyTK3g==
-X-ME-Sender: <xms:jdVUZEorJkSV_4mNlEMk0iXx-Z3RJ4w5EOfeGpv1qRc9ZEouNDVONQ>
-    <xme:jdVUZKoGU6uOamTKpd6aIdVjuqxpicADC7PI23lMazBf9bHHkmu4d1lFJOeWQV5Ml
-    a1phVbf-ZWD8JMFn1Y>
-X-ME-Received: <xmr:jdVUZJPqbhJ3vBaG-1646VCVacn8kSr5Fp8QgEzv3z8C3yoCda8LqOg2Auyodqz___VjL_AENpwzqNoDQwdIhOlQmaOD8S-5nQs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeefvddgvdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
-    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeuiefguedvuedtveduffegieehkeejjedttddvvedtvdfhueduhfeifedt
-    teehhfenucffohhmrghinheprghrtghhihhvvgdrohhrghdpghgrrhhlohhffhdruggvne
-    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgr
-    ihhnsehlihhnuhigqdhmieekkhdrohhrgh
-X-ME-Proxy: <xmx:jdVUZL5eYX6p2fJtrTToM6eIviIcBk-3PzFeXuqLfM3J_TurTLTMZQ>
-    <xmx:jdVUZD7P_6GgdliHCw3aVVSnmajBpZfNzKztUHKJxnJwlm2NdV23Vw>
-    <xmx:jdVUZLiNKyB1jkuECO69MIPoodYlGrU8tTUespAuVyJBeqjWlwCeMw>
-    <xmx:jtVUZNudSS7vlAdZR5ewbq3SDVTAh-tEnnQwrZ5u9ahrWVD_zC3Dcg>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 May 2023 06:08:10 -0400 (EDT)
-Date:   Fri, 5 May 2023 20:12:08 +1000 (AEST)
-From:   Finn Thain <fthain@linux-m68k.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-cc:     Linux SCSI <linux-scsi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>,
-        Oliver Neukum <oliver@neukum.org>,
-        Ali Akcaagac <aliakc@web.de>,
-        Jamie Lenehan <lenehan@twibble.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH 3/3] Documentation: scsi: dc395x: Remove reference to
- 2.4 driver
-In-Reply-To: <20230505082704.16228-4-bagasdotme@gmail.com>
-Message-ID: <d919a2e1-5749-13f8-7867-1f17277190f4@linux-m68k.org>
-References: <20230505082704.16228-1-bagasdotme@gmail.com> <20230505082704.16228-4-bagasdotme@gmail.com>
+        with ESMTP id S229717AbjEEKyK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 06:54:10 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A3B34F4;
+        Fri,  5 May 2023 03:54:08 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A18C51FB;
+        Fri,  5 May 2023 03:54:52 -0700 (PDT)
+Received: from [10.57.21.147] (unknown [10.57.21.147])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6EF23F64C;
+        Fri,  5 May 2023 03:54:04 -0700 (PDT)
+Message-ID: <958ae925-dee2-3273-0cd6-b5edc891ba70@arm.com>
+Date:   Fri, 5 May 2023 11:54:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH v4 2/3] dt-bindings: arm: Add Coresight Dummy Trace
+To:     Hao Zhang <quic_hazha@quicinc.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20230505092422.32217-1-quic_hazha@quicinc.com>
+ <20230505092422.32217-3-quic_hazha@quicinc.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20230505092422.32217-3-quic_hazha@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On Fri, 5 May 2023, Bagas Sanjaya wrote:
-
-> The 2.4 driver link returns 404. 
-
-It's still potentially useful:
-https://web.archive.org/web/20140129181343/http://www.garloff.de/kurt/linux/dc395/
-
-> As no one runs 2.4 kernel anymore,
-
-Would it make a difference if someone does run that? Were you planning to 
-delete the source code for the 2.4 kernel too?
-
-> remove the stale reference.
+On 05/05/2023 10:24, Hao Zhang wrote:
+> Add new coresight-dummy.yaml file describing the bindings required
+> to define coresight dummy trace in the device trees.
 > 
-
-It was always stale inasmuch as it is apparently there to give credit for 
-prior contributions, plus a changelog (see archive.org).
-
-Any published link should probably be accompanied by a "retrieved on 
-yyyy-mm-dd" qualification. But no qualification is better than no link at 
-all, IMO.
-
-Of course, there is a reason for an edit here. Yet it's not the one you 
-gave. "This is a 2.5 only driver" is simply incorrect. (If it was correct 
-you'd get to delete the whole thing.)
-
-This is not a nak as I'm not the maintainer. But this patch just looks 
-like churn with no justification. Perhaps I'm not the only one who can't 
-see it.
-
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
 > ---
->  Documentation/scsi/dc395x.rst | 4 ----
->  1 file changed, 4 deletions(-)
+>   .../bindings/arm/arm,coresight-dummy.yaml     | 102 ++++++++++++++++++
+>   1 file changed, 102 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
 > 
-> diff --git a/Documentation/scsi/dc395x.rst b/Documentation/scsi/dc395x.rst
-> index c413b629809bcd..a6320561543650 100644
-> --- a/Documentation/scsi/dc395x.rst
-> +++ b/Documentation/scsi/dc395x.rst
-> @@ -11,10 +11,6 @@ be safe to use. Testing with hard disks has not been done to any
->  great degree and caution should be exercised if you want to attempt
->  to use this driver with hard disks.
->  
-> -This is a 2.5 only driver. For a 2.4 driver please see the original
-> -driver (which this driver started from) at
-> -http://www.garloff.de/kurt/linux/dc395/
-> -
->  Problems, questions and patches should be submitted to the `Linux SCSI
->  mailing list <linux-scsi@vger.kernel.org>`_.
->  
-> 
+> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+> new file mode 100644
+> index 000000000000..126518863eea
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
+> @@ -0,0 +1,102 @@
+> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/arm/arm,coresight-dummy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM Coresight Dummy component
+> +
+> +description: |
+> +  Coresight Dummy Trace Module is for the specific devices that kernel
+> +  don't have permission to access or configure, e.g., CoreSight TPDMs
+> +  on Qualcomm platforms. So there need driver to register dummy devices
+> +  as Coresight devices. It may also be used to define components that
+> +  may not have any programming interfaces (e.g, static links), so that
+> +  paths can be established in the driver. Provide Coresight API for
+> +  dummy device operations, such as enabling and disabling dummy devices.
+> +  Build the Coresight path for dummy sink or dummy source for debugging. > +
+> +  The primary use case of the coresight dummy is to build path in kernel
+> +  side for dummy sink and dummy source.
+> +
+> +maintainers:
+> +  - Mao Jinlong <quic_jinlmao@quicinc.com>
+> +  - Tao Zhang <quic_taozha@quicinc.com>
+> +  - Hao Zhang <quic_hazha@quicinc.com>
+> +  - Yuanfang Zhang <quic_yuanfang@quicinc.com>
+
+Given this is a generic "CoreSight" component, I would prefer to have 
+the CoreSight subsystem maintainers listed here (too). I don't mind
+the entries above, but would like to make sure that the subsystem
+people are aware of the changes happening here. Please use:
+
+Mike Leach <mike.leach@linaro.org>
+Suzuki K Poulose <suzuki.poulose@arm.com>
+Leo Yan <leo.yan@linaro.org>
+
+With the above:
+
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - arm,coresight-dummy-sink
+> +          - arm,coresight-dummy-source
+> +
+> +  out-ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port:
+> +        description: Output connection from the source to Coresight
+> +          Trace bus.
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +
+> +  in-ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port:
+> +        description: Input connection from the Coresight Trace bus to
+> +          dummy sink, such as Embedded USB debugger(EUD).
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +
+> +required:
+> +  - compatible
+> +
+> +if:
+> +  # If the compatible contains the below value
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: arm,coresight-dummy-sink
+> +
+> +then:
+> +  required:
+> +    - in-ports
+> +
+> +else:
+> +  required:
+> +    - out-ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  # Minimum dummy sink definition. Dummy sink connect to coresight replicator.
+> +  - |
+> +    sink {
+> +      compatible = "arm,coresight-dummy-sink";
+> +
+> +      in-ports {
+> +        port {
+> +          eud_in_replicator_swao: endpoint {
+> +            remote-endpoint = <&replicator_swao_out_eud>;
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +  # Minimum dummy source definition. Dummy source connect to coresight funnel.
+> +  - |
+> +    source {
+> +      compatible = "arm,coresight-dummy-source";
+> +
+> +      out-ports {
+> +        port {
+> +          dummy_riscv_out_funnel_swao: endpoint {
+> +            remote-endpoint = <&funnel_swao_in_dummy_riscv>;
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +...
+
