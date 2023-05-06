@@ -2,127 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DDE5C77B75
-	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 13:52:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B0AC77B7F
+	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 14:27:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231933AbjEFNwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 May 2023 09:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57784 "EHLO
+        id S232305AbjEFO12 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 May 2023 10:27:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231892AbjEFNwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 09:52:13 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1FD923A0C;
-        Sat,  6 May 2023 06:52:12 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-517bfdf55c3so1376038a12.2;
-        Sat, 06 May 2023 06:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683381132; x=1685973132;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nH3aciUcYWZij0Kp0FJnKmzfOIAjxDn8kv06DNsAoc4=;
-        b=nFGY9DUNTbIBD4xuCbyXHOZsu/e7ssdk1yHYQNn1nqG2smiH9Hr5OskB9rYX+sVv4P
-         VrMPvmGIhKGj+K7F2fTIzQ47cwpxBUcOF54ea0s9zuFyGbhKA+2q3/C0NCY3tB8WJBsC
-         el97UOOOGE3CVv0iWYT9QrAOl8QMurB6/rk7mmozjN9wJ8IbQHOWu/gZcEIxOPtGN9F2
-         KZbbMqJGkaSYhzjt+BtcQ09x52TGhnrsA5C1PIT/OVdEx9L7NWa4DD8PvkbAUdcNOc1R
-         t4JQZKzdEwiEQ6kpY+jeBNG7UBVR1keBDgbfoY+SXS3kHTqX4VDAOen+uI4Ql3/LhODi
-         n9+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683381132; x=1685973132;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nH3aciUcYWZij0Kp0FJnKmzfOIAjxDn8kv06DNsAoc4=;
-        b=Am9PP2i5hOMeYuxTBJgFaYZU1fFTcTOfE9nxVv+XchPflsa6tEFKhe18+hYel7KgJe
-         jxjJV67aVl0z9jRovUh0Z03RvxvbDCsRbUGsAHx3Wu2b1MwDSXfSR3BgP+SnSm3eZPDX
-         wci81xnQ5J2X6unxii15O/Y1pdllGblQLaDTaN27iJ1YrfWXhrf0MfHYLqmohJGOGrrX
-         yN9AmWEHYv0EcfiRX8c+xc0outvdT8dzUTCzsSo1BTV2Fy/LEwZ+CflHyPuVOxmaHVJr
-         K5DstzFWrwyfYjUd02PoeIKzC8LTkOLXHubpLsfwkleSmnVf4Qm9trZAdA6+zcUBeqwb
-         Jx+Q==
-X-Gm-Message-State: AC+VfDz99Asl8ThelAm5eDUdj9XwKgVQIoxdMYM1SU92d1IE2U4m6QtM
-        e8YRTrY8wkY+3Yx+rQH+bao=
-X-Google-Smtp-Source: ACHHUZ5ZjsuG/vBhxtPHtJ+TD1wVNZ7JcjiMlPbOoWxS4CvZTYdmRhVZ2rnTP8zM8NydKL4Y6ksTGw==
-X-Received: by 2002:a17:90a:eb15:b0:23d:286:47d3 with SMTP id j21-20020a17090aeb1500b0023d028647d3mr4699619pjz.40.1683381132058;
-        Sat, 06 May 2023 06:52:12 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t15-20020a17090ad14f00b0024b6a90741esm6619646pjw.49.2023.05.06.06.52.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 May 2023 06:52:11 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <512351f8-e571-620a-1b2b-54989c079803@roeck-us.net>
-Date:   Sat, 6 May 2023 06:52:09 -0700
+        with ESMTP id S232243AbjEFO10 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 10:27:26 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799C019936;
+        Sat,  6 May 2023 07:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683383245; x=1714919245;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1CM9sz3xyD29vV94S0eoChIFsorjvoMRR3Da8zuVnF4=;
+  b=LYIxqVd95isXWzUD7qg6HeqbAc+p3SORCfxHFfHNQh784mvMtGo/z96X
+   if9qDa91Ikzqv2uvIIO0BXp2JrrTtg6G3t2WfM3HlnB8OQLkdFizGjH0C
+   ljjIBZ5XqNiKY2nmQxuTycGWFfXuFm4v6KaB4vLUw4WVBHOVgWFLxVfI4
+   mf1fv+BqQhGrb3rqGLZx2GS9URZ4HWmg1U4jlMVttygW0AD6tk03P9cEe
+   /7Vf3dqvj+mUiDDlsyOrBLjb4v/Q+PUmhx2F2Vb99ATNP0F0FmCdtm64q
+   Bo4dEGLDrtLgXie+qs+bWLA3QEY46MGnxik//cNWRLzmK0gyS0FE/0fAq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="338596535"
+X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
+   d="scan'208";a="338596535"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 07:27:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="730733076"
+X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
+   d="scan'208";a="730733076"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 06 May 2023 07:27:17 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pvIsW-0000Lp-2f;
+        Sat, 06 May 2023 14:27:16 +0000
+Date:   Sat, 6 May 2023 22:27:12 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     chengkaitao <chengkaitao@didiglobal.com>, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
+        mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+        akpm@linux-foundation.org, brauner@kernel.org,
+        muchun.song@linux.dev
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        viro@zeniv.linux.org.uk, zhengqi.arch@bytedance.com,
+        ebiederm@xmission.com, Liam.Howlett@oracle.com,
+        chengzhihao1@huawei.com, pilgrimtao@gmail.com,
+        haolee.swjtu@gmail.com, yuzhao@google.com, willy@infradead.org,
+        vasily.averin@linux.dev, vbabka@suse.cz, surenb@google.com,
+        sfr@canb.auug.org.au, mcgrof@kernel.org, sujiaxun@uniontech.com,
+        feng.tang@intel.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] mm: memcontrol: protect the memory in cgroup from
+ being oom killed
+Message-ID: <202305062204.ob5SRKVX-lkp@intel.com>
+References: <20230506114948.6862-2-chengkaitao@didiglobal.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US
-To:     James Seo <james@equiv.tech>, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230504075752.1320967-1-james@equiv.tech>
- <20230504075752.1320967-5-james@equiv.tech>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [RFC 04/11] Documentation/hwmon: Revise hwmon kernel API
- reference
-In-Reply-To: <20230504075752.1320967-5-james@equiv.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230506114948.6862-2-chengkaitao@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/4/23 00:57, James Seo wrote:
-> Reorganize content into coherent sections.
-> Use kerneldocs to document functions and data structures when
-> possible and add more details on using various API facilities.
-> Fix minor issues (typos, grammar, etc.) and add markup.
-> 
-> Signed-off-by: James Seo <james@equiv.tech>
-> ---
->   Documentation/hwmon/hwmon-kernel-api.rst | 740 ++++++++++++-----------
->   1 file changed, 384 insertions(+), 356 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-> index c2d1e0299d8d..cf084e040522 100644
-> --- a/Documentation/hwmon/hwmon-kernel-api.rst
-> +++ b/Documentation/hwmon/hwmon-kernel-api.rst
-> @@ -1,374 +1,402 @@
-> +========================================
->   The Linux Hardware Monitoring kernel API
->   ========================================
->   
->   Guenter Roeck
->   
-> +.. contents::
-> +
->   Introduction
-> -------------
-> +============
->   
->   This document describes the API that can be used by hardware monitoring
->   drivers that want to use the hardware monitoring framework.
->   
-> -This document does not describe what a hardware monitoring (hwmon) Driver or
-> -Device is. It also does not describe the API which can be used by user space
-> -to communicate with a hardware monitoring device. If you want to know this
-> -then please read the following file: Documentation/hwmon/sysfs-interface.rst.
-> +This document does not describe what a hardware monitoring (``hwmon``) driver
-> +or device is, nor does it describe the API for communicating with a hardware
-> +monitoring device from userspace. For more information on these topics,
-> +please read Documentation/hwmon/sysfs-interface.rst.
->   
+Hi chengkaitao,
 
-There is a lot of nnecessary churn in your patches, where you reformat entire
-paragrahps just to add a few "``". This makes it almost impossible to identify
-the actual changes. For me it means that the review burden is so much that I'll
-probably never get to actually review those changes.
+kernel test robot noticed the following build warnings:
 
-Please split the changes into subjects, following the "one logical change per
-patch" rule, and please refrain from changing entire paragraphs when adding
-markups. Also, a reference to the markup rules explaining if and when markups
-are warranted would be nice. For example, I have no idea why "hwmon" would
-warrant a markup.
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tj-cgroup/for-next linus/master v6.3 next-20230505]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Guenter
+url:    https://github.com/intel-lab-lkp/linux/commits/chengkaitao/mm-memcontrol-protect-the-memory-in-cgroup-from-being-oom-killed/20230506-195043
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230506114948.6862-2-chengkaitao%40didiglobal.com
+patch subject: [PATCH v3 1/2] mm: memcontrol: protect the memory in cgroup from being oom killed
+config: i386-randconfig-a011-20230501 (https://download.01.org/0day-ci/archive/20230506/202305062204.ob5SRKVX-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a2779b308166286f77728f04043cb7a17a16dd46
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review chengkaitao/mm-memcontrol-protect-the-memory-in-cgroup-from-being-oom-killed/20230506-195043
+        git checkout a2779b308166286f77728f04043cb7a17a16dd46
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305062204.ob5SRKVX-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/page_counter.c:44:36: warning: overflow in expression; result is -2147483648 with type 'long' [-Winteger-overflow]
+           if (protected == PAGE_COUNTER_MAX + 1)
+                                             ^
+   1 warning generated.
+--
+   mm/memcontrol.c:1739:2: error: implicit declaration of function 'seq_buf_do_printk' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           seq_buf_do_printk(&s, KERN_INFO);
+           ^
+>> mm/memcontrol.c:6445:37: warning: overflow in expression; result is -2147483648 with type 'long' [-Winteger-overflow]
+           else if (value == PAGE_COUNTER_MAX + 1)
+                                              ^
+   mm/memcontrol.c:6743:34: warning: overflow in expression; result is -2147483648 with type 'long' [-Winteger-overflow]
+                   oom_protect = PAGE_COUNTER_MAX + 1;
+                                                  ^
+   2 warnings and 1 error generated.
+
+
+vim +/long +44 mm/page_counter.c
+
+    15	
+    16	static void propagate_protected_usage(struct page_counter *c,
+    17					      unsigned long usage)
+    18	{
+    19		unsigned long protected, old_protected;
+    20		long delta;
+    21	
+    22		if (!c->parent)
+    23			return;
+    24	
+    25		protected = min(usage, READ_ONCE(c->min));
+    26		old_protected = atomic_long_read(&c->min_usage);
+    27		if (protected != old_protected) {
+    28			old_protected = atomic_long_xchg(&c->min_usage, protected);
+    29			delta = protected - old_protected;
+    30			if (delta)
+    31				atomic_long_add(delta, &c->parent->children_min_usage);
+    32		}
+    33	
+    34		protected = min(usage, READ_ONCE(c->low));
+    35		old_protected = atomic_long_read(&c->low_usage);
+    36		if (protected != old_protected) {
+    37			old_protected = atomic_long_xchg(&c->low_usage, protected);
+    38			delta = protected - old_protected;
+    39			if (delta)
+    40				atomic_long_add(delta, &c->parent->children_low_usage);
+    41		}
+    42	
+    43		protected = READ_ONCE(c->oom_protect);
+  > 44		if (protected == PAGE_COUNTER_MAX + 1)
+    45			protected = atomic_long_read(&c->children_oom_protect_usage);
+    46		else
+    47			protected = min(usage, protected);
+    48		old_protected = atomic_long_read(&c->oom_protect_usage);
+    49		if (protected != old_protected) {
+    50			old_protected = atomic_long_xchg(&c->oom_protect_usage, protected);
+    51			delta = protected - old_protected;
+    52			if (delta)
+    53				atomic_long_add(delta, &c->parent->children_oom_protect_usage);
+    54		}
+    55	}
+    56	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
