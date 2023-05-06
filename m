@@ -2,99 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E5EC77B7D
-	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 00:13:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CC4C77B7C
+	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 00:58:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231670AbjEFAN4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 20:13:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
+        id S231274AbjEFA6g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 20:58:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229990AbjEFANv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 20:13:51 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58E56E86;
-        Fri,  5 May 2023 17:13:50 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 6E1B232009C0;
-        Fri,  5 May 2023 20:13:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 05 May 2023 20:13:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1683332029; x=1683418429; bh=gDkdPLFGHEgwB
-        a8neDNDtTbJzRE+q/3RtYLzD+Pf+P8=; b=Q8XG2AWQgyCMi09ZyMm+KsQ0hhprv
-        mpooklDQKeung+QWuBSAj/oCp/IpivM2K7XnXh3Qvn8lhOiJOYAxClS/rU1xwfwl
-        9dGWxnIg16hEvLdtmI/FetfUGGPZpda4XCQrrmaOZPxJfuDg9NuFQq3OY3pYceFb
-        nSdkV0WKCNuVg1u7V5B8bZok6hBXsOVjmSxeze5cGpq0tN+o78IZzjqnxwqf04uy
-        8EBcx3yLS09+94+6vwFIdokFBhtS+BY3E4hh2mxo7dOWvNWUOpIkEyXYg4VeQ46X
-        auuC21N7RCmqsHgckHBJyd0kMyFOJaOhquTZCyFSFOXRUdQR9l9YL9Sjw==
-X-ME-Sender: <xms:vJtVZBVPnIqEOgCqg_3spi5O9XaYxlINvSVNPFF-6wMKYr8Tw6NYvQ>
-    <xme:vJtVZBmm7NgizshS73-0dCWFNwuHp4CDeHi5diuKl0O-TnpNZWTzKGPczmba8BN6G
-    MGl9-c1RHZf7B1UFCY>
-X-ME-Received: <xmr:vJtVZNaGab57ZUrcx3TfzKo09FoQAHfp3DD3zs27ubhW4Gei8IZbs_IOq3mhtMYPDq5FYqzPW1yyGuMo1U0xnqZ_K_yr-n0wzgE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeffedgfedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
-    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeelueehleehkefgueevtdevteejkefhffekfeffffdtgfejveekgeefvdeu
-    heeuleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:vJtVZEUZPgiEpg2x6w3Azv88oWdLHzeSPodKg674KG6mwKHRCi23mA>
-    <xmx:vJtVZLmEBKuMujz-5ZtXZOhtAcSnvFTfGlAeINZX6f1jUJCmS2fvdw>
-    <xmx:vJtVZBdVnSljclkUTxiHxNm_nvOyJbxx-vRCuoAgJM7aubXmZK3AKQ>
-    <xmx:vZtVZN7Qf7xlD-4-tjP1jkpQMKvw0AMBmVdG21SE5EYlSVA1Qa-i4w>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 May 2023 20:13:45 -0400 (EDT)
-Date:   Sat, 6 May 2023 10:17:44 +1000 (AEST)
-From:   Finn Thain <fthain@linux-m68k.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux SCSI <linux-scsi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>,
-        Oliver Neukum <oliver@neukum.org>,
-        Ali Akcaagac <aliakc@web.de>,
-        Jamie Lenehan <lenehan@twibble.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH 3/3] Documentation: scsi: dc395x: Remove reference to
- 2.4 driver
-In-Reply-To: <87pm7enbpo.fsf@meer.lwn.net>
-Message-ID: <3ad2962e-ff1f-4fe6-76e9-21c3936578a9@linux-m68k.org>
-References: <20230505082704.16228-1-bagasdotme@gmail.com> <20230505082704.16228-4-bagasdotme@gmail.com> <d919a2e1-5749-13f8-7867-1f17277190f4@linux-m68k.org> <87pm7enbpo.fsf@meer.lwn.net>
+        with ESMTP id S230400AbjEFA6f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 20:58:35 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357F34EDC;
+        Fri,  5 May 2023 17:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683334715; x=1714870715;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r87jZ01NzXbmHM71uAgrdFKbngx499poUh8cLmNlhlM=;
+  b=h3qvA/KTPzg8uGjPihj44fqeMbltTylVMfItpOYroQVCn4NLXNt1mqZI
+   Km7UNZ8kp9oZlOAbCBFLUAfX9FBqgn6ROyK5yfc0Uexs+b+b6ZhjFvwjN
+   dOAD9CHeeCjXIqTgOi+6vHlyqjVj8SurMaQ5QK7E3WYj8oK1jwik9LghL
+   TNqT2kksw8KG/GGT9csN406xFD5A67y3p+yilLHOXiMOANtmtK2ZVMs45
+   3nTATN8lOvxWstBTVg9vF2mIRIJds9QUgsY2Quw7C1Tpf6op2uG+3z+y2
+   5Cbk+Gp5eVlszvBP1TQ4ktMIjKpyoeQlHZw95jAl2AnHRzlDqd7lQiDVA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="349363942"
+X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
+   d="scan'208";a="349363942"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 17:58:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="872079408"
+X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
+   d="scan'208";a="872079408"
+Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 05 May 2023 17:58:33 -0700
+Received: from kbuild by fe5d646e317d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pv6Fs-00010D-11;
+        Sat, 06 May 2023 00:58:32 +0000
+Date:   Sat, 6 May 2023 08:58:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: htmldocs: Warning: MAINTAINERS references a file that doesn't exist:
+ Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+Message-ID: <202305060811.tbCH6oin-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 5 May 2023, Jonathan Corbet wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   418d5c98319f67b9ae651babea031b5394425c18
+commit: de614ac31955fe20f71021fd5f4a9a811e90028f MAINTAINERS: Add entries for Apple PWM driver
+date:   4 weeks ago
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=de614ac31955fe20f71021fd5f4a9a811e90028f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout de614ac31955fe20f71021fd5f4a9a811e90028f
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-> 
-> Most of the 2.4 code has indeed been deleted *from current kernels*. 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305060811.tbCH6oin-lkp@intel.com/
 
-Is it okay to delete old code from -stable kernels?
+All warnings (new ones prefixed by >>):
 
-> It's not clear to me why 2.4 documentation should be immune to that same 
-> process.
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pwm/pwm-apple.yaml
 
-My message argued for removing 2.5 documentation and retaining the link 
-that gives credit to prior contributions.
-
-> If we keep every 20-year-old reference, our docs will be even cruftier 
-> and less useful than they are now.
-> 
-
-Since you're obviously being facetious, it's tempting to respond that 
-"churn is good because it reduces the average age of the code". But that 
-kind of exchange gets us nowhere.
-
-I'd be curious to see an age histogram of the commentary in the source 
-code in the mainline kernel repository (or any other long-lived project). 
-I wonder if that has ever been measured.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
