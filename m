@@ -2,84 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 333C8C77B73
-	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 04:27:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4092FC77B75
+	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 07:45:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbjEFE1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 May 2023 00:27:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49000 "EHLO
+        id S231480AbjEFHph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 May 2023 03:45:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbjEFE1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 00:27:41 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 876DE7DA7
-        for <linux-doc@vger.kernel.org>; Fri,  5 May 2023 21:27:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683347259; x=1714883259;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XFX6hRGYBhNAUAU5DgLTaL9sD9PFKHc051PSQ5XK6EE=;
-  b=d8mlP2ohUzRTJDS/GO4AwTAVkbD1u4SnMfhs2iXnERCaQj+smjEyiMZn
-   tZBM6rGFh6vPbKUWpcJ/bbLZhOygE2v2Rj1QvIfEOrHgGBoYrcogEA59U
-   x7XGiFmRgI37kvNQLkFVX37ujvMMBjC0KErpZkZsu9Vd+U+3VHHhPF1eZ
-   7jxciGixAtOaf2zzpQm4zgOz+Vmd1wS30x+NYoVXOXehrMT9okO0XeiAZ
-   joVlILGLKNqIzMKf/tESUFXFytSjGAsma53T6VqwHt1sPANQzM6rO9xnp
-   UKUqaD2JPTarAXK/UAuqsOp4osnnYSZPnwOL87iTM4vepVseNYnoho52p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="377424745"
-X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="377424745"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 21:27:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="944156863"
-X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="944156863"
-Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 05 May 2023 21:27:38 -0700
-Received: from kbuild by fe5d646e317d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pv9WD-00019G-1c;
-        Sat, 06 May 2023 04:27:37 +0000
-Date:   Sat, 6 May 2023 12:27:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 7/200] htmldocs: Warning:
- Documentation/devicetree/bindings/power/wakeup-source.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-Message-ID: <202305061244.0scOmlxb-lkp@intel.com>
+        with ESMTP id S231419AbjEFHp2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 03:45:28 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216803AAE;
+        Sat,  6 May 2023 00:45:22 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-52c759b7d45so2328047a12.3;
+        Sat, 06 May 2023 00:45:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683359121; x=1685951121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cR4QBIzm9ikJ2rDEayugYqmQh2EvvMkSbIdL6X+oqsg=;
+        b=NDFMhb8dgFmBZE3tzcTfHyrvdARzyBDs68HVUrFHKNB1OjppTHcturM01pjQGR1lwf
+         /Yyj38mcOgdR7rJvMgtexY8VUeSE9mCjrLHOXK9r+ljtXsToQ1AuwIIohZc/qYXw5lQX
+         AuWzIqHmM99Ek3TBL43g3uK5sVlNrLjjSuGi6E5Av3n/YiQvm1NafwCsxs/Tttjc3MNf
+         kndOlzMpilSI8aWvGjWtCBkxkt2m+9a+4r74hawaf/fn1Q17c3W3ID1fguszSj+BLcZf
+         Ln3qJl6tIKqhxkPKKjAgr2BjL3Jybxttwo/q/4nXrE/J34Rpq9nbqwmZ/QJSIgGx2Ywn
+         LNAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683359121; x=1685951121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cR4QBIzm9ikJ2rDEayugYqmQh2EvvMkSbIdL6X+oqsg=;
+        b=UMeQdd2RlXa69OYerW1xJbZhX7BD4XTGO0FQSCaorB0zHJeDz5HzNETm7XIJsS9JDq
+         HLt3UkxdK4si3MR0HwzXzutdFCORSi+001lf9pVo+CD2dy575D2X7xmQ9R5tcilOz0Q2
+         MF2oSH/JRNpVASKeDj43kAe42RcG1Rkt+qiZlW9qn87chU9UT+vFOs0XEjbZ6UzHN/YW
+         CJRScsHl7+UmGkoQPnROVTFuYtaPbiq878ejA2tjjUPBTVxMo2evEGStTgL4Bb4Hqpl/
+         vcKQPFiWJyzoDCSC0+F6kkFJwYzRCx7WdgnBeg+j/AqeLUBu0oIehI5ktF/z7HWX8+Ks
+         b/Tw==
+X-Gm-Message-State: AC+VfDzGqc71a+3uqXx4fxDzQOA4c7CHbdIDGyBBDL96IyeFGkaG/4/q
+        NKcO1RMNL/nD7echYHQZgPc=
+X-Google-Smtp-Source: ACHHUZ42rj/cGI3yidLvMVSMoh1eSdorzn60Wv53lamvefOOxDdlc+3RCuNWWWGYKa/CqamDoXSI6Q==
+X-Received: by 2002:a17:902:e881:b0:1a6:b140:9d2 with SMTP id w1-20020a170902e88100b001a6b14009d2mr4758930plg.61.1683359121362;
+        Sat, 06 May 2023 00:45:21 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-66.three.co.id. [180.214.233.66])
+        by smtp.gmail.com with ESMTPSA id j17-20020a170902759100b001ab0672fc1fsm2955359pll.105.2023.05.06.00.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 May 2023 00:45:19 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id C0A98106286; Sat,  6 May 2023 14:45:15 +0700 (WIB)
+Date:   Sat, 6 May 2023 14:45:15 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, dhowells@redhat.com,
+        jarkko@kernel.org, corbet@lwn.net, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH]Documentation: Security: Consistent block output by
+ removing a misfit line
+Message-ID: <ZFYFi+eS3efdx0jS@debian.me>
+References: <20230506033738.16908-1-unixbhaskar@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rGslkIUOaY9i4+kT"
 Content-Disposition: inline
+In-Reply-To: <20230506033738.16908-1-unixbhaskar@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   37cac42f7369b5677b2c378d885c6c9b342cae57
-commit: d54f9ff29b4a490bd67fcfc4aa58858ccdb0b6ef [7/200] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
-reproduce:
-        # https://github.com/krzk/linux/commit/d54f9ff29b4a490bd67fcfc4aa58858ccdb0b6ef
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-        git checkout d54f9ff29b4a490bd67fcfc4aa58858ccdb0b6ef
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305061244.0scOmlxb-lkp@intel.com/
+--rGslkIUOaY9i4+kT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-All warnings (new ones prefixed by >>):
+On Sat, May 06, 2023 at 09:07:38AM +0530, Bhaskar Chowdhury wrote:
+> -	[root@andromeda root]# cat /proc/key-users
 
->> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+You remove the command line, right? The preceding sentence should be
+adjusted too, e.g. "This file lists the tracking data (including
+quota information and statistics) ... . Example file contents::".
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--rGslkIUOaY9i4+kT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFYFhAAKCRD2uYlJVVFO
+owlmAQChZDiqGOaRj7Jhi2fE/wNTF/sPW4oXVkaredS4EqlrkAD/aO2lQsDZtyUC
+VzZRSAXUIAnpIg6TLHX6uae7UadMMAg=
+=VC5A
+-----END PGP SIGNATURE-----
+
+--rGslkIUOaY9i4+kT--
