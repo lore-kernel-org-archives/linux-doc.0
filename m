@@ -2,87 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAF7C77B73
-	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 03:40:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F72C77B75
+	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 03:52:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbjEFDkA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 May 2023 23:40:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41826 "EHLO
+        id S230506AbjEFDv7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 May 2023 23:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229698AbjEFDj7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 23:39:59 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6315BA1;
-        Fri,  5 May 2023 20:39:58 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-3ef33f12995so13987021cf.3;
-        Fri, 05 May 2023 20:39:58 -0700 (PDT)
+        with ESMTP id S229803AbjEFDv6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 May 2023 23:51:58 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4385F7695;
+        Fri,  5 May 2023 20:51:55 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-51f1b6e8179so1683323a12.3;
+        Fri, 05 May 2023 20:51:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683344397; x=1685936397;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BpswY9m2+akMpZjU1Lghg3scLIT0ByR97P+sSuwJhQw=;
-        b=oD7j9RV4M2MhuS3xLZsb2d8VXEoZ3l2IrCNV/UmdUhaBgoea0qw5wl71yXLeZv/dFC
-         3XMx5kR1dmneTT2XWgi3MurMBqv/xp4dJ+DnKujmIor7o3i+lB2Pb1W58mQ9nrpJ/Zhr
-         2cUtBaiYk7M3xLq09gLYENEJTju+yu/uMFHTKF1pJFAEl/HH4MMkSIKJy0BXt7s6e/W+
-         TcI61liQTLtZvtICA5sUO1k8+SQZS2vp1IwkMqf6rnBhuDgWDlPapsIABwtA/l+Dybbp
-         tcjphRxGFdsruwZssgksOZsTOrUM2NnUmeqKxyRXPFl3EUaehJ5Z4oh/hNv1JgJcMrKu
-         Zdbg==
+        d=gmail.com; s=20221208; t=1683345115; x=1685937115;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lntOibfeThJPpn1VJ7xfamv/ry4wwbglMlCIgAw/SuQ=;
+        b=KsAu+SR+0lyn3VqoKAZIBZeGRpu2Mrb+jVusCwgtPeRHwbO92SgJpOSO7Oy5UAJexe
+         7y6v6Uw3RCZ7e6eqZBg9bPcKtQA/GyMoz0kkybZFlT9ctFBBQLFf8wbiXbIbVDIjtK+c
+         lQEAaTHYixT8SD1MDhdlg5VtGU2pOJn7ND93nK5pPMoUkjzUe4Gs8iQLi13q9CZMXOSj
+         nY/UJ54CAwvG27njWZtoXwKPZ84Sc6nmUBE4yfgam/dGvAp9M9O49DLQ5tBTgbLrguSm
+         MRiqk8fwlEEQ7ZWE+7rzKly3dl4NjNggmZKzh9enV6u3XXYiFP9VS5daBjNfZBVqvZQl
+         SpWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683344397; x=1685936397;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BpswY9m2+akMpZjU1Lghg3scLIT0ByR97P+sSuwJhQw=;
-        b=eF186aPVlNgnBgbZxEpczHKjGiG/kDKGMrhA4dPhE6FnWo6x3No7j268T9ynnqqzZ0
-         TvqGcItjFmAvHiuWw4co5FzAxR0XGnWBSKyecxb+shD0HxahEXqhJa9yCG5hPgqmDZJ/
-         sMEdgpnlfA/cU3WBUMrjdhxwkMn9N80kUwAZHN3eYqWWBXv2/Xl+D/xQ2oAcVr6c/C2T
-         RfBwfjq87hZtlwtluPdpbQQuBtuwer70B5FA4f7dlCbSM6zOc+Z7H85Gx+GKRkUGna/b
-         ttAvS1eM7Q2m11IjPxgb5uIhpq0l4NluvUBrzpTxNNIgLOxE6mv0h5Ke8M6S+5w4hacr
-         ZRVg==
-X-Gm-Message-State: AC+VfDwrhGidD9/3XvOqccx/emyCFBZkUI+bvZq/koKtXerkK1Cs5Xq2
-        Lo4AwAZs4nYSuWHrpCieflk=
-X-Google-Smtp-Source: ACHHUZ7bnLO45tsKPI+UOJ46pyLBSkekEW2ehWqDecsRxiwLn6lF+27PKDLiSVZcbZg7I7nwR6dfQw==
-X-Received: by 2002:a05:622a:1393:b0:3d5:500a:4819 with SMTP id o19-20020a05622a139300b003d5500a4819mr5635171qtk.23.1683344397617;
-        Fri, 05 May 2023 20:39:57 -0700 (PDT)
-Received: from localhost.localdomain ([191.96.227.112])
-        by smtp.gmail.com with ESMTPSA id h7-20020a37de07000000b0074e13ed6ee9sm1013605qkj.132.2023.05.05.20.39.53
+        d=1e100.net; s=20221208; t=1683345115; x=1685937115;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lntOibfeThJPpn1VJ7xfamv/ry4wwbglMlCIgAw/SuQ=;
+        b=Pgi/bKDeLvDYvDhrJfiI2OzhLIZvl4JRP+D8mXLlMNKQvi8Wh+Scfp0R+Aku6IeTrq
+         4pT/5J6BGxtyuLK4e3inXWPvbnwe7ZPE52eeCb5bIWUviwMiYeJY1GrQ98CbVvmzOJM2
+         0OzuOHo6CwM6ChgQ0OqmQOCMmD2J1R7c9pu4YGdHx5DCpCJI7Lrlf2VyUWyn3pthRkoc
+         f+tM3tVlmJwzeYSIkGiwMcPMLylyS1jKSPVf7kTKcfmH5rsMi+3zmZgggI57HCB9EnVf
+         HFVoIeFWcrNbZguNsuppJKspu0z9DomeOTE3Mtv2IVrFKqI1SLW0evgWNAChdyxn2nyC
+         9izg==
+X-Gm-Message-State: AC+VfDxUFwH2jYf8Fh2NDUg8clH9EGpYXA2MYBz+OhYptiA/Bi4SYXAl
+        qHY8UWlmaszuumeUzsnErn4=
+X-Google-Smtp-Source: ACHHUZ5zj0iukVw0Wp6lKsVZ8izr5sCbXHEPIoKgZMiu/WjkBSbE8RdqI9SBwEBeJTRBDcPanyiuhA==
+X-Received: by 2002:a17:902:8695:b0:19c:a9b8:4349 with SMTP id g21-20020a170902869500b0019ca9b84349mr3168517plo.32.1683345114610;
+        Fri, 05 May 2023 20:51:54 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-14.three.co.id. [180.214.232.14])
+        by smtp.gmail.com with ESMTPSA id g5-20020a170902740500b001ab09f5ca61sm2482665pll.55.2023.05.05.20.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 20:39:57 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     dhowells@redhat.com, jarkko@kernel.org, corbet@lwn.net,
-        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH]Documentation: Security: Consistent block output by removing a misfit line
-Date:   Sat,  6 May 2023 09:07:38 +0530
-Message-Id: <20230506033738.16908-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.39.3
+        Fri, 05 May 2023 20:51:54 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id BE241106849; Sat,  6 May 2023 10:51:50 +0700 (WIB)
+Date:   Sat, 6 May 2023 10:51:50 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Grant Likely <grant.likely@linaro.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Linux Documentation <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] docs: dt: Make references and mention kernel
+ abstractions
+Message-ID: <ZFXO1pRq4/fNw33/@debian.me>
+References: <20230505-dt-docs-refresh-v2-1-56bf359c53b4@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="4FC0DSTJcODP+zd/"
+Content-Disposition: inline
+In-Reply-To: <20230505-dt-docs-refresh-v2-1-56bf359c53b4@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A simple removal of an unwanted line from the block output to make the output
-of this block look like others on the page.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/security/keys/core.rst | 1 -
- 1 file changed, 1 deletion(-)
+--4FC0DSTJcODP+zd/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
-index 811b905b56bf..0ca5bc591d95 100644
---- a/Documentation/security/keys/core.rst
-+++ b/Documentation/security/keys/core.rst
-@@ -314,7 +314,6 @@ about the status of the key service:
-      This file lists the tracking data for each user that has at least one key
-      on the system.  Such data includes quota information and statistics::
+On Fri, May 05, 2023 at 02:43:53PM +0200, Linus Walleij wrote:
+> This document is named "Linux and Devicetree" so I think we
+> should write a bit more about how the device tree fits into
+> the Linux kernel frameworks these days after we have created
+> the fwnode and swnode.
+>=20
 
--	[root@andromeda root]# cat /proc/key-users
- 	0:     46 45/45 1/100 13/10000
- 	29:     2 2/2 2/100 40/10000
- 	32:     2 2/2 2/100 40/10000
---
-2.39.3
+Also Cc: linux-doc list.
 
+> +The Linux kernel supports several different hardware description
+> +frameworks and DT is just one of them. The closest sibling is the
+> +:ref:`Documentation/firmware-guide/acpi/index.rst ACPI`
+> +DSDT (Differentiated System Description Table).
+> <snipped>...
+> +Further, when the DT core register devices these need to fold into the
+> +Linux device driver model, which essentially means that some kind of
+> +``struct device`` has to be created to match a corresponding
+> +``struct device_driver``. This API can be explored in
+> +detail in :ref:`Documentation/driver-api/driver-model/index.rst the driv=
+er API documentation`
+> +but what you need to know is that the Linux DT parser code will on its
+> +own mostly spawn platform devices and AMBA devices on the platform
+> +and AMBA bus respectively, and apart from that it will augment devices
+> +spawn on other buses where applicable.
+> +
+
+Anchor text for :ref: links above don't mix well, so I have to override
+them (also specifying intended doc target - correct me if these are wrong):
+
+diff --git a/Documentation/devicetree/usage-model.rst b/Documentation/devic=
+etree/usage-model.rst
+index 37605cb549cf59..87f522d5feba81 100644
+--- a/Documentation/devicetree/usage-model.rst
++++ b/Documentation/devicetree/usage-model.rst
+@@ -80,8 +80,7 @@ then go read it now.  It's okay, I'll wait....
+=20
+ The Linux kernel supports several different hardware description
+ frameworks and DT is just one of them. The closest sibling is the
+-:ref:`Documentation/firmware-guide/acpi/index.rst ACPI`
+-DSDT (Differentiated System Description Table).
++:doc:`DSDT (Differentiated System Description Table) from ACPI </firmware-=
+guide/acpi/namespace>`.
+=20
+ To make it possible to write a device driver that will adapt to DT
+ or other hardware description models, the kernel has grown some
+@@ -101,7 +100,7 @@ Further, when the DT core register devices these need t=
+o fold into the
+ Linux device driver model, which essentially means that some kind of
+ ``struct device`` has to be created to match a corresponding
+ ``struct device_driver``. This API can be explored in
+-detail in :ref:`Documentation/driver-api/driver-model/index.rst the driver=
+ API documentation`
++detail in :doc:`the driver API documentation </driver-api/driver-model/ove=
+rview>`
+ but what you need to know is that the Linux DT parser code will on its
+ own mostly spawn platform devices and AMBA devices on the platform
+ and AMBA bus respectively, and apart from that it will augment devices
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--4FC0DSTJcODP+zd/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFXO0QAKCRD2uYlJVVFO
+o1ADAP0U4Eqkto8ez70YgMni5+n70+3PXK2Djzh36Qxvq/oLfgD/ZqqHP4lXarNA
+2qxmUqeGfJ78jWC2apff2dUzqklVLAw=
+=2tz4
+-----END PGP SIGNATURE-----
+
+--4FC0DSTJcODP+zd/--
