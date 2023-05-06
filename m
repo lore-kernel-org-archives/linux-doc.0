@@ -2,117 +2,179 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47575C77B7F
-	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 21:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39836C77B75
+	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 22:09:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbjEFVCJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 May 2023 17:02:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41670 "EHLO
+        id S229887AbjEFWJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 May 2023 18:09:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjEFVCJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 17:02:09 -0400
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FF840C7;
-        Sat,  6 May 2023 14:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-        t=1683406910; i=aliakc@web.de;
-        bh=Ayt8xy4rT0Xw3V4pKS4yIFdBYB0BoER4mhhWIMTOCXM=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
-        b=b5xncVfT0Dbs8YWIV3mHnvLtm7ah/95MtTWaKkisXTFgXwxslfJGAjFlnz6jZJ8bU
-         9Dwx2Y7D6cOanxmcub5dpvxKzBHdQtjOrp8NoZOyIzf+PMr+cYUhwTMe76v/Glbmqh
-         //W+TRgu9skF+Sc6j+8g5A6AWd8KSLfqrG6RbtYCAeE5viSuEAeB1OXKmhhJ5sAiVk
-         EBycpl9i9cD7GHxywdBeulkwsVuG52SEX925jg0rdJEsn0Wis1h068sr+sC6d1YvjW
-         BkX1TYsWI/P5EZnOQEy8NxBoeXmhQQwm/KWWhhaMWP7H3Tng/6Qy+pRe7NItP+1rIc
-         rgXvGA3bFBJbw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from ulixys ([95.91.196.23]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MnG2Q-1qcCYz3GQm-00jLEF; Sat, 06
- May 2023 23:01:49 +0200
-Date:   Sat, 6 May 2023 23:01:43 +0200
-From:   Ali Akcaagac <aliakc@web.de>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux SCSI <linux-scsi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>,
-        Oliver Neukum <oliver@neukum.org>,
-        Jamie Lenehan <lenehan@twibble.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH 1/3] MAINTAINERS: Drop DC395x list and site
-Message-ID: <20230506230143.13969f82@ulixys>
-In-Reply-To: <20230505082704.16228-2-bagasdotme@gmail.com>
-References: <20230505082704.16228-1-bagasdotme@gmail.com>
-        <20230505082704.16228-2-bagasdotme@gmail.com>
-X-Mailer: Claws Mail 4.1.1git999 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+        with ESMTP id S229478AbjEFWJV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 18:09:21 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9CAF1D94A;
+        Sat,  6 May 2023 15:09:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=7Nqo5bKfuTZba1hZN68GWMHPj4YsyKzg7tKEqE/0XMo=; b=cnCchV7wfZz3LVTKwt/fyWKBUA
+        jRAo1TsWPoxS5NO/QJuTVLqghxqboaPpI0W5UfX5WfAJnL9Kl5m8b1TnKjRj2/cQylTAbc6CO8JoL
+        XA0D5OeRB8KEHgYX7RsPXVDkSC56Ho8JI/0cwxfsDTQg5nUeIwbByHSZfVf1D/LbkPccc+3T7sYk4
+        N1IXnyjFXHh4Lb9L1FSj2KpRT3Zj1S7VFnswbZGhDb6c83ck6Lg9x4FNkWJjn2IM1stkAeaqezUtg
+        /Dy1KYp+vW67z+veJz4k/SXUdRk2GPHklQ3ZuOZt/4lxAknUMkdiA9dxT7tTw8S9s+ojPui0lq35I
+        TC1+KVQQ==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pvQ5e-00ET1N-1F;
+        Sat, 06 May 2023 22:09:18 +0000
+Message-ID: <4b0249cd-7538-6df4-777b-d25a72f06668@infradead.org>
+Date:   Sat, 6 May 2023 15:09:11 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zVUr/Xdcx8CLnrXfPuLDZDbXaYHCkhB7LbwXolPronW+XQhEk00
- 9CHgnUNzB+c7YCNwd8wSAJuUpDmNBLrUIYw8II5R+9ny7zCiveglY4vgXfen3DU3a2Z1lNL
- fXDES2T5UU6DTYPZ34FNkpt2WwgJlHiohnK0a6csu1UXPeK4t2MtDDHmDUv2vmpGG1VYosF
- pfgGgh/a1cgf5cUQMP1Qw==
-UI-OutboundReport: notjunk:1;M01:P0:ELLbd5n2A1I=;oCofWlLB3RZeKhK5BxIWjo5pjdR
- EwM0neQEKTQHEVE7QdgUl13BdxB0ZU7ghrCBv7X/cP5w9z/50dFbxGPGrSqOa9I2bmbaWfmMb
- Sdz03ifVxhh0u0HtEaz/v+9IkwGZBL4ETOruTrRzCEKsFnjVqyyCYUa3BkLegGqIprBip6/2C
- BpAiAKYZIWZFT25YoT85YwgKO6Bxl5IdXmNiQYefGDF/tnN6PwxDaL8+FQzh80Gi5D+p1lQl1
- lb12epzS0tm34VfFXnEff5pAda2s/pFOtRVndD38+1/Y2PGL9UMJPzwdojUyh+CWwsGLahIJd
- +YXyEfUbLFVxUWDC2SuFAevmCbfYQRRuHG0EzA05H6K1+zIagG+H5U9JHc4E8lS6AKX0jl+Di
- T9+/eBK7xPHtNPitazauWqf/KS1SRcPhyEEig0S8ovDkSTPoRIrjZA2DLRf32YXInSyblTBuZ
- YvbMC/FCFrf6BANYGM5CJS3QOB72yxC7GTsZlS9r3qYqfwNaaC3ncRi2EtCEnj40aFxZJjzf6
- D6OZQADOH3yGWlc4YlHxsyJIE0S/lij1smsMDSk4lFpPJ897RoQQToPREqll6JwH68e99gUUU
- hGh0stY9gMqmNxV8T5zS/8a3K1bmTeHInRvkOmodBC7SLaTdzRMgW80pWD+OglYI6M1rP42PA
- aSY9KuBaA9mb+SY4x6I42KKKeHDmW3SrHH7kC3GTtr1uvct2KoL6C89y9SloSoKJDY2h43mZP
- q71UJLeIYa7J4E/937D4/kobyaVOcK+VXZE/X4vIRXIBD70H5E5vB7+TD2VQf2FMc0A3GAZJf
- sXAxrnM91VbEkI4Q8mCvPO4Rz4ET7fpyKdOVa9wU+p9lqDO2R2Xzl1Sr8Oih1zPOWgMfm4SHK
- KnnM+bzLcP8r1rPatjmINXheWMeSS26DuFNRSGzkvxzbq3BYDV1MyTVwWeJzFJzH7SBqEtE47
- I6y3brvEEEJsrT/TW1XgTVrbdb0=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v2] docs: dt: Make references and mention kernel
+ abstractions
+Content-Language: en-US
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Grant Likely <grant.likely@linaro.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20230505-dt-docs-refresh-v2-1-56bf359c53b4@linaro.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230505-dt-docs-refresh-v2-1-56bf359c53b4@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Linus,
 
-the dc395x list has gone long long looooong ago from what I recall. It
-was set up during the transition phase from the 2.4.x Kernel to 2.5.x
--> 2.6.x where a few people wanted to communicate the changes necessary
-to get that driver ported. I remember that it was around 2003 (more or
-less) and I sometimes still wonder whether the hardware still exists,
-still works or someone still uses it. It's funny to see that this kind
-of topic is cooking up 20 years later :)
+I am noting a few grammar nits below...
 
-Regards
+[and + linux-doc]
 
-Ali
-
-On Fri,  5 May 2023 15:27:02 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-
-> Emails to DC395x list bounce (550 error) and visiting the site returns
-> 404 page.
->
-> Drop both twibble.org links, replacing the list with linux-scsi list.
->
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On 5/5/23 05:43, Linus Walleij wrote:
+> This document is named "Linux and Devicetree" so I think we
+> should write a bit more about how the device tree fits into
+> the Linux kernel frameworks these days after we have created
+> the fwnode and swnode.
+> 
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  MAINTAINERS | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8d5bc223f3053b..35de3289a8af04 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5692,10 +5692,8 @@ DC395x SCSI driver
->  M:	Oliver Neukum <oliver@neukum.org>
->  M:	Ali Akcaagac <aliakc@web.de>
->  M:	Jamie Lenehan <lenehan@twibble.org>
-> -L:	dc395x@twibble.org
-> +L:	linux-scsi@vger.kernel.org
->  S:	Maintained
-> -W:	http://twibble.org/dist/dc395x/
-> -W:	http://lists.twibble.org/mailman/listinfo/dc395x/
->  F:	Documentation/scsi/dc395x.rst
->  F:	drivers/scsi/dc395x.*
->
+> These docs are old and outdated and need to be edited to
+> reflect the current situation.
+> ---
+> ChangeLog v1->v2:
+> - Spelling mistakes
+> - Resend because nothing happens
+> ---
+>  Documentation/devicetree/usage-model.rst | 45 +++++++++++++++++++++++++++++---
+>  1 file changed, 41 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/usage-model.rst b/Documentation/devicetree/usage-model.rst
+> index b6a287955ee5..37605cb549cf 100644
+> --- a/Documentation/devicetree/usage-model.rst
+> +++ b/Documentation/devicetree/usage-model.rst
+> @@ -75,7 +75,44 @@ out of mainline (nios) have some level of DT support.
+>  If you haven't already read the Device Tree Usage\ [1]_ page,
+>  then go read it now.  It's okay, I'll wait....
+>  
+> -2.1 High Level View
+> +2.1 Linux Kernel Firmware Abstractions
+> +--------------------------------------
+> +
+> +The Linux kernel supports several different hardware description
+> +frameworks and DT is just one of them. The closest sibling is the
+> +:ref:`Documentation/firmware-guide/acpi/index.rst ACPI`
+> +DSDT (Differentiated System Description Table).
+> +
+> +To make it possible to write a device driver that will adapt to DT
+> +or other hardware description models, the kernel has grown some
+> +abstractions, first and foremost the firmware node API, exposing
+> +device properties. The firmware node "fwnode" internals can be found
+> +in ``<linux/fwnode.h>`` while the device driver-facing API can be
+> +found in ``<linux/property.h>``. The idea is that if a driver is using
+> +the firmware node API, it should be trivial to support DT and ACPI
+> +DSDT alike in the same driver.
+> +
+> +The fwnode framework also makes it possible to modify and extend the
+> +Linux in-kernel model with software-managed nodes "swnodes" to apply
+> +quirks or manage registration of devices that cannot be handled any
+> +other way. This API can also be found in ``<linux/property.h>``.
+> +
+> +Further, when the DT core register devices these need to fold into the
 
+                        core registers
+
+> +Linux device driver model, which essentially means that some kind of
+> +``struct device`` has to be created to match a corresponding
+> +``struct device_driver``. This API can be explored in
+> +detail in :ref:`Documentation/driver-api/driver-model/index.rst the driver API documentation`
+> +but what you need to know is that the Linux DT parser code will on its
+> +own mostly spawn platform devices and AMBA devices on the platform
+> +and AMBA bus respectively, and apart from that it will augment devices
+> +spawn on other buses where applicable.
+
+   spawned
+
+> +
+> +Every Linux kernel subsystem that want to supply additional data to
+
+                                that wants
+
+> +detected devices using the device tree, or that want to provide
+
+                                              that wants
+
+> +resources to other devices in the DT, will need to implement calls into
+> +the DT abstractions.
+> +
+> +2.2 High Level View
+>  -------------------
+>  The most important thing to understand is that the DT is simply a data
+>  structure that describes the hardware.  There is nothing magical about
+> @@ -97,7 +134,7 @@ Linux uses DT data for three major purposes:
+>  2) runtime configuration, and
+>  3) device population.
+>  
+> -2.2 Platform Identification
+> +2.3 Platform Identification
+>  ---------------------------
+>  First and foremost, the kernel will use data in the DT to identify the
+>  specific machine.  In a perfect world, the specific platform shouldn't
+> @@ -180,7 +217,7 @@ However, this approach does not take into account the priority of the
+>  compatible list, and probably should be avoided for new architecture
+>  support.
+>  
+> -2.3 Runtime configuration
+> +2.4 Runtime configuration
+>  -------------------------
+>  In most cases, a DT will be the sole method of communicating data from
+>  firmware to the kernel, so also gets used to pass in runtime and
+> @@ -217,7 +254,7 @@ On ARM, the function setup_machine_fdt() is responsible for early
+>  scanning of the device tree after selecting the correct machine_desc
+>  that supports the board.
+>  
+> -2.4 Device population
+> +2.5 Device population
+>  ---------------------
+>  After the board has been identified, and after the early configuration data
+>  has been parsed, then kernel initialization can proceed in the normal
+> 
+> ---
+> base-commit: 457391b0380335d5e9a5babdec90ac53928b23b4
+> change-id: 20230505-dt-docs-refresh-515edbdbbd01
+> 
+> Best regards,
+
+For @linux-doc: Is there something in ReST that does auto section numbering
+so that this renumbering does not have to be repeated in the future?
+
+
+Thanks for the additional documentation.
+-- 
+~Randy
