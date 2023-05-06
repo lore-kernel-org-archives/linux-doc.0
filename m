@@ -2,83 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27DF7C77B7F
-	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 12:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7BDEC7EE24
+	for <linux-doc@archiver.kernel.org>; Sat,  6 May 2023 13:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231675AbjEFMzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 May 2023 08:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37498 "EHLO
+        id S231909AbjEFNnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 May 2023 09:43:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231892AbjEFMzS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 08:55:18 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B35D1816F;
-        Sat,  6 May 2023 05:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683377717; x=1714913717;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NQ6wCfyoHyDNspXQ5XCpgLu3HkADePGJt66eht8gTUY=;
-  b=YeDdrkpw+Li+Qxl6EOjOS9sODJuz4tNSj7JVPPsjgTTLPx3zewCVHbgB
-   yv72oSHDDkiaHPMGyvsStl9A8CG1mIYHdwfFnNXUlPZvkeioetqi6zmJQ
-   lgwJFkO1qgwV640mMAiYuS+OGKryGw0LGd2egRValrVwJfqm8h6HYYaY8
-   h+sLBuDm/8oRLswTryrR96Daqkun2cTuVAAeBLq6GxyNDM1oBkeO9RH1q
-   djpGgEgQKu3MJhd984ZdRg3cRQfxAJCtWTx1Gcv/Jo/vAzXS4r55vZW57
-   94dhXaILGlFQT1fCERG2ZLr0bjFg2SiT8Q2bLKmuAG5zmLBSxR8wunjdB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="352434738"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="352434738"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 05:55:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="692031101"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="692031101"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 May 2023 05:55:16 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pvHRT-0000JF-1H;
-        Sat, 06 May 2023 12:55:15 +0000
-Date:   Sat, 6 May 2023 20:54:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [sailus-media-tree:metadata 10/11] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-fmt-flag-meta-line-based (if the link has no caption the label must
- precede a section header)
-Message-ID: <202305062027.tzv2gT5B-lkp@intel.com>
+        with ESMTP id S231956AbjEFNne (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 09:43:34 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9860E23A05;
+        Sat,  6 May 2023 06:43:33 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so2510705a12.1;
+        Sat, 06 May 2023 06:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683380613; x=1685972613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=66Oa0Tt4V09m3CKz7RlcxzCofTUAwWazL0ZtiHsb8NA=;
+        b=JM9FmwxcFQ5R9hdtlqj7wHQZVTqEMBKCRk+AsKrBCZvXVs3SONqurZDsoIySHmtgzg
+         ghjbH8xzcrD/IY+rRV3m5f0KxJkGMDMAMaBWhMov5tC9wt4zl8UKtkFLp2IYOwT912af
+         qgLpMDX3bULFCjzVtIRRhfm38XoAq/rwVfuiFaGWNzM7TjgBYmBNzE8+hVbubDHON5og
+         kYR1Or6RemAeqHWDxHZVB01e+b0wwAO6wvfZbuXHOPYomc8eLV8giKSdbiPYQQP9TvBZ
+         EEF718b9MosOiOZds2uNUVGqAk3vyRtIa2vAUy7V4QldWQLEohKAb5uSRXCk6fqQcjOf
+         Q0sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683380613; x=1685972613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=66Oa0Tt4V09m3CKz7RlcxzCofTUAwWazL0ZtiHsb8NA=;
+        b=jmc44Nllcc/x7dym97rzI0lNr8PJgWDrleW4nmwxuakakiszw0rGYXMGBEnYsnBCDb
+         mSqMxpQ0z3dYEDJNgqu8WYgyTLnjdVO+w4Dj4RXvMyVlbAp0wuFdQQAXSt1ZlzuGvd7j
+         OXrjpFrmnLl3XM+8ZU9hnjvrTDeReKGkIyJ1AHiHDa1gwkEYHPmWTJAsHXN4s1bsDxEe
+         HTOwLrQ21nZyi9W8Dbuwv7npEAiHCEfOw+qltWbT0pQQzEh/id0DEIA2T6KVIT6CQzxv
+         SGqyuFiVG7ublWx0YTZMpvE96nGQd+JCDtA3Cvbe//hgGBkEant935YklEhdKL+2aUSN
+         yb4g==
+X-Gm-Message-State: AC+VfDyZYDZ41w5xqQJqFj7PAYS1PmsKf1bCmh+nOGT23K1vA7vOX1iU
+        pwIXii2a4qAF0jHgmFv9m84=
+X-Google-Smtp-Source: ACHHUZ7vb5/rSDcNye9osPpI2TAmN+0Ho3gyng9zOi/F8J0qlCjnLb/SV+kQfkdLFiCfBtqmJnQ5nw==
+X-Received: by 2002:a17:90a:a785:b0:250:31b2:9677 with SMTP id f5-20020a17090aa78500b0025031b29677mr4541598pjq.22.1683380613033;
+        Sat, 06 May 2023 06:43:33 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n11-20020a17090a9f0b00b0025023726fc4sm3341188pjp.26.2023.05.06.06.43.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 May 2023 06:43:32 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 6 May 2023 06:43:31 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     James Seo <james@equiv.tech>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC 01/11] Documentation/hwmon: Move misplaced entry in hwmon
+ docs index
+Message-ID: <89848a16-ccb3-4124-8546-90049e4ca948@roeck-us.net>
+References: <20230504075752.1320967-1-james@equiv.tech>
+ <20230504075752.1320967-2-james@equiv.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230504075752.1320967-2-james@equiv.tech>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   edce6cf3cf2b2adb0c7717bb918cd84c5f2b4810
-commit: 26aac41bc63221fb4bc8cca72ae53da3a3d443e1 [10/11] media: v4l: Support line-based metadata capture
-reproduce:
-        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
-        git fetch --no-tags sailus-media-tree metadata
-        git checkout 26aac41bc63221fb4bc8cca72ae53da3a3d443e1
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Thu, May 04, 2023 at 12:57:42AM -0700, James Seo wrote:
+> Move the entry for the inspur-ipsps1 driver so that it no
+> longer appears in the hwmon docs TOC as a document relating
+> to the hwmon subsystem itself.
+> 
+> Signed-off-by: James Seo <james@equiv.tech>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305062027.tzv2gT5B-lkp@intel.com/
+Applied to hwmon-next.
 
-All warnings (new ones prefixed by >>):
+Guenter
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-fmt-flag-meta-line-based (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> ---
+>  Documentation/hwmon/index.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index fa1208c62855..03b30a94a9e6 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -9,7 +9,6 @@ Hardware Monitoring
+>  
+>     hwmon-kernel-api
+>     pmbus-core
+> -   inspur-ipsps1
+>     submitting-patches
+>     sysfs-interface
+>     userspace-tools
+> @@ -85,6 +84,7 @@ Hardware Monitoring Kernel Drivers
+>     ina2xx
+>     ina238
+>     ina3221
+> +   inspur-ipsps1
+>     intel-m10-bmc-hwmon
+>     ir35221
+>     ir38064
