@@ -2,120 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55DD8C77B75
-	for <linux-doc@archiver.kernel.org>; Sun,  7 May 2023 10:27:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20090C77B7C
+	for <linux-doc@archiver.kernel.org>; Sun,  7 May 2023 11:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231516AbjEGK1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 May 2023 06:27:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58592 "EHLO
+        id S230225AbjEGLnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 May 2023 07:43:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbjEGK1X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 May 2023 06:27:23 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF49100D7;
-        Sun,  7 May 2023 03:27:20 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1A5DC218D5;
-        Sun,  7 May 2023 10:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1683455239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oav2A28KVKDaotNibkAokXcYPyLTU0ijj1klZnIOiRI=;
-        b=c+QuWE6EU4wWKhietxfwN/3l7yAy0K35os01H7NfRFE82alr8YUVFXQqf5mweH8wlzKf+k
-        lu0AkCEfmwJ2VDmkoLh8SVCJbT4jzXXTf9sUf9reepl+WLoX/HYO+d0q2t7pYqKTvW4ACE
-        6vuKCAGkjFOK3NT53IiVKVs+9jUJHkc=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E9F17139C3;
-        Sun,  7 May 2023 10:27:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id Yy8TOQZ9V2RkOQAAMHmgww
-        (envelope-from <mhocko@suse.com>); Sun, 07 May 2023 10:27:18 +0000
-Date:   Sun, 7 May 2023 12:27:18 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, kent.overstreet@linux.dev,
-        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFd9BiSorMldWiff@dhcp22.suse.cz>
-References: <20230501165450.15352-1-surenb@google.com>
- <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
- <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com>
- <ZFN1yswCd9wRgYPR@dhcp22.suse.cz>
- <CAJuCfpEkV_+pAjxyEpMqY+x7buZhSpj5qDF6KubsS=ObrQKUZg@mail.gmail.com>
+        with ESMTP id S229472AbjEGLnQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 May 2023 07:43:16 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D647A13285
+        for <linux-doc@vger.kernel.org>; Sun,  7 May 2023 04:43:14 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-ba21644874cso187653276.0
+        for <linux-doc@vger.kernel.org>; Sun, 07 May 2023 04:43:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1683459794; x=1686051794;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/KgkHs9lVvBm3xpb5mpBL1jon6g+T6CYo/zJAttVKI=;
+        b=X+S1hIRGux8FkzjG1b6iz6Wrftbum7bA4vvigJOyjZ6R67A/op0wFLouauDdw3Spbq
+         IRCi6Q6CVIyXRLOtBfM8NHKC7ullVNGgmSL8/uCCITIKrYUtXQgeEGq6ijZZC29hWrWE
+         c/SnXgUmorJm3ymr1YgbnPK2vOHEaFrBCEfctfPCx3BtCvTmu7iQA8InOaQRaS1IBP/8
+         A28tpcPbAqrbzzskUie389+fEgOA5NDA2Q7ooljoKuX2i9/GlFtlaC4vZone/MsT069i
+         M6SmOAk/Brvm32NcFe4lwnizGWJajFdpRgV6Y/cQPFoWSVmEsnDPcK51Rre20+Weg/us
+         kkWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683459794; x=1686051794;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/KgkHs9lVvBm3xpb5mpBL1jon6g+T6CYo/zJAttVKI=;
+        b=CSMKhbK7AESVUblwnVusYX7aZOqk2b+N/LUGa3SMe+QVlWOhpctp4/RMQ+YlUH6QjD
+         UJQCzcc2MSlU7hFfjGOC9a4rBWmP+Xl9i9SI6ZCGKXPWfmWmE8bchaQNPrU5qYVpskYl
+         m850MPDDXHnFWNM04EgcQE/rsjuI2BdQFa6GT/5fAViDSrjm+XYi3EJqkMqGfhoaqMpZ
+         oHyLI1dW561FVdwOQ9aakZ/8S5l5UWW0Msbs9nA+P5I1knjdkD0k2MDtglcHqqx2X+U7
+         +389upsHU6m7pIKGR1p2UBeyXxg2ed9LyW9ycyceCW7NenrjLXlG1eip6+S71NOEVr7U
+         yiMw==
+X-Gm-Message-State: AC+VfDzkhKammMYvIWHyRsTj8tY9SLVB4K/qWQqO4gbeJcskJS3QQS7b
+        qNrts86lZ+WzK95/du3sh5qTMS/FIJvWZG9W7UQ=
+X-Google-Smtp-Source: ACHHUZ6eN2R5iv72lVClZy2r8Jl7KPPR4R0d0mK8ZhY+OVDGabIxojEOhbqMCpi3LJZVFh+JGHl77g==
+X-Received: by 2002:a25:aac3:0:b0:b9e:76b4:df36 with SMTP id t61-20020a25aac3000000b00b9e76b4df36mr6977968ybi.5.1683459794046;
+        Sun, 07 May 2023 04:43:14 -0700 (PDT)
+Received: from [172.20.2.186] ([12.153.103.3])
+        by smtp.gmail.com with ESMTPSA id r15-20020a255d0f000000b00b9f4343547csm1630950ybb.41.2023.05.07.04.43.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 May 2023 04:43:13 -0700 (PDT)
+Message-ID: <92f0bb80-0dce-b679-4b51-ad3f0d466abf@kernel.dk>
+Date:   Sun, 7 May 2023 05:43:12 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpEkV_+pAjxyEpMqY+x7buZhSpj5qDF6KubsS=ObrQKUZg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] Documentation/block: request: delete the unused FIXME
+ comment
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     linux-block@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <20230507045012.15172-1-rdunlap@infradead.org>
+From:   Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20230507045012.15172-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 04-05-23 08:08:13, Suren Baghdasaryan wrote:
-> On Thu, May 4, 2023 at 2:07 AM Michal Hocko <mhocko@suse.com> wrote:
-[...]
-> > e.g. is it really interesting to know that there is a likely memory
-> > leak in seq_file proper doing and allocation? No as it is the specific
-> > implementation using seq_file that is leaking most likely. There are
-> > other examples like that See?
-> 
-> Yes, I see that. One level tracking does not provide all the
-> information needed to track such issues. Something more informative
-> would cost more. That's why our proposal is to have a light-weight
-> mechanism to get a high level picture and then be able to zoom into a
-> specific area using context capture. If you have ideas to improve
-> this, I'm open to suggestions.
+On 5/6/23 10:50?PM, Randy Dunlap wrote:
+> This FIXME comment looks like it could be a local file contents
+> attempt, but this file is short and does not needs its own contents
+> block, so drop it completely.
 
-Well, I think that a more scalable approach would be to not track in
-callers but in the allocator itself. The full stack trace might not be
-all that important or interesting and maybe even increase the overall
-overhead but a partial one with a configurable depth would sound more
-interesting to me. A per cache hastable indexed by stack trace reference
-and extending slab metadata to store the reference for kfree path won't
-be free but the overhead might be just acceptable.
-
-If the stack unwinding is really too expensive for tracking another
-option would be to add code tags dynamically to the compiled
-kernel without any actual code changes. I can imagine the tracing
-infrastructure could be used for that or maybe even consider compiler
-plugins to inject code for functions marked as allocators. So the kernel
-could be instrumented even without eny userspace tooling required by
-users directly.
+I had a quick look at that file (which I didn't even remember existed),
+and let's just burn it down. It's way out dated at this point, should
+just be removed.
 
 -- 
-Michal Hocko
-SUSE Labs
+Jens Axboe
+
