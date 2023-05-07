@@ -2,137 +2,170 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E9CC7EE2D
-	for <linux-doc@archiver.kernel.org>; Sun,  7 May 2023 17:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B69ABC77B7C
+	for <linux-doc@archiver.kernel.org>; Sun,  7 May 2023 18:26:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjEGRVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 May 2023 13:21:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55840 "EHLO
+        id S230187AbjEGS0M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 May 2023 14:26:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231480AbjEGRVN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 May 2023 13:21:13 -0400
-Received: from out-11.mta0.migadu.com (out-11.mta0.migadu.com [91.218.175.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5524D1161F
-        for <linux-doc@vger.kernel.org>; Sun,  7 May 2023 10:21:10 -0700 (PDT)
-Date:   Sun, 7 May 2023 13:20:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1683480068;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hurdbnJwUJqK07Lm+4BMc/GcG+c58gJSfQAtVR+cBkY=;
-        b=t9HPg37zepSR1RnzhSUKFRxBUu28FVu1Yi23jFUki7ZMbwLSC/NiT3n7wFBZNUFaL6UoyB
-        zJPC7zS/i2KkcdGtaRgLAJgrWe5jboQdCOvInvXLMeR4wfr6JjMe/ufK6pDB5akkqqXdTQ
-        ldiDYd0e9CxSI40mvUKNrcXC5Ki5rqQ=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-        vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-        mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-        liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-        peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com,
-        axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-        nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-        muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-        pasha.tatashin@soleen.com, yosryahmed@google.com,
-        yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
-        andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFfd99w9vFTftB8D@moria.home.lan>
-References: <20230501165450.15352-1-surenb@google.com>
- <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
- <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com>
- <ZFN1yswCd9wRgYPR@dhcp22.suse.cz>
+        with ESMTP id S230099AbjEGS0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 May 2023 14:26:11 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3569D83DE;
+        Sun,  7 May 2023 11:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=rjFO1Lqn1x0xYjMf0ILF6MLtATeOnoQcHm1en6+Aq34=; b=EVEE6s760hOjO25mtyEk9/Y7Ks
+        SeMR6ZOnyQwVwLTYkyPhNiqL6H5AeP6fZtRDASraitSurY4kbrqRyLAoRoU6rQsspMjshByV83eHU
+        nVkZipKjQKTf16s+DHDGnirYutnV/bfIMBjcomBbCvShClgimml2PKH/uP2zelVZdzZFx6wTAAn7g
+        1uKVxt2idqzIKBsyV14PCO+vyYWPs+rlvYct5fDy5HLOqiJqRbY8MCfogmSt1t3lJbJumb58auhKD
+        0y2fVFY77IkxdHXFVKW2RIux48ICHX7gzJ4dUbouCFG4EErsArONNkjyWyMVBDlv2HZm/sk/UPxrX
+        op9hbZuQ==;
+Received: from [2601:1c2:980:9ec0:e65e:37ff:febd:ee53] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pvj5D-00GXmV-1m;
+        Sun, 07 May 2023 18:26:07 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+        linux-block@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation/block: drop the request.rst file
+Date:   Sun,  7 May 2023 11:26:06 -0700
+Message-Id: <20230507182606.12647-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZFN1yswCd9wRgYPR@dhcp22.suse.cz>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 04, 2023 at 11:07:22AM +0200, Michal Hocko wrote:
-> No. I am mostly concerned about the _maintenance_ overhead. For the
-> bare tracking (without profiling and thus stack traces) only those
-> allocations that are directly inlined into the consumer are really
-> of any use. That increases the code impact of the tracing because any
-> relevant allocation location has to go through the micro surgery. 
-> 
-> e.g. is it really interesting to know that there is a likely memory
-> leak in seq_file proper doing and allocation? No as it is the specific
-> implementation using seq_file that is leaking most likely. There are
-> other examples like that See?
+Documentation/block/request.rst is outdated and should be removed.
+Also delete its entry in the block/index.rst file.
 
-So this is a rather strange usage of "maintenance overhead" :)
-
-But it's something we thought of. If we had to plumb around a _RET_IP_
-parameter, or a codetag pointer, it would be a hassle annotating the
-correct callsite.
-
-Instead, alloc_hooks() wraps a memory allocation function and stashes a
-pointer to a codetag in task_struct for use by the core slub/buddy
-allocator code.
-
-That means that in your example, to move tracking to a given seq_file
-function, we just:
- - hook the seq_file function with alloc_hooks
- - change the seq_file function to call non-hooked memory allocation
-   functions.
-
-> It would have been more convincing if you had some numbers at hands.
-> E.g. this is a typical workload we are dealing with. With the compile
-> time tags we are able to learn this with that much of cost. With a dynamic
-> tracing we are able to learn this much with that cost. See? As small as
-> possible is a rather vague term that different people will have a very
-> different idea about.
-
-Engineers don't prototype and benchmark everything as a matter of
-course, we're expected to have the rough equivealent of a CS education
-and an understanding of big O notation, cache architecture, etc.
-
-The slub fast path is _really_ fast - double word non locked cmpxchg.
-That's what we're trying to compete with. Adding a big globally
-accessible hash table is going to tank performance compared to that.
-
-I believe the numbers we already posted speak for themselves. We're
-considerably faster than memcg, fast enough to run in production.
-
-I'm not going to be switching to a design that significantly regresses
-performance, sorry :)
-
-> TBH I am much more concerned about the maintenance burden on the MM side
-> than the actual code tagging itslef which is much more self contained. I
-> haven't seen other potential applications of the same infrastructure and
-> maybe the code impact would be much smaller than in the MM proper. Our
-> allocator API is really hairy and convoluted.
-
-You keep saying "maintenance burden", but this is a criticism that can
-be directed at _any_ patchset that adds new code; it's generally
-understood that that is the accepted cost for new functionality.
-
-If you have specific concerns where you think we did something that
-makes the code harder to maintain, _please point them out in the
-appropriate patch_. I don't think you'll find too much - the
-instrumentation in the allocators simply generalizes what memcg was
-already doing, and the hooks themselves are a bit boilerplaty but hardly
-the sort of thing people will be tripping over later.
-
-TL;DR - put up or shut up :)
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
+index 102953166429..9fea696f9daa 100644
+--- a/Documentation/block/index.rst
++++ b/Documentation/block/index.rst
+@@ -18,7 +18,6 @@ Block
+    kyber-iosched
+    null_blk
+    pr
+-   request
+    stat
+    switching-sched
+    writeback_cache_control
+diff --git a/Documentation/block/request.rst b/Documentation/block/request.rst
+deleted file mode 100644
+index 747021e1ffdb..000000000000
+--- a/Documentation/block/request.rst
++++ /dev/null
+@@ -1,99 +0,0 @@
+-============================
+-struct request documentation
+-============================
+-
+-Jens Axboe <jens.axboe@oracle.com> 27/05/02
+-
+-
+-.. FIXME:
+-   No idea about what does mean - seems just some noise, so comment it
+-
+-   1.0
+-   Index
+-
+-   2.0 Struct request members classification
+-
+-       2.1 struct request members explanation
+-
+-   3.0
+-
+-
+-   2.0
+-
+-
+-
+-Short explanation of request members
+-====================================
+-
+-Classification flags:
+-
+-	=	====================
+-	D	driver member
+-	B	block layer member
+-	I	I/O scheduler member
+-	=	====================
+-
+-Unless an entry contains a D classification, a device driver must not access
+-this member. Some members may contain D classifications, but should only be
+-access through certain macros or functions (eg ->flags).
+-
+-<linux/blkdev.h>
+-
+-=============================== ======= =======================================
+-Member				Flag	Comment
+-=============================== ======= =======================================
+-struct list_head queuelist	BI	Organization on various internal
+-					queues
+-
+-``void *elevator_private``	I	I/O scheduler private data
+-
+-unsigned char cmd[16]		D	Driver can use this for setting up
+-					a cdb before execution, see
+-					blk_queue_prep_rq
+-
+-unsigned long flags		DBI	Contains info about data direction,
+-					request type, etc.
+-
+-int rq_status			D	Request status bits
+-
+-kdev_t rq_dev			DBI	Target device
+-
+-int errors			DB	Error counts
+-
+-sector_t sector			DBI	Target location
+-
+-unsigned long hard_nr_sectors	B	Used to keep sector sane
+-
+-unsigned long nr_sectors	DBI	Total number of sectors in request
+-
+-unsigned long hard_nr_sectors	B	Used to keep nr_sectors sane
+-
+-unsigned short nr_phys_segments	DB	Number of physical scatter gather
+-					segments in a request
+-
+-unsigned short nr_hw_segments	DB	Number of hardware scatter gather
+-					segments in a request
+-
+-unsigned int current_nr_sectors	DB	Number of sectors in first segment
+-					of request
+-
+-unsigned int hard_cur_sectors	B	Used to keep current_nr_sectors sane
+-
+-int tag				DB	TCQ tag, if assigned
+-
+-``void *special``		D	Free to be used by driver
+-
+-``char *buffer``		D	Map of first segment, also see
+-					section on bouncing SECTION
+-
+-``struct completion *waiting``	D	Can be used by driver to get signalled
+-					on request completion
+-
+-``struct bio *bio``		DBI	First bio in request
+-
+-``struct bio *biotail``		DBI	Last bio in request
+-
+-``struct request_queue *q``	DB	Request queue this request belongs to
+-
+-``struct request_list *rl``	B	Request list this request came from
+-=============================== ======= =======================================
