@@ -2,116 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 136FFC77B7C
-	for <linux-doc@archiver.kernel.org>; Sun,  7 May 2023 03:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B06C77B7D
+	for <linux-doc@archiver.kernel.org>; Sun,  7 May 2023 04:50:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbjEGDz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 May 2023 23:55:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41932 "EHLO
+        id S229628AbjEGEuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 May 2023 00:50:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjEGDz5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 May 2023 23:55:57 -0400
+        with ESMTP id S229527AbjEGEuQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 May 2023 00:50:16 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7739E26AA;
-        Sat,  6 May 2023 20:55:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F141D120AF;
+        Sat,  6 May 2023 21:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=4p4n85fkGQmzI1BRcg57TZDP2/Uobir5hS/5OnYITns=; b=vjfHSwyVT2PnwZk+qnXXObIGMS
-        4TsQzmjCVRLjxbwfpNlJ6zNfuwC/rxs7rn2y2ze2kG27N2gH9+kwiqg8qO2sUsvNsKWzaYGmI5QFr
-        hS84DMo5PTu069JEHhggFponUKYrNjk45KZ6L9lUZ2L166dvyk4oswPI5TpCF7sxIyU+E273CZCVp
-        xC3eAWKzCVDjscfUXXOImccokmPYWORgFSdVqT6P6mP+Mjjjr7AfBUUbpGv5hG5b38GQb/7DGWoLT
-        FAzBXxncSgnwUEMcHTyMhsXiR1BsFIo5/chMHxorLnnBKqM9RQi8PcKDab1x4WCIFRR/Q03xfHDEa
-        x5LvJ+Mg==;
-Received: from [2601:1c2:980:9ec0::2764]
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=bPRbQeNTrpSAndE0MaXajdXvqZ/eX3I6xTDffTsiSIU=; b=lloclno4EFHxO5gaFzZmxJ9a0B
+        b2DuTbmG0raCRqbgKIZvYdCDdYpT8x2PIyWPvoWAIJfxoTei/ec+Fmx2rUJaAPQLDtOdzga0rBAv8
+        lBECOnZs0MeLozXtCrBT0EYcm4nbodgFuKDprq9buxEaQobXfs4mhMAnfF0Jy+bAhKMEbLZy3sfNF
+        /CIVbScs7MGIEbu7JDAWHAoTgiy/kenQqLG85ba5E5DLggpT7rb3dvQPRKnX2fPTQmhVTrkNUMbkT
+        9KczQoohnmHlRTdnJFRGzHcNreg/T7RPQBLZ9nt9Qdui8Wl659gIxMBADgvvkZnNrNqsO3eLjKrCQ
+        DfDbO1Ww==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pvVV5-00F6KE-0H;
-        Sun, 07 May 2023 03:55:55 +0000
-Message-ID: <d7495c1c-4931-2056-90f9-56080adaf2d5@infradead.org>
-Date:   Sat, 6 May 2023 20:55:52 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: confusing documentation about Development Process
-Content-Language: en-US
-To:     Costa Shulyupin <costa.shul@redhat.com>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     open list <linux-kernel@vger.kernel.org>
-References: <CADDUTFy29Cn6y56XLB-me0FneXrMED0LuHLb-7KD_NoiXZSZrg@mail.gmail.com>
+        id 1pvWLd-00FBE5-21;
+        Sun, 07 May 2023 04:50:13 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CADDUTFy29Cn6y56XLB-me0FneXrMED0LuHLb-7KD_NoiXZSZrg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+        linux-block@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation/block: request: delete the unused FIXME comment
+Date:   Sat,  6 May 2023 21:50:12 -0700
+Message-Id: <20230507045012.15172-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Costa,
+This FIXME comment looks like it could be a local file contents
+attempt, but this file is short and does not needs its own contents
+block, so drop it completely.
 
-On 5/4/23 22:39, Costa Shulyupin wrote:
-> There are five topics named "Development Process" or "Working with the
-> development community" or both.
-> 
-> It is clear that these topics are related to the development. Some
-> content is overlapping.
-> 
-> Questions:
-> - Is it by design or chance?
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/block/request.rst |   17 -----------------
+ 1 file changed, 17 deletions(-)
 
-Chance. (I would probably call it evolution.)
-
-> - What are the principal differences between the topics?
-
-Some of these are much older than others, so I would say that
-currency (being current) is the biggest difference in them.
-And also the level of detail that is attempted in each of them.
-
-> - Are there any outdated documents?
-
-Probably. We aren't very good at removing documents from the kernel tree
-unless a complete driver or subsystem or architecture or platform is
-removed.
-
-> - How should it be?
-
-Good question and a fair one too. We (mostly Jon) are attempting to do some
-documentation reorganization but it's a slow process.
-
-
-If you have any specific questions about the kernel development process or you
-have specific suggestions about documentation changes, please be forthcoming
-with your specifics.
-
-We know that there is a lot of cleaning up that needs to be done, but
-combining documents is a fairly low priority IMO.
-
-Oh, and you can always send patches as well.  :)
-
-
-Hopefully Jon will also make some comments on your questions.
-
-
-> References:
-> 
-> "Working with the development community":
-> https://docs.kernel.org/index.html#working-with-the-development-community
-> 
-> - "All development-process docs" linked to "Working with the kernel
-> development" community: https://docs.kernel.org/process/index.html
-> 
-> -  - "How the development process works":
-> https://docs.kernel.org/process/2.Process.html
-> 
-> - "A guide to the Kernel Development Process":
-> https://docs.kernel.org/process/development-process.html
-> 
-> Development tools and processes:
-> https://docs.kernel.org/index.html#development-tools-and-processes
-> 
-> Thanks,
-> Costa
-
-thanks.
--- 
-~Randy
+diff -- a/Documentation/block/request.rst b/Documentation/block/request.rst
+--- a/Documentation/block/request.rst
++++ b/Documentation/block/request.rst
+@@ -5,23 +5,6 @@ struct request documentation
+ Jens Axboe <jens.axboe@oracle.com> 27/05/02
+ 
+ 
+-.. FIXME:
+-   No idea about what does mean - seems just some noise, so comment it
+-
+-   1.0
+-   Index
+-
+-   2.0 Struct request members classification
+-
+-       2.1 struct request members explanation
+-
+-   3.0
+-
+-
+-   2.0
+-
+-
+-
+ Short explanation of request members
+ ====================================
+ 
