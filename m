@@ -2,139 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 503B3C7EE24
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 04:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A60F4C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 05:59:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231609AbjEHEIp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 00:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60388 "EHLO
+        id S231779AbjEHF7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 01:59:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbjEHEIo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 00:08:44 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E501F6EB5;
-        Sun,  7 May 2023 21:08:42 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-50be0d835aaso7406430a12.3;
-        Sun, 07 May 2023 21:08:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683518921; x=1686110921;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=418lmDvsSwaR5hPOcnBAQZAbghEwqMzFRELtnuxfpVc=;
-        b=WM48MUrgQ8nDrO/xcJbziZYeEJIYKJ+lsqBG5g5X/M3QfyNsy8Zp0JnPxtCfngt9o4
-         mUXFB3keoT+bry4xcLN3YHZFV1qbfuK7R1SvymDYF6QNCR+ojbXKkQ1jq08YPmVpOkk9
-         7Nx5DtP3rWm1T0hpcw/e6M2A3squvqmwdDE51oDaXeXJWSZJCEMoFNIKU8Fkhw7uIUBk
-         3a+2cnpSTeuTw7HNLm3OEoYauDKYWea3CxCQecN9No7QPJgUnT51B2yO0RunQEAfnKlx
-         PDMAhI1h1pBIUYRStRuC99P7bfCzoeCspk6mZ0UZXl2/XPWadRpEThfj6GQs/83QMpIa
-         F4Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683518921; x=1686110921;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=418lmDvsSwaR5hPOcnBAQZAbghEwqMzFRELtnuxfpVc=;
-        b=Svw9l9fN9G25HkTmy70H45i5COdSuMG/pUTPfIUlUWE+zlxqKoJ/H20R33PvFCr2Ue
-         oQnfRKGrvQYJK8KnSzgJkkg9rJpBu7ueqYJi01ZvX8SulT2kDKVeYwQy1vOobYR0PajN
-         +XbILV4CbGCEnJkOhzHBRuMbUgOGNXkyVtM6MNXQ8aeQ0aebU1FF2af74ex+I8cNPp4x
-         dC2a0XkgvRvu5e1OZl0LEHVLpRXCUHAR4CYBiQUvuBIv7ZDZxdWQoY8Q7SoGqrBLBuHD
-         RYXtDGcKfZDqJfogUe15PfkAlxr3lEf1XVTA6BzRylkJ2axJ5UAUvMHGNbdc8yYqcF7P
-         1ivQ==
-X-Gm-Message-State: AC+VfDwKRTPtkCIAYGJ2eVoCku3YSrYSNJg9qHyXmPIv6+HUvNoe8qT8
-        MUrWVMCkt71CdhTkck4NQhv6tICaRSfKM7AblAE=
-X-Google-Smtp-Source: ACHHUZ4IPERXtNJef1vvKhMOH/D3B+M3LH79PgUudG1dBoi9d1doeo709yH83md5swCmQ/LygaVdGk3TZgPTcg9HZhk=
-X-Received: by 2002:aa7:ca57:0:b0:50c:1e2:4a42 with SMTP id
- j23-20020aa7ca57000000b0050c01e24a42mr7368607edt.15.1683518921019; Sun, 07
- May 2023 21:08:41 -0700 (PDT)
+        with ESMTP id S232618AbjEHF7e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 01:59:34 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B263213854;
+        Sun,  7 May 2023 22:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=1dCjcKAEnQ411omHCOVFyvsOwdZaZO9UpsrQTgMf9e0=; b=eydKThLigQoQiMyZT/8tq81SNv
+        nIGZonbM26SPCm8H2q/RTyXQlQa48evbD1At0CF6B5ErjHJTrUeOLHTYnszQwQw4Swz7sL2hBtlbu
+        wUibt1d0iVdlWNFSJu0FJP9Z2xsvBTDcukFZqIKkXfyMQtiimEPdtDkIknaAOcLj0N4Ee2UdrMBAC
+        M0wGVGrfUyzWFlc/5viiI+Oi3B//dNCoVQvSPzByjAHmwe7mnwG72iK4rdGzF1Tqb+7c8nOOo/2XU
+        EA5MD9SN8gNTMbMUUhUiy4t6IIMiKH18MMZ5cxrUcwwlfpV+wJFymqJRgv+mTU8vXHOL0PGp1tygE
+        P6gUT57Q==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pvtuC-00HLfV-2y;
+        Mon, 08 May 2023 05:59:29 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, Rob Landley <rob@landley.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] Documentation/filesystems: ramfs-rootfs-initramfs: use :Author:
+Date:   Sun,  7 May 2023 22:59:28 -0700
+Message-Id: <20230508055928.3548-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230505113315.3307723-1-liujian56@huawei.com> <20230505113315.3307723-3-liujian56@huawei.com>
-In-Reply-To: <20230505113315.3307723-3-liujian56@huawei.com>
-From:   Jason Xing <kerneljasonxing@gmail.com>
-Date:   Mon, 8 May 2023 12:08:04 +0800
-Message-ID: <CAL+tcoDY11sSO8_h1DKCWgAXOjQwM1JR5cx7cpmotWVj28m_fg@mail.gmail.com>
-Subject: Re: [PATCH 2/9] softirq: Use sched_clock() based timeout
-To:     Liu Jian <liujian56@huawei.com>
-Cc:     corbet@lwn.net, paulmck@kernel.org, frederic@kernel.org,
-        quic_neeraju@quicinc.com, joel@joelfernandes.org,
-        josh@joshtriplett.org, boqun.feng@gmail.com, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        qiang1.zhang@intel.com, jstultz@google.com, tglx@linutronix.de,
-        sboyd@kernel.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, peterz@infradead.org,
-        frankwoo@google.com, Rhinewuwu@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rcu@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 5, 2023 at 7:25=E2=80=AFPM Liu Jian <liujian56@huawei.com> wrot=
-e:
->
-> From: Peter Zijlstra <peterz@infradead.org>
->
-> Replace the jiffies based timeout with a sched_clock() based one.
->
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Signed-off-by: Liu Jian <liujian56@huawei.com>
-> ---
->  kernel/softirq.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/kernel/softirq.c b/kernel/softirq.c
-> index bff5debf6ce6..59f16a9af5d1 100644
-> --- a/kernel/softirq.c
-> +++ b/kernel/softirq.c
-> @@ -27,6 +27,7 @@
->  #include <linux/tick.h>
->  #include <linux/irq.h>
->  #include <linux/wait_bit.h>
-> +#include <linux/sched/clock.h>
->
->  #include <asm/softirq_stack.h>
->
-> @@ -489,7 +490,7 @@ asmlinkage __visible void do_softirq(void)
->   * we want to handle softirqs as soon as possible, but they
->   * should not be able to lock up the box.
->   */
-> -#define MAX_SOFTIRQ_TIME  msecs_to_jiffies(2)
-> +#define MAX_SOFTIRQ_TIME       (2 * NSEC_PER_MSEC)
+Use the :Author: markup instead of making it a chapter heading.
+This cleans up the table of contents for this file.
 
-I wonder if it affects those servers that set HZ to some different
-values rather than 1000 as default.
+Fixes: 7f46a240b0a1 ("[PATCH] ramfs, rootfs, and initramfs docs")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Rob Landley <rob@landley.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+---
+ Documentation/filesystems/ramfs-rootfs-initramfs.rst |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks,
-Jason
-
->  #define MAX_SOFTIRQ_RESTART 10
->
->  #ifdef CONFIG_TRACE_IRQFLAGS
-> @@ -527,9 +528,9 @@ static inline void lockdep_softirq_end(bool in_hardir=
-q) { }
->
->  asmlinkage __visible void __softirq_entry __do_softirq(void)
->  {
-> -       unsigned long end =3D jiffies + MAX_SOFTIRQ_TIME;
->         unsigned long old_flags =3D current->flags;
->         int max_restart =3D MAX_SOFTIRQ_RESTART;
-> +       u64 start =3D sched_clock();
->         struct softirq_action *h;
->         unsigned long pending;
->         unsigned int vec_nr;
-> @@ -584,7 +585,7 @@ asmlinkage __visible void __softirq_entry __do_softir=
-q(void)
->
->         pending =3D local_softirq_pending();
->         if (pending) {
-> -               if (time_before(jiffies, end) && !need_resched() &&
-> +               if (sched_clock() - start < MAX_SOFTIRQ_TIME && !need_res=
-ched() &&
->                     --max_restart)
->                         goto restart;
->
-> --
-> 2.34.1
->
->
+diff -- a/Documentation/filesystems/ramfs-rootfs-initramfs.rst b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+--- a/Documentation/filesystems/ramfs-rootfs-initramfs.rst
++++ b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+@@ -6,8 +6,7 @@ Ramfs, rootfs and initramfs
+ 
+ October 17, 2005
+ 
+-Rob Landley <rob@landley.net>
+-=============================
++:Author: Rob Landley <rob@landley.net>
+ 
+ What is ramfs?
+ --------------
