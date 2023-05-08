@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25063C77B75
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 11:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E7BC77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 11:59:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236462AbjEHL6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 07:58:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57126 "EHLO
+        id S235489AbjEHL7C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 07:59:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234785AbjEHL6G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 07:58:06 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18D1B473FC
-        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 04:55:45 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-51b661097bfso3061232a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 May 2023 04:55:45 -0700 (PDT)
+        with ESMTP id S233552AbjEHL6R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 07:58:17 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE866473FE
+        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 04:55:53 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-51b0f9d7d70so4154361a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 May 2023 04:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1683546941; x=1686138941;
+        d=ventanamicro.com; s=google; t=1683546949; x=1686138949;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=38k1Pzb7K1cfn0j2an7l+ypiTAB8VfWPvQzIb1c40CU=;
-        b=PChmFsn3jZ8YIN6et/HE2FT9KTKcn+85yUyr9DAN37WxMFW8+DniecytVJXMB+E4Yt
-         cwg8NffeENFCvkKnaWixs6tUyDd3Pe6n2aLn4UIePpKETvgDRw/tKZj+YWWWcT4mL8PX
-         tYib/TSvHrN7Ey/NaA2sBIl3ZhsF/OALW01VQPmUVWr5lFOnvHHzhr8ONcBU4wdYDXUM
-         2glikRs238NvoLM/xUbz0Xj6aUVZA+JwoGLMj1OClPKRSjyvFoYHdvDFP9z9Wm3UBUso
-         nG8WFplmCxjrRVNpFWVJOLFxXe7WeRsIP9yzHVTVBjY97ncMG5iq4wNUkEILfoLw9j50
-         tEaA==
+        bh=OXbI3HNo2LwXyvQs8qly8d1W6GTwS2nLVT7+MHc+VBo=;
+        b=VJ05ByxAGU0vvx8FU1rjL6l0PIhYquRStC62VT+/S2jdFsLmaNzstWpoe/hp4v7/fY
+         9Ylc58Ec1X59MDBgEvRnZDYa2YK4has1nYcaIChEcUHpK9Rtzzs0lN8auNvjP/eS/mzF
+         b/q8IeE+kqnv4kgmSGEDfxohLmsEDEAmTj4HLYxPf8Gjz4R36yz+fRDNLHDdLtDGxoAl
+         7mtfwXr9/djJaaG1DwPbd57mwyG5l4sdX1mA2Rl2byTeWWF1TsEdVB1cs1cR+R0R1EW9
+         +Ash7wiwJX0Utkc0AktTYUTxTmaoyjAeBGJFDxoAhquycttgz+y0oV4T4PsNDlPm/P57
+         2AwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683546941; x=1686138941;
+        d=1e100.net; s=20221208; t=1683546949; x=1686138949;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=38k1Pzb7K1cfn0j2an7l+ypiTAB8VfWPvQzIb1c40CU=;
-        b=Sc8MMhvvnClxn0NQMvGfzaDxtvA/RsXBaetRJq88ZAlOXPAQeyNLyo4sc7pXmDVhfp
-         OBx3BGpATCu9P3FSKfgYWZS6N4Xoq6QfN4i9vHhDuq27AVZYbTSf5lejpMnrRdJ553F+
-         Cxv6hgG6pfXJodKluBLbZXOjs6lA7zQo9wHJORibtibGrmutsTXkwhuaGAbYpEJz17Hm
-         3uMFid2rmIN8jiyoKzZzZfJ06zQo0F6pLCueHcxx1BajMYVXczd3rnMtXCkXWDiHOExu
-         OAG1PiMj6cZYb/h25LPRj+Fb4vROwyLqvSEgnuO6XQtkb6RZa4TqO3kiWxTWWFuL3eaM
-         2Giw==
-X-Gm-Message-State: AC+VfDyJNqFVehQkHZ27KQNE6E+1HmWnx5bsaUVMtT40ZXV7MpK7KXiG
-        f5OYIQBr9hkUzw3mcSj0JH0i9dQTGEdiNRBisBA=
-X-Google-Smtp-Source: ACHHUZ6zMo1/GVdCMuvw4uqUNbB5el8P538gaRe9zZQmHaDTlvRjtiHbiNIa2a1kNbjX1A6CxKl+VA==
-X-Received: by 2002:a17:902:8c96:b0:1a9:631b:7d68 with SMTP id t22-20020a1709028c9600b001a9631b7d68mr8947702plo.8.1683546941248;
-        Mon, 08 May 2023 04:55:41 -0700 (PDT)
+        bh=OXbI3HNo2LwXyvQs8qly8d1W6GTwS2nLVT7+MHc+VBo=;
+        b=k0WBsKRLFByBCM7Qh64xCQH6Nmpww0eoG8mYiWe4UkqT2gql+WHXnI9qK44tnhnhRc
+         ek1iyhX7m+NOtKlAOXyJh5IIkMHZVQzaRzUwZotSzU1uDYEwhL5/cqPZy+FdnfXc61O/
+         Ks4WESgIHTSBWmESzE00hq+Ia3BU8M6NMJlbCFn2KMb/ESOMO/fST6XrZn/4rVKwVzGk
+         qrK4NeeE7Bzw71cvmmfX+P5NltxDzq1lMeC46p0l75CUny34qgwccLfevlA9Fuj+EZd/
+         Qxb88bZDUqrzWabTaFOikYjp4V4Xo/1qJORPP2gnMXM2xgV3zWYJe9Aqc6zepkqRIsMl
+         DjjA==
+X-Gm-Message-State: AC+VfDyNfJAIfQsJpvJAoxS3QIUdpClDFCOty5FCfl6zPzNQ8kjnyx84
+        AKsjU/l+OUqmQQyTvUvKkhWCkoiKSKL26Vi025A=
+X-Google-Smtp-Source: ACHHUZ4GEr9Y9j7DgnPzlC1fbWrO73mkCaN33oq08+WeT0xKd/++5k0KyC4CIRoSU1LTRnVvt3Uuyw==
+X-Received: by 2002:a17:902:b20a:b0:1ac:3e90:7c4 with SMTP id t10-20020a170902b20a00b001ac3e9007c4mr10016908plr.2.1683546948833;
+        Mon, 08 May 2023 04:55:48 -0700 (PDT)
 Received: from sunil-laptop.. ([106.51.189.144])
-        by smtp.gmail.com with ESMTPSA id w9-20020a170902904900b001aaed524541sm7015149plz.227.2023.05.08.04.55.33
+        by smtp.gmail.com with ESMTPSA id w9-20020a170902904900b001aaed524541sm7015149plz.227.2023.05.08.04.55.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 04:55:40 -0700 (PDT)
+        Mon, 08 May 2023 04:55:48 -0700 (PDT)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
@@ -74,12 +74,10 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Tom Rix <trix@redhat.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH V5 20/21] RISC-V: Enable ACPI in defconfig
-Date:   Mon,  8 May 2023 17:22:36 +0530
-Message-Id: <20230508115237.216337-21-sunilvl@ventanamicro.com>
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: [PATCH V5 21/21] MAINTAINERS: Add entry for drivers/acpi/riscv
+Date:   Mon,  8 May 2023 17:22:37 +0530
+Message-Id: <20230508115237.216337-22-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230508115237.216337-1-sunilvl@ventanamicro.com>
 References: <20230508115237.216337-1-sunilvl@ventanamicro.com>
@@ -89,28 +87,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support to build ACPI subsystem in defconfig.
+ACPI defines few RISC-V specific tables which need
+parsing code added in drivers/acpi/riscv. Add maintainer
+entries for this newly created folder.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index d98d6e90b2b8..d3d1fbf2dd5f 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -37,6 +37,7 @@ CONFIG_PM=y
- CONFIG_CPU_IDLE=y
- CONFIG_VIRTUALIZATION=y
- CONFIG_KVM=m
-+CONFIG_ACPI=y
- CONFIG_JUMP_LABEL=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7e0b87d5aa2e..083ba321fc7c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -406,6 +406,14 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	drivers/acpi/arm64
+ 
++ACPI FOR RISC-V (ACPI/riscv)
++M:	Sunil V L <sunilvl@ventanamicro.com>
++L:	linux-acpi@vger.kernel.org
++L:	linux-riscv@lists.infradead.org
++S:	Maintained
++F:	arch/riscv/kernel/acpi.c
++F:	drivers/acpi/riscv
++
+ ACPI SERIAL MULTI INSTANTIATE DRIVER
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	platform-driver-x86@vger.kernel.org
 -- 
 2.34.1
 
