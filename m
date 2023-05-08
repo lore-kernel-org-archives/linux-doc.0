@@ -2,72 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72609C77B75
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 16:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7213C7EE24
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 17:51:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234194AbjEHQkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 12:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39354 "EHLO
+        id S232492AbjEHRvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 13:51:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233694AbjEHQkQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 12:40:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C6872A7;
-        Mon,  8 May 2023 09:39:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D19B61D48;
-        Mon,  8 May 2023 16:39:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C48C433D2;
-        Mon,  8 May 2023 16:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683563941;
-        bh=ELyESaT3VGjs/tLzzPRioIMW1+mw8WNX1w4bnRTpoeg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S8q9oE+gO17Z36AIuQ54QZR0+HQdZtQmT5jmlPVnQWRgOfqcuAKz4hlx71M41pxee
-         FM/osBCdZtCFEir9ogxaCvmm1osXFbSJxHWFLpmzB6oSjkQOJccXo3R2ZXcse+08zd
-         /mn9oFd7xjwtY1+XnVHLi7odsfhVmZrgm3n7Ur1eferF80u3RkAVFGRoIEarZe6r3r
-         vbMyIT9niNwc3khpZrPno5J/J5l0wNu/2Uaa+k2KC+ZcS25cTM8R3JBXcxhabTLO/W
-         /MQ2+pVbSBHqqgyVogzOZwUekbqnI1YLDR+MbTSeLdRffp9EdUz+hpFBn1BCUccO+J
-         EN28Ml5lnvDbA==
-Date:   Mon, 8 May 2023 18:39:04 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, Ram Pai <linuxram@us.ibm.com>,
-        Peng Tao <bergwolf@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] Documentation/filesystems: sharedsubtree: add section
- headings
-Message-ID: <20230508-zonen-aufkeimen-800844200121@brauner>
-References: <20230508055938.6550-1-rdunlap@infradead.org>
+        with ESMTP id S229475AbjEHRvp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 13:51:45 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42ED744A0;
+        Mon,  8 May 2023 10:51:44 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1683568301;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xBM5m6wDNW8LeDu3c/o/2yvJ8k64BJF0JoE591jbLbA=;
+        b=sMXXfFh+31ZYLnj/Q/317zJ8ZSNPWFhoFiud2U76+34ZcjDHzfH94OqL5J7Cq08AktHEob
+        jScu3BBU+qL6S/lcL3VxvFTcbres7JXXNwc90R7lK1wlwr2ZmAigc0dIvG5AV6JAzorBaq
+        DIpcER3iASDOuzirPArCyeojNdahXrhqv4d/Uweihy+eMCslrpiZjVjkedRt1mJY4raFyK
+        YgUIvPPYtt7wKOkz2+m2PZtlqlM8wnC8SGGOKlzyhUWXe5PLhj9G2a/vKTQIm9Ki6XKPrl
+        ry4fY2g0q5I7fMBhPRATR4Kgl2/343VnWymkfbnsQx7N+fW0pldcN8wNrV6oMw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1683568301;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xBM5m6wDNW8LeDu3c/o/2yvJ8k64BJF0JoE591jbLbA=;
+        b=FKKYbkze0DTjbg51KVCUWSLfNiUsicv5XAC0hJm2+JvwoRzcsJXs/xUt9yUiE5d6ajXhX2
+        oLbHvKULh49aPoDw==
+To:     Jason Xing <kerneljasonxing@gmail.com>,
+        Liu Jian <liujian56@huawei.com>
+Cc:     corbet@lwn.net, paulmck@kernel.org, frederic@kernel.org,
+        quic_neeraju@quicinc.com, joel@joelfernandes.org,
+        josh@joshtriplett.org, boqun.feng@gmail.com, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        qiang1.zhang@intel.com, jstultz@google.com, sboyd@kernel.org,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, peterz@infradead.org, frankwoo@google.com,
+        Rhinewuwu@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 2/9] softirq: Use sched_clock() based timeout
+In-Reply-To: <CAL+tcoDY11sSO8_h1DKCWgAXOjQwM1JR5cx7cpmotWVj28m_fg@mail.gmail.com>
+References: <20230505113315.3307723-1-liujian56@huawei.com>
+ <20230505113315.3307723-3-liujian56@huawei.com>
+ <CAL+tcoDY11sSO8_h1DKCWgAXOjQwM1JR5cx7cpmotWVj28m_fg@mail.gmail.com>
+Date:   Mon, 08 May 2023 19:51:41 +0200
+Message-ID: <87cz3a3e4y.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230508055938.6550-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 07, 2023 at 10:59:38PM -0700, Randy Dunlap wrote:
-> Several of the sections are missing underlines. This makes the
-> generated contents have missing entries, so add the underlines.
-> 
-> Fixes: 16c01b20ae05 ("doc/filesystems: more mount cleanups")
-> Fixes: 9cfcceea8f7e ("[PATCH] Complete description of shared subtrees.")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Ram Pai <linuxram@us.ibm.com>
-> Cc: Peng Tao <bergwolf@gmail.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> ---
+On Mon, May 08 2023 at 12:08, Jason Xing wrote:
+> On Fri, May 5, 2023 at 7:25=E2=80=AFPM Liu Jian <liujian56@huawei.com> wr=
+ote:
+>> @@ -489,7 +490,7 @@ asmlinkage __visible void do_softirq(void)
+>>   * we want to handle softirqs as soon as possible, but they
+>>   * should not be able to lock up the box.
+>>   */
+>> -#define MAX_SOFTIRQ_TIME  msecs_to_jiffies(2)
+>> +#define MAX_SOFTIRQ_TIME       (2 * NSEC_PER_MSEC)
+>
+> I wonder if it affects those servers that set HZ to some different
+> values rather than 1000 as default.
 
-Looks good,
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+The result of msecs_to_jiffies(2) for different HZ values:
+
+HZ=3D100     1
+HZ=3D250     1
+HZ=3D1000    2
+
+So depending on when the softirq processing starts, this gives the
+following ranges in which the timeout ends:
+
+HZ=3D100    0 - 10ms
+HZ=3D250    0 -  4ms
+HZ=3D1000   1 -  2ms
+
+But as the various softirq handlers have their own notion of timeouts,
+loop limits etc. and the timeout is only checked after _all_ pending
+bits of each iteration have been processed, the outcome of this is all
+lottery.
+
+Due to that the sched_clock() change per se won't have too much impact,
+but if the overall changes to consolidate the break conditions are in
+place, I think it will have observable effects.
+
+Making this consistent is definitely a good thing, but it won't solve
+the underlying problem of soft interrupt processing at all.
+
+We definitely need to spend more thoughts on pulling things out of soft
+interrupt context so that these functionalities get under proper
+resource control by the scheduler.
+
+Thanks,
+
+        tglx
