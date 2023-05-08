@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA7AC77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 11:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34EC5C77B7F
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 11:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236480AbjEHLyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 07:54:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56588 "EHLO
+        id S233391AbjEHLy2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 07:54:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234843AbjEHLxh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 07:53:37 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415A861B3
-        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 04:53:29 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1aaff9c93a5so29547655ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 May 2023 04:53:29 -0700 (PDT)
+        with ESMTP id S236409AbjEHLxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 07:53:49 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 679E5431DC
+        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 04:53:37 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1aaf2ede38fso43453105ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 May 2023 04:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1683546808; x=1686138808;
+        d=ventanamicro.com; s=google; t=1683546816; x=1686138816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1wcGbfhUP5NrwGCYl7Q1yL0FMzRdJBr1PIlnUSkktJs=;
-        b=fBHUfS8fWSAOqlwT6Q08NJnR0u3M9PyiSxhBSIcvPa/yshAYWNpI0o9m3i1+avJke7
-         UpdOLZb8RloM1SZR7kh5kmhzwoaBrLsvxZoeqYVZqqF396fb/4BhWwd23qb9VCpaKumw
-         +uzkOQJbxs7oZeo9NsWhaHt5YsTFd1D2MQy8quk+pYQZ9V1E+g372HhAHRdQNMKrPpL/
-         Y2eneBn1k8hN2tTm1lHK/RgQHMRZvomTuBl9iOkHafRg69ncMDwy+Yu/SoJirdME89sk
-         +YabmC7IczGRfgKnOXQXtodoUNlYgFuPjduPauQRgsg6YGZbopdDa3L+DuoJF7LnTN5O
-         CPQg==
+        bh=g9sxg5LZ/1sJSiDItv56ESM72UWoohRRXZed1vK0StQ=;
+        b=LI6hJFWMPnsAo7nIAUuNh8he07mq1qgBALuGpR9EPgsWn0RuQgqraPJfQDVda1IPzP
+         dxfRnz2+Y1bBoCiW6MOE7juSAhHpWJ5eHqBpRXu6YmP8VojcJM4EoeZQlUqk7qVboH0r
+         A+Q9G5B1hyxCv4ivTDFstBhRFjJb8+NWDTdCrbOGDjkl0MIJm5n95AroRQ88lMxfgPqT
+         JrBnULZUv/fWaGdmODxR/f+VFKjEDxTExcbSfGxpMgB1dt+zxESFqt+Wjv/vLG4AQVAS
+         35iYEQdCAIV6RHM2AkPKMrGfP5t56Mm4wvj4UplcEL3D8qytkfAH0uRNjcFGeSquvRNo
+         SSAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683546808; x=1686138808;
+        d=1e100.net; s=20221208; t=1683546816; x=1686138816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1wcGbfhUP5NrwGCYl7Q1yL0FMzRdJBr1PIlnUSkktJs=;
-        b=dZIHBNfKwdxk+S63yAWh1h0Z1QehC2TbBbNmiNULvmOXP5/djQPxzx/Ugq2lGqNXF+
-         Hd8y4KDDdJ4SE761U2x6zjonOdxPSQoKR52ipkzOSL/3ydzc6EMRk/2MCOfqiS3LIkSX
-         /3FCEFbhFZ0Yjt1As9QVHGKPGuVHEYQDk4asiS9s2/EBznYepNNT+eSWi7F/Lmk/P/e1
-         vRU76JihjCQnvllJfnZSL3ftxYu27JvJrYGlPPGWbqLapM4/JsR8PN1zLZLe4bGOUBCP
-         uZjMiqExOQEmy07z+cCltess+HSx30uYdMi+BCDkooQ1TzU6yj3qrE8c0bU4ZpUY3+FS
-         A9Ww==
-X-Gm-Message-State: AC+VfDyl0jPGAdfsiXi/kQB4Knn2voYfc0xkDIcn5uuzCgYqok6gP6h6
-        S0BBFyUmQ6rE5Ve3taKqst2uaXzDkjwUEKl6reU=
-X-Google-Smtp-Source: ACHHUZ4YPZPXYK0bFQvCKyd/gnSncEBJ6qVKzMyJ4dAbIZymuHBA+fio0dFknn2dgtRYb5PHf8ADKA==
-X-Received: by 2002:a17:902:b405:b0:1a5:a1b:bbd8 with SMTP id x5-20020a170902b40500b001a50a1bbbd8mr9546124plr.45.1683546808426;
-        Mon, 08 May 2023 04:53:28 -0700 (PDT)
+        bh=g9sxg5LZ/1sJSiDItv56ESM72UWoohRRXZed1vK0StQ=;
+        b=EFueHvX4LPzxbGn0vyG+idXVlDQeCjQr4Jmeq4/9BZTHxdrar0wEHov3VmwKsF8WQf
+         JM2DcUHN2L1pi+WVj8b/luQxnKwEMdqStssMnGYZpK1XlER8vgiIFShYcBP0bMVovy7v
+         daPozncnEQDmHX7CG0t4x7thhgaVsHChVgjHQDg2gzpG30I0fY/BsYYs6/6QaxzhowM0
+         BEt2X8s4TovIEQmW22YwCF5y8JsR+VXUa7oPU0f22EbiwYVbkN/GeLPUaMnNx28eqjlV
+         FHnxOdsgEqNgjZT23FeyEh8+8RN1jSFGBShKGqSyESWmd7wHLYoSCbQ7pgPV0N7GcOIj
+         1Rjg==
+X-Gm-Message-State: AC+VfDxd1mVF9LPNrjusUHz+iNxQ3z228EKETHC8wH0h5FJCy1aHlrHn
+        Je2XboWidw2CFAGyo0N26K3HUJORlb0NhWyv5mg=
+X-Google-Smtp-Source: ACHHUZ52W6P99fGjx1H1aTdF1PS++Nk8GKk+bQ6gsyNGyvgDs6xJ01TMTUEtUHiG/54yN9c7UrsPkQ==
+X-Received: by 2002:a17:902:b085:b0:1aa:fdab:24a5 with SMTP id p5-20020a170902b08500b001aafdab24a5mr9199631plr.10.1683546816386;
+        Mon, 08 May 2023 04:53:36 -0700 (PDT)
 Received: from sunil-laptop.. ([106.51.189.144])
-        by smtp.gmail.com with ESMTPSA id w9-20020a170902904900b001aaed524541sm7015149plz.227.2023.05.08.04.53.20
+        by smtp.gmail.com with ESMTPSA id w9-20020a170902904900b001aaed524541sm7015149plz.227.2023.05.08.04.53.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 04:53:28 -0700 (PDT)
+        Mon, 08 May 2023 04:53:36 -0700 (PDT)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
@@ -74,11 +74,10 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Tom Rix <trix@redhat.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Andrew Jones <ajones@ventanamicro.com>
-Subject: [PATCH V5 04/21] ACPI: tables: Print RINTC information when MADT is parsed
-Date:   Mon,  8 May 2023 17:22:20 +0530
-Message-Id: <20230508115237.216337-5-sunilvl@ventanamicro.com>
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: [PATCH V5 05/21] ACPI: OSL: Make should_use_kmap() 0 for RISC-V
+Date:   Mon,  8 May 2023 17:22:21 +0530
+Message-Id: <20230508115237.216337-6-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230508115237.216337-1-sunilvl@ventanamicro.com>
 References: <20230508115237.216337-1-sunilvl@ventanamicro.com>
@@ -88,43 +87,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When MADT is parsed, print RINTC information as below:
-
-ACPI: RISC-V INTC (acpi_uid[0x0000] hart_id[0x0] enabled)
-ACPI: RISC-V INTC (acpi_uid[0x0001] hart_id[0x1] enabled)
-...
-ACPI: RISC-V INTC (acpi_uid[0x000f] hart_id[0xf] enabled)
-
-This debug information will be very helpful during bring up.
+Without this, if the tables are larger than 4K,
+acpi_map() will fail.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 ---
- drivers/acpi/tables.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/acpi/osl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/tables.c b/drivers/acpi/tables.c
-index 7b4680da57d7..8ab0a82b4da4 100644
---- a/drivers/acpi/tables.c
-+++ b/drivers/acpi/tables.c
-@@ -220,6 +220,16 @@ void acpi_table_print_madt_entry(struct acpi_subtable_header *header)
- 		}
- 		break;
+diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
+index 3269a888fb7a..f725813d0cce 100644
+--- a/drivers/acpi/osl.c
++++ b/drivers/acpi/osl.c
+@@ -276,7 +276,7 @@ acpi_map_lookup_virt(void __iomem *virt, acpi_size size)
+ 	return NULL;
+ }
  
-+	case ACPI_MADT_TYPE_RINTC:
-+		{
-+			struct acpi_madt_rintc *p = (struct acpi_madt_rintc *)header;
-+
-+			pr_debug("RISC-V INTC (acpi_uid[0x%04x] hart_id[0x%llx] %s)\n",
-+				 p->uid, p->hart_id,
-+				 (p->flags & ACPI_MADT_ENABLED) ? "enabled" : "disabled");
-+		}
-+		break;
-+
- 	default:
- 		pr_warn("Found unsupported MADT entry (type = 0x%x)\n",
- 			header->type);
+-#if defined(CONFIG_IA64) || defined(CONFIG_ARM64)
++#if defined(CONFIG_IA64) || defined(CONFIG_ARM64) || defined(CONFIG_RISCV)
+ /* ioremap will take care of cache attributes */
+ #define should_use_kmap(pfn)   0
+ #else
 -- 
 2.34.1
 
