@@ -2,191 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AEC2C77B75
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 06:22:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 036D7C77B75
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 07:12:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232266AbjEHGWc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 02:22:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46768 "EHLO
+        id S232026AbjEHHMp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 03:12:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjEHGWb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 02:22:31 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44DB511B71;
-        Sun,  7 May 2023 23:22:30 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-965a68abfd4so777001566b.2;
-        Sun, 07 May 2023 23:22:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683526949; x=1686118949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vw8CSw8/kqkr/nW0ZHKrE8vFpeahAapoWHjswcPuL9E=;
-        b=koEemG7vRAfynkdz9DNrQOAF6Jwa+C7C3q15nv2adIoHYNGLxSoPfHQq7C2pbgZzSg
-         yzEv0NjsvAihk42RnJupvuFhKYcgs7+Lh7CM0D0ND2QE5D3lGuwq0GylR/H5GjBjRKKP
-         RDh/ebS6b24gcGS8Ni5z8Yxgt2/vEYVVEkiiN0Y6S/7s8etmhFVyMvZ0Qea9L63SirDZ
-         v91QCTGQANoXukJZSuzkT74qnAoLR3PcKbdFz5nXXsRT8cCbdK4hfoJzhoAB5K741I5t
-         sdF7sVetn88njXsnaSnlVrEHKCP85oJXdN+lMRu3DXa7Z0WflRiAS0jpFZPCocby8cA4
-         EM7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683526949; x=1686118949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vw8CSw8/kqkr/nW0ZHKrE8vFpeahAapoWHjswcPuL9E=;
-        b=OPN7pOuBY60dIZQu5N3jvBbanLsLEHZ2a98xaifcl2kiDZfy6gS6559ALGUwfATLDa
-         dOvwBQfyVtob3+5cKt5ZVHhWp/i4KI/qeeo43+EuQd+osHmHJ23cVR/ewBqVp9nwDRuT
-         0KA62dhPO+mlQrxY+f8SCinO9vj11xpuB6YuYsIzjgD1f2D9SGm6lKPeXcZ/KToG7vQ7
-         NIppSE6MTimL45ofOtV4RYGVyaclhAgBTkJpo8eF38ygafGSuLRi255tQ6FXKvPkR23L
-         ce92Ve8kzZX2Zh/m2f420cdHiet5nqQ/f0VyJEe8RHhKt0PY5H2m3NE2nXIu3iPFj5cC
-         PMRw==
-X-Gm-Message-State: AC+VfDz1h47rZAe6mgteGYP1Ahp7B4AKTluEUM6UiaNqIHzUWObR8cP2
-        rorYu4rjzqLwDSNUU59XE13nshci1oUZmWLwY5A=
-X-Google-Smtp-Source: ACHHUZ5328pDEz0a5JABi/wRllwutYN11eMceJJKBtx2CcdIcWeEs7l0hVe0ErW7kOxexcCvXxfuf+f0bwj4UE25KCc=
-X-Received: by 2002:a17:907:26c6:b0:91f:b13f:a028 with SMTP id
- bp6-20020a17090726c600b0091fb13fa028mr6728320ejc.34.1683526948612; Sun, 07
- May 2023 23:22:28 -0700 (PDT)
+        with ESMTP id S233223AbjEHHMN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 03:12:13 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3F31BD8;
+        Mon,  8 May 2023 00:11:45 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3486w1X3004452;
+        Mon, 8 May 2023 07:11:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=eqQdcuRedzay5X2IT8ljqmvzrxYWoEOLtlkOnyQEbn8=;
+ b=oOzp4Ofbo4TOKtGMQ0ziEyv33UfjMQ5uzDpmN3QF+Ol++QbtfaqT9qAMr7zUbS8X7mEp
+ iDEdgjFHDedXPmcDsj1Cw4YFtzVczyDSYLk3wdVxGvZOxuHTAnGAkk/IfDiNkQycJyjk
+ rJXnk+8ZHKOnOCPda55jYONFJ6ACXRE4ncMJp5S4xdJewC/U4n2FWYij33vwgGe+6lbM
+ tu6YLh1ZYRYfpNEyQiZSWmS7kQxgNgNC7GL2d5er8UgKln+iCgPIyd4dNd0p/Moyn7wW
+ A98lD+pwNttY/kl3ZhLMvzH9hbKzn0c6iIQbh4GJNSduUqn6jaWigjbCXkpwYFts4/Sa tw== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qev9a80wb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 08 May 2023 07:11:01 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3487B004004938
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 8 May 2023 07:11:00 GMT
+Received: from [10.214.66.81] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 8 May 2023
+ 00:10:54 -0700
+Message-ID: <e714566e-39b7-d46b-13bd-3c0e20e9f944@quicinc.com>
+Date:   Mon, 8 May 2023 12:40:45 +0530
 MIME-Version: 1.0
-References: <20230505113315.3307723-1-liujian56@huawei.com> <20230505113315.3307723-8-liujian56@huawei.com>
-In-Reply-To: <20230505113315.3307723-8-liujian56@huawei.com>
-From:   Jason Xing <kerneljasonxing@gmail.com>
-Date:   Mon, 8 May 2023 14:21:52 +0800
-Message-ID: <CAL+tcoCKBcM8PnZ3_u-TFs8EyAGtuu7be7_akXBCX-gq0R2-+A@mail.gmail.com>
-Subject: Re: [PATCH 7/9] softirq,net: Use softirq_needs_break()
-To:     Liu Jian <liujian56@huawei.com>
-Cc:     corbet@lwn.net, paulmck@kernel.org, frederic@kernel.org,
-        quic_neeraju@quicinc.com, joel@joelfernandes.org,
-        josh@joshtriplett.org, boqun.feng@gmail.com, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        qiang1.zhang@intel.com, jstultz@google.com, tglx@linutronix.de,
-        sboyd@kernel.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, peterz@infradead.org,
-        frankwoo@google.com, Rhinewuwu@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rcu@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 04/18] soc: qcom: Add Qualcomm minidump kernel driver
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
+        <linux-gpio@vger.kernel.org>, <srinivas.kandagatla@linaro.org>
+CC:     <linux-arm-msm@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
+ <1683133352-10046-5-git-send-email-quic_mojha@quicinc.com>
+ <c6f730b6-f702-91d4-4abd-71546e02f869@linaro.org>
+ <23b493f4-1a01-8d03-fc12-d588b2c6fd74@quicinc.com>
+ <575a422d-6224-06b7-628c-8487b47882e9@linaro.org>
+ <500e5abc-fb71-8468-a6b0-3ced2676b57c@linaro.org>
+Content-Language: en-US
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <500e5abc-fb71-8468-a6b0-3ced2676b57c@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: LFuGGy60Q1JKYaitJRm9wfIf6IdSzpwl
+X-Proofpoint-ORIG-GUID: LFuGGy60Q1JKYaitJRm9wfIf6IdSzpwl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-08_04,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2305080050
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 5, 2023 at 7:27=E2=80=AFPM Liu Jian <liujian56@huawei.com> wrot=
-e:
->
-> From: Peter Zijlstra <peterz@infradead.org>
->
-> SoftIRQs provide their own timeout/break code now, use that.
->
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Signed-off-by: Liu Jian <liujian56@huawei.com>
-> ---
->  Documentation/admin-guide/sysctl/net.rst | 11 +----------
->  net/core/dev.c                           |  6 +-----
->  net/core/dev.h                           |  1 -
->  net/core/sysctl_net_core.c               |  8 --------
->  4 files changed, 2 insertions(+), 24 deletions(-)
->
-> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/adm=
-in-guide/sysctl/net.rst
-> index 466c560b0c30..095c60788c61 100644
-> --- a/Documentation/admin-guide/sysctl/net.rst
-> +++ b/Documentation/admin-guide/sysctl/net.rst
-> @@ -267,16 +267,7 @@ netdev_budget
->
->  Maximum number of packets taken from all interfaces in one polling cycle=
- (NAPI
->  poll). In one polling cycle interfaces which are registered to polling a=
-re
-> -probed in a round-robin manner. Also, a polling cycle may not exceed
-> -netdev_budget_usecs microseconds, even if netdev_budget has not been
-> -exhausted.
-> -
-> -netdev_budget_usecs
-> ----------------------
-> -
-> -Maximum number of microseconds in one NAPI polling cycle. Polling
-> -will exit when either netdev_budget_usecs have elapsed during the
-> -poll cycle or the number of packets processed reaches netdev_budget.
-> +probed in a round-robin manner.
->
->  netdev_max_backlog
->  ------------------
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index 735096d42c1d..70b6726beee6 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -4321,7 +4321,6 @@ int netdev_tstamp_prequeue __read_mostly =3D 1;
->  unsigned int sysctl_skb_defer_max __read_mostly =3D 64;
->  int netdev_budget __read_mostly =3D 300;
->  /* Must be at least 2 jiffes to guarantee 1 jiffy timeout */
-> -unsigned int __read_mostly netdev_budget_usecs =3D 2 * USEC_PER_SEC / HZ=
-;
->  int weight_p __read_mostly =3D 64;           /* old backlog weight */
->  int dev_weight_rx_bias __read_mostly =3D 1;  /* bias for backlog weight =
-*/
->  int dev_weight_tx_bias __read_mostly =3D 1;  /* bias for output_queue qu=
-ota */
-> @@ -6659,8 +6658,6 @@ static int napi_threaded_poll(void *data)
->  static __latent_entropy void net_rx_action(struct softirq_action *h)
->  {
->         struct softnet_data *sd =3D this_cpu_ptr(&softnet_data);
-> -       unsigned long time_limit =3D jiffies +
-> -               usecs_to_jiffies(READ_ONCE(netdev_budget_usecs));
->         int budget =3D READ_ONCE(netdev_budget);
->         LIST_HEAD(list);
->         LIST_HEAD(repoll);
-> @@ -6699,8 +6696,7 @@ static __latent_entropy void net_rx_action(struct s=
-oftirq_action *h)
->                  * Allow this to run for 2 jiffies since which will allow
->                  * an average latency of 1.5/HZ.
->                  */
-> -               if (unlikely(budget <=3D 0 ||
-> -                            time_after_eq(jiffies, time_limit))) {
-> +               if (unlikely(budget <=3D 0 || softirq_needs_break(h))) {
->                         sd->time_squeeze++;
->                         break;
->                 }
-> diff --git a/net/core/dev.h b/net/core/dev.h
-> index e075e198092c..e64a60c767ab 100644
-> --- a/net/core/dev.h
-> +++ b/net/core/dev.h
-> @@ -39,7 +39,6 @@ void dev_addr_check(struct net_device *dev);
->
->  /* sysctls not referred to from outside net/core/ */
->  extern int             netdev_budget;
-> -extern unsigned int    netdev_budget_usecs;
->  extern unsigned int    sysctl_skb_defer_max;
->  extern int             netdev_tstamp_prequeue;
->  extern int             netdev_unregister_timeout_secs;
-> diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-> index 782273bb93c2..59765c805f5b 100644
-> --- a/net/core/sysctl_net_core.c
-> +++ b/net/core/sysctl_net_core.c
-> @@ -595,14 +595,6 @@ static struct ctl_table net_core_table[] =3D {
->                 .extra1         =3D SYSCTL_ONE,
->                 .extra2         =3D &max_skb_frags,
->         },
-> -       {
-> -               .procname       =3D "netdev_budget_usecs",
-> -               .data           =3D &netdev_budget_usecs,
-> -               .maxlen         =3D sizeof(unsigned int),
-> -               .mode           =3D 0644,
-> -               .proc_handler   =3D proc_dointvec_minmax,
-> -               .extra1         =3D SYSCTL_ZERO,
-> -       },
 
-I cannot help asking whether we really need to remove the sysctl knob
-because it can let some users tune this. It's useful for some cases, I
-believe. Do you have any evidence/number to prove we can get rid of
-this?
 
-Thanks,
-Jason
+On 5/4/2023 10:04 PM, Krzysztof Kozlowski wrote:
+> On 04/05/2023 17:21, Krzysztof Kozlowski wrote:
+>>>>
+>>>>> +	ret = qcom_minidump_init_apss_subsystem(md);
+>>>>> +	if (ret) {
+>>>>> +		dev_err(&pdev->dev, "apss minidump initialization failed: %d\n", ret);
+>>>>> +		goto unlock;
+>>>>> +	}
+>>>>> +
+>>>>> +	__md = md;
+>>>>
+>>>> No. This is a platform device, so it can have multiple instances.
+>>>
+>>> It can have only one instance that is created from SMEM driver probe.
+>>
+>> Anyone can instantiate more of them.... how did you solve it?
+> 
+> To clarify - sprinkling more of singletons makes everything tightly
+> coupled, difficult to debug and non-portable. You cannot have two
+> instances, you have to control concurrent initialization by yourself in
+> each of such singletons.
+> 
+> I understand sometimes they are unavoidable, for example when this does
+> not map to hardware property. However here you have the parent - smem -
+> which can return you valid instance. Thus you avoid entire problem of
+> file-scope variables.
 
->         {
->                 .procname       =3D "fb_tunnels_only_for_init_net",
->                 .data           =3D &sysctl_fb_tunnels_only_for_init_net,
-> --
-> 2.34.1
->
->
+I get your point, why one's should avoid file scope variables.
+
+
+This is infrastructure driver and will not have multiple instances and 
+even if it happens could be avoided with with the help of global mutex 
+and protect below function which i am already doing at the moment and 
+fail the other probe if it is already initialized with proper logging..e.g
+
+"already initialized..."
+
+
+ret = qcom_minidump_init_apss_subsystem(md);
+
+
+And this will be in-lined with
+
+/* Pointer to the one and only smem handle */
+static struct qcom_smem *__smem;
+
+Let me know if you still disagree...and have some other way ?
+
+
+-- Mukesh
+
+
+> 
+> Best regards,
+> Krzysztof
+> 
