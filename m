@@ -2,91 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ECEAC7EE2A
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 16:29:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB56C7EE24
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 16:40:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234208AbjEHQ3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 12:29:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59004 "EHLO
+        id S233677AbjEHQkF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 12:40:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234150AbjEHQ3J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 12:29:09 -0400
-Received: from out-20.mta0.migadu.com (out-20.mta0.migadu.com [91.218.175.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563996EBB
-        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 09:29:07 -0700 (PDT)
-Date:   Mon, 8 May 2023 12:28:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1683563344;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=btuWTLCDIU3N1awwn4zUt1YF71kJtC5z8SNVVUAIbyo=;
-        b=ppCSykAa9c7etwS/cyAfHpjEnfPrDHDotGANFLXgMUHm9bjrbkOPIrIOLbmJp1+Qylr34Q
-        wlOIm/VRx5AM4lwQaMJ4l4vX7vuCfr7phONItXNJNQVk50C0BxoaroAVB+Lj79sluqNFha
-        75Gw5mW0hJfG8icL75eK5glCVJBmyZo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        akpm@linux-foundation.org, vbabka@suse.cz, hannes@cmpxchg.org,
-        roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
-        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
-        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-        paulmck@kernel.org, pasha.tatashin@soleen.com,
-        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFkjRBCExpXfI+O5@moria.home.lan>
-References: <20230501165450.15352-1-surenb@google.com>
- <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
- <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com>
- <ZFN1yswCd9wRgYPR@dhcp22.suse.cz>
- <ZFfd99w9vFTftB8D@moria.home.lan>
- <20230508175206.7dc3f87c@meshulam.tesarici.cz>
- <ZFkb1p80vq19rieI@moria.home.lan>
- <20230508180913.6a018b21@meshulam.tesarici.cz>
+        with ESMTP id S233424AbjEHQkA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 12:40:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 170366EB1;
+        Mon,  8 May 2023 09:39:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 75E6C6252F;
+        Mon,  8 May 2023 16:39:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BABD4C433D2;
+        Mon,  8 May 2023 16:39:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683563968;
+        bh=k6cUHSsgK5Fn8DpZlfU29s/FNuK/SUl4o07CWRZz99s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mC0a7zrM1FiMolYByDwdo1vM7uJNnt5DJS/o1UEFnCWoz2+W/9BeveIDHs3SC0/EY
+         EeXO1UF6/8p2MKgZTeFSJW9QsZ+Z3DR7eDXHZiO655BcmmIvskOVZdt0HbqBZpSCKT
+         rmAelxzuu2KMxU2GpOuHFmEPFIC4GEkHaio29Pa5e14dPNoKxIsuTYAOn8VZzhp8px
+         DtdPydAO+oXNc5FKPT73Aal0VABVde2qdq4a2QOcuTwj6lhBBsS/4X/Bnyc/y68f+B
+         1U/Q+/7c/36jDDoWFdWeiJYHwpm8T026WiIfsgUrjPkH/8MTiNfeNK+YoN8o6pKkOY
+         4cpeO04DZLjTA==
+Date:   Mon, 8 May 2023 18:39:31 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, Rob Landley <rob@landley.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] Documentation/filesystems: ramfs-rootfs-initramfs: use
+ :Author:
+Message-ID: <20230508-absehbar-nickel-c94c8e3069e3@brauner>
+References: <20230508055928.3548-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230508180913.6a018b21@meshulam.tesarici.cz>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20230508055928.3548-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 08, 2023 at 06:09:13PM +0200, Petr Tesařík wrote:
-> Sure, although AFAIK the index does not cover all possible config
-> options (so non-x86 arch code is often forgotten). However, that's the
-> less important part.
+On Sun, May 07, 2023 at 10:59:28PM -0700, Randy Dunlap wrote:
+> Use the :Author: markup instead of making it a chapter heading.
+> This cleans up the table of contents for this file.
 > 
-> What do you do if you need to hook something that does conflict with an
-> existing identifier?
+> Fixes: 7f46a240b0a1 ("[PATCH] ramfs, rootfs, and initramfs docs")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: Rob Landley <rob@landley.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> ---
 
-As already happens in this patchset, rename the other identifier.
-
-But this is C, we avoid these kinds of conflicts already because the
-language has no namespacing - it's going to be a pretty rare situtaion
-going forward. Most of the hooking that will be done is done with this
-patchset, and there was only one identifier that needed to be renamed.
+Looks good,
+Reviewed-by: Christian Brauner <brauner@kernel.org>
