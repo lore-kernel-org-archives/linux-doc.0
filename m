@@ -2,285 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 537EAC77B75
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 14:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94192C7EE22
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 14:18:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234485AbjEHONV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 10:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52614 "EHLO
+        id S234149AbjEHOS0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 10:18:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234488AbjEHONS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 10:13:18 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4033917DE6;
-        Mon,  8 May 2023 07:13:10 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-643990c5373so4397499b3a.1;
-        Mon, 08 May 2023 07:13:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683555189; x=1686147189;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iD8iShgfKv8OLGMPP2MraC3de5SlB6RRvAlLpegpMI0=;
-        b=Yo6a2AUSG4UtT5ZH+ecVAGioVzYMr3bHGY2WM0rzwW/m6nlcoWbbMmX2fmL8RTnfD9
-         iI2PpvP5V4WKOgXEq9tX2Hlc4U2m2NRcNEnQyctlQ3/dM+sFuIQVm/fz9w8mUPrDbnV0
-         gN2M/2j7oRNItnPDnCq+O2WO8aoUCZZC4yQpgrrEp7bQ/kiOrsLkqMPoXwXX0dg+9KQ6
-         wCh3qPkK+xOcvY4jNGQ31FJTiyru/Mde6GTEBUZKNv8+WGUfnQEaNITzUtl3Sx4QzZBM
-         f1BDFso79f5fngQvGksistouwspC6TiQvf1n+lrVFQMzpD2GCq6ML9xjQL7iZdXbBthv
-         Hhsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683555189; x=1686147189;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iD8iShgfKv8OLGMPP2MraC3de5SlB6RRvAlLpegpMI0=;
-        b=LTPae2LxvO3E2eYWsULg4ov9DRNxVri1SLiFlO+y9uNN46TWLt5OJxxRUPzXgI0o3e
-         B/V/bCDSTZIzx3WJtWv4X7QpC/Y7zSaIKygdcRoHw44aDSa4WhocHNOpvND2vWdyzYAC
-         YxlA/CJoOeiPrSC5fV5iiUc1Pwv8uUxVPAltFuwgPX1dOTAhgd2i/f/2oPnl8hS52Uht
-         jv9tMSeedN+axbwxvHatQWfPB7B539fxOVf3PgYz5ZXXAsUy/SOKZmJY4/v9jn169FL6
-         Ny6MsOgnXzFK88eorHU1SOrdfiWbeFXz2QSVrfx0XtZ0JkJtX+c1bKSRXcQ8h+uViNQw
-         stqg==
-X-Gm-Message-State: AC+VfDytcjlaz3e4IOTAqCFY69fFb+55oYIg79RC4jsDkV2JU+p1A/32
-        nFBlurbb8Ty/1TVDEOc8OHQ=
-X-Google-Smtp-Source: ACHHUZ4c+H4wpWBYfsptvQdvMKZ/tgnjeALUYIqEGPobwYtJ9MaLXSYVM0V9P5p5vbHsTAUzLYDSVA==
-X-Received: by 2002:a05:6a20:12c6:b0:f3:47b4:861b with SMTP id v6-20020a056a2012c600b000f347b4861bmr13511974pzg.17.1683555189288;
-        Mon, 08 May 2023 07:13:09 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-47.three.co.id. [116.206.28.47])
-        by smtp.gmail.com with ESMTPSA id 205-20020a6304d6000000b00502e7115cbdsm6358397pge.51.2023.05.08.07.13.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 07:13:08 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id B120910629F; Mon,  8 May 2023 21:13:05 +0700 (WIB)
-Date:   Mon, 8 May 2023 21:13:05 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Grant Likely <grant.likely@linaro.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2] docs: dt: Make references and mention kernel
- abstractions
-Message-ID: <ZFkDce5ISNEu6nsp@debian.me>
-References: <20230505-dt-docs-refresh-v2-1-56bf359c53b4@linaro.org>
- <4b0249cd-7538-6df4-777b-d25a72f06668@infradead.org>
+        with ESMTP id S233491AbjEHOSZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 10:18:25 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1121A0;
+        Mon,  8 May 2023 07:18:22 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 5B1801FF40;
+        Mon,  8 May 2023 14:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1683555501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=T5lxbwwkgegSAFfxW6WBB5ZioSoqo06SKF1oFOPKNV8=;
+        b=QhPg/7/l3dn9YKEJHp+3Q9S5X4xDGjO+PMTw/QsUjMM5aiqIPpw1tOTBO51QZq0HVoSdEw
+        XRMjUh4ZbrAfZwJtYwbR+BdrEwzZ3mP3mFuiRXIL+Xh2XJOl7qHAwIHPva/nveawIJQKvO
+        D197PO+w12kXlGQIT7W+lD0s4MeOXkY=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 990431346B;
+        Mon,  8 May 2023 14:18:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id iEk/JawEWWTYBwAAMHmgww
+        (envelope-from <mhocko@suse.com>); Mon, 08 May 2023 14:18:20 +0000
+Date:   Mon, 8 May 2023 16:18:18 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>
+Cc:     "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "muchun.song@linux.dev" <muchun.song@linux.dev>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 0/2] memcontrol: support cgroup level OOM protection
+Message-ID: <ZFkEqhAs7FELUO3a@dhcp22.suse.cz>
+References: <ZFd5bpfYc3nPEVie@dhcp22.suse.cz>
+ <66F9BB37-3BE1-4B0F-8DE1-97085AF4BED2@didiglobal.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xOniEH0+SQaTVZrU"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <4b0249cd-7538-6df4-777b-d25a72f06668@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <66F9BB37-3BE1-4B0F-8DE1-97085AF4BED2@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon 08-05-23 09:08:25, 程垲涛 Chengkaitao Cheng wrote:
+> At 2023-05-07 18:11:58, "Michal Hocko" <mhocko@suse.com> wrote:
+> >On Sat 06-05-23 19:49:46, chengkaitao wrote:
+> >> Establish a new OOM score algorithm, supports the cgroup level OOM
+> >> protection mechanism. When an global/memcg oom event occurs, we treat
+> >> all processes in the cgroup as a whole, and OOM killers need to select
+> >> the process to kill based on the protection quota of the cgroup
+> >
+> >Although your patch 1 briefly touches on some advantages of this
+> >interface there is a lack of actual usecase. Arguing that oom_score_adj
+> >is hard because it needs a parent process is rather weak to be honest.
+> >It is just trivial to create a thin wrapper, use systemd to launch
+> >important services or simply update the value after the fact. Now
+> >oom_score_adj has its own downsides of course (most notably a
+> >granularity and a lack of group protection.
+> >
+> >That being said, make sure you describe your usecase more thoroughly.
+> >Please also make sure you describe the intended heuristic of the knob.
+> >It is not really clear from the description how this fits hierarchical
+> >behavior of cgroups. I would be especially interested in the semantics
+> >of non-leaf memcgs protection as they do not have any actual processes
+> >to protect.
+> >
+> >Also there have been concerns mentioned in v2 discussion and it would be
+> >really appreciated to summarize how you have dealt with them.
+> >
+> >Please also note that many people are going to be slow in responding
+> >this week because of LSFMM conference
+> >(https://events.linuxfoundation.org/lsfmm/)
+> 
+> Here is a more detailed comparison and introduction of the old oom_score_adj
+> mechanism and the new oom_protect mechanism,
+> 1. The regulating granularity of oom_protect is smaller than that of oom_score_adj.
+> On a 512G physical machine, the minimum granularity adjusted by oom_score_adj
+> is 512M, and the minimum granularity adjusted by oom_protect is one page (4K).
+> 2. It may be simple to create a lightweight parent process and uniformly set the 
+> oom_score_adj of some important processes, but it is not a simple matter to make 
+> multi-level settings for tens of thousands of processes on the physical machine 
+> through the lightweight parent processes. We may need a huge table to record the 
+> value of oom_score_adj maintained by all lightweight parent processes, and the 
+> user process limited by the parent process has no ability to change its own 
+> oom_score_adj, because it does not know the details of the huge table. The new 
+> patch adopts the cgroup mechanism. It does not need any parent process to manage 
+> oom_score_adj. the settings between each memcg are independent of each other, 
+> making it easier to plan the OOM order of all processes. Due to the unique nature 
+> of memory resources, current Service cloud vendors are not oversold in memory 
+> planning. I would like to use the new patch to try to achieve the possibility of 
+> oversold memory resources.
 
---xOniEH0+SQaTVZrU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, this is more specific about the usecase. Thanks! So essentially what
+it boils down to is that you are handling many containers (memcgs from
+our POV) and they have different priorities. You want to overcommit the
+memory to the extend that global ooms are not an unexpected event. Once
+that happens the total memory consumption of a specific memcg is less
+important than its "priority". You define that priority by the excess of
+the memory usage above a user defined threshold. Correct?
 
-On Sat, May 06, 2023 at 03:09:11PM -0700, Randy Dunlap wrote:
-> For @linux-doc: Is there something in ReST that does auto section numberi=
-ng
-> so that this renumbering does not have to be repeated in the future?
->=20
+Your cover letter mentions that then "all processes in the cgroup as a
+whole". That to me reads as oom.group oom killer policy. But a brief
+look into the patch suggests you are still looking at specific tasks and
+this has been a concern in the previous version of the patch because
+memcg accounting and per-process accounting are detached.
 
-There is sectnum:: directive which does the job. In the kernel docs,
-however, it is customarily used together with contents:: directive to
-generate toctree for current doc. In order for this to work as expected,
-you need also to rearrange section heading levels, like:
+> 3. I conducted a test and deployed an excessive number of containers on a physical 
+> machine, By setting the oom_score_adj value of all processes in the container to 
+> a positive number through dockerinit, even processes that occupy very little memory 
+> in the container are easily killed, resulting in a large number of invalid kill behaviors. 
+> If dockerinit is also killed unfortunately, it will trigger container self-healing, and the 
+> container will rebuild, resulting in more severe memory oscillations. The new patch 
+> abandons the behavior of adding an equal amount of oom_score_adj to each process 
+> in the container and adopts a shared oom_protect quota for all processes in the container. 
+> If a process in the container is killed, the remaining other processes will receive more 
+> oom_protect quota, making it more difficult for the remaining processes to be killed.
+> In my test case, the new patch reduced the number of invalid kill behaviors by 70%.
+> 4. oom_score_adj is a global configuration that cannot achieve a kill order that only 
+> affects a certain memcg-oom-killer. However, the oom_protect mechanism inherits 
+> downwards, and user can only change the kill order of its own memcg oom, but the 
+> kill order of their parent memcg-oom-killer or global-oom-killer will not be affected
 
----- >8 ----
-diff --git a/Documentation/devicetree/usage-model.rst b/Documentation/devic=
-etree/usage-model.rst
-index 87f522d5feba81..890dde293540f9 100644
---- a/Documentation/devicetree/usage-model.rst
-+++ b/Documentation/devicetree/usage-model.rst
-@@ -1,5 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
-=20
-+.. contents::
-+.. sectnum::
-+
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- Linux and the Devicetree
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-@@ -76,7 +79,7 @@ If you haven't already read the Device Tree Usage\ [1]_ p=
-age,
- then go read it now.  It's okay, I'll wait....
-=20
- 2.1 Linux Kernel Firmware Abstractions
----------------------------------------
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=20
- The Linux kernel supports several different hardware description
- frameworks and DT is just one of them. The closest sibling is the
-@@ -112,7 +115,8 @@ resources to other devices in the DT, will need to impl=
-ement calls into
- the DT abstractions.
-=20
- 2.2 High Level View
---------------------
-+~~~~~~~~~~~~~~~~~~~
-+
- The most important thing to understand is that the DT is simply a data
- structure that describes the hardware.  There is nothing magical about
- it, and it doesn't magically make all hardware configuration problems
-@@ -134,7 +138,8 @@ Linux uses DT data for three major purposes:
- 3) device population.
-=20
- 2.3 Platform Identification
-----------------------------
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
- First and foremost, the kernel will use data in the DT to identify the
- specific machine.  In a perfect world, the specific platform shouldn't
- matter to the kernel because all platform details would be described
-@@ -217,7 +222,8 @@ compatible list, and probably should be avoided for new=
- architecture
- support.
-=20
- 2.4 Runtime configuration
---------------------------
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
- In most cases, a DT will be the sole method of communicating data from
- firmware to the kernel, so also gets used to pass in runtime and
- configuration data like the kernel parameters string and the location
-@@ -254,7 +260,8 @@ scanning of the device tree after selecting the correct=
- machine_desc
- that supports the board.
-=20
- 2.5 Device population
-----------------------
-+~~~~~~~~~~~~~~~~~~~~~
-+
- After the board has been identified, and after the early configuration data
- has been parsed, then kernel initialization can proceed in the normal
- way.  At some point in this process, unflatten_device_tree() is called
+Yes oom_score_adj has shortcomings.
 
-The caveat is the title heading also get numbered, making it top-level
-section. Hence, it is more appropriate if the directory toctree:: also
-have :numbered: option to do the job instead:
+> In the final discussion of patch v2, we discussed that although the adjustment range 
+> of oom_score_adj is [-1000,1000], but essentially it only allows two usecases
+> (OOM_SCORE_ADJ_MIN, OOM_SCORE_ADJ_MAX) reliably. Everything in between is 
+> clumsy at best. In order to solve this problem in the new patch, I introduced a new 
+> indicator oom_kill_inherit, which counts the number of times the local and child 
+> cgroups have been selected by the OOM killer of the ancestor cgroup. By observing 
+> the proportion of oom_kill_inherit in the parent cgroup, I can effectively adjust the 
+> value of oom_protect to achieve the best.
 
----- >8 ----
-diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/=
-index.rst
-index 1a2fc80149966e..b5297dd511ef31 100644
---- a/Documentation/devicetree/index.rst
-+++ b/Documentation/devicetree/index.rst
-@@ -8,6 +8,7 @@ Kernel Devicetree Usage
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- .. toctree::
-    :maxdepth: 1
-+   :numbered:
-=20
-    usage-model
-    of_unittest
+What does the best mean in this context?
 
-Anyway, if you use auto section numbering, you need to also remove the manu=
-al
-numbers:
+> about the semantics of non-leaf memcgs protection,
+> If a non-leaf memcg's oom_protect quota is set, its leaf memcg will proportionally 
+> calculate the new effective oom_protect quota based on non-leaf memcg's quota.
 
----- >8 ----
-diff --git a/Documentation/devicetree/usage-model.rst b/Documentation/devic=
-etree/usage-model.rst
-index 0ff62cdb3cc51c..e2dfbcc38c2f03 100644
---- a/Documentation/devicetree/usage-model.rst
-+++ b/Documentation/devicetree/usage-model.rst
-@@ -42,8 +42,8 @@ incompatible, bindings for i2c busses that came about bec=
-ause the new
- binding was created without first investigating how i2c devices were
- already being enumerated in existing systems.
-=20
--1. History
------------
-+History
-+-------
- The DT was originally created by Open Firmware as part of the
- communication method for passing data from Open Firmware to a client
- program (like to an operating system).  An operating system used the
-@@ -72,13 +72,13 @@ all architectures.  At the time of this writing, 6 main=
-lined
- architectures (arm, microblaze, mips, powerpc, sparc, and x86) and 1
- out of mainline (nios) have some level of DT support.
-=20
--2. Data Model
---------------
-+Data Model
-+----------
- If you haven't already read the Device Tree Usage\ [1]_ page,
- then go read it now.  It's okay, I'll wait....
-=20
--2.1 Linux Kernel Firmware Abstractions
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Linux Kernel Firmware Abstractions
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=20
- The Linux kernel supports several different hardware description
- frameworks and DT is just one of them. The closest sibling is the
-@@ -113,8 +113,8 @@ detected devices using the device tree, or that want to=
- provide
- resources to other devices in the DT, will need to implement calls into
- the DT abstractions.
-=20
--2.2 High Level View
--~~~~~~~~~~~~~~~~~~~
-+High Level View
-+~~~~~~~~~~~~~~~
-=20
- The most important thing to understand is that the DT is simply a data
- structure that describes the hardware.  There is nothing magical about
-@@ -136,8 +136,8 @@ Linux uses DT data for three major purposes:
- 2) runtime configuration, and
- 3) device population.
-=20
--2.3 Platform Identification
--~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Platform Identification
-+~~~~~~~~~~~~~~~~~~~~~~~
-=20
- First and foremost, the kernel will use data in the DT to identify the
- specific machine.  In a perfect world, the specific platform shouldn't
-@@ -220,8 +220,8 @@ However, this approach does not take into account the p=
-riority of the
- compatible list, and probably should be avoided for new architecture
- support.
-=20
--2.4 Runtime configuration
--~~~~~~~~~~~~~~~~~~~~~~~~~
-+Runtime configuration
-+~~~~~~~~~~~~~~~~~~~~~
-=20
- In most cases, a DT will be the sole method of communicating data from
- firmware to the kernel, so also gets used to pass in runtime and
-@@ -258,8 +258,8 @@ On ARM, the function setup_machine_fdt() is responsible=
- for early
- scanning of the device tree after selecting the correct machine_desc
- that supports the board.
-=20
--2.5 Device population
--~~~~~~~~~~~~~~~~~~~~~
-+Device population
-+~~~~~~~~~~~~~~~~~
-=20
- After the board has been identified, and after the early configuration data
- has been parsed, then kernel initialization can proceed in the normal
+So the non-leaf memcg is never used as a target? What if the workload is
+distributed over several sub-groups? Our current oom.group
+implementation traverses the tree to find a common ancestor in the oom
+domain with the oom.group.
 
-Thanks.
+All that being said and with the usecase described more specifically. I
+can see that memcg based oom victim selection makes some sense. That
+menas that it is always a memcg selected and all tasks withing killed.
+Memcg based protection can be used to evaluate which memcg to choose and
+the overall scheme should be still manageable. It would indeed resemble
+memory protection for the regular reclaim.
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---xOniEH0+SQaTVZrU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFkDagAKCRD2uYlJVVFO
-oysPAQDxWkP3fxh7R+TWnA4ynuNz9UlgQ7SMY9jzck+htYXc2QEA2U4yeZYXribV
-zay6/Xfm83+oep4xtcG9V6g3cXkfgAo=
-=KKzX
------END PGP SIGNATURE-----
-
---xOniEH0+SQaTVZrU--
+One thing that is still not really clear to me is to how group vs.
+non-group ooms could be handled gracefully. Right now we can handle that
+because the oom selection is still process based but with the protection
+this will become more problematic as explained previously. Essentially
+we would need to enforce the oom selection to be memcg based for all
+memcgs. Maybe a mount knob? What do you think?
+-- 
+Michal Hocko
+SUSE Labs
