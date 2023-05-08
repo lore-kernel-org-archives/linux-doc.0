@@ -2,244 +2,479 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E56D6C77B7C
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 01:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90212C77B7D
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 02:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbjEHBEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 May 2023 21:04:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33292 "EHLO
+        id S230433AbjEHCZX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 May 2023 22:25:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjEHBEd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 May 2023 21:04:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAB2A100C1
-        for <linux-doc@vger.kernel.org>; Sun,  7 May 2023 18:03:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1683507831;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yNJL2kG/0UIHUcIFT9+ra+rm25yTkCXYyXj8ZQWBWis=;
-        b=QDPd4/XStczy37zbrvIPimJBUEw39esMN1b9YNnfNlk2UAUmR1TE7edoMbfRKB/xWTQcg0
-        a6YLl/ciLHxjgz/39bXVVkhv6XPZv+7KPv45B+NPZxs3qAaJUWzJka/n6NNFPxIfl/ZomR
-        Y6HH9VpPPy0/KWeZIHqcTLbJrH3XxBM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-YY8RQShXNZi9T1VyKmEdXg-1; Sun, 07 May 2023 21:03:46 -0400
-X-MC-Unique: YY8RQShXNZi9T1VyKmEdXg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3062885622;
-        Mon,  8 May 2023 01:03:45 +0000 (UTC)
-Received: from [10.22.16.113] (unknown [10.22.16.113])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 050ECC15BA0;
-        Mon,  8 May 2023 01:03:44 +0000 (UTC)
-Message-ID: <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
-Date:   Sun, 7 May 2023 21:03:44 -0400
+        with ESMTP id S229744AbjEHCZV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 May 2023 22:25:21 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D87393C25;
+        Sun,  7 May 2023 19:25:19 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1ab1b79d3a7so26439265ad.3;
+        Sun, 07 May 2023 19:25:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683512719; x=1686104719;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rYLAqa4N29w0Cq1DJ4k8DM0fCwpih36s8G7mBqAOZXc=;
+        b=ZCWybXuDfQT+mxhdVVf1Ws901N6MMGsrzAGmW4LB7aHBbRnqQ4rqac/lb6AckLcyAl
+         PCY3Pfmd2DN06Yp1Z5z97hMImlBF1DppNR7/jdzNwk2B1GeXYtpsy85qphiK6KnUGxdt
+         mXJMi6dw0u7ZGqoTLwl3sv4gcIh0+A15pA2EjQhL+jKeKX8E+yLwREfKbqaKrP+bBvP5
+         V8iMSVx7NmRdj2GtU8roRS17uKTAW4eRBfBsNRpOLR2yT/i7FxS3OeFghOoyexo+vSLb
+         Isdlcsn4Ux5DWBqT5XqlVa3skzAVMB/1VdZV2wMMr9fbZM0WHpFcsLmJ8QV8OY9C15DL
+         W6jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683512719; x=1686104719;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rYLAqa4N29w0Cq1DJ4k8DM0fCwpih36s8G7mBqAOZXc=;
+        b=cpkHMfpOf9y645jUA8qlSQ4ha4EqUV65H1vMIWZ9W8K79k1/93Rm4IEcCxp4l5eP75
+         xDkSfIn/8erQMCLMp6cY8avLhfRz4aljsrym3Li+c3vo/rEH/72eJZU2Gzt9wbL2nWqb
+         syh2iBnX3XlFHlBkRlR2OIkeG1Z0mXO4rVnZEsF7OGB5Nf+mHwND0BKOEHBXMDnxRzR9
+         yQsknw87fhnlTuBTFhj427sSnKA419NK/SaXDnosqui2/aRcK2NWfe1pPF/mqci4Ow9D
+         x48Ty8HOpqh6Uadg+tUgah+L+9FKbE0JB/rMHH5+vR9LsbskVIsOf2C8Rf6bmzrGiFuv
+         eLMg==
+X-Gm-Message-State: AC+VfDwIbF134aHJBv6QbpB307NXGkUoncRw9JaYw0qDp46nkmwNqTat
+        kOIfjnLTLKvMBuNurobON1i06MO/eI4=
+X-Google-Smtp-Source: ACHHUZ7Y5aVV8t9q7zGAGLZQ5D3gs1SrLPKHPhDYnTOfe8v3ib91O4aAMvK6p5JC5yg+HSKYE0Pt+A==
+X-Received: by 2002:a17:902:7c07:b0:1a8:bc5:4912 with SMTP id x7-20020a1709027c0700b001a80bc54912mr9210652pll.52.1683512719049;
+        Sun, 07 May 2023 19:25:19 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-22.three.co.id. [180.214.232.22])
+        by smtp.gmail.com with ESMTPSA id f2-20020a17090a8e8200b0025043a8185dsm3405902pjo.23.2023.05.07.19.25.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 May 2023 19:25:18 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 84B72103E37; Mon,  8 May 2023 09:25:15 +0700 (WIB)
+Date:   Mon, 8 May 2023 09:25:15 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Armin Wolf <W_Armin@gmx.de>, hdegoede@redhat.com,
+        markgross@kernel.org
+Cc:     corbet@lwn.net, platform-driver-x86@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] platform/x86: dell-ddv: Add documentation
+Message-ID: <ZFhdi5B3coraW2fz@debian.me>
+References: <20230429225525.10507-1-W_Armin@gmx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
-Content-Language: en-US
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-References: <226cb2da-e800-6531-4e57-cbf991022477@redhat.com>
- <ZDmFLfII8EUX_ocY@slm.duckdns.org>
- <c61ca9d0-c514-fb07-c2f2-3629e8898984@redhat.com>
- <ZDmOjeBVsIcgSLIV@slm.duckdns.org>
- <60ec12dc-943c-b8f0-8b6f-97c5d332144c@redhat.com>
- <46d26abf-a725-b924-47fa-4419b20bbc02@redhat.com>
- <jqkf7jkuyxqiupmxmdbmpnbpojub2pjsz3oogwncmwqdghlsgk@phsqzirmmlyl>
- <f2bd7b1e-190e-1d08-f085-b4cae36fb5be@redhat.com>
- <ZFGOTHQj3k5rzmyR@blackbook>
- <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
- <ZFUo5IYAIwTEKR4_@slm.duckdns.org>
- <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
-In-Reply-To: <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7mldGUFpnv9ga7IP"
+Content-Disposition: inline
+In-Reply-To: <20230429225525.10507-1-W_Armin@gmx.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-The following is the proposed text for "cpuset.cpus.reserve" and 
-"cpuset.cpus.partition" of the new cpuset partition in 
-Documentation/admin-guide/cgroup-v2.rst.
+--7mldGUFpnv9ga7IP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   cpuset.cpus.reserve
-     A read-write multiple values file which exists only on root
-     cgroup.
+On Sun, Apr 30, 2023 at 12:55:24AM +0200, Armin Wolf wrote:
+> diff --git a/Documentation/wmi/devices/dell-wmi-ddv.rst b/Documentation/w=
+mi/devices/dell-wmi-ddv.rst
+> new file mode 100644
+> index 000000000000..3fc6ee3e9f9b
+> --- /dev/null
+> +++ b/Documentation/wmi/devices/dell-wmi-ddv.rst
+> @@ -0,0 +1,294 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Dell DDV WMI interface driver (dell-wmi-ddv)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Many Dell notebooks made after ~2020 support a WMI-based interface for
+> +retrieving various system data like battery temperature, ePPID, diagosti=
+c data
+> +and fan/thermal sensor data.
+> +
+> +This interface is likely used by the `Dell Data Vault` software on Windo=
+ws,
+> +so it was called `DDV`. Currently the ``dell-wmi-ddv`` driver supports
+> +version 2 and 3 of the interface, with support for new interface versions
+> +easily added.
+> +
+> +.. warning:: The interface is regarded as internal by Dell, so no vendor
+> +             documentation is available. All knowledge was thus obtained=
+ by
+> +             trial-and-error, please keep that in mind.
+> +
+> +Dell ePPID (electronic Piece Part Identification)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Dell ePPID is used to uniquely identify components in Dell machines,
+> +including batteries. It has a form similar to `CC-PPPPPP-MMMMM-YMD-SSSS-=
+FFF`
+> +and contains the following information:
+> +
+> +* Country code of origin (CC).
+> +* Part number with the first character being a filling number (PPPPPP).
+> +* Manufacture Identification (MMMMM).
+> +* Manufacturing Year/Month/Date (YMD) in base 36, with Y being the last =
+digit
+> +  of the year.
+> +* Manufacture Sequence Number (SSSS).
+> +* Optional Firmware Version/Revision (FFF).
+> +
+> +The `eppidtool <https://pypi.org/project/eppidtool>`_ python utility can=
+ be used
+> +to decode and display this information.
+> +
+> +All information regarding the Dell ePPID was gathered using Dell support
+> +documentation and `this website <https://telcontar.net/KBK/Dell/date_cod=
+es>`_.
+> +
+> +WMI interface description
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +The WMI interface description can be decoded from the embedded binary MO=
+F (bmof)
+> +data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+> +
+> +::
+> +
+> + [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("W=
+MI Function"), guid("{8A42EA14-4F2A-FD45-6422-0087F7A7E608}")]
+> + class DDVWmiMethodFunction {
+> +   [key, read] string InstanceName;
+> +   [read] boolean Active;
+> +
+> +   [WmiMethodId(1), Implemented, read, write, Description("Return Batter=
+y Design Capacity.")] void BatteryDesignCapacity([in] uint32 arg2, [out] ui=
+nt32 argr);
+> +   [WmiMethodId(2), Implemented, read, write, Description("Return Batter=
+y Full Charge Capacity.")] void BatteryFullChargeCapacity([in] uint32 arg2,=
+ [out] uint32 argr);
+> +   [WmiMethodId(3), Implemented, read, write, Description("Return Batter=
+y Manufacture Name.")] void BatteryManufactureName([in] uint32 arg2, [out] =
+string argr);
+> +   [WmiMethodId(4), Implemented, read, write, Description("Return Batter=
+y Manufacture Date.")] void BatteryManufactureDate([in] uint32 arg2, [out] =
+uint32 argr);
+> +   [WmiMethodId(5), Implemented, read, write, Description("Return Batter=
+y Serial Number.")] void BatterySerialNumber([in] uint32 arg2, [out] uint32=
+ argr);
+> +   [WmiMethodId(6), Implemented, read, write, Description("Return Batter=
+y Chemistry Value.")] void BatteryChemistryValue([in] uint32 arg2, [out] st=
+ring argr);
+> +   [WmiMethodId(7), Implemented, read, write, Description("Return Batter=
+y Temperature.")] void BatteryTemperature([in] uint32 arg2, [out] uint32 ar=
+gr);
+> +   [WmiMethodId(8), Implemented, read, write, Description("Return Batter=
+y Current.")] void BatteryCurrent([in] uint32 arg2, [out] uint32 argr);
+> +   [WmiMethodId(9), Implemented, read, write, Description("Return Batter=
+y Voltage.")] void BatteryVoltage([in] uint32 arg2, [out] uint32 argr);
+> +   [WmiMethodId(10), Implemented, read, write, Description("Return Batte=
+ry Manufacture Access(MA code).")] void BatteryManufactureAceess([in] uint3=
+2 arg2, [out] uint32 argr);
+> +   [WmiMethodId(11), Implemented, read, write, Description("Return Batte=
+ry Relative State-Of-Charge.")] void BatteryRelativeStateOfCharge([in] uint=
+32 arg2, [out] uint32 argr);
+> +   [WmiMethodId(12), Implemented, read, write, Description("Return Batte=
+ry Cycle Count")] void BatteryCycleCount([in] uint32 arg2, [out] uint32 arg=
+r);
+> +   [WmiMethodId(13), Implemented, read, write, Description("Return Batte=
+ry ePPID")] void BatteryePPID([in] uint32 arg2, [out] string argr);
+> +   [WmiMethodId(14), Implemented, read, write, Description("Return Batte=
+ry Raw Analytics Start")] void BatteryeRawAnalyticsStart([in] uint32 arg2, =
+[out] uint32 argr);
+> +   [WmiMethodId(15), Implemented, read, write, Description("Return Batte=
+ry Raw Analytics")] void BatteryeRawAnalytics([in] uint32 arg2, [out] uint3=
+2 RawSize, [out, WmiSizeIs("RawSize") : ToInstance] uint8 RawData[]);
+> +   [WmiMethodId(16), Implemented, read, write, Description("Return Batte=
+ry Design Voltage.")] void BatteryDesignVoltage([in] uint32 arg2, [out] uin=
+t32 argr);
+> +   [WmiMethodId(17), Implemented, read, write, Description("Return Batte=
+ry Raw Analytics A Block")] void BatteryeRawAnalyticsABlock([in] uint32 arg=
+2, [out] uint32 RawSize, [out, WmiSizeIs("RawSize") : ToInstance] uint8 Raw=
+Data[]);
+> +   [WmiMethodId(18), Implemented, read, write, Description("Return Versi=
+on.")] void ReturnVersion([in] uint32 arg2, [out] uint32 argr);
+> +   [WmiMethodId(32), Implemented, read, write, Description("Return Fan S=
+ensor Information")] void FanSensorInformation([in] uint32 arg2, [out] uint=
+32 RawSize, [out, WmiSizeIs("RawSize") : ToInstance] uint8 RawData[]);
+> +   [WmiMethodId(34), Implemented, read, write, Description("Return Therm=
+al Sensor Information")] void ThermalSensorInformation([in] uint32 arg2, [o=
+ut] uint32 RawSize, [out, WmiSizeIs("RawSize") : ToInstance] uint8 RawData[=
+]);
+> + };
+> +
+> +Each WMI method takes an ACPI buffer containing a 32-bit index as input =
+argument,
+> +with the first 8 bit being used to specify the battery when using batter=
+y-related
+> +WMI methods. Other WMI methods may ignore this argument or interpret it
+> +differently. The WMI method output format varies:
+> +
+> +* if the function has only a single output, then an ACPI object
+> +  of the corresponding type is returned
+> +* if the function has multiple outputs, when an ACPI package
+> +  containing the outputs in the same order is returned
+> +
+> +The format of the output should be thoroughly checked, since many method=
+s can
+> +return malformed data in case of an error.
+> +
+> +The data format of many battery-related methods seems to be based on the
+> +`Smart Battery Data Specification`, so unknown battery-related methods a=
+re
+> +likely to follow this standard in some way.
+> +
+> +WMI method GetBatteryDesignCapacity()
+> +-------------------------------------
+> +
+> +Returns the design capacity of the battery in mAh as an u16.
+> +
+> +WMI method BatteryFullCharge()
+> +------------------------------
+> +
+> +Returns the full charge capacity of the battery in mAh as an u16.
+> +
+> +WMI method BatteryManufactureName()
+> +-----------------------------------
+> +
+> +Returns the manufacture name of the battery as an ASCII string.
+> +
+> +WMI method BatteryManufactureDate()
+> +-----------------------------------
+> +
+> +Returns the manufacture date of the battery as an u16.
+> +The date is encoded in the following manner:
+> +
+> +- bits 0 to 4 contain the manufacture day.
+> +- bits 5 to 8 contain the manufacture month.
+> +- bits 9 to 15 contain the manufacture year biased by 1980.
+> +
+> +.. note::
+> +   The data format needs to be verified on more machines.
+> +
+> +WMI method BatterySerialNumber()
+> +--------------------------------
+> +
+> +Returns the serial number of the battery as an u16.
+> +
+> +WMI method BatteryChemistryValue()
+> +----------------------------------
+> +
+> +Returns the chemistry of the battery as an ASCII string.
+> +Known values are:
+> +
+> +- "Li-I" for Li-Ion
+> +
+> +WMI method BatteryTemperature()
+> +-------------------------------
+> +
+> +Returns the temperature of the battery in tenth degree kelvin as an u16.
+> +
+> +WMI method BatteryCurrent()
+> +---------------------------
+> +
+> +Returns the current flow of the battery in mA as an s16.
+> +Negative values indicate discharging.
+> +
+> +WMI method BatteryVoltage()
+> +---------------------------
+> +
+> +Returns the voltage flow of the battery in mV as an u16.
+> +
+> +WMI method BatteryManufactureAccess()
+> +-------------------------------------
+> +
+> +Returns a manufacture-defined value as an u16.
+> +
+> +WMI method BatteryRelativeStateOfCharge()
+> +-----------------------------------------
+> +
+> +Returns the capacity of the battery in percent as an u16.
+> +
+> +WMI method BatteryCycleCount()
+> +------------------------------
+> +
+> +Returns the cycle count of the battery as an u16.
+> +
+> +WMI method BatteryePPID()
+> +-------------------------
+> +
+> +Returns the ePPID of the battery as an ASCII string.
+> +
+> +WMI method BatteryeRawAnalyticsStart()
+> +--------------------------------------
+> +
+> +Performs an analysis of the battery and returns a status code:
+> +
+> +- ``0x0``: Success
+> +- ``0x1``: Interface not supported
+> +- ``0xfffffffe``: Error/Timeout
+> +
+> +.. note::
+> +   The meaning of this method is still largely unknown.
+> +
+> +WMI method BatteryeRawAnalytics()
+> +---------------------------------
+> +
+> +Returns a buffer usually containg 12 blocks of analytics data.
+> +Those blocks contain:
+> +- block number starting with 0 (u8)
+> +- 31 bytes of unknown data
+> +
+> +.. note::
+> +   The meaning of this method is still largely unknown.
+> +
+> +WMI method BatteryDesignVoltage()
+> +---------------------------------
+> +
+> +Returns the design voltage of the battery in mV as an u16.
+> +
+> +WMI method BatteryeRawAnalyticsABlock()
+> +---------------------------------------
+> +
+> +Returns a single block of analytics data, with the second byte
+> +of the index being used for selecting the block number.
+> +
+> +*Supported since WMI interface version 3!*
+> +
+> +.. note::
+> +   The meaning of this method is still largely unknown.
+> +
+> +WMI method ReturnVersion()
+> +--------------------------
+> +
+> +Returns the WMI interface version as an u32.
+> +
+> +WMI method FanSensorInformation()
+> +---------------------------------
+> +
+> +Returns a buffer containg fan sensor entries, terminated
+> +with a single ``0xff``.
+> +Those entries contain:
+> +
+> +- fan type (u8)
+> +- fan speed in RPM (little endian u16)
+> +
+> +WMI method ThermalSensorInformation()
+> +-------------------------------------
+> +
+> +Returns a buffer containing thermal sensor entries, terminated
+> +with a single ``0xff``.
+> +Those entries contain:
+> +
+> +- thermal type (u8)
+> +- current temperature (s8)
+> +- min. temperature (s8)
+> +- max. temperature (s8)
+> +- unknown field (u8)
+> +
+> +.. note::
+> +   Find out what the meaning of the last byte is.
 
-     It lists all the CPUs that are reserved for adjacent and remote
-     partitions created in the system.  See the next section for
-     more information on what an adjacent or remote partitions is.
+Is the note above TODO? If so, mark as such, keeping the note::
+directive.
 
-     Creation of adjacent partition does not require touching this
-     control file as CPU reservation will be done automatically.
-     In order to create a remote partition, the CPUs needed by the
-     remote partition has to be written to this file first.
+> +
+> +ACPI battery matching algorithm
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The algorithm used to match ACPI batteries to indices is based on inform=
+ation
+> +which was found inside the logging messages of the OEM software.
+> +
+> +Basically for each new ACPI battery, the serial numbers of the batteries=
+ behind
+> +indices 1 till 3 are compared with the serial number of the ACPI battery.
+> +Since the serial number of the ACPI battery can either be encoded as a n=
+ormal
+> +integer or as a hexadecimal value, both cases need to be checked. The fi=
+rst
+> +index with a matching serial number is then selected.
+> +
+> +A serial number of 0 indicates that the corresponding index is not assoc=
+iated
+> +with an actual battery, or that the associated battery is not present.
+> +
+> +Some machines like the Dell Inspiron 3505 only support a single battery =
+and thus
+> +ignore the battery index. Because of this the driver depends on the ACPI=
+ battery
+> +hook mechanism to discover batteries.
+> +
+> +.. note::
+> +   The ACPI battery matching algorithm currently used inside the driver =
+is
+> +   outdated and does not match the algorithm described above. The reason=
+s for
+> +   this are differences in the handling of the ToHexString() ACPI opcode=
+ between
+> +   Linux and Windows, which distorts the serial number of ACPI batteries=
+ on many
+> +   machines. Until this issue is resolved, the driver cannot use the abo=
+ve
+> +   algorithm.
+> +
+> +Reverse-Engineering the DDV WMI interface
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +1. Find a supported Dell notebook, usually made after ~2020.
+> +2. Dump the ACPI tables and search for the WMI device (usually called "A=
+DDV").
+> +3. Decode the corresponding bmof data and look at the ASL code.
+> +4. Try to deduce the meaning of a certain WMI method by comparing the co=
+ntrol
+> +   flow with other ACPI methods (_BIX or _BIF for battery related methods
+> +   for example).
+> +5. Use the built-in UEFI diagostics to view sensor types/values for fan/=
+thermal
+> +   related methods (sometimes overwriting static ACPI data fields can be=
+ used
+> +   to test different sensor type values, since on some machines this dat=
+a is
+> +   not reinitialized upon a warm reset).
+> +
+> +Alternatively:
+> +
+> +1. Load the ``dell-wmi-ddv`` driver, use the ``force`` module param
+> +   if necessary.
+> +2. Use the debugfs interface to access the raw fan/thermal sensor buffer=
+ data.
+> +3. Compare the data with the built-in UEFI diagnostics.
+> +
+> +In case the DDV WMI interface version available on your Dell notebook is=
+ not
+> +supported or you are seeing unknown fan/thermal sensors, please submit a
+> +bugreport on `bugzilla <https://bugzilla.kernel.org>`_ so they can be ad=
+ded
+> +to the ``dell-wmi-ddv`` driver.
 
-     A "+" prefix can be used to indicate a list of additional
-     CPUs that are to be added without disturbing the CPUs that are
-     originally there.  For example, if its current value is "3-4",
-     echoing ""+5" to it will change it to "3-5".
+Also don't forget to read
+Documentation/admin-guide/reporting-issues.rst.
 
-     Once a remote partition is destroyed, its CPUs have to be
-     removed from this file or no other process can use them.  A "-"
-     prefix can be used to remove a list of CPUs from it.  However,
-     removing CPUs that are currently used in existing partitions
-     may cause those partitions to become invalid.  A single "-"
-     character without any number can be used to indicate removal
-     of all the free CPUs not allocated to any partitions to avoid
-     accidental partition invalidation.
+Regardless, the formatting LGTM, thanks!
 
-   cpuset.cpus.partition
-     A read-write single value file which exists on non-root
-     cpuset-enabled cgroups.  This flag is owned by the parent cgroup
-     and is not delegatable.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-     It accepts only the following input values when written to.
+--7mldGUFpnv9ga7IP
+Content-Type: application/pgp-signature; name="signature.asc"
 
-       ==========    =====================================
-       "member"    Non-root member of a partition
-       "root"    Partition root
-       "isolated"    Partition root without load balancing
-       ==========    =====================================
+-----BEGIN PGP SIGNATURE-----
 
-     A cpuset partition is a collection of cgroups with a partition
-     root at the top of the hierarchy and its descendants except
-     those that are separate partition roots themselves and their
-     descendants.  A partition has exclusive access to the set of
-     CPUs allocated to it.  Other cgroups outside of that partition
-     cannot use any CPUs in that set.
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFhdawAKCRD2uYlJVVFO
+o7K4AQCoY64oytfSkk2H1Qr7DeV4b3LS3hnlAbBblO2sgO+cXwEAkFcutp7Rmkyn
+cNYyC8U0uAixJhdtVIFqz12cxHSesAo=
+=75NX
+-----END PGP SIGNATURE-----
 
-     There are two types of partitions - adjacent and remote.  The
-     parent of an adjacent partition must be a valid partition root.
-     Partition roots of adjacent partitions are all clustered around
-     the root cgroup.  Creation of adjacent partition is done by
-     writing the desired partition type into "cpuset.cpus.partition".
-
-     A remote partition does not require a partition root parent.
-     So a remote partition can be formed far from the root cgroup.
-     However, its creation is a 2-step process.  The CPUs needed
-     by a remote partition ("cpuset.cpus" of the partition root)
-     has to be written into "cpuset.cpus.reserve" of the root
-     cgroup first.  After that, "isolated" can be written into
-     "cpuset.cpus.partition" of the partition root to form a remote
-     isolated partition which is the only supported remote partition
-     type for now.
-
-     All remote partitions are terminal as adjacent partition cannot
-     be created underneath it.
-
-     The root cgroup is always a partition root and its state cannot
-     be changed.  All other non-root cgroups start out as "member".
-
-     When set to "root", the current cgroup is the root of a new
-     partition or scheduling domain.
-
-     When set to "isolated", the CPUs in that partition will
-     be in an isolated state without any load balancing from the
-     scheduler.  Tasks placed in such a partition with multiple
-     CPUs should be carefully distributed and bound to each of the
-     individual CPUs for optimal performance.
-
-     The value shown in "cpuset.cpus.effective" of a partition root is
-     the CPUs that are dedicated to that partition and not available
-     to cgroups outside of that partittion.
-
-     A partition root ("root" or "isolated") can be in one of the
-     two possible states - valid or invalid.  An invalid partition
-     root is in a degraded state where some state information may
-     be retained, but behaves more like a "member".
-
-     All possible state transitions among "member", "root" and
-     "isolated" are allowed.
-
-     On read, the "cpuset.cpus.partition" file can show the following
-     values.
-
-       ============================= =====================================
-       "member"            Non-root member of a partition
-       "root"            Partition root
-       "isolated"            Partition root without load balancing
-       "root invalid (<reason>)"    Invalid partition root
-       "isolated invalid (<reason>)"    Invalid isolated partition root
-       ============================= =====================================
-
-     In the case of an invalid partition root, a descriptive string on
-     why the partition is invalid is included within parentheses.
-
-     For an adjacent partition root to be valid, the following
-     conditions must be met.
-
-     1) The "cpuset.cpus" is exclusive with its siblings , i.e. they
-        are not shared by any of its siblings (exclusivity rule).
-     2) The parent cgroup is a valid partition root.
-     3) The "cpuset.cpus" is not empty and must contain at least
-        one of the CPUs from parent's "cpuset.cpus", i.e. they overlap.
-     4) The "cpuset.cpus.effective" cannot be empty unless there is
-        no task associated with this partition.
-
-     For a remote partition root to be valid, the following conditions
-     must be met.
-
-     1) The same exclusivity rule as adjacent partition root.
-     2) The "cpuset.cpus" is not empty and all the CPUs must be
-        present in "cpuset.cpus.reserve" of the root cgroup and none
-        of them are allocated to another partition.
-     3) The "cpuset.cpus" value must be present in all its ancestors
-        to ensure proper hierarchical cpu distribution.
-
-     External events like hotplug or changes to "cpuset.cpus" can
-     cause a valid partition root to become invalid and vice versa.
-     Note that a task cannot be moved to a cgroup with empty
-     "cpuset.cpus.effective".
-
-     For a valid partition root with the sibling cpu exclusivity
-     rule enabled, changes made to "cpuset.cpus" that violate the
-     exclusivity rule will invalidate the partition as well as its
-     sibling partitions with conflicting cpuset.cpus values. So
-     care must be taking in changing "cpuset.cpus".
-
-     A valid non-root parent partition may distribute out all its CPUs
-     to its child partitions when there is no task associated with it.
-
-     Care must be taken to change a valid partition root to
-     "member" as all its child partitions, if present, will become
-     invalid causing disruption to tasks running in those child
-     partitions. These inactivated partitions could be recovered if
-     their parent is switched back to a partition root with a proper
-     set of "cpuset.cpus".
-
-     Poll and inotify events are triggered whenever the state of
-     "cpuset.cpus.partition" changes.  That includes changes caused
-     by write to "cpuset.cpus.partition", cpu hotplug or other
-     changes that modify the validity status of the partition.
-     This will allow user space agents to monitor unexpected changes
-     to "cpuset.cpus.partition" without the need to do continuous
-     polling.
-
-Cheers,
-Longman
-
+--7mldGUFpnv9ga7IP--
