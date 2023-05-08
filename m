@@ -2,108 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7213C7EE24
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 17:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D3EC77B7F
+	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 18:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232492AbjEHRvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 13:51:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51428 "EHLO
+        id S232792AbjEHS7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 14:59:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjEHRvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 13:51:45 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42ED744A0;
-        Mon,  8 May 2023 10:51:44 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1683568301;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xBM5m6wDNW8LeDu3c/o/2yvJ8k64BJF0JoE591jbLbA=;
-        b=sMXXfFh+31ZYLnj/Q/317zJ8ZSNPWFhoFiud2U76+34ZcjDHzfH94OqL5J7Cq08AktHEob
-        jScu3BBU+qL6S/lcL3VxvFTcbres7JXXNwc90R7lK1wlwr2ZmAigc0dIvG5AV6JAzorBaq
-        DIpcER3iASDOuzirPArCyeojNdahXrhqv4d/Uweihy+eMCslrpiZjVjkedRt1mJY4raFyK
-        YgUIvPPYtt7wKOkz2+m2PZtlqlM8wnC8SGGOKlzyhUWXe5PLhj9G2a/vKTQIm9Ki6XKPrl
-        ry4fY2g0q5I7fMBhPRATR4Kgl2/343VnWymkfbnsQx7N+fW0pldcN8wNrV6oMw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1683568301;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xBM5m6wDNW8LeDu3c/o/2yvJ8k64BJF0JoE591jbLbA=;
-        b=FKKYbkze0DTjbg51KVCUWSLfNiUsicv5XAC0hJm2+JvwoRzcsJXs/xUt9yUiE5d6ajXhX2
-        oLbHvKULh49aPoDw==
-To:     Jason Xing <kerneljasonxing@gmail.com>,
-        Liu Jian <liujian56@huawei.com>
-Cc:     corbet@lwn.net, paulmck@kernel.org, frederic@kernel.org,
-        quic_neeraju@quicinc.com, joel@joelfernandes.org,
-        josh@joshtriplett.org, boqun.feng@gmail.com, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        qiang1.zhang@intel.com, jstultz@google.com, sboyd@kernel.org,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, peterz@infradead.org, frankwoo@google.com,
-        Rhinewuwu@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 2/9] softirq: Use sched_clock() based timeout
-In-Reply-To: <CAL+tcoDY11sSO8_h1DKCWgAXOjQwM1JR5cx7cpmotWVj28m_fg@mail.gmail.com>
-References: <20230505113315.3307723-1-liujian56@huawei.com>
- <20230505113315.3307723-3-liujian56@huawei.com>
- <CAL+tcoDY11sSO8_h1DKCWgAXOjQwM1JR5cx7cpmotWVj28m_fg@mail.gmail.com>
-Date:   Mon, 08 May 2023 19:51:41 +0200
-Message-ID: <87cz3a3e4y.ffs@tglx>
+        with ESMTP id S229452AbjEHS7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 14:59:47 -0400
+Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E9F76187;
+        Mon,  8 May 2023 11:59:45 -0700 (PDT)
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by bee.tesarici.cz (Postfix) with ESMTPSA id 46D7A15660F;
+        Mon,  8 May 2023 20:59:41 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+        t=1683572382; bh=uZkqx7aKUtaW85glkXkWc2KSVWl1+jLzvm0vqmvOK4k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oMA1JDBfpJw4sW7xwHIesfwzVvuWGRfEibImYMO8MGVZr8iRllWIfuu/0e/mR8S35
+         iSTkGom3l2vCdobWQ2bfVa6nZe4sueYcQ8TRCacsjjA5CE1u6g+C6TnyFwqEgekR80
+         QJhrpkc85RcLvfsJty39syGBqRtbVmBD8gRTuYp0lKs/3I0TMuZAwoFEzyxCISt87Q
+         jFclnxrFT242I64DoHaTh7hEShSdJRQAi3f8B9Gi+6bMke4t3VWU3TXk/2b2p3mKb+
+         ZKQmv+XMh4jxUtnY4XLyIY3pSmPZPhKIaboj506ssLQOCqeMss+Ypkje+lMahARxZd
+         uaDOOK7Oe/wvA==
+Date:   Mon, 8 May 2023 20:59:39 +0200
+From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To:     Kent Overstreet <kent.overstreet@linux.dev>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        akpm@linux-foundation.org, vbabka@suse.cz, hannes@cmpxchg.org,
+        roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
+        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+        paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+        glider@google.com, elver@google.com, dvyukov@google.com,
+        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-modules@vger.kernel.org,
+        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH 00/40] Memory allocation profiling
+Message-ID: <20230508205939.0b5b485c@meshulam.tesarici.cz>
+In-Reply-To: <ZFkjRBCExpXfI+O5@moria.home.lan>
+References: <20230501165450.15352-1-surenb@google.com>
+        <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
+        <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com>
+        <ZFN1yswCd9wRgYPR@dhcp22.suse.cz>
+        <ZFfd99w9vFTftB8D@moria.home.lan>
+        <20230508175206.7dc3f87c@meshulam.tesarici.cz>
+        <ZFkb1p80vq19rieI@moria.home.lan>
+        <20230508180913.6a018b21@meshulam.tesarici.cz>
+        <ZFkjRBCExpXfI+O5@moria.home.lan>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 08 2023 at 12:08, Jason Xing wrote:
-> On Fri, May 5, 2023 at 7:25=E2=80=AFPM Liu Jian <liujian56@huawei.com> wr=
-ote:
->> @@ -489,7 +490,7 @@ asmlinkage __visible void do_softirq(void)
->>   * we want to handle softirqs as soon as possible, but they
->>   * should not be able to lock up the box.
->>   */
->> -#define MAX_SOFTIRQ_TIME  msecs_to_jiffies(2)
->> +#define MAX_SOFTIRQ_TIME       (2 * NSEC_PER_MSEC)
->
-> I wonder if it affects those servers that set HZ to some different
-> values rather than 1000 as default.
+On Mon, 8 May 2023 12:28:52 -0400
+Kent Overstreet <kent.overstreet@linux.dev> wrote:
 
-The result of msecs_to_jiffies(2) for different HZ values:
+> On Mon, May 08, 2023 at 06:09:13PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
+> > Sure, although AFAIK the index does not cover all possible config
+> > options (so non-x86 arch code is often forgotten). However, that's the
+> > less important part.
+> >=20
+> > What do you do if you need to hook something that does conflict with an
+> > existing identifier? =20
+>=20
+> As already happens in this patchset, rename the other identifier.
+>=20
+> But this is C, we avoid these kinds of conflicts already because the
+> language has no namespacing
 
-HZ=3D100     1
-HZ=3D250     1
-HZ=3D1000    2
+This statement is not accurate, but I agree there's not much. Refer to
+section 6.2.3 of ISO/IEC9899:2018 (Name spaces of identifiers).
 
-So depending on when the softirq processing starts, this gives the
-following ranges in which the timeout ends:
+More importantly, macros also interfere with identifier scoping, e.g.
+you cannot even have a local variable with the same name as a macro.
+That's why I dislike macros so much.
 
-HZ=3D100    0 - 10ms
-HZ=3D250    0 -  4ms
-HZ=3D1000   1 -  2ms
+But since there's no clear policy regarding macros in the kernel, I'm
+merely showing a downside; it's perfectly fine to write kernel code
+like this as long as the maintainers agree that the limitation is
+acceptable and outweighed by the benefits.
 
-But as the various softirq handlers have their own notion of timeouts,
-loop limits etc. and the timeout is only checked after _all_ pending
-bits of each iteration have been processed, the outcome of this is all
-lottery.
+Petr T
 
-Due to that the sched_clock() change per se won't have too much impact,
-but if the overall changes to consolidate the break conditions are in
-place, I think it will have observable effects.
+> it's going to be a pretty rare situtaion
+> going forward. Most of the hooking that will be done is done with this
+> patchset, and there was only one identifier that needed to be renamed.
+>=20
 
-Making this consistent is definitely a good thing, but it won't solve
-the underlying problem of soft interrupt processing at all.
-
-We definitely need to spend more thoughts on pulling things out of soft
-interrupt context so that these functionalities get under proper
-resource control by the scheduler.
-
-Thanks,
-
-        tglx
