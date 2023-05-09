@@ -2,154 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA570C77B75
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 19:29:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 466D3C7EE22
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 19:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231468AbjEIT3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 15:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54632 "EHLO
+        id S234829AbjEITbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 15:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230345AbjEIT3e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 15:29:34 -0400
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B01D6E52
-        for <linux-doc@vger.kernel.org>; Tue,  9 May 2023 12:29:32 -0700 (PDT)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-19615d6ef9eso1895192fac.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 May 2023 12:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1683660572; x=1686252572;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nshW081Je0Ct1TPDyiEBPFzb8ygIPnS0SW9brrMdekw=;
-        b=SYVk9dCiNpWbU5xm3mawedT7+nrWY0hZ4g0Ajqlhu0IY4UOUL8Wv1LFavtxCvkIEY5
-         txdWCaBrKHVEdH9jH28dSxzADU7fefFg9W9XSS+zOn/nkOrjKViMhl4Bu46HY4CboTBa
-         346FkasT5QERCvME/+vBrUBwYjNAAp4hkM51HLT7fL3mqrJBKuJMKaH8PnaJKuE+/Ik/
-         daYZcNcetgbJ2wxVH3QwkE37Q3YI/9S0ns5/6JY6owwi1umOm8UvsVPapCqeXm9l4p4o
-         cu9zdbs75tO6oIcnC9XOT0pnYDT7eAmEHXvUvDSuSJZzliuXXJX/y8QF5mOtPuHMpWp3
-         xbIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683660572; x=1686252572;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nshW081Je0Ct1TPDyiEBPFzb8ygIPnS0SW9brrMdekw=;
-        b=CB3J/qdas9zPOG2sYdCH/pCawjqLBlcc5k1M8/WAF7CmaF4tVEmQwPe5qKC5YBeW3C
-         1lzk1B5ZBRxvgJZkV1tXy5L+HgfOlS6c2zmHK2S3DZpfSy+qN2RbmlSKYHREIIzRJb1v
-         rDDBwLkGgy9ntMHBOSq06vMRG/3bqqHjl/ssgTeWQwbMjrTXkYMmb/sjrCdCmLKfLynb
-         qAuwHcTiXoo361I9tWO0eaYdB55p5BS674hWk5T0r+VasHx4tvKKYS9psGGsrZaa6raD
-         Lq4Nz1k/RECBSDEnV7smCAfCePmjQse2amVsZ50cqeUnwBk6Cw7hUOpsICGsBJixQFyY
-         Wu8w==
-X-Gm-Message-State: AC+VfDwumlAGJxRFBodcLFO0YixnSt3zvXf4D4638hCULgxlhHwZd3GI
-        ilFhfQWvTZIXcAk8miPmtdo96nVNw2BbqCGq/J5bHA==
-X-Google-Smtp-Source: ACHHUZ4ttVO3Kjk4VenwZACti+SYmo33rOMANrlfvXvsQMH2mfyKDcS+h8h/fB6FhOlKkjQGCrfo/62tBByoJMT8n+E=
-X-Received: by 2002:a05:6870:93d3:b0:183:fc80:7354 with SMTP id
- c19-20020a05687093d300b00183fc807354mr5723936oal.21.1683660572023; Tue, 09
- May 2023 12:29:32 -0700 (PDT)
+        with ESMTP id S234494AbjEITbX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 15:31:23 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2050.outbound.protection.outlook.com [40.107.243.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145EB4499;
+        Tue,  9 May 2023 12:31:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ny2oPPjzoVStpqcxFglSmWoLh1jZ1zGlB8JcAy53/Y8EE2PA84nwrHujliIp97ZTplzO6oADQ2JmJaCjKgerFRY/8RAJB/fo5javbQNCTv/cTEI5y6Ee1ocFtaLqyV8oTXiYSAzfaLAaCcayxq5N0j7RTai/h0RG7lRuE58OX4jyVrv3yIX9C048G61uM4hEMcw+8gVvLz0UsYk6MR4dTk+7X4CRg5CFENpttomZfKpl9LXg45WknYHQSTjQm4OMQgaBP2XTNGx8n0v1MfUHxirG8FTcStSIb2HDSSniL/ti/8BOimxSvZAZe4FH/DXDur29SB22TOpYP5CBbBVJqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IdBIeUnz21+HXtmk5rIIhNKDGqBZka0z1+W2XDR2g+4=;
+ b=AtLenMF3ccskfpHK9N73JCax4Hkhu8BitIO+hxtlUYvik+M3ob67G7nDOmcrmdd+fYi7INlo6Q+uh+clwV6Ofx8LAcq6tr5X2hG8HUR3x3Bc219HqTUCcciWZGpJmYszCR4rJuLo9R8F9fp3YLd7IU+UUzcaXXcylfw3Z0KS1y9yiAbImVJ3Wf3usz7NJ4zhWFJ9rsyySpUUJVYRkmpWxUme77zWOfAmqvpuMd7tQLdAaeZaJvKAwfhWTICqo31FN/XjBcU7kbkDN305K9xRV398HwVIS1zmF5wuqszM5UA1VA801KV6OWu86AYg/sfVzzCasn2ANS3nZH0+6jZ7HQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IdBIeUnz21+HXtmk5rIIhNKDGqBZka0z1+W2XDR2g+4=;
+ b=DFj25K9iWPfMeXkZwyAk3rbBZrJfVlyzJDtg9GgYyjTmJlTkKVtO1h7u+3Mh7T4UMzf8DxDa/jYhV0AdG8NMGULGuOBdgd8TJbRwHxtagqh5BsSO+kTyyM9zLA6D0KgizYQTwqs0dMv5Igk0w0sWDMmXwoApEjT6sz7okKMOTUI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
+ by DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
+ 2023 19:31:20 +0000
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::25d0:8212:2ae3:2aec]) by SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::25d0:8212:2ae3:2aec%6]) with mapi id 15.20.6363.032; Tue, 9 May 2023
+ 19:31:20 +0000
+Message-ID: <9baadb79-f78f-2719-68c3-f1e7761c0824@amd.com>
+Date:   Tue, 9 May 2023 14:31:16 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v4 2/7] x86/resctrl: Remove unnecessary rftype flags
+Content-Language: en-US
+To:     Reinette Chatre <reinette.chatre@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>
+Cc:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+References: <168177435378.1758847.8317743523931859131.stgit@bmoger-ubuntu>
+ <168177445556.1758847.5029687867896978170.stgit@bmoger-ubuntu>
+ <4275aa91-5834-2c03-f455-f1d3d666fec7@intel.com>
+ <MW3PR12MB4553E65A5D5DE6E27045766595729@MW3PR12MB4553.namprd12.prod.outlook.com>
+ <efd45c71-2241-e0b8-e1c0-6fcc1e95b321@intel.com>
+ <MW3PR12MB4553C5EF3818F6C54B8BF5B695729@MW3PR12MB4553.namprd12.prod.outlook.com>
+ <8acebeed-8c0e-98ac-b7a3-5dd1680fafa3@intel.com>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <8acebeed-8c0e-98ac-b7a3-5dd1680fafa3@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR05CA0043.namprd05.prod.outlook.com
+ (2603:10b6:8:2f::22) To SA0PR12MB4557.namprd12.prod.outlook.com
+ (2603:10b6:806:9d::10)
 MIME-Version: 1.0
-References: <20230508160829.2756405-1-vineeth@bitbyteword.org> <20230509132534.09098acc@luca64>
-In-Reply-To: <20230509132534.09098acc@luca64>
-From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
-Date:   Tue, 9 May 2023 15:29:21 -0400
-Message-ID: <CAO7JXPhrqKWfsp860rRmEenxARi8U2gNMGsOn4m+aKporWwBcg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sched/deadline: accurate reclaim bandwidth for GRUB
-To:     luca abeni <luca.abeni@santannapisa.it>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|DM6PR12MB4340:EE_
+X-MS-Office365-Filtering-Correlation-Id: d360f949-e851-4557-683a-08db50c3f723
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MdLADfVX3oLg6PMkvt8Ywd29Dwbnyw87LqkyviMkcUwPePGK0NunYBPA7S/y2hWi6PKW8oWznVACfEG5UsHqgxWqzY6lRkUUjZwUNalvYKPJA0p1JuPrwsC4KH9CnMWOFiSBzjpViMRavtFy3m1sK4rdohIhaKHcfjPH/h9WyD2xW5AYqC53qWLBPhuoG30Q5dSNnkbEOfV8iOAN7HA8ZoiTFJij97lV2EfowPm3KWe7hC1svsGVZE/BJlgyDG9yLt6MyxDKx67Ty479j9ckDBdG3lUJIlAzxjpd6gRC7J+E1QY6OI7QhZF1JOAUmxaQKgFqJEXChWviycCZ5Mq7HNCCoe++Gcm+pA0WD5un/m8TlfpRbZwEh1XGzHMj5g6P03R3LfS3z+tNJTzMxFMVAkNI+zTREt6ew6nEuB/gRUGX6xWxdv+EJ4oys6P1dD8sqGN06OCUyLJUPfQdSR9lUAm34JGnqsF7TA1xMSxqcmw9JYkXPjD59pzy2vOwIDOzUqg2ZG57J5nJ9Ml8ze28u+MYuIbTskaFBhCTIAkCyWXa5zWtoy5cOiItLQ7S/GMgMakwfJyFnd18cR/MuyFhKDn/XGzYps6VyR+/bzOhFNGm2u609a6DMQBYmsB8b8WJjFT/2MJIRDJoSuVCdfO8Sw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(366004)(39860400002)(136003)(396003)(451199021)(2616005)(8676002)(8936002)(4326008)(38100700002)(5660300002)(41300700001)(31686004)(66946007)(66476007)(66556008)(316002)(36756003)(7416002)(7406005)(478600001)(6486002)(186003)(6666004)(558084003)(6506007)(3450700001)(26005)(53546011)(86362001)(6512007)(54906003)(2906002)(31696002)(110136005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RThUVXpWTDBhczVkdWNGdDltTnNoeDNsVWF1NzZSY1VJeitaQXp5dXpPUzl4?=
+ =?utf-8?B?SElQejlrK3FScW1BZUY2dHhoL1R5Z3JXdWd6ZFdLUVVFRmVoSnpTK0FEZDFG?=
+ =?utf-8?B?eFdmT3pwVUNZMVRWNlZXU3VMQm5uWWM2USs5aXlGeG9rcU54QWljQ1J4VTNG?=
+ =?utf-8?B?TnR6VGdoSjdJek04b0IwSWF1RTlzUFh3d2ZrekZEM1pDaDRYZU1waTdQOHZt?=
+ =?utf-8?B?bk1FTUwwcjNmQWtDWE5kNU92YmswRFBIU3pSeGZKN25QVmF2VmdhK3hJNnZI?=
+ =?utf-8?B?TjJSWDBJTnhJRTVkekpWWkZjZGJRa1EzbzE1anFnQitGcytmMW95c2VIRUM3?=
+ =?utf-8?B?QkhQTWNxMVVYbkhWeGZHTHBDUjVyVWpva1IrQkM5dURjQWptMFdEUFFLMXRI?=
+ =?utf-8?B?SXl5SGNBVnJwc3lEaTNudUtxV09vdzhsVmFwMXpCcnZQYWthSDBUQW1LYXo1?=
+ =?utf-8?B?KytIVEYvM25NQ0pxUFRtclZFbVF3aGFxbzBrandiRDREVEFpdXNGb3QvOTE3?=
+ =?utf-8?B?YVZuUDAzdUJiQ3JlQWN1U1JXNUY4ZnVKYm15dGlsa2ZkaW1zbGFTUjl4SFVv?=
+ =?utf-8?B?OFUrblp4ckF4UGQ5WUdkQTVFVzMrMDBnYjNOVUVNbGlONzVyVlBwTWp4eHZK?=
+ =?utf-8?B?ZmJrNmg5Z0tmcnN4NmVsa3JkVUwxMStDa2h4TUdyL29jc3ZqNjdIWmtRUGVR?=
+ =?utf-8?B?bmptWXl5NkdDNWZWcFNoL2tQc2ZJU1JoeGtKRHdpdkcvWjZMMzdRSEJidVh1?=
+ =?utf-8?B?SjM0Zk9kbDJuSFl2UGl6dTl3ekhJZDdSdVVVM1ZoeS9zRFBHY1R3Q1ZlcWF5?=
+ =?utf-8?B?NjdIT1JSeUpUZlVDbE4wOFFoV0k1MnRQSm11emlLTGhqSEhvMFFSdXRFV1Nz?=
+ =?utf-8?B?d0JQNU54MkQ0OURHMUtXYTNzWm5qeDQ4NklPYnZHSVNmNEdJZ0wvOW9lWmhZ?=
+ =?utf-8?B?Z2Z3SHN3YlFDc2cxdmVpcFZEU1VqYXRGcE12RUNtaGQyNVR5Zk5yMXBvNmFo?=
+ =?utf-8?B?dnRjcWo3L1hHTTJPYVRJU1V2ak9vYjJwaXI1dlRjeGVaYmEvampBc05nS1FU?=
+ =?utf-8?B?MEdRR0dyZ3I3KzYwYmRIK2p4aXgvcVk2eFVCZTkwaGM1S0tqYVcwdU5qQnA0?=
+ =?utf-8?B?djF3bXl2OVFwQTRuUGZhRnRvSDM4aWF1NGErWUJXSDQ3WTJlRjFBQlVaVHRK?=
+ =?utf-8?B?KzRQb25lN05pNTYyVG5nM2pTbnV3QXhVTEloeDBhR2M0WUlXWGpVTUhjczJy?=
+ =?utf-8?B?Ym5Tcy9DUU8zSk1FdTZhdVJ2UmVyM0xQRmNHZGlFUUtId29LbXZYT045Ui9J?=
+ =?utf-8?B?MHdRMFNGNVRqQS9XYjI3dzRCbHd6Zm9vaFJNdVJQNy8vM2tXZEk2cGlFZklS?=
+ =?utf-8?B?cnpKSVo3NG5ha2dzSEQrVDlzOHVwSFRjZzh4cXBzQXFCTklUaFJZdHJ4T1hm?=
+ =?utf-8?B?OEhBWWo1ZktGVXo1N2VaaUJHOTNEaGI2eTdYS2xZOTZZZ04wMnp0UDB2N3FY?=
+ =?utf-8?B?TmxncjhZUlZpYVR4YjNzcGdoMm1ZSWhQb3AvUTYycENJbnB5cmRsSUZSamNX?=
+ =?utf-8?B?MlR0cjNzemhCeEloTkpGU2RLajI2cXM4MnZRUjFGSzBVTXVIcmJRNGNISEJI?=
+ =?utf-8?B?em5PV05SSDNJa3VmRmtWVnVmRVpRcUIvYm1QTXo0K1B4RWhVaWZCRm1RNHha?=
+ =?utf-8?B?SFBzMWZVSGprQTNjczYwUDVsaGZnOWdnNVRXL1pEWUlvUnlNV3pZM29kY1BK?=
+ =?utf-8?B?TVBYZHNUSXhwOG5qZUxnazgzV1JhaUk4eC9VU0ZZd0FCRkR3dUNxamtEVmt2?=
+ =?utf-8?B?eFM5ODRSMFFJc3hPWFF1elRWaFlPYnFDVWJnVkV6NGFYaWdsalZ4dHVPUUFy?=
+ =?utf-8?B?RDFFczVZTTQ4YTVJNitBUTd4TzJZSmZ2ODFPQ0gwWExLM0pTUkN6RWZxYXFq?=
+ =?utf-8?B?TmVkZnI1cjJIdGYxTkcyMnlpVExsR3FUZjBVWGhHTnhtT2Fqb3dsb3QyL2R3?=
+ =?utf-8?B?TzN4QjdrWnRyRzBwTXRPQUROc2hkV2Q2WDNHcnpQcVFlTDd2NlZTODlJb2VV?=
+ =?utf-8?B?SzRyVEdoa2pDeDhoeGEyaldiUlh4TFdCck5RbkNYWURsVlU1TXl5SGpRWlpm?=
+ =?utf-8?Q?7Mc0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d360f949-e851-4557-683a-08db50c3f723
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 19:31:19.9402
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jr90Ay1EyRLxkuqwpBX/Pief2qNw5xdldY5/qxLne9OKESAON8VhK5BCvHVjHATz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4340
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luka,
 
-Thanks for reviewing the changes.
 
-On Tue, May 9, 2023 at 7:25=E2=80=AFAM luca abeni <luca.abeni@santannapisa.=
-it> wrote:
->
-> Hi,
->
-> if I understand well, your patch addresses 2 separate issues:
-> 1) The current reclaiming code uses an approximation to avoid using
->    div64_u64(), which might introduce too much overhead (at least, as
->    far as I remember :). Your patch changes it to use the exact,
->    non-approximated, equation
-> 2) Currently, the reclaimable CPU time is divided as if all the
->    SCHED_DEADLINE tasks (and not only the SCHED_FLAG_RECLAIM tasks)
->    could use it; your patch changes the code to distribute the
->    reclaimable CPU time only to tasks having the SCHED_FLAG_RECLAIM
->    flag set
->
-> Is this understanding correct?
-Yes, the above two details are correct. In addition to that, I think
-the existing equation had a small bug:
-GRUB paper says, running time is depreciated as
-   "dq =3D -U dt" where U is running_bw.
-This is assuming that the whole cpu bandwidth could be reclaimed. But
-in our case, we cap at Umax. So the equation should be
-   "dq =3D -(U/Umax) dt"
+On 5/5/23 16:28, Reinette Chatre wrote:
+> 
+> (is it possible to trim the headers in your replies?)
 
-And then we have an upper limit of (1 - Uextra - Uinact). I feel we
-should be taking the minimum of these values to make sure that we
-don't cross the upper bound. I think the equation should be:
-   "dq =3D -min{U/Umax, (1 - Uextra - Uinact)} dt"
+Sure. Got it. Thanks
+Babu
 
-But the current implementation is
-   "dq =3D -max{u/Umax, (1 - Uextra - Uinact)} dt"
-   Where u =3D dl_se->dl_bw.
 
-After fixing the above equation, reclaim logic works well but when only
-SCHED_FLAG_RECLAIM tasks are running. When we have a mix of both
-normal deadline and SCHED_FLAG_RECLAIM, it breaks the reclaim logic.
-As you pointed out, the second part of the fix is for that.
-
-> If using div64_u64() does not introduce too much overhead, then I agree
-> with the first change.
-In my testing, I did not see a change in the performance of the
-grub_reclaim function. Both old and new implementations take 10 to
-20 nanoseconds on average. But my observation might not be accurate.
-
-With this change, it is difficult to avoid division as the denominator
-is a variable and we would not be able to pre-calculate an inverse. We
-could probably calculate inverse during {__add/__sub}_running_bw so as
-to reduce the frequency of div64_u64. I shall try this for v2.
-
-> The second change also looks good to me.
->
-> I have no comments on the code, but there is one thing in the comments
-> that looks misleading to me (or I am misunderstanding the code or the
-> comments):
->
-
-> > + * We can calculate Umax_reclaim as:
-> > + *   Umax_reclaim:   this_bw + Uinact + Ureclaim
->
-> I think this looks like a typo (summing this_bw to Uinact
-> looks wrong). Should "this_bw" be Uextra?
->
-Thanks a lot for pointing it out. Yes you are right, I messed up in the
-comments. It should be Uextra and I shall fix it in v2.
-
-> > + *   dq =3D -(Ureclaim / Umax_reclaim) * dt
-> > + *      =3D -(Ureclaim / (Ureclaim + Uextra + Uinact)) * dt
->
-> I think this should be the correct equation. BTW, since you are summing
-> Uextra and Uinact, mabe you could just use "Umax - running_bw"?
->
-Makes sense, it will avoid an extra variable Uinact. I shall modify this
-in v2.
-
-Thanks,
-Vineeth
