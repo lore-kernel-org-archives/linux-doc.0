@@ -2,424 +2,229 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF321C7EE22
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 04:47:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30FBAC7EE22
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 06:52:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234738AbjEIEr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 00:47:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34674 "EHLO
+        id S233120AbjEIGv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 02:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234619AbjEIEq7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 00:46:59 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D028AD38;
-        Mon,  8 May 2023 21:46:17 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-64115eef620so39619765b3a.1;
-        Mon, 08 May 2023 21:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683607575; x=1686199575;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FS+SrlPswE4eD+uqPBjYmKG/qWI7CqlW44O7ac6sfQw=;
-        b=jqCfQVQamQEid34WI5mvpzB6I59Gz5y00SZqQYzHgqwUgkW/HUo+i2Ja5H3vGeNkQx
-         4HjsHHLFEmkS7a0bdvev+JlCBnqWdfXvQNMuR5mN66SzG0rhC3u8f7XvDoEdL9MGwMWX
-         TnogcfHk4P/zNt89ZHn6NSSoM8Te8jnmyIFlguKpt8BjcfJutf9VlvhOc6oQL6JbCzoZ
-         Hb20Wnf2MS3suyE9m6YhC3N8AbC3AFH6nTdTh2Jp2HzbJ4V7jnyNHI/kMq0zoA/QjnfU
-         DKEJNcQL7NYuLUadf8tfAOh/h054J585T4SCmEGnXpFWDDZ6JLoVZk1O8Kxys152Yes4
-         WL/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683607575; x=1686199575;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FS+SrlPswE4eD+uqPBjYmKG/qWI7CqlW44O7ac6sfQw=;
-        b=g+3VLhbF2B1pYVYM4WUmpwaCrYDbUNXX4jej1YyKSptrrepPwc3dZcoDZpISZz+xqt
-         yxULKrv+TvGso4Fqwu7pBCKDaoGrMcImG1jUaFXBgOlOd3/i6KmrMbzi5PMQxtRLgBhe
-         aJxk7uJUJ3JANIafRRWFAw8LrTGRRjX+sTVroC4u0ZhTvZGJjcUn3UN2nx1oXP5eXzoH
-         TZdKeBmkCdk0inOk7yWciojLXk39yEhUf0SR/cnpscFizeq8so1ai20FIJR5rNdQhykw
-         m+tmmS8OCrhCBjsJBSSbLkVqUyFWrACuEjMtkIOtY77MvZoXqnOB7s5IqNiN4uU/f2UC
-         24CA==
-X-Gm-Message-State: AC+VfDy4O1Y8ouHA0OnegXUc5dvEX+4Sc4W3pR/dzDINMOZ8U2sysWM3
-        avfU3Wx1o60VHLRT5wgyB+Y=
-X-Google-Smtp-Source: ACHHUZ4NIdDCu3bFcAsii8fJUKI9h0WIH0WIawuxsax4YXaZZNlptGilxn0XFUas/f325ghGRGa2Mw==
-X-Received: by 2002:a17:902:e751:b0:1a9:a408:a52f with SMTP id p17-20020a170902e75100b001a9a408a52fmr20321289plf.24.1683607574777;
-        Mon, 08 May 2023 21:46:14 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-91.three.co.id. [180.214.233.91])
-        by smtp.gmail.com with ESMTPSA id iy3-20020a170903130300b001ab1cdb4295sm384636plb.130.2023.05.08.21.46.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 21:46:14 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id C5C1D1068D5; Tue,  9 May 2023 11:46:09 +0700 (WIB)
-Date:   Tue, 9 May 2023 11:46:09 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Emil Tantilov <emil.s.tantilov@intel.com>,
-        intel-wired-lan@lists.osuosl.org
-Cc:     shannon.nelson@amd.com, simon.horman@corigine.com, leon@kernel.org,
-        decot@google.com, willemb@google.com,
-        Joshua Hay <joshua.a.hay@intel.com>,
-        jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, netdev@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, Alan Brady <alan.brady@intel.com>,
-        Madhu Chittim <madhu.chittim@intel.com>,
-        Phani Burra <phani.r.burra@intel.com>,
-        Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-Subject: Re: [PATCH iwl-next v4 15/15] idpf: configure SRIOV and add other
- ndo_ops
-Message-ID: <ZFnQEXCm0upQ1LSo@debian.me>
-References: <20230508194326.482-1-emil.s.tantilov@intel.com>
- <20230508194326.482-16-emil.s.tantilov@intel.com>
+        with ESMTP id S235075AbjEIGvG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 02:51:06 -0400
+Received: from mx6.didiglobal.com (mx6.didiglobal.com [111.202.70.123])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id BF058422F;
+        Mon,  8 May 2023 23:51:02 -0700 (PDT)
+Received: from mail.didiglobal.com (unknown [10.79.65.18])
+        by mx6.didiglobal.com (Maildata Gateway V2.8) with ESMTPS id 1A180110053A11;
+        Tue,  9 May 2023 14:51:00 +0800 (CST)
+Received: from ZJY03-ACTMBX-05.didichuxing.com (10.79.71.35) by
+ ZJY02-ACTMBX-06.didichuxing.com (10.79.65.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 9 May 2023 14:50:59 +0800
+Received: from ZJY03-ACTMBX-05.didichuxing.com ([fe80::7d7d:d727:7a02:e909])
+ by ZJY03-ACTMBX-05.didichuxing.com ([fe80::7d7d:d727:7a02:e909%7]) with mapi
+ id 15.01.2507.021; Tue, 9 May 2023 14:50:59 +0800
+X-MD-Sfrom: chengkaitao@didiglobal.com
+X-MD-SrcIP: 10.79.65.18
+From:   =?utf-8?B?56iL5Z6y5rabIENoZW5na2FpdGFvIENoZW5n?= 
+        <chengkaitao@didiglobal.com>
+To:     Michal Hocko <mhocko@suse.com>
+CC:     "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "muchun.song@linux.dev" <muchun.song@linux.dev>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 0/2] memcontrol: support cgroup level OOM protection
+Thread-Topic: [PATCH v3 0/2] memcontrol: support cgroup level OOM protection
+Thread-Index: AQHZgBDkVfbL1Z6yKEKz1c3DJxWsna9OEngAgAIGrwD//9B5AIABm3eA
+Date:   Tue, 9 May 2023 06:50:59 +0000
+Message-ID: <900EF82B-9899-46DD-9ACC-16D82D9B7A3F@didiglobal.com>
+In-Reply-To: <ZFkEqhAs7FELUO3a@dhcp22.suse.cz>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.79.65.102]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <04171DD01B3BA941934C36D472FF7216@didichuxing.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="XB1CMNuCitGT0anZ"
-Content-Disposition: inline
-In-Reply-To: <20230508194326.482-16-emil.s.tantilov@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---XB1CMNuCitGT0anZ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 08, 2023 at 12:43:26PM -0700, Emil Tantilov wrote:
-> From: Joshua Hay <joshua.a.hay@intel.com>
->=20
-> Add PCI callback to configure SRIOV and add the necessary support
-> to initialize the requested number of VFs by sending the virtchnl
-> message to the device Control Plane.
->=20
-> Add other ndo ops supported by the driver such as features_check,
-> set_rx_mode, validate_addr, set_mac_address, change_mtu, get_stats64,
-> set_features, and tx_timeout. Initialize the statistics task which
->  requests the queue related statistics to the CP. Add loopback
-> and promiscuous mode support and the respective virtchnl messages.
->=20
-> Finally, add documentation and build support for the driver.
->=20
-> Signed-off-by: Joshua Hay <joshua.a.hay@intel.com>
-> Co-developed-by: Alan Brady <alan.brady@intel.com>
-> Signed-off-by: Alan Brady <alan.brady@intel.com>
-> Co-developed-by: Madhu Chittim <madhu.chittim@intel.com>
-> Signed-off-by: Madhu Chittim <madhu.chittim@intel.com>
-> Co-developed-by: Phani Burra <phani.r.burra@intel.com>
-> Signed-off-by: Phani Burra <phani.r.burra@intel.com>
-> Co-developed-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> Reviewed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> Reviewed-by: Willem de Bruijn <willemb@google.com>
-> ---
->  .../device_drivers/ethernet/intel/idpf.rst    | 162 +++++
->  drivers/net/ethernet/intel/Kconfig            |  10 +
->  drivers/net/ethernet/intel/Makefile           |   1 +
->  drivers/net/ethernet/intel/idpf/idpf.h        |  40 ++
->  drivers/net/ethernet/intel/idpf/idpf_lib.c    | 642 +++++++++++++++++-
->  drivers/net/ethernet/intel/idpf/idpf_main.c   |  17 +
->  drivers/net/ethernet/intel/idpf/idpf_txrx.c   |  26 +
->  drivers/net/ethernet/intel/idpf/idpf_txrx.h   |   2 +
->  .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 193 ++++++
-
-You forget to add toctree entry for the doc:
-
----- >8 ----
-diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/D=
-ocumentation/networking/device_drivers/ethernet/index.rst
-index 417ca514a4d057..5a7e377ae2b7f5 100644
---- a/Documentation/networking/device_drivers/ethernet/index.rst
-+++ b/Documentation/networking/device_drivers/ethernet/index.rst
-@@ -30,6 +30,7 @@ Contents:
-    intel/e1000
-    intel/e1000e
-    intel/fm10k
-+   intel/idpf
-    intel/igb
-    intel/igbvf
-    intel/ixgbe
-
-> +Contents
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +- Overview
-> +- Identifying Your Adapter
-> +- Additional Features & Configurations
-> +- Performance Optimization
-
-Automatically generate table of contents instead:
-
----- >8 ----
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/idpf.rs=
-t b/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-index ae5e6430d0e636..6f7c8e15fa20df 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-@@ -7,14 +7,7 @@ idpf Linux* Base Driver for the Intel(R) Infrastructure Da=
-ta Path Function
- Intel idpf Linux driver.
- Copyright(C) 2023 Intel Corporation.
-=20
--Contents
--=3D=3D=3D=3D=3D=3D=3D=3D
--
--- Overview
--- Identifying Your Adapter
--- Additional Features & Configurations
--- Performance Optimization
--
-+.. contents::
-=20
- The idpf driver serves as both the Physical Function (PF) and Virtual Func=
-tion
- (VF) driver for the Intel(R) Infrastructure Data Path Function.
-
-> +Identifying Your Adapter
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +For information on how to identify your adapter, and for the latest Intel
-> +network drivers, refer to the Intel Support website:
-> +http://www.intel.com/support
-
-What support article(s) do you mean on identifying the adapter?
-
-> +
-> +
-> +Additional Features and Configurations
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +ethtool
-> +-------
-> +The driver utilizes the ethtool interface for driver configuration and
-> +diagnostics, as well as displaying statistical information. The latest e=
-thtool
-> +version is required for this functionality. Download it at:
-> +https://kernel.org/pub/software/network/ethtool/
-
-"... If you don't have one yet, you can obtain it at ..."
-
-> +
-> +
-> +Viewing Link Messages
-> +---------------------
-> +Link messages will not be displayed to the console if the distribution is
-> +restricting system messages. In order to see network driver link message=
-s on
-> +your console, set dmesg to eight by entering the following:
-> +
-> +# dmesg -n 8
-> +
-> +NOTE: This setting is not saved across reboots.
-
-How can I permanently save above dmesg setting?
-
-> +
-> +
-> +Jumbo Frames
-> +------------
-> +Jumbo Frames support is enabled by changing the Maximum Transmission Uni=
-t (MTU)
-> +to a value larger than the default value of 1500.
-> +
-> +Use the ip command to increase the MTU size. For example, enter the foll=
-owing
-> +where <ethX> is the interface number:
-> +
-> +# ip link set mtu 9000 dev <ethX>
-> +# ip link set up dev <ethX>
-
-For command line snippets, use literal code blocks:
-
----- >8 ----
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/idpf.rs=
-t b/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-index 0a2982fb6f0045..30148d8cf34b14 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-@@ -48,9 +48,9 @@ Viewing Link Messages
- ---------------------
- Link messages will not be displayed to the console if the distribution is
- restricting system messages. In order to see network driver link messages =
-on
--your console, set dmesg to eight by entering the following:
-+your console, set dmesg to eight by entering the following::
-=20
--# dmesg -n 8
-+    # dmesg -n 8
-=20
- NOTE: This setting is not saved across reboots.
-=20
-@@ -61,10 +61,10 @@ Jumbo Frames support is enabled by changing the Maximum=
- Transmission Unit (MTU)
- to a value larger than the default value of 1500.
-=20
- Use the ip command to increase the MTU size. For example, enter the follow=
-ing
--where <ethX> is the interface number:
-+where <ethX> is the interface number::
-=20
--# ip link set mtu 9000 dev <ethX>
--# ip link set up dev <ethX>
-+    # ip link set mtu 9000 dev <ethX>
-+    # ip link set up dev <ethX>
-=20
- NOTE: The maximum MTU setting for jumbo frames is 9706. This corresponds t=
-o the
- maximum jumbo frame size of 9728 bytes.
-@@ -92,40 +92,40 @@ is tuned for general workloads. The user can customize =
-the interrupt rate
- control for specific workloads, via ethtool, adjusting the number of
- microseconds between interrupts.
-=20
--To set the interrupt rate manually, you must disable adaptive mode:
-+To set the interrupt rate manually, you must disable adaptive mode::
-=20
--# ethtool -C <ethX> adaptive-rx off adaptive-tx off
-+    # ethtool -C <ethX> adaptive-rx off adaptive-tx off
-=20
- For lower CPU utilization:
-  - Disable adaptive ITR and lower Rx and Tx interrupts. The examples below
-    affect every queue of the specified interface.
-=20
-  - Setting rx-usecs and tx-usecs to 80 will limit interrupts to about
--   12,500 interrupts per second per queue:
-+   12,500 interrupts per second per queue::
-=20
--   # ethtool -C <ethX> adaptive-rx off adaptive-tx off rx-usecs 80
--   tx-usecs 80
-+       # ethtool -C <ethX> adaptive-rx off adaptive-tx off rx-usecs 80
-+       tx-usecs 80
-=20
- For reduced latency:
-  - Disable adaptive ITR and ITR by setting rx-usecs and tx-usecs to 0
--   using ethtool:
-+   using ethtool::
-=20
--   # ethtool -C <ethX> adaptive-rx off adaptive-tx off rx-usecs 0
--   tx-usecs 0
-+       # ethtool -C <ethX> adaptive-rx off adaptive-tx off rx-usecs 0
-+       tx-usecs 0
-=20
- Per-queue interrupt rate settings:
-  - The following examples are for queues 1 and 3, but you can adjust other
-    queues.
-=20
-  - To disable Rx adaptive ITR and set static Rx ITR to 10 microseconds or
--   about 100,000 interrupts/second, for queues 1 and 3:
-+   about 100,000 interrupts/second, for queues 1 and 3::
-=20
--   # ethtool --per-queue <ethX> queue_mask 0xa --coalesce adaptive-rx off
--   rx-usecs 10
-+       # ethtool --per-queue <ethX> queue_mask 0xa --coalesce adaptive-rx =
-off
-+       rx-usecs 10
-=20
-- - To show the current coalesce settings for queues 1 and 3:
-+ - To show the current coalesce settings for queues 1 and 3::
-=20
--   # ethtool --per-queue <ethX> queue_mask 0xa --show-coalesce
-+       # ethtool --per-queue <ethX> queue_mask 0xa --show-coalesce
-=20
-=20
-=20
-@@ -139,9 +139,9 @@ helpful to optimize performance in VMs.
-    device's local_cpulist: /sys/class/net/<ethX>/device/local_cpulist.
-=20
-  - Configure as many Rx/Tx queues in the VM as available. (See the idpf dr=
-iver
--   documentation for the number of queues supported.) For example:
-+   documentation for the number of queues supported.) For example::
-=20
--   # ethtool -L <virt_interface> rx <max> tx <max>
-+       # ethtool -L <virt_interface> rx <max> tx <max>
-=20
-=20
- Support
-
-> +
-> +NOTE: The maximum MTU setting for jumbo frames is 9706. This corresponds=
- to the
-> +maximum jumbo frame size of 9728 bytes.
-> +
-> +NOTE: This driver will attempt to use multiple page sized buffers to rec=
-eive
-> +each jumbo packet. This should help to avoid buffer starvation issues wh=
-en
-> +allocating receive packets.
-> +
-> +NOTE: Packet loss may have a greater impact on throughput when you use j=
-umbo
-> +frames. If you observe a drop in performance after enabling jumbo frames,
-> +enabling flow control may mitigate the issue.
-
-Sphinx has admonition directive facility to style above notes:
-
----- >8 ----
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/idpf.rs=
-t b/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-index 30148d8cf34b14..ae5e6430d0e636 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/idpf.rst
-@@ -52,7 +52,8 @@ your console, set dmesg to eight by entering the followin=
-g::
-=20
-     # dmesg -n 8
-=20
--NOTE: This setting is not saved across reboots.
-+.. note::
-+   This setting is not saved across reboots.
-=20
-=20
- Jumbo Frames
-@@ -66,16 +67,19 @@ where <ethX> is the interface number::
-     # ip link set mtu 9000 dev <ethX>
-     # ip link set up dev <ethX>
-=20
--NOTE: The maximum MTU setting for jumbo frames is 9706. This corresponds t=
-o the
--maximum jumbo frame size of 9728 bytes.
-+.. note::
-+   The maximum MTU setting for jumbo frames is 9706. This corresponds to t=
-he
-+   maximum jumbo frame size of 9728 bytes.
-=20
--NOTE: This driver will attempt to use multiple page sized buffers to recei=
-ve
--each jumbo packet. This should help to avoid buffer starvation issues when
--allocating receive packets.
-+.. note::
-+   This driver will attempt to use multiple page sized buffers to receive
-+   each jumbo packet. This should help to avoid buffer starvation issues w=
-hen
-+   allocating receive packets.
-=20
--NOTE: Packet loss may have a greater impact on throughput when you use jum=
-bo
--frames. If you observe a drop in performance after enabling jumbo frames,
--enabling flow control may mitigate the issue.
-+.. note::
-+   Packet loss may have a greater impact on throughput when you use jumbo
-+   frames. If you observe a drop in performance after enabling jumbo frame=
-s,
-+   enabling flow control may mitigate the issue.
-=20
-=20
- Performance Optimization
-
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---XB1CMNuCitGT0anZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFnQCgAKCRD2uYlJVVFO
-o0eoAQCwcoPTSGgmJhLW0P24FRnk4ErnBTTj0tID9AHLUb/NRgD/Y4yHw1UgO9xe
-TWkZ258kY2iGsCapKd9PuKqMj/asjwA=
-=PHLZ
------END PGP SIGNATURE-----
-
---XB1CMNuCitGT0anZ--
+QXQgMjAyMy0wNS0wOCAyMjoxODoxOCwgIk1pY2hhbCBIb2NrbyIgPG1ob2Nrb0BzdXNlLmNvbT4g
+d3JvdGU6DQo+T24gTW9uIDA4LTA1LTIzIDA5OjA4OjI1LCDnqIvlnrLmtpsgQ2hlbmdrYWl0YW8g
+Q2hlbmcgd3JvdGU6DQo+PiBBdCAyMDIzLTA1LTA3IDE4OjExOjU4LCAiTWljaGFsIEhvY2tvIiA8
+bWhvY2tvQHN1c2UuY29tPiB3cm90ZToNCj4+ID5PbiBTYXQgMDYtMDUtMjMgMTk6NDk6NDYsIGNo
+ZW5na2FpdGFvIHdyb3RlOg0KPj4gPg0KPj4gPlRoYXQgYmVpbmcgc2FpZCwgbWFrZSBzdXJlIHlv
+dSBkZXNjcmliZSB5b3VyIHVzZWNhc2UgbW9yZSB0aG9yb3VnaGx5Lg0KPj4gPlBsZWFzZSBhbHNv
+IG1ha2Ugc3VyZSB5b3UgZGVzY3JpYmUgdGhlIGludGVuZGVkIGhldXJpc3RpYyBvZiB0aGUga25v
+Yi4NCj4+ID5JdCBpcyBub3QgcmVhbGx5IGNsZWFyIGZyb20gdGhlIGRlc2NyaXB0aW9uIGhvdyB0
+aGlzIGZpdHMgaGllcmFyY2hpY2FsDQo+PiA+YmVoYXZpb3Igb2YgY2dyb3Vwcy4gSSB3b3VsZCBi
+ZSBlc3BlY2lhbGx5IGludGVyZXN0ZWQgaW4gdGhlIHNlbWFudGljcw0KPj4gPm9mIG5vbi1sZWFm
+IG1lbWNncyBwcm90ZWN0aW9uIGFzIHRoZXkgZG8gbm90IGhhdmUgYW55IGFjdHVhbCBwcm9jZXNz
+ZXMNCj4+ID50byBwcm90ZWN0Lg0KPj4gPg0KPj4gPkFsc28gdGhlcmUgaGF2ZSBiZWVuIGNvbmNl
+cm5zIG1lbnRpb25lZCBpbiB2MiBkaXNjdXNzaW9uIGFuZCBpdCB3b3VsZCBiZQ0KPj4gPnJlYWxs
+eSBhcHByZWNpYXRlZCB0byBzdW1tYXJpemUgaG93IHlvdSBoYXZlIGRlYWx0IHdpdGggdGhlbS4N
+Cj4+ID4NCj4+ID5QbGVhc2UgYWxzbyBub3RlIHRoYXQgbWFueSBwZW9wbGUgYXJlIGdvaW5nIHRv
+IGJlIHNsb3cgaW4gcmVzcG9uZGluZw0KPj4gPnRoaXMgd2VlayBiZWNhdXNlIG9mIExTRk1NIGNv
+bmZlcmVuY2UNCj4+ID4oaHR0cHM6Ly9ldmVudHMubGludXhmb3VuZGF0aW9uLm9yZy9sc2ZtbS8p
+DQo+PiANCj4+IEhlcmUgaXMgYSBtb3JlIGRldGFpbGVkIGNvbXBhcmlzb24gYW5kIGludHJvZHVj
+dGlvbiBvZiB0aGUgb2xkIG9vbV9zY29yZV9hZGoNCj4+IG1lY2hhbmlzbSBhbmQgdGhlIG5ldyBv
+b21fcHJvdGVjdCBtZWNoYW5pc20sDQo+PiAxLiBUaGUgcmVndWxhdGluZyBncmFudWxhcml0eSBv
+ZiBvb21fcHJvdGVjdCBpcyBzbWFsbGVyIHRoYW4gdGhhdCBvZiBvb21fc2NvcmVfYWRqLg0KPj4g
+T24gYSA1MTJHIHBoeXNpY2FsIG1hY2hpbmUsIHRoZSBtaW5pbXVtIGdyYW51bGFyaXR5IGFkanVz
+dGVkIGJ5IG9vbV9zY29yZV9hZGoNCj4+IGlzIDUxMk0sIGFuZCB0aGUgbWluaW11bSBncmFudWxh
+cml0eSBhZGp1c3RlZCBieSBvb21fcHJvdGVjdCBpcyBvbmUgcGFnZSAoNEspLg0KPj4gMi4gSXQg
+bWF5IGJlIHNpbXBsZSB0byBjcmVhdGUgYSBsaWdodHdlaWdodCBwYXJlbnQgcHJvY2VzcyBhbmQg
+dW5pZm9ybWx5IHNldCB0aGUgDQo+PiBvb21fc2NvcmVfYWRqIG9mIHNvbWUgaW1wb3J0YW50IHBy
+b2Nlc3NlcywgYnV0IGl0IGlzIG5vdCBhIHNpbXBsZSBtYXR0ZXIgdG8gbWFrZSANCj4+IG11bHRp
+LWxldmVsIHNldHRpbmdzIGZvciB0ZW5zIG9mIHRob3VzYW5kcyBvZiBwcm9jZXNzZXMgb24gdGhl
+IHBoeXNpY2FsIG1hY2hpbmUgDQo+PiB0aHJvdWdoIHRoZSBsaWdodHdlaWdodCBwYXJlbnQgcHJv
+Y2Vzc2VzLiBXZSBtYXkgbmVlZCBhIGh1Z2UgdGFibGUgdG8gcmVjb3JkIHRoZSANCj4+IHZhbHVl
+IG9mIG9vbV9zY29yZV9hZGogbWFpbnRhaW5lZCBieSBhbGwgbGlnaHR3ZWlnaHQgcGFyZW50IHBy
+b2Nlc3NlcywgYW5kIHRoZSANCj4+IHVzZXIgcHJvY2VzcyBsaW1pdGVkIGJ5IHRoZSBwYXJlbnQg
+cHJvY2VzcyBoYXMgbm8gYWJpbGl0eSB0byBjaGFuZ2UgaXRzIG93biANCj4+IG9vbV9zY29yZV9h
+ZGosIGJlY2F1c2UgaXQgZG9lcyBub3Qga25vdyB0aGUgZGV0YWlscyBvZiB0aGUgaHVnZSB0YWJs
+ZS4gVGhlIG5ldyANCj4+IHBhdGNoIGFkb3B0cyB0aGUgY2dyb3VwIG1lY2hhbmlzbS4gSXQgZG9l
+cyBub3QgbmVlZCBhbnkgcGFyZW50IHByb2Nlc3MgdG8gbWFuYWdlIA0KPj4gb29tX3Njb3JlX2Fk
+ai4gdGhlIHNldHRpbmdzIGJldHdlZW4gZWFjaCBtZW1jZyBhcmUgaW5kZXBlbmRlbnQgb2YgZWFj
+aCBvdGhlciwgDQo+PiBtYWtpbmcgaXQgZWFzaWVyIHRvIHBsYW4gdGhlIE9PTSBvcmRlciBvZiBh
+bGwgcHJvY2Vzc2VzLiBEdWUgdG8gdGhlIHVuaXF1ZSBuYXR1cmUgDQo+PiBvZiBtZW1vcnkgcmVz
+b3VyY2VzLCBjdXJyZW50IFNlcnZpY2UgY2xvdWQgdmVuZG9ycyBhcmUgbm90IG92ZXJzb2xkIGlu
+IG1lbW9yeSANCj4+IHBsYW5uaW5nLiBJIHdvdWxkIGxpa2UgdG8gdXNlIHRoZSBuZXcgcGF0Y2gg
+dG8gdHJ5IHRvIGFjaGlldmUgdGhlIHBvc3NpYmlsaXR5IG9mIA0KPj4gb3ZlcnNvbGQgbWVtb3J5
+IHJlc291cmNlcy4NCj4NCj5PSywgdGhpcyBpcyBtb3JlIHNwZWNpZmljIGFib3V0IHRoZSB1c2Vj
+YXNlLiBUaGFua3MhIFNvIGVzc2VudGlhbGx5IHdoYXQNCj5pdCBib2lscyBkb3duIHRvIGlzIHRo
+YXQgeW91IGFyZSBoYW5kbGluZyBtYW55IGNvbnRhaW5lcnMgKG1lbWNncyBmcm9tDQo+b3VyIFBP
+VikgYW5kIHRoZXkgaGF2ZSBkaWZmZXJlbnQgcHJpb3JpdGllcy4gWW91IHdhbnQgdG8gb3ZlcmNv
+bW1pdCB0aGUNCj5tZW1vcnkgdG8gdGhlIGV4dGVuZCB0aGF0IGdsb2JhbCBvb21zIGFyZSBub3Qg
+YW4gdW5leHBlY3RlZCBldmVudC4gT25jZQ0KPnRoYXQgaGFwcGVucyB0aGUgdG90YWwgbWVtb3J5
+IGNvbnN1bXB0aW9uIG9mIGEgc3BlY2lmaWMgbWVtY2cgaXMgbGVzcw0KPmltcG9ydGFudCB0aGFu
+IGl0cyAicHJpb3JpdHkiLiBZb3UgZGVmaW5lIHRoYXQgcHJpb3JpdHkgYnkgdGhlIGV4Y2VzcyBv
+Zg0KPnRoZSBtZW1vcnkgdXNhZ2UgYWJvdmUgYSB1c2VyIGRlZmluZWQgdGhyZXNob2xkLiBDb3Jy
+ZWN0Pw0KDQpJdCdzIGNvcnJlY3QuDQoNCj5Zb3VyIGNvdmVyIGxldHRlciBtZW50aW9ucyB0aGF0
+IHRoZW4gImFsbCBwcm9jZXNzZXMgaW4gdGhlIGNncm91cCBhcyBhDQo+d2hvbGUiLiBUaGF0IHRv
+IG1lIHJlYWRzIGFzIG9vbS5ncm91cCBvb20ga2lsbGVyIHBvbGljeS4gQnV0IGEgYnJpZWYNCj5s
+b29rIGludG8gdGhlIHBhdGNoIHN1Z2dlc3RzIHlvdSBhcmUgc3RpbGwgbG9va2luZyBhdCBzcGVj
+aWZpYyB0YXNrcyBhbmQNCj50aGlzIGhhcyBiZWVuIGEgY29uY2VybiBpbiB0aGUgcHJldmlvdXMg
+dmVyc2lvbiBvZiB0aGUgcGF0Y2ggYmVjYXVzZQ0KPm1lbWNnIGFjY291bnRpbmcgYW5kIHBlci1w
+cm9jZXNzIGFjY291bnRpbmcgYXJlIGRldGFjaGVkLg0KDQpJIHRoaW5rIHRoZSBtZW1jZyBhY2Nv
+dW50aW5nIG1heSBiZSBtb3JlIHJlYXNvbmFibGUsIGFzIGl0cyBtZW1vcnkgDQpzdGF0aXN0aWNz
+IGFyZSBtb3JlIGNvbXByZWhlbnNpdmUsIHNpbWlsYXIgdG8gYWN0aXZlIHBhZ2UgY2FjaGUsIHdo
+aWNoIA0KYWxzbyBpbmNyZWFzZXMgdGhlIHByb2JhYmlsaXR5IG9mIE9PTS1raWxsLiBJbiB0aGUg
+bmV3IHBhdGNoLCBhbGwgdGhlIA0Kc2hhcmVkIG1lbW9yeSB3aWxsIGFsc28gY29uc3VtZSB0aGUg
+b29tX3Byb3RlY3QgcXVvdGEgb2YgdGhlIG1lbWNnLCANCmFuZCB0aGUgcHJvY2VzcydzIG9vbV9w
+cm90ZWN0IHF1b3RhIG9mIHRoZSBtZW1jZyB3aWxsIGRlY3JlYXNlLg0KDQo+PiAzLiBJIGNvbmR1
+Y3RlZCBhIHRlc3QgYW5kIGRlcGxveWVkIGFuIGV4Y2Vzc2l2ZSBudW1iZXIgb2YgY29udGFpbmVy
+cyBvbiBhIHBoeXNpY2FsIA0KPj4gbWFjaGluZSwgQnkgc2V0dGluZyB0aGUgb29tX3Njb3JlX2Fk
+aiB2YWx1ZSBvZiBhbGwgcHJvY2Vzc2VzIGluIHRoZSBjb250YWluZXIgdG8gDQo+PiBhIHBvc2l0
+aXZlIG51bWJlciB0aHJvdWdoIGRvY2tlcmluaXQsIGV2ZW4gcHJvY2Vzc2VzIHRoYXQgb2NjdXB5
+IHZlcnkgbGl0dGxlIG1lbW9yeSANCj4+IGluIHRoZSBjb250YWluZXIgYXJlIGVhc2lseSBraWxs
+ZWQsIHJlc3VsdGluZyBpbiBhIGxhcmdlIG51bWJlciBvZiBpbnZhbGlkIGtpbGwgYmVoYXZpb3Jz
+LiANCj4+IElmIGRvY2tlcmluaXQgaXMgYWxzbyBraWxsZWQgdW5mb3J0dW5hdGVseSwgaXQgd2ls
+bCB0cmlnZ2VyIGNvbnRhaW5lciBzZWxmLWhlYWxpbmcsIGFuZCB0aGUgDQo+PiBjb250YWluZXIg
+d2lsbCByZWJ1aWxkLCByZXN1bHRpbmcgaW4gbW9yZSBzZXZlcmUgbWVtb3J5IG9zY2lsbGF0aW9u
+cy4gVGhlIG5ldyBwYXRjaCANCj4+IGFiYW5kb25zIHRoZSBiZWhhdmlvciBvZiBhZGRpbmcgYW4g
+ZXF1YWwgYW1vdW50IG9mIG9vbV9zY29yZV9hZGogdG8gZWFjaCBwcm9jZXNzIA0KPj4gaW4gdGhl
+IGNvbnRhaW5lciBhbmQgYWRvcHRzIGEgc2hhcmVkIG9vbV9wcm90ZWN0IHF1b3RhIGZvciBhbGwg
+cHJvY2Vzc2VzIGluIHRoZSBjb250YWluZXIuIA0KPj4gSWYgYSBwcm9jZXNzIGluIHRoZSBjb250
+YWluZXIgaXMga2lsbGVkLCB0aGUgcmVtYWluaW5nIG90aGVyIHByb2Nlc3NlcyB3aWxsIHJlY2Vp
+dmUgbW9yZSANCj4+IG9vbV9wcm90ZWN0IHF1b3RhLCBtYWtpbmcgaXQgbW9yZSBkaWZmaWN1bHQg
+Zm9yIHRoZSByZW1haW5pbmcgcHJvY2Vzc2VzIHRvIGJlIGtpbGxlZC4NCj4+IEluIG15IHRlc3Qg
+Y2FzZSwgdGhlIG5ldyBwYXRjaCByZWR1Y2VkIHRoZSBudW1iZXIgb2YgaW52YWxpZCBraWxsIGJl
+aGF2aW9ycyBieSA3MCUuDQo+PiA0LiBvb21fc2NvcmVfYWRqIGlzIGEgZ2xvYmFsIGNvbmZpZ3Vy
+YXRpb24gdGhhdCBjYW5ub3QgYWNoaWV2ZSBhIGtpbGwgb3JkZXIgdGhhdCBvbmx5IA0KPj4gYWZm
+ZWN0cyBhIGNlcnRhaW4gbWVtY2ctb29tLWtpbGxlci4gSG93ZXZlciwgdGhlIG9vbV9wcm90ZWN0
+IG1lY2hhbmlzbSBpbmhlcml0cyANCj4+IGRvd253YXJkcywgYW5kIHVzZXIgY2FuIG9ubHkgY2hh
+bmdlIHRoZSBraWxsIG9yZGVyIG9mIGl0cyBvd24gbWVtY2cgb29tLCBidXQgdGhlIA0KPj4ga2ls
+bCBvcmRlciBvZiB0aGVpciBwYXJlbnQgbWVtY2ctb29tLWtpbGxlciBvciBnbG9iYWwtb29tLWtp
+bGxlciB3aWxsIG5vdCBiZSBhZmZlY3RlZA0KPg0KPlllcyBvb21fc2NvcmVfYWRqIGhhcyBzaG9y
+dGNvbWluZ3MuDQo+DQo+PiBJbiB0aGUgZmluYWwgZGlzY3Vzc2lvbiBvZiBwYXRjaCB2Miwgd2Ug
+ZGlzY3Vzc2VkIHRoYXQgYWx0aG91Z2ggdGhlIGFkanVzdG1lbnQgcmFuZ2UgDQo+PiBvZiBvb21f
+c2NvcmVfYWRqIGlzIFstMTAwMCwxMDAwXSwgYnV0IGVzc2VudGlhbGx5IGl0IG9ubHkgYWxsb3dz
+IHR3byB1c2VjYXNlcw0KPj4gKE9PTV9TQ09SRV9BREpfTUlOLCBPT01fU0NPUkVfQURKX01BWCkg
+cmVsaWFibHkuIEV2ZXJ5dGhpbmcgaW4gYmV0d2VlbiBpcyANCj4+IGNsdW1zeSBhdCBiZXN0LiBJ
+biBvcmRlciB0byBzb2x2ZSB0aGlzIHByb2JsZW0gaW4gdGhlIG5ldyBwYXRjaCwgSSBpbnRyb2R1
+Y2VkIGEgbmV3IA0KPj4gaW5kaWNhdG9yIG9vbV9raWxsX2luaGVyaXQsIHdoaWNoIGNvdW50cyB0
+aGUgbnVtYmVyIG9mIHRpbWVzIHRoZSBsb2NhbCBhbmQgY2hpbGQgDQo+PiBjZ3JvdXBzIGhhdmUg
+YmVlbiBzZWxlY3RlZCBieSB0aGUgT09NIGtpbGxlciBvZiB0aGUgYW5jZXN0b3IgY2dyb3VwLiBC
+eSBvYnNlcnZpbmcgDQo+PiB0aGUgcHJvcG9ydGlvbiBvZiBvb21fa2lsbF9pbmhlcml0IGluIHRo
+ZSBwYXJlbnQgY2dyb3VwLCBJIGNhbiBlZmZlY3RpdmVseSBhZGp1c3QgdGhlIA0KPj4gdmFsdWUg
+b2Ygb29tX3Byb3RlY3QgdG8gYWNoaWV2ZSB0aGUgYmVzdC4NCj4NCj5XaGF0IGRvZXMgdGhlIGJl
+c3QgbWVhbiBpbiB0aGlzIGNvbnRleHQ/DQoNCkkgaGF2ZSBjcmVhdGVkIGEgbmV3IGluZGljYXRv
+ciBvb21fa2lsbF9pbmhlcml0IHRoYXQgbWFpbnRhaW5zIGEgbmVnYXRpdmUgY29ycmVsYXRpb24g
+DQp3aXRoIG1lbW9yeS5vb20ucHJvdGVjdCwgc28gd2UgaGF2ZSBhIHJ1bGVyIHRvIG1lYXN1cmUg
+dGhlIG9wdGltYWwgdmFsdWUgb2YgDQptZW1vcnkub29tLnByb3RlY3QuDQoNCj4+IGFib3V0IHRo
+ZSBzZW1hbnRpY3Mgb2Ygbm9uLWxlYWYgbWVtY2dzIHByb3RlY3Rpb24sDQo+PiBJZiBhIG5vbi1s
+ZWFmIG1lbWNnJ3Mgb29tX3Byb3RlY3QgcXVvdGEgaXMgc2V0LCBpdHMgbGVhZiBtZW1jZyB3aWxs
+IHByb3BvcnRpb25hbGx5IA0KPj4gY2FsY3VsYXRlIHRoZSBuZXcgZWZmZWN0aXZlIG9vbV9wcm90
+ZWN0IHF1b3RhIGJhc2VkIG9uIG5vbi1sZWFmIG1lbWNnJ3MgcXVvdGEuDQo+DQo+U28gdGhlIG5v
+bi1sZWFmIG1lbWNnIGlzIG5ldmVyIHVzZWQgYXMgYSB0YXJnZXQ/IFdoYXQgaWYgdGhlIHdvcmts
+b2FkIGlzDQo+ZGlzdHJpYnV0ZWQgb3ZlciBzZXZlcmFsIHN1Yi1ncm91cHM/IE91ciBjdXJyZW50
+IG9vbS5ncm91cA0KPmltcGxlbWVudGF0aW9uIHRyYXZlcnNlcyB0aGUgdHJlZSB0byBmaW5kIGEg
+Y29tbW9uIGFuY2VzdG9yIGluIHRoZSBvb20NCj5kb21haW4gd2l0aCB0aGUgb29tLmdyb3VwLg0K
+DQpJZiB0aGUgb29tX3Byb3RlY3QgcXVvdGEgb2YgdGhlIHBhcmVudCBub24tbGVhZiBtZW1jZyBp
+cyBsZXNzIHRoYW4gdGhlIHN1bSBvZiANCnN1Yi1ncm91cHMgb29tX3Byb3RlY3QgcXVvdGEsIHRo
+ZSBvb21fcHJvdGVjdCBxdW90YSBvZiBlYWNoIHN1Yi1ncm91cCB3aWxsIA0KYmUgcHJvcG9ydGlv
+bmFsbHkgcmVkdWNlZA0KSWYgdGhlIG9vbV9wcm90ZWN0IHF1b3RhIG9mIHRoZSBwYXJlbnQgbm9u
+LWxlYWYgbWVtY2cgaXMgZ3JlYXRlciB0aGFuIHRoZSBzdW0gDQpvZiBzdWItZ3JvdXBzIG9vbV9w
+cm90ZWN0IHF1b3RhLCB0aGUgb29tX3Byb3RlY3QgcXVvdGEgb2YgZWFjaCBzdWItZ3JvdXAgDQp3
+aWxsIGJlIHByb3BvcnRpb25hbGx5IGluY3JlYXNlZA0KVGhlIHB1cnBvc2Ugb2YgZG9pbmcgc28g
+aXMgdGhhdCB1c2VycyBjYW4gc2V0IG9vbV9wcm90ZWN0IHF1b3RhIGFjY29yZGluZyB0byANCnRo
+ZWlyIG93biBuZWVkcywgYW5kIHRoZSBzeXN0ZW0gbWFuYWdlbWVudCBwcm9jZXNzIGNhbiBzZXQg
+YXBwcm9wcmlhdGUgDQpvb21fcHJvdGVjdCBxdW90YSBvbiB0aGUgcGFyZW50IG5vbi1sZWFmIG1l
+bWNnIGFzIHRoZSBmaW5hbCBjb3Zlciwgc28gdGhhdCANCnRoZSBzeXN0ZW0gbWFuYWdlbWVudCBw
+cm9jZXNzIGNhbiBpbmRpcmVjdGx5IG1hbmFnZSBhbGwgdXNlciBwcm9jZXNzZXMuDQoNCj5BbGwg
+dGhhdCBiZWluZyBzYWlkIGFuZCB3aXRoIHRoZSB1c2VjYXNlIGRlc2NyaWJlZCBtb3JlIHNwZWNp
+ZmljYWxseS4gSQ0KPmNhbiBzZWUgdGhhdCBtZW1jZyBiYXNlZCBvb20gdmljdGltIHNlbGVjdGlv
+biBtYWtlcyBzb21lIHNlbnNlLiBUaGF0DQo+bWVuYXMgdGhhdCBpdCBpcyBhbHdheXMgYSBtZW1j
+ZyBzZWxlY3RlZCBhbmQgYWxsIHRhc2tzIHdpdGhpbmcga2lsbGVkLg0KPk1lbWNnIGJhc2VkIHBy
+b3RlY3Rpb24gY2FuIGJlIHVzZWQgdG8gZXZhbHVhdGUgd2hpY2ggbWVtY2cgdG8gY2hvb3NlIGFu
+ZA0KPnRoZSBvdmVyYWxsIHNjaGVtZSBzaG91bGQgYmUgc3RpbGwgbWFuYWdlYWJsZS4gSXQgd291
+bGQgaW5kZWVkIHJlc2VtYmxlDQo+bWVtb3J5IHByb3RlY3Rpb24gZm9yIHRoZSByZWd1bGFyIHJl
+Y2xhaW0uDQo+DQo+T25lIHRoaW5nIHRoYXQgaXMgc3RpbGwgbm90IHJlYWxseSBjbGVhciB0byBt
+ZSBpcyB0byBob3cgZ3JvdXAgdnMuDQo+bm9uLWdyb3VwIG9vbXMgY291bGQgYmUgaGFuZGxlZCBn
+cmFjZWZ1bGx5LiBSaWdodCBub3cgd2UgY2FuIGhhbmRsZSB0aGF0DQo+YmVjYXVzZSB0aGUgb29t
+IHNlbGVjdGlvbiBpcyBzdGlsbCBwcm9jZXNzIGJhc2VkIGJ1dCB3aXRoIHRoZSBwcm90ZWN0aW9u
+DQo+dGhpcyB3aWxsIGJlY29tZSBtb3JlIHByb2JsZW1hdGljIGFzIGV4cGxhaW5lZCBwcmV2aW91
+c2x5LiBFc3NlbnRpYWxseQ0KPndlIHdvdWxkIG5lZWQgdG8gZW5mb3JjZSB0aGUgb29tIHNlbGVj
+dGlvbiB0byBiZSBtZW1jZyBiYXNlZCBmb3IgYWxsDQo+bWVtY2dzLiBNYXliZSBhIG1vdW50IGtu
+b2I/IFdoYXQgZG8geW91IHRoaW5rPw0KDQpUaGVyZSBpcyBhIGZ1bmN0aW9uIGluIHRoZSBwYXRj
+aCB0byBkZXRlcm1pbmUgd2hldGhlciB0aGUgb29tX3Byb3RlY3QgDQptZWNoYW5pc20gaXMgZW5h
+YmxlZC4gQWxsIG1lbW9yeS5vb20ucHJvdGVjdCBub2RlcyBkZWZhdWx0IHRvIDAsIHNvIHRoZSBm
+dW5jdGlvbiANCjxpc19yb290X29vbV9wcm90ZWN0PiByZXR1cm5zIDAgYnkgZGVmYXVsdC4gVGhl
+IG9vbV9wcm90ZWN0ICBtZWNoYW5pc20gd2lsbCANCm9ubHkgdGFrZSBlZmZlY3Qgd2hlbiAicm9v
+dF9tZW1fY2dyb3VwLT5tZW1vcnkuY2hpbGRyZW5fb29tX3Byb3RlY3RfdXNhZ2UiIA0KaXMgbm90
+IDAsIGFuZCBvbmx5IG1lbWNnIHdpdGggbWVtb3J5Lm9vbS5wcm90ZWN0IG5vZGUgc2V0IHdpbGwg
+dGFrZSBlZmZlY3QuDQoNCitib29sIGlzX3Jvb3Rfb29tX3Byb3RlY3Qodm9pZCkNCit7DQorCWlm
+IChtZW1fY2dyb3VwX2Rpc2FibGVkKCkpDQorCQlyZXR1cm4gMDsNCisNCisJcmV0dXJuICEhYXRv
+bWljX2xvbmdfcmVhZCgmcm9vdF9tZW1fY2dyb3VwLT5tZW1vcnkuY2hpbGRyZW5fb29tX3Byb3Rl
+Y3RfdXNhZ2UpOw0KK30NCkkgZG9uJ3Qga25vdyBpZiB0aGVyZSBpcyBzb21lIHByb2JsZW1zIHdp
+dGggbXkgdW5kZXJzdGFuZGluZz8NCg0KLS0gDQpUaGFua3MgZm9yIHlvdXIgY29tbWVudCENCmNo
+ZW5na2FpdGFvDQoNCg==
