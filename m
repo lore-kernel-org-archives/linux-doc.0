@@ -2,144 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC5F2C7EE2A
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 07:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F53C7EE22
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 07:16:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235231AbjEIHLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 03:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41328 "EHLO
+        id S234662AbjEIHQp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 03:16:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235204AbjEIHLi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 03:11:38 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4313472AB
-        for <linux-doc@vger.kernel.org>; Tue,  9 May 2023 00:11:36 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-50bc25f0c7dso10285537a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 09 May 2023 00:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683616295; x=1686208295;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=APH4uf0HQ8cOpTtx4oEH1mlDXvsjwJke9jk7vwtuN80=;
-        b=e7j6qkllm/T/2M2c1EkqE/Qd/638PextIBR0EfhntkXwIPUhY6InG0cTEP19Pl6rJX
-         tzpjvB4ljG1Wpv06IP8v0iJEsTwM4pF4IdAbZvRdo2cjs5Wv4t8ffGIy4i89YSSwoyZY
-         QIWbShgowuM5OzwGJdJ1FxIYWJO8yENJsZnyGyyMcDCnf5X/AfB0a4iDpCyXAzK5kv83
-         YhQ2A8UNHBgzd9cPjbCi7+0ZFJkOowMKZg7uOa2zCrr9/kDcXodhAZYIk727px/1eZA4
-         D+/Wf5n6mnlx2gWnDoJQyYp8xv+TH0psqoE9I70jPYNednkYtru0ZwjFHM60MdO5DDQg
-         WJ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683616295; x=1686208295;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=APH4uf0HQ8cOpTtx4oEH1mlDXvsjwJke9jk7vwtuN80=;
-        b=TW89Rpj6fSjDZSfc5X7jciWRwX6T+Rw7/b+HkqIXxIbeSBCSlLGdTa6M8oT2aj5pNc
-         h9hBiCRMqqGbRv13Ul0z46NrDRKYwrxadzZ6B4ictWIeRqjidSBxiPecW8YjYP1eKqeg
-         gXYV4nbSguNaFZVmSn4i1MZ0gb4LzxDOdMxtLeLPWDV7PJMB4IgDN7354kcRTcZjz/aw
-         iF/eEOMzhneALZRriR12S2PJ14OWcdn8aeUpXlrQNbvGha5Mn5H6zQANwCqilPIgrE2P
-         2UCzqhQjaC1jEY05nAQ5+4o3L5ouYZB8CKVFGWFKu0X4gSL3sw2HaDMayT7JvUM/hOu9
-         o6/w==
-X-Gm-Message-State: AC+VfDzD6BnJiMFB+1xNs5TpA3CtnoG41lbaBVximgkBOFt/rww+bq/W
-        jEcRPB7Ku2s8PHkKAQLvCil+ew==
-X-Google-Smtp-Source: ACHHUZ4NTgyfxBlvxeFNFcg9A0+pojhfwrdDKrGACJsSCpzT73/PLN82DOw9k/K7FMCu1mximsVIng==
-X-Received: by 2002:a05:6402:8c3:b0:506:7d3e:ade5 with SMTP id d3-20020a05640208c300b005067d3eade5mr9710332edz.33.1683616294764;
-        Tue, 09 May 2023 00:11:34 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:d0d5:7818:2f46:5e76? ([2a02:810d:15c0:828:d0d5:7818:2f46:5e76])
-        by smtp.gmail.com with ESMTPSA id n7-20020aa7d047000000b004fbdfbb5acesm415192edo.89.2023.05.09.00.11.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 May 2023 00:11:34 -0700 (PDT)
-Message-ID: <7777c016-4875-a6c9-cd5e-78c2ac686448@linaro.org>
-Date:   Tue, 9 May 2023 09:11:32 +0200
+        with ESMTP id S232812AbjEIHQo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 03:16:44 -0400
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A628ED078;
+        Tue,  9 May 2023 00:16:40 -0700 (PDT)
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by bee.tesarici.cz (Postfix) with ESMTPSA id BA506156323;
+        Tue,  9 May 2023 09:16:36 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+        t=1683616597; bh=8evGPagrRUmEhFWx53rwyRMnzB1sop/iziZGU7noxh8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dV93bLA79agVk16Rcji7TLih39mWi4xLWCmkivJgCefXpLDgde71MaV5bIkOOteEB
+         FT2jcsltXkODY1wl9A2JEyMdMLLVXIQEJShi3iSLYE2CbePzunz8DgkFVndj2Y9jZF
+         hNuIP/e+xMENcJkYAPxpFH+Zjm2vfjOeCGBJlm6UKM3tRaGYavDhB2AvJUik58HcwV
+         LiL6RALy9xipayRtxG/rCHjLx/TwbGBXT6HBhXP7VbkAq6JZ3kLcVzmR0XRpFdSK6a
+         q4mPUim3Qd2JptB8foLwRCVAU9zsVaFtzL0iYOsnWOZN9Txg7djUm0BYtsIsv0sbag
+         beJdD44cBiDeQ==
+Date:   Tue, 9 May 2023 09:16:35 +0200
+From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Ondrej Zary <linux@zary.sk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Petr Tesarik <petr.tesarik.ext@huawei.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Won Chung <wonchung@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
+ bounce buffers
+Message-ID: <20230509091635.27450bd9@meshulam.tesarici.cz>
+In-Reply-To: <20230426144439.5674f8bc@meshulam.tesarici.cz>
+References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+        <20230426141520.0caf4386@meshulam.tesarici.cz>
+        <2023042617-wobble-enlighten-9361@gregkh>
+        <20230426144439.5674f8bc@meshulam.tesarici.cz>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 04/18] soc: qcom: Add Qualcomm minidump kernel driver
-Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
-        srinivas.kandagatla@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
- <1683133352-10046-5-git-send-email-quic_mojha@quicinc.com>
- <c6f730b6-f702-91d4-4abd-71546e02f869@linaro.org>
- <23b493f4-1a01-8d03-fc12-d588b2c6fd74@quicinc.com>
- <575a422d-6224-06b7-628c-8487b47882e9@linaro.org>
- <500e5abc-fb71-8468-a6b0-3ced2676b57c@linaro.org>
- <e714566e-39b7-d46b-13bd-3c0e20e9f944@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <e714566e-39b7-d46b-13bd-3c0e20e9f944@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/05/2023 09:10, Mukesh Ojha wrote:
-> 
-> 
-> On 5/4/2023 10:04 PM, Krzysztof Kozlowski wrote:
->> On 04/05/2023 17:21, Krzysztof Kozlowski wrote:
->>>>>
->>>>>> +	ret = qcom_minidump_init_apss_subsystem(md);
->>>>>> +	if (ret) {
->>>>>> +		dev_err(&pdev->dev, "apss minidump initialization failed: %d\n", ret);
->>>>>> +		goto unlock;
->>>>>> +	}
->>>>>> +
->>>>>> +	__md = md;
->>>>>
->>>>> No. This is a platform device, so it can have multiple instances.
->>>>
->>>> It can have only one instance that is created from SMEM driver probe.
->>>
->>> Anyone can instantiate more of them.... how did you solve it?
->>
->> To clarify - sprinkling more of singletons makes everything tightly
->> coupled, difficult to debug and non-portable. You cannot have two
->> instances, you have to control concurrent initialization by yourself in
->> each of such singletons.
->>
->> I understand sometimes they are unavoidable, for example when this does
->> not map to hardware property. However here you have the parent - smem -
->> which can return you valid instance. Thus you avoid entire problem of
->> file-scope variables.
-> 
-> I get your point, why one's should avoid file scope variables.
-> 
-> 
-> This is infrastructure driver and will not have multiple instances and 
-> even if it happens could be avoided with with the help of global mutex 
-> and protect below function which i am already doing at the moment and 
+On Wed, 26 Apr 2023 14:44:39 +0200
+Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
 
-But we do not want global mutexes... so incorrect design is being
-improved by more incorrect design.
+> Hi Greg,
+>=20
+> On Wed, 26 Apr 2023 14:26:36 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>=20
+> > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesa=C5=99=C3=ADk wrote:=
+ =20
+> > > Hi,
+> > >=20
+> > > On Wed, 19 Apr 2023 12:03:52 +0200
+> > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> > >    =20
+> > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > > >=20
+> > > > The goal of my work is to provide more flexibility in the sizing of
+> > > > SWIOTLB.
+> > > >=20
+> > > > The software IO TLB was designed with these assumptions:
+> > > >=20
+> > > > 1. It would not be used much, especially on 64-bit systems.
+> > > > 2. A small fixed memory area (64 MiB by default) is sufficient to
+> > > >    handle the few cases which require a bounce buffer.
+> > > > 3. 64 MiB is little enough that it has no impact on the rest of the
+> > > >    system.
+> > > >=20
+> > > > First, if SEV is active, all DMA must be done through shared
+> > > > unencrypted pages, and SWIOTLB is used to make this happen without
+> > > > changing device drivers. The software IO TLB size is increased to
+> > > > 6% of total memory in sev_setup_arch(), but that is more of an
+> > > > approximation. The actual requirements may vary depending on the
+> > > > amount of I/O and which drivers are used. These factors may not be
+> > > > know at boot time, i.e. when SWIOTLB is allocated.
+> > > >=20
+> > > > Second, other colleagues have noticed that they can reliably get
+> > > > rid of occasional OOM kills on an Arm embedded device by reducing
+> > > > the SWIOTLB size. This can be achieved with a kernel parameter, but
+> > > > determining the right value puts additional burden on pre-release
+> > > > testing, which could be avoided if SWIOTLB is allocated small and
+> > > > grows only when necessary.   =20
+> > >=20
+> > > Now that merging into 6.4 has begun, what about this patch series? I'm
+> > > eager to get some feedback (positive or negative) and respin the next
+> > > version.   =20
+> >=20
+> > It's the merge window, we can't add new things that haven't been in
+> > linux-next already. =20
+>=20
+> This is understood. I'm not asking for immediate inclusion.
+>=20
+> >   Please resubmit it after -rc1 is out. =20
+>=20
+> If you can believe that rebasing to -rc1 will be enough, then I will
+> also try to believe I'm lucky. ;-)
+>=20
+> The kind of feedback I really want to get is e.g. about the extra
+> per-device DMA-specific fields. If they cannot be added to struct
+> device, then I'd rather start discussing an interim solution, because
+> getting all existing DMA fields out of that struct will take a lot of
+> time...
 
-> fail the other probe if it is already initialized with proper logging..e.g
-> 
-> "already initialized..."
-> 
-> 
-> ret = qcom_minidump_init_apss_subsystem(md);
-> 
-> 
-> And this will be in-lined with
-> 
-> /* Pointer to the one and only smem handle */
-> static struct qcom_smem *__smem;
-> 
-> Let me know if you still disagree...and have some other way ?
+All right, 6.4-rc1 is out now. The patch series still applies cleanly.
 
-Why the parent - smem - cannot return every consumer the instance it
-has? There will be one smem having only one minidump, so all problems
-solved?
+Any comments what must be changed (if anything) to get it in?
 
-Best regards,
-Krzysztof
-
+Thanks,
+Petr T
