@@ -2,157 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACB0C7EE24
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 07:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12CEC7EE22
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 07:43:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233676AbjEIHcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 03:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53210 "EHLO
+        id S234148AbjEIHnv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 03:43:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233842AbjEIHcJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 03:32:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628E835AD;
-        Tue,  9 May 2023 00:32:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D6F1E64494;
-        Tue,  9 May 2023 07:32:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8ABC4339B;
-        Tue,  9 May 2023 07:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1683617527;
-        bh=hqRuZTZKPLhm1SCs6rtoJIIQr2UoRO/eHbuyOeqFpCs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pGF8ucgxJ76Y1V0eKtU8tCTnpak94aLBJX/zyqcCTSgvljCowz58Dx42OvNNZDJKY
-         eA4mHv1pd0yKBIcuvOpgkm5sb7ATDslllYBS4vl+JLlPk/V9UyKZeVmX69qWV+Lwz5
-         e+f3EUR1dQi4etSA11immNQ1FGWQ8vsfVbNbi08Q=
-Date:   Tue, 9 May 2023 09:32:03 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Ondrej Zary <linux@zary.sk>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Petr Tesarik <petr.tesarik.ext@huawei.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Won Chung <wonchung@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
- bounce buffers
-Message-ID: <2023050949-grueling-verify-a43b@gregkh>
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <20230426141520.0caf4386@meshulam.tesarici.cz>
- <2023042617-wobble-enlighten-9361@gregkh>
- <20230426144439.5674f8bc@meshulam.tesarici.cz>
- <20230509091635.27450bd9@meshulam.tesarici.cz>
+        with ESMTP id S233676AbjEIHnv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 03:43:51 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 322EA7DA3;
+        Tue,  9 May 2023 00:43:49 -0700 (PDT)
+Received: from loongson.cn (unknown [113.200.148.30])
+        by gateway (Coremail) with SMTP id _____8DxZPCz+VlkBOIGAA--.11453S3;
+        Tue, 09 May 2023 15:43:47 +0800 (CST)
+Received: from [10.130.0.149] (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Axo8Cx+Vlkz0ZSAA--.16904S3;
+        Tue, 09 May 2023 15:43:46 +0800 (CST)
+Subject: Re: [PATCH] LoongArch: Select HAVE_DEBUG_KMEMLEAK to support kmemleak
+To:     Youling Tang <tangyouling@loongson.cn>,
+        Catalin Marinas <catalin.marinas@arm.com>
+References: <1683614971-10744-1-git-send-email-yangtiezhu@loongson.cn>
+ <68984bbb-4ccc-51f8-7d4b-b1ae08a43c52@loongson.cn>
+Cc:     Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <d1256c93-1c70-c3ff-de71-42405d336cac@loongson.cn>
+Date:   Tue, 9 May 2023 15:43:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230509091635.27450bd9@meshulam.tesarici.cz>
+In-Reply-To: <68984bbb-4ccc-51f8-7d4b-b1ae08a43c52@loongson.cn>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Axo8Cx+Vlkz0ZSAA--.16904S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxuF1rZFy3Xr4UCFy8ZFy7Jrb_yoW5Cryrpa
+        4v93Zxtr4rJr1UAayvqFyUXF47JF93GayIgFy5C3WUGFyDCF93Ar4SqFZ5uFn8C3yrXFW8
+        WF40gryYyr4UZ3JanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
+        e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280
+        aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+        xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+        xVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+        C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+        JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+        WUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+        CTnIWIevJa73UjIFyTuYvjxU4AhLUUUUU
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 09, 2023 at 09:16:35AM +0200, Petr Tesařík wrote:
-> On Wed, 26 Apr 2023 14:44:39 +0200
-> Petr Tesařík <petr@tesarici.cz> wrote:
-> 
-> > Hi Greg,
-> > 
-> > On Wed, 26 Apr 2023 14:26:36 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > 
-> > > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesařík wrote:  
-> > > > Hi,
-> > > > 
-> > > > On Wed, 19 Apr 2023 12:03:52 +0200
-> > > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
-> > > >     
-> > > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> > > > > 
-> > > > > The goal of my work is to provide more flexibility in the sizing of
-> > > > > SWIOTLB.
-> > > > > 
-> > > > > The software IO TLB was designed with these assumptions:
-> > > > > 
-> > > > > 1. It would not be used much, especially on 64-bit systems.
-> > > > > 2. A small fixed memory area (64 MiB by default) is sufficient to
-> > > > >    handle the few cases which require a bounce buffer.
-> > > > > 3. 64 MiB is little enough that it has no impact on the rest of the
-> > > > >    system.
-> > > > > 
-> > > > > First, if SEV is active, all DMA must be done through shared
-> > > > > unencrypted pages, and SWIOTLB is used to make this happen without
-> > > > > changing device drivers. The software IO TLB size is increased to
-> > > > > 6% of total memory in sev_setup_arch(), but that is more of an
-> > > > > approximation. The actual requirements may vary depending on the
-> > > > > amount of I/O and which drivers are used. These factors may not be
-> > > > > know at boot time, i.e. when SWIOTLB is allocated.
-> > > > > 
-> > > > > Second, other colleagues have noticed that they can reliably get
-> > > > > rid of occasional OOM kills on an Arm embedded device by reducing
-> > > > > the SWIOTLB size. This can be achieved with a kernel parameter, but
-> > > > > determining the right value puts additional burden on pre-release
-> > > > > testing, which could be avoided if SWIOTLB is allocated small and
-> > > > > grows only when necessary.    
-> > > > 
-> > > > Now that merging into 6.4 has begun, what about this patch series? I'm
-> > > > eager to get some feedback (positive or negative) and respin the next
-> > > > version.    
-> > > 
-> > > It's the merge window, we can't add new things that haven't been in
-> > > linux-next already.  
-> > 
-> > This is understood. I'm not asking for immediate inclusion.
-> > 
-> > >   Please resubmit it after -rc1 is out.  
-> > 
-> > If you can believe that rebasing to -rc1 will be enough, then I will
-> > also try to believe I'm lucky. ;-)
-> > 
-> > The kind of feedback I really want to get is e.g. about the extra
-> > per-device DMA-specific fields. If they cannot be added to struct
-> > device, then I'd rather start discussing an interim solution, because
-> > getting all existing DMA fields out of that struct will take a lot of
-> > time...
-> 
-> All right, 6.4-rc1 is out now. The patch series still applies cleanly.
-> 
-> Any comments what must be changed (if anything) to get it in?
+Cc: Jonathan Corbet <corbet@lwn.net>
+     linux-doc@vger.kernel.org
 
-Try resending it, it's long out of my review queue...
+On 05/09/2023 03:13 PM, Youling Tang wrote:
+> Hi, Tiezhu
+>
+> On 05/09/2023 02:49 PM, Tiezhu Yang wrote:
+>> We can see that DEBUG_KMEMLEAK depends on HAVE_DEBUG_KMEMLEAK after
+>> commit b69ec42b1b19 ("Kconfig: clean up the long arch list for the
+>> DEBUG_KMEMLEAK config option"), just select HAVE_DEBUG_KMEMLEAK to
+>> support kmemleak on LoongArch.
+>>
+>> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+>> ---
+>>
+>> This is based on 6.4-rc1
+>>
+>>  arch/loongarch/Kconfig | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+>> index d38b066..1e64edd 100644
+>> --- a/arch/loongarch/Kconfig
+>> +++ b/arch/loongarch/Kconfig
+>> @@ -90,6 +90,7 @@ config LOONGARCH
+>>      select HAVE_ASM_MODVERSIONS
+>>      select HAVE_CONTEXT_TRACKING_USER
+>>      select HAVE_C_RECORDMCOUNT
+>> +    select HAVE_DEBUG_KMEMLEAK
+>>      select HAVE_DEBUG_STACKOVERFLOW
+>>      select HAVE_DMA_CONTIGUOUS
+>>      select HAVE_DYNAMIC_FTRACE
+>>
+>
+> At the same time, you need to modify the loongarch in arch-support.txt
+> to ok.
+>
+> BTW, we can submit a separate patch to modify the features already
+> supported by LoongArch.
+>
+> The following features are already supported in LoongArch.
+>
+> diff --git
+> a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+> b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+...
+> diff --git a/Documentation/features/debug/kprobes/arch-support.txt
+> b/Documentation/features/debug/kprobes/arch-support.txt
+> index 8a77d62a42c5..aad83b57587a 100644
+> --- a/Documentation/features/debug/kprobes/arch-support.txt
+> +++ b/Documentation/features/debug/kprobes/arch-support.txt
+...
+> diff --git a/Documentation/features/debug/kretprobes/arch-support.txt
+> b/Documentation/features/debug/kretprobes/arch-support.txt
+> index cf4723c5ac55..61380010a4a7 100644
+> --- a/Documentation/features/debug/kretprobes/arch-support.txt
+> +++ b/Documentation/features/debug/kretprobes/arch-support.txt
+...
+> diff --git
+> a/Documentation/features/debug/stackprotector/arch-support.txt
+> b/Documentation/features/debug/stackprotector/arch-support.txt
+> index 71cd4ba18f7d..4c64c5d596f7 100644
+> --- a/Documentation/features/debug/stackprotector/arch-support.txt
+> +++ b/Documentation/features/debug/stackprotector/arch-support.txt
 
-thanks,
+Thank you, I have already prepared a patch to update the docs,
+but some more features will be added on LoongArch in the following
+merge window, I am not sure what is the proper time to send the
+following patch, maybe two months later, or right away, maybe
+Jonathan can give some suggestions.
 
-greg k-h
+Documentation/features: Refresh LoongArch support files
+
+Run the refresh script [1] to document the recent feature additions
+on LoongArch.
+
+[1] Documentation/features/scripts/features-refresh.sh
+
+Thanks,
+Tiezhu
+
