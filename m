@@ -2,174 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B356C7EE22
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 20:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0B89C7EE22
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 20:56:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235123AbjEIUzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 16:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46256 "EHLO
+        id S235239AbjEIU4B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 16:56:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235487AbjEIUzO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 16:55:14 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 476CE59E8;
-        Tue,  9 May 2023 13:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683665684; x=1715201684;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qb7JnGYGX/q0kXPU2rhDE3PwsSlBsEq5dhBfzcKgApM=;
-  b=ItULmH/VZ61oT6Nwgz7iG+wxgLrigfSEv1M4VfXGit2kBCZM3+5TIPEm
-   GuVZVnu9DuD8yjMhGZRWyyuPMb06GKugXpElluDOXgAb8xlSbxyzUmFmI
-   XJjdHXSGEIv9nlBxLxRwyRaHnTrkVtX/zjR1CWlFqkhTJXnM8NyAqCbR2
-   esNg+TuFMHJoHtp1z8zqhC31evy210SPykq7XPL93ww1h9Xieqc3K76vO
-   UwJ4cklLYGyJEM9JW0Ku+4qXffQbR73gOnuFoKJ54DYlyva760UZZXZ2u
-   LkaYqs4tFyNC14kF5Xo81OIsSSWU7tyGhXDz0LMn4B5d60vtGId9oBbJ6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="350081851"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="350081851"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 13:52:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649486667"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="649486667"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 May 2023 13:52:50 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pwUKH-0002UO-0a;
-        Tue, 09 May 2023 20:52:49 +0000
-Date:   Wed, 10 May 2023 04:51:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Youling Tang <tangyouling@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S234893AbjEIU4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 16:56:00 -0400
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2055.outbound.protection.outlook.com [40.107.241.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9799B59D4;
+        Tue,  9 May 2023 13:55:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y8tYHmf5Ue1NHWteMVEOev83uJl+IsMc1XOE7QJ2iFTU5RgTnVB6zVzLtIVw3xhZdvne6cG212S23IrmPnM+O42wpMsMI4mnp/hwUIV/4ES5/CBnOTbC+ugJLPJ/FSwEdzIVNa280Ys4/VF3r0OcIgtXVNCRchiLnwo2fnAsjnCwzbwPo6gpBAZivS2Gz4pCzjPQ+Cuo5iZnYVg4IW93At2N1snlLb3njd/fXp5yMRw0GrM5FftMRYycGrNnkb7eiwAq2rZtv9jP0TBs3I56OJBwDB4PSW0g3Vucb94OcGJKiInJknwP6ohImxYleKWXWWrb0NpLNOTEFch4UYqXSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fRgLOZyb8YGiGM41S8ROnEF5wfGxS+vShKER0upqfXY=;
+ b=ZNnoGAmA8NM3pGMa7daXsAj8QKXXssLHeuos3txyRMNoznCZFWKRPS6bq/Kd10LaQXTUK6embNujrHjGoI4/bqLwQQj3J4aezajB/+QgMaBH3cpHNmo44JEflvMHw6gKBsjh3jxjOo1z5+DzkSC0WD0dYDyrHiNFecpfkejToPmeme41eJvF1E6Qtdt30U2/VHEHWPvKiNN2b9JpvJF2Qe/rPTtMrudXg3KTJUFHYiOVpRy0VMwcGzpu8rf4VhTRl9ys22gRRrinbXRB594AkXcboUUYqMPBovh9/1MPFyzqU1BN+6JpuX8bLsH13nnN/bjKEgyfgq/Go0A4jqElNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=santannapisa.it; dmarc=pass action=none
+ header.from=santannapisa.it; dkim=pass header.d=santannapisa.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=santannapisa.it;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fRgLOZyb8YGiGM41S8ROnEF5wfGxS+vShKER0upqfXY=;
+ b=uiTfMbN4ZT5F86WYONCpuvMNRcOG8genGBYTaHzimHRcFNIlkvfskrU85l3AHPWfTunv5cuPE1n2TjB3Ts/VMB8v5atEHZ8FhWS+8xhtLhC6i7Nq8VljdCnnxfbSf3jw+jEbojpwxu5H80dbpcX/Pk0QYv1xKn1oB6xqbEfFbeo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=santannapisa.it;
+Received: from VI1PR03MB2880.eurprd03.prod.outlook.com (2603:10a6:802:2d::21)
+ by PR3PR03MB6619.eurprd03.prod.outlook.com (2603:10a6:102:7a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
+ 2023 20:54:21 +0000
+Received: from VI1PR03MB2880.eurprd03.prod.outlook.com
+ ([fe80::8cd9:c5f1:f698:5600]) by VI1PR03MB2880.eurprd03.prod.outlook.com
+ ([fe80::8cd9:c5f1:f698:5600%3]) with mapi id 15.20.6363.031; Tue, 9 May 2023
+ 20:54:21 +0000
+Date:   Tue, 9 May 2023 22:54:17 +0200
+From:   luca abeni <luca.abeni@santannapisa.it>
+To:     Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Zhangjin Wu <falcon@tinylab.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-Subject: Re: [PATCH] LoongArch: Add jump-label implementation
-Message-ID: <202305100412.gazWW71q-lkp@intel.com>
-References: <1683617390-18015-1-git-send-email-tangyouling@loongson.cn>
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/deadline: accurate reclaim bandwidth for GRUB
+Message-ID: <20230509225417.61d36733@nowhere>
+In-Reply-To: <20230509224829.2fb547fd@nowhere>
+References: <20230508160829.2756405-1-vineeth@bitbyteword.org>
+        <20230509132534.09098acc@luca64>
+        <CAO7JXPhrqKWfsp860rRmEenxARi8U2gNMGsOn4m+aKporWwBcg@mail.gmail.com>
+        <20230509224829.2fb547fd@nowhere>
+Organization: Scuola Superiore Sant'Anna
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0105.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:23::20) To VI1PR03MB2880.eurprd03.prod.outlook.com
+ (2603:10a6:802:2d::21)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1683617390-18015-1-git-send-email-tangyouling@loongson.cn>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR03MB2880:EE_|PR3PR03MB6619:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44ec0e3d-65d6-4025-aa95-08db50cf9034
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hyJ/pzUu9EtHSY+eehuVHaDSFYWwrjAZcCyRn9dg6f4tJ1C3e3nISsBanq4XJFSjwsWYqCcjz9vFTUCuO13cpreSYcH70+xHl5dOGacHJz4wCXs87j5C+gaYcBF4r4EJsn24F8krj3nShX2Or1k6IvwFAfzazDOGOW//Hbg4YTYydtbZLdC9fGbHz4sxUApwz6QYBS0x9cguOcMWxrQTZ2YZfzArTkA2V/B+LolQuimVjxH6BBqkmx11wncTHxHvW5McZvCP8YAhc2Y4f4tiwNG1u/7MaH6VVk/qLqPiXldFI9F16cMkSj93/JXmmEmA40N+QOgSOYnZFxvnfimsr8+2LliFhhPiQxCrhlqPcVHLjJLMRCXljuFW5hHEOhZKdmJGXq14FXwnuf2dIhIh8r+yH6YD5z8qjJOuAaxjyyP5iK0EHCEr2BCQP4jX/AHWlrziiXL/MizfPSKJx2O6bUENpYnbqQ1MGhW4ij8EByKS2PZx577wLOsbkqBCQ3+ALla2WQHiyMm8mDvipKBGWW0A8LqmWggvK/+8vxQUjuWaBMCRqqi0HUVdhn1clPgv
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR03MB2880.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(346002)(136003)(396003)(376002)(39860400002)(366004)(451199021)(6916009)(36916002)(33716001)(54906003)(86362001)(786003)(316002)(66476007)(6486002)(66556008)(6666004)(41300700001)(66946007)(4326008)(5660300002)(8936002)(8676002)(7416002)(478600001)(1076003)(6512007)(26005)(38100700002)(6506007)(41320700001)(186003)(2906002)(4744005)(9686003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HAGrBxI1fCh8DnlTvxEIX9LJGxGPM5o5+nNXIRRAlemlGm3WMN9lUSffFUBK?=
+ =?us-ascii?Q?iZMdv/6/PYFfcXTRGHmOEpzMj1EN105WuyhA+pKrD9p9uxODxWOpOjxogRbP?=
+ =?us-ascii?Q?afd1OSbh78vg7AAQpLvuPaKXNMvQYfeVLy8XZNU+LL6gxx/tVz/ruws4b12e?=
+ =?us-ascii?Q?cChv+Ra3gD0ki1LbAGBgJbNENkbsFbtIa7eK4y5t8Y9YLslaf+oN6x4PiiJg?=
+ =?us-ascii?Q?zsE6Xwn7D2vgYI3FiIb3M2aynAbQ/bDsJEtYU78iBAr8ZA5EFp5Xmp43xpPG?=
+ =?us-ascii?Q?+eEZcLkdhpOLUvM72kyCcwZ6V33zgI+MNlH59SYyDZl8qfmcMUAa3k7ejx2q?=
+ =?us-ascii?Q?FSZbf+sXayT7VqsyTXUAbD5zWxeZRO6fF9NYCCO4c6xJ5io0wGH5onSUVEfi?=
+ =?us-ascii?Q?q61Hi5zfMw15V6xHJExoaVtQS0E4x/VIKwRwHeKLaksH0x0Xz3AErG6T66xL?=
+ =?us-ascii?Q?sLwinmxDqhscmIPjE3/KQSDX32QymuYT30j/ks6oxgROwtz9j9YB4VNmqDiy?=
+ =?us-ascii?Q?hQFmgaaz0Wtyj2ofo95tYU9fGjpotUrNzp1mv1Na6JXXTGHuWhj8f6tyR2QG?=
+ =?us-ascii?Q?AByILyuOsL0da+uUdfqpVgzviXNPx6HX8Dal/ZfnjBgDnHZXflHaS9G8skS9?=
+ =?us-ascii?Q?sthznXzpgStKD4cjEysTMbSDQHPjUd1RohXsTyrr3qabVLzDRaaH6v/mPCpq?=
+ =?us-ascii?Q?ZYnmBd04yMZ2DUIEnuJQFqQIgECrqZMnJBmNsUX5ezNFGwE1UskRBxgEz9uc?=
+ =?us-ascii?Q?8KTH3MwA2sJ953baT7UuwH36a93dIWy2cN6Z57lBkS6UAuurawbIDTuHZpPr?=
+ =?us-ascii?Q?0/PD2+6WzKvApHfGgYZJaZPs86bPQAqeUTVQcVFqNApgDfhy9t3vP+mPw9Y/?=
+ =?us-ascii?Q?If+LJ6wMy/2TKStO7O29mzJorDHggapCQCK+EvVAqSJOZdIYY+m+IFoctcFF?=
+ =?us-ascii?Q?O+wVQ6jCjBNW2r7vpGDjfkU+Zpz1SHnf0sKeDOBvQ/LjXEKj0qliwvvDwg/t?=
+ =?us-ascii?Q?kfc+qi/Cg8xerzzkMUBMazhzm54rK2LnPmXZib43BkBzRn6+nPD9w+nKmpwG?=
+ =?us-ascii?Q?e1Jb0jVkGlWfN6CKrFS8O+WTC0Edk84j1jizDf433dQ8N1tD/7fnJtv6rBg0?=
+ =?us-ascii?Q?nlU36SLiEwClFJr2uI6sI5JbxTZnG6voD/aCn5KsISm8zMGpI2GVXjuksqmT?=
+ =?us-ascii?Q?8B/Q4DutQNcimmi0ZH8vpnhScBKun0ZE6MIkdMsEari5lWaiPJiYe5H4C1Rz?=
+ =?us-ascii?Q?pN+f1gtiEUbkqdxM9rvUG16qgmS/aLKDBKLihIt1jM5rEFUVTLPL3ZnfrXeA?=
+ =?us-ascii?Q?dpI3hH+YiRrTOtHJTbz7HV51TZwgWWP2wyxufa/FDR4L/Q6PAqR/75uizZ0H?=
+ =?us-ascii?Q?W2P8FOB47Vjvkj8Z6DAM6wI7F5lvw3C4zVCPl1FCUrSf7YszVF2QvTOOHL/2?=
+ =?us-ascii?Q?UzV5W30Tttx/rIf4mDusxKeNlYbpTv88RSMNmWC6H79oElc98wKU2Tagx6Ck?=
+ =?us-ascii?Q?dNIO4oA6dM+dTIa/wmQqYnjUKLIQdUN+hWvNe1HOBd7cDjoDB12irFFGr3GO?=
+ =?us-ascii?Q?HGHIXSLoA4vchMAjH4WTXlkvQDVNV5brvhSkPdEJsTlej6mAdOKhaNvB6YD7?=
+ =?us-ascii?Q?iA=3D=3D?=
+X-OriginatorOrg: santannapisa.it
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44ec0e3d-65d6-4025-aa95-08db50cf9034
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR03MB2880.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 20:54:21.2168
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d97360e3-138d-4b5f-956f-a646c364a01e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Yi8TJiDgWlEJpnNCjQd/5IC97GA17njkYZE8ZCc1BX6cFpkto5kWzyPIBDfWm8SqeEwpiatM0bhNMLbwSsUs5xP5Mcfs8HZytmsXWYzLeps=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR03MB6619
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Youling,
+On Tue, 9 May 2023 22:48:29 +0200
+luca abeni <luca.abeni@santannapisa.it> wrote:
 
-kernel test robot noticed the following build errors:
+> Hi,
+> 
+> On Tue, 9 May 2023 15:29:21 -0400
+> Vineeth Remanan Pillai <vineeth@bitbyteword.org> wrote:
+> [...]
+> > > Is this understanding correct?    
+> > Yes, the above two details are correct. In addition to that, I think
+> > the existing equation had a small bug:
+> > GRUB paper says, running time is depreciated as
+> >    "dq = -U dt" where U is running_bw.
+> > This is assuming that the whole cpu bandwidth could be reclaimed.
+> > But in our case, we cap at Umax. So the equation should be
+> >    "dq = -(U/Umax) dt"  
+> 
+> Yes, this is the approximation I was mentioning... Instead of using a
+> division, I approximated it with a different equation using a sum.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.4-rc1 next-20230509]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Sorry, ignore this comment (and the following); I misinterpreted the
+code (and my old notes).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/LoongArch-Add-jump-label-implementation/20230509-153154
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1683617390-18015-1-git-send-email-tangyouling%40loongson.cn
-patch subject: [PATCH] LoongArch: Add jump-label implementation
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230510/202305100412.gazWW71q-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/369827734136be509a0c817517fed12548d9c41f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Youling-Tang/LoongArch-Add-jump-label-implementation/20230509-153154
-        git checkout 369827734136be509a0c817517fed12548d9c41f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch prepare
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305100412.gazWW71q-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/cpumask.h:16,
-                    from arch/loongarch/include/asm/processor.h:9,
-                    from arch/loongarch/include/asm/thread_info.h:15,
-                    from arch/loongarch/include/asm/ptrace.h:10,
-                    from arch/loongarch/include/asm/inst.h:10,
-                    from arch/loongarch/include/asm/jump_label.h:13,
-                    from include/linux/jump_label.h:112,
-                    from include/linux/dynamic_debug.h:6,
-                    from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from arch/loongarch/include/asm/bug.h:59,
-                    from include/linux/bug.h:5,
-                    from include/linux/fortify-string.h:5,
-                    from include/linux/string.h:254,
-                    from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from scripts/mod/devicetable-offsets.c:3:
-   include/linux/numa.h: In function 'phys_to_target_node':
->> include/linux/numa.h:41:9: error: implicit declaration of function 'pr_info_once' [-Werror=implicit-function-declaration]
-      41 |         pr_info_once("Unknown target node for memory at 0x%llx, assuming node 0\n",
-         |         ^~~~~~~~~~~~
-   include/linux/cpumask.h: In function 'cpu_max_bits_warn':
->> include/linux/cpumask.h:143:9: error: implicit declaration of function 'WARN_ON_ONCE' [-Werror=implicit-function-declaration]
-     143 |         WARN_ON_ONCE(cpu >= bits);
-         |         ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
-   make[2]: Target 'scripts/mod/' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+I do not understand why the "max{}" doe not work well, I need to double
+think about it.
 
 
-vim +/pr_info_once +41 include/linux/numa.h
-
-a927bd6ba952d1 Dan Williams 2020-11-21  29  
-a927bd6ba952d1 Dan Williams 2020-11-21  30  #ifndef memory_add_physaddr_to_nid
-a927bd6ba952d1 Dan Williams 2020-11-21  31  static inline int memory_add_physaddr_to_nid(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  32  {
-a927bd6ba952d1 Dan Williams 2020-11-21  33  	pr_info_once("Unknown online node for memory at 0x%llx, assuming node 0\n",
-a927bd6ba952d1 Dan Williams 2020-11-21  34  			start);
-a927bd6ba952d1 Dan Williams 2020-11-21  35  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  36  }
-a927bd6ba952d1 Dan Williams 2020-11-21  37  #endif
-a927bd6ba952d1 Dan Williams 2020-11-21  38  #ifndef phys_to_target_node
-a927bd6ba952d1 Dan Williams 2020-11-21  39  static inline int phys_to_target_node(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  40  {
-a927bd6ba952d1 Dan Williams 2020-11-21 @41  	pr_info_once("Unknown target node for memory at 0x%llx, assuming node 0\n",
-a927bd6ba952d1 Dan Williams 2020-11-21  42  			start);
-a927bd6ba952d1 Dan Williams 2020-11-21  43  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  44  }
-a927bd6ba952d1 Dan Williams 2020-11-21  45  #endif
-a927bd6ba952d1 Dan Williams 2020-11-21  46  #else /* !CONFIG_NUMA */
-b2ca916ce392a9 Dan Williams 2020-02-16  47  static inline int numa_map_to_online_node(int node)
-b2ca916ce392a9 Dan Williams 2020-02-16  48  {
-b2ca916ce392a9 Dan Williams 2020-02-16  49  	return NUMA_NO_NODE;
-b2ca916ce392a9 Dan Williams 2020-02-16  50  }
-a927bd6ba952d1 Dan Williams 2020-11-21  51  static inline int memory_add_physaddr_to_nid(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  52  {
-a927bd6ba952d1 Dan Williams 2020-11-21  53  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  54  }
-a927bd6ba952d1 Dan Williams 2020-11-21  55  static inline int phys_to_target_node(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  56  {
-a927bd6ba952d1 Dan Williams 2020-11-21  57  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  58  }
-b2ca916ce392a9 Dan Williams 2020-02-16  59  #endif
-b2ca916ce392a9 Dan Williams 2020-02-16  60  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+			Luca
