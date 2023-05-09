@@ -2,144 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A21C7EE22
-	for <linux-doc@archiver.kernel.org>; Mon,  8 May 2023 20:48:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0434C77B7F
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 02:18:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233353AbjEHUsq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 16:48:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43190 "EHLO
+        id S229995AbjEICSE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 22:18:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjEHUsp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 16:48:45 -0400
-Received: from out-26.mta1.migadu.com (out-26.mta1.migadu.com [IPv6:2001:41d0:203:375::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D0F5BAE
-        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 13:48:42 -0700 (PDT)
-Date:   Mon, 8 May 2023 16:48:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1683578919;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=T9yUrg/v5raybQi2xKwTXiJDyugUh7KFNSbnsbVf1ko=;
-        b=JlOqRkPdzk5AJhxPMwu8AlexUvrKA9kXRniMs6KXFAxkkCykU6KjHBDIF+g4xO4yC/3Xao
-        +RuScEMByhVbOYP7Nl+Ojs+6ZTV4KDzSfRqi3slN82Zdtt1OUgviKekasieY9DgexpymM2
-        tFWfTgTgTslrvfQsG/FcZTuRpfPmr6I=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        akpm@linux-foundation.org, vbabka@suse.cz, hannes@cmpxchg.org,
-        roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
-        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-        ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
-        arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-        david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-        masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-        tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-        paulmck@kernel.org, pasha.tatashin@soleen.com,
-        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-        penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-        glider@google.com, elver@google.com, dvyukov@google.com,
-        shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-        rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org,
-        kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFlgG02A87qPNIn1@moria.home.lan>
-References: <20230501165450.15352-1-surenb@google.com>
- <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
- <CAJuCfpHxbYFxDENYFfnggh1D8ot4s493PQX0C7kD-JLvixC-Vg@mail.gmail.com>
- <ZFN1yswCd9wRgYPR@dhcp22.suse.cz>
- <ZFfd99w9vFTftB8D@moria.home.lan>
- <20230508175206.7dc3f87c@meshulam.tesarici.cz>
- <ZFkb1p80vq19rieI@moria.home.lan>
- <20230508180913.6a018b21@meshulam.tesarici.cz>
- <ZFkjRBCExpXfI+O5@moria.home.lan>
- <20230508205939.0b5b485c@meshulam.tesarici.cz>
+        with ESMTP id S229575AbjEICSE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 22:18:04 -0400
+Received: from 167-179-156-38.a7b39c.syd.nbn.aussiebb.net (167-179-156-38.a7b39c.syd.nbn.aussiebb.net [167.179.156.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C15FE60;
+        Mon,  8 May 2023 19:18:02 -0700 (PDT)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+        by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+        id 1pwCvA-006hX7-Oq; Tue, 09 May 2023 10:17:46 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 09 May 2023 10:17:45 +0800
+Date:   Tue, 9 May 2023 10:17:45 +0800
+From:   Herbert Xu <herbert@gondor.apana.org.au>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>
+Subject: Re: [PATCH V5 03/21] crypto: hisilicon/qm: Fix to enable build with
+ RISC-V clang
+Message-ID: <ZFmtSReX9/WR5CkK@gondor.apana.org.au>
+References: <20230508115237.216337-1-sunilvl@ventanamicro.com>
+ <20230508115237.216337-4-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230508205939.0b5b485c@meshulam.tesarici.cz>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20230508115237.216337-4-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 08, 2023 at 08:59:39PM +0200, Petr Tesařík wrote:
-> On Mon, 8 May 2023 12:28:52 -0400
-> Kent Overstreet <kent.overstreet@linux.dev> wrote:
+On Mon, May 08, 2023 at 05:22:19PM +0530, Sunil V L wrote:
+> With CONFIG_ACPI enabled for RISC-V, this driver gets enabled in
+> allmodconfig build. However, build fails with clang and below
+> error is seen.
 > 
-> > On Mon, May 08, 2023 at 06:09:13PM +0200, Petr Tesařík wrote:
-> > > Sure, although AFAIK the index does not cover all possible config
-> > > options (so non-x86 arch code is often forgotten). However, that's the
-> > > less important part.
-> > > 
-> > > What do you do if you need to hook something that does conflict with an
-> > > existing identifier?  
-> > 
-> > As already happens in this patchset, rename the other identifier.
-> > 
-> > But this is C, we avoid these kinds of conflicts already because the
-> > language has no namespacing
+> drivers/crypto/hisilicon/qm.c:627:10: error: invalid output constraint '+Q' in asm
+>                        "+Q" (*((char __iomem *)fun_base))
+>                        ^
+> This is expected error with clang due to the way it is designed.
 > 
-> This statement is not accurate, but I agree there's not much. Refer to
-> section 6.2.3 of ISO/IEC9899:2018 (Name spaces of identifiers).
+> To fix this issue, move arm64 assembly code under #if.
 > 
-> More importantly, macros also interfere with identifier scoping, e.g.
-> you cannot even have a local variable with the same name as a macro.
-> That's why I dislike macros so much.
+> Link: https://github.com/ClangBuiltLinux/linux/issues/999
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> [sunilvl@ventanamicro.com: Moved tmp0 and tmp1 into the #if]
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  drivers/crypto/hisilicon/qm.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/crypto/hisilicon/qm.c b/drivers/crypto/hisilicon/qm.c
+> index ad0c042b5e66..2eaeaac2e246 100644
+> --- a/drivers/crypto/hisilicon/qm.c
+> +++ b/drivers/crypto/hisilicon/qm.c
+> @@ -610,13 +610,9 @@ EXPORT_SYMBOL_GPL(hisi_qm_wait_mb_ready);
+>  static void qm_mb_write(struct hisi_qm *qm, const void *src)
+>  {
+>  	void __iomem *fun_base = qm->io_base + QM_MB_CMD_SEND_BASE;
+> -	unsigned long tmp0 = 0, tmp1 = 0;
+>  
+> -	if (!IS_ENABLED(CONFIG_ARM64)) {
+> -		memcpy_toio(fun_base, src, 16);
+> -		dma_wmb();
+> -		return;
+> -	}
 
-Shadowing a global identifier like that would at best be considered poor
-style, so I don't see this as a major downside.
+Please leave this bit as it stands.
 
-> But since there's no clear policy regarding macros in the kernel, I'm
-> merely showing a downside; it's perfectly fine to write kernel code
-> like this as long as the maintainers agree that the limitation is
-> acceptable and outweighed by the benefits.
+> +#if IS_ENABLED(CONFIG_ARM64)
+> +	unsigned long tmp0 = 0, tmp1 = 0;
+>  
+>  	asm volatile("ldp %0, %1, %3\n"
+>  		     "stp %0, %1, %2\n"
+> @@ -626,6 +622,11 @@ static void qm_mb_write(struct hisi_qm *qm, const void *src)
+>  		       "+Q" (*((char __iomem *)fun_base))
+>  		     : "Q" (*((char *)src))
+>  		     : "memory");
 
-Macros do have lots of tricky downsides, but in general we're not shy
-about using them for things that can't be done otherwise; see
-wait_event(), all of tracing...
+And simply add the ifdef around the assembly.
 
-I think we could in general do a job of making the macros _themselves_
-more managable, when writing things that need to be macros I'll often
-have just the wrapper as a macro and write the bulk as inline functions.
-See the generic radix tree code for example.
-
-Reflection is a major use case for macros, and the underlying mechanism
-here - code tagging - is something worth talking about more, since it's
-codifying something that's been done ad-hoc in the kernel for a long
-time and something we hope to refactor other existing code to use,
-including tracing - I've got a patch already written to convert the
-dynamic debug code to code tagging; it's a nice -200 loc cleanup.
-
-Regarding the alloc_hooks() macro itself specifically, I've got more
-plans for it. I have another patch series after this one that implements
-code tagging based fault injection, which is _far_ more ergonomic to use
-than our existing fault injection capabilities (and this matters! Fault
-injection is a really important tool for getting good test coverage, but
-tools that are a pain in the ass to use don't get used) - and with the
-alloc_hooks() macro already in place, we'll be able to turn _every
-individual memory allocation callsite_ into a distinct, individually
-selectable fault injection point - which is something our existing fault
-injection framework attempts at but doesn't really manage.
-
-If we can get this in, it'll make it really easy to write unit tests
-that iterate over every memory allocation site in a given module,
-individually telling them to fail, run a workload until they hit, and
-verify that the code path being tested was executed. It'll nicely
-complement the fuzz testing capabilities that we've been working on,
-particularly in filesystem land.
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
