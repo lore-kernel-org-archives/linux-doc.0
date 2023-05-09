@@ -2,293 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D17AC7EE24
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 16:06:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B53FC77B75
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 16:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235333AbjEIQGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 12:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35130 "EHLO
+        id S229839AbjEIQQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 12:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231488AbjEIQGi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 12:06:38 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C7D46B5;
-        Tue,  9 May 2023 09:06:36 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-52caed90d17so3337166a12.0;
-        Tue, 09 May 2023 09:06:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683648396; x=1686240396;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3D71as6LJWsYMDTb4BiasqKDmId0LkGzfVkMgY6tMoc=;
-        b=i8dhhnQhpe5/KpsAyTAlVssvMR0ux0o5onT9Qxzie9BfoGIHQ6SOniG0AlO8B8ZxcL
-         5ycfkMwgNjmSIibN/NNfkn5qZaljGAlKPr57vAGXYGktC0jXrY5E3SYQOEMfRwCeEQFL
-         uKWsMhtcVzW3In+kDKdi2wn5Zt3T9g0umMlR3PVNGEAmEwpKDiQm8j3Nf2+fS8+b6wrQ
-         slylNYxXZbljTUQPhSahBLwdE6akjNBDXMX3KSnJBc6J9/YegRPSLvDgCQi4f4sn080/
-         TTwiccVSfo0zo/TKN8B3VIRGxBT4XF5YWG9gNZVgUmrGAPLNalb6F/h0pDd29iRKFfen
-         IzNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683648396; x=1686240396;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3D71as6LJWsYMDTb4BiasqKDmId0LkGzfVkMgY6tMoc=;
-        b=FL9KIVU6CPp+vYH4I42K4NbiR3GC85wqxdLwqyjbY3ibrN/m7fE1oUZccGIZfEMsUo
-         8LLP4jwH7JscImeBcc+zCko5NAlonuhdLVg+7exS5rzr0D4EFCIf7A6zuVN2lEoOZG6Y
-         iu8xqSbLsAsU3mPw5vFTsOVeQeY5vNgrVcDDXym6jZmRMo937o0e4mXL7C5/7e+faxgn
-         bPwPIrY5NJUK0oUQJgPm2k83bfqGp1h2lJyzu98fRixKNInjJJYBi9FlZ8KHZdEa4AXA
-         igZl8eC0beww4j+fzji17OsKCpY4pob8+bPS10B3zjLqloTMX0/kkWSjPsAyoWveke/h
-         IVbw==
-X-Gm-Message-State: AC+VfDwjOfKcYCdMy7TZQntMYl+nOwEP38FEibbkA5qMLQo84hQiUkb4
-        sANt2I58TYdDP/Vfux2h7S0=
-X-Google-Smtp-Source: ACHHUZ6vq6rgO7usSQ6hQ8Rf6iwdW69I+IF91CuCUFV2Mybvsjlx3XmHs9ctzTW8ientqNcQ3qg9iA==
-X-Received: by 2002:a17:90a:ba8a:b0:240:f8a6:55c7 with SMTP id t10-20020a17090aba8a00b00240f8a655c7mr14101831pjr.20.1683648395618;
-        Tue, 09 May 2023 09:06:35 -0700 (PDT)
-Received: from [192.168.50.148] (net-2-32-39-33.cust.vodafonedsl.it. [2.32.39.33])
-        by smtp.gmail.com with ESMTPSA id o6-20020a17090ac08600b00250ad795d72sm1599484pjs.44.2023.05.09.09.06.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 May 2023 09:06:34 -0700 (PDT)
-Message-ID: <e25723bf-be85-b458-a84c-1a45392683bb@gmail.com>
-Date:   Tue, 9 May 2023 18:06:26 +0200
+        with ESMTP id S233731AbjEIQQW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 12:16:22 -0400
+X-Greylist: delayed 372 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 09 May 2023 09:16:19 PDT
+Received: from sender3-of-o58.zoho.com (sender3-of-o58.zoho.com [136.143.184.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 453324202;
+        Tue,  9 May 2023 09:16:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683648561; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=e8z1GRKHIutI17sD6Ooa+GsqxZ6LiVUfaM2CBuq8Fnl8NkgMxccjJcIrLDwAp2AUFpse+WGI2R/+IhIwcdj+ZpURqgiXFh/3MQANM/u/SrCS5YDPCYRVn3jlne5PxwqF9qHJUE+2udAR3VOFk0gcRTuEqSXVNS1vmXslPZQ4KMY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1683648561; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=qGk4Rls13lFQhdUfzwlL+5GIuudpucnLpMrkFUq4WaI=; 
+        b=EuJwYk5JFudfE1FA1+kyp1s7cosrwAQvGkYpJIqCWrw/drRm7W3tBpSTR8qG1T0YVT679qzwII3KdnJmusJ9i50PdxKmXiEfZqRml52LXLn8BqSGyKJmx54K5jjLh3TWp9uzlAdMPLU3RIq2iHBdCga2Hjm7FAPPC4PZQmuzirg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1683648561;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+        bh=qGk4Rls13lFQhdUfzwlL+5GIuudpucnLpMrkFUq4WaI=;
+        b=SNFsz95maKu0/BHCbIqIyqUPOIR4r7MdlMd2xIlqC3KZ/LoT7dARRjOYEYESg5CP
+        0/GLY2THkxoK8LM8zNM85SqghmumzF7tBHxSS7X/VzJIeyypFttd0ukbH/+B0G2CV21
+        DHNisWZA600cfK7c2MQCmBpROG/vdDyyDEiXN2U8=
+Received: from [10.10.1.128] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
+        with SMTPS id 1683648559080793.9506296306162; Tue, 9 May 2023 09:09:19 -0700 (PDT)
+Message-ID: <dad2d0b2-65d6-89bf-d2f0-7f420436e44c@apertussolutions.com>
+Date:   Tue, 9 May 2023 12:09:14 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 09/18] soc: qcom: Add qcom's pstore minidump driver
- support
+Subject: Re: [PATCH v6 06/14] x86: Add early SHA support for Secure Launch
+ early measurements
 Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
-        srinivas.kandagatla@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
- <1683133352-10046-10-git-send-email-quic_mojha@quicinc.com>
-From:   Luca Stefani <luca.stefani.ge1@gmail.com>
-In-Reply-To: <1683133352-10046-10-git-send-email-quic_mojha@quicinc.com>
+To:     Simon Horman <horms@kernel.org>,
+        Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
+        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-7-ross.philipson@oracle.com>
+ <ZFUwLjPfhz8Ch9bE@kernel.org>
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+In-Reply-To: <ZFUwLjPfhz8Ch9bE@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 5/5/23 12:34, Simon Horman wrote:
+> On Thu, May 04, 2023 at 02:50:15PM +0000, Ross Philipson wrote:
+>> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+>>
+>> The SHA algorithms are necessary to measure configuration information into
+>> the TPM as early as possible before using the values. This implementation
+>> uses the established approach of #including the SHA libraries directly in
+>> the code since the compressed kernel is not uncompressed at this point.
+>>
+>> The SHA code here has its origins in the code from the main kernel:
+>>
+>> commit c4d5b9ffa31f ("crypto: sha1 - implement base layer for SHA-1")
+>>
+>> That code could not be pulled directly into the setup portion of the
+>> compressed kernel because of other dependencies it pulls in. The result
+>> is this is a modified copy of that code that still leverages the core
+>> SHA algorithms.
+>>
+>> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+>> ---
+>>   arch/x86/boot/compressed/Makefile       |  2 +
+>>   arch/x86/boot/compressed/early_sha1.c   | 97 +++++++++++++++++++++++++++++++++
+>>   arch/x86/boot/compressed/early_sha1.h   | 17 ++++++
+>>   arch/x86/boot/compressed/early_sha256.c |  7 +++
+>>   lib/crypto/sha1.c                       |  4 ++
+>>   lib/crypto/sha256.c                     |  8 +++
+>>   6 files changed, 135 insertions(+)
+>>   create mode 100644 arch/x86/boot/compressed/early_sha1.c
+>>   create mode 100644 arch/x86/boot/compressed/early_sha1.h
+>>   create mode 100644 arch/x86/boot/compressed/early_sha256.c
+>>
+>> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+>> index 6b6cfe6..1d327d4 100644
+>> --- a/arch/x86/boot/compressed/Makefile
+>> +++ b/arch/x86/boot/compressed/Makefile
+>> @@ -112,6 +112,8 @@ vmlinux-objs-$(CONFIG_EFI) += $(obj)/efi.o
+>>   vmlinux-objs-$(CONFIG_EFI_MIXED) += $(obj)/efi_mixed.o
+>>   vmlinux-objs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
+>>   
+>> +vmlinux-objs-$(CONFIG_SECURE_LAUNCH) += $(obj)/early_sha1.o $(obj)/early_sha256.o
+>> +
+>>   $(obj)/vmlinux: $(vmlinux-objs-y) FORCE
+>>   	$(call if_changed,ld)
+>>   
+>> diff --git a/arch/x86/boot/compressed/early_sha1.c b/arch/x86/boot/compressed/early_sha1.c
+>> new file mode 100644
+>> index 0000000..524ec23
+>> --- /dev/null
+>> +++ b/arch/x86/boot/compressed/early_sha1.c
+>> @@ -0,0 +1,97 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (c) 2022 Apertus Solutions, LLC.
+>> + */
+>> +
+>> +#include <linux/init.h>
+>> +#include <linux/linkage.h>
+>> +#include <linux/string.h>
+>> +#include <asm/boot.h>
+>> +#include <asm/unaligned.h>
+>> +
+>> +#include "early_sha1.h"
+>> +
+>> +#define SHA1_DISABLE_EXPORT
+> 
+> Hi Ross,
+> 
+> I could be mistaken, but it seems to me that *_DISABLE_EXPORT
+> is a mechanism of this patch to disable exporting symbols
+> (use of EXPORT_SYMBOL), at compile time.
+> 
+> If so, this doesn't strike me as something that should be part of upstream
+> kernel code.  Could you consider dropping this part of the patch?
 
-On 03/05/23 19:02, Mukesh Ojha wrote:
-> This driver was inspired from the fact pstore ram region should be
-> fixed and boot firmware need to have awarness about this region,
-> so that it will be persistent across boot. But, there are many
-> QCOM SoC which does not support warm boot from hardware but they
-> have minidump support from the software, and for them, there is
-> no need of this pstore ram region to be fixed, but at the same
-> time have interest in the pstore frontends. So, this driver
-> get the dynamic reserved region from the ram and register the
-> ramoops platform device.
->
->   +---------+     +---------+   +--------+     +---------+
->   | console |     | pmsg    |   | ftrace |     | dmesg   |
->   +---------+     +---------+   +--------+     +---------+
->         |             |             |              |
->         |             |             |              |
->         +------------------------------------------+
->                            |
->                           \ /
->                    +----------------+
->              (1)   |pstore frontends|
->                    +----------------+
->                            |
->                           \ /
->                   +------------------- +
->              (2)  | pstore backend(ram)|
->                   +--------------------+
->                            |
->                           \ /
->                   +--------------------+
->              (3)  |qcom_pstore_minidump|
->                   +--------------------+
->                            |
->                           \ /
->                     +---------------+
->              (4)    | qcom_minidump |
->                     +---------------+
->
-> This driver will route all the pstore front data to the stored
-> in qcom pstore reserved region and the reason of showing an
-> arrow from (3) to (4) as qcom_pstore_minidump driver will register
-> all the available frontends region with qcom minidump driver
-> in upcoming patch.
->
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> ---
->   drivers/soc/qcom/Kconfig                |  11 +++
->   drivers/soc/qcom/Makefile               |   1 +
->   drivers/soc/qcom/qcom_pstore_minidump.c | 116 ++++++++++++++++++++++++++++++++
->   3 files changed, 128 insertions(+)
->   create mode 100644 drivers/soc/qcom/qcom_pstore_minidump.c
->
-> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
-> index 15c931e..afdc634 100644
-> --- a/drivers/soc/qcom/Kconfig
-> +++ b/drivers/soc/qcom/Kconfig
-> @@ -293,4 +293,15 @@ config QCOM_MINIDUMP
->   	  these selective regions will be dumped instead of the entire DDR.
->   	  This saves significant amount of time and/or storage space.
->   
-> +config QCOM_PSTORE_MINIDUMP
-> +	tristate "Pstore support for QCOM Minidump"
-> +	depends on ARCH_QCOM
-> +	depends on PSTORE_RAM
-> +	depends on QCOM_MINIDUMP
-> +	help
-> +	  Enablement of this driver ensures that ramoops region can be anywhere
-> +	  reserved in ram instead of being fixed address which needs boot firmware
-> +	  awareness. So, this driver creates plaform device and registers available
-> +	  frontend region with the Qualcomm's minidump driver.
-> +
->   endmenu
-> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
-> index 1ebe081..02d30d7 100644
-> --- a/drivers/soc/qcom/Makefile
-> +++ b/drivers/soc/qcom/Makefile
-> @@ -34,3 +34,4 @@ obj-$(CONFIG_QCOM_KRYO_L2_ACCESSORS) +=	kryo-l2-accessors.o
->   obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
->   obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= ice.o
->   obj-$(CONFIG_QCOM_MINIDUMP) += qcom_minidump.o
-> +obj-$(CONFIG_QCOM_PSTORE_MINIDUMP) += qcom_pstore_minidump.o
-> diff --git a/drivers/soc/qcom/qcom_pstore_minidump.c b/drivers/soc/qcom/qcom_pstore_minidump.c
-> new file mode 100644
-> index 0000000..8d58500
-> --- /dev/null
-> +++ b/drivers/soc/qcom/qcom_pstore_minidump.c
-> @@ -0,0 +1,116 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/*
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/of_reserved_mem.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pstore_ram.h>
-> +#include <soc/qcom/qcom_minidump.h>
-> +
-> +struct qcom_ramoops_config {
-> +	unsigned long	record_size;
-> +	unsigned long	console_size;
-> +	unsigned long	ftrace_size;
-> +	unsigned long	pmsg_size;
-> +	unsigned int	mem_type;
-> +	unsigned int	flags;
-> +	int		max_reason;
-> +};
-> +
-> +struct qcom_ramoops_dd {
-> +	struct ramoops_platform_data qcom_ramoops_pdata;
-> +	struct platform_device *ramoops_pdev;
-> +};
-> +
-> +static struct qcom_ramoops_config default_ramoops_config = {
-> +	.mem_type = 2,
-> +	.record_size = 0x0,
-> +	.console_size = 0x200000,
-> +	.ftrace_size = 0x0,
-> +	.pmsg_size = 0x0,
-> +};
+Greetings Simon,
 
-This is effectively hard-cording the configuration of ramoops.
+This was patterned after the move of sha256 to /lib. Upon re-inspection, 
+it appears this has since been updated to use the __DISABLE_EXPORTS 
+CFLAG mechanism of EXPORT_SYMBOL as a conditionally included rule in the 
+Makefile where the desire to disable exporting is wanted. We will update 
+this patch to follow the same pattern.
 
-Since the memory range is dynamic and by itself doesn't impose any 
-limitation this should be configurable in the device-tree, like a 
-standard ramoops entry backed by a memory range.
-
-I think this should provide the same interface/knobs as pstore-ram does, 
-unless there's some known limitations to minidump, in which case those 
-should be expressed.
-
-> +
-> +static struct qcom_ramoops_dd *qcom_rdd;
-> +static int qcom_ramoops_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *of_node = pdev->dev.of_node;
-> +	struct device_node *node;
-> +	const struct qcom_ramoops_config *cfg;
-> +	struct ramoops_platform_data *pdata;
-> +	struct reserved_mem *rmem;
-> +	long ret;
-> +
-> +	node = of_parse_phandle(of_node, "memory-region", 0);
-> +	if (!node)
-> +		return -ENODEV;
-> +
-> +	rmem = of_reserved_mem_lookup(node);
-> +	of_node_put(node);
-> +	if (!rmem) {
-> +		dev_err(&pdev->dev, "failed to locate DT /reserved-memory resource\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	qcom_rdd = devm_kzalloc(&pdev->dev, sizeof(*qcom_rdd), GFP_KERNEL);
-> +	if (!qcom_rdd)
-> +		return -ENOMEM;
-> +
-> +	cfg = of_device_get_match_data(&pdev->dev);
-> +	if (!cfg) {
-> +		dev_err(&pdev->dev, "failed to get supported matched data\n");
-> +		return -ENOENT;
-> +	}
-> +
-> +	pdata = &qcom_rdd->qcom_ramoops_pdata;
-> +	pdata->mem_size = rmem->size;
-> +	pdata->mem_address = rmem->base;
-> +	pdata->mem_type = cfg->mem_type;
-> +	pdata->record_size = cfg->record_size;
-> +	pdata->console_size = cfg->console_size;
-> +	pdata->ftrace_size = cfg->ftrace_size;
-> +	pdata->pmsg_size = cfg->pmsg_size;
-> +	pdata->max_reason = KMSG_DUMP_PANIC;
-> +
-> +	qcom_rdd->ramoops_pdev = platform_device_register_data(NULL, "ramoops", -1,
-> +							       pdata, sizeof(*pdata));
-> +	if (IS_ERR(qcom_rdd->ramoops_pdev)) {
-> +		ret = PTR_ERR(qcom_rdd->ramoops_pdev);
-> +		dev_err(&pdev->dev, "could not create platform device: %ld\n", ret);
-> +		qcom_rdd->ramoops_pdev = NULL;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int qcom_ramoops_remove(struct platform_device *pdev)
-> +{
-> +	platform_device_unregister(qcom_rdd->ramoops_pdev);
-> +	qcom_rdd->ramoops_pdev = NULL;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id qcom_ramoops_of_match[] = {
-> +	{ .compatible = "qcom,sm8450-ramoops-minidump", .data = &default_ramoops_config },
-> +	{ .compatible = "qcom,ramoops-minidump", .data = &default_ramoops_config },
-> +	{}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, qcom_ramoops_of_match);
-> +static struct platform_driver qcom_ramoops_drv = {
-> +	.driver		= {
-> +		.name	= "qcom,ramoops-minidump",
-> +		.of_match_table = qcom_ramoops_of_match,
-> +	},
-> +	.probe = qcom_ramoops_probe,
-> +	.remove = qcom_ramoops_remove,
-> +};
-> +
-> +module_platform_driver(qcom_ramoops_drv);
-> +
-> +MODULE_DESCRIPTION("Qualcomm minidump pstore driver");
-> +MODULE_LICENSE("GPL");
+V/r,
+Daniel P. Smith
