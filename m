@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD15C7EE25
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 01:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF399C77B75
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 01:31:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbjEIBbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 May 2023 21:31:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34696 "EHLO
+        id S229457AbjEIBbe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 May 2023 21:31:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjEIBbV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 21:31:21 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55372E45
-        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 18:31:20 -0700 (PDT)
+        with ESMTP id S229726AbjEIBbb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 May 2023 21:31:31 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2092FB1
+        for <linux-doc@vger.kernel.org>; Mon,  8 May 2023 18:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1683595879;
+        s=2020; t=1683595888;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:resent-to:
          resent-from:resent-message-id:in-reply-to:in-reply-to:  references:references;
-        bh=EH7EJCy+zaOYirnoFTx4j8Sz/5+BcH8LizE4QJejMqI=;
-        b=oagT7ei6wTyxlgPwXjuqKteuuutWPJODxtn1E6PE0zN8OeqrTxZvYHbt9T3JWjX8l/R9Ix
-        eCvlYFHsP3r6sU39sS85Qo4zlrchuAzlduEza8xTvTlwNCsEkf/Oya+NnkHL1fIeuHLK5N
-        OTqQ34gn2ttS6Y6B9/FGIX9f64FsTJVDwJUk4FkZQqo61K+F2+pu6G5h5wypzmXiOUMSHG
-        lW7woCkcQLVh4dXNqPswIt5P4D7XQM+GZjN4p8vF82J+RkDVLLOx9g/01IC23llJ+io3Aw
-        Pp1HA5kwNa44DVAk8Z/YaQ0V/v+WL+5nRkzBra7Bj38JNFGJr5qIUMMmpkbVZA==
+        bh=uStzLe1tmofW57614nQAyaAY3eSlDqWR3vQxVmQVS1Y=;
+        b=uK1xa14xrxWfhUHj1QxbjFKz6sYTPR+ZQ9kQ0ghz1PXr5Eixzh9NiVejydTK4CX+x31hoI
+        vEZC/XMAzzKunacW4GyqnX3kwVHtScvOjwb9MAQCceE750g8mW2txBmpvsravjly4qS4/M
+        TaVoFXZXpcqxLKsnqjO9GcD4pNOegazuuiuUnzOIt3f/Jzhprzd57Hv5/CsiUZ4K75PEwb
+        x0zZU5L5BtssABnoLjOQv1BCqirzZ2VwXYoAiPHicJ9G+MsSscRIrR5wmWdEWljw+MyBSm
+        11hZWr+29o0cp526k7oIA0qt/S4FU46OErLbTD0YXLBtEEfh5KyxCT13oj29/w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1683595879;
+        s=2020e; t=1683595888;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:resent-to:
          resent-from:resent-message-id:in-reply-to:in-reply-to:  references:references;
-        bh=EH7EJCy+zaOYirnoFTx4j8Sz/5+BcH8LizE4QJejMqI=;
-        b=K1MbBvV8jGi9o8vEbQBL37I1DAAqaoCRPf9TO/S9XBez0QcUCyjjkAuPd+PeV1J7YJ3Yf6
-        n4H8paPSCSne5UBQ==
+        bh=uStzLe1tmofW57614nQAyaAY3eSlDqWR3vQxVmQVS1Y=;
+        b=UigcTYKgRstAkJ11h0wqdrHceYnE7eqpDPKF7rxsrj4bISs7z3FLaCJ05kzvyCzWNkWg9H
+        YFMvlN/W1DGxzKDA==
 From:   "Ahmed S. Darwish" <darwi@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1683595595;
+        s=2020; t=1683595598;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=EH7EJCy+zaOYirnoFTx4j8Sz/5+BcH8LizE4QJejMqI=;
-        b=zIbXZrgRQbJHKb8OzPbZ7vMxSTyfY46CvnA/s8gUORRkBMUxa1xGgYRVUF2F/P7zgg8maa
-        dxruFxMyxqU4pIXtnvtZalhqhgcp3P1Reuy3pwWGwsnxshkqBzxfosXC99eitBu4Q4V5ko
-        SE7twaUCtizq56kWDyhV4YKhKvw4EhF0uLBLu0gvmuJTBP/9u3al/taNNyKNshSItMgtuA
-        TuX2o1qOKGMMkJWv7UR2iiCWo29GjH6oO4DO1j/AArqZLlzzTnMrguHrqjPgtOkLFPaZLz
-        w0EEjLG8F1qN5B4uYM+MnprGMgpNgheGd4tzd88UBjQ+EfypLDKpw+cXuN+o7g==
+        bh=uStzLe1tmofW57614nQAyaAY3eSlDqWR3vQxVmQVS1Y=;
+        b=xWNjFDl1s1ucegfBKQoncawd3d6If9tExr6i3v7IB0erVNUwt3jWQ6xpT9t2axmBV47Egz
+        Qzzf/6eG0TQWoOSYHLyK98dgGPoWq8ZPdbKnLBF+bFMDkBIgUD80KfV3P4fHDLcVFEmJ1Q
+        HKAZoci+2bpbtZ1iv9kQZ1koL34GE6y4AbhhEK5SRuKp1S60+KjRB4v/8MHrfVlyzt/aOm
+        ewEZc6123SiU/pGCMhBFSqfDRsFxyVECyL0IWFbGbVRWNXoAghfj67OM2jzDVwAQAmoiQ0
+        hUyDmEWmdirizxsc1O1FFxo+AItwBn1ssPhe+phW2iue7vCxNDt/PUrrF1BIfg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1683595595;
+        s=2020e; t=1683595598;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=EH7EJCy+zaOYirnoFTx4j8Sz/5+BcH8LizE4QJejMqI=;
-        b=LBDu6RpBg2cbJvicyJUcsmEvUlVyxh2w2toUNuTWgSsO2y9weEgLHVaa3qRxsL2iUrpEbL
-        MBZ8CeY5gdnzaoBw==
+        bh=uStzLe1tmofW57614nQAyaAY3eSlDqWR3vQxVmQVS1Y=;
+        b=WJiot4UYEtS47knJadY85GFMDZjw4ZAVKGi64k8JHj3oZMySdSuYS/Vb8RZso5Gw1ThPCM
+        4eHRjiXqk7nTejDw==
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -64,90 +64,79 @@ To:     Masahiro Yamada <masahiroy@kernel.org>,
 Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kbuild@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
         "Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v2 0/2] scripts: Resolve gtags empty index generation
-Date:   Tue,  9 May 2023 03:26:14 +0200
-Message-Id: <20230509012616.81579-1-darwi@linutronix.de>
-In-Reply-To: <20230504201833.202494-1-darwi@linutronix.de>
+Subject: [PATCH v2 1/2] scripts/tags.sh: Resolve gtags empty index generation
+Date:   Tue,  9 May 2023 03:26:15 +0200
+Message-Id: <20230509012616.81579-2-darwi@linutronix.de>
+In-Reply-To: <20230509012616.81579-1-darwi@linutronix.de>
 References: <20230504201833.202494-1-darwi@linutronix.de>
+ <20230509012616.81579-1-darwi@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+gtags considers any file outside of its current working directory
+"outside the source tree" and refuses to index it. For O= kernel builds,
+or when "make" is invoked from a directory other then the kernel source
+tree, gtags ignores the entire kernel source and generates an empty
+index.
 
-v2-changelog
-------------
+Force-set gtags current working directory to the kernel source tree.
 
-Handle review remarks from Masahiro Yamada:
+Due to commit 9da0763bdd82 ("kbuild: Use relative path when building in
+a subdir of the source tree"), if the kernel build is done in a
+sub-directory of the kernel source tree, the kernel Makefile will set
+the kernel's $srctree to ".." for shorter compile-time and run-time
+warnings. Consequently, the list of files to be indexed will be in the
+"../*" form, rendering all such paths invalid once gtags switches to the
+kernel source tree as its current working directory.
 
-  - scripts/tags.sh: remove the O= language, and focus on the general
-    case of the build directory being different from the kernel source
-    tree, as specified in kernel Makefile L159.
+If gtags indexing is requested and the build directory is not the kernel
+source tree, index all files in absolute-path form.
 
-  - Fix failure when build directory is a subdirectory of the kernel
-    source tree.
+Note, indexing in absolute-path form will not affect the generated
+index, as paths in gtags indices are always relative to the gtags "root
+directory" (as evidenced by "gtags --dump").
 
-NEW:
+Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+Cc: <stable@vger.kernel.org>
+---
+ scripts/tags.sh | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-  - Update Documentation/process/changes.rst with new gtags (GNU GLOBAL)
-    requirements.
-
-Thanks!
-
-Cover letter / v1
------------------
-
-https://lkml.kernel.org/r/20230504201833.202494-1-darwi@linutronix.de
-
-make gtags for O= kernel builds is currently broken. For example, when doing:
-
-   make O=../build/ x86_64_defconfig
-   make O=../build/ gtags
-
-gtags generates a warning for each kernel source file to be indexed:
-
-   make[1]: Entering directory '/home/darwi/build'
-     GEN     gtags
-   Warning: '/home/darwi/linux/arch/x86/include/asm/qspinlock.h' is out of source tree. ignored.
-   Warning: '/home/darwi/linux/arch/x86/include/asm/hpet.h' is out of source tree. ignored.
-   ...
-   Warning: '/home/darwi/linux/virt/lib/irqbypass.c' is out of source tree. ignored.
-   make[1]: Leaving directory '/home/darwi/build/'
-
-and then generates an empty index:
-
-   $ du -hs ~/build/G*
-   16K	/home/darwi/build/GPATH
-   16K	/home/darwi/build/GRTAGS
-   16K	/home/darwi/build/GTAGS
-
-This series includes a proposed fix. After applying it:
-
-   $ make O=../build/ gtags
-   make[1]: Entering directory '/home/darwi/build'
-     GEN     gtags
-   make[1]: Leaving directory '/home/darwi/build'
-
-   $ du -hs ~/build/G*
-   9.1M	/home/darwi/build/GPATH
-   506M	/home/darwi/build/GRTAGS
-   696M	/home/darwi/build/GTAGS
-
-The generated files can then be integrated with editors or IDEs as
-usual.
-
-=>
-
-Ahmed S. Darwish (2):
-  scripts/tags.sh: Resolve gtags empty index generation
-  docs: Set minimal gtags / GNU GLOBAL version to 6.6.5
-
- Documentation/process/changes.rst |  7 +++++++
- scripts/tags.sh                   | 14 +++++++++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
-
-base-commit: ba0ad6ed89fd5dada3b7b65ef2b08e95d449d4ab
---
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index ea31640b2671..3de4b4ebd891 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -32,6 +32,14 @@ else
+ 	tree=${srctree}/
+ fi
+ 
++
++# gtags(1) refuses to index any file outside of its current working dir.
++# If gtags indexing is requested and the build output directory is not
++# the kernel source tree, index all files in absolute-path form.
++if [ "$1" = "gtags" -a -n "${tree}" ]; then
++	tree=$(realpath $tree)/
++fi
++
+ # Detect if ALLSOURCE_ARCHS is set. If not, we assume SRCARCH
+ if [ "${ALLSOURCE_ARCHS}" = "" ]; then
+ 	ALLSOURCE_ARCHS=${SRCARCH}
+@@ -131,7 +139,11 @@ docscope()
+ 
+ dogtags()
+ {
+-	all_target_sources | gtags -i -f -
++	local gtagsoutdir="${PWD}"
++	local gtagsroot="${tree}"
++
++	[ -z "${gtagsroot}" ] && gtagsroot="."
++	all_target_sources | gtags -i -C $gtagsroot -f - $gtagsoutdir
+ }
+ 
+ # Basic regular expressions with an optional /kind-spec/ for ctags and
+-- 
 2.40.0
+
