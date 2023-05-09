@@ -2,210 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C21DEC7EE22
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 07:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACB0C7EE24
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 07:32:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233586AbjEIH35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 03:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51488 "EHLO
+        id S233676AbjEIHcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 03:32:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbjEIH34 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 03:29:56 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A08A07D85;
-        Tue,  9 May 2023 00:29:53 -0700 (PDT)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8AxFulw9llkmuAGAA--.11412S3;
-        Tue, 09 May 2023 15:29:52 +0800 (CST)
-Received: from bogon.localdomain (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxXrNv9llkAkRSAA--.16958S2;
-        Tue, 09 May 2023 15:29:51 +0800 (CST)
-From:   Youling Tang <tangyouling@loongson.cn>
-To:     Huacai Chen <chenhuacai@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Zhangjin Wu <falcon@tinylab.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-Subject: [PATCH] LoongArch: Add jump-label implementation
-Date:   Tue,  9 May 2023 15:29:50 +0800
-Message-Id: <1683617390-18015-1-git-send-email-tangyouling@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf8DxXrNv9llkAkRSAA--.16958S2
-X-CM-SenderInfo: 5wdqw5prxox03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxGF1rZw4rur15tw4rZF15XFb_yoW7Jryfpr
-        17Aws5GF4kGF1fJrZ8tryDur45JFs5Ga12gF13tFy8AF9rX34vvrn2kryDZFyDJ397GrWI
-        gF1ruFsIva1UJ3JanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
-        e7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
-        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
-        aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4
-        kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
-        1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
-        Wlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I
-        6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
-        0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUv
-        cSsGvfC2KfnxnUUI43ZEXa7IU8uc_3UUUUU==
+        with ESMTP id S233842AbjEIHcJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 03:32:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628E835AD;
+        Tue,  9 May 2023 00:32:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D6F1E64494;
+        Tue,  9 May 2023 07:32:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8ABC4339B;
+        Tue,  9 May 2023 07:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1683617527;
+        bh=hqRuZTZKPLhm1SCs6rtoJIIQr2UoRO/eHbuyOeqFpCs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pGF8ucgxJ76Y1V0eKtU8tCTnpak94aLBJX/zyqcCTSgvljCowz58Dx42OvNNZDJKY
+         eA4mHv1pd0yKBIcuvOpgkm5sb7ATDslllYBS4vl+JLlPk/V9UyKZeVmX69qWV+Lwz5
+         e+f3EUR1dQi4etSA11immNQ1FGWQ8vsfVbNbi08Q=
+Date:   Tue, 9 May 2023 09:32:03 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Ondrej Zary <linux@zary.sk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Petr Tesarik <petr.tesarik.ext@huawei.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Won Chung <wonchung@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
+ bounce buffers
+Message-ID: <2023050949-grueling-verify-a43b@gregkh>
+References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+ <20230426141520.0caf4386@meshulam.tesarici.cz>
+ <2023042617-wobble-enlighten-9361@gregkh>
+ <20230426144439.5674f8bc@meshulam.tesarici.cz>
+ <20230509091635.27450bd9@meshulam.tesarici.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230509091635.27450bd9@meshulam.tesarici.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add jump-label implementation based on the ARM64 version.
+On Tue, May 09, 2023 at 09:16:35AM +0200, Petr Tesařík wrote:
+> On Wed, 26 Apr 2023 14:44:39 +0200
+> Petr Tesařík <petr@tesarici.cz> wrote:
+> 
+> > Hi Greg,
+> > 
+> > On Wed, 26 Apr 2023 14:26:36 +0200
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > 
+> > > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesařík wrote:  
+> > > > Hi,
+> > > > 
+> > > > On Wed, 19 Apr 2023 12:03:52 +0200
+> > > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> > > >     
+> > > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > > > > 
+> > > > > The goal of my work is to provide more flexibility in the sizing of
+> > > > > SWIOTLB.
+> > > > > 
+> > > > > The software IO TLB was designed with these assumptions:
+> > > > > 
+> > > > > 1. It would not be used much, especially on 64-bit systems.
+> > > > > 2. A small fixed memory area (64 MiB by default) is sufficient to
+> > > > >    handle the few cases which require a bounce buffer.
+> > > > > 3. 64 MiB is little enough that it has no impact on the rest of the
+> > > > >    system.
+> > > > > 
+> > > > > First, if SEV is active, all DMA must be done through shared
+> > > > > unencrypted pages, and SWIOTLB is used to make this happen without
+> > > > > changing device drivers. The software IO TLB size is increased to
+> > > > > 6% of total memory in sev_setup_arch(), but that is more of an
+> > > > > approximation. The actual requirements may vary depending on the
+> > > > > amount of I/O and which drivers are used. These factors may not be
+> > > > > know at boot time, i.e. when SWIOTLB is allocated.
+> > > > > 
+> > > > > Second, other colleagues have noticed that they can reliably get
+> > > > > rid of occasional OOM kills on an Arm embedded device by reducing
+> > > > > the SWIOTLB size. This can be achieved with a kernel parameter, but
+> > > > > determining the right value puts additional burden on pre-release
+> > > > > testing, which could be avoided if SWIOTLB is allocated small and
+> > > > > grows only when necessary.    
+> > > > 
+> > > > Now that merging into 6.4 has begun, what about this patch series? I'm
+> > > > eager to get some feedback (positive or negative) and respin the next
+> > > > version.    
+> > > 
+> > > It's the merge window, we can't add new things that haven't been in
+> > > linux-next already.  
+> > 
+> > This is understood. I'm not asking for immediate inclusion.
+> > 
+> > >   Please resubmit it after -rc1 is out.  
+> > 
+> > If you can believe that rebasing to -rc1 will be enough, then I will
+> > also try to believe I'm lucky. ;-)
+> > 
+> > The kind of feedback I really want to get is e.g. about the extra
+> > per-device DMA-specific fields. If they cannot be added to struct
+> > device, then I'd rather start discussing an interim solution, because
+> > getting all existing DMA fields out of that struct will take a lot of
+> > time...
+> 
+> All right, 6.4-rc1 is out now. The patch series still applies cleanly.
+> 
+> Any comments what must be changed (if anything) to get it in?
 
-Signed-off-by: Youling Tang <tangyouling@loongson.cn>
----
- .../core/jump-labels/arch-support.txt         |  2 +-
- arch/loongarch/Kconfig                        |  2 +
- arch/loongarch/configs/loongson3_defconfig    |  1 +
- arch/loongarch/include/asm/jump_label.h       | 52 +++++++++++++++++++
- arch/loongarch/kernel/Makefile                |  2 +
- arch/loongarch/kernel/jump_label.c            | 23 ++++++++
- 6 files changed, 81 insertions(+), 1 deletion(-)
- create mode 100644 arch/loongarch/include/asm/jump_label.h
- create mode 100644 arch/loongarch/kernel/jump_label.c
+Try resending it, it's long out of my review queue...
 
-diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
-index 2328eada3a49..94d9dece580f 100644
---- a/Documentation/features/core/jump-labels/arch-support.txt
-+++ b/Documentation/features/core/jump-labels/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |   loongarch: | TODO |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index d38b066fc931..193a959a5611 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -83,6 +83,8 @@ config LOONGARCH
- 	select GPIOLIB
- 	select HAS_IOPORT
- 	select HAVE_ARCH_AUDITSYSCALL
-+	select HAVE_ARCH_JUMP_LABEL
-+	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_MMAP_RND_BITS if MMU
- 	select HAVE_ARCH_SECCOMP_FILTER
- 	select HAVE_ARCH_TRACEHOOK
-diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
-index 6cd26dd3c134..33a0f5f742f6 100644
---- a/arch/loongarch/configs/loongson3_defconfig
-+++ b/arch/loongarch/configs/loongson3_defconfig
-@@ -63,6 +63,7 @@ CONFIG_EFI_ZBOOT=y
- CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER=y
- CONFIG_EFI_CAPSULE_LOADER=m
- CONFIG_EFI_TEST=m
-+CONFIG_JUMP_LABEL=y
- CONFIG_MODULES=y
- CONFIG_MODULE_FORCE_LOAD=y
- CONFIG_MODULE_UNLOAD=y
-diff --git a/arch/loongarch/include/asm/jump_label.h b/arch/loongarch/include/asm/jump_label.h
-new file mode 100644
-index 000000000000..453a0cd3ddf0
---- /dev/null
-+++ b/arch/loongarch/include/asm/jump_label.h
-@@ -0,0 +1,52 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2023 Loongson Technology Corporation Limited
-+ *
-+ * Based on arch/arm64/include/asm/jump_label.h
-+ */
-+#ifndef __ASM_JUMP_LABEL_H
-+#define __ASM_JUMP_LABEL_H
-+
-+#ifndef __ASSEMBLY__
-+
-+#include <linux/types.h>
-+#include <asm/inst.h>
-+
-+#define JUMP_LABEL_NOP_SIZE		LOONGARCH_INSN_SIZE
-+
-+static __always_inline bool arch_static_branch(struct static_key * const key,
-+					       const bool branch)
-+{
-+	asm_volatile_goto(
-+		"1:	nop					\n\t"
-+		 "	.pushsection	__jump_table, \"aw\"	\n\t"
-+		 "	.align		3			\n\t"
-+		 "	.long		1b - ., %l[l_yes] - .	\n\t"
-+		 "	.quad		%0 - .			\n\t"
-+		 "	.popsection				\n\t"
-+		 :  :  "i"(&((char *)key)[branch]) :  : l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+static __always_inline bool arch_static_branch_jump(struct static_key * const key,
-+						    const bool branch)
-+{
-+	asm_volatile_goto(
-+		"1:	b		%l[l_yes]		\n\t"
-+		 "	.pushsection	__jump_table, \"aw\"	\n\t"
-+		 "	.align		3			\n\t"
-+		 "	.long		1b - ., %l[l_yes] - .	\n\t"
-+		 "	.quad		%0 - .			\n\t"
-+		 "	.popsection				\n\t"
-+		 :  :  "i"(&((char *)key)[branch]) :  : l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+#endif  /* __ASSEMBLY__ */
-+#endif	/* __ASM_JUMP_LABEL_H */
-diff --git a/arch/loongarch/kernel/Makefile b/arch/loongarch/kernel/Makefile
-index 9a72d91cd104..64ea76f60e2c 100644
---- a/arch/loongarch/kernel/Makefile
-+++ b/arch/loongarch/kernel/Makefile
-@@ -54,4 +54,6 @@ obj-$(CONFIG_HAVE_HW_BREAKPOINT)	+= hw_breakpoint.o
- 
- obj-$(CONFIG_KPROBES)		+= kprobes.o kprobes_trampoline.o
- 
-+obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
-+
- CPPFLAGS_vmlinux.lds		:= $(KBUILD_CFLAGS)
-diff --git a/arch/loongarch/kernel/jump_label.c b/arch/loongarch/kernel/jump_label.c
-new file mode 100644
-index 000000000000..c3ebaa4cf1e5
---- /dev/null
-+++ b/arch/loongarch/kernel/jump_label.c
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2023 Loongson Technology Corporation Limited
-+ *
-+ * Based on arch/arm64/include/asm/jump_label.h
-+ */
-+#include <linux/jump_label.h>
-+#include <linux/kernel.h>
-+#include <asm/inst.h>
-+
-+void arch_jump_label_transform(struct jump_entry *entry,
-+			       enum jump_label_type type)
-+{
-+	void *addr = (void *)jump_entry_code(entry);
-+	u32 insn;
-+
-+	if (type == JUMP_LABEL_JMP)
-+		insn = larch_insn_gen_b(jump_entry_code(entry), jump_entry_target(entry));
-+	else
-+		insn = larch_insn_gen_nop();
-+
-+	larch_insn_patch_text(addr, insn);
-+}
--- 
-2.37.1
+thanks,
 
+greg k-h
