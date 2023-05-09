@@ -2,124 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FEAC77B75
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 22:53:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B1A3C7EE22
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 23:36:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbjEIWxP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 18:53:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43064 "EHLO
+        id S234986AbjEIXgt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 19:36:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230064AbjEIWxL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 18:53:11 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA6435FCD;
-        Tue,  9 May 2023 15:53:09 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-50bc4bc2880so10321619a12.2;
-        Tue, 09 May 2023 15:53:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683672788; x=1686264788;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xK5ASXc7Qk5k53BZegLrLl/LXq90ba90dKCrcJloGco=;
-        b=B6CGl1a7QJIoBWOzbZ1AK71oscdzTgkCseNZl2SM/l2v03d1z+uAqyyfcvFpne5IFF
-         IKyV4J0UXmpTH1ABNNmXXAkwkro6AYCNgeF37HZHrDKRI7XbZk5tePVrDDpIj4a54Mh8
-         zz3G4kyxzzm/l+8gfkUKvl3gnj/a/2qmAFNCAyHS78y5KY/c2OhHMs7mZgw2Utd0KJ3A
-         oEDz6GilQtm3yhrA7OrACPbmyACYAJrg5Mtvpbks+CGq4/6WDFJ+RQqX3/3P6osN3Sn6
-         fcvOmqV4rpPWeipKjYW0b8SYAwy/eErVyQ6P3jaMviq/aDOW7iBhIIjb/tuWfKPH04sM
-         sdBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683672788; x=1686264788;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xK5ASXc7Qk5k53BZegLrLl/LXq90ba90dKCrcJloGco=;
-        b=NHcGq59r3CrsKN7Mvq2jcdolhRovSj7Becn8zicfw2xTecOSx142YCT8V5rv6GaFdR
-         p99d36TasPzoybG+Wa8llhs7AGiXccVOUE4Nrx6x0mkSXs6yiSBpDyzUJC9b3OIDvw8+
-         PtiC/wZY2aoSsVxv27xvjF41xgDBje6IAKeQzeLFAf7g3G4BbZbMBflaY8qb6/omgYMl
-         eRxkEQwtTQsPva6oc3DxWIGhjOUn9UYFg05V+/Qwhba1dQf7NO+A+90PoxpqTA9N+ayt
-         f0hc0h2CIQLv80apnChPFSu1+jQKXroEH8XXb+n67iNkChTOxG6Z9HH9ucaA1nXpT2zF
-         pVIw==
-X-Gm-Message-State: AC+VfDw1bYlC8UlserojwLfKDYE2vHWA4pvTQcOtzx2Qmif2h2IVsYfq
-        57eMt6jPHHgMtTORL3nPsuct47IYPxSLU99saOM=
-X-Google-Smtp-Source: ACHHUZ4BIByOTQ+nZnZj6wMwAWaIjxIQtjE6aNXjYPCQmOchF0FzZGy4iRz1xrpYTOQE6G38v049dtcQ6UDwQjkIrbg=
-X-Received: by 2002:a17:906:4fcf:b0:94e:1764:b09b with SMTP id
- i15-20020a1709064fcf00b0094e1764b09bmr14500489ejw.45.1683672787994; Tue, 09
- May 2023 15:53:07 -0700 (PDT)
+        with ESMTP id S229559AbjEIXgs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 19:36:48 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E4FF0;
+        Tue,  9 May 2023 16:36:47 -0700 (PDT)
+Received: from zn.tnic (p5de8e8ea.dip0.t-ipconnect.de [93.232.232.234])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6BA1D1EC0338;
+        Wed, 10 May 2023 01:36:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1683675405;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=5lxz18Yo5hMImpwUjevLsHYDBAq+H3HMlQ4JsgvZNfQ=;
+        b=ViBwKc/E9IwalgWRG3DAMDt1hENvVWCAvfGWo6kvQLcZaCN/W2U+PshsC+Sx7GbxRQ37Ra
+        jHwik+DHKo+xHqa20cn0nYZe9SzXWFt4Kl9kgOWriVsLyd3kk0m9fU0QJL5+ZgYsnH7c4M
+        Pq3h+M+VcNVK8HRaDnJtcn8Stpmew8s=
+Date:   Wed, 10 May 2023 01:36:41 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+Message-ID: <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
+References: <20230502120931.20719-1-jgross@suse.com>
+ <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
 MIME-Version: 1.0
-References: <20230424231558.70911-1-quic_eberman@quicinc.com>
- <20230424231558.70911-7-quic_eberman@quicinc.com> <CABb+yY3ojsGNm1w+QSn2BnbOMdcQZAV+=UYiMiBrs=jujP=pSg@mail.gmail.com>
- <b4fa7ae9-da5e-7a94-3b82-00d9200aa67e@quicinc.com>
-In-Reply-To: <b4fa7ae9-da5e-7a94-3b82-00d9200aa67e@quicinc.com>
-From:   Jassi Brar <jassisinghbrar@gmail.com>
-Date:   Tue, 9 May 2023 17:52:56 -0500
-Message-ID: <CABb+yY2Pr30uhQzAdd=G2w=_pYYN926dMMAEgmJ436ZxVjziAQ@mail.gmail.com>
-Subject: Re: [PATCH v12 06/25] mailbox: Add Gunyah message queue mailbox
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 9, 2023 at 3:52=E2=80=AFPM Elliot Berman <quic_eberman@quicinc.=
-com> wrote:
->
-> Hi Jassi,
->
-> On 5/3/2023 11:21 PM, Jassi Brar wrote:
-> > On Mon, Apr 24, 2023 at 6:16=E2=80=AFPM Elliot Berman <quic_eberman@qui=
-cinc.com> wrote:
-> >>
-> >> Gunyah message queues are a unidirectional inter-VM pipe for messages =
-up
-> >> to 1024 bytes. This driver supports pairing a receiver message queue a=
-nd
-> >> a transmitter message queue to expose a single mailbox channel.
-> >>
-> >> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> >> ---
-> >>   Documentation/virt/gunyah/message-queue.rst |   8 +
-> >>   drivers/mailbox/Makefile                    |   2 +
-> >>   drivers/mailbox/gunyah-msgq.c               | 210 ++++++++++++++++++=
-++
-> >>   include/linux/gunyah.h                      |  57 ++++++
-> >>
-> > include/linux/gunyah.h  and
-> > Documentation/virt/gunyah/message-queue.rst would need to exist for
-> > this patch to apply.
-> > If you made this patch as the first in series, then I could apply.
-> >
->
-> The mailbox driver is dependent on patches 3-5. Could [1] be picked up
-> in meantime?
->
-[1] is already upstream.
+On Tue, May 09, 2023 at 10:14:37PM +0200, Borislav Petkov wrote:
+> On Tue, May 02, 2023 at 02:09:15PM +0200, Juergen Gross wrote:
+> > This series tries to fix the rather special case of PAT being available
+> > without having MTRRs (either due to CONFIG_MTRR being not set, or
+> > because the feature has been disabled e.g. by a hypervisor).
+> 
+> More weird stuff. With the series:
 
-> I'll talk with QC Landing team folks about strategies to
-> merge once they finish review.
->
-OK.
+Yah, that was me.
 
-cheers.
+That ->enabled thing is *two* bits. FFS.
+
+More staring at this tomorrow, on a clear head.
+
+diff --git a/arch/x86/include/uapi/asm/mtrr.h b/arch/x86/include/uapi/asm/mtrr.h
+index a28e6bbd8f21..f476a1355182 100644
+--- a/arch/x86/include/uapi/asm/mtrr.h
++++ b/arch/x86/include/uapi/asm/mtrr.h
+@@ -84,7 +84,7 @@ typedef __u8 mtrr_type;
+ struct mtrr_state_type {
+ 	struct mtrr_var_range var_ranges[MTRR_MAX_VAR_RANGES];
+ 	mtrr_type fixed_ranges[MTRR_NUM_FIXED_RANGES];
+-	bool enabled;
++	unsigned char enabled;
+ 	bool have_fixed;
+ 	mtrr_type def_type;
+ };
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
