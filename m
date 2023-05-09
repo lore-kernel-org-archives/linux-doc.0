@@ -2,49 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20DB6C77B7C
-	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 20:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B45C7EE2F
+	for <linux-doc@archiver.kernel.org>; Tue,  9 May 2023 20:49:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234814AbjEIUtw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 16:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40392 "EHLO
+        id S235406AbjEIUtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 16:49:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234838AbjEIUtX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 16:49:23 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06AE6526F;
-        Tue,  9 May 2023 13:49:18 -0700 (PDT)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 349KN3lj027329;
-        Tue, 9 May 2023 20:48:53 GMT
+        with ESMTP id S233820AbjEIUtc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 16:49:32 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E64F559F4;
+        Tue,  9 May 2023 13:49:20 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 349JpbNJ003187;
+        Tue, 9 May 2023 20:49:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=5QXiIZDaSjGFz7nzDMpNq7ZeckSQNExYdJSEF3qZMS4=;
- b=Vpx+Je/23jkLW7Lm62fDWYFtRBuxsqe3lUA989+NPBUOmmFKowXuJJhMZ0d4qf6B87ff
- g1FLFtcYydYNDjdGjqx9sMHQaiQCVjiGBFKnEP9ciC91BVetywYN+nuAAvYTq3TpOnW9
- uOJL1ckRj2C+BsD+fm/Wsdb4OhN2kn/ibtaWw1erXhF+DsNbrcMxRtLwGZ/IjSJwyyvd
- tQTZaUCPgQ4eG3rZW0a6fMkIwJ3KFgwWA+ZGnQg5Xr1KObYflK+JKsvp7j24WEN4VjTn
- h8elKNPsnzF894w59SIk5goPgdOjIE4K2kZuaRDa3fn9AsJPjxMlYQJHwrTPtJfP7llH UA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qf785atab-1
+ bh=OiaoQlWJMxZipymNqSdud0B4nLvAFeMnWnqOtCF6KHA=;
+ b=eO7a46d2JGoA0y3ikPgSlPnWlZnGaWg8m3gvOoxqDOF2KCrgRo4FW6UbGpDiasmYFc0e
+ t5yuXXA/ytH91T+8EcYh2NgHl7fNh1x2kQIzXYac89WLvjCd/ZmNP90tygik0sAB8asv
+ l7gQlefNZRAkjbmuUFFfblH20IEfKy3SBa7IG5u9dWnK0VBPXkyX2y//S51LR+DcN363
+ 3CqSGJ+1Nlugu6/dJKt/SPKA92hFLieGFjUwDAWqaNRbi7bnA/ym3P1HErIswrngCtcC
+ VEpUOxosIzr0UlVPul1ghz2iEjdcQtiCR40rFpUR81TL4MSHOkKyBQLLgIW+IRplXW+q 2Q== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qf77g2v5y-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 09 May 2023 20:48:53 +0000
+        Tue, 09 May 2023 20:49:07 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 349KmqFG014147
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 349Kn6ui029713
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 9 May 2023 20:48:52 GMT
+        Tue, 9 May 2023 20:49:06 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 9 May 2023 13:48:51 -0700
+ 15.2.986.42; Tue, 9 May 2023 13:49:05 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -54,19 +52,19 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         "Konrad Dybcio" <konrad.dybcio@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Jassi Brar" <jassisinghbrar@gmail.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Rob Herring" <robh@kernel.org>
-Subject: [PATCH v13 01/24] dt-bindings: Add binding for gunyah hypervisor
-Date:   Tue, 9 May 2023 13:47:38 -0700
-Message-ID: <20230509204801.2824351-2-quic_eberman@quicinc.com>
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
+Date:   Tue, 9 May 2023 13:47:47 -0700
+Message-ID: <20230509204801.2824351-11-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230509204801.2824351-1-quic_eberman@quicinc.com>
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
@@ -78,125 +76,476 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: VYID8ZcRCaiOiHATRRvpzMTY2kZhFRBf
-X-Proofpoint-GUID: VYID8ZcRCaiOiHATRRvpzMTY2kZhFRBf
+X-Proofpoint-GUID: DmFXtQZt9_jSAObpkJzxBPcV3nk-SrUO
+X-Proofpoint-ORIG-GUID: DmFXtQZt9_jSAObpkJzxBPcV3nk-SrUO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-09_13,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 mlxscore=0 impostorscore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305090171
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 malwarescore=0 clxscore=1015 mlxscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305090171
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
-Resource Manager applies a devicetree overlay describing the virtual
-platform configuration of the guest VM, such as the message queue
-capability IDs for communicating with the Resource Manager. This
-information is not otherwise discoverable by a VM: the Gunyah hypervisor
-core does not provide a direct interface to discover capability IDs nor
-a way to communicate with RM without having already known the
-corresponding message queue capability ID. Add the DT bindings that
-Gunyah adheres for the hypervisor node and message queues.
+When launching a virtual machine, Gunyah userspace allocates memory for
+the guest and informs Gunyah about these memory regions through
+SET_USER_MEMORY_REGION ioctl.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- .../bindings/firmware/gunyah-hypervisor.yaml  | 82 +++++++++++++++++++
- 1 file changed, 82 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ drivers/virt/gunyah/Makefile    |   2 +-
+ drivers/virt/gunyah/vm_mgr.c    |  59 +++++++-
+ drivers/virt/gunyah/vm_mgr.h    |  26 ++++
+ drivers/virt/gunyah/vm_mgr_mm.c | 236 ++++++++++++++++++++++++++++++++
+ include/uapi/linux/gunyah.h     |  37 +++++
+ 5 files changed, 356 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
 
-diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+index e47e25895299..bacf78b8fa33 100644
+--- a/drivers/virt/gunyah/Makefile
++++ b/drivers/virt/gunyah/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
++gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+ obj-$(CONFIG_GUNYAH) += gunyah.o
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index a43401cb34f7..297427952b8c 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -15,6 +15,8 @@
+ 
+ #include "vm_mgr.h"
+ 
++static void gh_vm_free(struct work_struct *work);
++
+ static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
+ {
+ 	struct gh_vm *ghvm;
+@@ -26,20 +28,72 @@ static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
+ 	ghvm->parent = gh_rm_get(rm);
+ 	ghvm->rm = rm;
+ 
++	mmgrab(current->mm);
++	ghvm->mm = current->mm;
++	mutex_init(&ghvm->mm_lock);
++	INIT_LIST_HEAD(&ghvm->memory_mappings);
++	INIT_WORK(&ghvm->free_work, gh_vm_free);
++
+ 	return ghvm;
+ }
+ 
+-static int gh_vm_release(struct inode *inode, struct file *filp)
++static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	struct gh_vm *ghvm = filp->private_data;
++	void __user *argp = (void __user *)arg;
++	long r;
++
++	switch (cmd) {
++	case GH_VM_SET_USER_MEM_REGION: {
++		struct gh_userspace_memory_region region;
++
++		/* only allow owner task to add memory */
++		if (ghvm->mm != current->mm)
++			return -EPERM;
++
++		if (copy_from_user(&region, argp, sizeof(region)))
++			return -EFAULT;
++
++		/* All other flag bits are reserved for future use */
++		if (region.flags & ~(GH_MEM_ALLOW_READ | GH_MEM_ALLOW_WRITE | GH_MEM_ALLOW_EXEC))
++			return -EINVAL;
++
++		r = gh_vm_mem_alloc(ghvm, &region);
++		break;
++	}
++	default:
++		r = -ENOTTY;
++		break;
++	}
+ 
++	return r;
++}
++
++static void gh_vm_free(struct work_struct *work)
++{
++	struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
++
++	gh_vm_mem_reclaim(ghvm);
+ 	gh_rm_put(ghvm->rm);
++	mmdrop(ghvm->mm);
+ 	kfree(ghvm);
++}
++
++static int gh_vm_release(struct inode *inode, struct file *filp)
++{
++	struct gh_vm *ghvm = filp->private_data;
++
++	/* VM will be reset and make RM calls which can interruptible sleep.
++	 * Defer to a work so this thread can receive signal.
++	 */
++	schedule_work(&ghvm->free_work);
+ 	return 0;
+ }
+ 
+ static const struct file_operations gh_vm_fops = {
+ 	.owner = THIS_MODULE,
++	.unlocked_ioctl = gh_vm_ioctl,
++	.compat_ioctl	= compat_ptr_ioctl,
+ 	.release = gh_vm_release,
+ 	.llseek = noop_llseek,
+ };
+@@ -77,8 +131,7 @@ static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
+ err_put_fd:
+ 	put_unused_fd(fd);
+ err_destroy_vm:
+-	gh_rm_put(ghvm->rm);
+-	kfree(ghvm);
++	gh_vm_free(&ghvm->free_work);
+ 	return err;
+ }
+ 
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index 1e94b58d7d34..434ef9f662a7 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -7,14 +7,40 @@
+ #define _GH_VM_MGR_H
+ 
+ #include <linux/gunyah_rsc_mgr.h>
++#include <linux/list.h>
++#include <linux/miscdevice.h>
++#include <linux/mutex.h>
+ 
+ #include <uapi/linux/gunyah.h>
+ 
+ long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
+ 
++enum gh_vm_mem_share_type {
++	VM_MEM_SHARE,
++	VM_MEM_LEND,
++};
++
++struct gh_vm_mem {
++	struct list_head list;
++	enum gh_vm_mem_share_type share_type;
++	struct gh_rm_mem_parcel parcel;
++
++	__u64 guest_phys_addr;
++	struct page **pages;
++	unsigned long npages;
++};
++
+ struct gh_vm {
+ 	struct gh_rm *rm;
+ 	struct device *parent;
++
++	struct work_struct free_work;
++	struct mm_struct *mm; /* userspace tied to this vm */
++	struct mutex mm_lock;
++	struct list_head memory_mappings;
+ };
+ 
++int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region);
++void gh_vm_mem_reclaim(struct gh_vm *ghvm);
++
+ #endif
+diff --git a/drivers/virt/gunyah/vm_mgr_mm.c b/drivers/virt/gunyah/vm_mgr_mm.c
 new file mode 100644
-index 000000000000..3fc0b043ac3c
+index 000000000000..91109bbf36b3
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-@@ -0,0 +1,82 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/virt/gunyah/vm_mgr_mm.c
+@@ -0,0 +1,236 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
 +
-+title: Gunyah Hypervisor
++#define pr_fmt(fmt) "gh_vm_mgr: " fmt
 +
-+maintainers:
-+  - Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-+  - Elliot Berman <quic_eberman@quicinc.com>
++#include <linux/gunyah_rsc_mgr.h>
++#include <linux/mm.h>
 +
-+description: |+
-+  Gunyah virtual machines use this information to determine the capability IDs
-+  of the message queues used to communicate with the Gunyah Resource Manager.
-+  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
++#include <uapi/linux/gunyah.h>
 +
-+properties:
-+  compatible:
-+    const: gunyah-hypervisor
++#include "vm_mgr.h"
 +
-+  "#address-cells":
-+    description: Number of cells needed to represent 64-bit capability IDs.
-+    const: 2
++static bool pages_are_mergeable(struct page *a, struct page *b)
++{
++	if (page_to_pfn(a) + 1 != page_to_pfn(b))
++		return false;
++	if (!zone_device_pages_have_same_pgmap(a, b))
++		return false;
++	return true;
++}
 +
-+  "#size-cells":
-+    description: must be 0, because capability IDs are not memory address
-+                  ranges and do not have a size.
-+    const: 0
++static bool gh_vm_mem_overlap(struct gh_vm_mem *a, u64 addr, u64 size)
++{
++	u64 a_end = a->guest_phys_addr + (a->npages << PAGE_SHIFT);
++	u64 end = addr + size;
 +
-+patternProperties:
-+  "^gunyah-resource-mgr(@.*)?":
-+    type: object
-+    description:
-+      Resource Manager node which is required to communicate to Resource
-+      Manager VM using Gunyah Message Queues.
++	return a->guest_phys_addr < end && addr < a_end;
++}
 +
-+    properties:
-+      compatible:
-+        const: gunyah-resource-manager
++static struct gh_vm_mem *__gh_vm_mem_find_by_label(struct gh_vm *ghvm, u32 label)
++	__must_hold(&ghvm->mm_lock)
++{
++	struct gh_vm_mem *mapping;
 +
-+      reg:
-+        items:
-+          - description: Gunyah capability ID of the TX message queue
-+          - description: Gunyah capability ID of the RX message queue
++	list_for_each_entry(mapping, &ghvm->memory_mappings, list)
++		if (mapping->parcel.label == label)
++			return mapping;
 +
-+      interrupts:
-+        items:
-+          - description: Interrupt for the TX message queue
-+          - description: Interrupt for the RX message queue
++	return NULL;
++}
 +
-+    additionalProperties: false
++static void gh_vm_mem_reclaim_mapping(struct gh_vm *ghvm, struct gh_vm_mem *mapping)
++	__must_hold(&ghvm->mm_lock)
++{
++	int ret = 0;
 +
-+    required:
-+      - compatible
-+      - reg
-+      - interrupts
++	if (mapping->parcel.mem_handle != GH_MEM_HANDLE_INVAL) {
++		ret = gh_rm_mem_reclaim(ghvm->rm, &mapping->parcel);
++		if (ret)
++			pr_warn("Failed to reclaim memory parcel for label %d: %d\n",
++				mapping->parcel.label, ret);
++	}
 +
-+additionalProperties: false
++	if (!ret) {
++		unpin_user_pages(mapping->pages, mapping->npages);
++		account_locked_vm(ghvm->mm, mapping->npages, false);
++	}
 +
-+required:
-+  - compatible
-+  - "#address-cells"
-+  - "#size-cells"
++	kfree(mapping->pages);
++	kfree(mapping->parcel.acl_entries);
++	kfree(mapping->parcel.mem_entries);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
++	list_del(&mapping->list);
++}
 +
-+    hypervisor {
-+        #address-cells = <2>;
-+        #size-cells = <0>;
-+        compatible = "gunyah-hypervisor";
++void gh_vm_mem_reclaim(struct gh_vm *ghvm)
++{
++	struct gh_vm_mem *mapping, *tmp;
 +
-+        gunyah-resource-mgr@0 {
-+            compatible = "gunyah-resource-manager";
-+            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX full IRQ */
-+                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX empty IRQ */
-+            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-+                  /* TX, RX cap ids */
-+        };
-+    };
++	mutex_lock(&ghvm->mm_lock);
++
++	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
++		gh_vm_mem_reclaim_mapping(ghvm, mapping);
++		kfree(mapping);
++	}
++
++	mutex_unlock(&ghvm->mm_lock);
++}
++
++int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region)
++{
++	struct gh_vm_mem *mapping, *tmp_mapping;
++	struct page *curr_page, *prev_page;
++	struct gh_rm_mem_parcel *parcel;
++	int i, j, pinned, ret = 0;
++	unsigned int gup_flags;
++	size_t entry_size;
++	u16 vmid;
++
++	if (!region->memory_size || !PAGE_ALIGNED(region->memory_size) ||
++		!PAGE_ALIGNED(region->userspace_addr) ||
++		!PAGE_ALIGNED(region->guest_phys_addr))
++		return -EINVAL;
++
++	if (overflows_type(region->guest_phys_addr + region->memory_size, u64))
++		return -EOVERFLOW;
++
++	ret = mutex_lock_interruptible(&ghvm->mm_lock);
++	if (ret)
++		return ret;
++
++	mapping = __gh_vm_mem_find_by_label(ghvm, region->label);
++	if (mapping) {
++		ret = -EEXIST;
++		goto unlock;
++	}
++
++	list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
++		if (gh_vm_mem_overlap(tmp_mapping, region->guest_phys_addr,
++					region->memory_size)) {
++			ret = -EEXIST;
++			goto unlock;
++		}
++	}
++
++	mapping = kzalloc(sizeof(*mapping), GFP_KERNEL_ACCOUNT);
++	if (!mapping) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++
++	mapping->guest_phys_addr = region->guest_phys_addr;
++	mapping->npages = region->memory_size >> PAGE_SHIFT;
++	parcel = &mapping->parcel;
++	parcel->label = region->label;
++	parcel->mem_handle = GH_MEM_HANDLE_INVAL; /* to be filled later by mem_share/mem_lend */
++	parcel->mem_type = GH_RM_MEM_TYPE_NORMAL;
++
++	ret = account_locked_vm(ghvm->mm, mapping->npages, true);
++	if (ret)
++		goto free_mapping;
++
++	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL_ACCOUNT);
++	if (!mapping->pages) {
++		ret = -ENOMEM;
++		mapping->npages = 0; /* update npages for reclaim */
++		goto unlock_pages;
++	}
++
++	gup_flags = FOLL_LONGTERM;
++	if (region->flags & GH_MEM_ALLOW_WRITE)
++		gup_flags |= FOLL_WRITE;
++
++	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
++					gup_flags, mapping->pages);
++	if (pinned < 0) {
++		ret = pinned;
++		goto free_pages;
++	} else if (pinned != mapping->npages) {
++		ret = -EFAULT;
++		mapping->npages = pinned; /* update npages for reclaim */
++		goto unpin_pages;
++	}
++
++	parcel->n_acl_entries = 2;
++	mapping->share_type = VM_MEM_SHARE;
++	parcel->acl_entries = kcalloc(parcel->n_acl_entries, sizeof(*parcel->acl_entries),
++					GFP_KERNEL);
++	if (!parcel->acl_entries) {
++		ret = -ENOMEM;
++		goto unpin_pages;
++	}
++
++	/* acl_entries[0].vmid will be this VM's vmid. We'll fill it when the
++	 * VM is starting and we know the VM's vmid.
++	 */
++	if (region->flags & GH_MEM_ALLOW_READ)
++		parcel->acl_entries[0].perms |= GH_RM_ACL_R;
++	if (region->flags & GH_MEM_ALLOW_WRITE)
++		parcel->acl_entries[0].perms |= GH_RM_ACL_W;
++	if (region->flags & GH_MEM_ALLOW_EXEC)
++		parcel->acl_entries[0].perms |= GH_RM_ACL_X;
++
++	ret = gh_rm_get_vmid(ghvm->rm, &vmid);
++	if (ret)
++		goto free_acl;
++
++	parcel->acl_entries[1].vmid = cpu_to_le16(vmid);
++	/* Host assumed to have all these permissions. Gunyah will not
++	 * grant new permissions if host actually had less than RWX
++	 */
++	parcel->acl_entries[1].perms = GH_RM_ACL_R | GH_RM_ACL_W | GH_RM_ACL_X;
++
++	parcel->n_mem_entries = 1;
++	for (i = 1; i < mapping->npages; i++) {
++		if (!pages_are_mergeable(mapping->pages[i - 1], mapping->pages[i]))
++			parcel->n_mem_entries++;
++	}
++
++	parcel->mem_entries = kcalloc(parcel->n_mem_entries,
++					sizeof(parcel->mem_entries[0]),
++					GFP_KERNEL_ACCOUNT);
++	if (!parcel->mem_entries) {
++		ret = -ENOMEM;
++		goto free_acl;
++	}
++
++	/* reduce number of entries by combining contiguous pages into single memory entry */
++	prev_page = mapping->pages[0];
++	parcel->mem_entries[0].phys_addr = cpu_to_le64(page_to_phys(prev_page));
++	entry_size = PAGE_SIZE;
++	for (i = 1, j = 0; i < mapping->npages; i++) {
++		curr_page = mapping->pages[i];
++		if (pages_are_mergeable(prev_page, curr_page)) {
++			entry_size += PAGE_SIZE;
++		} else {
++			parcel->mem_entries[j].size = cpu_to_le64(entry_size);
++			j++;
++			parcel->mem_entries[j].phys_addr =
++				cpu_to_le64(page_to_phys(curr_page));
++			entry_size = PAGE_SIZE;
++		}
++
++		prev_page = curr_page;
++	}
++	parcel->mem_entries[j].size = cpu_to_le64(entry_size);
++
++	list_add(&mapping->list, &ghvm->memory_mappings);
++	mutex_unlock(&ghvm->mm_lock);
++	return 0;
++free_acl:
++	kfree(parcel->acl_entries);
++unpin_pages:
++	unpin_user_pages(mapping->pages, pinned);
++free_pages:
++	kfree(mapping->pages);
++unlock_pages:
++	account_locked_vm(ghvm->mm, mapping->npages, false);
++free_mapping:
++	kfree(mapping);
++unlock:
++	mutex_unlock(&ghvm->mm_lock);
++	return ret;
++}
+diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+index 86b9cb60118d..91d6dd26fcc8 100644
+--- a/include/uapi/linux/gunyah.h
++++ b/include/uapi/linux/gunyah.h
+@@ -20,4 +20,41 @@
+  */
+ #define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
+ 
++/*
++ * ioctls for VM fds
++ */
++
++/**
++ * enum gh_mem_flags - Possible flags on &struct gh_userspace_memory_region
++ * @GH_MEM_ALLOW_READ: Allow guest to read the memory
++ * @GH_MEM_ALLOW_WRITE: Allow guest to write to the memory
++ * @GH_MEM_ALLOW_EXEC: Allow guest to execute instructions in the memory
++ */
++enum gh_mem_flags {
++	GH_MEM_ALLOW_READ	= 1UL << 0,
++	GH_MEM_ALLOW_WRITE	= 1UL << 1,
++	GH_MEM_ALLOW_EXEC	= 1UL << 2,
++};
++
++/**
++ * struct gh_userspace_memory_region - Userspace memory descripion for GH_VM_SET_USER_MEM_REGION
++ * @label: Identifer to the region which is unique to the VM.
++ * @flags: Flags for memory parcel behavior. See &enum gh_mem_flags.
++ * @guest_phys_addr: Location of the memory region in guest's memory space (page-aligned)
++ * @memory_size: Size of the region (page-aligned)
++ * @userspace_addr: Location of the memory region in caller (userspace)'s memory
++ *
++ * See Documentation/virt/gunyah/vm-manager.rst for further details.
++ */
++struct gh_userspace_memory_region {
++	__u32 label;
++	__u32 flags;
++	__u64 guest_phys_addr;
++	__u64 memory_size;
++	__u64 userspace_addr;
++};
++
++#define GH_VM_SET_USER_MEM_REGION	_IOW(GH_IOCTL_TYPE, 0x1, \
++						struct gh_userspace_memory_region)
++
+ #endif
 -- 
 2.40.0
 
