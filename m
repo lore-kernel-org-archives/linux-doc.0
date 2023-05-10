@@ -2,139 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE4EC77B7C
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 09:53:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B945C7EE22
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 09:55:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236319AbjEJJxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 05:53:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53136 "EHLO
+        id S231527AbjEJJzP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 05:55:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235317AbjEJJw6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 05:52:58 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2104.outbound.protection.outlook.com [40.107.94.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53187698;
-        Wed, 10 May 2023 02:52:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k25cjRAfZZ9vQ4oYaSKVqGLug0HkjgIUj5E8T2YdzdJ2OSNVlj2c+p/D/JcQc9qFCL5xt4fAiZJPtK8cNBZZViD3I+zDkyygMwNEJJi/uNELSVw/je72CoE5qwD91AKNqr7dfDU1HqcWGoxjaobjLyUTw3aXjvRAaQMP/h7G/uF8nqb4Z3qvtlrvrIcsfsKTPUIwnF1BbH+mb6zJMmMT8VdHZvJYrZtRTmKYOSDU6EEy/R609dTKVTjnBAmCoqMPiCPWuaRhDLgxe+3JH3llBFWkjQG+WX3hzH9+oacIsonaT9Dv9V1hL1t1PBpgRFQbJu1AkhzISA2L7BIsxnmKdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SN8Al/ebtNDYMvU/GYW1nUMlgg2cySBoHeTIpGLLEXw=;
- b=avgpupX8uqy4qu06bFgfdZtDJwN1LsZWQ7w1p6GFauMxDNbyrmPgGi2qFRo4sYE68VWL2P3SaWvJWdIHvRfvQCfSCWudDi1ZznEiBqaLI+Us75i2SBj04iFtl8lr8yLD80AlCbGzQc+FGjtscsBBrd51BWS3x9HVd/UOQEaD1QaXhffSammDXmXG/8Vg3NB9Koj8H2FQ3QBdB7SZXqcsm7s6xfORP+MNIFMqD7tLxSQzCMoD8z+TZmY1NQRo9nSFla8MbvLrBc9VXFaxJV6ty0S4Kr4WSfp+ybfB4cO5vHSWsHjP1HG93wKgBOmBIJDUijIO0ZMEgoH9PhPc5PZegg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SN8Al/ebtNDYMvU/GYW1nUMlgg2cySBoHeTIpGLLEXw=;
- b=oDkrnF3U8PX29QOAVIJ8kDoKU51vzapeha15phwz35Yc27+uccFsNFLSdmvPzmxp7yPkclSSwLa936q8vGS62kCsT5549Ib4p+3VWJdksX3+ZYgVxwDJMdXvEjJGN28nqo+C5ngqBQssQI7luuoKen+eOV1N6977MFVqBY1Mnas=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by BL3PR13MB5148.namprd13.prod.outlook.com (2603:10b6:208:33b::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20; Wed, 10 May
- 2023 09:52:48 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6387.020; Wed, 10 May 2023
- 09:52:48 +0000
-Date:   Wed, 10 May 2023 11:52:42 +0200
-From:   Simon Horman <simon.horman@corigine.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux Networking <netdev@vger.kernel.org>,
-        Remote Direct Memory Access Kernel Subsystem 
-        <linux-rdma@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        with ESMTP id S235606AbjEJJy5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 05:54:57 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5295B6593
+        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 02:54:55 -0700 (PDT)
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id EB3053F4A4
+        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 09:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1683712492;
+        bh=BJjlqCchOr90XV+R3svQiAsGeT9XzzKbGjpyD2zoyFc=;
+        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+         Content-Type:In-Reply-To;
+        b=h2ObpTbLH5tl07+HWWoxDB4NW4wgj67r5UAfTYRKVaTqBct+bur6nlQdN7rxGbwy1
+         dprSt0XMd7bGbs4vvIz6ys8LZT3a2yn8sxgzDBmaA1RsnKs+MoaeML8FtjJCci3Ux5
+         fg/bGChJ3wWjFJNvD378fDiTGsg3zYA8x8cPqgw8XwUuQtR19/AAwO0r1thclvQg3E
+         OXc0U3vhc/Y99Y9w79CRLl0L85E45xkkJuWHe5Ms8EsiZFE0remZfTP8TMaPJ1eCd1
+         OQTa2/Flbd+UR/RqUB+jpvpOc9fdPd/b6I1hkI/K8ws9SU5PKmxTKAQJmMgo+qJby4
+         PtSzJUMxGRNKg==
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-50bc88edf7eso6642917a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 02:54:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683712492; x=1686304492;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BJjlqCchOr90XV+R3svQiAsGeT9XzzKbGjpyD2zoyFc=;
+        b=EzTZs1kXPyXH3Nz9XhkJwUc11aDAqb9Ep4a2uArf9mH8DksaXSZdE0s4ND7ZyvvFwZ
+         GuoiW2jQwX6olXaTqcUYTOeoASzHYqjgWBKV5joMYtLTG7QfNHPkNlrYk3A3PkOvmIuQ
+         APrMFSYqUr4TbSjHKQnePrw7h8x+HUBDADmi5d4skt71Rq1BHy3xNjKXBeEoMrG09lKQ
+         +2pYx/Kg/7nIrmO94xsghByU3RQ3Rv7Q08pyvxFo3IksFz1IXnn3FtAISJ2/5iqyaIdh
+         BklWGCXUw2WvLhrsGaxH01cOjTylwyXdem61Vr5kaTUghhe1HJZ4grUHZhPwpvoN+r5g
+         X9gw==
+X-Gm-Message-State: AC+VfDxP2eECQl/0Fd5cBJ3JwqjxWpTkcVffAM7Tz+/mrFHKvPidcZCu
+        DysdJAm4TxEc6H05WmN4o3PfRFgzgv71fnaj7qO68dl0aogt/I1Q6Txc/qJDpWdo1pv30WN7JiQ
+        /jiKUN6kmp1oowpDVQ4hn+A48ETc50+W2NG/Y8A==
+X-Received: by 2002:aa7:c7da:0:b0:50b:5211:446f with SMTP id o26-20020aa7c7da000000b0050b5211446fmr12079078eds.6.1683712492448;
+        Wed, 10 May 2023 02:54:52 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7GQB/rM1QJ7LE5/OGTXBSHHyF39/goNARW0LlJbqBeKAPskBIKo5vw5B66r6VL5CnOY8Gr2g==
+X-Received: by 2002:aa7:c7da:0:b0:50b:5211:446f with SMTP id o26-20020aa7c7da000000b0050b5211446fmr12079060eds.6.1683712492125;
+        Wed, 10 May 2023 02:54:52 -0700 (PDT)
+Received: from localhost (host-82-55-56-52.retail.telecomitalia.it. [82.55.56.52])
+        by smtp.gmail.com with ESMTPSA id r16-20020aa7cfd0000000b0050bd245d39esm1744797edy.6.2023.05.10.02.54.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 02:54:51 -0700 (PDT)
+Date:   Wed, 10 May 2023 11:54:51 +0200
+From:   Andrea Righi <andrea.righi@canonical.com>
+To:     Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Gal Pressman <gal@nvidia.com>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-        Maher Sanalla <msanalla@nvidia.com>,
-        Moshe Shemesh <moshe@nvidia.com>,
-        Tariq Toukan <tariqt@nvidia.com>,
-        Leon Romanovsky <leonro@nvidia.com>
-Subject: Re: [PATCH net v2 2/4] Documentation: net/mlx5: Use bullet and
- definition lists for vnic counters description
-Message-ID: <ZFtpaioobdtM8ZXi@corigine.com>
-References: <20230510035415.16956-1-bagasdotme@gmail.com>
- <20230510035415.16956-3-bagasdotme@gmail.com>
+        Salvatore Bonaccorso <carnil@debian.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] timers/nohz: introduce nohz_full_aggressive
+Message-ID: <ZFtp67nW5op5q/0x@righiandr-XPS-13-7390>
+References: <20230507090700.18470-1-andrea.righi@canonical.com>
+ <20230507100852.54a354ca@rorschach.local.home>
+ <ZFe1IY+TdzSC0RLZ@righiandr-XPS-13-7390>
+ <2161b8c0-b08c-7bf7-4c99-3bb89ca44ad8@linutronix.de>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230510035415.16956-3-bagasdotme@gmail.com>
-X-ClientProxiedBy: AM0PR02CA0136.eurprd02.prod.outlook.com
- (2603:10a6:20b:28c::33) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|BL3PR13MB5148:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2e12ff5-5d29-44ab-0c17-08db513c5006
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: spwFxoM+ztoFTSdHDJE5a+nKhnFopzdwk1xBeLGd9p86hBo3NMmfpdr7xGQmqlejO76x8rUcoZneLVhM6l1CvUHNpq0cZI4L7c72kVYIwHHTXWN+fp//nISQeAXauJiTipuOkae+2tos0lHX/OI1mZHYPuzcp7d5iXwXMLr8Riet4yYHxdZjAi+XJYiRr14tkGw83XVon8qOflRy+eM/MorG3IQUOlKR8xRu5WoQfjqq3blMEB7HgvKYN9NoWF6dcHlNM3V4mEmGN1XezstHM8bn8dq80GRUHl7QBBwq9lM+on9oCRcbCuhjsYOieHfeJUVewL4nE/IwG034txBJ4uWaYC+HVgcoOLmDpRgTbF4likXkXAtHmJzvrstyx8gqE0McrKwja54JltUbjqAaepw3fvhOhjrb86kkUSlQmpIef/hJ/DFTSx1R9NjcEFRQvMQjIi0FlH4VUVBhLskAIFl09S2t/8WeCk+VnmXv4+xcezLZIsMcp1jkWJxR3qJ3YL++n0d446wMxxGWSkotfzCHve5EF67vYULWFAPK13daBM4Vidy1MEBn1AY/ecEf
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(396003)(136003)(346002)(39840400004)(451199021)(186003)(6506007)(4744005)(6512007)(2906002)(41300700001)(6916009)(66556008)(66476007)(316002)(4326008)(38100700002)(7416002)(8676002)(86362001)(8936002)(44832011)(36756003)(5660300002)(2616005)(54906003)(478600001)(6666004)(6486002)(66946007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Msc+CKuNMtrMLLbFZZx/4A1fEaZA8zDxnWwlljQjLgUVWGfREC4NrB9HIpFx?=
- =?us-ascii?Q?mzSIpWtbjoM2VtQ48PwKaiCXgfki6sGoHL0tAAg6JiPze+WRss4mqQHObZ5L?=
- =?us-ascii?Q?HNLk/9Z7e1jwWahYDCWVtKVbSiVQFI/H9MH4Bx1ct4co5pdLm2f2pRbHgU09?=
- =?us-ascii?Q?nLFS5qVmIUJb0bE7TFmEulwxAi6wazg8BpEgyenieFvH+Vwv83CabJQaUw2V?=
- =?us-ascii?Q?AWmKi57tai17TqyGt49fT7D7F5papERXUgmKVMTOlaV0XBc65OzjGCZ8EH1+?=
- =?us-ascii?Q?qdis+XoncP/xjFVJrwRhgRJY2OA2HF/qitvhzcUqQPKRGK/yPmYKB9iFhuU2?=
- =?us-ascii?Q?sH6BltNRd7AtVRjNXArY4IFcTGi1VoKiZAOj3uaOkPz1nLXRlN8t8i5ARwh6?=
- =?us-ascii?Q?dKQHiexobBw3LUAO5YGmVvONiJEn/oUXdUhZyKxwtSNZZmYo33/HOcb/kWoQ?=
- =?us-ascii?Q?T39qs60WWtpvx3KJprF0Xb0K4KPUMoIllrPBQIn+m4a2Wfcq2pVhyqOP7mLg?=
- =?us-ascii?Q?MbA3SkbaWP/YeB3/Hw9hxBYam3X33zj6IYi/8LMi9WDkwR4PAti1W3pA5JzS?=
- =?us-ascii?Q?pCK8m9f/zn50ohGkEd1621QMVTtFtDEn89+cQurk6bNl7pe/llGpndjQrckU?=
- =?us-ascii?Q?GXMo3854Xd8TyaOhKc13Odm9WHX16ZuEMZmVE+m3fOv7NIAa9gU+JFXdC8Rq?=
- =?us-ascii?Q?RePIsvBxnK+EJDxFmc16YlSU14vPniKflLRe9RKmrKY1aBb0nzFPHtTVqJc0?=
- =?us-ascii?Q?B9KNzYx8HNTwdKArm0r1nc8GOogLN0fgQd2yhg02MHMo55mW5V9CipDjPaif?=
- =?us-ascii?Q?F8BaWIWv6cGQoa+kMS+W3R+I6BZoiwZVPh/taOadRVEk/MZnANVSNxDk6NrH?=
- =?us-ascii?Q?USoVCjPnei616uUyF/AuOQg/RXWdeqLS5xBR9Jd20LzXCb9VxshJ6UukFQ+U?=
- =?us-ascii?Q?PXSjHeIJcRw+nEMgEuRGkjRw+MYK+KjtkvmrqBoN3pFTaz8V03jz7zmXL/eD?=
- =?us-ascii?Q?C26B1+ZKXQsJ5Ki7ub+6WrQYR1JUfIYqz4GpsB7e8EYmowl7MSbJsIMC1El1?=
- =?us-ascii?Q?52WyO/ICALZuvJwaNBw3pySiG4Q9A0Ps4R2sJBBmXEqrA92TVQ5ws2MaolfH?=
- =?us-ascii?Q?5npekcK96Yo4XAHC+CazC7k3SDMrnF2ot/JeGcupAeVS9mqsfhru8zqTu9Uo?=
- =?us-ascii?Q?GP+9PwEdzIL1Lu2cpUMtiJo/EA6T4iWw9tfEYnObs3psHMvREDRbEv4/1Vmu?=
- =?us-ascii?Q?eOnVjoOmw/KjeBgkop6zHhMzrhQR/udxl53jXo3xfH7c3b4VRXT9IqZNkAQp?=
- =?us-ascii?Q?sNmrnpHZ7RFMsxEpwQ5J3Te3V8DfkxBnC/yLH1az8wPwPY2aT4R9sIlqDcuq?=
- =?us-ascii?Q?dSixH2ZZ6EFpYHNIX57N3YS8F+QsrgOStjtdUW+OPIu2Y6MJeKa7UJDsUL77?=
- =?us-ascii?Q?CYrMopso39TYkPRpyc/y/8S95Eqlu5+Jvt5D5EXVptcovayZ2+ByqSrF6sf1?=
- =?us-ascii?Q?Np63vRbgwUH65kzEche+5x+LWvLQOgya1aIJK82LYGqQ6VbsE44Eu5FVJ/dz?=
- =?us-ascii?Q?XtyQDMI4DQSvqb/jKAGod0QzAHL0fctTkts2k6FBONE3cImWz4cakpA7YtI0?=
- =?us-ascii?Q?SR1XZY15fPQm7akGH/ZW3Ve/ji11rr/k71DyNWdHygDSleSEzPxQ2zr4LVrp?=
- =?us-ascii?Q?FpLCsw=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2e12ff5-5d29-44ab-0c17-08db513c5006
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2023 09:52:48.6952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RDQsAX9h0AMFubkMOpHGuikqOmad+QAfvlt/CCHckW35odWej2n9jHybAP8QA7Pm9N0qFZQXYyfA0NOii0l7co5ltKjQE5aqCE5Xh1cY/gI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR13MB5148
+In-Reply-To: <2161b8c0-b08c-7bf7-4c99-3bb89ca44ad8@linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 10, 2023 at 10:54:13AM +0700, Bagas Sanjaya wrote:
-> "vnic reporter" section contains unformatted description for vnic
-> counters, which is rendered as one long paragraph instead of list.
+On Wed, May 10, 2023 at 11:03:07AM +0200, Anna-Maria Behnsen wrote:
+> On Sun, 7 May 2023, Andrea Righi wrote:
 > 
-> Use bullet and definition lists to match other lists.
+> > On Sun, May 07, 2023 at 10:08:52AM -0400, Steven Rostedt wrote:
+> > > 
+> > > [ Added Anna-Maria who is doing some timer work as well ]
+> > > 
+> > > On Sun,  7 May 2023 11:07:00 +0200
+> > > Andrea Righi <andrea.righi@canonical.com> wrote:
+> > > 
+> > > Now, I think what is really happening here is that you are somewhat
+> > > simulating the results that Anna-Maria has indirectly. That is, you
+> > > just prevent an idle CPU from waking up to handle interrupts when not
+> > > needed.
+> > > 
+> > > Anna-Maria,
+> > > 
+> > > Do you have some patches that Andrea could test with?
+> > > 
+> > > Thanks,
+> > > 
+> > > -- Steve
+> > 
+> > Thanks for looking at this (and I'm happy to help Anna-Maria with any
+> > test).
 > 
-> Fixes: b0bc615df488ab ("net/mlx5: Add vnic devlink health reporter to PFs/VFs")
-> Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> I posted v6 of the queue - but forgot to add you to cc list. Here is the
+> current version:
+> 
+>   https://lore.kernel.org/lkml/20230510072817.116056-1-anna-maria@linutronix.de/
+> 
+> I have to mention, that there is still the issue with the fair scheduler
+> which wakes up the CPU where the process_timeout() timer was enqueued,
+> because it assumes that context is still cache hot.
+> 
+> Thanks,
+> 
+> 	Anna-Maria
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+OK, will take a look, thanks!
 
+-Andrea
