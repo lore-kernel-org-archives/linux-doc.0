@@ -2,123 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5772AC7EE22
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D08C7EE22
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 22:28:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235731AbjEJSeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 14:34:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37992 "EHLO
+        id S236047AbjEJW2n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 18:28:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235426AbjEJSeg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:34:36 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9788D4EE8
-        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 11:34:29 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1aaff9c93a5so52990895ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 11:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1683743669; x=1686335669;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JRjSTeKVaSeHOGoAF38z8GpTE5mDcr1s8fb1MR5ncQQ=;
-        b=J48bmcMYPTBxc7NY29p9Y/M3yvVSOjj2esN3F5CQ44Yhbr7aD/wdU5tVIrkzyL6kws
-         t1FU0K7ijV6wKfFk5YoEM0C/YuCRxUV8/DFoL3gWdKx2hDMdAURAY8MH3D4fU3ntuAJt
-         +xeeefYWhE0CKhn02lMrr9BeYKI0h2ck4xszw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683743669; x=1686335669;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JRjSTeKVaSeHOGoAF38z8GpTE5mDcr1s8fb1MR5ncQQ=;
-        b=Lc2a8vXMERf+QSN1rE3PVzoqQtJUwokAqdGUqyOQNviWr+oF1Nc8niaqD75sW0O7ky
-         wmbM8QkezwNxlsdP33IyGW6q1kUDiVuKzyUVtcHMnYxW39NomgPU1Zku163gojHkZGV/
-         xzKj+IS7QJIuZQ2w2MFVtfTSbCPDnj10+znszfsOx2oOSRwtkCLYtO2R54Bukg5bui1x
-         m4EHh4k144ADvFAJLMSMXHrST5RaBzXWM3AfA+OJCXEOvcp6556dPve6R+4yCxEplzED
-         8Dgp28iSM1ugBd2X0FTxDCAfeqTl9GL4VxJHRi7+SJ1+w3fCUDbop30ApM42nP9OVKLm
-         RbhA==
-X-Gm-Message-State: AC+VfDysSdIcu32k2u4PDtfOifvelBrfWtk3SIL4GMJv8aD6t1IcHj24
-        V2s+T/VZZO4p0PKo6/N04nKpYw==
-X-Google-Smtp-Source: ACHHUZ6qee35mddcQ4bNqIojlG/tUCnPEmOC6VZW3K8+COimPQKLpKDr2ykeF+1cgSXIj3v5Ni02DA==
-X-Received: by 2002:a17:903:41ca:b0:1ac:3fe0:d6ad with SMTP id u10-20020a17090341ca00b001ac3fe0d6admr21337510ple.65.1683743668783;
-        Wed, 10 May 2023 11:34:28 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id h11-20020a170902b94b00b00194d14d8e54sm4116575pls.96.2023.05.10.11.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 11:34:28 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Rong Tao <rtoax@foxmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Zhangfei Gao <zhangfei.gao@foxmail.com>,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: submitting-patches: Discuss interleaved replies
-Date:   Wed, 10 May 2023 11:34:26 -0700
-Message-Id: <20230510183423.never.877-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2245; h=from:subject:message-id; bh=62J3Py/xWz6AlwkgtpxlRn/9sYY0pprOtTpQVwzh/Q8=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBkW+OysP6gOL4ASHG7jWh1uOMcr8jtnn94Osy5E0HQ fc8kCQ2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZFvjsgAKCRCJcvTf3G3AJvQsD/ 9z8s9JuH+k6UL4au4I11PpdN5X1n/sgyE4XsY/Wd8C00wOZ+BIY1WVIbGDgquguLIOtBCX6Mk5oqwW 1sYQWrB9Eol+pazYXf7fvdIOsHTcQqBsXVI+TVAA1KVoi10YmxATRKIPr6Iy7dRLMHsbmbMmPQP34s 9iTw5Keao/nF8Ug4XBZJJD63p1zizFKA85py+RXnXe6D1c5FPpIvxlt7ipRyWqCuunxPHG2vNUdLU2 Y1Js5UhznDgh9RznZIYxmTc6I9eNymyZtlBQ7qqxOsHw4aOFUwInXDh6//OSpcfVeFR0Np2d1f/Dcf ckX6bVfUzui4JdgynpKoG6OFr5HqdHGe72hy6MKUpdSkoPhxaumlSFHiLdHrmeTS5KlSSQWl2rwmnM bde06LFSGPW5M7KDCkab6jIfMra9kqgKEKsn9Hy+YqxLm+PEJ/dDtmHEQIFq7I1km+6K2rgqyJgVt/ uXe/H2dECvorifZDR3v3bn35G3FUGDSGPDqkIOdFf6h1D3InMpHtUcfqz28hM8pVQ8ZB7dvirqD0W4 yXDNNzetxNqtGS//uNp4FlA1vo3Er7PtlwORxTy50sVi/tc21iKC0/jbVtuXADBUdgAZseYAZqyPwL GJEtRBennd45PSR5J2ytgom3IKqxRT8AXjPYm/XpFrDzKxQFB27BoGurPcXg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S232452AbjEJW2m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 18:28:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9BB7270D;
+        Wed, 10 May 2023 15:28:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 44F0C630E2;
+        Wed, 10 May 2023 22:28:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5981C433D2;
+        Wed, 10 May 2023 22:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683757719;
+        bh=1W4Tchoh84C5QWw5XU02NZ4Hk4wBRIADDe2kWbFhDbg=;
+        h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+        b=MQrjtZE7rCyCxkaAjSFd9e5OPXIDJEZf7inGknMgUfolDQrdak7030W6sVj5Y+jvh
+         nPs/M8QHCh9gftNAXVp8cbWVnTADGxNjM/qWFGfQLuX2l9ZRJCGcYCocyyS4X5BD1a
+         enq0ve6NoQ41pHnmbnj6UWom4F7KY73uvhyriHRj/PGVQAl3D72FwRg7kBmj05J2+G
+         bYzK7oiMwvRtx3IzUpmwvyum0I8f30YOVAqVifHUixcVQj/yDZjnBH7v/QlJmf3MIb
+         F+2QBE5p/KMfgZOML7a9i627jSqnm9E1FHpLjDBUZ8pxrnKRdT1uad9C0RWk0QehBe
+         VjDvU+SMF1sfw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Thu, 11 May 2023 01:28:33 +0300
+Message-Id: <CSIYAN7SXASE.34Z0FBRCENLAI@suppilovahvero>
+Cc:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+        <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
+        <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+        <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+        <James.Bottomley@hansenpartnership.com>, <luto@amacapital.net>,
+        <nivedita@alum.mit.edu>, <kanth.ghatraju@oracle.com>,
+        <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v6 06/14] x86: Add early SHA support for Secure Launch
+ early measurements
+From:   "Jarkko Sakkinen" <jarkko@kernel.org>
+To:     "Eric Biggers" <ebiggers@kernel.org>,
+        "Ross Philipson" <ross.philipson@oracle.com>
+X-Mailer: aerc 0.14.0
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-7-ross.philipson@oracle.com>
+ <20230510012144.GA1851@quark.localdomain>
+In-Reply-To: <20230510012144.GA1851@quark.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Top-posting has been strongly discouraged in Linux development, but this
-was actually not written anywhere in the common documentation about
-sending patches and replying to reviews. Add a section about trimming
-and interleaved replies.
+On Wed May 10, 2023 at 4:21 AM EEST, Eric Biggers wrote:
+> On Thu, May 04, 2023 at 02:50:15PM +0000, Ross Philipson wrote:
+> > From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+> >=20
+> > The SHA algorithms are necessary to measure configuration information i=
+nto
+> > the TPM as early as possible before using the values. This implementati=
+on
+> > uses the established approach of #including the SHA libraries directly =
+in
+> > the code since the compressed kernel is not uncompressed at this point.
+> >=20
+> > The SHA code here has its origins in the code from the main kernel:
+> >=20
+> > commit c4d5b9ffa31f ("crypto: sha1 - implement base layer for SHA-1")
+> >=20
+> > That code could not be pulled directly into the setup portion of the
+> > compressed kernel because of other dependencies it pulls in. The result
+> > is this is a modified copy of that code that still leverages the core
+> > SHA algorithms.
+> >=20
+> > Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+> > Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+>
+> SHA-1 is insecure.  Why are you still using SHA-1?  Don't TPMs support SH=
+A-2
+> now?
+>
+> And if you absolutely MUST use SHA-1 despite it being insecure, please at=
+ least
+> don't obfuscate it by calling it simply "SHA".
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Rong Tao <rtoax@foxmail.com>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Zhangfei Gao <zhangfei.gao@foxmail.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+AFAIK the TCG specs require for any TPM2 implementation to support both
+SHA-1 and SHA-256, so this as a new feature should lock in to the
+latter.
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index eac7167dce83..3e838da8822f 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -326,6 +326,29 @@ explaining difference aganst previous submission (see
- See Documentation/process/email-clients.rst for recommendations on email
- clients and mailing list etiquette.
- 
-+Use trimmed interleaved replies in email discussions
-+----------------------------------------------------
-+Top-posting is strongly discouraged in Linux kernel development
-+discusions. Interleaved (or "inline") replies make conversations much
-+easier to follow. For more details see:
-+https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
-+
-+As is frequently quoted on the mailing list:
-+
-+  A: http://en.wikipedia.org/wiki/Top_post
-+  Q: Were do I find info about this thing called top-posting?
-+  A: Because it messes up the order in which people normally read text.
-+  Q: Why is top-posting such a bad thing?
-+  A: Top-posting.
-+  Q: What is the most annoying thing in e-mail?
-+
-+Similarly, please trim all unneeded quotations that aren't relevant
-+to your reply. This makes replies easier to find, and saves time and
-+space. For more details see: http://daringfireball.net/2007/07/on_top
-+
-+  A: No.
-+  Q: Should I include quotations after my reply?
-+
- .. _resend_reminders:
- 
- Don't get discouraged - or impatient
--- 
-2.34.1
-
+BR, Jarkko
