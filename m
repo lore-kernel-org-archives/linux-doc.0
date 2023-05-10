@@ -2,81 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D3EC7EE22
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 13:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDCD8C7EE23
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 13:30:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236900AbjEJNCb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 09:02:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51656 "EHLO
+        id S237053AbjEJNac (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 09:30:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236681AbjEJNCa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 09:02:30 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31D110D0
-        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 06:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683723749; x=1715259749;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=90kq/cIbU+pJu67FzgQIR0hL/LPFhqMpXuCALzU2fVE=;
-  b=iXM5NY05xpL+3nrhqmE2loUJBEb9g5wKySXxbirYjnAIlkQaqotQzAQe
-   hWkXOpCi+hJPsYcAAvgM/1pdeIvZH2mF+PPlnxRTDil0LaTHO8PpyeIGq
-   dtqXGYmSqjvtmXgmRmDLTE4BOkqxpTcuB6LQ53YjXJHGuOZWDmqazQKxK
-   qir/D4WdyIEE1yZw6YJpQ4xmz1jmXyrDSQ94YpWbR4H+/QHe8NBgFbfxb
-   7BX/8wLmouBTuN+ppu6Tt2WY+Lj8QM9apb3TWQjdzbbRPeLOSx2p+GLKT
-   jYM8vqvZYi75hvbqAD4tSWYl+JPD6LT9dBBrDpvbbWag05WqVAvqW08IY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="329825867"
-X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
-   d="scan'208";a="329825867"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 06:01:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="945687573"
-X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
-   d="scan'208";a="945687573"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 May 2023 06:01:31 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pwjRj-0003Iu-08;
-        Wed, 10 May 2023 13:01:31 +0000
-Date:   Wed, 10 May 2023 21:00:34 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Russell King <rmk+kernel@armlinux.org.uk>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: [arm:csi-v6 2/7] htmldocs: Warning: drivers/media/i2c/imx219-rmk.c
- references a file that doesn't exist:
- Documentation/media/uapi/v4l/dev-subdev.rst
-Message-ID: <202305102002.PAxDivwy-lkp@intel.com>
+        with ESMTP id S236982AbjEJNab (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 09:30:31 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D206561B2;
+        Wed, 10 May 2023 06:30:29 -0700 (PDT)
+Received: from zn.tnic (p5de8e8ea.dip0.t-ipconnect.de [93.232.232.234])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4C15A1EC066E;
+        Wed, 10 May 2023 15:30:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1683725428;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=Oc3RW44mGf8OYw/mNzGyRLjYbfWEFY3fZ/ETgZKmRPc=;
+        b=jV4B4Iueyphgm33/i6nlFz+SYXoKsBUzU8Ri7y4TYU68qN7/dmfMJlbK1MNpXw1TR90Kpl
+        d1/rbYqm0aRl90Tzw/hOuuMoNnSYbkigi+LV1eHzl3IeCJdrbGH/onF7EABu+OV28GcY+p
+        ZJ+8upyZumiT7YyvTUED0tVtgBdB47U=
+Date:   Wed, 10 May 2023 15:30:24 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+Message-ID: <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
+References: <20230502120931.20719-1-jgross@suse.com>
+ <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
+ <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git csi-v6
-head:   bddf95ecbbc88a20d81a76a2b01a809c36020679
-commit: b563a36455a1b3fa9af3ac8e0ccaed687731e485 [2/7] media: i2c: imx219 camera driver
-reproduce:
-        git remote add arm git://git.armlinux.org.uk/~rmk/linux-arm.git
-        git fetch --no-tags arm csi-v6
-        git checkout b563a36455a1b3fa9af3ac8e0ccaed687731e485
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Wed, May 10, 2023 at 01:36:41AM +0200, Borislav Petkov wrote:
+> More staring at this tomorrow, on a clear head.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305102002.PAxDivwy-lkp@intel.com/
+Yeah, I'm going to leave it as is. Tried doing a union with bitfields
+but doesn't get any prettier.
 
-All warnings (new ones prefixed by >>):
+Next crapola:
 
->> Warning: drivers/media/i2c/imx219-rmk.c references a file that doesn't exist: Documentation/media/uapi/v4l/dev-subdev.rst
->> Warning: drivers/media/i2c/imx219-rmk.c references a file that doesn't exist: Documentation/media/uapi/v4l/vidioc-g-selection.rst
+The Intel box says now:
+
+[    8.138683] sgx: EPC section 0x80200000-0x85ffffff
+[    8.204838] pmd_set_huge: Cannot satisfy [mem 0x80200000-0x80400000] with a huge-page mapping due to MTRR override, uniform: 0
+
+(I've extended the debug output).
+
+and that happens because
+
+[    8.174229] mtrr_type_lookup: mtrr_state_set: 1
+[    8.178909] mtrr_type_lookup: start: 0x80200000, cache_map[3].start: 0x88800000
+
+that's
+
+	 if (start < cache_map[i].start) {
+
+in mtrr_type_lookup(). I fail to see how that check would work for the
+range 0x80200000-0x80400000 and the MTRR map is:
+
+[    0.000587] MTRR map: 4 entries (3 fixed + 1 variable; max 23), built from 10 variable MTRRs
+[    0.000588]   0: 0000000000000000-000000000009ffff write-back
+[    0.000589]   1: 00000000000a0000-00000000000bffff uncachable
+[    0.000590]   2: 00000000000c0000-00000000000fffff write-protect
+[    0.000591]   3: 0000000088800000-00000000ffffffff uncachable
+
+so the UC range comes after this one we request.
+
+[    8.186372] mtrr_type_lookup: type: 0x6, cache_map[3].type: 0x0
+
+now the next type merging happens and the 3rd region's type is UC, ofc.
+
+[    8.192433] type_merge: type: 0x6, new_type: 0x0, effective_type: 0x0, clear uniform
+
+we clear uniform and we fail:
+
+[    8.200331] mtrr_type_lookup: ret, uniform: 0
+
+So this map lookup thing is wrong in this case.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
