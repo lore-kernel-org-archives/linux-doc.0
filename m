@@ -2,198 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FC6C7EE24
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 04:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0B2C7EE25
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 05:48:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230408AbjEJE3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 00:29:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40066 "EHLO
+        id S235985AbjEJFsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 01:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjEJE3x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 00:29:53 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 761BF2D54;
-        Tue,  9 May 2023 21:29:52 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1aaf21bb427so48597025ad.1;
-        Tue, 09 May 2023 21:29:52 -0700 (PDT)
+        with ESMTP id S235984AbjEJFsF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 01:48:05 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BAC83C27
+        for <linux-doc@vger.kernel.org>; Tue,  9 May 2023 22:48:03 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6ab1942ea59so1070469a34.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 May 2023 22:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683692992; x=1686284992;
+        d=ventanamicro.com; s=google; t=1683697682; x=1686289682;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/aM5NY/KUHqYL9w0DdOz9GTnXa2GoHiTuTmams40J5o=;
-        b=mIUX+1c8zSq1vIBaZknShJh4FlsjYTJ8mB8GwjIyTezZGY3MDERW6xFJCHcGtv737r
-         CCsvlVd1moMaNpwtMj1LK+go8Edf5erddvNynXI4FZl93uWPCEIcjGhI1q3GkQDA0B63
-         4VXGplEN2mABJaeCAx+LrZGU4fjrBeIzl8RV4wFPr3CPdMamJl0oeTA47/wDLVfdOvWZ
-         FsCAo8ZNR6XfsHuEcWDNy6KKayZLGs8c79uNY9R0/cj/EO+02I4mxKn+mDYOV7/agcRj
-         deGJWGawp3PGVgQYfGdsq50EQAU1IGHNmYdQrbc3EeAfmU3Hwbxm0c5lxDSpfsvaftLF
-         58mg==
+        bh=aLoXxmvmI+TNDBhJrgne+NmasMw88TAHwNMgEXRV8rI=;
+        b=cdGX27W3aTaVuF1lXqNU3dXFL5s/Mxv+Moz1oLv1bQd1dEC9mDTi2x1P2N71gBko7J
+         2+zczCTSBLiri2fJqfSyyz5RHx46ktfWmUOXnHuyj5Cn4nTnemxRsBPtCWjjZawCjJGN
+         78Z4MCWQKxZMpusPRAJQCksQy1Dfq+cU/sE+LDbzedpxxiDwbqNmgut9N0xguAbrwjC6
+         i26od8SWAexY2jtV7kg0NYHScaH2lXuJWt2XqxC61phsOtpGEOKp0RycWSufEb7ci05D
+         XrgVIiuCTq2cXFJRCtMevAMjlG69+8PadWF6hGIxq7j2gai3jXAqXDEXXYFo0g1p+Z4b
+         ehIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683692992; x=1686284992;
+        d=1e100.net; s=20221208; t=1683697682; x=1686289682;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/aM5NY/KUHqYL9w0DdOz9GTnXa2GoHiTuTmams40J5o=;
-        b=GNJPEJsdr82BiP4iqn873eJi2ZgKbnO7kj+PQbWjvWozBrtP6god6aDOJSrJ0Baxp5
-         fWz1D45Ai0iEqXsA81bOmA9zxf24E9K28A89rDsHVMOvWS0a+bAZ2NboQOyogsFrWwDf
-         Due4cjhNDDFVNrqYbeh+E5FYr2M/1/AyoPXfHlU6EEhJJN9HW9EShzFdbbJmZYd1slw6
-         a4xpuQaGM4NYhSd1Kr1Q/GPhg6xzK4wt2CnGcj7llmt9mrvAp/kibulm4tn1I2GHfTRo
-         IG5Z2l0jqhm1aJtV/aCgSGzvHOVKbwnTNtUsgG32icczVwpkKCpQhfbF3zQefxdhBDVu
-         yKpg==
-X-Gm-Message-State: AC+VfDyVfllJaiTTqO8KzQwB2f7igr33cxteMk3lcUPLhVE+m0jE7cED
-        503TzmETFINgpwScluzp1SY=
-X-Google-Smtp-Source: ACHHUZ5JpzVIN/DIs7qJBXKKpwABHf20uqh5yBLrXKfwPc64fJKRXs3HZO4pKmEoTFgaLV2jXH/5Qw==
-X-Received: by 2002:a17:902:ecc6:b0:1ac:6153:50b1 with SMTP id a6-20020a170902ecc600b001ac615350b1mr14634154plh.39.1683692991790;
-        Tue, 09 May 2023 21:29:51 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-2.three.co.id. [116.206.28.2])
-        by smtp.gmail.com with ESMTPSA id 21-20020a170902c21500b001ab13f1fa82sm2545706pll.85.2023.05.09.21.29.51
+        bh=aLoXxmvmI+TNDBhJrgne+NmasMw88TAHwNMgEXRV8rI=;
+        b=KVLI9rgweZPJiDoRGhCZNSHWK3Ugr3iAL7MRRNH5H7Kto+oyThfmmt46KLoNvFkPoN
+         +WrlH6UcpoWm+rrIzpn/CHaWwE1a6e0elbf0IMu1+oQG/+YeGYcyvuYUVMA3FuFKu3RB
+         JTMlgTKt484PUUG4K1ctiuDTb6bATu4eIsNW+89euGcrcZ6Db0EqOCnEsBV39JIg8s4X
+         p9HB02FT7joBmVSXSpXljm6jWG3taq23ZHuxK9HstkHI88KwHlOWfrahs7WAw0Z9M5G2
+         C96gEXlOCneXJRJlHchxt5rrgG/4exuzE7BhpHOpsmo6+U0Wxj2PXc3eRT9SBL0Nqruq
+         ab4Q==
+X-Gm-Message-State: AC+VfDwhlwmi+M3eDUBzXAUdF5fW3ifiCP98Yx4H8gQJ5qOiveIlpvjW
+        fZ2/VGLA++M9zaejXglYOwj7iQ==
+X-Google-Smtp-Source: ACHHUZ4YI0Ows+2qLCE5z9Sy2RLUd1OHJeod9NGdxiAb7Ex5AAbigEasnBSuYpWAru1W0u5cnRfMdw==
+X-Received: by 2002:a9d:730d:0:b0:6ab:b20:18a5 with SMTP id e13-20020a9d730d000000b006ab0b2018a5mr2569954otk.26.1683697682642;
+        Tue, 09 May 2023 22:48:02 -0700 (PDT)
+Received: from sunil-laptop ([106.51.188.76])
+        by smtp.gmail.com with ESMTPSA id p25-20020a9d76d9000000b0068bd922a244sm603978otl.20.2023.05.09.22.47.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 21:29:51 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 4C54E106AA3; Wed, 10 May 2023 11:29:48 +0700 (WIB)
-Date:   Wed, 10 May 2023 11:29:48 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Hao Zhang <quic_hazha@quicinc.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
+        Tue, 09 May 2023 22:48:02 -0700 (PDT)
+Date:   Wed, 10 May 2023 11:17:49 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Herbert Xu <herbert@gondor.apana.org.au>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] Documentation: trace: Add documentation for
- Coresight Dummy Trace
-Message-ID: <ZFsdvCuTTEkTm9VA@debian.me>
-References: <20230422073714.38844-1-quic_hazha@quicinc.com>
- <20230422073714.38844-4-quic_hazha@quicinc.com>
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>
+Subject: Re: [PATCH V5 03/21] crypto: hisilicon/qm: Fix to enable build with
+ RISC-V clang
+Message-ID: <ZFswBePAtF/ror5G@sunil-laptop>
+References: <20230508115237.216337-1-sunilvl@ventanamicro.com>
+ <20230508115237.216337-4-sunilvl@ventanamicro.com>
+ <ZFmtSReX9/WR5CkK@gondor.apana.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="e2+brUqtxyUTcWFS"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230422073714.38844-4-quic_hazha@quicinc.com>
+In-Reply-To: <ZFmtSReX9/WR5CkK@gondor.apana.org.au>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, May 09, 2023 at 10:17:45AM +0800, Herbert Xu wrote:
+> On Mon, May 08, 2023 at 05:22:19PM +0530, Sunil V L wrote:
+> > With CONFIG_ACPI enabled for RISC-V, this driver gets enabled in
+> > allmodconfig build. However, build fails with clang and below
+> > error is seen.
+> > 
+> > drivers/crypto/hisilicon/qm.c:627:10: error: invalid output constraint '+Q' in asm
+> >                        "+Q" (*((char __iomem *)fun_base))
+> >                        ^
+> > This is expected error with clang due to the way it is designed.
+> > 
+> > To fix this issue, move arm64 assembly code under #if.
+> > 
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/999
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > [sunilvl@ventanamicro.com: Moved tmp0 and tmp1 into the #if]
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > ---
+> >  drivers/crypto/hisilicon/qm.c | 13 +++++++------
+> >  1 file changed, 7 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/crypto/hisilicon/qm.c b/drivers/crypto/hisilicon/qm.c
+> > index ad0c042b5e66..2eaeaac2e246 100644
+> > --- a/drivers/crypto/hisilicon/qm.c
+> > +++ b/drivers/crypto/hisilicon/qm.c
+> > @@ -610,13 +610,9 @@ EXPORT_SYMBOL_GPL(hisi_qm_wait_mb_ready);
+> >  static void qm_mb_write(struct hisi_qm *qm, const void *src)
+> >  {
+> >  	void __iomem *fun_base = qm->io_base + QM_MB_CMD_SEND_BASE;
+> > -	unsigned long tmp0 = 0, tmp1 = 0;
+> >  
+> > -	if (!IS_ENABLED(CONFIG_ARM64)) {
+> > -		memcpy_toio(fun_base, src, 16);
+> > -		dma_wmb();
+> > -		return;
+> > -	}
+> 
+> Please leave this bit as it stands.
+> 
+> > +#if IS_ENABLED(CONFIG_ARM64)
+> > +	unsigned long tmp0 = 0, tmp1 = 0;
+> >  
+> >  	asm volatile("ldp %0, %1, %3\n"
+> >  		     "stp %0, %1, %2\n"
+> > @@ -626,6 +622,11 @@ static void qm_mb_write(struct hisi_qm *qm, const void *src)
+> >  		       "+Q" (*((char __iomem *)fun_base))
+> >  		     : "Q" (*((char *)src))
+> >  		     : "memory");
+> 
+> And simply add the ifdef around the assembly.
+> 
+Sure, Herbert.
 
---e2+brUqtxyUTcWFS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Apr 22, 2023 at 03:37:14PM +0800, Hao Zhang wrote:
-> +Introduction
-> +---------------------------
-> +
-> +Coresight Dummy Trace Module is for the specific devices that kernel
-> +don't have permission to access or configure, e.g., CoreSight TPDMs
-> +on Qualcomm platforms. So there need driver to register dummy devices
-> +as Coresight devices. It may also be used to define components that
-> +may not have any programming interfaces (e.g, static links), so that
-> +paths can be established in the driver. Provide Coresight API for
-> +dummy device operations, such as enabling and disabling dummy devices.
-> +Build the Coresight path for dummy sink or dummy source for debugging.
-> +
-> +Config details
-> +---------------------------
-> +
-> +There are two types of nodes, dummy sink and dummy source. The nodes
-> +should be observed at the below coresight path::
-> +
-> +    ``/sys/bus/coresight/devices``.
-> +
-> +e.g.::
-> +
-> +    / $ ls -l /sys/bus/coresight/devices | grep dummy
-> +    dummy0 -> ../../../devices/platform/soc@0/soc@0:dummy_source/dummy0
-> +    dummy1 -> ../../../devices/platform/soc@0/soc@0:dummy_sink/dummy1
-
-The wording confuses me, so I have to make the improv:
-
----- >8 ----
-diff --git a/Documentation/trace/coresight/coresight-dummy.rst b/Documentat=
-ion/trace/coresight/coresight-dummy.rst
-index 7cb59f080c8892..f0a92669288b0c 100644
---- a/Documentation/trace/coresight/coresight-dummy.rst
-+++ b/Documentation/trace/coresight/coresight-dummy.rst
-@@ -8,27 +8,25 @@ Coresight Dummy Trace Module
-     :Date:     May 2023
-=20
- Introduction
-----------------------------
-+------------
-=20
--Coresight Dummy Trace Module is for the specific devices that kernel
--don't have permission to access or configure, e.g., CoreSight TPDMs
--on Qualcomm platforms. So there need driver to register dummy devices
--as Coresight devices. It may also be used to define components that
--may not have any programming interfaces (e.g, static links), so that
--paths can be established in the driver. Provide Coresight API for
--dummy device operations, such as enabling and disabling dummy devices.
--Build the Coresight path for dummy sink or dummy source for debugging.
-+The Coresight dummy trace module is for the specific devices that kernel d=
-on't
-+have permission to access or configure, e.g., CoreSight TPDMs on Qualcomm
-+platforms. For these devices, a dummy driver is needed to register them as
-+Coresight devices. The module may also be used to define components that m=
-ay
-+not have any programming interfaces (e.g, static links), so that paths can=
- be
-+created in the driver. It provides Coresight API for operations on dummy
-+devices, such as enabling and disabling them. It also provides the Coresig=
-ht
-+dummy sink/source paths for debugging.
-=20
- Config details
-----------------------------
-+--------------
-=20
--There are two types of nodes, dummy sink and dummy source. The nodes
--should be observed at the below coresight path::
-+There are two types of nodes, dummy sink and dummy source. These nodes
-+are available at ``/sys/bus/coresight/devices``.
-=20
--    ``/sys/bus/coresight/devices``.
-+Example output::
-=20
--e.g.::
--
--    / $ ls -l /sys/bus/coresight/devices | grep dummy
-+    $ ls -l /sys/bus/coresight/devices | grep dummy
-     dummy_sink0 -> ../../../devices/platform/soc@0/soc@0:sink/dummy_sink0
-     dummy_source0 -> ../../../devices/platform/soc@0/soc@0:source/dummy_so=
-urce0
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---e2+brUqtxyUTcWFS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFsduAAKCRD2uYlJVVFO
-o2TjAQDYYZqIoZ6+z7SOd233T+YD4aMEAQt5d3y8eqQjHBnsGgD9ELC02YzoibPW
-QS5ra91ddWiO98Yu1l05a8zSZPt0DQI=
-=vhHp
------END PGP SIGNATURE-----
-
---e2+brUqtxyUTcWFS--
+Thanks!
+Sunil
