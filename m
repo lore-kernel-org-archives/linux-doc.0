@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C1EC77B7D
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9ADC77B7D
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:18:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235995AbjEJSSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 14:18:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54636 "EHLO
+        id S236101AbjEJSSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 14:18:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229902AbjEJSSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:18:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7406B7A9D;
-        Wed, 10 May 2023 11:17:46 -0700 (PDT)
+        with ESMTP id S236057AbjEJSSP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:18:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6EA07DBD;
+        Wed, 10 May 2023 11:18:04 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0366663F81;
-        Wed, 10 May 2023 18:17:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50F60C4339B;
-        Wed, 10 May 2023 18:17:19 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 383C563F89;
+        Wed, 10 May 2023 18:17:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0B34C433EF;
+        Wed, 10 May 2023 18:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683742639;
-        bh=UwZIwbcSgLfsaScEbsCZq/hnSjYCEy/ueiOBHUYJX6U=;
+        s=k20201202; t=1683742644;
+        bh=5orfwLg08dIm14Vms6sjyzzLD3V/C5KXtMlKMkWcY24=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GhQTAUXKMTyOnQFt7BEN9Y2D0WN99QxH3SqWLZWZzfHfGsk3XDp4e8r63Wmoaf4La
-         x2aFHC2HX7iLHEFsERqXgtBPRRlezKgbsZQRQZQOrHB9FSA+9ol9nCiwyveyQFoz18
-         v3bRFf0Nx6taPwGFpCi0ZMOp0ogDYD5wufl7qPFZdKJfKbJDy2QMieXjywzo18k9nb
-         imVCnaSdzav9fssB0HmPsPtASXkH32U0roh6B/uq8Wkjv/wSBkjSE0YUfWk/SzqAsj
-         4rBuhwAEyoKhit2rNb1+kb+Z6/n7kxT4TzKYqDHb2pfYutJFXdFH9hpZIVHoXlewH6
-         M8ai/dtpBfUzA==
+        b=Em+tJutPuctz8SiLrvZzic/5pGf+w4amVFJR944sz9bai88jhwKqi+nkCtPNnUE4n
+         gvJ7WNeAmDAecOWnnm9LAhq1pOA7s5sF+Aj1HfAG2b7ec6xio+WcM5tEVk6D9eVBAJ
+         xaDu4viqi/AhOtY/Y7OAhfY+lsgFYFsk4Y19MQg8wh57lYQGCpXlpddJjK3q2TzDhj
+         pOYVPPG5/nJgGCaZPksnNeYZYE4+Ek7oPmPbBmBtpy7wtFkFjLB09x1gJce76W7rpR
+         qqFOumnKGEA+Fxy9CHm41NYF0K4a1/CpYljDtxu7CiuY4N2f/Cj6qJe7UvpYm69xX0
+         yGHqD5hGTjgrA==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id D603DCE134D; Wed, 10 May 2023 11:17:18 -0700 (PDT)
+        id E8047CE1D7A; Wed, 10 May 2023 11:17:18 -0700 (PDT)
 From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
@@ -41,9 +41,9 @@ Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH locking/atomic 03/19] locking/atomic: Add kernel-doc and docbook_oldnew variables for headers
-Date:   Wed, 10 May 2023 11:17:01 -0700
-Message-Id: <20230510181717.2200934-3-paulmck@kernel.org>
+Subject: [PATCH locking/atomic 10/19] locking/atomic: Add kernel-doc header for arch_${atomic}_inc_unless_negative
+Date:   Wed, 10 May 2023 11:17:08 -0700
+Message-Id: <20230510181717.2200934-10-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
 References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
@@ -53,13 +53,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The andnot, dec, inc, and try_cmpxchg files in the scripts/atomic/fallbacks
-directory do not supply kernel-doc headers.  One reason for this is that
-there is currently no reasonably way to document either the ordering or
-whether the old or the new value is returned.
-
-Therefore, supply docbook_order and docbook_oldnew sh variables that contain
-the needed information.
+Add kernel-doc header template for arch_${atomic}_inc_unless_negative
+function family.
 
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 Cc: Will Deacon <will@kernel.org>
@@ -67,66 +62,67 @@ Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 ---
- scripts/atomic/gen-atomic-fallback.sh     | 17 +++++++++++++++++
- scripts/atomic/gen-atomic-instrumented.sh | 17 +++++++++++++++++
- 2 files changed, 34 insertions(+)
+ include/linux/atomic/atomic-arch-fallback.h  | 18 +++++++++++++++++-
+ scripts/atomic/fallbacks/inc_unless_negative |  8 ++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/atomic/gen-atomic-fallback.sh b/scripts/atomic/gen-atomic-fallback.sh
-index 6e853f0dad8d..697da5f16f98 100755
---- a/scripts/atomic/gen-atomic-fallback.sh
-+++ b/scripts/atomic/gen-atomic-fallback.sh
-@@ -24,6 +24,23 @@ gen_template_fallback()
- 	local params="$(gen_params "${int}" "${atomic}" "$@")"
- 	local args="$(gen_args "$@")"
+diff --git a/include/linux/atomic/atomic-arch-fallback.h b/include/linux/atomic/atomic-arch-fallback.h
+index e6c7356d5dfc..a90ee496bb81 100644
+--- a/include/linux/atomic/atomic-arch-fallback.h
++++ b/include/linux/atomic/atomic-arch-fallback.h
+@@ -1609,6 +1609,14 @@ arch_atomic_inc_not_zero(atomic_t *v)
+ #endif
  
-+	local docbook_order=full
-+	if test "${order}" = "_relaxed"
-+	then
-+		local docbook_order=no
-+	elif test -n "${order}"
-+	then
-+		docbook_order="`echo $order | sed -e 's/_//'`"
-+	fi
-+	local docbook_oldnew="new"
-+	if test "${pfx}" = "fetch_"
-+	then
-+		docbook_oldnew="old"
-+	elif test "${sfx}" != "_return"
-+	then
-+		docbook_oldnew="no"
-+	fi
-+
- 	if [ ! -z "${template}" ]; then
- 		printf "#ifndef ${atomicname}\n"
- 		. ${template}
-diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
-index d9ffd74f73ca..99c72393d362 100755
---- a/scripts/atomic/gen-atomic-instrumented.sh
-+++ b/scripts/atomic/gen-atomic-instrumented.sh
-@@ -68,6 +68,23 @@ gen_proto_order_variant()
- 	local args="$(gen_args "$@")"
- 	local retstmt="$(gen_ret_stmt "${meta}")"
+ #ifndef arch_atomic_inc_unless_negative
++/**
++ * arch_atomic_inc_unless_negative - Atomic increment if old value is non-negative
++ * @v: pointer of type atomic_t
++ *
++ * Atomically increment @v, but only if the original value is greater
++ * than or equal to zero.  Return @true if the increment happened and
++ * @false otherwise.
++ */
+ static __always_inline bool
+ arch_atomic_inc_unless_negative(atomic_t *v)
+ {
+@@ -3049,6 +3057,14 @@ arch_atomic64_inc_not_zero(atomic64_t *v)
+ #endif
  
-+	local docbook_order=full
-+	if test "${order}" = "_relaxed"
-+	then
-+		local docbook_order=no
-+	elif test -n "${order}"
-+	then
-+		docbook_order="`echo $order | sed -e 's/_//'`"
-+	fi
-+	local docbook_oldnew="new"
-+	if test "${pfx}" = "fetch_"
-+	then
-+		docbook_oldnew="old"
-+	elif test "${sfx}" != "_return"
-+	then
-+		docbook_oldnew="no"
-+	fi
-+
+ #ifndef arch_atomic64_inc_unless_negative
++/**
++ * arch_atomic64_inc_unless_negative - Atomic increment if old value is non-negative
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically increment @v, but only if the original value is greater
++ * than or equal to zero.  Return @true if the increment happened and
++ * @false otherwise.
++ */
+ static __always_inline bool
+ arch_atomic64_inc_unless_negative(atomic64_t *v)
+ {
+@@ -3116,4 +3132,4 @@ arch_atomic64_dec_if_positive(atomic64_t *v)
+ #endif
+ 
+ #endif /* _LINUX_ATOMIC_FALLBACK_H */
+-// 225b2fe3eb6bbe34729abed7a856b91abc8d434e
++// 3fd0ec685588b84c6428145b7628f79ce23a464c
+diff --git a/scripts/atomic/fallbacks/inc_unless_negative b/scripts/atomic/fallbacks/inc_unless_negative
+index 95d8ce48233f..98830b0dcdb1 100755
+--- a/scripts/atomic/fallbacks/inc_unless_negative
++++ b/scripts/atomic/fallbacks/inc_unless_negative
+@@ -1,4 +1,12 @@
  cat <<EOF
- static __always_inline ${ret}
- ${atomicname}(${params})
++/**
++ * arch_${atomic}_inc_unless_negative - Atomic increment if old value is non-negative
++ * @v: pointer of type ${atomic}_t
++ *
++ * Atomically increment @v, but only if the original value is greater
++ * than or equal to zero.  Return @true if the increment happened and
++ * @false otherwise.
++ */
+ static __always_inline bool
+ arch_${atomic}_inc_unless_negative(${atomic}_t *v)
+ {
 -- 
 2.40.1
 
