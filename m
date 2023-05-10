@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C72F8C7EE2A
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C1EC77B7D
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:18:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235908AbjEJSSO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 14:18:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54602 "EHLO
+        id S235995AbjEJSSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 14:18:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235791AbjEJSSG (ORCPT
+        with ESMTP id S229902AbjEJSSG (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:18:06 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D99847ABB;
-        Wed, 10 May 2023 11:17:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7406B7A9D;
+        Wed, 10 May 2023 11:17:46 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2CBD563F7E;
-        Wed, 10 May 2023 18:17:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB2BC4339B;
-        Wed, 10 May 2023 18:17:24 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0366663F81;
+        Wed, 10 May 2023 18:17:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50F60C4339B;
+        Wed, 10 May 2023 18:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683742644;
-        bh=M24YCjX89zrGo9hYrVbnM541YXT/QdSaa04NmGeV1Kw=;
+        s=k20201202; t=1683742639;
+        bh=UwZIwbcSgLfsaScEbsCZq/hnSjYCEy/ueiOBHUYJX6U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IwNrKLQiM4yEdY6dWQJDqXWcesIHahzZBEqAGGtQ447tYWiSNEApxDQwXUOjpEp6R
-         J+wReUPEoXom8oYdwM6CqS1S2LdicSusW+2/fo373mB/XtrVjEnPSdLSbEDbfgHsbj
-         GJMYhpQEDHxblTH31IUYtifLIMO/tsxJmH4Xjz5I+NvuMKDpu4iY6C7rOJQyR+vzvF
-         dQbx0460xkB/3k7AvmWYCbbkBmUX4GyXue1UKOgK2xQyEdaKbNtUi6s9x6D2kWk8mE
-         EBsBIyMdV+b//2hbywVmq7VxMgxiQvkqiQTTa+VYdP/OtkpzHMmD2JVy1UNjQT7z6C
-         Qru4NcBSFkTWA==
+        b=GhQTAUXKMTyOnQFt7BEN9Y2D0WN99QxH3SqWLZWZzfHfGsk3XDp4e8r63Wmoaf4La
+         x2aFHC2HX7iLHEFsERqXgtBPRRlezKgbsZQRQZQOrHB9FSA+9ol9nCiwyveyQFoz18
+         v3bRFf0Nx6taPwGFpCi0ZMOp0ogDYD5wufl7qPFZdKJfKbJDy2QMieXjywzo18k9nb
+         imVCnaSdzav9fssB0HmPsPtASXkH32U0roh6B/uq8Wkjv/wSBkjSE0YUfWk/SzqAsj
+         4rBuhwAEyoKhit2rNb1+kb+Z6/n7kxT4TzKYqDHb2pfYutJFXdFH9hpZIVHoXlewH6
+         M8ai/dtpBfUzA==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id EFA9CCE1F4C; Wed, 10 May 2023 11:17:18 -0700 (PDT)
+        id D603DCE134D; Wed, 10 May 2023 11:17:18 -0700 (PDT)
 From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
@@ -41,9 +41,9 @@ Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH locking/atomic 13/19] locking/atomic: Script to auto-generate acquire, fence, and release headers
-Date:   Wed, 10 May 2023 11:17:11 -0700
-Message-Id: <20230510181717.2200934-13-paulmck@kernel.org>
+Subject: [PATCH locking/atomic 03/19] locking/atomic: Add kernel-doc and docbook_oldnew variables for headers
+Date:   Wed, 10 May 2023 11:17:01 -0700
+Message-Id: <20230510181717.2200934-3-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
 References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
@@ -53,12 +53,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The scripts/atomic/fallbacks/{acquire,fence,release} scripts require almost
-identical scripting to automatically generated the required kernel-doci
-headers.  Therefore, provide a single acqrel.sh script that does this
-work.  This new script is to be invoked from each of those scripts using
-the "." command, and with the shell variable "acqrel" set to either
-"acquire", "full", or "release".
+The andnot, dec, inc, and try_cmpxchg files in the scripts/atomic/fallbacks
+directory do not supply kernel-doc headers.  One reason for this is that
+there is currently no reasonably way to document either the ordering or
+whether the old or the new value is returned.
+
+Therefore, supply docbook_order and docbook_oldnew sh variables that contain
+the needed information.
 
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 Cc: Will Deacon <will@kernel.org>
@@ -66,83 +67,66 @@ Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 ---
- scripts/atomic/acqrel.sh | 67 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 scripts/atomic/acqrel.sh
+ scripts/atomic/gen-atomic-fallback.sh     | 17 +++++++++++++++++
+ scripts/atomic/gen-atomic-instrumented.sh | 17 +++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/scripts/atomic/acqrel.sh b/scripts/atomic/acqrel.sh
-new file mode 100644
-index 000000000000..5009a54fdac5
---- /dev/null
-+++ b/scripts/atomic/acqrel.sh
-@@ -0,0 +1,67 @@
-+echo ${args} | tr -d ' ' | tr ',' '\012' |
-+	awk -v atomic=${atomic} \
-+	    -v name_op=${name} \
-+	    -v ret=${ret} \
-+	    -v oldnew=${docbook_oldnew} \
-+	    -v acqrel=${acqrel} \
-+	    -v basefuncname=arch_${atomic}_${pfx}${name}${sfx} '
-+	BEGIN {
-+		print "/**";
-+		sfxord = "_" acqrel;
-+		if (acqrel == "full")
-+			sfxord = "";
-+		print " * " basefuncname sfxord " - Atomic " name_op " with " acqrel " ordering";
-+		longname["add"] = "add";
-+		longname["sub"] = "subtract";
-+		longname["inc"] = "increment";
-+		longname["dec"] = "decrement";
-+		longname["and"] = "AND";
-+		longname["andnot"] = "complement then AND";
-+		longname["or"] = "OR";
-+		longname["xor"] = "XOR";
-+		longname["xchg"] = "exchange";
-+		longname["add_negative"] = "add";
-+		desc["i"] = "value to " longname[name_op];
-+		desc["v"] = "pointer of type " atomic "_t";
-+		desc["old"] = "desired old value to match";
-+		desc["new"] = "new value to put in";
-+		opmod = "with";
-+		if (name_op == "add")
-+			opmod = "to";
-+		else if (name_op == "sub")
-+			opmod = "from";
-+	}
+diff --git a/scripts/atomic/gen-atomic-fallback.sh b/scripts/atomic/gen-atomic-fallback.sh
+index 6e853f0dad8d..697da5f16f98 100755
+--- a/scripts/atomic/gen-atomic-fallback.sh
++++ b/scripts/atomic/gen-atomic-fallback.sh
+@@ -24,6 +24,23 @@ gen_template_fallback()
+ 	local params="$(gen_params "${int}" "${atomic}" "$@")"
+ 	local args="$(gen_args "$@")"
+ 
++	local docbook_order=full
++	if test "${order}" = "_relaxed"
++	then
++		local docbook_order=no
++	elif test -n "${order}"
++	then
++		docbook_order="`echo $order | sed -e 's/_//'`"
++	fi
++	local docbook_oldnew="new"
++	if test "${pfx}" = "fetch_"
++	then
++		docbook_oldnew="old"
++	elif test "${sfx}" != "_return"
++	then
++		docbook_oldnew="no"
++	fi
 +
-+	{
-+		print " * @" $1 ": " desc[$1];
-+		have[$1] = 1;
-+	}
+ 	if [ ! -z "${template}" ]; then
+ 		printf "#ifndef ${atomicname}\n"
+ 		. ${template}
+diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
+index d9ffd74f73ca..99c72393d362 100755
+--- a/scripts/atomic/gen-atomic-instrumented.sh
++++ b/scripts/atomic/gen-atomic-instrumented.sh
+@@ -68,6 +68,23 @@ gen_proto_order_variant()
+ 	local args="$(gen_args "$@")"
+ 	local retstmt="$(gen_ret_stmt "${meta}")"
+ 
++	local docbook_order=full
++	if test "${order}" = "_relaxed"
++	then
++		local docbook_order=no
++	elif test -n "${order}"
++	then
++		docbook_order="`echo $order | sed -e 's/_//'`"
++	fi
++	local docbook_oldnew="new"
++	if test "${pfx}" = "fetch_"
++	then
++		docbook_oldnew="old"
++	elif test "${sfx}" != "_return"
++	then
++		docbook_oldnew="no"
++	fi
 +
-+	END {
-+		print " *";
-+		if (name_op ~ /cmpxchg/) {
-+			print " * Atomically compares @new to *@v, and if equal,";
-+			print " * stores @new to *@v, providing " acqrel " ordering.";
-+		} else if (have["i"]) {
-+			print " * Atomically " longname[name_op] " @i " opmod " @v using " acqrel " ordering.";
-+		} else {
-+			print " * Atomically " longname[name_op] " @v using " acqrel " ordering.";
-+		}
-+		if (name_op ~ /cmpxchg/ && ret == "bool") {
-+			print " * Returns @true if the cmpxchg operation succeeded,";
-+			print " * and false otherwise.  Either way, stores the old";
-+			print " * value of *@v to *@old.";
-+		} else if (name_op == "cmpxchg") {
-+			print " * Returns the old value *@v regardless of the result of";
-+			print " * the comparison.  Therefore, if the return value is not";
-+			print " * equal to @old, the cmpxchg operation failed.";
-+		} else if (name_op == "xchg") {
-+			print " * Return old value.";
-+		} else if (name_op == "add_negative") {
-+			print " * Return @true if the result is negative, or @false when"
-+			print " * the result is greater than or equal to zero.";
-+		} else {
-+			print " * Return " oldnew " value.";
-+		}
-+		print " */";
-+	}'
+ cat <<EOF
+ static __always_inline ${ret}
+ ${atomicname}(${params})
 -- 
 2.40.1
 
