@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C758BC7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7059C7EE25
 	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:19:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236402AbjEJSTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S236413AbjEJSTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 10 May 2023 14:19:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236144AbjEJSSU (ORCPT
+        with ESMTP id S236145AbjEJSSU (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:18:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1730B83E7;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D54BC6A78;
         Wed, 10 May 2023 11:18:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C80E963F94;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B805863F8D;
         Wed, 10 May 2023 18:17:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E139EC433AE;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A544AC433A0;
         Wed, 10 May 2023 18:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1683742644;
-        bh=O5+R08c8ff/9UCItSQg4aHCY6O5NYgQTn22+Zu0iVq8=;
+        bh=7habnDi2108xRXlvaQYflFtpvA2CnKXlKIA8xuT2KGI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Xce+75GfENdMWBpO3VsBhIq+md1L1PO/sfpQ26MlP7lpDMWE8xELlYvvI7F9H6Ndi
-         VaCKiOScuM6OKVzlkdJSlnVy7YeKReqJcuqcbEUkTBGGE3LoH+hYCX5pZPbqBVuSe8
-         zO87kovaSZAGKDRIS8UaMgLQGxxZcOeXNjWxbrOaVdyRqjIDOyabSjgel2z2fI3mxz
-         GHx65Y2Rf8mCE4QpBXQ9G+CNjMsVFSYNL3Gq9EhIJIUZTZs+FQIpCfbiwqfK5kmUEu
-         rZZLhD/RTYr8j2Dtrenmxh2MDewaUdsaqqsecWPd69AkjSaE692PbpvFo7MIVyE46/
-         He9ag/wpppS/g==
+        b=LR+TmNQNnhVZZ8MbTBFbBRWP0+QTufKpQ6+gR5YylKgr31b6xj270/v70vNdk1RAH
+         KR6I4sNhSj+o28mu240yw8sG8I2NE8GfIMa13RuQ14IG476ycX2PQ7W2uxN092Hne1
+         q7ZLFydJmhMFl2lh9EIombYLjFqINHOlDXWIMhRLUCGQ6Oh+4uTjLmley+HBCcRk7z
+         b8F/U/+G23TCIOJlM0aYAwbAJCzodYHVnfrHu7yo4SenldBgfLGbTdaPYJzQLy7ZA/
+         KMEDBTYPuzDtuTgNnnb6vFYPmvdjPYG7cd5KouuddaijUBg7WlVxLMt29j6fUV7WUz
+         7NDuqTg4Yy8oQ==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 06C1CCE21CB; Wed, 10 May 2023 11:17:19 -0700 (PDT)
+        id 00EC3CE21C0; Wed, 10 May 2023 11:17:18 -0700 (PDT)
 From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
@@ -40,14 +40,10 @@ Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
         Will Deacon <will@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH locking/atomic 17/19] x86/atomic.h: Remove duplicate kernel-doc headers
-Date:   Wed, 10 May 2023 11:17:15 -0700
-Message-Id: <20230510181717.2200934-17-paulmck@kernel.org>
+        Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH locking/atomic 15/19] locking/atomic: Add kernel-doc header for arch_${atomic}_${pfx}${name}${sfx}_release
+Date:   Wed, 10 May 2023 11:17:13 -0700
+Message-Id: <20230510181717.2200934-15-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
 References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
@@ -57,140 +53,530 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Scripting the kernel-doc headers resulted in a few duplicates.  Remove the
-duplicates from the x86-specific files.
+Add kernel-doc header template for arch_${atomic}_${pfx}${name}${sfx}_release
+function family with the help of my good friend awk, as encapsulated in
+acqrel.sh.
 
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 Cc: Will Deacon <will@kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: <x86@kernel.org>
 ---
- arch/x86/include/asm/atomic.h | 60 -----------------------------------
- 1 file changed, 60 deletions(-)
+ include/linux/atomic/atomic-arch-fallback.h | 268 +++++++++++++++++++-
+ scripts/atomic/fallbacks/release            |   2 +
+ 2 files changed, 269 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/atomic.h b/arch/x86/include/asm/atomic.h
-index 5e754e895767..5df979d65fb5 100644
---- a/arch/x86/include/asm/atomic.h
-+++ b/arch/x86/include/asm/atomic.h
-@@ -69,27 +69,12 @@ static __always_inline void arch_atomic_sub(int i, atomic_t *v)
- 		     : "ir" (i) : "memory");
- }
+diff --git a/include/linux/atomic/atomic-arch-fallback.h b/include/linux/atomic/atomic-arch-fallback.h
+index fc80113ca60a..ec6821b4bbc1 100644
+--- a/include/linux/atomic/atomic-arch-fallback.h
++++ b/include/linux/atomic/atomic-arch-fallback.h
+@@ -311,6 +311,14 @@ arch_atomic_add_return_acquire(int i, atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_sub_and_test - subtract value from variable and test result
-- * @i: integer value to subtract
-- * @v: pointer of type atomic_t
-- *
-- * Atomically subtracts @i from @v and returns
-- * true if the result is zero, or false for all
-- * other cases.
-- */
- static __always_inline bool arch_atomic_sub_and_test(int i, atomic_t *v)
+ #ifndef arch_atomic_add_return_release
++/**
++ * arch_atomic_add_return_release - Atomic add with release ordering
++ * @i: value to add
++ * @v: pointer of type atomic_t
++ *
++ * Atomically add @i to @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline int
+ arch_atomic_add_return_release(int i, atomic_t *v)
  {
- 	return GEN_BINARY_RMWcc(LOCK_PREFIX "subl", v->counter, e, "er", i);
- }
- #define arch_atomic_sub_and_test arch_atomic_sub_and_test
+@@ -361,6 +369,14 @@ arch_atomic_fetch_add_acquire(int i, atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_inc - increment atomic variable
-- * @v: pointer of type atomic_t
-- *
-- * Atomically increments @v by 1.
-- */
- static __always_inline void arch_atomic_inc(atomic_t *v)
+ #ifndef arch_atomic_fetch_add_release
++/**
++ * arch_atomic_fetch_add_release - Atomic add with release ordering
++ * @i: value to add
++ * @v: pointer of type atomic_t
++ *
++ * Atomically add @i to @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_add_release(int i, atomic_t *v)
  {
- 	asm volatile(LOCK_PREFIX "incl %0"
-@@ -97,12 +82,6 @@ static __always_inline void arch_atomic_inc(atomic_t *v)
- }
- #define arch_atomic_inc arch_atomic_inc
+@@ -411,6 +427,14 @@ arch_atomic_sub_return_acquire(int i, atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_dec - decrement atomic variable
-- * @v: pointer of type atomic_t
-- *
-- * Atomically decrements @v by 1.
-- */
- static __always_inline void arch_atomic_dec(atomic_t *v)
+ #ifndef arch_atomic_sub_return_release
++/**
++ * arch_atomic_sub_return_release - Atomic sub with release ordering
++ * @i: value to subtract
++ * @v: pointer of type atomic_t
++ *
++ * Atomically subtract @i from @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline int
+ arch_atomic_sub_return_release(int i, atomic_t *v)
  {
- 	asm volatile(LOCK_PREFIX "decl %0"
-@@ -110,69 +89,30 @@ static __always_inline void arch_atomic_dec(atomic_t *v)
- }
- #define arch_atomic_dec arch_atomic_dec
+@@ -461,6 +485,14 @@ arch_atomic_fetch_sub_acquire(int i, atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_dec_and_test - decrement and test
-- * @v: pointer of type atomic_t
-- *
-- * Atomically decrements @v by 1 and
-- * returns true if the result is 0, or false for all other
-- * cases.
-- */
- static __always_inline bool arch_atomic_dec_and_test(atomic_t *v)
+ #ifndef arch_atomic_fetch_sub_release
++/**
++ * arch_atomic_fetch_sub_release - Atomic sub with release ordering
++ * @i: value to subtract
++ * @v: pointer of type atomic_t
++ *
++ * Atomically subtract @i from @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_sub_release(int i, atomic_t *v)
  {
- 	return GEN_UNARY_RMWcc(LOCK_PREFIX "decl", v->counter, e);
- }
- #define arch_atomic_dec_and_test arch_atomic_dec_and_test
+@@ -593,6 +625,13 @@ arch_atomic_inc_return_acquire(atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_inc_and_test - increment and test
-- * @v: pointer of type atomic_t
-- *
-- * Atomically increments @v by 1
-- * and returns true if the result is zero, or false for all
-- * other cases.
-- */
- static __always_inline bool arch_atomic_inc_and_test(atomic_t *v)
+ #ifndef arch_atomic_inc_return_release
++/**
++ * arch_atomic_inc_return_release - Atomic inc with release ordering
++ * @v: pointer of type atomic_t
++ *
++ * Atomically increment @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline int
+ arch_atomic_inc_return_release(atomic_t *v)
  {
- 	return GEN_UNARY_RMWcc(LOCK_PREFIX "incl", v->counter, e);
- }
- #define arch_atomic_inc_and_test arch_atomic_inc_and_test
+@@ -709,6 +748,13 @@ arch_atomic_fetch_inc_acquire(atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_add_negative - add and test if negative
-- * @i: integer value to add
-- * @v: pointer of type atomic_t
-- *
-- * Atomically adds @i to @v and returns true
-- * if the result is negative, or false when
-- * result is greater than or equal to zero.
-- */
- static __always_inline bool arch_atomic_add_negative(int i, atomic_t *v)
+ #ifndef arch_atomic_fetch_inc_release
++/**
++ * arch_atomic_fetch_inc_release - Atomic inc with release ordering
++ * @v: pointer of type atomic_t
++ *
++ * Atomically increment @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_inc_release(atomic_t *v)
  {
- 	return GEN_BINARY_RMWcc(LOCK_PREFIX "addl", v->counter, s, "er", i);
- }
- #define arch_atomic_add_negative arch_atomic_add_negative
+@@ -841,6 +887,13 @@ arch_atomic_dec_return_acquire(atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_add_return - add integer and return
-- * @i: integer value to add
-- * @v: pointer of type atomic_t
-- *
-- * Atomically adds @i to @v and returns @i + @v
-- */
- static __always_inline int arch_atomic_add_return(int i, atomic_t *v)
+ #ifndef arch_atomic_dec_return_release
++/**
++ * arch_atomic_dec_return_release - Atomic dec with release ordering
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline int
+ arch_atomic_dec_return_release(atomic_t *v)
  {
- 	return i + xadd(&v->counter, i);
- }
- #define arch_atomic_add_return arch_atomic_add_return
+@@ -957,6 +1010,13 @@ arch_atomic_fetch_dec_acquire(atomic_t *v)
+ #endif
  
--/**
-- * arch_atomic_sub_return - subtract integer and return
-- * @v: pointer of type atomic_t
-- * @i: integer value to subtract
-- *
-- * Atomically subtracts @i from @v and returns @v - @i
-- */
- static __always_inline int arch_atomic_sub_return(int i, atomic_t *v)
+ #ifndef arch_atomic_fetch_dec_release
++/**
++ * arch_atomic_fetch_dec_release - Atomic dec with release ordering
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_dec_release(atomic_t *v)
  {
- 	return arch_atomic_add_return(-i, v);
+@@ -1007,6 +1067,14 @@ arch_atomic_fetch_and_acquire(int i, atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_fetch_and_release
++/**
++ * arch_atomic_fetch_and_release - Atomic and with release ordering
++ * @i: value to AND
++ * @v: pointer of type atomic_t
++ *
++ * Atomically AND @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_and_release(int i, atomic_t *v)
+ {
+@@ -1145,6 +1213,14 @@ arch_atomic_fetch_andnot_acquire(int i, atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_fetch_andnot_release
++/**
++ * arch_atomic_fetch_andnot_release - Atomic andnot with release ordering
++ * @i: value to complement then AND
++ * @v: pointer of type atomic_t
++ *
++ * Atomically complement then AND @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_andnot_release(int i, atomic_t *v)
+ {
+@@ -1195,6 +1271,14 @@ arch_atomic_fetch_or_acquire(int i, atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_fetch_or_release
++/**
++ * arch_atomic_fetch_or_release - Atomic or with release ordering
++ * @i: value to OR
++ * @v: pointer of type atomic_t
++ *
++ * Atomically OR @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_or_release(int i, atomic_t *v)
+ {
+@@ -1245,6 +1329,14 @@ arch_atomic_fetch_xor_acquire(int i, atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_fetch_xor_release
++/**
++ * arch_atomic_fetch_xor_release - Atomic xor with release ordering
++ * @i: value to XOR
++ * @v: pointer of type atomic_t
++ *
++ * Atomically XOR @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_xor_release(int i, atomic_t *v)
+ {
+@@ -1295,6 +1387,14 @@ arch_atomic_xchg_acquire(atomic_t *v, int i)
+ #endif
+ 
+ #ifndef arch_atomic_xchg_release
++/**
++ * arch_atomic_xchg_release - Atomic xchg with release ordering
++ * @v: pointer of type atomic_t
++ * @i: value to exchange
++ *
++ * Atomically exchange @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline int
+ arch_atomic_xchg_release(atomic_t *v, int i)
+ {
+@@ -1349,6 +1449,18 @@ arch_atomic_cmpxchg_acquire(atomic_t *v, int old, int new)
+ #endif
+ 
+ #ifndef arch_atomic_cmpxchg_release
++/**
++ * arch_atomic_cmpxchg_release - Atomic cmpxchg with release ordering
++ * @v: pointer of type atomic_t
++ * @old: desired old value to match
++ * @new: new value to put in
++ *
++ * Atomically compares @new to *@v, and if equal,
++ * stores @new to *@v, providing release ordering.
++ * Returns the old value *@v regardless of the result of
++ * the comparison.  Therefore, if the return value is not
++ * equal to @old, the cmpxchg operation failed.
++ */
+ static __always_inline int
+ arch_atomic_cmpxchg_release(atomic_t *v, int old, int new)
+ {
+@@ -1498,6 +1610,18 @@ arch_atomic_try_cmpxchg_acquire(atomic_t *v, int *old, int new)
+ #endif
+ 
+ #ifndef arch_atomic_try_cmpxchg_release
++/**
++ * arch_atomic_try_cmpxchg_release - Atomic try_cmpxchg with release ordering
++ * @v: pointer of type atomic_t
++ * @old: desired old value to match
++ * @new: new value to put in
++ *
++ * Atomically compares @new to *@v, and if equal,
++ * stores @new to *@v, providing release ordering.
++ * Returns @true if the cmpxchg operation succeeded,
++ * and false otherwise.  Either way, stores the old
++ * value of *@v to *@old.
++ */
+ static __always_inline bool
+ arch_atomic_try_cmpxchg_release(atomic_t *v, int *old, int new)
+ {
+@@ -1672,6 +1796,15 @@ arch_atomic_add_negative_acquire(int i, atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_add_negative_release
++/**
++ * arch_atomic_add_negative_release - Atomic add_negative with release ordering
++ * @i: value to add
++ * @v: pointer of type atomic_t
++ *
++ * Atomically add @i with @v using release ordering.
++ * Return @true if the result is negative, or @false when
++ * the result is greater than or equal to zero.
++ */
+ static __always_inline bool
+ arch_atomic_add_negative_release(int i, atomic_t *v)
+ {
+@@ -1906,6 +2039,14 @@ arch_atomic64_add_return_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_add_return_release
++/**
++ * arch_atomic64_add_return_release - Atomic add with release ordering
++ * @i: value to add
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically add @i to @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline s64
+ arch_atomic64_add_return_release(s64 i, atomic64_t *v)
+ {
+@@ -1956,6 +2097,14 @@ arch_atomic64_fetch_add_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_add_release
++/**
++ * arch_atomic64_fetch_add_release - Atomic add with release ordering
++ * @i: value to add
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically add @i to @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_add_release(s64 i, atomic64_t *v)
+ {
+@@ -2006,6 +2155,14 @@ arch_atomic64_sub_return_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_sub_return_release
++/**
++ * arch_atomic64_sub_return_release - Atomic sub with release ordering
++ * @i: value to subtract
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically subtract @i from @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline s64
+ arch_atomic64_sub_return_release(s64 i, atomic64_t *v)
+ {
+@@ -2056,6 +2213,14 @@ arch_atomic64_fetch_sub_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_sub_release
++/**
++ * arch_atomic64_fetch_sub_release - Atomic sub with release ordering
++ * @i: value to subtract
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically subtract @i from @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_sub_release(s64 i, atomic64_t *v)
+ {
+@@ -2188,6 +2353,13 @@ arch_atomic64_inc_return_acquire(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_inc_return_release
++/**
++ * arch_atomic64_inc_return_release - Atomic inc with release ordering
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically increment @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline s64
+ arch_atomic64_inc_return_release(atomic64_t *v)
+ {
+@@ -2304,6 +2476,13 @@ arch_atomic64_fetch_inc_acquire(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_inc_release
++/**
++ * arch_atomic64_fetch_inc_release - Atomic inc with release ordering
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically increment @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_inc_release(atomic64_t *v)
+ {
+@@ -2436,6 +2615,13 @@ arch_atomic64_dec_return_acquire(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_dec_return_release
++/**
++ * arch_atomic64_dec_return_release - Atomic dec with release ordering
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v using release ordering.
++ * Return new value.
++ */
+ static __always_inline s64
+ arch_atomic64_dec_return_release(atomic64_t *v)
+ {
+@@ -2552,6 +2738,13 @@ arch_atomic64_fetch_dec_acquire(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_dec_release
++/**
++ * arch_atomic64_fetch_dec_release - Atomic dec with release ordering
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_dec_release(atomic64_t *v)
+ {
+@@ -2602,6 +2795,14 @@ arch_atomic64_fetch_and_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_and_release
++/**
++ * arch_atomic64_fetch_and_release - Atomic and with release ordering
++ * @i: value to AND
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically AND @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_and_release(s64 i, atomic64_t *v)
+ {
+@@ -2740,6 +2941,14 @@ arch_atomic64_fetch_andnot_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_andnot_release
++/**
++ * arch_atomic64_fetch_andnot_release - Atomic andnot with release ordering
++ * @i: value to complement then AND
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically complement then AND @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_andnot_release(s64 i, atomic64_t *v)
+ {
+@@ -2790,6 +2999,14 @@ arch_atomic64_fetch_or_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_or_release
++/**
++ * arch_atomic64_fetch_or_release - Atomic or with release ordering
++ * @i: value to OR
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically OR @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_or_release(s64 i, atomic64_t *v)
+ {
+@@ -2840,6 +3057,14 @@ arch_atomic64_fetch_xor_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_xor_release
++/**
++ * arch_atomic64_fetch_xor_release - Atomic xor with release ordering
++ * @i: value to XOR
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically XOR @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_xor_release(s64 i, atomic64_t *v)
+ {
+@@ -2890,6 +3115,14 @@ arch_atomic64_xchg_acquire(atomic64_t *v, s64 i)
+ #endif
+ 
+ #ifndef arch_atomic64_xchg_release
++/**
++ * arch_atomic64_xchg_release - Atomic xchg with release ordering
++ * @v: pointer of type atomic64_t
++ * @i: value to exchange
++ *
++ * Atomically exchange @i with @v using release ordering.
++ * Return old value.
++ */
+ static __always_inline s64
+ arch_atomic64_xchg_release(atomic64_t *v, s64 i)
+ {
+@@ -2944,6 +3177,18 @@ arch_atomic64_cmpxchg_acquire(atomic64_t *v, s64 old, s64 new)
+ #endif
+ 
+ #ifndef arch_atomic64_cmpxchg_release
++/**
++ * arch_atomic64_cmpxchg_release - Atomic cmpxchg with release ordering
++ * @v: pointer of type atomic64_t
++ * @old: desired old value to match
++ * @new: new value to put in
++ *
++ * Atomically compares @new to *@v, and if equal,
++ * stores @new to *@v, providing release ordering.
++ * Returns the old value *@v regardless of the result of
++ * the comparison.  Therefore, if the return value is not
++ * equal to @old, the cmpxchg operation failed.
++ */
+ static __always_inline s64
+ arch_atomic64_cmpxchg_release(atomic64_t *v, s64 old, s64 new)
+ {
+@@ -3093,6 +3338,18 @@ arch_atomic64_try_cmpxchg_acquire(atomic64_t *v, s64 *old, s64 new)
+ #endif
+ 
+ #ifndef arch_atomic64_try_cmpxchg_release
++/**
++ * arch_atomic64_try_cmpxchg_release - Atomic try_cmpxchg with release ordering
++ * @v: pointer of type atomic64_t
++ * @old: desired old value to match
++ * @new: new value to put in
++ *
++ * Atomically compares @new to *@v, and if equal,
++ * stores @new to *@v, providing release ordering.
++ * Returns @true if the cmpxchg operation succeeded,
++ * and false otherwise.  Either way, stores the old
++ * value of *@v to *@old.
++ */
+ static __always_inline bool
+ arch_atomic64_try_cmpxchg_release(atomic64_t *v, s64 *old, s64 new)
+ {
+@@ -3267,6 +3524,15 @@ arch_atomic64_add_negative_acquire(s64 i, atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_add_negative_release
++/**
++ * arch_atomic64_add_negative_release - Atomic add_negative with release ordering
++ * @i: value to add
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically add @i with @v using release ordering.
++ * Return @true if the result is negative, or @false when
++ * the result is greater than or equal to zero.
++ */
+ static __always_inline bool
+ arch_atomic64_add_negative_release(s64 i, atomic64_t *v)
+ {
+@@ -3426,4 +3692,4 @@ arch_atomic64_dec_if_positive(atomic64_t *v)
+ #endif
+ 
+ #endif /* _LINUX_ATOMIC_FALLBACK_H */
+-// a7944792460cf5adb72d49025850800d2cd178be
++// 2caf9e8360f71f3841789431533b32b620a12c1e
+diff --git a/scripts/atomic/fallbacks/release b/scripts/atomic/fallbacks/release
+index b46feb56d69c..bce3a1cbd497 100755
+--- a/scripts/atomic/fallbacks/release
++++ b/scripts/atomic/fallbacks/release
+@@ -1,3 +1,5 @@
++acqrel=release
++. ${ATOMICDIR}/acqrel.sh
+ cat <<EOF
+ static __always_inline ${ret}
+ arch_${atomic}_${pfx}${name}${sfx}_release(${params})
 -- 
 2.40.1
 
