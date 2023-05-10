@@ -2,126 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D51C7EE23
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 03:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D0BC7EE22
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 03:54:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235284AbjEJDrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 23:47:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50294 "EHLO
+        id S235959AbjEJDyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 23:54:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbjEJDrG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 23:47:06 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 114312106
-        for <linux-doc@vger.kernel.org>; Tue,  9 May 2023 20:47:05 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1929818d7faso42137733fac.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 May 2023 20:47:05 -0700 (PDT)
+        with ESMTP id S235642AbjEJDyD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 23:54:03 -0400
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99D1D65AA
+        for <linux-doc@vger.kernel.org>; Tue,  9 May 2023 20:53:39 -0700 (PDT)
+Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-6ab2efc79aeso249119a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 May 2023 20:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1683690424; x=1686282424;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ifGsiDNA4DSRmYfOgUypvWteVU13/UhrU3vLKCdk6uY=;
-        b=gpu59KdBTaV2y1OrztVKMXiHwwwuoI3UpLzcobU/TQ2lpWwCXqfQeLrRAXWEPGtJSt
-         tm1d0OXblLRJdNQRMO2buSn3nl1xIhAN8Kauc/LZVWUMo8CXL0iFI3d6DEDxF1ycqWDw
-         r1rHmplIjra3BgAkeBX8t7EOBIdRohvoIDuRjqlOuvOXLOP6YOeNU2ZpS5MKq642wdhX
-         GfNYlzC0XytTFCaerhonm26O9xJ9/8MhM6sd7/oIFtzgrZQLfmX3yglSVV8N/PhPQkiH
-         i7/Yi2ApjQ0JBdYqdm0OldmwCNu0AoOvfYm4ktvDPD+BwoUqLs1zBdJSVi+IJmJVihcs
-         6wRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683690424; x=1686282424;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=bitbyteword.org; s=google; t=1683690819; x=1686282819;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ifGsiDNA4DSRmYfOgUypvWteVU13/UhrU3vLKCdk6uY=;
-        b=bk9H2ozw/TQ/y9BsNsRiIC4g+OiY2m+HaBYHs9SKYShfHgpqYW6IVoqJLTWnd2ouYO
-         soIwtnPjbaeeL5z2eK+LeT9ioHPK4SFnVyBv8rQMKZPdz3lf928l67TvoBKVVqi/zWio
-         9Vg/8UGKqoldWzStoMO8c7HHWjtDhJ46vAzIBuy1p67WRpsEhwGopkcdPz+bcWsoP8QU
-         5qg9gkXKhX4Q8TP2dHRm/7a9oMWP/96z3oGtA2MzXF4m24AMw2VA+/7lJFOW7+95/N5Z
-         IaYTv+6vCFs0KDrU6dIEbg/p3uu11Sj7IOVlCxT1xznVr+IGhXA6DSRgXI8QGEeIeRyp
-         SVZQ==
-X-Gm-Message-State: AC+VfDwjKcXNFmfzWPaa9zXmuvLGlBAMBAznqAjb3tnMt6KJXsuEIaIX
-        ehShknHWrCSGu71wTDcam7ggymgKt0wb5JRkPdQ=
-X-Google-Smtp-Source: ACHHUZ4YePMDzR3NxPf56dWWs0438cRvarCHuKqCLPxWMl4dytqu+RlEXReFpB+kOAyPzW2K5KhhxQ==
-X-Received: by 2002:a05:6830:6081:b0:6ab:1aa5:1634 with SMTP id by1-20020a056830608100b006ab1aa51634mr2429359otb.10.1683690424388;
-        Tue, 09 May 2023 20:47:04 -0700 (PDT)
-Received: from sunil-laptop ([106.51.189.144])
-        by smtp.gmail.com with ESMTPSA id j16-20020a9d7690000000b006a6558ef17fsm5865716otl.30.2023.05.09.20.46.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 20:47:04 -0700 (PDT)
-Date:   Wed, 10 May 2023 09:16:47 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Weili Qian <qianweili@huawei.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V5 08/21] RISC-V: ACPI: Cache and retrieve the RINTC
- structure
-Message-ID: <ZFsTp/cbuPFauDui@sunil-laptop>
-References: <20230508115237.216337-1-sunilvl@ventanamicro.com>
- <20230508115237.216337-9-sunilvl@ventanamicro.com>
- <20230509-atlantic-writing-3ceea38e050e@spud>
+        bh=TcfrOIdvUuFGebqMil2KCc3m77DT7hwnQo4PHUmoYnA=;
+        b=jFMdyxIusCKNc6XWfdeSgaLqvkxv2kvRPs2db08EZcfhOxW3F/j7Q9zV+1XAIPsPz3
+         dISVfe6zZVNDexzFXCyc2vGJyY0FLfjdMvK6q57o5qNJQfQTDmqlUTGr2jUmCtCRlhUu
+         lpHRlPIZDG4FexVxH/OCJpPLxrY4JHZjPTnx0fG0ZtaROkKRbEfJZeRw4JLo3s9gnjgQ
+         VePs6PfxwBKeFtI6+9HlCqCWjLiIt8WgPNe9Yo7XnFwRqsLqphihMh/ApY3RhCC7z3/T
+         Zw5HnbQBPPO+iwhFtm3LR7S3fu+S+nERxywFGAJRBZvuQrQ8CSJNWCvcT8Y7MTMRBILO
+         i7+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683690819; x=1686282819;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TcfrOIdvUuFGebqMil2KCc3m77DT7hwnQo4PHUmoYnA=;
+        b=KAee+liXH4dRNmGU+M4Y3lHO2MarqGFcYcHOmSXfiIgJedwV+x4mipi2AkKde21P8f
+         cHJ/xhlSgvyHve2+9w5ULnMry6iXdlwDPcX53W12jt+uuSuFGR5RCNAekQAGAjeGlx/n
+         5uAjq2jA0Lf+dc4tFEAfYOI1rBafr1h1qfREopgh4iErFvEbxEKw1kWj3LAj7z+QS++Z
+         bs3+U/E00cLleSsXqHIzKE440e38+u9kDgweh+MpZVtrESTu/Pu0Eq0b0flNfTCi2Bwr
+         CqT1JGvjp+yLe+PHTlo6P0mXcNakTCkY+HHx3v0RGQcV4PO/Kxgonq8H94zhQI2rH0p5
+         mhag==
+X-Gm-Message-State: AC+VfDzJ9ave286EXAZg0sqWriLhmAAqy4e7+XDxIcU+6l/j1o70r047
+        mqY1xJG8C/zRZmBmbgVm/oxVfOxRr06SlB4yB97oKOmohfjCeWLKY+1ueg==
+X-Google-Smtp-Source: ACHHUZ4uUJmP8iooUjOb4xntN3XMSOB6rCYr4hiLzlcFMaZqEEoolUlgGwQv8knC3XQj/DlXR7ceyWpLjtvQ191Go7Y=
+X-Received: by 2002:a9d:75ca:0:b0:6a6:2a83:84f8 with SMTP id
+ c10-20020a9d75ca000000b006a62a8384f8mr2056335otl.38.1683690818928; Tue, 09
+ May 2023 20:53:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230509-atlantic-writing-3ceea38e050e@spud>
+References: <20230508160829.2756405-1-vineeth@bitbyteword.org>
+ <20230509132534.09098acc@luca64> <CAO7JXPhrqKWfsp860rRmEenxARi8U2gNMGsOn4m+aKporWwBcg@mail.gmail.com>
+ <20230509224829.2fb547fd@nowhere> <20230509225417.61d36733@nowhere>
+In-Reply-To: <20230509225417.61d36733@nowhere>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Tue, 9 May 2023 23:53:28 -0400
+Message-ID: <CAO7JXPhk5qbz9kmiu9WuXS+gXCt9+X8pP2c37hd9ChByLmXYjA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sched/deadline: accurate reclaim bandwidth for GRUB
+To:     luca abeni <luca.abeni@santannapisa.it>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Conor,
+On Tue, May 9, 2023 at 4:54=E2=80=AFPM luca abeni <luca.abeni@santannapisa.=
+it> wrote:
 
-On Tue, May 09, 2023 at 06:50:07PM +0100, Conor Dooley wrote:
-> Hey Sunil,
-> 
-> On Mon, May 08, 2023 at 05:22:24PM +0530, Sunil V L wrote:
-> > RINTC structures in the MADT provide mapping between the hartid
-> > and the CPU. This is required many times even at run time like
-> > cpuinfo. So, instead of parsing the ACPI table every time, cache
-> > the RINTC structures and provide a function to get the correct
-> > RINTC structure for a given cpu.
-> > 
-> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> 
-> From this patch until "RISC-V: Add ACPI initialization in
-> setup_arch()" (which is 19/21), the series fails to build.
-> 
-> allmodconfig, clang-16:
-> ../arch/riscv/include/asm/acpi.h:22:23: error: unknown type name 'acpi_physical_address'; did you mean 'efi_physical_addr_t'?
-> ../arch/riscv/include/asm/acpi.h:22:51: error: unknown type name 'acpi_size'
-> 
-> rv32_defconfig, clang-16:
-> arch/riscv/kernel/setup.c:297:7: error: use of undeclared identifier 'acpi_disabled'; did you mean '__cpu_disable'?
-> arch/riscv/kernel/setup.c:297:7: warning: address of function '__cpu_disable' will always evaluate to 'true' [-Wpointer-bool-conversion]
+> > Yes, this is the approximation I was mentioning... Instead of using a
+> > division, I approximated it with a different equation using a sum.
 >
-> I ballsed up a toolchain upgrade to gcc-13, so the whole series is
-> showing build issues on patchwork for the gcc configurations:
-> https://patchwork.kernel.org/project/linux-riscv/list/?series=745787
-> 
-> However, I suspect that the same patches that fail for clang-16 will
-> fail for gcc-13 too, once I have fixed that!
-> 
-My bad. It is a commit order issue. Let me fix it.
+> Sorry, ignore this comment (and the following); I misinterpreted the
+> code (and my old notes).
+>
+> I do not understand why the "max{}" doe not work well, I need to double
+> think about it.
+>
+I was thinking more about this and was doing some more digging into
+this. I was also wrong about min{}. Giving it some more thought, I think
+(U/Umax) is indeed the only equation we need and it will take care
+of caping the reclaiming at Umax. The reason why it was not working
+is because of the loss of precision when we did the inverse. I tried
+replacing (delta * running_bw * bw_ratio) by
+div64_u64(delta * running_bw, Umax) and it worked as expected and
+reclaimed only till Umax with only SCHED_FLAG_RECLAIM tasks. As an
+example a task with reservation (1, 100) and RT capacity 95%, and
+delta =3D 4ms, we get scaled_delta as
+delta * running_bw * bw_ratio ~=3D .040000 (roughly)
+div64_u64(delta * running_bw, Umax) ~=3D .04210526 (roughly)
 
-Thanks!
-Sunil 
+This caused the inverse logic to consume ~99% bw, while the other
+one consumed ~95% as expected.
+
+I still could not figure out why min{} works. As you mentioned in
+the previous thread, its the loss of precision thats the culprit and
+I think we only need U/Umax if we have enough precision. This along
+with accounting for both type of tasks will be the solution.
+
+I will look deeper into any performance issues with using div64_u64
+over multiplication and shall let you know soon.
+
+Thanks,
+Vineeth
