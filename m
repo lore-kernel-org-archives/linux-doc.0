@@ -2,147 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D613C7EE23
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 00:14:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3CCC7EE23
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 01:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbjEJAOL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 20:14:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38150 "EHLO
+        id S235326AbjEJBVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 21:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235140AbjEJAOK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 20:14:10 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61DA010D1;
-        Tue,  9 May 2023 17:14:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683677649; x=1715213649;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=hulJYVB8DZm3nhi56FEUJQG0G5POBNv9VjOvpsYYdI4=;
-  b=UoLFIIBEHebPw4rtV8j6f1zqEF+jMfDNgV1zpN5EagR07QPlKDyj7NAr
-   XEpdT3lhc/TBYtBpvR7Z/R51MgBw8AFOMBJwc7Vwj7n+iNFtWZAV5+c4f
-   otT8VS5GUw+ThH4SjMrjZ3Glofw2h5SyrYu4AULKNp1pqq1+ZimLXy/7n
-   uAY1OnNCOnBEh28Kw3mEw3X63mlO6n/QzP5xYNulMX/nvbmklU6v3B4Lb
-   0CKVdAS9qCa9DE16jmRI13Cs4Mr2bHmpe+CqXbf2vt1PBvpNdHqMfHyJh
-   Q0afXISK5k15Ldvc+jSKk6Ti/wrGIh4NrZTDavc0NwtVjj+TL5GWOmwpl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="348923935"
-X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
-   d="scan'208";a="348923935"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 17:14:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="1028998897"
-X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
-   d="scan'208";a="1028998897"
-Received: from kvnguye3-mobl1.amr.corp.intel.com (HELO [10.212.145.31]) ([10.212.145.31])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 17:14:08 -0700
-Message-ID: <1a1f1f9e-a13b-3d5f-5b30-944bb108af67@linux.intel.com>
-Date:   Tue, 9 May 2023 17:14:00 -0700
+        with ESMTP id S231468AbjEJBVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 21:21:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C29F211B;
+        Tue,  9 May 2023 18:21:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 17658616DA;
+        Wed, 10 May 2023 01:21:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F214DC433EF;
+        Wed, 10 May 2023 01:21:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683681706;
+        bh=T+hNUKAHDe9/ZAR53PM2iZM4RaBimliyI1btNF2Jf4k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WoPGVpnQuUFTlGuKZx2LN+aJQD2+DlIT5gCBC8mO4wyKgGinDHp4aovWaFaYexlKU
+         Y6jnJsD/RGrgxlVqUKFSThnxS4m/bVDvO/cCrR6BFvcypk77gTyAydbmojrnFC/nPy
+         wJzQQ6+mHSe0ggabvV7VKj7YdoFe2TkDI4Pt/oS43WyHFDtzqUp7//ER40IjBXvBgb
+         eg0arAk5eTxvrnprmSO5QzZoHAs8wmVeCwtywD5ubsINReU32BkJZpg0UxCkGn99Z7
+         11LRF/RhTZyO+rgagdAYPyMQygKom5LEW09j7fEMpSq2+s+V4f+YMyyQSbHBDvg0B2
+         h+ZlBQRySDMAQ==
+Date:   Tue, 9 May 2023 18:21:44 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
+        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v6 06/14] x86: Add early SHA support for Secure Launch
+ early measurements
+Message-ID: <20230510012144.GA1851@quark.localdomain>
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-7-ross.philipson@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.0
-Subject: Re: [PATCH v2 0/3] TDX Guest Quote generation support
-Content-Language: en-US
-To:     Erdem Aktas <erdemaktas@google.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Dionna Amalie Glaze <dionnaglaze@google.com>,
-        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230413034108.1902712-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <CAAYXXYyfDyXxHH7Rw-iKMdqT+ymSG5vdGMvQKE8Wm3OSwE9E=Q@mail.gmail.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <CAAYXXYyfDyXxHH7Rw-iKMdqT+ymSG5vdGMvQKE8Wm3OSwE9E=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230504145023.835096-7-ross.philipson@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Erdem,
-
-On 5/9/23 5:10 PM, Erdem Aktas wrote:
-> On Wed, Apr 12, 2023 at 8:42 PM Kuppuswamy Sathyanarayanan
-> <sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
->>
->> Hi All,
->>
->> In TDX guest, the attestation process is used to verify the TDX guest
->> trustworthiness to other entities before provisioning secrets to the
->> guest.
->>
->> The TDX guest attestation process consists of two steps:
->>
->> 1. TDREPORT generation
->> 2. Quote generation.
->>
->> The First step (TDREPORT generation) involves getting the TDX guest
->> measurement data in the format of TDREPORT which is further used to
->> validate the authenticity of the TDX guest. The second step involves
->> sending the TDREPORT to a Quoting Enclave (QE) server to generate a
->> remotely verifiable Quote. TDREPORT by design can only be verified on
->> the local platform. To support remote verification of the TDREPORT,
->> TDX leverages Intel SGX Quoting Enclave to verify the TDREPORT
->> locally and convert it to a remotely verifiable Quote. Although
->> attestation software can use communication methods like TCP/IP or
->> vsock to send the TDREPORT to QE, not all platforms support these
->> communication models. So TDX GHCI specification [1] defines a method
->> for Quote generation via hypercalls. Please check the discussion from
->> Google [2] and Alibaba [3] which clarifies the need for hypercall based
->> Quote generation support. This patch set adds this support.
+On Thu, May 04, 2023 at 02:50:15PM +0000, Ross Philipson wrote:
+> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
 > 
+> The SHA algorithms are necessary to measure configuration information into
+> the TPM as early as possible before using the values. This implementation
+> uses the established approach of #including the SHA libraries directly in
+> the code since the compressed kernel is not uncompressed at this point.
 > 
-> Thanks Kuppuswamy for the v2 of this patch set.
-> I reviewed all  3 patches and it looks good for me and it covers our use cases.
-
-Thanks for the review. I will address other reviewers comments and resubmit v3
-this week. I will include your Reviewed-by in it.
-
+> The SHA code here has its origins in the code from the main kernel:
 > 
->>
->> Support for TDREPORT generation already exists in the TDX guest driver.
->> This patchset extends the same driver to add the Quote generation
->> support.
->>
->> Following are the details of the patch set:
->>
->> Patch 1/3 -> Adds event notification IRQ support.
->> Patch 2/3 -> Adds Quote generation support.
->> Patch 3/3 -> Adds selftest support for Quote generation feature.
->>
->> [1] https://cdrdv2.intel.com/v1/dl/getContent/726790, section titled "TDG.VP.VMCALL<GetQuote>".
->> [2] https://lore.kernel.org/lkml/CAAYXXYxxs2zy_978GJDwKfX5Hud503gPc8=1kQ-+JwG_kA79mg@mail.gmail.com/
->> [3] https://lore.kernel.org/lkml/a69faebb-11e8-b386-d591-dbd08330b008@linux.alibaba.com/
->>
->> Kuppuswamy Sathyanarayanan (3):
->>   x86/tdx: Add TDX Guest event notify interrupt support
->>   virt: tdx-guest: Add Quote generation support
->>   selftests/tdx: Test GetQuote TDX attestation feature
->>
->>  Documentation/virt/coco/tdx-guest.rst        |  11 ++
->>  arch/x86/coco/tdx/tdx.c                      | 196 +++++++++++++++++++
->>  arch/x86/include/asm/tdx.h                   |   8 +
->>  drivers/virt/coco/tdx-guest/tdx-guest.c      | 168 +++++++++++++++-
->>  include/uapi/linux/tdx-guest.h               |  43 ++++
->>  tools/testing/selftests/tdx/tdx_guest_test.c |  68 ++++++-
->>  6 files changed, 487 insertions(+), 7 deletions(-)
->>
->> --
->> 2.34.1
->>
+> commit c4d5b9ffa31f ("crypto: sha1 - implement base layer for SHA-1")
+> 
+> That code could not be pulled directly into the setup portion of the
+> compressed kernel because of other dependencies it pulls in. The result
+> is this is a modified copy of that code that still leverages the core
+> SHA algorithms.
+> 
+> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+SHA-1 is insecure.  Why are you still using SHA-1?  Don't TPMs support SHA-2
+now?
+
+And if you absolutely MUST use SHA-1 despite it being insecure, please at least
+don't obfuscate it by calling it simply "SHA".
+
+- Eric
