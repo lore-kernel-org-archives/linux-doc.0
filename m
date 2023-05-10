@@ -2,148 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9FAFC7EE22
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 03:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FC6C7EE24
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 04:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235999AbjEJDzx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 23:55:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53282 "EHLO
+        id S230408AbjEJE3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 00:29:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235893AbjEJDzF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 23:55:05 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B8C5FC1;
-        Tue,  9 May 2023 20:54:36 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-64115eef620so47259750b3a.1;
-        Tue, 09 May 2023 20:54:36 -0700 (PDT)
+        with ESMTP id S229468AbjEJE3x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 00:29:53 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 761BF2D54;
+        Tue,  9 May 2023 21:29:52 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1aaf21bb427so48597025ad.1;
+        Tue, 09 May 2023 21:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683690876; x=1686282876;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RrruFyLLgJJMJgx5u7sEynKf36MmMk0i/j9iaoKs+9E=;
-        b=A/r04JqUZep5KvkgYVpgT8GvIxTLL5xMq1m8jz2fbJMyc+Tn2NeK9zK2UVsyuf//pD
-         HXe1n1zUJBeIZ3kpjMTJ6U05UNQM4Cfj+1dneYS17EnMZDhSuWDRHMwGeYuVna2DnUHC
-         UZ1SFrvKwb7XFnpOeNT8ihdfvN/MEYhlumRqMRecTPSaAcngngthUEVAf5j7ccZrD6LP
-         5ImyIzG+XVb7gUeb2nj/+tO0Pj1bCHZP5HPfZQVhMELFQ3S6y9vxq3QPu9zuOoqon18C
-         GOgoyafz7hJl0mRaHdWUqsSs8jw17iJtH1Iq9gCMk5CNt6Bmba7CnyDRxdne8NXmhKS7
-         3CVA==
+        d=gmail.com; s=20221208; t=1683692992; x=1686284992;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/aM5NY/KUHqYL9w0DdOz9GTnXa2GoHiTuTmams40J5o=;
+        b=mIUX+1c8zSq1vIBaZknShJh4FlsjYTJ8mB8GwjIyTezZGY3MDERW6xFJCHcGtv737r
+         CCsvlVd1moMaNpwtMj1LK+go8Edf5erddvNynXI4FZl93uWPCEIcjGhI1q3GkQDA0B63
+         4VXGplEN2mABJaeCAx+LrZGU4fjrBeIzl8RV4wFPr3CPdMamJl0oeTA47/wDLVfdOvWZ
+         FsCAo8ZNR6XfsHuEcWDNy6KKayZLGs8c79uNY9R0/cj/EO+02I4mxKn+mDYOV7/agcRj
+         deGJWGawp3PGVgQYfGdsq50EQAU1IGHNmYdQrbc3EeAfmU3Hwbxm0c5lxDSpfsvaftLF
+         58mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683690876; x=1686282876;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RrruFyLLgJJMJgx5u7sEynKf36MmMk0i/j9iaoKs+9E=;
-        b=UCbwO1h+CcnW9Fx+JW9joyKsmNXsR76CGy0VwbIRXw0jB9cLNaKlkWNPwKuurR+m2i
-         Mvvl+i000VPK03rqCwqvA6DReWsP4e8yXoYbEmcBqV/gLx2jxCC5gSPL7uCEsWs/XF3L
-         P/COOfApelF2IQfETpQfr7mN6JnYr6kaFOSg/WI8LEEE+dA9tl1B0nf/SqYuZ9OaLzQV
-         oCBMxgz9sxDSJjEBKwjhIwAbpnIdZ8mHe9LO5szAjfJsoqL1CL65roH9MeqVh6+/q/rA
-         48RELz8k3mEZc/yC7nc9MdfOahCDg6mPF4lIIuYbQjM+QTk+z/kX4CLEBtiWw0Vup1vw
-         XVhQ==
-X-Gm-Message-State: AC+VfDy35r/7a6zRZz6JHocfrzPrdwpVE/M2LwPEW+IHYJ3kFpla0LO4
-        TnWNjFTNoNoPmS523adWZ94=
-X-Google-Smtp-Source: ACHHUZ5yOZmYLWXZY122w/MJgciElXT98GlE1D13KqOurL+OEM0S8WnDY2Fsm3I+elnnfuSIjch1fQ==
-X-Received: by 2002:a17:902:e848:b0:1a9:5674:281c with SMTP id t8-20020a170902e84800b001a95674281cmr21389486plg.23.1683690876007;
-        Tue, 09 May 2023 20:54:36 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-21.three.co.id. [116.206.28.21])
-        by smtp.gmail.com with ESMTPSA id h11-20020a170902b94b00b00194d14d8e54sm2491291pls.96.2023.05.09.20.54.34
+        d=1e100.net; s=20221208; t=1683692992; x=1686284992;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/aM5NY/KUHqYL9w0DdOz9GTnXa2GoHiTuTmams40J5o=;
+        b=GNJPEJsdr82BiP4iqn873eJi2ZgKbnO7kj+PQbWjvWozBrtP6god6aDOJSrJ0Baxp5
+         fWz1D45Ai0iEqXsA81bOmA9zxf24E9K28A89rDsHVMOvWS0a+bAZ2NboQOyogsFrWwDf
+         Due4cjhNDDFVNrqYbeh+E5FYr2M/1/AyoPXfHlU6EEhJJN9HW9EShzFdbbJmZYd1slw6
+         a4xpuQaGM4NYhSd1Kr1Q/GPhg6xzK4wt2CnGcj7llmt9mrvAp/kibulm4tn1I2GHfTRo
+         IG5Z2l0jqhm1aJtV/aCgSGzvHOVKbwnTNtUsgG32icczVwpkKCpQhfbF3zQefxdhBDVu
+         yKpg==
+X-Gm-Message-State: AC+VfDyVfllJaiTTqO8KzQwB2f7igr33cxteMk3lcUPLhVE+m0jE7cED
+        503TzmETFINgpwScluzp1SY=
+X-Google-Smtp-Source: ACHHUZ5JpzVIN/DIs7qJBXKKpwABHf20uqh5yBLrXKfwPc64fJKRXs3HZO4pKmEoTFgaLV2jXH/5Qw==
+X-Received: by 2002:a17:902:ecc6:b0:1ac:6153:50b1 with SMTP id a6-20020a170902ecc600b001ac615350b1mr14634154plh.39.1683692991790;
+        Tue, 09 May 2023 21:29:51 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-2.three.co.id. [116.206.28.2])
+        by smtp.gmail.com with ESMTPSA id 21-20020a170902c21500b001ab13f1fa82sm2545706pll.85.2023.05.09.21.29.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 20:54:34 -0700 (PDT)
+        Tue, 09 May 2023 21:29:51 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 109A4106868; Wed, 10 May 2023 10:54:29 +0700 (WIB)
+        id 4C54E106AA3; Wed, 10 May 2023 11:29:48 +0700 (WIB)
+Date:   Wed, 10 May 2023 11:29:48 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Networking <netdev@vger.kernel.org>,
-        Remote Direct Memory Access Kernel Subsystem 
-        <linux-rdma@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Gal Pressman <gal@nvidia.com>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-        Maher Sanalla <msanalla@nvidia.com>,
-        Moshe Shemesh <moshe@nvidia.com>,
-        Tariq Toukan <tariqt@nvidia.com>,
-        Leon Romanovsky <leonro@nvidia.com>
-Subject: [PATCH net v2 2/4] Documentation: net/mlx5: Use bullet and definition lists for vnic counters description
-Date:   Wed, 10 May 2023 10:54:13 +0700
-Message-Id: <20230510035415.16956-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230510035415.16956-1-bagasdotme@gmail.com>
-References: <20230510035415.16956-1-bagasdotme@gmail.com>
+To:     Hao Zhang <quic_hazha@quicinc.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] Documentation: trace: Add documentation for
+ Coresight Dummy Trace
+Message-ID: <ZFsdvCuTTEkTm9VA@debian.me>
+References: <20230422073714.38844-1-quic_hazha@quicinc.com>
+ <20230422073714.38844-4-quic_hazha@quicinc.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2777; i=bagasdotme@gmail.com; h=from:subject; bh=NEIhd+5K/G8nrmt5Y9QAggc3+/Jm4hr2uEYbbziVrlI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCnRomnsljt3uUY2G63fmvDDwshZ+0OIqOSfkLxckXd7m y7OeWPbUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgInwH2D4Z1bzqPd12GzbnWd3 u+fOcUiTN2iLPnlnbq/W7UubWrPXzWJk6J/jxPhUYxXjnmf2vrpKCdPPBDs+riq2P960q/TEirX TeAE=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="e2+brUqtxyUTcWFS"
+Content-Disposition: inline
+In-Reply-To: <20230422073714.38844-4-quic_hazha@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"vnic reporter" section contains unformatted description for vnic
-counters, which is rendered as one long paragraph instead of list.
 
-Use bullet and definition lists to match other lists.
+--e2+brUqtxyUTcWFS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: b0bc615df488ab ("net/mlx5: Add vnic devlink health reporter to PFs/VFs")
-Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- .../ethernet/mellanox/mlx5/devlink.rst        | 36 ++++++++++---------
- 1 file changed, 20 insertions(+), 16 deletions(-)
+On Sat, Apr 22, 2023 at 03:37:14PM +0800, Hao Zhang wrote:
+> +Introduction
+> +---------------------------
+> +
+> +Coresight Dummy Trace Module is for the specific devices that kernel
+> +don't have permission to access or configure, e.g., CoreSight TPDMs
+> +on Qualcomm platforms. So there need driver to register dummy devices
+> +as Coresight devices. It may also be used to define components that
+> +may not have any programming interfaces (e.g, static links), so that
+> +paths can be established in the driver. Provide Coresight API for
+> +dummy device operations, such as enabling and disabling dummy devices.
+> +Build the Coresight path for dummy sink or dummy source for debugging.
+> +
+> +Config details
+> +---------------------------
+> +
+> +There are two types of nodes, dummy sink and dummy source. The nodes
+> +should be observed at the below coresight path::
+> +
+> +    ``/sys/bus/coresight/devices``.
+> +
+> +e.g.::
+> +
+> +    / $ ls -l /sys/bus/coresight/devices | grep dummy
+> +    dummy0 -> ../../../devices/platform/soc@0/soc@0:dummy_source/dummy0
+> +    dummy1 -> ../../../devices/platform/soc@0/soc@0:dummy_sink/dummy1
 
-diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst
-index 0f0598caea145f..00687425d8b72d 100644
---- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst
-+++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst
-@@ -265,22 +265,26 @@ It is responsible for querying the vnic diagnostic counters from fw and displayi
- them in realtime.
- 
- Description of the vnic counters:
--total_q_under_processor_handle: number of queues in an error state due to
--an async error or errored command.
--send_queue_priority_update_flow: number of QP/SQ priority/SL update
--events.
--cq_overrun: number of times CQ entered an error state due to an
--overflow.
--async_eq_overrun: number of times an EQ mapped to async events was
--overrun.
--comp_eq_overrun: number of times an EQ mapped to completion events was
--overrun.
--quota_exceeded_command: number of commands issued and failed due to quota
--exceeded.
--invalid_command: number of commands issued and failed dues to any reason
--other than quota exceeded.
--nic_receive_steering_discard: number of packets that completed RX flow
--steering but were discarded due to a mismatch in flow table.
-+
-+- total_q_under_processor_handle
-+        number of queues in an error state due to
-+        an async error or errored command.
-+- send_queue_priority_update_flow
-+        number of QP/SQ priority/SL update events.
-+- cq_overrun
-+        number of times CQ entered an error state due to an overflow.
-+- async_eq_overrun
-+        number of times an EQ mapped to async events was overrun.
-+        comp_eq_overrun number of times an EQ mapped to completion events was
-+        overrun.
-+- quota_exceeded_command
-+        number of commands issued and failed due to quota exceeded.
-+- invalid_command
-+        number of commands issued and failed dues to any reason other than quota
-+        exceeded.
-+- nic_receive_steering_discard
-+        number of packets that completed RX flow
-+        steering but were discarded due to a mismatch in flow table.
- 
- User commands examples:
- 
--- 
+The wording confuses me, so I have to make the improv:
+
+---- >8 ----
+diff --git a/Documentation/trace/coresight/coresight-dummy.rst b/Documentat=
+ion/trace/coresight/coresight-dummy.rst
+index 7cb59f080c8892..f0a92669288b0c 100644
+--- a/Documentation/trace/coresight/coresight-dummy.rst
++++ b/Documentation/trace/coresight/coresight-dummy.rst
+@@ -8,27 +8,25 @@ Coresight Dummy Trace Module
+     :Date:     May 2023
+=20
+ Introduction
+----------------------------
++------------
+=20
+-Coresight Dummy Trace Module is for the specific devices that kernel
+-don't have permission to access or configure, e.g., CoreSight TPDMs
+-on Qualcomm platforms. So there need driver to register dummy devices
+-as Coresight devices. It may also be used to define components that
+-may not have any programming interfaces (e.g, static links), so that
+-paths can be established in the driver. Provide Coresight API for
+-dummy device operations, such as enabling and disabling dummy devices.
+-Build the Coresight path for dummy sink or dummy source for debugging.
++The Coresight dummy trace module is for the specific devices that kernel d=
+on't
++have permission to access or configure, e.g., CoreSight TPDMs on Qualcomm
++platforms. For these devices, a dummy driver is needed to register them as
++Coresight devices. The module may also be used to define components that m=
+ay
++not have any programming interfaces (e.g, static links), so that paths can=
+ be
++created in the driver. It provides Coresight API for operations on dummy
++devices, such as enabling and disabling them. It also provides the Coresig=
+ht
++dummy sink/source paths for debugging.
+=20
+ Config details
+----------------------------
++--------------
+=20
+-There are two types of nodes, dummy sink and dummy source. The nodes
+-should be observed at the below coresight path::
++There are two types of nodes, dummy sink and dummy source. These nodes
++are available at ``/sys/bus/coresight/devices``.
+=20
+-    ``/sys/bus/coresight/devices``.
++Example output::
+=20
+-e.g.::
+-
+-    / $ ls -l /sys/bus/coresight/devices | grep dummy
++    $ ls -l /sys/bus/coresight/devices | grep dummy
+     dummy_sink0 -> ../../../devices/platform/soc@0/soc@0:sink/dummy_sink0
+     dummy_source0 -> ../../../devices/platform/soc@0/soc@0:source/dummy_so=
+urce0
+
+Thanks.
+
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--e2+brUqtxyUTcWFS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFsduAAKCRD2uYlJVVFO
+o2TjAQDYYZqIoZ6+z7SOd233T+YD4aMEAQt5d3y8eqQjHBnsGgD9ELC02YzoibPW
+QS5ra91ddWiO98Yu1l05a8zSZPt0DQI=
+=vhHp
+-----END PGP SIGNATURE-----
+
+--e2+brUqtxyUTcWFS--
