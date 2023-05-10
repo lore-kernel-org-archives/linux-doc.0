@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E64C77B7D
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 045D3C77B7D
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:18:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbjEJSR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 14:17:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54472 "EHLO
+        id S236082AbjEJSSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 14:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232680AbjEJSRr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:17:47 -0400
+        with ESMTP id S236102AbjEJSSF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:18:05 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450C87698;
-        Wed, 10 May 2023 11:17:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C76307AA5;
+        Wed, 10 May 2023 11:17:46 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1468F63F84;
-        Wed, 10 May 2023 18:17:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B39EC4339E;
-        Wed, 10 May 2023 18:17:19 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2CA5663F7D;
+        Wed, 10 May 2023 18:17:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F1E7C4339C;
+        Wed, 10 May 2023 18:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683742639;
-        bh=zZ3XxzsBzG+T4eWG6R7cIa9XtqUZca0NtqY/PyOE+Z4=;
+        s=k20201202; t=1683742644;
+        bh=FJU5RCiZpCrQOcJ2eziBcfOGyF3Kln3b8QgDAQjPb0s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=swv48Cj1DjA/SiutaZI0kAPe3JBqdZVJj69UGOZftIExWF3qhIZqkZZOAWh83vSO5
-         a9VP3DvFqvvpszxK0GiRuAGbaYBGKDXTI1NgoT2E0evA4PrbQiG1ozJMO7Ep402ILQ
-         /QThqrF6oNUKKHgIuk/NNVpJNaRir0ME6MHVpGF47m3LQOs3pnJdATnP++cBUELZ5D
-         5kt8v2dA4BU7ImSHvZBuG9jafj6ActIPAMgD2tFopWFNI9178lIUnQulcvNbqjK379
-         L3G303Nx+P6o8NADwMIOlb38RgN00GmSYIJOQxdVhChEdTQ/cqg/mPojGhXax7TtNG
-         d8eQSA+Nxmv2A==
+        b=YsOXDi3wcldqoNlczsWnUe0VqUlSDba9kRlBkTjBNyD5GfWBuPsQ6GMqNIy3ZxO73
+         Fofi/sB282sOwraaAHmdPVfVYdRYGRJErdiEFiDEL7dus4SnzmP9C24g5YF10XAPc9
+         Q3zVOE9TdfIQDdH8pPduLG6Bk5uqP1evwK+U9fjrKdMW0oHUnS46EsbSt7z1XbaciT
+         vW7LaqDpej4orDgfHVFIemJoyvJzWD74aTacJHOiZ7c8POxIpSqeugknoZSPD7ibt5
+         JoXltZkq1O2tmZIoUpH9RUSJJKdNmCY7q8pFu1pyY9EeGfZglkS60RYU7mD8JSnmrT
+         pVP8EKLCbsziQ==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id D89F7CE1400; Wed, 10 May 2023 11:17:18 -0700 (PDT)
+        id E537DCE1C80; Wed, 10 May 2023 11:17:18 -0700 (PDT)
 From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
@@ -41,9 +41,9 @@ Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH locking/atomic 04/19] locking/atomic: Add kernel-doc header for arch_${atomic}_${pfx}inc${sfx}${order}
-Date:   Wed, 10 May 2023 11:17:02 -0700
-Message-Id: <20230510181717.2200934-4-paulmck@kernel.org>
+Subject: [PATCH locking/atomic 09/19] locking/atomic: Add kernel-doc header for arch_${atomic}_dec_unless_positive
+Date:   Wed, 10 May 2023 11:17:07 -0700
+Message-Id: <20230510181717.2200934-9-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
 References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
@@ -53,7 +53,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add kernel-doc header template for arch_${atomic}_${pfx}inc${sfx}${order}
+Add kernel-doc header template for arch_${atomic}_dec_unless_positive
 function family.
 
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
@@ -62,287 +62,66 @@ Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 ---
- include/linux/atomic/atomic-arch-fallback.h | 128 +++++++++++++++++++-
- scripts/atomic/fallbacks/inc                |   7 ++
- 2 files changed, 134 insertions(+), 1 deletion(-)
+ include/linux/atomic/atomic-arch-fallback.h  | 18 +++++++++++++++++-
+ scripts/atomic/fallbacks/dec_unless_positive |  8 ++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/atomic/atomic-arch-fallback.h b/include/linux/atomic/atomic-arch-fallback.h
-index 606be9d3aa22..e7e83f18d192 100644
+index 4d4d94925cb0..e6c7356d5dfc 100644
 --- a/include/linux/atomic/atomic-arch-fallback.h
 +++ b/include/linux/atomic/atomic-arch-fallback.h
-@@ -440,6 +440,13 @@ arch_atomic_fetch_sub(int i, atomic_t *v)
- #endif /* arch_atomic_fetch_sub_relaxed */
+@@ -1625,6 +1625,14 @@ arch_atomic_inc_unless_negative(atomic_t *v)
+ #endif
  
- #ifndef arch_atomic_inc
+ #ifndef arch_atomic_dec_unless_positive
 +/**
-+ * arch_atomic_inc - Atomic increment
++ * arch_atomic_dec_unless_positive - Atomic decrement if old value is non-positive
 + * @v: pointer of type atomic_t
 + *
-+ * Atomically increment @v with full ordering,
-+ * returning no value.
++ * Atomically decrement @v, but only if the original value is less
++ * than or equal to zero.  Return @true if the decrement happened and
++ * @false otherwise.
 + */
- static __always_inline void
- arch_atomic_inc(atomic_t *v)
+ static __always_inline bool
+ arch_atomic_dec_unless_positive(atomic_t *v)
  {
-@@ -456,6 +463,13 @@ arch_atomic_inc(atomic_t *v)
- #endif /* arch_atomic_inc_return */
- 
- #ifndef arch_atomic_inc_return
-+/**
-+ * arch_atomic_inc_return - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with full ordering,
-+ * returning new value.
-+ */
- static __always_inline int
- arch_atomic_inc_return(atomic_t *v)
- {
-@@ -465,6 +479,13 @@ arch_atomic_inc_return(atomic_t *v)
+@@ -3057,6 +3065,14 @@ arch_atomic64_inc_unless_negative(atomic64_t *v)
  #endif
  
- #ifndef arch_atomic_inc_return_acquire
+ #ifndef arch_atomic64_dec_unless_positive
 +/**
-+ * arch_atomic_inc_return_acquire - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with acquire ordering,
-+ * returning new value.
-+ */
- static __always_inline int
- arch_atomic_inc_return_acquire(atomic_t *v)
- {
-@@ -474,6 +495,13 @@ arch_atomic_inc_return_acquire(atomic_t *v)
- #endif
- 
- #ifndef arch_atomic_inc_return_release
-+/**
-+ * arch_atomic_inc_return_release - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with release ordering,
-+ * returning new value.
-+ */
- static __always_inline int
- arch_atomic_inc_return_release(atomic_t *v)
- {
-@@ -483,6 +511,13 @@ arch_atomic_inc_return_release(atomic_t *v)
- #endif
- 
- #ifndef arch_atomic_inc_return_relaxed
-+/**
-+ * arch_atomic_inc_return_relaxed - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with no ordering,
-+ * returning new value.
-+ */
- static __always_inline int
- arch_atomic_inc_return_relaxed(atomic_t *v)
- {
-@@ -537,6 +572,13 @@ arch_atomic_inc_return(atomic_t *v)
- #endif /* arch_atomic_fetch_inc */
- 
- #ifndef arch_atomic_fetch_inc
-+/**
-+ * arch_atomic_fetch_inc - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with full ordering,
-+ * returning old value.
-+ */
- static __always_inline int
- arch_atomic_fetch_inc(atomic_t *v)
- {
-@@ -546,6 +588,13 @@ arch_atomic_fetch_inc(atomic_t *v)
- #endif
- 
- #ifndef arch_atomic_fetch_inc_acquire
-+/**
-+ * arch_atomic_fetch_inc_acquire - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with acquire ordering,
-+ * returning old value.
-+ */
- static __always_inline int
- arch_atomic_fetch_inc_acquire(atomic_t *v)
- {
-@@ -555,6 +604,13 @@ arch_atomic_fetch_inc_acquire(atomic_t *v)
- #endif
- 
- #ifndef arch_atomic_fetch_inc_release
-+/**
-+ * arch_atomic_fetch_inc_release - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with release ordering,
-+ * returning old value.
-+ */
- static __always_inline int
- arch_atomic_fetch_inc_release(atomic_t *v)
- {
-@@ -564,6 +620,13 @@ arch_atomic_fetch_inc_release(atomic_t *v)
- #endif
- 
- #ifndef arch_atomic_fetch_inc_relaxed
-+/**
-+ * arch_atomic_fetch_inc_relaxed - Atomic increment
-+ * @v: pointer of type atomic_t
-+ *
-+ * Atomically increment @v with no ordering,
-+ * returning old value.
-+ */
- static __always_inline int
- arch_atomic_fetch_inc_relaxed(atomic_t *v)
- {
-@@ -1656,6 +1719,13 @@ arch_atomic64_fetch_sub(s64 i, atomic64_t *v)
- #endif /* arch_atomic64_fetch_sub_relaxed */
- 
- #ifndef arch_atomic64_inc
-+/**
-+ * arch_atomic64_inc - Atomic increment
++ * arch_atomic64_dec_unless_positive - Atomic decrement if old value is non-positive
 + * @v: pointer of type atomic64_t
 + *
-+ * Atomically increment @v with full ordering,
-+ * returning no value.
++ * Atomically decrement @v, but only if the original value is less
++ * than or equal to zero.  Return @true if the decrement happened and
++ * @false otherwise.
 + */
- static __always_inline void
- arch_atomic64_inc(atomic64_t *v)
+ static __always_inline bool
+ arch_atomic64_dec_unless_positive(atomic64_t *v)
  {
-@@ -1672,6 +1742,13 @@ arch_atomic64_inc(atomic64_t *v)
- #endif /* arch_atomic64_inc_return */
- 
- #ifndef arch_atomic64_inc_return
-+/**
-+ * arch_atomic64_inc_return - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with full ordering,
-+ * returning new value.
-+ */
- static __always_inline s64
- arch_atomic64_inc_return(atomic64_t *v)
- {
-@@ -1681,6 +1758,13 @@ arch_atomic64_inc_return(atomic64_t *v)
- #endif
- 
- #ifndef arch_atomic64_inc_return_acquire
-+/**
-+ * arch_atomic64_inc_return_acquire - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with acquire ordering,
-+ * returning new value.
-+ */
- static __always_inline s64
- arch_atomic64_inc_return_acquire(atomic64_t *v)
- {
-@@ -1690,6 +1774,13 @@ arch_atomic64_inc_return_acquire(atomic64_t *v)
- #endif
- 
- #ifndef arch_atomic64_inc_return_release
-+/**
-+ * arch_atomic64_inc_return_release - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with release ordering,
-+ * returning new value.
-+ */
- static __always_inline s64
- arch_atomic64_inc_return_release(atomic64_t *v)
- {
-@@ -1699,6 +1790,13 @@ arch_atomic64_inc_return_release(atomic64_t *v)
- #endif
- 
- #ifndef arch_atomic64_inc_return_relaxed
-+/**
-+ * arch_atomic64_inc_return_relaxed - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with no ordering,
-+ * returning new value.
-+ */
- static __always_inline s64
- arch_atomic64_inc_return_relaxed(atomic64_t *v)
- {
-@@ -1753,6 +1851,13 @@ arch_atomic64_inc_return(atomic64_t *v)
- #endif /* arch_atomic64_fetch_inc */
- 
- #ifndef arch_atomic64_fetch_inc
-+/**
-+ * arch_atomic64_fetch_inc - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with full ordering,
-+ * returning old value.
-+ */
- static __always_inline s64
- arch_atomic64_fetch_inc(atomic64_t *v)
- {
-@@ -1762,6 +1867,13 @@ arch_atomic64_fetch_inc(atomic64_t *v)
- #endif
- 
- #ifndef arch_atomic64_fetch_inc_acquire
-+/**
-+ * arch_atomic64_fetch_inc_acquire - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with acquire ordering,
-+ * returning old value.
-+ */
- static __always_inline s64
- arch_atomic64_fetch_inc_acquire(atomic64_t *v)
- {
-@@ -1771,6 +1883,13 @@ arch_atomic64_fetch_inc_acquire(atomic64_t *v)
- #endif
- 
- #ifndef arch_atomic64_fetch_inc_release
-+/**
-+ * arch_atomic64_fetch_inc_release - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with release ordering,
-+ * returning old value.
-+ */
- static __always_inline s64
- arch_atomic64_fetch_inc_release(atomic64_t *v)
- {
-@@ -1780,6 +1899,13 @@ arch_atomic64_fetch_inc_release(atomic64_t *v)
- #endif
- 
- #ifndef arch_atomic64_fetch_inc_relaxed
-+/**
-+ * arch_atomic64_fetch_inc_relaxed - Atomic increment
-+ * @v: pointer of type atomic64_t
-+ *
-+ * Atomically increment @v with no ordering,
-+ * returning old value.
-+ */
- static __always_inline s64
- arch_atomic64_fetch_inc_relaxed(atomic64_t *v)
- {
-@@ -2668,4 +2794,4 @@ arch_atomic64_dec_if_positive(atomic64_t *v)
+@@ -3100,4 +3116,4 @@ arch_atomic64_dec_if_positive(atomic64_t *v)
  #endif
  
  #endif /* _LINUX_ATOMIC_FALLBACK_H */
--// e914194a1a82dfbc39d4d1c79ce1f59f64fb37da
-+// 17cefb0ff9b450685d4072202d4a1c309b0606c2
-diff --git a/scripts/atomic/fallbacks/inc b/scripts/atomic/fallbacks/inc
-index 3c2c3739169e..3f2c0730cd0c 100755
---- a/scripts/atomic/fallbacks/inc
-+++ b/scripts/atomic/fallbacks/inc
-@@ -1,4 +1,11 @@
+-// c7041896e7e66a52d8005ba021f3b3b05f99bcb3
++// 225b2fe3eb6bbe34729abed7a856b91abc8d434e
+diff --git a/scripts/atomic/fallbacks/dec_unless_positive b/scripts/atomic/fallbacks/dec_unless_positive
+index c531d5afecc4..c3d01d201c63 100755
+--- a/scripts/atomic/fallbacks/dec_unless_positive
++++ b/scripts/atomic/fallbacks/dec_unless_positive
+@@ -1,4 +1,12 @@
  cat <<EOF
 +/**
-+ * arch_${atomic}_${pfx}inc${sfx}${order} - Atomic increment
++ * arch_${atomic}_dec_unless_positive - Atomic decrement if old value is non-positive
 + * @v: pointer of type ${atomic}_t
 + *
-+ * Atomically increment @v with ${docbook_order} ordering,
-+ * returning ${docbook_oldnew} value.
++ * Atomically decrement @v, but only if the original value is less
++ * than or equal to zero.  Return @true if the decrement happened and
++ * @false otherwise.
 + */
- static __always_inline ${ret}
- arch_${atomic}_${pfx}inc${sfx}${order}(${atomic}_t *v)
+ static __always_inline bool
+ arch_${atomic}_dec_unless_positive(${atomic}_t *v)
  {
 -- 
 2.40.1
