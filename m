@@ -2,84 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3CCC7EE23
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 01:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6440C77B75
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 02:29:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235326AbjEJBVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 May 2023 21:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
+        id S230406AbjEJC3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 May 2023 22:29:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231468AbjEJBVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 21:21:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C29F211B;
-        Tue,  9 May 2023 18:21:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 17658616DA;
-        Wed, 10 May 2023 01:21:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F214DC433EF;
-        Wed, 10 May 2023 01:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683681706;
-        bh=T+hNUKAHDe9/ZAR53PM2iZM4RaBimliyI1btNF2Jf4k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WoPGVpnQuUFTlGuKZx2LN+aJQD2+DlIT5gCBC8mO4wyKgGinDHp4aovWaFaYexlKU
-         Y6jnJsD/RGrgxlVqUKFSThnxS4m/bVDvO/cCrR6BFvcypk77gTyAydbmojrnFC/nPy
-         wJzQQ6+mHSe0ggabvV7VKj7YdoFe2TkDI4Pt/oS43WyHFDtzqUp7//ER40IjBXvBgb
-         eg0arAk5eTxvrnprmSO5QzZoHAs8wmVeCwtywD5ubsINReU32BkJZpg0UxCkGn99Z7
-         11LRF/RhTZyO+rgagdAYPyMQygKom5LEW09j7fEMpSq2+s+V4f+YMyyQSbHBDvg0B2
-         h+ZlBQRySDMAQ==
-Date:   Tue, 9 May 2023 18:21:44 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Ross Philipson <ross.philipson@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, ardb@kernel.org, mjg59@srcf.ucam.org,
-        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
-        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
-        trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v6 06/14] x86: Add early SHA support for Secure Launch
- early measurements
-Message-ID: <20230510012144.GA1851@quark.localdomain>
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-7-ross.philipson@oracle.com>
+        with ESMTP id S229524AbjEJC3V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 May 2023 22:29:21 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 783CCE72;
+        Tue,  9 May 2023 19:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=T8FKbCPqrrTsC9F/hyGOUQ1c7+51ALcmnXApedywojQ=; b=2PjAr0P87iCl1VEqIl1RGRON2B
+        3msuumEG2YiMub93rkzKVrCqsTxIUJhg/DUuvxNYvaqsdY7x/Uah9uT8OecfDHeQ8Wd9swcIg4JqW
+        tWrMpG3QS1PwSw+Cqc05rUpwxdXYMeUCRvTHLH5FwQ65nh56HKsutbJBq7F3ISIpSMj80FZN7xNC5
+        M1PlyPACWkJb8iKP3+R4IxqNXojJ1/I1vy2umF8mAu8h3uBRp7Yl2lUlUp+0j/HNOeNouIcI1B+G6
+        hx7MLdPKWYUPzS955mxzlFfcfAGtc/V/OPZeLZ0p7pFdr/Z82nf3+5a6+bz5etxsrUhV6m5CeAiqb
+        Yibqc0LQ==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pwZZr-004m54-2Y;
+        Wed, 10 May 2023 02:29:15 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     netdev@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Martin Schiller <ms@dev.tdt.de>, linux-x25@vger.kernel.org
+Subject: [PATCH] docs: networking: fix x25-iface.rst heading & index order
+Date:   Tue,  9 May 2023 19:29:14 -0700
+Message-Id: <20230510022914.2230-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230504145023.835096-7-ross.philipson@oracle.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 04, 2023 at 02:50:15PM +0000, Ross Philipson wrote:
-> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-> 
-> The SHA algorithms are necessary to measure configuration information into
-> the TPM as early as possible before using the values. This implementation
-> uses the established approach of #including the SHA libraries directly in
-> the code since the compressed kernel is not uncompressed at this point.
-> 
-> The SHA code here has its origins in the code from the main kernel:
-> 
-> commit c4d5b9ffa31f ("crypto: sha1 - implement base layer for SHA-1")
-> 
-> That code could not be pulled directly into the setup portion of the
-> compressed kernel because of other dependencies it pulls in. The result
-> is this is a modified copy of that code that still leverages the core
-> SHA algorithms.
-> 
-> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+Fix the chapter heading for "X.25 Device Driver Interface" so that it
+does not contain a trailing '-' character, which makes Sphinx
+omit this heading from the contents.
 
-SHA-1 is insecure.  Why are you still using SHA-1?  Don't TPMs support SHA-2
-now?
+Reverse the order of the x25.rst and x25-iface.rst files in the index
+so that the project introduction (x25.rst) comes first.
 
-And if you absolutely MUST use SHA-1 despite it being insecure, please at least
-don't obfuscate it by calling it simply "SHA".
+Fixes: 883780af7209 ("docs: networking: convert x25-iface.txt to ReST")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Martin Schiller <ms@dev.tdt.de>
+Cc: linux-x25@vger.kernel.org
+---
+ Documentation/networking/index.rst     |    2 +-
+ Documentation/networking/x25-iface.rst |    3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-- Eric
+diff -- a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -116,8 +116,8 @@ Contents:
+    udplite
+    vrf
+    vxlan
+-   x25-iface
+    x25
++   x25-iface
+    xfrm_device
+    xfrm_proc
+    xfrm_sync
+diff -- a/Documentation/networking/x25-iface.rst b/Documentation/networking/x25-iface.rst
+--- a/Documentation/networking/x25-iface.rst
++++ b/Documentation/networking/x25-iface.rst
+@@ -1,8 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-============================-
+ X.25 Device Driver Interface
+-============================-
++============================
+ 
+ Version 1.1
+ 
