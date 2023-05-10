@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FEBC7EE24
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B3BC7EE25
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 18:18:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbjEJSSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 14:18:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54814 "EHLO
+        id S235830AbjEJSSO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 14:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236089AbjEJSSE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:18:04 -0400
+        with ESMTP id S236114AbjEJSSF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 14:18:05 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 722B57A8A;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D2B7AA7;
         Wed, 10 May 2023 11:17:46 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CB5D163F7A;
-        Wed, 10 May 2023 18:17:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32FCFC433D2;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1CFA663F85;
+        Wed, 10 May 2023 18:17:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72391C4339C;
         Wed, 10 May 2023 18:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1683742639;
-        bh=KB8lXc7zZ3+DrRqeJZSACdw3EUil7+a97nQI2II+M98=;
+        bh=iiJ/VzQpstXqdm3RN63oyTIvoY5ZmUM0BoWf7nHGo3s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AD+barTaVX8y+DNIVRHjyZVk6aMS9U9wGnwdUs+i6L7QVRCp2GNxW0J4DvKl8xUNp
-         bef+WyWRqxQ2qNXW0T4LmPXu0Tb/ybPtFbl+QQpTI1slzRMZRQszn8vuuhXH/Zr/Z3
-         WGIICvcEU0TWzGd5ZK76KKHSI2Yu/RyGaXDFWRZrKjuOwaOCsBrB4nle1fUDxbdL+L
-         zSBm6cWODgesfyDPnvqjTkKlymAb4LaVjjTQ0bNTlKYK/28BkVarf4OtUL5sBx1xZC
-         IwFBwpnaBe1ltvrGZxViCB1Tpmx9dF1IE8bHX8muehsIXUXqQtxJPkYkuB+562ZEst
-         BCQf7NrxipUUw==
+        b=pGXkvifBANBwFxv+VhyFewAoIZARO3vmZjp8qrln5HSEa39f99X5TL1K1btzJ+wze
+         bH/wE4vffWqeAnEDdXwkuIYxOc3oyZCvOkYoXrz/BWKTjQswIn0Q1Jgv5RkwZ4CFBI
+         xjvsZpoMkPBB1AwXZ8LXp8aa5SSh1TaU85MGp5mK4FNcOMKsuaMAQme9SxNvoND7q7
+         8M+I+qLP4mtAdh7By0Hgbr5cEw8Yd5QRa2E6MjaxwE6WcAwvO6rAzOpYzNPtbxvKDD
+         DMahCot6e0rdpS9+VfermloCH/UpqRfK1l79qyTdddGG9O8Ho+hgQzNj/xmOIrFol7
+         beH4ALztdlpeA==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id D024CCE120B; Wed, 10 May 2023 11:17:18 -0700 (PDT)
+        id DB181CE1434; Wed, 10 May 2023 11:17:18 -0700 (PDT)
 From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
@@ -41,9 +41,9 @@ Cc:     x86@kernel.org, akiyks@gmail.com, linux-doc@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH locking/atomic 01/19] locking/atomic: Fix fetch_add_unless missing-period typo
-Date:   Wed, 10 May 2023 11:16:59 -0700
-Message-Id: <20230510181717.2200934-1-paulmck@kernel.org>
+Subject: [PATCH locking/atomic 05/19] locking/atomic: Add kernel-doc header for arch_${atomic}_${pfx}dec${sfx}${order}
+Date:   Wed, 10 May 2023 11:17:03 -0700
+Message-Id: <20230510181717.2200934-5-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
 References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
@@ -53,8 +53,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The fetch_add_unless() kernel-doc header is missing a period (".").
-Therefore, add it.
+Add kernel-doc header template for arch_${atomic}_${pfx}dec${sfx}${order}
+function family.
 
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 Cc: Will Deacon <will@kernel.org>
@@ -62,51 +62,288 @@ Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 ---
- include/linux/atomic/atomic-arch-fallback.h | 6 +++---
- scripts/atomic/fallbacks/fetch_add_unless   | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ include/linux/atomic/atomic-arch-fallback.h | 128 +++++++++++++++++++-
+ scripts/atomic/fallbacks/dec                |   7 ++
+ 2 files changed, 134 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/atomic/atomic-arch-fallback.h b/include/linux/atomic/atomic-arch-fallback.h
-index a6e4437c5f36..c4087c32fb0e 100644
+index e7e83f18d192..41e43e8dff8d 100644
 --- a/include/linux/atomic/atomic-arch-fallback.h
 +++ b/include/linux/atomic/atomic-arch-fallback.h
-@@ -1351,7 +1351,7 @@ arch_atomic_add_negative(int i, atomic_t *v)
-  * @u: ...unless v is equal to u.
-  *
-  * Atomically adds @a to @v, so long as @v was not already @u.
-- * Returns original value of @v
-+ * Returns original value of @v.
-  */
+@@ -674,6 +674,13 @@ arch_atomic_fetch_inc(atomic_t *v)
+ #endif /* arch_atomic_fetch_inc_relaxed */
+ 
+ #ifndef arch_atomic_dec
++/**
++ * arch_atomic_dec - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with full ordering,
++ * returning no value.
++ */
+ static __always_inline void
+ arch_atomic_dec(atomic_t *v)
+ {
+@@ -690,6 +697,13 @@ arch_atomic_dec(atomic_t *v)
+ #endif /* arch_atomic_dec_return */
+ 
+ #ifndef arch_atomic_dec_return
++/**
++ * arch_atomic_dec_return - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with full ordering,
++ * returning new value.
++ */
  static __always_inline int
- arch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
-@@ -2567,7 +2567,7 @@ arch_atomic64_add_negative(s64 i, atomic64_t *v)
-  * @u: ...unless v is equal to u.
-  *
-  * Atomically adds @a to @v, so long as @v was not already @u.
-- * Returns original value of @v
-+ * Returns original value of @v.
-  */
+ arch_atomic_dec_return(atomic_t *v)
+ {
+@@ -699,6 +713,13 @@ arch_atomic_dec_return(atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_dec_return_acquire
++/**
++ * arch_atomic_dec_return_acquire - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with acquire ordering,
++ * returning new value.
++ */
+ static __always_inline int
+ arch_atomic_dec_return_acquire(atomic_t *v)
+ {
+@@ -708,6 +729,13 @@ arch_atomic_dec_return_acquire(atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_dec_return_release
++/**
++ * arch_atomic_dec_return_release - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with release ordering,
++ * returning new value.
++ */
+ static __always_inline int
+ arch_atomic_dec_return_release(atomic_t *v)
+ {
+@@ -717,6 +745,13 @@ arch_atomic_dec_return_release(atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_dec_return_relaxed
++/**
++ * arch_atomic_dec_return_relaxed - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with no ordering,
++ * returning new value.
++ */
+ static __always_inline int
+ arch_atomic_dec_return_relaxed(atomic_t *v)
+ {
+@@ -771,6 +806,13 @@ arch_atomic_dec_return(atomic_t *v)
+ #endif /* arch_atomic_fetch_dec */
+ 
+ #ifndef arch_atomic_fetch_dec
++/**
++ * arch_atomic_fetch_dec - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with full ordering,
++ * returning old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_dec(atomic_t *v)
+ {
+@@ -780,6 +822,13 @@ arch_atomic_fetch_dec(atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_fetch_dec_acquire
++/**
++ * arch_atomic_fetch_dec_acquire - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with acquire ordering,
++ * returning old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_dec_acquire(atomic_t *v)
+ {
+@@ -789,6 +838,13 @@ arch_atomic_fetch_dec_acquire(atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_fetch_dec_release
++/**
++ * arch_atomic_fetch_dec_release - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with release ordering,
++ * returning old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_dec_release(atomic_t *v)
+ {
+@@ -798,6 +854,13 @@ arch_atomic_fetch_dec_release(atomic_t *v)
+ #endif
+ 
+ #ifndef arch_atomic_fetch_dec_relaxed
++/**
++ * arch_atomic_fetch_dec_relaxed - Atomic decrement
++ * @v: pointer of type atomic_t
++ *
++ * Atomically decrement @v with no ordering,
++ * returning old value.
++ */
+ static __always_inline int
+ arch_atomic_fetch_dec_relaxed(atomic_t *v)
+ {
+@@ -1953,6 +2016,13 @@ arch_atomic64_fetch_inc(atomic64_t *v)
+ #endif /* arch_atomic64_fetch_inc_relaxed */
+ 
+ #ifndef arch_atomic64_dec
++/**
++ * arch_atomic64_dec - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with full ordering,
++ * returning no value.
++ */
+ static __always_inline void
+ arch_atomic64_dec(atomic64_t *v)
+ {
+@@ -1969,6 +2039,13 @@ arch_atomic64_dec(atomic64_t *v)
+ #endif /* arch_atomic64_dec_return */
+ 
+ #ifndef arch_atomic64_dec_return
++/**
++ * arch_atomic64_dec_return - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with full ordering,
++ * returning new value.
++ */
  static __always_inline s64
- arch_atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u)
-@@ -2668,4 +2668,4 @@ arch_atomic64_dec_if_positive(atomic64_t *v)
+ arch_atomic64_dec_return(atomic64_t *v)
+ {
+@@ -1978,6 +2055,13 @@ arch_atomic64_dec_return(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_dec_return_acquire
++/**
++ * arch_atomic64_dec_return_acquire - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with acquire ordering,
++ * returning new value.
++ */
+ static __always_inline s64
+ arch_atomic64_dec_return_acquire(atomic64_t *v)
+ {
+@@ -1987,6 +2071,13 @@ arch_atomic64_dec_return_acquire(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_dec_return_release
++/**
++ * arch_atomic64_dec_return_release - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with release ordering,
++ * returning new value.
++ */
+ static __always_inline s64
+ arch_atomic64_dec_return_release(atomic64_t *v)
+ {
+@@ -1996,6 +2087,13 @@ arch_atomic64_dec_return_release(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_dec_return_relaxed
++/**
++ * arch_atomic64_dec_return_relaxed - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with no ordering,
++ * returning new value.
++ */
+ static __always_inline s64
+ arch_atomic64_dec_return_relaxed(atomic64_t *v)
+ {
+@@ -2050,6 +2148,13 @@ arch_atomic64_dec_return(atomic64_t *v)
+ #endif /* arch_atomic64_fetch_dec */
+ 
+ #ifndef arch_atomic64_fetch_dec
++/**
++ * arch_atomic64_fetch_dec - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with full ordering,
++ * returning old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_dec(atomic64_t *v)
+ {
+@@ -2059,6 +2164,13 @@ arch_atomic64_fetch_dec(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_dec_acquire
++/**
++ * arch_atomic64_fetch_dec_acquire - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with acquire ordering,
++ * returning old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_dec_acquire(atomic64_t *v)
+ {
+@@ -2068,6 +2180,13 @@ arch_atomic64_fetch_dec_acquire(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_dec_release
++/**
++ * arch_atomic64_fetch_dec_release - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with release ordering,
++ * returning old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_dec_release(atomic64_t *v)
+ {
+@@ -2077,6 +2196,13 @@ arch_atomic64_fetch_dec_release(atomic64_t *v)
+ #endif
+ 
+ #ifndef arch_atomic64_fetch_dec_relaxed
++/**
++ * arch_atomic64_fetch_dec_relaxed - Atomic decrement
++ * @v: pointer of type atomic64_t
++ *
++ * Atomically decrement @v with no ordering,
++ * returning old value.
++ */
+ static __always_inline s64
+ arch_atomic64_fetch_dec_relaxed(atomic64_t *v)
+ {
+@@ -2794,4 +2920,4 @@ arch_atomic64_dec_if_positive(atomic64_t *v)
  #endif
  
  #endif /* _LINUX_ATOMIC_FALLBACK_H */
--// ad2e2b4d168dbc60a73922616047a9bfa446af36
-+// 201cc01b616875888e0b2c79965c569a89c0edcd
-diff --git a/scripts/atomic/fallbacks/fetch_add_unless b/scripts/atomic/fallbacks/fetch_add_unless
-index 68ce13c8b9da..a1692df0d514 100755
---- a/scripts/atomic/fallbacks/fetch_add_unless
-+++ b/scripts/atomic/fallbacks/fetch_add_unless
-@@ -6,7 +6,7 @@ cat << EOF
-  * @u: ...unless v is equal to u.
-  *
-  * Atomically adds @a to @v, so long as @v was not already @u.
-- * Returns original value of @v
-+ * Returns original value of @v.
-  */
- static __always_inline ${int}
- arch_${atomic}_fetch_add_unless(${atomic}_t *v, ${int} a, ${int} u)
+-// 17cefb0ff9b450685d4072202d4a1c309b0606c2
++// 1a1d30491494653253bfe3b5d2e2c6583cb57473
+diff --git a/scripts/atomic/fallbacks/dec b/scripts/atomic/fallbacks/dec
+index 8c144c818e9e..e99c8edd36a3 100755
+--- a/scripts/atomic/fallbacks/dec
++++ b/scripts/atomic/fallbacks/dec
+@@ -1,4 +1,11 @@
+ cat <<EOF
++/**
++ * arch_${atomic}_${pfx}dec${sfx}${order} - Atomic decrement
++ * @v: pointer of type ${atomic}_t
++ *
++ * Atomically decrement @v with ${docbook_order} ordering,
++ * returning ${docbook_oldnew} value.
++ */
+ static __always_inline ${ret}
+ arch_${atomic}_${pfx}dec${sfx}${order}(${atomic}_t *v)
+ {
 -- 
 2.40.1
 
