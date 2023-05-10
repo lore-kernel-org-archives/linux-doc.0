@@ -2,90 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B893FC7EE22
-	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 09:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC304C77B7C
+	for <linux-doc@archiver.kernel.org>; Wed, 10 May 2023 09:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235609AbjEJJek (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 May 2023 05:34:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45372 "EHLO
+        id S236136AbjEJJjx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 May 2023 05:39:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231268AbjEJJej (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 05:34:39 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 624E73A89;
-        Wed, 10 May 2023 02:34:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1683711275; bh=CVCNr+jiCPA9b+x0610c9UfH/6p5CPr9D1Yj681oIcw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=HxkXA9XPuRLHE/D3W2hj/JAI8D5u3GtMSwd65oBRjmoscxxo8G6e1ZomdRhVk+C+B
-         dY7CwJH+NAIkL1y6WKINQhtUUffDkKB+Tz+n8jGuEwIQEgAdW9RaxmaSMMPG4NAooq
-         Z8HEk/JVknqNUGJoj4132JZcc5vWyL+/rRDt2NxM=
-Received: from [100.100.57.122] (unknown [58.34.185.106])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 7BDC96014E;
-        Wed, 10 May 2023 17:34:34 +0800 (CST)
-Message-ID: <15594820-0a95-94bb-132f-5008d31c041f@xen0n.name>
-Date:   Wed, 10 May 2023 17:34:33 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v2] LoongArch: Add jump-label implementation
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Youling Tang <tangyouling@loongson.cn>
-Cc:     Huacai Chen <chenhuacai@kernel.org>,
+        with ESMTP id S231207AbjEJJjw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 May 2023 05:39:52 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6C84207;
+        Wed, 10 May 2023 02:39:49 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-643990c5319so4943790b3a.2;
+        Wed, 10 May 2023 02:39:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683711589; x=1686303589;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ckUkgH/LBnma6i9Vpo625SXqSP6maiHgE6xir4pKJms=;
+        b=m/7g9q2gDUy79+/IGUGORh8Y7n3vgTLW1eXsaskk5Y2v+SDrACdtEW0NrPgmqHqvT4
+         /TYZukg4HzB7OWEn2AZLtStG8gudqMhFlRNDduE1MhQFES079vi0huIstWLDZVTrhnFO
+         o3RFIhoVKf4iAwTU5gaS/HJhMoUs5giGua0N4DAzCU6ZkQgN4C6WZMcDYPjjCAJwcOF+
+         r8GqJJJfm6BHrB6GwsqWXic4Of2MhHIBoQLhfYcBxGIa9uxJvKj9yyDhBIRsVGE1Bx/H
+         8PJjQsScIUQw0WvTw3ViQLc2a+eLc0Q/Nkt/ue7YW2zrT4YZgF5L56/oMZYKCsurLtGA
+         E54A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683711589; x=1686303589;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ckUkgH/LBnma6i9Vpo625SXqSP6maiHgE6xir4pKJms=;
+        b=cQAQyE/lyh5JOLqe2KFLLHRriKPxHASULR2iap211Fkv1mIfdsgSCoreiNo/PWW/ZM
+         ZeLIHNw/u6XEXNHw2OTjGFWaqg4TvyxKoD7WglUDPdFVNIodUWFnSjX7K6AKiZNYd2QL
+         bgzXeR+kS6Uy5LN6uaupJjtBpXWU9sZnHLWSlZ39SxeWTryf4shpUWUi6qJ1LyVt/j9J
+         vg4cqgHLM/CWlI8r2IcMRZFVsuwts0PRPdtCFeU8DeZ9XEP5fE+ubK4IIDNvboE447ST
+         aTV3Wo6RK4X4x1Pz4m7/iY0ktNwQUwydTiRmSCey7cBPYB/xX4K1ROKMMIzTcZIQN7Df
+         6vNQ==
+X-Gm-Message-State: AC+VfDxJllXtnkhKKYT9Z4HO91+ImdN2DDqM+M2Lj1VwBiU0DyOp6duF
+        Zzxvu6wvNdSk1xJKwakett4=
+X-Google-Smtp-Source: ACHHUZ5h1CcuHuK9TqFByVj4+TJuybYkXRAb2fs0LdBAx6tO7lb8dtKMK754kG524icZ86ZmFh6e/A==
+X-Received: by 2002:a05:6a21:9987:b0:102:1083:b4aa with SMTP id ve7-20020a056a21998700b001021083b4aamr3086031pzb.25.1683711589075;
+        Wed, 10 May 2023 02:39:49 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-71.three.co.id. [180.214.232.71])
+        by smtp.gmail.com with ESMTPSA id y14-20020a17090a784e00b00246b7b8b43asm3099735pjl.49.2023.05.10.02.39.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 02:39:48 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9DCE0103AAB; Wed, 10 May 2023 16:39:43 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux SCSI <linux-scsi@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>
+Cc:     Oliver Neukum <oliver@neukum.org>, Ali Akcaagac <aliakc@web.de>,
+        Jamie Lenehan <lenehan@twibble.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Zhangjin Wu <falcon@tinylab.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-References: <1683710206-23905-1-git-send-email-tangyouling@loongson.cn>
- <20230510092723.GK4253@hirez.programming.kicks-ass.net>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <20230510092723.GK4253@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2 1/3] MAINTAINERS: Drop DC395x list and site
+Date:   Wed, 10 May 2023 16:39:31 +0700
+Message-Id: <20230510093933.19985-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230510093933.19985-1-bagasdotme@gmail.com>
+References: <20230510093933.19985-1-bagasdotme@gmail.com>
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=823; i=bagasdotme@gmail.com; h=from:subject; bh=Sn0BZ1jABONtyvPtSO4/uSeRQGjS1WJByjZ9y+aap0Q=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCnRaaHrrmYb2P5RaVsWKBx55HR38UHhyplnZgdzdtQoc IQL/73XUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIlMvcXIcNJgvn/olRAFqaV/ bDfePM6VJRN5IvP5rvsT5jc8O7tvwRNGhodnTLM6RfsPfXBgvPW3amtOKedvcT3uM1Ixp4yToyU f8gEA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Peter,
+Emails to DC395x list bounce (550 error) and visiting the site returns
+404 page.
 
-My 2 cents:
+Drop both twibble.org links. The driver should now be covered by
+linux-scsi list.
 
-On 2023/5/10 17:27, Peter Zijlstra wrote:
-> On Wed, May 10, 2023 at 05:16:46PM +0800, Youling Tang wrote:
->> Add jump-label implementation based on the ARM64 version.
->>
->> Signed-off-by: Youling Tang <tangyouling@loongson.cn>
-> 
->> <snip>
->>
->> +	if (type == JUMP_LABEL_JMP)
->> +		insn = larch_insn_gen_b(jump_entry_code(entry), jump_entry_target(entry));
->> +	else
->> +		insn = larch_insn_gen_nop();
->> +
->> +	larch_insn_patch_text(addr, insn);
->> +}
-> 
-> This all implies Loongarch is fine with the nop<->b transition (much
-> like arm64 is), but I found no actual mention of what transitions are
-> valid for the architecture in your inst.c file -- perhaps you could put
-> a small comment there to elucidate the occasional reader that doesn't
-> have your arch manual memorized?
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ MAINTAINERS | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Do you mean by "valid transition" something like "what kind of 
-self-modification is architecturally sound, taking ICache / 
-micro-architecture behavior etc. into consideration"? If so, I'd say 
-things would be fine in LoongArch as long as an instruction fetch 
-barrier is used. Maybe Youling can confirm and mention this in the next 
-revision.
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7e0b87d5aa2e57..ca88932ee04e2f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5716,10 +5716,7 @@ DC395x SCSI driver
+ M:	Oliver Neukum <oliver@neukum.org>
+ M:	Ali Akcaagac <aliakc@web.de>
+ M:	Jamie Lenehan <lenehan@twibble.org>
+-L:	dc395x@twibble.org
+ S:	Maintained
+-W:	http://twibble.org/dist/dc395x/
+-W:	http://lists.twibble.org/mailman/listinfo/dc395x/
+ F:	Documentation/scsi/dc395x.rst
+ F:	drivers/scsi/dc395x.*
+ 
 -- 
-WANG "xen0n" Xuerui
-
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+An old man doll... just what I always wanted! - Clara
 
