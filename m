@@ -2,506 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B7DC77B7F
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 10:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B259C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 12:23:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237874AbjEKKo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 06:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38086 "EHLO
+        id S237756AbjEKMXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 08:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237880AbjEKKou (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 06:44:50 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A0B30C0
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 03:44:45 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3f315712406so279638655e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 03:44:45 -0700 (PDT)
+        with ESMTP id S237823AbjEKMXK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 08:23:10 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on20718.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eb2::718])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294F244A9;
+        Thu, 11 May 2023 05:23:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ePGHPjy5B7sSk9fyC7P+e6ZJbDdbsOEDaEweXAMzKx3pHMxDm1OjLwFpTJxBbPEp8/3yyYEQYpVvDhCNpiZS7HZwbL99CwbURhDXWUMOhqrR/XQ86e8lgw8riGXwyUxyzQPCF9cxndIhYkLNE5YPX6E+g5fOzDa25CeDbnj61bDCK7qsAfplWOiWtGgE+Qdh5qZHQmUtAdJGdhV4HOOeFjfBQ4/X/zXUn2MbJfv2PRASB20lbHsHeGuMrm98wvqrsbYmdcs7vIsTpc4DrJdvmXaZHfj7UxWhIgRLodWAoiyCwIWyzrC43PUtZLkAs97dqUMa9oIXqdfWjlCzd7Ay+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PWrqtm00AdIip3aeQjkLl0apfu3s4Hp10QGr06kiYCk=;
+ b=JuWrJG8g18vtDegcT8ttmzIg8LRGWmhvwrk15i4BA5qOS7dONKM2lZQ3p09/Vd1ahfncI9JMBKPpC/i8f/kL801eQlR/2XrNxrBJxHNwPPa+2Ou24sNKbxVIHC6KIK1Lf+OkwnRdq2bksx1rXNXMmUHrOUbpjBS9MTPoQqwveWDKdOrRYxKiK3wgvYzil2r0M/uIrUwKcdr3Xmybxj9vAQJuVjXeVkjOftCTfwmVhnEXAcrkdXFWRjyMsodTpB/xHG0ZSiL06EMhDJ+E+4YBTLGhY49lk5XtTkF7FYGnvSvdJeGXeW33xnnO2R72FxzR67o8fafrAAzNFGIu+dbHhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1683801883; x=1686393883;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P7Umlt0HzFSClqRwf3YI2Twu1K26jeRmJZFN/RWjcoM=;
-        b=X/RL8VYyhIZrC4PRL+sEKoia8SgSpPPqHt4QBmvchTjTwBCVbqVe+9ixoBscAjOgKI
-         +c/OvN0f+b+foIcSLcNb7vQrVar+bJxWpapaEKgfmx5JHulNXC+F45wuX0GvFCLd13Q2
-         A8Xj+2RtDYY+OZpzPBuww9hxPuyI8tYPpO5p2yQaPCfV1N7RotoAJgwDFn0DMKh2Or73
-         DKJMokSefadPm2XMFkd75bl2sXPBgmv358l0XOwxUhDrOMl/fqSH7sYGwYVmi9H+w0LJ
-         l9lyBrxKYEwSwkLu2fIqpVG7TM1eyK+fIdMaggFwGhfOzKFCmb3AIRRSOcS4AOmFw2Jq
-         mCyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683801883; x=1686393883;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P7Umlt0HzFSClqRwf3YI2Twu1K26jeRmJZFN/RWjcoM=;
-        b=QfbUbNHaaODxNa5Za5hNBtcf8m/i6MgvsrH96J75iZan81dLLFp0P0aAb3qoef5zsU
-         m16Witmok7WflxKfTYjfishTSZoZOp6UFxrn2EqvRPZfp6eltgAbT7Xj/MyciRn1h8wl
-         uH5wQR5+bV9Gy7Yo5p9rfKAyONrqMPmGHUeGGEoYn1TzgToLjBBOh8rD6mqspY8BXinL
-         MEJ3sAs0aoa65CvHwNOpQWZShNvbUBAXlINAG54lgjifoPmjfCcPxit18KODLaAph9TL
-         CgV2Fzsv161ovpR1XLyVWFzmCLFVseUburP6i1O2lEyn/55woqwc7gRviP14LNpJi7bC
-         X7OQ==
-X-Gm-Message-State: AC+VfDz27fUdDtvfIcmiKbL0S5lRAKCYkqK8YmVATGvQogn+nnePivLY
-        sAeHoCfL6kWjwMGOmGdp/14e0A==
-X-Google-Smtp-Source: ACHHUZ6CScK1XIiX1j+9SIiexcwc0hNJLrd39EK/QefUYCN0gSs2wB98akb5RGZ0mp02hDFUSazkjQ==
-X-Received: by 2002:a1c:f719:0:b0:3f1:70d5:1be8 with SMTP id v25-20020a1cf719000000b003f170d51be8mr16222257wmh.15.1683801883657;
-        Thu, 11 May 2023 03:44:43 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id s7-20020a1cf207000000b003e91b9a92c9sm25273509wmc.24.2023.05.11.03.44.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 03:44:43 -0700 (PDT)
-Date:   Thu, 11 May 2023 12:44:41 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Haibo Xu <haibo1.xu@intel.com>
-Cc:     xiaobo55x@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] riscv: kvm: Add KVM_GET_REG_LIST API support
-Message-ID: <20230511-5e8b478be55881a754cc2002@orel>
-References: <cover.1683791148.git.haibo1.xu@intel.com>
- <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
-MIME-Version: 1.0
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PWrqtm00AdIip3aeQjkLl0apfu3s4Hp10QGr06kiYCk=;
+ b=k50HWkXuWEA2hfbBlieX/EdXNRaJEf66hx2bPEUwWGfZe9d6VUSI3kEU1d3izjQNXqHgvTDL4cutZHRWL5rjXez4O7L1r3mpVNnig3Klk4dJRhDAxTmHOtorIUyPtqnqnBrhf55HaRI0Dizb6trt/6X8AKbuCKHiIhEMjtZ+6fU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by PH0PR13MB5496.namprd13.prod.outlook.com (2603:10b6:510:12b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20; Thu, 11 May
+ 2023 12:23:03 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6387.020; Thu, 11 May 2023
+ 12:23:03 +0000
+Date:   Thu, 11 May 2023 14:22:56 +0200
+From:   Simon Horman <simon.horman@corigine.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net
+Subject: Re: [PATCH net] MAINTAINERS: don't CC docs@ for netlink spec changes
+Message-ID: <ZFzeIJh93H7rql6I@corigine.com>
+References: <20230511014339.906663-1-kuba@kernel.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
+In-Reply-To: <20230511014339.906663-1-kuba@kernel.org>
+X-ClientProxiedBy: AM9P193CA0020.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21e::25) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|PH0PR13MB5496:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e6d1f6e-b204-4116-8292-08db521a7798
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: K2heDcwvz4ZvmFC67nThRHa5nRb9KHwSzRxM4SK9CkxSA5i0wWpsCneIn9wZWaK7ywX3qKib1mWnCQtSOf4GqTAwBHe6vATZ4RgSEoDHWrRqe1XgmtP/Un4Tet1WgXAIue5MvQy9s790pyShoGnSUqaG2QENV1SaI5TLv00Sw2X+zGuJsXN6uzs+yjOpZ3mX+FOeCRoA1jdKgiD2hjdWYmGbNKk+A5JtUz4s2Gw1t4GsGSS10UJr0q5dtH8u+cyukP9xL2Q5npgUaw7EnR7+sTwmDX5vV1HhN4eVeNtGTCG2ytDbbY00xFpTXogtMn4kewR1Iq6WS4i5elR5uDo8gn6RvxJNriCsnqx9yfKIrrID2nMDhbH8XJHne0DGVEcF/JLfOzYxLlGEdNE5xgTOfP1MIohmLL0W5zqnkIqEnUyS+Z/RoU0r9D75I8teK63NFTT7eAzJfGzX3hHuRzHflBbHh5LR2PscBmOQ2VfQL10w4CdNg6ayJMuewJRupCellNXjMwc2HbYBgc09IjpcmEAFdTdlMAbRDTPBOUAUsaOzByVbWZ/76wHlS5RWM5c3
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(366004)(39840400004)(136003)(451199021)(41300700001)(38100700002)(478600001)(6666004)(6486002)(44832011)(36756003)(86362001)(186003)(6506007)(6512007)(66946007)(4326008)(66556008)(66476007)(6916009)(316002)(8936002)(2616005)(8676002)(2906002)(4744005)(5660300002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G0iDNSSSTEpVOvjLowVNh2zQ6WnSyOKk7C3BsbtKR03bHCQRm2BwzoRnUa8r?=
+ =?us-ascii?Q?dTH1m4j0opjviewOCpfrUuuiCvF0FA23QFC6CijkQGzx0/6PMAy2bZ6yG5Gw?=
+ =?us-ascii?Q?m0/V0yqsfKhijkyxr6jqfOvIU/sHwRjD0cnpkf+RaoFN8IZZJN6zP2/xgr+2?=
+ =?us-ascii?Q?VVvwab9GG7nyMugVOaO/455CVbkTD9hoFifIHSVytP1+rOYf/6KIrrwtRyJN?=
+ =?us-ascii?Q?VNb/JbsUXWnLxa47L2utEGKfdU9jTal9km7Tfhm1lvPuFzSeJvQnP5MoKfC4?=
+ =?us-ascii?Q?ecTfKfUBovQSMBINLsEEG+Wtq7b1OGOggHqu8b9orx0WRTFQsNZCvyFEa0SD?=
+ =?us-ascii?Q?15i6C0NxRCHyc599Jb22cRH8SqLGysE1Hzd0h3NuifjVvAIT4ZpULF63+J1p?=
+ =?us-ascii?Q?5SXASz0+iwkfMBmm1AqKMDsK4jcsyRYlCvWAxgzClWbQpdXWIqn8Tqc0+h23?=
+ =?us-ascii?Q?SyEcsxqeME1DhwDeKqNWgTruE/s7h12+v4VcKW3J14HCJQT/tBtLlPDiEY9n?=
+ =?us-ascii?Q?DVLVeuDTy05RtiguibgV5JdthWu7oYZZ3butLDltsPzTzFuoXECFBatUEA/A?=
+ =?us-ascii?Q?w+C2Ax6PvKXlQETmwQP8tHoNFG3WOw7loYKsBuKfHaFTBXQwfEF162jzTqJv?=
+ =?us-ascii?Q?jKVJyNvjhQKLbl/hWWuKs9LZLBYdS1d3+lYVJQHD8iegQNaOocvEWbhU/ZZd?=
+ =?us-ascii?Q?LCyGj4/SNPo5s3wWxU+gbh/U31HPZa+InHj0D8pgCcrhLiNluU8/a7GrjWeq?=
+ =?us-ascii?Q?Y+SJU7FKfYHmzbtsBBxZ7A6HCkfUPnHZgY+tyW1l+3uKPhv+fNR6q5bB60aA?=
+ =?us-ascii?Q?uvSjXkV8bIOVpmOp2BA+ZgYIOafTxNM6RzU/sX/nevYRPES6JHAsSfjXuSd9?=
+ =?us-ascii?Q?W74rifFDEl5C0AkGOtoJJ19U9a+Yh6BA8QZ+OqrMuvMvDJR1Uni8reDeQdwU?=
+ =?us-ascii?Q?TKXUqlWQpNFJNScUNXnq1f802UBE+FaJ3/BNDIp+/U1EHLr3veOIEVv+yao3?=
+ =?us-ascii?Q?tIeDupPfyTrrRenunweOwdw6XbYYTJ6Ou5tDrZCSNDaOqglgRfy/mVcfwrOq?=
+ =?us-ascii?Q?I8jes2c+rza3Yqcmq0hmvSvMzW721N3sgADi9pmiLPaYjWaSXM7MFdzO6z79?=
+ =?us-ascii?Q?shYJiwtsvm4HlvM1ToKku9+ibBBJjcWB8Fvgos0MEWSgpv7bAhmgdmxnV2eN?=
+ =?us-ascii?Q?QaE4Xo2Id+1BM7UDSJ4FHNdVXez64cQ9Uf/wvTqUsHy5H1+vKgOm8iYQ2Co5?=
+ =?us-ascii?Q?glMDZrZHHSzIi/jZt5oUIKwOhuP3NhKb2n9NJPSxsnGVPFj9MB2yceK0FZ16?=
+ =?us-ascii?Q?hKmfupYly5CRiGUzL3doHc0UUbJlpaxRBICyGKrssk2oELs3UMsWS2y+iMea?=
+ =?us-ascii?Q?4wG+iKdnwPn2JSyaDCMbHXSVcTiUgq97gaZiaH0Jn2kvIduvqY7T92U2+EeJ?=
+ =?us-ascii?Q?2YuWks/iWXEcOZl1ncZL3o0uFxJdT0+DTE09NHBJHi8SZYtuqKVtyY/6jUaM?=
+ =?us-ascii?Q?Ie0R3OKrJK5+6OYWwoDMycRkhTKXDPDhXpTXDkDG3CSpsQgvQxG09uRzmL9p?=
+ =?us-ascii?Q?Mq2sEVsDw6k5slugkZObIacj3g0kJYWHPWUi63s1urwL/8DPlE55PI/HGocG?=
+ =?us-ascii?Q?0O+oTTdX7HeAeignscvnnGxoQVnh7IMg4K8MYYvP4DnJn0jKe7cFCtKobiGe?=
+ =?us-ascii?Q?gFTODA=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e6d1f6e-b204-4116-8292-08db521a7798
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 12:23:03.3624
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2JIAfSjg0gGDzR9ixFc0c0pEt7TToZSB4watFdnzbmu2DnbipONKR3Y2tmVi5+mV+Z2knb8VErzGrk3EMNGqAZ6rRjT9AtCSpWq3V31fmxo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR13MB5496
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 11, 2023 at 05:22:48PM +0800, Haibo Xu wrote:
-> KVM_GET_REG_LIST API will return all registers that are available to
-> KVM_GET/SET_ONE_REG APIs. It's very useful to identify some platform
-> regression issue during VM migration.
+On Wed, May 10, 2023 at 06:43:39PM -0700, Jakub Kicinski wrote:
+> Documentation/netlink/ contains machine-readable protocol
+> specs in YAML. Those are much like device tree bindings,
+> no point CCing docs@ for the changes.
 > 
-> Since this API was already supported on arm64, it'd be straightforward
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-s/it'd be/it is/
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
 
-> to enable it on riscv with similar code structure.
-> 
-> Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
-> ---
->  Documentation/virt/kvm/api.rst |   2 +-
->  arch/riscv/kvm/vcpu.c          | 346 +++++++++++++++++++++++++++++++++
->  2 files changed, 347 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index add067793b90..280e89abd004 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -3499,7 +3499,7 @@ VCPU matching underlying host.
->  ---------------------
->  
->  :Capability: basic
-> -:Architectures: arm64, mips
-> +:Architectures: arm64, mips, riscv
->  :Type: vcpu ioctl
->  :Parameters: struct kvm_reg_list (in/out)
->  :Returns: 0 on success; -1 on error
-> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
-> index 8bd9f2a8a0b9..fb8834e4fa15 100644
-> --- a/arch/riscv/kvm/vcpu.c
-> +++ b/arch/riscv/kvm/vcpu.c
-> @@ -657,6 +657,334 @@ static int kvm_riscv_vcpu_set_reg_isa_ext(struct kvm_vcpu *vcpu,
->  	return 0;
->  }
->  
-> +static inline unsigned long num_config_regs(void)
-> +{
-> +	return sizeof(struct kvm_riscv_config) / sizeof(unsigned long);
-> +}
-> +
-> +static int copy_config_reg_indices(u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n = num_config_regs();
-> +
-> +	for (i = 0; i < n; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CONFIG | i;
-                                          ^ this should be
-					  size-ulong
-
-  u64 size = IS_ENABLED(CONFIG_32BIT) ? KVM_REG_SIZE_U32 : KVM_REG_SIZE_U64;
-  u64 reg = KVM_REG_RISCV | size | KVM_REG_RISCV_CONFIG | i;
-
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	return n;
-> +}
-> +
-> +static inline unsigned long num_core_regs(void)
-> +{
-> +	return sizeof(struct kvm_riscv_core) / sizeof(unsigned long);
-> +}
-> +
-> +static int copy_core_reg_indices(u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n = num_core_regs();
-> +
-> +	for (i = 0; i < n; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | i;
-                                          ^ size-ulong
-
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	return n;
-> +}
-> +
-> +static inline unsigned long num_csr_regs(void)
-> +{
-> +	unsigned long n = sizeof(struct kvm_riscv_csr) / sizeof(unsigned long);
-> +
-> +	if (kvm_riscv_aia_available())
-> +		n += sizeof(struct kvm_riscv_aia_csr) / sizeof(unsigned long);
-> +
-> +	return n;
-> +}
-> +
-> +static int copy_csr_reg_indices(u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n1 = sizeof(struct kvm_riscv_csr) / sizeof(unsigned long);
-> +	int n2 = 0;
-> +
-> +	/* copy general csr regs */
-> +	for (i = 0; i < n1; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR |
-                                          ^ size-ulong
-
-> +				  KVM_REG_RISCV_CSR_GENERAL | i;
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	/* copy AIA csr regs */
-> +	if (kvm_riscv_aia_available()) {
-> +		n2 = sizeof(struct kvm_riscv_aia_csr) / sizeof(unsigned long);
-> +
-> +		for (i = 0; i < n2; i++) {
-> +			u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR |
-                                                  ^ size-ulong
-
-> +					  KVM_REG_RISCV_CSR_AIA | i;
-> +
-> +			if (uindices) {
-> +				if (put_user(reg, uindices))
-> +					return -EFAULT;
-> +				uindices++;
-> +			}
-> +		}
-> +	}
-> +
-> +	return n1 + n2;
-> +}
-> +
-> +static inline unsigned long num_timer_regs(void)
-> +{
-> +	return sizeof(struct kvm_riscv_timer) / sizeof(unsigned long);
-> +}
-> +
-> +static int copy_timer_reg_indices(u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n = num_timer_regs();
-> +
-> +	for (i = 0; i < n; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_TIMER | i;
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	return n;
-> +}
-> +
-> +static inline unsigned long num_fp_f_regs(const struct kvm_vcpu *vcpu)
-> +{
-> +	const struct kvm_cpu_context *cntx = &vcpu->arch.guest_context;
-> +
-> +	if (riscv_isa_extension_available(vcpu->arch.isa, f))
-> +		return sizeof(cntx->fp.f) / sizeof(u32);
-> +	else
-> +		return 0;
-> +}
-> +
-> +static int copy_fp_f_reg_indices(const struct kvm_vcpu *vcpu,
-> +					u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n = num_fp_f_regs(vcpu);
-> +
-> +	for (i = 0; i < n; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U32 | KVM_REG_RISCV_FP_F | i;
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	return n;
-> +}
-> +
-> +static inline unsigned long num_fp_d_regs(const struct kvm_vcpu *vcpu)
-> +{
-> +	const struct kvm_cpu_context *cntx = &vcpu->arch.guest_context;
-> +
-> +	if (riscv_isa_extension_available(vcpu->arch.isa, d))
-> +		return sizeof(cntx->fp.d.f) / sizeof(u64) + 1;
-> +	else
-> +		return 0;
-> +}
-> +
-> +static int copy_fp_d_reg_indices(const struct kvm_vcpu *vcpu,
-> +					u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n = num_fp_d_regs(vcpu);
-> +	u64 reg;
-> +
-> +	/* copy fp.d.f indeices */
-
-indices
-
-> +	for (i = 0; i < n-1; i++) {
-> +		reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_FP_D | i;
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	/* copy fp.d.fcsr indeices */
-
-indices
-
-> +	reg = KVM_REG_RISCV | KVM_REG_SIZE_U32 | KVM_REG_RISCV_FP_D | i;
-> +	if (uindices) {
-> +		if (put_user(reg, uindices))
-> +			return -EFAULT;
-> +	}
-> +
-> +	return n;
-> +}
-> +
-> +static inline unsigned long num_isa_ext_regs(void)
-> +{
-> +	return KVM_RISCV_ISA_EXT_MAX;
-> +}
-> +
-> +static int copy_isa_ext_reg_indices(u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n = num_isa_ext_regs();
-> +
-> +	for (i = 0; i < n; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | i;
-                                          ^ size-ulong
-
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	return n;
-> +}
-> +
-> +static inline unsigned long num_sbi_ext_regs(void)
-> +{
-> +	/* number of KVM_REG_RISCV_SBI_SINGLE +
-> +	 *  2x(number of KVM_REG_RISCV_SBI_MULTI)
-> +	 */
-
-Please use an opening wing '/*' on comments.
-
-> +	return KVM_RISCV_SBI_EXT_MAX + 2*(KVM_REG_RISCV_SBI_MULTI_REG_LAST+1);
-> +}
-> +
-> +static int copy_sbi_ext_reg_indices(u64 __user *uindices)
-> +{
-> +	unsigned int i;
-> +	int n;
-> +
-> +	/* copy KVM_REG_RISCV_SBI_SINGLE */
-> +	n = KVM_RISCV_SBI_EXT_MAX;
-> +	for (i = 0; i < n; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_SBI_EXT |
-                                          ^ size-ulong
-
-> +				  KVM_REG_RISCV_SBI_SINGLE | i;
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	/* copy KVM_REG_RISCV_SBI_MULTI */
-> +	n = KVM_REG_RISCV_SBI_MULTI_REG_LAST + 1;
-> +	for (i = 0; i < n; i++) {
-> +		u64 reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_SBI_EXT |
-                                          ^ size-ulong
-
-> +				  KVM_REG_RISCV_SBI_MULTI_EN | i;
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +
-> +		reg = KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_SBI_EXT |
-> +			  KVM_REG_RISCV_SBI_MULTI_DIS | i;
-> +
-> +		if (uindices) {
-> +			if (put_user(reg, uindices))
-> +				return -EFAULT;
-> +			uindices++;
-> +		}
-> +	}
-> +
-> +	return num_sbi_ext_regs();
-> +}
-> +
-> +/**
-> + * kvm_riscv_vcpu_num_regs - how many registers do we present via KVM_GET/SET_ONE_REG
-> + *
-> + * This is for all registers.
-> + */
-> +static unsigned long kvm_riscv_vcpu_num_regs(struct kvm_vcpu *vcpu)
-> +{
-> +	unsigned long res = 0;
-> +
-> +	res += num_config_regs();
-> +	res += num_core_regs();
-> +	res += num_csr_regs();
-> +	res += num_timer_regs();
-> +	res += num_fp_f_regs(vcpu);
-> +	res += num_fp_d_regs(vcpu);
-> +	res += num_isa_ext_regs();
-> +	res += num_sbi_ext_regs();
-> +
-> +	return res;
-> +}
-> +
-> +/**
-> + * kvm_riscv_vcpu_copy_reg_indices - get indices of all registers.
-> + */
-> +static int kvm_riscv_vcpu_copy_reg_indices(struct kvm_vcpu *vcpu,
-> +				u64 __user *uindices)
-> +{
-> +	int ret;
-> +
-> +	ret = copy_config_reg_indices(uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +	uindices += ret;
-> +
-> +	ret = copy_core_reg_indices(uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +	uindices += ret;
-> +
-> +	ret = copy_csr_reg_indices(uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +	uindices += ret;
-> +
-> +	ret = copy_timer_reg_indices(uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +	uindices += ret;
-> +
-> +	ret = copy_fp_f_reg_indices(vcpu, uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +	uindices += ret;
-> +
-> +	ret = copy_fp_d_reg_indices(vcpu, uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +	uindices += ret;
-> +
-> +	ret = copy_isa_ext_reg_indices(uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +	uindices += ret;
-> +
-> +	ret = copy_sbi_ext_reg_indices(uindices);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
->  static int kvm_riscv_vcpu_set_reg(struct kvm_vcpu *vcpu,
->  				  const struct kvm_one_reg *reg)
->  {
-> @@ -758,6 +1086,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->  			r = kvm_riscv_vcpu_get_reg(vcpu, &reg);
->  		break;
->  	}
-> +	case KVM_GET_REG_LIST: {
-> +		struct kvm_reg_list __user *user_list = argp;
-> +		struct kvm_reg_list reg_list;
-> +		unsigned int n;
-> +
-> +		r = -EFAULT;
-> +		if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
-> +			break;
-> +		n = reg_list.n;
-> +		reg_list.n = kvm_riscv_vcpu_num_regs(vcpu);
-> +		if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
-> +			break;
-> +		r = -E2BIG;
-> +		if (n < reg_list.n)
-> +			break;
-> +		r = kvm_riscv_vcpu_copy_reg_indices(vcpu, user_list->reg);
-> +		break;
-> +	}
->  	default:
->  		break;
->  	}
-> -- 
-> 2.34.1
->
-
-Otherwise,
-
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-
-Thanks,
-drew
