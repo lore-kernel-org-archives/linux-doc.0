@@ -2,59 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C3D9C7EE24
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 18:09:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5FAC7EE22
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 18:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238768AbjEKSJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 14:09:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36302 "EHLO
+        id S239023AbjEKSew (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 14:34:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238953AbjEKSJW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 14:09:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECBE97DAA;
-        Thu, 11 May 2023 11:09:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 38F5160B00;
-        Thu, 11 May 2023 18:09:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2C66C433D2;
-        Thu, 11 May 2023 18:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683828541;
-        bh=aAoCJG5fBPBQHqqcyNy+cvL5bUN9yjIgu2mpTIMhZc0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JiMAALBYW5cYh1IFDpSTbByaGn1ozIUZWPS1DS8L8ovbXk+Lz13i8s0fany9nGYyO
-         ro8L343/5v/hIVZRdMIYdT4ik4S0iO2cWgczLvnVyr/VtLbJ1u/Q4+pw/ksg3UqvIO
-         ZNu9RGqFIBuXDrPrFX3furaxpHE4j4sy5Wwc+xLnbh4/8caZdf9FlOElkCzivwI7Jg
-         NWku51O4xCyyWVNwXcWn8u0XMjNy0sI5Nu7qVmDyFiGjZTLKW0Ej86+vPqGD5/Cncs
-         x71ZIGvGAsemw2PuG0UujI1QSzSYiOqub07vxnGDch9yi3NM3GUaNu7QMEcHNDku0Y
-         xkQFeC4mEYBhw==
-Message-ID: <8ac29644-8f84-45d1-f9c5-1e8a93fc71d7@kernel.org>
-Date:   Thu, 11 May 2023 20:08:56 +0200
+        with ESMTP id S238620AbjEKSev (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 14:34:51 -0400
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B135726B7
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 11:34:49 -0700 (PDT)
+Received: by mail-ot1-x333.google.com with SMTP id 46e09a7af769-6ab1942ea59so2451707a34.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 11:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bitbyteword.org; s=google; t=1683830089; x=1686422089;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Eqk34LLf7CtwfQbk/8o6b4YNIAWEXLYt4n8dWqcS5ck=;
+        b=LBdVZAm7fx0OMMTmY4JLYUPEsaUsWQlkXbKIK11lGvRxosG8NIsr+iX8dOLHMpD3Vl
+         ROCCtj5nN2m2NhyWoLeor+MCXIvxIsRddFPHAInwtIhkJuWpH0S2W6zNB6z+XyddwLUt
+         XwrahT14wszgczKY8a4AnBZq32h321FIGDRQdVFIMO+hMQFuhpDhAW63O987g6tp+m9f
+         8Dz83dFyCvoQbcEBcz79UFZApDbYpApHKnLZKZ9tQrgyKpzxKXdrf9nRozIrG/lzqPoB
+         dMOEAWlfR6TJYbVapjWFYP7uFB4WZ2reB3ls7CCvxlr+Io29Df4Udy9fGmAbxSdaOazZ
+         c7dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683830089; x=1686422089;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Eqk34LLf7CtwfQbk/8o6b4YNIAWEXLYt4n8dWqcS5ck=;
+        b=eje2iltXrIsYekM7R9v7Sl7AemiY2HNGySXr/zkI9/8bboCGFtzDgSaJl1yuwKljTC
+         YoYotOlqp7HTFXeiS2RGb+ZOs9AYcJgGKWwkPKiukHPH4gWTA4ZnC5LyBWEJh2khDkDD
+         Kv1GuthUIA+C8YN5WkrTm3eJ0OH+tB4UdS671Q4w2nNWUTGTub3/hkmyXwScqsyhEapa
+         cvtGfivjxfzy3DpwCJwhAlzB08nnBm3mnPODX+ExM7JEEVz59gycnRHIlnY/uB+GBZxY
+         BjB/mnD5NyQoH4+ZSUH++6St0LN1D6xHGN49ztFhxzKqKWxRCqpSGKfDmPiPvCYL4L9s
+         hFEw==
+X-Gm-Message-State: AC+VfDxJiS1KfijTfaAbCaGVG/dF1R+DnrNhpaPhJKZMIJXnU62/VapB
+        XcpKbpAj3D72ddmGi5VJ4hm26jJRy+wwPzFqYsMWbA==
+X-Google-Smtp-Source: ACHHUZ5uA60qYdAeSKObEwcECuose51HMLpDsQyqtfXHDIWS+t2Q6r7nIDwJ6HyPNekR99P7VfeBMaHjdmdwu4VnkBo=
+X-Received: by 2002:a9d:7d07:0:b0:6ab:82ac:fad8 with SMTP id
+ v7-20020a9d7d07000000b006ab82acfad8mr2203405otn.15.1683830089017; Thu, 11 May
+ 2023 11:34:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: 0001-rtla-Add-C-cgroup-support.patch
-Content-Language: en-US
-To:     linux-trace-devel@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        William White <chwhite@redhat.com>
-References: <cover.1683827510.git.bristot@kernel.org>
- <20230511180457.7623-1-bristot@kernel.org>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <20230511180457.7623-1-bristot@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230508160829.2756405-1-vineeth@bitbyteword.org>
+ <20230509132534.09098acc@luca64> <CAO7JXPhrqKWfsp860rRmEenxARi8U2gNMGsOn4m+aKporWwBcg@mail.gmail.com>
+ <20230509224829.2fb547fd@nowhere> <20230509225417.61d36733@nowhere>
+ <CAO7JXPhk5qbz9kmiu9WuXS+gXCt9+X8pP2c37hd9ChByLmXYjA@mail.gmail.com>
+ <20230510090735.68f62cd4@nowhere> <CAO7JXPg03f2YnrmzoGjfHEZZcoN55cU7uVukMw31Bw3x6nnaMw@mail.gmail.com>
+ <20230511093711.2be82409@nowhere>
+In-Reply-To: <20230511093711.2be82409@nowhere>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Thu, 11 May 2023 14:34:38 -0400
+Message-ID: <CAO7JXPiKLFLVpqDKoRdu8c2Yd4AJ_2B2UyXJxD3kJAyiJ=n0_Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sched/deadline: accurate reclaim bandwidth for GRUB
+To:     luca abeni <luca.abeni@santannapisa.it>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ok, today is one of those days... Ignore this email, it is the log --dry-run I tried before.
+Hi Luca,
 
-I need to automate this final checks :-)
+On Thu, May 11, 2023 at 3:37=E2=80=AFAM luca abeni <luca.abeni@santannapisa=
+.it> wrote:
+>
+> I've just seen v2, and (unless I misunderstand something) I see you
+> removed the max{u_i/u_max, 1 - (u_inact + u_extra}} thing?
+>
+> I fear this might break the real-time guarantees provided by the
+> algorithm...
+>
+I am sorry I missed sending more details before sending out v2. So, I
+think there is another bug in the existing implementation. Let me try
+to explain the details.
 
--- Daniel
+SMP GRUB paper has the equation for depreciating runtime as:
+  dq_i =3D -max{u_i, 1 - (extra_bw + Uinact)} dt
+
+Since we are caping at Umax, the equation would be
+  dq_i =3D -(max{u_i, Umax - (extra_bw + Uinact)} / Umax) dt (1)
+
+But existing implementation is:
+  dq_i =3D -max{u_i/Umax, 1 - (extra_bw + Uinact)} dt (2)
+
+Here in (2), we factored Umax only to the first term "u_i" and the
+second term in max{} was as left as it is. What do you think?
+
+Now with normal DL and SCHED_FLAG_RECLAIM tasks, equation (1) can be
+re-written as:
+  dq_i =3D
+   -(max{u_i, Ureclaim_max - (extra_bw + Uinact)}/Ureclaim_max)dt (3)
+
+I tested this equation (3) and it works as expected. What do you think
+about the correctness of equation (3)?
+
+I felt that, since we are using sequential reclaim mentioned in the
+paper and we isolate all parameters per-cpu(except for extra_bw) we
+could use the "-dq =3D -(U/Umax) dt" equation as it was simpler than
+equation (3). Sorry that I missed discussing this. I shall send out
+v3 with equation (3), if you think it's the right way to go to enforce
+deadline guarantees.
+
+Thanks,
+Vineeth
