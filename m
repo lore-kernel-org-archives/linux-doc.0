@@ -2,149 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72DBEC7EE22
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 20:29:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F068C7EE22
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 20:41:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239175AbjEKU3H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 16:29:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37792 "EHLO
+        id S239348AbjEKUlC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 16:41:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239160AbjEKU3G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 16:29:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13EC6E90;
-        Thu, 11 May 2023 13:29:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3571B65160;
-        Thu, 11 May 2023 20:29:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D385C433D2;
-        Thu, 11 May 2023 20:29:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683836944;
-        bh=tTH7rKHrO5TIvduxYxjfHjNjYXZc1hEYflMKrrUL640=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=X8h2AOfJuljQNpl0ZblXP97y2wFv4xnVU+D9s9+lU3ZqXA4FN9+JeWdNGaFk6tRMP
-         pO6teecBZ+CJWvKQ96IzJucHL43WZVGAbfS+mhcrDmQmU9xZCefvV2hbFkjwKB1VPT
-         XYawbcFO6k39fRsfZ1pQcbu8frcKvlhK54vePVoDkPgepmz/YXLvYQocqmNrA33kIO
-         KxWnpLI8t4fQWRmTfcAha9PezZQLAWoe2Tx7FxAj2VVQhxDnZvVU9IXksbsL/7Iq0d
-         jrtbaYCUE/dJmUO2MvhQ+ZHazveKP5fTAmhA8Bh49OWRCzspk12KrI1vpOH69BP75C
-         AahyxQ83PZmwA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 297ECCE0FED; Thu, 11 May 2023 13:29:04 -0700 (PDT)
-Date:   Thu, 11 May 2023 13:29:04 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org, akiyks@gmail.com,
-        linux-doc@vger.kernel.org, kernel-team@meta.com,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
- generating duplicate fallback kernel-doc
-Message-ID: <fc518edb-410b-4ea3-b628-26ef7d61000d@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
- <20230510181717.2200934-18-paulmck@kernel.org>
- <20230511201837.GD2296992@hirez.programming.kicks-ass.net>
+        with ESMTP id S239225AbjEKUk7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 16:40:59 -0400
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 883EEBC
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 13:40:57 -0700 (PDT)
+Received: by mail-oo1-xc35.google.com with SMTP id 006d021491bc7-54fd9c0e435so1454000eaf.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 13:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bitbyteword.org; s=google; t=1683837657; x=1686429657;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HF4n4y/GeCCM6obESYiThOANt4aesbUOtUb4gH3800w=;
+        b=hI0rhREHz7mQ0acrixIxJoOcmRpYu/9CgsJ3Qb4xo3NgbEi9So7RMGD6T9eJfTiMBT
+         IzbjlEup87w8QCsQPhg/CfXpQWvPuhfWn+tO6qjDh5YejWLKjWnWb3ez3tZ5GVXs5VnL
+         kgIwNR1ozUJwPUG2kulmN5CEuXhgDF94WjFhfd/HqvS8K6mIBBstZZ8svcVs/5aUL+FI
+         5aZa2ffTOgdRR4q5r0qOUO56KwoYJw77B2e+vrf8II7tC5NltH6lB8S8Hp4cLiKIMS8V
+         8WFkD3oIQzkkv4GgLHPwVTIATQnEnKHBHcLq3U9MgLCmT3PWuafmKzv9uDcPrdJteWPP
+         YP7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683837657; x=1686429657;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HF4n4y/GeCCM6obESYiThOANt4aesbUOtUb4gH3800w=;
+        b=Fe/vkNu9q60UFZGm4dkNDd92rfDKLF8Ii7HeNpuX79WapFEGfRXmBbVV5sL/SPrFas
+         5A8jaSS6SjRZdrFxIXuTNyZF5S0AdPvSxEsHr03TFQujOMAUvnPxSxmCsVT8/MIPFtAA
+         QLzqVhtB5B3W+pPiOwkN4YgKtU2FP+jHviNmvMMvRIm4GrYWNmEUAkgKgD0E1UO5D8H5
+         oMVNiXngQPTSZJ0tgaBO6oEkvTgm55Jx98cx6JZaw7DFq37r+bKABz9SdU1sXcev/L/K
+         hhctrZKztdBVb8fnJkTF/4VDMZqTy3NMDLcOLQWeHtGmVNO+F8AFKUvhzQFsVodG3oFa
+         0yKQ==
+X-Gm-Message-State: AC+VfDzBZK+8fG0pCWtg5HfgL+B+IO5/Im8HYvsyuUqo8nvlvU7cliXj
+        JIqScNkQJDy827wv2kEh6VG+Iu2//NQph9g973loEg==
+X-Google-Smtp-Source: ACHHUZ5Szow/NJ7Cu3BIYjly279f1dMTGKvorFrSpX63B2R+I+6xnjEAWsSFp9WFhylPlNalzeGE0loBWPzSwNY+MpM=
+X-Received: by 2002:a4a:ea06:0:b0:54a:65e7:9b51 with SMTP id
+ x6-20020a4aea06000000b0054a65e79b51mr5995029ood.8.1683837656891; Thu, 11 May
+ 2023 13:40:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230511201837.GD2296992@hirez.programming.kicks-ass.net>
+References: <20230508160829.2756405-1-vineeth@bitbyteword.org>
+ <20230509132534.09098acc@luca64> <CAO7JXPhrqKWfsp860rRmEenxARi8U2gNMGsOn4m+aKporWwBcg@mail.gmail.com>
+ <20230509224829.2fb547fd@nowhere> <20230509225417.61d36733@nowhere>
+ <CAO7JXPhk5qbz9kmiu9WuXS+gXCt9+X8pP2c37hd9ChByLmXYjA@mail.gmail.com>
+ <20230510090735.68f62cd4@nowhere> <CAO7JXPg03f2YnrmzoGjfHEZZcoN55cU7uVukMw31Bw3x6nnaMw@mail.gmail.com>
+ <20230511093711.2be82409@nowhere> <CAO7JXPiKLFLVpqDKoRdu8c2Yd4AJ_2B2UyXJxD3kJAyiJ=n0_Q@mail.gmail.com>
+ <20230511220336.05866e80@nowhere>
+In-Reply-To: <20230511220336.05866e80@nowhere>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Thu, 11 May 2023 16:40:46 -0400
+Message-ID: <CAO7JXPg9K4MA7H63Num8-BHBT-Y=GQ3BnEEvaEMVKmYsXCY7Sg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sched/deadline: accurate reclaim bandwidth for GRUB
+To:     luca abeni <luca.abeni@santannapisa.it>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 11, 2023 at 10:18:37PM +0200, Peter Zijlstra wrote:
-> On Wed, May 10, 2023 at 11:17:16AM -0700, Paul E. McKenney wrote:
-> > The gen-atomics.sh script currently generates 42 duplicate definitions:
-> > 
-> > 	arch_atomic64_add_negative
-> > 	arch_atomic64_add_negative_acquire
-> > 	arch_atomic64_add_negative_release
-> > 	arch_atomic64_dec_return
-> > 	arch_atomic64_dec_return_acquire
-> > 	arch_atomic64_dec_return_release
-> > 	arch_atomic64_fetch_andnot
-> > 	arch_atomic64_fetch_andnot_acquire
-> > 	arch_atomic64_fetch_andnot_release
-> > 	arch_atomic64_fetch_dec
-> > 	arch_atomic64_fetch_dec_acquire
-> > 	arch_atomic64_fetch_dec_release
-> > 	arch_atomic64_fetch_inc
-> > 	arch_atomic64_fetch_inc_acquire
-> > 	arch_atomic64_fetch_inc_release
-> > 	arch_atomic64_inc_return
-> > 	arch_atomic64_inc_return_acquire
-> > 	arch_atomic64_inc_return_release
-> > 	arch_atomic64_try_cmpxchg
-> > 	arch_atomic64_try_cmpxchg_acquire
-> > 	arch_atomic64_try_cmpxchg_release
-> > 	arch_atomic_add_negative
-> > 	arch_atomic_add_negative_acquire
-> > 	arch_atomic_add_negative_release
-> > 	arch_atomic_dec_return
-> > 	arch_atomic_dec_return_acquire
-> > 	arch_atomic_dec_return_release
-> > 	arch_atomic_fetch_andnot
-> > 	arch_atomic_fetch_andnot_acquire
-> > 	arch_atomic_fetch_andnot_release
-> > 	arch_atomic_fetch_dec
-> > 	arch_atomic_fetch_dec_acquire
-> > 	arch_atomic_fetch_dec_release
-> > 	arch_atomic_fetch_inc
-> > 	arch_atomic_fetch_inc_acquire
-> > 	arch_atomic_fetch_inc_release
-> > 	arch_atomic_inc_return
-> > 	arch_atomic_inc_return_acquire
-> > 	arch_atomic_inc_return_release
-> > 	arch_atomic_try_cmpxchg
-> > 	arch_atomic_try_cmpxchg_acquire
-> > 	arch_atomic_try_cmpxchg_release
-> > 
-> > These duplicates are presumably to handle different architectures
-> > generating hand-coded definitions for different subsets of the atomic
-> > operations.  However, generating duplicate kernel-doc headers is
-> > undesirable.
-> > 
-> > Therefore, generate only the first kernel-doc definition in a group
-> > of duplicates.  A comment indicates the name of the function and the
-> > fallback script that generated it.
-> 
-> So my canonical solution to fixing kernel-doc related problems is this
-> trivial regex:
-> 
-> 	s/\/\*\*/\/\*/
-> 
-> works every time.
+> >
+> > I felt that, since we are using sequential reclaim mentioned in the
+> > paper and we isolate all parameters per-cpu(except for extra_bw) we
+> > could use the "-dq = -(U/Umax) dt" equation as it was simpler than
+> > equation (3).
+>
+> This is the part I am not sure about...
+>
+> Maybe the best way to go is to split the patch: first you implement (1)
+> (and use div64 to remove the approximation I used), then you implement
+> (3) in a second patch.
+>
+> Finally, if removing the max{} is really needed you can do it in a
+> third patch (but I would try to go with Equation 3 before removing the
+> max{})
+>
+Sure, I shall split the patch. Joel also suggested splitting the patch
+and I was probably wrong to think that the patch was simple to be a
+single patch :-).
 
-Can't say that I am a fan of that approach.
+Since equation (3) has theoretical backing, I am perfectly fine with
+using it for our fix. Will have 2 patches as you suggested.
 
-> And is *much* simpler than this:
-> 
-> >  scripts/atomic/chkdup.sh                     |  27 ++
-> >  scripts/atomic/fallbacks/acquire             |   3 +
-> >  scripts/atomic/fallbacks/add_negative        |   5 +
-> >  scripts/atomic/fallbacks/add_unless          |   5 +
-> >  scripts/atomic/fallbacks/andnot              |   5 +
-> >  scripts/atomic/fallbacks/dec                 |   5 +
-> >  scripts/atomic/fallbacks/dec_and_test        |   5 +
-> >  scripts/atomic/fallbacks/dec_if_positive     |   5 +
-> >  scripts/atomic/fallbacks/dec_unless_positive |   5 +
-> >  scripts/atomic/fallbacks/fence               |   3 +
-> >  scripts/atomic/fallbacks/fetch_add_unless    |   5 +
-> >  scripts/atomic/fallbacks/inc                 |   5 +
-> >  scripts/atomic/fallbacks/inc_and_test        |   5 +
-> >  scripts/atomic/fallbacks/inc_not_zero        |   5 +
-> >  scripts/atomic/fallbacks/inc_unless_negative |   5 +
-> >  scripts/atomic/fallbacks/read_acquire        |   5 +
-> >  scripts/atomic/fallbacks/release             |   3 +
-> >  scripts/atomic/fallbacks/set_release         |   5 +
-> >  scripts/atomic/fallbacks/sub_and_test        |   5 +
-> >  scripts/atomic/fallbacks/try_cmpxchg         |   5 +
-> >  scripts/atomic/gen-atomics.sh                |   4 +
+Will get the v3 out soon..
 
-This is not a huge addition, now is it?
-
-							Thanx, Paul
+Thanks,
+Vineeth
