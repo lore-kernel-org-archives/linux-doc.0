@@ -2,155 +2,237 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87ECDC7EE23
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 04:39:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40480C77B7F
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 06:19:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236629AbjEKEjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 00:39:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
+        id S237016AbjEKGTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 02:19:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236620AbjEKEjD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 00:39:03 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFF94C3E;
-        Wed, 10 May 2023 21:39:00 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6439d505274so4797565b3a.0;
-        Wed, 10 May 2023 21:39:00 -0700 (PDT)
+        with ESMTP id S237106AbjEKGTp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 02:19:45 -0400
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 245C2525C
+        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 23:19:40 -0700 (PDT)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-55a10577911so118630447b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 23:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683779940; x=1686371940;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NfPVn5olpqaJ9gF1uVFBdyzllvA5roFYhnWM8hmvvQs=;
-        b=CM2a/lbq36x13q65iqDwkGGnCpC6151bIAR/XQPvlA8z+Y6wKEd+Nha4w5xrFs44c1
-         H3TY0uUqVGkNT5yVmPS25lxl0Ta9fTqjSwH+v6Anb+zWV3xkwqA0cT1fGAZdxKPX70oP
-         4P79mAd17GqG/uU2P4h8nS47QRJK0omdBXdfRZ2WcCuFKBvC8ZCenZa/Zj2x6h9gQuyK
-         8hZ1kwDHppvJ6rKpsYi7uB20mAyMvlm539JG9spgQZLJjP0lkGsrtV0L1UVqAoPhPCRi
-         kLVkXxtEfOFsSbZFceOA+USKon1SCIEghEDU3aBULWHRHWX61zVmQui0mRm/2Gek26AT
-         QA0g==
+        d=joelfernandes.org; s=google; t=1683785979; x=1686377979;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b18qtmniAi+AEeCXApPuuoSxsIi2qci+TPfIML3CctA=;
+        b=CpdestOwKbifbG3w2RZxDl/clLet3qrBtU3nj7nChXpZpbS4qrwLbiEO/egmYRDQ+F
+         gDoJlu08T24uEJPSwxEQXEaMrSrGbGGBoC4w1e6JcKNR0hxARwrm+AKJ6YTmqcrZi61+
+         2H0vqX+Sl0AAak7cXEfPP+7069cet3qTdl/t4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683779940; x=1686371940;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NfPVn5olpqaJ9gF1uVFBdyzllvA5roFYhnWM8hmvvQs=;
-        b=ZnCPgmKEfRtB6KUIL2OdfpkIGrTl6wI8TSTp1KOyQpN3GvXUODwIRepY42ZEh9D2I6
-         3Y5bb5bRVAu1LXoiIoSTU3mRLbgmu7NKwb0MF+n5WnVUx5KHTUQ77XT3mv7+3db0KzEz
-         q+Tqiptq9B8zr+pmYSRyw/pAZ5Q0PHxXxvRcsfE3zjd6jrrD+xGL1WC5Vq72dhHZeer2
-         M4E8uDgPG7jTq9z+UiLw4wadUxg256rEGkIj6E5ARhbQ4LuPsP5y7hPLjv4nVUWqvuMs
-         AKKMmYpqQk6wu7SMjQF5WmA1DN8JUqjKZPZTOzZVj7W858i/0WoHh9hfPS+gWLz5e/d/
-         94ww==
-X-Gm-Message-State: AC+VfDzDol05Umo/2AG/3vgjMQZ4dyDBheNN9oVo0UuH9wadBhpGuM5U
-        MEydZmnXUA4NoUiL7tEa+bE=
-X-Google-Smtp-Source: ACHHUZ5sRVAXm3qGSvE+1Rday563eVVSMrEr5tsVUTa4o9ro6yWRvwUwJUnRr1BQi0R40oBd8GQIOg==
-X-Received: by 2002:a05:6a20:7d8d:b0:101:166:863f with SMTP id v13-20020a056a207d8d00b001010166863fmr13020204pzj.23.1683779939585;
-        Wed, 10 May 2023 21:38:59 -0700 (PDT)
-Received: from debian.me (subs09a-223-255-225-70.three.co.id. [223.255.225.70])
-        by smtp.gmail.com with ESMTPSA id h5-20020a62b405000000b0063932e36437sm4319779pfn.134.2023.05.10.21.38.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 21:38:59 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 852CF106772; Thu, 11 May 2023 11:38:55 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Keyrings <keyrings@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] Documentation: module-signing: Mention default_x509.genkey template
-Date:   Thu, 11 May 2023 11:38:52 +0700
-Message-Id: <20230511043852.25803-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1683785979; x=1686377979;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b18qtmniAi+AEeCXApPuuoSxsIi2qci+TPfIML3CctA=;
+        b=NH7BotPidFDzSG3rfhCrXNq3txxLogDSChignHemYYzKWpdkQHvHJEg2QeU6+dDpdG
+         XuaDw+xoVUG1BwxEMj4sdBZXjyDTX53pwaeyIG+HuiAZI9OWDB73xYEIznbNnao2q/a0
+         UuIsTDT5Qg8Ee1uREfyujTenZkOQPwB+Y/tMucx2fSmnzoYRyhCiUjNOPqADXAGCB2np
+         CQHndjOzIHjbz88I8EovCeScvfxcptyKUsns9+SSvkJQDYNpiU9WZ1Rsrtf1zSu+/ZOo
+         LyAyqW531ej1TrV2m7uXjrEhBg+QW0NkHD5yRWlo7IQDR2arykofKCpDqRNsmUQUwFKC
+         nHWw==
+X-Gm-Message-State: AC+VfDySGUgkf40k/IO211btp1zStKryPrCTz5BRkMtep5j2abm919m2
+        Ist9wh8lu8QBJQXrA73yeP2q5tcTzYONrRzXFpYeQQ==
+X-Google-Smtp-Source: ACHHUZ4fbzTjTcfsiWG/coHms/+UyyQOjCOsFw0hjewXQx+r3YEXTTgnwArQvI7+T53tu2RUBSsoa6FYv8srj0KRkuQ=
+X-Received: by 2002:a25:4a46:0:b0:b8e:e918:33ac with SMTP id
+ x67-20020a254a46000000b00b8ee91833acmr18954961yba.1.1683785979134; Wed, 10
+ May 2023 23:19:39 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3450; i=bagasdotme@gmail.com; h=from:subject; bh=KYJZUTwEc47lOKWrdoWj83OI1aAJrI5PpPp4KRuKUhk=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkxhaGrj8yYspKtJX1CWdIUEetLucbtZXt6eTLdr7HES +7adFm0o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABNx2M7I0N/T/uBeTb02h/0B udttJ9kfN3zfqZY6mUlK04/lfrDTeob/MT9z2xM/nS3QbfLYp3zgzsJn9cwyj55te7D+ew7/mY1 3WQA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20230511014625.3443409-1-vineeth@bitbyteword.org>
+In-Reply-To: <20230511014625.3443409-1-vineeth@bitbyteword.org>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Wed, 10 May 2023 23:19:27 -0700
+Message-ID: <CAEXW_YRjNAUXFD8rPQQ53Vu8j8ka=Z-WEZS54JXEroVH7TPVjg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] sched/deadline: Improve reclaim bandwidth accuracy
+ for GRUB
+To:     Vineeth Pillai <vineeth@bitbyteword.org>
+Cc:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
-adds default x509 keypair config file template, but forgets to mention
-it in kernel module signing documentation. Update the doc accordingly.
+Hi Vineeth,
+Nice work. ;-) Few quick comments below:
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/admin-guide/module-signing.rst | 41 ++++++++------------
- 1 file changed, 17 insertions(+), 24 deletions(-)
+On Wed, May 10, 2023 at 6:46=E2=80=AFPM Vineeth Pillai <vineeth@bitbyteword=
+.org> wrote:
+>
+> Current reclaim calculation for GRUB is a bit inaccurate and the
+> inaccuracy gets larger as the bandwidth of tasks becomes smaller.
+> I have a test program to show the issue - it runs one or more
+> deadline threads and observes the utilization. Following tests
+> are run on an isolated cpu(isolcpus=3D3) in a 4 cpu system and the
+> results as shown below:
+>
+> RUN 1: runtime=3D7ms, deadline=3Dperiod=3D10ms, RT capacity =3D 95%
+> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.33
+> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.35
+> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.35
+> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.29
+>
+> RUN 2: runtime=3D2ms, deadline=3Dperiod=3D10ms, RT capacity =3D 95%
+> TID[704]: RECLAIM=3D1, (r=3D2ms, d=3D10ms, p=3D10ms), Util: 79.96
+> TID[704]: RECLAIM=3D1, (r=3D2ms, d=3D10ms, p=3D10ms), Util: 80.06
+> TID[704]: RECLAIM=3D1, (r=3D2ms, d=3D10ms, p=3D10ms), Util: 80.00
+>
+> RUN 3: runtime=3D1ms, deadline=3Dperiod=3D100ms, RT capacity =3D 95%
+> TID[708]: RECLAIM=3D1, (r=3D1ms, d=3D100ms, p=3D100ms), Util: 16.69
+> TID[708]: RECLAIM=3D1, (r=3D1ms, d=3D100ms, p=3D100ms), Util: 16.69
+> TID[708]: RECLAIM=3D1, (r=3D1ms, d=3D100ms, p=3D100ms), Util: 16.70
+>
+> When running multiple tasks, the reclaimed bandwidth is divided
+> proportionately, but is not reclaimed to the max allowable limit:
+>
+> RUN 4: 2 SCHED_FLAG_RECLAIM tasks, 1 normal task
+>         Task 1: runtime=3D1ms, deadline=3Dperiod=3D10ms
+>         Task 2: runtime=3D1ms, deadline=3Dperiod=3D10ms
+>         Task 3: runtime=3D5ms, deadline=3Dperiod=3D20ms(normal)
+> TID[624]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.10
+> TID[625]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.10
+> TID[626]: RECLAIM=3D0, (r=3D5ms, d=3D20ms, p=3D20ms), Util: 25.07
+> TID[624]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.06
+> TID[625]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.13
+> TID[626]: RECLAIM=3D0, (r=3D5ms, d=3D20ms, p=3D20ms), Util: 25.12
+> TID[624]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 19.95
+> TID[625]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 19.93
+> TID[626]: RECLAIM=3D0, (r=3D5ms, d=3D20ms, p=3D20ms), Util: 25.04
+>
+> I have also tested multiple tasks on all cpus allowing for tasks to
+> migrate and see the same issue there as well. Running 10 tasks on 3
+> cpus with 6 SCHED_FLAG_RECLAIM and 4 normal tasks, top shows:
+> %Cpu0  : 70.1 us,  0.3 sy,  0.0 ni, 29.3 id,  0.0 wa
+> %Cpu1  : 69.1 us,  0.3 sy,  0.0 ni, 30.3 id,  0.3 wa
+> %Cpu2  : 70.5 us,  0.3 sy,  0.0 ni, 29.2 id,  0.0 wa
+>
+> The max{} logic in the existing implementation seems to not fully
+> capture the GRUB algorithm.
+>
+> This patch fixes the issue by appropriatley caping the max allowed
+> utilization and also slightly adjusting GRUB algorithm to account
+> for a mix of normal deadline and SCHED_FLAG_RECLAIM tasks.
 
-diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation/admin-guide/module-signing.rst
-index 7d7c7c8a545ca6..365d60a6245f17 100644
---- a/Documentation/admin-guide/module-signing.rst
-+++ b/Documentation/admin-guide/module-signing.rst
-@@ -133,46 +133,39 @@ kernel so that it can be used to check the signatures as the modules are
- loaded.
- 
- Under normal conditions, when ``CONFIG_MODULE_SIG_KEY`` is unchanged from its
--default, the kernel build will automatically generate a new keypair using
--openssl if one does not exist in the file::
--
--	certs/signing_key.pem
--
-+default, the kernel build will automatically generate a new keypair in
-+``certs/signing_key.pem`` using openssl if it doesn't exist,
- during the building of vmlinux (the public part of the key needs to be built
--into vmlinux) using parameters in the::
--
--	certs/x509.genkey
--
-+into vmlinux) using parameters in the ``certs/x509.genkey`` configuration
- file (which is also generated if it does not already exist).
- 
--It is strongly recommended that you provide your own x509.genkey file.
--
--Most notably, in the x509.genkey file, the req_distinguished_name section
--should be altered from the default::
-+If you'd like to provide alternative configuration, copy
-+``certs/default_x509.genkey`` to ``certs/x509.genkey`` and edit the copy
-+instead. Most likely, you will want to edit the ``req_distinguished_name``
-+section, which identifies the resulting keypair. For example::
- 
- 	[ req_distinguished_name ]
--	#O = Unspecified company
--	CN = Build time autogenerated kernel key
--	#emailAddress = unspecified.user@unspecified.company
-+	O = Example company
-+	CN = Example kernel build
-+	emailAddress = user@example.com
- 
- The generated RSA key size can also be set with::
- 
- 	[ req ]
- 	default_bits = 4096
- 
--
--It is also possible to manually generate the key private/public files using the
--x509.genkey key generation configuration file in the root node of the Linux
--kernel sources tree and the openssl command.  The following is an example to
--generate the public/private key files::
-+Optionally, you can also manually generate the keypair so that the same
-+keypair can be used in multiple builds. To generate it::
- 
- 	openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
- 	   -config x509.genkey -outform PEM -out kernel_key.pem \
- 	   -keyout kernel_key.pem
- 
--The full pathname for the resulting kernel_key.pem file can then be specified
--in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate and key therein will
--be used instead of an autogenerated keypair.
-+See :manpage:`openssl-req(1)` for the explanation.
-+
-+The full pathname for the resulting ``kernel_key.pem`` file can then be
-+specified in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate and key
-+therein will be used instead of an autogenerated keypair.
- 
- 
- =========================
+Looked at the patch quickly as I am due for bedtime ;-). I feel like
+this does more than should be done in one patch. So you should
+consider splitting it IMHO.
 
-base-commit: ac9a78681b921877518763ba0e89202254349d1b
--- 
-An old man doll... just what I always wanted! - Clara
+> According to the GRUB rule, the runtime is depreciated as a factor
+> of active bandwidth of the runqueue: "dq =3D -dt", where U is the
 
+Saying "dq =3D -dt" where U does not make sense because U is not in the
+equation ;-). Suggest rephrase.
+
+> active bandwidth. Also, we do not allocate the full bandwidth of a
+> cpu to deadline task, but only a portion(Umax) to it, so as to avoid
+> deadline tasks starving lower class tasks. The equation could be
+> re-written as "dq =3D -(U / Umax) * dt"
+
+Isn't the equation in the code right now as:
+dq =3D -max{ Ui / Umax, (1 - Uinact - Uextra) } dt
+
+?
+
+That's what the kernel docs say [1].
+
+So what do you mean by "could be re-written" ?
+
+[1] https://docs.kernel.org/scheduler/sched-deadline.html
+
+>
+> Since both normal deadline and SCHED_FLAG_RECLAIM tasks can share
+> cpu, we need to consider bandwidth of only SCHED_FLAG_RECLAIM tasks
+> in the equation:
+>         "dq =3D -(Ureclaim / Umax_reclaim) * dt"
+
+This makes sense, we deplete only as a percent of what's reclaimable
+and not the whole damn thing. You did test a mix of reclaim and
+non-reclaim tasks so that's good, also since Luca approves that's
+great. ;-)
+
+>
+> Following are the results with this patch:
+>
+> RUN 1: runtime=3D7ms, deadline=3Dperiod=3D10ms, RT capacity =3D 95%
+> TID[616]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 94.98
+> TID[616]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 95.04
+> TID[616]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 95.01
+
+All these look 100% correct to me. Do these tasks start at the same
+time or are they shifted in their respective activations? Just wanted
+to be sure it behaves the same either way...
+
+[...]
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index 3e8df6d31c1e..13d85af0f42b 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -257,6 +257,11 @@ static inline bool dl_entity_is_special(const struct=
+ sched_dl_entity *dl_se)
+>  #endif
+>  }
+>
+> +static inline bool dl_entity_is_reclaim(const struct sched_dl_entity *dl=
+_se)
+> +{
+> +       return dl_se->flags & SCHED_FLAG_RECLAIM;
+> +}
+> +
+
+Can this helper addition be split out to a different patch?
+
+>  /*
+>   * Tells if entity @a should preempt entity @b.
+>   */
+> @@ -754,10 +759,20 @@ struct dl_rq {
+>         u64                     extra_bw;
+>
+>         /*
+> -        * Inverse of the fraction of CPU utilization that can be reclaim=
+ed
+> -        * by the GRUB algorithm.
+> +        * Maximum available bandwidth for this runqueue. This is used to
+> +        * calculate reclaimable bandwidth for SCHED_FLAG_RECLAIM tasks.
+> +        * By restricting maximum usable bandwidth, we aim to give other
+> +        * tasks on lower classes a chance to run, when competing with
+> +        * SCHED_FLAG_RECLAIM tasks.
+>          */
+> -       u64                     bw_ratio;
+> +       u64                     max_bw;
+> +
+> +       /*
+> +        * Active bandwidth of SCHED_FLAG_RECLAIM tasks on this rq.
+> +        * This will be a subset of running_bw.
+> +        */
+> +       u64                     reclaim_bw;
+> +
+
+And perhaps addition and use of these new fields if it makes sense.
+
+I will take a closer look at your patches later or after v2..
+
+ - Joel
+
+
+>  };
+>
+>  #ifdef CONFIG_FAIR_GROUP_SCHED
+> --
+> 2.40.1
+>
