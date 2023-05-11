@@ -2,103 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2049C77B7F
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 09:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF88C7EE2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 09:52:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235698AbjEKJVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 05:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45174 "EHLO
+        id S237277AbjEKJwE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 05:52:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230200AbjEKJVr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 05:21:47 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF0C1A6;
-        Thu, 11 May 2023 02:21:46 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1px2UX-0002A5-NX; Thu, 11 May 2023 11:21:41 +0200
-Message-ID: <6c1f853b-b051-c390-267e-1ea1741e8537@leemhuis.info>
-Date:   Thu, 11 May 2023 11:21:36 +0200
+        with ESMTP id S237516AbjEKJwD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 05:52:03 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FDD39EF3
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 02:51:30 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3f42b984405so21524455e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 02:51:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683798688; x=1686390688;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mTPp8QywfNyVkAufTyppdZdc6KOGJR4M0+qiLr9qQQs=;
+        b=M2LUQPL7PGkS+h9rK5dhBDsGVIwbi0H+SqqKfbvwmMT4krCHZpXTMCrmE767sePMqb
+         5EFNi9lAb8z2EPxdCaSX5WyuyNG+8Jeak/9aH0u5mNxLUTDAGYB6YSkCzl1Aa3C1nOPF
+         qgiNUixn91e4zCXCs4gRgx1SSm3nnbNujpyJNDyIocg9GMfbEQKIVB3ntxdxfhqfz3OA
+         Pyx/6zE2kN3KXlul2bovKxK6LNwQZ7/kLn3jrW5mxMmTb0/vt/iggQ/Z5N6AL/aRrECY
+         EWALL8QzrwTG6aunVX+pvC32pBlrasFOVMbAITa8aOcfGcvhPUweEn3pltZtel+PWhOO
+         NLkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683798688; x=1686390688;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mTPp8QywfNyVkAufTyppdZdc6KOGJR4M0+qiLr9qQQs=;
+        b=fxmMkO1efJ+ufQACAiwwqCogrIOS5ul3Tdr0LyNisLqsh0rDeBIyGrlub17+vI1Rs7
+         odHT91PGJ4JJv+YXuCZ4Rsc8u18nEk854Zj6hJGGpv05d5XNNHBXsXVwrJv2aB/hCOY3
+         MP4dtwLSJ8CEsCn3ifNP/kErp1MEoKr9pyHrLc4p3N4/T9vuECd76MbSv1aZJQfKMji1
+         8k3yzGwSicju9B2k214wy40pCR9oWP9eNqmXTlLtMJP4jussyaLAoByVqSdqQG4Ewi8a
+         sXbMkwRGeIOmq6AH9M0ypGAx9fKKXSa6T5zbK/WyZoyGZI6HHWEfid6w52a0+DhQo8Df
+         i+DA==
+X-Gm-Message-State: AC+VfDxjwhBPMgw7GGxiJdpyKrBiclNGyjNkZnXdWWwmDrD5vjN0sZHL
+        8dYSE56bZ6uBqDeszNL5N4Vn7g==
+X-Google-Smtp-Source: ACHHUZ77oPngL+MeroQzjAKoRK3YdxsUu7omuG52qRybdXF4Kk8HqteMTujXJ2HNRwHilGunhJuR4w==
+X-Received: by 2002:a05:600c:b4b:b0:3f4:2897:4eb7 with SMTP id k11-20020a05600c0b4b00b003f428974eb7mr7663813wmr.38.1683798688437;
+        Thu, 11 May 2023 02:51:28 -0700 (PDT)
+Received: from baylibre-ThinkPad-T14s-Gen-2i.. (120.205.87.79.rev.sfr.net. [79.87.205.120])
+        by smtp.gmail.com with ESMTPSA id z9-20020a05600c114900b003f4069417absm22389956wmz.24.2023.05.11.02.51.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 02:51:28 -0700 (PDT)
+From:   Julien Panis <jpanis@baylibre.com>
+To:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com
+Cc:     macro@orcam.me.uk, baolu.lu@linux.intel.com, yi.l.liu@intel.com,
+        jirislaby@kernel.org, rostedt@goodmis.org, revest@chromium.org,
+        gehao@kylinos.cn, akpm@linux-foundation.org, jgg@ziepe.ca,
+        razor@blackwall.org, stephen@networkplumber.org,
+        prabhakar.csengg@gmail.com, contact@emersion.fr,
+        alex.williamson@redhat.com, akrowiak@linux.ibm.com,
+        mark.rutland@arm.com, ye.xingchen@zte.com.cn, ojeda@kernel.org,
+        me@kloenk.de, milan@mdaverde.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
+        jneanne@baylibre.com, aseketeli@baylibre.com
+Subject: [PATCH v7 0/6] TI TPS6594 PMIC support (Core, ESM, PFSM)
+Date:   Thu, 11 May 2023 11:51:20 +0200
+Message-Id: <20230511095126.105104-1-jpanis@baylibre.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rong Tao <rtoax@foxmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Zhangfei Gao <zhangfei.gao@foxmail.com>,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230510183423.never.877-kees@kernel.org>
-Content-Language: en-US, de-DE
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH] docs: submitting-patches: Discuss interleaved replies
-In-Reply-To: <20230510183423.never.877-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1683796906;6a8a3a56;
-X-HE-SMSGID: 1px2UX-0002A5-NX
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10.05.23 20:34, Kees Cook wrote:
-> Top-posting has been strongly discouraged in Linux development, but this
-> was actually not written anywhere in the common documentation about
-> sending patches and replying to reviews. Add a section about trimming
-> and interleaved replies.
+TPS6594 is a Power Management IC which provides regulators and others
+features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+PFSM (Pre-configurable Finite State Machine). The SoC and the PMIC can
+communicate through the I2C or SPI interfaces.
+TPS6594 is the super-set device while TPS6593 and LP8764 are derivatives.
 
-Thx for doing this.
+This series adds support to TI TPS6594 PMIC and its derivatives.
 
-> [...]
-> ---
->  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+The features implemented in this series are:
+- Core (MFD I2C and SPI entry points)
+- ESM (child device)
+- PFSM (child device)
 
-For some reason we have duplicate code^w documentation for this, hence
-I'd say the same or a similar text should also be added to one of the
-filed in Documentation/process/[0-9].*rst ; from a quick
-Documentation/process/6.Followthrough.rst might be the best one.
+- Core description:
+I2C and SPI interface protocols are implemented, with and without
+the bit-integrity error detection feature (CRC mode).
+In multi-PMIC configuration, all instances share a single GPIO of
+the SoC to generate interrupt requests via their respective nINT
+output pin.
 
-Maybe in fact the text should move there and submitting-patches.rst
-should have a much shorter version, as it's meant to be the terser of
-the two docs about this.
+- ESM description:
+This device monitors the SoC error output signal at its nERR_SOC
+input pin. In error condition, ESM toggles its nRSTOUT_SOC pin
+to reset the SoC.
+Basically, ESM driver starts ESM hardware.
 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index eac7167dce83..3e838da8822f 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -326,6 +326,29 @@ explaining difference aganst previous submission (see
->  See Documentation/process/email-clients.rst for recommendations on email
->  clients and mailing list etiquette.
->  
-> +Use trimmed interleaved replies in email discussions
-> +----------------------------------------------------
-> +Top-posting is strongly discouraged in Linux kernel development
-> +discusions. Interleaved (or "inline") replies make conversations much
+- PFSM description:
+Strictly speaking, PFSM is not hardware. It is a piece of code.
+PMIC integrates a state machine which manages operational modes.
+Depending on the current operational mode, some voltage domains
+remain energized while others can be off.
+PFSM driver can be used to trigger transitions between configured
+states.
 
-s/discusions/discussions/
+Changes since v6:
+* Rebase on linux v6.4-rc1 (no modification in the series)
 
-> +easier to follow. For more details see:
-> +https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
-> +
-> +As is frequently quoted on the mailing list:
-> +
-> +  A: http://en.wikipedia.org/wiki/Top_post
-> +  Q: Were do I find info about this thing called top-posting?
-> +  A: Because it messes up the order in which people normally read text.
-> +  Q: Why is top-posting such a bad thing?
-> +  A: Top-posting.
-> +  Q: What is the most annoying thing in e-mail?
-> +
-> +Similarly, please trim all unneeded quotations that aren't relevant
-> +to your reply. This makes replies easier to find, and saves time and
+Link to v6:
+https://lore.kernel.org/all/20230406075622.8990-1-jpanis@baylibre.com/
 
-Nitpicking, feel free to ignore: maybe "s/replies/responses/" or
-something like that, as at least my stupid brain accidentally thought of
-the email reply (as whole) when reading this for the first time.
+Others series will be submitted over the next few weeks, providing
+drivers for others child devices like GPIOs (pinctrl), RTC, and
+regulators. Board support will also be added (device trees).
 
-> +space. For more details see: http://daringfireball.net/2007/07/on_top
-> [...]
+Julien Panis (6):
+  dt-bindings: mfd: Add TI TPS6594 PMIC
+  mfd: tps6594: Add driver for TI TPS6594 PMIC
+  misc: tps6594-esm: Add driver for TI TPS6594 ESM
+  misc: tps6594-pfsm: Add driver for TI TPS6594 PFSM
+  Documentation: Add TI TPS6594 PFSM
+  samples: Add userspace example for TI TPS6594 PFSM
 
-Ciao, Thorsten
+ .../devicetree/bindings/mfd/ti,tps6594.yaml   |  193 ++++
+ Documentation/misc-devices/index.rst          |    1 +
+ Documentation/misc-devices/tps6594-pfsm.rst   |   87 ++
+ .../userspace-api/ioctl/ioctl-number.rst      |    1 +
+ drivers/mfd/Kconfig                           |   32 +
+ drivers/mfd/Makefile                          |    3 +
+ drivers/mfd/tps6594-core.c                    |  462 ++++++++
+ drivers/mfd/tps6594-i2c.c                     |  244 ++++
+ drivers/mfd/tps6594-spi.c                     |  129 +++
+ drivers/misc/Kconfig                          |   23 +
+ drivers/misc/Makefile                         |    2 +
+ drivers/misc/tps6594-esm.c                    |  132 +++
+ drivers/misc/tps6594-pfsm.c                   |  306 +++++
+ include/linux/mfd/tps6594.h                   | 1020 +++++++++++++++++
+ include/uapi/linux/tps6594_pfsm.h             |   37 +
+ samples/Kconfig                               |    6 +
+ samples/Makefile                              |    1 +
+ samples/pfsm/.gitignore                       |    2 +
+ samples/pfsm/Makefile                         |    4 +
+ samples/pfsm/pfsm-wakeup.c                    |  125 ++
+ 20 files changed, 2810 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+ create mode 100644 Documentation/misc-devices/tps6594-pfsm.rst
+ create mode 100644 drivers/mfd/tps6594-core.c
+ create mode 100644 drivers/mfd/tps6594-i2c.c
+ create mode 100644 drivers/mfd/tps6594-spi.c
+ create mode 100644 drivers/misc/tps6594-esm.c
+ create mode 100644 drivers/misc/tps6594-pfsm.c
+ create mode 100644 include/linux/mfd/tps6594.h
+ create mode 100644 include/uapi/linux/tps6594_pfsm.h
+ create mode 100644 samples/pfsm/.gitignore
+ create mode 100644 samples/pfsm/Makefile
+ create mode 100644 samples/pfsm/pfsm-wakeup.c
+
+
+base-commit: ac9a78681b921877518763ba0e89202254349d1b
+-- 
+2.37.3
+
