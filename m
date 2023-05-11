@@ -2,120 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0997C77B7C
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 16:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D03C4C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 16:56:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238841AbjEKQkN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 12:40:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53900 "EHLO
+        id S238707AbjEKQ4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 12:56:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238693AbjEKQkK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 12:40:10 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD747EF5
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 09:40:08 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3f42711865eso33909885e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 09:40:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1683823207; x=1686415207;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rWPj+0MEcU+bJjFDLtiKhJORofVGXZE+QDk7KaJWG9E=;
-        b=UuPFreN/sIyZvma3z9Xm6KxNZFcbh1TpDfsITGLUWBCWA6T4xHCFr5HuwlelWhANsc
-         GODLbDYWSkjxpw1FlGH7zBZhqQl+PBnoza0HREbOpZD4TA496u22UD6bDXXczi7KYVpl
-         vUHL3f5x4AXj97duCDa1dgEYjprlWsVyV+SBIS6xrVMPSwQcsV6kK8n5uf0FR6XnIuc4
-         bHtcnz/0qP1iI3PLzgpdryNpdPYlDZbySxQcLGTnHTgtAXoWs5v1mwmzllg9a6m64GLt
-         EJC3fIG+NQH/j+vTbDoa5wKLgeATWhDm4OwK78ppk49kTcq7mfR/nc2WNPwoATtQv89M
-         LAmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683823207; x=1686415207;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rWPj+0MEcU+bJjFDLtiKhJORofVGXZE+QDk7KaJWG9E=;
-        b=BojkYIbO/IT3il4WWzauL/IrjKzyIRqLOSJ44gP02SXJFmo/lp8RMNMpdervRL69un
-         dFDU2Wr7KQMuHQ/i8Oki3FA/DjeuyWUUFPXm/fbrKrvmP7zR3W8JzQmPsjyt9FiYJo5K
-         gFf6UfUWAbWaDP9lTtMedc8+sA/2oZybFQ86J3HvzwJsqtjcRy68qB4n6ofQzVjLxkDx
-         QeY/pjurC8Pq0sAJgHgahKlj+BCo9lFCWV28QlQ9o5ILlfB2OX7NtNhyCxt1YkA6Ieq8
-         ZYYo4ipxq/VrjtnaA+SdJ7Dgx8yGOtHtCs10+IKbK5B8uJZ0lWHTBUsn6JSSz/kEUf6x
-         To8A==
-X-Gm-Message-State: AC+VfDyxmdp0uy/3PSy4RgWpFcgzb6kvQlqRGSXZJZbwgo8hMNS/B0oQ
-        UyiGuRhkcw6+zllDT7sqdRo6QA==
-X-Google-Smtp-Source: ACHHUZ5lIBereKcBnZpJKQGjLGzbXt7Ys+TI95CPzIw7E6x8cqi52/zghFhzklOdZznlq63vKEcQWg==
-X-Received: by 2002:a1c:f20a:0:b0:3f1:819d:d050 with SMTP id s10-20020a1cf20a000000b003f1819dd050mr15055961wmc.37.1683823206802;
-        Thu, 11 May 2023 09:40:06 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id 12-20020a05600c020c00b003f4b6bcbd8bsm4941659wmi.31.2023.05.11.09.40.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 09:40:06 -0700 (PDT)
-Date:   Thu, 11 May 2023 18:40:05 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Haibo Xu <haibo1.xu@intel.com>
-Cc:     xiaobo55x@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] riscv: kvm: Add KVM_GET_REG_LIST API support
-Message-ID: <20230511-d0a207eebb30fc88de875e4f@orel>
-References: <cover.1683791148.git.haibo1.xu@intel.com>
- <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
+        with ESMTP id S238660AbjEKQ4R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 12:56:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C65E7DA2;
+        Thu, 11 May 2023 09:56:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6861D64F66;
+        Thu, 11 May 2023 16:56:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF92BC4339E;
+        Thu, 11 May 2023 16:56:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683824174;
+        bh=NZQLRkpXPjDrV/tefkxQb8D2zb/ave42qpwXAWM3fyI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SN/saX5/pXzqvrg3+YjPBjv1P2clQC94+8bNzYzcVA874LRMeOqDxUFbvGkWF9lYV
+         l8FB4HbhP9mGzUgQ1jnlrKzIZrOk2g4O51ENv+59DXyJF/npRKBH5oVuDS0GZCYnXL
+         FAmlW15Ueh0QyWxsN3GjiVvliPFahkk8iYS83QRSftK5QY1nM4dq96h4NT3fKFevVJ
+         P5fq8cqL4Tm9S36w6PAOy84/rrtStLsrKwweD8LGS3LWXfUXs0IZwM8Rhzw2DqWik5
+         0/kekym8PuRO9rGEPCaV5zUzxGZNDPDxgoNTkLujtKKWuSz5AkrEnI80mnEl6303ic
+         RbhaY6SQe9C5A==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-54f846d251fso2331491eaf.3;
+        Thu, 11 May 2023 09:56:14 -0700 (PDT)
+X-Gm-Message-State: AC+VfDw+wscbmcggx2sZGx0tKPI+r1a3565lBxCy5SE71DtiE5VMIvw9
+        vh6B6QF/MZJPgxI51BfsJr7qpx6KmiI2ZjhAq1I=
+X-Google-Smtp-Source: ACHHUZ7IivoF9ANMjM/WWUxmVCzwp5Ug26/ne44DqjZkkhIM5GfmHPOgqkpE/ZfAc9yuUqBN0rzr6POviRlblz3w4EU=
+X-Received: by 2002:a4a:3042:0:b0:541:f986:637f with SMTP id
+ z2-20020a4a3042000000b00541f986637fmr4566821ooz.8.1683824174123; Thu, 11 May
+ 2023 09:56:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
+References: <20230511043852.25803-1-bagasdotme@gmail.com>
+In-Reply-To: <20230511043852.25803-1-bagasdotme@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 12 May 2023 01:55:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
+Message-ID: <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: module-signing: Mention
+ default_x509.genkey template
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Keyrings <keyrings@vger.kernel.org>,
+        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 11, 2023 at 05:22:48PM +0800, Haibo Xu wrote:
-> KVM_GET_REG_LIST API will return all registers that are available to
-> KVM_GET/SET_ONE_REG APIs. It's very useful to identify some platform
-> regression issue during VM migration.
-> 
-> Since this API was already supported on arm64, it'd be straightforward
-> to enable it on riscv with similar code structure.
-> 
-> Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+On Thu, May 11, 2023 at 1:39=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+>
+> Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
+> adds default x509 keypair config file template, but forgets to mention
+> it in kernel module signing documentation.
+
+What did it forget?
+
+The current documentation looks fine to me.
+
+
+
+
+
+
+
+> Update the doc accordingly.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  Documentation/virt/kvm/api.rst |   2 +-
->  arch/riscv/kvm/vcpu.c          | 346 +++++++++++++++++++++++++++++++++
->  2 files changed, 347 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index add067793b90..280e89abd004 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -3499,7 +3499,7 @@ VCPU matching underlying host.
->  ---------------------
->  
->  :Capability: basic
-> -:Architectures: arm64, mips
-> +:Architectures: arm64, mips, riscv
->  :Type: vcpu ioctl
->  :Parameters: struct kvm_reg_list (in/out)
->  :Returns: 0 on success; -1 on error
-> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
-> index 8bd9f2a8a0b9..fb8834e4fa15 100644
-> --- a/arch/riscv/kvm/vcpu.c
-> +++ b/arch/riscv/kvm/vcpu.c
-> @@ -657,6 +657,334 @@ static int kvm_riscv_vcpu_set_reg_isa_ext(struct kvm_vcpu *vcpu,
->  	return 0;
->  }
->  
-> +static inline unsigned long num_config_regs(void)
-> +{
-> +	return sizeof(struct kvm_riscv_config) / sizeof(unsigned long);
+>  Documentation/admin-guide/module-signing.rst | 41 ++++++++------------
+>  1 file changed, 17 insertions(+), 24 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation=
+/admin-guide/module-signing.rst
+> index 7d7c7c8a545ca6..365d60a6245f17 100644
+> --- a/Documentation/admin-guide/module-signing.rst
+> +++ b/Documentation/admin-guide/module-signing.rst
+> @@ -133,46 +133,39 @@ kernel so that it can be used to check the signatur=
+es as the modules are
+>  loaded.
+>
+>  Under normal conditions, when ``CONFIG_MODULE_SIG_KEY`` is unchanged fro=
+m its
+> -default, the kernel build will automatically generate a new keypair usin=
+g
+> -openssl if one does not exist in the file::
+> -
+> -       certs/signing_key.pem
+> -
+> +default, the kernel build will automatically generate a new keypair in
+> +``certs/signing_key.pem`` using openssl if it doesn't exist,
+>  during the building of vmlinux (the public part of the key needs to be b=
+uilt
+> -into vmlinux) using parameters in the::
+> -
+> -       certs/x509.genkey
+> -
+> +into vmlinux) using parameters in the ``certs/x509.genkey`` configuratio=
+n
+>  file (which is also generated if it does not already exist).
+>
+> -It is strongly recommended that you provide your own x509.genkey file.
+> -
+> -Most notably, in the x509.genkey file, the req_distinguished_name sectio=
+n
+> -should be altered from the default::
+> +If you'd like to provide alternative configuration, copy
+> +``certs/default_x509.genkey`` to ``certs/x509.genkey`` and edit the copy
+> +instead. Most likely, you will want to edit the ``req_distinguished_name=
+``
+> +section, which identifies the resulting keypair. For example::
+>
+>         [ req_distinguished_name ]
+> -       #O =3D Unspecified company
+> -       CN =3D Build time autogenerated kernel key
+> -       #emailAddress =3D unspecified.user@unspecified.company
+> +       O =3D Example company
+> +       CN =3D Example kernel build
+> +       emailAddress =3D user@example.com
+>
+>  The generated RSA key size can also be set with::
+>
+>         [ req ]
+>         default_bits =3D 4096
+>
+> -
+> -It is also possible to manually generate the key private/public files us=
+ing the
+> -x509.genkey key generation configuration file in the root node of the Li=
+nux
+> -kernel sources tree and the openssl command.  The following is an exampl=
+e to
+> -generate the public/private key files::
+> +Optionally, you can also manually generate the keypair so that the same
+> +keypair can be used in multiple builds. To generate it::
+>
+>         openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
+>            -config x509.genkey -outform PEM -out kernel_key.pem \
+>            -keyout kernel_key.pem
+>
+> -The full pathname for the resulting kernel_key.pem file can then be spec=
+ified
+> -in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate and key the=
+rein will
+> -be used instead of an autogenerated keypair.
+> +See :manpage:`openssl-req(1)` for the explanation.
+> +
+> +The full pathname for the resulting ``kernel_key.pem`` file can then be
+> +specified in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate a=
+nd key
+> +therein will be used instead of an autogenerated keypair.
+>
+>
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>
+> base-commit: ac9a78681b921877518763ba0e89202254349d1b
+> --
+> An old man doll... just what I always wanted! - Clara
+>
 
-We can't assume all config registers are present. For example,
-zicbom and zicboz block size registers are only present when their
-respective extensions are available.
 
-Thanks,
-drew
+--
+Best Regards
+Masahiro Yamada
