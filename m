@@ -2,122 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5FAC7EE22
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 18:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3975C77B7C
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 18:38:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239023AbjEKSew (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 14:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51606 "EHLO
+        id S238918AbjEKSiM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 14:38:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238620AbjEKSev (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 14:34:51 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B135726B7
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 11:34:49 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id 46e09a7af769-6ab1942ea59so2451707a34.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 11:34:49 -0700 (PDT)
+        with ESMTP id S239035AbjEKSht (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 14:37:49 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550E93A82
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 11:37:47 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-64a9335a8e7so163198b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 11:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1683830089; x=1686422089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Eqk34LLf7CtwfQbk/8o6b4YNIAWEXLYt4n8dWqcS5ck=;
-        b=LBdVZAm7fx0OMMTmY4JLYUPEsaUsWQlkXbKIK11lGvRxosG8NIsr+iX8dOLHMpD3Vl
-         ROCCtj5nN2m2NhyWoLeor+MCXIvxIsRddFPHAInwtIhkJuWpH0S2W6zNB6z+XyddwLUt
-         XwrahT14wszgczKY8a4AnBZq32h321FIGDRQdVFIMO+hMQFuhpDhAW63O987g6tp+m9f
-         8Dz83dFyCvoQbcEBcz79UFZApDbYpApHKnLZKZ9tQrgyKpzxKXdrf9nRozIrG/lzqPoB
-         dMOEAWlfR6TJYbVapjWFYP7uFB4WZ2reB3ls7CCvxlr+Io29Df4Udy9fGmAbxSdaOazZ
-         c7dw==
+        d=chromium.org; s=google; t=1683830267; x=1686422267;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EyigEQsWQlpFj9oAYDvVkxAuY6bSSbrSpQ9TJU1fUQQ=;
+        b=VgulxXC92TIpai2A9mZMYW/IK9i/pbkk/lCSOAsmI4qCRS86ew58nvwMY4psK3waHa
+         oDnaGwbRJV+VxdhrEmkyR1EvYY7ZorZTP3NEnroWD2FtZIM9JEkoQKmbSQ3Cez+cFJRe
+         GXUEkuJLZZyYY/BP9gq3xXVRyYILmk+tYEOaU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683830089; x=1686422089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Eqk34LLf7CtwfQbk/8o6b4YNIAWEXLYt4n8dWqcS5ck=;
-        b=eje2iltXrIsYekM7R9v7Sl7AemiY2HNGySXr/zkI9/8bboCGFtzDgSaJl1yuwKljTC
-         YoYotOlqp7HTFXeiS2RGb+ZOs9AYcJgGKWwkPKiukHPH4gWTA4ZnC5LyBWEJh2khDkDD
-         Kv1GuthUIA+C8YN5WkrTm3eJ0OH+tB4UdS671Q4w2nNWUTGTub3/hkmyXwScqsyhEapa
-         cvtGfivjxfzy3DpwCJwhAlzB08nnBm3mnPODX+ExM7JEEVz59gycnRHIlnY/uB+GBZxY
-         BjB/mnD5NyQoH4+ZSUH++6St0LN1D6xHGN49ztFhxzKqKWxRCqpSGKfDmPiPvCYL4L9s
-         hFEw==
-X-Gm-Message-State: AC+VfDxJiS1KfijTfaAbCaGVG/dF1R+DnrNhpaPhJKZMIJXnU62/VapB
-        XcpKbpAj3D72ddmGi5VJ4hm26jJRy+wwPzFqYsMWbA==
-X-Google-Smtp-Source: ACHHUZ5uA60qYdAeSKObEwcECuose51HMLpDsQyqtfXHDIWS+t2Q6r7nIDwJ6HyPNekR99P7VfeBMaHjdmdwu4VnkBo=
-X-Received: by 2002:a9d:7d07:0:b0:6ab:82ac:fad8 with SMTP id
- v7-20020a9d7d07000000b006ab82acfad8mr2203405otn.15.1683830089017; Thu, 11 May
- 2023 11:34:49 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683830267; x=1686422267;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EyigEQsWQlpFj9oAYDvVkxAuY6bSSbrSpQ9TJU1fUQQ=;
+        b=cM14PyDOidClgVjm1ttozxrTMF8K0gnQ2MgFUUo8plUjA2EchkPw/VL4T1IjAg3IxN
+         0qCyQaT1bZVfIsL/g86aHu4foXaRdESAIQPcZmWM6fv41GTifHJfMIK22EWmX4xyNwdh
+         OJq6xRr7Tr3SR/ftyVvF+H6ct8YaWj2Uks0ZmPpl4XZsIPl/dFKGewtfUGehOdSUcgJY
+         8m1TIK984Ycx79DapTxlU2THO3saoack+sTz3yquqJhF/SY9uFMweEuK4+ivRt5hixS8
+         p765UUu/D1DzbBJDXc6OgBCwLLl22RXojbgINwV2YNLekiNYeDK0o72DICSpBKtGH6vz
+         SxMw==
+X-Gm-Message-State: AC+VfDx/RZGNt7X7MTH+6MBGCqq8Du3PNFZX8fFVdb4t8jzYTl78UcEm
+        qGayPwRcjBmB/t8Cjoj5mEFm8w==
+X-Google-Smtp-Source: ACHHUZ6zBr0iY5TfuweaLUlC4U2Dbutn7tnQtVNcPfDtPlUyC/U05dIfXupcFnLnDi3KcGlP2WAQeA==
+X-Received: by 2002:a17:902:dad2:b0:1ac:92db:9677 with SMTP id q18-20020a170902dad200b001ac92db9677mr13610451plx.28.1683830266731;
+        Thu, 11 May 2023 11:37:46 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id l5-20020a170902d34500b001ac912cac1asm6253294plk.175.2023.05.11.11.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 11:37:46 -0700 (PDT)
+Date:   Thu, 11 May 2023 11:37:45 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rong Tao <rtoax@foxmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Zhangfei Gao <zhangfei.gao@foxmail.com>,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: Discuss interleaved replies
+Message-ID: <202305111135.D65457C24@keescook>
+References: <20230510183423.never.877-kees@kernel.org>
+ <6c1f853b-b051-c390-267e-1ea1741e8537@leemhuis.info>
 MIME-Version: 1.0
-References: <20230508160829.2756405-1-vineeth@bitbyteword.org>
- <20230509132534.09098acc@luca64> <CAO7JXPhrqKWfsp860rRmEenxARi8U2gNMGsOn4m+aKporWwBcg@mail.gmail.com>
- <20230509224829.2fb547fd@nowhere> <20230509225417.61d36733@nowhere>
- <CAO7JXPhk5qbz9kmiu9WuXS+gXCt9+X8pP2c37hd9ChByLmXYjA@mail.gmail.com>
- <20230510090735.68f62cd4@nowhere> <CAO7JXPg03f2YnrmzoGjfHEZZcoN55cU7uVukMw31Bw3x6nnaMw@mail.gmail.com>
- <20230511093711.2be82409@nowhere>
-In-Reply-To: <20230511093711.2be82409@nowhere>
-From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
-Date:   Thu, 11 May 2023 14:34:38 -0400
-Message-ID: <CAO7JXPiKLFLVpqDKoRdu8c2Yd4AJ_2B2UyXJxD3kJAyiJ=n0_Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sched/deadline: accurate reclaim bandwidth for GRUB
-To:     luca abeni <luca.abeni@santannapisa.it>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6c1f853b-b051-c390-267e-1ea1741e8537@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luca,
+On Thu, May 11, 2023 at 11:21:36AM +0200, Thorsten Leemhuis wrote:
+> On 10.05.23 20:34, Kees Cook wrote:
+> > Top-posting has been strongly discouraged in Linux development, but this
+> > was actually not written anywhere in the common documentation about
+> > sending patches and replying to reviews. Add a section about trimming
+> > and interleaved replies.
+> 
+> Thx for doing this.
+> 
+> > [...]
+> > ---
+> >  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> 
+> For some reason we have duplicate code^w documentation for this, hence
+> I'd say the same or a similar text should also be added to one of the
+> filed in Documentation/process/[0-9].*rst ; from a quick
+> Documentation/process/6.Followthrough.rst might be the best one.
+> 
+> Maybe in fact the text should move there and submitting-patches.rst
+> should have a much shorter version, as it's meant to be the terser of
+> the two docs about this.
 
-On Thu, May 11, 2023 at 3:37=E2=80=AFAM luca abeni <luca.abeni@santannapisa=
-.it> wrote:
->
-> I've just seen v2, and (unless I misunderstand something) I see you
-> removed the max{u_i/u_max, 1 - (u_inact + u_extra}} thing?
->
-> I fear this might break the real-time guarantees provided by the
-> algorithm...
->
-I am sorry I missed sending more details before sending out v2. So, I
-think there is another bug in the existing implementation. Let me try
-to explain the details.
+Hm, The place where it is mentioned is even shorter, so I kind of like
+it in submittingpatches. But, I'm open to whatever seems best. I just
+want to have a URL to point people at, and I'm usually pointing to
+places in submittingpatches. :)
 
-SMP GRUB paper has the equation for depreciating runtime as:
-  dq_i =3D -max{u_i, 1 - (extra_bw + Uinact)} dt
+> 
+> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> > index eac7167dce83..3e838da8822f 100644
+> > --- a/Documentation/process/submitting-patches.rst
+> > +++ b/Documentation/process/submitting-patches.rst
+> > @@ -326,6 +326,29 @@ explaining difference aganst previous submission (see
+> >  See Documentation/process/email-clients.rst for recommendations on email
+> >  clients and mailing list etiquette.
+> >  
+> > +Use trimmed interleaved replies in email discussions
+> > +----------------------------------------------------
+> > +Top-posting is strongly discouraged in Linux kernel development
+> > +discusions. Interleaved (or "inline") replies make conversations much
+> 
+> s/discusions/discussions/
 
-Since we are caping at Umax, the equation would be
-  dq_i =3D -(max{u_i, Umax - (extra_bw + Uinact)} / Umax) dt (1)
+Agh, thanks. Fixed.
 
-But existing implementation is:
-  dq_i =3D -max{u_i/Umax, 1 - (extra_bw + Uinact)} dt (2)
+> 
+> > +easier to follow. For more details see:
+> > +https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+> > +
+> > +As is frequently quoted on the mailing list:
+> > +
+> > +  A: http://en.wikipedia.org/wiki/Top_post
+> > +  Q: Were do I find info about this thing called top-posting?
+> > +  A: Because it messes up the order in which people normally read text.
+> > +  Q: Why is top-posting such a bad thing?
+> > +  A: Top-posting.
+> > +  Q: What is the most annoying thing in e-mail?
+> > +
+> > +Similarly, please trim all unneeded quotations that aren't relevant
+> > +to your reply. This makes replies easier to find, and saves time and
+> 
+> Nitpicking, feel free to ignore: maybe "s/replies/responses/" or
+> something like that, as at least my stupid brain accidentally thought of
+> the email reply (as whole) when reading this for the first time.
 
-Here in (2), we factored Umax only to the first term "u_i" and the
-second term in max{} was as left as it is. What do you think?
+Yeah, that is more readable. Fixed.
 
-Now with normal DL and SCHED_FLAG_RECLAIM tasks, equation (1) can be
-re-written as:
-  dq_i =3D
-   -(max{u_i, Ureclaim_max - (extra_bw + Uinact)}/Ureclaim_max)dt (3)
+> > +space. For more details see: http://daringfireball.net/2007/07/on_top
+> > [...]
+> 
+> Ciao, Thorsten
 
-I tested this equation (3) and it works as expected. What do you think
-about the correctness of equation (3)?
+Thanks!
 
-I felt that, since we are using sequential reclaim mentioned in the
-paper and we isolate all parameters per-cpu(except for extra_bw) we
-could use the "-dq =3D -(U/Umax) dt" equation as it was simpler than
-equation (3). Sorry that I missed discussing this. I shall send out
-v3 with equation (3), if you think it's the right way to go to enforce
-deadline guarantees.
-
-Thanks,
-Vineeth
+-- 
+Kees Cook
