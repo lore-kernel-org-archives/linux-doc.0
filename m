@@ -2,73 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 489D6C7EE22
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 10:21:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C72C77B7C
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 10:36:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237717AbjEKKVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 06:21:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55344 "EHLO
+        id S236816AbjEKKgq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 06:36:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231363AbjEKKVX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 06:21:23 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D9376BD
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 03:21:21 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-248-5WJ049edOrWmU0tcoX8Omw-1; Thu, 11 May 2023 11:21:19 +0100
-X-MC-Unique: 5WJ049edOrWmU0tcoX8Omw-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 11 May
- 2023 11:21:17 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Thu, 11 May 2023 11:21:17 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Youling Tang' <tangyouling@loongson.cn>,
-        WANG Xuerui <kernel@xen0n.name>
-CC:     Huacai Chen <chenhuacai@kernel.org>,
+        with ESMTP id S229847AbjEKKgo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 06:36:44 -0400
+Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8941D2;
+        Thu, 11 May 2023 03:36:41 -0700 (PDT)
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by bee.tesarici.cz (Postfix) with ESMTPSA id B71DB1595D1;
+        Thu, 11 May 2023 12:36:38 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+        t=1683801399; bh=56/JMFS+y5+CL0epGr/j+rgw0VuJ8cbzk2SU58O1JvY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=0BHwBStv5OjKVHlW+V+xEk83k2yG4uBHsF/ilA8hjkkAZ2+xWGZuvq7yXChlnSsQ/
+         vkg+2FgTIizvKFk8fiYtSIQmtFvDQa27jGXi6MRaQbKwgPqEv7BreWlqS16s2La/yo
+         dHRa/Ov4etWgJ4M/KJ12Ehz776rYZwYs7TUHbI9nbuSG8iWSJQjeitND5atJVAgpPh
+         MibcahQ0DMPohWnsYlSwt/V3d+3M2xO/HJlLAKCeVSVVQK+a1ZffycgxH6VmDhrBGv
+         u7pUIGEmwPs+E0LGUfiW2nerpG6eumk+X+b1ee6ADXXP8Ft+v5bpcQn5cvA7rxn18k
+         RwB+DRtbM9xjA==
+Date:   Thu, 11 May 2023 12:36:36 +0200
+From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To:     Juerg Haefliger <juergh@proton.me>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Christoph Hellwig <hch@lst.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Zhangjin Wu <falcon@tinylab.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>
-Subject: RE: [PATCH v2] LoongArch: Add jump-label implementation
-Thread-Topic: [PATCH v2] LoongArch: Add jump-label implementation
-Thread-Index: AQHZg6ozaB8g4nBOXk2nIgcZgDD24q9U3LGw
-Date:   Thu, 11 May 2023 10:21:17 +0000
-Message-ID: <644efa37967b4944aeb41d4ab9faeceb@AcuMS.aculab.com>
-References: <1683710206-23905-1-git-send-email-tangyouling@loongson.cn>
- <3b360532-6ad5-b22c-b02a-103be491be4c@xen0n.name>
- <72b6c81a-d4ee-575a-ff48-6be7e034ac96@loongson.cn>
-In-Reply-To: <72b6c81a-d4ee-575a-ff48-6be7e034ac96@loongson.cn>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Alexander Graf <graf@amazon.com>
+Subject: Re: [RFC v1 3/4] swiotlb: Allow dynamic allocation of bounce
+ buffers
+Message-ID: <20230511123636.168eb62f@meshulam.tesarici.cz>
+In-Reply-To: <20230406134440.72959135@gollum>
+References: <4268fa4e-4f0f-a2f6-a2a5-5b78ca4a073d@huaweicloud.com>
+        <20230331092553.677e9649@smeagol>
+        <20230331110043.7b1ddfa3@meshulam.tesarici.cz>
+        <20230406134440.72959135@gollum>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogWW91bGluZyBUYW5nDQo+IFNlbnQ6IDExIE1heSAyMDIzIDAyOjM0DQouLi4NCj4gPj4g
-KyAgICBpZiAodHlwZSA9PSBKVU1QX0xBQkVMX0pNUCkNCj4gPg0KPiA+IFBsZWFzZSB1c2UgYSBz
-d2l0Y2ggZm9yIGRlYWxpbmcgd2l0aCBlbnVtLXR5cGVkIHZhbHVlcy4NCj4gDQo+IEJlY2F1c2Ug
-dGhlIGN1cnJlbnQgdHlwZSBvbmx5IGhhcyBKVU1QX0xBQkVMX05PUCBhbmQgSlVNUF9MQUJFTF9K
-TVAsDQo+IHVzaW5nIGlmIG1heSBiZSBzaW1wbGVyIHRoYW4gc3dpdGNoLg0KDQpUaGUgZ2VuZXJh
-dGVkIGNvZGUgd2lsbCBiZSBwcmV0dHkgbXVjaCB0aGUgc2FtZS4NCkV2ZW4gaWYgdGhlIGNvbXBp
-bGVyIGlzIGFsbG93ZWQgZ2VuZXJhdGUgYSBqdW1wIHRhYmxlDQood2hpY2ggaXMgYWxtb3N0IGNl
-cnRhaW5seSBkaXNhYmxlZCkgaXQgd29uJ3QgaWYgdGhlcmUNCmFyZSBvbmx5IHR3byBjYXNlcy4N
-Cg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2Fk
-LCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5v
-OiAxMzk3Mzg2IChXYWxlcykNCg==
+On Thu, 06 Apr 2023 11:44:55 +0000
+Juerg Haefliger <juergh@proton.me> wrote:
 
+> On Fri, 31 Mar 2023 11:00:43 +0200
+> Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
+>=20
+> > Hi Juerg,
+> >
+> > On Fri, 31 Mar 2023 07:26:09 +0000
+> > Juerg Haefliger <juergh@proton.me> wrote:
+> > =20
+> > > On Tue, 28 Mar 2023 09:54:35 +0200
+> > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> > >
+> > >[...] =20
+> > > > Anyway, I suspected that the buffers need not be imported into the =
+vc4
+> > > > driver (also hinted by Eric Anholt in a 2018 blog post [1]), and it
+> > > > seems I was right. I encountered the issue with Ubuntu 22.10; I
+> > > > installed latest openSUSE Tumbleweed yesterday, and I was not able =
+to
+> > > > reproduce the issue there, most likely because the Mesa drivers have
+> > > > been fixed meanwhile. This makes the specific case of the Raspberry=
+ Pi 4
+> > > > drivers moot. The issue may still affect other combinations of driv=
+ers,
+> > > > but I don't have any other real-world example ATM. =20
+> > >
+> > > I'm only seeing this problem with Wayland, no issue when switching Ub=
+untu to
+> > > X. It seems Tumbleweed is using X by default. =20
+> >
+> > I know; I was the team lead of SUSE low-level graphics engineers until
+> > end of last year... I have just double-checked, but this output of
+> > wayland-info in the GNOME session accessed over RDP is quite convincing=
+: =20
+>=20
+> It sure is but how did you get that??
+
+I'm sorry for late reply.
+
+Yes, the default is GNOME on X.org, but you can change it on the GDM
+login screen. After choosing your account, a settings gear icon appears
+in the lower right corner. Click on it and choose GNOME. That starts a
+Wayland session.
+
+HTH
+Petr T
