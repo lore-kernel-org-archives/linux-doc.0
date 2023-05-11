@@ -2,207 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62597C7EE24
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 08:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A98F5C77B7C
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 09:17:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233940AbjEKIvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 04:51:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52690 "EHLO
+        id S237473AbjEKJR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 05:17:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233552AbjEKIvf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 04:51:35 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEE15FF2;
-        Thu, 11 May 2023 01:51:33 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QH5CX6zpmzLnj1;
-        Thu, 11 May 2023 16:48:40 +0800 (CST)
-Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 11 May
- 2023 16:51:31 +0800
-From:   Chen Jiahao <chenjiahao16@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
-CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-        <conor.dooley@microchip.com>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
-        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
-        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
-Subject: [PATCH -next v5 1/2] riscv: kdump: Implement crashkernel=X,[high,low]
-Date:   Thu, 11 May 2023 16:51:38 +0800
-Message-ID: <20230511085139.1039088-2-chenjiahao16@huawei.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230511085139.1039088-1-chenjiahao16@huawei.com>
-References: <20230511085139.1039088-1-chenjiahao16@huawei.com>
+        with ESMTP id S236079AbjEKJRV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 05:17:21 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4525AA5F7;
+        Thu, 11 May 2023 02:16:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683796599; x=1715332599;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=n3XwJXO5FdIVuPB1WqckwaILsrCamFfH7Cyu/4AMII0=;
+  b=OCxstCiYFYXfqDhWUGpbqENIUn7xZsanH+ZHRdW3YyiGMk6FzztNoDE3
+   DUhmjo3S0jx+bXYHvvpLWG9F0g/upihjyu8aXtb9jztPgQP9hmaqF9sTY
+   4tdirOJS9SRBu1ubGaMh2iH4uotB/XT6dkMCq6WJUXgEpjW7tuUvpRfKP
+   y8EXkX3Re3v/D8NWVDt8OITeCWwNLgdNKZ114br4d8itnFAewXzVtCy2h
+   T6gnH9REDdigQjkam/8q6QI/1emNVpMz45K+euoLYLS/cPfazKRswq+Q6
+   5yy3aJX5L/c/2E1TmCctmQW94WKXjGBjP1zUH80oUJoLMyYFJzmujUqGL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="416040303"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="416040303"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 02:16:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="789316811"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="789316811"
+Received: from haibo-optiplex-7090.sh.intel.com ([10.239.159.132])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 02:16:34 -0700
+From:   Haibo Xu <haibo1.xu@intel.com>
+Cc:     xiaobo55x@gmail.com, ajones@ventanamicro.com,
+        Haibo Xu <haibo1.xu@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH 0/2] RISCV: Add KVM_GET_REG_LIST API
+Date:   Thu, 11 May 2023 17:22:47 +0800
+Message-Id: <cover.1683791148.git.haibo1.xu@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.174.205]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On riscv, the current crash kernel allocation logic is trying to
-allocate within 32bit addressible memory region by default, if
-failed, try to allocate without 4G restriction.
+KVM_GET_REG_LIST will dump all register IDs that are available to
+KVM_GET/SET_ONE_REG and It's very useful to identify some platform
+regression issue during VM migration.
 
-In need of saving DMA zone memory while allocating a relatively large
-crash kernel region, allocating the reserved memory top down in
-high memory, without overlapping the DMA zone, is a mature solution.
-Here introduce the parameter option crashkernel=X,[high,low].
+Patch 1 enabled the KVM_GET_REG_LIST API in riscv and patch 2 added
+the corresponding kselftest for checking possible register regressions.
 
-One can reserve the crash kernel from high memory above DMA zone range
-by explicitly passing "crashkernel=X,high"; or reserve a memory range
-below 4G with "crashkernel=X,low".
+Both patches were ported from arm64 and tested with Linux 6.4-rc1 on a
+Qemu riscv virt machine.
 
-Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
-Acked-by: Guo Ren <guoren@kernel.org>
-Reviewed-by: Zhen Lei <thunder.leizhen@huawei.com>
-Reviewed-by: Simon Horman <horms@kernel.org>
----
- arch/riscv/kernel/setup.c |  5 +++
- arch/riscv/mm/init.c      | 73 +++++++++++++++++++++++++++++++++++----
- 2 files changed, 71 insertions(+), 7 deletions(-)
+Haibo Xu (2):
+  riscv: kvm: Add KVM_GET_REG_LIST API support
+  KVM: selftests: Add riscv get-reg-list test
 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index 36b026057503..e0b7c1651d60 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -176,6 +176,11 @@ static void __init init_resources(void)
- 		if (ret < 0)
- 			goto error;
- 	}
-+	if (crashk_low_res.start != crashk_low_res.end) {
-+		ret = add_resource(&iomem_resource, &crashk_low_res);
-+		if (ret < 0)
-+			goto error;
-+	}
- #endif
- 
- #ifdef CONFIG_CRASH_DUMP
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 747e5b1ef02d..910d2e8c3c77 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -1272,6 +1272,28 @@ static inline void setup_vm_final(void)
- }
- #endif /* CONFIG_MMU */
- 
-+/* Reserve 128M low memory by default for swiotlb buffer */
-+#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
-+
-+static int __init reserve_crashkernel_low(unsigned long long low_size)
-+{
-+	unsigned long long low_base;
-+
-+	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
-+	if (!low_base) {
-+		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-+		return -ENOMEM;
-+	}
-+
-+	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-+		low_base, low_base + low_size, low_size >> 20);
-+
-+	crashk_low_res.start = low_base;
-+	crashk_low_res.end = low_base + low_size - 1;
-+
-+	return 0;
-+}
-+
- /*
-  * reserve_crashkernel() - reserves memory for crash kernel
-  *
-@@ -1283,8 +1305,11 @@ static void __init reserve_crashkernel(void)
- {
- 	unsigned long long crash_base = 0;
- 	unsigned long long crash_size = 0;
-+	unsigned long long crash_low_size = 0;
- 	unsigned long search_start = memblock_start_of_DRAM();
--	unsigned long search_end = memblock_end_of_DRAM();
-+	unsigned long search_end = (unsigned long)dma32_phys_limit;
-+	char *cmdline = boot_command_line;
-+	bool fixed_base = false;
- 
- 	int ret = 0;
- 
-@@ -1300,14 +1325,34 @@ static void __init reserve_crashkernel(void)
- 		return;
- 	}
- 
--	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-+	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
- 				&crash_size, &crash_base);
--	if (ret || !crash_size)
-+	if (ret == -ENOENT) {
-+		/* Fallback to crashkernel=X,[high,low] */
-+		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
-+		if (ret || !crash_size)
-+			return;
-+
-+		/*
-+		 * crashkernel=Y,low is valid only when crashkernel=X,high
-+		 * is passed.
-+		 */
-+		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-+		if (ret == -ENOENT)
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+		else if (ret)
-+			return;
-+
-+		search_end = memblock_end_of_DRAM();
-+	} else if (ret || !crash_size) {
-+		/* Invalid argument value specified */
- 		return;
-+	}
- 
- 	crash_size = PAGE_ALIGN(crash_size);
- 
- 	if (crash_base) {
-+		fixed_base = true;
- 		search_start = crash_base;
- 		search_end = crash_base + crash_size;
- 	}
-@@ -1320,17 +1365,31 @@ static void __init reserve_crashkernel(void)
- 	 * swiotlb can work on the crash kernel.
- 	 */
- 	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
--					       search_start,
--					       min(search_end, (unsigned long) SZ_4G));
-+					       search_start, search_end);
- 	if (crash_base == 0) {
--		/* Try again without restricting region to 32bit addressible memory */
-+		if (fixed_base) {
-+			pr_warn("crashkernel: allocating failed with given size@offset\n");
-+			return;
-+		}
-+		search_end = memblock_end_of_DRAM();
-+
-+		/* Try again above the region of 32bit addressible memory */
- 		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
--						search_start, search_end);
-+						       search_start, search_end);
- 		if (crash_base == 0) {
- 			pr_warn("crashkernel: couldn't allocate %lldKB\n",
- 				crash_size >> 10);
- 			return;
- 		}
-+
-+		if (!crash_low_size)
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+	}
-+
-+	if ((crash_base > dma32_phys_limit - crash_low_size) &&
-+	    crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-+		memblock_phys_free(crash_base, crash_size);
-+		return;
- 	}
- 
- 	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
+ Documentation/virt/kvm/api.rst                |   2 +-
+ arch/riscv/kvm/vcpu.c                         | 346 +++++++
+ tools/testing/selftests/kvm/Makefile          |   3 +
+ .../selftests/kvm/include/riscv/processor.h   |   3 +
+ .../selftests/kvm/riscv/get-reg-list.c        | 869 ++++++++++++++++++
+ 5 files changed, 1222 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/kvm/riscv/get-reg-list.c
+
 -- 
-2.31.1
+2.34.1
 
