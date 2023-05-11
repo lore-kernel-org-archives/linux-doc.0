@@ -2,118 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B259C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 12:23:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72676C7EE22
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 13:51:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237756AbjEKMXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 08:23:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59528 "EHLO
+        id S238110AbjEKNvB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 09:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237823AbjEKMXK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 08:23:10 -0400
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on20718.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eb2::718])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294F244A9;
-        Thu, 11 May 2023 05:23:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ePGHPjy5B7sSk9fyC7P+e6ZJbDdbsOEDaEweXAMzKx3pHMxDm1OjLwFpTJxBbPEp8/3yyYEQYpVvDhCNpiZS7HZwbL99CwbURhDXWUMOhqrR/XQ86e8lgw8riGXwyUxyzQPCF9cxndIhYkLNE5YPX6E+g5fOzDa25CeDbnj61bDCK7qsAfplWOiWtGgE+Qdh5qZHQmUtAdJGdhV4HOOeFjfBQ4/X/zXUn2MbJfv2PRASB20lbHsHeGuMrm98wvqrsbYmdcs7vIsTpc4DrJdvmXaZHfj7UxWhIgRLodWAoiyCwIWyzrC43PUtZLkAs97dqUMa9oIXqdfWjlCzd7Ay+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PWrqtm00AdIip3aeQjkLl0apfu3s4Hp10QGr06kiYCk=;
- b=JuWrJG8g18vtDegcT8ttmzIg8LRGWmhvwrk15i4BA5qOS7dONKM2lZQ3p09/Vd1ahfncI9JMBKPpC/i8f/kL801eQlR/2XrNxrBJxHNwPPa+2Ou24sNKbxVIHC6KIK1Lf+OkwnRdq2bksx1rXNXMmUHrOUbpjBS9MTPoQqwveWDKdOrRYxKiK3wgvYzil2r0M/uIrUwKcdr3Xmybxj9vAQJuVjXeVkjOftCTfwmVhnEXAcrkdXFWRjyMsodTpB/xHG0ZSiL06EMhDJ+E+4YBTLGhY49lk5XtTkF7FYGnvSvdJeGXeW33xnnO2R72FxzR67o8fafrAAzNFGIu+dbHhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWrqtm00AdIip3aeQjkLl0apfu3s4Hp10QGr06kiYCk=;
- b=k50HWkXuWEA2hfbBlieX/EdXNRaJEf66hx2bPEUwWGfZe9d6VUSI3kEU1d3izjQNXqHgvTDL4cutZHRWL5rjXez4O7L1r3mpVNnig3Klk4dJRhDAxTmHOtorIUyPtqnqnBrhf55HaRI0Dizb6trt/6X8AKbuCKHiIhEMjtZ+6fU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by PH0PR13MB5496.namprd13.prod.outlook.com (2603:10b6:510:12b::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20; Thu, 11 May
- 2023 12:23:03 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6387.020; Thu, 11 May 2023
- 12:23:03 +0000
-Date:   Thu, 11 May 2023 14:22:56 +0200
-From:   Simon Horman <simon.horman@corigine.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH net] MAINTAINERS: don't CC docs@ for netlink spec changes
-Message-ID: <ZFzeIJh93H7rql6I@corigine.com>
-References: <20230511014339.906663-1-kuba@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230511014339.906663-1-kuba@kernel.org>
-X-ClientProxiedBy: AM9P193CA0020.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::25) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+        with ESMTP id S238135AbjEKNu4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 09:50:56 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D6719AE
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 06:50:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1683813054; x=1715349054;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=goBFUJ7UZs0dYyuEV5My6BVRqae6i6p1vfypGMQ2jEg=;
+  b=qMVEs8GI1lPbMXv0U1Cy/tqk1FvFExU8gS+wRyuuS+elQ1+P77zQh+lS
+   nsn/8EXRxrTotMTPOEU2zFuVfzc/Wp1Wr5H2AZ+JQHUMiMHikMa/X2jAH
+   UaOIJfBewIX8jTHqEJgEzkLmmoWIf0UKt5CUDoP0demdPtkHXi/MU43mB
+   306dHIeva+LB7Vs3ia+0yFn5ZdCOaWLmgqrudrvAw2iVzYj8v/solEdT1
+   5YbhzxD532QHhjfYuWulmXIRL3JIGPrym8UG+BLWU3s/kx8LeoC5hVdh/
+   QO7j9m/uVQ0ni/5kmny9QIqY7aUDLB5V2DVrC62oZuTZbUK6Q+JgYiemx
+   w==;
+X-IronPort-AV: E=Sophos;i="5.99,266,1677567600"; 
+   d="scan'208";a="151547033"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 11 May 2023 06:50:53 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 11 May 2023 06:50:52 -0700
+Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
+ Transport; Thu, 11 May 2023 06:50:51 -0700
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <palmer@dabbelt.com>
+CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-riscv@lists.infradead.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v1] Documentation: RISC-V: patch-acceptance: mention patchwork's role
+Date:   Thu, 11 May 2023 14:50:21 +0100
+Message-ID: <20230511-equation-decline-56b638ff9440@wendy>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|PH0PR13MB5496:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e6d1f6e-b204-4116-8292-08db521a7798
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K2heDcwvz4ZvmFC67nThRHa5nRb9KHwSzRxM4SK9CkxSA5i0wWpsCneIn9wZWaK7ywX3qKib1mWnCQtSOf4GqTAwBHe6vATZ4RgSEoDHWrRqe1XgmtP/Un4Tet1WgXAIue5MvQy9s790pyShoGnSUqaG2QENV1SaI5TLv00Sw2X+zGuJsXN6uzs+yjOpZ3mX+FOeCRoA1jdKgiD2hjdWYmGbNKk+A5JtUz4s2Gw1t4GsGSS10UJr0q5dtH8u+cyukP9xL2Q5npgUaw7EnR7+sTwmDX5vV1HhN4eVeNtGTCG2ytDbbY00xFpTXogtMn4kewR1Iq6WS4i5elR5uDo8gn6RvxJNriCsnqx9yfKIrrID2nMDhbH8XJHne0DGVEcF/JLfOzYxLlGEdNE5xgTOfP1MIohmLL0W5zqnkIqEnUyS+Z/RoU0r9D75I8teK63NFTT7eAzJfGzX3hHuRzHflBbHh5LR2PscBmOQ2VfQL10w4CdNg6ayJMuewJRupCellNXjMwc2HbYBgc09IjpcmEAFdTdlMAbRDTPBOUAUsaOzByVbWZ/76wHlS5RWM5c3
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(366004)(39840400004)(136003)(451199021)(41300700001)(38100700002)(478600001)(6666004)(6486002)(44832011)(36756003)(86362001)(186003)(6506007)(6512007)(66946007)(4326008)(66556008)(66476007)(6916009)(316002)(8936002)(2616005)(8676002)(2906002)(4744005)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G0iDNSSSTEpVOvjLowVNh2zQ6WnSyOKk7C3BsbtKR03bHCQRm2BwzoRnUa8r?=
- =?us-ascii?Q?dTH1m4j0opjviewOCpfrUuuiCvF0FA23QFC6CijkQGzx0/6PMAy2bZ6yG5Gw?=
- =?us-ascii?Q?m0/V0yqsfKhijkyxr6jqfOvIU/sHwRjD0cnpkf+RaoFN8IZZJN6zP2/xgr+2?=
- =?us-ascii?Q?VVvwab9GG7nyMugVOaO/455CVbkTD9hoFifIHSVytP1+rOYf/6KIrrwtRyJN?=
- =?us-ascii?Q?VNb/JbsUXWnLxa47L2utEGKfdU9jTal9km7Tfhm1lvPuFzSeJvQnP5MoKfC4?=
- =?us-ascii?Q?ecTfKfUBovQSMBINLsEEG+Wtq7b1OGOggHqu8b9orx0WRTFQsNZCvyFEa0SD?=
- =?us-ascii?Q?15i6C0NxRCHyc599Jb22cRH8SqLGysE1Hzd0h3NuifjVvAIT4ZpULF63+J1p?=
- =?us-ascii?Q?5SXASz0+iwkfMBmm1AqKMDsK4jcsyRYlCvWAxgzClWbQpdXWIqn8Tqc0+h23?=
- =?us-ascii?Q?SyEcsxqeME1DhwDeKqNWgTruE/s7h12+v4VcKW3J14HCJQT/tBtLlPDiEY9n?=
- =?us-ascii?Q?DVLVeuDTy05RtiguibgV5JdthWu7oYZZ3butLDltsPzTzFuoXECFBatUEA/A?=
- =?us-ascii?Q?w+C2Ax6PvKXlQETmwQP8tHoNFG3WOw7loYKsBuKfHaFTBXQwfEF162jzTqJv?=
- =?us-ascii?Q?jKVJyNvjhQKLbl/hWWuKs9LZLBYdS1d3+lYVJQHD8iegQNaOocvEWbhU/ZZd?=
- =?us-ascii?Q?LCyGj4/SNPo5s3wWxU+gbh/U31HPZa+InHj0D8pgCcrhLiNluU8/a7GrjWeq?=
- =?us-ascii?Q?Y+SJU7FKfYHmzbtsBBxZ7A6HCkfUPnHZgY+tyW1l+3uKPhv+fNR6q5bB60aA?=
- =?us-ascii?Q?uvSjXkV8bIOVpmOp2BA+ZgYIOafTxNM6RzU/sX/nevYRPES6JHAsSfjXuSd9?=
- =?us-ascii?Q?W74rifFDEl5C0AkGOtoJJ19U9a+Yh6BA8QZ+OqrMuvMvDJR1Uni8reDeQdwU?=
- =?us-ascii?Q?TKXUqlWQpNFJNScUNXnq1f802UBE+FaJ3/BNDIp+/U1EHLr3veOIEVv+yao3?=
- =?us-ascii?Q?tIeDupPfyTrrRenunweOwdw6XbYYTJ6Ou5tDrZCSNDaOqglgRfy/mVcfwrOq?=
- =?us-ascii?Q?I8jes2c+rza3Yqcmq0hmvSvMzW721N3sgADi9pmiLPaYjWaSXM7MFdzO6z79?=
- =?us-ascii?Q?shYJiwtsvm4HlvM1ToKku9+ibBBJjcWB8Fvgos0MEWSgpv7bAhmgdmxnV2eN?=
- =?us-ascii?Q?QaE4Xo2Id+1BM7UDSJ4FHNdVXez64cQ9Uf/wvTqUsHy5H1+vKgOm8iYQ2Co5?=
- =?us-ascii?Q?glMDZrZHHSzIi/jZt5oUIKwOhuP3NhKb2n9NJPSxsnGVPFj9MB2yceK0FZ16?=
- =?us-ascii?Q?hKmfupYly5CRiGUzL3doHc0UUbJlpaxRBICyGKrssk2oELs3UMsWS2y+iMea?=
- =?us-ascii?Q?4wG+iKdnwPn2JSyaDCMbHXSVcTiUgq97gaZiaH0Jn2kvIduvqY7T92U2+EeJ?=
- =?us-ascii?Q?2YuWks/iWXEcOZl1ncZL3o0uFxJdT0+DTE09NHBJHi8SZYtuqKVtyY/6jUaM?=
- =?us-ascii?Q?Ie0R3OKrJK5+6OYWwoDMycRkhTKXDPDhXpTXDkDG3CSpsQgvQxG09uRzmL9p?=
- =?us-ascii?Q?Mq2sEVsDw6k5slugkZObIacj3g0kJYWHPWUi63s1urwL/8DPlE55PI/HGocG?=
- =?us-ascii?Q?0O+oTTdX7HeAeignscvnnGxoQVnh7IMg4K8MYYvP4DnJn0jKe7cFCtKobiGe?=
- =?us-ascii?Q?gFTODA=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e6d1f6e-b204-4116-8292-08db521a7798
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 12:23:03.3624
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2JIAfSjg0gGDzR9ixFc0c0pEt7TToZSB4watFdnzbmu2DnbipONKR3Y2tmVi5+mV+Z2knb8VErzGrk3EMNGqAZ6rRjT9AtCSpWq3V31fmxo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR13MB5496
+Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2549; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=goBFUJ7UZs0dYyuEV5My6BVRqae6i6p1vfypGMQ2jEg=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCkxn2ZL294VUZ839dbabiem9S92znz4odok1f3B9rgJ0Sp+ m6486ShlYRDjYJAVU2RJvN3XIrX+j8sO5563MHNYmUCGMHBxCsBEjpcx/OHP3WfpIuaastb38V+77Q 3dvBseZSupJUmvEJl18++imnxGhgtv4zYVl7t08M+9u+dPUveCSQsPJHDErKhwes+0zmbdBGYA
+X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 10, 2023 at 06:43:39PM -0700, Jakub Kicinski wrote:
-> Documentation/netlink/ contains machine-readable protocol
-> specs in YAML. Those are much like device tree bindings,
-> no point CCing docs@ for the changes.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Palmer suggested at some point, not sure if it was in one of the
+weekly linux-riscv syncs, or a conversation at FOSDEM, that we
+should document the role of the automation running on our patchwork
+instance plays in patch acceptance.
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Add a short note to the patch-acceptance document to that end.
+
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+The bit about fixes being applied to riscv/fixes is not actually
+correct, it's actually linux-next/pending-fixes. We've not had issues
+with the fixes branch being broken in a while, but I switched it over
+to pending-fixes due to the KVM breakage. I'll swap back to match the
+documentation I'm adding.
+
+I was also not sure if this was the correct doc for this, or whether a
+process/maintainer-riscv.rst file was better suited. There's clearly no
+rush on this though so ¯\_(ツ)_/¯
+
+CC: Björn Töpel <bjorn@kernel.org>
+CC: Palmer Dabbelt <palmer@dabbelt.com>
+CC: Paul Walmsley <paul.walmsley@sifive.com>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: linux-riscv@lists.infradead.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/riscv/patch-acceptance.rst | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
+index 1d1fb885326b..76ec57626043 100644
+--- a/Documentation/riscv/patch-acceptance.rst
++++ b/Documentation/riscv/patch-acceptance.rst
+@@ -16,6 +16,24 @@ tested code over experimental code.  We wish to extend these same
+ principles to the RISC-V-related code that will be accepted for
+ inclusion in the kernel.
+ 
++Patchwork
++---------
++
++RISC-V has a patchwork instance, where the status of patches can be checked:
++
++  https://patchwork.kernel.org/project/linux-riscv/list/
++
++If your patch does not appear in the default view, the RISC-V maintainers have
++likely either requested changes, or expect it to be applied to another tree.
++
++Automation runs against this patchwork instance, building/testing patches as
++they arrive. The automation applies patches against the current HEAD of the
++RISC-V `for-next` and `fixes` branches, depending on whether the patch has been
++detected as a fix. The exact commit to which a series has been applied will be
++noted on patchwork.
++Patches for which any of the checks fail are unlikely to be applied and in most
++cases will need to be resubmitted.
++
+ Submit Checklist Addendum
+ -------------------------
+ We'll only accept patches for new modules or extensions if the
+-- 
+2.39.2
 
