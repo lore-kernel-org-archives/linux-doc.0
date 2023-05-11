@@ -2,211 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA8EC7EE2D
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 09:52:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA188C7EE22
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 10:07:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237809AbjEKJwi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 05:52:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38150 "EHLO
+        id S237512AbjEKKHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 06:07:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237803AbjEKJwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 05:52:13 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E4CD04E
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 02:51:36 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f420618d5bso36388935e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 02:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683798695; x=1686390695;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0OHd/V9Ix4o33YMmir4Y9clMG7lYBUHKDvAJeO5aW44=;
-        b=B6QERsOmhTB/wzEMH4e7XD+W3iD3EdMaDAw30pwoi0gK8fs2UOO19yomXKtZcXF1eR
-         auoqQZmATFHFuoTdIvBsFQeXIfrr4td0MgkKOGlaEOVI4/mL8inA0EnkUbKg7AKLCj9c
-         XYC4IfMofM9NMMkyKLGwUElAiUs5ClFvpcLSzhoNCz1jNS/6gGVO3CiAc3JCZXRVrDe1
-         YxHV02mxevTnL8eHYuDu1rJlFhLIXT6TbUkadj5PvM9jQKeVUaAtW3fAQQp+rrriIRIJ
-         ANBshwpI3tapk7D98jxHVL0Kt8ZVFcX6bk9VkWrkGQBKNv6X/N6U8rOEJx6MWQq0YhtX
-         Amlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683798695; x=1686390695;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0OHd/V9Ix4o33YMmir4Y9clMG7lYBUHKDvAJeO5aW44=;
-        b=E+DI4juuliNgUB3u7S5HkGmrhMy60yqqU298LekDLCxSW+jXBAdlWkQYD4HftLmX8p
-         EsARlNbTLlMHNEbLB/oRaJ7pi2iwkaalYKEOEYPc69fM4JDSqfcPzQ/HqnLDti1WERJ0
-         Dclj7J7b0Ky9jGx0uLIJwtxq0FMC55BgG0pMxn5pdEUV2r2FlC4EdxzRsGo1vmZxmmsm
-         ighjsIHIAiGFvyRY0PZi66RQKRpzljRQsfzJDAfgrPwbMxcx0fNzbjf3qK084iVj+XhX
-         +u0VhNOOSWbUZ+a+DKyqW7qEju55YvOylTRavZyqKCREQ3ALOsXsLKUzZQjtfSoOY88t
-         jkJw==
-X-Gm-Message-State: AC+VfDzgBwbnu2M4JPznR0QzYb+AnAZw0CNeGNmzg1SX+2apZdccC0T6
-        iOMjQKgtSDubP+bc4azHoTB/SA==
-X-Google-Smtp-Source: ACHHUZ7b+A9M13qv/yT2hJDG79tnQl/QEB7u0rYsAjJ7HKLv20UVPzWKTFn1gusLVVxmozjX2cbLzw==
-X-Received: by 2002:a7b:cb07:0:b0:3f1:7129:6b25 with SMTP id u7-20020a7bcb07000000b003f171296b25mr14539363wmj.18.1683798694748;
-        Thu, 11 May 2023 02:51:34 -0700 (PDT)
-Received: from baylibre-ThinkPad-T14s-Gen-2i.. (120.205.87.79.rev.sfr.net. [79.87.205.120])
-        by smtp.gmail.com with ESMTPSA id z9-20020a05600c114900b003f4069417absm22389956wmz.24.2023.05.11.02.51.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 02:51:34 -0700 (PDT)
-From:   Julien Panis <jpanis@baylibre.com>
-To:     lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com
-Cc:     macro@orcam.me.uk, baolu.lu@linux.intel.com, yi.l.liu@intel.com,
-        jirislaby@kernel.org, rostedt@goodmis.org, revest@chromium.org,
-        gehao@kylinos.cn, akpm@linux-foundation.org, jgg@ziepe.ca,
-        razor@blackwall.org, stephen@networkplumber.org,
-        prabhakar.csengg@gmail.com, contact@emersion.fr,
-        alex.williamson@redhat.com, akrowiak@linux.ibm.com,
-        mark.rutland@arm.com, ye.xingchen@zte.com.cn, ojeda@kernel.org,
-        me@kloenk.de, milan@mdaverde.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
-        jneanne@baylibre.com, aseketeli@baylibre.com
-Subject: [PATCH v7 5/6] Documentation: Add TI TPS6594 PFSM
-Date:   Thu, 11 May 2023 11:51:25 +0200
-Message-Id: <20230511095126.105104-6-jpanis@baylibre.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20230511095126.105104-1-jpanis@baylibre.com>
-References: <20230511095126.105104-1-jpanis@baylibre.com>
+        with ESMTP id S237549AbjEKKHe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 06:07:34 -0400
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74A35A1;
+        Thu, 11 May 2023 03:07:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+        t=1683799650; bh=VqDgL7HU+yu2cg9LzMt1GR3g7Ypf89l9GP5PH/EG4Zk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ApqH0CwwldgFtdmJItmpSyedxMCa3vdCBBm1hLHAx7rb9nb90/4I4cvWSP/Nzvdic
+         RHn1nQZ70lRpD5Hrlx+MpgfGDbhrsk8SCxsJPMPylE6stTj9TDWmjWcZg7snb4OC3H
+         ZfLVCSSArHDsVRRb5dReCKL0FPZZ1//ebSGRWyJM=
+Received: from [100.100.57.122] (unknown [58.34.185.106])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B758360106;
+        Thu, 11 May 2023 18:07:29 +0800 (CST)
+Message-ID: <160f2a29-e935-143a-cdae-7b3e1f2797f9@xen0n.name>
+Date:   Thu, 11 May 2023 18:07:29 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH v2] LoongArch: Add jump-label implementation
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Youling Tang <tangyouling@loongson.cn>
+Cc:     Huacai Chen <chenhuacai@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Zhangjin Wu <falcon@tinylab.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
+References: <1683710206-23905-1-git-send-email-tangyouling@loongson.cn>
+ <3b360532-6ad5-b22c-b02a-103be491be4c@xen0n.name>
+ <72b6c81a-d4ee-575a-ff48-6be7e034ac96@loongson.cn>
+ <20230511074359.GQ4253@hirez.programming.kicks-ass.net>
+From:   WANG Xuerui <kernel@xen0n.name>
+In-Reply-To: <20230511074359.GQ4253@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds documentation for the TPS6594 PFSM driver.
+On 2023/5/11 15:43, Peter Zijlstra wrote:
+> On Thu, May 11, 2023 at 09:33:37AM +0800, Youling Tang wrote:
+> 
+>>>> +void arch_jump_label_transform(struct jump_entry *entry,
+>>>> +                   enum jump_label_type type)
+>>>> +{
+>>>> +    void *addr = (void *)jump_entry_code(entry);
+>>>> +    u32 insn;
+>>>> +
+>>>> +    if (type == JUMP_LABEL_JMP)
+>>>
+>>> Please use a switch for dealing with enum-typed values.
+>>
+>> Because the current type only has JUMP_LABEL_NOP and JUMP_LABEL_JMP,
+>> using if may be simpler than switch.
+> 
+> IIRC we used an enum with descriptive names instead of a boolean because
+> true/false just doesn't tell you much.
+> 
+> The whole thing fundamentally is a boolean descision though, either
+> you write a JMP or a NOP, jump-labels don't have more options.
 
-The PFSM controls the operational states of the TPS6594 PMIC.
-Depending on the operational mode, some power domain networks
-remain energized while others can be off.
+Ah thanks for the background. My previous suggestion is just kinda 
+generally applicable software engineering best practice, so if the 
+actual enum is unlikely to get >2 variants then it should be fine to 
+keep using "if". Youling, feel free to ignore the piece of comment, and 
+sorry for not doing my archaeology beforehand. :)
 
-Signed-off-by: Julien Panis <jpanis@baylibre.com>
----
- Documentation/misc-devices/index.rst          |  1 +
- Documentation/misc-devices/tps6594-pfsm.rst   | 87 +++++++++++++++++++
- .../userspace-api/ioctl/ioctl-number.rst      |  1 +
- 3 files changed, 89 insertions(+)
- create mode 100644 Documentation/misc-devices/tps6594-pfsm.rst
-
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 756be15a49a4..ecc40fbbcfb8 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -28,5 +28,6 @@ fit into other categories.
-    oxsemi-tornado
-    pci-endpoint-test
-    spear-pcie-gadget
-+   tps6594-pfsm
-    uacce
-    xilinx_sdfec
-diff --git a/Documentation/misc-devices/tps6594-pfsm.rst b/Documentation/misc-devices/tps6594-pfsm.rst
-new file mode 100644
-index 000000000000..4ada37ccdcba
---- /dev/null
-+++ b/Documentation/misc-devices/tps6594-pfsm.rst
-@@ -0,0 +1,87 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================
-+Texas Instruments TPS6594 PFSM driver
-+=====================================
-+
-+Author: Julien Panis (jpanis@baylibre.com)
-+
-+Overview
-+========
-+
-+Strictly speaking, PFSM (Pre-configurable Finite State Machine) is not
-+hardware. It is a piece of code.
-+
-+The TPS6594 PMIC (Power Management IC) integrates a state machine which
-+manages operational modes. Depending on the current operational mode,
-+some voltage domains remain energized while others can be off.
-+
-+The PFSM driver can be used to trigger transitions between configured
-+states. It also provides R/W access to the device registers.
-+
-+Supported chips
-+---------------
-+
-+- tps6594-q1
-+- tps6593-q1
-+- lp8764-q1
-+
-+Driver location
-+===============
-+
-+drivers/misc/tps6594-pfsm.c
-+
-+Driver type definitions
-+=======================
-+
-+include/uapi/linux/tps6594_pfsm.h
-+
-+Driver IOCTLs
-+=============
-+
-+:c:macro::`PMIC_GOTO_STANDBY`
-+All device resources are powered down. The processor is off, and
-+no voltage domains are energized.
-+
-+:c:macro::`PMIC_GOTO_LP_STANDBY`
-+The digital and analog functions of the PMIC, which are not
-+required to be always-on, are turned off (low-power).
-+
-+:c:macro::`PMIC_UPDATE_PGM`
-+Triggers a firmware update.
-+
-+:c:macro::`PMIC_SET_ACTIVE_STATE`
-+One of the operational modes.
-+The PMICs are fully functional and supply power to all PDN loads.
-+All voltage domains are energized in both MCU and Main processor
-+sections.
-+
-+:c:macro::`PMIC_SET_MCU_ONLY_STATE`
-+One of the operational modes.
-+Only the power resources assigned to the MCU Safety Island are on.
-+
-+:c:macro::`PMIC_SET_RETENTION_STATE`
-+One of the operational modes.
-+Depending on the triggers set, some DDR/GPIO voltage domains can
-+remain energized, while all other domains are off to minimize
-+total system power.
-+
-+Driver usage
-+============
-+
-+See available PFSMs::
-+
-+    # ls /dev/pfsm*
-+
-+Dump the registers of pages 0 and 1::
-+
-+    # hexdump -C /dev/pfsm-0-0x48
-+
-+See PFSM events::
-+
-+    # cat /proc/interrupts
-+
-+Userspace code example
-+----------------------
-+
-+samples/pfsm/pfsm-wakeup.c
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index 176e8fc3f31b..7167fe38a8f1 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -180,6 +180,7 @@ Code  Seq#    Include File                                           Comments
- 'P'   00-0F  drivers/usb/class/usblp.c                               conflict!
- 'P'   01-09  drivers/misc/pci_endpoint_test.c                        conflict!
- 'P'   00-0F  xen/privcmd.h                                           conflict!
-+'P'   00-05  linux/tps6594_pfsm.h                                    conflict!
- 'Q'   all    linux/soundcard.h
- 'R'   00-1F  linux/random.h                                          conflict!
- 'R'   01     linux/rfkill.h                                          conflict!
 -- 
-2.37.3
+WANG "xen0n" Xuerui
+
+Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
 
