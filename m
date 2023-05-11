@@ -2,120 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB78C7EE22
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 16:32:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0997C77B7C
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 16:40:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238470AbjEKQc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 12:32:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47842 "EHLO
+        id S238841AbjEKQkN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 12:40:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237590AbjEKQc5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 12:32:57 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A0A9017;
-        Thu, 11 May 2023 09:32:20 -0700 (PDT)
-Received: from zn.tnic (p5de8e8ea.dip0.t-ipconnect.de [93.232.232.234])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D9DC31EC041F;
-        Thu, 11 May 2023 18:32:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1683822731;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=dygT3SQ1Awb918Yj04yvCpz0F75Gt7jJXYbHPMQO368=;
-        b=R5T5ei9aRn2WmdaOiQI0b3lTEpke8mwH+YA13JUw69yB2L7ZadnZ0U2BTvfGyaOHt4JfRC
-        3Aoy+LxV7mQkAih2yejm5Zzwfnof6sebecZ/7cyw7rLXxwO+GHLihccOrl0u8gG8MDSzAm
-        XmteUQ7nficYxQuDo4lTodt4dy/cl80=
-Date:   Thu, 11 May 2023 18:32:08 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Juergen Gross <jgross@suse.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
-        mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
-Message-ID: <20230511163208.GDZF0YiOfxQhSo4RDm@fat_crate.local>
-References: <20230502120931.20719-1-jgross@suse.com>
- <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
- <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
- <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
- <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+        with ESMTP id S238693AbjEKQkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 12:40:10 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD747EF5
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 09:40:08 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3f42711865eso33909885e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 May 2023 09:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1683823207; x=1686415207;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rWPj+0MEcU+bJjFDLtiKhJORofVGXZE+QDk7KaJWG9E=;
+        b=UuPFreN/sIyZvma3z9Xm6KxNZFcbh1TpDfsITGLUWBCWA6T4xHCFr5HuwlelWhANsc
+         GODLbDYWSkjxpw1FlGH7zBZhqQl+PBnoza0HREbOpZD4TA496u22UD6bDXXczi7KYVpl
+         vUHL3f5x4AXj97duCDa1dgEYjprlWsVyV+SBIS6xrVMPSwQcsV6kK8n5uf0FR6XnIuc4
+         bHtcnz/0qP1iI3PLzgpdryNpdPYlDZbySxQcLGTnHTgtAXoWs5v1mwmzllg9a6m64GLt
+         EJC3fIG+NQH/j+vTbDoa5wKLgeATWhDm4OwK78ppk49kTcq7mfR/nc2WNPwoATtQv89M
+         LAmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683823207; x=1686415207;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rWPj+0MEcU+bJjFDLtiKhJORofVGXZE+QDk7KaJWG9E=;
+        b=BojkYIbO/IT3il4WWzauL/IrjKzyIRqLOSJ44gP02SXJFmo/lp8RMNMpdervRL69un
+         dFDU2Wr7KQMuHQ/i8Oki3FA/DjeuyWUUFPXm/fbrKrvmP7zR3W8JzQmPsjyt9FiYJo5K
+         gFf6UfUWAbWaDP9lTtMedc8+sA/2oZybFQ86J3HvzwJsqtjcRy68qB4n6ofQzVjLxkDx
+         QeY/pjurC8Pq0sAJgHgahKlj+BCo9lFCWV28QlQ9o5ILlfB2OX7NtNhyCxt1YkA6Ieq8
+         ZYYo4ipxq/VrjtnaA+SdJ7Dgx8yGOtHtCs10+IKbK5B8uJZ0lWHTBUsn6JSSz/kEUf6x
+         To8A==
+X-Gm-Message-State: AC+VfDyxmdp0uy/3PSy4RgWpFcgzb6kvQlqRGSXZJZbwgo8hMNS/B0oQ
+        UyiGuRhkcw6+zllDT7sqdRo6QA==
+X-Google-Smtp-Source: ACHHUZ5lIBereKcBnZpJKQGjLGzbXt7Ys+TI95CPzIw7E6x8cqi52/zghFhzklOdZznlq63vKEcQWg==
+X-Received: by 2002:a1c:f20a:0:b0:3f1:819d:d050 with SMTP id s10-20020a1cf20a000000b003f1819dd050mr15055961wmc.37.1683823206802;
+        Thu, 11 May 2023 09:40:06 -0700 (PDT)
+Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+        by smtp.gmail.com with ESMTPSA id 12-20020a05600c020c00b003f4b6bcbd8bsm4941659wmi.31.2023.05.11.09.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 09:40:06 -0700 (PDT)
+Date:   Thu, 11 May 2023 18:40:05 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Haibo Xu <haibo1.xu@intel.com>
+Cc:     xiaobo55x@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 1/2] riscv: kvm: Add KVM_GET_REG_LIST API support
+Message-ID: <20230511-d0a207eebb30fc88de875e4f@orel>
+References: <cover.1683791148.git.haibo1.xu@intel.com>
+ <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+In-Reply-To: <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 10, 2023 at 05:53:15PM +0200, Juergen Gross wrote:
-> Urgh, yes, there is something missing:
+On Thu, May 11, 2023 at 05:22:48PM +0800, Haibo Xu wrote:
+> KVM_GET_REG_LIST API will return all registers that are available to
+> KVM_GET/SET_ONE_REG APIs. It's very useful to identify some platform
+> regression issue during VM migration.
 > 
-> diff --git a/arch/x86/kernel/cpu/mtrr/generic.c b/arch/x86/kernel/cpu/mtrr/generic.c
-> index 031f7ea8e72b..9544e7d13bb3 100644
-> --- a/arch/x86/kernel/cpu/mtrr/generic.c
-> +++ b/arch/x86/kernel/cpu/mtrr/generic.c
-> @@ -521,8 +521,12 @@ u8 mtrr_type_lookup(u64 start, u64 end, u8 *uniform)
->         for (i = 0; i < cache_map_n && start < end; i++) {
->                 if (start >= cache_map[i].end)
->                         continue;
+> Since this API was already supported on arm64, it'd be straightforward
+> to enable it on riscv with similar code structure.
+> 
+> Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+> ---
+>  Documentation/virt/kvm/api.rst |   2 +-
+>  arch/riscv/kvm/vcpu.c          | 346 +++++++++++++++++++++++++++++++++
+>  2 files changed, 347 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index add067793b90..280e89abd004 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -3499,7 +3499,7 @@ VCPU matching underlying host.
+>  ---------------------
+>  
+>  :Capability: basic
+> -:Architectures: arm64, mips
+> +:Architectures: arm64, mips, riscv
+>  :Type: vcpu ioctl
+>  :Parameters: struct kvm_reg_list (in/out)
+>  :Returns: 0 on success; -1 on error
+> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+> index 8bd9f2a8a0b9..fb8834e4fa15 100644
+> --- a/arch/riscv/kvm/vcpu.c
+> +++ b/arch/riscv/kvm/vcpu.c
+> @@ -657,6 +657,334 @@ static int kvm_riscv_vcpu_set_reg_isa_ext(struct kvm_vcpu *vcpu,
+>  	return 0;
+>  }
+>  
+> +static inline unsigned long num_config_regs(void)
+> +{
+> +	return sizeof(struct kvm_riscv_config) / sizeof(unsigned long);
 
-So the loop will go through the map until...
+We can't assume all config registers are present. For example,
+zicbom and zicboz block size registers are only present when their
+respective extensions are available.
 
-> -               if (start < cache_map[i].start)
-> +               if (start < cache_map[i].start) {
-
-... it reaches the first entry where that is true.
-
->                         type = type_merge(type, mtrr_state.def_type, uniform);
-
-the @type argument is MTRR_TYPE_INVALID, def_type is WRBACK so what
-this'll do is simply get you the default WRBACK type:
-
-type_merge:
-        if (type == MTRR_TYPE_INVALID)
-                return new_type;
-
-> +                       start = cache_map[i].start;
-> +                       if (end <= start)
-> +                               break;
-
-Now you break here because end <= start. Why?
-
-You can just as well do:
-
-	if (start < cache_map[i].start) {
-		/* region non-overlapping with the region in the map */
-		if (end <= cache_map[i].start)
-			return type_merge(type, mtrr_state.def_type, uniform);
-
-		... rest of the processing ...
-
-In general, I get it that your code is slick but I want it to be
-maintainable - not slick. I'd like for when people look at this, not
-have to  add a bunch of debugging output in order to swap the whole
-thing back into their brains.
-
-So mtrr_type_lookup() definitely needs comments explaining what goes
-where.
-
-You can send it as a diff ontop - I'll merge it.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+drew
