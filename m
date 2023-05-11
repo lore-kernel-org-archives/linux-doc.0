@@ -2,237 +2,446 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40480C77B7F
-	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 06:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B852C7EE24
+	for <linux-doc@archiver.kernel.org>; Thu, 11 May 2023 06:54:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237016AbjEKGTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 02:19:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41840 "EHLO
+        id S237178AbjEKGyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 02:54:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237106AbjEKGTp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 02:19:45 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 245C2525C
-        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 23:19:40 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-55a10577911so118630447b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 23:19:40 -0700 (PDT)
+        with ESMTP id S237196AbjEKGxo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 02:53:44 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EA2165A4
+        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 23:53:41 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id 5b1f17b1804b1-3f315712406so271844305e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 May 2023 23:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1683785979; x=1686377979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b18qtmniAi+AEeCXApPuuoSxsIi2qci+TPfIML3CctA=;
-        b=CpdestOwKbifbG3w2RZxDl/clLet3qrBtU3nj7nChXpZpbS4qrwLbiEO/egmYRDQ+F
-         gDoJlu08T24uEJPSwxEQXEaMrSrGbGGBoC4w1e6JcKNR0hxARwrm+AKJ6YTmqcrZi61+
-         2H0vqX+Sl0AAak7cXEfPP+7069cet3qTdl/t4=
+        d=linaro.org; s=google; t=1683788020; x=1686380020;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UpvUNADgatGSUNbf1DFHHdQ9AqekXwHBfv8Q4aLvujc=;
+        b=mBVlcxXH+iTZY0pBa0EAwoRxuLOBdwD03ZNhzjPDkkQKBC45w2SoM9+i/MvE5DS9kv
+         eC6cpAvAsaO0nGVnY2MihTdzWfL18inltI32ZSNzoiTkxnNT//b3W17BG2TYV7AHmDHv
+         JGa2gEC3ApeuGJL14csQYlXsPG0sCUweboabeMzoGXd2is7fAPDyK6WiTiJUHtRfOskj
+         jG8laSAEtNvsDjXNpa5ZxrHVp7Pl14Fq5CbnloW3InnuKmgga6yhAavF4wXvibQEwAqQ
+         CxLiWF+NKDey73x9cg148sA8ZtS8V7c/xSW3Y/o4hV+XphdBhQytPOd/c0G+e6MWs31V
+         x7bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683785979; x=1686377979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b18qtmniAi+AEeCXApPuuoSxsIi2qci+TPfIML3CctA=;
-        b=NH7BotPidFDzSG3rfhCrXNq3txxLogDSChignHemYYzKWpdkQHvHJEg2QeU6+dDpdG
-         XuaDw+xoVUG1BwxEMj4sdBZXjyDTX53pwaeyIG+HuiAZI9OWDB73xYEIznbNnao2q/a0
-         UuIsTDT5Qg8Ee1uREfyujTenZkOQPwB+Y/tMucx2fSmnzoYRyhCiUjNOPqADXAGCB2np
-         CQHndjOzIHjbz88I8EovCeScvfxcptyKUsns9+SSvkJQDYNpiU9WZ1Rsrtf1zSu+/ZOo
-         LyAyqW531ej1TrV2m7uXjrEhBg+QW0NkHD5yRWlo7IQDR2arykofKCpDqRNsmUQUwFKC
-         nHWw==
-X-Gm-Message-State: AC+VfDySGUgkf40k/IO211btp1zStKryPrCTz5BRkMtep5j2abm919m2
-        Ist9wh8lu8QBJQXrA73yeP2q5tcTzYONrRzXFpYeQQ==
-X-Google-Smtp-Source: ACHHUZ4fbzTjTcfsiWG/coHms/+UyyQOjCOsFw0hjewXQx+r3YEXTTgnwArQvI7+T53tu2RUBSsoa6FYv8srj0KRkuQ=
-X-Received: by 2002:a25:4a46:0:b0:b8e:e918:33ac with SMTP id
- x67-20020a254a46000000b00b8ee91833acmr18954961yba.1.1683785979134; Wed, 10
- May 2023 23:19:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230511014625.3443409-1-vineeth@bitbyteword.org>
-In-Reply-To: <20230511014625.3443409-1-vineeth@bitbyteword.org>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Wed, 10 May 2023 23:19:27 -0700
-Message-ID: <CAEXW_YRjNAUXFD8rPQQ53Vu8j8ka=Z-WEZS54JXEroVH7TPVjg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] sched/deadline: Improve reclaim bandwidth accuracy
- for GRUB
-To:     Vineeth Pillai <vineeth@bitbyteword.org>
-Cc:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20221208; t=1683788020; x=1686380020;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UpvUNADgatGSUNbf1DFHHdQ9AqekXwHBfv8Q4aLvujc=;
+        b=KCEZsWlZG61ir2XJLGoSPm8MIprcGravFkHtDe8vqDMykiFxdQgvsGEC8f22uNvv6h
+         1motFwoz8sB9dHGDOl7Xf++h/PjOs6uwES+7aiS3BMjjrQE3N6BdGASuw4c/jAZRR2Fg
+         wxYF7vcFA7sZVusMn+ZRAXi56cjhNstegz9uxnUxyLmYS9bwC0G9NLoe6iWrvOt9iDMw
+         fQ/BKBc3v1AJQbDXc1abaCOA1TfH2KHlWo0+NqmBUXxMEEvVMICdIMwwFEeNTllAOZj5
+         CEmbgYhd32Sbw4ir/fXEPEKz8N4E2fS2hqI3oWmLPZmZid6VdxlGfeSy5vPE1O2BCZ5G
+         JSAA==
+X-Gm-Message-State: AC+VfDwp+0vbcevsm5QJaQ+o2COgq7Uu80RKSUg93Q3amDwn1zr+p+HN
+        KxgVn3E8qwTzZFWGPzBMQw2jVQ==
+X-Google-Smtp-Source: ACHHUZ7dcPbLshCLrogTBjBWx+na9oz70eSVfMk2yYDxTzM4cwXzZAHRJRrzTrovFnsxBuxxRTnRWQ==
+X-Received: by 2002:a05:600c:4e44:b0:3f4:9a86:f2ab with SMTP id e4-20020a05600c4e4400b003f49a86f2abmr2939240wmq.17.1683788019954;
+        Wed, 10 May 2023 23:53:39 -0700 (PDT)
+Received: from linaro.org ([2a00:23c5:680a:d01:3110:8b33:cdf9:dea0])
+        by smtp.gmail.com with ESMTPSA id f8-20020a7bc8c8000000b003f4e8530696sm1038257wml.46.2023.05.10.23.53.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 23:53:39 -0700 (PDT)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Cc:     suzuki.poulose@arm.com, acme@kernel.org, james.clark@arm.com,
+        Mike Leach <mike.leach@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v6 6/6] Documentation: coresight: docs for config load via configfs
+Date:   Thu, 11 May 2023 07:53:30 +0100
+Message-Id: <20230511065330.26392-7-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230511065330.26392-1-mike.leach@linaro.org>
+References: <20230511065330.26392-1-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vineeth,
-Nice work. ;-) Few quick comments below:
+Add documentation covering the configfs updates that allow
+configuration tables to be loaded and unloaded via configfs,
+along with the demonstration programs in tools/coresight.
 
-On Wed, May 10, 2023 at 6:46=E2=80=AFPM Vineeth Pillai <vineeth@bitbyteword=
-.org> wrote:
->
-> Current reclaim calculation for GRUB is a bit inaccurate and the
-> inaccuracy gets larger as the bandwidth of tasks becomes smaller.
-> I have a test program to show the issue - it runs one or more
-> deadline threads and observes the utilization. Following tests
-> are run on an isolated cpu(isolcpus=3D3) in a 4 cpu system and the
-> results as shown below:
->
-> RUN 1: runtime=3D7ms, deadline=3Dperiod=3D10ms, RT capacity =3D 95%
-> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.33
-> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.35
-> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.35
-> TID[693]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 93.29
->
-> RUN 2: runtime=3D2ms, deadline=3Dperiod=3D10ms, RT capacity =3D 95%
-> TID[704]: RECLAIM=3D1, (r=3D2ms, d=3D10ms, p=3D10ms), Util: 79.96
-> TID[704]: RECLAIM=3D1, (r=3D2ms, d=3D10ms, p=3D10ms), Util: 80.06
-> TID[704]: RECLAIM=3D1, (r=3D2ms, d=3D10ms, p=3D10ms), Util: 80.00
->
-> RUN 3: runtime=3D1ms, deadline=3Dperiod=3D100ms, RT capacity =3D 95%
-> TID[708]: RECLAIM=3D1, (r=3D1ms, d=3D100ms, p=3D100ms), Util: 16.69
-> TID[708]: RECLAIM=3D1, (r=3D1ms, d=3D100ms, p=3D100ms), Util: 16.69
-> TID[708]: RECLAIM=3D1, (r=3D1ms, d=3D100ms, p=3D100ms), Util: 16.70
->
-> When running multiple tasks, the reclaimed bandwidth is divided
-> proportionately, but is not reclaimed to the max allowable limit:
->
-> RUN 4: 2 SCHED_FLAG_RECLAIM tasks, 1 normal task
->         Task 1: runtime=3D1ms, deadline=3Dperiod=3D10ms
->         Task 2: runtime=3D1ms, deadline=3Dperiod=3D10ms
->         Task 3: runtime=3D5ms, deadline=3Dperiod=3D20ms(normal)
-> TID[624]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.10
-> TID[625]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.10
-> TID[626]: RECLAIM=3D0, (r=3D5ms, d=3D20ms, p=3D20ms), Util: 25.07
-> TID[624]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.06
-> TID[625]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 20.13
-> TID[626]: RECLAIM=3D0, (r=3D5ms, d=3D20ms, p=3D20ms), Util: 25.12
-> TID[624]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 19.95
-> TID[625]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 19.93
-> TID[626]: RECLAIM=3D0, (r=3D5ms, d=3D20ms, p=3D20ms), Util: 25.04
->
-> I have also tested multiple tasks on all cpus allowing for tasks to
-> migrate and see the same issue there as well. Running 10 tasks on 3
-> cpus with 6 SCHED_FLAG_RECLAIM and 4 normal tasks, top shows:
-> %Cpu0  : 70.1 us,  0.3 sy,  0.0 ni, 29.3 id,  0.0 wa
-> %Cpu1  : 69.1 us,  0.3 sy,  0.0 ni, 30.3 id,  0.3 wa
-> %Cpu2  : 70.5 us,  0.3 sy,  0.0 ni, 29.2 id,  0.0 wa
->
-> The max{} logic in the existing implementation seems to not fully
-> capture the GRUB algorithm.
->
-> This patch fixes the issue by appropriatley caping the max allowed
-> utilization and also slightly adjusting GRUB algorithm to account
-> for a mix of normal deadline and SCHED_FLAG_RECLAIM tasks.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Mike Leach <mike.leach@linaro.org>
+---
+ .../trace/coresight/coresight-config.rst      | 265 ++++++++++++++++--
+ 1 file changed, 242 insertions(+), 23 deletions(-)
 
-Looked at the patch quickly as I am due for bedtime ;-). I feel like
-this does more than should be done in one patch. So you should
-consider splitting it IMHO.
+diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documentation/trace/coresight/coresight-config.rst
+index 6d5ffa6f7347..fe50bfaada5e 100644
+--- a/Documentation/trace/coresight/coresight-config.rst
++++ b/Documentation/trace/coresight/coresight-config.rst
+@@ -109,20 +109,20 @@ Operation
+ 
+ The following steps take place in the operation of a configuration.
+ 
+-1) In this example, the configuration is 'autofdo', which has an
+-   associated feature 'strobing' that works on ETMv4 CoreSight Devices.
++1) In this example, the configuration is ``autofdo``, which has an
++   associated feature ``strobing`` that works on ETMv4 CoreSight Devices.
+ 
+-2) The configuration is enabled. For example 'perf' may select the
++2) The configuration is enabled. For example ``perf`` may select the
+    configuration as part of its command line::
+ 
+     perf record -e cs_etm/autofdo/ myapp
+ 
+-   which will enable the 'autofdo' configuration.
++   which will enable the ``autofdo`` configuration.
+ 
+ 3) perf starts tracing on the system. As each ETMv4 that perf uses for
+    trace is enabled,  the configuration manager will check if the ETMv4
+    has a feature that relates to the currently active configuration.
+-   In this case 'strobing' is enabled & programmed into the ETMv4.
++   In this case ``strobing`` is enabled & programmed into the ETMv4.
+ 
+ 4) When the ETMv4 is disabled, any registers marked as needing to be
+    saved will be read back.
+@@ -136,18 +136,18 @@ Viewing Configurations and Features
+ The set of configurations and features that are currently loaded into the
+ system can be viewed using the configfs API.
+ 
+-Mount configfs as normal and the 'cs-syscfg' subsystem will appear::
++Mount configfs as normal and the ``cs-syscfg`` subsystem will appear::
+ 
+     $ ls /config
+     cs-syscfg  stp-policy
+ 
+-This has two sub-directories::
++This has two sub-directories, with the load and unload attribute files::
+ 
+     $ cd cs-syscfg/
+     $ ls
+-    configurations  features
++    configurations features load  unload
+ 
+-The system has the configuration 'autofdo' built in. It may be examined as
++The system has the configuration ``autofdo`` built in. It may be examined as
+ follows::
+ 
+     $ cd configurations/
+@@ -162,7 +162,7 @@ follows::
+     $ cat feature_refs
+     strobing
+ 
+-Each preset declared has a 'preset<n>' subdirectory declared. The values for
++Each preset declared has a ``preset<n>`` subdirectory declared. The values for
+ the preset can be examined::
+ 
+     $ cat preset1/values
+@@ -170,7 +170,7 @@ the preset can be examined::
+     $ cat preset2/values
+     strobing.window = 0x1388 strobing.period = 0x4
+ 
+-The 'enable' and 'preset' files allow the control of a configuration when
++The ``enable`` and ``preset`` files allow the control of a configuration when
+ using CoreSight with sysfs.
+ 
+ The features referenced by the configuration can be examined in the features
+@@ -210,18 +210,18 @@ Using Configurations in perf
+ ============================
+ 
+ The configurations loaded into the CoreSight configuration management are
+-also declared in the perf 'cs_etm' event infrastructure so that they can
++also declared in the perf ``cs_etm`` event infrastructure so that they can
+ be selected when running trace under perf::
+ 
+     $ ls /sys/devices/cs_etm
+     cpu0  cpu2  events  nr_addr_filters		power  subsystem  uevent
+     cpu1  cpu3  format  perf_event_mux_interval_ms	sinks  type
+ 
+-The key directory here is 'events' - a generic perf directory which allows
++The key directory here is ``events`` - a generic perf directory which allows
+ selection on the perf command line. As with the sinks entries, this provides
+ a hash of the configuration name.
+ 
+-The entry in the 'events' directory uses perfs built in syntax generator
++The entry in the ``events`` directory uses perfs built in syntax generator
+ to substitute the syntax for the name when evaluating the command::
+ 
+     $ ls events/
+@@ -229,7 +229,7 @@ to substitute the syntax for the name when evaluating the command::
+     $ cat events/autofdo
+     configid=0xa7c3dddd
+ 
+-The 'autofdo' configuration may be selected on the perf command line::
++The ``autofdo`` configuration may be selected on the perf command line::
+ 
+     $ perf record -e cs_etm/autofdo/u --per-thread <application>
+ 
+@@ -246,7 +246,7 @@ Using Configurations in sysfs
+ Coresight can be controlled using sysfs. When this is in use then a configuration
+ can be made active for the devices that are used in the sysfs session.
+ 
+-In a configuration there are 'enable' and 'preset' files.
++In a configuration there are ``enable`` and ``preset`` files.
+ 
+ To enable a configuration for use with sysfs::
+ 
+@@ -256,13 +256,13 @@ To enable a configuration for use with sysfs::
+ This will then use any default parameter values in the features - which can be
+ adjusted as described above.
+ 
+-To use a preset<n> set of parameter values::
++To use a ``preset<n>`` set of parameter values::
+ 
+     $ echo 3 > preset
+ 
+ This will select preset3 for the configuration.
+ The valid values for preset are 0 - to deselect presets, and any value of
+-<n> where a preset<n> sub-directory is present.
++<n> where a ``preset<n>`` sub-directory is present.
+ 
+ Note that the active sysfs configuration is a global parameter, therefore
+ only a single configuration can be active for sysfs at any one time.
+@@ -278,9 +278,16 @@ Creating and Loading Custom Configurations
+ ==========================================
+ 
+ Custom configurations and / or features can be dynamically loaded into the
+-system by using a loadable module.
++system by using a loadable module, or by loading a configuration table
++through in configfs.
+ 
+-An example of a custom configuration is found in ./samples/coresight.
++Loaded configurations can use previously loaded features. The system will
++ensure that it is not possible to unload a feature that is currently in
++use, by enforcing the unload order as the strict reverse of the load order.
++
++
++Using a Loadable Module
++-----------------------
+ 
+ This creates a new configuration that uses the existing built in
+ strobing feature, but provides a different set of presets.
+@@ -289,6 +296,218 @@ When the module is loaded, then the configuration appears in the configfs
+ file system and is selectable in the same way as the built in configuration
+ described above.
+ 
+-Configurations can use previously loaded features. The system will ensure
+-that it is not possible to unload a feature that is currently in use, by
+-enforcing the unload order as the strict reverse of the load order.
++The file ``coresight-cfg-sample.c`` contains the configuration and module
++initialisation code needed to create the loadable module.
++
++This will be built alongside the kernel modules if selected in KConfig.
++(select ``CONFIG_SAMPLE_CORESIGHT_SYSCFG``).
++
++An example of a custom configuration module is found in ``./samples/coresight``.
++
++Using a Configuration Table File
++--------------------------------
++
++The ``./tools/coresight`` directory contains example programs to generate and
++read and print binary configuration table files.
++
++Building the tools creates the ``coresight-cfg-file-gen`` program that will
++generate a configuration binary ``example1.cscfg`` that can be loaded into the
++system using configfs. The configuration declared in the source file
++``coresight-cfg-example1.c`` is named ``autofdo3`` - the name that will be used
++once loaded.
++
++The source files ``coresight-cfg-bufw.h`` and ``coresight-cfg-bufw.c`` provide a
++standard function to convert a configuration declared in 'C' into the correct
++binary buffer format. These files can be re-used to create new custom
++configurations. Alternatively, additional examples can be added to the
++``coresight-cfg-file-gen`` program::
++
++    $ ./coresight-cfg-file-gen
++    Coresight Configuration file Generator
++
++    Generating example1 example
++    Generating example2 example
++
++The program ``coresight-cfg-file-read`` can read back and print a configuration
++binary. This is built using the file reader from the driver code
++(``coresight-config-file.c``), which is copied over into ``./tools/coresight`` at
++build time.::
++
++    ./coresight-cfg-file-read example1.cscfg
++    CoreSight Configuration file reader
++    ============================================
++
++    Configuration 1
++    Name:- autofdo3
++    Description:-
++    Setup ETMs with strobing for autofdo
++    Supplied presets allow experimentation with mark-space ratio for various loads
++
++    Uses 1 features:-
++    Feature-1: strobing
++
++    Provides 4 sets of preset values, 2 presets per set
++    set[0]: 0x7d0, 0x64,
++    set[1]: 0x7d0, 0x3e8,
++    set[2]: 0x7d0, 0x1388,
++    set[3]: 0x7d0, 0x2710,
++
++    ============================================
++    File contains no features
++
++There are additional attributes in the cs-syscfg directory - ``load`` and
++``unload`` that can be used to load and unload configuration tables.
++
++To load, 'cat' the table file into the load attribute::
++
++    $ ls /config/cs-syscfg
++    configurations features  load  show_last_load  unload
++    $ cat example1.cscfg > /config/cs-syscfg/load
++    $ ls /config/cs-syscfg/configurations/
++    autofdo  autofdo3
++
++As described above, in order to respect configuration dependencies, unload
++order is scrictly enforced to be the reverse of load order.
++
++``unload`` can be used to unload the last loaded configuration, but only
++if this was loaded using configfs.
++
++To unload, the *load name* of the configuration is written to ``unload``.
++This load name is the name of the first configuration in the table, or if no
++configurations, the name of the first feature.
++
++This name can be read either as described above, or by reading the
++``show_last_load`` attribute to obtain the details of the last loaded
++configuration::
++
++    $ cat /config/cs-syscfg/show_last_load
++    load name: autofdo3
++    load type: configfs dynamic load
++    (configurations:  autofdo3 )
++    (features:  None )
++
++Once this is known then unload by::
++
++    $ echo autofdo3 > /config/cs-syscfg/unload
++    ls /config/cs-syscfg/configurations/
++    autofdo
++
++Load and unload cannot be done if trace is in progress using a configuration.
++
++Unload will fail if the last loaded item was not a configfs dynamic loaded file.
++When using ``show_last_load`` a non configfs item will show::
++
++    cat /config/cs-syscfg/show_last_load
++    load name: [Not Set]
++    load type: Built in driver
++
++
++
++CoreSight Configuration Table Format
++------------------------------------
++
++The file format is defined in the source file ``coresight-config-table.h``
++
++The source reader and generator examples use/produce a table in this format,
++as a binary file.
++
++This arrangement is reproduced below:-
++
++Overall Table structure
++~~~~~~~~~~~~~~~~~~~~~~~
++
++::
++
++   [cscfg_table_header]  // Mandatory
++   [CONFIG_ELEM]*        // Optional - multiple, defined by cscfg_table_header.nr_configs
++   [FEATURE_ELEM]*       // Optional - multiple, defined by cscfg_table_header.nr_features
++
++Table is invalid if both [CONFIG_ELEM] and [FEATURE_ELEM] are omitted.
++
++A table that contains only [FEATURE_ELEM] may be loaded, and the features used
++by subsequently loaded files with [CONFIG_ELEM] elements.
++
++Element Name Strings
++~~~~~~~~~~~~~~~~~~~~
++
++Configuration name strings are required to consist of alphanumeric characters and '_' only. Other special characters are not permitted.
++
++For example ``my_config_2`` is a valid name, while ``this-bad-config#5`` will not work.
++
++This is in order to comply with the requirements of the perf command line.
++
++It is recommended that Feature and Parameter names use the same convention to allow for future enhancements to the command line syntax.
++
++CONFIG_ELEM element
++~~~~~~~~~~~~~~~~~~~
++
++::
++
++   [cscfg_table_elem_header]               // header length value to end of feature strings.
++   [cscfg_table_elem_str]                  // name of the configuration.
++                                           // (see element string name requirements)
++   [cscfg_table_elem_str]                  // description of configuration.
++   [u16 value](nr_presets)                 // number of defined sets presets values.
++   [u32 value](nr_total_params)            // total parameters defined by all used features.
++   [u16 value](nr_feat_refs)               // number of features referenced by the configuration
++   [u64 values] * (nr_presets * nr_total_params)     // the preset values.
++   [cscfg_table_elem_str] * (nr_feat_refs) // names of features used in the configurations.
++
++FEATURE_ELEM element
++~~~~~~~~~~~~~~~~~~~~
++
++::
++
++   [cscfg_table_elem_header]               // header length is total bytes to end of param structures.
++   [cscfg_table_elem_str]                  // feature name.
++   [cscfg_table_elem_str]                  // feature description.
++   [u32 value](match_flags)                // flags to associate the feature with a device.
++   [u16 value](nr_regs)                    // number of registers.
++   [u16 value](nr_params)                  // number of parameters.
++   [cscfg_regval_desc struct] * (nr_regs)  // register definitions
++   [PARAM_ELEM] * (nr_params)              // parameters definitions
++
++PARAM_ELEM element
++~~~~~~~~~~~~~~~~~~
++
++::
++
++   [cscfg_table_elem_str]        // parameter name.
++   [u64 value](param_value)      // initial value.
++
++Additional definitions
++~~~~~~~~~~~~~~~~~~~~~~
++
++The following structures are defined in ``coresight-config-file.h``
++
++ * ``struct cscfg_table_header`` : This structure contains an initial magic number, the total
++   length of the table, and the number of configurations and features in the table.
++ * ``struct cscfg_table_elem_header``: This defines the total length and type of a CONFIG_ELEM
++   or a FEATURE_ELEM.
++ * ``struct cscfg_table_elem_str``: This defines a string and its length.
++
++The magic number in cscfg_table_header is defined as two bitfields::
++
++   [31:8] Fixed magic number to identify table type.
++   [7:0]  Current table format version.
++
++The following defines determine the maximum overall table size and maximum individual
++string size
++
++ * ``CSCFG_TABLE_MAXSIZE``      : maximum overall table size.
++ * ``CSCFG_TABLE_STR_MAXSIZE``  : maximum individual string size.
++
++Load Dependencies
++~~~~~~~~~~~~~~~~~
++
++Files may be unloaded only in the strict reverse order of loading. This is enforced by the
++configuration system.
++
++This is to ensure that any load dependencies are maintained.
++
++A configuration table that contains a CONFIG_ELEM that references named features "feat_A" and "feat_B" will load only if either:-
++
++a) "feat_A" and/or "feat_B" has been loaded previously, or are present as built-in / module loaded features.
++b) "feat_A" and/or "feat_B" are declared as FEAT_ELEM in the same table as the CONFIG_ELEM.
++
++Tables that contain features or configurations with the same names as those already loaded will fail to load.
+-- 
+2.17.1
 
-> According to the GRUB rule, the runtime is depreciated as a factor
-> of active bandwidth of the runqueue: "dq =3D -dt", where U is the
-
-Saying "dq =3D -dt" where U does not make sense because U is not in the
-equation ;-). Suggest rephrase.
-
-> active bandwidth. Also, we do not allocate the full bandwidth of a
-> cpu to deadline task, but only a portion(Umax) to it, so as to avoid
-> deadline tasks starving lower class tasks. The equation could be
-> re-written as "dq =3D -(U / Umax) * dt"
-
-Isn't the equation in the code right now as:
-dq =3D -max{ Ui / Umax, (1 - Uinact - Uextra) } dt
-
-?
-
-That's what the kernel docs say [1].
-
-So what do you mean by "could be re-written" ?
-
-[1] https://docs.kernel.org/scheduler/sched-deadline.html
-
->
-> Since both normal deadline and SCHED_FLAG_RECLAIM tasks can share
-> cpu, we need to consider bandwidth of only SCHED_FLAG_RECLAIM tasks
-> in the equation:
->         "dq =3D -(Ureclaim / Umax_reclaim) * dt"
-
-This makes sense, we deplete only as a percent of what's reclaimable
-and not the whole damn thing. You did test a mix of reclaim and
-non-reclaim tasks so that's good, also since Luca approves that's
-great. ;-)
-
->
-> Following are the results with this patch:
->
-> RUN 1: runtime=3D7ms, deadline=3Dperiod=3D10ms, RT capacity =3D 95%
-> TID[616]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 94.98
-> TID[616]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 95.04
-> TID[616]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 95.01
-
-All these look 100% correct to me. Do these tasks start at the same
-time or are they shifted in their respective activations? Just wanted
-to be sure it behaves the same either way...
-
-[...]
-> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> index 3e8df6d31c1e..13d85af0f42b 100644
-> --- a/kernel/sched/sched.h
-> +++ b/kernel/sched/sched.h
-> @@ -257,6 +257,11 @@ static inline bool dl_entity_is_special(const struct=
- sched_dl_entity *dl_se)
->  #endif
->  }
->
-> +static inline bool dl_entity_is_reclaim(const struct sched_dl_entity *dl=
-_se)
-> +{
-> +       return dl_se->flags & SCHED_FLAG_RECLAIM;
-> +}
-> +
-
-Can this helper addition be split out to a different patch?
-
->  /*
->   * Tells if entity @a should preempt entity @b.
->   */
-> @@ -754,10 +759,20 @@ struct dl_rq {
->         u64                     extra_bw;
->
->         /*
-> -        * Inverse of the fraction of CPU utilization that can be reclaim=
-ed
-> -        * by the GRUB algorithm.
-> +        * Maximum available bandwidth for this runqueue. This is used to
-> +        * calculate reclaimable bandwidth for SCHED_FLAG_RECLAIM tasks.
-> +        * By restricting maximum usable bandwidth, we aim to give other
-> +        * tasks on lower classes a chance to run, when competing with
-> +        * SCHED_FLAG_RECLAIM tasks.
->          */
-> -       u64                     bw_ratio;
-> +       u64                     max_bw;
-> +
-> +       /*
-> +        * Active bandwidth of SCHED_FLAG_RECLAIM tasks on this rq.
-> +        * This will be a subset of running_bw.
-> +        */
-> +       u64                     reclaim_bw;
-> +
-
-And perhaps addition and use of these new fields if it makes sense.
-
-I will take a closer look at your patches later or after v2..
-
- - Joel
-
-
->  };
->
->  #ifdef CONFIG_FAIR_GROUP_SCHED
-> --
-> 2.40.1
->
