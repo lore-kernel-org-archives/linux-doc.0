@@ -2,129 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74415C77B7F
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 19:42:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 697E2C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 21:12:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239346AbjELTmp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 15:42:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51186 "EHLO
+        id S240087AbjELVM1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 17:12:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238467AbjELTmo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 15:42:44 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09E016A76;
-        Fri, 12 May 2023 12:42:41 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f49bf0223cso35801935e9.1;
-        Fri, 12 May 2023 12:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683920559; x=1686512559;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DN2lJwVxCSywQ45Toh9NWXRSKQkBQksDIAdmNfkgPbg=;
-        b=Pz9gZZLJj0bTpnXxFNomhku198dAZLFRV9cNoX36VzMjl1POqEJjByjCx+TOScAYIb
-         3iBkJdxH5ycv111ZXQ9w7h5tkc6P6Ne+UvjU0DctlUE/JiprguiPY3w509PMSPt8tF6z
-         ytunHZ+/UlNq4E3rW3AUAMrjsEZKmnMdcB2tP7BxF3dHO0s0MOncGzB6XsKwEB44Cmji
-         AbA7RoRaC1NUFSuAs7sWmFnh/TCSXajfjoYgev0bXVcYeVaHxuO8Z1E8aT/caQG42it9
-         9xYqhMcpvIdddCJF612T/XiuXecsioCbOv1cG1NVkkUlxpo/Z6UC2sr7Aa0rYOAahIHb
-         Y7qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683920559; x=1686512559;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DN2lJwVxCSywQ45Toh9NWXRSKQkBQksDIAdmNfkgPbg=;
-        b=YbmunFJuMSbcCxmH/MQI0+Jz4zBE6JRcSTLmHuZ2ggRwCEMifCuhcJwwv6jKYEEZ2j
-         C1ncyfCr35lcNcnrRBf9rHiqSMIwxTIqaM9fw7Nyb1cUHCcMQDEVaTtZXPl/9iregG0B
-         BpOcLugeUeAbKZXyCLOQQ9K7AdCsnQn139PzF8ChEsx7Skl5YmLvG0uw67vlv/EANhFX
-         G4TXebUxORlXzbHxVF9XHtPU/mXC9q9nknvzuj+VHW8r6u2altZeuAYbR22MrHKvpA00
-         pNLLuVv3nO5X1PDx1snGoUl4QqqgS1QohkKOY5ddEfmhv6s2D3YPVlD6NPKJcB7d8JZM
-         sl3g==
-X-Gm-Message-State: AC+VfDz0zEFfp5XdbiXY8o3qAfBLfaPEflrq/ICEsGJhZ53691mQUEPn
-        3dfjhD+fomu99ejNt7UOa24=
-X-Google-Smtp-Source: ACHHUZ7WQC0iGvDme0/M8wQdMxZpP0KeML4RwxJscAaHJ8Z1gcQLji5mEU4q1GgRZuVlj8wSQ4Pbow==
-X-Received: by 2002:a05:600c:2210:b0:3f4:2174:b288 with SMTP id z16-20020a05600c221000b003f42174b288mr14545149wml.4.1683920559237;
-        Fri, 12 May 2023 12:42:39 -0700 (PDT)
-Received: from [10.80.67.26] (default-46-102-197-194.interdsl.co.uk. [46.102.197.194])
-        by smtp.gmail.com with ESMTPSA id n3-20020a5d4003000000b003063176ef0dsm24256011wrp.97.2023.05.12.12.42.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 12:42:38 -0700 (PDT)
-Message-ID: <4a8f15b7-2897-e7f5-fe7e-fded3a4130c6@gmail.com>
-Date:   Fri, 12 May 2023 20:42:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v6 06/14] x86: Add early SHA support for Secure Launch
- early measurements
-Content-Language: en-GB
-To:     Matthew Garrett <mjg59@srcf.ucam.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        dpsmith@apertussolutions.com, mingo@redhat.com, bp@alien8.de,
-        hpa@zytor.com, James.Bottomley@hansenpartnership.com,
-        luto@amacapital.net, nivedita@alum.mit.edu,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com,
-        richard@hughsie.com
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-7-ross.philipson@oracle.com>
- <20230510012144.GA1851@quark.localdomain>
- <20230512110455.GD14461@srcf.ucam.org>
- <CAMj1kXE8m5jCH3vW54ys=dE2-Vf_gnnueR6_g4Rq-LSJ5BqRjA@mail.gmail.com>
- <20230512112847.GF14461@srcf.ucam.org> <87pm75bs3v.ffs@tglx>
- <20230512161318.GA18400@srcf.ucam.org> <873541bej2.ffs@tglx>
- <20230512191203.GA21013@srcf.ucam.org>
-From:   Andrew Cooper <andyhhp@gmail.com>
-In-Reply-To: <20230512191203.GA21013@srcf.ucam.org>
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S240598AbjELVMJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 17:12:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B609E527D;
+        Fri, 12 May 2023 14:10:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F2C4658DA;
+        Fri, 12 May 2023 21:09:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF4CCC433D2;
+        Fri, 12 May 2023 21:09:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1683925741;
+        bh=Zoj1leKNOORoojkAdze7x3n08l6XVgteqFUXTKCFCkc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=M3ZtWdAK1MMtAD8FNsEZczJdw+XPnyFzJ1mypAWweZjCxH9XkbPgy6oQYKemtNBbb
+         d+BpEanzSAj6HUjWFaa5N3fe7pykepCAXllNCDKkyOgB07pbN99sLNDtnTYi+Z168p
+         NEKtvHnuX9+85HyvhOoYNw6e1vlxJKFweH7tVCUc=
+Date:   Fri, 12 May 2023 14:08:59 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Yajun Deng <yajun.deng@linux.dev>
+Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        paulmck@kernel.org, bp@suse.de, peterz@infradead.org,
+        rdunlap@infradead.org, kim.phillips@amd.com, rostedt@goodmis.org,
+        thunder.leizhen@huawei.com, ardb@kernel.org, bhe@redhat.com,
+        anshuman.khandual@arm.com, song.bao.hua@hisilicon.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+Subject: Re: [PATCH] dma-contiguous: support per-numa CMA for all
+ architectures
+Message-Id: <20230512140859.641222bd40cfa4b1ee591cc6@linux-foundation.org>
+In-Reply-To: <20230512094210.141540-1-yajun.deng@linux.dev>
+References: <20230512094210.141540-1-yajun.deng@linux.dev>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/05/2023 8:12 pm, Matthew Garrett wrote:
-> On Fri, May 12, 2023 at 08:17:21PM +0200, Thomas Gleixner wrote:
->> On Fri, May 12 2023 at 17:13, Matthew Garrett wrote:
->>> On Fri, May 12, 2023 at 03:24:04PM +0200, Thomas Gleixner wrote:
->>>> On Fri, May 12 2023 at 12:28, Matthew Garrett wrote:
->>>>> Unless we assert that SHA-1 events are unsupported, it seems a bit odd 
->>>>> to force a policy on people who have both banks enabled. People with 
->>>>> mixed fleets are potentially going to be dealing with SHA-1 measurements 
->>>>> for a while yet, and while there's obviously a security benefit in using 
->>>>> SHA-2 instead it'd be irritating to have to maintain two attestation 
->>>>> policies.
->>>> Why?
->>>>
->>>> If you have a mixed fleet then it's not too much asked to provide two
->>>> data sets. On a TPM2 system you can enforce SHA-2 and only fallback to
->>>> SHA-1 on TPM 1.2 hardware. No?
->>> No, beause having TPM2 hardware doesn't guarantee that your firmware 
->>> enables SHA-2 (which also means this is something that could change with 
->>> firmware updates, which means that refusing to support SHA-1 if the 
->>> SHA-2 banks are enabled could result in an entirely different policy 
->>> being required (and plausibly one that isn't implemented in their 
->>> existing tooling)
->> It's not rocket science to have both variants supported in tooling,
->> really.
-> People who are currently using tboot are only getting SHA-1, so there's 
-> no obvious reason for them to have added support yet. *My* tooling all 
-> supports SHA-2 so I'm completely fine here, but either we refuse to 
-> support a bunch of hardware or we have to support SHA-1 anyway, and if 
-> we have to support it the only reason not to implement it even in the 
-> "SHA-2 is supported" case is because we have opinions about how other 
-> people implement their security.
+On Fri, 12 May 2023 17:42:10 +0800 Yajun Deng <yajun.deng@linux.dev> wrote:
 
-The way to deal with this is to merge DRTM support (when it's ready of
-course) so people have an option which isn't tboot.
+> In the commit b7176c261cdb ("dma-contiguous: provide the ability to
+> reserve per-numa CMA"), Barry adds DMA_PERNUMA_CMA for ARM64.
+> 
+> But this feature is architecture independent, so support per-numa CMA
+> for all architectures, and enable it by default if NUMA.
+> 
+> ...
+>
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -168,12 +168,6 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
+>  }
+>  #endif /* CONFIG_DMA_CMA*/
+>  
+> -#ifdef CONFIG_DMA_PERNUMA_CMA
+> -void dma_pernuma_cma_reserve(void);
+> -#else
+> -static inline void dma_pernuma_cma_reserve(void) { }
 
-Then warn on finding a TPM2 without SHA-2, and make it a failure for
-https://fwupd.github.io/libfwupdplugin/hsi.html#tpm-20-present etc, and
-eventually the vendors will decide that the easiest way to avoid getting
-a cross in their customers UIs is to implement SHA-2 support properly.
+It would be a little nicer to retain this line.
 
-~Andrew
+> -#endif /* CONFIG_DMA_PERNUMA_CMA */
+> -
+>  #ifdef CONFIG_DMA_DECLARE_COHERENT
+>  int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
+>  		dma_addr_t device_addr, size_t size);
+>
+> ...
+>
+> --- a/kernel/dma/contiguous.c
+> +++ b/kernel/dma/contiguous.c
+> @@ -128,7 +128,7 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
+>  #endif
+>  
+>  #ifdef CONFIG_DMA_PERNUMA_CMA
+> -void __init dma_pernuma_cma_reserve(void)
+> +static void __init dma_pernuma_cma_reserve(void)
+>  {
+>  	int nid;
+>  
+> @@ -153,6 +153,10 @@ void __init dma_pernuma_cma_reserve(void)
+>  			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
+>  	}
+>  }
+> +#else
+> +static inline void __init dma_pernuma_cma_reserve(void)
+> +{
+> +}
+>  #endif
+
+And to not add this function?
