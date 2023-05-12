@@ -2,97 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A8FC77B7F
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 16:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66EE3C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 17:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237462AbjELQvH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 12:51:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
+        id S237751AbjELRDe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 13:03:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjELQvG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 12:51:06 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C1235A4;
-        Fri, 12 May 2023 09:51:05 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 0A01D1C0ABB; Fri, 12 May 2023 18:51:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1683910264;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XM8NBb2coBJF2GqQ8RcwtfKaTsDoZEMiql19jU2Efmw=;
-        b=FFVOOe2KbUsF14ijfQM5zGuMlcXbAHuV9ubM3mcFtnsRs9KlzaPRkypol93Ch8an60Do2x
-        ttgQ0xh863bm6ta0Z3qhmaj8Hq8Gx3d0CDiduyTB7EAfTNVlOMDWx9o2E76g/fqIbFbzE7
-        jCwgbenqj5EI6Fsvi5/1MiksMClco/I=
-Date:   Fri, 12 May 2023 18:51:03 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Yi-De Wu <yi-de.wu@mediatek.com>
-Cc:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arch@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        David Bradil <dbrazdil@google.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Jade Shih <jades.shih@mediatek.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Ivan Tseng <ivan.tseng@mediatek.com>,
-        My Chuang <my.chuang@mediatek.com>,
-        Shawn Hsiao <shawn.hsiao@mediatek.com>,
-        PeiLun Suei <peilun.suei@mediatek.com>,
-        Liju Chen <liju-clr.chen@mediatek.com>
-Subject: Re: [PATCH v2 1/7] docs: geniezone: Introduce GenieZone hypervisor
-Message-ID: <ZF5ud9CedwBnWXBN@localhost>
-References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
- <20230428103622.18291-2-yi-de.wu@mediatek.com>
+        with ESMTP id S230049AbjELRDd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 13:03:33 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5FEBBEB;
+        Fri, 12 May 2023 10:03:31 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78744D75;
+        Fri, 12 May 2023 10:04:15 -0700 (PDT)
+Received: from FVFF77S0Q05N (unknown [10.57.57.221])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 66D9F3F663;
+        Fri, 12 May 2023 10:03:29 -0700 (PDT)
+Date:   Fri, 12 May 2023 18:03:26 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org, akiyks@gmail.com,
+        linux-doc@vger.kernel.org, kernel-team@meta.com,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
+ generating duplicate fallback kernel-doc
+Message-ID: <ZF5xXuPsrZEgAEEE@FVFF77S0Q05N>
+References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
+ <20230510181717.2200934-18-paulmck@kernel.org>
+ <ZF0haDfyL3At3Ijw@FVFF77S0Q05N.cambridge.arm.com>
+ <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
+ <ZF48uBYKczItubrU@FVFF77S0Q05N>
+ <b5498819-c2d4-414d-ba01-5373e749dc52@paulmck-laptop>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428103622.18291-2-yi-de.wu@mediatek.com>
+In-Reply-To: <b5498819-c2d4-414d-ba01-5373e749dc52@paulmck-laptop>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+On Fri, May 12, 2023 at 09:01:27AM -0700, Paul E. McKenney wrote:
+> On Fri, May 12, 2023 at 02:18:48PM +0100, Mark Rutland wrote:
+> > On Thu, May 11, 2023 at 12:12:16PM -0700, Paul E. McKenney wrote:
+> > > On Thu, May 11, 2023 at 06:10:00PM +0100, Mark Rutland wrote:
+> > > > I think that we can restructure the ifdeffery so that each ordering variant
+> > > > gets its own ifdeffery, and then we could place the kerneldoc immediately above
+> > > > that, e.g.
+> > > > 
+> > > > 	/**
+> > > > 	 * arch_atomic_inc_return_release()
+> > > > 	 *
+> > > > 	 * [ full kerneldoc block here ]
+> > > > 	 */
+> > > > 	#if defined(arch_atomic_inc_return_release)
+> > > > 	/* defined in arch code */
+> > > > 	#elif defined(arch_atomic_inc_return_relaxed)
+> > > > 	[ define in terms of arch_atomic_inc_return_relaxed ]
+> > > > 	#elif defined(arch_atomic_inc_return)
+> > > > 	[ define in terms of arch_atomic_inc_return ]
+> > > > 	#else
+> > > > 	[ define in terms of arch_atomic_fetch_inc_release ]
+> > > > 	#endif
+> > > > 
+> > > > ... with similar for the mandatory ops that each arch must provide, e.g.
+> > > > 
+> > > > 	/**
+> > > > 	 * arch_atomic_or()
+> > > > 	 *
+> > > > 	 * [ full kerneldoc block here ]
+> > > > 	 */
+> > > > 	/* arch_atomic_or() is mandatory -- architectures must define it! */
+> > > > 
+> > > > I had a go at that restructuring today, and while local build testing indicates
+> > > > I haven't got it quite right, I think it's possible:
+> > > > 
+> > > >   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
+> > > > 
+> > > > Does that sound ok to you?
+> > > 
+> > > At first glance, it appears that your "TODO" locations have the same
+> > > information that I was using, so it should not be hard for me to adapt the
+> > > current kernel-doc generation to your new scheme.  (Famous last words!)
+> > 
+> > Great!
+> > 
+> > > Plus having the kernel-doc generation all in one place does have some
+> > > serious attractions.
+> > 
+> > :)
+> > 
+> > > I will continue maintaining my current stack, but would of course be
+> > > happy to port it on top of your refactoring.  If it turns out that
+> > > the refactoring will take a long time, we can discuss what to do in
+> > > the meantime.  But here is hoping that the refactoring goes smoothly!
+> > > That would be easier all around.  ;-)
+> > 
+> > FWIW, I think that's working now; every cross-build I've tried works.
+> > 
+> > I've updated the branch at:
+> > 
+> >   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
+> > 
+> > Tagged as:
+> > 
+> >   atomics-fallback-rework-20230512
+> 
+> Thank you very much!
+> 
+> I expect to send v2 of my original late today on the perhaps unlikely
+> off-chance that someone might be interested in reviewing the verbiage.
 
-> GenieZone is MediaTek proprietary hypervisor solution, and it is running
-> in EL2 stand alone as a type-I hypervisor. It is a pure EL2
-> implementation which implies it does not rely any specific host VM, and
-> this behavior improves GenieZone's security as it limits its interface.
+I'll be more than happy to, though I suspect "late today" is far too late today
+for me in UK time terms, so I probably won't look until Monday.
 
-> +++ b/Documentation/virt/geniezone/introduction.rst
-> @@ -0,0 +1,34 @@
+> More to the point, I have started porting my changes on top of your
+> stack.  My thought is to have a separate "."-included script that does
+> the kernel-doc work.
 
-> +Platform Virtualization
-> +=======================
-> +We leverages arm64's timer virtualization and gic virtualization for timer and
-> +interrupts controller.
+I was thinking that we'd have a gen_kerneldoc(...) shell function (probably in
+atomic-tbl.sh), but that's an easy thing to refactor after v2, so either way is
+fine for now!
 
-'interrupt'.
+> I am also thinking in terms of putting the kernel-doc generation into
+> an "else" clause to the "is mandatory" check, and leaving the kernel-doc
+> for the mandatory functions in arch/x86/include/asm/atomic.h.
 
-> +Device Virtualizaton
-> +====================
-> +We adopts VMM's virtio devices emulations by passing io trap to
-> VMM, and virtio
+My thinking was that all the kernel-doc bits should live in the common header
+so that they're all easy to find when looking at the source code, and since if
+feels a bit weird to have to look into arch/x86/ to figure out the semantics of
+a function on !x86.
 
-'adopt', 'device emulation'
+That said, if that's painful for some reason, please go with the easiest option
+for now and we can figure out how to attack it for v3. :)
 
-> +is a well-known and widely used virtual device implementation.
-> +
-
-Plus, I'd expect documentation to be more detailed or have pointer
-where
-to learn more.
-
-BR,							Pavel
-
--- 
+Thanks,
+Mark.
