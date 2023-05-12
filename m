@@ -2,148 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96259C77B7F
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 11:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C3EC77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 11:04:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240952AbjELLCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 07:02:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58080 "EHLO
+        id S240605AbjELLE1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 07:04:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240810AbjELLBy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 07:01:54 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FD91720;
-        Fri, 12 May 2023 04:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1683889310; x=1715425310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rdr/QboOutQujzta21veyhN/BFRkmZJcWYh0ih36U+Q=;
-  b=zIQ/9N2kjPHNNlw+ni2pYeDyfOLGkYik7ImpXU2KqaDjdMo0VeSs9KDe
-   ggql0dme7VgPCfO7uZQlv4RDHrHCfv80/4UYb6OQTyGSlUmWiG9YAnJtp
-   Vp8SVKG5WkHdD32WTWU+pgLd3gDIxhqzta1InmHTV6GkYQW22SvgtwZRH
-   r2iZVkwxObqo1thavJ9gtQWfrctTL1V4pAlpI/f0rxZVilyeDEtngnhvu
-   SbAwpHGArzru1XcIeC+T7IhJ1RSvW28JSyQ7gQrAfkalM9cQ/UyPspVg+
-   N0oPMpvaXbz1cg1fltZziwwSpK07M80fT71uXaURQUJrLSww7TZzMxEt5
-   g==;
-X-IronPort-AV: E=Sophos;i="5.99,269,1677567600"; 
-   d="asc'?scan'208";a="215055820"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 May 2023 04:01:48 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 12 May 2023 04:01:43 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Fri, 12 May 2023 04:01:39 -0700
-Date:   Fri, 12 May 2023 12:01:18 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Yi-De Wu =?utf-8?B?KOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>
-CC:     "robh@kernel.org" <robh@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        MY Chuang =?utf-8?B?KOiOiuaYjui6jSk=?= <MY.Chuang@mediatek.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "quic_tsoni@quicinc.com" <quic_tsoni@quicinc.com>,
-        Shawn Hsiao =?utf-8?B?KOiVreW/l+elpSk=?= 
-        <shawn.hsiao@mediatek.com>,
-        Miles Chen =?utf-8?B?KOmZs+awkeaouik=?= 
-        <Miles.Chen@mediatek.com>,
-        PeiLun Suei =?utf-8?B?KOmai+WfueWAqyk=?= 
-        <PeiLun.Suei@mediatek.com>,
-        Liju-clr Chen =?utf-8?B?KOmZs+m6l+Wmgik=?= 
-        <Liju-clr.Chen@mediatek.com>,
-        Jades Shih =?utf-8?B?KOaWveWQkeeOqCk=?= 
-        <jades.shih@mediatek.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "dbrazdil@google.com" <dbrazdil@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Yingshiuan Pan =?utf-8?B?KOa9mOepjui7kik=?= 
-        <Yingshiuan.Pan@mediatek.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Ze-yu Wang =?utf-8?B?KOeOi+a+pOWuhyk=?= 
-        <Ze-yu.Wang@mediatek.com>, "will@kernel.org" <will@kernel.org>,
-        Ivan Tseng =?utf-8?B?KOabvuW/l+i7kik=?= 
-        <ivan.tseng@mediatek.com>
-Subject: Re: [PATCH v2 2/7] dt-bindings: hypervisor: Add MediaTek GenieZone
- hypervisor
-Message-ID: <20230512-marine-kilowatt-44a642124ac7@wendy>
-References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
- <20230428103622.18291-3-yi-de.wu@mediatek.com>
- <20230428212411.GA292303-robh@kernel.org>
- <ec4cae2e6da4a64bc3983ffdde03f51e185d3609.camel@mediatek.com>
+        with ESMTP id S240164AbjELLE0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 07:04:26 -0400
+Received: from cavan.codon.org.uk (irc.codon.org.uk [IPv6:2a00:1098:84:22e::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20181720;
+        Fri, 12 May 2023 04:04:21 -0700 (PDT)
+Received: by cavan.codon.org.uk (Postfix, from userid 1000)
+        id 39D4242527; Fri, 12 May 2023 11:55:54 +0100 (BST)
+Date:   Fri, 12 May 2023 11:55:54 +0100
+From:   Matthew Garrett <mjg59@srcf.ucam.org>
+To:     Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, ardb@kernel.org,
+        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
+        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v6 04/14] x86: Secure Launch Resource Table header file
+Message-ID: <20230512105554.GB14461@srcf.ucam.org>
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-5-ross.philipson@oracle.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="SGI1uxhA9flSLqZg"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ec4cae2e6da4a64bc3983ffdde03f51e185d3609.camel@mediatek.com>
+In-Reply-To: <20230504145023.835096-5-ross.philipson@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---SGI1uxhA9flSLqZg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, May 04, 2023 at 02:50:13PM +0000, Ross Philipson wrote:
 
-On Fri, May 12, 2023 at 06:42:51AM +0000, Yi-De Wu (=E5=90=B3=E4=B8=80=E5=
-=BE=B7) wrote:
-> On Fri, 2023-04-28 at 16:24 -0500, Rob Herring wrote:
-> > External email : Please do not click links or open attachments until
-> > you have verified the sender or the content.
-> >=20
-> >=20
-> > On Fri, Apr 28, 2023 at 06:36:17PM +0800, Yi-De Wu wrote:
-> > > From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
-> > >=20
-> > > Add documentation for GenieZone(gzvm) node. This node informs gzvm
-> > > driver to start probing if geniezone hypervisor is available and
-> > > able to do virtual machine operations.
-> >=20
-> > Why can't the driver just try and do virtual machine operations to
-> > see
-> > if the hypervisor is there? IOW, make your software interfaces
-> > discoverable. DT is for non-discoverable hardware.
-> >=20
-> > Rob
->=20
-> Can do, our hypervisor is discoverable through invoking probing
-> hypercall, and we use the device tree to prevent unnecessary module
-> loading on all systems.
+> +#define SLR_TABLE_MAGIC		0x4452544d
 
-Please do not wait until immediately prior to submitting version N+1
-before replying to any of the comments on version N.
-This creates a confusing scenario, where some review comments may be
-missed due to parallel discussion.
+From convention I'd expect this to be 0x534c5254, but not really an 
+issue.
 
-Thanks,
-Conor.
+> +/* SLR defined bootloaders */
+> +#define SLR_BOOTLOADER_INVALID	0
+> +#define SLR_BOOTLOADER_GRUB	1
 
+Oof. Having the kernel know about bootloaders has not worked out super 
+well for us in the past. If someone writes a new bootloader, are they 
+unable to Secure Launch any existing kernels? The pragmatic thing for 
+them to do would be to just pretend they're grub, which kind of defeats 
+the point of having this definition...
 
---SGI1uxhA9flSLqZg
-Content-Type: application/pgp-signature; name="signature.asc"
+> +} __packed;
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZF4cfgAKCRB4tDGHoIJi
-0sIUAQCB81kFCDM+sykANmi0tAinLKojHS+RwXtrVqk3OUoxcAEA06+Iy8V0A75T
-x/4Pd33AIh4X9j7/BLZ90YVbOSYWVQ0=
-=ydlj
------END PGP SIGNATURE-----
-
---SGI1uxhA9flSLqZg--
+Random nit - why are they all packed? Are there circumstances where two 
+pieces of code with different assumptions about alignment will be 
+looking at a single instance of a table? It doesn't seem likely we're 
+going to be doing DRTM in a 32-bit firmware environment while launching 
+a 64-bit kernel?
