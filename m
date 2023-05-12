@@ -2,110 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78863C77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 13:19:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70099C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 13:20:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240953AbjELNTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 09:19:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40688 "EHLO
+        id S240360AbjELNUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 09:20:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241044AbjELNTA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 09:19:00 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 414321FCD;
-        Fri, 12 May 2023 06:18:56 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8ED94C14;
-        Fri, 12 May 2023 06:19:40 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [10.57.58.179])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 764EF3F67D;
-        Fri, 12 May 2023 06:18:54 -0700 (PDT)
-Date:   Fri, 12 May 2023 14:18:48 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org, akiyks@gmail.com,
-        linux-doc@vger.kernel.org, kernel-team@meta.com,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
- generating duplicate fallback kernel-doc
-Message-ID: <ZF48uBYKczItubrU@FVFF77S0Q05N>
-References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
- <20230510181717.2200934-18-paulmck@kernel.org>
- <ZF0haDfyL3At3Ijw@FVFF77S0Q05N.cambridge.arm.com>
- <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
+        with ESMTP id S241211AbjELNTw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 09:19:52 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87A65132AD;
+        Fri, 12 May 2023 06:19:49 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1683897587;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=zu7AfHp+nm/4M5jR+Z/9talnCB0FHmaOcfCKY0ExWO0=;
+        b=Mv9Tnyleh7o156tZl7skdqEY9qCBJz6dksvLEdOa+yzTm+I0JUHG12vtOfaEavn2XFUV+J
+        2YImu1GyQDLO8IXPanqrURZNIkleLjpQ8Pq85f/RabyZ/ClbVEcsVRgNgUdqFbXEdBGiAa
+        shO+EMJCz1Rut6q/sAlYzwcdpq+/9zvHBH1a2MDMLLR4eQV6bgXggrisG1AmQs4SObe+Pp
+        8qvuu+edP329yd2l9IZVEYaR7Cxdmk+bvyt7YqEr1VBH/O/hItT9+mXJP1Lu6Fa2DMqxB+
+        ypSuYsbkS+u7EoCa3mE8EuSajPLtui4VnpAhMTjSQWJ1ZrU7lTVLBgZZ/ctaFQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1683897587;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=zu7AfHp+nm/4M5jR+Z/9talnCB0FHmaOcfCKY0ExWO0=;
+        b=jKVLpN1id/BmCGXWrrcd7uzWgYU1EkSu1Z+3gHgioy0/F4/PQqHJSGHugtA3q1+ZJQiL+8
+        hypwdRPxcX164PBA==
+To:     Ross Philipson <ross.philipson@oracle.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org
+Cc:     ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, ardb@kernel.org,
+        mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+        luto@amacapital.net, nivedita@alum.mit.edu,
+        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v6 02/14] Documentation/x86: Secure Launch kernel
+ documentation
+In-Reply-To: <20230504145023.835096-3-ross.philipson@oracle.com>
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-3-ross.philipson@oracle.com>
+Date:   Fri, 12 May 2023 15:19:46 +0200
+Message-ID: <87sfc1bsb1.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 11, 2023 at 12:12:16PM -0700, Paul E. McKenney wrote:
-> On Thu, May 11, 2023 at 06:10:00PM +0100, Mark Rutland wrote:
-> > I think that we can restructure the ifdeffery so that each ordering variant
-> > gets its own ifdeffery, and then we could place the kerneldoc immediately above
-> > that, e.g.
-> > 
-> > 	/**
-> > 	 * arch_atomic_inc_return_release()
-> > 	 *
-> > 	 * [ full kerneldoc block here ]
-> > 	 */
-> > 	#if defined(arch_atomic_inc_return_release)
-> > 	/* defined in arch code */
-> > 	#elif defined(arch_atomic_inc_return_relaxed)
-> > 	[ define in terms of arch_atomic_inc_return_relaxed ]
-> > 	#elif defined(arch_atomic_inc_return)
-> > 	[ define in terms of arch_atomic_inc_return ]
-> > 	#else
-> > 	[ define in terms of arch_atomic_fetch_inc_release ]
-> > 	#endif
-> > 
-> > ... with similar for the mandatory ops that each arch must provide, e.g.
-> > 
-> > 	/**
-> > 	 * arch_atomic_or()
-> > 	 *
-> > 	 * [ full kerneldoc block here ]
-> > 	 */
-> > 	/* arch_atomic_or() is mandatory -- architectures must define it! */
-> > 
-> > I had a go at that restructuring today, and while local build testing indicates
-> > I haven't got it quite right, I think it's possible:
-> > 
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
-> > 
-> > Does that sound ok to you?
-> 
-> At first glance, it appears that your "TODO" locations have the same
-> information that I was using, so it should not be hard for me to adapt the
-> current kernel-doc generation to your new scheme.  (Famous last words!)
+On Thu, May 04 2023 at 14:50, Ross Philipson wrote:
+> +KASLR Configuration
+> +-------------------
+> +
+> +Secure Launch does not interoperate with KASLR. If possible, the MLE should be
+> +built with KASLR disabled::
 
-Great!
+Why?
 
-> Plus having the kernel-doc generation all in one place does have some
-> serious attractions.
+> +  "Processor type and features" -->
+> +      "Build a relocatable kernel" -->
+> +          "Randomize the address of the kernel image (KASLR) [ ]"
+> +
+> +This unsets the Kconfig value CONFIG_RANDOMIZE_BASE.
+> +
+> +If not possible, KASLR must be disabled on the kernel command line when doing
+> +a Secure Launch as follows::
+> +
+> +  nokaslr
 
-:)
+So what happens if KASLR is enabled in Kconfig and not disabled on the
+command line?
 
-> I will continue maintaining my current stack, but would of course be
-> happy to port it on top of your refactoring.  If it turns out that
-> the refactoring will take a long time, we can discuss what to do in
-> the meantime.  But here is hoping that the refactoring goes smoothly!
-> That would be easier all around.  ;-)
+> +IOMMU Configuration
+> +-------------------
+> +
+> +When doing a Secure Launch, the IOMMU should always be enabled and the drivers
+> +loaded. However, IOMMU passthrough mode should never be used. This leaves the
+> +MLE completely exposed to DMA after the PMR's [2]_ are disabled. The current default
+> +mode is to use IOMMU in lazy translated mode but strict translated mode is the preferred
+> +IOMMU mode and this should be selected in the build configuration::
+> +
+> +  "Device Drivers" -->
+> +      "IOMMU Hardware Support" -->
+> +          "IOMMU default domain type" -->
+> +              "(X) Translated - Strict"
+> +
+> +In addition, the Intel IOMMU should be on by default. The following sets this as the
+> +default in the build configuration::
+> +
+> +  "Device Drivers" -->
+> +      "IOMMU Hardware Support" -->
+> +          "Support for Intel IOMMU using DMA Remapping Devices [*]"
+> +
+> +and::
+> +
+> +  "Device Drivers" -->
+> +      "IOMMU Hardware Support" -->
+> +          "Support for Intel IOMMU using DMA Remapping Devices [*]" -->
+> +              "Enable Intel DMA Remapping Devices by default  [*]"
+> +
+> +It is recommended that no other command line options should be set to override
+> +the defaults above.
 
-FWIW, I think that's working now; every cross-build I've tried works.
-
-I've updated the branch at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
-
-Tagged as:
-
-  atomics-fallback-rework-20230512
+Is any of this validated and are proper warnings emitted or is it just
+recommended and left to the user to do the right thing?
 
 Thanks,
-Mark.
+
+        tglx
