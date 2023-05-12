@@ -2,159 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65394C77B7F
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 09:50:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3101CC7EE2E
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 09:57:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240472AbjELJuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 05:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46506 "EHLO
+        id S240099AbjELJ5v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 05:57:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240422AbjELJud (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 05:50:33 -0400
-X-Greylist: delayed 447 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 12 May 2023 02:50:28 PDT
-Received: from out-33.mta0.migadu.com (out-33.mta0.migadu.com [IPv6:2001:41d0:1004:224b::21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3335BB7
-        for <linux-doc@vger.kernel.org>; Fri, 12 May 2023 02:50:28 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1683884548;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=+3Cj7WM/5H/yN4K+1lxE1r8ARjSog11gtcnlJ0Ke9Cs=;
-        b=LoyWQci7E7aehvM7RvdT5fPZDShGQ0N3hNobaGAYqQcwfBmJdJo6pX3oyMFuEuj73ybj1D
-        kvJRMx80dPfs9ElFWf5o/QxBLIG4as4augYHlH0kmV7lyvL3hJrGCYfvR0m1Joc4JYGGif
-        tnnA3xwaUSyksPgKlMMz11sZeCuICQY=
-From:   Yajun Deng <yajun.deng@linux.dev>
-To:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        paulmck@kernel.org, bp@suse.de, akpm@linux-foundation.org,
-        peterz@infradead.org, rdunlap@infradead.org, kim.phillips@amd.com,
-        rostedt@goodmis.org, thunder.leizhen@huawei.com, ardb@kernel.org,
-        bhe@redhat.com, anshuman.khandual@arm.com,
-        song.bao.hua@hisilicon.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-        Yajun Deng <yajun.deng@linux.dev>
-Subject: [PATCH] dma-contiguous: support per-numa CMA for all architectures
-Date:   Fri, 12 May 2023 17:42:10 +0800
-Message-Id: <20230512094210.141540-1-yajun.deng@linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+        with ESMTP id S240455AbjELJ5r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 05:57:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B65CA;
+        Fri, 12 May 2023 02:57:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 971A665478;
+        Fri, 12 May 2023 09:57:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9CEC433EF;
+        Fri, 12 May 2023 09:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683885438;
+        bh=8DTsk65nzftmPloQGhgyIVvnjxc6rGKFraKcYqAzBoU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=XHWpVGpvScJ+wnFPOzsMLnISW2WY1i2rUko+qPMXnt0buD+d6cYPywna543TP4k19
+         P5o/7EPIO7vE1aGbh6sd9Mu1AFCxs7g8cyuemSQ3woOmsJgLRCJdelwmM76WjeLu/V
+         rc6FrAN+8nik0LnkIHU2XWS/GnqB5ZfkWwjGAfHUj+W2YTg3P6iTqknW6dUTCMm1hx
+         TpVVy99g2LZdtjW9JEYHlhdhewyicJMzh2e6+uohyx7/mNT/0eQy9Di5swJf4A0CZ+
+         TEB3fUrdOfI32JMcqr95RbHIkIs5yQd01D375YzFq+ZQtk668BK4Sz+wrjdsS8AH2i
+         0VCLrAb11a0Jw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1pxPWW-00EX9F-8e;
+        Fri, 12 May 2023 10:57:16 +0100
+Date:   Fri, 12 May 2023 10:57:15 +0100
+Message-ID: <86sfc1na84.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     =?UTF-8?B?IllpLURlIFd1ICjlkLPkuIDlvrcpIg==?= 
+        <Yi-De.Wu@mediatek.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        =?UTF-8?B?Ik1ZIENodWFuZyAo6I6K5piO6LqNKSI=?= 
+        <MY.Chuang@mediatek.com>,
+        "quic_tsoni@quicinc.com" <quic_tsoni@quicinc.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?Ikl2YW4gVHNlbmcgKOabvuW/l+i7kiki?= 
+        <ivan.tseng@mediatek.com>,
+        =?UTF-8?B?IlplLXl1IFdhbmcgKOeOi+a+pOWuhyki?= 
+        <Ze-yu.Wang@mediatek.com>,
+        =?UTF-8?B?IlBlaUx1biBTdWVpICjpmovln7nlgKspIg==?= 
+        <PeiLun.Suei@mediatek.com>,
+        =?UTF-8?B?IkxpanUtY2xyIENoZW4gKOmZs+m6lw==?= =?UTF-8?B?5aaCKSI=?= 
+        <Liju-clr.Chen@mediatek.com>,
+        =?UTF-8?B?IkphZGVzIFNo?= =?UTF-8?B?aWggKOaWveWQkeeOqCki?= 
+        <jades.shih@mediatek.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "dbrazdil@google.com" <dbrazdil@google.com>,
+        =?UTF-8?B?IlNoYXduIEhzaWFvICjola3lv5fnpaUpIg==?= 
+        <shawn.hsiao@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?Ik1pbGVzIENoZW4gKA==?= =?UTF-8?B?6Zmz5rCR5qi6KSI=?= 
+        <Miles.Chen@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        =?UTF-8?B?IllpbmdzaGl1?= =?UTF-8?B?YW4gUGFuICjmvZjnqY7ou5IpIg==?= 
+        <Yingshiuan.Pan@mediatek.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "will@kernel.org" <will@kernel.org>
+Subject: Re: [PATCH v2 5/7] virt: geniezone: Add irqchip support for virtual interrupt injection
+In-Reply-To: <fa864743c550ecd0a0c8052bfe7fddcc3f9be15c.camel@mediatek.com>
+References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
+        <20230428103622.18291-6-yi-de.wu@mediatek.com>
+        <f1c8c1c1c091be87dfbc27b9178fc3e6@kernel.org>
+        <762e3494ed468f0337b1c336615065b154396d23.camel@mediatek.com>
+        <86wn1em1hx.wl-maz@kernel.org>
+        <fa864743c550ecd0a0c8052bfe7fddcc3f9be15c.camel@mediatek.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: Yi-De.Wu@mediatek.com, corbet@lwn.net, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, robh+dt@kernel.org, MY.Chuang@mediatek.com, quic_tsoni@quicinc.com, krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org, ivan.tseng@mediatek.com, Ze-yu.Wang@mediatek.com, PeiLun.Suei@mediatek.com, Liju-clr.Chen@mediatek.com, jades.shih@mediatek.com, catalin.marinas@arm.com, dbrazdil@google.com, shawn.hsiao@mediatek.com, linux-arm-kernel@lists.infradead.org, Miles.Chen@mediatek.com, matthias.bgg@gmail.com, Yingshiuan.Pan@mediatek.com, linux-arch@vger.kernel.org, arnd@arndb.de, angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org, will@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the commit b7176c261cdb ("dma-contiguous: provide the ability to
-reserve per-numa CMA"), Barry adds DMA_PERNUMA_CMA for ARM64.
+On Fri, 12 May 2023 09:16:58 +0100,
+"Yi-De Wu (=E5=90=B3=E4=B8=80=E5=BE=B7)" <Yi-De.Wu@mediatek.com> wrote:
+>=20
+> On Fri, 2023-05-12 at 08:51 +0100, Marc Zyngier wrote:
+> > External email : Please do not click links or open attachments until
+> > you have verified the sender or the content.
+> >=20
+> >=20
+> > On Fri, 12 May 2023 08:19:31 +0100,
+> > "Yi-De Wu (=E5=90=B3=E4=B8=80=E5=BE=B7)" <Yi-De.Wu@mediatek.com> wrote:
+> > >=20
+> > > On Fri, 2023-04-28 at 19:59 +0100, Marc Zyngier wrote:
+> > > > External email : Please do not click links or open attachments
+> > > > until
+> > > > you have verified the sender or the content.
+> > > >=20
+> > > >=20
+> > > > On 2023-04-28 11:36, Yi-De Wu wrote:
+> > > > > From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+> > > > >=20
+> > > > > Enable GenieZone to handle virtual interrupt injection request.
+> > > > >=20
+> > > > > Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+> > > > > Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+> > > > > ---
+> > > > >  arch/arm64/geniezone/Makefile       |  2 +-
+> > > > >  arch/arm64/geniezone/gzvm_arch.c    | 24 ++++++--
+> > > > >  arch/arm64/geniezone/gzvm_arch.h    | 11 ++++
+> > > > >  arch/arm64/geniezone/gzvm_irqchip.c | 88
+> > > > > +++++++++++++++++++++++++++++
+> > > > >  drivers/virt/geniezone/gzvm_vm.c    | 75
+> > > > > ++++++++++++++++++++++++
+> > > > >  include/linux/gzvm_drv.h            |  4 ++
+> > > > >  include/uapi/linux/gzvm.h           | 38 ++++++++++++-
+> > > > >  7 files changed, 235 insertions(+), 7 deletions(-)
+> > > > >  create mode 100644 arch/arm64/geniezone/gzvm_irqchip.c
+> > > >=20
+> > > > [...]
+> > > >=20
+> > > > > +++ b/arch/arm64/geniezone/gzvm_irqchip.c
+> > > > > @@ -0,0 +1,88 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > > +/*
+> > > > > + * Copyright (c) 2023 MediaTek Inc.
+> > > > > + */
+> > > > > +
+> > > > > +#include <linux/irqchip/arm-gic-v3.h>
+> > > > > +#include <kvm/arm_vgic.h>
+> > > >=20
+> > > > NAK.
+> > > >=20
+> > > > There is no way you can rely on anything from KVM in
+> > > > your own hypervisor code.
+> > > >=20
+> > >=20
+> > > Same with previous discussion, we'd like to copy or rename the
+> > > related
+> > > part from KVM and keep the maintainance at our own if it's ok.
+> >=20
+> > Why do you need *ANY* of the KVM stuff? Please fully enumerate these
+> > dependencies and why you have them.
+> >=20
+> > Directly using KVM stuff for something completely unrelated is not
+> > OK,
+> > and will never be.
+> >=20
+> >         M.
+> >=20
+> > --
+> > Without deviation from the norm, progress is not possible.
+>=20
+> The particular part we'd like to leverage from KVM are as followed
+> 1. `gfn_to_pfn_memslot` to convert guest physical address(or
+> intermediate physical address) to physical address
 
-But this feature is architecture independent, so support per-numa CMA
-for all architectures, and enable it by default if NUMA.
+What is a memslot in your hypervisor? How does it relate to KVM's?
+What about the use of struct kvm?
 
-Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- arch/arm64/mm/init.c                            | 2 --
- include/linux/dma-map-ops.h                     | 6 ------
- kernel/dma/Kconfig                              | 6 +++---
- kernel/dma/contiguous.c                         | 8 +++++++-
- 5 files changed, 11 insertions(+), 13 deletions(-)
+I'm sorry, but your use of *internal* structures and API would make it
+impossible for us to make any further change without potentially
+affecting your hypervisor. Which is closed source and untestable.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 56d9458276a6..ac0002b2e323 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -692,7 +692,7 @@
- 			kernel/dma/contiguous.c
- 
- 	cma_pernuma=nn[MG]
--			[ARM64,KNL,CMA]
-+			[KNL,CMA]
- 			Sets the size of kernel per-numa memory area for
- 			contiguous memory allocations. A value of 0 disables
- 			per-numa CMA altogether. And If this option is not
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 66e70ca47680..d560aef6aafa 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -410,8 +410,6 @@ void __init bootmem_init(void)
- 	arm64_hugetlb_cma_reserve();
- #endif
- 
--	dma_pernuma_cma_reserve();
--
- 	kvm_hyp_reserve();
- 
- 	/*
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 31f114f486c4..7af9949828ff 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -168,12 +168,6 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
- }
- #endif /* CONFIG_DMA_CMA*/
- 
--#ifdef CONFIG_DMA_PERNUMA_CMA
--void dma_pernuma_cma_reserve(void);
--#else
--static inline void dma_pernuma_cma_reserve(void) { }
--#endif /* CONFIG_DMA_PERNUMA_CMA */
--
- #ifdef CONFIG_DMA_DECLARE_COHERENT
- int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
- 		dma_addr_t device_addr, size_t size);
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index 6677d0e64d27..79f83091e3a2 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -140,10 +140,10 @@ if  DMA_CMA
- 
- config DMA_PERNUMA_CMA
- 	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
--	default NUMA && ARM64
-+	default NUMA
- 	help
--	  Enable this option to get pernuma CMA areas so that devices like
--	  ARM64 SMMU can get local memory by DMA coherent APIs.
-+	  Enable this option to get pernuma CMA areas so that NUMA devices
-+	  can get local memory by DMA coherent APIs.
- 
- 	  You can set the size of pernuma CMA by specifying "cma_pernuma=size"
- 	  on the kernel's command line.
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 6ea80ae42622..26a8e5365fcd 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -128,7 +128,7 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
- #endif
- 
- #ifdef CONFIG_DMA_PERNUMA_CMA
--void __init dma_pernuma_cma_reserve(void)
-+static void __init dma_pernuma_cma_reserve(void)
- {
- 	int nid;
- 
-@@ -153,6 +153,10 @@ void __init dma_pernuma_cma_reserve(void)
- 			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
- 	}
- }
-+#else
-+static inline void __init dma_pernuma_cma_reserve(void)
-+{
-+}
- #endif
- 
- /**
-@@ -171,6 +175,8 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
- 	phys_addr_t selected_limit = limit;
- 	bool fixed = false;
- 
-+	dma_pernuma_cma_reserve();
-+
- 	pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
- 
- 	if (size_cmdline != -1) {
--- 
-2.25.1
+To sum it up, I'm strongly opposed to any use of these data
+structures.  If you can spot some commonalities, expose them as a
+0-cost abstraction. But don't use them as is your code.
 
+> 2. get ARM's number of interrupt of different types e.g. number of SGI,
+> number of PPI...etc
+
+These are architectural constants, and you can define your own. That
+will cost you nothing but a handful of #define, and keep the two
+subsystem independent.
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
