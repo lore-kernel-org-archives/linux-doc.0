@@ -2,85 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13145C77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 17:05:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF61C7EE26
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 18:03:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237822AbjELRFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 13:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
+        id S238148AbjELSD5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 14:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232807AbjELRFF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 13:05:05 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41946E50
-        for <linux-doc@vger.kernel.org>; Fri, 12 May 2023 10:05:04 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-760b6765f36so36328439f.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 May 2023 10:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1683911103; x=1686503103;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xvBoGilOTpF6ZWmHygwFMFfhMS4VComp9Pvn2nhgo/A=;
-        b=t8k2tBQxHaqcqoDKAgZ3qVWNba9q8h6GHr+WoKEJrUJVVlGQVZE1F+70BTr63eY2aQ
-         YbaK8yf9fzpwFpYwubQ8hlYUje8+7BuxXS+5z6Tpoo10IwEAR0fQRQrp4m022SUdZR/t
-         WtXgmBzhy0h+M8cE8a/xubAawUDHqmq7ofisgsgno+zLArSnlQT6tSX6FjhEPZf8H8qh
-         4y0abVoE7JQa9Uiula7sTIISL5qE2kVuFFXM3omYkKoweJr/eV6huzlN9m3XRPRVFHb2
-         +EI7PxEy8MKmXbi8aYgCkelXPYoigiPEnfirbS5RRbTsiIfNHZGSh6gQeuPwie10YPrF
-         2Tsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683911103; x=1686503103;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xvBoGilOTpF6ZWmHygwFMFfhMS4VComp9Pvn2nhgo/A=;
-        b=TA87ZQsw5+CGY/zexudg/NSQ9zYKEXRFdKgFMpNXR4U2972mtBE7tbM0QVM0GWFEJL
-         9O4YDFPq/Ah4kGv54s6yiG2R7erJdYrlRS5kQ+IvmSB6svQpvNGRJtyW09gD9aMKRQmp
-         vjJeJxA5cTk4B/g7LZOmpiPeytAAFSWvzmNZb5Fi7NaODzn+3MuKhaoBV65uCALpsyaK
-         j9zlkhz3by3I0cWoYi1mHRbtRlPqwErxGUviYBnSDLeQNQ928EP09Jfap2tdL/s4GeEF
-         gXNC+KMo1aWdLxI3lx+qTv40s6XSU2wWbJ22oxwVqnlOYRQT0xv2bImkKbXmQezeOcVj
-         d6/g==
-X-Gm-Message-State: AC+VfDzmgICo42D3ZO1QN0AzBXLwTAnVMaQbp+JoDZeCH3qaexLhprGE
-        bnwUoJMuz5NpOqPZo6qH0d/GFg==
-X-Google-Smtp-Source: ACHHUZ74AWP+IpPvKJjHKfbLqGTGNjN1C7+KXzIPhU7y7WRtfFbYpH1akHKb8eWJtI5u2lLaYSB4YA==
-X-Received: by 2002:a05:6e02:1d05:b0:331:1129:b8a9 with SMTP id i5-20020a056e021d0500b003311129b8a9mr14721699ila.1.1683911103636;
-        Fri, 12 May 2023 10:05:03 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id z2-20020a92cb82000000b0032b3a49d5fdsm5153088ilo.75.2023.05.12.10.05.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 May 2023 10:05:03 -0700 (PDT)
-From:   Jens Axboe <axboe@kernel.dk>
-To:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-block@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-In-Reply-To: <20230507182606.12647-1-rdunlap@infradead.org>
-References: <20230507182606.12647-1-rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation/block: drop the request.rst file
-Message-Id: <168391110278.907660.18376809564035261812.b4-ty@kernel.dk>
-Date:   Fri, 12 May 2023 11:05:02 -0600
+        with ESMTP id S237665AbjELSDz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 14:03:55 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F31F330F0;
+        Fri, 12 May 2023 11:03:28 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1683914574;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=u7fvD2GdqOQNGxWui4lgM0lmaDQ5NzqVVPg5OJ46+K8=;
+        b=TMd9YWufj4C4apzXCv73MfS74eNHfpwEzirL39R43AEm4JtQ/rZDmZjBcGVu5Ow4Vrqt0e
+        NJdEiZcLMr9bq0ibxtc6k+wtKEVmlqrg4UskEvfS1+mdOAjN8wVz6VbmRJ7uRp3ww9u94k
+        kBJ6qvtlf0a3Rs783+AOemGAGRPDryYG2hSg+lxbWOugs4+iQrSuhzxYE+er0YAcfLaI/9
+        OemvWNTAPZ2+E8/J526Lqg73bmUENRUpAnH+7HHgytx37HLehdL9V9uu2ARuZ3tacUT1M1
+        ebyw2jpt/ycGLwGs6c1fwMQ+K9YhsWyjqSAh+KVcD236nVYYQ72+k6LQEMb5ng==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1683914574;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=u7fvD2GdqOQNGxWui4lgM0lmaDQ5NzqVVPg5OJ46+K8=;
+        b=BZpOsxtvuF9Uu+TyQ/KB7ss5HC4P0Yz6Ag1UfGx/W9nQkzEswHiifo6E0TaXFFhUpgdJ3Y
+        9IRce0wATfBqCDCA==
+To:     Ross Philipson <ross.philipson@oracle.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org
+Cc:     ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, ardb@kernel.org,
+        mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+        luto@amacapital.net, nivedita@alum.mit.edu,
+        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v6 09/14] x86: Secure Launch SMP bringup support
+In-Reply-To: <20230504145023.835096-10-ross.philipson@oracle.com>
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-10-ross.philipson@oracle.com>
+Date:   Fri, 12 May 2023 20:02:53 +0200
+Message-ID: <87h6shbf76.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-00303
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, May 04 2023 at 14:50, Ross Philipson wrote:
+>  
+> +#ifdef CONFIG_SECURE_LAUNCH
+> +
+> +static atomic_t first_ap_only = {1};
 
-On Sun, 07 May 2023 11:26:06 -0700, Randy Dunlap wrote:
-> Documentation/block/request.rst is outdated and should be removed.
-> Also delete its entry in the block/index.rst file.
-> 
-> 
+ATOMIC_INIT(1) if at all.
 
-Applied, thanks!
+> +
+> +/*
+> + * Called to fix the long jump address for the waiting APs to vector to
+> + * the correct startup location in the Secure Launch stub in the rmpiggy.
+> + */
+> +static int
+> +slaunch_fixup_jump_vector(void)
 
-[1/1] Documentation/block: drop the request.rst file
-      commit: 56cdea92ed915f8eb37575331fb4a269991e8026
+One line please.
 
-Best regards,
--- 
-Jens Axboe
+> +{
+> +	struct sl_ap_wake_info *ap_wake_info;
+> +	u32 *ap_jmp_ptr = NULL;
+> +
+> +	if (!atomic_dec_and_test(&first_ap_only))
+> +		return 0;
 
+Why does this need an atomic? CPU bringup is fully serialized and even
+with the upcoming parallel bootup work, there is no concurrency on this
+function.
 
+Aside of that. Why isn't this initialized during boot in a __init function?
+
+> +	ap_wake_info = slaunch_get_ap_wake_info();
+> +
+> +	ap_jmp_ptr = (u32 *)__va(ap_wake_info->ap_wake_block +
+> +				 ap_wake_info->ap_jmp_offset);
+> +
+> +	*ap_jmp_ptr = real_mode_header->sl_trampoline_start32;
+> +
+> +	pr_debug("TXT AP long jump address updated\n");
+> +
+> +	return 0;
+
+Why does this need a return code of all return paths return 0?
+
+> +}
+> +
+> +/*
+> + * TXT AP startup is quite different than normal. The APs cannot have #INIT
+> + * asserted on them or receive SIPIs. The early Secure Launch code has parked
+> + * the APs in a pause loop waiting to receive an NMI. This will wake the APs
+> + * and have them jump to the protected mode code in the rmpiggy where the rest
+> + * of the SMP boot of the AP will proceed normally.
+> + */
+> +static int
+> +slaunch_wakeup_cpu_from_txt(int cpu, int apicid)
+> +{
+> +	unsigned long send_status = 0, accept_status = 0;
+> +
+> +	/* Only done once */
+
+Yes. But not here.
+
+> +	if (slaunch_fixup_jump_vector())
+> +		return -1;
+> +
+> +	/* Send NMI IPI to idling AP and wake it up */
+> +	apic_icr_write(APIC_DM_NMI, apicid);
+> +
+> +	if (init_udelay == 0)
+> +		udelay(10);
+> +	else
+> +		udelay(300);
+
+The wonders of copy & pasta. This condition is pointless because this
+code only runs on systems which force init_udelay to 0.
+
+> +	send_status = safe_apic_wait_icr_idle();
+
+Moar copy & pasta. As this is guaranteed to be X2APIC mode, this
+function is a nop and returns 0 unconditionally.
+
+> +	if (init_udelay == 0)
+> +		udelay(10);
+> +	else
+> +		udelay(300);
+> +
+> +	accept_status = (apic_read(APIC_ESR) & 0xEF);
+
+The point of this is? Bit 0-3 are Pentium and P6 only.
+
+Bit 4 Tried to send low prio IPI but not supported
+Bit 5 Illegal Vector sent
+Bit 6 Illegal Vector received
+Bit 7 X2APIC illegal register access
+
+IOW, there is no accept error here. That would be bit 2 which is never set
+on anything modern
+
+But aside of that the read is moot anyway because the CPU has the APIC
+error vector enabled so if this would happen the APIC error interrupt
+would have swallowed and cleared the error condition.
+
+IOW. Everything except the apic_icr_write() here is completely useless.
+
+> +#else
+> +
+> +#define slaunch_wakeup_cpu_from_txt(cpu, apicid)	0
+
+inline stub please. 
+
+> +
+> +#endif  /* !CONFIG_SECURE_LAUNCH */
+> +
+>  /*
+>   * NOTE - on most systems this is a PHYSICAL apic ID, but on multiquad
+>   * (ie clustered apic addressing mode), this is a LOGICAL apic ID.
+> @@ -1132,6 +1210,13 @@ static int do_boot_cpu(int apicid, int cpu, struct task_struct *idle,
+>  	cpumask_clear_cpu(cpu, cpu_initialized_mask);
+>  	smp_mb();
+>  
+> +	/* With Intel TXT, the AP startup is totally different */
+> +	if ((slaunch_get_flags() & (SL_FLAG_ACTIVE|SL_FLAG_ARCH_TXT)) ==
+> +	   (SL_FLAG_ACTIVE|SL_FLAG_ARCH_TXT)) {
+
+Stick this condition into a helper function please
+
+> +		boot_error = slaunch_wakeup_cpu_from_txt(cpu, apicid);
+> +		goto txt_wake;
+> +	}
+> +
+>  	/*
+>  	 * Wake up a CPU in difference cases:
+>  	 * - Use a method from the APIC driver if one defined, with wakeup
+> @@ -1147,6 +1232,7 @@ static int do_boot_cpu(int apicid, int cpu, struct task_struct *idle,
+>  		boot_error = wakeup_cpu_via_init_nmi(cpu, start_ip, apicid,
+>  						     cpu0_nmi_registered);
+>  
+> +txt_wake:
+
+Sorry, but what has this to do with TXT ? And why can't the above just
+be yet another if clause in the existing if/else if maze?
+
+Now that brings me to another question. How is this supposed to work
+with CPU hotplug post boot?
+
+It will simply not work at all because once a CPU is offlined it is
+going to sit in an endless loop and wait for INIT/SIPI/SIPI. So it will
+get that NMI and go back to wait.
+
+So you need a TXT specific cpu_play_dead() implementation, which should
+preferrably use monitor/mwait where each "offline" CPU sits and waits
+until a condition becomes true. Then you don't need a NMI for wakeup at
+all. Just writing the condition into that per CPU cache line should be
+enough.
+
+Thanks,
+
+        tglx
 
