@@ -2,106 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 697E2C77B7C
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 21:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3C6C77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 22:11:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240087AbjELVM1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 17:12:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
+        id S239502AbjELWLC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 18:11:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240598AbjELVMJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 17:12:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B609E527D;
-        Fri, 12 May 2023 14:10:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F2C4658DA;
-        Fri, 12 May 2023 21:09:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF4CCC433D2;
-        Fri, 12 May 2023 21:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1683925741;
-        bh=Zoj1leKNOORoojkAdze7x3n08l6XVgteqFUXTKCFCkc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=M3ZtWdAK1MMtAD8FNsEZczJdw+XPnyFzJ1mypAWweZjCxH9XkbPgy6oQYKemtNBbb
-         d+BpEanzSAj6HUjWFaa5N3fe7pykepCAXllNCDKkyOgB07pbN99sLNDtnTYi+Z168p
-         NEKtvHnuX9+85HyvhOoYNw6e1vlxJKFweH7tVCUc=
-Date:   Fri, 12 May 2023 14:08:59 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Yajun Deng <yajun.deng@linux.dev>
-Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        paulmck@kernel.org, bp@suse.de, peterz@infradead.org,
-        rdunlap@infradead.org, kim.phillips@amd.com, rostedt@goodmis.org,
-        thunder.leizhen@huawei.com, ardb@kernel.org, bhe@redhat.com,
-        anshuman.khandual@arm.com, song.bao.hua@hisilicon.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-Subject: Re: [PATCH] dma-contiguous: support per-numa CMA for all
- architectures
-Message-Id: <20230512140859.641222bd40cfa4b1ee591cc6@linux-foundation.org>
-In-Reply-To: <20230512094210.141540-1-yajun.deng@linux.dev>
-References: <20230512094210.141540-1-yajun.deng@linux.dev>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229808AbjELWLC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 18:11:02 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54DF52D5A
+        for <linux-doc@vger.kernel.org>; Fri, 12 May 2023 15:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683929459; x=1715465459;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=001R7TyAwDdwO8/DUKYhckXvH057xO+F7se9cKhgtas=;
+  b=GmyJtlw9fWfAE2lNURwMdpoRVJZ6EfF+ymCvI4Y7WJceuwCmrg0nZoRQ
+   djBpEra1G87At5rxkVA6qA5MygMPaMYUCicXmXrO4MYlu3iqDNX9Gq2oZ
+   URsnoDIKzMlrnqmbk4+XklDx5VKs1lcaLgMASLhQXAWXq1m6DGzzWn1WD
+   9xmel6dQiuhVLc10WVXsujB4A4HqAQe5OCkuyeoFF7qVg8qCqldgfKgu2
+   w6HjZyzaIrJKofgIwel6M5zz52Xnj3o17AtF1uP9nDhnbgtFNuZQKUIYK
+   ZY7IDoJU/fcG+XX65hoLn2an4s4XjJSCFou+VdiiBdByXoaGf3E4Bvi2m
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="354033043"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="354033043"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 15:10:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="765296745"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="765296745"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 12 May 2023 15:10:57 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pxayX-00058S-0D;
+        Fri, 12 May 2023 22:10:57 +0000
+Date:   Sat, 13 May 2023 06:10:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Isaku Yamahata <isaku.yamahata@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [intel-tdx:kvm-upstream-workaround 183/341] htmldocs:
+ Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected
+ indentation.
+Message-ID: <202305130617.aQj5WmAq-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 May 2023 17:42:10 +0800 Yajun Deng <yajun.deng@linux.dev> wrote:
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   a8ba58bfbd61bb49f204238176ff563405f400a7
+commit: fdb8cd476e3e17f7d744d93e9699d91d1a2caa10 [183/341] x86/virt/tdx: Export TD config params of TDX module via sysfs
+reproduce:
+        # https://github.com/intel/tdx/commit/fdb8cd476e3e17f7d744d93e9699d91d1a2caa10
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout fdb8cd476e3e17f7d744d93e9699d91d1a2caa10
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-> In the commit b7176c261cdb ("dma-contiguous: provide the ability to
-> reserve per-numa CMA"), Barry adds DMA_PERNUMA_CMA for ARM64.
-> 
-> But this feature is architecture independent, so support per-numa CMA
-> for all architectures, and enable it by default if NUMA.
-> 
-> ...
->
-> --- a/include/linux/dma-map-ops.h
-> +++ b/include/linux/dma-map-ops.h
-> @@ -168,12 +168,6 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
->  }
->  #endif /* CONFIG_DMA_CMA*/
->  
-> -#ifdef CONFIG_DMA_PERNUMA_CMA
-> -void dma_pernuma_cma_reserve(void);
-> -#else
-> -static inline void dma_pernuma_cma_reserve(void) { }
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305130617.aQj5WmAq-lkp@intel.com/
 
-It would be a little nicer to retain this line.
+All warnings (new ones prefixed by >>):
 
-> -#endif /* CONFIG_DMA_PERNUMA_CMA */
-> -
->  #ifdef CONFIG_DMA_DECLARE_COHERENT
->  int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
->  		dma_addr_t device_addr, size_t size);
->
-> ...
->
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -128,7 +128,7 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
->  #endif
->  
->  #ifdef CONFIG_DMA_PERNUMA_CMA
-> -void __init dma_pernuma_cma_reserve(void)
-> +static void __init dma_pernuma_cma_reserve(void)
->  {
->  	int nid;
->  
-> @@ -153,6 +153,10 @@ void __init dma_pernuma_cma_reserve(void)
->  			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
->  	}
->  }
-> +#else
-> +static inline void __init dma_pernuma_cma_reserve(void)
-> +{
-> +}
->  #endif
+>> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected indentation.
 
-And to not add this function?
+vim +2 Documentation/ABI/testing/sysfs-firmware-tdx
+
+   > 2	Date:           March 2023
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
