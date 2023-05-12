@@ -2,93 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 162E9C7EE23
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 18:17:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6697C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 18:42:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237760AbjELSR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 14:17:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32932 "EHLO
+        id S239090AbjELSmG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 14:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237885AbjELSRZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 14:17:25 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262BAE50;
-        Fri, 12 May 2023 11:17:24 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1683915442;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XrXy+JN0FIVOyWDkqWfN4fNFGJKhfjsBfYB8oPd1Irc=;
-        b=Y1yV+uoB6fx9Yhns9dAWVlJGWQcpCyKUdFqEJpQFLS+uZwOmtwgY1IB7cCtCgtxfmPGM1E
-        RHrqBI7OIhWNpaJ+CT1K/m6a4VffRvAuFtfHtrg7DktrfeG+F9YVJHF7UonTQXVwvcsBl6
-        fwWaMINw9X4exjYSkh7wAm8lwsDrh0WOQX+mbJOdD265nOu21snUkPIxGI0rNIX+vxZ0tL
-        X+l8YlFUwQAgRpK9HF7mCTycfV9zp1QIHWgo2bUoyfvj1OMI4jvyn6K01GFgbQtASecGVq
-        79hQECeceglkJFJGCFpuG4MjTbxbTos+68fX3FuBrYHE2tg11v8+D1uwq2vfww==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1683915442;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XrXy+JN0FIVOyWDkqWfN4fNFGJKhfjsBfYB8oPd1Irc=;
-        b=jDQpibUvU/KTnZJH0KZt1sWuLoNTBcIE9OnnjHaZumYLz9yLuYhZiNO6B97Xnp9pWJX6Gc
-        vTJozK43qwl7qIBw==
-To:     Matthew Garrett <mjg59@srcf.ucam.org>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        dpsmith@apertussolutions.com, mingo@redhat.com, bp@alien8.de,
-        hpa@zytor.com, James.Bottomley@hansenpartnership.com,
-        luto@amacapital.net, nivedita@alum.mit.edu,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v6 06/14] x86: Add early SHA support for Secure Launch
- early measurements
-In-Reply-To: <20230512161318.GA18400@srcf.ucam.org>
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-7-ross.philipson@oracle.com>
- <20230510012144.GA1851@quark.localdomain>
- <20230512110455.GD14461@srcf.ucam.org>
- <CAMj1kXE8m5jCH3vW54ys=dE2-Vf_gnnueR6_g4Rq-LSJ5BqRjA@mail.gmail.com>
- <20230512112847.GF14461@srcf.ucam.org> <87pm75bs3v.ffs@tglx>
- <20230512161318.GA18400@srcf.ucam.org>
-Date:   Fri, 12 May 2023 20:17:21 +0200
-Message-ID: <873541bej2.ffs@tglx>
+        with ESMTP id S239089AbjELSmE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 14:42:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F9E213E;
+        Fri, 12 May 2023 11:42:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 19C8965820;
+        Fri, 12 May 2023 18:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B174C4339C;
+        Fri, 12 May 2023 18:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683916922;
+        bh=Pq2Zl78fHF+iybz1ucVV+ms6hOlmw/fWkMnXUi1HQok=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=kjQdzayRNeUAGNmE6MvoP07CVFUYjxx3QgA6k9B68O3oyqdh0XCyD6sLSjUWEXg13
+         NPucCNV8BkdwqHsDPjAHiwunVmPK4AYE4SvTcPHb/R9oaA9lLVJWEAsM9gkH+Dvf1Z
+         +561PWUS0AS2g8q9EDrsjpIOuPW93tIuk18mptyBG+norUCcEpUYTxpOY3GB7oRLAE
+         puVVl08r9/gsVitagmySs3LDaQTYMHnREgkW/gMyKB7Zoi4LADGJXyTnLQLECLWjJ0
+         Dxm+2RBumVs2QIbLw2wYl7vhbm7EmjZGrRbyQAJR42TvFKUU2AktttZohzdLeiv6CE
+         fm4VL4ArKUgNg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 01882CE0CCF; Fri, 12 May 2023 11:42:01 -0700 (PDT)
+Date:   Fri, 12 May 2023 11:42:01 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org, akiyks@gmail.com,
+        linux-doc@vger.kernel.org, kernel-team@meta.com,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
+ generating duplicate fallback kernel-doc
+Message-ID: <e767dcc6-ea63-4ed8-9a15-9e5bb133fafc@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
+ <20230510181717.2200934-18-paulmck@kernel.org>
+ <ZF0haDfyL3At3Ijw@FVFF77S0Q05N.cambridge.arm.com>
+ <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
+ <ZF48uBYKczItubrU@FVFF77S0Q05N>
+ <b5498819-c2d4-414d-ba01-5373e749dc52@paulmck-laptop>
+ <ZF5xXuPsrZEgAEEE@FVFF77S0Q05N>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZF5xXuPsrZEgAEEE@FVFF77S0Q05N>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 12 2023 at 17:13, Matthew Garrett wrote:
-> On Fri, May 12, 2023 at 03:24:04PM +0200, Thomas Gleixner wrote:
->> On Fri, May 12 2023 at 12:28, Matthew Garrett wrote:
->> > Unless we assert that SHA-1 events are unsupported, it seems a bit odd 
->> > to force a policy on people who have both banks enabled. People with 
->> > mixed fleets are potentially going to be dealing with SHA-1 measurements 
->> > for a while yet, and while there's obviously a security benefit in using 
->> > SHA-2 instead it'd be irritating to have to maintain two attestation 
->> > policies.
->> 
->> Why?
->> 
->> If you have a mixed fleet then it's not too much asked to provide two
->> data sets. On a TPM2 system you can enforce SHA-2 and only fallback to
->> SHA-1 on TPM 1.2 hardware. No?
->
-> No, beause having TPM2 hardware doesn't guarantee that your firmware 
-> enables SHA-2 (which also means this is something that could change with 
-> firmware updates, which means that refusing to support SHA-1 if the 
-> SHA-2 banks are enabled could result in an entirely different policy 
-> being required (and plausibly one that isn't implemented in their 
-> existing tooling)
+On Fri, May 12, 2023 at 06:03:26PM +0100, Mark Rutland wrote:
+> On Fri, May 12, 2023 at 09:01:27AM -0700, Paul E. McKenney wrote:
+> > On Fri, May 12, 2023 at 02:18:48PM +0100, Mark Rutland wrote:
+> > > On Thu, May 11, 2023 at 12:12:16PM -0700, Paul E. McKenney wrote:
+> > > > On Thu, May 11, 2023 at 06:10:00PM +0100, Mark Rutland wrote:
+> > > > > I think that we can restructure the ifdeffery so that each ordering variant
+> > > > > gets its own ifdeffery, and then we could place the kerneldoc immediately above
+> > > > > that, e.g.
+> > > > > 
+> > > > > 	/**
+> > > > > 	 * arch_atomic_inc_return_release()
+> > > > > 	 *
+> > > > > 	 * [ full kerneldoc block here ]
+> > > > > 	 */
+> > > > > 	#if defined(arch_atomic_inc_return_release)
+> > > > > 	/* defined in arch code */
+> > > > > 	#elif defined(arch_atomic_inc_return_relaxed)
+> > > > > 	[ define in terms of arch_atomic_inc_return_relaxed ]
+> > > > > 	#elif defined(arch_atomic_inc_return)
+> > > > > 	[ define in terms of arch_atomic_inc_return ]
+> > > > > 	#else
+> > > > > 	[ define in terms of arch_atomic_fetch_inc_release ]
+> > > > > 	#endif
+> > > > > 
+> > > > > ... with similar for the mandatory ops that each arch must provide, e.g.
+> > > > > 
+> > > > > 	/**
+> > > > > 	 * arch_atomic_or()
+> > > > > 	 *
+> > > > > 	 * [ full kerneldoc block here ]
+> > > > > 	 */
+> > > > > 	/* arch_atomic_or() is mandatory -- architectures must define it! */
+> > > > > 
+> > > > > I had a go at that restructuring today, and while local build testing indicates
+> > > > > I haven't got it quite right, I think it's possible:
+> > > > > 
+> > > > >   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
+> > > > > 
+> > > > > Does that sound ok to you?
+> > > > 
+> > > > At first glance, it appears that your "TODO" locations have the same
+> > > > information that I was using, so it should not be hard for me to adapt the
+> > > > current kernel-doc generation to your new scheme.  (Famous last words!)
+> > > 
+> > > Great!
+> > > 
+> > > > Plus having the kernel-doc generation all in one place does have some
+> > > > serious attractions.
+> > > 
+> > > :)
+> > > 
+> > > > I will continue maintaining my current stack, but would of course be
+> > > > happy to port it on top of your refactoring.  If it turns out that
+> > > > the refactoring will take a long time, we can discuss what to do in
+> > > > the meantime.  But here is hoping that the refactoring goes smoothly!
+> > > > That would be easier all around.  ;-)
+> > > 
+> > > FWIW, I think that's working now; every cross-build I've tried works.
+> > > 
+> > > I've updated the branch at:
+> > > 
+> > >   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
+> > > 
+> > > Tagged as:
+> > > 
+> > >   atomics-fallback-rework-20230512
+> > 
+> > Thank you very much!
+> > 
+> > I expect to send v2 of my original late today on the perhaps unlikely
+> > off-chance that someone might be interested in reviewing the verbiage.
+> 
+> I'll be more than happy to, though I suspect "late today" is far too late today
+> for me in UK time terms, so I probably won't look until Monday.
 
-It's not rocket science to have both variants supported in tooling,
-really.
+Works for me!
 
-What a mess.
+> > More to the point, I have started porting my changes on top of your
+> > stack.  My thought is to have a separate "."-included script that does
+> > the kernel-doc work.
+> 
+> I was thinking that we'd have a gen_kerneldoc(...) shell function (probably in
+> atomic-tbl.sh), but that's an easy thing to refactor after v2, so either way is
+> fine for now!
 
+Good point, will make that happen.  Easy to move the code, so might
+as well be v1.  ;-)
+
+> > I am also thinking in terms of putting the kernel-doc generation into
+> > an "else" clause to the "is mandatory" check, and leaving the kernel-doc
+> > for the mandatory functions in arch/x86/include/asm/atomic.h.
+> 
+> My thinking was that all the kernel-doc bits should live in the common header
+> so that they're all easy to find when looking at the source code, and since if
+> feels a bit weird to have to look into arch/x86/ to figure out the semantics of
+> a function on !x86.
+> 
+> That said, if that's painful for some reason, please go with the easiest option
+> for now and we can figure out how to attack it for v3. :)
+
+I will give it a shot.
+
+							Thanx, Paul
