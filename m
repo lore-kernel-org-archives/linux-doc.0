@@ -2,94 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D807C7EE26
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 02:36:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E4D0C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 02:41:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239677AbjELCgd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 May 2023 22:36:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36210 "EHLO
+        id S239487AbjELClU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 May 2023 22:41:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239158AbjELCgc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 22:36:32 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3753659D4;
-        Thu, 11 May 2023 19:36:31 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1a516fb6523so88099335ad.3;
-        Thu, 11 May 2023 19:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683858990; x=1686450990;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JLOnR+TZq7I0ACsVGp4QS0zHoJpqoYfqy4vPmKAWQdI=;
-        b=sB4gSnD9iXxiHEzCZ5632EilGI1/tk5kFTaJ+wlHXJc+sxwpTgaSN1Z8mCdj3VPC5/
-         sFPcLSrSDoD9Iblo9FyNo9D6HfkLeczZM23f0l2cTI3Fmrd0xL20DwYlD40F+q0bih/7
-         1WURb8MDTO0CZdR7j+8vYB/sWeobgEESxa0FOnUwSrmN1Vn+l8UUJr1D8OIQJhXU0mTd
-         Ky2IQvNxjqymrgcH8bbyPR84YU+Ew1ZKu8cleZ0uHh6Oa+9q/0WedjPqMVqvBlvhUcut
-         /q9Zht61gq31ydcyuKMeL4onDUgH+kIzEoI9FlfE4/Aed8w3+M7/Ix+CsARZrwxBDnGt
-         GHug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683858990; x=1686450990;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JLOnR+TZq7I0ACsVGp4QS0zHoJpqoYfqy4vPmKAWQdI=;
-        b=Ewq+nYOjxnCdXFMn/cfMeVbAxccz/8w+sNbCnbk78iATPSM58slzVibhtpz1h0PPVo
-         p24/SX3U9O9NGG7vxGRkpquWQFJoNB0N73Rwny8SZos8b43cBQpkFF2FCZwGCV6c4UnL
-         EyO1M3iZ/sOiMIqk+88+21KgDSVWyh532eL+rEf88Zl1CiLPbMYxbPdbWFdYAHb7RUEm
-         rWJwgwyL3mPKfod4Bj89ntf87wBzh3sX73KtOfJqFMwpaLvtW04Zxqn2tKlXlHYchlpO
-         WSF6DrK9j+ZkrNrEJe2c8iTCsgj/szr1lqVW44x3m4FggSp34jRpRv8xznSlIIr5NNoA
-         KflA==
-X-Gm-Message-State: AC+VfDyy67oBtVZavjEpPO/1nPzPe2Tf5DGo+u080kzMV4QwYmFvk+EN
-        ZxjhRcysPLbwXXtHp+9Ap4s=
-X-Google-Smtp-Source: ACHHUZ59m+n7obFadBYYqI+7nMSPeg1gXvLySTC5HjO3gnt4GQRdhhRs8CIjLkDV1Y0XFALcXuG+qg==
-X-Received: by 2002:a17:902:d2c2:b0:1ad:cef8:f916 with SMTP id n2-20020a170902d2c200b001adcef8f916mr3631543plc.1.1683858990577;
-        Thu, 11 May 2023 19:36:30 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id y18-20020a17090322d200b001a1a82fc6d3sm6595884plg.268.2023.05.11.19.36.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 19:36:30 -0700 (PDT)
-Message-ID: <f74a911c-82c5-b4d0-1406-0acb5a327312@gmail.com>
-Date:   Fri, 12 May 2023 09:36:22 +0700
+        with ESMTP id S233568AbjELClU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 May 2023 22:41:20 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88497559E;
+        Thu, 11 May 2023 19:41:18 -0700 (PDT)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QHXxs1czyzLprV;
+        Fri, 12 May 2023 10:38:25 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpeml500002.china.huawei.com (7.185.36.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 12 May 2023 10:41:15 +0800
+From:   Junhao He <hejunhao3@huawei.com>
+To:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
+        <jonathan.cameron@huawei.com>
+CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+        <yangyicong@huawei.com>, <shenyang39@huawei.com>,
+        <prime.zeng@hisilicon.com>, <hejunhao3@huawei.com>
+Subject: [PATCH] coresight: etm4x: fix trctraceid sysfs always invisible
+Date:   Fri, 12 May 2023 10:39:33 +0800
+Message-ID: <20230512023933.961-1-hejunhao3@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] Documentation: module-signing: Mention
- default_x509.genkey template
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Keyrings <keyrings@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20230511043852.25803-1-bagasdotme@gmail.com>
- <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/11/23 23:55, Masahiro Yamada wrote:
-> On Thu, May 11, 2023 at 1:39 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>
->> Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
->> adds default x509 keypair config file template, but forgets to mention
->> it in kernel module signing documentation.
-> 
-> What did it forget?
-> 
+The trctraceid sysfs interface is current in etm4x mgmt group.
+Each attr in the mgmt group will call the function is_visible()
+to check whether the register is implemented. However the trctraceid
+does not bound to any register. So the trctraceid sysfs will
+always be invisible.
 
-I mean the phrase "provide your own x509.genkey" can means
-creating that config from scratch when there is already
-default_x509.genkey template which can be used as a base for
-adjusting certificate keypair.
+Move it to etmv4 group to fix that.
 
+Fixes: df4871204e5d ("coresight: etm4x: Update ETM4 driver to use Trace ID API")
+Signed-off-by: Junhao He <hejunhao3@huawei.com>
+---
+ .../coresight/coresight-etm4x-sysfs.c         | 42 +++++++++----------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+index 5e62aa40ecd0..0ea71de0f56b 100644
+--- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+@@ -2335,6 +2335,26 @@ static ssize_t ts_source_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(ts_source);
+ 
++/*
++ * Trace ID allocated dynamically on enable - but also allocate on read
++ * in case sysfs or perf read before enable to ensure consistent metadata
++ * information for trace decode
++ */
++static ssize_t trctraceid_show(struct device *dev,
++			       struct device_attribute *attr,
++			       char *buf)
++{
++	int trace_id;
++	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
++
++	trace_id = etm4_read_alloc_trace_id(drvdata);
++	if (trace_id < 0)
++		return trace_id;
++
++	return sysfs_emit(buf, "0x%x\n", trace_id);
++}
++static DEVICE_ATTR_RO(trctraceid);
++
+ static struct attribute *coresight_etmv4_attrs[] = {
+ 	&dev_attr_nr_pe_cmp.attr,
+ 	&dev_attr_nr_addr_cmp.attr,
+@@ -2390,29 +2410,10 @@ static struct attribute *coresight_etmv4_attrs[] = {
+ 	&dev_attr_vmid_masks.attr,
+ 	&dev_attr_cpu.attr,
+ 	&dev_attr_ts_source.attr,
++	&dev_attr_trctraceid.attr,
+ 	NULL,
+ };
+ 
+-/*
+- * Trace ID allocated dynamically on enable - but also allocate on read
+- * in case sysfs or perf read before enable to ensure consistent metadata
+- * information for trace decode
+- */
+-static ssize_t trctraceid_show(struct device *dev,
+-			       struct device_attribute *attr,
+-			       char *buf)
+-{
+-	int trace_id;
+-	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
+-
+-	trace_id = etm4_read_alloc_trace_id(drvdata);
+-	if (trace_id < 0)
+-		return trace_id;
+-
+-	return sysfs_emit(buf, "0x%x\n", trace_id);
+-}
+-static DEVICE_ATTR_RO(trctraceid);
+-
+ struct etmv4_reg {
+ 	struct coresight_device *csdev;
+ 	u32 offset;
+@@ -2549,7 +2550,6 @@ static struct attribute *coresight_etmv4_mgmt_attrs[] = {
+ 	coresight_etm4x_reg(trcpidr3, TRCPIDR3),
+ 	coresight_etm4x_reg(trcoslsr, TRCOSLSR),
+ 	coresight_etm4x_reg(trcconfig, TRCCONFIGR),
+-	&dev_attr_trctraceid.attr,
+ 	coresight_etm4x_reg(trcdevarch, TRCDEVARCH),
+ 	NULL,
+ };
 -- 
-An old man doll... just what I always wanted! - Clara
+2.33.0
 
