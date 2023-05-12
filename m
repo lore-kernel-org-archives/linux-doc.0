@@ -2,116 +2,159 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9256BC77B7F
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 09:04:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65394C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 09:50:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240401AbjELJEa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 05:04:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40974 "EHLO
+        id S240472AbjELJuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 05:50:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240378AbjELJEU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 05:04:20 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3C3D11559
-        for <linux-doc@vger.kernel.org>; Fri, 12 May 2023 02:04:07 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3063208beedso9211906f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 May 2023 02:04:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1683882246; x=1686474246;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LOQ/DlOGIctkGIcCTQtutRYPiw4IXxyRImNc8aVkxjk=;
-        b=pcba1+uq/tkvdmjmQc1k0s5XhFgG4/E/TIRDBO/sNR/P0n+Jypo9JpGOVUOZ1sYhpc
-         K6DC7rio/DIg3AQJXqk/986STBuCuxctiX4PNpQOLvkIacGSrVTXHP3EEyncOM8Vt44t
-         ckOE/rnvkxumONDZCzR0JJpYANPA5nwuzFgcztVSCrQ26H7Ca3f6VdvMoH2WocjmPD+2
-         JQSpRPF8k0RlLkD1F0jdx6eT6thzDHFZbt4Xj/2DhUCpu+NZvQZwug+he17lHM5b1Ui2
-         zTP800qCwgEHjUNKHvYLUwVRHmntT1rwrUwoiQVQG8fL3/moRB8byaY8dRKm2w9oE0gz
-         bfDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683882246; x=1686474246;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LOQ/DlOGIctkGIcCTQtutRYPiw4IXxyRImNc8aVkxjk=;
-        b=ehxWH2pbDroX7x0pA+t66w1CUCX4PUQgrXw3u+XttJLsOK+Opl4pJSSRWk54Uk2HlR
-         lzdd4c4E2MCiJOm9C15ZWrrE1WehXhe5B77B5oaqeUpnf5BZux32tf7jsVFDMVVTihx5
-         mFU0gy5oGlF8/fK01G6KxbaR9KKeOcMTT0fzNqYlTSb4r5/pctoKAhMXKXE5vZgvp26N
-         uPjke5VTlX9dHAgHQWtXRQ/HVHNICWRBf9sNWICIfOlJTci1HarTPRYz8XVC57g1xQX0
-         WzBj08LmSmc03xVXDcAl9+JA4pLPS2klxt40ip6OWTT3f+lGnRfcXJlzlGAPLK6OHGxg
-         jBiQ==
-X-Gm-Message-State: AC+VfDxMbJE6PXbcbz/guT71Gdfs0IBNmxXA2jSuJ6+wWPaNwvpeYG0n
-        eagJyznoU8uHMlQmfiiMlyPnYQ==
-X-Google-Smtp-Source: ACHHUZ5goOCUzTjChWxdDq9l5hFZBiYUR1vs3XG/CA63CCoohpET/2lu8oGivMch6urud3hl8eKx7g==
-X-Received: by 2002:a5d:4b02:0:b0:307:a33d:d093 with SMTP id v2-20020a5d4b02000000b00307a33dd093mr8200432wrq.16.1683882245915;
-        Fri, 12 May 2023 02:04:05 -0700 (PDT)
-Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id h8-20020a1ccc08000000b003f17eaae2c9sm28149299wmb.1.2023.05.12.02.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 May 2023 02:04:05 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v2 10/10] perf: tests: Adapt mmap-basic.c for riscv
-Date:   Fri, 12 May 2023 10:53:21 +0200
-Message-Id: <20230512085321.13259-11-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230512085321.13259-1-alexghiti@rivosinc.com>
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
+        with ESMTP id S240422AbjELJud (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 05:50:33 -0400
+X-Greylist: delayed 447 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 12 May 2023 02:50:28 PDT
+Received: from out-33.mta0.migadu.com (out-33.mta0.migadu.com [IPv6:2001:41d0:1004:224b::21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3335BB7
+        for <linux-doc@vger.kernel.org>; Fri, 12 May 2023 02:50:28 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1683884548;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=+3Cj7WM/5H/yN4K+1lxE1r8ARjSog11gtcnlJ0Ke9Cs=;
+        b=LoyWQci7E7aehvM7RvdT5fPZDShGQ0N3hNobaGAYqQcwfBmJdJo6pX3oyMFuEuj73ybj1D
+        kvJRMx80dPfs9ElFWf5o/QxBLIG4as4augYHlH0kmV7lyvL3hJrGCYfvR0m1Joc4JYGGif
+        tnnA3xwaUSyksPgKlMMz11sZeCuICQY=
+From:   Yajun Deng <yajun.deng@linux.dev>
+To:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        paulmck@kernel.org, bp@suse.de, akpm@linux-foundation.org,
+        peterz@infradead.org, rdunlap@infradead.org, kim.phillips@amd.com,
+        rostedt@goodmis.org, thunder.leizhen@huawei.com, ardb@kernel.org,
+        bhe@redhat.com, anshuman.khandual@arm.com,
+        song.bao.hua@hisilicon.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+        Yajun Deng <yajun.deng@linux.dev>
+Subject: [PATCH] dma-contiguous: support per-numa CMA for all architectures
+Date:   Fri, 12 May 2023 17:42:10 +0800
+Message-Id: <20230512094210.141540-1-yajun.deng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-riscv now supports mmaping hardware counters to userspace so adapt the test
-to run on this architecture.
+In the commit b7176c261cdb ("dma-contiguous: provide the ability to
+reserve per-numa CMA"), Barry adds DMA_PERNUMA_CMA for ARM64.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+But this feature is architecture independent, so support per-numa CMA
+for all architectures, and enable it by default if NUMA.
+
+Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
 ---
- tools/perf/tests/mmap-basic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ arch/arm64/mm/init.c                            | 2 --
+ include/linux/dma-map-ops.h                     | 6 ------
+ kernel/dma/Kconfig                              | 6 +++---
+ kernel/dma/contiguous.c                         | 8 +++++++-
+ 5 files changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
-index e68ca6229756..f5075ca774f8 100644
---- a/tools/perf/tests/mmap-basic.c
-+++ b/tools/perf/tests/mmap-basic.c
-@@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] = {
- 			 "permissions"),
- 	TEST_CASE_REASON("User space counter reading of instructions",
- 			 mmap_user_read_instr,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
-@@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] = {
- 		),
- 	TEST_CASE_REASON("User space counter reading of cycles",
- 			 mmap_user_read_cycles,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 56d9458276a6..ac0002b2e323 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -692,7 +692,7 @@
+ 			kernel/dma/contiguous.c
+ 
+ 	cma_pernuma=nn[MG]
+-			[ARM64,KNL,CMA]
++			[KNL,CMA]
+ 			Sets the size of kernel per-numa memory area for
+ 			contiguous memory allocations. A value of 0 disables
+ 			per-numa CMA altogether. And If this option is not
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 66e70ca47680..d560aef6aafa 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -410,8 +410,6 @@ void __init bootmem_init(void)
+ 	arm64_hugetlb_cma_reserve();
+ #endif
+ 
+-	dma_pernuma_cma_reserve();
+-
+ 	kvm_hyp_reserve();
+ 
+ 	/*
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 31f114f486c4..7af9949828ff 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -168,12 +168,6 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
+ }
+ #endif /* CONFIG_DMA_CMA*/
+ 
+-#ifdef CONFIG_DMA_PERNUMA_CMA
+-void dma_pernuma_cma_reserve(void);
+-#else
+-static inline void dma_pernuma_cma_reserve(void) { }
+-#endif /* CONFIG_DMA_PERNUMA_CMA */
+-
+ #ifdef CONFIG_DMA_DECLARE_COHERENT
+ int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
+ 		dma_addr_t device_addr, size_t size);
+diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+index 6677d0e64d27..79f83091e3a2 100644
+--- a/kernel/dma/Kconfig
++++ b/kernel/dma/Kconfig
+@@ -140,10 +140,10 @@ if  DMA_CMA
+ 
+ config DMA_PERNUMA_CMA
+ 	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
+-	default NUMA && ARM64
++	default NUMA
+ 	help
+-	  Enable this option to get pernuma CMA areas so that devices like
+-	  ARM64 SMMU can get local memory by DMA coherent APIs.
++	  Enable this option to get pernuma CMA areas so that NUMA devices
++	  can get local memory by DMA coherent APIs.
+ 
+ 	  You can set the size of pernuma CMA by specifying "cma_pernuma=size"
+ 	  on the kernel's command line.
+diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+index 6ea80ae42622..26a8e5365fcd 100644
+--- a/kernel/dma/contiguous.c
++++ b/kernel/dma/contiguous.c
+@@ -128,7 +128,7 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
+ #endif
+ 
+ #ifdef CONFIG_DMA_PERNUMA_CMA
+-void __init dma_pernuma_cma_reserve(void)
++static void __init dma_pernuma_cma_reserve(void)
+ {
+ 	int nid;
+ 
+@@ -153,6 +153,10 @@ void __init dma_pernuma_cma_reserve(void)
+ 			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
+ 	}
+ }
++#else
++static inline void __init dma_pernuma_cma_reserve(void)
++{
++}
+ #endif
+ 
+ /**
+@@ -171,6 +175,8 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
+ 	phys_addr_t selected_limit = limit;
+ 	bool fixed = false;
+ 
++	dma_pernuma_cma_reserve();
++
+ 	pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
+ 
+ 	if (size_cmdline != -1) {
 -- 
-2.37.2
+2.25.1
 
