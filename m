@@ -2,137 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB439C77B7F
-	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 10:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96259C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 12 May 2023 11:02:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240665AbjELKCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 06:02:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
+        id S240952AbjELLCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 May 2023 07:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240435AbjELKCL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 06:02:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B102313296;
-        Fri, 12 May 2023 03:01:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5FD35654AC;
-        Fri, 12 May 2023 09:59:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F35C433D2;
-        Fri, 12 May 2023 09:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683885583;
-        bh=H1+kd4w7k1HS9RKH9lnHTTmFpUCehtlt2UQGHny7fDU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ssLs55ak/x/IUqC3e9qn8qCSJtoPW4S0z0bUOouC4Dh24aIuI4rTp47LZ+Df6byZt
-         FJ3H2JVuI19wu61a/XQ5VzVMx85RaV5yADhe/61c+LOHrZxPWR4ESIWp4rlwCMs9Im
-         3erP8ELY9XMoQvWttiDOwy4Ll6mrtSbZAUENapjdu8zSPeNYWIZNNagDG9T4fiPTRY
-         v3RstRImhsK9TSMvAhhlXztx9AxR3Lyx9VZJ6Exe/PupPFTzRJdzsZXt2YtchHXzF2
-         hgR32LD605782YS0ULqBV3CklXyQWwEWLhGc6Ze+uaXVWdtqSd/8PEOwPM1VpdjuWZ
-         MXO2QpHXgnqVg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1pxPYr-00EXDA-Ca;
-        Fri, 12 May 2023 10:59:41 +0100
-Date:   Fri, 12 May 2023 10:59:40 +0100
-Message-ID: <86r0rlna43.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     =?UTF-8?B?IllpLURlIFd1ICjlkLPkuIDlvrcpIg==?= 
-        <Yi-De.Wu@mediatek.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        with ESMTP id S240810AbjELLBy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 07:01:54 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FD91720;
+        Fri, 12 May 2023 04:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1683889310; x=1715425310;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rdr/QboOutQujzta21veyhN/BFRkmZJcWYh0ih36U+Q=;
+  b=zIQ/9N2kjPHNNlw+ni2pYeDyfOLGkYik7ImpXU2KqaDjdMo0VeSs9KDe
+   ggql0dme7VgPCfO7uZQlv4RDHrHCfv80/4UYb6OQTyGSlUmWiG9YAnJtp
+   Vp8SVKG5WkHdD32WTWU+pgLd3gDIxhqzta1InmHTV6GkYQW22SvgtwZRH
+   r2iZVkwxObqo1thavJ9gtQWfrctTL1V4pAlpI/f0rxZVilyeDEtngnhvu
+   SbAwpHGArzru1XcIeC+T7IhJ1RSvW28JSyQ7gQrAfkalM9cQ/UyPspVg+
+   N0oPMpvaXbz1cg1fltZziwwSpK07M80fT71uXaURQUJrLSww7TZzMxEt5
+   g==;
+X-IronPort-AV: E=Sophos;i="5.99,269,1677567600"; 
+   d="asc'?scan'208";a="215055820"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 May 2023 04:01:48 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 12 May 2023 04:01:43 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Fri, 12 May 2023 04:01:39 -0700
+Date:   Fri, 12 May 2023 12:01:18 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Yi-De Wu =?utf-8?B?KOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>
+CC:     "robh@kernel.org" <robh@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
         "linux-mediatek@lists.infradead.org" 
         <linux-mediatek@lists.infradead.org>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        MY Chuang =?utf-8?B?KOiOiuaYjui6jSk=?= <MY.Chuang@mediatek.com>,
         "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        =?UTF-8?B?Ik1Z?= =?UTF-8?B?IENodWFuZyAo6I6K5piO6LqNKSI=?= 
-        <MY.Chuang@mediatek.com>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "quic_tsoni@quicinc.com" <quic_tsoni@quicinc.com>,
-        =?UTF-8?B?IlNoYXduIEhz?= =?UTF-8?B?aWFvICjola3lv5fnpaUpIg==?= 
+        Shawn Hsiao =?utf-8?B?KOiVreW/l+elpSk=?= 
         <shawn.hsiao@mediatek.com>,
-        =?UTF-8?B?Ik1pbGVzIENoZW4gKOmZs+awkeaouiki?= 
+        Miles Chen =?utf-8?B?KOmZs+awkeaouik=?= 
         <Miles.Chen@mediatek.com>,
-        =?UTF-8?B?IlBlaUx1biBTdWVpICjpmovln7nlgKspIg==?= 
+        PeiLun Suei =?utf-8?B?KOmai+WfueWAqyk=?= 
         <PeiLun.Suei@mediatek.com>,
-        =?UTF-8?B?IkxpanUtY2xyIENoZW4gKOmZs+m6lw==?= =?UTF-8?B?5aaCKSI=?= 
+        Liju-clr Chen =?utf-8?B?KOmZs+m6l+Wmgik=?= 
         <Liju-clr.Chen@mediatek.com>,
-        =?UTF-8?B?IkphZGVzIFNo?= =?UTF-8?B?aWggKOaWveWQkeeOqCki?= 
+        Jades Shih =?utf-8?B?KOaWveWQkeeOqCk=?= 
         <jades.shih@mediatek.com>,
         "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
         "dbrazdil@google.com" <dbrazdil@google.com>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
-        =?UTF-8?B?IllpbmdzaGl1YW4gUGFu?= =?UTF-8?B?ICjmvZjnqY7ou5IpIg==?= 
+        Yingshiuan Pan =?utf-8?B?KOa9mOepjui7kik=?= 
         <Yingshiuan.Pan@mediatek.com>,
         "krzysztof.kozlowski+dt@linaro.org" 
         <krzysztof.kozlowski+dt@linaro.org>,
         "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
         "arnd@arndb.de" <arnd@arndb.de>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        =?UTF-8?B?IlplLXl1IFdhbmcgKOeOi+a+pOWuhyki?= 
+        Ze-yu Wang =?utf-8?B?KOeOi+a+pOWuhyk=?= 
         <Ze-yu.Wang@mediatek.com>, "will@kernel.org" <will@kernel.org>,
-        =?UTF-8?B?Ikl2YW4gVHNlbmcgKOabvg==?= =?UTF-8?B?5b+X6LuSKSI=?= 
+        Ivan Tseng =?utf-8?B?KOabvuW/l+i7kik=?= 
         <ivan.tseng@mediatek.com>
-Subject: Re: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor support
-In-Reply-To: <457219eb8c83b35fc8705d80abbf75fc2fd8741c.camel@mediatek.com>
+Subject: Re: [PATCH v2 2/7] dt-bindings: hypervisor: Add MediaTek GenieZone
+ hypervisor
+Message-ID: <20230512-marine-kilowatt-44a642124ac7@wendy>
 References: <20230428103622.18291-1-yi-de.wu@mediatek.com>
-        <20230428103622.18291-4-yi-de.wu@mediatek.com>
-        <904abf67ec4ba7d37fc1e500e8a2dbd1@kernel.org>
-        <457219eb8c83b35fc8705d80abbf75fc2fd8741c.camel@mediatek.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: Yi-De.Wu@mediatek.com, corbet@lwn.net, linux-kernel@vger.kernel.org, robh+dt@kernel.org, angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org, linux-arch@vger.kernel.org, MY.Chuang@mediatek.com, devicetree@vger.kernel.org, quic_tsoni@quicinc.com, shawn.hsiao@mediatek.com, Miles.Chen@mediatek.com, PeiLun.Suei@mediatek.com, Liju-clr.Chen@mediatek.com, jades.shih@mediatek.com, catalin.marinas@arm.com, dbrazdil@google.com, linux-arm-kernel@lists.infradead.org, Yingshiuan.Pan@mediatek.com, krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com, arnd@arndb.de, linux-doc@vger.kernel.org, Ze-yu.Wang@mediatek.com, will@kernel.org, ivan.tseng@mediatek.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+ <20230428103622.18291-3-yi-de.wu@mediatek.com>
+ <20230428212411.GA292303-robh@kernel.org>
+ <ec4cae2e6da4a64bc3983ffdde03f51e185d3609.camel@mediatek.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="SGI1uxhA9flSLqZg"
+Content-Disposition: inline
+In-Reply-To: <ec4cae2e6da4a64bc3983ffdde03f51e185d3609.camel@mediatek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 May 2023 08:17:58 +0100,
-"Yi-De Wu (=E5=90=B3=E4=B8=80=E5=BE=B7)" <Yi-De.Wu@mediatek.com> wrote:
->=20
-> On Fri, 2023-04-28 at 23:12 +0100, Marc Zyngier wrote:
+--SGI1uxhA9flSLqZg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 12, 2023 at 06:42:51AM +0000, Yi-De Wu (=E5=90=B3=E4=B8=80=E5=
+=BE=B7) wrote:
+> On Fri, 2023-04-28 at 16:24 -0500, Rob Herring wrote:
 > > External email : Please do not click links or open attachments until
 > > you have verified the sender or the content.
 > >=20
 > >=20
-> > On 2023-04-28 11:36, Yi-De Wu wrote:
+> > On Fri, Apr 28, 2023 at 06:36:17PM +0800, Yi-De Wu wrote:
 > > > From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
 > > >=20
-> > > +config MTK_GZVM
-> > > +     tristate "GenieZone Hypervisor driver for guest VM operation"
-> > > +     depends on ARM64
-> > > +     depends on KVM
+> > > Add documentation for GenieZone(gzvm) node. This node informs gzvm
+> > > driver to start probing if geniezone hypervisor is available and
+> > > able to do virtual machine operations.
 > >=20
-> > NAK.
+> > Why can't the driver just try and do virtual machine operations to
+> > see
+> > if the hypervisor is there? IOW, make your software interfaces
+> > discoverable. DT is for non-discoverable hardware.
 > >=20
-> > Either this is KVM, and this code serves no purpose, or it is a
-> > standalone
-> > hypervisor, and it *cannot* have a dependency on KVM.
-> >=20
-> > [...]
-> >=20
+> > Rob
 >=20
-> In order to be self-contained and avoid dependency like with KVM, may
-> we leverage KVM's symbol, macro e.g. VGIC_NR_SGIS,
-> VGIC_NR_PRIVATE_IRQS...etc, and copy or rename the related part to
-> */geniezone/?
+> Can do, our hypervisor is discoverable through invoking probing
+> hypercall, and we use the device tree to prevent unnecessary module
+> loading on all systems.
 
-Again, these are architected constants. You can have your own. You can
-already consider any use of a KVM structure or symbol as a bug.
+Please do not wait until immediately prior to submitting version N+1
+before replying to any of the comments on version N.
+This creates a confusing scenario, where some review comments may be
+missed due to parallel discussion.
 
-	M.
+Thanks,
+Conor.
 
---=20
-Without deviation from the norm, progress is not possible.
+
+--SGI1uxhA9flSLqZg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZF4cfgAKCRB4tDGHoIJi
+0sIUAQCB81kFCDM+sykANmi0tAinLKojHS+RwXtrVqk3OUoxcAEA06+Iy8V0A75T
+x/4Pd33AIh4X9j7/BLZ90YVbOSYWVQ0=
+=ydlj
+-----END PGP SIGNATURE-----
+
+--SGI1uxhA9flSLqZg--
