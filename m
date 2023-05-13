@@ -2,182 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEFEC77B7F
-	for <linux-doc@archiver.kernel.org>; Sat, 13 May 2023 02:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1E6C77B7F
+	for <linux-doc@archiver.kernel.org>; Sat, 13 May 2023 08:52:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240664AbjEMCLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 May 2023 22:11:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
+        id S229463AbjEMIwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 May 2023 04:52:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbjEMCLR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 May 2023 22:11:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B37821710;
-        Fri, 12 May 2023 19:11:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4412163D14;
-        Sat, 13 May 2023 02:11:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 931DDC433EF;
-        Sat, 13 May 2023 02:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683943875;
-        bh=aWUB3L/whFkUMJnZZsjmAKotLHLW07XcdL/SF0nCOLA=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ogh/VBafyx+SkMxY/eAMpHlyKXQHac5hSAFheYicynUV/jOrECUFbb6nDivBpKOaW
-         u3+4k9WTsDSwVL0PnPO5EBBQkEWoDMEhKcqyoS9awpPdUM0jVeZfBsU1iNCgYsPOUz
-         JY2UdnPpj5jrk9lwoxraoQv24xRdOHTUkNGau5i9M50X8vU+HxtprzX5Pplf8tJnR5
-         iMnO81m1UM9/pSwDHLlo286Wn+NVqbazfLoq9SrofwIKlBHs1duOdbTtAKtc9EehXZ
-         K1ZGQgyo7tYFvfgr/nIsEI+r/NSjTAEDxy4IX9usiQZnVnBOEO/KrNk6GXRR2AeCf4
-         lo6QkcYGWAJlg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 28658CE0CCE; Fri, 12 May 2023 19:11:15 -0700 (PDT)
-Date:   Fri, 12 May 2023 19:11:15 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org, akiyks@gmail.com,
-        linux-doc@vger.kernel.org, kernel-team@meta.com,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
- generating duplicate fallback kernel-doc
-Message-ID: <b3956719-d478-4dc6-95fd-ec0744acc662@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
- <20230510181717.2200934-18-paulmck@kernel.org>
- <ZF0haDfyL3At3Ijw@FVFF77S0Q05N.cambridge.arm.com>
- <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
- <ZF48uBYKczItubrU@FVFF77S0Q05N>
- <b5498819-c2d4-414d-ba01-5373e749dc52@paulmck-laptop>
- <ZF5xXuPsrZEgAEEE@FVFF77S0Q05N>
- <e767dcc6-ea63-4ed8-9a15-9e5bb133fafc@paulmck-laptop>
+        with ESMTP id S230337AbjEMIwV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 May 2023 04:52:21 -0400
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC2B55AF;
+        Sat, 13 May 2023 01:52:16 -0700 (PDT)
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34D8SuGX009196;
+        Sat, 13 May 2023 01:51:58 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=pfpt0220; bh=bcQVczqwBea5byHv9dJ2csDNJqGD7by38PGfOjwdb+Y=;
+ b=UvByWLXZ7g9tQXaqhUz/nzcnIZBKt5r2xJ4ZYn1fdpdjGmUwBFGs5PTmZEHfT6r4oGcT
+ 5hL6xlZP+FU26lSaws7QV8mgKEUu11GlwTgUUN8H5+iRHxTwrhU71jWvVfwxOm1KGGwc
+ 5v3Nk0PyfJAXzC+wv+VoeUizaR2dMlcSJKb0MameckEUyCRS0I0BElZap6SD7ylS3xW7
+ h8afTbJS8qR32ioVxdsU2Jla6c7UNq1rENvB99t9n/aS5YkwvgJGG4/pXGNTM9sN9xW2
+ doJcrNCWmDqFTmEV5aNL6iAzw4JbTnY7fia9fIwMrcdseFrn3SKGL7E8YMjboTJwfqKf 6A== 
+Received: from dc5-exch02.marvell.com ([199.233.59.182])
+        by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3qhs82tg5u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Sat, 13 May 2023 01:51:58 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 13 May
+ 2023 01:51:57 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
+ Transport; Sat, 13 May 2023 01:51:57 -0700
+Received: from hyd1soter3.marvell.com (unknown [10.29.37.12])
+        by maili.marvell.com (Postfix) with ESMTP id 03B03626880;
+        Sat, 13 May 2023 01:51:50 -0700 (PDT)
+From:   Hariprasad Kelam <hkelam@marvell.com>
+To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <kuba@kernel.org>, <davem@davemloft.net>,
+        <willemdebruijn.kernel@gmail.com>, <andrew@lunn.ch>,
+        <sgoutham@marvell.com>, <lcherian@marvell.com>,
+        <gakula@marvell.com>, <jerinj@marvell.com>, <sbhatta@marvell.com>,
+        <hkelam@marvell.com>, <naveenm@marvell.com>, <edumazet@google.com>,
+        <pabeni@redhat.com>, <jhs@mojatatu.com>,
+        <xiyou.wangcong@gmail.com>, <jiri@resnulli.us>,
+        <maxtram95@gmail.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: [net-next Patch v10 1/8] sch_htb: Allow HTB priority parameter in offload mode
+Date:   Sat, 13 May 2023 14:21:36 +0530
+Message-ID: <20230513085143.3289-2-hkelam@marvell.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230513085143.3289-1-hkelam@marvell.com>
+References: <20230513085143.3289-1-hkelam@marvell.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e767dcc6-ea63-4ed8-9a15-9e5bb133fafc@paulmck-laptop>
+Content-Type: text/plain
+X-Proofpoint-GUID: -5QtbeP2fZd4hBXCw9RE-rbl7IidxWhK
+X-Proofpoint-ORIG-GUID: -5QtbeP2fZd4hBXCw9RE-rbl7IidxWhK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-13_05,2023-05-05_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 12, 2023 at 11:42:02AM -0700, Paul E. McKenney wrote:
-> On Fri, May 12, 2023 at 06:03:26PM +0100, Mark Rutland wrote:
-> > On Fri, May 12, 2023 at 09:01:27AM -0700, Paul E. McKenney wrote:
-> > > On Fri, May 12, 2023 at 02:18:48PM +0100, Mark Rutland wrote:
-> > > > On Thu, May 11, 2023 at 12:12:16PM -0700, Paul E. McKenney wrote:
-> > > > > On Thu, May 11, 2023 at 06:10:00PM +0100, Mark Rutland wrote:
-> > > > > > I think that we can restructure the ifdeffery so that each ordering variant
-> > > > > > gets its own ifdeffery, and then we could place the kerneldoc immediately above
-> > > > > > that, e.g.
-> > > > > > 
-> > > > > > 	/**
-> > > > > > 	 * arch_atomic_inc_return_release()
-> > > > > > 	 *
-> > > > > > 	 * [ full kerneldoc block here ]
-> > > > > > 	 */
-> > > > > > 	#if defined(arch_atomic_inc_return_release)
-> > > > > > 	/* defined in arch code */
-> > > > > > 	#elif defined(arch_atomic_inc_return_relaxed)
-> > > > > > 	[ define in terms of arch_atomic_inc_return_relaxed ]
-> > > > > > 	#elif defined(arch_atomic_inc_return)
-> > > > > > 	[ define in terms of arch_atomic_inc_return ]
-> > > > > > 	#else
-> > > > > > 	[ define in terms of arch_atomic_fetch_inc_release ]
-> > > > > > 	#endif
-> > > > > > 
-> > > > > > ... with similar for the mandatory ops that each arch must provide, e.g.
-> > > > > > 
-> > > > > > 	/**
-> > > > > > 	 * arch_atomic_or()
-> > > > > > 	 *
-> > > > > > 	 * [ full kerneldoc block here ]
-> > > > > > 	 */
-> > > > > > 	/* arch_atomic_or() is mandatory -- architectures must define it! */
-> > > > > > 
-> > > > > > I had a go at that restructuring today, and while local build testing indicates
-> > > > > > I haven't got it quite right, I think it's possible:
-> > > > > > 
-> > > > > >   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
-> > > > > > 
-> > > > > > Does that sound ok to you?
-> > > > > 
-> > > > > At first glance, it appears that your "TODO" locations have the same
-> > > > > information that I was using, so it should not be hard for me to adapt the
-> > > > > current kernel-doc generation to your new scheme.  (Famous last words!)
-> > > > 
-> > > > Great!
-> > > > 
-> > > > > Plus having the kernel-doc generation all in one place does have some
-> > > > > serious attractions.
-> > > > 
-> > > > :)
-> > > > 
-> > > > > I will continue maintaining my current stack, but would of course be
-> > > > > happy to port it on top of your refactoring.  If it turns out that
-> > > > > the refactoring will take a long time, we can discuss what to do in
-> > > > > the meantime.  But here is hoping that the refactoring goes smoothly!
-> > > > > That would be easier all around.  ;-)
-> > > > 
-> > > > FWIW, I think that's working now; every cross-build I've tried works.
-> > > > 
-> > > > I've updated the branch at:
-> > > > 
-> > > >   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=atomics/fallback-rework
-> > > > 
-> > > > Tagged as:
-> > > > 
-> > > >   atomics-fallback-rework-20230512
-> > > 
-> > > Thank you very much!
-> > > 
-> > > I expect to send v2 of my original late today on the perhaps unlikely
-> > > off-chance that someone might be interested in reviewing the verbiage.
-> > 
-> > I'll be more than happy to, though I suspect "late today" is far too late today
-> > for me in UK time terms, so I probably won't look until Monday.
-> 
-> Works for me!
+From: Naveen Mamindlapalli <naveenm@marvell.com>
 
-Except that cleaning up the old version proved more obnoxious than
-creating a new one, adding more evidence behind the wisdom of your
-reworkin.  So no v2 of the previous series, for the moment, at least.
+The current implementation of HTB offload returns the EINVAL error
+for unsupported parameters like prio and quantum. This patch removes
+the error returning checks for 'prio' parameter and populates its
+value to tc_htb_qopt_offload structure such that driver can use the
+same.
 
-> > > More to the point, I have started porting my changes on top of your
-> > > stack.  My thought is to have a separate "."-included script that does
-> > > the kernel-doc work.
-> > 
-> > I was thinking that we'd have a gen_kerneldoc(...) shell function (probably in
-> > atomic-tbl.sh), but that's an easy thing to refactor after v2, so either way is
-> > fine for now!
-> 
-> Good point, will make that happen.  Easy to move the code, so might
-> as well be v1.  ;-)
-> 
-> > > I am also thinking in terms of putting the kernel-doc generation into
-> > > an "else" clause to the "is mandatory" check, and leaving the kernel-doc
-> > > for the mandatory functions in arch/x86/include/asm/atomic.h.
-> > 
-> > My thinking was that all the kernel-doc bits should live in the common header
-> > so that they're all easy to find when looking at the source code, and since if
-> > feels a bit weird to have to look into arch/x86/ to figure out the semantics of
-> > a function on !x86.
-> > 
-> > That said, if that's painful for some reason, please go with the easiest option
-> > for now and we can figure out how to attack it for v3. :)
-> 
-> I will give it a shot.
+Add prio parameter check in mlx5 driver, as mlx5 devices are not capable
+of supporting the prio parameter when htb offload is used. Report error
+if prio parameter is set to a non-default value.
 
-And here is a rough first cut:
+Signed-off-by: Naveen Mamindlapalli <naveenm@marvell.com>
+Co-developed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Signed-off-by: Hariprasad Kelam <hkelam@marvell.com>
+Signed-off-by: Sunil Kovvuri Goutham <sgoutham@marvell.com>
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+---
+ drivers/net/ethernet/mellanox/mlx5/core/en/qos.c | 7 ++++++-
+ include/net/pkt_cls.h                            | 1 +
+ net/sched/sch_htb.c                              | 7 +++----
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git tags/fallback-rework-kernel-doc.2023.05.12a
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c b/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
+index 2842195ee548..1874c2f0587f 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
+@@ -379,6 +379,12 @@ int mlx5e_htb_setup_tc(struct mlx5e_priv *priv, struct tc_htb_qopt_offload *htb_
+ 	if (!htb && htb_qopt->command != TC_HTB_CREATE)
+ 		return -EINVAL;
+ 
++	if (htb_qopt->prio) {
++		NL_SET_ERR_MSG_MOD(htb_qopt->extack,
++				   "prio parameter is not supported by device with HTB offload enabled.");
++		return -EOPNOTSUPP;
++	}
++
+ 	switch (htb_qopt->command) {
+ 	case TC_HTB_CREATE:
+ 		if (!mlx5_qos_is_supported(priv->mdev)) {
+@@ -515,4 +521,3 @@ int mlx5e_mqprio_rl_get_node_hw_id(struct mlx5e_mqprio_rl *rl, int tc, u32 *hw_i
+ 	*hw_id = rl->leaves_id[tc];
+ 	return 0;
+ }
+-
+diff --git a/include/net/pkt_cls.h b/include/net/pkt_cls.h
+index b3b5b0b62f16..a2ea45c7b53e 100644
+--- a/include/net/pkt_cls.h
++++ b/include/net/pkt_cls.h
+@@ -868,6 +868,7 @@ struct tc_htb_qopt_offload {
+ 	u16 qid;
+ 	u64 rate;
+ 	u64 ceil;
++	u8 prio;
+ };
+ 
+ #define TC_HTB_CLASSID_ROOT U32_MAX
+diff --git a/net/sched/sch_htb.c b/net/sched/sch_htb.c
+index 92f2975b6a82..1cd9b48c96cd 100644
+--- a/net/sched/sch_htb.c
++++ b/net/sched/sch_htb.c
+@@ -1814,10 +1814,6 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
+ 			NL_SET_ERR_MSG(extack, "HTB offload doesn't support the quantum parameter");
+ 			goto failure;
+ 		}
+-		if (hopt->prio) {
+-			NL_SET_ERR_MSG(extack, "HTB offload doesn't support the prio parameter");
+-			goto failure;
+-		}
+ 	}
+ 
+ 	/* Keeping backward compatible with rate_table based iproute2 tc */
+@@ -1913,6 +1909,7 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
+ 					TC_HTB_CLASSID_ROOT,
+ 				.rate = max_t(u64, hopt->rate.rate, rate64),
+ 				.ceil = max_t(u64, hopt->ceil.rate, ceil64),
++				.prio = hopt->prio,
+ 				.extack = extack,
+ 			};
+ 			err = htb_offload(dev, &offload_opt);
+@@ -1933,6 +1930,7 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
+ 					TC_H_MIN(parent->common.classid),
+ 				.rate = max_t(u64, hopt->rate.rate, rate64),
+ 				.ceil = max_t(u64, hopt->ceil.rate, ceil64),
++				.prio = hopt->prio,
+ 				.extack = extack,
+ 			};
+ 			err = htb_offload(dev, &offload_opt);
+@@ -2018,6 +2016,7 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
+ 				.classid = cl->common.classid,
+ 				.rate = max_t(u64, hopt->rate.rate, rate64),
+ 				.ceil = max_t(u64, hopt->ceil.rate, ceil64),
++				.prio = hopt->prio,
+ 				.extack = extack,
+ 			};
+ 			err = htb_offload(dev, &offload_opt);
+-- 
+2.17.1
 
-Or via HTML:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/log/?h=fallback-rework-kernel-doc.2023.05.12a
-
-Thoughts?
-
-In the meantime, enjoy the weekend!
-
-							Thanx, Paul
