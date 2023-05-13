@@ -2,110 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 652CFC77B7C
-	for <linux-doc@archiver.kernel.org>; Sat, 13 May 2023 11:09:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F201C77B7C
+	for <linux-doc@archiver.kernel.org>; Sat, 13 May 2023 12:07:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237370AbjEMLJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 May 2023 07:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
+        id S233621AbjEMMHR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 May 2023 08:07:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233804AbjEMLJR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 May 2023 07:09:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F3440E3;
-        Sat, 13 May 2023 04:09:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 87CD760B73;
-        Sat, 13 May 2023 11:09:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93D2C433D2;
-        Sat, 13 May 2023 11:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1683976154;
-        bh=uXFoiR1SWFtZOtGgV5o4WxStrNeNIyIJxeYxRx+a7hQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t5xMjIXx3kXmI5AGZ+OV2hLCDwdg5B4Io7eigd84X5cC9TCmNGEWkD3eFWtpwqfsN
-         IHavtVhWBzvBtYoyMy8qruC3SpuVVoE0fQfF6XwMuzTWqNzIjRYD2Numx1NTD5MZTQ
-         PubhhDESdtazxWt29zBxdGxLLKnhefo0yeOXkqkw=
-Date:   Sat, 13 May 2023 20:04:40 +0900
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     James Clark <james.clark@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux@roeck-us.net,
-        michal.simek@amd.com, Jonathan.Cameron@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] devres: Provide krealloc_array
-Message-ID: <2023051340-sinuous-darkroom-2497@gregkh>
-References: <20230509094942.396150-1-james.clark@arm.com>
- <20230509094942.396150-2-james.clark@arm.com>
+        with ESMTP id S230149AbjEMMHR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 May 2023 08:07:17 -0400
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A40361FEB;
+        Sat, 13 May 2023 05:07:15 -0700 (PDT)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34DBrIM2004545;
+        Sat, 13 May 2023 05:06:57 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=pfpt0220; bh=syT/F4i0UTiSv1pXqwKX8DGCIcI+SGGzfmriqqhfSNY=;
+ b=aAv7eM4nYmfUr+SW7dUf19XDo0ffggC//td8VRaYvKT8sQHwjxXGUg2FdKTiMd/LTFYD
+ j/uuK6RA2NzSN6RvDTv68ILQQ0Qm0zBdRl/0eM60Hf5nmEyKyxBfMOFE2WXrSPS+CCql
+ Hz3dlPanwyFTyu7Svi2QtN4T8waYKFEE41Z8YbveBCGZ7TpcQuNPQITnhsv3IaHXWoii
+ G8/2V73j61MvdIDUqr1l+/Y+BbSBDzP+VG+Kij/RgHk8+1Ku1BHaQxXOhHg7hV4Tdb+g
+ EGJ6p1MHuEp86m7ww8GaJdytQW5LvJ6xOTqn/WxkqLy0oxQSsxWfGBkG7pOz43dF7y/d LQ== 
+Received: from dc5-exch02.marvell.com ([199.233.59.182])
+        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3qja2jg0uw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Sat, 13 May 2023 05:06:57 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 13 May
+ 2023 05:06:55 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
+ Transport; Sat, 13 May 2023 05:06:55 -0700
+Received: from hyd1soter3.marvell.com (unknown [10.29.37.12])
+        by maili.marvell.com (Postfix) with ESMTP id 470CF5B77DF;
+        Sat, 13 May 2023 01:52:36 -0700 (PDT)
+From:   Hariprasad Kelam <hkelam@marvell.com>
+To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <kuba@kernel.org>, <davem@davemloft.net>,
+        <willemdebruijn.kernel@gmail.com>, <andrew@lunn.ch>,
+        <sgoutham@marvell.com>, <lcherian@marvell.com>,
+        <gakula@marvell.com>, <jerinj@marvell.com>, <sbhatta@marvell.com>,
+        <hkelam@marvell.com>, <naveenm@marvell.com>, <edumazet@google.com>,
+        <pabeni@redhat.com>, <jhs@mojatatu.com>,
+        <xiyou.wangcong@gmail.com>, <jiri@resnulli.us>,
+        <maxtram95@gmail.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: [net-next Patch v10 7/8] octeontx2-pf: ethtool expose qos stats
+Date:   Sat, 13 May 2023 14:21:42 +0530
+Message-ID: <20230513085143.3289-8-hkelam@marvell.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230513085143.3289-1-hkelam@marvell.com>
+References: <20230513085143.3289-1-hkelam@marvell.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230509094942.396150-2-james.clark@arm.com>
+Content-Type: text/plain
+X-Proofpoint-GUID: 8ZHC1jwgFsTukrSkPy-0AkCUzETee2Lb
+X-Proofpoint-ORIG-GUID: 8ZHC1jwgFsTukrSkPy-0AkCUzETee2Lb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-13_08,2023-05-05_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 09, 2023 at 10:49:38AM +0100, James Clark wrote:
-> There is no krealloc_array equivalent in devres. Users would have to
-> do their own multiplication overflow check so provide one.
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: James Clark <james.clark@arm.com>
-> ---
->  Documentation/driver-api/driver-model/devres.rst |  1 +
->  include/linux/device.h                           | 11 +++++++++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index 4249eb4239e0..8be086b3f829 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -364,6 +364,7 @@ MEM
->    devm_kmalloc_array()
->    devm_kmemdup()
->    devm_krealloc()
-> +  devm_krealloc_array()
->    devm_kstrdup()
->    devm_kstrdup_const()
->    devm_kvasprintf()
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 472dd24d4823..58f4f5948edb 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -223,6 +223,17 @@ static inline void *devm_kcalloc(struct device *dev,
->  {
->  	return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
->  }
-> +static inline __realloc_size(3, 4) void * __must_check
+This patch extends ethtool stats support for QoS send queues as well.
+upon the number of transmit channels change request, Ensures the real
+number of transmit queues are equal to active QoS send queues plus
+configured transmit queues.
 
-Shouldn't you have a blank line before this one?
+    ethtool -S eth0
+    txq_qos0: bytes: 3021391800
+    txq_qos0: frames: 1998275
+    txq_qos1: bytes: 4619766312
+    txq_qos1: frames: 3055401
+    ...
+    ...
 
-> +devm_krealloc_array(struct device *dev, void *p, size_t new_n, size_t new_size, gfp_t flags)
-> +{
-> +	size_t bytes;
-> +
-> +	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
-> +		return NULL;
-> +
-> +	return devm_krealloc(dev, p, bytes, flags);
-> +}
+Signed-off-by: Hariprasad Kelam <hkelam@marvell.com>
+Signed-off-by: Sunil Kovvuri Goutham <sgoutham@marvell.com>
+---
+ .../marvell/octeontx2/nic/otx2_ethtool.c      | 29 +++++++++++++------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
 
-I dislike how we have to keep copying the "real" functions (i.e.
-krealloc_array) into something like this, but I can't think of a better
-way to do it.
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c
+index 0f8d1a69139f..c47d91da32dc 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c
+@@ -92,10 +92,16 @@ static void otx2_get_qset_strings(struct otx2_nic *pfvf, u8 **data, int qset)
+ 			*data += ETH_GSTRING_LEN;
+ 		}
+ 	}
+-	for (qidx = 0; qidx < pfvf->hw.tx_queues; qidx++) {
++
++	for (qidx = 0; qidx < otx2_get_total_tx_queues(pfvf); qidx++) {
+ 		for (stats = 0; stats < otx2_n_queue_stats; stats++) {
+-			sprintf(*data, "txq%d: %s", qidx + start_qidx,
+-				otx2_queue_stats[stats].name);
++			if (qidx >= pfvf->hw.non_qos_queues)
++				sprintf(*data, "txq_qos%d: %s",
++					qidx + start_qidx - pfvf->hw.non_qos_queues,
++					otx2_queue_stats[stats].name);
++			else
++				sprintf(*data, "txq%d: %s", qidx + start_qidx,
++					otx2_queue_stats[stats].name);
+ 			*data += ETH_GSTRING_LEN;
+ 		}
+ 	}
+@@ -159,7 +165,7 @@ static void otx2_get_qset_stats(struct otx2_nic *pfvf,
+ 				[otx2_queue_stats[stat].index];
+ 	}
+ 
+-	for (qidx = 0; qidx < pfvf->hw.tx_queues; qidx++) {
++	for (qidx = 0; qidx < otx2_get_total_tx_queues(pfvf); qidx++) {
+ 		if (!otx2_update_sq_stats(pfvf, qidx)) {
+ 			for (stat = 0; stat < otx2_n_queue_stats; stat++)
+ 				*((*data)++) = 0;
+@@ -254,7 +260,7 @@ static int otx2_get_sset_count(struct net_device *netdev, int sset)
+ 		return -EINVAL;
+ 
+ 	qstats_count = otx2_n_queue_stats *
+-		       (pfvf->hw.rx_queues + pfvf->hw.tx_queues);
++		       (pfvf->hw.rx_queues + otx2_get_total_tx_queues(pfvf));
+ 	if (!test_bit(CN10K_RPM, &pfvf->hw.cap_flag))
+ 		mac_stats = CGX_RX_STATS_COUNT + CGX_TX_STATS_COUNT;
+ 	otx2_update_lmac_fec_stats(pfvf);
+@@ -282,7 +288,7 @@ static int otx2_set_channels(struct net_device *dev,
+ {
+ 	struct otx2_nic *pfvf = netdev_priv(dev);
+ 	bool if_up = netif_running(dev);
+-	int err = 0;
++	int err, qos_txqs;
+ 
+ 	if (!channel->rx_count || !channel->tx_count)
+ 		return -EINVAL;
+@@ -296,14 +302,19 @@ static int otx2_set_channels(struct net_device *dev,
+ 	if (if_up)
+ 		dev->netdev_ops->ndo_stop(dev);
+ 
+-	err = otx2_set_real_num_queues(dev, channel->tx_count,
++	qos_txqs = bitmap_weight(pfvf->qos.qos_sq_bmap,
++				 OTX2_QOS_MAX_LEAF_NODES);
++
++	err = otx2_set_real_num_queues(dev, channel->tx_count + qos_txqs,
+ 				       channel->rx_count);
+ 	if (err)
+ 		return err;
+ 
+ 	pfvf->hw.rx_queues = channel->rx_count;
+ 	pfvf->hw.tx_queues = channel->tx_count;
+-	pfvf->qset.cq_cnt = pfvf->hw.tx_queues +  pfvf->hw.rx_queues;
++	if (pfvf->xdp_prog)
++		pfvf->hw.xdp_queues = channel->rx_count;
++	pfvf->hw.non_qos_queues =  pfvf->hw.tx_queues + pfvf->hw.xdp_queues;
+ 
+ 	if (if_up)
+ 		err = dev->netdev_ops->ndo_open(dev);
+@@ -1405,7 +1416,7 @@ static int otx2vf_get_sset_count(struct net_device *netdev, int sset)
+ 		return -EINVAL;
+ 
+ 	qstats_count = otx2_n_queue_stats *
+-		       (vf->hw.rx_queues + vf->hw.tx_queues);
++		       (vf->hw.rx_queues + otx2_get_total_tx_queues(vf));
+ 
+ 	return otx2_n_dev_stats + otx2_n_drv_stats + qstats_count + 1;
+ }
+-- 
+2.17.1
 
-thanks,
-
-greg k-h
