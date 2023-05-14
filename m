@@ -2,131 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05467C77B7A
-	for <linux-doc@archiver.kernel.org>; Sun, 14 May 2023 01:14:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC53C7EE22
+	for <linux-doc@archiver.kernel.org>; Sun, 14 May 2023 04:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbjENBOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 May 2023 21:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59562 "EHLO
+        id S229485AbjENERI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 May 2023 00:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjENBOj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 May 2023 21:14:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBD52136;
-        Sat, 13 May 2023 18:14:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E734260BC9;
-        Sun, 14 May 2023 01:14:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54BECC433EF;
-        Sun, 14 May 2023 01:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684026877;
-        bh=3QdJmr5m5maa+XMrfY3oVoJ0UuEdW/AsePQKgllnAbs=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ezmVz2Kf5i+Bvqt7ZzT0jF2ekEag7PtilgCm6IvZ//zlxSixtCSWoGrAYKIemvaH+
-         Xrfcczv8DKWmw0wiwK4AyqIyBNCJfdFBeARXmgYhynMvGvh88EnMxuhy2U6KTM+l/9
-         GFKkmRmZw6/m3rD+wwjzyCSLN7I8PG3AAHfDO4Y9Py8xO/vnRgzXs19Gzl+HPv2c5M
-         teUfxi97rDZlPEdSNjYxP1+CwpyHgoqooavumGTrt96D9Xw0TymHnWHO/5zALm8Vo/
-         ygInTjpY/AkQLH6b7dgBNTC5LgbMJJ4JIsC8swvFH3g1LKlyb8tV0SGimImJx714+Q
-         3BdmuAPCyNF0Q==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id ED534CE007B; Sat, 13 May 2023 18:14:36 -0700 (PDT)
-Date:   Sat, 13 May 2023 18:14:36 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-        x86@kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
- generating duplicate fallback kernel-doc
-Message-ID: <551c7820-1748-433b-8c42-daf777e202df@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop>
- <20230510181717.2200934-18-paulmck@kernel.org>
- <ZF0haDfyL3At3Ijw@FVFF77S0Q05N.cambridge.arm.com>
- <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
- <ZF48uBYKczItubrU@FVFF77S0Q05N>
- <b5498819-c2d4-414d-ba01-5373e749dc52@paulmck-laptop>
- <ZF5xXuPsrZEgAEEE@FVFF77S0Q05N>
- <e767dcc6-ea63-4ed8-9a15-9e5bb133fafc@paulmck-laptop>
- <b3956719-d478-4dc6-95fd-ec0744acc662@paulmck-laptop>
- <23195f15-7024-6fde-84f2-4cdd45c9abfc@gmail.com>
+        with ESMTP id S229462AbjENERH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 00:17:07 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E1D1702;
+        Sat, 13 May 2023 21:17:06 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34E47Rfs008754;
+        Sun, 14 May 2023 04:16:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=co4vRrnTivwIzFDIwnV3dMAsjHlQ/SjpLfqX2dsGaik=;
+ b=k23QVqg5w4yinxoAw3dYRHeFAfYqVk2BHZuL5zYY0M97waJIKEWDT06DiieWgBqvNeZY
+ FRNQOzA2k9E5t54eO7UkDZYK+iWF23574W2dF2VZrrJics6p9ZxH8XqoAX8yiOOzwY0y
+ Q+5s0UhOvyne4hgbMdT9BiL6wBtOx/4b1uGz8iptAyUMnwnYAm3LYKM7FyM8++tNRnQN
+ STWj4jAMymLRs8peHQ71irPwwpvY/GKG6uW4hTP7FxXfI4FqbT9lABiLp8LocbV5YNpC
+ V2WGE/E/F7djmrtVewkuVL6EGbmZkpPaUmYa+BevAkNgmUBhGjRkvsixTUyyazTXUIMD Bw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qj257sc73-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 14 May 2023 04:16:34 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34E4GXxC003508
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 14 May 2023 04:16:33 GMT
+Received: from [10.110.80.184] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Sat, 13 May
+ 2023 21:16:32 -0700
+Message-ID: <a8229e70-dd23-8a48-cf9b-fadc9db7ecdc@quicinc.com>
+Date:   Sat, 13 May 2023 21:16:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <23195f15-7024-6fde-84f2-4cdd45c9abfc@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 04/18] soc: qcom: Add Qualcomm minidump kernel driver
+Content-Language: en-US
+To:     Mukesh Ojha <quic_mojha@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
+        <linux-gpio@vger.kernel.org>, <srinivas.kandagatla@linaro.org>
+CC:     <linux-arm-msm@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
+References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
+ <1683133352-10046-5-git-send-email-quic_mojha@quicinc.com>
+ <c6f730b6-f702-91d4-4abd-71546e02f869@linaro.org>
+ <23b493f4-1a01-8d03-fc12-d588b2c6fd74@quicinc.com>
+ <575a422d-6224-06b7-628c-8487b47882e9@linaro.org>
+ <500e5abc-fb71-8468-a6b0-3ced2676b57c@linaro.org>
+ <e714566e-39b7-d46b-13bd-3c0e20e9f944@quicinc.com>
+From:   Trilok Soni <quic_tsoni@quicinc.com>
+In-Reply-To: <e714566e-39b7-d46b-13bd-3c0e20e9f944@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0Zr-_av0jVj5LIrEzqJPzDiF31cnJxEQ
+X-Proofpoint-GUID: 0Zr-_av0jVj5LIrEzqJPzDiF31cnJxEQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-14_02,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=999 lowpriorityscore=0 clxscore=1011
+ spamscore=0 mlxscore=0 priorityscore=1501 suspectscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305140036
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 14, 2023 at 08:58:00AM +0900, Akira Yokosawa wrote:
-> Hi,
+On 5/8/2023 12:10 AM, Mukesh Ojha wrote:
 > 
-> On Fri, 12 May 2023 19:11:15 -0700, Paul E. McKenney wrote:
-> [...]
 > 
-> > 
-> > And here is a rough first cut:
-> > 
-> > git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git tags/fallback-rework-kernel-doc.2023.05.12a
-> > 
-> > Or via HTML:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/log/?h=fallback-rework-kernel-doc.2023.05.12a
+> On 5/4/2023 10:04 PM, Krzysztof Kozlowski wrote:
+>> On 04/05/2023 17:21, Krzysztof Kozlowski wrote:
+>>>>>
+>>>>>> +    ret = qcom_minidump_init_apss_subsystem(md);
+>>>>>> +    if (ret) {
+>>>>>> +        dev_err(&pdev->dev, "apss minidump initialization failed: 
+>>>>>> %d\n", ret);
+>>>>>> +        goto unlock;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    __md = md;
+>>>>>
+>>>>> No. This is a platform device, so it can have multiple instances.
+>>>>
+>>>> It can have only one instance that is created from SMEM driver probe.
+>>>
+>>> Anyone can instantiate more of them.... how did you solve it?
+>>
+>> To clarify - sprinkling more of singletons makes everything tightly
+>> coupled, difficult to debug and non-portable. You cannot have two
+>> instances, you have to control concurrent initialization by yourself in
+>> each of such singletons.
+>>
+>> I understand sometimes they are unavoidable, for example when this does
+>> not map to hardware property. However here you have the parent - smem -
+>> which can return you valid instance. Thus you avoid entire problem of
+>> file-scope variables.
 > 
-> Running "./scripts/kernel-doc -none include/linux/atomic/atomic-arch-fallback.h"
-> on the tag emits a lot of warnings.
+> I get your point, why one's should avoid file scope variables.
 > 
-> Looks like there are kernel-doc comments who don't have a corresponding
-> function signature next to them.
 > 
->     /**
->      * function_name() - Brief description of function.
->      * @arg1: Describe the first argument.
->      * @arg2: Describe the second argument.
->      *        One can provide multiple line descriptions
->      *        for arguments.
->      *
->      * A longer description, with more discussion of the function function_name()
->      * that might be useful to those using or modifying it. Begins with an
->      * empty comment line, and may include additional embedded empty
->      * comment lines.
->      */
->     int function_name(int arg1, int arg2)  <---
-> 
-> Note that the kernel-doc script ignores #ifdef -- #else.
+> This is infrastructure driver and will not have multiple instances and 
+> even if it happens could be avoided with with the help of global mutex 
+> and protect below function which i am already doing at the moment and 
+> fail the other probe if it is already initialized with proper logging..e.g
 
-Me, I was thinking in terms of making this diagnostic ignore
-include/linux/atomic/atomic-arch-fallback.h.  ;-)
+Another way to think here is what if you have chiplets? Two SOCs looks 
+like one as a product? How does your driver will behave in those cases?
 
-The actual definitions are off in architecture-specific files, and
-the kernel-doc headers could be left there.  But there are benefits to
-automatically generating all of them.
-
-Another approach might be to put a "it is OK for the definition to
-be elsewhere" comment following those kernel-doc headers.
-
-Any other ways to make this work?  For me, the option of making this
-diagnostic ignore include/linux/atomic/atomic-arch-fallback.h has
-considerable attraction.
-
-> BTW, I couldn't checkout the tag so downloaded the tar ball via
-> HTML.
-
-Tags can be a bit annoying in that way.  I will provide a branch next
-time.
-
-							Thanx, Paul
-
->         Thanks, Akira
-> 
-> > 
-> > Thoughts?
-> > 
-> > In the meantime, enjoy the weekend!
-> > 
-> > 							Thanx, Paul
+---Trilok Soni
