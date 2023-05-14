@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 415D7C7EE2A
-	for <linux-doc@archiver.kernel.org>; Sun, 14 May 2023 09:04:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE79C7EE2A
+	for <linux-doc@archiver.kernel.org>; Sun, 14 May 2023 09:05:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233871AbjENJEr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 May 2023 05:04:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37342 "EHLO
+        id S234322AbjENJEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 May 2023 05:04:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231296AbjENJEo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 05:04:44 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D88FF1BE3;
-        Sun, 14 May 2023 02:04:42 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1aaf91ae451so108644195ad.1;
-        Sun, 14 May 2023 02:04:42 -0700 (PDT)
+        with ESMTP id S233374AbjENJEq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 05:04:46 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7708A1BDD;
+        Sun, 14 May 2023 02:04:45 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6439f186366so7324698b3a.2;
+        Sun, 14 May 2023 02:04:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684055082; x=1686647082;
+        d=gmail.com; s=20221208; t=1684055085; x=1686647085;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MlYIG+wyBwHIZ6Ig5rNTc1U+7HEnxpjzPz2HnP+gqKM=;
-        b=sxfLoTD0NF/Oidjt/30xAfQe77E+2H/A1Bt6TqxQY2/6VNOFb0Uyd85NQjRvs0Gag5
-         ejrvn5D290RidtfydaauoUKGO4geu0N0v4EPBJVBS/2JCC7s9OlM++hFr2teuavzTW21
-         ZV38a4rRNxUSnzdANrgTy8cb43irt2nrXWTxTXA1cnSswvilFYTNiRQWaUC9O94aAmVC
-         lsnuAyuWfstUpgoGlSOIE7RjKzp/q39GNYDFqSYH/lHiWVVtzTldV8FA1qIHmtitgb/Z
-         H1jO8rmhRdfuzZAEtY0XTyuQtKvXr1GkSahDS2V2F5V30jwmZRixBETwojLYSyVRTjYu
-         EPzw==
+        bh=usTUzbJN3/c9qoBFyD+eiQ3LKf9ePyuHk2BoTbJ/pEs=;
+        b=Tw1gGElBkh8bqUaPMfHAAZpRT3Noti9lbtsdwJLRTcytBsUA/i1hG+XMsGkmHnE6NY
+         aHyrQhxtHygbXeK/92udiPG55yV8EGkzNaio9qwQplvUx5sEerv5EeH6u1WMhAdb6N/7
+         M9P2Vlp5GGdsHBrcjmupaObC0zMFXrMAFACphbX4vQ4STofy+TILK02+2UjFMvrnREmj
+         oZ7Yg4pHVIuF5i0TThC/V1EHpb0HqvcLuG6GRJtsj2LflWeJ6PoRT287VJaAgOlCm7Ty
+         EFvBddckDp8Cn1pQrKbTbUvZFzRUb5SaRQdnP0uyk2p3U4gLRu3Oi1Ebc2GGBcaxZTw/
+         Hqrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684055082; x=1686647082;
+        d=1e100.net; s=20221208; t=1684055085; x=1686647085;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MlYIG+wyBwHIZ6Ig5rNTc1U+7HEnxpjzPz2HnP+gqKM=;
-        b=If+52pfrtTrV+ky/Y3RTSAXIaki+xiROoU2TMamQhWlZaetA3mJosu+4OGM8kLtE02
-         BgL/P4s57EHsZ4YIsj7T+eHt1tLK10Lv0lyq3SvDcRGI15cqUtEBmtajq/RmAvbLXbB/
-         KLGuaP05NgoTthZKWv0V357+mNBTuIHXezwTlyujEsx3ljWKYZfVdFafCA/yPHwf26o5
-         0wbPs1mCTQI2EPts1ugatF87dhEIByuKh9qjjGm5Xq27AlYD8hSQB5BBp+8cHuDrzqsn
-         qHZyckvn0aWo6TM2+r4e/bnxftcrEP2CjfRSG0qW6bKxskwxGJHBImP7PHbNZ3UkdLi8
-         0C9w==
-X-Gm-Message-State: AC+VfDzOgjSTMOPVvORUnQep3mXO2F1MoJtTMnQVGdYrQxY/S1/lrXnc
-        lSLhKvKZIFlWVZz+RWPIKCE=
-X-Google-Smtp-Source: ACHHUZ6wCkJuuI/JM0p/RqMI5Szf/kAYaz3iNpFxdIUUUIOPWbcgZwStiNGZBZC7kIqG3LZRUx/3VQ==
-X-Received: by 2002:a17:903:41d0:b0:1ac:4412:bd9 with SMTP id u16-20020a17090341d000b001ac44120bd9mr37163799ple.3.1684055082288;
-        Sun, 14 May 2023 02:04:42 -0700 (PDT)
+        bh=usTUzbJN3/c9qoBFyD+eiQ3LKf9ePyuHk2BoTbJ/pEs=;
+        b=llzP2b2bSXgjUICXIjyR8LdnaJuMJKA70y5+HeWqosMt1/V+PCOL4Orbu0mSU653Qw
+         CT2KMOdUoCylgNK3Haf+qT8T80YYgloAP0JEcnaRPJ79MUIvU5RMsLm0g2Y4lNXMiPK0
+         PtrC4BBweLV0nOBgQyF9WK6GfJPa0MHP98PWXJXCNMl6Qy1qBJlK4+gQICyGx496vmUu
+         5ym0Flw+/ZS3aZrdaH0e/Vi6zztsWIRSPZJQc6yo1Y79oitbCp+zNyenUnf9BsJQ5s8h
+         f7j7NIfpdEErjdsqE7N1ze7R/MxuEi8RzbTP+glCHXk+QSTD4PL9GZhLaSNsTOB8Eqsi
+         nRXA==
+X-Gm-Message-State: AC+VfDyIragiTxjxdqZxpseSGsplf+kUsTiQ8qTZUjueGsm+yi+IMwmG
+        yojl2zy+4IxygChplJg+xbk=
+X-Google-Smtp-Source: ACHHUZ4bUWZYUrifcQ0piB59H0YsIlr7vxuuwgc5h7KVvnAMIt651hXEgbblF0+3MbYFblaVCvxnfA==
+X-Received: by 2002:a05:6a20:12ce:b0:104:edde:67b7 with SMTP id v14-20020a056a2012ce00b00104edde67b7mr6862078pzg.27.1684055084819;
+        Sun, 14 May 2023 02:04:44 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-68.three.co.id. [180.214.232.68])
-        by smtp.gmail.com with ESMTPSA id x11-20020a170902fe8b00b001ac45598b59sm11060546plm.163.2023.05.14.02.04.40
+        by smtp.gmail.com with ESMTPSA id 17-20020aa79251000000b00637b0c719c5sm9662227pfp.201.2023.05.14.02.04.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 02:04:41 -0700 (PDT)
+        Sun, 14 May 2023 02:04:44 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id F099710363C; Sun, 14 May 2023 16:04:36 +0700 (WIB)
+        id 8522F1061D9; Sun, 14 May 2023 16:04:36 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Linux Documentation <linux-doc@vger.kernel.org>,
         Linux RISC-V <linux-riscv@lists.infradead.org>,
@@ -62,65 +62,46 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Vincent Chen <vincent.chen@sifive.com>,
         Andy Chiu <andy.chiu@sifive.com>,
-        Greentime Hu <greentime.hu@sifive.com>
-Subject: [PATCH 4/5] Documentation: riscv: vector: Use bullet lists for prctl() return values
-Date:   Sun, 14 May 2023 16:04:31 +0700
-Message-Id: <20230514090432.78217-5-bagasdotme@gmail.com>
+        Greentime Hu <greentime.hu@sifive.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH 1/5] Documentation: riscv: vector: Separate SPDX license identifier and page title
+Date:   Sun, 14 May 2023 16:04:28 +0700
+Message-Id: <20230514090432.78217-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230514090432.78217-1-bagasdotme@gmail.com>
 References: <20230514090432.78217-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2108; i=bagasdotme@gmail.com; h=from:subject; bh=BIcautUtnBxQsDL0RzYa8VBmwL4oBx+HTCFWbrbAgPA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkJSxQcJVJWzP9edXyJjjEvl+urG8yqOQaHWeu6mpPXT Yh+YGbWUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIu8YvhffPhVyo3d3M3LJhep XqwySe3xXazE+X990PRcvvXXl6vcZPinqrjPJvfnzrcnWx+vfqM8q/P7tacJkhIyZemTP3yYKnC dBQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1012; i=bagasdotme@gmail.com; h=from:subject; bh=6LP5rrObq7wY9XwwQUBOiCWJUloqKCLwe+amTJtxnvQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkJS+RnPnfcu+Hy37mZ1jef+dt2Ptr9+Iufm9XfTywvy 6TDTgtZdpSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAizt8YGTrnCWsFTL5asDRN +NDv/0Wavgb1J92MZm1fkWfmHfA3/T8jw8po0UlPrOqmBbyVkvrzZ2W9wJTchw3rW89alujLulb 18QMA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use bullet lists on return values of prctl() calls to follow other
-listings (bit lists and enablement status). This should convey purposes
-of listing things.
+kernel test robot reports htmldocs warning:
+
+Documentation/riscv/vector.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+
+Add a blank line separator between SPDX tag and doc title to fix above warning.
 
 Fixes: 412c68cfeeb178 ("riscv: Add documentation for Vector")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/linux-doc/202305141409.bEBvlSY4-lkp@intel.com/
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/riscv/vector.rst | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ Documentation/riscv/vector.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/riscv/vector.rst b/Documentation/riscv/vector.rst
-index c7bd701c7963b6..4624e5b9bef4cc 100644
+index d4d626721921aa..acc97508ccb249 100644
 --- a/Documentation/riscv/vector.rst
 +++ b/Documentation/riscv/vector.rst
-@@ -74,11 +74,12 @@ status for the use of Vector in userspace:
-           PR_RISCV_V_VSTATE_CTRL_NEXT_MASK and PR_RISCV_V_VSTATE_CTRL_INHERIT.
-           This setting persists across changes in the system-wide default value.
- 
--    Return value: return 0 on success, or a negative error value:
--        EINVAL: Vector not supported, invalid enablement status for current or
--                next mask
--        EPERM: Turning off Vector in PR_RISCV_V_VSTATE_CTRL_CUR_MASK if Vector
--                was enabled for the calling thread.
-+    Return value:
-+        * 0 on success;
-+        * EINVAL: Vector not supported, invalid enablement status for current or
-+          next mask;
-+        * EPERM: Turning off Vector in PR_RISCV_V_VSTATE_CTRL_CUR_MASK if Vector
-+          was enabled for the calling thread.
- 
-     On success:
-         * A valid setting for PR_RISCV_V_VSTATE_CTRL_CUR_MASK takes place
-@@ -94,8 +95,9 @@ status for the use of Vector in userspace:
-     Gets the same Vector enablement status for the calling thread. Setting for
-     next execve() call and the inheritance bit are all OR-ed together.
- 
--    Return value: a nonnegative value on success, or a negative error value:
--        EINVAL: Vector not supported.
-+    Return value:
-+        * a nonnegative value on success;
-+        * EINVAL: Vector not supported.
- 
- 2.  System runtime configuration (sysctl)
- -----------------------------------------
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
++
+ =========================================
+ Vector Extension Support for RISC-V Linux
+ =========================================
 -- 
 An old man doll... just what I always wanted! - Clara
 
