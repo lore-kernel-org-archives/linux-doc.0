@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3401FC7EE2A
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 02:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7297C7EE25
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 02:57:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238376AbjEOC5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 May 2023 22:57:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52278 "EHLO
+        id S238459AbjEOC5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 May 2023 22:57:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238300AbjEOC5c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 22:57:32 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBEF710EC
-        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:26 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id d75a77b69052e-3f39bc37e91so33410981cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:26 -0700 (PDT)
+        with ESMTP id S237973AbjEOC5f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 22:57:35 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627BA19A8
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:29 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-61b58779b93so113216446d6.0
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1684119446; x=1686711446;
+        d=bitbyteword.org; s=google; t=1684119448; x=1686711448;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CYx9ZmJ7bNV74WidQqwK64WAaE80NU2WT/I++6rAvxs=;
-        b=n1vpYK+cgXgjA68bQ/KU4JGuzeXQLZwGw3KHh2bJL+E2dpDxUFXH1YIfVwZgH9Gt1w
-         r4cLMwKyYEc4aMKTepZNSIuz+E32w5uZXpqf5182aPaav5tmOIOT9wWfbtSudeitcSjZ
-         CaeeFpyk9J3cgMsVtUFr8ijEW5qg0BIU/Xd+CQaSSwpl3tWgJuJ9NSH18o67DwT+DSxx
-         UtBYqzXhMP4D9kWf+4KWPw2Th28c+jwj4l8bbgDfrahZ8l8QyPfqalbMFoP9w1LsOkyo
-         OtyiU7gpIbhU2KoYe86ekCpQmZWl/Z5ZJKB2cXn2KZ0EKkL4rgZF1zdS1wgmpuLHcs51
-         qQjA==
+        bh=2oFCVXjeQ2GIJ5xOGeSz2EMiD7vB66GrLgt9ZF9wK0s=;
+        b=qhLbjW0ZVawuhRY+HIQn9xeqEM+Nwhz5f83xoGSVPgCdqqwYib1B9HscXalx/PHVqB
+         bc+wFoKd/2aIPiJOZ57PPjD43ps7ah8rHeXMhuUoBSPf/HNwiD4AmR/ryYX1GhOTl7Un
+         /awsoDp1jZbMbTa8vksU90Usb3E8VYj7H0SLZnTJ5Gsoj6njR3wmLKo+RNFjhf/SBqmx
+         nez7v5D9IBcrLAaTiXIrIY8l23c2g0l2SjiW1YcUvA/o2BX/G5yMYqeqIFvcA9zNmTBu
+         ez0M/6ZBRAerRK1uMdhYdPiVDHY/8Y/3+1JkPhucWTGeILptA7lK21iPOsjg40/V7/7r
+         lcNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684119446; x=1686711446;
+        d=1e100.net; s=20221208; t=1684119448; x=1686711448;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CYx9ZmJ7bNV74WidQqwK64WAaE80NU2WT/I++6rAvxs=;
-        b=Y8BuyRX3yKa4KQS6js7oE7qujuCGCiZ0zreFHqiTrk829nnNWVQBg0Xhdz/FxcshjD
-         X/jDgulwhcNWVW84arvMVLVunqUun/Ymt5wCry4g3e9NoTvJYR40AptOI+a3MQ0cL4T0
-         5thct7QkP4qHyUsQJzpyEkVKAYqm/7f2sTElJc22DAYD28paJ4SIiIuWOvjkVRycKDby
-         /9y2OqQrxdq58IcEM0WnWuGSBaeu+n8/6h7mirwjXd1tMMwR6fSWddn6nQSzaqeSFz1c
-         +sm4U8KEf9cB1bKjvQVDis6foGvsPsX77SDNqq+j/lYYj1aNF8giKvNrTRBqs+EtcdiE
-         Z8iA==
-X-Gm-Message-State: AC+VfDx4XlFTewQuri8UhfCjG3TsaRLmE/gbLLucMqmD9bEepjlqVrNd
-        rkDdsI61HnsYrfbVFVReKDpphQ==
-X-Google-Smtp-Source: ACHHUZ72LF1HMFUzTDTTT4n2nNuI8kWCMk/iV96QsJ62QM+hVKoHCgH3GtzZcHjRQLFd0Itp6dMyyQ==
-X-Received: by 2002:a05:622a:1a19:b0:3b9:b6e3:c78e with SMTP id f25-20020a05622a1a1900b003b9b6e3c78emr53318179qtb.8.1684119445954;
-        Sun, 14 May 2023 19:57:25 -0700 (PDT)
+        bh=2oFCVXjeQ2GIJ5xOGeSz2EMiD7vB66GrLgt9ZF9wK0s=;
+        b=Nh2Jchg+/ApHwgofjacJTCMJEczpnFwMTgNUrxgo7fqA1vMO7Kk4FJonKmgxrEWVQx
+         el7QsSYV3SCPyJ8dp/iG5W9sHaxfV4TYMb7TArxOmraXGGfYS73daCjXg0k5eDyCr2it
+         m/jHRDkStaMsQXw078iCNE2s0XJtGkApdZTQFsohTGVFTohiRfQCwrkz90mpUsrqjES3
+         /6IKh/f3qhb1U/O0+ZNdH+6F1fNpRLZLrn2LjBBNV6tIHoIrNCZAeRbzECFVjQhhqivr
+         X377e4/PZY91853QXENW9TeJLKupdwc3zwSA2PLPFZLtjcXvf9GafYCKULewt8px2RY5
+         9FBA==
+X-Gm-Message-State: AC+VfDxqtrOouoeRHHQXGNiNdLkUBKJ5YMach70/M5eHzBrtO9WhjsVm
+        aFTpeiwtd6UqDreyQ8dQ9bfz7w==
+X-Google-Smtp-Source: ACHHUZ4Q9Tdhe54rgSkAw/RlkBa+2YFISrSNKj8WaG7r0IV3OOMS2EDrDsXpMppUmAcbKVEQRq5Ngw==
+X-Received: by 2002:a05:6214:e4c:b0:621:e17a:a676 with SMTP id o12-20020a0562140e4c00b00621e17aa676mr15883547qvc.17.1684119448427;
+        Sun, 14 May 2023 19:57:28 -0700 (PDT)
 Received: from vinz16.lan (c-73-143-21-186.hsd1.ma.comcast.net. [73.143.21.186])
-        by smtp.gmail.com with ESMTPSA id c3-20020a05620a134300b007339c5114a9sm2308994qkl.103.2023.05.14.19.57.24
+        by smtp.gmail.com with ESMTPSA id c3-20020a05620a134300b007339c5114a9sm2308994qkl.103.2023.05.14.19.57.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 19:57:25 -0700 (PDT)
+        Sun, 14 May 2023 19:57:28 -0700 (PDT)
 From:   Vineeth Pillai <vineeth@bitbyteword.org>
 To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
         Daniel Bristot de Oliveira <bristot@redhat.com>,
@@ -63,9 +63,9 @@ To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
 Cc:     Vineeth Pillai <vineeth@bitbyteword.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v3 3/5] sched/deadline: Remove unused variable extra_bw
-Date:   Sun, 14 May 2023 22:57:14 -0400
-Message-Id: <20230515025716.316888-4-vineeth@bitbyteword.org>
+Subject: [PATCH v3 5/5] Documentation: sched/deadline: Update GRUB description
+Date:   Sun, 14 May 2023 22:57:16 -0400
+Message-Id: <20230515025716.316888-6-vineeth@bitbyteword.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230515025716.316888-1-vineeth@bitbyteword.org>
 References: <20230515025716.316888-1-vineeth@bitbyteword.org>
@@ -75,175 +75,93 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since we do not use extra_bw for GRUB, remove its usage.
+Update the details of GRUB to reflect the updated logic.
 
 Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
 ---
- kernel/sched/deadline.c | 53 ++++++++++++-----------------------------
- kernel/sched/sched.h    |  1 -
- 2 files changed, 15 insertions(+), 39 deletions(-)
+ Documentation/scheduler/sched-deadline.rst | 28 ++++++++++++++--------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 85902c4c484b..67c1138df43a 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -163,20 +163,6 @@ static inline bool dl_bw_visited(int cpu, u64 gen)
- 	return false;
- }
+diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/scheduler/sched-deadline.rst
+index 9d9be52f221a..b45c9dde6671 100644
+--- a/Documentation/scheduler/sched-deadline.rst
++++ b/Documentation/scheduler/sched-deadline.rst
+@@ -195,11 +195,15 @@ Deadline Task Scheduling
+       its utilization is added to the active utilization of the runqueue where
+       it has been enqueued.
  
--static inline
--void __dl_update(struct dl_bw *dl_b, s64 bw)
--{
--	struct root_domain *rd = container_of(dl_b, struct root_domain, dl_bw);
--	int i;
+- For each runqueue, the algorithm GRUB keeps track of two different bandwidths:
++ For each runqueue, the algorithm GRUB keeps track of three different bandwidths:
+ 
+   - Active bandwidth (running_bw): this is the sum of the bandwidths of all
+     tasks in active state (i.e., ActiveContending or ActiveNonContending);
+ 
++  - Active bandwidth of SCHED_FLAG_RECLAIM tasks(reclaim_bw): this is the sum of
++    bandwidth of all tasks in active state which participates in GRUB. This is a
++    subset of running_bw and is needed for reclaimable bandwidth calculation.
++
+   - Total bandwidth (this_bw): this is the sum of all tasks "belonging" to the
+     runqueue, including the tasks in Inactive state.
+ 
+@@ -208,21 +212,25 @@ Deadline Task Scheduling
+  It does so by decrementing the runtime of the executing task Ti at a pace equal
+  to
+ 
+-           dq = -max{ Ui / Umax, (1 - Uinact - Uextra) } dt
++           dq = -(max{Ui, (Umax_reclaim - Uinact - Uextra)} / Umax_reclaim) dt
+ 
+  where:
 -
--	RCU_LOCKDEP_WARN(!rcu_read_lock_sched_held(),
--			 "sched RCU must be held");
--	for_each_cpu_and(i, rd->span, cpu_active_mask) {
--		struct rq *rq = cpu_rq(i);
--
--		rq->dl.extra_bw += bw;
--	}
--}
- #else
- static inline struct dl_bw *dl_bw_of(int i)
- {
-@@ -198,27 +184,18 @@ static inline bool dl_bw_visited(int cpu, u64 gen)
- 	return false;
- }
+   - Ui is the bandwidth of task Ti;
+   - Umax is the maximum reclaimable utilization (subjected to RT throttling
+     limits);
++  - Umax_reclaim is the maximum allowable bandwidth for all reclaimable tasks
++    in the runqueue. If there are only SCHED_FLAG_RECLAIM tasks, then
++    Umax_reclaim = Umax;
++    Otherwise Umax_reclaim = (Umax - running_bw + reclaim_bw);
+   - Uinact is the (per runqueue) inactive utilization, computed as
+-    (this_bq - running_bw);
++    (this_bw - running_bw);
+   - Uextra is the (per runqueue) extra reclaimable utilization
+-    (subjected to RT throttling limits).
++    (subjected to RT throttling limits);
  
--static inline
--void __dl_update(struct dl_bw *dl_b, s64 bw)
--{
--	struct dl_rq *dl = container_of(dl_b, struct dl_rq, dl_bw);
--
--	dl->extra_bw += bw;
--}
- #endif
  
- static inline
--void __dl_sub(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
-+void __dl_sub(struct dl_bw *dl_b, u64 tsk_bw)
- {
- 	dl_b->total_bw -= tsk_bw;
--	__dl_update(dl_b, (s32)tsk_bw / cpus);
- }
+- Let's now see a trivial example of two deadline tasks with runtime equal
+- to 4 and period equal to 8 (i.e., bandwidth equal to 0.5)::
++ Let's now see a trivial example of two SCHED_FLAG_RECLAIM tasks with runtime
++ equal to 4 and period equal to 8 (i.e., bandwidth equal to 0.5). Tasks are
++ allowed to use the whole cpu(Umax = Umax_reclaim = 1)::
  
- static inline
--void __dl_add(struct dl_bw *dl_b, u64 tsk_bw, int cpus)
-+void __dl_add(struct dl_bw *dl_b, u64 tsk_bw)
- {
- 	dl_b->total_bw += tsk_bw;
--	__dl_update(dl_b, -((s32)tsk_bw / cpus));
- }
+          A            Task T1
+          |
+@@ -244,7 +252,7 @@ Deadline Task Scheduling
+          0   1   2   3   4   5   6   7   8
  
- static inline bool
-@@ -430,7 +407,7 @@ static void task_non_contending(struct task_struct *p)
- 			if (READ_ONCE(p->__state) == TASK_DEAD)
- 				sub_rq_bw(&p->dl, &rq->dl);
- 			raw_spin_lock(&dl_b->lock);
--			__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(task_cpu(p)));
-+			__dl_sub(dl_b, p->dl.dl_bw);
- 			raw_spin_unlock(&dl_b->lock);
- 			__dl_clear_params(p);
- 		}
-@@ -721,12 +698,12 @@ static struct rq *dl_task_offline_migration(struct rq *rq, struct task_struct *p
- 	 */
- 	dl_b = &rq->rd->dl_bw;
- 	raw_spin_lock(&dl_b->lock);
--	__dl_sub(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
-+	__dl_sub(dl_b, p->dl.dl_bw);
- 	raw_spin_unlock(&dl_b->lock);
  
- 	dl_b = &later_rq->rd->dl_bw;
- 	raw_spin_lock(&dl_b->lock);
--	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(later_rq->rd->span));
-+	__dl_add(dl_b, p->dl.dl_bw);
- 	raw_spin_unlock(&dl_b->lock);
+-         A            running_bw
++         A            reclaim_bw
+          |
+        1 -----------------               ------
+          |               |               |
+@@ -272,7 +280,7 @@ Deadline Task Scheduling
  
- 	set_task_cpu(p, later_rq->cpu);
-@@ -1425,7 +1402,7 @@ static enum hrtimer_restart inactive_task_timer(struct hrtimer *timer)
- 		}
+     This is the 0-lag time for Task T1. Since it didn't woken up in the
+     meantime, it enters the Inactive state. Its bandwidth is removed from
+-    running_bw.
++    running_bw and reclaim_bw.
+     Task T2 continues its execution. However, its runtime is now decreased as
+     dq = - 0.5 dt because Uinact = 0.5.
+     Task T2 therefore reclaims the bandwidth unused by Task T1.
+@@ -280,7 +288,7 @@ Deadline Task Scheduling
+   - Time t = 8:
  
- 		raw_spin_lock(&dl_b->lock);
--		__dl_sub(dl_b, p->dl.dl_bw, dl_bw_cpus(task_cpu(p)));
-+		__dl_sub(dl_b, p->dl.dl_bw);
- 		raw_spin_unlock(&dl_b->lock);
- 		__dl_clear_params(p);
+     Task T1 wakes up. It enters the ActiveContending state again, and the
+-    running_bw is incremented.
++    running_bw and reclaim_bw are incremented.
  
-@@ -2506,7 +2483,7 @@ static void set_cpus_allowed_dl(struct task_struct *p,
- 		 * until we complete the update.
- 		 */
- 		raw_spin_lock(&src_dl_b->lock);
--		__dl_sub(src_dl_b, p->dl.dl_bw, dl_bw_cpus(task_cpu(p)));
-+		__dl_sub(src_dl_b, p->dl.dl_bw);
- 		raw_spin_unlock(&src_dl_b->lock);
- 	}
  
-@@ -2560,7 +2537,7 @@ void dl_add_task_root_domain(struct task_struct *p)
- 	dl_b = &rq->rd->dl_bw;
- 	raw_spin_lock(&dl_b->lock);
- 
--	__dl_add(dl_b, p->dl.dl_bw, cpumask_weight(rq->rd->span));
-+	__dl_add(dl_b, p->dl.dl_bw);
- 
- 	raw_spin_unlock(&dl_b->lock);
- 
-@@ -2779,9 +2756,9 @@ int sched_dl_global_validate(void)
- static void init_dl_rq_bw(struct dl_rq *dl_rq)
- {
- 	if (global_rt_runtime() == RUNTIME_INF)
--		dl_rq->max_bw = dl_rq->extra_bw = 1 << BW_SHIFT;
-+		dl_rq->max_bw = 1 << BW_SHIFT;
- 	else
--		dl_rq->max_bw = dl_rq->extra_bw = to_ratio(global_rt_period(),
-+		dl_rq->max_bw = to_ratio(global_rt_period(),
- 						    global_rt_runtime());
- }
- 
-@@ -2852,8 +2829,8 @@ int sched_dl_overflow(struct task_struct *p, int policy,
- 	if (dl_policy(policy) && !task_has_dl_policy(p) &&
- 	    !__dl_overflow(dl_b, cap, 0, new_bw)) {
- 		if (hrtimer_active(&p->dl.inactive_timer))
--			__dl_sub(dl_b, p->dl.dl_bw, cpus);
--		__dl_add(dl_b, new_bw, cpus);
-+			__dl_sub(dl_b, p->dl.dl_bw);
-+		__dl_add(dl_b, new_bw);
- 		err = 0;
- 	} else if (dl_policy(policy) && task_has_dl_policy(p) &&
- 		   !__dl_overflow(dl_b, cap, p->dl.dl_bw, new_bw)) {
-@@ -2864,8 +2841,8 @@ int sched_dl_overflow(struct task_struct *p, int policy,
- 		 * But this would require to set the task's "inactive
- 		 * timer" when the task is not inactive.
- 		 */
--		__dl_sub(dl_b, p->dl.dl_bw, cpus);
--		__dl_add(dl_b, new_bw, cpus);
-+		__dl_sub(dl_b, p->dl.dl_bw);
-+		__dl_add(dl_b, new_bw);
- 		dl_change_utilization(p, new_bw);
- 		err = 0;
- 	} else if (!dl_policy(policy) && task_has_dl_policy(p)) {
-@@ -3044,7 +3021,7 @@ int dl_cpu_busy(int cpu, struct task_struct *p)
- 		 * We will free resources in the source root_domain
- 		 * later on (see set_cpus_allowed_dl()).
- 		 */
--		__dl_add(dl_b, p->dl.dl_bw, dl_bw_cpus(cpu));
-+		__dl_add(dl_b, p->dl.dl_bw);
- 	}
- 
- 	raw_spin_unlock_irqrestore(&dl_b->lock, flags);
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 1bc7ae9ad349..33db99756624 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -751,7 +751,6 @@ struct dl_rq {
- 	 * runqueue (inactive utilization = this_bw - running_bw).
- 	 */
- 	u64			this_bw;
--	u64			extra_bw;
- 
- 	/*
- 	 * Maximum available bandwidth for deadline tasks of this rq. This is
+ 2.3 Energy-aware scheduling
 -- 
 2.40.1
 
