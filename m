@@ -2,43 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE92C7EE24
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:07:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 321BAC7EE33
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:07:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239966AbjEOIHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S239999AbjEOIHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 15 May 2023 04:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38512 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231400AbjEOIH0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:07:26 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA6EF1735;
-        Mon, 15 May 2023 01:07:17 -0700 (PDT)
+        with ESMTP id S238458AbjEOIHa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:07:30 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7DF1736;
+        Mon, 15 May 2023 01:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
-        Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
-        Content-ID:Content-Description:In-Reply-To;
-        bh=/ezz9F43epJmjX+2+q2EuT6G37yn9BJ4CMV+iiE+KIk=; b=EaiXXa+JLNkopxcm154uvINSoT
-        XXhhxSNYI9Dj8TJsMePYGsmPawAk4PgxqA24LoC8ToY8T+UvgX6Mt1Iok43XBxw17lZCw5OZdQ2tQ
-        ZaaSSGuhzCCsuKXfTSd/sC/q9v1c7d0frobCxDxfEp+AjNlpv5Qz2smjLvBY1tflTjx41hwRaKkev
-        GYei11HqZz4Lpne0uwvABdXqI3PMUjfJYYIBLxOseh77Y/9EJ3pflT5Yk/oyQZ6FSRQ1NCjm4r6UF
-        NHWZLaCOz+6hbMv+Kar15kRPnKaI+ssxzGQ048NySZiovPqlPKgHK6tfNCL3XXal7p8b7Oo4dmUEi
-        /ipC8uhw==;
+        d=infradead.org; s=casper.20170209; h=Subject:Cc:To:From:Date:Message-ID:
+        Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=oaAnHSQUa44CIjEzLECo4Bz9k0HVG1DLxoBT0I79NeI=; b=NfkvPcdWsJTjmoEQrA9fvkbzZc
+        OLWjr4UU1kWvWf66uviIN6aqUIZ1bU0a8aEQPzT/ji1FUTxQToxV1V2kLh8dentwTx5nRMQ4vbB0i
+        gIPkqOaBfpPHRlc4Q9v4DKGIZOs5zR693IMyllbhfUlUJPHFrv0sH5wUWWcgPRBAKgBI1lgDssb4e
+        9PWNLgpBVKQLGKCOHMSvDJkLwwQ85cxYADGoR5hXnOpJdsJmtsyLLYpk0hwzrXnE5x14WXOtUXAW9
+        mjJQ2i0rMf3kX9KquBpjBy/2GJyEk+TX/LIQwUBEiDSc3Rf/hALuWs5q5Nr/iPhIXqgtRSb4GdE7Z
+        shGEbmvA==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pyTDl-00BQN4-1M;
-        Mon, 15 May 2023 08:06:17 +0000
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pyTDk-003HUQ-Em; Mon, 15 May 2023 08:06:17 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 87106302FB8;
-        Mon, 15 May 2023 10:06:15 +0200 (CEST)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 079C030003A;
+        Mon, 15 May 2023 10:06:10 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-        id C75F2202FCEA7; Mon, 15 May 2023 10:06:10 +0200 (CEST)
-Message-ID: <20230515080554.382778664@infradead.org>
+        id A6A6E202F7F66; Mon, 15 May 2023 10:06:10 +0200 (CEST)
+Message-ID: <20230515075659.118447996@infradead.org>
 User-Agent: quilt/0.66
-Date:   Mon, 15 May 2023 09:57:06 +0200
+Date:   Mon, 15 May 2023 09:56:59 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     torvalds@linux-foundation.org
 Cc:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
@@ -59,180 +58,79 @@ Cc:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
         linux-mm@kvack.org, linux-s390@vger.kernel.org,
         iommu@lists.linux.dev, linux-arch@vger.kernel.org,
         linux-crypto@vger.kernel.org
-Subject: [PATCH v3 07/11] x86,intel_iommu: Replace cmpxchg_double()
-References: <20230515075659.118447996@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH v3 00/11] Introduce cmpxchg128() -- aka. the demise of cmpxchg_double()
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi!
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+I seem to have forgotten to post this series last release; so here goes. I'm
+really hoping to merge it and forget about it.
+
+
+Since Linus hated on cmpxchg_double(), a few patches to get rid of it, as
+proposed here:
+
+  https://lkml.kernel.org/r/Y2U3WdU61FvYlpUh@hirez.programming.kicks-ass.net
+
+
+These patches are based on 6.4.0-rc2.
+
+Available here:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/wip-u128
+
+Since v2:
+
+ - reworked this_cpu_cmpxchg() to not implicity do u128 but provide explicit
+   this_cpu_cmpxchg128() (arnd)
+ - added try_cmpxchg12_local() (per the addition of the try_cmpxchg*_local()
+   family of functions)
+ - slight cleanup of the SLUB conversion (due to rebase and having to touch it)
+ - added a 'cleanup' patch for SLUB, since I was staring at that anyway
+
+Since v1:
+
+ - rebaed on Eric's ghash cleanups (hence the cryptodev-2.6 dependency)
+ - rebased on Heiko's s390/cpum_sf CDSG patch
+ - fixed up a bunch of arch code
+ - fixed up the inline asm to use 'u128 *' mem argument so the compiler knows
+   how wide the modification is.
+ - reworked the percpu thing to use union based type-punning instead of
+   _Generic() based casts.
+
 ---
- drivers/iommu/intel/irq_remapping.c |    8 --
- include/linux/dmar.h                |  125 +++++++++++++++++++-----------------
- 2 files changed, 68 insertions(+), 65 deletions(-)
-
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -174,18 +174,14 @@ static int modify_irte(struct irq_2_iomm
- 	irte = &iommu->ir_table->base[index];
- 
- 	if ((irte->pst == 1) || (irte_modified->pst == 1)) {
--		bool ret;
--
--		ret = cmpxchg_double(&irte->low, &irte->high,
--				     irte->low, irte->high,
--				     irte_modified->low, irte_modified->high);
- 		/*
- 		 * We use cmpxchg16 to atomically update the 128-bit IRTE,
- 		 * and it cannot be updated by the hardware or other processors
- 		 * behind us, so the return value of cmpxchg16 should be the
- 		 * same as the old value.
- 		 */
--		WARN_ON(!ret);
-+		u128 old = irte->irte;
-+		WARN_ON(!try_cmpxchg128(&irte->irte, &old, irte_modified->irte));
- 	} else {
- 		WRITE_ONCE(irte->low, irte_modified->low);
- 		WRITE_ONCE(irte->high, irte_modified->high);
---- a/include/linux/dmar.h
-+++ b/include/linux/dmar.h
-@@ -201,67 +201,74 @@ static inline void detect_intel_iommu(vo
- 
- struct irte {
- 	union {
--		/* Shared between remapped and posted mode*/
- 		struct {
--			__u64	present		: 1,  /*  0      */
--				fpd		: 1,  /*  1      */
--				__res0		: 6,  /*  2 -  6 */
--				avail		: 4,  /*  8 - 11 */
--				__res1		: 3,  /* 12 - 14 */
--				pst		: 1,  /* 15      */
--				vector		: 8,  /* 16 - 23 */
--				__res2		: 40; /* 24 - 63 */
-+			union {
-+				/* Shared between remapped and posted mode*/
-+				struct {
-+					__u64	present		: 1,  /*  0      */
-+						fpd		: 1,  /*  1      */
-+						__res0		: 6,  /*  2 -  6 */
-+						avail		: 4,  /*  8 - 11 */
-+						__res1		: 3,  /* 12 - 14 */
-+						pst		: 1,  /* 15      */
-+						vector		: 8,  /* 16 - 23 */
-+						__res2		: 40; /* 24 - 63 */
-+				};
-+
-+				/* Remapped mode */
-+				struct {
-+					__u64	r_present	: 1,  /*  0      */
-+						r_fpd		: 1,  /*  1      */
-+						dst_mode	: 1,  /*  2      */
-+						redir_hint	: 1,  /*  3      */
-+						trigger_mode	: 1,  /*  4      */
-+						dlvry_mode	: 3,  /*  5 -  7 */
-+						r_avail		: 4,  /*  8 - 11 */
-+						r_res0		: 4,  /* 12 - 15 */
-+						r_vector	: 8,  /* 16 - 23 */
-+						r_res1		: 8,  /* 24 - 31 */
-+						dest_id		: 32; /* 32 - 63 */
-+				};
-+
-+				/* Posted mode */
-+				struct {
-+					__u64	p_present	: 1,  /*  0      */
-+						p_fpd		: 1,  /*  1      */
-+						p_res0		: 6,  /*  2 -  7 */
-+						p_avail		: 4,  /*  8 - 11 */
-+						p_res1		: 2,  /* 12 - 13 */
-+						p_urgent	: 1,  /* 14      */
-+						p_pst		: 1,  /* 15      */
-+						p_vector	: 8,  /* 16 - 23 */
-+						p_res2		: 14, /* 24 - 37 */
-+						pda_l		: 26; /* 38 - 63 */
-+				};
-+				__u64 low;
-+			};
-+
-+			union {
-+				/* Shared between remapped and posted mode*/
-+				struct {
-+					__u64	sid		: 16,  /* 64 - 79  */
-+						sq		: 2,   /* 80 - 81  */
-+						svt		: 2,   /* 82 - 83  */
-+						__res3		: 44;  /* 84 - 127 */
-+				};
-+
-+				/* Posted mode*/
-+				struct {
-+					__u64	p_sid		: 16,  /* 64 - 79  */
-+						p_sq		: 2,   /* 80 - 81  */
-+						p_svt		: 2,   /* 82 - 83  */
-+						p_res3		: 12,  /* 84 - 95  */
-+						pda_h		: 32;  /* 96 - 127 */
-+				};
-+				__u64 high;
-+			};
- 		};
--
--		/* Remapped mode */
--		struct {
--			__u64	r_present	: 1,  /*  0      */
--				r_fpd		: 1,  /*  1      */
--				dst_mode	: 1,  /*  2      */
--				redir_hint	: 1,  /*  3      */
--				trigger_mode	: 1,  /*  4      */
--				dlvry_mode	: 3,  /*  5 -  7 */
--				r_avail		: 4,  /*  8 - 11 */
--				r_res0		: 4,  /* 12 - 15 */
--				r_vector	: 8,  /* 16 - 23 */
--				r_res1		: 8,  /* 24 - 31 */
--				dest_id		: 32; /* 32 - 63 */
--		};
--
--		/* Posted mode */
--		struct {
--			__u64	p_present	: 1,  /*  0      */
--				p_fpd		: 1,  /*  1      */
--				p_res0		: 6,  /*  2 -  7 */
--				p_avail		: 4,  /*  8 - 11 */
--				p_res1		: 2,  /* 12 - 13 */
--				p_urgent	: 1,  /* 14      */
--				p_pst		: 1,  /* 15      */
--				p_vector	: 8,  /* 16 - 23 */
--				p_res2		: 14, /* 24 - 37 */
--				pda_l		: 26; /* 38 - 63 */
--		};
--		__u64 low;
--	};
--
--	union {
--		/* Shared between remapped and posted mode*/
--		struct {
--			__u64	sid		: 16,  /* 64 - 79  */
--				sq		: 2,   /* 80 - 81  */
--				svt		: 2,   /* 82 - 83  */
--				__res3		: 44;  /* 84 - 127 */
--		};
--
--		/* Posted mode*/
--		struct {
--			__u64	p_sid		: 16,  /* 64 - 79  */
--				p_sq		: 2,   /* 80 - 81  */
--				p_svt		: 2,   /* 82 - 83  */
--				p_res3		: 12,  /* 84 - 95  */
--				pda_h		: 32;  /* 96 - 127 */
--		};
--		__u64 high;
-+#ifdef CONFIG_IRQ_REMAP
-+		__u128 irte;
-+#endif
- 	};
- };
- 
-
+ Documentation/core-api/this_cpu_ops.rst     |   2 -
+ arch/arm64/include/asm/atomic_ll_sc.h       |  56 ++++----
+ arch/arm64/include/asm/atomic_lse.h         |  39 +++---
+ arch/arm64/include/asm/cmpxchg.h            |  48 ++-----
+ arch/arm64/include/asm/percpu.h             |  30 +++--
+ arch/s390/include/asm/cmpxchg.h             |  32 +----
+ arch/s390/include/asm/cpu_mf.h              |   2 +-
+ arch/s390/include/asm/percpu.h              |  34 +++--
+ arch/s390/kernel/perf_cpum_sf.c             |  16 +--
+ arch/x86/include/asm/cmpxchg.h              |  25 ----
+ arch/x86/include/asm/cmpxchg_32.h           |   2 +-
+ arch/x86/include/asm/cmpxchg_64.h           |  63 ++++++++-
+ arch/x86/include/asm/percpu.h               | 100 +++++++++------
+ drivers/iommu/amd/amd_iommu_types.h         |   9 +-
+ drivers/iommu/amd/iommu.c                   |  10 +-
+ drivers/iommu/intel/irq_remapping.c         |   8 +-
+ include/asm-generic/percpu.h                |  66 ++--------
+ include/crypto/b128ops.h                    |  14 +-
+ include/linux/atomic/atomic-arch-fallback.h |  95 +++++++++++++-
+ include/linux/atomic/atomic-instrumented.h  |  93 ++++++++++++--
+ include/linux/dmar.h                        | 125 +++++++++---------
+ include/linux/percpu-defs.h                 |  38 ------
+ include/linux/slub_def.h                    |  12 +-
+ include/linux/types.h                       |   5 +
+ include/uapi/linux/types.h                  |   4 +
+ lib/crypto/curve25519-hacl64.c              |   2 -
+ lib/crypto/poly1305-donna64.c               |   2 -
+ mm/slab.h                                   |  49 ++++++-
+ mm/slub.c                                   | 191 ++++++++++++++--------------
+ scripts/atomic/gen-atomic-fallback.sh       |   4 +-
+ scripts/atomic/gen-atomic-instrumented.sh   |  19 +--
+ 31 files changed, 667 insertions(+), 528 deletions(-)
 
