@@ -2,238 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D41C77B7D
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:49:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B128C7EE24
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:52:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237954AbjEOItB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 04:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33510 "EHLO
+        id S238107AbjEOIwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 04:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238029AbjEOIs7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:48:59 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E9B10C9;
-        Mon, 15 May 2023 01:48:51 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id 1D16D15F16F;
-        Mon, 15 May 2023 10:48:48 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1684140528; bh=tStAwueOxbXDMBwSLNTJ9Qsuwa6+o5KusDWfCkARZKs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=iH23OyGTr4tc1eztxSRC7l5DyGiPYJCtProPLZW0bSCFOghwW/tINr+gJraHtwGry
-         hX72zLn8R/XonT8ju3AnubkdQpZTJZAV6EpvpedhqTn/K2s23lm9d5q9YeWEC4fImw
-         xn45833kH9Y4z/8Gkb/OZjH2nRPRqo0gmtt7ovFRS7gqvveT1jnIIVSvWHsiBlDiQ2
-         EIXlYIBZjGenSLF92tW6bjW8pzmeZYOMluUfdjGybfuSiBlNwooy5dBWhi6PoMQIaj
-         3Fe3KCsXq2kAY34gB1tRoD4jNkukE+Txg9XTDFtk3uLqX+vjXhnaeEwJtdiCer9VTq
-         ErmGi5SmkKILw==
-Date:   Mon, 15 May 2023 10:48:47 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
- dynamically allocated buffers
-Message-ID: <20230515104847.6dfdf31b@meshulam.tesarici.cz>
-In-Reply-To: <ZGEuYxR2PM6wHeDh@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
-        <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
-        <ZGEuYxR2PM6wHeDh@arm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
+        with ESMTP id S238193AbjEOIw2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:52:28 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53E951AE;
+        Mon, 15 May 2023 01:52:24 -0700 (PDT)
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1pyTwK-000721-PL; Mon, 15 May 2023 10:52:20 +0200
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1] docs: quickly-build-trimmed-linux: various small fixes and improvements
+Date:   Mon, 15 May 2023 10:52:19 +0200
+Message-Id: <6f4684b9a5d11d3adb04e0af3cfc60db8b28eeb2.1684140700.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1684140744;00699a24;
+X-HE-SMSGID: 1pyTwK-000721-PL
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Catalin,
+* improve the short description of localmodconfig in the step-by-step
+  guide while fixing its broken first sentence
 
-On Sun, 14 May 2023 19:54:27 +0100
-Catalin Marinas <catalin.marinas@arm.com> wrote:
+* briefly mention immutable Linux distributions
 
-> On Tue, May 09, 2023 at 11:18:19AM +0200, Petr Tesarik wrote:
-> > diff --git a/include/linux/device.h b/include/linux/device.h
-> > index d1d2b8557b30..e340e0f06dce 100644
-> > --- a/include/linux/device.h
-> > +++ b/include/linux/device.h
-> > @@ -516,6 +516,9 @@ struct device_physical_location {
-> >   * @dma_io_tlb_dyn_slots:
-> >   *		Dynamically allocated bounce buffers for this device.
-> >   *		Not for driver use.
-> > + * @dma_io_tlb_have_dyn:
-> > + *		Does this device have any dynamically allocated bounce
-> > + *		buffers? Not for driver use.
-> >   * @archdata:	For arch-specific additions.
-> >   * @of_node:	Associated device tree node.
-> >   * @fwnode:	Associated device node supplied by platform firmware.
-> > @@ -623,6 +626,7 @@ struct device {
-> >  	struct io_tlb_mem *dma_io_tlb_mem;
-> >  	spinlock_t dma_io_tlb_dyn_lock;
-> >  	struct list_head dma_io_tlb_dyn_slots;
-> > +	bool dma_io_tlb_have_dyn;
-> >  #endif
-> >  	/* arch specific additions */
-> >  	struct dev_archdata	archdata;
-> > diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-> > index daa2064f2ede..8cbb0bebb0bc 100644
-> > --- a/include/linux/swiotlb.h
-> > +++ b/include/linux/swiotlb.h
-> > @@ -152,7 +152,11 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
-> >  
-> >  	return mem &&
-> >  		(is_swiotlb_fixed(mem, paddr) ||
-> > -		 (mem->allow_dyn && is_swiotlb_dyn(dev, paddr)));
-> > +		 /* Pairs with smp_store_release() in swiotlb_dyn_map()
-> > +		  * and swiotlb_dyn_unmap().
-> > +		  */
-> > +		 (smp_load_acquire(&dev->dma_io_tlb_have_dyn) &&
-> > +		  is_swiotlb_dyn(dev, paddr)));
-> >  }
-> >  
-> >  static inline bool is_swiotlb_force_bounce(struct device *dev)
-> > diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> > index 81eab1c72c50..e8be3ee50f18 100644
-> > --- a/kernel/dma/swiotlb.c
-> > +++ b/kernel/dma/swiotlb.c
-> > @@ -642,6 +642,9 @@ static phys_addr_t swiotlb_dyn_map(struct device *dev, phys_addr_t orig_addr,
-> >  
-> >  	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
-> >  	list_add(&slot->node, &dev->dma_io_tlb_dyn_slots);
-> > +	if (!dev->dma_io_tlb_have_dyn)
-> > +		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
-> > +		smp_store_release(&dev->dma_io_tlb_have_dyn, true);
-> >  	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);  
-> 
-> I'm not sure this works. What this seems to do is that if the caller of
-> is_swiotlb_buffer() sees the flag set, it's guaranteed that something
-> was added to the dma_io_tlb_dyn_slots list. But the reverse is not
-> necessarily true. IOW, if something was added to the list, there is a
-> brief window where the dma_io_tlb_have_dyn flag is still false. In the
-> general case, I doubt any ordering between list_add() and the flag
-> setting changes anything since neither of them may be visible to another
-> CPU.
+* use '--shallow-exclude=v6.0' throughout the document
 
-Thank you for the review! This patch probably needs a bit more
-explanation.
+* instead of "git reset --hard; git checkout ..." use "git checkout
+  --force ..." in the step-by-step guide: this matches the TLDR and is
+  one command less to execute. This led to a few small adjustments to
+  the text and the flow in the surrounding area.
 
-The goal is to avoid taking a spin lock in the mkost common case that
-the dynamic list is empty. The only required invariant is:
+* fix two thinkos in the section explaining full git clones
 
-  When the flag is clear, it is safe to skip the list.
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
 
-It's not a bug to walk an empty list, it's merely less efficient. Such
-race window would be acceptable. OTOH that's not your concern if I
-understand you correctly.
+Hi. Let me know if you would have prefered this as five seperate
+commits. Ciao, Thorsten
+---
+ .../quickly-build-trimmed-linux.rst           | 49 ++++++++++---------
+ 1 file changed, 27 insertions(+), 22 deletions(-)
 
-> What you need is for a 'paddr' added to the dynamic list to be correctly
-> identified by another CPU as dynamic swiotlb. That other CPU doesn't
-> check random addresses but only those returned by the DMA API.
+diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+index ff4f4cc8522b..f08149bc53f8 100644
+--- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
++++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+@@ -215,12 +215,14 @@ again.
+    reduce the compile time enormously, especially if you are running an
+    universal kernel from a commodity Linux distribution.
+ 
+-   There is a catch: the make target 'localmodconfig' will disable kernel
+-   features you have not directly or indirectly through some program utilized
+-   since you booted the system. You can reduce or nearly eliminate that risk by
+-   using tricks outlined in the reference section; for quick testing purposes
+-   that risk is often negligible, but it is an aspect you want to keep in mind
+-   in case your kernel behaves oddly.
++   There is a catch: 'localmodconfig' is likely to disable kernel features you
++   did not use since you booted your Linux -- like drivers for currently
++   disconnected peripherals or a virtualization software not haven't used yet.
++   You can reduce or nearly eliminate that risk with tricks the reference
++   section outlines; but when building a kernel just for quick testing purposes
++   it is often negligible if such features are missing. But you should keep that
++   aspect in mind when using a kernel built with this make target, as it might
++   be the reason why something you only use occasionally stopped working.
+ 
+    [:ref:`details<configuration>`]
+ 
+@@ -271,6 +273,9 @@ again.
+    does nothing at all; in that case you have to manually install your kernel,
+    as outlined in the reference section.
+ 
++   If you are running a immutable Linux distribution, check its documentation
++   and the web to find out how to install your own kernel there.
++
+    [:ref:`details<install>`]
+ 
+ .. _another_sbs:
+@@ -291,29 +296,29 @@ again.
+    version you care about, as git otherwise might retrieve the entire commit
+    history::
+ 
+-     git fetch --shallow-exclude=v6.1 origin
+-
+-   If you modified the sources (for example by applying a patch), you now need
+-   to discard those modifications; that's because git otherwise will not be able
+-   to switch to the sources of another version due to potential conflicting
+-   changes::
+-
+-     git reset --hard
++     git fetch --shallow-exclude=v6.0 origin
+ 
+-   Now checkout the version you are interested in, as explained above::
++   Now switch to the version you are interested in -- but be aware the command
++   used here will discard any modifications you performed, as they would
++   conflict with the sources you want to checkout::
+ 
+-     git checkout --detach origin/master
++     git checkout --force --detach origin/master
+ 
+    At this point you might want to patch the sources again or set/modify a build
+-   tag, as explained earlier; afterwards adjust the build configuration to the
+-   new codebase and build your next kernel::
++   tag, as explained earlier. Afterwards adjust the build configuration to the
++   new codebase using olddefconfig, which will now adjust the configuration file
++   you prepared earlier using localmodconfig  (~/linux/.config) for your next
++   kernel::
+ 
+      # reminder: if you want to apply patches, do it at this point
+      # reminder: you might want to update your build tag at this point
+      make olddefconfig
++
++   Now build your kernel::
++
+      make -j $(nproc --all)
+ 
+-   Install the kernel as outlined above::
++   Afterwards install the kernel as outlined above::
+ 
+      command -v installkernel && sudo make modules_install install
+ 
+@@ -584,11 +589,11 @@ versions and individual commits at hand at any time::
+     curl -L \
+       https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/clone.bundle \
+       -o linux-stable.git.bundle
+-    git clone clone.bundle ~/linux/
++    git clone linux-stable.git.bundle ~/linux/
+     rm linux-stable.git.bundle
+     cd ~/linux/
+-    git remote set-url origin
+-    https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
++    git remote set-url origin \
++      https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+     git fetch origin
+     git checkout --detach origin/master
+ 
 
-Yes, that's correct.
+base-commit: cdc822dda6f82269b94d5fa60ddc71d98c160fa0
+-- 
+2.40.1
 
-> Such
-> values would be normally passed through a memory location (e.g. driver
-> local structures) and that's what you want to order against.
-
-This would certainly work, but I'm not sure I need it. My only goal is
-that when the flag is set, the new value is observed by all CPUs on the
-next call to is_swiotlb_buffer().
-
-> What I mean is that a 'dev->blah = paddr' needs to be ordered _after_
-> your flag setting. So you need the either the 'blah = paddr' assignment
-> to have release semantics or the flag setting to be an
-> smp_store_acquire() (but we don't have such thing). You'd have to use an
-> explicit smp_wmb() barrier after the flag setting (it can be outside the
-> lock). The spin_unlock() is not sufficient since it only has release
-> semantics.
-
-Understood. The spinlock is supposed to order changes to the list, not
-to the flag.
-
-> I also don't think the ordering between list_add() and flag
-> setting matters since the smp_wmb() would ensure that both are visible
-> when the 'paddr' value made it to the other CPU.
-
-If the flag makes it before the list, then the other CPU will walk the
-list only after acquiring dma_io_tlb_dyn_lock, and that's what the list
-is ordered against.
-
-I don't think there is any concern if the list makes it before the
-flag, as long as the new value of the flag is observed on the next call
-to is_swiotlb_buffer (on any CPU).
-
-> Similarly on the is_swiotlb_buffer() side, you want the flag reading to
-> be ordered after the 'blah = paddr' is observed. Here the
-> smp_load_acquire() is sufficient.
-> 
-> >  	return page_to_phys(slot->page);
-> > @@ -668,6 +671,9 @@ static void swiotlb_dyn_unmap(struct device *dev, phys_addr_t tlb_addr,
-> >  	unsigned long flags;
-> >  
-> >  	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
-> > +	if (list_is_singular(&dev->dma_io_tlb_dyn_slots))
-> > +		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
-> > +		smp_store_release(&dev->dma_io_tlb_have_dyn, false);
-> >  	slot = lookup_dyn_slot_locked(dev, tlb_addr);
-> >  	list_del(&slot->node);
-> >  	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);  
-> 
-> As with the map case, I don't think the ordering between list_del() and
-> the flag setting matters. If you unmap the last dynamic buffer, the
-> worst that can happen is that an is_swiotlb_buffer() call attempts a
-> read of the list but the flag will eventually become visible. There
-> shouldn't be another caller trying to unmap the same paddr (in well
-> behaved drivers).
-> 
-> Now, thinking about the list_head access and the flag ordering, since it
-> doesn't matter, you might as well not bother with the flag at all and
-> rely on list_add() and list_empty() ordering vs the hypothetical 'blah'
-> access. Both of these use READ/WRITE_ONCE() for setting
-> dma_io_tlb_dyn_slots.next. You only need an smp_wmb() after the
-> list_add() and an smp_rmb() before a list_empty() check in
-> is_swiotlb_buffer(), no dma_iotlb_have_dyn variable.
-
-Wait, let me check that I understand you right. Do you suggest that I
-convert dma_io_tlb_dyn_slots to a lockless list and get rid of the
-spinlock?
-
-I'm sure it can be done for list_add() and list_del(). I'll have
-to think about list_move().
-
-> That's my reasoning but to I'll have be absolutely sure, you can pass that through
-> some formal modelling.
-
-Good idea. Especially if I try to get rid of the lock.
-
-Petr T
