@@ -2,211 +2,670 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4584C77B7D
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 18:19:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39AF4C7EE25
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 19:44:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245243AbjEOSTS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 14:19:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52680 "EHLO
+        id S243904AbjEOToB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 15:44:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245146AbjEOSSV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 14:18:21 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3402C1899A;
-        Mon, 15 May 2023 11:17:24 -0700 (PDT)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34FGoUZR029093;
-        Mon, 15 May 2023 18:16:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-03-30;
- bh=t+BAbbV9MF/cfI/jorGeLlbeMAF42g0Db+dEb3B33Kw=;
- b=p0AebR6Pes6Lu172D+2CYk+v3C9KB7wbaf/5Rj+Mfz+5BIqWhSb5HNMR+MHLSHoHU9Up
- Lpp3JzzmbpBGubnNhd+ZaIltlpoTWmE4bdhQ96uLBFre6Gt8b3f19alrd+dxIm9oJrcH
- m6+6X+yyo4fr/MqgZI6fwbNPlzcFAYVTihDeHJSUdGoSXA4bPh9VTCML3XV489uOmuMs
- ty74lNgr26rHtasfp86u2dWKXT7dDvK4ibVVCmG1VgvPinvnIUKpTCbpyu+rMPkC9KQb
- O2YrH3v0bQlVswTzt5FuwxeXGcuByebCrH/jRQG8R0r8ChA934yKMFGcUqTupiZr7o5G 3g== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qj2eb0c9n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 15 May 2023 18:16:48 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 34FGiGfO036751;
-        Mon, 15 May 2023 18:16:47 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3qj10993y3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 15 May 2023 18:16:46 +0000
+        with ESMTP id S234077AbjEOToA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 15:44:00 -0400
+Received: from DM5PR00CU002.outbound.protection.outlook.com (mail-centralusazon11021020.outbound.protection.outlook.com [52.101.62.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F13DC55;
+        Mon, 15 May 2023 12:43:56 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dqq8puicltIhMoOhtNm766TtvMpQQbna7UzFKq53UCK9gXVpTqc1iBxGKAV+qEpR47YG7iZLW1Kk5yv3zSZs3lRa9Ga/GvvwbXxq4KkMd/+o3fl3p9H3h3RYHE6ZWSXLC9xhbY2sTEqyzHeYRXkUx2YYxNLjnoPY7fU2lngrud+2jQZAJ+WFlhr1FGbfaoxcXjRVzW8zftUIiGnYKdGOXtPiEe/m3DL2gZ053YuSQeUagZ8w0LihKky7eklvErX4C5o3wy0AnX/n+pQMDR6EePzSr+OE8q54BvjJtgdlU7oiQDOGEkI9ja5hhkGvUDRI0b53JQljn37RMYKuBbBMvw==
+ b=fEW5sljTzUwbO4lCzfp+40ibFJwBT6yu4nDx/kcggpuwRE/bmmnsxurARWctBLLVS557tqYkqXtO7dpf/3NMhIOOIYK9flpn+1G5YVf4vbkO4AjYeNhIZV2tK4Ck0n2Kdep9f8E0olzbD1z0Lwm408XsPm7EMb4PNbFf9/RbSD1Vp0DSwJTFuluUKRnQ6oM7R8/2uFZn/h7nQsJ51lpv1w/Ykxfu33+iVDQoetsUUrYYacrG5iCmG5ASy2SlC5hiOtzoxPkM1RwwUFfQzjNXSgtxIQlMXAhngshxwFTIi+fzuQUwh02zBrtDadGgVGCK608QO3YYXUXbqO1ARCfDAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t+BAbbV9MF/cfI/jorGeLlbeMAF42g0Db+dEb3B33Kw=;
- b=khaY3AP2wfJOLN6xULZJifFloepgXny3V0KCzLbpf0Xndzt9IRIucTgWzrepJ7eNn7HEptjkztoECTn/UHSaQWyg/3+5Uz0rQFNw2O5chEwho7hF2tTridS1JY5WJy/lMEGFipP4fFoY9u/omPS5GY9QjIEnvqGxVYe3DXvu+D+sOox3ZfdnKWwc2EoBjYJfh8MX0Jd2gh3Yf+P7Cfhj5J5GNUJ4okJdh8+UQ1IHJ1hxBIQGCt7S4pgo5hDYqdA66q+ysuZkJJI1guh/SOIrsibPxuQs9C8j5OznRTXc0kJlg4JG3L7gfqgPFSgknajmPIcZPhfXGbJ6g9gzdB8EkA==
+ bh=j/8gInC+y9D81yKsAnyVYaAnxAa7V6M1Xe2UJnRzsME=;
+ b=FSgp23OdLmvYhq5+9lNK3UOcSYsv1e0zbK3+rKY4qqiXFwxgULVvP+iRbxCx7B9aVJuheeEXy0AVS/yFAgA9NUf6mNrqM1XGumE6uUvzOWIulbwBshhrFqTpsaaxuTn00Y/m8zWOYPoW7WeRCFyXzLh1wnCKYHuSW53puwSDQA8uoOn02TyT6enB9PNkfd0A9TTaTkRWitihU61SY5zhD3hQP59fZIJt5cof7dSatXXUZA523Ti11/zkiKpzuwzpYqS2uwp9qPSq+a7dBCpm1wkOz8qt7SyEdMviZPMibe6aTTQblp2aRlBVMDRvNWGP3X8E1raFXDjdaqJ7Isjj+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t+BAbbV9MF/cfI/jorGeLlbeMAF42g0Db+dEb3B33Kw=;
- b=s4b41QqK67lb3e7trZvqtknh9+75P7KzF/tTWFevuvPLQwnCKasC/2eQ6QOilqeZXl3fSmMkmJB7+kjUnFB3yibyDRpF/mB+4icfKInOmarrJzd5jhT5j70bNWmeruQmmF1zF11mCVCzW/FKeo0tcovlmdYiw1mdWMtsiPr9s+M=
-Received: from BY5PR10MB3793.namprd10.prod.outlook.com (2603:10b6:a03:1f6::14)
- by CO1PR10MB4545.namprd10.prod.outlook.com (2603:10b6:303:9a::20) with
+ bh=j/8gInC+y9D81yKsAnyVYaAnxAa7V6M1Xe2UJnRzsME=;
+ b=F/65keTwg1/J16oLq4SEwlZAh9eSRGPwBFO1Nk2MwADGNC/8EtfiO38aLY4caLzcN6hB8c5H/JFE9KHpv71DJgVYElq0tgpCRVg6+qHxNDfacYvO/wmdLKRUELfF1JHFZK5HCTX0AhsKvOB2PL0E7+OyJeVj+p3iPz8jY/aVsrI=
+Received: from BYAPR21MB1688.namprd21.prod.outlook.com (2603:10b6:a02:bf::26)
+ by MW4PR21MB1940.namprd21.prod.outlook.com (2603:10b6:303:72::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 18:16:44 +0000
-Received: from BY5PR10MB3793.namprd10.prod.outlook.com
- ([fe80::37d1:ec08:a280:1d91]) by BY5PR10MB3793.namprd10.prod.outlook.com
- ([fe80::37d1:ec08:a280:1d91%4]) with mapi id 15.20.6387.030; Mon, 15 May 2023
- 18:16:44 +0000
-Message-ID: <a38e0589-fa20-77ac-2fb0-2cb247c2b408@oracle.com>
-Date:   Mon, 15 May 2023 14:16:39 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v6 11/14] reboot: Secure Launch SEXIT support on reboot
- paths
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.4; Mon, 15 May
+ 2023 19:43:53 +0000
+Received: from BYAPR21MB1688.namprd21.prod.outlook.com
+ ([fe80::a4f7:2466:97b5:bd31]) by BYAPR21MB1688.namprd21.prod.outlook.com
+ ([fe80::a4f7:2466:97b5:bd31%5]) with mapi id 15.20.6433.001; Mon, 15 May 2023
+ 19:43:53 +0000
+From:   "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+To:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>
+CC:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "petr@tesarici.cz" <petr@tesarici.cz>
+Subject: RE: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
+ buffers
+Thread-Topic: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
+ buffers
+Thread-Index: AQHZgledQutrE0IR0keVtODngWtNC69bu5SA
+Date:   Mon, 15 May 2023 19:43:52 +0000
+Message-ID: <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+ <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
+In-Reply-To: <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Matthew Garrett <mjg59@srcf.ucam.org>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, ardb@kernel.org,
-        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
-        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
-        trenchboot-devel@googlegroups.com
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-12-ross.philipson@oracle.com>
- <20230512114000.GG14461@srcf.ucam.org>
-From:   Ross Philipson <ross.philipson@oracle.com>
-In-Reply-To: <20230512114000.GG14461@srcf.ucam.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR20CA0040.namprd20.prod.outlook.com
- (2603:10b6:208:235::9) To BY5PR10MB3793.namprd10.prod.outlook.com
- (2603:10b6:a03:1f6::14)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=b9182308-ca94-4cf1-bca6-9aeb7458042e;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-05-15T19:04:54Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|MW4PR21MB1940:EE_
+x-ms-office365-filtering-correlation-id: 51130672-905a-4548-30c3-08db557cb688
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Ed9/tWU7bASZpNAnUs+Y7fZeOsdibpdwKxGNmLhGqmltvCysTd3yraahdB0dw24IFmKLEMVyCMIw73b735gRa3C/Ah1+T10jlsEnyPXS4Za02VmQQ9Jh+BNkdyL3+eRBrXMyERsxAAbxTbnf0byBxLX/ck9GQ2LDpgb87+Ud8Z9Nbv55pk/GZGfA0etkFvPUSEP9rntLw4aSgSHjVkJWqaB9ex5Rtwf9kjqZ1/wsHLhwq+FJiujj/GFXssfJX57cCWV4BjJhCix6uNsKxy4ORW7q41VX6ooEQyQi7ly0T8fR2B9EcvqCfPoitel/1GrpjWe9JFqS0ByhQXYDLgMf1Lx7hgnIQZzDr7unR0qhTN1XJOGECWW7KRC7gx1M+RTD1dfYDIumq6zUgDhye9Pway/08Vv1s9aFPoJocyFOWLpDRYzP7eFh/AxMPMwMNyRrET6KKJFmj217iesZIBemgViXKFY9FtzXHnnrvpwP3qo3MhrXiziUOi0Ci2Lf0FvdHuruSkdllbVhfiiKqzD6OOMGMWSY/jpMYawL0asQluG7RJ/h8ykKPGjhQwTRPLD/esI2PTvpDyYVOXlwj1PLd1LWRg03TjBjGQVIBtRAQHYVxe/lvcgi1etriZXg21kY63bLtfbX3e1lAVuOInTAdlcVoes2rLQ56HZENtNYSMcdMWongzRWGvObKRjhuQgwufdpCyzXl52B0yuwGAlvww==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1688.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(376002)(39860400002)(346002)(366004)(451199021)(10290500003)(8676002)(71200400001)(66899021)(478600001)(41300700001)(55016003)(4326008)(122000001)(786003)(82950400001)(66556008)(66946007)(82960400001)(76116006)(921005)(66446008)(316002)(64756008)(66476007)(110136005)(54906003)(38100700002)(8936002)(186003)(8990500004)(38070700005)(9686003)(6506007)(30864003)(2906002)(26005)(83380400001)(33656002)(966005)(7416002)(86362001)(7406005)(7696005)(5660300002)(52536014)(579004)(309714004);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VVor/dszar78KCDAGd28AtiyjtrcqaOIqHWGFjtBnu65YInvyLXzZ7VQzolE?=
+ =?us-ascii?Q?fp7dRb2CGIpSPRu/InGjAEVrz172D7japkcJfrzNELhHmuGymC4T8HID0egA?=
+ =?us-ascii?Q?OTnhvMJtP00raQH+IzIrWSbDFt/EoPkoWmqL75+9y5DyDQxkFr7mq2VERgdD?=
+ =?us-ascii?Q?9nqgrIXx4xOokTu6mQKLaDy7ozNa+aswmn4Hn14TpJHdif6M/m3VLITKD+OT?=
+ =?us-ascii?Q?gzXkMAFIlWm4hhmFkTKZtAduDaFKqoLH81EqLiPYhPuiQ2fKC5L3KspNVqka?=
+ =?us-ascii?Q?VNQ8rV3PjjjNc2ph5FMBLfVLlJHzCor2SbJhXEwtTNbnu6zvUjnLhHgzHlEm?=
+ =?us-ascii?Q?QtOstZD6dHF7uL0BEKGQ4LdEDV6LG6lSrgog6DKOrWVKauFHK0nmMVx31sIP?=
+ =?us-ascii?Q?V3vIeT35CvPfQH5vGY6QPbav3k/vU2DGrkgV/Ry2EB7fNA7AzFbutLWXLO52?=
+ =?us-ascii?Q?MCDDaF7Nkdi42XyDHxt/vgRjME9AutWdCkE6sOUjfk36EdCLQbcusUZmx3mA?=
+ =?us-ascii?Q?UKvrXfveb7LGntQaWzrLG4MCTS+IpEx3FYhp3voYz9KP/Rh5c+0/xw36AogO?=
+ =?us-ascii?Q?usd/XHf0qHxmowqaJEbH1cbTwZqXKymBhXW9i87Wei7igsT8PmHEBFuMG0R7?=
+ =?us-ascii?Q?CTWPSprxUdJ/oz3Z5ZHPAL+ScLMAO/G6sh1/IqzVeQ59U7ds7eR2PKnEts4m?=
+ =?us-ascii?Q?tSmmSPjYuPRZhPG29U8U32LRThi8JMF6qtNc9qKLc7Vs5Db6JrzNlLbJ5VpZ?=
+ =?us-ascii?Q?WgPk7gsY+b+MQIOjrlvX3D1fVAWMwEKRIm2YfvTqdtFPwWeFcEF+Lh4KPlHA?=
+ =?us-ascii?Q?DkQJWSpghb2vIP1pSiUSwTwLFRqll9SBsV1mpMjji5E/rbasXdrHq2Ufb16O?=
+ =?us-ascii?Q?fnaleJcYD8jKIHK1DVd/6tisErQjT3knCKWILZnzJnUnJ/fOtazu6fCiOvUw?=
+ =?us-ascii?Q?lTP+gHCOCMgZAnZJQJeCAOcOOHcT0p5ubQgg6gII606d/fM5LbilIzHqTB7M?=
+ =?us-ascii?Q?nV9IozWclTmjphO0Nh9ns2R9tl5owpaadPCJhhwhWEaEk+r++bliubIAsA38?=
+ =?us-ascii?Q?ukVVycftdYNK+7c9E2F3buM+FoKBDuaJC/DBDilkW/+Z3sHd5p4Z62ZVV1En?=
+ =?us-ascii?Q?ls3izuU0JFZLNFy8BY4LdJKb5v3O7LDFVgtIYUPJ4E2Ynrw120yDzPaxIhvr?=
+ =?us-ascii?Q?LymXsTCpEKxNFZ7T0wX77WZX4KTcGS5XUuXka1yJxIw6FCEhokalK6ax/jaN?=
+ =?us-ascii?Q?WPB+uhKOyZU4LzBYyrw08hc4mQu88fLB4MvWYdBcJoDef1YfFwmXmV7CYOjG?=
+ =?us-ascii?Q?uonnJNTLwPYQOGajP3J/tcrfOkHrfW7Q6o1jDl/fTJc6eBTlry+FapbrrzDx?=
+ =?us-ascii?Q?zuBtRR6fZ5+bCsgKjbRo/hTZk8X/CAwZq3pfT8qRqQ4uURqhif0NigT0bapB?=
+ =?us-ascii?Q?jcXhMbwsi+gMhHRSg/wr6p5vmtY072QLt0Uym2uTfW8dnofgHUXzL+cIU0Wq?=
+ =?us-ascii?Q?1pcbSy0PpAIrSHP0IPMGm3nalUR0Rrtw9QIKBJUxm0DFcKgeg9mC9XgOSXtk?=
+ =?us-ascii?Q?Uy9f2XzTYaq7YV+IxfXxnE2D9iNLv7EwRE2YxTcSZvT2CDrFUH1CQvefyv+J?=
+ =?us-ascii?Q?jA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR10MB3793:EE_|CO1PR10MB4545:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7cb6e046-fd8a-45f0-8baf-08db557089de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: klWbMHqxH+m98+IkoHnOZKiHQ0fNU9/2yRK5uq9QMCPFtyje6087nOxQYLKw4BnCwP9kfg61QgTJQ8eghRQum0cfRcZ1DVVHszpjmZKVdNb+YVVr85wjNBl3ZgtXR4/PlsyqxoQZFHYoo2Cl9IpESHpvwJ8oVnZwk3Jg2Qf7wtcLrVADBEnOur6FH04O4ESf5KuLedUHQ/wVQT5kSURykWSKmXhBrUTa/ksMDTZ81S9iJtWQ9zvtNs9avvhkYxnn6x6IMP54yC4uV5Wu7YE7aqhDnQeDKddpM8n45A2nEWUuo+7vqPjRfhE2B1OcDIbJTs2mBou5Ogf2/Mzaclz8ZSbXeb0P7PGztlOeyymfMQOiNF+aRjNpk8r8KKP77moRz7AcXz8fvzwyT1fMXuKSVpqsguILIxGKD3Ud4D8ZwBDXYZAlz4mSu1AxQ6EPmis0U2WqtJVyVEoMN3dYB2gX13abSo0HcZokNoH4qAPKql7zQz5jwpwD8TEuRjnqd8q8Hqg+1kIZ4z/HFSE39FYCKPHAbff0+G9QYH29bbSS66hcd3jxXBq9PD4RUS0CXSJI7b2Gb79o/MhMNiEQOni0iJpf5d7rnHocQv0Oli3qJucQZUKpq4T7SvqMbhuFT8OptjtbiVY8U5dn8r4ctVsDMg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB3793.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(39860400002)(376002)(366004)(346002)(396003)(451199021)(31686004)(6486002)(478600001)(6666004)(53546011)(6506007)(6512007)(7416002)(2616005)(86362001)(36756003)(31696002)(6916009)(4326008)(316002)(186003)(2906002)(4744005)(38100700002)(8676002)(66476007)(8936002)(41300700001)(66946007)(66556008)(44832011)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UCtudXgzTUR2WGZFbU9hdi9yeDBIaFJlZjQ5aDc5QVJQVkpkcFFYSit3M3pJ?=
- =?utf-8?B?QkU5V09WbndWV0xXMmhPVXRlUVdoZlVjY2dXUHJqK01iZFdsN3lEQmhuQjhQ?=
- =?utf-8?B?aVhvWCtvZVNHM0IzQnFLOWY2TmVtN2c3WkN3QTliQWIzQXd1K0JFc0lFZlF0?=
- =?utf-8?B?dFFRTGhMYXFIS1BTaFJ0RGM5NWluY3h1REg5ZGM3ejFBWUpUdUlrSEhXQkJD?=
- =?utf-8?B?T1I5b0hrcjFleStSWERtUE5nSG5XOEg0V1F2LzRtZkNVYW84ZSt4LzFuRDh0?=
- =?utf-8?B?cGgweGl3ZlJiY0xpWERvWlU0MUtiUzFXeFhMZ1V0bTl4RStNMEpzMWp0NytJ?=
- =?utf-8?B?WmJlcTBzb2ViS0hFL2VWdjdBSEVuQ292QW9lVjhJTXpydEJZSGFRY09iKzFp?=
- =?utf-8?B?VWN5VTZzMFc1VS80anRtQ01Jd3M0c2VZQVNBS1RjZFFUbWlOajRBSENkTDJp?=
- =?utf-8?B?Mmt4TkRBUE1RS0Yya1QrQWdSbnNSTFNqdDY2TVhRbFFtMGUyKytKbElYYzBY?=
- =?utf-8?B?RHFDT1BJcDdwV0I4ZVN6UmVaM0d4MkExWWxGRmdvTCtyN3V5WEw4eVdGcVQw?=
- =?utf-8?B?VU1FSE1yTkpRR3RsMlJhbXo2Z3BGWnF6WHdtZGxLbFFBY0pYNklrTFpKNXBP?=
- =?utf-8?B?TGViaTRrUzRMUGtWbjFncXpuMmtIRVJoM3RxRm50czF2Vmp3b1dPNFNvS1FQ?=
- =?utf-8?B?dldSODB6bFQ0YmlxN1lLTVpaOGZsUHIvQVR3ZDgwSnBaWmVxMWRCQW04ZGRu?=
- =?utf-8?B?MnI1NENGYkduaHdZNFRYdUpRb3pmcHJrU0tHWmxGa0ovVDlhck4yK29KdHVB?=
- =?utf-8?B?T3d3UzZjeE1IYmZNQk1GcW8vWWc1YUtyTzFpS3dxMmFkT2VNQi9GcEUrcXBP?=
- =?utf-8?B?WE1PNjFrVHBYUGdueXcyTXZ2aFdzNjJBK29yTGJJRlpkTUxIemJGT00wZnZR?=
- =?utf-8?B?d3I1Y3dDT0cwVXRkNWVvV3laWmMwalZJT293N1B3ZmRIaEJRc1NaNGdURnpa?=
- =?utf-8?B?eWpYWlg1aWRoR2tJNm0rcDlzdjdKRjVqK0pnYnFvQXFtaGlzalhiWExJekJY?=
- =?utf-8?B?SVQzOERnVzluWWdwUUxtekFHSiszWnpFTTRDYVpsT1J5dXJUWEZzMVNBQ3ZT?=
- =?utf-8?B?eFF4dDZCYmFTekZqNVk0anZsVkQyTnZadndmUkVtR0ZhVTdGK3NGK21HQ0Z4?=
- =?utf-8?B?L2tIQ3dMaGJkRnJxeDdMRHFTZUlsZnVWOTNHZ2paT2RxVm01c2c4dzhDeUFj?=
- =?utf-8?B?N215UDFJTEgrWUFCaHdhVlNjRGl2RjR1NlllUmxrV1dUZ3FnR3BSZUx5MEEr?=
- =?utf-8?B?ZEJjTUxNSmZCNFZtTDhMZ2RqSEpRcEM0R3hUVkdHcU5GTnpXTHZ4c1hFekl6?=
- =?utf-8?B?QkR4MitFNWYwNit4ZW5LVm13YmJUbndmOGZGSURXQTd2SWV5bTlOb2JzTnNQ?=
- =?utf-8?B?eG5wd0xFMUlPOC8raG84L1BjNXpING1mWmc5dWY3SFgrTkxna0UzYS9Yd0Vz?=
- =?utf-8?B?OXYzTlphZnpVVFh4TkxNQzlEZXRpY1FCZW9wZjErUDV4WFA3eDRqMG03Z1FW?=
- =?utf-8?B?NHgrY09XRnVZWmF2aVdhamxKdGttZEFZckRxRTlpTkc2bFhZUXEvaWx6bGVB?=
- =?utf-8?B?eXF3bjUzS2EreWZyQ1V4QTUwWGN4YXJVNy9sd2pGelZpdjlvK2JnbmJ5SURE?=
- =?utf-8?B?aTQyNFh2NlcwSmVtdGVVaXRPUGZTMlExemtyTTdTK0pTUVZTbUhnWVpaMGxp?=
- =?utf-8?B?NGlZUzFWbG53Unh4TktCR3g1S0s1c3lVMWp3eUx4UGNzc3RoYVcwQXZyeVFj?=
- =?utf-8?B?S1hodUlnWEkvbVpYTWY0UTdpdlZqakZTMlRJZnNqeFJyQXg2L1FTZUNITEJQ?=
- =?utf-8?B?cFE0OSthRE9iNWY2VGFZR1JBUFNtRU02MXZ6d0U5WEZIejJwQlBKdGpTUTdy?=
- =?utf-8?B?YUVVN0tGenZBNXRZc1pGcjk1ZmZUelBsWjZWVDVsWmxJNTJHZ0xITjN2eDZo?=
- =?utf-8?B?ZDRObmRJU1NtVjF5aXlOd242NU5JRXVYam9Cc2o3UGZkdWtpTUVvUUgzdEk4?=
- =?utf-8?B?RHRWc2dVcExmN09SK0FTOVdxeTR6UWEzeXg0VFdyUUVlcmJVWDRyMGlvcDl3?=
- =?utf-8?B?Wkw3ckZ3M3ZXc2ozVWxZUlFLbUdMY2VvTGFYUGFkV3JxdFh5ZmphQWtjaU5u?=
- =?utf-8?Q?CLA4OYRgmbFLH9f+35oeV18=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?NXpuRFhuSTdKU1FEYlp2WjdKRTBIVWg3aXZQdnNuTTdzWWN1TWFMMGt3V2hi?=
- =?utf-8?B?YUFhaWxjemQwMW5HbTJIbmN3Q3dPcTR1KytYWUpIaUhSbGwyR0NvTmJTbm9o?=
- =?utf-8?B?bkJURGJFQ0JyeGxjWWpsdUJFUlU2dFZGRzd0RTJBeGwvbURKUy93NkR6RDJ5?=
- =?utf-8?B?Ty8rdjUraC9LZjkvSm9PM0xHdEpiUlJ0a3liZEwydnV1aE5MUWhyUFVtL2N0?=
- =?utf-8?B?Z0tydWE2UG5LWjVZVGg4UHRSbjBIMjh0TzNLWGdjK1ZNKzNjemd3NTZqZCtW?=
- =?utf-8?B?WTI0b0srbG1KQ2ZBUWNJNGR0YkdYRjhhZEFVUnI3cFBXL3h6alJHWXVyVU1T?=
- =?utf-8?B?L1FQRWRURy9iU25TaEhSaVk3WjBBSW5SbmgvYStWMGJyVWVyQllVMDB3VHVO?=
- =?utf-8?B?M3ZPZE1CSm52TkRTVWVpUzA4SFVVdzFQUjA1eWdleW1qMWt1MWpvWGJsck40?=
- =?utf-8?B?TXVGVStZNzJaVDZOTkFWOCtmenFMSnFaalQ0MHBXRE54V0g3MW4rdWRoYmV2?=
- =?utf-8?B?TVVaNlhHWUQrYWdxblRuWllicnZtM05CUUNUcXNBbWoyWkdZaThRcWQ0TGVK?=
- =?utf-8?B?RE5YQ0JPZDhKT3F4Q1RUSWV1MmFGMmNIVjlyNi84dWhiRDd2SGxIQkRhdHlL?=
- =?utf-8?B?UGJxWGpTS3FsTnZjdmxVdCtMUlRhcWd3Y3NPOTRlYk5DQkRxZ0FkMytjcHh0?=
- =?utf-8?B?ZEFPait0ak82RStzeXVnTDVsMWo3ZFBKakRBd0FCUjFUTE81YzdRK3lFKzJU?=
- =?utf-8?B?a256Q0pvWG1oOXBsNldvc21qTVNwc0lqNVVhaVNpRDdSbnRrNmZkRExrUlBH?=
- =?utf-8?B?V0xOYjNIeXlKaXFBeXZibEVBNUhLTzNrSmtiNklNYVZTcUloYWRQZTlFelF3?=
- =?utf-8?B?b2I4MWRPQ2ZGNmdjQzc0SklnZXI4dC9pZmxNSG10YURvRjRlOHpqNWRVWEsw?=
- =?utf-8?B?SllIcmZjSi81b25xK21TMFREenBPMFltaktURGl5cThndTAxYWdsWWJHbGNL?=
- =?utf-8?B?bEtXS3BCb3JmUzQ2N0hsckR1dVNyaThRT0swU3ZpZG9xUlpiYUdEeStiM0g3?=
- =?utf-8?B?cThwY2xlUVFLRW5kcGJFOER0T002TlZDb2V2UzBPb2t5V2ZTUGxrZ2NUdGxy?=
- =?utf-8?B?NFVTbHROaGM0bUdrdSs4R0IveHBzbmZmL21tNkU0dnhFZUJ6MmpwT1NlMFZz?=
- =?utf-8?B?dlNidEpZZHlLeGUxZ2NEck0zZUFDTTh6Y3J6UFJEcG1vcHRPSXhxdk5TT0dO?=
- =?utf-8?B?N0pKQklKT2lVMVJzSVBKYnNnUFZPd3EwSERvdEtFa212eCs1MWVFcHVpdmJD?=
- =?utf-8?B?Smx6Y1U2cmp1RnRIQ01OeGJoQi80Wnc3ZVJIckpxa2dxZncxM3NrTFErUnFC?=
- =?utf-8?B?N2VjZElyL2hOUEtMa2lRU2dDbFFhd3E0NHQybmFsL3IzMFBweHBwUXM0dExl?=
- =?utf-8?B?T2dKWG15SHdaQklaT0JmU0ZvNmNSMDdiT20rSTRrd3huQnVrWEtIbmg1eEZF?=
- =?utf-8?B?eFpycEpLV2RFOEdYbzk2RHY4WGEvcEtNelpvbUVoWk5NL1ZGaXc3djVZZDJJ?=
- =?utf-8?B?M0o2UC9KaDNxZXAyN01vLzBtMElQaFBueDF2T2RrUmNYWlpTMjRRM0VNS2dC?=
- =?utf-8?B?eEpuaUd4NVpTNEZOWFE2MHhmbzFKVS9jT0xSZkNlbGRpTWwwU1hKWi9NNkVT?=
- =?utf-8?B?TWxYN2UvVlQ1cVZ0SXhDY3hmVE95STlCUUVSaHAwSytXZi9Cbzh6RnJ1dGox?=
- =?utf-8?Q?r5K9VGxbNBilMaqRl8=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cb6e046-fd8a-45f0-8baf-08db557089de
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB3793.namprd10.prod.outlook.com
+X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 18:16:44.5704
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1688.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51130672-905a-4548-30c3-08db557cb688
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2023 19:43:52.9552
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qgbchfvWmscej2Ku7mbePW7RzsKEfo8UoaiPfes0ogCp8MZLzrCRIZBgM3Z6bxatFUsyLlOXbtRxvJCWSB+J25/yTCuR5ikcdaXzo/FbA8A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4545
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_17,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 adultscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150154
-X-Proofpoint-GUID: uz4zEZuxvAEgmMLmk8pp6rE_o4jc_XGZ
-X-Proofpoint-ORIG-GUID: uz4zEZuxvAEgmMLmk8pp6rE_o4jc_XGZ
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nxjptnv4TkqeyAAYjAcFHvMKXNW0XG+ofKUknpmSklEruP751qm2wLT2X9di83tFhqf+x8AwSP6OkTQF+RJdVnS9SiFA27JwLDNicV054Aw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1940
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/12/23 07:40, Matthew Garrett wrote:
-> On Thu, May 04, 2023 at 02:50:20PM +0000, Ross Philipson wrote:
->> If the MLE kernel is being powered off, rebooted or halted,
->> then SEXIT must be called. Note that the SEXIT GETSEC leaf
->> can only be called after a machine_shutdown() has been done on
->> these paths. The machine_shutdown() is not called on a few paths
->> like when poweroff action does not have a poweroff callback (into
->> ACPI code) or when an emergency reset is done. In these cases,
->> just the TXT registers are finalized but SEXIT is skipped.
-> 
-> What are the consequences of SEXIT not being called, and why is it ok to
-> skip it in these circumstances?
+From: Petr Tesarik <petrtesarik@huaweicloud.com> Sent: Tuesday, May 9, 2023=
+ 2:18 AM
+>=20
+> The software IO TLB was designed with the assumption that it is not
+> used much, especially on 64-bit systems, so a small fixed memory
+> area (currently 64 MiB) is sufficient to handle the few cases which
+> still require a bounce buffer. However, these cases are not so rare
+> in some circumstances.
+>=20
+> First, if SEV is active, all DMA must be done through shared
+> unencrypted pages, and SWIOTLB is used to make this happen without
+> changing device drivers. The software IO TLB size is increased to 6%
+> of total memory in sev_setup_arch(), but that is more of an
+> approximation. The actual requirements may vary depending on which
+> drivers are used and the amount of I/O.
 
-Well the system is resetting so there are no real consequences. The 
-problem on those two paths is that the APs have not been halted with a 
-machine_shutdown() and that is a precondition to issuing GETSEC[SEXIT]. 
-Only the BSP should be active and SEXIT must be done on it.
+FWIW, I don't think the approach you have implemented here will be
+practical to use for CoCo VMs (SEV, TDX, whatever else).  The problem
+is that dma_direct_alloc_pages() and dma_direct_free_pages() must
+call dma_set_decrypted() and dma_set_encrypted(), respectively.  In CoCo
+VMs, these calls are expensive because they require a hypercall to the host=
+,
+and the operation on the host isn't trivial either.  I haven't measured the
+overhead, but doing a hypercall on every DMA map operation and on
+every unmap operation has long been something we thought we must
+avoid.  The fixed swiotlb bounce buffer space solves this problem by
+doing set_decrypted() in batch at boot time, and never
+doing set_encrypted().
 
-Thanks
-Ross
+In Microsoft's first implementation of bounce buffering for SEV-SNP VMs,
+we created custom bounce buffer code separate from swiotlb.  This code
+did similar what you've done, but maintained a per-device pool of allocated
+buffers that could be reused, rather than freeing the memory (and marking
+the memory encrypted again) on every DMA unmap operation.  (The pool
+was actually per-VMBus channel, but VMBus channels are per-device, so
+the effect was the same.)  The reusable pool avoided most of the calls to
+set_decrypted()/set_encrypted() and made it practical from a performance
+standpoint.  But of course, the pool could grow arbitrarily large, so there
+was additional complexity to decay and trim the pool size.  LKML feedback
+early on was to use swiotlb instead, which made sense, but at the cost of
+needing to figure out the appropriate fixed size of the swiotlb, and likely
+over-provisioning to avoid running out of bounce buffer space.
+
+Now we're considering again a more dynamic approach, which is good, but
+we're encountering the same problems.
+
+See https://lore.kernel.org/linux-hyperv/20210228150315.2552437-1-ltykernel=
+@gmail.com/
+for this historical example.
+
+Michael
+
+>=20
+> Second, some embedded devices have very little RAM, so 64 MiB is not
+> negligible. Sadly, these are exactly the devices that also often
+> need a software IO TLB. Although minimum swiotlb size can be found
+> empirically by extensive testing, it would be easier to allocate a
+> small swiotlb at boot and let it grow on demand.
+>=20
+> Growing the SWIOTLB data structures at run time is impossible. The
+> whole SWIOTLB region is contiguous in physical memory to allow
+> combining adjacent slots and also to ensure that alignment
+> constraints can be met. The SWIOTLB is too big for the buddy
+> allocator (cf. MAX_ORDER). More importantly, even if a new SWIOTLB
+> could be allocated (e.g. from CMA), it cannot be extended in-place
+> (because surrounding pages may be already allocated for other
+> purposes), and there is no mechanism for relocating already mapped
+> bounce buffers: The DMA API gets only the address of a buffer, and
+> the implementation (direct or IOMMU) checks whether it belongs to
+> the software IO TLB.
+>=20
+> It is possible to allocate multiple smaller struct io_tlb_mem
+> instances. However, they would have to be stored in a non-constant
+> container (list or tree), which needs synchronization between
+> readers and writers, creating contention in a hot path for all
+> devices, not only those which need software IO TLB.
+>=20
+> Another option is to allocate a very large SWIOTLB at boot, but
+> allow migrating pages to other users (like CMA does). This approach
+> might work, but there are many open issues:
+>=20
+> 1. After a page is migrated away from SWIOTLB, it must not be used
+>    as a (direct) DMA buffer. Otherwise SWIOTLB code would have to
+>    check which pages have been migrated to determine whether a given
+>    buffer address belongs to a bounce buffer or not, effectively
+>    introducing all the issues of multiple SWIOTLB instances.
+>=20
+> 2. Unlike SWIOTLB, CMA cannot be used from atomic contexts, and that
+>    for many different reasons. This might be changed in theory, but
+>    it would take a lot of investigation and time. OTOH improvement
+>    to the SWIOTLB is needed now.
+>=20
+> 3. If SWIOTLB is implemented separately from CMA and not as its
+>    part, users have to solve the dilemma of how to distribute
+>    precious DMA-able memory between them.
+>=20
+> The present patch is a simplistic solution. Bounce buffers are
+> allocated using the non-coherent DMA API, removing the need to
+> implement a new custom allocator. These buffers are then tracked in
+> a per-device linked list, reducing the impact on devices that do not
+> need the SWIOTLB.
+>=20
+> Analysis of real-world I/O patterns has shown that the same buffer
+> is typically looked up repeatedly (for further sync operations, or
+> to be unmapped). The most recently used bounce buffer is therefore
+> always moved to the beginning of the list. The list performed better
+> than a maple tree when tested with fio against a QEMU SATA drive
+> backed by a RAM block device in the host (4 cores, 16 iodepth).
+> Other scenarios are also likely to benefit from this MRU order but
+> have not been tested.
+>=20
+> Operations on the list are serialized with a spinlock. It is
+> unfortunately not possible to use an RCU list, because quiescent
+> state is not guaranteed to happen before an asynchronous event (e.g.
+> hardware interrupt) on another CPU. If that CPU used an old version
+> of the list, it would fail to copy data to and/or from the newly
+> allocated bounce buffer.
+>=20
+> Last but not least, bounce buffers are never allocated dynamically
+> if the SWIOTLB is in fact a DMA restricted pool, because that would
+> defeat the purpose of a restricted pool.
+>=20
+> Signed-off-by: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> ---
+>  include/linux/device.h  |   8 ++
+>  include/linux/swiotlb.h |   8 +-
+>  kernel/dma/swiotlb.c    | 252 ++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 259 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 472dd24d4823..d1d2b8557b30 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -510,6 +510,12 @@ struct device_physical_location {
+>   * @dma_mem:	Internal for coherent mem override.
+>   * @cma_area:	Contiguous memory area for dma allocations
+>   * @dma_io_tlb_mem: Pointer to the swiotlb pool used.  Not for driver us=
+e.
+> + * @dma_io_tlb_dyn_lock:
+> + *		Spinlock to protect the list of dynamically allocated bounce
+> + *		buffers.
+> + * @dma_io_tlb_dyn_slots:
+> + *		Dynamically allocated bounce buffers for this device.
+> + *		Not for driver use.
+>   * @archdata:	For arch-specific additions.
+>   * @of_node:	Associated device tree node.
+>   * @fwnode:	Associated device node supplied by platform firmware.
+> @@ -615,6 +621,8 @@ struct device {
+>  #endif
+>  #ifdef CONFIG_SWIOTLB
+>  	struct io_tlb_mem *dma_io_tlb_mem;
+> +	spinlock_t dma_io_tlb_dyn_lock;
+> +	struct list_head dma_io_tlb_dyn_slots;
+>  #endif
+>  	/* arch specific additions */
+>  	struct dev_archdata	archdata;
+> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> index 281ecc6b9bcc..6aada6ac31e2 100644
+> --- a/include/linux/swiotlb.h
+> +++ b/include/linux/swiotlb.h
+> @@ -114,6 +114,8 @@ struct io_tlb_mem {
+>  };
+>  extern struct io_tlb_mem io_tlb_default_mem;
+>=20
+> +bool is_swiotlb_dyn(struct device *dev, phys_addr_t paddr);
+> +
+>  /**
+>   * is_swiotlb_fixed() - check if a physical address belongs to a swiotlb=
+ slot
+>   * @mem:	relevant swiotlb pool
+> @@ -147,7 +149,9 @@ static inline bool is_swiotlb_buffer(struct device *d=
+ev,
+> phys_addr_t paddr)
+>  {
+>  	struct io_tlb_mem *mem =3D dev->dma_io_tlb_mem;
+>=20
+> -	return mem && is_swiotlb_fixed(mem, paddr);
+> +	return mem &&
+> +		(is_swiotlb_fixed(mem, paddr) ||
+> +		 is_swiotlb_dyn(dev, paddr));
+>  }
+>=20
+>  static inline bool is_swiotlb_force_bounce(struct device *dev)
+> @@ -164,6 +168,8 @@ static inline bool is_swiotlb_force_bounce(struct dev=
+ice *dev)
+>  static inline void swiotlb_dev_init(struct device *dev)
+>  {
+>  	dev->dma_io_tlb_mem =3D &io_tlb_default_mem;
+> +	spin_lock_init(&dev->dma_io_tlb_dyn_lock);
+> +	INIT_LIST_HEAD(&dev->dma_io_tlb_dyn_slots);
+>  }
+>=20
+>  void swiotlb_init(bool addressing_limited, unsigned int flags);
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 96ba93be6772..612e1c2e9573 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -68,6 +68,22 @@ struct io_tlb_slot {
+>  	unsigned int list;
+>  };
+>=20
+> +/**
+> + * struct io_tlb_dyn_slot - dynamically allocated swiotlb slot
+> + * @node:	node in the per-device list
+> + * @orig_addr:	physical address of the original DMA buffer
+> + * @alloc_size:	total size of the DMA buffer
+> + * @page:	first page of the bounce buffer
+> + * @dma_addr:	DMA address of the bounce buffer
+> + */
+> +struct io_tlb_dyn_slot {
+> +	struct list_head node;
+> +	phys_addr_t orig_addr;
+> +	size_t alloc_size;
+> +	struct page *page;
+> +	dma_addr_t dma_addr;
+> +};
+> +
+>  static bool swiotlb_force_bounce;
+>  static bool swiotlb_force_disable;
+>=20
+> @@ -466,6 +482,191 @@ void __init swiotlb_exit(void)
+>  	memset(mem, 0, sizeof(*mem));
+>  }
+>=20
+> +/**
+> + * lookup_dyn_slot_locked() - look up a dynamically allocated bounce buf=
+fer
+> + * @dev:	device which has mapped the buffer
+> + * @paddr:	physical address within the bounce buffer
+> + *
+> + * Walk through the list of bounce buffers dynamically allocated for @de=
+v,
+> + * looking for a buffer which contains @paddr.
+> + *
+> + * Context: Any context. Expects dma_io_tlb_dyn_lock lock to be held.
+> + * Return:
+> + *   Address of a &struct io_tlb_dyn_slot, or %NULL if not found.
+> + */
+> +static struct io_tlb_dyn_slot *lookup_dyn_slot_locked(struct device *dev=
+,
+> +						      phys_addr_t paddr)
+> +{
+> +	struct io_tlb_dyn_slot *slot;
+> +
+> +	list_for_each_entry(slot, &dev->dma_io_tlb_dyn_slots, node) {
+> +		phys_addr_t start =3D page_to_phys(slot->page);
+> +		phys_addr_t end =3D start + slot->alloc_size - 1;
+> +
+> +		if (start <=3D paddr && paddr <=3D end)
+> +			return slot;
+> +	}
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * lookup_dyn_slot() - look up a dynamically allocated bounce buffer
+> + * @dev:	device which has mapped the buffer
+> + * @paddr:	physical address within the bounce buffer
+> + *
+> + * Search for a dynamically allocated bounce buffer which contains
+> + * @paddr. If found, the buffer is moved to the beginning of the linked
+> + * list. Use lookup_dyn_slot_locked() directly where this behavior is no=
+t
+> + * required/desired.
+> + *
+> + * Context: Any context. Takes and releases dma_io_tlb_dyn_lock.
+> + * Return:
+> + *   Address of a &struct io_tlb_dyn_slot, or %NULL if not found.
+> + */
+> +static struct io_tlb_dyn_slot *lookup_dyn_slot(struct device *dev,
+> +					       phys_addr_t paddr)
+> +{
+> +	struct io_tlb_dyn_slot *slot;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+> +	slot =3D lookup_dyn_slot_locked(dev, paddr);
+> +	list_move(&slot->node, &dev->dma_io_tlb_dyn_slots);
+> +	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
+> +	return slot;
+> +}
+> +
+> +/**
+> + * is_swiotlb_dyn() - check if a physical address belongs to a dynamical=
+ly
+> + *                    allocated bounce buffer
+> + * @dev:	device which has mapped the buffer
+> + * @paddr:	physical address within the bounce buffer
+> + *
+> + * Check whether there is a dynamically allocated bounce buffer which
+> + * contains @paddr. If found, the buffer is moved to the beginning of
+> + * the MRU list.
+> + *
+> + * Return:
+> + * * %true if @paddr points into a dynamically allocated bounce buffer
+> + * * %false otherwise
+> + */
+> +bool is_swiotlb_dyn(struct device *dev, phys_addr_t paddr)
+> +{
+> +	return !!lookup_dyn_slot(dev, paddr);
+> +}
+> +
+> +/**
+> + * swiotlb_dyn_bounce() - copy a dynamically allocated buffer from or ba=
+ck
+> + *                        to the original dma location
+> + * @dev:	device which has mapped the buffer
+> + * @tlb_addr:	physical address inside the bounce buffer
+> + * @size:	size of the region to be copied
+> + * @dir:	direction of the data transfer
+> + *
+> + * Copy data to or from a buffer of @size bytes starting at @tlb_addr.
+> + * This function works only for dynamically allocated bounce buffers.
+> + */
+> +static void swiotlb_dyn_bounce(struct device *dev, phys_addr_t tlb_addr,
+> +		size_t size, enum dma_data_direction dir)
+> +{
+> +	struct io_tlb_dyn_slot *slot =3D lookup_dyn_slot(dev, tlb_addr);
+> +	unsigned int tlb_offset;
+> +	unsigned char *vaddr;
+> +
+> +	if (!slot)
+> +		return;
+> +
+> +	tlb_offset =3D tlb_addr - page_to_phys(slot->page);
+> +	vaddr =3D page_address(slot->page) + tlb_offset;
+> +
+> +	swiotlb_copy(dev, slot->orig_addr, vaddr, size, slot->alloc_size,
+> +		     tlb_offset, dir);
+> +}
+> +
+> +/**
+> + * swiotlb_dyn_map() - allocate a bounce buffer dynamically
+> + * @dev:	device which maps the buffer
+> + * @orig_addr:	address of the original buffer
+> + * @alloc_size:	total size of the original buffer
+> + * @alloc_align_mask:
+> + *		required physical alignment of the I/O buffer
+> + * @dir:	direction of the data transfer
+> + * @attrs:	optional DMA attributes for the map operation
+> + *
+> + * Allocate a new bounce buffer using DMA non-coherent API. This functio=
+n
+> + * assumes that there is a fallback allocation scheme if the allocation
+> + * fails. In fact, it always fails for buffers smaller than a page and
+> + * for address constraints that are not (yet) correctly handled by
+> + * dma_direct_alloc_pages().
+> + *
+> + * Return: Physical address of the bounce buffer, or %DMA_MAPPING_ERROR.
+> + */
+> +static phys_addr_t swiotlb_dyn_map(struct device *dev, phys_addr_t orig_=
+addr,
+> +		size_t alloc_size, unsigned int alloc_align_mask,
+> +		enum dma_data_direction dir, unsigned long attrs)
+> +{
+> +	struct io_tlb_dyn_slot *slot;
+> +	unsigned long flags;
+> +	gfp_t gfp;
+> +
+> +	/* Allocation has page granularity. Avoid small buffers. */
+> +	if (alloc_size < PAGE_SIZE)
+> +		goto err;
+> +
+> +	/* DMA direct does not deal with physical address constraints. */
+> +	if (alloc_align_mask || dma_get_min_align_mask(dev))
+> +		goto err;
+> +
+> +	gfp =3D (attrs & DMA_ATTR_MAY_SLEEP) ? GFP_NOIO : GFP_NOWAIT;
+> +	slot =3D kmalloc(sizeof(*slot), gfp | __GFP_NOWARN);
+> +	if (!slot)
+> +		goto err;
+> +
+> +	slot->orig_addr =3D orig_addr;
+> +	slot->alloc_size =3D alloc_size;
+> +	slot->page =3D dma_direct_alloc_pages(dev, PAGE_ALIGN(alloc_size),
+> +					    &slot->dma_addr, dir,
+> +					    gfp | __GFP_NOWARN);
+> +	if (!slot->page)
+> +		goto err_free_slot;
+> +
+> +	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+> +	list_add(&slot->node, &dev->dma_io_tlb_dyn_slots);
+> +	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
+> +
+> +	return page_to_phys(slot->page);
+> +
+> +err_free_slot:
+> +	kfree(slot);
+> +err:
+> +	return (phys_addr_t)DMA_MAPPING_ERROR;
+> +}
+> +
+> +/**
+> + * swiotlb_dyn_unmap() - unmap a dynamically allocated bounce buffer
+> + * @dev:	device which mapped the buffer
+> + * @tlb_addr:	physical address of the bounce buffer
+> + * @dir:	direction of the data transfer
+> + *
+> + * Release all resources associated with a dynamically allocated bounce
+> + * buffer.
+> + */
+> +static void swiotlb_dyn_unmap(struct device *dev, phys_addr_t tlb_addr,
+> +			      enum dma_data_direction dir)
+> +{
+> +	struct io_tlb_dyn_slot *slot;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+> +	slot =3D lookup_dyn_slot_locked(dev, tlb_addr);
+> +	list_del(&slot->node);
+> +	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
+> +
+> +	dma_direct_free_pages(dev, slot->alloc_size, slot->page,
+> +			      slot->dma_addr, dir);
+> +	kfree(slot);
+> +}
+> +
+>  /*
+>   * Return the offset into a iotlb slot required to keep the device happy=
+.
+>   */
+> @@ -474,11 +675,19 @@ static unsigned int swiotlb_align_offset(struct dev=
+ice *dev,
+> u64 addr)
+>  	return addr & dma_get_min_align_mask(dev) & (IO_TLB_SIZE - 1);
+>  }
+>=20
+> -/*
+> - * Bounce: copy the swiotlb buffer from or back to the original dma loca=
+tion
+> +/**
+> + * swiotlb_fixed_bounce() - copy a fixed-slot swiotlb buffer from or bac=
+k
+> + *                          to the original dma location
+> + * @dev:	device which has mapped the buffer
+> + * @tlb_addr:	physical address inside the bounce buffer
+> + * @size:	size of the region to be copied
+> + * @dir:	direction of the data transfer
+> + *
+> + * Copy data to or from a buffer of @size bytes starting at @tlb_addr.
+> + * This function works only for fixed bounce buffers.
+>   */
+> -static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, siz=
+e_t size,
+> -			   enum dma_data_direction dir)
+> +static void swiotlb_fixed_bounce(struct device *dev, phys_addr_t tlb_add=
+r,
+> +				 size_t size, enum dma_data_direction dir)
+>  {
+>  	struct io_tlb_mem *mem =3D dev->dma_io_tlb_mem;
+>  	int index =3D (tlb_addr - mem->start) >> IO_TLB_SHIFT;
+> @@ -574,6 +783,25 @@ static void swiotlb_copy(struct device *dev, phys_ad=
+dr_t
+> orig_addr,
+>  	}
+>  }
+>=20
+> +/**
+> + * swiotlb_bounce() - copy the swiotlb buffer from or back to the origin=
+al
+> + * dma location
+> + * @dev:	device which has mapped the buffer
+> + * @tlb_addr:	physical address inside the bounce buffer
+> + * @size:	size of the region to be copied
+> + * @dir:	direction of the data transfer
+> + *
+> + * Copy data to or from a buffer of @size bytes starting at @tlb_addr.
+> + */
+> +static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, siz=
+e_t size,
+> +			   enum dma_data_direction dir)
+> +{
+> +	if (is_swiotlb_fixed(dev->dma_io_tlb_mem, tlb_addr))
+> +		swiotlb_fixed_bounce(dev, tlb_addr, size, dir);
+> +	else
+> +		swiotlb_dyn_bounce(dev, tlb_addr, size, dir);
+> +}
+> +
+>  static inline phys_addr_t slot_addr(phys_addr_t start, phys_addr_t idx)
+>  {
+>  	return start + (idx << IO_TLB_SHIFT);
+> @@ -834,8 +1062,13 @@ phys_addr_t swiotlb_tbl_map_single(struct device *d=
+ev,
+> phys_addr_t orig_addr,
+>  		return (phys_addr_t)DMA_MAPPING_ERROR;
+>  	}
+>=20
+> -	tlb_addr =3D swiotlb_fixed_map(dev, orig_addr, alloc_size,
+> -				     alloc_align_mask, attrs);
+> +	tlb_addr =3D (phys_addr_t)DMA_MAPPING_ERROR;
+> +	if (!is_swiotlb_for_alloc(dev))
+> +		tlb_addr =3D swiotlb_dyn_map(dev, orig_addr, alloc_size,
+> +					   alloc_align_mask, dir, attrs);
+> +	if (tlb_addr =3D=3D (phys_addr_t)DMA_MAPPING_ERROR)
+> +		tlb_addr =3D swiotlb_fixed_map(dev, orig_addr, alloc_size,
+> +					     alloc_align_mask, attrs);
+>=20
+>  	if (tlb_addr =3D=3D (phys_addr_t)DMA_MAPPING_ERROR) {
+>  		if (!(attrs & DMA_ATTR_NO_WARN))
+> @@ -919,7 +1152,10 @@ void swiotlb_tbl_unmap_single(struct device *dev,
+> phys_addr_t tlb_addr,
+>  	    (dir =3D=3D DMA_FROM_DEVICE || dir =3D=3D DMA_BIDIRECTIONAL))
+>  		swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_FROM_DEVICE);
+>=20
+> -	swiotlb_release_slots(dev, tlb_addr);
+> +	if (is_swiotlb_fixed(dev->dma_io_tlb_mem, tlb_addr))
+> +		swiotlb_release_slots(dev, tlb_addr);
+> +	else
+> +		swiotlb_dyn_unmap(dev, tlb_addr, dir);
+>  }
+>=20
+>  void swiotlb_sync_single_for_device(struct device *dev, phys_addr_t tlb_=
+addr,
+> @@ -1089,7 +1325,7 @@ bool swiotlb_free(struct device *dev, struct page *=
+page,
+> size_t size)
+>  {
+>  	phys_addr_t tlb_addr =3D page_to_phys(page);
+>=20
+> -	if (!is_swiotlb_buffer(dev, tlb_addr))
+> +	if (!is_swiotlb_fixed(dev->dma_io_tlb_mem, tlb_addr))
+>  		return false;
+>=20
+>  	swiotlb_release_slots(dev, tlb_addr);
+> --
+> 2.25.1
+
