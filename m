@@ -2,257 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D3E2C7EE23
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 14:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8CBC7EE23
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 14:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241319AbjEOObg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 10:31:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55592 "EHLO
+        id S242070AbjEOOnr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 10:43:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241648AbjEOObU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 10:31:20 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20552D77;
-        Mon, 15 May 2023 07:31:04 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6436e075166so9583747b3a.0;
-        Mon, 15 May 2023 07:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684161064; x=1686753064;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+ALq25/GYGH1zBk6Bxp4nZpXzMg5fERkeTFcF2Sc5VQ=;
-        b=rObvimGJrFK2A8lzFbnXDUzo+N+GHtHZxseJ0knzMtMqtfIou+p1+b/gJAnOQr7Tug
-         g14TqF12i3WogQ2yshrldLo4we4vKJv7pMlBBKn+h1RheZ2bvIeIFVRwmJoXh5iiiCc2
-         cfLRMefKYsBGfy+wY2jtzgJHkbms95Kk1PZyRXhwyJz8dKOS/Pm00fPPLR2PY9o6K7KF
-         UFXy1gWIuNJLFWLZaRGfUGOCJg1cjJWhflRUt2UBOkoIXDtTT6oAJfDKpmV2BVCyUtLZ
-         i73eCt+MQqGRfZDSOLBD77U1CRi8XUQrENwO9ex5Ku0PD0hAa5CESfb40DrLKGcRRsWg
-         MtFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684161064; x=1686753064;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+ALq25/GYGH1zBk6Bxp4nZpXzMg5fERkeTFcF2Sc5VQ=;
-        b=huVU5/6dhBI9J/Vst+YGVezscSXJ249IQJY7cZLrL0cJhZoEF63Kuj7WGLqN2CYdDk
-         Y8sN6S9nV4fNC/wxrIDLwBaW9pting1YYH0czxdhz/OodPum0tmT2xfo/wd5QGiy00WV
-         p24uDxPUH7W3pFuBa+gUOGiNK+hKZWxFMKnMmh9f47sv1Cailg5VqdxO0/iTDP8VZc+U
-         pkg3mrEe3m8WEh01EZdBneo8x+qzrNRY3gtc9Y1ZzZq9TG0hkp62TziMaXMhKAy0mjRx
-         lJSiaYG6RNQ4lSUrjY+A3aZJDOxzkguZAkIWLyxDZAqRetYierZ8kGoWgNCkpYRS+B3O
-         zWFA==
-X-Gm-Message-State: AC+VfDwa500sl9dMaK6vYuJtGcO/VPlooWMA8Z6VlGbeGjqb/sX6Ueet
-        RNdE2HcP/Y0Ey0KS4mkDbS0=
-X-Google-Smtp-Source: ACHHUZ4R3D/gaKOk7QkT8FMcc9BtENuYixxz4Hv1MjvFhVsW4kdm9Xr25qLw7//hiieQaz81R+IUPw==
-X-Received: by 2002:a05:6a00:218a:b0:640:defd:a6d5 with SMTP id h10-20020a056a00218a00b00640defda6d5mr40180183pfi.12.1684161063962;
-        Mon, 15 May 2023 07:31:03 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id j18-20020aa78dd2000000b0064c9c80617csm2666690pfr.214.2023.05.15.07.31.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 07:31:03 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 8/9] drm/fdinfo: Add comm/cmdline override fields
-Date:   Mon, 15 May 2023 07:30:15 -0700
-Message-Id: <20230515143023.801167-9-robdclark@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230515143023.801167-1-robdclark@gmail.com>
-References: <20230515143023.801167-1-robdclark@gmail.com>
+        with ESMTP id S242044AbjEOOna (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 10:43:30 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B78A02D67;
+        Mon, 15 May 2023 07:43:24 -0700 (PDT)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34FEdfW2001912;
+        Mon, 15 May 2023 14:42:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=3xmrodnLEt3plr6PfR2NiDKXpK4TnrjIaL6sDzQ/7GU=;
+ b=q+a2WxQK3J7w6NJiJUphIIf9ajPoK7dLJYqI+t2yd270W7CmFhfqcxPQ4sLDs8I3yoHG
+ pxet7qhizsDe49r5qacnn0up7txnPYLcrU93fC8Bm+i3aeBN80Ggy2bsIoIYrG+r6kUc
+ J1XYXBbpdTFIkOMbNS2Hzs4i6D8uAWoosggxD2ywApVOUoB3k+0BLdM34/EKgjTr0v0I
+ M1Qugs2xEIxBRanx3Lb4zTEg+aHcUy6ykjy9rtQaZ1BfcKCrOV62c4cgy2n4HHtWIcJg
+ tOJu+la3PVYmFqjAttTuVrNtJHuyBkPyuDeqcvdGca4YJcbHej4ZLYZBslN6wQePhEil xg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkpes0q07-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 May 2023 14:42:47 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34FEe63m005221;
+        Mon, 15 May 2023 14:42:46 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkpes0pvy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 May 2023 14:42:46 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34FD2VOD016196;
+        Mon, 15 May 2023 14:42:43 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+        by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3qj264rxmt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 May 2023 14:42:42 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34FEgdw220447944
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 15 May 2023 14:42:39 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4949420043;
+        Mon, 15 May 2023 14:42:39 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DF9C920040;
+        Mon, 15 May 2023 14:42:36 +0000 (GMT)
+Received: from [9.171.65.23] (unknown [9.171.65.23])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 15 May 2023 14:42:36 +0000 (GMT)
+Message-ID: <a2a9a2bdb431d7611588a9f9bdca64856ac56139.camel@linux.ibm.com>
+Subject: Re: [PATCH v9 5/6] iommu/dma: Allow a single FQ in addition to
+ per-CPU FQs
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>
+Cc:     Joerg Roedel <joro@8bytes.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Mon, 15 May 2023 16:42:36 +0200
+In-Reply-To: <ZGIuj2pRjOPffqZZ@ziepe.ca>
+References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
+         <20230310-dma_iommu-v9-5-65bb8edd2beb@linux.ibm.com>
+         <ZGIuj2pRjOPffqZZ@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: gNuxWXJsmokdhsaD92T6yUFS_UMSNhrG
+X-Proofpoint-ORIG-GUID: me_7t4m8_jWebgWrnvUvQ84qdxzJLwc5
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-15_11,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1015 phishscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=596 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2304280000 definitions=main-2305150121
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, 2023-05-15 at 10:07 -0300, Jason Gunthorpe wrote:
+> On Mon, May 15, 2023 at 11:15:55AM +0200, Niklas Schnelle wrote:
+>=20
+> > +/**
+> > + * struct dma_iommu_options - Options for dma-iommu
+> > + *
+> > + * @flags: Flag bits for enabling/disabling dma-iommu settings
+> > + *
+> > + * This structure is intended to provide IOMMU drivers a way to influe=
+nce the
+> > + * behavior of the dma-iommu DMA API implementation. This allows optim=
+izing for
+> > + * example for a virtualized environment with slow IOTLB flushes.
+> > + */
+> > +struct dma_iommu_options {
+> > +#define IOMMU_DMA_OPTS_PER_CPU_QUEUE	(0L << 0)
+> > +#define IOMMU_DMA_OPTS_SINGLE_QUEUE	(1L << 0)
+> > +	u64	flags;
+> > +};
+>=20
+> You need to hash it out with robin if we do something like this or use
+> more untyped caps as he put in this series:
+>=20
+> https://lore.kernel.org/linux-iommu/cover.1683233867.git.robin.murphy@arm=
+.com/
+>=20
+> Jason
 
-These are useful in particular for VM scenarios where the process which
-has opened to drm device file is just a proxy for the real user in a VM
-guest.
+Ok. I do wonder how to best represent this as a capability.
+Semantically I think a capability needs to be something positive i.e.
+while IOMMU_CAP_EXPENSIVE_FLUSH would technically work having slow
+IOTLB flushes really isn't a capability. So the best I can think of is
+maybe IOMMU_CAP_SHADOW_ON_FLUSH. It's a bit specific but does convey
+that the IOTLB flush does more than dropping hardware caches where the
+main cost is the then empty TLB not the operation itself. Or maybe to
+keep thing separate one would have to add capabilities for the existing
+users IOMMU_CAP_HW_FLUSH and IOMMU_CAP_CONCURRENT_FLUSH.
 
-v2: doc cleanups
+Not sure though. It does feel more clunky than the tuning op I added
+and maybe instead these mechanisms should co-exist. After all even
+though the IOTLB flushes with shadowing are expensive they still
+benefit from the flush queue just with more entries and less
+parallelism.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- Documentation/gpu/drm-usage-stats.rst | 10 ++++++++++
- drivers/gpu/drm/drm_file.c            | 15 +++++++++++++++
- include/drm/drm_file.h                | 19 +++++++++++++++++++
- 3 files changed, 44 insertions(+)
-
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index fe35a291ff3e..03bd92b9125a 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -66,20 +66,30 @@ question.
- Unique value relating to the open DRM file descriptor used to distinguish
- duplicated and shared file descriptors. Conceptually the value should map 1:1
- to the in kernel representation of `struct drm_file` instances.
- 
- Uniqueness of the value shall be either globally unique, or unique within the
- scope of each device, in which case `drm-pdev` shall be present as well.
- 
- Userspace should make sure to not double account any usage statistics by using
- the above described criteria in order to associate data to individual clients.
- 
-+- drm-comm-override: <valstr>
-+- drm-cmdline-override: <valstr>
-+
-+Returns the client comm (executable) or cmdline override strings.  Some drivers
-+support letting userspace override this in cases where the userspace is simply a
-+"proxy".  Such as is the case with virglrenderer drm native context, where the
-+host process is just forwarding command submission, etc, from guest userspace.
-+This allows the proxy to make visible the cmdline of the actual app in the VM
-+guest.
-+
- Utilization
- ^^^^^^^^^^^
- 
- - drm-engine-<keystr>: <uint> ns
- 
- GPUs usually contain multiple execution engines. Each shall be given a stable
- and unique name (keystr), with possible values documented in the driver specific
- documentation.
- 
- Value shall be in specified time units which the respective GPU engine spent
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 739d9b7ab9ec..a0684c4a021d 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -171,20 +171,22 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	mutex_init(&file->fbs_lock);
- 	INIT_LIST_HEAD(&file->blobs);
- 	INIT_LIST_HEAD(&file->pending_event_list);
- 	INIT_LIST_HEAD(&file->event_list);
- 	init_waitqueue_head(&file->event_wait);
- 	file->event_space = 4096; /* set aside 4k for event buffer */
- 
- 	spin_lock_init(&file->master_lookup_lock);
- 	mutex_init(&file->event_read_lock);
- 
-+	mutex_init(&file->override_lock);
-+
- 	if (drm_core_check_feature(dev, DRIVER_GEM))
- 		drm_gem_open(dev, file);
- 
- 	if (drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		drm_syncobj_open(file);
- 
- 	drm_prime_init_file_private(&file->prime);
- 
- 	if (dev->driver->open) {
- 		ret = dev->driver->open(dev, file);
-@@ -285,20 +287,22 @@ void drm_file_free(struct drm_file *file)
- 		drm_master_release(file);
- 
- 	if (dev->driver->postclose)
- 		dev->driver->postclose(dev, file);
- 
- 	drm_prime_destroy_file_private(&file->prime);
- 
- 	WARN_ON(!list_empty(&file->event_list));
- 
- 	put_pid(file->pid);
-+	kfree(file->override_comm);
-+	kfree(file->override_cmdline);
- 	kfree(file);
- }
- 
- static void drm_close_helper(struct file *filp)
- {
- 	struct drm_file *file_priv = filp->private_data;
- 	struct drm_device *dev = file_priv->minor->dev;
- 
- 	mutex_lock(&dev->filelist_mutex);
- 	list_del(&file_priv->lhead);
-@@ -988,20 +992,31 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
- 	drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
- 
- 	if (dev_is_pci(dev->dev)) {
- 		struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 		drm_printf(&p, "drm-pdev:\t%04x:%02x:%02x.%d\n",
- 			   pci_domain_nr(pdev->bus), pdev->bus->number,
- 			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
- 	}
- 
-+	mutex_lock(&file->override_lock);
-+	if (file->override_comm) {
-+		drm_printf(&p, "drm-comm-override:\t%s\n",
-+			   file->override_comm);
-+	}
-+	if (file->override_cmdline) {
-+		drm_printf(&p, "drm-cmdline-override:\t%s\n",
-+			   file->override_cmdline);
-+	}
-+	mutex_unlock(&file->override_lock);
-+
- 	if (dev->driver->show_fdinfo)
- 		dev->driver->show_fdinfo(&p, file);
- }
- EXPORT_SYMBOL(drm_show_fdinfo);
- 
- /**
-  * mock_drm_getfile - Create a new struct file for the drm device
-  * @minor: drm minor to wrap (e.g. #drm_device.primary)
-  * @flags: file creation mode (O_RDWR etc)
-  *
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 5f5c156903d2..25384edd1e91 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -363,20 +363,39 @@ struct drm_file {
- 	/** @event_read_lock: Serializes drm_read(). */
- 	struct mutex event_read_lock;
- 
- 	/**
- 	 * @prime:
- 	 *
- 	 * Per-file buffer caches used by the PRIME buffer sharing code.
- 	 */
- 	struct drm_prime_file_private prime;
- 
-+	/**
-+	 * @comm: Overridden task comm
-+	 *
-+	 * Accessed under override_lock
-+	 */
-+	char *override_comm;
-+
-+	/**
-+	 * @cmdline: Overridden task cmdline
-+	 *
-+	 * Accessed under override_lock
-+	 */
-+	char *override_cmdline;
-+
-+	/**
-+	 * @override_lock: Serialize access to override_comm and override_cmdline
-+	 */
-+	struct mutex override_lock;
-+
- 	/* private: */
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
- 	unsigned long lock_count; /* DRI1 legacy lock count */
- #endif
- };
- 
- /**
-  * drm_is_primary_client - is this an open file of the primary node
-  * @file_priv: DRM file
-  *
--- 
-2.40.1
-
+Thanks,
+Niklas
