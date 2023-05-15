@@ -2,181 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 998E9C7EE26
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAD3C77B75
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:07:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbjEOIHA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 04:07:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37224 "EHLO
+        id S230342AbjEOIHY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 04:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231400AbjEOIGr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:06:47 -0400
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2054.outbound.protection.outlook.com [40.107.13.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491001FC3;
-        Mon, 15 May 2023 01:06:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W1TIXMnLajm836rvRpR+4ihsjpg92U1IUB6ZFRIjbCrsBJ5GmUsC82fiD+TApebJ4QKj6bJAxoJoU7u89RIV2VXZxh1v5NsBm/2yYxLZQCG3xg9JCCSWaskZPX0nUBpYz/QK4EKBupuJtcbbFSO/dooWZfh67p4CK5569AQXuC1o6D7yXfeS3b8CFruZt5f8BEjazq7vsrjuxoOi4BXqO3HEirBHj9We5MzYu5EDnAfWYVAqZ7N1oyxXIL8uVKKT8c4S4Knp/k3b1rhaiSlFBlZ77YE1134jdtglIoMTulqctJD3+4zGAPB4eY5mBNXzNdU8cxCLJYnYGoHo42mv/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dN5+kUt8WdWHkTZN9RyVkvZdBg3yJniXOiKfGRG3SU4=;
- b=EVl0hHQXNmont6BtOY4qEDrSVwDVHVHLktaoUy3qM2FVtw6gugmkcvVkGGP7/Q1lm0Tz2Bs6DotjUC+UeHvltMFRPSp1C/7BYpJT99LTRfd6D3pVoDUBK7bUSqhMQf4fyEZsd6NQwAme1/4zNSMIkm29dFjdffuZC44c74r4QaodCJLxlc+RhXd0Whb9cNUUf0hCV1dx9oJJ37/DVDWdrGFGFZBWXhRUdKq3ECA4+Z9wtmCDCFggXU9nBkCy3p+WZpz2efCvvTFs15ozn37qSt6wDIbJ7gXg+gzckl/vPRXgip2wA7ZszE0Imf4B5f6BYyC4sxTBLpoK1cy/+UjqjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=santannapisa.it; dmarc=pass action=none
- header.from=santannapisa.it; dkim=pass header.d=santannapisa.it; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=santannapisa.it;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dN5+kUt8WdWHkTZN9RyVkvZdBg3yJniXOiKfGRG3SU4=;
- b=B61GlEZjK19oLjwuttagEkVOBiy04wFF7KtnXnkQx70uOydAnQEKOXt+6pP7/6fMjMPqswUD8yti6uL0M8WfwsUvQUB8RpDH/uFaA9tH8hzdqQE7rWZxh/cR79qvYPpf1L6pMPqwxgQTd7QE5OtKoYd6PMl6fHNWlYBx0DomrLk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=santannapisa.it;
-Received: from VI1PR03MB2880.eurprd03.prod.outlook.com (2603:10a6:802:2d::21)
- by AM7PR03MB6328.eurprd03.prod.outlook.com (2603:10a6:20b:141::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 08:06:20 +0000
-Received: from VI1PR03MB2880.eurprd03.prod.outlook.com
- ([fe80::f649:8c94:52f9:3979]) by VI1PR03MB2880.eurprd03.prod.outlook.com
- ([fe80::f649:8c94:52f9:3979%6]) with mapi id 15.20.6387.030; Mon, 15 May 2023
- 08:06:20 +0000
-Date:   Mon, 15 May 2023 10:06:16 +0200
-From:   luca abeni <luca.abeni@santannapisa.it>
-To:     Vineeth Pillai <vineeth@bitbyteword.org>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
-Message-ID: <20230515100616.33ba5dd9@luca64>
-In-Reply-To: <20230515025716.316888-3-vineeth@bitbyteword.org>
-References: <20230515025716.316888-1-vineeth@bitbyteword.org>
-        <20230515025716.316888-3-vineeth@bitbyteword.org>
-Organization: Scuola Superiore S. Anna
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR2P278CA0084.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:65::8) To VI1PR03MB2880.eurprd03.prod.outlook.com
- (2603:10a6:802:2d::21)
+        with ESMTP id S230074AbjEOIHW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:07:22 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA211716;
+        Mon, 15 May 2023 01:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
+        Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To;
+        bh=gp7OCKaBYjIIkPcuPMybL+ixdp/AdwhFq0MWXNBGUCo=; b=mfr/Lee6q6wb3hW9VLMJP6RMas
+        nTl9Qe1+9Iu48xOQT4aXYKIo3YdHu4pVixS6ep5klWjn2Hleinv1VLcJZJw+35Dak53xO4M9X9KIK
+        FpMiCIIAsi7/QgdKTHO+THopVLnjgnmza7zDZfiP5yT3vka2IQVSR4N/m/pdNqYPnTzsA8lIVgWqD
+        P5m3mwC26ExmfD/meFO5f1ezwrEtuIohzrkIWoLo3mQANg3Hx3wLE8RBN4yr9HOkOwiYyEuNQ3/1W
+        PLL/LI+1uLThBRAeCCPMwP+WHJ7vOYl/0orY1PoeN18xp4Y80oyboD7BypdwlKtzQ00oQnrhgh54F
+        yIuqhB5w==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pyTDk-00BQMy-1T;
+        Mon, 15 May 2023 08:06:16 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0C5C8300786;
+        Mon, 15 May 2023 10:06:10 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+        id AB37F202674A5; Mon, 15 May 2023 10:06:10 +0200 (CEST)
+Message-ID: <20230515080553.979680310@infradead.org>
+User-Agent: quilt/0.66
+Date:   Mon, 15 May 2023 09:57:00 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     torvalds@linux-foundation.org
+Cc:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
+        boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-crypto@vger.kernel.org
+Subject: [PATCH v3 01/11] cyrpto/b128ops: Remove struct u128
+References: <20230515075659.118447996@infradead.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR03MB2880:EE_|AM7PR03MB6328:EE_
-X-MS-Office365-Filtering-Correlation-Id: f22eb137-d604-40c8-2fd0-08db551b4413
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OpA4ZY3PtWzsoibriHD7QtWuTZwHyZAlu+dpLxTV+qGNHu9YhzXjYW/ms7+mDwRiCR5ih8+Dv9XLpdYxoOtMk2w5fmJZBh0eEJTzKZ7DDqvKDGq9P4qoP2pqZlkS4E8QuuqDEXEO30jJPY5QMN61HLucfnRB6gt0aODQmL0kvmjrO4f58z6fthUkf1BHU8JJ76x000mIScZ5t4nqQqRAmuEmRugVs97yHtdlFZbTOYBkJYicm2oNnERzo5GGNQrHndkBr3elkMxvQnO+xIlaan371pW16B61FMmN56z9IKHnutIDBeVAVWDmjTOA85IIT9zEb6+iyvncMLmxw23dH/YELwgRJBNJbTaQUOHO76TmT2FN5zxrgYd8WdeqoCcexdMDLFQTpuLRnuGxvj7yVA2E0mNzqWtlNy3yQb9S/S5E2ZriRdHiFV+zZ8zAVW3IlxHbaQCRYeWA8D7NwhaNhbQk8rJMRCE53/vLfJIivRBR4X6GfidAFkhqsbQME5796dwm61cSw9QXjaNx2oDtHHbMKRmK6rp9z8R8ku/F53vTiERV7rIe9D36/k4wmz6u
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR03MB2880.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(376002)(366004)(346002)(136003)(39840400004)(396003)(451199021)(83380400001)(33716001)(4326008)(6916009)(41300700001)(38100700002)(786003)(9686003)(6512007)(26005)(6506007)(6486002)(1076003)(478600001)(66946007)(316002)(66476007)(66556008)(36916002)(8676002)(8936002)(7416002)(41320700001)(5660300002)(2906002)(54906003)(86362001)(186003)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?avkb1NmBXW1R1/Ol5ivI2a/Gy2o2AcJprDfxR7F7IEsuLeB+EnS5OjHX3siM?=
- =?us-ascii?Q?+BUY2UwM2LJ63jAxfMwyOGkkTzKiz6xKN8yJpqYvGVZOz/fLdGpdZMzEqrcG?=
- =?us-ascii?Q?TRfv0YlMfvxjwB8HxF08N/wHpXbfBNmTmRIRPMBat4Ac6Bx5GMC7z36qXngO?=
- =?us-ascii?Q?xLWOt1ajX4nSwJSAK9sdEiAJx5bUa+fDwRKrOtsXexvNNL9izv1AEsz49O4B?=
- =?us-ascii?Q?5jx/guwsQ3Esmq3uL6ZqPYU2I5VTdrrsH8n4s62WzCsubLuSmDdVzW1AVYf9?=
- =?us-ascii?Q?M03VfqGv5KLFo2cF0S/POfrW9HuOrVwEE6sVIMP1uqjKpBSutXeURjlCuh5X?=
- =?us-ascii?Q?bWCpfuZYGwRFdR1EJSt4nnZFJNPy/mBwgP6RF+40gwZlt1dDfKzmyA6PyyJ/?=
- =?us-ascii?Q?2r4fgOzw1Hinwkv44uWPJBujIfVaTUE8d72q4pfqnD01qcXuE9P4s6E2rPNa?=
- =?us-ascii?Q?s/JmxSHW5XjKMVpWdRyUHGJW97oYPYAywPbAlof4Tn/ebxL7IJ+psuBgDDcq?=
- =?us-ascii?Q?FyzBS3QyHOhUNR1xkUGHVyHEKBM8+gDIQigwUxolNPlo8apkRAfmZHlFrRtp?=
- =?us-ascii?Q?8W8ZKmG4Au5AoNl4TwVgG9GO3a9abiXhJELVs2bQk7jcd2JQ991zv8dGNjUv?=
- =?us-ascii?Q?Tl4Z9kmTZGYbS4AWEM/rWfwfM/3o+eBmuVoOVG4FpPJOnU6zidsPUn0DJNMO?=
- =?us-ascii?Q?R1EtJp0BY3V0HH7Cet/9GKWQJ+7aCVLQPQN5qbZEdBNqiPJjF08Rt3//XQnB?=
- =?us-ascii?Q?B7fD+S3qT4UQ5Phoaho0/I6FTQZlV9HbIIAz6o5GDkAtwYD6eOQMdHv7ASk1?=
- =?us-ascii?Q?/psiUNUoDKz6ACrggwiQsgbHOOgvnIyVVfhpwmRaZNP07LmNh1hKkiGs6Fw4?=
- =?us-ascii?Q?ZMZmRDTmzMdOruNjAsK5xFP3TcGTebgXBYeCdB24kbjPv162T4SBT4FK93kN?=
- =?us-ascii?Q?z3C0Tg9m4Syk6xDy5/0TkYa8rBEa99gK+ctIyM9vVuHHGqZo45qhVXRWmZAE?=
- =?us-ascii?Q?S3T6v6iKemaXzN7s3+f9KlGVTXgvY3R67KargjezOC7BvCuPjLcNg93S/n1f?=
- =?us-ascii?Q?iphXW7p2FzQHnA+Cl49OIUQDeySILH3apA2ZyMhYxAM5O7TL4CSlT2zxElWq?=
- =?us-ascii?Q?MDO6r0GSDDP3lbsZezjSK3AG4VJL7vr1sjgqsBXUB0mLg5ssBFiyPVqjigSu?=
- =?us-ascii?Q?o6ZXWg3OSKXNZn+MTob3MTwLKGv5ySFUoCbBMGKUoH6EfO2V9NMpSqslbVB2?=
- =?us-ascii?Q?Tfwbwt/ROIUuP4lTBwaYgHs1dAVVQIMKqa8NoqCoUrGmMrOJLtsW53pgYmla?=
- =?us-ascii?Q?Uf20kblqVO8kgkQyMF9h/d6LyW4XeE1SUjjKUSktvGcYK7akvolzS8fjamvK?=
- =?us-ascii?Q?NRFZ+v74DHBSNYa6GbVuE0q+U3tnL1mgm05wbSwyaqczl51C1vtfqbM0Ttn7?=
- =?us-ascii?Q?flq6SMfpEWTxjyNptzgdlAz4jxPaIzqlahyJgAjl50TZplXdMcmPpH+VgxKn?=
- =?us-ascii?Q?mcj1Mg5AAwNC0/YKuhO5JkK1uQzHhKl6YAEBSqIvFOzPLr7HtT92El4BltW/?=
- =?us-ascii?Q?yu7CEMvLpLtktQ9Xlpk6I9L1I5Xek926VA/ZgSGZ0LlI7AKK7Toge28bFh0g?=
- =?us-ascii?Q?kw=3D=3D?=
-X-OriginatorOrg: santannapisa.it
-X-MS-Exchange-CrossTenant-Network-Message-Id: f22eb137-d604-40c8-2fd0-08db551b4413
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR03MB2880.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 08:06:19.9074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d97360e3-138d-4b5f-956f-a646c364a01e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rqeiVZnkK8Um7mc3jW2rLJLPDs0LWev/6YLnlULUFca3Sp+xZ8WTsMKdsZwTyrX1umwk7TMavhcpWM92qGlBdiuxtG6L2C0QiKydEFYTRMU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR03MB6328
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Per git-grep u128_xor() and its related struct u128 are unused except
+to implement {be,le}128_xor(). Remove them to free up the namespace.
 
-this patch is giving me some headaches:
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+---
+ include/crypto/b128ops.h |   14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-On Sun, 14 May 2023 22:57:13 -0400
-Vineeth Pillai <vineeth@bitbyteword.org> wrote:
-[...]
->   *	Uextra:		Extra bandwidth not reserved:
-> - *			= Umax - \Sum(u_i / #cpus in the root domain)
-> + *			= Umax - this_bw
+--- a/include/crypto/b128ops.h
++++ b/include/crypto/b128ops.h
+@@ -50,10 +50,6 @@
+ #include <linux/types.h>
+ 
+ typedef struct {
+-	u64 a, b;
+-} u128;
+-
+-typedef struct {
+ 	__be64 a, b;
+ } be128;
+ 
+@@ -61,20 +57,16 @@ typedef struct {
+ 	__le64 b, a;
+ } le128;
+ 
+-static inline void u128_xor(u128 *r, const u128 *p, const u128 *q)
++static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
+ {
+ 	r->a = p->a ^ q->a;
+ 	r->b = p->b ^ q->b;
+ }
+ 
+-static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
+-{
+-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
+-}
+-
+ static inline void le128_xor(le128 *r, const le128 *p, const le128 *q)
+ {
+-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
++	r->a = p->a ^ q->a;
++	r->b = p->b ^ q->b;
+ }
+ 
+ #endif /* _CRYPTO_B128OPS_H */
 
-While I agree that this setting should be OK, it ends up with
-	dq = -Uact / Umax * dt
-which I remember I originally tried, and gave some issues
-(I do not remember the details, but I think if you try N
-identical reclaiming tasks, with N > M, the reclaimed time
-is not distributed equally among them?)
-
-I need to think a little bit more about this...
-
-
-		Luca
-
->   *	u_i:		Bandwidth of an admitted dl task in the
->   *			root domain.
->   *
-> @@ -1286,22 +1286,14 @@ int dl_runtime_exceeded(struct
-> sched_dl_entity *dl_se) */
->  static u64 grub_reclaim(u64 delta, struct rq *rq, struct
-> sched_dl_entity *dl_se) {
-> -	u64 u_act;
-> -	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot -
-> Uact */ -
->  	/*
-> -	 * Instead of computing max{u, (rq->dl.max_bw - u_inact -
-> u_extra)},
-> -	 * we compare u_inact + rq->dl.extra_bw with
-> -	 * rq->dl.max_bw - u, because u_inact + rq->dl.extra_bw can
-> be larger
-> -	 * than rq->dl.max_bw (so, rq->dl.max_bw - u_inact -
-> rq->dl.extra_bw
-> -	 * would be negative leading to wrong results)
-> +	 * max{u, Umax - Uinact - Uextra}
-> +	 * = max{u, max_bw - (this_bw - running_bw) + (this_bw -
-> running_bw)}
-> +	 * = max{u, running_bw} = running_bw
-> +	 * So dq = -(max{u, Umax - Uinact - Uextra} / Umax) dt
-> +	 *       = -(running_bw / max_bw) dt
->  	 */
-> -	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
-> -		u_act = dl_se->dl_bw;
-> -	else
-> -		u_act = rq->dl.max_bw - u_inact - rq->dl.extra_bw;
-> -
-> -	return div64_u64(delta * u_act, rq->dl.max_bw);
-> +	return div64_u64(delta * rq->dl.running_bw, rq->dl.max_bw);
->  }
->  
->  /*
 
