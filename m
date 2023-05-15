@@ -2,43 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F29C7EE24
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F223C7EE2D
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 08:07:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240054AbjEOIHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 04:07:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38552 "EHLO
+        id S240083AbjEOIHs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 04:07:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236245AbjEOIH1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:07:27 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FFF1723;
-        Mon, 15 May 2023 01:07:18 -0700 (PDT)
+        with ESMTP id S235190AbjEOIH0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 04:07:26 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB854170B;
+        Mon, 15 May 2023 01:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
+        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
         Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
         Content-ID:Content-Description:In-Reply-To;
-        bh=axnHoGjIL7t9C+QVLq6pAPgEZLVVerXkwPR51K17BxQ=; b=J+RYi2Olcu/GDwkb7uyoMxOowZ
-        gdnnCNimNXMzjHfiHbHeyq75lJdwzqja8okQUmitQ1ua7iWanYtjpUVa32iVsf63pmox4vvEN+Ejz
-        1wpagut3YpzUSwNPpwpsl3jsBlJSSesN7UlPVAxsCXGiTi2d8aMeHHRkqQGQKv/P2cwZEs4JCNCfS
-        xBlhWHGUBVitTRjLQwLm3qFy1fFLZshzr1Jf7x5B4z/zbEO4fjLkYFu6HtcQ+JbhA2M4mY6B7vLd7
-        0ZMD0sEUiA88G6VeDUxFw1EIBsMuAOuqnZrusc8ZVstoP2bAOXDwpltv/Y/kKX6d4HXBKVWWAlia0
-        mx0Oe8lw==;
+        bh=rgZ7hZWkHDtTpF84Xw00Ifyh/7yejqO/hjYHP4KrVyk=; b=VA/C0CmchcfXpbAczSsPgonOyt
+        2aUt/agGqPFIFpZ6l2I6Qg5nqdJuz9IoNMj9V/ozfrCxRR6fb5YEf1Ga0kiJRyftM4e6pWjqWSKkc
+        dIb0BRa5UE1aFif3qoM2MZ9k3ki3NvKxYPbB/R6/S547Pj10WkYXT/Q4uPhD0UtHAZXSrtLCyzGlN
+        kb1o1hAHxW8lgC6PteRUH9iYuSUB3Gmflm7Y6x74H7yhLbWGQ2MymwpDc7/LOZXgNN8aLC7xVvmQ7
+        r4CZEX4BQYELzBYNeKfUDIJMu3CGkBsiIghUyTmTjEZk9+BAmwahfI7LbKKQJ31UK8rF4TV1yz3Wq
+        y8BpnERg==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pyTDk-00BQMz-1T;
-        Mon, 15 May 2023 08:06:16 +0000
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pyTDl-003HUW-Ez; Mon, 15 May 2023 08:06:17 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 09F29300244;
-        Mon, 15 May 2023 10:06:10 +0200 (CEST)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 872123033CC;
+        Mon, 15 May 2023 10:06:15 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-        id AEDEA202FCE90; Mon, 15 May 2023 10:06:10 +0200 (CEST)
-Message-ID: <20230515080554.047618712@infradead.org>
+        id C2169202FCEA4; Mon, 15 May 2023 10:06:10 +0200 (CEST)
+Message-ID: <20230515080554.315901115@infradead.org>
 User-Agent: quilt/0.66
-Date:   Mon, 15 May 2023 09:57:01 +0200
+Date:   Mon, 15 May 2023 09:57:05 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     torvalds@linux-foundation.org
 Cc:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
@@ -58,8 +57,8 @@ Cc:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-s390@vger.kernel.org,
         iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-Subject: [PATCH v3 02/11] types: Introduce [us]128
+        linux-crypto@vger.kernel.org, Vasant Hegde <vasant.hegde@amd.com>
+Subject: [PATCH v3 06/11] x86,amd_iommu: Replace cmpxchg_double()
 References: <20230515075659.118447996@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -67,67 +66,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce [us]128 (when available). Unlike [us]64, ensure they are
-always naturally aligned.
-
-This also enables 128bit wide atomics (which require natural
-alignment) such as cmpxchg128().
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+Tested-by: Vasant Hegde <vasant.hegde@amd.com>
 ---
- include/linux/types.h      |    5 +++++
- include/uapi/linux/types.h |    4 ++++
- 2 files changed, 9 insertions(+)
+ drivers/iommu/amd/amd_iommu_types.h |    9 +++++++--
+ drivers/iommu/amd/iommu.c           |   10 ++++------
+ 2 files changed, 11 insertions(+), 8 deletions(-)
 
---- a/include/linux/types.h
-+++ b/include/linux/types.h
-@@ -10,6 +10,11 @@
- #define DECLARE_BITMAP(name,bits) \
- 	unsigned long name[BITS_TO_LONGS(bits)]
+--- a/drivers/iommu/amd/amd_iommu_types.h
++++ b/drivers/iommu/amd/amd_iommu_types.h
+@@ -986,8 +986,13 @@ union irte_ga_hi {
+ };
  
-+#ifdef __SIZEOF_INT128__
-+typedef __s128 s128;
-+typedef __u128 u128;
-+#endif
-+
- typedef u32 __kernel_dev_t;
+ struct irte_ga {
+-	union irte_ga_lo lo;
+-	union irte_ga_hi hi;
++	union {
++		struct {
++			union irte_ga_lo lo;
++			union irte_ga_hi hi;
++		};
++		u128 irte;
++	};
+ };
  
- typedef __kernel_fd_set		fd_set;
---- a/include/uapi/linux/types.h
-+++ b/include/uapi/linux/types.h
-@@ -13,6 +13,10 @@
- 
- #include <linux/posix_types.h>
- 
-+#ifdef __SIZEOF_INT128__
-+typedef __signed__ __int128 __s128 __attribute__((aligned(16)));
-+typedef unsigned __int128 __u128 __attribute__((aligned(16)));
-+#endif
- 
- /*
-  * Below are truly Linux-specific types that should never collide with
---- a/lib/crypto/curve25519-hacl64.c
-+++ b/lib/crypto/curve25519-hacl64.c
-@@ -14,8 +14,6 @@
- #include <crypto/curve25519.h>
- #include <linux/string.h>
- 
--typedef __uint128_t u128;
--
- static __always_inline u64 u64_eq_mask(u64 a, u64 b)
+ struct irq_2_irte {
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -3003,10 +3003,10 @@ static int alloc_irq_index(struct amd_io
+ static int modify_irte_ga(struct amd_iommu *iommu, u16 devid, int index,
+ 			  struct irte_ga *irte, struct amd_ir_data *data)
  {
- 	u64 x = a ^ b;
---- a/lib/crypto/poly1305-donna64.c
-+++ b/lib/crypto/poly1305-donna64.c
-@@ -10,8 +10,6 @@
- #include <asm/unaligned.h>
- #include <crypto/internal/poly1305.h>
+-	bool ret;
+ 	struct irq_remap_table *table;
+-	unsigned long flags;
+ 	struct irte_ga *entry;
++	unsigned long flags;
++	u128 old;
  
--typedef __uint128_t u128;
--
- void poly1305_core_setkey(struct poly1305_core_key *key,
- 			  const u8 raw_key[POLY1305_BLOCK_SIZE])
- {
+ 	table = get_irq_table(iommu, devid);
+ 	if (!table)
+@@ -3017,16 +3017,14 @@ static int modify_irte_ga(struct amd_iom
+ 	entry = (struct irte_ga *)table->table;
+ 	entry = &entry[index];
+ 
+-	ret = cmpxchg_double(&entry->lo.val, &entry->hi.val,
+-			     entry->lo.val, entry->hi.val,
+-			     irte->lo.val, irte->hi.val);
+ 	/*
+ 	 * We use cmpxchg16 to atomically update the 128-bit IRTE,
+ 	 * and it cannot be updated by the hardware or other processors
+ 	 * behind us, so the return value of cmpxchg16 should be the
+ 	 * same as the old value.
+ 	 */
+-	WARN_ON(!ret);
++	old = entry->irte;
++	WARN_ON(!try_cmpxchg128(&entry->irte, &old, irte->irte));
+ 
+ 	if (data)
+ 		data->ref = entry;
 
 
