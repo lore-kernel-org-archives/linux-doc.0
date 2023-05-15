@@ -2,218 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4EDC77B7D
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 02:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA9DC77B7F
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 02:57:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232572AbjEOCnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 May 2023 22:43:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47918 "EHLO
+        id S229672AbjEOC5J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 May 2023 22:57:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbjEOCnB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 22:43:01 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 854B210F8;
-        Sun, 14 May 2023 19:42:59 -0700 (PDT)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8AxX+synGFkArIIAA--.15051S3;
-        Mon, 15 May 2023 10:42:58 +0800 (CST)
-Received: from bogon.localdomain (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxgjgwnGFkK7JeAA--.32831S2;
-        Mon, 15 May 2023 10:42:56 +0800 (CST)
-From:   Youling Tang <tangyouling@loongson.cn>
-To:     Huacai Chen <chenhuacai@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S231829AbjEOC5I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 22:57:08 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F4510C6
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:07 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6a984993740so4667202a34.2
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bitbyteword.org; s=google; t=1684119426; x=1686711426;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=orD9+oAEHsYM3eHNPXXQ3Z9IvnqViMkDMQitrNknu9k=;
+        b=KEOoMxyN2r7qh+SqHJBbCgGFMX1J9rNNC/fls/UUAjXuPD5Qd3aBDFg1vgWVd3xu9w
+         biTcYLhFLwk25jhEHZm/aDgyT4kmcaNuykhy4TZZBGlRQHZJ/APbi02ogF3/o7EdyWD+
+         Khhy9KWyuKBCqMbCbD9OhC8CePlo8B9bmb7Lz1dr+6ze1Q/6n6FPUyorsQe81nmVt8xc
+         2LmDvtp21rDxzpFCMhzQrjE9vg/7ckVoa1QRy79zDTNEKAmSh5VNJzUR8x/SC10hPJex
+         15HLKXNMNMIDQacG/rOLyw5sOFJOCmz+Ah/3/dVmXV4iiAohF2v0z+y54spHUL9lDdE5
+         0PaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684119426; x=1686711426;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=orD9+oAEHsYM3eHNPXXQ3Z9IvnqViMkDMQitrNknu9k=;
+        b=JW/LDlB+u1t/LsLlYQpTlrjFI+xeLBjpp5vJOgeNLaTSeHsZK2qFZQ7hlLoaJR/9Pd
+         9KnD6cczpPF49roGHpkHPUp7/BLB+P9id+tBlVw86Isa2ZBN2F8337tlEDn4Cos9xyhy
+         dcqNHYhg+KAxw3GrhPlZXJ7Y+AC1/2vFGeLyvBFmmhQHpIyXZgS0JMwuTWjrJpZRh14w
+         mw0tuxpbdbw9b/FZy/ywSx4ACQ3Uy9mni16OmBCT6LzCUWi9IaIIF3g+HE3e/jUX9jjR
+         3uadIponRh9f2qOb1N3qX4yuRox7isopmRKWQgU3VHUt3DCnRb4fgp0eMVfZfbvD48L7
+         b+zQ==
+X-Gm-Message-State: AC+VfDwj4eTUosLBDghH3zY/Ibju/C5jztMQU58+TClVHhur1X8YqiHS
+        ouno5bEsWINTt6k4kpeXpOMGnPSzzr5hHgxtd9nSUw==
+X-Google-Smtp-Source: ACHHUZ7UR8QzvAdf8bGWfhZR0PDTE58Gd2NNGQFrlqPBckkTMdzBn5HKgBIy0ak7Sy9K9O+x2secKxbxkCA1OnoPayc=
+X-Received: by 2002:a9d:6a0d:0:b0:6ab:15c9:b46c with SMTP id
+ g13-20020a9d6a0d000000b006ab15c9b46cmr9970194otn.4.1684119426518; Sun, 14 May
+ 2023 19:57:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230508160829.2756405-1-vineeth@bitbyteword.org>
+ <20230509132534.09098acc@luca64> <CAO7JXPhrqKWfsp860rRmEenxARi8U2gNMGsOn4m+aKporWwBcg@mail.gmail.com>
+ <20230509224829.2fb547fd@nowhere> <20230509225417.61d36733@nowhere>
+ <CAO7JXPhk5qbz9kmiu9WuXS+gXCt9+X8pP2c37hd9ChByLmXYjA@mail.gmail.com>
+ <20230510090735.68f62cd4@nowhere> <CAO7JXPg03f2YnrmzoGjfHEZZcoN55cU7uVukMw31Bw3x6nnaMw@mail.gmail.com>
+ <20230511093711.2be82409@nowhere> <CAO7JXPiKLFLVpqDKoRdu8c2Yd4AJ_2B2UyXJxD3kJAyiJ=n0_Q@mail.gmail.com>
+ <20230511220336.05866e80@nowhere> <CAO7JXPg9K4MA7H63Num8-BHBT-Y=GQ3BnEEvaEMVKmYsXCY7Sg@mail.gmail.com>
+In-Reply-To: <CAO7JXPg9K4MA7H63Num8-BHBT-Y=GQ3BnEEvaEMVKmYsXCY7Sg@mail.gmail.com>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Sun, 14 May 2023 22:56:55 -0400
+Message-ID: <CAO7JXPiYL_1ePxcoH=mvGq05S75jmA3SLjDf=oe0wU4Ozm4hrA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sched/deadline: accurate reclaim bandwidth for GRUB
+To:     luca abeni <luca.abeni@santannapisa.it>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Zhangjin Wu <falcon@tinylab.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-Subject: [PATCH v3] LoongArch: Add jump-label implementation
-Date:   Mon, 15 May 2023 10:42:54 +0800
-Message-Id: <1684118574-7572-1-git-send-email-tangyouling@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf8AxgjgwnGFkK7JeAA--.32831S2
-X-CM-SenderInfo: 5wdqw5prxox03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxKr1fGw47ArWDAw1ktr4fZrb_yoW7GF1fpr
-        17Awn5GF4kGFn3JrZxtFyDur45XFZ3W3W2gF4ayFy8AFy7Z340vr1IkryDZF1DJ393GrWI
-        gF1ruFsIva1UJ3JanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
-        e7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
-        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
-        aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4
-        kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
-        1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
-        Wlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j
-        6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
-        0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIY
-        CTnIWIevJa73UjIFyTuYvjxUcbAwUUUUU
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for jump labels based on the ARM64 version.
+Hi Luca,
 
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Signed-off-by: Youling Tang <tangyouling@loongson.cn>
----
-Changes in v3:
-- Define the JUMP_TABLE_ENTRY macro so that arch_static_branch
-  and arch_static_branch_jump can be shared.
-- Modify commit message.
+> Sure, I shall split the patch. Joel also suggested splitting the patch
+> and I was probably wrong to think that the patch was simple to be a
+> single patch :-).
+>
+> Since equation (3) has theoretical backing, I am perfectly fine with
+> using it for our fix. Will have 2 patches as you suggested.
+>
+> Will get the v3 out soon..
+>
+Sorry for the delay. I was testing the fixes and noticed one other
+issue and was working on a fix.
 
-Changes in v2:
-- Fix build errors.
-- fix comment.
+This is with the extra_bw for tracking the unused bandwidth in the
+system. As you have shown me:
+ "extra_bw = Umax - ((Sum of bw of all tasks) / #cpus)"
+But I noticed that tracking the extra_bw globally while rest of the
+values as per-cpu causes issues with reclaiming especially when we
+have tasks with small bandwidth. This is because GRUB tries to
+proportionately divide unused bandwidth based on running bw on a cpu.
+So even if there is only a single task in a cpu, it reclaims less if
+its bandwidth is less.
 
- .../core/jump-labels/arch-support.txt         |  2 +-
- arch/loongarch/Kconfig                        |  2 +
- arch/loongarch/configs/loongson3_defconfig    |  1 +
- arch/loongarch/include/asm/jump_label.h       | 50 +++++++++++++++++++
- arch/loongarch/kernel/Makefile                |  2 +
- arch/loongarch/kernel/jump_label.c            | 23 +++++++++
- 6 files changed, 79 insertions(+), 1 deletion(-)
- create mode 100644 arch/loongarch/include/asm/jump_label.h
- create mode 100644 arch/loongarch/kernel/jump_label.c
+I think removing the extra_bw and tracking unused bandwidth using
+"max_bw - this_bw" should be okay. Since admission control will
+guarantee that we don't admit more than the capacity, we should be
+good with allowing tasks on a cpu to use max_bw while reclaiming.
 
-diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
-index 2328eada3a49..94d9dece580f 100644
---- a/Documentation/features/core/jump-labels/arch-support.txt
-+++ b/Documentation/features/core/jump-labels/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |   loongarch: | TODO |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index d38b066fc931..193a959a5611 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -83,6 +83,8 @@ config LOONGARCH
- 	select GPIOLIB
- 	select HAS_IOPORT
- 	select HAVE_ARCH_AUDITSYSCALL
-+	select HAVE_ARCH_JUMP_LABEL
-+	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_MMAP_RND_BITS if MMU
- 	select HAVE_ARCH_SECCOMP_FILTER
- 	select HAVE_ARCH_TRACEHOOK
-diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
-index 6cd26dd3c134..33a0f5f742f6 100644
---- a/arch/loongarch/configs/loongson3_defconfig
-+++ b/arch/loongarch/configs/loongson3_defconfig
-@@ -63,6 +63,7 @@ CONFIG_EFI_ZBOOT=y
- CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER=y
- CONFIG_EFI_CAPSULE_LOADER=m
- CONFIG_EFI_TEST=m
-+CONFIG_JUMP_LABEL=y
- CONFIG_MODULES=y
- CONFIG_MODULE_FORCE_LOAD=y
- CONFIG_MODULE_UNLOAD=y
-diff --git a/arch/loongarch/include/asm/jump_label.h b/arch/loongarch/include/asm/jump_label.h
-new file mode 100644
-index 000000000000..4d8cbd5a8221
---- /dev/null
-+++ b/arch/loongarch/include/asm/jump_label.h
-@@ -0,0 +1,50 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2023 Loongson Technology Corporation Limited
-+ *
-+ * Based on arch/arm64/include/asm/jump_label.h
-+ */
-+#ifndef __ASM_JUMP_LABEL_H
-+#define __ASM_JUMP_LABEL_H
-+
-+#ifndef __ASSEMBLY__
-+
-+#include <linux/types.h>
-+
-+#define JUMP_LABEL_NOP_SIZE	4
-+
-+#define JUMP_TABLE_ENTRY				\
-+	 ".pushsection	__jump_table, \"aw\"	\n\t"	\
-+	 ".align	3			\n\t"	\
-+	 ".long		1b - ., %l[l_yes] - .	\n\t"	\
-+	 ".quad		%0 - .			\n\t"	\
-+	 ".popsection				\n\t"
-+
-+static __always_inline bool arch_static_branch(struct static_key * const key,
-+					       const bool branch)
-+{
-+	asm_volatile_goto(
-+		"1:	nop			\n\t"
-+		JUMP_TABLE_ENTRY
-+		:  :  "i"(&((char *)key)[branch]) :  : l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+static __always_inline bool arch_static_branch_jump(struct static_key * const key,
-+						    const bool branch)
-+{
-+	asm_volatile_goto(
-+		"1:	b	%l[l_yes]	\n\t"
-+		JUMP_TABLE_ENTRY
-+		:  :  "i"(&((char *)key)[branch]) :  : l_yes);
-+
-+	return false;
-+l_yes:
-+	return true;
-+}
-+
-+#endif  /* __ASSEMBLY__ */
-+#endif	/* __ASM_JUMP_LABEL_H */
-diff --git a/arch/loongarch/kernel/Makefile b/arch/loongarch/kernel/Makefile
-index 9a72d91cd104..64ea76f60e2c 100644
---- a/arch/loongarch/kernel/Makefile
-+++ b/arch/loongarch/kernel/Makefile
-@@ -54,4 +54,6 @@ obj-$(CONFIG_HAVE_HW_BREAKPOINT)	+= hw_breakpoint.o
- 
- obj-$(CONFIG_KPROBES)		+= kprobes.o kprobes_trampoline.o
- 
-+obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
-+
- CPPFLAGS_vmlinux.lds		:= $(KBUILD_CFLAGS)
-diff --git a/arch/loongarch/kernel/jump_label.c b/arch/loongarch/kernel/jump_label.c
-new file mode 100644
-index 000000000000..b06245955f7a
---- /dev/null
-+++ b/arch/loongarch/kernel/jump_label.c
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2023 Loongson Technology Corporation Limited
-+ *
-+ * Based on arch/arm64/kernel/jump_label.c
-+ */
-+#include <linux/jump_label.h>
-+#include <linux/kernel.h>
-+#include <asm/inst.h>
-+
-+void arch_jump_label_transform(struct jump_entry *entry,
-+			       enum jump_label_type type)
-+{
-+	void *addr = (void *)jump_entry_code(entry);
-+	u32 insn;
-+
-+	if (type == JUMP_LABEL_JMP)
-+		insn = larch_insn_gen_b(jump_entry_code(entry), jump_entry_target(entry));
-+	else
-+		insn = larch_insn_gen_nop();
-+
-+	larch_insn_patch_text(addr, insn);
-+}
--- 
-2.37.1
+With the above theory, the code becomes simpler and is the same as the
+v2 patch.
+ max{u_i, (max_bw - Uinact - Uextra)}
+ = max {u_i, (max_bw - (this_bw - running_bw) - (max_bw - this_bw))}
+ = max {u_i, running_bw} = running_bw
+So, "dq = -(running_bw / max_bw) dt"
 
+v2 had passed all my tests. But having Uextra broke couple of those
+when it came to multiprocessors and after identifying the root cause
+and re-writing the equation, everything works now and passes all
+my tests. I have more confidence in the above equation as its derived
+from the SMP GRUB rule using our max_bw.
+
+Please have a look and let me know what you think about this.
+
+I have the v3 ready with patches split into 5(including doc patch).
+I shall post v3 soon after this so that you can see the code changes
+as well to have a better look.
+
+Thanks,
+Vineeth
