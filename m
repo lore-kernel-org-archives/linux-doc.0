@@ -2,165 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C98BC7EE24
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 09:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 617EAC77B7D
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 10:01:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237368AbjEOJ4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 05:56:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60612 "EHLO
+        id S230342AbjEOKBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 06:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239965AbjEOJ4b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 05:56:31 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869A41BE5;
-        Mon, 15 May 2023 02:56:26 -0700 (PDT)
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34F9kL9E004814;
-        Mon, 15 May 2023 09:55:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=c69QNR7lfIqB6FKiUIhsojT+MsFH8qH65PiA7hty3/w=;
- b=XedJ+r9zfgtSzDIB4eSrPCYm0wWx4qeblaLActQ5QVrHh2HEZP56wPCN6nRfdD4hHuiP
- EhfoiT0R911OpM43d3K1kk0me4DLgXWV8s+zqgbHPChfQ3FYX4z+56AT5PA4aVx+B9K3
- S2qnW7+htzYKc4tFSAOQn6w6QayRbwJWQ5RN51Dqjzw/xNYJQr+c0ErxHoNskgUl8DFd
- yHHBmnlnMxV8YENBqZIFU66wF7Pf9Kv8sUifi612DboAhSZ7gyThFuv1UtnbRg8omvaJ
- FcXo0FBL1z6F1hLhK8K2P8bnpEOnHfIw7A8h7ehhYGnNcX/9/f9uXq9zPPOPPG4PGrtc 6g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkd3mswqh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 15 May 2023 09:55:53 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34F9bqmA009076;
-        Mon, 15 May 2023 09:55:51 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkd3mswp5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 15 May 2023 09:55:51 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34F8Tiqw000411;
-        Mon, 15 May 2023 09:33:32 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-        by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3qj264rtm2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 15 May 2023 09:33:32 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-        by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34F9XTPL45744626
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 15 May 2023 09:33:29 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E664720040;
-        Mon, 15 May 2023 09:33:28 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 413B62004B;
-        Mon, 15 May 2023 09:33:26 +0000 (GMT)
-Received: from [9.171.65.23] (unknown [9.171.65.23])
-        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 15 May 2023 09:33:26 +0000 (GMT)
-Message-ID: <670b01819f6f875364abaafa4accad9fa92e6177.camel@linux.ibm.com>
-Subject: Re: [PATCH v8 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Joerg Roedel <joro@8bytes.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
+        with ESMTP id S240673AbjEOKBC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 06:01:02 -0400
+Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E108410D7;
+        Mon, 15 May 2023 03:00:58 -0700 (PDT)
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by bee.tesarici.cz (Postfix) with ESMTPSA id 326E5160138;
+        Mon, 15 May 2023 12:00:55 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+        t=1684144855; bh=FVFsQnYYTuwSDfQT1gRhMw75JP0WYBxpbYd1nJTsCHE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ukVkPEFMenbg+4nKrZB3AJ2+vq21sO5D8rLu5evn+zhUMlfOJW7LnSZwrDqZqoFpK
+         7TqR4dBsvR7NxgLCpSJfGnuJiD8QpqHejOt8ff2mYfN3CJnYi2+V3tBS/BnE1H3fYG
+         z+4qFhYA/Z6kZ5gyzmTx3/Jl/x/la5CE6tV5yKkBag0XkDCTki+dId+FMNgyYZRza4
+         cWz4S7wDuPqX3DzRAr0shXwjcSE1jXYQO7f+mO1u+qLQE3151PjXt+9alskoe+lI/I
+         y0VV68MDZs+bTqidCD+qs2Q2/S0Bvr2EiTL3Pu7HIzaw188xAS3xMnUWB2+jLFWVNz
+         sIlUxYdXua66Q==
+Date:   Mon, 15 May 2023 12:00:54 +0200
+From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
         Robin Murphy <robin.murphy@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
         Jason Gunthorpe <jgg@ziepe.ca>,
-        Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Date:   Mon, 15 May 2023 11:33:25 +0200
-In-Reply-To: <ZF5NRls92rhmzV7B@infradead.org>
-References: <20230310-dma_iommu-v8-0-2347dfbed7af@linux.ibm.com>
-         <ZF5NRls92rhmzV7B@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
+ dynamically allocated buffers
+Message-ID: <20230515120054.0115a4eb@meshulam.tesarici.cz>
+In-Reply-To: <20230515104847.6dfdf31b@meshulam.tesarici.cz>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+        <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
+        <ZGEuYxR2PM6wHeDh@arm.com>
+        <20230515104847.6dfdf31b@meshulam.tesarici.cz>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bs2KpFYuwoCp6-aBJBUXDadSE7HNCIPx
-X-Proofpoint-ORIG-GUID: d9-xVIyzWKoF0UTrrDTDDfGL5QDVi9C0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_06,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 suspectscore=0
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 clxscore=1011
- mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150082
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2023-05-12 at 07:29 -0700, Christoph Hellwig wrote:
-> On Fri, Mar 10, 2023 at 05:07:45PM +0100, Niklas Schnelle wrote:
-> > Hi All,
-> >=20
-> > This patch series converts s390's PCI support from its platform specifi=
-c DMA
-> > API implementation in arch/s390/pci/pci_dma.c to the common DMA IOMMU l=
-ayer.
-> > The conversion itself is done in patches 3-4 with patch 2 providing the=
- final
-> > necessary IOMMU driver improvement to handle s390's special IOTLB flush
-> > out-of-resource indication in virtualized environments. Patches 1-2 may=
- be
-> > applied independently. The conversion itself only touches the s390 IOMM=
-U driver
-> > and s390 arch code moving over remaining functions from the s390 DMA AP=
-I
-> > implementation. No changes to common code are necessary.
->=20
-> It looks like this still hasn't made it upstream as of 6.4-rc1.  What's
-> holding this series up?
->=20
+On Mon, 15 May 2023 10:48:47 +0200
+Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
 
-I think with all the IOMMUFD work going on this got starved out of
-reviewer resources. I didn't have any open todos but I guess there is
-still some review needed around how the IOMMU driver tells the dma-
-iommu that it expects IOTLB flushes to be slow requiring a larger
-single flush queue. There was also a small conflict with commit
-49a22aae7d9c ("iommu: Replace device_lock() with group->mutex") that
-prevented this from applying to current upstream so I've just now sent
-out a v9 rebased on v6.4-rc2.
+> Hi Catalin,
+>=20
+> On Sun, 14 May 2023 19:54:27 +0100
+> Catalin Marinas <catalin.marinas@arm.com> wrote:
+>[...]
+> > Now, thinking about the list_head access and the flag ordering, since it
+> > doesn't matter, you might as well not bother with the flag at all and
+> > rely on list_add() and list_empty() ordering vs the hypothetical 'blah'
+> > access. Both of these use READ/WRITE_ONCE() for setting
+> > dma_io_tlb_dyn_slots.next. You only need an smp_wmb() after the
+> > list_add() and an smp_rmb() before a list_empty() check in
+                      ^^^^^^^^^
+Got it, finally. Well, that's exactly something I don't want to do.
+For example, on arm64 (seeing your email address), smp_rmb() translates
+to a "dsb ld" instruction. I would expect that this is more expensive
+than a "ldar", generated by smp_load_acquire().
 
-Thanks,
-Niklas
+I mean, for devices that do not need swiotlb, the flag never changes
+from zero, so reading it must be as cheap as possible.
+
+Petr T
+
+> > is_swiotlb_buffer(), no dma_iotlb_have_dyn variable. =20
+>=20
+> Wait, let me check that I understand you right. Do you suggest that I
+> convert dma_io_tlb_dyn_slots to a lockless list and get rid of the
+> spinlock?
+>=20
+> I'm sure it can be done for list_add() and list_del(). I'll have
+> to think about list_move().
+
+Hm, even the documentation of llist_empty() says that it is "not
+guaranteed to be accurate or up to date". If it could be, I'm quite
+sure the authors would have gladly implemented it as such.
+
+Petr T
