@@ -2,113 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F93C7EE22
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 06:24:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEF1C77B7D
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 07:58:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239636AbjEOGYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 02:24:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56888 "EHLO
+        id S232090AbjEOH6e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 03:58:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239350AbjEOGYn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 02:24:43 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C6CA9F;
-        Sun, 14 May 2023 23:24:40 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-52caed90d17so7778091a12.0;
-        Sun, 14 May 2023 23:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684131880; x=1686723880;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ipVfxboz2N3BTbhUZctFrasYMvC8E8GR8fiHDB5wG9A=;
-        b=K/Ds5UQDShQ1jfqjq8VIbQzq9KL8b4ueLhmM+jbfvGykQOm9udF30CIzh7yLh0AyyW
-         VYx2xlivf2OSEdspjfb8Gx7JMtCBsJInxMc/fFczq4kfjpAo0USZOFUZc6QxtZNJ4j3N
-         E79DBz4t+N8DzEbdPJRBFSlFxD+9mq6SDrSMmmWHAeKYSgfnh2tpWRcuuT+67GCsSXQ/
-         FP3HV5EZfoM11bfhNw1pyATMs6J2zLTpG+S2im1DBjb52UWpC5TQMtLjdJSk97kejt+d
-         ZrAzPOBGlVVTLZU9eegXT+l0o/7mv0ugLJBck6gy/AjW0mGGRfvrYJoYuhwH2BEWATXt
-         pymQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684131880; x=1686723880;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ipVfxboz2N3BTbhUZctFrasYMvC8E8GR8fiHDB5wG9A=;
-        b=Ob1oLNPv7UZCEYzxzV8UVeAv28qv3ZYiSly+mgYgoAKTiea9/Hnb1a45lINmSixoFS
-         hU12ipxaDR9Hur4wq2aT1G3LiLEB+aAbuAiggi7/5dWEghuwEo/bl/WOBM6YoAjdpaFe
-         NrD4P4a9gNb+OT75yYUWsxcKOMqkVAhWUEYXo0G3Uex+4O2stBsZ9W3FpWjFpggbfdnc
-         mDq6SyodrLnpI94fw0NYZSFPXpvUa38BmHSo0EeLikh6dUqpUtmHPSu7Y0XxgltX2Dws
-         7JwsT4sPrW5M22Q86IhkbAmAtUYEHZP4QlwPYdoYCv00no3Ld+rQtPkBM4MYN91Xlv66
-         ExBA==
-X-Gm-Message-State: AC+VfDyuMyne+u4KCGcf9EUjW7qw5v5d9uL3OwpL0tKF76HGBRPbVUus
-        G39kWewu1LGu4AXltoIYRtxmxOlkDG0I/NGMXSA=
-X-Google-Smtp-Source: ACHHUZ4wRiCLeYPgQOiKNNvZY75L/XiRY4hGc1xrqkwiizwTTiO+743uCn+9bRYh7GxEKf2LBVi2VCi/iVrz18zFAOQ=
-X-Received: by 2002:a17:90a:d48d:b0:252:a7b5:723f with SMTP id
- s13-20020a17090ad48d00b00252a7b5723fmr11803679pju.2.1684131879992; Sun, 14
- May 2023 23:24:39 -0700 (PDT)
+        with ESMTP id S239693AbjEOH63 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 03:58:29 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B8B20171F;
+        Mon, 15 May 2023 00:55:38 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CCC472F4;
+        Mon, 15 May 2023 00:56:22 -0700 (PDT)
+Received: from [10.57.83.208] (unknown [10.57.83.208])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 830B33F67D;
+        Mon, 15 May 2023 00:55:35 -0700 (PDT)
+Message-ID: <89ad5070-db72-7bf1-5d86-a89fea54e789@arm.com>
+Date:   Mon, 15 May 2023 08:55:33 +0100
 MIME-Version: 1.0
-References: <cover.1683791148.git.haibo1.xu@intel.com> <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
- <20230511-boozy-comic-5bc8f297dc8e@spud> <20230511-leverage-backspin-34bcde885006@spud>
-In-Reply-To: <20230511-leverage-backspin-34bcde885006@spud>
-From:   Haibo Xu <xiaobo55x@gmail.com>
-Date:   Mon, 15 May 2023 14:24:28 +0800
-Message-ID: <CAJve8okYNEbk2PwXVzx+dMSq+uci=W_tpShNv3FER=pWRUymWw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] riscv: kvm: Add KVM_GET_REG_LIST API support
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, ajones@ventanamicro.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 1/4] devres: Provide krealloc_array
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux@roeck-us.net,
+        michal.simek@amd.com, Jonathan.Cameron@huawei.com,
         Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Jean Delvare <jdelvare@suse.com>,
+        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20230509094942.396150-1-james.clark@arm.com>
+ <20230509094942.396150-2-james.clark@arm.com>
+ <2023051340-sinuous-darkroom-2497@gregkh>
+Content-Language: en-US
+From:   James Clark <james.clark@arm.com>
+In-Reply-To: <2023051340-sinuous-darkroom-2497@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 12, 2023 at 6:48=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Thu, May 11, 2023 at 11:25:41PM +0100, Conor Dooley wrote:
-> > On Thu, May 11, 2023 at 05:22:48PM +0800, Haibo Xu wrote:
-> > > KVM_GET_REG_LIST API will return all registers that are available to
-> > > KVM_GET/SET_ONE_REG APIs. It's very useful to identify some platform
-> > > regression issue during VM migration.
-> > >
-> > > Since this API was already supported on arm64, it'd be straightforwar=
-d
-> > > to enable it on riscv with similar code structure.
-> >
-> > Applied on top of v6.4-rc1 this breaks the build :/
->
-> I lied, I forgot W=3D1 is enabled for the allmodconfig builds in the
-> patchwork automation.
-> The warnings are trivial to fix, so you should fix them anyway!
->
 
-sure, I will fix them in the next version.
 
-Thanks,
-Haibo
+On 13/05/2023 12:04, Greg KH wrote:
+> On Tue, May 09, 2023 at 10:49:38AM +0100, James Clark wrote:
+>> There is no krealloc_array equivalent in devres. Users would have to
+>> do their own multiplication overflow check so provide one.
+>>
+>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> Signed-off-by: James Clark <james.clark@arm.com>
+>> ---
+>>  Documentation/driver-api/driver-model/devres.rst |  1 +
+>>  include/linux/device.h                           | 11 +++++++++++
+>>  2 files changed, 12 insertions(+)
+>>
+>> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+>> index 4249eb4239e0..8be086b3f829 100644
+>> --- a/Documentation/driver-api/driver-model/devres.rst
+>> +++ b/Documentation/driver-api/driver-model/devres.rst
+>> @@ -364,6 +364,7 @@ MEM
+>>    devm_kmalloc_array()
+>>    devm_kmemdup()
+>>    devm_krealloc()
+>> +  devm_krealloc_array()
+>>    devm_kstrdup()
+>>    devm_kstrdup_const()
+>>    devm_kvasprintf()
+>> diff --git a/include/linux/device.h b/include/linux/device.h
+>> index 472dd24d4823..58f4f5948edb 100644
+>> --- a/include/linux/device.h
+>> +++ b/include/linux/device.h
+>> @@ -223,6 +223,17 @@ static inline void *devm_kcalloc(struct device *dev,
+>>  {
+>>  	return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+>>  }
+>> +static inline __realloc_size(3, 4) void * __must_check
+> 
+> Shouldn't you have a blank line before this one?
 
-> > warning: Function parameter or member 'vcpu' not described in 'kvm_risc=
-v_vcpu_num_regs'
-> > warning: Function parameter or member 'uindices' not described in 'kvm_=
-riscv_vcpu_copy_reg_indices'
-> > warning: Function parameter or member 'vcpu' not described in 'kvm_risc=
-v_vcpu_copy_reg_indices'
-> >
-> > You have a bunch of kerneldoc comments (the ones with /**) that are not
-> > valid kerneldoc. Apparently allmodconfig catches that!
-> >
-> > Cheers,
-> > Conor.
->
->
+I was going for consistency with the rest of this section which doesn't
+have newlines between the functions for some reason. I can add one and
+resubmit but it might look a bit out of place?
+
+> 
+>> +devm_krealloc_array(struct device *dev, void *p, size_t new_n, size_t new_size, gfp_t flags)
+>> +{
+>> +	size_t bytes;
+>> +
+>> +	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
+>> +		return NULL;
+>> +
+>> +	return devm_krealloc(dev, p, bytes, flags);
+>> +}
+> 
+> I dislike how we have to keep copying the "real" functions (i.e.
+> krealloc_array) into something like this, but I can't think of a better
+> way to do it.
+> 
+
+Maybe something could be done with some macro magic, but it would
+probably end up being worse than just copying them and would affect the
+real ones as well. So yeah I can't think of any easy gains either.
+
+Thanks
+James
+
+> thanks,
+> 
+> greg k-h
