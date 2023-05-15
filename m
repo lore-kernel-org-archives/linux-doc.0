@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED726C7EE2D
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 05:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E991C77B75
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 05:56:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238267AbjEOF4R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 01:56:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34448 "EHLO
+        id S239260AbjEOF4i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 01:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238459AbjEOFzR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 01:55:17 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6563F2681
-        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 22:51:48 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1ab14cb3aaeso87506605ad.2
-        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 22:51:48 -0700 (PDT)
+        with ESMTP id S229760AbjEOFzj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 01:55:39 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F04A4483
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 22:51:56 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1aaec6f189cso83319645ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 22:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1684129907; x=1686721907;
+        d=ventanamicro.com; s=google; t=1684129913; x=1686721913;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yRIRI8aArNgE1fextAvbnFu2fBTu5X0gP4d56RcrLtU=;
-        b=P55VHJAeeZPFLn6MArdkdONPfKxSmHWuE5x9uwVEEo8fI8KbMUVEaDdai2FLBo197c
-         m1IMiinKvSiNmbINs8Cjs90BwvOF9iQ99bPpIZlHLbjjg7rLEz5EFexQW58tZsGZs9Dm
-         OezmSZw3QuY+j3EthAC5CUjagDzbnL6a1p5axq2e0GZvF6VEl0ZfjneirVX0dScfUfpa
-         j4Ly8D8jpo/7BXqGPq5xwGDLgPgsLzPm79brEuKEGA1Fa9MA7P82rDM1Iqi5+d+4NOHm
-         cf8DFDbDr1xpJzM0fXtKoTMrvtQrRv1B7WI0LjnHHlLnJLfd2VNrvnJC0dGqjFt3YKZZ
-         KJ4A==
+        bh=38k1Pzb7K1cfn0j2an7l+ypiTAB8VfWPvQzIb1c40CU=;
+        b=DF3aOoyY2x5iaGKXW2mCt0x/pQaAbDiKZZA0gDxjyLTyhSF3crH1dqxukCLNdHLfzQ
+         ZzllGl7O4cpL+1Ul+Ds+6Hlon19xGezeeBDycdpnw1yNTf8V0jBLjijIo+4x3N7mMVMm
+         isEMw5L4IMR6Yb/m9GcCKifj8e3SKkJs+3i2W3GBRn5jdibK+1JCAXj2pMZ63lvDHW50
+         sZfCOt8sZJqQyLYQ+Oq/WAW56pMLyY47+byTDjC10jgBeL3W30bL0F7M6vHfzau4iz4q
+         t0kqk1PSabd2sPNafnYuKBGJfSKY19q3eIGZWj6Wm7bKwjIEx1AbGBqBd0HU8LRKruDN
+         NGrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684129907; x=1686721907;
+        d=1e100.net; s=20221208; t=1684129913; x=1686721913;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yRIRI8aArNgE1fextAvbnFu2fBTu5X0gP4d56RcrLtU=;
-        b=IYuCrBYQFOi5WneYfg0ZnwVlx4MxNPlR1rZlOqHSLwUU6wAutwajVGCctElD/nDo2e
-         zBIydvCgHyhONzj8jvpSINYeAf7d8YO9XvPvxGTG4pIArpROIjpe1wnM73qgorYb30fR
-         iQ0QxgcF5VGnDqoyMCUz76Dinx1tP1Kz4JNKxFdvHb7QUwo/sHec+lZ4hu+OFG4la3nV
-         UKmQCMCRkh7dfJcsuUcB2xjb6lX6XIjGllTM2gO5jKJPyVgIiYglNmLZULNiKd8Pqvbx
-         7JO2P6xqFtnjZU9TexZG+AoAyqt+2aAgq+pxKRQ47WIgqQMytnEkPECyboIi/6JR2uQT
-         7gag==
-X-Gm-Message-State: AC+VfDwMg8CpVmRGzdzn2ma0qR2oet89c+VO7j1vQTytysvN8Ny1l6HV
-        he9sVDbr35aWVpGVf8Pf6J3tyzpkHC7c58tjTWs=
-X-Google-Smtp-Source: ACHHUZ7MyqMNWbnzlW+Qm5Vs15EikGz5Gk7dGMK9zmxWk7Q0Vfy73hx3hlnowhqMEf+HVQzX9PIUCw==
-X-Received: by 2002:a17:902:e751:b0:1ab:1eca:f6b6 with SMTP id p17-20020a170902e75100b001ab1ecaf6b6mr45146037plf.13.1684129906775;
-        Sun, 14 May 2023 22:51:46 -0700 (PDT)
+        bh=38k1Pzb7K1cfn0j2an7l+ypiTAB8VfWPvQzIb1c40CU=;
+        b=i6aTP99VFGajDKjf048224m3iRWZat/S2FIbeVFZE+ByUPjtjs+VjPwaNQeSrMTtjn
+         SNveEekmAhM8rE2kxhu2UkVzSLXdBUucVsPnM9FMw1q+CiZqFiOI9wXyGkJRrj8ZAv/T
+         RMCkjUlVLsnda+3KN0Eo0bcPIi/qukpYxEXOWjVf0jtpJp1KI43VQ5yjruMH0yZtasra
+         aMI60BrgRkpgPHCicZHGqdXSv/UEYjKspAwxGiV1ahQqoS26hkHqxzfc1pGOAxqQkdcv
+         ED6nRlxrjZRM1cUusGlysi75FDtlYjPJz0t59oH9a7lMqIbC147OoBmftRdnR6Tyc/T0
+         DS4Q==
+X-Gm-Message-State: AC+VfDwyapssub+1dS9XOZbym/4Bs/NCcdkGgQwuqap8D25iqn0g/+dx
+        5hWfqJcZOUxQs7fM32JiYEFDfceTeu7J15R2ixE=
+X-Google-Smtp-Source: ACHHUZ5cT0y2rm0ss7uQXiWI3AwrzqmHogjFI004ygSntqdlQauc3fg5I5daloTNm/BF5SXIXJdw8g==
+X-Received: by 2002:a17:902:fa0f:b0:1a9:8ff5:af43 with SMTP id la15-20020a170902fa0f00b001a98ff5af43mr30429186plb.18.1684129913618;
+        Sun, 14 May 2023 22:51:53 -0700 (PDT)
 Received: from localhost.localdomain ([106.51.191.118])
-        by smtp.gmail.com with ESMTPSA id f10-20020a17090274ca00b001ab28f620d0sm12423277plt.290.2023.05.14.22.51.40
+        by smtp.gmail.com with ESMTPSA id f10-20020a17090274ca00b001ab28f620d0sm12423277plt.290.2023.05.14.22.51.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 22:51:46 -0700 (PDT)
+        Sun, 14 May 2023 22:51:53 -0700 (PDT)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
@@ -77,9 +77,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
         Andrew Jones <ajones@ventanamicro.com>,
         Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH V6 19/21] RISC-V: time.c: Add ACPI support for time_init()
-Date:   Mon, 15 May 2023 11:19:26 +0530
-Message-Id: <20230515054928.2079268-20-sunilvl@ventanamicro.com>
+Subject: [PATCH V6 20/21] RISC-V: Enable ACPI in defconfig
+Date:   Mon, 15 May 2023 11:19:27 +0530
+Message-Id: <20230515054928.2079268-21-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230515054928.2079268-1-sunilvl@ventanamicro.com>
 References: <20230515054928.2079268-1-sunilvl@ventanamicro.com>
@@ -89,66 +89,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On ACPI based platforms, timer related information is
-available in RHCT. Add ACPI based probe support to the
-timer initialization.
+Add support to build ACPI subsystem in defconfig.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/kernel/time.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ arch/riscv/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/riscv/kernel/time.c b/arch/riscv/kernel/time.c
-index babaf3b48ba8..23641e82a9df 100644
---- a/arch/riscv/kernel/time.c
-+++ b/arch/riscv/kernel/time.c
-@@ -4,6 +4,7 @@
-  * Copyright (C) 2017 SiFive
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/of_clk.h>
- #include <linux/clockchips.h>
- #include <linux/clocksource.h>
-@@ -18,17 +19,29 @@ EXPORT_SYMBOL_GPL(riscv_timebase);
- void __init time_init(void)
- {
- 	struct device_node *cpu;
-+	struct acpi_table_rhct *rhct;
-+	acpi_status status;
- 	u32 prop;
- 
--	cpu = of_find_node_by_path("/cpus");
--	if (!cpu || of_property_read_u32(cpu, "timebase-frequency", &prop))
--		panic(KERN_WARNING "RISC-V system with no 'timebase-frequency' in DTS\n");
--	of_node_put(cpu);
--	riscv_timebase = prop;
-+	if (acpi_disabled) {
-+		cpu = of_find_node_by_path("/cpus");
-+		if (!cpu || of_property_read_u32(cpu, "timebase-frequency", &prop))
-+			panic("RISC-V system with no 'timebase-frequency' in DTS\n");
-+
-+		of_node_put(cpu);
-+		riscv_timebase = prop;
-+		of_clk_init(NULL);
-+	} else {
-+		status = acpi_get_table(ACPI_SIG_RHCT, 0, (struct acpi_table_header **)&rhct);
-+		if (ACPI_FAILURE(status))
-+			panic("RISC-V ACPI system with no RHCT table\n");
-+
-+		riscv_timebase = rhct->time_base_freq;
-+		acpi_put_table((struct acpi_table_header *)rhct);
-+	}
- 
- 	lpj_fine = riscv_timebase / HZ;
- 
--	of_clk_init(NULL);
- 	timer_probe();
- 
- 	tick_setup_hrtimer_broadcast();
+diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
+index d98d6e90b2b8..d3d1fbf2dd5f 100644
+--- a/arch/riscv/configs/defconfig
++++ b/arch/riscv/configs/defconfig
+@@ -37,6 +37,7 @@ CONFIG_PM=y
+ CONFIG_CPU_IDLE=y
+ CONFIG_VIRTUALIZATION=y
+ CONFIG_KVM=m
++CONFIG_ACPI=y
+ CONFIG_JUMP_LABEL=y
+ CONFIG_MODULES=y
+ CONFIG_MODULE_UNLOAD=y
 -- 
 2.34.1
 
