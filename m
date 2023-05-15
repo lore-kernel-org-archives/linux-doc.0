@@ -2,270 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C577C7EE26
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 02:57:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5DFC7EE24
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 05:49:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238025AbjEOC5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 May 2023 22:57:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52356 "EHLO
+        id S229635AbjEOFtm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 01:49:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbjEOC5e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 May 2023 22:57:34 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A9BB1BEC
-        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:28 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-3f392680773so43595911cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 19:57:28 -0700 (PDT)
+        with ESMTP id S234751AbjEOFtl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 01:49:41 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B531FD9
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 22:49:38 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1aaf706768cso93828125ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 14 May 2023 22:49:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1684119447; x=1686711447;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XYmaRuKFkzMj5gjRDsV91RPkHqeO5wpmEeDsuTj5yKM=;
-        b=tA+fhkPNslQmwh3JHhLY8rFF3qCZt8NNZQOF/RZUfiMV9y2ZP/tLyqzwAgaC3r4PUB
-         GN2ZfPse12OOMyQEsZAM3iZso8OKdlnq+7YyeMIskfFmWJWS9K5dmj327IsLB6V5ViHX
-         o9IxD3EAq7wy+/PAKZkWNwsN2h5YLfKvfs7Tzx5leIsbmjFpDRmWDUAHKDUlFxL2xizz
-         INstPLtnVfCGe6lXvwe1ikyPt/ts3Cu5upyB49FajXeUF3DOCuTL/qTmkZWkivewaldr
-         DdJ/5WDCSZUQOC7NZo26QNIygWAmE3j/4pOrnFJuBf8uK6r9eWtS0zWACLX5No7N5ihH
-         Di6g==
+        d=ventanamicro.com; s=google; t=1684129778; x=1686721778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZ99alEe0A23tymHcdv/vfT8nEQiGh2D6cQUBbX+NYU=;
+        b=YC+K75o6oTdqYCv/UpwXe9gABJK307bP4yAL6WMj+c0OGsLbwkOJ/0OoSCS/Hfnwsu
+         GE65E5xvfgH6srsEB4tPrXUaOlutSgYPtnJ9OnZa6Sfly4dUMHmFpX5971LIfNSqGIdP
+         Nv2gRNBDawMmNUWqOTu0rbCvluknVfp9eY5z9QAJU2PYdGv+chHD3N6e9l7aDmV5kzWK
+         lSJdnZNxeGgWdSd74Lab4pJ/OB2qUQOL81v5QcFRSIwoBmezMntHOYaPBw740unBgypm
+         Fdcxp34uF51fGVRKTaWQuNCk7Asr2mpnyQ189by4GCzwMaNY9+Mm6vBizXEnrYzhR8lK
+         UKUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684119447; x=1686711447;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XYmaRuKFkzMj5gjRDsV91RPkHqeO5wpmEeDsuTj5yKM=;
-        b=UIDfSQsX2mDb7FNkAXLhhcQSSQpOnweBdc3ZdUvaoTOUjhpGFLInW+cyjUj9DmoC5v
-         JQCRzsEQKxNvcYWk6WzDkNktao+zs6etiPGzljbKAVGV3K/yKob5EOOdPkZ6/0i5U46w
-         QX2ZdGnkFxm1ZOWMqIMbUoH7T3MvBL79iU5knlhvszBtxTMrV+GTWi8jdxrHRJO4YvMN
-         gaGQtXFENpfLJIpsi5UAEe6cSQVr5ooDAGGvVIUXEiV2OCm4YPWsT/oXMZGmWAz8/ACb
-         HArdlkjCui9xdCrvGK3xGPrG0nbAknjLFDchWzFMgFC80VSRaSH0RNiyzevdcCyOGw9s
-         tVZw==
-X-Gm-Message-State: AC+VfDxqqIOUpv37ryto5gc4XnEn0hrsq1Q+bRFHYRNMOlWqkDFPjcRV
-        zBiM90KVVyKAaMpCI3wJFsmqSQ==
-X-Google-Smtp-Source: ACHHUZ4hOz2OdPHISWrsejcQ6hbcJ1Fco5dm89GXSD5nQJhKEVw9HRRSUwoO5imiWhUGek5jXfAkLg==
-X-Received: by 2002:ac8:5ad5:0:b0:3f5:2eb1:a5d9 with SMTP id d21-20020ac85ad5000000b003f52eb1a5d9mr1820843qtd.63.1684119447185;
-        Sun, 14 May 2023 19:57:27 -0700 (PDT)
-Received: from vinz16.lan (c-73-143-21-186.hsd1.ma.comcast.net. [73.143.21.186])
-        by smtp.gmail.com with ESMTPSA id c3-20020a05620a134300b007339c5114a9sm2308994qkl.103.2023.05.14.19.57.26
+        d=1e100.net; s=20221208; t=1684129778; x=1686721778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TZ99alEe0A23tymHcdv/vfT8nEQiGh2D6cQUBbX+NYU=;
+        b=RlZX3b2fPX0CGSJWnDERy7RWyrV6W0nTBY7x1pYdgwbj1u4nw2/aHiJHge08Na4RcC
+         qJzAHGcsxo3e6zAZpZRuFQtytshuxDTr3QEeBiCPDb6LtXFyqrLcCydB9OqybRLFMBzn
+         yGAKY25PJ2DTiZm87S3DwHWKJbzZSkd4C4XBAg0MZJDQnleG+NN2Iv4wYNEkcNOSt8Si
+         5aqXyH/N0gRwCAEzZhMKfZct9neV0PT0AK1sNqVHmvp/zXKTC7aWqegWBVb21WT98RHF
+         uIHdNvwDAszQq4Q5j2PHEW66jOyWGoCn8uG1+LGqxGRZJde3hXw8c6fSADtwAWwsh/T2
+         Hytw==
+X-Gm-Message-State: AC+VfDxYqoM5JDeHpG2N1POrT7a01vPpGzDQzhmvh/Lh1Eax/XayUtxl
+        h7Abah+7nwgRVi42UEvfRFN+z5dSTsZtOT9c36Q=
+X-Google-Smtp-Source: ACHHUZ66EM/Ffo2wiDqrucRe8wNpu1TreTFryx+X27BDltpTe5DxTsemz+afopAg9iZvWFHQw1Mb4A==
+X-Received: by 2002:a17:902:e9d5:b0:1ac:b52e:f3e5 with SMTP id 21-20020a170902e9d500b001acb52ef3e5mr18553911plk.43.1684129777671;
+        Sun, 14 May 2023 22:49:37 -0700 (PDT)
+Received: from localhost.localdomain ([106.51.191.118])
+        by smtp.gmail.com with ESMTPSA id f10-20020a17090274ca00b001ab28f620d0sm12423277plt.290.2023.05.14.22.49.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 19:57:26 -0700 (PDT)
-From:   Vineeth Pillai <vineeth@bitbyteword.org>
-To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     Vineeth Pillai <vineeth@bitbyteword.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v3 4/5] sched/deadline: Account for normal deadline tasks in GRUB
-Date:   Sun, 14 May 2023 22:57:15 -0400
-Message-Id: <20230515025716.316888-5-vineeth@bitbyteword.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230515025716.316888-1-vineeth@bitbyteword.org>
-References: <20230515025716.316888-1-vineeth@bitbyteword.org>
+        Sun, 14 May 2023 22:49:37 -0700 (PDT)
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Weili Qian <qianweili@huawei.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH V6 00/21] Add basic ACPI support for RISC-V
+Date:   Mon, 15 May 2023 11:19:07 +0530
+Message-Id: <20230515054928.2079268-1-sunilvl@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-GRUB algorithm assumes that all tasks participate in the reclaim. So
-when there is a mix of normal deadline and SCHED_FLAG_RECLAIM tasks,
-reclaiming the unused bandwidth is not accurate.
+This patch series enables the basic ACPI infrastructure for RISC-V.
+Supporting external interrupt controllers is in progress and hence it is
+tested using poll based HVC SBI console and RAM disk.
 
-Running two deadline tasks on a cpu where one is SCHED_FLAG_RECLAIM
-and other is a normal deadline task, we can see the utilization as
-follows:
+The first patch in this series is one of the patch from Jisheng's
+series [1] which is not merged yet. This patch is required to support
+ACPI since efi_init() which gets called before sbi_init() can enable
+static branches and hits a panic.
 
-Task 1(Normal DL): (5, 10), Task 2(SCHED_FLAG_RECLAIM): (1, 10)
-TID[673]: RECLAIM=0, (r=5ms, d=10ms, p=10ms), Util: 50.11
-TID[672]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 15.93
-TID[673]: RECLAIM=0, (r=5ms, d=10ms, p=10ms), Util: 50.01
-TID[672]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 15.83
+Below are two ECRs approved by ASWG.
+RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5nX6xSEqK2l/view
+RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123DCZKR-tia/view
 
-GRUB rule says, runtime is dpreciated as:
- "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt"
-  Where Umax is the maximum allowed bandwidth for DL tasks
-        Uinact is the inactive utilization for the runqueue
-        Uextra is the free bandwidth available for reclaim
 
-To account for a mix of normal deadline and SCHED_RECLAIM_FLAG tasks
-running together, we do not consider the bandwidth of normal tasks in
-the equation. So the equation becomes:
- "dq = -(max{u, (Umax_reclaim - Uinact - Uextra)} / Umax_reclaim) dt"
+Changes since V5:
+	1) Reordered commits in the series to avoid intermediate build failure reported by Conor.
+	2) Updated hisilicon driver patch as per feedback from Herbert Xu.
+	3) Rebased to 6.4-rc2
 
-"Umax_reclaim" is the maximum allowed bandwidth for SCHED_FLAG_RECLAIM
-tasks. When only SCHED_FLAG_RECLAIM tasks are running,
- "Umax_reclaim = Umax". Otherwise:
- "Umax_reclaim = Umax - running_bw + Ureclaim"
-  Where Ureclaim is the total bandwidth of SCHED_FLAG_RECLAIM tasks in
-        active state for this runqueue.
+Changes since V4:
+	1) Rebased with 6.4-rc1 which has ACPICA patches now.
+	2) Split cpufeature.c patch into two by adding patch 2/7 from Conor's series [2]
+	3) Updated caching RINTC logic to avoid global.
+	4) Added driver patches to enable allmodconfig build at the start of the series.
+	5) Updated tags
 
-With this fix, the results of above test is as follows:
-Task 1(Normal DL): (5, 10), Task 2(SCHED_FLAG_RECLAIM): (1, 10)
-TID[591]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 45.11
-TID[592]: RECLAIM=0, (r=5ms, d=10ms, p=10ms), Util: 50.18
-TID[591]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 44.99
-TID[592]: RECLAIM=0, (r=5ms, d=10ms, p=10ms), Util: 49.88
+Changes since V3:
+	1) Added two more driver patches to workaround allmodconfig build failure.
+	2) Separated removal of riscv_of_processor_hartid() to a different patch.
+	3) Addressed Conor's feedback.
+	4) Rebased to v6.3-rc5 and added latest tags
 
-Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
----
- kernel/sched/deadline.c | 53 ++++++++++++++++++++++++++++++++---------
- kernel/sched/sched.h    | 11 +++++++++
- 2 files changed, 53 insertions(+), 11 deletions(-)
+Changes since V2:
+	1) Dropped ACPI_PROCESSOR patch.
+	2) Added new patch to print debug info of RISC-V INTC in MADT
+	3) Addressed other comments from Drew.
+	4) Rebased and updated tags
 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 67c1138df43a..66a1b9365429 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -206,11 +206,13 @@ __dl_overflow(struct dl_bw *dl_b, unsigned long cap, u64 old_bw, u64 new_bw)
- }
- 
- static inline
--void __add_running_bw(u64 dl_bw, struct dl_rq *dl_rq)
-+void __add_running_bw(u64 dl_bw, struct dl_rq *dl_rq, bool reclaim_bw_se)
- {
- 	u64 old = dl_rq->running_bw;
- 
- 	lockdep_assert_rq_held(rq_of_dl_rq(dl_rq));
-+	if (reclaim_bw_se)
-+		dl_rq->reclaim_bw += dl_bw;
- 	dl_rq->running_bw += dl_bw;
- 	SCHED_WARN_ON(dl_rq->running_bw < old); /* overflow */
- 	SCHED_WARN_ON(dl_rq->running_bw > dl_rq->this_bw);
-@@ -219,15 +221,19 @@ void __add_running_bw(u64 dl_bw, struct dl_rq *dl_rq)
- }
- 
- static inline
--void __sub_running_bw(u64 dl_bw, struct dl_rq *dl_rq)
-+void __sub_running_bw(u64 dl_bw, struct dl_rq *dl_rq, bool reclaim_bw_se)
- {
- 	u64 old = dl_rq->running_bw;
- 
- 	lockdep_assert_rq_held(rq_of_dl_rq(dl_rq));
-+	if (reclaim_bw_se)
-+		dl_rq->reclaim_bw -= dl_bw;
- 	dl_rq->running_bw -= dl_bw;
- 	SCHED_WARN_ON(dl_rq->running_bw > old); /* underflow */
--	if (dl_rq->running_bw > old)
-+	if (dl_rq->running_bw > old) {
-+		dl_rq->reclaim_bw = 0;
- 		dl_rq->running_bw = 0;
-+	}
- 	/* kick cpufreq (see the comment in kernel/sched/sched.h). */
- 	cpufreq_update_util(rq_of_dl_rq(dl_rq), 0);
- }
-@@ -273,14 +279,14 @@ static inline
- void add_running_bw(struct sched_dl_entity *dl_se, struct dl_rq *dl_rq)
- {
- 	if (!dl_entity_is_special(dl_se))
--		__add_running_bw(dl_se->dl_bw, dl_rq);
-+		__add_running_bw(dl_se->dl_bw, dl_rq, dl_entity_is_reclaim(dl_se));
- }
- 
- static inline
- void sub_running_bw(struct sched_dl_entity *dl_se, struct dl_rq *dl_rq)
- {
- 	if (!dl_entity_is_special(dl_se))
--		__sub_running_bw(dl_se->dl_bw, dl_rq);
-+		__sub_running_bw(dl_se->dl_bw, dl_rq, dl_entity_is_reclaim(dl_se));
- }
- 
- static void dl_change_utilization(struct task_struct *p, u64 new_bw)
-@@ -499,6 +505,7 @@ void init_dl_rq(struct dl_rq *dl_rq)
- #endif
- 
- 	dl_rq->running_bw = 0;
-+	dl_rq->reclaim_bw = 0;
- 	dl_rq->this_bw = 0;
- 	init_dl_rq_bw(dl_rq);
- }
-@@ -1257,20 +1264,44 @@ int dl_runtime_exceeded(struct sched_dl_entity *dl_se)
-  * but only a portion of it denoted by "Umax". So the equation becomes:
-  *	"dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt",
-  *
-+ * To account for the fact that we have a mix of normal deadline tasks and
-+ * SCHED_RECLAIM_FLAG tasks running together, we do not consider the bandwidth
-+ * of normal tasks in the equation. So the equation becomes:
-+ *	"dq = -(max{u, (Umax_reclaim - Uinact - Uextra)} / Umax_reclaim) dt",
-+ * where
-+ *	Umax_reclaim:	Maximum reclaimable bandwidth for this rq.
-+ *
-+ * We can calculate Umax_reclaim as:
-+ *	"Umax_reclaim =	Uextra + Uinact + Ureclaim"
-+ * where:
-+ *	Ureclaim:	Total bandwidth of SCHED_FLAG_RECLAIM tasks in active
-+ *			state for this rq.
-+ *
-  * Since delta is a 64 bit variable, to have an overflow its value
-  * should be larger than 2^(64 - 20 - 8), which is more than 64 seconds.
-  * So, overflow is not an issue here.
-  */
- static u64 grub_reclaim(u64 delta, struct rq *rq, struct sched_dl_entity *dl_se)
- {
-+	u64 u_max_reclaim;
-+
-+	/*
-+	 * In SMP, max_bw can be less than running_bw without violating the global
-+	 * bandwidth limits. If thats the case, we should not reclaim.
-+	 */
-+	if (rq->dl.max_bw < rq->dl.running_bw)
-+		return delta;
-+
-+	u_max_reclaim = rq->dl.max_bw - rq->dl.running_bw + rq->dl.reclaim_bw;
-+
- 	/*
--	 * max{u, Umax - Uinact - Uextra}
--	 * = max{u, max_bw - (this_bw - running_bw) + (this_bw - running_bw)}
--	 * = max{u, running_bw} = running_bw
--	 * So dq = -(max{u, Umax - Uinact - Uextra} / Umax) dt
--	 *       = -(running_bw / max_bw) dt
-+	 * max{u, Umax_reclaim - Uinact - Uextra}
-+	 * = max{u, Uextra + Uinact + Ureclaim - Uinact - Uextra}
-+	 * = max{u, Ureclaim} = Ureclaim = reclaim_bw
-+	 * So dq = -(max{u, Umax_reclaim - Uinact - Uextra} / Umax_reclaim) dt
-+	 *       = -(reclaim_bw / Umax_reclaim) dt
- 	 */
--	return div64_u64(delta * rq->dl.running_bw, rq->dl.max_bw);
-+	return div64_u64(delta * rq->dl.reclaim_bw, u_max_reclaim);
- }
- 
- /*
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 33db99756624..a6cb891835da 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -257,6 +257,11 @@ static inline bool dl_entity_is_special(const struct sched_dl_entity *dl_se)
- #endif
- }
- 
-+static inline bool dl_entity_is_reclaim(const struct sched_dl_entity *dl_se)
-+{
-+	return dl_se->flags & SCHED_FLAG_RECLAIM;
-+}
-+
- /*
-  * Tells if entity @a should preempt entity @b.
-  */
-@@ -741,6 +746,12 @@ struct dl_rq {
- 	 */
- 	u64			running_bw;
- 
-+	/*
-+	 * Active bandwidth of SCHED_FLAG_RECLAIM tasks on this rq.
-+	 * This will be a subset of running_bw.
-+	 */
-+	u64			reclaim_bw;
-+
- 	/*
- 	 * Utilization of the tasks "assigned" to this runqueue (including
- 	 * the tasks that are in runqueue and the tasks that executed on this
+Changes since V1:
+	1) Dropped PCI changes and instead added dummy interfaces just to enable
+	   building ACPI core when CONFIG_PCI is enabled. Actual PCI changes will
+	   be added in future along with external interrupt controller support
+	   in ACPI.
+	2) Squashed couple of patches so that new code added gets built in each
+	   commit.
+	3) Fixed the missing wake_cpu code in timer refactor patch as pointed by
+	   Conor
+	4) Fixed an issue with SMP disabled.
+	5) Addressed other comments from Conor.
+	6) Updated documentation patch as per feedback from Sanjaya.
+	7) Fixed W=1 and checkpatch --strict issues.
+	8) Added ACK/RB tags
+
+[1] https://lore.kernel.org/all/20220821140918.3613-1-jszhang@kernel.org/
+[2] https://lore.kernel.org/linux-riscv/20230504-divisive-unsavory-5a2ff0c3c2d1@spud/
+
+These changes are available at
+https://github.com/vlsunil/linux/commits/acpi_b1_us_review_v6
+
+Testing:
+1) Build latest Qemu 
+
+2) Build EDK2 as per instructions in
+https://github.com/vlsunil/riscv-uefi-edk2-docs/wiki/RISC-V-Qemu-Virt-support
+
+3) Build Linux after enabling SBI HVC and SBI earlycon
+CONFIG_RISCV_SBI_V01=y
+CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
+CONFIG_HVC_RISCV_SBI=y
+
+4) Build buildroot.
+
+Run with below command.
+qemu-system-riscv64   -nographic \
+-drive file=Build/RiscVVirtQemu/RELEASE_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1 \
+-machine virt -smp 16 -m 2G \
+-kernel arch/riscv/boot/Image \
+-initrd buildroot/output/images/rootfs.cpio \
+-append "root=/dev/ram ro console=hvc0 earlycon=sbi"
+
+
+Jisheng Zhang (1):
+  riscv: move sbi_init() earlier before jump_label_init()
+
+Sunil V L (20):
+  platform/surface: Disable for RISC-V
+  crypto: hisilicon/qm: Fix to enable build with RISC-V clang
+  ACPI: tables: Print RINTC information when MADT is parsed
+  ACPI: OSL: Make should_use_kmap() 0 for RISC-V
+  RISC-V: Add support to build the ACPI core
+  ACPI: processor_core: RISC-V: Enable mapping processor to the hartid
+  RISC-V: Add ACPI initialization in setup_arch()
+  RISC-V: ACPI: Cache and retrieve the RINTC structure
+  drivers/acpi: RISC-V: Add RHCT related code
+  RISC-V: smpboot: Create wrapper setup_smp()
+  RISC-V: smpboot: Add ACPI support in setup_smp()
+  RISC-V: only iterate over possible CPUs in ISA string parser
+  RISC-V: cpufeature: Add ACPI support in riscv_fill_hwcap()
+  RISC-V: cpu: Enable cpuinfo for ACPI systems
+  irqchip/riscv-intc: Add ACPI support
+  clocksource/timer-riscv: Refactor riscv_timer_init_dt()
+  clocksource/timer-riscv: Add ACPI support
+  RISC-V: time.c: Add ACPI support for time_init()
+  RISC-V: Enable ACPI in defconfig
+  MAINTAINERS: Add entry for drivers/acpi/riscv
+
+ .../admin-guide/kernel-parameters.txt         |   8 +-
+ MAINTAINERS                                   |   7 +
+ arch/riscv/Kconfig                            |   5 +
+ arch/riscv/configs/defconfig                  |   1 +
+ arch/riscv/include/asm/acenv.h                |  11 +
+ arch/riscv/include/asm/acpi.h                 |  84 ++++++
+ arch/riscv/include/asm/cpu.h                  |   8 +
+ arch/riscv/kernel/Makefile                    |   1 +
+ arch/riscv/kernel/acpi.c                      | 251 ++++++++++++++++++
+ arch/riscv/kernel/cpu.c                       |  30 ++-
+ arch/riscv/kernel/cpufeature.c                |  42 ++-
+ arch/riscv/kernel/setup.c                     |  11 +-
+ arch/riscv/kernel/smpboot.c                   |  77 +++++-
+ arch/riscv/kernel/time.c                      |  25 +-
+ drivers/acpi/Makefile                         |   2 +
+ drivers/acpi/osl.c                            |   2 +-
+ drivers/acpi/processor_core.c                 |  29 ++
+ drivers/acpi/riscv/Makefile                   |   2 +
+ drivers/acpi/riscv/rhct.c                     |  83 ++++++
+ drivers/acpi/tables.c                         |  10 +
+ drivers/clocksource/timer-riscv.c             |  92 ++++---
+ drivers/crypto/hisilicon/qm.c                 |   5 +
+ drivers/irqchip/irq-riscv-intc.c              |  70 +++--
+ drivers/platform/surface/aggregator/Kconfig   |   2 +-
+ 24 files changed, 772 insertions(+), 86 deletions(-)
+ create mode 100644 arch/riscv/include/asm/acenv.h
+ create mode 100644 arch/riscv/include/asm/acpi.h
+ create mode 100644 arch/riscv/include/asm/cpu.h
+ create mode 100644 arch/riscv/kernel/acpi.c
+ create mode 100644 drivers/acpi/riscv/Makefile
+ create mode 100644 drivers/acpi/riscv/rhct.c
+
 -- 
-2.40.1
+2.34.1
 
