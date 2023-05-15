@@ -2,133 +2,533 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54101C77B75
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 06:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4536EC7EE22
+	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 06:21:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239309AbjEOGG0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 02:06:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38960 "EHLO
+        id S229701AbjEOGVc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 02:21:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235175AbjEOGFq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 02:05:46 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A9349F2;
-        Sun, 14 May 2023 22:58:22 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-94a342f4c8eso311236766b.0;
-        Sun, 14 May 2023 22:58:22 -0700 (PDT)
+        with ESMTP id S229436AbjEOGVb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 02:21:31 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A5499;
+        Sun, 14 May 2023 23:21:29 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-24e09b4153eso8423636a91.2;
+        Sun, 14 May 2023 23:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684130300; x=1686722300;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NPQtZOXsXDtCauwTHNXvzScss6wN7/6B+b24lKETaGY=;
-        b=VK/SJmfFZupbAd5/+2FwqSOo5GZXg1tMePpH0B9ihJg7i9s70UKRXN7pjr/rJ+Ccti
-         vDMxqrkXkt2ev2XIK4l2mpLHAHjNmU9K7T/uZxBGLj3v5x2XFtIGmbNf7p8ROYWbB70E
-         7bHRbQmqKhYQAAILyh20N/DkDwZBvCBmPJHG2xYwKzFmZEkrVWZm1jy8VlCvRafH6wEA
-         UUqUCKsFqg7uO5fHNlVnznb9KkCr54n0Yijsf0i+1SiIzMzy4Vmh/jl67rkwWBQLpiYk
-         Xu3s9GH1cMXUwp6himyLZGzdYFCgJ4839KyyRUI4p81baVKpY8KqzejeZkN+wCbhkKrx
-         AC0g==
+        d=gmail.com; s=20221208; t=1684131689; x=1686723689;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z5KcXSm8WFcedxDDrhapXrPCdZpvVQtw4gGehLHzKEU=;
+        b=aROViLZz5mvC7TbPi+jUvy9D/wWUNBznyrr03rbM9yPbabZvgqkq3xLb9GKyPOHVAC
+         MhF/+FdZcjADzijiOodszFZp/LAC5KLykNJ1+asmWntni3BI5gTYHPDELDA/WDe2yvqn
+         kkLc7dNk6Unrx0ZQ4ss2vdwC9ATQESXiIPO5rHGlSFehZvR0bUL6p8lCPDLXUOklaYM8
+         imtOA/PaTuImMzbRz7lyi3Un9MOQjkVwBCwWKDchV/NnqzP+XzmW94nmZr4emIgCweCe
+         CozVwMvGLWf4a6zNE82o09j0c5G5cspp8kPorTCzI6PBp0jUG/9DE7FBxH0oJqHEqUJt
+         ln+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684130300; x=1686722300;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NPQtZOXsXDtCauwTHNXvzScss6wN7/6B+b24lKETaGY=;
-        b=eB0EsS5kDmGT9gw7rZredhyBE2IS2Dlx4sdQt7okdGX6D6ff/aMrL4ShCjfImqmZ4t
-         vAKhAnh6WEc5pkr5JmC9j6diATZXWknQIdEbOmO9n8YJZr32sEXrmPDKO5osEPxfui6g
-         K8IbW11ScMovktn2UEDMbNXQFHjg6SaL1Q9BqC+0SOHzsXs9JwhG2WMb6CapV/L6r5MC
-         9wdT2hDSTTBFsb564Z/DV+gQX4ewdOgilJaPAx16+UTdljqkMV83x/AepnLeYuFvTSs2
-         Lmh9lq1+khBVV8t/1Fh25QfI2otbaqznJsKJdXWZvCQTbfe1x9PA0h+yWXPFk2to0Mks
-         qF2g==
-X-Gm-Message-State: AC+VfDxQQJSx2uHGzgYXwFkunyLRxaLUpxbtRLs5xPxikCi5E9goK/1C
-        DMRwKwuV2OpRXqY60sq9A74=
-X-Google-Smtp-Source: ACHHUZ6nMW9a0P1Ql/uFkqv12DRTC4hSCe3KL6gtMdm1+0pa5miAPoRV2RKERnYzaZnI/EEomTYr/g==
-X-Received: by 2002:a17:906:1051:b0:966:1f60:fd32 with SMTP id j17-20020a170906105100b009661f60fd32mr5945505ejj.6.1684130300277;
-        Sun, 14 May 2023 22:58:20 -0700 (PDT)
-Received: from [192.168.10.10] ([37.252.94.55])
-        by smtp.gmail.com with ESMTPSA id de47-20020a1709069bef00b0096b20c968afsm1464579ejc.124.2023.05.14.22.58.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 May 2023 22:58:20 -0700 (PDT)
-Message-ID: <9a76e550-fd1e-851c-e322-4bf51ab11e97@gmail.com>
-Date:   Mon, 15 May 2023 09:58:18 +0400
+        d=1e100.net; s=20221208; t=1684131689; x=1686723689;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z5KcXSm8WFcedxDDrhapXrPCdZpvVQtw4gGehLHzKEU=;
+        b=dw8aYRg/s0eof6Q6JJwvafrlEJDBAucOuCqBtJ4ad6xvwcQFO7jP4iunxHNVSh2e/6
+         S9clpYOto+vw3ss5CmY9lUxStJvmcfgDW9kvubDmmuWByJtkcwWMINU78oXisI0X1CX5
+         P+qePfUdmZGp8eCkT5tBMo8AZ34XCMqqntBsjCO00euf0ukRYk02r/CGHv+SUuaE/Gj+
+         GlZu8NMv3lBDXL4lwOsKXdnDLO7IP84dRZq0G0ZJmj2xFnXz9+JfR9iSL42zKN+NWUVF
+         Wp/eLNS3vi/EOvWTxQDLGTUeCIMdxDFj9COnzXoEO98FBkiMLllzHE7emWjn8WiTL0Cp
+         Zzcg==
+X-Gm-Message-State: AC+VfDxkhxaEYph/YaesnPlUDGObV7cTRToMfFXXYQ+KEhRVARgUz+i+
+        M2JbYq6/O7eKOXA7OBu8sRq+NLPGY01eso+hnoI=
+X-Google-Smtp-Source: ACHHUZ7lSdsLhlRRqDXjuIVqn4OBKTafL6jKQF54bNpbwuknhMU2c5dzPg18Ijra5Jwxwy7jaD6r09Cc5AAyFfpewNg=
+X-Received: by 2002:a17:90b:3881:b0:24e:4a1a:3994 with SMTP id
+ mu1-20020a17090b388100b0024e4a1a3994mr32517309pjb.3.1684131689284; Sun, 14
+ May 2023 23:21:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/3] selftests: ALSA: Add test for the 'valsa' driver
-To:     Mark Brown <broonie@kernel.org>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, perex@perex.cz,
-        tiwai@suse.com, skhan@linuxfoundation.org,
+References: <cover.1683791148.git.haibo1.xu@intel.com> <921fc2e1a91887170e277acb1b52df57480a5736.1683791148.git.haibo1.xu@intel.com>
+ <20230511-5e8b478be55881a754cc2002@orel>
+In-Reply-To: <20230511-5e8b478be55881a754cc2002@orel>
+From:   Haibo Xu <xiaobo55x@gmail.com>
+Date:   Mon, 15 May 2023 14:21:17 +0800
+Message-ID: <CAJve8on5CxNkzmfEPfmDSX=0quJL6iAoqMP+twBBw43QmTqdFg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] riscv: kvm: Add KVM_GET_REG_LIST API support
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-kselftest@vger.kernel.org,
-        gregkh@linuxfoundation.org, himadrispandya@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20230513202037.158777-1-ivan.orlov0322@gmail.com>
- <20230513202037.158777-3-ivan.orlov0322@gmail.com>
- <ZGGKwA10shGGUr87@finisterre.sirena.org.uk>
-Content-Language: en-US
-From:   Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <ZGGKwA10shGGUr87@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/15/23 05:28, Mark Brown wrote:
-> On Sun, May 14, 2023 at 12:20:37AM +0400, Ivan Orlov wrote:
-> 
->> +uid=$(id -u)
->> +if [ $uid -ne 0 ]; then
->> +	echo "$0: Must be run as root"
->> +	exit 1
->> +fi
-> 
-> It is not an error to run the selftest as a non-root user, the test
-> should be skipped.
+On Thu, May 11, 2023 at 6:44=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
+om> wrote:
+>
+> On Thu, May 11, 2023 at 05:22:48PM +0800, Haibo Xu wrote:
+> > KVM_GET_REG_LIST API will return all registers that are available to
+> > KVM_GET/SET_ONE_REG APIs. It's very useful to identify some platform
+> > regression issue during VM migration.
+> >
+> > Since this API was already supported on arm64, it'd be straightforward
+>
+> s/it'd be/it is/
+>
+> > to enable it on riscv with similar code structure.
+> >
+> > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+> > ---
+> >  Documentation/virt/kvm/api.rst |   2 +-
+> >  arch/riscv/kvm/vcpu.c          | 346 +++++++++++++++++++++++++++++++++
+> >  2 files changed, 347 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/ap=
+i.rst
+> > index add067793b90..280e89abd004 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -3499,7 +3499,7 @@ VCPU matching underlying host.
+> >  ---------------------
+> >
+> >  :Capability: basic
+> > -:Architectures: arm64, mips
+> > +:Architectures: arm64, mips, riscv
+> >  :Type: vcpu ioctl
+> >  :Parameters: struct kvm_reg_list (in/out)
+> >  :Returns: 0 on success; -1 on error
+> > diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+> > index 8bd9f2a8a0b9..fb8834e4fa15 100644
+> > --- a/arch/riscv/kvm/vcpu.c
+> > +++ b/arch/riscv/kvm/vcpu.c
+> > @@ -657,6 +657,334 @@ static int kvm_riscv_vcpu_set_reg_isa_ext(struct =
+kvm_vcpu *vcpu,
+> >       return 0;
+> >  }
+> >
+> > +static inline unsigned long num_config_regs(void)
+> > +{
+> > +     return sizeof(struct kvm_riscv_config) / sizeof(unsigned long);
+> > +}
+> > +
+> > +static int copy_config_reg_indices(u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n =3D num_config_regs();
+> > +
+> > +     for (i =3D 0; i < n; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RI=
+SCV_CONFIG | i;
+>                                           ^ this should be
+>                                           size-ulong
+>
+>   u64 size =3D IS_ENABLED(CONFIG_32BIT) ? KVM_REG_SIZE_U32 : KVM_REG_SIZE=
+_U64;
+>   u64 reg =3D KVM_REG_RISCV | size | KVM_REG_RISCV_CONFIG | i;
+>
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     return n;
+> > +}
+> > +
+> > +static inline unsigned long num_core_regs(void)
+> > +{
+> > +     return sizeof(struct kvm_riscv_core) / sizeof(unsigned long);
+> > +}
+> > +
+> > +static int copy_core_reg_indices(u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n =3D num_core_regs();
+> > +
+> > +     for (i =3D 0; i < n; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RI=
+SCV_CORE | i;
+>                                           ^ size-ulong
+>
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     return n;
+> > +}
+> > +
+> > +static inline unsigned long num_csr_regs(void)
+> > +{
+> > +     unsigned long n =3D sizeof(struct kvm_riscv_csr) / sizeof(unsigne=
+d long);
+> > +
+> > +     if (kvm_riscv_aia_available())
+> > +             n +=3D sizeof(struct kvm_riscv_aia_csr) / sizeof(unsigned=
+ long);
+> > +
+> > +     return n;
+> > +}
+> > +
+> > +static int copy_csr_reg_indices(u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n1 =3D sizeof(struct kvm_riscv_csr) / sizeof(unsigned long);
+> > +     int n2 =3D 0;
+> > +
+> > +     /* copy general csr regs */
+> > +     for (i =3D 0; i < n1; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RI=
+SCV_CSR |
+>                                           ^ size-ulong
+>
+> > +                               KVM_REG_RISCV_CSR_GENERAL | i;
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     /* copy AIA csr regs */
+> > +     if (kvm_riscv_aia_available()) {
+> > +             n2 =3D sizeof(struct kvm_riscv_aia_csr) / sizeof(unsigned=
+ long);
+> > +
+> > +             for (i =3D 0; i < n2; i++) {
+> > +                     u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KV=
+M_REG_RISCV_CSR |
+>                                                   ^ size-ulong
+>
+> > +                                       KVM_REG_RISCV_CSR_AIA | i;
+> > +
+> > +                     if (uindices) {
+> > +                             if (put_user(reg, uindices))
+> > +                                     return -EFAULT;
+> > +                             uindices++;
+> > +                     }
+> > +             }
+> > +     }
+> > +
+> > +     return n1 + n2;
+> > +}
+> > +
+> > +static inline unsigned long num_timer_regs(void)
+> > +{
+> > +     return sizeof(struct kvm_riscv_timer) / sizeof(unsigned long);
+> > +}
+> > +
+> > +static int copy_timer_reg_indices(u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n =3D num_timer_regs();
+> > +
+> > +     for (i =3D 0; i < n; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RI=
+SCV_TIMER | i;
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     return n;
+> > +}
+> > +
+> > +static inline unsigned long num_fp_f_regs(const struct kvm_vcpu *vcpu)
+> > +{
+> > +     const struct kvm_cpu_context *cntx =3D &vcpu->arch.guest_context;
+> > +
+> > +     if (riscv_isa_extension_available(vcpu->arch.isa, f))
+> > +             return sizeof(cntx->fp.f) / sizeof(u32);
+> > +     else
+> > +             return 0;
+> > +}
+> > +
+> > +static int copy_fp_f_reg_indices(const struct kvm_vcpu *vcpu,
+> > +                                     u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n =3D num_fp_f_regs(vcpu);
+> > +
+> > +     for (i =3D 0; i < n; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U32 | KVM_REG_RI=
+SCV_FP_F | i;
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     return n;
+> > +}
+> > +
+> > +static inline unsigned long num_fp_d_regs(const struct kvm_vcpu *vcpu)
+> > +{
+> > +     const struct kvm_cpu_context *cntx =3D &vcpu->arch.guest_context;
+> > +
+> > +     if (riscv_isa_extension_available(vcpu->arch.isa, d))
+> > +             return sizeof(cntx->fp.d.f) / sizeof(u64) + 1;
+> > +     else
+> > +             return 0;
+> > +}
+> > +
+> > +static int copy_fp_d_reg_indices(const struct kvm_vcpu *vcpu,
+> > +                                     u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n =3D num_fp_d_regs(vcpu);
+> > +     u64 reg;
+> > +
+> > +     /* copy fp.d.f indeices */
+>
+> indices
+>
+> > +     for (i =3D 0; i < n-1; i++) {
+> > +             reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_=
+FP_D | i;
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     /* copy fp.d.fcsr indeices */
+>
+> indices
+>
+> > +     reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U32 | KVM_REG_RISCV_FP_D | i=
+;
+> > +     if (uindices) {
+> > +             if (put_user(reg, uindices))
+> > +                     return -EFAULT;
+> > +     }
+> > +
+> > +     return n;
+> > +}
+> > +
+> > +static inline unsigned long num_isa_ext_regs(void)
+> > +{
+> > +     return KVM_RISCV_ISA_EXT_MAX;
+> > +}
+> > +
+> > +static int copy_isa_ext_reg_indices(u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n =3D num_isa_ext_regs();
+> > +
+> > +     for (i =3D 0; i < n; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RI=
+SCV_ISA_EXT | i;
+>                                           ^ size-ulong
+>
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     return n;
+> > +}
+> > +
+> > +static inline unsigned long num_sbi_ext_regs(void)
+> > +{
+> > +     /* number of KVM_REG_RISCV_SBI_SINGLE +
+> > +      *  2x(number of KVM_REG_RISCV_SBI_MULTI)
+> > +      */
+>
+> Please use an opening wing '/*' on comments.
+>
+> > +     return KVM_RISCV_SBI_EXT_MAX + 2*(KVM_REG_RISCV_SBI_MULTI_REG_LAS=
+T+1);
+> > +}
+> > +
+> > +static int copy_sbi_ext_reg_indices(u64 __user *uindices)
+> > +{
+> > +     unsigned int i;
+> > +     int n;
+> > +
+> > +     /* copy KVM_REG_RISCV_SBI_SINGLE */
+> > +     n =3D KVM_RISCV_SBI_EXT_MAX;
+> > +     for (i =3D 0; i < n; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RI=
+SCV_SBI_EXT |
+>                                           ^ size-ulong
+>
+> > +                               KVM_REG_RISCV_SBI_SINGLE | i;
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     /* copy KVM_REG_RISCV_SBI_MULTI */
+> > +     n =3D KVM_REG_RISCV_SBI_MULTI_REG_LAST + 1;
+> > +     for (i =3D 0; i < n; i++) {
+> > +             u64 reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RI=
+SCV_SBI_EXT |
+>                                           ^ size-ulong
+>
+> > +                               KVM_REG_RISCV_SBI_MULTI_EN | i;
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +
+> > +             reg =3D KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_=
+SBI_EXT |
+> > +                       KVM_REG_RISCV_SBI_MULTI_DIS | i;
+> > +
+> > +             if (uindices) {
+> > +                     if (put_user(reg, uindices))
+> > +                             return -EFAULT;
+> > +                     uindices++;
+> > +             }
+> > +     }
+> > +
+> > +     return num_sbi_ext_regs();
+> > +}
+> > +
+> > +/**
+> > + * kvm_riscv_vcpu_num_regs - how many registers do we present via KVM_=
+GET/SET_ONE_REG
+> > + *
+> > + * This is for all registers.
+> > + */
+> > +static unsigned long kvm_riscv_vcpu_num_regs(struct kvm_vcpu *vcpu)
+> > +{
+> > +     unsigned long res =3D 0;
+> > +
+> > +     res +=3D num_config_regs();
+> > +     res +=3D num_core_regs();
+> > +     res +=3D num_csr_regs();
+> > +     res +=3D num_timer_regs();
+> > +     res +=3D num_fp_f_regs(vcpu);
+> > +     res +=3D num_fp_d_regs(vcpu);
+> > +     res +=3D num_isa_ext_regs();
+> > +     res +=3D num_sbi_ext_regs();
+> > +
+> > +     return res;
+> > +}
+> > +
+> > +/**
+> > + * kvm_riscv_vcpu_copy_reg_indices - get indices of all registers.
+> > + */
+> > +static int kvm_riscv_vcpu_copy_reg_indices(struct kvm_vcpu *vcpu,
+> > +                             u64 __user *uindices)
+> > +{
+> > +     int ret;
+> > +
+> > +     ret =3D copy_config_reg_indices(uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +     uindices +=3D ret;
+> > +
+> > +     ret =3D copy_core_reg_indices(uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +     uindices +=3D ret;
+> > +
+> > +     ret =3D copy_csr_reg_indices(uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +     uindices +=3D ret;
+> > +
+> > +     ret =3D copy_timer_reg_indices(uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +     uindices +=3D ret;
+> > +
+> > +     ret =3D copy_fp_f_reg_indices(vcpu, uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +     uindices +=3D ret;
+> > +
+> > +     ret =3D copy_fp_d_reg_indices(vcpu, uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +     uindices +=3D ret;
+> > +
+> > +     ret =3D copy_isa_ext_reg_indices(uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +     uindices +=3D ret;
+> > +
+> > +     ret =3D copy_sbi_ext_reg_indices(uindices);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static int kvm_riscv_vcpu_set_reg(struct kvm_vcpu *vcpu,
+> >                                 const struct kvm_one_reg *reg)
+> >  {
+> > @@ -758,6 +1086,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+> >                       r =3D kvm_riscv_vcpu_get_reg(vcpu, &reg);
+> >               break;
+> >       }
+> > +     case KVM_GET_REG_LIST: {
+> > +             struct kvm_reg_list __user *user_list =3D argp;
+> > +             struct kvm_reg_list reg_list;
+> > +             unsigned int n;
+> > +
+> > +             r =3D -EFAULT;
+> > +             if (copy_from_user(&reg_list, user_list, sizeof(reg_list)=
+))
+> > +                     break;
+> > +             n =3D reg_list.n;
+> > +             reg_list.n =3D kvm_riscv_vcpu_num_regs(vcpu);
+> > +             if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
+> > +                     break;
+> > +             r =3D -E2BIG;
+> > +             if (n < reg_list.n)
+> > +                     break;
+> > +             r =3D kvm_riscv_vcpu_copy_reg_indices(vcpu, user_list->re=
+g);
+> > +             break;
+> > +     }
+> >       default:
+> >               break;
+> >       }
+> > --
+> > 2.34.1
+> >
+>
+> Otherwise,
+>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+>
+> Thanks,
+> drew
 
-Alright, thanks!
->> +modprobe snd-valsa
-> 
-> We don't check if the module was already loaded.
-> 
->> +if [ ! -e /sys/kernel/debug/valsa/pc_test ]; then
->> +	mount -t debugfs none /sys/kernel/debug
->> +
->> +	if [ ! -e /sys/kernel/debug/valsa/pc_test ]; then
->> +		echo "$0: Error mounting debugfs"
->> +		exit 4
->> +	fi
->> +fi
-> 
-> This will unconditionally attempt to mount debugfs in a standard
-> location and won't clean up after itself, if the system didn't have
-> debugfs mounted for some reason then this will leave it sitting there.
-
-Yes, I agree... I'll remove this in the future versions, I think the 
-approach with skipping in case of missing debugfs would be better.
-
-By the way, I used the 'fpa' test as an example, and it looks like it 
-should be fixed as well...
-
-> Would it not be better to have a C program that actually calls the ioctl
-> rather than a custom debugfs thing that may or may not be wired up to do
-> the same thing as an ioctl would?  It seems like other than whatever
-> this ioctl test actually does this is all just a simplified version of
-> the existing pcm-test.
-
-Well, the idea was to test the playback buffer consistency - the driver 
-has the functionality of testing the playback buffer for containing the 
-looped pattern (and if the buffer doesn't contain the looped pattern the 
-test fails). So, firstly we get the capture buffer with this pattern 
-(via arecord), and then send it to the driver for the test (via aplay).
-
-The pcm-test (as I understand) performs only time checks, not the checks 
-of the data played/captured, and I think it is pointless to test the 
-time again. But I agree, that C test implementation would be better - 
-using this approach I can perform additional buffer checks and cover 
-more functionality of the driver.
-
-Thank you very much for the review!
-
-Kind regards,
-Ivan Orlov.
+Thanks for your review, Andrew! The comments will be addressed in next vers=
+ion.
