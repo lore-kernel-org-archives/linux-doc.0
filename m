@@ -2,219 +2,214 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F64C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 08:07:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6AF9C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 08:08:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbjEPIHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 04:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33926 "EHLO
+        id S230292AbjEPIIL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 04:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230203AbjEPIHP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 04:07:15 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2106.outbound.protection.outlook.com [40.107.94.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3447C1FEF;
-        Tue, 16 May 2023 01:07:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eMbjBWsJIwIt1x0nJg37PiHKlCP6mkbRJDwR92yDML6Kv0gHCbArHItNYJVMTqyw8sB9sRvtsex37SVUQT8odjFZqRJcxYGNCsBEnY7ZMnaA2E2qo+KBlYQwihCIa57NXaXkSaKBCmldpLAiULioRW3QrJEJzKcZQ1I6TTaj5TLNfUdbSMAWmgpAIgR6aJwKAaohBk0K78RpgariuIyqH1OmB4s2uS0rjTM2I7jk0CVuZdThV/XippIlwDjFvmEN0FPgPJ/Rzn72gO6jTptjN94BAd56yPrQJREnHUWg+D65RUbS2BM8zvXwfsWuLnHNQ5hLUcPSGWp2haTK50AAyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sfvCQItQcyP45z3rReH+rUj3KDk+7T30TQq0lMOzZNE=;
- b=d9c3CV8Z3w/phFS0E6HiqTAuuZXP2+XI3EamDOWUGwTx/FZl0TQ6M0NmyLAa1ONGEMq4ACHliRhm8casN3AvYTSB2jSnbq/1TcKULS8iMKA0IDNmQdomNwoyeRHWZNvGAeWUVHoORDlZWqNkKTwLOCeLbE86i6Jnv7+t0dNJyAv5qSnmp8T0LJLnG26mkh/wRtxifKGIAEHZybcZNH8xsbCh9TvMjGmxjuWhAVaNHHKV6+JxNPRwiBn7qLO+/7S7r0aAhbtMLWP/tj4+j8q0bfIbzeaRB21MqRH7vHztDLfPuUXeh4iTLO0kJWOOaqI5ddD1+ihsWwESUsXDaAQARQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sfvCQItQcyP45z3rReH+rUj3KDk+7T30TQq0lMOzZNE=;
- b=s7C48aIqhaA9/CjePuI8NfzsJjJ8GEACYm3dupz+pL9iqZVluVBvEK3/eSS5eBawz0BrU9F8sPCG1EwkAyAVnPOZyLJaSRNpBGUg1nQN8Vqms5730Y4wWixatb2hbaIBi9noNGWavm0Eodf0bqB625Z371fCDoRp2tz+JWoFCtk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by CO1PR13MB4840.namprd13.prod.outlook.com (2603:10b6:303:f6::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33; Tue, 16 May
- 2023 08:07:12 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6387.033; Tue, 16 May 2023
- 08:07:12 +0000
-Date:   Tue, 16 May 2023 10:07:04 +0200
-From:   Simon Horman <simon.horman@corigine.com>
-To:     Hariprasad Kelam <hkelam@marvell.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kuba@kernel.org, davem@davemloft.net,
-        willemdebruijn.kernel@gmail.com, andrew@lunn.ch,
-        sgoutham@marvell.com, lcherian@marvell.com, gakula@marvell.com,
-        jerinj@marvell.com, sbhatta@marvell.com, naveenm@marvell.com,
-        edumazet@google.com, pabeni@redhat.com, jhs@mojatatu.com,
-        xiyou.wangcong@gmail.com, jiri@resnulli.us, maxtram95@gmail.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [net-next Patch v10 4/8] octeontx2-pf: Refactor schedular queue
- alloc/free calls
-Message-ID: <ZGM5qO+Uhea7eGGt@corigine.com>
-References: <20230513085143.3289-1-hkelam@marvell.com>
- <20230513085143.3289-5-hkelam@marvell.com>
- <ZGM5VmGcuEFG2Jh6@corigine.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZGM5VmGcuEFG2Jh6@corigine.com>
-X-ClientProxiedBy: AM4PR0902CA0018.eurprd09.prod.outlook.com
- (2603:10a6:200:9b::28) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+        with ESMTP id S230522AbjEPIIK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 04:08:10 -0400
+Received: from out-45.mta0.migadu.com (out-45.mta0.migadu.com [IPv6:2001:41d0:1004:224b::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED2F40C1
+        for <linux-doc@vger.kernel.org>; Tue, 16 May 2023 01:08:06 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1684224485;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=KESE3livhLCPCuhAtGnou9hKvDDNimcW55YJMsd0vFE=;
+        b=oVXDiWFKqsDGNvaZIqW3sDabiHhFmO5+myShDGSg932MLt5pekVX+7CZ0POYX5M9GWKCUs
+        OND+IfLjonypaa3as3aSgsjZ8qgPr8djWp1pIG+lFIaAfPxhjewgk0j+iUb6hQzyNJ3ueE
+        wY+wveuHzPriFnS/JLJUuFBjIB6TX54=
+From:   Yajun Deng <yajun.deng@linux.dev>
+To:     bp@alien8.de, tony.luck@intel.com, james.morse@arm.com,
+        mchehab@kernel.org, rric@kernel.org, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-doc@vger.kernel.org, Yajun Deng <yajun.deng@linux.dev>
+Subject: [PATCH] EDAC: Expose node link in sysfs if CONFIG_NUMA
+Date:   Tue, 16 May 2023 16:07:48 +0800
+Message-Id: <20230516080748.3155788-1-yajun.deng@linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|CO1PR13MB4840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 072fa85b-98df-4edc-f0c4-08db55e48dc4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rJnVdu5cuVhE+wlwY99639eamc1EsgsfR3LEFkUAU+rVlbAXit64ekwEBjolYvkvQfl8au0cd4gPpPKDoDztNG/JFKosKf5Rsw+y1CqOv2vbhs9WHt//kSy8pTA3Ws+5In6UJpRvqP/eUgNBVUGEDRVvZ8pcTlxSCOFP7KJXfaLBWOL/k5ynmoPzM8njWDlY9Ydj0CTVhAJ1HygMzc4KsurtE65dZX3u7+ybZZOfJBpyUiaVSfsVZpvh783OCgCIDbal176g+ITf1I/dwsZN5m6VjvkN+xP13pMa/qBoEplef1iI+jAqgqy+6DQn3MGh5F2YmVUoFyXKa32hIh/o5uCqMp9ATzVBUZHFL2RYHsmzewlW1Yjl9WX86bag4DAkQDDKYrOW3Lsix4LRK5COsequEYO5+PywtN7LRUztuxQuz1uCl7a+YieThS7qEFruJWo5SUGcBisWtfAIhrGYE2HXFqd7h9riYCATqFC3e3TrUNTTP0Z9vd0H5REK2T+wkn5jg8IM8VvvlZa0oMfpamRUQNJMk2Fnga7tzgpgxc++bGFQij1KWjj8+LGZ4ydA/mjmvdX/Ej+Ev0P0/MhCU9pIOAi5iGBc/1dGf8G3csM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(366004)(39840400004)(376002)(346002)(451199021)(36756003)(86362001)(316002)(66946007)(66556008)(66476007)(6916009)(4326008)(478600001)(6666004)(8936002)(8676002)(5660300002)(41300700001)(2906002)(7416002)(44832011)(38100700002)(2616005)(6512007)(6506007)(186003)(83380400001)(6486002)(67856001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s172XiiF9oXrabOlz6oYRH7rbxUBsjMmq0/GkHTDZAvhkz2+SG0pz8HdCJLl?=
- =?us-ascii?Q?50oXLedpLRLbmd9yjVheUxyoFSA6ZVHWpyn1N3XRrccOYoIaYoQdxFBObM2V?=
- =?us-ascii?Q?kqezqTIa8ZD4XUbGMBWaFHoY/Akp//UnY6eESe6Xis9vBbGVbSt/ErRkaamP?=
- =?us-ascii?Q?avO8A1aAeSCXqsbsjFWCuNj4MIy8kQ5tr3WVqzBHMonR3cCXXAFzb95oeIPt?=
- =?us-ascii?Q?IQvQ81ufa2XLGJT8WaFC3XzJPO+1RfwA/34hdX6GMpuvb3CkOthlxJBMS29V?=
- =?us-ascii?Q?Zobd4+z48+92tlzpQK+S8FYte7na0CxCRccB1ysxXgCfAWLdoiZtw7KckCae?=
- =?us-ascii?Q?fjXoVP9hlHwDsMkbSWojS6JuZkyIDCczM7j2D9yGRNjZjC1FMXoZFIr2wL8b?=
- =?us-ascii?Q?hNTDP37S2TPwIP18d+uG9z1kCJZ3BDRZrs4ShfRLn2b22mbzx8MtmRP1/UW8?=
- =?us-ascii?Q?+PS1XlM69MrGPMVzsu/o7bR1xIJiUSurj40Hq5C5SUTtdjDpZ8niHEa4njIz?=
- =?us-ascii?Q?3u3CrkVG4R/ysBM47WQ1T85ssPYjAfEIcD4JLJztihG1O/6QOrLoZrK0k8EI?=
- =?us-ascii?Q?kqOacSXc9r2W5Rtqt3i15/UQxs1gVPe8Jenm449OHOibyyI4PfLYXYZVhl9c?=
- =?us-ascii?Q?xAa1zF0+R30BVhaKaPH/c1YplhhRgp+DOTUBUuhzp6yooTo96VemytAmvfDR?=
- =?us-ascii?Q?UmL8YPEggFeN2xVZVP0bquasUH7UfsE0K5WIRjZO6mdXLHf6n3Ot5Ke1+EBA?=
- =?us-ascii?Q?i9BFNB0w/tZrmRDhzj6JcuL9CO9kxzDiON/rKoCl2cLF5JwrFY6Dr01Uofe+?=
- =?us-ascii?Q?CORNTNb4wwxqLpeTaA7mZ6nRdXPJrbI8adZQtJlXUU+vblwTXjIGo9yaQ8g5?=
- =?us-ascii?Q?xIAHhmfd9jHYyf/IQPwMaWyIhrj0JKQfydbqHFZdY9oqtMtnelGKkloH+bc/?=
- =?us-ascii?Q?BNmp/ZeWrWUdFpnuwCKII4k47YCTXHShEWhBCEJ1EfUrKdnUSeHrBQhHAYI0?=
- =?us-ascii?Q?nj5gwGGROZ2j4SKHvFIzEjHYbTnnWYN9aV0hVb9I8PmOnkMc+SWPPKXP/mT5?=
- =?us-ascii?Q?S/Bii3s/C3ATmSIbE59UL94JrabjB6fdgA6qGq4lNhlVz+UWj+Uld4dqkj8e?=
- =?us-ascii?Q?dNGgGv2YIAoe+TvW9nfu3F9ccWDtAzsHue54JNgqsNNshjwZYdxZEALyfEzH?=
- =?us-ascii?Q?4JuEghff/SSND8jck3fuh6IGFsMkFku8RS3so0fcEkeg2Y3S7B5quxvcZlzn?=
- =?us-ascii?Q?BTNXnj84TMi5c8G9k44xh+QDoWTfOeD7RsELuvrrtqd3y+UTd9vA7Hg/UviE?=
- =?us-ascii?Q?2uxq0EC+iD+2fWnW1JEg+VSkhH+aUmfVAhXtPn91mWuPXivMAZ4k0uZ8bNPx?=
- =?us-ascii?Q?20M8UQU/AjZOpy6aBe3sMVp/xW6MWqKWsizcCUKbgxZz89lTR0TEofk/uV9h?=
- =?us-ascii?Q?zJdz+kiwGV/HLFRAFV7pWDErTvgtsgDSeqGis8D9ot+b2vBDYIufF+kIaw2x?=
- =?us-ascii?Q?qje7rirxVmRq6dMsQvy9BYf2uBmY19YC8CBOigDnSTp33TkvF9zCw+SvvoQs?=
- =?us-ascii?Q?jr6v2GsIkbd8roLY5Asre0gyXGixALFAn+tqgOGLl1ILh+fWKamSPcKU2LdW?=
- =?us-ascii?Q?GBiqjSPWJ5TTOkYCegpaS/IkERgNZtElJNqvKTXddTat3rqPWsh3h2uFBGIh?=
- =?us-ascii?Q?Xyw3mg=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 072fa85b-98df-4edc-f0c4-08db55e48dc4
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 08:07:12.3797
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K1UJnq6m+30JRjMyyTB6DeUVKGOudr1vPUTWT52Whd1gnkRLbsfLcfnYMUJj2tm3Hh5OMmeWohwe8wA6tRPaxDSM2ShImoP9kxCrtRsSM7o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR13MB4840
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 16, 2023 at 10:05:54AM +0200, Simon Horman wrote:
-> Hi Hariprasad,
-> 
-> On Sat, May 13, 2023 at 02:21:39PM +0530, Hariprasad Kelam wrote:
-> > 1. Upon txschq free request, the transmit schedular config in hardware
-> > is not getting reset. This patch adds necessary changes to do the same.
-> > 
-> 
-> nit: s/schedular/scheduler/
-> 
-> > 2. Current implementation calls txschq alloc during interface
-> > initialization and in response handler updates the default txschq array.
-> > This creates a problem for htb offload where txsch alloc will be called
-> > for every tc class. This patch addresses the issue by reading txschq
-> > response in mbox caller function instead in the response handler.
-> > 
-> > 3. Current otx2_txschq_stop routine tries to free all txschq nodes
-> > allocated to the interface. This creates a problem for htb offload.
-> > This patch introduces the otx2_txschq_free_one to free txschq in a
-> > given level.
-> 
-> This patch seems to be doing three things.
-> Could it be split into three patches?
+The node in sysfs already has cpu link and memory link, the memory
+control also under a node.
 
-I see that I was a bit late with my review as the
-series was applied yesterday.
+Expose node link to memory control directory and expose memory control
+link to node directory if CONFIG_NUMA.
 
-> ...
-> 
-> > -int otx2_txschq_stop(struct otx2_nic *pfvf)
-> > +void otx2_txschq_free_one(struct otx2_nic *pfvf, u16 lvl, u16 schq)
-> >  {
-> >  	struct nix_txsch_free_req *free_req;
-> > -	int lvl, schq, err;
-> > +	int err;
-> >  
-> >  	mutex_lock(&pfvf->mbox.lock);
-> > -	/* Free the transmit schedulers */
-> > +
-> >  	free_req = otx2_mbox_alloc_msg_nix_txsch_free(&pfvf->mbox);
-> 
-> Mainly for my own edification:
-> 
-> 	- otx2_mbox_alloc_msg_nix_txsch_free is created via the
-> 	  M(_name, _id, _fn_name, _req_type, _rsp_type) macro
-> 	  around line 844 of  otx2_common.h
-> 	- It calls otx2_mbox_alloc_msg_rsp
-> 	- Which does not call any allocation functions such as kmalloc
-> 
-> >  	if (!free_req) {
-> >  		mutex_unlock(&pfvf->mbox.lock);
-> > -		return -ENOMEM;
-> > +		netdev_err(pfvf->netdev,
-> > +			   "Failed alloc txschq free req\n");
-> 
-> I think that given the above it's ok to log an error here.
-> As the allocation core won't have (because it's not used here.
-> But I wonder if it would be more consistent with how
-> allocation errors are usually handled to move the logging into
-> otx2_mbox_alloc_msg_rsp().
-> 
-> > +		return;
-> >  	}
-> >  
-> > -	free_req->flags = TXSCHQ_FREE_ALL;
-> > +	free_req->schq_lvl = lvl;
-> > +	free_req->schq = schq;
-> > +
-> >  	err = otx2_sync_mbox_msg(&pfvf->mbox);
-> > +	if (err) {
-> > +		netdev_err(pfvf->netdev,
-> > +			   "Failed stop txschq %d at level %d\n", schq, lvl);
-> > +	}
-> > +
-> >  	mutex_unlock(&pfvf->mbox.lock);
-> > +}
-> > +
-> > +void otx2_txschq_stop(struct otx2_nic *pfvf)
-> > +{
-> > +	int lvl, schq;
-> > +
-> > +	/* free non QOS TLx nodes */
-> > +	for (lvl = 0; lvl < NIX_TXSCH_LVL_CNT; lvl++)
-> > +		otx2_txschq_free_one(pfvf, lvl,
-> > +				     pfvf->hw.txschq_list[lvl][0]);
-> >  
-> >  	/* Clear the txschq list */
-> >  	for (lvl = 0; lvl < NIX_TXSCH_LVL_CNT; lvl++) {
-> >  		for (schq = 0; schq < MAX_TXSCHQ_PER_FUNC; schq++)
-> >  			pfvf->hw.txschq_list[lvl][schq] = 0;
-> >  	}
-> > -	return err;
-> > +
-> 
-> nit: no blank line here.
-> 
-> >  }
-> >  
-> >  void otx2_sqb_flush(struct otx2_nic *pfvf)
-> 
-> ...
+At the same time, change the type of EDAC from tristate to boolean
+because it needs node_devices.
+
+Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
+---
+ Documentation/ABI/testing/sysfs-devices-edac | 26 ++++++++++
+ Documentation/admin-guide/ras.rst            |  2 +
+ drivers/edac/Kconfig                         |  2 +-
+ drivers/edac/edac_mc_sysfs.c                 | 54 ++++++++++++++++++++
+ 4 files changed, 83 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-devices-edac b/Documentation/ABI/testing/sysfs-devices-edac
+index 256a9e990c0b..726f97170b9f 100644
+--- a/Documentation/ABI/testing/sysfs-devices-edac
++++ b/Documentation/ABI/testing/sysfs-devices-edac
+@@ -155,3 +155,29 @@ Description:	This attribute file displays the total count of uncorrectable
+ 		errors that have occurred on this DIMM. If panic_on_ue is set, this
+ 		counter will not have a chance to increment, since EDAC will panic the
+ 		system
++
++What:		/sys/devices/system/edac/mc/mc*/node*
++Date:		May 2023
++Contact:	Yajun Deng <yajun.deng@linux.dev>
++		linux-edac@vger.kernel.org
++Description:	When CONFIG_NUMA is enabled, a symbolic link that points to the
++		corresponding NUMA node directory.
++
++		For example, the following symbolic link is created for node0 on mc0
++		and mc1:
++
++		/sys/devices/system/edac/mc/mc0/node0 -> ../../../node/node0
++		/sys/devices/system/edac/mc/mc1/node0 -> ../../../node/node0
++
++What:		/sys/devices/system/node/node*/mc*
++Date:		May 2023
++Contact:	Yajun Deng <yajun.deng@linux.dev>
++		linux-edac@vger.kernel.org
++Description:	When CONFIG_NUMA is enabled, a symbolic link that points to the
++		corresponding memory control directory.
++
++		For example, the following symbolic link is created for mc0 and mc1
++		on node0:
++
++		/sys/devices/system/node/node0/mc0 -> ../../edac/mc/mc0
++		/sys/devices/system/node/node0/mc1 -> ../../edac/mc/mc1
+diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
+index 8e03751d126d..ef7cc9867fc8 100644
+--- a/Documentation/admin-guide/ras.rst
++++ b/Documentation/admin-guide/ras.rst
+@@ -458,6 +458,7 @@ A typical EDAC system has the following structure under
+ 	│   │   │   └── uevent
+ 	│   │   ├── max_location
+ 	│   │   ├── mc_name
++	│   │   ├── node0 -> ../../../node/node0  #if CONFIG_NUMA
+ 	│   │   ├── reset_counters
+ 	│   │   ├── seconds_since_reset
+ 	│   │   ├── size_mb
+@@ -479,6 +480,7 @@ A typical EDAC system has the following structure under
+ 	│   │   │   └── uevent
+ 	│   │   ├── max_location
+ 	│   │   ├── mc_name
++	│   │   ├── node0 -> ../../../node/node0  #if CONFIG_NUMA
+ 	│   │   ├── reset_counters
+ 	│   │   ├── seconds_since_reset
+ 	│   │   ├── size_mb
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index 68f576700911..e61a29e0eb28 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -10,7 +10,7 @@ config EDAC_SUPPORT
+ 	bool
+ 
+ menuconfig EDAC
+-	tristate "EDAC (Error Detection And Correction) reporting"
++	bool "EDAC (Error Detection And Correction) reporting"
+ 	depends on HAS_IOMEM && EDAC_SUPPORT && RAS
+ 	help
+ 	  EDAC is a subsystem along with hardware-specific drivers designed to
+diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
+index 15f63452a9be..7b81d898f4f2 100644
+--- a/drivers/edac/edac_mc_sysfs.c
++++ b/drivers/edac/edac_mc_sysfs.c
+@@ -18,6 +18,7 @@
+ #include <linux/bug.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/uaccess.h>
++#include <linux/node.h>
+ 
+ #include "edac_mc.h"
+ #include "edac_module.h"
+@@ -922,6 +923,55 @@ static const struct device_type mci_attr_type = {
+ 	.groups		= mci_attr_groups,
+ };
+ 
++#ifdef CONFIG_NUMA
++static int edac_create_node_link(struct mem_ctl_info *mci)
++{
++	int nid = dev_to_node(mci->pdev);
++	struct node *node;
++	struct device *dev;
++	int ret;
++
++	if (!node_online(nid))
++		return 0;
++
++	node = node_devices[nid];
++	dev = &mci->dev;
++
++	ret = sysfs_create_link(&node->dev.kobj, &dev->kobj,
++				kobject_name(&dev->kobj));
++	if (ret)
++		return ret;
++
++	return sysfs_create_link(&dev->kobj, &node->dev.kobj,
++				 kobject_name(&node->dev.kobj));
++}
++
++static void edac_remove_node_link(struct mem_ctl_info *mci)
++{
++	int nid = dev_to_node(mci->pdev);
++	struct node *node;
++	struct device *dev;
++
++	if (!node_online(nid))
++		return;
++
++	node = node_devices[nid];
++	dev = &mci->dev;
++
++	sysfs_remove_link(&node->dev.kobj, kobject_name(&dev->kobj));
++
++	sysfs_remove_link(&dev->kobj, kobject_name(&node->dev.kobj));
++}
++#else
++static inline int edac_create_node_link(struct mem_ctl_info *mci)
++{
++	return 0;
++}
++static inline void edac_remove_node_link(struct mem_ctl_info *mci)
++{
++}
++#endif
++
+ /*
+  * Create a new Memory Controller kobject instance,
+  *	mc<id> under the 'mc' directory
+@@ -966,6 +1016,8 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info *mci,
+ 			goto fail;
+ 	}
+ 
++	edac_create_node_link(mci);
++
+ #ifdef CONFIG_EDAC_LEGACY_SYSFS
+ 	err = edac_create_csrow_objects(mci);
+ 	if (err < 0)
+@@ -1000,6 +1052,8 @@ void edac_remove_sysfs_mci_device(struct mem_ctl_info *mci)
+ 	edac_delete_csrow_objects(mci);
+ #endif
+ 
++	edac_remove_node_link(mci);
++
+ 	mci_for_each_dimm(mci, dimm) {
+ 		if (!device_is_registered(&dimm->dev))
+ 			continue;
+-- 
+2.25.1
+
