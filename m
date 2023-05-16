@@ -2,118 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC277C77B7F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 13:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E98AC77B7A
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 13:36:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233189AbjEPN3X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 09:29:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42466 "EHLO
+        id S233659AbjEPNgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 09:36:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231624AbjEPN3W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 09:29:22 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A7AC30D2;
-        Tue, 16 May 2023 06:29:21 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-643557840e4so15179009b3a.2;
-        Tue, 16 May 2023 06:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684243761; x=1686835761;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3wrNPJ1N98rVkDqpmYGeRIPO4+D5MBPm+JHAP5bi0lI=;
-        b=SjRtJegJE4MAr3atEsh5GrsX4kXV3ummaSZDrZ73xCZ/6kfoKd46bGOkXMQZb54Jj1
-         4puqH8dQO7OZTsvvpSjwvp8K8RfvAP0ko13wSCMifnh2TWHbJUGJLXQ/SwjbP2NGtYzN
-         DUQOEPhwWew1+J81Mb7HdX2Hwg81LxoND9KpbzHdgaS79Kwvj7KLzNg7AagAewAiIgqO
-         d3Ng/7OU1xOn9AUAnpP5r9+hDoVNWvzD5kWguU2cqii3HaJO1JZb1lTSsNydYYFw8/IM
-         Ag7PWA5GTd9PB/B0/ZMc+TocjtWwMxfu3E9cmVPYea2NRcT9areWz+DrQhiDX2w2i3aR
-         BUiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684243761; x=1686835761;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3wrNPJ1N98rVkDqpmYGeRIPO4+D5MBPm+JHAP5bi0lI=;
-        b=VX/8P+3YNZ3aZ4+0pSGeQ+/hxhofAYdkNTJBe4V1ZciIPwSE9mGcWNQBJgMjiz0umU
-         mMt30o2w2j7jeNaaCXFMnjVK6luwjipk8i+mZFLkPYtpbSJ7oV2TKGYUwjAVkInXm5K1
-         /nB/tJx/9WzS/4vvWT8LisGrfcpmeJ6+Jq2jyVVudSkabg5FZL/yy19MBIJEpwQxYR2T
-         JqluFYry85OzZaw41CDkYE4cWdx7vomXWQBqhZQ/tE3nlUNaAOMfbqnXiGLxhiunF+8f
-         pkhePQfN7vKW7w9LgCby9I8r0gXauV3niRFOh8uc779uhWsPv5o2dA/r4C6J9Er4JXj6
-         JI0g==
-X-Gm-Message-State: AC+VfDxYhaTTJmM4qh/pbEX0lHPfG+M3lHLQSND3CE3522vQvFFC0a7E
-        gKiVSoaDFkTlXVij0zuBeiC+pHO/P14=
-X-Google-Smtp-Source: ACHHUZ7DPpDU7B5C2wwyP8aaXoM7xL1h9DVr5nZxlgJlahgICYkqDuYBEUd17Bm2S0qNhqXqre3jMw==
-X-Received: by 2002:a05:6a00:801:b0:63d:2260:f7d with SMTP id m1-20020a056a00080100b0063d22600f7dmr52997270pfk.8.1684243760730;
-        Tue, 16 May 2023 06:29:20 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-8.three.co.id. [180.214.232.8])
-        by smtp.gmail.com with ESMTPSA id g25-20020a62e319000000b006414289ab69sm13379952pfh.52.2023.05.16.06.29.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 May 2023 06:29:20 -0700 (PDT)
-Message-ID: <30df7ad7-3b8b-c578-b153-7bf0a38fa0cc@gmail.com>
-Date:   Tue, 16 May 2023 20:29:04 +0700
+        with ESMTP id S233453AbjEPNgr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 09:36:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E212527B;
+        Tue, 16 May 2023 06:36:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2A476617FF;
+        Tue, 16 May 2023 13:36:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9985C433EF;
+        Tue, 16 May 2023 13:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684244203;
+        bh=y/yWoPs8Nlf4p3CTjaVQfoHaJvHxuvjvDqaUL6F6Phs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UjFmnmvm35D7Eoud6qOlQMYj0uS3SPPHJcIUVr0C9BDKoibiNK8iuxNXsMfN8dUcl
+         mVm73t4opsFn4yO0j6dumM+xej3qJCNa76TPN9pFSHIrzPk4gJY7dHx3ArwaUhJG1m
+         mRMvXSsr3sblzY1w38uCi8+ho8rBSWj6yui36whSEGEQVWI+NM8vEvEK5OL22MkFi3
+         FncsH9nsj40e6PPPzWlCBVz6ymCuBSDoD79oWbiprWq/5FEmdYM2tn2UwaLT5z5q1k
+         ZIMNJVjtmipsCnGvhlqqu+G63uKI6zGkdoKe4c6qBlY8PSExWjIhu9bTYaUozT7pua
+         0TiA4WuBanyaA==
+Date:   Tue, 16 May 2023 19:06:38 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v14 07/15] phy: fsl: Add Lynx 10G SerDes driver
+Message-ID: <ZGOG5iwINTcFABHB@matsya>
+References: <20230413160607.4128315-1-sean.anderson@seco.com>
+ <20230413160607.4128315-8-sean.anderson@seco.com>
+ <ZFi/Y7wcad4hrAMe@matsya>
+ <957a6bb4-f07b-f511-72c9-da4199dc8616@seco.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH net v2 0/4] Documentation fixes for Mellanox mlx5 devlink
- info
-Content-Language: en-US
-To:     Linux Networking <netdev@vger.kernel.org>,
-        Remote Direct Memory Access Kernel Subsystem 
-        <linux-rdma@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gal Pressman <gal@nvidia.com>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-        Maher Sanalla <msanalla@nvidia.com>,
-        Moshe Shemesh <moshe@nvidia.com>,
-        Tariq Toukan <tariqt@nvidia.com>
-References: <20230510035415.16956-1-bagasdotme@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230510035415.16956-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <957a6bb4-f07b-f511-72c9-da4199dc8616@seco.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/10/23 10:54, Bagas Sanjaya wrote:
-> Here are fixes for mlx5 devlink info documentation. The first fixes
-> htmldocs warnings on the mainline, while the rest is formatting fixes.
-> 
-> Changes since v1 [1]:
-> 
->   * Pick up Reviewed-by tags from Leon Romanovsky
->   * Rebase on current net tree
-> 
-> [1]: https://lore.kernel.org/linux-doc/20230503094248.28931-1-bagasdotme@gmail.com/
-> 
-> Bagas Sanjaya (4):
->   Documentation: net/mlx5: Wrap vnic reporter devlink commands in code
->     blocks
->   Documentation: net/mlx5: Use bullet and definition lists for vnic
->     counters description
->   Documentation: net/mlx5: Add blank line separator before numbered
->     lists
->   Documentation: net/mlx5: Wrap notes in admonition blocks
-> 
->  .../ethernet/mellanox/mlx5/devlink.rst        | 60 ++++++++++++-------
->  1 file changed, 37 insertions(+), 23 deletions(-)
-> 
+On 08-05-23, 11:28, Sean Anderson wrote:
+> On 5/8/23 05:22, Vinod Koul wrote:
+> > On 13-04-23, 12:05, Sean Anderson wrote:
 
-Hi jon,
+> >> +static const struct lynx_cfg ls1088a_cfg = {
+> >> +	.lanes = 4,
+> >> +	.endian = REGMAP_ENDIAN_LITTLE,
+> >> +	.mode_conflict = lynx_ls_mode_conflict,
+> >> +	.mode_apply = lynx_ls_mode_apply,
+> >> +	.mode_init = lynx_ls_mode_init,
+> > 
+> > So you have cfg with mode_xxx pointing to same functions for both of the
+> > versions you support... so question is why do this and not call the
+> > functions directly?
+> 
+> The intention is to make it easy to add support for T-series processors,
+> which have a different PCCR layout.
 
-If there is no response from mellanox and/or netdev maintainers,
-would you like to review and pick this series up?
-
-Thanks.
+And when is that going to come. I would prefer this to be added when we
+have users being added
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+~Vinod
