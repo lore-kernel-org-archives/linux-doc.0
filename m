@@ -2,189 +2,369 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 828F6C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 17:25:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B839EC7EE2C
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 17:37:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231704AbjEPRZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 13:25:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51890 "EHLO
+        id S231837AbjEPRhb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 13:37:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231694AbjEPRZx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 13:25:53 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E8A3A8B;
-        Tue, 16 May 2023 10:25:52 -0700 (PDT)
+        with ESMTP id S231192AbjEPRhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 13:37:31 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 549FF61AE;
+        Tue, 16 May 2023 10:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684257953; x=1715793953;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=oyGZERBXJMH/HUvn9+c8Zj8TcLh3pZUVwN2+oAx0gQ4=;
-  b=RpLrjdY8v3yJmtUfN7Ep4oPBb++YznZUY4VIrZ9S4Mz+kCO5RN3WhCQ8
-   W+lfxcugxWOvblfmHAk7YapfJ60IcrvkHQeY/DAhr7ZpZFUZ392BjMI9z
-   3bk3o84R1GGCeXLrqedBJFU69ZqJEmVsqdwsxov97Rk6A0zFr5iK7+Sdu
-   3WDLcwGGFP2lQubg1EFQpPTPrC7LgJfT85kG7sZm1UBKR2cNYW1dVfGE8
-   8P+jzFgOLYd9tPWTMcbm04ANaBKNrRH/9u1lo1hQ0sNhWcRakFzTZepMj
-   8lk8fOCX+Wp/gLbQjAKVVrFiMRVUoRFdDhsBvses7xArOOOQHpFxfvAl3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="379726850"
+  t=1684258649; x=1715794649;
+  h=date:from:to:cc:subject:message-id;
+  bh=uqH4MXSym2/2MfnUmJQjhh6WvqrJgQFs46ETSmTZB0s=;
+  b=Wd3KwF/HzyNWaELVC2et/DeGwbS8miLmwPRBpfzG03sGNrvvGtMDKVBf
+   c2KQLgB3rviAegU2MzWAA8eEEVZCYGLlbnqlDb06fkmz6k3C63A8pLxof
+   I5ehMm81vaQUDfN6EFw2owMsnf/0h/4ZKekTmlv2itq3FFaLlRocs5PYd
+   /2t3MaCXDgLNR0+uJ5wOx5f9wMv+rtQQs2vwDjriJWF8qNoPBzQ9pSzae
+   JGStx8XacaIJbGPa9q3bkZd/fIDHXxKgZIpCF0oNioqHvKV/5oKlfw6o0
+   vk6UCNE1ehPqh82rao+mnI+SwJtuUXDWfm+y5X0mveP0QeADJ0DSYr5KF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="414949590"
 X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="379726850"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 10:25:52 -0700
+   d="scan'208";a="414949590"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 10:37:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="875729738"
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="1031376637"
 X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="875729738"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga005.jf.intel.com with ESMTP; 16 May 2023 10:25:52 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 16 May 2023 10:25:52 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 16 May 2023 10:25:51 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Tue, 16 May 2023 10:25:51 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.44) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Tue, 16 May 2023 10:25:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lGUcuBcVV+5noeVfbRV6XpcshN2EItH7ha4+pXXC2cu6l864IHL0uy5MuN+rm0I2EZ97lp0/HvpKFyGarjMVPfdp+Ii3D3Zq5xVquWy86o1FTGovk4L+oBlMiLN0G3avAUU68O/b/k0z+ANUXW6fypDPhZGHB2RFYjbtT29SJHvywcK14YeKPPXConehcwHTKxScOPvNB9ELKyCxzoAW0Ee6fHLGwwwWpvJL6DjKxTP93/AW+D/LnVpSWkqm1db5fPkKBIwhkvNf2Jzr5xJGJrVwj8OBG/lmAXkmlPueDCw0uy1vqpMJv8XGj9fR62Wl6UF1IN2sU/jtMgrR1eOsDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oyGZERBXJMH/HUvn9+c8Zj8TcLh3pZUVwN2+oAx0gQ4=;
- b=mQRpFQab2t4QxJ1VDubUluLS36FaxsTpZQ8Du90mrxUxwpBkr2xkYw6kAdtWkIHWGktPT9ka0NFt0HYLbCBMKv3eerqwmXp8DuYwyWJrgwBfpYZgvtaA8mLtYdQ/BbQ2W5ClKamn50I75+oEIqVchK6zgKV6bAceBG6jbW3/gH0zfUfd0VbTHjHDjSFBbuE2w4ZjN5G8rHHgdi+mNfwUIiVrkr1O7Mw+3djXdQCnCZ4ej9Zfr2IVtyQ+vpLIazLCaSyIK0HkfXtXhfXV1mYvUVZbQo1KQsTrsQB+sw5JQLjKCxkH+p9aginCu4/QxT0x61aAxq6Obf9ciWOgl+gf7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by CH3PR11MB7179.namprd11.prod.outlook.com (2603:10b6:610:142::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33; Tue, 16 May
- 2023 17:25:49 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::a52e:e620:e80f:302]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::a52e:e620:e80f:302%6]) with mapi id 15.20.6387.029; Tue, 16 May 2023
- 17:25:49 +0000
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>, Yajun Deng <yajun.deng@linux.dev>
-CC:     "james.morse@arm.com" <james.morse@arm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "rric@kernel.org" <rric@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH] EDAC: Expose node link in sysfs if CONFIG_NUMA
-Thread-Topic: [PATCH] EDAC: Expose node link in sysfs if CONFIG_NUMA
-Thread-Index: AQHZh82fSWu1eOhY9EeyDR7AGThym69ctEKAgAAJQoCAAAN/AIAACwSAgAADHwCAAFYfIA==
-Date:   Tue, 16 May 2023 17:25:49 +0000
-Message-ID: <SJ1PR11MB60831CF4AC4E4C23DE362E0DFC799@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20230516111942.GCZGNmzu3Abd4KmZu3@fat_crate.local>
- <20230516103403.GBZGNcG7Q1sdtUpcHW@fat_crate.local>
- <20230516080748.3155788-1-yajun.deng@linux.dev>
- <e930d9a3efd6d99d2badc7bdff713afd@linux.dev>
- <3509bcc597e37616cf45247e8f92d369@linux.dev>
- <20230516121018.GDZGNyqjm9YWQp2Of4@fat_crate.local>
-In-Reply-To: <20230516121018.GDZGNyqjm9YWQp2Of4@fat_crate.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|CH3PR11MB7179:EE_
-x-ms-office365-filtering-correlation-id: a4d3720f-35c7-45a9-c865-08db56329786
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OsrL803XkS6IPLIwupuEP/UgunhMYoc0qgbyt+j4hOHfu67Nhc/PxuXUgER2kbqDiBtjkOD9SqJQZxYQR0IY2EQu/ja/sWRtyhQDGsb5IQwXzIz30CdVyRRS3R7wiQWY6xL6n+PH6DvMDNySgtkupBYt7kaySo958qTw1FQZT7goED4oiBgmI03gCgRWycHU3653i1diG0iU5vYsCTxHv/jomh+w2yGQ/B0LVbNnUL0duCmANtjn0iJYlMnHvHO0C+E6vRPQZjQSryO6Mjcf9TAULZMJJVqeHGQ+All6rR4/jWYrrfwM29J9mXn0gq1dVT/DRLKx8szg4bPGLiFtjcAQZYSU1g+890M828ju01g5PqieewJipxL0C+mXSKJ3QSywBqGTluPIfhRWbJWL1NW1qzgjtpcAVDylAzsSd6TQqM+Uy+bqtkdY5bzgWr70CDIVftiRca5GaCENXZ21maZ97EhD7Le7oNGO1J7tT383MjhVSG4jvjh05ay7+L6mVWzwm9w30v/pa2/7qXQD26lm+3/uCXAkPbsz5VFCuH7Siw3eqF8abYWR2f0eEGE2fGzsqvSKoGau/nwn5l/XCMXtVQPARem+61Fh/DZl5cObYHnINit/zvWxLfVzBENr
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(346002)(39860400002)(366004)(136003)(396003)(451199021)(5660300002)(52536014)(8676002)(8936002)(186003)(26005)(6506007)(9686003)(82960400001)(122000001)(38100700002)(38070700005)(71200400001)(478600001)(7696005)(110136005)(55016003)(33656002)(66476007)(41300700001)(66556008)(66946007)(54906003)(316002)(76116006)(66446008)(64756008)(86362001)(4326008)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SURJMDBvelZZeFA0QkV4Tk9OaXhPZDQxbUVqL0M2aTFLSCtHVWdidkJ6SzhQ?=
- =?utf-8?B?TjJlY0VwSWRlbHpDdXdNSm5oQUd3QjY4NmVHbFg4WHhqanltdkZCZVRaVTgy?=
- =?utf-8?B?d2hpY1dvR1NlbDR4STFYRm56U2NtRlh3YXhwZGVQVEtNd0h0TGhJZW5pQjJR?=
- =?utf-8?B?ZWgrL1V5ZHdpTUxBV3d1QzZXZSt6WEV3YllFMmVFR0hyS1pDSTlyYkNZeUY0?=
- =?utf-8?B?QS9UY0djM1U3RU1YTGs1bklNK3FuY05YYnpSeDVFaGx2YlFvZWxHL2pyZGlX?=
- =?utf-8?B?b3pJTkxQUEtRdDFWZGx6UDUvakFuMDNVMER1N1VQQ1huWllpR0g1N0YrejRh?=
- =?utf-8?B?RkR3TVVFVCtDM3NsZlFtb25vRDVvK1A4dmpYSUVNbGlDekx1eU5ZK2pyblBN?=
- =?utf-8?B?TzZleW8vVmhEL1BsZVlXQWQ4L2F4Q2Y2SE53ZUU0cG5GamNQYkdENW9GQ1cw?=
- =?utf-8?B?YW5Dckc4Zlk2VzlESGlJdXhMYmJPWUlrazNZN0d3RmViRm16VGtzUU9xWm41?=
- =?utf-8?B?RkZ3dTVqa21Dcjl1R2xHNHVsU1lVdlhtV3VXcVd1Mk5mRTRJSzh4a29SYVNH?=
- =?utf-8?B?ZTI3SVRrS0srWTN5dVNDUy9kaENTTzRUdXRza1hhVUNvVmJuVmxGbU15TjI1?=
- =?utf-8?B?VkVkcWI5ZEFaWjVCNXYrQ2xMSGpGeVR1cHQ0czlzaG5mNXRHcGVuSEx1aDBW?=
- =?utf-8?B?R1hFS0pvTCs3dXFCY2lUYUNJbHA1dEd4RHRQcUFidG5iRWRkdUY0ZlhPdjVQ?=
- =?utf-8?B?bGNCUUY3UC9PTUp6T0Z4NmpqVkg2MXJUM044M0g0WW9wRGpON2VIcjBRc211?=
- =?utf-8?B?NEJvM25ycDZDQnN6bThCUzZPL3lMQno4bUE2c01ic01MNDZBOXA1OExvakdm?=
- =?utf-8?B?RXkvV2cyQ3lEaGFXdEpHNEVPUnZBVVlUa2JlOERIUWhhVmg2Z1FQdXhDS3p4?=
- =?utf-8?B?VklHTEtXcjNYdmdHNzg0bExyMHRoNHVjM3d3YWtTRHY3d2p6TVNyK1M5R0ZX?=
- =?utf-8?B?UXpiYUpVQkJNK3FyUVNnRDBQbFRFTkJsV09SaW0vaXB6Vi84ZFBQMXltZUUz?=
- =?utf-8?B?MmpCSXJudTVkNU5PWE53WUdhM2J1c01LOVdoMnBSVzdzTFliWnd3ZlRqR09E?=
- =?utf-8?B?cmRNcHltVkpOTjMrZkdDNmhUMkNYeGFFL2Q3c0JKV0grcVprRHdhQ1FwZ0sz?=
- =?utf-8?B?ZnlrTXNWakIrRGtJaTcwaWlGTUdpS0hIVHBDdnZPUE1abFBFYnJXcUNTOFRP?=
- =?utf-8?B?Q0NMSXJqYWthSkZwcS9iSGlqN0ZZRExoc0JOSkhldXZVVHMzem9iWXMyS1ht?=
- =?utf-8?B?dUhPZG5EQXByWUlWTXZySDNBRVBSdk5lQkQ1YWlQdTJmajVFSFA5VXlsN3Ay?=
- =?utf-8?B?V3dHdnh0VS9vS1BkZERYL25OTVFKcUFCb2JlUm9jTG9zOTJPdkRXYXBlVnNr?=
- =?utf-8?B?K0FvUXJrTXFFTVM3aFBEOHljcS91d0ZrV1lwbWhkYUFyVmF5TXhDZmVIRDc5?=
- =?utf-8?B?NTluU2ZZa3IycngzQ1V2SGhxa3hzTUtrUnFVQXRrbVJNZDQ1ak5WaGx6clhh?=
- =?utf-8?B?MGVUbCtocDVYUXZFaFRJclJFZGYwQ0UvUmd4OGhMQTJyVlEyMlZZUWRQOWlN?=
- =?utf-8?B?NTVxOTVDanNIUUFRWGo0YUVyM2dKMWoyQnlVUHlLUDU1enZ2eS9CSmM3clpl?=
- =?utf-8?B?VmorTFZRSnVYajZMTlFLc3pma0Rxa3hEaXJYRWR6OGt2YVBmZGY4VXZNdW9Y?=
- =?utf-8?B?YWtuRWk2cERFVE1SOUxQblRUL0QxMU5tOU8vR3RxTE44SjFJZThXWFZuTFJx?=
- =?utf-8?B?NXdpVTYyeHFtbUU1UHgxTExzbWlnUFpTSFl6UTQvWTVXNi9YQkREeVV4Rjhy?=
- =?utf-8?B?WjZUdUI1ekNjbE16Z3VFZXVmaE4yaFNUbEIvbTBCbjF6S1VWaVRxL1J3QXZE?=
- =?utf-8?B?MGJoQWYrVzBTNWxETW54MnZmM3pUVUd6TEcxWmEzb1BDcEdYR2tLYjVsZEtG?=
- =?utf-8?B?SFRUSGM0azloZ0pDclRVZWR0SmFZOUNNNERNWkpNbTV4ZkdNZ05HbDg0NER2?=
- =?utf-8?B?bGo1RzE5UTcwUkVmUUFxS0ZlWSt6WTdtNzZCN0RFUkhpYy9mWHZVbitnUnE1?=
- =?utf-8?Q?iDDA=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4d3720f-35c7-45a9-c865-08db56329786
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2023 17:25:49.3425
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WAAd9BIfrlZ3fej9Di5vb+uNUu2ySPePG5xdO/SxXpgG3vmwnp5Kg0XGIFHhx0ohZYespWomqYwu8hLI9kKFSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7179
-X-OriginatorOrg: intel.com
+   d="scan'208";a="1031376637"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 16 May 2023 10:37:26 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pyyc1-0007fE-2W;
+        Tue, 16 May 2023 17:37:25 +0000
+Date:   Wed, 17 May 2023 01:36:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Linux Memory Management List <linux-mm@kvack.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
+ 885df05bf634d589fbf030c3751614eaa453fb5d
+Message-ID: <20230516173633.o6H1n%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pj4gSWYgd2UgaGF2ZSAnL3N5cy9kZXZpY2VzL3N5c3RlbS9ub2RlL25vZGUwL21jMCcsIGJ5IGNv
-bXBhcmluZyB0aGUgbnVtYmVyDQo+PiBvZiBkaW1tIGFuZCBNZW1Ub3RhbCBpbiBtZW1pbmZvLiBJ
-dCBpcyBlYXN5IHRvIGtub3cgdGhhdCB0aGUgZGltbSBkaWRuJ3QgDQo+PiByZWNvZ25pemVkIHdo
-ZXRoZXIgaXQgYmVsb25nZWQgdG8gdGhpcyBOVU1BIG5vZGUgb3Igbm90Lg0KPg0KPiBtYyAhPSBO
-VU1BIG5vZGUuDQoNCk1vZGVybiBzeXN0ZW1zIGhhdmUgbXVsdGlwbGUgbWVtb3J5IGNvbnRyb2xs
-ZXJzIHBlciBzb2NrZXQuDQpPbiBhbiBJY2VsYWtlIHNlcnZlciBJIHNlZToNCg0KJCBjZCAvc3lz
-L2RldmljZXMvc3lzdGVtL2VkYWMvbWMNCiQgbHMgLWwNCnRvdGFsIDANCmRyd3hyLXhyLXguIDUg
-cm9vdCByb290ICAgIDAgTWF5IDE2IDEwOjEzIG1jMA0KZHJ3eHIteHIteC4gMyByb290IHJvb3Qg
-ICAgMCBNYXkgMTYgMTA6MTMgbWMxDQpkcnd4ci14ci14LiA1IHJvb3Qgcm9vdCAgICAwIE1heSAx
-NiAxMDoxMyBtYzINCmRyd3hyLXhyLXguIDMgcm9vdCByb290ICAgIDAgTWF5IDE2IDEwOjEzIG1j
-Mw0KZHJ3eHIteHIteC4gNSByb290IHJvb3QgICAgMCBNYXkgMTYgMTA6MTMgbWM0DQpkcnd4ci14
-ci14LiAzIHJvb3Qgcm9vdCAgICAwIE1heSAxNiAxMDoxMyBtYzUNCmRyd3hyLXhyLXguIDUgcm9v
-dCByb290ICAgIDAgTWF5IDE2IDEwOjEzIG1jNg0KZHJ3eHIteHIteC4gMyByb290IHJvb3QgICAg
-MCBNYXkgMTYgMTA6MTMgbWM3DQpkcnd4ci14ci14LiAyIHJvb3Qgcm9vdCAgICAwIE1heSAxNiAx
-MDoxMyBwb3dlcg0KbHJ3eHJ3eHJ3eC4gMSByb290IHJvb3QgICAgMCBNYXkgMTYgMDM6MTEgc3Vi
-c3lzdGVtIC0+IC4uLy4uLy4uLy4uL2J1cy9lZGFjDQotcnctci0tci0tLiAxIHJvb3Qgcm9vdCA0
-MDk2IE1heSAxNiAwMzoxMSB1ZXZlbnQNCg0KQnV0IEkgY2FuIGZpZ3VyZSBvdXQgdGhlIHNvY2tl
-dCB0b3BvbG9neSB3aXRoOg0KDQokIGdyZXAgLiBtYyovbWNfbmFtZQ0KbWMwL21jX25hbWU6SW50
-ZWxfMTBubSBTb2NrZXQjMCBJTUMjMA0KbWMxL21jX25hbWU6SW50ZWxfMTBubSBTb2NrZXQjMCBJ
-TUMjMQ0KbWMyL21jX25hbWU6SW50ZWxfMTBubSBTb2NrZXQjMCBJTUMjMg0KbWMzL21jX25hbWU6
-SW50ZWxfMTBubSBTb2NrZXQjMCBJTUMjMw0KbWM0L21jX25hbWU6SW50ZWxfMTBubSBTb2NrZXQj
-MSBJTUMjMA0KbWM1L21jX25hbWU6SW50ZWxfMTBubSBTb2NrZXQjMSBJTUMjMQ0KbWM2L21jX25h
-bWU6SW50ZWxfMTBubSBTb2NrZXQjMSBJTUMjMg0KbWM3L21jX25hbWU6SW50ZWxfMTBubSBTb2Nr
-ZXQjMSBJTUMjMw0KDQpJIHRoaW5rIHRoaXMgc2hvdWxkIGhlbHAgY29ubmVjdCAibWMqIiB0byB3
-aGljaCBub2RlDQp0aGV5IGJlbG9uZyB0by4NCg0KLVRvbnkNCg==
+tree/branch: INFO setup_repo_specs: /db/releases/20230516180935/lkp-src/repo/*/linux-next
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 885df05bf634d589fbf030c3751614eaa453fb5d  Add linux-next specific files for 20230516
+
+Warning reports:
+
+https://lore.kernel.org/oe-kbuild-all/202304200812.6UqNDVZy-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202305152341.oiSjRpv6-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202305162245.wtaLIXf3-lkp@intel.com
+
+Warning: (recently discovered and may have been fixed)
+
+Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-11-45 (if the link has no caption the label must precede a section header)
+drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
+drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6396:21: warning: variable 'count' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm.c:138:15: warning: variable 'feature_support' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:499:13: warning: variable 'j' set but not used [-Wunused-but-set-variable]
+
+Unverified Warning (likely false positive, please contact us if interested):
+
+fs/ext4/verity.c:316 ext4_get_verity_descriptor_location() error: uninitialized symbol 'desc_size_disk'.
+fs/xfs/scrub/fscounters.c:459 xchk_fscounters() warn: ignoring unreachable code.
+kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
+
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- alpha-randconfig-r021-20230515
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- alpha-randconfig-r033-20230516
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_index-is-used-uninitialized
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_last-is-used-uninitialized
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- arc-randconfig-r025-20230515
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- arc-randconfig-r043-20230515
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- arm-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- arm-randconfig-c034-20230515
+|   `-- drivers-gpu-drm-bridge-tc358768.c:Unneeded-semicolon
+|-- arm-randconfig-m041-20230516
+|   `-- fs-ext4-verity.c-ext4_get_verity_descriptor_location()-error:uninitialized-symbol-desc_size_disk-.
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- csky-randconfig-r014-20230515
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- i386-randconfig-m041-20230515
+|   |-- fs-ext4-verity.c-ext4_get_verity_descriptor_location()-error:uninitialized-symbol-desc_size_disk-.
+|   `-- fs-xfs-scrub-fscounters.c-xchk_fscounters()-warn:ignoring-unreachable-code.
+|-- ia64-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- ia64-randconfig-s041-20230515
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- loongarch-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- loongarch-defconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- loongarch-randconfig-c44-20230515
+|   `-- drivers-gpu-drm-bridge-tc358768.c:Unneeded-semicolon
+|-- loongarch-randconfig-r035-20230516
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- mips-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- openrisc-buildonly-randconfig-r006-20230515
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- openrisc-randconfig-s051-20230515
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- powerpc-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- riscv-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- s390-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- sparc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- sparc64-randconfig-s052-20230515
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+|-- x86_64-allnoconfig
+|   `-- Documentation-output-frontend.h.rst:WARNING:undefined-label:fec-(if-the-link-has-no-caption-the-label-must-precede-a-section-header)
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
+`-- x86_64-randconfig-m001-20230515
+    `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
+clang_recent_errors
+`-- arm64-buildonly-randconfig-r005-20230515
+    `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_abm.c:warning:variable-feature_support-set-but-not-used
+
+elapsed time: 853m
+
+configs tested: 183
+configs skipped: 5
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r003-20230515   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r021-20230515   gcc  
+alpha                randconfig-r033-20230516   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                  randconfig-r025-20230515   gcc  
+arc                  randconfig-r043-20230515   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                            dove_defconfig   clang
+arm                        multi_v5_defconfig   clang
+arm                  randconfig-r024-20230515   clang
+arm                  randconfig-r046-20230515   clang
+arm                           sunxi_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r005-20230515   clang
+arm64                               defconfig   gcc  
+arm64                randconfig-r003-20230515   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r006-20230515   gcc  
+csky                 randconfig-r014-20230515   gcc  
+hexagon                          alldefconfig   clang
+hexagon                             defconfig   clang
+hexagon              randconfig-r023-20230515   clang
+hexagon              randconfig-r026-20230515   clang
+hexagon              randconfig-r034-20230516   clang
+hexagon              randconfig-r041-20230515   clang
+hexagon              randconfig-r045-20230515   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230515   clang
+i386                 randconfig-a002-20230515   clang
+i386                 randconfig-a003-20230515   clang
+i386                 randconfig-a004-20230515   clang
+i386                 randconfig-a005-20230515   clang
+i386                 randconfig-a006-20230515   clang
+i386                 randconfig-a011-20230515   gcc  
+i386                 randconfig-a012-20230515   gcc  
+i386                 randconfig-a013-20230515   gcc  
+i386                 randconfig-a014-20230515   gcc  
+i386                 randconfig-a015-20230515   gcc  
+i386                 randconfig-a016-20230515   gcc  
+i386                 randconfig-i051-20230515   clang
+i386                 randconfig-i052-20230515   clang
+i386                 randconfig-i053-20230515   clang
+i386                 randconfig-i054-20230515   clang
+i386                 randconfig-i055-20230515   clang
+i386                 randconfig-i056-20230515   clang
+i386                 randconfig-i061-20230515   clang
+i386                 randconfig-i062-20230515   clang
+i386                 randconfig-i063-20230515   clang
+i386                 randconfig-i064-20230515   clang
+i386                 randconfig-i065-20230515   clang
+i386                 randconfig-i066-20230515   clang
+i386                          randconfig-i071   clang
+i386                          randconfig-i072   gcc  
+i386                          randconfig-i073   clang
+i386                          randconfig-i074   gcc  
+i386                          randconfig-i075   clang
+i386                          randconfig-i076   gcc  
+i386                 randconfig-i081-20230515   gcc  
+i386                 randconfig-i082-20230515   gcc  
+i386                 randconfig-i083-20230515   gcc  
+i386                 randconfig-i084-20230515   gcc  
+i386                 randconfig-i085-20230515   gcc  
+i386                 randconfig-i086-20230515   gcc  
+i386                 randconfig-i091-20230515   clang
+i386                 randconfig-i092-20230515   clang
+i386                 randconfig-i093-20230515   clang
+i386                 randconfig-i094-20230515   clang
+i386                 randconfig-i095-20230515   clang
+i386                 randconfig-i096-20230515   clang
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r035-20230516   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r001-20230515   gcc  
+m68k                                defconfig   gcc  
+m68k                        mvme147_defconfig   gcc  
+m68k                 randconfig-r032-20230516   gcc  
+microblaze           randconfig-r013-20230515   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                       bmips_be_defconfig   gcc  
+mips                  cavium_octeon_defconfig   clang
+mips                     cu1000-neo_defconfig   clang
+mips                     cu1830-neo_defconfig   clang
+mips                      maltasmvp_defconfig   gcc  
+mips                 randconfig-r002-20230515   gcc  
+mips                 randconfig-r004-20230515   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r005-20230515   gcc  
+openrisc     buildonly-randconfig-r006-20230515   gcc  
+openrisc                    or1ksim_defconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                       ebony_defconfig   clang
+powerpc                     ep8248e_defconfig   gcc  
+powerpc                        fsp2_defconfig   clang
+powerpc                      pasemi_defconfig   gcc  
+powerpc                     stx_gp3_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r036-20230516   gcc  
+riscv                randconfig-r042-20230515   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r012-20230515   gcc  
+s390                 randconfig-r044-20230515   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r001-20230515   gcc  
+sh                   sh7770_generic_defconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r015-20230515   gcc  
+sparc                       sparc64_defconfig   gcc  
+sparc64              randconfig-r011-20230515   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r002-20230515   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230515   clang
+x86_64               randconfig-a002-20230515   clang
+x86_64               randconfig-a003-20230515   clang
+x86_64               randconfig-a004-20230515   clang
+x86_64               randconfig-a005-20230515   clang
+x86_64               randconfig-a006-20230515   clang
+x86_64               randconfig-a011-20230515   gcc  
+x86_64               randconfig-a012-20230515   gcc  
+x86_64               randconfig-a013-20230515   gcc  
+x86_64               randconfig-a014-20230515   gcc  
+x86_64               randconfig-a015-20230515   gcc  
+x86_64               randconfig-a016-20230515   gcc  
+x86_64               randconfig-r016-20230515   gcc  
+x86_64               randconfig-x051-20230515   gcc  
+x86_64               randconfig-x052-20230515   gcc  
+x86_64               randconfig-x053-20230515   gcc  
+x86_64               randconfig-x054-20230515   gcc  
+x86_64               randconfig-x055-20230515   gcc  
+x86_64               randconfig-x056-20230515   gcc  
+x86_64               randconfig-x061-20230515   gcc  
+x86_64               randconfig-x062-20230515   gcc  
+x86_64               randconfig-x063-20230515   gcc  
+x86_64               randconfig-x064-20230515   gcc  
+x86_64               randconfig-x065-20230515   gcc  
+x86_64               randconfig-x066-20230515   gcc  
+x86_64                        randconfig-x071   clang
+x86_64                        randconfig-x072   gcc  
+x86_64                        randconfig-x073   clang
+x86_64                        randconfig-x074   gcc  
+x86_64                        randconfig-x075   clang
+x86_64                        randconfig-x076   gcc  
+x86_64               randconfig-x081-20230515   clang
+x86_64               randconfig-x082-20230515   clang
+x86_64               randconfig-x083-20230515   clang
+x86_64               randconfig-x084-20230515   clang
+x86_64               randconfig-x085-20230515   clang
+x86_64               randconfig-x086-20230515   clang
+x86_64               randconfig-x091-20230515   gcc  
+x86_64               randconfig-x092-20230515   gcc  
+x86_64               randconfig-x093-20230515   gcc  
+x86_64               randconfig-x094-20230515   gcc  
+x86_64               randconfig-x095-20230515   gcc  
+x86_64               randconfig-x096-20230515   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa                  audio_kc705_defconfig   gcc  
+xtensa                         virt_defconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
