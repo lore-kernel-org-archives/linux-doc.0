@@ -2,133 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9EC7C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 06:39:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA57C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 06:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbjEPGjs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 02:39:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52682 "EHLO
+        id S230125AbjEPGxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 02:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbjEPGjr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 02:39:47 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CFEF198B;
-        Mon, 15 May 2023 23:39:46 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id 5607D15ECA7;
-        Tue, 16 May 2023 08:39:44 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1684219184; bh=GvZkso4wSp29I9UC5ou2LvzBueQMmr8nTqiYnF2tc68=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=bXcUm28jyCTk8XZfjeaXuhCYuSVhILOLJOYVsQp5yurbY/HvcLYP+flkRN3p9uaOe
-         rjuzxhEAwGu95O9ANOpee0YKhkMB6My1Fdcvhct/583WSZ/xppqypr7C+Fr4vdaW4G
-         CeN6F2zempSCB0+j7aq8WwB4l9r/e21xhRkovCg8PsgIXfjpMbR7xuv3N6UqIK3wno
-         LfrcGmRtMxead9d4XO7+tPnqUx8eTfj4nFWA7ITrPtEYzLHqbpIm0fzWkPaIcWE362
-         2KLKzF0/Bba19VnCPm64p7CWnDIyGY289o2o+mbUEdJg2rX54/brkOf2er4OFSnVxy
-         NpLYVugc8jvZQ==
-Date:   Tue, 16 May 2023 08:39:42 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230516083942.0303b5fb@meshulam.tesarici.cz>
-In-Reply-To: <20230516061309.GA7219@lst.de>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
-        <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
-        <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
-        <20230516061309.GA7219@lst.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+        with ESMTP id S230206AbjEPGxJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 02:53:09 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3380A40F2
+        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 23:52:53 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-50bcb229adaso24957719a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 23:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1684219968; x=1686811968;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XysAE3wBPBRnm+kDZyhpJGmXjkkmPukHucI6hmadXi8=;
+        b=Ak4POiE5wpWvOE4HBZZ/QK+uzljVcOSZ0PZFLxSJSX6U9zO0wEn9O1JfK5eScqffy/
+         iJddJE6wnJM4s5qWoYWMmvGd0iy9lGRhHRibg88pAR1pYvxanmIVf9LyOhMQkbr/+R/2
+         HAx7KY2Oxe9kNv2dT8r7euRP0SIKWypXbWXGQaTWnLNvEatbS+CK56HYMyudLLt1bD2o
+         XKilbGHsSLEypsk4ozmWNJh570FRBH8pY+2ZNeRJ7CIzeWe8wvU2bau4pvJomNQzvZ26
+         aN996RyxSYkI0gwTqRKKyW7TmIwuBAxnE54t37rqK7uQ4GiHdqrzZDiUOLah2tVAyhvY
+         J7gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684219968; x=1686811968;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XysAE3wBPBRnm+kDZyhpJGmXjkkmPukHucI6hmadXi8=;
+        b=RC+87XZgLBLlPOMNfp9Jrwfy2d/hKWGXiM7lFcdjW0+gSjZH0jr6nGSK+2w6/wAk46
+         u5jrmc2+CZWEYoNfKY3O82y6RXc2SyULqhCxe49dM5kD4gvK0abFRu+KJiJQwQr//51C
+         vURKoy3OltWtzCq5M431EnjTFtgaUwhh28JrFz6TMB+MZCwwPs1jIk5reRfNbU84Dy3a
+         csSfZqHVVc6Wwg+/on/ilBr74JVX/1dJLjbplzDmAmStmIJViZEwW+ClZCirTuP/1xnp
+         lrWXg6LJA8o+DuS/i/qNkc09PUj4kfZqW5EoIZiQTvgS3/a0MVexfocKrJ2rL2ebk5SN
+         zfog==
+X-Gm-Message-State: AC+VfDyl5CaIfrod6DuZ2nO8K0Wwi1c4aslBBEs+tdNfQu+9lUqMH91+
+        sTNh04ce+ciGfTzQfEemO3Vutg==
+X-Google-Smtp-Source: ACHHUZ6RU/odBg3xoOW5scszLU3AOGmHa9Dax0R2pmUq/aaCvjZkpY+xHcGVojB1+0eRJbIeGiTv0g==
+X-Received: by 2002:a17:907:da4:b0:966:4d99:b0aa with SMTP id go36-20020a1709070da400b009664d99b0aamr28303285ejc.59.1684219968320;
+        Mon, 15 May 2023 23:52:48 -0700 (PDT)
+Received: from [192.168.183.139] ([41.66.96.127])
+        by smtp.gmail.com with ESMTPSA id k21-20020a170906971500b00965ffb8407asm10407706ejx.87.2023.05.15.23.52.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 May 2023 23:52:47 -0700 (PDT)
+From:   Luca Weiss <luca.weiss@fairphone.com>
+Date:   Tue, 16 May 2023 08:52:43 +0200
+Subject: [PATCH] docs: printk-formats: Clarify %*pb format parameters
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20230516-printk-bitmap-v1-1-d5f810192a10@fairphone.com>
+X-B4-Tracking: v=1; b=H4sIADsoY2QC/x2NQQqDMBAAvyJ77oqaarBfKT1s4kaX0hg2UlrEv
+ zf2OAzD7JBZhTPcqh2U35JljQXaSwV+oTgzylQYuqYzTd8OmFTi9kQn24sSOh/CZK2xI3kojaP
+ M6JSiX84qpCsOtam/p0vKQT7/1/1xHD8JiERAewAAAA==
+To:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.12.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christoph,
+Since it's rather unusual for printk formats to require two parameters,
+expand the documentation to clearly mention that in the printk format
+for bitmaps.
 
-On Tue, 16 May 2023 08:13:09 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+As an extra example, for example from include/net/bluetooth/hci_core.h
+we have a bitmap DECLARE_BITMAP(dev_flags, __HCI_NUM_FLAGS);
+This can be printed with ("%*pb", __HCI_NUM_FLAGS, hdev->dev_flags)
 
-> On Mon, May 15, 2023 at 07:43:52PM +0000, Michael Kelley (LINUX) wrote:
-> > FWIW, I don't think the approach you have implemented here will be
-> > practical to use for CoCo VMs (SEV, TDX, whatever else).  The problem
-> > is that dma_direct_alloc_pages() and dma_direct_free_pages() must
-> > call dma_set_decrypted() and dma_set_encrypted(), respectively.  In CoCo
-> > VMs, these calls are expensive because they require a hypercall to the host,
-> > and the operation on the host isn't trivial either.  I haven't measured the
-> > overhead, but doing a hypercall on every DMA map operation and on
-> > every unmap operation has long been something we thought we must
-> > avoid.  The fixed swiotlb bounce buffer space solves this problem by
-> > doing set_decrypted() in batch at boot time, and never
-> > doing set_encrypted().  
-> 
-> I also suspect it doesn't really scale too well due to the number of
-> allocations.  I suspect a better way to implement things would be to
-> add more large chunks that are used just like the main swiotlb buffers.
-> 
-> That is when we run out of space try to allocate another chunk of the
-> same size in the background, similar to what we do with the pool in
-> dma-pool.c.  This means we'll do a fairly large allocation, so we'll
-> need compaction or even CMA to back it up, but the other big upside
-> is that it also reduces the number of buffers that need to be checked
-> in is_swiotlb_buffer or the free / sync side.
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+This probably also applies to other printk formats but since this is the
+only one so far I've used that requires two parameters I cannot really
+help with the others.
 
-I have considered this approach. The two main issues I ran into were:
+Someone with more knowledge on the other more unusual format strings
+could apply this to others also.
+---
+ Documentation/core-api/printk-formats.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-1. MAX_ORDER allocations were too small (at least with 4K pages), and
-   even then they would often fail.
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index dfe7e75a71de..3cafb988d757 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -571,7 +571,9 @@ For printing bitmap and its derivatives such as cpumask and nodemask,
+ %*pb outputs the bitmap with field width as the number of bits and %*pbl
+ output the bitmap as range list with field width as the number of bits.
+ 
+-The field width is passed by value, the bitmap is passed by reference.
++This requires two parameters, the field width (number of bits in the bitmap)
++passed by value and the bitmap passed by reference.
++
+ Helper macros cpumask_pr_args() and nodemask_pr_args() are available to ease
+ printing cpumask and nodemask.
+ 
 
-2. Allocating from CMA did work but only from process context.
-   I made a stab at modifying the CMA allocator to work from interrupt
-   context, but there are non-trivial interactions with the buddy
-   allocator. Making them safe from interrupt context looked like a
-   major task.
+---
+base-commit: 16a8829130ca22666ac6236178a6233208d425c3
+change-id: 20230516-printk-bitmap-bcffd77379ac
 
-I also had some fears about the length of the dynamic buffer list. I
-observed maximum length for block devices, and then it roughly followed
-the queue depth. Walking a few hundred buffers was still fast enough.
-I admit the list length may become an issue with high-end NVMe and
-I/O-intensive applications.
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
 
-Last but not least, when many smaller swiotlb chunks are allocated, they
-must be kept in a list (or another data structure), somewhat reducing the
-performance win. OK, one thing I did *not* consider back then was
-allocating these additional swiotlb chunks per device. It looks a bit
-too wasteful.
-
-Petr T
