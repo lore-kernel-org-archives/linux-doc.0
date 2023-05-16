@@ -2,98 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF9CEC77B7F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 18:29:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8763C77B7A
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 18:42:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbjEPS3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 14:29:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
+        id S229793AbjEPSmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 14:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbjEPS3U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 14:29:20 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03EF2115;
-        Tue, 16 May 2023 11:29:20 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S229448AbjEPSma (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 14:42:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290997EDA;
+        Tue, 16 May 2023 11:42:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4D90B993;
-        Tue, 16 May 2023 18:29:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4D90B993
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684261759; bh=fldOt2c4W0epFwkV2ebO//Gwa4urHzMuc6Ti0LJKCK8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ojm2CyCHooKhnhoZ9v9m7FV3E3P8Nnk7JUP0wBXIZM8d8xPPDGIoNJVnZZWyi9o/S
-         t7MfGQUuSLNQuI6BWtup2wy5XOIggnCJUsVsFXt2J4ZMWWRyTV4iyphjy8EkNXAYPr
-         kXaSt64Nukrg6NhyiOnL5b0qT4QIGCrJgL96VUlv+y0k2MadJNZll4JBjyGb4X2Y6U
-         ELD1dx5vgRTZBOKtkMOlWfM7AkqQeQJmNXDq1adYClSnk9pZ5e5aIV2dSvwLeDaxVa
-         Vv7YBo9J8j4H14yLO+4tpSTwffDkD7mjhgj0H6mimw1VYr562RFKauUowWtASyFKAo
-         y3R+6XvlX3/Ag==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Networking <netdev@vger.kernel.org>,
-        Remote Direct Memory Access Kernel Subsystem 
-        <linux-rdma@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Gal Pressman <gal@nvidia.com>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-        Maher Sanalla <msanalla@nvidia.com>,
-        Moshe Shemesh <moshe@nvidia.com>,
-        Tariq Toukan <tariqt@nvidia.com>
-Subject: Re: [PATCH net v2 0/4] Documentation fixes for Mellanox mlx5
- devlink info
-In-Reply-To: <30df7ad7-3b8b-c578-b153-7bf0a38fa0cc@gmail.com>
-References: <20230510035415.16956-1-bagasdotme@gmail.com>
- <30df7ad7-3b8b-c578-b153-7bf0a38fa0cc@gmail.com>
-Date:   Tue, 16 May 2023 12:29:18 -0600
-Message-ID: <87zg64b05d.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D91D63DCB;
+        Tue, 16 May 2023 18:42:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBFBC433EF;
+        Tue, 16 May 2023 18:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684262548;
+        bh=ocRl6YcheJFZTePbv3N2oTCU0SpLREIkqBXPg6L/Erk=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=ndK1xJgusTHFqtzPdamixfsF3HltCMxcsDOnor2USLnWLZV3D+fwtkO4CQ9vgnDv8
+         LXAhsYPUn5wteOmfgYtfyqnkb4gMIaII2iRjCxiznk0KmB/fuxUsHzMd1bx4nm+hPO
+         W5beKMcrtJgRyAMV9q+ASmnheDDIEfTFhLRifrJ/aPxObpmW8eb2Sp6NoPUvfoqlj1
+         XT3g8M/q1xj+zREaBfeE3h3P7p5DJaFH1YtPGqkXPy9SwtsQzZ6v0hn0ingi9xFkSv
+         bddARkKOq8VMcio0ikfWDp+v5tKs0Igdy+vKOhHlHoZxP5vmx2GFKnb5BUKrQcFhYV
+         8FG4Km4d+HC/A==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 7AEEACE105A; Tue, 16 May 2023 11:42:27 -0700 (PDT)
+Date:   Tue, 16 May 2023 11:42:27 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
+ generating duplicate fallback kernel-doc
+Message-ID: <9035e2e1-7091-4b8a-94d9-7508c9b5cd7e@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <ZF0haDfyL3At3Ijw@FVFF77S0Q05N.cambridge.arm.com>
+ <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
+ <ZF48uBYKczItubrU@FVFF77S0Q05N>
+ <b5498819-c2d4-414d-ba01-5373e749dc52@paulmck-laptop>
+ <ZF5xXuPsrZEgAEEE@FVFF77S0Q05N>
+ <e767dcc6-ea63-4ed8-9a15-9e5bb133fafc@paulmck-laptop>
+ <b3956719-d478-4dc6-95fd-ec0744acc662@paulmck-laptop>
+ <23195f15-7024-6fde-84f2-4cdd45c9abfc@gmail.com>
+ <551c7820-1748-433b-8c42-daf777e202df@paulmck-laptop>
+ <ZGO0s1FDGn/pzCPg@FVFF77S0Q05N>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZGO0s1FDGn/pzCPg@FVFF77S0Q05N>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Tue, May 16, 2023 at 05:52:03PM +0100, Mark Rutland wrote:
+> Hi Paul,
+> 
+> On Sat, May 13, 2023 at 06:14:36PM -0700, Paul E. McKenney wrote:
+> > On Sun, May 14, 2023 at 08:58:00AM +0900, Akira Yokosawa wrote:
+> > > Running "./scripts/kernel-doc -none include/linux/atomic/atomic-arch-fallback.h"
+> > > on the tag emits a lot of warnings.
+> > > 
+> > > Looks like there are kernel-doc comments who don't have a corresponding
+> > > function signature next to them.
+> > > 
+> > >     /**
+> > >      * function_name() - Brief description of function.
+> > >      * @arg1: Describe the first argument.
+> > >      * @arg2: Describe the second argument.
+> > >      *        One can provide multiple line descriptions
+> > >      *        for arguments.
+> > >      *
+> > >      * A longer description, with more discussion of the function function_name()
+> > >      * that might be useful to those using or modifying it. Begins with an
+> > >      * empty comment line, and may include additional embedded empty
+> > >      * comment lines.
+> > >      */
+> > >     int function_name(int arg1, int arg2)  <---
+> > > 
+> > > Note that the kernel-doc script ignores #ifdef -- #else.
+> > 
+> > Me, I was thinking in terms of making this diagnostic ignore
+> > include/linux/atomic/atomic-arch-fallback.h.  ;-)
+> > 
+> > The actual definitions are off in architecture-specific files, and
+> > the kernel-doc headers could be left there.  But there are benefits to
+> > automatically generating all of them.
+> > 
+> > Another approach might be to put a "it is OK for the definition to
+> > be elsewhere" comment following those kernel-doc headers.
+> > 
+> > Any other ways to make this work?
+> 
+> I've spent the last day or so playing with this, and I think we can do this by
+> relegating the arch_atomic*() functions to an implementation detail (and not
+> documenting those with kerneldoc), and having a raw_atomic*() layer where we
+> flesh out the API, where each can have a mandatory function definition as
+> below:
+> 
+> /**
+>  * raw_atomic_fetch_inc_release() - does a thing atomically
+>  *
+>  * TODO: fill this in
+>  *
+>  * This is a version of atomic_fetch_inc_release() which is safe to use in
+>  * noinstr code. Unless instrumentation needs to be avoided,
+>  * atomic_fetch_inc_release() should be used in preference.
+>  */
+> static __always_inline int
+> raw_atomic_fetch_inc_release(atomic_t *v)
+> {
+> #if defined(arch_atomic_fetch_inc_release)
+>         return arch_atomic_fetch_inc_release(v)
+> #elif defined(arch_atomic_fetch_inc_relaxed)
+>         __atomic_release_fence();
+>         return arch_atomic_fetch_inc_relaxed(v);
+> #elif defined(arch_atomic_fetch_inc)
+>         return arch_atomic_fetch_inc(v)
+> #else   
+>         return raw_atomic_fetch_add_release(1, v);
+> #endif
+> }
+> 
+> ... and likewise we can add comments for the regular instrumented atomics.
 
-> On 5/10/23 10:54, Bagas Sanjaya wrote:
->> Here are fixes for mlx5 devlink info documentation. The first fixes
->> htmldocs warnings on the mainline, while the rest is formatting fixes.
->> 
->> Changes since v1 [1]:
->> 
->>   * Pick up Reviewed-by tags from Leon Romanovsky
->>   * Rebase on current net tree
->> 
->> [1]: https://lore.kernel.org/linux-doc/20230503094248.28931-1-bagasdotme@gmail.com/
->> 
->> Bagas Sanjaya (4):
->>   Documentation: net/mlx5: Wrap vnic reporter devlink commands in code
->>     blocks
->>   Documentation: net/mlx5: Use bullet and definition lists for vnic
->>     counters description
->>   Documentation: net/mlx5: Add blank line separator before numbered
->>     lists
->>   Documentation: net/mlx5: Wrap notes in admonition blocks
->> 
->>  .../ethernet/mellanox/mlx5/devlink.rst        | 60 ++++++++++++-------
->>  1 file changed, 37 insertions(+), 23 deletions(-)
->> 
->
-> Hi jon,
->
-> If there is no response from mellanox and/or netdev maintainers,
-> would you like to review and pick this series up?
->
-They seem OK other than the gratuitous use of Fixes tags.  The netdev
-maintainers are generally responsive and on top of things, though, and I
-don't think there would be any justification for bypassing them here.
+I do like that approach!  It should be easy to adapt the kernel-doc
+scripting to this.
 
-Thanks,
+> I've pushed out the WIP patches to my atomics/fallback-rework branch; if you're
+> happy to give me another day or two I can get a bit further.
 
-jon
+An RCU issue currently has me by the ankle, so I am quite happy to give
+you a day or two.  ;-)
+
+Just FYI, I will be in the air this coming Friday, your time.
+
+> > For me, the option of making this
+> > diagnostic ignore include/linux/atomic/atomic-arch-fallback.h has
+> > considerable attraction.
+> 
+> It's certainly appealing...
+
+But I do like your approach of simply always having the function prototype
+available.  ;-)
+
+							Thanx, Paul
