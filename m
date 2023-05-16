@@ -2,140 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD205C77B7F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 11:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97584C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 11:59:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231773AbjEPLWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 07:22:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51474 "EHLO
+        id S232440AbjEPL7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 07:59:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231920AbjEPLWW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 07:22:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB3D359D;
-        Tue, 16 May 2023 04:22:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BCDD663875;
-        Tue, 16 May 2023 11:22:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5D5C433D2;
-        Tue, 16 May 2023 11:22:05 +0000 (UTC)
-Date:   Tue, 16 May 2023 12:22:02 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
- dynamically allocated buffers
-Message-ID: <ZGNnWmw4eDsh9hBN@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
- <ZGEuYxR2PM6wHeDh@arm.com>
- <20230515104847.6dfdf31b@meshulam.tesarici.cz>
- <20230515120054.0115a4eb@meshulam.tesarici.cz>
- <ZGJdtmP13pv06xDH@arm.com>
- <20230516095512.3c99c35e@meshulam.tesarici.cz>
+        with ESMTP id S232400AbjEPL7P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 07:59:15 -0400
+Received: from out-4.mta1.migadu.com (out-4.mta1.migadu.com [95.215.58.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2038B49DB
+        for <linux-doc@vger.kernel.org>; Tue, 16 May 2023 04:59:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230516095512.3c99c35e@meshulam.tesarici.cz>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1684238348;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jRV1ViOpzqxkVyiCLlSRC9tI06roYlefHztOsLPXL50=;
+        b=lrZ2Q30He1XnN3c3wOP5ouKIUfW81tFWwLMuvdvD0IfjzmhTbdLuErQQTe4LTJFkAVXzs9
+        MdLIS4U7V6e42RUbv+xh3LG7gUzRHdtJnBIW8PRpVAeifr53mB9dF20IpxXWlFFAchRV8m
+        RAPtu89RPBkfSveMRcf05KB3osI0v/Q=
+Date:   Tue, 16 May 2023 11:59:07 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   "Yajun Deng" <yajun.deng@linux.dev>
+Message-ID: <3509bcc597e37616cf45247e8f92d369@linux.dev>
+Subject: Re: [PATCH] EDAC: Expose node link in sysfs if CONFIG_NUMA
+To:     "Borislav Petkov" <bp@alien8.de>
+Cc:     tony.luck@intel.com, james.morse@arm.com, mchehab@kernel.org,
+        rric@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <20230516111942.GCZGNmzu3Abd4KmZu3@fat_crate.local>
+References: <20230516111942.GCZGNmzu3Abd4KmZu3@fat_crate.local>
+ <20230516103403.GBZGNcG7Q1sdtUpcHW@fat_crate.local>
+ <20230516080748.3155788-1-yajun.deng@linux.dev>
+ <e930d9a3efd6d99d2badc7bdff713afd@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 16, 2023 at 09:55:12AM +0200, Petr Tesařík wrote:
-> On Mon, 15 May 2023 17:28:38 +0100
-> Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > There is another scenario to take into account on the list_del() side.
-> > Let's assume that there are other elements on the list, so
-> > list_empty() == false:
-> > 
-> > P0:
-> > 	list_del(paddr);
-> > 	/* the memory gets freed, added to some slab or page free list */
-> > 	WRITE_ONCE(slab_free_list, __va(paddr));
-> > 
-> > P1:
-> > 	paddr = __pa(READ_ONCE(slab_free_list));/* re-allocating paddr freed on P0 */
-> > 	if (!list_empty()) {			/* assuming other elements on the list */
-> > 		/* searching the list */
-> > 		list_for_each() {
-> > 			if (pos->paddr) == __pa(vaddr))
-> > 				/* match */
-> > 		}
-> > 	}
-> > 
-> > On P0, you want the list update to be visible before the memory is freed
-> > (and potentially reallocated on P1). An smp_wmb() on P0 would do. For
-> > P1, we don't care about list_empty() as there can be other elements
-> > already. But we do want any list elements reading during the search to
-> > be ordered after the slab_free_list reading. The smp_rmb() you'd add for
-> > the case above would suffice.
-> 
-> Yes, but to protect against concurrent insertions/deletions, a spinlock
-> is held while searching the list. The spin lock provides the necessary
-> memory barriers implicitly.
-
-Well, mostly. The spinlock acquire/release semantics ensure that
-accesses within the locked region are not observed outside the
-lock/unlock. But it doesn't guarantee anything about accesses outside
-such region in relation to the accesses within the region. For example:
-
-P0:
-	spin_lock_irqsave(&swiotlb_dyn_lock);
-	list_del(paddr);
-	spin_unlock_irqrestore(&swiotlb_dyn_lock);
-
-	/* the blah write below can be observed before list_del() above */
-	WRITE_ONCE(blah, paddr);
-
-	/* that's somewhat tricker but slab_free_list update can also be
-	 * seen before list_del() above on certain architectures */
-	spin_lock_irqsave(&slab_lock);
- 	WRITE_ONCE(slab_free_list, __va(paddr));
-	spin_unlock_irqrestore(&slab_lock);
-
-On most architectures, the writing of the pointer to a slab structure
-(assuming some spinlocks) would be ordered against the list_del() from
-the swiotlb code. Apart from powerpc where the spin_unlock() is not
-necessarily ordered against the subsequent spin_lock(). The architecture
-selects ARCH_WEAK_RELEASE_ACQUIRE which in turns makes
-smp_mb__after_unlock_lock() an smp_mb() (rather than no-op on all the
-other architectures).
-
-On arm64 we have smp_mb__after_spinlock() which ensures that memory
-accesses prior to spin_lock() are not observed after accesses within the
-locked region. I don't think this matters for your case but I thought
-I'd mention it.
-
--- 
-Catalin
+May 16, 2023 7:19 PM, "Borislav Petkov" <bp@alien8.de> wrote:=0A=0A> On T=
+ue, May 16, 2023 at 11:07:11AM +0000, Yajun Deng wrote:=0A> =0A>> It will=
+ help users to confirm which MC belongs to which node if there=0A>> are m=
+ultiple MCs. Therefore, we can also know how many dimm on each=0A>> node.=
+=0A> =0A> There are physical nodes, logical nodes, NUMA nodes, interleavi=
+ng=0A> between nodes...=0A> =0A=0ANode is the NUMA node, We get the numa =
+id by calling dev_to_node().=0A=0A> Is there any practical use case and n=
+eed behind this?=0A>=0A=0ASome dimm may not be recognized when boot, we w=
+ant to find it.=0A=0AThe '/sys/devices/system/node/node0/meminfo' would s=
+how the memory on=0Anode0.=0A=0AIf we have '/sys/devices/system/node/node=
+0/mc0', by comparing the number=0Aof dimm and MemTotal in meminfo. It is =
+easy to know that the dimm didn't =0Arecognized whether it belonged to th=
+is NUMA node or not.=0A=0A =0A> --=0A> Regards/Gruss,=0A> Boris.=0A> =0A>=
+ https://people.kernel.org/tglx/notes-about-netiquette
