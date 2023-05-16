@@ -2,126 +2,170 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEDDBC7EE22
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 01:47:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4892C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 01:56:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbjEPBrS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 21:47:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33182 "EHLO
+        id S229519AbjEPB4J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 21:56:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbjEPBrQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 21:47:16 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C56A6269D
-        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 18:47:14 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-39462726590so2981352b6e.1
-        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 18:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1684201634; x=1686793634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7vQMONc5SJDyCvN7VZRBXzuqqiXsyACiKWFthRnNjkI=;
-        b=MJ1jp2jKeZlhrFpiyXssgMah5dc3o5krDLHVOiR0AZia+Lqn9dfT8qtVIhmqCho2vT
-         T9iDlq+DyxbBb1aq+P3T6wmlnrWFRFWOpOjwZp1Y7YeUYij0dg75hbzXn3CO1JkcVB5q
-         7fdN24YuXgRYmhULBdSi259hdYNiLt1vMbNOoP6AEl9aALNw4Enu7jKfFON70Ho/NBrP
-         sJkWBFC9JsM4h6jA9Q000f74LWzz6PuMElq1uuaitTsoyM6xkweI+nsgeU4OnzW0nOk0
-         v3p9WGCmpuBNSTbwuk6Z0PceQtzR0fFkr7RvqdGEGclm2H+BKrBAWcKhpeA16UUVSoiJ
-         Yp5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684201634; x=1686793634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7vQMONc5SJDyCvN7VZRBXzuqqiXsyACiKWFthRnNjkI=;
-        b=PL8lfoeciwPJOdlzOEzdV7R5+152yrWsFu7CU0pXG5nlIOIyhMib/Ba4XDF4iWOdll
-         LHpvz1xnh+HZROQeoCiKopNyPu4fnuVkpQqb46QlIT6H5oaaZ7nAee3N/jRUt06GxPRU
-         jMHq0hmmxj8mHvN0TgE+chQuHOjnokKi1rldyhyG5qNZD6GpKBySY67ipqFBD3KktJsN
-         cvOsNB0/ZBUVuU4FZC4GLqI9nBSZjmXp/XmeYDRgQTiT/BBeTgbU8hV2EKRqVmqHOEax
-         P1D6KEk+FHFsojODIl0cBlwSXegWFkMCkpYC2Iefjh23fCnifjiF7wnpedIS4bVDTldf
-         gwVw==
-X-Gm-Message-State: AC+VfDw3mwSWgQf+M5c/FFttirY9flqOr8IzzvF67g475VRojdYnRcuk
-        bNKY6BHvrL24cVrAYM9g0JUGE7MJiaNKTA+ZTQtn7w==
-X-Google-Smtp-Source: ACHHUZ7niwSe+XVzisHsadeHDBRjQ1d1V4QqTLQeyQjsBlq+b+NyhnKZFwY3Q8zeutdPuzTiykiwl74B2MiAm0eSRD8=
-X-Received: by 2002:a05:6808:1a04:b0:395:df63:63af with SMTP id
- bk4-20020a0568081a0400b00395df6363afmr5860001oib.54.1684201634118; Mon, 15
- May 2023 18:47:14 -0700 (PDT)
+        with ESMTP id S229473AbjEPB4I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 21:56:08 -0400
+Received: from out-29.mta1.migadu.com (out-29.mta1.migadu.com [95.215.58.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2884C1A
+        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 18:56:03 -0700 (PDT)
+Message-ID: <0b4c1395-1884-c08d-2f8e-3847ec454886@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1684202161;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pvlTPaBYv/2FkTx9E5TFLyGvyeNCPtjPEVThm12ZmIw=;
+        b=eb8vgY+hy7+FYtnQp80uf3TrjxZ6vccTbCV5MfaF5DHPnZ4TjGg5gVDYSg0E0i2mH8wgs3
+        I0knmzq/2UqrNcVe9wHC6HeWU5kqWDjrz18ixnx1JGd62ni+2g89r5lgnMQ0lcdVDOb+7t
+        Q1a7kC0XF/Yo1Tu0RVKtXNO9FcOII8o=
+Date:   Tue, 16 May 2023 09:55:46 +0800
 MIME-Version: 1.0
-References: <20230515025716.316888-1-vineeth@bitbyteword.org>
- <20230515025716.316888-3-vineeth@bitbyteword.org> <20230515100616.33ba5dd9@luca64>
-In-Reply-To: <20230515100616.33ba5dd9@luca64>
-From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
-Date:   Mon, 15 May 2023 21:47:03 -0400
-Message-ID: <CAO7JXPgq8V5yHM6F2+iXf4XJ9cyT30Hn4ot5b2k7srjsaPc3JQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
-To:     luca abeni <luca.abeni@santannapisa.it>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] dma-contiguous: support per-numa CMA for all
+ architectures
+Content-Language: en-US
+To:     21cnbao@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+        song.bao.hua@hisilicon.com, anshuman.khandual@arm.com,
+        corbet@lwn.net, bhe@redhat.com, ardb@kernel.org,
+        thunder.leizhen@huawei.com, rostedt@goodmis.org,
+        kim.phillips@amd.com, rdunlap@infradead.org, peterz@infradead.org,
+        akpm@linux-foundation.org, bp@suse.de, paulmck@kernel.org,
+        robin.murphy@arm.com, m.szyprowski@samsung.com, hch@lst.de,
+        will@kernel.org, catalin.marinas@arm.com, petr@tesarici.cz
+References: <20230512094210.141540-1-yajun.deng@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Yajun Deng <yajun.deng@linux.dev>
+In-Reply-To: <20230512094210.141540-1-yajun.deng@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luca,
+Hello,  Barry
 
-On Mon, May 15, 2023 at 4:06=E2=80=AFAM luca abeni <luca.abeni@santannapisa=
-.it> wrote:
+This patch changed the caller of dma_pernuma_cma_reserve() from
 
+bootmem_init() to dma_contiguous_reserve(), do you think
+
+would there be something wrong?
+
+On 2023/5/12 17:42, Yajun Deng wrote:
+> In the commit b7176c261cdb ("dma-contiguous: provide the ability to
+> reserve per-numa CMA"), Barry adds DMA_PERNUMA_CMA for ARM64.
 >
-> this patch is giving me some headaches:
+> But this feature is architecture independent, so support per-numa CMA
+> for all architectures, and enable it by default if NUMA.
 >
-Sorry about that.. I was also stressing out on how to get the
-reclaiming done right for the past couple of days ;-)
-
-> Vineeth Pillai <vineeth@bitbyteword.org> wrote:
-> [...]
-> >   *   Uextra:         Extra bandwidth not reserved:
-> > - *                   =3D Umax - \Sum(u_i / #cpus in the root domain)
-> > + *                   =3D Umax - this_bw
+> Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
+> ---
+>   Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>   arch/arm64/mm/init.c                            | 2 --
+>   include/linux/dma-map-ops.h                     | 6 ------
+>   kernel/dma/Kconfig                              | 6 +++---
+>   kernel/dma/contiguous.c                         | 8 +++++++-
+>   5 files changed, 11 insertions(+), 13 deletions(-)
 >
-> While I agree that this setting should be OK, it ends up with
->         dq =3D -Uact / Umax * dt
-> which I remember I originally tried, and gave some issues
-> (I do not remember the details, but I think if you try N
-> identical reclaiming tasks, with N > M, the reclaimed time
-> is not distributed equally among them?)
->
-I have noticed this behaviour where the reclaimed time is not equally
-distributed when we have more tasks than available processors. But it
-depended on where the task was scheduled. Within the same cpu, the
-distribution seemed to be proportional. But the tasks migrated often
-and then depending on whether the task got a whole cpu for its
-runtime or not, the reclaimed bandwidth differed. I thought that
-should be okay as it depended upon where the task landed.
-
-One other problem I saw was cpu usage spiking above max_bw leading to
-system hang sometimes. I thought stopping reclaiming when running_bw
-gets larger than max_bw(in 4th patch) fixed this, but when I ran the
-tests long enough, I did see this hang.
-
-> I need to think a little bit more about this...
->
-Thanks for looking into this.. I have a basic idea why tasks with less
-bandwidth reclaim less in SMP when number of tasks is less than number
-of cpus, but do not yet have a verifiable fix for it.
-
-If patches 1 and 4 looks good to you, we shall drop 2 and 3 and fix the
-SMP issue with varying bandwidth separately.. Patch 4 would differ a
-bit when I remove 2 and 3 so as to use the formula:
- "dq =3D -(max{u, (Umax_reclaim - Uinact - Uextra)} / Umax_reclaim) dt"
-
-Thanks for your patience with all these brainstorming:-)
-
-Thanks,
-Vineeth
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 56d9458276a6..ac0002b2e323 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -692,7 +692,7 @@
+>   			kernel/dma/contiguous.c
+>   
+>   	cma_pernuma=nn[MG]
+> -			[ARM64,KNL,CMA]
+> +			[KNL,CMA]
+>   			Sets the size of kernel per-numa memory area for
+>   			contiguous memory allocations. A value of 0 disables
+>   			per-numa CMA altogether. And If this option is not
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 66e70ca47680..d560aef6aafa 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -410,8 +410,6 @@ void __init bootmem_init(void)
+>   	arm64_hugetlb_cma_reserve();
+>   #endif
+>   
+> -	dma_pernuma_cma_reserve();
+> -
+>   	kvm_hyp_reserve();
+>   
+>   	/*
+> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+> index 31f114f486c4..7af9949828ff 100644
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -168,12 +168,6 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
+>   }
+>   #endif /* CONFIG_DMA_CMA*/
+>   
+> -#ifdef CONFIG_DMA_PERNUMA_CMA
+> -void dma_pernuma_cma_reserve(void);
+> -#else
+> -static inline void dma_pernuma_cma_reserve(void) { }
+> -#endif /* CONFIG_DMA_PERNUMA_CMA */
+> -
+>   #ifdef CONFIG_DMA_DECLARE_COHERENT
+>   int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
+>   		dma_addr_t device_addr, size_t size);
+> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+> index 6677d0e64d27..79f83091e3a2 100644
+> --- a/kernel/dma/Kconfig
+> +++ b/kernel/dma/Kconfig
+> @@ -140,10 +140,10 @@ if  DMA_CMA
+>   
+>   config DMA_PERNUMA_CMA
+>   	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
+> -	default NUMA && ARM64
+> +	default NUMA
+>   	help
+> -	  Enable this option to get pernuma CMA areas so that devices like
+> -	  ARM64 SMMU can get local memory by DMA coherent APIs.
+> +	  Enable this option to get pernuma CMA areas so that NUMA devices
+> +	  can get local memory by DMA coherent APIs.
+>   
+>   	  You can set the size of pernuma CMA by specifying "cma_pernuma=size"
+>   	  on the kernel's command line.
+> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> index 6ea80ae42622..26a8e5365fcd 100644
+> --- a/kernel/dma/contiguous.c
+> +++ b/kernel/dma/contiguous.c
+> @@ -128,7 +128,7 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
+>   #endif
+>   
+>   #ifdef CONFIG_DMA_PERNUMA_CMA
+> -void __init dma_pernuma_cma_reserve(void)
+> +static void __init dma_pernuma_cma_reserve(void)
+>   {
+>   	int nid;
+>   
+> @@ -153,6 +153,10 @@ void __init dma_pernuma_cma_reserve(void)
+>   			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
+>   	}
+>   }
+> +#else
+> +static inline void __init dma_pernuma_cma_reserve(void)
+> +{
+> +}
+>   #endif
+>   
+>   /**
+> @@ -171,6 +175,8 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
+>   	phys_addr_t selected_limit = limit;
+>   	bool fixed = false;
+>   
+> +	dma_pernuma_cma_reserve();
+> +
+>   	pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
+>   
+>   	if (size_cmdline != -1) {
