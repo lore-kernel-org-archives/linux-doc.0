@@ -2,125 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E839BC77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 17:59:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F8FC77B7F
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 18:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbjEPR7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 13:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48388 "EHLO
+        id S231442AbjEPS1e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 14:27:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjEPR7l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 13:59:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A03719B;
-        Tue, 16 May 2023 10:59:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229633AbjEPS1d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 14:27:33 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 467C23C0C;
+        Tue, 16 May 2023 11:27:24 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F31563CA4;
-        Tue, 16 May 2023 17:59:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99991C433D2;
-        Tue, 16 May 2023 17:59:33 +0000 (UTC)
-Date:   Tue, 16 May 2023 18:59:30 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <ZGPEgsplBSsI9li3@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
- <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
- <20230516061309.GA7219@lst.de>
- <20230516083942.0303b5fb@meshulam.tesarici.cz>
+        by ms.lwn.net (Postfix) with ESMTPSA id 9BC9737C;
+        Tue, 16 May 2023 18:27:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9BC9737C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1684261642; bh=eN2ihpB81pubM9V7Ow/ieCvi6pmkxFrLrOBSx1pwDUM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=a6XcpakvTlccL8bwSblV8FiFyb/HkCs9Vy/4i8xreg5JjcGZ5cPr3A0uDLQmOI/P9
+         K9iKOp4B+zREyNda5EUmsQT5eo+sMYJTsz4M7VL/PxWk/+1YvTzapczKp2N+P39uNt
+         NfZdFmiphHXX3QX1XOBdhThKP7PWCb8qlgyg0XpccAMQjBq/9seQgpzFlowUfMAVGg
+         JmK4Cer43S+0ZlRVEBkmibN+7vh/A2n2nFBhW25YfZKYWOSenPKrTaWZ8rWo1HSTYr
+         +dpewPVgPdylhdlmRlAW442YFdgyK8f2YI4qmGfvSMHQNKa8zo7Y2yqkjK5PeJEwwi
+         6iZbSQvtzLTgQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Networking <netdev@vger.kernel.org>,
+        Remote Direct Memory Access Kernel Subsystem 
+        <linux-rdma@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Gal Pressman <gal@nvidia.com>,
+        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+        Maher Sanalla <msanalla@nvidia.com>,
+        Moshe Shemesh <moshe@nvidia.com>,
+        Tariq Toukan <tariqt@nvidia.com>,
+        Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: [PATCH net v2 4/4] Documentation: net/mlx5: Wrap notes in
+ admonition blocks
+In-Reply-To: <20230510035415.16956-5-bagasdotme@gmail.com>
+References: <20230510035415.16956-1-bagasdotme@gmail.com>
+ <20230510035415.16956-5-bagasdotme@gmail.com>
+Date:   Tue, 16 May 2023 12:27:21 -0600
+Message-ID: <874joccet2.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230516083942.0303b5fb@meshulam.tesarici.cz>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 16, 2023 at 08:39:42AM +0200, Petr Tesařík wrote:
-> On Tue, 16 May 2023 08:13:09 +0200
-> Christoph Hellwig <hch@lst.de> wrote:
-> > On Mon, May 15, 2023 at 07:43:52PM +0000, Michael Kelley (LINUX) wrote:
-> > > FWIW, I don't think the approach you have implemented here will be
-> > > practical to use for CoCo VMs (SEV, TDX, whatever else).  The problem
-> > > is that dma_direct_alloc_pages() and dma_direct_free_pages() must
-> > > call dma_set_decrypted() and dma_set_encrypted(), respectively.  In CoCo
-> > > VMs, these calls are expensive because they require a hypercall to the host,
-> > > and the operation on the host isn't trivial either.  I haven't measured the
-> > > overhead, but doing a hypercall on every DMA map operation and on
-> > > every unmap operation has long been something we thought we must
-> > > avoid.  The fixed swiotlb bounce buffer space solves this problem by
-> > > doing set_decrypted() in batch at boot time, and never
-> > > doing set_encrypted().  
-> > 
-> > I also suspect it doesn't really scale too well due to the number of
-> > allocations.  I suspect a better way to implement things would be to
-> > add more large chunks that are used just like the main swiotlb buffers.
-> > 
-> > That is when we run out of space try to allocate another chunk of the
-> > same size in the background, similar to what we do with the pool in
-> > dma-pool.c.  This means we'll do a fairly large allocation, so we'll
-> > need compaction or even CMA to back it up, but the other big upside
-> > is that it also reduces the number of buffers that need to be checked
-> > in is_swiotlb_buffer or the free / sync side.
-> 
-> I have considered this approach. The two main issues I ran into were:
-> 
-> 1. MAX_ORDER allocations were too small (at least with 4K pages), and
->    even then they would often fail.
-> 
-> 2. Allocating from CMA did work but only from process context.
->    I made a stab at modifying the CMA allocator to work from interrupt
->    context, but there are non-trivial interactions with the buddy
->    allocator. Making them safe from interrupt context looked like a
->    major task.
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Can you kick off a worker thread when the swiotlb allocation gets past
-some reserve limit? It still has a risk of failing to bounce until the
-swiotlb buffer is extended.
+> Wrap note paragraphs in note:: directive as it better fit for the
+> purpose of noting devlink commands.
+>
+> Fixes: f2d51e579359b7 ("net/mlx5: Separate mlx5 driver documentation into multiple pages")
+> Fixes: cf14af140a5ad0 ("net/mlx5e: Add vnic devlink health reporter to representors")
+> Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  .../ethernet/mellanox/mlx5/devlink.rst             | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
 
-> I also had some fears about the length of the dynamic buffer list. I
-> observed maximum length for block devices, and then it roughly followed
-> the queue depth. Walking a few hundred buffers was still fast enough.
-> I admit the list length may become an issue with high-end NVMe and
-> I/O-intensive applications.
+So these changes seem harmless, but the Fixes: tags seem completely
+inappropriate here.  This is format tweaking, not a bug fix.
 
-You could replace the list with an rbtree, O(log n) look-up vs O(n),
-could be faster if you have many bounces active.
+Thanks,
 
--- 
-Catalin
+jon
