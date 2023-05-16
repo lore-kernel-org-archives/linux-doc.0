@@ -2,125 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD34C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 06:05:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E969C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 06:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbjEPGFT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 02:05:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33192 "EHLO
+        id S230014AbjEPGNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 02:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbjEPGFT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 02:05:19 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73243189;
-        Mon, 15 May 2023 23:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684217118; x=1715753118;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iFSzgYi4YXQ6RMkZWtTXy50InoOVuhmgPI/fa4+vyHk=;
-  b=NdOWRtJFRKjM7gzbdka8kXlekopcBXyQLI1xEqi4lCB+RoxBdZdAKnSD
-   cLinIF1kkjtrME1/d1Y6UJSIlMBuztYVJ8nCktp79dzQsiwBmiVMeC+FL
-   t6eHSUkx0R2IPrxyzfHd3/AgxZm8h9ATKTqN/R0d/4Grg+q+n3XMCK8+r
-   ai+vpsL/T7tfLW03F6qcGU1UnEp/bln9J1g/616fGbyE5R7Bhe4d8wOrL
-   s5qoimxcj2C9QXPWxQHNjr45HvGwmt4II5fTr0JuvjED7gb0411i+0LqZ
-   rl+6DryMAep1UngHc68cbLb5j9SSnDfJgItKtu+3XjJi6EpSTc+jMK+Yk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="340756883"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="340756883"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 23:05:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="947712122"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="947712122"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmsmga006.fm.intel.com with ESMTP; 15 May 2023 23:05:09 -0700
-Date:   Tue, 16 May 2023 22:05:04 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
-        Tom Rix <trix@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] Documentation: use capitalization for chapters and
- acronyms
-Message-ID: <ZGONkPmwznEMPXM1@yilunxu-OptiPlex-7050>
-References: <20230516001518.14514-1-rdunlap@infradead.org>
+        with ESMTP id S229619AbjEPGNR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 02:13:17 -0400
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007B410C1;
+        Mon, 15 May 2023 23:13:16 -0700 (PDT)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 1F6EB67373; Tue, 16 May 2023 08:13:10 +0200 (CEST)
+Date:   Tue, 16 May 2023 08:13:09 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Cc:     Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "petr@tesarici.cz" <petr@tesarici.cz>
+Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
+ buffers
+Message-ID: <20230516061309.GA7219@lst.de>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com> <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com> <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230516001518.14514-1-rdunlap@infradead.org>
+In-Reply-To: <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-05-15 at 17:15:18 -0700, Randy Dunlap wrote:
-> Use capital letters in acronyms for CD-ROM, FPGA, and PCMCIA.
-> 
-> Use capital letter in the first word of chapter headings for
-> Locking, Timers, and "Brief tutorial on CRC computation".
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-fpga@vger.kernel.org
-> Cc: Phillip Potter <phil@philpotter.co.uk>
-> Cc: Moritz Fischer <mdf@kernel.org>
-> Cc: Wu Hao <hao.wu@intel.com>
-> Cc: Xu Yilun <yilun.xu@intel.com>
-> Cc: Tom Rix <trix@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Waiman Long <longman@redhat.com>
-> Cc: Boqun Feng <boqun.feng@gmail.com>
-> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> ---
->  Documentation/cdrom/index.rst   |    6 +++---
->  Documentation/fpga/index.rst    |    2 +-
->  Documentation/locking/index.rst |    2 +-
->  Documentation/pcmcia/index.rst  |    2 +-
->  Documentation/staging/crc32.rst |    2 +-
->  Documentation/timers/index.rst  |    2 +-
->  6 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> --- linux-next-20230515.orig/Documentation/cdrom/index.rst
-> +++ linux-next-20230515/Documentation/cdrom/index.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -=====
-> -cdrom
-> -=====
-> +======
-> +CD-ROM
-> +======
->  
->  .. toctree::
->      :maxdepth: 1
-> --- linux-next-20230515.orig/Documentation/fpga/index.rst
-> +++ linux-next-20230515/Documentation/fpga/index.rst
-> @@ -1,7 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
->  ====
-> -fpga
-> +FPGA
->  ====
+On Mon, May 15, 2023 at 07:43:52PM +0000, Michael Kelley (LINUX) wrote:
+> FWIW, I don't think the approach you have implemented here will be
+> practical to use for CoCo VMs (SEV, TDX, whatever else).  The problem
+> is that dma_direct_alloc_pages() and dma_direct_free_pages() must
+> call dma_set_decrypted() and dma_set_encrypted(), respectively.  In CoCo
+> VMs, these calls are expensive because they require a hypercall to the host,
+> and the operation on the host isn't trivial either.  I haven't measured the
+> overhead, but doing a hypercall on every DMA map operation and on
+> every unmap operation has long been something we thought we must
+> avoid.  The fixed swiotlb bounce buffer space solves this problem by
+> doing set_decrypted() in batch at boot time, and never
+> doing set_encrypted().
 
-For FPGA part,
+I also suspect it doesn't really scale too well due to the number of
+allocations.  I suspect a better way to implement things would be to
+add more large chunks that are used just like the main swiotlb buffers.
 
-Acked-by: Xu Yilun <yilun.xu@intel.com>
-
-Thanks
+That is when we run out of space try to allocate another chunk of the
+same size in the background, similar to what we do with the pool in
+dma-pool.c.  This means we'll do a fairly large allocation, so we'll
+need compaction or even CMA to back it up, but the other big upside
+is that it also reduces the number of buffers that need to be checked
+in is_swiotlb_buffer or the free / sync side.
