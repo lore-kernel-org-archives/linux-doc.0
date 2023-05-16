@@ -2,240 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5139BC77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 02:01:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78DD5C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 05:47:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbjEPCBf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 22:01:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36940 "EHLO
+        id S229847AbjEPFr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 01:47:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjEPCBe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 22:01:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED2713A91;
-        Mon, 15 May 2023 19:01:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F9F463408;
-        Tue, 16 May 2023 02:01:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B1DC433A0;
-        Tue, 16 May 2023 02:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684202491;
-        bh=T2CH5jcEZ50auWMm9WlAERi13fZH34cVW0QQ55u3B1c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QYBV8uK05eipDy5EOb/FG+aKmAIuGJuZOBw6Ska1SmTfZiZU5WIOYPBNzr2ORGBmS
-         kAnUtES8TlXc9i0JlRXGO8QPnDcDr4BHJKIaoUbpG7PBaVjdfcrXMbigf2atBDhNvX
-         SY10wMbrj7hWNLzWoX+N1vZbKZArzmHKn81UmmlLBxVGyoYcxhjVoza81h2p1pA2KM
-         rjiMdn8KUMQFAzlCO/Aj6BVbCYXFnRlqzU/W9ihgknbH+hznsX2/OKNWgtAT5/8zkK
-         2ty9py1a9mro5bSA125FcbTG5zBU8NFrimGohmp21nQoCqRd6xe1wK5IQGrroZyte9
-         CvMWtW3O6tOnQ==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-50bc37e1525so24977531a12.1;
-        Mon, 15 May 2023 19:01:31 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxPsFvrRAHNHAlMGvLa5+cI/p3tWEFNeQPkWEycrT5UsDJOYUUr
-        GA0UcNxmHnniFFif7wA/Zo5FNcanLfLrjZ0SubY=
-X-Google-Smtp-Source: ACHHUZ6dgbB/xaSvvgnJkKxDy3hlVfrT9ojYrxmb8jMg0x1u/fS5lK20Eg9fSgXweC7x1BMbB5N2zEbZ0SdmmUxuiL8=
-X-Received: by 2002:a17:907:7214:b0:96a:c661:fa1 with SMTP id
- dr20-20020a170907721400b0096ac6610fa1mr10638554ejc.46.1684202489967; Mon, 15
- May 2023 19:01:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <1684118574-7572-1-git-send-email-tangyouling@loongson.cn>
-In-Reply-To: <1684118574-7572-1-git-send-email-tangyouling@loongson.cn>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Tue, 16 May 2023 10:01:18 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5QJQ2fcB5urye4Ffcbeynmjy7qN9qW=d0-Av2QhzpbxA@mail.gmail.com>
-Message-ID: <CAAhV-H5QJQ2fcB5urye4Ffcbeynmjy7qN9qW=d0-Av2QhzpbxA@mail.gmail.com>
-Subject: Re: [PATCH v3] LoongArch: Add jump-label implementation
-To:     Youling Tang <tangyouling@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S229510AbjEPFr3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 01:47:29 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47C563C3B
+        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 22:47:25 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f423ac6e2dso67814975e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 22:47:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20221208.gappssmtp.com; s=20221208; t=1684216043; x=1686808043;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rGOXS5oeYEm1eXVEOFIbXWDzPg8PMUvacNlvjP+UFms=;
+        b=iVu3Wxf06XZ3lRKy/n6RQOFfwAcXqWLQMZvIokp/GZ/cpQabpwZtzF4nf/gpUKhmJ6
+         npP2ExnTGfb9Lz1fa99FUfa1O95b5QGdS7g3P/KDNBucm04zveYg2qJ5VBZ/G5p/ut/I
+         CYWc4VU8abVUWH+JeRXqCtw7WI/v86wSmOrceS5BrCYqplj4O3XpeYFxoDIvZKmRIe5L
+         1Y44DhhSm+DPV17s2YGfIKkHyv4w935cupOvUIVgbyAtH7CNXFt+t0h7SW5SPnsA/5SX
+         Tstg8B+wE1KgmA6Gbs4LU8Sch8c3wsHdQAl4/FpwQp9SP+B26YT1L1LKINuzdnkH2Ydx
+         v+yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684216043; x=1686808043;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rGOXS5oeYEm1eXVEOFIbXWDzPg8PMUvacNlvjP+UFms=;
+        b=Kb720gBy59Lkpt7WzCD+tAehh8OTU5276sn/PruOVb550Ol+NNSu9sZWBIFQGRGyiD
+         NulhdPayfRoiNDwQJneictPlARKpjsJvt3vi+dpqMKhvWFGPd5LgxY6WAKtO49C2+jsS
+         RCOKksiEDkCRd5XEtIyyqMfQVN27eanGT96MGh6QPK72JeMD/6vF9+WFsK3P2K9nu4q6
+         +L5kUtykmn1E/bP0uH+xHLqawgRwKvpHb0e9ISyk5T/o1b5DPVDJUHZicvqfJruWCPtP
+         TiiN3YC6gyb4xo74bVY0fdZW+fDuc9ewbJsMYozyF5t8Xp2dTUCq4Nem5pznCrqiKxFn
+         os/A==
+X-Gm-Message-State: AC+VfDx2Kh5CeK6nRKreg5yAEtXYSBuSU7XxnHhKFYKf/J4pjNeVi0fe
+        GXSG3K+vfBu+SYRpHE6x3vwiwA==
+X-Google-Smtp-Source: ACHHUZ7UVZh7I+HRTjlWTG+V01v8fP9MNwUWb0S81XmV8Pv1P/knSk+1bVmpRoHZkH7Onz9DRmgFbA==
+X-Received: by 2002:a7b:cb92:0:b0:3f4:2374:3515 with SMTP id m18-20020a7bcb92000000b003f423743515mr21551025wmi.5.1684216043618;
+        Mon, 15 May 2023 22:47:23 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id g14-20020a5d46ce000000b00304aba2cfcbsm1319495wrs.7.2023.05.15.22.47.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 May 2023 22:47:23 -0700 (PDT)
+Date:   Tue, 16 May 2023 06:47:20 +0100
+From:   Phillip Potter <phil@philpotter.co.uk>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+        Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Zhangjin Wu <falcon@tinylab.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] Documentation: use capitalization for chapters and
+ acronyms
+Message-ID: <ZGMY6LWlv8LC7zL3@equinox>
+References: <20230516001518.14514-1-rdunlap@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230516001518.14514-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Queued, thanks.
-
-Huacai
-
-On Mon, May 15, 2023 at 10:43=E2=80=AFAM Youling Tang <tangyouling@loongson=
-.cn> wrote:
->
-> Add support for jump labels based on the ARM64 version.
->
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Signed-off-by: Youling Tang <tangyouling@loongson.cn>
+On Mon, May 15, 2023 at 05:15:18PM -0700, Randy Dunlap wrote:
+> Use capital letters in acronyms for CD-ROM, FPGA, and PCMCIA.
+> 
+> Use capital letter in the first word of chapter headings for
+> Locking, Timers, and "Brief tutorial on CRC computation".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-fpga@vger.kernel.org
+> Cc: Phillip Potter <phil@philpotter.co.uk>
+> Cc: Moritz Fischer <mdf@kernel.org>
+> Cc: Wu Hao <hao.wu@intel.com>
+> Cc: Xu Yilun <yilun.xu@intel.com>
+> Cc: Tom Rix <trix@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Waiman Long <longman@redhat.com>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
 > ---
-> Changes in v3:
-> - Define the JUMP_TABLE_ENTRY macro so that arch_static_branch
->   and arch_static_branch_jump can be shared.
-> - Modify commit message.
->
-> Changes in v2:
-> - Fix build errors.
-> - fix comment.
->
->  .../core/jump-labels/arch-support.txt         |  2 +-
->  arch/loongarch/Kconfig                        |  2 +
->  arch/loongarch/configs/loongson3_defconfig    |  1 +
->  arch/loongarch/include/asm/jump_label.h       | 50 +++++++++++++++++++
->  arch/loongarch/kernel/Makefile                |  2 +
->  arch/loongarch/kernel/jump_label.c            | 23 +++++++++
->  6 files changed, 79 insertions(+), 1 deletion(-)
->  create mode 100644 arch/loongarch/include/asm/jump_label.h
->  create mode 100644 arch/loongarch/kernel/jump_label.c
->
-> diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/D=
-ocumentation/features/core/jump-labels/arch-support.txt
-> index 2328eada3a49..94d9dece580f 100644
-> --- a/Documentation/features/core/jump-labels/arch-support.txt
-> +++ b/Documentation/features/core/jump-labels/arch-support.txt
-> @@ -13,7 +13,7 @@
->      |        csky: |  ok  |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> -    |   loongarch: | TODO |
-> +    |   loongarch: |  ok  |
->      |        m68k: | TODO |
->      |  microblaze: | TODO |
->      |        mips: |  ok  |
-> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> index d38b066fc931..193a959a5611 100644
-> --- a/arch/loongarch/Kconfig
-> +++ b/arch/loongarch/Kconfig
-> @@ -83,6 +83,8 @@ config LOONGARCH
->         select GPIOLIB
->         select HAS_IOPORT
->         select HAVE_ARCH_AUDITSYSCALL
-> +       select HAVE_ARCH_JUMP_LABEL
-> +       select HAVE_ARCH_JUMP_LABEL_RELATIVE
->         select HAVE_ARCH_MMAP_RND_BITS if MMU
->         select HAVE_ARCH_SECCOMP_FILTER
->         select HAVE_ARCH_TRACEHOOK
-> diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/=
-configs/loongson3_defconfig
-> index 6cd26dd3c134..33a0f5f742f6 100644
-> --- a/arch/loongarch/configs/loongson3_defconfig
-> +++ b/arch/loongarch/configs/loongson3_defconfig
-> @@ -63,6 +63,7 @@ CONFIG_EFI_ZBOOT=3Dy
->  CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER=3Dy
->  CONFIG_EFI_CAPSULE_LOADER=3Dm
->  CONFIG_EFI_TEST=3Dm
-> +CONFIG_JUMP_LABEL=3Dy
->  CONFIG_MODULES=3Dy
->  CONFIG_MODULE_FORCE_LOAD=3Dy
->  CONFIG_MODULE_UNLOAD=3Dy
-> diff --git a/arch/loongarch/include/asm/jump_label.h b/arch/loongarch/inc=
-lude/asm/jump_label.h
-> new file mode 100644
-> index 000000000000..4d8cbd5a8221
-> --- /dev/null
-> +++ b/arch/loongarch/include/asm/jump_label.h
-> @@ -0,0 +1,50 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2023 Loongson Technology Corporation Limited
-> + *
-> + * Based on arch/arm64/include/asm/jump_label.h
-> + */
-> +#ifndef __ASM_JUMP_LABEL_H
-> +#define __ASM_JUMP_LABEL_H
-> +
-> +#ifndef __ASSEMBLY__
-> +
-> +#include <linux/types.h>
-> +
-> +#define JUMP_LABEL_NOP_SIZE    4
-> +
-> +#define JUMP_TABLE_ENTRY                               \
-> +        ".pushsection  __jump_table, \"aw\"    \n\t"   \
-> +        ".align        3                       \n\t"   \
-> +        ".long         1b - ., %l[l_yes] - .   \n\t"   \
-> +        ".quad         %0 - .                  \n\t"   \
-> +        ".popsection                           \n\t"
-> +
-> +static __always_inline bool arch_static_branch(struct static_key * const=
- key,
-> +                                              const bool branch)
-> +{
-> +       asm_volatile_goto(
-> +               "1:     nop                     \n\t"
-> +               JUMP_TABLE_ENTRY
-> +               :  :  "i"(&((char *)key)[branch]) :  : l_yes);
-> +
-> +       return false;
-> +l_yes:
-> +       return true;
-> +}
-> +
-> +static __always_inline bool arch_static_branch_jump(struct static_key * =
-const key,
-> +                                                   const bool branch)
-> +{
-> +       asm_volatile_goto(
-> +               "1:     b       %l[l_yes]       \n\t"
-> +               JUMP_TABLE_ENTRY
-> +               :  :  "i"(&((char *)key)[branch]) :  : l_yes);
-> +
-> +       return false;
-> +l_yes:
-> +       return true;
-> +}
-> +
-> +#endif  /* __ASSEMBLY__ */
-> +#endif /* __ASM_JUMP_LABEL_H */
-> diff --git a/arch/loongarch/kernel/Makefile b/arch/loongarch/kernel/Makef=
-ile
-> index 9a72d91cd104..64ea76f60e2c 100644
-> --- a/arch/loongarch/kernel/Makefile
-> +++ b/arch/loongarch/kernel/Makefile
-> @@ -54,4 +54,6 @@ obj-$(CONFIG_HAVE_HW_BREAKPOINT)      +=3D hw_breakpoin=
-t.o
->
->  obj-$(CONFIG_KPROBES)          +=3D kprobes.o kprobes_trampoline.o
->
-> +obj-$(CONFIG_JUMP_LABEL)       +=3D jump_label.o
-> +
->  CPPFLAGS_vmlinux.lds           :=3D $(KBUILD_CFLAGS)
-> diff --git a/arch/loongarch/kernel/jump_label.c b/arch/loongarch/kernel/j=
-ump_label.c
-> new file mode 100644
-> index 000000000000..b06245955f7a
-> --- /dev/null
-> +++ b/arch/loongarch/kernel/jump_label.c
-> @@ -0,0 +1,23 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2023 Loongson Technology Corporation Limited
-> + *
-> + * Based on arch/arm64/kernel/jump_label.c
-> + */
-> +#include <linux/jump_label.h>
-> +#include <linux/kernel.h>
-> +#include <asm/inst.h>
-> +
-> +void arch_jump_label_transform(struct jump_entry *entry,
-> +                              enum jump_label_type type)
-> +{
-> +       void *addr =3D (void *)jump_entry_code(entry);
-> +       u32 insn;
-> +
-> +       if (type =3D=3D JUMP_LABEL_JMP)
-> +               insn =3D larch_insn_gen_b(jump_entry_code(entry), jump_en=
-try_target(entry));
-> +       else
-> +               insn =3D larch_insn_gen_nop();
-> +
-> +       larch_insn_patch_text(addr, insn);
-> +}
-> --
-> 2.37.1
->
->
+>  Documentation/cdrom/index.rst   |    6 +++---
+>  Documentation/fpga/index.rst    |    2 +-
+>  Documentation/locking/index.rst |    2 +-
+>  Documentation/pcmcia/index.rst  |    2 +-
+>  Documentation/staging/crc32.rst |    2 +-
+>  Documentation/timers/index.rst  |    2 +-
+>  6 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> --- linux-next-20230515.orig/Documentation/cdrom/index.rst
+> +++ linux-next-20230515/Documentation/cdrom/index.rst
+> @@ -1,8 +1,8 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> -=====
+> -cdrom
+> -=====
+> +======
+> +CD-ROM
+> +======
+>  
+>  .. toctree::
+>      :maxdepth: 1
+> --- linux-next-20230515.orig/Documentation/fpga/index.rst
+> +++ linux-next-20230515/Documentation/fpga/index.rst
+> @@ -1,7 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+>  ====
+> -fpga
+> +FPGA
+>  ====
+>  
+>  .. toctree::
+> --- linux-next-20230515.orig/Documentation/locking/index.rst
+> +++ linux-next-20230515/Documentation/locking/index.rst
+> @@ -1,7 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+>  =======
+> -locking
+> +Locking
+>  =======
+>  
+>  .. toctree::
+> --- linux-next-20230515.orig/Documentation/pcmcia/index.rst
+> +++ linux-next-20230515/Documentation/pcmcia/index.rst
+> @@ -1,7 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+>  ======
+> -pcmcia
+> +PCMCIA
+>  ======
+>  
+>  .. toctree::
+> --- linux-next-20230515.orig/Documentation/staging/crc32.rst
+> +++ linux-next-20230515/Documentation/staging/crc32.rst
+> @@ -1,5 +1,5 @@
+>  =================================
+> -brief tutorial on CRC computation
+> +Brief tutorial on CRC computation
+>  =================================
+>  
+>  A CRC is a long-division remainder.  You add the CRC to the message,
+> --- linux-next-20230515.orig/Documentation/timers/index.rst
+> +++ linux-next-20230515/Documentation/timers/index.rst
+> @@ -1,7 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+>  ======
+> -timers
+> +Timers
+>  ======
+>  
+>  .. toctree::
+
+Hi Randy,
+
+Thanks for the patch.
+
+Reviewed-by: Phillip Potter <phil@philpotter.co.uk>
+
+Regards,
+Phil
