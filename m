@@ -2,75 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9C0FC7EE23
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 18:47:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0179AC77B7A
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 18:50:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbjEPSrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 14:47:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55124 "EHLO
+        id S229721AbjEPSup (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 14:50:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbjEPSrb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 14:47:31 -0400
+        with ESMTP id S229709AbjEPSun (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 14:50:43 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCBDD26B8;
-        Tue, 16 May 2023 11:47:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1643583D3;
+        Tue, 16 May 2023 11:50:20 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 734BB993;
-        Tue, 16 May 2023 18:47:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 734BB993
+        by ms.lwn.net (Postfix) with ESMTPSA id 7F19B993;
+        Tue, 16 May 2023 18:50:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7F19B993
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684262833; bh=obidCeCWF2KGB0qky+83Ie4e7z76fxG96v1p7sOnKgc=;
+        t=1684263019; bh=ibkUbwXECOWHvgYrHiViIEJkr8d0p+v+RXwTy/K0kv4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=UwDh5+r5O+CJ/HU2EnwCRTcitbQ95ZmeKnWjlv+4WTk7p17CB+R0/deYSJDsmiOC9
-         eu3obp2YJ8RpueOL1DpR8p2wfZpcue3u8h4cLYwHIq+eG81giYT8RsKlhbjzHaZI5O
-         63iU6XLss723Sqc+3PXUQwW7glqkKJf2wCmRGvnlRxjdI8Jb2IXJ0tbjBsvWDy8yJr
-         RVcHL+spTFb50sSf8LAD5+IENxZsRHtGqxdhOkvTd/1H1KYq0m/XFe7VOo8iDbmWgJ
-         8brbFol4TZ2FAvy9UFIJpzP6pNd6NDDgi/aoX8ToHcOfH6DilUZDcdDRjj0v1YpNQr
-         bPkR1j3VHAe8w==
+        b=qABC7JX+cRblLRFIknPK+kmPtplswE3kcNgZg+GdRAKJ4YBpWKbsFhwgoirAPh4oH
+         KVGyOoi0Cp2sTe/jymlWhG2fPXNMs60M+HuMKxYRaWG1TSsVBgQpajP5sCqpDIn8Ez
+         1Erf9E6GqzuUllJdW0JGv3Ys+/CZK4+i4eVpTpBA9dhgr83ERCtlAVfD4ugzYIK4n/
+         FiqWWEaCKVA44ryesHEXVVeQ5Aw9CLeAnppU55zecBUn1TR583i1GLUlHWrl2Vm+U2
+         biqwks9vcrtiMkW/9dyBzJ/NQe4elNsaI5IkVC4bE+rc4obY46fCdN6jpnCiwnGz1D
+         Es4k9DLrM8HaQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs: quickly-build-trimmed-linux: various small
- fixes and improvements
-In-Reply-To: <6f4684b9a5d11d3adb04e0af3cfc60db8b28eeb2.1684140700.git.linux@leemhuis.info>
-References: <6f4684b9a5d11d3adb04e0af3cfc60db8b28eeb2.1684140700.git.linux@leemhuis.info>
-Date:   Tue, 16 May 2023 12:47:12 -0600
-Message-ID: <87r0rgazbj.fsf@meer.lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, Ram Pai <linuxram@us.ibm.com>,
+        Peng Tao <bergwolf@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] Documentation/filesystems: sharedsubtree: add section
+ headings
+In-Reply-To: <20230508055938.6550-1-rdunlap@infradead.org>
+References: <20230508055938.6550-1-rdunlap@infradead.org>
+Date:   Tue, 16 May 2023 12:50:18 -0600
+Message-ID: <87mt24az6d.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> * improve the short description of localmodconfig in the step-by-step
->   guide while fixing its broken first sentence
+> Several of the sections are missing underlines. This makes the
+> generated contents have missing entries, so add the underlines.
 >
-> * briefly mention immutable Linux distributions
->
-> * use '--shallow-exclude=v6.0' throughout the document
->
-> * instead of "git reset --hard; git checkout ..." use "git checkout
->   --force ..." in the step-by-step guide: this matches the TLDR and is
->   one command less to execute. This led to a few small adjustments to
->   the text and the flow in the surrounding area.
->
-> * fix two thinkos in the section explaining full git clones
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> Fixes: 16c01b20ae05 ("doc/filesystems: more mount cleanups")
+> Fixes: 9cfcceea8f7e ("[PATCH] Complete description of shared subtrees.")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: Ram Pai <linuxram@us.ibm.com>
+> Cc: Peng Tao <bergwolf@gmail.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
 > ---
->
-> Hi. Let me know if you would have prefered this as five seperate
-> commits. Ciao, Thorsten
-
-That would be kind of silly; one patch for a set of fixups like this is
-fine. 
-
->  .../quickly-build-trimmed-linux.rst           | 49 ++++++++++---------
->  1 file changed, 27 insertions(+), 22 deletions(-)
+>  Documentation/filesystems/sharedsubtree.rst |    4 ++++
+>  1 file changed, 4 insertions(+)
 
 Applied, thanks.
 
