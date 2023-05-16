@@ -2,102 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A002C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 00:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D658C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 01:12:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343542AbjEPAxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 20:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
+        id S229460AbjEPBMA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 21:12:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245192AbjEPAxv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 20:53:51 -0400
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E8ED39D;
-        Mon, 15 May 2023 17:53:50 -0700 (PDT)
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-        id 9D7EE92009C; Tue, 16 May 2023 02:53:45 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by angie.orcam.me.uk (Postfix) with ESMTP id 9709492009B;
-        Tue, 16 May 2023 01:53:45 +0100 (BST)
-Date:   Tue, 16 May 2023 01:53:45 +0100 (BST)
-From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH v5 14/26] alpha: Remove empty <uapi/asm/setup.h>
-In-Reply-To: <20230306100508.1171812-15-alexghiti@rivosinc.com>
-Message-ID: <alpine.DEB.2.21.2305160147100.11892@angie.orcam.me.uk>
-References: <20230306100508.1171812-1-alexghiti@rivosinc.com> <20230306100508.1171812-15-alexghiti@rivosinc.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        with ESMTP id S229483AbjEPBL7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 21:11:59 -0400
+Received: from sender3-of-o58.zoho.com (sender3-of-o58.zoho.com [136.143.184.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB2410EA
+        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 18:11:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1684199480; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=MBzvm1i6w5sH9qB90XtoDWPnzsiAxVMUrAquePUtEQUay8xbP0iEIehH0iPtU12UTXFc28TsN9kguT53KvIFyS3QxYQLKSq/b/VvZX/9+gxbOveV0vrFfiX9SsUZ/xXRBZcDJeo3y0/s458GrjtaGfZep0soRKQ/1gYW0nUMwgY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1684199480; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=3D1ZcgeS6gbmfb74g6qO4yIjzREqLwPUB74IkVK5hiE=; 
+        b=YF0ONQkmYu/eFV5tXlTxRET1MLUVYXbWjX/NIjEFLhR0ptkGKcf8OYNw05swr0LDdSVxPgil0QL3EW1H/Q7c+oGqLvutx5KVN/307co3cHGAEemhiLb2ky5VGvxbCGTjIuy085hZqgkaqUxhn/E/Kgz399vEdGjVysdZRytYeDQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1684199480;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+        bh=3D1ZcgeS6gbmfb74g6qO4yIjzREqLwPUB74IkVK5hiE=;
+        b=eF0JQ9HC29IQT8CAesMjHLcuTjhmoFhWidAgpxW3cr1t79/ekq1bo+RHa/KvmrCe
+        5CkfzqSd3qdahwWqDR0UCseja3klsydvIUs4gvHt5/jhTfSQx+HsVi651NXwAbQo2G/
+        z41V1Az7BhP9riZUaoopJicuZsK4Yg7xxfBeBGww=
+Received: from [10.10.1.128] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
+        with SMTPS id 1684199478060628.8578234862518; Mon, 15 May 2023 18:11:18 -0700 (PDT)
+Message-ID: <7ff17d2b-7030-fbbd-c495-b43583e3f9e7@apertussolutions.com>
+Date:   Mon, 15 May 2023 21:11:15 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v6 07/14] x86: Secure Launch kernel early boot stub
+Content-Language: en-US
+To:     Ross Philipson <ross.philipson@oracle.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        ardb@kernel.org, James.Bottomley@hansenpartnership.com,
+        luto@amacapital.net, nivedita@alum.mit.edu,
+        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-8-ross.philipson@oracle.com>
+ <20230512112623.GE14461@srcf.ucam.org>
+ <98decbe9-846a-6d36-aa7a-f906a19fa6cf@oracle.com>
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+In-Reply-To: <98decbe9-846a-6d36-aa7a-f906a19fa6cf@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 6 Mar 2023, Alexandre Ghiti wrote:
+On 5/12/23 12:17, Ross Philipson wrote:
+> On 5/12/23 07:26, Matthew Garrett wrote:
+>> On Thu, May 04, 2023 at 02:50:16PM +0000, Ross Philipson wrote:
+>>
+>>> +static void sl_find_event_log(struct slr_table *slrt)
+>>
+>> If this is called after the EFI stub then we're presumably
+>> post-ExitBootServices and we're copied the TPM event log into a
+>> configuration table so it's available to the runtime kernel. That also
+>> means that we should be adding all further measurements to the Final
+>> Events Table rather than the initial event log. How's that handled here,
+>> both in terms of ensuring further events (generated by firmware or by
+>> us) get added to the right place, and in terms of ensuring the event
+>> logs the kernel has later on were covered appropriately? Or is the SL
+>> event log an entirely different thing that can be merged in later
+>> because it only covers the DRTM PCRs?
+> 
+> This is a good point. At this point it is really something we 
+> overlooked. We will have to revisit this and figure out the best way to 
+> find the final event log depending on how things booted.
 
-> diff --git a/arch/alpha/include/uapi/asm/setup.h b/arch/alpha/include/uapi/asm/setup.h
-> deleted file mode 100644
-> index 9b3b5ba39b1d..000000000000
-> --- a/arch/alpha/include/uapi/asm/setup.h
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> -#ifndef _UAPI__ALPHA_SETUP_H
-> -#define _UAPI__ALPHA_SETUP_H
-> -
-> -#endif /* _UAPI__ALPHA_SETUP_H */
+I believe Ross misunderstood what you were asking for here. There are 
+two reasons this is not possible or desired. The first reason is that on 
+Intel, the DRTM log is not initialized by TrenchBoot code in the 
+preamble. It is only responsible for allocating a buffer and recording 
+the location in the TXT structures. When the SINIT ACM is executed, it 
+will initialize the log and record the measurement that CPU sent 
+directly to the TPM and then the measurements the ACM makes of the 
+environment. If you pointed at the SRTM log, then the ACM would write 
+over existing log, which I don't think you want. Now if you pointed at 
+the tail end of the SRTM log, you would still end up with a second, 
+separate log that just happens to be memory adjacent. The second reason 
+is more from a trusted computing perspective, these are two different 
+trust chains starting from two different Roots of Trust reflecting two 
+different temporal states of the system, i.e. freshness. Typically this 
+is were most will point out the need to have a measure of the resident 
+firmware, i.e. SMM. To address that, should Intel to publish the spec 
+for interacting with PPAM[1], TrenchBoot will be able to finally close 
+the SMM gap, giving runtime validation of SMM.
 
- You can't just remove a UAPI header like this, something will break; cf. 
-arch/arc/include/uapi/asm/setup.h, or arch/x86/include/uapi/asm/setup.h if 
-you want it brief.
+[1] 
+https://www.intel.com/content/dam/www/central-libraries/us/en/documents/drtm-based-computing-whitepaper.pdf
 
- I suggest that you fold it into 01/26 (it makes no sense to have empty 
-multiple inclusion protection), and likewise for the relevant remaining 
-headers.
-
-  Maciej
+v/r,
+dps
