@@ -2,156 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8763C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 18:42:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C70BFC77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 18:43:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbjEPSmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 14:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
+        id S229749AbjEPSn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 14:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjEPSma (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 14:42:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290997EDA;
-        Tue, 16 May 2023 11:42:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229448AbjEPSnY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 14:43:24 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E76437ED5;
+        Tue, 16 May 2023 11:43:22 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D91D63DCB;
-        Tue, 16 May 2023 18:42:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBFBC433EF;
-        Tue, 16 May 2023 18:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684262548;
-        bh=ocRl6YcheJFZTePbv3N2oTCU0SpLREIkqBXPg6L/Erk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ndK1xJgusTHFqtzPdamixfsF3HltCMxcsDOnor2USLnWLZV3D+fwtkO4CQ9vgnDv8
-         LXAhsYPUn5wteOmfgYtfyqnkb4gMIaII2iRjCxiznk0KmB/fuxUsHzMd1bx4nm+hPO
-         W5beKMcrtJgRyAMV9q+ASmnheDDIEfTFhLRifrJ/aPxObpmW8eb2Sp6NoPUvfoqlj1
-         XT3g8M/q1xj+zREaBfeE3h3P7p5DJaFH1YtPGqkXPy9SwtsQzZ6v0hn0ingi9xFkSv
-         bddARkKOq8VMcio0ikfWDp+v5tKs0Igdy+vKOhHlHoZxP5vmx2GFKnb5BUKrQcFhYV
-         8FG4Km4d+HC/A==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 7AEEACE105A; Tue, 16 May 2023 11:42:27 -0700 (PDT)
-Date:   Tue, 16 May 2023 11:42:27 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org,
-        x86@kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com,
-        Will Deacon <will@kernel.org>,
+        by ms.lwn.net (Postfix) with ESMTPSA id 4894B6E3;
+        Tue, 16 May 2023 18:43:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4894B6E3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1684262602; bh=2nn46iH/XNrV/RzViG7SDL3cvowctVdv4ESxisOfTVc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=sQCycDXWryc7kh/GwxTnIiEE9BBQ5Wg0qYxf6qGYUjxewtfWlm9PJr71sk4v4Di6R
+         3NOETyzqP4ciTPdG7vyWitXc4LvVvgjZomPlva8sqjYdc7gMJfDPeYkL2JQfDVBp4E
+         QeDKotTL45wNzzIeL4Q5/lNHUzT8BZBl6PYijhIX5mLIxTVJx+jSWNa7TjVv8qhFwv
+         gQ+Opp9MG3pw0FIbR0egxl2f2CaM6AElGBY5sjqN2mECK4bdZ7S7Y8XsOICiEvyzwA
+         q2FVFuSgFwkaa7wwnsVMeCYBWPMf0UJFKHATxx9ENWMlQq5Bjcwer/iHKbYG/8VeFW
+         nfgQkaZdb/0UQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-fpga@vger.kernel.org, Phillip Potter <phil@philpotter.co.uk>,
+        Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH locking/atomic 18/19] locking/atomic: Refrain from
- generating duplicate fallback kernel-doc
-Message-ID: <9035e2e1-7091-4b8a-94d9-7508c9b5cd7e@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <ZF0haDfyL3At3Ijw@FVFF77S0Q05N.cambridge.arm.com>
- <2a8b310c-3145-462b-a4c4-a130939da862@paulmck-laptop>
- <ZF48uBYKczItubrU@FVFF77S0Q05N>
- <b5498819-c2d4-414d-ba01-5373e749dc52@paulmck-laptop>
- <ZF5xXuPsrZEgAEEE@FVFF77S0Q05N>
- <e767dcc6-ea63-4ed8-9a15-9e5bb133fafc@paulmck-laptop>
- <b3956719-d478-4dc6-95fd-ec0744acc662@paulmck-laptop>
- <23195f15-7024-6fde-84f2-4cdd45c9abfc@gmail.com>
- <551c7820-1748-433b-8c42-daf777e202df@paulmck-laptop>
- <ZGO0s1FDGn/pzCPg@FVFF77S0Q05N>
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] Documentation: use capitalization for chapters and
+ acronyms
+In-Reply-To: <20230516001518.14514-1-rdunlap@infradead.org>
+References: <20230516001518.14514-1-rdunlap@infradead.org>
+Date:   Tue, 16 May 2023 12:43:21 -0600
+Message-ID: <87v8gsazhy.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZGO0s1FDGn/pzCPg@FVFF77S0Q05N>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 16, 2023 at 05:52:03PM +0100, Mark Rutland wrote:
-> Hi Paul,
-> 
-> On Sat, May 13, 2023 at 06:14:36PM -0700, Paul E. McKenney wrote:
-> > On Sun, May 14, 2023 at 08:58:00AM +0900, Akira Yokosawa wrote:
-> > > Running "./scripts/kernel-doc -none include/linux/atomic/atomic-arch-fallback.h"
-> > > on the tag emits a lot of warnings.
-> > > 
-> > > Looks like there are kernel-doc comments who don't have a corresponding
-> > > function signature next to them.
-> > > 
-> > >     /**
-> > >      * function_name() - Brief description of function.
-> > >      * @arg1: Describe the first argument.
-> > >      * @arg2: Describe the second argument.
-> > >      *        One can provide multiple line descriptions
-> > >      *        for arguments.
-> > >      *
-> > >      * A longer description, with more discussion of the function function_name()
-> > >      * that might be useful to those using or modifying it. Begins with an
-> > >      * empty comment line, and may include additional embedded empty
-> > >      * comment lines.
-> > >      */
-> > >     int function_name(int arg1, int arg2)  <---
-> > > 
-> > > Note that the kernel-doc script ignores #ifdef -- #else.
-> > 
-> > Me, I was thinking in terms of making this diagnostic ignore
-> > include/linux/atomic/atomic-arch-fallback.h.  ;-)
-> > 
-> > The actual definitions are off in architecture-specific files, and
-> > the kernel-doc headers could be left there.  But there are benefits to
-> > automatically generating all of them.
-> > 
-> > Another approach might be to put a "it is OK for the definition to
-> > be elsewhere" comment following those kernel-doc headers.
-> > 
-> > Any other ways to make this work?
-> 
-> I've spent the last day or so playing with this, and I think we can do this by
-> relegating the arch_atomic*() functions to an implementation detail (and not
-> documenting those with kerneldoc), and having a raw_atomic*() layer where we
-> flesh out the API, where each can have a mandatory function definition as
-> below:
-> 
-> /**
->  * raw_atomic_fetch_inc_release() - does a thing atomically
->  *
->  * TODO: fill this in
->  *
->  * This is a version of atomic_fetch_inc_release() which is safe to use in
->  * noinstr code. Unless instrumentation needs to be avoided,
->  * atomic_fetch_inc_release() should be used in preference.
->  */
-> static __always_inline int
-> raw_atomic_fetch_inc_release(atomic_t *v)
-> {
-> #if defined(arch_atomic_fetch_inc_release)
->         return arch_atomic_fetch_inc_release(v)
-> #elif defined(arch_atomic_fetch_inc_relaxed)
->         __atomic_release_fence();
->         return arch_atomic_fetch_inc_relaxed(v);
-> #elif defined(arch_atomic_fetch_inc)
->         return arch_atomic_fetch_inc(v)
-> #else   
->         return raw_atomic_fetch_add_release(1, v);
-> #endif
-> }
-> 
-> ... and likewise we can add comments for the regular instrumented atomics.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-I do like that approach!  It should be easy to adapt the kernel-doc
-scripting to this.
+> Use capital letters in acronyms for CD-ROM, FPGA, and PCMCIA.
+>
+> Use capital letter in the first word of chapter headings for
+> Locking, Timers, and "Brief tutorial on CRC computation".
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-fpga@vger.kernel.org
+> Cc: Phillip Potter <phil@philpotter.co.uk>
+> Cc: Moritz Fischer <mdf@kernel.org>
+> Cc: Wu Hao <hao.wu@intel.com>
+> Cc: Xu Yilun <yilun.xu@intel.com>
+> Cc: Tom Rix <trix@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Waiman Long <longman@redhat.com>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> ---
+>  Documentation/cdrom/index.rst   |    6 +++---
+>  Documentation/fpga/index.rst    |    2 +-
+>  Documentation/locking/index.rst |    2 +-
+>  Documentation/pcmcia/index.rst  |    2 +-
+>  Documentation/staging/crc32.rst |    2 +-
+>  Documentation/timers/index.rst  |    2 +-
+>  6 files changed, 8 insertions(+), 8 deletions(-)
 
-> I've pushed out the WIP patches to my atomics/fallback-rework branch; if you're
-> happy to give me another day or two I can get a bit further.
+Applied, thanks.
 
-An RCU issue currently has me by the ankle, so I am quite happy to give
-you a day or two.  ;-)
-
-Just FYI, I will be in the air this coming Friday, your time.
-
-> > For me, the option of making this
-> > diagnostic ignore include/linux/atomic/atomic-arch-fallback.h has
-> > considerable attraction.
-> 
-> It's certainly appealing...
-
-But I do like your approach of simply always having the function prototype
-available.  ;-)
-
-							Thanx, Paul
+jon
