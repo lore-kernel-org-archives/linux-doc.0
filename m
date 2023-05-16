@@ -2,108 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B2BDC77B75
-	for <linux-doc@archiver.kernel.org>; Mon, 15 May 2023 21:24:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC06C77B7D
+	for <linux-doc@archiver.kernel.org>; Tue, 16 May 2023 00:15:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234496AbjEOVYn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 May 2023 17:24:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50950 "EHLO
+        id S245258AbjEPAP0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 May 2023 20:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242402AbjEOVYm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 17:24:42 -0400
-Received: from sender3-of-o57.zoho.com (sender3-of-o57.zoho.com [136.143.184.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72287213D
-        for <linux-doc@vger.kernel.org>; Mon, 15 May 2023 14:24:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1684185838; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=ZIiZUK8CbsCjiTqifI36HGbNwdFEP03mJGK5C8Kha6tVgBHP7kTeDgac2+tm/3XKsbDwlkOFJ/4w8cRPeVL3VnzwjCti5eH0DCyA7nRLJ2JNfQf3waGrN8Im9OQOKRHiOK1HYANwB1hR+/nL++Mh9g4UH04TowwykuQggdzSLmU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1684185838; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=J3jOAuTNmPzCg2cyhMylK3GtU6TzEwrGngq9Y/KQJiQ=; 
-        b=cnbHjhH3F53ydRLRJExkPQrkix1xEpSDV/QLM4ZhENvB8JWNC30Qi41n8QwfXr1lfHGN/YmMLLMNwyQsTv98sg/0V4f3O+tHQDqhjAIoHYJZ/thkTLADCVHMRTTvyki4fJ4V30mYXdS1uR0cpUEo47jhgIfqJnxd1do0v+cYM9w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=apertussolutions.com;
-        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-        dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1684185838;
-        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-        bh=J3jOAuTNmPzCg2cyhMylK3GtU6TzEwrGngq9Y/KQJiQ=;
-        b=XF+jDcK+OfGZgLIcK5u+YeWep9XEHHVW3HEudShXbrPiGjD416u8N3ktwtum2gO8
-        xSPKV0oxzwGtK22V0BdbpwSgPx1tr1Qoh2O3kC8eLgIaZyoZg/aGR/nx+B+DzAORE+R
-        bVNcnaWzhPNJytg3mqqDi8s/XkcQS8WIaNwB+E+c=
-Received: from [10.10.1.128] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
-        with SMTPS id 1684185838046320.453113662738; Mon, 15 May 2023 14:23:58 -0700 (PDT)
-Message-ID: <9f0db589-e7b4-09c0-aed2-588b2a2e1bf5@apertussolutions.com>
-Date:   Mon, 15 May 2023 17:23:55 -0400
+        with ESMTP id S244409AbjEPAPZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 May 2023 20:15:25 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFDC183CC;
+        Mon, 15 May 2023 17:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=Hp8eNJ4FGKpWjH7/UXa5lxTHZ0gnhe4kAwB7/wEPm3k=; b=21bRxEKjid143LSrPJ9KQJmOHT
+        TtiIYJjliwAW+K4n9rjMulnnBtYWP/OuxipzIldGbEkdezOK5fDLTOu+FHpF/2dO9QrWhR3DW5yBT
+        0OR6ek7mZwtgChabZAnl2oyMmHOxF05TSKvuAe6VyHfAXNK2PV21MZ9uxu8kxIRN1ZsQSKqBbYS3k
+        BDJB0l5jAMYDxd+TL2gXb9ipIAm+2ekYSySC24Y0wO3ziqbev7jXdsstoaHwkgPf8mME6e/XF0o4l
+        I+wULKdlTZ64Jds88Ww2/JL+zuW8paR2xCrybFwUkyBK6ZE2TjyZtPu6T5Hpt6uWVXR6iWJLPEaZK
+        3zQ7qn3w==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pyiLX-003vHf-1b;
+        Tue, 16 May 2023 00:15:19 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-fpga@vger.kernel.org, Phillip Potter <phil@philpotter.co.uk>,
+        Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH] Documentation: use capitalization for chapters and acronyms
+Date:   Mon, 15 May 2023 17:15:18 -0700
+Message-Id: <20230516001518.14514-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v6 06/14] x86: Add early SHA support for Secure Launch
- early measurements
-Content-Language: en-US
-To:     Eric Biggers <ebiggers@kernel.org>,
-        Ross Philipson <ross.philipson@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        ardb@kernel.org, mjg59@srcf.ucam.org,
-        James.Bottomley@hansenpartnership.com, luto@amacapital.net,
-        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
-        trenchboot-devel@googlegroups.com
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-7-ross.philipson@oracle.com>
- <20230510012144.GA1851@quark.localdomain>
-From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
-In-Reply-To: <20230510012144.GA1851@quark.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/9/23 21:21, Eric Biggers wrote:
-> On Thu, May 04, 2023 at 02:50:15PM +0000, Ross Philipson wrote:
->> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
->>
->> The SHA algorithms are necessary to measure configuration information into
->> the TPM as early as possible before using the values. This implementation
->> uses the established approach of #including the SHA libraries directly in
->> the code since the compressed kernel is not uncompressed at this point.
->>
->> The SHA code here has its origins in the code from the main kernel:
->>
->> commit c4d5b9ffa31f ("crypto: sha1 - implement base layer for SHA-1")
->>
->> That code could not be pulled directly into the setup portion of the
->> compressed kernel because of other dependencies it pulls in. The result
->> is this is a modified copy of that code that still leverages the core
->> SHA algorithms.
->>
->> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
->> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> 
-> SHA-1 is insecure.  Why are you still using SHA-1?  Don't TPMs support SHA-2
-> now?
+Use capital letters in acronyms for CD-ROM, FPGA, and PCMCIA.
 
-I think others have commented as to why SHA-1 is provided.
+Use capital letter in the first word of chapter headings for
+Locking, Timers, and "Brief tutorial on CRC computation".
 
-> And if you absolutely MUST use SHA-1 despite it being insecure, please at least
-> don't obfuscate it by calling it simply "SHA".
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-fpga@vger.kernel.org
+Cc: Phillip Potter <phil@philpotter.co.uk>
+Cc: Moritz Fischer <mdf@kernel.org>
+Cc: Wu Hao <hao.wu@intel.com>
+Cc: Xu Yilun <yilun.xu@intel.com>
+Cc: Tom Rix <trix@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+---
+ Documentation/cdrom/index.rst   |    6 +++---
+ Documentation/fpga/index.rst    |    2 +-
+ Documentation/locking/index.rst |    2 +-
+ Documentation/pcmcia/index.rst  |    2 +-
+ Documentation/staging/crc32.rst |    2 +-
+ Documentation/timers/index.rst  |    2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
 
-Apologies that it appears that way to you. Typically when referring to 
-the family or a subset of the SHA algorithms, SHA-0, SHA-1, SHA-2, and 
-SHA-3, it is generally accepted to refer to them as the "SHA 
-algorithms". And this is contrasted to the SM algorithms which the TCG 
-spec provides for which we have no intentions to support ourselves, 
-though others are welcome to contribute.
-
-Again, apologies for misunderstanding and thank you for taking the time 
-to review the series.
-
-v/r,
-dps
-
+--- linux-next-20230515.orig/Documentation/cdrom/index.rst
++++ linux-next-20230515/Documentation/cdrom/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-=====
+-cdrom
+-=====
++======
++CD-ROM
++======
+ 
+ .. toctree::
+     :maxdepth: 1
+--- linux-next-20230515.orig/Documentation/fpga/index.rst
++++ linux-next-20230515/Documentation/fpga/index.rst
+@@ -1,7 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+ ====
+-fpga
++FPGA
+ ====
+ 
+ .. toctree::
+--- linux-next-20230515.orig/Documentation/locking/index.rst
++++ linux-next-20230515/Documentation/locking/index.rst
+@@ -1,7 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+ =======
+-locking
++Locking
+ =======
+ 
+ .. toctree::
+--- linux-next-20230515.orig/Documentation/pcmcia/index.rst
++++ linux-next-20230515/Documentation/pcmcia/index.rst
+@@ -1,7 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+ ======
+-pcmcia
++PCMCIA
+ ======
+ 
+ .. toctree::
+--- linux-next-20230515.orig/Documentation/staging/crc32.rst
++++ linux-next-20230515/Documentation/staging/crc32.rst
+@@ -1,5 +1,5 @@
+ =================================
+-brief tutorial on CRC computation
++Brief tutorial on CRC computation
+ =================================
+ 
+ A CRC is a long-division remainder.  You add the CRC to the message,
+--- linux-next-20230515.orig/Documentation/timers/index.rst
++++ linux-next-20230515/Documentation/timers/index.rst
+@@ -1,7 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+ ======
+-timers
++Timers
+ ======
+ 
+ .. toctree::
