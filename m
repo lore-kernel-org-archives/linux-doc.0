@@ -2,160 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D5F1C77B7A
-	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 08:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D2D3C77B7A
+	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 09:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbjEQIKk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 May 2023 04:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33712 "EHLO
+        id S229616AbjEQJ20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 May 2023 05:28:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230331AbjEQIKh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 04:10:37 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C5A3C3A
-        for <linux-doc@vger.kernel.org>; Wed, 17 May 2023 01:10:29 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-96b0235c10bso70436166b.3
-        for <linux-doc@vger.kernel.org>; Wed, 17 May 2023 01:10:28 -0700 (PDT)
+        with ESMTP id S229587AbjEQJ2Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 05:28:24 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E9910F5
+        for <linux-doc@vger.kernel.org>; Wed, 17 May 2023 02:28:22 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-51b33c72686so347591a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 May 2023 02:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684311027; x=1686903027;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M/JbPTvNpjTaAOSiw7cq2XUFwTTZo3maiLd9kZ3gbPY=;
-        b=E/nQr0TtAbvKOJgpRKAM1JVFuP/MwUX23KxLMaK9E935LDpjE6s9HpTk6zcktHzA3V
-         lVxuSKWxkpaEF/0X7X4fb0A2wQtR+BP46udE3XC2KotT4N3Y20wucgNCN5myvUQPrgYm
-         hf8qXaIk4/mtVqOzBMdebf1uOebU+yZFQwgKC0uSR7A2S8DJaBgTCt2tXTRjmHgu9gTl
-         He1rqLvC6itIyQX551xHdP0ntcFbz4HClZ9Wg7mkLnBAKGlfTSh3/2KEYLgKR0024kd1
-         FZk9gcyZUQemmV3CyHP8mGDAj9j4MwZkxgKrt5y90zAG/N8tFGr657bHQAGYojKPXnWN
-         MoDw==
+        d=bytedance.com; s=google; t=1684315702; x=1686907702;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g38vCA/9PDzh/FhE2Gebm+Gt7lmHqnbMMiCV4pY5w5k=;
+        b=dZENdKVP5JkcM6p+hZzF5uk2n2mkQsvLffN5DULjo+e71A1bA/yylDLfoPSSyiGscI
+         6MiVsnDC8Bq6vhrKkBogiuKz2VDf+1cI30toauxQOTyD7BhF9UW0Iih4yXyGMOHiRmZQ
+         ASE/dA2AucyP4oS5PtVykkrvIcs+SNkMq70nxlVL2aUmmp+3hL9+D0eAY08sOdyI6f94
+         +F23Pab05GQQZf7ENo0EvwzECKGlqhZHq+DPb8zy5/y5HSAkSgXE4A5he3AX3RLyRxrm
+         y3rffOp/Ge9L83iwLy18xrguqJ3UnEjNoleyP0jn5hpvBEOoli/Mu9Dr0ba13ns7K01R
+         wzsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684311027; x=1686903027;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M/JbPTvNpjTaAOSiw7cq2XUFwTTZo3maiLd9kZ3gbPY=;
-        b=iOXkccA8OBFqrQY+glooiWQIhEnkbzt33ZLd1MkczNVwtBD0u+EpXzUmf2nxdlA4qD
-         j6z/pbp+vbnAwxQVVffC+cBXCEIpXI8R26HB3/k+/Glc80GZf/pHhEaCS+9C846Enu4c
-         5q/UED3Ucezh9GVw3iXfi3I1n1K5D+Vw918w1t/FnHWkQjeDVKY9b70yxrUUxS3Ewxal
-         amu0hD00i2nDR5KeXA/ldqGHkAfzVLfciaThboV11XyaGtBhyBmr5T1+oB6Rj3OdRrVn
-         0SBSfvpCE7M4cq41bellP6O+QJsRbilauf83rsgA61PmXGHOlJr+M2ppE0e2T8Upzp5H
-         2KuQ==
-X-Gm-Message-State: AC+VfDz7QioilvoXVOZtdc4w1mk1fftnpY5Hp1YS/dYUrdgW1rc+Rp14
-        k0jrzVBNWwD7Py1/JnboyYiKA3OiX0iM7CpZQGwjLw==
-X-Google-Smtp-Source: ACHHUZ45upb/WQWXJ0QlUEgpUZn+CmUofbM6pNnjDG0KW/H53o2SeMyeHn7WakUEa0zZJ6DGueoe8o/J1+MWpbNBXNs=
-X-Received: by 2002:a17:906:fe04:b0:966:1984:9d21 with SMTP id
- wy4-20020a170906fe0400b0096619849d21mr30993043ejb.9.1684311027372; Wed, 17
- May 2023 01:10:27 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684315702; x=1686907702;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g38vCA/9PDzh/FhE2Gebm+Gt7lmHqnbMMiCV4pY5w5k=;
+        b=Ido9iJJ7pDBYMI0+eQkyKHXYjfG03xOkPwPpT7QQMgXDDEyJV/WsftS4u13VZb+Hc0
+         P+GzEjY4T0DfUZgMhoh5AsgJ9F+k3NaRaV6Y8c7Ko5d89WHXtInW1I+Cyiim5ux4p8M/
+         nd/cnOcMSGZyMEgHFicNp7rv8TmeM5pFdQu9xdbfBvcSKcb4AsyfZQ1FMj1g/EdW/t2N
+         VeOSFHutnBENgIEwsAZjEzGCN9oEhr3i4qa93547X6ZJ2loM0UVjAOnSy6iYOOO7yAry
+         SE5J6PxGd0k1TfBpoyO5zw7hRgQhYJzwx/JBdvhr9mVnMiOvcyLyRmAL9ZQBGSGJEnzi
+         9+jg==
+X-Gm-Message-State: AC+VfDwHfji6bPo5wF/Zf0NnCKKU6KDWbHQIM+1fTGca+faXeGdu8JDj
+        6feML1dSSsg051giR7WZS7m9GA==
+X-Google-Smtp-Source: ACHHUZ70KjiAcbAEevyw6rP9x+pndIs5V0Va5BeV6HXU0+HjtsW3mPkIrH/N8p8hnroEcgYhkozN5Q==
+X-Received: by 2002:a05:6a21:3284:b0:100:9a80:2e90 with SMTP id yt4-20020a056a21328400b001009a802e90mr44278647pzb.59.1684315702444;
+        Wed, 17 May 2023 02:28:22 -0700 (PDT)
+Received: from [10.70.247.178] ([139.177.225.232])
+        by smtp.gmail.com with ESMTPSA id d30-20020a631d5e000000b0051baf3f1b3esm14810102pgm.76.2023.05.17.02.28.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 May 2023 02:28:22 -0700 (PDT)
+Message-ID: <4594ffcc-ca24-e813-1991-20221c772b46@bytedance.com>
+Date:   Wed, 17 May 2023 17:28:14 +0800
 MIME-Version: 1.0
-References: <CAJD7tkYPGwAFo0mrhq5twsVquwFwkhOyPwsZJtECw-5HAXtQrg@mail.gmail.com>
- <09A746CC-E38D-4ECA-B0F4-862EC6229A0F@didiglobal.com>
-In-Reply-To: <09A746CC-E38D-4ECA-B0F4-862EC6229A0F@didiglobal.com>
-From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Wed, 17 May 2023 01:09:50 -0700
-Message-ID: <CAJD7tkbHKQBoz7kn6ZjMTMoxLKYs7x9w4uRGWLvuyOogmBkZ_g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] memcontrol: support cgroup level OOM protection
-To:     =?UTF-8?B?56iL5Z6y5rabIENoZW5na2FpdGFvIENoZW5n?= 
-        <chengkaitao@didiglobal.com>
-Cc:     "tj@kernel.org" <tj@kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mhocko@kernel.org" <mhocko@kernel.org>,
-        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "muchun.song@linux.dev" <muchun.song@linux.dev>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
-        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
-        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
-        "yuzhao@google.com" <yuzhao@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "surenb@google.com" <surenb@google.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "feng.tang@intel.com" <feng.tang@intel.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        David Rientjes <rientjes@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH v6 0/2] sched/numa: add per-process numa_balancing
+Content-Language: en-US
+From:   Gang Li <ligang.bdlg@bytedance.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mel Gorman <mgorman@suse.de>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>
+References: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
+ <9ba3577b-0098-86da-ff2e-636cb5a8ae1a@bytedance.com>
+ <76534699-e270-b450-c18e-f7c35c325bcf@gmail.com>
+ <9befca58-2425-5b4f-2dab-98b3ed4037ac@bytedance.com>
+In-Reply-To: <9befca58-2425-5b4f-2dab-98b3ed4037ac@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 17, 2023 at 1:01=E2=80=AFAM =E7=A8=8B=E5=9E=B2=E6=B6=9B Chengka=
-itao Cheng
-<chengkaitao@didiglobal.com> wrote:
->
-> At 2023-05-17 14:59:06, "Yosry Ahmed" <yosryahmed@google.com> wrote:
-> >+David Rientjes
-> >
-> >On Tue, May 16, 2023 at 8:20=E2=80=AFPM chengkaitao <chengkaitao@didiglo=
-bal.com> wrote:
-> >>
-> >> Establish a new OOM score algorithm, supports the cgroup level OOM
-> >> protection mechanism. When an global/memcg oom event occurs, we treat
-> >> all processes in the cgroup as a whole, and OOM killers need to select
-> >> the process to kill based on the protection quota of the cgroup.
-> >>
-> >
-> >Perhaps this is only slightly relevant, but at Google we do have a
-> >different per-memcg approach to protect from OOM kills, or more
-> >specifically tell the kernel how we would like the OOM killer to
-> >behave.
-> >
-> >We define an interface called memory.oom_score_badness, and we also
-> >allow it to be specified per-process through a procfs interface,
-> >similar to oom_score_adj.
-> >
-> >These scores essentially tell the OOM killer the order in which we
-> >prefer memcgs to be OOM'd, and the order in which we want processes in
-> >the memcg to be OOM'd. By default, all processes and memcgs start with
-> >the same score. Ties are broken based on the rss of the process or the
-> >usage of the memcg (prefer to kill the process/memcg that will free
-> >more memory) -- similar to the current OOM killer.
->
-> Thank you for providing a new application scenario. You have described a
-> new per-memcg approach, but a simple introduction cannot explain the
-> details of your approach clearly. If you could compare and analyze my
-> patches for possible defects, or if your new approach has advantages
-> that my patches do not have, I would greatly appreciate it.
+Hi all,
 
-Sorry if I was not clear, I am not implying in any way that the
-approach I am describing is better than your patches. I am guilty of
-not conducting the proper analysis you are requesting.
+Since both 6.4-rc1 merge window and LSFMMBPF are over, could you take
+a look now?
 
-I just saw the thread and thought it might be interesting to you or
-others to know the approach that we have been using for years in our
-production. I guess the target is the same, be able to tell the OOM
-killer which memcgs/processes are more important to protect. The
-fundamental difference is that instead of tuning this based on the
-memory usage of the memcg (your approach), we essentially give the OOM
-killer the ordering in which we want memcgs/processes to be OOM
-killed. This maps to jobs priorities essentially.
+Thanks,
+Gang Li
 
-If this approach works for you (or any other audience), that's great,
-I can share more details and perhaps we can reach something that we
-can both use :)
-
->
-> >This has been brought up before in other discussions without much
-> >interest [1], but just thought it may be relevant here.
-> >
-> >[1]https://lore.kernel.org/lkml/CAHS8izN3ej1mqUpnNQ8c-1Bx5EeO7q5NOkh0qrY=
-_4PLqc8rkHA@mail.gmail.com/#t
->
-> --
-> Thanks for your comment!
-> chengkaitao
->
+On 2023/4/28 15:45, Gang Li wrote:
+> Thank you.
+> 
+> I'll keep an eye on the progress.
+> 
+> On 2023/4/28 15:40, Bagas Sanjaya wrote:
+>> On 4/27/23 12:17, Gang Li wrote:
+>>> Hi,
+>>>
+>>> Looks like there are no objections or comments. Do you have any ideas?
+>>>
+>>> Can we merge this patch in the next merge window.
+>>>
+>>
+>> We're at 6.4 merge window, so the maintainer focus is to send PR updates
+>> to Linus. And this series didn't get applied before this merge window.
+>> Wait until 6.4-rc1 is out and reroll.
+>>
+>> Thanks.
+>>
