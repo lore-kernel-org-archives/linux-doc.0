@@ -2,157 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BEB7C77B75
-	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 01:48:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B70D3C77B7A
+	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 02:17:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231655AbjEQBsZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 May 2023 21:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53224 "EHLO
+        id S231706AbjEQCRZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 May 2023 22:17:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231222AbjEQBsY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 21:48:24 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0910FA0;
-        Tue, 16 May 2023 18:48:24 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GJxVrh007553;
-        Wed, 17 May 2023 01:48:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2023-03-30;
- bh=rsbz5aotO/68yUc23u/T2RpBVdE6MOYVlG8C4vRRmys=;
- b=ydXZ/HAJ+ndgWCup46NdU3tCaw5PLvcIQAhyDCAaNCkyaLvGysI9dopypV25X2XCDEJb
- YzKImHg7ZoE7rQz3zW6dJIsXnmCf1Xk/Cdz8oLZG9yM5D6SF2pf8wapF63Bvu4wdREtk
- p1ZqVnwyhEM2sxxP+cvOeOj6SJqC1/yro9FViz35C6uwLrKZyIl5dDJ5JW7SFl4EyXa/
- ZDocuI+uT0Lvm2SjziOKoBpspCUuIUghf/VV1LNZtVMuKR/neMJcG7FATKUXRGOyjox8
- V5nMHM10pE8h/e/H4pW0OrgYmPMQ91JZk5f69X/fZ6EW/fAwL/RL7F+e3PEThje9PpQH Sg== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qj33uvc0t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 17 May 2023 01:48:13 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 34GMqB5u040128;
-        Wed, 17 May 2023 01:48:13 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3qj104jqwm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 17 May 2023 01:48:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mbguI+FI5rxNbhHXIDEloPD8l5E100LHAGroUEwcZlLh+ImbNWj3l5jy8Anut8y3L1hwpYUK7SrFlL9b0GhKZ6TI//p5yKrWnSM1ERoPxrkI20qus5icFd9l5IH53xlZeLeQE40jTgfqnoLplv+fNff12KFNUWb0oVqLYRFRAqOdWMJZ0Z3r6ABpPQ9gCKRQqLSilQKCcSDYK0nECJj9E0kbN2qjwsk36h95Oww0XTGQpKe55Ui/FLyrnAD+xs0TsFRo5weO+672r+UPQgVgICFNiOXm5PCCdVHhZnzR4iFBaUBx7Fo0ooLzfYS6x9vzCyok0CRGelbN02ZHeEcKQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rsbz5aotO/68yUc23u/T2RpBVdE6MOYVlG8C4vRRmys=;
- b=ecEnBOYLHDcX1Fww+pDw4TXRv1sLh8rD/bq46xWYig7D2gVH59SY//nMuupY+4UR3xrQ4Ddgc3GErNQ0nCDwVxV2uI1xEJR7KmsLPVKwiG8vGRo2OKqqqqFu6HL7NE94GPQmrWEKjFOHVl1Atu9Hlj3RRveiGXmAkLaLX4jxD1T0YBDXFUL14MJHwJK98ovcFG7ad3tE25kYKPBnogtNqFgl1lAeHaynH6TLz+Ox2rP9U4OJewmL++SVoFvz+ENR8NZrpoYxEqdsmvaVmaJ2yhj+27Ftbo7hTcg2q8SS6FqySyE/wCiknuBaA4GIFgL/HrnGDaYrx4pJ/L51WHTq/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S231440AbjEQCRY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 May 2023 22:17:24 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6815CE4E
+        for <linux-doc@vger.kernel.org>; Tue, 16 May 2023 19:17:23 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id 46e09a7af769-6ab174bb726so159542a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 May 2023 19:17:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rsbz5aotO/68yUc23u/T2RpBVdE6MOYVlG8C4vRRmys=;
- b=fsgaTZUu6HXxB0ZwATPuDa8Yg3NwqekaeoAoYSi4vhX2+k2URbiGxg20wzWQzBiyOv9D6hhWLk9cHEMEVuCxIqMn3URCO8K5Lbpj1ZU+50Nelpdm3OLWJquEFWKoPP/3+wfEdSKT/4CoHWT8qYE4OsQNXX7KEv3IN734JCwdNZQ=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by PH0PR10MB5644.namprd10.prod.outlook.com (2603:10b6:510:fb::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33; Wed, 17 May
- 2023 01:47:52 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::9a52:4c2f:9ec1:5f16]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::9a52:4c2f:9ec1:5f16%7]) with mapi id 15.20.6387.033; Wed, 17 May 2023
- 01:47:52 +0000
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux SCSI <linux-scsi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>,
-        Oliver Neukum <oliver@neukum.org>,
-        Ali Akcaagac <aliakc@web.de>,
-        Jamie Lenehan <lenehan@twibble.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 0/3] dc395x stale reference cleanup
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq11qjfu3t3.fsf@ca-mkp.ca.oracle.com>
-References: <20230510093933.19985-1-bagasdotme@gmail.com>
-Date:   Tue, 16 May 2023 21:47:46 -0400
-In-Reply-To: <20230510093933.19985-1-bagasdotme@gmail.com> (Bagas Sanjaya's
-        message of "Wed, 10 May 2023 16:39:30 +0700")
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0230.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::19) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+        d=bitbyteword.org; s=google; t=1684289842; x=1686881842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jg/iSy/nvkPTXRIMKkgFpn6nfdytrQLA5s0+0oJiqtQ=;
+        b=WQmO1erorAqp4OY2y0UFSiIyYYMezfvLzuwU09QHo0/wfSmJpxk+apgEhA++kvH1Oe
+         V21nfQ3pKpx8nnbkI4HoxD+erL79wFfSCu7NjZZnmKo65pKeYzfP3hEfK+CGvzRhHESR
+         0GYZ+hSZxwtoJL3XykptS+f3MGx50RtejAo81v8DzZVNUPk72xOZLY5++sdd0RIr9TXb
+         kNzZpPIaQqlATc4/+k/XjKq88bpLW7F/09t4Rmpxblrd/r1n3Pld/5v/SiDXMgWmXWF8
+         mv2UIECsP9NI6WzaLWnjCozbQaAbbE2BixLWGLq2BnKZiEz0plWFRTs3iGx3CJbpVTMp
+         GsUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684289842; x=1686881842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Jg/iSy/nvkPTXRIMKkgFpn6nfdytrQLA5s0+0oJiqtQ=;
+        b=Lfos8V5BOwZRV43kykJn3UY97Uafa6V2Zf253ELITMMlS2yY6TKsHI0dKGssic7YXG
+         WnNPDQilf6tnotvHDxeHikv372mFPdoGG9NgYzeMyDamTYnqhcFinJ8eRQH2gYFffyEA
+         zcCP/WrNoWJ6w32UUxrynp+ImdxE2b2z9rzZBiq9Pahx39z3Idc1eiKmwdxNU7hI/qZ2
+         B5FOy1WqAJqtHuMpNRx9lI+GAuMtEekWZOYXobCxIZvJ8qSzebq0Qp9foTj2mc5Lvu5v
+         BqtXxbmfVfdK1USZdQ3kPCDqvLUunBvHNfFZJq6R1zrn/WtEypISqG2QPyupcadjPBpR
+         UUKQ==
+X-Gm-Message-State: AC+VfDxUgeDmOJd2mrDhi9MSnjmBQYtLKw1r9fNRccYAc4tlrazEtmUD
+        /6Tz4flvxMA9llko6AjsBx9bH5TikpOboHK9+3+7Mw==
+X-Google-Smtp-Source: ACHHUZ6V+DuFmwFCSct6No1tadnX2CtFjc1H/zPrUuXhC8QzRTOLP/3lSU66HnRHFtS2mWvjITr0obl2eoA4yRKALy4=
+X-Received: by 2002:a05:6830:1654:b0:6ad:da5d:5357 with SMTP id
+ h20-20020a056830165400b006adda5d5357mr3708589otr.38.1684289842664; Tue, 16
+ May 2023 19:17:22 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|PH0PR10MB5644:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc9f26ee-8f18-4612-6e66-08db5678ba51
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: h45lJsLpNuEvYywLqyr4bEsSvI4hLJxl0CxrHghOkcChHGzttnf9o79of2tssyVkFkZeggo739p9Psjc9maSvjMMqa4W95FklQ5rXb5CwjDcrCH5OsPo7R1KLm9tyuFwOK+8Fy+5BFUJvhkQMyh5hIo/taWh4feIt2zHVd2ri5BGkygQNlRJUVSP+iLZbpFLBSRHKp81RXWg2DangHcm6irYsor84oGme6c4jgj/u7gTOAgDj8M7ZISDmiURMFvTjQOdIS6geaSU5WhczAiXC+nBZIZHFk5W5b8bnufKAcqFCuR/ueyJ9FrEPVVqYl7Fl98Nfb9awSxvmfu/6j4c1bgbrc3KTDc8+d4OFPua1jFaFhVRR31bnB4tgenRQSFjZCGoA1AI9tnUWPOy6U0T7NVYFw84UkgNW3kj8EQU3CYrhZkAnKWTc+YntroyZfsVc7A64yt0Q0o11XSyPT/55Y/M6rMrxmFp7zOUaREGXCzIqQ83olt06KRMmSYHFpFCY/4WfPWudhOIxIGXHtE4n5MO3Q348yDjg5BMk0/QrNTsrult90OAtxcGJTD9+lPO
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(136003)(366004)(376002)(346002)(396003)(451199021)(6506007)(6512007)(26005)(36916002)(38100700002)(86362001)(558084003)(186003)(2906002)(478600001)(54906003)(8676002)(5660300002)(4326008)(6916009)(8936002)(66556008)(66476007)(66946007)(316002)(6666004)(6486002)(41300700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yBBzlFha6t8PP/3hIZ8ixMxN5njEAg3uY/l5ttV7NynU5lDtjchsvjlgWP1h?=
- =?us-ascii?Q?qa6bKOFesxr+kB3tNoCkCFEbTbgXzQReKmvhcCL1i8wGr/ocS+1qrb9LyUX1?=
- =?us-ascii?Q?WLQ2zAgezE0w4CeaQ4PkaY+v5kabe2amHcgP99ezLTtqBT3jsMjzYmRXgNKh?=
- =?us-ascii?Q?Lvhus9ZCUiwpRTsLgk44e2ID9G5yBu6LM6c7vl47zmSbcocybtawdVDxEe/i?=
- =?us-ascii?Q?pjR0VcRDqQj9bKfMqeipnxpXNfCXPOl4GzHVa1MASNvXR/ZDxLl8cUF4UMfR?=
- =?us-ascii?Q?73/4+x+P3uB8kIaSLzwtbN1aMBoljirqm9QWUktLdqYWL52mFRqupfhYarL0?=
- =?us-ascii?Q?CpvjcIv47zNjq4ipKsy42yjnrc2jT30/u4pU2uAkIENdCq9j3pwdpJghvmM8?=
- =?us-ascii?Q?87o3Afx7BufjYgMcVgger4+JfVMad0WNLHff2pZdZvY7pyQoPmdPRu6GHi2F?=
- =?us-ascii?Q?QfUMo4GefrP32+9L78cOX00LS9QAXbh3UxzNc+s0Bkc9dDA/KOHEkTs2r6j3?=
- =?us-ascii?Q?CUnuAsLGkfg236DpdHNdRbYh6KS+eSdlAJaxWuaNqMYT7PpCfgBL0fqZYUD+?=
- =?us-ascii?Q?TUWpaeHw6GNlccu2+EFS/OYEosMfNhe3xC1xPQd6e3ZwIt3//++1ND5q+x5l?=
- =?us-ascii?Q?sM2fWTneag0og3RtUF88Ecyo7rxZJBKsCp9jd74NgYPM5C6Jbwn23ZbU04H3?=
- =?us-ascii?Q?V/ZylWT9TaxD97GHZ+O6JbLBZ6uIWImgWraUUkebQfUXQVCp/IqLNF9tIjxL?=
- =?us-ascii?Q?LYr4bgXI8zlTKHmJxc1BI38GKOfUDKp+Qt8ACWi/Nk1hVRR5wJuY9SRIcL6j?=
- =?us-ascii?Q?ClI8QwuRPMPGZXG7ZSdgh/qKD3RgiLNH/J+jVS75QwK6q6a0FJG7xWS9LbL3?=
- =?us-ascii?Q?RM7T/FgK0az85lp3+lgTN9XMFd5HGzThV4t/9sHVQGpU1hS+1oSt0zGmJEvM?=
- =?us-ascii?Q?tvH0AMkj5AV1EVKYxdktvqXzONQlo9qdzp9jtgyp56biq59GL0ZyV2hbQ1SI?=
- =?us-ascii?Q?0chzC6SkYxy+k4BVVxsuny5PorsWg0brUYWTuCn4d+Go5hcgPF9yMhme6lzO?=
- =?us-ascii?Q?vSFtBoQ71jc3yvVJyFaIr1lH1zqdTYgkuGJS+jRD9dwULsVEZa4L3k6uT3SF?=
- =?us-ascii?Q?LpD1HEjzlFhyYQ0HiAc8la34pmADSnJkJAb88xZaeMblAUGEPuA34LM4tovd?=
- =?us-ascii?Q?OPQJhifW5JeC3g2BQb60EQ3UD34L5uENyDzpY8YpWPiTgl0yyYDJ/TI2FiPw?=
- =?us-ascii?Q?BRGaAn9eALzHApt1wSajHCBlg71Z7dr8uGa5XsfJn0GFYwD+eWJDQVNDu2LW?=
- =?us-ascii?Q?ZHwRosoDHu064pORqucFOMAPHf8uRzhvYqtGdkUQz6SljlIQ8kgymS7eTtQL?=
- =?us-ascii?Q?vvcATgfKkDnY3U7ecOvKaPOqImfQ5bHc5iEMl+l5olOz4ys0QemapBdbzUd8?=
- =?us-ascii?Q?0JTJS9kv+iiMEkNkldl5EXSuPzhW/T1q059ujMmDB8gY169lKpM04VkX0roM?=
- =?us-ascii?Q?rrmrjhPdr3OVq0KtTADz8wus5fBbZ7p6uZIGV4xY1JWrQNWVSXMzh/Cnk/vA?=
- =?us-ascii?Q?pfj4L5XZZokG8EX/i1TTXj7UkkINt7+BayTp1JUGe2dK0bhzDzhsi1Kld1K+?=
- =?us-ascii?Q?1g=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 0g5qvyCBKmm9INmTcn3nWwArlSB+1kRuf6dCQGnbVn7st5ZiPyOjU9J32MNjOS8Pgupp+e6nMTolw78dnyhOy6iN6COE1sSZKUx0c4gWhsypcJOnhvDcjnrrMa++/jd2/L09F+SUUA24wGbybK/S1nYA2rLNvw4Y5jrScgSGllzTuphPJKhbZxaw4MqD87exui7NX+kMvWDmlHeN4sK4QkvQcFCqECuj7uRhLz+TgGc6qFs67jBAHRZRBfLKo0Ir1PQPIDM7/eouu4DZhm4wyoVPcZWIYF5NlwDmi2w4IAMTGuBn1WYQV4YGMFYL2riyVkI/YUolSJEaFstsdP83Yj0wVjlUFdyq5dmiaqwx6u/A7OAHfnSKrSsnRbJRryiYm0DKivmbDk4IxnF2asdK3xFBcghfVwCvrV3IWSDDd6XjJJ5fj2rvu3xE993qEubp+8m1lsPpNRFMGODChnnivEkenOnJNVTbXTxAzTQRvRMttVMq4dC8wfH7ydlw+b9URlJ4CDZV61LG2q3YTuvq8X/4Sn/g1ZLude8R8exhORSo62abPdfw6ZHzzJHvJZ7kIGf4hmP363FQB/Vm609XnsNjKMyzVGo1UwusVCy4YkqDG10ioieMV7u6a/aLjEO8okIt+pf+FJlDym0G/lHho1N25lY4sE9iEq24YI68XGPxPCmObCFjPmRpDU82cZ69RuH8UqRi+puSLS0zDAK+OI0u97QSQmOh3mRiw4ROovjCs54I4t1Dd5jyqIfzGMh2L4OrGPdB073LvJWawtZHpGrZkfp15yEfKJc2Yt23+XAv1C1Ql/sFg1XlFWq5vOF5BiaGaXMuN8mhBDt/omfBkqF1mrrLE5A/KHk7DiThv+z1oCC+S23GJYf2DRPbHfC/5M09g8cAX4/IdnC4R428yQ==
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc9f26ee-8f18-4612-6e66-08db5678ba51
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2023 01:47:52.6173
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pedf3CYpc3zGk2Nao0pcufeDtUpMTIppj7+/+pgX6ppbTBdMQYoTpTukUIjqxjWLMaagNvOM7RmsxucFge6VV5PAi8xX9VL0sCmLQzBUprw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5644
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-16_14,2023-05-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 bulkscore=0
- mlxscore=0 phishscore=0 malwarescore=0 spamscore=0 mlxlogscore=518
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305170013
-X-Proofpoint-GUID: iq0mqI8RQuM4nWcggy8RdtUgmHtwRRAk
-X-Proofpoint-ORIG-GUID: iq0mqI8RQuM4nWcggy8RdtUgmHtwRRAk
+References: <20230515025716.316888-1-vineeth@bitbyteword.org>
+ <20230515025716.316888-3-vineeth@bitbyteword.org> <20230515100616.33ba5dd9@luca64>
+ <CAO7JXPgq8V5yHM6F2+iXf4XJ9cyT30Hn4ot5b2k7srjsaPc3JQ@mail.gmail.com>
+ <20230516093729.0771938c@luca64> <CAO7JXPh5uLV4QjAEi6bJXfAGSsZ=XsnCyzrvKS8m35BGbRPYJw@mail.gmail.com>
+ <20230516181928.1991acbd@nowhere>
+In-Reply-To: <20230516181928.1991acbd@nowhere>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Tue, 16 May 2023 22:17:11 -0400
+Message-ID: <CAO7JXPhHFdgjHsvh0VJNNcV+ax60_3-h=5kVKi2W1TRMvxu+2A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
+To:     luca abeni <luca.abeni@santannapisa.it>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Luca,
 
-Bagas,
+On Tue, May 16, 2023 at 12:19=E2=80=AFPM luca abeni <luca.abeni@santannapis=
+a.it> wrote:
+>
+> > I was thinking it should probably
+> > be okay for tasks to reclaim differently based on what free bw is
+> > left on the cpu it is running. For eg: if cpu 1 has two tasks of bw
+> > .3 each, each task can reclaim "(.95 - .6) / 2" and another cpu with
+> > only one task(.3 bandwidth) reclaims (.95 - .3). So both cpus
+> > utilization is .95 and tasks reclaim what is available on the cpu.
+>
+> I suspect (but I am not sure) this only works if tasks do not migrate.
+>
+From what I am seeing, if the reserved bandwidth of all tasks on a cpu
+is less than Umax, then this works. Even with migration, if the task
+lands on another cpu where the new running_bw < Umax, then it runs and
+reclaims the free bandwidth. But this breaks if running_bw > Umax and
+it can happen if total_bw is within limits, but a cpu is overloaded.
+For eg: four tasks with reservation (7, 10) on a three cpu system.
+Here two cpus will have running_bw =3D .7 but third cpu will be 1.4
+even though total_bw =3D 2.80 which is less than the limit of 2.85.
 
-> A small stale reference cleanup series for DC395x driver. The shortlog
-> below should be self-explanatory.
+>
+> > With "1 - Uinact", where Uinact accounts for a portion of global free
+> > bandwidth, tasks reclaim proportionately to the global free bandwidth
+> > and this causes tasks with lesser bandwidth to reclaim lesser when
+> > compared to higher bandwidth tasks even if they don't share the cpu.
+> > This is what I was seeing in practice.
+>
+> Just to be sure: is this with the "original" Uextra setting, or with
+> your new "Uextra =3D Umax - this_bw" setting?
+> (I am not sure, but I suspect that "1 - Uinact - Uextra" with your new
+> definition of Uextra should work well...)
+>
+I am seeing this with original Uextra setting where the global bandwidth
+is accounted. With "Uextra =3D Umax - this_bw", reclaiming seems to be
+correct and I think it is because it considers local bandwidth only.
 
-Applied to 6.5/scsi-staging, thanks!
+> > With dq =3D -(max{u_i, (Umax - Uinact - Uextra)} / Umax) * dt (1)
+> > TID[636]: RECLAIM=3D1, (r=3D3ms, d=3D100ms, p=3D100ms), Util: 95.08
+> > TID[635]: RECLAIM=3D1, (r=3D3ms, d=3D100ms, p=3D100ms), Util: 95.07
+> > TID[637]: RECLAIM=3D1, (r=3D3ms, d=3D100ms, p=3D100ms), Util: 95.06
+> >
+> > With dq =3D -(max{u_i, (1 - Uinact - Uextra)} / Umax) * dt (2)
+> > TID[601]: RECLAIM=3D1, (r=3D3ms, d=3D100ms, p=3D100ms), Util: 35.65
+> > TID[600]: RECLAIM=3D1, (r=3D3ms, d=3D100ms, p=3D100ms), Util: 35.65
+> > TID[602]: RECLAIM=3D1, (r=3D3ms, d=3D100ms, p=3D100ms), Util: 35.65
+>
+> Maybe I am missing something and I am misunderstanding the situation,
+> but my impression was that this is the effect of setting
+>         Umax - \Sum(u_i / #cpus in the root domain)
+> I was hoping that with your new Umax setting this problem could be
+> fixed... I am going to double-check my reasoning.
+>
+Even with the Umax_reclaim changes, equation (1) is the one which
+reclaims upto 95% when number of tasks is less than the number of
+cpus. With more tasks than cpus, eq (1) still reclaims more than
+eq (2) and cpu utilization caps at 95%. I also need to dig more to
+understand the reason behind this.
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Thanks for looking into this, I will also study more on this and
+keep you posted..
+
+Thanks,
+Vineeth
