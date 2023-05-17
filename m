@@ -2,82 +2,232 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19654C77B7D
-	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 06:57:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17BD4C7EE23
+	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 06:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbjEQG5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 May 2023 02:57:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35820 "EHLO
+        id S229530AbjEQG7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 May 2023 02:59:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbjEQG5C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 02:57:02 -0400
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A809319B3;
-        Tue, 16 May 2023 23:57:01 -0700 (PDT)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 713536732A; Wed, 17 May 2023 08:56:53 +0200 (CEST)
-Date:   Wed, 17 May 2023 08:56:53 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230517065653.GA25016@lst.de>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com> <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com> <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com> <20230516061309.GA7219@lst.de> <20230516083942.0303b5fb@meshulam.tesarici.cz> <ZGPEgsplBSsI9li3@arm.com> <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
+        with ESMTP id S229457AbjEQG7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 02:59:47 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0658A2683
+        for <linux-doc@vger.kernel.org>; Tue, 16 May 2023 23:59:45 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9659c5b14d8so48787266b.3
+        for <linux-doc@vger.kernel.org>; Tue, 16 May 2023 23:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684306783; x=1686898783;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JGx4zd5rQMRATd0xK+XVo93efYW/fcp7pqkP6+0hcGw=;
+        b=2SsYOgEzYAdEdsVcJc0zc5v4rnNcYCybZoYkrZDREZDQeufKegzADVVbvov9FQxl8V
+         iDD4DvGc/ZITjzcxaTE9ewa/3cg1IEIjeNT1326lWrXtC2hh4n9CzpsKuchekRFd+JNv
+         2piZvnhgCVyBz69rIj4CrJCQfzaMasFoa83TcXdiR1ZQGZUGoA72A9LYL6Flc0dvdkjJ
+         xwAFBTZkIFCS2dScadPqUF5OxDGq7THeIR6AakdtnhQgUDH/ZqKMSljmUO2ZBCdGUI82
+         FjIzhHy8ygkxubJBz7+MJAvxywznneQ865aBvD0P685cHKmQGof5llmvwhD4YzHdhji8
+         4mrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684306783; x=1686898783;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JGx4zd5rQMRATd0xK+XVo93efYW/fcp7pqkP6+0hcGw=;
+        b=VsLk2QFmK/fWBfITX2NFTHI2Zc+8LWBnsYBtT8PS/H+BF65jbeDMDrn7bSR53N1DWn
+         BEKCq59gCEJ5pZw8Z+OO8dEXoIImSdv1idrPo1hS1qImUHoWk3jef2alUYCSANmKfDZx
+         TXitSBVRN6F5OsoagZ/kfU6xX5jvnyfh2sNF2EtFEp30mHRJ+sv0v5wpYDgGiK0mVbQh
+         T7FSGjh5LWQjEJc50R6dXlFQTHtlyuoJLDTiy1V1HUhto2xkMtoRx/DJl5O/Bh1QDGaE
+         kEgtJN0In1ZYgCXx+sNLkDVn9cDPhMYYYU7QOMUuFRLETeQB3j8QlJe9ig9P+z8gPY10
+         OZpQ==
+X-Gm-Message-State: AC+VfDzKAig7w78+BbLpyfMCfx7Ch9BV5SpOg82WCX6yu6PRmer/WZvN
+        g0CGcsXGhylv8PeihGxl4HnX4yq7j+XUxoubLgzvmA==
+X-Google-Smtp-Source: ACHHUZ5w3ZCwAGTk8d9kz/D0S1+V+qD99DQvz3oDFkqZStQ3/CD/pIKqlreUsv8Mn9/3IyobCC3akVuN86b2DFFk7AE=
+X-Received: by 2002:a17:907:96a1:b0:966:a691:678d with SMTP id
+ hd33-20020a17090796a100b00966a691678dmr34096524ejc.51.1684306783178; Tue, 16
+ May 2023 23:59:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20230517032032.76334-1-chengkaitao@didiglobal.com>
+In-Reply-To: <20230517032032.76334-1-chengkaitao@didiglobal.com>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Tue, 16 May 2023 23:59:06 -0700
+Message-ID: <CAJD7tkYPGwAFo0mrhq5twsVquwFwkhOyPwsZJtECw-5HAXtQrg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] memcontrol: support cgroup level OOM protection
+To:     chengkaitao <chengkaitao@didiglobal.com>
+Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev,
+        shakeelb@google.com, akpm@linux-foundation.org, brauner@kernel.org,
+        muchun.song@linux.dev, viro@zeniv.linux.org.uk,
+        zhengqi.arch@bytedance.com, ebiederm@xmission.com,
+        Liam.Howlett@oracle.com, chengzhihao1@huawei.com,
+        pilgrimtao@gmail.com, haolee.swjtu@gmail.com, yuzhao@google.com,
+        willy@infradead.org, vasily.averin@linux.dev, vbabka@suse.cz,
+        surenb@google.com, sfr@canb.auug.org.au, mcgrof@kernel.org,
+        sujiaxun@uniontech.com, feng.tang@intel.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, David Rientjes <rientjes@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just thinking out loud:
++David Rientjes
 
- - what if we always way overallocate the swiotlb buffer
- - and then mark the second half / two thirds / <pull some number out
-   of the thin air> slots as used, and make that region available
-   through a special CMA mechanism as ZONE_MOVABLE (but not allowing
-   other CMA allocations to dip into it).
+On Tue, May 16, 2023 at 8:20=E2=80=AFPM chengkaitao <chengkaitao@didiglobal=
+.com> wrote:
+>
+> Establish a new OOM score algorithm, supports the cgroup level OOM
+> protection mechanism. When an global/memcg oom event occurs, we treat
+> all processes in the cgroup as a whole, and OOM killers need to select
+> the process to kill based on the protection quota of the cgroup.
+>
+> Here is a more detailed comparison and introduction of the old
+> oom_score_adj mechanism and the new oom_protect mechanism,
+>
+> 1. The regulating granularity of oom_protect is smaller than that of
+>    oom_score_adj. On a 512G physical machine, the minimum granularity
+>    adjusted by oom_score_adj is 512M, and the minimum granularity
+>    adjusted by oom_protect is one page (4K)
+> 2. It may be simple to create a lightweight parent process and uniformly
+>    set the oom_score_adj of some important processes, but it is not a
+>    simple matter to make multi-level settings for tens of thousands of
+>    processes on the physical machine through the lightweight parent
+>    processes. We may need a huge table to record the value of oom_score_a=
+dj
+>    maintained by all lightweight parent processes, and the user process
+>    limited by the parent process has no ability to change its own
+>    oom_score_adj, because it does not know the details of the huge
+>    table. on the other hand, we have to set the common parent process'
+>    oom_score_adj, before it forks all children processes. We must strictl=
+y
+>    follow this setting sequence, and once oom_score_adj is set, it cannot
+>    be changed. To sum up, it is very difficult to apply oom_score_adj in
+>    other situations. The new patch adopts the cgroup mechanism. It does n=
+ot
+>    need any parent process to manage oom_score_adj. the settings between
+>    each memcg are independent of each other, making it easier to plan the
+>    OOM order of all processes. Due to the unique nature of memory
+>    resources, current Service cloud vendors are not oversold in memory
+>    planning. I would like to use the new patch to try to achieve the
+>    possibility of oversold memory resources.
+> 3. I conducted a test and deployed an excessive number of containers on
+>    a physical machine, By setting the oom_score_adj value of all processe=
+s
+>    in the container to a positive number through dockerinit, even process=
+es
+>    that occupy very little memory in the container are easily killed,
+>    resulting in a large number of invalid kill behaviors. If dockerinit i=
+s
+>    also killed unfortunately, it will trigger container self-healing, and
+>    the container will rebuild, resulting in more severe memory
+>    oscillations. The new patch abandons the behavior of adding an equal
+>    amount of oom_score_adj to each process in the container and adopts a
+>    shared oom_protect quota for all processes in the container. If a
+>    process in the container is killed, the remaining other processes will
+>    receive more oom_protect quota, making it more difficult for the
+>    remaining processes to be killed. In my test case, the new patch reduc=
+ed
+>    the number of invalid kill behaviors by 70%.
+> 4. oom_score_adj is a global configuration that cannot achieve a kill
+>    order that only affects a certain memcg-oom-killer. However, the
+>    oom_protect mechanism inherits downwards (If the oom_protect quota of
+>    the parent cgroup is less than the sum of sub-cgroups oom_protect quot=
+a,
+>    the oom_protect quota of each sub-cgroup will be proportionally reduce=
+d.
+>    If the oom_protect quota of the parent cgroup is greater than the sum =
+of
+>    sub-cgroups oom_protect quota, the oom_protect quota of each sub-cgrou=
+p
+>    will be proportionally increased). The purpose of doing so is that use=
+rs
+>    can set oom_protect quota according to their own needs, and the system
+>    management process can set appropriate oom_protect quota on the parent
+>    memcg as the final cover. If the oom_protect of the parent cgroup is 0=
+,
+>    the kill order of memcg-oom or global-ooms will not be affected by use=
+r
+>    specific settings.
+> 5. Per-process accounting does not count shared memory, similar to
+>    active page cache, which also increases the probability of OOM-kill.
+>    However, the memcg accounting may be more reasonable, as its memory
+>    statistics are more comprehensive. In the new patch, all the shared
+>    memory will also consume the oom_protect quota of the memcg, and the
+>    process's oom_protect quota of the memcg will decrease, the probabilit=
+y
+>    of they being killed will increase.
+> 6. In the final discussion of patch v2, we discussed that although the
+>    adjustment range of oom_score_adj is [-1000,1000], but essentially it
+>    only allows two usecases(OOM_SCORE_ADJ_MIN, OOM_SCORE_ADJ_MAX) reliabl=
+y.
+>    Everything in between is clumsy at best. In order to solve this proble=
+m
+>    in the new patch, I introduced a new indicator oom_kill_inherit, which
+>    counts the number of times the local and child cgroups have been
+>    selected by the OOM killer of the ancestor cgroup. oom_kill_inherit
+>    maintains a negative correlation with memory.oom.protect, so we have a
+>    ruler to measure the optimal value of memory.oom.protect. By observing
+>    the proportion of oom_kill_inherit in the parent cgroup, I can
+>    effectively adjust the value of oom_protect to achieve the best.
+>
+> Changelog:
+> v4:
+>   * Fix warning: overflow in expression. (patch 1)
+>   * Supplementary commit information. (patch 0)
+> v3:
+>   * Add "auto" option for memory.oom.protect. (patch 1)
+>   * Fix division errors. (patch 1)
+>   * Add observation indicator oom_kill_inherit. (patch 2)
+>   https://lore.kernel.org/linux-mm/20230506114948.6862-1-chengkaitao@didi=
+global.com/
+> v2:
+>   * Modify the formula of the process request memcg protection quota.
+>   https://lore.kernel.org/linux-mm/20221208034644.3077-1-chengkaitao@didi=
+global.com/
+> v1:
+>   https://lore.kernel.org/linux-mm/20221130070158.44221-1-chengkaitao@did=
+iglobal.com/
+>
+> chengkaitao (2):
+>   mm: memcontrol: protect the memory in cgroup from being oom killed
+>   memcg: add oom_kill_inherit event indicator
+>
+>  Documentation/admin-guide/cgroup-v2.rst |  29 ++++-
+>  fs/proc/base.c                          |  17 ++-
+>  include/linux/memcontrol.h              |  46 +++++++-
+>  include/linux/oom.h                     |   3 +-
+>  include/linux/page_counter.h            |   6 +
+>  mm/memcontrol.c                         | 199 ++++++++++++++++++++++++++=
+++++++
+>  mm/oom_kill.c                           |  25 ++--
+>  mm/page_counter.c                       |  30 +++++
+>  8 files changed, 334 insertions(+), 21 deletions(-)
+>
+> --
+> 2.14.1
+>
+>
 
-This allows us to have a single slot management for the entire
-area, but allow reclaiming from it.  We'd probably also need to make
-this CMA variant irq safe.
+Perhaps this is only slightly relevant, but at Google we do have a
+different per-memcg approach to protect from OOM kills, or more
+specifically tell the kernel how we would like the OOM killer to
+behave.
 
-This could still be combined with more aggressive use of per-device
-swiotlb area, which is probably a good idea based on some hints.
-E.g. device could hint an amount of inflight DMA to the DMA layer,
-and if there are addressing limitations and the amout is large enough
-that could cause the allocation of a per-device swiotlb area.
+We define an interface called memory.oom_score_badness, and we also
+allow it to be specified per-process through a procfs interface,
+similar to oom_score_adj.
 
+These scores essentially tell the OOM killer the order in which we
+prefer memcgs to be OOM'd, and the order in which we want processes in
+the memcg to be OOM'd. By default, all processes and memcgs start with
+the same score. Ties are broken based on the rss of the process or the
+usage of the memcg (prefer to kill the process/memcg that will free
+more memory) -- similar to the current OOM killer.
+
+This has been brought up before in other discussions without much
+interest [1], but just thought it may be relevant here.
+
+[1]https://lore.kernel.org/lkml/CAHS8izN3ej1mqUpnNQ8c-1Bx5EeO7q5NOkh0qrY_4P=
+Lqc8rkHA@mail.gmail.com/#t
