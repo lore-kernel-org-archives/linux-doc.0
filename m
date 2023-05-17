@@ -2,142 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB564C77B75
-	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 07:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76ACFC77B7F
+	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 07:43:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbjEQHdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 May 2023 03:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59172 "EHLO
+        id S230025AbjEQHnj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 May 2023 03:43:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230015AbjEQHcm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 03:32:42 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74D4259DC;
-        Wed, 17 May 2023 00:32:31 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id EFCF0164AA5;
-        Wed, 17 May 2023 09:32:27 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1684308748; bh=SMZB1a3FJVckA4uh20yz2Mfq+e2cLIxWHNP75ATsZTs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mCcRh259Vaj22uiaMFcYNHaDzhfPsk/D0QMaoI55cIkowp5s+9dkExQMSa8mLBTUT
-         5HaVl2QV8QtWeIRuctMEN24UM7lmHIfQLwO8UrdS/9TVYOUE95+fnNnOKn5ipXk4AP
-         evJWOCMsexuRG8FTtoAxJH7Sw//hc3hTXntur2OBH2Nelzkn8T4G8XWcAjsiAytoqy
-         r5NZYBw8QLufWsBkKN5hlx34hE9EcHXlH8z+9sa9hrXKI/4ahp+nATH2KFDs3jtOBc
-         mPZ69RpNCTo7KFBnr8LmhqIyqdXTIxSnHkaiJ3XNqz4PLNhJfG4Rz36dVOMuZs/mjk
-         5g6PC4LcI462w==
-Date:   Wed, 17 May 2023 09:32:26 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230517093226.77ab1d2a@meshulam.tesarici.cz>
-In-Reply-To: <20230517065653.GA25016@lst.de>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
-        <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
-        <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
-        <20230516061309.GA7219@lst.de>
-        <20230516083942.0303b5fb@meshulam.tesarici.cz>
-        <ZGPEgsplBSsI9li3@arm.com>
-        <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
-        <20230517065653.GA25016@lst.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+        with ESMTP id S229607AbjEQHni (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 03:43:38 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9D6DA;
+        Wed, 17 May 2023 00:43:37 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1aad5245632so3849265ad.3;
+        Wed, 17 May 2023 00:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684309416; x=1686901416;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AU3J/HsqQVRlMwMH3f4tzrQckFj4RWJ9EFF4TdzVoM8=;
+        b=p+8Y7nCSjBwd0Txc/uaBFWBkCts5w/Wz2jfTlH8jSaaeD6afKtohm+W6cUHyuEthE2
+         r1znL/TCEGb17+VRn4amdwez5DWS4KPl0S6pnf+ijgSn+2EGyuVALEPThGqQyk9S6tqW
+         IQJ08tUDEDWT2JXKi9ptN2ZsWMqQbx0mOSXsiqI1EH3NAmhrgvy/AaBSP1Mw3wSEeUcM
+         7Iuv/uwzl1qC6zRH7ARkMFR/ItKgqdSvcthV212A2OdgpDyYKk9mtpyXJG+aPL4D3Rtu
+         3CgghUQEyNvoZwuQ1xaY3klsBtTaEepFPqnh0+irhlv75NHR+gTe9m01Ns47Rrl2IrZj
+         C2Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684309416; x=1686901416;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AU3J/HsqQVRlMwMH3f4tzrQckFj4RWJ9EFF4TdzVoM8=;
+        b=htG5ZQYsN0YkNSCj3qdQWkwrkDR5/yaikD7sxfZAQn9veDK3OFFWvV7LgA4rv0fYwp
+         Tkqp3xsb65Om4JMTmQhQHbuRmjPucvpb6m39yKZBF8cMHovEL7nGr0jIRQ2/E3LLOycf
+         7kubi9/SyG7anhf+zXQEk36nx7IsApZ31BEyw1b2IZH8p49mYBGa2fsfXGmRinNgpk4V
+         D1FGiB2EYDiciFXH8nvweMjn2uNqs/QmnwwAZRdv1i+cNPGLBoj8glSB9Lhao7kCUhvh
+         F7fn2t8Peny5jiOpqpSDGdxe+rQyuLGPpf93vpnvMN50tDkKH0fX1fFok/qS34Z+OP/2
+         P+Bw==
+X-Gm-Message-State: AC+VfDzEaQWEcGic8XNWcMEsBuRaPiAvrM5jzlHBGM3ZoP5/DGIJ7kNE
+        +GkAJVOItGft9U9bmdQXPUw=
+X-Google-Smtp-Source: ACHHUZ7LYASxbc0VHDUh+FhBTnPCiL8PXB7RwPBFPbT1QNVrZmsdjcVwlmt4xOIrIpCOV5roWAL5fw==
+X-Received: by 2002:a17:902:ecc4:b0:1ad:8c8f:afb1 with SMTP id a4-20020a170902ecc400b001ad8c8fafb1mr31335207plh.39.1684309416523;
+        Wed, 17 May 2023 00:43:36 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-12.three.co.id. [180.214.232.12])
+        by smtp.gmail.com with ESMTPSA id g14-20020a1709029f8e00b001ac6b926621sm15174961plq.292.2023.05.17.00.43.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 May 2023 00:43:36 -0700 (PDT)
+Message-ID: <723b9f11-d427-6c5d-5d99-969550244129@gmail.com>
+Date:   Wed, 17 May 2023 14:43:30 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] EDAC: Expose node link in sysfs if CONFIG_NUMA
+Content-Language: en-US
+To:     Yajun Deng <yajun.deng@linux.dev>, bp@alien8.de,
+        tony.luck@intel.com, james.morse@arm.com, mchehab@kernel.org,
+        rric@kernel.org, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230516080748.3155788-1-yajun.deng@linux.dev>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230516080748.3155788-1-yajun.deng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christoph,
+On 5/16/23 15:07, Yajun Deng wrote:
+> +
+> +What:		/sys/devices/system/edac/mc/mc*/node*
+> +Date:		May 2023
+> +Contact:	Yajun Deng <yajun.deng@linux.dev>
+> +		linux-edac@vger.kernel.org
+> +Description:	When CONFIG_NUMA is enabled, a symbolic link that points to the
+> +		corresponding NUMA node directory.
+> +
+> +		For example, the following symbolic link is created for node0 on mc0
+> +		and mc1:
+> +
 
-On Wed, 17 May 2023 08:56:53 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+"For example, on node0 with two memory control directories mc0 and mc1
+the symlinks are::" (I prefer using literal code block here).
 
-> Just thinking out loud:
-> 
->  - what if we always way overallocate the swiotlb buffer
->  - and then mark the second half / two thirds / <pull some number out
->    of the thin air> slots as used, and make that region available
->    through a special CMA mechanism as ZONE_MOVABLE (but not allowing
->    other CMA allocations to dip into it).
+> +		/sys/devices/system/edac/mc/mc0/node0 -> ../../../node/node0
+> +		/sys/devices/system/edac/mc/mc1/node0 -> ../../../node/node0
 
-This approach has also been considered internally at Huawei, and it
-looked like a viable option, just more complex. We decided to send the
-simple approach first to get some feedback and find out who else might
-be interested in the dynamic sizing of swiotlb (if anyone).
+Or bullet lists should better fit listing above?
 
-> This allows us to have a single slot management for the entire
-> area, but allow reclaiming from it.  We'd probably also need to make
-> this CMA variant irq safe.
+> +
+> +What:		/sys/devices/system/node/node*/mc*
+> +Date:		May 2023
+> +Contact:	Yajun Deng <yajun.deng@linux.dev>
+> +		linux-edac@vger.kernel.org
+> +Description:	When CONFIG_NUMA is enabled, a symbolic link that points to the
+> +		corresponding memory control directory.
+> +
+> +		For example, the following symbolic link is created for mc0 and mc1
+> +		on node0:
+> +
+> +		/sys/devices/system/node/node0/mc0 -> ../../edac/mc/mc0
+> +		/sys/devices/system/node/node0/mc1 -> ../../edac/mc/mc1
 
-Let me recap my internal analysis.
+Similar as my review above.
 
-On the pro side:
+Thanks.
 
-- no performance penalty for devices that do not use swiotlb
-- all alignment and boundary constraints can be met
-- efficient use of memory for buffers smaller than 1 page
+-- 
+An old man doll... just what I always wanted! - Clara
 
-On the con side:
-
-- ZONE_MOVABLE cannot be used for most kernel allocations
-- competition with CMA over precious physical address space
-  (How much should be reserved for CMA and how much for SWIOTLB?)
-
-To quote from Memory hotplug documentation:
-
-Usually, MOVABLE:KERNEL ratios of up to 3:1 or even 4:1 are fine. [...]
-Actual safe zone ratios depend on the workload. Extreme cases, like
-excessive long-term pinning of pages, might not be able to deal with
-ZONE_MOVABLE at all.
-
-This should be no big issue on bare metal (where the motivation is
-addressing limitations), but the size of SWIOTLB in CoCo VMs probably
-needs some consideration.
-
-> This could still be combined with more aggressive use of per-device
-> swiotlb area, which is probably a good idea based on some hints.
-> E.g. device could hint an amount of inflight DMA to the DMA layer,
-> and if there are addressing limitations and the amout is large enough
-> that could cause the allocation of a per-device swiotlb area.
-
-I would not rely on device hints, because it probably depends on
-workload rather than type of device. I'd rather implement some logic
-based on the actual runtime usage pattern. I have some ideas already.
-
-Petr T
