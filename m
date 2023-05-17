@@ -2,112 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D2D3C77B7A
-	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 09:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47CBFC77B75
+	for <linux-doc@archiver.kernel.org>; Wed, 17 May 2023 09:41:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbjEQJ20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 May 2023 05:28:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36702 "EHLO
+        id S230095AbjEQJlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 May 2023 05:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjEQJ2Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 05:28:24 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E9910F5
-        for <linux-doc@vger.kernel.org>; Wed, 17 May 2023 02:28:22 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-51b33c72686so347591a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 May 2023 02:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1684315702; x=1686907702;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g38vCA/9PDzh/FhE2Gebm+Gt7lmHqnbMMiCV4pY5w5k=;
-        b=dZENdKVP5JkcM6p+hZzF5uk2n2mkQsvLffN5DULjo+e71A1bA/yylDLfoPSSyiGscI
-         6MiVsnDC8Bq6vhrKkBogiuKz2VDf+1cI30toauxQOTyD7BhF9UW0Iih4yXyGMOHiRmZQ
-         ASE/dA2AucyP4oS5PtVykkrvIcs+SNkMq70nxlVL2aUmmp+3hL9+D0eAY08sOdyI6f94
-         +F23Pab05GQQZf7ENo0EvwzECKGlqhZHq+DPb8zy5/y5HSAkSgXE4A5he3AX3RLyRxrm
-         y3rffOp/Ge9L83iwLy18xrguqJ3UnEjNoleyP0jn5hpvBEOoli/Mu9Dr0ba13ns7K01R
-         wzsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684315702; x=1686907702;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g38vCA/9PDzh/FhE2Gebm+Gt7lmHqnbMMiCV4pY5w5k=;
-        b=Ido9iJJ7pDBYMI0+eQkyKHXYjfG03xOkPwPpT7QQMgXDDEyJV/WsftS4u13VZb+Hc0
-         P+GzEjY4T0DfUZgMhoh5AsgJ9F+k3NaRaV6Y8c7Ko5d89WHXtInW1I+Cyiim5ux4p8M/
-         nd/cnOcMSGZyMEgHFicNp7rv8TmeM5pFdQu9xdbfBvcSKcb4AsyfZQ1FMj1g/EdW/t2N
-         VeOSFHutnBENgIEwsAZjEzGCN9oEhr3i4qa93547X6ZJ2loM0UVjAOnSy6iYOOO7yAry
-         SE5J6PxGd0k1TfBpoyO5zw7hRgQhYJzwx/JBdvhr9mVnMiOvcyLyRmAL9ZQBGSGJEnzi
-         9+jg==
-X-Gm-Message-State: AC+VfDwHfji6bPo5wF/Zf0NnCKKU6KDWbHQIM+1fTGca+faXeGdu8JDj
-        6feML1dSSsg051giR7WZS7m9GA==
-X-Google-Smtp-Source: ACHHUZ70KjiAcbAEevyw6rP9x+pndIs5V0Va5BeV6HXU0+HjtsW3mPkIrH/N8p8hnroEcgYhkozN5Q==
-X-Received: by 2002:a05:6a21:3284:b0:100:9a80:2e90 with SMTP id yt4-20020a056a21328400b001009a802e90mr44278647pzb.59.1684315702444;
-        Wed, 17 May 2023 02:28:22 -0700 (PDT)
-Received: from [10.70.247.178] ([139.177.225.232])
-        by smtp.gmail.com with ESMTPSA id d30-20020a631d5e000000b0051baf3f1b3esm14810102pgm.76.2023.05.17.02.28.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 May 2023 02:28:22 -0700 (PDT)
-Message-ID: <4594ffcc-ca24-e813-1991-20221c772b46@bytedance.com>
-Date:   Wed, 17 May 2023 17:28:14 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v6 0/2] sched/numa: add per-process numa_balancing
-Content-Language: en-US
-From:   Gang Li <ligang.bdlg@bytedance.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mel Gorman <mgorman@suse.de>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        with ESMTP id S230151AbjEQJld (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 May 2023 05:41:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F14EC420A;
+        Wed, 17 May 2023 02:41:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 801AA6445D;
+        Wed, 17 May 2023 09:41:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC390C433EF;
+        Wed, 17 May 2023 09:41:22 +0000 (UTC)
+Date:   Wed, 17 May 2023 10:41:19 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>,
+        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        Petr Tesarik <petrtesarik@huaweicloud.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>
-References: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
- <9ba3577b-0098-86da-ff2e-636cb5a8ae1a@bytedance.com>
- <76534699-e270-b450-c18e-f7c35c325bcf@gmail.com>
- <9befca58-2425-5b4f-2dab-98b3ed4037ac@bytedance.com>
-In-Reply-To: <9befca58-2425-5b4f-2dab-98b3ed4037ac@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
+ buffers
+Message-ID: <ZGShP6i1Ed0kTF83@arm.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+ <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
+ <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
+ <20230516061309.GA7219@lst.de>
+ <20230516083942.0303b5fb@meshulam.tesarici.cz>
+ <ZGPEgsplBSsI9li3@arm.com>
+ <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
+ <20230517065653.GA25016@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230517065653.GA25016@lst.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
-
-Since both 6.4-rc1 merge window and LSFMMBPF are over, could you take
-a look now?
-
-Thanks,
-Gang Li
-
-On 2023/4/28 15:45, Gang Li wrote:
-> Thank you.
+On Wed, May 17, 2023 at 08:56:53AM +0200, Christoph Hellwig wrote:
+> Just thinking out loud:
 > 
-> I'll keep an eye on the progress.
+>  - what if we always way overallocate the swiotlb buffer
+>  - and then mark the second half / two thirds / <pull some number out
+>    of the thin air> slots as used, and make that region available
+>    through a special CMA mechanism as ZONE_MOVABLE (but not allowing
+>    other CMA allocations to dip into it).
 > 
-> On 2023/4/28 15:40, Bagas Sanjaya wrote:
->> On 4/27/23 12:17, Gang Li wrote:
->>> Hi,
->>>
->>> Looks like there are no objections or comments. Do you have any ideas?
->>>
->>> Can we merge this patch in the next merge window.
->>>
->>
->> We're at 6.4 merge window, so the maintainer focus is to send PR updates
->> to Linus. And this series didn't get applied before this merge window.
->> Wait until 6.4-rc1 is out and reroll.
->>
->> Thanks.
->>
+> This allows us to have a single slot management for the entire
+> area, but allow reclaiming from it.  We'd probably also need to make
+> this CMA variant irq safe.
+
+I think this could work. It doesn't need to be ZONE_MOVABLE (and we
+actually need this buffer in ZONE_DMA). But we can introduce a new
+migrate type, MIGRATE_SWIOTLB, and movable page allocations can use this
+range. The CMA allocations go to free_list[MIGRATE_CMA], so they won't
+overlap.
+
+One of the downsides is that migrating movable pages still needs a
+sleep-able context.
+
+Another potential confusion is is_swiotlb_buffer() for pages in this
+range allocated through the normal page allocator. We may need to check
+the slots as well rather than just the buffer boundaries.
+
+(we are actually looking at a MIGRATE_METADATA type for the arm64 memory
+tagging extension which uses a 3% carveout of the RAM for storing the
+tags and people want that reused somehow; we have some WIP patches but
+we'll post them later this summer)
+
+> This could still be combined with more aggressive use of per-device
+> swiotlb area, which is probably a good idea based on some hints.
+> E.g. device could hint an amount of inflight DMA to the DMA layer,
+> and if there are addressing limitations and the amout is large enough
+> that could cause the allocation of a per-device swiotlb area.
+
+If we go for one large-ish per-device buffer for specific cases, maybe
+something similar to the rmem_swiotlb_setup() but which can be
+dynamically allocated at run-time and may live alongside the default
+swiotlb. The advantage is that it uses a similar slot tracking to the
+default swiotlb, no need to invent another. This per-device buffer could
+also be allocated from the MIGRATE_SWIOTLB range if we make it large
+enough at boot. It would be seen just a local accelerator for devices
+that use bouncing frequently or from irq context.
+
+-- 
+Catalin
