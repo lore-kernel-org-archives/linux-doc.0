@@ -2,86 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 109B7C77B73
-	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 20:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64E5DC77B7D
+	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 21:27:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230497AbjERUzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 May 2023 16:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33916 "EHLO
+        id S230071AbjERV1z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 May 2023 17:27:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbjERUzx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 16:55:53 -0400
+        with ESMTP id S229487AbjERV1z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 17:27:55 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361D1F7;
-        Thu, 18 May 2023 13:55:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39026C0;
+        Thu, 18 May 2023 14:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=YPhP6BC+IEsfoXB2aA0bVLzSVsaUv9891PdK+C1Dx8g=; b=tt6ENj/lVkKUJKiCYXjfjkcAgl
-        E1CE5UrauzZwRVEElGcCTmu8epF1a4mGfMbBfAkXKwjH5q2F1eGd9tVyROLDRXDSxDuYOD7kFuo9J
-        QClvD48BhsS7IcENKjAOSAlShtPujeLos50tHDAYM0XQvweiKi7RTBQZNcKeBnr+OHDzzE+bj9iLj
-        wgWwyDZPDIM+md6dmmZ66Mu9UZ4dzSbkUYmTs3XEW3hUdN2tf26kYUqB3Xs8I19yOjW/qHeQDxWX7
-        v9180P287Yh/woZlzZVheCx3vYqiqTPaDO+wn5Qa5HppftycV9NrqXqPdeC3+XMtkI7rQyeI6jFTh
-        4a0LBx+Q==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1pzkf6-00EAQG-0R;
-        Thu, 18 May 2023 20:55:48 +0000
-Date:   Thu, 18 May 2023 13:55:48 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     corbet@lwn.net, jake@lwn.net, hch@infradead.org, djwong@kernel.org,
-        dchinner@redhat.com, ritesh.list@gmail.com, rgoldwyn@suse.com,
-        jack@suse.cz, linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
-Subject: Re: [PATCH v2] Documentation: add initial iomap kdoc
-Message-ID: <ZGaQ1KzKGuuPIpTb@bombadil.infradead.org>
-References: <20230518150105.3160445-1-mcgrof@kernel.org>
- <707b28de-2449-5cf3-9360-b2faec0481c7@infradead.org>
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=jld4blv7JTyD5AZmscX7auzPqXTZgQjlC8t12N4eprQ=; b=UtpvzxQmbT2/Botb7PJFc2DUyj
+        xR2RpLQ5OUBfT6TBGT/x4y/NUNLe/kQZoCp2/MIsKqYWGpFMtGqOjBpHAJpmgut02egE8v5mmwOlL
+        FLqi5fAHaJEqbD8D+soCNTvpXwY8yXGfglgXJCK/tkhF7/PhrJ6EZit/xIgDxQ5YEetYoLoqhfSjm
+        h/AYRF2Z2ucA8c13tsNTqyjaQwxGS4eqmgKEm72pSOCvJlkSdqHAODjLF8FtSDvVLsVbMG7i3Mo+z
+        FfXy9LtYWR+C2YBZZyx7+S2cboIwrpOu1bUJWfeUJlSPZqVLFVH7qAWlalJlzqGsfyS/9VBs5JbgO
+        s5DjIKew==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pzlA9-00EFRV-2E;
+        Thu, 18 May 2023 21:27:53 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 01/11] Docs/scsi: organize the SCSI documentation
+Date:   Thu, 18 May 2023 14:27:39 -0700
+Message-Id: <20230518212749.18266-2-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230518212749.18266-1-rdunlap@infradead.org>
+References: <20230518212749.18266-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <707b28de-2449-5cf3-9360-b2faec0481c7@infradead.org>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 18, 2023 at 08:49:26AM -0700, Randy Dunlap wrote:
-> On 5/18/23 08:01, Luis Chamberlain wrote:
-> >   * use 80 char length as if we're in the 1980's
-> 
-> Well, like Jon said, long lines are difficult to read, even on printed paper.
-> That's (at least one reason) why newspapers(!) have narrow columns of print.
+Break the SCSI documentation up into categories:
+  Introduction, APIs, driver parameters, and host adapter drivers
+instead of alphabetical by document file name (i.e., no organization).
 
-Makes sense!
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-scsi@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/scsi/index.rst |   37 ++++++++++++++++++++++++++++-----
+ 1 file changed, 32 insertions(+), 5 deletions(-)
 
-> Anyway, thanks for doing it.
-
-Heh yeah, I just trying to follow the convention, but I didn't know it was
-a special-case for bumping up to 100 only, and that it was definitely
-not good for docs. It's easy to loose it though, we have one for commit log,
-one for length on code with an exception, and we have a clear perference
-for docs. Makes me wonder if editors pick up on project specific requirements
-somehow? 
-
-So for instance I used to have incorrectly;
-
-set textwidth=100
-autocmd FileType gitcommit set textwidth=72
-set colorcolumn=+1
-
-Cleary that 100 is wrong now and I've now updated it bacak to 80.
-Could one be used for FileType for rst and ascii files?
-
-If we shared something on the top level which lets developers
-optionally pick up on project specific guideline it would be a less
-common problem to ping back / forth about this. Curious how many
-patches "length" is the reason introduces a latency for patches getting
-upstream. You figured this would be a simple fix in year 2023 :P
-
-Thanks for the fix recommendations! I'll wait and see if others find
-others!
-
-  Luis
+diff -- a/Documentation/scsi/index.rst b/Documentation/scsi/index.rst
+--- a/Documentation/scsi/index.rst
++++ b/Documentation/scsi/index.rst
+@@ -7,6 +7,38 @@ SCSI Subsystem
+ .. toctree::
+    :maxdepth: 1
+ 
++Introduction
++============
++
++.. toctree::
++   :maxdepth: 1
++
++   scsi
++
++SCSI driver APIs
++================
++
++.. toctree::
++   :maxdepth: 1
++
++   scsi_mid_low_api
++   scsi_eh
++
++SCSI driver parameters
++======================
++
++.. toctree::
++   :maxdepth: 1
++
++   scsi-parameters
++   link_power_management_policy
++
++SCSI host adapter drivers
++=========================
++
++.. toctree::
++   :maxdepth: 1
++
+    53c700
+    aacraid
+    advansys
+@@ -25,7 +57,6 @@ SCSI Subsystem
+    hpsa
+    hptiop
+    libsas
+-   link_power_management_policy
+    lpfc
+    megaraid
+    ncr53c8xx
+@@ -33,12 +64,8 @@ SCSI Subsystem
+    ppa
+    qlogicfas
+    scsi-changer
+-   scsi_eh
+    scsi_fc_transport
+    scsi-generic
+-   scsi_mid_low_api
+-   scsi-parameters
+-   scsi
+    sd-parameters
+    smartpqi
+    st
