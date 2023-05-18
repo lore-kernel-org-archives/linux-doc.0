@@ -2,132 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0E2C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 08:10:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7B1C7EE22
+	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 08:28:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbjERIKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 May 2023 04:10:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
+        id S229810AbjERI2H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 May 2023 04:28:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbjERIKq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 04:10:46 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674BC97;
-        Thu, 18 May 2023 01:10:45 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-25368740ff6so226268a91.0;
-        Thu, 18 May 2023 01:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684397445; x=1686989445;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S0YTm0IoXUd5c4n5YN9L5DUYWH7WIf1ootPhSesQtpw=;
-        b=ZcxKVWxTbbBRXRzIs4OQ4ef+VAjO+ndMZFtzZExu3rBaoSOYhiRDwTrHtb1FY0hdJG
-         HGUxEL1az8vR0xr+PEWkNyfoZC7VZmxHQS8puY4JFtyDdFdQdEYCq982C2v+7yQiHUTh
-         2CcMtV71QYcBV9Rd/bRK9tb3hDnWe8UdCiSe01V+/0u30JCDIBXYS27rsgHe3ATjCoJA
-         VK9YXNtMXWhb9c2YGvxMkJ2Y3Joq5SDZMHybJnW4WPe47EY9cGMiT9Du9pGgftpjuTf4
-         HQXcKIEsJ/dQ001VUznykafhZ8OKqYbGpZPg9PjPfzyONW9OZTc1r3x9VXJKDVRo4n9D
-         G4Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684397445; x=1686989445;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S0YTm0IoXUd5c4n5YN9L5DUYWH7WIf1ootPhSesQtpw=;
-        b=P2piGP6bZQ342RcgkKaHMPk1UtPjsjyLeHH5cHvvzB7yCtnXdyi+BoUjQzVJL+YBf1
-         J/VcOIO9C/WCYeVneTNlQNf3RVDx22P1VzHCQwT1eB67n2+Zw4AL6uU0n3h51uaE1IBW
-         H4wEhfezz3CUeoJVcHL2ND5ktc2PxGHsxYMQGk6+t0l3f8W32cgY/x+/CzxlapQ2WlOi
-         0rs5amt5jQ2laqMl8ORJny1CdZNLwiOte4hdrGjHUx/A3fC/DmZ/5k78LNiHwIDv6WrH
-         GCtZl8eNAdNQG3xu2or/SbCSZ5C7yMQyxX5Gx6sBxgvxFypkRAC6D83e3Zjswtp2lVMW
-         Xvhw==
-X-Gm-Message-State: AC+VfDy+Yixd7HidZ5wIyLMPwRrjlsyCJk3FOydKt2wdG0xJh9rlkW7B
-        gHlGFb51UUc0Ko4TuOKR/9LOrazpTirnItKcu3c=
-X-Google-Smtp-Source: ACHHUZ6onfAai2ygXURVPYRaxZVnlUv+nfcC3Xm7KTFlJ9Cq8cFTmGv8mjKjQj7PLNnBVWE+ADL4xKVZrtzP+tH9rm0=
-X-Received: by 2002:a17:90a:764d:b0:253:30f9:1849 with SMTP id
- s13-20020a17090a764d00b0025330f91849mr1748821pjl.12.1684397444829; Thu, 18
- May 2023 01:10:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1683791148.git.haibo1.xu@intel.com> <751a84a9691c86df0e65cdb02abf1e073892d1ca.1683791148.git.haibo1.xu@intel.com>
- <20230511-28ec368a8168342c68ca2187@orel> <CAJve8okVFr-m6go6dCg7Cf=Uq3Yt9Xmxi0Z3B2vbWvahvx4GgA@mail.gmail.com>
- <20230518-60da3b82641bdaccec589b8b@orel>
-In-Reply-To: <20230518-60da3b82641bdaccec589b8b@orel>
-From:   Haibo Xu <xiaobo55x@gmail.com>
-Date:   Thu, 18 May 2023 16:10:33 +0800
-Message-ID: <CAJve8on1qzEZ6MsaV4ZOJoKHwymeEPtd_vmY6ki1Nq9bnUPT2g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] KVM: selftests: Add riscv get-reg-list test
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S230163AbjERI2F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 04:28:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B014B1BD0;
+        Thu, 18 May 2023 01:28:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 37CFD60BED;
+        Thu, 18 May 2023 08:28:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95FF8C433D2;
+        Thu, 18 May 2023 08:28:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684398482;
+        bh=onUdWwy/Zov/7JnIPbVsr3nMDNBR4bEgLPYL3et5tOs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BbzWlF/Z7EepK+tkbIKX/var8RUWYppCL1zsoBgGC/M8R9Vtvt5aVB4gjT6k/ScTp
+         E8J2+cTwhq1UkxrvAGHr3/TPln+6V+rCSFp14yTEaa3/z0w2SoHJc5P/N/A9QITwpD
+         bh/CHNn2n442xFkSy3PwnnyAa1wJElwJup2q2Onr95Pvk85qw+Q8CIcIdhPcXRoJEi
+         jIVk5wpXIpQgk/eaFhSKKyhDMhLi3vEtYtOPK4zHBc7x0ke+WIFdR6h1gN3YVk+mpg
+         3ySN5R3ExTDkZlGyPiRLh9ztHTsZv5qHBPLU2O2tgYBqm/+UmnkPBY2lxQgwT711OX
+         X68a0U9uQnnug==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1pzYzQ-00G5Jx-CB;
+        Thu, 18 May 2023 09:28:00 +0100
+Date:   Thu, 18 May 2023 09:27:59 +0100
+Message-ID: <86h6sakprk.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Yi-De Wu <yi-de.wu@mediatek.com>
+Cc:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org, kvmarm@lists.linux.dev,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        Sean Christopherson <seanjc@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        "Matthias Brugger" <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arch@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        "Trilok Soni" <quic_tsoni@quicinc.com>,
+        David Bradil <dbrazdil@google.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>
+Subject: Re: [PATCH v3 3/7] virt: geniezone: Introduce GenieZone hypervisor support
+In-Reply-To: <20230512080405.12043-4-yi-de.wu@mediatek.com>
+References: <20230512080405.12043-1-yi-de.wu@mediatek.com>
+        <20230512080405.12043-4-yi-de.wu@mediatek.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: yi-de.wu@mediatek.com, yingshiuan.pan@mediatek.com, ze-yu.wang@mediatek.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org, linux-mediatek@lists.infradead.org, quic_tsoni@quicinc.com, dbrazdil@google.com, jades.shih@mediatek.com, miles.chen@mediatek.com, ivan.tseng@mediatek.com, my.chuang@mediatek.com, shawn.hsiao@mediatek.com, peilun.suei@mediatek.com, liju-clr.chen@mediatek.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 18, 2023 at 3:32=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
->
-> On Thu, May 18, 2023 at 12:17:18PM +0800, Haibo Xu wrote:
-> ...
-> > > The idea of these *to_str functions is to dump output that can be
-> > > copy+pasted into a reg array (hence the trailing commas in print_reg
-> > > lines). So we can't just print random lines here or return '##UNKOWN#=
-#',
-> > > as that won't compile. Instead, the default should return
-> > >
-> > >   str_with_index("KVM_REG_RISCV_CONFIG_REG(##)", reg_off)
-> > >
-> >
-> > Thanks for sharing the detailed idea, will fix it in next version!
->
-> I guess we could also return a string like,
->
-> "KVM_REG_RISCV_CONFIG_REG(##) /* UNKNOWN */"
->
-> as that would still compile and also convey the message that this
-> register doesn't have a name because the test doesn't know it yet.
->
+On Fri, 12 May 2023 09:04:01 +0100,
+Yi-De Wu <yi-de.wu@mediatek.com> wrote:
+> 
+> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+> 
+> GenieZone is MediaTek hypervisor solution, and it is running in EL2
+> stand alone as a type-I hypervisor. This patch exports a set of ioctl
+> interfaces for userspace VMM (e.g., crosvm) to operate guest VMs
+> lifecycle (creation and destroy) on GenieZone.
+> 
+> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
 
-Yes, that's more friendly and self explanatory. Thanks for the suggestion!
+[...]
 
-> ...
-> > > We should share all the code above, except print_reg(), with aarch64.
-> > > I'll send a patch series that splits the arch-neutral code out of
-> > > the aarch64 test that you can base this test on.
-> > >
-> >
-> > Good idea! I will rebase the patch based on your work.
-> >
->
-> Ok, I've pushed patches to [1]. This series introduces two things to KVM
-> selftests. Primarily it splits the aarch64/get-reg-list test into a
-> cross-arch get-reg-list test and an $ARCH_DIR/get-reg-list.o object file,
-> which the cross-arch test depends on. To do that, it also introduces the
-> concept of a "split test", a test that has a cross-arch part which depend=
-s
-> on an arch-specific part. Using a split test is cleaner than the
-> #ifdeffery we usually do for cross-arch tests.
->
-> I've added kvmarm@lists.linux.dev, Marc, Oliver, and Sean to the CC of
-> this message. You'll want to add them when you post v2 as well.
->
+> +/**
+> + * gzvm_gfn_to_pfn_memslot() - Translate gfn (guest ipa) to pfn (host pa),
+> + *			       result is in @pfn
+> + *
+> + * Leverage KVM's gfn_to_pfn_memslot(). Because gfn_to_pfn_memslot() needs
+> + * kvm_memory_slot as parameter, this function populates necessary fileds
+> + * for calling gfn_to_pfn_memslot().
+> + *
+> + * Return:
+> + * * 0			- Succeed
+> + * * -EFAULT		- Failed to convert
+> + */
+> +static int gzvm_gfn_to_pfn_memslot(struct gzvm_memslot *memslot, u64 gfn, u64 *pfn)
+> +{
+> +	hfn_t __pfn;
+> +	struct kvm_memory_slot kvm_slot = {0};
+> +
+> +	kvm_slot.base_gfn = memslot->base_gfn;
+> +	kvm_slot.npages = memslot->npages;
+> +	kvm_slot.dirty_bitmap = NULL;
+> +	kvm_slot.userspace_addr = memslot->userspace_addr;
+> +	kvm_slot.flags = memslot->flags;
+> +	kvm_slot.id = memslot->slot_id;
+> +	kvm_slot.as_id = 0;
+> +
+> +	__pfn = gfn_to_pfn_memslot(&kvm_slot, gfn);
+> +	if (is_error_noslot_pfn(__pfn)) {
+> +		*pfn = 0;
+> +		return -EFAULT;
+> +	}
 
-Sure, I will rebase your patch in v2. Thanks for your review!
+I have commented on this before: there is absolutely *no way* that you
+can use KVM as the unwilling helper for your stuff. You are passing
+uninitialised data to the core KVM, completely ignoring the semantics
+of all the other fields.
 
-> [1] https://github.com/jones-drew/linux/commits/arm64/kself/get-reg-list
->
-> Thanks,
-> drew
+More importantly, you are now holding us responsible for any breakage
+that would be caused to your code if we change the internals of this
+*PRIVATE FUNCTION*.
+
+Do you see Xen or Hyper-V using KVM's internals as some sort of
+backend to make their life easier? No, because they understand that
+this is off-limits, and creates an unhealthy dependency for both
+hypervisors.
+
+So this is a strong NAK. And you can trust me to keep voicing my
+opposition to this sort of horror, wherever I will see these patches.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
