@@ -2,173 +2,242 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA0AC77B7D
-	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 05:12:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19BD6C77B7D
+	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 05:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbjERFMS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 May 2023 01:12:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48414 "EHLO
+        id S229704AbjERFs7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 May 2023 01:48:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjERFMQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 01:12:16 -0400
-Received: from mx6.didiglobal.com (mx6.didiglobal.com [111.202.70.123])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 2195E1981;
-        Wed, 17 May 2023 22:12:13 -0700 (PDT)
-Received: from mail.didiglobal.com (unknown [10.79.71.36])
-        by mx6.didiglobal.com (Maildata Gateway V2.8) with ESMTPS id 20503110078005;
-        Thu, 18 May 2023 13:12:12 +0800 (CST)
-Received: from ZJY03-ACTMBX-05.didichuxing.com (10.79.71.35) by
- ZJY03-ACTMBX-06.didichuxing.com (10.79.71.36) with Microsoft SMTP Server
+        with ESMTP id S229586AbjERFs6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 01:48:58 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2041.outbound.protection.outlook.com [40.107.100.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9401C1721;
+        Wed, 17 May 2023 22:48:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NhVUaVojghzZBKZFIMu8HrHkwt+N9vgvEhXxVugXBQeD1HC208kYHLy0ens/J+w9m4EJyDGLdd7z6zdsnCdktzWhxlVdj5b30bw9ZDk1pOT9TXxuXqJpz3aUwBUFd4LMr1XfTeEHUDV79gNkFV11foYegn5GOvEVL11QUqnnXz1xZYchzqaRV1w73wvyPcajfulJJD+jqwwReOujcT4YJUgeHPOxlBMbhF2ciK2Tnc8nr5D+PLICyAHSoFouUB7kBBFO3SFFOdSTHKBDbbl47cZYt73Cpd1wIB+aubxU6b/q7PR8SChSq7qN0b/VNo+F0+xgvqBODykvI+BnTnkWVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uP8Aev+gMBcJF8nbYQIyLgLTxjWnvh55/t4jh0rTaEw=;
+ b=BNaeI3+t6UixIVmDLetXhHAt4hBJm4jYwOIJU9BXmkfP9fuE+cZ4CHkZEy9F4hHIU3DOInpOBF/5liNuBj0hDtNEX7tZs3DyuIi8ijZD95vbs238e/hwyoFA7nZ6SNAlPBjq0ZRcCaN06hOoLbU8DsIuq2VauIAA3p599FsZ2rob1ZVHGIrY4BAxXBYnvwGIL3XiNQX7DK4zuOMnWrqzfTHuevyW4BiRMs0f7lSYxfdBkLyYtHrHHLWxkRnsLj+IPCnD1W9GjbXGohMLb+IO8nGyFeBoW+ZDbjXAigFtKh3wzcI0uSm2FMyouAbWQmUnG49NeBJTur7zl0osz8l0jQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uP8Aev+gMBcJF8nbYQIyLgLTxjWnvh55/t4jh0rTaEw=;
+ b=OAQYt/2jOvmF+8SgIS2xs6AWYHVeCIYICe/m6ZPL0qATfyaMOh/10PHOI01Ty/quyIisah/BFPdNmsYveaOzkMQPtxJVWCBjzAxO+Y5CYr1HLoGyQTQh0MgJFs0YXKEqMWMjyVoqzOlIuvZOWsL96Yza//3BcFA7yGyOF0biOBQ=
+Received: from BN9PR03CA0113.namprd03.prod.outlook.com (2603:10b6:408:fd::28)
+ by PH7PR12MB6564.namprd12.prod.outlook.com (2603:10b6:510:210::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.17; Thu, 18 May
+ 2023 05:48:54 +0000
+Received: from BN8NAM11FT103.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fd:cafe::4) by BN9PR03CA0113.outlook.office365.com
+ (2603:10b6:408:fd::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.18 via Frontend
+ Transport; Thu, 18 May 2023 05:48:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT103.mail.protection.outlook.com (10.13.176.181) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6411.19 via Frontend Transport; Thu, 18 May 2023 05:48:54 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 18 May
+ 2023 00:48:53 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
+ (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 17 May
+ 2023 22:48:53 -0700
+Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 18 May 2023 13:12:11 +0800
-Received: from ZJY03-ACTMBX-05.didichuxing.com ([fe80::7d7d:d727:7a02:e909])
- by ZJY03-ACTMBX-05.didichuxing.com ([fe80::7d7d:d727:7a02:e909%7]) with mapi
- id 15.01.2507.021; Thu, 18 May 2023 13:12:11 +0800
-X-MD-Sfrom: chengkaitao@didiglobal.com
-X-MD-SrcIP: 10.79.71.36
-From:   =?utf-8?B?56iL5Z6y5rabIENoZW5na2FpdGFvIENoZW5n?= 
-        <chengkaitao@didiglobal.com>
-To:     Yosry Ahmed <yosryahmed@google.com>
-CC:     "tj@kernel.org" <tj@kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mhocko@kernel.org" <mhocko@kernel.org>,
-        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "muchun.song@linux.dev" <muchun.song@linux.dev>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
-        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
-        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
-        "yuzhao@google.com" <yuzhao@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "surenb@google.com" <surenb@google.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "feng.tang@intel.com" <feng.tang@intel.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH v4 0/2] memcontrol: support cgroup level OOM protection
-Thread-Topic: [PATCH v4 0/2] memcontrol: support cgroup level OOM protection
-Thread-Index: AQHZiG6QYuA8nkfOmkSWHm0JCEvXOa9dgyoAgACXf4D//3xFAIAApWQAgAAs0QCAARSZgA==
-Date:   Thu, 18 May 2023 05:12:11 +0000
-Message-ID: <B66FDA24-50C6-444D-BD84-124E68A2AEEE@didiglobal.com>
-In-Reply-To: <CAJD7tkaOMeeGNqm6nFyHgPhd9VpnCVqCAYCY725NoTohTMAnmw@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.79.71.101]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <979D7504BF289D4BA11C323B85EB0DF5@didichuxing.com>
-Content-Transfer-Encoding: base64
+ 15.1.2375.34 via Frontend Transport; Thu, 18 May 2023 00:48:51 -0500
+From:   <alejandro.lucero-palau@amd.com>
+To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
+CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <edumazet@google.com>, <martin.habets@amd.com>,
+        <edward.cree@amd.com>, <linux-doc@vger.kernel.org>,
+        <corbet@lwn.net>, <jiri@nvidia.com>,
+        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
+Subject: [PATCH net] sfc: fix devlink info error handling
+Date:   Thu, 18 May 2023 06:48:22 +0100
+Message-ID: <20230518054822.20242-1-alejandro.lucero-palau@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT103:EE_|PH7PR12MB6564:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61008f14-8dc6-41d7-20ed-08db576390e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U7B8znOtgbS7QiRs4NXKbObTmOStgGWa2KIdb5QO6CqhcUdGxfCa+ndiuadxyOfmSsq0Lt/NAwOmM2mg3i1jCmSNew5+PXqf4dTeolmx5KqsJg0U/576zeh5OArf4wLpgkzqXqNaArDSXz0ZPRRNAsau/FrQF8hbXEGYeJLpR/uMjlM4pI7wrmnV1ZPLbq24E3dZ3CGOAB+nTpyX2WpSx+1cgbA4sadU5N392qlJBB5kqdv+aJOjxB8aUBvaky6XqBmEoD5vsU52AjVvBtxzxkt+3urzH2CCtKAXmBgi16VZ9uIUS3P1cxAB51JQUcZFxN5ccpdR4M30kC7hPvVzRTjPWCStVEWcbTesQOOVPvE+fQ2GZUxjn4zxX8m/q3R83GgYEFhYBM41muQdk/vZr/EbLStoR07WaYc84gOhoiFINjzB++9Lxrnewzjcih4qVVquhEJpv/ARKwKVbWKs7XJiIxu9IRa3vK4ya2dAjTxtpaJYCePaLmgY5H0AoxSlZ6+7rNPTgFIXC+LMieKzSeOeWI86qfgncGouhMdrGM190xU3zOCfnRTmK1MXB+q3FTEoY1TLQE4XTYdoO2XsUyLp2ZN0WT2p7wVa5BClNOq62c/VctyUKkO6JnLl057JQv4I/ZP1okJ9fUg4OCfnuuAJ9QT/B4vcQ0kJ+TW/3TNzUoi1Fdp+AJ3oueQKsSXZGgsBZK2PgXLB1/eqayyBiAfmoyr8rjjD9u1Ue9Ogd9rIfT3tkWpbwqsI4WeReYCeS4BoxQD83QKjn1l/gGkY9w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(39860400002)(346002)(376002)(451199021)(40470700004)(46966006)(36840700001)(40460700003)(70206006)(316002)(6636002)(478600001)(70586007)(4326008)(54906003)(110136005)(36756003)(86362001)(47076005)(83380400001)(1076003)(426003)(36860700001)(186003)(26005)(2616005)(8936002)(2906002)(5660300002)(8676002)(2876002)(40480700001)(6666004)(336012)(82310400005)(356005)(82740400003)(81166007)(41300700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2023 05:48:54.7164
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61008f14-8dc6-41d7-20ed-08db576390e9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT103.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6564
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-QXQgMjAyMy0wNS0xOCAwNDo0MjoxMiwgIllvc3J5IEFobWVkIiA8eW9zcnlhaG1lZEBnb29nbGUu
-Y29tPiB3cm90ZToNCj5PbiBXZWQsIE1heSAxNywgMjAyMyBhdCAzOjAx4oCvQU0g56iL5Z6y5rab
-IENoZW5na2FpdGFvIENoZW5nDQo+PGNoZW5na2FpdGFvQGRpZGlnbG9iYWwuY29tPiB3cm90ZToN
-Cj4+DQo+PiBBdCAyMDIzLTA1LTE3IDE2OjA5OjUwLCAiWW9zcnkgQWhtZWQiIDx5b3NyeWFobWVk
-QGdvb2dsZS5jb20+IHdyb3RlOg0KPj4gPk9uIFdlZCwgTWF5IDE3LCAyMDIzIGF0IDE6MDHigK9B
-TSDnqIvlnrLmtpsgQ2hlbmdrYWl0YW8gQ2hlbmcNCj4+ID48Y2hlbmdrYWl0YW9AZGlkaWdsb2Jh
-bC5jb20+IHdyb3RlOg0KPj4gPj4NCj4+ID4+IEF0IDIwMjMtMDUtMTcgMTQ6NTk6MDYsICJZb3Ny
-eSBBaG1lZCIgPHlvc3J5YWhtZWRAZ29vZ2xlLmNvbT4gd3JvdGU6DQo+PiA+PiA+K0RhdmlkIFJp
-ZW50amVzDQo+PiA+PiA+DQo+PiA+PiA+T24gVHVlLCBNYXkgMTYsIDIwMjMgYXQgODoyMOKAr1BN
-IGNoZW5na2FpdGFvIDxjaGVuZ2thaXRhb0BkaWRpZ2xvYmFsLmNvbT4gd3JvdGU6DQo+PiA+PiA+
-Pg0KPj4gPj4gVGhhbmsgeW91IGZvciBwcm92aWRpbmcgYSBuZXcgYXBwbGljYXRpb24gc2NlbmFy
-aW8uIFlvdSBoYXZlIGRlc2NyaWJlZCBhDQo+PiA+PiBuZXcgcGVyLW1lbWNnIGFwcHJvYWNoLCBi
-dXQgYSBzaW1wbGUgaW50cm9kdWN0aW9uIGNhbm5vdCBleHBsYWluIHRoZQ0KPj4gPj4gZGV0YWls
-cyBvZiB5b3VyIGFwcHJvYWNoIGNsZWFybHkuIElmIHlvdSBjb3VsZCBjb21wYXJlIGFuZCBhbmFs
-eXplIG15DQo+PiA+PiBwYXRjaGVzIGZvciBwb3NzaWJsZSBkZWZlY3RzLCBvciBpZiB5b3VyIG5l
-dyBhcHByb2FjaCBoYXMgYWR2YW50YWdlcw0KPj4gPj4gdGhhdCBteSBwYXRjaGVzIGRvIG5vdCBo
-YXZlLCBJIHdvdWxkIGdyZWF0bHkgYXBwcmVjaWF0ZSBpdC4NCj4+ID4NCj4+ID5Tb3JyeSBpZiBJ
-IHdhcyBub3QgY2xlYXIsIEkgYW0gbm90IGltcGx5aW5nIGluIGFueSB3YXkgdGhhdCB0aGUNCj4+
-ID5hcHByb2FjaCBJIGFtIGRlc2NyaWJpbmcgaXMgYmV0dGVyIHRoYW4geW91ciBwYXRjaGVzLiBJ
-IGFtIGd1aWx0eSBvZg0KPj4gPm5vdCBjb25kdWN0aW5nIHRoZSBwcm9wZXIgYW5hbHlzaXMgeW91
-IGFyZSByZXF1ZXN0aW5nLg0KPj4NCj4+IFRoZXJlIGlzIG5vIHBlcmZlY3QgYXBwcm9hY2ggaW4g
-dGhlIHdvcmxkLCBhbmQgSSBhbHNvIHNlZWsgeW91ciBhZHZpY2Ugd2l0aA0KPj4gYSBsZWFybmlu
-ZyBhdHRpdHVkZS4gWW91IGRvbid0IG5lZWQgdG8gc2F5IHNvcnJ5LCBJIHNob3VsZCBzYXkgdGhh
-bmsgeW91Lg0KPj4NCj4+ID5JIGp1c3Qgc2F3IHRoZSB0aHJlYWQgYW5kIHRob3VnaHQgaXQgbWln
-aHQgYmUgaW50ZXJlc3RpbmcgdG8geW91IG9yDQo+PiA+b3RoZXJzIHRvIGtub3cgdGhlIGFwcHJv
-YWNoIHRoYXQgd2UgaGF2ZSBiZWVuIHVzaW5nIGZvciB5ZWFycyBpbiBvdXINCj4+ID5wcm9kdWN0
-aW9uLiBJIGd1ZXNzIHRoZSB0YXJnZXQgaXMgdGhlIHNhbWUsIGJlIGFibGUgdG8gdGVsbCB0aGUg
-T09NDQo+PiA+a2lsbGVyIHdoaWNoIG1lbWNncy9wcm9jZXNzZXMgYXJlIG1vcmUgaW1wb3J0YW50
-IHRvIHByb3RlY3QuIFRoZQ0KPj4gPmZ1bmRhbWVudGFsIGRpZmZlcmVuY2UgaXMgdGhhdCBpbnN0
-ZWFkIG9mIHR1bmluZyB0aGlzIGJhc2VkIG9uIHRoZQ0KPj4gPm1lbW9yeSB1c2FnZSBvZiB0aGUg
-bWVtY2cgKHlvdXIgYXBwcm9hY2gpLCB3ZSBlc3NlbnRpYWxseSBnaXZlIHRoZSBPT00NCj4+ID5r
-aWxsZXIgdGhlIG9yZGVyaW5nIGluIHdoaWNoIHdlIHdhbnQgbWVtY2dzL3Byb2Nlc3NlcyB0byBi
-ZSBPT00NCj4+ID5raWxsZWQuIFRoaXMgbWFwcyB0byBqb2JzIHByaW9yaXRpZXMgZXNzZW50aWFs
-bHkuDQo+Pg0KPj4gS2lsbGluZyBwcm9jZXNzZXMgaW4gb3JkZXIgb2YgbWVtb3J5IHVzYWdlIGNh
-bm5vdCBlZmZlY3RpdmVseSBwcm90ZWN0DQo+PiBpbXBvcnRhbnQgcHJvY2Vzc2VzLiBLaWxsaW5n
-IHByb2Nlc3NlcyBpbiBhIHVzZXItZGVmaW5lZCBwcmlvcml0eSBvcmRlcg0KPj4gd2lsbCByZXN1
-bHQgaW4gYSBsYXJnZSBudW1iZXIgb2YgT09NIGV2ZW50cyBhbmQgc3RpbGwgbm90IGJlaW5nIGFi
-bGUgdG8NCj4+IHJlbGVhc2UgZW5vdWdoIG1lbW9yeS4gSSBoYXZlIGJlZW4gc2VhcmNoaW5nIGZv
-ciBhIGJhbGFuY2UgYmV0d2Vlbg0KPj4gdGhlIHR3byBtZXRob2RzLCBzbyB0aGF0IHRoZWlyIHNo
-b3J0Y29taW5ncyBhcmUgbm90IHRvbyBvYnZpb3VzLg0KPj4gVGhlIGJpZ2dlc3QgYWR2YW50YWdl
-IG9mIG1lbWNnIGlzIGl0cyB0cmVlIHRvcG9sb2d5LCBhbmQgSSBhbHNvIGhvcGUNCj4+IHRvIG1h
-a2UgZ29vZCB1c2Ugb2YgaXQuDQo+DQo+Rm9yIHVzLCBraWxsaW5nIHByb2Nlc3NlcyBpbiBhIHVz
-ZXItZGVmaW5lZCBwcmlvcml0eSBvcmRlciB3b3JrcyB3ZWxsLg0KPg0KPkl0IHNlZW1zIGxpa2Ug
-dG8gdHVuZSBtZW1vcnkub29tLnByb3RlY3QgeW91IHVzZSBvb21fa2lsbF9pbmhlcml0IHRvDQo+
-b2JzZXJ2ZSBob3cgbWFueSB0aW1lcyB0aGlzIG1lbWNnIGhhcyBiZWVuIGtpbGxlZCBkdWUgdG8g
-YSBsaW1pdCBpbiBhbg0KPmFuY2VzdG9yLiBXb3VsZG4ndCBpdCBiZSBtb3JlIHN0cmFpZ2h0Zm9y
-d2FyZCB0byBzcGVjaWZ5IHRoZSBwcmlvcml0eQ0KPm9mIHByb3RlY3Rpb25zIGFtb25nIG1lbWNn
-cz8NCj4NCj5Gb3IgZXhhbXBsZSwgaWYgeW91IG9ic2VydmUgbXVsdGlwbGUgbWVtY2dzIGJlaW5n
-IE9PTSBraWxsZWQgZHVlIHRvDQo+aGl0dGluZyBhbiBhbmNlc3RvciBsaW1pdCwgeW91IHdpbGwg
-bmVlZCB0byBkZWNpZGUgd2hpY2ggb2YgdGhlbSB0bw0KPmluY3JlYXNlIG1lbW9yeS5vb20ucHJv
-dGVjdCBmb3IgbW9yZSwgYmFzZWQgb24gdGhlaXIgaW1wb3J0YW5jZS4NCj5PdGhlcndpc2UsIGlm
-IHlvdSBpbmNyZWFzZSBhbGwgb2YgdGhlbSwgdGhlbiB0aGVyZSBpcyBubyBwb2ludCBpZiBhbGwN
-Cj50aGUgbWVtb3J5IGlzIHByb3RlY3RlZCwgcmlnaHQ/DQoNCklmIGFsbCBtZW1vcnkgaW4gbWVt
-Y2cgaXMgcHJvdGVjdGVkLCBpdHMgbWVhbmluZyBpcyBzaW1pbGFyIHRvIHRoYXQgb2YgdGhlDQpo
-aWdoZXN0IHByaW9yaXR5IG1lbWNnIGluIHlvdXIgYXBwcm9hY2gsIHdoaWNoIGlzIHVsdGltYXRl
-bHkga2lsbGVkIG9yDQpuZXZlciBraWxsZWQuDQoNCj5JbiB0aGlzIGNhc2UsIHdvdWxkbid0IGl0
-IGJlIGVhc2llciB0byBqdXN0IHRlbGwgdGhlIE9PTSBraWxsZXIgdGhlDQo+cmVsYXRpdmUgcHJp
-b3JpdHkgYW1vbmcgdGhlIG1lbWNncz8NCj4NCj4+DQo+PiA+SWYgdGhpcyBhcHByb2FjaCB3b3Jr
-cyBmb3IgeW91IChvciBhbnkgb3RoZXIgYXVkaWVuY2UpLCB0aGF0J3MgZ3JlYXQsDQo+PiA+SSBj
-YW4gc2hhcmUgbW9yZSBkZXRhaWxzIGFuZCBwZXJoYXBzIHdlIGNhbiByZWFjaCBzb21ldGhpbmcg
-dGhhdCB3ZQ0KPj4gPmNhbiBib3RoIHVzZSA6KQ0KPj4NCj4+IElmIHlvdSBoYXZlIGEgZ29vZCBp
-ZGVhLCBwbGVhc2Ugc2hhcmUgbW9yZSBkZXRhaWxzIG9yIHNob3cgc29tZSBjb2RlLg0KPj4gSSB3
-b3VsZCBncmVhdGx5IGFwcHJlY2lhdGUgaXQNCj4NCj5UaGUgY29kZSB3ZSBoYXZlIG5lZWRzIHRv
-IGJlIHJlYmFzZWQgb250byBhIGRpZmZlcmVudCB2ZXJzaW9uIGFuZA0KPmNsZWFuZWQgdXAgYmVm
-b3JlIGl0IGNhbiBiZSBzaGFyZWQsIGJ1dCBlc3NlbnRpYWxseSBpdCBpcyBhcw0KPmRlc2NyaWJl
-ZC4NCj4NCj4oYSkgQWxsIHByb2Nlc3NlcyBhbmQgbWVtY2dzIHN0YXJ0IHdpdGggYSBkZWZhdWx0
-IHNjb3JlLg0KPihiKSBVc2Vyc3BhY2UgY2FuIHNwZWNpZnkgc2NvcmVzIGZvciBtZW1jZ3MgYW5k
-IHByb2Nlc3Nlcy4gQSBoaWdoZXINCj5zY29yZSBtZWFucyBoaWdoZXIgcHJpb3JpdHkgKGFrYSBs
-ZXNzIHNjb3JlIGdldHMga2lsbGVkIGZpcnN0KS4NCj4oYykgVGhlIE9PTSBraWxsZXIgZXNzZW50
-aWFsbHkgbG9va3MgZm9yIHRoZSBtZW1jZyB3aXRoIHRoZSBsb3dlc3QNCj5zY29yZXMgdG8ga2ls
-bCwgdGhlbiBhbW9uZyB0aGlzIG1lbWNnLCBpdCBsb29rcyBmb3IgdGhlIHByb2Nlc3Mgd2l0aA0K
-PnRoZSBsb3dlc3Qgc2NvcmUuIFRpZXMgYXJlIGJyb2tlbiBiYXNlZCBvbiB1c2FnZSwgc28gZXNz
-ZW50aWFsbHkgaWYNCj5hbGwgcHJvY2Vzc2VzL21lbWNncyBoYXZlIHRoZSBkZWZhdWx0IHNjb3Jl
-LCB3ZSBmYWxsYmFjayB0byB0aGUNCj5jdXJyZW50IE9PTSBiZWhhdmlvci4NCg0KSWYgbWVtb3J5
-IG92ZXJzb2xkIGlzIHNldmVyZSwgYWxsIHByb2Nlc3NlcyBvZiB0aGUgbG93ZXN0IHByaW9yaXR5
-DQptZW1jZyBtYXkgYmUga2lsbGVkIGJlZm9yZSBzZWxlY3Rpbmcgb3RoZXIgbWVtY2cgcHJvY2Vz
-c2VzLg0KSWYgdGhlcmUgYXJlIDEwMDAgcHJvY2Vzc2VzIHdpdGggYWxtb3N0IHplcm8gbWVtb3J5
-IHVzYWdlIGluDQp0aGUgbG93ZXN0IHByaW9yaXR5IG1lbWNnLCAxMDAwIGludmFsaWQga2lsbCBl
-dmVudHMgbWF5IG9jY3VyLg0KVG8gYXZvaWQgdGhpcyBzaXR1YXRpb24sIGV2ZW4gZm9yIHRoZSBs
-b3dlc3QgcHJpb3JpdHkgbWVtY2csDQpJIHdpbGwgbGVhdmUgaGltIGEgdmVyeSBzbWFsbCBvb20u
-cHJvdGVjdCBxdW90YS4NCg0KSWYgZmFjZWQgd2l0aCB0d28gbWVtY2dzIHdpdGggdGhlIHNhbWUg
-dG90YWwgbWVtb3J5IHVzYWdlIGFuZA0KcHJpb3JpdHksIG1lbWNnIEEgaGFzIG1vcmUgcHJvY2Vz
-c2VzIGJ1dCBsZXNzIG1lbW9yeSB1c2FnZSBwZXINCnNpbmdsZSBwcm9jZXNzLCBhbmQgbWVtY2cg
-QiBoYXMgZmV3ZXIgcHJvY2Vzc2VzIGJ1dCBtb3JlDQptZW1vcnkgdXNhZ2UgcGVyIHNpbmdsZSBw
-cm9jZXNzLCB0aGVuIHdoZW4gT09NIG9jY3VycywgdGhlDQpwcm9jZXNzZXMgaW4gbWVtY2cgQiBt
-YXkgY29udGludWUgdG8gYmUga2lsbGVkIHVudGlsIGFsbCBwcm9jZXNzZXMNCmluIG1lbWNnIEIg
-YXJlIGtpbGxlZCwgd2hpY2ggaXMgdW5mYWlyIHRvIG1lbWNnIEIgYmVjYXVzZSBtZW1jZyBBDQph
-bHNvIG9jY3VwaWVzIGEgbGFyZ2UgYW1vdW50IG9mIG1lbW9yeS4NCg0KRG9zZSB5b3VyIGFwcHJv
-YWNoIGhhdmUgdGhlc2UgaXNzdWVzPyBLaWxsaW5nIHByb2Nlc3NlcyBpbiBhDQp1c2VyLWRlZmlu
-ZWQgcHJpb3JpdHkgaXMgaW5kZWVkIGVhc2llciBhbmQgY2FuIHdvcmsgd2VsbCBpbiBtb3N0IGNh
-c2VzLA0KYnV0IEkgaGF2ZSBiZWVuIHRyeWluZyB0byBzb2x2ZSB0aGUgY2FzZXMgdGhhdCBpdCBj
-YW5ub3QgY292ZXIuDQoNCi0tDQpUaGFua3MgZm9yIHlvdXIgY29tbWVudCENCmNoZW5na2FpdGFv
-DQoNCg0K
+From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+
+Avoid early devlink info return if errors arise with MCDI commands
+executed for getting the required info from the device. The rationale
+is some commands can fail but later ones could still give useful data.
+Moreover, some nvram partitions could not be present which needs to be
+handled as a non error.
+
+The specific errors are reported through system messages and if any
+error appears, it will be reported generically through extack.
+
+Fixes 14743ddd2495 (sfc: add devlink info support for ef100)
+Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+---
+ drivers/net/ethernet/sfc/efx_devlink.c | 95 ++++++++++++--------------
+ 1 file changed, 45 insertions(+), 50 deletions(-)
+
+diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+index 381b805659d3..ef9971cbb695 100644
+--- a/drivers/net/ethernet/sfc/efx_devlink.c
++++ b/drivers/net/ethernet/sfc/efx_devlink.c
+@@ -171,9 +171,14 @@ static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
+ 
+ 	rc = efx_mcdi_nvram_metadata(efx, partition_type, NULL, version, NULL,
+ 				     0);
++
++	/* If the partition does not exist, that is not an error. */
++	if (rc == -ENOENT)
++		return 0;
++
+ 	if (rc) {
+-		netif_err(efx, drv, efx->net_dev, "mcdi nvram %s: failed\n",
+-			  version_name);
++		netif_err(efx, drv, efx->net_dev, "mcdi nvram %s: failed (rc=%d)\n",
++			  version_name, rc);
+ 		return rc;
+ 	}
+ 
+@@ -187,36 +192,33 @@ static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
+ static int efx_devlink_info_stored_versions(struct efx_nic *efx,
+ 					    struct devlink_info_req *req)
+ {
+-	int rc;
+-
+-	rc = efx_devlink_info_nvram_partition(efx, req,
+-					      NVRAM_PARTITION_TYPE_BUNDLE,
+-					      DEVLINK_INFO_VERSION_GENERIC_FW_BUNDLE_ID);
+-	if (rc)
+-		return rc;
+-
+-	rc = efx_devlink_info_nvram_partition(efx, req,
+-					      NVRAM_PARTITION_TYPE_MC_FIRMWARE,
+-					      DEVLINK_INFO_VERSION_GENERIC_FW_MGMT);
+-	if (rc)
+-		return rc;
+-
+-	rc = efx_devlink_info_nvram_partition(efx, req,
+-					      NVRAM_PARTITION_TYPE_SUC_FIRMWARE,
+-					      EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC);
+-	if (rc)
+-		return rc;
+-
+-	rc = efx_devlink_info_nvram_partition(efx, req,
+-					      NVRAM_PARTITION_TYPE_EXPANSION_ROM,
+-					      EFX_DEVLINK_INFO_VERSION_FW_EXPROM);
+-	if (rc)
+-		return rc;
++	int err;
+ 
+-	rc = efx_devlink_info_nvram_partition(efx, req,
+-					      NVRAM_PARTITION_TYPE_EXPANSION_UEFI,
+-					      EFX_DEVLINK_INFO_VERSION_FW_UEFI);
+-	return rc;
++	/* We do not care here about the specific error but just if an error
++	 * happened. The specific error will be reported inside the call
++	 * through system messages, and if any error happened in any call
++	 * below, we report it through extack.
++	 */
++	err = efx_devlink_info_nvram_partition(efx, req,
++					       NVRAM_PARTITION_TYPE_BUNDLE,
++					       DEVLINK_INFO_VERSION_GENERIC_FW_BUNDLE_ID);
++
++	err |= efx_devlink_info_nvram_partition(efx, req,
++						NVRAM_PARTITION_TYPE_MC_FIRMWARE,
++						DEVLINK_INFO_VERSION_GENERIC_FW_MGMT);
++
++	err |= efx_devlink_info_nvram_partition(efx, req,
++						NVRAM_PARTITION_TYPE_SUC_FIRMWARE,
++						EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC);
++
++	err |= efx_devlink_info_nvram_partition(efx, req,
++						NVRAM_PARTITION_TYPE_EXPANSION_ROM,
++						EFX_DEVLINK_INFO_VERSION_FW_EXPROM);
++
++	err |= efx_devlink_info_nvram_partition(efx, req,
++						NVRAM_PARTITION_TYPE_EXPANSION_UEFI,
++						EFX_DEVLINK_INFO_VERSION_FW_UEFI);
++	return err;
+ }
+ 
+ #define EFX_VER_FLAG(_f)	\
+@@ -587,27 +589,20 @@ static int efx_devlink_info_get(struct devlink *devlink,
+ {
+ 	struct efx_devlink *devlink_private = devlink_priv(devlink);
+ 	struct efx_nic *efx = devlink_private->efx;
+-	int rc;
++	int err;
+ 
+-	/* Several different MCDI commands are used. We report first error
+-	 * through extack returning at that point. Specific error
+-	 * information via system messages.
++	/* Several different MCDI commands are used. We report if errors
++	 * happened through extack. Specific error information via system
++	 * messages inside the calls.
+ 	 */
+-	rc = efx_devlink_info_board_cfg(efx, req);
+-	if (rc) {
+-		NL_SET_ERR_MSG_MOD(extack, "Getting board info failed");
+-		return rc;
+-	}
+-	rc = efx_devlink_info_stored_versions(efx, req);
+-	if (rc) {
+-		NL_SET_ERR_MSG_MOD(extack, "Getting stored versions failed");
+-		return rc;
+-	}
+-	rc = efx_devlink_info_running_versions(efx, req);
+-	if (rc) {
+-		NL_SET_ERR_MSG_MOD(extack, "Getting running versions failed");
+-		return rc;
+-	}
++	err = efx_devlink_info_board_cfg(efx, req);
++
++	err |= efx_devlink_info_stored_versions(efx, req);
++
++	err |= efx_devlink_info_running_versions(efx, req);
++
++	if (err)
++		NL_SET_ERR_MSG_MOD(extack, "Errors when getting device info. Check system messages");
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
+
