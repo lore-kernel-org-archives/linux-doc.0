@@ -2,242 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19BD6C77B7D
-	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 05:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73127C7EE24
+	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 07:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbjERFs7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 May 2023 01:48:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58282 "EHLO
+        id S229749AbjERHA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 May 2023 03:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbjERFs6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 01:48:58 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2041.outbound.protection.outlook.com [40.107.100.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9401C1721;
-        Wed, 17 May 2023 22:48:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NhVUaVojghzZBKZFIMu8HrHkwt+N9vgvEhXxVugXBQeD1HC208kYHLy0ens/J+w9m4EJyDGLdd7z6zdsnCdktzWhxlVdj5b30bw9ZDk1pOT9TXxuXqJpz3aUwBUFd4LMr1XfTeEHUDV79gNkFV11foYegn5GOvEVL11QUqnnXz1xZYchzqaRV1w73wvyPcajfulJJD+jqwwReOujcT4YJUgeHPOxlBMbhF2ciK2Tnc8nr5D+PLICyAHSoFouUB7kBBFO3SFFOdSTHKBDbbl47cZYt73Cpd1wIB+aubxU6b/q7PR8SChSq7qN0b/VNo+F0+xgvqBODykvI+BnTnkWVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uP8Aev+gMBcJF8nbYQIyLgLTxjWnvh55/t4jh0rTaEw=;
- b=BNaeI3+t6UixIVmDLetXhHAt4hBJm4jYwOIJU9BXmkfP9fuE+cZ4CHkZEy9F4hHIU3DOInpOBF/5liNuBj0hDtNEX7tZs3DyuIi8ijZD95vbs238e/hwyoFA7nZ6SNAlPBjq0ZRcCaN06hOoLbU8DsIuq2VauIAA3p599FsZ2rob1ZVHGIrY4BAxXBYnvwGIL3XiNQX7DK4zuOMnWrqzfTHuevyW4BiRMs0f7lSYxfdBkLyYtHrHHLWxkRnsLj+IPCnD1W9GjbXGohMLb+IO8nGyFeBoW+ZDbjXAigFtKh3wzcI0uSm2FMyouAbWQmUnG49NeBJTur7zl0osz8l0jQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uP8Aev+gMBcJF8nbYQIyLgLTxjWnvh55/t4jh0rTaEw=;
- b=OAQYt/2jOvmF+8SgIS2xs6AWYHVeCIYICe/m6ZPL0qATfyaMOh/10PHOI01Ty/quyIisah/BFPdNmsYveaOzkMQPtxJVWCBjzAxO+Y5CYr1HLoGyQTQh0MgJFs0YXKEqMWMjyVoqzOlIuvZOWsL96Yza//3BcFA7yGyOF0biOBQ=
-Received: from BN9PR03CA0113.namprd03.prod.outlook.com (2603:10b6:408:fd::28)
- by PH7PR12MB6564.namprd12.prod.outlook.com (2603:10b6:510:210::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.17; Thu, 18 May
- 2023 05:48:54 +0000
-Received: from BN8NAM11FT103.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fd:cafe::4) by BN9PR03CA0113.outlook.office365.com
- (2603:10b6:408:fd::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.18 via Frontend
- Transport; Thu, 18 May 2023 05:48:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT103.mail.protection.outlook.com (10.13.176.181) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6411.19 via Frontend Transport; Thu, 18 May 2023 05:48:54 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 18 May
- 2023 00:48:53 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 17 May
- 2023 22:48:53 -0700
-Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
+        with ESMTP id S229591AbjERHA5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 03:00:57 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42EA22105;
+        Thu, 18 May 2023 00:00:55 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4QMLSM2gRqzLmLy;
+        Thu, 18 May 2023 14:59:31 +0800 (CST)
+Received: from localhost.localdomain (10.50.163.32) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Thu, 18 May 2023 00:48:51 -0500
-From:   <alejandro.lucero-palau@amd.com>
-To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
-CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <martin.habets@amd.com>,
-        <edward.cree@amd.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <jiri@nvidia.com>,
-        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH net] sfc: fix devlink info error handling
-Date:   Thu, 18 May 2023 06:48:22 +0100
-Message-ID: <20230518054822.20242-1-alejandro.lucero-palau@amd.com>
-X-Mailer: git-send-email 2.17.1
+ 15.1.2507.23; Thu, 18 May 2023 15:00:52 +0800
+From:   Yicong Yang <yangyicong@huawei.com>
+To:     <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
+        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
+        <catalin.marinas@arm.com>, <mark.rutland@arm.com>,
+        <ryan.roberts@arm.com>, <will@kernel.org>,
+        <anshuman.khandual@arm.com>, <linux-doc@vger.kernel.org>
+CC:     <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
+        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
+        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
+        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
+        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
+        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+        <linux-s390@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
+        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
+        <prime.zeng@hisilicon.com>, <Jonathan.Cameron@Huawei.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Barry Song <baohua@kernel.org>
+Subject: [RESEND PATCH v9 1/2] mm/tlbbatch: Introduce arch_tlbbatch_should_defer()
+Date:   Thu, 18 May 2023 14:59:33 +0800
+Message-ID: <20230518065934.12877-2-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20230518065934.12877-1-yangyicong@huawei.com>
+References: <20230518065934.12877-1-yangyicong@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT103:EE_|PH7PR12MB6564:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61008f14-8dc6-41d7-20ed-08db576390e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U7B8znOtgbS7QiRs4NXKbObTmOStgGWa2KIdb5QO6CqhcUdGxfCa+ndiuadxyOfmSsq0Lt/NAwOmM2mg3i1jCmSNew5+PXqf4dTeolmx5KqsJg0U/576zeh5OArf4wLpgkzqXqNaArDSXz0ZPRRNAsau/FrQF8hbXEGYeJLpR/uMjlM4pI7wrmnV1ZPLbq24E3dZ3CGOAB+nTpyX2WpSx+1cgbA4sadU5N392qlJBB5kqdv+aJOjxB8aUBvaky6XqBmEoD5vsU52AjVvBtxzxkt+3urzH2CCtKAXmBgi16VZ9uIUS3P1cxAB51JQUcZFxN5ccpdR4M30kC7hPvVzRTjPWCStVEWcbTesQOOVPvE+fQ2GZUxjn4zxX8m/q3R83GgYEFhYBM41muQdk/vZr/EbLStoR07WaYc84gOhoiFINjzB++9Lxrnewzjcih4qVVquhEJpv/ARKwKVbWKs7XJiIxu9IRa3vK4ya2dAjTxtpaJYCePaLmgY5H0AoxSlZ6+7rNPTgFIXC+LMieKzSeOeWI86qfgncGouhMdrGM190xU3zOCfnRTmK1MXB+q3FTEoY1TLQE4XTYdoO2XsUyLp2ZN0WT2p7wVa5BClNOq62c/VctyUKkO6JnLl057JQv4I/ZP1okJ9fUg4OCfnuuAJ9QT/B4vcQ0kJ+TW/3TNzUoi1Fdp+AJ3oueQKsSXZGgsBZK2PgXLB1/eqayyBiAfmoyr8rjjD9u1Ue9Ogd9rIfT3tkWpbwqsI4WeReYCeS4BoxQD83QKjn1l/gGkY9w==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(39860400002)(346002)(376002)(451199021)(40470700004)(46966006)(36840700001)(40460700003)(70206006)(316002)(6636002)(478600001)(70586007)(4326008)(54906003)(110136005)(36756003)(86362001)(47076005)(83380400001)(1076003)(426003)(36860700001)(186003)(26005)(2616005)(8936002)(2906002)(5660300002)(8676002)(2876002)(40480700001)(6666004)(336012)(82310400005)(356005)(82740400003)(81166007)(41300700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2023 05:48:54.7164
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61008f14-8dc6-41d7-20ed-08db576390e9
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT103.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6564
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.50.163.32]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+From: Anshuman Khandual <khandual@linux.vnet.ibm.com>
 
-Avoid early devlink info return if errors arise with MCDI commands
-executed for getting the required info from the device. The rationale
-is some commands can fail but later ones could still give useful data.
-Moreover, some nvram partitions could not be present which needs to be
-handled as a non error.
+The entire scheme of deferred TLB flush in reclaim path rests on the
+fact that the cost to refill TLB entries is less than flushing out
+individual entries by sending IPI to remote CPUs. But architecture
+can have different ways to evaluate that. Hence apart from checking
+TTU_BATCH_FLUSH in the TTU flags, rest of the decision should be
+architecture specific.
 
-The specific errors are reported through system messages and if any
-error appears, it will be reported generically through extack.
-
-Fixes 14743ddd2495 (sfc: add devlink info support for ef100)
-Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+Signed-off-by: Anshuman Khandual <khandual@linux.vnet.ibm.com>
+[https://lore.kernel.org/linuxppc-dev/20171101101735.2318-2-khandual@linux.vnet.ibm.com/]
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+[Rebase and fix incorrect return value type]
+Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Reviewed-by: Barry Song <baohua@kernel.org>
+Reviewed-by: Xin Hao <xhao@linux.alibaba.com>
+Tested-by: Punit Agrawal <punit.agrawal@bytedance.com>
 ---
- drivers/net/ethernet/sfc/efx_devlink.c | 95 ++++++++++++--------------
- 1 file changed, 45 insertions(+), 50 deletions(-)
+ arch/x86/include/asm/tlbflush.h | 12 ++++++++++++
+ mm/rmap.c                       |  9 +--------
+ 2 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index 381b805659d3..ef9971cbb695 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -171,9 +171,14 @@ static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
- 
- 	rc = efx_mcdi_nvram_metadata(efx, partition_type, NULL, version, NULL,
- 				     0);
-+
-+	/* If the partition does not exist, that is not an error. */
-+	if (rc == -ENOENT)
-+		return 0;
-+
- 	if (rc) {
--		netif_err(efx, drv, efx->net_dev, "mcdi nvram %s: failed\n",
--			  version_name);
-+		netif_err(efx, drv, efx->net_dev, "mcdi nvram %s: failed (rc=%d)\n",
-+			  version_name, rc);
- 		return rc;
- 	}
- 
-@@ -187,36 +192,33 @@ static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
- static int efx_devlink_info_stored_versions(struct efx_nic *efx,
- 					    struct devlink_info_req *req)
- {
--	int rc;
--
--	rc = efx_devlink_info_nvram_partition(efx, req,
--					      NVRAM_PARTITION_TYPE_BUNDLE,
--					      DEVLINK_INFO_VERSION_GENERIC_FW_BUNDLE_ID);
--	if (rc)
--		return rc;
--
--	rc = efx_devlink_info_nvram_partition(efx, req,
--					      NVRAM_PARTITION_TYPE_MC_FIRMWARE,
--					      DEVLINK_INFO_VERSION_GENERIC_FW_MGMT);
--	if (rc)
--		return rc;
--
--	rc = efx_devlink_info_nvram_partition(efx, req,
--					      NVRAM_PARTITION_TYPE_SUC_FIRMWARE,
--					      EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC);
--	if (rc)
--		return rc;
--
--	rc = efx_devlink_info_nvram_partition(efx, req,
--					      NVRAM_PARTITION_TYPE_EXPANSION_ROM,
--					      EFX_DEVLINK_INFO_VERSION_FW_EXPROM);
--	if (rc)
--		return rc;
-+	int err;
- 
--	rc = efx_devlink_info_nvram_partition(efx, req,
--					      NVRAM_PARTITION_TYPE_EXPANSION_UEFI,
--					      EFX_DEVLINK_INFO_VERSION_FW_UEFI);
--	return rc;
-+	/* We do not care here about the specific error but just if an error
-+	 * happened. The specific error will be reported inside the call
-+	 * through system messages, and if any error happened in any call
-+	 * below, we report it through extack.
-+	 */
-+	err = efx_devlink_info_nvram_partition(efx, req,
-+					       NVRAM_PARTITION_TYPE_BUNDLE,
-+					       DEVLINK_INFO_VERSION_GENERIC_FW_BUNDLE_ID);
-+
-+	err |= efx_devlink_info_nvram_partition(efx, req,
-+						NVRAM_PARTITION_TYPE_MC_FIRMWARE,
-+						DEVLINK_INFO_VERSION_GENERIC_FW_MGMT);
-+
-+	err |= efx_devlink_info_nvram_partition(efx, req,
-+						NVRAM_PARTITION_TYPE_SUC_FIRMWARE,
-+						EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC);
-+
-+	err |= efx_devlink_info_nvram_partition(efx, req,
-+						NVRAM_PARTITION_TYPE_EXPANSION_ROM,
-+						EFX_DEVLINK_INFO_VERSION_FW_EXPROM);
-+
-+	err |= efx_devlink_info_nvram_partition(efx, req,
-+						NVRAM_PARTITION_TYPE_EXPANSION_UEFI,
-+						EFX_DEVLINK_INFO_VERSION_FW_UEFI);
-+	return err;
+diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
+index 75bfaa421030..46bdff73217c 100644
+--- a/arch/x86/include/asm/tlbflush.h
++++ b/arch/x86/include/asm/tlbflush.h
+@@ -260,6 +260,18 @@ static inline void flush_tlb_page(struct vm_area_struct *vma, unsigned long a)
+ 	flush_tlb_mm_range(vma->vm_mm, a, a + PAGE_SIZE, PAGE_SHIFT, false);
  }
  
- #define EFX_VER_FLAG(_f)	\
-@@ -587,27 +589,20 @@ static int efx_devlink_info_get(struct devlink *devlink,
++static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
++{
++	bool should_defer = false;
++
++	/* If remote CPUs need to be flushed then defer batch the flush */
++	if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
++		should_defer = true;
++	put_cpu();
++
++	return should_defer;
++}
++
+ static inline u64 inc_mm_tlb_gen(struct mm_struct *mm)
  {
- 	struct efx_devlink *devlink_private = devlink_priv(devlink);
- 	struct efx_nic *efx = devlink_private->efx;
--	int rc;
-+	int err;
+ 	/*
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 19392e090bec..b45f95ab0c04 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -688,17 +688,10 @@ static void set_tlb_ubc_flush_pending(struct mm_struct *mm, pte_t pteval)
+  */
+ static bool should_defer_flush(struct mm_struct *mm, enum ttu_flags flags)
+ {
+-	bool should_defer = false;
+-
+ 	if (!(flags & TTU_BATCH_FLUSH))
+ 		return false;
  
--	/* Several different MCDI commands are used. We report first error
--	 * through extack returning at that point. Specific error
--	 * information via system messages.
-+	/* Several different MCDI commands are used. We report if errors
-+	 * happened through extack. Specific error information via system
-+	 * messages inside the calls.
- 	 */
--	rc = efx_devlink_info_board_cfg(efx, req);
--	if (rc) {
--		NL_SET_ERR_MSG_MOD(extack, "Getting board info failed");
--		return rc;
--	}
--	rc = efx_devlink_info_stored_versions(efx, req);
--	if (rc) {
--		NL_SET_ERR_MSG_MOD(extack, "Getting stored versions failed");
--		return rc;
--	}
--	rc = efx_devlink_info_running_versions(efx, req);
--	if (rc) {
--		NL_SET_ERR_MSG_MOD(extack, "Getting running versions failed");
--		return rc;
--	}
-+	err = efx_devlink_info_board_cfg(efx, req);
-+
-+	err |= efx_devlink_info_stored_versions(efx, req);
-+
-+	err |= efx_devlink_info_running_versions(efx, req);
-+
-+	if (err)
-+		NL_SET_ERR_MSG_MOD(extack, "Errors when getting device info. Check system messages");
- 
- 	return 0;
+-	/* If remote CPUs need to be flushed then defer batch the flush */
+-	if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
+-		should_defer = true;
+-	put_cpu();
+-
+-	return should_defer;
++	return arch_tlbbatch_should_defer(mm);
  }
+ 
+ /*
 -- 
-2.17.1
+2.24.0
 
