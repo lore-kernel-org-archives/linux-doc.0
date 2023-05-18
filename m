@@ -2,160 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4536DC7EE37
-	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 07:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C0FC7EE23
+	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 07:33:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229983AbjERHBC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 May 2023 03:01:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48438 "EHLO
+        id S230057AbjERHd0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 May 2023 03:33:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbjERHA6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 03:00:58 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 804321FFE;
-        Thu, 18 May 2023 00:00:54 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4QMLNt5ymqz18Lk1;
-        Thu, 18 May 2023 14:56:30 +0800 (CST)
-Received: from localhost.localdomain (10.50.163.32) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 18 May 2023 15:00:51 +0800
-From:   Yicong Yang <yangyicong@huawei.com>
-To:     <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
-        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
-        <catalin.marinas@arm.com>, <mark.rutland@arm.com>,
-        <ryan.roberts@arm.com>, <will@kernel.org>,
-        <anshuman.khandual@arm.com>, <linux-doc@vger.kernel.org>
-CC:     <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
-        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
-        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
-        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
-        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-        <linux-s390@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
-        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
-        <prime.zeng@hisilicon.com>, <Jonathan.Cameron@Huawei.com>
-Subject: [RESEND PATCH v9 0/2] arm64: support batched/deferred tlb shootdown during page reclamation/migration
-Date:   Thu, 18 May 2023 14:59:32 +0800
-Message-ID: <20230518065934.12877-1-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
+        with ESMTP id S230104AbjERHdZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 03:33:25 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AEA730F5
+        for <linux-doc@vger.kernel.org>; Thu, 18 May 2023 00:33:05 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3078c092056so1114537f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 May 2023 00:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1684395176; x=1686987176;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/Nr3DCNB0Ixq72umVN8Ju8XfUzmslSWPo/26RuL/v64=;
+        b=lgWrWFUqwIldB1/V3hLGpdkSWhVDPycAmU8Mb4DgAs8Kdp50VYkKtRMkBE/iO7HR6K
+         YG22U7m0sQNRC4eEWVXiAuLVpZu37bDV9Stsuo+uvxVhf3HszKROh7xNWvhlcT5VzGmn
+         Ltw6vxOCDiTdALmS//YmL9KOGZmOkdGpQJDxWxy5ocrzN2eZlhLShQtKcTUT/432p8qT
+         MU2XTtGY1N/K2fdCulWo4u/0/4v3T37U+TdX5fvFeYpldD1wtaumhvjDzTjiSPZEZ/in
+         Ac0nQnbghlggU1O6LnzFQ33nJ94VD5brGYVGvSgEpxvfBA6LvcKWlJx2fhXAWhEOlsAj
+         Bu8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684395176; x=1686987176;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Nr3DCNB0Ixq72umVN8Ju8XfUzmslSWPo/26RuL/v64=;
+        b=lTgmQW20530uqnIrEy37LV0iEc2K9hPEJFAVM46NqnFVoxtq0rIWwVLnSwkn9OeEbM
+         hhtgliHuzePLKVL2ZKHkyiC6oIGmqFKSoMQqexSu444qZZhukXEie6fGs6TkOK4tX9Zl
+         HKZOgXzSmx4zJVCPbFZ9hAK2JKYdvvvobJAn3i1N1jNMGXUL5Gp+gxg2P8sd1zzHaHMn
+         Vc/SDSFmnsdAvPDN0naotatULcQszhwowVvfkCoQjKE1+aA9clVfK/md51u7XwJRW2AQ
+         DO3qjJZq4jDb62bAOZA5FnzlFbqfz8GlSqTj9hJPW09Un3l1RMx4AnWzJ9fPWcwPMKKe
+         +8Tw==
+X-Gm-Message-State: AC+VfDxOQO4AbKJcok3yWQR4+6emoLCPTSYbFexiFDNMJjE4l/IUX/6t
+        1fu2Mq/gBNS/efUJvGCmoNvk4w==
+X-Google-Smtp-Source: ACHHUZ7xPFCjfZgnxJjwQ1q3sKhEpq9jWYbgE8XVf82gwX/CzK1u2s1hoM6OrcuqCwZHD2o13qE15g==
+X-Received: by 2002:a5d:4fce:0:b0:307:86fb:dada with SMTP id h14-20020a5d4fce000000b0030786fbdadamr818073wrw.36.1684395176400;
+        Thu, 18 May 2023 00:32:56 -0700 (PDT)
+Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+        by smtp.gmail.com with ESMTPSA id g8-20020adfe408000000b002f9e04459desm1160629wrm.109.2023.05.18.00.32.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 May 2023 00:32:56 -0700 (PDT)
+Date:   Thu, 18 May 2023 09:32:55 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Haibo Xu <xiaobo55x@gmail.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org, kvmarm@lists.linux.dev,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH 2/2] KVM: selftests: Add riscv get-reg-list test
+Message-ID: <20230518-60da3b82641bdaccec589b8b@orel>
+References: <cover.1683791148.git.haibo1.xu@intel.com>
+ <751a84a9691c86df0e65cdb02abf1e073892d1ca.1683791148.git.haibo1.xu@intel.com>
+ <20230511-28ec368a8168342c68ca2187@orel>
+ <CAJve8okVFr-m6go6dCg7Cf=Uq3Yt9Xmxi0Z3B2vbWvahvx4GgA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.50.163.32]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJve8okVFr-m6go6dCg7Cf=Uq3Yt9Xmxi0Z3B2vbWvahvx4GgA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yicong Yang <yangyicong@hisilicon.com>
+On Thu, May 18, 2023 at 12:17:18PM +0800, Haibo Xu wrote:
+...
+> > The idea of these *to_str functions is to dump output that can be
+> > copy+pasted into a reg array (hence the trailing commas in print_reg
+> > lines). So we can't just print random lines here or return '##UNKOWN##',
+> > as that won't compile. Instead, the default should return
+> >
+> >   str_with_index("KVM_REG_RISCV_CONFIG_REG(##)", reg_off)
+> >
+> 
+> Thanks for sharing the detailed idea, will fix it in next version!
 
-Though ARM64 has the hardware to do tlb shootdown, the hardware
-broadcasting is not free.
-A simplest micro benchmark shows even on snapdragon 888 with only
-8 cores, the overhead for ptep_clear_flush is huge even for paging
-out one page mapped by only one process:
-5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
+I guess we could also return a string like,
 
-While pages are mapped by multiple processes or HW has more CPUs,
-the cost should become even higher due to the bad scalability of
-tlb shootdown.
+"KVM_REG_RISCV_CONFIG_REG(##) /* UNKNOWN */"
 
-The same benchmark can result in 16.99% CPU consumption on ARM64
-server with around 100 cores according to Yicong's test on patch
-2/2.
+as that would still compile and also convey the message that this
+register doesn't have a name because the test doesn't know it yet.
 
-This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
-1. only send tlbi instructions in the first stage -
-	arch_tlbbatch_add_mm()
-2. wait for the completion of tlbi by dsb while doing tlbbatch
-	sync in arch_tlbbatch_flush()
-Testing on snapdragon shows the overhead of ptep_clear_flush
-is removed by the patchset. The micro benchmark becomes 5% faster
-even for one page mapped by single process on snapdragon 888.
+...
+> > We should share all the code above, except print_reg(), with aarch64.
+> > I'll send a patch series that splits the arch-neutral code out of
+> > the aarch64 test that you can base this test on.
+> >
+> 
+> Good idea! I will rebase the patch based on your work.
+>
 
-This support also optimize the page migration more than 50% with support
-of batched TLB flushing [*].
+Ok, I've pushed patches to [1]. This series introduces two things to KVM
+selftests. Primarily it splits the aarch64/get-reg-list test into a
+cross-arch get-reg-list test and an $ARCH_DIR/get-reg-list.o object file,
+which the cross-arch test depends on. To do that, it also introduces the
+concept of a "split test", a test that has a cross-arch part which depends
+on an arch-specific part. Using a split test is cleaner than the
+#ifdeffery we usually do for cross-arch tests.
 
-[*] https://lore.kernel.org/linux-mm/20230213123444.155149-1-ying.huang@intel.com/
+I've added kvmarm@lists.linux.dev, Marc, Oliver, and Sean to the CC of
+this message. You'll want to add them when you post v2 as well.
 
--v9:
-1. Using a runtime tunable to control batched TLB flush, per Catalin in v7.
-   Sorry for missing this on v8.
-Link: https://lore.kernel.org/all/20230329035512.57392-1-yangyicong@huawei.com/
+[1] https://github.com/jones-drew/linux/commits/arm64/kself/get-reg-list
 
--v8:
-1. Rebase on 6.3-rc4
-2. Tested the optimization on page migration and mentioned it in the commit
-3. Thanks the review from Anshuman.
-Link: https://lore.kernel.org/linux-mm/20221117082648.47526-1-yangyicong@huawei.com/
-
--v7:
-1. rename arch_tlbbatch_add_mm() to arch_tlbbatch_add_pending() as suggested, since it
-   takes an extra address for arm64, per Nadav and Anshuman. Also mentioned in the commit.
-2. add tags from Xin Hao, thanks.
-Link: https://lore.kernel.org/lkml/20221115031425.44640-1-yangyicong@huawei.com/
-
--v6:
-1. comment we don't defer TLB flush on platforms affected by ARM64_WORKAROUND_REPEAT_TLBI
-2. use cpus_have_const_cap() instead of this_cpu_has_cap()
-3. add tags from Punit, Thanks.
-4. default enable the feature when cpus >= 8 rather than > 8, since the original
-   improvement is observed on snapdragon 888 with 8 cores.
-Link: https://lore.kernel.org/lkml/20221028081255.19157-1-yangyicong@huawei.com/
-
--v5:
-1. Make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends on EXPERT for this stage on arm64.
-2. Make a threshold of CPU numbers for enabling batched TLP flush on arm64
-Link: https://lore.kernel.org/linux-arm-kernel/20220921084302.43631-1-yangyicong@huawei.com/T/
-
--v4:
-1. Add tags from Kefeng and Anshuman, Thanks.
-2. Limit the TLB batch/defer on systems with >4 CPUs, per Anshuman
-3. Merge previous Patch 1,2-3 into one, per Anshuman
-Link: https://lore.kernel.org/linux-mm/20220822082120.8347-1-yangyicong@huawei.com/
-
--v3:
-1. Declare arch's tlbbatch defer support by arch_tlbbatch_should_defer() instead
-   of ARCH_HAS_MM_CPUMASK, per Barry and Kefeng
-2. Add Tested-by from Xin Hao
-Link: https://lore.kernel.org/linux-mm/20220711034615.482895-1-21cnbao@gmail.com/
-
--v2:
-1. Collected Yicong's test result on kunpeng920 ARM64 server;
-2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
-   according to the comments of Peter Zijlstra and Dave Hansen
-3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
-   is empty according to the comments of Nadav Amit
-
-Thanks, Peter, Dave and Nadav for your testing or reviewing
-, and comments.
-
--v1:
-https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
-
-Anshuman Khandual (1):
-  mm/tlbbatch: Introduce arch_tlbbatch_should_defer()
-
-Barry Song (1):
-  arm64: support batched/deferred tlb shootdown during page
-    reclamation/migration
-
- .../features/vm/TLB/arch-support.txt          |  2 +-
- arch/arm64/Kconfig                            |  1 +
- arch/arm64/include/asm/tlbbatch.h             | 12 ++++
- arch/arm64/include/asm/tlbflush.h             | 33 ++++++++-
- arch/arm64/mm/flush.c                         | 69 +++++++++++++++++++
- arch/x86/include/asm/tlbflush.h               | 17 ++++-
- include/linux/mm_types_task.h                 |  4 +-
- mm/rmap.c                                     | 21 +++---
- 8 files changed, 139 insertions(+), 20 deletions(-)
- create mode 100644 arch/arm64/include/asm/tlbbatch.h
-
--- 
-2.24.0
-
+Thanks,
+drew
