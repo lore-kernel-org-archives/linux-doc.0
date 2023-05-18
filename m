@@ -2,140 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46144C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 11:31:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D86D1C7EE22
+	for <linux-doc@archiver.kernel.org>; Thu, 18 May 2023 12:07:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbjERLbB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 May 2023 07:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55606 "EHLO
+        id S230025AbjERMH6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 May 2023 08:07:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbjERLag (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 07:30:36 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB5226B0
-        for <linux-doc@vger.kernel.org>; Thu, 18 May 2023 04:30:07 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-30644c18072so1245118f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 18 May 2023 04:30:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=layalina-io.20221208.gappssmtp.com; s=20221208; t=1684409404; x=1687001404;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T1h17sSs+joWo+5DdgNBuj4EX+vCaqVJMhCUM7pb9QI=;
-        b=0bOA/Qogy+URrPwpK8Koq0kTlFp3zOxO12nRpF5T5NpS6IJcopa3iFKyJbM7mE45g4
-         A5aCLkr4Q4J+Z+V0JcI/V8tmmyw02jMVqAuAycXU3+pRDSz1VQASAtg9E58L9/zyp2zQ
-         tuHLcINIxxmby4LFEwVn7fGsEfxhAojablGAjUSx14vH+Zcq8RAEV5dlfvVGVWdwBhIN
-         0LGK8a9T3UytvCLadbbDyNAIF/rz0/4FtZjV4O4orqxNe1/m0v/SNbCagBp4oT73s6k8
-         0eAXsDupl+pFWfXUsYwL8iLaSG6ZRjNNLLhTWqjfu8hflUl0iyVeH7wwY/9GZzU3KS9R
-         Cu6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684409404; x=1687001404;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T1h17sSs+joWo+5DdgNBuj4EX+vCaqVJMhCUM7pb9QI=;
-        b=F0x6zAg9Vm4B1UDLu3/FJTYOMDqK6dBjyzOAYVkyGCkbwPj0nZCLb8j1yX97xRe2RU
-         Tc6nynE4oemgfHQh6DHofyxe1GjcLYOEXFELTGtETrRFVEgdmRRhQVkO6Sjy9+TmVeZU
-         VaIKGq5rXM/mqcs/tTrnXxzPcaPfkmVBWx/AlrtbXnRwGCg3H5H4b+vqonOmSBoJ6j3/
-         GJyCaKQWlZKMTBitH3w0klAbumE4ULCOEh5x1gQMrBkSZIABxn7uwboE81YAnJkkClZB
-         vbxgeHcY4rwMIRH+G2zDZCKRFF6aNybzZuAf/EEMrFz2o1Gjx7TRdwkjRfSKr6Ncc70e
-         cQFQ==
-X-Gm-Message-State: AC+VfDwCIkQ3d0ZxnN/6yTYhrkntkn4F9qFxlxQA/DhqE8Ij+V6m7rfr
-        silgVaazi3gzyine4ZqQmOgLkw==
-X-Google-Smtp-Source: ACHHUZ538HKpwcCSq6XivDnZaQ8zPkbBrbZoSeiFXg18HnSHTBDxqCfB8eNBq/feEOPaX2xbBSEhVQ==
-X-Received: by 2002:a5d:6543:0:b0:307:94b3:47b3 with SMTP id z3-20020a5d6543000000b0030794b347b3mr1071025wrv.38.1684409404216;
-        Thu, 18 May 2023 04:30:04 -0700 (PDT)
-Received: from airbuntu ([104.132.45.105])
-        by smtp.gmail.com with ESMTPSA id c7-20020adfe747000000b002ff2c39d072sm1852346wrn.104.2023.05.18.04.30.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 04:30:03 -0700 (PDT)
-Date:   Thu, 18 May 2023 12:30:00 +0100
-From:   Qais Yousef <qyousef@layalina.io>
-To:     Hongyan Xia <hongyan.xia2@arm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>
-Subject: Re: [PATCH] sched/documentation: elaborate on uclamp limitations
-Message-ID: <20230518113000.pvboekaba7vspjyn@airbuntu>
-References: <20230505152440.142265-1-hongyan.xia2@arm.com>
+        with ESMTP id S230141AbjERMH6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 May 2023 08:07:58 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA3611B;
+        Thu, 18 May 2023 05:07:56 -0700 (PDT)
+Received: from dggpemm500002.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QMTBc3F6czTkkS;
+        Thu, 18 May 2023 20:03:04 +0800 (CST)
+Received: from [10.174.178.247] (10.174.178.247) by
+ dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 18 May 2023 20:07:53 +0800
+Subject: Re: [PATCH 3/3] Documentation/arm64: Update ACPI tables from BBR
+To:     Jose Marinho <jose.marinho@arm.com>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jeremy Linton <Jeremy.Linton@arm.com>,
+        James Morse <James.Morse@arm.com>,
+        Rob Herring <Rob.Herring@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+        Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
+References: <20230518105202.451739-1-jose.marinho@arm.com>
+ <20230518105202.451739-4-jose.marinho@arm.com>
+From:   Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <0969894f-d653-482c-f043-2a085ee3b404@huawei.com>
+Date:   Thu, 18 May 2023 20:07:53 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230505152440.142265-1-hongyan.xia2@arm.com>
+In-Reply-To: <20230518105202.451739-4-jose.marinho@arm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.247]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500002.china.huawei.com (7.185.36.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Please CC sched maintainers (Ingo + Peter) next time as they should pick this
-up ultimately and they won't see it from the list only.
+Hi Jose,
 
-On 05/05/23 16:24, Hongyan Xia wrote:
-> The story in 5.2 about util_avg abruptly jumping from 300 when
-> Fmax/Fmin == 3 to 1024 when Fmax/Fmin == 4 hides some details about how
-> clock_pelt works behind the scenes. Explicitly mention it to make it
-> easier for readers to follow.
+On 2023/5/18 18:52, Jose Marinho wrote:
+> The BBR specification requires (or conditionally requires) a set of ACPI
+> tables for a proper working system.
+> This commit updates:
+> - the list of ACPI tables to reflect the contents of
+> BBR version 2.0 (see https://developer.arm.com/documentation/den0044/g).
+> - the list of ACPI tables in acpi_object_usage. This last update ensures
+> that both files remain coherent.
+
+Thanks for the update, some comments inline.
+
 > 
-> Signed-off-by: Hongyan Xia <hongyan.xia2@arm.com>
-> Cc: Qais Yousef <qyousef@layalina.io>
-> Cc: Vincent Guittot <vincent.guittot@linaro.org>
+> Signed-off-by: Jose Marinho <jose.marinho@arm.com>
+> Reviewed-by: Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
 > ---
->  Documentation/scheduler/sched-util-clamp.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>   Documentation/arm64/acpi_object_usage.rst | 81 +++++++++++++++++++++--
+>   Documentation/arm64/arm-acpi.rst          | 71 +++++++++++++++++---
+>   2 files changed, 139 insertions(+), 13 deletions(-)
 > 
-> diff --git a/Documentation/scheduler/sched-util-clamp.rst b/Documentation/scheduler/sched-util-clamp.rst
-> index 74d5b7c6431d..524df07bceba 100644
-> --- a/Documentation/scheduler/sched-util-clamp.rst
-> +++ b/Documentation/scheduler/sched-util-clamp.rst
-> @@ -669,6 +669,19 @@ but not proportional to Fmax/Fmin.
->  
->          p0->util_avg = 300 + small_error
->  
-> +The reason why util_avg is around 300 even though it runs for 900 at Fmin is:
-> +Although running at Fmin reduces the rate of rq_clock_pelt() to 1/3 thus
-> +accumulates util_sum at 1/3 of the rate at Fmax, the clock period
-> +(rq_clock_pelt() now minus previous rq_clock_pelt()) in:
+> diff --git a/Documentation/arm64/acpi_object_usage.rst b/Documentation/arm64/acpi_object_usage.rst
+> index 484ef9676653..1da22200fdf8 100644
+> --- a/Documentation/arm64/acpi_object_usage.rst
+> +++ b/Documentation/arm64/acpi_object_usage.rst
+> @@ -17,16 +17,37 @@ For ACPI on arm64, tables also fall into the following categories:
+>   
+>          -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
+>   
+> -       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IBFT,
+> -          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT,
+> -          STAO, TCPA, TPM2, UEFI, XENV
+> +       -  Optional: AGDI, BGRT, CEDT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT,
+> +          HMAT, IBFT, IORT, MCHI, MPAM, MPST, MSCT, NFIT, PMTT, PPTT, RASF, SBST,
+> +          SDEI, SLIT, SPMI, SRAT, STAO, TCPA, TPM2, UEFI, XENV
+>   
+> -       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT, MSDM, OEMx,
+> -          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
+> +       -  Not supported: AEST, APMT, BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT,
+
+AEST is ARM Error Source Table, and it can be used for ARM platforms, so
+I thinsk AEST is not belong to "Not supportted", "Optional" instead.
+
+and APMT is the same.
+
+> +          MSDM, OEMx, PDTT, PSDT, RAS2, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
+
+PDTT and RAS2 are now used for ARM too, please move it to Optional :)
+
+[...]
+
+>   
+>          **Software LIcensing table**
+> diff --git a/Documentation/arm64/arm-acpi.rst b/Documentation/arm64/arm-acpi.rst
+> index 01171b10828a..49a69a1cc463 100644
+> --- a/Documentation/arm64/arm-acpi.rst
+> +++ b/Documentation/arm64/arm-acpi.rst
+> @@ -170,7 +170,7 @@ hardware reduced mode must be set to zero.
+>   
+>   For the ACPI core to operate properly, and in turn provide the information
+>   the kernel needs to configure devices, it expects to find the following
+> -tables (all section numbers refer to the ACPI 6.1 specification):
+> +tables (all section numbers refer to the ACPI 6.5 specification):
+>   
+>       -  RSDP (Root System Description Pointer), section 5.2.5
+>   
+> @@ -185,20 +185,75 @@ tables (all section numbers refer to the ACPI 6.1 specification):
+>   
+>       -  GTDT (Generic Timer Description Table), section 5.2.24
+>   
+> +    -  PPTT (Processor Properties Topology Table), section 5.2.30
 > +
-> +::
+> +    -  DBG2 (DeBuG port table 2), section 5.2.6, specifically Table 5-6.
 > +
-> +        util_sum / clock period = util_avg
+> +    -  APMT (Arm Performance Monitoring unit Table), section 5.2.6, specifically Table 5-6.
 > +
-> +does not shrink to 1/3, since rq->clock_pelt is periodically synchronized with
-> +rq->clock_task as long as there's idle time. As a result, we get util_avg of
-> +about 300, not 900.
+> +    -  AGDI (Arm Generic diagnostic Dump and Reset Device Interface Table), section 5.2.6, specifically Table 5-6.
 > +
-
-I feel neutral about these changes. It does answer some questions, but poses
-more questions like what is clock_pelt. So we might end up in recursive
-regression of explaining the explanation.
-
-I don't think we have a doc about clock_pelt. Worth adding one and just add
-a reference to it from here for those interested in understanding more details
-on why we need to go to idle to correct util_avg? I think our code has
-explanation, a reference to update_rq_clock_pelt() might suffice too.
-
-Vincent, do you have an opinion here?
-
-
-Thanks!
-
---
-Qais Yousef
-
->  Now if the ratio of Fmax/Fmin is 4, the maximum value becomes:
->  
->  ::
-> @@ -682,6 +695,10 @@ this happens, then the _actual_ util_avg will become:
->  
->          p0->util_avg = 1024
->  
-> +This is because rq->clock_pelt is no longer synchronized with the task clock.
-> +The clock period therefore is proportionally shrunk by the same ratio of
-> +(Fmax/Fmin), giving us a maximal util_avg of 1024.
+>       -  If PCI is supported, the MCFG (Memory mapped ConFiGuration
+> -       Table), section 5.2.6, specifically Table 5-31.
+> +       Table), section 5.2.6, specifically Table 5-6.
+>   
+>       -  If booting without a console=<device> kernel parameter is
+>          supported, the SPCR (Serial Port Console Redirection table),
+> -       section 5.2.6, specifically Table 5-31.
+> +       section 5.2.6, specifically Table 5-6.
+>   
+>       -  If necessary to describe the I/O topology, SMMUs and GIC ITSs,
+>          the IORT (Input Output Remapping Table, section 5.2.6, specifically
+> -       Table 5-31).
+> +       Table 5-6).
 > +
->  If task p1 wakes up on this CPU, which have:
->  
->  ::
-> -- 
-> 2.34.1
-> 
+> +    -  If NUMA is supported, the following tables are required:
+> +
+> +       - SRAT (System Resource Affinity Table), section 5.2.16
+> +
+> +       - SLIT (System Locality distance Information Table), section 5.2.17
+> +
+> +       - HMAT (Heterogeneous Memory Attribute Table), section 5.2.28
+
+HMAT is for heterogeneous memory, so it's optional if no heterogeneous
+memory in the hardware.
+
+> +
+> +    -  If the ACPI Platform Error Interfaces are required, the following
+> +       tables are required:
+
+Maybe "are conditionally required" is better, as SDEI, AEST and RAS2 are
+optional I think.
+
+Thanks
+Hanjun
