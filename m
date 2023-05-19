@@ -2,168 +2,238 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D62A2C7EE23
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 21:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 180A3C7EE26
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 22:05:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231612AbjESVZp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 17:25:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53540 "EHLO
+        id S231494AbjESWFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 18:05:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbjESVZo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 17:25:44 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D48BCF
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 14:25:43 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-6239ab2b8e0so14116646d6.0
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 14:25:43 -0700 (PDT)
+        with ESMTP id S231335AbjESWFI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 18:05:08 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F4911F
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 15:05:04 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-510eb3dbaaeso4011377a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 15:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1684531542; x=1687123542;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=tD4VL6t5YGx/meSngxZ6TiWgSo8gJ/aPl80iX7SdFtE=;
-        b=ACyHfeG1RPRSoR0kFI7YySjjBn4HfyjcHyksE+nP4mli52oSLNWheYapVWfQXOORPI
-         C6E9EyAOQf+bL/xwGAnZmNFm3NOz3araxWUReHGw9ieQNT7blifyxWJrAVFau0GN8E/2
-         TeWK6HFfHA+JSTkK4/ptEAX8YdxQmJ2doVdKs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684531542; x=1687123542;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20221208; t=1684533903; x=1687125903;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tD4VL6t5YGx/meSngxZ6TiWgSo8gJ/aPl80iX7SdFtE=;
-        b=P6QddBs/u5rIr8Fznz4q0USFNazn8N2thPGhBZmMa3gLYd9GvIi1vjz9t6ZNbVw99p
-         5c/JWg9gM0APxDkNtlrhhfYlt1kf73mOa1+OgMwMfZKqyJG0iG1utslzzmPNkrEh826t
-         PNdw0hkYdSl7ukmrYT8WDcZNDspuPd/WAP9JYOjGVG2x2TOJq/Md4qW53AbWPV+00wTW
-         /73vUzRlwoBgGMrYbPqqcSkA5LSnZg8EZwx5wthIy0258FJKp7qUtxfXEx8HZQg9E8U6
-         7+QeK6XdujQhbopmcwV1GOBl3rLA+NIENWhtqQ9mbo6Lpz4BppyFecGOSHRUnA9TKN57
-         L26Q==
-X-Gm-Message-State: AC+VfDxAWI1oNEbSvlRR1tS56pqidx/zHQ+KKL5c4o/pYHEST0t3kJwI
-        n9p7rv0EvypzQ0daBngIviS/mA==
-X-Google-Smtp-Source: ACHHUZ6/H+kPiNY3Jh0D7KNGuIn6g+6AjoybV4T/QrddT3RIJAjCHo6NJG9LEbNc8qorQDuVWKNQqg==
-X-Received: by 2002:a05:6214:f07:b0:5b4:1d9a:75e7 with SMTP id gw7-20020a0562140f0700b005b41d9a75e7mr6902539qvb.13.1684531542404;
-        Fri, 19 May 2023 14:25:42 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id z17-20020a0cf011000000b0061a68b5a8c4sm71715qvk.134.2023.05.19.14.25.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 May 2023 14:25:41 -0700 (PDT)
-Message-ID: <dd6a7287-26a5-14a1-1c9e-8db4210c679c@broadcom.com>
-Date:   Fri, 19 May 2023 14:25:37 -0700
+        bh=7JS9bsmb2ExhOm+g4Lt75nCSXcOXphRaQoc6aXCE0Cw=;
+        b=RnHJnnkj1VIHqje8IVNGPXgjD9OytYKxqYmMWS+0edD6d8Vlh452IK5UUoVYNHA0m/
+         JrZSLCWIuJkr/qFmn1GwZ0Z9okNmo3X9wIG4aOXiJQ71dR9N+z/hpGwqL9OucT/xYJs8
+         sXEdyf8eOAvooUYTi70XJlwMMww38PhJnoEwn+5ccVFnCUU0iBMWPYHYxxF+nFh6BS11
+         hlwa6Rx019RR4e90c7/yYg70FhEHrfU21w6a39b0FXQyYvZVkLYv79wYuo3K268S+3qN
+         t9JlkLqNgoKr9rx/LuewcGO1LO3srqyemDzUIMJlk4pSxE08v9Vre2LHZVt2SYIitl+8
+         7ARQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684533903; x=1687125903;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7JS9bsmb2ExhOm+g4Lt75nCSXcOXphRaQoc6aXCE0Cw=;
+        b=LA05XOVLlFtMAjnuT+xYik+Vc/eOzdAmf8UwCrdHxJuAlmxf4bQ85L5ZSa20ehivnr
+         8W5ZscPySJ9XQZ6pmjVP0HXiAo3eWa9CSeZ4uuSohNjXsO8zW9uKvW6qtZekUB4k3odJ
+         Trsy0jaE0X3bwzE+zaAiqPgMi4tG4u9A0g0CdShI/dHvldWZeztxoWXEwzOC4dSK2+Gn
+         NAR5OWoXdRzn1bOzhU+GOeIGyZ43IwswPRr2/J+9LDWMeoN0vZ22eJW2FR+iKjVldVag
+         LRbGLF62BKQ4D0lY6Pn0iUbABIVCIU58ydrPvHeRcUZTqewr2DQBN1jmTXf8IvAiltUB
+         YZvw==
+X-Gm-Message-State: AC+VfDz7WjSvOQS4EM+hpVwXRXh97kAmPvC2j9m7F3RuQHuD4MlVHn2K
+        b3OV8nyLAhZk/6i15txUlab4bGUNeVRxa0l8uST7PA==
+X-Google-Smtp-Source: ACHHUZ7PmKcUuxcRDtXRlzFfxhF3Z2gXJBCsnJtL/zsYC6bfcRtFijkSyPQ0sZzD2Lm33IiCzO9EnEZJEPBnURKzzfQ=
+X-Received: by 2002:a17:907:a428:b0:94f:59aa:8a7c with SMTP id
+ sg40-20020a170907a42800b0094f59aa8a7cmr3260984ejc.20.1684533903287; Fri, 19
+ May 2023 15:05:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 4/7] mips: update a reference to a moved Arm Document
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org
-References: <20230519164607.38845-1-corbet@lwn.net>
- <20230519164607.38845-5-corbet@lwn.net>
-From:   Florian Fainelli <florian.fainelli@broadcom.com>
-In-Reply-To: <20230519164607.38845-5-corbet@lwn.net>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="0000000000003691e305fc1290b1"
+References: <CAJD7tkaOMeeGNqm6nFyHgPhd9VpnCVqCAYCY725NoTohTMAnmw@mail.gmail.com>
+ <B66FDA24-50C6-444D-BD84-124E68A2AEEE@didiglobal.com>
+In-Reply-To: <B66FDA24-50C6-444D-BD84-124E68A2AEEE@didiglobal.com>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Fri, 19 May 2023 15:04:26 -0700
+Message-ID: <CAJD7tkb7zSFT5VnZ-00CA0mBE8dFmVqwPwvMpCYG9c-J3ovjyA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] memcontrol: support cgroup level OOM protection
+To:     =?UTF-8?B?56iL5Z6y5rabIENoZW5na2FpdGFvIENoZW5n?= 
+        <chengkaitao@didiglobal.com>
+Cc:     "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mhocko@kernel.org" <mhocko@kernel.org>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "muchun.song@linux.dev" <muchun.song@linux.dev>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        David Rientjes <rientjes@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---0000000000003691e305fc1290b1
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Wed, May 17, 2023 at 10:12=E2=80=AFPM =E7=A8=8B=E5=9E=B2=E6=B6=9B Chengk=
+aitao Cheng
+<chengkaitao@didiglobal.com> wrote:
+>
+> At 2023-05-18 04:42:12, "Yosry Ahmed" <yosryahmed@google.com> wrote:
+> >On Wed, May 17, 2023 at 3:01=E2=80=AFAM =E7=A8=8B=E5=9E=B2=E6=B6=9B Chen=
+gkaitao Cheng
+> ><chengkaitao@didiglobal.com> wrote:
+> >>
+> >> At 2023-05-17 16:09:50, "Yosry Ahmed" <yosryahmed@google.com> wrote:
+> >> >On Wed, May 17, 2023 at 1:01=E2=80=AFAM =E7=A8=8B=E5=9E=B2=E6=B6=9B C=
+hengkaitao Cheng
+> >> ><chengkaitao@didiglobal.com> wrote:
+> >> >>
+> >> >> At 2023-05-17 14:59:06, "Yosry Ahmed" <yosryahmed@google.com> wrote=
+:
+> >> >> >+David Rientjes
+> >> >> >
+> >> >> >On Tue, May 16, 2023 at 8:20=E2=80=AFPM chengkaitao <chengkaitao@d=
+idiglobal.com> wrote:
+> >> >> >>
+> >> >> Thank you for providing a new application scenario. You have descri=
+bed a
+> >> >> new per-memcg approach, but a simple introduction cannot explain th=
+e
+> >> >> details of your approach clearly. If you could compare and analyze =
+my
+> >> >> patches for possible defects, or if your new approach has advantage=
+s
+> >> >> that my patches do not have, I would greatly appreciate it.
+> >> >
+> >> >Sorry if I was not clear, I am not implying in any way that the
+> >> >approach I am describing is better than your patches. I am guilty of
+> >> >not conducting the proper analysis you are requesting.
+> >>
+> >> There is no perfect approach in the world, and I also seek your advice=
+ with
+> >> a learning attitude. You don't need to say sorry, I should say thank y=
+ou.
+> >>
+> >> >I just saw the thread and thought it might be interesting to you or
+> >> >others to know the approach that we have been using for years in our
+> >> >production. I guess the target is the same, be able to tell the OOM
+> >> >killer which memcgs/processes are more important to protect. The
+> >> >fundamental difference is that instead of tuning this based on the
+> >> >memory usage of the memcg (your approach), we essentially give the OO=
+M
+> >> >killer the ordering in which we want memcgs/processes to be OOM
+> >> >killed. This maps to jobs priorities essentially.
+> >>
+> >> Killing processes in order of memory usage cannot effectively protect
+> >> important processes. Killing processes in a user-defined priority orde=
+r
+> >> will result in a large number of OOM events and still not being able t=
+o
+> >> release enough memory. I have been searching for a balance between
+> >> the two methods, so that their shortcomings are not too obvious.
+> >> The biggest advantage of memcg is its tree topology, and I also hope
+> >> to make good use of it.
+> >
+> >For us, killing processes in a user-defined priority order works well.
+> >
+> >It seems like to tune memory.oom.protect you use oom_kill_inherit to
+> >observe how many times this memcg has been killed due to a limit in an
+> >ancestor. Wouldn't it be more straightforward to specify the priority
+> >of protections among memcgs?
+> >
+> >For example, if you observe multiple memcgs being OOM killed due to
+> >hitting an ancestor limit, you will need to decide which of them to
+> >increase memory.oom.protect for more, based on their importance.
+> >Otherwise, if you increase all of them, then there is no point if all
+> >the memory is protected, right?
+>
+> If all memory in memcg is protected, its meaning is similar to that of th=
+e
+> highest priority memcg in your approach, which is ultimately killed or
+> never killed.
 
-On 5/19/23 09:46, Jonathan Corbet wrote:
-> Arm documentation has moved to Documentation/arch/arm; update a reference
-> in arch/mips/bmips/setup.c to match.
-> 
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Cc: linux-mips@vger.kernel.org
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Makes sense. I believe it gets a bit trickier when you want to
+describe relative ordering between memcgs using memory.oom.protect.
 
-Acked-by: Florian Fainelli <florian.fainelli@broadcom.com>
--- 
-Florian
+>
+> >In this case, wouldn't it be easier to just tell the OOM killer the
+> >relative priority among the memcgs?
+> >
+> >>
+> >> >If this approach works for you (or any other audience), that's great,
+> >> >I can share more details and perhaps we can reach something that we
+> >> >can both use :)
+> >>
+> >> If you have a good idea, please share more details or show some code.
+> >> I would greatly appreciate it
+> >
+> >The code we have needs to be rebased onto a different version and
+> >cleaned up before it can be shared, but essentially it is as
+> >described.
+> >
+> >(a) All processes and memcgs start with a default score.
+> >(b) Userspace can specify scores for memcgs and processes. A higher
+> >score means higher priority (aka less score gets killed first).
+> >(c) The OOM killer essentially looks for the memcg with the lowest
+> >scores to kill, then among this memcg, it looks for the process with
+> >the lowest score. Ties are broken based on usage, so essentially if
+> >all processes/memcgs have the default score, we fallback to the
+> >current OOM behavior.
+>
+> If memory oversold is severe, all processes of the lowest priority
+> memcg may be killed before selecting other memcg processes.
+> If there are 1000 processes with almost zero memory usage in
+> the lowest priority memcg, 1000 invalid kill events may occur.
+> To avoid this situation, even for the lowest priority memcg,
+> I will leave him a very small oom.protect quota.
 
+I checked internally, and this is indeed something that we see from
+time to time. We try to avoid that with userspace OOM killing, but
+it's not 100% effective.
 
---0000000000003691e305fc1290b1
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+>
+> If faced with two memcgs with the same total memory usage and
+> priority, memcg A has more processes but less memory usage per
+> single process, and memcg B has fewer processes but more
+> memory usage per single process, then when OOM occurs, the
+> processes in memcg B may continue to be killed until all processes
+> in memcg B are killed, which is unfair to memcg B because memcg A
+> also occupies a large amount of memory.
 
-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
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
-9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
-UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
-KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
-nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
-Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
-VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
-ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
-CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
-MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
-d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
-hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
-bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
-BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
-KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
-kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
-2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
-3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
-NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
-AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
-LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIFYy7pVuFsxsdC54
-zI0SSndVq6Vu9JxmQqWk9abvBavwMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTIzMDUxOTIxMjU0MlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
-AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBgBKXIboWLYzMfm4JwL2M4qiUvNWT0e7Dd
-mg3FRpuQXcYxD2MPab7L3YLLCN8wd/I2WE8S1Ld/obDDO/KR2LSFkVV5IfZyXUVmVp1bkLVvnNB1
-DW6mtLqpZVXTcjglk8l7PElmIwvgpkfUn1VQsrUupvT6CwWpmhbJgcLGQzk+ozhI7Xc/BILgUez9
-NKhwglhvJXqlQPdz8YNdep0uufu2PDHSURcJSKz6qwOLz5VsobmFaGbsdvLJVs2QvJ/RkxfvFCJv
-IBQQZBVokR0crP5BWSPWflgxMj9NFbmL9JuoHBCDBrvSox6MNrcuW4UXk1A/j6ojMeXJDuA0LjWx
-Dr34
---0000000000003691e305fc1290b1--
+I believe in this case we will kill one process in memcg B, then the
+usage of memcg A will become higher, so we will pick a process from
+memcg A next.
+
+>
+> Dose your approach have these issues? Killing processes in a
+> user-defined priority is indeed easier and can work well in most cases,
+> but I have been trying to solve the cases that it cannot cover.
+
+The first issue is relatable with our approach. Let me dig more info
+from our internal teams and get back to you with more details.
+
+>
+> --
+> Thanks for your comment!
+> chengkaitao
+>
+>
