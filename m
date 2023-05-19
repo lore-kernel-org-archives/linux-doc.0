@@ -2,146 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7214C77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 15:23:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA884C77B7A
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 15:28:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbjESPXv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 11:23:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50716 "EHLO
+        id S232210AbjESP2f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 11:28:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbjESPXu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 11:23:50 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554B819F;
-        Fri, 19 May 2023 08:23:49 -0700 (PDT)
+        with ESMTP id S230440AbjESP2f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 11:28:35 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AA82106;
+        Fri, 19 May 2023 08:28:33 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E27217C0;
-        Fri, 19 May 2023 15:23:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E27217C0
+        by ms.lwn.net (Postfix) with ESMTPSA id 982157C0;
+        Fri, 19 May 2023 15:28:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 982157C0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684509829; bh=JXzqn/kBG5UL0/TLKHrauul40S0pyWarjFgX8Y+MmPA=;
+        t=1684510112; bh=ypzbLdEgSgVU1CkpDITC1d6zG9XwYC1dqvAA2QZn0LY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=NxYbW5ZZGwsX+RiKZST2x6WGizQQtEBsqBkko8/i14a0XHfYPCjt7+mp4OY2lRdai
-         6+RUsWtVRSnLtq30tBmy3NYxTRQE36EO+aB2FD5s2FVl49WcMSDgBO46SHauL0EcIk
-         rIgc02IXxThDcfpPe3gpU/pK86BwRFhKXLrJJBZYzZBb7LKbPughD4DVaYAoS/Z2Cw
-         ARuUlRpykVhhX5pIlzpKM/533GB1mI6c898EE8BgWfOQpg6xNGj/kXTgW2Sa9jEZ5t
-         56HZBrMY1uY+5a7WxjszatZivpkWOHCnQ/ZTBYcrGwM7GBc7W26MPbgbaLc/EremJW
-         DPAVO7Q9I6Agw==
+        b=eDsN4W2vF0m4WFO6UzXjf9b7dm0et8JUuedojt1TFB66cvkW8NWnwXGiNeHIORINN
+         0ynYPZeCKF6juv4ZqvzR6Jlq66OSLOB9qIycCy800f5G4PYctWl6UrNTHnGTdpdEpB
+         2uGDzKhKQLHUcH7f0Yyrsksb6+pXCXePtK6OfoiMcO3Xzjl+WarNjKB9guR2byflDJ
+         oIU17QKrBIOg3Zz4VVrN/LMcMGc9pNSdoI7PU5G7YCMmypgAej4neCCwH/to1xQ+/U
+         evy7j6l1RREi31Wh2TvWA+I9RScqc7vyaiQPuNQ2df/laIc8TtjQpfpS8Ftxt8VkUo
+         0bzJAmHBazLgQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH] Documentation: Document macro coding style
-In-Reply-To: <20230511152951.1970870-1-mathieu.desnoyers@efficios.com>
-References: <20230511152951.1970870-1-mathieu.desnoyers@efficios.com>
-Date:   Fri, 19 May 2023 09:23:48 -0600
-Message-ID: <87y1lkmjjv.fsf@meer.lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Rong Tao <rtoax@foxmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Zhangfei Gao <zhangfei.gao@foxmail.com>,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tyler Hicks <code@tyhicks.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Xujun Leng <lengxujun2007@126.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: submitting-patches: Discuss interleaved replies
+In-Reply-To: <20230511184131.gonna.399-kees@kernel.org>
+References: <20230511184131.gonna.399-kees@kernel.org>
+Date:   Fri, 19 May 2023 09:28:31 -0600
+Message-ID: <87ttw8mjc0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mathieu Desnoyers <mathieu.desnoyers@efficios.com> writes:
+Kees Cook <keescook@chromium.org> writes:
 
-> Document the kernel coding style for macros with parameters.
+> Top-posting has been strongly discouraged in Linux development, but this
+> was actually not written anywhere in the common documentation about
+> sending patches and replying to reviews. Add a section about trimming
+> and interleaved replies.
 >
-> The purpose of this text is to be used as a reference to gradually
-> transition towards macros with a more consistent style, and eliminate
-> subtle bugs that can creep up due to missing parentheses, and generally
-> remove the need to think and argue about C operator precedence.
->
-> This is based on a mailing list discussion with Linus.
->
-> Link: https://lore.kernel.org/lkml/CAHk-=wjfgCa-u8h9z+8U7gaKK6PnRCpws1Md9wYSSXywUxoUSA@mail.gmail.com/
-> Link: https://lore.kernel.org/lkml/CAHk-=wjzpHjqhybyEhkTzGgTdBP3LZ1FmOw8=1MMXr=-j5OPxQ@mail.gmail.com/
-> Link: https://lore.kernel.org/lkml/CAHk-=wh-x1PL=UUGD__Dv6kd+kyCHjNF-TCHGG9ayLnysf-PdQ@mail.gmail.com/
-> Link: https://lore.kernel.org/lkml/CAHk-=wg27iiFZWYmjKmULxwkXisOHuAXq=vbiazBabgh9M1rqg@mail.gmail.com/
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
 > Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Thorsten Leemhuis <linux@leemhuis.info>
+> Cc: Rong Tao <rtoax@foxmail.com>
+> Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Cc: Zhangfei Gao <zhangfei.gao@foxmail.com>
 > Cc: linux-doc@vger.kernel.org
+> Cc: linux-hardening@vger.kernel.org
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  Documentation/process/coding-style.rst | 152 ++++++++++++++++++++++++-
->  1 file changed, 151 insertions(+), 1 deletion(-)
+> v2:
+>  - rewrite 2.Process.rst to be postive and link to new section.
+>  - fix typos and phrasing (Thorsten)
+>  - add missing "::" for block quotes
+>  - add Greg's Ack
+> v1: https://lore.kernel.org/lkml/20230510183423.never.877-kees@kernel.org
+> ---
+>  Documentation/process/2.Process.rst          |  7 +++---
+>  Documentation/process/submitting-patches.rst | 25 ++++++++++++++++++++
+>  2 files changed, 29 insertions(+), 3 deletions(-)
 
-So this looks generally OK to me.  I really like to see some reviews /
-acks on coding-style patches, though; I don't feel like I should be the
-arbiter of kernel coding style.
-
-One little comment below
-
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 6db37a46d305..3cf62c91d91c 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -819,10 +819,160 @@ Macros with multiple statements should be enclosed in a do - while block:
->  
->  	#define macrofun(a, b, c)			\
->  		do {					\
-> -			if (a == 5)			\
-> +			if ((a) == 5)			\
->  				do_this(b, c);		\
->  		} while (0)
->  
-> +Always use parentheses around macro arguments, except for the situations listed
-> +below.
-> +
-> +Examples where parentheses are required around macro arguments:
-> +
-> +.. code-block:: c
-> +
-> +	#define foo(a, b)				\
-> +		do {					\
-> +			(a) = (b);			\
-> +		} while (0)
-> +
-> +.. code-block:: c
-> +
-> +	#define foo(a)					\
-> +		do {					\
-> +			(a)++;				\
-> +		} while (0)
-> +
-> +.. code-block:: c
-> +
-> +	#define cmp_gt(a, b)			((a) > (b))
-> +
-> +.. code-block:: c
-> +
-> +	#define foo(a)				do_this(!(a))
-> +
-> +.. code-block:: c
-> +
-> +	#define foo(a)				do_this(*(a))
-> +
-> +.. code-block:: c
-> +
-> +	#define foo(a)				do_this(&(a))
-> +
-> +.. code-block:: c
-> +
-> +	#define get_member(struct_var)		do_this((struct_var).member)
-> +
-> +.. code-block:: c
-> +
-> +	#define deref_member(struct_ptr)	do_this((struct_ptr)->member)
-
-I wonder if we really need to give all of these examples?  We've already
-said "always put parentheses except in a few cases" - I would think that
-would be enough.
-
-> +Situations where parentheses should not be added around arguments, when:
-
-For these, it would be nice to say *why* parentheses shouldn't be added;
-helping readers understand the reasoning might have more benefit than
-imparting a set of rules.
-
-Thanks,
+Applied, thanks.
 
 jon
