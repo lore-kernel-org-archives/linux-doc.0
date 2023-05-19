@@ -2,157 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D17F9C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 10:51:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1138C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 12:00:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231613AbjESKvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 06:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37670 "EHLO
+        id S230362AbjESL77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 07:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjESKvR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 06:51:17 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 64ECCE4D;
-        Fri, 19 May 2023 03:51:13 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71B161FB;
-        Fri, 19 May 2023 03:51:57 -0700 (PDT)
-Received: from [10.57.84.114] (unknown [10.57.84.114])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C28623F762;
-        Fri, 19 May 2023 03:51:10 -0700 (PDT)
-Message-ID: <3dcc08c8-f8e8-69d0-7ad8-e8938f4f2cca@arm.com>
-Date:   Fri, 19 May 2023 11:50:56 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 3/3] Documentation/arm64: Update ACPI tables from BBR
-To:     Hanjun Guo <guohanjun@huawei.com>,
-        Jose Marinho <jose.marinho@arm.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jeremy Linton <Jeremy.Linton@arm.com>,
-        James Morse <James.Morse@arm.com>,
-        Rob Herring <Rob.Herring@arm.com>,
-        Will Deacon <will@kernel.org>,
+        with ESMTP id S229571AbjESL77 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 07:59:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05EADF5;
+        Fri, 19 May 2023 04:59:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 955C765710;
+        Fri, 19 May 2023 11:59:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6ECCC433EF;
+        Fri, 19 May 2023 11:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684497597;
+        bh=jGfCp1g8O5R8vITSnEGD8PGxEQbGPlY0ilYpANNCCaA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rl3XaIMlUbNbyDZRfTH8BGhpI6z9Y9DxA6Svt94cOsXYGzba520RDaU0XgL24vKdM
+         La3NQRENMGf2yXJziYPJq+MzgzRZIzqWpoNcjDWRa6I8vGsvsbnl2o5eYY05go683w
+         lHFsXp+mjrnKW1jVMXk4PIxcvEJoaaCPZAroSn/INjFJhJ+tl/k+cCS8asEYp5S2JM
+         HsunLtnp4zHAklMhHbSSYxvWgnU3fKmC1A1JDYi+2tGAWV/fZ+Ev+2a+Chc9lFWh9c
+         lq0yhdjf/BDk8+6xRkZq2gQwNkcLT4l2u4XlbmMjapUH+MZRGHNUVbDAb3AYkgn173
+         wsYZ/eTE+RuBQ==
+Date:   Fri, 19 May 2023 12:59:49 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
-References: <20230518105202.451739-1-jose.marinho@arm.com>
- <20230518105202.451739-4-jose.marinho@arm.com>
- <0969894f-d653-482c-f043-2a085ee3b404@huawei.com>
- <e9918d6e-ca5c-5a3a-6ff4-27acf7f73b30@arm.com>
- <dd0114f5-2e9c-40ea-8722-93fdf3f57b87@huawei.com>
-Content-Language: en-GB
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <dd0114f5-2e9c-40ea-8722-93fdf3f57b87@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
+Message-ID: <20230519115948.GB2637@willie-the-truck>
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-11-quic_eberman@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230509204801.2824351-11-quic_eberman@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-05-19 08:10, Hanjun Guo wrote:
-> On 2023/5/18 21:40, Robin Murphy wrote:
->> On 2023-05-18 13:07, Hanjun Guo wrote:
->>> Hi Jose,
->>>
->>> On 2023/5/18 18:52, Jose Marinho wrote:
->>>> The BBR specification requires (or conditionally requires) a set of 
->>>> ACPI
->>>> tables for a proper working system.
->>>> This commit updates:
->>>> - the list of ACPI tables to reflect the contents of
->>>> BBR version 2.0 (see 
->>>> https://developer.arm.com/documentation/den0044/g).
->>>> - the list of ACPI tables in acpi_object_usage. This last update 
->>>> ensures
->>>> that both files remain coherent.
->>>
->>> Thanks for the update, some comments inline.
->>>
->>>>
->>>> Signed-off-by: Jose Marinho <jose.marinho@arm.com>
->>>> Reviewed-by: Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
->>>> ---
->>>>   Documentation/arm64/acpi_object_usage.rst | 81 
->>>> +++++++++++++++++++++--
->>>>   Documentation/arm64/arm-acpi.rst          | 71 +++++++++++++++++---
->>>>   2 files changed, 139 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/Documentation/arm64/acpi_object_usage.rst 
->>>> b/Documentation/arm64/acpi_object_usage.rst
->>>> index 484ef9676653..1da22200fdf8 100644
->>>> --- a/Documentation/arm64/acpi_object_usage.rst
->>>> +++ b/Documentation/arm64/acpi_object_usage.rst
->>>> @@ -17,16 +17,37 @@ For ACPI on arm64, tables also fall into the 
->>>> following categories:
->>>>          -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
->>>> -       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, 
->>>> IBFT,
->>>> -          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, 
->>>> SPMI, SRAT,
->>>> -          STAO, TCPA, TPM2, UEFI, XENV
->>>> +       -  Optional: AGDI, BGRT, CEDT, CPEP, CSRT, DBG2, DRTM, ECDT, 
->>>> FACS, FPDT,
->>>> +          HMAT, IBFT, IORT, MCHI, MPAM, MPST, MSCT, NFIT, PMTT, 
->>>> PPTT, RASF, SBST,
->>>> +          SDEI, SLIT, SPMI, SRAT, STAO, TCPA, TPM2, UEFI, XENV
->>>> -       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT, 
->>>> MSDM, OEMx,
->>>> -          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
->>>> +       -  Not supported: AEST, APMT, BOOT, DBGP, DMAR, ETDT, HPET, 
->>>> IVRS, LPIT,
->>>
->>> AEST is ARM Error Source Table, and it can be used for ARM platforms, so
->>> I thinsk AEST is not belong to "Not supportted", "Optional" instead.
->>
->> Can you point to the code in Linux which does anything with AEST, 
->> optionally or otherwise? ;)
->>> and APMT is the same.
->>>
->>>> +          MSDM, OEMx, PDTT, PSDT, RAS2, RSDT, SLIC, WAET, WDAT, 
->>>> WDRT, WPBT
->>>
->>> PDTT and RAS2 are now used for ARM too, please move it to Optional :)
->>
->> Ditto; as stated in arm-acpi.rst this is Linux documentation covering 
->> the interaction between Linux and ACPI. It is not some kind of generic 
+Hi Elliot,
+
+On Tue, May 09, 2023 at 01:47:47PM -0700, Elliot Berman wrote:
+> When launching a virtual machine, Gunyah userspace allocates memory for
+> the guest and informs Gunyah about these memory regions through
+> SET_USER_MEMORY_REGION ioctl.
 > 
-> Hmm, let me see...
-> 
-> OK, I checked the arm-acpi.rst, it is saying:
-> 
-> "Detailed expectations for ACPI tables and object are listed in the file
-> Documentation/arm64/acpi_object_usage.rst."
-> 
-> So if I remember correctly, it is the guidance of ACPI tables and
-> methods usage on arm64, to align with the BBR.
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>  drivers/virt/gunyah/Makefile    |   2 +-
+>  drivers/virt/gunyah/vm_mgr.c    |  59 +++++++-
+>  drivers/virt/gunyah/vm_mgr.h    |  26 ++++
+>  drivers/virt/gunyah/vm_mgr_mm.c | 236 ++++++++++++++++++++++++++++++++
+>  include/uapi/linux/gunyah.h     |  37 +++++
+>  5 files changed, 356 insertions(+), 4 deletions(-)
+>  create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
 
-"The purpose of this document is to describe the interaction between
-ACPI and Linux only, on an ARMv8 system -- that is, what Linux expects 
-of ACPI and what ACPI can expect of Linux."
+[...]
 
-I don't see how it could get much clearer than that. Yes, phrasing like 
-"ACPI on arm64" is used elsewhere, but remember that in context "arm64" 
-means "AArch64 Linux".
+> +int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region)
+> +{
+> +	struct gh_vm_mem *mapping, *tmp_mapping;
+> +	struct page *curr_page, *prev_page;
+> +	struct gh_rm_mem_parcel *parcel;
+> +	int i, j, pinned, ret = 0;
+> +	unsigned int gup_flags;
+> +	size_t entry_size;
+> +	u16 vmid;
+> +
+> +	if (!region->memory_size || !PAGE_ALIGNED(region->memory_size) ||
+> +		!PAGE_ALIGNED(region->userspace_addr) ||
+> +		!PAGE_ALIGNED(region->guest_phys_addr))
+> +		return -EINVAL;
+> +
+> +	if (overflows_type(region->guest_phys_addr + region->memory_size, u64))
+> +		return -EOVERFLOW;
+> +
+> +	ret = mutex_lock_interruptible(&ghvm->mm_lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	mapping = __gh_vm_mem_find_by_label(ghvm, region->label);
+> +	if (mapping) {
+> +		ret = -EEXIST;
+> +		goto unlock;
+> +	}
+> +
+> +	list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
+> +		if (gh_vm_mem_overlap(tmp_mapping, region->guest_phys_addr,
+> +					region->memory_size)) {
+> +			ret = -EEXIST;
+> +			goto unlock;
+> +		}
+> +	}
+> +
+> +	mapping = kzalloc(sizeof(*mapping), GFP_KERNEL_ACCOUNT);
+> +	if (!mapping) {
+> +		ret = -ENOMEM;
+> +		goto unlock;
+> +	}
+> +
+> +	mapping->guest_phys_addr = region->guest_phys_addr;
+> +	mapping->npages = region->memory_size >> PAGE_SHIFT;
+> +	parcel = &mapping->parcel;
+> +	parcel->label = region->label;
+> +	parcel->mem_handle = GH_MEM_HANDLE_INVAL; /* to be filled later by mem_share/mem_lend */
+> +	parcel->mem_type = GH_RM_MEM_TYPE_NORMAL;
+> +
+> +	ret = account_locked_vm(ghvm->mm, mapping->npages, true);
+> +	if (ret)
+> +		goto free_mapping;
+> +
+> +	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL_ACCOUNT);
+> +	if (!mapping->pages) {
+> +		ret = -ENOMEM;
+> +		mapping->npages = 0; /* update npages for reclaim */
+> +		goto unlock_pages;
+> +	}
+> +
+> +	gup_flags = FOLL_LONGTERM;
+> +	if (region->flags & GH_MEM_ALLOW_WRITE)
+> +		gup_flags |= FOLL_WRITE;
+> +
+> +	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
+> +					gup_flags, mapping->pages);
+> +	if (pinned < 0) {
+> +		ret = pinned;
+> +		goto free_pages;
+> +	} else if (pinned != mapping->npages) {
+> +		ret = -EFAULT;
+> +		mapping->npages = pinned; /* update npages for reclaim */
+> +		goto unpin_pages;
+> +	}
 
->> ACPI-on-Arm guidance whitepaper. If and when Linux actually supports 
->> these tables in the sense of meaningfully consuming them, that is when 
->> we can document such support.
-> 
-> If this is the case, we don't need categories of "Required",
-> "Recommmened" and etc.
+Sorry if I missed it, but I still don't see where you reject file mappings
+here.
 
-Certainly the distinction between required and optional is significant 
-and useful, since Linux may fail to boot at all if a required table is 
-missing. I'd agree I can't really make sense of the "recommended" 
-category though - it's not like firmware could make up RAS support if 
-the hardware doesn't have it, and whether SSDTs are appropriate or not 
-seems to depend on the fundamental design of the system, rather than 
-being something an OS should dictate :/
+This is also the wrong interface for upstream. Please get involved with
+the fd-based guest memory discussions [1] and port your series to that. 
 
-However that's something we can think about separately, since it's 
-orthogonal to this content update.
+This patch cannot be merged in its current form.
 
-Thanks,
-Robin.
+Will
+
+[1] https://lore.kernel.org/kvm/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
