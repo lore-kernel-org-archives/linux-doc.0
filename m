@@ -2,67 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F7BBC77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 18:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E33DC77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 18:53:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231156AbjESScn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 14:32:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
+        id S229761AbjESSxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 14:53:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbjESScn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 14:32:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7DD31A6;
-        Fri, 19 May 2023 11:32:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3DEED65A5F;
-        Fri, 19 May 2023 18:32:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A614EC433EF;
-        Fri, 19 May 2023 18:32:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684521161;
-        bh=JfJ7WHxzSgF6V4re6C8ks11LFZp3bb9h+3RNn+n/5lw=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=ganf9fBH7xrNCOajohWB1DJadqP4czBDqxd2mwXqBsN9pyicD5pfQ+Kman/TSb5zP
-         eaDkWxySN5vkwjg6u0wDC7u8RIVC//qv8ZVPMSI6s15v92VZVPFNEpSMlT9ka4UwHW
-         XD1wOs31qo03lj2byeRO7TVhKLvG4OdZNaalT9A5fHSWdhnwPeGS3Z3VI9lidbnIGh
-         K0Iz4SdeP8Wq7RVSgtYoGNW5P/SthpXutGZx8aeYy0IDdqYc1mmrrsZTu+5NFFxgBX
-         szjtyYSXjciFatdY0bBwFsttQCve8IJWrqgf+olF7Gijo+CptUmfLdjlCr/2Mk+Roo
-         pE9n/fv9eqSyg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 94167C3959E;
-        Fri, 19 May 2023 18:32:41 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes for 6.4
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87wn14o0v1.fsf@meer.lwn.net>
-References: <87wn14o0v1.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87wn14o0v1.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.4-fixes
-X-PR-Tracked-Commit-Id: bd415b5c9552d44069d4e7c1e018b6d42f25af9e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: cbd6ac3837cdc62f3078b53b92ad6ee59329e4dd
-Message-Id: <168452116160.23824.9599555485462176599.pr-tracker-bot@kernel.org>
-Date:   Fri, 19 May 2023 18:32:41 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+        with ESMTP id S229680AbjESSxD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 14:53:03 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD68E42
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 11:53:02 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-562108900acso24845577b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 11:53:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google; t=1684522381; x=1687114381;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IvuKY+QiDOSLvpXbndNJuNB4TnmV65tz5O+BwirwJsE=;
+        b=cQEFC8tuad0qBhxqpwtvv0nLTlTibMvPJDQnyjusclVn14+QH4ihHQrIqRw2DEz+JK
+         BJ0+YvvKq+psiSFOyfBxFnwWmf1LpJdJMSyEogWaGJEbHIiyCUspbIhPjVEe26EUEFeq
+         ozsT9vTGWhambTmSQsW53Rg+POo8Tp4eyXBOY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684522381; x=1687114381;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IvuKY+QiDOSLvpXbndNJuNB4TnmV65tz5O+BwirwJsE=;
+        b=HRJbLeXWV7LW3PJI0esaV5scpBb4aRPSEbETw7HJZ2BoKTHvxsXZdJZbnC12+vCGAh
+         aSIOTNvE+A/N1qapmRPZ17rtuskMGzELd/FYpK7x2nPAButsMmH6C3FfNYNBsf8fOEEL
+         39dJEnJzgCkNX0turqtrA2MHwe7a4B8QaIYjGAeQ5WamtzZkpjsBPIZWRAbmHdQ2eqhJ
+         Ufu52r0wyZRr8Nj6uzTeV4N+y0EZsVglxrXLl+D134POzf62tZJZuh9Bsd8Ur1erdjoj
+         TaO9JrPGab0KNkKWsyVODuJXJDiN7BsryZMqRKu7oubDGK4UWA512Gp7qV1h/p1A+9XX
+         i+3w==
+X-Gm-Message-State: AC+VfDx/az+OMoSg9i8yIY/pZON5mrc3oW56cc9g5hFRBooqfR+k5irQ
+        QH18GGqoCaO+MwCnVndmzbyERXELgkxTkHsEUKxXZQ==
+X-Google-Smtp-Source: ACHHUZ52j3pJFuWwa8N8k1bNDWUmJfHV19FIYtf6A4VcQe3nEXJuM97t5ReUFUuGS1iExkCOEK1Q0+8kfZ/fHjlGj2I=
+X-Received: by 2002:a0d:d44f:0:b0:55d:aff9:975b with SMTP id
+ w76-20020a0dd44f000000b0055daff9975bmr3126455ywd.12.1684522381325; Fri, 19
+ May 2023 11:53:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230518224008.2468-1-sj@kernel.org> <20230518224008.2468-5-sj@kernel.org>
+In-Reply-To: <20230518224008.2468-5-sj@kernel.org>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Fri, 19 May 2023 14:52:50 -0400
+Message-ID: <CAEXW_YQFqW2QcAuHZEhc_GaUaB-=QOS0WgUOizd=FYwtFQ8vag@mail.gmail.com>
+Subject: Re: [PATCH 4/4] Docs/RCU/rculist_nulls: Drop unnecessary '_release'
+ in insert function
+To:     SeongJae Park <sj@kernel.org>
+Cc:     paulmck@kernel.org, corbet@lwn.net, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Fri, 19 May 2023 08:24:34 -0600:
+On Thu, May 18, 2023 at 6:40=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
+:
+>
+> The document says we can avoid extra smp_rmb() in lockless_lookup() and
+> extra _release() in insert function when hlist_nulls is used.  However,
+> the example code snippet for the insert function is still using the
+> extra _release().  Drop it.
+>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/RCU/rculist_nulls.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rcul=
+ist_nulls.rst
+> index 5cd6f3f8810f..463270273d89 100644
+> --- a/Documentation/RCU/rculist_nulls.rst
+> +++ b/Documentation/RCU/rculist_nulls.rst
+> @@ -191,7 +191,7 @@ scan the list again without harm.
+>    obj =3D kmem_cache_alloc(cachep);
+>    lock_chain(); // typically a spin_lock()
+>    obj->key =3D key;
+> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
+> +  atomic_set(&obj->refcnt, 1);
+>    /*
+>     * insert obj in RCU way (readers might be traversing chain)
+>     */
 
-> git://git.lwn.net/linux.git tags/docs-6.4-fixes
+If write to ->refcnt of 1 is reordered with setting of ->key, what
+prevents the 'lookup algorithm' from doing a key match (obj->key =3D=3D
+key) before the refcount has been initialized?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/cbd6ac3837cdc62f3078b53b92ad6ee59329e4dd
+Are we sure the reordering mentioned in the document is the same as
+the reordering prevented by the atomic_set_release()?
 
-Thank you!
+For the other 3 patches, feel free to add:
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+thanks,
+
+ - Joel
