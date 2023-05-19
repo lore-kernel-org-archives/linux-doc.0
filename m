@@ -2,102 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E33DC77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 18:53:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7AD2C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 19:49:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbjESSxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 14:53:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
+        id S229745AbjESTts (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 15:49:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbjESSxD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 14:53:03 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD68E42
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 11:53:02 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-562108900acso24845577b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 11:53:02 -0700 (PDT)
+        with ESMTP id S229523AbjESTtr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 15:49:47 -0400
+Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7581819F;
+        Fri, 19 May 2023 12:49:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1684522381; x=1687114381;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IvuKY+QiDOSLvpXbndNJuNB4TnmV65tz5O+BwirwJsE=;
-        b=cQEFC8tuad0qBhxqpwtvv0nLTlTibMvPJDQnyjusclVn14+QH4ihHQrIqRw2DEz+JK
-         BJ0+YvvKq+psiSFOyfBxFnwWmf1LpJdJMSyEogWaGJEbHIiyCUspbIhPjVEe26EUEFeq
-         ozsT9vTGWhambTmSQsW53Rg+POo8Tp4eyXBOY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684522381; x=1687114381;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IvuKY+QiDOSLvpXbndNJuNB4TnmV65tz5O+BwirwJsE=;
-        b=HRJbLeXWV7LW3PJI0esaV5scpBb4aRPSEbETw7HJZ2BoKTHvxsXZdJZbnC12+vCGAh
-         aSIOTNvE+A/N1qapmRPZ17rtuskMGzELd/FYpK7x2nPAButsMmH6C3FfNYNBsf8fOEEL
-         39dJEnJzgCkNX0turqtrA2MHwe7a4B8QaIYjGAeQ5WamtzZkpjsBPIZWRAbmHdQ2eqhJ
-         Ufu52r0wyZRr8Nj6uzTeV4N+y0EZsVglxrXLl+D134POzf62tZJZuh9Bsd8Ur1erdjoj
-         TaO9JrPGab0KNkKWsyVODuJXJDiN7BsryZMqRKu7oubDGK4UWA512Gp7qV1h/p1A+9XX
-         i+3w==
-X-Gm-Message-State: AC+VfDx/az+OMoSg9i8yIY/pZON5mrc3oW56cc9g5hFRBooqfR+k5irQ
-        QH18GGqoCaO+MwCnVndmzbyERXELgkxTkHsEUKxXZQ==
-X-Google-Smtp-Source: ACHHUZ52j3pJFuWwa8N8k1bNDWUmJfHV19FIYtf6A4VcQe3nEXJuM97t5ReUFUuGS1iExkCOEK1Q0+8kfZ/fHjlGj2I=
-X-Received: by 2002:a0d:d44f:0:b0:55d:aff9:975b with SMTP id
- w76-20020a0dd44f000000b0055daff9975bmr3126455ywd.12.1684522381325; Fri, 19
- May 2023 11:53:01 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1684525786; x=1716061786;
+  h=mime-version:content-transfer-encoding:date:to:cc:from:
+   message-id:references:in-reply-to:subject;
+  bh=W0aeDSQlpa8RnbtI8R4fU5iLyJqG7lFtVnkckklLVdU=;
+  b=rTbBXodvNvd84+WqrzpyAPtQlDMmZ/65kWgx46byFtiHKOGV9806cwau
+   Jjk3ZtABGNf6ByxAoARmFmbkqjwIxxW9fogo1CmUb1v/aK68U25GtXWwQ
+   elgr+Sk4mmsGXL7+6ynQW2mYZMsZwRg/8fYZoY6Yw9dyuuwqJ45rCW/8x
+   I=;
+X-IronPort-AV: E=Sophos;i="6.00,177,1681171200"; 
+   d="scan'208";a="4376891"
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-e7094f15.us-west-2.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 19:49:44 +0000
+Received: from EX19D004EUC001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-pdx-2c-m6i4x-e7094f15.us-west-2.amazon.com (Postfix) with ESMTPS id 9CE90410CD;
+        Fri, 19 May 2023 19:49:41 +0000 (UTC)
+Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
+ (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Fri, 19 May
+ 2023 19:49:27 +0000
 MIME-Version: 1.0
-References: <20230518224008.2468-1-sj@kernel.org> <20230518224008.2468-5-sj@kernel.org>
-In-Reply-To: <20230518224008.2468-5-sj@kernel.org>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Fri, 19 May 2023 14:52:50 -0400
-Message-ID: <CAEXW_YQFqW2QcAuHZEhc_GaUaB-=QOS0WgUOizd=FYwtFQ8vag@mail.gmail.com>
-Subject: Re: [PATCH 4/4] Docs/RCU/rculist_nulls: Drop unnecessary '_release'
- in insert function
-To:     SeongJae Park <sj@kernel.org>
-Cc:     paulmck@kernel.org, corbet@lwn.net, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date:   Fri, 19 May 2023 19:49:23 +0000
+To:     Sean Christopherson <seanjc@google.com>
+CC:     Chao Peng <chao.p.peng@linux.intel.com>, <kvm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <qemu-devel@nongnu.org>, <graf@amazon.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Naoya Horiguchi" <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Shuah Khan" <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Vishal Annapurve" <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        <luto@kernel.org>, <jun.nakajima@intel.com>,
+        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
+        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
+        Quentin Perret <qperret@google.com>, <tabba@google.com>,
+        Michael Roth <michael.roth@amd.com>, <mhocko@suse.com>,
+        <wei.w.wang@intel.com>, <anelkz@amazon.de>
+From:   Nicolas Saenz Julienne <nsaenz@amazon.com>
+Message-ID: <CSQI5IB968XC.GO0OPMYT1C8N@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
+X-Mailer: aerc 0.15.2-21-g30c1a30168df-dirty
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+ <CSQFE7I30W27.2TPDIHOTZNRIZ@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com> <ZGe+m+uFzpiW7wlr@google.com>
+In-Reply-To: <ZGe+m+uFzpiW7wlr@google.com>
+X-Originating-IP: [10.13.235.138]
+X-ClientProxiedBy: EX19D032UWB002.ant.amazon.com (10.13.139.190) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 18, 2023 at 6:40=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
-:
+Hi Sean,
+
+On Fri May 19, 2023 at 6:23 PM UTC, Sean Christopherson wrote:
+> On Fri, May 19, 2023, Nicolas Saenz Julienne wrote:
+> > Hi,
+> >
+> > On Fri Dec 2, 2022 at 6:13 AM UTC, Chao Peng wrote:
+> >
+> > [...]
+> > > +The user sets the per-page memory attributes to a guest memory range=
+ indicated
+> > > +by address/size, and in return KVM adjusts address and size to refle=
+ct the
+> > > +actual pages of the memory range have been successfully set to the a=
+ttributes.
+> > > +If the call returns 0, "address" is updated to the last successful a=
+ddress + 1
+> > > +and "size" is updated to the remaining address size that has not bee=
+n set
+> > > +successfully. The user should check the return value as well as the =
+size to
+> > > +decide if the operation succeeded for the whole range or not. The us=
+er may want
+> > > +to retry the operation with the returned address/size if the previou=
+s range was
+> > > +partially successful.
+> > > +
+> > > +Both address and size should be page aligned and the supported attri=
+butes can be
+> > > +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
+> > > +
+> > > +The "flags" field may be used for future extensions and should be se=
+t to 0s.
+> >
+> > We have been looking into adding support for the Hyper-V VSM extensions
+> > which Windows uses to implement Credential Guard. This interface seems
+> > like a good fit for one of its underlying features. I just wanted to
+> > share a bit about it, and see if we can expand it to fit this use-case.
+> > Note that this was already briefly discussed between Sean and Alex some
+> > time ago[1].
+> >
+> > VSM introduces isolated guest execution contexts called Virtual Trust
+> > Levels (VTL) [2]. Each VTL has its own memory access protections,
+> > virtual processors states, interrupt controllers and overlay pages. VTL=
+s
+> > are hierarchical and might enforce memory protections on less privilege=
+d
+> > VTLs. Memory protections are enforced on a per-GPA granularity.
+> >
+> > The list of possible protections is:
+> > - No access -- This needs a new memory attribute, I think.
 >
-> The document says we can avoid extra smp_rmb() in lockless_lookup() and
-> extra _release() in insert function when hlist_nulls is used.  However,
-> the example code snippet for the insert function is still using the
-> extra _release().  Drop it.
+> No, if KVM provides three bits for READ, WRITE, and EXECUTE, then userspa=
+ce can
+> get all the possible combinations.  E.g. this is RWX=3D000b
+
+That's not what the current implementation does, when attributes is
+equal 0 it clears the entries from the xarray:
+
+static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+					   struct kvm_memory_attributes *attrs)
+{
+
+    entry =3D attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+[...]
+    for (i =3D start; i < end; i++)
+    	if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+    			    GFP_KERNEL_ACCOUNT)))
+        		break;
+}
+
+From Documentation/core-api/xarray.rst:
+
+"There is no difference between an entry that has never
+been stored to, one that has been erased and one that has most recently
+had ``NULL`` stored to it."
+
+The way I understood the series, there needs to be a differentiation
+between no attributes (regular page fault) and no-access.
+
+> > We implemented this in the past by using a separate address space per
+> > VTL and updating memory regions on protection changes. But having to
+> > update the memory slot layout for every permission change scales poorly=
+,
+> > especially as we have to perform 100.000s of these operations at boot
+> > (see [1] for a little more context).
+> >
+> > I believe the biggest barrier for us to use memory attributes is not
+> > having the ability to target specific address spaces, or to the very
+> > least having some mechanism to maintain multiple independent layers of
+> > attributes.
 >
-> Signed-off-by: SeongJae Park <sj@kernel.org>
-> ---
->  Documentation/RCU/rculist_nulls.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rcul=
-ist_nulls.rst
-> index 5cd6f3f8810f..463270273d89 100644
-> --- a/Documentation/RCU/rculist_nulls.rst
-> +++ b/Documentation/RCU/rculist_nulls.rst
-> @@ -191,7 +191,7 @@ scan the list again without harm.
->    obj =3D kmem_cache_alloc(cachep);
->    lock_chain(); // typically a spin_lock()
->    obj->key =3D key;
-> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> +  atomic_set(&obj->refcnt, 1);
->    /*
->     * insert obj in RCU way (readers might be traversing chain)
->     */
+> Can you elaborate on "specific address spaces"?  In KVM, that usually mea=
+ns SMM,
+> but the VTL comment above makes me think you're talking about something e=
+ntirely
+> different.  E.g. can you provide a brief summary of the requirements/expe=
+ctations?
 
-If write to ->refcnt of 1 is reordered with setting of ->key, what
-prevents the 'lookup algorithm' from doing a key match (obj->key =3D=3D
-key) before the refcount has been initialized?
+I'll do so with a clear head on Monday. :)
 
-Are we sure the reordering mentioned in the document is the same as
-the reordering prevented by the atomic_set_release()?
-
-For the other 3 patches, feel free to add:
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-
-thanks,
-
- - Joel
+Thanks!
+Nicolas
