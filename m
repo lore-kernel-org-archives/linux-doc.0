@@ -2,71 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8BCAC77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 17:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C40E1C77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 17:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjESRGR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 13:06:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48296 "EHLO
+        id S232027AbjESRdm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 13:33:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231345AbjESRFq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 13:05:46 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3C1E5C;
-        Fri, 19 May 2023 10:05:32 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3FF7B7C0;
-        Fri, 19 May 2023 17:05:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3FF7B7C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684515921; bh=32yUJ/Ep+SRRswkhu8CSGkcBJ2kdTHXVgiH1bkIO4qs=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Sz93O2MrDkbaobmjkJ4YaHN0AUsD9dSLwiu3oH8qY4OEUKIHsY0wZxUduPTtQiDGm
-         F6EjFmjz4TlLD5IYnTPhc007iYrszZr4V5JyctI/kGhBb1Pqxf37RXfMsiP2DzS6re
-         Sy0+VaKsJIfemyC0l+d2yBBLQks8akk4UaK6GRUZuIQ47YAGOajWtf66psmV+IdXtc
-         7az6kUp5rKGdc9B0V326bC75avIMUS4DPGYYd8QZwOL9SHfYewwv2ZVP5glXpAm/fp
-         xgu5x8yS+QifekV7BKMjJt9KX5ewJhXJ/7AgXYsVCnXAUlupWqmEHvFntzHAciAEtR
-         tzl6G8QjkX3dg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 7/7] dt-bindings: Update Documentation/arm references
-In-Reply-To: <20230519-tug-garbage-4fee2efc3f0a@spud>
-References: <20230519164607.38845-1-corbet@lwn.net>
- <20230519164607.38845-8-corbet@lwn.net>
- <20230519-tug-garbage-4fee2efc3f0a@spud>
-Date:   Fri, 19 May 2023 11:05:20 -0600
-Message-ID: <877ct4meun.fsf@meer.lwn.net>
+        with ESMTP id S232064AbjESRdh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 13:33:37 -0400
+Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80559E5F;
+        Fri, 19 May 2023 10:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1684517595; x=1716053595;
+  h=mime-version:content-transfer-encoding:date:cc:subject:
+   from:to:message-id:references:in-reply-to;
+  bh=CDpNYbYopL6l908P9YpiX0NY2dAoYXZOF2ciVkFIcHY=;
+  b=skRf3WeULY4iY1sDYu2VGD1JjQuOJI+lZ3usiYVoTiAomNsY4J7dCzSm
+   ApbeGhH5wra4vi57ni6BlTH+FZFLQ+yseA+SAKp6C2tTYEXB4DfnAaq/p
+   VLxqE4KTdmOshG3yBBgfr8K0oiex71Q0efNs2Gn/+pDNIgFAEqlgswxcj
+   E=;
+X-IronPort-AV: E=Sophos;i="6.00,177,1681171200"; 
+   d="scan'208";a="4343439"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-f7c754c9.us-west-2.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 17:32:31 +0000
+Received: from EX19D004EUC001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-pdx-2c-m6i4x-f7c754c9.us-west-2.amazon.com (Postfix) with ESMTPS id 9037C40D80;
+        Fri, 19 May 2023 17:32:28 +0000 (UTC)
+Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
+ (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Fri, 19 May
+ 2023 17:32:14 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date:   Fri, 19 May 2023 17:32:10 +0000
+CC:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        <luto@kernel.org>, <jun.nakajima@intel.com>,
+        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
+        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
+        Quentin Perret <qperret@google.com>, <tabba@google.com>,
+        Michael Roth <michael.roth@amd.com>, <mhocko@suse.com>,
+        <wei.w.wang@intel.com>, <anelkz@amazon.de>
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+From:   Nicolas Saenz Julienne <nsaenz@amazon.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>, <kvm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <qemu-devel@nongnu.org>, <graf@amazon.com>, <seanjc@google.com>
+Message-ID: <CSQFE7I30W27.2TPDIHOTZNRIZ@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
+X-Mailer: aerc 0.15.2-21-g30c1a30168df-dirty
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+X-Originating-IP: [10.13.235.138]
+X-ClientProxiedBy: EX19D037UWB001.ant.amazon.com (10.13.138.123) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Conor Dooley <conor@kernel.org> writes:
+Hi,
 
-> On Fri, May 19, 2023 at 10:46:07AM -0600, Jonathan Corbet wrote:
->> The Arm documentation has moved to Documentation/arch/arm; update
->> references under arch/arm64 to match.
->
-> This commit message seems a wee bit inaccurate ;)
+On Fri Dec 2, 2022 at 6:13 AM UTC, Chao Peng wrote:
 
-Argh.  I pulled this change out into a separate patch because checkpatch
-whined at me, and did it a bit too quickly, I guess...
+[...]
 
->> Cc: Rob Herring <robh+dt@kernel.org>
->> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
->> Cc: Conor Dooley <conor+dt@kernel.org>
->
-> Otherwise,
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
+> +-----------------------------------------
+> +
+> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> +:Architectures: x86
+> +:Type: vm ioctl
+> +:Parameters: u64 memory attributes bitmask(out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Returns supported memory attributes bitmask. Supported memory attributes=
+ will
+> +have the corresponding bits set in u64 memory attributes bitmask.
+> +
+> +The following memory attributes are defined::
+> +
+> +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
+> +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
+> +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
+> +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+> +
+> +4.139 KVM_SET_MEMORY_ATTRIBUTES
+> +-----------------------------------------
+> +
+> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> +:Architectures: x86
+> +:Type: vm ioctl
+> +:Parameters: struct kvm_memory_attributes(in/out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Sets memory attributes for pages in a guest memory range. Parameters are
+> +specified via the following structure::
+> +
+> +  struct kvm_memory_attributes {
+> +	__u64 address;
+> +	__u64 size;
+> +	__u64 attributes;
+> +	__u64 flags;
+> +  };
+> +
+> +The user sets the per-page memory attributes to a guest memory range ind=
+icated
+> +by address/size, and in return KVM adjusts address and size to reflect t=
+he
+> +actual pages of the memory range have been successfully set to the attri=
+butes.
+> +If the call returns 0, "address" is updated to the last successful addre=
+ss + 1
+> +and "size" is updated to the remaining address size that has not been se=
+t
+> +successfully. The user should check the return value as well as the size=
+ to
+> +decide if the operation succeeded for the whole range or not. The user m=
+ay want
+> +to retry the operation with the returned address/size if the previous ra=
+nge was
+> +partially successful.
+> +
+> +Both address and size should be page aligned and the supported attribute=
+s can be
+> +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
+> +
+> +The "flags" field may be used for future extensions and should be set to=
+ 0s.
 
-Thanks,
+We have been looking into adding support for the Hyper-V VSM extensions
+which Windows uses to implement Credential Guard. This interface seems
+like a good fit for one of its underlying features. I just wanted to
+share a bit about it, and see if we can expand it to fit this use-case.
+Note that this was already briefly discussed between Sean and Alex some
+time ago[1].
 
-jon
+VSM introduces isolated guest execution contexts called Virtual Trust
+Levels (VTL) [2]. Each VTL has its own memory access protections,
+virtual processors states, interrupt controllers and overlay pages. VTLs
+are hierarchical and might enforce memory protections on less privileged
+VTLs. Memory protections are enforced on a per-GPA granularity.
+
+The list of possible protections is:
+- No access -- This needs a new memory attribute, I think.
+- Read-only, no execute
+- Read-only, execute
+- Read/write, no execute
+- Read/write, execute
+
+We implemented this in the past by using a separate address space per
+VTL and updating memory regions on protection changes. But having to
+update the memory slot layout for every permission change scales poorly,
+especially as we have to perform 100.000s of these operations at boot
+(see [1] for a little more context).
+
+I believe the biggest barrier for us to use memory attributes is not
+having the ability to target specific address spaces, or to the very
+least having some mechanism to maintain multiple independent layers of
+attributes.
+
+Also sorry for not posting our VSM patches. They are not ready for
+upstream review yet, but we're working on it.
+
+Nicolas
+
+[1] https://patchwork.kernel.org/comment/25054908/
+[2] See Chapter 15 of Microsoft's 'Hypervisor Top Level Functional Specific=
+ation':
+    https://raw.githubusercontent.com/MicrosoftDocs/Virtualization-Document=
+ation/main/tlfs/Hypervisor%20Top%20Level%20Functional%20Specification%20v6.=
+0b.pdf
