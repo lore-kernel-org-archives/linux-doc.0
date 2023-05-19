@@ -2,166 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4FE9C77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 17:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81DF5C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 18:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbjESR4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 13:56:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54280 "EHLO
+        id S229696AbjESSXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 14:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjESR4r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 13:56:47 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7771E110;
-        Fri, 19 May 2023 10:56:42 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED4EC1FB;
-        Fri, 19 May 2023 10:57:26 -0700 (PDT)
-Received: from [192.168.178.6] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E7E5F3F59C;
-        Fri, 19 May 2023 10:56:39 -0700 (PDT)
-Message-ID: <f5801f5b-6ee8-6b84-b6bb-46e89b165091@arm.com>
-Date:   Fri, 19 May 2023 19:56:38 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
-Content-Language: en-US
-To:     Vineeth Pillai <vineeth@bitbyteword.org>,
-        luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230515025716.316888-1-vineeth@bitbyteword.org>
- <20230515025716.316888-3-vineeth@bitbyteword.org>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20230515025716.316888-3-vineeth@bitbyteword.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229691AbjESSX2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 14:23:28 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E950518F
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 11:23:24 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id d2e1a72fcca58-64d285fc7ecso1923044b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 11:23:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684520604; x=1687112604;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DLB02Z/Vwsol/Ye6PM6jgDdfosuGHdGXe49pn4jVFGs=;
+        b=ITz9fDEYRz6uJ1+nRWO7vsSi14em+HdSJidcWgxJ4Wt6DeOJu7xDarNLoGHPPmOBJm
+         513df8JS3NzUdZBK5GSwxSAE1obesd28XWXoOz2iBbvdy2ADgD8Q7q4etCMKIPinEZf9
+         82KenOrwjvv/KK8vs+qKxwowe4qePsP8+TuW1ty9rOYtzfzi/ynfD476K7Sa4jcxQ34p
+         HkwfUr8RcwOMfxti367AckaqXDd3aDIN65dnmKhBIIZmfTcWPib/CZQFAhBLIgn2eTM2
+         VcgA71nqkKuEZwM79FEKmyy8iW+KFC3fLH2DABkTHNX+7IlmO+RnTTQJhuLLoZh1rgpR
+         H95A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684520604; x=1687112604;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DLB02Z/Vwsol/Ye6PM6jgDdfosuGHdGXe49pn4jVFGs=;
+        b=hMUBLvRBm9/RpGi4IqRBoRluj0Urjkl+waiwjvUHxglYe33Tcljc831AChim0i7PJB
+         31J6n9ts66QKQzYVEmUkB8AQmVwu/Y3wSDSSjfpEwa0vs+PaZDoWCbWIbubRffjgs5Dq
+         vW6eKf00jynHHDg4teSdqUvS2JQa8t14x8QOVGUgFGrRIfHJwnI4FmYdDPsPaccPLHIj
+         74ckYeOYvHQVfbkCPLtQQflLoveef5Q9HHp2Nuuyqq4TtxR92j3okEUM0R0/O2t4Bx26
+         oO/YKEH5u50GGWsBYpN3xU00v4m4SIswwPDo0UzcOgO49MgGK8szlw0DRgcPGBd9ggs4
+         8FCw==
+X-Gm-Message-State: AC+VfDwbfiHm5OcketklmhtIk2b5yME0FDSc53l4fLZRGi1+JkwX/qLP
+        9EJA6PpySpRB/Y6mIiFrm44K5OCJkIQ=
+X-Google-Smtp-Source: ACHHUZ419BZyva9XfjdHZezzlVRJTJng9P1rwHIVB2iZ3Kvn5yX6WZYPLwlGGRjyBM2xKvPRPQpWmzT2ch0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:aa7:88c4:0:b0:643:4595:64c7 with SMTP id
+ k4-20020aa788c4000000b00643459564c7mr1352262pff.4.1684520604384; Fri, 19 May
+ 2023 11:23:24 -0700 (PDT)
+Date:   Fri, 19 May 2023 11:23:23 -0700
+In-Reply-To: <CSQFE7I30W27.2TPDIHOTZNRIZ@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
+Mime-Version: 1.0
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com> <CSQFE7I30W27.2TPDIHOTZNRIZ@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
+Message-ID: <ZGe+m+uFzpiW7wlr@google.com>
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+From:   Sean Christopherson <seanjc@google.com>
+To:     Nicolas Saenz Julienne <nsaenz@amazon.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, graf@amazon.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com, anelkz@amazon.de
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vineeth,
-
-On 15/05/2023 04:57, Vineeth Pillai wrote:
-> In a multi-processor system, bandwidth usage is divided equally to
-> all cpus. This causes issues with reclaiming free bandwidth on a cpu.
-> "Uextra" is same on all cpus in a root domain and running_bw would be
-> different based on the reserved bandwidth of tasks running on the cpu.
-> This causes disproportionate reclaiming - task with lesser bandwidth
-> reclaims less even if its the only task running on that cpu.
+On Fri, May 19, 2023, Nicolas Saenz Julienne wrote:
+> Hi,
 > 
-> Following is a small test with three tasks with reservations (8,10)
-> (1,10) and (1, 100). These three tasks run on different cpus. But
-> since the reclamation logic calculates available bandwidth as a factor
-> of globally available bandwidth, tasks with lesser bandwidth reclaims
-> only little compared to higher bandwidth even if cpu has free and
-> available bandwidth to be reclaimed.
+> On Fri Dec 2, 2022 at 6:13 AM UTC, Chao Peng wrote:
 > 
-> TID[730]: RECLAIM=1, (r=8ms, d=10ms, p=10ms), Util: 95.05
-> TID[731]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 31.34
-> TID[732]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 3.16
-
-What does this 'Util: X' value stand for? I assume it's the utilization
-of the task? How do you obtain it?
-
-I see that e.g. TID[731] should run 1ms each 10ms w/o grub and with grub
-the runtime could be potentially longer since 'scaled_delta_exec < delta'.
-
-I don't get this comment in update_curr_dl():
-
-1325    /*
-1326     * For tasks that participate in GRUB, we implement GRUB-PA: the
-1327     * spare reclaimed bandwidth is used to clock down frequency.
-1328     *
-
-It looks like dl_se->runtime is affected and with 'scaled_delta_exec <
-delta' the task runs longer than dl_se->dl_runtime?
-
-> Fix: use the available bandwidth on each cpu to calculate reclaimable
-> bandwidth. Admission control takes care of total bandwidth and hence
-> using the available bandwidth on a specific cpu would not break the
-> deadline guarentees.
+> [...]
+> > +The user sets the per-page memory attributes to a guest memory range indicated
+> > +by address/size, and in return KVM adjusts address and size to reflect the
+> > +actual pages of the memory range have been successfully set to the attributes.
+> > +If the call returns 0, "address" is updated to the last successful address + 1
+> > +and "size" is updated to the remaining address size that has not been set
+> > +successfully. The user should check the return value as well as the size to
+> > +decide if the operation succeeded for the whole range or not. The user may want
+> > +to retry the operation with the returned address/size if the previous range was
+> > +partially successful.
+> > +
+> > +Both address and size should be page aligned and the supported attributes can be
+> > +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
+> > +
+> > +The "flags" field may be used for future extensions and should be set to 0s.
 > 
-> With this fix, the above test behaves as follows:
-> TID[586]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.24
-> TID[585]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 95.01
-> TID[584]: RECLAIM=1, (r=8ms, d=10ms, p=10ms), Util: 95.01
+> We have been looking into adding support for the Hyper-V VSM extensions
+> which Windows uses to implement Credential Guard. This interface seems
+> like a good fit for one of its underlying features. I just wanted to
+> share a bit about it, and see if we can expand it to fit this use-case.
+> Note that this was already briefly discussed between Sean and Alex some
+> time ago[1].
 > 
-> Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
-> ---
->  kernel/sched/deadline.c | 22 +++++++---------------
->  1 file changed, 7 insertions(+), 15 deletions(-)
+> VSM introduces isolated guest execution contexts called Virtual Trust
+> Levels (VTL) [2]. Each VTL has its own memory access protections,
+> virtual processors states, interrupt controllers and overlay pages. VTLs
+> are hierarchical and might enforce memory protections on less privileged
+> VTLs. Memory protections are enforced on a per-GPA granularity.
 > 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 91451c1c7e52..85902c4c484b 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -1272,7 +1272,7 @@ int dl_runtime_exceeded(struct sched_dl_entity *dl_se)
->   *	Umax:		Max usable bandwidth for DL. Currently
->   *			= sched_rt_runtime_us / sched_rt_period_us
->   *	Uextra:		Extra bandwidth not reserved:
-> - *			= Umax - \Sum(u_i / #cpus in the root domain)
-> + *			= Umax - this_bw
->   *	u_i:		Bandwidth of an admitted dl task in the
->   *			root domain.
->   *
-> @@ -1286,22 +1286,14 @@ int dl_runtime_exceeded(struct sched_dl_entity *dl_se)
->   */
->  static u64 grub_reclaim(u64 delta, struct rq *rq, struct sched_dl_entity *dl_se)
->  {
-> -	u64 u_act;
-> -	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot - Uact */
-> -
->  	/*
-> -	 * Instead of computing max{u, (rq->dl.max_bw - u_inact - u_extra)},
-> -	 * we compare u_inact + rq->dl.extra_bw with
-> -	 * rq->dl.max_bw - u, because u_inact + rq->dl.extra_bw can be larger
-> -	 * than rq->dl.max_bw (so, rq->dl.max_bw - u_inact - rq->dl.extra_bw
-> -	 * would be negative leading to wrong results)
-> +	 * max{u, Umax - Uinact - Uextra}
-> +	 * = max{u, max_bw - (this_bw - running_bw) + (this_bw - running_bw)}
-> +	 * = max{u, running_bw} = running_bw
-> +	 * So dq = -(max{u, Umax - Uinact - Uextra} / Umax) dt
-> +	 *       = -(running_bw / max_bw) dt
->  	 */
-> -	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
-> -		u_act = dl_se->dl_bw;
-> -	else
-> -		u_act = rq->dl.max_bw - u_inact - rq->dl.extra_bw;
-> -
-> -	return div64_u64(delta * u_act, rq->dl.max_bw);
-> +	return div64_u64(delta * rq->dl.running_bw, rq->dl.max_bw);
+> The list of possible protections is:
+> - No access -- This needs a new memory attribute, I think.
 
-I did the test discussed later in this thread with:
+No, if KVM provides three bits for READ, WRITE, and EXECUTE, then userspace can
+get all the possible combinations.  E.g. this is RWX=000b
 
-3 [3/100] tasks (dl_se->dl_bw = (3 << 20)/100 = 31457) on 3 CPUs
+> - Read-only, no execute
 
-factor = scaled_delta_exec/delta
+RWX=100b (using my completely arbitrary ordering of RWX bits :-) )
 
-- existing grub
+> - Read-only, execute
 
-rq->dl.bw_ratio = ( 100 << 8 ) / 95 = 269
-rq->dl.extra_bw = ( 95 << 20 ) / 100 = 996147
+RWX=101b
 
-cpu=2 curr->[thread0-2 1715] delta=2140100 this_bw=31457
-running_bw=31457 extra_bw=894788 u_inact=0 u_act_min=33054 u_act=153788
-scaled_delta_exec=313874 factor=0.14
+> - Read/write, no execute
 
-- your solution patch [1-2]
+RWX=110b
 
-cpu=2 curr->[thread0-0 1676] delta=157020 running_bw=31457 max_bw=996147
-res=4958 factor=0.03
+> - Read/write, execute
 
-You say that GRUB calculation is inaccurate and that this inaccuracy
-gets larger as the bandwidth of tasks becomes smaller.
+RWX=111b
 
-Could you explain this inaccuracy on this example?
+> We implemented this in the past by using a separate address space per
+> VTL and updating memory regions on protection changes. But having to
+> update the memory slot layout for every permission change scales poorly,
+> especially as we have to perform 100.000s of these operations at boot
+> (see [1] for a little more context).
+> 
+> I believe the biggest barrier for us to use memory attributes is not
+> having the ability to target specific address spaces, or to the very
+> least having some mechanism to maintain multiple independent layers of
+> attributes.
+
+Can you elaborate on "specific address spaces"?  In KVM, that usually means SMM,
+but the VTL comment above makes me think you're talking about something entirely
+different.  E.g. can you provide a brief summary of the requirements/expectations?
+
+> Also sorry for not posting our VSM patches. They are not ready for
+> upstream review yet, but we're working on it.
+> 
+> Nicolas
+> 
+> [1] https://patchwork.kernel.org/comment/25054908/
+> [2] See Chapter 15 of Microsoft's 'Hypervisor Top Level Functional Specification':
+>     https://raw.githubusercontent.com/MicrosoftDocs/Virtualization-Documentation/main/tlfs/Hypervisor%20Top%20Level%20Functional%20Specification%20v6.0b.pdf
