@@ -2,102 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB5FC77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 15:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED219C7EE26
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 15:17:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232269AbjESPOD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 11:14:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47488 "EHLO
+        id S232246AbjESPRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 11:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232231AbjESPOC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 11:14:02 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DD58198;
-        Fri, 19 May 2023 08:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=1opaetK90ziQPrltM/q7s99LS+5Ffz+3TEwjrEuHrv4=; b=q442WZBtQBcOW7sBrNoWDtaPsc
-        NHZWvxl5JBj/nYxbbB5KkKy/mxxDzNWFPcemw/hWQn5t78rr0GaE+Lu/9EZaWnLYngq3LOvKoCGwu
-        Rsuu1xpUADM5kH0dC/r3joANDzDtnPjHt4RWga/vgnXFEbJ5UeMWQkJC0addAPUGEog9i/vDLWsxJ
-        3NOL5jZfsiDDGtqMu1bizMp9LRnvmhhZA9vGb2zo0CRL6MkZkLZ7wWFWuIZrp71D+zviky5bsJQL8
-        f55Qy+XSsUGRTuDfBOKHbG3iwNOhf9N9I9lMJjG2QS51+qYMleuyEIz6y4CL102xxlRvySSXk1Khi
-        M8f/yFYg==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1q01nj-00GZpF-2b;
-        Fri, 19 May 2023 15:13:51 +0000
-Message-ID: <731a3061-973c-a4ad-2fe5-7981c6c1279b@infradead.org>
-Date:   Fri, 19 May 2023 08:13:50 -0700
+        with ESMTP id S229532AbjESPRC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 11:17:02 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9300DCF;
+        Fri, 19 May 2023 08:17:01 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 3DABE536;
+        Fri, 19 May 2023 15:17:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DABE536
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1684509421; bh=CK6rRcjDmy59SAWk5ogUPHgX/+aOB52LGzE5tSHwm6g=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=bLWvdKK+WFSXvmaz58gi3ugXKzO6raXMduOFBnX5WxH+sXHsYkkuVqBftrLqH/1Zi
+         eOBvoE4iLqIUYodItyE7dy43AIxlOObiCNjxaMcMaybS3r8N2BGWPXcWQ7Z3xHBi2O
+         SUjwLlvVfuvWzakgDuDHGe+QsmhZq0rz9q2YDSAivHExqq1xjJ2xyYrjPGCuRKshGw
+         2JeeuczENBfFoDHk3B4pTusxr+oxch9VlwzS+oiYC6xzFNs57JmNb49+DZ5KJjOVwc
+         N/J21spsvRqR5duNeBIeJxWUfWrU7k0Hl6hHaLb23gVtN0KJo7162XBsmz8t8tz8jL
+         WABbANxwWcDqQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     torvalds@linux-foundation.org, linux-doc@vger.kernel.org,
+        workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [RFC] MAINTAINERS: direct process doc changes to a dedicated ML
+In-Reply-To: <20230511020204.910178-1-kuba@kernel.org>
+References: <20230511020204.910178-1-kuba@kernel.org>
+Date:   Fri, 19 May 2023 09:17:00 -0600
+Message-ID: <87353snyfn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH] Documentation: add initial iomap kdoc
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>, corbet@lwn.net,
-        jake@lwn.net, hch@infradead.org, djwong@kernel.org,
-        dchinner@redhat.com
-Cc:     ritesh.list@gmail.com, rgoldwyn@suse.com, jack@suse.cz,
-        linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
-References: <20230518144037.3149361-1-mcgrof@kernel.org>
- <ZGdBO6bmbj3sLlzp@debian.me>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZGdBO6bmbj3sLlzp@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Jakub Kicinski <kuba@kernel.org> writes:
 
+> It's hard to keep track of changes to the process docs.
+> Subsystem maintainers should probably know what's going on,
+> to ensure reasonably uniform developer experience across
+> trees.
+>
+> We also need a place where process discussions can be held
+> (i.e. designated mailing list which can be CCed on naturally
+> arising discussions). I'm using workflows@ in this RFC,
+> but a new list may be better.
+>
+> No change to the patch flow intended.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> I've been pondering the lack of cross-maintainer communication
+> as the kernel grows, and I hope this could help bring us together
+> a little. Plus twice over the last 2 weeks someone popped up on
+> netdev with what I personally considered incorrect interpretation
+> of the process docs, so it'd be nice to CC a list on my replies
+> so I can be corrected, in case I'm wrong.
+>
+> Opinions more than welcome!
+> ---
+>  MAINTAINERS | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1c78e61a3387..58239fbc7007 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6223,6 +6223,12 @@ X:	Documentation/power/
+>  X:	Documentation/spi/
+>  X:	Documentation/userspace-api/media/
+>  
+> +DOCUMENTATION PROCESS
+> +M:	Jonathan Corbet <corbet@lwn.net>
+> +S:	Maintained
+> +F:	Documentation/process/
+> +L:	workflows@vger.kernel.org
+> +
 
-On 5/19/23 02:28, Bagas Sanjaya wrote:
->> +/**
->> + * DOC:  Flags reported by the file system from iomap_begin
->>   *
->> - * IOMAP_F_NEW indicates that the blocks have been newly allocated and need
->> - * zeroing for areas that no data is copied to.
->> + * * IOMAP_F_NEW: indicates that the blocks have been newly allocated and need
->> + *	zeroing for areas that no data is copied to.
->>   *
->> - * IOMAP_F_DIRTY indicates the inode has uncommitted metadata needed to access
->> - * written data and requires fdatasync to commit them to persistent storage.
->> - * This needs to take into account metadata changes that *may* be made at IO
->> - * completion, such as file size updates from direct IO.
->> + * * IOMAP_F_DIRTY: indicates the inode has uncommitted metadata needed to access
->> + *	written data and requires fdatasync to commit them to persistent storage.
->> + *	This needs to take into account metadata changes that *may* be made at IO
->> + *	completion, such as file size updates from direct IO.
->>   *
->> - * IOMAP_F_SHARED indicates that the blocks are shared, and will need to be
->> - * unshared as part a write.
->> + * * IOMAP_F_SHARED: indicates that the blocks are shared, and will need to be
->> + *	unshared as part a write.
->>   *
->> - * IOMAP_F_MERGED indicates that the iomap contains the merge of multiple block
->> - * mappings.
->> + * * IOMAP_F_MERGED: indicates that the iomap contains the merge of multiple block
->> + *	mappings.
->>   *
->> - * IOMAP_F_BUFFER_HEAD indicates that the file system requires the use of
->> - * buffer heads for this mapping.
->> + * * IOMAP_F_BUFFER_HEAD: indicates that the file system requires the use of
->> + *	buffer heads for this mapping.
->>   *
->> - * IOMAP_F_XATTR indicates that the iomap is for an extended attribute extent
->> - * rather than a file data extent.
->> + * * IOMAP_F_XATTR: indicates that the iomap is for an extended attribute extent
->> + *	rather than a file data extent.
->>   */
-> Why don't use kernel-doc comments to describe flags?
-> 
+Applied, thanks.
 
-Because kernel-doc handles functions, structs, unions, and enums.
-Not defines.
-
--- 
-~Randy
+jon
