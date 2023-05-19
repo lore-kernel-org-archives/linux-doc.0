@@ -2,170 +2,227 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B859EC77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 16:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90EBBC7EE29
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 16:46:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbjESQNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 12:13:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44596 "EHLO
+        id S229720AbjESQqX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 12:46:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbjESQNN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 12:13:13 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF1331B0
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 09:13:01 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6aaf52ff35bso3401543a34.2
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 09:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1684512781; x=1687104781;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eHquhOH1janzOdG3XB4hk90MhkxIdvt/1uHwN+rT0zk=;
-        b=WCpmkxAGDyeiLO9ZEaCvW6RgQ3WuS0KqdFQjsYcMM9tFinA2q5H3nn9JKRMahUO90l
-         uGY5Z2HB5sOorURNQv3gwtA5AcaxR+pG4kfymTc4DtQr0dQm83cxH3y1y2jVYg/z+kRU
-         xttuuCvY91/d+DSiiE9L0wwqgK3IYrhYRvIHU+aZ5T5vzydFDzuzjQKSwzGQtW9TAt8G
-         iyUCEyTwtXM52wQPc4N5t5mTTpj65NZBl+E/i3n50pQ3FEX6lVHIRfHNHV3aoGGeQ0W2
-         QpPwpuu5N6erddGoKxKaToT8EU784KxheO+vw5iSFJSJUYacC2OUaJ/ViNGKDHsvAy0b
-         OmAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684512781; x=1687104781;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eHquhOH1janzOdG3XB4hk90MhkxIdvt/1uHwN+rT0zk=;
-        b=XcwYsFx1v8OQqNFp7mXfZ7CzzbNYeSb5//5F9n2MIbEFzpNFIhid9qHk1ejURKbG6D
-         zTpkY85n70wLzcwLFg3iNzMCnzGXZt+ssArVAQ81/NYhV7i60J2NbVpc83sWiEfVFwjW
-         Sv4Re1YtN6+1ij3FnysfKwrr2HPTz4Bp5gHlzkO9t7mmXRfImM+w/TFWVEAWSfaaMNo8
-         CxhqJiNhuUd0N0GpUAmhYM4WLPPiZSF7EuOOLZB3eXXCJJcxcDJsHYaApyvhp5ibhgVl
-         MIpvD7I1OI48A/Yao/aJygDrwsylHYlro0MwZATUrxg9TS7qsnGfUM64BZET5uxjY6Cm
-         cj0Q==
-X-Gm-Message-State: AC+VfDzyfGB/1WVLx5lo1VQ+MoNRd8fr7mRPIeWeHz0OhdtV0FuJvn7C
-        upv1ONHREsrntROEJf2yx8IqhkJdg90EgpbmCH6hjA==
-X-Google-Smtp-Source: ACHHUZ6V+kguC9vGVpO+0BoaUu0woqNZ08zhdCOicNb//slcwMgQ8oCjHrbRSuWPyvFKo6wzVDlnaR+KV2CWgXAZbi8=
-X-Received: by 2002:a05:6830:d5:b0:6a6:f06:48eb with SMTP id
- x21-20020a05683000d500b006a60f0648ebmr1269755oto.30.1684512781215; Fri, 19
- May 2023 09:13:01 -0700 (PDT)
+        with ESMTP id S229650AbjESQqX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 12:46:23 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D1AEC;
+        Fri, 19 May 2023 09:46:19 -0700 (PDT)
+Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
+        by ms.lwn.net (Postfix) with ESMTPA id B29AE7C0;
+        Fri, 19 May 2023 16:46:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B29AE7C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1684514779; bh=gXx7pOnD9OUD8RWsF9eaOSYpxOimmKIKwKPnLChvwKs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YYrfhw3Jh1ZyIV8Baptm6SPUqx8spt74/KECLo0ykZBDhdebw7cY6t7jgb2t1bHie
+         D5Nq+yO813T7AOXPWVd5gmPAmlSW23Qji9nO1sehMkhF0gQwPdIgLNKXMIA67Lj8Fv
+         vWaFPIUa1chWhEl9HTk8QAIO/vfULcgxaKP/SDUNy5MNvNKR6ogSQ1B02YoLlrsu8R
+         S7WnFuPYm2fLQqrSTZltxcl5wM/Ah7Mwvxsh53w+JbTVejPXQ2HdgjEAdqD4uQoqIc
+         D+dmIsqcZ22qMN5547RxfCupzUGaTi74cLmUYlg5HYemoBIliFr08jHdC7WPsmJpxn
+         v918hRhf08bKw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>
+Subject: [PATCH 2/7] arm: update in-source documentation references
+Date:   Fri, 19 May 2023 10:46:02 -0600
+Message-Id: <20230519164607.38845-3-corbet@lwn.net>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230519164607.38845-1-corbet@lwn.net>
+References: <20230519164607.38845-1-corbet@lwn.net>
 MIME-Version: 1.0
-References: <20230515025716.316888-1-vineeth@bitbyteword.org>
- <20230515025716.316888-3-vineeth@bitbyteword.org> <20230515100616.33ba5dd9@luca64>
- <CAO7JXPgq8V5yHM6F2+iXf4XJ9cyT30Hn4ot5b2k7srjsaPc3JQ@mail.gmail.com>
- <20230516093729.0771938c@luca64> <CAO7JXPh5uLV4QjAEi6bJXfAGSsZ=XsnCyzrvKS8m35BGbRPYJw@mail.gmail.com>
- <20230519115621.2b3f75e2@luca64> <20230519121804.6c85a3ed@luca64>
-In-Reply-To: <20230519121804.6c85a3ed@luca64>
-From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
-Date:   Fri, 19 May 2023 12:12:50 -0400
-Message-ID: <CAO7JXPhZPvzVRyL87qNT5VnaVOf=0wrRftFB-Rjx-vJc3JUMog@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
-To:     luca abeni <luca.abeni@santannapisa.it>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luca,
+The Arm documentation has moved to Documentation/arch/arm; update
+references within arch/arm to match.
 
-On Fri, May 19, 2023 at 6:18=E2=80=AFAM luca abeni <luca.abeni@santannapisa=
-.it> wrote:
->
-> On Fri, 19 May 2023 11:56:21 +0200
-> luca abeni <luca.abeni@santannapisa.it> wrote:
-> [...]
->
-> OK, sorry again... I found my error immediately after sending the email.
-> Uextra is computed as "Umax - ...", not "1 - ...".
-> So, I now understand where the 35% comes from.
->
-Thanks for debugging this, it makes sense now!
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Patrice Chotard <patrice.chotard@foss.st.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arch@vger.kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ arch/arm/Kconfig                  | 2 +-
+ arch/arm/common/mcpm_entry.c      | 2 +-
+ arch/arm/common/mcpm_head.S       | 2 +-
+ arch/arm/common/vlock.S           | 2 +-
+ arch/arm/include/asm/setup.h      | 2 +-
+ arch/arm/include/uapi/asm/setup.h | 2 +-
+ arch/arm/kernel/entry-armv.S      | 2 +-
+ arch/arm/mach-exynos/common.h     | 2 +-
+ arch/arm/mach-sti/Kconfig         | 2 +-
+ arch/arm/mm/Kconfig               | 4 ++--
+ arch/arm/tools/mach-types         | 2 +-
+ 11 files changed, 12 insertions(+), 12 deletions(-)
 
-> I now _suspect_ the correct equation should be
->         dq =3D -(max{u_i / Umax, (Umax - Uinact - Uextra)}) * dt
-> but I want to test it before wasting your time again; I'll write more
-> after performing some more tests.
->
-I tried this equation and it fixes the above issue. But a little
-confused as to why we should not be limiting the second term to Umax?
-In my testing, I was seeing the issue solved with this equation as
-well:
- "dq =3D -(max{u_i, (Umax - Uinact - Uextra)} / Umax) * dt"
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 0fb4b218f665..b6ec0b655739 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1780,7 +1780,7 @@ config VFP
+ 	  Say Y to include VFP support code in the kernel. This is needed
+ 	  if your hardware includes a VFP unit.
+ 
+-	  Please see <file:Documentation/arm/vfp/release-notes.rst> for
++	  Please see <file:Documentation/arch/arm/vfp/release-notes.rst> for
+ 	  release notes and additional status information.
+ 
+ 	  Say N if your target does not have VFP hardware.
+diff --git a/arch/arm/common/mcpm_entry.c b/arch/arm/common/mcpm_entry.c
+index 8a9aeeb504dd..e013ff1168d3 100644
+--- a/arch/arm/common/mcpm_entry.c
++++ b/arch/arm/common/mcpm_entry.c
+@@ -21,7 +21,7 @@
+ /*
+  * The public API for this code is documented in arch/arm/include/asm/mcpm.h.
+  * For a comprehensive description of the main algorithm used here, please
+- * see Documentation/arm/cluster-pm-race-avoidance.rst.
++ * see Documentation/arch/arm/cluster-pm-race-avoidance.rst.
+  */
+ 
+ struct sync_struct mcpm_sync;
+diff --git a/arch/arm/common/mcpm_head.S b/arch/arm/common/mcpm_head.S
+index 299495c43dfd..f590e803ca11 100644
+--- a/arch/arm/common/mcpm_head.S
++++ b/arch/arm/common/mcpm_head.S
+@@ -5,7 +5,7 @@
+  * Created by:  Nicolas Pitre, March 2012
+  * Copyright:   (C) 2012-2013  Linaro Limited
+  *
+- * Refer to Documentation/arm/cluster-pm-race-avoidance.rst
++ * Refer to Documentation/arch/arm/cluster-pm-race-avoidance.rst
+  * for details of the synchronisation algorithms used here.
+  */
+ 
+diff --git a/arch/arm/common/vlock.S b/arch/arm/common/vlock.S
+index 1fa09c4697ed..c5eaed5a76f0 100644
+--- a/arch/arm/common/vlock.S
++++ b/arch/arm/common/vlock.S
+@@ -6,7 +6,7 @@
+  * Copyright:	(C) 2012-2013  Linaro Limited
+  *
+  * This algorithm is described in more detail in
+- * Documentation/arm/vlocks.rst.
++ * Documentation/arch/arm/vlocks.rst.
+  */
+ 
+ #include <linux/linkage.h>
+diff --git a/arch/arm/include/asm/setup.h b/arch/arm/include/asm/setup.h
+index ba0872a8dcda..31672ce21eaa 100644
+--- a/arch/arm/include/asm/setup.h
++++ b/arch/arm/include/asm/setup.h
+@@ -5,7 +5,7 @@
+  *  Copyright (C) 1997-1999 Russell King
+  *
+  *  Structure passed to kernel to tell it about the
+- *  hardware it's running on.  See Documentation/arm/setup.rst
++ *  hardware it's running on.  See Documentation/arch/arm/setup.rst
+  *  for more info.
+  */
+ #ifndef __ASMARM_SETUP_H
+diff --git a/arch/arm/include/uapi/asm/setup.h b/arch/arm/include/uapi/asm/setup.h
+index 25ceda63b284..8e50e034fec7 100644
+--- a/arch/arm/include/uapi/asm/setup.h
++++ b/arch/arm/include/uapi/asm/setup.h
+@@ -9,7 +9,7 @@
+  * published by the Free Software Foundation.
+  *
+  *  Structure passed to kernel to tell it about the
+- *  hardware it's running on.  See Documentation/arm/setup.rst
++ *  hardware it's running on.  See Documentation/arch/arm/setup.rst
+  *  for more info.
+  */
+ #ifndef _UAPI__ASMARM_SETUP_H
+diff --git a/arch/arm/kernel/entry-armv.S b/arch/arm/kernel/entry-armv.S
+index c39303e5c234..291dc48d6bed 100644
+--- a/arch/arm/kernel/entry-armv.S
++++ b/arch/arm/kernel/entry-armv.S
+@@ -875,7 +875,7 @@ ENDPROC(__bad_stack)
+  * existing ones.  This mechanism should be used only for things that are
+  * really small and justified, and not be abused freely.
+  *
+- * See Documentation/arm/kernel_user_helpers.rst for formal definitions.
++ * See Documentation/arch/arm/kernel_user_helpers.rst for formal definitions.
+  */
+  THUMB(	.arm	)
+ 
+diff --git a/arch/arm/mach-exynos/common.h b/arch/arm/mach-exynos/common.h
+index 29eb075b24a4..b5287ff1c542 100644
+--- a/arch/arm/mach-exynos/common.h
++++ b/arch/arm/mach-exynos/common.h
+@@ -106,7 +106,7 @@ void exynos_firmware_init(void);
+ #define C2_STATE	(1 << 3)
+ /*
+  * Magic values for bootloader indicating chosen low power mode.
+- * See also Documentation/arm/samsung/bootloader-interface.rst
++ * See also Documentation/arch/arm/samsung/bootloader-interface.rst
+  */
+ #define EXYNOS_SLEEP_MAGIC	0x00000bad
+ #define EXYNOS_AFTR_MAGIC	0xfcba0d10
+diff --git a/arch/arm/mach-sti/Kconfig b/arch/arm/mach-sti/Kconfig
+index b2d45cf10a3c..b3842c971d31 100644
+--- a/arch/arm/mach-sti/Kconfig
++++ b/arch/arm/mach-sti/Kconfig
+@@ -21,7 +21,7 @@ menuconfig ARCH_STI
+ 	help
+ 	  Include support for STMicroelectronics' STiH415/416, STiH407/10 and
+ 	  STiH418 family SoCs using the Device Tree for discovery.  More
+-	  information can be found in Documentation/arm/sti/ and
++	  information can be found in Documentation/arch/arm/sti/ and
+ 	  Documentation/devicetree.
+ 
+ if ARCH_STI
+diff --git a/arch/arm/mm/Kconfig b/arch/arm/mm/Kconfig
+index be183ed1232d..c164cde50243 100644
+--- a/arch/arm/mm/Kconfig
++++ b/arch/arm/mm/Kconfig
+@@ -712,7 +712,7 @@ config ARM_VIRT_EXT
+ 	  assistance.
+ 
+ 	  A compliant bootloader is required in order to make maximum
+-	  use of this feature.  Refer to Documentation/arm/booting.rst for
++	  use of this feature.  Refer to Documentation/arch/arm/booting.rst for
+ 	  details.
+ 
+ config SWP_EMULATE
+@@ -904,7 +904,7 @@ config KUSER_HELPERS
+ 	  the CPU type fitted to the system.  This permits binaries to be
+ 	  run on ARMv4 through to ARMv7 without modification.
+ 
+-	  See Documentation/arm/kernel_user_helpers.rst for details.
++	  See Documentation/arch/arm/kernel_user_helpers.rst for details.
+ 
+ 	  However, the fixed address nature of these helpers can be used
+ 	  by ROP (return orientated programming) authors when creating
+diff --git a/arch/arm/tools/mach-types b/arch/arm/tools/mach-types
+index 9e74c7ff6b04..97e2bfa01f4b 100644
+--- a/arch/arm/tools/mach-types
++++ b/arch/arm/tools/mach-types
+@@ -7,7 +7,7 @@
+ #   http://www.arm.linux.org.uk/developer/machines/download.php
+ #
+ # Please do not send patches to this file; it is automatically generated!
+-# To add an entry into this database, please see Documentation/arm/arm.rst,
++# To add an entry into this database, please see Documentation/arch/arm/arm.rst,
+ # or visit:
+ #
+ #   http://www.arm.linux.org.uk/developer/machines/?action=new
+-- 
+2.40.1
 
-With both these equations, it doesn't solve couple of other issues we
-had discussed before:
-- tasks with different bandwidth reclaims differently even when #tasks
-  is less than #cpus.
-- cpu util may go to 100% when we have tasks with large bandwidth close
-  to Umax
-
-As an eg. for issue 1, three tasks - (7,10) (3,10) and (1,10):
-TID[590]: RECLAIM=3D1, (r=3D7ms, d=3D10ms, p=3D10ms), Util: 95.20
-TID[591]: RECLAIM=3D1, (r=3D3ms, d=3D10ms, p=3D10ms), Util: 81.94
-TID[592]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 27.19
-
-re. issue 2, four tasks with same reservation (7,10), tasks tries
-to reclaim leading to 100% cpu usage on all three cpus and leads to
-system hang.
-
-I was trying to understand the issue and it looks like static values
-of Uextra and Umax are causing inaccuracies. Uextra is calculated
-based on global bandwidth But based on the local state of the cpu, we
-could reclaim more or less than (u_inact + rq->dl.extra_bw). Similarly
-Umax is a local max for each cpu and we should not be reclaiming upto
-Umax unconditionally. If the global load is high, reclaiming upto Umax
-would cause problems as a migration can land in.
-
-I was trying an idea to dynamically decide Uextra and Umax based on
-global and local load.
-
-The crux of the idea is as below
-
-+ if (rq->dl.running_bw > rq->dl.max_bw)
-+ return delta;
-+
-+ max_bw =3D rq->dl.this_bw + rq->dl.extra_bw;
-+ extra_bw =3D rq->dl.extra_bw;
-+ if (rq->dl.this_bw < rq->dl.extra_bw || max_bw > rq->dl.max_bw) {
-+ extra_bw =3D rq->dl.max_bw - rq->dl.this_bw;
-+ max_bw =3D rq->dl.max_bw;
-+ }
-+
-
-And use this max_bw and extra_bw in the equation:
- "dq =3D -(max{u_i, (Umax - Uinact - Uextra)} / Umax) * dt"
-
-The reasoning for above changes are:
-- running_bw can be greater than max_bw in SMP and we should not be
-  reclaiming if that's the case
-- Initially we assume max_bw and extra_bw, based on global load.
-  If this_bw < extra_bw, it means that cpus are not heavily loaded
-  and incoming migrations can be satisfied with local cpu's available
-  bandwidth and we could reclaim upto rq->dl.max_bw and use extra_bw
-  as "rq->dl.max_bw - rq->dl.this_bw". Also we should limit max_bw for
-  any cpu to a maximum of rq->dl.max_cpu.
-
-This does not consider mix of normal and SCHED_FLAG_RECLAIM tasks and
-minor changes on top of this are need to consider that scenario. This
-seems to fix all the issues that I have encountered.
-
-The above fix doesn't work on equation:
-  "dq =3D -(max{u_i / Umax, (Umax - Uinact - Uextra)}) * dt"
-
-cpu still spikes to 100% with 4 tasks of (7,10). I am not sure, but I
-guess it might be because we are not limiting the second term to Umax.
-
-Please let me know your thoughts on this.
-
-Thanks again,
-Vineeth
