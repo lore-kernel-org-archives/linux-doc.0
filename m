@@ -2,169 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EBDFC7EE2A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 19:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D62A2C7EE23
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 21:25:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbjEST6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 15:58:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45822 "EHLO
+        id S231612AbjESVZp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 17:25:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjEST6X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 15:58:23 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10FD11735
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 12:57:47 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-561f201a646so44302037b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 12:57:47 -0700 (PDT)
+        with ESMTP id S229795AbjESVZo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 17:25:44 -0400
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D48BCF
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 14:25:43 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-6239ab2b8e0so14116646d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 14:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684526250; x=1687118250;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pKqky4qtLhLMqwc+jYDJn6p8bYat7L/lp+nKxMPkRyY=;
-        b=Y4/nCNzrFtAXrTxhpgxnIohVGQ15GL4scvI0E/2mwJYj0GQbPVuXot7Jeu/0WvRvj2
-         9Uxos5w5dD8ChOUGochlppnIBC5WV72wtD3Z57q1qVzEB6BAU0zrp0Rj839OpxiYl1kv
-         G7aILpvUERbXB4ndb2rR/5sC8oXuhx9NqV1vUAEDqYGF4xFHckOEfCC8e/Xg4DdMuR9l
-         zQm9PUkP+OBFNpwTjL8yMr9HKgLvxTY4wkwyU4C1eKD22zw0o+8bYInRVaF8kFuyTWom
-         12s22nrLwFtLZKHZJekTC38ZFlIu/iG4U6Mf6VoeQ952/z/sfp8161qhLkUY71jT5lqI
-         iHcQ==
+        d=broadcom.com; s=google; t=1684531542; x=1687123542;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=tD4VL6t5YGx/meSngxZ6TiWgSo8gJ/aPl80iX7SdFtE=;
+        b=ACyHfeG1RPRSoR0kFI7YySjjBn4HfyjcHyksE+nP4mli52oSLNWheYapVWfQXOORPI
+         C6E9EyAOQf+bL/xwGAnZmNFm3NOz3araxWUReHGw9ieQNT7blifyxWJrAVFau0GN8E/2
+         TeWK6HFfHA+JSTkK4/ptEAX8YdxQmJ2doVdKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684526250; x=1687118250;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pKqky4qtLhLMqwc+jYDJn6p8bYat7L/lp+nKxMPkRyY=;
-        b=YpLwIPIkPmK3dxcr04GNdqM5hY4g7xMzBs6yht0IPx5CHh9THVnbyUs5toKyCgQvLx
-         jhbnz6SBHB2ksffKH4RDb2IVj57l+q7w9HOlOU4fXEhbk6VW1Bo7E0Hf2GdjXjVZQcfu
-         hktBZtWV7K0TGAaFPGNg18wBRMxZfolGx97CF+klCIpV3zaFpDwVw1LaQvRvfkRvDucj
-         mwJ3+g6DuCxRviHgcj9eEVw1YwbdVE9z5IMc75ObhQf9cmStJfh69Thd4UjfCKOKDSkq
-         jGwtJXMHMCcIIkKiVXuk4yg4MF82X/4+O7lp2AuMDRtgPwYpI2xSBFzoFzxOeSEetnDl
-         U7Aw==
-X-Gm-Message-State: AC+VfDyM0gihDoKC/rz6Eroe1w814nZ4WPPuQI0ZFWDk27RuhVHHHZ2U
-        qESHxRNAdisvhU+Gi9dqXnK41gfNSrQ=
-X-Google-Smtp-Source: ACHHUZ6FEiPmU5v43LWifQRBpo81052L49sw5QgxYInZToAzWsR8mGtYDH7+PppQKkPgp34+c6aLJuvLWhk=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:9f0a:0:b0:561:949f:227 with SMTP id
- s10-20020a819f0a000000b00561949f0227mr1854093ywn.1.1684526250423; Fri, 19 May
- 2023 12:57:30 -0700 (PDT)
-Date:   Fri, 19 May 2023 12:57:28 -0700
-In-Reply-To: <CSQI5IB968XC.GO0OPMYT1C8N@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
-Mime-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com> <CSQFE7I30W27.2TPDIHOTZNRIZ@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
- <ZGe+m+uFzpiW7wlr@google.com> <CSQI5IB968XC.GO0OPMYT1C8N@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
-Message-ID: <ZGfUqBLaO+cI9ypv@google.com>
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-From:   Sean Christopherson <seanjc@google.com>
-To:     Nicolas Saenz Julienne <nsaenz@amazon.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, graf@amazon.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com, anelkz@amazon.de
-Content-Type: text/plain; charset="us-ascii"
+        d=1e100.net; s=20221208; t=1684531542; x=1687123542;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tD4VL6t5YGx/meSngxZ6TiWgSo8gJ/aPl80iX7SdFtE=;
+        b=P6QddBs/u5rIr8Fznz4q0USFNazn8N2thPGhBZmMa3gLYd9GvIi1vjz9t6ZNbVw99p
+         5c/JWg9gM0APxDkNtlrhhfYlt1kf73mOa1+OgMwMfZKqyJG0iG1utslzzmPNkrEh826t
+         PNdw0hkYdSl7ukmrYT8WDcZNDspuPd/WAP9JYOjGVG2x2TOJq/Md4qW53AbWPV+00wTW
+         /73vUzRlwoBgGMrYbPqqcSkA5LSnZg8EZwx5wthIy0258FJKp7qUtxfXEx8HZQg9E8U6
+         7+QeK6XdujQhbopmcwV1GOBl3rLA+NIENWhtqQ9mbo6Lpz4BppyFecGOSHRUnA9TKN57
+         L26Q==
+X-Gm-Message-State: AC+VfDxAWI1oNEbSvlRR1tS56pqidx/zHQ+KKL5c4o/pYHEST0t3kJwI
+        n9p7rv0EvypzQ0daBngIviS/mA==
+X-Google-Smtp-Source: ACHHUZ6/H+kPiNY3Jh0D7KNGuIn6g+6AjoybV4T/QrddT3RIJAjCHo6NJG9LEbNc8qorQDuVWKNQqg==
+X-Received: by 2002:a05:6214:f07:b0:5b4:1d9a:75e7 with SMTP id gw7-20020a0562140f0700b005b41d9a75e7mr6902539qvb.13.1684531542404;
+        Fri, 19 May 2023 14:25:42 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id z17-20020a0cf011000000b0061a68b5a8c4sm71715qvk.134.2023.05.19.14.25.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 May 2023 14:25:41 -0700 (PDT)
+Message-ID: <dd6a7287-26a5-14a1-1c9e-8db4210c679c@broadcom.com>
+Date:   Fri, 19 May 2023 14:25:37 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 4/7] mips: update a reference to a moved Arm Document
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org
+References: <20230519164607.38845-1-corbet@lwn.net>
+ <20230519164607.38845-5-corbet@lwn.net>
+From:   Florian Fainelli <florian.fainelli@broadcom.com>
+In-Reply-To: <20230519164607.38845-5-corbet@lwn.net>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000003691e305fc1290b1"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 19, 2023, Nicolas Saenz Julienne wrote:
-> Hi Sean,
-> 
-> On Fri May 19, 2023 at 6:23 PM UTC, Sean Christopherson wrote:
-> > On Fri, May 19, 2023, Nicolas Saenz Julienne wrote:
-> > > Hi,
-> > >
-> > > On Fri Dec 2, 2022 at 6:13 AM UTC, Chao Peng wrote:
-> > >
-> > > [...]
-> > > > +The user sets the per-page memory attributes to a guest memory range indicated
-> > > > +by address/size, and in return KVM adjusts address and size to reflect the
-> > > > +actual pages of the memory range have been successfully set to the attributes.
-> > > > +If the call returns 0, "address" is updated to the last successful address + 1
-> > > > +and "size" is updated to the remaining address size that has not been set
-> > > > +successfully. The user should check the return value as well as the size to
-> > > > +decide if the operation succeeded for the whole range or not. The user may want
-> > > > +to retry the operation with the returned address/size if the previous range was
-> > > > +partially successful.
-> > > > +
-> > > > +Both address and size should be page aligned and the supported attributes can be
-> > > > +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
-> > > > +
-> > > > +The "flags" field may be used for future extensions and should be set to 0s.
-> > >
-> > > We have been looking into adding support for the Hyper-V VSM extensions
-> > > which Windows uses to implement Credential Guard. This interface seems
-> > > like a good fit for one of its underlying features. I just wanted to
-> > > share a bit about it, and see if we can expand it to fit this use-case.
-> > > Note that this was already briefly discussed between Sean and Alex some
-> > > time ago[1].
-> > >
-> > > VSM introduces isolated guest execution contexts called Virtual Trust
-> > > Levels (VTL) [2]. Each VTL has its own memory access protections,
-> > > virtual processors states, interrupt controllers and overlay pages. VTLs
-> > > are hierarchical and might enforce memory protections on less privileged
-> > > VTLs. Memory protections are enforced on a per-GPA granularity.
-> > >
-> > > The list of possible protections is:
-> > > - No access -- This needs a new memory attribute, I think.
-> >
-> > No, if KVM provides three bits for READ, WRITE, and EXECUTE, then userspace can
-> > get all the possible combinations.  E.g. this is RWX=000b
-> 
-> That's not what the current implementation does, when attributes is
-> equal 0 it clears the entries from the xarray:
-> 
-> static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> 					   struct kvm_memory_attributes *attrs)
-> {
-> 
->     entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> [...]
->     for (i = start; i < end; i++)
->     	if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
->     			    GFP_KERNEL_ACCOUNT)))
->         		break;
-> }
-> 
-> >From Documentation/core-api/xarray.rst:
-> 
-> "There is no difference between an entry that has never
-> been stored to, one that has been erased and one that has most recently
-> had ``NULL`` stored to it."
-> 
-> The way I understood the series, there needs to be a differentiation
-> between no attributes (regular page fault) and no-access.
+--0000000000003691e305fc1290b1
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ah, I see what you're saying.  There are multiple ways to solve things without a
-"no access" flag while still maintaining an empty xarray for the default case.
-E.g. invert the flags to be DENY flags[*], have an internal-only "entry valid" flag,
-etc.
+On 5/19/23 09:46, Jonathan Corbet wrote:
+> Arm documentation has moved to Documentation/arch/arm; update a reference
+> in arch/mips/bmips/setup.c to match.
+> 
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: linux-mips@vger.kernel.org
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-[*] I vaguely recall suggesting a "deny" approach somewhere, but I may just be
-    making things up to make it look like I thought deeply about this ;-)
+Acked-by: Florian Fainelli <florian.fainelli@broadcom.com>
+-- 
+Florian
+
+
+--0000000000003691e305fc1290b1
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
+9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
+UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
+KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
+nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
+Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
+VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
+ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
+CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
+MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
+d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
+hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
+bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
+BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
+KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
+kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
+2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
+3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
+NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
+AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
+LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIFYy7pVuFsxsdC54
+zI0SSndVq6Vu9JxmQqWk9abvBavwMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTIzMDUxOTIxMjU0MlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBgBKXIboWLYzMfm4JwL2M4qiUvNWT0e7Dd
+mg3FRpuQXcYxD2MPab7L3YLLCN8wd/I2WE8S1Ld/obDDO/KR2LSFkVV5IfZyXUVmVp1bkLVvnNB1
+DW6mtLqpZVXTcjglk8l7PElmIwvgpkfUn1VQsrUupvT6CwWpmhbJgcLGQzk+ozhI7Xc/BILgUez9
+NKhwglhvJXqlQPdz8YNdep0uufu2PDHSURcJSKz6qwOLz5VsobmFaGbsdvLJVs2QvJ/RkxfvFCJv
+IBQQZBVokR0crP5BWSPWflgxMj9NFbmL9JuoHBCDBrvSox6MNrcuW4UXk1A/j6ojMeXJDuA0LjWx
+Dr34
+--0000000000003691e305fc1290b1--
