@@ -2,115 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D61C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 04:53:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4CDAC77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 05:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjESExu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 00:53:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52712 "EHLO
+        id S229480AbjESFEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 01:04:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbjESExu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 00:53:50 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00CF710DC;
-        Thu, 18 May 2023 21:53:47 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 704385C0148;
-        Fri, 19 May 2023 00:53:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 19 May 2023 00:53:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1684472027; x=1684558427; bh=DvA6KR+zTo8Tl
-        45tDoGl60OGn7Mp+gVqUU5IsuJpDS4=; b=S6oEgnqWG0ih2m1BwJ0eqeB0LUzVD
-        xHTXh//gxAs/c/scnaj9KHEK+FAQpzDKNycaqraX5r/dc5dzpiptvzdyB3tiQH7x
-        /5mN7RRCcaGAGWnJKSb9tnZO5REuaN52m8/jQQgDhsUbKjZYMsKlT5N/lZ6ruYLn
-        WJ6GA4vaw/Qv0uU8HzpwMbErIgvLoxMoABzUfe4ccXA7C0Q5xgYlYXnsXN3y6XvQ
-        Tb9z3Zw02oFQAV+G3YQHr4X/UIgfVkooQzyQ3LY/eXjbjHeaVJpWBWyJ3dNMCZ/H
-        rah9uaGW/0nQTXzd4OBRt1yjRVgN0cKnYkeOLyURoXueBI31srv0BoMKQ==
-X-ME-Sender: <xms:2gBnZEHJNpxdgBoqPuj_hFS3JjjvYLjM3rBuT19dvoFupgW1uZT03Q>
-    <xme:2gBnZNUyBuqOe9WPDEP1rHLK_xSHVjx_2LEB0eLzMV3dkpVvu9yg3HB8Yr-2PepzU
-    aNVsAs3zVpaN4pr1gY>
-X-ME-Received: <xmr:2gBnZOJaC8CCp_c4uivU0V1KI11wcNUzI4lMJdIenHtsVLcNbqDSg6fZztBPLbrmo-rbZWXWsD2UdnKEGm3eCGi12F0YI7b_yiA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeigedgkeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
-    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
-    htthgvrhhnpedvtedtgeduhefhkeeuueegteetheeuleeuieevkeeluddvvdffffdtvdet
-    ieeuudenucffohhmrghinhepthhlughprdhorhhgpdgrrhgthhhivhgvrdhorhhgpdhtoh
-    hrqhhuvgdrnhgvthenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:2gBnZGEquAG8b4FWurj3i1wbsqUjOftOxpIjQt6VI2kLKr0zjMGSIg>
-    <xmx:2gBnZKX1LJ3cfOaKUsEq4NFkaqNbcf2ZDPpxna0pHbhuUrqIHt_mcg>
-    <xmx:2gBnZJNx2VvDy8WH9VKQJJ8Ccx7Kg5VXpsazI_GUC6wxJXDafevZjQ>
-    <xmx:2wBnZIx0diWrG9R0VfsLLF835b2gG923T4XAW1HYPeATzgLlzAoRVg>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 May 2023 00:53:43 -0400 (EDT)
-Date:   Fri, 19 May 2023 14:53:40 +1000 (AEST)
-From:   Finn Thain <fthain@linux-m68k.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-cc:     linux-kernel@vger.kernel.org,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 02/11] Docs/scsi: introduction: multiple cleanups
-In-Reply-To: <20230518212749.18266-3-rdunlap@infradead.org>
-Message-ID: <525c424f-a748-80f5-5a16-ca979bc77864@linux-m68k.org>
-References: <20230518212749.18266-1-rdunlap@infradead.org> <20230518212749.18266-3-rdunlap@infradead.org>
+        with ESMTP id S229452AbjESFEx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 01:04:53 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A27107;
+        Thu, 18 May 2023 22:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=qoebvRH+5DyCHjL5CguUqheVeTvzmE683d7FksxC+hw=; b=EA5TnpVUmLi0YCsEB8c0Ab7YG4
+        RnjV8/iUkUeNeDxrAp6ScISMiCeWddLQAnBAlp0mDcJ7nz4mtHSZs06CaDNGPC+F5U+tyw28k6tK7
+        2lcUctBUCd/hcc3cUhHZRDmJ3AY25s0c2j/KQN05/1t9fAQOstJwHySGE0BPzXjVFrW0CFfOVI5oX
+        9oTRzG+O1PHfzd3ep6C6mrA8WOJawZMfeE23Y3ID6YnwMTSxVrACjejjv4Kenrow3bY6Nn6Sh02s+
+        LSORCBbroHJWVVCWJxd2rvX0+9IoI9/VP/2Oo21Ac4R8iFCtjPdcGiCVhky1OrrXjr8XbanrrXYqp
+        Hf1n3wfA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1pzsIF-00F6X5-0s;
+        Fri, 19 May 2023 05:04:43 +0000
+Date:   Thu, 18 May 2023 22:04:43 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     corbet@lwn.net, jake@lwn.net, hch@infradead.org, djwong@kernel.org,
+        dchinner@redhat.com, ritesh.list@gmail.com, rgoldwyn@suse.com,
+        jack@suse.cz, linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
+Subject: Re: [PATCH v2] Documentation: add initial iomap kdoc
+Message-ID: <ZGcDaysYl+w9kV6+@infradead.org>
+References: <20230518150105.3160445-1-mcgrof@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230518150105.3160445-1-mcgrof@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, May 18, 2023 at 08:01:05AM -0700, Luis Chamberlain wrote:
+> +        Mapping of heading styles within this document:
+> +        Heading 1 uses "====" above and below
+> +        Heading 2 uses "===="
+> +        Heading 3 uses "----"
+> +        Heading 4 uses "````"
+> +        Heading 5 uses "^^^^"
+> +        Heading 6 uses "~~~~"
+> +        Heading 7 uses "...."
+> +
+> +        Sections are manually numbered because apparently that's what everyone
 
-On Thu, 18 May 2023, Randy Dunlap wrote:
+Why are you picking different defaults then the rest of the kernel
+documentation?
 
-> Modify URLs to use https instead of http.
-> Remove ancient URLs that don't work.
-> Change "scsi" in text to "SCSI".
-> Change "cdrom" in text to "CD-ROM".
-> Drop the reference to "autoclean" for modules since I can't
->   find it in any current documentation.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-> Cc: linux-scsi@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/scsi/scsi.rst |   23 ++++++++++-------------
->  1 file changed, 10 insertions(+), 13 deletions(-)
-> 
-> diff -- a/Documentation/scsi/scsi.rst b/Documentation/scsi/scsi.rst
-> --- a/Documentation/scsi/scsi.rst
-> +++ b/Documentation/scsi/scsi.rst
-> @@ -6,30 +6,28 @@ SCSI subsystem documentation
->  
->  The Linux Documentation Project (LDP) maintains a document describing
->  the SCSI subsystem in the Linux kernel (lk) 2.4 series. See:
-> -http://www.tldp.org/HOWTO/SCSI-2.4-HOWTO . The LDP has single
-> +https://www.tldp.org/HOWTO/SCSI-2.4-HOWTO . The LDP has single
->  and multiple page HTML renderings as well as postscript and pdf.
-> -It can also be found at:
-> -http://web.archive.org/web/%2E/http://www.torque.net/scsi/SCSI-2.4-HOWTO
->  
+> +
+> +A modern block abstraction
+> +==========================
+> +
+> +**iomap** allows filesystems to query storage media for data using *byte
+> +ranges*. Since block mapping are provided for a *byte ranges* for cache data in
+> +memory, in the page cache, naturally this implies operations on block ranges
+> +will also deal with *multipage* operations in the page cache. **Folios** are
+> +used to help provide *multipage* operations in memory for the *byte ranges*
+> +being worked on.
 
-That link got corrupted by commit b7223d9bdec. It used to be
-http://web.archive.org/web/*/http://www.torque.net/scsi/SCSI-2.4-HOWTO
-which does actually work.
+As mentioned you list time this information was circulated this is not
+true.  iomap itself has nothing to with blocks, and even less so with
+the page cache per se.  It just iterates over ranges of file data and
+applies work to it.
 
-FWIW, I'm not in favour of replacing any links with archive.org links 
-unless no better source can be found. I am in favour of citations in the 
-form of a link with retrieval date. In this context the date can often be 
-inferred from commit or release dates.
+> +iomap IO interfaces
+> +===================
+> +
+> +You call **iomap** depending on the type of filesystem operation you are working
+> +on. We detail some of these interactions below.
 
-Therefore, a second commit, 0ea6e611221, could also be reverted with 
-regards to this link (if you're planning to edit it). Just my $0.02.
+Who is you?
+
+> +
+> +iomap for bufferred IO writes
+> +-----------------------------
+> +
+> +You call **iomap** for buffered IO with:
+> +
+> + * ``iomap_file_buffered_write()`` - for buffered writes
+> + * ``iomap_page_mkwrite()`` - when dealing callbacks for
+> +    ``struct vm_operations_struct``
+> +
+> +  * ``struct vm_operations_struct.page_mkwrite()``
+> +  * ``struct vm_operations_struct.fault()``
+> +  * ``struct vm_operations_struct.huge_fault()``
+> +  * ``struct vm_operations_struct`.pfn_mkwrite()``
+> +
+> +You *may* use buffered writes to also deal with ``fallocate()``:
+> +
+> + * ``iomap_zero_range()`` on fallocate for zeroing
+> + * ``iomap_truncate_page()`` on fallocate for truncation
+> +
+> +Typically you'd also happen to use these on paths when updating an inode's size.
+
+I'm not really sure what this is trying to explain.  It basically looks
+like filler text generated by machine learning algorithms..
+
+The same is true for a large part of this document.
+
+> +A filesystem also needs to call **iomap** when assisting the VFS manipulating a
+> +file into the page cache.
+
+A file systsem doesn't _need_ to do anything.  It may chose to do
+things, and the iomap based helpers might be useful for that.  But
+again, I'm still not getting what this document is even trying to
+explain, as "to implement the method foo, use the iomap_foo" isn't
+really helping anyone.
+
+> +Converting filesystems from buffer-head to iomap guide
+> +======================================================
+
+If you want such a guide, please keep it in a separate file from the
+iomap API documentation.  I'd also suggest that you actually try such
+a conversion first, as that might help shaping the documentation :)
+
+> +Testing Direct IO
+> +=================
+> +
+> +Other than fstests you can use LTP's dio, however this tests is limited as it
+> +does not test stale data.
+> +
+> +{{{
+> +./runltp -f dio -d /mnt1/scratch/tmp/
+> +}}}
+
+How does this belong into an iomap documentation?  If LTPs dio is really
+all that useful we should import it into xfstests, btw.  I'm not sure it
+is, though.
+
+> +We try to document known issues that folks should be aware of with **iomap** here.
+
+Who is "we"?
+
+> + * DOC: Introduction
+> + *
+> + * iomap allows filesystems to sequentially iterate over byte addressable block
+> + * ranges on an inode and apply operations to it.
+> + *
+> + * iomap grew out of the need to provide a modern block mapping abstraction for
+> + * filesystems with the different IO access methods they support and assisting
+> + * the VFS with manipulating files into the page cache. iomap helpers are
+> + * provided for each of these mechanisms. However, block mapping is just one of
+> + * the features of iomap, given iomap supports DAX IO for filesystems and also
+> + * supports such the ``lseek``/``llseek`` ``SEEK_DATA``/``SEEK_HOLE``
+> + * interfaces.
+> + *
+> + * Block mapping provides a mapping between data cached in memory and the
+> + * location on persistent storage where that data lives. `LWN has an great
+> + * review of the old buffer-heads block-mapping and why they are inefficient
+> + * <https://lwn.net/Articles/930173/>`, since the inception of Linux.  Since
+> + * **buffer-heads** work on a 512-byte block based paradigm, it creates an
+> + * overhead for modern storage media which no longer necessarily works only on
+> + * 512-blocks. iomap is flexible providing block ranges in *bytes*. iomap, with
+> + * the support of folios, provides a modern replacement for **buffer-heads**.
+> + */
+
+I really don't want random blurbs and links like this in the main
+header.  If you want to ramble in a little howto that's fine, but the
+main header is not the place for it.
+
+Also please keep improvements to the header in a separate patch from
+adding Documentation/ documents.
