@@ -2,80 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC741C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 08:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D415C7EE26
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 08:04:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbjESIAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 04:00:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43680 "EHLO
+        id S229535AbjESIEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 04:04:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjESIAX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 04:00:23 -0400
+        with ESMTP id S229599AbjESID6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 04:03:58 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD4DDC
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 01:00:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0916519A9;
+        Fri, 19 May 2023 01:03:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AB8C2654B2
-        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 08:00:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 155FAC433A8;
-        Fri, 19 May 2023 08:00:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 52343618D3;
+        Fri, 19 May 2023 08:03:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05839C4339B;
+        Fri, 19 May 2023 08:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684483221;
-        bh=ajoz+QZt/V+ZvhtJXnyHxpX9YnvE/OWqqChV7pmYZvg=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=J32+wSR50YlFG8rxuMKXbmNKp7ETUsiU4FKU0tuJdnB3bYZrJwN0g7MqTlVzjgplf
-         7SbF0lWAi68TjnGWvQ8NyKW40Xhl4OgWQyEpJ9N1mPCzN9LyPLkwLdLxLYeFF+5qYe
-         5BhCG46As+VMApWq2T8l6dDGECYJlM3DfphWwXy1byQHzS4rgIigkJ56RSy1zNXDei
-         iJtez8hJnqxECXzQLDpgMc7nFHuUWPxeqw6D7Ma4ucTE1tc01yJkhLYH46MPAidwn8
-         d8gGdsNz0vrEmN/+XfKuXnhgYguobe8IARKKo+FovlH4dV/QvKDod+DuNt/h6wsNMN
-         /eTCWejexWzyw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D5C46E21EFE;
-        Fri, 19 May 2023 08:00:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1684483393;
+        bh=3jJWIcZgZvkk6Y5TXMWAviv665TtXazo1GYVATenEgk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oOC9D1zeDvY/rgTWO34r/1nK5ramY/l3sd7exY4dWp58CH5VMEAR0FGDjpHZZieHR
+         IDNuWiSZ2L4e8OZbrkxxTuiWXURErRCaJJl0eq9o5FJ3Q3IIjXHiEmvU8W84wgKPfG
+         DKMsz2BTGy8qzBuNGtZ9snqIRPX4+Qtg2XT5LxND9wj/UdTDsb6pyIUwWfhJjUqmGa
+         g0puIgjBjq3j9iFdRG5n+44yxUl/3NhlHHQbv4hYNFE3u/phBToyHzg+bStn20lBXH
+         hggvLBWpkKhA10hk8vc7SJXOEQisD6wxjfKt47JbrtFjxGTgHpmS8htn3oOY7RIg8z
+         3ELes+8fH63GA==
+Date:   Fri, 19 May 2023 09:03:08 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Athanasios Oikonomou <athoik@gmail.com>,
+        linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] media: frontend.h.rst.exceptions: add more dvb define
+ exceptions
+Message-ID: <20230519090308.0e53eccd@sal.lan>
+In-Reply-To: <20230518234735.20289-1-rdunlap@infradead.org>
+References: <20230518234735.20289-1-rdunlap@infradead.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] sfc: fix devlink info error handling
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168448322087.32188.2506975752365071338.git-patchwork-notify@kernel.org>
-Date:   Fri, 19 May 2023 08:00:20 +0000
-References: <20230518054822.20242-1-alejandro.lucero-palau@amd.com>
-In-Reply-To: <20230518054822.20242-1-alejandro.lucero-palau@amd.com>
-To:     Lucero@ci.codeaurora.org, Palau@ci.codeaurora.org,
-        Alejandro <alejandro.lucero-palau@amd.com>
-Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, martin.habets@amd.com, edward.cree@amd.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Hi Randy,
 
-This patch was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+Em Thu, 18 May 2023 16:47:35 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-On Thu, 18 May 2023 06:48:22 +0100 you wrote:
-> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+> Building documentation reports multiple warnings for undefined DVB
+> frontend labels:
 > 
-> Avoid early devlink info return if errors arise with MCDI commands
-> executed for getting the required info from the device. The rationale
-> is some commands can fail but later ones could still give useful data.
-> Moreover, some nvram partitions could not be present which needs to be
-> handled as a non error.
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-11-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-4-15'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-14-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-7-15'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-11-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-4-15'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-14-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-7-15'
+
+Thanks for the patch. FYI, I already merged yesterday a fix identical
+to your patch:
+
+	https://git.linuxtv.org/media_stage.git/commit/?id=8bc27fa5d7763d376a992a1638475987ed4807e7
+
+Regards,
+Mauro
+
+
 > 
-> [...]
-
-Here is the summary with links:
-  - [net] sfc: fix devlink info error handling
-    https://git.kernel.org/netdev/net/c/cfcb942863f6
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> so add those symbols to the ignore list to prevent the build warnings.
+> 
+> Fixes: 1825788e2a96 ("media: dvb: add missing DVB-S2X FEC parameter values")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/linux-media/202305162245.wtaLIXf3-lkp@intel.com/
+> Cc: Athanasios Oikonomou <athoik@gmail.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/userspace-api/media/frontend.h.rst.exceptions |    4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff -- a/Documentation/userspace-api/media/frontend.h.rst.exceptions b/Documentation/userspace-api/media/frontend.h.rst.exceptions
+> --- a/Documentation/userspace-api/media/frontend.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/frontend.h.rst.exceptions
+> @@ -142,6 +142,10 @@ ignore symbol FEC_26_45
+>  ignore symbol FEC_28_45
+>  ignore symbol FEC_32_45
+>  ignore symbol FEC_77_90
+> +ignore symbol FEC_11_45
+> +ignore symbol FEC_4_15
+> +ignore symbol FEC_14_45
+> +ignore symbol FEC_7_15
+>  
+>  ignore symbol TRANSMISSION_MODE_AUTO
+>  ignore symbol TRANSMISSION_MODE_1K
