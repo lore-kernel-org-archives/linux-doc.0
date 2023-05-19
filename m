@@ -2,170 +2,323 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AD1C77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 08:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D547BC77B75
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 09:28:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbjESIa5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 04:30:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58688 "EHLO
+        id S230246AbjESJ2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 05:28:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjESIa4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 04:30:56 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF069E52;
-        Fri, 19 May 2023 01:30:54 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-643a1fed360so2164634b3a.3;
-        Fri, 19 May 2023 01:30:54 -0700 (PDT)
+        with ESMTP id S231162AbjESJ2l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 05:28:41 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637DFE43;
+        Fri, 19 May 2023 02:28:35 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-25332422531so480625a91.0;
+        Fri, 19 May 2023 02:28:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684485054; x=1687077054;
+        d=gmail.com; s=20221208; t=1684488514; x=1687080514;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+hG6iy80bqSgMH7VGr3vhYMvwvtMpezDygF3zvikaA=;
-        b=Jb6ajGyQnjmgZ/0uerlE40XGFd3Ay9CMjGPxuwEXMnbMLaGdlhXANamtUyR4dxvFLp
-         3/xYeHAgYn3bIvWS/qGnan61MIGtcZriEIOE4tiECkZH7D+ruDxdJNDRRqqI2C3zBFAd
-         QJKHHnHCOecykYBsD8dCqhiN7eQw2Apd1BNK5MEJSTSOeR2pAfjMBWtnEOSwi8+liWlv
-         cVN5vroxIX+TJsDKM9LnzCrwsNWksYW2k9r5kcPyHVevi/xUe0/rwHM6r3ql+lr94x4c
-         NSysP04jU4cIRJslZnB+q0eGh5SV0W6YNAilHbEDzexk3YVswaoaUiUEswYgvgRB5b9g
-         p04Q==
+        bh=+iCoUl/IFdkkhO1BGNaDLIKPoQD0jj1ABgxhFaKOhJk=;
+        b=loUc8vEhhVFfDXEarx5E919gbR42pL0iuSot7WoVSy2nSxH7BZfZcxxGAQtd8y/3nC
+         9FSm9jTPHWz6VK7XsmfXd8OaLD0GcFSTafAhNf/PQqTdAYhfT4DsukN/9hWgupFafWDm
+         0b2dM+1uhzdvm5mu4GueSPFKDpTw2Zkio85arMLJ/iE5rdKmRwJi40WkYrseIMXoxmZY
+         hRqlHat9ykXYRzgS3jjtKfizi0bpBFPHyfulL4LCpsdoNde9CdLeDkO0BkR5aRd8dVLK
+         BxkdUwIoyO4CS7MJZ9x29k7JoKqfRsewd8H8eJ9ZDUXbnIRPJUXu3cldQ6vAimaW6IhF
+         wS6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684485054; x=1687077054;
+        d=1e100.net; s=20221208; t=1684488514; x=1687080514;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5+hG6iy80bqSgMH7VGr3vhYMvwvtMpezDygF3zvikaA=;
-        b=KCqBB5wDME3beUmOZ3Efym+PVXasetDtz6vzehpE+YBPm7jErkR5CHRY2rDlP8j44w
-         SWQ5ON+7qgeNDs2SstWA0rke+QNo2hYv9RtsgdBlAFGHHWq866ZrgSiPpKQHI+1So3oU
-         sbuFs1L8f6VxIX+PY4lp93/WqyGFAE/3cLu5mWyP847e64SQqELQdJnjF9gnQIBTiQcd
-         gr6MyM978Tq/jrg8yz4MXG/Z9NajAyeLfSPNLfH63IhtDh+FOJeneIfnjPMqBjH2GBqE
-         GQtSkS4nhVoulzAMR2+DAnNVcGrneIBmgj4drCxBCGaFOkGOQr+H2hmppsse7u7OgyLZ
-         mBKA==
-X-Gm-Message-State: AC+VfDylNT9SgaOlcROBbFqARBGqWZ0JpOggd//Ont0uleJwo0v8qf5M
-        0CPnhOq4OH1l4skMesJI2N8=
-X-Google-Smtp-Source: ACHHUZ5Q5NHDENKdyqYnnuOQljMbapkDtEe8OGddKJCTZG7EWD0VCcV9vXIMLkGTeb2AHaGFdFVm/g==
-X-Received: by 2002:a17:902:6505:b0:1ac:40f7:8b52 with SMTP id b5-20020a170902650500b001ac40f78b52mr1601646plk.64.1684485054251;
-        Fri, 19 May 2023 01:30:54 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-39.three.co.id. [116.206.28.39])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170902c08600b001ac2be26340sm2818252pld.222.2023.05.19.01.30.53
+        bh=+iCoUl/IFdkkhO1BGNaDLIKPoQD0jj1ABgxhFaKOhJk=;
+        b=PXPKCaAFBvxhOxyfHAEM7d5hDm/Mp/BeEMrV+mb6CGbZZZ2WDG2l5zjTGOzNpB2BOq
+         49ZK8eYnYAm1CZVoUP7s6EW517r0GB38X+Uf0oma16jL9bNRcV7FwCbRmNV3y2EWwxuZ
+         WwutShECjk1VZTaiWVcoe6ku0mB5IzfyZFePW7W6erjEa1vumHwy3nE5kUM+gIbSmV12
+         pTYzw14p1u0NMNJsjxqTbeCFLacjbAPedBLfvUskD+8WydMEgPTlsH6THf77nO8vhgZ5
+         WHq2pti5JihXAP1mURntBvfWOQpXk3T6bm+5A2H0YyXoxQIOM6negUDDz8DVnq/iW6+n
+         Z67g==
+X-Gm-Message-State: AC+VfDzTTqnKccMsj18QFkeJtFV7QlpfaIGQnCI+TvZpV2ylWfUnTCiP
+        FLJWW9e9HAMVTWJ797Whzso=
+X-Google-Smtp-Source: ACHHUZ4yGQWKyAwGdVFSoNaqcQrWj2zsj1lKgDxVS9NEz4BMdC9+tw0xjBF23BSfZJDc2mkmWR3/CA==
+X-Received: by 2002:a17:90a:6d47:b0:24e:3752:194f with SMTP id z65-20020a17090a6d4700b0024e3752194fmr5942592pjj.21.1684488514344;
+        Fri, 19 May 2023 02:28:34 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-22.three.co.id. [116.206.28.22])
+        by smtp.gmail.com with ESMTPSA id l64-20020a639143000000b0053491d92b65sm485424pge.84.2023.05.19.02.28.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 01:30:53 -0700 (PDT)
+        Fri, 19 May 2023 02:28:33 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id BECF51056A0; Fri, 19 May 2023 15:30:48 +0700 (WIB)
-Date:   Fri, 19 May 2023 15:30:47 +0700
+        id D34DE10569D; Fri, 19 May 2023 16:28:27 +0700 (WIB)
+Date:   Fri, 19 May 2023 16:28:27 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     David Gow <davidgow@google.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Benjamin Berg <benjamin@sipsolutions.net>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Rae Moar <rmoar@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] Documentation: kunit: Add usage notes for
- kunit_add_action()
-Message-ID: <ZGcztwtEvf/c0kGg@debian.me>
-References: <20230518083849.2631178-1-davidgow@google.com>
- <20230518083849.2631178-4-davidgow@google.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>, corbet@lwn.net, jake@lwn.net,
+        hch@infradead.org, djwong@kernel.org, dchinner@redhat.com
+Cc:     ritesh.list@gmail.com, rgoldwyn@suse.com, jack@suse.cz,
+        linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
+Subject: Re: [PATCH] Documentation: add initial iomap kdoc
+Message-ID: <ZGdBO6bmbj3sLlzp@debian.me>
+References: <20230518144037.3149361-1-mcgrof@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="QNlhZ+8rjoCCRHiA"
+        protocol="application/pgp-signature"; boundary="0VIesbtBcvOdTYu/"
 Content-Disposition: inline
-In-Reply-To: <20230518083849.2631178-4-davidgow@google.com>
+In-Reply-To: <20230518144037.3149361-1-mcgrof@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---QNlhZ+8rjoCCRHiA
+--0VIesbtBcvOdTYu/
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 18, 2023 at 04:38:46PM +0800, David Gow wrote:
-> +Registering Cleanup Actions
-> +---------------------------
-> +
-> +If you need to perform some cleanup beyond simple use of ``kunit_kzalloc=
-``,
-> +you can register a cusom "deferred action", which is a cleanup function
-> +run when the test exits (whether cleanly, or via a failed assertion).
-> +
-> +Actions are simple functions with no return value, and a single ``void*``
-> +context argument, and forfil the same role as "cleanup" functions in Pyt=
-hon
-"... fulfill the same role ..."?
+On Thu, May 18, 2023 at 07:40:37AM -0700, Luis Chamberlain wrote:
+> +..
+> +        Mapping of heading styles within this document:
+> +        Heading 1 uses "=3D=3D=3D=3D" above and below
+> +        Heading 2 uses "=3D=3D=3D=3D"
+> +        Heading 3 uses "----"
+> +        Heading 4 uses "````"
+> +        Heading 5 uses "^^^^"
+> +        Heading 6 uses "~~~~"
+> +        Heading 7 uses "...."
 
-> +and Go tests, "defer" statements in languages which support them, and
-> +(in some cases) destructors in RAII languages.
-> +
-> +These are very useful for unregistering things from global lists, closing
-> +files or other resources, or freeing resources.
-> +
-> +For example:
-> +
-> +.. code-block:: C
-> +
-> +	static void cleanup_device(void *ctx)
-> +	{
-> +		struct device *dev =3D (struct device *)ctx;
-> +
-> +		device_unregister(dev);
-> +	}
-> +
-> +	void example_device_test(struct kunit *test)
-> +	{
-> +		struct my_device dev;
-> +
-> +		device_register(&dev);
-> +
-> +		kunit_add_action(test, &cleanup_device, &dev);
-> +	}
-> +
-> +Note that, for functions like device_unregister which only accept a sing=
-le
-> +pointer-sized argument, it's possible to directly cast that function to
-> +a ``kunit_action_t`` rather than writing a wrapper function, for example:
-> +
-> +.. code-block:: C
-> +
-> +	kunit_add_action(test, (kunit_action_t *)&device_unregister, &dev);
-> +
-> +``kunit_add_action`` can fail if, for example, the system is out of memo=
-ry.
-> +You can use ``kunit_add_action_or_reset`` instead which runs the action
-> +immediately if it cannot be deferred.
-> +
-> +If you need more control over when the cleanup function is called, you
-> +can trigger it early using ``kunit_release_action``, or cancel it entire=
-ly
-> +with ``kunit_remove_action``.
-> +
-> =20
->  Testing Static Functions
->  ------------------------
+Everyone can distinguished those heading levels without telling them.
 
-The rest is LGTM.
+> +
+> +        Sections are manually numbered because apparently that's what ev=
+eryone
+> +        does in the kernel.
+
+I don't see any section numbering here (forget to add one?).
+
+> +.. contents:: Table of Contents
+> +   :local:
+
+I see the toctree before actual doc title. Maybe move down toctree below
+it?
+
+> +You can call into **iomap** for reading, ie, dealing with the filesystem=
+s's
+> +``struct file_operations``:
+> +
+> + * ``struct file_operations.read_iter()``: note that depending on the ty=
+pe of read your filesystem
+> +   might use ``iomap_dio_rw()`` for direct IO, generic_file_read_iter() =
+for buffered IO and
+
+Try to be consistent on inlining code keywords (identifiers, function names=
+, etc).
+
+> +Testing Direct IO
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Other than fstests you can use LTP's dio, however this tests is limited =
+as it does not test stale
+> +data.
+> +
+> +{{{
+> +./runltp -f dio -d /mnt1/scratch/tmp/
+> +}}}
+
+Use literal code block for above shell snippet:
+
+---- >8 ----
+diff --git a/Documentation/filesystems/iomap.rst b/Documentation/filesystem=
+s/iomap.rst
+index 51be574b5fe32a..6918a4cc5e3b9b 100644
+--- a/Documentation/filesystems/iomap.rst
++++ b/Documentation/filesystems/iomap.rst
+@@ -213,9 +213,9 @@ Testing Direct IO
+ Other than fstests you can use LTP's dio, however this tests is limited as=
+ it does not test stale
+ data.
+=20
+-{{{
+-./runltp -f dio -d /mnt1/scratch/tmp/
+-}}}
++::
++
++    ./runltp -f dio -d /mnt1/scratch/tmp/
+=20
+ Known issues and future improvements
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+> +References
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +  *  `Presentation on iomap evolution`<https://docs.google.com/presentat=
+ion/d/e/2PACX-1vSN4TmhiTu1c6HNv6_gJZFqbFZpbF7GkABllSwJw5iLnSYKkkO-etQJ3AySY=
+EbgJA/pub?start=3Dtrue&loop=3Dfalse&delayms=3D3000&slide=3Did.g189cfd05063_=
+0_185>`
+> +  * `LWN review on deprecating buffer-heads <https://lwn.net/Articles/93=
+0173/>`
+
+I don't see clickable hyperlinks on above external references, so I have to
+fix them up:
+
+---- >8 ----
+diff --git a/Documentation/filesystems/iomap.rst b/Documentation/filesystem=
+s/iomap.rst
+index 75716d4e2f4537..51be574b5fe32a 100644
+--- a/Documentation/filesystems/iomap.rst
++++ b/Documentation/filesystems/iomap.rst
+@@ -230,5 +230,5 @@ We try to document known issues that folks should be aw=
+are of with **iomap** her
+ References
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-  *  `Presentation on iomap evolution`<https://docs.google.com/presentatio=
+n/d/e/2PACX-1vSN4TmhiTu1c6HNv6_gJZFqbFZpbF7GkABllSwJw5iLnSYKkkO-etQJ3AySYEb=
+gJA/pub?start=3Dtrue&loop=3Dfalse&delayms=3D3000&slide=3Did.g189cfd05063_0_=
+185>`
+-  * `LWN review on deprecating buffer-heads <https://lwn.net/Articles/9301=
+73/>`
++  *  `Presentation on iomap evolution <https://docs.google.com/presentatio=
+n/d/e/2PACX-1vSN4TmhiTu1c6HNv6_gJZFqbFZpbF7GkABllSwJw5iLnSYKkkO-etQJ3AySYEb=
+gJA/pub?start=3Dtrue&loop=3Dfalse&delayms=3D3000&slide=3Did.g189cfd05063_0_=
+185>`_
++  * `LWN review on deprecating buffer-heads <https://lwn.net/Articles/9301=
+73/>`_
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index cfb724a4c65280..af5e6c0e84923f 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -25,7 +25,7 @@
+  *
+  * Block mapping provides a mapping between data cached in memory and the =
+location on persistent
+  * storage where that data lives. `LWN has an great review of the old buff=
+er-heads block-mapping and
+- * why they are inefficient <https://lwn.net/Articles/930173/>`, since the=
+ inception of Linux.
++ * why they are inefficient <https://lwn.net/Articles/930173/>`_, since th=
+e inception of Linux.
+  * Since **buffer-heads** work on a 512-byte block based paradigm, it crea=
+tes an overhead for modern
+  * storage media which no longer necessarily works only on 512-blocks. iom=
+ap is flexible
+  * providing block ranges in *bytes*. iomap, with the support of folios, p=
+rovides a modern
+
+> -/*
+> - * Flags reported by the file system from iomap_begin:
+> +/**
+> + * DOC:  Flags reported by the file system from iomap_begin
+>   *
+> - * IOMAP_F_NEW indicates that the blocks have been newly allocated and n=
+eed
+> - * zeroing for areas that no data is copied to.
+> + * * IOMAP_F_NEW: indicates that the blocks have been newly allocated an=
+d need
+> + *	zeroing for areas that no data is copied to.
+>   *
+> - * IOMAP_F_DIRTY indicates the inode has uncommitted metadata needed to =
+access
+> - * written data and requires fdatasync to commit them to persistent stor=
+age.
+> - * This needs to take into account metadata changes that *may* be made a=
+t IO
+> - * completion, such as file size updates from direct IO.
+> + * * IOMAP_F_DIRTY: indicates the inode has uncommitted metadata needed =
+to access
+> + *	written data and requires fdatasync to commit them to persistent stor=
+age.
+> + *	This needs to take into account metadata changes that *may* be made a=
+t IO
+> + *	completion, such as file size updates from direct IO.
+>   *
+> - * IOMAP_F_SHARED indicates that the blocks are shared, and will need to=
+ be
+> - * unshared as part a write.
+> + * * IOMAP_F_SHARED: indicates that the blocks are shared, and will need=
+ to be
+> + *	unshared as part a write.
+>   *
+> - * IOMAP_F_MERGED indicates that the iomap contains the merge of multipl=
+e block
+> - * mappings.
+> + * * IOMAP_F_MERGED: indicates that the iomap contains the merge of mult=
+iple block
+> + *	mappings.
+>   *
+> - * IOMAP_F_BUFFER_HEAD indicates that the file system requires the use of
+> - * buffer heads for this mapping.
+> + * * IOMAP_F_BUFFER_HEAD: indicates that the file system requires the us=
+e of
+> + *	buffer heads for this mapping.
+>   *
+> - * IOMAP_F_XATTR indicates that the iomap is for an extended attribute e=
+xtent
+> - * rather than a file data extent.
+> + * * IOMAP_F_XATTR: indicates that the iomap is for an extended attribut=
+e extent
+> + *	rather than a file data extent.
+>   */
+
+Why don't use kernel-doc comments to describe flags?
+
+> +/**
+> + * struct iomap_folio_ops - buffered writes folio folio reference count =
+helpers
+> + *
+> + * A filesystem can optionally set folio_ops in a &struct iomap mapping =
+it returns to
+> + * override the default get_folio and put_folio for each folio written t=
+o.  This only applies
+> + * to buffered writes as unbuffered writes will not typically have folio=
+s associated with them.
+> + *
+> + * @get_folio: iomap defaults to iomap_get_folio() (which calls __filema=
+p_get_folio()) if the
+> + * 	filesystem did not provide a get folio op.
+> + *
+> + * @put_folio: when get_folio succeeds, put_folio will always be called =
+to do any cleanup work
+> + * 	necessary. put_folio is responsible for unlocking and putting @folio.
+> + *
+> + * @iomap_valid: check that the cached iomap still maps correctly to the=
+ filesystem's internal
+> + * 	extent map. FS internal extent maps can change while iomap is iterat=
+ing a cached iomap, so
+> + * 	this hook allows iomap to detect that the iomap needs to be refreshe=
+d during a long running
+> + * 	write operation.
+> + *
+> + *	The filesystem can store internal state (e.g. a sequence number) in i=
+omap->validity_cookie
+> + *	when the iomap is first mapped to be able to detect changes between m=
+apping time and whenever
+> + *	.iomap_valid() is called.
+> + *
+> + *	This is called with the folio over the specified file position held l=
+ocked by the iomap code.
+> + *	This is useful for filesystems that have dynamic mappings (e.g. anyth=
+ing other than zonefs).
+> + *	An example reason as to why this is necessary is writeback doesn't ta=
+ke the vfs locks.
+
+Nice, this one has kernel-doc.
+
+Thanks for review.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---QNlhZ+8rjoCCRHiA
+--0VIesbtBcvOdTYu/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZGczrQAKCRD2uYlJVVFO
-o/9jAQDrHL35jfTcr1SjBI6FfCy61zx+YCt53C13kD/XIJCcwAEA7U8wmdm73+Rh
-MIbRXJdpUi02nfl88HIERDTHo5VFOAw=
-=lpla
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZGdBMwAKCRD2uYlJVVFO
+o1CXAP4vvkxOjGSlp8K00eEDRusLv2denEMjLs23Xbw90+5pDAD/bmwirKa+eh7v
+rg3OvhuhDCRffQ0bVvdaGsuCzGqeBwQ=
+=6I7s
 -----END PGP SIGNATURE-----
 
---QNlhZ+8rjoCCRHiA--
+--0VIesbtBcvOdTYu/--
