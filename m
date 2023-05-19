@@ -2,70 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66630C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 15:13:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB5FC77B7A
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 15:14:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbjESPNn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 11:13:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47140 "EHLO
+        id S232269AbjESPOD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 11:14:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232231AbjESPNn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 11:13:43 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7756B1AD;
-        Fri, 19 May 2023 08:13:36 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0EAF37C0;
-        Fri, 19 May 2023 15:13:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0EAF37C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684509216; bh=9y+CNJUJ/q53O04APVAqsBIL53iBrmcTq7YLBNX8bkU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=eHU//7R89icFJlQhKcfphBAKpEZT2kWF0ZDwLEhvsxrVXuqnaHON78v7aoBlrvGiV
-         bTr2i3kNU0jFFgiFLngJDmN5HXbSsWXHuVsyWSiZMhui9MbYagzLBI7ZMtxZjtJck1
-         mH/df7gu6X1SyIHolXJ/DGiRGxRTJcRx39LEkeeU1v6+o7zgfsudxxhCiJvi7u5bvs
-         PH7qEFIqKHZit3vLoYit3wLU4Lkt696E4oi3Y4BvGM/Zi8Vl5lEHAfNhEYlT3eWPy9
-         UAaV4RfPYOhiKBMdFpTuIGoch3VU58nrxzJDOPSKYwx+twEuZuyb16RRVmPKmmIs6c
-         y/YOR4pKyCsqw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     James Seo <james@equiv.tech>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     James Seo <james@equiv.tech>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Generate documentation for error pointer functions
-In-Reply-To: <20230509175543.2065835-1-james@equiv.tech>
-References: <20230509175543.2065835-1-james@equiv.tech>
-Date:   Fri, 19 May 2023 09:13:35 -0600
-Message-ID: <877ct4nylc.fsf@meer.lwn.net>
+        with ESMTP id S232231AbjESPOC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 11:14:02 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DD58198;
+        Fri, 19 May 2023 08:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=1opaetK90ziQPrltM/q7s99LS+5Ffz+3TEwjrEuHrv4=; b=q442WZBtQBcOW7sBrNoWDtaPsc
+        NHZWvxl5JBj/nYxbbB5KkKy/mxxDzNWFPcemw/hWQn5t78rr0GaE+Lu/9EZaWnLYngq3LOvKoCGwu
+        Rsuu1xpUADM5kH0dC/r3joANDzDtnPjHt4RWga/vgnXFEbJ5UeMWQkJC0addAPUGEog9i/vDLWsxJ
+        3NOL5jZfsiDDGtqMu1bizMp9LRnvmhhZA9vGb2zo0CRL6MkZkLZ7wWFWuIZrp71D+zviky5bsJQL8
+        f55Qy+XSsUGRTuDfBOKHbG3iwNOhf9N9I9lMJjG2QS51+qYMleuyEIz6y4CL102xxlRvySSXk1Khi
+        M8f/yFYg==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q01nj-00GZpF-2b;
+        Fri, 19 May 2023 15:13:51 +0000
+Message-ID: <731a3061-973c-a4ad-2fe5-7981c6c1279b@infradead.org>
+Date:   Fri, 19 May 2023 08:13:50 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] Documentation: add initial iomap kdoc
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>, corbet@lwn.net,
+        jake@lwn.net, hch@infradead.org, djwong@kernel.org,
+        dchinner@redhat.com
+Cc:     ritesh.list@gmail.com, rgoldwyn@suse.com, jack@suse.cz,
+        linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
+References: <20230518144037.3149361-1-mcgrof@kernel.org>
+ <ZGdBO6bmbj3sLlzp@debian.me>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <ZGdBO6bmbj3sLlzp@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-James Seo <james@equiv.tech> writes:
 
-> The error pointer functions are collectively mentioned hundreds of times
-> in existing documentation (e.g. "Return: an ERR_PTR() on failure.",
-> "If IS_ERR() is true, the function failed and PTR_ERR() gives you the
-> error code.")
->
-> This series adds kerneldocs for them and brings them into the docs build,
-> immediately turning most such mentions into automatic cross-references.
->
-> James Seo (3):
->   Documentation: conf.py: Add __force to c_id_attributes
->   err.h: Add missing kerneldocs for error pointer functions
->   Documentation: core-api: Add error pointer functions to kernel-api
->
->  Documentation/conf.py                 |  1 +
->  Documentation/core-api/kernel-api.rst |  6 ++++
->  include/linux/err.h                   | 48 +++++++++++++++++++++++++++
->  3 files changed, 55 insertions(+)
 
-Series applied, thanks.
+On 5/19/23 02:28, Bagas Sanjaya wrote:
+>> +/**
+>> + * DOC:  Flags reported by the file system from iomap_begin
+>>   *
+>> - * IOMAP_F_NEW indicates that the blocks have been newly allocated and need
+>> - * zeroing for areas that no data is copied to.
+>> + * * IOMAP_F_NEW: indicates that the blocks have been newly allocated and need
+>> + *	zeroing for areas that no data is copied to.
+>>   *
+>> - * IOMAP_F_DIRTY indicates the inode has uncommitted metadata needed to access
+>> - * written data and requires fdatasync to commit them to persistent storage.
+>> - * This needs to take into account metadata changes that *may* be made at IO
+>> - * completion, such as file size updates from direct IO.
+>> + * * IOMAP_F_DIRTY: indicates the inode has uncommitted metadata needed to access
+>> + *	written data and requires fdatasync to commit them to persistent storage.
+>> + *	This needs to take into account metadata changes that *may* be made at IO
+>> + *	completion, such as file size updates from direct IO.
+>>   *
+>> - * IOMAP_F_SHARED indicates that the blocks are shared, and will need to be
+>> - * unshared as part a write.
+>> + * * IOMAP_F_SHARED: indicates that the blocks are shared, and will need to be
+>> + *	unshared as part a write.
+>>   *
+>> - * IOMAP_F_MERGED indicates that the iomap contains the merge of multiple block
+>> - * mappings.
+>> + * * IOMAP_F_MERGED: indicates that the iomap contains the merge of multiple block
+>> + *	mappings.
+>>   *
+>> - * IOMAP_F_BUFFER_HEAD indicates that the file system requires the use of
+>> - * buffer heads for this mapping.
+>> + * * IOMAP_F_BUFFER_HEAD: indicates that the file system requires the use of
+>> + *	buffer heads for this mapping.
+>>   *
+>> - * IOMAP_F_XATTR indicates that the iomap is for an extended attribute extent
+>> - * rather than a file data extent.
+>> + * * IOMAP_F_XATTR: indicates that the iomap is for an extended attribute extent
+>> + *	rather than a file data extent.
+>>   */
+> Why don't use kernel-doc comments to describe flags?
+> 
 
-jon
+Because kernel-doc handles functions, structs, unions, and enums.
+Not defines.
+
+-- 
+~Randy
