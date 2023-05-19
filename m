@@ -2,177 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4CDAC77B75
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 05:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F21C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 07:10:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229480AbjESFEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 01:04:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55494 "EHLO
+        id S229701AbjESHKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 03:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjESFEx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 01:04:53 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A27107;
-        Thu, 18 May 2023 22:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qoebvRH+5DyCHjL5CguUqheVeTvzmE683d7FksxC+hw=; b=EA5TnpVUmLi0YCsEB8c0Ab7YG4
-        RnjV8/iUkUeNeDxrAp6ScISMiCeWddLQAnBAlp0mDcJ7nz4mtHSZs06CaDNGPC+F5U+tyw28k6tK7
-        2lcUctBUCd/hcc3cUhHZRDmJ3AY25s0c2j/KQN05/1t9fAQOstJwHySGE0BPzXjVFrW0CFfOVI5oX
-        9oTRzG+O1PHfzd3ep6C6mrA8WOJawZMfeE23Y3ID6YnwMTSxVrACjejjv4Kenrow3bY6Nn6Sh02s+
-        LSORCBbroHJWVVCWJxd2rvX0+9IoI9/VP/2Oo21Ac4R8iFCtjPdcGiCVhky1OrrXjr8XbanrrXYqp
-        Hf1n3wfA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1pzsIF-00F6X5-0s;
-        Fri, 19 May 2023 05:04:43 +0000
-Date:   Thu, 18 May 2023 22:04:43 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     corbet@lwn.net, jake@lwn.net, hch@infradead.org, djwong@kernel.org,
-        dchinner@redhat.com, ritesh.list@gmail.com, rgoldwyn@suse.com,
-        jack@suse.cz, linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
-Subject: Re: [PATCH v2] Documentation: add initial iomap kdoc
-Message-ID: <ZGcDaysYl+w9kV6+@infradead.org>
-References: <20230518150105.3160445-1-mcgrof@kernel.org>
+        with ESMTP id S229504AbjESHKN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 03:10:13 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A85BE4A;
+        Fri, 19 May 2023 00:10:11 -0700 (PDT)
+Received: from dggpemm500002.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QMyY40KWHzqSZG;
+        Fri, 19 May 2023 15:05:44 +0800 (CST)
+Received: from [10.174.178.247] (10.174.178.247) by
+ dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 19 May 2023 15:10:06 +0800
+Subject: Re: [PATCH 3/3] Documentation/arm64: Update ACPI tables from BBR
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Jose Marinho <jose.marinho@arm.com>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jeremy Linton <Jeremy.Linton@arm.com>,
+        James Morse <James.Morse@arm.com>,
+        Rob Herring <Rob.Herring@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+        Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
+References: <20230518105202.451739-1-jose.marinho@arm.com>
+ <20230518105202.451739-4-jose.marinho@arm.com>
+ <0969894f-d653-482c-f043-2a085ee3b404@huawei.com>
+ <e9918d6e-ca5c-5a3a-6ff4-27acf7f73b30@arm.com>
+From:   Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <dd0114f5-2e9c-40ea-8722-93fdf3f57b87@huawei.com>
+Date:   Fri, 19 May 2023 15:10:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230518150105.3160445-1-mcgrof@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <e9918d6e-ca5c-5a3a-6ff4-27acf7f73b30@arm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.247]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500002.china.huawei.com (7.185.36.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 18, 2023 at 08:01:05AM -0700, Luis Chamberlain wrote:
-> +        Mapping of heading styles within this document:
-> +        Heading 1 uses "====" above and below
-> +        Heading 2 uses "===="
-> +        Heading 3 uses "----"
-> +        Heading 4 uses "````"
-> +        Heading 5 uses "^^^^"
-> +        Heading 6 uses "~~~~"
-> +        Heading 7 uses "...."
-> +
-> +        Sections are manually numbered because apparently that's what everyone
+On 2023/5/18 21:40, Robin Murphy wrote:
+> On 2023-05-18 13:07, Hanjun Guo wrote:
+>> Hi Jose,
+>>
+>> On 2023/5/18 18:52, Jose Marinho wrote:
+>>> The BBR specification requires (or conditionally requires) a set of ACPI
+>>> tables for a proper working system.
+>>> This commit updates:
+>>> - the list of ACPI tables to reflect the contents of
+>>> BBR version 2.0 (see https://developer.arm.com/documentation/den0044/g).
+>>> - the list of ACPI tables in acpi_object_usage. This last update ensures
+>>> that both files remain coherent.
+>>
+>> Thanks for the update, some comments inline.
+>>
+>>>
+>>> Signed-off-by: Jose Marinho <jose.marinho@arm.com>
+>>> Reviewed-by: Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
+>>> ---
+>>>   Documentation/arm64/acpi_object_usage.rst | 81 +++++++++++++++++++++--
+>>>   Documentation/arm64/arm-acpi.rst          | 71 +++++++++++++++++---
+>>>   2 files changed, 139 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/Documentation/arm64/acpi_object_usage.rst 
+>>> b/Documentation/arm64/acpi_object_usage.rst
+>>> index 484ef9676653..1da22200fdf8 100644
+>>> --- a/Documentation/arm64/acpi_object_usage.rst
+>>> +++ b/Documentation/arm64/acpi_object_usage.rst
+>>> @@ -17,16 +17,37 @@ For ACPI on arm64, tables also fall into the 
+>>> following categories:
+>>>          -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
+>>> -       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, 
+>>> IBFT,
+>>> -          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, 
+>>> SPMI, SRAT,
+>>> -          STAO, TCPA, TPM2, UEFI, XENV
+>>> +       -  Optional: AGDI, BGRT, CEDT, CPEP, CSRT, DBG2, DRTM, ECDT, 
+>>> FACS, FPDT,
+>>> +          HMAT, IBFT, IORT, MCHI, MPAM, MPST, MSCT, NFIT, PMTT, 
+>>> PPTT, RASF, SBST,
+>>> +          SDEI, SLIT, SPMI, SRAT, STAO, TCPA, TPM2, UEFI, XENV
+>>> -       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT, 
+>>> MSDM, OEMx,
+>>> -          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
+>>> +       -  Not supported: AEST, APMT, BOOT, DBGP, DMAR, ETDT, HPET, 
+>>> IVRS, LPIT,
+>>
+>> AEST is ARM Error Source Table, and it can be used for ARM platforms, so
+>> I thinsk AEST is not belong to "Not supportted", "Optional" instead.
+> 
+> Can you point to the code in Linux which does anything with AEST, 
+> optionally or otherwise? ;)
+>> and APMT is the same.
+>>
+>>> +          MSDM, OEMx, PDTT, PSDT, RAS2, RSDT, SLIC, WAET, WDAT, 
+>>> WDRT, WPBT
+>>
+>> PDTT and RAS2 are now used for ARM too, please move it to Optional :)
+> 
+> Ditto; as stated in arm-acpi.rst this is Linux documentation covering 
+> the interaction between Linux and ACPI. It is not some kind of generic 
 
-Why are you picking different defaults then the rest of the kernel
-documentation?
+Hmm, let me see...
 
-> +
-> +A modern block abstraction
-> +==========================
-> +
-> +**iomap** allows filesystems to query storage media for data using *byte
-> +ranges*. Since block mapping are provided for a *byte ranges* for cache data in
-> +memory, in the page cache, naturally this implies operations on block ranges
-> +will also deal with *multipage* operations in the page cache. **Folios** are
-> +used to help provide *multipage* operations in memory for the *byte ranges*
-> +being worked on.
+OK, I checked the arm-acpi.rst, it is saying:
 
-As mentioned you list time this information was circulated this is not
-true.  iomap itself has nothing to with blocks, and even less so with
-the page cache per se.  It just iterates over ranges of file data and
-applies work to it.
+"Detailed expectations for ACPI tables and object are listed in the file
+Documentation/arm64/acpi_object_usage.rst."
 
-> +iomap IO interfaces
-> +===================
-> +
-> +You call **iomap** depending on the type of filesystem operation you are working
-> +on. We detail some of these interactions below.
+So if I remember correctly, it is the guidance of ACPI tables and
+methods usage on arm64, to align with the BBR.
 
-Who is you?
+> ACPI-on-Arm guidance whitepaper. If and when Linux actually supports 
+> these tables in the sense of meaningfully consuming them, that is when 
+> we can document such support.
 
-> +
-> +iomap for bufferred IO writes
-> +-----------------------------
-> +
-> +You call **iomap** for buffered IO with:
-> +
-> + * ``iomap_file_buffered_write()`` - for buffered writes
-> + * ``iomap_page_mkwrite()`` - when dealing callbacks for
-> +    ``struct vm_operations_struct``
-> +
-> +  * ``struct vm_operations_struct.page_mkwrite()``
-> +  * ``struct vm_operations_struct.fault()``
-> +  * ``struct vm_operations_struct.huge_fault()``
-> +  * ``struct vm_operations_struct`.pfn_mkwrite()``
-> +
-> +You *may* use buffered writes to also deal with ``fallocate()``:
-> +
-> + * ``iomap_zero_range()`` on fallocate for zeroing
-> + * ``iomap_truncate_page()`` on fallocate for truncation
-> +
-> +Typically you'd also happen to use these on paths when updating an inode's size.
+If this is the case, we don't need categories of "Required",
+"Recommmened" and etc.
 
-I'm not really sure what this is trying to explain.  It basically looks
-like filler text generated by machine learning algorithms..
-
-The same is true for a large part of this document.
-
-> +A filesystem also needs to call **iomap** when assisting the VFS manipulating a
-> +file into the page cache.
-
-A file systsem doesn't _need_ to do anything.  It may chose to do
-things, and the iomap based helpers might be useful for that.  But
-again, I'm still not getting what this document is even trying to
-explain, as "to implement the method foo, use the iomap_foo" isn't
-really helping anyone.
-
-> +Converting filesystems from buffer-head to iomap guide
-> +======================================================
-
-If you want such a guide, please keep it in a separate file from the
-iomap API documentation.  I'd also suggest that you actually try such
-a conversion first, as that might help shaping the documentation :)
-
-> +Testing Direct IO
-> +=================
-> +
-> +Other than fstests you can use LTP's dio, however this tests is limited as it
-> +does not test stale data.
-> +
-> +{{{
-> +./runltp -f dio -d /mnt1/scratch/tmp/
-> +}}}
-
-How does this belong into an iomap documentation?  If LTPs dio is really
-all that useful we should import it into xfstests, btw.  I'm not sure it
-is, though.
-
-> +We try to document known issues that folks should be aware of with **iomap** here.
-
-Who is "we"?
-
-> + * DOC: Introduction
-> + *
-> + * iomap allows filesystems to sequentially iterate over byte addressable block
-> + * ranges on an inode and apply operations to it.
-> + *
-> + * iomap grew out of the need to provide a modern block mapping abstraction for
-> + * filesystems with the different IO access methods they support and assisting
-> + * the VFS with manipulating files into the page cache. iomap helpers are
-> + * provided for each of these mechanisms. However, block mapping is just one of
-> + * the features of iomap, given iomap supports DAX IO for filesystems and also
-> + * supports such the ``lseek``/``llseek`` ``SEEK_DATA``/``SEEK_HOLE``
-> + * interfaces.
-> + *
-> + * Block mapping provides a mapping between data cached in memory and the
-> + * location on persistent storage where that data lives. `LWN has an great
-> + * review of the old buffer-heads block-mapping and why they are inefficient
-> + * <https://lwn.net/Articles/930173/>`, since the inception of Linux.  Since
-> + * **buffer-heads** work on a 512-byte block based paradigm, it creates an
-> + * overhead for modern storage media which no longer necessarily works only on
-> + * 512-blocks. iomap is flexible providing block ranges in *bytes*. iomap, with
-> + * the support of folios, provides a modern replacement for **buffer-heads**.
-> + */
-
-I really don't want random blurbs and links like this in the main
-header.  If you want to ramble in a little howto that's fine, but the
-main header is not the place for it.
-
-Also please keep improvements to the header in a separate patch from
-adding Documentation/ documents.
+Thanks
+Hanjun
