@@ -2,172 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2AB2C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 12:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBF4C77B7F
+	for <linux-doc@archiver.kernel.org>; Fri, 19 May 2023 14:02:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbjESM5P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 08:57:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
+        id S232024AbjESOCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 10:02:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjESM5O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 08:57:14 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F080810D9;
-        Fri, 19 May 2023 05:56:34 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-25367154308so1302051a91.1;
-        Fri, 19 May 2023 05:56:34 -0700 (PDT)
+        with ESMTP id S232002AbjESOCc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 10:02:32 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C1319F;
+        Fri, 19 May 2023 07:02:30 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-510d8d7f8eeso5351604a12.0;
+        Fri, 19 May 2023 07:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684500986; x=1687092986;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GpZrNQDGTtPUMP/vHDnUWdZkCwNhA/mH8CwnzCMagT4=;
-        b=fAqwa1TrHDE27YNsm+OxdPJpPon2040rvZd0bfP3IuGqMJyr0CHSlauJGDnkOF78Rj
-         TrU0aMt+/tHZZ27prD3E4f7nTk61SqeNTQcunLA16GBXv9Zwum3lXrmn+PdM5qGfwlCV
-         Wp48NZuuumrBYARM6EjIsgkvaMER8MxbaTDgtCcApGibnStFvNGroLHOYrcRqBHs6UuC
-         2TomoRTn8N67HwUlYJ8XLZA3cM7LcuAdijZMNfiLYImoJeu3BGSOCqhtOwZFRvVCatHv
-         KKQHuOzD+tM/sq8y9Md0ieVxRS2sa3BjlaZUWDUq5Fms3IxN2eCw1YvUdEBrt0O1nwZP
-         MoOA==
+        d=gmail.com; s=20221208; t=1684504949; x=1687096949;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:cc:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gU4fcWRkdVVZk4e/xekN0dbe8Liasg2vpN9d6LWDIj8=;
+        b=kJm180i1UBge3gCR83fkSzsqYvJz6RKG1c3LFKtZrdUPhIJ1/Wq441ACbP/jR900yG
+         ny+2UGVO5J8HvdoGenH0Q+3/Y/teP4bg/rn09UgRa8cK5BdGjBFSQfto8RffY5uKzAoy
+         crpwxTnLz2Lbp+SNBI6Ssl1EapvepZIDdFrZ7aXAjRRQJ3w8Vg0WfjbRRSoQ+WwB6WaV
+         nv5ERlypqOCiDHS/I6D+ky/2zYmBNhS75bXVSLtme0lWgZ7pv5bpMqnQpR1RKPu6J3Vw
+         qIHWTddAL4rrBseYrhl80a02T4erlhoMUNj3gcNUml+nUCfbjcNSO/BzjbrDzwGDzgC1
+         LooQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684500986; x=1687092986;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GpZrNQDGTtPUMP/vHDnUWdZkCwNhA/mH8CwnzCMagT4=;
-        b=HRPK/3S1UVbrN6vscvqCBhj6ZGkAo81H6AEreex5iEQuWpGyIsvwWuiI58XcvIKAP9
-         Q/CjsR7J3dT0LP3P5iocPXYfmCdL1QMtvb2lHrNfk61pjIjMbjgH0jXFauf4+5uNRS8z
-         A60YcDQVNKcOjhbKrKmnizupFTND1zHQ4/HvyRR12nqeeJAbBMl3ste9sn45ceBNhRyZ
-         JPWgTdKA1Pwjo09Dn+yEioJS9vgcXOPfnOFgLCGHBICKq7tGTbKoAJy/fN8aC7UrP33+
-         qEFKq1WhG10w5SkK40ae6Hz+QmfyGvEfqTxxjNajSAvhWJV1Rvy2cXLR2er7QtYZWSCB
-         sEcQ==
-X-Gm-Message-State: AC+VfDy4NPAxuIYlyJRIgo4e3+xSfqQhlybVUiKEJmkR5NwBxrWQMs2c
-        Mv4KNoRuGANRl3agyaoCDAE=
-X-Google-Smtp-Source: ACHHUZ51ySpkmK2HtsnH7+7U7JC5UtvWLL3FRMKLnA4Fc092eCA9wLpCf26MsfivM+zDvCuzQcAyNg==
-X-Received: by 2002:a17:90b:300f:b0:250:3bc3:2b09 with SMTP id hg15-20020a17090b300f00b002503bc32b09mr2104517pjb.12.1684500986211;
-        Fri, 19 May 2023 05:56:26 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e4-20020a17090a4a0400b00250cf4e7d25sm1396303pjh.41.2023.05.19.05.56.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 05:56:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 19 May 2023 05:56:24 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Aleksa Savic <savicaleksa83@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, main@ehvag.de,
-        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
+        d=1e100.net; s=20221208; t=1684504949; x=1687096949;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:cc:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gU4fcWRkdVVZk4e/xekN0dbe8Liasg2vpN9d6LWDIj8=;
+        b=hAYDqOJwbphTe0MyNORs6hn4eL6AzXkAbnbA79+k8Pl/tvkr+ZwDwzL9DW0JR4C7Nh
+         Zn3B/tbQC9sGJ15i/RRg6HDzdMDxtZxNF1VibbYXIG/xFsPBteF9eevZcRgP8MsbSE6K
+         TIMhpI9MtZ9Ugz9k15rJF58t130xORn85XPSv/cJAk2Eud+FElENX66Xt3+yZbzr9KIx
+         ONOrHgpj9QahI29wBu4j68zGyktFizm3Hqf3nmALMNRDCOFSABFZjLAOlG3GJYUjClzd
+         mHtZImqxCxvdinhcdZxok9ruIl1QUUWJOjMJaHrK/QHas0YDvAATI54YAJnZNBLN8+r4
+         pzMw==
+X-Gm-Message-State: AC+VfDzjqFRvI2Ggs65xlmGfizTPRQEycO+cR7Pk+kCMR7RT9PFEdo9r
+        lF33Gtmp4DeI3iL+gSr9yjc=
+X-Google-Smtp-Source: ACHHUZ5+6O6UimiC9BuTzXStBnJe+Pv1drzr+y3ZimksVFDewJX9nt59+m8oKxUJFw2oCmxRAA/UDg==
+X-Received: by 2002:a17:906:fe04:b0:94f:6627:22b5 with SMTP id wy4-20020a170906fe0400b0094f662722b5mr1547950ejb.47.1684504948627;
+        Fri, 19 May 2023 07:02:28 -0700 (PDT)
+Received: from [192.168.0.28] ([87.116.164.240])
+        by smtp.gmail.com with ESMTPSA id b19-20020aa7d493000000b0050dab547fc6sm1681516edr.74.2023.05.19.07.02.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 May 2023 07:02:28 -0700 (PDT)
+Message-ID: <587c9c16-db0f-3b92-915e-23ceccf1d8b8@gmail.com>
+Date:   Fri, 19 May 2023 16:02:26 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Cc:     savicaleksa83@gmail.com, linux-hwmon@vger.kernel.org,
+        main@ehvag.de, Jack Doan <me@jackdoan.com>,
+        Jean Delvare <jdelvare@suse.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Leakshield
-Message-ID: <50a17124-7bb8-4868-987a-08d4988747fb@roeck-us.net>
+Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for Aquacomputer
+ Leakshield
+To:     Guenter Roeck <linux@roeck-us.net>
 References: <20230516164213.7938-1-savicaleksa83@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230516164213.7938-1-savicaleksa83@gmail.com>
+ <50a17124-7bb8-4868-987a-08d4988747fb@roeck-us.net>
+Content-Language: en-US
+From:   Aleksa Savic <savicaleksa83@gmail.com>
+In-Reply-To: <50a17124-7bb8-4868-987a-08d4988747fb@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 16, 2023 at 06:42:13PM +0200, Aleksa Savic wrote:
-> Extend aquacomputer_d5next driver to expose various hardware sensors of the
-> Aquacomputer Leakshield leak prevention system, which communicates
-> through a proprietary USB HID protocol. Implemented by Noah Bergbauer [1].
+On 2023-05-19 14:56:24 GMT+02:00, Guenter Roeck wrote:
 > 
-> Two temperature sensors are exposed, along with pressure (current, min, max
-> and target), reservoir volume (total and filled), pump speed and flow. Pump
-> speed and flow values are user provided and allow the Leakshield to
-> optimize its operation. Writing them to the device is subject of future
-> patches.
+> This would have to be a separate change.
 > 
-> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/41
-> 
-> Originally-from: Noah Bergbauer <main@ehvag.de>
-> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
-> ---
->  Documentation/hwmon/aquacomputer_d5next.rst |   9 ++
->  drivers/hwmon/aquacomputer_d5next.c         | 117 ++++++++++++++++++--
->  2 files changed, 118 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-> index 14b37851af0c..94dc2d93d180 100644
-> --- a/Documentation/hwmon/aquacomputer_d5next.rst
-> +++ b/Documentation/hwmon/aquacomputer_d5next.rst
-> @@ -12,6 +12,7 @@ Supported devices:
->  * Aquacomputer Octo fan controller
->  * Aquacomputer Quadro fan controller
->  * Aquacomputer High Flow Next sensor
-> +* Aquacomputer Leakshield leak prevention system
->  * Aquacomputer Aquastream XT watercooling pump
->  * Aquacomputer Aquastream Ultimate watercooling pump
->  * Aquacomputer Poweradjust 3 fan controller
-> @@ -57,6 +58,11 @@ The High Flow Next exposes +5V voltages, water quality, conductivity and flow re
->  A temperature sensor can be connected to it, in which case it provides its reading
->  and an estimation of the dissipated/absorbed power in the liquid cooling loop.
->  
-> +The Leakshield exposes two temperature sensors and coolant pressure (current, min, max and
-> +target readings). It also exposes the estimated reservoir volume and how much of it is
-> +filled with coolant. Pump RPM and flow can be set to enhance on-device calculations,
-> +but this is not yet implemented here.
-> +
->  The Aquastream XT pump exposes temperature readings for the coolant, external sensor
->  and fan IC. It also exposes pump and fan speeds (in RPM), voltages, as well as pump
->  current.
-> @@ -83,6 +89,9 @@ Sysfs entries
->  temp[1-20]_input Physical/virtual temperature sensors (in millidegrees Celsius)
->  temp[1-8]_offset Temperature sensor correction offset (in millidegrees Celsius)
->  fan[1-8]_input   Pump/fan speed (in RPM) / Flow speed (in dL/h)
-> +fan1_min         Minimal fan speed (in RPM)
-> +fan1_max         Maximal fan speed (in RPM)
-> +fan1_target      Target fan speed (in RPM)
->  fan5_pulses      Quadro flow sensor pulses
->  power[1-8]_input Pump/fan power (in micro Watts)
->  in[0-7]_input    Pump/fan voltage (in milli Volts)
-> diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-> index a4fcd4ebf76c..a981f7086114 100644
-> --- a/drivers/hwmon/aquacomputer_d5next.c
-> +++ b/drivers/hwmon/aquacomputer_d5next.c
-> @@ -1,7 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
->   * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo,
-> - * Quadro, High Flow Next, Aquaero, Aquastream Ultimate)
-> + * Quadro, High Flow Next, Aquaero, Aquastream Ultimate, Leakshield)
->   *
->   * Aquacomputer devices send HID reports (with ID 0x01) every second to report
->   * sensor values, except for devices that communicate through the
-> @@ -29,6 +29,7 @@
->  #define USB_PRODUCT_ID_FARBWERK360	0xf010
->  #define USB_PRODUCT_ID_OCTO		0xf011
->  #define USB_PRODUCT_ID_HIGHFLOWNEXT	0xf012
-> +#define USB_PRODUCT_ID_LEAKSHIELD	0xf014
->  #define USB_PRODUCT_ID_AQUASTREAMXT	0xf0b6
->  #define USB_PRODUCT_ID_AQUASTREAMULT	0xf00b
->  #define USB_PRODUCT_ID_POWERADJUST3	0xf0bd
-> @@ -36,7 +37,7 @@
->  enum kinds {
->  	d5next, farbwerk, farbwerk360, octo, quadro,
->  	highflownext, aquaero, poweradjust3, aquastreamult,
-> -	aquastreamxt
-> +	aquastreamxt, leakshield
->  };
->  
->  static const char *const aqc_device_names[] = {
-> @@ -46,6 +47,7 @@ static const char *const aqc_device_names[] = {
->  	[octo] = "octo",
->  	[quadro] = "quadro",
->  	[highflownext] = "highflownext",
-> +	[leakshield] = "leakshield",
->  	[aquastreamxt] = "aquastreamxt",
->  	[aquaero] = "aquaero",
->  	[aquastreamult] = "aquastreamultimate",
-> @@ -93,7 +95,7 @@ static u8 aquaero_secondary_ctrl_report[] = {
->  #define AQC_FIRMWARE_VERSION		0xD
->  
->  #define AQC_SENSOR_SIZE			0x02
-> -#define AQC_TEMP_SENSOR_DISCONNECTED	0x7FFF
-> +#define AQC_SENSOR_NA			0x7FFF
+> Guenter
 
-This would have to be a separate change.
+Will move into separate patch, thanks.
 
-Guenter
+Aleksa
