@@ -2,116 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A6E1C7EE23
-	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 03:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4153C77B7F
+	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 08:31:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbjETDKt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 23:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
+        id S229568AbjETIbt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 May 2023 04:31:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjETDKs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 23:10:48 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632FFC3;
-        Fri, 19 May 2023 20:10:44 -0700 (PDT)
+        with ESMTP id S230333AbjETIbs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 04:31:48 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6415E19A
+        for <linux-doc@vger.kernel.org>; Sat, 20 May 2023 01:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684552244; x=1716088244;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZszPNN/zuN/FRjZChx2BbndTfxzUdHqcx6/+T+yfOGQ=;
-  b=FETfBDvf+PYfLQCeI5ADQhTEkr/aOvANQdwVbNCGKVfL1mLHhyV+9Tyr
-   mWJ1GwhPiwKGAZqVpY40T63WISvBXgqTx/g+aEGdszF2YblKbjgSQ492z
-   8JJdLpGYBuxUW700J4j5JuS1qhRI0kLku8NVrp0GyhoCc1ZZzTbohn1mm
-   PUIxR425b6Q4OeN657eFV8es1rFWSmCGJvzvpg8FZLy3/PrwkLPbo4Fvn
-   i56iLRIDdIas/aVnkhvybEpEowXGmw6OwERwPV1dZ+IpAiblRF/3/tmkf
-   oJVoVOvoZ4LIXEakdlSOZOIamniGnQqcd8Gx8KEbUqt/yCNwHrWnjfQUr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10715"; a="332902966"
-X-IronPort-AV: E=Sophos;i="6.00,178,1681196400"; 
-   d="scan'208";a="332902966"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 20:10:36 -0700
+  t=1684571501; x=1716107501;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AZtjXFrTEWBBtnzkx/BtoAI4+ffVmDq28fY440HXonM=;
+  b=MrW53PVmwC6OF7qh/BY6BosNrTY+SgSq3OtsAALYmCHq3gEg6gT1EabS
+   3Y8puYqGRvmQ9dOIw0PLR2eKcdKtGdiW1unxVtqRQLrPRQkJnnQaCw0nv
+   xfdkeJZ1jc/5VuuHGy907YBdPF36w1MuKQX1qyoZRasqDG/E15tGiv7qN
+   lo2VQsLuTEYvM6wext4XrSnAjRyOTqB2CeNf15vHH89/GwEkRNTXjfdla
+   iqsrYLzvzclMDSkBVDUAr9CZlKYHY9zJIlQaItt1uJF4WIcXGGp1TWUKu
+   zrd+7NeK3PWAwvKLpBEaW+euDmzueVj1YtgPlp7UVNTbrK5qope2zoAv0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10715"; a="351410152"
+X-IronPort-AV: E=Sophos;i="6.00,179,1681196400"; 
+   d="scan'208";a="351410152"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2023 01:31:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10715"; a="826978174"
-X-IronPort-AV: E=Sophos;i="6.00,178,1681196400"; 
-   d="scan'208";a="826978174"
+X-IronPort-AV: E=McAfee;i="6600,9927,10715"; a="735781430"
+X-IronPort-AV: E=Sophos;i="6.00,179,1681196400"; 
+   d="scan'208";a="735781430"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 19 May 2023 20:10:31 -0700
+  by orsmga001.jf.intel.com with ESMTP; 20 May 2023 01:31:38 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1q0CzG-000BGs-2g;
-        Sat, 20 May 2023 03:10:30 +0000
-Date:   Sat, 20 May 2023 11:09:40 +0800
+        id 1q0I02-000BPq-05;
+        Sat, 20 May 2023 08:31:38 +0000
+Date:   Sat, 20 May 2023 16:30:41 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH 6/7] docs: update some straggling Documentation/arm
- references
-Message-ID: <202305201023.2DYXmdv3-lkp@intel.com>
-References: <20230519164607.38845-7-corbet@lwn.net>
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [lwn:docs-next 12/12] htmldocs: Warning:
+ Documentation/process/2.Process.rst references a file that doesn't exist:
+ Documentation/process/submittingpatches.rst
+Message-ID: <202305201652.POM84URe-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="z1gTaKLkTeRVKnLj"
+Content-Type: multipart/mixed; boundary="o/ln0EtKJywOz+8R"
 Content-Disposition: inline
-In-Reply-To: <20230519164607.38845-7-corbet@lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---z1gTaKLkTeRVKnLj
+--o/ln0EtKJywOz+8R
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jonathan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.4-rc2 next-20230519]
-[cannot apply to sunxi/sunxi/for-next arm64/for-next/core thierry-reding-pwm/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230519164607.38845-7-corbet%40lwn.net
-patch subject: [PATCH 6/7] docs: update some straggling Documentation/arm references
+tree:   git://git.lwn.net/linux.git docs-next
+head:   329ac9af902e441bae13803a4d7126aaf5984188
+commit: 329ac9af902e441bae13803a4d7126aaf5984188 [12/12] docs: submitting-patches: Discuss interleaved replies
 reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/3c9885f2702a3319156cfbacedfca658e726213b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
-        git checkout 3c9885f2702a3319156cfbacedfca658e726213b
+        git remote add lwn git://git.lwn.net/linux.git
+        git fetch --no-tags lwn docs-next
+        git checkout 329ac9af902e441bae13803a4d7126aaf5984188
         make menuconfig
         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
         make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305201023.2DYXmdv3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305201652.POM84URe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/arch/arm64/
+>> Warning: Documentation/process/2.Process.rst references a file that doesn't exist: Documentation/process/submittingpatches.rst
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---z1gTaKLkTeRVKnLj
+--o/ln0EtKJywOz+8R
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -1765,4 +1740,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Documentation
 
---z1gTaKLkTeRVKnLj--
+--o/ln0EtKJywOz+8R--
