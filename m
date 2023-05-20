@@ -2,45 +2,54 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7AEEC77B7F
-	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 14:10:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDC8C7EE29
+	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 14:12:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbjETOK2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 May 2023 10:10:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47704 "EHLO
+        id S230014AbjETOMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 May 2023 10:12:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231557AbjETOK1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 10:10:27 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A48115
-        for <linux-doc@vger.kernel.org>; Sat, 20 May 2023 07:10:23 -0700 (PDT)
+        with ESMTP id S229662AbjETOMu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 10:12:50 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4605E103;
+        Sat, 20 May 2023 07:12:49 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 511606E3;
-        Sat, 20 May 2023 14:10:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 511606E3
+        by ms.lwn.net (Postfix) with ESMTPSA id A2FED6E3;
+        Sat, 20 May 2023 14:12:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A2FED6E3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684591822; bh=dYPEbsoFSogWxKQxoDqagJpLehE7QWnixRnd3wO8y2A=;
+        t=1684591968; bh=ssW6Hz/R5GSYGIKYc6bggawEYxKcwfdt7FMg15yh+SQ=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=g9dri15sHzP6EQkgVPD3v3FpECit0mhNvhbzXpfRLlXpWZxlygq7tH39VFjCyLrFO
-         8N6ND0ir05dv4qVj4hfci37a6ZfkA1j8HZt6i1EYoV8hwCmZVZyfuyDPpe5itlt508
-         X8VPU6nUBFxBDAuSJfTLLjS+qYY0XVvWqWj+/ZOz9mQrfiP8pc+oBXnaInwhU7OKzU
-         1OkXSevwAXo6eNabZHH+sMKjM86CF9g5mtlLt2afCq1Zj3AujRncvg+51nckesBeqq
-         2+Wc8ZLhKPvfO7V26v6r9iRwBXFfAhLTD4c2Y1Gn4unP5MlUiRlhviQCic9oiGGuRI
-         t43wakMqZE+lg==
+        b=Wqc7837+yYQXWUWpNZUbvPfAYsEU94Nsz63U2qrzVyv7mG9M0sVdGPh8u7zVEB38U
+         sl6657pnw40uwSVT1M0djeLOW9uewXdf3OyWstEEpXxJ6I7nPy4oXj/iuB3RZkpCwi
+         vxB63WPEpBIlq2H6TNUGxZM7mF0vUJPIxCT6JbKWtX8U2p21dBr0uaI34QOdMUUaXo
+         TDDws2G9+yEWz1JZec2SLrtHGWn4d9CUQXGzyaHta5aj7U/RKlYlUlV8tiJysSna0J
+         TqXVQXXa8kjv8LocVTL3rWVHJWzTQWPb3p4jd497m0LjvWI1wI9MWzhvObS9pq5K09
+         nmCd0mP7uhhsw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     kernel test robot <lkp@intel.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [lwn:docs-next 12/12] htmldocs: Warning:
- Documentation/process/2.Process.rst references a file that doesn't exist:
- Documentation/process/submittingpatches.rst
-In-Reply-To: <202305201652.POM84URe-lkp@intel.com>
-References: <202305201652.POM84URe-lkp@intel.com>
-Date:   Sat, 20 May 2023 08:10:20 -0600
-Message-ID: <87v8gnjdpv.fsf@meer.lwn.net>
+To:     kernel test robot <lkp@intel.com>, linux-doc@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6ni?= =?utf-8?Q?g?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH 6/7] docs: update some straggling Documentation/arm
+ references
+In-Reply-To: <202305201023.2DYXmdv3-lkp@intel.com>
+References: <20230519164607.38845-7-corbet@lwn.net>
+ <202305201023.2DYXmdv3-lkp@intel.com>
+Date:   Sat, 20 May 2023 08:12:47 -0600
+Message-ID: <87r0rbjdls.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -49,61 +58,49 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 kernel test robot <lkp@intel.com> writes:
 
-> tree:   git://git.lwn.net/linux.git docs-next
-> head:   329ac9af902e441bae13803a4d7126aaf5984188
-> commit: 329ac9af902e441bae13803a4d7126aaf5984188 [12/12] docs: submitting-patches: Discuss interleaved replies
+> Hi Jonathan,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.4-rc2 next-20230519]
+> [cannot apply to sunxi/sunxi/for-next arm64/for-next/core thierry-reding-pwm/for-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20230519164607.38845-7-corbet%40lwn.net
+> patch subject: [PATCH 6/7] docs: update some straggling Documentation/arm references
 > reproduce:
->         git remote add lwn git://git.lwn.net/linux.git
->         git fetch --no-tags lwn docs-next
->         git checkout 329ac9af902e441bae13803a4d7126aaf5984188
+>         # https://github.com/intel-lab-lkp/linux/commit/3c9885f2702a3319156cfbacedfca658e726213b
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
+>         git checkout 3c9885f2702a3319156cfbacedfca658e726213b
 >         make menuconfig
 >         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
 >         make htmldocs
 >
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305201652.POM84URe-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305201023.2DYXmdv3-lkp@intel.com/
 >
 > All warnings (new ones prefixed by >>):
 >
->>> Warning: Documentation/process/2.Process.rst references a file that doesn't exist: Documentation/process/submittingpatches.rst
+>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/arch/arm64/
 
-Oops...I need to figure out why I didn't notice that.  I've dropped the
-following in to make this go away.
+Sigh...obviously this hunk:
 
-Thanks,
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+-F:	Documentation/arm64/
++F:	Documentation/arch/arm64/
+ F:	arch/arm64/
+ F:	tools/testing/selftests/arm64/
+
+...got a bit ahead of the game.  I'll take that one out, sorry for the
+noise.
 
 jon
-
-From a1d2c9b3029de24505c09430931966b96fe1b678 Mon Sep 17 00:00:00 2001
-From: Jonathan Corbet <corbet@lwn.net>
-Date: Sat, 20 May 2023 08:07:04 -0600
-Subject: [PATCH] docs: process: fix a typoed cross-reference
-
-Commit 329ac9af902e added a cross-reference missing a hyphen; add one from
-my emergency hyphen stash.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Fixes: 329ac9af902e ("docs: submitting-patches: Discuss interleaved replies")
-Closes: https://lore.kernel.org/oe-kbuild-all/202305201652.POM84URe-lkp@intel.com/
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/process/2.Process.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index 9ab58a0d4fac..613a01da4717 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -437,7 +437,7 @@ There are a few hints which can help with linux-kernel survival:
- - Use interleaved ("inline") replies, which makes your response easier to
-   read. (i.e. avoid top-posting -- the practice of putting your answer above
-   the quoted text you are responding to.) For more details, see
--  :ref:`Documentation/process/submittingpatches.rst <interleaved_replies>`.
-+  :ref:`Documentation/process/submitting-patches.rst <interleaved_replies>`.
- 
- - Ask on the correct mailing list.  Linux-kernel may be the general meeting
-   point, but it is not the best place to find developers from all
--- 
-2.40.1
-
