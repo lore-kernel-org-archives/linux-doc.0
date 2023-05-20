@@ -2,521 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4203EC77B7A
-	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 01:42:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EF9C77B7F
+	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 02:15:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbjETBl5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 May 2023 21:41:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46692 "EHLO
+        id S230153AbjETCPt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 May 2023 22:15:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjETBl5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 21:41:57 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 36892E46;
-        Fri, 19 May 2023 18:41:52 -0700 (PDT)
-Received: from loongson.cn (unknown [223.106.25.146])
-        by gateway (Coremail) with SMTP id _____8AxNPBfJWhkGlQKAA--.17995S3;
-        Sat, 20 May 2023 09:41:51 +0800 (CST)
-Received: from [192.168.100.8] (unknown [223.106.25.146])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Dx_8taJWhkCf1qAA--.49913S3;
-        Sat, 20 May 2023 09:41:47 +0800 (CST)
-Message-ID: <76ce085b-0821-c369-9e5d-dbc26fd7b009@loongson.cn>
-Date:   Sat, 20 May 2023 09:41:46 +0800
+        with ESMTP id S230001AbjETCPs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 May 2023 22:15:48 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BCA419F
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 19:15:47 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6a984993740so1655838a34.2
+        for <linux-doc@vger.kernel.org>; Fri, 19 May 2023 19:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bitbyteword.org; s=google; t=1684548946; x=1687140946;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hH5unmO3GFmsUg75pelwY21ojkJR1YNK+0uGubfBKOw=;
+        b=IKrEDTDE402UXlcXsvfs641Gzd5bKYLb0KluKsbHQZ1tHN2/2TloIIQ/cjyjbc+rra
+         p2nESYtNN8KbBUJd0codjlQwrP7HWYS2nHHx9kBkvD0U54oIK85s1O3h5YiKFFg8aAAe
+         JZoeOBbr3/axiR+LX8Rq6W3pv/Bset9Bmvtm4lxm4F8n7Wx1Bt1nA0vrJbdUopER9iFx
+         /ylq8Titt3kyTPa8BPdpbKXLvb9ycUoMayRRsf+RKtb6jJNIOwU+4wl7WyVyDRWH0PhG
+         dRJlSP7DWxWAF8kbGSDrdzidWrTPXd9cPm4fkSW4ij0Wb5AfMMB0rzP9WIrv6E1CLIVO
+         u1hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684548946; x=1687140946;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hH5unmO3GFmsUg75pelwY21ojkJR1YNK+0uGubfBKOw=;
+        b=epMF15UUooogmkGnvhyXv3FheYrmaiIC0/OErEL12EN88K0kxZKnwisOGvhgCKvEqW
+         O1kxpmJfWTR4IFR3XDUyV9T4h/avppFtBrEfvNQ+C2XA1y9L4QCOiU2SDmhR8jofBE1k
+         wWyEKIIfX2Gbs/9HyuELVjSjgkvKulvuMes5rPgk4cLaOQiSURCLZR6CoM9t11igp+Pv
+         LQJS4m918veLi6cr0aHUiU9O7LbLRRHXThlkSCSpUSfqwQKXB0Ugf7KaUJ1gnd6zKukR
+         tCmVC72e23Lx6Y6C8HKtwSlVH0AMnhN8bQwa1jZkmL3F3V2wwRxj3c90QJXtlRj5qvTR
+         d3Nw==
+X-Gm-Message-State: AC+VfDwq/f2IZAnqYw0/7iCrdW05g8e57if31ihHy8Bs850XmmK6jaP/
+        Tv+Y/WKwB/B6n+Utuee5wh3Gjbr0h112LB3RSlGa4t3eIz62BwCwSX8=
+X-Google-Smtp-Source: ACHHUZ7wQMr6++cyBnh9uZ9I9O0vaxQ/yipAqh+mvSdeWYcUYEE8UJRhZw5u82kgeZdsCkozN/HP2Q8s6WwdZnB3u70=
+X-Received: by 2002:a05:6830:1bcc:b0:6a5:f147:5255 with SMTP id
+ v12-20020a0568301bcc00b006a5f1475255mr2264359ota.6.1684548946373; Fri, 19 May
+ 2023 19:15:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/7] arm: docs: Move Arm documentation to
- Documentation/arch/
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Alex Shi <alexs@kernel.org>
-References: <20230519164607.38845-1-corbet@lwn.net>
- <20230519164607.38845-2-corbet@lwn.net>
-Content-Language: en-US
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20230519164607.38845-2-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dx_8taJWhkCf1qAA--.49913S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvAXoWfur4UXry7KF1DWr1UKry5twb_yoW5XFy3Ko
-        Z7Ka4jk3s29FsrJrn8Gr17Ar17AFnxCrZ7Zw47tr1UCw47tFnYga1xWw1qqanF9r15GF1f
-        AFWxua1fWFyjy3Z8n29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
-        J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
-        UUP2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
-        0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
-        ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAa
-        w2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
-        jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
-        AI1cAE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCa
-        FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
-        IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
-        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
+References: <20230515025716.316888-1-vineeth@bitbyteword.org>
+ <20230515025716.316888-3-vineeth@bitbyteword.org> <f5801f5b-6ee8-6b84-b6bb-46e89b165091@arm.com>
+In-Reply-To: <f5801f5b-6ee8-6b84-b6bb-46e89b165091@arm.com>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Fri, 19 May 2023 22:15:35 -0400
+Message-ID: <CAO7JXPhVcFJ2+8dpw8Ns4xVr622G8puqdcbSjy23THpahJTmUA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
+To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, youssefesmat@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Dietmar,
 
-On 2023/5/20 00:46, Jonathan Corbet wrote:
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.  Move
-> Documentation/arch into arch/ and fix all documentation references.
+On Fri, May 19, 2023 at 1:56=E2=80=AFPM Dietmar Eggemann
+<dietmar.eggemann@arm.com> wrote:
+
+> > TID[730]: RECLAIM=3D1, (r=3D8ms, d=3D10ms, p=3D10ms), Util: 95.05
+> > TID[731]: RECLAIM=3D1, (r=3D1ms, d=3D10ms, p=3D10ms), Util: 31.34
+> > TID[732]: RECLAIM=3D1, (r=3D1ms, d=3D100ms, p=3D100ms), Util: 3.16
 >
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-arch@vger.kernel.org
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
-
-Thanks
-
-Yanteng
-
-> ---
->   Documentation/{ => arch}/arm/arm.rst                          | 0
->   Documentation/{ => arch}/arm/booting.rst                      | 0
->   Documentation/{ => arch}/arm/cluster-pm-race-avoidance.rst    | 0
->   Documentation/{ => arch}/arm/features.rst                     | 0
->   Documentation/{ => arch}/arm/firmware.rst                     | 0
->   Documentation/{ => arch}/arm/google/chromebook-boot-flow.rst  | 0
->   Documentation/{ => arch}/arm/index.rst                        | 0
->   Documentation/{ => arch}/arm/interrupts.rst                   | 0
->   Documentation/{ => arch}/arm/ixp4xx.rst                       | 0
->   Documentation/{ => arch}/arm/kernel_mode_neon.rst             | 0
->   Documentation/{ => arch}/arm/kernel_user_helpers.rst          | 0
->   Documentation/{ => arch}/arm/keystone/knav-qmss.rst           | 0
->   Documentation/{ => arch}/arm/keystone/overview.rst            | 0
->   Documentation/{ => arch}/arm/marvell.rst                      | 0
->   Documentation/{ => arch}/arm/mem_alignment.rst                | 0
->   Documentation/{ => arch}/arm/memory.rst                       | 0
->   Documentation/{ => arch}/arm/microchip.rst                    | 0
->   Documentation/{ => arch}/arm/netwinder.rst                    | 0
->   Documentation/{ => arch}/arm/nwfpe/index.rst                  | 0
->   Documentation/{ => arch}/arm/nwfpe/netwinder-fpe.rst          | 0
->   Documentation/{ => arch}/arm/nwfpe/notes.rst                  | 0
->   Documentation/{ => arch}/arm/nwfpe/nwfpe.rst                  | 0
->   Documentation/{ => arch}/arm/nwfpe/todo.rst                   | 0
->   Documentation/{ => arch}/arm/omap/dss.rst                     | 0
->   Documentation/{ => arch}/arm/omap/index.rst                   | 0
->   Documentation/{ => arch}/arm/omap/omap.rst                    | 0
->   Documentation/{ => arch}/arm/omap/omap_pm.rst                 | 0
->   Documentation/{ => arch}/arm/porting.rst                      | 0
->   Documentation/{ => arch}/arm/pxa/mfp.rst                      | 0
->   Documentation/{ => arch}/arm/sa1100/assabet.rst               | 0
->   Documentation/{ => arch}/arm/sa1100/cerf.rst                  | 0
->   Documentation/{ => arch}/arm/sa1100/index.rst                 | 0
->   Documentation/{ => arch}/arm/sa1100/lart.rst                  | 0
->   Documentation/{ => arch}/arm/sa1100/serial_uart.rst           | 0
->   Documentation/{ => arch}/arm/samsung/bootloader-interface.rst | 0
->   .../{ => arch}/arm/samsung/clksrc-change-registers.awk        | 0
->   Documentation/{ => arch}/arm/samsung/gpio.rst                 | 0
->   Documentation/{ => arch}/arm/samsung/index.rst                | 0
->   Documentation/{ => arch}/arm/samsung/overview.rst             | 0
->   Documentation/{ => arch}/arm/setup.rst                        | 0
->   Documentation/{ => arch}/arm/spear/overview.rst               | 0
->   Documentation/{ => arch}/arm/sti/overview.rst                 | 0
->   Documentation/{ => arch}/arm/sti/stih407-overview.rst         | 0
->   Documentation/{ => arch}/arm/sti/stih418-overview.rst         | 0
->   Documentation/{ => arch}/arm/stm32/overview.rst               | 0
->   .../{ => arch}/arm/stm32/stm32-dma-mdma-chaining.rst          | 0
->   Documentation/{ => arch}/arm/stm32/stm32f429-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32f746-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32f769-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32h743-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32h750-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32mp13-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32mp151-overview.rst    | 0
->   Documentation/{ => arch}/arm/stm32/stm32mp157-overview.rst    | 0
->   Documentation/{ => arch}/arm/sunxi.rst                        | 0
->   Documentation/{ => arch}/arm/sunxi/clocks.rst                 | 0
->   Documentation/{ => arch}/arm/swp_emulation.rst                | 0
->   Documentation/{ => arch}/arm/tcm.rst                          | 0
->   Documentation/{ => arch}/arm/uefi.rst                         | 0
->   Documentation/{ => arch}/arm/vfp/release-notes.rst            | 0
->   Documentation/{ => arch}/arm/vlocks.rst                       | 0
->   Documentation/arch/index.rst                                  | 2 +-
->   Documentation/translations/zh_CN/arm/Booting                  | 4 ++--
->   Documentation/translations/zh_CN/arm/kernel_user_helpers.txt  | 4 ++--
->   64 files changed, 5 insertions(+), 5 deletions(-)
->   rename Documentation/{ => arch}/arm/arm.rst (100%)
->   rename Documentation/{ => arch}/arm/booting.rst (100%)
->   rename Documentation/{ => arch}/arm/cluster-pm-race-avoidance.rst (100%)
->   rename Documentation/{ => arch}/arm/features.rst (100%)
->   rename Documentation/{ => arch}/arm/firmware.rst (100%)
->   rename Documentation/{ => arch}/arm/google/chromebook-boot-flow.rst (100%)
->   rename Documentation/{ => arch}/arm/index.rst (100%)
->   rename Documentation/{ => arch}/arm/interrupts.rst (100%)
->   rename Documentation/{ => arch}/arm/ixp4xx.rst (100%)
->   rename Documentation/{ => arch}/arm/kernel_mode_neon.rst (100%)
->   rename Documentation/{ => arch}/arm/kernel_user_helpers.rst (100%)
->   rename Documentation/{ => arch}/arm/keystone/knav-qmss.rst (100%)
->   rename Documentation/{ => arch}/arm/keystone/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/marvell.rst (100%)
->   rename Documentation/{ => arch}/arm/mem_alignment.rst (100%)
->   rename Documentation/{ => arch}/arm/memory.rst (100%)
->   rename Documentation/{ => arch}/arm/microchip.rst (100%)
->   rename Documentation/{ => arch}/arm/netwinder.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/index.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/netwinder-fpe.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/notes.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/nwfpe.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/todo.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/dss.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/index.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/omap.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/omap_pm.rst (100%)
->   rename Documentation/{ => arch}/arm/porting.rst (100%)
->   rename Documentation/{ => arch}/arm/pxa/mfp.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/assabet.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/cerf.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/index.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/lart.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/serial_uart.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/bootloader-interface.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/clksrc-change-registers.awk (100%)
->   rename Documentation/{ => arch}/arm/samsung/gpio.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/index.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/setup.rst (100%)
->   rename Documentation/{ => arch}/arm/spear/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sti/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sti/stih407-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sti/stih418-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32-dma-mdma-chaining.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32f429-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32f746-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32f769-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32h743-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32h750-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32mp13-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32mp151-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32mp157-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sunxi.rst (100%)
->   rename Documentation/{ => arch}/arm/sunxi/clocks.rst (100%)
->   rename Documentation/{ => arch}/arm/swp_emulation.rst (100%)
->   rename Documentation/{ => arch}/arm/tcm.rst (100%)
->   rename Documentation/{ => arch}/arm/uefi.rst (100%)
->   rename Documentation/{ => arch}/arm/vfp/release-notes.rst (100%)
->   rename Documentation/{ => arch}/arm/vlocks.rst (100%)
+> What does this 'Util: X' value stand for? I assume it's the utilization
+> of the task? How do you obtain it?
 >
-> diff --git a/Documentation/arm/arm.rst b/Documentation/arch/arm/arm.rst
-> similarity index 100%
-> rename from Documentation/arm/arm.rst
-> rename to Documentation/arch/arm/arm.rst
-> diff --git a/Documentation/arm/booting.rst b/Documentation/arch/arm/booting.rst
-> similarity index 100%
-> rename from Documentation/arm/booting.rst
-> rename to Documentation/arch/arm/booting.rst
-> diff --git a/Documentation/arm/cluster-pm-race-avoidance.rst b/Documentation/arch/arm/cluster-pm-race-avoidance.rst
-> similarity index 100%
-> rename from Documentation/arm/cluster-pm-race-avoidance.rst
-> rename to Documentation/arch/arm/cluster-pm-race-avoidance.rst
-> diff --git a/Documentation/arm/features.rst b/Documentation/arch/arm/features.rst
-> similarity index 100%
-> rename from Documentation/arm/features.rst
-> rename to Documentation/arch/arm/features.rst
-> diff --git a/Documentation/arm/firmware.rst b/Documentation/arch/arm/firmware.rst
-> similarity index 100%
-> rename from Documentation/arm/firmware.rst
-> rename to Documentation/arch/arm/firmware.rst
-> diff --git a/Documentation/arm/google/chromebook-boot-flow.rst b/Documentation/arch/arm/google/chromebook-boot-flow.rst
-> similarity index 100%
-> rename from Documentation/arm/google/chromebook-boot-flow.rst
-> rename to Documentation/arch/arm/google/chromebook-boot-flow.rst
-> diff --git a/Documentation/arm/index.rst b/Documentation/arch/arm/index.rst
-> similarity index 100%
-> rename from Documentation/arm/index.rst
-> rename to Documentation/arch/arm/index.rst
-> diff --git a/Documentation/arm/interrupts.rst b/Documentation/arch/arm/interrupts.rst
-> similarity index 100%
-> rename from Documentation/arm/interrupts.rst
-> rename to Documentation/arch/arm/interrupts.rst
-> diff --git a/Documentation/arm/ixp4xx.rst b/Documentation/arch/arm/ixp4xx.rst
-> similarity index 100%
-> rename from Documentation/arm/ixp4xx.rst
-> rename to Documentation/arch/arm/ixp4xx.rst
-> diff --git a/Documentation/arm/kernel_mode_neon.rst b/Documentation/arch/arm/kernel_mode_neon.rst
-> similarity index 100%
-> rename from Documentation/arm/kernel_mode_neon.rst
-> rename to Documentation/arch/arm/kernel_mode_neon.rst
-> diff --git a/Documentation/arm/kernel_user_helpers.rst b/Documentation/arch/arm/kernel_user_helpers.rst
-> similarity index 100%
-> rename from Documentation/arm/kernel_user_helpers.rst
-> rename to Documentation/arch/arm/kernel_user_helpers.rst
-> diff --git a/Documentation/arm/keystone/knav-qmss.rst b/Documentation/arch/arm/keystone/knav-qmss.rst
-> similarity index 100%
-> rename from Documentation/arm/keystone/knav-qmss.rst
-> rename to Documentation/arch/arm/keystone/knav-qmss.rst
-> diff --git a/Documentation/arm/keystone/overview.rst b/Documentation/arch/arm/keystone/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/keystone/overview.rst
-> rename to Documentation/arch/arm/keystone/overview.rst
-> diff --git a/Documentation/arm/marvell.rst b/Documentation/arch/arm/marvell.rst
-> similarity index 100%
-> rename from Documentation/arm/marvell.rst
-> rename to Documentation/arch/arm/marvell.rst
-> diff --git a/Documentation/arm/mem_alignment.rst b/Documentation/arch/arm/mem_alignment.rst
-> similarity index 100%
-> rename from Documentation/arm/mem_alignment.rst
-> rename to Documentation/arch/arm/mem_alignment.rst
-> diff --git a/Documentation/arm/memory.rst b/Documentation/arch/arm/memory.rst
-> similarity index 100%
-> rename from Documentation/arm/memory.rst
-> rename to Documentation/arch/arm/memory.rst
-> diff --git a/Documentation/arm/microchip.rst b/Documentation/arch/arm/microchip.rst
-> similarity index 100%
-> rename from Documentation/arm/microchip.rst
-> rename to Documentation/arch/arm/microchip.rst
-> diff --git a/Documentation/arm/netwinder.rst b/Documentation/arch/arm/netwinder.rst
-> similarity index 100%
-> rename from Documentation/arm/netwinder.rst
-> rename to Documentation/arch/arm/netwinder.rst
-> diff --git a/Documentation/arm/nwfpe/index.rst b/Documentation/arch/arm/nwfpe/index.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/index.rst
-> rename to Documentation/arch/arm/nwfpe/index.rst
-> diff --git a/Documentation/arm/nwfpe/netwinder-fpe.rst b/Documentation/arch/arm/nwfpe/netwinder-fpe.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/netwinder-fpe.rst
-> rename to Documentation/arch/arm/nwfpe/netwinder-fpe.rst
-> diff --git a/Documentation/arm/nwfpe/notes.rst b/Documentation/arch/arm/nwfpe/notes.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/notes.rst
-> rename to Documentation/arch/arm/nwfpe/notes.rst
-> diff --git a/Documentation/arm/nwfpe/nwfpe.rst b/Documentation/arch/arm/nwfpe/nwfpe.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/nwfpe.rst
-> rename to Documentation/arch/arm/nwfpe/nwfpe.rst
-> diff --git a/Documentation/arm/nwfpe/todo.rst b/Documentation/arch/arm/nwfpe/todo.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/todo.rst
-> rename to Documentation/arch/arm/nwfpe/todo.rst
-> diff --git a/Documentation/arm/omap/dss.rst b/Documentation/arch/arm/omap/dss.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/dss.rst
-> rename to Documentation/arch/arm/omap/dss.rst
-> diff --git a/Documentation/arm/omap/index.rst b/Documentation/arch/arm/omap/index.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/index.rst
-> rename to Documentation/arch/arm/omap/index.rst
-> diff --git a/Documentation/arm/omap/omap.rst b/Documentation/arch/arm/omap/omap.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/omap.rst
-> rename to Documentation/arch/arm/omap/omap.rst
-> diff --git a/Documentation/arm/omap/omap_pm.rst b/Documentation/arch/arm/omap/omap_pm.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/omap_pm.rst
-> rename to Documentation/arch/arm/omap/omap_pm.rst
-> diff --git a/Documentation/arm/porting.rst b/Documentation/arch/arm/porting.rst
-> similarity index 100%
-> rename from Documentation/arm/porting.rst
-> rename to Documentation/arch/arm/porting.rst
-> diff --git a/Documentation/arm/pxa/mfp.rst b/Documentation/arch/arm/pxa/mfp.rst
-> similarity index 100%
-> rename from Documentation/arm/pxa/mfp.rst
-> rename to Documentation/arch/arm/pxa/mfp.rst
-> diff --git a/Documentation/arm/sa1100/assabet.rst b/Documentation/arch/arm/sa1100/assabet.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/assabet.rst
-> rename to Documentation/arch/arm/sa1100/assabet.rst
-> diff --git a/Documentation/arm/sa1100/cerf.rst b/Documentation/arch/arm/sa1100/cerf.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/cerf.rst
-> rename to Documentation/arch/arm/sa1100/cerf.rst
-> diff --git a/Documentation/arm/sa1100/index.rst b/Documentation/arch/arm/sa1100/index.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/index.rst
-> rename to Documentation/arch/arm/sa1100/index.rst
-> diff --git a/Documentation/arm/sa1100/lart.rst b/Documentation/arch/arm/sa1100/lart.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/lart.rst
-> rename to Documentation/arch/arm/sa1100/lart.rst
-> diff --git a/Documentation/arm/sa1100/serial_uart.rst b/Documentation/arch/arm/sa1100/serial_uart.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/serial_uart.rst
-> rename to Documentation/arch/arm/sa1100/serial_uart.rst
-> diff --git a/Documentation/arm/samsung/bootloader-interface.rst b/Documentation/arch/arm/samsung/bootloader-interface.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/bootloader-interface.rst
-> rename to Documentation/arch/arm/samsung/bootloader-interface.rst
-> diff --git a/Documentation/arm/samsung/clksrc-change-registers.awk b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
-> similarity index 100%
-> rename from Documentation/arm/samsung/clksrc-change-registers.awk
-> rename to Documentation/arch/arm/samsung/clksrc-change-registers.awk
-> diff --git a/Documentation/arm/samsung/gpio.rst b/Documentation/arch/arm/samsung/gpio.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/gpio.rst
-> rename to Documentation/arch/arm/samsung/gpio.rst
-> diff --git a/Documentation/arm/samsung/index.rst b/Documentation/arch/arm/samsung/index.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/index.rst
-> rename to Documentation/arch/arm/samsung/index.rst
-> diff --git a/Documentation/arm/samsung/overview.rst b/Documentation/arch/arm/samsung/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/overview.rst
-> rename to Documentation/arch/arm/samsung/overview.rst
-> diff --git a/Documentation/arm/setup.rst b/Documentation/arch/arm/setup.rst
-> similarity index 100%
-> rename from Documentation/arm/setup.rst
-> rename to Documentation/arch/arm/setup.rst
-> diff --git a/Documentation/arm/spear/overview.rst b/Documentation/arch/arm/spear/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/spear/overview.rst
-> rename to Documentation/arch/arm/spear/overview.rst
-> diff --git a/Documentation/arm/sti/overview.rst b/Documentation/arch/arm/sti/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/sti/overview.rst
-> rename to Documentation/arch/arm/sti/overview.rst
-> diff --git a/Documentation/arm/sti/stih407-overview.rst b/Documentation/arch/arm/sti/stih407-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/sti/stih407-overview.rst
-> rename to Documentation/arch/arm/sti/stih407-overview.rst
-> diff --git a/Documentation/arm/sti/stih418-overview.rst b/Documentation/arch/arm/sti/stih418-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/sti/stih418-overview.rst
-> rename to Documentation/arch/arm/sti/stih418-overview.rst
-> diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arch/arm/stm32/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/overview.rst
-> rename to Documentation/arch/arm/stm32/overview.rst
-> diff --git a/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst b/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
-> rename to Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
-> diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arch/arm/stm32/stm32f429-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32f429-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32f429-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arch/arm/stm32/stm32f746-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32f746-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32f746-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arch/arm/stm32/stm32f769-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32f769-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32f769-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arch/arm/stm32/stm32h743-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32h743-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32h743-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32h750-overview.rst b/Documentation/arch/arm/stm32/stm32h750-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32h750-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32h750-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32mp13-overview.rst b/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32mp13-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32mp13-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32mp151-overview.rst b/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32mp151-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32mp151-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arch/arm/stm32/stm32mp157-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32mp157-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32mp157-overview.rst
-> diff --git a/Documentation/arm/sunxi.rst b/Documentation/arch/arm/sunxi.rst
-> similarity index 100%
-> rename from Documentation/arm/sunxi.rst
-> rename to Documentation/arch/arm/sunxi.rst
-> diff --git a/Documentation/arm/sunxi/clocks.rst b/Documentation/arch/arm/sunxi/clocks.rst
-> similarity index 100%
-> rename from Documentation/arm/sunxi/clocks.rst
-> rename to Documentation/arch/arm/sunxi/clocks.rst
-> diff --git a/Documentation/arm/swp_emulation.rst b/Documentation/arch/arm/swp_emulation.rst
-> similarity index 100%
-> rename from Documentation/arm/swp_emulation.rst
-> rename to Documentation/arch/arm/swp_emulation.rst
-> diff --git a/Documentation/arm/tcm.rst b/Documentation/arch/arm/tcm.rst
-> similarity index 100%
-> rename from Documentation/arm/tcm.rst
-> rename to Documentation/arch/arm/tcm.rst
-> diff --git a/Documentation/arm/uefi.rst b/Documentation/arch/arm/uefi.rst
-> similarity index 100%
-> rename from Documentation/arm/uefi.rst
-> rename to Documentation/arch/arm/uefi.rst
-> diff --git a/Documentation/arm/vfp/release-notes.rst b/Documentation/arch/arm/vfp/release-notes.rst
-> similarity index 100%
-> rename from Documentation/arm/vfp/release-notes.rst
-> rename to Documentation/arch/arm/vfp/release-notes.rst
-> diff --git a/Documentation/arm/vlocks.rst b/Documentation/arch/arm/vlocks.rst
-> similarity index 100%
-> rename from Documentation/arm/vlocks.rst
-> rename to Documentation/arch/arm/vlocks.rst
-> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-> index 80ee31016584..21e3d0b61004 100644
-> --- a/Documentation/arch/index.rst
-> +++ b/Documentation/arch/index.rst
-> @@ -10,7 +10,7 @@ implementation.
->      :maxdepth: 2
->   
->      arc/index
-> -   ../arm/index
-> +   arm/index
->      ../arm64/index
->      ia64/index
->      ../loongarch/index
-> diff --git a/Documentation/translations/zh_CN/arm/Booting b/Documentation/translations/zh_CN/arm/Booting
-> index 5ecea0767893..f18585156b67 100644
-> --- a/Documentation/translations/zh_CN/arm/Booting
-> +++ b/Documentation/translations/zh_CN/arm/Booting
-> @@ -1,4 +1,4 @@
-> -Chinese translated version of Documentation/arm/booting.rst
-> +Chinese translated version of Documentation/arch/arm/booting.rst
->   
->   If you have any comment or update to the content, please contact the
->   original document maintainer directly.  However, if you have a problem
-> @@ -9,7 +9,7 @@ or if there is a problem with the translation.
->   Maintainer: Russell King <linux@arm.linux.org.uk>
->   Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
->   ---------------------------------------------------------------------
-> -Documentation/arm/booting.rst 的中文翻译
-> +Documentation/arch/arm/booting.rst 的中文翻译
->   
->   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
->   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-> diff --git a/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt b/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-> index 99af4363984d..018eb7d54233 100644
-> --- a/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-> +++ b/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-> @@ -1,4 +1,4 @@
-> -Chinese translated version of Documentation/arm/kernel_user_helpers.rst
-> +Chinese translated version of Documentation/arch/arm/kernel_user_helpers.rst
->   
->   If you have any comment or update to the content, please contact the
->   original document maintainer directly.  However, if you have a problem
-> @@ -10,7 +10,7 @@ Maintainer: Nicolas Pitre <nicolas.pitre@linaro.org>
->   		Dave Martin <dave.martin@linaro.org>
->   Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
->   ---------------------------------------------------------------------
-> -Documentation/arm/kernel_user_helpers.rst 的中文翻译
-> +Documentation/arch/arm/kernel_user_helpers.rst 的中文翻译
->   
->   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
->   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+Yes, it is the utilization of the task. I calculate it by dividing the
+cputime with elapsed time(using clock_gettime(2)).
 
+> I see that e.g. TID[731] should run 1ms each 10ms w/o grub and with grub
+> the runtime could be potentially longer since 'scaled_delta_exec < delta'=
+.
+>
+Yes correct. GRUB(Greedy Reclamation of Unused Bandwidth) algorithm
+is used here for deadline tasks that needs to run longer than their
+runtime when needed. sched_setattr allows a flag SCHED_FLAG_RECLAIM
+to indicate that the task would like to reclaim unused bandwidth of a
+cpu if available. For those tasks, 'runtime' is depreciated using the
+GRUB formula and it allows it to run for longer and reclaim the free
+bandwidth of the cpu. The GRUB implementation in linux allows a task
+to reclaim upto RT capacity(95%) and depends on the free bandwidth
+of the cpu. So TID[731] theoretically should run for 95ms as it is
+the only task in the cpu, but it doesn't get to run that long.
+
+> I don't get this comment in update_curr_dl():
+>
+> 1325    /*
+> 1326     * For tasks that participate in GRUB, we implement GRUB-PA: the
+> 1327     * spare reclaimed bandwidth is used to clock down frequency.
+> 1328     *
+>
+> It looks like dl_se->runtime is affected and with 'scaled_delta_exec <
+> delta' the task runs longer than dl_se->dl_runtime?
+>
+Yes. As mentioned above, GRUB allows the task to run longer by slowing
+down the depreciation of "dl_se->dl_runtime". scaled_delta_exec is
+calculated by the GRUB formula explained in the paper [1] & [2].
+
+> I did the test discussed later in this thread with:
+>
+> 3 [3/100] tasks (dl_se->dl_bw =3D (3 << 20)/100 =3D 31457) on 3 CPUs
+>
+> factor =3D scaled_delta_exec/delta
+>
+> - existing grub
+>
+> rq->dl.bw_ratio =3D ( 100 << 8 ) / 95 =3D 269
+> rq->dl.extra_bw =3D ( 95 << 20 ) / 100 =3D 996147
+>
+> cpu=3D2 curr->[thread0-2 1715] delta=3D2140100 this_bw=3D31457
+> running_bw=3D31457 extra_bw=3D894788 u_inact=3D0 u_act_min=3D33054 u_act=
+=3D153788
+> scaled_delta_exec=3D313874 factor=3D0.14
+>
+> - your solution patch [1-2]
+>
+> cpu=3D2 curr->[thread0-0 1676] delta=3D157020 running_bw=3D31457 max_bw=
+=3D996147
+> res=3D4958 factor=3D0.03
+>
+> You say that GRUB calculation is inaccurate and that this inaccuracy
+> gets larger as the bandwidth of tasks becomes smaller.
+>
+> Could you explain this inaccuracy on this example?
+>
+According to GRUB, we should be able to reclaim the unused bandwidth
+for the running task upto RT limits(95%). In this example we have a
+task with 3ms runtime and 100ms runtime on a cpu. So it is supposed
+to run for 95ms before it is throttled.
+Existing implementation's factor =3D 0.14 and 3ms is depreciated by
+this factor. So it gets to run for "3 / 0.14 ~=3D 22ms". This is the
+inaccuracy that the patch is trying to solve. With the patch, the
+factor is .03166 and runtime =3D "3 / 0.03166 ~=3D 95ms"
+
+Hope this clarifies.
+
+Thanks,
+Vineeth
+
+[1]: Abeni, Luca & Lipari, Giuseppe & Parri, Andrea & Sun, Youcheng.
+     (2015). Parallel and sequential reclaiming in multicore
+     real-time global scheduling.
+
+[2]: G. Lipari and S. Baruah, "Greedy reclamation of unused bandwidth
+     in constant-bandwidth servers," Proceedings 12th Euromicro
+     Conference on Real-Time Systems. Euromicro RTS 2000, Stockholm,
+     Sweden, 2000, pp. 193-200, doi: 10.1109/EMRTS.2000.854007.
