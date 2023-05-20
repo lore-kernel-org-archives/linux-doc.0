@@ -2,105 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDC8C7EE29
-	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 14:12:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A7CC77B7C
+	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 20:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjETOMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 May 2023 10:12:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
+        id S229648AbjETUHP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 May 2023 16:07:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbjETOMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 10:12:50 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4605E103;
-        Sat, 20 May 2023 07:12:49 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A2FED6E3;
-        Sat, 20 May 2023 14:12:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A2FED6E3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1684591968; bh=ssW6Hz/R5GSYGIKYc6bggawEYxKcwfdt7FMg15yh+SQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Wqc7837+yYQXWUWpNZUbvPfAYsEU94Nsz63U2qrzVyv7mG9M0sVdGPh8u7zVEB38U
-         sl6657pnw40uwSVT1M0djeLOW9uewXdf3OyWstEEpXxJ6I7nPy4oXj/iuB3RZkpCwi
-         vxB63WPEpBIlq2H6TNUGxZM7mF0vUJPIxCT6JbKWtX8U2p21dBr0uaI34QOdMUUaXo
-         TDDws2G9+yEWz1JZec2SLrtHGWn4d9CUQXGzyaHta5aj7U/RKlYlUlV8tiJysSna0J
-         TqXVQXXa8kjv8LocVTL3rWVHJWzTQWPb3p4jd497m0LjvWI1wI9MWzhvObS9pq5K09
-         nmCd0mP7uhhsw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     kernel test robot <lkp@intel.com>, linux-doc@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6ni?= =?utf-8?Q?g?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH 6/7] docs: update some straggling Documentation/arm
- references
-In-Reply-To: <202305201023.2DYXmdv3-lkp@intel.com>
-References: <20230519164607.38845-7-corbet@lwn.net>
- <202305201023.2DYXmdv3-lkp@intel.com>
-Date:   Sat, 20 May 2023 08:12:47 -0600
-Message-ID: <87r0rbjdls.fsf@meer.lwn.net>
+        with ESMTP id S229576AbjETUHO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 16:07:14 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2EBF2
+        for <linux-doc@vger.kernel.org>; Sat, 20 May 2023 13:07:12 -0700 (PDT)
+Received: from letrec.thunk.org (c-73-212-78-46.hsd1.md.comcast.net [73.212.78.46])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 34KK6h9L017611
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 20 May 2023 16:06:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1684613205; bh=d4GHGt4vYMFvs3jkg7DBg6Pktwf0wLIFTWEyVlbyh6k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=bSxm+APQm0ILm85T7iInIDuACDa6Onf1Plq7WIVY+jo6mWSl+uwEn5CPVmE3+Ujn9
+         +LJLw5a99SsGL04O6sIAKTKF84WlrCZu1nu/eLuRPiUWTNnC5uVRbBjDCAZ2NDN6AO
+         MT2AA9PGjzPidrxMKLjYIFgB+Ubar2k3RQKyqAMa33B6XWYANpGlhZTjiHPLwxOAdl
+         vpwdmKpeQd4RYKxopMzcuJadzRmDSXUPRBL996vidBNrdS1zJWFYcVVEGpMgEMZhhO
+         LRKWDRj/BR+N8dy8m+caGJPLy1TEkpCd2DeLBtsUoj3ykUUSnVUctcgRoAr7I9msA/
+         9bqTcJGqHVuVg==
+Received: by letrec.thunk.org (Postfix, from userid 15806)
+        id 3D6EC8C0459; Sat, 20 May 2023 16:06:43 -0400 (EDT)
+Date:   Sat, 20 May 2023 16:06:43 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Neil Brown <neilb@suse.de>
+Subject: Re: [PATCH v4 2/9] fs: add infrastructure for multigrain inode
+ i_m/ctime
+Message-ID: <ZGkoU6Wfcst6scNk@mit.edu>
+References: <20230518114742.128950-3-jlayton@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230518114742.128950-3-jlayton@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot <lkp@intel.com> writes:
+On Thu, May 18, 2023 at 07:47:35AM -0400, Jeff Layton wrote:
+> Use the 31st bit of the ctime tv_nsec field to indicate that something
+> has queried the inode for the i_mtime or i_ctime. When this flag is set,
+> on the next timestamp update, the kernel can fetch a fine-grained
+> timestamp instead of the usual coarse-grained one.
 
-> Hi Jonathan,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.4-rc2 next-20230519]
-> [cannot apply to sunxi/sunxi/for-next arm64/for-next/core thierry-reding-pwm/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20230519164607.38845-7-corbet%40lwn.net
-> patch subject: [PATCH 6/7] docs: update some straggling Documentation/arm references
-> reproduce:
->         # https://github.com/intel-lab-lkp/linux/commit/3c9885f2702a3319156cfbacedfca658e726213b
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
->         git checkout 3c9885f2702a3319156cfbacedfca658e726213b
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->         make htmldocs
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305201023.2DYXmdv3-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/arch/arm64/
+TIL....  that atomic_long_fetch_or() and atomic_long_fetch_andnot()
+exist.  :-)
 
-Sigh...obviously this hunk:
+When I went looking for documentation about why they do or this
+particular usage pattern found in the patch, I didn't find any --- at
+least, certainly not in the Documentation in the kernel sources.  The
+closest that I fond was this LWN article written by Neil Brown from
+2016:
 
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
--F:	Documentation/arm64/
-+F:	Documentation/arch/arm64/
- F:	arch/arm64/
- F:	tools/testing/selftests/arm64/
+	https://lwn.net/Articles/698315/
 
-...got a bit ahead of the game.  I'll take that one out, sorry for the
-noise.
+... and this only covered the use atomic_fetch_or(); I wasn't able to
+find anything discussing atomic_fetch_andnot().
 
-jon
+It looks like Peter Zijlstra added some bare-bones documentation in
+2017, in commit: 706eeb3e9c6f ("Documentation/locking/atomic: Add
+documents for new atomic_t APIs") so we do have Documentation that
+these functions *exist*, but there is nothing explaining what they do,
+or how they can be used (e.g., in this rather clever way to set and
+clear a flag in the high bits of the nsec field).
+
+I know that it's best to report missing documentation in the form of a
+patch, but I fear I don't have the time or the expertise to really do
+this topic justice, so I'd just thought I'd just note this lack for
+now, and maybe in my copious spare time I'll try to get at least
+something that will no doubt contain errors, but might inspire some
+folks to correct the text.  (Or maybe on someone on linux-doc will
+feel inspired and get there ahead of me.  :-)
+
+					- Ted
