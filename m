@@ -2,185 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91ABAC77B73
-	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 16:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A709C7EE2F
+	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 17:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbjEUQtZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 May 2023 12:49:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
+        id S231215AbjEURNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 May 2023 13:13:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231397AbjEUQpA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 May 2023 12:45:00 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D02981A6;
-        Sun, 21 May 2023 09:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=uC6jGaJJ2VqX3k0LhlidsVnf1lRAVscSt3lB+D38MlU=; b=t8vnJtxwvF7/n7siRxuCD1uvNR
-        LQLR0Ofki0+/NbtT3HG+2+8oRIK9TQhEDuncmsFE/zbJ91B9FRYIyYSH8rRIkU+rCt0s6fMPR9A7w
-        aazmDf58nwcBzFFUmNoPGg1hXl0u6gmt1pkhPk9oX9At77N4LMSgecJP1tDAnY/8cRPDbjRwXh9Qe
-        l3ClBIWk+Cs9JAZKzUQQ9CpVNQvtlXCYLkL1xcUk+2kDmrlesrY77yULQMEV8i44Fw84Ef7WNUT+J
-        xMpV+YfgvX4EX/hOKs+FjtR4zZn/ckQtMvdoww9KrfV0sn2Wu2VIa2fFJwkx3g5WVY9IX8ITZKQYM
-        H8AoHrZA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1q0m9P-004CJ6-1M;
-        Sun, 21 May 2023 16:43:19 +0000
-Message-ID: <45792779-dab2-ae63-470b-3c24ab02e1ca@infradead.org>
-Date:   Sun, 21 May 2023 09:43:17 -0700
+        with ESMTP id S231428AbjEURKp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 May 2023 13:10:45 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C40D1;
+        Sun, 21 May 2023 10:08:01 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-ba82059ef0bso4479410276.1;
+        Sun, 21 May 2023 10:08:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684688880; x=1687280880;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cL856GI1pzwyeJ+uTrVpGny1Qys20KI1FWs9fUWurhE=;
+        b=EDdtxRtjeAFyo6gY1uMNweOw+3fHVjIKanhSGB0XI9DlLyzG/tFbyg7NkmVne7EI7G
+         AfaQEmql1cUot5pdrJibSJE1Yy278yGiGXGVrlf92HuPEX0uBqLgV+cm7G+6jbQDiNY6
+         P1MNicSM3T/eizHL7v/D1kJO0094NKcbAB58S4wqLq4/CNxsK0XJV5WsYDbX626wDlbI
+         WHGBuOQUTckhEK4WB8w+ZG/0ejItXkZpagqOqp/jknXIplsPvXujM0BaBrtKY9B6OhHo
+         7FpGfgXMEXa4WkW7yo0Oj57n3dP7GxNM7mfA/N5acBMz1QtPOSv3rUMFk82r7b0UZJv2
+         996Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684688880; x=1687280880;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cL856GI1pzwyeJ+uTrVpGny1Qys20KI1FWs9fUWurhE=;
+        b=BD+eV9T5+9AkNxc2nRnvaeGk5VaQaGhLcTspa8ZaYNm1F6Lqw9gIJPjyOQ8a/sBav8
+         nJ25I6/SEFU8M5+FYpG+mGYux9DotzHf08i8qpwWIZHdBism3TFKnXNwRe2Ggm42eK0W
+         RKftMRY4JMZnvrB9yghfoskRE4ndQLGbjn3QeIGTMDM463RUWlImizMurAj203Ea+Zgq
+         Id9smE8i+nca7BLCHTUktOhCP4sfv+uGtBFsEmIWOSO8RXlkbLtVzpqaaHsc8fzfFgec
+         90bTV+9imB9QbH2VaGXT/DmLjSgtWOGxXnOzzjt1D0YPMtSLvIexVmZxVCliKC2DCq4Q
+         ykUQ==
+X-Gm-Message-State: AC+VfDxFQL+7Ii3gsEUouLPVZJrzuBNyzqxOrFgXtlXwT89TOc98OPOi
+        3GtmJnzcuF2PzKQSPSG5VYgxKgtWCAnVPQ==
+X-Google-Smtp-Source: ACHHUZ79rwPVKcaI8EiorSUoetDqMt4wLE6B0q0gkUtOZX2YN8Kv9OA4ZUD61ZDKR6T38eBI6eCs0Q==
+X-Received: by 2002:a81:8746:0:b0:55a:574f:327c with SMTP id x67-20020a818746000000b0055a574f327cmr9116793ywf.13.1684688879899;
+        Sun, 21 May 2023 10:07:59 -0700 (PDT)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:7d01:949c:686a:2dea])
+        by smtp.gmail.com with ESMTPSA id y185-20020a817dc2000000b00545a08184fdsm1420062ywc.141.2023.05.21.10.07.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 May 2023 10:07:59 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
+Subject: [patch net-next v1 0/2] tools: ynl: Add byte-order support for struct members
+Date:   Sun, 21 May 2023 18:07:31 +0100
+Message-Id: <20230521170733.13151-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH] Documentation: add initial iomap kdoc
-Content-Language: en-US
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>, corbet@lwn.net,
-        jake@lwn.net, hch@infradead.org, djwong@kernel.org,
-        dchinner@redhat.com, ritesh.list@gmail.com, rgoldwyn@suse.com,
-        jack@suse.cz, linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
-References: <20230518144037.3149361-1-mcgrof@kernel.org>
- <ZGdBO6bmbj3sLlzp@debian.me>
- <731a3061-973c-a4ad-2fe5-7981c6c1279b@infradead.org>
- <ZGgFbmdCrlXtNFYS@dread.disaster.area>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZGgFbmdCrlXtNFYS@dread.disaster.area>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dave,
+This patchset adds support to ynl for handling byte-order in struct
+members. The first patch is a refactor to use predefined Struct() objects
+instead of generating byte-order specific formats on the fly. The second
+patch adds byte-order handling for struct members.
 
-On 5/19/23 16:25, Dave Chinner wrote:
-> On Fri, May 19, 2023 at 08:13:50AM -0700, Randy Dunlap wrote:
->>
->>
->> On 5/19/23 02:28, Bagas Sanjaya wrote:
->>>> +/**
->>>> + * DOC:  Flags reported by the file system from iomap_begin
->>>>   *
->>>> - * IOMAP_F_NEW indicates that the blocks have been newly allocated and need
->>>> - * zeroing for areas that no data is copied to.
->>>> + * * IOMAP_F_NEW: indicates that the blocks have been newly allocated and need
->>>> + *	zeroing for areas that no data is copied to.
->>>>   *
->>>> - * IOMAP_F_DIRTY indicates the inode has uncommitted metadata needed to access
->>>> - * written data and requires fdatasync to commit them to persistent storage.
->>>> - * This needs to take into account metadata changes that *may* be made at IO
->>>> - * completion, such as file size updates from direct IO.
->>>> + * * IOMAP_F_DIRTY: indicates the inode has uncommitted metadata needed to access
->>>> + *	written data and requires fdatasync to commit them to persistent storage.
->>>> + *	This needs to take into account metadata changes that *may* be made at IO
->>>> + *	completion, such as file size updates from direct IO.
->>>>   *
->>>> - * IOMAP_F_SHARED indicates that the blocks are shared, and will need to be
->>>> - * unshared as part a write.
->>>> + * * IOMAP_F_SHARED: indicates that the blocks are shared, and will need to be
->>>> + *	unshared as part a write.
->>>>   *
->>>> - * IOMAP_F_MERGED indicates that the iomap contains the merge of multiple block
->>>> - * mappings.
->>>> + * * IOMAP_F_MERGED: indicates that the iomap contains the merge of multiple block
->>>> + *	mappings.
->>>>   *
->>>> - * IOMAP_F_BUFFER_HEAD indicates that the file system requires the use of
->>>> - * buffer heads for this mapping.
->>>> + * * IOMAP_F_BUFFER_HEAD: indicates that the file system requires the use of
->>>> + *	buffer heads for this mapping.
->>>>   *
->>>> - * IOMAP_F_XATTR indicates that the iomap is for an extended attribute extent
->>>> - * rather than a file data extent.
->>>> + * * IOMAP_F_XATTR: indicates that the iomap is for an extended attribute extent
->>>> + *	rather than a file data extent.
->>>>   */
->>> Why don't use kernel-doc comments to describe flags?
->>>
->>
->> Because kernel-doc handles functions, structs, unions, and enums.
->> Not defines.
-> 
-> So perhaps that should be fixed first?
-> 
-> I seriously dislike the implication here that we should accept
-> poorly/inconsistently written comments and code just to work around
-> deficiencies in documentation tooling.
-> 
-> Either modify the code to work cleanly and consistently with the
-> tooling (e.g. change the code to use enums rather than #defines), or
-> fix the tools that don't work with macro definitions in a way that
-> matches the existing code documentation standards.
-> 
-> Forcing developers, reviewers and maintainers to understand, accept
-> and then maintain inconsistent crap in the code just because some
-> tool they never use is deficient is pretty much my definition of an
-> unacceptible engineering process.
+Donald Hunter (2):
+  tools: ynl: Use dict of predefined Structs to decode scalar types
+  tools: ynl: Handle byte-order in struct members
 
-I started looking into this. It looks like Mauro added more support
-to scripts/kernel-doc for typedefs and macros while I wasn't looking.
-I don't know how well it works, but it's not clear to me how we
-would want this to look.
-
-For example, take the first set of defines from <linux/iomap.h> that
-Luis modified:
-
-/*
- * Types of block ranges for iomap mappings:
- */
-#define IOMAP_HOLE	0	/* no blocks allocated, need allocation */
-#define IOMAP_DELALLOC	1	/* delayed allocation blocks */
-#define IOMAP_MAPPED	2	/* blocks allocated at @addr */
-#define IOMAP_UNWRITTEN	3	/* blocks allocated at @addr in unwritten state */
-#define IOMAP_INLINE	4	/* data inline in the inode */
-
-and Luis changed that to:
-
-/**
- * DOC: iomap block ranges types
- *
- * * IOMAP_HOLE		- no blocks allocated, need allocation
- * * IOMAP_DELALLOC	- delayed allocation blocks
- * * IOMAP_MAPPED	- blocks allocated at @addr
- * * IOMAP_UNWRITTEN	- blocks allocated at @addr in unwritten state
- * * IOMAP_INLINE	- data inline in the inode
- */
-
-
-How would we want that to look? How would we express it in kernel-doc
-format?  Currently it would have to be one macro at a time I think.
-
-/*
- * Types of block ranges for iomap mappings:
- */
-/**
- * IOMAP_HOLE - no blocks allocated, need allocation
- */
-#define IOMAP_HOLE	0
-/**
- * IOMAP_DELALLOC - delayed allocation blocks
- */
-#define IOMAP_DELALLOC	1
-/**
- * IOMAP_MAPPED - blocks allocated at @addr
- */
-#define IOMAP_MAPPED	2
-/**
- * IOMAP_UNWRITTEN - blocks allocated at @addr in unwritten state
- */
-#define IOMAP_UNWRITTEN	3
-/**
- * IOMAP_INLINE - data inline in the inode
- */
-#define IOMAP_INLINE	4
-
-That's ugly to my eyes. And it doesn't collect the set of macros
-together in any manner.
-The modification that Luis made looks pretty good to me ATM.
+ Documentation/netlink/genetlink-legacy.yaml |   2 +
+ tools/net/ynl/lib/nlspec.py                 |   4 +-
+ tools/net/ynl/lib/ynl.py                    | 107 +++++++++-----------
+ 3 files changed, 53 insertions(+), 60 deletions(-)
 
 -- 
-~Randy
+2.39.0
+
