@@ -2,158 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2D2C77B7A
-	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 00:03:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67614C77B7A
+	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 02:28:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbjEUADR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 May 2023 20:03:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37752 "EHLO
+        id S229980AbjEUC2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 May 2023 22:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjEUADP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 20:03:15 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2CF718D
-        for <linux-doc@vger.kernel.org>; Sat, 20 May 2023 17:03:13 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4f24d8440c9so2730040e87.1
-        for <linux-doc@vger.kernel.org>; Sat, 20 May 2023 17:03:13 -0700 (PDT)
+        with ESMTP id S231361AbjEUCYk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 22:24:40 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671C9E7C;
+        Sat, 20 May 2023 19:22:02 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-757731a32ecso239280985a.0;
+        Sat, 20 May 2023 19:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684627392; x=1687219392;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hzuHTgVFvJOcibg5XLms2snXPUj1XRLOS2dGHZrGZ9w=;
-        b=de+9pEzv+V+RtnsauZw1xJ6xg3xowMNpYhR2hrMHrnN5DwuHS53a/6mYf3PqexfLDE
-         RmrA2Q1Evv0OP57PG0lL7CptzD1/v+W6Ui+nhQg3eOzfYJi3E1B+Nl/i0L1ES4GWMT8f
-         hKQ6Gny7a2IG1sUuaXzRAkjqj425vczlNPoNuYao4FDu0bDB6aHhHifRiA+cbZ6Dp5dL
-         RxXrYhFBElafPjSMSfWd3B42NflJBjfdFsI70JRdiGFsK5LLXgQuRfj6NtUmJvfqTAZk
-         8ZlXl8RV+FdQ5aW0+FzdsRL+MjC9E0sLOjKiSK+uc9xK5OjdQfAumgrB4VV3YZxgt4cK
-         AIqQ==
+        d=gmail.com; s=20221208; t=1684635721; x=1687227721;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vm9IhAJzNHecp9b4tA/y+gAHwfPlu+fg8WuJjNJQZrQ=;
+        b=SZc6onsXCYsPwVfY6SdFjpHnWXGy8o4cA4JhYmql0wSLgSwRZpC4Bi1Cf1BdPPbpvR
+         RJdVSVz1HZp9Kvboq/9qcyfMFW1zQpA1Xc9r7PvmaewJjUbXaB0WZlzD+ZQ0RlXOdh1X
+         PbQObHniJgGDdWM5lvLzSvyfGUxAlmcvL+GQ5YiI+UpTU8w+4tPE/6IL1qDrt58pIayo
+         auLBZ8BS/cRTuSMEG6lCwfXdOTC6lduK4XaxV70jPzyTj3QRiRMrwyTfwDfw3wvh3o9w
+         cjbR+alLmw537E2sHOMNDdZA32/RUUjtSB7EtCdoWwvnIX5T2XMHEZFcsGhDPWL3rAOC
+         hUiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684627392; x=1687219392;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hzuHTgVFvJOcibg5XLms2snXPUj1XRLOS2dGHZrGZ9w=;
-        b=TMAaNFJBowT+qFx4A05FUCMd6nlLXyXqewTRY/F1yf/CTe2FNd24kqbrH16zv1ZTds
-         T5FZJe+9hzGkGm/7yFp4RbJrBtX+qpSOSULQW1W5XvP0OpRbZW6BuIbgoob+j1sr1lW8
-         Apk6zlGD3FYUPxHMyzdYMsoEspvK3KjPbAcyQsr4rhl7xDAt8z+Una4PcbIKtSmpcNbD
-         yrkFastFfa48sFelEwWFiPBddRfklaS2S2POhFioTfnwongvQ+h/+fP5Gskfh9qXRweY
-         LyA9EBvq6nbjHdVRuIAh1qKyOgVz/1h4BghgKVdFqXK6zl7yiT0ENDOUpL1jl/xIA1bh
-         28aw==
-X-Gm-Message-State: AC+VfDwrwtB/1E9Ms56TMsil4wsx5tuMm5nldRyAvGNCnfQSgHcxvtOz
-        k/9DPAKWdIZwp+/2A8PQ+/sqxgrpulohQhen2Tg=
-X-Google-Smtp-Source: ACHHUZ4inqGzFl0yu2BA3Hvm7A2976kcqcOuiyRPVgeqFJjRLVRuHQcUW5BDIw84DZ989za7vayVVQ==
-X-Received: by 2002:ac2:4c49:0:b0:4f0:74:61a0 with SMTP id o9-20020ac24c49000000b004f0007461a0mr2566610lfk.0.1684627392247;
-        Sat, 20 May 2023 17:03:12 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id c28-20020ac2531c000000b004f38411f148sm418378lfh.84.2023.05.20.17.03.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 May 2023 17:03:11 -0700 (PDT)
-Message-ID: <da1f7aa1-f560-31f4-6114-e400f35d325b@linaro.org>
-Date:   Sun, 21 May 2023 03:03:10 +0300
+        d=1e100.net; s=20221208; t=1684635721; x=1687227721;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vm9IhAJzNHecp9b4tA/y+gAHwfPlu+fg8WuJjNJQZrQ=;
+        b=aUDT2ZeqEY+hGou4sFO3McPgMroT2UyySQqTyXqfuNxBP6FqGBw3NP4iQLgquwazok
+         n2YBY2jeQPn/R1gMtHMUJ3mp1N0WJYXzGZ4BOQ/73AQAeALnWlY5dRs11dfx2KVRSgQ3
+         eJOHaBkBP9OVMreD9t0Byq1VmqdpsUYKf3mw6yUvsXTttWuZwi2IGsn0VtbPa52GUKX8
+         mh7ly39BfkrI+sHrSRRWu8p+HqX2qpnT/PF9IFqrIOhzkBghTAglzb6sgYn93WU3Fef6
+         BniFTkwihItj51Qd7+xM0o8hWcQGGhLL6wYQ4UvKwmYo7pwyTusvOnpIP8eRumM1Krj7
+         Zx6g==
+X-Gm-Message-State: AC+VfDwv7pYeu71ixPe0049fEKtwxZw+ADQLoMzsX5Ke9n+gveBITa4Y
+        8XQ96DEZP+aNX3gTfThIzREfqmgwZgY=
+X-Google-Smtp-Source: ACHHUZ4GHQdQjqAsu7HG2FSKZmbeWzVUPVlB2dAycNaIth7PjCv/poFKq7luuYpvCdQJAuF7EaHQzg==
+X-Received: by 2002:a05:6214:c43:b0:616:4b40:5ea9 with SMTP id r3-20020a0562140c4300b006164b405ea9mr12142373qvj.40.1684635721430;
+        Sat, 20 May 2023 19:22:01 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id px23-20020a056214051700b0061b5ad0290asm932144qvb.67.2023.05.20.19.22.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 May 2023 19:22:00 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 444B327C0054;
+        Sat, 20 May 2023 22:22:00 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 20 May 2023 22:22:00 -0400
+X-ME-Sender: <xms:R4BpZNWeYY4_8sakRQyA4UHM2NuL_9YdyLwdlk0lcZ8uXWLLcHwWuw>
+    <xme:R4BpZNkalr7gyv1Qo9HtJEsu8zl2_XXAcg7Z2ZWV8xAhzcEWDsbr2dxSKrYwcOQjk
+    PWDDPP_mnsOFQnyTg>
+X-ME-Received: <xmr:R4BpZJa8dOezxREtMeCRF78V5LQ-NQPgNfP2pP4Pp8SFDb28VyJxwh8R6LMaKFdeBVsfY3gekW0zGvrh0IRKm04-_p21DMb1pP0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeikedgheeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhu
+    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
+    htthgvrhhnpedvieegvefhkeetieeuvedtvdeikedtfedvkedtheeghfelvdduteektdev
+    leekteenucffohhmrghinheplhifnhdrnhgvthdpkhgvrhhnvghlrdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgv
+    shhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehhe
+    ehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:R4BpZAV8TqGSvT1_1uoy2rPtBhbOwCcVhFypF5ddjDF3AHz9_V_INQ>
+    <xmx:R4BpZHkQtxha2IgUMyG7OlmRXlFRa6Z9T9jR3tqCoXcuR2T59Zlq0g>
+    <xmx:R4BpZNdVMZ150Wz2eN6ahDL3Av152NcdMZsTyNX_KRX3-0T67G_LWw>
+    <xmx:SIBpZFUNEA3afbuwVmiUyAnfSZHDN0sPwYCOmo4ts_ETMPDswgswUQ>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 20 May 2023 22:21:59 -0400 (EDT)
+Date:   Sat, 20 May 2023 19:21:57 -0700
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Theodore Ts'o <tytso@mit.edu>
+Cc:     Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+        Neil Brown <neilb@suse.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v4 2/9] fs: add infrastructure for multigrain inode
+ i_m/ctime
+Message-ID: <ZGmARbuI4BC05cJi@Boquns-Mac-mini.local>
+References: <20230518114742.128950-3-jlayton@kernel.org>
+ <ZGkoU6Wfcst6scNk@mit.edu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 0/9] drm: fdinfo memory stats
-Content-Language: en-GB
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Christopher Healy <healych@amazon.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Akhil P Oommen <quic_akhilpo@quicinc.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        "open list:RADEON and AMDGPU DRM DRIVERS" 
-        <amd-gfx@lists.freedesktop.org>,
-        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Chia-I Wu <olvaffe@gmail.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Guchun Chen <guchun.chen@amd.com>,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Lijo Lazar <lijo.lazar@amd.com>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
-        Peter Maucher <bellosilicio@gmail.com>,
-        Sean Paul <sean@poorly.run>,
-        Shashank Sharma <shashank.sharma@amd.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        YiPeng Chai <YiPeng.Chai@amd.com>
-References: <20230515143023.801167-1-robdclark@gmail.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230515143023.801167-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZGkoU6Wfcst6scNk@mit.edu>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/05/2023 17:30, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Similar motivation to other similar recent attempt[1].  But with an
-> attempt to have some shared code for this.  As well as documentation.
-> 
-> It is probably a bit UMA-centric, I guess devices with VRAM might want
-> some placement stats as well.  But this seems like a reasonable start.
-> 
-> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
-> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
-> 
-> I've combined the separate series to add comm/cmdline override onto
-> the end of this, simply out of convenience (they would otherwise
-> conflict in a bunch of places).
-> 
-> v2: Extend things to allow for multiple regions other than just system
->      "memory", make drm_show_memory_stats() a helper so that, drivers
->      can use it or not based on their needs (but in either case, re-
->      use drm_print_memory_stats()
-> v3: Docs fixes
-> v4: use u64 for drm_memory_stats, small docs update and collected
->      Tvrtko's a-b
-> 
-> [1] https://patchwork.freedesktop.org/series/112397/
-> 
-> Rob Clark (9):
->    drm/docs: Fix usage stats typos
->    drm: Add common fdinfo helper
->    drm/msm: Switch to fdinfo helper
->    drm/amdgpu: Switch to fdinfo helper
->    drm: Add fdinfo memory stats
->    drm/msm: Add memory stats to fdinfo
->    drm/doc: Relax fdinfo string constraints
->    drm/fdinfo: Add comm/cmdline override fields
->    drm/msm: Wire up comm/cmdline override for fdinfo
-> 
->   Documentation/gpu/drm-usage-stats.rst      | 101 ++++++++++----
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 +--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
->   drivers/gpu/drm/drm_file.c                 | 147 +++++++++++++++++++++
->   drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  24 +++-
->   drivers/gpu/drm/msm/msm_drv.c              |  15 ++-
->   drivers/gpu/drm/msm/msm_gem.c              |  15 +++
->   drivers/gpu/drm/msm/msm_gpu.c              |   2 -
->   drivers/gpu/drm/msm/msm_gpu.h              |  10 ++
->   include/drm/drm_drv.h                      |   7 +
->   include/drm/drm_file.h                     |  51 +++++++
->   include/drm/drm_gem.h                      |  32 +++++
->   13 files changed, 378 insertions(+), 47 deletions(-)
+[Cc Paul and Mark]
 
-What is the expected merge plan for this series? msm-next? drm-misc?
+On Sat, May 20, 2023 at 04:06:43PM -0400, Theodore Ts'o wrote:
+> On Thu, May 18, 2023 at 07:47:35AM -0400, Jeff Layton wrote:
+> > Use the 31st bit of the ctime tv_nsec field to indicate that something
+> > has queried the inode for the i_mtime or i_ctime. When this flag is set,
+> > on the next timestamp update, the kernel can fetch a fine-grained
+> > timestamp instead of the usual coarse-grained one.
+> 
+> TIL....  that atomic_long_fetch_or() and atomic_long_fetch_andnot()
+> exist.  :-)
+> 
+> When I went looking for documentation about why they do or this
+> particular usage pattern found in the patch, I didn't find any --- at
+> least, certainly not in the Documentation in the kernel sources.  The
+> closest that I fond was this LWN article written by Neil Brown from
+> 2016:
+> 
+> 	https://lwn.net/Articles/698315/
+> 
+> ... and this only covered the use atomic_fetch_or(); I wasn't able to
+> find anything discussing atomic_fetch_andnot().
+> 
+> It looks like Peter Zijlstra added some bare-bones documentation in
+> 2017, in commit: 706eeb3e9c6f ("Documentation/locking/atomic: Add
+> documents for new atomic_t APIs") so we do have Documentation that
+> these functions *exist*, but there is nothing explaining what they do,
+> or how they can be used (e.g., in this rather clever way to set and
+> clear a flag in the high bits of the nsec field).
+> 
+> I know that it's best to report missing documentation in the form of a
+> patch, but I fear I don't have the time or the expertise to really do
+> this topic justice, so I'd just thought I'd just note this lack for
+> now, and maybe in my copious spare time I'll try to get at least
+> something that will no doubt contain errors, but might inspire some
+> folks to correct the text.  (Or maybe on someone on linux-doc will
+> feel inspired and get there ahead of me.  :-)
+> 
 
+Paul already started the work:
 
+	https://lore.kernel.org/lkml/19135936-06d7-4705-8bc8-bb31c2a478ca@paulmck-laptop/
 
--- 
-With best wishes
-Dmitry
+;-)
 
+Regards,
+Boqun
+
+> 					- Ted
