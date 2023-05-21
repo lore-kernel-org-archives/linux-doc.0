@@ -2,175 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11826C7EE23
-	for <linux-doc@archiver.kernel.org>; Sat, 20 May 2023 22:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2D2C77B7A
+	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 00:03:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbjETWlw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 May 2023 18:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58124 "EHLO
+        id S229957AbjEUADR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 May 2023 20:03:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjETWlv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 18:41:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B02ACDE;
-        Sat, 20 May 2023 15:41:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B73560C3C;
-        Sat, 20 May 2023 22:41:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5CE2C433EF;
-        Sat, 20 May 2023 22:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684622509;
-        bh=uoMxow7xFBBRRvshKvrIaPvVPMHtBi6h9O2RJF+yIQA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UNLYWE6OrxkNb/F3fYYUELjZEWqr71e65cwbS36XIMBrM/El6pHDcXTRCYttbaeTN
-         Wz/+b3JevKDHS424vwjctXtpOgxNdLj/a3cPVdySMrBr9cgl7LJoTkWIFQdCZ/Yf/f
-         Vu9sYuemDxosbs7c45T70Kfrl0IWdIFqN3RnQP+BwhneTpPu+wX6ckowcPzdWGwCa3
-         lliab0u+W1dU0quQAmAKlu880cqaJwptvEopyqgiP51Dk6ojwyQH6a4pPyyaSoVzoq
-         /5r/8sWCQB8jfUcmRgEmYQiNwOk6HITbw0vse1zLWrjI2+va1vY3HYq7UL3IqJ7fHs
-         vqfkoWUC7z/dg==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-19a08412723so3785445fac.0;
-        Sat, 20 May 2023 15:41:49 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzztbbH/9vMQIHoWe+7wo8MlNo2bXHPwDAZU0I6jjJZeRtZLr/R
-        pk2ER89dNuO7IRKDa7Is3sXi5vUBU/QlPiG2fl8=
-X-Google-Smtp-Source: ACHHUZ7UPfw2OIS0jUpr+b1VZVpyh0jql89BYNScfEw2Su3I8HM3zYJ3+zXIiIUkPBuEdQ+6zIUAlJSuxDuOSL6ZyZc=
-X-Received: by 2002:a05:6870:90c2:b0:18e:b6d5:7451 with SMTP id
- s2-20020a05687090c200b0018eb6d57451mr3979310oab.13.1684622508953; Sat, 20 May
- 2023 15:41:48 -0700 (PDT)
+        with ESMTP id S229464AbjEUADP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 May 2023 20:03:15 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2CF718D
+        for <linux-doc@vger.kernel.org>; Sat, 20 May 2023 17:03:13 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4f24d8440c9so2730040e87.1
+        for <linux-doc@vger.kernel.org>; Sat, 20 May 2023 17:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684627392; x=1687219392;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hzuHTgVFvJOcibg5XLms2snXPUj1XRLOS2dGHZrGZ9w=;
+        b=de+9pEzv+V+RtnsauZw1xJ6xg3xowMNpYhR2hrMHrnN5DwuHS53a/6mYf3PqexfLDE
+         RmrA2Q1Evv0OP57PG0lL7CptzD1/v+W6Ui+nhQg3eOzfYJi3E1B+Nl/i0L1ES4GWMT8f
+         hKQ6Gny7a2IG1sUuaXzRAkjqj425vczlNPoNuYao4FDu0bDB6aHhHifRiA+cbZ6Dp5dL
+         RxXrYhFBElafPjSMSfWd3B42NflJBjfdFsI70JRdiGFsK5LLXgQuRfj6NtUmJvfqTAZk
+         8ZlXl8RV+FdQ5aW0+FzdsRL+MjC9E0sLOjKiSK+uc9xK5OjdQfAumgrB4VV3YZxgt4cK
+         AIqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684627392; x=1687219392;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hzuHTgVFvJOcibg5XLms2snXPUj1XRLOS2dGHZrGZ9w=;
+        b=TMAaNFJBowT+qFx4A05FUCMd6nlLXyXqewTRY/F1yf/CTe2FNd24kqbrH16zv1ZTds
+         T5FZJe+9hzGkGm/7yFp4RbJrBtX+qpSOSULQW1W5XvP0OpRbZW6BuIbgoob+j1sr1lW8
+         Apk6zlGD3FYUPxHMyzdYMsoEspvK3KjPbAcyQsr4rhl7xDAt8z+Una4PcbIKtSmpcNbD
+         yrkFastFfa48sFelEwWFiPBddRfklaS2S2POhFioTfnwongvQ+h/+fP5Gskfh9qXRweY
+         LyA9EBvq6nbjHdVRuIAh1qKyOgVz/1h4BghgKVdFqXK6zl7yiT0ENDOUpL1jl/xIA1bh
+         28aw==
+X-Gm-Message-State: AC+VfDwrwtB/1E9Ms56TMsil4wsx5tuMm5nldRyAvGNCnfQSgHcxvtOz
+        k/9DPAKWdIZwp+/2A8PQ+/sqxgrpulohQhen2Tg=
+X-Google-Smtp-Source: ACHHUZ4inqGzFl0yu2BA3Hvm7A2976kcqcOuiyRPVgeqFJjRLVRuHQcUW5BDIw84DZ989za7vayVVQ==
+X-Received: by 2002:ac2:4c49:0:b0:4f0:74:61a0 with SMTP id o9-20020ac24c49000000b004f0007461a0mr2566610lfk.0.1684627392247;
+        Sat, 20 May 2023 17:03:12 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+        by smtp.gmail.com with ESMTPSA id c28-20020ac2531c000000b004f38411f148sm418378lfh.84.2023.05.20.17.03.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 May 2023 17:03:11 -0700 (PDT)
+Message-ID: <da1f7aa1-f560-31f4-6114-e400f35d325b@linaro.org>
+Date:   Sun, 21 May 2023 03:03:10 +0300
 MIME-Version: 1.0
-References: <20230509012616.81579-1-darwi@linutronix.de> <20230515173217.64864-1-darwi@linutronix.de>
-In-Reply-To: <20230515173217.64864-1-darwi@linutronix.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 21 May 2023 07:41:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASPnxnoUmzg43YDcCGP4uor=VO96bmZu3gh3av2BO9wOg@mail.gmail.com>
-Message-ID: <CAK7LNASPnxnoUmzg43YDcCGP4uor=VO96bmZu3gh3av2BO9wOg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] scripts: Resolve gtags empty index generation
-To:     "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 0/9] drm: fdinfo memory stats
+Content-Language: en-GB
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Christopher Healy <healych@amazon.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        "open list:RADEON and AMDGPU DRM DRIVERS" 
+        <amd-gfx@lists.freedesktop.org>,
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Chia-I Wu <olvaffe@gmail.com>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Guchun Chen <guchun.chen@amd.com>,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Lijo Lazar <lijo.lazar@amd.com>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+        Peter Maucher <bellosilicio@gmail.com>,
+        Sean Paul <sean@poorly.run>,
+        Shashank Sharma <shashank.sharma@amd.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>
+References: <20230515143023.801167-1-robdclark@gmail.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230515143023.801167-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 16, 2023 at 2:33=E2=80=AFAM Ahmed S. Darwish <darwi@linutronix.=
-de> wrote:
->
-> Hi,
->
-> v3-changelog
-> ------------
->
-> Handle review remarks from Masahiro Yamada:
->
->   - Apply shellcheck on new "scripts/tags.sh" code.
->
->   - Shorten code through shell's "default value" parameter expansion.
->
-> NEW:
->
->   - Cc docs maintainer (Documentation/process/changes.rst change).
->
-> Thanks!
->
-> v2-changelog
-> ------------
->
-> https://lkml.kernel.org/r/20230509012616.81579-1-darwi@linutronix.de
->
-> Handle review remarks from Masahiro Yamada:
->
->   - scripts/tags.sh: remove the O=3D language, and focus on the general
->     case of the build directory being different from the kernel source
->     tree, as specified in kernel Makefile L159.
->
->   - Fix failure when build directory is a subdirectory of the kernel
->     source tree.
->
-> NEW:
->
->   - Update Documentation/process/changes.rst with new gtags (GNU GLOBAL)
->     requirements.
->
-> Thanks!
->
-> Cover letter / v1
-> -----------------
->
-> https://lkml.kernel.org/r/20230504201833.202494-1-darwi@linutronix.de
->
-> make gtags for O=3D kernel builds is currently broken. For example, when =
-doing:
->
->    make O=3D../build/ x86_64_defconfig
->    make O=3D../build/ gtags
->
-> gtags generates a warning for each kernel source file to be indexed:
->
->    make[1]: Entering directory '/home/darwi/build'
->      GEN     gtags
->    Warning: '/home/darwi/linux/arch/x86/include/asm/qspinlock.h' is out o=
-f source tree. ignored.
->    Warning: '/home/darwi/linux/arch/x86/include/asm/hpet.h' is out of sou=
-rce tree. ignored.
->    ...
->    Warning: '/home/darwi/linux/virt/lib/irqbypass.c' is out of source tre=
-e. ignored.
->    make[1]: Leaving directory '/home/darwi/build/'
->
-> and then generates an empty index:
->
->    $ du -hs ~/build/G*
->    16K  /home/darwi/build/GPATH
->    16K  /home/darwi/build/GRTAGS
->    16K  /home/darwi/build/GTAGS
->
-> This series includes a proposed fix. After applying it:
->
->    $ make O=3D../build/ gtags
->    make[1]: Entering directory '/home/darwi/build'
->      GEN     gtags
->    make[1]: Leaving directory '/home/darwi/build'
->
->    $ du -hs ~/build/G*
->    9.1M /home/darwi/build/GPATH
->    506M /home/darwi/build/GRTAGS
->    696M /home/darwi/build/GTAGS
->
-> The generated files can then be integrated with editors or IDEs as
-> usual.
->
-> =3D>
->
-> Ahmed S. Darwish (2):
->   scripts/tags.sh: Resolve gtags empty index generation
->   docs: Set minimal gtags / GNU GLOBAL version to 6.6.5
+On 15/05/2023 17:30, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Similar motivation to other similar recent attempt[1].  But with an
+> attempt to have some shared code for this.  As well as documentation.
+> 
+> It is probably a bit UMA-centric, I guess devices with VRAM might want
+> some placement stats as well.  But this seems like a reasonable start.
+> 
+> Basic gputop support: https://patchwork.freedesktop.org/series/116236/
+> And already nvtop support: https://github.com/Syllo/nvtop/pull/204
+> 
+> I've combined the separate series to add comm/cmdline override onto
+> the end of this, simply out of convenience (they would otherwise
+> conflict in a bunch of places).
+> 
+> v2: Extend things to allow for multiple regions other than just system
+>      "memory", make drm_show_memory_stats() a helper so that, drivers
+>      can use it or not based on their needs (but in either case, re-
+>      use drm_print_memory_stats()
+> v3: Docs fixes
+> v4: use u64 for drm_memory_stats, small docs update and collected
+>      Tvrtko's a-b
+> 
+> [1] https://patchwork.freedesktop.org/series/112397/
+> 
+> Rob Clark (9):
+>    drm/docs: Fix usage stats typos
+>    drm: Add common fdinfo helper
+>    drm/msm: Switch to fdinfo helper
+>    drm/amdgpu: Switch to fdinfo helper
+>    drm: Add fdinfo memory stats
+>    drm/msm: Add memory stats to fdinfo
+>    drm/doc: Relax fdinfo string constraints
+>    drm/fdinfo: Add comm/cmdline override fields
+>    drm/msm: Wire up comm/cmdline override for fdinfo
+> 
+>   Documentation/gpu/drm-usage-stats.rst      | 101 ++++++++++----
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 +--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
+>   drivers/gpu/drm/drm_file.c                 | 147 +++++++++++++++++++++
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  24 +++-
+>   drivers/gpu/drm/msm/msm_drv.c              |  15 ++-
+>   drivers/gpu/drm/msm/msm_gem.c              |  15 +++
+>   drivers/gpu/drm/msm/msm_gpu.c              |   2 -
+>   drivers/gpu/drm/msm/msm_gpu.h              |  10 ++
+>   include/drm/drm_drv.h                      |   7 +
+>   include/drm/drm_file.h                     |  51 +++++++
+>   include/drm/drm_gem.h                      |  32 +++++
+>   13 files changed, 378 insertions(+), 47 deletions(-)
 
-
-Both applied. Thanks.
+What is the expected merge plan for this series? msm-next? drm-misc?
 
 
 
+-- 
+With best wishes
+Dmitry
 
->
->  Documentation/process/changes.rst | 7 +++++++
->  scripts/tags.sh                   | 9 ++++++++-
->  2 files changed, 15 insertions(+), 1 deletion(-)
->
-> base-commit: f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
-> --
-> 2.30.2
-
-
-
---=20
-Best Regards
-Masahiro Yamada
