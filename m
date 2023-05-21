@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A709C7EE2F
-	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 17:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC37C7EE23
+	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 17:14:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231215AbjEURNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 May 2023 13:13:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
+        id S229570AbjEURN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 May 2023 13:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231428AbjEURKp (ORCPT
+        with ESMTP id S231449AbjEURKp (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 21 May 2023 13:10:45 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C40D1;
-        Sun, 21 May 2023 10:08:01 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-ba82059ef0bso4479410276.1;
-        Sun, 21 May 2023 10:08:01 -0700 (PDT)
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48AA5E64;
+        Sun, 21 May 2023 10:08:10 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-565014fc2faso2236357b3.1;
+        Sun, 21 May 2023 10:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684688880; x=1687280880;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cL856GI1pzwyeJ+uTrVpGny1Qys20KI1FWs9fUWurhE=;
-        b=EDdtxRtjeAFyo6gY1uMNweOw+3fHVjIKanhSGB0XI9DlLyzG/tFbyg7NkmVne7EI7G
-         AfaQEmql1cUot5pdrJibSJE1Yy278yGiGXGVrlf92HuPEX0uBqLgV+cm7G+6jbQDiNY6
-         P1MNicSM3T/eizHL7v/D1kJO0094NKcbAB58S4wqLq4/CNxsK0XJV5WsYDbX626wDlbI
-         WHGBuOQUTckhEK4WB8w+ZG/0ejItXkZpagqOqp/jknXIplsPvXujM0BaBrtKY9B6OhHo
-         7FpGfgXMEXa4WkW7yo0Oj57n3dP7GxNM7mfA/N5acBMz1QtPOSv3rUMFk82r7b0UZJv2
-         996Q==
+        d=gmail.com; s=20221208; t=1684688889; x=1687280889;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KtXLZKAl6xwhZGxiyJdAxrie9KH+GUGPmi8zHuui3WU=;
+        b=gZge9XNNDFGvbQaI/93rBmnyjmlOOzchzn0TcnKxClPXB/9a8+HFiRu44JOPLYux2h
+         9MgopPq2JfpCFFVnHAvIjOEWhNkmazbLuAdj6/nGVpRTCWdxPBagtUgrKWDxZfzU03Ga
+         9X2pP106CZlaJQMd4sIi3urTQpUiBwpILjCWSGkBRkjWmq57ev3gRkpqYcjdEksX1odS
+         2cIjTpohpvI3rVhoCyPoBPX0u9cctN/j6J2U29Mz94o2nFN+FWn3pcl3mXSqFmQRHJd7
+         rlLFNf6uOLW4albaVvf+BNw0dkCr38Vpj3kHIKOrPFQlZk3XXZR8Pca/QXFFi1vAkthw
+         IxFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684688880; x=1687280880;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cL856GI1pzwyeJ+uTrVpGny1Qys20KI1FWs9fUWurhE=;
-        b=BD+eV9T5+9AkNxc2nRnvaeGk5VaQaGhLcTspa8ZaYNm1F6Lqw9gIJPjyOQ8a/sBav8
-         nJ25I6/SEFU8M5+FYpG+mGYux9DotzHf08i8qpwWIZHdBism3TFKnXNwRe2Ggm42eK0W
-         RKftMRY4JMZnvrB9yghfoskRE4ndQLGbjn3QeIGTMDM463RUWlImizMurAj203Ea+Zgq
-         Id9smE8i+nca7BLCHTUktOhCP4sfv+uGtBFsEmIWOSO8RXlkbLtVzpqaaHsc8fzfFgec
-         90bTV+9imB9QbH2VaGXT/DmLjSgtWOGxXnOzzjt1D0YPMtSLvIexVmZxVCliKC2DCq4Q
-         ykUQ==
-X-Gm-Message-State: AC+VfDxFQL+7Ii3gsEUouLPVZJrzuBNyzqxOrFgXtlXwT89TOc98OPOi
-        3GtmJnzcuF2PzKQSPSG5VYgxKgtWCAnVPQ==
-X-Google-Smtp-Source: ACHHUZ79rwPVKcaI8EiorSUoetDqMt4wLE6B0q0gkUtOZX2YN8Kv9OA4ZUD61ZDKR6T38eBI6eCs0Q==
-X-Received: by 2002:a81:8746:0:b0:55a:574f:327c with SMTP id x67-20020a818746000000b0055a574f327cmr9116793ywf.13.1684688879899;
-        Sun, 21 May 2023 10:07:59 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684688889; x=1687280889;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KtXLZKAl6xwhZGxiyJdAxrie9KH+GUGPmi8zHuui3WU=;
+        b=HAtqJRpyc6Ogv10YJ7qZq1j6DMXCMTNMuGQQ5a5m2jEIttdl3PAyT21VmnjtmYuYkh
+         rZEJV96+lEOdN+iCYh4H0H14El0HuDnZcxLQbIE8WzdeCX+X9xNQIWT98rLRTykHOZDl
+         G2qS3g2wmqrJsyGDjhLAGk8v/RVxbe4eSB9QV9xgjF9gKXw/dXgdyvXKS6Md3ZnUj6aZ
+         HHm0A/lPESbHeGjhkL3OgsfHkqz1Bqe9yUnfKV7P1VAaJE5EoA3Cv8yFHCYSvA0FicbB
+         rmcietDc0q1AWHPuQ8a81W8eGREA13NCkBHXj2IOlwF4BnWEYMMnC/tRxnrBrtqeoMhS
+         Iwcw==
+X-Gm-Message-State: AC+VfDwYv2q2c9eSm4kfnFfqma0KpvfaoD2kuUc5XIuq0bvuybuup+yt
+        2ni30yNddJjqpWNMmSyROTK+lvUg/zX3ziS1
+X-Google-Smtp-Source: ACHHUZ4kmfkL+nmznztBYYqmXh44SqJXtSDyQqbFoa+yBmX9koYgMWGcz1kXqBsYTJ/Z2KqWYTmsVA==
+X-Received: by 2002:a81:6585:0:b0:559:de1d:3253 with SMTP id z127-20020a816585000000b00559de1d3253mr8959189ywb.21.1684688888910;
+        Sun, 21 May 2023 10:08:08 -0700 (PDT)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:7d01:949c:686a:2dea])
-        by smtp.gmail.com with ESMTPSA id y185-20020a817dc2000000b00545a08184fdsm1420062ywc.141.2023.05.21.10.07.57
+        by smtp.gmail.com with ESMTPSA id y185-20020a817dc2000000b00545a08184fdsm1420062ywc.141.2023.05.21.10.08.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 May 2023 10:07:59 -0700 (PDT)
+        Sun, 21 May 2023 10:08:08 -0700 (PDT)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -55,30 +56,91 @@ To:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Cc:     donald.hunter@redhat.com, Donald Hunter <donald.hunter@gmail.com>
-Subject: [patch net-next v1 0/2] tools: ynl: Add byte-order support for struct members
-Date:   Sun, 21 May 2023 18:07:31 +0100
-Message-Id: <20230521170733.13151-1-donald.hunter@gmail.com>
+Subject: [patch net-next v1 2/2] tools: ynl: Handle byte-order in struct members
+Date:   Sun, 21 May 2023 18:07:33 +0100
+Message-Id: <20230521170733.13151-3-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230521170733.13151-1-donald.hunter@gmail.com>
+References: <20230521170733.13151-1-donald.hunter@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset adds support to ynl for handling byte-order in struct
-members. The first patch is a refactor to use predefined Struct() objects
-instead of generating byte-order specific formats on the fly. The second
-patch adds byte-order handling for struct members.
+Add support for byte-order in struct members in the genetlink-legacy
+spec.
 
-Donald Hunter (2):
-  tools: ynl: Use dict of predefined Structs to decode scalar types
-  tools: ynl: Handle byte-order in struct members
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+ Documentation/netlink/genetlink-legacy.yaml | 2 ++
+ tools/net/ynl/lib/nlspec.py                 | 4 +++-
+ tools/net/ynl/lib/ynl.py                    | 6 +++---
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
- Documentation/netlink/genetlink-legacy.yaml |   2 +
- tools/net/ynl/lib/nlspec.py                 |   4 +-
- tools/net/ynl/lib/ynl.py                    | 107 +++++++++-----------
- 3 files changed, 53 insertions(+), 60 deletions(-)
-
+diff --git a/Documentation/netlink/genetlink-legacy.yaml b/Documentation/netlink/genetlink-legacy.yaml
+index b33541a51d6b..b5319cde9e17 100644
+--- a/Documentation/netlink/genetlink-legacy.yaml
++++ b/Documentation/netlink/genetlink-legacy.yaml
+@@ -122,6 +122,8 @@ properties:
+                 enum: [ u8, u16, u32, u64, s8, s16, s32, s64, string ]
+               len:
+                 $ref: '#/$defs/len-or-define'
++              byte-order:
++                enum: [ little-endian, big-endian ]
+         # End genetlink-legacy
+ 
+   attribute-sets:
+diff --git a/tools/net/ynl/lib/nlspec.py b/tools/net/ynl/lib/nlspec.py
+index a0241add3839..c624cdfde223 100644
+--- a/tools/net/ynl/lib/nlspec.py
++++ b/tools/net/ynl/lib/nlspec.py
+@@ -226,11 +226,13 @@ class SpecStructMember(SpecElement):
+     Represents a single struct member attribute.
+ 
+     Attributes:
+-        type    string, type of the member attribute
++        type        string, type of the member attribute
++        byte_order  string or None for native byte order
+     """
+     def __init__(self, family, yaml):
+         super().__init__(family, yaml)
+         self.type = yaml['type']
++        self.byte_order = yaml.get('byte-order')
+ 
+ 
+ class SpecStruct(SpecElement):
+diff --git a/tools/net/ynl/lib/ynl.py b/tools/net/ynl/lib/ynl.py
+index 62e31db07c1f..41a4f8de7e17 100644
+--- a/tools/net/ynl/lib/ynl.py
++++ b/tools/net/ynl/lib/ynl.py
+@@ -124,7 +124,7 @@ class NlAttr:
+         offset = 0
+         for m in members:
+             # TODO: handle non-scalar members
+-            format = self.get_format(m.type)
++            format = self.get_format(m.type, m.byte_order)
+             decoded = format.unpack_from(self.raw, offset)
+             offset += format.size
+             value[m.name] = decoded[0]
+@@ -305,7 +305,7 @@ class GenlMsg:
+ 
+         self.fixed_header_attrs = dict()
+         for m in fixed_header_members:
+-            format = NlAttr.get_format(m.type)
++            format = NlAttr.get_format(m.type, m.byte_order)
+             decoded = format.unpack_from(nl_msg.raw, offset)
+             offset += format.size
+             self.fixed_header_attrs[m.name] = decoded[0]
+@@ -544,7 +544,7 @@ class YnlFamily(SpecFamily):
+             fixed_header_members = self.consts[op.fixed_header].members
+             for m in fixed_header_members:
+                 value = vals.pop(m.name)
+-                format = NlAttr.get_format(m.type)
++                format = NlAttr.get_format(m.type, m.byte_order)
+                 msg += format.pack(value)
+         for name, value in vals.items():
+             msg += self._add_attr(op.attr_set.name, name, value)
 -- 
 2.39.0
 
