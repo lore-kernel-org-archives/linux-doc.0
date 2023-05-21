@@ -2,119 +2,201 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7F3C7EE26
-	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 22:33:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 323B5C7EE23
+	for <linux-doc@archiver.kernel.org>; Sun, 21 May 2023 23:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231489AbjEUWdi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 May 2023 18:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43474 "EHLO
+        id S229994AbjEUXKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 May 2023 19:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231516AbjEUWdh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 May 2023 18:33:37 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE91FE;
-        Sun, 21 May 2023 15:33:07 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 907EA5C002F;
-        Sun, 21 May 2023 18:31:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Sun, 21 May 2023 18:31:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm2; t=1684708292; x=
-        1684794692; bh=zsryuoGv1+n96XBFSmSM7IggLdXyxGy+UDE+DUNZJ18=; b=B
-        qlYXmYvBpidE+Qenb6cuppxjzlhYt1a5tG/Bsm57DLr77SPTNbcMrNxqLFWKEpEh
-        ne4fRaUzBcyw56zQAVCwlf5nQKTDdvgBfgOXqRr4AdP7tqAQUmZF1Qd1yBrV8yut
-        Ehjx+O5Psu2JpNZDk/DX+evM4tnTMUAK4YxWud4t5CbBUj33hWD2yIBtfFRNg3u9
-        h2VJRoxxjn9dM+dU6oJp/H34RoPEkU2hhRF8DawuabAnUqOjCR4QoRxUX2rZISG0
-        5l3inRBilBrL08VAk32ebWkqJS76i19IHc0Taci5bRsKSOK1MDnQ86yRn44iUWdq
-        BlMfpKsehBLJzA2gXZhWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1684708292; x=
-        1684794692; bh=zsryuoGv1+n96XBFSmSM7IggLdXyxGy+UDE+DUNZJ18=; b=o
-        6cK3P00kK6WJNedgnlsGRiKp/ysFxsLRHVihy92pzGEwdGI45rIyDDmZjCtocenw
-        wrIFGnaue+Z1e1cPEubGXUA32rNGoquy1pSMWidxNVS0yd1V3IBdRybAmk1CRoY4
-        edHcLoiiafiilWpQz0W+nzDQXu7PQQfW+ADO8wg9Px9DNnl+lclf578i6S4Zm1Ka
-        91t8JnGdkciTljB7pT3y2VLDh5DJlsv565DnoCStRQAJvVMit3DpJBKm3L0kc0F8
-        QUX/j4eDzS6UGcTzBJmlA7F4ch5HZULOIV9qb0BrBKHsVejUHdM5zWgO0kz5shAY
-        fNOi9NtwNmaHi+aIoYp4Q==
-X-ME-Sender: <xms:xJtqZD8kq1PMIbDWgSVDJ_-HZshy6S7JDpAdxcVXOgURSryjdIoVuA>
-    <xme:xJtqZPskebalGH9Cd88fikxPFdeAQ5hVNKYpcbeIHdcmZdFpCrm9em2x6dZm7I-ZF
-    G3fdfmYoHPk4jKIK4w>
-X-ME-Received: <xmr:xJtqZBCZkkF0yYL38aR6-pi1YYaODxCEjbxNqF-jXIzzNhYSG4DKTWyp_fvd>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeejtddgudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghn
-    ghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepfeeludefheegvdeuvd
-    dvgeekgfdvtdettdelieeihfegtedugeekhfdvhfejfedtnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhi
-    hgohgrthdrtghomh
-X-ME-Proxy: <xmx:xJtqZPf3kuDvYOr3KCgnmxCfCsUC-ZDzO8kedl5TTf17yki4JLx4Fg>
-    <xmx:xJtqZINCU6_xorQghQVeVwhU0THz_iJkVT9CR8clGR2CitihukS7Sg>
-    <xmx:xJtqZBmg39-1n_JwdAaBekkH5XPDr1dUr2qnEY_odu9a0BJl2gcfWA>
-    <xmx:xJtqZFq77nxlOq_JwlrZyuNebSgra7ytvqACRZMDmUO-H9b42tX9zA>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 21 May 2023 18:31:31 -0400 (EDT)
-From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
-To:     linux-mips@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, tsbogend@alpha.franken.de,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 2/3] MIPS: Select CONFIG_GENERIC_IDLE_POLL_SETUP
-Date:   Sun, 21 May 2023 23:31:23 +0100
-Message-Id: <20230521223124.21911-3-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
-In-Reply-To: <20230521223124.21911-1-jiaxun.yang@flygoat.com>
-References: <20230521223124.21911-1-jiaxun.yang@flygoat.com>
+        with ESMTP id S229481AbjEUXKv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 May 2023 19:10:51 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EC8EC3;
+        Sun, 21 May 2023 16:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=K4WPA18aOPTDws24S0fhivh+wdB5uMs20IVqeoLDFVg=; b=hJTNXKpY1GbFcDud/StMM0mEm2
+        xOmsZsaInQKpMD9FooAVISqofGLGHm9a5H/rHHpttDavg1t7RPFnHv8iu4yaUr4I+Skm4f77Ts7dJ
+        N2rIhAHDLkfqC7vOSwQBkIZ+8V7ubQvABAmenRS2bJGr7w2aWA++bPIRU/l7QEgnL9z+xQKpIf0O8
+        gXwWSbOoxhiW+4lat9w6/+2JVZ+DJixh+RMPg1k6trv0YRuSKave9LzH9XIY2TvdiFKQwJ5R7v2gl
+        pGJdi2o9fdGbWKWa+/Afah6LjIxCRvgysMR2L09BoIET2yphe3qVs/N+Gt0oXMonLk1kEizCDctvw
+        p0QorifA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q0sCL-004pPC-1G;
+        Sun, 21 May 2023 23:10:47 +0000
+Message-ID: <7ee02152-d498-87dc-d372-017212888db9@infradead.org>
+Date:   Sun, 21 May 2023 16:10:44 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 3/3] Documentation: kernel-parameters: Add some MIPS
+ parameters
+To:     Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, tsbogend@alpha.franken.de,
+        linux-doc@vger.kernel.org, corbet@lwn.net
+References: <20230521223124.21911-1-jiaxun.yang@flygoat.com>
+ <20230521223124.21911-4-jiaxun.yang@flygoat.com>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230521223124.21911-4-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-hlt,nohlt paramaters are useful when debugging cpuidle
-related issues.
+Hi--
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 4 ++--
- arch/mips/Kconfig                               | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+A few of these new entries are out of place, i.e., not in
+sorted order. See below.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 515cd1f88ea2..9c502d3aa0cd 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3694,8 +3694,8 @@
- 
- 	nohibernate	[HIBERNATION] Disable hibernation and resume.
- 
--	nohlt		[ARM,ARM64,MICROBLAZE,SH] Forces the kernel to busy wait
--			in do_idle() and not use the arch_cpu_idle()
-+	nohlt		[ARM,ARM64,MICROBLAZE,MIPS,SH] Forces the kernel to
-+			busy wait in do_idle() and not use the arch_cpu_idle()
- 			implementation; requires CONFIG_GENERIC_IDLE_POLL_SETUP
- 			to be effective. This is useful on platforms where the
- 			sleep(SH) or wfi(ARM,ARM64) instructions do not work
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index 5f52bdecb4c9..e437bf43ecfc 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -45,6 +45,7 @@ config MIPS
- 	select GENERIC_LIB_UCMPDI2
- 	select GENERIC_SCHED_CLOCK if !CAVIUM_OCTEON_SOC
- 	select GENERIC_SMP_IDLE_THREAD
-+	select GENERIC_IDLE_POLL_SETUP
- 	select GENERIC_TIME_VSYSCALL
- 	select GUP_GET_PXX_LOW_HIGH if CPU_MIPS32 && PHYS_ADDR_T_64BIT
- 	select HAS_IOPORT if !NO_IOPORT_MAP || ISA
+
+On 5/21/23 15:31, Jiaxun Yang wrote:
+> Those parameters lives in MIPS kernel since very start.
+> Document them for convenience.
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 9c502d3aa0cd..67a0c3f7eca3 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -713,6 +713,8 @@
+>  			Sets the size of memory pool for coherent, atomic dma
+>  			allocations, by default set to 256K.
+>  
+> +	coherentio	[KNL,MIPS] Force enable hardware DMA cache coherency.
+> +
+
+This one should be just above "coherent_pool".
+
+>  	com20020=	[HW,NET] ARCnet - COM20020 chipset
+>  			Format:
+>  			<io>[,<irq>[,<nodeID>[,<backplane>[,<ckp>[,<timeout>]]]]]
+> @@ -3626,6 +3628,8 @@
+>  
+>  	nocache		[ARM]
+>  
+> +	nocoherentio	[KNL,MIPS] Force enable software DMA cache coherency.
+> +
+
+OK.
+
+>  	no_console_suspend
+>  			[HW] Never suspend the console
+>  			Disable suspending of consoles during suspend and
+> @@ -3645,6 +3649,7 @@
+>  			[KNL] Disable object debugging
+>  
+>  	nodsp		[SH] Disable hardware DSP at boot time.
+> +			[MIPS] Disable DSP ASE at boot time.
+>  
+>  	noefi		Disable EFI runtime services support.
+>  
+> @@ -3667,6 +3672,8 @@
+>  
+>  	nofsgsbase	[X86] Disables FSGSBASE instructions.
+>  
+> +	noftlb		[MIPS] Disable Fixed TLB at boot time.
+
+OK.
+
+> +
+>  	nofxsr		[BUGS=X86-32] Disables x86 floating point extended
+>  			register save and restore. The kernel will only save
+>  			legacy floating-point registers on task switch.
+> @@ -3678,6 +3685,8 @@
+>  			in certain environments such as networked servers or
+>  			real-time systems.
+>  
+> +	nohtw		[MIPS] Disable hardware page table walker at boot time.
+> +
+
+nohtw should be immediately after "nohlt".
+
+>  	no_hash_pointers
+>  			Force pointers printed to the console or buffers to be
+>  			unhashed.  By default, when a pointer is printed via %p
+> @@ -3758,6 +3767,8 @@
+>  
+>  	nolapic_timer	[X86-32,APIC] Do not use the local APIC timer.
+>  
+> +	noulri          [MIPS] Disable RDHWR ULR access for user space.
+> +
+This should be just after "no_uaccess_flush".
+
+>  	nomca		[IA-64] Disable machine check abort handling
+>  
+>  	nomce		[X86-32] Disable Machine Check Exception
+> @@ -3882,6 +3893,8 @@
+>  			[X86,PV_OPS] Disable paravirtualized VMware scheduler
+>  			clock and use the default one.
+>  
+> +	nowait		[MIPS] Disable the wait instruction for idle.
+> +
+
+OK.
+
+>  	nowatchdog	[KNL] Disable both lockup detectors, i.e.
+>  			soft-lockup and NMI watchdog (hard-lockup).
+>  
+> @@ -3893,6 +3906,8 @@
+>  			LEGACY_XAPIC_DISABLED bit set in the
+>  			IA32_XAPIC_DISABLE_STATUS MSR.
+>  
+> +	noxpa		[MIPS] Disable XPA (eXtended Physical Addressing) ASE.
+> +
+
+OK.
+
+>  	noxsave		[BUGS=X86] Disables x86 extended register state save
+>  			and restore using xsave. The kernel will fallback to
+>  			enabling legacy floating-point and sse state.
+> @@ -3936,6 +3951,8 @@
+>  
+>  	nr_uarts=	[SERIAL] maximum number of UARTs to be registered.
+>  
+> +	ntlb=		[MIPS] Override max number of TLB entries.
+> +
+
+OK.
+
+>  	numa=off 	[KNL, ARM64, PPC, RISCV, SPARC, X86] Disable NUMA, Only
+>  			set up a single NUMA node spanning all memory.
+>  
+> @@ -5273,6 +5290,18 @@
+>  	rcupdate.rcu_self_test= [KNL]
+>  			Run the RCU early boot self tests
+>  
+> +	rd_size=	[KNL,MIPS]
+> +			Specify size of initrd in memory.
+> +			Need to be used with rd_start.
+> +
+> +	rd_start=	[KNL,MIPS]
+> +			Specify a virtual address from which to load the initrd.
+> +			Must in KSEG0 or XKPHYS space.
+> +			Need to be used with rd_size.
+> +
+
+rd_size and rd_start should be just after "rdrand".
+
+> +	rdhwr_noopt	[MIPS] Disable optimization of trap and emulation for
+> +			"RDHWR v1, $29" instruction.
+> +
+
+OK.
+
+>  	rdinit=		[KNL]
+>  			Format: <full_path>
+>  			Run specified binary instead of /init from the ramdisk,
+
+thanks.
 -- 
-2.39.2 (Apple Git-143)
-
+~Randy
