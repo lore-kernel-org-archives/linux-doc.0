@@ -2,213 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1140C77B75
-	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 21:05:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE13C7EE29
+	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 22:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230497AbjEVVFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 17:05:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33906 "EHLO
+        id S234814AbjEVW3D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 18:29:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235361AbjEVVEu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 17:04:50 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DD74CF
-        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 14:04:47 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-96f0678de80so1224606766b.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 14:04:47 -0700 (PDT)
+        with ESMTP id S234788AbjEVW2u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 18:28:50 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC57811F;
+        Mon, 22 May 2023 15:28:43 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-64d5f65a2f7so1447349b3a.1;
+        Mon, 22 May 2023 15:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1684789486; x=1687381486;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1684794523; x=1687386523;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=87E11T0PWo3pRQwioS2ru6DFv9NXjk9At+4H7tRtoQ4=;
-        b=R7U0UybwJD1Kw4pZ1JGSV+kjfqlu89bLXaiEC8Z7ohZeXI9xs5Wo6slRygraV9FxdU
-         6dUt7n+ejiY5WAjZJBkcPp4hme6z1VMNC4Y/+qRrfPLgFC/v+DD6PTicxvQyqtgYSdQ2
-         g9xk5WrA4L+TU4++nLhsjYPJRaWlTsqUxH1MI=
+        bh=wLjCDw3QwK9X5eTbsYsJ0QqtTyYuhQZWy+R2beHbthE=;
+        b=PZy+kdNXMQxFNGCmHbcndS3xPaLJOAO0NvYKwzyJKcZlLiOZSLe+MgL4nsWIUXrXLk
+         vJjqHpxziV8NuwDMvLTkjSxasSNf2xGNaJZFMM/idDpLW5gi7vM9s8v7ozonxcFMK5MC
+         TQZ0FNPqZZTMi9ypGpmoLNxIEzpuAK0QKtQywoufBUFmcaUwH4uCs1hRRzlhdn5HTL+y
+         G1n/JlIm5XwEnofLuHR6DODjgP6d8dG8sXQAOCE/4hpltR13kqNC1wsNlSm+hou5UWw1
+         4/Nc9IsOcSLZzt+hxgrWch+5+6AO4Z5O+658DlCjNq865BIV/Mljf5Tf1xaAr3UBsOwP
+         YlIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684789486; x=1687381486;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1684794523; x=1687386523;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=87E11T0PWo3pRQwioS2ru6DFv9NXjk9At+4H7tRtoQ4=;
-        b=HXVXu73M4fs8bbgoQemdbHOZdWSbVOYFYp+iR7cZ8eaf1HB3TzQJaTT/4b1eAE/74S
-         rxftZ7A24hRtyYxCVfzZvQN5ObAdViyVQXtk4EuNRXgggRWXCvcbiYXI5FNwbZ5T4cLo
-         rKhk7QAiiuj5tgcRI8iYG/OsMvZ5el8OBfmwhBqdqLHjZ6B05jzS92nJgYR1JMogfi74
-         jpAxdvyJpHu3M/O3icqOPEl07pjIibH/MdFg/Z0DBFlwARONw0Cc2kqXRXr2Ws0RM88d
-         0h1ePFP4ib7YgkvZw11dDqmajG9tlbW5KWepw7NDS17RryJHMfQACY5PGaZD+ej1Wsfi
-         bUIQ==
-X-Gm-Message-State: AC+VfDztTO5IT/2FyEoOGhRpD03lFwJc+RRyB7fmmdC3DxAhVpUTH/Nc
-        XjajGDyI3/P50MI/zTxLOB21bg==
-X-Google-Smtp-Source: ACHHUZ5PKzX/MIqIwmIIGgXgGBFz3QvBRGt6y9Z5XPqBQD3NsZJ0dPLDSLbaIy7Cyh40tpt3sxG+wQ==
-X-Received: by 2002:a17:906:5044:b0:96a:63d4:24c5 with SMTP id e4-20020a170906504400b0096a63d424c5mr11397934ejk.77.1684789486049;
-        Mon, 22 May 2023 14:04:46 -0700 (PDT)
-Received: from [192.168.1.128] ([80.208.70.1])
-        by smtp.gmail.com with ESMTPSA id de35-20020a1709069be300b0096637a19dc7sm3581071ejc.108.2023.05.22.14.04.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 May 2023 14:04:45 -0700 (PDT)
-Message-ID: <1e424481-6428-068c-d58b-7a11e36c2cc6@rasmusvillemoes.dk>
-Date:   Mon, 22 May 2023 23:04:44 +0200
+        bh=wLjCDw3QwK9X5eTbsYsJ0QqtTyYuhQZWy+R2beHbthE=;
+        b=ET0AjcFNtyyEF/qemOYSwHjAbg8IdH5dmN84e7susSECjv7ETLDexlmB3vE/U1pAFJ
+         nX1WxjyWcc7VIUdHci69sXV3IpZ4uAfeNQZQjLIX6t8FIk38oD1KY3IxjwOMdrczgHl3
+         Ku/SVz59yel9fdHRaNX2UoT8k9rpuVl0nI8J+OLQThk7bpXxzFnLrhbYm0/ZsvzoYL8e
+         xkqNwkrLYdfh39tIIpWQnoD4mSQFYqgt5OGjANkLxg2jLESUrYYPcEqUgksseFjVsz4V
+         1loH6Dh8pd4WDv3KQVqbnJR0s4iUZosBL86Tm3lrLN0bA7kQxtsJRDCNEJE4PJN0NXNZ
+         CMJg==
+X-Gm-Message-State: AC+VfDzjBedUVlxNDguZ7ou3dMr7u2jqGxlgU8uEEu0XMkGO2cWIA8H4
+        J+3yMuybOn3T5xSfI6tM1wI=
+X-Google-Smtp-Source: ACHHUZ7v2PTJU0KvDHJOwX01olVWqIu3tu+p5wahEbZ80AQTsXX3c0e0YsJO26QecsFA43RxTZ8jqQ==
+X-Received: by 2002:a05:6a00:893:b0:647:e45f:1a4c with SMTP id q19-20020a056a00089300b00647e45f1a4cmr14615874pfj.11.1684794523236;
+        Mon, 22 May 2023 15:28:43 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id i24-20020aa787d8000000b0064d3e4c7658sm4695697pfo.96.2023.05.22.15.28.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 May 2023 15:28:42 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 22 May 2023 15:28:41 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     "Matyas, Daniel" <Daniel.Matyas@analog.com>
+Cc:     kernel test robot <lkp@intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v9 2/2] hwmon: max31827: add MAX31827 driver
+Message-ID: <297d03ac-4fc3-4163-bac5-7abb74e1fa9e@roeck-us.net>
+References: <20230516104609.7095-1-daniel.matyas@analog.com>
+ <20230516104609.7095-2-daniel.matyas@analog.com>
+ <0e49e860-6f2c-48cb-9ef7-af7891b95237@roeck-us.net>
+ <PH0PR03MB6771D471E1AF58B0B50FE4D489439@PH0PR03MB6771.namprd03.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] vsprintf/doc: Document format flags including field width
- and precision
-Content-Language: en-US, da
-To:     Petr Mladek <pmladek@suse.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, phone-devel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>,
-        linux-kernel@vger.kernel.org
-References: <CSSLOC8WDIPE.1WO9BXZQA7A12@otso>
- <20230522150853.30417-1-pmladek@suse.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-In-Reply-To: <20230522150853.30417-1-pmladek@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PH0PR03MB6771D471E1AF58B0B50FE4D489439@PH0PR03MB6771.namprd03.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/05/2023 17.08, Petr Mladek wrote:
-> The kernel implementation of vsprintf() tries to be as compatible with
-> the user space variant as possible. Though it does not implement all
-> features. On the other hand, it adds some special pointer printing
-> modifiers.
+On Mon, May 22, 2023 at 02:18:11PM +0000, Matyas, Daniel wrote:
 > 
-> Most differences are described in Documentation/core-api/printk-formats.rst
-> Add the missing documentation of the supported flag characters
-> '#', '0', '-', ' ', '+' together with field width and precision modifiers.
 > 
-> Suggested-by: Luca Weiss <luca.weiss@fairphone.com>
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
-> ---
-> What about something like this, please?
+> -----Original Message-----
+> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+> Sent: Monday, May 22, 2023 4:25 PM
+> To: Matyas, Daniel <Daniel.Matyas@analog.com>
+> Cc: kernel test robot <lkp@intel.com>; Jean Delvare <jdelvare@suse.com>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; linux-hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-doc@vger.kernel.org
+> Subject: Re: [PATCH v9 2/2] hwmon: max31827: add MAX31827 driver
 > 
->  Documentation/core-api/printk-formats.rst | 69 +++++++++++++++++++++++
->  1 file changed, 69 insertions(+)
+> [External]
 > 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index dfe7e75a71de..79655b319658 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -8,6 +8,75 @@ How to get printk format specifiers right
->  :Author: Andrew Murray <amurray@mpc-data.co.uk>
->  
->  
-> +Flag characters
-> +===============
-> +
-> +The character '%' might be followed by the following flags that modify
-> +the output:
-> +
-> +	- '#' - prepend '0', '0x', or 'OX for 'o', 'x', 'X' number conversions
-> +	- '0' - zero pad number conversions on the field boundary
-> +	- '-' - left adjust on the field boundary, blank pad on the right
-> +	- ' ' - prepend space on positive numbers
-> +	- '+' - prepend + for positive numbers when using signed formats
+> On Tue, May 16, 2023 at 01:46:07PM +0300, Daniel Matyas wrote:
+> > MAX31827 is a low-power temperature switch with I2C interface.
+> > 
+> > The device is a ±1°C accuracy from -40°C to +125°C
+> > (12 bits) local temperature switch and sensor with I2C/SM- Bus 
+> > interface. The combination of small 6-bump wafer-lev- el package (WLP) 
+> > and high accuracy makes this temper- ature sensor/switch ideal for a 
+> > wide range of applications.
+> > 
+> > Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Link: 
+> > https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/2023
+> > 05112351.DBkFfs76-lkp@intel.com/__;!!A3Ni8CS0y2Y!5SeqSdRyCHcgA6Se6U-EN
+> > I_MJfRPgB-FEVkuwWyb944DQypaZ5XQAS6N3aZiVDd1LZDGK45xp7KJHH8RSzw$
+> > ---
+> 
+> Change log goes here. Without it, I'll have to manually re-review and compare against previous versions and look up comments to ensure that all feedback has been addressed. That will take time, which is always
+> scarce.   don't have right now. My apologies, but that means that
+> review and acceptance of your driver will be delayed.
+> 
+> Guenter
+> 
+> 
+> Dear Guenter,
+> 
+> I didn't write a changelog, because I changed literally nothing in the code. I sent a new patch, because in the previous Krzysztof Kozlowski asked me to remove the '--base' when using 'git format-patch'. I wrote this to commit 1/2, but consider it necessary to write the same thing again in patch 2/2.
+> 
 
-[I wonder if we have a single user of any of the latter two in the
-entire tree.]
+In that case the appropriate change log would have been "no change
+against v8", or "unchanged". Also, the change log should really include
+all changes since v1, separated for each version.
 
-> +Examples::
-> +
-> +	|%x|	|1a|
-> +	|%#x|	|0x1a|
-> +	|%d|	|26|
-> +	|% d|	| 26|
-> +	|%+d|	|+26|
-> +
-> +
-> +Field width
-> +===========
-> +
-> +A field width may be defined when '%' is optionally followed by the above flag
-> +characters and:
-> +
-> +	- 'number' - the decimal number defines the field width
-> +	- '*' the field width is defined by an extra parameter
-> +
-> +Values are never truncated when the filed width is not big enough.
+v9: No change
+v8: xxx
+v7: yyy
+...
 
-filed -> field (several places)
+Guenter
 
-> +Spaces are used by default when a padding is needed.
-> +
-> +Examples::
-> +
-> +	|%6d|	|    26|
-> +	|%-6d|	|26    |
-> +	|%06d|	|000026|
-> +
-> +	printk("Dynamic table: |%*d|%*s|\n", id_width, id, max_name_len, name);
-> +
-> +The filed width value might have special meaning for some pointer formats.
-> +For example, it limits the size of the bitmap handled by %*pb format.
-
-It should also be noted that a negative field width passed as a *
-argument is interpreted as if the - flag is used and then the absolute
-value is used as field width.
-
-> +
-> +
-> +Field precision:
-> +================
-> +
-> +A field width may be defined when '%' is optionally followed by the above flag
-> +characters:
-> +
-> +	- '.number' - the decimal number defines the field precision
-> +	- '.*' the field precision is defined by an extra parameter
-> +
-> +The precision defines:
-> +
-> +	- number of digits after the decimal point in float number conversions
-
-No, don't mention floats, the kernel doesn't do those.
-
-> +	- minimal number of digits in integer conversions
-> +	- maximum number of characters in string conversions
-> +
-> +Examples::
-> +
-> +	|%.3f|	|12.300|
-
-Remove.
-
-> +	|%.6d|	|    26|
-
-Nope, that actually produces 000026.
-
----
-
-So overall, I'm not sure this is a net win. I think it might be better
-to emphasize that
-
-- the kernel doesn't do floats, argument reordering via m$, wide
-characters/strings, %m or %n (just so that's out of the equation)
-
-- for string and integer conversions, the kernel's printf is very very
-close to following POSIX/libc/whatever, in terms of flags, field width
-etc. [There are a few exceptions, those I've found are documented in
-test_printf.c, but nobody is ever likely to hit those.]
-
-- for %p, the kernel has its own rules, starting with the fact that
-modifying behaviour based on alphanumerics following the p is completely
-non-standard.
-
-and then spend the rest explaining those rules, and perhaps also some
-background on why the %p extensions exist and why they are implemented
-the way they are - for example "we want -Wformat to tell us if something
-is wrong", but that, for example, means we can only use a field width
-and not a precision to pass an extra argument to a %psomething. And
-alphanumerics are chosen because nobody would usually follow a normal %p
-by anything but whitespace or punctuation, and because the compiler
-format checking is happy as long as there's some pointer argument
-corresponding to the %p, and the remaining characters are, from the
-compiler's POV, just literal characters.
-
-Rasmus
-
+> I have the Reported-by flag, because I forgot to add it in patch v8.
+> 
+> I am sorry for the confusion!
+> 
+> Best regards,
+> Daniel Matyas
