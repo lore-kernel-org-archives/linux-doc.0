@@ -2,522 +2,241 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F31C7EE2A
-	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 07:49:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B0AC77B75
+	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 11:07:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231657AbjEVHt6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 03:49:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34748 "EHLO
+        id S233018AbjEVLHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 07:07:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232706AbjEVHtf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 03:49:35 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23EE41987;
-        Mon, 22 May 2023 00:48:05 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34M2BHCk006853;
-        Mon, 22 May 2023 09:46:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=L8v0c2QoqVhoM2JYbH7IDFVu36IWw5DD++7lsbQQiHU=;
- b=DtClVabR3uWt3bAX4XfVy90kWm49HOO7QlQWVY69JluD+VnHm2bGoBV4rVVIHsHeHaXb
- aON1x6lJJQF4KOJXDPaT5NAxEgT/jN4VwOf15+ZMMDoLPE7CHbP4XbSXHugQSSSXp1Bp
- Ov8ko/jCvx67iK8g9PiGO1ff0m3QzKCEIbE/GhEOZC1PfDn7MxZGGrfQwoa2w/vW7YoH
- 8BrJvRz0VsmEo3+8SStARLoqVgUUiNStjktABosE0fFg8GRZOsMYCh+aYarmbdGqqH9C
- WHMqmAmwa49bim9kY/bnUpbq7dwTbt8CcmkA6GUhz2Ywry8Xo82pZnKSsMu8PEMKUTBl cw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qpn3g9983-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 May 2023 09:46:21 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5C80810002A;
-        Mon, 22 May 2023 09:46:17 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0ACD021860F;
-        Mon, 22 May 2023 09:46:17 +0200 (CEST)
-Received: from [10.201.21.93] (10.201.21.93) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 22 May
- 2023 09:46:16 +0200
-Message-ID: <f737ef0a-4574-ad2b-ca99-5950d777a3e4@foss.st.com>
-Date:   Mon, 22 May 2023 09:46:15 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 1/7] arm: docs: Move Arm documentation to
- Documentation/arch/
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        with ESMTP id S233053AbjEVLHP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 07:07:15 -0400
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on0621.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe1e::621])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB1AF189;
+        Mon, 22 May 2023 04:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w9z9YHloSI6raVW3FwJRtv0KKwXWm4773k5WQx971RY=;
+ b=wyk9nVaCeffKj5U/thF4yjal8Q93nQczFaaxYmMPjlSWuAdMDirehp3wJGCurfkTZ1weRLcMdQ2C0zgUnvYQQOdobEqcnYYqLFo2iRvm2UHl9Lvu6+h/uFuUZF6BdvokSuCE2oP8l0XLroLX831bLmj2Vogd9QqyO5ZXMjGeAYA=
+Received: from AS9P251CA0022.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:50f::27)
+ by AS2PR08MB8454.eurprd08.prod.outlook.com (2603:10a6:20b:55a::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.25; Mon, 22 May
+ 2023 10:55:17 +0000
+Received: from AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:50f:cafe::84) by AS9P251CA0022.outlook.office365.com
+ (2603:10a6:20b:50f::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28 via Frontend
+ Transport; Mon, 22 May 2023 10:55:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT042.mail.protection.outlook.com (100.127.140.209) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6433.13 via Frontend Transport; Mon, 22 May 2023 10:55:17 +0000
+Received: ("Tessian outbound e13c2446394c:v136"); Mon, 22 May 2023 10:55:16 +0000
+X-CR-MTA-TID: 64aa7808
+Received: from b9eabcb1afcd.3
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 33750FBF-F48F-4A80-B568-0E00C3D35D46.1;
+        Mon, 22 May 2023 10:55:10 +0000
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b9eabcb1afcd.3
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 22 May 2023 10:55:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wq9iw9EYrVY/7J1OXAd1IOJB7h+Ecn1Q5P/TFpGklV8TDWkTJeh6lk7NHDjpT6yXkIzHvhwkABq+BFYyJzhNLXijZPxZmO9E4IdGfvJUCJvQpLSfKbUzzHAbvlME80fW2SKA29MWGSPcURaqcTNbvAFCwQBPARJvT360gmwy0GOAUC0HVZBdO4NWmlWVxo1jvpHKCtMyZwKmEg5Mgc95//gAWp7l+/55sB5eazJfxED8iGsjYEnGIkcItQgQR30WDOpjNjANLgV5Yye/sx9aJx5kt9NMr1LvgB8nNTwC9suSb3m5E+6cKR9HyUnNpMslVm8NGZUBg6NAHxz9dLeJng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w9z9YHloSI6raVW3FwJRtv0KKwXWm4773k5WQx971RY=;
+ b=UBo+4Lehny2B+Xfq0SVpW2VDflmShTSq5VESZWzX8w7fLMlu1CYHImDIPGK0JhrFuRnUJDn8O8WnbMHZST6O5PLUHCNb+uPxShUBe4gtsXfNtvkTOM5xidD9vqZdsF6LeuDQ9rtNFr/7rwoqQXLJcIYS4ec04aJeQhlWvQEFeKQr3Uw8gP/DV/dBlV8tZ4g9VmfTdQrXcHo6UAhJHlQk9hMzntZIxik5H/USkd6Oes8Xzw2h2bPa6MVSl9/Bcj2wve2FXiH1NsZ4ca4sp1U6zAra8SrY1tsqew4Z6u1xYDT+v2M6i1GW9ZKh1K7H4fc+pSKvkW4d6grA78bkz1zs6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w9z9YHloSI6raVW3FwJRtv0KKwXWm4773k5WQx971RY=;
+ b=wyk9nVaCeffKj5U/thF4yjal8Q93nQczFaaxYmMPjlSWuAdMDirehp3wJGCurfkTZ1weRLcMdQ2C0zgUnvYQQOdobEqcnYYqLFo2iRvm2UHl9Lvu6+h/uFuUZF6BdvokSuCE2oP8l0XLroLX831bLmj2Vogd9QqyO5ZXMjGeAYA=
+Received: from DBBPR08MB6012.eurprd08.prod.outlook.com (2603:10a6:10:205::9)
+ by AS8PR08MB8300.eurprd08.prod.outlook.com (2603:10a6:20b:56e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Mon, 22 May
+ 2023 10:55:06 +0000
+Received: from DBBPR08MB6012.eurprd08.prod.outlook.com
+ ([fe80::f713:dc49:79be:3b4a]) by DBBPR08MB6012.eurprd08.prod.outlook.com
+ ([fe80::f713:dc49:79be:3b4a%5]) with mapi id 15.20.6411.027; Mon, 22 May 2023
+ 10:55:06 +0000
+From:   Jose Marinho <Jose.Marinho@arm.com>
+To:     Robin Murphy <Robin.Murphy@arm.com>,
+        "guohanjun@huawei.com" <guohanjun@huawei.com>
+CC:     Catalin Marinas <Catalin.Marinas@arm.com>,
+        Jeremy Linton <Jeremy.Linton@arm.com>,
+        James Morse <James.Morse@arm.com>,
+        Rob Herring <Rob.Herring@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-References: <20230519164607.38845-1-corbet@lwn.net>
- <20230519164607.38845-2-corbet@lwn.net>
-From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20230519164607.38845-2-corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.201.21.93]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-22_04,2023-05-17_02,2023-02-09_01
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>,
+        nd <nd@arm.com>
+Subject: RE: [PATCH 3/3] Documentation/arm64: Update ACPI tables from BBR
+Thread-Topic: [PATCH 3/3] Documentation/arm64: Update ACPI tables from BBR
+Thread-Index: AQHZiXcNaBOt64qzaUigg1uTYpm6lq9f79CAgAAZ/QCAASUlAIAAPbMAgASuFmA=
+Date:   Mon, 22 May 2023 10:55:03 +0000
+Message-ID: <DBBPR08MB6012B565A6B819C2506E62BF88439@DBBPR08MB6012.eurprd08.prod.outlook.com>
+References: <20230518105202.451739-1-jose.marinho@arm.com>
+ <20230518105202.451739-4-jose.marinho@arm.com>
+ <0969894f-d653-482c-f043-2a085ee3b404@huawei.com>
+ <e9918d6e-ca5c-5a3a-6ff4-27acf7f73b30@arm.com>
+ <dd0114f5-2e9c-40ea-8722-93fdf3f57b87@huawei.com>
+ <3dcc08c8-f8e8-69d0-7ad8-e8938f4f2cca@arm.com>
+In-Reply-To: <3dcc08c8-f8e8-69d0-7ad8-e8938f4f2cca@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ts-tracking-id: 0072B921A01E0145A3146591716C6124.0
+x-checkrecipientchecked: true
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: DBBPR08MB6012:EE_|AS8PR08MB8300:EE_|AM7EUR03FT042:EE_|AS2PR08MB8454:EE_
+X-MS-Office365-Filtering-Correlation-Id: 407feb86-fc1f-4599-35bf-08db5ab30761
+x-ld-processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: XWI9rucjZaIku45xjl/jq5y2jdA42aJVW56JpMiyI1y4IWdwxBsPTez6mAcE7p7IppsC0ziveinxLAvNkEFcWDWlV1Ql9Ff6zvjh8iba45cWQnZjiofw0d/OhUYfDQsyMz9iH2+WioHPWFcMFAWBLAJuoOmJC7QmGd+3T1dB9Nc+M8HqLNpzknlrH3l5Bst2bNzO4I2FKKiqyKUBhBfvQBUuliCUR0YeBoPCUBlZVi2SoB67KMUMkjaLpVev7RtYyIetbrcQJLRiPlaL38XJL0gbb+8ccpdsXOUW92xanxKvbDzmSjm/9GoimZC/mrfxrDv4BJpFtNOnyN6OUd/MQa6OVyQt8kgeoPONQoL3rZ6g1eYWJn1WQJG/0ivKVhcywXIBo1VHYkrLaEBrVc7mqaVkSwqweWOpDxeAQdgvRzX8W33YP8cFzfXBB1iFJz6s+WYYmr2WrWN5L7R4LcrucGecq8mI8KLy7P6+mvoPW0Db0AEReGzx1Q28kc52I0aOLf6JrlIY/SlqADAc9HyByma2ycywXnbQOwxW5F6yn3wuKjU6kRVYbcmFy7ZDdcHNGAT/4+sAqlZ3keZMOM+dR94+17vOlLK4IHtwH9LFvQ4=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR08MB6012.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(376002)(346002)(39860400002)(136003)(451199021)(110136005)(86362001)(54906003)(122000001)(478600001)(83380400001)(6666004)(7696005)(966005)(66476007)(66946007)(66556008)(64756008)(66446008)(76116006)(71200400001)(38100700002)(316002)(4326008)(6506007)(41300700001)(2906002)(26005)(186003)(8676002)(8936002)(9686003)(38070700005)(53546011)(5660300002)(33656002)(55016003)(52536014)(15650500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8300
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 985a810e-2ce8-45a3-a3f8-08db5ab2ff63
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GCYyHRXVFWHGzKeviTELiRrPFY7lFkbblExKLTmo6WAGQ8RwNCem4F36UnBGKZWd86ly5JkcmmuEeq12lVOfzFxktsmpbcm8MF0cOPOr2Lj1Spothjf9HLLJjrIXIgUe/l9sLziPu+vtQ1dIJQ9De3zMl/g+pty3aOHRVwhXOCfI046OO84xM7GPEGCtVXC57hIpOTX3bqJxNITTSPY5c+bPzOpE59u2G3EeFEHOzoIpJ7BFpvvG6otXw21qtV3tWxeuiE/EaTzhjvjDhQf1kWc8Fwa1IkZqhvO/62pG2KRmoyC5FExR7AUS4/RFjougTTmhr7lKAAjf2DS/hNSHUHikUFz3RU/Zz23OlfJuuXMTygQR4tkFNyCx/XasQcqEmmCnDVA1fkP7JEMQ90lWhUGSM/B00NvvGCCGM6R9QYAlS17djYfo3XnlJTEnecnR+CX13QffMeVrvoUVhPqeHRHjY1pUjykeNDXZXmFe4Fy2WEYs/HMy7bvaxgMnQDXfj05u7+SvQMXzCOaPEGZOI02Otn3AoKZK8Y6eyGn7qA/Cl4ao7o9cOXh1SAIUmiaW0HNkaKFGpxKf9ViW7GgcNW/M81T+ZuTXKrQlCal5+MLn5p2aDn1i2Qv8NFt/LL6cTTyzViIglNYs1qoKHMHV/V6jHeqqXz2cu673geJlHm63leaqv75LUYeT9Gxf6mKUnRlU3P213BpiZok07G20lwcfU85yM3obI02EQyx3I5Q=
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(376002)(396003)(346002)(451199021)(40470700004)(36840700001)(46966006)(478600001)(8676002)(8936002)(5660300002)(52536014)(6666004)(4326008)(70206006)(54906003)(70586007)(110136005)(41300700001)(966005)(9686003)(26005)(6506007)(7696005)(15650500001)(53546011)(36860700001)(450100002)(83380400001)(316002)(336012)(47076005)(82740400003)(356005)(81166007)(33656002)(86362001)(82310400005)(186003)(2906002)(55016003)(40480700001)(40460700003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2023 10:55:17.1420
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 407feb86-fc1f-4599-35bf-08db5ab30761
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8454
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/19/23 18:46, Jonathan Corbet wrote:
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.  Move
-> Documentation/arch into arch/ and fix all documentation references.
-> 
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-arch@vger.kernel.org
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-
-Acked-by: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-
-
->   Documentation/{ => arch}/arm/arm.rst                          | 0
->   Documentation/{ => arch}/arm/booting.rst                      | 0
->   Documentation/{ => arch}/arm/cluster-pm-race-avoidance.rst    | 0
->   Documentation/{ => arch}/arm/features.rst                     | 0
->   Documentation/{ => arch}/arm/firmware.rst                     | 0
->   Documentation/{ => arch}/arm/google/chromebook-boot-flow.rst  | 0
->   Documentation/{ => arch}/arm/index.rst                        | 0
->   Documentation/{ => arch}/arm/interrupts.rst                   | 0
->   Documentation/{ => arch}/arm/ixp4xx.rst                       | 0
->   Documentation/{ => arch}/arm/kernel_mode_neon.rst             | 0
->   Documentation/{ => arch}/arm/kernel_user_helpers.rst          | 0
->   Documentation/{ => arch}/arm/keystone/knav-qmss.rst           | 0
->   Documentation/{ => arch}/arm/keystone/overview.rst            | 0
->   Documentation/{ => arch}/arm/marvell.rst                      | 0
->   Documentation/{ => arch}/arm/mem_alignment.rst                | 0
->   Documentation/{ => arch}/arm/memory.rst                       | 0
->   Documentation/{ => arch}/arm/microchip.rst                    | 0
->   Documentation/{ => arch}/arm/netwinder.rst                    | 0
->   Documentation/{ => arch}/arm/nwfpe/index.rst                  | 0
->   Documentation/{ => arch}/arm/nwfpe/netwinder-fpe.rst          | 0
->   Documentation/{ => arch}/arm/nwfpe/notes.rst                  | 0
->   Documentation/{ => arch}/arm/nwfpe/nwfpe.rst                  | 0
->   Documentation/{ => arch}/arm/nwfpe/todo.rst                   | 0
->   Documentation/{ => arch}/arm/omap/dss.rst                     | 0
->   Documentation/{ => arch}/arm/omap/index.rst                   | 0
->   Documentation/{ => arch}/arm/omap/omap.rst                    | 0
->   Documentation/{ => arch}/arm/omap/omap_pm.rst                 | 0
->   Documentation/{ => arch}/arm/porting.rst                      | 0
->   Documentation/{ => arch}/arm/pxa/mfp.rst                      | 0
->   Documentation/{ => arch}/arm/sa1100/assabet.rst               | 0
->   Documentation/{ => arch}/arm/sa1100/cerf.rst                  | 0
->   Documentation/{ => arch}/arm/sa1100/index.rst                 | 0
->   Documentation/{ => arch}/arm/sa1100/lart.rst                  | 0
->   Documentation/{ => arch}/arm/sa1100/serial_uart.rst           | 0
->   Documentation/{ => arch}/arm/samsung/bootloader-interface.rst | 0
->   .../{ => arch}/arm/samsung/clksrc-change-registers.awk        | 0
->   Documentation/{ => arch}/arm/samsung/gpio.rst                 | 0
->   Documentation/{ => arch}/arm/samsung/index.rst                | 0
->   Documentation/{ => arch}/arm/samsung/overview.rst             | 0
->   Documentation/{ => arch}/arm/setup.rst                        | 0
->   Documentation/{ => arch}/arm/spear/overview.rst               | 0
->   Documentation/{ => arch}/arm/sti/overview.rst                 | 0
->   Documentation/{ => arch}/arm/sti/stih407-overview.rst         | 0
->   Documentation/{ => arch}/arm/sti/stih418-overview.rst         | 0
->   Documentation/{ => arch}/arm/stm32/overview.rst               | 0
->   .../{ => arch}/arm/stm32/stm32-dma-mdma-chaining.rst          | 0
->   Documentation/{ => arch}/arm/stm32/stm32f429-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32f746-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32f769-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32h743-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32h750-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32mp13-overview.rst     | 0
->   Documentation/{ => arch}/arm/stm32/stm32mp151-overview.rst    | 0
->   Documentation/{ => arch}/arm/stm32/stm32mp157-overview.rst    | 0
->   Documentation/{ => arch}/arm/sunxi.rst                        | 0
->   Documentation/{ => arch}/arm/sunxi/clocks.rst                 | 0
->   Documentation/{ => arch}/arm/swp_emulation.rst                | 0
->   Documentation/{ => arch}/arm/tcm.rst                          | 0
->   Documentation/{ => arch}/arm/uefi.rst                         | 0
->   Documentation/{ => arch}/arm/vfp/release-notes.rst            | 0
->   Documentation/{ => arch}/arm/vlocks.rst                       | 0
->   Documentation/arch/index.rst                                  | 2 +-
->   Documentation/translations/zh_CN/arm/Booting                  | 4 ++--
->   Documentation/translations/zh_CN/arm/kernel_user_helpers.txt  | 4 ++--
->   64 files changed, 5 insertions(+), 5 deletions(-)
->   rename Documentation/{ => arch}/arm/arm.rst (100%)
->   rename Documentation/{ => arch}/arm/booting.rst (100%)
->   rename Documentation/{ => arch}/arm/cluster-pm-race-avoidance.rst (100%)
->   rename Documentation/{ => arch}/arm/features.rst (100%)
->   rename Documentation/{ => arch}/arm/firmware.rst (100%)
->   rename Documentation/{ => arch}/arm/google/chromebook-boot-flow.rst (100%)
->   rename Documentation/{ => arch}/arm/index.rst (100%)
->   rename Documentation/{ => arch}/arm/interrupts.rst (100%)
->   rename Documentation/{ => arch}/arm/ixp4xx.rst (100%)
->   rename Documentation/{ => arch}/arm/kernel_mode_neon.rst (100%)
->   rename Documentation/{ => arch}/arm/kernel_user_helpers.rst (100%)
->   rename Documentation/{ => arch}/arm/keystone/knav-qmss.rst (100%)
->   rename Documentation/{ => arch}/arm/keystone/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/marvell.rst (100%)
->   rename Documentation/{ => arch}/arm/mem_alignment.rst (100%)
->   rename Documentation/{ => arch}/arm/memory.rst (100%)
->   rename Documentation/{ => arch}/arm/microchip.rst (100%)
->   rename Documentation/{ => arch}/arm/netwinder.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/index.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/netwinder-fpe.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/notes.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/nwfpe.rst (100%)
->   rename Documentation/{ => arch}/arm/nwfpe/todo.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/dss.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/index.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/omap.rst (100%)
->   rename Documentation/{ => arch}/arm/omap/omap_pm.rst (100%)
->   rename Documentation/{ => arch}/arm/porting.rst (100%)
->   rename Documentation/{ => arch}/arm/pxa/mfp.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/assabet.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/cerf.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/index.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/lart.rst (100%)
->   rename Documentation/{ => arch}/arm/sa1100/serial_uart.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/bootloader-interface.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/clksrc-change-registers.awk (100%)
->   rename Documentation/{ => arch}/arm/samsung/gpio.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/index.rst (100%)
->   rename Documentation/{ => arch}/arm/samsung/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/setup.rst (100%)
->   rename Documentation/{ => arch}/arm/spear/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sti/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sti/stih407-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sti/stih418-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32-dma-mdma-chaining.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32f429-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32f746-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32f769-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32h743-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32h750-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32mp13-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32mp151-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/stm32/stm32mp157-overview.rst (100%)
->   rename Documentation/{ => arch}/arm/sunxi.rst (100%)
->   rename Documentation/{ => arch}/arm/sunxi/clocks.rst (100%)
->   rename Documentation/{ => arch}/arm/swp_emulation.rst (100%)
->   rename Documentation/{ => arch}/arm/tcm.rst (100%)
->   rename Documentation/{ => arch}/arm/uefi.rst (100%)
->   rename Documentation/{ => arch}/arm/vfp/release-notes.rst (100%)
->   rename Documentation/{ => arch}/arm/vlocks.rst (100%)
-> 
-> diff --git a/Documentation/arm/arm.rst b/Documentation/arch/arm/arm.rst
-> similarity index 100%
-> rename from Documentation/arm/arm.rst
-> rename to Documentation/arch/arm/arm.rst
-> diff --git a/Documentation/arm/booting.rst b/Documentation/arch/arm/booting.rst
-> similarity index 100%
-> rename from Documentation/arm/booting.rst
-> rename to Documentation/arch/arm/booting.rst
-> diff --git a/Documentation/arm/cluster-pm-race-avoidance.rst b/Documentation/arch/arm/cluster-pm-race-avoidance.rst
-> similarity index 100%
-> rename from Documentation/arm/cluster-pm-race-avoidance.rst
-> rename to Documentation/arch/arm/cluster-pm-race-avoidance.rst
-> diff --git a/Documentation/arm/features.rst b/Documentation/arch/arm/features.rst
-> similarity index 100%
-> rename from Documentation/arm/features.rst
-> rename to Documentation/arch/arm/features.rst
-> diff --git a/Documentation/arm/firmware.rst b/Documentation/arch/arm/firmware.rst
-> similarity index 100%
-> rename from Documentation/arm/firmware.rst
-> rename to Documentation/arch/arm/firmware.rst
-> diff --git a/Documentation/arm/google/chromebook-boot-flow.rst b/Documentation/arch/arm/google/chromebook-boot-flow.rst
-> similarity index 100%
-> rename from Documentation/arm/google/chromebook-boot-flow.rst
-> rename to Documentation/arch/arm/google/chromebook-boot-flow.rst
-> diff --git a/Documentation/arm/index.rst b/Documentation/arch/arm/index.rst
-> similarity index 100%
-> rename from Documentation/arm/index.rst
-> rename to Documentation/arch/arm/index.rst
-> diff --git a/Documentation/arm/interrupts.rst b/Documentation/arch/arm/interrupts.rst
-> similarity index 100%
-> rename from Documentation/arm/interrupts.rst
-> rename to Documentation/arch/arm/interrupts.rst
-> diff --git a/Documentation/arm/ixp4xx.rst b/Documentation/arch/arm/ixp4xx.rst
-> similarity index 100%
-> rename from Documentation/arm/ixp4xx.rst
-> rename to Documentation/arch/arm/ixp4xx.rst
-> diff --git a/Documentation/arm/kernel_mode_neon.rst b/Documentation/arch/arm/kernel_mode_neon.rst
-> similarity index 100%
-> rename from Documentation/arm/kernel_mode_neon.rst
-> rename to Documentation/arch/arm/kernel_mode_neon.rst
-> diff --git a/Documentation/arm/kernel_user_helpers.rst b/Documentation/arch/arm/kernel_user_helpers.rst
-> similarity index 100%
-> rename from Documentation/arm/kernel_user_helpers.rst
-> rename to Documentation/arch/arm/kernel_user_helpers.rst
-> diff --git a/Documentation/arm/keystone/knav-qmss.rst b/Documentation/arch/arm/keystone/knav-qmss.rst
-> similarity index 100%
-> rename from Documentation/arm/keystone/knav-qmss.rst
-> rename to Documentation/arch/arm/keystone/knav-qmss.rst
-> diff --git a/Documentation/arm/keystone/overview.rst b/Documentation/arch/arm/keystone/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/keystone/overview.rst
-> rename to Documentation/arch/arm/keystone/overview.rst
-> diff --git a/Documentation/arm/marvell.rst b/Documentation/arch/arm/marvell.rst
-> similarity index 100%
-> rename from Documentation/arm/marvell.rst
-> rename to Documentation/arch/arm/marvell.rst
-> diff --git a/Documentation/arm/mem_alignment.rst b/Documentation/arch/arm/mem_alignment.rst
-> similarity index 100%
-> rename from Documentation/arm/mem_alignment.rst
-> rename to Documentation/arch/arm/mem_alignment.rst
-> diff --git a/Documentation/arm/memory.rst b/Documentation/arch/arm/memory.rst
-> similarity index 100%
-> rename from Documentation/arm/memory.rst
-> rename to Documentation/arch/arm/memory.rst
-> diff --git a/Documentation/arm/microchip.rst b/Documentation/arch/arm/microchip.rst
-> similarity index 100%
-> rename from Documentation/arm/microchip.rst
-> rename to Documentation/arch/arm/microchip.rst
-> diff --git a/Documentation/arm/netwinder.rst b/Documentation/arch/arm/netwinder.rst
-> similarity index 100%
-> rename from Documentation/arm/netwinder.rst
-> rename to Documentation/arch/arm/netwinder.rst
-> diff --git a/Documentation/arm/nwfpe/index.rst b/Documentation/arch/arm/nwfpe/index.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/index.rst
-> rename to Documentation/arch/arm/nwfpe/index.rst
-> diff --git a/Documentation/arm/nwfpe/netwinder-fpe.rst b/Documentation/arch/arm/nwfpe/netwinder-fpe.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/netwinder-fpe.rst
-> rename to Documentation/arch/arm/nwfpe/netwinder-fpe.rst
-> diff --git a/Documentation/arm/nwfpe/notes.rst b/Documentation/arch/arm/nwfpe/notes.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/notes.rst
-> rename to Documentation/arch/arm/nwfpe/notes.rst
-> diff --git a/Documentation/arm/nwfpe/nwfpe.rst b/Documentation/arch/arm/nwfpe/nwfpe.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/nwfpe.rst
-> rename to Documentation/arch/arm/nwfpe/nwfpe.rst
-> diff --git a/Documentation/arm/nwfpe/todo.rst b/Documentation/arch/arm/nwfpe/todo.rst
-> similarity index 100%
-> rename from Documentation/arm/nwfpe/todo.rst
-> rename to Documentation/arch/arm/nwfpe/todo.rst
-> diff --git a/Documentation/arm/omap/dss.rst b/Documentation/arch/arm/omap/dss.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/dss.rst
-> rename to Documentation/arch/arm/omap/dss.rst
-> diff --git a/Documentation/arm/omap/index.rst b/Documentation/arch/arm/omap/index.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/index.rst
-> rename to Documentation/arch/arm/omap/index.rst
-> diff --git a/Documentation/arm/omap/omap.rst b/Documentation/arch/arm/omap/omap.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/omap.rst
-> rename to Documentation/arch/arm/omap/omap.rst
-> diff --git a/Documentation/arm/omap/omap_pm.rst b/Documentation/arch/arm/omap/omap_pm.rst
-> similarity index 100%
-> rename from Documentation/arm/omap/omap_pm.rst
-> rename to Documentation/arch/arm/omap/omap_pm.rst
-> diff --git a/Documentation/arm/porting.rst b/Documentation/arch/arm/porting.rst
-> similarity index 100%
-> rename from Documentation/arm/porting.rst
-> rename to Documentation/arch/arm/porting.rst
-> diff --git a/Documentation/arm/pxa/mfp.rst b/Documentation/arch/arm/pxa/mfp.rst
-> similarity index 100%
-> rename from Documentation/arm/pxa/mfp.rst
-> rename to Documentation/arch/arm/pxa/mfp.rst
-> diff --git a/Documentation/arm/sa1100/assabet.rst b/Documentation/arch/arm/sa1100/assabet.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/assabet.rst
-> rename to Documentation/arch/arm/sa1100/assabet.rst
-> diff --git a/Documentation/arm/sa1100/cerf.rst b/Documentation/arch/arm/sa1100/cerf.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/cerf.rst
-> rename to Documentation/arch/arm/sa1100/cerf.rst
-> diff --git a/Documentation/arm/sa1100/index.rst b/Documentation/arch/arm/sa1100/index.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/index.rst
-> rename to Documentation/arch/arm/sa1100/index.rst
-> diff --git a/Documentation/arm/sa1100/lart.rst b/Documentation/arch/arm/sa1100/lart.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/lart.rst
-> rename to Documentation/arch/arm/sa1100/lart.rst
-> diff --git a/Documentation/arm/sa1100/serial_uart.rst b/Documentation/arch/arm/sa1100/serial_uart.rst
-> similarity index 100%
-> rename from Documentation/arm/sa1100/serial_uart.rst
-> rename to Documentation/arch/arm/sa1100/serial_uart.rst
-> diff --git a/Documentation/arm/samsung/bootloader-interface.rst b/Documentation/arch/arm/samsung/bootloader-interface.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/bootloader-interface.rst
-> rename to Documentation/arch/arm/samsung/bootloader-interface.rst
-> diff --git a/Documentation/arm/samsung/clksrc-change-registers.awk b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
-> similarity index 100%
-> rename from Documentation/arm/samsung/clksrc-change-registers.awk
-> rename to Documentation/arch/arm/samsung/clksrc-change-registers.awk
-> diff --git a/Documentation/arm/samsung/gpio.rst b/Documentation/arch/arm/samsung/gpio.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/gpio.rst
-> rename to Documentation/arch/arm/samsung/gpio.rst
-> diff --git a/Documentation/arm/samsung/index.rst b/Documentation/arch/arm/samsung/index.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/index.rst
-> rename to Documentation/arch/arm/samsung/index.rst
-> diff --git a/Documentation/arm/samsung/overview.rst b/Documentation/arch/arm/samsung/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/samsung/overview.rst
-> rename to Documentation/arch/arm/samsung/overview.rst
-> diff --git a/Documentation/arm/setup.rst b/Documentation/arch/arm/setup.rst
-> similarity index 100%
-> rename from Documentation/arm/setup.rst
-> rename to Documentation/arch/arm/setup.rst
-> diff --git a/Documentation/arm/spear/overview.rst b/Documentation/arch/arm/spear/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/spear/overview.rst
-> rename to Documentation/arch/arm/spear/overview.rst
-> diff --git a/Documentation/arm/sti/overview.rst b/Documentation/arch/arm/sti/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/sti/overview.rst
-> rename to Documentation/arch/arm/sti/overview.rst
-> diff --git a/Documentation/arm/sti/stih407-overview.rst b/Documentation/arch/arm/sti/stih407-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/sti/stih407-overview.rst
-> rename to Documentation/arch/arm/sti/stih407-overview.rst
-> diff --git a/Documentation/arm/sti/stih418-overview.rst b/Documentation/arch/arm/sti/stih418-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/sti/stih418-overview.rst
-> rename to Documentation/arch/arm/sti/stih418-overview.rst
-> diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arch/arm/stm32/overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/overview.rst
-> rename to Documentation/arch/arm/stm32/overview.rst
-> diff --git a/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst b/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
-> rename to Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
-> diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arch/arm/stm32/stm32f429-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32f429-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32f429-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arch/arm/stm32/stm32f746-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32f746-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32f746-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arch/arm/stm32/stm32f769-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32f769-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32f769-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arch/arm/stm32/stm32h743-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32h743-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32h743-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32h750-overview.rst b/Documentation/arch/arm/stm32/stm32h750-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32h750-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32h750-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32mp13-overview.rst b/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32mp13-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32mp13-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32mp151-overview.rst b/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32mp151-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32mp151-overview.rst
-> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arch/arm/stm32/stm32mp157-overview.rst
-> similarity index 100%
-> rename from Documentation/arm/stm32/stm32mp157-overview.rst
-> rename to Documentation/arch/arm/stm32/stm32mp157-overview.rst
-> diff --git a/Documentation/arm/sunxi.rst b/Documentation/arch/arm/sunxi.rst
-> similarity index 100%
-> rename from Documentation/arm/sunxi.rst
-> rename to Documentation/arch/arm/sunxi.rst
-> diff --git a/Documentation/arm/sunxi/clocks.rst b/Documentation/arch/arm/sunxi/clocks.rst
-> similarity index 100%
-> rename from Documentation/arm/sunxi/clocks.rst
-> rename to Documentation/arch/arm/sunxi/clocks.rst
-> diff --git a/Documentation/arm/swp_emulation.rst b/Documentation/arch/arm/swp_emulation.rst
-> similarity index 100%
-> rename from Documentation/arm/swp_emulation.rst
-> rename to Documentation/arch/arm/swp_emulation.rst
-> diff --git a/Documentation/arm/tcm.rst b/Documentation/arch/arm/tcm.rst
-> similarity index 100%
-> rename from Documentation/arm/tcm.rst
-> rename to Documentation/arch/arm/tcm.rst
-> diff --git a/Documentation/arm/uefi.rst b/Documentation/arch/arm/uefi.rst
-> similarity index 100%
-> rename from Documentation/arm/uefi.rst
-> rename to Documentation/arch/arm/uefi.rst
-> diff --git a/Documentation/arm/vfp/release-notes.rst b/Documentation/arch/arm/vfp/release-notes.rst
-> similarity index 100%
-> rename from Documentation/arm/vfp/release-notes.rst
-> rename to Documentation/arch/arm/vfp/release-notes.rst
-> diff --git a/Documentation/arm/vlocks.rst b/Documentation/arch/arm/vlocks.rst
-> similarity index 100%
-> rename from Documentation/arm/vlocks.rst
-> rename to Documentation/arch/arm/vlocks.rst
-> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-> index 80ee31016584..21e3d0b61004 100644
-> --- a/Documentation/arch/index.rst
-> +++ b/Documentation/arch/index.rst
-> @@ -10,7 +10,7 @@ implementation.
->      :maxdepth: 2
->   
->      arc/index
-> -   ../arm/index
-> +   arm/index
->      ../arm64/index
->      ia64/index
->      ../loongarch/index
-> diff --git a/Documentation/translations/zh_CN/arm/Booting b/Documentation/translations/zh_CN/arm/Booting
-> index 5ecea0767893..f18585156b67 100644
-> --- a/Documentation/translations/zh_CN/arm/Booting
-> +++ b/Documentation/translations/zh_CN/arm/Booting
-> @@ -1,4 +1,4 @@
-> -Chinese translated version of Documentation/arm/booting.rst
-> +Chinese translated version of Documentation/arch/arm/booting.rst
->   
->   If you have any comment or update to the content, please contact the
->   original document maintainer directly.  However, if you have a problem
-> @@ -9,7 +9,7 @@ or if there is a problem with the translation.
->   Maintainer: Russell King <linux@arm.linux.org.uk>
->   Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
->   ---------------------------------------------------------------------
-> -Documentation/arm/booting.rst 的中文翻译
-> +Documentation/arch/arm/booting.rst 的中文翻译
->   
->   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
->   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-> diff --git a/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt b/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-> index 99af4363984d..018eb7d54233 100644
-> --- a/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-> +++ b/Documentation/translations/zh_CN/arm/kernel_user_helpers.txt
-> @@ -1,4 +1,4 @@
-> -Chinese translated version of Documentation/arm/kernel_user_helpers.rst
-> +Chinese translated version of Documentation/arch/arm/kernel_user_helpers.rst
->   
->   If you have any comment or update to the content, please contact the
->   original document maintainer directly.  However, if you have a problem
-> @@ -10,7 +10,7 @@ Maintainer: Nicolas Pitre <nicolas.pitre@linaro.org>
->   		Dave Martin <dave.martin@linaro.org>
->   Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
->   ---------------------------------------------------------------------
-> -Documentation/arm/kernel_user_helpers.rst 的中文翻译
-> +Documentation/arch/arm/kernel_user_helpers.rst 的中文翻译
->   
->   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
->   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-
+SGkgSGFuanVuLCBSb2JpbiwNCg0KPiBPbiAyMDIzLTA1LTE5IDA4OjEwLCBIYW5qdW4gR3VvIHdy
+b3RlOg0KPiA+IE9uIDIwMjMvNS8xOCAyMTo0MCwgUm9iaW4gTXVycGh5IHdyb3RlOg0KPiA+PiBP
+biAyMDIzLTA1LTE4IDEzOjA3LCBIYW5qdW4gR3VvIHdyb3RlOg0KPiA+Pj4gSGkgSm9zZSwNCj4g
+Pj4+DQo+ID4+PiBPbiAyMDIzLzUvMTggMTg6NTIsIEpvc2UgTWFyaW5obyB3cm90ZToNCj4gPj4+
+PiBUaGUgQkJSIHNwZWNpZmljYXRpb24gcmVxdWlyZXMgKG9yIGNvbmRpdGlvbmFsbHkgcmVxdWly
+ZXMpIGEgc2V0IG9mDQo+ID4+Pj4gQUNQSSB0YWJsZXMgZm9yIGEgcHJvcGVyIHdvcmtpbmcgc3lz
+dGVtLg0KPiA+Pj4+IFRoaXMgY29tbWl0IHVwZGF0ZXM6DQo+ID4+Pj4gLSB0aGUgbGlzdCBvZiBB
+Q1BJIHRhYmxlcyB0byByZWZsZWN0IHRoZSBjb250ZW50cyBvZiBCQlIgdmVyc2lvbg0KPiA+Pj4+
+IDIuMCAoc2VlIGh0dHBzOi8vZGV2ZWxvcGVyLmFybS5jb20vZG9jdW1lbnRhdGlvbi9kZW4wMDQ0
+L2cpLg0KPiA+Pj4+IC0gdGhlIGxpc3Qgb2YgQUNQSSB0YWJsZXMgaW4gYWNwaV9vYmplY3RfdXNh
+Z2UuIFRoaXMgbGFzdCB1cGRhdGUNCj4gPj4+PiBlbnN1cmVzIHRoYXQgYm90aCBmaWxlcyByZW1h
+aW4gY29oZXJlbnQuDQo+ID4+Pg0KPiA+Pj4gVGhhbmtzIGZvciB0aGUgdXBkYXRlLCBzb21lIGNv
+bW1lbnRzIGlubGluZS4NCj4gPj4+DQo+ID4+Pj4NCj4gPj4+PiBTaWduZWQtb2ZmLWJ5OiBKb3Nl
+IE1hcmluaG8gPGpvc2UubWFyaW5ob0Bhcm0uY29tPg0KPiA+Pj4+IFJldmlld2VkLWJ5OiBTYW1l
+ciBFbC1IYWotTWFobW91ZCA8U2FtZXIuRWwtSGFqLQ0KPiBNYWhtb3VkQGFybS5jb20+DQo+ID4+
+Pj4gLS0tDQo+ID4+Pj4gwqAgRG9jdW1lbnRhdGlvbi9hcm02NC9hY3BpX29iamVjdF91c2FnZS5y
+c3QgfCA4MQ0KPiA+Pj4+ICsrKysrKysrKysrKysrKysrKysrKy0tDQo+ID4+Pj4gwqAgRG9jdW1l
+bnRhdGlvbi9hcm02NC9hcm0tYWNwaS5yc3TCoMKgwqDCoMKgwqDCoMKgwqAgfCA3MQ0KPiA+Pj4+
+ICsrKysrKysrKysrKysrKysrLS0tDQo+ID4+Pj4gwqAgMiBmaWxlcyBjaGFuZ2VkLCAxMzkgaW5z
+ZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pDQo+ID4+Pj4NCj4gPj4+PiBkaWZmIC0tZ2l0IGEv
+RG9jdW1lbnRhdGlvbi9hcm02NC9hY3BpX29iamVjdF91c2FnZS5yc3QNCj4gPj4+PiBiL0RvY3Vt
+ZW50YXRpb24vYXJtNjQvYWNwaV9vYmplY3RfdXNhZ2UucnN0DQo+ID4+Pj4gaW5kZXggNDg0ZWY5
+Njc2NjUzLi4xZGEyMjIwMGZkZjggMTAwNjQ0DQo+ID4+Pj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9h
+cm02NC9hY3BpX29iamVjdF91c2FnZS5yc3QNCj4gPj4+PiArKysgYi9Eb2N1bWVudGF0aW9uL2Fy
+bTY0L2FjcGlfb2JqZWN0X3VzYWdlLnJzdA0KPiA+Pj4+IEBAIC0xNywxNiArMTcsMzcgQEAgRm9y
+IEFDUEkgb24gYXJtNjQsIHRhYmxlcyBhbHNvIGZhbGwgaW50byB0aGUNCj4gPj4+PiBmb2xsb3dp
+bmcgY2F0ZWdvcmllczoNCj4gPj4+PiDCoMKgwqDCoMKgwqDCoMKgIC3CoCBSZWNvbW1lbmRlZDog
+QkVSVCwgRUlOSiwgRVJTVCwgSEVTVCwgUENDVCwgU1NEVA0KPiA+Pj4+IC3CoMKgwqDCoMKgwqAg
+LcKgIE9wdGlvbmFsOiBCR1JULCBDUEVQLCBDU1JULCBEQkcyLCBEUlRNLCBFQ0RULCBGQUNTLA0K
+PiA+Pj4+IEZQRFQsIElCRlQsDQo+ID4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoCBJT1JULCBNQ0hJ
+LCBNUFNULCBNU0NULCBORklULCBQTVRULCBSQVNGLCBTQlNULCBTTElULA0KPiA+Pj4+IFNQTUks
+IFNSQVQsDQo+ID4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoCBTVEFPLCBUQ1BBLCBUUE0yLCBVRUZJ
+LCBYRU5WDQo+ID4+Pj4gK8KgwqDCoMKgwqDCoCAtwqAgT3B0aW9uYWw6IEFHREksIEJHUlQsIENF
+RFQsIENQRVAsIENTUlQsIERCRzIsIERSVE0sDQo+ID4+Pj4gK0VDRFQsDQo+ID4+Pj4gRkFDUywg
+RlBEVCwNCj4gPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgIEhNQVQsIElCRlQsIElPUlQsIE1DSEks
+IE1QQU0sIE1QU1QsIE1TQ1QsIE5GSVQsIFBNVFQsDQo+ID4+Pj4gUFBUVCwgUkFTRiwgU0JTVCwN
+Cj4gPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgIFNERUksIFNMSVQsIFNQTUksIFNSQVQsIFNUQU8s
+IFRDUEEsIFRQTTIsIFVFRkksIFhFTlYNCj4gPj4+PiAtwqDCoMKgwqDCoMKgIC3CoCBOb3Qgc3Vw
+cG9ydGVkOiBCT09ULCBEQkdQLCBETUFSLCBFVERULCBIUEVULCBJVlJTLCBMUElULA0KPiA+Pj4+
+IE1TRE0sIE9FTXgsDQo+ID4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoCBQU0RULCBSU0RULCBTTElD
+LCBXQUVULCBXREFULCBXRFJULCBXUEJUDQo+ID4+Pj4gK8KgwqDCoMKgwqDCoCAtwqAgTm90IHN1
+cHBvcnRlZDogQUVTVCwgQVBNVCwgQk9PVCwgREJHUCwgRE1BUiwgRVREVCwgSFBFVCwNCj4gPj4+
+PiBJVlJTLCBMUElULA0KPiA+Pj4NCj4gPj4+IEFFU1QgaXMgQVJNIEVycm9yIFNvdXJjZSBUYWJs
+ZSwgYW5kIGl0IGNhbiBiZSB1c2VkIGZvciBBUk0NCj4gPj4+IHBsYXRmb3Jtcywgc28gSSB0aGlu
+c2sgQUVTVCBpcyBub3QgYmVsb25nIHRvICJOb3Qgc3VwcG9ydHRlZCIsICJPcHRpb25hbCINCj4g
+aW5zdGVhZC4NCj4gPj4NCj4gPj4gQ2FuIHlvdSBwb2ludCB0byB0aGUgY29kZSBpbiBMaW51eCB3
+aGljaCBkb2VzIGFueXRoaW5nIHdpdGggQUVTVCwNCj4gPj4gb3B0aW9uYWxseSBvciBvdGhlcndp
+c2U/IDspDQo+ID4+PiBhbmQgQVBNVCBpcyB0aGUgc2FtZS4NCj4gPj4+DQo+ID4+Pj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoCBNU0RNLCBPRU14LCBQRFRULCBQU0RULCBSQVMyLCBSU0RULCBTTElDLCBX
+QUVULCBXREFULA0KPiA+Pj4+IFdEUlQsIFdQQlQNCj4gPj4+DQo+ID4+PiBQRFRUIGFuZCBSQVMy
+IGFyZSBub3cgdXNlZCBmb3IgQVJNIHRvbywgcGxlYXNlIG1vdmUgaXQgdG8gT3B0aW9uYWwNCj4g
+Pj4+IDopDQoNClRoZSA2LjMga2VybmVsIGRvZXMgbm90IHlldCBoYXZlIGNvZGUgY29uc3VtaW5n
+IGVpdGhlciB0YWJsZS4NCg0KUGVyaGFwcyB0aGUgY2F0ZWdvcmllcyB7IlJlcXVpcmVkIiwgIlJl
+Y29tbWVuZGVkIiwgIk9wdGlvbmFsIiwgIk5vdCBzdXBwb3J0ZWQifQ0KbGlzdGVkIGluIERvY3Vt
+ZW50YXRpb24vYXJtNjQvYWNwaV9vYmplY3RfdXNhZ2UucnN0IHNob3VsZCBiZSBkZWZpbmVkLg0K
+DQpNeSBvcGluaW9uICh3aGljaCBtYXkgYmUgdW5hbGlnbmVkIHdpdGggdGhlIG9yaWdpbmFsIGlu
+dGVudCBiZWhpbmQgdGhlIGNhdGVnb3JpZXMpIGlzLCBJZiBhIHRhYmxlIA0KaXMgY29uc3VtZWQg
+Ynkga2VybmVsIGNvZGUsIHRoZW4gaXQgaXMgc3VwcG9ydGVkLCBpLmUuIGluIHsiUmVxdWlyZWQi
+LCAiUmVjb21tZW5kZWQiLCAiT3B0aW9uYWwifS4NCk90aGVyd2lzZSwgdGhlIHRhYmxlIGlzICJO
+b3Qgc3VwcG9ydGVkIi4NCg0KPiA+Pg0KPiA+PiBEaXR0bzsgYXMgc3RhdGVkIGluIGFybS1hY3Bp
+LnJzdCB0aGlzIGlzIExpbnV4IGRvY3VtZW50YXRpb24gY292ZXJpbmcNCj4gPj4gdGhlIGludGVy
+YWN0aW9uIGJldHdlZW4gTGludXggYW5kIEFDUEkuIEl0IGlzIG5vdCBzb21lIGtpbmQgb2YNCj4g
+Pj4gZ2VuZXJpYw0KPiA+DQo+ID4gSG1tLCBsZXQgbWUgc2VlLi4uDQo+ID4NCj4gPiBPSywgSSBj
+aGVja2VkIHRoZSBhcm0tYWNwaS5yc3QsIGl0IGlzIHNheWluZzoNCj4gPg0KPiA+ICJEZXRhaWxl
+ZCBleHBlY3RhdGlvbnMgZm9yIEFDUEkgdGFibGVzIGFuZCBvYmplY3QgYXJlIGxpc3RlZCBpbiB0
+aGUNCj4gPiBmaWxlIERvY3VtZW50YXRpb24vYXJtNjQvYWNwaV9vYmplY3RfdXNhZ2UucnN0LiIN
+Cj4gPg0KPiA+IFNvIGlmIEkgcmVtZW1iZXIgY29ycmVjdGx5LCBpdCBpcyB0aGUgZ3VpZGFuY2Ug
+b2YgQUNQSSB0YWJsZXMgYW5kDQo+ID4gbWV0aG9kcyB1c2FnZSBvbiBhcm02NCwgdG8gYWxpZ24g
+d2l0aCB0aGUgQkJSLg0KPiANCj4gIlRoZSBwdXJwb3NlIG9mIHRoaXMgZG9jdW1lbnQgaXMgdG8g
+ZGVzY3JpYmUgdGhlIGludGVyYWN0aW9uIGJldHdlZW4gQUNQSQ0KPiBhbmQgTGludXggb25seSwg
+b24gYW4gQVJNdjggc3lzdGVtIC0tIHRoYXQgaXMsIHdoYXQgTGludXggZXhwZWN0cyBvZiBBQ1BJ
+DQo+IGFuZCB3aGF0IEFDUEkgY2FuIGV4cGVjdCBvZiBMaW51eC4iDQo+IA0KPiBJIGRvbid0IHNl
+ZSBob3cgaXQgY291bGQgZ2V0IG11Y2ggY2xlYXJlciB0aGFuIHRoYXQuIFllcywgcGhyYXNpbmcg
+bGlrZSAiQUNQSQ0KPiBvbiBhcm02NCIgaXMgdXNlZCBlbHNld2hlcmUsIGJ1dCByZW1lbWJlciB0
+aGF0IGluIGNvbnRleHQgImFybTY0Ig0KPiBtZWFucyAiQUFyY2g2NCBMaW51eCIuDQo+IA0KPiA+
+PiBBQ1BJLW9uLUFybSBndWlkYW5jZSB3aGl0ZXBhcGVyLiBJZiBhbmQgd2hlbiBMaW51eCBhY3R1
+YWxseSBzdXBwb3J0cw0KPiA+PiB0aGVzZSB0YWJsZXMgaW4gdGhlIHNlbnNlIG9mIG1lYW5pbmdm
+dWxseSBjb25zdW1pbmcgdGhlbSwgdGhhdCBpcw0KPiA+PiB3aGVuIHdlIGNhbiBkb2N1bWVudCBz
+dWNoIHN1cHBvcnQuDQo+ID4NCj4gPiBJZiB0aGlzIGlzIHRoZSBjYXNlLCB3ZSBkb24ndCBuZWVk
+IGNhdGVnb3JpZXMgb2YgIlJlcXVpcmVkIiwNCj4gPiAiUmVjb21tbWVuZWQiIGFuZCBldGMuDQo+
+IA0KPiBDZXJ0YWlubHkgdGhlIGRpc3RpbmN0aW9uIGJldHdlZW4gcmVxdWlyZWQgYW5kIG9wdGlv
+bmFsIGlzIHNpZ25pZmljYW50IGFuZA0KPiB1c2VmdWwsIHNpbmNlIExpbnV4IG1heSBmYWlsIHRv
+IGJvb3QgYXQgYWxsIGlmIGEgcmVxdWlyZWQgdGFibGUgaXMgbWlzc2luZy4gSSdkDQo+IGFncmVl
+IEkgY2FuJ3QgcmVhbGx5IG1ha2Ugc2Vuc2Ugb2YgdGhlICJyZWNvbW1lbmRlZCINCj4gY2F0ZWdv
+cnkgdGhvdWdoIC0gaXQncyBub3QgbGlrZSBmaXJtd2FyZSBjb3VsZCBtYWtlIHVwIFJBUyBzdXBw
+b3J0IGlmIHRoZQ0KPiBoYXJkd2FyZSBkb2Vzbid0IGhhdmUgaXQsIGFuZCB3aGV0aGVyIFNTRFRz
+IGFyZSBhcHByb3ByaWF0ZSBvciBub3Qgc2VlbXMNCj4gdG8gZGVwZW5kIG9uIHRoZSBmdW5kYW1l
+bnRhbCBkZXNpZ24gb2YgdGhlIHN5c3RlbSwgcmF0aGVyIHRoYW4gYmVpbmcNCj4gc29tZXRoaW5n
+IGFuIE9TIHNob3VsZCBkaWN0YXRlIDovDQo+IA0KDQpJIGFncmVlIHdpdGggUm9iaW4gdGhhdCBp
+dCBpc27igJl0IGNsZWFyIHdoYXQgIlJlY29tbWVuZGVkIiB2ZXJzdXMgIk9wdGlvbmFsIiBzaWdu
+aWZpZXMuDQpNYXliZSB0aGUgZGlzdGluY3Rpb24gc2hvdWxkIGJlIGJldHRlciBkaXNjdXNzZWQs
+IGFuZCB3ZSBjYW4gbWFrZSB0aG9zZSBjbGFyaWZpY2F0aW9ucyBpbiBhIHNlcGFyYXRlIGNoYW5n
+ZT8NCg0KPiBIb3dldmVyIHRoYXQncyBzb21ldGhpbmcgd2UgY2FuIHRoaW5rIGFib3V0IHNlcGFy
+YXRlbHksIHNpbmNlIGl0J3MNCj4gb3J0aG9nb25hbCB0byB0aGlzIGNvbnRlbnQgdXBkYXRlLg0K
+PiANCj4gVGhhbmtzLA0KPiBSb2Jpbi4NCg==
