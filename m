@@ -2,173 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A35C77B73
-	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 19:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 687B5C7EE2F
+	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 20:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235363AbjEVTto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 15:49:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43960 "EHLO
+        id S234647AbjEVU6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 16:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235357AbjEVTtn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 15:49:43 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 992AFA3;
-        Mon, 22 May 2023 12:49:41 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-2532d6c7ef2so2837679a91.0;
-        Mon, 22 May 2023 12:49:41 -0700 (PDT)
+        with ESMTP id S234641AbjEVU6l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 16:58:41 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D2DC19D
+        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 13:58:30 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-2533a03388dso4429868a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 13:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684784981; x=1687376981;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ko/ib0DbbBIkYeF2ySdhWs5YudE4zxsP9MRqrw+BLoI=;
-        b=BHPHExlQjMdC1v2AlWCLoTJz495eSqFbI+OF9by02n2sfozwxdUWrjSK+k5DNG+tFM
-         0jXmVCZy15YjYtpqRupyHQWDzCgOMrfYB8x7fusFUnIIOy7OWv+0Ur+/tulnIG8ionbK
-         5ACCwNe65d9/G8bQONpgwu7gPsz6di3IeHfd9NgbznMRGplWO/LSP66bzPAlIxFbTuhp
-         l0EohHPfuCQsy8XwLElVEnFKB8GUXEZXoPVpbwGRG8kjSvspXtSzoW+59K8LbNccSI+U
-         Zy8GgtoF7Ak+whIz33YDy2AXryq4EL7GgumSVCjXzPWRAWU/tu4xO1EHkrANlY42nsDJ
-         T/6w==
+        d=chromium.org; s=google; t=1684789109; x=1687381109;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YXcDp+9WnYXQQ8kzzUbP3R21GvXgk1x8osyoI1bp1So=;
+        b=oU2I2ROs4mi0M7l2FNvk5YXCuVWnzyk9mtidGKRoiOk5LaLFDN45ANR9REntIN5k75
+         +7Auu97ZCX/Qi5rZe1E43LRdahoqPgK2PPtSqaVy5DF8hBGH5uCzFDlBE+Y3nQ+oEbxX
+         v/f6/N8P/+S3+pEQpwruIzVYdXFaK6OgoY5ec=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684784981; x=1687376981;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ko/ib0DbbBIkYeF2ySdhWs5YudE4zxsP9MRqrw+BLoI=;
-        b=gUQwOXGp3T4TtQzPgdNYBbIrN+O/J9td8y7Hkk8bI3ybJjX65wtwMW/bOruYgZml41
-         inPZ4Vr6nzQT/wwKJG9sVA1k6pDDjIx74kfkHZiPA2lW9O3DMBEQM+tZjgnw0VanWNVb
-         t6a1Dm2Ll6Rd63sFHJqMfP16JTKgU93jXG2xFzX0+cNsA0Mi425cNtmcLAQplBVXO4lg
-         ktCybJKHPNmc6HbepjhkLddwfyUsRNmSYRrxUexvNLDTQzfdeEyUwEqknHDoX2oMpMMM
-         U3F0HiW0pyTRMiS9NS3tOM36oFpUszwsjOQvkTTeA8ePq2YQPZ7skGzX+Q5AS6DzLFAB
-         Ox8A==
-X-Gm-Message-State: AC+VfDxvIlOhfERAB8sTrKIJCUcBUPlw+dlxmBOh0bAFR/iYXPbFQx/M
-        UjX6n9aEAnZi69E5OeAEOvo=
-X-Google-Smtp-Source: ACHHUZ5QZsEXUqRwS+75+b0XYbOYkR60j+9cNSvxOsTssb9PY6x40z/YDZ9Ic1uwFVbvFMQpA6XbIg==
-X-Received: by 2002:a17:90a:3189:b0:250:648b:781d with SMTP id j9-20020a17090a318900b00250648b781dmr16653356pjb.23.1684784980565;
-        Mon, 22 May 2023 12:49:40 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:39c])
-        by smtp.gmail.com with ESMTPSA id gj19-20020a17090b109300b0024e4f169931sm6335848pjb.2.2023.05.22.12.49.39
+        d=1e100.net; s=20221208; t=1684789109; x=1687381109;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YXcDp+9WnYXQQ8kzzUbP3R21GvXgk1x8osyoI1bp1So=;
+        b=WXZat5Vwyf1y8q4TN/FZWG3FC+3x2aXAYwpIxcForjNJ5Xcpp5DvAtqIWPb3hlIpDI
+         OH5dZoCXI+evzT9lgxnaI9gnSuwnZDaYWJ4s4e7PENZk7kwENR23x9qdKgVeF+eU4H1P
+         zHet8b2YkPqjEDVIK1Wx5vrIfvAcJ/mz3/v5+bEKyhnBbfl9RkGkLgf71TBt4qYxc+sR
+         0Nztf/o7zhp101mh3iPJjf92uhu5RL3w64zVubAtataqLn7rLduQjjvv6Ed6obKmQ62r
+         gAWclFJsJFafPFE2q52LomDGfp99Ewke2w+20mJH9oBB03eRYOM9JZNlebxKxYkrYdut
+         y3rg==
+X-Gm-Message-State: AC+VfDw6r82df+N9pZvupw1Xx4hWuzjhTRlyQroS+Uyd0eyrKPc2KBRK
+        ksrwae0M4STZ7iisbavJbw6Asg==
+X-Google-Smtp-Source: ACHHUZ5xWwngfsZNKPu1p9KpeSjcsXo4wq99/sjLIBhRb1f+J1o/JpC3tSO95mNeCoBZdEfu/9KP1Q==
+X-Received: by 2002:a17:90a:d302:b0:23f:2661:f94c with SMTP id p2-20020a17090ad30200b0023f2661f94cmr11619408pju.47.1684789109523;
+        Mon, 22 May 2023 13:58:29 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id d61-20020a17090a6f4300b0024dfbac9e2fsm6803551pjk.21.2023.05.22.13.58.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 12:49:40 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 22 May 2023 09:49:38 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
-Message-ID: <ZGvHUjOCjwat91Gq@slm.duckdns.org>
-References: <ZDmOjeBVsIcgSLIV@slm.duckdns.org>
- <60ec12dc-943c-b8f0-8b6f-97c5d332144c@redhat.com>
- <46d26abf-a725-b924-47fa-4419b20bbc02@redhat.com>
- <jqkf7jkuyxqiupmxmdbmpnbpojub2pjsz3oogwncmwqdghlsgk@phsqzirmmlyl>
- <f2bd7b1e-190e-1d08-f085-b4cae36fb5be@redhat.com>
- <ZFGOTHQj3k5rzmyR@blackbook>
- <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
- <ZFUo5IYAIwTEKR4_@slm.duckdns.org>
- <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
- <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
+        Mon, 22 May 2023 13:58:29 -0700 (PDT)
+Date:   Mon, 22 May 2023 13:58:28 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     linux-kernel@vger.kernel.org, akiyks@gmail.com,
+        boqun.feng@gmail.com, corbet@lwn.net, linux-arch@vger.kernel.org,
+        linux@armlinux.org.uk, linux-doc@vger.kernel.org,
+        paulmck@kernel.org, peterz@infradead.org, sstabellini@kernel.org,
+        will@kernel.org
+Subject: Re: [PATCH 00/26] locking/atomic: restructuring + kerneldoc
+Message-ID: <202305221356.32A50E3@keescook>
+References: <20230522122429.1915021-1-mark.rutland@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
+In-Reply-To: <20230522122429.1915021-1-mark.rutland@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, Waiman.
+On Mon, May 22, 2023 at 01:24:03PM +0100, Mark Rutland wrote:
+> The patches are based on the tip tree's locking/core branch,
+> specifically commit:
+> 
+>   3cf363a4daf359e8 ("s390/cpum_sf: Convert to cmpxchg128()")
 
-On Sun, May 07, 2023 at 09:03:44PM -0400, Waiman Long wrote:
-...
->   cpuset.cpus.reserve
->     A read-write multiple values file which exists only on root
->     cgroup.
-> 
->     It lists all the CPUs that are reserved for adjacent and remote
->     partitions created in the system.  See the next section for
->     more information on what an adjacent or remote partitions is.
-> 
->     Creation of adjacent partition does not require touching this
->     control file as CPU reservation will be done automatically.
->     In order to create a remote partition, the CPUs needed by the
->     remote partition has to be written to this file first.
-> 
->     A "+" prefix can be used to indicate a list of additional
->     CPUs that are to be added without disturbing the CPUs that are
->     originally there.  For example, if its current value is "3-4",
->     echoing ""+5" to it will change it to "3-5".
->
->     Once a remote partition is destroyed, its CPUs have to be
->     removed from this file or no other process can use them.  A "-"
->     prefix can be used to remove a list of CPUs from it.  However,
->     removing CPUs that are currently used in existing partitions
->     may cause those partitions to become invalid.  A single "-"
->     character without any number can be used to indicate removal
->     of all the free CPUs not allocated to any partitions to avoid
->     accidental partition invalidation.
+I did successful builds of:
 
-Why is the syntax different from .cpus? Wouldn't it be better to keep them
-the same?
+m68k
+parisc
+sh4
+sparc64
+arm
+arm64
+i386
+x86_64
 
->   cpuset.cpus.partition
->     A read-write single value file which exists on non-root
->     cpuset-enabled cgroups.  This flag is owned by the parent cgroup
->     and is not delegatable.
-> 
->     It accepts only the following input values when written to.
-> 
->       ==========    =====================================
->       "member"    Non-root member of a partition
->       "root"    Partition root
->       "isolated"    Partition root without load balancing
->       ==========    =====================================
-> 
->     A cpuset partition is a collection of cgroups with a partition
->     root at the top of the hierarchy and its descendants except
->     those that are separate partition roots themselves and their
->     descendants.  A partition has exclusive access to the set of
->     CPUs allocated to it.  Other cgroups outside of that partition
->     cannot use any CPUs in that set.
-> 
->     There are two types of partitions - adjacent and remote.  The
->     parent of an adjacent partition must be a valid partition root.
->     Partition roots of adjacent partitions are all clustered around
->     the root cgroup.  Creation of adjacent partition is done by
->     writing the desired partition type into "cpuset.cpus.partition".
-> 
->     A remote partition does not require a partition root parent.
->     So a remote partition can be formed far from the root cgroup.
->     However, its creation is a 2-step process.  The CPUs needed
->     by a remote partition ("cpuset.cpus" of the partition root)
->     has to be written into "cpuset.cpus.reserve" of the root
->     cgroup first.  After that, "isolated" can be written into
->     "cpuset.cpus.partition" of the partition root to form a remote
->     isolated partition which is the only supported remote partition
->     type for now.
-> 
->     All remote partitions are terminal as adjacent partition cannot
->     be created underneath it.
-
-Can you elaborate this extra restriction a bit further?
-
-In general, I think it'd be really helpful if the document explains the
-reasoning behind the design decisions. ie. Why is reserving for? What
-purpose does it serve that the regular isolated ones cannot? That'd help
-clarifying the design decisions.
-
-Thanks.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
-tejun
+Kees Cook
