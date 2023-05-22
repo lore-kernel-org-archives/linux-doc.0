@@ -2,103 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 865DBC77B75
-	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 22:46:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED23EC77B73
+	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 23:09:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234927AbjEVWqr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 18:46:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48942 "EHLO
+        id S229886AbjEVXJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 19:09:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234703AbjEVWqm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 18:46:42 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA26109;
-        Mon, 22 May 2023 15:46:40 -0700 (PDT)
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34MKOOQj021249;
-        Mon, 22 May 2023 22:46:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2023-03-30;
- bh=jBkF9Iwl3VGmV4YD/DiO7Vduyh84oEogKnoF2BSAbdk=;
- b=tvUqootR64P7mDuxM5OykobdagzGnAw+ADfTCi9RNxb9dkiJxc1YUDlm5axOiW7cgzRg
- M3Y8S2TE/RQ/lek1d30fJpqr0MA0Y4faT8yBvmg2hGtE4XIf5eNlODNpz/DQOdB9pGPV
- zEas6JNS7AtiATTJvnJrTgZb/8I+LpHOITNQ94K/5e887c2vZN3PLv0EmWbJljEhzfUQ
- dOsHKDoJMF/CdJ7nyr9rSZU09ad5T3mBMqshba/DOv1fgdaUEeME5aJcvrso/8Ja9eL8
- 5R1MjwjSlOhZymJCmRRCJ3w/bl6gVhrtugKIsKV+e9Ns9VdBmTrEr92ZcuoRGimYsHzL bg== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qpp5bku4s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 May 2023 22:46:32 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 34MLrZsC027323;
-        Mon, 22 May 2023 22:46:31 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3qqk2ctfcj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 May 2023 22:46:31 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34MMkPxc017332;
-        Mon, 22 May 2023 22:46:30 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3qqk2ctfa8-5;
-        Mon, 22 May 2023 22:46:30 +0000
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-To:     Linux SCSI <linux-scsi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kernel Janitors <kernel-janitors@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Oliver Neukum <oliver@neukum.org>,
-        Ali Akcaagac <aliakc@web.de>,
-        Jamie Lenehan <lenehan@twibble.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 0/3] dc395x stale reference cleanup
-Date:   Mon, 22 May 2023 18:46:16 -0400
-Message-Id: <168479035950.1118074.6844851556275166076.b4-ty@oracle.com>
+        with ESMTP id S229556AbjEVXJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 19:09:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49266C6
+        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 16:09:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D93E962CA0
+        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 23:09:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA959C433D2;
+        Mon, 22 May 2023 23:09:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684796958;
+        bh=Wrav6ArXr6FrlYNmND7DFocrKkrHXfOrYo7K3ROROIo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lFEaHWzV5mmnxiOZ+DHOSWTBlNvHwxMaPPLaegTQIm0qJaN2S6GG0UOgIS/wTfsFK
+         /+HrGTXU6vG+GTxXZ/iz1F69DNoNuJ+DqVBOBMS6eJNiKoR//tUZFmF0+ZVLDB82t/
+         RnEmJOtb0Yp2LHD/hDZzGfzwB5dkTr9ijBsFA7GIHL7WdDMLS/V2cr2Tnlxi9uCbGA
+         jzyqI/ZPCtcbOnD13zWROGIf7frurlmIT36n34DcQaj9wi08RKMpGWxjkhHy6WmZTO
+         ET2wodggGvI2HlfIXkUwnVM5lfPyeT7KVqzLUfPj3WAwqKAIEB3lbqJpkLUHXYwEB4
+         m0XxPw1wjeigA==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        andrew@lunn.ch, Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net] docs: netdev: document the existence of the mail bot
+Date:   Mon, 22 May 2023 16:09:03 -0700
+Message-Id: <20230522230903.1853151-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230510093933.19985-1-bagasdotme@gmail.com>
-References: <20230510093933.19985-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-22_16,2023-05-22_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=614 phishscore=0
- malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305220192
-X-Proofpoint-GUID: k3t2HNhSIWTlQrDQzIPa6gTrpTd65s_8
-X-Proofpoint-ORIG-GUID: k3t2HNhSIWTlQrDQzIPa6gTrpTd65s_8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 10 May 2023 16:39:30 +0700, Bagas Sanjaya wrote:
+We had a good run, but after 4 weeks of use we heard someone
+asking about pw-bot commands. Let's explain its existence
+in the docs. It's not a complete documentation but hopefully
+it's enough for the casual contributor. The project and scope
+are in flux so the details would likely become out of date,
+if we were to document more in depth.
 
-> A small stale reference cleanup series for DC395x driver. The shortlog
-> below should be self-explanatory.
-> 
-> This series is based on fixes branch of scsi tree.
-> 
-> Changes since v1 [1]:
->   * Do not explicitly mention linux-scsi list in MAINTAINERS
->   * Keep the attribution to the 2.4 driver but reword it to remove mention
->     to 2.5/2.6 version
->   * Use web.archive.org snapshot of 2.4 driver link.
-> 
-> [...]
+Link: https://lore.kernel.org/all/20230522140057.GB18381@nucnuc.mle/
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 33 ++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 7 deletions(-)
 
-Applied to 6.5/scsi-queue, thanks!
-
-[1/3] MAINTAINERS: Drop DC395x list and site
-      https://git.kernel.org/mkp/scsi/c/332aac6f0dc0
-[2/3] Documentation: scsi: dc395x: Replace non-functional twibble.org list
-      https://git.kernel.org/mkp/scsi/c/7a94a131aa10
-[3/3] Documentation: scsi: dc395x: Reword original driver attribution
-      https://git.kernel.org/mkp/scsi/c/16853cd8f6d4
-
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index f73ac9e175a8..83614cec9328 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -127,13 +127,32 @@ the value of ``Message-ID`` to the URL above.
+ Updating patch status
+ ~~~~~~~~~~~~~~~~~~~~~
+ 
+-It may be tempting to help the maintainers and update the state of your
+-own patches when you post a new version or spot a bug. Please **do not**
+-do that.
+-Interfering with the patch status on patchwork will only cause confusion. Leave
+-it to the maintainer to figure out what is the most recent and current
+-version that should be applied. If there is any doubt, the maintainer
+-will reply and ask what should be done.
++Contributors and reviewers do not have the permissions to update patch
++state directly in patchwork. Patchwork doesn't expose much information
++about the history of the state of patches, therefore having multiple
++people update the state leads to confusion.
++
++Instead of delegating patchwork permissions netdev uses a simple mail
++bot which looks for special commands/lines within the emails sent to
++the mailing list. For example to mark a series as Changes Requested
++one needs to send the following line anywhere in the email thread::
++
++  pw-bot: changes-requested
++
++As a result the bot will set the entire series to Changes Requested.
++This may be useful when author discovers a bug in their own series
++and wants to prevent it from getting applied.
++
++The use of the bot is entirely optional, if in doubt ignore its existence
++completely. Maintainers will classify and update the state of the patches
++themselves. No email should ever be sent to the list with the main purpose
++of communicating with the bot, the bot commands should be seen as metadata.
++
++The use of the bot is restricted to authors of the patches (the ``From:``
++header on patch submission and command must match!), maintainers themselves
++and a handful of senior reviewers. Bot records its activity here:
++
++  https://patchwork.hopto.org/pw-bot.html
+ 
+ Review timelines
+ ~~~~~~~~~~~~~~~~
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.40.1
+
