@@ -2,258 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB33C77B73
-	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 13:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C651C7EE26
+	for <linux-doc@archiver.kernel.org>; Mon, 22 May 2023 13:03:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234171AbjEVNCD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 09:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59634 "EHLO
+        id S233838AbjEVNDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 09:03:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234185AbjEVNBw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 09:01:52 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3FB129;
-        Mon, 22 May 2023 06:01:47 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-64d2f99c8c3so2375942b3a.0;
-        Mon, 22 May 2023 06:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684760507; x=1687352507;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S7AZ61ddh8+0XBbzlhbc03FM22aCLhrMtx3Nb3aNYcU=;
-        b=GrwKh8UC+7WMW9MKOlsOzyTW/zeV1qPTa7UfYOnG5m3GUX1vjnE3RNKFYB0zzOdRT2
-         XkJPBcgim20+unI/2Lvih/HUVRucWf6+CojV/n272lerkxJQPZMWiFt+9Z4OxRJITi7W
-         gJM1wk6dQNEmiXZVv1jMVoLA7wEyZGqT6ye/LJlE2maSbrDJrvD7rkyAl2PIHd9tzzqa
-         7rzuJjqE+EzvMhsMd/ZRnLD2M/Cii8oXUiLOaQx/HllRXvU32ysQm0O8B+W9adZwwBsq
-         LQDlLFgEeW11OL+I1sHehyMVUekCMTJcyDjT9mZpb3jqTp7yRBfBjfdF2BJwFA1wjDsR
-         x0Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684760507; x=1687352507;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S7AZ61ddh8+0XBbzlhbc03FM22aCLhrMtx3Nb3aNYcU=;
-        b=IsatFoqU3nKOu8ALhM4o/DFfbhBzmwJhfVIgliBxCOg6at0mDX82Cmd/+RRMmnQt9c
-         eQ0J/dLE4L4WcH1YJku4tPNDr3EWn5lkTg6DtHPumckKNRuLzY9xNEvrgI3jl13vukCQ
-         WwbarVrtPugi2EPr34d/H9z+nZB/6z9IU3c71zVivtGLq/v83ZhhaUnRL/9Y0h4bRzmy
-         t8H4H86MY5dFyGSIZqlQDePogbVguVsigbJyBwaadkOsf/gE6JfTS0BbkCiuQQPJ8f8F
-         atjhzBakevuVS3jE93Zcl6jNX4CuqlrCo8aksFN27scyHADXsf/IXQ7hiW3RISgWC9ry
-         Wajg==
-X-Gm-Message-State: AC+VfDzFwkrimoudVk44ho9EK8P93VtFsDRW6DH1xsPCS/xx4Q2/Qfry
-        DDz1A70ThuDq57HzyV0Q2yM=
-X-Google-Smtp-Source: ACHHUZ6rmj8NyHf5qv6+mAaKmfaLdpnKx4z3a/UpRewgqncLy57pD4H+UtRQ+3nzfxHJfhaZAarDGQ==
-X-Received: by 2002:a05:6a00:2195:b0:64d:42ca:a4c4 with SMTP id h21-20020a056a00219500b0064d42caa4c4mr10315745pfi.31.1684760506554;
-        Mon, 22 May 2023 06:01:46 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id i184-20020a6387c1000000b0053ba104c113sm1542349pge.72.2023.05.22.06.01.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 06:01:46 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 81A8E10698A; Mon, 22 May 2023 20:01:42 +0700 (WIB)
-Date:   Mon, 22 May 2023 20:01:41 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz,
-        tiwai@suse.com, corbet@lwn.net, broonie@kernel.org,
-        skhan@linuxfoundation.org
-Cc:     alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        gregkh@linuxfoundation.org, himadrispandya@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v2 1/3] docs: sound: add 'pcmtest' driver documentation
-Message-ID: <ZGtntdJVy8dZBnf9@debian.me>
-References: <20230521183218.9641-1-ivan.orlov0322@gmail.com>
+        with ESMTP id S231495AbjEVNDy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 09:03:54 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBE795;
+        Mon, 22 May 2023 06:03:52 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id EE5231FEFD;
+        Mon, 22 May 2023 13:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1684760630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DrtDbupRjXTYRj2tZ8j8I/X6g23GzYeO+ha6ND6W5ms=;
+        b=suVckYdzUWeSehtbUYtrY8aIrry6qsyz9sDDBEHs1h3Eua4XcbY3irusmUqS2No/hcQeaS
+        ek/Vzt88mLX32eaY6tLLxK52XXBMgBFktKrdb06SvcVK6PRDeIeb2Y7AB96DlM1FXN66jC
+        hJivbKMhHDfz7qqloyaIPFKnuABQ2C0=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BE0E813776;
+        Mon, 22 May 2023 13:03:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Ci3tLTZoa2RRbQAAMHmgww
+        (envelope-from <mhocko@suse.com>); Mon, 22 May 2023 13:03:50 +0000
+Date:   Mon, 22 May 2023 15:03:50 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>
+Cc:     "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "muchun.song@linux.dev" <muchun.song@linux.dev>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 0/2] memcontrol: support cgroup level OOM protection
+Message-ID: <ZGtoNu7zIRRy7qK0@dhcp22.suse.cz>
+References: <ZFkEqhAs7FELUO3a@dhcp22.suse.cz>
+ <900EF82B-9899-46DD-9ACC-16D82D9B7A3F@didiglobal.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ItcgqONn2GWVCHfj"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230521183218.9641-1-ivan.orlov0322@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <900EF82B-9899-46DD-9ACC-16D82D9B7A3F@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+[Sorry for a late reply but I was mostly offline last 2 weeks]
 
---ItcgqONn2GWVCHfj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue 09-05-23 06:50:59, 程垲涛 Chengkaitao Cheng wrote:
+> At 2023-05-08 22:18:18, "Michal Hocko" <mhocko@suse.com> wrote:
+[...]
+> >Your cover letter mentions that then "all processes in the cgroup as a
+> >whole". That to me reads as oom.group oom killer policy. But a brief
+> >look into the patch suggests you are still looking at specific tasks and
+> >this has been a concern in the previous version of the patch because
+> >memcg accounting and per-process accounting are detached.
+> 
+> I think the memcg accounting may be more reasonable, as its memory 
+> statistics are more comprehensive, similar to active page cache, which 
+> also increases the probability of OOM-kill. In the new patch, all the 
+> shared memory will also consume the oom_protect quota of the memcg, 
+> and the process's oom_protect quota of the memcg will decrease.
 
-On Sun, May 21, 2023 at 10:32:16PM +0400, Ivan Orlov wrote:
-> diff --git a/Documentation/sound/cards/pcmtest.rst b/Documentation/sound/=
-cards/pcmtest.rst
-> new file mode 100644
-> index 000000000000..ea8070eaa44e
-> --- /dev/null
-> +++ b/Documentation/sound/cards/pcmtest.rst
-> @@ -0,0 +1,119 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +The Virtual PCM Test Driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +
-> +The Virtual PCM Test Driver emulates a generic PCM device, and can be us=
-ed for
-> +testing/fuzzing of the userspace ALSA applications, as well as for testi=
-ng/fuzzing of
-> +the PCM middle layer. Additionally, it can be used for simulating hard t=
-o reproduce
-> +problems with PCM devices.
-> +
-> +What can this driver do?
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +At this moment the driver can do the following things:
-> +	* Simulate both capture and playback processes
-> +	* Generate random or pattern-based capturing data
-> +	* Inject delays into the playback and capturing processes
-> +	* Inject errors during the PCM callbacks
-> +
-> +It supports up to 8 substreams and 4 channels. Also it supports both int=
-erleaved and
-> +non-interleaved access modes.
-> +
-> +Also, this driver can check the playback stream for containing the prede=
-fined pattern,
-> +which is used in the corresponding selftest (alsa/test-pcmtest-driver.c)=
-=2E To check the
-> +PCM middle layer data transferring functionality. Additionally, this dri=
-ver redefines
-"... corresponding selftest ... to check the ..."
-> +the default RESET ioctl, and the selftest covers this PCM API functional=
-ity as well.
-> +
-> +Configuration
-> +-------------
-> +
-> +The driver has several parameters besides the common ALSA module paramet=
-ers:
-> +
-> +	* fill_mode (bool) - Buffer fill mode (see below)
-> +	* inject_delay (int)
-> +	* inject_hwpars_err (bool)
-> +	* inject_prepare_err (bool)
-> +	* inject_trigger_err (bool)
-> +
-> +
-> +Capture Data Generation
-> +-----------------------
-> +
-> +The driver has two modes of data generation: the first (0 in the fill_mo=
-de parameter)
-> +means random data generation, the second (1 in the fill_mode) - pattern-=
-based
-> +data generation. Let's look at the second mode.
-> +
-> +First of all, you may want to specify the pattern for data generation. Y=
-ou can do it
-> +by writing the pattern to the debugfs file (/sys/kernel/debug/pcmtest/fi=
-ll_pattern).
-> +Like that:
-"For example::"
-> +
-> +.. code-block:: bash
-> +
-> +	echo -n mycoolpattern > /sys/kernel/debug/pcmtest/fill_pattern
-> +
-> +After this, every capture action performed on the 'pcmtest' device will =
-return
-> +'mycoolpatternmycoolpatternmycoolpatternmy...' for every channel buffer.
-> +
-> +In case of interleaved access, the capture buffer will contain the repea=
-ted pattern
-> +for every channel. Otherwise, every channel buffer will contain the repe=
-ated pattern.
-> +
-> +The pattern itself can be up to 4096 bytes long.
-> +
-> +Delay injection
-> +---------------
-> +
-> +The driver has 'inject_delay' parameter, which has very self-descriptive=
- name and
-> +can be used for time delay/speedup simulations. The parameter has intege=
-r type, and
-> +it means the delay added between module's internal timer ticks.
-> +
-> +If the 'inject_delay' value is positive, the buffer will be filled slowe=
-r, if it is
-> +negative - faster. You can try it yourself by starting a recording in any
-> +audio recording application (like Audacity) and selecting the 'pcmtest' =
-device as a
-> +source.
-> +
-> +This parameter can be also used for generating a huge amount of sound da=
-ta in a very
-> +short period of time (with the negative 'inject_delay' value).
-> +
-> +Errors injection
-> +----------------
-> +
-> +This module can be used for injecting errors into the PCM communication =
-process. This
-> +action can help you to figure out how the userspace ALSA program behaves=
- under unusual
-> +circumstances.
-> +
-> +For example, you can make all 'hw_params' PCM callback calls return EBUS=
-Y error by
-> +writing '1' to the 'inject_hwpars_err' module parameter:
-> +
-> +.. code-block:: bash
-> +
-> +	echo 1 > /sys/module/snd_pcmtest/parameters/inject_hwpars_err
-> +
-> +Errors can be injected into the following PCM callbacks:
-> +
-> +	* hw_params (EBUSY)
-> +	* prepare (EINVAL)
-> +	* trigger (EINVAL)
-> +
-> +
-> +Playback test
-> +-------------
-> +
-> +This driver can be also used for the playback functionality testing - ev=
-ery time you
-> +write the playback data to the 'pcmtest' PCM device and close it, the dr=
-iver checks the
-> +buffer of each channel for containing the looped pattern (which is speci=
-fied in the
-> +fill_pattern debugfs file). If the playback buffer content represents th=
-e looped pattern,
-> +'pc_test' debugfs entry is set into '1'. Otherwise, the driver sets it t=
-o '0'.
-> +
-> +ioctl redefinition test
-> +-----------------------
-> +
-> +The driver redefines the 'reset' ioctl, which is default for all PCM dev=
-ices. To test
-> +this functionality, we can trigger the reset ioctl and check the 'ioctl_=
-test' debugfs
-> +entry:
-> +
-> +.. code-block:: bash
-> +
-> +	cat /sys/kernel/debug/pcmtest/ioctl_test
-> +
-> +If the ioctl is triggered successfully, this file will contain '1', and =
-'0' otherwise.
+I am sorry but I do not follow. Could you elaborate please? Are you
+arguing for per memcg or per process metrics?
 
-The rest is LGTM, thanks!
+[...]
 
---=20
-An old man doll... just what I always wanted! - Clara
+> >> In the final discussion of patch v2, we discussed that although the adjustment range 
+> >> of oom_score_adj is [-1000,1000], but essentially it only allows two usecases
+> >> (OOM_SCORE_ADJ_MIN, OOM_SCORE_ADJ_MAX) reliably. Everything in between is 
+> >> clumsy at best. In order to solve this problem in the new patch, I introduced a new 
+> >> indicator oom_kill_inherit, which counts the number of times the local and child 
+> >> cgroups have been selected by the OOM killer of the ancestor cgroup. By observing 
+> >> the proportion of oom_kill_inherit in the parent cgroup, I can effectively adjust the 
+> >> value of oom_protect to achieve the best.
+> >
+> >What does the best mean in this context?
+> 
+> I have created a new indicator oom_kill_inherit that maintains a negative correlation 
+> with memory.oom.protect, so we have a ruler to measure the optimal value of 
+> memory.oom.protect.
 
---ItcgqONn2GWVCHfj
-Content-Type: application/pgp-signature; name="signature.asc"
+An example might help here.
 
------BEGIN PGP SIGNATURE-----
+> >> about the semantics of non-leaf memcgs protection,
+> >> If a non-leaf memcg's oom_protect quota is set, its leaf memcg will proportionally 
+> >> calculate the new effective oom_protect quota based on non-leaf memcg's quota.
+> >
+> >So the non-leaf memcg is never used as a target? What if the workload is
+> >distributed over several sub-groups? Our current oom.group
+> >implementation traverses the tree to find a common ancestor in the oom
+> >domain with the oom.group.
+> 
+> If the oom_protect quota of the parent non-leaf memcg is less than the sum of 
+> sub-groups oom_protect quota, the oom_protect quota of each sub-group will 
+> be proportionally reduced
+> If the oom_protect quota of the parent non-leaf memcg is greater than the sum 
+> of sub-groups oom_protect quota, the oom_protect quota of each sub-group 
+> will be proportionally increased
+> The purpose of doing so is that users can set oom_protect quota according to 
+> their own needs, and the system management process can set appropriate 
+> oom_protect quota on the parent non-leaf memcg as the final cover, so that 
+> the system management process can indirectly manage all user processes.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZGtnsQAKCRD2uYlJVVFO
-owWSAQDa3xPhRGqPWNO47ow8X1ABw/QyWgrhIsOiEFciBtjyMgEA4q+43FQm55/k
-dmpe05/Y6u9YgpC4SHRaNPX/YYt5LQU=
-=C2E/
------END PGP SIGNATURE-----
+I guess that you are trying to say that the oom protection has a
+standard hierarchical behavior. And that is fine, well, in fact it is
+mandatory for any control knob to have a sane hierarchical properties.
+But that doesn't address my above question. Let me try again. When is a
+non-leaf memcg potentially selected as the oom victim? It doesn't have
+any tasks directly but it might be a suitable target to kill a multi
+memcg based workload (e.g. a full container).
 
---ItcgqONn2GWVCHfj--
+> >All that being said and with the usecase described more specifically. I
+> >can see that memcg based oom victim selection makes some sense. That
+> >menas that it is always a memcg selected and all tasks withing killed.
+> >Memcg based protection can be used to evaluate which memcg to choose and
+> >the overall scheme should be still manageable. It would indeed resemble
+> >memory protection for the regular reclaim.
+> >
+> >One thing that is still not really clear to me is to how group vs.
+> >non-group ooms could be handled gracefully. Right now we can handle that
+> >because the oom selection is still process based but with the protection
+> >this will become more problematic as explained previously. Essentially
+> >we would need to enforce the oom selection to be memcg based for all
+> >memcgs. Maybe a mount knob? What do you think?
+> 
+> There is a function in the patch to determine whether the oom_protect 
+> mechanism is enabled. All memory.oom.protect nodes default to 0, so the function 
+> <is_root_oom_protect> returns 0 by default.
+
+How can an admin determine what is the current oom detection logic?
+
+-- 
+Michal Hocko
+SUSE Labs
