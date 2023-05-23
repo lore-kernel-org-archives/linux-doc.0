@@ -2,255 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33336C7EE45
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 20:42:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3379FC7EE26
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 20:58:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238585AbjEWUmi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 16:42:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40194 "EHLO
+        id S230115AbjEWU6o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 16:58:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238431AbjEWUmh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 16:42:37 -0400
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 197DA185;
-        Tue, 23 May 2023 13:42:22 -0700 (PDT)
-Received: from [192.168.122.1] (84-115-214-73.cable.dynamic.surfer.at [84.115.214.73])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id C4414CFBBB;
-        Tue, 23 May 2023 20:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1684874500; bh=HFBWsBkYn2DBr6AAVznAZpdgrKhwcQeGU1Uuc9j2Tyo=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc;
-        b=aB8Kt7UZQxO2zuc5lflRIrvIhssI9kLblxslBjA+RN7je3JmR/UiM2ESFLmFIYKgC
-         BLrv3dXaEU4K6q35fSHwZQaOx5A+q4OcMPDttVs/wDBEFbp3jgR3DXTRBIFeDpYiFp
-         Q55sOyBTMP7p92bDwE5yE5VRrAfJSPx674LhSiK0=
-From:   Luca Weiss <luca@z3ntu.xyz>
-Date:   Tue, 23 May 2023 22:41:28 +0200
-Subject: [PATCH v3 1/3] arm64: dts: qcom: Add PMI632 PMIC
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229934AbjEWU6n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 16:58:43 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2044.outbound.protection.outlook.com [40.107.7.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EC88F;
+        Tue, 23 May 2023 13:58:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OMUxdT24bjPSuQTDfbZUzUteto43Mm3d7wQAlyNjo3Mqvlrrs4uP6SKcSwGctaNjeZzfF3KjuhNR+hWG8h/S+mdO8NBBNLfs2moThH8QND38EtaB3zM1WxMnc+o4ZU7dIT4PDxCjSDD/NqW16ytsexxjN1wcMh6oC5cg6F6ds9NBynu9P7qLkGWkVT1gQUMz46SX/agOBFU2UqxafwWVioF/M4yTCsfaZS6vuq7wefh2tEU6u6wgX/SaZMve+YENyhIGrs2hXNSdMIhKHnzxHlFi645oXCT57jEWQloLSsykWOn56jP+zbXrSoDFyv4Hx/gJE4wq6hNY5YTxuvXLRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OzSBRWv3MbVwdsymxRewKv1eegjP3T4XN7RlThuZP1c=;
+ b=bByMKbCVlnfz1X8YJNWMJW7Zd8VhjeVW2EKfR5JDIUCJVfhHLjpxwWxi/164TJIrfyBZh7SNxmUMQc/B0KIr4g0NCJUSOrSsqDA2ZV2uBbHzBPLIbize2NNOBoKcnS6XziIkRrMuad5KFVTMA78YOtLHxNMb1dG9I75Cl7R0FLjB8ZnlD8wo/Ac3YTnZmc2R3KnV8Yn+Bm0wyA6arbQw/FfQ6lEFi/XO+baMDP2wA445JzkhigH2o+Qyd1zs967mS/yahJbzxCWXXAZGJa8JAgzBFyYfSg3UmtT5ouVIOUg6eQiQw/h0+QR3nP/wtpMrXBnKxPAoSV7qjXhGzaBsDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=santannapisa.it; dmarc=pass action=none
+ header.from=santannapisa.it; dkim=pass header.d=santannapisa.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=santannapisa.it;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OzSBRWv3MbVwdsymxRewKv1eegjP3T4XN7RlThuZP1c=;
+ b=h6p/iKq7gSOEfccqbzBbfLYKM2tl9lc+3QoHtcLrjejYFZtZLyruMhOnZRHHOEd53YdLF0KPXO5d9SQA0kweterDefMW085elunGcogw0wgnuH9yiRbjNVun0WJJQt5lnT1/3cbsQDnCkDk9cgg0W7qUS/IMSPY1QRMl2UUDQ+A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=santannapisa.it;
+Received: from VI1PR03MB2880.eurprd03.prod.outlook.com (2603:10a6:802:2d::21)
+ by AM7PR03MB6562.eurprd03.prod.outlook.com (2603:10a6:20b:1bf::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.29; Tue, 23 May
+ 2023 20:58:34 +0000
+Received: from VI1PR03MB2880.eurprd03.prod.outlook.com
+ ([fe80::8925:5293:e478:c934]) by VI1PR03MB2880.eurprd03.prod.outlook.com
+ ([fe80::8925:5293:e478:c934%6]) with mapi id 15.20.6411.027; Tue, 23 May 2023
+ 20:58:34 +0000
+Date:   Tue, 23 May 2023 22:58:31 +0200
+From:   luca abeni <luca.abeni@santannapisa.it>
+To:     Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
+Message-ID: <20230523225831.60d75b38@nowhere>
+In-Reply-To: <CAO7JXPgXi8q02HBeBR_RLWmODd9uQBH_UMCYgVQwbf+FX=Qxkg@mail.gmail.com>
+References: <20230515025716.316888-1-vineeth@bitbyteword.org>
+        <20230515025716.316888-3-vineeth@bitbyteword.org>
+        <20230515100616.33ba5dd9@luca64>
+        <CAO7JXPgq8V5yHM6F2+iXf4XJ9cyT30Hn4ot5b2k7srjsaPc3JQ@mail.gmail.com>
+        <20230516093729.0771938c@luca64>
+        <CAO7JXPh5uLV4QjAEi6bJXfAGSsZ=XsnCyzrvKS8m35BGbRPYJw@mail.gmail.com>
+        <20230519115621.2b3f75e2@luca64>
+        <20230519121804.6c85a3ed@luca64>
+        <CAO7JXPhZPvzVRyL87qNT5VnaVOf=0wrRftFB-Rjx-vJc3JUMog@mail.gmail.com>
+        <20230520115857.3838a7ea@nowhere>
+        <CAO7JXPgXi8q02HBeBR_RLWmODd9uQBH_UMCYgVQwbf+FX=Qxkg@mail.gmail.com>
+Organization: Scuola Superiore Sant'Anna
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230414-pmi632-v3-1-079d2cada699@z3ntu.xyz>
-References: <20230414-pmi632-v3-0-079d2cada699@z3ntu.xyz>
-In-Reply-To: <20230414-pmi632-v3-0-079d2cada699@z3ntu.xyz>
-To:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-doc@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4065; i=luca@z3ntu.xyz;
- h=from:subject:message-id; bh=HFBWsBkYn2DBr6AAVznAZpdgrKhwcQeGU1Uuc9j2Tyo=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkbST/jPJnNPzcCOq8KElAPLGfrMhiVGRehOhpa
- HyCVST7TWmJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZG0k/wAKCRBy2EO4nU3X
- VuKyEACpa+TDToJSB3k9vfbSK0mPOS3p3K4/3lzzuNN/GV4sTKmlgw9l3FnApTzXZm0Lg8k3kPx
- eKqAuXb+sf44JFE/6kMRiMFo9brJspUqov02Rl6vbWrz6vfQcVoNC6c9IbmoH2/Q0A+0hGWOGFm
- uO6xdHOKGHaVgUXTzCpCGFcD/EJkXW0a8Vv2k2MmjCUWmoMdFAGd05mvNa6UpU9aIwCghwNLJpn
- VBhg50eaZB7yxxxGFnJb3RuS/78a/A5jb9ikk8B0VrBxVNIWFvmpCC9eEF7oLbh+4N5kaAWhjRV
- hv1UwMvya+ToF2xICEAxPVpQPWzZcr/5PRFVs+krJWfVOntEmxGXWnj1p4+q5pmR+xVtAc3w22t
- RcQDXcaVvsIsXhLoogPBxeDGNTdaScPySQNkkm6qx+FuUKxLauklx301AuYk/RRJIVeW+hCwrxI
- mHHAY+Csy+fYIWkUz6EpiJZ4Any8p63jU2nJ4jvyFYkVXwmIVkL5wNdq1qTiKM0daaQS/SwLVtf
- FOSbthPM9Ra2O/Ddi/Uddba8MNire+o0u2pqTI8O8V8a8IZCE1oen8ZoVwscZfQB0u+1qi7tkSZ
- dzTAerS9gmuQjXJn1GDpXnwrpSmiPM8rEk9uWhwD2RAEayuTkJghYQTgHdPgloNsznHREEMg0fx
- l5xdQP2ofIyuP/Q==
-X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
- fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
+X-ClientProxiedBy: ZR2P278CA0034.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:47::15) To VI1PR03MB2880.eurprd03.prod.outlook.com
+ (2603:10a6:802:2d::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR03MB2880:EE_|AM7PR03MB6562:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ae20bbe-c52c-45ce-afd1-08db5bd07926
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: I+tAhky0T9+jwVL7/A/f7r4Oy50lx5pqpeZZFIbq9kcqDidgtAI6xWWyfr7x6sTyyw876ihYi9IqyVbdkRDtx372A3JifVX30C5Jg0lpNOjH7imMM85VJzgePg/Ddv7BdMyI+bQdpw1xtWu06csLVcOqscTnkWm/XgVmE0yq0QbnEymrqDzPf1np63mVzYvXtvwbw3w1P4mkjGZw7TxC00QbfcKz3N+HYzHiW9Xlz30jmziOTCjJ3nBb7aUR+m6uJVRMh+aDsdyUCMDjXTvB9vS8r9/HF7myuyajgRuwPzdbhMzazJLeI4FTzX5grDa6bmtihd+0lh4TOYrpY+XS+I1XOyd/dtyUMrXnYhV6eKU/4cgJTDM9C6gNUx9kXuKAcRcKi7Mq6GTB+dNNcHU08QlZojlBOj1Jc7uAnlHg9IXuVfEk5Uov/a3zXtnCWNIfhiJrk1+Gzp1/vl5+9wEfxEwfUWslbJvEnSeRPy9jq42Hayd6ZS4REQ3L2Ar+szLIGYScsGAM2E9ratd5xVVhpxd7pNVTANg+pdB+Lv/lieAXANvDhUK2/BFNIqQ72PxC
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR03MB2880.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(39850400004)(346002)(366004)(376002)(136003)(396003)(451199021)(9686003)(6512007)(8676002)(7416002)(8936002)(83380400001)(38100700002)(33716001)(86362001)(41320700001)(6506007)(2906002)(41300700001)(66556008)(66946007)(66476007)(6916009)(36916002)(786003)(4326008)(6666004)(6486002)(316002)(26005)(54906003)(5660300002)(1076003)(186003)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zyy3bcy35sxZFg8aCkaLfjtCJMv3fS9CarmrcDgp477pH6smz9ABng872qMz?=
+ =?us-ascii?Q?vKEENCmEUZtIUQmf1IdcpYGtX3jcarZBNEkupJD5uepBMUO5YevoOGR2njrR?=
+ =?us-ascii?Q?dAbIwFUu4sQk/TBCWq6aih5CAiJjXfe9AjqqHUC23RZlzX2hhAOhR4Bft/tk?=
+ =?us-ascii?Q?dT4UO3AkR7fTwfXJrWrE30ASM9/DpPdtWDmoLsFk8gQszAZsv96hBtU1TLwq?=
+ =?us-ascii?Q?WRU8VCGyNBn9eTl/RFS1ztM9kCO0AG7TfGWGR4LfB1sjbGzuROEP6mb8XY4T?=
+ =?us-ascii?Q?42mzF6IlIp3I/xLkynvsUUY2uwOjw1QgypxSfW0bp8A53zrJbWzb1H3Hn1HZ?=
+ =?us-ascii?Q?pIEZXr6tSFUWXvlGnFCE4UtRPOdRBERTf1a/lhkcpDiYkRm6o8w9zHDAqw9n?=
+ =?us-ascii?Q?FCfbHSJe5EvEnHuoi0TwBkpUjhjXJ/tby8UiTXPPggxHbnCRhrWVfzjKkci6?=
+ =?us-ascii?Q?R1cbe42ECI7XO9tC7b4D8DFNBQmiXhj2aJbw8HEEprXgRSs+kjuhlHDg1jBa?=
+ =?us-ascii?Q?WGvV1fpOrgQilyCKbdhU84UPpxk6RTnTMF1GOw12MMjON6wz6j+BeIqtjIsH?=
+ =?us-ascii?Q?MqDs4+IFSpguB9xnYMH3j41EzuHnJHuL5lXQa3SQ7P9fDAUj2Xgx7ttIGRwG?=
+ =?us-ascii?Q?30emXeM/QgUj3wmqkktRuPnd7kbjhCS3HZBxDouE7JmloyhoJJrjNXw+BShp?=
+ =?us-ascii?Q?zjnq3fGc9ex7QQZeMFeFKegQUGrbALjLan1bnLWzbdDdELUH14L++l4p5N59?=
+ =?us-ascii?Q?UnaLcdSq0nZrPdkBd1C604QVQ47vHJMVKqMnkyp9O8gnbi1wkcJ4fWay45wt?=
+ =?us-ascii?Q?J5LeTXHYrzafcBt07qE8azHdEBXHpPaJh3d7qstSF2Ra16SJN1OPDyYsysJ+?=
+ =?us-ascii?Q?lLRqF4Q/v/Vk7PrKzXUWZJfESlo3McTWcN8Esgz/Naau2MOrSzpxGGJqS0Iz?=
+ =?us-ascii?Q?Y0uyuu1qTEIpq6GgdXu+E2Bc8ET35vhD0DiyvK4lXRtPNCjfQUuNqqDm/5Gx?=
+ =?us-ascii?Q?+5MyuDa7ZNSKX/MDjGe3sjAIOxlfKWtXUVk8DJ6uUeW+8Qg4SrtUrCXpYO8H?=
+ =?us-ascii?Q?zai4odxI0DAhgvh1+jVnevTzhNZ6vL80+L4S1ZTJyeBFVR3qyHZOSdosjXTV?=
+ =?us-ascii?Q?3+W8BLBgzNHPREDR2DM/cUa3vro8AYFcm/Rbhx4cpAWTnOaln/Y5p/q6++/3?=
+ =?us-ascii?Q?2zjS9kzff4lFzLvjg/aEd0jSd396Ge37l1GZKOKJmF7hIaxjDWa4/wMmlIio?=
+ =?us-ascii?Q?txBjqPQkrJ73RnLqwiBh9fpPi4+LipKQQWyI5lCOHtWyNgAsiRoY4TmbOkDv?=
+ =?us-ascii?Q?aEjSeYXAjXIcSf8zteJhuQ57zYGbXhPPHw89mv7JWOygVkLetfCusu6jdgQR?=
+ =?us-ascii?Q?MHH55a5MVrYk+byVuiOMkipL8zaLY4QZay4lNsafrk8MIJ0fF+ayEwCOR2vq?=
+ =?us-ascii?Q?KM4uLL2cMGioJbDjQil8pOIOYuEx/kg3huiUB2DYVpsEh40egic6j5m2FrHe?=
+ =?us-ascii?Q?KTSMAYfU8nS3o8PM3HO3ADfyfZd4jWqggqb6f8lYdAtE6n8qbAfl79bxYXO2?=
+ =?us-ascii?Q?Kqxs3GoDcjfVelfAYRxTRkKwc3jsbUdoynY3nTEBupb8fsNBxOF9U+27uvuZ?=
+ =?us-ascii?Q?JQ=3D=3D?=
+X-OriginatorOrg: santannapisa.it
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae20bbe-c52c-45ce-afd1-08db5bd07926
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR03MB2880.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2023 20:58:34.8093
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d97360e3-138d-4b5f-956f-a646c364a01e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a+z/Oy2SI2DoLaW4/wa7xA6niXK/lAlZ84fYQCOnJS/pg1Q+bMw28oS27pSfkxRy+cmabIKQ2rf5JyRjLyS6b+NDsENYy2ytjLLUmZJAZxY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR03MB6562
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The PMI632, commonly found on SoCs with SDM632 has various standard
-functions like ADC, GPIOs, LPG and more.
+Hi,
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
----
- arch/arm64/boot/dts/qcom/pmi632.dtsi | 165 +++++++++++++++++++++++++++++++++++
- 1 file changed, 165 insertions(+)
+sorry for the late reply.
 
-diff --git a/arch/arm64/boot/dts/qcom/pmi632.dtsi b/arch/arm64/boot/dts/qcom/pmi632.dtsi
-new file mode 100644
-index 000000000000..4eb79e0ce40a
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/pmi632.dtsi
-@@ -0,0 +1,165 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (C) 2023 Luca Weiss <luca@z3ntu.xyz>
-+ */
-+
-+#include <dt-bindings/iio/qcom,spmi-vadc.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/spmi/spmi.h>
-+
-+/ {
-+	thermal-zones {
-+		pmi632-thermal {
-+			polling-delay-passive = <100>;
-+			polling-delay = <0>;
-+
-+			thermal-sensors = <&pmi632_temp>;
-+
-+			trips {
-+				trip0 {
-+					temperature = <95000>;
-+					hysteresis = <0>;
-+					type = "passive";
-+				};
-+
-+				trip1 {
-+					temperature = <115000>;
-+					hysteresis = <0>;
-+					type = "hot";
-+				};
-+
-+				trip2 {
-+					temperature = <125000>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&spmi_bus {
-+	pmic@2 {
-+		compatible = "qcom,pmi632", "qcom,spmi-pmic";
-+		reg = <0x2 SPMI_USID>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		pmi632_temp: temp-alarm@2400 {
-+			compatible = "qcom,spmi-temp-alarm";
-+			reg = <0x2400>;
-+			interrupts = <0x2 0x24 0x0 IRQ_TYPE_EDGE_BOTH>;
-+			#thermal-sensor-cells = <0>;
-+		};
-+
-+		pmi632_adc: adc@3100 {
-+			compatible = "qcom,spmi-adc5";
-+			reg = <0x3100>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			#io-channel-cells = <1>;
-+			interrupts = <0x2 0x31 0x0 IRQ_TYPE_EDGE_RISING>;
-+
-+			channel@0 {
-+				reg = <ADC5_REF_GND>;
-+				qcom,pre-scaling = <1 1>;
-+				label = "ref_gnd";
-+			};
-+
-+			channel@1 {
-+				reg = <ADC5_1P25VREF>;
-+				qcom,pre-scaling = <1 1>;
-+				label = "vref_1p25";
-+			};
-+
-+			channel@6 {
-+				reg = <ADC5_DIE_TEMP>;
-+				qcom,pre-scaling = <1 1>;
-+				label = "die_temp";
-+			};
-+
-+			channel@7 {
-+				reg = <ADC5_USB_IN_I>;
-+				qcom,pre-scaling = <1 1>;
-+				label = "usb_in_i_uv";
-+			};
-+
-+			channel@8 {
-+				reg = <ADC5_USB_IN_V_16>;
-+				qcom,pre-scaling = <1 16>;
-+				label = "usb_in_v_div_16";
-+			};
-+
-+			channel@9 {
-+				reg = <ADC5_CHG_TEMP>;
-+				qcom,pre-scaling = <1 1>;
-+				label = "chg_temp";
-+			};
-+
-+			channel@4b {
-+				reg = <ADC5_BAT_ID_100K_PU>;
-+				qcom,hw-settle-time = <200>;
-+				qcom,pre-scaling = <1 1>;
-+				qcom,ratiometric;
-+				label = "bat_id";
-+			};
-+
-+			channel@83 {
-+				reg = <ADC5_VPH_PWR>;
-+				qcom,pre-scaling = <1 3>;
-+				label = "vph_pwr";
-+			};
-+
-+			channel@84 {
-+				reg = <ADC5_VBAT_SNS>;
-+				qcom,pre-scaling = <1 3>;
-+				label = "vbat_sns";
-+			};
-+		};
-+
-+		pmi632_adc_tm: adc-tm@3500 {
-+			compatible = "qcom,spmi-adc-tm5";
-+			reg = <0x3500>;
-+			interrupts = <0x2 0x35 0x0 IRQ_TYPE_EDGE_RISING>;
-+			#thermal-sensor-cells = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		pmi632_sdam_7: nvram@b600 {
-+			compatible = "qcom,spmi-sdam";
-+			reg = <0xb600>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges = <0 0xb600 0x100>;
-+		};
-+
-+		pmi632_gpios: gpio@c000 {
-+			compatible = "qcom,pmi632-gpio", "qcom,spmi-gpio";
-+			reg = <0xc000>;
-+			gpio-controller;
-+			gpio-ranges = <&pmi632_gpios 0 0 8>;
-+			#gpio-cells = <2>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+		};
-+	};
-+
-+	pmic@3 {
-+		compatible = "qcom,pmi632", "qcom,spmi-pmic";
-+		reg = <0x3 SPMI_USID>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		pmi632_lpg: pwm {
-+			compatible = "qcom,pmi632-lpg";
-+
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			#pwm-cells = <2>;
-+
-+			status = "disabled";
-+		};
-+	};
-+};
+On Mon, 22 May 2023 15:22:52 -0400
+Vineeth Remanan Pillai <vineeth@bitbyteword.org> wrote:
+[...]
+> > But when I use
+> >         dq = -(max{u_i, (Umax - Uinact - Uextra)} / Umax) * dt
+> > everything works as expected, the 4 tasks reclaim 95% of the CPU
+> > time and my shell is still active...
+> > (so, I cannot reproduce the starvation issue with this equation)
+> >  
+> Sorry about this confusion, yes you are right, there is no stall with
+> this equation. The only issue is the lesser reclaim when the load is
+> less and tasks have different bandwidth requirements.
+> 
+> > So, I now think the second one is the correct equation to be used.
+> >  
+> Thanks for confirming.
+> 
+> I think it probably makes sense to get the fix for the equation to go
+> in as a first step and then we can investigate more about the second
+> issue (less reclaiming with less load and different bandwidth) and
+> fix it separately. What do you think?
 
--- 
-2.40.1
+I fully agree. If you split this change in a first patch, IMHO it
+can be applied.
+
+BTW, I tried changing the equation without introducing div64, and it
+seems to me that it works well... So, if removing the bw_ratio
+approximation is needed, I think you can do it in a second patch (so,
+the first patch changes the reclaiming equation, and the second one
+introduces div64)
+
+
+			Thanks,
+				Luca
+
+> I shall send the next iteration
+> with the fix for the equation alone if its okay with you.
+> 
+> Thanks,
+> Vineeth
 
