@@ -2,102 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF1ACC7EE2D
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 17:44:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CDCC77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 17:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbjEWRo2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 13:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43276 "EHLO
+        id S237507AbjEWRom (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 13:44:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238258AbjEWRoY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 13:44:24 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07FB2C2;
-        Tue, 23 May 2023 10:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684863861; x=1716399861;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EIWHnGh/Lmf8E5p9piqDF0iCi4vTIb0v2ykkJNtEIZI=;
-  b=B4UOziyjy00j2zKE8AtZICDTTAP7FIOqxA/KlVhhk07x+Ae/ZqehfvYD
-   JrXByA3gpLg/KfqPzeVbraShmCfinheHIWD88Tu8ftPRR4BC326kunvvK
-   eZt3V/3IALAxeaYQ8iHQYf4fDSiEY02Y9yzsJ/cDc+miGCUKTJkZp7rQh
-   0rLOHQ9oQobFxVYN8tqiEKU/27mOM83m01mhxBptHABGg+u1nU7FyTirR
-   nQNVXUysxyHBivDd1aINbYFj4VpHsvLPnksnPdVfBDcUu8DzahjuU/Dui
-   2aL5KSrHMcNU8B3kNkGT0MLEJ2Ok7yqeVNEdFEO1Qgy9SAgPFgKygsB7M
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="419023282"
-X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; 
-   d="scan'208";a="419023282"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 10:44:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="816223451"
-X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; 
-   d="scan'208";a="816223451"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by fmsmga002.fm.intel.com with ESMTP; 23 May 2023 10:44:05 -0700
-From:   Tony Nguyen <anthony.l.nguyen@intel.com>
-To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, netdev@vger.kernel.org
-Cc:     Michal Wilczynski <michal.wilczynski@intel.com>,
-        anthony.l.nguyen@intel.com, lukasz.czapnik@intel.com,
-        przemyslaw.kitszel@intel.com, jiri@resnulli.us,
-        linux-doc@vger.kernel.org,
-        Pucha Himasekhar Reddy <himasekharx.reddy.pucha@intel.com>
-Subject: [PATCH net-next 5/5] ice: Document txbalancing parameter
-Date:   Tue, 23 May 2023 10:40:08 -0700
-Message-Id: <20230523174008.3585300-6-anthony.l.nguyen@intel.com>
+        with ESMTP id S237723AbjEWRol (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 13:44:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07BC8C2;
+        Tue, 23 May 2023 10:44:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F57463564;
+        Tue, 23 May 2023 17:44:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93CFAC433D2;
+        Tue, 23 May 2023 17:44:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684863878;
+        bh=oWpv0JJ4KVfHOHESY1z8zrd5HeQS1i0jsjMhHlSCsd4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=o7ALmsTxImOubWs8UMvaMoPKWvnaroijVaeu5M/wpU1QfSimwxK3COphovNq6Bh6Z
+         IJmTVyI1Ob96tNwvcM5FWFLmTI9WHST9C0pocBSRPhgC83CxofM2gF3k7KLhAkRM7e
+         gp5vVTkiHV4TgE5u43++uzct4hjPzqFs6zieXZU1qMnL7ddKl/22eMTOn2/8Z9AW7A
+         oaEL0EAudrcdUT06vaLqeIu3palPkZayV8oWIKrDFkLP8lEzIz94H0NnpMcmzpFIQg
+         VufBbc5cAWEPzAImWbCSy7NcTLgHr+3DBUbjZoB9CLRfwMuVvT+ZAHh1G5mb8JG/V9
+         acdvM8AqYUGGQ==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     linux-kernel@vger.kernel.org, linux-trace-devel@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-doc@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
+        William White <chwhite@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH V2 0/9] rtla improvements
+Date:   Tue, 23 May 2023 19:44:22 +0200
+Message-Id: <cover.1684863094.git.bristot@kernel.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230523174008.3585300-1-anthony.l.nguyen@intel.com>
-References: <20230523174008.3585300-1-anthony.l.nguyen@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Michal Wilczynski <michal.wilczynski@intel.com>
+This is a series of improvements for rtla, mainly as a result of our
+daily usage of the tool debugging problems at red hat.
 
-New driver specific parameter 'txbalancing' was introduced.
-Describe parameter in the documentation.
+The cgroup support and house keeping options are from our usage
+of the tool debugging containers.
 
-Signed-off-by: Michal Wilczynski <michal.wilczynski@intel.com>
-Tested-by: Pucha Himasekhar Reddy <himasekharx.reddy.pucha@intel.com> (A Contingent worker at Intel)
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- Documentation/networking/devlink/ice.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+The auto-analysis overhead reduction is needed when we go to
+large boxes - but it is really hand in practice, as it gives an idea
+of the problem without having to look at the trace.
 
-diff --git a/Documentation/networking/devlink/ice.rst b/Documentation/networking/devlink/ice.rst
-index 2f60e34ab926..298df8ec1930 100644
---- a/Documentation/networking/devlink/ice.rst
-+++ b/Documentation/networking/devlink/ice.rst
-@@ -22,6 +22,23 @@ Parameters
-      - runtime
-      - mutually exclusive with ``enable_roce``
- 
-+.. list-table:: Driver-specific parameters implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Mode
-+     - Description
-+   * - ``txbalancing``
-+     - Boolean
-+     - permanent
-+     - This parameter gives user flexibility to choose the 5-layer
-+       transmit scheduler topology, which helps to smooth out the transmit
-+       performance. The default topology is 9-layer. Each layer represents
-+       a physical junction in the network. Decreased number of layers
-+       improves performance, but at the same time number of network junctions
-+       is reduced, which might not be desirable depending on the use case.
-+
- Info versions
- =============
- 
+Running hwnoise 100 % of CPU time might cause some systems
+to slow down too much. Reduce its utilization to 75% by default to
+avoid problems for people using it for the first time.
+
+Finally, it adds support for running timerlat user-space threads,
+and to collect the additional field via rtla timerlat top.
+
+Changes from V1:
+  - Add the user-space thread support to rtla timerlat top
+    Link: https://lore.kernel.org/lkml/cover.1683827510.git.bristot@kernel.org/
+
+Daniel Bristot de Oliveira (9):
+  rtla: Add -C cgroup support
+  rtla: Add --house-keeping option
+  rtla: Change monitored_cpus from char * to cpu_set_t
+  rtla: Automatically move rtla to a house-keeping cpu
+  rtla/timerlat: Give timerlat auto analysis its own instance
+  rtla/timerlat_hist: Add auto-analysis support
+  rtla: Start the tracers after creating all instances
+  rtla/hwnoise: Reduce runtime to 75%
+  rtla: Add timerlat user-space support for timerlat top
+
+ Documentation/tools/rtla/common_options.rst   |   8 +
+ .../tools/rtla/common_timerlat_aa.rst         |   7 -
+ .../tools/rtla/rtla-timerlat-hist.rst         |   7 +-
+ .../tools/rtla/rtla-timerlat-top.rst          |  14 +
+ tools/tracing/rtla/src/osnoise.c              |  65 ++++
+ tools/tracing/rtla/src/osnoise.h              |   5 +
+ tools/tracing/rtla/src/osnoise_hist.c         |  90 ++++-
+ tools/tracing/rtla/src/osnoise_top.c          |  83 ++++-
+ tools/tracing/rtla/src/timerlat_aa.c          |  35 +-
+ tools/tracing/rtla/src/timerlat_aa.h          |   5 +-
+ tools/tracing/rtla/src/timerlat_hist.c        | 139 +++++++-
+ tools/tracing/rtla/src/timerlat_top.c         | 229 +++++++++++--
+ tools/tracing/rtla/src/timerlat_u.c           | 224 ++++++++++++
+ tools/tracing/rtla/src/timerlat_u.h           |  18 +
+ tools/tracing/rtla/src/utils.c                | 324 +++++++++++++++++-
+ tools/tracing/rtla/src/utils.h                |   7 +
+ 16 files changed, 1162 insertions(+), 98 deletions(-)
+ create mode 100644 tools/tracing/rtla/src/timerlat_u.c
+ create mode 100644 tools/tracing/rtla/src/timerlat_u.h
+
 -- 
 2.38.1
 
