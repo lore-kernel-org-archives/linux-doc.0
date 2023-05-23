@@ -2,157 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92920C7EE26
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 12:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB91C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 13:20:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236795AbjEWMVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 08:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50166 "EHLO
+        id S236702AbjEWNUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 09:20:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235518AbjEWMVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 08:21:38 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD436119;
-        Tue, 23 May 2023 05:21:37 -0700 (PDT)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34NC85Cd010591;
-        Tue, 23 May 2023 12:20:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=b/N97QNJLbmr+RhSzhUpL7rxH3poMQwYGelaxe/kHjw=;
- b=ikq5fqhiSpAAT0nJmLp0aCj978Av/rRSS20Vc4ULriCHaM0B7e6jTtTZJvoiEszfEp9B
- l7miWEJ49bMuuMf1IpkL0lHjV9aYJAP4k4tugihoSJ+ulamMiXffid3ZMqXCYrOhemca
- b697LrcX3VA2GTXABwyFzt0QEAzH0LWC47K1qa9a190SlVw00sYxpmR3QWCWyn+lMG0w
- O7Vdf1FG9BiZhYoT+2OE9qZxkgvgdDI6gDcQOXIhpLK6HvUP32YP2uq12Ef/ajaAlWoJ
- s1A8hVsg7S/r9zE0ldTpDCJaPMjUrWa79b/rzIwRHbSCz33LjwGjs4zykqMBYji7DN/U 3g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qrw2n8kac-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 May 2023 12:20:34 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34NC85YP010666;
-        Tue, 23 May 2023 12:20:33 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qrw2n8k8b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 May 2023 12:20:33 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34N2FIwg013811;
-        Tue, 23 May 2023 12:20:30 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-        by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3qppcu9f06-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 May 2023 12:20:30 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34NCKRRA11338474
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 May 2023 12:20:27 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E82A02004D;
-        Tue, 23 May 2023 12:20:26 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4EA4820040;
-        Tue, 23 May 2023 12:20:24 +0000 (GMT)
-Received: from [9.171.22.235] (unknown [9.171.22.235])
-        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Tue, 23 May 2023 12:20:24 +0000 (GMT)
-Message-ID: <b06a47fecf5eab9440c1c35d9c7b83fe87f918a0.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 6/6] iommu/dma: Make flush queue sizes and timeout
- driver configurable
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Joerg Roedel <joro@8bytes.org>
-Cc:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Gerd Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Date:   Tue, 23 May 2023 14:20:24 +0200
-In-Reply-To: <ZGuT2R42SWFHmklu@8bytes.org>
-References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
-         <20230310-dma_iommu-v9-6-65bb8edd2beb@linux.ibm.com>
-         <ZGuT2R42SWFHmklu@8bytes.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+        with ESMTP id S233330AbjEWNUW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 09:20:22 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5220120;
+        Tue, 23 May 2023 06:20:20 -0700 (PDT)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.55])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4QQZZC4CZ8z18LYw;
+        Tue, 23 May 2023 21:15:47 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpeml500002.china.huawei.com (7.185.36.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 23 May 2023 21:20:15 +0800
+From:   Junhao He <hejunhao3@huawei.com>
+To:     <will@kernel.org>, <jonathan.cameron@huawei.com>,
+        <linux-kernel@vger.kernel.org>, <mark.rutland@arm.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+        <yangyicong@huawei.com>, <shenyang39@huawei.com>,
+        <prime.zeng@hisilicon.com>, <hejunhao3@huawei.com>
+Subject: [PATCH 0/3] Add support for HiSilicon SoC uncore PMU
+Date:   Tue, 23 May 2023 21:18:22 +0800
+Message-ID: <20230523131825.6102-1-hejunhao3@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SCHk9GNBzwPXZyeAocq9ZCr1U8UNYoFE
-X-Proofpoint-ORIG-GUID: YIMPkAl4-Wv-r6WPNnYiGonT3FNgmVP_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-23_08,2023-05-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- bulkscore=0 mlxscore=0 priorityscore=1501 adultscore=0 spamscore=0
- mlxlogscore=686 impostorscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305230095
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2023-05-22 at 18:10 +0200, Joerg Roedel wrote:
-> On Mon, May 15, 2023 at 11:15:56AM +0200, Niklas Schnelle wrote:
-> > In the s390 IOMMU driver a large fixed queue size and timeout is then
-> > set together with single queue mode bringing its performance on s390
-> > paged memory guests on par with the previous s390 specific DMA API
-> > implementation.
->=20
-> Hmm, the right flush-queue size and timeout settings are more a function
-> of the endpoint device and device driver than of the iommu driver, no? I
-> think something like this could also help solving the recently reported
-> scalability problems in the fq-code, if done right.
->=20
-> Regards,
->=20
-> 	Joerg
->=20
+Add support for HiSilicon UC/H60PA/PAv3 PMU driver.
 
-In our case the large flush queue and timeout is needed because the
-IOTLB flushes of the virtualized s390 IOMMU are used by KVM and z/VM to
-synchronize their IOMMU shadow tables thus making them more expensive.
-This then applies to all pass-through PCI devices without their drivers
-knowing about the IOMMU being virtualized like that. But yes of course
-there could be cases where the device driver knows better.
+PAv3 PMU: Compared with the PAv2 PMU, the PAv3 PMU has different event. The
+version of PMU version register is used to distinguish the v2 and v3.
 
-Thanks,
-Niklas
+H60PA PMU: The H60PA PMU and PA are two different devices. The H60PA PMU
+supports higher bandwidth, and the PA PMU delay is relatively low.
+Different HIDs are used to distinguish the delay.
+
+UC PMU: Each cluster is integrated with a unified cache (UC) PMU, which
+provides consistency between NUMA and UMA domains. It sits between
+L2 and the memory system.
+
+Junhao He (3):
+  drivers/perf: hisi: Add support for HiSilicon H60PA and PAv3 PMU
+    driver
+  drivers/perf: hisi: Add support for HiSilicon UC PMU driver
+  docs: perf: Add new description for HiSilicon UC PMU
+
+ Documentation/admin-guide/perf/hisi-pmu.rst |   8 +
+ drivers/perf/hisilicon/Makefile             |   2 +-
+ drivers/perf/hisilicon/hisi_uncore_pa_pmu.c | 138 ++++-
+ drivers/perf/hisilicon/hisi_uncore_pmu.c    |   5 +-
+ drivers/perf/hisilicon/hisi_uncore_pmu.h    |  42 +-
+ drivers/perf/hisilicon/hisi_uncore_uc_pmu.c | 581 ++++++++++++++++++++
+ 6 files changed, 757 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
+
+-- 
+2.33.0
+
