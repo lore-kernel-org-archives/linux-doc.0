@@ -2,68 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4CB5C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 02:05:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69840C77B73
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 02:11:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbjEWCFT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 22:05:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60372 "EHLO
+        id S229567AbjEWCLp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 22:11:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjEWCFT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 22:05:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFCAACA
-        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 19:05:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5813E61756
-        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 02:05:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E6CC433EF;
-        Tue, 23 May 2023 02:05:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684807516;
-        bh=98O7VgNuMGNSu4HhCRX9uBBylnf5BFeRBBwKmuvbrT0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=YAI5QUiwwA/PgrlJUpl86lTlACOL6WjXMe5NPCtPARbqkscHf9GEMlPS8q6yqY9Kh
-         GTw5qKJiEQdNvlL2jaO9SZEyNXWfizze5SrahuzRpjjXP2ixScBlnPhZjPAweQM20u
-         2+7wKlJshdrlqUndHVflQ+DCMzJfpIqmhVLEN6ohRki0PWQQE7vtCcz6KLjsmLFo70
-         09oW/1C5fPUGK9xuanYa5SHyqctgjTd7iw5AF0Sb/6H3pjiyVelBIJWTuuStv2lve8
-         OfVlX5MZooOEJ5YnVay0Fy+bSb9rDYAgP/uho4WQ0ZYcwfae2VlJwGqZAU7mr9RKyh
-         5RR39aM0AzlHg==
-Date:   Mon, 22 May 2023 19:05:15 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: document the existence of the mail
- bot
-Message-ID: <20230522190515.2793193f@kernel.org>
-In-Reply-To: <043df418-28f0-49e5-bff0-2ea511148bb6@lunn.ch>
-References: <20230522230903.1853151-1-kuba@kernel.org>
-        <043df418-28f0-49e5-bff0-2ea511148bb6@lunn.ch>
+        with ESMTP id S229509AbjEWCLp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 22:11:45 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4F7CA;
+        Mon, 22 May 2023 19:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=2AQoI84FFH+/Fdm9nLSd2Gkl/xoxZl6Bw2n3UB+cN7c=; b=qPl2RGWqPWaKjDPdadixjegOcU
+        /ysHbUChVuHRO+PSUKHkUSyzRAvO7J+1IYRRyXQD75F6Aik0tTIINmtwGqx+mxVaIlkVhHecgC2Lt
+        pRdYA5L+iaQmZ7LvfntYGG9scjuABB0LfCYanshacsfFVxNEYs8JoSquVvr2Lu2hb7nF2bM3gUKsk
+        chldEmOzQ3Nkp4OVdeSLW9X0sRI6EMi+8H80G3GeNQ40TiXSyWZSLVpRR03mYR2p0aFya9yefadMf
+        aj4dA3biK+sllbrRtXXR90TXJDiSEpmpdmRzey29cQlK7TkEpa8p15gkIx234J609+IAXjRLq2YAe
+        YJ6R61gA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q1HUv-008eRS-0L;
+        Tue, 23 May 2023 02:11:37 +0000
+Message-ID: <fb5c17bd-5e6a-ac68-8c6c-1bc67ed2af63@infradead.org>
+Date:   Mon, 22 May 2023 19:11:36 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] Documentation: add initial iomap kdoc
+Content-Language: en-US
+To:     "Darrick J. Wong" <djwong@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>, corbet@lwn.net, jake@lwn.net,
+        dchinner@redhat.com, ritesh.list@gmail.com, rgoldwyn@suse.com,
+        jack@suse.cz, linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
+References: <20230518150105.3160445-1-mcgrof@kernel.org>
+ <ZGcDaysYl+w9kV6+@infradead.org> <20230523012028.GE11598@frogsfrogsfrogs>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230523012028.GE11598@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 23 May 2023 03:46:46 +0200 Andrew Lunn wrote:
-> > +Instead of delegating patchwork permissions netdev uses a simple mail
-> > +bot which looks for special commands/lines within the emails sent to
-> > +the mailing list. For example to mark a series as Changes Requested
-> > +one needs to send the following line anywhere in the email thread::
-> > +
-> > +  pw-bot: changes-requested  
-> 
-> ...
-> 
-> > +  https://patchwork.hopto.org/pw-bot.html  
-> 
-> [Evil grin]
-> So your patch did not trigger the bot. Lets see if my reply does?
-> [/Evil grin]
 
-Commands must be on separate lines, with no extra white space.
-I wonder if that proves the documentation is insufficient :)
+
+On 5/22/23 18:20, Darrick J. Wong wrote:
+> On Thu, May 18, 2023 at 10:04:43PM -0700, Christoph Hellwig wrote:
+>> On Thu, May 18, 2023 at 08:01:05AM -0700, Luis Chamberlain wrote:
+>>> +        Mapping of heading styles within this document:
+>>> +        Heading 1 uses "====" above and below
+>>> +        Heading 2 uses "===="
+>>> +        Heading 3 uses "----"
+>>> +        Heading 4 uses "````"
+>>> +        Heading 5 uses "^^^^"
+>>> +        Heading 6 uses "~~~~"
+>>> +        Heading 7 uses "...."
+>>> +
+>>> +        Sections are manually numbered because apparently that's what everyone
+>>
+>> Why are you picking different defaults then the rest of the kernel
+>> documentation?
+> 
+> I bet Luis copied that from the online fsck document.
+> 
+> IIRC the doc generator is smart enough to handle per-file heading usage.
+> The rst parser sourcecode doesn't seem to have harcoded defaults; every
+> time it sees an unfamiliar heading style in a .rst file, it adds that as
+> the next level down in the hierarchy.
+> 
+> Also, where are the "proper" headings documented for Documentation/?
+
+Documentation/doc-guide/sphinx.rst:
+
+* Please stick to this order of heading adornments:
+
+and following lines.
+
+-- 
+~Randy
