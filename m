@@ -2,150 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99392C77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 00:40:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F86AC77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 00:47:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjEWAj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 20:39:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42074 "EHLO
+        id S234912AbjEWArM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 20:47:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235364AbjEWA25 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 20:28:57 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 868092102;
-        Mon, 22 May 2023 17:17:31 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-96f53c06babso891469266b.3;
-        Mon, 22 May 2023 17:17:31 -0700 (PDT)
+        with ESMTP id S234913AbjEWAq4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 20:46:56 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D62423C;
+        Mon, 22 May 2023 17:30:01 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-253340db64fso6198705a91.2;
+        Mon, 22 May 2023 17:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684801050; x=1687393050;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VvJrClLjnc7GTwo//Bcl7YXcX48efgizj6CzwviQgvQ=;
-        b=bvGtXUuh02M6wX2vqbbNUCwtlmzdcXicrq+Ko5UE6ihY1RT0tRKajdOv+r6iAHdByq
-         SjIgqAwjEVEmKbNdHLWb1jo7vev9X5lBvC0kFtiDQrFSkoQmg/bZnQqpA0K/jGIOPlSK
-         PzvaMoQnZUFgIaAGbae2fH91K9sly+pyChl4WBFLwu1xtH7m3AvgeKbOIRMRUqJh0Sqj
-         pDQGNhWeL9IyyAF0ATkVbIzAsERM9ftGF0h1d9WBZfHhXYnYplkAaOByIBMZLKHFSodG
-         gixAne+NV7YCsBACXo0TufuJ01cmJdHYxWYiRgbxKosdc96JFCG+/lA33amnZ8p+I/Vs
-         LzmQ==
+        d=gmail.com; s=20221208; t=1684801801; x=1687393801;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HEifJEBSj843qwkcWh042z8MQfZIbIFpzgNR/nZXc5s=;
+        b=PjMYjRIziDSPvIlo9uMabR3TcCLJABTa7b5x2+c2JcD3JRZ60jrEAQafRzLNHwwV+I
+         enUO/HEFYmmQgZcCuq6wb/35dF/6jUolpkPPW34vPT3AOfBIGogDIIo9cqrjHY90XTY+
+         PXZGtxAta++G1i94Z4nT9DOtmrPiCRZ8iQrqgyYfpyHqWs9v804Y7btk9ga1u/gxoRfI
+         DJCUc0PyN4ZTEBXIYLQ5kRorIvYr0Pa2R2HgCFz4UDUwWgm5Q90LGBID+8D0W2Aiss9D
+         1iQE6V2mqAGOj7mwKTMjKWZpUyzMDjTa/NKWCWypDA0WsqpeffcdGvaXLuG+CfuC8wzY
+         nqig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684801050; x=1687393050;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VvJrClLjnc7GTwo//Bcl7YXcX48efgizj6CzwviQgvQ=;
-        b=LEm08EFpant2zXhiP0JflZ7g6BB+hqECQOorX9PDVwYgf5RFG4yxaPOxm2ZdKwPWE+
-         wTixtyljTHPiIYA+6v0YSk0n5nzklbxFdGioGneiS1hSstJ+Uj2f4+F16jO4E4Zk7zqC
-         bIdvxVeei6uiUNQ3jUzWOnowz6yGhqztTG55UraBaLIDsTk7K6f1HmgETSBBbPOlhhVc
-         UHSWobIhnkoG0J8k0OT3aSRm98B+EMfGjchTzkgBWrMh9uwWzEZCHBXP5giOZBGLLAhR
-         DXDvJT3WUbzQ23e6JxFDq5AasRt85ipMI/g+mhWrxQ/ESPkFOm5dnnQQ/+oHuD/xqTiU
-         VnLw==
-X-Gm-Message-State: AC+VfDyNZq4/egndOrRQ9qX17/ErZp1iIdOa3t1h7CdlhIVTMgP+4h6N
-        OpXWU+hT8BKSn1dtyq6wbPS4VmeObos7NfaAz95mnBIupWCrig==
-X-Google-Smtp-Source: ACHHUZ7gqfEHsJdFyQ6JccHcryfi/wSUCZIxFV/oqNefiC8lPfL2a5gGOIDwxQKYBgZav5BuqRdZuLBsAvEUzUjhgaA=
-X-Received: by 2002:a17:906:9743:b0:96f:32ae:a7e1 with SMTP id
- o3-20020a170906974300b0096f32aea7e1mr13882790ejy.63.1684801049644; Mon, 22
- May 2023 17:17:29 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684801801; x=1687393801;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HEifJEBSj843qwkcWh042z8MQfZIbIFpzgNR/nZXc5s=;
+        b=Vba19XvgG6OcRW8gyi4eLLnVTUgnJaFz1Zmj5FcSDsuIh1KhYVvXnqGSzS9b8JY8c5
+         GkJ/IHo+wJO9ehPHvld/kOnZI+yVkV+KMHW7PLM5ndInGjTCZVy6pSfTN3XntVZl1b3B
+         Ng4velwVTX5hdPaHsXYajn3SHuz49GjtAdTT5HOPiKLXnqWQOC46OxmFHB180+uy/zpQ
+         HfIGoRRBynllV12qNJ9Ivmz/7J5x+LSoq2lnjFXDligJHs5OeloWemxsUDHChjzn8kXP
+         ahbPSvEXvufMH/YFr1sULCjcZwNrDu2cX0JWJ+J+nHVFWDvcUfK1/e91npqVoyAqTMdq
+         HPmA==
+X-Gm-Message-State: AC+VfDwxaQL2015z7FFFpo4W8SCrXIFNxyq/9UCdhxFskBRY/jevhqQt
+        7oYo03XwyeBrVwTCR9tOFho=
+X-Google-Smtp-Source: ACHHUZ7wWyVCJpxZmHsghH/6/RZ4D9JiWJJ7UL2PxapwGvf1T3n3EcRWA2L20zNwu0GC2oCe+8joqg==
+X-Received: by 2002:a17:90b:2292:b0:253:83d8:e487 with SMTP id kx18-20020a17090b229200b0025383d8e487mr10976879pjb.0.1684801800788;
+        Mon, 22 May 2023 17:30:00 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:54fa:e8a7:76de:888d])
+        by smtp.gmail.com with ESMTPSA id gj13-20020a17090b108d00b00250ad795d72sm4590532pjb.44.2023.05.22.17.29.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 May 2023 17:30:00 -0700 (PDT)
+Date:   Mon, 22 May 2023 17:29:57 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Ismael Ferreras Morezuelas <swyterzone@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-input@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Cameron Gutman <aicommander@gmail.com>,
+        Marcos Alano <marcoshalano@gmail.com>
+Subject: Re: [PATCH v2] xpad: Spelling fixes for "Xbox", improve and
+ proofread the listed xpad device names
+Message-ID: <ZGwJBTFd4JRKzocu@google.com>
+References: <401b1d94-1348-15fd-b48f-a80e8885c7a4@gmail.com>
 MIME-Version: 1.0
-References: <20230515143023.801167-1-robdclark@gmail.com> <da1f7aa1-f560-31f4-6114-e400f35d325b@linaro.org>
-In-Reply-To: <da1f7aa1-f560-31f4-6114-e400f35d325b@linaro.org>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Tue, 23 May 2023 10:17:17 +1000
-Message-ID: <CAPM=9tyc+N0i+vXkZ-8Mf6kBN5BJHeL=tvbnp=LKCW6T5gPGfg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] drm: fdinfo memory stats
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Akhil P Oommen <quic_akhilpo@quicinc.com>,
-        Lijo Lazar <lijo.lazar@amd.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
-        YiPeng Chai <YiPeng.Chai@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Guchun Chen <guchun.chen@amd.com>,
-        Shashank Sharma <shashank.sharma@amd.com>,
-        "open list:RADEON and AMDGPU DRM DRIVERS" 
-        <amd-gfx@lists.freedesktop.org>,
-        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Peter Maucher <bellosilicio@gmail.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Christopher Healy <healych@amazon.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <401b1d94-1348-15fd-b48f-a80e8885c7a4@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 21 May 2023 at 10:03, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On 15/05/2023 17:30, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Similar motivation to other similar recent attempt[1].  But with an
-> > attempt to have some shared code for this.  As well as documentation.
-> >
-> > It is probably a bit UMA-centric, I guess devices with VRAM might want
-> > some placement stats as well.  But this seems like a reasonable start.
-> >
-> > Basic gputop support: https://patchwork.freedesktop.org/series/116236/
-> > And already nvtop support: https://github.com/Syllo/nvtop/pull/204
-> >
-> > I've combined the separate series to add comm/cmdline override onto
-> > the end of this, simply out of convenience (they would otherwise
-> > conflict in a bunch of places).
-> >
-> > v2: Extend things to allow for multiple regions other than just system
-> >      "memory", make drm_show_memory_stats() a helper so that, drivers
-> >      can use it or not based on their needs (but in either case, re-
-> >      use drm_print_memory_stats()
-> > v3: Docs fixes
-> > v4: use u64 for drm_memory_stats, small docs update and collected
-> >      Tvrtko's a-b
-> >
-> > [1] https://patchwork.freedesktop.org/series/112397/
-> >
-> > Rob Clark (9):
-> >    drm/docs: Fix usage stats typos
-> >    drm: Add common fdinfo helper
-> >    drm/msm: Switch to fdinfo helper
-> >    drm/amdgpu: Switch to fdinfo helper
-> >    drm: Add fdinfo memory stats
-> >    drm/msm: Add memory stats to fdinfo
-> >    drm/doc: Relax fdinfo string constraints
-> >    drm/fdinfo: Add comm/cmdline override fields
-> >    drm/msm: Wire up comm/cmdline override for fdinfo
-> >
-> >   Documentation/gpu/drm-usage-stats.rst      | 101 ++++++++++----
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 +--
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
-> >   drivers/gpu/drm/drm_file.c                 | 147 +++++++++++++++++++++
-> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  24 +++-
-> >   drivers/gpu/drm/msm/msm_drv.c              |  15 ++-
-> >   drivers/gpu/drm/msm/msm_gem.c              |  15 +++
-> >   drivers/gpu/drm/msm/msm_gpu.c              |   2 -
-> >   drivers/gpu/drm/msm/msm_gpu.h              |  10 ++
-> >   include/drm/drm_drv.h                      |   7 +
-> >   include/drm/drm_file.h                     |  51 +++++++
-> >   include/drm/drm_gem.h                      |  32 +++++
-> >   13 files changed, 378 insertions(+), 47 deletions(-)
->
-> What is the expected merge plan for this series? msm-next? drm-misc?
+On Wed, Jan 05, 2022 at 12:30:20AM +0100, Ismael Ferreras Morezuelas wrote:
+> The Linux kernel is notorious for misspelling X-Box, X-box, XBox or XBOX;
+> the official spelling is actually just Xbox. Plain and simple.
+> 
+> Tried to respect the existing notes but still following the style guide.
+> No functional changes intended. This only affects ancillary parts.
+> 
+> Sounds trivial, but this makes it easier to search the correct
+> entries in xmenu by name. It has always been a pet peeve of mine.
+> 
+> Signed-off-by: Ismael Ferreras Morezuelas <swyterzone@gmail.com>
+> ---
 
-I'm fine with this going via drm-misc,
+Adjusted the patch description a little to remove mention searching by
+name (since user-visible names are not touched), and applied.
 
-Acked-by: Dave Airlie <airlied@redhat.com> if that is the plan.
+Thanks.
 
-Dave.
+-- 
+Dmitry
