@@ -2,205 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4025BC7EE29
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 01:20:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA734C77B73
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 01:47:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231846AbjEWBUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 21:20:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44318 "EHLO
+        id S229703AbjEWBrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 21:47:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbjEWBUc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 21:20:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B2B8E;
-        Mon, 22 May 2023 18:20:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 42FF762D5A;
-        Tue, 23 May 2023 01:20:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BDFAC433EF;
-        Tue, 23 May 2023 01:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684804829;
-        bh=xk20vdIG4/RhyXJBz+4WB3j0q/I0MXGPm+rihI115k0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qpFq3fhSUy6W5vhcyI/+gHR3gcwKgHMNhijnY6n9tLN7TVxzXSAvPEV02oearnR4t
-         VFvFkF2lID6ZWaYxJzmHyfM/gSEFGZ9P8+o29VagUYR5CIBKwdXxSz87G/XlHEWvRk
-         zfyl4dKlEiEfohugwbJPc5IpJxsLQnSbEUVMgipwfAyQ/IArRXM9wUBQLLndyCYaqk
-         1Hh/lmTxcriS2oHYFWKmEctU719iUZeujteNSqyEHDZW9eD9fiXtscyMP6NGhExh6b
-         J9k+Uua7VS20cpR57+kh6JYS5eigfaeSojlEd5WVay1lgjV5kjnWxeWeNOdU4riOEt
-         balbwj7Vzzy0Q==
-Date:   Mon, 22 May 2023 18:20:28 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>, corbet@lwn.net, jake@lwn.net,
-        dchinner@redhat.com, ritesh.list@gmail.com, rgoldwyn@suse.com,
-        jack@suse.cz, linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
-Subject: Re: [PATCH v2] Documentation: add initial iomap kdoc
-Message-ID: <20230523012028.GE11598@frogsfrogsfrogs>
-References: <20230518150105.3160445-1-mcgrof@kernel.org>
- <ZGcDaysYl+w9kV6+@infradead.org>
+        with ESMTP id S229576AbjEWBrA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 21:47:00 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E989A90;
+        Mon, 22 May 2023 18:46:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=YIMkffsXkgXdfOfA9ikOVYM3BgfZkI7WyagD+RJ4C+8=; b=O493woKucAM758iB7TGdAwbef9
+        +cPsKK9ZrzO2OagXMv58IKzFdixCa5NPu6zTSZbtoebD2WGRWhWMJJ5qrzG+h7bulbqUQN+tqh4hk
+        P+z7Eevm65zmzeLrSowvF3/XJOoonIOgSl3XB7loaLLUgSpVil5lugGjCmUByZ8yBn3w=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1q1H6s-00DbGI-Ok; Tue, 23 May 2023 03:46:46 +0200
+Date:   Tue, 23 May 2023 03:46:46 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: document the existence of the mail bot
+Message-ID: <043df418-28f0-49e5-bff0-2ea511148bb6@lunn.ch>
+References: <20230522230903.1853151-1-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZGcDaysYl+w9kV6+@infradead.org>
+In-Reply-To: <20230522230903.1853151-1-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 18, 2023 at 10:04:43PM -0700, Christoph Hellwig wrote:
-> On Thu, May 18, 2023 at 08:01:05AM -0700, Luis Chamberlain wrote:
-> > +        Mapping of heading styles within this document:
-> > +        Heading 1 uses "====" above and below
-> > +        Heading 2 uses "===="
-> > +        Heading 3 uses "----"
-> > +        Heading 4 uses "````"
-> > +        Heading 5 uses "^^^^"
-> > +        Heading 6 uses "~~~~"
-> > +        Heading 7 uses "...."
-> > +
-> > +        Sections are manually numbered because apparently that's what everyone
+On Mon, May 22, 2023 at 04:09:03PM -0700, Jakub Kicinski wrote:
+> We had a good run, but after 4 weeks of use we heard someone
+> asking about pw-bot commands. Let's explain its existence
+> in the docs. It's not a complete documentation but hopefully
+> it's enough for the casual contributor. The project and scope
+> are in flux so the details would likely become out of date,
+> if we were to document more in depth.
 > 
-> Why are you picking different defaults then the rest of the kernel
-> documentation?
+> Link: https://lore.kernel.org/all/20230522140057.GB18381@nucnuc.mle/
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-I bet Luis copied that from the online fsck document.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-IIRC the doc generator is smart enough to handle per-file heading usage.
-The rst parser sourcecode doesn't seem to have harcoded defaults; every
-time it sees an unfamiliar heading style in a .rst file, it adds that as
-the next level down in the hierarchy.
+> +Instead of delegating patchwork permissions netdev uses a simple mail
+> +bot which looks for special commands/lines within the emails sent to
+> +the mailing list. For example to mark a series as Changes Requested
+> +one needs to send the following line anywhere in the email thread::
+> +
+> +  pw-bot: changes-requested
 
-Also, where are the "proper" headings documented for Documentation/?
+...
 
-(Skip to the end; it's late and I don't have time right now to read the
-content of this patch.)
+> +  https://patchwork.hopto.org/pw-bot.html
 
-> > +
-> > +A modern block abstraction
-> > +==========================
-> > +
-> > +**iomap** allows filesystems to query storage media for data using *byte
-> > +ranges*. Since block mapping are provided for a *byte ranges* for cache data in
-> > +memory, in the page cache, naturally this implies operations on block ranges
-> > +will also deal with *multipage* operations in the page cache. **Folios** are
-> > +used to help provide *multipage* operations in memory for the *byte ranges*
-> > +being worked on.
-> 
-> As mentioned you list time this information was circulated this is not
-> true.  iomap itself has nothing to with blocks, and even less so with
-> the page cache per se.  It just iterates over ranges of file data and
-> applies work to it.
-> 
-> > +iomap IO interfaces
-> > +===================
-> > +
-> > +You call **iomap** depending on the type of filesystem operation you are working
-> > +on. We detail some of these interactions below.
-> 
-> Who is you?
-> 
-> > +
-> > +iomap for bufferred IO writes
-> > +-----------------------------
-> > +
-> > +You call **iomap** for buffered IO with:
-> > +
-> > + * ``iomap_file_buffered_write()`` - for buffered writes
-> > + * ``iomap_page_mkwrite()`` - when dealing callbacks for
-> > +    ``struct vm_operations_struct``
-> > +
-> > +  * ``struct vm_operations_struct.page_mkwrite()``
-> > +  * ``struct vm_operations_struct.fault()``
-> > +  * ``struct vm_operations_struct.huge_fault()``
-> > +  * ``struct vm_operations_struct`.pfn_mkwrite()``
-> > +
-> > +You *may* use buffered writes to also deal with ``fallocate()``:
-> > +
-> > + * ``iomap_zero_range()`` on fallocate for zeroing
-> > + * ``iomap_truncate_page()`` on fallocate for truncation
-> > +
-> > +Typically you'd also happen to use these on paths when updating an inode's size.
-> 
-> I'm not really sure what this is trying to explain.  It basically looks
-> like filler text generated by machine learning algorithms..
-> 
-> The same is true for a large part of this document.
-> 
-> > +A filesystem also needs to call **iomap** when assisting the VFS manipulating a
-> > +file into the page cache.
-> 
-> A file systsem doesn't _need_ to do anything.  It may chose to do
-> things, and the iomap based helpers might be useful for that.  But
-> again, I'm still not getting what this document is even trying to
-> explain, as "to implement the method foo, use the iomap_foo" isn't
-> really helping anyone.
-> 
-> > +Converting filesystems from buffer-head to iomap guide
-> > +======================================================
-> 
-> If you want such a guide, please keep it in a separate file from the
-> iomap API documentation.  I'd also suggest that you actually try such
-> a conversion first, as that might help shaping the documentation :)
-> 
-> > +Testing Direct IO
-> > +=================
-> > +
-> > +Other than fstests you can use LTP's dio, however this tests is limited as it
-> > +does not test stale data.
-> > +
-> > +{{{
-> > +./runltp -f dio -d /mnt1/scratch/tmp/
-> > +}}}
-> 
-> How does this belong into an iomap documentation?  If LTPs dio is really
-> all that useful we should import it into xfstests, btw.  I'm not sure it
-> is, though.
-> 
-> > +We try to document known issues that folks should be aware of with **iomap** here.
-> 
-> Who is "we"?
-> 
-> > + * DOC: Introduction
-> > + *
-> > + * iomap allows filesystems to sequentially iterate over byte addressable block
-> > + * ranges on an inode and apply operations to it.
-> > + *
-> > + * iomap grew out of the need to provide a modern block mapping abstraction for
-> > + * filesystems with the different IO access methods they support and assisting
-> > + * the VFS with manipulating files into the page cache. iomap helpers are
-> > + * provided for each of these mechanisms. However, block mapping is just one of
-> > + * the features of iomap, given iomap supports DAX IO for filesystems and also
-> > + * supports such the ``lseek``/``llseek`` ``SEEK_DATA``/``SEEK_HOLE``
-> > + * interfaces.
-> > + *
-> > + * Block mapping provides a mapping between data cached in memory and the
-> > + * location on persistent storage where that data lives. `LWN has an great
-> > + * review of the old buffer-heads block-mapping and why they are inefficient
-> > + * <https://lwn.net/Articles/930173/>`, since the inception of Linux.  Since
-> > + * **buffer-heads** work on a 512-byte block based paradigm, it creates an
-> > + * overhead for modern storage media which no longer necessarily works only on
-> > + * 512-blocks. iomap is flexible providing block ranges in *bytes*. iomap, with
-> > + * the support of folios, provides a modern replacement for **buffer-heads**.
-> > + */
-> 
-> I really don't want random blurbs and links like this in the main
-> header.  If you want to ramble in a little howto that's fine, but the
-> main header is not the place for it.
-> 
-> Also please keep improvements to the header in a separate patch from
-> adding Documentation/ documents.
+[Evil grin]
+So your patch did not trigger the bot. Lets see if my reply does?
+[/Evil grin]
 
-Frankly I don't really like the iomap.h changes -- that's going to blow
-up the git blame on that file, just to produce a stilted-language
-manpage.
-
-Someone who wants to port a filesystem to iomap (or write a new fs) will
-need a coherent narrative (you know, with paragraphs and sentences)
-about how to build this piece and that.  The rst file under Documentation/
-is the place for that, not trying to mash it into a C header.
-
---D
+   Andrew
