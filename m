@@ -2,152 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E81C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 00:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4025BC7EE29
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 01:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235135AbjEWAtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 May 2023 20:49:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49362 "EHLO
+        id S231846AbjEWBUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 May 2023 21:20:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234761AbjEWAsa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 20:48:30 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F412FB7
-        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 17:33:02 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3f42ba32e24so43453925e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 May 2023 17:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jrtc27.com; s=gmail.jrtc27.user; t=1684801981; x=1687393981;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LrFGl63UuCEpD0/cTn8zK2OoUmxoYf1cLwIERUmWju0=;
-        b=eTt828dUiWmLDNAB9dxn4tYuW5E06NyZpscH/7KYbHvT3H/7gyKD7v0rjwTuwrtiQW
-         NUJxrc4sE+j9UsAJmC0FfdetMEqHf9lZai2ji0gZXVr7gxyVHvN872ikUfMSm+9ukLO2
-         PVXZuLKuIJ3m9Q3JoqHNO6MzDAIh7w8ieL/1/NBdk4OzfdBxMPtioHoLJNar73hHho/H
-         mcesOgI1rZFfIr6dwqHyxNtX5WIdbM3adoCndWrVSUiYwXYXQsDa4isiCAO7aWGt9+hk
-         scm1zheIYZF3iEPPpA335kiav3/+saa/D73Ypsb3YErwfAKAFwdcGFqYnmdJS1sHbvka
-         WzSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684801981; x=1687393981;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LrFGl63UuCEpD0/cTn8zK2OoUmxoYf1cLwIERUmWju0=;
-        b=NxfAvgqtRHiB4ilL+s9s3yMFT7qqahEEF1FszGE1AYCSEXIPfIsZE0aqxKD6XC7v2J
-         CGuuuMw9ptjDZdL6dyjtZqWqXYz7nfUAoMNGhFrXPJNEQ6mDIYMABJpMfFphc9haUasF
-         gihm9GVGsR2otdjqvRd36XISuJD3p69MLFE7P4DHqaG+QdkP7lm9nMM/wfDj2mYW/Lyu
-         PXlyJx4VIL4E2zvFGm1sT97ld7gysgLOGFn5X5J6m1mBz565qD/c+VtslYSw8KGdHGiU
-         f375GVPQy1L0Ur59ofFDMsOwKVyoHaWIhUUqvcYB0kSQlDWVVJvQ5fMsc4u0v3jTLfKx
-         g3nA==
-X-Gm-Message-State: AC+VfDw+7d+8R1zoxOKezGwWcjMMFIgK/PJd3snPZKE3VqyMJH5GPk8n
-        lATmbGFn3wjbIPgXR9ouJK8PIQ==
-X-Google-Smtp-Source: ACHHUZ4CZCrzym57qPoHumfgDh1AfJecnm6yW7KJJLL5ovCAtDUwzXSiFcYUjymp+3V9VRRgsl4rIg==
-X-Received: by 2002:a7b:ca54:0:b0:3f4:3562:f799 with SMTP id m20-20020a7bca54000000b003f43562f799mr8697189wml.28.1684801981473;
-        Mon, 22 May 2023 17:33:01 -0700 (PDT)
-Received: from smtpclient.apple ([131.111.5.246])
-        by smtp.gmail.com with ESMTPSA id 8-20020a05600c22c800b003f4289b18a7sm9924645wmg.5.2023.05.22.17.33.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 May 2023 17:33:00 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.500.231\))
-Subject: Re: [PATCH v1] Documentation/process: add soc maintainer handbook
-From:   Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <20230522-concrete-unpeeled-7e4718e61b46@spud>
-Date:   Tue, 23 May 2023 01:32:49 +0100
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        soc@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Olof Johansson <olof@lixom.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-riscv@lists.infradead.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3B8DFBEF-9EA1-4375-998D-944EA18D3E4E@jrtc27.com>
-References: <20230515-geometry-olympics-b0556ff8a5f7@spud>
- <cf1c6b8c-8a3f-eca1-948f-e41946d4c34c@linaro.org>
- <20230522-concrete-unpeeled-7e4718e61b46@spud>
-To:     Conor Dooley <conor@kernel.org>
-X-Mailer: Apple Mail (2.3731.500.231)
+        with ESMTP id S229559AbjEWBUc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 May 2023 21:20:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B2B8E;
+        Mon, 22 May 2023 18:20:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 42FF762D5A;
+        Tue, 23 May 2023 01:20:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BDFAC433EF;
+        Tue, 23 May 2023 01:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684804829;
+        bh=xk20vdIG4/RhyXJBz+4WB3j0q/I0MXGPm+rihI115k0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qpFq3fhSUy6W5vhcyI/+gHR3gcwKgHMNhijnY6n9tLN7TVxzXSAvPEV02oearnR4t
+         VFvFkF2lID6ZWaYxJzmHyfM/gSEFGZ9P8+o29VagUYR5CIBKwdXxSz87G/XlHEWvRk
+         zfyl4dKlEiEfohugwbJPc5IpJxsLQnSbEUVMgipwfAyQ/IArRXM9wUBQLLndyCYaqk
+         1Hh/lmTxcriS2oHYFWKmEctU719iUZeujteNSqyEHDZW9eD9fiXtscyMP6NGhExh6b
+         J9k+Uua7VS20cpR57+kh6JYS5eigfaeSojlEd5WVay1lgjV5kjnWxeWeNOdU4riOEt
+         balbwj7Vzzy0Q==
+Date:   Mon, 22 May 2023 18:20:28 -0700
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>, corbet@lwn.net, jake@lwn.net,
+        dchinner@redhat.com, ritesh.list@gmail.com, rgoldwyn@suse.com,
+        jack@suse.cz, linux-doc@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        p.raghav@samsung.com, da.gomez@samsung.com, rohan.puri@samsung.com
+Subject: Re: [PATCH v2] Documentation: add initial iomap kdoc
+Message-ID: <20230523012028.GE11598@frogsfrogsfrogs>
+References: <20230518150105.3160445-1-mcgrof@kernel.org>
+ <ZGcDaysYl+w9kV6+@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZGcDaysYl+w9kV6+@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22 May 2023, at 22:34, Conor Dooley <conor@kernel.org> wrote:
->=20
-> On Tue, May 16, 2023 at 10:31:19AM +0200, Krzysztof Kozlowski wrote:
->> On 15/05/2023 21:20, Conor Dooley wrote:
->=20
->>> +devicetree ABI stability
->>> +~~~~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +Perhaps one of the most important things to highlight is that =
-dt-bindings
->>> +document the ABI between the devicetree and the kernel.  Once =
-dt-bindings have
->>> +been merged (and appear in a release of the kernel) they are set in =
-stone, and
->>> +any changes made must be compatible with existing devicetrees.  =
-This means that,
->>> +when changing properties, a "new" kernel must still be able to =
-handle an old
->>> +devicetree.  For many systems the devicetree is provided by =
-firmware, and
->>> +upgrading to a newer kernel cannot cause regressions.  Ideally, the =
-inverse is
->>> +also true, and a new devicetree will also be compatible with an old =
-kernel,
->>> +although this is often not possible.
->>=20
->> I would prefer to skip it and instead: enhance
->> Documentation/devicetree/bindings/ABI.rst and then reference it here.
->>=20
->>> +
->>> +If changes are being made to a devicetree that are incompatible =
-with old
->>> +kernels, the devicetree patch should not be applied until the =
-driver is, or an
->>> +appropriate time later.  Most importantly, any incompatible changes =
-should be
->>> +clearly pointed out in the patch description and pull request, =
-along with the
->>> +expected impact on existing users.
->=20
-> I'm not really sure that I like this truncated section so much, but =
-here
-> it is... I kept the last paragraph intact as it does not talk about =
-the
-> ABI, but rather exceptions of submaintainers.
->=20
-> devicetree ABI stability
-> ~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> Perhaps one of the most important things to highlight is that =
-dt-bindings
-> document the ABI between the devicetree and the kernel. Please see
-> :ref:`devicetree-abi` for devicetree ABI rules.
->=20
-> If changes are being made to a devicetree that are incompatible with =
-old
-> kernels, the devicetree patch should not be applied until the driver =
-is, or an
-> appropriate time later.  Most importantly, any incompatible changes =
-should be
-> clearly pointed out in the patch description and pull request, along =
-with the
-> expected impact on existing users.
+On Thu, May 18, 2023 at 10:04:43PM -0700, Christoph Hellwig wrote:
+> On Thu, May 18, 2023 at 08:01:05AM -0700, Luis Chamberlain wrote:
+> > +        Mapping of heading styles within this document:
+> > +        Heading 1 uses "====" above and below
+> > +        Heading 2 uses "===="
+> > +        Heading 3 uses "----"
+> > +        Heading 4 uses "````"
+> > +        Heading 5 uses "^^^^"
+> > +        Heading 6 uses "~~~~"
+> > +        Heading 7 uses "...."
+> > +
+> > +        Sections are manually numbered because apparently that's what everyone
+> 
+> Why are you picking different defaults then the rest of the kernel
+> documentation?
 
-Do you have an opinion on acknowledging the existence of other OSes =
-here?
+I bet Luis copied that from the online fsck document.
 
-Jess
+IIRC the doc generator is smart enough to handle per-file heading usage.
+The rst parser sourcecode doesn't seem to have harcoded defaults; every
+time it sees an unfamiliar heading style in a .rst file, it adds that as
+the next level down in the hierarchy.
 
+Also, where are the "proper" headings documented for Documentation/?
+
+(Skip to the end; it's late and I don't have time right now to read the
+content of this patch.)
+
+> > +
+> > +A modern block abstraction
+> > +==========================
+> > +
+> > +**iomap** allows filesystems to query storage media for data using *byte
+> > +ranges*. Since block mapping are provided for a *byte ranges* for cache data in
+> > +memory, in the page cache, naturally this implies operations on block ranges
+> > +will also deal with *multipage* operations in the page cache. **Folios** are
+> > +used to help provide *multipage* operations in memory for the *byte ranges*
+> > +being worked on.
+> 
+> As mentioned you list time this information was circulated this is not
+> true.  iomap itself has nothing to with blocks, and even less so with
+> the page cache per se.  It just iterates over ranges of file data and
+> applies work to it.
+> 
+> > +iomap IO interfaces
+> > +===================
+> > +
+> > +You call **iomap** depending on the type of filesystem operation you are working
+> > +on. We detail some of these interactions below.
+> 
+> Who is you?
+> 
+> > +
+> > +iomap for bufferred IO writes
+> > +-----------------------------
+> > +
+> > +You call **iomap** for buffered IO with:
+> > +
+> > + * ``iomap_file_buffered_write()`` - for buffered writes
+> > + * ``iomap_page_mkwrite()`` - when dealing callbacks for
+> > +    ``struct vm_operations_struct``
+> > +
+> > +  * ``struct vm_operations_struct.page_mkwrite()``
+> > +  * ``struct vm_operations_struct.fault()``
+> > +  * ``struct vm_operations_struct.huge_fault()``
+> > +  * ``struct vm_operations_struct`.pfn_mkwrite()``
+> > +
+> > +You *may* use buffered writes to also deal with ``fallocate()``:
+> > +
+> > + * ``iomap_zero_range()`` on fallocate for zeroing
+> > + * ``iomap_truncate_page()`` on fallocate for truncation
+> > +
+> > +Typically you'd also happen to use these on paths when updating an inode's size.
+> 
+> I'm not really sure what this is trying to explain.  It basically looks
+> like filler text generated by machine learning algorithms..
+> 
+> The same is true for a large part of this document.
+> 
+> > +A filesystem also needs to call **iomap** when assisting the VFS manipulating a
+> > +file into the page cache.
+> 
+> A file systsem doesn't _need_ to do anything.  It may chose to do
+> things, and the iomap based helpers might be useful for that.  But
+> again, I'm still not getting what this document is even trying to
+> explain, as "to implement the method foo, use the iomap_foo" isn't
+> really helping anyone.
+> 
+> > +Converting filesystems from buffer-head to iomap guide
+> > +======================================================
+> 
+> If you want such a guide, please keep it in a separate file from the
+> iomap API documentation.  I'd also suggest that you actually try such
+> a conversion first, as that might help shaping the documentation :)
+> 
+> > +Testing Direct IO
+> > +=================
+> > +
+> > +Other than fstests you can use LTP's dio, however this tests is limited as it
+> > +does not test stale data.
+> > +
+> > +{{{
+> > +./runltp -f dio -d /mnt1/scratch/tmp/
+> > +}}}
+> 
+> How does this belong into an iomap documentation?  If LTPs dio is really
+> all that useful we should import it into xfstests, btw.  I'm not sure it
+> is, though.
+> 
+> > +We try to document known issues that folks should be aware of with **iomap** here.
+> 
+> Who is "we"?
+> 
+> > + * DOC: Introduction
+> > + *
+> > + * iomap allows filesystems to sequentially iterate over byte addressable block
+> > + * ranges on an inode and apply operations to it.
+> > + *
+> > + * iomap grew out of the need to provide a modern block mapping abstraction for
+> > + * filesystems with the different IO access methods they support and assisting
+> > + * the VFS with manipulating files into the page cache. iomap helpers are
+> > + * provided for each of these mechanisms. However, block mapping is just one of
+> > + * the features of iomap, given iomap supports DAX IO for filesystems and also
+> > + * supports such the ``lseek``/``llseek`` ``SEEK_DATA``/``SEEK_HOLE``
+> > + * interfaces.
+> > + *
+> > + * Block mapping provides a mapping between data cached in memory and the
+> > + * location on persistent storage where that data lives. `LWN has an great
+> > + * review of the old buffer-heads block-mapping and why they are inefficient
+> > + * <https://lwn.net/Articles/930173/>`, since the inception of Linux.  Since
+> > + * **buffer-heads** work on a 512-byte block based paradigm, it creates an
+> > + * overhead for modern storage media which no longer necessarily works only on
+> > + * 512-blocks. iomap is flexible providing block ranges in *bytes*. iomap, with
+> > + * the support of folios, provides a modern replacement for **buffer-heads**.
+> > + */
+> 
+> I really don't want random blurbs and links like this in the main
+> header.  If you want to ramble in a little howto that's fine, but the
+> main header is not the place for it.
+> 
+> Also please keep improvements to the header in a separate patch from
+> adding Documentation/ documents.
+
+Frankly I don't really like the iomap.h changes -- that's going to blow
+up the git blame on that file, just to produce a stilted-language
+manpage.
+
+Someone who wants to port a filesystem to iomap (or write a new fs) will
+need a coherent narrative (you know, with paragraphs and sentences)
+about how to build this piece and that.  The rst file under Documentation/
+is the place for that, not trying to mash it into a C header.
+
+--D
