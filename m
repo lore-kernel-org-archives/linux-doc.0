@@ -2,142 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D647C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 14:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E098C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 14:39:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236358AbjEWOTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 10:19:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55658 "EHLO
+        id S233543AbjEWOjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 10:39:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbjEWOTq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 10:19:46 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2704C11A
-        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 07:19:45 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id d9443c01a7336-1afa6afcef4so14972805ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 07:19:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684851584; x=1687443584;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YJTOtttasiWLDEUcufe2rn3c2B61VJIjpPGMO/P/Yds=;
-        b=brwx0PSOMA0wdDk4Q3ZV6Zhimz9MGX1rc3oTrPLZdLDxR99oxRU+kgTiRQZeIUGp/B
-         dyf6U+6YZAZ0UTzApeHQKfgEnBhOiOJ/qXVvQ9J1F3RjGUiuExrD9+BmRrRlbu21nlVD
-         Wx38qijldoSLQu16rAmMxw27fIDqOXmDcc7YNTYCcS5xe37Q9LSgSZUY1x8lcrA4BzR8
-         Gn6XlWuegWj0mDFi1OGEJ901Pjqo4OoenFzAOsc9erWa0V37gRvkLtOzMhqrjLYhuzgg
-         EJnTJnwVBYHzHNPBMQ/b1Fhyc00bJU+3iH49CfEJT1yRwLmSMHit03ZKsytirD36EFwd
-         gllQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684851584; x=1687443584;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YJTOtttasiWLDEUcufe2rn3c2B61VJIjpPGMO/P/Yds=;
-        b=dd4z63KXU+OdtrBDghyUrVTYkBqbApje3tjFEwNAWEgUNBqeXT3XI9gg2UBVNUiZvU
-         yz/kYE0insGBPIXNhaZ9nBjLbmHa0MtdM+3hZ4xz8Pn0ENMWKwj2Qq3E5x1cYRSMxVJX
-         XEeRg1VPJLmbI66haMgTFj7ZiZe45jthJr57h127OopjyruGfP4iPHf8zIYnrkimnrbo
-         TJw/0TcXX8vU7S2Ivq6LmleQcBHJf+but7jT9LTYodVw9sVgTy3ZiF8OXZQT6FfSdjcU
-         gg3QpcJAay7vqkS8ewYF9ygNvomtgslWNUEhqO55fD64VcpetNpd2+hs0I8sVeCJddNP
-         51Lw==
-X-Gm-Message-State: AC+VfDyjLct3nbD68zU0cYqO+Cfj84Z59B+3JfF9O/tG/40NbIlb3bO5
-        zwJjeAGM+XCvHnUq9urQMAIyjesTx+U=
-X-Google-Smtp-Source: ACHHUZ7XDfHM+pb9CMgdhxQCTf7TNLGglKW4K4aM789UbMGnxCZDh8BKaFM+lAod2VMVzlBmEBluGi8tvqw=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:902:eb11:b0:1a1:b318:2776 with SMTP id
- l17-20020a170902eb1100b001a1b3182776mr3427854plb.0.1684851584603; Tue, 23 May
- 2023 07:19:44 -0700 (PDT)
-Date:   Tue, 23 May 2023 07:19:43 -0700
-In-Reply-To: <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-Mime-Version: 1.0
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com> <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-Message-ID: <ZGzLf4zgxpBjghaF@google.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-From:   Sean Christopherson <seanjc@google.com>
-To:     Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S229960AbjEWOjb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 10:39:31 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 037E5FA;
+        Tue, 23 May 2023 07:39:30 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B54E2139F;
+        Tue, 23 May 2023 07:40:14 -0700 (PDT)
+Received: from [192.168.178.6] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 722CD3F840;
+        Tue, 23 May 2023 07:39:28 -0700 (PDT)
+Message-ID: <79127e9c-8583-8356-a9db-b9af74b6a1b0@arm.com>
+Date:   Tue, 23 May 2023 16:39:27 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] sched/documentation: elaborate on uclamp limitations
+Content-Language: en-US
+To:     Vincent Guittot <vincent.guittot@linaro.org>,
+        Hongyan Xia <hongyan.xia2@arm.com>
+Cc:     Qais Yousef <qyousef@layalina.io>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>
+References: <20230505152440.142265-1-hongyan.xia2@arm.com>
+ <20230518113000.pvboekaba7vspjyn@airbuntu>
+ <8035fedb-820b-2a98-a1af-3a4a8971bcd1@arm.com>
+ <CAKfTPtAmV-0+2D5d8-CyQcowaFhWCB=C5xEUoEb0g1ObpmdegQ@mail.gmail.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <CAKfTPtAmV-0+2D5d8-CyQcowaFhWCB=C5xEUoEb0g1ObpmdegQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 23, 2023, Kautuk Consul wrote:
-> On 2022-07-06 16:20:10, Chao Peng wrote:
-> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > index e9153b54e2a4..c262ebb168a7 100644
-> > --- a/include/linux/kvm_host.h
-> > +++ b/include/linux/kvm_host.h
-> > @@ -765,10 +765,10 @@ struct kvm {
-> >  
-> >  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
-> >  	struct mmu_notifier mmu_notifier;
-> > -	unsigned long mmu_notifier_seq;
-> > -	long mmu_notifier_count;
-> > -	gfn_t mmu_notifier_range_start;
-> > -	gfn_t mmu_notifier_range_end;
-> > +	unsigned long mmu_updating_seq;
-> > +	long mmu_updating_count;
+On 23/05/2023 11:23, Vincent Guittot wrote:
+> On Thu, 18 May 2023 at 14:42, Hongyan Xia <hongyan.xia2@arm.com> wrote:
+>>
+>> Hi Qais,
+>>
+>> On 2023-05-18 12:30, Qais Yousef wrote:
+>>> Please CC sched maintainers (Ingo + Peter) next time as they should pick this
+>>> up ultimately and they won't see it from the list only.
+>>
+>> Will do. I was using the get_maintainers script and I thought that gave
+>> me all the CCs.
+>>
+>>> On 05/05/23 16:24, Hongyan Xia wrote:
+
+[...]
+
+>>>> diff --git a/Documentation/scheduler/sched-util-clamp.rst b/Documentation/scheduler/sched-util-clamp.rst
+>>>> index 74d5b7c6431d..524df07bceba 100644
+>>>> --- a/Documentation/scheduler/sched-util-clamp.rst
+>>>> +++ b/Documentation/scheduler/sched-util-clamp.rst
+>>>> @@ -669,6 +669,19 @@ but not proportional to Fmax/Fmin.
+>>>>
+>>>>           p0->util_avg = 300 + small_error
+>>>>
+>>>> +The reason why util_avg is around 300 even though it runs for 900 at Fmin is:
 > 
-> Can we convert mmu_updating_seq and mmu_updating_count to atomic_t ?
+> What does it mean running for 900 at Fmin ? util_avg is a ratio in the
+> range [0:1024] without time unit
+> 
+>>>> +Although running at Fmin reduces the rate of rq_clock_pelt() to 1/3 thus
+>>>> +accumulates util_sum at 1/3 of the rate at Fmax, the clock period
+>>>> +(rq_clock_pelt() now minus previous rq_clock_pelt()) in:
+>>>> +
+>>>> +::
+>>>> +
+>>>> +        util_sum / clock period = util_avg
+> 
+> I don't get the meaning of the formula above ? There is no "clock
+> period" (although I'm not sure what it means here) involved when
+> computing util_avg
 
-Heh, can we?  Yes.  Should we?  No.
+I also didn't get this one. IMHO. the relation between util_avg and
+util_sum is `divider  = LOAD_AVG_MAX - 1024 + avg->period_contrib`. But
+I can't see how this matters here.
 
-> I see that not all accesses to these are under the kvm->mmu_lock
-> spinlock.
+The crucial point here is IMHO as long we have idle time (p->util_avg <
+CPU (current) capacity) the util_avg will not raise to 1024 since at
+wakeup util_avg will be only decayed (since the task was sleeping, i.e.
+!!se->on_rq = 0). And we are scale invariant thanks to the functionality
+in update_rq_clock_pelt() (which is executed when p is running).
 
-Ya, working as intended.  Ignoring gfn_to_pfn_cache for the moment, all accesses
-to mmu_invalidate_in_progress (was mmu_notifier_count / mmu_updating_count above)
-are done under mmu_lock.  And for for mmu_notifier_seq (mmu_updating_seq above),
-all writes and some reads are done under mmu_lock.  The only reads that are done
-outside of mmu_lock are the initial snapshots of the sequence number.
+The pelt clock update at this moment (wakeup) is setting clock_pelt to
+clock_task since rq->curr is the idle task but IMHO that is not the
+reason why p->util_avg behaves like this.
 
-gfn_to_pfn_cache uses a different locking scheme, the comments in
-mmu_notifier_retry_cache() do a good job explaining the ordering.
+The moment `p->util_avg >= CPU (current) capacity` there is no idle time
+left, i.e. no such `only decay` updates happens for p anymore (only
+`accrue/decay` updates in tick) and the result is that p->util_avg goes
+1024.
 
-> This will also remove the need for putting separate smp_wmb() and
-> smp_rmb() memory barriers while accessing these structure members.
+> Also, there is no linear relation between util_avg and Fmin/Fmax
+> ratio. Fmin/Fmax ratio is meaningful in regards to the ratio between
+> running time and period time of a periodic task. I understand the
+> reference of pelt in this document as a quite simplified description
+> of PELT so I'm not sure that adding a partial explanation will help.
+> It will probably cause more confusion to people. The only thing that
+> is sure, is that PELT expects some idle time to stay fully invariant
+> for periodic task
 
-No, the memory barriers aren't there to provide any kind of atomicity.  The barriers
-exist to ensure that stores and loads to/from the sequence and invalidate in-progress
-counts are ordered relative to the invalidation (stores to counts) and creation (loads)
-of SPTEs.  Making the counts atomic changes nothing because atomic operations don't
-guarantee the necessary ordering.
++1 ... we have to be able to understand the code. BTW, schedutil.rst has
+also paragraphs about PELT and `Frequency / CPU Invariance` and also
+refers to kernel/sched/pelt.h:update_rq_clock_pelt() for details.
 
-E.g. when handling a page fault, KVM snapshots the sequence outside of mmu_lock
-_before_ touching any state that is involved in resolving the host pfn, e.g. primary
-MMU state (VMAs, host page tables, etc.).   After the page fault task acquires
-mmu_lock, KVM checks that there are no in-progress invalidations and that the sequence
-count is the same.  This ensures that if there is a concurrent page fault and
-invalidation event, the page fault task will either acquire mmu_lock and create SPTEs
-_before_ the invalidation is processed, or the page fault task will observe either an
-elevated mmu_invalidate_in_progress or a different sequence count, and thus retry the
-page fault, if the page fault task acquires mmu_lock after the invalidation event.
+[...]
