@@ -2,98 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B97EC7EE26
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 07:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70944C7EE2A
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 08:23:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234651AbjEWHo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 03:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40792 "EHLO
+        id S231744AbjEWIXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 04:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235164AbjEWHo2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 03:44:28 -0400
+        with ESMTP id S232316AbjEWIWi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 04:22:38 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D7995;
-        Tue, 23 May 2023 00:44:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB55DCA;
+        Tue, 23 May 2023 01:19:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F1A662FDC;
-        Tue, 23 May 2023 07:44:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E05FC433EF;
-        Tue, 23 May 2023 07:44:19 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 460586309B;
+        Tue, 23 May 2023 08:19:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3AB8C433D2;
+        Tue, 23 May 2023 08:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684827866;
-        bh=YYPt1zyTJKiH8Fltff0MHnchssuoppFK1zFRpoB3bk4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LNBonFNY3gVrFDiX0bbqfRZrpCLiYh/vNwi1w3OMBdQdqeReLkWDxdXIhzQ6ERnSG
-         Cb29lpTW8/e8Z6OdUG9YPmkOED1X8C3KHcP7GsPJ48C/8EBJoTKmb8Cl3WLjG1IP1i
-         3mwuUqhQQDFk/yrH8PEGK0K8zj4Tg3Ndth1GAWzaxoMcYxdRJ9aJfSiVmgoQUWtv8O
-         c3G2Y7y83JZzt5PP+nCf15X3iF89YoB67OTxyrKoQ1Wp5G3m/G9S/0uF8zg7LGwCwx
-         sOmb0GNu3KLK3Cew2fumCxRHDG1WB27VpWFH/nFrq1Du9CCjTjo9AOFjJn/CBNDllB
-         8eCITwhUkSG4Q==
-Date:   Tue, 23 May 2023 08:44:16 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Julien Panis <jpanis@baylibre.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, corbet@lwn.net, arnd@arndb.de,
-        gregkh@linuxfoundation.org, derek.kiernan@xilinx.com,
-        dragan.cvetic@xilinx.com, macro@orcam.me.uk,
-        baolu.lu@linux.intel.com, yi.l.liu@intel.com, jirislaby@kernel.org,
-        rostedt@goodmis.org, revest@chromium.org, gehao@kylinos.cn,
-        akpm@linux-foundation.org, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, prabhakar.csengg@gmail.com,
-        contact@emersion.fr, alex.williamson@redhat.com,
-        akrowiak@linux.ibm.com, mark.rutland@arm.com,
-        ye.xingchen@zte.com.cn, ojeda@kernel.org, me@kloenk.de,
-        milan@mdaverde.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
-        jneanne@baylibre.com, aseketeli@baylibre.com
-Subject: [GIT PULL] Immutable branch containing TPS6594 core (MFD) support
- due for the v6.5 merge window
-Message-ID: <20230523074416.GA2174496@google.com>
-References: <20230511095126.105104-1-jpanis@baylibre.com>
+        s=k20201202; t=1684829991;
+        bh=A0k4JoNWJBA9S3JzueEEL26tq0QQWLvGW3XSCqvpSaY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=svMPzrcZ6aqyEWn8O2IwjO0F19CyCKHU+2VvTS3vLA35lKrR1Rj7g1nOkSYQfqXkq
+         AHZ4fk1U+MLZRJkaYM7Y1uisI2+9NMOQAS6psMa1n+zL3Fs/+HaJ/hAlyWwg3cHTEi
+         0sqJZGXDmtmxte3YKS83p1nLC3lT3P8PM95nHBUlItFR99DoXSCfcEevj1Hi9/p/nT
+         jK63u7aP3cky+U2AyDyqFB1KhcIL6E7S7M89yRrPifJJSwZxBj7dtHqY8MJLUeDuOw
+         C4FBNhvGliAabn0RsZB3k/vVZC2n//vlhwxA19Zs+YpIZvSJeYEn75F+ag8Qy00wHm
+         UtQ1L2X6SG4vw==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Ian Kent <raven@themaw.net>
+Cc:     autofs@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        stable@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] autofs: use flexible array in ioctl structure
+Date:   Tue, 23 May 2023 10:19:35 +0200
+Message-Id: <20230523081944.581710-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230511095126.105104-1-jpanis@baylibre.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As promised.
+From: Arnd Bergmann <arnd@arndb.de>
 
-The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+Commit df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3") introduced a warning
+for the autofs_dev_ioctl structure:
 
-  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+In function 'check_name',
+    inlined from 'validate_dev_ioctl' at fs/autofs/dev-ioctl.c:131:9,
+    inlined from '_autofs_dev_ioctl' at fs/autofs/dev-ioctl.c:624:8:
+fs/autofs/dev-ioctl.c:33:14: error: 'strchr' reading 1 or more bytes from a region of size 0 [-Werror=stringop-overread]
+   33 |         if (!strchr(name, '/'))
+      |              ^~~~~~~~~~~~~~~~~
+In file included from include/linux/auto_dev-ioctl.h:10,
+                 from fs/autofs/autofs_i.h:10,
+                 from fs/autofs/dev-ioctl.c:14:
+include/uapi/linux/auto_dev-ioctl.h: In function '_autofs_dev_ioctl':
+include/uapi/linux/auto_dev-ioctl.h:112:14: note: source object 'path' of size 0
+  112 |         char path[0];
+      |              ^~~~
 
-are available in the Git repository at:
+This is easily fixed by changing the gnu 0-length array into a c99
+flexible array. Since this is a uapi structure, we have to be careful
+about possible regressions but this one should be fine as they are
+equivalent here. While it would break building with ancient gcc versions
+that predate c99, it helps building with --std=c99 and -Wpedantic builds
+in user space, as well as non-gnu compilers. This means we probably
+also want it fixed in stable kernels.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-tps6594-core-v6.5
+Cc: stable@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Gustavo A. R. Silva" <gustavoars@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ Documentation/filesystems/autofs-mount-control.rst | 2 +-
+ Documentation/filesystems/autofs.rst               | 2 +-
+ include/uapi/linux/auto_dev-ioctl.h                | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-for you to fetch changes up to 325bec7157b3859b45b9471447f5d130ab8a8723:
-
-  mfd: tps6594: Add driver for TI TPS6594 PMIC (2023-05-18 16:06:14 +0100)
-
-----------------------------------------------------------------
-Immutable branch containing TPS6594 core (MFD) support due for the v6.5 merge window
-
-----------------------------------------------------------------
-Julien Panis (1):
-      mfd: tps6594: Add driver for TI TPS6594 PMIC
-
- drivers/mfd/Kconfig         |   32 ++
- drivers/mfd/Makefile        |    3 +
- drivers/mfd/tps6594-core.c  |  462 ++++++++++++++++++++
- drivers/mfd/tps6594-i2c.c   |  244 +++++++++++
- drivers/mfd/tps6594-spi.c   |  129 ++++++
- include/linux/mfd/tps6594.h | 1020 +++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 1890 insertions(+)
- create mode 100644 drivers/mfd/tps6594-core.c
- create mode 100644 drivers/mfd/tps6594-i2c.c
- create mode 100644 drivers/mfd/tps6594-spi.c
- create mode 100644 include/linux/mfd/tps6594.h
-
+diff --git a/Documentation/filesystems/autofs-mount-control.rst b/Documentation/filesystems/autofs-mount-control.rst
+index bf4b511cdbe8..b5a379d25c40 100644
+--- a/Documentation/filesystems/autofs-mount-control.rst
++++ b/Documentation/filesystems/autofs-mount-control.rst
+@@ -196,7 +196,7 @@ information and return operation results::
+ 		    struct args_ismountpoint	ismountpoint;
+ 	    };
+ 
+-	    char path[0];
++	    char path[];
+     };
+ 
+ The ioctlfd field is a mount point file descriptor of an autofs mount
+diff --git a/Documentation/filesystems/autofs.rst b/Documentation/filesystems/autofs.rst
+index 4f490278d22f..3b6e38e646cd 100644
+--- a/Documentation/filesystems/autofs.rst
++++ b/Documentation/filesystems/autofs.rst
+@@ -467,7 +467,7 @@ Each ioctl is passed a pointer to an `autofs_dev_ioctl` structure::
+ 			struct args_ismountpoint	ismountpoint;
+ 		};
+ 
+-                char path[0];
++                char path[];
+         };
+ 
+ For the **OPEN_MOUNT** and **IS_MOUNTPOINT** commands, the target
+diff --git a/include/uapi/linux/auto_dev-ioctl.h b/include/uapi/linux/auto_dev-ioctl.h
+index 62e625356dc8..08be539605fc 100644
+--- a/include/uapi/linux/auto_dev-ioctl.h
++++ b/include/uapi/linux/auto_dev-ioctl.h
+@@ -109,7 +109,7 @@ struct autofs_dev_ioctl {
+ 		struct args_ismountpoint	ismountpoint;
+ 	};
+ 
+-	char path[0];
++	char path[];
+ };
+ 
+ static inline void init_autofs_dev_ioctl(struct autofs_dev_ioctl *in)
 -- 
-Lee Jones [李琼斯]
+2.39.2
+
