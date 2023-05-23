@@ -2,81 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34FE0C7EE29
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 11:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8423C77B75
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 11:53:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236618AbjEWLoc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 07:44:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60330 "EHLO
+        id S236690AbjEWLxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 07:53:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbjEWLob (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 07:44:31 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 42EEAFE;
-        Tue, 23 May 2023 04:44:30 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A683139F;
-        Tue, 23 May 2023 04:45:15 -0700 (PDT)
-Received: from [10.57.84.70] (unknown [10.57.84.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C7B6C3F6C4;
-        Tue, 23 May 2023 04:44:27 -0700 (PDT)
-Message-ID: <1ab0a4e0-1eb9-fc78-2df2-ad0f3802d06a@arm.com>
-Date:   Tue, 23 May 2023 12:44:26 +0100
+        with ESMTP id S233215AbjEWLxb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 07:53:31 -0400
+Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB7D11A;
+        Tue, 23 May 2023 04:53:28 -0700 (PDT)
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by bee.tesarici.cz (Postfix) with ESMTPSA id 75D1B13EC96;
+        Tue, 23 May 2023 13:53:22 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+        t=1684842803; bh=d6sBFXltoE20c/IX/UAU/Ri7MVflMAa8Fx6QDXIIeYY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=lSCFcHv/NCVANzoIXMtxnRDs3UobLxMl601xF8gYdPBua0rJrhRORYcDdp6FW2pxj
+         imlF/OMK1ueWXtYEvpcLJIBweA/xlyR9wx5rLxpKtYeripsM1Zp1Nx00okUBdb0zh7
+         fCjvtMpVjyGNeUWSyFJ8PzFdq9NuZ7AlyzO1hP+hw7i9q/aHuNYytc/lY5cebUTeoz
+         sQnvmTNSij9i0Lj9a//NncTW+YX00UVF6kmHAaKm4AsqxByN6K5hgY1o1nRuBXo/H0
+         dB6URP45McgxVE8PMjZHbDZK9u/slbhsJe8wAhpg0hdboZmUAkQaPPnaEXIC8gk2I7
+         NUlSP9iRKWbXA==
+Date:   Tue, 23 May 2023 13:53:17 +0200
+From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
+ buffers
+Message-ID: <20230523135317.6b9e086f@meshulam.tesarici.cz>
+In-Reply-To: <ZGyNQxY6By1QdXur@arm.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+        <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
+        <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
+        <20230516061309.GA7219@lst.de>
+        <20230516083942.0303b5fb@meshulam.tesarici.cz>
+        <ZGPEgsplBSsI9li3@arm.com>
+        <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
+        <20230517132748.2e250f9c@meshulam.tesarici.cz>
+        <ZGyNQxY6By1QdXur@arm.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/7] arm: docs: Move Arm documentation to
- Documentation/arch/
-Content-Language: en-GB
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-References: <20230519164607.38845-1-corbet@lwn.net>
- <20230519164607.38845-2-corbet@lwn.net>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230519164607.38845-2-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-05-19 17:46, Jonathan Corbet wrote:
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.  Move
-> Documentation/arch into arch/ and fix all documentation references.
+On Tue, 23 May 2023 10:54:11 +0100
+Catalin Marinas <catalin.marinas@arm.com> wrote:
 
-Nit: I guess the "and fix all documentation references" part ended up 
-being split out into the subsequent patches?
+> On Wed, May 17, 2023 at 01:27:48PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
+> > On Wed, 17 May 2023 08:35:10 +0200
+> > Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote: =20
+> > > Anyway, my greatest objection to allocating additional swiotlb chunks=
+ is
+> > > that _all_ of them must be searched to determine that the physical
+> > > address does _not_ belong to a swiotlb, incurring performance penalty=
+ =20
+> >=20
+> > I thought about this part again, and I overlooked one option. We can
+> > track only the _active_ swiotlbs for each device. If a device never
+> > needs a swiotlb, there is no active swiotlb, and is_swiotlb_buffer()
+> > short-circuits to false. This should avoid all collateral damage to
+> > innocent devices. =20
+>=20
+> Does this work with dma-buf or does dma-buf not allow swiotlb bouncing?
 
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-arch@vger.kernel.org
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-[...]
->   Documentation/translations/zh_CN/arm/Booting                  | 4 ++--
->   Documentation/translations/zh_CN/arm/kernel_user_helpers.txt  | 4 ++--
+Currently, it does work with dma-buf. OTOH Christoph is apparently not
+very happy about it and would rather implement alternative mechanisms to
+let dma-buf allocate buffers so that they do not require swiotlb. See
+his reply here:
 
-...so I imagine these two rogue hunks probably want to be in patch #2 now.
+  https://lkml.org/lkml/2023/4/7/38
 
-Thanks,
-Robin.
+OTOH if you're asking because of swiotlb use by encrypted VM guests,
+the answer might be different.
+
+Cheers
+Petr T
