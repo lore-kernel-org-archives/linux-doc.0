@@ -2,169 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A16A1C7EE2D
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 19:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E98FAC7EE2A
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 20:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237723AbjEWTAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 15:00:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53566 "EHLO
+        id S238496AbjEWUlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 16:41:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbjEWTAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 15:00:16 -0400
-Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F5F791;
-        Tue, 23 May 2023 12:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1684868415; x=1716404415;
-  h=mime-version:content-transfer-encoding:date:cc:subject:
-   from:to:message-id:references:in-reply-to;
-  bh=2f6hgtyoF3npyINkvFYDynw82+STAB4fWRrWAyFHWQA=;
-  b=rFrsHxEx4TA20pUdS17YN6UMkg+qfoSFBqBw8KE/INYT7NkhhhV5iWwV
-   5T27Bh8pxrQjY/iu0XsMxq0C8VqNzfepjssPX/1G2hHoH5J5W08I3J4uF
-   kpU4FR/qKo1bBZIEXdhuPI4BGSN3koysLpldGLa7iF483sjtn0BAB2T4J
-   E=;
-X-IronPort-AV: E=Sophos;i="6.00,187,1681171200"; 
-   d="scan'208";a="564743059"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-1box-2bm6-32cf6363.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 19:00:09 +0000
-Received: from EX19D004EUC001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-pdx-1box-2bm6-32cf6363.us-west-2.amazon.com (Postfix) with ESMTPS id 98D7A80457;
-        Tue, 23 May 2023 19:00:05 +0000 (UTC)
-Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
- (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Tue, 23 May
- 2023 18:59:51 +0000
+        with ESMTP id S230031AbjEWUlo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 16:41:44 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BFFCA;
+        Tue, 23 May 2023 13:41:43 -0700 (PDT)
+Received: from [192.168.122.1] (84-115-214-73.cable.dynamic.surfer.at [84.115.214.73])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id CC7EFCFBBC;
+        Tue, 23 May 2023 20:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1684874501; bh=TJ542YLeCftA/8fhg2JNrraJTBnWbaZkPbFnUwRol6g=;
+        h=From:Date:Subject:References:In-Reply-To:To:Cc;
+        b=R2/gMkK/PfFPy6GWRI1+HF3H+f1tCi0OIO/sVowniDPPouJuJwQ9Qg02BT4pFZNTQ
+         62RRBGYRz2pLtyJFGo+PBzLQRcF/MLppm9OenHSBXUgru6Tp7BE7Oj1xjko+vPGopx
+         /dpPFtqNduCw67zrz2vMp1t7+yuRcQ4/hPHDjisE=
+From:   Luca Weiss <luca@z3ntu.xyz>
+Date:   Tue, 23 May 2023 22:41:29 +0200
+Subject: [PATCH v3 2/3] arm64: dts: qcom: sdm632-fairphone-fp3: Add
+ notification LED
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date:   Tue, 23 May 2023 18:59:47 +0000
-CC:     Chao Peng <chao.p.peng@linux.intel.com>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <qemu-devel@nongnu.org>, <graf@amazon.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230414-pmi632-v3-2-079d2cada699@z3ntu.xyz>
+References: <20230414-pmi632-v3-0-079d2cada699@z3ntu.xyz>
+In-Reply-To: <20230414-pmi632-v3-0-079d2cada699@z3ntu.xyz>
+To:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Stephen Boyd <sboyd@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Naoya Horiguchi" <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Shuah Khan" <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Vishal Annapurve" <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        <luto@kernel.org>, <jun.nakajima@intel.com>,
-        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
-        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
-        Quentin Perret <qperret@google.com>, <tabba@google.com>,
-        Michael Roth <michael.roth@amd.com>, <mhocko@suse.com>,
-        <wei.w.wang@intel.com>, <anelkz@amazon.de>
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-From:   Nicolas Saenz Julienne <nsaenz@amazon.com>
-To:     Sean Christopherson <seanjc@google.com>
-Message-ID: <CSTLMGOZVEV7.3B9QXJ2STLLLF@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com>
-X-Mailer: aerc 0.15.2-21-g30c1a30168df-dirty
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <CSQFE7I30W27.2TPDIHOTZNRIZ@dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com> <ZGe+m+uFzpiW7wlr@google.com>
-In-Reply-To: <ZGe+m+uFzpiW7wlr@google.com>
-X-Originating-IP: [10.13.235.138]
-X-ClientProxiedBy: EX19D032UWA004.ant.amazon.com (10.13.139.56) To
- EX19D004EUC001.ant.amazon.com (10.252.51.190)
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1343; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=TJ542YLeCftA/8fhg2JNrraJTBnWbaZkPbFnUwRol6g=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkbSUAAyJdMMoOpSMaz9C3Sn99T7YCw8ToXq945
+ 4IsslXJObKJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZG0lAAAKCRBy2EO4nU3X
+ VkJVD/9YaYeyX9jGqe7/y/4fgdOOuMfD8EwIgbX9nwu5DF5ZjmGZB+zBdyGMWhQhLbw7PBh7QYb
+ qIUjbeCRp6yhQUDaQmx7dLIW8EkhYtFnWnpPuZoeJuathLOggZ1LelZn9yoIGSEKNurIL6ZmK9D
+ hg5lRqs5DAmrz7j9MJNLkXad/UoBWdZcyAxUrUOWd3UX2haujPhVkgg7K23qt+hpLKD0TyoBWvU
+ WnYHJ7QME34UHsR0CXpkmVTfIZAugH4gwBgY3joI3S4ejXy/LVU8ibpmMUGdAyG7kgymVqHYmzr
+ gRuW0FH44DHpcNL2ZYZUwbkfnZfHgQyC3gAhPkMvrnJI0Nw8H/DO9ZpqU77uKPsQ40sbKDBgCZ1
+ Y5D7pO1e4kNu9e5cgfK1NoL7GP7YotlpUtWghsrBwfTA9oUedPcKieCFpC2Tktu9jWNTCCA/3z5
+ 4bdNf6/SjiEpypd3+XcJsBuumnPgsjJRNS2qUvT6ebEO7QFiF8YoXad28bEdo1D7HbkA9MyceAr
+ DG3hujx4NyOiqcsG29b58fvG9HIscwL2U08/E3CRUPkMwg8sDsYsc3Mit31pRYxFo+4NIo2r7QK
+ qrdedQ6cMy9rL3rLtagFVgBf2UKuVNpAeDxhXINoG17ON54iHyAFXygKvT+bBNq5+g33ZzaoUmK
+ wjTL3OqBuLjqB1w==
+X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sean,
+The phone features a notification LED connected to the pmi632. Configure
+the RGB led found on it.
 
-On Fri May 19, 2023 at 6:23 PM UTC, Sean Christopherson wrote:
-> On Fri, May 19, 2023, Nicolas Saenz Julienne wrote:
-> > Hi,
-> > On Fri Dec 2, 2022 at 6:13 AM UTC, Chao Peng wrote:
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+ arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts | 29 +++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-[...]
+diff --git a/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts b/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
+index 70e683b7e4fc..301eca9a4f31 100644
+--- a/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
++++ b/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
+@@ -4,8 +4,10 @@
+  */
+ /dts-v1/;
+ 
++#include <dt-bindings/leds/common.h>
+ #include "sdm632.dtsi"
+ #include "pm8953.dtsi"
++#include "pmi632.dtsi"
+ 
+ / {
+ 	model = "Fairphone 3";
+@@ -83,6 +85,33 @@ &pm8953_resin {
+ 	linux,code = <KEY_VOLUMEDOWN>;
+ };
+ 
++&pmi632_lpg {
++	status = "okay";
++
++	multi-led {
++		color = <LED_COLOR_ID_RGB>;
++		function = LED_FUNCTION_STATUS;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		led@1 {
++			reg = <1>;
++			color = <LED_COLOR_ID_RED>;
++		};
++
++		led@2 {
++			reg = <2>;
++			color = <LED_COLOR_ID_GREEN>;
++		};
++
++		led@3 {
++			reg = <3>;
++			color = <LED_COLOR_ID_BLUE>;
++		};
++	};
++};
++
+ &sdhc_1 {
+ 	status = "okay";
+ 	vmmc-supply = <&pm8953_l8>;
 
-> > VSM introduces isolated guest execution contexts called Virtual Trust
-> > Levels (VTL) [2]. Each VTL has its own memory access protections,
-> > virtual processors states, interrupt controllers and overlay pages. VTL=
-s
-> > are hierarchical and might enforce memory protections on less privilege=
-d
-> > VTLs. Memory protections are enforced on a per-GPA granularity.
-> >
-> > We implemented this in the past by using a separate address space per
-> > VTL and updating memory regions on protection changes. But having to
-> > update the memory slot layout for every permission change scales poorly=
-,
-> > especially as we have to perform 100.000s of these operations at boot
-> > (see [1] for a little more context).
-> >
-> > I believe the biggest barrier for us to use memory attributes is not
-> > having the ability to target specific address spaces, or to the very
-> > least having some mechanism to maintain multiple independent layers of
-> > attributes.
->
-> Can you elaborate on "specific address spaces"?  In KVM, that usually mea=
-ns SMM,
-> but the VTL comment above makes me think you're talking about something e=
-ntirely
-> different.  E.g. can you provide a brief summary of the requirements/expe=
-ctations?
+-- 
+2.40.1
 
-Let me refresh some concepts first. VTLs are vCPU modes implemented by
-the hypervisor. Lower VTLs switch into higher VTLs [1] through a
-hypercall or asynchronously through interrupts. Each VTL has its own CPU
-architectural state, lapic and MSR state (applies to only some MSRs).
-These are saved/restored when switching VTLS [2]. Additionally, VTLs
-share a common GPA->HPA mapping, but protection bits differ depending on
-which VTL the CPU is on. Privileged VTLs might revoke R/W/X(+MBEC,
-optional) access bits from lower VTLs on a per-GPA basis.
-
-In order to deal with the per-VTL memory protection bits, we extended
-the number of KVM address spaces and assigned one to each VTL. The
-hypervisor initializes all VTLs address spaces with the same mappings
-and protections, they are expected to diverge during runtime. Operations
-that rely on memory slots for GPA->HPA/HVA translations (including page
-faults) are already address space aware, so adding VTL support was
-fairly simple.
-
-Ultimately, when a privileged VTL enforces memory protections on lower
-VTLs we update that VTL's address space memory regions to reflect them.
-Protection changes are requested through a hypercall, which expects the
-new protection to be visible system wide upon returning from it. These
-hypercalls happen around 100000+ times during boot, so we introduced an
-"atomic memory slot update" API similar to Emanuele's [3] that allows
-splitting memory regions/changing permissions concurrent with other
-vCPUs.
-
-Now, if we had a way to map memory attributes to specific VTLs, we could
-use that instead. Actually, we wouldn't need to extend address spaces at
-all to support this (we might still need them to support Overlay Pages,
-but that's another story).
-
-Hope it makes a little more sense now. :)
-
-Nicolas
-
-[1] In practice we've only seen VTL0 and VTL1 being used. The spec
-    supports up to 16 VTLs.
-
-[2] One can draw an analogy with arm's TrustZone. The hypervisor plays
-    the role of EL3. Windows (VTL0) runs in Non-Secure (EL0/EL1) and the
-    secure kernel (VTL1) in Secure World (EL1s/EL0s).
-
-[3] https://lore.kernel.org/all/20220909104506.738478-1-eesposit@redhat.com=
-/
