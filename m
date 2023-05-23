@@ -2,117 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8423C77B75
-	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 11:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E32DBC7EE23
+	for <linux-doc@archiver.kernel.org>; Tue, 23 May 2023 12:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236690AbjEWLxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 07:53:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36032 "EHLO
+        id S236577AbjEWMBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 08:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233215AbjEWLxb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 07:53:31 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB7D11A;
-        Tue, 23 May 2023 04:53:28 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id 75D1B13EC96;
-        Tue, 23 May 2023 13:53:22 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1684842803; bh=d6sBFXltoE20c/IX/UAU/Ri7MVflMAa8Fx6QDXIIeYY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lSCFcHv/NCVANzoIXMtxnRDs3UobLxMl601xF8gYdPBua0rJrhRORYcDdp6FW2pxj
-         imlF/OMK1ueWXtYEvpcLJIBweA/xlyR9wx5rLxpKtYeripsM1Zp1Nx00okUBdb0zh7
-         fCjvtMpVjyGNeUWSyFJ8PzFdq9NuZ7AlyzO1hP+hw7i9q/aHuNYytc/lY5cebUTeoz
-         sQnvmTNSij9i0Lj9a//NncTW+YX00UVF6kmHAaKm4AsqxByN6K5hgY1o1nRuBXo/H0
-         dB6URP45McgxVE8PMjZHbDZK9u/slbhsJe8wAhpg0hdboZmUAkQaPPnaEXIC8gk2I7
-         NUlSP9iRKWbXA==
-Date:   Tue, 23 May 2023 13:53:17 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>,
+        with ESMTP id S235887AbjEWMBO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 08:01:14 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2120C109
+        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 05:01:13 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-510d967249aso1467866a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 05:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1684843271; x=1687435271;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UwDgLKuZAoJyLnwNBTa9Plj4tI2jTn00PeEyIRBeY3M=;
+        b=UlTc6dBhYhV5+FwOb+RSPI2rk8Q3qpFgLR3evPzNE3qoSA/1Tv938oYhaUah40zsTJ
+         f5TXQMK2Cs079ySx+YpwdRWznI362VlsBkVu90B+Ov9nuERDJwdJYMfohfmTSI2+kDdI
+         scPtnFlwU4iUXY9LM6WpBfRQbFpdHeGc4hMcAFqULPVX1fZW3lDlnnbfO1JqByHkrWWK
+         3iO8KQPZs0CPPK/LLdsYu6zc5ox+KJMKgleV+yRLT7U3LAyno33h5A9o/0CfapwLHQDI
+         veiFgFew6wafBYy17ZumPHmrNo9K9VFsHBpJb7AfKpU3Gm3sGMXUvay7WEwp5nxFryVv
+         cQlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684843271; x=1687435271;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UwDgLKuZAoJyLnwNBTa9Plj4tI2jTn00PeEyIRBeY3M=;
+        b=K4zmoPf11lh0Xkh2Ff2JASsG2EkmY3C5fmKUChyDbc63gAuyAI14iZYsK2xXCRvkhD
+         Oqdrxyu7Ne5kYPickl3JXVM1QJ0PbYQciaDrp606MEWc4jwtZZUSmiJY8NoOFGtI9H7a
+         7uzGBWeepeu119xygVyu4nNxSEvDc7/6lPCXjW7uReru4FA6nrIj2ZEvCtOscJAR6LL6
+         PMr64mOX4/7coGLJiLshi0qm5rAMx6nupOCnVQB8CdE25EK7JRJpqINpmm76W8hS+8Lt
+         yobwLFIE+e+bJCSHXCO7UnLcle+ZA6fTOfKfeHmqbXojHUXHWD2iETXbRplFuqSpntV4
+         mmCg==
+X-Gm-Message-State: AC+VfDxyUVXV8pwfLlir4SkObK7mVtJiPi+TPK2sEfyL8htOLUJ0TCQ6
+        xSIdUMbLsTt0/h+0BvecziZU7w==
+X-Google-Smtp-Source: ACHHUZ40CX09dMi0e735PDRKFRNtfgI4LS6imtI87HuWDsDYP/q8KqRU12dipkCjnKzQegYx3Zmfiw==
+X-Received: by 2002:a17:906:d550:b0:966:4bb3:df63 with SMTP id cr16-20020a170906d55000b009664bb3df63mr15157840ejc.63.1684843271141;
+        Tue, 23 May 2023 05:01:11 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id t20-20020a17090616d400b009662c57b4ffsm4397666ejd.96.2023.05.23.05.01.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 05:01:10 -0700 (PDT)
+Date:   Tue, 23 May 2023 14:01:09 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        llvm@lists.linux.dev, Weili Qian <qianweili@huawei.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Tom Rix <trix@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Mark Gross <markgross@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
         Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230523135317.6b9e086f@meshulam.tesarici.cz>
-In-Reply-To: <ZGyNQxY6By1QdXur@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
-        <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
-        <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
-        <20230516061309.GA7219@lst.de>
-        <20230516083942.0303b5fb@meshulam.tesarici.cz>
-        <ZGPEgsplBSsI9li3@arm.com>
-        <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
-        <20230517132748.2e250f9c@meshulam.tesarici.cz>
-        <ZGyNQxY6By1QdXur@arm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Len Brown <lenb@kernel.org>
+Subject: Re: [PATCH V6 09/21] RISC-V: ACPI: Cache and retrieve the RINTC
+ structure
+Message-ID: <20230523-7263e5220667fd82a462afc7@orel>
+References: <20230515054928.2079268-1-sunilvl@ventanamicro.com>
+ <20230515054928.2079268-10-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230515054928.2079268-10-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 23 May 2023 10:54:11 +0100
-Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Mon, May 15, 2023 at 11:19:16AM +0530, Sunil V L wrote:
+> RINTC structures in the MADT provide mapping between the hartid
+> and the CPU. This is required many times even at run time like
+> cpuinfo. So, instead of parsing the ACPI table every time, cache
+> the RINTC structures and provide a function to get the correct
+> RINTC structure for a given cpu.
+> 
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>  arch/riscv/include/asm/acpi.h | 10 ++++++++
+>  arch/riscv/kernel/acpi.c      | 45 +++++++++++++++++++++++++++++++++++
+>  arch/riscv/kernel/setup.c     |  4 ++++
+>  3 files changed, 59 insertions(+)
 
-> On Wed, May 17, 2023 at 01:27:48PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
-> > On Wed, 17 May 2023 08:35:10 +0200
-> > Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote: =20
-> > > Anyway, my greatest objection to allocating additional swiotlb chunks=
- is
-> > > that _all_ of them must be searched to determine that the physical
-> > > address does _not_ belong to a swiotlb, incurring performance penalty=
- =20
-> >=20
-> > I thought about this part again, and I overlooked one option. We can
-> > track only the _active_ swiotlbs for each device. If a device never
-> > needs a swiotlb, there is no active swiotlb, and is_swiotlb_buffer()
-> > short-circuits to false. This should avoid all collateral damage to
-> > innocent devices. =20
->=20
-> Does this work with dma-buf or does dma-buf not allow swiotlb bouncing?
 
-Currently, it does work with dma-buf. OTOH Christoph is apparently not
-very happy about it and would rather implement alternative mechanisms to
-let dma-buf allocate buffers so that they do not require swiotlb. See
-his reply here:
-
-  https://lkml.org/lkml/2023/4/7/38
-
-OTOH if you're asking because of swiotlb use by encrypted VM guests,
-the answer might be different.
-
-Cheers
-Petr T
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
